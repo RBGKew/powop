@@ -1,0 +1,80 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.emonocot</groupId>
+	<artifactId>emonocot</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>eMonocot Parent Project</name>
+	<url>http://e-monocot.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<ciManagement>
+		<system>jenkins</system>
+		<url>http://129.67.24.160/ci</url>
+	</ciManagement>
+	<scm>
+		<connection>scm:cvs:pserver:anonymous:@129.67.24.160:/var/cvs:emonocot</connection>
+		<developerConnection>scm:cvs:pserver:${developer.username}:@129.67.24.160:/var/cvs:emonocot</developerConnection>
+	</scm>
+	<repositories>
+		<repository>
+			<id>com.springsource.repository.bundles.release</id>
+			<name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases</name>
+			<url>http://repository.springsource.com/maven/bundles/release</url>
+		</repository>
+		<repository>
+			<id>com.springsource.repository.bundles.external</id>
+			<name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
+			<url>http://repository.springsource.com/maven/bundles/external</url>
+		</repository>
+		<repository>
+			<id>jboss-public-repository-group</id>
+			<name>JBoss Public Maven Repository Group</name>
+			<url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>jboss-public-repository-group</id>
+			<name>JBoss Public Maven Repository Group</name>
+			<url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+	<distributionManagement>
+		<downloadUrl>http://129.67.24.160/repository</downloadUrl>
+		<repository>
+			<id>build.server</id>
+			<name>eMonocot Repository</name>
+			<url>scp://129.67.24.160/var/www/html/repository</url>
+		</repository>
+		<snapshotRepository>
+			<id>build.server</id>
+			<name>eMonocot Snapshots Repository</name>
+			<url>scp://129.67.24.160/var/www/html/snapshots</url>
+		</snapshotRepository>
+		<site>
+			<id>build.server</id>
+			<url>scp://129.67.24.160/var/www/html/</url>
+		</site>
+	</distributionManagement>
+</project>
