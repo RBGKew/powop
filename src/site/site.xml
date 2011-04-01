@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="eMonocot">
+  <bannerLeft>
+    <name>eMonocot</name>
+    <src>http://129.67.24.160/images/logo.png</src>
+    <href>http://e-monocot.org/</href>
+  </bannerLeft>
+  <body>
+    <links>
+      
+    </links>
+
+    <menu ref="modules"/>
+    <menu ref="reports"/>
+
+  </body>
+</project>
