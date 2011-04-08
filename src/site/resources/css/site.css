@@ -2,6 +2,9 @@
 	padding: 0px;
 	margin: 0px;
 }
+img {
+      border: 0 none;
+}
 body {
   background: none repeat scroll 0 0 white;
   color: #2C3440;
@@ -114,6 +117,9 @@ p {
 #main {
   margin: 0 auto;
   width: 900px;
+}
+table.bodyTable {
+    width: 100%
 }
 
 table.bodyTable th {
