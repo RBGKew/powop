@@ -4,6 +4,7 @@
 	<groupId>org.emonocot</groupId>
 	<artifactId>emonocot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+      <description>eMonocot aims to create a global online resource for monocot plants. It will provide a focus for taxonomists working on monocots and will help people discover information about monocots by providing tools for identification, up-to-date checklists, descriptions and links to other resources. </description>
 	<packaging>pom</packaging>
 	<name>eMonocot Parent Project</name>
 	<url>http://e-monocot.org</url>
@@ -15,10 +16,21 @@
 		<spring.version>3.0.5.RELEASE</spring.version>
 		<hibernate.version>3.6.2.Final</hibernate.version>
 	</properties>
+      <issueManagement>
+            <system>Drupal</system>
+		<url>http://dev.scratchpads.eu/project/issues/emonocot</url>
+      </issueManagement>
 	<ciManagement>
 		<system>jenkins</system>
 		<url>http://129.67.24.160/ci</url>
 	</ciManagement>
+      <mailingLists>
+        <mailingList>
+            <name>eMonocot ICT Team</name>
+            <post>ict-team@e-monocot.org</post>
+            <archive>http://e-monocot.org/node/1395/og/forum/1731</archive>
+        </mailingList>
+      </mailingLists>
 	<scm>
 		<connection>scm:cvs:pserver:anonymous:@129.67.24.160:/var/cvs:emonocot</connection>
 		<developerConnection>scm:cvs:pserver:${developer.username}:@129.67.24.160:/var/cvs:emonocot</developerConnection>
@@ -104,7 +116,9 @@
 	<build>
 		<plugins>
 			<plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
+                        <version>3.0-beta-3</version>
 				<configuration>
 					<templateFile>${basedir}/src/site/site.vm</templateFile>
 				</configuration>
