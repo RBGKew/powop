@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+
+	<batch:job id="SpeciesPageHarvestingJob">
+		<batch:step id="getXMLDoc">
+			<batch:tasklet ref="getXMLDocTasklet" />
+			<batch:end on="NOT MODIFIED" exit-code="NOT MODIFIED"/>
+			<batch:next on="COMPLETE" to="processXMLDoc" />
+		</batch:step>
+		<batch:step id="processXMLDoc">
+			<batch:tasklet>
+				<batch:chunk reader="itemReader" processor="itemProcessor" writer="itemWriter" commit-interval="10"/>
+			</batch:tasklet>
+		</batch:step>
+	</batch:job>
+	
+    <bean id="getXMLDocTasklet"
+	      class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+	      scope="step">
+	  <property name="targetObject" ref="getXMLDocClient" />
+	  <property name="targetMethod" value="getDocument" />
+	  <property name="arguments">
+		<list>
+			<value>#{jobParameters['authority.name']}</value>
+			<value>#{jobParameters['authority.uri']}</value>
+			<value>#{jobParameters['authority.last.harvested']}</value>
+			<value>#{jobParameters['temporary.file.name']}</value>
+		</list>
+	  </property>
+    </bean>
+    
+    <bean id="getXMLDocClient" class="org.emonocot.ws.scratchpads.GetXMLDocClient" />
+
+	<bean id="itemReader" class="org.springframework.batch.item.xml.StaxEventItemReader"
+		  scope="step">
+		<property name="fragmentRootElementName" value="taxon" />
+		<property name="resource" value="#{jobExecutionContext['temporary.file.name']}" />
+		<property name="unmarshaller" ref="eolTransferSchemaUnmarshaller" />
+	</bean>
+	
+	<bean id="eolTransferSchemaUnmarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller">
+	  <property name="streamDriver" ref="eolTransferSchemaStreamDriver" />
+    </bean>
+
+	<bean id="eolTransferSchemaStreamDriver" class="com.thoughtworks.xstream.io.xml.StaxDriver">
+		<constructor-arg ref="eolTransferSchemaQNameMap" />
+	</bean>
+
+	<bean id="eolTransferSchemaQNameMap"
+		  class="org.emonocot.job.scratchpads.EoLTransferSchemaQNameMapFactory" />
+
+	<bean id="itemProcessor"
+		class="org.springframework.batch.item.support.CompositeItemProcessor">
+		<property name="delegates">
+			<list>
+				<ref bean="taxonItemValidator"/>
+				<bean class="org.emonocot.job.scratchpads.EoLTaxonItemProcessor" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="taxonItemValidator" class="org.emonocot.job.scratchpads.EoLTaxonItemValidator"
+		scope="step">
+		<property name="authority" value="#{jobParameters['authority.name']}" />
+	</bean>
+	
+	<bean id="itemWriter" class="org.springframework.batch.item.database.HibernateItemWriter">
+	  <property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<bean id="conversionService"
+      class="org.springframework.context.support.ConversionServiceFactoryBean">
+      <property name="converters">
+        <list>
+            <bean class="org.emonocot.job.scratchpads.convert.EoLTaxonItemConverter"/>
+            <bean class="org.emonocot.job.scratchpads.convert.EoLReferenceDataObjectConverter"/>
+            <bean class="org.emonocot.job.scratchpads.convert.EoLStillImageDataObjectConverter"/>
+            <bean class="org.emonocot.job.scratchpads.convert.EoLTextDataObjectConverter"/>
+        </list>
+      </property>
+    </bean>
+
+</beans>

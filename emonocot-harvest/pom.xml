@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>emonocot</artifactId>
+		<groupId>org.emonocot</groupId>
+		<version>0.0.3-SNAPSHOT</version>
+	</parent>
+	<groupId>org.emonocot</groupId>
+	<artifactId>emonocot-harvest</artifactId>
+	<version>0.0.3-SNAPSHOT</version>
+	<name>eMonocot Harvesting</name>
+	<description>Backend Harvesting Routines</description>
+	<scm>
+		<connection>scm:cvs:pserver:anonymous:@129.67.24.160:/var/cvs:emonocot-harvest</connection>
+		<developerConnection>scm:cvs:pserver:${developer.username}:@129.67.24.160:/var/cvs:emonocot-harvest</developerConnection>
+  </scm>
+	<dependencies>
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>com.springsource.com.thoughtworks.xstream</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.batch</groupId>
+			<artifactId>org.springframework.batch.core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>org.springframework.oxm</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.joda</groupId>
+			<artifactId>com.springsource.org.joda.time</artifactId>
+		</dependency>
+	</dependencies>
+</project> 
