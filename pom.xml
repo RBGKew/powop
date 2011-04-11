@@ -217,6 +217,11 @@
 				<updatePolicy>never</updatePolicy>
 			</snapshots>
 		</repository>
+		<repository>
+			<id>emonocot.release</id>
+			<name>eMonocot Releases</name>
+			<url>http://129.67.24.160/repository</url>
+		</repository>
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
