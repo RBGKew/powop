@@ -4,12 +4,17 @@
 	<groupId>org.emonocot</groupId>
 	<artifactId>emonocot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-      <description>eMonocot aims to create a global online resource for monocot plants. It will provide a focus for taxonomists working on monocots and will help people discover information about monocots by providing tools for identification, up-to-date checklists, descriptions and links to other resources. </description>
+    <description>eMonocot aims to create a global online resource for monocot plants. It will provide a focus for taxonomists working on monocots and will help people discover information about monocots by providing tools for identification, up-to-date checklists, descriptions and links to other resources. </description>
 	<packaging>pom</packaging>
-	<name>eMonocot Parent Project</name>
+	<name>eMonocot</name>
 	<url>http://e-monocot.org</url>
+	<organization>
+	  <name>eMonocot</name>
+	  <url>http://e-monocot.org</url>
+	</organization>
 	<modules>
 	  <module>emonocot-checklist</module>
+	  <module>emonocot-site</module>
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,13 +29,37 @@
 		<system>jenkins</system>
 		<url>http://129.67.24.160/ci</url>
 	</ciManagement>
-      <mailingLists>
+	<inceptionYear>2010</inceptionYear>
+	<mailingLists>
         <mailingList>
             <name>eMonocot ICT Team</name>
             <post>ict-team@e-monocot.org</post>
             <archive>http://e-monocot.org/node/1395/og/forum/1731</archive>
         </mailingList>
-      </mailingLists>
+    </mailingLists>
+    <developers>
+      <developer>
+        <name>Ben Clark</name>
+        <id>ben</id>
+        <email>benjamin.clark@zoo.ox.ac.uk</email>
+        <organization>Department of Zoology, University of Oxford</organization>
+        <organizationUrl>http://www.zoo.ox.ac.uk/</organizationUrl>
+        <timezone>+1</timezone>
+        <roles>
+          <role>Developer</role>
+        </roles>
+      </developer>
+       <developer>
+        <name>Joseph Kelly</name>
+        <id>jk00kg</id>
+        <organization>Science Applications, IT Department, Royal Botanic Gardens, Kew</organization>
+        <organizationUrl>http://www.kew.org/</organizationUrl>
+        <timezone>+1</timezone>
+        <roles>
+          <role>Developer</role>
+        </roles>
+      </developer>
+    </developers>
 	<scm>
 		<connection>scm:cvs:pserver:anonymous:@129.67.24.160:/var/cvs:emonocot</connection>
 		<developerConnection>scm:cvs:pserver:${developer.username}:@129.67.24.160:/var/cvs:emonocot</developerConnection>
@@ -116,12 +145,9 @@
 	<build>
 		<plugins>
 			<plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
+                <groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
-                        <version>3.0-beta-3</version>
-				<configuration>
-					<templateFile>${basedir}/src/site/site.vm</templateFile>
-				</configuration>
+				<version>3.0-beta-3</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
