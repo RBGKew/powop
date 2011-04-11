@@ -4,11 +4,11 @@
 	<parent>
 		<artifactId>emonocot</artifactId>
 		<groupId>org.emonocot</groupId>
-		<version>0.0.3-SNAPSHOT</version>
+		<version>0.0.4-SNAPSHOT</version>
 	</parent>
 	<groupId>org.emonocot</groupId>
 	<artifactId>emonocot-checklist</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
+	<version>0.0.4-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>eMonocot Checklist</name>
 	<description>eMonocot Checklist Webservice</description>
