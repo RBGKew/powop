@@ -13,10 +13,6 @@
 	<name>eMonocot Checklist</name>
 	<description>eMonocot Checklist Webservice</description>
 	<url>http://e-monocot.org</url>
-	<scm>
-		<connection>scm:cvs:pserver:anonymous:@129.67.24.160:/var/cvs:emonocot-checklist</connection>
-		<developerConnection>scm:cvs:pserver:${developer.username}:@129.67.24.160:/var/cvs:emonocot-checklist</developerConnection>
-  </scm>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework</groupId>
