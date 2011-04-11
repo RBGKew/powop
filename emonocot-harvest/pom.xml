@@ -4,17 +4,16 @@
 	<parent>
 		<artifactId>emonocot</artifactId>
 		<groupId>org.emonocot</groupId>
-		<version>0.0.3</version>
+		<version>0.0.4-SNAPSHOT</version>
 	</parent>
 	<groupId>org.emonocot</groupId>
 	<artifactId>emonocot-harvest</artifactId>
-	<version>0.0.3</version>
+	<version>0.0.4-SNAPSHOT</version>
 	<name>eMonocot Harvesting</name>
 	<description>Backend Harvesting Routines</description>
 	<scm>
 		<connection>scm:cvs:pserver:anonymous:@129.67.24.160:/var/cvs:emonocot-harvest</connection>
 		<developerConnection>scm:cvs:pserver:${developer.username}:@129.67.24.160:/var/cvs:emonocot-harvest</developerConnection>
-    <tag>emonocot-0_0_3</tag>
   </scm>
 	<dependencies>
 		<dependency>
