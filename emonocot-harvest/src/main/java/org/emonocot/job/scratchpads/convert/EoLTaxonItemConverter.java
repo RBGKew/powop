@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.emonocot.job.scratchpads.model.DataObject;
+import org.emonocot.job.scratchpads.model.EoLDataObject;
+import org.emonocot.job.scratchpads.model.EoLReference;
 import org.emonocot.job.scratchpads.model.EoLTaxonItem;
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.media.Image;
@@ -35,18 +36,16 @@ public class EoLTaxonItemConverter implements Converter<EoLTaxonItem,Taxon> {
 	public Taxon convert(EoLTaxonItem input) {
 		Taxon taxon = taxonService.load(input.getIdentifer());
 
-		for (DataObject dataObject : input.getDataObjects()) {
-			switch (dataObject.getType()) {
-			case STILL_IMAGE:
+		for (EoLDataObject dataObject : input.getDataObjects()) {
+			if(dataObject.getDataType().equals("http://purl.org/dc/dcmitype/StillImage")) {
 				handleImage(dataObject, taxon);
-				break;
-			case REFERENCE:
-				handleReference(dataObject, taxon);
-				break;
-			case TEXT:
-			default:
+			} else if(dataObject.getDataType().equals("http://purl.org/dc/dcmitype/Text")) {
 				handleText(dataObject, taxon);
 			}
+		}
+		
+		for(EoLReference reference : input.getReferences()) {
+			handleReference(reference, taxon);
 		}
 
 		// Now deal with the deletes i.e. data which is in the
@@ -73,7 +72,7 @@ public class EoLTaxonItemConverter implements Converter<EoLTaxonItem,Taxon> {
 		return taxon;
 	}
 	
-	private void handleText(DataObject dataObject, Taxon taxon) {
+	private void handleText(EoLDataObject dataObject, Taxon taxon) {
 	      // We need to know which taxon the dataObject refers in order to look it up properly
 	      dataObject.setTaxon(taxon.getUuid()); 
 
@@ -85,11 +84,11 @@ public class EoLTaxonItemConverter implements Converter<EoLTaxonItem,Taxon> {
 	      }
 		}
 
-		private void handleReference(DataObject dataObject, Taxon taxon) {
+		private void handleReference(EoLReference eolReference, Taxon taxon) {
 			 /**
 	         * see the comment below about the conversion service
 	         */
-	        Reference reference = conversionService.convert(dataObject, Reference.class);
+	        Reference reference = conversionService.convert(eolReference, Reference.class);
 	        if(taxon.getReferences().contains(reference)) {
 	        	taxon.getReferences().remove(reference);
 	            taxon.getReferences().add(reference);
@@ -98,7 +97,7 @@ public class EoLTaxonItemConverter implements Converter<EoLTaxonItem,Taxon> {
 	        }
 		}
 
-		private void handleImage(DataObject dataObject, Taxon taxon) {
+		private void handleImage(EoLDataObject dataObject, Taxon taxon) {
 			 /**
 	         * conversion service internally calls the persistance layer and either returns
 	         * a new, unpersisted Image instance if that image is unknown to eMonocot

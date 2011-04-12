@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taxon xmlns="http://www.eol.org/transfer/content/0.3" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:dwc="http://rs.tdwg.org/dwc/dwcore/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:lds="http://lifedesk.lifedesks.org/" xsi:schemaLocation="http://www.eol.org/transfer/content/0.3 http://services.eol.org/schema/content_0_3.xsd">
+  <dc:identifier>scratchpad:nid:1371</dc:identifier>
+  <dc:source>http://scratchpad.cate-araceae.org/content/anthurium-schott</dc:source>
+  <dwc:ScientificName>Anthurium Schott</dwc:ScientificName>
+  <dataObject>
+   <dataType>http://purl.org/dc/dcmitype/Text</dataType>
+
+   <agent role="author">http://scratchpad.cate-araceae.org/users/ben</agent>
+   <dcterms:created>1300970978</dcterms:created>
+   <dcterms:modified>1300970994</dcterms:modified>
+   <dc:title>General Description</dc:title>
+   <license>http://creativecommons.org/licenses/by-nc/3.0/</license>
+   <dc:source>http://scratchpad.cate-araceae.org/content/anthurium-schott</dc:source>
+
+   <subject>http://rs.tdwg.org/ontology/voc/SPMInfoItems#GeneralDescription</subject>
+   <dc:description xml:lang="en">&lt;p&gt;HABIT :   evergreen   herbs, stem erect, creeping, or short- to &#13;
+long-climbing, rarely rhizomatous,   internodes very short (plant &#13;
+rosulate) to elongated.  LEAVES :  prophylls and cataphylls usually &amp;plusmn;   &#13;
+persistent,  entire (membranaceous)   or rotting to a fibrous mass &#13;
+(net-fibrous), sometimes completely   disappearing.  PETIOLE :  &#13;
+geniculate apically (geniculum rarely   well below blade, e.g. &lt;em&gt;A.   oerstedianum&lt;/em&gt;),&#13;
+
+ variously shaped in cross-section, sheath long in   juvenile &#13;
+(monopodial) leaves, very short in sympodial leaves.  BLADE :  small to &#13;
+very large (exceeding 2m),   usually coriaceous, more rarely &#13;
+membranaceous or stiff and brittle,   extraordinarily variable in shape,&#13;
+ linear to orbicular in outline, rarely   peltate, entire to trifid or &#13;
+trisect, or pedatifid or subpalmatifid, or   pedatisect to radiatisect, &#13;
+rarely the lobes or segments themselves pinnately   lobed, blade base &#13;
+cuneate to cordate, sagittate or hastate; primary lateral   veins &#13;
+
+pinnate or more rarely all arising at the base, usually forming one or  &#13;
+ more  submarginal collective   veins,  basal ribs often present in   &#13;
+cordate leaves, higher order venation reticulate.  FLOWERING BRANCHES : &#13;
+sympodial units   usually comprising one 2-keeled prophyll, one 1-keeled&#13;
+ cataphyll, one   foliage leaf and terminal inflorescence.    &#13;
+INFLORESCENCE : always solitary.  PEDUNCLE :  usually rather elongated, &#13;
+rarely   short.  SPATHE :  usually persistent, sometimes   marcescent or&#13;
+ deciduous, usually linear to linear-lanceolate, more rarely   elliptic &#13;
+
+to ovate, broadly cordate to suborbicular, erect, spreading or   &#13;
+reflexed.  SPADIX :  sessile to long-stipitate, usually   cylindric to &#13;
+conic, more rarely clavate, rarely globose, very short to very long   &#13;
+(over 1m).  FLOWERS :  bisexual, perigoniate;   tepals 4, fornicate, in 2&#13;
+   decussate whorls.  STAMENS :  4, filaments somewhat flattened, &#13;
+usually   equalling tepals at anthesis, sometimes exceeding them, &#13;
+anthers short,   connective slender, thecae ovate to oblong-ovate, &#13;
+dehiscing by longitudinal   slit.  POLLEN :  forate (most often 3-4 &#13;
+
+pores), more   rarely diporate, rarely inaperturate (sect. &lt;em&gt;Polyphyllium&lt;/em&gt;),&#13;
+ spherical to   subspheroidal, small (mean 22 &amp;micro;m., range 14-29 &amp;micro;m.), &#13;
+exine foveolate to   reticulate or subrugulate, rarely tuberculate, muri&#13;
+ &amp;plusmn; psilate or spinulose,   apertural exine mostly psilate, rarely &#13;
+spinulose.  GYNOECIUM :  ovary ovoid to oblong or obovoid,   2-locular, &#13;
+
+ovules 1-2 per locule, rarely more, anatropous, hemianatropous or   &#13;
+subcampylotropous, funicle short, placenta axile near apex of septum, &#13;
+style   inconspicuous to attenuated; stigma small, subcapitate, &#13;
+secreting conspicuous   nectar droplet at anthesis.  BERRY   :  &#13;
+variously shaped from globose to   elongate-fusiform, when mature &#13;
+exserted from tepals and usually held dangling by   tiny strips of inner&#13;
+ tepal epidermis, sometimes simply falling out of spadix,   2-4-seeded &#13;
+(more in sect. &lt;em&gt;Tetraspermium&lt;/em&gt;),&#13;
+
+ variously coloured, from   conspicuous reds and oranges to dull &#13;
+purplish green, white or blueish.  SEED :   &amp;plusmn;  oblong to ellipsoid or &#13;
+subglobose,   sometimes curved, testa usually smooth or somewhat &#13;
+verrucose, thin, usually with   sticky gelatinous mass adhering to &#13;
+raphe, small strophiole sometimes present,   embryo axile, subcylindric &#13;
+to conoid, sometimes curved, endosperm copious.&lt;/p&gt;</dc:description>
+  </dataObject>
+
+  <dataObject>
+   <dataType>http://purl.org/dc/dcmitype/Text</dataType>
+   <agent role="author">http://scratchpad.cate-araceae.org/users/ben</agent>
+   <dcterms:created>1300970978</dcterms:created>
+   <dcterms:modified>1300970994</dcterms:modified>
+   <dc:title>Diagnostic Description</dc:title>
+
+   <license>http://creativecommons.org/licenses/by-nc/3.0/</license>
+   <dc:source>http://scratchpad.cate-araceae.org/content/anthurium-schott</dc:source>
+   <subject>http://rs.tdwg.org/ontology/voc/SPMInfoItems#DiagnosticDescription</subject>
+   <dc:description xml:lang="en">&lt;p&gt;Plants usually an epiphyte or climbing   hemiepiphyte, less often &#13;
+lithophyte or terrestrial; stem aerial, not tuberous   or rhizomatous; &#13;
+petiole geniculate at apex; higher order leaf   venation clearly &#13;
+
+reticulated, submarginal collective veins usually   present, tissues &#13;
+without trichosclereids; flowers bisexual, with obvious   perigone of  &#13;
+four free tepals; spathe simple, spreading, reflexed or erect;   spadix &#13;
+uniform in appearance with flowers of only one type; berries exserted   &#13;
+when mature; seeds with copious endosperm; Neotropical   range.&lt;/p&gt;</dc:description>
+  </dataObject>
+  <dataObject>
+   <dataType>http://purl.org/dc/dcmitype/Text</dataType>
+
+   <agent role="author">http://scratchpad.cate-araceae.org/users/ben</agent>
+   <dcterms:created>1300970978</dcterms:created>
+   <dcterms:modified>1300970994</dcterms:modified>
+   <dc:title>Distribution</dc:title>
+   <license>http://creativecommons.org/licenses/by-nc/3.0/</license>
+   <dc:source>http://scratchpad.cate-araceae.org/content/anthurium-schott</dc:source>
+
+   <subject>http://rs.tdwg.org/ontology/voc/SPMInfoItems#Distribution</subject>
+   <dc:description xml:lang="en">&lt;p&gt;Mexico to Trop. America.&lt;/p&gt;</dc:description>
+  </dataObject>
+  <dataObject>
+   <dataType>http://purl.org/dc/dcmitype/Text</dataType>
+   <agent role="author">http://scratchpad.cate-araceae.org/users/ben</agent>
+
+   <dcterms:created>1300970978</dcterms:created>
+   <dcterms:modified>1300970994</dcterms:modified>
+   <dc:title>Habitat</dc:title>
+   <license>http://creativecommons.org/licenses/by-nc/3.0/</license>
+   <dc:source>http://scratchpad.cate-araceae.org/content/anthurium-schott</dc:source>
+   <subject>http://rs.tdwg.org/ontology/voc/SPMInfoItems#Habitat</subject>
+
+   <dc:description xml:lang="en">&lt;p&gt;Tropical   humid forest, especially diverse in cloud forests; climbing  &#13;
+ hemiepiphytes,   terrestrial on forest floor, epiphytes, lithophytes, &#13;
+rarely helophytes or   rheophytes.&lt;/p&gt;</dc:description>
+  </dataObject>
+ </taxon>

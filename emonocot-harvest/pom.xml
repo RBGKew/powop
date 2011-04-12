@@ -28,5 +28,13 @@
 			<groupId>org.joda</groupId>
 			<artifactId>com.springsource.org.joda.time</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+		  <groupId>javax.xml.stream</groupId>
+		  <artifactId>com.springsource.javax.xml.stream</artifactId>
+		</dependency>
 	</dependencies>
 </project> 
