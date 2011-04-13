@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.emonocot</groupId>
 	<artifactId>emonocot</artifactId>
@@ -63,7 +64,7 @@
 	<scm>
 		<connection>scm:cvs:pserver:anonymous:@129.67.24.160:/var/cvs:emonocot</connection>
 		<developerConnection>scm:cvs:pserver:${developer.username}:@129.67.24.160:/var/cvs:emonocot</developerConnection>
-  </scm>
+	</scm>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -116,6 +117,19 @@
 				<artifactId>org.springframework.batch.core</artifactId>
 				<version>2.1.6.RELEASE</version>
 			</dependency>
+			<!-- Required because org.springframework.batch.item.xml.StaxEventItemReader 
+				requires org.springframework.xml.transform.StaxSource when presumably over 
+				time they will upgrade to org.springframework.util.xml.StaxSource -->
+			<dependency>
+				<groupId>org.springframework.ws</groupId>
+				<artifactId>org.springframework.oxm.java5</artifactId>
+				<version>1.5.9.A</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.ws</groupId>
+				<artifactId>org.springframework.xml</artifactId>
+				<version>2.0.0.RELEASE</version>
+			</dependency>
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-core</artifactId>
@@ -140,6 +154,17 @@
 				<groupId>javax.xml.stream</groupId>
 				<artifactId>com.springsource.javax.xml.stream</artifactId>
 				<version>1.0.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>1.6.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-nop</artifactId>
+				<version>1.6.1</version>
+				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>javax.servlet</groupId>

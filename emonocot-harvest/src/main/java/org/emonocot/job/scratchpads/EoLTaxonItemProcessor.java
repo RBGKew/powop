@@ -16,8 +16,6 @@ public class EoLTaxonItemProcessor implements ItemProcessor<EoLTaxonItem,Taxon>{
 	}
 
 	public Taxon process(EoLTaxonItem input) throws Exception {
-		Taxon taxon = conversionService.convert(input, Taxon.class);
-
-		return taxon;
+		return conversionService.convert(input, Taxon.class);
 	}
 }

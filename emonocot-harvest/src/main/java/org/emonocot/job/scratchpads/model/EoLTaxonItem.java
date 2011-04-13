@@ -56,4 +56,8 @@ public class EoLTaxonItem {
 		return identifier;
 	}
 
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;		
+	}
+
 }

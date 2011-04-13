@@ -1,5 +1,6 @@
 package org.emonocot.model.taxon;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,10 +12,11 @@ import org.emonocot.model.media.Image;
 import org.emonocot.model.reference.Reference;
 
 public class Taxon extends Base {
+	
+	private List<Image> images = new ArrayList<Image>();
 
 	public List<Image> getImages() {
-		// TODO Auto-generated method stub
-		return null;
+		return images;
 	}
 
 	public Set<Reference> getReferences() {

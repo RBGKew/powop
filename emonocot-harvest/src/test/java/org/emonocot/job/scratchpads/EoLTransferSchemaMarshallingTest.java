@@ -5,23 +5,23 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLInputFactory;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.xml.transform.stax.StAXSource;
 
 import org.emonocot.job.scratchpads.model.EoLAgent;
 import org.emonocot.job.scratchpads.model.EoLDataObject;
 import org.emonocot.job.scratchpads.model.EoLTaxonItem;
 import org.junit.Test;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.oxm.Unmarshaller;
+import org.springframework.oxm.xstream.AnnotationXStreamMarshaller;
 import org.springframework.oxm.xstream.XStreamMarshaller;
 
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 
 
-public class EoLTransferSchemaMarshallingTest  {
+public class EoLTransferSchemaMarshallingTest extends AbstractXmlEventReaderTest  {
 	EoLTransferSchemaQNameMapFactory eolTransferSchemaQNameMapFactory = new EoLTransferSchemaQNameMapFactory();
 	private Unmarshaller unmarshaller;
 	private String filename = "/org/emonocot/job/scratchpads/testFragment.xml";
@@ -29,18 +29,18 @@ public class EoLTransferSchemaMarshallingTest  {
 	@Test
 	public void testInitDriver() throws Exception {
 		StaxDriver streamDriver = new StaxDriver(eolTransferSchemaQNameMapFactory.createInstance());
-		unmarshaller =  new XStreamMarshaller();
+		unmarshaller =  new AnnotationXStreamMarshaller();
+		((AnnotationXStreamMarshaller)unmarshaller).setAnnotatedClass(EoLTaxonItem.class);
 		((XStreamMarshaller)unmarshaller).setStreamDriver(streamDriver);
-		((XStreamMarshaller)unmarshaller).afterPropertiesSet();
+
 	}
 	
 	@Test
 	public void testParseTaxonItemFragment() throws Exception {
 		StaxDriver streamDriver = new StaxDriver(eolTransferSchemaQNameMapFactory.createInstance());
-		unmarshaller =  new XStreamMarshaller();
-		((XStreamMarshaller)unmarshaller).setAnnotatedClass(EoLTaxonItem.class);
+		unmarshaller =  new AnnotationXStreamMarshaller();
+		((AnnotationXStreamMarshaller)unmarshaller).setAnnotatedClass(EoLTaxonItem.class);
 		((XStreamMarshaller)unmarshaller).setStreamDriver(streamDriver);
-		((XStreamMarshaller)unmarshaller).afterPropertiesSet();
 		EoLTaxonItem taxon = (EoLTaxonItem)unmarshaller.unmarshal(new StAXSource(getXMLEventReader(filename)));
 		
 		assertNotNull("Result from unmarshal should not be null",taxon);
@@ -70,23 +70,4 @@ public class EoLTransferSchemaMarshallingTest  {
 		assertEquals("URI should have been unmarshalled properly",agent.getURI(),"http://scratchpad.cate-araceae.org/users/ben");
 		assertEquals("Role should have been unmarshalled properly", agent.getRole(),"author");
 	}
-	
-	private static XMLEventReader getXMLEventReader(String filename) {
-	    XMLInputFactory xmlif = null;
-	    XMLEventReader xmlr = null;
-	    try {
-	      xmlif = XMLInputFactory.newInstance();
-	      xmlif.setProperty(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES, Boolean.TRUE);
-	      xmlif.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE);
-	      xmlif.setProperty(XMLInputFactory.IS_NAMESPACE_AWARE, Boolean.TRUE);
-	      xmlif.setProperty(XMLInputFactory.IS_COALESCING, Boolean.TRUE);
-
-	      Resource resource = new ClassPathResource(filename);
-	      
-	      xmlr = xmlif.createXMLEventReader(resource.getInputStream());
-	    } catch (Exception ex) {
-	      ex.printStackTrace();
-	    }
-	    return xmlr;
-	  }
 }

@@ -57,7 +57,7 @@
 		<property name="delegates">
 			<list>
 				<ref bean="taxonItemValidator"/>
-				<bean class="org.emonocot.job.scratchpads.EoLTaxonItemProcessor" />
+				<bean class="org.emonocot.job.scratchpads.EoLTaxonItemProcessor"/>
 			</list>
 		</property>
 	</bean>
@@ -79,6 +79,9 @@
             <bean class="org.emonocot.job.scratchpads.convert.EoLReferenceDataObjectConverter"/>
             <bean class="org.emonocot.job.scratchpads.convert.EoLStillImageDataObjectConverter"/>
             <bean class="org.emonocot.job.scratchpads.convert.EoLTextDataObjectConverter"/>
+            <bean class="org.emonocot.job.scratchpads.convert.FeatureConverter"/>
+            <bean class="org.emonocot.job.scratchpads.convert.LicenseConverter"/>
+            <bean class="org.emonocot.job.scratchpads.convert.UnixTimeConverter"/>
         </list>
       </property>
     </bean>
