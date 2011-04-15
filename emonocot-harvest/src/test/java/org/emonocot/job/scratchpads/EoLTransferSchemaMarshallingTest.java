@@ -5,9 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.xml.transform.stax.StAXSource;
 
 import org.emonocot.job.scratchpads.model.EoLAgent;

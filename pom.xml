@@ -117,6 +117,12 @@
 				<artifactId>org.springframework.batch.core</artifactId>
 				<version>2.1.6.RELEASE</version>
 			</dependency>
+			<dependency>
+				<groupId>org.springframework.batch</groupId>
+				<artifactId>org.springframework.batch.test</artifactId>
+				<version>2.1.6.RELEASE</version>
+				<scope>test</scope>
+			</dependency>
 			<!-- Required because org.springframework.batch.item.xml.StaxEventItemReader 
 				requires org.springframework.xml.transform.StaxSource when presumably over 
 				time they will upgrade to org.springframework.util.xml.StaxSource -->
@@ -156,13 +162,18 @@
 				<version>1.0.1</version>
 			</dependency>
 			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>4.1.1</version>
+			</dependency>
+			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
 				<version>1.6.1</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-nop</artifactId>
+				<artifactId>slf4j-simple</artifactId>
 				<version>1.6.1</version>
 				<scope>test</scope>
 			</dependency>
@@ -190,6 +201,30 @@
 				<version>4.8.1</version>
 				<scope>test</scope>
 			</dependency>
+			<dependency>
+				<groupId>com.h2database</groupId>
+				<artifactId>h2</artifactId>
+				<version>1.3.154</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>xmlunit</groupId>
+				<artifactId>xmlunit</artifactId>
+				<version>1.3</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>xerces</groupId>
+				<artifactId>xerces</artifactId>
+				<version>2.4.0</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>xalan</groupId>
+				<artifactId>xalan</artifactId>
+				<version>2.7.1</version>
+				<scope>test</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<build>
@@ -208,6 +243,11 @@
 				<artifactId>maven-site-plugin</artifactId>
 				<version>3.0-beta-3</version>
 			</plugin>
+			<plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>wagon-maven-plugin</artifactId>
+              <version>1.0-beta-3</version>
+            </plugin>
 			<plugin>
 				<artifactId>maven-deploy-plugin</artifactId>
 				<version>2.5</version>

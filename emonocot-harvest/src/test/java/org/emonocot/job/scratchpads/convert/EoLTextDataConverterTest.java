@@ -15,12 +15,15 @@ import org.joda.time.DateTimeZone;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.core.convert.converter.Converter;
 
 public class EoLTextDataConverterTest {
 	
 	private EoLTextDataObjectConverter converter = new EoLTextDataObjectConverter();
-	private ConversionService conversionService;
 	private DescriptionService descriptionService;
+    private Converter<String,DateTime> dateTimeConverter;
+	private Converter<String,License> licenseConverter;
+	private Converter<String,Feature> featureConverter;
 	
 	private EoLDataObject dataObject = new EoLDataObject();
 	private Taxon taxon = new Taxon();
@@ -29,9 +32,13 @@ public class EoLTextDataConverterTest {
 	
 	@Before
 	public void setUp() {
-	    conversionService = EasyMock.createMock(ConversionService.class);
+		dateTimeConverter = EasyMock.createMock(Converter.class);
+		licenseConverter = EasyMock.createMock(Converter.class);
+		featureConverter = EasyMock.createMock(Converter.class);
 	    descriptionService = EasyMock.createMock(DescriptionService.class);
-	    converter.setConversionService(conversionService);
+	    converter.setDateTimeConverter(dateTimeConverter);
+	    converter.setLicenseConverter(licenseConverter);
+	    converter.setFeatureConverter(featureConverter);
 	    converter.setDescriptionService(descriptionService);
 	    dataObject.setCreated("1300970978");
 		dataObject.setModified("1300970994");
@@ -60,15 +67,15 @@ public class EoLTextDataConverterTest {
 	 */
 	@Test
 	public void testConvertWithNewTaxon() {
-		EasyMock.expect(conversionService.convert(EasyMock.eq("1300970978"),EasyMock.eq(DateTime.class))).andReturn(new DateTime(2011, 3, 24,12, 49,0,0, DateTimeZone.forID("GMT")));
-		EasyMock.expect(conversionService.convert(EasyMock.eq("1300970994"),EasyMock.eq(DateTime.class))).andReturn(new DateTime(2011, 3, 24,12, 49,0,0, DateTimeZone.forID("GMT")));
-		EasyMock.expect(conversionService.convert(EasyMock.eq("http://creativecommons.org/licenses/by-nc/3.0/"),EasyMock.eq(License.class))).andReturn(License.ATTRIBUTION_NONCOMMERCIAL);
-		EasyMock.expect(conversionService.convert(EasyMock.eq("http://rs.tdwg.org/ontology/voc/SPMInfoItems#GeneralDescription"),EasyMock.eq(Feature.class))).andReturn(Feature.GENERAL_DESCRIPTION);
-		EasyMock.replay(conversionService,descriptionService);
+		EasyMock.expect(dateTimeConverter.convert(EasyMock.eq("1300970978"))).andReturn(new DateTime(2011, 3, 24,12, 49,0,0, DateTimeZone.forID("GMT")));
+		EasyMock.expect(dateTimeConverter.convert(EasyMock.eq("1300970994"))).andReturn(new DateTime(2011, 3, 24,12, 49,0,0, DateTimeZone.forID("GMT")));
+		EasyMock.expect(licenseConverter.convert(EasyMock.eq("http://creativecommons.org/licenses/by-nc/3.0/"))).andReturn(License.ATTRIBUTION_NONCOMMERCIAL);
+		EasyMock.expect(featureConverter.convert(EasyMock.eq("http://rs.tdwg.org/ontology/voc/SPMInfoItems#GeneralDescription"))).andReturn(Feature.GENERAL_DESCRIPTION);
+		EasyMock.replay(dateTimeConverter,licenseConverter, featureConverter,descriptionService);
 		
 		TextContent textContent = converter.convert(dataObject);
 		
-		EasyMock.verify(conversionService,descriptionService);
+		EasyMock.verify(dateTimeConverter,licenseConverter, featureConverter,descriptionService);
 		assertNotNull("Object returned must not be null",textContent);
 		assertTrue("Object returned must be an instance of TextContent", textContent instanceof TextContent);
 		assertEquals("Created Date should be set properly",textContent.getCreated(),new DateTime(2011, 3, 24,12, 49,0,0, DateTimeZone.forID("GMT")));
@@ -90,16 +97,16 @@ public class EoLTextDataConverterTest {
 	@Test
 	public void testConvertWithPersistentTaxonNewContent() {		
 		taxon.setId(1l);
-		EasyMock.expect(conversionService.convert(EasyMock.eq("1300970978"),EasyMock.eq(DateTime.class))).andReturn(new DateTime(2011, 3, 24,12, 49,0,0, DateTimeZone.forID("GMT")));
-		EasyMock.expect(conversionService.convert(EasyMock.eq("1300970994"),EasyMock.eq(DateTime.class))).andReturn(new DateTime(2011, 3, 24,12, 49,0,0, DateTimeZone.forID("GMT")));
-		EasyMock.expect(conversionService.convert(EasyMock.eq("http://creativecommons.org/licenses/by-nc/3.0/"),EasyMock.eq(License.class))).andReturn(License.ATTRIBUTION_NONCOMMERCIAL);
-		EasyMock.expect(conversionService.convert(EasyMock.eq("http://rs.tdwg.org/ontology/voc/SPMInfoItems#GeneralDescription"),EasyMock.eq(Feature.class))).andReturn(Feature.GENERAL_DESCRIPTION);
+		EasyMock.expect(dateTimeConverter.convert(EasyMock.eq("1300970978"))).andReturn(new DateTime(2011, 3, 24,12, 49,0,0, DateTimeZone.forID("GMT")));
+		EasyMock.expect(dateTimeConverter.convert(EasyMock.eq("1300970994"))).andReturn(new DateTime(2011, 3, 24,12, 49,0,0, DateTimeZone.forID("GMT")));
+		EasyMock.expect(licenseConverter.convert(EasyMock.eq("http://creativecommons.org/licenses/by-nc/3.0/"))).andReturn(License.ATTRIBUTION_NONCOMMERCIAL);
+		EasyMock.expect(featureConverter.convert(EasyMock.eq("http://rs.tdwg.org/ontology/voc/SPMInfoItems#GeneralDescription"))).andReturn(Feature.GENERAL_DESCRIPTION);
 		EasyMock.expect(descriptionService.getTextContent(EasyMock.eq(Feature.GENERAL_DESCRIPTION),EasyMock.eq(taxon))).andReturn(null);
-		EasyMock.replay(conversionService,descriptionService);
+        EasyMock.replay(dateTimeConverter,licenseConverter, featureConverter,descriptionService);
 		
 		TextContent textContent = converter.convert(dataObject);
 		
-		EasyMock.verify(conversionService,descriptionService);
+		EasyMock.verify(dateTimeConverter,licenseConverter, featureConverter,descriptionService);
 		assertNotNull("Object returned must not be null",textContent);
 		assertTrue("Object returned must be an instance of TextContent", textContent instanceof TextContent);
 		assertEquals("Created Date should be set properly",textContent.getCreated(),new DateTime(2011, 3, 24,12, 49,0,0, DateTimeZone.forID("GMT")));
@@ -122,16 +129,16 @@ public class EoLTextDataConverterTest {
 	public void testConvertWithPersistentTaxonOldContent() {
 		taxon.setId(1l);
 		
-		EasyMock.expect(conversionService.convert(EasyMock.eq("1300970978"),EasyMock.eq(DateTime.class))).andReturn(new DateTime(2011, 3, 24,12, 49,0,0, DateTimeZone.forID("GMT")));
-		EasyMock.expect(conversionService.convert(EasyMock.eq("1300970994"),EasyMock.eq(DateTime.class))).andReturn(new DateTime(2011, 3, 24,12, 49,0,0, DateTimeZone.forID("GMT")));
-		EasyMock.expect(conversionService.convert(EasyMock.eq("http://creativecommons.org/licenses/by-nc/3.0/"),EasyMock.eq(License.class))).andReturn(License.ATTRIBUTION_NONCOMMERCIAL);
-		EasyMock.expect(conversionService.convert(EasyMock.eq("http://rs.tdwg.org/ontology/voc/SPMInfoItems#GeneralDescription"),EasyMock.eq(Feature.class))).andReturn(Feature.GENERAL_DESCRIPTION);
+		EasyMock.expect(dateTimeConverter.convert(EasyMock.eq("1300970978"))).andReturn(new DateTime(2011, 3, 24,12, 49,0,0, DateTimeZone.forID("GMT")));
+		EasyMock.expect(dateTimeConverter.convert(EasyMock.eq("1300970994"))).andReturn(new DateTime(2011, 3, 24,12, 49,0,0, DateTimeZone.forID("GMT")));
+		EasyMock.expect(licenseConverter.convert(EasyMock.eq("http://creativecommons.org/licenses/by-nc/3.0/"))).andReturn(License.ATTRIBUTION_NONCOMMERCIAL);
+		EasyMock.expect(featureConverter.convert(EasyMock.eq("http://rs.tdwg.org/ontology/voc/SPMInfoItems#GeneralDescription"))).andReturn(Feature.GENERAL_DESCRIPTION);
 		EasyMock.expect(descriptionService.getTextContent(EasyMock.eq(Feature.GENERAL_DESCRIPTION),EasyMock.eq(taxon))).andReturn(persistedTextContent);
-		EasyMock.replay(conversionService,descriptionService);
+        EasyMock.replay(dateTimeConverter,licenseConverter, featureConverter,descriptionService);
 		
 		TextContent textContent = converter.convert(dataObject);
 		
-		EasyMock.verify(conversionService,descriptionService);
+		EasyMock.verify(dateTimeConverter,licenseConverter, featureConverter,descriptionService);
 		assertEquals("Object returned must be the persisted text content",textContent,persistedTextContent);
 	}
 	
@@ -146,19 +153,19 @@ public class EoLTextDataConverterTest {
 		taxon.setId(1l);
 		dataObject.setModified("1302702173");
 		
-		EasyMock.expect(conversionService.convert(EasyMock.eq("1300970978"),EasyMock.eq(DateTime.class))).andReturn(new DateTime(2011, 3, 24,12, 49,0,0, DateTimeZone.forID("GMT")));
-		EasyMock.expect(conversionService.convert(EasyMock.eq("1302702173"),EasyMock.eq(DateTime.class))).andReturn(new DateTime(2011, 4, 13,13, 43,0,0, DateTimeZone.forID("GMT")));
-		EasyMock.expect(conversionService.convert(EasyMock.eq("http://creativecommons.org/licenses/by-nc/3.0/"),EasyMock.eq(License.class))).andReturn(License.ATTRIBUTION_NONCOMMERCIAL);
-		EasyMock.expect(conversionService.convert(EasyMock.eq("http://rs.tdwg.org/ontology/voc/SPMInfoItems#GeneralDescription"),EasyMock.eq(Feature.class))).andReturn(Feature.GENERAL_DESCRIPTION);
+		EasyMock.expect(dateTimeConverter.convert(EasyMock.eq("1300970978"))).andReturn(new DateTime(2011, 3, 24,12, 49,0,0, DateTimeZone.forID("GMT")));
+		EasyMock.expect(dateTimeConverter.convert(EasyMock.eq("1302702173"))).andReturn(new DateTime(2011, 4, 13,16, 39,0,0, DateTimeZone.forID("GMT")));
+		EasyMock.expect(licenseConverter.convert(EasyMock.eq("http://creativecommons.org/licenses/by-nc/3.0/"))).andReturn(License.ATTRIBUTION_NONCOMMERCIAL);
+		EasyMock.expect(featureConverter.convert(EasyMock.eq("http://rs.tdwg.org/ontology/voc/SPMInfoItems#GeneralDescription"))).andReturn(Feature.GENERAL_DESCRIPTION);
 		EasyMock.expect(descriptionService.getTextContent(EasyMock.eq(Feature.GENERAL_DESCRIPTION),EasyMock.eq(taxon))).andReturn(persistedTextContent);
-		EasyMock.replay(conversionService,descriptionService);
+        EasyMock.replay(dateTimeConverter,licenseConverter, featureConverter,descriptionService);
 		
 		TextContent textContent = converter.convert(dataObject);
 		
-		EasyMock.verify(conversionService,descriptionService);
+		EasyMock.verify(dateTimeConverter,licenseConverter, featureConverter,descriptionService);
 		assertTrue("Object returned must be an instance of TextContent", textContent instanceof TextContent);
 		assertEquals("Created Date should be set properly",textContent.getCreated(),new DateTime(2011, 3, 24,12, 49,0,0, DateTimeZone.forID("GMT")));
-		assertEquals("Modified Date should be set properly",textContent.getModified(),new DateTime(2011, 4, 13,13, 43,0,0, DateTimeZone.forID("GMT")));
+		assertEquals("Modified Date should be set properly",textContent.getModified(),new DateTime(2011, 4, 13,16, 39,0,0, DateTimeZone.forID("GMT")));
 		assertEquals("License should be set properly",textContent.getLicense(),License.ATTRIBUTION_NONCOMMERCIAL);
 		assertEquals("Feature should be set properly",textContent.getFeature(),Feature.GENERAL_DESCRIPTION);
 		assertEquals("Taxon should be set properly",textContent.getTaxon(),taxon);

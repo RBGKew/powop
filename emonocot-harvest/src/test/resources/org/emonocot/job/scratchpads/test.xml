@@ -15,82 +15,7 @@
    <dc:source>http://scratchpad.cate-araceae.org/content/anthurium-schott</dc:source>
 
    <subject>http://rs.tdwg.org/ontology/voc/SPMInfoItems#GeneralDescription</subject>
-   <dc:description xml:lang="en">&lt;p&gt;HABIT :   evergreen   herbs, stem erect, creeping, or short- to &#13;
-long-climbing, rarely rhizomatous,   internodes very short (plant &#13;
-rosulate) to elongated.  LEAVES :  prophylls and cataphylls usually &amp;plusmn;   &#13;
-persistent,  entire (membranaceous)   or rotting to a fibrous mass &#13;
-(net-fibrous), sometimes completely   disappearing.  PETIOLE :  &#13;
-geniculate apically (geniculum rarely   well below blade, e.g. &lt;em&gt;A.   oerstedianum&lt;/em&gt;),&#13;
-
- variously shaped in cross-section, sheath long in   juvenile &#13;
-(monopodial) leaves, very short in sympodial leaves.  BLADE :  small to &#13;
-very large (exceeding 2m),   usually coriaceous, more rarely &#13;
-membranaceous or stiff and brittle,   extraordinarily variable in shape,&#13;
- linear to orbicular in outline, rarely   peltate, entire to trifid or &#13;
-trisect, or pedatifid or subpalmatifid, or   pedatisect to radiatisect, &#13;
-rarely the lobes or segments themselves pinnately   lobed, blade base &#13;
-cuneate to cordate, sagittate or hastate; primary lateral   veins &#13;
-
-pinnate or more rarely all arising at the base, usually forming one or  &#13;
- more  submarginal collective   veins,  basal ribs often present in   &#13;
-cordate leaves, higher order venation reticulate.  FLOWERING BRANCHES : &#13;
-sympodial units   usually comprising one 2-keeled prophyll, one 1-keeled&#13;
- cataphyll, one   foliage leaf and terminal inflorescence.    &#13;
-INFLORESCENCE : always solitary.  PEDUNCLE :  usually rather elongated, &#13;
-rarely   short.  SPATHE :  usually persistent, sometimes   marcescent or&#13;
- deciduous, usually linear to linear-lanceolate, more rarely   elliptic &#13;
-
-to ovate, broadly cordate to suborbicular, erect, spreading or   &#13;
-reflexed.  SPADIX :  sessile to long-stipitate, usually   cylindric to &#13;
-conic, more rarely clavate, rarely globose, very short to very long   &#13;
-(over 1m).  FLOWERS :  bisexual, perigoniate;   tepals 4, fornicate, in 2&#13;
-   decussate whorls.  STAMENS :  4, filaments somewhat flattened, &#13;
-usually   equalling tepals at anthesis, sometimes exceeding them, &#13;
-anthers short,   connective slender, thecae ovate to oblong-ovate, &#13;
-dehiscing by longitudinal   slit.  POLLEN :  forate (most often 3-4 &#13;
-
-pores), more   rarely diporate, rarely inaperturate (sect. &lt;em&gt;Polyphyllium&lt;/em&gt;),&#13;
- spherical to   subspheroidal, small (mean 22 &amp;micro;m., range 14-29 &amp;micro;m.), &#13;
-exine foveolate to   reticulate or subrugulate, rarely tuberculate, muri&#13;
- &amp;plusmn; psilate or spinulose,   apertural exine mostly psilate, rarely &#13;
-spinulose.  GYNOECIUM :  ovary ovoid to oblong or obovoid,   2-locular, &#13;
-
-ovules 1-2 per locule, rarely more, anatropous, hemianatropous or   &#13;
-subcampylotropous, funicle short, placenta axile near apex of septum, &#13;
-style   inconspicuous to attenuated; stigma small, subcapitate, &#13;
-secreting conspicuous   nectar droplet at anthesis.  BERRY   :  &#13;
-variously shaped from globose to   elongate-fusiform, when mature &#13;
-exserted from tepals and usually held dangling by   tiny strips of inner&#13;
- tepal epidermis, sometimes simply falling out of spadix,   2-4-seeded &#13;
-(more in sect. &lt;em&gt;Tetraspermium&lt;/em&gt;),&#13;
-
- variously coloured, from   conspicuous reds and oranges to dull &#13;
-purplish green, white or blueish.  SEED :   &amp;plusmn;  oblong to ellipsoid or &#13;
-subglobose,   sometimes curved, testa usually smooth or somewhat &#13;
-verrucose, thin, usually with   sticky gelatinous mass adhering to &#13;
-raphe, small strophiole sometimes present,   embryo axile, subcylindric &#13;
-to conoid, sometimes curved, endosperm copious.&lt;/p&gt;</dc:description>
-  </dataObject>
-
-  <dataObject>
-   <dataType>http://purl.org/dc/dcmitype/Text</dataType>
-   <agent role="author">http://scratchpad.cate-araceae.org/users/ben</agent>
-   <dcterms:created>1300970978</dcterms:created>
-   <dcterms:modified>1300970994</dcterms:modified>
-   <dc:title>Diagnostic Description</dc:title>
-
-   <license>http://creativecommons.org/licenses/by-nc/3.0/</license>
-   <dc:source>http://scratchpad.cate-araceae.org/content/anthurium-schott</dc:source>
-   <subject>http://rs.tdwg.org/ontology/voc/SPMInfoItems#DiagnosticDescription</subject>
-   <dc:description xml:lang="en">&lt;p&gt;Plants usually an epiphyte or climbing   hemiepiphyte, less often &#13;
-lithophyte or terrestrial; stem aerial, not tuberous   or rhizomatous; &#13;
-petiole geniculate at apex; higher order leaf   venation clearly &#13;
-
-reticulated, submarginal collective veins usually   present, tissues &#13;
-without trichosclereids; flowers bisexual, with obvious   perigone of  &#13;
-four free tepals; spathe simple, spreading, reflexed or erect;   spadix &#13;
-uniform in appearance with flowers of only one type; berries exserted   &#13;
-when mature; seeds with copious endosperm; Neotropical   range.&lt;/p&gt;</dc:description>
+   <dc:description xml:lang="en">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quis libero sed lorem dapibus cursus. Nunc posuere rhoncus massa, et hendrerit sapien aliquet a. Sed ut mauris non odio posuere dignissim. Vestibulum pharetra arcu nec massa tristique vel placerat leo volutpat. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla ac leo quam. Proin turpis est, rhoncus eu gravida vel, molestie at nibh. Nulla risus mauris, volutpat id aliquam non, aliquam et lectus. Proin libero risus, pretium id varius mattis, porttitor in massa. Cras neque dolor, faucibus ac eleifend in, egestas a libero. Vivamus quis ligula neque. Phasellus fringilla neque at enim consequat et vestibulum neque cursus. Cras id rutrum risus. Morbi at tellus posuere lectus pharetra vehicula.</dc:description>
   </dataObject>
   <dataObject>
    <dataType>http://purl.org/dc/dcmitype/Text</dataType>
@@ -116,9 +41,7 @@ when mature; seeds with copious endosperm; Neotropical   range.&lt;/p&gt;</dc:de
    <dc:source>http://scratchpad.cate-araceae.org/content/anthurium-schott</dc:source>
    <subject>http://rs.tdwg.org/ontology/voc/SPMInfoItems#Habitat</subject>
 
-   <dc:description xml:lang="en">&lt;p&gt;Tropical   humid forest, especially diverse in cloud forests; climbing  &#13;
- hemiepiphytes,   terrestrial on forest floor, epiphytes, lithophytes, &#13;
-rarely helophytes or   rheophytes.&lt;/p&gt;</dc:description>
+   <dc:description xml:lang="en">Morbi sit amet accumsan nibh. Aenean pharetra consectetur leo eget fringilla. Vivamus tortor est, vestibulum sit amet dignissim non, adipiscing sed lorem. In vitae mattis nulla. Mauris sodales laoreet urna, ac auctor eros sodales at. Donec tempus viverra condimentum. Pellentesque in orci vitae leo congue pretium. Nullam in odio tortor. Etiam vel tellus id ante placerat ornare sed ut lectus. Proin mollis commodo nisl, pretium venenatis mauris tincidunt sit amet. Suspendisse potenti. Donec vestibulum condimentum dignissim. </dc:description>
   </dataObject>
  </taxon>
  <taxon>
@@ -136,53 +59,7 @@ rarely helophytes or   rheophytes.&lt;/p&gt;</dc:description>
    <license>http://creativecommons.org/licenses/by-nc/3.0/</license>
    <dc:source>http://scratchpad.cate-araceae.org/content/arum-italicum-mill</dc:source>
    <subject>http://rs.tdwg.org/ontology/voc/SPMInfoItems#GeneralDescription</subject>
-   <dc:description xml:lang="en">&lt;p&gt;Tuberous herb   sprouting in early autumn or early winter from a rhizomatous tuber 3.5-7,5 cm   long, 1.3-3 cm thick. &lt;strong&gt;Petiole&lt;/strong&gt;&#13;
-
- terete to slightly D-shaped in   cross-section, 15-35(-40) cm long, &#13;
-5-9(-12) mm wide, deep to mid-green, rarely   dull purple. Leaf-&lt;strong&gt;blade&lt;/strong&gt;&#13;
- narrowly or broadly hastate or sagittate-hastate   or ovate oblong, &#13;
-apex acute to obtuse, 9-35(-40) cm long, 2-29 cm   wide, plain deep &#13;
-green or with primary and main lateral veins slightly to heavily   &#13;
-silver-grey, cream or yellowish green, more rarely blade marked with &#13;
-
-irregular   black-purple spots or cloudy silver-grey blotches, or in &#13;
-various shades   of green and white, or a combination of any of these.  &#13;
-INFLORESCENCE   smelling strongly of stale urine or occasionally &#13;
-reminiscent of pineapple and   citrus. &lt;strong&gt;Peduncle&lt;/strong&gt; much shorter than the leaves, terete, 4.6-16   cm long, 6-11 mm wide, pale to mid-green, rarely dull purple.   &lt;strong&gt;Spathe&lt;/strong&gt;&#13;
- 11-27(-38) cm long; spathe-tube oblong-ventricose,   3-5(-7) cm long, &#13;
-
-1.5-2.5(-3.5) cm wide, constricted apically, exterior pale to   &#13;
-mid-green, sometimes stained brownish purple at the base and along the &#13;
-margins,   interior greenish white, sometimes stained with purple &#13;
-apically, rarely entirely   purple; spathe-limb elliptic-lanceolate to &#13;
-elliptic-ovate or broadly  elliptic, 9-24.5(-31)   cm long, 4-11 cm &#13;
-wide, erect, acute to acuminate, the tip drooping soon after   opening, &#13;
-externally greenish white, occasionally flushed with brownish purple   &#13;
-towards the margins and along the mid-vein, internally very pale green &#13;
-to almost   white, sometimes stained with brownish purple along the &#13;
-
-margins, entire limb   with a translucent quality. &lt;strong&gt;Spadix&lt;/strong&gt;&#13;
- &amp;frac14; -   ? as long as the spathe-limb,   4.4-14 cm in total length; &#13;
-appendix clavate, long-stipitate, 3-10 cm long, 4-10   mm wide, pale to &#13;
-dark yellow or dull tawny brown, stipe sometimes pale.   Staminodes in &#13;
-2-5 whorls forming a zone 4-10 mm long; bristles   filiform, flexuous, &#13;
-3.5-5 mm long, cream; bases conical, &amp;plusmn;     verrucate.   Interstices:   &#13;
-
-upper 1.5-5 mm   long, longitudinally ridged, sometimes obscurely so, &#13;
-pale cream, lower 0-3 mm   long, with slight longitudinal ridging and &#13;
-some vestigial pistillodes bases,   cream. Staminate flowers in a oblong&#13;
- zone 3-6 mm long, 5-9.5 mm wide;   anthers and connectives pale to &#13;
-mid-yellow.    Pistillodes in 3-4 whorls, forming a zone   2.5-3 mm &#13;
-long; bristles filiform, flexuous, 3-5.5 mm long, cream basally, paler  &#13;
- apically; bases conic to bulbiform, verrucate to smooth, pale to &#13;
-mid-yellow.   Pistillate flowers in an oblong-cylindric cluster 9-14 mm &#13;
-
-long; ovaries   ovoid-oblong, 2-3 mm long, pale green to off-white; &#13;
-stigma slightly darker. Fruiting spike   oblong-cylindric, 5-9(-12) cm &#13;
-long , 2.5-3 cm wide; &lt;strong&gt;berries&lt;/strong&gt;&#13;
-            oblong-pyriform, 4-11 mm long, 3.5-5 mm wide. Germination &#13;
-epigeal or   hypogeal in subsp. italicum, unknown in subsp. canariense &#13;
-and subsp. albispathum.&lt;/p&gt;</dc:description>
+   <dc:description xml:lang="en">In et arcu magna, eget accumsan enim. Vivamus consequat rhoncus porttitor. Nam pulvinar nisl in libero tristique lobortis. Sed interdum convallis semper. Aenean ullamcorper ornare lacus, eu ullamcorper elit pharetra vitae. Vivamus vestibulum malesuada lectus, eu ullamcorper purus blandit ac. Phasellus eu vestibulum dui. Morbi eget quam mi, sit amet consectetur elit. In ullamcorper enim ut nulla cursus molestie sit amet sit amet ante. Duis porttitor mauris ac nisl dictum eu viverra ante vestibulum. Morbi nulla turpis, interdum id bibendum eget, sodales eu libero. Proin placerat, dui at porttitor ultricies, dolor urna egestas arcu, id lacinia ante sem sed diam. In hac habitasse platea dictumst. Fusce condimentum, ligula vitae malesuada semper, nulla felis commodo risus, at iaculis nisl quam et est. Vestibulum vel mauris quam. Sed in sapien velit. Etiam euismod viverra molestie. </dc:description>
 
   </dataObject>
   <dataObject>
@@ -195,10 +72,7 @@ and subsp. albispathum.&lt;/p&gt;</dc:description>
    <license>http://creativecommons.org/licenses/by-nc/3.0/</license>
    <dc:source>http://scratchpad.cate-araceae.org/content/arum-italicum-mill</dc:source>
    <subject>http://rs.tdwg.org/ontology/voc/SPMInfoItems#DiagnosticDescription</subject>
-   <dc:description xml:lang="en">&lt;p&gt;Tuber rhizomatous. Spathe-limb internally pale-green to almost white.   &#13;
-Spadix &amp;frac14; to &amp;frac12; as long as spathe-limb. Staminate flowers yellow before   &#13;
-
-anthesis.  (similar to &lt;em&gt;Arum maculatum&lt;/em&gt;)&lt;/p&gt;</dc:description>
+   <dc:description xml:lang="en">Proin in risus sapien. Mauris tortor neque, sollicitudin ullamcorper pulvinar porttitor, sagittis sit amet elit. Duis lobortis arcu pulvinar tellus tempor hendrerit. Donec ac euismod nisi. Donec lobortis eleifend sem eget porttitor. Praesent viverra mauris quis felis consequat ut tempus risus scelerisque. Suspendisse eros lorem, blandit eget molestie sit amet, facilisis at purus. Suspendisse leo nibh, sagittis vel scelerisque sed, bibendum vitae tortor. Aenean eget felis dictum orci feugiat iaculis quis at lorem. Morbi id nulla urna. Mauris egestas justo sit amet nunc vehicula condimentum. Nunc sollicitudin facilisis facilisis. Phasellus eu dolor eu nunc tempor lobortis. Curabitur sed tellus arcu, eget dapibus felis. Phasellus in congue ligula. </dc:description>
   </dataObject>
  </taxon>
 </response>
