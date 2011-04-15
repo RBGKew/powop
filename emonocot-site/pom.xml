@@ -1,17 +1,49 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>emonocot</artifactId>
-    <groupId>org.emonocot</groupId>
-    <version>0.0.4-SNAPSHOT</version>
-  </parent>
-  <groupId>org.emonocot</groupId>
-  <artifactId>emonocot-site</artifactId>
-  <version>0.0.4-SNAPSHOT</version>
-  <name>eMonocot Maven Site Theme</name>
-  <url>http://e-monocot.org/</url>
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>emonocot</artifactId>
+		<groupId>org.emonocot</groupId>
+		<version>0.0.4-SNAPSHOT</version>
+	</parent>
+	<groupId>org.emonocot</groupId>
+	<artifactId>emonocot-site</artifactId>
+	<version>0.0.4-SNAPSHOT</version>
+	<name>eMonocot Maven Site Theme</name>
+	<url>http://e-monocot.org/</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<build>
+	    <extensions>
+	      <extension>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-ssh</artifactId>
+            <version>1.0-beta-6</version>
+          </extension>
+	    </extensions>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>wagon-maven-plugin</artifactId>
+				<version>1.0-beta-3</version>
+				<executions>
+					<execution>
+						<id>upload-include-files</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>upload</goal>
+						</goals>
+						<configuration>
+							<fromDir>src/main/static-resources</fromDir>
+							<includes>**/*</includes>
+							<serverId>build.server</serverId>
+						    <url>scp://129.67.24.160/var/www/html/</url>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>
