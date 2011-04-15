@@ -12,7 +12,6 @@
 	<packaging>war</packaging>
 	<name>eMonocot Checklist</name>
 	<description>eMonocot Checklist Webservice</description>
-	<url>http://e-monocot.org</url>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework</groupId>
