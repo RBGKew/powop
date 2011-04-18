@@ -19,6 +19,11 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.emonocot</groupId>
+			<artifactId>emonocot-service</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>com.springsource.com.thoughtworks.xstream</artifactId>
 		</dependency>

@@ -1,7 +1,5 @@
 package org.emonocot.job.scratchpads.model;
 
-import java.util.UUID;
-
 import org.emonocot.job.scratchpads.model.convert.EoLAgentConverter;
 import org.emonocot.model.taxon.Taxon;
 

@@ -16,7 +16,10 @@
 		<module>emonocot-checklist</module>
 		<module>emonocot-site</module>
 		<module>emonocot-model</module>
+		<!-- emonocot-persistence? -->
+		<module>emonocot-service</module>
 		<module>emonocot-harvest</module>
+		
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
