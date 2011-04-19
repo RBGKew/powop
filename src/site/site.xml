@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="eMonocot">
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
   <skin>
     <groupId>org.emonocot</groupId>
     <artifactId>emonocot-site</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.4-SNAPSHOT</version>
   </skin>
   <bannerLeft>
     <name>eMonocot</name>
