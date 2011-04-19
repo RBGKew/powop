@@ -83,7 +83,7 @@
 			<plugin>
 				<groupId>org.liquibase</groupId>
 				<artifactId>liquibase-plugin</artifactId>
-				<version>1.6.1.0</version>
+				<version>1.9.5.0</version>
 				<configuration>
 					<changeLogFile>src/main/resources/${database.changelog}</changeLogFile>
 					<driver>${jdbc.driver.classname}</driver>
