@@ -3,7 +3,7 @@
   <skin>
     <groupId>org.emonocot</groupId>
     <artifactId>emonocot-site</artifactId>
-    <version>0.0.4-SNAPSHOT</version>
+    <version>0.0.1</version>
   </skin>
   <bannerLeft>
     <name>eMonocot</name>
@@ -14,9 +14,7 @@
     <links>
       
     </links>
-
     <menu ref="modules"/>
     <menu ref="reports"/>
-
   </body>
 </project>
