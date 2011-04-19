@@ -19,7 +19,7 @@
 		<!-- emonocot-persistence? -->
 		<module>emonocot-service</module>
 		<module>emonocot-harvest</module>
-		
+		<module>emonocot-portal</module>
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -151,10 +151,20 @@
 				<version>1.6.0</version>
 			</dependency>
 			<dependency>
-		      <groupId>org.apache.commons</groupId>
-		      <artifactId>com.springsource.org.apache.commons.lang</artifactId>
-		      <version>2.1.0</version>
-	        </dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>com.springsource.org.apache.commons.lang</artifactId>
+				<version>2.1.0</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+				<version>1.1.1</version>
+			</dependency>
+			<dependency>
+				<groupId>javassist</groupId>
+				<artifactId>javassist</artifactId>
+				<version>3.12.0.GA</version>
+			</dependency>
 			<dependency>
 				<groupId>commons-dbcp</groupId>
 				<artifactId>commons-dbcp</artifactId>
@@ -193,6 +203,11 @@
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>com.springsource.javax.servlet.jsp.jstl</artifactId>
+				<version>1.1.2</version>
+			</dependency>
+			<dependency>
 				<groupId>org.easymock</groupId>
 				<artifactId>easymock</artifactId>
 				<version>3.0</version>
@@ -217,6 +232,11 @@
 				<scope>test</scope>
 			</dependency>
 			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>5.1.15</version>
+			</dependency>
+			<dependency>
 				<groupId>xmlunit</groupId>
 				<artifactId>xmlunit</artifactId>
 				<version>1.3</version>
@@ -224,7 +244,7 @@
 			</dependency>
 			<dependency>
 				<groupId>xerces</groupId>
-				<artifactId>xerces</artifactId>
+				<artifactId>xercesImpl</artifactId>
 				<version>2.4.0</version>
 				<scope>test</scope>
 			</dependency>
@@ -253,10 +273,10 @@
 				<version>3.0-beta-3</version>
 			</plugin>
 			<plugin>
-              <groupId>org.codehaus.mojo</groupId>
-              <artifactId>wagon-maven-plugin</artifactId>
-              <version>1.0-beta-3</version>
-            </plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>wagon-maven-plugin</artifactId>
+				<version>1.0-beta-3</version>
+			</plugin>
 			<plugin>
 				<artifactId>maven-deploy-plugin</artifactId>
 				<version>2.5</version>

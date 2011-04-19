@@ -13,11 +13,6 @@
 	<name>eMonocot Harvesting</name>
 	<description>Backend Harvesting Routines</description>
 	<dependencies>
-	    <dependency>
-			<groupId>org.emonocot</groupId>
-			<artifactId>emonocot-model</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>org.emonocot</groupId>
 			<artifactId>emonocot-service</artifactId>
@@ -80,6 +75,10 @@
 			<artifactId>h2</artifactId>
 		</dependency>
 		<dependency>
+              <groupId>mysql</groupId>
+              <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 		</dependency>
@@ -93,7 +92,7 @@
 	    </dependency>
 	    <dependency>
 			<groupId>xerces</groupId>
-			<artifactId>xerces</artifactId>
+			<artifactId>xercesImpl</artifactId>
 	    </dependency>
 	</dependencies>
 </project> 

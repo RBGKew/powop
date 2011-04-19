@@ -4,6 +4,7 @@
     "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
   <session-factory>
+    <property name="dialect">${hibernate.dialect}</property>
     <mapping class="org.emonocot.checklist.model.Taxon"/>
   </session-factory>
 </hibernate-configuration>
