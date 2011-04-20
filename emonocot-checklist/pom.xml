@@ -103,7 +103,7 @@
 				<artifactId>cargo-maven2-plugin</artifactId>
 				<configuration>
 					<container>
-						<containerId>tomcat6x</containerId>
+						<containerId>${cargo.containerId}</containerId>
 						<type>remote</type>
 					</container>
 					<configuration>
