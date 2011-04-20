@@ -25,6 +25,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>3.0.5.RELEASE</spring.version>
 		<hibernate.version>3.6.2.Final</hibernate.version>
+		<spring.batch.version>2.1.6.RELEASE</spring.batch.version>
+		<spring.batch.admin.version>1.2.0.RELEASE</spring.batch.admin.version>
+		<spring.integration.version>2.0.3.RELEASE</spring.integration.version>
 	</properties>
 	<issueManagement>
 		<system>Drupal</system>
@@ -119,13 +122,143 @@
 			<dependency>
 				<groupId>org.springframework.batch</groupId>
 				<artifactId>org.springframework.batch.core</artifactId>
-				<version>2.1.6.RELEASE</version>
+				<version>${spring.batch.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.batch</groupId>
 				<artifactId>org.springframework.batch.test</artifactId>
-				<version>2.1.6.RELEASE</version>
+				<version>${spring.batch.version}</version>
 				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.batch</groupId>
+				<artifactId>org.springframework.batch.infrastructure</artifactId>
+				<version>${spring.batch.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.batch</groupId>
+				<artifactId>spring-batch-admin-manager</artifactId>
+				<version>${spring.batch.admin.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-test</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-context</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.batch</groupId>
+						<artifactId>spring-batch-test</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.batch</groupId>
+						<artifactId>spring-batch-core</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-jdbc</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-aop</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-web</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-webmvc</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.batch</groupId>
+						<artifactId>spring-batch-integration</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.integration</groupId>
+						<artifactId>spring-integration-core</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.integration</groupId>
+						<artifactId>spring-integration-jmx</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.integration</groupId>
+						<artifactId>spring-integration-http</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.integration</groupId>
+						<artifactId>spring-integration-file</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.batch</groupId>
+				<artifactId>spring-batch-admin-resources</artifactId>
+				<version>${spring.batch.admin.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-test</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-aop</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-context-support</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.batch</groupId>
+				<artifactId>spring-batch-integration</artifactId>
+				<version>${spring.batch.admin.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework.batch</groupId>
+						<artifactId>spring-batch-core</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.batch</groupId>
+						<artifactId>spring-batch-test</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.integration</groupId>
+						<artifactId>spring-integration-core</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.integration</groupId>
+						<artifactId>spring-integration-jdbc</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.integration</groupId>
+						<artifactId>spring-integration-jms</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-context</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-aop</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-jms</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-tx</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-test</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<!-- Required because org.springframework.batch.item.xml.StaxEventItemReader 
 				requires org.springframework.xml.transform.StaxSource when presumably over 
@@ -134,6 +267,56 @@
 				<groupId>org.springframework.ws</groupId>
 				<artifactId>org.springframework.oxm.java5</artifactId>
 				<version>1.5.9.A</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.integration</groupId>
+				<artifactId>spring-integration-core</artifactId>
+				<version>${spring.integration.version}</version>
+				<exclusions>
+				 <exclusion>
+				   <groupId>org.springframework</groupId>
+				   <artifactId>spring-context</artifactId>
+				 </exclusion>
+				 <exclusion>
+				   <groupId>org.springframework</groupId>
+				   <artifactId>spring-aop</artifactId>
+				 </exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.integration</groupId>
+				<artifactId>spring-integration-jms</artifactId>
+				<version>${spring.integration.version}</version>
+				<exclusions>
+				 <exclusion>
+				   <groupId>org.springframework</groupId>
+				   <artifactId>spring-jms</artifactId>
+				 </exclusion>
+				 <exclusion>
+				   <groupId>org.springframework</groupId>
+				   <artifactId>spring-tx</artifactId>
+				 </exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.integration</groupId>
+				<artifactId>spring-integration-jdbc</artifactId>
+				<version>${spring.integration.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.integration</groupId>
+				<artifactId>spring-integration-jmx</artifactId>
+				<version>${spring.integration.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.integration</groupId>
+				<artifactId>spring-integration-http</artifactId>
+				<version>${spring.integration.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.integration</groupId>
+				<artifactId>spring-integration-file</artifactId>
+				<version>${spring.integration.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.ws</groupId>
@@ -192,9 +375,24 @@
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
+				<version>1.6.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-simple</artifactId>
 				<version>1.6.1</version>
 				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>1.6.1</version>
+			</dependency>
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>1.2.16</version>
 			</dependency>
 			<dependency>
 				<groupId>javax.servlet</groupId>
@@ -311,6 +509,10 @@
 							<groupId>org.apache.maven.plugins</groupId>
 							<artifactId>maven-project-info-reports-plugin</artifactId>
 							<version>2.3.1</version>
+							<configuration>
+								<dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+								<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+							</configuration>
 						</plugin>
 						<plugin>
 							<groupId>org.apache.maven.plugins</groupId>
@@ -370,6 +572,56 @@
 			</plugin>
 		</plugins>
 	</build>
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.3.1</version>
+				<configuration>
+					<dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<aggregate>true</aggregate>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<aggregate>true</aggregate>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>2.6</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.6</version>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<formats>
+						<format>xml</format>
+						<format>html</format>
+					</formats>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
 	<repositories>
 		<repository>
 			<id>com.springsource.repository.bundles.release</id>
