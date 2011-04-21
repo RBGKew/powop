@@ -3,6 +3,7 @@ package org.emonocot.job.scratchpads;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"/applicationContext.xml","/applicationContext-test.xml"})
+@ContextConfiguration({"/META-INF/spring/batch/jobs/eolTransferSchema.xml","/applicationContext-test.xml"})
 public class HarvestingJobIntegrationTest {
 	
 	@Autowired
@@ -34,7 +35,7 @@ public class HarvestingJobIntegrationTest {
 		Map<String,JobParameter> parameters = new HashMap<String,JobParameter>();
 		parameters.put("authority.name", new JobParameter("http://scratchpad.cate-araceae.org"));
 		parameters.put("authority.uri", new JobParameter("http://129.67.24.160/test/test.xml"));
-		parameters.put("authority.last.harvested", new JobParameter(new DateTime(2010, 11, 1, 9, 0, 0, 0).toDate()));
+		parameters.put("authority.last.harvested", new JobParameter(Long.toString((new DateTime(2010, 11, 1, 9, 0, 0, 0).getMillis()))));
 		parameters.put("temporary.file.name", new JobParameter(File.createTempFile("test", ".xml").getAbsolutePath()));
 		JobParameters jobParameters = new JobParameters(parameters);
 		

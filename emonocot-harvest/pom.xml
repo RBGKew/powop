@@ -24,6 +24,10 @@
 			<artifactId>com.springsource.com.thoughtworks.xstream</artifactId>
 		</dependency>
 		<dependency>
+				<groupId>org.codehaus.woodstox</groupId>
+				<artifactId>wstx-asl</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.batch</groupId>
 			<artifactId>org.springframework.batch.core</artifactId>
 		</dependency>
@@ -112,10 +116,6 @@
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
@@ -176,6 +176,25 @@
 						</resource>
 					</webResources>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-plugin</artifactId>
+				<version>1.9.5.0</version>
+				<configuration>
+					<changeLogFile>src/main/resources/${database.changelog}</changeLogFile>
+					<driver>${jdbc.driver.classname}</driver>
+					<url>${jdbc.driver.url}</url>
+					<username>${jdbc.driver.username}</username>
+					<password>${jdbc.driver.password}</password>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>5.1.15</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.cargo</groupId>

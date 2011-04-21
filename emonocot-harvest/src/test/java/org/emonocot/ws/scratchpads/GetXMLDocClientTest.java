@@ -52,7 +52,7 @@ public class GetXMLDocClientTest {
 		EasyMock.expect(httpClient.execute(EasyMock.isA(HttpGet.class))).andReturn(httpResponse);
 		EasyMock.replay(httpClient);		
 		
-		ExitStatus exitStatus = getXmlDocClient.getDocument("http://scratchpad.cate-araceae.org", "http://scratchpad.cate-araceae.org/spm/export.xml", new Date(), tempFile.getAbsolutePath());
+		ExitStatus exitStatus = getXmlDocClient.getDocument("http://scratchpad.cate-araceae.org", "http://scratchpad.cate-araceae.org/spm/export.xml", Long.toString(new Date().getTime()), tempFile.getAbsolutePath());
 		
 		EasyMock.verify(httpClient);
 	
@@ -71,7 +71,7 @@ public class GetXMLDocClientTest {
 		EasyMock.expect(httpClient.execute(EasyMock.isA(HttpGet.class))).andReturn(httpResponse);
 		EasyMock.replay(httpClient);		
 		
-		ExitStatus exitStatus = getXmlDocClient.getDocument("http://scratchpad.cate-araceae.org", "http://scratchpad.cate-araceae.org/spm/export.xml", new Date(), tempFile.getAbsolutePath());
+		ExitStatus exitStatus = getXmlDocClient.getDocument("http://scratchpad.cate-araceae.org", "http://scratchpad.cate-araceae.org/spm/export.xml", Long.toString(new Date().getTime()), tempFile.getAbsolutePath());
 		
 		EasyMock.verify(httpClient);
 	
@@ -89,7 +89,7 @@ public class GetXMLDocClientTest {
 		EasyMock.expect(httpClient.execute(EasyMock.isA(HttpGet.class))).andReturn(httpResponse);
 		EasyMock.replay(httpClient);		
 		
-		ExitStatus exitStatus = getXmlDocClient.getDocument("http://scratchpad.cate-araceae.org", "http://scratchpad.cate-araceae.org/spm/export.xml", new Date(), tempFile.getAbsolutePath());
+		ExitStatus exitStatus = getXmlDocClient.getDocument("http://scratchpad.cate-araceae.org", "http://scratchpad.cate-araceae.org/spm/export.xml", Long.toString(new Date().getTime()), tempFile.getAbsolutePath());
 		
 		EasyMock.verify(httpClient);
 	

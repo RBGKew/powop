@@ -11,7 +11,7 @@
 		                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 	<context:property-placeholder location="classpath:application.properties"/>
     
-    <!-- <context:component-scan base-package="org.emonocot.checklist.persistence"/>-->
+    <context:component-scan base-package="org.emonocot.service.impl"/>
     
     <tx:annotation-driven/>
     
@@ -33,6 +33,11 @@
       <property name="url" value="${jdbc.driver.url}"/>
       <property name="username" value="${jdbc.driver.username}"/>
       <property name="password" value="${jdbc.driver.password}"/>
+      <property name="maxActive" value="15"/>
+      <property name="maxIdle" value="7"/>
+      <property name="validationQuery" value="SELECT 1"/>
     </bean>
+    
+    <import resource="classpath*:/META-INF/spring/batch/bootstrap/manager/execution-context.xml" />
 
 </beans>

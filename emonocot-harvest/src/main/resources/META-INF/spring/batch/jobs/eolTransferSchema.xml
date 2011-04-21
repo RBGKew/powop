@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:batch="http://www.springframework.org/schema/batch" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+
+    <context:annotation-config />
 
 	<batch:job id="SpeciesPageHarvestingJob">
 		<batch:step id="getXMLDoc">
@@ -73,21 +78,6 @@
 	<bean id="itemWriter" class="org.springframework.batch.item.database.HibernateItemWriter">
 	  <property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
-	
-	<bean id="conversionService"
-      class="org.springframework.context.support.ConversionServiceFactoryBean">
-      <property name="converters">
-        <list>
-            <ref bean="taxonItemConverter" />
-            <ref bean="textDataConverter" />
-            <ref bean="imageConverter" />
-            <ref bean="referenceConverter" />
-            <ref bean="featureConverter" />
-            <ref bean="licenseConverter" />
-            <ref bean="dateTimeConverter" />
-        </list>
-      </property>
-    </bean>
     
     <bean name="taxonItemConverter" class="org.emonocot.job.scratchpads.convert.EoLTaxonItemConverter"/>
     <bean name="imageConverter" class="org.emonocot.job.scratchpads.convert.EoLStillImageDataObjectConverter"/>
@@ -97,7 +87,4 @@
     <bean name="featureConverter" class="org.emonocot.job.scratchpads.convert.FeatureConverter"/>
     <bean name="licenseConverter" class="org.emonocot.job.scratchpads.convert.LicenseConverter"/>
     <bean name="dateTimeConverter" class="org.emonocot.job.scratchpads.convert.UnixTimeConverter"/>
-
-    <bean name="taxonService" class="org.emonocot.service.impl.TaxonServiceImpl"/>
-    <bean name="descriptionService" class="org.emonocot.service.impl.DescriptionServiceImpl"/>
 </beans>

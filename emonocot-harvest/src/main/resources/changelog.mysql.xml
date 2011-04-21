@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+     <changeSet author="ben" id="1303384038461-1">
+        <createTable tableName="batch_job_execution">
+            <column name="JOB_EXECUTION_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="VERSION" type="BIGINT"/>
+            <column name="JOB_INSTANCE_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATE_TIME" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="START_TIME" type="DATETIME"/>
+            <column name="END_TIME" type="DATETIME"/>
+            <column name="STATUS" type="VARCHAR(10)"/>
+            <column name="EXIT_CODE" type="VARCHAR(100)"/>
+            <column name="EXIT_MESSAGE" type="VARCHAR(2500)"/>
+            <column name="LAST_UPDATED" type="DATETIME"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="ben" id="1303384038461-2">
+        <createTable tableName="batch_job_execution_context">
+            <column name="JOB_EXECUTION_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="SHORT_CONTEXT" type="VARCHAR(2500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SERIALIZED_CONTEXT" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="ben" id="1303384038461-3">
+        <createTable tableName="batch_job_execution_seq">
+            <column name="ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="ben" id="1303384038461-4">
+        <createTable tableName="batch_job_instance">
+            <column name="JOB_INSTANCE_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="VERSION" type="BIGINT"/>
+            <column name="JOB_NAME" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="JOB_KEY" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="ben" id="1303384038461-5">
+        <createTable tableName="batch_job_params">
+            <column name="JOB_INSTANCE_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TYPE_CD" type="VARCHAR(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="KEY_NAME" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STRING_VAL" type="VARCHAR(250)"/>
+            <column name="DATE_VAL" type="DATETIME"/>
+            <column name="LONG_VAL" type="BIGINT"/>
+            <column name="DOUBLE_VAL" type="DOUBLE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="ben" id="1303384038461-6">
+        <createTable tableName="batch_job_seq">
+            <column name="ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="ben" id="1303384038461-7">
+        <createTable tableName="batch_step_execution">
+            <column name="STEP_EXECUTION_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="VERSION" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STEP_NAME" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="JOB_EXECUTION_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="START_TIME" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="END_TIME" type="DATETIME"/>
+            <column name="STATUS" type="VARCHAR(10)"/>
+            <column name="COMMIT_COUNT" type="BIGINT"/>
+            <column name="READ_COUNT" type="BIGINT"/>
+            <column name="FILTER_COUNT" type="BIGINT"/>
+            <column name="WRITE_COUNT" type="BIGINT"/>
+            <column name="READ_SKIP_COUNT" type="BIGINT"/>
+            <column name="WRITE_SKIP_COUNT" type="BIGINT"/>
+            <column name="PROCESS_SKIP_COUNT" type="BIGINT"/>
+            <column name="ROLLBACK_COUNT" type="BIGINT"/>
+            <column name="EXIT_CODE" type="VARCHAR(100)"/>
+            <column name="EXIT_MESSAGE" type="VARCHAR(2500)"/>
+            <column name="LAST_UPDATED" type="DATETIME"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="ben" id="1303384038461-8">
+        <createTable tableName="batch_step_execution_context">
+            <column name="STEP_EXECUTION_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="SHORT_CONTEXT" type="VARCHAR(2500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SERIALIZED_CONTEXT" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="ben" id="1303384038461-9">
+        <createTable tableName="batch_step_execution_seq">
+            <column name="ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="ben" id="1303384038461-10">
+        <addForeignKeyConstraint baseColumnNames="JOB_INSTANCE_ID" baseTableName="batch_job_execution" constraintName="JOB_INST_EXEC_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="JOB_INSTANCE_ID" referencedTableName="batch_job_instance"/>
+    </changeSet>
+    <changeSet author="ben" id="1303384038461-11">
+        <addForeignKeyConstraint baseColumnNames="JOB_EXECUTION_ID" baseTableName="batch_job_execution_context" constraintName="JOB_EXEC_CTX_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="JOB_EXECUTION_ID" referencedTableName="batch_job_execution"/>
+    </changeSet>
+    <changeSet author="ben" id="1303384038461-12">
+        <addForeignKeyConstraint baseColumnNames="JOB_INSTANCE_ID" baseTableName="batch_job_params" constraintName="JOB_INST_PARAMS_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="JOB_INSTANCE_ID" referencedTableName="batch_job_instance"/>
+    </changeSet>
+    <changeSet author="ben" id="1303384038461-13">
+        <addForeignKeyConstraint baseColumnNames="JOB_EXECUTION_ID" baseTableName="batch_step_execution" constraintName="JOB_EXEC_STEP_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="JOB_EXECUTION_ID" referencedTableName="batch_job_execution"/>
+    </changeSet>
+    <changeSet author="ben" id="1303384038461-14">
+        <addForeignKeyConstraint baseColumnNames="STEP_EXECUTION_ID" baseTableName="batch_step_execution_context" constraintName="STEP_EXEC_CTX_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="STEP_EXECUTION_ID" referencedTableName="batch_step_execution"/>
+    </changeSet>
+    <changeSet author="ben" id="1303384038461-15">
+        <createIndex indexName="JOB_INST_EXEC_FK" tableName="batch_job_execution" unique="false">
+            <column name="JOB_INSTANCE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="1303384038461-16">
+        <createIndex indexName="JOB_EXECUTION_PK" tableName="batch_job_execution" unique="true">
+            <column name="JOB_EXECUTION_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="1303384038461-17">
+        <createIndex indexName="JOB_EXECUTION_CONTEXT_PK" tableName="batch_job_execution_context" unique="true">
+            <column name="JOB_EXECUTION_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="1303384038461-18">
+        <createIndex indexName="JOB_INST_UN" tableName="batch_job_instance" unique="true">
+            <column name="JOB_NAME"/>
+            <column name="JOB_KEY"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="1303384038461-19">
+        <createIndex indexName="JOB_INSTANCE_PK" tableName="batch_job_instance" unique="true">
+            <column name="JOB_INSTANCE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="1303384038461-20">
+        <createIndex indexName="JOB_INST_PARAMS_FK" tableName="batch_job_params" unique="false">
+            <column name="JOB_INSTANCE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="1303384038461-21">
+        <createIndex indexName="JOB_EXEC_STEP_FK" tableName="batch_step_execution" unique="false">
+            <column name="JOB_EXECUTION_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="1303384038461-22">
+        <createIndex indexName="STEP_EXECUTION_PK" tableName="batch_step_execution" unique="true">
+            <column name="STEP_EXECUTION_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="1303384038461-23">
+        <createIndex indexName="STEP_EXECUTION_CONTEXT_PK" tableName="batch_step_execution_context" unique="true">
+            <column name="STEP_EXECUTION_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="1303384038461-24">
+      <insert tableName="BATCH_STEP_EXECUTION_SEQ" >
+        <column name="ID" valueNumeric="0"/>         
+      </insert>
+    </changeSet>
+    <changeSet author="ben" id="1303384038461-25">
+      <insert tableName="BATCH_JOB_EXECUTION_SEQ" >
+        <column name="ID" valueNumeric="0"/>         
+      </insert>
+    </changeSet>
+    <changeSet author="ben" id="1303384038461-26">
+      <insert tableName="BATCH_JOB_SEQ" >
+        <column name="ID" valueNumeric="0"/>         
+      </insert>
+    </changeSet>
+</databaseChangeLog>

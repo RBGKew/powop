@@ -43,14 +43,14 @@ public class GetXMLDocClient {
 	 * @param dateLastHarvested
 	 * @return
 	 */
-	public ExitStatus getDocument(String authorityName, String authorityURI, Date dateLastHarvested, String temporaryFileName) {
+	public ExitStatus getDocument(String authorityName, String authorityURI, String dateLastHarvested, String temporaryFileName) {
 		httpClient.getParams().setParameter("http.useragent", "org.emonocot.ws.scratchpads.GetXmlDocClient");
 		BufferedReader bufferedReader = null;
 		BufferedWriter bufferedWriter = null;
 		InputStream inputStream = null;
 		
 		HttpGet httpGet = new HttpGet(authorityURI);
-		httpGet.addHeader(new BasicHeader("If-Modified-Since",DateUtils.formatDate(dateLastHarvested)));
+		httpGet.addHeader(new BasicHeader("If-Modified-Since",DateUtils.formatDate(new Date(Long.parseLong(dateLastHarvested)))));
 		try {
 			HttpResponse httpResponse = httpClient.execute(httpGet);
 
