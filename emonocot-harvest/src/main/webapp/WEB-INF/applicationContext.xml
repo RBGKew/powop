@@ -3,12 +3,14 @@
 	xmlns:batch="http://www.springframework.org/schema/batch" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:sec="http://www.springframework.org/schema/security"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	                    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		                http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
-		                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+		                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		                http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.4.xsd">
 	<context:property-placeholder location="classpath:application.properties"/>
     
     <context:component-scan base-package="org.emonocot.service.impl"/>
@@ -37,6 +39,18 @@
       <property name="maxIdle" value="7"/>
       <property name="validationQuery" value="SELECT 1"/>
     </bean>
+    
+     <sec:authentication-manager>
+      <sec:authentication-provider>
+        <sec:user-service>
+          <sec:user name="admin" password="${batch.admin.password}" authorities="ROLE_ADMIN" />
+        </sec:user-service>
+      </sec:authentication-provider>
+    </sec:authentication-manager>
+    
+    <sec:http auto-config='true'>
+       <sec:intercept-url pattern="/**" access="ROLE_ADMIN" />
+    </sec:http>
     
     <import resource="classpath*:/META-INF/spring/batch/bootstrap/manager/execution-context.xml" />
 

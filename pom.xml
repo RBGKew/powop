@@ -25,6 +25,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>3.0.5.RELEASE</spring.version>
 		<hibernate.version>3.6.2.Final</hibernate.version>
+		<spring.security.version>3.0.4.RELEASE</spring.security.version>
 		<spring.batch.version>2.1.6.RELEASE</spring.batch.version>
 		<spring.batch.admin.version>1.2.0.RELEASE</spring.batch.admin.version>
 		<spring.integration.version>2.0.3.RELEASE</spring.integration.version>
@@ -124,6 +125,21 @@
 				<groupId>org.springframework</groupId>
 				<artifactId>org.springframework.jdbc</artifactId>
 				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>org.springframework.security.core</artifactId>
+				<version>${spring.security.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>org.springframework.security.config</artifactId>
+				<version>${spring.security.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>org.springframework.security.web</artifactId>
+				<version>${spring.security.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.batch</groupId>

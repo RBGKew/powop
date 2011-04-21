@@ -24,8 +24,8 @@
 			<artifactId>com.springsource.com.thoughtworks.xstream</artifactId>
 		</dependency>
 		<dependency>
-				<groupId>org.codehaus.woodstox</groupId>
-				<artifactId>wstx-asl</artifactId>
+			<groupId>org.codehaus.woodstox</groupId>
+			<artifactId>wstx-asl</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.batch</groupId>
@@ -82,6 +82,18 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>org.springframework.jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>org.springframework.security.core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>org.springframework.security.config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>org.springframework.security.web</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
