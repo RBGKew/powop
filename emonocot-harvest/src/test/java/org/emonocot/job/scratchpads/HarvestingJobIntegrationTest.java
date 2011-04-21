@@ -3,10 +3,10 @@ package org.emonocot.job.scratchpads;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.batch.core.Job;
@@ -30,11 +30,11 @@ public class HarvestingJobIntegrationTest {
 	JobLauncher jobLauncher;
 	
 	@Test
-	public void testInit() throws Exception {
+	public void testNotModifiedResponse() throws Exception {
 		Map<String,JobParameter> parameters = new HashMap<String,JobParameter>();
 		parameters.put("authority.name", new JobParameter("http://scratchpad.cate-araceae.org"));
 		parameters.put("authority.uri", new JobParameter("http://129.67.24.160/test/test.xml"));
-		parameters.put("authority.last.harvested", new JobParameter(new Date()));
+		parameters.put("authority.last.harvested", new JobParameter(new DateTime(2010, 11, 1, 9, 0, 0, 0).toDate()));
 		parameters.put("temporary.file.name", new JobParameter(File.createTempFile("test", ".xml").getAbsolutePath()));
 		JobParameters jobParameters = new JobParameters(parameters);
 		
@@ -43,5 +43,4 @@ public class HarvestingJobIntegrationTest {
 		assertNotNull("SpeciesPageHarvestingJob must not be null",speciesPageHarvestingJob);
 		jobLauncher.run(speciesPageHarvestingJob, jobParameters);
 	}
-
 }

@@ -57,8 +57,7 @@
 	<bean id="eolTransferSchemaQNameMap"
 		  class="org.emonocot.job.scratchpads.EoLTransferSchemaQNameMapFactory" />
 
-	<bean id="itemProcessor"
-		class="org.springframework.batch.item.support.CompositeItemProcessor">
+	<bean id="itemProcessor" class="org.springframework.batch.item.support.CompositeItemProcessor" scope="step">
 		<property name="delegates">
 			<list>
 				<ref bean="taxonItemValidator"/>
@@ -67,8 +66,7 @@
 		</property>
 	</bean>
 	
-	<bean id="taxonItemValidator" class="org.emonocot.job.scratchpads.EoLTaxonItemValidator"
-		scope="step">
+	<bean id="taxonItemValidator" class="org.emonocot.job.scratchpads.EoLTaxonItemValidator" scope="step">
 		<property name="authority" value="#{jobParameters['authority.name']}" />
 	</bean>
 	
