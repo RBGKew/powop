@@ -18,127 +18,190 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.dao.DataRetrievalFailureException;
 
+/**
+ *
+ * @author ben
+ *
+ */
 public class EoLTaxonItemConverter implements Converter<EoLTaxonItem, Taxon> {
-	private static Logger logger = LoggerFactory.getLogger(EoLTaxonItemConverter.class);
+    /**
+     *
+     */
+    private static Logger logger = LoggerFactory
+            .getLogger(EoLTaxonItemConverter.class);
 
-	private TaxonService taxonService;
-	
-	private Converter<EoLDataObject,TextContent> textDataConverter;
-	
-	private Converter<EoLDataObject,Image> imageConverter;
-	
-	private Converter<EoLReference,Reference> referenceConverter;
+    /**
+     *
+     */
+    private TaxonService taxonService;
 
-	@Autowired
-	public void setTextDataConverter(Converter<EoLDataObject, TextContent> textDataConverter) {
-		this.textDataConverter = textDataConverter;
-	}
+    /**
+     *
+     */
+    private Converter<EoLDataObject, TextContent> textDataConverter;
 
-	@Autowired
-	public void setImageConverter(Converter<EoLDataObject, Image> imageConverter) {
-		this.imageConverter = imageConverter;
-	}
+    /**
+     *
+     */
+    private Converter<EoLDataObject, Image> imageConverter;
 
-	@Autowired
-	public void setReferenceConverter(Converter<EoLReference, Reference> referenceConverter) {
-		this.referenceConverter = referenceConverter;
-	}
+    /**
+     *
+     */
+    private Converter<EoLReference, Reference> referenceConverter;
 
-	@Autowired
-	public void setTaxonService(TaxonService taxonService) {
-		this.taxonService = taxonService;
-	}
+    /**
+     *
+     * @param textDataConverter Set the text data converter to use.
+     */
+    @Autowired
+    public final void setTextDataConverter(
+            final Converter<EoLDataObject, TextContent> textDataConverter) {
+        this.textDataConverter = textDataConverter;
+    }
 
-	public Taxon convert(EoLTaxonItem input) {
+    /**
+     *
+     * @param imageConverter Set the image converter to use.
+     */
+    @Autowired
+    public final void setImageConverter(
+            final Converter<EoLDataObject, Image> imageConverter) {
+        this.imageConverter = imageConverter;
+    }
 
-		Taxon taxon = null;
-		try {
-			taxon = taxonService.load(input.getIdentifer());
-		} catch (DataRetrievalFailureException drfe) {
-			logger.info("Could not retrieve taxon with identifier "
-					+ input.getIdentifer());
-			taxon = new Taxon();
-		}
+    /**
+     *
+     * @param referenceConverter Set the reference converter to use.
+     */
+    @Autowired
+    public final void setReferenceConverter(
+            final Converter<EoLReference, Reference> referenceConverter) {
+        this.referenceConverter = referenceConverter;
+    }
 
-		for (EoLDataObject dataObject : input.getDataObjects()) {
-			if (dataObject.getDataType().equals("http://purl.org/dc/dcmitype/StillImage")) {
-				handleImage(dataObject, taxon);
-			} else if (dataObject.getDataType().equals("http://purl.org/dc/dcmitype/Text")) {
-				handleText(dataObject, taxon);
-			}
-		}
+    /**
+     *
+     * @param newTaxonService Set the taxon service to use.
+     */
+    @Autowired
+    public final void setTaxonService(final TaxonService newTaxonService) {
+        this.taxonService = newTaxonService;
+    }
 
-		for (EoLReference reference : input.getReferences()) {
-			handleReference(reference, taxon);
-		}
+    /**
+     * @param input The eol taxon item to convert.
+     * @return A Taxon item.
+     */
+    public final Taxon convert(final EoLTaxonItem input) {
 
-		// Now deal with the deletes i.e. data which is in the
-		// target which is not in the source
+        Taxon taxon = null;
+        try {
+            taxon = taxonService.load(input.getIdentifer());
+        } catch (DataRetrievalFailureException drfe) {
+            logger.info("Could not retrieve taxon with identifier "
+                    + input.getIdentifer());
+            taxon = new Taxon();
+        }
 
-		// To avoid the ConcurrentModificationException
-		List<Image> images = new ArrayList<Image>();
-		Collections.copy(taxon.getImages(), images);
+        for (EoLDataObject dataObject : input.getDataObjects()) {
+            if (dataObject.getDataType().equals(
+                    "http://purl.org/dc/dcmitype/StillImage")) {
+                handleImage(dataObject, taxon);
+            } else if (dataObject.getDataType().equals(
+                    "http://purl.org/dc/dcmitype/Text")) {
+                handleText(dataObject, taxon);
+            }
+        }
 
-		for (Image image : images) {
-			// Assume we have a convenience method to determine if the input
-			// object contains an image using it's URL
-			if (!input.containsImage(image.getURL())) {
-				taxon.getImages().remove(image);
-			}
-		}
+        for (EoLReference reference : input.getReferences()) {
+            handleReference(reference, taxon);
+        }
 
-		// and do the same for references and for text elements, noting that the
-		// semantics are slightly different - removing a reference does not
-		// delete it as
-		// the taxon-reference relationship is many-to-many wheras the
-		// taxon-contentelement is
-		// one-to-many thus removing a content element from its parent
-		// collection has the
-		// effect of deleting it from the database (and should be mapped using
-		// orphanRemoval = true)
+        // Now deal with the deletes i.e. data which is in the
+        // target which is not in the source
 
-		return taxon;
-	}
+        // To avoid the ConcurrentModificationException
+        List<Image> images = new ArrayList<Image>();
+        Collections.copy(taxon.getImages(), images);
 
-	private void handleText(EoLDataObject dataObject, Taxon taxon) {
-		// We need to know which taxon the dataObject refers in order to look it
-		// up properly
-		dataObject.setTaxon(taxon);
+        for (Image image : images) {
+            // Assume we have a convenience method to determine if the input
+            // object contains an image using it's URL
+            if (!input.containsImage(image.getURL())) {
+                taxon.getImages().remove(image);
+            }
+        }
 
-		TextContent text = textDataConverter.convert(dataObject);
-		taxon.getContent().put(text.getFeature(), text);
-	}
+        // and do the same for references and for text elements, noting that the
+        // semantics are slightly different - removing a reference does not
+        // delete it as
+        // the taxon-reference relationship is many-to-many wheras the
+        // taxon-contentelement is
+        // one-to-many thus removing a content element from its parent
+        // collection has the
+        // effect of deleting it from the database (and should be mapped using
+        // orphanRemoval = true)
 
-	private void handleReference(EoLReference eolReference, Taxon taxon) {
-		/**
-		 * see the comment below about the conversion service
-		 */
-		Reference reference = referenceConverter.convert(eolReference);
-		if (taxon.getReferences().contains(reference)) {
-			taxon.getReferences().remove(reference);
-			taxon.getReferences().add(reference);
-		} else {
-			taxon.getReferences().add(reference);
-		}
-	}
+        return taxon;
+    }
 
-	private void handleImage(EoLDataObject dataObject, Taxon taxon) {
-		/**
-		 * conversion service internally calls the persistance layer and either
-		 * returns a new, unpersisted Image instance if that image is unknown to
-		 * eMonocot i.e. if the image has not ever been known to eMonocot, or if
-		 * the image is persisted within eMonocot, the persisted version,
-		 * possibly updated to include recent changes in the DTO if the object
-		 * has been changed.
-		 */
-		Image image = imageConverter.convert(dataObject);
-		if (taxon.getImages().contains(image)) {
-			int index = taxon.getImages().indexOf(image);
-			taxon.getImages().remove(index);
-			taxon.getImages().add(index, image);
-		} else {
-			taxon.getImages().add(image);
-		}
-	}
+    /**
+     *
+     * @param dataObject The text object to convert into text content.
+     * @param taxon The taxon this text content is about.
+     */
+    private void handleText(final EoLDataObject dataObject, final Taxon taxon) {
+        // We need to know which taxon the dataObject refers in order to look it
+        // up properly
+        dataObject.setTaxon(taxon);
+
+        TextContent text = textDataConverter.convert(dataObject);
+        taxon.getContent().put(text.getFeature(), text);
+    }
+
+    /**
+     *
+     * @param eolReference The eol reference to convert into a reference.
+     * @param taxon The taxon this reference is about.
+     */
+    private void handleReference(final EoLReference eolReference,
+            final Taxon taxon) {
+        /**
+         * see the comment below about the conversion service
+         */
+        Reference reference = referenceConverter.convert(eolReference);
+        if (taxon.getReferences().contains(reference)) {
+            taxon.getReferences().remove(reference);
+            taxon.getReferences().add(reference);
+        } else {
+            taxon.getReferences().add(reference);
+        }
+    }
+
+    /**
+     *
+     * @param dataObject The eol data object to convert into an Image
+     * @param taxon The taxon this image is about.
+     */
+    private void handleImage(final EoLDataObject dataObject,
+            final Taxon taxon) {
+        /**
+         * conversion service internally calls the persistance layer and either
+         * returns a new, unpersisted Image instance if that image is unknown to
+         * eMonocot i.e. if the image has not ever been known to eMonocot, or if
+         * the image is persisted within eMonocot, the persisted version,
+         * possibly updated to include recent changes in the DTO if the object
+         * has been changed.
+         */
+        Image image = imageConverter.convert(dataObject);
+        if (taxon.getImages().contains(image)) {
+            int index = taxon.getImages().indexOf(image);
+            taxon.getImages().remove(index);
+            taxon.getImages().add(index, image);
+        } else {
+            taxon.getImages().add(image);
+        }
+    }
 
 }

@@ -4,11 +4,20 @@ import org.emonocot.job.scratchpads.model.EoLReference;
 import org.emonocot.model.reference.Reference;
 import org.springframework.core.convert.converter.Converter;
 
-public class EoLReferenceConverter implements Converter<EoLReference, Reference> {
+/**
+ *
+ * @author ben
+ *
+ */
+public class EoLReferenceConverter implements
+        Converter<EoLReference, Reference> {
 
-	public Reference convert(EoLReference eolReference) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+    /**
+     * @param eolReference An eol reference object to convert
+     * @return A Reference object
+     */
+    public final Reference convert(final EoLReference eolReference) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

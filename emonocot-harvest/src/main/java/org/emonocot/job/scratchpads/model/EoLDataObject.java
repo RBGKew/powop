@@ -5,106 +5,204 @@ import org.emonocot.model.taxon.Taxon;
 
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 
+/**
+ *
+ * @author ben
+ *
+ */
 public class EoLDataObject {
-	// maps to the dataType element
-	private String dataType;
-	
-	// maps to the agent element
-	@XStreamConverter(EoLAgentConverter.class)
-	private EoLAgent agent;
-	
-    // maps to the dcterms:created element
-	private String created;
-	
-	// maps to the dcterms:modified element
-	private String modified;
-	
-	// maps to the dc:title element
-	private String title;
-	
-	// maps to the license element
-	private String license;
-	
-	// maps to the dc:source element
-	private String source;
-	
-	// maps to the subject element
-	private String subject;
-	
-	// maps to the dc:description element
-	private String description;
-	
-	private Taxon taxon;
-	
-	public EoLAgent getAgent() {
-		return agent;
-	}
+    /**
+     * Maps to the dataType element.
+     */
+    private String dataType;
 
-	public String getCreated() {
-		return created;
-	}
+    /**
+     * Maps to the agent element.
+     */
+    @XStreamConverter(EoLAgentConverter.class)
+    private EoLAgent agent;
 
-	public String getModified() {
-		return modified;
-	}
+    /**
+     * Maps to the dcterms:created element.
+     */
+    private String created;
 
-	public String getTitle() {
-		return title;
-	}
+    /**
+     * Maps to the dcterms:modified element.
+     */
+    private String modified;
 
-	public String getLicense() {
-		return license;
-	}
+    /**
+     * Maps to the dc:title element.
+     */
+    private String title;
 
-	public String getSource() {
-		return source;
-	}
+    /**
+     * Maps to the license element.
+     */
+    private String license;
 
-	public String getSubject() {
-		return subject;
-	}
+    /**
+     * Maps to the dc:source element.
+     */
+    private String source;
 
-	public String getDescription() {
-		return description;
-	}
+    /**
+     * Maps to the subject element.
+     */
+    private String subject;
 
-	public String getDataType() {
-		return dataType;
-	}
-	
-	public void setTaxon(Taxon taxon) {
-		this.taxon = taxon;
-	}
+    /**
+     * Maps to the dc:description element.
+     */
+    private String description;
 
-	public Taxon getTaxon() {
-		return taxon;
-	}
+    /**
+     *
+     */
+    private Taxon taxon;
 
-	public void setCreated(String created) {
-		this.created = created;
-	}
+    /**
+     *
+     * @return The agent associated with this resource.
+     */
+    public final EoLAgent getAgent() {
+        return agent;
+    }
 
-	public void setModified(String modified) {
-		this.modified = modified;		
-	}
+    /**
+     *
+     * @return The time this resource was created.
+     */
+    public final String getCreated() {
+        return created;
+    }
 
-	public void setLicense(String license) {
-		this.license = license;		
-	}
+    /**
+     *
+     * @return The time this resource was last modified.
+     */
+    public final String getModified() {
+        return modified;
+    }
 
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
+    /**
+     *
+     * @return The title of this resource.
+     */
+    public final String getTitle() {
+        return title;
+    }
 
-	public void setSource(String source) {
-		this.source = source;		
-	}
+    /**
+     *
+     * @return The license of this resource.
+     */
+    public final String getLicense() {
+        return license;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;		
-	}
+    /**
+     *
+     * @return The source of this resource.
+     */
+    public final String getSource() {
+        return source;
+    }
 
-	public void setAgent(EoLAgent agent) {
-		this.agent = agent;
-	}
+    /**
+     *
+     * @return The subject of this resource.
+     */
+    public final String getSubject() {
+        return subject;
+    }
+
+    /**
+     *
+     * @return The description of this resource.
+     */
+    public final String getDescription() {
+        return description;
+    }
+
+    /**
+     *
+     * @return The data type of this resource.
+     */
+    public final String getDataType() {
+        return dataType;
+    }
+
+    /**
+     *
+     * @param newTaxon Set the taxon this data object is about.
+     */
+    public final void setTaxon(final Taxon newTaxon) {
+        this.taxon = newTaxon;
+    }
+
+    /**
+     *
+     * @return The taxon this data object is about.
+     */
+    public final Taxon getTaxon() {
+        return taxon;
+    }
+
+    /**
+     *
+     * @param newCreated Set the time this object was created.
+     */
+    public final void setCreated(final String newCreated) {
+        this.created = newCreated;
+    }
+
+    /**
+     *
+     * @param newModified Set the time this object was last modified.
+     */
+    public final void setModified(final String newModified) {
+        this.modified = newModified;
+    }
+
+    /**
+     *
+     * @param newLicense Set the license of this data object.
+     */
+    public final void setLicense(final String newLicense) {
+        this.license = newLicense;
+    }
+
+    /**
+     *
+     * @param newSubject Set the subject of this data object.
+     */
+    public final void setSubject(final String newSubject) {
+        this.subject = newSubject;
+    }
+
+    /**
+     *
+     * @param newSource Set the source of this data object.
+     */
+    public final void setSource(final String newSource) {
+        this.source = newSource;
+    }
+
+    /**
+     *
+     * @param newDescription Set the description of this data object.
+     */
+    public final void setDescription(final String newDescription) {
+        this.description = newDescription;
+    }
+
+    /**
+     *
+     * @param newAgent Set the agent associated with this data object.
+     */
+    public final void setAgent(final EoLAgent newAgent) {
+        this.agent = newAgent;
+    }
 }

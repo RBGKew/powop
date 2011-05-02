@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+
+    <context:annotation-config />
+
+	<batch:job id="OaiPmhTaxonHarvesting">
+		<batch:step id="listRecords">
+			<batch:tasklet ref="oaiPmhListRecordsTasklet" />
+			<batch:end on="NO RECORDS MATCH" exit-code="NOT MODIFIED"/>
+			<batch:next on="COMPLETED" to="processRecords" />
+		</batch:step>
+		<batch:step id="processRecords">
+			<batch:tasklet>
+				<batch:chunk reader="itemReader" processor="itemProcessor" writer="itemWriter" commit-interval="10"/>
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="resumeHarvesting" />
+		</batch:step>
+		<batch:step id="resumeHarvesting">
+			<batch:tasklet ref="oaiPmhResumptionTokenTasklet" />
+			<batch:end on="NO RESUMPTION TOKEN" exit-code="COMPLETED"/>
+			<batch:next on="RESUMPTION TOKEN PRESENT" to="listRecords" />
+		</batch:step>
+	</batch:job>
+	
+    <bean id="oaiPmhResumptionTokenTasklet"
+	      class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+	      scope="step">
+	  <property name="targetObject" ref="oaiPmhClient" />
+	  <property name="targetMethod" value="resumptionTokenPresent" />
+	  <property name="arguments">
+		<list>
+			<value>#{jobExecutionContext['resumption.token']}</value>
+		</list>
+	  </property>
+    </bean>
+    
+    <bean id="oaiPmhListRecordsTasklet"
+	      class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+	      scope="step">
+	  <property name="targetObject" ref="oaiPmhClient" />
+	  <property name="targetMethod" value="listRecords" />
+	  <property name="arguments">
+		<list>
+			<value>#{jobParameters['authority.name']}</value>
+			<value>#{jobParameters['authority.uri']}</value>
+			<value>#{jobParameters['authority.last.harvested']}</value>
+			<value>#{jobParameters['temporary.file.name']}</value>
+			<value>#{jobExecutionContext['resumption.token']}</value>
+		</list>
+	  </property>
+    </bean>
+    
+    <bean id="oaiPmhClient" class="org.emonocot.ws.checklist.OaiPmhClient" />
+
+	<bean id="itemReader" class="org.springframework.batch.item.xml.StaxEventItemReader"
+		  scope="step">
+		<property name="fragmentRootElementName" value="record" />
+		<property name="resource">
+		  <bean class="org.springframework.core.io.FileSystemResource" scope="step">
+		   <constructor-arg value="#{jobParameters['temporary.file.name']}"/>
+		  </bean>
+		</property>
+		<property name="unmarshaller" ref="oaiPmhResponseUnmarshaller" />
+	</bean>
+	
+	<bean id="oaiPmhResponseUnmarshaller" class="org.springframework.oxm.xstream.AnnotationXStreamMarshaller">
+	  <property name="streamDriver" ref="oaiPmhResponseStreamDriver" />
+	  <property name="annotatedClass" value="org.emonocot.job.checklist.model.OaiPmhRecord"/>
+    </bean>
+
+	<bean id="oaiPmhResponseStreamDriver" class="com.thoughtworks.xstream.io.xml.StaxDriver">
+		<constructor-arg ref="oaiPmhResponseQNameMap" />
+	</bean>
+
+	<bean id="oaiPmhResponseQNameMap"
+		  class="org.emonocot.job.checklist.OaiPmhResponseQNameMapFactory" />
+
+	<bean id="itemProcessor" class="org.springframework.batch.item.support.CompositeItemProcessor" scope="step">
+		<property name="delegates">
+			<list>
+				<ref bean="taxonItemValidator"/>
+				<bean class="org.emonocot.job.checklist.OaiPmhRecordProcessor"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="taxonItemValidator" class="org.emonocot.job.checklist.OaiPmhRecordValidator" scope="step">
+		<property name="authority" value="#{jobParameters['authority.name']}" />
+	</bean>
+	
+	<bean id="itemWriter" class="org.emonocot.job.checklist.OaiPmhRecordItemWriter">
+	  <property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+    
+    <bean name="taxonItemConverter" class="org.emonocot.job.checklist.convert.OaiPmhRecordConverter"/>
+
+</beans>

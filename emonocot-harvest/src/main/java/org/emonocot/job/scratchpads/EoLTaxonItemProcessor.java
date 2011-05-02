@@ -7,16 +7,34 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 
-public class EoLTaxonItemProcessor implements ItemProcessor<EoLTaxonItem,Taxon>{	
-	
-	private Converter<EoLTaxonItem, Taxon> taxonItemConverter;	
-	
-	@Autowired
-	public void setTaxonItemConverter(Converter<EoLTaxonItem, Taxon> taxonItemConverter) {
-		this.taxonItemConverter = taxonItemConverter;
-	}
+/**
+ *
+ * @author ben
+ *
+ */
+public class EoLTaxonItemProcessor implements
+        ItemProcessor<EoLTaxonItem, Taxon> {
 
-	public Taxon process(EoLTaxonItem input) throws Exception {
-		return taxonItemConverter.convert(input);
-	}
+    /**
+     *
+     */
+    private Converter<EoLTaxonItem, Taxon> taxonItemConverter;
+
+    /**
+     *
+     * @param taxonItemConverter Set the taxon item converter to use.
+     */
+    @Autowired
+    public final void setTaxonItemConverter(
+            final Converter<EoLTaxonItem, Taxon> taxonItemConverter) {
+        this.taxonItemConverter = taxonItemConverter;
+    }
+
+    /**
+     * @param input The eol taxon item to process
+     * @return A Taxon object
+     */
+    public final Taxon process(final EoLTaxonItem input) {
+        return taxonItemConverter.convert(input);
+    }
 }

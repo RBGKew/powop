@@ -8,27 +8,35 @@ import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
+/**
+ *
+ * @author ben
+ *
+ */
 public class EoLAgentConverter implements Converter {
 
-	@Override
-    public boolean canConvert(final Class clazz) {
+    @Override
+    public final boolean canConvert(final Class clazz) {
         return clazz.equals(EoLAgent.class);
     }
 
     @Override
-    public void marshal(Object value, HierarchicalStreamWriter writer, MarshallingContext context) {
+    public final void marshal(final Object value,
+            final HierarchicalStreamWriter writer,
+            final MarshallingContext context) {
         EoLAgent agent = (EoLAgent) value;
         writer.addAttribute("role", agent.getRole());
         writer.setValue(agent.getURI());
     }
 
-	@Override
-	public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
-		EoLAgent agent = new EoLAgent();
-		// Attributes must be got first
-		agent.setRole(reader.getAttribute("role"));
-		agent.setURI(reader.getValue());
-		return agent;
-	}
+    @Override
+    public final Object unmarshal(final HierarchicalStreamReader reader,
+            final UnmarshallingContext context) {
+        EoLAgent agent = new EoLAgent();
+        // Attributes must be got first
+        agent.setRole(reader.getAttribute("role"));
+        agent.setURI(reader.getValue());
+        return agent;
+    }
 }
 

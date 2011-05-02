@@ -1,4 +1,4 @@
-package org.emonocot.job.scratchpads;
+package org.emonocot.job.checklist;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.emonocot.job.scratchpads.HarvestingJobIntegrationTest;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.junit.Test;
@@ -31,9 +32,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({ "/META-INF/spring/batch/jobs/eolTransferSchema.xml",
+@ContextConfiguration({
+        "/META-INF/spring/batch/jobs/oaiPmhTaxonHarvesting.xml",
         "/applicationContext-test.xml" })
-public class HarvestingJobIntegrationTest {
+public class ChecklistHarvestingJobIntegrationTest {
 
     /**
      *
@@ -79,19 +81,19 @@ public class HarvestingJobIntegrationTest {
                 "http://scratchpad.cate-araceae.org"));
         parameters.put("authority.uri", new JobParameter(
                 "http://129.67.24.160/test/test.xml"));
-        parameters.put(
-                "authority.last.harvested",
-                new JobParameter(Long
-                        .toString((HarvestingJobIntegrationTest.PAST_DATETIME
-                                .getMillis()))));
+        parameters
+                .put("authority.last.harvested",
+                     new JobParameter(Long.toString((
+                     ChecklistHarvestingJobIntegrationTest.PAST_DATETIME
+                                        .getMillis()))));
         parameters.put("temporary.file.name", new JobParameter(File
                 .createTempFile("test", ".xml").getAbsolutePath()));
         JobParameters jobParameters = new JobParameters(parameters);
 
-        Job speciesPageHarvestingJob = jobLocator
-                .getJob("SpeciesPageHarvestingJob");
-        assertNotNull("SpeciesPageHarvestingJob must not be null",
-                speciesPageHarvestingJob);
-        jobLauncher.run(speciesPageHarvestingJob, jobParameters);
+        Job oaiPmhTaxonHarvestingJob = jobLocator
+                .getJob("OaiPmhTaxonHarvesting");
+        assertNotNull("OaiPmhTaxonHarvestingJob must not be null",
+                oaiPmhTaxonHarvestingJob);
+        jobLauncher.run(oaiPmhTaxonHarvestingJob, jobParameters);
     }
 }
