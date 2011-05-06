@@ -84,7 +84,6 @@ public class EoLTaxonItemConverter implements Converter<EoLTaxonItem, Taxon> {
      *
      * @param newTaxonService Set the taxon service to use.
      */
-    @Autowired
     public final void setTaxonService(final TaxonService taxonService) {
         this.taxonService = taxonService;
     }

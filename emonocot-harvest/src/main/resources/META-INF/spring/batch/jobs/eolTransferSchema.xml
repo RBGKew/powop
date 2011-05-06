@@ -79,7 +79,9 @@
 	  <property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
     
-    <bean name="taxonItemConverter" class="org.emonocot.job.scratchpads.convert.EoLTaxonItemConverter"/>
+    <bean name="taxonItemConverter" class="org.emonocot.job.scratchpads.convert.EoLTaxonItemConverter">
+      <property name="taxonService" ref="taxonServiceImpl"/>
+    </bean>
     <bean name="imageConverter" class="org.emonocot.job.scratchpads.convert.EoLStillImageDataObjectConverter"/>
     <bean name="textDataConverter" class="org.emonocot.job.scratchpads.convert.EoLTextDataObjectConverter"/>
     <bean name="referenceConverter" class="org.emonocot.job.scratchpads.convert.EoLReferenceConverter"/>
