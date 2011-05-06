@@ -6,7 +6,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <context:property-placeholder location="classpath:application.properties"/>
-    
+    <import resource="classpath*:/META-INF/spring/batch/bootstrap/manager/execution-context.xml" />
     <import resource="classpath*:/META-INF/spring/batch/servlet/manager/controller-context.xml"/>
     <import resource="classpath*:/META-INF/spring/batch/servlet/manager/integration-context.xml"/>
     <import resource="classpath*:/META-INF/spring/batch/servlet/manager/manager-context.xml"/>

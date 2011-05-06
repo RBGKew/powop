@@ -51,7 +51,4 @@
     <sec:http auto-config='true'>
        <sec:intercept-url pattern="/**" access="ROLE_ADMIN" />
     </sec:http>
-    
-    <import resource="classpath*:/META-INF/spring/batch/bootstrap/manager/execution-context.xml" />
-
 </beans>
