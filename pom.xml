@@ -837,6 +837,16 @@
 									<includes>
 										<include>**/*FunctionalTest.java</include>
 									</includes>
+									<systemProperties>
+                                      <property>
+                                        <name>selenium.browser.profile</name>
+                                        <value>${selenium.browser.profile}</value>
+                                      </property>
+                                      <property>
+                                        <name>selenium.target.portal</name>
+                                        <value>${selenium.target.portal}</value>
+                                      </property>
+                                    </systemProperties>
 								</configuration>
 							</execution>
 						</executions>
