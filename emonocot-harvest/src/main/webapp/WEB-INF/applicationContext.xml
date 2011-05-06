@@ -11,8 +11,9 @@
 		                http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 		                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 		                http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.4.xsd">
+		                
 	<context:property-placeholder location="classpath:application.properties"/>
-    
+    <context:annotation-config/>
     <context:component-scan base-package="org.emonocot.service.impl"/>
     
     <tx:annotation-driven/>
