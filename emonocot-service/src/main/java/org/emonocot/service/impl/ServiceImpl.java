@@ -1,6 +1,7 @@
 package org.emonocot.service.impl;
 
 import org.emonocot.model.common.Base;
+import org.emonocot.service.Service;
 
 /**
  *
@@ -8,15 +9,9 @@ import org.emonocot.model.common.Base;
  *
  * @param <T>
  */
-public class ServiceImpl<T extends Base> {
+public class ServiceImpl<T extends Base> implements Service<T> {
 
-    /**
-     *
-     * @param identifer
-     *            The identifier of the object
-     * @return the object, or throw a HibernateObjectNotFoundException if the
-     *         object is not found.
-     */
+    @Override
     public final T load(final String identifer) {
         // TODO Auto-generated method stub
         return null;

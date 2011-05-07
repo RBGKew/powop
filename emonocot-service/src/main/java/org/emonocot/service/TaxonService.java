@@ -8,7 +8,7 @@ import org.emonocot.model.taxon.Taxon;
  * @author ben
  *
  */
-public interface TaxonService {
+public interface TaxonService extends Service<Taxon> {
 
     /**
      * Verify that there is a taxon with the provided
@@ -19,13 +19,4 @@ public interface TaxonService {
      * @return True, if a matching taxon exists, or false if not.
      */
     boolean verify(String identifer, String scientificName);
-
-    /**
-    *
-    * @param identifer
-    *            The identifier of the object
-    * @return the taxon, or throw a HibernateObjectNotFoundException if the
-    *         object is not found.
-    */
-   Taxon load(String identifer);
 }
