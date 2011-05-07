@@ -1,5 +1,6 @@
 package org.emonocot.service.impl;
 
+import org.emonocot.model.description.Content;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.taxon.Taxon;
@@ -12,7 +13,8 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
-public class DescriptionServiceImpl implements DescriptionService {
+public class DescriptionServiceImpl extends ServiceImpl<Content> implements
+        DescriptionService {
 
     @Override
     public final TextContent getTextContent(final Feature feature,

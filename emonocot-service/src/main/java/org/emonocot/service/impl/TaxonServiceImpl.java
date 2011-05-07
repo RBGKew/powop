@@ -10,13 +10,8 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
-public class TaxonServiceImpl implements TaxonService {
-
-    @Override
-    public final Taxon load(final String identifer) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+public class TaxonServiceImpl extends ServiceImpl<Taxon> implements
+        TaxonService {
 
     @Override
     public final boolean verify(final String identifer,
