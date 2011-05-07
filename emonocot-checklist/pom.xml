@@ -127,6 +127,9 @@
 								<groupId>${project.groupId}</groupId>
 								<artifactId>${project.artifactId}</artifactId>
 								<type>war</type>
+								<properties>
+                                  <context>${cargo.checklist.context.path}</context>
+                                </properties>
 							</deployable>
 						</deployables>
 					</deployer>

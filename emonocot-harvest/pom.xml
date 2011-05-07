@@ -233,6 +233,9 @@
 								<groupId>${project.groupId}</groupId>
 								<artifactId>${project.artifactId}</artifactId>
 								<type>war</type>
+								<properties>
+                                  <context>${cargo.harvester.context.path}</context>
+                                </properties>
 							</deployable>
 						</deployables>
 					</deployer>
