@@ -43,7 +43,7 @@ public class Taxon extends Base {
      *
      * @return a map of content about the taxon, indexed by the subject
      */
-    public final Map<Feature,Content> getContent() {
+    public final Map<Feature, Content> getContent() {
         // TODO Auto-generated method stub
         return null;
     }

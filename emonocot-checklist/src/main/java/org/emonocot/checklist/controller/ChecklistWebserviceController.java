@@ -15,64 +15,87 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ *
+ * @author ben
+ *
+ */
 @Controller
 @RequestMapping("/endpoint") // TODO defined endpoint uri
 public class ChecklistWebserviceController {
-	
-	private TaxonDao taxonDao;
-	
-	@Autowired
-	public void setTaxonDao(TaxonDao taxonDao) {
-		this.taxonDao = taxonDao;
-	}
 
-	/**
-	 * Simple method that allows the client to determine whether the service is up and running
-	 * @return
-	 */
-	@RequestMapping(method = RequestMethod.GET, params = {"!function"})
-	public ModelAndView ping() {
-		return new ModelAndView("rdfResponse");
-	}
-	
-	/**
-	 * Method which searches for taxon objects who's names match the search term exactly
-	 * @param search
-	 * @return a list of taxon objects (stored under the key 'result')
-	 */
-	@RequestMapping(method = RequestMethod.GET, params = {"function=search","search"})
-    public ModelAndView search(@RequestParam("search") String search) {
-		ModelAndView modelAndView = new ModelAndView("rdfResponse");
-		List<Taxon> taxa = taxonDao.search(search);
-		modelAndView.addObject("result",taxa);
-		return modelAndView;
-	}
+    /**
+     *
+     */
+    private TaxonDao taxonDao;
 
-	/**
-	 * Method which returns a single taxon object with the specified identifier.
-	 * @param id
-	 * @return a taxon objects (stored under the key 'result')
-	 * @throws a DataRetrievalFailureException if no taxon has the specified identifier
-	 */
-	@RequestMapping(method = RequestMethod.GET, params = {"function=details_tcs","id"})
-    public ModelAndView get(@RequestParam("id") String id) {
-	    ModelAndView modelAndView = new ModelAndView("tcsXmlResponse");
-	    Taxon taxon = taxonDao.get(id);
-		modelAndView.addObject("result",taxon);
-		return modelAndView;
+    /**
+     *
+     * @param taxonDao Set the taxon dao to use.
+     */
+    @Autowired
+    public final void setTaxonDao(final TaxonDao taxonDao) {
+        this.taxonDao = taxonDao;
     }
-	
-	/**
-	 * TaxonDao will throw a (wrapped) UnresolvableObjectException if the client provides an invalid
-	 * identifier. This method returns a HTTP 400 BAD REQUEST status code and a short message
-	 * @param exception
-	 * @return
-	 */
-	@ExceptionHandler(DataRetrievalFailureException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ModelAndView handleInvalidTaxonIdentifier(DataRetrievalFailureException exception) {
-		ModelAndView modelAndView = new ModelAndView("exception");
-		modelAndView.addObject("exception",exception);
-		return modelAndView;
-	}
+
+    /**
+     * Simple method that allows the client to determine whether the service is
+     * up and running.
+     *
+     * @return An empty ModelAndView with the view name "rdfResponse".
+     */
+    @RequestMapping(method = RequestMethod.GET, params = {"!function"})
+    public final ModelAndView ping() {
+        return new ModelAndView("rdfResponse");
+    }
+
+    /**
+     * Method which searches for taxon objects who's names match the search term
+     * exactly.
+     *
+     * @param search A taxon name to search the database for.
+     * @return a list of taxon objects (stored under the key 'result')
+     */
+    @RequestMapping(method = RequestMethod.GET, params = { "function=search",
+            "search" })
+    public final ModelAndView search(
+            @RequestParam("search") final String search) {
+        ModelAndView modelAndView = new ModelAndView("rdfResponse");
+        List<Taxon> taxa = taxonDao.search(search);
+        modelAndView.addObject("result", taxa);
+        return modelAndView;
+    }
+
+    /**
+     * Method which returns a single taxon object with the specified identifier.
+     * @param id The identifier of the taxon to be retrieved.
+     * @return a taxon objects (stored under the key 'result')
+     */
+    @RequestMapping(method = RequestMethod.GET, params = {
+            "function=details_tcs", "id" })
+    public final ModelAndView get(@RequestParam("id") final String id) {
+        ModelAndView modelAndView = new ModelAndView("tcsXmlResponse");
+        Taxon taxon = taxonDao.get(id);
+        modelAndView.addObject("result", taxon);
+        return modelAndView;
+    }
+
+    /**
+     * TaxonDao will throw a (wrapped) UnresolvableObjectException if the client
+     * provides an invalid identifier. This method returns a HTTP 400 BAD
+     * REQUEST status code and a short message
+     *
+     * @param exception
+     *            The exception just thrown (because of an invalid id)
+     * @return A model and view with the name exception and the exception stored
+     *         in the model under the key 'exception'
+     */
+    @ExceptionHandler(DataRetrievalFailureException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public final ModelAndView handleInvalidTaxonIdentifier(
+            final DataRetrievalFailureException exception) {
+        ModelAndView modelAndView = new ModelAndView("exception");
+        modelAndView.addObject("exception", exception);
+        return modelAndView;
+    }
 }

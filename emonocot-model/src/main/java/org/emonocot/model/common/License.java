@@ -1,9 +1,9 @@
 package org.emonocot.model.common;
 
 /**
- * 
+ *
  * @author ben
- * 
+ *
  */
 public enum License {
     /**

@@ -4,9 +4,9 @@ import org.apache.commons.lang.ObjectUtils;
 import org.joda.time.DateTime;
 
 /**
- * 
+ *
  * @author ben
- * 
+ *
  */
 public class Base {
 
@@ -41,7 +41,7 @@ public class Base {
     private String source;
 
     /**
-     * 
+     *
      * @return Get the license of this object.
      */
     public final License getLicense() {
@@ -49,7 +49,7 @@ public class Base {
     }
 
     /**
-     * 
+     *
      * @return Get the time this object was created.
      */
     public final DateTime getCreated() {
@@ -57,7 +57,7 @@ public class Base {
     }
 
     /**
-     * 
+     *
      * @return Get the time this object was last modified.
      */
     public final DateTime getModified() {
@@ -65,7 +65,7 @@ public class Base {
     }
 
     /**
-     * 
+     *
      * @return Get the source of this object.
      */
     public final String getSource() {
@@ -73,7 +73,7 @@ public class Base {
     }
 
     /**
-     * 
+     *
      * @param newId
      *            Set the identifier of this object.
      */
@@ -82,7 +82,7 @@ public class Base {
     }
 
     /**
-     * 
+     *
      * @param newCreated
      *            Set the created time for this object.
      */
@@ -91,7 +91,7 @@ public class Base {
     }
 
     /**
-     * 
+     *
      * @param newModified
      *            Set the modified time for this object.
      */
@@ -100,7 +100,7 @@ public class Base {
     }
 
     /**
-     * 
+     *
      * @param newLicense
      *            Set the license for this object.
      */
@@ -109,7 +109,7 @@ public class Base {
     }
 
     /**
-     * 
+     *
      * @param newSource
      *            Set the source for this object.
      */
@@ -118,7 +118,7 @@ public class Base {
     }
 
     /**
-     * 
+     *
      * @return Get the identifier for this object.
      */
     public final Long getId() {
@@ -126,7 +126,7 @@ public class Base {
     }
 
     /**
-     * 
+     *
      * @param newCreator
      *            Set the creator of this object
      */
@@ -135,7 +135,7 @@ public class Base {
     }
 
     /**
-     * 
+     *
      * @return Get the creator of this object.
      */
     public final String getCreator() {
@@ -143,7 +143,7 @@ public class Base {
     }
 
     @Override
-    public boolean equals(Object other) {
+    public boolean equals(final Object other) {
         // check for self-comparison
         if (this == other) {
             return true;

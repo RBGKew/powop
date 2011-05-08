@@ -5,9 +5,9 @@ import org.emonocot.model.common.Base;
 import org.emonocot.model.taxon.Taxon;
 
 /**
- * 
+ *
  * @author ben
- * 
+ *
  */
 public class Content extends Base {
 
@@ -22,7 +22,7 @@ public class Content extends Base {
     private Feature feature;
 
     /**
-     * 
+     *
      * @param newTaxon
      *            Set the taxon that this content is about.
      */
@@ -31,7 +31,7 @@ public class Content extends Base {
     }
 
     /**
-     * 
+     *
      * @return Return the subject that this content is about.
      */
     public final Feature getFeature() {
@@ -39,7 +39,7 @@ public class Content extends Base {
     }
 
     /**
-     * 
+     *
      * @param newFeature
      *            Set the subject that this content is about.
      */
@@ -48,7 +48,7 @@ public class Content extends Base {
     }
 
     /**
-     * 
+     *
      * @return Get the taxon that this content is about.
      */
     public final Taxon getTaxon() {
