@@ -13,11 +13,11 @@
 		<url>http://e-monocot.org</url>
 	</organization>
 	<modules>
-		<module>emonocot-checklist</module>
 		<module>emonocot-site</module>
 		<module>emonocot-model</module>
 		<!-- emonocot-persistence? -->
 		<module>emonocot-service</module>
+		<module>emonocot-checklist</module>
 		<module>emonocot-harvest</module>
 		<module>emonocot-portal</module>
 	</modules>

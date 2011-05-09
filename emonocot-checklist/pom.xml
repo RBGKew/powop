@@ -13,6 +13,12 @@
 	<name>eMonocot Checklist</name>
 	<description>eMonocot Checklist Webservice</description>
 	<dependencies>
+	    <!-- Geography classes are shared -->
+	    <dependency>
+			<groupId>org.emonocot</groupId>
+			<artifactId>emonocot-model</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>org.springframework.web</artifactId>
@@ -83,6 +89,42 @@
 					</webResources>
 				</configuration>
 			</plugin>
+			<plugin>
+	          <groupId>org.codehaus.mojo</groupId>
+	          <artifactId>hibernate3-maven-plugin</artifactId>
+	          <version>2.1</version>
+	          <configuration>
+		        <components>
+			      <component>
+				    <name>hbm2ddl</name>
+				    <implementation>annotationconfiguration</implementation>
+			      </component>
+		        </components>
+		        <componentProperties>
+		          <export>false</export>
+			      <propertyfile>/src/test/resources/mysql/hibernate.properties</propertyfile>
+			      <outputfilename>001_schema.ddl</outputfilename>
+			      <configurationfile>/src/main/resources/hibernate.cfg.xml</configurationfile>
+		        </componentProperties>
+	          </configuration>
+	          <dependencies>
+		         <dependency>
+			      <groupId>org.hibernate</groupId>
+			      <artifactId>hibernate-core</artifactId>
+			      <version>${hibernate.version}</version>
+		        </dependency>
+		        <dependency>
+				  <groupId>org.slf4j</groupId>
+				  <artifactId>slf4j-api</artifactId>
+				  <version>1.6.1</version>
+			    </dependency>
+			    <dependency>
+				  <groupId>org.slf4j</groupId>
+				  <artifactId>slf4j-simple</artifactId>
+				  <version>1.6.1</version>
+			    </dependency>
+	          </dependencies>
+            </plugin>
 			<plugin>
 				<groupId>org.liquibase</groupId>
 				<artifactId>liquibase-plugin</artifactId>

@@ -1,10 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
-    <changeSet author="zool0748 (generated)" id="1303136889050-1">
-        <createTable tableName="Taxon">
-            <column name="id" type="bigint">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="TaxonPK"/>
+    <changeSet author="ben" id="2011-05-09-1">
+        <createTable tableName="Plant_Name">
+            <column name="Plant_name_id" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
             </column>
+            <column name="Full_epithet" type="varchar(255)"/>
+            <column name="Institute_id" type="varchar(255)"/>
+            <column name="Accepted_plant_name_id" type="bigint"/>
         </createTable>
+    </changeSet>
+    <changeSet author="ben" id="2011-05-09-2">
+        <createTable tableName="Plant_Locality">
+            <column name="Plant_locality_id" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="Area_code_L3" type="varchar(2)"/>
+            <column name="Region_code_L2" type="integer"/>
+            <column name="Plant_name_id" type="bigint"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="ben" id="2011-05-09-3">
+        <addForeignKeyConstraint constraintName="FK44FD0CF7BBAC6574" baseTableName="Plant_Locality" baseColumnNames="Plant_name_id"
+           referencedTableName="Plant_Name" referencedColumnNames="Plant_name_id"
+        />
+    </changeSet>
+    <changeSet author="ben" id="2011-05-09-4">
+        <createIndex tableName="Plant_Locality" indexName="Plant_Locality_Plant_name_id_IDX">
+          <column name="Plant_name_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2011-05-09-5">
+        <createIndex tableName="Plant_Name" indexName="Plant_Name_Accepted_plant_name_id_IDX">
+          <column name="Accepted_plant_name_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2011-05-09-6"> 
+        <addForeignKeyConstraint constraintName="FKC663741FC1A8E6DC" baseTableName="Plant_Name" baseColumnNames="Accepted_plant_name_id"
+           referencedTableName="Plant_Name" referencedColumnNames="Plant_name_id"
+        />
     </changeSet>
 </databaseChangeLog>
