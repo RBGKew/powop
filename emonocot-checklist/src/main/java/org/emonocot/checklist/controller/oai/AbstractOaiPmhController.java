@@ -163,6 +163,7 @@ public abstract class AbstractOaiPmhController {
      * @param newEarliestDatestamp Set the earliest datestamp in this repository
      */
     public final void setEarliestDatestamp(
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
             final DateTime newEarliestDatestamp) {
         this.earliestDatestamp = newEarliestDatestamp;
     }

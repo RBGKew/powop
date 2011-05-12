@@ -15,7 +15,7 @@
     
     <context:component-scan base-package="org.emonocot.checklist.controller"/>
 
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven conversion-service="conversionService"/>
     
     <bean name="resumptionTokenCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
         <property name="cacheName" value="org.emonocot.checklist.controller.oai.OaiPmhController.resumptionTokens"/>
