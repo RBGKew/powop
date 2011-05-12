@@ -19,8 +19,49 @@
 		<artifactId>com.springsource.org.joda.time</artifactId>
 	</dependency>
 	<dependency>
-		<groupId>org.apache.commons</groupId>
-		<artifactId>com.springsource.org.apache.commons.lang</artifactId>
+		<groupId>commons-lang</groupId>
+		<artifactId>commons-lang</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>org.springframework.core</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>org.springframework.beans</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>org.springframework.context</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>org.springframework.oxm</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>com.thoughtworks.xstream</groupId>
+		<artifactId>xstream</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>javax.xml.stream</groupId>
+		<artifactId>com.springsource.javax.xml.stream</artifactId>
+		<scope>test</scope>
+	</dependency>
+	<dependency>
+		<groupId>commons-logging</groupId>
+		<artifactId>commons-logging</artifactId>
+    </dependency>
+	<dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>xmlunit</groupId>
+	    <artifactId>xmlunit</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-api</artifactId>
 	</dependency>
   </dependencies>
 </project>

@@ -20,6 +20,13 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.emonocot</groupId>
+			<artifactId>emonocot-model</artifactId>
+			<version>${project.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>org.springframework.web</artifactId>
 		</dependency>
@@ -31,7 +38,11 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>org.springframework.orm</artifactId>
 		</dependency>
-		<dependency>
+	    <dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>org.springframework.oxm</artifactId>
+	    </dependency>
+	    <dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 		</dependency>
@@ -68,13 +79,50 @@
 			<artifactId>junit</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>xmlunit</groupId>
+			<artifactId>xmlunit</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>xalan</groupId>
 			<artifactId>xalan</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>xerces</groupId>
+			<artifactId>xercesImpl</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core</artifactId>
+		</dependency>
+		<dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+        </dependency>
+        <dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
 		</dependency>
 	</dependencies>
 	<build>
 		<finalName>emonocot-checklist</finalName>
+		<extensions>
+          <extension>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-ssh</artifactId>
+            <version>1.0-beta-7</version>
+          </extension>
+        </extensions> 
 		<plugins>
+		  <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>wagon-maven-plugin</artifactId>
+            <version>1.0-beta-3</version>
+            <configuration>
+              <fromDir>src/main/static</fromDir>
+              <includes>*</includes>
+              <url>${wagon.checklist.static.url}</url>
+            </configuration>
+          </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>

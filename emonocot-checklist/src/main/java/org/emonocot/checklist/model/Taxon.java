@@ -21,7 +21,7 @@ import org.hibernate.annotations.Where;
  */
 @Entity
 @Table(name = "Plant_Name")
-public class Taxon {
+public class Taxon implements IdentifiableEntity<String> {
 
     /**
      *
@@ -64,4 +64,15 @@ public class Taxon {
      */
     @Column(name = "Full_epithet")
     private String name;
+
+    @Override
+    public final String getIdentifier() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void setIdentifier(final String identifier) {
+        // TODO Auto-generated method stub
+    }
 }

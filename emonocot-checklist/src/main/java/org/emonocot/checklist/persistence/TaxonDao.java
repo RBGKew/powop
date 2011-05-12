@@ -9,7 +9,7 @@ import org.emonocot.checklist.model.Taxon;
  * @author ben
  *
  */
-public interface TaxonDao {
+public interface TaxonDao extends IdentifiableService<Taxon> {
 
     /**
      * Returns a list of taxa objects where the taxon name matches the search

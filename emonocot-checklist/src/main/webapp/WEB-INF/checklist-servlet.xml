@@ -11,13 +11,51 @@
 
     <context:property-placeholder location="classpath:application.properties"/>
     
+    <context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
+    
     <context:component-scan base-package="org.emonocot.checklist.controller"/>
 
     <mvc:annotation-driven/>
     
+    <bean name="resumptionTokenCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <property name="cacheName" value="org.emonocot.checklist.controller.oai.OaiPmhController.resumptionTokens"/>
+        <property name="cacheManager" ref="cacheManager"/>
+    </bean>
+    
     <bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+      <property name="order" value="2"/>
       <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
       <property name="prefix" value="/WEB-INF/jsp/"/>
       <property name="suffix" value=".jsp"/>
+    </bean>
+    
+    <bean id="xmlViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
+        <property name="order" value="1"/>
+        <property name="location" value="classpath:/applicationContext-view.xml"/>
+    </bean>
+    
+    <bean id="marshaller" class="org.openarchives.pmh.marshall.XStreamMarshaller">
+        <property name="autodetectAnnotations" value="true"/>
+        <property name="reflectionProvider" ref="reflectionProvider"/>
+        <property name="streamDriver" ref="oaiPmhStreamDriver"/>
+    </bean>
+    
+    <bean id="reflectionProvider" class="org.openarchives.pmh.marshall.ReflectionProviderFactory"/>
+    
+    <bean id="oaiPmhStreamDriver" class="org.openarchives.pmh.marshall.StaxDriver">
+		<constructor-arg ref="oaiPmhQNameMap" />
+		<property name="startDocument" value="false"/>
+	</bean>
+
+	<bean id="oaiPmhQNameMap"
+		  class="org.openarchives.pmh.marshall.OpenArchivesQNameMapFactory" />
+    
+    <bean id="mapper"  class="org.dozer.spring.DozerBeanMapperFactoryBean">
+        <property name="mappingFiles">
+            <list>
+                <!-- <value>classpath:/assembler/mapping.xml</value>
+                <value>classpath:/org/kew/grassbase/view/assembler/mapping.xml</value>-->
+            </list>
+        </property>
     </bean>
 </beans>

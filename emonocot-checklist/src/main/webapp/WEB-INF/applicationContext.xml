@@ -37,4 +37,9 @@
       <property name="username" value="${jdbc.driver.username}"/>
       <property name="password" value="${jdbc.driver.password}"/>
     </bean>
+    
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="configLocation" value="classpath:/ehcache.xml" />
+        <property name="shared" value="true"/>
+    </bean>
 </beans>

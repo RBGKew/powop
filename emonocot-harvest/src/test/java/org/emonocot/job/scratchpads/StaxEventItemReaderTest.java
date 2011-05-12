@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNull;
 import org.emonocot.job.scratchpads.model.EoLTaxonItem;
 import org.junit.Test;
 import org.springframework.batch.item.ExecutionContext;
-import org.springframework.batch.item.xml.StaxEventItemReader;
+import org.emonocot.job.io.StaxEventItemReader;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.xstream.AnnotationXStreamMarshaller;
