@@ -102,6 +102,10 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.codehaus.woodstox</groupId>
+			<artifactId>wstx-asl</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>emonocot-checklist</finalName>
