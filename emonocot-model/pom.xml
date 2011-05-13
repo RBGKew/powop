@@ -43,6 +43,10 @@
 		<artifactId>xstream</artifactId>
 	</dependency>
 	<dependency>
+        <groupId>stax</groupId>
+        <artifactId>stax</artifactId>
+    </dependency>
+	<dependency>
 		<groupId>javax.xml.stream</groupId>
 		<artifactId>com.springsource.javax.xml.stream</artifactId>
 		<scope>test</scope>

@@ -1,9 +1,12 @@
 package org.emonocot.checklist.view.oai;
+
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.stream.XMLOutputFactory;
+
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.Validator;
 import org.custommonkey.xmlunit.XMLTestCase;
@@ -12,13 +15,18 @@ import org.custommonkey.xmlunit.examples.RecursiveElementNameAndTextQualifier;
 import org.dozer.Mapper;
 import org.dozer.spring.DozerBeanMapperFactoryBean;
 import org.emonocot.test.xml.IgnoreXPathDifferenceListener;
+import org.openarchives.pmh.OaiDc;
 import org.openarchives.pmh.marshall.OpenArchivesQNameMapFactory;
 import org.openarchives.pmh.marshall.ReflectionProviderFactory;
 import org.openarchives.pmh.marshall.XStreamMarshaller;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.xml.sax.InputSource;
 import org.openarchives.pmh.marshall.StaxDriver;
+
+import com.bea.xml.stream.XMLOutputFactoryBase;
 /**
  *
  * @author ben
@@ -79,19 +87,27 @@ public abstract class AbstractOaiPmhViewTestCase extends XMLTestCase {
             = new OpenArchivesQNameMapFactory();
         qNameMapFactory.afterPropertiesSet();
         XStreamMarshaller marshaller = new XStreamMarshaller();
+
         marshaller.setAutodetectAnnotations(true);
         marshaller.setReflectionProvider(reflectionProviderFactory.getObject());
         StaxDriver staxDriver = new StaxDriver(qNameMapFactory.getObject());
+        staxDriver.setXmlOutputFactory(new XMLOutputFactoryBase());
+        staxDriver.setRepairingNamespace(false);
         staxDriver.setStartDocument(false);
+
         marshaller.setStreamDriver(staxDriver);
+
         marshaller.afterPropertiesSet();
         view.setMarshaller(marshaller);
         DozerBeanMapperFactoryBean mapperFactory
             = new DozerBeanMapperFactoryBean();
-        // mapperFactory.setMappingFiles(new Resource[]{
-        // new ClassPathResource("/org/kew/view/assembler/mapping.xml"),
-        // new ClassPathResource(
-        // "/org/kew/grassbase/view/assembler/mapping.xml")});
+         mapperFactory.setMappingFiles(new Resource[]{
+         new ClassPathResource(
+                 "/org/emonocot/checklist/view/assembler/mapping.xml")
+//         ,
+//         new ClassPathResource(
+//                 "/org/kew/grassbase/view/assembler/mapping.xml")
+         });
         mapperFactory.afterPropertiesSet();
         view.setMapper((Mapper) mapperFactory.getObject());
         model = new HashMap();
@@ -132,11 +148,31 @@ public abstract class AbstractOaiPmhViewTestCase extends XMLTestCase {
                 .overrideDifferenceListener(new IgnoreXPathDifferenceListener(
                   "/OAI-PMH[1]/responseDate[1]/text()[1]",
                   "/OAI-PMH[1]/ListIdentifiers[1]/resumptionToken[1]/text()[1]",
-                  "/OAI-PMH[1]/ListRecords[1]/resumptionToken[1]/text()[1]"));
+                  "/OAI-PMH[1]/ListRecords[1]/resumptionToken[1]/text()[1]",
+                  "/OAI-PMH[1]/ListRecords[1]/record[1]/metadata[1]/dc[1]/"
+                  + "date[1]/text()[1]",
+                  "/OAI-PMH[1]/ListRecords[1]/record[2]/metadata[1]/dc[1]/"
+                  + "date[1]/text()[1]",
+                  "/OAI-PMH[1]/ListRecords[1]/record[3]/metadata[1]/dc[1]/"
+                  + "date[1]/text()[1]",
+                  "/OAI-PMH[1]/ListRecords[1]/record[4]/metadata[1]/dc[1]/"
+                  + "date[1]/text()[1]",
+                  "/OAI-PMH[1]/ListRecords[1]/record[5]/metadata[1]/dc[1]/"
+                  + "date[1]/text()[1]",
+                  "/OAI-PMH[1]/ListRecords[1]/record[6]/metadata[1]/dc[1]/"
+                  + "date[1]/text()[1]",
+                  "/OAI-PMH[1]/ListRecords[1]/record[7]/metadata[1]/dc[1]/"
+                  + "date[1]/text()[1]",
+                  "/OAI-PMH[1]/ListRecords[1]/record[8]/metadata[1]/dc[1]/"
+                  + "date[1]/text()[1]",
+                  "/OAI-PMH[1]/ListRecords[1]/record[9]/metadata[1]/dc[1]/"
+                  + "date[1]/text()[1]",
+                  "/OAI-PMH[1]/ListRecords[1]/record[10]/metadata[1]/dc[1]/"
+                  + "date[1]/text()[1]"));
         difference
                 .overrideElementQualifier(
                         new RecursiveElementNameAndTextQualifier());
-        if(!difference.similar()) {
+        if (!difference.similar()) {
             System.out.println(difference.toString());
         }
         assertTrue("test XML matches control skeleton XML",

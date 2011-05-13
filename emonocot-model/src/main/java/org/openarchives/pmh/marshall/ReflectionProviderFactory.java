@@ -2,7 +2,12 @@ package org.openarchives.pmh.marshall;
 
 import org.openarchives.pmh.Header;
 import org.openarchives.pmh.Identify;
+import org.openarchives.pmh.ListIdentifiers;
+import org.openarchives.pmh.ListRecords;
+import org.openarchives.pmh.ListSets;
+import org.openarchives.pmh.MetadataFormat;
 import org.openarchives.pmh.OAIPMH;
+import org.openarchives.pmh.OaiDc;
 import org.openarchives.pmh.Record;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
 
@@ -22,6 +27,8 @@ public class ReflectionProviderFactory extends
      *
      */
     private static final String[] OAI_PMH_FIELDS = new String[] {
+        "xmlnsOaiDcNamespace",
+        "xmlnsDcNamespace",
         "responseDate",
         "request",
         "error",
@@ -62,6 +69,55 @@ public class ReflectionProviderFactory extends
        "granularity",
        "compression",
        "description" };
+   /**
+    *
+    */
+   private static final String[] LIST_IDENTIFIERS_FIELDS = new String[] {
+       "header",
+       "resumptionToken"
+   };
+
+   /**
+    *
+    */
+   private static final String[] LIST_RECORDS_FIELDS = new String[] {
+      "record",
+      "resumptionToken"
+   };
+
+   /**
+    *
+    */
+   private static final String[] LIST_SETS_FIELDS = new String[] {
+     "set",
+     "resumptionToken"
+   };
+
+   /**
+    *
+    */
+   private static final String[] METADATA_FORMAT_FIELDS = new String[] {
+       "metadataPrefix",
+       "schema",
+       "metadataNamespace"
+   };
+
+   /**
+    *
+    */
+  private static final String[] OAI_DC_FIELDS = new String[] {
+      "dcTitle",
+      "dcCreator",
+      "dcSubject",
+      "dcPublisher",
+      "dcDate",
+      "dcFormat",
+      "dcIdentifier",
+      "dcSource",
+      "dcLanguage",
+      "dcCoverage",
+      "dcRights"
+  };
 
     /**
      * Returns a ReflectionProvider that provides core reflection services.
@@ -80,6 +136,16 @@ public class ReflectionProviderFactory extends
                 ReflectionProviderFactory.HEADER_FIELDS);
         sorter.registerFieldOrder(Identify.class,
                 ReflectionProviderFactory.IDENTIFY_FIELDS);
+        sorter.registerFieldOrder(ListIdentifiers.class,
+                ReflectionProviderFactory.LIST_IDENTIFIERS_FIELDS);
+        sorter.registerFieldOrder(ListRecords.class,
+                ReflectionProviderFactory.LIST_RECORDS_FIELDS);
+        sorter.registerFieldOrder(ListSets.class,
+                ReflectionProviderFactory.LIST_RECORDS_FIELDS);
+        sorter.registerFieldOrder(MetadataFormat.class,
+                ReflectionProviderFactory.METADATA_FORMAT_FIELDS);
+        sorter.registerFieldOrder(OaiDc.class,
+                ReflectionProviderFactory.OAI_DC_FIELDS);
 
         FieldDictionary fieldDictionary = new FieldDictionary(sorter);
 

@@ -1,85 +1,72 @@
 package org.openarchives.pmh;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlValue;
-
 /**
- * <p>Java class for OAI-PMHerrorType complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
+ * Java class for OAI-PMHerrorType complex type.
+ *
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
+ *
  * <pre>
  * &lt;complexType name="OAI-PMHerrorType">
  *   &lt;simpleContent>
  *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema>string">
- *       &lt;attribute name="code" use="required" type="{http://www.openarchives.org/OAI/2.0/}OAI-PMHerrorcodeType" />
+ *       &lt;attribute name="code" use="required"
+ *       type="{http://www.openarchives.org/OAI/2.0/}OAI-PMHerrorcodeType" />
  *     &lt;/extension>
  *   &lt;/simpleContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "OAI-PMHerrorType", propOrder = {
-    "value"
-})
 public class Error {
 
-    @XmlValue
-    protected String value;
-    @XmlAttribute(required = true)
-    protected ErrorCode code;
+    /**
+     *
+     */
+    private String value;
+
+    /**
+     *
+     */
+    private ErrorCode code;
 
     /**
      * Gets the value of the value property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return the message in the error
      */
-    public String getValue() {
+    public final String getValue() {
         return value;
     }
 
     /**
      * Sets the value of the value property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param newValue Set the message of the error
      */
-    public void setValue(String value) {
-        this.value = value;
+    public final void setValue(final String newValue) {
+        this.value = newValue;
     }
 
     /**
      * Gets the value of the code property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link ErrorCode }
-     *     
+     *
+     * @return the code of the error
      */
-    public ErrorCode getCode() {
+    public final ErrorCode getCode() {
         return code;
     }
 
     /**
      * Sets the value of the code property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link ErrorCode }
-     *     
+     *
+     * @param newCode Set the code of the error
      */
-    public void setCode(ErrorCode value) {
-        this.code = value;
+    public final void setCode(final ErrorCode newCode) {
+        this.code = newCode;
     }
 
 }

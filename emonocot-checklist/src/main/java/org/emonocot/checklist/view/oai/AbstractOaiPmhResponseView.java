@@ -103,4 +103,12 @@ public abstract class AbstractOaiPmhResponseView extends AbstractView {
                 .marshal(oaiPmh, new StreamResult(outputStream));
     }
 
+    /**
+     *
+     * @return the mapper
+     */
+    public final Mapper getMapper() {
+        return mapper;
+    }
+
 }

@@ -186,6 +186,20 @@ public class XStreamMarshaller extends AbstractMarshaller implements
     }
 
     /**
+     * Sets an alias/attribute map, consisting of string aliases mapped to
+     * attributes. Keys are aliases; values are String alias names.
+     *
+     * @see XStream#aliasAttribute(String, String)
+     * @param aliases The alias/attribute map
+     */
+    public final void setAttributeAliases(final Map<String, String> aliases) {
+
+        for (Map.Entry<String, String> entry : aliases.entrySet()) {
+            this.getXStream().aliasAttribute(entry.getKey(), entry.getValue());
+        }
+    }
+
+    /**
      * Sets an alias/type map, consisting of string aliases mapped to classes.
      * Keys are aliases; values are either {@code Class} instances, or String
      * class names.

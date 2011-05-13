@@ -2,153 +2,253 @@ package org.openarchives.pmh;
 
 import java.net.URI;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 import org.emonocot.model.marshall.DateTimeConverter;
+import org.emonocot.model.marshall.UriConverter;
 import org.joda.time.DateTime;
 
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "oai_dcType", namespace = "http://www.openarchives.org/OAI/2.0/oai_dc/", propOrder = {
-    "title",
-    "creator",
-    "subject",
-    "publisher",
-    "date",
-    "format",
-    "identifier",
-    "source",
-    "language",
-    "coverage",
-    "rights"
-})
-@XmlRootElement(name = "dc", namespace = "http://www.openarchives.org/OAI/2.0/oai_dc/")
+/**
+ *
+ * @author ben
+ *
+ */
 public class OaiDc {
-	@XmlElement(namespace = "http://purl.org/dc/elements/1.1/")
-    private String title;
-	
-	@XmlElement(namespace = "http://purl.org/dc/elements/1.1/")
-    private String creator;
-	
-	@XmlElement(namespace = "http://purl.org/dc/elements/1.1/")
-    private String subject;
-	
-	@XmlElement(namespace = "http://purl.org/dc/elements/1.1/")
-    private String publisher;
-	
-    @XmlElement(namespace = "http://purl.org/dc/elements/1.1/")
+
+    /**
+     * xmlns:dc="http://purl.org/dc/elements/1.1/".
+     */
+    private String dcTitle;
+
+
+    /**
+     * xmlns:dc="http://purl.org/dc/elements/1.1/".
+     */
+    private String dcCreator;
+
+    /**
+     * xmlns:dc="http://purl.org/dc/elements/1.1/".
+     */
+    private String dcSubject;
+
+    /**
+     * xmlns:dc="http://purl.org/dc/elements/1.1/".
+     */
+    private String dcPublisher;
+
+
+    /**
+     * xmlns:dc="http://purl.org/dc/elements/1.1/".
+     */
     @XStreamConverter(DateTimeConverter.class)
-    private DateTime date;
-    
-    @XmlElement(namespace = "http://purl.org/dc/elements/1.1/")
-    private String format;
-    
-    @XmlElement(namespace = "http://purl.org/dc/elements/1.1/")
-    private URI identifier;
-    
-    @XmlElement(namespace = "http://purl.org/dc/elements/1.1/")
-    private String source;
-    
-    @XmlElement(namespace = "http://purl.org/dc/elements/1.1/")
-    private String language;
-    
-    @XmlElement(namespace = "http://purl.org/dc/elements/1.1/")
-    private String coverage;
-    
-    @XmlElement(namespace = "http://purl.org/dc/elements/1.1/")
-    private String rights;
-    
-    public String getTitle() {
-		return title;
-	}
+    private DateTime dcDate;
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    /**
+     * xmlns:dc="http://purl.org/dc/elements/1.1/".
+     */
+    private String dcFormat;
 
-	public String getCreator() {
-		return creator;
-	}
 
-	public void setCreator(String creator) {
-		this.creator = creator;
-	}
+    /**
+     * xmlns:dc="http://purl.org/dc/elements/1.1/".
+     */
+    @XStreamConverter(UriConverter.class)
+    private URI dcIdentifier;
 
-	public String getSubject() {
-		return subject;
-	}
 
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
+    /**
+     * xmlns:dc="http://purl.org/dc/elements/1.1/".
+     */
+    private String dcSource;
 
-	public String getPublisher() {
-		return publisher;
-	}
+    /**
+     * xmlns:dc="http://purl.org/dc/elements/1.1/".
+     */
+    private String dcLanguage;
 
-	public void setPublisher(String publisher) {
-		this.publisher = publisher;
-	}
+    /**
+     * xmlns:dc="http://purl.org/dc/elements/1.1/".
+     */
+    private String dcCoverage;
 
-	public DateTime getDate() {
-		return date;
-	}
+    /**
+     * xmlns:dc="http://purl.org/dc/elements/1.1/".
+     */
+    private String dcRights;
 
-	public void setDate(DateTime date) {
-		this.date = date;
-	}
+    /**
+     *
+     * @return the dc:title of the object
+     */
+    public final String getDcTitle() {
+        return dcTitle;
+    }
 
-	public String getFormat() {
-		return format;
-	}
+    /**
+     *
+     * @param title Set the dc:title
+     */
+    public final void setDcTitle(final String title) {
+        this.dcTitle = title;
+    }
 
-	public void setFormat(String format) {
-		this.format = format;
-	}
+    /**
+     *
+     * @return the dc:creator
+     */
+    public final String getDcCreator() {
+        return dcCreator;
+    }
 
-	public URI getIdentifier() {
-		return identifier;
-	}
+    /**
+     *
+     * @param creator Set the dc:creator
+     */
+    public final void setDcCreator(final String creator) {
+        this.dcCreator = creator;
+    }
 
-	public void setIdentifier(URI identifier) {
-		this.identifier = identifier;
-	}
+    /**
+     *
+     * @return the dc:subject
+     */
+    public final String getDcSubject() {
+        return dcSubject;
+    }
 
-	public String getSource() {
-		return source;
-	}
+    /**
+     *
+     * @param subject Set the dc:subject
+     */
+    public final void setDcSubject(final String subject) {
+        this.dcSubject = subject;
+    }
 
-	public void setSource(String source) {
-		this.source = source;
-	}
+    /**
+     *
+     * @return the dc:publisher
+     */
+    public final String getDcPublisher() {
+        return dcPublisher;
+    }
 
-	public String getLanguage() {
-		return language;
-	}
+    /**
+     *
+     * @param publisher Set the dc:publisher
+     */
+    public final void setDcPublisher(final String publisher) {
+        this.dcPublisher = publisher;
+    }
 
-	public void setLanguage(String language) {
-		this.language = language;
-	}
+    /**
+     *
+     * @return the dc:date
+     */
+    public final DateTime getDcDate() {
+        return dcDate;
+    }
 
-	public String getCoverage() {
-		return coverage;
-	}
+    /**
+     *
+     * @param date Set the dc:date
+     */
+    public final void setDcDate(final DateTime date) {
+        this.dcDate = date;
+    }
 
-	public void setCoverage(String coverage) {
-		this.coverage = coverage;
-	}
+    /**
+     *
+     * @return the dc:format
+     */
+    public final String getDcFormat() {
+        return dcFormat;
+    }
 
-	public String getRights() {
-		return rights;
-	}
+    /**
+     *
+     * @param format Set the dc:format
+     */
+    public final void setDcFormat(final String format) {
+        this.dcFormat = format;
+    }
 
-	public void setRights(String rights) {
-		this.rights = rights;
-	}
+    /**
+     *
+     * @return the dc:identifier
+     */
+    public final URI getDcIdentifier() {
+        return dcIdentifier;
+    }
+
+    /**
+     *
+     * @param identifier Set the dc:identifier
+     */
+    public final void setDcIdentifier(final URI identifier) {
+        this.dcIdentifier = identifier;
+    }
+
+    /**
+     *
+     * @return the dc:source
+     */
+    public final String getDcSource() {
+        return dcSource;
+    }
+
+    /**
+     *
+     * @param source set the dc:source
+     */
+    public final void setDcSource(final String source) {
+        this.dcSource = source;
+    }
+
+    /**
+     *
+     * @return the dc:language
+     */
+    public final String getDcLanguage() {
+        return dcLanguage;
+    }
+
+    /**
+     *
+     * @param language Set the dc:language
+     */
+    public final void setDcLanguage(final String language) {
+        this.dcLanguage = language;
+    }
+
+    /**
+     *
+     * @return the dc:coverage
+     */
+    public final String getDcCoverage() {
+        return dcCoverage;
+    }
+
+    /**
+     *
+     * @param coverage Set the dc:coverage
+     */
+    public final void setDcCoverage(final String coverage) {
+        this.dcCoverage = coverage;
+    }
+
+    /**
+     *
+     * @return the dc:rights
+     */
+    public final String getDcRights() {
+        return dcRights;
+    }
+
+    /**
+     *
+     * @param rights Set the dc:rights
+     */
+    public final void setDcRights(final String rights) {
+        this.dcRights = rights;
+    }
 }

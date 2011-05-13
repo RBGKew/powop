@@ -51,7 +51,7 @@ public class Set {
     protected String setSpec;
     @XmlElement(required = true)
     protected String setName;
-    protected List<Description> setDescription;
+    protected List<String> setDescription;
 
     /**
      * Gets the value of the setSpec property.
@@ -123,28 +123,15 @@ public class Set {
      * 
      * 
      */
-    public List<Description> getSetDescription() {
+    public List<String> getSetDescription() {
         if (setDescription == null) {
-            setDescription = new ArrayList<Description>();
+            setDescription = new ArrayList<String>();
         }
         return this.setDescription;
     }
     
-    public void addDescription(String string) throws ParserConfigurationException, SAXException, IOException {
-    	if(setDescription != null){
-    		Description description = new Description();
-    		InputSource inputSource = new InputSource(new StringReader(string));
-    		DocumentBuilderFactory documentBuilderFactory = javax.xml.parsers.DocumentBuilderFactory.newInstance();
-    		documentBuilderFactory.setNamespaceAware(false);
-    		
-    		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-    		Document document = documentBuilder.parse(inputSource);
-	    	Element domElem = (Element)document.getDocumentElement();
-
-	    	description.setAny(domElem);
-    		
-    	    this.setDescription.add(description);
-    	}
+    public void setSetDescription(List<String> setDescription) {
+        this.setDescription = setDescription;
     }
 
 }

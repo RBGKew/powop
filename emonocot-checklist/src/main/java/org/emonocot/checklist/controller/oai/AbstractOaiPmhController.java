@@ -718,7 +718,7 @@ public abstract class AbstractOaiPmhController {
             MissingServletRequestParameterException.class })
     public final ModelAndView handleBadArgument(final Exception ex,
             final HttpServletRequest request) {
-        return doException(ex, request, ErrorCode.BAD_ARGUMENT);
+        return doException(ex, request, ErrorCode.badArgument);
     }
 
    /**
@@ -732,7 +732,7 @@ public abstract class AbstractOaiPmhController {
     @ExceptionHandler(CannotDisseminateFormatException.class)
     public final ModelAndView handleCannotDisseminateFormat(final Exception ex,
             final HttpServletRequest request) {
-        return doException(ex, request, ErrorCode.CANNOT_DISSEMINATE_FORMAT);
+        return doException(ex, request, ErrorCode.cannotDisseminateFormat);
     }
 
    /**
@@ -746,7 +746,7 @@ public abstract class AbstractOaiPmhController {
     @ExceptionHandler(BadResumptionTokenException.class)
     public final ModelAndView handleBadResumptionToken(final Exception ex,
             final HttpServletRequest request) {
-        return doException(ex, request, ErrorCode.BAD_RESUMPTION_TOKEN);
+        return doException(ex, request, ErrorCode.badResumptionToken);
     }
 
    /**
@@ -759,7 +759,7 @@ public abstract class AbstractOaiPmhController {
     @ExceptionHandler(NoRecordsMatchException.class)
     public final ModelAndView handleNoRecordsMatch(final Exception ex,
             final HttpServletRequest request) {
-        return doException(ex, request, ErrorCode.NO_RECORDS_MATCH);
+        return doException(ex, request, ErrorCode.noRecordsMatch);
     }
 
    /**
@@ -773,7 +773,7 @@ public abstract class AbstractOaiPmhController {
     @ExceptionHandler(IdDoesNotExistException.class)
     public final ModelAndView handleIdDoesNotExist(final Exception ex,
             final HttpServletRequest request) {
-        return doException(ex, request, ErrorCode.ID_DOES_NOT_EXIST);
+        return doException(ex, request, ErrorCode.idDoesNotExist);
     }
 
    /**
@@ -787,6 +787,6 @@ public abstract class AbstractOaiPmhController {
     @ExceptionHandler(NoSetHierarchyException.class)
     public final ModelAndView handleNoSetHierarchy(final Exception ex,
             final HttpServletRequest request) {
-        return doException(ex, request, ErrorCode.NO_SET_HIERARCHY);
+        return doException(ex, request, ErrorCode.noSetHierarchy);
     }
 }

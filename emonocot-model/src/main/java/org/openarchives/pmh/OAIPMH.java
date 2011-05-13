@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.emonocot.model.marshall.DateTimeConverter;
 import org.joda.time.DateTime;
+import org.openarchives.pmh.marshall.ErrorConverter;
 import org.openarchives.pmh.marshall.RequestConverter;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 
 /**
@@ -73,6 +75,7 @@ public class OAIPMH {
     /**
      *
      */
+    @XStreamConverter(ErrorConverter.class)
     private List<Error> error;
 
     /**
@@ -110,6 +113,22 @@ public class OAIPMH {
      */
     @XStreamAlias("ListRecords")
     private ListRecords listRecords;
+
+    /**
+     * Bit of a hack to insert the correct namespace.
+     */
+    @XStreamAlias("xmlns:oai_dc")
+    @XStreamAsAttribute
+    private String xmlnsOaiDcNamespace
+        = "http://www.openarchives.org/OAI/2.0/oai_dc/";
+
+    /**
+     * Bit of a hack to insert the correct namespace.
+     */
+    @XStreamAlias("xmlns:dc")
+    @XStreamAsAttribute
+    private String xmlnsDcNamespace
+        = "http://purl.org/dc/elements/1.1/";
 
     /**
      * Gets the value of the responseDate property.
