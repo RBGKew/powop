@@ -1,4 +1,4 @@
-package org.openarchives.pmh.marshall;
+package org.emonocot.model.marshall;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -39,7 +39,7 @@ public class StaxDriver extends AbstractXmlDriver {
     private XMLInputFactory inputFactory;
     private XMLOutputFactory outputFactory;
     
-    public void setXMLInputFactory(XMLInputFactory newXmlInputFactory) {
+    public void setXmlInputFactory(XMLInputFactory newXmlInputFactory) {
         this.inputFactory = newXmlInputFactory;
     }
     

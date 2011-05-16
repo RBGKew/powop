@@ -11,9 +11,9 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.dozer.Mapper;
 import org.emonocot.checklist.controller.oai.AbstractOaiPmhController;
+import org.emonocot.model.marshall.XStreamMarshaller;
 import org.openarchives.pmh.OAIPMH;
 import org.openarchives.pmh.Request;
-import org.openarchives.pmh.marshall.XStreamMarshaller;
 import org.springframework.oxm.Marshaller;
 import org.springframework.web.servlet.view.AbstractView;
 

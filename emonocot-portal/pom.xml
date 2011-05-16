@@ -25,6 +25,22 @@
 			<groupId>org.seleniumhq.selenium.client-drivers</groupId>
 			<artifactId>selenium-java-client-driver</artifactId>
 		</dependency>
+		<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>org.springframework.jms</artifactId>
+	    </dependency>
+	    <dependency>
+           <groupId>org.apache.activemq</groupId>
+           <artifactId>activemq-spring</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xbean</groupId>
+            <artifactId>com.springsource.org.apache.xbean.spring</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>com.springsource.javax.management.j2ee</artifactId>
+        </dependency> 
 	</dependencies>
 	<build>
 		<finalName>emonocot-portal</finalName>

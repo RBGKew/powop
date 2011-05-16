@@ -39,7 +39,7 @@
     
     <bean id="getXMLDocClient" class="org.emonocot.ws.scratchpads.GetXMLDocClient" />
 
-	<bean id="itemReader" class="org.springframework.batch.item.xml.StaxEventItemReader"
+	<bean id="itemReader" class="org.emonocot.job.io.StaxEventItemReader"
 		  scope="step">
 		<property name="fragmentRootElementName" value="taxon" />
 		<property name="resource">
@@ -50,13 +50,17 @@
 		<property name="unmarshaller" ref="eolTransferSchemaUnmarshaller" />
 	</bean>
 	
-	<bean id="eolTransferSchemaUnmarshaller" class="org.springframework.oxm.xstream.AnnotationXStreamMarshaller">
+	<bean id="eolTransferSchemaUnmarshaller" class="org.emonocot.model.marshall.XStreamMarshaller">
 	  <property name="streamDriver" ref="eolTransferSchemaStreamDriver" />
 	  <property name="annotatedClass" value="org.emonocot.job.scratchpads.model.EoLTaxonItem"/>
     </bean>
 
-	<bean id="eolTransferSchemaStreamDriver" class="com.thoughtworks.xstream.io.xml.StaxDriver">
+	<bean id="eolTransferSchemaStreamDriver" class="org.emonocot.model.marshall.StaxDriver">
 		<constructor-arg ref="eolTransferSchemaQNameMap" />
+		<property name="repairingNamespace" value="false"/>
+		<property name="xmlInputFactory">
+		  <bean class="com.bea.xml.stream.MXParserFactory"/>
+		</property>
 	</bean>
 
 	<bean id="eolTransferSchemaQNameMap"

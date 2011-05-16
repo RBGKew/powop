@@ -3,9 +3,9 @@ package org.emonocot.checklist.view.oai;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.stream.XMLOutputFactory;
 
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.Validator;
@@ -14,17 +14,16 @@ import org.custommonkey.xmlunit.XMLUnit;
 import org.custommonkey.xmlunit.examples.RecursiveElementNameAndTextQualifier;
 import org.dozer.Mapper;
 import org.dozer.spring.DozerBeanMapperFactoryBean;
+import org.emonocot.model.marshall.StaxDriver;
+import org.emonocot.model.marshall.XStreamMarshaller;
 import org.emonocot.test.xml.IgnoreXPathDifferenceListener;
-import org.openarchives.pmh.OaiDc;
 import org.openarchives.pmh.marshall.OpenArchivesQNameMapFactory;
 import org.openarchives.pmh.marshall.ReflectionProviderFactory;
-import org.openarchives.pmh.marshall.XStreamMarshaller;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.xml.sax.InputSource;
-import org.openarchives.pmh.marshall.StaxDriver;
 
 import com.bea.xml.stream.XMLOutputFactoryBase;
 /**
