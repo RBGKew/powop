@@ -12,4 +12,40 @@
         <property name="marshaller" ref="marshaller"/>
         <property name="mapper" ref="mapper"/>
     </bean>
+    
+    <bean name="oai/exception" class="org.emonocot.checklist.view.oai.ExceptionView">
+        <property name="contentType" value="text/xml; charset=UTF-8"/>
+        <property name="marshaller" ref="marshaller"/>
+        <property name="mapper" ref="mapper"/>
+    </bean>
+    
+    <bean name="oai/getRecord.dc" class="org.emonocot.checklist.view.oai.dc.GetRecordView">
+        <property name="contentType" value="text/xml; charset=UTF-8"/>
+        <property name="marshaller" ref="marshaller"/>
+        <property name="mapper" ref="mapper"/>
+    </bean>
+    
+    <bean name="oai/listMetadataFormats" class="org.emonocot.checklist.view.oai.ListMetadataFormatsView">
+        <property name="contentType" value="text/xml; charset=UTF-8"/>
+        <property name="marshaller" ref="marshaller"/>
+        <property name="mapper" ref="mapper"/>
+    </bean>
+    
+    <bean name="oai/listSets" class="org.emonocot.checklist.view.oai.ListSetsView">
+        <property name="contentType" value="text/xml; charset=UTF-8"/>
+        <property name="marshaller" ref="marshaller"/>
+        <property name="mapper" ref="mapper"/>
+    </bean>
+    
+    <bean name="oai/listIdentifiers" class="org.emonocot.checklist.view.oai.ListIdentifiersView">
+        <property name="contentType" value="text/xml; charset=UTF-8"/>
+        <property name="marshaller" ref="marshaller"/>
+        <property name="mapper" ref="mapper"/>
+    </bean>
+    
+    <bean name="oai/listRecords.dc" class="org.emonocot.checklist.view.oai.dc.ListRecordsView">
+        <property name="contentType" value="text/xml; charset=UTF-8"/>
+        <property name="marshaller" ref="marshaller"/>
+        <property name="mapper" ref="mapper"/>
+    </bean>
 </beans>

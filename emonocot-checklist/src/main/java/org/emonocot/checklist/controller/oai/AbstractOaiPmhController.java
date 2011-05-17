@@ -30,10 +30,10 @@ import org.openarchives.pmh.NoRecordsMatchException;
 import org.openarchives.pmh.NoSetHierarchyException;
 import org.openarchives.pmh.Request;
 import org.openarchives.pmh.ResumptionToken;
-import org.openarchives.pmh.SetSpec;
 import org.openarchives.pmh.Verb;
 import org.openarchives.pmh.format.annotation.MetadataPrefixFormat;
-import org.openarchives.pmh.format.annotation.SetSpecFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -51,6 +51,12 @@ import org.springframework.web.servlet.ModelAndView;
  *
  */
 public abstract class AbstractOaiPmhController {
+
+    /**
+     *
+     */
+    private static Logger logger
+        = LoggerFactory.getLogger(AbstractOaiPmhController.class);
 
     /**
      *
@@ -257,7 +263,7 @@ public abstract class AbstractOaiPmhController {
      * @return the Request object populated with the parameters passed
      */
     protected final Request constructRequest(final Verb verb,
-            final DateTime from, final DateTime until, final SetSpec set,
+            final DateTime from, final DateTime until, final String set,
             final String resumptionToken, final MetadataPrefix metadataPrefix) {
         Request request = new Request();
 
@@ -453,8 +459,7 @@ public abstract class AbstractOaiPmhController {
             @MetadataPrefixFormat
                 final MetadataPrefix metadataPrefix,
             @RequestParam(value = "set", required = false)
-            @SetSpecFormat
-                final SetSpec set) {
+                final String set) {
 
         ModelAndView modelAndView = new ModelAndView(
                 AbstractOaiPmhController.LIST_IDENTIFIERS_VIEW);
@@ -472,8 +477,9 @@ public abstract class AbstractOaiPmhController {
         modelAndView.addObject(AbstractOaiPmhController.OBJECT_KEY, results);
 
         if (results.size() > results.getRecords().size() && cache != null) {
-            ResumptionToken resumptionToken = new ResumptionToken(pageSize,
-                    results.getCurrentIndex(),
+            ResumptionToken resumptionToken
+                = new ResumptionToken(results.size(),
+                    pageSize, results.getCurrentIndex(),
                     from, until, metadataPrefix, set);
             modelAndView.addObject(
                     AbstractOaiPmhController.RESUMPTION_TOKEN_KEY,
@@ -523,7 +529,7 @@ public abstract class AbstractOaiPmhController {
 
             if (results.size() > ((results.getPageSize() * results
                     .getCurrentIndex()) + results.getRecords().size())) {
-                resumptionToken.updateResults(pageSize,
+                resumptionToken.updateResults(results.size(), pageSize,
                         results.getCurrentIndex());
                 modelAndView.addObject(
                         AbstractOaiPmhController.RESUMPTION_TOKEN_KEY,
@@ -569,8 +575,7 @@ public abstract class AbstractOaiPmhController {
             @MetadataPrefixFormat
                 final MetadataPrefix metadataPrefix,
             @RequestParam(value = "set", required = false)
-            @SetSpecFormat
-                final SetSpec set) {
+                final String set) {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject(
@@ -596,8 +601,9 @@ public abstract class AbstractOaiPmhController {
         modelAndView.addObject(AbstractOaiPmhController.OBJECT_KEY, results);
 
         if (results.size() > results.getRecords().size() && cache != null) {
-            ResumptionToken resumptionToken = new ResumptionToken(pageSize,
-                    results.getCurrentIndex(),
+            ResumptionToken resumptionToken
+                = new ResumptionToken(results.size(),
+                    pageSize, results.getCurrentIndex(),
                     from, until, metadataPrefix, set);
             modelAndView.addObject(
                     AbstractOaiPmhController.RESUMPTION_TOKEN_KEY,
@@ -655,7 +661,7 @@ public abstract class AbstractOaiPmhController {
 
             if (results.size() > ((results.getPageSize() * results
                     .getCurrentIndex()) + results.getRecords().size())) {
-                resumptionToken.updateResults(pageSize,
+                resumptionToken.updateResults(results.size(), pageSize,
                         results.getCurrentIndex());
                 modelAndView.addObject(
                         AbstractOaiPmhController.RESUMPTION_TOKEN_KEY,
@@ -727,8 +733,7 @@ public abstract class AbstractOaiPmhController {
     * @param request The httpServletRequest
     * @return a model and view containing the exception
     */
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST,
-                    reason = "Cannot Disseminate Format")
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(CannotDisseminateFormatException.class)
     public final ModelAndView handleCannotDisseminateFormat(final Exception ex,
             final HttpServletRequest request) {
@@ -741,8 +746,7 @@ public abstract class AbstractOaiPmhController {
     * @param request The httpServletRequest
     * @return a model and view containing the exception
     */
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST,
-                    reason = "Bad Resumption Token")
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BadResumptionTokenException.class)
     public final ModelAndView handleBadResumptionToken(final Exception ex,
             final HttpServletRequest request) {
@@ -755,7 +759,7 @@ public abstract class AbstractOaiPmhController {
     * @param request The httpServletRequest
     * @return a model and view containing the exception
     */
-    @ResponseStatus(value = HttpStatus.OK, reason = "No Records Match")
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(NoRecordsMatchException.class)
     public final ModelAndView handleNoRecordsMatch(final Exception ex,
             final HttpServletRequest request) {
@@ -768,8 +772,7 @@ public abstract class AbstractOaiPmhController {
     * @param request The httpServletRequest
     * @return a model and view containing the exception
     */
-    @ResponseStatus(value = HttpStatus.NOT_FOUND,
-                    reason = "Identifier does not exist")
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IdDoesNotExistException.class)
     public final ModelAndView handleIdDoesNotExist(final Exception ex,
             final HttpServletRequest request) {
@@ -782,8 +785,7 @@ public abstract class AbstractOaiPmhController {
     * @param request The httpServletRequest
     * @return a model and view containing the exception
     */
-    @ResponseStatus(value = HttpStatus.NOT_IMPLEMENTED,
-                    reason = "No Set Hierarchy")
+    @ResponseStatus(value = HttpStatus.NOT_IMPLEMENTED)
     @ExceptionHandler(NoSetHierarchyException.class)
     public final ModelAndView handleNoSetHierarchy(final Exception ex,
             final HttpServletRequest request) {

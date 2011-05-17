@@ -2,6 +2,9 @@ package org.openarchives.pmh;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
 /**
  * <p>
  * Java class for ListSetsType complex type.
@@ -35,6 +38,7 @@ public class ListSets {
     /**
      *
      */
+    @XStreamImplicit(itemFieldName = "set")
     private List<Set> set;
 
     /**

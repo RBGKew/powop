@@ -34,7 +34,7 @@
         <property name="location" value="classpath:/applicationContext-view.xml"/>
     </bean>
     
-    <bean id="marshaller" class="org.openarchives.pmh.marshall.XStreamMarshaller">
+    <bean id="marshaller" class="org.emonocot.model.marshall.XStreamMarshaller">
         <property name="autodetectAnnotations" value="true"/>
         <property name="reflectionProvider" ref="reflectionProvider"/>
         <property name="streamDriver" ref="oaiPmhStreamDriver"/>
@@ -42,9 +42,13 @@
     
     <bean id="reflectionProvider" class="org.openarchives.pmh.marshall.ReflectionProviderFactory"/>
     
-    <bean id="oaiPmhStreamDriver" class="org.openarchives.pmh.marshall.StaxDriver">
+    <bean id="oaiPmhStreamDriver" class="org.emonocot.model.marshall.StaxDriver">
 		<constructor-arg ref="oaiPmhQNameMap" />
 		<property name="startDocument" value="false"/>
+		<property name="repairingNamespace" value="false"/>
+		<property name="xmlOutputFactory">
+		  <bean class="com.bea.xml.stream.XMLOutputFactoryBase"/>
+		</property>
 	</bean>
 
 	<bean id="oaiPmhQNameMap"

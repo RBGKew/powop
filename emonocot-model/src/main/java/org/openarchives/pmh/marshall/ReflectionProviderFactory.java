@@ -9,6 +9,7 @@ import org.openarchives.pmh.MetadataFormat;
 import org.openarchives.pmh.OAIPMH;
 import org.openarchives.pmh.OaiDc;
 import org.openarchives.pmh.Record;
+import org.openarchives.pmh.Set;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
 
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
@@ -119,6 +120,15 @@ public class ReflectionProviderFactory extends
       "dcRights"
   };
 
+  /**
+   *
+   */
+   private static final String[] SET_FIELDS = new String[] {
+       "setSpec",
+       "setName",
+       "setDescription"
+  };
+
     /**
      * Returns a ReflectionProvider that provides core reflection services.
      *
@@ -141,11 +151,13 @@ public class ReflectionProviderFactory extends
         sorter.registerFieldOrder(ListRecords.class,
                 ReflectionProviderFactory.LIST_RECORDS_FIELDS);
         sorter.registerFieldOrder(ListSets.class,
-                ReflectionProviderFactory.LIST_RECORDS_FIELDS);
+                ReflectionProviderFactory.LIST_SETS_FIELDS);
         sorter.registerFieldOrder(MetadataFormat.class,
                 ReflectionProviderFactory.METADATA_FORMAT_FIELDS);
         sorter.registerFieldOrder(OaiDc.class,
                 ReflectionProviderFactory.OAI_DC_FIELDS);
+        sorter.registerFieldOrder(Set.class,
+                ReflectionProviderFactory.SET_FIELDS);
 
         FieldDictionary fieldDictionary = new FieldDictionary(sorter);
 

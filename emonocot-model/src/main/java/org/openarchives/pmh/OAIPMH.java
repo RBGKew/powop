@@ -76,7 +76,7 @@ public class OAIPMH {
      *
      */
     @XStreamConverter(ErrorConverter.class)
-    private List<Error> error;
+    private Error error;
 
     /**
      *
@@ -169,13 +169,18 @@ public class OAIPMH {
     /**
      * Gets the value of the error property.
      *
-     * @return A list of error objects representing the errors
+     * @return An error object representing the error
      */
-    public final List<Error> getError() {
-        if (error == null) {
-            error = new ArrayList<Error>();
-        }
+    public final Error getError() {
         return this.error;
+    }
+
+    /**
+     *
+     * @param newError Set the error
+     */
+    public final void setError(final Error newError){
+        this.error = newError;
     }
 
     /**

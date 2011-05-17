@@ -1,14 +1,20 @@
 package org.emonocot.checklist.persistence;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.emonocot.checklist.model.ChangeEvent;
+import org.emonocot.checklist.model.ChangeEventImpl;
+import org.emonocot.checklist.model.ChangeType;
 import org.emonocot.checklist.model.Taxon;
+import org.emonocot.checklist.persistence.pager.DefaultPageImpl;
 import org.emonocot.checklist.persistence.pager.Page;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.joda.time.DateTime;
-import org.openarchives.pmh.SetSpec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
@@ -24,7 +30,8 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
 
     /**
      *
-     * @param sessionFactory The session factory to use
+     * @param sessionFactory
+     *            The session factory to use
      */
     @Autowired
     public final void setHibernateSessionFactory(
@@ -35,31 +42,64 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
     @Override
     @Transactional(readOnly = true)
     public final List<Taxon> search(final String search) {
-        // TODO Auto-generated method stub
-        return null;
+        return (List<Taxon>) getSession().createCriteria(Taxon.class)
+                .add(Restrictions.eq("name", search)).list();
     }
 
     @Override
     @Transactional(readOnly = true)
     public final Taxon get(final String id) {
-        // TODO Auto-generated method stub
-        return null;
+        return (Taxon) getSession().load(Taxon.class, id);
     }
 
     @Override
     @Transactional(readOnly = true)
     public final ChangeEvent<Taxon> find(final Serializable identifier) {
-        // TODO Auto-generated method stub
-        return null;
+        Taxon taxon = get((String) identifier);
+        // Taxon cannot be null because we would have thrown an exception
+        // prior to this point
+
+        // Assume everything is created at this point as I don't have the
+        // mappings for the other columns
+        // TODO add updated / deleted items
+
+        return new ChangeEventImpl<Taxon>(taxon, ChangeType.CREATE,
+                new DateTime());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public final Page<ChangeEvent<Taxon>> page(final SetSpec set,
+    public final Page<ChangeEvent<Taxon>> page(final String set,
             final DateTime from, final DateTime until, final Integer pageSize,
             final Integer pageNumber) {
-        // TODO Auto-generated method stub
-        return null;
+        Criteria criteria = getSession().createCriteria(Taxon.class);
+        // TODO add filters for set, from and until
+        if (pageSize != null) {
+            criteria.setMaxResults(pageSize);
+            if (pageNumber != null) {
+                criteria.setFirstResult(pageSize * pageNumber);
+            }
+        }
+        List<Taxon> taxa = criteria.list();
+        if (taxa.isEmpty()) {
+            return new DefaultPageImpl<ChangeEvent<Taxon>>(0, pageNumber,
+                    pageSize, new ArrayList<ChangeEvent<Taxon>>());
+        } else {
+            List<ChangeEvent<Taxon>> results
+                = new ArrayList<ChangeEvent<Taxon>>();
+            for (Taxon taxon : taxa) {
+                // Assume everything is created at this point as I don't have
+                // the mappings for the other columns
+                // TODO add updated / deleted items
+                results.add(new ChangeEventImpl<Taxon>(taxon,
+                        ChangeType.CREATE, new DateTime()));
+            }
+            // TODO add filters for set, from and until
+            Criteria countCriteria = getSession().createCriteria(Taxon.class)
+                    .setProjection(Projections.rowCount());
+            return new DefaultPageImpl<ChangeEvent<Taxon>>(
+                    (Integer) countCriteria.uniqueResult(), pageNumber,
+                    pageSize, results);
+        }
     }
-
 }

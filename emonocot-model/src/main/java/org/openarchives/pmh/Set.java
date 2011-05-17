@@ -1,137 +1,110 @@
 package org.openarchives.pmh;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
 /**
- * <p>Java class for setType complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
+ * Java class for setType complex type.
+ *
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
+ *
  * <pre>
  * &lt;complexType name="setType">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="setSpec" type="{http://www.openarchives.org/OAI/2.0/}setSpecType"/>
- *         &lt;element name="setName" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="setDescription" type="{http://www.openarchives.org/OAI/2.0/}descriptionType" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="setSpec"
+ *         type="{http://www.openarchives.org/OAI/2.0/}setSpecType"/>
+ *         &lt;element name="setName"
+ *         type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="setDescription"
+ *         type="{http://www.openarchives.org/OAI/2.0/}descriptionType"
+ *         maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "setType", propOrder = {
-    "setSpec",
-    "setName",
-    "setDescription"
-})
 public class Set {
 
-    @XmlElement(required = true)
-    protected String setSpec;
-    @XmlElement(required = true)
-    protected String setName;
-    protected List<String> setDescription;
+    /**
+     *
+     */
+    private String setSpec;
+
+    /**
+     *
+     */
+    private String setName;
+
+    /**
+     *
+     */
+    @XStreamImplicit(itemFieldName = "setDescription")
+    private List<String> setDescription;
 
     /**
      * Gets the value of the setSpec property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return the set spec
      */
-    public String getSetSpec() {
+    public final String getSetSpec() {
         return setSpec;
     }
 
     /**
      * Sets the value of the setSpec property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value Set the set spec
      */
-    public void setSetSpec(String value) {
+    public final void setSetSpec(final String value) {
         this.setSpec = value;
     }
 
     /**
      * Gets the value of the setName property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return the set name
      */
-    public String getSetName() {
+    public final String getSetName() {
         return setName;
     }
 
     /**
      * Sets the value of the setName property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value Set the set name
      */
-    public void setSetName(String value) {
+    public final void setSetName(final String value) {
         this.setName = value;
     }
 
     /**
      * Gets the value of the setDescription property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the setDescription property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getSetDescription().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Description }
-     * 
-     * 
+     *
+     * @return a description of the set
      */
-    public List<String> getSetDescription() {
+    public final List<String> getSetDescription() {
         if (setDescription == null) {
             setDescription = new ArrayList<String>();
         }
         return this.setDescription;
     }
-    
-    public void setSetDescription(List<String> setDescription) {
-        this.setDescription = setDescription;
+
+    /**
+     *
+     * @param newSetDescription Set the set description
+     */
+    public final void setSetDescription(final List<String> newSetDescription) {
+        this.setDescription = newSetDescription;
     }
 
 }

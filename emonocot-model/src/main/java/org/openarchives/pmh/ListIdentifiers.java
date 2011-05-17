@@ -6,6 +6,7 @@ import java.util.List;
 import org.openarchives.pmh.marshall.ResumptionTokenConverter;
 
 import com.thoughtworks.xstream.annotations.XStreamConverter;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
 /**
  * <p>
@@ -39,6 +40,7 @@ public class ListIdentifiers {
     /**
      *
      */
+    @XStreamImplicit(itemFieldName = "header")
     private List<Header> header;
 
     /**

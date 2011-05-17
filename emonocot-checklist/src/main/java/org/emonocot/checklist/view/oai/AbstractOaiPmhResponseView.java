@@ -14,6 +14,8 @@ import org.emonocot.checklist.controller.oai.AbstractOaiPmhController;
 import org.emonocot.model.marshall.XStreamMarshaller;
 import org.openarchives.pmh.OAIPMH;
 import org.openarchives.pmh.Request;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.oxm.Marshaller;
 import org.springframework.web.servlet.view.AbstractView;
 
@@ -26,6 +28,12 @@ import org.springframework.web.servlet.view.AbstractView;
  * @see com.ibm.lsid.MetadataResponse
  */
 public abstract class AbstractOaiPmhResponseView extends AbstractView {
+
+    /**
+    *
+    */
+   private static Logger logger
+       = LoggerFactory.getLogger(AbstractOaiPmhResponseView.class);
 
     /**
      *
@@ -86,6 +94,8 @@ public abstract class AbstractOaiPmhResponseView extends AbstractView {
         oaiPmh.setRequest((Request) model
                 .get(AbstractOaiPmhController.REQUEST_KEY));
         oaiPmh.getRequest().setValue(request.getRequestURI());
+
+        logger.debug("Constructing Response");
         constructResponse(oaiPmh, model);
         OutputStream outputStream = response.getOutputStream();
 
@@ -99,8 +109,10 @@ public abstract class AbstractOaiPmhResponseView extends AbstractView {
            }
            writer.flush();
         }
+        logger.debug("Marshalling xml to output stream");
         marshaller
                 .marshal(oaiPmh, new StreamResult(outputStream));
+        logger.debug("Finished marshalling");
     }
 
     /**

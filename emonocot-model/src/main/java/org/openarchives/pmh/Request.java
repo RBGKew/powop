@@ -77,7 +77,7 @@ public class Request {
     /**
      *
      */
-    private SetSpec set;
+    private String set;
 
     /**
      *
@@ -195,7 +195,7 @@ public class Request {
      *
      * @return the value of the set spec property
      */
-    public final SetSpec getSet() {
+    public final String getSet() {
         return set;
     }
 
@@ -204,7 +204,7 @@ public class Request {
      *
      * @param setSpec Set the set spec property
      */
-    public final void setSet(final SetSpec setSpec) {
+    public final void setSet(final String setSpec) {
         this.set = setSpec;
     }
 

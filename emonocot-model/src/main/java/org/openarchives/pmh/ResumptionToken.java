@@ -4,19 +4,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.UUID;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlSchemaType;
-import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlValue;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import org.emonocot.model.marshall.DateTimeConverter;
 import org.joda.time.DateTime;
-
-import com.thoughtworks.xstream.annotations.XStreamConverter;
 
 /**
  * A resumptionToken may have 3 optional attributes and can be used in ListSets,
@@ -92,28 +80,31 @@ public class ResumptionToken implements Serializable {
     /**
      *
      */
-    private SetSpec set;
+    private String set;
 
     /**
      *
-     * @param newSize The size of the complete list
+     * @param totalSize
+     *            Set the total number of results matching these parameters
+     * @param pageSize
+     *            Set the
      * @param newCurrentIndex The page number of the current list
      * @param newFrom The earliest date of a record in the result set
      * @param newUntil The latest date of a record in the result set
      * @param newMetadataPrefix The metadata prefix for rendering the list
      * @param newSet A set to restrict the results by
      */
-    public ResumptionToken(final Integer newSize,
+    public ResumptionToken(final Integer totalSize, final Integer pageSize,
             final Integer newCurrentIndex, final DateTime newFrom,
             final DateTime newUntil, final MetadataPrefix newMetadataPrefix,
-            final SetSpec newSet) {
+            final String newSet) {
         this.from = newFrom;
         this.until = newUntil;
         this.metadataPrefix = newMetadataPrefix;
         this.set = newSet;
         this.value = UUID.randomUUID().toString();
-        this.completeListSize = BigInteger.valueOf(newSize);
-        this.cursor = BigInteger.valueOf(newSize * newCurrentIndex);
+        this.completeListSize = BigInteger.valueOf(totalSize);
+        this.cursor = BigInteger.valueOf(pageSize * newCurrentIndex);
     }
 
     /**
@@ -222,19 +213,23 @@ public class ResumptionToken implements Serializable {
      *
      * @return the set which restricts the results
      */
-    public final SetSpec getSet() {
+    public final String getSet() {
         return set;
     }
 
     /**
      *
-     * @param size Set the total number of results matching these parameters
-     * @param currentIndex Set the current page
+     * @param totalSize
+     *            Set the total number of results matching these parameters
+     * @param pageSize
+     *            Set the
+     * @param currentIndex
+     *            Set the current page
      */
-    public final void updateResults(final Integer size,
-            final Integer currentIndex) {
-        this.completeListSize = BigInteger.valueOf(size);
-        this.cursor = BigInteger.valueOf(size * currentIndex);
+    public final void updateResults(final Integer totalSize,
+            final Integer pageSize, final Integer currentIndex) {
+        this.completeListSize = BigInteger.valueOf(totalSize);
+        this.cursor = BigInteger.valueOf(pageSize * currentIndex);
     }
 
     /**

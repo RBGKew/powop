@@ -2,6 +2,8 @@ package org.openarchives.pmh.marshall;
 
 import org.openarchives.pmh.Error;
 import org.openarchives.pmh.ErrorCode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.MarshallingContext;
@@ -15,6 +17,11 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
  *
  */
 public class ErrorConverter implements Converter {
+    /**
+    *
+    */
+   private static Logger logger
+       = LoggerFactory.getLogger(ErrorConverter.class);
 
     @Override
     public final boolean canConvert(final Class clazz) {
@@ -30,8 +37,15 @@ public class ErrorConverter implements Converter {
             final MarshallingContext context) {
 
         Error error = (Error) value;
-        writer.addAttribute("code", error.getCode().toString());
-        writer.setValue(error.getValue());
+        if (error.getCode() != null) {
+            logger.debug(error.getCode().toString());
+            writer.addAttribute("code", error.getCode().toString());
+        }
+
+        if (error.getValue() != null) {
+            logger.debug(error.getValue());
+            writer.setValue(error.getValue());
+        }
     }
 
     @Override

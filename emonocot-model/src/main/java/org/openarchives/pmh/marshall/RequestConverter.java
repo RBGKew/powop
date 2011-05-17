@@ -2,10 +2,9 @@ package org.openarchives.pmh.marshall;
 
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
-import org.openarchives.pmh.Request;
-import org.openarchives.pmh.SetSpec;
-import org.openarchives.pmh.Verb;
 import org.openarchives.pmh.MetadataPrefix;
+import org.openarchives.pmh.Request;
+import org.openarchives.pmh.Verb;
 
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.MarshallingContext;
@@ -64,7 +63,7 @@ public class RequestConverter implements Converter {
         }
 
         if (request.getSet() != null) {
-            writer.addAttribute("set", request.getSet().getValue());
+            writer.addAttribute("set", request.getSet());
         }
 
         if (request.getIdentifier() != null) {
@@ -105,7 +104,7 @@ public class RequestConverter implements Converter {
         }
 
         if (reader.getAttribute("set") != null) {
-            request.setSet(new SetSpec(reader.getAttribute("set")));
+            request.setSet(reader.getAttribute("set"));
         }
 
         if (reader.getAttribute("identifier") != null) {
