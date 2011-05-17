@@ -15,6 +15,7 @@ import org.custommonkey.xmlunit.examples.RecursiveElementNameAndTextQualifier;
 import org.dozer.Mapper;
 import org.dozer.spring.DozerBeanMapperFactoryBean;
 import org.emonocot.model.marshall.StaxDriver;
+import org.emonocot.model.marshall.UriConverter;
 import org.emonocot.model.marshall.XStreamMarshaller;
 import org.emonocot.test.xml.IgnoreXPathDifferenceListener;
 import org.openarchives.pmh.marshall.OpenArchivesQNameMapFactory;
@@ -26,6 +27,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.xml.sax.InputSource;
 
 import com.bea.xml.stream.XMLOutputFactoryBase;
+import com.thoughtworks.xstream.converters.ConverterMatcher;
 /**
  *
  * @author ben
@@ -88,6 +90,7 @@ public abstract class AbstractOaiPmhViewTestCase extends XMLTestCase {
         XStreamMarshaller marshaller = new XStreamMarshaller();
 
         marshaller.setAutodetectAnnotations(true);
+        marshaller.setConverters(new ConverterMatcher[]{new UriConverter()});
         marshaller.setReflectionProvider(reflectionProviderFactory.getObject());
         StaxDriver staxDriver = new StaxDriver(qNameMapFactory.getObject());
         staxDriver.setXmlOutputFactory(new XMLOutputFactoryBase());

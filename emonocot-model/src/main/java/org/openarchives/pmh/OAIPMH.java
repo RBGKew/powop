@@ -1,8 +1,5 @@
 package org.openarchives.pmh;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.emonocot.model.marshall.DateTimeConverter;
 import org.joda.time.DateTime;
 import org.openarchives.pmh.marshall.ErrorConverter;
@@ -129,6 +126,62 @@ public class OAIPMH {
     @XStreamAsAttribute
     private String xmlnsDcNamespace
         = "http://purl.org/dc/elements/1.1/";
+
+    /**
+     * Bit of a hack to insert the correct namespace.
+     */
+    @XStreamAlias("xmlns:tc")
+    @XStreamAsAttribute
+    private String xmlnsTcNamespace
+        = "http://rs.tdwg.org/ontology/voc/TaxonConcept#";
+
+    /**
+     * Bit of a hack to insert the correct namespace.
+     */
+    @XStreamAlias("xmlns:rdf")
+    @XStreamAsAttribute
+    private String xmlnsRdfNamespace
+        = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+
+    /**
+     * Bit of a hack to insert the correct namespace.
+     */
+    @XStreamAlias("xmlns:tn")
+    @XStreamAsAttribute
+    private String xmlnsTnNamespace
+        = "http://rs.tdwg.org/ontology/voc/TaxonName#";
+
+    /**
+     * Bit of a hack to insert the correct namespace.
+     */
+    @XStreamAlias("xmlns:owl")
+    @XStreamAsAttribute
+    private String xmlnsOwlNamespace
+        = "http://www.w3.org/2002/07/owl#";
+
+    /**
+     * Bit of a hack to insert the correct namespace.
+     */
+    @XStreamAlias("xmlns:dcterms")
+    @XStreamAsAttribute
+    private String xmlnsDctermsNamespace
+        = "http://purl.org/dc/terms/";
+
+    /**
+     * Bit of a hack to insert the correct namespace.
+     */
+    @XStreamAlias("xmlns:tcom")
+    @XStreamAsAttribute
+    private String xmlnsTcomNamespace
+        = "http://rs.tdwg.org/ontology/voc/Common#";
+
+    /**
+     * Bit of a hack to insert the correct namespace.
+     */
+    @XStreamAlias("xmlns:tpc")
+    @XStreamAsAttribute
+    private String xmlnsTpcNamespace
+        = "http://rs.tdwg.org/ontology/voc/PublicationCitation#";
 
     /**
      * Gets the value of the responseDate property.

@@ -67,6 +67,85 @@ public class OpenArchivesQNameMapFactory extends
         qNameMap.registerMapping(new QName(
                 "http://purl.org/dc/elements/1.1/", "rights", "dc"),
                 "dcRights");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/TaxonConcept#",
+                "TaxonConcept", "tc"), "taxonConcept");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/TaxonConcept#",
+                "primary", "tc"), "tcPrimary");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/TaxonConcept#",
+                "hasName", "tc"), "tcHasName");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/TaxonName#",
+                "TaxonName", "tn"), "tnTaxonName");
+        qNameMap.registerMapping(new QName(
+                "http://www.w3.org/2002/07/owl#",
+                "sameAs", "owl"), "owlSameAs");
+        qNameMap.registerMapping(new QName(
+                "http://purl.org/dc/terms/",
+                "created", "dcterms"), "dctermsCreated");
+        qNameMap.registerMapping(new QName(
+                "http://purl.org/dc/terms/",
+                "date", "dcterms"), "dctermsDate");
+        qNameMap.registerMapping(new QName(
+                "http://purl.org/dc/elements/1.1/", "contributor", "dc"),
+                "dcContributor");
+        qNameMap.registerMapping(new QName(
+                "http://purl.org/dc/elements/1.1/", "relation", "dc"),
+                "dcRelation");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/Common#",
+                "abcdEquivalence", "tcom"), "tcomAbcdEquivalence");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/Common#",
+                "berlinModelEquivalence", "tcom"),
+                "tcomBerlinModelEquivalence");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/Common#",
+                "darwinCoreEquivalence", "tcom"),
+                "tcomDarwinCoreEquivalence");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/Common#",
+                "isDeprecated", "tcom"), "tcomIsDeprecated");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/Common#",
+                "isRestricted", "tcom"), "tcomIsRestricted");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/Common#",
+                "microReference", "tcom"), "tcomMicroReference");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/Common#",
+                "notes", "tcom"), "tcomNotes");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/Common#",
+                "publishedIn", "tcom"), "tcomPublishedIn");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/Common#",
+                "taxonomicPlacementFormal", "tcom"),
+                "tcomTaxonomicPlacementFormal");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/Common#",
+                "taxonomicPlacementInformal", "tcom"),
+                "tcomTaxonomicPlacementInformal");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/Common#",
+                "tcsEquivalence", "tcom"),
+                "tcomTcsEquivalence");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/Common#",
+                "publishedInCitation", "tcom"),
+                "tcomPublishedInCitation");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/PublicationCitation#",
+                "publicationCitation", "tpc"),
+                "tpcPublicationCitation");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/TaxonName#",
+                "authorship", "tn"), "tnAuthorship");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/TaxonName#",
+                "nameComplete", "tn"), "tnNameComplete");
         // TODO register other mappings
         return qNameMap;
     }

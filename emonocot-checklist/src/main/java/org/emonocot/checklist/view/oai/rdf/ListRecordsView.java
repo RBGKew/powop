@@ -1,8 +1,8 @@
-package org.emonocot.checklist.view.oai.dc;
+package org.emonocot.checklist.view.oai.rdf;
 
 import org.emonocot.checklist.model.IdentifiableEntity;
 import org.openarchives.pmh.Metadata;
-import org.openarchives.pmh.OaiDc;
+import org.tdwg.voc.TaxonConcept;
 
 /**
  *
@@ -10,13 +10,13 @@ import org.openarchives.pmh.OaiDc;
  *
  */
 public class ListRecordsView extends
-    org.emonocot.checklist.view.oai.ListRecordsView {
+        org.emonocot.checklist.view.oai.ListRecordsView {
 
     @Override
     public final void constructMetadata(final Metadata metadata,
             final IdentifiableEntity identifiableEntity) {
-        OaiDc dc = (OaiDc) getMapper().map(identifiableEntity, OaiDc.class);
-        metadata.setOaiDc(dc);
+        metadata.setTaxonConcept(getMapper().map(identifiableEntity,
+                TaxonConcept.class));
     }
 
 }

@@ -1,50 +1,54 @@
-// $Id$
-/**
-* Copyright (C) 2007 EDIT
-* European Distributed Institute of Taxonomy 
-* http://www.e-taxonomy.eu
-* 
-* The contents of this file are subject to the Mozilla Public License Version 1.1
-* See LICENSE.TXT at the top of this package for the full license terms.
-*/
 package org.tdwg.voc;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 
 import org.tdwg.Name;
 
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TaxonName", propOrder = {
-	    "authorship",
-	    "nameComplete"
-})
-@XmlRootElement(name = "TaxonName", namespace = "http://rs.tdwg.org/ontology/voc/TaxonName#")
+/**
+ *
+ * @author ben
+ *
+ */
 public class TaxonName extends Name {
-	
-	@XmlElement(namespace = "http://rs.tdwg.org/ontology/voc/TaxonName#")
-	private String authorship;
-	
-	@XmlElement(namespace = "http://rs.tdwg.org/ontology/voc/TaxonName#")
-	private String nameComplete;
 
-	public String getAuthorship() {
-		return authorship;
-	}
+    /**
+     *
+     */
+    private String tnAuthorship;
 
-	public void setAuthorship(String authorship) {
-		this.authorship = authorship;
-	}
+    /**
+     *
+     */
+    private String tnNameComplete;
 
-	public String getNameComplete() {
-		return nameComplete;
-	}
+    /**
+     *
+     * @return the authorship of this name
+     */
+    public final String getAuthorship() {
+        return tnAuthorship;
+    }
 
-	public void setNameComplete(String nameComplete) {
-		this.nameComplete = nameComplete;
-	}
+    /**
+     *
+     * @param authorship set the authorship of this name
+     */
+    public final void setAuthorship(final String authorship) {
+        this.tnAuthorship = authorship;
+    }
+
+    /**
+     *
+     * @return the complete taxonomic name, including authorship
+     */
+    public final String getNameComplete() {
+        return tnNameComplete;
+    }
+
+    /**
+     *
+     * @param nameComplete Set the complete taxonomic name
+     */
+    public final void setNameComplete(final String nameComplete) {
+        this.tnNameComplete = nameComplete;
+    }
 
 }

@@ -1,5 +1,7 @@
 package org.openarchives.pmh;
 
+import org.tdwg.voc.TaxonConcept;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 /**
@@ -27,7 +29,6 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
  *
  *
  */
-
 public class Metadata {
 
     /**
@@ -37,20 +38,41 @@ public class Metadata {
     private OaiDc oaiDc;
 
     /**
-     * Gets the value of the any property.
+     *
+     */
+    private TaxonConcept taxonConcept;
+
+    /**
+     * Gets the value of the oaiDc property.
      *
      * @return the object
      */
-    public final OaiDc getAny() {
+    public final OaiDc getOaiDc() {
         return oaiDc;
     }
 
     /**
-     * Sets the value of the any property.
+     * Sets the value of the oaiDc property.
      *
      * @param value Set the object
      */
-    public final void setAny(final Object value) {
-        this.oaiDc = (OaiDc)value;
+    public final void setOaiDc(final OaiDc value) {
+        this.oaiDc = value;
+    }
+
+    /**
+     *
+     * @return the taxon concept
+     */
+    public final TaxonConcept getTaxonConcept() {
+        return taxonConcept;
+    }
+
+    /**
+     *
+     * @param taxonConcept Set the taxon concept
+     */
+    public final void setTaxonConcept(final TaxonConcept taxonConcept) {
+        this.taxonConcept = taxonConcept;
     }
 }

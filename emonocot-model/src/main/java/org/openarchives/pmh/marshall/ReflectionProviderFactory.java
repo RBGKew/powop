@@ -11,6 +11,8 @@ import org.openarchives.pmh.OaiDc;
 import org.openarchives.pmh.Record;
 import org.openarchives.pmh.Set;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
+import org.tdwg.voc.TaxonConcept;
+import org.tdwg.voc.TaxonName;
 
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
 import com.thoughtworks.xstream.converters.reflection.ReflectionProvider;
@@ -30,6 +32,13 @@ public class ReflectionProviderFactory extends
     private static final String[] OAI_PMH_FIELDS = new String[] {
         "xmlnsOaiDcNamespace",
         "xmlnsDcNamespace",
+        "xmlnsTcNamespace",
+        "xmlnsRdfNamespace",
+        "xmlnsTnNamespace",
+        "xmlnsOwlNamespace",
+        "xmlnsDctermsNamespace",
+        "xmlnsTcomNamespace",
+        "xmlnsTpcNamespace",
         "responseDate",
         "request",
         "error",
@@ -129,6 +138,65 @@ public class ReflectionProviderFactory extends
        "setDescription"
   };
 
+   /**
+    *
+    */
+    private static final String[] TAXON_CONCEPT_FIELDS = new String[] {
+        "dcTitle",
+        "owlSameAs",
+        "dcIdentifier",
+        "dctermsCreated",
+        "dcCreator",
+        "dctermsDate",
+        "dcContributor",
+        "dcRelation",
+        "tcomAbcdEquivalence",
+        "tcomBerlinModelEquivalence",
+        "tcomDarwinCoreEquivalence",
+        "tcomIsDeprecated",
+        "tcomIsRestricted",
+        "tcomMicroReference",
+        "tcomNotes",
+        "tcomPublishedIn",
+        "tcomTaxonomicPlacementFormal",
+        "tcomTaxonomicPlacementInformal",
+        "tcomTcsEquivalence",
+        "tcomPublishedInCitation",
+        "tcPrimary",
+//        "accordingTo",
+        "tcHasName",
+//        "hasRelationships",
+//        "describedBys"
+   };
+
+    /**
+     *
+     */
+    private static final String[] TAXON_NAME_FIELDS = new String[] {
+        "dcTitle",
+        "owlSameAs",
+        "dcIdentifier",
+        "dctermsCreated",
+        "dcCreator",
+        "dctermsDate",
+        "dcContributor",
+        "dcRelation",
+        "tcomAbcdEquivalence",
+        "tcomBerlinModelEquivalence",
+        "tcomDarwinCoreEquivalence",
+        "tcomIsDeprecated",
+        "tcomIsRestricted",
+        "tcomMicroReference",
+        "tcomNotes",
+        "tcomPublishedIn",
+        "tcomTaxonomicPlacementFormal",
+        "tcomTaxonomicPlacementInformal",
+        "tcomTcsEquivalence",
+        "tcomPublishedInCitation",
+        "tnAuthorship",
+        "tnNameComplete"
+    };
+
     /**
      * Returns a ReflectionProvider that provides core reflection services.
      *
@@ -158,6 +226,10 @@ public class ReflectionProviderFactory extends
                 ReflectionProviderFactory.OAI_DC_FIELDS);
         sorter.registerFieldOrder(Set.class,
                 ReflectionProviderFactory.SET_FIELDS);
+        sorter.registerFieldOrder(TaxonConcept.class,
+                ReflectionProviderFactory.TAXON_CONCEPT_FIELDS);
+        sorter.registerFieldOrder(TaxonName.class,
+                ReflectionProviderFactory.TAXON_NAME_FIELDS);
 
         FieldDictionary fieldDictionary = new FieldDictionary(sorter);
 

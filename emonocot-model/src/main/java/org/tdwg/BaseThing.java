@@ -1,307 +1,512 @@
-// $Id$
-/**
-* Copyright (C) 2007 EDIT
-* European Distributed Institute of Taxonomy 
-* http://www.e-taxonomy.eu
-* 
-* The contents of this file are subject to the Mozilla Public License Version 1.1
-* See LICENSE.TXT at the top of this package for the full license terms.
-*/
 package org.tdwg;
 
 import java.net.URI;
 import java.util.Set;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
-
 import org.dublincore.Relation;
 import org.emonocot.model.marshall.DateTimeConverter;
+import org.emonocot.model.marshall.UriConverter;
 import org.joda.time.DateTime;
 import org.tdwg.voc.LinkType;
 import org.tdwg.voc.PublicationCitation;
 
 import com.thoughtworks.xstream.annotations.XStreamConverter;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "BaseThing", propOrder = {
-	    "title",
-	    "sameAs",
-	    "identifier",
-	    "created",
-	    "creator",
-	    "date",
-	    "contributor",
-	    "relation",
-	    "abcdEquivalence",
-	    "berlinModelEquivalence",
-	    "darwinCoreEquivalence",
-	    "deprecated",
-	    "restricted",
-	    "microReference",
-	    "notes",
-	    "publishedIn",
-	    "taxonomicPlacementFormal",
-	    "taxonomicPlacementInformal",
-	    "tcsEquivalence",
-	    "publishedInCitation"
-})
+/**
+ *
+ * @author ben
+ *
+ */
 public abstract class BaseThing {
-	
-	@XmlElement(namespace = "http://purl.org/dc/elements/1.1/")
-	private String title;
-	
-	@XmlElement(namespace = "http://www.w3.org/2002/07/owl#")
-	private String sameAs;
-	
-	@XmlElement(namespace = "http://purl.org/dc/elements/1.1/")
-	private URI identifier;
-	
-	@XmlElement(namespace = "http://purl.org/dc/terms/")
-	@XStreamConverter(DateTimeConverter.class)
-	private DateTime created;
-	
-	@XmlElement(namespace = "http://purl.org/dc/terms/")
-	@XStreamConverter(DateTimeConverter.class)
-	private DateTime date;
 
-	@XmlElement(namespace = "http://purl.org/dc/elements/1.1/")
-	private String creator;
-	
-	@XmlElement(namespace = "http://purl.org/dc/elements/1.1/")
-	private String contributor;
-	
-	@XmlElement(name = "relation", namespace = "http://purl.org/dc/elements/1.1/")
-	private Relation relation;
-	
-	@XmlElement
-	private String abcdEquivalence;
-	
-	@XmlElement
-	private String berlinModelEquivalence;
-	
-	@XmlElement
-	private String darwinCoreEquivalence;
-	
-	@XmlElement(name = "isDeprecated")
-	private Boolean deprecated;
-	
-	@XmlElement(name = "isRestricted")
-	private Boolean restricted;
-	
-	@XmlElement
-	private String microReference;
-	
-	@XmlElement
-	private Set<String> notes;
-	
-	@XmlElement
-	private String publishedIn;
+    /**
+     *
+     */
+    private String dcTitle;
 
-	@XmlElement
-	private String taxonomicPlacementFormal;
+    /**
+     *
+     */
+    private String owlSameAs;
 
-	@XmlElement
-	private String taxonomicPlacementInformal;
+    /**
+     *
+     */
+    @XStreamConverter(UriConverter.class)
+    private URI dcIdentifier;
 
-	@XmlElement
-	private String tcsEquivalence;
+    /**
+     *
+     */
+    @XStreamConverter(DateTimeConverter.class)
+    private DateTime dctermsCreated;
 
-	@XmlElement(name = "publishedInCitation")
-	private PublishedInCitation publishedInCitation;
-	
-	public DateTime getDate() {
-		return date;
-	}
+    /**
+     *
+     */
+    @XStreamConverter(DateTimeConverter.class)
+    private DateTime dctermsDate;
 
-	public void setDate(DateTime date) {
-		this.date = date;
-	}
-	
-	public String getCreator() {
-		return creator;
-	}
+    /**
+     *
+     */
+    private String dcCreator;
 
-	public void setCreator(String creator) {
-		this.creator = creator;
-	}
+    /**
+     *
+     */
+    private String dcContributor;
 
-	public String getContributor() {
-		return contributor;
-	}
+    /**
+     *
+     */
+    private Relation dcRelation;
 
-	public void setContributor(String contributor) {
-		this.contributor = contributor;
-	}
-	
-	public String getAbcdEquivalence() {
-		return abcdEquivalence;
-	}
-	
-	public String getBerlinModelEquivalence() {
-		return berlinModelEquivalence;
-	}
-	
-	//dcterms:created
-	public DateTime getCreated() {
-		return created;
-	}
+    /**
+     *
+     */
+    private String tcomAbcdEquivalence;
 
-	public String getDarwinCoreEquivalence() {
-		return darwinCoreEquivalence;
-	}
-	
-	//dc:identifier
-	public URI getIdentifier() {
-		return identifier;
-	}
-	
-	public String getMicroReference() {
-		return microReference;
-	}
+    /**
+     *
+     */
+    private String tcomBerlinModelEquivalence;
 
-	public Set<String> getNotes() {
-		return notes;
-	}
+    /**
+     *
+     */
+    private String tcomDarwinCoreEquivalence;
 
-	public String getPublishedIn() {
-		return publishedIn;
-	}
+    /**
+     *
+     */
+    private Boolean tcomIsDeprecated;
 
-	//owl:sameAs
-	public String getSameAs() {
-		return sameAs;
-	}
+    /**
+     *
+     */
+    private Boolean tcomIsRestricted;
 
-	public String getTaxonomicPlacementFormal() {
-		return taxonomicPlacementFormal;
-	}
+    /**
+     *
+     */
+    private String tcomMicroReference;
 
-	public String getTaxonomicPlacementInformal() {
-		return taxonomicPlacementInformal;
-	}
+    /**
+     *
+     */
+    @XStreamImplicit
+    private Set<String> tcomNotes;
 
-	public String getTcsEquivalence() {
-		return tcsEquivalence;
-	}
+    /**
+     *
+     */
+    private String tcomPublishedIn;
 
-	//dc:title
-	public String getTitle() {
-		return title;
-	}
+    /**
+     *
+     */
+    private String tcomTaxonomicPlacementFormal;
 
-	public Boolean isDeprecated() {
-		return deprecated;
-	}
+    /**
+     *
+     */
+    private String tcomTaxonomicPlacementInformal;
 
-	public Boolean isRestricted() {
-		return restricted;
-	}
-	
-	public void setDeprecated(Boolean deprecated) {
-		this.deprecated = deprecated;
-	}
-	
-	public void setIdentifier(URI identifier) {
-		this.identifier = identifier;
-	}
-	
-	public void setMicroReference(String microReference) {
-		this.microReference = microReference;
-	}
-	
-	public void setNotes(Set<String> notes) {
-		this.notes = notes;
-	}
-	
-	public void setPublishedIn(String publishedIn) {
-		this.publishedIn = publishedIn;
-	}
-	
-	public void setRestricted(Boolean restricted) {
-		this.restricted = restricted;
-	} 
-	
-	public void setSameAs(String sameAs) {
-		this.sameAs = sameAs;
-	}
-	
-	public void setTaxonomicPlacementFormal(String taxonomicPlacementFormal) {
-		this.taxonomicPlacementFormal = taxonomicPlacementFormal;
-	}
-	
-	public void setTaxonomicPlacementInformal(String taxonomicPlacementInformal) {
-		this.taxonomicPlacementInformal = taxonomicPlacementInformal;
-	}
+    /**
+     *
+     */
+    private String tcomTcsEquivalence;
 
-	public void setTcsEquivalence(String tcsEquivalence) {
-		this.tcsEquivalence = tcsEquivalence;
-	}
+    /**
+     *
+     */
+    private PublishedInCitation tcomPublishedInCitation;
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    /**
+     *
+     * @return the date associated with this resource
+     */
+    public final DateTime getDate() {
+        return dctermsDate;
+    }
 
-	public void setCreated(DateTime created) {
-		this.created = created;
-	}
+    /**
+     *
+     * @param date Set the date associated with this resource
+     */
+    public final void setDate(final DateTime date) {
+        this.dctermsDate = date;
+    }
 
-	public void setPublishedInCitation(PublicationCitation publicationCitation) {
-		this.publishedInCitation = new PublishedInCitation(publicationCitation, false);
-	}
-	
-	public PublicationCitation getPublishedInCitation() {
-		return publishedInCitation != null ? publishedInCitation.getPublicationCitation() : null;
-	}
-	
-	public void setPublishedInCitationRelation(PublicationCitation publicationCitation) {
-		this.publishedInCitation = new PublishedInCitation(publicationCitation, true);
-	}
-	
-	public PublicationCitation getPublishedInCitationRelation() {
-		return publishedInCitation != null ? publishedInCitation.getPublicationCitation() : null;
-	}
+    /**
+     *
+     * @return the resource's creator
+     */
+    public final String getCreator() {
+        return dcCreator;
+    }
 
-	public void setRelation(Relation relation) {
-		this.relation = relation;
-	}
+    /**
+     *
+     * @param creator Set the resource's creator
+     */
+    public final void setCreator(final String creator) {
+        this.dcCreator = creator;
+    }
 
-	public Relation getRelation() {
-		return relation;
-	}
-	
-	@XmlAccessorType(XmlAccessType.FIELD)
-    @XmlType(name = "", propOrder = {
-        "publicationCitation"
-    })
-	public static class PublishedInCitation extends LinkType {
-		
-		@XmlElement(name = "PublicationCitation", namespace = "http://rs.tdwg.org/ontology/voc/PublicationCitation#")
-		private PublicationCitation publicationCitation;
-		
-		protected PublishedInCitation() {}
-		
-		protected PublishedInCitation(PublicationCitation publicationCitation, boolean useRelation) {
-			if(useRelation) {
-			    if(publicationCitation != null && publicationCitation.getIdentifier() != null) {
-			    	this.setResource(publicationCitation.getIdentifier());
-			    }  else {
-			    	this.publicationCitation = publicationCitation;
-			    }
-			} else {
-				this.publicationCitation = publicationCitation;
-			}
-		}
+    /**
+     *
+     * @return the contributor to this resource
+     */
+    public final String getContributor() {
+        return dcContributor;
+    }
 
-		protected void setPublicationCitation(PublicationCitation publicationCitation) {
-			this.publicationCitation = publicationCitation;
-		}
+    /**
+     *
+     * @param contributor Set the contributor to this resource
+     */
+    public final void setContributor(final String contributor) {
+        this.dcContributor = contributor;
+    }
 
-		protected PublicationCitation getPublicationCitation() {
-			return publicationCitation;
-		}
+    /**
+     *
+     * @return the equivalent class in ABCD
+     */
+    public final String getAbcdEquivalence() {
+        return tcomAbcdEquivalence;
+    }
 
-	}
+    /**
+     *
+     * @return the equivalent class in the Berlin Model
+     */
+    public final String getBerlinModelEquivalence() {
+        return tcomBerlinModelEquivalence;
+    }
+
+    /**
+     *
+     * @return the date time this resource was created
+     */
+    public final DateTime getCreated() {
+        return dctermsCreated;
+    }
+
+    /**
+     *
+     * @return the equivalent class in Darwin Core
+     */
+    public final String getDarwinCoreEquivalence() {
+        return tcomDarwinCoreEquivalence;
+    }
+
+    /**
+     *
+     * @return the identifier of this resource
+     */
+    public final URI getIdentifier() {
+        return dcIdentifier;
+    }
+
+    /**
+     *
+     * @return the micro reference associated with this resource
+     */
+    public final String getMicroReference() {
+        return tcomMicroReference;
+    }
+
+    /**
+     *
+     * @return the notes associated with this resource
+     */
+    public final Set<String> getNotes() {
+        return tcomNotes;
+    }
+
+    /**
+     *
+     * @return the publication this resource was published in
+     */
+    public final String getPublishedIn() {
+        return tcomPublishedIn;
+    }
+
+    /**
+     *
+     * @return a resource which is equivalent to this resource
+     */
+    public final String getSameAs() {
+        return owlSameAs;
+    }
+
+    /**
+     *
+     * @return the formal taxonomic placement of this resource
+     */
+    public final String getTaxonomicPlacementFormal() {
+        return tcomTaxonomicPlacementFormal;
+    }
+
+    /**
+     *
+     * @return the informal taxonomic placement of this resource
+     */
+    public final String getTaxonomicPlacementInformal() {
+        return tcomTaxonomicPlacementInformal;
+    }
+
+    /**
+     *
+     * @return the equivalent class in TCS
+     */
+    public final String getTcsEquivalence() {
+        return tcomTcsEquivalence;
+    }
+
+    /**
+     *
+     * @return the title of this resource
+     */
+    public final String getTitle() {
+        return dcTitle;
+    }
+
+    /**
+     *
+     * @return true, if this resource is deprecated, false otherwise
+     */
+    public final Boolean isDeprecated() {
+        return tcomIsDeprecated;
+    }
+
+    /**
+     *
+     * @return true, if this resource is restricted, false otherwise
+     */
+    public final Boolean isRestricted() {
+        return tcomIsRestricted;
+    }
+
+    /**
+     *
+     * @param deprecated Set the deprecated status of this resource
+     */
+    public final void setDeprecated(final Boolean deprecated) {
+        this.tcomIsDeprecated = deprecated;
+    }
+
+    /**
+     *
+     * @param identifier Set the identifier of this resource
+     */
+    public final void setIdentifier(final URI identifier) {
+        this.dcIdentifier = identifier;
+    }
+
+    /**
+     *
+     * @param microReference
+     *            Set the micro reference associated with this resource.
+     */
+    public final void setMicroReference(final String microReference) {
+        this.tcomMicroReference = microReference;
+    }
+
+    /**
+     *
+     * @param notes Set the notes associated with this resource
+     */
+    public final void setNotes(final Set<String> notes) {
+        this.tcomNotes = notes;
+    }
+
+    /**
+     *
+     * @param publishedIn Set the publication this resource was published in
+     */
+    public final void setPublishedIn(final String publishedIn) {
+        this.tcomPublishedIn = publishedIn;
+    }
+
+    /**
+     *
+     * @param restricted Set the restricted status of this resource
+     */
+    public final void setRestricted(final Boolean restricted) {
+        this.tcomIsRestricted = restricted;
+    }
+
+    /**
+     *
+     * @param sameAs Set an equivalent resource to this resource
+     */
+    public final void setSameAs(final String sameAs) {
+        this.owlSameAs = sameAs;
+    }
+
+    /**
+     *
+     * @param taxonomicPlacementFormal
+     *            Set the formal taxonomic placement of this resource
+     */
+    public final void setTaxonomicPlacementFormal(
+            final String taxonomicPlacementFormal) {
+        this.tcomTaxonomicPlacementFormal = taxonomicPlacementFormal;
+    }
+
+    /**
+     *
+     * @param taxonomicPlacementInformal
+     *            Set the informal taxonomic placement of this resource
+     */
+    public final void setTaxonomicPlacementInformal(
+            final String taxonomicPlacementInformal) {
+        this.tcomTaxonomicPlacementInformal = taxonomicPlacementInformal;
+    }
+
+    /**
+     *
+     * @param tcsEquivalence Set the equivalent class in TCS
+     */
+    public final void setTcsEquivalence(final String tcsEquivalence) {
+        this.tcomTcsEquivalence = tcsEquivalence;
+    }
+
+    /**
+     *
+     * @param title Set the title of this resource
+     */
+    public final void setTitle(final String title) {
+        this.dcTitle = title;
+    }
+
+    /**
+     *
+     * @param created Set the date time this resource was created
+     */
+    public final void setCreated(final DateTime created) {
+        this.dctermsCreated = created;
+    }
+
+    /**
+     *
+     * @param publicationCitation
+     *            Set the publication this resource was published in
+     */
+    public final void setPublishedInCitation(
+            final PublicationCitation publicationCitation) {
+        this.tcomPublishedInCitation = new PublishedInCitation(
+                publicationCitation, false);
+    }
+
+    /**
+     *
+     * @return the publication that this resource was published in
+     */
+    public final PublicationCitation getPublishedInCitation() {
+        if (tcomPublishedInCitation != null) {
+         return tcomPublishedInCitation.getPublicationCitation();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @param publicationCitation Set the published in citation relation
+     */
+    public final void setPublishedInCitationRelation(
+            final PublicationCitation publicationCitation) {
+        this.tcomPublishedInCitation = new PublishedInCitation(
+                publicationCitation, true);
+    }
+
+    /**
+     *
+     * @return the published in citation relation
+     */
+    public final PublicationCitation getPublishedInCitationRelation() {
+        if (tcomPublishedInCitation != null) {
+            return tcomPublishedInCitation.getPublicationCitation();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @param relation Set a relation
+     */
+    public final void setRelation(final Relation relation) {
+        this.dcRelation = relation;
+    }
+
+    /**
+     *
+     * @return a relation
+     */
+    public final Relation getRelation() {
+        return dcRelation;
+    }
+
+    /**
+     *
+     * @author ben
+     *
+     */
+    public static class PublishedInCitation extends LinkType {
+
+        /**
+         *
+         */
+        private PublicationCitation tpcPublicationCitation;
+
+        /**
+         *
+         */
+        protected PublishedInCitation() {
+        }
+
+        /**
+         *
+         * @param newPublicationCitation Set the publication citation
+         * @param useRelation Set as a relation, not as an object
+         */
+        protected PublishedInCitation(
+                final PublicationCitation newPublicationCitation,
+                final boolean useRelation) {
+            if (useRelation) {
+                if (newPublicationCitation != null
+                        && newPublicationCitation.getIdentifier() != null) {
+                    this.setResource(newPublicationCitation.getIdentifier());
+                } else {
+                    this.tpcPublicationCitation = newPublicationCitation;
+                }
+            } else {
+                this.tpcPublicationCitation = newPublicationCitation;
+            }
+        }
+
+        /**
+         *
+         * @param newPublicationCitation Set the publication citation
+         */
+        protected final void setPublicationCitation(
+                final PublicationCitation newPublicationCitation) {
+            this.tpcPublicationCitation = newPublicationCitation;
+        }
+
+        /**
+         *
+         * @return the publication citation
+         */
+        protected final PublicationCitation getPublicationCitation() {
+            return tpcPublicationCitation;
+        }
+    }
 }

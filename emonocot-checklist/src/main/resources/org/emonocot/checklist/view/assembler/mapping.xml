@@ -51,4 +51,49 @@
           <b>dcDate</b>
         </field>
     </mapping>
+    
+    <mapping map-null="false"> 
+        <class-a>org.emonocot.checklist.model.Taxon</class-a>
+        <class-b>org.tdwg.voc.TaxonConcept</class-b>
+        <field>
+          <a>identifier</a>
+          <b>identifier</b>
+        </field>
+        <field>
+            <a>name</a>
+            <b>hasName.nameComplete</b>
+        </field>
+        <field>
+            <a>nameId</a>
+            <b>hasName.identifier</b>
+        </field>
+        <!-- <field map-id="child">
+          <a>subordinateTaxa</a>
+          <b>hasRelationship</b>
+          <a-hint>org.emonocot.checklist.model.Taxon</a-hint>
+          <b-hint>org.tdwg.voc.Relationship</b-hint>
+        </field>
+        <field map-id="accepted">
+            <a>synonyms</a>
+            <b>hasRelationship</b>
+            <a-hint>org.emonocot.checklist.model.Taxon</a-hint>
+            <b-hint>org.tdwg.voc.Relationship</b-hint>
+        </field>
+        <field type="one-way" map-id="parent">
+            <a>parent</a>
+            <b set-method="addHasRelationship">hasRelationship</b>
+        </field>
+        <field type="one-way" map-id="synonym">
+            <a>acceptedName</a>
+            <b set-method="addHasRelationship">hasRelationship</b>
+            <a-hint>org.emonocot.checklist.model.Taxon</a-hint>
+            <b-hint>org.tdwg.voc.Relationship</b-hint>
+        </field>
+        <field type="one-way">
+            <a>this</a>
+            <b set-method="addDescribedBy">describedBy</b>
+            <a-hint>org.emonocot.checklist.model.Taxon</a-hint>
+            <b-hint>org.tdwg.voc.SpeciesProfileModel</b-hint>
+        </field>-->
+    </mapping>
 </mappings>    

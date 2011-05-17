@@ -3,18 +3,14 @@ package org.emonocot.model.marshall;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import com.thoughtworks.xstream.converters.Converter;
-import com.thoughtworks.xstream.converters.MarshallingContext;
-import com.thoughtworks.xstream.converters.UnmarshallingContext;
-import com.thoughtworks.xstream.io.HierarchicalStreamReader;
-import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+import com.thoughtworks.xstream.converters.SingleValueConverter;
 
 /**
  *
  * @author ben
  *
  */
-public class UriConverter implements Converter {
+public class UriConverter implements SingleValueConverter {
 
     @Override
     public final boolean canConvert(final Class clazz) {
@@ -25,22 +21,17 @@ public class UriConverter implements Converter {
     }
 
     @Override
-    public final void marshal(final Object value,
-            final HierarchicalStreamWriter writer,
-            final MarshallingContext context) {
-        URI uri = (URI) value;
-        writer.setValue(uri.toString());
+    public final Object fromString(final String string) {
+        try {
+            return new URI(string);
+        } catch (URISyntaxException e) {
+            throw new IllegalArgumentException(string + " is not a valid uri");
+        }
     }
 
     @Override
-    public final Object unmarshal(final HierarchicalStreamReader reader,
-            final UnmarshallingContext context) {
-        String value = reader.getValue();
-        try {
-            return new URI(value);
-        } catch (URISyntaxException e) {
-            throw new IllegalArgumentException(value
-                    + " is does not follow the URI syntax", e);
-        }
+    public final String toString(final Object object) {
+        return ((URI) object).toString();
     }
+
 }

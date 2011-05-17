@@ -75,4 +75,52 @@ public class Taxon implements IdentifiableEntity<String> {
     public void setIdentifier(final String identifier) {
         // TODO Auto-generated method stub
     }
+
+    /**
+     *
+     * @param string Set the name of the taxon
+     */
+    public final void setName(final String string) {
+        this.name = string;
+    }
+
+    /**
+     *
+     * @param string Set the name identifier of the taxon
+     */
+    public final void setNameId(final String string) {
+        this.nameId = string;
+    }
+
+    /**
+     *
+     * @param newDistribution Set the distribution of this taxon
+     */
+    public final void setDistribution(final Set<Distribution> newDistribution) {
+        this.distribution = newDistribution;
+    }
+
+    /**
+     *
+     * @param newSynonyms Set the synonyms of this taxon
+     */
+    public final void setSynonyms(final Set<Taxon> newSynonyms) {
+        this.synonyms = newSynonyms;
+    }
+
+    /**
+     *
+     * @return the name of the taxon
+     */
+    public final String getName() {
+        return name;
+    }
+
+    /**
+     *
+     * @return the name id of the taxon
+     */
+    public final String getNameId() {
+        return nameId;
+    }
 }
