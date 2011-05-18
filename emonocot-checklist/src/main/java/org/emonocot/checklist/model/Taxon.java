@@ -24,6 +24,11 @@ import org.hibernate.annotations.Where;
 public class Taxon implements IdentifiableEntity<String> {
 
     /**
+     * TODO Define an identifier prefix for real.
+     */
+    private static final String IDENTIFIER_PREFIX = "urn:lsid:kew.org:taxon:";
+
+    /**
      *
      */
     @Id
@@ -67,13 +72,23 @@ public class Taxon implements IdentifiableEntity<String> {
 
     @Override
     public final String getIdentifier() {
-        // TODO Auto-generated method stub
-        return null;
+        return Taxon.IDENTIFIER_PREFIX + this.id;
     }
 
     @Override
-    public void setIdentifier(final String identifier) {
-        // TODO Auto-generated method stub
+    public final void setIdentifier(final String identifier) {
+        if (identifier.startsWith(Taxon.IDENTIFIER_PREFIX)) {
+            try {
+                this.id = Long.parseLong(identifier
+                        .substring(Taxon.IDENTIFIER_PREFIX.length()));
+            } catch (Exception e) {
+                throw new IllegalArgumentException(identifier
+                        + " is not a valid identifier format");
+            }
+        } else {
+            throw new IllegalArgumentException(identifier
+                    + " is not a valid identifier format");
+        }
     }
 
     /**
@@ -122,5 +137,29 @@ public class Taxon implements IdentifiableEntity<String> {
      */
     public final String getNameId() {
         return nameId;
+    }
+
+    /**
+     *
+     * @param newAcceptedName Set the accepted name of the synonym
+     */
+    public final void setAcceptedName(final Taxon newAcceptedName) {
+        this.acceptedName = newAcceptedName;
+    }
+
+    /**
+     *
+     * @return the synonyms of this taxon
+     */
+    public final Set<Taxon> getSynonyms() {
+        return synonyms;
+    }
+
+    /**
+     *
+     * @return the accepted name of the synonym
+     */
+    public final Taxon getAcceptedName() {
+        return acceptedName;
     }
 }

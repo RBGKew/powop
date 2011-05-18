@@ -170,7 +170,13 @@ public abstract class AbstractOaiPmhViewTestCase extends XMLTestCase {
                   "/OAI-PMH[1]/ListRecords[1]/record[9]/metadata[1]/dc[1]/"
                   + "date[1]/text()[1]",
                   "/OAI-PMH[1]/ListRecords[1]/record[10]/metadata[1]/dc[1]/"
-                  + "date[1]/text()[1]"));
+                  + "date[1]/text()[1]",
+                  "/OAI-PMH[1]/GetRecord[1]/record[1]/metadata[1]/"
+                  + "TaxonConcept[1]/hasRelationship[1]/Relationship[1]/"
+                  + "toTaxon[1]/@resource",
+                  "/OAI-PMH[1]/GetRecord[1]/record[1]/metadata[1]/"
+                  + "TaxonConcept[1]/hasRelationship[2]/Relationship[1]/"
+                  + "toTaxon[1]/@resource"));
         difference
                 .overrideElementQualifier(
                         new RecursiveElementNameAndTextQualifier());

@@ -11,6 +11,7 @@ import org.openarchives.pmh.OaiDc;
 import org.openarchives.pmh.Record;
 import org.openarchives.pmh.Set;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
+import org.tdwg.voc.Relationship;
 import org.tdwg.voc.TaxonConcept;
 import org.tdwg.voc.TaxonName;
 
@@ -39,6 +40,8 @@ public class ReflectionProviderFactory extends
         "xmlnsDctermsNamespace",
         "xmlnsTcomNamespace",
         "xmlnsTpcNamespace",
+        "xmlnsTpNamespace",
+        "xmlnsTtNamespace",
         "responseDate",
         "request",
         "error",
@@ -163,9 +166,9 @@ public class ReflectionProviderFactory extends
         "tcomTcsEquivalence",
         "tcomPublishedInCitation",
         "tcPrimary",
-//        "accordingTo",
+        "tcAccordingTo",
         "tcHasName",
-//        "hasRelationships",
+        "tcHasRelationships",
 //        "describedBys"
    };
 
@@ -196,6 +199,35 @@ public class ReflectionProviderFactory extends
         "tnAuthorship",
         "tnNameComplete"
     };
+
+   /**
+    *
+    */
+    private static final String[] RELATIONSHIP_FIELDS = new String[] {
+        "dcTitle",
+        "owlSameAs",
+        "dcIdentifier",
+        "dctermsCreated",
+        "dcCreator",
+        "dctermsDate",
+        "dcContributor",
+        "dcRelation",
+        "tcomAbcdEquivalence",
+        "tcomBerlinModelEquivalence",
+        "tcomDarwinCoreEquivalence",
+        "tcomIsDeprecated",
+        "tcomIsRestricted",
+        "tcomMicroReference",
+        "tcomNotes",
+        "tcomPublishedIn",
+        "tcomTaxonomicPlacementFormal",
+        "tcomTaxonomicPlacementInformal",
+        "tcomTcsEquivalence",
+        "tcomPublishedInCitation",
+        "tcFromTaxon",
+        "tcRelationshipCategory",
+        "tcToTaxon"
+   };
 
     /**
      * Returns a ReflectionProvider that provides core reflection services.
@@ -230,6 +262,8 @@ public class ReflectionProviderFactory extends
                 ReflectionProviderFactory.TAXON_CONCEPT_FIELDS);
         sorter.registerFieldOrder(TaxonName.class,
                 ReflectionProviderFactory.TAXON_NAME_FIELDS);
+        sorter.registerFieldOrder(Relationship.class,
+                ReflectionProviderFactory.RELATIONSHIP_FIELDS);
 
         FieldDictionary fieldDictionary = new FieldDictionary(sorter);
 

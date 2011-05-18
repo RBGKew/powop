@@ -178,6 +178,22 @@ public class OAIPMH {
     /**
      * Bit of a hack to insert the correct namespace.
      */
+    @XStreamAlias("xmlns:tp")
+    @XStreamAsAttribute
+    private String xmlnsTpNamespace
+        = "http://rs.tdwg.org/ontology/voc/Person#";
+
+    /**
+     * Bit of a hack to insert the correct namespace.
+     */
+    @XStreamAlias("xmlns:tt")
+    @XStreamAsAttribute
+    private String xmlnsTtNamespace
+        = "http://rs.tdwg.org/ontology/voc/Team#";
+
+    /**
+     * Bit of a hack to insert the correct namespace.
+     */
     @XStreamAlias("xmlns:tpc")
     @XStreamAsAttribute
     private String xmlnsTpcNamespace

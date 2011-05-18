@@ -47,7 +47,7 @@ public class GetRecordViewTest extends AbstractOaiPmhViewTestCase {
 
         Taxon taxon = new Taxon();
 
-        taxon.setIdentifier("urn:lsid:grassbase.kew.org:taxon:2043");
+        taxon.setIdentifier("urn:lsid:kew.org:taxon:2043");
         taxon.setName("Agrostis capillaris L.");
         taxon.setNameId("urn:lsid:ipni.org:names:385550-1:1.4");
         Set<Distribution> distribution = new HashSet<Distribution>();
@@ -60,7 +60,7 @@ public class GetRecordViewTest extends AbstractOaiPmhViewTestCase {
         taxon.setDistribution(distribution);
 
         Taxon synonym = new Taxon();
-        synonym.setIdentifier("urn:lsid:grassbase.kew.org:taxon:2045");
+        synonym.setIdentifier("urn:lsid:kew.org:taxon:2045");
         synonym.setName("Agrostis capillaris castellana (Boiss. & Reut.)"
                       + " O. de Bolos, R.M. Masalles & J. Vigo");
 
@@ -68,7 +68,7 @@ public class GetRecordViewTest extends AbstractOaiPmhViewTestCase {
         synonyms.add(synonym);
 
         synonym = new Taxon();
-        synonym.setIdentifier("urn:lsid:grassbase.kew.org:taxon:2046");
+        synonym.setIdentifier("urn:lsid:kew.org:taxon:2046");
         synonym.setName("Agrostis capillaris olivetorum (Godron)"
                       + " O. de Bolos, R.M. Masalles & J. Vigo");
         synonyms.add(synonym);
@@ -80,7 +80,7 @@ public class GetRecordViewTest extends AbstractOaiPmhViewTestCase {
 
     @Override
     public final String getExpected() {
-        return "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><?xml-stylesheet type='text/xsl' href='oai2.xsl'?><oai:OAI-PMH xmlns:oai='http://www.openarchives.org/OAI/2.0/' xmlns:oai__dc='http://www.openarchives.org/OAI/2.0/oai_dc/' xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:tc='http://rs.tdwg.org/ontology/voc/TaxonConcept#' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:tn='http://rs.tdwg.org/ontology/voc/TaxonName#' xmlns:owl='http://www.w3.org/2002/07/owl#' xmlns:dcterms='http://purl.org/dc/terms/' xmlns:tcom='http://rs.tdwg.org/ontology/voc/Common#' xmlns:tpc='http://rs.tdwg.org/ontology/voc/PublicationCitation#'><oai:responseDate>2011-05-17T15:34:05Z</oai:responseDate><oai:request verb='GetRecord'></oai:request><oai:GetRecord><oai:record><oai:header><oai:datestamp>2005-04-25T11:00:00Z</oai:datestamp></oai:header><oai:metadata><tc:TaxonConcept xmlns:tc='http://rs.tdwg.org/ontology/voc/TaxonConcept#'><tc:hasName><tn:TaxonName xmlns:tn='http://rs.tdwg.org/ontology/voc/TaxonName#'><dc:identifier xmlns:dc='http://purl.org/dc/elements/1.1/'>urn:lsid:ipni.org:names:385550-1:1.4</dc:identifier><tn:nameComplete>Agrostis capillaris L.</tn:nameComplete></tn:TaxonName></tc:hasName></tc:TaxonConcept></oai:metadata></oai:record></oai:GetRecord></oai:OAI-PMH>";
+        return "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><?xml-stylesheet type='text/xsl' href='oai2.xsl'?><oai:OAI-PMH xmlns:oai='http://www.openarchives.org/OAI/2.0/' xmlns:oai__dc='http://www.openarchives.org/OAI/2.0/oai_dc/' xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:tc='http://rs.tdwg.org/ontology/voc/TaxonConcept#' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:tn='http://rs.tdwg.org/ontology/voc/TaxonName#' xmlns:owl='http://www.w3.org/2002/07/owl#' xmlns:dcterms='http://purl.org/dc/terms/' xmlns:tcom='http://rs.tdwg.org/ontology/voc/Common#' xmlns:tpc='http://rs.tdwg.org/ontology/voc/PublicationCitation#' xmlns:tp='http://rs.tdwg.org/ontology/voc/Person#' xmlns:tt='http://rs.tdwg.org/ontology/voc/Team#'><oai:responseDate>2011-05-18T14:53:10Z</oai:responseDate><oai:request verb='GetRecord'></oai:request><oai:GetRecord><oai:record><oai:header><oai:identifier>urn:lsid:kew.org:taxon:2043</oai:identifier><oai:datestamp>2005-04-25T11:00:00Z</oai:datestamp></oai:header><oai:metadata><tc:TaxonConcept xmlns:tc='http://rs.tdwg.org/ontology/voc/TaxonConcept#'><dc:identifier xmlns:dc='http://purl.org/dc/elements/1.1/'>urn:lsid:kew.org:taxon:2043</dc:identifier><tc:hasName><tn:TaxonName xmlns:tn='http://rs.tdwg.org/ontology/voc/TaxonName#'><dc:identifier>urn:lsid:ipni.org:names:385550-1:1.4</dc:identifier><tn:nameComplete>Agrostis capillaris L.</tn:nameComplete></tn:TaxonName></tc:hasName><tc:hasRelationship><tc:Relationship><tc:relationshipCategory rdf:resource='http://rs.tdwg.org/ontology/voc/TaxonConcept#HasSynonym'></tc:relationshipCategory><tc:toTaxon rdf:resource='urn:lsid:kew.org:taxon:2045'></tc:toTaxon></tc:Relationship></tc:hasRelationship><tc:hasRelationship><tc:Relationship><tc:relationshipCategory rdf:resource='http://rs.tdwg.org/ontology/voc/TaxonConcept#HasSynonym'></tc:relationshipCategory><tc:toTaxon rdf:resource='urn:lsid:kew.org:taxon:2046'></tc:toTaxon></tc:Relationship></tc:hasRelationship></tc:TaxonConcept></oai:metadata></oai:record></oai:GetRecord></oai:OAI-PMH>";
     }
 
     @Override

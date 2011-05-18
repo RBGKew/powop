@@ -1,26 +1,12 @@
-// $Id$
-/**
- * Copyright (C) 2007 EDIT
- * European Distributed Institute of Taxonomy
- * http://www.e-taxonomy.eu
- *
- * The contents of this file are subject to the Mozilla Public License Version 1.1
- * See LICENSE.TXT at the top of this package for the full license terms.
- */
 package org.tdwg.voc;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-
 import org.tdwg.Actor;
 import org.tdwg.Concept;
+
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
 /**
  *
@@ -37,7 +23,7 @@ public class TaxonConcept extends Concept {
     /**
      *
      */
-//    private AccordingTo tcAccordingTo;
+    private AccordingTo tcAccordingTo;
 
     /**
      *
@@ -47,48 +33,59 @@ public class TaxonConcept extends Concept {
     /**
      *
      */
-//    private Set<HasRelationship> tcHasRelationships = null;
+    @XStreamImplicit(itemFieldName = "tcHasRelationship")
+    private Set<HasRelationship> tcHasRelationships = null;
 
     /**
      *
      */
 //    private Set<DescribedBy> tcDescribedBys = null;
 
-//    /**
-//     *
-//     * @return the taxonomic relationships
-//     */
-//    public final Set<Relationship> getHasRelationship() {
-//        if (tcHasRelationships != null) {
-//            Set<Relationship> relationships = new HashSet<Relationship>();
-//            for (HasRelationship hasRelationship : tcHasRelationships) {
-//                relationships.add(hasRelationship.getRelationship());
-//            }
-//            return relationships;
-//        } else {
-//            return null;
-//        }
-//    }
-//
-//    public void addHasRelationship(Relationship relationship) {
-//        if (relationship != null) {
-//            if (this.tcHasRelationships == null) {
-//                this.tcHasRelationships = new HashSet<HasRelationship>();
-//            }
-//            this.tcHasRelationships.add(new HasRelationship(relationship));
-//        }
-//    }
-//
-//    public void setHasRelationship(Set<Relationship> relationships) {
-//        if (relationships != null) {
-//            this.tcHasRelationships = new HashSet<HasRelationship>();
-//            for (Relationship relationship : relationships) {
-//                tcHasRelationships.add(new HasRelationship(relationship));
-//            }
-//        } else {
-//            tcHasRelationships = null;
-//        }
-//    }
+    /**
+     *
+     * @return the taxonomic relationships
+     */
+    public final Set<Relationship> getHasRelationship() {
+        if (tcHasRelationships != null) {
+            Set<Relationship> relationships = new HashSet<Relationship>();
+            for (HasRelationship hasRelationship : tcHasRelationships) {
+                relationships.add(hasRelationship.getRelationship());
+            }
+            return relationships;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @param relationship Add a new relationship to this taxon concept
+     */
+    public final void addHasRelationship(final Relationship relationship) {
+        if (relationship != null) {
+            if (this.tcHasRelationships == null) {
+                this.tcHasRelationships = new HashSet<HasRelationship>();
+            }
+            this.tcHasRelationships.add(new HasRelationship(relationship));
+        }
+    }
+
+    /**
+     *
+     * @param relationships
+     *            Set the relationships associated with this taxon concept
+     */
+    public final void setHasRelationship(
+                final Set<Relationship> relationships) {
+        if (relationships != null) {
+            this.tcHasRelationships = new HashSet<HasRelationship>();
+            for (Relationship relationship : relationships) {
+                tcHasRelationships.add(new HasRelationship(relationship));
+            }
+        } else {
+            tcHasRelationships = null;
+        }
+    }
 
 //    public Set<SpeciesProfileModel> getDescribedBy() {
 //        if (describedBys != null) {
@@ -123,55 +120,126 @@ public class TaxonConcept extends Concept {
 //        }
 //    }
 //
-    public TaxonName getHasName() {
-        return tcHasName != null ? tcHasName.getTaxonName() : null;
+    /**
+     * @return the taxonomic name of this concept
+     */
+    public final TaxonName getHasName() {
+        if (tcHasName != null) {
+            return tcHasName.getTaxonName();
+        } else {
+            return null;
+        }
     }
 
-    public void setHasName(TaxonName taxonName) {
+    /**
+     *
+     * @param taxonName Set the taxonomic name of this concept
+     */
+    public final void setHasName(final TaxonName taxonName) {
         this.tcHasName = new HasName(taxonName, false);
     }
 
-    public TaxonName getHasNameRelation() {
-        return tcHasName != null ? tcHasName.getTaxonName() : null;
+    /**
+     *
+     * @return the taxon name of this concept
+     */
+    public final TaxonName getHasNameRelation() {
+        if (tcHasName != null) {
+            return tcHasName.getTaxonName();
+        } else {
+            return null;
+        }
     }
 
-    public void setHasNameRelation(TaxonName taxonName) {
+    /**
+     *
+     * @param taxonName Set the taxon name of this concept
+     */
+    public final void setHasNameRelation(final TaxonName taxonName) {
         this.tcHasName = new HasName(taxonName, true);
     }
-//
-//    public Boolean isPrimary() {
-//        return primary;
-//    }
-//
-//    public Actor getAccordingTo() {
-//        return accordingTo != null ? accordingTo.getActor() : null;
-//    }
-//
-//    public void setAccordingTo(Actor accordingTo) {
-//        this.accordingTo = new AccordingTo(accordingTo, false);
-//    }
-//
-//    public Actor getAccordingToRelation() {
-//        return accordingTo != null ? accordingTo.getActor() : null;
-//    }
-//
-//    public void setAccordingToRelation(Actor accordingTo) {
-//        this.accordingTo = new AccordingTo(accordingTo, true);
-//    }
-//
-//    public void setPrimary(Boolean primary) {
-//        this.primary = primary;
-//    }
-//
-    
+
+    /**
+     *
+     * @return the tcPrimary property
+     */
+    public final Boolean isPrimary() {
+        return tcPrimary;
+    }
+
+    /**
+     *
+     * @return the actor who expressed this concept
+     */
+    public final Actor getAccordingTo() {
+        if (tcAccordingTo != null) {
+            return  tcAccordingTo.getActor();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @param accordingTo set the actor who expressed this concept
+     */
+    public final void setAccordingTo(final Actor accordingTo) {
+        this.tcAccordingTo = new AccordingTo(accordingTo, false);
+    }
+
+    /**
+     *
+     * @return the actor who expressed this concept
+     */
+    public final Actor getAccordingToRelation() {
+        if (tcAccordingTo != null) {
+            return  tcAccordingTo.getActor();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @param accordingTo Set the actor who expressed this concept
+     */
+    public final void setAccordingToRelation(final Actor accordingTo) {
+        this.tcAccordingTo = new AccordingTo(accordingTo, true);
+    }
+
+    /**
+     * @param primary Set the tcPrimary property
+     */
+    public final void setPrimary(final Boolean primary) {
+        this.tcPrimary = primary;
+    }
+
+
+    /**
+     *
+     */
     public static class HasName extends LinkType {
-        
+
+        /**
+         *
+         */
         private TaxonName tnTaxonName;
 
+        /**
+         *
+         */
         protected HasName() {
         }
 
-        protected HasName(TaxonName taxonName, boolean useRelation) {
+        /**
+         *
+         * @param taxonName Set the taxon name of this relation
+         * @param useRelation true if this element should be
+         *     expressed as a relation rather than as an embedded object
+         *
+         */
+        protected HasName(final TaxonName taxonName,
+                final boolean useRelation) {
             if (useRelation) {
                 if (taxonName != null && taxonName.getIdentifier() != null) {
                     this.setResource(taxonName.getIdentifier());
@@ -183,70 +251,96 @@ public class TaxonConcept extends Concept {
             }
         }
 
-        protected TaxonName getTaxonName() {
+        /**
+         *
+         * @return the taxon name associated with this relation
+         */
+        protected final TaxonName getTaxonName() {
             return tnTaxonName;
         }
 
-        protected void setTaxonName(TaxonName taxonName) {
+        /**
+         *
+         * @param taxonName Set the taxon name of this relation
+         */
+        protected final void setTaxonName(final TaxonName taxonName) {
             this.tnTaxonName = taxonName;
         }
     }
-//
-//    @XmlAccessorType(XmlAccessType.FIELD)
-//    @XmlType(name = "HasRelationship", propOrder = { "relationship" })
-//    public static class HasRelationship extends LinkType {
-//
-//        @XmlElement(name = "Relationship", namespace = "http://rs.tdwg.org/ontology/voc/TaxonConcept#")
-//        private Relationship relationship;
-//
-//        protected HasRelationship() {
-//        }
-//
-//        protected HasRelationship(Relationship relationship) {
-//            this.relationship = relationship;
-//        }
-//
-//        protected Relationship getRelationship() {
-//            return relationship;
-//        }
-//
-//        protected void setRelationship(Relationship relationship) {
-//            this.relationship = relationship;
-//        }
-//    }
-//
-//    @XmlAccessorType(XmlAccessType.FIELD)
-//    @XmlType(name = "AccordingTo", propOrder = { "actor" })
-//    public static class AccordingTo extends LinkType {
-//
-//        @XmlElements({
-//                @XmlElement(name = "Person", namespace = "http://rs.tdwg.org/ontology/voc/Person#", type = Person.class),
-//                @XmlElement(name = "Team", namespace = "http://rs.tdwg.org/ontology/voc/Team#", type = Team.class) })
-//        private Actor actor;
-//
-//        protected AccordingTo() {
-//        }
-//
-//        protected AccordingTo(Actor actor, boolean useRelation) {
-//            if (useRelation) {
-//                if (actor != null && actor.getIdentifier() != null) {
-//                    this.setResource(actor.getIdentifier());
-//                } else {
-//                    this.actor = actor;
-//                }
-//            } else {
-//                this.actor = actor;
-//            }
-//        }
-//
-//        protected Actor getActor() {
-//            return actor;
-//        }
-//
-//        protected void setActor(Actor actor) {
-//            this.actor = actor;
-//        }
-//    }
+
+    /**
+     *
+     */
+    public static class AccordingTo extends LinkType {
+
+        /**
+         *
+         */
+        private Person tpPerson;
+
+        /**
+         *
+         */
+        private Team ttTeam;
+
+        /**
+         *
+         */
+        protected AccordingTo() {
+        }
+
+        /**
+         *
+         * @param actor Set the actor of this relation
+         * @param useRelation true if this element should be
+         *     expressed as a relation rather than as an embedded object
+         */
+        protected AccordingTo(final Actor actor, final boolean useRelation) {
+            if (useRelation) {
+                if (actor != null && actor.getIdentifier() != null) {
+                    this.setResource(actor.getIdentifier());
+                } else {
+                    if (actor != null && actor instanceof Team) {
+                        this.ttTeam = (Team) actor;
+                    } else if (actor != null && actor instanceof Person) {
+                        this.tpPerson = (Person) actor;
+                    }
+                }
+            } else {
+                if (actor != null && actor instanceof Team) {
+                    this.ttTeam = (Team) actor;
+                } else if (actor != null && actor instanceof Person) {
+                    this.tpPerson = (Person) actor;
+                }
+            }
+        }
+
+        /**
+         *
+         * @return the actor associated with this relation
+         */
+        protected final Actor getActor() {
+            if (ttTeam != null) {
+              return ttTeam;
+            } else {
+                return tpPerson;
+            }
+        }
+
+        /**
+         *
+         * @param actor Set the actor associated with this relation
+         */
+        protected final void setActor(final Actor actor) {
+            if (actor != null && actor instanceof Team) {
+                this.ttTeam = (Team) actor;
+                this.tpPerson = null;
+            } else if (actor != null && actor instanceof Person) {
+                this.tpPerson = (Person) actor;
+                this.ttTeam = null;
+            }
+        }
+    }
 //
 //    @XmlAccessorType(XmlAccessType.FIELD)
 //    @XmlType(name = "DescribedBy", propOrder = { "speciesProfileModel" })

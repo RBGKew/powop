@@ -72,28 +72,46 @@
           <b>hasRelationship</b>
           <a-hint>org.emonocot.checklist.model.Taxon</a-hint>
           <b-hint>org.tdwg.voc.Relationship</b-hint>
-        </field>
+        </field>-->
         <field map-id="accepted">
             <a>synonyms</a>
             <b>hasRelationship</b>
             <a-hint>org.emonocot.checklist.model.Taxon</a-hint>
             <b-hint>org.tdwg.voc.Relationship</b-hint>
         </field>
-        <field type="one-way" map-id="parent">
+        <!-- <field type="one-way" map-id="parent">
             <a>parent</a>
             <b set-method="addHasRelationship">hasRelationship</b>
-        </field>
+        </field>-->
         <field type="one-way" map-id="synonym">
             <a>acceptedName</a>
             <b set-method="addHasRelationship">hasRelationship</b>
             <a-hint>org.emonocot.checklist.model.Taxon</a-hint>
             <b-hint>org.tdwg.voc.Relationship</b-hint>
         </field>
-        <field type="one-way">
+        <!-- <field type="one-way">
             <a>this</a>
             <b set-method="addDescribedBy">describedBy</b>
             <a-hint>org.emonocot.checklist.model.Taxon</a-hint>
             <b-hint>org.tdwg.voc.SpeciesProfileModel</b-hint>
         </field>-->
+    </mapping>
+    
+    <mapping map-id="accepted">
+        <class-a>org.emonocot.checklist.model.Taxon</class-a>
+        <class-b bean-factory="org.emonocot.checklist.view.assembler.AcceptedRelationshipBeanFactory">org.tdwg.voc.Relationship</class-b>
+        <field>
+            <a>this</a>
+            <b>toTaxon</b>
+        </field>
+    </mapping>  
+    
+    <mapping map-id="synonym">
+        <class-a>org.emonocot.checklist.model.Taxon</class-a>
+        <class-b bean-factory="org.emonocot.checklist.view.assembler.SynonymRelationshipBeanFactory">org.tdwg.voc.Relationship</class-b>
+        <field>
+            <a>this</a>
+            <b>toTaxon</b>
+        </field>
     </mapping>
 </mappings>    

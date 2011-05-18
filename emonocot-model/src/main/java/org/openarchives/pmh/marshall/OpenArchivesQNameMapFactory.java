@@ -4,6 +4,7 @@ import javax.xml.namespace.QName;
 
 import org.openarchives.pmh.OAIPMH;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
+import org.tdwg.voc.HasRelationship;
 
 import com.thoughtworks.xstream.io.xml.QNameMap;
 
@@ -146,6 +147,36 @@ public class OpenArchivesQNameMapFactory extends
         qNameMap.registerMapping(new QName(
                 "http://rs.tdwg.org/ontology/voc/TaxonName#",
                 "nameComplete", "tn"), "tnNameComplete");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/Person#",
+                "Person", "tp"), "tpPerson");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/Team#",
+                "Team", "tt"), "ttTeam");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/TaxonConcept#",
+                "Relationship", "tc"), "tcRelationship");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/TaxonConcept#",
+                "accordingTo", "tc"), "tcAccordingTo");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/TaxonConcept#",
+                "hasRelationship", "tc"), "tcHasRelationship");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/TaxonConcept#",
+                "fromTaxon", "tc"), "tcFromTaxon");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/TaxonConcept#",
+                "toTaxon", "tc"), "tcToTaxon");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/TaxonConcept#",
+                "relationshipCategory", "tc"), "tcRelationshipCategory");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/TaxonConcept#",
+                "TaxonConcept", "tc"), "tcTaxonConcept");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/TaxonConcept#",
+                "TaxonRelationshipTerm", "tc"), "tcTaxonRelationshipTerm");
         // TODO register other mappings
         return qNameMap;
     }
