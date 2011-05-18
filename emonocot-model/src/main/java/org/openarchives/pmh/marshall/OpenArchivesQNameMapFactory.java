@@ -4,7 +4,6 @@ import javax.xml.namespace.QName;
 
 import org.openarchives.pmh.OAIPMH;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
-import org.tdwg.voc.HasRelationship;
 
 import com.thoughtworks.xstream.io.xml.QNameMap;
 
@@ -177,6 +176,42 @@ public class OpenArchivesQNameMapFactory extends
         qNameMap.registerMapping(new QName(
                 "http://rs.tdwg.org/ontology/voc/TaxonConcept#",
                 "TaxonRelationshipTerm", "tc"), "tcTaxonRelationshipTerm");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/TaxonConcept#",
+                "describedBy", "tc"), "tcDescribedBy");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/SpeciesProfileModel#",
+                "SpeciesProfileModel", "spm"), "spmSpeciesProfileModel");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/SpeciesProfileModel#",
+                "aboutTaxon", "spm"), "spmAboutTaxon");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/SpeciesProfileModel#",
+                "hasInformation", "spm"), "spmHasInformation");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/SpeciesProfileModel#",
+                "InfoItem", "spm"), "spmInfoItem");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/SPMInfoItems#",
+                "Distribution", "spmi"), "spmiDistribution");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/SpeciesProfileModel#",
+                "category", "spm"), "spmCategory");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/SpeciesProfileModel#",
+                "context", "spm"), "spmContext");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/SpeciesProfileModel#",
+                "hasValue", "spm"), "spmHasValue");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/GeographicRegion#",
+                "code", "gr"), "grCode");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/GeographicRegion#",
+                "name", "gr"), "grName");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/GeographicRegion#",
+                "isPartOf", "gr"), "grIsPartOf");
         // TODO register other mappings
         return qNameMap;
     }

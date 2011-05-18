@@ -20,6 +20,8 @@ import org.emonocot.model.marshall.XStreamMarshaller;
 import org.emonocot.test.xml.IgnoreXPathDifferenceListener;
 import org.openarchives.pmh.marshall.OpenArchivesQNameMapFactory;
 import org.openarchives.pmh.marshall.ReflectionProviderFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -34,6 +36,12 @@ import com.thoughtworks.xstream.converters.ConverterMatcher;
  *
  */
 public abstract class AbstractOaiPmhViewTestCase extends XMLTestCase {
+    /**
+    *
+    */
+   private static Logger logger
+       = LoggerFactory.getLogger(AbstractOaiPmhViewTestCase.class);
+
     /**
      *
      */
@@ -106,9 +114,6 @@ public abstract class AbstractOaiPmhViewTestCase extends XMLTestCase {
          mapperFactory.setMappingFiles(new Resource[]{
          new ClassPathResource(
                  "/org/emonocot/checklist/view/assembler/mapping.xml")
-//         ,
-//         new ClassPathResource(
-//                 "/org/kew/grassbase/view/assembler/mapping.xml")
          });
         mapperFactory.afterPropertiesSet();
         view.setMapper((Mapper) mapperFactory.getObject());
@@ -142,7 +147,7 @@ public abstract class AbstractOaiPmhViewTestCase extends XMLTestCase {
      */
     public final void testView() throws Exception {
         view.render(model, request, response);
-        System.out.println(((MockHttpServletResponse) response)
+        logger.info(((MockHttpServletResponse) response)
                 .getContentAsString());
         Diff difference = new Diff(getExpected(),
                 ((MockHttpServletResponse) response).getContentAsString());
@@ -176,14 +181,23 @@ public abstract class AbstractOaiPmhViewTestCase extends XMLTestCase {
                   + "toTaxon[1]/@resource",
                   "/OAI-PMH[1]/GetRecord[1]/record[1]/metadata[1]/"
                   + "TaxonConcept[1]/hasRelationship[2]/Relationship[1]/"
-                  + "toTaxon[1]/@resource"));
+                  + "toTaxon[1]/@resource",
+                  "/OAI-PMH[1]/GetRecord[1]/record[1]/metadata[1]/"
+                  + "TaxonConcept[1]/describedBy[1]/SpeciesProfileModel[1]/"
+                  + "hasInformation[1]/Distribution[1]/hasValue[1]/@resource",
+                  "/OAI-PMH[1]/GetRecord[1]/record[1]/metadata[1]/"
+                  + "TaxonConcept[1]/describedBy[1]/SpeciesProfileModel[1]/"
+                  + "hasInformation[2]/Distribution[1]/hasValue[1]/@resource",
+                  "/OAI-PMH[1]/GetRecord[1]/record[1]/metadata[1]/"
+                  + "TaxonConcept[1]/describedBy[1]/SpeciesProfileModel[1]/"
+                  + "hasInformation[3]/Distribution[1]/hasValue[1]/@resource"));
         difference
                 .overrideElementQualifier(
                         new RecursiveElementNameAndTextQualifier());
         if (!difference.similar()) {
-            System.out.println(difference.toString());
+            logger.warn(difference.toString());
         }
-        assertTrue("test XML matches control skeleton XML",
+        assertTrue("test XML does not match control skeleton XML",
                 difference.similar());
         if (validateAgainstSchemas) {
             InputSource inputSource = new InputSource(new StringReader(

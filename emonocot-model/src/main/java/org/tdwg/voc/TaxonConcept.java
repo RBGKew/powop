@@ -39,7 +39,8 @@ public class TaxonConcept extends Concept {
     /**
      *
      */
-//    private Set<DescribedBy> tcDescribedBys = null;
+    @XStreamImplicit(itemFieldName = "tcDescribedBy")
+    private Set<DescribedBy> tcDescribedBys = null;
 
     /**
      *
@@ -87,39 +88,55 @@ public class TaxonConcept extends Concept {
         }
     }
 
-//    public Set<SpeciesProfileModel> getDescribedBy() {
-//        if (describedBys != null) {
-//            Set<SpeciesProfileModel> speciesProfileModels = new HashSet<SpeciesProfileModel>();
-//            for (DescribedBy describedBy : describedBys) {
-//                speciesProfileModels.add(describedBy.getSpeciesProfileModel());
-//            }
-//            return speciesProfileModels;
-//        } else {
-//            return null;
-//        }
-//    }
-//
-//    public void setDescribedBy(Set<SpeciesProfileModel> speciesProfileModels) {
-//        if (speciesProfileModels != null) {
-//            this.describedBys = new HashSet<DescribedBy>();
-//            for (SpeciesProfileModel speciesProfileModel : speciesProfileModels) {
-//                describedBys.add(new DescribedBy(speciesProfileModel));
-//            }
-//        } else {
-//            describedBys = null;
-//        }
-//    }
-//
-//    public void addDescribedBy(SpeciesProfileModel speciesProfileModel) {
-//
-//        if (speciesProfileModel != null) {
-//            if (this.describedBys == null) {
-//                this.describedBys = new HashSet<DescribedBy>();
-//            }
-//            describedBys.add(new DescribedBy(speciesProfileModel));
-//        }
-//    }
-//
+    /**
+     *
+     * @return descriptions of this taxon concept
+     */
+    public final Set<SpeciesProfileModel> getDescribedBy() {
+        if (tcDescribedBys != null) {
+            Set<SpeciesProfileModel> speciesProfileModels
+                = new HashSet<SpeciesProfileModel>();
+            for (DescribedBy describedBy : tcDescribedBys) {
+                speciesProfileModels.add(describedBy.getSpeciesProfileModel());
+            }
+            return speciesProfileModels;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @param speciesProfileModels Set the descriptions of this taxon
+     */
+    public final void setDescribedBy(
+              final Set<SpeciesProfileModel> speciesProfileModels) {
+        if (speciesProfileModels != null) {
+            this.tcDescribedBys = new HashSet<DescribedBy>();
+            for (SpeciesProfileModel speciesProfileModel
+                      : speciesProfileModels) {
+                tcDescribedBys.add(new DescribedBy(speciesProfileModel));
+            }
+        } else {
+            tcDescribedBys = null;
+        }
+    }
+
+    /**
+     *
+     * @param speciesProfileModel Add another description to this taxon
+     */
+    public final void addDescribedBy(
+            final SpeciesProfileModel speciesProfileModel) {
+
+        if (speciesProfileModel != null) {
+            if (this.tcDescribedBys == null) {
+                this.tcDescribedBys = new HashSet<DescribedBy>();
+            }
+            tcDescribedBys.add(new DescribedBy(speciesProfileModel));
+        }
+    }
+
     /**
      * @return the taxonomic name of this concept
      */
@@ -341,35 +358,4 @@ public class TaxonConcept extends Concept {
             }
         }
     }
-//
-//    @XmlAccessorType(XmlAccessType.FIELD)
-//    @XmlType(name = "DescribedBy", propOrder = { "speciesProfileModel" })
-//    public static class DescribedBy extends LinkType {
-//
-//        @XmlElement(name = "SpeciesProfileModel", namespace = "http://rs.tdwg.org/ontology/voc/SpeciesProfileModel#")
-//        private SpeciesProfileModel speciesProfileModel;
-//
-//        protected DescribedBy() {
-//        }
-//
-//        protected DescribedBy(SpeciesProfileModel speciesProfileModel) {
-//            this.speciesProfileModel = speciesProfileModel;
-//        }
-//
-//        protected SpeciesProfileModel getSpeciesProfileModel() {
-//            return speciesProfileModel;
-//        }
-//
-//        protected void setSpeciesProfileModel(
-//                SpeciesProfileModel speciesProfileModel) {
-//            this.speciesProfileModel = speciesProfileModel;
-//        }
-//    }
-//
-//    // public Object onCycleDetected(Context context) {
-//    // TaxonConcept taxonConcept = new TaxonConcept();
-//    // taxonConcept.setIdentifier(super.getIdentifier());
-//    // taxonConcept.setTitle(super.getTitle());
-//    // return taxonConcept;
-//    // }
 }

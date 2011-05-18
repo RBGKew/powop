@@ -44,7 +44,7 @@ public class ChecklistWebserviceController {
      *
      * @return An empty ModelAndView with the view name "rdfResponse".
      */
-    @RequestMapping(method = RequestMethod.GET, params = {"!function"})
+    @RequestMapping(method = RequestMethod.GET, params = {"!function" })
     public final ModelAndView ping() {
         return new ModelAndView("rdfResponse");
     }

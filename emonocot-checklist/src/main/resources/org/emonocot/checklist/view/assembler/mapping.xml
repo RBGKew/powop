@@ -89,12 +89,12 @@
             <a-hint>org.emonocot.checklist.model.Taxon</a-hint>
             <b-hint>org.tdwg.voc.Relationship</b-hint>
         </field>
-        <!-- <field type="one-way">
+        <field type="one-way">
             <a>this</a>
             <b set-method="addDescribedBy">describedBy</b>
             <a-hint>org.emonocot.checklist.model.Taxon</a-hint>
             <b-hint>org.tdwg.voc.SpeciesProfileModel</b-hint>
-        </field>-->
+        </field>
     </mapping>
     
     <mapping map-id="accepted">
@@ -114,4 +114,29 @@
             <b>toTaxon</b>
         </field>
     </mapping>
+    
+     <mapping>
+        <class-a>org.emonocot.checklist.model.Taxon</class-a>
+        <class-b>org.tdwg.voc.SpeciesProfileModel</class-b>
+        <field>
+          <a>this</a>
+          <b>aboutTaxon</b>
+        </field>
+       <field>
+          <a>distribution</a>
+          <b set-method="addHasInformation">hasInformation</b>
+          <a-hint>org.emonocot.checklist.model.Distribution</a-hint>
+          <b-hint>org.tdwg.voc.Distribution</b-hint>
+        </field>
+    </mapping>
+    
+    <mapping>
+        <class-a>org.emonocot.checklist.model.Distribution</class-a>
+        <class-b>org.tdwg.voc.Distribution</class-b>
+        <field custom-converter="org.emonocot.checklist.view.assembler.GeographicRegionConverter">
+            <a>this</a>
+            <b set-method="addValue">hasValue</b>
+        </field>
+    </mapping>
+    
 </mappings>    

@@ -200,6 +200,30 @@ public class OAIPMH {
         = "http://rs.tdwg.org/ontology/voc/PublicationCitation#";
 
     /**
+     * Bit of a hack to insert the correct namespace.
+     */
+    @XStreamAlias("xmlns:spm")
+    @XStreamAsAttribute
+    private String xmlnsSpmNamespace
+        = "http://rs.tdwg.org/ontology/voc/SpeciesProfileModel#";
+
+    /**
+     * Bit of a hack to insert the correct namespace.
+     */
+    @XStreamAlias("xmlns:spmi")
+    @XStreamAsAttribute
+    private String xmlnsSpmiNamespace
+        = "http://rs.tdwg.org/ontology/voc/SPMInfoItems#";
+
+    /**
+     * Bit of a hack to insert the correct namespace.
+     */
+    @XStreamAlias("xmlns:gr")
+    @XStreamAsAttribute
+    private String xmlnsGrNamespace
+        = "http://rs.tdwg.org/ontology/voc/GeographicRegion#";
+
+    /**
      * Gets the value of the responseDate property.
      *
      * @return The date the response was submitted

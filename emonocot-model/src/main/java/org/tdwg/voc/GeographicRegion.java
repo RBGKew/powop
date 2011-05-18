@@ -1,53 +1,74 @@
 package org.tdwg.voc;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-
 import org.tdwg.DefinedTerm;
 
-
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "GeographicalRegion", propOrder = {
-	"code",
-	"name",
-	"isPartOf"
-})
-@XmlRootElement(name = "GeographicalRegion", namespace = "http://rs.tdwg.org/ontology/voc/GeographicRegion#")
+/**
+ *
+ * @author ben
+ *
+ */
 public class GeographicRegion extends DefinedTerm {
-	
-	@XmlElement(name = "code", namespace = "http://rs.tdwg.org/ontology/voc/GeographicRegion#")
-	private String code;
-	
-	@XmlElement(name = "name", namespace = "http://rs.tdwg.org/ontology/voc/GeographicRegion#")
-	private String name;
-	
-	@XmlElement(name = "isPartOf", namespace = "http://rs.tdwg.org/ontology/voc/GeographicRegion#")
-	private GeographicRegion isPartOf;
 
-	public String getCode() {
-		return code;
-	}
+    /**
+     *
+     */
+    private String grCode;
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+   /**
+    *
+    */
+    private String grName;
 
-	public String getName() {
-		return name;
-	}
+    /**
+     *
+     */
+    private GeographicRegion grIsPartOf;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    /**
+     *
+     * @return the code of this region
+     */
+    public final String getCode() {
+        return grCode;
+    }
 
-	public GeographicRegion getIsPartOf() {
-		return isPartOf;
-	}
+    /**
+     *
+     * @param code Set the code of this region
+     */
+    public final void setCode(final String code) {
+        this.grCode = code;
+    }
 
-	public void setIsPartOf(GeographicRegion isPartOf) {
-		this.isPartOf = isPartOf;
-	}
+    /**
+     *
+     * @return the name of this region
+     */
+    public final String getName() {
+        return grName;
+    }
+
+    /**
+     *
+     * @param name Set the name of this region
+     */
+    public final void setName(final String name) {
+        this.grName = name;
+    }
+
+    /**
+     *
+     * @return the geographic region this region is part of
+     */
+    public final GeographicRegion getIsPartOf() {
+        return grIsPartOf;
+    }
+
+    /**
+     *
+     * @param isPartOf Set the region this region is part of
+     */
+    public final void setIsPartOf(final GeographicRegion isPartOf) {
+        this.grIsPartOf = isPartOf;
+    }
 }

@@ -162,4 +162,12 @@ public class Taxon implements IdentifiableEntity<String> {
     public final Taxon getAcceptedName() {
         return acceptedName;
     }
+
+    /**
+     *
+     * @return the distribution of this taxon
+     */
+    public final Set<Distribution> getDistribution() {
+        return distribution;
+    }
 }

@@ -11,7 +11,10 @@ import org.openarchives.pmh.OaiDc;
 import org.openarchives.pmh.Record;
 import org.openarchives.pmh.Set;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
+import org.tdwg.voc.Distribution;
+import org.tdwg.voc.InfoItem;
 import org.tdwg.voc.Relationship;
+import org.tdwg.voc.SpeciesProfileModel;
 import org.tdwg.voc.TaxonConcept;
 import org.tdwg.voc.TaxonName;
 
@@ -42,6 +45,9 @@ public class ReflectionProviderFactory extends
         "xmlnsTpcNamespace",
         "xmlnsTpNamespace",
         "xmlnsTtNamespace",
+        "xmlnsSpmNamespace",
+        "xmlnsSpmiNamespace",
+        "xmlnsGrNamespace",
         "responseDate",
         "request",
         "error",
@@ -169,7 +175,7 @@ public class ReflectionProviderFactory extends
         "tcAccordingTo",
         "tcHasName",
         "tcHasRelationships",
-//        "describedBys"
+        "tcDescribedBys"
    };
 
     /**
@@ -229,6 +235,63 @@ public class ReflectionProviderFactory extends
         "tcToTaxon"
    };
 
+   /**
+    *
+    */
+    private static final String[] SPM_FIELDS = new String[] {
+        "dcTitle",
+        "owlSameAs",
+        "dcIdentifier",
+        "dctermsCreated",
+        "dcCreator",
+        "dctermsDate",
+        "dcContributor",
+        "dcRelation",
+        "tcomAbcdEquivalence",
+        "tcomBerlinModelEquivalence",
+        "tcomDarwinCoreEquivalence",
+        "tcomIsDeprecated",
+        "tcomIsRestricted",
+        "tcomMicroReference",
+        "tcomNotes",
+        "tcomPublishedIn",
+        "tcomTaxonomicPlacementFormal",
+        "tcomTaxonomicPlacementInformal",
+        "tcomTcsEquivalence",
+        "tcomPublishedInCitation",
+        "spmAboutTaxon",
+        "spmHasInformations"
+   };
+    
+    /**
+    *
+    */
+    private static final String[] INFO_ITEM_FIELDS = new String[] {
+        "dcTitle",
+        "owlSameAs",
+        "dcIdentifier",
+        "dctermsCreated",
+        "dcCreator",
+        "dctermsDate",
+        "dcContributor",
+        "dcRelation",
+        "tcomAbcdEquivalence",
+        "tcomBerlinModelEquivalence",
+        "tcomDarwinCoreEquivalence",
+        "tcomIsDeprecated",
+        "tcomIsRestricted",
+        "tcomMicroReference",
+        "tcomNotes",
+        "tcomPublishedIn",
+        "tcomTaxonomicPlacementFormal",
+        "tcomTaxonomicPlacementInformal",
+        "tcomTcsEquivalence",
+        "tcomPublishedInCitation",
+        "spmCategory",
+        "spmContextValues",
+        "spmHasValues"
+   };
+
     /**
      * Returns a ReflectionProvider that provides core reflection services.
      *
@@ -264,6 +327,12 @@ public class ReflectionProviderFactory extends
                 ReflectionProviderFactory.TAXON_NAME_FIELDS);
         sorter.registerFieldOrder(Relationship.class,
                 ReflectionProviderFactory.RELATIONSHIP_FIELDS);
+        sorter.registerFieldOrder(SpeciesProfileModel.class,
+                ReflectionProviderFactory.SPM_FIELDS);
+        sorter.registerFieldOrder(InfoItem.class,
+                ReflectionProviderFactory.INFO_ITEM_FIELDS);
+        sorter.registerFieldOrder(Distribution.class,
+                ReflectionProviderFactory.INFO_ITEM_FIELDS);
 
         FieldDictionary fieldDictionary = new FieldDictionary(sorter);
 
