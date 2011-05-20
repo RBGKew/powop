@@ -902,6 +902,10 @@
                                         <name>selenium.target.portal</name>
                                         <value>${selenium.target.portal}</value>
                                       </property>
+                                      <property>
+                                        <name>selenium.target.portal</name>
+                                        <value>${selenium.target.checklist}</value>
+                                      </property>
                                     </systemProperties>
 								</configuration>
 							</execution>
