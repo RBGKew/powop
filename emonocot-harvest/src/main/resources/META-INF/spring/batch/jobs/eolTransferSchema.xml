@@ -25,8 +25,8 @@
     <bean id="getXMLDocTasklet"
 	      class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
 	      scope="step">
-	  <property name="targetObject" ref="getXMLDocClient" />
-	  <property name="targetMethod" value="getDocument" />
+	  <property name="targetObject" ref="getResourceClient" />
+	  <property name="targetMethod" value="getResource" />
 	  <property name="arguments">
 		<list>
 			<value>#{jobParameters['authority.name']}</value>
@@ -37,7 +37,7 @@
 	  </property>
     </bean>
     
-    <bean id="getXMLDocClient" class="org.emonocot.ws.scratchpads.GetXMLDocClient" />
+    <bean id="getResourceClient" class="org.emonocot.ws.GetResourceClient" />
 
 	<bean id="itemReader" class="org.emonocot.job.io.StaxEventItemReader"
 		  scope="step">

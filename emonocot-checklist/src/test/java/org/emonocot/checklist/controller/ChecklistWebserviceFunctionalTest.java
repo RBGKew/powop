@@ -47,7 +47,7 @@ public class ChecklistWebserviceFunctionalTest extends SeleneseTestCase {
      *             if there is a problem with the test
      */
     @Test
-    public final void testUntitled() throws Exception {
+    public final void testPing() throws Exception {
         selenium.open("./endpoint");
         assertTrue(httpCommandProcessor
                 .getBoolean(

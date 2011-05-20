@@ -171,6 +171,10 @@
 			<groupId>xerces</groupId>
 			<artifactId>xercesImpl</artifactId>
 		</dependency>
+		<dependency>
+            <groupId>org.gbif</groupId>
+            <artifactId>dwca-reader</artifactId>
+        </dependency>
 	</dependencies>
 	<build>
 		<finalName>emonocot-harvest</finalName>

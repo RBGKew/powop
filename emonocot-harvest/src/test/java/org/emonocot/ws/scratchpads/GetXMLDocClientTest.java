@@ -20,6 +20,7 @@ import org.apache.http.message.BasicStatusLine;
 import org.apache.http.params.BasicHttpParams;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.easymock.EasyMock;
+import org.emonocot.ws.GetResourceClient;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.core.ExitStatus;
@@ -37,7 +38,7 @@ public class GetXMLDocClientTest {
     /**
      *
      */
-    private GetXMLDocClient getXmlDocClient = new GetXMLDocClient();
+    private GetResourceClient getXmlDocClient = new GetResourceClient();
     /**
      *
      */
@@ -94,7 +95,7 @@ public class GetXMLDocClientTest {
         EasyMock.replay(httpClient);
 
         ExitStatus exitStatus = getXmlDocClient
-                .getDocument("http://scratchpad.cate-araceae.org",
+                .getResource("http://scratchpad.cate-araceae.org",
                         "http://scratchpad.cate-araceae.org/spm/export.xml",
                         Long.toString(new Date().getTime()),
                         tempFile.getAbsolutePath());
@@ -130,7 +131,7 @@ public class GetXMLDocClientTest {
         EasyMock.replay(httpClient);
 
         ExitStatus exitStatus = getXmlDocClient
-                .getDocument("http://scratchpad.cate-araceae.org",
+                .getResource("http://scratchpad.cate-araceae.org",
                         "http://scratchpad.cate-araceae.org/spm/export.xml",
                         Long.toString(new Date().getTime()),
                         tempFile.getAbsolutePath());
@@ -162,7 +163,7 @@ public class GetXMLDocClientTest {
         EasyMock.replay(httpClient);
 
         ExitStatus exitStatus = getXmlDocClient
-                .getDocument("http://scratchpad.cate-araceae.org",
+                .getResource("http://scratchpad.cate-araceae.org",
                         "http://scratchpad.cate-araceae.org/spm/export.xml",
                         Long.toString(new Date().getTime()),
                         tempFile.getAbsolutePath());

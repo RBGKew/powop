@@ -445,10 +445,10 @@
 				<version>3.2.7</version>
 			</dependency>
 			<dependency>
-              <groupId>stax</groupId>
-              <artifactId>stax</artifactId>
-              <version>1.2.0</version>
-            </dependency>
+				<groupId>stax</groupId>
+				<artifactId>stax</artifactId>
+				<version>1.2.0</version>
+			</dependency>
 			<dependency>
 				<groupId>javax.xml.stream</groupId>
 				<artifactId>com.springsource.javax.xml.stream</artifactId>
@@ -554,25 +554,30 @@
 				<version>2.4.2</version>
 			</dependency>
 			<dependency>
-                <groupId>net.sf.dozer</groupId>
-                <artifactId>dozer</artifactId>
-                <version>5.3.2</version>
+				<groupId>net.sf.dozer</groupId>
+				<artifactId>dozer</artifactId>
+				<version>5.3.2</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.activemq</groupId>
+				<artifactId>activemq-spring</artifactId>
+				<version>5.4.2</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.xbean</groupId>
+				<artifactId>com.springsource.org.apache.xbean.spring</artifactId>
+				<version>3.6.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.geronimo.specs</groupId>
+				<artifactId>com.springsource.javax.management.j2ee</artifactId>
+				<version>1.0.1</version>
+			</dependency>
+			<dependency>
+                <groupId>org.gbif</groupId>
+                <artifactId>dwca-reader</artifactId>
+                <version>1.7.6</version>
             </dependency>
-            <dependency>
-                <groupId>org.apache.activemq</groupId>
-                <artifactId>activemq-spring</artifactId>
-                <version>5.4.2</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.xbean</groupId>
-                <artifactId>com.springsource.org.apache.xbean.spring</artifactId>
-                <version>3.6.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.geronimo.specs</groupId>
-                <artifactId>com.springsource.javax.management.j2ee</artifactId>
-                <version>1.0.1</version>
-            </dependency>            
 		</dependencies>
 	</dependencyManagement>
 	<build>
@@ -587,20 +592,20 @@
 				</configuration>
 			</plugin>
 			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.2</version>
-                <executions>
-                  <execution>
-                    <phase>package</phase>
-                    <goals>
-                      <goal>test-jar</goal>
-                    </goals>
-                  </execution>
-                </executions>
-            </plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.2</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
-			    <groupId>org.apache.maven.plugins</groupId>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.8.1</version>
 				<configuration>
@@ -761,6 +766,10 @@
 			<url>http://nexus.openqa.org/content/repositories/releases/</url>
 		</repository>
 		<repository>
+			<id>gbif-all</id>
+			<url>http://repository.gbif.org/content/groups/gbif</url>
+		</repository>
+		<repository>
 			<id>emonocot.release</id>
 			<name>eMonocot Releases</name>
 			<url>http://129.67.24.160/repository</url>
@@ -823,7 +832,7 @@
 			<build>
 				<plugins>
 					<plugin>
-					    <groupId>org.apache.maven.plugins</groupId>
+						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-surefire-plugin</artifactId>
 						<version>2.8.1</version>
 						<executions>
@@ -894,19 +903,19 @@
 										<include>**/*FunctionalTest.java</include>
 									</includes>
 									<systemProperties>
-                                      <property>
-                                        <name>selenium.browser.profile</name>
-                                        <value>${selenium.browser.profile}</value>
-                                      </property>
-                                      <property>
-                                        <name>selenium.target.portal</name>
-                                        <value>${selenium.target.portal}</value>
-                                      </property>
-                                      <property>
-                                        <name>selenium.target.checklist</name>
-                                        <value>${selenium.target.checklist}</value>
-                                      </property>
-                                    </systemProperties>
+										<property>
+											<name>selenium.browser.profile</name>
+											<value>${selenium.browser.profile}</value>
+										</property>
+										<property>
+											<name>selenium.target.portal</name>
+											<value>${selenium.target.portal}</value>
+										</property>
+										<property>
+											<name>selenium.target.checklist</name>
+											<value>${selenium.target.checklist}</value>
+										</property>
+									</systemProperties>
 								</configuration>
 							</execution>
 						</executions>

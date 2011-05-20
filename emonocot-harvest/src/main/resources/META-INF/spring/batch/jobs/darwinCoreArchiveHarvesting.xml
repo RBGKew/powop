@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+
+    <context:annotation-config />
+
+	<batch:job id="DarwinCoreArchiveHarvesting">
+		<batch:step id="getDWCArchive">
+			<batch:tasklet ref="getDWCArchiveTasklet" />
+			<batch:end on="NOT MODIFIED" exit-code="NOT MODIFIED"/>
+			<batch:next on="COMPLETED" to="unpackDWCArchive" />
+		</batch:step>
+		<batch:step id="unpackDWCArchive">
+			<batch:tasklet ref="unpackDWCArchiveTasklet" />
+			<batch:next on="COMPLETED" to="readArchiveMetadata" />
+		</batch:step>
+		<batch:step id="readArchiveMetadata">
+			<batch:tasklet ref="readDWCArchiveMetadataTasklet" />
+			<batch:next on="COMPLETED" to="processCoreFile" />
+		</batch:step>
+		<batch:step id="processCoreFile">
+		    <batch:tasklet>
+				<batch:chunk reader="itemReader" processor="itemProcessor" writer="itemWriter" commit-interval="10"/>
+			</batch:tasklet>
+		</batch:step>
+	</batch:job>
+	
+    <bean id="getDWCArchiveTasklet"
+	      class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+	      scope="step">
+	  <property name="targetObject" ref="getResourceClient" />
+	  <property name="targetMethod" value="getResource" />
+	  <property name="arguments">
+		<list>
+			<value>#{jobParameters['authority.name']}</value>
+			<value>#{jobParameters['authority.uri']}</value>
+			<value>#{jobParameters['authority.last.harvested']}</value>
+			<value>#{jobParameters['temporary.file.name']}</value>
+		</list>
+	  </property>
+    </bean>
+    
+    <bean id="getResourceClient" class="org.emonocot.ws.GetResourceClient" />
+    
+    <bean id="unpackDWCArchiveTasklet"
+	      class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+	      scope="step">
+	  <property name="targetObject" ref="dwcArchiveUnpacker" />
+	  <property name="targetMethod" value="unpackArchive" />
+	  <property name="arguments">
+		<list>
+			<value>#{jobParameters['temporary.file.name']}</value>
+			<value>#{jobParameters['unpack.directory.name']}</value>
+		</list>
+	  </property>
+    </bean>
+    
+    <bean id="dwcArchiveUnpacker" class="org.emonocot.job.dwc.ArchiveUnpacker" />
+    
+    <bean id="readDWCArchiveMetadataTasklet"
+	      class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+	      scope="step">
+	  <property name="targetObject" ref="dwcArchiveMetadataReader" />
+	  <property name="targetMethod" value="readMetadata" />
+	  <property name="arguments">
+		<list>
+			<value>#{jobParameters['unpack.directory.name']}</value>
+		</list>
+	  </property>
+    </bean>
+
+    <bean id="dwcArchiveMetadataReader" class="org.emonocot.job.dwc.ArchiveMetadataReader" />
+    
+    <bean id="archiveFactory" class="org.gbif.dwc.text.ArchiveFactory"/>
+    
+    <bean id="itemReader" class="org.springframework.batch.item.file.FlatFileItemReader"
+		  scope="step">
+		
+		<property name="encoding">
+		     <value>#{jobExecutionContext['dwca.core.encoding']}</value>
+		</property>
+		<property name="linesToSkip">
+		     <value>#{jobExecutionContext['dwca.core.ignoreHeaderLines']}</value>
+		</property>
+		<property name="resource">
+		  <bean class="org.springframework.core.io.FileSystemResource" scope="step">
+		   <constructor-arg value="#{jobExecutionContext['dwca.core.file']}"/>
+		  </bean>
+		</property>
+		<property name="lineMapper" ref="lineMapper"/>
+	</bean>
+	
+	<!-- <constructor-arg>
+		  <value>#{jobExecutionContext['dwca.core.fieldsTerminatedBy']}</value>
+		</constructor-arg> DefaultLineTokenizer in linemapper -->
+</beans>

@@ -1,12 +1,10 @@
-package org.emonocot.ws.scratchpads;
+package org.emonocot.ws;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.util.Date;
 
@@ -27,11 +25,16 @@ import org.springframework.batch.core.ExitStatus;
  * @author ben
  *
  */
-public class GetXMLDocClient {
+public class GetResourceClient {
+   /**
+    *
+    */
+    static final int BUFFER = 2048;
+
     /**
      *
      */
-    private Logger logger = LoggerFactory.getLogger(GetXMLDocClient.class);
+    private Logger logger = LoggerFactory.getLogger(GetResourceClient.class);
 
     /**
      *
@@ -69,14 +72,13 @@ public class GetXMLDocClient {
      *         if the authority responded with a 304 NOT MODIFIED response
      *         indicating that no records have been modified
      */
-    public final ExitStatus getDocument(final String authorityName,
+    public final ExitStatus getResource(final String authorityName,
             final String authorityURI, final String dateLastHarvested,
             final String temporaryFileName) {
         httpClient.getParams().setParameter("http.useragent",
                 "org.emonocot.ws.scratchpads.GetXmlDocClient");
-        BufferedReader bufferedReader = null;
-        BufferedWriter bufferedWriter = null;
-        InputStream inputStream = null;
+        BufferedInputStream bufferedInputStream = null;
+        BufferedOutputStream bufferedOutputStream = null;
 
         HttpGet httpGet = new HttpGet(authorityURI);
         httpGet.addHeader(new BasicHeader("If-Modified-Since", DateUtils
@@ -90,15 +92,20 @@ public class GetXMLDocClient {
               case HttpURLConnection.HTTP_OK:
                   HttpEntity entity = httpResponse.getEntity();
                   if (entity != null) {
-                      inputStream = entity.getContent();
-                    bufferedReader = new BufferedReader(new InputStreamReader(
-                            inputStream));
-                    bufferedWriter = new BufferedWriter(new FileWriter(
+                    bufferedInputStream
+                        = new BufferedInputStream(entity.getContent());
+                    bufferedOutputStream
+                        = new BufferedOutputStream(new FileOutputStream(
                             new File(temporaryFileName)));
-                      String line = null;
-                      while ((line = bufferedReader.readLine()) != null) {
-                          bufferedWriter.write(line);
-                      }
+                    int count;
+                    byte[] data = new byte[BUFFER];
+                    while ((count
+                          = bufferedInputStream.read(data, 0, BUFFER)) != -1) {
+                          bufferedOutputStream.write(data, 0, count);
+                    }
+                    bufferedOutputStream.flush();
+                    bufferedOutputStream.close();
+                    bufferedInputStream.close();
                   } else {
                     logger.info("Server returned "
                             + httpResponse.getStatusLine()
@@ -123,21 +130,21 @@ public class GetXMLDocClient {
                     + authorityURI + " " + ioe.getLocalizedMessage());
             return ExitStatus.FAILED;
         } finally {
-            if (inputStream != null) {
+            if (bufferedInputStream != null) {
                 try {
-                  inputStream.close();
+                    bufferedInputStream.close();
                 } catch (IOException ioe) {
                     logger.error(
                             "Input Output Exception closing inputStream for "
                             + authorityURI + " " + ioe.getLocalizedMessage());
                 }
             }
-            if (bufferedWriter != null) {
+            if (bufferedOutputStream != null) {
                 try {
-                     bufferedWriter.close();
+                     bufferedOutputStream.close();
                 } catch (IOException ioe) {
                     logger.error(
-                            "Input Output Exception closing bufferedWriter for "
+                            "Input Output Exception closing outputStream for "
                             + authorityURI + " " + ioe.getLocalizedMessage());
                 }
             }
