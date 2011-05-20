@@ -903,7 +903,7 @@
                                         <value>${selenium.target.portal}</value>
                                       </property>
                                       <property>
-                                        <name>selenium.target.portal</name>
+                                        <name>selenium.target.checklist</name>
                                         <value>${selenium.target.checklist}</value>
                                       </property>
                                     </systemProperties>
