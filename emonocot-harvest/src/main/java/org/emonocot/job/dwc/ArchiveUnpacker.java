@@ -2,6 +2,7 @@ package org.emonocot.job.dwc;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Enumeration;
@@ -40,6 +41,10 @@ public class ArchiveUnpacker {
     public final ExitStatus unpackArchive(final String archiveName,
             final String unpackDirectory) {
         try {
+            File directory = new File(unpackDirectory);
+            if (!directory.exists()) {
+                directory.mkdir();
+            }
             BufferedOutputStream bufferedOutputStream = null;
             BufferedInputStream bufferedInputStream = null;
             ZipEntry entry;
@@ -53,7 +58,7 @@ public class ArchiveUnpacker {
                 int count;
                 byte[] data = new byte[BUFFER];
                 FileOutputStream fileOutputStream = new FileOutputStream(
-                        entry.getName());
+                        new File(directory, entry.getName()));
                 bufferedOutputStream = new BufferedOutputStream(
                         fileOutputStream, BUFFER);
                 while (

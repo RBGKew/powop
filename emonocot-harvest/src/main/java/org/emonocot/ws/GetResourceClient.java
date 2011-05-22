@@ -76,7 +76,7 @@ public class GetResourceClient {
             final String authorityURI, final String dateLastHarvested,
             final String temporaryFileName) {
         httpClient.getParams().setParameter("http.useragent",
-                "org.emonocot.ws.scratchpads.GetXmlDocClient");
+                "org.emonocot.ws.GetResourceClient");
         BufferedInputStream bufferedInputStream = null;
         BufferedOutputStream bufferedOutputStream = null;
 

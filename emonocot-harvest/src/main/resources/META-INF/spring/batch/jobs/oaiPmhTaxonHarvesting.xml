@@ -14,6 +14,9 @@
 			<batch:tasklet ref="oaiPmhListRecordsTasklet" />
 			<batch:end on="NO RECORDS MATCH" exit-code="NOT MODIFIED"/>
 			<batch:next on="COMPLETED" to="processRecords" />
+			<batch:listeners>
+			    <batch:listener ref="oaiPmhClient"/>
+			</batch:listeners>
 		</batch:step>
 		<batch:step id="processRecords">
 			<batch:tasklet>
@@ -25,6 +28,9 @@
 			<batch:tasklet ref="oaiPmhResumptionTokenTasklet" />
 			<batch:end on="NO RESUMPTION TOKEN" exit-code="COMPLETED"/>
 			<batch:next on="RESUMPTION TOKEN PRESENT" to="listRecords" />
+			<batch:listeners>
+			    <batch:listener ref="oaiPmhClient"/>
+			</batch:listeners>
 		</batch:step>
 	</batch:job>
 	

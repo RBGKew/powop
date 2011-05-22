@@ -128,7 +128,7 @@ public class EoLTaxonItemConverter implements Converter<EoLTaxonItem, Taxon> {
         for (Image image : images) {
             // Assume we have a convenience method to determine if the input
             // object contains an image using it's URL
-            if (!input.containsImage(image.getURL())) {
+            if (!input.containsImage(image.getUrl())) {
                 taxon.getImages().remove(image);
             }
         }

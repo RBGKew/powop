@@ -1,9 +1,17 @@
 package org.emonocot.model.taxon;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
+import javax.persistence.MapKey;
+import javax.persistence.OneToMany;
 
 import org.emonocot.model.common.Base;
 import org.emonocot.model.description.Content;
@@ -16,6 +24,7 @@ import org.emonocot.model.reference.Reference;
  * @author ben
  *
  */
+@Entity
 public class Taxon extends Base {
     /**
      *
@@ -24,9 +33,20 @@ public class Taxon extends Base {
 
     /**
      *
+     */
+    private Set<Reference> references = new HashSet<Reference>();
+
+    /**
+     *
+     */
+    private Map<Feature, Content> content = new HashMap<Feature, Content>();
+
+    /**
+     *
      * @return a list of images of the taxon
      */
-    public final List<Image> getImages() {
+    @ManyToMany(fetch = FetchType.LAZY)
+    public List<Image> getImages() {
         return images;
     }
 
@@ -34,17 +54,44 @@ public class Taxon extends Base {
      *
      * @return a list of references about the taxon
      */
-    public final Set<Reference> getReferences() {
-        // TODO Auto-generated method stub
-        return null;
+    @ManyToMany(fetch = FetchType.LAZY)
+    public Set<Reference> getReferences() {
+        return references;
     }
 
     /**
      *
      * @return a map of content about the taxon, indexed by the subject
      */
-    public final Map<Feature, Content> getContent() {
-        // TODO Auto-generated method stub
-        return null;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon")
+    @MapKey(name = "feature")
+    public Map<Feature, Content> getContent() {
+        return content;
+    }
+
+    /**
+     *
+     * @param newImages
+     *            Set the images associated with this taxon
+     */
+    public void setImages(List<Image> newImages) {
+        this.images = newImages;
+    }
+
+    /**
+     *
+     * @param newReferences
+     *            Set the references associated with this taxon
+     */
+    public void setReferences(Set<Reference> newReferences) {
+        this.references = newReferences;
+    }
+
+    /**
+     *
+     * @param newContent Set the content associated with this taxon
+     */
+    public void setContent(Map<Feature, Content> newContent) {
+        this.content = newContent;
     }
 }

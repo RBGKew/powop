@@ -1,6 +1,13 @@
 package org.emonocot.model.common;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+
 import org.apache.commons.lang.ObjectUtils;
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 /**
@@ -8,7 +15,8 @@ import org.joda.time.DateTime;
  * @author ben
  *
  */
-public class Base {
+@MappedSuperclass
+public abstract class Base {
 
     /**
      *
@@ -44,7 +52,8 @@ public class Base {
      *
      * @return Get the license of this object.
      */
-    public final License getLicense() {
+    @Enumerated(value = EnumType.STRING)
+    public License getLicense() {
         return license;
     }
 
@@ -52,7 +61,8 @@ public class Base {
      *
      * @return Get the time this object was created.
      */
-    public final DateTime getCreated() {
+    @Type(type="dateTimeUserType")
+    public DateTime getCreated() {
         return created;
     }
 
@@ -60,7 +70,8 @@ public class Base {
      *
      * @return Get the time this object was last modified.
      */
-    public final DateTime getModified() {
+    @Type(type="dateTimeUserType")
+    public DateTime getModified() {
         return modified;
     }
 
@@ -68,7 +79,7 @@ public class Base {
      *
      * @return Get the source of this object.
      */
-    public final String getSource() {
+    public String getSource() {
         return source;
     }
 
@@ -77,7 +88,7 @@ public class Base {
      * @param newId
      *            Set the identifier of this object.
      */
-    public final void setId(final Long newId) {
+    public void setId(Long newId) {
         this.id = newId;
     }
 
@@ -86,7 +97,7 @@ public class Base {
      * @param newCreated
      *            Set the created time for this object.
      */
-    public final void setCreated(final DateTime newCreated) {
+    public void setCreated(DateTime newCreated) {
         this.created = newCreated;
     }
 
@@ -95,7 +106,7 @@ public class Base {
      * @param newModified
      *            Set the modified time for this object.
      */
-    public final void setModified(final DateTime newModified) {
+    public void setModified(DateTime newModified) {
         this.modified = newModified;
     }
 
@@ -104,7 +115,7 @@ public class Base {
      * @param newLicense
      *            Set the license for this object.
      */
-    public final void setLicense(final License newLicense) {
+    public void setLicense(License newLicense) {
         this.license = newLicense;
     }
 
@@ -113,7 +124,7 @@ public class Base {
      * @param newSource
      *            Set the source for this object.
      */
-    public final void setSource(final String newSource) {
+    public void setSource(String newSource) {
         this.source = newSource;
     }
 
@@ -121,7 +132,9 @@ public class Base {
      *
      * @return Get the identifier for this object.
      */
-    public final Long getId() {
+    @Id
+    @GeneratedValue(generator = "system-increment")
+    public Long getId() {
         return id;
     }
 
@@ -130,7 +143,7 @@ public class Base {
      * @param newCreator
      *            Set the creator of this object
      */
-    public final void setCreator(final String newCreator) {
+    public void setCreator(String newCreator) {
         this.creator = newCreator;
     }
 
@@ -138,12 +151,12 @@ public class Base {
      *
      * @return Get the creator of this object.
      */
-    public final String getCreator() {
+    public String getCreator() {
         return creator;
     }
 
     @Override
-    public boolean equals(final Object other) {
+    public boolean equals(Object other) {
         // check for self-comparison
         if (this == other) {
             return true;

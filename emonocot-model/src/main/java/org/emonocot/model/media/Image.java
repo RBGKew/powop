@@ -1,19 +1,34 @@
 package org.emonocot.model.media;
 
+import javax.persistence.Entity;
+
+import org.emonocot.model.common.Base;
+
 /**
  *
  * @author ben
  *
  */
-public class Image {
+@Entity
+public class Image extends Base {
+    /**
+     *
+     */
+    private String url;
 
     /**
      *
-     * @return the url of the image
+     * @param newUrl Set the url of the image
      */
-    public final String getURL() {
-        // TODO Auto-generated method stub
-        return null;
+    public void setUrl(String newUrl) {
+        this.url = newUrl;
     }
 
+    /**
+    *
+    * @return the url of the image
+    */
+    public String getUrl() {
+        return url;
+    }
 }

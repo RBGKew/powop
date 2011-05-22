@@ -22,6 +22,9 @@
 		<batch:step id="readArchiveMetadata">
 			<batch:tasklet ref="readDWCArchiveMetadataTasklet" />
 			<batch:next on="COMPLETED" to="processCoreFile" />
+			<batch:listeners>
+			    <batch:listener ref="dwcArchiveMetadataReader"/>
+			</batch:listeners>
 		</batch:step>
 		<batch:step id="processCoreFile">
 		    <batch:tasklet>
@@ -74,13 +77,14 @@
 	  </property>
     </bean>
 
-    <bean id="dwcArchiveMetadataReader" class="org.emonocot.job.dwc.ArchiveMetadataReader" />
+    <bean id="dwcArchiveMetadataReader" class="org.emonocot.job.dwc.ArchiveMetadataReader">
+      <property name="archiveFactory" ref="archiveFactory"/>
+    </bean>
     
     <bean id="archiveFactory" class="org.gbif.dwc.text.ArchiveFactory"/>
     
     <bean id="itemReader" class="org.springframework.batch.item.file.FlatFileItemReader"
 		  scope="step">
-		
 		<property name="encoding">
 		     <value>#{jobExecutionContext['dwca.core.encoding']}</value>
 		</property>
@@ -95,7 +99,27 @@
 		<property name="lineMapper" ref="lineMapper"/>
 	</bean>
 	
-	<!-- <constructor-arg>
-		  <value>#{jobExecutionContext['dwca.core.fieldsTerminatedBy']}</value>
-		</constructor-arg> DefaultLineTokenizer in linemapper -->
+	<bean id="itemProcessor" class="org.emonocot.job.dwc.TaxonValidator"/>
+	
+	<bean id="lineMapper" class="org.springframework.batch.item.file.mapping.DefaultLineMapper"
+	  scope="step">
+	  <property name="lineTokenizer" ref="lineTokenizer"/>
+	  <property name="fieldSetMapper" ref="fieldSetMapper"/>
+	</bean>
+	
+	<bean id="lineTokenizer" class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer"
+	  scope="step">
+	  <property name="names">
+	    <value>#{jobExecutionContext['dwca.core.fieldNames']}</value>
+	  </property>
+	  <property name="delimiter">
+	    <value>#{jobExecutionContext['dwca.core.fieldsTerminatedBy']}</value>
+	  </property>
+	</bean>
+	
+	<bean id="fieldSetMapper" class="org.emonocot.job.dwc.TaxonFieldSetMapper"/>
+	
+    <bean id="itemWriter" class="org.springframework.batch.item.database.HibernateItemWriter">
+	  <property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
 </beans>

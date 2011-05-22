@@ -1,5 +1,7 @@
 package org.emonocot.model.description;
 
+import javax.persistence.Entity;
+
 import org.apache.commons.lang.ObjectUtils;
 
 /**
@@ -7,6 +9,7 @@ import org.apache.commons.lang.ObjectUtils;
  * @author ben
  *
  */
+@Entity
 public class TextContent extends Content {
     /**
      *
@@ -17,7 +20,7 @@ public class TextContent extends Content {
      *
      * @param newContent Set the content of this object.
      */
-    public final void setContent(final String newContent) {
+    public void setContent(String newContent) {
         this.content = newContent;
     }
 
@@ -25,12 +28,12 @@ public class TextContent extends Content {
      *
      * @return the content as a string
      */
-    public final String getContent() {
+    public String getContent() {
         return content;
     }
 
     @Override
-    public final boolean equals(final Object other) {
+    public boolean equals(Object other) {
         if (!super.equals(other)) {
             return false;
         }
@@ -39,7 +42,7 @@ public class TextContent extends Content {
     }
 
     @Override
-    public final int hashCode() {
+    public int hashCode() {
         return super.hashCode() + this.content.hashCode();
     }
 }

@@ -1,5 +1,13 @@
 package org.emonocot.model.description;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
+
 import org.apache.commons.lang.ObjectUtils;
 import org.emonocot.model.common.Base;
 import org.emonocot.model.taxon.Taxon;
@@ -9,7 +17,9 @@ import org.emonocot.model.taxon.Taxon;
  * @author ben
  *
  */
-public class Content extends Base {
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public abstract class Content extends Base {
 
     /**
      *
@@ -26,7 +36,7 @@ public class Content extends Base {
      * @param newTaxon
      *            Set the taxon that this content is about.
      */
-    public final void setTaxon(final Taxon newTaxon) {
+    public void setTaxon(Taxon newTaxon) {
         this.taxon = newTaxon;
     }
 
@@ -34,7 +44,8 @@ public class Content extends Base {
      *
      * @return Return the subject that this content is about.
      */
-    public final Feature getFeature() {
+    @Enumerated(value = EnumType.STRING)
+    public Feature getFeature() {
         return feature;
     }
 
@@ -43,7 +54,7 @@ public class Content extends Base {
      * @param newFeature
      *            Set the subject that this content is about.
      */
-    public final void setFeature(final Feature newFeature) {
+    public void setFeature(Feature newFeature) {
         this.feature = newFeature;
     }
 
@@ -51,12 +62,13 @@ public class Content extends Base {
      *
      * @return Get the taxon that this content is about.
      */
-    public final Taxon getTaxon() {
+    @ManyToOne(fetch = FetchType.LAZY)
+    public Taxon getTaxon() {
         return taxon;
     }
 
     @Override
-    public boolean equals(final Object other) {
+    public boolean equals(Object other) {
         if (!super.equals(other)) {
             return false;
         }

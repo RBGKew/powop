@@ -91,7 +91,8 @@ public class DarwinCoreJobIntegrationTest {
         parameters.put("temporary.file.name", new JobParameter(File
                 .createTempFile("test", ".zip").getAbsolutePath()));
         parameters.put("unpack.directory.name",
-                new JobParameter(System.getProperty("java.io.tmpdir")));
+                new JobParameter(System.getProperty("java.io.tmpdir")
+                        + "/archive"));
         JobParameters jobParameters = new JobParameters(parameters);
 
         Job darwinCoreArchiveHarvestingJob = jobLocator
