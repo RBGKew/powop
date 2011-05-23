@@ -1,8 +1,11 @@
 package org.emonocot.service.impl;
 
 import org.emonocot.model.taxon.Taxon;
+import org.emonocot.persistence.dao.TaxonDao;
 import org.emonocot.service.TaxonService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -10,14 +13,20 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
-public class TaxonServiceImpl extends ServiceImpl<Taxon> implements
+public class TaxonServiceImpl extends ServiceImpl<Taxon, TaxonDao> implements
         TaxonService {
 
     @Override
+    @Transactional(readOnly = true)
     public final boolean verify(final String identifer,
             final String scientificName) {
-        // TODO Auto-generated method stub
-        return false;
+        return dao.verify(identifer, scientificName);
+    }
+
+    @Override
+    @Autowired
+    public void setDao(TaxonDao dao) {
+        super.dao = dao;
     }
 
 }

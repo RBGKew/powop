@@ -46,6 +46,7 @@
 	</bean>
 
 	<context:component-scan base-package="org.emonocot.service.impl" />
+	<context:component-scan base-package="org.emonocot.persistence.dao.hibernate" />
 
 	<context:annotation-config />
 

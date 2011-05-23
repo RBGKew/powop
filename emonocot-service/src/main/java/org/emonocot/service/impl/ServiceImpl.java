@@ -1,7 +1,9 @@
 package org.emonocot.service.impl;
 
 import org.emonocot.model.common.Base;
+import org.emonocot.persistence.dao.Dao;
 import org.emonocot.service.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -9,18 +11,22 @@ import org.emonocot.service.Service;
  *
  * @param <T>
  */
-public class ServiceImpl<T extends Base> implements Service<T> {
+public abstract class ServiceImpl<T extends Base, DAO extends Dao<T>> implements Service<T> {
+    
+    protected DAO dao;
+    
+    public abstract void setDao(DAO dao);
 
     @Override
-    public final T load(final String identifer) {
-        // TODO Auto-generated method stub
-        return null;
+    @Transactional(readOnly = true)
+    public final T load(final String identifier) {
+        return dao.load(identifier);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public T find(String identifier) {
-        // TODO Auto-generated method stub
-        return null;
+        return dao.find(identifier);
     }
 
 }
