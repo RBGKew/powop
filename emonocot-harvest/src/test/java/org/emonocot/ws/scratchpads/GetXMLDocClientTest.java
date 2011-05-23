@@ -96,7 +96,7 @@ public class GetXMLDocClientTest {
 
         ExitStatus exitStatus = getXmlDocClient
                 .getResource("http://scratchpad.cate-araceae.org",
-                        "http://129.67.24.160/test/test.xml",
+                        "http://scratchpad.cate-araceae.org/spm/export.xml",
                         Long.toString(new Date().getTime()),
                         tempFile.getAbsolutePath());
 

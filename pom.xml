@@ -15,7 +15,7 @@
 	<modules>
 		<module>emonocot-site</module>
 		<module>emonocot-model</module>
-		<!-- emonocot-persistence? -->
+		<module>emonocot-persistence</module>
 		<module>emonocot-service</module>
 		<module>emonocot-checklist</module>
 		<module>emonocot-harvest</module>

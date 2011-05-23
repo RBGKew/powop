@@ -17,4 +17,10 @@ public class ServiceImpl<T extends Base> implements Service<T> {
         return null;
     }
 
+    @Override
+    public T find(String identifier) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

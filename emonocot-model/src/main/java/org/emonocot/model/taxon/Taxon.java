@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import org.emonocot.model.common.Base;
 import org.emonocot.model.description.Content;
@@ -26,6 +27,12 @@ import org.emonocot.model.reference.Reference;
  */
 @Entity
 public class Taxon extends Base {
+
+    /**
+     *
+     */
+    private boolean deleted;
+
     /**
      *
      */
@@ -93,5 +100,22 @@ public class Taxon extends Base {
      */
     public void setContent(Map<Feature, Content> newContent) {
         this.content = newContent;
+    }
+
+    /**
+     *
+     * @param newDeleted Should this taxon be deleted?
+     */
+    public void setDeleted(boolean newDeleted) {
+        this.deleted = newDeleted;
+    }
+
+    /**
+     *
+     * @return whether this taxon should be deleted or not
+     */
+    @Transient
+    public boolean isDeleted() {
+        return deleted;
     }
 }
