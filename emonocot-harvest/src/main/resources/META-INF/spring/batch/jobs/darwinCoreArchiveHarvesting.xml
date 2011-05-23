@@ -1,125 +1,161 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:batch="http://www.springframework.org/schema/batch"
-	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
 
-    <context:annotation-config />
+	<context:annotation-config />
 
 	<batch:job id="DarwinCoreArchiveHarvesting">
 		<batch:step id="getDWCArchive">
+			<batch:description>Get the darwin core archive</batch:description>
 			<batch:tasklet ref="getDWCArchiveTasklet" />
-			<batch:end on="NOT MODIFIED" exit-code="NOT MODIFIED"/>
+			<batch:next on="NOT MODIFIED" to="cleanupResourcesNotModified" />
 			<batch:next on="COMPLETED" to="unpackDWCArchive" />
 		</batch:step>
+		<batch:step id="cleanupResourcesNotModified">
+			<batch:description>Cleanup the resources</batch:description>
+			<batch:tasklet ref="dwcArchiveResourceDeletingTasklet" />
+			<batch:end on="COMPLETE" exit-code="NOT MODIFIED" />
+		</batch:step>
 		<batch:step id="unpackDWCArchive">
+			<batch:description>Unzip the archive to a temporary directory</batch:description>
 			<batch:tasklet ref="unpackDWCArchiveTasklet" />
 			<batch:next on="COMPLETED" to="readArchiveMetadata" />
 		</batch:step>
 		<batch:step id="readArchiveMetadata">
+			<batch:description>Read the metadata from the archive and figure out how to interpret the files</batch:description>
 			<batch:tasklet ref="readDWCArchiveMetadataTasklet" />
 			<batch:next on="COMPLETED" to="processCoreFile" />
 			<batch:listeners>
-			    <batch:listener ref="dwcArchiveMetadataReader"/>
+				<batch:listener ref="dwcArchiveMetadataReader" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="processCoreFile">
-		    <batch:tasklet>
-				<batch:chunk reader="itemReader" processor="itemProcessor" writer="itemWriter" commit-interval="10"/>
+			<batch:description>Process the core file containing the taxa</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="itemReader" processor="itemProcessor"
+					writer="itemWriter" commit-interval="10" />
 			</batch:tasklet>
+			<batch:next on="COMPLETED" to="cleanupResources" />
+		</batch:step>
+		<batch:step id="cleanupResources">
+			<batch:description>Cleanup the resources</batch:description>
+			<batch:tasklet ref="dwcArchiveResourceDeletingTasklet" />
 		</batch:step>
 	</batch:job>
-	
-    <bean id="getDWCArchiveTasklet"
-	      class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
-	      scope="step">
-	  <property name="targetObject" ref="getResourceClient" />
-	  <property name="targetMethod" value="getResource" />
-	  <property name="arguments">
-		<list>
-			<value>#{jobParameters['authority.name']}</value>
-			<value>#{jobParameters['authority.uri']}</value>
-			<value>#{jobParameters['authority.last.harvested']}</value>
-			<value>#{jobParameters['temporary.file.name']}</value>
-		</list>
-	  </property>
-    </bean>
-    
-    <bean id="getResourceClient" class="org.emonocot.ws.GetResourceClient" />
-    
-    <bean id="unpackDWCArchiveTasklet"
-	      class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
-	      scope="step">
-	  <property name="targetObject" ref="dwcArchiveUnpacker" />
-	  <property name="targetMethod" value="unpackArchive" />
-	  <property name="arguments">
-		<list>
-			<value>#{jobParameters['temporary.file.name']}</value>
-			<value>#{jobParameters['unpack.directory.name']}</value>
-		</list>
-	  </property>
-    </bean>
-    
-    <bean id="dwcArchiveUnpacker" class="org.emonocot.job.dwc.ArchiveUnpacker" />
-    
-    <bean id="readDWCArchiveMetadataTasklet"
-	      class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
-	      scope="step">
-	  <property name="targetObject" ref="dwcArchiveMetadataReader" />
-	  <property name="targetMethod" value="readMetadata" />
-	  <property name="arguments">
-		<list>
-			<value>#{jobParameters['unpack.directory.name']}</value>
-		</list>
-	  </property>
-    </bean>
 
-    <bean id="dwcArchiveMetadataReader" class="org.emonocot.job.dwc.ArchiveMetadataReader">
-      <property name="archiveFactory" ref="archiveFactory"/>
-    </bean>
-    
-    <bean id="archiveFactory" class="org.gbif.dwc.text.ArchiveFactory"/>
-    
-    <bean id="itemReader" class="org.springframework.batch.item.file.FlatFileItemReader"
-		  scope="step">
+	<bean id="dwcArchiveResourceDeletingTasklet"
+		class="org.emonocot.harvest.common.MultiResourceDeletingTasklet"
+		scope="step">
+		<property name="resources">
+			<list>
+				<bean class="org.springframework.core.io.FileSystemResource"
+					scope="step">
+					<constructor-arg value="#{jobParameters['temporary.file.name']}" />
+				</bean>
+				<bean class="org.springframework.core.io.FileSystemResource"
+					scope="step">
+					<constructor-arg value="#{jobParameters['unpack.directory.name']}" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="getDWCArchiveTasklet"
+		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+		scope="step">
+		<property name="targetObject" ref="getResourceClient" />
+		<property name="targetMethod" value="getResource" />
+		<property name="arguments">
+			<list>
+				<value>#{jobParameters['authority.name']}</value>
+				<value>#{jobParameters['authority.uri']}</value>
+				<value>#{jobParameters['authority.last.harvested']}</value>
+				<value>#{jobParameters['temporary.file.name']}</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="getResourceClient" class="org.emonocot.ws.GetResourceClient" />
+
+	<bean id="unpackDWCArchiveTasklet"
+		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+		scope="step">
+		<property name="targetObject" ref="dwcArchiveUnpacker" />
+		<property name="targetMethod" value="unpackArchive" />
+		<property name="arguments">
+			<list>
+				<value>#{jobParameters['temporary.file.name']}</value>
+				<value>#{jobParameters['unpack.directory.name']}</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dwcArchiveUnpacker" class="org.emonocot.job.dwc.ArchiveUnpacker" />
+
+	<bean id="readDWCArchiveMetadataTasklet"
+		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+		scope="step">
+		<property name="targetObject" ref="dwcArchiveMetadataReader" />
+		<property name="targetMethod" value="readMetadata" />
+		<property name="arguments">
+			<list>
+				<value>#{jobParameters['unpack.directory.name']}</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dwcArchiveMetadataReader" class="org.emonocot.job.dwc.ArchiveMetadataReader">
+		<property name="archiveFactory" ref="archiveFactory" />
+	</bean>
+
+	<bean id="archiveFactory" class="org.gbif.dwc.text.ArchiveFactory" />
+
+	<bean id="itemReader" class="org.springframework.batch.item.file.FlatFileItemReader"
+		scope="step">
 		<property name="encoding">
-		     <value>#{jobExecutionContext['dwca.core.encoding']}</value>
+			<value>#{jobExecutionContext['dwca.core.encoding']}</value>
 		</property>
 		<property name="linesToSkip">
-		     <value>#{jobExecutionContext['dwca.core.ignoreHeaderLines']}</value>
+			<value>#{jobExecutionContext['dwca.core.ignoreHeaderLines']}</value>
 		</property>
 		<property name="resource">
-		  <bean class="org.springframework.core.io.FileSystemResource" scope="step">
-		   <constructor-arg value="#{jobExecutionContext['dwca.core.file']}"/>
-		  </bean>
+			<bean class="org.springframework.core.io.FileSystemResource"
+				scope="step">
+				<constructor-arg value="#{jobExecutionContext['dwca.core.file']}" />
+			</bean>
 		</property>
-		<property name="lineMapper" ref="lineMapper"/>
+		<property name="lineMapper" ref="lineMapper" />
 	</bean>
-	
-	<bean id="itemProcessor" class="org.emonocot.job.dwc.TaxonValidator"/>
-	
-	<bean id="lineMapper" class="org.springframework.batch.item.file.mapping.DefaultLineMapper"
-	  scope="step">
-	  <property name="lineTokenizer" ref="lineTokenizer"/>
-	  <property name="fieldSetMapper" ref="fieldSetMapper"/>
+
+	<bean id="itemProcessor" class="org.emonocot.job.dwc.TaxonValidator" />
+
+	<bean id="lineMapper"
+		class="org.springframework.batch.item.file.mapping.DefaultLineMapper"
+		scope="step">
+		<property name="lineTokenizer" ref="lineTokenizer" />
+		<property name="fieldSetMapper" ref="fieldSetMapper" />
 	</bean>
-	
-	<bean id="lineTokenizer" class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer"
-	  scope="step">
-	  <property name="names">
-	    <value>#{jobExecutionContext['dwca.core.fieldNames']}</value>
-	  </property>
-	  <property name="delimiter">
-	    <value>#{jobExecutionContext['dwca.core.fieldsTerminatedBy']}</value>
-	  </property>
+
+	<bean id="lineTokenizer"
+		class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer"
+		scope="step">
+		<property name="names">
+			<value>#{jobExecutionContext['dwca.core.fieldNames']}</value>
+		</property>
+		<property name="delimiter">
+			<value>#{jobExecutionContext['dwca.core.fieldsTerminatedBy']}</value>
+		</property>
 	</bean>
-	
-	<bean id="fieldSetMapper" class="org.emonocot.job.dwc.TaxonFieldSetMapper"/>
-	
-    <bean id="itemWriter" class="org.springframework.batch.item.database.HibernateItemWriter">
-	  <property name="sessionFactory" ref="sessionFactory"/>
+
+	<bean id="fieldSetMapper" class="org.emonocot.job.dwc.TaxonFieldSetMapper" />
+
+	<bean id="itemWriter"
+		class="org.springframework.batch.item.database.HibernateItemWriter">
+		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 </beans>

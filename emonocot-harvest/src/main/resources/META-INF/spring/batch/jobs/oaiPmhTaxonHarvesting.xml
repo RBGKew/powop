@@ -1,124 +1,153 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:batch="http://www.springframework.org/schema/batch"
-	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
 
-    <context:annotation-config />
+	<context:annotation-config />
 
 	<batch:job id="OaiPmhTaxonHarvesting">
 		<batch:step id="listRecords">
+		    <batch:description>Call ListRecords on the resource, using the resumption token if available</batch:description>
 			<batch:tasklet ref="oaiPmhListRecordsTasklet" />
-			<batch:end on="NO RECORDS MATCH" exit-code="NOT MODIFIED"/>
+			<batch:next on="NO RECORDS MATCH" to="cleanupResourcesNotModified" />
 			<batch:next on="COMPLETED" to="processRecords" />
 			<batch:listeners>
-			    <batch:listener ref="oaiPmhClient"/>
+				<batch:listener ref="oaiPmhClient" />
 			</batch:listeners>
 		</batch:step>
+		<batch:step id="cleanupResourcesNotModified">
+		    <batch:description>Cleanup the resources</batch:description>
+			<batch:tasklet ref="oaiPmhResourceDeletingTasklet" />
+			<batch:end on="COMPLETE" exit-code="NOT MODIFIED"/>
+		</batch:step>
 		<batch:step id="processRecords">
+		    <batch:description>Process the records</batch:description>
 			<batch:tasklet>
-				<batch:chunk reader="itemReader" processor="itemProcessor" writer="itemWriter" commit-interval="10"/>
+				<batch:chunk reader="itemReader" processor="itemProcessor"
+					writer="itemWriter" commit-interval="10" />
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="resumeHarvesting" />
 		</batch:step>
 		<batch:step id="resumeHarvesting">
+		    <batch:description>Is there a resumption token available or should we finish harvesting?</batch:description>
 			<batch:tasklet ref="oaiPmhResumptionTokenTasklet" />
-			<batch:end on="NO RESUMPTION TOKEN" exit-code="COMPLETED"/>
+			<batch:next on="NO RESUMPTION TOKEN" to="cleanupResources" />
 			<batch:next on="RESUMPTION TOKEN PRESENT" to="listRecords" />
 			<batch:listeners>
-			    <batch:listener ref="oaiPmhClient"/>
+				<batch:listener ref="oaiPmhClient" />
 			</batch:listeners>
 		</batch:step>
+		<batch:step id="cleanupResources">
+		    <batch:description>Cleanup the resources</batch:description>
+			<batch:tasklet ref="oaiPmhResourceDeletingTasklet" />
+		</batch:step>
 	</batch:job>
-	
-    <bean id="oaiPmhResumptionTokenTasklet"
-	      class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
-	      scope="step">
-	  <property name="targetObject" ref="oaiPmhClient" />
-	  <property name="targetMethod" value="resumptionTokenPresent" />
-	  <property name="arguments">
-		<list>
-			<value>#{jobParameters['temporary.file.name']}</value>
-		</list>
-	  </property>
-    </bean>
-    
-    <bean id="oaiPmhListRecordsTasklet"
-	      class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
-	      scope="step">
-	  <property name="targetObject" ref="oaiPmhClient" />
-	  <property name="targetMethod" value="listRecords" />
-	  <property name="arguments">
-		<list>
-			<value>#{jobParameters['authority.name']}</value>
-			<value>#{jobParameters['authority.uri']}</value>
-			<value>#{jobParameters['authority.last.harvested']}</value>
-			<value>#{jobParameters['temporary.file.name']}</value>
-			<value>#{jobExecutionContext['resumption.token']}</value>
-		</list>
-	  </property>
-    </bean>
-    
-    <bean id="oaiPmhClient" class="org.emonocot.ws.checklist.OaiPmhClient">
-      <property name="unmarshaller" ref="oaiPmhResponseUnmarshaller"/>
-    </bean>
+
+	<bean id="oaiPmhResumptionTokenTasklet"
+		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+		scope="step">
+		<property name="targetObject" ref="oaiPmhClient" />
+		<property name="targetMethod" value="resumptionTokenPresent" />
+		<property name="arguments">
+			<list>
+				<value>#{jobParameters['temporary.file.name']}</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="oaiPmhResourceDeletingTasklet"
+		class="org.emonocot.harvest.common.MultiResourceDeletingTasklet"
+		scope="step">
+		<property name="resources">
+			<bean class="org.springframework.core.io.FileSystemResource"
+				scope="step">
+				<constructor-arg value="#{jobParameters['temporary.file.name']}" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="oaiPmhListRecordsTasklet"
+		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+		scope="step">
+		<property name="targetObject" ref="oaiPmhClient" />
+		<property name="targetMethod" value="listRecords" />
+		<property name="arguments">
+			<list>
+				<value>#{jobParameters['authority.name']}</value>
+				<value>#{jobParameters['authority.uri']}</value>
+				<value>#{jobParameters['authority.last.harvested']}</value>
+				<value>#{jobParameters['temporary.file.name']}</value>
+				<value>#{jobExecutionContext['resumption.token']}</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="oaiPmhClient" class="org.emonocot.ws.checklist.OaiPmhClient">
+		<property name="unmarshaller" ref="oaiPmhResponseUnmarshaller" />
+	</bean>
 
 	<bean id="itemReader" class="org.emonocot.job.io.StaxEventItemReader"
-		  scope="step">
+		scope="step">
 		<property name="fragmentRootElementName" value="{http://www.openarchives.org/OAI/2.0/}record" />
 		<property name="resource">
-		  <bean class="org.springframework.core.io.FileSystemResource" scope="step">
-		   <constructor-arg value="#{jobParameters['temporary.file.name']}"/>
-		  </bean>
+			<bean class="org.springframework.core.io.FileSystemResource"
+				scope="step">
+				<constructor-arg value="#{jobParameters['temporary.file.name']}" />
+			</bean>
 		</property>
 		<property name="unmarshaller" ref="oaiPmhResponseUnmarshaller" />
 	</bean>
-	
+
 	<bean id="oaiPmhResponseUnmarshaller" class="org.emonocot.model.marshall.XStreamMarshaller">
-	    <property name="autodetectAnnotations" value="true"/>
-	    <property name="qNameMap" ref="oaiPmhQNameMap"/>
-        <property name="reflectionProvider" ref="reflectionProvider"/>
-        <property name="streamDriver" ref="oaiPmhResponseStreamDriver"/>
-        <property name="converters">
-        <list>
-            <bean class="org.openarchives.pmh.marshall.ResumptionTokenConverter"/>
-        </list>
-    </property>
-    </bean>
-    
-    <bean id="reflectionProvider" class="org.openarchives.pmh.marshall.ReflectionProviderFactory"/>
-    
-    <bean id="oaiPmhResponseStreamDriver" class="org.emonocot.model.marshall.StaxDriver">
+		<property name="autodetectAnnotations" value="true" />
+		<property name="qNameMap" ref="oaiPmhQNameMap" />
+		<property name="reflectionProvider" ref="reflectionProvider" />
+		<property name="streamDriver" ref="oaiPmhResponseStreamDriver" />
+		<property name="converters">
+			<list>
+				<bean class="org.openarchives.pmh.marshall.ResumptionTokenConverter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="reflectionProvider" class="org.openarchives.pmh.marshall.ReflectionProviderFactory" />
+
+	<bean id="oaiPmhResponseStreamDriver" class="org.emonocot.model.marshall.StaxDriver">
 		<constructor-arg ref="oaiPmhQNameMap" />
-		<property name="repairingNamespace" value="false"/>
+		<property name="repairingNamespace" value="false" />
 		<property name="xmlInputFactory">
-		  <bean class="com.bea.xml.stream.MXParserFactory"/>
+			<bean class="com.bea.xml.stream.MXParserFactory" />
 		</property>
 	</bean>
 
 	<bean id="oaiPmhQNameMap"
-		  class="org.openarchives.pmh.marshall.OpenArchivesQNameMapFactory" />
+		class="org.openarchives.pmh.marshall.OpenArchivesQNameMapFactory" />
 
-	<bean id="itemProcessor" class="org.springframework.batch.item.support.CompositeItemProcessor" scope="step">
+	<bean id="itemProcessor"
+		class="org.springframework.batch.item.support.CompositeItemProcessor"
+		scope="step">
 		<property name="delegates">
 			<list>
-				<ref bean="taxonItemValidator"/>
-				<bean class="org.emonocot.job.checklist.OaiPmhRecordProcessor"/>
+				<ref bean="taxonItemValidator" />
+				<bean class="org.emonocot.job.checklist.OaiPmhRecordProcessor" />
 			</list>
 		</property>
 	</bean>
-	
-	<bean id="taxonItemValidator" class="org.emonocot.job.checklist.OaiPmhRecordValidator" scope="step">
+
+	<bean id="taxonItemValidator" class="org.emonocot.job.checklist.OaiPmhRecordValidator"
+		scope="step">
 		<property name="authority" value="#{jobParameters['authority.name']}" />
 	</bean>
-	
+
 	<bean id="itemWriter" class="org.emonocot.job.checklist.OaiPmhRecordItemWriter">
-	  <property name="sessionFactory" ref="sessionFactory"/>
+		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-    
-    <bean name="taxonItemConverter" class="org.emonocot.job.checklist.convert.OaiPmhRecordConverter"/>
+
+	<bean name="taxonItemConverter"
+		class="org.emonocot.job.checklist.convert.OaiPmhRecordConverter" />
 
 </beans>

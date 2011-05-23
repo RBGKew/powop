@@ -11,16 +11,39 @@
 
 	<batch:job id="SpeciesPageHarvestingJob">
 		<batch:step id="getXMLDoc">
+		    <batch:description>Get the EoL Transfer Schema Resource</batch:description>
 			<batch:tasklet ref="getXMLDocTasklet" />
-			<batch:end on="NOT MODIFIED" exit-code="NOT MODIFIED"/>
+			<batch:next on="NOT MODIFIED" to="cleanupResourcesNotModified"/>
 			<batch:next on="COMPLETED" to="processXMLDoc" />
 		</batch:step>
+		<batch:step id="cleanupResourcesNotModified">
+		    <batch:description>Cleanup the resources</batch:description>
+			<batch:tasklet ref="eolTransferSchemaResourceDeletingTasklet" />
+			<batch:end on="COMPLETE" exit-code="NOT MODIFIED"/>
+		</batch:step>
 		<batch:step id="processXMLDoc">
+		    <batch:description>Process the document</batch:description>
 			<batch:tasklet>
 				<batch:chunk reader="itemReader" processor="itemProcessor" writer="itemWriter" commit-interval="10"/>
 			</batch:tasklet>
+			<batch:next on="COMPLETED" to="cleanupResources" />
+		</batch:step>
+		<batch:step id="cleanupResources">
+		    <batch:description>Cleanup the resources</batch:description>
+			<batch:tasklet ref="eolTransferSchemaResourceDeletingTasklet" />
 		</batch:step>
 	</batch:job>
+	
+	<bean id="eolTransferSchemaResourceDeletingTasklet"
+		class="org.emonocot.harvest.common.MultiResourceDeletingTasklet"
+		scope="step">
+		<property name="resources">
+			<bean class="org.springframework.core.io.FileSystemResource"
+				scope="step">
+				<constructor-arg value="#{jobParameters['temporary.file.name']}" />
+			</bean>
+		</property>
+	</bean>
 	
     <bean id="getXMLDocTasklet"
 	      class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
