@@ -49,7 +49,7 @@ public class OaiPmhClient implements StepExecutionListener {
     *
     */
    private Logger logger = LoggerFactory.getLogger(GetResourceClient.class);
-   
+
     /**
     *
     */
@@ -102,11 +102,14 @@ public class OaiPmhClient implements StepExecutionListener {
                         DATE_TIME_PRINTER.print(new DateTime(Long
                                 .parseLong(dateLastHarvested))));
             }
-            httpGet.getParams().setParameter("verb", "GetRecords");
+            httpGet.getParams().setParameter("verb", "ListRecords");
+            httpGet.getParams().setParameter("metadataPrefix", "rdf");
         }
 
         try {
             HttpResponse httpResponse = httpClient.execute(httpGet);
+            logger.info("Issuing " + httpGet.getRequestLine().toString()
+                    + " response " + httpResponse.getStatusLine().toString());
 
             switch (httpResponse.getStatusLine().getStatusCode()) {
             case HttpURLConnection.HTTP_OK:

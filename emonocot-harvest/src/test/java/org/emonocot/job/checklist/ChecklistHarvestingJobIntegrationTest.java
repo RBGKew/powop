@@ -12,10 +12,14 @@ import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersInvalidException;
+import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.configuration.JobLocator;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.NoSuchJobException;
@@ -36,6 +40,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
         "/META-INF/spring/batch/jobs/oaiPmhTaxonHarvesting.xml",
         "/applicationContext-test.xml" })
 public class ChecklistHarvestingJobIntegrationTest {
+
+    /**
+     *
+     */
+    Logger logger = LoggerFactory.getLogger(
+            ChecklistHarvestingJobIntegrationTest.class);
 
     /**
      *
@@ -80,7 +90,7 @@ public class ChecklistHarvestingJobIntegrationTest {
         parameters.put("authority.name", new JobParameter(
                 "http://scratchpad.cate-araceae.org"));
         parameters.put("authority.uri", new JobParameter(
-                "http://129.67.24.160/test/test.xml"));
+                "http://129.67.24.160/test/oai.xml"));
         parameters
                 .put("authority.last.harvested",
                      new JobParameter(Long.toString((
@@ -94,6 +104,14 @@ public class ChecklistHarvestingJobIntegrationTest {
                 .getJob("OaiPmhTaxonHarvesting");
         assertNotNull("OaiPmhTaxonHarvestingJob must not be null",
                 oaiPmhTaxonHarvestingJob);
-        jobLauncher.run(oaiPmhTaxonHarvestingJob, jobParameters);
+        JobExecution jobExecution = jobLauncher.run(
+                oaiPmhTaxonHarvestingJob, jobParameters);
+
+        for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
+            logger.info(stepExecution.getStepName() + " "
+                    + stepExecution.getReadCount() + " "
+                    + stepExecution.getFilterCount() + " "
+                    + stepExecution.getWriteCount());
+        }
     }
 }

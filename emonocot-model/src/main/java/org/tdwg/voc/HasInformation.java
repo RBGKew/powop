@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.net.URI;
 
 import org.emonocot.model.marshall.UriConverter;
+import org.kew.grassbase.ontology.QuantitativeData;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
@@ -52,6 +53,11 @@ public class HasInformation {
     /**
      *
      */
+    private QuantitativeData grassQuantitativeData;
+
+    /**
+     *
+     */
     protected HasInformation() {
     }
 
@@ -62,6 +68,8 @@ public class HasInformation {
     protected HasInformation(final InfoItem newInfoItem) {
         if (newInfoItem instanceof Distribution) {
             this.spmiDistribution = (Distribution) newInfoItem;
+        } else if (newInfoItem instanceof QuantitativeData) {
+            this.grassQuantitativeData = (QuantitativeData) newInfoItem;
         } else {
             this.spmInfoItem = newInfoItem;
         }
@@ -74,6 +82,8 @@ public class HasInformation {
     protected final InfoItem getInfoItem() {
         if (this.spmiDistribution == null) {
             return spmInfoItem;
+        } else if (this.grassQuantitativeData == null) {
+            return grassQuantitativeData;
         } else {
             return spmiDistribution;
         }
@@ -86,6 +96,8 @@ public class HasInformation {
     protected final void setInfoItem(final InfoItem newInfoItem) {
         if (newInfoItem instanceof Distribution) {
             this.spmiDistribution = (Distribution) newInfoItem;
+        } else if (newInfoItem instanceof QuantitativeData) {
+            this.grassQuantitativeData = (QuantitativeData) newInfoItem;
         } else {
             this.spmInfoItem = newInfoItem;
         }

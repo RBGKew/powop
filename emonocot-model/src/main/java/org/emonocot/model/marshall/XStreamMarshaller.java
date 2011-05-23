@@ -140,6 +140,18 @@ public class XStreamMarshaller extends AbstractMarshaller implements
     private ClassLoader classLoader;
 
     /**
+     *
+     */
+    private QNameMap qNameMap;
+
+    /**
+     * @param newQNameMap Set the qNameMap to use
+     */
+    public final void setQNameMap(final QNameMap newQNameMap) {
+        this.qNameMap = newQNameMap;
+    }
+
+    /**
      * Returns the XStream instance used by this marshaller.
      *
      * @return the xstream instance used by this marshaller
@@ -652,7 +664,11 @@ public class XStreamMarshaller extends AbstractMarshaller implements
     @Override
     protected final Object unmarshalXmlStreamReader(
             final XMLStreamReader streamReader) {
-        return unmarshal(new StaxReader(new QNameMap(), streamReader));
+        if (qNameMap == null) {
+            return unmarshal(new StaxReader(new QNameMap(), streamReader));
+        } else {
+            return unmarshal(new StaxReader(qNameMap, streamReader));
+        }
     }
 
     @Override

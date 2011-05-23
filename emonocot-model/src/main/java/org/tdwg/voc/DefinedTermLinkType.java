@@ -19,12 +19,12 @@ public class DefinedTermLinkType {
     /**
      *
      */
-    private DefinedTerm definedTerm;
+    private DefinedTerm tcomDefinedTerm;
 
     /**
      *
      */
-    private GeographicRegion geographicRegion;
+    private GeographicRegion grGeographicRegion;
 
    /**
     *
@@ -69,16 +69,16 @@ public class DefinedTermLinkType {
                 this.setResource(newDefinedTerm.getIdentifier());
             } else {
                 if (newDefinedTerm instanceof GeographicRegion) {
-                    this.geographicRegion = (GeographicRegion) definedTerm;
+                    this.grGeographicRegion = (GeographicRegion) tcomDefinedTerm;
                 } else {
-                    this.definedTerm = newDefinedTerm;
+                    this.tcomDefinedTerm = newDefinedTerm;
                 }
             }
         } else {
             if (newDefinedTerm instanceof GeographicRegion) {
-                this.geographicRegion = (GeographicRegion) definedTerm;
+                this.grGeographicRegion = (GeographicRegion) tcomDefinedTerm;
             } else {
-                this.definedTerm = newDefinedTerm;
+                this.tcomDefinedTerm = newDefinedTerm;
             }
         }
     }
@@ -87,7 +87,7 @@ public class DefinedTermLinkType {
      * @return the defined term in this link
      */
     protected final DefinedTerm getDefinedTerm() {
-        return definedTerm;
+        return tcomDefinedTerm;
     }
 
     /**
@@ -96,9 +96,9 @@ public class DefinedTermLinkType {
      */
     protected final void setDefinedTerm(final DefinedTerm newDefinedTerm) {
         if (newDefinedTerm instanceof GeographicRegion) {
-            this.geographicRegion = (GeographicRegion) definedTerm;
+            this.grGeographicRegion = (GeographicRegion) tcomDefinedTerm;
         } else {
-            this.definedTerm = newDefinedTerm;
+            this.tcomDefinedTerm = newDefinedTerm;
         }
     }
 }

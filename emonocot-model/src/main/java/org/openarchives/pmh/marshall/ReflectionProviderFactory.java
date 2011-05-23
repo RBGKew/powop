@@ -1,5 +1,6 @@
 package org.openarchives.pmh.marshall;
 
+import org.kew.grassbase.ontology.QuantitativeData;
 import org.openarchives.pmh.Header;
 import org.openarchives.pmh.Identify;
 import org.openarchives.pmh.ListIdentifiers;
@@ -262,7 +263,7 @@ public class ReflectionProviderFactory extends
         "spmAboutTaxon",
         "spmHasInformations"
    };
-    
+
     /**
     *
     */
@@ -290,6 +291,40 @@ public class ReflectionProviderFactory extends
         "spmCategory",
         "spmContextValues",
         "spmHasValues"
+   };
+
+    /**
+    *
+    */
+    private static final String[] QUANTITATIVE_DATA_FIELDS = new String[] {
+        "dcTitle",
+        "owlSameAs",
+        "dcIdentifier",
+        "dctermsCreated",
+        "dcCreator",
+        "dctermsDate",
+        "dcContributor",
+        "dcRelation",
+        "tcomAbcdEquivalence",
+        "tcomBerlinModelEquivalence",
+        "tcomDarwinCoreEquivalence",
+        "tcomIsDeprecated",
+        "tcomIsRestricted",
+        "tcomMicroReference",
+        "tcomNotes",
+        "tcomPublishedIn",
+        "tcomTaxonomicPlacementFormal",
+        "tcomTaxonomicPlacementInformal",
+        "tcomTcsEquivalence",
+        "tcomPublishedInCitation",
+        "spmCategory",
+        "spmContextValues",
+        "spmHasValues",
+        "grassMin",
+        "grassLow",
+        "grassMax",
+        "grassHigh",
+        "grassMean"
    };
 
     /**
@@ -333,6 +368,8 @@ public class ReflectionProviderFactory extends
                 ReflectionProviderFactory.INFO_ITEM_FIELDS);
         sorter.registerFieldOrder(Distribution.class,
                 ReflectionProviderFactory.INFO_ITEM_FIELDS);
+        sorter.registerFieldOrder(QuantitativeData.class,
+                ReflectionProviderFactory.QUANTITATIVE_DATA_FIELDS);
 
         FieldDictionary fieldDictionary = new FieldDictionary(sorter);
 

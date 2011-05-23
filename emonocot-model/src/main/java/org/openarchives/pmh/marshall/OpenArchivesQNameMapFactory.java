@@ -3,6 +3,7 @@ package org.openarchives.pmh.marshall;
 import javax.xml.namespace.QName;
 
 import org.openarchives.pmh.OAIPMH;
+import org.openarchives.pmh.Record;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
 
 import com.thoughtworks.xstream.io.xml.QNameMap;
@@ -28,6 +29,9 @@ public class OpenArchivesQNameMapFactory extends
         qNameMap.setDefaultNamespace("http://www.openarchives.org/OAI/2.0/");
         qNameMap.setDefaultPrefix("oai");
 
+        qNameMap.registerMapping(new QName(
+                "http://www.openarchives.org/OAI/2.0/", "record", "oai"),
+                Record.class);
         qNameMap.registerMapping(new QName(
                 "http://www.openarchives.org/OAI/2.0/", "OAI-PMH"),
                 OAIPMH.class);
@@ -205,6 +209,9 @@ public class OpenArchivesQNameMapFactory extends
                 "hasValue", "spm"), "spmHasValue");
         qNameMap.registerMapping(new QName(
                 "http://rs.tdwg.org/ontology/voc/GeographicRegion#",
+                "GeographicRegion", "gr"), "grGeographicRegion");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/GeographicRegion#",
                 "code", "gr"), "grCode");
         qNameMap.registerMapping(new QName(
                 "http://rs.tdwg.org/ontology/voc/GeographicRegion#",
@@ -212,6 +219,27 @@ public class OpenArchivesQNameMapFactory extends
         qNameMap.registerMapping(new QName(
                 "http://rs.tdwg.org/ontology/voc/GeographicRegion#",
                 "isPartOf", "gr"), "grIsPartOf");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/Common#",
+                "DefinedTerm", "tcom"), "tcomDefinedTerm");
+        qNameMap.registerMapping(new QName(
+                "http://grassbase.kew.org/ontology/Character#",
+                "QuantitativeData", "grass"), "grassQuantitativeData");
+        qNameMap.registerMapping(new QName(
+                "http://grassbase.kew.org/ontology/Character#",
+                "min", "grass"), "grassMin");
+        qNameMap.registerMapping(new QName(
+                "http://grassbase.kew.org/ontology/Character#",
+                "low", "grass"), "grassLow");
+        qNameMap.registerMapping(new QName(
+                "http://grassbase.kew.org/ontology/Character#",
+                "max", "grass"), "grassMax");
+        qNameMap.registerMapping(new QName(
+                "http://grassbase.kew.org/ontology/Character#",
+                "high", "grass"), "grassHigh");
+        qNameMap.registerMapping(new QName(
+                "http://grassbase.kew.org/ontology/Character#",
+                "mean", "grass"), "grassMean");
         // TODO register other mappings
         return qNameMap;
     }

@@ -40,7 +40,7 @@ public class Metadata {
     /**
      *
      */
-    private TaxonConcept taxonConcept;
+    private TaxonConcept tcTaxonConcept;
 
     /**
      * Gets the value of the oaiDc property.
@@ -65,7 +65,7 @@ public class Metadata {
      * @return the taxon concept
      */
     public final TaxonConcept getTaxonConcept() {
-        return taxonConcept;
+        return tcTaxonConcept;
     }
 
     /**
@@ -73,6 +73,6 @@ public class Metadata {
      * @param taxonConcept Set the taxon concept
      */
     public final void setTaxonConcept(final TaxonConcept taxonConcept) {
-        this.taxonConcept = taxonConcept;
+        this.tcTaxonConcept = taxonConcept;
     }
 }

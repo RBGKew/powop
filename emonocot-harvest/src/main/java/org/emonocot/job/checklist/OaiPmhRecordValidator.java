@@ -1,6 +1,6 @@
 package org.emonocot.job.checklist;
 
-import org.emonocot.job.checklist.model.OaiPmhRecord;
+import org.openarchives.pmh.Record;
 import org.springframework.batch.item.ItemProcessor;
 
 /**
@@ -9,10 +9,22 @@ import org.springframework.batch.item.ItemProcessor;
  *
  */
 public class OaiPmhRecordValidator implements
-        ItemProcessor<OaiPmhRecord, OaiPmhRecord> {
+        ItemProcessor<Record, Record> {
+    /**
+     *
+     */
+    private String authority;
+
+    /**
+     *
+     * @param newAuthority Set the authority of the item
+     */
+    public final void setAuthority(final String newAuthority) {
+        this.authority = newAuthority;
+    }
 
     @Override
-    public final OaiPmhRecord process(final OaiPmhRecord item) {
+    public final Record process(final Record item) {
         // TODO implement validation
         return item;
     }

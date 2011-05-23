@@ -64,9 +64,9 @@
     
     <bean id="oaiPmhClient" class="org.emonocot.ws.checklist.OaiPmhClient" />
 
-	<bean id="itemReader" class="org.springframework.batch.item.xml.StaxEventItemReader"
+	<bean id="itemReader" class="org.emonocot.job.io.StaxEventItemReader"
 		  scope="step">
-		<property name="fragmentRootElementName" value="record" />
+		<property name="fragmentRootElementName" value="{http://www.openarchives.org/OAI/2.0/}record" />
 		<property name="resource">
 		  <bean class="org.springframework.core.io.FileSystemResource" scope="step">
 		   <constructor-arg value="#{jobParameters['temporary.file.name']}"/>
@@ -75,17 +75,25 @@
 		<property name="unmarshaller" ref="oaiPmhResponseUnmarshaller" />
 	</bean>
 	
-	<bean id="oaiPmhResponseUnmarshaller" class="org.springframework.oxm.xstream.AnnotationXStreamMarshaller">
-	  <property name="streamDriver" ref="oaiPmhResponseStreamDriver" />
-	  <property name="annotatedClass" value="org.emonocot.job.checklist.model.OaiPmhRecord"/>
+	<bean id="oaiPmhResponseUnmarshaller" class="org.emonocot.model.marshall.XStreamMarshaller">
+	    <property name="autodetectAnnotations" value="true"/>
+	    <property name="qNameMap" ref="oaiPmhQNameMap"/>
+        <property name="reflectionProvider" ref="reflectionProvider"/>
+        <property name="streamDriver" ref="oaiPmhResponseStreamDriver"/>
     </bean>
-
-	<bean id="oaiPmhResponseStreamDriver" class="com.thoughtworks.xstream.io.xml.StaxDriver">
-		<constructor-arg ref="oaiPmhResponseQNameMap" />
+    
+    <bean id="reflectionProvider" class="org.openarchives.pmh.marshall.ReflectionProviderFactory"/>
+    
+    <bean id="oaiPmhResponseStreamDriver" class="org.emonocot.model.marshall.StaxDriver">
+		<constructor-arg ref="oaiPmhQNameMap" />
+		<property name="repairingNamespace" value="false"/>
+		<property name="xmlInputFactory">
+		  <bean class="com.bea.xml.stream.MXParserFactory"/>
+		</property>
 	</bean>
 
-	<bean id="oaiPmhResponseQNameMap"
-		  class="org.emonocot.job.checklist.OaiPmhResponseQNameMapFactory" />
+	<bean id="oaiPmhQNameMap"
+		  class="org.openarchives.pmh.marshall.OpenArchivesQNameMapFactory" />
 
 	<bean id="itemProcessor" class="org.springframework.batch.item.support.CompositeItemProcessor" scope="step">
 		<property name="delegates">
