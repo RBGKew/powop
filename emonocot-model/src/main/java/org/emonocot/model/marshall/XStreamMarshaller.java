@@ -109,6 +109,11 @@ public class XStreamMarshaller extends AbstractMarshaller implements
      */
     private ReflectionProvider reflectionProvider;
 
+    /**
+     *
+     */
+    private ConverterMatcher[] converters = new ConverterMatcher[0];
+
    /**
     *
     */
@@ -180,19 +185,20 @@ public class XStreamMarshaller extends AbstractMarshaller implements
      * @see Converter
      * @see SingleValueConverter
      *
-     * @param converters set the converter
+     * @param newConverters set the converter
      */
-    public final void setConverters(final ConverterMatcher[] converters) {
-        for (int i = 0; i < converters.length; i++) {
-            if (converters[i] instanceof Converter) {
-                this.getXStream().registerConverter((Converter) converters[i],
-                        i);
-            } else if (converters[i] instanceof SingleValueConverter) {
+    public final void setConverters(final ConverterMatcher[] newConverters) {
+        this.converters = newConverters;
+        for (int i = 0; i < newConverters.length; i++) {
+            if (newConverters[i] instanceof Converter) {
                 this.getXStream().registerConverter(
-                        (SingleValueConverter) converters[i], i);
+                        (Converter) newConverters[i], i);
+            } else if (newConverters[i] instanceof SingleValueConverter) {
+                this.getXStream().registerConverter(
+                        (SingleValueConverter) newConverters[i], i);
             } else {
                 throw new IllegalArgumentException("Invalid ConverterMatcher ["
-                        + converters[i] + "]");
+                        + newConverters[i] + "]");
             }
         }
     }
@@ -506,6 +512,18 @@ public class XStreamMarshaller extends AbstractMarshaller implements
               xstream = new XStream(reflectionProvider);
             }
             xstream.autodetectAnnotations(autodetectAnnotations);
+            for (int i = 0; i < converters.length; i++) {
+                if (converters[i] instanceof Converter) {
+                    this.getXStream().registerConverter(
+                            (Converter) converters[i], i);
+                } else if (converters[i] instanceof SingleValueConverter) {
+                    this.getXStream().registerConverter(
+                            (SingleValueConverter) converters[i], i);
+                } else {
+                    throw new IllegalArgumentException(
+                        "Invalid ConverterMatcher [" + converters[i] + "]");
+                }
+            }
         }
 
         customizeXStream(getXStream());

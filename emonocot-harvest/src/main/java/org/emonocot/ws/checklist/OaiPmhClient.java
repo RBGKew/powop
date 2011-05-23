@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.URLEncoder;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -13,15 +14,20 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.emonocot.ws.GetResourceClient;
+import org.emonocot.job.io.StaxEventItemReader;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.openarchives.pmh.ResumptionToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
+import org.springframework.batch.item.ParseException;
+import org.springframework.batch.item.UnexpectedInputException;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.oxm.Unmarshaller;
 
 /**
  *
@@ -29,7 +35,7 @@ import org.springframework.batch.core.StepExecutionListener;
  *
  */
 public class OaiPmhClient implements StepExecutionListener {
-   /**
+    /**
     *
     */
     private StepExecution stepExecution;
@@ -37,23 +43,36 @@ public class OaiPmhClient implements StepExecutionListener {
     /**
      *
      */
-    private static final DateTimeFormatter DATE_TIME_PRINTER
-        = ISODateTimeFormat.dateTimeNoMillis();
+    private static final DateTimeFormatter DATE_TIME_PRINTER = ISODateTimeFormat
+            .dateTimeNoMillis();
 
     /**
     *
     */
     static final int BUFFER = 2048;
 
-   /**
+    /**
     *
     */
-   private Logger logger = LoggerFactory.getLogger(GetResourceClient.class);
+    private Logger logger = LoggerFactory.getLogger(OaiPmhClient.class);
 
     /**
     *
     */
     private HttpClient httpClient = new DefaultHttpClient();
+
+    /**
+     *
+     */
+    private Unmarshaller unmarshaller;
+
+    /**
+     *
+     * @param newUnmarshaller Set the unmarshaller to use
+     */
+    public final void setUnmarshaller(final Unmarshaller newUnmarshaller) {
+        this.unmarshaller = newUnmarshaller;
+    }
 
     /**
      *
@@ -84,27 +103,24 @@ public class OaiPmhClient implements StepExecutionListener {
             final String authorityURI, final String dateLastHarvested,
             final String temporaryFileName, final String resumptionToken) {
 
-
         httpClient.getParams().setParameter("http.useragent",
                 "org.emonocot.ws.checklist.OaiPmhClient");
         BufferedInputStream bufferedInputStream = null;
         BufferedOutputStream bufferedOutputStream = null;
 
-        HttpGet httpGet = new HttpGet(authorityURI);
+        StringBuffer query = new StringBuffer("?");
 
         if (resumptionToken != null) {
-            httpGet.getParams().setParameter("resumptionToken",
-                    resumptionToken);
+            query.append("resumptionToken=" + resumptionToken);
         } else {
+            query.append("verb=ListRecords&metadataPrefix=rdf");
             if (dateLastHarvested != null) {
-                httpGet.getParams().setParameter(
-                        "from",
-                        DATE_TIME_PRINTER.print(new DateTime(Long
+                query.append("&from="
+                        + DATE_TIME_PRINTER.print(new DateTime(Long
                                 .parseLong(dateLastHarvested))));
             }
-            httpGet.getParams().setParameter("verb", "ListRecords");
-            httpGet.getParams().setParameter("metadataPrefix", "rdf");
         }
+        HttpGet httpGet = new HttpGet(authorityURI + query.toString());
 
         try {
             HttpResponse httpResponse = httpClient.execute(httpGet);
@@ -121,8 +137,9 @@ public class OaiPmhClient implements StepExecutionListener {
                             new FileOutputStream(new File(temporaryFileName)));
                     int count;
                     byte[] data = new byte[BUFFER];
-                    while ((count = bufferedInputStream.read(
-                            data, 0, BUFFER)) != -1) {
+                    while ((count
+                            = bufferedInputStream.read(data, 0, BUFFER))
+                            != -1) {
                         bufferedOutputStream.write(data, 0, count);
                     }
                     bufferedOutputStream.flush();
@@ -175,17 +192,59 @@ public class OaiPmhClient implements StepExecutionListener {
 
     /**
      *
-     * @param resumptionToken
-     *            Set the resumption token, or null
+     * @param temporaryFileName
+     *            Set the temporary file name
      * @return an exit status indicating that the harvesting should continue or
      *         end now
      */
     public final ExitStatus resumptionTokenPresent(
-            final String resumptionToken) {
-        if (resumptionToken == null) {
-            return new ExitStatus("NO RESUMPTION TOKEN");
-        } else {
-            return new ExitStatus("RESUMPTION TOKEN PRESENT");
+            final String temporaryFileName) {
+
+        try {
+            StaxEventItemReader<ResumptionToken> staxEventItemReader
+                    = new StaxEventItemReader<ResumptionToken>();
+            staxEventItemReader.setFragmentRootElementName(
+                    "{http://www.openarchives.org/OAI/2.0/}resumptionToken");
+            staxEventItemReader.setUnmarshaller(unmarshaller);
+            staxEventItemReader.setResource(new FileSystemResource(
+                    temporaryFileName));
+
+            staxEventItemReader.afterPropertiesSet();
+            staxEventItemReader.open(stepExecution.getExecutionContext());
+
+            ResumptionToken resumptionToken = staxEventItemReader.read();
+            staxEventItemReader.close();
+            if (resumptionToken == null) {
+                stepExecution.getJobExecution()
+                .getExecutionContext().remove("resumption.token");
+                return new ExitStatus("NO RESUMPTION TOKEN");
+            } else {
+                logger.info(resumptionToken.getValue() + " "
+                        + resumptionToken.getCompleteListSize() + " "
+                        + resumptionToken.getCursor());
+                stepExecution.getJobExecution()
+                .getExecutionContext().put("resumption.token",
+                        resumptionToken.getValue());
+                return new ExitStatus("RESUMPTION TOKEN PRESENT");
+            }
+        } catch (UnexpectedInputException e) {
+            logger.error(e.getMessage());
+            for (StackTraceElement ste : e.getStackTrace()) {
+                logger.error(ste.toString());
+            }
+            return ExitStatus.FAILED;
+        } catch (ParseException e) {
+            logger.error(e.getMessage());
+            for (StackTraceElement ste : e.getStackTrace()) {
+                logger.error(ste.toString());
+            }
+            return ExitStatus.FAILED;
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            for (StackTraceElement ste : e.getStackTrace()) {
+                logger.error(ste.toString());
+            }
+            return ExitStatus.FAILED;
         }
     }
 

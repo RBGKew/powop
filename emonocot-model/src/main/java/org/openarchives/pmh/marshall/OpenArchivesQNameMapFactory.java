@@ -4,6 +4,7 @@ import javax.xml.namespace.QName;
 
 import org.openarchives.pmh.OAIPMH;
 import org.openarchives.pmh.Record;
+import org.openarchives.pmh.ResumptionToken;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
 
 import com.thoughtworks.xstream.io.xml.QNameMap;
@@ -32,6 +33,9 @@ public class OpenArchivesQNameMapFactory extends
         qNameMap.registerMapping(new QName(
                 "http://www.openarchives.org/OAI/2.0/", "record", "oai"),
                 Record.class);
+        qNameMap.registerMapping(new QName(
+                "http://www.openarchives.org/OAI/2.0/",
+                "resumptionToken", "oai"), ResumptionToken.class);
         qNameMap.registerMapping(new QName(
                 "http://www.openarchives.org/OAI/2.0/", "OAI-PMH"),
                 OAIPMH.class);

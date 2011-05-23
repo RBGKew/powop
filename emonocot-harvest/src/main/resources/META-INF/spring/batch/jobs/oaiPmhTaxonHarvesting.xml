@@ -41,7 +41,7 @@
 	  <property name="targetMethod" value="resumptionTokenPresent" />
 	  <property name="arguments">
 		<list>
-			<value>#{jobExecutionContext['resumption.token']}</value>
+			<value>#{jobParameters['temporary.file.name']}</value>
 		</list>
 	  </property>
     </bean>
@@ -62,7 +62,9 @@
 	  </property>
     </bean>
     
-    <bean id="oaiPmhClient" class="org.emonocot.ws.checklist.OaiPmhClient" />
+    <bean id="oaiPmhClient" class="org.emonocot.ws.checklist.OaiPmhClient">
+      <property name="unmarshaller" ref="oaiPmhResponseUnmarshaller"/>
+    </bean>
 
 	<bean id="itemReader" class="org.emonocot.job.io.StaxEventItemReader"
 		  scope="step">
@@ -80,6 +82,11 @@
 	    <property name="qNameMap" ref="oaiPmhQNameMap"/>
         <property name="reflectionProvider" ref="reflectionProvider"/>
         <property name="streamDriver" ref="oaiPmhResponseStreamDriver"/>
+        <property name="converters">
+        <list>
+            <bean class="org.openarchives.pmh.marshall.ResumptionTokenConverter"/>
+        </list>
+    </property>
     </bean>
     
     <bean id="reflectionProvider" class="org.openarchives.pmh.marshall.ReflectionProviderFactory"/>
