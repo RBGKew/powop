@@ -5,7 +5,7 @@ package org.emonocot.model.geography;
  * @author ben
  *
  */
-public enum Country {
+public enum Country implements GeographicalRegion {
     DEN("DEN", "Denmark", Region.NORTHERN_EUROPE, "DK"),
     FIN("FIN", "Finland", Region.NORTHERN_EUROPE, "FI"),
     FOR("FOR", "Føroyar", Region.NORTHERN_EUROPE, "FO"),
@@ -458,4 +458,24 @@ public enum Country {
     public String getCode() {
         return code;
     }
+
+    /**
+    *
+    * @param code the code of the country
+    * @return a valid country
+    */
+   public static Country fromString(final String code) {
+       for (Country country : Country.values()) {
+           if (country.code == code) {
+               return country;
+           }
+       }
+       throw new IllegalArgumentException(code
+               + " is not a valid Continent code");
+   }
+   
+   @Override
+   public String toString() {
+       return code;
+   }
 }

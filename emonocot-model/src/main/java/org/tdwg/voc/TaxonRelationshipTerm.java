@@ -11,6 +11,38 @@ import org.tdwg.DefinedTerm;
  *
  */
 public class TaxonRelationshipTerm extends DefinedTerm {
+
+    /**
+     *
+     */
+    private static TaxonRelationshipTerm[] terms;
+    
+    static {
+        terms = new TaxonRelationshipTerm[]{
+                TaxonRelationshipTerm.DOES_NOT_INCLUDE,
+                TaxonRelationshipTerm.INCLUDES,
+                TaxonRelationshipTerm.DOES_NOT_OVERLAP,
+                TaxonRelationshipTerm.OVERLAPS,
+                TaxonRelationshipTerm.EXCLUDES,
+                TaxonRelationshipTerm.HAS_SYNONYM,
+                TaxonRelationshipTerm.IS_SYONYM_FOR,
+                TaxonRelationshipTerm.HAS_VERNACULAR,
+                TaxonRelationshipTerm.IS_VERNACULAR_FOR,
+                TaxonRelationshipTerm.IS_AMBIREGNAL_OF,
+                TaxonRelationshipTerm.IS_ANAMORPH_OF,
+                TaxonRelationshipTerm.IS_CHILD_TAXON_OF,
+                TaxonRelationshipTerm.IS_PARENT_TAXON_OF,
+                TaxonRelationshipTerm.IS_CONGRUENT_TO,
+                TaxonRelationshipTerm.IS_FEMALE_PARENT_OF,
+                TaxonRelationshipTerm.IS_MALE_PARENT_OF,
+                TaxonRelationshipTerm.IS_FIRST_PARENT_OF,
+                TaxonRelationshipTerm.IS_SECOND_PARENT_OF,
+                TaxonRelationshipTerm.IS_HYBRID_PARENT_OF,
+                TaxonRelationshipTerm.IS_HYBRID_CHILD_OF,
+                TaxonRelationshipTerm.IS_NOT_CONGRUENT_TO,
+                TaxonRelationshipTerm.IS_NOT_INCLUDED_IN
+        };
+    }
     /**
      *
      */
@@ -222,6 +254,21 @@ public class TaxonRelationshipTerm extends DefinedTerm {
             throw new IllegalArgumentException(identifier
                     + " is not a valid uri", e);
         }
+    }
+
+    /**
+     * Resolve a taxon relationship term from a uri.
+     *
+     * @param uri the uri to resolve
+     * @return a taxon relationship term
+     */
+    public static final TaxonRelationshipTerm fromValue(String uri) {
+        for (TaxonRelationshipTerm term : terms) {
+            if (term.getIdentifier().toString().equals(uri)) {
+                return term;
+            }
+        }
+        return null;
     }
 
 }

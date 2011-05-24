@@ -5,7 +5,7 @@ package org.emonocot.model.geography;
  * @author ben
  *
  */
-public enum Continent {
+public enum Continent implements GeographicalRegion {
     /**
      *
      */
@@ -77,5 +77,26 @@ public enum Continent {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     *
+     * @param code the code of the continent
+     * @return a valid continent
+     */
+    public static Continent fromString(final String code) {
+        int c = Integer.parseInt(code);
+        for (Continent continent : Continent.values()) {
+            if (continent.code == c) {
+                return continent;
+            }
+        }
+        throw new IllegalArgumentException(code
+                + " is not a valid Continent code");
+    }
+
+    @Override
+    public String toString() {
+        return Integer.toString(code);
     }
 }

@@ -10,13 +10,16 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.emonocot.model.common.Base;
 import org.emonocot.model.description.Content;
+import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
+import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.reference.Reference;
 
@@ -36,6 +39,31 @@ public class Taxon extends Base {
     /**
      *
      */
+    private String name;
+
+    /**
+     *
+     */
+    private Taxon parent;
+
+    /**
+     *
+     */
+    private Set<Taxon> children = new HashSet<Taxon>();
+
+    /**
+     *
+     */
+    private Taxon accepted;
+
+    /**
+     *
+     */
+    private Set<Taxon> synonyms = new HashSet<Taxon>();
+
+    /**
+     *
+     */
     private List<Image> images = new ArrayList<Image>();
 
     /**
@@ -47,6 +75,12 @@ public class Taxon extends Base {
      *
      */
     private Map<Feature, Content> content = new HashMap<Feature, Content>();
+
+    /**
+     *
+     */
+    private Map<GeographicalRegion, Distribution> distribution
+        = new HashMap<GeographicalRegion, Distribution>();
 
     /**
      *
@@ -118,4 +152,120 @@ public class Taxon extends Base {
     public boolean isDeleted() {
         return deleted;
     }
+
+    /**
+     *
+     * @return the full taxonomic name of the taxon, including authority
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     *
+     * @param name Set the taxonomic name of the taxon
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     *
+     * @return the immediate taxonomic parent
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    public Taxon getParent() {
+        return parent;
+    }
+
+    /**
+     *
+     * @param parent Set the taxonomic parent
+     */
+    public void setParent(Taxon parent) {
+        if (this.getParent() != null) {
+            this.getParent().getChildren().remove(this);
+        }
+        if(parent != null) {
+            parent.getChildren().add(this);
+        }
+        this.parent = parent;
+    }
+
+    /**
+     *
+     * @return Get the immediate taxonomic children
+     */
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
+    public Set<Taxon> getChildren() {
+        return children;
+    }
+
+    /**
+     *
+     * @param children Set the taxonomic children
+     */
+    public void setChildren(Set<Taxon> children) {
+        this.children = children;
+    }
+
+    /**
+     *
+     * @return get the accepted name of this synonym
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    public Taxon getAccepted() {
+        return accepted;
+    }
+
+    /**
+     *
+     * @param accepted Set the accepted name
+     */
+    public void setAccepted(Taxon accepted) {
+        if (this.getAccepted() != null) {
+            this.getAccepted().getSynonyms().remove(this);
+        }
+        if(accepted != null) {
+            accepted.getSynonyms().add(this);
+        }
+        this.accepted = accepted;
+    }
+
+    /**
+     *
+     * @return the synonyms of this taxon
+     */
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "accepted")
+    public Set<Taxon> getSynonyms() {
+        return synonyms;
+    }
+
+    /**
+     *
+     * @param synonyms Set the synonyms of this taxon
+     */
+    public void setSynonyms(Set<Taxon> synonyms) {
+        this.synonyms = synonyms;
+    }
+
+    /**
+     *
+     * @return the distribution associated with this taxon
+     */
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon")
+    @MapKey(name = "region")
+    public Map<GeographicalRegion, Distribution> getDistribution() {
+        return distribution;
+    }
+
+    /**
+     *
+     * @param distribution Set the distribution associated with this taxon
+     */
+    public void setDistribution(Map<GeographicalRegion, Distribution> distribution) {
+        this.distribution = distribution;
+    }
+    
+    
 }

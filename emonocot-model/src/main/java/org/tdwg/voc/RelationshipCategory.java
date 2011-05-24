@@ -75,7 +75,7 @@ public class RelationshipCategory {
     *
     * @return the taxon relationship term
     */
-   protected final TaxonRelationshipTerm getTaxonRelationshipTerm() {
+   public final TaxonRelationshipTerm getTaxonRelationshipTerm() {
        return tcTaxonRelationshipTerm;
    }
 

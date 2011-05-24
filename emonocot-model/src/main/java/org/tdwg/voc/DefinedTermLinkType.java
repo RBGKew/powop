@@ -86,7 +86,7 @@ public class DefinedTermLinkType {
      *
      * @return the defined term in this link
      */
-    protected final DefinedTerm getDefinedTerm() {
+    public final DefinedTerm getDefinedTerm() {
         return tcomDefinedTerm;
     }
 

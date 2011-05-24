@@ -68,7 +68,7 @@ public class ToTaxon {
     *
     * @return the taxon concept associated with this link
     */
-   protected final TaxonConcept getTaxonConcept() {
+   public final TaxonConcept getTaxonConcept() {
        return tcTaxonConcept;
    }
 

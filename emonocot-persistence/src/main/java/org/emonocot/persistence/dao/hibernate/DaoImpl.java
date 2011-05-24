@@ -3,7 +3,10 @@ package org.emonocot.persistence.dao.hibernate;
 import org.emonocot.model.common.Base;
 import org.emonocot.persistence.dao.Dao;
 import org.hibernate.SessionFactory;
+import org.hibernate.UnresolvableObjectException;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate3.HibernateObjectRetrievalFailureException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
@@ -15,6 +18,18 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
  */
 public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
         implements Dao<T> {
+    /**
+     *
+     */
+    private Class<T> type;
+
+    /**
+     *
+     * @param newType Set the type of object handled by this DAO
+     */
+    public DaoImpl(final Class<T> newType) {
+        this.type = newType;
+    }
 
     /**
      *
@@ -28,13 +43,19 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
 
     @Override
     public final T load(final String identifier) {
-        // TODO Auto-generated method stub
-        return null;
+        T t = (T) getSession().createCriteria(type)
+                .add(Restrictions.eq("identifier", identifier)).uniqueResult();
+        if (t == null) {
+            throw new HibernateObjectRetrievalFailureException(
+                    new UnresolvableObjectException(identifier,
+                            "Object could not be resolved"));
+        }
+        return t;
     }
 
     @Override
     public final T find(final String identifier) {
-        // TODO Auto-generated method stub
-        return null;
+        return (T) getSession().createCriteria(type)
+        .add(Restrictions.eq("identifier", identifier)).uniqueResult();
     }
 }

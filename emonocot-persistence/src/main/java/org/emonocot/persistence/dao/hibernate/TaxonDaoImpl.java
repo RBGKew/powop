@@ -12,6 +12,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
 
+    /**
+     *
+     */
+    public TaxonDaoImpl() {
+        super(Taxon.class);
+    }
+
     @Override
     public final boolean verify(final String identifer,
             final String scientificName) {

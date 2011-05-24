@@ -137,4 +137,12 @@ public class InfoItem extends Description {
             spmHasValues.add(new DefinedTermLinkType(definedTerm, true));
         }
     }
+
+    /**
+     *
+     * @return the has value relations
+     */
+    public final Set<DefinedTermLinkType> getHasValueRelation() {
+       return spmHasValues;
+    }
 }

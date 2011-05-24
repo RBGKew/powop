@@ -16,6 +16,13 @@ import org.springframework.stereotype.Repository;
 public class DescriptionDaoImpl extends DaoImpl<Content> implements
         DescriptionDao {
 
+    /**
+     *
+     */
+    public DescriptionDaoImpl() {
+        super(Content.class);
+    }
+
     @Override
     public final TextContent getTextContent(
             final Feature feature, final Taxon taxon) {

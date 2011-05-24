@@ -50,6 +50,11 @@ public abstract class Base {
 
     /**
      *
+     */
+    private String identifier;
+
+    /**
+     *
      * @return Get the license of this object.
      */
     @Enumerated(value = EnumType.STRING)
@@ -153,6 +158,22 @@ public abstract class Base {
      */
     public String getCreator() {
         return creator;
+    }
+
+    /**
+     *
+     * @return The unique identifier of the object
+     */
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    /**
+     *
+     * @param identifier Set the unique identifier of the object
+     */
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 
     @Override

@@ -147,7 +147,4 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
-	<bean name="taxonItemConverter"
-		class="org.emonocot.job.checklist.convert.OaiPmhRecordConverter" />
-
 </beans>

@@ -1,14 +1,6 @@
 package org.tdwg.voc;
 
-import java.io.Serializable;
-import java.net.URI;
-
-import org.emonocot.model.marshall.UriConverter;
 import org.tdwg.BaseThing;
-
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
 
 /**
  *
@@ -76,18 +68,6 @@ public class Relationship extends BaseThing {
 
     /**
      *
-     * @return the relationship category
-     */
-    public final TaxonRelationshipTerm getRelationshipCategoryRelation() {
-        if (tcRelationshipCategory != null) {
-            return  tcRelationshipCategory.getTaxonRelationshipTerm();
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     *
      * @param relationshipCategory Set the relationship category
      */
     public final void setRelationshipCategoryRelation(
@@ -115,4 +95,20 @@ public class Relationship extends BaseThing {
     public final void setToTaxon(final TaxonConcept toTaxon) {
         this.tcToTaxon = new ToTaxon(toTaxon);
     }
+
+    /**
+     *
+     * @return the to taxon
+     */
+    public final ToTaxon getToTaxonRelation() {
+        return tcToTaxon;
+    }
+
+    /**
+    *
+    * @return the relationship category
+    */
+   public final RelationshipCategory getRelationshipCategoryRelation() {
+       return tcRelationshipCategory;
+   }
 }

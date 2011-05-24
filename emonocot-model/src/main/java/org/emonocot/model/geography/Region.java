@@ -5,7 +5,7 @@ package org.emonocot.model.geography;
  * @author ben
  *
  */
-public enum Region {
+public enum Region implements GeographicalRegion {
     NORTHERN_EUROPE(10, "Northern Europe", Continent.EUROPE),
     MIDDLE_EUROPE(11, "Middle Europe", Continent.EUROPE),
     SOUTHWESTERN_EUROPE(12, "Southwestern Europe", Continent.EUROPE),
@@ -95,15 +95,32 @@ public enum Region {
      * @return A Region or throw an IllegalArgumentException if the code does
      *         not match to a region
      */
-    public static Region fromCode(final Integer code) {
+    public static Region fromString(final String code) {
+        int c = Integer.parseInt(code);
         for (Region region : Region.values()) {
-            if (code.equals(region.code)) {
+            if (c == region.code) {
                 return region;
             }
         }
         throw new IllegalArgumentException(code
                 + " is not a valid TDWG Level 2 Region Code");
     }
+    
+    /**
+    *
+    * @param code The code of the region in question
+    * @return A Region or throw an IllegalArgumentException if the code does
+    *         not match to a region
+    */
+   public static Region fromCode(final int code) {
+       for (Region region : Region.values()) {
+           if (code == region.code) {
+               return region;
+           }
+       }
+       throw new IllegalArgumentException(code
+               + " is not a valid TDWG Level 2 Region Code");
+   }
 
     /**
      *
@@ -127,5 +144,10 @@ public enum Region {
      */
     public Continent getContinent() {
         return continent;
+    }
+    
+    @Override
+    public String toString() {
+        return Integer.toString(code);
     }
 }
