@@ -25,5 +25,4 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
         // TODO Auto-generated method stub
         return false;
     }
-
 }

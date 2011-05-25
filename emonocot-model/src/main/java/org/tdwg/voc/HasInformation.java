@@ -3,12 +3,10 @@ package org.tdwg.voc;
 import java.io.Serializable;
 import java.net.URI;
 
-import org.emonocot.model.marshall.UriConverter;
 import org.kew.grassbase.ontology.QuantitativeData;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
 
 /**
  *
@@ -21,7 +19,6 @@ public class HasInformation {
     */
    @XStreamAlias("rdf:resource")
    @XStreamAsAttribute
-   @XStreamConverter(UriConverter.class)
    private URI resource;
 
    /**
@@ -80,12 +77,12 @@ public class HasInformation {
      * @return the information
      */
     protected final InfoItem getInfoItem() {
-        if (this.spmiDistribution == null) {
-            return spmInfoItem;
-        } else if (this.grassQuantitativeData == null) {
+        if (this.spmiDistribution != null) {
+            return spmiDistribution;
+        } else if (this.grassQuantitativeData != null) {
             return grassQuantitativeData;
         } else {
-            return spmiDistribution;
+            return this.spmInfoItem;
         }
     }
 

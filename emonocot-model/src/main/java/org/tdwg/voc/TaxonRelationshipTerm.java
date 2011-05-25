@@ -271,4 +271,22 @@ public class TaxonRelationshipTerm extends DefinedTerm {
         return null;
     }
 
+    @Override
+    public final boolean equals(final Object obj) {
+        if (obj == null
+                || !obj.getClass().equals(TaxonRelationshipTerm.class)) {
+            return false;
+        }
+
+        TaxonRelationshipTerm other = (TaxonRelationshipTerm) obj;
+        if (other.getIdentifier() == null || this.getIdentifier() == null) {
+            return false;
+        }
+        return this.getIdentifier().equals(other.getIdentifier());
+    }
+
+    @Override
+    public final int hashCode() {
+        return this.getIdentifier().hashCode();
+    }
 }

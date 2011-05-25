@@ -194,8 +194,8 @@ public abstract class Base {
 
     @Override
     public int hashCode() {
-        return super.hashCode() + this.created.hashCode()
-                + this.modified.hashCode() + this.license.hashCode()
-                + this.creator.hashCode();
+        return super.hashCode() + ObjectUtils.hashCode(this.created)
+                + ObjectUtils.hashCode(this.modified) + ObjectUtils.hashCode(this.license)
+                + ObjectUtils.hashCode(this.creator);
     }
 }

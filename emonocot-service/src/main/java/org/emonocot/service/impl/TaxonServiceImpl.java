@@ -23,10 +23,9 @@ public class TaxonServiceImpl extends ServiceImpl<Taxon, TaxonDao> implements
         return dao.verify(identifer, scientificName);
     }
 
-    @Override
     @Autowired
-    public void setDao(TaxonDao dao) {
-        super.dao = dao;
+    public void setTaxonDao(TaxonDao taxonDao) {
+        super.dao = taxonDao;
     }
 
 }

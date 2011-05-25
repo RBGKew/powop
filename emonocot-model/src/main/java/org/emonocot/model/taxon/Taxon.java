@@ -22,6 +22,10 @@ import org.emonocot.model.description.Feature;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.reference.Reference;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.FetchProfile;
+import org.hibernate.annotations.FetchMode;
 
 /**
  *
@@ -29,6 +33,18 @@ import org.emonocot.model.reference.Reference;
  *
  */
 @Entity
+@FetchProfile(
+        name = "taxon-with-related", fetchOverrides = {
+// Currently only JOIN is supported HHH-4048
+//        @FetchProfile.FetchOverride(entity = Taxon.class,
+//                association = "synonyms", mode = FetchMode.SELECT),
+//        @FetchProfile.FetchOverride(entity = Taxon.class,
+//                     association = "children", mode = FetchMode.SELECT),
+        @FetchProfile.FetchOverride(entity = Taxon.class,
+                     association = "parent", mode = FetchMode.JOIN),
+        @FetchProfile.FetchOverride(entity = Taxon.class,
+                     association = "accepted", mode = FetchMode.JOIN)
+     })
 public class Taxon extends Base {
 
     /**
@@ -174,6 +190,7 @@ public class Taxon extends Base {
      * @return the immediate taxonomic parent
      */
     @ManyToOne(fetch = FetchType.LAZY)
+    @Cascade({CascadeType.SAVE_UPDATE})
     public Taxon getParent() {
         return parent;
     }
@@ -183,12 +200,6 @@ public class Taxon extends Base {
      * @param parent Set the taxonomic parent
      */
     public void setParent(Taxon parent) {
-        if (this.getParent() != null) {
-            this.getParent().getChildren().remove(this);
-        }
-        if(parent != null) {
-            parent.getChildren().add(this);
-        }
         this.parent = parent;
     }
 
@@ -197,6 +208,7 @@ public class Taxon extends Base {
      * @return Get the immediate taxonomic children
      */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
+    @Cascade({CascadeType.SAVE_UPDATE })
     public Set<Taxon> getChildren() {
         return children;
     }
@@ -214,6 +226,7 @@ public class Taxon extends Base {
      * @return get the accepted name of this synonym
      */
     @ManyToOne(fetch = FetchType.LAZY)
+    @Cascade({CascadeType.SAVE_UPDATE })
     public Taxon getAccepted() {
         return accepted;
     }
@@ -223,12 +236,6 @@ public class Taxon extends Base {
      * @param accepted Set the accepted name
      */
     public void setAccepted(Taxon accepted) {
-        if (this.getAccepted() != null) {
-            this.getAccepted().getSynonyms().remove(this);
-        }
-        if(accepted != null) {
-            accepted.getSynonyms().add(this);
-        }
         this.accepted = accepted;
     }
 
@@ -237,6 +244,7 @@ public class Taxon extends Base {
      * @return the synonyms of this taxon
      */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "accepted")
+    @Cascade({CascadeType.SAVE_UPDATE })
     public Set<Taxon> getSynonyms() {
         return synonyms;
     }
@@ -253,7 +261,8 @@ public class Taxon extends Base {
      *
      * @return the distribution associated with this taxon
      */
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon", orphanRemoval = true)
+    @Cascade({CascadeType.ALL })
     @MapKey(name = "region")
     public Map<GeographicalRegion, Distribution> getDistribution() {
         return distribution;
@@ -266,6 +275,4 @@ public class Taxon extends Base {
     public void setDistribution(Map<GeographicalRegion, Distribution> distribution) {
         this.distribution = distribution;
     }
-    
-    
 }

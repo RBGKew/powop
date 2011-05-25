@@ -44,7 +44,7 @@ public class ChecklistHarvestingJobIntegrationTest {
     /**
      *
      */
-    Logger logger = LoggerFactory.getLogger(
+    private Logger logger = LoggerFactory.getLogger(
             ChecklistHarvestingJobIntegrationTest.class);
 
     /**
@@ -60,7 +60,7 @@ public class ChecklistHarvestingJobIntegrationTest {
     private JobLauncher jobLauncher;
 
     /**
-     *
+     * 1288569600 in unix time.
      */
     private static final BaseDateTime PAST_DATETIME
     = new DateTime(2010, 11, 1, 9, 0, 0, 0);

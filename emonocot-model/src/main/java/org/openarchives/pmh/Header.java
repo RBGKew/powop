@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.emonocot.model.marshall.DateTimeConverter;
-import org.emonocot.model.marshall.UriConverter;
+import org.emonocot.model.marshall.UriElementConverter;
 import org.joda.time.DateTime;
 
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
@@ -50,7 +50,7 @@ public class Header {
     /**
      *
      */
-    @XStreamConverter(UriConverter.class)
+    @XStreamConverter(UriElementConverter.class)
     private URI identifier;
 
     /**

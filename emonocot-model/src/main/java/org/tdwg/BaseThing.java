@@ -5,7 +5,7 @@ import java.util.Set;
 
 import org.dublincore.Relation;
 import org.emonocot.model.marshall.DateTimeConverter;
-import org.emonocot.model.marshall.UriConverter;
+import org.emonocot.model.marshall.UriElementConverter;
 import org.joda.time.DateTime;
 import org.tdwg.voc.LinkType;
 import org.tdwg.voc.PublicationCitation;
@@ -33,7 +33,7 @@ public abstract class BaseThing {
     /**
      *
      */
-    @XStreamConverter(UriConverter.class)
+    @XStreamConverter(UriElementConverter.class)
     private URI dcIdentifier;
 
     /**

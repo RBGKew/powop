@@ -1,6 +1,10 @@
 package org.emonocot.job.checklist;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Callable;
 
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.GeographyConverter;
@@ -8,6 +12,9 @@ import org.emonocot.model.taxon.Taxon;
 import org.emonocot.service.TaxonService;
 import org.hibernate.engine.Status;
 import org.openarchives.pmh.Record;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
@@ -19,7 +26,6 @@ import org.tdwg.voc.RelationshipCategory;
 import org.tdwg.voc.SpeciesProfileModel;
 import org.tdwg.voc.TaxonConcept;
 import org.tdwg.voc.TaxonRelationshipTerm;
-import org.tdwg.voc.ToTaxon;
 
 /**
  *
@@ -27,7 +33,24 @@ import org.tdwg.voc.ToTaxon;
  *
  */
 public class OaiPmhRecordProcessor
-    implements ItemProcessor<Record, Taxon> {
+    implements ItemProcessor<Record, Taxon>, ChunkListener {
+
+   /**
+    *
+    */
+    private Logger logger
+        = LoggerFactory.getLogger(OaiPmhRecordProcessor.class);
+
+   /**
+    *
+    */
+   private Map<String, Taxon> taxaWithinChunk = new HashMap<String, Taxon>();
+
+   /**
+    *
+    */
+   private Set<TaxonRelationship> taxonRelationships
+       = new HashSet<TaxonRelationship>();
 
     /**
      *
@@ -35,24 +58,56 @@ public class OaiPmhRecordProcessor
     private Converter<String, GeographicalRegion>
         geographyConverter = new GeographyConverter();
 
-    /**
-     *
-     */
-    private TaxonService taxonService;
+   /**
+    *
+    */
+   private TaxonService taxonService;
 
-    /**
-     *
-     * @param taxonService Set the taxon service
-     */
-    @Autowired
-    public final void setTaxonService(final TaxonService taxonService) {
-        this.taxonService = taxonService;
-    }
+   /**
+    *
+    * @param taxonService Set the taxon service
+    */
+   @Autowired
+   public final void setTaxonService(final TaxonService taxonService) {
+       this.taxonService = taxonService;
+   }
+
+   /**
+   *
+   * @param identifier the identifier of the taxon you want to resolve
+   * @return A callable which resolves to a Taxon
+   */
+   public final Callable<Taxon> resolve(final String identifier) {
+       return new Callable<Taxon>() {
+           public Taxon call() {
+               if (taxaWithinChunk.containsKey(identifier)) {
+                   return taxaWithinChunk.get(identifier);
+               } else {
+                   Taxon taxon = taxonService.find(identifier,
+                           "taxon-with-related");
+                   if (taxon == null) {
+                       taxon = new Taxon();
+                       taxon.setIdentifier(identifier);
+                       taxaWithinChunk.put(identifier, taxon);
+                   }
+                   return taxon;
+               }
+           }
+       };
+   }
+
+  /**
+   *
+   * @param taxon The taxon itself
+   */
+  public final void bind(final Taxon taxon) {
+      taxaWithinChunk.put(taxon.getIdentifier(), taxon);
+  }
 
     @Override
     public final Taxon process(final Record record) throws Exception {
         Taxon taxon = taxonService.find(record.getHeader().getIdentifier()
-                .toString());
+                .toString(), "taxon-with-related");
 
         if (taxon == null) {
             // We don't have a record of this taxon yet
@@ -68,34 +123,16 @@ public class OaiPmhRecordProcessor
                         .getTaxonConcept();
 
                 taxon.setIdentifier(taxonConcept.getIdentifier().toString());
-                taxon.setName(taxonConcept.getTitle());
+                bind(taxon);
+                if (taxonConcept.getHasName() != null) {
+                    taxon.setName(taxonConcept.getHasName().getNameComplete());
+                } else {
+                    taxon.setName(taxonConcept.getTitle());
+                }
                 if (taxonConcept.getHasRelationship() != null) {
                     for (Relationship relationship : taxonConcept
                             .getHasRelationship()) {
-                        TaxonRelationshipTerm term = resolveRelationshipTerm(relationship
-                                .getRelationshipCategoryRelation());
-                        Taxon related = resolveRelatedTaxon(relationship
-                                .getToTaxonRelation());
-                        if (term.equals(TaxonRelationshipTerm.IS_SYONYM_FOR)) {
-                            if (!related.getSynonyms().contains(taxon)) {
-                                taxon.setAccepted(related);
-                            }
-                        } else if (term
-                                .equals(TaxonRelationshipTerm.HAS_SYNONYM)) {
-                            if (!taxon.getSynonyms().contains(related)) {
-                                related.setAccepted(taxon);
-                            }
-                        } else if (term
-                                .equals(TaxonRelationshipTerm.IS_CHILD_TAXON_OF)) {
-                            if (!related.getChildren().contains(taxon)) {
-                                taxon.setParent(related);
-                            }
-                        } else if (term
-                                .equals(TaxonRelationshipTerm.IS_PARENT_TAXON_OF)) {
-                            if (!taxon.getChildren().contains(related)) {
-                                related.setParent(taxon);
-                            }
-                        }
+                        addRelationship(taxon, relationship);
                     }
                 }
 
@@ -103,8 +140,11 @@ public class OaiPmhRecordProcessor
                     for (SpeciesProfileModel spm : taxonConcept
                             .getDescribedBy()) {
                         if (spm.getHasInformation() != null) {
+                            logger.info("hasInformation " + spm.getHasInformation());
                             for (InfoItem infoItem : spm.getHasInformation()) {
+                                logger.info("hasInformation " + infoItem);
                                 if (infoItem instanceof Distribution) {
+                                    logger.info("hasInformation = Distribution");
                                     Distribution distribution = (Distribution) infoItem;
                                     org.emonocot.model.description.Distribution dist
                                       = resolveDistribution(distribution
@@ -141,6 +181,32 @@ public class OaiPmhRecordProcessor
     }
 
     /**
+     * Adds a relationship to a list of relationships which should be resolved
+     * once the taxa in this chunk have been processed. Allows for forward
+     * references within the chunk to prevent duplicate entries if a taxon is
+     * proceeded by a related taxon within a chunk.
+     *
+     * @param taxon Set the from taxon.
+     * @param relationship Set the relationship object.
+     */
+    private void addRelationship(final Taxon taxon,
+            final Relationship relationship) {
+        String identifier = null;
+        if (relationship.getToTaxonRelation().getTaxonConcept() != null) {
+            identifier = relationship.getToTaxonRelation().getTaxonConcept()
+                    .getIdentifier().toString();
+        } else {
+            identifier = relationship.getToTaxonRelation().getResource()
+                    .toString();
+        }
+
+        TaxonRelationshipTerm term = resolveRelationshipTerm(relationship
+                .getRelationshipCategoryRelation());
+        this.taxonRelationships.add(new TaxonRelationship(taxon, term,
+                resolve(identifier)));
+    }
+
+    /**
      *
      * @param hasValueRelation a has value relation
      * @return a valid Distribution
@@ -161,28 +227,9 @@ public class OaiPmhRecordProcessor
         org.emonocot.model.description.Distribution distribution
            = new org.emonocot.model.description.Distribution();
         distribution.setRegion(region);
+        logger.info("Resolving " + definedTermLinkType
+                + " returning " + region);
         return distribution;
-    }
-
-    /**
-     *
-     * @param toTaxonRelation A to taxon relation
-     * @return a local taxon, if already saved, or a new record
-     */
-    private Taxon resolveRelatedTaxon(final ToTaxon toTaxonRelation) {
-        String identifier = null;
-        if (toTaxonRelation.getTaxonConcept() != null) {
-            identifier = toTaxonRelation.getTaxonConcept().getIdentifier()
-                    .toString();
-        } else {
-            identifier = toTaxonRelation.getResource().toString();
-        }
-        Taxon taxon = taxonService.find(identifier);
-        if (taxon == null) {
-            taxon = new Taxon();
-            taxon.setIdentifier(identifier);
-        }
-        return taxon;
     }
 
     /**
@@ -200,4 +247,83 @@ public class OaiPmhRecordProcessor
         }
     }
 
+    @Override
+    public final void beforeChunk() {
+        logger.info("Before Chunk");
+        this.taxonRelationships = new HashSet<TaxonRelationship>();
+        this.taxaWithinChunk = new HashMap<String, Taxon>();
+    }
+
+    @Override
+    public final void afterChunk() {
+        logger.info("After Chunk");
+        for (TaxonRelationship taxonRelationship : taxonRelationships) {
+            TaxonRelationshipTerm term = taxonRelationship.term;
+            Taxon taxon = taxonRelationship.from;
+            Taxon related = null;
+            try {
+                related = taxonRelationship.to.call();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (term.equals(TaxonRelationshipTerm.IS_SYONYM_FOR)) {
+                if (!related.getSynonyms().contains(taxon)) {
+                    taxon.setAccepted(related);
+                    related.getSynonyms().add(taxon);
+                }
+            } else if (term.equals(TaxonRelationshipTerm.HAS_SYNONYM)) {
+                if (!taxon.getSynonyms().contains(related)) {
+                    related.setAccepted(taxon);
+                    taxon.getSynonyms().add(related);
+                }
+            } else if (term.equals(TaxonRelationshipTerm.IS_CHILD_TAXON_OF)) {
+                if (!related.getChildren().contains(taxon)) {
+                    taxon.setParent(related);
+                    related.getChildren().add(taxon);
+                }
+            } else if (term.equals(TaxonRelationshipTerm.IS_PARENT_TAXON_OF)) {
+                if (!taxon.getChildren().contains(related)) {
+                    related.setParent(taxon);
+                    taxon.getChildren().add(related);
+                }
+            }
+        }
+
+        taxaWithinChunk.clear();
+        taxonRelationships.clear();
+    }
+
+    /**
+     *
+     * @author ben
+     *
+     */
+    class TaxonRelationship {
+        /**
+         *
+         */
+        private Taxon from;
+        /**
+         *
+         */
+        private TaxonRelationshipTerm term;
+        /**
+         *
+         */
+        private Callable<Taxon> to;
+
+        /**
+         *
+         * @param newFrom Set the from taxon
+         * @param newTerm Set relationship type
+         * @param newTo Set a callable representing the to taxon
+         */
+        TaxonRelationship(final Taxon newFrom,
+                final TaxonRelationshipTerm newTerm,
+                final Callable<Taxon> newTo) {
+            this.from = newFrom;
+            this.term = newTerm;
+            this.to = newTo;
+        }
+    }
 }

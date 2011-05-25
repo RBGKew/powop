@@ -80,7 +80,7 @@ public abstract class Content extends Base {
 
     @Override
     public int hashCode() {
-        return super.hashCode() + this.taxon.hashCode()
-                + this.feature.hashCode();
+        return super.hashCode() + ObjectUtils.hashCode(this.taxon)
+                + ObjectUtils.hashCode(this.feature);
     }
 }

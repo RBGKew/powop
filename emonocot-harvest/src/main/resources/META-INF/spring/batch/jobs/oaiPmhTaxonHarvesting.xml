@@ -22,15 +22,19 @@
 		<batch:step id="cleanupResourcesNotModified">
 		    <batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="oaiPmhResourceDeletingTasklet" />
-			<batch:end on="COMPLETE" exit-code="NOT MODIFIED"/>
+			<batch:end on="COMPLETED" exit-code="COMPLETED"/>
 		</batch:step>
 		<batch:step id="processRecords">
 		    <batch:description>Process the records</batch:description>
 			<batch:tasklet>
 				<batch:chunk reader="itemReader" processor="itemProcessor"
-					writer="itemWriter" commit-interval="10" />
+					writer="itemWriter" commit-interval="10">
+			    </batch:chunk>
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="resumeHarvesting" />
+			<batch:listeners>
+				  <batch:listener ref="taxonItemProcessor" />
+			</batch:listeners>
 		</batch:step>
 		<batch:step id="resumeHarvesting">
 		    <batch:description>Is there a resumption token available or should we finish harvesting?</batch:description>
@@ -44,6 +48,7 @@
 		<batch:step id="cleanupResources">
 		    <batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="oaiPmhResourceDeletingTasklet" />
+			<batch:end on="COMPLETED"/>
 		</batch:step>
 	</batch:job>
 
@@ -110,6 +115,7 @@
 		<property name="converters">
 			<list>
 				<bean class="org.openarchives.pmh.marshall.ResumptionTokenConverter" />
+				<bean class="org.emonocot.model.marshall.UriConverter" />
 			</list>
 		</property>
 	</bean>
@@ -133,10 +139,12 @@
 		<property name="delegates">
 			<list>
 				<ref bean="taxonItemValidator" />
-				<bean class="org.emonocot.job.checklist.OaiPmhRecordProcessor" />
+				<ref bean="taxonItemProcessor"/>
 			</list>
 		</property>
 	</bean>
+
+    <bean id="taxonItemProcessor" class="org.emonocot.job.checklist.OaiPmhRecordProcessor" />
 
 	<bean id="taxonItemValidator" class="org.emonocot.job.checklist.OaiPmhRecordValidator"
 		scope="step">

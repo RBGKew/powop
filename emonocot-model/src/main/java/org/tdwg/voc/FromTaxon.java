@@ -3,11 +3,8 @@ package org.tdwg.voc;
 import java.io.Serializable;
 import java.net.URI;
 
-import org.emonocot.model.marshall.UriConverter;
-
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
 
 /**
 *
@@ -26,7 +23,6 @@ public class FromTaxon {
    */
   @XStreamAlias("rdf:resource")
   @XStreamAsAttribute
-  @XStreamConverter(UriConverter.class)
   private URI resource;
 
   /**

@@ -3,7 +3,7 @@ package org.openarchives.pmh;
 import java.net.URI;
 
 import org.emonocot.model.marshall.DateTimeConverter;
-import org.emonocot.model.marshall.UriConverter;
+import org.emonocot.model.marshall.UriElementConverter;
 import org.joda.time.DateTime;
 
 import com.thoughtworks.xstream.annotations.XStreamConverter;
@@ -52,7 +52,7 @@ public class OaiDc {
     /**
      * xmlns:dc="http://purl.org/dc/elements/1.1/".
      */
-    @XStreamConverter(UriConverter.class)
+    @XStreamConverter(UriElementConverter.class)
     private URI dcIdentifier;
 
 

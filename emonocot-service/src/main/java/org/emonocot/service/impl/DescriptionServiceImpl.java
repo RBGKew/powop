@@ -26,10 +26,9 @@ public class DescriptionServiceImpl extends ServiceImpl<Content, DescriptionDao>
         return dao.getTextContent(feature, taxon);
     }
 
-    @Override
     @Autowired
-    public void setDao(DescriptionDao dao) {
-        this.dao = dao;
+    public void setDescriptionDao(DescriptionDao descriptionDao) {
+        this.dao = descriptionDao;
     }
 
 }

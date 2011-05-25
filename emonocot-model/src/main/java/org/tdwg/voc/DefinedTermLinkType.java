@@ -3,12 +3,10 @@ package org.tdwg.voc;
 import java.io.Serializable;
 import java.net.URI;
 
-import org.emonocot.model.marshall.UriConverter;
 import org.tdwg.DefinedTerm;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
 
 /**
  *
@@ -31,7 +29,6 @@ public class DefinedTermLinkType {
     */
    @XStreamAlias("rdf:resource")
    @XStreamAsAttribute
-   @XStreamConverter(UriConverter.class)
    private URI resource;
 
    /**
@@ -87,7 +84,11 @@ public class DefinedTermLinkType {
      * @return the defined term in this link
      */
     public final DefinedTerm getDefinedTerm() {
-        return tcomDefinedTerm;
+        if (grGeographicRegion != null) {
+            return grGeographicRegion;
+        } else {
+            return tcomDefinedTerm;
+        }
     }
 
     /**

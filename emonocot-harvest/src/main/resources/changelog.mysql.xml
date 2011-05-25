@@ -142,48 +142,48 @@
         <addForeignKeyConstraint baseColumnNames="STEP_EXECUTION_ID" baseTableName="batch_step_execution_context" constraintName="STEP_EXEC_CTX_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="STEP_EXECUTION_ID" referencedTableName="batch_step_execution"/>
     </changeSet>
     <changeSet author="ben" id="1303384038461-15">
-        <createIndex indexName="JOB_INST_EXEC_FK" tableName="batch_job_execution" unique="false">
+        <createIndex indexName="JOB_INST_EXEC_IDX" tableName="batch_job_execution" unique="false">
             <column name="JOB_INSTANCE_ID"/>
         </createIndex>
     </changeSet>
     <changeSet author="ben" id="1303384038461-16">
-        <createIndex indexName="JOB_EXECUTION_PK" tableName="batch_job_execution" unique="true">
+        <createIndex indexName="JOB_EXECUTION_IDX" tableName="batch_job_execution" unique="true">
             <column name="JOB_EXECUTION_ID"/>
         </createIndex>
     </changeSet>
     <changeSet author="ben" id="1303384038461-17">
-        <createIndex indexName="JOB_EXECUTION_CONTEXT_PK" tableName="batch_job_execution_context" unique="true">
+        <createIndex indexName="JOB_EXECUTION_CONTEXT_IDX" tableName="batch_job_execution_context" unique="true">
             <column name="JOB_EXECUTION_ID"/>
         </createIndex>
     </changeSet>
     <changeSet author="ben" id="1303384038461-18">
-        <createIndex indexName="JOB_INST_UN" tableName="batch_job_instance" unique="true">
+        <createIndex indexName="JOB_INST_IDX" tableName="batch_job_instance" unique="true">
             <column name="JOB_NAME"/>
             <column name="JOB_KEY"/>
         </createIndex>
     </changeSet>
     <changeSet author="ben" id="1303384038461-19">
-        <createIndex indexName="JOB_INSTANCE_PK" tableName="batch_job_instance" unique="true">
+        <createIndex indexName="JOB_INSTANCE_IDX" tableName="batch_job_instance" unique="true">
             <column name="JOB_INSTANCE_ID"/>
         </createIndex>
     </changeSet>
     <changeSet author="ben" id="1303384038461-20">
-        <createIndex indexName="JOB_INST_PARAMS_FK" tableName="batch_job_params" unique="false">
+        <createIndex indexName="JOB_INST_PARAMS_IDX" tableName="batch_job_params" unique="false">
             <column name="JOB_INSTANCE_ID"/>
         </createIndex>
     </changeSet>
     <changeSet author="ben" id="1303384038461-21">
-        <createIndex indexName="JOB_EXEC_STEP_FK" tableName="batch_step_execution" unique="false">
+        <createIndex indexName="JOB_EXEC_STEP_IDX" tableName="batch_step_execution" unique="false">
             <column name="JOB_EXECUTION_ID"/>
         </createIndex>
     </changeSet>
     <changeSet author="ben" id="1303384038461-22">
-        <createIndex indexName="STEP_EXECUTION_PK" tableName="batch_step_execution" unique="true">
+        <createIndex indexName="STEP_EXECUTION_IDX" tableName="batch_step_execution" unique="true">
             <column name="STEP_EXECUTION_ID"/>
         </createIndex>
     </changeSet>
     <changeSet author="ben" id="1303384038461-23">
-        <createIndex indexName="STEP_EXECUTION_CONTEXT_PK" tableName="batch_step_execution_context" unique="true">
+        <createIndex indexName="STEP_EXECUTION_CONTEXT_IDX" tableName="batch_step_execution_context" unique="true">
             <column name="STEP_EXECUTION_ID"/>
         </createIndex>
     </changeSet>
@@ -201,5 +201,185 @@
       <insert tableName="BATCH_JOB_SEQ" >
         <column name="ID" valueNumeric="0"/>         
       </insert>
+    </changeSet>
+    <changeSet author="ben" id="2011-05-25_1">
+       <createTable tableName="Content">
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="DTYPE" type="varchar(31)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="datetime"/>
+            <column name="creator" type="varchar(255)"/>
+            <column name="identifier" type="varchar(255)"/>
+            <column name="license" type="varchar(255)"/>
+            <column name="modified" type="datetime"/>
+            <column name="source" type="varchar(255)"/>
+            <column name="feature" type="varchar(255)"/>
+            <column name="content" type="varchar(255)"/>
+            <column name="taxon_id" type="bigint"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="ben" id="2011-05-25_2">
+       <createTable tableName="Distribution">
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="created" type="datetime"/>
+            <column name="creator" type="varchar(255)"/>
+            <column name="identifier" type="varchar(255)"/>
+            <column name="license" type="varchar(255)"/>
+            <column name="modified" type="datetime"/>
+            <column name="source" type="varchar(255)"/>
+            <column name="region" type="varchar(255)"/>
+            <column name="taxon_id" type="bigint"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="ben" id="2011-05-25_3">
+       <createTable tableName="Image">
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="created" type="datetime"/>
+            <column name="creator" type="varchar(255)"/>
+            <column name="identifier" type="varchar(255)"/>
+            <column name="license" type="varchar(255)"/>
+            <column name="modified" type="datetime"/>
+            <column name="source" type="varchar(255)"/>
+            <column name="url" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="ben" id="2011-05-25_4">
+       <createTable tableName="Reference">
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="DTYPE" type="varchar(31)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="datetime"/>
+            <column name="creator" type="varchar(255)"/>
+            <column name="identifier" type="varchar(255)"/>
+            <column name="license" type="varchar(255)"/>
+            <column name="modified" type="datetime"/>
+            <column name="source" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="ben" id="2011-05-25_5">
+       <createTable tableName="Taxon">
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="created" type="datetime"/>
+            <column name="creator" type="varchar(255)"/>
+            <column name="identifier" type="varchar(255)"/>
+            <column name="license" type="varchar(255)"/>
+            <column name="modified" type="datetime"/>
+            <column name="source" type="varchar(255)"/>
+            <column name="name" type="varchar(255)"/>
+            <column name="accepted_id" type="bigint"/>
+            <column name="parent_id" type="bigint"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="ben" id="2011-05-25_6">
+       <createTable tableName="Taxon_Image">
+            <column name="Taxon_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="images_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="ben" id="2011-05-25_7">
+       <createTable tableName="Taxon_Reference">
+            <column name="Taxon_id" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="references_id" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="ben" id="2011-05-25_8">
+        <addForeignKeyConstraint constraintName="FK9BEFCC591EDCD08D" baseTableName="Content" baseColumnNames="taxon_id"
+           referencedTableName="Taxon" referencedColumnNames="id"
+        />
+    </changeSet>
+    <changeSet author="ben" id="2011-05-25_9">
+        <createIndex tableName="Content" indexName="Content_taxon_id_IDX">
+          <column name="taxon_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2011-05-25_10">
+        <addForeignKeyConstraint constraintName="FKAB93A2A41EDCD08D" baseTableName="Distribution" baseColumnNames="taxon_id"
+           referencedTableName="Taxon" referencedColumnNames="id"
+        />
+    </changeSet>
+    <changeSet author="ben" id="2011-05-25_11">
+        <createIndex tableName="Distribution" indexName="Distribution_taxon_id_IDX">
+          <column name="taxon_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2011-05-25_12">
+        <addForeignKeyConstraint constraintName="FK4CD9EAA54493690" baseTableName="Taxon" baseColumnNames="accepted_id"
+           referencedTableName="Taxon" referencedColumnNames="id"
+        />
+    </changeSet>
+    <changeSet author="ben" id="2011-05-25_13">
+        <createIndex tableName="Taxon" indexName="Taxon_accepted_id_IDX">
+          <column name="accepted_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2011-05-25_14">
+        <addForeignKeyConstraint constraintName="FK4CD9EAAA9E98AAD" baseTableName="Taxon" baseColumnNames="parent_id"
+           referencedTableName="Taxon" referencedColumnNames="id"
+        />
+    </changeSet>
+    <changeSet author="ben" id="2011-05-25_15">
+        <createIndex tableName="Taxon" indexName="Taxon_parent_id_IDX">
+          <column name="parent_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2011-05-25_16">
+        <addForeignKeyConstraint constraintName="FK56D693661EDCD08D" baseTableName="Taxon_Image" baseColumnNames="Taxon_id"
+           referencedTableName="Taxon" referencedColumnNames="id"
+        />
+    </changeSet>
+    <changeSet author="ben" id="2011-05-25_17">
+        <createIndex tableName="Taxon_Image" indexName="Taxon_Image_Taxon_id_IDX">
+          <column name="Taxon_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2011-05-25_18">
+        <addForeignKeyConstraint constraintName="FK56D69366437564A" baseTableName="Taxon_Image" baseColumnNames="images_id"
+           referencedTableName="Image" referencedColumnNames="id"
+        />
+    </changeSet>
+    <changeSet author="ben" id="2011-05-25_19">
+        <createIndex tableName="Taxon_Image" indexName="Taxon_Image_images_id_IDX">
+          <column name="images_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2011-05-25_20">
+        <addForeignKeyConstraint constraintName="FK164D2BD6968322D1" baseTableName="Taxon_Reference" baseColumnNames="references_id"
+           referencedTableName="Reference" referencedColumnNames="id"
+        />
+    </changeSet>
+    <changeSet author="ben" id="2011-05-25_21">
+        <createIndex tableName="Taxon_Reference" indexName="Taxon_Reference_references_id_IDX">
+          <column name="references_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2011-05-25_22">
+        <addForeignKeyConstraint constraintName="FK164D2BD61EDCD08D" baseTableName="Taxon_Reference" baseColumnNames="Taxon_id"
+           referencedTableName="Taxon" referencedColumnNames="id"
+        />
+    </changeSet>
+    <changeSet author="ben" id="2011-05-25_23">
+        <createIndex tableName="Taxon_Reference" indexName="Taxon_Reference_Taxon_id_IDX">
+          <column name="Taxon_id"/>
+        </createIndex>
     </changeSet>
 </databaseChangeLog>

@@ -43,8 +43,27 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
 
     @Override
     public final T load(final String identifier) {
+        return load(identifier, null);
+    }
+
+    @Override
+    public final T find(final String identifier) {
+        return find(identifier, null);
+    }
+
+    @Override
+    public T load(final String identifier, final String fetch) {
+        if (fetch != null) {
+          getSession().enableFetchProfile(fetch);
+        }
+
         T t = (T) getSession().createCriteria(type)
                 .add(Restrictions.eq("identifier", identifier)).uniqueResult();
+
+        if (fetch != null) {
+            getSession().disableFetchProfile(fetch);
+        }
+
         if (t == null) {
             throw new HibernateObjectRetrievalFailureException(
                     new UnresolvableObjectException(identifier,
@@ -54,8 +73,17 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
     }
 
     @Override
-    public final T find(final String identifier) {
-        return (T) getSession().createCriteria(type)
+    public final T find(final String identifier, final String fetch) {
+        if (fetch != null) {
+            getSession().enableFetchProfile(fetch);
+        }
+
+        T t = (T) getSession().createCriteria(type)
         .add(Restrictions.eq("identifier", identifier)).uniqueResult();
+
+        if (fetch != null) {
+            getSession().disableFetchProfile(fetch);
+        }
+        return t;
     }
 }

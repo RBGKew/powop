@@ -466,14 +466,14 @@ public enum Country implements GeographicalRegion {
     */
    public static Country fromString(final String code) {
        for (Country country : Country.values()) {
-           if (country.code == code) {
+           if (country.code.equals(code)) {
                return country;
            }
        }
        throw new IllegalArgumentException(code
-               + " is not a valid Continent code");
+               + " is not a valid Country code");
    }
-   
+
    @Override
    public String toString() {
        return code;

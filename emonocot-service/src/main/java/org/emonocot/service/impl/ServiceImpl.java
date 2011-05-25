@@ -13,9 +13,17 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public abstract class ServiceImpl<T extends Base, DAO extends Dao<T>> implements Service<T> {
     
+    @Override
+    public T load(String identifier, String fetch) {
+        return dao.load(identifier, fetch);
+    }
+
+    @Override
+    public T find(String identifier, String fetch) {
+        return dao.find(identifier, fetch);
+    }
+
     protected DAO dao;
-    
-    public abstract void setDao(DAO dao);
 
     @Override
     @Transactional(readOnly = true)
