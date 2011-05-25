@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.emonocot.model.hibernate.Fetch;
+import org.hibernate.annotations.FetchProfile;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 

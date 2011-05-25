@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 
 import org.emonocot.model.common.Base;
 import org.emonocot.model.geography.GeographicalRegion;
+import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.model.taxon.Taxon;
 import org.hibernate.annotations.Type;
 

@@ -33,18 +33,6 @@ import org.hibernate.annotations.FetchMode;
  *
  */
 @Entity
-@FetchProfile(
-        name = "taxon-with-related", fetchOverrides = {
-// Currently only JOIN is supported HHH-4048
-//        @FetchProfile.FetchOverride(entity = Taxon.class,
-//                association = "synonyms", mode = FetchMode.SELECT),
-//        @FetchProfile.FetchOverride(entity = Taxon.class,
-//                     association = "children", mode = FetchMode.SELECT),
-        @FetchProfile.FetchOverride(entity = Taxon.class,
-                     association = "parent", mode = FetchMode.JOIN),
-        @FetchProfile.FetchOverride(entity = Taxon.class,
-                     association = "accepted", mode = FetchMode.JOIN)
-     })
 public class Taxon extends Base {
 
     /**
@@ -190,7 +178,6 @@ public class Taxon extends Base {
      * @return the immediate taxonomic parent
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @Cascade({CascadeType.SAVE_UPDATE})
     public Taxon getParent() {
         return parent;
     }
@@ -208,7 +195,6 @@ public class Taxon extends Base {
      * @return Get the immediate taxonomic children
      */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
-    @Cascade({CascadeType.SAVE_UPDATE })
     public Set<Taxon> getChildren() {
         return children;
     }
@@ -226,7 +212,6 @@ public class Taxon extends Base {
      * @return get the accepted name of this synonym
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @Cascade({CascadeType.SAVE_UPDATE })
     public Taxon getAccepted() {
         return accepted;
     }
@@ -244,7 +229,6 @@ public class Taxon extends Base {
      * @return the synonyms of this taxon
      */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "accepted")
-    @Cascade({CascadeType.SAVE_UPDATE })
     public Set<Taxon> getSynonyms() {
         return synonyms;
     }

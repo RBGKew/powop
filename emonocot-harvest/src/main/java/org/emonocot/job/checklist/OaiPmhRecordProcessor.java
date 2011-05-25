@@ -88,6 +88,7 @@ public class OaiPmhRecordProcessor
                    if (taxon == null) {
                        taxon = new Taxon();
                        taxon.setIdentifier(identifier);
+                       taxonService.save(taxon);
                        taxaWithinChunk.put(identifier, taxon);
                    }
                    return taxon;

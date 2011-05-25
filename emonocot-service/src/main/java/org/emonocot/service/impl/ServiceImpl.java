@@ -37,4 +37,9 @@ public abstract class ServiceImpl<T extends Base, DAO extends Dao<T>> implements
         return dao.find(identifier);
     }
 
+    @Override
+    @Transactional
+    public Long save(T t) {
+        return dao.save(t);
+    }
 }

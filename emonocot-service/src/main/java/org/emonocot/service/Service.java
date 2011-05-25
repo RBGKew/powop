@@ -42,4 +42,11 @@ public interface Service<T extends Base> {
    * @return the object or null if that object does not exist
    */
    T find(String identifier, String fetch);
+
+   /**
+    *
+    * @param t The object to save.
+    * @return the id of the object
+    */
+   Long save(T t);
 }

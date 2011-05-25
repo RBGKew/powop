@@ -1,7 +1,9 @@
 package org.emonocot.persistence.dao.hibernate;
 
 import org.emonocot.model.common.Base;
+import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.persistence.dao.Dao;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.UnresolvableObjectException;
 import org.hibernate.criterion.Restrictions;
@@ -18,6 +20,28 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
  */
 public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
         implements Dao<T> {
+
+    /**
+     *
+     * @param profile Set the name of the profile
+     * @return a list of Fetch instances
+     */
+    protected abstract Fetch[] getProfile(String profile);
+
+    /**
+     *
+     * @param criteria Set a Criteria instance
+     * @param fetch Set the name of the fetch profile
+     */
+    protected final void enableProfile(final Criteria criteria,
+            final String fetch) {
+        if (fetch != null) {
+            for (Fetch f : getProfile(fetch)) {
+                criteria.setFetchMode(f.getAssociation(), f.getMode());
+            }
+        }
+    }
+
     /**
      *
      */
@@ -52,17 +76,12 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
     }
 
     @Override
-    public T load(final String identifier, final String fetch) {
-        if (fetch != null) {
-          getSession().enableFetchProfile(fetch);
-        }
+    public final T load(final String identifier, final String fetch) {
 
-        T t = (T) getSession().createCriteria(type)
-                .add(Restrictions.eq("identifier", identifier)).uniqueResult();
-
-        if (fetch != null) {
-            getSession().disableFetchProfile(fetch);
-        }
+        Criteria criteria = getSession().createCriteria(type)
+        .add(Restrictions.eq("identifier", identifier));
+        enableProfile(criteria, fetch);
+        T t = (T) criteria.uniqueResult();
 
         if (t == null) {
             throw new HibernateObjectRetrievalFailureException(
@@ -74,16 +93,20 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
 
     @Override
     public final T find(final String identifier, final String fetch) {
-        if (fetch != null) {
-            getSession().enableFetchProfile(fetch);
-        }
+        Criteria criteria = getSession().createCriteria(type)
+        .add(Restrictions.eq("identifier", identifier));
+        enableProfile(criteria, fetch);
+        T t = (T) criteria.uniqueResult();
 
-        T t = (T) getSession().createCriteria(type)
-        .add(Restrictions.eq("identifier", identifier)).uniqueResult();
-
-        if (fetch != null) {
-            getSession().disableFetchProfile(fetch);
-        }
         return t;
     }
+
+   /**
+    *
+    * @param t The object to save.
+    * @return the id of the object
+    */
+   public final Long save(final T t) {
+       return (Long) getSession().save(t);
+   }
 }

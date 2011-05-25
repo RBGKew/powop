@@ -44,4 +44,11 @@ public interface Dao<T extends Base> {
    */
    T find(String identifier, String fetch);
 
+  /**
+   *
+   * @param t The object to save.
+   * @return the id of the object
+   */
+  Long save(T t);
+
 }
