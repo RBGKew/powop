@@ -24,8 +24,6 @@ import org.emonocot.model.media.Image;
 import org.emonocot.model.reference.Reference;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.FetchProfile;
-import org.hibernate.annotations.FetchMode;
 
 /**
  *
@@ -178,6 +176,7 @@ public class Taxon extends Base {
      * @return the immediate taxonomic parent
      */
     @ManyToOne(fetch = FetchType.LAZY)
+    @Cascade({CascadeType.ALL })
     public Taxon getParent() {
         return parent;
     }
@@ -195,6 +194,7 @@ public class Taxon extends Base {
      * @return Get the immediate taxonomic children
      */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
+    @Cascade({CascadeType.SAVE_UPDATE })
     public Set<Taxon> getChildren() {
         return children;
     }
@@ -212,6 +212,7 @@ public class Taxon extends Base {
      * @return get the accepted name of this synonym
      */
     @ManyToOne(fetch = FetchType.LAZY)
+    @Cascade({CascadeType.ALL })
     public Taxon getAccepted() {
         return accepted;
     }
@@ -229,6 +230,7 @@ public class Taxon extends Base {
      * @return the synonyms of this taxon
      */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "accepted")
+    @Cascade({CascadeType.SAVE_UPDATE })
     public Set<Taxon> getSynonyms() {
         return synonyms;
     }

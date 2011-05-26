@@ -2,6 +2,7 @@ package org.emonocot.job.checklist;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -15,6 +16,7 @@ import org.openarchives.pmh.Record;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
+import org.springframework.batch.core.ItemWriteListener;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
@@ -33,7 +35,7 @@ import org.tdwg.voc.TaxonRelationshipTerm;
  *
  */
 public class OaiPmhRecordProcessor
-    implements ItemProcessor<Record, Taxon>, ChunkListener {
+    implements ItemProcessor<Record, Taxon>, ChunkListener, ItemWriteListener<Taxon> {
 
    /**
     *
@@ -88,7 +90,6 @@ public class OaiPmhRecordProcessor
                    if (taxon == null) {
                        taxon = new Taxon();
                        taxon.setIdentifier(identifier);
-                       taxonService.save(taxon);
                        taxaWithinChunk.put(identifier, taxon);
                    }
                    return taxon;
@@ -257,41 +258,7 @@ public class OaiPmhRecordProcessor
 
     @Override
     public final void afterChunk() {
-        logger.info("After Chunk");
-        for (TaxonRelationship taxonRelationship : taxonRelationships) {
-            TaxonRelationshipTerm term = taxonRelationship.term;
-            Taxon taxon = taxonRelationship.from;
-            Taxon related = null;
-            try {
-                related = taxonRelationship.to.call();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            if (term.equals(TaxonRelationshipTerm.IS_SYONYM_FOR)) {
-                if (!related.getSynonyms().contains(taxon)) {
-                    taxon.setAccepted(related);
-                    related.getSynonyms().add(taxon);
-                }
-            } else if (term.equals(TaxonRelationshipTerm.HAS_SYNONYM)) {
-                if (!taxon.getSynonyms().contains(related)) {
-                    related.setAccepted(taxon);
-                    taxon.getSynonyms().add(related);
-                }
-            } else if (term.equals(TaxonRelationshipTerm.IS_CHILD_TAXON_OF)) {
-                if (!related.getChildren().contains(taxon)) {
-                    taxon.setParent(related);
-                    related.getChildren().add(taxon);
-                }
-            } else if (term.equals(TaxonRelationshipTerm.IS_PARENT_TAXON_OF)) {
-                if (!taxon.getChildren().contains(related)) {
-                    related.setParent(taxon);
-                    taxon.getChildren().add(related);
-                }
-            }
-        }
-
-        taxaWithinChunk.clear();
-        taxonRelationships.clear();
+    	logger.info("After Chunk");
     }
 
     /**
@@ -327,4 +294,54 @@ public class OaiPmhRecordProcessor
             this.to = newTo;
         }
     }
+
+	@Override
+	public void afterWrite(List<? extends Taxon> results) {
+		
+	}
+
+	@Override
+	public void beforeWrite(List<? extends Taxon> results) {
+		logger.info("Before Write");
+        for (TaxonRelationship taxonRelationship : taxonRelationships) {
+            TaxonRelationshipTerm term = taxonRelationship.term;
+            Taxon taxon = taxonRelationship.from;
+            Taxon related = null;
+            try {
+                related = taxonRelationship.to.call();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (term.equals(TaxonRelationshipTerm.IS_SYONYM_FOR)) {
+                if (!related.getSynonyms().contains(taxon)) {
+                    taxon.setAccepted(related);
+                    related.getSynonyms().add(taxon);
+                }
+            } else if (term.equals(TaxonRelationshipTerm.HAS_SYNONYM)) {
+                if (!taxon.getSynonyms().contains(related)) {
+                    related.setAccepted(taxon);
+                    taxon.getSynonyms().add(related);
+                }
+            } else if (term.equals(TaxonRelationshipTerm.IS_CHILD_TAXON_OF)) {
+                if (!related.getChildren().contains(taxon)) {
+                    taxon.setParent(related);
+                    related.getChildren().add(taxon);
+                }
+            } else if (term.equals(TaxonRelationshipTerm.IS_PARENT_TAXON_OF)) {
+                if (!taxon.getChildren().contains(related)) {
+                    related.setParent(taxon);
+                    taxon.getChildren().add(related);
+                }
+            }
+        }
+
+        taxaWithinChunk.clear();
+        taxonRelationships.clear();
+	}
+
+	@Override
+	public void onWriteError(Exception exception,
+			List<? extends Taxon> results) {
+		
+	}
 }

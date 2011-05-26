@@ -6,13 +6,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.URLEncoder;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.emonocot.job.io.StaxEventItemReader;
 import org.joda.time.DateTime;
@@ -102,6 +103,8 @@ public class OaiPmhClient implements StepExecutionListener {
     public final ExitStatus listRecords(final String authorityName,
             final String authorityURI, final String dateLastHarvested,
             final String temporaryFileName, final String resumptionToken) {
+    	HttpHost proxy = new HttpHost("proxy.host.name",1234);
+    	httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
 
         httpClient.getParams().setParameter("http.useragent",
                 "org.emonocot.ws.checklist.OaiPmhClient");
