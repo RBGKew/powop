@@ -40,17 +40,36 @@
 		    <batch:description>Is there a resumption token available or should we finish harvesting?</batch:description>
 			<batch:tasklet ref="oaiPmhResumptionTokenTasklet" />
 			<batch:next on="NO RESUMPTION TOKEN" to="cleanupResources" />
-			<batch:next on="RESUMPTION TOKEN PRESENT" to="listRecords" />
+			<batch:next on="RESUMPTION TOKEN PRESENT" to="throttleRequests" />
 			<batch:listeners>
 				<batch:listener ref="oaiPmhClient" />
 			</batch:listeners>
 		</batch:step>
+		<batch:step id="throttleRequests">
+		    <batch:description>Waits for a defined period to avoid overwhelming the server with lots of requests</batch:description>
+			<batch:tasklet ref="throttleRequestsTasklet" />
+			<batch:next on="COMPLETED" to="listRecords" />
+	    </batch:step>
 		<batch:step id="cleanupResources">
 		    <batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="oaiPmhResourceDeletingTasklet" />
 			<batch:end on="COMPLETED"/>
 		</batch:step>
 	</batch:job>
+	
+	<bean id="throttleRequestsTasklet"
+		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+		scope="step">
+		<property name="targetObject" ref="waitingBean" />
+		<property name="targetMethod" value="wait" />
+		<property name="arguments">
+			<list>
+				<value>#{jobParameters['request.interval']}</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="waitingBean" class="org.emonocot.harvest.common.DelayingBean"/>
 
 	<bean id="oaiPmhResumptionTokenTasklet"
 		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"

@@ -52,12 +52,38 @@ public class OaiPmhClient implements StepExecutionListener {
     */
     static final int BUFFER = 2048;
 
-    /**
+   /**
     *
     */
     private Logger logger = LoggerFactory.getLogger(OaiPmhClient.class);
 
-    /**
+   /**
+    *
+    */
+   private String proxyHost;
+
+   /**
+    *
+    */
+   private int proxyPort;
+
+   /**
+    *
+    * @param newProxyHost Set the proxy host
+    */
+   public final void setProxyHost(final String newProxyHost) {
+       this.proxyHost = newProxyHost;
+   }
+
+   /**
+    *
+    * @param newProxyPort Set the proxy port
+    */
+   public final void setProxyPort(final int newProxyPort) {
+       this.proxyPort = newProxyPort;
+   }
+
+   /**
     *
     */
     private HttpClient httpClient = new DefaultHttpClient();
@@ -103,8 +129,11 @@ public class OaiPmhClient implements StepExecutionListener {
     public final ExitStatus listRecords(final String authorityName,
             final String authorityURI, final String dateLastHarvested,
             final String temporaryFileName, final String resumptionToken) {
-    	HttpHost proxy = new HttpHost("proxy.host.name",1234);
-    	httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
+        if (proxyHost != null) {
+            HttpHost proxy = new HttpHost(proxyHost, proxyPort);
+            httpClient.getParams()
+                .setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
+        }
 
         httpClient.getParams().setParameter("http.useragent",
                 "org.emonocot.ws.checklist.OaiPmhClient");

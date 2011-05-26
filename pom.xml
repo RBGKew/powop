@@ -410,6 +410,11 @@
 				<version>${hibernate.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-search</artifactId>
+				<version>3.4.0.Final</version>
+			</dependency>
+			<dependency>
 				<groupId>org.joda</groupId>
 				<artifactId>com.springsource.org.joda.time</artifactId>
 				<version>1.6.0</version>

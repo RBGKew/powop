@@ -96,6 +96,7 @@ public class ChecklistHarvestingJobIntegrationTest {
                      new JobParameter(Long.toString((
                      ChecklistHarvestingJobIntegrationTest.PAST_DATETIME
                                         .getMillis()))));
+        parameters.put("request.interval", new JobParameter("10000"));
         parameters.put("temporary.file.name", new JobParameter(File
                 .createTempFile("test", ".xml").getAbsolutePath()));
         JobParameters jobParameters = new JobParameters(parameters);
