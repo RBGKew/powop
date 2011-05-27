@@ -11,6 +11,7 @@ import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.model.taxon.Taxon;
 import org.hibernate.annotations.Type;
+import org.hibernate.search.annotations.Indexed;
 
 /**
  *
@@ -18,6 +19,7 @@ import org.hibernate.annotations.Type;
  *
  */
 @Entity
+@Indexed
 public class Distribution extends Base {
 
    /**

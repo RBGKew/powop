@@ -7,9 +7,13 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.emonocot.model.hibernate.Fetch;
-import org.hibernate.annotations.FetchProfile;
+import org.apache.lucene.document.DateTools.Resolution;
+import org.emonocot.model.hibernate.DateTimeBridge;
 import org.hibernate.annotations.Type;
+import org.hibernate.search.annotations.DocumentId;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.FieldBridge;
+import org.hibernate.search.annotations.Parameter;
 import org.joda.time.DateTime;
 
 /**
@@ -37,7 +41,7 @@ public abstract class Base {
 
     /**
      *
-     */
+     */    
     private DateTime modified;
 
     /**
@@ -60,6 +64,7 @@ public abstract class Base {
      * @return Get the license of this object.
      */
     @Enumerated(value = EnumType.STRING)
+    @Field
     public License getLicense() {
         return license;
     }
@@ -69,6 +74,9 @@ public abstract class Base {
      * @return Get the time this object was created.
      */
     @Type(type="dateTimeUserType")
+    @FieldBridge(impl = DateTimeBridge.class, params = {
+        @Parameter(name = "resolution", value = "MILLISECOND")
+    })
     public DateTime getCreated() {
         return created;
     }
@@ -78,6 +86,9 @@ public abstract class Base {
      * @return Get the time this object was last modified.
      */
     @Type(type="dateTimeUserType")
+    @FieldBridge(impl = DateTimeBridge.class, params = {
+        @Parameter(name = "resolution", value = "MILLISECOND")
+    })
     public DateTime getModified() {
         return modified;
     }
@@ -86,6 +97,7 @@ public abstract class Base {
      *
      * @return Get the source of this object.
      */
+    @Field
     public String getSource() {
         return source;
     }
@@ -141,6 +153,7 @@ public abstract class Base {
      */
     @Id
     @GeneratedValue(generator = "system-increment")
+    @DocumentId
     public Long getId() {
         return id;
     }
@@ -158,6 +171,7 @@ public abstract class Base {
      *
      * @return Get the creator of this object.
      */
+    @Field
     public String getCreator() {
         return creator;
     }
@@ -166,6 +180,7 @@ public abstract class Base {
      *
      * @return The unique identifier of the object
      */
+    @Field
     public String getIdentifier() {
         return identifier;
     }

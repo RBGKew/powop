@@ -17,6 +17,8 @@
 package org.emonocot.job.io;
 
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
@@ -87,30 +89,61 @@ public class StaxEventItemReader<T> extends
      */
     private Resource resource;
 
-    private InputStream inputStream;
+    /**
+     *
+     */
+    private Reader reader;
 
+    /**
+     *
+     */
     private String fragmentRootElementName;
 
+    /**
+     *
+     */
     private boolean noInput;
 
+    /**
+     *
+     */
     private boolean strict = true;
 
+    /**
+     *
+     */
     private String fragmentRootElementNameSpace;
 
+    /**
+     *
+     */
+    private String encoding = "UTF-8";
+
+    /**
+     *
+     */
     public StaxEventItemReader() {
         setName(ClassUtils.getShortName(StaxEventItemReader.class));
+    }
+
+    /**
+     *
+     * @param newEncoding Set the encoding of the input stream
+     */
+    public final void setEncoding(final String newEncoding) {
+        this.encoding = newEncoding;
     }
 
     /**
      * In strict mode the reader will throw an exception on
      * {@link #open(org.springframework.batch.item.ExecutionContext)} if the
      * input resource does not exist.
-     * 
-     * @param strict
+     *
+     * @param newStrict
      *            false by default
      */
-    public void setStrict(boolean strict) {
-        this.strict = strict;
+    public final void setStrict(final boolean newStrict) {
+        this.strict = newStrict;
     }
 
     public void setResource(Resource resource) {
@@ -202,12 +235,12 @@ public class StaxEventItemReader<T> extends
             if (fragmentReader != null) {
                 fragmentReader.close();
             }
-            if (inputStream != null) {
-                inputStream.close();
+            if(reader != null) {
+                reader.close();
             }
         } finally {
             fragmentReader = null;
-            inputStream = null;
+            reader = null;
         }
 
     }
@@ -237,9 +270,9 @@ public class StaxEventItemReader<T> extends
             return;
         }
 
-        inputStream = resource.getInputStream();
-        eventReader = XMLInputFactory.newInstance().createXMLEventReader(
-                inputStream);
+        reader = new InputStreamReader(resource.getInputStream(), this.encoding);
+        eventReader = XMLInputFactory.newInstance()
+                .createXMLEventReader(reader);
         fragmentReader = new DefaultFragmentEventReader(eventReader);
 
     }

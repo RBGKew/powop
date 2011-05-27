@@ -3,6 +3,8 @@ package org.emonocot.model.description;
 import javax.persistence.Entity;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 
 /**
  *
@@ -10,6 +12,7 @@ import org.apache.commons.lang.ObjectUtils;
  *
  */
 @Entity
+@Indexed
 public class TextContent extends Content {
     /**
      *
@@ -28,6 +31,7 @@ public class TextContent extends Content {
      *
      * @return the content as a string
      */
+    @Field
     public String getContent() {
         return content;
     }

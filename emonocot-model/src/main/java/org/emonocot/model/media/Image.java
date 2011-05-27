@@ -3,6 +3,8 @@ package org.emonocot.model.media;
 import javax.persistence.Entity;
 
 import org.emonocot.model.common.Base;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 
 /**
  *
@@ -10,6 +12,7 @@ import org.emonocot.model.common.Base;
  *
  */
 @Entity
+@Indexed
 public class Image extends Base {
     /**
      *
@@ -28,6 +31,7 @@ public class Image extends Base {
     *
     * @return the url of the image
     */
+    @Field
     public String getUrl() {
         return url;
     }

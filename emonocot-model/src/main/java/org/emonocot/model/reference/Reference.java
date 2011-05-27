@@ -3,6 +3,7 @@ package org.emonocot.model.reference;
 import javax.persistence.Entity;
 
 import org.emonocot.model.common.Base;
+import org.hibernate.search.annotations.Indexed;
 
 /**
  *
@@ -10,6 +11,7 @@ import org.emonocot.model.common.Base;
  *
  */
 @Entity
+@Indexed
 public class Reference extends Base {
 
 }

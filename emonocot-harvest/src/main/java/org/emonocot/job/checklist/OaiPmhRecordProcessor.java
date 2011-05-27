@@ -127,6 +127,7 @@ public class OaiPmhRecordProcessor
                 taxon.setIdentifier(taxonConcept.getIdentifier().toString());
                 bind(taxon);
                 if (taxonConcept.getHasName() != null) {
+                    logger.info(taxonConcept.getHasName().getNameComplete());
                     taxon.setName(taxonConcept.getHasName().getNameComplete());
                 } else {
                     taxon.setName(taxonConcept.getTitle());

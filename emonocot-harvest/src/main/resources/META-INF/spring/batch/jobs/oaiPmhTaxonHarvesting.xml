@@ -13,16 +13,11 @@
 		<batch:step id="listRecords">
 		    <batch:description>Call ListRecords on the resource, using the resumption token if available</batch:description>
 			<batch:tasklet ref="oaiPmhListRecordsTasklet" />
-			<batch:next on="NO RECORDS MATCH" to="cleanupResourcesNotModified" />
+			<batch:next on="NO RECORDS MATCH" to="cleanupResources" />
 			<batch:next on="COMPLETED" to="processRecords" />
 			<batch:listeners>
 				<batch:listener ref="oaiPmhClient" />
 			</batch:listeners>
-		</batch:step>
-		<batch:step id="cleanupResourcesNotModified">
-		    <batch:description>Cleanup the resources</batch:description>
-			<batch:tasklet ref="oaiPmhResourceDeletingTasklet" />
-			<batch:end on="COMPLETED" exit-code="COMPLETED"/>
 		</batch:step>
 		<batch:step id="processRecords">
 		    <batch:description>Process the records</batch:description>
@@ -124,6 +119,7 @@
 			</bean>
 		</property>
 		<property name="unmarshaller" ref="oaiPmhResponseUnmarshaller" />
+		<property name="encoding" value="UTF-8"/>
 	</bean>
 
 	<bean id="oaiPmhResponseUnmarshaller" class="org.emonocot.model.marshall.XStreamMarshaller">

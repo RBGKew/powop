@@ -24,6 +24,8 @@ import org.emonocot.model.media.Image;
 import org.emonocot.model.reference.Reference;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 
 /**
  *
@@ -31,6 +33,7 @@ import org.hibernate.annotations.CascadeType;
  *
  */
 @Entity
+@Indexed
 public class Taxon extends Base {
 
     /**
@@ -159,6 +162,7 @@ public class Taxon extends Base {
      *
      * @return the full taxonomic name of the taxon, including authority
      */
+    @Field
     public String getName() {
         return name;
     }

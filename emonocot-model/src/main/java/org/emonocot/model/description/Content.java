@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import org.apache.commons.lang.ObjectUtils;
 import org.emonocot.model.common.Base;
 import org.emonocot.model.taxon.Taxon;
+import org.hibernate.search.annotations.Field;
 
 /**
  *
@@ -45,6 +46,7 @@ public abstract class Content extends Base {
      * @return Return the subject that this content is about.
      */
     @Enumerated(value = EnumType.STRING)
+    @Field
     public Feature getFeature() {
         return feature;
     }

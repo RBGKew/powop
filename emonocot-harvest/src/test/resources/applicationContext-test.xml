@@ -34,7 +34,9 @@
 			<value>
 				hibernate.dialect=org.hibernate.dialect.H2Dialect
 				hibernate.hbm2ddl.auto=validate
-        </value>
+				hibernate.search.default.directory_provider=filesystem
+				hibernate.search.default.indexBase=./target/indexes
+            </value>
 		</property>
 		<property name="configLocation" value="classpath:hibernate.cfg.xml" />
 		<property name="configurationClass" value="org.hibernate.cfg.AnnotationConfiguration" />

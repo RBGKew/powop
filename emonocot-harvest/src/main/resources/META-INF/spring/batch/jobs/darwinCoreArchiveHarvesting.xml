@@ -69,7 +69,7 @@
 		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
 		scope="step">
 		<property name="targetObject" ref="getResourceClient" />
-		<property name="targetMethod" value="getResource" />
+		<property name="targetMethod" value="getBinaryResource" />
 		<property name="arguments">
 			<list>
 				<value>#{jobParameters['authority.name']}</value>
