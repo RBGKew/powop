@@ -33,7 +33,7 @@
 		  hibernate.search.default.indexBase=${hibernate.search.default.indexBase}
         </value>
       </property>
-      <property name="configLocation" value="classpath:hibernate.cfg.xml"/>
+      <property name="configLocation" value="classpath:org/emonocot/model/hibernate.cfg.xml"/>
       <property name="configurationClass" value="org.hibernate.cfg.AnnotationConfiguration"/>
     </bean>
 

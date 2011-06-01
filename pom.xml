@@ -885,6 +885,7 @@
 									<includes>
 										<include>**/*IntegrationTest.java</include>
 									</includes>
+									<argLine>-Dhttp.proxyHost=${http.proxyHost} -Dhttp.proxyPort=${http.proxyPort}</argLine>
 								</configuration>
 							</execution>
 						</executions>

@@ -6,7 +6,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
-
+    <context:property-placeholder location="classpath:application.properties"/>
 	<context:annotation-config />
 
 	<batch:job id="OaiPmhTaxonHarvesting">
@@ -107,6 +107,8 @@
 
 	<bean id="oaiPmhClient" class="org.emonocot.ws.checklist.OaiPmhClient">
 		<property name="unmarshaller" ref="oaiPmhResponseUnmarshaller" />
+		<property name="proxyHost" value="${http.proxyHost}" />
+		<property name="proxyPort" value="${http.proxyPort}" />
 	</bean>
 
 	<bean id="itemReader" class="org.emonocot.job.io.StaxEventItemReader"

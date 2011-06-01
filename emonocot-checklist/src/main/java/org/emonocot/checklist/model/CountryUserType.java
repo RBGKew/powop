@@ -6,68 +6,65 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 
-import org.hibernate.type.StandardBasicTypes;
+import org.emonocot.model.geography.Country;
+import org.hibernate.Hibernate;
 import org.hibernate.usertype.UserType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.emonocot.model.geography.Region;
 
 /**
  *
  * @author ben
  *
  */
-public class RegionUserType implements UserType {
-    /**
-     *
-     */
-    private static Logger logger
-        = LoggerFactory.getLogger(CountryUserType.class);
+public class CountryUserType implements UserType {
 
     /**
      *
      */
-    private static final int[] SQL_TYPES = new int[] {Types.INTEGER};
+    private static Logger logger = LoggerFactory
+            .getLogger(CountryUserType.class);
 
     /**
-     * @return The class returned by nullSafeGet().
+     *
+     */
+    private static final int[] SQL_TYPES = new int[] {Types.VARCHAR };
+
+    /**
+     * @return the class this usertype returns
      */
     public final Class returnedClass() {
-        return Region.class;
+        return Country.class;
     }
 
     /**
-     * @return Return the SQL type codes for the columns mapped by this type.
+     * @return the types this user type supports
      */
     public final int[] sqlTypes() {
         return SQL_TYPES;
     }
 
     /**
-     * Compare two instances of the class mapped by this type for persistence
-     * "equality".
-     *
-     * @param x an instance.
-     * @param y another instance.
-     * @return True if the two instances are equal, false otherwise
+     * @param x an object
+     * @param y another object
+     * @return true if the objects are equal, false otherwise
      */
-    public final boolean equals(final Object x, final Object y) {
-         if (x == y) {
-                return true;
-         } else if (x == null || y == null) {
-                return false;
-         }
-         Region regionX = (Region) x;
-         Region regionY = (Region) y;
+    public final boolean equals(
+            final Object x, final Object y) {
+        if (x == y) {
+            return true;
+        } else if (x == null || y == null) {
+            return false;
+        }
+        Country countryX = (Country) x;
+        Country countryY = (Country) y;
 
-         return regionX.equals(regionY);
+        return countryX.equals(countryY);
     }
 
     /**
-     * Get a hashcode for the instance, consistent with persistence "equality".
-     *
-     * @param object an instance of the class mapped by this type
-     * @return the hashcode of the object supplied
+     * @param object an object
+     * @return the hash code of the object
      */
     public final int hashCode(final Object object) {
         return object.hashCode();
@@ -82,8 +79,9 @@ public class RegionUserType implements UserType {
      * @return the object, or null if it does not exist
      * @throws SQLException if the underlying SQL is incorrect
      */
-    public final Object nullSafeGet(final ResultSet resultSet,
-            final String[] strings, final Object object) throws SQLException {
+    public final Object nullSafeGet(
+            final ResultSet resultSet, final String[] strings,
+            final Object object) throws SQLException {
         return nullSafeGet(resultSet, strings[0]);
 
     }
@@ -96,14 +94,23 @@ public class RegionUserType implements UserType {
      * @return the object, or null if it does not exist
      * @throws SQLException if the generated SQL is incorrect
      */
-    public final Object nullSafeGet(final ResultSet resultSet,
-            final String string) throws SQLException {
-        Integer region = (Integer) StandardBasicTypes.INTEGER.nullSafeGet(
-                resultSet, string);
-        Region result = Region.fromCode(region);
-        return result;
-    }
+    public final Object nullSafeGet(
+            final ResultSet resultSet, final String string)
+            throws SQLException {
+        String country = (String) Hibernate.STRING.nullSafeGet(resultSet,
+                string);
+        if (country != null) {
+            try {
+                return Country.valueOf(country.toUpperCase());
+            } catch (IllegalArgumentException iae) {
+                logger.error(iae.getMessage());
+                return null;
+            }
 
+        } else {
+            return null;
+        }
+    }
 
     /**
      * Write an instance of the mapped class to a prepared statement.
@@ -114,14 +121,12 @@ public class RegionUserType implements UserType {
      * @throws SQLException if the generated SQL is incorrect
      */
     public final void nullSafeSet(final PreparedStatement preparedStatement,
-           final Object value, final int index) throws SQLException {
+            final Object value, final int index) throws SQLException {
         if (value == null) {
-            StandardBasicTypes.INTEGER
-             .nullSafeSet(preparedStatement, null, index);
+            Hibernate.STRING.nullSafeSet(preparedStatement, null, index);
         } else {
-            Region r = ((Region) value);
-            StandardBasicTypes.INTEGER
-              .nullSafeSet(preparedStatement, r.getCode(), index);
+            Country c = ((Country) value);
+            Hibernate.STRING.nullSafeSet(preparedStatement, c.getCode(), index);
         }
     }
 
@@ -137,7 +142,7 @@ public class RegionUserType implements UserType {
             return null;
         }
 
-        return ((Region) value);
+        return ((Country) value);
     }
 
     /**

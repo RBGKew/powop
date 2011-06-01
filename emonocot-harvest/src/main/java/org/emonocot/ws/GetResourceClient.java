@@ -53,7 +53,7 @@ public class GetResourceClient {
     /**
      *
      */
-    private int proxyPort;
+    private Integer proxyPort;
 
     /**
      *
@@ -67,8 +67,12 @@ public class GetResourceClient {
      *
      * @param newProxyPort Set the proxy port
      */
-    public final void setProxyPort(final int newProxyPort) {
-        this.proxyPort = newProxyPort;
+    public final void setProxyPort(final String newProxyPort) {
+        try {
+            this.proxyPort = Integer.decode(newProxyPort);
+        } catch (NumberFormatException nfe) {
+            logger.warn(nfe.getMessage());
+        }
     }
 
     /**
@@ -105,7 +109,7 @@ public class GetResourceClient {
     public final ExitStatus getResource(final String authorityName,
             final String authorityURI, final String dateLastHarvested,
             final String temporaryFileName) {
-        if (proxyHost != null) {
+        if (proxyHost != null && proxyPort != null) {
             HttpHost proxy = new HttpHost(proxyHost, proxyPort);
             httpClient.getParams()
                 .setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);

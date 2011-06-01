@@ -124,63 +124,75 @@ public class OaiPmhRecordProcessor
                 TaxonConcept taxonConcept = record.getMetadata()
                         .getTaxonConcept();
 
-                taxon.setIdentifier(taxonConcept.getIdentifier().toString());
-                bind(taxon);
-                if (taxonConcept.getHasName() != null) {
-                    logger.info(taxonConcept.getHasName().getNameComplete());
-                    taxon.setName(taxonConcept.getHasName().getNameComplete());
-                } else {
-                    taxon.setName(taxonConcept.getTitle());
-                }
-                if (taxonConcept.getHasRelationship() != null) {
-                    for (Relationship relationship : taxonConcept
-                            .getHasRelationship()) {
-                        addRelationship(taxon, relationship);
-                    }
-                }
-
-                if (taxonConcept.getDescribedBy() != null) {
-                    for (SpeciesProfileModel spm : taxonConcept
-                            .getDescribedBy()) {
-                        if (spm.getHasInformation() != null) {
-                            logger.info("hasInformation " + spm.getHasInformation());
-                            for (InfoItem infoItem : spm.getHasInformation()) {
-                                logger.info("hasInformation " + infoItem);
-                                if (infoItem instanceof Distribution) {
-                                    logger.info("hasInformation = Distribution");
-                                    Distribution distribution = (Distribution) infoItem;
-                                    org.emonocot.model.description.Distribution dist
-                                      = resolveDistribution(distribution
-                                            .getHasValueRelation());
-                                    if (!taxon.getDistribution().keySet()
-                                            .contains(dist.getRegion())) {
-                                        dist.setTaxon(taxon);
-                                        taxon.getDistribution().put(
-                                                dist.getRegion(), dist);
-                                    } else {
-                                        // TODO replace / update distribution if
-                                        // neccessary
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                processTaxon(taxon, taxonConcept);
 
             }
         } else {
-         // We don't have a record of this taxon yet
+            // We do have a record of this taxon yet
             if (record.getHeader().getStatus() != null
                     && record.getHeader().getStatus().equals(Status.DELETED)) {
                 // We have a record of it and now we need to delete it
                 taxon.setDeleted(true);
             } else {
-                // We have a record of the taxon and now we should update it
+                TaxonConcept taxonConcept = record.getMetadata()
+                .getTaxonConcept();
+
+                processTaxon(taxon, taxonConcept);
             }
         }
 
 
         return taxon;
+    }
+
+    /**
+     *
+     * @param taxon Set the taxon object
+     * @param taxonConcept Set the taxonConcept object
+     */
+    private void processTaxon(
+            final Taxon taxon, final TaxonConcept taxonConcept) {
+        taxon.setIdentifier(taxonConcept.getIdentifier().toString());
+        bind(taxon);
+        if (taxonConcept.getHasName() != null) {
+            logger.info(taxonConcept.getHasName().getNameComplete());
+            taxon.setName(taxonConcept.getHasName().getNameComplete());
+        } else {
+            taxon.setName(taxonConcept.getTitle());
+        }
+        if (taxonConcept.getHasRelationship() != null) {
+            for (Relationship relationship :
+                taxonConcept.getHasRelationship()) {
+                addRelationship(taxon, relationship);
+            }
+        }
+
+        if (taxonConcept.getDescribedBy() != null) {
+            for (SpeciesProfileModel spm : taxonConcept.getDescribedBy()) {
+                if (spm.getHasInformation() != null) {
+                    logger.info("hasInformation " + spm.getHasInformation());
+                    for (InfoItem infoItem : spm.getHasInformation()) {
+                        logger.info("hasInformation " + infoItem);
+                        if (infoItem instanceof Distribution) {
+                            logger.info("hasInformation = Distribution");
+                            Distribution distribution = (Distribution) infoItem;
+                            org.emonocot.model.description.Distribution dist
+                                = resolveDistribution(distribution
+                                    .getHasValueRelation());
+                            if (!taxon.getDistribution().keySet()
+                                    .contains(dist.getRegion())) {
+                                dist.setTaxon(taxon);
+                                taxon.getDistribution().put(dist.getRegion(),
+                                        dist);
+                            } else {
+                                // TODO replace / update distribution if
+                                // neccessary
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -259,7 +271,7 @@ public class OaiPmhRecordProcessor
 
     @Override
     public final void afterChunk() {
-    	logger.info("After Chunk");
+        logger.info("After Chunk");
     }
 
     /**
@@ -296,14 +308,14 @@ public class OaiPmhRecordProcessor
         }
     }
 
-	@Override
-	public void afterWrite(List<? extends Taxon> results) {
-		
-	}
+    @Override
+    public void afterWrite(final List<? extends Taxon> results) {
 
-	@Override
-	public void beforeWrite(List<? extends Taxon> results) {
-		logger.info("Before Write");
+    }
+
+    @Override
+    public final void beforeWrite(final List<? extends Taxon> results) {
+        logger.info("Before Write");
         for (TaxonRelationship taxonRelationship : taxonRelationships) {
             TaxonRelationshipTerm term = taxonRelationship.term;
             Taxon taxon = taxonRelationship.from;
@@ -338,11 +350,11 @@ public class OaiPmhRecordProcessor
 
         taxaWithinChunk.clear();
         taxonRelationships.clear();
-	}
+    }
 
-	@Override
-	public void onWriteError(Exception exception,
-			List<? extends Taxon> results) {
-		
-	}
+    @Override
+    public void onWriteError(
+            final Exception exception, final List<? extends Taxon> results) {
+
+    }
 }

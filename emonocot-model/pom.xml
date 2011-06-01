@@ -98,7 +98,7 @@
 						<export>false</export>
 						<propertyfile>/src/test/resources/h2/hibernate.properties</propertyfile>
 						<outputfilename>001_schema.ddl</outputfilename>
-						<configurationfile>/src/main/resources/hibernate.cfg.xml</configurationfile>
+						<configurationfile>/src/main/resources/org/emonocot/model/hibernate.cfg.xml</configurationfile>
 					</componentProperties>
 				</configuration>
 				<dependencies>

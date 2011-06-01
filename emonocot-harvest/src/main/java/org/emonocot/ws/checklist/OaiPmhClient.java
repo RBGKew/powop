@@ -17,6 +17,7 @@ import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.emonocot.job.io.StaxEventItemReader;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.openarchives.pmh.ResumptionToken;
@@ -42,10 +43,10 @@ public class OaiPmhClient implements StepExecutionListener {
     private StepExecution stepExecution;
 
     /**
-     *
+     * should be dateTimeNoMillis() but the grassbase webapp is not
+     * configured properly (my fault!)
      */
-    private static final DateTimeFormatter DATE_TIME_PRINTER = ISODateTimeFormat
-            .dateTimeNoMillis();
+    private static final DateTimeFormatter DATE_TIME_PRINTER = ISODateTimeFormat.dateTime();
 
     /**
     *
@@ -65,7 +66,7 @@ public class OaiPmhClient implements StepExecutionListener {
    /**
     *
     */
-   private int proxyPort;
+   private Integer proxyPort;
 
    /**
     *
@@ -79,8 +80,12 @@ public class OaiPmhClient implements StepExecutionListener {
     *
     * @param newProxyPort Set the proxy port
     */
-   public final void setProxyPort(final int newProxyPort) {
-       this.proxyPort = newProxyPort;
+   public final void setProxyPort(final String newProxyPort) {
+       try {
+           this.proxyPort = Integer.decode(newProxyPort);
+       } catch (NumberFormatException nfe) {
+           logger.warn(nfe.getMessage());
+       }       
    }
 
    /**
@@ -129,7 +134,7 @@ public class OaiPmhClient implements StepExecutionListener {
     public final ExitStatus listRecords(final String authorityName,
             final String authorityURI, final String dateLastHarvested,
             final String temporaryFileName, final String resumptionToken) {
-        if (proxyHost != null) {
+        if (proxyHost != null && proxyPort != null) {
             HttpHost proxy = new HttpHost(proxyHost, proxyPort);
             httpClient.getParams()
                 .setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
@@ -143,13 +148,14 @@ public class OaiPmhClient implements StepExecutionListener {
         StringBuffer query = new StringBuffer("?");
 
         if (resumptionToken != null) {
-            query.append("resumptionToken=" + resumptionToken);
+            query.append("resumptionToken=" + resumptionToken + "&verb=ListRecords");
         } else {
             query.append("verb=ListRecords&metadataPrefix=rdf");
             if (dateLastHarvested != null) {
-                query.append("&from="
-                        + DATE_TIME_PRINTER.print(new DateTime(Long
-                                .parseLong(dateLastHarvested))));
+				DateTime from = new DateTime(Long.parseLong(dateLastHarvested));
+				query.append("&from="
+						+ DATE_TIME_PRINTER.print(from
+								.toDateTime(DateTimeZone.UTC)));
             }
         }
         HttpGet httpGet = new HttpGet(authorityURI + query.toString());
@@ -251,6 +257,8 @@ public class OaiPmhClient implements StepExecutionListener {
                 .getExecutionContext().remove("resumption.token");
                 return new ExitStatus("NO RESUMPTION TOKEN");
             } else {
+            	stepExecution.getJobExecution()
+                .getExecutionContext().remove("resumption.token");
                 logger.info(resumptionToken.getValue() + " "
                         + resumptionToken.getCompleteListSize() + " "
                         + resumptionToken.getCursor());
