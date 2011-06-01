@@ -191,7 +191,7 @@ public class GetResourceClient {
             }
         }
     }
-    
+
     /**
      * Executes a HTTP GET request with the If-Modified-Since header set to
      * dateLastHarvested. If the resource has not been modified then the
@@ -218,7 +218,7 @@ public class GetResourceClient {
     public final ExitStatus getBinaryResource(final String authorityName,
             final String authorityURI, final String dateLastHarvested,
             final String temporaryFileName) {
-        if (proxyHost != null) {
+        if (proxyHost != null && proxyPort != null) {
             HttpHost proxy = new HttpHost(proxyHost, proxyPort);
             httpClient.getParams()
                 .setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
