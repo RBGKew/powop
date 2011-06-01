@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
     <changeSet author="ben" id="2011-05-09-1">
         <createTable tableName="Plant_Name">
             <column name="Plant_name_id" type="bigint">
@@ -21,23 +23,144 @@
         </createTable>
     </changeSet>
     <changeSet author="ben" id="2011-05-09-3">
-        <addForeignKeyConstraint constraintName="FK44FD0CF7BBAC6574" baseTableName="Plant_Locality" baseColumnNames="Plant_name_id"
-           referencedTableName="Plant_Name" referencedColumnNames="Plant_name_id"
-        />
+        <addForeignKeyConstraint constraintName="FK44FD0CF7BBAC6574"
+            baseTableName="Plant_Locality" baseColumnNames="Plant_name_id" referencedTableName="Plant_Name"
+            referencedColumnNames="Plant_name_id"/>
     </changeSet>
     <changeSet author="ben" id="2011-05-09-4">
         <createIndex tableName="Plant_Locality" indexName="Plant_Locality_Plant_name_id_IDX">
-          <column name="Plant_name_id"/>
+            <column name="Plant_name_id"/>
         </createIndex>
     </changeSet>
     <changeSet author="ben" id="2011-05-09-5">
         <createIndex tableName="Plant_Name" indexName="Plant_Name_Accepted_plant_name_id_IDX">
-          <column name="Accepted_plant_name_id"/>
+            <column name="Accepted_plant_name_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="ben" id="2011-05-09-6"> 
-        <addForeignKeyConstraint constraintName="FKC663741FC1A8E6DC" baseTableName="Plant_Name" baseColumnNames="Accepted_plant_name_id"
-           referencedTableName="Plant_Name" referencedColumnNames="Plant_name_id"
-        />
+    <changeSet author="ben" id="2011-05-09-6">
+        <addForeignKeyConstraint constraintName="FKC663741FC1A8E6DC"
+            baseTableName="Plant_Name" baseColumnNames="Accepted_plant_name_id" referencedTableName="Plant_Name"
+            referencedColumnNames="Plant_name_id"/>
+    </changeSet>
+    <changeSet author="jk00kg" id="2011-05-25">
+        <createTable tableName="Plant_Name_Deleted">
+            <column name="Plant_name_id" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="Full_epithet" type="varchar(255)"/>
+            <column name="Institute_id" type="varchar(255)"/>
+            <column name="Accepted_plant_name_id" type="bigint"/>
+            <column name="Modified_date" type="datetime"/>
+            <column name="Deleted_date" type="datetime"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="jk00kg" id="2011-05-19">
+        <addColumn tableName="Plant_Name">
+            <column name="Modified_date" type="datetime"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="jk00kg" id="2011-05-27">
+        <addColumn tableName="Plant_Name">
+            <column name="Date_of_entry" type="datetime"/>
+        </addColumn>
+        <addColumn tableName="Plant_Name_Deleted">
+            <column name="Date_of_entry" type="datetime"/>
+        </addColumn>
+    </changeSet>
+    <!-- This view should include additional columns in changesets above & Deleted_date -->
+    <changeSet author="jk00kg" id="2011-05-27_1">
+        <createView viewName="vwMonocot_Name">
+   /* View created to pull Monocot data from for the eMonocot project */
+   /* Also see 'eMonocot' User                                        */
+       SELECT  Plant_name_id,
+               Date_of_entry,
+               Full_epithet,<!--
+               Family,
+               Genus,
+               Genus_hybrid_marker,
+               Species,
+               Species_hybrid_marker,
+               Infraspecific_rank,
+               Infraspecific_epithet, -->
+               Accepted_plant_name_id,
+               Institute_id,
+               Modified_date,
+               NULL AS Deleted_date
+       FROM  Plant_Name
+UNION ALL
+       SELECT  Plant_name_id,
+               Date_of_entry,
+               Full_epithet,<!--
+               Family,
+               Genus_hybrid_marker,
+               Genus,
+               Species_hybrid_marker,
+               Species,
+               Infraspecific_rank,
+               Infraspecific_epithet,-->
+               Accepted_plant_name_id,
+               Institute_id,
+               Modified_date,
+               Deleted_date
+       FROM  Plant_Name_Deleted
+        </createView>
+    </changeSet>
+    <changeSet author="jk00kg" id="2011-05-31">
+        <addColumn tableName="Plant_Name">
+            <column name="Family" type="varchar(30)"/>
+            <column name="Genus_hybrid_marker" type="varchar(1)"/>
+            <column name="Genus" type="varchar(30)"/>
+            <column name="Species_hybrid_marker" type="varchar(1)"/>
+            <column name="Species" type="varchar(50)"/>
+            <column name="Infraspecific_rank" type="varchar(15)"/>
+            <column name="Infraspecific_epithet" type="varchar(50)"/>
+        </addColumn>
+        <addColumn tableName="Plant_Name_Deleted">
+            <column name="Family" type="varchar(30)"/>
+            <column name="Genus_hybrid_marker" type="varchar(1)"/>
+            <column name="Genus" type="varchar(30)"/>
+            <column name="Species_hybrid_marker" type="varchar(1)"/>
+            <column name="Species" type="varchar(50)"/>
+            <column name="Infraspecific_rank" type="varchar(15)"/>
+            <column name="Infraspecific_epithet" type="varchar(50)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="jk00kg" id="2011-05-31_1">
+        <!-- replaceIfExists attribute needs to be removed if using Sybase -->
+        <createView viewName="vwMonocot_Name" replaceIfExists="true">
+   /* View created to pull Monocot data from for the eMonocot project */
+   /* Also see 'eMonocot' User                                        */
+       SELECT  Plant_name_id,
+               Date_of_entry,
+               Full_epithet,
+               Family,
+               Genus,
+               Genus_hybrid_marker,
+               Species,
+               Species_hybrid_marker,
+               Infraspecific_rank,
+               Infraspecific_epithet,
+               Accepted_plant_name_id,
+               Institute_id,
+               Modified_date,
+               NULL AS Deleted_date
+       FROM  Plant_Name
+UNION ALL
+       SELECT  Plant_name_id,
+               Date_of_entry,
+               Full_epithet,
+               Family,
+               Genus_hybrid_marker,
+               Genus,
+               Species_hybrid_marker,
+               Species,
+               Infraspecific_rank,
+               Infraspecific_epithet,
+               Accepted_plant_name_id,
+               Institute_id,
+               Modified_date,
+               Deleted_date
+       FROM  Plant_Name_Deleted
+        </createView>
     </changeSet>
 </databaseChangeLog>
