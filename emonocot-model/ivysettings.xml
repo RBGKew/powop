@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivysettings>
+    <properties file="${user.home}/.ivy2/ivy.properties"/>
+	<settings defaultResolver="default"/>
+    <caches defaultCacheDir="${local.cache.dir}"/>
+	<resolvers>
+		<chain name="default">
+		    <ibiblio name="ibiblio" m2compatible="true" usepoms="true" />
+			<url name="com.springsource.repository.bundles.release">
+				<ivy
+					pattern="http://repository.springsource.com/ivy/bundles/release/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
+				<artifact
+					pattern="http://repository.springsource.com/ivy/bundles/release/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
+			</url>
+			<url name="com.springsource.repository.bundles.external">
+				<ivy
+					pattern="http://repository.springsource.com/ivy/bundles/external/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
+				<artifact
+					pattern="http://repository.springsource.com/ivy/bundles/external/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
+			</url>
+		</chain>
+		<filesystem name="localfile" force="true" descriptor="required">
+				<ivy pattern="${ivy.settings.dir}/../pom.xml" />
+				<artifact pattern="${ivy.settings.dir}/../pom.xml" />
+		</filesystem>
+	</resolvers>
+	<modules>
+		<module organisation="org.emonocot" name="emonocot" resolver="localfile" />
+	</modules>
+</ivysettings>

@@ -7,7 +7,6 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.apache.lucene.document.DateTools.Resolution;
 import org.emonocot.model.hibernate.DateTimeBridge;
 import org.hibernate.annotations.Type;
 import org.hibernate.search.annotations.DocumentId;

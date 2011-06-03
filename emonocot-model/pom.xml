@@ -6,6 +6,7 @@
 		<artifactId>emonocot</artifactId>
 		<groupId>org.emonocot</groupId>
 		<version>0.0.6-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>org.emonocot</groupId>
 	<artifactId>emonocot-model</artifactId>
@@ -15,6 +16,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
+	  <dependency>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.0-api</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.joda</groupId>
 			<artifactId>com.springsource.org.joda.time</artifactId>
