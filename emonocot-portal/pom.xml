@@ -15,7 +15,6 @@
 		<dependency>
 			<groupId>org.emonocot</groupId>
 			<artifactId>emonocot-service</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
