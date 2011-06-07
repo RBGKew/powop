@@ -298,3 +298,12 @@ ul.menu li.expanded ul {
 .xright {
 	float: right;
 }
+
+div.cent ul,ol {
+  margin: 1em
+}
+
+div.cent pre {
+  width: 100%;
+  overflow: none
+}

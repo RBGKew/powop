@@ -852,6 +852,11 @@
             <enabled>false</enabled>
           </snapshots>
         </pluginRepository>
+        <pluginRepository>
+			<id>emonocot.release</id>
+			<name>eMonocot Releases</name>
+			<url>http://129.67.24.160/repository</url>
+		</pluginRepository>
 	</pluginRepositories>
 	<distributionManagement>
 		<downloadUrl>http://129.67.24.160/repository</downloadUrl>

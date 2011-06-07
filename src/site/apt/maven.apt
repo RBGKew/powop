@@ -1,0 +1,83 @@
+ ------
+ Maven
+ ------
+ Ben Clark
+ ------
+ Date
+ 
+  We're using maven (2.2.1) as the build tool for the moment.
+
+  * To build a module: <mvn clean install>
+  
+  * To build the (development) site and deploy it to the build box: <mvn site:site site:deploy>
+  
+  * To perform a release (using maven - this does not cover the procedural side of things, e.g. TAG forms etc):
+  
+    * Prepare the release: <mvn release:prepare -DautoVersionSubmodules=true> (you can append -DdryRun=true to test this step without committing anything)
+    
+    * Perform the release: <mvn release:perform>
+    
+    * Once the release has completed clean up: <mvn release:clean>
+    
+    * If anything went wrong, you can run: <mvn release:rollback> to roll back the release (with certain caveats, e.g. tags need to be manually removed). This does not work if you've run release:clean as the rollback depends on the release metadata to figure out what to undo.
+    
+  []
+  
+  Most maven targets e.g. <compile>, <site>, <deploy> work well when running the embedded STS maven but the release plugin does not, so an external version of maven is required if you want to do releases.
+
+Tips
+
+ * Use $\{user.home\} in your settings.xml to reference your home directory (Maven 3.0 only)
+ 
+ * Use $\{env.PROFILE\} in your settings.xml to reference your home directory (Maven 2+)
+ 
+ * When checking out code into a fresh workspace in eclipse:
+ 
+   * Check out the code from CVS
+   
+   * Run <mvn eclipse:eclipse> (from eclipse or the command line) in the root of the workspace or import the modules as new maven projects
+   
+   * Import the modules into eclipse if you ran <mvn eclipse:eclipse> in the last step
+   
+   * Set the Java Compiler to a jdk5 compliant compiler (it is set to 1.4 by default)
+   
+   * Set the JDK library in Build Path to the right library
+   
+   * Enable dependency management (in eclipse, right click on the project, then look under 'maven')
+   
+   * When synchronizing with CVS for the first time, remember to add the target directory and any properties files such as .project and .settings to .cvsignore (and to add .cvsignore to .cvsignore) so that built or part built artifacts are not stored in CVS
+   
+   []
+   
+Maven profiles
+
+  The eMonocot parent project contains four profiles used to execute the unit tests ('unit'), integration tests ('integration'), functional tests ('functional') and generate the code metrics ('metrics').
+
+  In addition, deploying to a specific environment depends on a set of properties which have been externalized and should be provided using a profile in the users settings.xml as follows:
+
+----------------------------------------
+<profile>
+      <id>${server.id}</id>
+      <properties>
+        <!-- Administrator password for the harvest application -->
+        <batch.admin.password>${admin.password}</batch.admin.password>
+        <!-- container identifier [tomcat5x|tomcat6x] -->
+        <cargo.containerId>${container.id}</cargo.containerId>
+        <cargo.tomcat.manager.url>${tomcat.manager.url}</cargo.tomcat.manager.url>
+        <cargo.remote.username>${tomcat.manager.username}</cargo.remote.username>
+        <cargo.remote.password>${tomcat.manager.password}</cargo.remote.password>
+        <!--Database changelog file for liquibase mysql only [changelog.mysql.xml]-->
+        <database.changelog>${database.changelog.file}</database.changelog>
+        <!--Hibernate dialect [org.hibernate.dialect.MySQL5Dialect]-->
+        <hibernate.dialect>${hibernate.dialect}</hibernate.dialect>
+        <!--Database driver [com.mysql.jdbc.Driver]-->
+        <jdbc.driver.classname>${database.driver}</jdbc.driver.classname>
+        <!--Database url [jdbc:mysql://host:3306/database?useUnicode=true&amp;characterEncoding=utf-8]-->
+        <jdbc.driver.url>${database.url}</jdbc.driver.url>
+        <!--Database user-->
+        <jdbc.driver.username>${database.user}</jdbc.driver.username>
+        <!--Database password-->
+        <jdbc.driver.password>${database.password}</jdbc.driver.password>
+      </properties>
+</profile>  
+----------------------------------------

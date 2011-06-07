@@ -1,0 +1,34 @@
+ ------
+ Spatial Data
+ ------
+ Ben Clark
+ ------
+ Date
+ 
+ * The TDWG Shapefiles are available here: http://www.kew.org/gis/tdwg/
+ 
+ * These are ESRI Shapefiles, which we can use in e.g. ArcIMS, but if we want to integrate this data in eMonocot, we might need to transform it into another format. {{{http://www.gdal.org/} GDAL}} is useful in this respect
+ 
+ * You can import the layers into mysql thus: ogr2ogr -f MySQL MySQL:gis,user=user,password=passwd shapefile.shp  nln tablename -update -overwrite -lco GEOMETRY_NAME=SHAPE
+ 
+ * The documentation for the spatial extensions in MySQL is here: http://dev.mysql.com/doc/refman/5.0/en/spatial-extensions.html
+ 
+ * You need to remember that MySQL works on Minimum Bounding Rectangles, not proper spatial queries
+ 
+----------------------------------------
+> set @europe = (select SHAPE from level1 where OGR_FID = 1);
+> select tdwg_code,region_nam from level2 where Contains(@europe,SHAPE);
+
++-----------+---------------------+
+| tdwg_code | region_nam          |
++-----------+---------------------+
+|        10 | Northern Europe     |
+|        11 | Middle Europe       |
+|        12 | Southwestern Europe |
+|        14 | Eastern Europe      |
+|        33 | Caucasus            |
+|        13 | Southeastern Europe |
++-----------+---------------------+
+
+----------------------------------------
+ 

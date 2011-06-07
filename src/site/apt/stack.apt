@@ -1,0 +1,21 @@
+ ------
+ Development Stack
+ ------
+ Ben Clark
+ ------
+ Date
+ 
+ Development Stack:
+
+ * Java
+ 
+ * IDE: prefer {{{http://www.springsource.com/developer/sts} SpringSource Tool Suite}} (Eclipse Helios), but vanilla Eclipse or other IDE's work well.
+ 
+ * Build Tool: {{{http://maven.apache.org} Maven}} (2.2.1)
+ 
+ * Build Server: {{{http://129.67.24.160/ci} Jenkins}}
+  
+ * Source Code: {{{http://129.67.24.160/viewvc/cvsroot/emonocot/}CVS}}  :pserver:username@129.67.24.160:/var/cvs  co emonocot
+ 
+ * Issue Tracker: {{{http://129.67.24.160/bugzilla/}Bugzilla}}.
+ 

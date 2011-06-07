@@ -14,6 +14,18 @@
     <links>
       
     </links>
+    <menu>
+      <item name="Introduction" href="index.html"/>
+      <item name="Development Process" href="process.html"/>
+    </menu>
+    <menu name="Development">
+      <item name="Development Stack" href="stack.html"/>
+      <item name="Secure Access" href="secure.html"/>
+      <item name="Eclipse Integration" href="eclipse.html"/>
+      <item name="Maven" href="maven.html"/>
+      <item name="Liquibase" href="liquibase.html"/>
+      <item name="Spatial Data" href="spatial.html"/>
+    </menu>
     <menu ref="modules"/>
     <menu ref="reports"/>
   </body>
