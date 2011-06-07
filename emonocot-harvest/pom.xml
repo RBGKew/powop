@@ -17,6 +17,7 @@
 	    <dependency>
 			<groupId>org.emonocot</groupId>
 			<artifactId>emonocot-model</artifactId>
+			<type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>org.emonocot</groupId>

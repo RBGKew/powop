@@ -80,6 +80,7 @@
 				<groupId>org.emonocot</groupId>
 				<artifactId>emonocot-model</artifactId>
 				<version>${project.version}</version>
+				<type>jar</type>
 			</dependency>
 			<dependency>
 			<groupId>org.emonocot</groupId>
@@ -769,14 +770,14 @@
                 <connectionType>developerConnection</connectionType>
               </configuration>
             </plugin>
-			<!-- <plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.7</version>
 				<configuration>
 					<aggregate>true</aggregate>
 				</configuration>
-			</plugin>-->
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jxr-plugin</artifactId>
