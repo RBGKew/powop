@@ -14,6 +14,11 @@
 	<name>eMonocot Harvesting</name>
 	<description>Backend Harvesting Routines</description>
 	<dependencies>
+	    <dependency>
+			<groupId>org.emonocot</groupId>
+			<artifactId>emonocot-model</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.emonocot</groupId>
 			<artifactId>emonocot-service</artifactId>
