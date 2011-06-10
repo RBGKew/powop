@@ -26,6 +26,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
 
 /**
  *
@@ -254,6 +255,7 @@ public class Taxon extends Base {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon", orphanRemoval = true)
     @Cascade({CascadeType.ALL })
     @MapKey(name = "region")
+    @IndexedEmbedded
     public Map<GeographicalRegion, Distribution> getDistribution() {
         return distribution;
     }

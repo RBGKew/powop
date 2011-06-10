@@ -6,6 +6,9 @@ import org.emonocot.model.description.TextContent;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.dao.DescriptionDao;
+import org.emonocot.persistence.dao.FacetName;
+import org.hibernate.search.query.dsl.FacetContext;
+import org.hibernate.search.query.facet.FacetingRequest;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -32,7 +35,14 @@ public class DescriptionDaoImpl extends DaoImpl<Content> implements
     }
 
     @Override
-    protected Fetch[] getProfile(String profile) {
+    protected final Fetch[] getProfile(final String profile) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    protected final FacetingRequest createFacetingRequest(
+            final FacetContext facetContext, final FacetName facetName) {
         // TODO Auto-generated method stub
         return null;
     }

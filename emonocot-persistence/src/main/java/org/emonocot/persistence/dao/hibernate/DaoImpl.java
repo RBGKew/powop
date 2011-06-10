@@ -1,12 +1,32 @@
 package org.emonocot.persistence.dao.hibernate;
 
+import java.util.List;
+import java.util.Map;
+
+import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.util.Version;
 import org.emonocot.model.common.Base;
 import org.emonocot.model.hibernate.Fetch;
+import org.emonocot.model.pager.DefaultPageImpl;
+import org.emonocot.model.pager.Page;
+import org.emonocot.persistence.QuerySyntaxException;
 import org.emonocot.persistence.dao.Dao;
+import org.emonocot.persistence.dao.FacetName;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.UnresolvableObjectException;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.search.FullTextQuery;
+import org.hibernate.search.FullTextSession;
+import org.hibernate.search.Search;
+import org.hibernate.search.SearchFactory;
+import org.hibernate.search.query.dsl.FacetContext;
+import org.hibernate.search.query.dsl.QueryBuilder;
+import org.hibernate.search.query.engine.spi.FacetManager;
+import org.hibernate.search.query.facet.Facet;
+import org.hibernate.search.query.facet.FacetingRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateObjectRetrievalFailureException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -45,7 +65,7 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
     /**
      *
      */
-    private Class<T> type;
+    protected Class<T> type;
 
     /**
      *
@@ -109,4 +129,89 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
    public final Long save(final T t) {
        return (Long) getSession().save(t);
    }
+
+  /**
+   *
+   * @param t The object to save.
+   */
+  public final void saveOrUpdate(final T t) {
+      getSession().saveOrUpdate(t);
+  }
+
+  /**
+   *
+   * @param facetContext the facet context
+   * @param facetName the facet name
+   * @return The faceting request
+   */
+  protected abstract FacetingRequest createFacetingRequest(
+          final FacetContext facetContext, final FacetName facetName);
+
+    @Override
+    public final Page<T> search(final String query,
+            final Integer pageSize, final Integer pageNumber,
+            final FacetName[] facets,
+            final Map<FacetName, Integer> selectedFacets) {
+        FullTextSession fullTextSession
+         = Search.getFullTextSession(getSession());
+        SearchFactory searchFactory = fullTextSession.getSearchFactory();
+        QueryParser parser
+            = new QueryParser(Version.LUCENE_31, "title",
+                    searchFactory.getAnalyzer(type));
+        try {
+            org.apache.lucene.search.Query luceneQuery = parser.parse(query);
+            FullTextQuery fullTextQuery
+                = fullTextSession.createFullTextQuery(luceneQuery);
+
+            if (pageSize != null) {
+                fullTextQuery.setMaxResults(pageSize);
+                if (pageNumber != null) {
+                    fullTextQuery.setFirstResult(pageSize * pageNumber);
+                }
+            }
+            if (facets != null && facets.length != 0) {
+                FacetManager facetManager = fullTextQuery.getFacetManager();
+              QueryBuilder queryBuilder = fullTextSession.getSearchFactory()
+              .buildQueryBuilder().forEntity(type).get();
+              for (FacetName facetName : facets) {
+                FacetingRequest facetingRequest
+                  = createFacetingRequest(queryBuilder.facet(),
+                        facetName);
+                facetManager.enableFaceting(facetingRequest);
+              }
+            }
+
+            List<T> results = (List<T>) fullTextQuery.list();
+
+            if (selectedFacets != null && !selectedFacets.isEmpty()) {
+                FacetManager facetManager = fullTextQuery.getFacetManager();
+
+                for (FacetName facetName : selectedFacets.keySet()) {
+                    List<Facet> facetResults =
+                        facetManager.getFacets(facetName.name());
+                    facetManager.getFacetGroup(
+                            facetName.name())
+                            .selectFacets(
+                                    facetResults.get(
+                                            selectedFacets.get(facetName)));
+                }
+                results = (List<T>) fullTextQuery.list();
+            }
+
+            Page<T> page = new DefaultPageImpl<T>(
+                    fullTextQuery.getResultSize(),
+                    pageNumber, pageSize, results);
+            if (facets != null && facets.length != 0) {
+                FacetManager facetManager = fullTextQuery.getFacetManager();
+                for (FacetName facetName : facets) {
+                    page.addFacets(facetName.name(),
+                        facetManager.getFacets(facetName.name()));
+                }
+            }
+
+            return page;
+        } catch (ParseException e) {
+            throw new QuerySyntaxException("Exception parsing " + query, e);
+        }
+    }
 }

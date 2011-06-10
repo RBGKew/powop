@@ -1,6 +1,9 @@
 package org.emonocot.persistence.dao;
 
+import java.util.Map;
+
 import org.emonocot.model.common.Base;
+import org.emonocot.model.pager.Page;
 
 /**
  *
@@ -50,5 +53,28 @@ public interface Dao<T extends Base> {
    * @return the id of the object
    */
   Long save(T t);
+
+ /**
+  *
+  * @param t The object to save.
+  */
+  void saveOrUpdate(T t);
+
+    /**
+     * @param query
+     *            A lucene query
+     * @param pageSize
+     *            The maximum number of results to return
+     * @param pageNumber
+     *            The offset (in pageSize chunks, 0-based) from the beginning of
+     *            the recordset
+     * @param facets
+     *            The names of the facets you want to calculate
+     * @param selectedFacets
+     *            A map of facets which you would like to restrict the search by
+     * @return a Page from the resultset
+     */
+  Page<T> search(String query, Integer pageSize, Integer pageNumber,
+          FacetName[] facets, Map<FacetName, Integer> selectedFacets);
 
 }

@@ -1,16 +1,17 @@
 package org.emonocot.model.description;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
 import org.emonocot.model.common.Base;
 import org.emonocot.model.geography.GeographicalRegion;
-import org.emonocot.model.hibernate.Fetch;
+import org.emonocot.model.hibernate.DistributionBridge;
 import org.emonocot.model.taxon.Taxon;
 import org.hibernate.annotations.Type;
+import org.hibernate.search.annotations.ClassBridge;
+import org.hibernate.search.annotations.ContainedIn;
+import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
 
 /**
@@ -20,6 +21,9 @@ import org.hibernate.search.annotations.Indexed;
  */
 @Entity
 @Indexed
+@ClassBridge(name = "geographicalRegion",
+        impl = DistributionBridge.class,
+        index = Index.UN_TOKENIZED)
 public class Distribution extends Base {
 
    /**
@@ -65,6 +69,7 @@ public class Distribution extends Base {
    * @return Get the taxon that this distribution is about.
    */
   @ManyToOne(fetch = FetchType.LAZY)
+  @ContainedIn
   public Taxon getTaxon() {
       return taxon;
   }

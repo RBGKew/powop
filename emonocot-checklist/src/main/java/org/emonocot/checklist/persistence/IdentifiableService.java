@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.emonocot.checklist.model.ChangeEvent;
 import org.emonocot.checklist.model.IdentifiableEntity;
-import org.emonocot.checklist.persistence.pager.Page;
+import org.emonocot.model.pager.Page;
 import org.joda.time.DateTime;
 
 /**

@@ -734,6 +734,7 @@
                 <issueManagementUser>${bugzillaUser}</issueManagementUser>
                 <issueManagementPassword>${bugzillaPassword}</issueManagementPassword>
                 <product>emonocot</product>
+                <status>RESOLVED</status>
                 <proxyHostname>${proxyHostname}</proxyHostname>
                 <proxyPort>${proxyPort}</proxyPort>
               </configuration>

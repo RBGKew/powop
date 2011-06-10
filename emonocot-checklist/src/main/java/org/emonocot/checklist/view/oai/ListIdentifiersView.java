@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.emonocot.checklist.controller.oai.AbstractOaiPmhController;
 import org.emonocot.checklist.model.ChangeEvent;
-import org.emonocot.checklist.persistence.pager.Page;
+import org.emonocot.model.pager.Page;
 import org.openarchives.pmh.Header;
 import org.openarchives.pmh.ListIdentifiers;
 import org.openarchives.pmh.OAIPMH;

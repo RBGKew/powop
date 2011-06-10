@@ -5,8 +5,15 @@ import java.util.Map;
 
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.model.taxon.Taxon;
+import org.emonocot.persistence.dao.FacetName;
 import org.emonocot.persistence.dao.TaxonDao;
 import org.hibernate.FetchMode;
+import org.hibernate.search.FullTextSession;
+import org.hibernate.search.Search;
+import org.hibernate.search.query.dsl.FacetContext;
+import org.hibernate.search.query.dsl.QueryBuilder;
+import org.hibernate.search.query.facet.FacetSortOrder;
+import org.hibernate.search.query.facet.FacetingRequest;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -37,6 +44,32 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
      */
     public TaxonDaoImpl() {
         super(Taxon.class);
+    }
+
+    /**
+     *
+     * @param facetContext The faceting context of this request
+     * @param facetName The name of the facet required
+     * @return the faceting context
+     */
+    protected final FacetingRequest createFacetingRequest(
+            final FacetContext facetContext, final FacetName facetName) {
+
+        FacetingRequest facetingRequest = null;
+
+        switch (facetName) {
+        case CONTINENT:
+            facetingRequest = facetContext.name(facetName.name())
+                    .onField("continent").discrete()
+                    .orderedBy(FacetSortOrder.COUNT_DESC)
+                    .includeZeroCounts(false).maxFacetCount(10)
+                    .createFacetingRequest();
+            break;
+        default:
+            break;
+        }
+
+        return facetingRequest;
     }
 
     @Override
