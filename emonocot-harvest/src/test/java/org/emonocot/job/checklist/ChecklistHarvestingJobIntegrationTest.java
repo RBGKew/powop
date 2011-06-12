@@ -1,12 +1,16 @@
 package org.emonocot.job.checklist;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.emonocot.model.geography.Continent;
+import org.emonocot.model.geography.Country;
+import org.emonocot.model.geography.Region;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.junit.Test;

@@ -1,5 +1,7 @@
 package org.emonocot.model.geography;
 
+//import org.apache.lucene.spatial.base.shape.Shape;
+
 /**
  *
  * @author ben
@@ -401,6 +403,11 @@ public enum Country implements GeographicalRegion {
     private String code;
 
     /**
+     * The geographic region as a polygon.
+     */
+//    private Shape shape;
+
+    /**
      *
      * @param newCode Set the code of this country
      * @param newName Set the name of this country
@@ -478,4 +485,14 @@ public enum Country implements GeographicalRegion {
    public String toString() {
        return code;
    }
+
+//   @Override
+//   public Shape getShape() {
+//       return shape;
+//   }
+//
+//   @Override
+//   public void setShape(final Shape newShape) {
+//       this.shape = newShape;
+//   }
 }

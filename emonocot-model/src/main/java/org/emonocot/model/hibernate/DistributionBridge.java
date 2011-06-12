@@ -2,6 +2,13 @@ package org.emonocot.model.hibernate;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.Fieldable;
+//import org.apache.lucene.spatial.base.context.SpatialContextProvider;
+//import org.apache.lucene.spatial.base.prefix.QuadPrefixGrid;
+//import org.apache.lucene.spatial.strategy.SimpleSpatialFieldInfo;
+//import org.apache.lucene.spatial.strategy.SpatialFieldInfo;
+//import org.apache.lucene.spatial.strategy.SpatialStrategy;
+//import org.apache.lucene.spatial.strategy.prefix.NGramPrefixGridStrategy;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.Country;
@@ -16,14 +23,31 @@ import org.hibernate.search.bridge.LuceneOptions;
  *
  */
 public class DistributionBridge implements FieldBridge {
+ 
+   /**
+    *
+    */
+//   private SpatialStrategy spatialStrategy
+//       = new NGramPrefixGridStrategy(new QuadPrefixGrid(), 0);
 
     @Override
     public final void set(final String name, final Object value,
             final Document document, final LuceneOptions luceneOptions) {
         Distribution distribution = (Distribution) value;
+        
         GeographicalRegion geographicalRegion = distribution.getRegion();
 
         if (geographicalRegion != null) {  // WARN this should not be null!
+//            SpatialFieldInfo fieldInfo = new SimpleSpatialFieldInfo("area");
+//            
+//            for (Fieldable f : spatialStrategy
+//                    .createFields(fieldInfo,
+//                            geographicalRegion.getShape(), true, true)) {
+//                if( f != null ) { // null if incompatibleGeometry && ignore
+//                  document.add(f);
+//                }
+//              }
+            
             if (geographicalRegion.getClass() == Country.class) {
                 Country country = (Country) geographicalRegion;
                 Field countryField = new Field("country",

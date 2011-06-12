@@ -1,5 +1,7 @@
 package org.emonocot.model.geography;
 
+//import org.apache.lucene.spatial.base.shape.Shape;
+
 /**
  *
  * @author ben
@@ -54,6 +56,11 @@ public enum Continent implements GeographicalRegion {
     private String name;
 
     /**
+     * The geographic region as a Shape.
+     */
+//    private Shape shape;
+
+    /**
      *
      * @param newCode Set the code of this continent
      * @param newName Set the name of this continent
@@ -99,4 +106,14 @@ public enum Continent implements GeographicalRegion {
     public String toString() {
         return Integer.toString(code);
     }
+
+//    @Override
+//    public Shape getShape() {
+//        return shape;
+//    }
+//
+//    @Override
+//    public void setShape(final Shape newShape) {
+//        this.shape = newShape;
+//    }
 }
