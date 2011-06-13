@@ -1,6 +1,6 @@
 package org.emonocot.model.geography;
 
-//import org.apache.lucene.spatial.base.shape.Shape;
+import org.apache.lucene.spatial.base.shape.Shape;
 
 /**
  *
@@ -81,7 +81,7 @@ public enum Region implements GeographicalRegion {
     /**
      * The geographic region as a Shape.
      */
-//    private Shape shape;
+    private Shape shape;
 
     /**
      *
@@ -158,13 +158,13 @@ public enum Region implements GeographicalRegion {
         return Integer.toString(code);
     }
 
-//    @Override
-//    public Shape getShape() {
-//        return shape;
-//    }
-//
-//    @Override
-//    public void setShape(final Shape newShape) {
-//        this.shape = newShape;
-//    }
+    @Override
+    public Shape getShape() {
+        return shape;
+    }
+
+    @Override
+    public void setShape(final Shape newShape) {
+        this.shape = newShape;
+    }
 }

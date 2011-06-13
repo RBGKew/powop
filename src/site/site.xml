@@ -17,6 +17,7 @@
     <menu>
       <item name="Introduction" href="index.html"/>
       <item name="Development Process" href="process.html"/>
+      <item name="Using the Issue Tracker" href="issues.html"/>
     </menu>
     <menu name="Development">
       <item name="Development Stack" href="stack.html"/>

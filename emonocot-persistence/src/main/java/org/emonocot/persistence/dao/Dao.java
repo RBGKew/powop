@@ -63,6 +63,8 @@ public interface Dao<T extends Base> {
     /**
      * @param query
      *            A lucene query
+     * @param spatialQuery
+     *            A spatial query to filter the results by
      * @param pageSize
      *            The maximum number of results to return
      * @param pageNumber
@@ -74,7 +76,8 @@ public interface Dao<T extends Base> {
      *            A map of facets which you would like to restrict the search by
      * @return a Page from the resultset
      */
-  Page<T> search(String query, Integer pageSize, Integer pageNumber,
-          FacetName[] facets, Map<FacetName, Integer> selectedFacets);
+  Page<T> search(String query, String spatialQuery, Integer pageSize,
+          Integer pageNumber, FacetName[] facets,
+          Map<FacetName, Integer> selectedFacets);
 
 }

@@ -1,6 +1,6 @@
 package org.emonocot.model.geography;
 
-//import org.apache.lucene.spatial.base.shape.Shape;
+import org.apache.lucene.spatial.base.shape.Shape;
 
 /**
  *
@@ -13,12 +13,11 @@ public interface GeographicalRegion {
      *
      * @return the representation of this region as a shape
      */
-//    Shape getShape();
+    Shape getShape();
 
     /**
      *
      * @param shape Set the shape of this region
      */
-//    void setShape(Shape shape);
-
+    void setShape(Shape shape);
 }

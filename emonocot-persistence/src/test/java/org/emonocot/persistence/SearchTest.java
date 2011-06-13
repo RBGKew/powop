@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
-//import org.apache.lucene.spatial.base.context.SpatialContext;
-//import org.apache.lucene.spatial.base.io.sample.SampleData;
-//import org.apache.lucene.spatial.base.io.sample.SampleDataReader;
-//import org.apache.lucene.spatial.base.shape.Shape;
+import org.apache.lucene.spatial.base.context.SpatialContext;
+import org.apache.lucene.spatial.base.io.sample.SampleData;
+import org.apache.lucene.spatial.base.io.sample.SampleDataReader;
+import org.apache.lucene.spatial.base.shape.Shape;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.Country;
@@ -20,8 +20,8 @@ import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.dao.FacetName;
 import org.emonocot.persistence.dao.TaxonDao;
 import org.hibernate.SessionFactory;
-import org.hibernate.search.Search;
 import org.hibernate.search.FullTextSession;
+import org.hibernate.search.Search;
 import org.hibernate.search.query.facet.Facet;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +33,7 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-//import com.googlecode.lucene.spatial.base.context.JtsSpatialContext;
+import com.googlecode.lucene.spatial.base.context.JtsSpatialContext;
 
 /**
  *
@@ -43,11 +43,11 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"/applicationContext-test.xml" })
 public class SearchTest {
-    
+
    /**
     *
     */
-//   private SpatialContext spatialContext = new JtsSpatialContext();
+   private SpatialContext spatialContext = new JtsSpatialContext();
 
     /**
      *
@@ -129,32 +129,32 @@ public class SearchTest {
      */
     @Test
     public final void setUpTestDataWithinTransaction() throws Exception {
-//        SampleDataReader level1DataReader = new SampleDataReader(
-//                getClass().getClassLoader().getResourceAsStream("org/emonocot/model/level1.txt"));
-//        while (level1DataReader.hasNext()) {
-//            SampleData data = level1DataReader.next();
-//            Shape shape = spatialContext.readShape(data.shape);
-//            Continent continent = Continent.fromString(data.id);
-//            continent.setShape(shape);
-//        }
-//
-//        SampleDataReader level2DataReader = new SampleDataReader(
-//                getClass().getClassLoader().getResourceAsStream("org/emonocot/model/level2.txt"));
-//        while (level2DataReader.hasNext()) {
-//            SampleData data = level2DataReader.next();
-//            Shape shape = spatialContext.readShape(data.shape);
-//            Region region = Region.fromString(data.id);
-//            region.setShape(shape);
-//        }
-//        
-//        SampleDataReader level3DataReader = new SampleDataReader(
-//                getClass().getClassLoader().getResourceAsStream("org/emonocot/model/level3.txt"));
-//        while (level3DataReader.hasNext()) {
-//            SampleData data = level3DataReader.next();
-//            Shape shape = spatialContext.readShape(data.shape);
-//            Country country = Country.fromString(data.id);
-//            country.setShape(shape);
-//        }
+        SampleDataReader level1DataReader = new SampleDataReader(
+                getClass().getClassLoader().getResourceAsStream("org/emonocot/model/level1.txt"));
+        while (level1DataReader.hasNext()) {
+            SampleData data = level1DataReader.next();
+            Shape shape = spatialContext.readShape(data.shape);
+            Continent continent = Continent.fromString(data.id);
+            continent.setShape(shape);
+        }
+
+        SampleDataReader level2DataReader = new SampleDataReader(
+                getClass().getClassLoader().getResourceAsStream("org/emonocot/model/level2.txt"));
+        while (level2DataReader.hasNext()) {
+            SampleData data = level2DataReader.next();
+            Shape shape = spatialContext.readShape(data.shape);
+            Region region = Region.fromString(data.id);
+            region.setShape(shape);
+        }
+        
+        SampleDataReader level3DataReader = new SampleDataReader(
+                getClass().getClassLoader().getResourceAsStream("org/emonocot/model/level3.txt"));
+        while (level3DataReader.hasNext()) {
+            SampleData data = level3DataReader.next();
+            Shape shape = spatialContext.readShape(data.shape);
+            Country country = Country.fromString(data.id);
+            country.setShape(shape);
+        }
         doInTransaction(new Callable() {
             public Object call() {
                 FullTextSession fullTextSession = Search
@@ -188,7 +188,7 @@ public class SearchTest {
     @Test
     public final void testSearch() {
         assertNotNull("taxonDao should not be null", taxonDao);
-        Page<Taxon> page = taxonDao.search("name:Aus", null, null,
+        Page<Taxon> page = taxonDao.search("name:Aus",null, null, null,
                 new FacetName[]{FacetName.CONTINENT}, null);
         for (Taxon t : page.getRecords()) {
             System.out.println(t.getName());
@@ -210,7 +210,7 @@ public class SearchTest {
 
         selectedFacets.put(FacetName.CONTINENT, 0);
 
-       Page<Taxon> page = taxonDao.search("name:Aus", null, null,
+       Page<Taxon> page = taxonDao.search("name:Aus", null, null, null,
                new FacetName[]{FacetName.CONTINENT}, selectedFacets);
        for (Taxon t : page.getRecords()) {
            System.out.println(t.getName());
@@ -221,5 +221,20 @@ public class SearchTest {
          System.out.println(facet.getValue() + " " + facet.getCount());
        }
    }
+
+   /**
+   *
+   */
+  @Test
+  public final void testSpatialSearch() {
+      System.out.println("testSpatialSearch() should return Aus bus but not Aus ceus");
+      Page<Taxon> page = taxonDao.search(
+
+              "name:Aus", "Intersects(100.0 -40.0 155.0 -5.0)",
+              null, null, null, null);
+      for (Taxon t : page.getRecords()) {
+          System.out.println(t.getName());
+      }
+  }
 
 }

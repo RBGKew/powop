@@ -149,6 +149,7 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
 
     @Override
     public final Page<T> search(final String query,
+            final String spatialQuery,
             final Integer pageSize, final Integer pageNumber,
             final FacetName[] facets,
             final Map<FacetName, Integer> selectedFacets) {
@@ -162,6 +163,12 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
             org.apache.lucene.search.Query luceneQuery = parser.parse(query);
             FullTextQuery fullTextQuery
                 = fullTextSession.createFullTextQuery(luceneQuery);
+            if (spatialQuery != null && !spatialQuery.isEmpty()) {
+                fullTextQuery.enableFullTextFilter("spatialFilter")
+                .setParameter("levels", 24)
+                .setParameter("field", "area")
+                .setParameter("query", spatialQuery);
+            }
 
             if (pageSize != null) {
                 fullTextQuery.setMaxResults(pageSize);
