@@ -1,22 +1,11 @@
-package org.emonocot.job.checklist;
+package org.emonocot.job.common;
 
 import static org.junit.Assert.assertNotNull;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.lucene.spatial.base.context.SpatialContext;
-import org.apache.lucene.spatial.base.io.sample.SampleData;
-import org.apache.lucene.spatial.base.io.sample.SampleDataReader;
-import org.apache.lucene.spatial.base.shape.Shape;
-import org.emonocot.model.geography.Continent;
-import org.emonocot.model.geography.Country;
-import org.emonocot.model.geography.Region;
-import org.joda.time.DateTime;
-import org.joda.time.base.BaseDateTime;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -37,8 +26,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.googlecode.lucene.spatial.base.context.JtsSpatialContext;
-
 /**
  *
  * @author ben
@@ -46,15 +33,15 @@ import com.googlecode.lucene.spatial.base.context.JtsSpatialContext;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
-        "/META-INF/spring/batch/jobs/oaiPmhTaxonHarvesting.xml",
+        "/META-INF/spring/batch/jobs/reindex.xml",
         "/applicationContext-test.xml" })
-public class ChecklistHarvestingJobIntegrationTest {
+public class ReIndexingJobIntegrationTest {
 
     /**
      *
      */
     private Logger logger = LoggerFactory.getLogger(
-            ChecklistHarvestingJobIntegrationTest.class);
+            ReIndexingJobIntegrationTest.class);
 
     /**
      *
@@ -67,12 +54,6 @@ public class ChecklistHarvestingJobIntegrationTest {
      */
     @Autowired
     private JobLauncher jobLauncher;
-
-    /**
-     * 1288569600 in unix time.
-     */
-    private static final BaseDateTime PAST_DATETIME
-    = new DateTime(2010, 11, 1, 9, 0, 0, 0);
 
     /**
      *
@@ -96,23 +77,14 @@ public class ChecklistHarvestingJobIntegrationTest {
             JobParametersInvalidException {
         Map<String, JobParameter> parameters =
             new HashMap<String, JobParameter>();
-        parameters.put("authority.name", new JobParameter(
-                "http://scratchpad.cate-araceae.org"));
-        parameters.put("authority.uri", new JobParameter(
-                "http://129.67.24.160/test/oai.xml"));
-        parameters
-                .put("authority.last.harvested",
-                     new JobParameter(Long.toString((
-                     ChecklistHarvestingJobIntegrationTest.PAST_DATETIME
-                                        .getMillis()))));
-        parameters.put("request.interval", new JobParameter("10000"));
-        parameters.put("temporary.file.name", new JobParameter(File
-                .createTempFile("test", ".xml").getAbsolutePath()));
+        parameters.put("query.string", new JobParameter(
+                "from Taxon"));
+
         JobParameters jobParameters = new JobParameters(parameters);
 
         Job oaiPmhTaxonHarvestingJob = jobLocator
-                .getJob("OaiPmhTaxonHarvesting");
-        assertNotNull("OaiPmhTaxonHarvestingJob must not be null",
+                .getJob("ReIndex");
+        assertNotNull("ReIndex must not be null",
                 oaiPmhTaxonHarvestingJob);
         JobExecution jobExecution = jobLauncher.run(
                 oaiPmhTaxonHarvestingJob, jobParameters);

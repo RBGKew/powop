@@ -3,14 +3,12 @@ package org.emonocot.model.hibernate;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Fieldable;
-import org.apache.lucene.spatial.base.context.SpatialContextProvider;
+import org.apache.lucene.spatial.base.context.SpatialContext;
 import org.apache.lucene.spatial.base.prefix.GeohashSpatialPrefixGrid;
-import org.apache.lucene.spatial.base.prefix.QuadPrefixGrid;
 import org.apache.lucene.spatial.strategy.SimpleSpatialFieldInfo;
 import org.apache.lucene.spatial.strategy.SpatialFieldInfo;
 import org.apache.lucene.spatial.strategy.SpatialStrategy;
 import org.apache.lucene.spatial.strategy.prefix.DynamicPrefixStrategy;
-import org.apache.lucene.spatial.strategy.prefix.NGramPrefixGridStrategy;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.Country;
@@ -18,6 +16,8 @@ import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.Region;
 import org.hibernate.search.bridge.FieldBridge;
 import org.hibernate.search.bridge.LuceneOptions;
+
+import com.googlecode.lucene.spatial.base.context.JtsSpatialContext;
 
 /**
  *
@@ -29,8 +29,14 @@ public class DistributionBridge implements FieldBridge {
    /**
     *
     */
-   private SpatialStrategy spatialStrategy = new DynamicPrefixStrategy(new GeohashSpatialPrefixGrid(
-           SpatialContextProvider.getContext(), 24 ));
+   private SpatialContext spatialContext = new JtsSpatialContext();
+
+   /**
+    *
+    */
+   private SpatialStrategy spatialStrategy
+   = new DynamicPrefixStrategy(new GeohashSpatialPrefixGrid(
+           spatialContext, 24 ));
 
     @Override
     public final void set(final String name, final Object value,
@@ -42,14 +48,13 @@ public class DistributionBridge implements FieldBridge {
         if (geographicalRegion != null) {  // WARN this should not be null!
             SpatialFieldInfo fieldInfo = new SimpleSpatialFieldInfo("area");
 
-            for (Fieldable f : spatialStrategy
-                    .createFields(fieldInfo,
-                            geographicalRegion.getShape(), true, true)) {
+            for (Fieldable f : spatialStrategy.createFields(fieldInfo,
+                    geographicalRegion.getShape(), true, true)) {
                 if (f != null) {
                     // null if incompatibleGeometry && ignore
-                  document.add(f);
+                    document.add(f);
                 }
-              }
+            }
 
             if (geographicalRegion.getClass() == Country.class) {
                 Country country = (Country) geographicalRegion;

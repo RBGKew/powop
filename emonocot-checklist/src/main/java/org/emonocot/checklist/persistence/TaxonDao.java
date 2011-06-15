@@ -29,5 +29,5 @@ public interface TaxonDao extends IdentifiableService<Taxon> {
      * @return The taxon with an identifier matching the one provided, or throws
      *         a DataRetrievalFailureException if none match
      */
-    Taxon get(String id);
+    Taxon get(Long id);
 }

@@ -26,7 +26,7 @@ public class Taxon implements IdentifiableEntity<String> {
     /**
      * TODO Define an identifier prefix for real.
      */
-    private static final String IDENTIFIER_PREFIX = "urn:lsid:kew.org:taxon:";
+    public static final String IDENTIFIER_PREFIX = "urn:lsid:kew.org:taxon:";
 
     /**
      *

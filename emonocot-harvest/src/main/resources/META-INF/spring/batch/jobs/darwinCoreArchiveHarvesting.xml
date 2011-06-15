@@ -11,6 +11,11 @@
 	<context:annotation-config />
 
 	<batch:job id="DarwinCoreArchiveHarvesting">
+	     <batch:step id="setUp">
+			<batch:description>Set up the shape files</batch:description>
+			<batch:tasklet ref="setUpTasklet"/>
+			<batch:next on="COMPLETED" to="getDWCArchive"/>
+		</batch:step>
 		<batch:step id="getDWCArchive">
 			<batch:description>Get the darwin core archive</batch:description>
 			<batch:tasklet ref="getDWCArchiveTasklet" />
@@ -48,6 +53,14 @@
 			<batch:tasklet ref="dwcArchiveResourceDeletingTasklet" />
 		</batch:step>
 	</batch:job>
+	
+	<bean id="setUpTasklet"
+		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter">
+		<property name="targetObject" ref="initializeShapeFiles" />
+		<property name="targetMethod" value="setUp" />
+	</bean>
+	
+	<bean id="initializeShapeFiles" class="org.emonocot.harvest.common.InitializeShapeFiles"/>
 
 	<bean id="dwcArchiveResourceDeletingTasklet"
 		class="org.emonocot.harvest.common.MultiResourceDeletingTasklet"

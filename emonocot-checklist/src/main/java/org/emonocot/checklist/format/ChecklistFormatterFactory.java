@@ -17,6 +17,8 @@ public class ChecklistFormatterFactory extends
         super.installFormatters(registry);
         registry.addFormatterForFieldAnnotation(
                 new MetadataPrefixAnnotationFormatterFactory());
+        registry.addFormatterForFieldAnnotation(
+                new ChecklistIdentifierAnnotationFormatterFactory());
     }
 
 }

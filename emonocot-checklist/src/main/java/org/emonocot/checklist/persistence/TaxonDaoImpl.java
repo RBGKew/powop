@@ -48,14 +48,14 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
 
     @Override
     @Transactional(readOnly = true)
-    public final Taxon get(final String id) {
-        return (Taxon) getSession().load(Taxon.class, id);
+    public final Taxon get(final Long id) {
+        return (Taxon) getSession().get(Taxon.class, id);
     }
 
     @Override
     @Transactional(readOnly = true)
     public final ChangeEvent<Taxon> find(final Serializable identifier) {
-        Taxon taxon = get((String) identifier);
+        Taxon taxon = get((Long) identifier);
         // Taxon cannot be null because we would have thrown an exception
         // prior to this point
 

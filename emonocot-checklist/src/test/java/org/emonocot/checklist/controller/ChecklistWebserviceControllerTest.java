@@ -21,6 +21,10 @@ public class ChecklistWebserviceControllerTest {
     /**
      *
      */
+    static final Long TAXON_IDENTIFIER = 123L;
+    /**
+     *
+     */
     private ChecklistWebserviceController checklistWebserviceController;
 
     /**
@@ -70,10 +74,11 @@ public class ChecklistWebserviceControllerTest {
      */
     @Test
     public final void testGet() {
-        EasyMock.expect(taxonDao.get(EasyMock.eq("123")))
+        EasyMock.expect(taxonDao.get(EasyMock.eq(TAXON_IDENTIFIER)))
                 .andReturn(new Taxon());
         EasyMock.replay(taxonDao);
-        ModelAndView modelAndView = checklistWebserviceController.get("123");
+        ModelAndView modelAndView
+            = checklistWebserviceController.get(TAXON_IDENTIFIER);
         ModelAndViewAssert.assertViewName(modelAndView, "tcsXmlResponse");
         ModelAndViewAssert
                 .assertModelAttributeAvailable(modelAndView, "result");

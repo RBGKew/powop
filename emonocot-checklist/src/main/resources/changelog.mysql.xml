@@ -163,4 +163,17 @@ UNION ALL
        FROM  Plant_Name_Deleted
         </createView>
     </changeSet>
+    <changeSet author="ben" id="2011-06-14_1">
+      <loadData tableName="plant_name" file="src/main/resources/org/emonocot/checklist/taxon.csv">
+        <column name="Plant_name_id" index="0" type="NUMERIC"/>
+        <column name="Full_epithet" index="1" type="STRING"/>
+        <column name="Accepted_plant_name_id" index="2" type="NUMERIC"/>
+        <column name="Family" index="3" type="STRING"/>
+        <column name="Genus" index="4" type="STRING"/>
+        <column name="Species" index="5" type="STRING"/>
+        <column name="Infraspecific_rank" index="6" type="STRING"/>
+        <column name="Infraspecific_epithet" index="7" type="STRING"/>
+        <column name="Date_of_entry" index="8" type="STRING"/>
+      </loadData>    
+    </changeSet>
 </databaseChangeLog>

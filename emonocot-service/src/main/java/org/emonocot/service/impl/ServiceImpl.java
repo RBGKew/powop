@@ -1,7 +1,11 @@
 package org.emonocot.service.impl;
 
+import java.util.Map;
+
 import org.emonocot.model.common.Base;
+import org.emonocot.model.pager.Page;
 import org.emonocot.persistence.dao.Dao;
+import org.emonocot.persistence.dao.FacetName;
 import org.emonocot.service.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,5 +45,13 @@ public abstract class ServiceImpl<T extends Base, DAO extends Dao<T>> implements
     @Transactional
     public Long save(T t) {
         return dao.save(t);
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public Page<T> search(String query, String spatialQuery, Integer pageSize,
+            Integer pageNumber, FacetName[] facets,
+            Map<FacetName, Integer> selectedFacets) {
+        return dao.search(query, spatialQuery, pageSize, pageNumber, facets, selectedFacets);
     }
 }

@@ -1,7 +1,9 @@
 package org.emonocot.checklist.controller;
 
+import java.text.ParseException;
 import java.util.List;
 
+import org.emonocot.checklist.format.annotation.ChecklistIdentifierFormat;
 import org.emonocot.checklist.model.Taxon;
 import org.emonocot.checklist.persistence.TaxonDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +61,8 @@ public class ChecklistWebserviceController {
     @RequestMapping(method = RequestMethod.GET, params = { "function=search",
             "search" })
     public final ModelAndView search(
-            @RequestParam("search") final String search) {
+            @RequestParam(value = "search", required = true)
+            final String search) {
         ModelAndView modelAndView = new ModelAndView("rdfResponse");
         List<Taxon> taxa = taxonDao.search(search);
         modelAndView.addObject("result", taxa);
@@ -73,7 +76,9 @@ public class ChecklistWebserviceController {
      */
     @RequestMapping(method = RequestMethod.GET, params = {
             "function=details_tcs", "id" })
-    public final ModelAndView get(@RequestParam("id") final String id) {
+    public final ModelAndView get(
+            @RequestParam(value = "id", required = true)
+            @ChecklistIdentifierFormat final Long id) {
         ModelAndView modelAndView = new ModelAndView("tcsXmlResponse");
         Taxon taxon = taxonDao.get(id);
         modelAndView.addObject("result", taxon);
@@ -90,7 +95,8 @@ public class ChecklistWebserviceController {
      * @return A model and view with the name exception and the exception stored
      *         in the model under the key 'exception'
      */
-    @ExceptionHandler(DataRetrievalFailureException.class)
+    @ExceptionHandler({ DataRetrievalFailureException.class,
+        ParseException.class })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public final ModelAndView handleInvalidTaxonIdentifier(
             final DataRetrievalFailureException exception) {
