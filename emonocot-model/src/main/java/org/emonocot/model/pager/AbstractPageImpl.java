@@ -1,9 +1,11 @@
 package org.emonocot.model.pager;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.hibernate.search.query.facet.Facet;
 import org.slf4j.Logger;
@@ -20,8 +22,23 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
     /**
      *
      */
+    protected static final Integer MAX_PAGE_LABELS = 3;
+
+    /**
+     *
+     */
+    protected static final String LABEL_DIVIDER = " - ";
+
+    /**
+     *
+     */
     private static Logger logger = LoggerFactory
             .getLogger(AbstractPageImpl.class);
+
+    /**
+     *
+     */
+    private Map<String, Object> parameters = new HashMap<String, Object>();
 
     /**
      *
@@ -75,6 +92,22 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
         = new HashMap<String, List<Facet>>();
 
     /**
+     *
+     */
+    private Map<Integer, String> pageNumbers;
+
+    /**
+     *
+     */
+    private ArrayList<Integer> indices;
+
+    /**
+     *
+     */
+    private Map<String, Integer> selectedFacets
+        = new HashMap<String, Integer>();
+
+    /**
      * Constructor.
      *
      * @param newCurrentIndex
@@ -97,13 +130,75 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
         }
 
         this.pageSize = newPageSize;
+        this.pageNumbers = new HashMap<Integer, String>();
+        indices = new ArrayList<Integer>();
         if (count == 0) {
             pagesAvailable = 1;
         } else if (newPageSize != null) {
             if (0 == count % newPageSize) {
                 pagesAvailable = count / newPageSize;
+
+                Integer labelsStart = 0;
+                if (this.currentIndex > AbstractPageImpl.MAX_PAGE_LABELS) {
+                    labelsStart = this.currentIndex
+                            - AbstractPageImpl.MAX_PAGE_LABELS;
+                }
+
+                Integer labelsEnd = pagesAvailable.intValue();
+                if ((pagesAvailable - this.currentIndex)
+                          > AbstractPageImpl.MAX_PAGE_LABELS) {
+                    labelsEnd = this.currentIndex
+                            + AbstractPageImpl.MAX_PAGE_LABELS;
+                }
+
+                for (int index = labelsStart; index < labelsEnd; index++) {
+                    indices.add(index);
+                    String startLabel = getLabel(index * pageSize);
+                    String endLabel = getLabel(((index + 1) * pageSize) - 1);
+                    pageNumbers.put(index, createLabel(startLabel, endLabel));
+                }
             } else {
                 pagesAvailable = (count / newPageSize) + 1;
+
+                Integer labelsStart = 0;
+                if (this.currentIndex > AbstractPageImpl.MAX_PAGE_LABELS) {
+                    labelsStart = this.currentIndex
+                            - AbstractPageImpl.MAX_PAGE_LABELS;
+                }
+
+                Integer labelsEnd = pagesAvailable.intValue();
+                if ((pagesAvailable - this.currentIndex)
+                        > AbstractPageImpl.MAX_PAGE_LABELS) {
+                    labelsEnd = this.currentIndex
+                            + AbstractPageImpl.MAX_PAGE_LABELS;
+                    for (int index = labelsStart; index < labelsEnd; index++) {
+                        indices.add(index);
+
+                        String startLabel = getLabel(index * pageSize);
+                        String endLabel =
+                            getLabel(((index + 1) * pageSize) - 1);
+                        pageNumbers.put(index,
+                                createLabel(startLabel, endLabel));
+                    }
+
+                } else {
+                    for (int index = labelsStart;
+                         index < (labelsEnd - 1); index++) {
+                        indices.add(index);
+                        String startLabel = getLabel(index * pageSize);
+                        String endLabel
+                            = getLabel(((index + 1) * pageSize) - 1);
+                        pageNumbers.put(index,
+                                createLabel(startLabel, endLabel));
+                    }
+                    indices.add(pagesAvailable.intValue() - 1);
+                    String startLabel = getLabel((pagesAvailable.intValue() - 1)
+                            * pageSize);
+                    String endLabel = getLabel(count.intValue() - 1);
+                    pageNumbers.put(pagesAvailable.intValue() - 1,
+                            createLabel(startLabel, endLabel));
+                }
+
             }
         } else {
             pagesAvailable = 1;
@@ -212,7 +307,91 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
     }
 
     @Override
-    public final List<Facet> getFacets(final String facetName) {
-        return facets.get(facetName);
+    public final Map<String, List<Facet>> getFacets() {
+        return facets;
+    }
+
+    @Override
+    public final Set<String> getFacetNames() {
+        return facets.keySet();
+    }
+
+    @Override
+    public final void putParam(final String name, final Object value) {
+        this.parameters.put(name, value);
+    }
+
+    @Override
+    public final Map<String, Object> getParams() {
+        return parameters;
+    }
+
+    @Override
+    public final String getPageNumber(final int index) {
+        return pageNumbers.get(index);
+    }
+
+    /**
+     *
+     * @param i set the index
+     * @return the label
+     */
+    protected final String getLabel(final Integer i) {
+        Integer label = new Integer(i + 1);
+        return label.toString();
+    }
+
+    /**
+     *
+     * @param startLabel Set the start label
+     * @param endLabel Set the end label
+     * @return a page label
+     */
+    protected abstract String createLabel(String startLabel, String endLabel);
+
+    /**
+     *
+     * @return the list of indices for which we have a page label
+     */
+    public final List<Integer> getIndices() {
+        return indices;
+    }
+
+    /**
+     *
+     * @return a list of the names of selected facets
+     */
+    public final Set<String> getSelectedFacetNames() {
+        return selectedFacets.keySet();
+    }
+
+    /**
+     *
+     * @return The index of the selected facet, or null if the facet is not
+     *         selected
+     */
+    public final Map<String, Integer> getSelectedFacets() {
+        return selectedFacets;
+    }
+
+    /**
+     *
+     * @param facetName
+     *            Set the facet name
+     * @return true if the facet is selected, false otherwise
+     */
+    public final boolean isFacetSelected(final String facetName) {
+        return selectedFacets.containsKey(facetName);
+    }
+
+    /**
+     * @param facetName
+     *            Set the facet name
+     * @param selected
+     *            Set the index of the selected facet
+     */
+    public final void setSelectedFacet(final String facetName,
+            final Integer selected) {
+        selectedFacets.put(facetName, selected);
     }
 }

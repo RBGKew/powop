@@ -1,6 +1,8 @@
 package org.emonocot.model.pager;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.hibernate.search.query.facet.Facet;
 
@@ -94,8 +96,70 @@ public interface Page<T> {
 
     /**
      *
-     * @param facetName The name of the facets you're interested in
-     * @return a list of facets
+     * @return a map of facet lists organised by the name of the facet
      */
-    List<Facet> getFacets(String facetName);
+    Map<String, List<Facet>> getFacets();
+
+   /**
+    *
+    * @return a list of the names of available facets
+    */
+   Set<String> getFacetNames();
+
+    /**
+     *
+     * @param name Set the name of the parameter
+     * @param value Set the value of the parameter
+     */
+    void putParam(String name, Object value);
+
+    /**
+    *
+    * @return the parameters
+    */
+   Map<String, Object> getParams();
+
+    /**
+     * Get a string label for a given page (NOTE: Labels may not be calculated
+     * for each page in the result set, especially if the result set is large or
+     * the operation for calculating the label is expensive. The indices of the
+     * pages for which labels are available are given by {@link #getIndices()}.
+     *
+     * @param index The index of the page you want a label for
+     * @return A label for the page indicated or null if this pager has not
+     *         calculated a label for that page
+     */
+   String getPageNumber(int index);
+
+    /**
+     * Get a list of page indices for which labels are available.
+     *
+     * @return A list of indices
+     */
+   List<Integer> getIndices();
+
+  /**
+   *
+   * @return a list of the names of selected facets
+   */
+  Set<String> getSelectedFacetNames();
+
+    /**
+     *
+     * @return The selected facets
+     */
+  Map<String, Integer> getSelectedFacets();
+
+  /**
+   *
+   * @param facetName Set the facet name
+   * @return true if the facet is selected, false otherwise
+   */
+  boolean isFacetSelected(String facetName);
+
+  /**
+   * @param facetName Set the facet name
+   * @param selected Set the index of the selected facet
+   */
+  void setSelectedFacet(String facetName, Integer selected);
 }

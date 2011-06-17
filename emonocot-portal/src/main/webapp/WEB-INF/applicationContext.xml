@@ -17,6 +17,9 @@
     <context:component-scan base-package="org.emonocot.service.impl"/>
     <context:component-scan base-package="org.emonocot.persistence.dao.hibernate"/>
     
+    <bean id="conversionService"
+      class="org.emonocot.portal.format.PortalFormatterFactory"/>
+    
     <tx:annotation-driven/>
     
     <bean name="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">

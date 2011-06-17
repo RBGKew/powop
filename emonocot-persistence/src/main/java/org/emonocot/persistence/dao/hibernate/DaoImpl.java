@@ -3,6 +3,7 @@ package org.emonocot.persistence.dao.hibernate;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.util.Version;
@@ -147,6 +148,12 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
   protected abstract FacetingRequest createFacetingRequest(
           final FacetContext facetContext, final FacetName facetName);
 
+  /**
+   *
+   * @return the fields to search by default
+   */
+  protected abstract String[] getDocumentFields();
+
     @Override
     public final Page<T> search(final String query,
             final String spatialQuery,
@@ -156,11 +163,19 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
         FullTextSession fullTextSession
          = Search.getFullTextSession(getSession());
         SearchFactory searchFactory = fullTextSession.getSearchFactory();
-        QueryParser parser
-            = new QueryParser(Version.LUCENE_31, "title",
-                    searchFactory.getAnalyzer(type));
+
         try {
-            org.apache.lucene.search.Query luceneQuery = parser.parse(query);
+            org.apache.lucene.search.Query luceneQuery = null;
+            QueryParser parser
+            = new MultiFieldQueryParser(Version.LUCENE_31, getDocumentFields(),
+                    searchFactory.getAnalyzer(type));
+            if (query != null && !query.equals("")) {
+               luceneQuery = parser.parse(query);
+            } else {
+                QueryBuilder queryBuilder
+                    = searchFactory.buildQueryBuilder().forEntity(type).get();
+                luceneQuery = queryBuilder.all().createQuery();
+            }
             FullTextQuery fullTextQuery
                 = fullTextSession.createFullTextQuery(luceneQuery);
             if (spatialQuery != null && !spatialQuery.isEmpty()) {
@@ -213,6 +228,12 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
                 for (FacetName facetName : facets) {
                     page.addFacets(facetName.name(),
                         facetManager.getFacets(facetName.name()));
+                }
+            }
+            if (selectedFacets != null && !selectedFacets.isEmpty()) {
+                for (FacetName facetName : selectedFacets.keySet()) {
+                    page.setSelectedFacet(facetName.name(),
+                            selectedFacets.get(facetName));
                 }
             }
 

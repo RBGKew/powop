@@ -1,0 +1,11 @@
+#search {border: solid thin}
+#pages {float:left}
+#pageSize {list-style: none; margin: 0px; padding: 0px; float: right}
+#pageSize li {display:inline; padding: 0.5em}
+#pageNumber {list-style: none; margin: 0px; padding: 0px; clear:both}
+#pageNumber li {display:inline}
+#pageNumber li:before {content: "| ";}
+#pageNumber li:first-child:before {content: "";}
+#facets {border: thin solid; float: left; width: 20%; list-style:none}
+#results { float: left; width: 70%; list-style:none}
+.facet {list-style:none}

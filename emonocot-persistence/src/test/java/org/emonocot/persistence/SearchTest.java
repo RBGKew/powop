@@ -130,7 +130,8 @@ public class SearchTest {
     @Test
     public final void setUpTestDataWithinTransaction() throws Exception {
         SampleDataReader level1DataReader = new SampleDataReader(
-                getClass().getClassLoader().getResourceAsStream("org/emonocot/model/level1.txt"));
+                getClass().getClassLoader()
+                .getResourceAsStream("org/emonocot/model/level1.txt"));
         while (level1DataReader.hasNext()) {
             SampleData data = level1DataReader.next();
             Shape shape = spatialContext.readShape(data.shape);
@@ -139,16 +140,18 @@ public class SearchTest {
         }
 
         SampleDataReader level2DataReader = new SampleDataReader(
-                getClass().getClassLoader().getResourceAsStream("org/emonocot/model/level2.txt"));
+                getClass().getClassLoader()
+                .getResourceAsStream("org/emonocot/model/level2.txt"));
         while (level2DataReader.hasNext()) {
             SampleData data = level2DataReader.next();
             Shape shape = spatialContext.readShape(data.shape);
             Region region = Region.fromString(data.id);
             region.setShape(shape);
         }
-        
+
         SampleDataReader level3DataReader = new SampleDataReader(
-                getClass().getClassLoader().getResourceAsStream("org/emonocot/model/level3.txt"));
+                getClass().getClassLoader()
+                .getResourceAsStream("org/emonocot/model/level3.txt"));
         while (level3DataReader.hasNext()) {
             SampleData data = level3DataReader.next();
             Shape shape = spatialContext.readShape(data.shape);
@@ -163,10 +166,10 @@ public class SearchTest {
                 Taxon taxon1 = createTaxon("Aus", null, null,
                         new GeographicalRegion[] {});
                 Taxon taxon2 = createTaxon("Aus bus", taxon1, null,
-                        new GeographicalRegion[] { Continent.AUSTRALASIA,
+                        new GeographicalRegion[] {Continent.AUSTRALASIA,
                                 Region.BRAZIL, Region.CARIBBEAN });
                 Taxon taxon3 = createTaxon("Aus ceus", taxon1, null,
-                        new GeographicalRegion[] { Region.NEW_ZEALAND });
+                        new GeographicalRegion[] {Region.NEW_ZEALAND});
                 Taxon taxon4 = createTaxon("Aus deus", null, taxon2,
                         new GeographicalRegion[] {});
                 Taxon taxon5 = createTaxon("Aus eus", null, taxon3,
@@ -188,14 +191,14 @@ public class SearchTest {
     @Test
     public final void testSearch() {
         assertNotNull("taxonDao should not be null", taxonDao);
-        Page<Taxon> page = taxonDao.search("name:Aus",null, null, null,
+        Page<Taxon> page = taxonDao.search("name:Aus", null, null, null,
                 new FacetName[]{FacetName.CONTINENT}, null);
         for (Taxon t : page.getRecords()) {
             System.out.println(t.getName());
         }
 
         for (Facet facet
-                : page.getFacets(FacetName.CONTINENT.name())) {
+                : page.getFacets().get(FacetName.CONTINENT.name())) {
           System.out.println(facet.getValue() + " " + facet.getCount());
         }
     }
@@ -217,7 +220,7 @@ public class SearchTest {
        }
 
        for (Facet facet
-               : page.getFacets(FacetName.CONTINENT.name())) {
+               : page.getFacets().get(FacetName.CONTINENT.name())) {
          System.out.println(facet.getValue() + " " + facet.getCount());
        }
    }
@@ -227,7 +230,8 @@ public class SearchTest {
    */
   @Test
   public final void testSpatialSearch() {
-      System.out.println("testSpatialSearch() should return Aus bus but not Aus ceus");
+      System.out.println(
+              "testSpatialSearch() should return Aus bus but not Aus ceus");
       Page<Taxon> page = taxonDao.search(
 
               "name:Aus", "Intersects(100.0 -40.0 155.0 -5.0)",

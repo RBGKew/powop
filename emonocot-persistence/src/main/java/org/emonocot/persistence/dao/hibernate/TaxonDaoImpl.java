@@ -41,6 +41,14 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
 
     /**
      *
+     * @return the fields to search by default
+     */
+    protected final String[] getDocumentFields() {
+        return new String[] {"title", "name"};
+    }
+
+    /**
+     *
      */
     public TaxonDaoImpl() {
         super(Taxon.class);
@@ -61,8 +69,8 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
         case CONTINENT:
             facetingRequest = facetContext.name(facetName.name())
                     .onField("continent").discrete()
-                    .orderedBy(FacetSortOrder.COUNT_DESC)
-                    .includeZeroCounts(false).maxFacetCount(10)
+                    .orderedBy(FacetSortOrder.FIELD_VALUE)
+                    .includeZeroCounts(true)
                     .createFacetingRequest();
             break;
         default:

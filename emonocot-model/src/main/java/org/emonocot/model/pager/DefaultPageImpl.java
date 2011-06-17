@@ -14,6 +14,10 @@ public class DefaultPageImpl<T> extends AbstractPageImpl<T> {
      *
      */
     private static final long serialVersionUID = 7342101588074430414L;
+    /**
+     *
+     */
+    public static final Integer MAX_PAGE_LABELS = null;
 
     /**
      *
@@ -31,5 +35,11 @@ public class DefaultPageImpl<T> extends AbstractPageImpl<T> {
     public DefaultPageImpl(final Integer count, final Integer newCurrentIndex,
             final Integer newPageSize, final List<T> newRecords) {
         super(count, newCurrentIndex, newPageSize, newRecords);
+    }
+
+    @Override
+    public final String createLabel(
+            final String startLabel, final String endLabel) {
+        return startLabel + AbstractPageImpl.LABEL_DIVIDER + endLabel;
     }
 }
