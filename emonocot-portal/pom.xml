@@ -94,7 +94,7 @@
 				<version>1.0-beta-3</version>
 				<configuration>
 					<fromDir>src/main/static</fromDir>
-					<includes>*</includes>
+					<includes>**</includes>
 					<url>${wagon.portal.static.url}</url>
 				</configuration>
 			</plugin>
