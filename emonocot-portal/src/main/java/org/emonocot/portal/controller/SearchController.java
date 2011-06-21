@@ -11,7 +11,9 @@ import org.emonocot.portal.format.annotation.FacetRequestFormat;
 import org.emonocot.service.TaxonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,10 +37,11 @@ public class SearchController {
     public final void setTaxonService(final TaxonService taxonService) {
         this.taxonService = taxonService;
     }
+
     /**
      * @return the name of the index view
      */
-    @RequestMapping(value = "/index")
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
     public final String index() {
             return "index";
     }
@@ -51,7 +54,7 @@ public class SearchController {
      * @param facets The facets to set
      * @return a model and view
      */
-    @RequestMapping("/search")
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
     public final ModelAndView search(
             @RequestParam(value = "query", required = false) final String query,
             @RequestParam(value = "limit",
@@ -86,6 +89,18 @@ public class SearchController {
         result.putParam("query", query);
 
         modelAndView.addObject("result", result);
+        return modelAndView;
+    }
+
+    /**
+     * @param identifier Set the identifier of the taxon
+     * @return A model and view containing a taxon
+     */
+    @RequestMapping(value = "/taxon/{identifier}", method = RequestMethod.GET)
+    public final ModelAndView getTaxon(@PathVariable final String identifier) {
+        ModelAndView modelAndView = new ModelAndView("taxonPage");
+        modelAndView
+          .addObject(taxonService.load(identifier, "taxon-page"));
         return modelAndView;
     }
 }

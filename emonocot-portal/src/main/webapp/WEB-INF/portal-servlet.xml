@@ -9,7 +9,19 @@
 
     <context:component-scan base-package="org.emonocot.portal" />
     
-    <mvc:annotation-driven conversion-service="conversionService"/>
+    <!-- Due to https://jira.springsource.org/browse/SPR-6164 we need to include this to prevent uri's with dots being truncated -->
+    
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="webBindingInitializer" ref="webBindingInitializer"/>
+    </bean>
+    
+    <bean id="webBindingInitializer" class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+      <property name="conversionService" ref="conversionService"/>
+    </bean>
+
+    <bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+      <property name="useDefaultSuffixPattern" value="false"/>
+    </bean>
 
     <!-- All views are JSPs loaded from /WEB-INF/jsp -->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">

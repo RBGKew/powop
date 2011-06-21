@@ -39,7 +39,7 @@
           </c:forEach>
           <input type="submit" value="go" name="submit"/>
         </form>
-        <div id="pages"><spring:message code="pager.message" arguments="${result.firstRecord}, ${result.lastRecord}"/><jsp:expression>result.size()</jsp:expression></div>
+        <div id="pages"><spring:message code="pager.message" arguments="${result.firstRecord}, ${result.lastRecord}"/> <jsp:expression>result.size()</jsp:expression></div>
         <jsp:scriptlet>
           Integer[] pageSizes =  new Integer[] {10,20,50,100};
           request.setAttribute("pageSizes",pageSizes);
@@ -235,7 +235,7 @@
       </ul>
       <ul id="results">      
         <c:forEach var="taxon" items="${result.records}">
-          <li>${taxon.name}</li>
+          <li><a href="taxon/${taxon.identifier}">${taxon.name}</a></li>
         </c:forEach>
       </ul>
     </body>

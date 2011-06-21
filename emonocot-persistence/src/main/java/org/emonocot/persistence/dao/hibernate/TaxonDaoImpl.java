@@ -37,6 +37,13 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
                 new Fetch("children", FetchMode.SELECT),
                 new Fetch("synonyms", FetchMode.SELECT)
         });
+        FETCH_PROFILES.put("taxon-page", new Fetch[] {
+                new Fetch("parent", FetchMode.JOIN),
+                new Fetch("accepted", FetchMode.JOIN),
+                new Fetch("children", FetchMode.SELECT),
+                new Fetch("synonyms", FetchMode.SELECT),
+                new Fetch("distribution", FetchMode.SELECT)
+        });
     }
 
     /**
