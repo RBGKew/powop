@@ -149,7 +149,7 @@
 		<property name="lineMapper" ref="lineMapper" />
 	</bean>
 
-	<bean id="itemProcessor" class="org.emonocot.job.dwc.TaxonValidator" />
+	<bean id="itemProcessor" class="org.emonocot.job.dwc.taxon.TaxonValidator" />
 
 	<bean id="lineMapper"
 		class="org.springframework.batch.item.file.mapping.DefaultLineMapper"
@@ -169,7 +169,7 @@
 		</property>
 	</bean>
 
-	<bean id="fieldSetMapper" class="org.emonocot.job.dwc.TaxonFieldSetMapper" />
+	<bean id="fieldSetMapper" class="org.emonocot.job.dwc.taxon.TaxonFieldSetMapper" />
 
 	<bean id="itemWriter"
 		class="org.springframework.batch.item.database.HibernateItemWriter">

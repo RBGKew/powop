@@ -1,24 +1,17 @@
 package org.emonocot.job.checklist;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.Callable;
 
+import org.emonocot.harvest.common.TaxonRelationship;
+import org.emonocot.harvest.common.TaxonRelationshipResolver;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.GeographyConverter;
 import org.emonocot.model.taxon.Taxon;
-import org.emonocot.service.TaxonService;
 import org.hibernate.engine.Status;
 import org.openarchives.pmh.Record;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.ChunkListener;
-import org.springframework.batch.core.ItemWriteListener;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.tdwg.voc.DefinedTermLinkType;
 import org.tdwg.voc.Distribution;
@@ -35,7 +28,8 @@ import org.tdwg.voc.TaxonRelationshipTerm;
  *
  */
 public class OaiPmhRecordProcessor
-    implements ItemProcessor<Record, Taxon>, ChunkListener, ItemWriteListener<Taxon> {
+    extends TaxonRelationshipResolver
+    implements ItemProcessor<Record, Taxon> {
 
    /**
     *
@@ -43,68 +37,11 @@ public class OaiPmhRecordProcessor
     private Logger logger
         = LoggerFactory.getLogger(OaiPmhRecordProcessor.class);
 
-   /**
-    *
-    */
-   private Map<String, Taxon> taxaWithinChunk = new HashMap<String, Taxon>();
-
-   /**
-    *
-    */
-   private Set<TaxonRelationship> taxonRelationships
-       = new HashSet<TaxonRelationship>();
-
     /**
      *
      */
     private Converter<String, GeographicalRegion>
         geographyConverter = new GeographyConverter();
-
-   /**
-    *
-    */
-   private TaxonService taxonService;
-
-   /**
-    *
-    * @param taxonService Set the taxon service
-    */
-   @Autowired
-   public final void setTaxonService(final TaxonService taxonService) {
-       this.taxonService = taxonService;
-   }
-
-   /**
-   *
-   * @param identifier the identifier of the taxon you want to resolve
-   * @return A callable which resolves to a Taxon
-   */
-   public final Callable<Taxon> resolve(final String identifier) {
-       return new Callable<Taxon>() {
-           public Taxon call() {
-               if (taxaWithinChunk.containsKey(identifier)) {
-                   return taxaWithinChunk.get(identifier);
-               } else {
-                   Taxon taxon = taxonService.find(identifier,
-                           "taxon-with-related");
-                   if (taxon == null) {
-                       taxon = new Taxon();
-                       taxon.setIdentifier(identifier);
-                       taxaWithinChunk.put(identifier, taxon);
-                   }
-                   return taxon;
-               }
-           }
-       };
-   }
-
-  /**
-   *
-   * @param taxon The taxon itself
-   */
-  public final void bind(final Taxon taxon) {
-      taxaWithinChunk.put(taxon.getIdentifier(), taxon);
-  }
 
     @Override
     public final Taxon process(final Record record) throws Exception {
@@ -153,7 +90,7 @@ public class OaiPmhRecordProcessor
     private void processTaxon(
             final Taxon taxon, final TaxonConcept taxonConcept) {
         taxon.setIdentifier(taxonConcept.getIdentifier().toString());
-        bind(taxon);
+        super.bind(taxon);
         if (taxonConcept.getHasName() != null) {
             logger.info(taxonConcept.getHasName().getNameComplete());
             taxon.setName(taxonConcept.getHasName().getNameComplete());
@@ -161,8 +98,8 @@ public class OaiPmhRecordProcessor
             taxon.setName(taxonConcept.getTitle());
         }
         if (taxonConcept.getHasRelationship() != null) {
-            for (Relationship relationship :
-                taxonConcept.getHasRelationship()) {
+            for (Relationship relationship
+                : taxonConcept.getHasRelationship()) {
                 addRelationship(taxon, relationship);
             }
         }
@@ -217,8 +154,7 @@ public class OaiPmhRecordProcessor
 
         TaxonRelationshipTerm term = resolveRelationshipTerm(relationship
                 .getRelationshipCategoryRelation());
-        this.taxonRelationships.add(new TaxonRelationship(taxon, term,
-                resolve(identifier)));
+        addTaxonRelationship(new TaxonRelationship(taxon, term), identifier);
     }
 
     /**
@@ -260,101 +196,5 @@ public class OaiPmhRecordProcessor
             return TaxonRelationshipTerm.fromValue(relationshipCategory
                     .getResource().toString());
         }
-    }
-
-    @Override
-    public final void beforeChunk() {
-        logger.info("Before Chunk");
-        this.taxonRelationships = new HashSet<TaxonRelationship>();
-        this.taxaWithinChunk = new HashMap<String, Taxon>();
-    }
-
-    @Override
-    public final void afterChunk() {
-        logger.info("After Chunk");
-    }
-
-    /**
-     *
-     * @author ben
-     *
-     */
-    class TaxonRelationship {
-        /**
-         *
-         */
-        private Taxon from;
-        /**
-         *
-         */
-        private TaxonRelationshipTerm term;
-        /**
-         *
-         */
-        private Callable<Taxon> to;
-
-        /**
-         *
-         * @param newFrom Set the from taxon
-         * @param newTerm Set relationship type
-         * @param newTo Set a callable representing the to taxon
-         */
-        TaxonRelationship(final Taxon newFrom,
-                final TaxonRelationshipTerm newTerm,
-                final Callable<Taxon> newTo) {
-            this.from = newFrom;
-            this.term = newTerm;
-            this.to = newTo;
-        }
-    }
-
-    @Override
-    public void afterWrite(final List<? extends Taxon> results) {
-
-    }
-
-    @Override
-    public final void beforeWrite(final List<? extends Taxon> results) {
-        logger.info("Before Write");
-        for (TaxonRelationship taxonRelationship : taxonRelationships) {
-            TaxonRelationshipTerm term = taxonRelationship.term;
-            Taxon taxon = taxonRelationship.from;
-            Taxon related = null;
-            try {
-                related = taxonRelationship.to.call();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            if (term.equals(TaxonRelationshipTerm.IS_SYONYM_FOR)) {
-                if (!related.getSynonyms().contains(taxon)) {
-                    taxon.setAccepted(related);
-                    related.getSynonyms().add(taxon);
-                }
-            } else if (term.equals(TaxonRelationshipTerm.HAS_SYNONYM)) {
-                if (!taxon.getSynonyms().contains(related)) {
-                    related.setAccepted(taxon);
-                    taxon.getSynonyms().add(related);
-                }
-            } else if (term.equals(TaxonRelationshipTerm.IS_CHILD_TAXON_OF)) {
-                if (!related.getChildren().contains(taxon)) {
-                    taxon.setParent(related);
-                    related.getChildren().add(taxon);
-                }
-            } else if (term.equals(TaxonRelationshipTerm.IS_PARENT_TAXON_OF)) {
-                if (!taxon.getChildren().contains(related)) {
-                    related.setParent(taxon);
-                    taxon.getChildren().add(related);
-                }
-            }
-        }
-
-        taxaWithinChunk.clear();
-        taxonRelationships.clear();
-    }
-
-    @Override
-    public void onWriteError(
-            final Exception exception, final List<? extends Taxon> results) {
-
     }
 }

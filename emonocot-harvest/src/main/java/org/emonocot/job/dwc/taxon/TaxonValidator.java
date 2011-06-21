@@ -1,4 +1,4 @@
-package org.emonocot.job.dwc;
+package org.emonocot.job.dwc.taxon;
 
 import org.emonocot.model.taxon.Taxon;
 import org.springframework.batch.item.ItemProcessor;
