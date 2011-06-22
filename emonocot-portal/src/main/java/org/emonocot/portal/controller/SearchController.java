@@ -9,6 +9,8 @@ import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.dao.FacetName;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
 import org.emonocot.service.TaxonService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +26,12 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class SearchController {
+    
+    /**
+    *
+    */
+   private static Logger queryLog
+       = LoggerFactory.getLogger("query");
     /**
      *
      */
@@ -72,6 +80,7 @@ public class SearchController {
          */
 
         ModelAndView modelAndView = new ModelAndView("searchResponse");
+        
 
         Map<FacetName, Integer> selectedFacets = null;
         if (facets != null) { // && !facets.isEmpty()
@@ -85,6 +94,8 @@ public class SearchController {
         Page<Taxon> result = taxonService.search(
                 query, null, limit, start,
                 new FacetName[]{FacetName.CONTINENT}, selectedFacets);
+        queryLog.info("Query: \'{}\', start: {}, limit: {}, facet: [{}], {} results",
+                new Object[]{query, start, limit, selectedFacets, result.size()});
 
         result.putParam("query", query);
 

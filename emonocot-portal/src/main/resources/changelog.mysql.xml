@@ -382,4 +382,71 @@
           <column name="Taxon_id"/>
         </createIndex>
     </changeSet>
+    <changeSet author="ben" id="2011-06-22_1">
+      <createTable tableName="logging_event">
+            <column name="event_id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="timestmp" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="formatted_message" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="logger_name" type="varchar(254)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="level_string" type="varchar(254)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="thread_name" type="varchar(254)"/>
+            <column name="reference_flag" type="smallint"/>
+            <column name="caller_filename" type="varchar(254)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="caller_class" type="varchar(254)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="caller_method" type="varchar(254)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="caller_line" type="char(4)">
+                <constraints nullable="false"/>
+            </column>
+      </createTable>
+    </changeSet>
+    <changeSet author="ben" id="2011-06-22_2">
+      <createTable tableName="logging_event_property">
+            <column name="event_id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="mapped_key" type="varchar(254)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="mapped_value" type="text"/>
+      </createTable>
+    </changeSet>
+    <changeSet author="ben" id="2011-06-22_3">
+      <createTable tableName="logging_event_exception">
+            <column name="event_id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="i" type="smallint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="trace_line" type="varchar(254)">
+              <constraints nullable="false"/>
+            </column>
+      </createTable>
+    </changeSet>
+    <changeSet author="ben" id="2011-06-22_4">
+        <addForeignKeyConstraint constraintName="FK_logging_event_property_logging_event" baseTableName="logging_event_property" baseColumnNames="event_id"
+           referencedTableName="logging_event" referencedColumnNames="event_id"
+        />
+    </changeSet>
+    <changeSet author="ben" id="2011-06-22_5">
+        <addForeignKeyConstraint constraintName="FK_logging_event_exception_logging_event" baseTableName="logging_event_exception" baseColumnNames="event_id"
+           referencedTableName="logging_event" referencedColumnNames="event_id"
+        />
+    </changeSet>
 </databaseChangeLog>

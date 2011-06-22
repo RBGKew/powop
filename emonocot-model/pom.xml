@@ -96,6 +96,18 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+		</dependency>
+		<dependency>
+          <groupId>ch.qos.logback</groupId>
+          <artifactId>logback-classic</artifactId>
+        </dependency>
+        <dependency>
+		  <groupId>org.springframework</groupId>
+		  <artifactId>org.springframework.web</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
