@@ -6,7 +6,7 @@
       <dataSource
         class="org.apache.commons.dbcp.BasicDataSource">
         <driverClassName>${jdbc.driver.classname}</driverClassName>
-        <url>${jdbc.driver.url}?useUnicode=true&amp;characterEncoding=utf-8</url>
+        <url>${jdbc.driver.url}?useUnicode=true&amp;characterEncoding=utf-8&amp;useCursorFetch=true&amp;useServerPrepStmts=true</url>
         <username>${jdbc.driver.username}</username>
         <password>${jdbc.driver.password}</password>
         <maxActive>15</maxActive>
@@ -18,7 +18,7 @@
   <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <File>${logging.portal.location}</File>
     <encoder>
-      <pattern>%d{ABSOLUTE} | %-5p | %t | %c | %m%n</pattern>
+      <pattern>%d{ISO8601} | %X{req.remoteHost} | %X{req.requestURI} | %X{req.userAgent}  | %-5p | %t | %c | %m%n</pattern>
     </encoder>
     <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
       <maxIndex>1</maxIndex>
@@ -30,7 +30,7 @@
   </appender>
   <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
-      <pattern>%d{ABSOLUTE} | %-5p | %t | %c | %m%n</pattern>
+      <pattern>%d{ISO8601} | %X{req.remoteHost} | %X{req.requestURI} | %X{req.userAgent}  | %-5p | %t | %c | %m%n</pattern>
     </encoder>
   </appender>
   <logger name="query" level="INFO" additivity="false">

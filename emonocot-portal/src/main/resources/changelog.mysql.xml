@@ -384,7 +384,7 @@
     </changeSet>
     <changeSet author="ben" id="2011-06-22_1">
       <createTable tableName="logging_event">
-            <column name="event_id" type="int" autoIncrement="true">
+            <column name="event_id" type="bigint" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="timestmp" type="bigint">
@@ -401,6 +401,10 @@
             </column>
             <column name="thread_name" type="varchar(254)"/>
             <column name="reference_flag" type="smallint"/>
+            <column name="arg0" type="varchar(254)"/>
+            <column name="arg1" type="varchar(254)"/>
+            <column name="arg2" type="varchar(254)"/>
+            <column name="arg3" type="varchar(254)"/>
             <column name="caller_filename" type="varchar(254)">
                 <constraints nullable="false"/>
             </column>
@@ -417,7 +421,7 @@
     </changeSet>
     <changeSet author="ben" id="2011-06-22_2">
       <createTable tableName="logging_event_property">
-            <column name="event_id" type="int">
+            <column name="event_id" type="bigint">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="mapped_key" type="varchar(254)">
@@ -428,7 +432,7 @@
     </changeSet>
     <changeSet author="ben" id="2011-06-22_3">
       <createTable tableName="logging_event_exception">
-            <column name="event_id" type="int">
+            <column name="event_id" type="bigint">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="i" type="smallint">
