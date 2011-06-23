@@ -6,20 +6,23 @@
   <jsp:directive.page contentType="text/html" pageEncoding="UTF-8"/>
   <jsp:output omit-xml-declaration="true" />
   <jsp:output doctype-root-element="HTML" doctype-system="about:legacy-compat"/>
-  <html>
-    <head>                              
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
-        <meta http-equiv="Content-Language" content="en" />
-        <link rel="stylesheet" type="text/CSS" href="css/style.css"/>
-    </head>  
+  <html class="no-js" lang="en" dir="ltr">
+    <jsp:include page="/WEB-INF/jsp/head.jsp"/>
     <body>
-      <h2><spring:message code="eMonocot" /></h2>
-      <div id="search">
-        <form id="search.form" accept-charset="UTF-8" method="GET" action="search">
-          <input type="text" placeholder="search" name="query"/>
-          <input type="submit" value="go" name="submit"/>
-        </form>
+      <div class="container">
+        <jsp:include page="/WEB-INF/jsp/header.jsp"/>
+        <div class="row">
+          <div class="twelvecol">
+            <div id ="search">
+              <form id="search.form" accept-charset="UTF-8" method="GET" action="search">
+                <input type="text" placeholder="search" name="query"/>
+                <input type="submit" value="go" name="submit"/>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
+      <jsp:include page="/WEB-INF/jsp/footer.jsp"/>
     </body>
   </html>
 </jsp:root>

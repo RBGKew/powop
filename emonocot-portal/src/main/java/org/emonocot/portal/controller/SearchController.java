@@ -2,7 +2,6 @@ package org.emonocot.portal.controller;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.emonocot.model.pager.Page;
 import org.emonocot.model.taxon.Taxon;
@@ -26,7 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class SearchController {
-    
+
     /**
     *
     */
@@ -80,7 +79,7 @@ public class SearchController {
          */
 
         ModelAndView modelAndView = new ModelAndView("searchResponse");
-        
+
 
         Map<FacetName, Integer> selectedFacets = null;
         if (facets != null) { // && !facets.isEmpty()
@@ -94,8 +93,10 @@ public class SearchController {
         Page<Taxon> result = taxonService.search(
                 query, null, limit, start,
                 new FacetName[]{FacetName.CONTINENT}, selectedFacets);
-        queryLog.info("Query: \'{}\', start: {}, limit: {}, facet: [{}], {} results",
-                new Object[]{query, start, limit, selectedFacets, result.size()});
+        queryLog.info("Query: \'{}\', start: {}, limit: {},"
+                + "facet: [{}], {} results",
+                new Object[]{query, start, limit, selectedFacets,
+                result.size()});
 
         result.putParam("query", query);
 

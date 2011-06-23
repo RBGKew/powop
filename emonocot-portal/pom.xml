@@ -101,8 +101,9 @@
 				<artifactId>wagon-maven-plugin</artifactId>
 				<version>1.0-beta-3</version>
 				<configuration>
-					<fromDir>src/main/static</fromDir>
+					<fromDir>${project.build.directory}/static</fromDir>
 					<includes>**</includes>
+					<excludes>uncompressed/*.js</excludes>
 					<url>${wagon.portal.static.url}</url>
 				</configuration>
 			</plugin>
@@ -138,6 +139,52 @@
 						<version>5.1.15</version>
 					</dependency>
 				</dependencies>
+			</plugin>
+			<plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-antrun-plugin</artifactId>
+              <executions>
+                <execution>
+                    <id>static.output.dir</id>
+                    <phase>process-resources</phase>
+                    <configuration>
+                        <tasks>
+                            <delete dir="${project.build.directory}/static/js/"/>
+                            <mkdir dir="${project.build.directory}/static/js/"/>
+                            <copy todir="${project.build.directory}/static/images">
+                              <fileset dir="${basedir}/src/main/static/images" includes="**/*" />
+                            </copy>
+                        </tasks>
+                    </configuration>
+                    <goals>
+                        <goal>run</goal>
+                    </goals>
+                </execution>
+              </executions>
+            </plugin>
+			<plugin>
+              <groupId>net.alchim31.maven</groupId>
+              <artifactId>yuicompressor-maven-plugin</artifactId>
+              <version>1.1</version>
+              <configuration>
+                <sourceDirectory>${basedir}/src/main/static</sourceDirectory>
+                <outputDirectory>${project.build.directory}/static/</outputDirectory>
+                <nosuffix>true</nosuffix>
+                <aggregations>
+                  <aggregation>
+                    <output>${project.build.directory}/static/js/header.js</output>
+                    <includes>
+                      <include>${project.build.directory}/static/uncompressed/modernizr-2.0.4.js</include>
+                    </includes>
+                  </aggregation>
+                  <aggregation>
+                    <output>${project.build.directory}/static/js/footer.js</output>
+                    <includes>
+                      <include>${project.build.directory}/static/uncompressed/css3-mediaqueries.js</include>
+                    </includes>
+                  </aggregation>
+                </aggregations>
+              </configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.cargo</groupId>

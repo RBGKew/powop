@@ -1,4 +1,4 @@
-#search {border: solid thin}
+#search {border: solid thin; margin: 0.5em; padding: 0.5em}
 #pages {float:left}
 #pageSize {list-style: none; margin: 0px; padding: 0px; float: right}
 #pageSize li {display:inline; padding: 0.5em}
@@ -6,6 +6,6 @@
 #pageNumber li {display:inline}
 #pageNumber li:before {content: "| ";}
 #pageNumber li:first-child:before {content: "";}
-#facets {border: thin solid; float: left; width: 20%; list-style:none}
-#results { float: left; width: 70%; list-style:none}
+#facets {border: thin solid; list-style:none; margin: 0.5em; padding: 0.5em}
+#results {list-style:none; margin: 0.5em; padding: 0.5em}
 .facet {list-style:none}

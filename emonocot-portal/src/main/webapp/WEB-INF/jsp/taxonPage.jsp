@@ -6,14 +6,22 @@
   <jsp:directive.page contentType="text/html" pageEncoding="UTF-8"/>
   <jsp:output omit-xml-declaration="true" />
   <jsp:output doctype-root-element="HTML" doctype-system="about:legacy-compat"/>
-  <html>
-    <head>                              
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
-        <meta http-equiv="Content-Language" content="en" />
-        <link rel="stylesheet" type="text/CSS" href="css/style.css"/>
-    </head>  
+  <html class="no-js" lang="en" dir="ltr">
+    <jsp:include page="/WEB-INF/jsp/head.jsp"/>
     <body>
-      <h2>${taxon.name}</h2>
+      <div class="container">
+        <jsp:include page="/WEB-INF/jsp/header.jsp"/>
+        <article>
+          <div class="row">
+            <div class="twelvecol">
+              <header>
+                <h2>${taxon.name}</h2>
+              </header>
+            </div>
+          </div>
+        </article>
+      </div>
+      <jsp:include page="/WEB-INF/jsp/footer.jsp"/>
     </body>
   </html>
 </jsp:root>
