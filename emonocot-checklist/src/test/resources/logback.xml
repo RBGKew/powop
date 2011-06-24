@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{ISO8601} | %-5p | %t | %c | %m%n</pattern>
+    </encoder>
+  </appender>
+  <root level="WARN">
+    <appender-ref ref="stdout"/>
+  </root>
+  <!-- uncomment to see the xml responses -->
+  <!-- <logger name="org.emonocot.checklist.view.oai" level="INFO">
+    <appender-ref ref="stdout"/>
+  </logger>-->
+</configuration>

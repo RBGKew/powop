@@ -2,12 +2,35 @@ package org.emonocot.checklist.model;
 
 import org.joda.time.DateTime;
 
+/**
+ *
+ * @author ben
+ *
+ * @param <T>
+ */
 public interface ChangeEvent<T extends IdentifiableEntity> {
 
-	T getObject();
+    /**
+     *
+     * @return the object
+     */
+    T getObject();
 
-	ChangeType getType();
-	
-	DateTime getDatestamp();
+    /**
+     *
+     * @return the type of change
+     */
+    ChangeType getType();
 
+    /**
+     *
+     * @return the datestamp
+     */
+    DateTime getDatestamp();
+
+    /**
+     *
+     * @return the identifier
+     */
+    String getIdentifier();
 }

@@ -25,6 +25,12 @@
         <property name="mapper" ref="mapper"/>
     </bean>
     
+    <bean name="oai/getRecord.rdf" class="org.emonocot.checklist.view.oai.rdf.GetRecordView">
+        <property name="contentType" value="text/xml; charset=UTF-8"/>
+        <property name="marshaller" ref="marshaller"/>
+        <property name="mapper" ref="mapper"/>
+    </bean>
+    
     <bean name="oai/listMetadataFormats" class="org.emonocot.checklist.view.oai.ListMetadataFormatsView">
         <property name="contentType" value="text/xml; charset=UTF-8"/>
         <property name="marshaller" ref="marshaller"/>
@@ -44,6 +50,12 @@
     </bean>
     
     <bean name="oai/listRecords.dc" class="org.emonocot.checklist.view.oai.dc.ListRecordsView">
+        <property name="contentType" value="text/xml; charset=UTF-8"/>
+        <property name="marshaller" ref="marshaller"/>
+        <property name="mapper" ref="mapper"/>
+    </bean>
+    
+    <bean name="oai/listRecords.rdf" class="org.emonocot.checklist.view.oai.rdf.ListRecordsView">
         <property name="contentType" value="text/xml; charset=UTF-8"/>
         <property name="marshaller" ref="marshaller"/>
         <property name="mapper" ref="mapper"/>

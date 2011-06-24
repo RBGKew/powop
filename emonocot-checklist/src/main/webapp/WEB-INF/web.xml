@@ -2,6 +2,11 @@
 <web-app version="2.4" xmlns="http://java.sun.com/xml/ns/javaee"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_4.xsd">
+    <display-name>World Check-List of Selected Plant Families Web Services</display-name>
+	<context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>wcsp.services.root</param-value>
+	</context-param>
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/applicationContext.xml</param-value>
@@ -9,6 +14,27 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+    
+    <context-param>
+		<param-name>logbackConfigLocation</param-name>
+		<param-value>/WEB-INF/classes/logback.xml</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>org.emonocot.common.logback.LogbackConfigListener
+		</listener-class>
+	</listener>
+	
+	<filter>
+		<filter-name>MDCInsertingServletFilter</filter-name>
+		<filter-class>ch.qos.logback.classic.helpers.MDCInsertingServletFilter
+		</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>MDCInsertingServletFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
     
 	<servlet>
         <servlet-name>checklist</servlet-name>

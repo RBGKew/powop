@@ -170,4 +170,12 @@ public class Taxon implements IdentifiableEntity<String> {
     public final Set<Distribution> getDistribution() {
         return distribution;
     }
+
+    /**
+     *
+     * @param newId Set the id
+     */
+    public final void setId(final Long newId) {
+        this.id = newId;
+    }
 }

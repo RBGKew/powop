@@ -1,9 +1,11 @@
 package org.emonocot.checklist.persistence;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.emonocot.checklist.format.ChecklistIdentifierFormatter;
 import org.emonocot.checklist.model.ChangeEvent;
 import org.emonocot.checklist.model.ChangeEventImpl;
 import org.emonocot.checklist.model.ChangeType;
@@ -27,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
+    private ChecklistIdentifierFormatter identifierFormatter = new ChecklistIdentifierFormatter();
 
     /**
      *
@@ -55,7 +58,12 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
     @Override
     @Transactional(readOnly = true)
     public final ChangeEvent<Taxon> find(final Serializable identifier) {
-        Taxon taxon = get((Long) identifier);
+        Taxon taxon = null;
+        try {
+            taxon = get(identifierFormatter.parse((String) identifier, null));
+        } catch (ParseException e) {
+            throw new IllegalArgumentException(e);
+        }
         // Taxon cannot be null because we would have thrown an exception
         // prior to this point
 
@@ -98,8 +106,8 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
             Criteria countCriteria = getSession().createCriteria(Taxon.class)
                     .setProjection(Projections.rowCount());
             return new DefaultPageImpl<ChangeEvent<Taxon>>(
-                    (Integer) countCriteria.uniqueResult(), pageNumber,
-                    pageSize, results);
+                    ((Long) countCriteria.uniqueResult()).intValue(),
+                    pageNumber, pageSize, results);
         }
     }
 }

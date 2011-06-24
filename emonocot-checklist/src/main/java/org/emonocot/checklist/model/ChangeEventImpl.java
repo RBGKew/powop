@@ -2,28 +2,59 @@ package org.emonocot.checklist.model;
 
 import org.joda.time.DateTime;
 
+/**
+ *
+ * @author ben
+ *
+ * @param <T>
+ */
+public class ChangeEventImpl<T extends IdentifiableEntity> implements
+        ChangeEvent<T> {
+    /**
+     *
+     */
+    private T object;
 
-public class ChangeEventImpl<T extends IdentifiableEntity> implements ChangeEvent<T> {
-	private T object;
-	private ChangeType type;
-	private DateTime date;
+    /**
+     *
+     */
+    private ChangeType type;
 
-	public ChangeEventImpl(T object, ChangeType type, DateTime date) {
-		this.object = object;
-		this.type = type;
-		this.date = date;
-	}
+    /**
+     *
+     */
+    private DateTime date;
 
-	public T getObject() {
-		return object;
-	}
+    /**
+     *
+     * @param newObject Set the object
+     * @param newType Set the change type
+     * @param newDate Set the date
+     */
+    public ChangeEventImpl(final T newObject, final ChangeType newType,
+            final DateTime newDate) {
+        this.object = newObject;
+        this.type = newType;
+        this.date = newDate;
+    }
 
-    public ChangeType getType() {
-		return type;
-	}
+    @Override
+    public final T getObject() {
+        return object;
+    }
 
-	public DateTime getDatestamp() {
-		return date;
-	}
+    @Override
+    public final ChangeType getType() {
+        return type;
+    }
 
+    @Override
+    public final DateTime getDatestamp() {
+        return date;
+    }
+
+    @Override
+    public final String getIdentifier() {
+        return object.getIdentifier().toString();
+    }
 }

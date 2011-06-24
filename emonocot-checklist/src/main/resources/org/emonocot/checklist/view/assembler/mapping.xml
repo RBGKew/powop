@@ -16,13 +16,17 @@
             <class-a>org.joda.time.DateTime</class-a>
             <class-b>org.joda.time.DateTime</class-b>
           </converter>
+          <converter type="org.emonocot.checklist.view.assembler.UriConverter">
+            <class-a>java.lang.String</class-a>
+            <class-b>java.net.URI</class-b>
+          </converter>
       </custom-converters>
     </configuration>
     <mapping>
-        <class-a>org.emonocot.checklist.model.ChangeEvent</class-a>
+        <class-a>org.emonocot.checklist.model.ChangeEventImpl</class-a>
         <class-b>org.openarchives.pmh.Header</class-b>
         <field>
-          <a>object.identifier</a>
+          <a>identifier</a>
           <b>identifier</b>
         </field>
         <field>
