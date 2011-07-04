@@ -164,18 +164,103 @@ UNION ALL
         </createView>
     </changeSet>
     <changeSet author="ben" id="2011-06-14_1">
-      <loadData tableName="plant_name" file="src/main/resources/org/emonocot/checklist/taxon.csv">
-        <column name="Plant_name_id" index="0" type="NUMERIC"/>
-        <column name="Full_epithet" index="1" type="STRING"/>
-        <column name="Accepted_plant_name_id" index="2" type="NUMERIC"/>
-        <column name="Family" index="3" type="STRING"/>
-        <column name="Genus" index="4" type="STRING"/>
-        <column name="Species" index="5" type="STRING"/>
-        <column name="Infraspecific_rank" index="6" type="STRING"/>
-        <column name="Infraspecific_epithet" index="7" type="STRING"/>
-        <column name="Date_of_entry" index="8" type="STRING"/>
-      </loadData>    
+        <loadData tableName="plant_name" file="src/main/resources/org/emonocot/checklist/taxon.csv">
+            <column name="Plant_name_id" index="0" type="NUMERIC"/>
+            <column name="Full_epithet" index="1" type="STRING"/>
+            <column name="Accepted_plant_name_id" index="2" type="NUMERIC"/>
+            <column name="Family" index="3" type="STRING"/>
+            <column name="Genus" index="4" type="STRING"/>
+            <column name="Species" index="5" type="STRING"/>
+            <column name="Infraspecific_rank" index="6" type="STRING"/>
+            <column name="Infraspecific_epithet" index="7" type="STRING"/>
+            <column name="Date_of_entry" index="8" type="STRING"/>
+        </loadData>
     </changeSet>
+    <changeSet author="jk00kg" id="2011-07-01">
+        <addColumn tableName="Plant_Name">
+            <column name="Date_Name_modified" type="datetime"/>
+            <column name="Date_Locality_modified" type="datetime"/>
+            <column name="Date_Authors_modified" type="datetime"/>
+            <column name="Date_References_modified" type="datetime"/>
+        </addColumn>
+        <addColumn tableName="Plant_Name_Deleted">
+            <column name="Date_Name_modified" type="datetime"/>
+            <column name="Date_Locality_modified" type="datetime"/>
+            <column name="Date_Authors_modified" type="datetime"/>
+            <column name="Date_Citations_modified" type="datetime"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="jk00kg" id="2011-07-01_1">
+        <createTable tableName="Authors">
+            <column name="Author_id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="Author" type="varchar(100)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="jk00kg" id="2011-07-01_2">
+        <createTable tableName="Plant_Author">
+            <column name="Plant_author_id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="true"/>
+            </column>
+            <column name="Plant_name_id" type="bigint">
+                <constraints references="Plant_Name(Plant_name_id)"/>
+            </column>
+            <column name="Author_type_id" type="varchar(3)">
+                <constraints references="Author_Type(Author_type_id)"/>
+            </column>
+            <column name="Author_id" type="bigint">
+                <constraints references="Authors(Author_id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="jk00kg" id="2011-07-04">
+        <createTable tableName="Publication_Type">
+            <column name="Publication_type_id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="Type_of_publication" type="varchar(30)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="jk00kg" id="2011-07-04_1">
+        <createTable tableName="Publication">
+            <column name="Publication_id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="Full_title" type="varchar(255)"/>
+            <column name="Author" type="varchar(150)"/>
+            <column name="Published" type="varchar(100)"/><!-- more commonly called publisher -->
+            <column name="Publication_type_id" type="bigint">
+                <constraints references="Publication_Type(Publication_type_id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="jk00kg" id="2011-07-04_2">
+        <createTable tableName="Publication_Edition">
+            <column name="Publication_edition_id">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="Publication_id">
+                <constraints references="Publication(Publication_id)"/>
+            </column>
+            <column name="Article_author" type="varchar(150)"/>
+            <column name="Article_title" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="jk00kg" id="2011-07-04_3">
+        <createTable tableName="Plant_Citation">
+            <column name="Plant_citation_id">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="Plant_name_id" type="bigint">
+                <constraints references="Plant_Name(Plant_name_id)"/>
+            </column>
+            <column name="Publication_edition_id">
+                <constraints references="Publication_Edition(Publication_edition_id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <!-- TODO: consider adding columns that aren't of interest right now -->
     <changeSet author="ben" id="2011-07-04_1">
       <addColumn tableName="Plant_Name">
             <column name="Date_Name_modified" type="datetime"/>
