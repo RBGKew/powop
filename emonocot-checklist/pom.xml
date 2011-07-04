@@ -239,4 +239,16 @@
 			</plugin>
 		</plugins>
 	</build>
+	<reporting>
+	  <plugins>
+	    <plugin>
+		  <groupId>de.smartics.maven.plugin</groupId>
+		  <artifactId>org.emonocot.maven-issues-plugin</artifactId>
+		  <version>0.4.0</version>
+		  <configuration>
+		    <component>emonocot-checklist</component>
+		  </configuration>
+		</plugin>
+	  </plugins>
+	</reporting>
 </project>

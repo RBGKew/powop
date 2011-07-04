@@ -784,6 +784,7 @@
 					<product>emonocot</product>
 					<proxyHostname>${proxyHostname}</proxyHostname>
 					<proxyPort>${proxyPort}</proxyPort>
+					<status>RESOLVED</status>
 				</configuration>
 				<reportSets>
 					<reportSet>

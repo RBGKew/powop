@@ -27,4 +27,16 @@
       <artifactId>org.springframework.context</artifactId>
     </dependency>
   </dependencies>
+  <reporting>
+	  <plugins>
+	    <plugin>
+		  <groupId>de.smartics.maven.plugin</groupId>
+		  <artifactId>org.emonocot.maven-issues-plugin</artifactId>
+		  <version>0.4.0</version>
+		  <configuration>
+		    <component>emonocot-service</component>
+		  </configuration>
+		</plugin>
+	  </plugins>
+  </reporting>
 </project>
