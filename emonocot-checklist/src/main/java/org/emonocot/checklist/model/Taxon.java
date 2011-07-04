@@ -24,9 +24,14 @@ import org.hibernate.annotations.Where;
 public class Taxon implements IdentifiableEntity<String> {
 
     /**
-     * TODO Define an identifier prefix for real.
+     *
      */
-    public static final String IDENTIFIER_PREFIX = "urn:lsid:kew.org:taxon:";
+    public static final String IDENTIFIER_PREFIX = "urn:kew.org:wcs:taxon:";
+
+   /**
+    *
+    */
+   public static final String NAME_IDENTIFIER_PREFIX = "urn:kew.org:wcs:name:";
 
     /**
      *
@@ -136,7 +141,11 @@ public class Taxon implements IdentifiableEntity<String> {
      * @return the name id of the taxon
      */
     public final String getNameId() {
-        return nameId;
+        if (nameId != null) {
+            return nameId;
+        } else {
+            return Taxon.NAME_IDENTIFIER_PREFIX + this.id;
+        }
     }
 
     /**
