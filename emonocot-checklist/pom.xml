@@ -79,6 +79,10 @@
 			<artifactId>xmlunit</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.dbunit</groupId>
+			<artifactId>dbunit</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>xalan</groupId>
 			<artifactId>xalan</artifactId>
 		</dependency>
@@ -117,6 +121,12 @@
 	</dependencies>
 	<build>
 		<finalName>emonocot-checklist</finalName>
+		<testResources>
+          <testResource>
+            <directory>src/test/resources</directory>
+            <filtering>true</filtering>
+          </testResource>
+        </testResources>
 		<extensions>
           <extension>
             <groupId>org.apache.maven.wagon</groupId>

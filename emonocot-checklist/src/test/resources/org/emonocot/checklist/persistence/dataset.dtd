@@ -1,0 +1,74 @@
+<!ELEMENT dataset (
+    databasechangelog*,
+    databasechangeloglock*,
+    plant_locality*,
+    plant_name*,
+    plant_name_deleted*)>
+
+<!ELEMENT databasechangelog EMPTY>
+<!ATTLIST databasechangelog
+    ID CDATA #REQUIRED
+    AUTHOR CDATA #REQUIRED
+    FILENAME CDATA #REQUIRED
+    DATEEXECUTED CDATA #REQUIRED
+    MD5SUM CDATA #IMPLIED
+    DESCRIPTION CDATA #IMPLIED
+    COMMENTS CDATA #IMPLIED
+    TAG CDATA #IMPLIED
+    LIQUIBASE CDATA #IMPLIED
+>
+
+<!ELEMENT databasechangeloglock EMPTY>
+<!ATTLIST databasechangeloglock
+    ID CDATA #REQUIRED
+    LOCKED CDATA #REQUIRED
+    LOCKGRANTED CDATA #IMPLIED
+    LOCKEDBY CDATA #IMPLIED
+>
+
+<!ELEMENT plant_locality EMPTY>
+<!ATTLIST plant_locality
+    Plant_locality_id CDATA #REQUIRED
+    Area_code_L3 CDATA #IMPLIED
+    Region_code_L2 CDATA #IMPLIED
+    Plant_name_id CDATA #IMPLIED
+>
+
+<!ELEMENT plant_name EMPTY>
+<!ATTLIST plant_name
+    Plant_name_id CDATA #REQUIRED
+    Full_epithet CDATA #IMPLIED
+    Institute_id CDATA #IMPLIED
+    Accepted_plant_name_id CDATA #IMPLIED
+    Modified_date CDATA #IMPLIED
+    Date_of_entry CDATA #IMPLIED
+    Family CDATA #IMPLIED
+    Genus_hybrid_marker CDATA #IMPLIED
+    Genus CDATA #IMPLIED
+    Species_hybrid_marker CDATA #IMPLIED
+    Species CDATA #IMPLIED
+    Infraspecific_rank CDATA #IMPLIED
+    Infraspecific_epithet CDATA #IMPLIED
+    Date_Name_modified CDATA #IMPLIED
+    Date_Locality_modified CDATA #IMPLIED
+    Date_Authors_modified CDATA #IMPLIED
+    Date_Publications_modified CDATA #IMPLIED
+>
+
+<!ELEMENT plant_name_deleted EMPTY>
+<!ATTLIST plant_name_deleted
+    Plant_name_id CDATA #REQUIRED
+    Full_epithet CDATA #IMPLIED
+    Institute_id CDATA #IMPLIED
+    Accepted_plant_name_id CDATA #IMPLIED
+    Modified_date CDATA #IMPLIED
+    Deleted_date CDATA #IMPLIED
+    Date_of_entry CDATA #IMPLIED
+    Family CDATA #IMPLIED
+    Genus_hybrid_marker CDATA #IMPLIED
+    Genus CDATA #IMPLIED
+    Species_hybrid_marker CDATA #IMPLIED
+    Species CDATA #IMPLIED
+    Infraspecific_rank CDATA #IMPLIED
+    Infraspecific_epithet CDATA #IMPLIED
+>
