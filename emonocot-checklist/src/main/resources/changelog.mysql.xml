@@ -181,7 +181,7 @@ UNION ALL
             <column name="Date_Name_modified" type="datetime"/>
             <column name="Date_Locality_modified" type="datetime"/>
             <column name="Date_Authors_modified" type="datetime"/>
-            <column name="Date_References_modified" type="datetime"/>
+            <column name="Date_Citations_modified" type="datetime"/>
         </addColumn>
         <addColumn tableName="Plant_Name_Deleted">
             <column name="Date_Name_modified" type="datetime"/>
@@ -198,19 +198,27 @@ UNION ALL
             <column name="Author" type="varchar(100)"/>
         </createTable>
     </changeSet>
+    <changeSet author="ben" id="2011-07-01_1a">
+        <createTable tableName="Author_Type">
+            <column name="Author_type_id" type="varchar(3)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <!-- TODO Add other columns here -->
+        </createTable>
+    </changeSet>
     <changeSet author="jk00kg" id="2011-07-01_2">
         <createTable tableName="Plant_Author">
             <column name="Plant_author_id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="true"/>
             </column>
             <column name="Plant_name_id" type="bigint">
-                <constraints references="Plant_Name(Plant_name_id)"/>
+                <constraints references="Plant_Name(Plant_name_id)" foreignKeyName="Plant_Author_Plant_Name_FK"/>
             </column>
             <column name="Author_type_id" type="varchar(3)">
-                <constraints references="Author_Type(Author_type_id)"/>
+                <constraints references="Author_Type(Author_type_id)" foreignKeyName="Plant_Author_Author_Type_FK"/>
             </column>
             <column name="Author_id" type="bigint">
-                <constraints references="Authors(Author_id)"/>
+                <constraints references="Authors(Author_id)" foreignKeyName="Plant_Author_Authors_FK"/>
             </column>
         </createTable>
     </changeSet>
@@ -231,17 +239,17 @@ UNION ALL
             <column name="Author" type="varchar(150)"/>
             <column name="Published" type="varchar(100)"/><!-- more commonly called publisher -->
             <column name="Publication_type_id" type="bigint">
-                <constraints references="Publication_Type(Publication_type_id)"/>
+                <constraints references="Publication_Type(Publication_type_id)" foreignKeyName="Publication_Publication_type_FK"/>
             </column>
         </createTable>
     </changeSet>
     <changeSet author="jk00kg" id="2011-07-04_2">
         <createTable tableName="Publication_Edition">
-            <column name="Publication_edition_id">
+            <column name="Publication_edition_id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="Publication_id">
-                <constraints references="Publication(Publication_id)"/>
+            <column name="Publication_id"  type="bigint">
+                <constraints references="Publication(Publication_id)" foreignKeyName="Publication_Edition_Publication_FK"/>
             </column>
             <column name="Article_author" type="varchar(150)"/>
             <column name="Article_title" type="varchar(255)"/>
@@ -249,64 +257,58 @@ UNION ALL
     </changeSet>
     <changeSet author="jk00kg" id="2011-07-04_3">
         <createTable tableName="Plant_Citation">
-            <column name="Plant_citation_id">
+            <column name="Plant_citation_id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="Plant_name_id" type="bigint">
-                <constraints references="Plant_Name(Plant_name_id)"/>
+                <constraints references="Plant_Name(Plant_name_id)" foreignKeyName="Plant_Citation_Plant_Name_FK"/>
             </column>
-            <column name="Publication_edition_id">
-                <constraints references="Publication_Edition(Publication_edition_id)"/>
+            <column name="Publication_edition_id" type="bigint">
+                <constraints references="Publication_Edition(Publication_edition_id)" foreignKeyName="Plant_Citation_Publication_Edition_FK"/>
             </column>
         </createTable>
     </changeSet>
     <!-- TODO: consider adding columns that aren't of interest right now -->
     <changeSet author="ben" id="2011-07-04_1">
-      <addColumn tableName="Plant_Name">
-            <column name="Date_Name_modified" type="datetime"/>
-            <column name="Date_Locality_modified" type="datetime"/>
-            <column name="Date_Authors_modified" type="datetime"/>
-            <column name="Date_Publications_modified" type="datetime"/>
-      </addColumn>
-    </changeSet>
-    <changeSet author="ben" id="2011-07-04_2">
       <sql>
       CREATE TRIGGER `Plant_name_update_trigger` BEFORE UPDATE ON `plant_name` FOR 
       EACH ROW SET NEW.Modified_date = NOW(), NEW.Date_Name_modified = NOW()
       </sql>
     </changeSet>
-    <changeSet author="ben" id="2011-07-04_3">
+    <changeSet author="ben" id="2011-07-04_2">
       <sql>
       CREATE TRIGGER `Plant_name_delete_trigger` AFTER DELETE ON `plant_name` FOR 
       EACH ROW INSERT INTO plant_name_deleted (Plant_name_id, Full_epithet, Institute_id, Accepted_plant_name_id,
       Modified_date, Date_of_entry, Family, Genus_hybrid_marker, Genus, Species_hybrid_marker, Species, Infraspecific_rank,
-      Infraspecific_epithet, Deleted_date) VALUES (OLD.Plant_name_id, OLD.Full_epithet, OLD.Institute_id, OLD.Accepted_plant_name_id,
+      Infraspecific_epithet, Date_Name_modified, Date_Locality_modified, Date_Authors_modified, Date_Citations_modified,
+      Deleted_date) VALUES (OLD.Plant_name_id, OLD.Full_epithet, OLD.Institute_id, OLD.Accepted_plant_name_id,
       OLD.Modified_date, OLD.Date_of_entry, OLD.Family, OLD.Genus_hybrid_marker, OLD.Genus, OLD.Species_hybrid_marker, OLD.Species, 
-      OLD.Infraspecific_rank, OLD.Infraspecific_epithet, NOW())
+      OLD.Infraspecific_rank, OLD.Infraspecific_epithet, OLD.Date_Name_modified, OLD.Date_Locality_modified, OLD.Date_Authors_modified,
+      OLD.Date_Citations_modified, NOW())
       </sql>
     </changeSet>
-    <changeSet author="ben" id="2011-07-04_4">
+    <changeSet author="ben" id="2011-07-04_3">
       <sql>
       CREATE TRIGGER `Plant_locality_insert_trigger` AFTER INSERT ON `plant_locality` FOR 
       EACH ROW UPDATE plant_name SET Modified_date = NOW(), Date_Locality_modified = NOW()
       WHERE Plant_name_id = NOW.Plant_name_id
       </sql>
     </changeSet>
-    <changeSet author="ben" id="2011-07-04_5">
+    <changeSet author="ben" id="2011-07-04_4">
       <sql>
       CREATE TRIGGER `Plant_locality_update_trigger` AFTER UPDATE ON `plant_locality` FOR 
       EACH ROW UPDATE plant_name SET Modified_date = NOW(), Date_Locality_modified = NOW()
       WHERE Plant_name_id = NOW.Plant_name_id
       </sql>
     </changeSet>
-    <changeSet author="ben" id="2011-07-04_6">
+    <changeSet author="ben" id="2011-07-04_5">
       <sql>
       CREATE TRIGGER `Plant_locality_delete_trigger` AFTER DELETE ON `plant_locality` FOR 
       EACH ROW UPDATE plant_name SET Modified_date = NOW(), Date_Locality_modified = NOW()
       WHERE Plant_name_id = OLD.Plant_name_id
       </sql>
     </changeSet>
-    <changeSet author="ben" id="2011-07-04_7">
+    <changeSet author="ben" id="2011-07-04_6">
       <addAutoIncrement tableName="Plant_name" columnName="Plant_name_id" columnDataType="bigint"/>
     </changeSet>
 </databaseChangeLog>

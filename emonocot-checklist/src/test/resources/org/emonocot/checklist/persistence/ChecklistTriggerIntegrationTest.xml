@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./dataset.xsd">
-  <plant_name Full_epithet="Lorem ipsum" Date_of_entry="2010-11-01 09:00:01.0" Family="Loreaceae" Genus="Lorem" Species="ipsum" />
+  <plant_name Plant_name_id="1" Full_epithet="Lorem ipsum" Date_of_entry="2010-11-01 09:00:01.0" Family="Loreaceae" Genus="Lorem" Species="ipsum" />
+  <plant_name_deleted/>
 </dataset>

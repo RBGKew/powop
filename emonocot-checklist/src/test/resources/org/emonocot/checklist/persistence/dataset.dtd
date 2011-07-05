@@ -52,7 +52,7 @@
     Date_Name_modified CDATA #IMPLIED
     Date_Locality_modified CDATA #IMPLIED
     Date_Authors_modified CDATA #IMPLIED
-    Date_Publications_modified CDATA #IMPLIED
+    Date_Citations_modified CDATA #IMPLIED
 >
 
 <!ELEMENT plant_name_deleted EMPTY>
@@ -71,4 +71,8 @@
     Species CDATA #IMPLIED
     Infraspecific_rank CDATA #IMPLIED
     Infraspecific_epithet CDATA #IMPLIED
+    Date_Name_modified CDATA #IMPLIED
+    Date_Locality_modified CDATA #IMPLIED
+    Date_Authors_modified CDATA #IMPLIED
+    Date_Citations_modified CDATA #IMPLIED
 >

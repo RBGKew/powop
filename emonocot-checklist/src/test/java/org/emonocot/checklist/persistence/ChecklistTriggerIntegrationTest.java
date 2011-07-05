@@ -26,6 +26,7 @@ import org.dbunit.dataset.xml.FlatDtdDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -101,7 +102,7 @@ public class ChecklistTriggerIntegrationTest {
         = new ClassPathResource("org/emonocot/checklist/persistence/ChecklistTriggerIntegrationTest.xml");
         FlatXmlDataSetBuilder dataSetBuilder = new FlatXmlDataSetBuilder();
         IDataSet dataSet = dataSetBuilder.build(dataSetFile.getInputStream());
-        DatabaseOperation.INSERT.execute(getConnection(), dataSet);
+        DatabaseOperation.CLEAN_INSERT.execute(getConnection(), dataSet);
     }
 
     /**
@@ -113,13 +114,13 @@ public class ChecklistTriggerIntegrationTest {
         Connection connection = dataSource.getConnection();
         Statement statement = connection.createStatement();
         statement.execute(
-        "UPDATE Plant_name set Family = 'Loremaceae' where Full_epithet = 'Lorem ipsum'");
+        "UPDATE Plant_name set Family = 'Loremaceae' where Plant_name_id = 1");
         statement.close();
 
         statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(
           "SELECT Modified_date, Date_Name_modified, Date_Locality_modified,"
-        + " Date_Publications_modified, Date_Authors_modified from Plant_name where Full_epithet = 'Lorem ipsum'");
+        + " Date_Citations_modified, Date_Authors_modified from Plant_name where Plant_name_id = 1");
         assertTrue("There should be one Plant_name row",
                 resultSet.first());
         assertNotNull("Modified_date should not be null",
@@ -130,21 +131,28 @@ public class ChecklistTriggerIntegrationTest {
                 resultSet.getObject("Date_Locality_modified"));
         assertNull("Date_Authors_modified should be null",
                 resultSet.getObject("Date_Authors_modified"));
-        assertNull("Date_Publications_modified should be null",
-                resultSet.getObject("Date_Publications_modified"));
+        assertNull("Date_Citations_modified should be null",
+                resultSet.getObject("Date_Citations_modified"));
         assertEquals("Modified_date should equal Date_Name_modified",
                 resultSet.getObject("Modified_date"),
                 resultSet.getObject("Date_Name_modified"));
         statement.close();
+    }
 
-        statement = connection.createStatement();
-        statement.execute(
-        "DELETE FROM Plant_name where Full_epithet = 'Lorem ipsum'");
-        statement.close();
-        statement = connection.createStatement();
-        statement.execute(
-        "DELETE FROM Plant_name_deleted where Full_epithet = 'Lorem ipsum'");
-        statement.close();
+    /**
+     *
+     * @throws IOException if there is a problem reading the properties file
+     * @throws SQLException if there is a problem executing the SQL
+     * @throws DatabaseUnitException if there is a problem with DBUnit
+     */
+    @After
+    public final void tearDown() throws IOException, DatabaseUnitException,
+        SQLException {
+        Resource dataSetFile
+        = new ClassPathResource("org/emonocot/checklist/persistence/ChecklistTriggerIntegrationTest.xml");
+        FlatXmlDataSetBuilder dataSetBuilder = new FlatXmlDataSetBuilder();
+        IDataSet dataSet = dataSetBuilder.build(dataSetFile.getInputStream());
+        DatabaseOperation.DELETE_ALL.execute(getConnection(), dataSet);
     }
 
     /**
