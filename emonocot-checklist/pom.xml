@@ -206,15 +206,6 @@
 					<username>${jdbc.driver.username}</username>
 					<password>${jdbc.driver.password}</password>
 				</configuration>
-				<executions>
-				  <execution>
-				    <id>integration-test</id>
-				    <phase>pre-integration-test</phase>
-				    <goals>
-				      <goal>update</goal>
-				    </goals>
-				  </execution>
-				</executions>
 				<dependencies>
 					<dependency>
 						<groupId>mysql</groupId>
