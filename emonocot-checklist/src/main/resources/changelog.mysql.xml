@@ -291,14 +291,14 @@ UNION ALL
       <sql>
       CREATE TRIGGER `Plant_locality_insert_trigger` AFTER INSERT ON `plant_locality` FOR 
       EACH ROW UPDATE plant_name SET Modified_date = NOW(), Date_Locality_modified = NOW()
-      WHERE Plant_name_id = NOW.Plant_name_id
+      WHERE Plant_name_id = NEW.Plant_name_id
       </sql>
     </changeSet>
     <changeSet author="ben" id="2011-07-04_4">
       <sql>
       CREATE TRIGGER `Plant_locality_update_trigger` AFTER UPDATE ON `plant_locality` FOR 
       EACH ROW UPDATE plant_name SET Modified_date = NOW(), Date_Locality_modified = NOW()
-      WHERE Plant_name_id = NOW.Plant_name_id
+      WHERE Plant_name_id = NEW.Plant_name_id
       </sql>
     </changeSet>
     <changeSet author="ben" id="2011-07-04_5">
@@ -310,5 +310,61 @@ UNION ALL
     </changeSet>
     <changeSet author="ben" id="2011-07-04_6">
       <addAutoIncrement tableName="Plant_name" columnName="Plant_name_id" columnDataType="bigint"/>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-06_1">
+      <sql>
+      CREATE TRIGGER `Plant_author_insert_trigger` AFTER INSERT ON `plant_author` FOR 
+      EACH ROW UPDATE plant_name SET Modified_date = NOW(), Date_Authors_modified = NOW()
+      WHERE Plant_name_id = NEW.Plant_name_id
+      </sql>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-06_2">
+      <sql>
+      CREATE TRIGGER `Plant_author_update_trigger` AFTER UPDATE ON `plant_author` FOR 
+      EACH ROW UPDATE plant_name SET Modified_date = NOW(), Date_Authors_modified = NOW()
+      WHERE Plant_name_id = NEW.Plant_name_id
+      </sql>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-06_3">
+      <sql>
+      CREATE TRIGGER `Plant_author_delete_trigger` AFTER DELETE ON `plant_author` FOR 
+      EACH ROW UPDATE plant_name SET Modified_date = NOW(), Date_Authors_modified = NOW()
+      WHERE Plant_name_id = OLD.Plant_name_id
+      </sql>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-06_4">
+      <sql>
+      CREATE TRIGGER `Plant_citation_insert_trigger` AFTER INSERT ON `plant_citation` FOR 
+      EACH ROW UPDATE plant_name SET Modified_date = NOW(), Date_Citations_modified = NOW()
+      WHERE Plant_name_id = NEW.Plant_name_id
+      </sql>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-06_5">
+      <sql>
+      CREATE TRIGGER `Plant_citation_update_trigger` AFTER UPDATE ON `plant_citation` FOR 
+      EACH ROW UPDATE plant_name SET Modified_date = NOW(), Date_Citations_modified = NOW()
+      WHERE Plant_name_id = NEW.Plant_name_id
+      </sql>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-06_6">
+      <sql>
+      CREATE TRIGGER `Plant_citation_delete_trigger` AFTER DELETE ON `plant_citation` FOR 
+      EACH ROW UPDATE plant_name SET Modified_date = NOW(), Date_Citations_modified = NOW()
+      WHERE Plant_name_id = OLD.Plant_name_id
+      </sql>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-06_7">
+      <addAutoIncrement tableName="Plant_locality" columnName="Plant_locality_id" columnDataType="bigint"/>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-06_8">
+      <modifyColumn tableName="Plant_locality">
+        <column name="Area_code_L3" type="varchar(3)"/>
+      </modifyColumn>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-06_9">
+      <addAutoIncrement tableName="Plant_author" columnName="Plant_author_id" columnDataType="bigint"/>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-06_10">
+      <addAutoIncrement tableName="Plant_citation" columnName="Plant_citation_id" columnDataType="bigint"/>
     </changeSet>
 </databaseChangeLog>

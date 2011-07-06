@@ -1,9 +1,27 @@
 <!ELEMENT dataset (
+    author_type*,
+    authors*,
     databasechangelog*,
     databasechangeloglock*,
+    plant_author*,
+    plant_citation*,
     plant_locality*,
     plant_name*,
-    plant_name_deleted*)>
+    plant_name_deleted*,
+    publication*,
+    publication_edition*,
+    publication_type*)>
+
+<!ELEMENT author_type EMPTY>
+<!ATTLIST author_type
+    Author_type_id CDATA #REQUIRED
+>
+
+<!ELEMENT authors EMPTY>
+<!ATTLIST authors
+    Author_id CDATA #REQUIRED
+    Author CDATA #IMPLIED
+>
 
 <!ELEMENT databasechangelog EMPTY>
 <!ATTLIST databasechangelog
@@ -24,6 +42,21 @@
     LOCKED CDATA #REQUIRED
     LOCKGRANTED CDATA #IMPLIED
     LOCKEDBY CDATA #IMPLIED
+>
+
+<!ELEMENT plant_author EMPTY>
+<!ATTLIST plant_author
+    Plant_author_id CDATA #REQUIRED
+    Plant_name_id CDATA #IMPLIED
+    Author_type_id CDATA #IMPLIED
+    Author_id CDATA #IMPLIED
+>
+
+<!ELEMENT plant_citation EMPTY>
+<!ATTLIST plant_citation
+    Plant_citation_id CDATA #REQUIRED
+    Plant_name_id CDATA #IMPLIED
+    Publication_edition_id CDATA #IMPLIED
 >
 
 <!ELEMENT plant_locality EMPTY>
@@ -75,4 +108,27 @@
     Date_Locality_modified CDATA #IMPLIED
     Date_Authors_modified CDATA #IMPLIED
     Date_Citations_modified CDATA #IMPLIED
+>
+
+<!ELEMENT publication EMPTY>
+<!ATTLIST publication
+    Publication_id CDATA #REQUIRED
+    Full_title CDATA #IMPLIED
+    Author CDATA #IMPLIED
+    Published CDATA #IMPLIED
+    Publication_type_id CDATA #IMPLIED
+>
+
+<!ELEMENT publication_edition EMPTY>
+<!ATTLIST publication_edition
+    Publication_edition_id CDATA #REQUIRED
+    Publication_id CDATA #IMPLIED
+    Article_author CDATA #IMPLIED
+    Article_title CDATA #IMPLIED
+>
+
+<!ELEMENT publication_type EMPTY>
+<!ATTLIST publication_type
+    Publication_type_id CDATA #REQUIRED
+    Type_of_publication CDATA #IMPLIED
 >
