@@ -1,29 +1,29 @@
 package org.emonocot.checklist.controller;
 
-import org.junit.After;
+import static com.jayway.restassured.RestAssured.expect;
+import static org.hamcrest.xml.HasXPath.hasXPath;
+
+import java.util.Properties;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
 
-import com.thoughtworks.selenium.DefaultSelenium;
-import com.thoughtworks.selenium.HttpCommandProcessor;
-import com.thoughtworks.selenium.SeleneseTestCase;
+import com.jayway.restassured.RestAssured;
 
 /**
  *
  * @author ben
  *
  */
-public class ChecklistWebserviceFunctionalTest extends SeleneseTestCase {
+public class ChecklistWebserviceFunctionalTest {
 
-    /**
-     *
-     */
-    private HttpCommandProcessor httpCommandProcessor;
-
-    /**
-     * The default port of the Selenium RC Server.
-     */
-    private static final int SELENIUM_SERVER_PORT = 4444;
+   /**
+    *
+    */
+   private Properties properties;
 
     /**
      * @throws Exception
@@ -31,38 +31,45 @@ public class ChecklistWebserviceFunctionalTest extends SeleneseTestCase {
      */
     @Before
     public final void setUp() throws Exception {
-        httpCommandProcessor = new HttpCommandProcessor("localhost",
-                ChecklistWebserviceFunctionalTest.SELENIUM_SERVER_PORT,
-                System.getProperty("selenium.browser.profile",
-                        "*firefox /usr/lib/firefox-3.6/firefox"),
-                System.getProperty("selenium.target.checklist",
-                        "http://129.67.24.160/latest/checklist"));
-        selenium = new DefaultSelenium(httpCommandProcessor);
-        selenium.start();
+        Resource propertiesFile
+        = new ClassPathResource("application.properties");
+        properties = new Properties();
+        properties.load(propertiesFile.getInputStream());
+        RestAssured.baseURI = properties.getProperty(
+                "functional.test.baseUri",
+                "http://129.67.24.160");
+        RestAssured.port = Integer.parseInt(
+                properties.getProperty("functional.test.port",
+                "80"));
+        RestAssured.basePath = properties.getProperty(
+                "functional.test.basePath",
+                "/latest/checklist");
     }
 
     /**
+     * Tests that the PING request returns the response
+     * "200 OK".
      *
      * @throws Exception
      *             if there is a problem with the test
      */
     @Test
     public final void testPing() throws Exception {
-        selenium.open("./endpoint");
-        assertTrue(httpCommandProcessor
-                .getBoolean(
-                        "isTextPresentXML",
-                        new String[] {"",
-                                "<results xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"></results>" }));
+        expect().statusCode(HttpStatus.OK.value()).get("/endpoint");
     }
 
-    /**
-     * @throws Exception
-     *             if there is a problem tearing down the test
-     */
-    @After
-    public final void tearDown() throws Exception {
-        selenium.stop();
-    }
-
+   /**
+    * Tests the GET response returns a valid document.
+    * @throws Exception
+    *             if there is a problem with the test
+    */
+   @Test
+   public final void testGet() throws Exception {
+       expect()
+         .body(hasXPath("/DataSet"))
+         .given()
+           .parameters("function", "details_tcs",
+                       "id", "urn:kew.org:wcs:taxon:1")
+           .get("/endpoint");
+   }
 }

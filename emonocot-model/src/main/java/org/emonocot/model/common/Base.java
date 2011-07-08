@@ -40,7 +40,7 @@ public abstract class Base {
 
     /**
      *
-     */    
+     */
     private DateTime modified;
 
     /**

@@ -2,7 +2,7 @@
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
   xmlns:c="http://java.sun.com/jsp/jstl/core"
   version="2.0">
-  <DataSet xmlns='http://www.tdwg.org/schemas/tcs/1.01' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+  <DataSet xmlns='http://www.tdwg.org/schemas/tcs/1.01' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.tdwg.org/schemas/tcs/1.01 http://www.tdwg.org/standards/117/files/TCS101/v101.xsd">
 	<TaxonNames>
 	  <TaxonName nomenclaturalCode="Botanical">

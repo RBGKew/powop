@@ -31,20 +31,20 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 
+ *
  * @author ben
- * 
+ *
  */
 @Repository
 public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
 
     /**
-     * 
+     *
      */
     private ChecklistIdentifierFormatter identifierFormatter = new ChecklistIdentifierFormatter();
 
     /**
-     * 
+     *
      * @param sessionFactory
      *            The session factory to use
      */
@@ -71,29 +71,35 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
     public final Taxon get(final Long id) {
         // Retrieve taxon TODO with the database id, rather than the
         // "identifier" we gave them and they passed in
-        Taxon taxon = (Taxon) getSession().load(Taxon.class, id);
+        Criteria criteria = getSession()
+          .createCriteria(Taxon.class).add(Restrictions.idEq(id));
+        Taxon taxon = (Taxon) criteria.uniqueResult();
 
         inferRelatedTaxa(taxon);
         return taxon;
     }
 
     /**
-     * 
+     *
      * @param taxon is the object to try and provide related taxa for
      */
     protected final void inferRelatedTaxa(final Taxon taxon) {
         // Add children
         Criteria c = getSession()
                 .createCriteria(Taxon.class)
-                .add(Restrictions.eq("genusHybridMarker", taxon.getGenusHybridMarker()))
+                .add(Restrictions.eq("genusHybridMarker",
+                        taxon.getGenusHybridMarker()))
                 .add(Restrictions.eq("genus", taxon.getGenus()));
         switch (taxon.getRank()) {
         case GENUS:
             c.add(Restrictions.isEmpty("infraspecificEpithet"));
             break;
         case SPECIES:
-            c.add(Restrictions.isNotEmpty("infraspecificEpithet"))
-                    .add(Restrictions.eq("speciesHybridMarker", taxon.getSpeciesHybridMarker()))
+            c.add(Restrictions.and(
+                    Restrictions.isNotNull("infraspecificEpithet"),
+                    Restrictions.ne("infraspecificEpithet", "")))
+                    .add(Restrictions.eq("speciesHybridMarker",
+                            taxon.getSpeciesHybridMarker()))
                     .add(Restrictions.eq("species", taxon.getSpecies()));
             break;
         default:
@@ -105,7 +111,12 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
         taxon.setChildTaxa(new HashSet<Taxon>(c.list()));
 
         // Add Parent
-        StringBuffer sb = new StringBuffer(taxon.getGenusHybridMarker());
+        StringBuffer sb = new StringBuffer();
+        /**
+         *  genusHybridMarker can be null so we cannot pass it
+         *  as an argument to the constructor of StringBuffer
+         */
+        sb.append(taxon.getGenusHybridMarker());
         if (sb.toString().trim().isEmpty()) {
             sb.append(" ");
         }

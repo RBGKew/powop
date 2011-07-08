@@ -13,13 +13,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
 import org.joda.time.DateTime;
 
 /**
- * 
+ *
  * @author ben
- * 
+ *
  */
 @Entity
 @Table(name = "vwMonocot_Name")
@@ -55,69 +56,72 @@ public class Taxon implements IdentifiableEntity<String> {
     private String name;
 
     /**
-     * 
+     *
      */
     @Transient
     private Rank rank = null;
 
     /**
-     * 
+     *
      */
     @Column(name = "Family")
     private String family;
 
     /**
-     * 
+     *
      */
     @Column(name = "Genus_hybrid_marker")
     private String genusHybridMarker;
 
     /**
-     * 
+     *
      */
     @Column(name = "Genus")
     private String genus;
 
     /**
-     * 
+     *
      */
     @Column(name = "Species_hybrid_marker")
     private String speciesHybridMarker;
 
     /**
-     * 
+     *
      */
     @Column(name = "Species")
     private String species;
 
     /**
-     * 
+     *
      */
     @Column(name = "Infraspecific_rank")
     private String infraspecificRank;
 
     /**
-     * 
+     *
      */
     @Column(name = "Infraspecific_epithet")
     private String infraspecificEpithet;
-    
-    /**
-     * 
-     */
-    @Column(name = "Date_of_entry")
-    private String dateEntered;
 
     /**
-     * 
+     *
+     */
+    @Column(name = "Date_of_entry")
+    @Type(type="dateTimeUserType")
+    private DateTime dateEntered;
+
+    /**
+     *
      */
     @Column(name = "Modified_date")
+    @Type(type="dateTimeUserType")
     private DateTime dateModified;
 
     /**
-     * 
+     *
      */
     @Column(name = "Deleted_date", nullable = true)
+    @Type(type="dateTimeUserType")
     private DateTime dateDeleted;
 
     /**
@@ -137,13 +141,13 @@ public class Taxon implements IdentifiableEntity<String> {
     private Set<Taxon> synonyms = new HashSet<Taxon>();
 
     /**
-     * 
+     *
      */
     @Transient
     private Taxon parentTaxon;
 
     /**
-     * 
+     *
      */
     @Transient
     private Set<Taxon> childTaxa = new HashSet<Taxon>();
@@ -185,7 +189,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * 
+     *
      * @return the name id of the taxon
      */
     public final String getNameId() {
@@ -197,7 +201,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * 
+     *
      * @param string
      *            Set the identifier of the name in the taxon
      */
@@ -206,7 +210,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * 
+     *
      * @return the name of the taxon
      */
     public final String getName() {
@@ -214,7 +218,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * 
+     *
      * @param string
      *            Set the name of the taxon
      */
@@ -332,7 +336,7 @@ public class Taxon implements IdentifiableEntity<String> {
 
     /**
      * @return the infraspecificRank
-     * 
+     *
      */
     public final String getInfraspecificRank() {
         return infraspecificRank;
@@ -364,14 +368,14 @@ public class Taxon implements IdentifiableEntity<String> {
     /**
      * @return the dateEntered
      */
-    public String getDateEntered() {
+    public DateTime getDateEntered() {
         return dateEntered;
     }
 
     /**
      * @param dateEntered the dateEntered to set
      */
-    public void setDateEntered(String dateEntered) {
+    public void setDateEntered(DateTime dateEntered) {
         this.dateEntered = dateEntered;
     }
 
@@ -407,7 +411,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * 
+     *
      * @return the accepted name of the synonym
      */
     public final Taxon getAcceptedName() {
@@ -415,7 +419,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * 
+     *
      * @param newAcceptedName
      *            Set the accepted name of the synonym
      */
@@ -424,7 +428,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * 
+     *
      * @return the synonyms of this taxon
      */
     public final Set<Taxon> getSynonyms() {
@@ -432,7 +436,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * 
+     *
      * @param newSynonyms
      *            Set the synonyms of this taxon
      */
@@ -471,7 +475,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * 
+     *
      * @return the distribution of this taxon
      */
     public final Set<Distribution> getDistribution() {
@@ -479,7 +483,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * 
+     *
      * @param newDistribution
      *            Set the distribution of this taxon
      */

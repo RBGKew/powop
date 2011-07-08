@@ -38,12 +38,12 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
 	</filter-mapping>
     
 	<servlet>
-        <servlet-name>wcmtaxa</servlet-name>
+        <servlet-name>checklist</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>wcmtaxa</servlet-name>
+        <servlet-name>checklist</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 </web-app>

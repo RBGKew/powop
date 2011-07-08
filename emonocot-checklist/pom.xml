@@ -115,8 +115,8 @@
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 	    <dependency>
-			<groupId>org.seleniumhq.selenium.client-drivers</groupId>
-			<artifactId>selenium-java-client-driver</artifactId>
+		    <groupId>com.jayway.restassured</groupId>
+			<artifactId>rest-assured</artifactId>
 		</dependency>
 	</dependencies>
 	<build>
