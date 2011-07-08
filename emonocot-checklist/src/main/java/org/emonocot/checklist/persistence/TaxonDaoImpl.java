@@ -18,6 +18,7 @@ import org.emonocot.model.pager.DefaultPageImpl;
 import org.emonocot.model.pager.Page;
 
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Projections;
@@ -61,6 +62,7 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
                 .add(Restrictions.eq("name", search)).list();
         for (Taxon taxon : results) {
             inferRelatedTaxa(taxon);
+            Hibernate.initialize(taxon.getSynonyms());
         }
 
         return results;
@@ -85,17 +87,27 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
      */
     protected final void inferRelatedTaxa(final Taxon taxon) {
         // Add children
-        Criteria c = getSession()
+        Criteria criteria = getSession()
                 .createCriteria(Taxon.class)
-                .add(Restrictions.eq("genusHybridMarker",
-                        taxon.getGenusHybridMarker()))
-                .add(Restrictions.eq("genus", taxon.getGenus()));
+                .add(Restrictions.eq("genus", taxon.getGenus()))
+                .add(Restrictions.isNull("acceptedName"));
+
+        if (taxon.getGenusHybridMarker() == null) {
+            criteria.add(Restrictions.isNull("genusHybridMarker"));
+        } else {
+            criteria.add(Restrictions.eq("genusHybridMarker",
+                    taxon.getGenusHybridMarker()));
+        }
         switch (taxon.getRank()) {
         case GENUS:
-            c.add(Restrictions.isEmpty("infraspecificEpithet"));
+            criteria.add(Restrictions.and(Restrictions.isNotNull("species"),
+                    Restrictions.ne("species", "")));
+            criteria.add(Restrictions.or(
+                    Restrictions.isNull("infraspecificEpithet"),
+                    Restrictions.eq("infraspecificEpithet", "")));
             break;
         case SPECIES:
-            c.add(Restrictions.and(
+            criteria.add(Restrictions.and(
                     Restrictions.isNotNull("infraspecificEpithet"),
                     Restrictions.ne("infraspecificEpithet", "")))
                     .add(Restrictions.eq("speciesHybridMarker",
@@ -104,11 +116,11 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
             break;
         default:
             // set up so no records are returned
-            c.add(Restrictions.idEq(null));
+            criteria.add(Restrictions.idEq(null));
             break;
         }
 
-        taxon.setChildTaxa(new HashSet<Taxon>(c.list()));
+        taxon.setChildTaxa(new HashSet<Taxon>(criteria.list()));
 
         // Add Parent
         StringBuffer sb = new StringBuffer();

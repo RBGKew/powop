@@ -5,9 +5,9 @@
   <DataSet xmlns='http://www.tdwg.org/schemas/tcs/1.01' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.tdwg.org/schemas/tcs/1.01 http://www.tdwg.org/standards/117/files/TCS101/v101.xsd">
 	<TaxonNames>
-	  <TaxonName nomenclaturalCode="Botanical">
+	  <TaxonName id="${result.nameId}" nomenclaturalCode="Botanical">
 	    <Simple>${result.name}</Simple>
-	    <!--TODO sort out ranks <Rank code="ord">Order</Rank>-->
+	    <Rank code="${result.rank.abbreviation}">${result.rank.label}</Rank>
 	    <CanonicalName>
 	     <Simple>${result.name}</Simple>
 	    </CanonicalName>
@@ -15,16 +15,22 @@
 	</TaxonNames>
 	<TaxonConcepts>
 	  <TaxonConcept id="${result.identifier}">
-	    <Name scientific="true">${result.name}</Name>
-	    <!--TODO sort out ranks <Rank code="ord">Order</Rank>-->
+	    <Name scientific="true" ref="${result.nameId}">${result.name}</Name>
+	    <Rank code="${result.rank.abbreviation}">${result.rank.label}</Rank>
 	    <TaxonRelationships>
-	      <!--  TODO sort out relationships
-	      <TaxonRelationship type="is child taxon of">
-	        <ToTaxonConcept
-		      ref="http://services.eol.org/lifedesk/service.php?function=details_tcs&id=34586161"
-		      linkType="external" />
-	      </TaxonRelationship>
-	      -->
+	      <c:forEach var="child" items="${result.childTaxa}">
+	        <TaxonRelationship type="is child taxon of">
+	          <jsp:element name="ToTaxonConcept">
+	            <jsp:attribute name="ref">
+	              <c:url value="endpoint">
+	                <c:param name="function" value="details_tcs"/>
+	                <c:param name="id" value="${child.identifier}"/>
+	              </c:url>
+	            </jsp:attribute>
+	            <jsp:attribute name="linkType">external</jsp:attribute>
+	          </jsp:element>
+	        </TaxonRelationship>
+	      </c:forEach>
 	    </TaxonRelationships>
 	  </TaxonConcept>
 	</TaxonConcepts>

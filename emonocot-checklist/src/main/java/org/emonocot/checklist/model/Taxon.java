@@ -107,21 +107,21 @@ public class Taxon implements IdentifiableEntity<String> {
      *
      */
     @Column(name = "Date_of_entry")
-    @Type(type="dateTimeUserType")
+    @Type(type = "dateTimeUserType")
     private DateTime dateEntered;
 
     /**
      *
      */
     @Column(name = "Modified_date")
-    @Type(type="dateTimeUserType")
+    @Type(type = "dateTimeUserType")
     private DateTime dateModified;
 
     /**
      *
      */
     @Column(name = "Deleted_date", nullable = true)
-    @Type(type="dateTimeUserType")
+    @Type(type = "dateTimeUserType")
     private DateTime dateDeleted;
 
     /**
@@ -230,7 +230,7 @@ public class Taxon implements IdentifiableEntity<String> {
      * @return the rank
      */
     public final Rank getRank() {
-        if (rank == null) {// then set it
+        if (rank == null) { // then set it
             if (species == null && genus != null) {
                 this.rank = Rank.GENUS;
             } else if (infraspecificEpithet == null) {
