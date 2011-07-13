@@ -46,6 +46,15 @@ public class ChecklistWebserviceFunctionalTest {
         RestAssured.basePath = properties.getProperty(
                 "functional.test.basePath",
                 "/latest/checklist");
+        
+		if (properties.getProperty("http.proxyHost", null) != null && !properties.getProperty("http.proxyHost", null).isEmpty()) {
+			RestAssured.proxyHost = properties.getProperty("http.proxyHost",
+					null);
+			RestAssured.proxyPort = Integer.parseInt(properties.getProperty(
+					"http.proxyPort", "8080"));
+			RestAssured.proxyScheme = properties.getProperty(
+					"http.proxyScheme", "http");
+		}
     }
 
     /**
@@ -113,6 +122,10 @@ public class ChecklistWebserviceFunctionalTest {
                "Species",
                with(xml).get(
                        "DataSet.TaxonConcepts.TaxonConcept.Rank"));
+       assertEquals("TaxonConcept.Rank code should equal 'sp'",
+               "sp",
+               with(xml).get(
+                       "DataSet.TaxonConcepts.TaxonConcept.Rank.@code"));
        assertEquals("TaxonConcept.Rank code should equal 'sp'",
                "sp",
                with(xml).get(

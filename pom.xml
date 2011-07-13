@@ -602,10 +602,22 @@
 			</dependency>
 			<dependency>
 				<groupId>com.jayway.restassured</groupId>
-				<artifactId>rest-assured</artifactId>
-				<version>1.2.2</version>
+				<artifactId>org.emonocot.rest-assured</artifactId>
+				<version>1.2.3</version>
 				<scope>test</scope>
 			</dependency>
+			<dependency>
+              <groupId>org.codehaus.groovy.modules.http-builder</groupId>
+              <artifactId>http-builder</artifactId>
+              <version>0.5.1</version>
+              <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-library</artifactId>
+                <version>1.1</version>
+                <scope>test</scope>
+            </dependency>
 			<dependency>
 				<groupId>net.sf.ehcache</groupId>
 				<artifactId>ehcache-core</artifactId>

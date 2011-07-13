@@ -18,6 +18,7 @@ import org.emonocot.model.pager.DefaultPageImpl;
 import org.emonocot.model.pager.Page;
 
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
@@ -75,9 +76,13 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
         // "identifier" we gave them and they passed in
         Criteria criteria = getSession()
           .createCriteria(Taxon.class).add(Restrictions.idEq(id));
+        
         Taxon taxon = (Taxon) criteria.uniqueResult();
-
-        inferRelatedTaxa(taxon);
+        if(taxon != null) {
+        	Hibernate.initialize(taxon.getSynonyms());
+        	inferRelatedTaxa(taxon);
+        }
+        
         return taxon;
     }
 

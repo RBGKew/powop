@@ -116,8 +116,16 @@
 		</dependency>
 	    <dependency>
 		    <groupId>com.jayway.restassured</groupId>
-			<artifactId>rest-assured</artifactId>
+			<artifactId>org.emonocot.rest-assured</artifactId>
 		</dependency>
+		<dependency>
+            <groupId>org.codehaus.groovy.modules.http-builder</groupId>
+            <artifactId>http-builder</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+        </dependency>
 	</dependencies>
 	<build>
 		<finalName>emonocot-checklist</finalName>
@@ -200,7 +208,7 @@
 				<artifactId>liquibase-maven-plugin</artifactId>
 				<version>2.0.1</version>
 				<configuration>
-					<changeLogFile>src/main/resources/${database.changelog}</changeLogFile>
+					<changeLogFile>${database.changelog}</changeLogFile>
 					<driver>${jdbc.driver.classname}</driver>
 					<url>${jdbc.driver.url}</url>
 					<username>${jdbc.driver.username}</username>
