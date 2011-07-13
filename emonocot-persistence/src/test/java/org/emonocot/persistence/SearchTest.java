@@ -8,7 +8,6 @@ import java.util.concurrent.Callable;
 
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.geography.Continent;
-import org.emonocot.model.geography.Country;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.Region;
 import org.emonocot.model.pager.Page;
@@ -111,6 +110,39 @@ public class SearchTest {
             taxon.getDistribution().put(region,  distribution);
         }
         return taxon;
+    }
+
+    /**
+     * @throws Exception if there is a problem with the callable
+     */
+    @Test
+    public final void setUpTestDataWithinTransaction() throws Exception {
+        
+        doInTransaction(new Callable() {
+            public Object call() {
+                FullTextSession fullTextSession = Search
+                        .getFullTextSession(sessionFactory.getCurrentSession());
+                fullTextSession.purgeAll(Taxon.class);
+                Taxon taxon1 = createTaxon("Aus", null, null,
+                        new GeographicalRegion[] {});
+                Taxon taxon2 = createTaxon("Aus bus", taxon1, null,
+                        new GeographicalRegion[] {Continent.AUSTRALASIA,
+                                Region.BRAZIL, Region.CARIBBEAN });
+                Taxon taxon3 = createTaxon("Aus ceus", taxon1, null,
+                        new GeographicalRegion[] {Region.NEW_ZEALAND});
+                Taxon taxon4 = createTaxon("Aus deus", null, taxon2,
+                        new GeographicalRegion[] {});
+                Taxon taxon5 = createTaxon("Aus eus", null, taxon3,
+                        new GeographicalRegion[] {});
+                taxonDao.saveOrUpdate(taxon1);
+                taxonDao.saveOrUpdate(taxon2);
+                taxonDao.saveOrUpdate(taxon3);
+                taxonDao.saveOrUpdate(taxon4);
+                taxonDao.saveOrUpdate(taxon5);
+                sessionFactory.getCurrentSession().flush();
+                return null;
+            }
+        });
     }
 
     /**
