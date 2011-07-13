@@ -69,14 +69,6 @@
 			<artifactId>hibernate-search</artifactId>
 	    </dependency>
 	    <dependency>
-			<groupId>org.apache.lucene.spatial</groupId>
-			<artifactId>org.emonocot.spatial-lucene</artifactId>
-	    </dependency>
-	    <dependency>
-			  <groupId>org.apache.lucene.spatial</groupId>
-			  <artifactId>org.emonocot.spatial-extras-base</artifactId>
-	    </dependency>
-	    <dependency>
               <groupId>com.vividsolutions</groupId>
               <artifactId>jts</artifactId>
         </dependency>

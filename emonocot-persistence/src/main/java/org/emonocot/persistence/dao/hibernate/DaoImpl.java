@@ -179,10 +179,7 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
             FullTextQuery fullTextQuery
                 = fullTextSession.createFullTextQuery(luceneQuery);
             if (spatialQuery != null && !spatialQuery.isEmpty()) {
-                fullTextQuery.enableFullTextFilter("spatialFilter")
-                .setParameter("levels", 24)
-                .setParameter("field", "area")
-                .setParameter("query", spatialQuery);
+                // TODO Implement spatial filter
             }
 
             if (pageSize != null) {

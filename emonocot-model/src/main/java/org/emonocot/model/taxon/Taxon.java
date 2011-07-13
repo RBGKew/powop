@@ -20,7 +20,6 @@ import org.emonocot.model.description.Content;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.geography.GeographicalRegion;
-import org.emonocot.model.hibernate.SpatialFilterFactory;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.reference.Reference;
 import org.hibernate.annotations.Cascade;
@@ -37,7 +36,6 @@ import org.hibernate.search.annotations.IndexedEmbedded;
  */
 @Entity
 @Indexed
-@FullTextFilterDef(name = "spatialFilter", impl = SpatialFilterFactory.class)
 public class Taxon extends Base {
 
     /**

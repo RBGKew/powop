@@ -11,11 +11,6 @@
 	<context:annotation-config />
 
 	<batch:job id="ReIndex">
-	    <batch:step id="setUp">
-			<batch:description>Set up the shape files</batch:description>
-			<batch:tasklet ref="setUpTasklet"/>
-			<batch:next on="COMPLETED" to="reIndex"/>
-		</batch:step>
 		<batch:step id="reIndex">
 			<batch:description>Re-index some or all of the eMonocot database</batch:description>
 			<batch:tasklet>
@@ -24,14 +19,6 @@
 			<batch:end on="COMPLETED"/>
 		</batch:step>
 	</batch:job>
-	
-	<bean id="setUpTasklet"
-		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter">
-		<property name="targetObject" ref="initializeShapeFiles" />
-		<property name="targetMethod" value="setUp" />
-	</bean>
-	
-	<bean id="initializeShapeFiles" class="org.emonocot.harvest.common.InitializeShapeFiles"/>
     
     <bean id="itemIndexer"
       class="org.emonocot.harvest.common.index.HibernateSearchIndexingWriter" scope="step">

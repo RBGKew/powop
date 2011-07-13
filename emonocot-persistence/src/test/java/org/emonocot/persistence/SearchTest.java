@@ -6,10 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
-import org.apache.lucene.spatial.base.context.SpatialContext;
-import org.apache.lucene.spatial.base.io.sample.SampleData;
-import org.apache.lucene.spatial.base.io.sample.SampleDataReader;
-import org.apache.lucene.spatial.base.shape.Shape;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.Country;
@@ -33,8 +29,6 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-import com.googlecode.lucene.spatial.base.context.JtsSpatialContext;
-
 /**
  *
  * @author ben
@@ -43,11 +37,6 @@ import com.googlecode.lucene.spatial.base.context.JtsSpatialContext;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"/applicationContext-test.xml" })
 public class SearchTest {
-
-   /**
-    *
-    */
-   private SpatialContext spatialContext = new JtsSpatialContext();
 
     /**
      *
@@ -122,67 +111,6 @@ public class SearchTest {
             taxon.getDistribution().put(region,  distribution);
         }
         return taxon;
-    }
-
-    /**
-     * @throws Exception if there is a problem with the callable
-     */
-    @Test
-    public final void setUpTestDataWithinTransaction() throws Exception {
-        SampleDataReader level1DataReader = new SampleDataReader(
-                getClass().getClassLoader()
-                .getResourceAsStream("org/emonocot/model/level1.txt"));
-        while (level1DataReader.hasNext()) {
-            SampleData data = level1DataReader.next();
-            Shape shape = spatialContext.readShape(data.shape);
-            Continent continent = Continent.fromString(data.id);
-            continent.setShape(shape);
-        }
-
-        SampleDataReader level2DataReader = new SampleDataReader(
-                getClass().getClassLoader()
-                .getResourceAsStream("org/emonocot/model/level2.txt"));
-        while (level2DataReader.hasNext()) {
-            SampleData data = level2DataReader.next();
-            Shape shape = spatialContext.readShape(data.shape);
-            Region region = Region.fromString(data.id);
-            region.setShape(shape);
-        }
-
-        SampleDataReader level3DataReader = new SampleDataReader(
-                getClass().getClassLoader()
-                .getResourceAsStream("org/emonocot/model/level3.txt"));
-        while (level3DataReader.hasNext()) {
-            SampleData data = level3DataReader.next();
-            Shape shape = spatialContext.readShape(data.shape);
-            Country country = Country.fromString(data.id);
-            country.setShape(shape);
-        }
-        doInTransaction(new Callable() {
-            public Object call() {
-                FullTextSession fullTextSession = Search
-                        .getFullTextSession(sessionFactory.getCurrentSession());
-                fullTextSession.purgeAll(Taxon.class);
-                Taxon taxon1 = createTaxon("Aus", null, null,
-                        new GeographicalRegion[] {});
-                Taxon taxon2 = createTaxon("Aus bus", taxon1, null,
-                        new GeographicalRegion[] {Continent.AUSTRALASIA,
-                                Region.BRAZIL, Region.CARIBBEAN });
-                Taxon taxon3 = createTaxon("Aus ceus", taxon1, null,
-                        new GeographicalRegion[] {Region.NEW_ZEALAND});
-                Taxon taxon4 = createTaxon("Aus deus", null, taxon2,
-                        new GeographicalRegion[] {});
-                Taxon taxon5 = createTaxon("Aus eus", null, taxon3,
-                        new GeographicalRegion[] {});
-                taxonDao.saveOrUpdate(taxon1);
-                taxonDao.saveOrUpdate(taxon2);
-                taxonDao.saveOrUpdate(taxon3);
-                taxonDao.saveOrUpdate(taxon4);
-                taxonDao.saveOrUpdate(taxon5);
-                sessionFactory.getCurrentSession().flush();
-                return null;
-            }
-        });
     }
 
     /**
