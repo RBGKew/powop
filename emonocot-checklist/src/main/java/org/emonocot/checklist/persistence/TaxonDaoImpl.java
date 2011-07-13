@@ -56,7 +56,6 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
         super.setSessionFactory(sessionFactory);
     }
 
-    @Override
     @Transactional(readOnly = true)
     public final List<Taxon> search(final String search) {
         List<Taxon> results = getSession().createCriteria(Taxon.class)
@@ -69,7 +68,6 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
         return results;
     }
 
-    @Override
     @Transactional(readOnly = true)
     public final Taxon get(final Long id) {
         // Retrieve taxon TODO with the database id, rather than the
@@ -134,7 +132,7 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
          *  as an argument to the constructor of StringBuffer
          */
         sb.append(taxon.getGenusHybridMarker());
-        if (sb.toString().trim().isEmpty()) {
+        if (sb.toString().trim().length()<1) {
             sb.append(" ");
         }
         sb.append(taxon.getGenus());
@@ -171,7 +169,6 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
         return;
     }
 
-    @Override
     @Transactional(readOnly = true)
     public final ChangeEvent<Taxon> find(final Serializable identifier) {
         Taxon taxon = null;
@@ -191,7 +188,6 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
                 new DateTime());
     }
 
-    @Override
     @Transactional(readOnly = true)
     public final Page<ChangeEvent<Taxon>> page(final String set,
             final DateTime from, final DateTime until, final Integer pageSize,

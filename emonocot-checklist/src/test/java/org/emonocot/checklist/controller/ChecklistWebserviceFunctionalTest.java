@@ -3,7 +3,7 @@ package org.emonocot.checklist.controller;
 import static com.jayway.restassured.RestAssured.expect;
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.path.xml.XmlPath.with;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.Properties;
 
@@ -47,7 +47,7 @@ public class ChecklistWebserviceFunctionalTest {
                 "functional.test.basePath",
                 "/latest/checklist");
         
-		if (properties.getProperty("http.proxyHost", null) != null && !properties.getProperty("http.proxyHost", null).isEmpty()) {
+		if (properties.getProperty("http.proxyHost", null) != null && properties.getProperty("http.proxyHost", null).length() > 0) {
 			RestAssured.proxyHost = properties.getProperty("http.proxyHost",
 					null);
 			RestAssured.proxyPort = Integer.parseInt(properties.getProperty(
@@ -130,5 +130,25 @@ public class ChecklistWebserviceFunctionalTest {
                "sp",
                with(xml).get(
                        "DataSet.TaxonConcepts.TaxonConcept.Rank.@code"));
+   }
+   
+   /**
+    * Tests the search operation handles a range of inputs
+    * 
+    */
+   @Test
+   public final void testSearch() {
+
+       String searchName = "Lorem";
+       //get nothing
+       String xml = given().parameters("function", "search", "search", "Misspelt name").get("/endpoint").asString();
+       assertNotNull("A results element was expected", with(xml).get("results"));
+       assertFalse(xml.contains("<value"));
+       
+       //get a record
+       xml = given().parameters("function", "search", "search", searchName).get("/endpoint").asString();
+       assertNotNull("A results element was expected", with(xml).get("results"));
+       assertNotNull("<value> element was expected", with(xml).get("results.value"));
+       assertEquals(searchName, with(xml).get("results.value.name"));
    }
 }

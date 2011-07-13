@@ -167,12 +167,10 @@ public class Taxon implements IdentifiableEntity<String> {
         this.id = newId;
     }
 
-    @Override
     public final String getIdentifier() {
         return Taxon.IDENTIFIER_PREFIX + this.id;
     }
 
-    @Override
     public final void setIdentifier(final String identifier) {
         if (identifier.startsWith(Taxon.IDENTIFIER_PREFIX)) {
             try {

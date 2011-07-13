@@ -38,22 +38,18 @@ public class ChangeEventImpl<T extends IdentifiableEntity> implements
         this.date = newDate;
     }
 
-    @Override
     public final T getObject() {
         return object;
     }
 
-    @Override
     public final ChangeType getType() {
         return type;
     }
 
-    @Override
     public final DateTime getDatestamp() {
         return date;
     }
 
-    @Override
     public final String getIdentifier() {
         return object.getIdentifier().toString();
     }

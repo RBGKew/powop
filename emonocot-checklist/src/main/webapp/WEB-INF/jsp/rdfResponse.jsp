@@ -15,10 +15,10 @@
     <number_of_children>${fn:length(taxon.childTaxa)}</number_of_children>
     <number_of_children_synonyms>${fn:length(taxon.synonyms)}</number_of_children_synonyms>
     <metadata><!-- Check whether to use this or the metadata table in wcs -->
-    	<title></title>
+    	<title>World Checklist System: Taxon Extractor Service</title>
     	<description></description>
-    	<url></url>
-    	<indexed_on></indexed_on>
+    	<url>http://apps.kew.org/wcsTaxonExtractor</url>
+    	<!--<indexed_on></indexed_on>-->
     </metadata>
  </value>     
 </c:forEach>

@@ -13,7 +13,6 @@ import org.springframework.format.Formatter;
  */
 public class ChecklistIdentifierFormatter implements Formatter<Long> {
 
-    @Override
     public final String print(final Long value, final Locale locale) {
         if (value == null) {
             return null;
@@ -22,7 +21,6 @@ public class ChecklistIdentifierFormatter implements Formatter<Long> {
         }
     }
 
-    @Override
     public final Long parse(
             final String string, final Locale locale) throws ParseException {
         if (string.startsWith(Taxon.IDENTIFIER_PREFIX)) {
