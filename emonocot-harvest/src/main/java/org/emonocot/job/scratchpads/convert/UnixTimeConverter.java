@@ -18,7 +18,6 @@ public class UnixTimeConverter implements Converter<String, DateTime> {
      */
     private static final Long MILLIS_IN_SECOND = 1000L;
 
-    @Override
     public final DateTime convert(final String value) {
         if (value == null) {
             return null;

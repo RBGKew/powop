@@ -17,7 +17,6 @@ import org.hibernate.search.bridge.LuceneOptions;
  */
 public class DistributionBridge implements FieldBridge {
 
-    @Override
     public final void set(final String name, final Object value,
             final Document document, final LuceneOptions luceneOptions) {
         Distribution distribution = (Distribution) value;

@@ -13,7 +13,6 @@ import org.springframework.format.Formatter;
  */
 public class MetadataPrefixFormatter implements Formatter<MetadataPrefix> {
 
-    @Override
     public final String print(final MetadataPrefix metadataPrefix,
             final Locale locale) {
         if (metadataPrefix == null) {
@@ -23,7 +22,6 @@ public class MetadataPrefixFormatter implements Formatter<MetadataPrefix> {
         }
     }
 
-    @Override
     public final MetadataPrefix parse(final String text, final Locale locale)
             throws ParseException {
        return MetadataPrefix.fromValue(text);

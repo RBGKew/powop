@@ -55,7 +55,6 @@ public class MultiResourceDeletingTasklet implements Tasklet {
         }
     }
 
-    @Override
     public final RepeatStatus execute(final StepContribution contribution,
             final ChunkContext chunkContext) throws Exception {
         for (Resource lResource : resources) {

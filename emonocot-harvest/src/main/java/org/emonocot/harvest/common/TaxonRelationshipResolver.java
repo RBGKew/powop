@@ -102,7 +102,6 @@ public abstract class TaxonRelationshipResolver
         this.taxonRelationships.add(taxonRelationship);
     }
 
-    @Override
     public final void beforeWrite(final List<? extends Taxon> items) {
         logger.info("Before Write");
         for (TaxonRelationship taxonRelationship : taxonRelationships) {
@@ -141,25 +140,21 @@ public abstract class TaxonRelationshipResolver
         taxonRelationships.clear();
     }
 
-    @Override
     public void afterWrite(final List<? extends Taxon> items) {
 
     }
 
-    @Override
     public void onWriteError(
             final Exception exception, final List<? extends Taxon> items) {
 
     }
 
-    @Override
     public final void beforeChunk() {
         logger.info("Before Chunk");
         this.taxonRelationships = new HashSet<TaxonRelationship>();
         this.taxaWithinChunk = new HashMap<String, Taxon>();
     }
 
-    @Override
     public final void afterChunk() {
         logger.info("After Chunk");
     }

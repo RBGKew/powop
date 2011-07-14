@@ -15,7 +15,6 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
  */
 public class GranularityConverter implements Converter {
 
-    @Override
     public final boolean canConvert(final Class clazz) {
         if (clazz != null && clazz.equals(Granularity.class)) {
             return true;
@@ -23,14 +22,12 @@ public class GranularityConverter implements Converter {
         return false;
     }
 
-    @Override
     public final void marshal(final Object value,
             final HierarchicalStreamWriter writer,
             final MarshallingContext context) {
        writer.setValue(((Granularity) value).value());
     }
 
-    @Override
     public final Object unmarshal(final HierarchicalStreamReader reader,
             final UnmarshallingContext context) {
         return Granularity.fromValue(reader.getValue());

@@ -23,7 +23,6 @@ public class ErrorConverter implements Converter {
    private static Logger logger
        = LoggerFactory.getLogger(ErrorConverter.class);
 
-    @Override
     public final boolean canConvert(final Class clazz) {
        if (clazz != null && clazz.equals(Error.class)) {
            return true;
@@ -31,7 +30,6 @@ public class ErrorConverter implements Converter {
        return false;
     }
 
-    @Override
     public final void marshal(final Object value,
             final HierarchicalStreamWriter writer,
             final MarshallingContext context) {
@@ -48,7 +46,6 @@ public class ErrorConverter implements Converter {
         }
     }
 
-    @Override
     public final Object unmarshal(final HierarchicalStreamReader reader,
             final UnmarshallingContext context) {
         Error error = new Error();

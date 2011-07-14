@@ -10,7 +10,6 @@ import org.springframework.core.convert.converter.Converter;
  */
 public class FeatureConverter implements Converter<String, Feature> {
 
-    @Override
     public final Feature convert(final String value) {
         if (value == null) {
             return null;

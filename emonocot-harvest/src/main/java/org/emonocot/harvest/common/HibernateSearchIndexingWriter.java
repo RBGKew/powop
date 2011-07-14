@@ -49,7 +49,6 @@ public class HibernateSearchIndexingWriter
         this.transactionManager = newTransactionManager;
     }
 
-    @Override
     public final void write(
             final List<? extends Object> objects) throws Exception {
         FullTextSession fullTextSession
@@ -64,13 +63,11 @@ public class HibernateSearchIndexingWriter
         fullTextSession.clear(); //free memory since the queue is processed
     }
 
-    @Override
     public final void beforeStep(final StepExecution stepExecution) {
         transactionStatus
             = transactionManager.getTransaction(transactionDefinition);
     }
 
-    @Override
     public final ExitStatus afterStep(final StepExecution stepExecution) {
         transactionManager.commit(transactionStatus);
         return null;

@@ -16,7 +16,7 @@ public class GeographyConverter implements
     private static final String TDWG_VOCABULARY_PREFIX
         = "http://rs.tdwg.org/ontology/voc/GeographicRegion.rdf#";
 
-    @Override
+
     public final GeographicalRegion convert(final String identifier) {
         if (identifier.startsWith(GeographyConverter.TDWG_VOCABULARY_PREFIX)) {
             String code = identifier

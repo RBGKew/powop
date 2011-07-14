@@ -110,12 +110,10 @@ public class ArchiveMetadataReader implements StepExecutionListener {
         return names.toArray(new String[names.size()]);
     }
 
-    @Override
     public final ExitStatus afterStep(final StepExecution newStepExecution) {
         return null;
     }
 
-    @Override
     public final void beforeStep(final StepExecution newStepExecution) {
         this.stepExecution = newStepExecution;
     }

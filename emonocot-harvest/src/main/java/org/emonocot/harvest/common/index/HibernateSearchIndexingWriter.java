@@ -234,7 +234,6 @@ public class HibernateSearchIndexingWriter<T> extends
 
     }
 
-    @Override
     public final void write(final List<? extends T> list) throws Exception {
         for (T t : list) {
             helper.index(t);

@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class DescriptionServiceImpl extends ServiceImpl<Content, DescriptionDao> implements
         DescriptionService {
 
-    @Override
     @Transactional(readOnly = true)
     public final TextContent getTextContent(final Feature feature,
             final Taxon taxon) {

@@ -288,12 +288,10 @@ public class OaiPmhClient implements StepExecutionListener {
         }
     }
 
-    @Override
     public final ExitStatus afterStep(final StepExecution newStepExecution) {
         return null;
     }
 
-    @Override
     public final void beforeStep(final StepExecution newStepExecution) {
         this.stepExecution = newStepExecution;
     }

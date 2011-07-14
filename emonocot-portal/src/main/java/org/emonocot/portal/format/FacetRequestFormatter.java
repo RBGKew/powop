@@ -15,14 +15,12 @@ import org.springframework.format.Formatter;
 public class FacetRequestFormatter
     implements Formatter<FacetRequest> {
 
-    @Override
     public final String print(
             final FacetRequest facetRequest, final Locale locale) {
         return facetRequest.getFacet().name()
             + "." + facetRequest.getSelected();
     }
 
-    @Override
     public final FacetRequest parse(
             final String facetRequest, final Locale locale)
             throws ParseException {

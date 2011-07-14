@@ -86,17 +86,14 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
         this.setSessionFactory(sessionFactory);
     }
 
-    @Override
     public final T load(final String identifier) {
         return load(identifier, null);
     }
 
-    @Override
     public final T find(final String identifier) {
         return find(identifier, null);
     }
 
-    @Override
     public final T load(final String identifier, final String fetch) {
 
         Criteria criteria = getSession().createCriteria(type)
@@ -112,7 +109,6 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
         return t;
     }
 
-    @Override
     public final T find(final String identifier, final String fetch) {
         Criteria criteria = getSession().createCriteria(type)
         .add(Restrictions.eq("identifier", identifier));
@@ -154,7 +150,6 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
    */
   protected abstract String[] getDocumentFields();
 
-    @Override
     public final Page<T> search(final String query,
             final String spatialQuery,
             final Integer pageSize, final Integer pageNumber,
@@ -178,7 +173,7 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
             }
             FullTextQuery fullTextQuery
                 = fullTextSession.createFullTextQuery(luceneQuery);
-            if (spatialQuery != null && !spatialQuery.isEmpty()) {
+            if (spatialQuery != null && spatialQuery.trim().length() != 0) {
                 // TODO Implement spatial filter
             }
 

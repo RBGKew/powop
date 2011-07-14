@@ -44,8 +44,6 @@ public class TaxonFieldSetMapper extends TaxonRelationshipResolver
         this.fieldNames = newFieldNames;
     }
 
-
-    @Override
     public final Taxon mapFieldSet(final FieldSet fieldSet)
             throws BindException {
        Taxon taxon = new Taxon();

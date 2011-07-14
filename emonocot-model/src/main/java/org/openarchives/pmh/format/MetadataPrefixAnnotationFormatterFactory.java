@@ -26,18 +26,15 @@ public class MetadataPrefixAnnotationFormatterFactory implements
         FIELD_TYPES.add(MetadataPrefix.class);
     }
 
-    @Override
     public final Set<Class<?>> getFieldTypes() {
         return FIELD_TYPES;
     }
 
-    @Override
     public final Parser<?> getParser(final MetadataPrefixFormat metadataPrefix,
             final Class<?> fieldType) {
         return new MetadataPrefixFormatter();
     }
 
-    @Override
     public final Printer<?> getPrinter(
             final MetadataPrefixFormat metadataPrefix,
             final Class<?> fieldType) {

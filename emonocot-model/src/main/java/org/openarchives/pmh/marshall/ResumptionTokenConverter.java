@@ -29,7 +29,6 @@ public class ResumptionTokenConverter implements Converter {
     private static final DateTimeFormatter PARSER = ISODateTimeFormat
             .dateTimeParser();
 
-    @Override
     public final boolean canConvert(final Class clazz) {
        if (clazz != null && clazz.equals(ResumptionToken.class)) {
            return true;
@@ -37,7 +36,6 @@ public class ResumptionTokenConverter implements Converter {
        return false;
     }
 
-    @Override
     public final void marshal(final Object value,
             final HierarchicalStreamWriter writer,
             final MarshallingContext context) {
@@ -61,7 +59,6 @@ public class ResumptionTokenConverter implements Converter {
         writer.setValue(resumptionToken.getValue());
     }
 
-    @Override
     public final Object unmarshal(final HierarchicalStreamReader reader,
             final UnmarshallingContext context) {
         ResumptionToken resumptionToken = new ResumptionToken();

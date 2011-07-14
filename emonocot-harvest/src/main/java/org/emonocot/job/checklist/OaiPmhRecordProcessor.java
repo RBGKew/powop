@@ -43,7 +43,6 @@ public class OaiPmhRecordProcessor
     private Converter<String, GeographicalRegion>
         geographyConverter = new GeographyConverter();
 
-    @Override
     public final Taxon process(final Record record) throws Exception {
         Taxon taxon = taxonService.find(record.getHeader().getIdentifier()
                 .toString(), "taxon-with-related");

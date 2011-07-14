@@ -31,7 +31,6 @@ public class DescriptionDaoImpl extends DaoImpl<Content> implements
         return new String[] {"title"};
     }
 
-    @Override
     public final TextContent getTextContent(
             final Feature feature, final Taxon taxon) {
         // TODO Auto-generated method stub

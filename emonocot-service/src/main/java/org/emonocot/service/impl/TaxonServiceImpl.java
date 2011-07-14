@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class TaxonServiceImpl extends ServiceImpl<Taxon, TaxonDao> implements
         TaxonService {
 
-    @Override
     @Transactional(readOnly = true)
     public final boolean verify(final String identifer,
             final String scientificName) {

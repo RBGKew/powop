@@ -10,7 +10,6 @@ import org.springframework.batch.item.ItemProcessor;
  */
 public class TaxonValidator implements ItemProcessor<Taxon, Taxon> {
 
-    @Override
     public final Taxon process(final Taxon taxon) throws Exception {
         // TODO Auto-generated method stub
         return taxon;

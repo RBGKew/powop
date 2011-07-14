@@ -87,7 +87,6 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
         return facetingRequest;
     }
 
-    @Override
     public final boolean verify(final String identifer,
             final String scientificName) {
         // TODO Auto-generated method stub

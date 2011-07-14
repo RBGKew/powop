@@ -10,7 +10,6 @@ import org.springframework.core.convert.converter.Converter;
  */
 public class LicenseConverter implements Converter<String, License> {
 
-    @Override
     public final License convert(final String value) {
         if (value == null) {
             return null;

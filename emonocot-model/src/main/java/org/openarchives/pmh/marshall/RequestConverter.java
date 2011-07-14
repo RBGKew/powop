@@ -29,7 +29,6 @@ public class RequestConverter implements Converter {
     private static final DateTimeFormatter PARSER = ISODateTimeFormat
             .dateTimeParser();
 
-    @Override
     public final boolean canConvert(final Class clazz) {
        if (clazz != null && clazz.equals(Request.class)) {
            return true;
@@ -37,7 +36,6 @@ public class RequestConverter implements Converter {
        return false;
     }
 
-    @Override
     public final void marshal(final Object value,
             final HierarchicalStreamWriter writer,
             final MarshallingContext context) {
@@ -77,7 +75,6 @@ public class RequestConverter implements Converter {
         writer.setValue(request.getValue());
     }
 
-    @Override
     public final Object unmarshal(final HierarchicalStreamReader reader,
             final UnmarshallingContext context) {
         Request request = new Request();

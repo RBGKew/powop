@@ -26,19 +26,16 @@ public class FacetRequestAnnotationFormatterFactory implements
        FIELD_TYPES.add(FacetRequest.class);
    }
 
-    @Override
     public final Set<Class<?>> getFieldTypes() {
         return FIELD_TYPES;
     }
 
-    @Override
     public final Parser<?> getParser(
             final FacetRequestFormat facetRequestFormat,
             final Class<?> fieldType) {
         return new FacetRequestFormatter();
     }
 
-    @Override
     public final Printer<?> getPrinter(
             final FacetRequestFormat arg0, final Class<?> fieldType) {
         return new FacetRequestFormatter();

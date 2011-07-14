@@ -23,7 +23,6 @@ public class OaiPmhRecordValidator implements
         this.authority = newAuthority;
     }
 
-    @Override
     public final Record process(final Record item) {
         // TODO implement validation
         return item;

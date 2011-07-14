@@ -300,33 +300,27 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
         return pageSize;
     }
 
-    @Override
     public final void addFacets(
             final String facetName, final List<Facet> newFacets) {
         this.facets.put(facetName, newFacets);
     }
 
-    @Override
     public final Map<String, List<Facet>> getFacets() {
         return facets;
     }
 
-    @Override
     public final Set<String> getFacetNames() {
         return facets.keySet();
     }
 
-    @Override
     public final void putParam(final String name, final Object value) {
         this.parameters.put(name, value);
     }
 
-    @Override
     public final Map<String, Object> getParams() {
         return parameters;
     }
 
-    @Override
     public final String getPageNumber(final int index) {
         return pageNumbers.get(index);
     }
