@@ -595,6 +595,11 @@
 				<version>2.7.1</version>
 			</dependency>
 			<dependency>
+              <groupId>com.sun.xml.bind</groupId>
+              <artifactId>jaxb-impl</artifactId>
+              <version>2.2.2</version>
+            </dependency>
+			<dependency>
 				<groupId>org.seleniumhq.selenium.client-drivers</groupId>
 				<artifactId>selenium-java-client-driver</artifactId>
 				<version>1.0.2</version>
@@ -673,8 +678,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<source>5</source>
-					<target>5</target>
+				  <source>1.5</source>
+				  <target>1.5</target>
 				</configuration>
 			</plugin>
 			<plugin>
