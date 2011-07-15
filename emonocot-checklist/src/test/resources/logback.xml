@@ -12,4 +12,8 @@
   <!-- <logger name="org.emonocot.checklist.view.oai" level="INFO">
     <appender-ref ref="stdout"/>
   </logger>-->
+  <!-- uncomment to see the SQL -->
+  <logger name="org.hibernate.SQL" level="TRACE">
+    <appender-ref ref="stdout"/>
+  </logger>
 </configuration>

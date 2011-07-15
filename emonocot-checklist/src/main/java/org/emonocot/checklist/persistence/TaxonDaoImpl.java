@@ -1,32 +1,25 @@
 package org.emonocot.checklist.persistence;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.emonocot.checklist.format.ChecklistIdentifierFormatter;
 import org.emonocot.checklist.model.ChangeEvent;
 import org.emonocot.checklist.model.ChangeEventImpl;
 import org.emonocot.checklist.model.ChangeType;
-import org.emonocot.checklist.model.Rank;
 import org.emonocot.checklist.model.Taxon;
 import org.emonocot.model.pager.DefaultPageImpl;
 import org.emonocot.model.pager.Page;
-
 import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-
 import org.joda.time.DateTime;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
@@ -70,7 +63,7 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
 
     @Transactional(readOnly = true)
     public final Taxon get(final Long id) {
-        // Retrieve taxon TODO with the database id, rather than the
+        // Retrieve taxon with the database id, rather than the
         // "identifier" we gave them and they passed in
         Criteria criteria = getSession()
           .createCriteria(Taxon.class).add(Restrictions.idEq(id));
@@ -180,12 +173,16 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
         // Taxon cannot be null because we would have thrown an exception
         // prior to this point
 
-        // Assume everything is created at this point as I don't have the
-        // mappings for the other columns
-        // TODO add updated / deleted items
-
-        return new ChangeEventImpl<Taxon>(taxon, ChangeType.CREATE,
-                new DateTime());
+        if(taxon.getDateDeleted() != null) {
+    		return new ChangeEventImpl<Taxon>(taxon,
+                    ChangeType.DELETE, taxon.getDateDeleted());
+    	} else if(taxon.getDateModified() != null) {
+    		return new ChangeEventImpl<Taxon>(taxon,
+                    ChangeType.MODIFIED, taxon.getDateModified());
+    	} else {
+          return new ChangeEventImpl<Taxon>(taxon,
+                ChangeType.CREATE, taxon.getDateEntered());
+    	}
     }
 
     @Transactional(readOnly = true)
@@ -193,7 +190,35 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
             final DateTime from, final DateTime until, final Integer pageSize,
             final Integer pageNumber) {
         Criteria criteria = getSession().createCriteria(Taxon.class);
-        // TODO add filters for set, from and until
+
+        if(set != null) {
+        	criteria.add(Restrictions.eq("family", set));
+        }
+        
+        if(from != null) {
+        	criteria.add(Restrictions.disjunction()
+        			.add(Restrictions.gt("dateDeleted", from))
+        			.add(Restrictions.conjunction()
+        			    .add(Restrictions.isNull("dateDeleted"))
+        			    .add(Restrictions.gt("dateModified", from)))
+        			.add(Restrictions.conjunction()
+        					.add(Restrictions.isNull("dateDeleted"))
+        					.add(Restrictions.isNull("dateModified"))
+        					.add(Restrictions.gt("dateEntered", from))));
+        }
+        
+        if(until != null) {
+        	criteria.add(Restrictions.disjunction()
+        			.add(Restrictions.lt("dateDeleted", until))
+        			.add(Restrictions.conjunction()
+        			    .add(Restrictions.isNull("dateDeleted"))
+        			    .add(Restrictions.lt("dateModified", until)))
+        			.add(Restrictions.conjunction()
+        					.add(Restrictions.isNull("dateDeleted"))
+        					.add(Restrictions.isNull("dateModified"))
+        					.add(Restrictions.lt("dateEntered", until))));
+        }
+        
         if (pageSize != null) {
             criteria.setMaxResults(pageSize);
             if (pageNumber != null) {
@@ -207,15 +232,45 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
         } else {
             List<ChangeEvent<Taxon>> results = new ArrayList<ChangeEvent<Taxon>>();
             for (Taxon taxon : taxa) {
-                // Assume everything is created at this point as I don't have
-                // the mappings for the other columns
-                // TODO add updated / deleted items
-                results.add(new ChangeEventImpl<Taxon>(taxon,
-                        ChangeType.CREATE, new DateTime()));
+                if(taxon.getDateDeleted() != null) {
+            		results.add(new ChangeEventImpl<Taxon>(taxon,
+                            ChangeType.DELETE, taxon.getDateDeleted()));
+            	} else if(taxon.getDateModified() != null) {
+            		results.add(new ChangeEventImpl<Taxon>(taxon,
+                            ChangeType.MODIFIED, taxon.getDateModified()));
+            	} else {
+                  results.add(new ChangeEventImpl<Taxon>(taxon,
+                        ChangeType.CREATE, taxon.getDateEntered()));
+            	}
             }
-            // TODO add filters for set, from and until
+            
             Criteria countCriteria = getSession().createCriteria(Taxon.class)
                     .setProjection(Projections.rowCount());
+            if(set != null) {
+            	countCriteria.add(Restrictions.eq("family", set));
+            }
+            if(from != null) {
+            	countCriteria.add(Restrictions.disjunction()
+            			.add(Restrictions.gt("dateDeleted", from))
+            			.add(Restrictions.conjunction()
+            			    .add(Restrictions.isNull("dateDeleted"))
+            			    .add(Restrictions.gt("dateModified", from)))
+            			.add(Restrictions.conjunction()
+            					.add(Restrictions.isNull("dateDeleted"))
+            					.add(Restrictions.isNull("dateModified"))
+            					.add(Restrictions.gt("dateEntered", from))));
+            }
+            if(until != null) {
+            	countCriteria.add(Restrictions.disjunction()
+            			.add(Restrictions.lt("dateDeleted", until))
+            			.add(Restrictions.conjunction()
+            			    .add(Restrictions.isNull("dateDeleted"))
+            			    .add(Restrictions.lt("dateModified", until)))
+            			.add(Restrictions.conjunction()
+            					.add(Restrictions.isNull("dateDeleted"))
+            					.add(Restrictions.isNull("dateModified"))
+            					.add(Restrictions.lt("dateEntered", until))));
+            }
             return new DefaultPageImpl<ChangeEvent<Taxon>>(
                     ((Long) countCriteria.uniqueResult()).intValue(),
                     pageNumber, pageSize, results);

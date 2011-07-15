@@ -13,5 +13,9 @@ public enum ChangeType {
     /**
      *
      */
-    CREATE
+    CREATE,
+    /**
+     *
+     */
+    MODIFIED
 }

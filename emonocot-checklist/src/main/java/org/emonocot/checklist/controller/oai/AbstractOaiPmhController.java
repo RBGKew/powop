@@ -198,7 +198,7 @@ public abstract class AbstractOaiPmhController {
      *
      * @return the sets provided by this repository
      */
-    protected final Set<org.openarchives.pmh.Set> getSets() {
+    protected Set<org.openarchives.pmh.Set> getSets() {
         return new HashSet<org.openarchives.pmh.Set>();
     }
 
