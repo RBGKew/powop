@@ -18,6 +18,7 @@
 			<groupId>org.emonocot</groupId>
 			<artifactId>emonocot-model</artifactId>
 		</dependency>
+		<!-- dependencies from emonocot-model not included when compiling with java 1.5 for some reason -->
 		<dependency>
 			<groupId>org.joda</groupId>
 			<artifactId>com.springsource.org.joda.time</artifactId>
@@ -29,6 +30,10 @@
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>stax</groupId>
+			<artifactId>stax</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
