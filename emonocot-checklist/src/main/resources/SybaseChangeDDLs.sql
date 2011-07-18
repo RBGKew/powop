@@ -35,7 +35,11 @@ setuser 'dbo'
 go
 
 alter table Plant_Name
-     add  Modified_date     datetime     null
+     add  Date_modified     datetime     null
+     add  Date_name_modified     datetime     null
+     add  Date_localities_modified     datetime     null
+     add  Date_authors_modified     datetime     null
+     add  Date_citations_modified     datetime     null
 go
 
 
@@ -84,8 +88,12 @@ create table Plant_Name_Deleted (
 	Place_of_publication_id         int                                  null  ,
 	Institute                       varchar(50)                          null  ,
 	Institute_id                    varchar(100)                         null  ,
-	Modified_date                   datetime                             null  ,
-	Deleted_date                    datetime                             default getdate()   not null
+    Date_modified                   datetime                             null  ,
+	Date_name_modified     			datetime        					 null  ,
+    Date_localities_modified     	datetime     						 null  ,
+    Date_authors_modified     		datetime						     null  ,
+    Date_citations_modified     	datetime						     null  ,
+	Date_deleted                    datetime                             default getdate()   not null
 )
 lock allpages
  on 'default'
@@ -120,7 +128,8 @@ select @num_updated = @@rowcount
     return
 
     update Plant_Name
-    set Modified_date = getDate()
+    set Date_name_modified = getDate(),
+        Date_modified = getDate()
     from inserted, Plant_Name
     where inserted.Plant_name_id = Plant_Name.Plant_name_id
     
@@ -188,8 +197,12 @@ select @num_updated = @@rowcount
                Place_of_publication_id,
                Institute,
                Institute_id,
-               Modified_date,
-               getdate() AS Deleted_date
+               Date_modified,
+               Date_name_modified,
+               Date_localities_modified,
+               Date_authors_modified,
+               Date_citations_modified,
+               getdate() AS Date_deleted
     from deleted
 
 end
@@ -226,7 +239,8 @@ select @num_updated = @@rowcount
 
 /* TODO: Replace with stored procedure */
     update Plant_Name
-    set Modified_date = getDate()
+    set Date_localities_modified = getDate(),
+        Date_modified = getDate()
     from inserted, Plant_Name
     where inserted.Plant_name_id = Plant_Name.Plant_name_id
     
@@ -263,7 +277,8 @@ select @num_updated = @@rowcount
 
 /* TODO: Replace with stored procedure */
     update Plant_Name
-    set Modified_date = getDate()
+    set Date_authors_modified = getDate(),
+        Date_modified = getDate()
     from inserted, Plant_Name
     where inserted.Plant_name_id = Plant_Name.Plant_name_id
     
@@ -301,7 +316,8 @@ select @num_updated = @@rowcount
 
 /* TODO: Replace with stored procedure */
     update Plant_Name
-    set Modified_date = getDate()
+    set Date_citations_modified = getDate(),
+        Date_modified = getDate()
     from inserted, Plant_Name
     where inserted.Plant_name_id = Plant_Name.Plant_name_id
     
@@ -400,8 +416,8 @@ AS /* View created to pull Monocot data from for the eMonocot project */
                Place_of_publication_id,
                Institute,
                Institute_id,
-               Modified_date,
-               NULL AS Deleted_date
+               Date_modified,
+               NULL AS Date_deleted
        FROM  Plant_Name,    
              Family_Permissions
           WHERE  Plant_Name.Family = Family_Permissions.family
@@ -438,7 +454,7 @@ UNION ALL
                Place_of_publication_id,
                Institute,
                Institute_id,
-               Modified_date,
+               Date_modified,
                Deleted_date
        FROM  Plant_Name_Deleted,    
              Family_Permissions   
