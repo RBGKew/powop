@@ -46,15 +46,17 @@ public class ChecklistWebserviceFunctionalTest {
         RestAssured.basePath = properties.getProperty(
                 "functional.test.basePath",
                 "/latest/checklist");
-        
-		if (properties.getProperty("http.proxyHost", null) != null && properties.getProperty("http.proxyHost", null).length() > 0) {
-			RestAssured.proxyHost = properties.getProperty("http.proxyHost",
-					null);
-			RestAssured.proxyPort = Integer.parseInt(properties.getProperty(
-					"http.proxyPort", "8080"));
-			RestAssured.proxyScheme = properties.getProperty(
-					"http.proxyScheme", "http");
-		}
+
+        if (properties.getProperty("http.proxyHost", null) != null
+                && properties
+                  .getProperty("http.proxyHost", null).length() > 0) {
+            RestAssured.proxyHost = properties.getProperty("http.proxyHost",
+                    null);
+            RestAssured.proxyPort = Integer.parseInt(properties.getProperty(
+                    "http.proxyPort", "8080"));
+            RestAssured.proxyScheme = properties.getProperty(
+                    "http.proxyScheme", "http");
+        }
     }
 
     /**
@@ -131,24 +133,30 @@ public class ChecklistWebserviceFunctionalTest {
                with(xml).get(
                        "DataSet.TaxonConcepts.TaxonConcept.Rank.@code"));
    }
-   
-   /**
-    * Tests the search operation handles a range of inputs
-    * 
-    */
-   @Test
-   public final void testSearch() {
 
-       String searchName = "Lorem";
-       //get nothing
-       String xml = given().parameters("function", "search", "search", "Misspelt name").get("/endpoint").asString();
-       assertNotNull("A results element was expected", with(xml).get("results"));
-       assertFalse(xml.contains("<value"));
-       
-       //get a record
-       xml = given().parameters("function", "search", "search", searchName).get("/endpoint").asString();
-       assertNotNull("A results element was expected", with(xml).get("results"));
-       assertNotNull("<value> element was expected", with(xml).get("results.value"));
-       assertEquals(searchName, with(xml).get("results.value.name"));
-   }
+    /**
+     * Tests the search operation handles a range of inputs.
+     *
+     */
+    @Test
+    public final void testSearch() {
+
+        String searchName = "Lorem";
+        // get nothing
+        String xml = given()
+                .parameters("function", "search", "search", "Misspelt name")
+                .get("/endpoint").asString();
+        assertNotNull("A results element was expected", with(xml)
+                .get("results"));
+        assertFalse(xml.contains("<value"));
+
+        // get a record
+        xml = given().parameters("function", "search", "search", searchName)
+                .get("/endpoint").asString();
+        assertNotNull("A results element was expected", with(xml)
+                .get("results"));
+        assertNotNull("<value> element was expected",
+                with(xml).get("results.value"));
+        assertEquals(searchName, with(xml).get("results.value.name"));
+    }
 }

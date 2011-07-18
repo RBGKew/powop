@@ -38,6 +38,11 @@
         <property name="autodetectAnnotations" value="true"/>
         <property name="reflectionProvider" ref="reflectionProvider"/>
         <property name="streamDriver" ref="oaiPmhStreamDriver"/>
+        <property name="converters">
+          <array>
+            <bean class="org.emonocot.model.marshall.UriConverter"/>
+          </array>
+        </property>
     </bean>
     
     <bean id="reflectionProvider" class="org.openarchives.pmh.marshall.ReflectionProviderFactory"/>
@@ -54,11 +59,13 @@
 	<bean id="oaiPmhQNameMap"
 		  class="org.openarchives.pmh.marshall.OpenArchivesQNameMapFactory" />
     
-    <bean id="mapper"  class="org.dozer.spring.DozerBeanMapperFactoryBean">
+    <bean id="mapper"  class="org.emonocot.checklist.view.assembler.DozerBeanMapperFactoryBean">
+        <property name="customFieldMapper">
+            <bean class="org.emonocot.checklist.view.assembler.HibernateProxyFieldMapper"/>
+        </property>
         <property name="mappingFiles">
             <list>
-                <!-- <value>classpath:/assembler/mapping.xml</value>
-                <value>classpath:/org/kew/grassbase/view/assembler/mapping.xml</value>-->
+                <value>classpath:/org/emonocot/checklist/view/assembler/mapping.xml</value>
             </list>
         </property>
     </bean>

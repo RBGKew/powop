@@ -35,6 +35,8 @@ public class StatusTypeConverter implements CustomConverter {
             switch (changeType) {
             case CREATE:
                 return null;
+            case MODIFIED:
+                return null;
             case DELETE:
             default:
                 return Status.deleted;

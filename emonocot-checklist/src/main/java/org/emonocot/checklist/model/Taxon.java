@@ -235,9 +235,11 @@ public class Taxon implements IdentifiableEntity<String> {
                 this.rank = Rank.SPECIES;
             } else if (infraspecificRank != null) {
                 // if this grows loop through Rank.values()
-                if (infraspecificRank.contains(Rank.SUBSPECIES.getAbbreviation())) {
+                if (infraspecificRank.contains(
+                        Rank.SUBSPECIES.getAbbreviation())) {
                     this.rank = Rank.SUBSPECIES;
-                } else if (infraspecificRank.contains(Rank.VARIETY.getAbbreviation())) {
+                } else if (infraspecificRank.contains(
+                        Rank.VARIETY.getAbbreviation())) {
                     this.rank = Rank.VARIETY;
                 } else {
                     this.rank = Rank.INFRASPECIFIC;

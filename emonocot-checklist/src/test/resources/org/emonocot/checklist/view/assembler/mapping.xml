@@ -39,6 +39,23 @@
         </field>
     </mapping>
     
+    <mapping>
+        <class-a>org.emonocot.checklist.test.DummyIdentifiableEntity</class-a>
+        <class-b>org.openarchives.pmh.OaiDc</class-b>
+        <field>
+          <a>identifier</a>
+          <b>dcIdentifier</b>
+        </field>
+        <field>
+            <a>title</a>
+            <b>dcTitle</b>
+        </field>
+        <field>
+          <a>created</a>
+          <b>dcDate</b>
+        </field>
+    </mapping>
+    
     <mapping map-null="false"> 
         <class-a>org.emonocot.checklist.model.Taxon</class-a>
         <class-b>org.tdwg.voc.TaxonConcept</class-b>
@@ -54,24 +71,22 @@
             <a>nameId</a>
             <b>hasName.identifier</b>
         </field>
-        <field map-id="child">
-          <a>childTaxa</a>
+        <!-- <field map-id="child">
+          <a>subordinateTaxa</a>
           <b>hasRelationship</b>
           <a-hint>org.emonocot.checklist.model.Taxon</a-hint>
           <b-hint>org.tdwg.voc.Relationship</b-hint>
-        </field>
+        </field>-->
         <field map-id="accepted">
             <a>synonyms</a>
             <b>hasRelationship</b>
             <a-hint>org.emonocot.checklist.model.Taxon</a-hint>
             <b-hint>org.tdwg.voc.Relationship</b-hint>
         </field>
-        <field type="one-way" map-id="parent">
-            <a>parentTaxon</a>
+        <!-- <field type="one-way" map-id="parent">
+            <a>parent</a>
             <b set-method="addHasRelationship">hasRelationship</b>
-            <a-hint>org.emonocot.checklist.model.Taxon</a-hint>
-            <b-hint>org.tdwg.voc.Relationship</b-hint>
-        </field>
+        </field>-->
         <field type="one-way" map-id="synonym">
             <a>acceptedName</a>
             <b set-method="addHasRelationship">hasRelationship</b>
@@ -98,24 +113,6 @@
     <mapping map-id="synonym">
         <class-a>org.emonocot.checklist.model.Taxon</class-a>
         <class-b bean-factory="org.emonocot.checklist.view.assembler.SynonymRelationshipBeanFactory">org.tdwg.voc.Relationship</class-b>
-        <field>
-            <a>this</a>
-            <b>toTaxon</b>
-        </field>
-    </mapping>
-    
-    <mapping map-id="parent">
-        <class-a>org.emonocot.checklist.model.Taxon</class-a>
-        <class-b bean-factory="org.emonocot.checklist.view.assembler.ParentRelationshipBeanFactory">org.tdwg.voc.Relationship</class-b>
-        <field>
-            <a>this</a>
-            <b>toTaxon</b>
-        </field>
-    </mapping>
-    
-    <mapping map-id="child">
-        <class-a>org.emonocot.checklist.model.Taxon</class-a>
-        <class-b bean-factory="org.emonocot.checklist.view.assembler.ChildRelationshipBeanFactory">org.tdwg.voc.Relationship</class-b>
         <field>
             <a>this</a>
             <b>toTaxon</b>

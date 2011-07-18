@@ -16,7 +16,7 @@ public class TaxonRelationshipTerm extends DefinedTerm {
      *
      */
     private static TaxonRelationshipTerm[] terms;
-    
+
     static {
         terms = new TaxonRelationshipTerm[]{
                 TaxonRelationshipTerm.DOES_NOT_INCLUDE,

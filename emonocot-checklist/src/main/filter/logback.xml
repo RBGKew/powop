@@ -21,4 +21,7 @@
   <root level="${logging.checklist.level}">
     <appender-ref ref="${logging.checklist.method}"/>
   </root>
+  <logger name="org.dozer.MappingProcessor" level="DEBUG">
+    <appender-ref ref="stdout"/>
+  </logger>
 </configuration>
