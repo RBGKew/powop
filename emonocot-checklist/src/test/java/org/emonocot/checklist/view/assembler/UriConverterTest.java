@@ -51,13 +51,13 @@ public class UriConverterTest {
     @Test
     public final void testHeaderMapping() throws URISyntaxException {
         Taxon taxon = new Taxon();
-        taxon.setId(1L);
+        taxon.setId(1);
         ChangeEvent<Taxon> changeEvent = new ChangeEventImpl<Taxon>(taxon,
                 ChangeType.CREATE, new DateTime());
         Header header = mapper.map(changeEvent, Header.class);
 
         assertEquals("URI should be as expected ",
-                header.getIdentifier(), new URI(Taxon.IDENTIFIER_PREFIX + 1L));
+                header.getIdentifier(), new URI(Taxon.IDENTIFIER_PREFIX + 1));
     }
 
 }

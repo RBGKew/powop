@@ -51,7 +51,7 @@ public class Distribution {
      */
     @Id
     @Column(name = "Plant_locality_id")
-    private Long id;
+    private Integer id;
 
     /**
      *

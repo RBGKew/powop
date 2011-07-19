@@ -41,7 +41,7 @@ public class Taxon implements IdentifiableEntity<String> {
      */
     @Id
     @Column(name = "Plant_name_id")
-    private Long id;
+    private Integer id;
 
     /**
      *
@@ -163,7 +163,7 @@ public class Taxon implements IdentifiableEntity<String> {
      * @param newId
      *            Set the id
      */
-    public void setId(final Long newId) {
+    public void setId(final Integer newId) {
         this.id = newId;
     }
 
@@ -174,7 +174,7 @@ public class Taxon implements IdentifiableEntity<String> {
     public final void setIdentifier(final String identifier) {
         if (identifier.startsWith(Taxon.IDENTIFIER_PREFIX)) {
             try {
-                this.id = Long.parseLong(identifier
+                this.id = Integer.parseInt(identifier
                         .substring(Taxon.IDENTIFIER_PREFIX.length()));
             } catch (Exception e) {
                 throw new IllegalArgumentException(identifier
