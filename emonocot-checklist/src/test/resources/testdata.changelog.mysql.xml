@@ -41,4 +41,31 @@
             <column name="Date_of_entry" index="8" type="STRING"/>
         </loadUpdateData>
     </changeSet>
+    <changeSet author="ben" id="2011-07-19_1">
+        <loadData tableName="plant_locality" file="src/test/resources/org/emonocot/checklist/plant_locality-2011.07.19.csv">
+            <column name="Plant_locality_id" index="0" type="NUMERIC"/>
+            <column name="Area_code_L3" index="1" type="STRING"/>
+            <column name="Region_code_L2" index="2" type="NUMERIC"/>
+            <column name="Plant_name_id" index="3" type="NUMERIC"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-19_2">
+      <loadData tableName="author_type" file="src/test/resources/org/emonocot/checklist/author_type-2011.07.19.csv">
+            <column name="Author_type_id" index="0" type="STRING"/>
+      </loadData>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-19_3">
+      <loadData tableName="authors" file="src/test/resources/org/emonocot/checklist/authors-2011.07.19.csv">
+            <column name="Author_id" index="0" type="NUMERIC"/>
+            <column name="Author" index="0" type="STRING"/>
+      </loadData>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-19_4">
+      <loadData tableName="plant_author" file="src/test/resources/org/emonocot/checklist/plant_author-2011.07.19.csv">
+            <column name="Plant_author_id" index="0" type="NUMERIC"/>
+            <column name="Plant_name_id" index="1" type="NUMERIC"/>
+            <column name="Author_type_id" index="2" type="STRING"/>
+            <column name="Author_id" index="3" type="NUMERIC"/>
+      </loadData>
+    </changeSet>
 </databaseChangeLog>

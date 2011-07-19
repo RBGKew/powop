@@ -6,6 +6,7 @@
   <session-factory>
     <mapping package="org.emonocot.checklist.model"/>
     <mapping class="org.emonocot.checklist.model.Taxon"/>
+    <mapping class="org.emonocot.checklist.model.Author"/>
     <mapping class="org.emonocot.checklist.model.Distribution"/>
   </session-factory>
 </hibernate-configuration>

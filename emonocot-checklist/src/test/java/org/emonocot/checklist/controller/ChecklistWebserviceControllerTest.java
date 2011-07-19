@@ -1,8 +1,13 @@
 package org.emonocot.checklist.controller;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import org.easymock.EasyMock;
+import org.emonocot.checklist.format.ChecklistIdentifierFormatter;
 import org.emonocot.checklist.model.Taxon;
 import org.emonocot.checklist.persistence.TaxonDao;
 import org.junit.Before;
@@ -21,7 +26,7 @@ public class ChecklistWebserviceControllerTest {
     /**
      *
      */
-    static final Long TAXON_IDENTIFIER = 123L;
+    static final Integer TAXON_IDENTIFIER = 123;
     /**
      *
      */
@@ -57,6 +62,21 @@ public class ChecklistWebserviceControllerTest {
      *
      */
     @Test
+    public final void testParseIdentifier() {
+        ChecklistIdentifierFormatter formatter
+            = new ChecklistIdentifierFormatter();
+        try {
+          assertEquals(new Long(1),
+                  formatter.parse("urn:kew.org:wcs:taxon:1", null));
+        } catch (ParseException pe) {
+            fail();
+        }
+    }
+
+    /**
+     *
+     */
+    @Test
     public final void testSearch() {
         EasyMock.expect(taxonDao.search(EasyMock.eq("Poa annua"))).andReturn(
                 new ArrayList<Taxon>());
@@ -78,7 +98,7 @@ public class ChecklistWebserviceControllerTest {
                 .andReturn(new Taxon());
         EasyMock.replay(taxonDao);
         ModelAndView modelAndView
-            = checklistWebserviceController.get(TAXON_IDENTIFIER);
+            = checklistWebserviceController.get(TAXON_IDENTIFIER.longValue());
         ModelAndViewAssert.assertViewName(modelAndView, "tcsXmlResponse");
         ModelAndViewAssert
                 .assertModelAttributeAvailable(modelAndView, "result");

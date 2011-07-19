@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.util.Locale;
 
 import org.emonocot.checklist.model.Taxon;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.format.Formatter;
 
 /**
@@ -12,7 +14,17 @@ import org.springframework.format.Formatter;
  *
  */
 public class ChecklistIdentifierFormatter implements Formatter<Long> {
+   /**
+    *
+    */
+   private static Logger logger
+       = LoggerFactory.getLogger(ChecklistIdentifierFormatter.class);
 
+   /**
+    * @param value set the long value to print
+    * @param locale set the locale
+    * @return the formatted identifier
+    */
     public final String print(final Long value, final Locale locale) {
         if (value == null) {
             return null;
@@ -21,8 +33,15 @@ public class ChecklistIdentifierFormatter implements Formatter<Long> {
         }
     }
 
+    /**
+     * @param string the unparsed identifier
+     * @param locale the locale
+     * @return the primary key of the object
+     * @throws ParseException if we are unable to parse the identifier
+     */
     public final Long parse(
             final String string, final Locale locale) throws ParseException {
+        logger.debug(string);
         if (string.startsWith(Taxon.IDENTIFIER_PREFIX)) {
             try {
                 return Long.parseLong(string

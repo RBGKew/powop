@@ -204,7 +204,15 @@ public class ReflectionProviderFactory extends
         "tcomTcsEquivalence",
         "tcomPublishedInCitation",
         "tnAuthorship",
-        "tnNameComplete"
+        "tnBasionymAuthorship",
+        "tnCombinationAuthorship",
+        "tnNameComplete",
+        "tnUninomial",
+        "tnGenusPart",
+        "tnSpecificEpithet",
+        "tnInfraSpecificEpithet",
+        "tnRank",
+        "tnRankString"
     };
 
    /**

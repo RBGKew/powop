@@ -153,7 +153,31 @@ public class OpenArchivesQNameMapFactory extends
                 "authorship", "tn"), "tnAuthorship");
         qNameMap.registerMapping(new QName(
                 "http://rs.tdwg.org/ontology/voc/TaxonName#",
+                "basionymAuthorship", "tn"), "tnBasionymAuthorship");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/TaxonName#",
+                "combinationAuthorship", "tn"), "tnCombinationAuthorship");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/TaxonName#",
                 "nameComplete", "tn"), "tnNameComplete");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/TaxonName#",
+                "uninomial", "tn"), "tnUninomial");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/TaxonName#",
+                "genusPart", "tn"), "tnGenusPart");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/TaxonName#",
+                "specificEpithet", "tn"), "tnSpecificEpithet");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/TaxonName#",
+                "infraSpecificEpithet", "tn"), "tnInfraSpecificEpithet");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/TaxonName#",
+                "rankString", "tn"), "tnRankString");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/TaxonName#",
+                "rank", "tn"), "tnRank");
         qNameMap.registerMapping(new QName(
                 "http://rs.tdwg.org/ontology/voc/Person#",
                 "Person", "tp"), "tpPerson");

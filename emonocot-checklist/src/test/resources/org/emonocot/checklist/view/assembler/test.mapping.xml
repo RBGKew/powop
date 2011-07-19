@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://dozer.sourceforge.net
+    beanmapping.xsd">
+        
+    <mapping>
+        <class-a>org.emonocot.checklist.test.DummyIdentifiableEntity</class-a>
+        <class-b>org.openarchives.pmh.OaiDc</class-b>
+        <field>
+          <a>identifier</a>
+          <b>dcIdentifier</b>
+        </field>
+        <field>
+            <a>title</a>
+            <b>dcTitle</b>
+        </field>
+        <field>
+          <a>created</a>
+          <b>dcDate</b>
+        </field>
+    </mapping>
+    
+</mappings>    

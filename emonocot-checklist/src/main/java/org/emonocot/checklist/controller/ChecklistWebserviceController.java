@@ -6,6 +6,8 @@ import java.util.List;
 import org.emonocot.checklist.format.annotation.ChecklistIdentifierFormat;
 import org.emonocot.checklist.model.Taxon;
 import org.emonocot.checklist.persistence.TaxonDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.http.HttpStatus;
@@ -23,8 +25,13 @@ import org.springframework.web.servlet.ModelAndView;
  *
  */
 @Controller
-@RequestMapping("/endpoint") // TODO defined endpoint uri
+@RequestMapping("/endpoint")
 public class ChecklistWebserviceController {
+    /**
+    *
+    */
+   private static Logger logger
+       = LoggerFactory.getLogger(ChecklistWebserviceController.class);
 
     /**
      *
@@ -48,6 +55,7 @@ public class ChecklistWebserviceController {
      */
     @RequestMapping(method = RequestMethod.GET, params = {"!function" })
     public final ModelAndView ping() {
+        logger.debug("ping");
         return new ModelAndView("rdfResponse");
     }
 
@@ -63,6 +71,7 @@ public class ChecklistWebserviceController {
     public final ModelAndView search(
             @RequestParam(value = "search", required = true)
             final String search) {
+        logger.debug("search");
         ModelAndView modelAndView = new ModelAndView("rdfResponse");
         List<Taxon> taxa = taxonDao.search(search);
         modelAndView.addObject("result", taxa);
@@ -77,10 +86,12 @@ public class ChecklistWebserviceController {
     @RequestMapping(method = RequestMethod.GET, params = {
             "function=details_tcs", "id" })
     public final ModelAndView get(
-            @RequestParam(value = "id", required = true)
-            @ChecklistIdentifierFormat final Long id) {
+            @ChecklistIdentifierFormat
+            @RequestParam(value = "id")
+            final Long id) {
+        logger.debug("get");
         ModelAndView modelAndView = new ModelAndView("tcsXmlResponse");
-        Taxon taxon = taxonDao.get(id);
+        Taxon taxon = taxonDao.get(id.intValue());
         modelAndView.addObject("result", taxon);
         return modelAndView;
     }
@@ -100,6 +111,7 @@ public class ChecklistWebserviceController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public final ModelAndView handleInvalidTaxonIdentifier(
             final DataRetrievalFailureException exception) {
+        logger.debug("exception");
         ModelAndView modelAndView = new ModelAndView("exception");
         modelAndView.addObject("exception", exception);
         return modelAndView;

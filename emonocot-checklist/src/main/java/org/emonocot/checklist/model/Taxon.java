@@ -1,14 +1,21 @@
 package org.emonocot.checklist.model;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyColumn;
+import javax.persistence.MapKeyEnumerated;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -159,6 +166,42 @@ public class Taxon implements IdentifiableEntity<String> {
     @JoinColumn(name = "Plant_name_id")
     private Set<Distribution> distribution = new HashSet<Distribution>();
 
+   /**
+    * Due to https://hibernate.onjira.com/browse/HHH-4335
+    * '@WhereJoinTable doesn't work with @ManyToOne', we can't use
+    * the following code, so we're forced to resort to the following.
+    *
+   @ManyToOne(fetch = FetchType.LAZY)
+   @JoinTable(name = "Plant_author", joinColumns = {
+           @JoinColumn(name = "Plant_name_id")
+   },
+   inverseJoinColumns = {
+           @JoinColumn(name = "Plant_author_id")
+   })
+   @Where(clause = "Author_type_id = 'PAR' or Author_type_id = 'RPL'")
+   private Author basionymAuthorship;
+
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinTable(name = "Plant_author", joinColumns = {
+           @JoinColumn(name = "Plant_name_id")
+   },
+   inverseJoinColumns = {
+           @JoinColumn(name = "Plant_author_id")
+   })
+   @Where(clause = "Author_type_id = 'PRI'")
+   private Author combinationAuthorship;
+  */
+   @ManyToMany(fetch = FetchType.LAZY)
+   @JoinTable(name = "Plant_author", joinColumns = {
+           @JoinColumn(name = "Plant_name_id")
+       },
+       inverseJoinColumns = {
+           @JoinColumn(name = "Plant_author_id")
+       })
+   @MapKeyColumn(name = "Author_type_id")
+   @MapKeyEnumerated(EnumType.STRING)
+   private Map<AuthorType, Author> authors = new HashMap<AuthorType, Author>();
     /**
      * @param newId
      *            Set the id
@@ -489,5 +532,13 @@ public class Taxon implements IdentifiableEntity<String> {
      */
     public final void setDistribution(final Set<Distribution> newDistribution) {
         this.distribution = newDistribution;
+    }
+
+    /**
+     *
+     * @return the authors of this taxon
+     */
+    public final Map<AuthorType, Author> getAuthors() {
+        return authors;
     }
 }

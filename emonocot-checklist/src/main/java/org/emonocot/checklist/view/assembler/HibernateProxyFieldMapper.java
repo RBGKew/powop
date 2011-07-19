@@ -3,7 +3,7 @@ package org.emonocot.checklist.view.assembler;
 import org.dozer.CustomFieldMapper;
 import org.dozer.classmap.ClassMap;
 import org.dozer.fieldmap.FieldMap;
-import org.hibernate.collection.PersistentSet;
+import org.hibernate.collection.PersistentCollection;
 
 /**
  * FieldMapper which can handle un-initialized collections, returning NULL if
@@ -26,13 +26,13 @@ public class HibernateProxyFieldMapper implements CustomFieldMapper {
             final Object sourceFieldValue, final ClassMap classMap,
             final FieldMap fieldMapping) {
         // Check if field is a Hibernate PersistentSet
-        if (!(sourceFieldValue instanceof PersistentSet)) {
+        if (!(sourceFieldValue instanceof PersistentCollection)) {
             // Allow dozer to map as normal
             return false;
         }
 
         // Check if field is already initialized
-        if (((PersistentSet) sourceFieldValue).wasInitialized()) {
+        if (((PersistentCollection) sourceFieldValue).wasInitialized()) {
             // Allow dozer to map as normal
             return false;
         }

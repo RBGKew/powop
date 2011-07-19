@@ -4,22 +4,22 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
     <changeSet author="ben" id="2011-05-09-1">
         <createTable tableName="Plant_Name">
-            <column name="Plant_name_id" type="bigint">
+            <column name="Plant_name_id" type="integer">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="Full_epithet" type="varchar(255)"/>
             <column name="Institute_id" type="varchar(255)"/>
-            <column name="Accepted_plant_name_id" type="bigint"/>
+            <column name="Accepted_plant_name_id" type="integer"/>
         </createTable>
     </changeSet>
     <changeSet author="ben" id="2011-05-09-2">
         <createTable tableName="Plant_Locality">
-            <column name="Plant_locality_id" type="bigint">
+            <column name="Plant_locality_id" type="integer">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="Area_code_L3" type="varchar(2)"/>
             <column name="Region_code_L2" type="integer"/>
-            <column name="Plant_name_id" type="bigint"/>
+            <column name="Plant_name_id" type="integer"/>
         </createTable>
     </changeSet>
     <changeSet author="ben" id="2011-05-09-3">
@@ -44,12 +44,12 @@
     </changeSet>
     <changeSet author="jk00kg" id="2011-05-25">
         <createTable tableName="Plant_Name_Deleted">
-            <column name="Plant_name_id" type="bigint">
+            <column name="Plant_name_id" type="integer">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="Full_epithet" type="varchar(255)"/>
             <column name="Institute_id" type="varchar(255)"/>
-            <column name="Accepted_plant_name_id" type="bigint"/>
+            <column name="Accepted_plant_name_id" type="integer"/>
             <column name="Modified_date" type="datetime"/>
             <column name="Deleted_date" type="datetime"/>
         </createTable>
@@ -179,7 +179,7 @@ UNION ALL
     </changeSet>
     <changeSet author="jk00kg" id="2011-07-01_1">
         <createTable tableName="Authors">
-            <column name="Author_id" type="bigint">
+            <column name="Author_id" type="integer">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="Author" type="varchar(100)"/>
@@ -195,23 +195,23 @@ UNION ALL
     </changeSet>
     <changeSet author="jk00kg" id="2011-07-01_2">
         <createTable tableName="Plant_Author">
-            <column name="Plant_author_id" type="bigint" autoIncrement="true">
+            <column name="Plant_author_id" type="integer" autoIncrement="true">
                 <constraints primaryKey="true" nullable="true"/>
             </column>
-            <column name="Plant_name_id" type="bigint">
+            <column name="Plant_name_id" type="integer">
                 <constraints references="Plant_Name(Plant_name_id)" foreignKeyName="Plant_Author_Plant_Name_FK"/>
             </column>
             <column name="Author_type_id" type="varchar(3)">
                 <constraints references="Author_Type(Author_type_id)" foreignKeyName="Plant_Author_Author_Type_FK"/>
             </column>
-            <column name="Author_id" type="bigint">
+            <column name="Author_id" type="integer">
                 <constraints references="Authors(Author_id)" foreignKeyName="Plant_Author_Authors_FK"/>
             </column>
         </createTable>
     </changeSet>
     <changeSet author="jk00kg" id="2011-07-04">
         <createTable tableName="Publication_Type">
-            <column name="Publication_type_id" type="bigint">
+            <column name="Publication_type_id" type="integer">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="Type_of_publication" type="varchar(30)"/>
@@ -219,23 +219,23 @@ UNION ALL
     </changeSet>
     <changeSet author="jk00kg" id="2011-07-04_1">
         <createTable tableName="Publication">
-            <column name="Publication_id" type="bigint">
+            <column name="Publication_id" type="integer">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="Full_title" type="varchar(255)"/>
             <column name="Author" type="varchar(150)"/>
             <column name="Published" type="varchar(100)"/><!-- more commonly called publisher -->
-            <column name="Publication_type_id" type="bigint">
+            <column name="Publication_type_id" type="integer">
                 <constraints references="Publication_Type(Publication_type_id)" foreignKeyName="Publication_Publication_type_FK"/>
             </column>
         </createTable>
     </changeSet>
     <changeSet author="jk00kg" id="2011-07-04_2">
         <createTable tableName="Publication_Edition">
-            <column name="Publication_edition_id" type="bigint">
+            <column name="Publication_edition_id" type="integer">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="Publication_id"  type="bigint">
+            <column name="Publication_id"  type="integer">
                 <constraints references="Publication(Publication_id)" foreignKeyName="Publication_Edition_Publication_FK"/>
             </column>
             <column name="Article_author" type="varchar(150)"/>
@@ -244,13 +244,13 @@ UNION ALL
     </changeSet>
     <changeSet author="jk00kg" id="2011-07-04_3">
         <createTable tableName="Plant_Citation">
-            <column name="Plant_citation_id" type="bigint">
+            <column name="Plant_citation_id" type="integer">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="Plant_name_id" type="bigint">
+            <column name="Plant_name_id" type="integer">
                 <constraints references="Plant_Name(Plant_name_id)" foreignKeyName="Plant_Citation_Plant_Name_FK"/>
             </column>
-            <column name="Publication_edition_id" type="bigint">
+            <column name="Publication_edition_id" type="integer">
                 <constraints references="Publication_Edition(Publication_edition_id)" foreignKeyName="Plant_Citation_Publication_Edition_FK"/>
             </column>
         </createTable>
@@ -296,7 +296,7 @@ UNION ALL
       </sql>
     </changeSet>
     <changeSet author="ben" id="2011-07-04_6">
-      <addAutoIncrement tableName="Plant_name" columnName="Plant_name_id" columnDataType="bigint"/>
+      <addAutoIncrement tableName="Plant_name" columnName="Plant_name_id" columnDataType="integer"/>
     </changeSet>
     <changeSet author="ben" id="2011-07-06_1">
       <sql>
@@ -341,15 +341,15 @@ UNION ALL
       </sql>
     </changeSet>
     <changeSet author="ben" id="2011-07-06_7">
-      <addAutoIncrement tableName="Plant_locality" columnName="Plant_locality_id" columnDataType="bigint"/>
+      <addAutoIncrement tableName="Plant_locality" columnName="Plant_locality_id" columnDataType="integer"/>
     </changeSet>
     <changeSet author="ben" id="2011-07-06_8">
       <modifyDataType tableName="Plant_locality" columnName="Area_code_L3" newDataType="varchar(3)"/>      
     </changeSet>
     <changeSet author="ben" id="2011-07-06_9">
-      <addAutoIncrement tableName="Plant_author" columnName="Plant_author_id" columnDataType="bigint"/>
+      <addAutoIncrement tableName="Plant_author" columnName="Plant_author_id" columnDataType="integer"/>
     </changeSet>
     <changeSet author="ben" id="2011-07-06_10">
-      <addAutoIncrement tableName="Plant_citation" columnName="Plant_citation_id" columnDataType="bigint"/>
+      <addAutoIncrement tableName="Plant_citation" columnName="Plant_citation_id" columnDataType="integer"/>
     </changeSet>
 </databaseChangeLog>

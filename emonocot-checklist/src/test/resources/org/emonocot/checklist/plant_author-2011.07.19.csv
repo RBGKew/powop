@@ -1,0 +1,8 @@
+Plant_author_id,Plant_name_id,Author_type_id,Author_id
+1,1,PAR,1
+2,1,PRI,2
+3,2,PRI,1
+4,3,PRI,1
+5,4,PRI,3
+6,5,PRI,1
+7,6,PRI,4

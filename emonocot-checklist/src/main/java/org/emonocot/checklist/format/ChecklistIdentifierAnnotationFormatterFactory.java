@@ -9,9 +9,9 @@ import org.springframework.format.Parser;
 import org.springframework.format.Printer;
 
 /**
- * 
+ *
  * @author ben
- * 
+ *
  */
 public class ChecklistIdentifierAnnotationFormatterFactory implements
         AnnotationFormatterFactory<ChecklistIdentifierFormat> {

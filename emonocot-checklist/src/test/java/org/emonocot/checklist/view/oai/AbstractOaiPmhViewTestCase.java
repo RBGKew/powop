@@ -113,7 +113,9 @@ public abstract class AbstractOaiPmhViewTestCase extends XMLTestCase {
             = new DozerBeanMapperFactoryBean();
          mapperFactory.setMappingFiles(new Resource[]{
          new ClassPathResource(
-                 "/org/emonocot/checklist/view/assembler/mapping.xml")
+                 "/org/emonocot/checklist/view/assembler/mapping.xml"),
+         new ClassPathResource(
+                 "/org/emonocot/checklist/view/assembler/test.mapping.xml")
          });
         mapperFactory.afterPropertiesSet();
         view.setMapper((Mapper) mapperFactory.getObject());

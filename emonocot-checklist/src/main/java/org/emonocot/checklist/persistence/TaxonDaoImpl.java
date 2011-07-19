@@ -15,6 +15,7 @@ import org.emonocot.checklist.model.Taxon;
 import org.emonocot.model.pager.DefaultPageImpl;
 import org.emonocot.model.pager.Page;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
@@ -60,6 +61,8 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
                 .add(Restrictions.eq("name", search)).list();
         for (Taxon taxon : results) {
             inferRelatedTaxa(taxon);
+            Hibernate.initialize(taxon.getDistribution());
+            Hibernate.initialize(taxon.getAuthors());
             Hibernate.initialize(taxon.getSynonyms());
         }
 
@@ -71,15 +74,17 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
      * @return a taxon
      */
     @Transactional(readOnly = true)
-    public final Taxon get(final Long id) {
+    public final Taxon get(final Integer id) {
         // Retrieve taxon with the database id, rather than the
         // "identifier" we gave them and they passed in
         Criteria criteria = getSession().createCriteria(Taxon.class).add(
                 Restrictions.idEq(id));
+
         Taxon taxon = (Taxon) criteria.uniqueResult();
         if (taxon != null) {
             Hibernate.initialize(taxon.getSynonyms());
             Hibernate.initialize(taxon.getDistribution());
+            Hibernate.initialize(taxon.getAuthors());
             inferRelatedTaxa(taxon);
         }
 
@@ -182,7 +187,9 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
     public final ChangeEvent<Taxon> find(final Serializable identifier) {
         Taxon taxon = null;
         try {
-            taxon = get(identifierFormatter.parse((String) identifier, null));
+            taxon = get(
+                identifierFormatter.parse((String) identifier, null)
+                .intValue());
         } catch (ParseException e) {
             throw new IllegalArgumentException(e);
         }
@@ -261,7 +268,7 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
                 criteria.setFirstResult(pageSize * pageNumber);
             }
         }
-        List<Taxon> taxa = criteria.list();
+        List<Taxon> taxa = (List<Taxon>) criteria.list();
         if (taxa.isEmpty()) {
             return new DefaultPageImpl<ChangeEvent<Taxon>>(0, pageNumber,
                     pageSize, new ArrayList<ChangeEvent<Taxon>>());
@@ -271,7 +278,9 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
             for (Taxon taxon : taxa) {
                 Hibernate.initialize(taxon.getSynonyms());
                 Hibernate.initialize(taxon.getDistribution());
+                Hibernate.initialize(taxon.getAuthors());
                 inferRelatedTaxa(taxon);
+
                 if (taxon.getDateDeleted() != null) {
                     results.add(new ChangeEventImpl<Taxon>(taxon,
                             ChangeType.DELETE, taxon.getDateDeleted()));

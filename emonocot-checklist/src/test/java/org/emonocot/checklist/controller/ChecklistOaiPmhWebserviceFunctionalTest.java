@@ -29,10 +29,15 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
      */
     private static final int TOTAL_NUMBER_OF_NODES = 6;
 
-    /**
+  /**
    *
    */
     private static final int NODES_IN_LOREACEAE = 5;
+    
+    /**
+    *
+    */
+     private static final int NUMBER_OF_DISTRIBUTION_RECORDS = 3;
 
     /**
     *
@@ -119,8 +124,8 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
                 .parameters("verb", "ListIdentifiers", "metadataPrefix",
                         "oai_dc", "from", "2011-08-01T01:00:00Z")
                         .get("/oai").asString();
-        assertEquals("There should be 1 identifier returned",
-                1,
+        assertEquals("There should be 0 identifiers returned",
+                0,
                 with(xml).get("OAI-PMH.ListIdentifiers.header.size()"));
     }
 
@@ -134,8 +139,84 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
                 .parameters("verb", "ListIdentifiers", "metadataPrefix",
                         "oai_dc", "until", "2011-08-01T01:00:00Z")
                         .get("/oai").asString();
-        assertEquals("There should be 5 identifiers returned",
-                NODES_IN_LOREACEAE,
+        assertEquals("There should be 6 identifiers returned",
+                TOTAL_NUMBER_OF_NODES,
                 with(xml).get("OAI-PMH.ListIdentifiers.header.size()"));
+    }
+
+    /**
+     * Tests a returned record to check that the
+     * metadata is being serialized properly.
+     */
+    @Test
+    public final void testGetRecord() {
+
+        String xml = given()
+                .parameters("verb", "GetRecord", "metadataPrefix",
+                        "rdf", "identifier", "urn:kew.org:wcs:taxon:1")
+                        .get("/oai").asString();
+        assertEquals(
+                "The response should include the identifier of the "
+                + "taxon concept",
+                "urn:kew.org:wcs:taxon:1",
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.identifier"));
+        assertEquals(
+                "The response should include the identifier of the "
+                + "taxon name",
+                "urn:kew.org:wcs:name:1",
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.identifier"));
+        assertEquals(
+                "The authorship should be present",
+                "(Archer) Pargetter",
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.authorship"));
+        assertEquals(
+                "The basionymAuthorship should be present",
+                "Archer",
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.basionymAuthorship"));
+        assertEquals(
+                "The combinationAuthorship should be present",
+                "Pargetter",
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.combinationAuthorship"));
+        assertEquals(
+                "The nameComplete should be present",
+                "Lorem ipsum",
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.nameComplete"));
+        assertEquals(
+                "The genusPart should be present",
+                "Lorem",
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.genusPart"));
+        assertEquals(
+                "The specificEpithet should be present",
+                "ipsum",
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.specificEpithet"));
+        assertEquals(
+                "The rank should be present",
+                "http://rs.tdwg.org/ontology/voc/TaxonRank#Species",
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.rank.@resource"));
+        assertEquals(
+                "The rankString should be present",
+                "Species",
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.rankString"));
+        assertEquals(
+                "The synonyms should be present",
+                2,
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.relationshipCategory.findAll { it.@resource == 'http://rs.tdwg.org/ontology/voc/TaxonConcept#HasSynonym' }.size()"));
+        assertEquals(
+                "The distributional data should be present",
+                NUMBER_OF_DISTRIBUTION_RECORDS,
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.describedBy.SpeciesProfileModel.hasInformation.Distribution.size()"));
+
     }
 }

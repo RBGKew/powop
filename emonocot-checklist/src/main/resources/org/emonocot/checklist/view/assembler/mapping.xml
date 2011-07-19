@@ -20,6 +20,10 @@
             <class-a>java.lang.String</class-a>
             <class-b>java.net.URI</class-b>
           </converter>
+          <converter type="org.emonocot.checklist.view.oai.assembler.RankConverter">
+            <class-a>org.emonocot.checklist.model.Rank</class-a>
+            <class-b>org.tdwg.voc.TaxonRankTerm</class-b>
+          </converter>
       </custom-converters>
     </configuration>
     <mapping>
@@ -45,6 +49,12 @@
         <field>
           <a>identifier</a>
           <b>identifier</b>
+        </field>
+        <field>
+          <a>this</a>
+          <b>hasName</b>
+          <a-hint>org.emonocot.checklist.model.Taxon</a-hint>
+          <b-hint>org.tdwg.voc.TaxonName</b-hint>
         </field>
         <field>
             <a>name</a>
@@ -84,6 +94,50 @@
             <a-hint>org.emonocot.checklist.model.Taxon</a-hint>
             <b-hint>org.tdwg.voc.SpeciesProfileModel</b-hint>
         </field>
+    </mapping>
+    
+    <mapping>
+      <class-a>org.emonocot.checklist.model.Taxon</class-a>
+      <class-b bean-factory="org.emonocot.checklist.view.assembler.TaxonNameBeanFactory">org.tdwg.voc.TaxonName</class-b>
+      <field>
+        <a>nameId</a>
+        <b>identifier</b>
+      </field>
+      <field>
+        <a>name</a>
+        <b>nameComplete</b>
+      </field>
+      <field>
+        <a>species</a>
+        <b>specificEpithet</b>
+      </field>
+      <field>
+        <a>infraspecificEpithet</a>
+        <b>infraspecificEpithet</b>
+      </field>
+      <field>
+        <a>rank.label</a>
+        <b>rankString</b>
+      </field>
+      <field>
+        <a>rank</a>
+        <b>rank</b>
+      </field>
+      <field custom-converter="org.emonocot.checklist.view.oai.assembler.AuthorshipConverter"
+         custom-converter-param="basionymAuthorship">
+          <a>this</a>
+          <b>basionymAuthorship</b>
+      </field>
+      <field custom-converter="org.emonocot.checklist.view.oai.assembler.AuthorshipConverter"
+         custom-converter-param="combinationAuthorship">
+        <a>this</a>
+        <b>combinationAuthorship</b>
+      </field>
+      <field custom-converter="org.emonocot.checklist.view.oai.assembler.AuthorshipConverter"
+         custom-converter-param="authorship">
+        <a>this</a>
+        <b>authorship</b>
+      </field>
     </mapping>
     
     <mapping map-id="accepted">
