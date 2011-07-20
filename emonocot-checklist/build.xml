@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="emonocot-checklist" 
+	default="prepare" basedir=".">
+	<property file="${user.home}/.ant/${profile}.properties" />
+	<property name="name" value="emonocot-checklist"/>
+	<property name="target" value="${basedir}/target" />
+	<property name="main.src" value="${basedir}/src/main/java" />
+	<property name="main.filter" value="${basedir}/src/main/filter" />
+	<property name="main.static" value="${basedir}/src/main/static" />
+	<property name="main.webapp" value="${basedir}/src/main/webapp" />
+	<property name="main.lib" value="${basedir}/lib/main" />
+	<property name="main.resources" value="${basedir}/src/main/resources" />
+	<property name="test.src" value="${basedir}/src/test/java" />
+	<property name="test.resources" value="${basedir}/src/test/resources" />
+	<path id="main.class.path">
+		<fileset dir="${main.lib}">
+				<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<target name="clean" description="Removes all directories related to this build, but not the Eclipse build dir">
+	    <echo message="cleaning source tree" />
+		<delete dir="${target}" />
+    </target>
+	
+	<target name="prepare" description="Creates directories required for build" >
+		<echo message="preparing directory structure for build" />
+		<mkdir dir="${target}" />
+	</target>
+	
+	<target name="compile" depends="prepare"
+	        description="Compiles the source tree">
+			<echo message="compiling source tree" />
+			<mkdir dir="${target}/classes" />
+			<javac destdir="${target}/classes"
+	            debug="on"
+	            deprecation="off"
+	            optimize="on"
+			    encoding="utf8"
+				source="1.5"
+				target="1.5">
+				<src path="${main.src}" />
+				<classpath refid="main.class.path" />
+			</javac>
+			<!-- copy resource files to the build tree -->
+			<copy todir="${target}/classes">
+				<fileset dir="${main.resources}">
+					<include name="**/*"/>
+				</fileset>
+			</copy>
+		</target>
+	<target name="war" depends="compile"
+	        description="Puts all build artefacts into a warfile structure in the build directory" >
+
+			<echo message="creating war structure" />
+			<mkdir dir="${target}/${name}" />
+			<mkdir dir="${target}/${name}/WEB-INF" />
+			<mkdir dir="${target}/${name}/WEB-INF/lib" />
+		    <!-- copy resource files to the build tree-->
+			<copy todir="${target}/${name}" filtering="false">
+				<fileset dir="${main.webapp}">
+					<include name="**/*"/>
+					<exclude name="WEB-INF/web.xml"/>
+				</fileset>
+			</copy>
+
+			<!-- copy resource files to the build tree this time with filtering-->
+			<copy todir="${target}/${name}/WEB-INF/classes" filtering="true">
+				<filterchain>
+				    <expandproperties/>
+				</filterchain>
+				<fileset dir="${main.filter}">
+					<include name="**/*"/>
+				</fileset>
+			</copy>
+
+		    <!-- copy compiled files to WEB-INF/classes -->
+			<copy todir="${target}/${name}/WEB-INF/classes" filtering="false">
+				<fileset dir="${target}/classes">
+					<include name="**/*"/>
+				</fileset>
+			</copy>
+			<!-- copy rest of required jars from lib to WEB-INF/lib" -->
+			<copy todir="${target}/${name}/WEB-INF/lib">
+				<fileset dir="${main.lib}">
+					<include name="**/*.jar" />
+				</fileset>
+			</copy>
+		    <war basedir="${target}/${name}" destfile="${target}/${name}.war" webxml="${main.webapp}/WEB-INF/web.xml" compress="true">
+			    <webinf dir="${target}/${name}/WEB-INF" />
+		    </war>
+		</target>
+</project>
