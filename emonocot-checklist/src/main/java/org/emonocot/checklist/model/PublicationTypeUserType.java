@@ -10,19 +10,18 @@ import org.hibernate.type.StandardBasicTypes;
 import org.hibernate.usertype.UserType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.emonocot.model.geography.Region;
 
 /**
  *
  * @author ben
  *
  */
-public class RegionUserType implements UserType {
+public class PublicationTypeUserType implements UserType {
     /**
      *
      */
     private static Logger logger
-        = LoggerFactory.getLogger(RegionUserType.class);
+        = LoggerFactory.getLogger(PublicationTypeUserType.class);
 
     /**
      *
@@ -33,7 +32,7 @@ public class RegionUserType implements UserType {
      * @return The class returned by nullSafeGet().
      */
     public final Class returnedClass() {
-        return Region.class;
+        return PublicationType.class;
     }
 
     /**
@@ -57,8 +56,8 @@ public class RegionUserType implements UserType {
          } else if (x == null || y == null) {
                 return false;
          }
-         Region regionX = (Region) x;
-         Region regionY = (Region) y;
+         PublicationType regionX = (PublicationType) x;
+         PublicationType regionY = (PublicationType) y;
 
          return regionX.equals(regionY);
     }
@@ -98,9 +97,9 @@ public class RegionUserType implements UserType {
      */
     public final Object nullSafeGet(final ResultSet resultSet,
             final String string) throws SQLException {
-        Integer region = (Integer) StandardBasicTypes.INTEGER.nullSafeGet(
+        Integer identifier = (Integer) StandardBasicTypes.INTEGER.nullSafeGet(
                 resultSet, string);
-        Region result = Region.fromCode(region);
+        PublicationType result = PublicationType.fromInt(identifier);
         return result;
     }
 
@@ -119,9 +118,9 @@ public class RegionUserType implements UserType {
             StandardBasicTypes.INTEGER
              .nullSafeSet(preparedStatement, null, index);
         } else {
-            Region r = ((Region) value);
+            PublicationType r = ((PublicationType) value);
             StandardBasicTypes.INTEGER
-              .nullSafeSet(preparedStatement, r.getCode(), index);
+              .nullSafeSet(preparedStatement, r.getId(), index);
         }
     }
 
@@ -137,7 +136,7 @@ public class RegionUserType implements UserType {
             return null;
         }
 
-        return ((Region) value);
+        return ((PublicationType) value);
     }
 
     /**

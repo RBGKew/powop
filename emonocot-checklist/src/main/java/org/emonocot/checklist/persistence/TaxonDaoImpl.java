@@ -61,8 +61,6 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
                 .add(Restrictions.eq("name", search)).list();
         for (Taxon taxon : results) {
             inferRelatedTaxa(taxon);
-            Hibernate.initialize(taxon.getDistribution());
-            Hibernate.initialize(taxon.getAuthors());
             Hibernate.initialize(taxon.getSynonyms());
         }
 
@@ -79,12 +77,15 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
         // "identifier" we gave them and they passed in
         Criteria criteria = getSession().createCriteria(Taxon.class).add(
                 Restrictions.idEq(id));
+        criteria.setFetchMode("acceptedName", FetchMode.JOIN);
+        criteria.setFetchMode("protologue", FetchMode.JOIN);
 
         Taxon taxon = (Taxon) criteria.uniqueResult();
         if (taxon != null) {
             Hibernate.initialize(taxon.getSynonyms());
             Hibernate.initialize(taxon.getDistribution());
             Hibernate.initialize(taxon.getAuthors());
+            Hibernate.initialize(taxon.getCitations());
             inferRelatedTaxa(taxon);
         }
 
@@ -100,7 +101,8 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
         // Add children
         Criteria criteria = getSession().createCriteria(Taxon.class)
                 .add(Restrictions.eq("genus", taxon.getGenus()))
-                .add(Restrictions.isNull("acceptedName"));
+                .add(Restrictions.isNull("acceptedName"))
+                .add(Restrictions.eq("family", taxon.getFamily()));
 
         if (taxon.getGenusHybridMarker() == null) {
             criteria.add(Restrictions.isNull("genusHybridMarker"));
@@ -121,9 +123,13 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
                     Restrictions.and(
                             Restrictions.isNotNull("infraspecificEpithet"),
                             Restrictions.ne("infraspecificEpithet", "")))
-                    .add(Restrictions.eq("speciesHybridMarker",
-                            taxon.getSpeciesHybridMarker()))
                     .add(Restrictions.eq("species", taxon.getSpecies()));
+                if (taxon.getSpeciesHybridMarker() != null) {
+                    criteria.add(Restrictions.eq("speciesHybridMarker",
+                            taxon.getSpeciesHybridMarker()));
+                } else {
+                    criteria.add(Restrictions.isNull("speciesHybridMarker"));
+                }
             break;
         default:
             // set up so no records are returned
@@ -134,43 +140,46 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
         taxon.setChildTaxa(new HashSet<Taxon>(criteria.list()));
 
         // Add Parent
-        StringBuffer sb = new StringBuffer();
-        /**
-         * genusHybridMarker can be null so we cannot pass it as an argument to
-         * the constructor of StringBuffer
-         */
-        sb.append(taxon.getGenusHybridMarker());
-        if (sb.toString().trim().length() < 1) {
-            sb.append(" ");
+        Criteria parentCriteria = getSession().createCriteria(Taxon.class)
+        .add(Restrictions.eq("genus", taxon.getGenus()))
+        .add(Restrictions.isNull("acceptedName"))
+        .add(Restrictions.eq("family", taxon.getFamily()));
+
+        if (taxon.getGenusHybridMarker() == null) {
+            parentCriteria.add(Restrictions.isNull("genusHybridMarker"));
+        } else {
+            parentCriteria.add(Restrictions.eq("genusHybridMarker",
+                    taxon.getGenusHybridMarker()));
         }
-        sb.append(taxon.getGenus());
-        List<Taxon> results = null;
+
         switch (taxon.getRank()) {
         case SPECIES:
+            parentCriteria.add(Restrictions.or(Restrictions.isNull("species"),
+                    Restrictions.eq("species", "")));
             break;
         case SUBSPECIES:
             // TODO: case other infrasp. ranks:
-            if (taxon.getSpeciesHybridMarker() != null) {
-                sb.append(taxon.getSpeciesHybridMarker());
-            }
-            sb.append(taxon.getSpecies());
+            parentCriteria.add(
+                    Restrictions.or(
+                            Restrictions.isNull("infraspecificEpithet"),
+                            Restrictions.eq("infraspecificEpithet", "")))
+                    .add(Restrictions.eq("species", taxon.getSpecies()));
+                if (taxon.getSpeciesHybridMarker() != null) {
+                   parentCriteria.add(Restrictions.eq("speciesHybridMarker",
+                           taxon.getSpeciesHybridMarker()));
+                } else {
+                    parentCriteria.add(
+                            Restrictions.isNull("speciesHybridMarker"));
+                }
             break;
+        case GENUS:
         default:
-            // we can't add anything for genus (no family records in checklist)
-            // or unknown ranks
-            sb = new StringBuffer("");
             return;
         }
 
-        results = search(sb.toString());
-        if (results.size() > 0) {
-            for (Iterator<Taxon> iterator = results.iterator(); iterator
-                    .hasNext();) {
-                Taxon t = iterator.next();
-                if (taxon.getFamily().equals(t.getFamily())) {
-                    taxon.setParentTaxon(results.remove(0));
-                }
-            }
+        List<Taxon> results = (List<Taxon>) parentCriteria.list();
+        if (results.size() == 1) {
+            taxon.setParentTaxon(results.get(0));
         } else {
             // TODO log that we can't infer a parent
             taxon.setParentTaxon(null);
@@ -231,6 +240,8 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
             final DateTime from, final DateTime until, final Integer pageSize,
             final Integer pageNumber) {
         Criteria criteria = getSession().createCriteria(Taxon.class);
+        criteria.setFetchMode("acceptedName", FetchMode.JOIN);
+        criteria.setFetchMode("protologue", FetchMode.JOIN);
 
         if (set != null) {
             criteria.add(Restrictions.eq("family", set));
@@ -279,6 +290,7 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
                 Hibernate.initialize(taxon.getSynonyms());
                 Hibernate.initialize(taxon.getDistribution());
                 Hibernate.initialize(taxon.getAuthors());
+                Hibernate.initialize(taxon.getCitations());
                 inferRelatedTaxa(taxon);
 
                 if (taxon.getDateDeleted() != null) {

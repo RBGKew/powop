@@ -352,4 +352,91 @@ UNION ALL
     <changeSet author="ben" id="2011-07-06_10">
       <addAutoIncrement tableName="Plant_citation" columnName="Plant_citation_id" columnDataType="integer"/>
     </changeSet>
+    <changeSet author="ben" id="2011-07-20_5">
+        <addColumn tableName="Plant_Name">
+            <column name="Publication_author" type="varchar(60)"/>
+        </addColumn>
+        <addColumn tableName="Plant_Name">
+            <column name="Volume_and_page" type="varchar(30)"/>
+        </addColumn>
+        <addColumn tableName="Plant_Name">
+            <column name="First_published" type="varchar(22)"/>
+        </addColumn>
+        <addColumn tableName="Plant_Name">
+            <column name="Place_of_publication_id" type="integer"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-20_6">
+        <createTable tableName="Place_of_publication">
+            <column name="Place_of_publication_id" type="integer">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="Place_of_publication" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-20_7">
+        <addForeignKeyConstraint constraintName="FKC663751FC1A8E6DC"
+            baseTableName="Plant_Name" baseColumnNames="Place_of_publication_id" referencedTableName="Place_of_publication"
+            referencedColumnNames="Place_of_publication_id"/>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-20_8">
+        <addColumn tableName="Plant_Name_Deleted">
+            <column name="Publication_author" type="varchar(60)"/>
+        </addColumn>
+        <addColumn tableName="Plant_Name_Deleted">
+            <column name="Volume_and_page" type="varchar(30)"/>
+        </addColumn>
+        <addColumn tableName="Plant_Name_Deleted">
+            <column name="First_published" type="varchar(22)"/>
+        </addColumn>
+        <addColumn tableName="Plant_Name_Deleted">
+            <column name="Place_of_publication_id" type="integer"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-20_9">
+        <!-- replaceIfExists attribute needs to be removed if using Sybase -->
+        <createView viewName="vwMonocot_Name" replaceIfExists="true">
+   /* View created to pull Monocot data from for the eMonocot project */
+   /* Also see 'eMonocot' User                                        */
+       SELECT  Plant_name_id,
+               Date_of_entry,
+               Full_epithet,
+               Family,
+               Genus,
+               Genus_hybrid_marker,
+               Species,
+               Species_hybrid_marker,
+               Infraspecific_rank,
+               Infraspecific_epithet,
+               Accepted_plant_name_id,
+               Institute_id,
+               Modified_date,
+               NULL AS Deleted_date,
+               Publication_author,
+               Volume_and_page,
+               First_published,
+               Place_of_publication_id
+       FROM  Plant_Name
+UNION ALL
+       SELECT  Plant_name_id,
+               Date_of_entry,
+               Full_epithet,
+               Family,
+               Genus_hybrid_marker,
+               Genus,
+               Species_hybrid_marker,
+               Species,
+               Infraspecific_rank,
+               Infraspecific_epithet,
+               Accepted_plant_name_id,
+               Institute_id,
+               Modified_date,
+               Deleted_date,
+               Publication_author,
+               Volume_and_page,
+               First_published,
+               Place_of_publication_id
+       FROM  Plant_Name_Deleted
+        </createView>
+    </changeSet>
 </databaseChangeLog>

@@ -33,7 +33,7 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
    *
    */
     private static final int NODES_IN_LOREACEAE = 5;
-    
+
     /**
     *
     */
@@ -202,6 +202,36 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
                 "http://rs.tdwg.org/ontology/voc/TaxonRank#Species",
                 with(xml).get(
                 "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.rank.@resource"));
+        assertEquals(
+                "The protologue title should be present",
+                "Integer elementum lorem ut nibh scelerisque at condimentum",
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.publishedInCitation.PublicationCitation.title"));
+        assertEquals(
+                "The protologue authorship should be present",
+                "Pargetter",
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.publishedInCitation.PublicationCitation.authorship"));
+        assertEquals(
+                "The protologue type should be present",
+                "http://rs.tdwg.org/ontology/voc/PublicationCitation#Generic",
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.publishedInCitation.PublicationCitation.publicationType.@resource"));
+        assertEquals(
+                "The protologue volume should be present",
+                "2",
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.publishedInCitation.PublicationCitation.volume"));
+        assertEquals(
+                "The protologue pages should be present",
+                " 34-56",
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.publishedInCitation.PublicationCitation.pages"));
+        assertEquals(
+                "The protologue date published should be present",
+                "1784",
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.publishedInCitation.PublicationCitation.datePublished"));
         assertEquals(
                 "The rankString should be present",
                 "Species",

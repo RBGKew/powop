@@ -20,7 +20,7 @@
             <class-a>java.lang.String</class-a>
             <class-b>java.net.URI</class-b>
           </converter>
-          <converter type="org.emonocot.checklist.view.oai.assembler.RankConverter">
+          <converter type="org.emonocot.checklist.view.assembler.RankConverter">
             <class-a>org.emonocot.checklist.model.Rank</class-a>
             <class-b>org.tdwg.voc.TaxonRankTerm</class-b>
           </converter>
@@ -50,7 +50,7 @@
           <a>identifier</a>
           <b>identifier</b>
         </field>
-        <field>
+         <field>
           <a>this</a>
           <b>hasName</b>
           <a-hint>org.emonocot.checklist.model.Taxon</a-hint>
@@ -94,6 +94,44 @@
             <a-hint>org.emonocot.checklist.model.Taxon</a-hint>
             <b-hint>org.tdwg.voc.SpeciesProfileModel</b-hint>
         </field>
+        <field>
+          <a>citations</a>
+          <b>publishedInCitations</b>
+      </field>
+    </mapping>
+    
+    <mapping>
+      <class-a>org.emonocot.checklist.model.Article</class-a>
+      <class-b bean-factory="org.emonocot.checklist.view.assembler.ArticleBeanFactory">org.tdwg.voc.PublicationCitation</class-b>
+      <field>
+        <a>title</a>
+        <b>tpubTitle</b>
+      </field>
+      <field>
+        <a>author</a>
+        <b>authorship</b>
+      </field>
+      <field>
+        <a>publication</a>
+        <b>parentPublication</b>
+      </field>
+    </mapping>
+    
+    <mapping>
+      <class-a>org.emonocot.checklist.model.Publication</class-a>
+      <class-b bean-factory="org.emonocot.checklist.view.assembler.PublicationBeanFactory">org.tdwg.voc.PublicationCitation</class-b>
+      <field>
+        <a>title</a>
+        <b>tpubTitle</b>
+      </field>
+      <field>
+        <a>author</a>
+        <b>authorship</b>
+      </field>
+      <field>
+        <a>publisher</a>
+        <b>publisher</b>
+      </field>
     </mapping>
     
     <mapping>
@@ -123,21 +161,32 @@
         <a>rank</a>
         <b>rank</b>
       </field>
-      <field custom-converter="org.emonocot.checklist.view.oai.assembler.AuthorshipConverter"
+      <field type="one-way">
+          <a>this</a>
+          <b set-method="addPublicationCitation">publishedInCitations</b>
+          <a-hint>org.emonocot.checklist.model.Taxon</a-hint>
+          <b-hint>org.tdwg.voc.PublicationCitation</b-hint>
+      </field>
+      <field custom-converter="org.emonocot.checklist.view.assembler.AuthorshipConverter"
          custom-converter-param="basionymAuthorship">
           <a>this</a>
           <b>basionymAuthorship</b>
       </field>
-      <field custom-converter="org.emonocot.checklist.view.oai.assembler.AuthorshipConverter"
+      <field custom-converter="org.emonocot.checklist.view.assembler.AuthorshipConverter"
          custom-converter-param="combinationAuthorship">
         <a>this</a>
         <b>combinationAuthorship</b>
       </field>
-      <field custom-converter="org.emonocot.checklist.view.oai.assembler.AuthorshipConverter"
+      <field custom-converter="org.emonocot.checklist.view.assembler.AuthorshipConverter"
          custom-converter-param="authorship">
         <a>this</a>
         <b>authorship</b>
       </field>
+    </mapping>
+    
+    <mapping>
+        <class-a>org.emonocot.checklist.model.Taxon</class-a>
+        <class-b bean-factory="org.emonocot.checklist.view.assembler.ProtologueBeanFactory">org.tdwg.voc.PublicationCitation</class-b>
     </mapping>
     
     <mapping map-id="accepted">

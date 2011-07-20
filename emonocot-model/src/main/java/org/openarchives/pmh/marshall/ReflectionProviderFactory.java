@@ -12,6 +12,7 @@ import org.openarchives.pmh.OaiDc;
 import org.openarchives.pmh.Record;
 import org.openarchives.pmh.Set;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
+import org.tdwg.PublicationCitation;
 import org.tdwg.voc.Distribution;
 import org.tdwg.voc.InfoItem;
 import org.tdwg.voc.Relationship;
@@ -43,7 +44,7 @@ public class ReflectionProviderFactory extends
         "xmlnsOwlNamespace",
         "xmlnsDctermsNamespace",
         "xmlnsTcomNamespace",
-        "xmlnsTpcNamespace",
+        "xmlnsTpubNamespace",
         "xmlnsTpNamespace",
         "xmlnsTtNamespace",
         "xmlnsSpmNamespace",
@@ -171,7 +172,7 @@ public class ReflectionProviderFactory extends
         "tcomTaxonomicPlacementFormal",
         "tcomTaxonomicPlacementInformal",
         "tcomTcsEquivalence",
-        "tcomPublishedInCitation",
+        "tcomPublishedInCitations",
         "tcPrimary",
         "tcAccordingTo",
         "tcHasName",
@@ -202,7 +203,7 @@ public class ReflectionProviderFactory extends
         "tcomTaxonomicPlacementFormal",
         "tcomTaxonomicPlacementInformal",
         "tcomTcsEquivalence",
-        "tcomPublishedInCitation",
+        "tcomPublishedInCitations",
         "tnAuthorship",
         "tnBasionymAuthorship",
         "tnCombinationAuthorship",
@@ -238,7 +239,6 @@ public class ReflectionProviderFactory extends
         "tcomTaxonomicPlacementFormal",
         "tcomTaxonomicPlacementInformal",
         "tcomTcsEquivalence",
-        "tcomPublishedInCitation",
         "tcFromTaxon",
         "tcRelationshipCategory",
         "tcToTaxon"
@@ -267,7 +267,6 @@ public class ReflectionProviderFactory extends
         "tcomTaxonomicPlacementFormal",
         "tcomTaxonomicPlacementInformal",
         "tcomTcsEquivalence",
-        "tcomPublishedInCitation",
         "spmAboutTaxon",
         "spmHasInformations"
    };
@@ -295,13 +294,12 @@ public class ReflectionProviderFactory extends
         "tcomTaxonomicPlacementFormal",
         "tcomTaxonomicPlacementInformal",
         "tcomTcsEquivalence",
-        "tcomPublishedInCitation",
         "spmCategory",
         "spmContextValues",
         "spmHasValues"
    };
 
-    /**
+   /**
     *
     */
     private static final String[] QUANTITATIVE_DATA_FIELDS = new String[] {
@@ -324,7 +322,6 @@ public class ReflectionProviderFactory extends
         "tcomTaxonomicPlacementFormal",
         "tcomTaxonomicPlacementInformal",
         "tcomTcsEquivalence",
-        "tcomPublishedInCitation",
         "spmCategory",
         "spmContextValues",
         "spmHasValues",
@@ -333,6 +330,39 @@ public class ReflectionProviderFactory extends
         "grassMax",
         "grassHigh",
         "grassMean"
+   };
+
+    /**
+    *
+    */
+    private static final String[] PUBLICATION_CITATION_FIELDS = new String[] {
+        "dcTitle",
+        "owlSameAs",
+        "dcIdentifier",
+        "dctermsCreated",
+        "dcCreator",
+        "dctermsDate",
+        "dcContributor",
+        "dcRelation",
+        "tcomAbcdEquivalence",
+        "tcomBerlinModelEquivalence",
+        "tcomDarwinCoreEquivalence",
+        "tcomIsDeprecated",
+        "tcomIsRestricted",
+        "tcomMicroReference",
+        "tcomNotes",
+        "tcomPublishedIn",
+        "tcomTaxonomicPlacementFormal",
+        "tcomTaxonomicPlacementInformal",
+        "tcomTcsEquivalence",
+        "tpubTitle",
+        "tpubAuthorship",
+        "tpubPublisher",
+        "tpubParentPublication",
+        "tpubPublicationType",
+        "tpubVolume",
+        "tpubPages",
+        "tpubDatePublished"
    };
 
     /**
@@ -378,6 +408,8 @@ public class ReflectionProviderFactory extends
                 ReflectionProviderFactory.INFO_ITEM_FIELDS);
         sorter.registerFieldOrder(QuantitativeData.class,
                 ReflectionProviderFactory.QUANTITATIVE_DATA_FIELDS);
+        sorter.registerFieldOrder(PublicationCitation.class,
+                ReflectionProviderFactory.PUBLICATION_CITATION_FIELDS);
 
         FieldDictionary fieldDictionary = new FieldDictionary(sorter);
 

@@ -194,9 +194,9 @@ public class OAIPMH {
     /**
      * Bit of a hack to insert the correct namespace.
      */
-    @XStreamAlias("xmlns:tpc")
+    @XStreamAlias("xmlns:tpub")
     @XStreamAsAttribute
-    private String xmlnsTpcNamespace
+    private String xmlnsTpubNamespace
         = "http://rs.tdwg.org/ontology/voc/PublicationCitation#";
 
     /**

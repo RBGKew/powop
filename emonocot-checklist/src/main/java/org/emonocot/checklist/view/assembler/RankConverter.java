@@ -1,4 +1,4 @@
-package org.emonocot.checklist.view.oai.assembler;
+package org.emonocot.checklist.view.assembler;
 
 import org.dozer.CustomConverter;
 import org.dozer.MappingException;

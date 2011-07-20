@@ -1,6 +1,7 @@
 package org.tdwg;
 
 import java.net.URI;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.dublincore.Relation;
@@ -118,11 +119,6 @@ public abstract class BaseThing {
      *
      */
     private String tcomTcsEquivalence;
-
-    /**
-     *
-     */
-    private PublishedInCitation tcomPublishedInCitation;
 
     /**
      *
@@ -395,51 +391,6 @@ public abstract class BaseThing {
 
     /**
      *
-     * @param publicationCitation
-     *            Set the publication this resource was published in
-     */
-    public final void setPublishedInCitation(
-            final PublicationCitation publicationCitation) {
-        this.tcomPublishedInCitation = new PublishedInCitation(
-                publicationCitation, false);
-    }
-
-    /**
-     *
-     * @return the publication that this resource was published in
-     */
-    public final PublicationCitation getPublishedInCitation() {
-        if (tcomPublishedInCitation != null) {
-         return tcomPublishedInCitation.getPublicationCitation();
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     *
-     * @param publicationCitation Set the published in citation relation
-     */
-    public final void setPublishedInCitationRelation(
-            final PublicationCitation publicationCitation) {
-        this.tcomPublishedInCitation = new PublishedInCitation(
-                publicationCitation, true);
-    }
-
-    /**
-     *
-     * @return the published in citation relation
-     */
-    public final PublicationCitation getPublishedInCitationRelation() {
-        if (tcomPublishedInCitation != null) {
-            return tcomPublishedInCitation.getPublicationCitation();
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     *
      * @param relation Set a relation
      */
     public final void setRelation(final Relation relation) {
@@ -452,61 +403,5 @@ public abstract class BaseThing {
      */
     public final Relation getRelation() {
         return dcRelation;
-    }
-
-    /**
-     *
-     * @author ben
-     *
-     */
-    public static class PublishedInCitation extends LinkType {
-
-        /**
-         *
-         */
-        private PublicationCitation tpcPublicationCitation;
-
-        /**
-         *
-         */
-        protected PublishedInCitation() {
-        }
-
-        /**
-         *
-         * @param newPublicationCitation Set the publication citation
-         * @param useRelation Set as a relation, not as an object
-         */
-        protected PublishedInCitation(
-                final PublicationCitation newPublicationCitation,
-                final boolean useRelation) {
-            if (useRelation) {
-                if (newPublicationCitation != null
-                        && newPublicationCitation.getIdentifier() != null) {
-                    this.setResource(newPublicationCitation.getIdentifier());
-                } else {
-                    this.tpcPublicationCitation = newPublicationCitation;
-                }
-            } else {
-                this.tpcPublicationCitation = newPublicationCitation;
-            }
-        }
-
-        /**
-         *
-         * @param newPublicationCitation Set the publication citation
-         */
-        protected final void setPublicationCitation(
-                final PublicationCitation newPublicationCitation) {
-            this.tpcPublicationCitation = newPublicationCitation;
-        }
-
-        /**
-         *
-         * @return the publication citation
-         */
-        protected final PublicationCitation getPublicationCitation() {
-            return tpcPublicationCitation;
-        }
     }
 }

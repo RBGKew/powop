@@ -176,7 +176,7 @@ public class Taxon implements IdentifiableEntity<String> {
            @JoinColumn(name = "Plant_name_id")
    },
    inverseJoinColumns = {
-           @JoinColumn(name = "Plant_author_id")
+           @JoinColumn(name = "Author_id")
    })
    @Where(clause = "Author_type_id = 'PAR' or Author_type_id = 'RPL'")
    private Author basionymAuthorship;
@@ -187,7 +187,7 @@ public class Taxon implements IdentifiableEntity<String> {
            @JoinColumn(name = "Plant_name_id")
    },
    inverseJoinColumns = {
-           @JoinColumn(name = "Plant_author_id")
+           @JoinColumn(name = "Author_id")
    })
    @Where(clause = "Author_type_id = 'PRI'")
    private Author combinationAuthorship;
@@ -197,11 +197,49 @@ public class Taxon implements IdentifiableEntity<String> {
            @JoinColumn(name = "Plant_name_id")
        },
        inverseJoinColumns = {
-           @JoinColumn(name = "Plant_author_id")
+           @JoinColumn(name = "Author_id")
        })
    @MapKeyColumn(name = "Author_type_id")
    @MapKeyEnumerated(EnumType.STRING)
    private Map<AuthorType, Author> authors = new HashMap<AuthorType, Author>();
+
+   /**
+    *
+    */
+   @Column(name = "Publication_author")
+   private String protologueAuthor;
+
+   /**
+    *
+    */
+   @Column(name = "Volume_and_page")
+   private String volumeAndPage;
+
+   /**
+    *
+    */
+   @Column(name = "First_published")
+   private String publicationDate;
+
+   /**
+    *
+    */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Place_of_publication_id")
+    private Protologue protologue;
+
+   /**
+    *
+    */
+   @ManyToMany(fetch = FetchType.LAZY)
+   @JoinTable(name = "Plant_citation", joinColumns = {
+           @JoinColumn(name = "Plant_name_id")
+       },
+       inverseJoinColumns = {
+           @JoinColumn(name = "Publication_edition_id")
+       })
+   private Set<Article> citations = new HashSet<Article>();
+
     /**
      * @param newId
      *            Set the id
@@ -540,5 +578,75 @@ public class Taxon implements IdentifiableEntity<String> {
      */
     public final Map<AuthorType, Author> getAuthors() {
         return authors;
+    }
+
+    /**
+     * @return the citations
+     */
+    public final Set<Article> getCitations() {
+        return citations;
+    }
+
+    /**
+     * @param newCitations the citations to set
+     */
+    public final void setCitations(final Set<Article> newCitations) {
+        this.citations = newCitations;
+    }
+
+    /**
+     * @return the protologue author
+     */
+    public final String getProtologueAuthor() {
+        return protologueAuthor;
+    }
+
+    /**
+     * @param newProtologueAuthor set the protologue author
+     */
+    public final void setProtologueAuthor(final String newProtologueAuthor) {
+        this.protologueAuthor = newProtologueAuthor;
+    }
+
+    /**
+     * @return the volume and page
+     */
+    public final String getVolumeAndPage() {
+        return volumeAndPage;
+    }
+
+    /**
+     * @param newVolumeAndPage set the volume and page
+     */
+    public final void setVolumeAndPage(final String newVolumeAndPage) {
+        this.volumeAndPage = newVolumeAndPage;
+    }
+
+    /**
+     * @return the publication date
+     */
+    public final String getPublicationDate() {
+        return publicationDate;
+    }
+
+    /**
+     * @param newPublicationDate set the publication date
+     */
+    public final void setPublicationDate(final String newPublicationDate) {
+        this.publicationDate = newPublicationDate;
+    }
+
+    /**
+     * @return the protologue
+     */
+    public final Protologue getProtologue() {
+        return protologue;
+    }
+
+    /**
+     * @param newProtologue set the protologue
+     */
+    public final void setProtologue(final Protologue newProtologue) {
+        this.protologue = newProtologue;
     }
 }

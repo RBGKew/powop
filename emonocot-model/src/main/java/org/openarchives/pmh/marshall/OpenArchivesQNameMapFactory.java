@@ -6,6 +6,7 @@ import org.openarchives.pmh.OAIPMH;
 import org.openarchives.pmh.Record;
 import org.openarchives.pmh.ResumptionToken;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
+import org.tdwg.PublishedInCitation;
 
 import com.thoughtworks.xstream.io.xml.QNameMap;
 
@@ -39,6 +40,9 @@ public class OpenArchivesQNameMapFactory extends
         qNameMap.registerMapping(new QName(
                 "http://www.openarchives.org/OAI/2.0/", "OAI-PMH"),
                 OAIPMH.class);
+        qNameMap.registerMapping(new QName(
+                "http://www.openarchives.org/OAI/2.0/", "record", "oai"),
+                PublishedInCitation.class);
         qNameMap.registerMapping(new QName(
                 "http://www.openarchives.org/OAI/2.0/oai_dc/", "dc", "oai_dc"),
                 "dc");
@@ -146,8 +150,32 @@ public class OpenArchivesQNameMapFactory extends
                 "tcomPublishedInCitation");
         qNameMap.registerMapping(new QName(
                 "http://rs.tdwg.org/ontology/voc/PublicationCitation#",
-                "publicationCitation", "tpc"),
-                "tpcPublicationCitation");
+                "PublicationCitation", "tpub"),
+                "tpubPublicationCitation");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/PublicationCitation#",
+                "title", "tpub"), "tpubTitle");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/PublicationCitation#",
+                "authorship", "tpub"), "tpubAuthorship");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/PublicationCitation#",
+                "publisher", "tpub"), "tpubPublisher");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/PublicationCitation#",
+                "parentPublication", "tpub"), "tpubParentPublication");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/PublicationCitation#",
+                "publicationType", "tpub"), "tpubPublicationType");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/PublicationCitation#",
+                "volume", "tpub"), "tpubVolume");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/PublicationCitation#",
+                "pages", "tpub"), "tpubPages");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/PublicationCitation#",
+                "datePublished", "tpub"), "tpubDatePublished");
         qNameMap.registerMapping(new QName(
                 "http://rs.tdwg.org/ontology/voc/TaxonName#",
                 "authorship", "tn"), "tnAuthorship");

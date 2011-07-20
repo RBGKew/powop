@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.tdwg.Actor;
 import org.tdwg.Concept;
+import org.tdwg.PublishedInCitation;
 
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
@@ -14,6 +15,13 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
  *
  */
 public class TaxonConcept extends Concept {
+
+    /**
+     * Needs to go here because xstream seems to have problems
+     * picking up the annotations on abstract superclasses.
+     */
+    @XStreamImplicit(itemFieldName = "tcomPublishedInCitation")
+    private Set<PublishedInCitation> tcomPublishedInCitations = null;
 
     /**
      *
@@ -358,4 +366,56 @@ public class TaxonConcept extends Concept {
             }
         }
     }
+
+   /**
+    *
+    * @param publicationCitations Set the published in citations
+    */
+   public final void setPublishedInCitations(
+           final Set<PublicationCitation> publicationCitations) {
+       if (publicationCitations != null) {
+           this.tcomPublishedInCitations = new HashSet<PublishedInCitation>();
+           for (PublicationCitation publicationCitation
+                   : publicationCitations) {
+               tcomPublishedInCitations.add(new PublishedInCitation(
+                       publicationCitation, true));
+           }
+       } else {
+           tcomPublishedInCitations = null;
+       }
+   }
+
+   /**
+    *
+    * @return the published in citation relation
+    */
+   public final Set<PublicationCitation> getPublishedInCitations() {
+       if (tcomPublishedInCitations != null) {
+           Set<PublicationCitation> publicationCitations
+               = new HashSet<PublicationCitation>();
+           for (PublishedInCitation publishedInCitation
+                   : tcomPublishedInCitations) {
+               publicationCitations.add(
+                       publishedInCitation.getPublicationCitation());
+           }
+           return publicationCitations;
+       } else {
+           return null;
+       }
+   }
+
+   /**
+    * @param publicationCitation add a publication citation
+    */
+    public final void addPublicationCitation(
+            final PublicationCitation publicationCitation) {
+       if (publicationCitation != null) {
+           if (this.tcomPublishedInCitations == null) {
+               this.tcomPublishedInCitations
+                   = new HashSet<PublishedInCitation>();
+           }
+           tcomPublishedInCitations.add(
+                   new PublishedInCitation(publicationCitation, true));
+       }
+   }
 }
