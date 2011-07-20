@@ -1,28 +1,3 @@
-﻿-----------------------------------------------------------------------------
--- Load latest backup of 'monocot_checklist'
------------------------------------------------------------------------------
-use master
-go
-
-drop database if exists monocot_checklist
-
-
-create database monocot_checklist on userdata = 1500
-     log on userlog = 150
-go
-
-/* For live */
---exec sp_changedbowner 'sa'
---go
-
-load database monocot_checklist from '/db/sybase/dumps/data/monocot_checklist'
-go
-
-online database monocot_checklist
-go
-
-
-
 -----------------------------------------------------------------------------
 -- DDL for Altering Table'monocot_checklist.dbo.Plant_Name'
 -----------------------------------------------------------------------------
@@ -41,8 +16,6 @@ alter table Plant_Name
      add  Date_authors_modified     datetime     null
      add  Date_citations_modified     datetime     null
 go
-
-
 
 -----------------------------------------------------------------------------
 -- DDL for Table'monocot_checklist.dbo.Plant_Name_Deleted'
@@ -462,8 +435,9 @@ UNION ALL
          AND  Family_Permissions.eMonocot = 1
 go 
 
-
-
-
 setuser
 go
+
+
+PRINT 'You now need to create the emonocot login and emonocot user in the monocot_checklist database.'
+PRINT 'Then run the SybaseUserGrants.sql script'
