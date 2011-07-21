@@ -17,6 +17,10 @@
 
     <mvc:annotation-driven conversion-service="conversionService"/>
     
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="application" />
+	</bean>
+    
     <bean name="resumptionTokenCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
         <property name="cacheName" value="org.emonocot.checklist.controller.oai.OaiPmhController.resumptionTokens"/>
         <property name="cacheManager" ref="cacheManager"/>

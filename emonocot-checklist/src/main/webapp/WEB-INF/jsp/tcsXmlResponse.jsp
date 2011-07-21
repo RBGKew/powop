@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
   xmlns:c="http://java.sun.com/jsp/jstl/core"
+  xmlns:spring="http://www.springframework.org/tags"
   xmlns:em="http://e-monocot.org/checklist/functions"
   version="2.0">
   <DataSet xmlns='http://www.tdwg.org/schemas/tcs/1.01' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -18,9 +19,10 @@
 	  <TaxonConcept id="${result.identifier}">
 	    <Name scientific="true" ref="${result.nameId}">${result.name}</Name>
 	    <Rank code="${result.rank.abbreviation}">${result.rank.label}</Rank>
+	    <spring:message code="checklistWebservideController.baseURL" var="baseUrl"/>
 	    <TaxonRelationships>
 	      <c:forEach var="child" items="${result.childTaxa}">
-	        <c:url var="url" value="endpoint">
+	        <c:url var="url" value="${baseUrl}">
 	            <c:param name="function" value="details_tcs"/>
 	            <c:param name="id" value="${child.identifier}"/>
 	        </c:url>
@@ -32,7 +34,7 @@
 	        </TaxonRelationship>
 	      </c:forEach>
 	      <c:forEach var="synonym" items="${result.synonyms}">
-	        <c:url var="url" value="endpoint">
+	        <c:url var="url" value="${baseUrl}">
 	            <c:param name="function" value="details_tcs"/>
 	            <c:param name="id" value="${synonym.identifier}"/>
 	        </c:url>

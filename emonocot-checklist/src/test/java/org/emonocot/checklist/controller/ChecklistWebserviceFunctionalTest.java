@@ -132,6 +132,13 @@ public class ChecklistWebserviceFunctionalTest {
                "sp",
                with(xml).get(
                        "DataSet.TaxonConcepts.TaxonConcept.Rank.@code"));
+       assertEquals("Two synonyms should be present",
+               2,
+               with(xml).get(
+                       "DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship.findAll { it.@type == 'has synonym' }.size()"));
+       assertTrue("The links to external data should be absolute, not relative",               
+               ((String)with(xml).get(
+                       "DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship[0].ToTaxonConcept.@ref")).startsWith("http://"));
    }
 
     /**
@@ -157,6 +164,50 @@ public class ChecklistWebserviceFunctionalTest {
                 .get("results"));
         assertNotNull("<value> element was expected",
                 with(xml).get("results.value"));
-        assertEquals(searchName, with(xml).get("results.value.name"));
+        assertEquals(
+                "The name of the taxon should be included",
+                "Lorem",
+                with(xml).get(
+                "results.value.name"));
+        assertEquals(
+                "The canonical form of the name of the taxon should be included",
+                "Lorem",
+                with(xml).get(
+                "results.value.canonical_form"));
+        assertEquals(
+                "The id of the taxon should be included",
+                "urn:kew.org:wcs:taxon:3",
+                with(xml).get(
+                "results.value.id"));
+        assertEquals(
+                "The ancestry of the taxon should be included",
+                "Loreaceae|Lorem",
+                with(xml).get(
+                "results.value.ancestry"));
+        assertEquals(
+                "The ranked ancestry of the taxon should be included",
+                "Loreaceae|Lorem",
+                with(xml).get(
+                "results.value.ranked_ancestry"));
+        assertEquals(
+                "The rank of the taxon should be included",
+                "Genus",
+                with(xml).get(
+                "results.value.rank"));
+        assertEquals(
+                "The number of children should be included",
+                "2",
+                with(xml).get(
+                "results.value.number_of_children"));
+        assertEquals(
+                "The number of synonyms should be included",
+                "0",
+                with(xml).get(
+                "results.value.number_of_children_synonyms"));
+        assertEquals(
+                "The title of the service should be included",
+                "World Checklist System: Taxon Extractor Service",
+                with(xml).get(
+                "results.value.metadata.title"));
     }
 }
