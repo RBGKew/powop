@@ -694,6 +694,25 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+            <!-- Required for ANT build / deploy -->
+            <dependency>
+              <groupId>tomcat</groupId>
+              <artifactId>catalina-ant</artifactId>
+              <version>5.5.23</version>
+              <scope>test</scope>
+              <exclusions>
+                <exclusion>
+                  <groupId>ant</groupId>
+                  <artifactId>ant</artifactId>
+                </exclusion>
+              </exclusions>
+            </dependency>
+            <dependency>
+              <groupId>org.apache.ant</groupId>
+              <artifactId>ant-junit</artifactId>
+              <version>1.8.2</version>
+              <scope>test</scope>
+            </dependency>     
         </dependencies>
     </dependencyManagement>
     <build>
