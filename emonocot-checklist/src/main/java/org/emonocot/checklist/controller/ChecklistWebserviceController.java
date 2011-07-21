@@ -4,10 +4,12 @@ import java.text.ParseException;
 import java.util.List;
 
 import org.emonocot.checklist.format.annotation.ChecklistIdentifierFormat;
+import org.emonocot.checklist.logging.LoggingConstants;
 import org.emonocot.checklist.model.Taxon;
 import org.emonocot.checklist.persistence.TaxonDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.http.HttpStatus;
@@ -28,10 +30,20 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/endpoint")
 public class ChecklistWebserviceController {
     /**
-    *
+     *
+     */
+    private static final String CHECKLIST_WEBSERVICE_SEARCH_TYPE = "te";
+
+/**
+    * Logger for debugging requests, errors etc.
     */
    private static Logger logger
        = LoggerFactory.getLogger(ChecklistWebserviceController.class);
+
+  /**
+   * Querylog for logging requests for reporting etc.
+   */
+  private static Logger queryLog = LoggerFactory.getLogger("query");
 
     /**
      *
@@ -75,6 +87,18 @@ public class ChecklistWebserviceController {
         ModelAndView modelAndView = new ModelAndView("rdfResponse");
         List<Taxon> taxa = taxonDao.search(search);
         modelAndView.addObject("result", taxa);
+        try {
+            MDC.put(LoggingConstants.SEARCH_TYPE_KEY,
+                    CHECKLIST_WEBSERVICE_SEARCH_TYPE);
+            MDC.put(LoggingConstants.QUERY_KEY, search);
+            MDC.put(LoggingConstants.RESULT_COUNT_KEY,
+                    Integer.toString(taxa.size()));
+            queryLog.info("ChecklistWebserviceController.get");
+        } finally {
+            MDC.remove(LoggingConstants.SEARCH_TYPE_KEY);
+            MDC.remove(LoggingConstants.QUERY_KEY);
+            MDC.remove(LoggingConstants.RESULT_COUNT_KEY);
+        }
         return modelAndView;
     }
 
@@ -93,6 +117,17 @@ public class ChecklistWebserviceController {
         ModelAndView modelAndView = new ModelAndView("tcsXmlResponse");
         Taxon taxon = taxonDao.get(id.intValue());
         modelAndView.addObject("result", taxon);
+        try {
+            MDC.put(LoggingConstants.SEARCH_TYPE_KEY,
+                    CHECKLIST_WEBSERVICE_SEARCH_TYPE);
+            MDC.put(LoggingConstants.QUERY_KEY, id.toString());
+            MDC.put(LoggingConstants.RESULT_COUNT_KEY, "1");
+            queryLog.info("ChecklistWebserviceController.get");
+        } finally {
+            MDC.remove(LoggingConstants.SEARCH_TYPE_KEY);
+            MDC.remove(LoggingConstants.QUERY_KEY);
+            MDC.remove(LoggingConstants.RESULT_COUNT_KEY);
+        }
         return modelAndView;
     }
 

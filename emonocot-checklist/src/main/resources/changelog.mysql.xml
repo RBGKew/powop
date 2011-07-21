@@ -439,4 +439,30 @@ UNION ALL
        FROM  Plant_Name_Deleted
         </createView>
     </changeSet>
+    <changeSet author="ben" id="2011-07-21_1">
+        <createTable tableName="web_log">
+            <column name="web_log_id" type="integer" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="search_date" type="datetime">
+              <constraints nullable="false"/>
+            </column>
+            <column name="ip_address" type="varchar(15)"/>
+            <column name="search_type" type="varchar(2)"/>
+            <column name="result_count" type="integer"/>
+            <column name="family" type="varchar(30)"/>
+            <column name="genus" type="varchar(30)"/>
+            <column name="species" type="varchar(50)"/>
+            <column name="author" type="varchar(60)"/>
+            <column name="infra_rank" type="varchar(15)"/>
+            <column name="infra_epithet" type="varchar(50)"/>
+            <column name="publication" type="varchar(60)"/>
+            <column name="published" type="varchar(4)"/>
+            <column name="tdwg_codes" type="varchar(255)"/>
+            <column name="checklist" type="varchar(30)"/>
+            <column name="req_referer" type="varchar(50)"/>
+            <column name="req_host" type="varchar(50)"/>
+            <column name="remote_host" type="varchar(50)"/>            
+        </createTable>
+    </changeSet>
 </databaseChangeLog>

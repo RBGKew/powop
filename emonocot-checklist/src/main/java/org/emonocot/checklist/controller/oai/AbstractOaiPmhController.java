@@ -53,7 +53,7 @@ import org.springframework.web.servlet.ModelAndView;
 public abstract class AbstractOaiPmhController {
 
     /**
-     *
+     * Logger for debugging requests, errors etc.
      */
     private static Logger logger
         = LoggerFactory.getLogger(AbstractOaiPmhController.class);
@@ -305,7 +305,10 @@ public abstract class AbstractOaiPmhController {
         ChangeEvent object = service.find(identifier);
 
         if (object == null) {
+            log(identifier, "GetRecord", 0, null);
             throw new IdDoesNotExistException(identifier);
+        } else {
+            log(identifier, "GetRecord", 1, null);
         }
 
         modelAndView.addObject(AbstractOaiPmhController.OBJECT_KEY, object);
@@ -328,6 +331,16 @@ public abstract class AbstractOaiPmhController {
      * @return the list of metadata formats provided by this repository
      */
     public abstract List<MetadataFormat> getMetadataFormats();
+
+    /**
+     *
+     * @param identifier Set the identifier of the object requested
+     * @param verb Set the verb of the request
+     * @param count Set the number of results returned
+     * @param set Set the set parameter (can be null)
+     */
+    public abstract void log(Serializable identifier, String verb,
+            int count, String set);
 
     /**
      *
@@ -469,6 +482,7 @@ public abstract class AbstractOaiPmhController {
                         metadataPrefix));
 
         Page<ChangeEvent> results = service.page(set, from, until, pageSize, 0);
+        log(null, "ListIdentifiers", results.getRecords().size(), set);
 
         if (results.size() == 0) {
             throw new NoRecordsMatchException("No records match");
@@ -519,6 +533,9 @@ public abstract class AbstractOaiPmhController {
                     .getSet(), resumptionToken.getFrom(), resumptionToken
                     .getUntil(), pageSize, (resumptionToken.getCursor()
                     .intValue() / pageSize) + 1);
+
+            log(null, "ListIdentifiers", results.getRecords().size(),
+                    resumptionToken.getSet());
 
             if (results.size() == 0) {
                 throw new NoRecordsMatchException("No records match");
@@ -594,6 +611,8 @@ public abstract class AbstractOaiPmhController {
 
         Page<ChangeEvent> results = service.page(set, from, until, pageSize, 0);
 
+        log(null, "ListRecords", results.getRecords().size(), set);
+
         if (results.size() == 0) {
             throw new NoRecordsMatchException("No records match");
         }
@@ -651,6 +670,9 @@ public abstract class AbstractOaiPmhController {
                     .getSet(), resumptionToken.getFrom(), resumptionToken
                     .getUntil(), pageSize, (resumptionToken.getCursor()
                     .intValue() / pageSize) + 1);
+
+            log(null, "ListRecords", results.getRecords().size(),
+                    resumptionToken.getSet());
 
             if (results.size() == 0) {
                 throw new NoRecordsMatchException("No records match");
