@@ -147,6 +147,14 @@
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-library</artifactId>
         </dependency>
+        <dependency>
+           <groupId>tomcat</groupId>
+           <artifactId>catalina-ant</artifactId>
+        </dependency>
+        <dependency>
+           <groupId>org.apache.ant</groupId>
+           <artifactId>ant-junit</artifactId>
+        </dependency> 
 	</dependencies>
 	<build>
 		<finalName>emonocot-checklist</finalName>

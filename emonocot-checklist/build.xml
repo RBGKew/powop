@@ -8,86 +8,258 @@
 	<property name="main.filter" value="${basedir}/src/main/filter" />
 	<property name="main.static" value="${basedir}/src/main/static" />
 	<property name="main.webapp" value="${basedir}/src/main/webapp" />
-	<property name="main.lib" value="${basedir}/lib/main" />
 	<property name="main.resources" value="${basedir}/src/main/resources" />
 	<property name="test.src" value="${basedir}/src/test/java" />
+	<property name="compile.lib" value="${basedir}/lib/compile" />
+	<property name="test.lib" value="${basedir}/lib/test" />
+	<property name="provided.lib" value="${basedir}/lib/provided" />
 	<property name="test.resources" value="${basedir}/src/test/resources" />
+	<!--When set to true, any existing update will be undeployed first. The default value is set to false.-->
+	<property name="tomcat.manager.update" value="false" />
 	<path id="main.class.path">
-		<fileset dir="${main.lib}">
-				<include name="**/*.jar" />
+		<fileset dir="${compile.lib}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${provided.lib}">
+			<include name="**/*.jar" />
 		</fileset>
 	</path>
+	<path id="test.class.path">
+		<fileset dir="${compile.lib}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${provided.lib}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${test.lib}">
+			<include name="**/*.jar" />
+		</fileset>
+		<pathelement location="${target}/classes" />
+		<pathelement location="${target}/test-classes" />
+	</path>
+
+	<taskdef name="list" classname="org.apache.catalina.ant.ListTask">
+		<classpath location="${test.lib}/catalina-ant-5.5.23.jar" />
+	</taskdef>
+
+	<taskdef name="deploy" classname="org.apache.catalina.ant.DeployTask">
+		<classpath location="${test.lib}/catalina-ant-5.5.23.jar" />
+	</taskdef>
+
+	<taskdef name="undeploy" classname="org.apache.catalina.ant.UndeployTask">
+		<classpath location="${test.lib}/catalina-ant-5.5.23.jar" />
+	</taskdef>
+
+	<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask">
+		<classpath location="${test.lib}/ant-junit-1.8.2.jar" />
+		<classpath location="${test.lib}/junit-4.8.1.jar" />
+	</taskdef>
 
 	<target name="clean" description="Removes all directories related to this build, but not the Eclipse build dir">
-	    <echo message="cleaning source tree" />
+		<echo message="cleaning source tree" />
 		<delete dir="${target}" />
-    </target>
-	
+	</target>
+
 	<target name="prepare" description="Creates directories required for build" >
 		<echo message="preparing directory structure for build" />
 		<mkdir dir="${target}" />
 	</target>
-	
+
 	<target name="compile" depends="prepare"
 	        description="Compiles the source tree">
-			<echo message="compiling source tree" />
-			<mkdir dir="${target}/classes" />
-			<javac destdir="${target}/classes"
+		<echo message="compiling source tree" />
+		<mkdir dir="${target}/classes" />
+		<javac destdir="${target}/classes"
 	            debug="on"
 	            deprecation="off"
 	            optimize="on"
 			    encoding="utf8"
 				source="1.5"
 				target="1.5">
-				<src path="${main.src}" />
-				<classpath refid="main.class.path" />
-			</javac>
-			<!-- copy resource files to the build tree -->
-			<copy todir="${target}/classes">
-				<fileset dir="${main.resources}">
-					<include name="**/*"/>
-				</fileset>
-			</copy>
-		</target>
-	<target name="war" depends="compile"
-	        description="Puts all build artefacts into a warfile structure in the build directory" >
+			<src path="${main.src}" />
+			<classpath refid="main.class.path" />
+		</javac>
+		<!-- copy resource files to the build tree -->
+		<copy todir="${target}/classes">
+			<fileset dir="${main.resources}">
+				<include name="**/*"/>
+			</fileset>
+		</copy>
+	</target>
 
-			<echo message="creating war structure" />
-			<mkdir dir="${target}/${name}" />
-			<mkdir dir="${target}/${name}/WEB-INF" />
-			<mkdir dir="${target}/${name}/WEB-INF/lib" />
-		    <!-- copy resource files to the build tree-->
-			<copy todir="${target}/${name}" filtering="false">
-				<fileset dir="${main.webapp}">
-					<include name="**/*"/>
-					<exclude name="WEB-INF/web.xml"/>
-				</fileset>
-			</copy>
+	<target name="test-compile" depends="compile" description="Compiles the test source tree">
+		<echo message="compiling test source tree" />
+		<mkdir dir="${target}/test-classes" />
+		<javac destdir="${target}/test-classes" debug="on" deprecation="off" optimize="on" encoding="utf8" source="1.5" target="1.5">
+			<src path="${test.src}" />
+			<classpath refid="test.class.path" />
+		</javac>
+		<!-- copy resource files to the build tree -->
+		<copy todir="${target}/test-classes">
+			<fileset dir="${test.resources}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+	</target>
 
-			<!-- copy resource files to the build tree this time with filtering-->
-			<copy todir="${target}/${name}/WEB-INF/classes" filtering="true">
-				<filterchain>
-				    <expandproperties/>
-				</filterchain>
-				<fileset dir="${main.filter}">
-					<include name="**/*"/>
+	<target name="test" description="Execute unit tests" depends="test-compile">
+		<mkdir dir="${target}/surefire-reports" />
+		<junit printsummary="true" failureproperty="junit.failure">
+			<classpath refid="test.class.path" />
+			<batchtest todir="${target}/surefire-reports">
+				<fileset dir="${target}/test-classes">
+					<include name="**/*Test.class" />
+					<exclude name="**/*IntegrationTest.class" />
+					<exclude name="**/*FunctionalTest.class" />
 				</fileset>
-			</copy>
+				<formatter type="xml" />
+				<formatter type="plain" />
+			</batchtest>
+		</junit>
+		<fail if="junit.failure" message="Unit test(s) failed.  See reports!" />
+	</target>
 
-		    <!-- copy compiled files to WEB-INF/classes -->
-			<copy todir="${target}/${name}/WEB-INF/classes" filtering="false">
-				<fileset dir="${target}/classes">
-					<include name="**/*"/>
-				</fileset>
-			</copy>
-			<!-- copy rest of required jars from lib to WEB-INF/lib" -->
-			<copy todir="${target}/${name}/WEB-INF/lib">
-				<fileset dir="${main.lib}">
-					<include name="**/*.jar" />
-				</fileset>
-			</copy>
-		    <war basedir="${target}/${name}" destfile="${target}/${name}.war" webxml="${main.webapp}/WEB-INF/web.xml" compress="true">
-			    <webinf dir="${target}/${name}/WEB-INF" />
-		    </war>
-		</target>
+	<target name="war" depends="test" description="Puts all build artefacts into a warfile structure in the build directory">
+
+		<echo message="creating war structure" />
+		<mkdir dir="${target}/${name}" />
+		<mkdir dir="${target}/${name}/WEB-INF" />
+		<mkdir dir="${target}/${name}/WEB-INF/lib" />
+		<!-- copy resource files to the build tree-->
+		<copy todir="${target}/${name}" filtering="false">
+			<fileset dir="${main.webapp}">
+				<include name="**/*"/>
+				<exclude name="WEB-INF/web.xml"/>
+			</fileset>
+		</copy>
+
+		<!-- copy resource files to the build tree this time with filtering-->
+		<copy todir="${target}/${name}/WEB-INF/classes" filtering="true">
+			<filterchain>
+				<expandproperties/>
+			</filterchain>
+			<fileset dir="${main.filter}">
+				<include name="**/*"/>
+			</fileset>
+		</copy>
+
+		<!-- copy compiled files to WEB-INF/classes -->
+		<copy todir="${target}/${name}/WEB-INF/classes" filtering="false">
+			<fileset dir="${target}/classes">
+				<include name="**/*"/>
+			</fileset>
+		</copy>
+		<!-- copy rest of required jars from lib to WEB-INF/lib" -->
+		<copy todir="${target}/${name}/WEB-INF/lib">
+			<fileset dir="${compile.lib}">
+				<include name="**/*.jar" />
+			</fileset>
+		</copy>
+		<war basedir="${target}/${name}" destfile="${target}/${name}.war" webxml="${main.webapp}/WEB-INF/web.xml" compress="true">
+			<webinf dir="${target}/${name}/WEB-INF" />
+		</war>
+	</target>
+
+	<target name="tomcat.application.status">
+		<property name="running" value="${cargo.checklist.context.path}:running"/>
+		<property name="stopped" value="${cargo.checklist.context.path}:stopped"/>
+
+		<list url="${cargo.tomcat.manager.url}"
+				outputproperty="application.status"
+				username="${cargo.remote.username}"
+				password="${cargo.remote.password}">
+		</list>
+
+		<condition property="application.running">
+			<contains string="${application.status}" substring="${running}"/>
+		</condition>
+		<condition property="application.stopped">
+			<contains string="${application.status}" substring="${stopped}"/>
+		</condition>
+		<condition property="context.notInstalled">
+			<and>
+				<isfalse value="${application.running}"/>
+				<isfalse value="${application.stopped}"/>
+			</and>
+		</condition>
+		<condition property="application.deployable">
+			<or>
+				<istrue value="${application.notInstalled}"/>
+				<and>
+					<istrue value="${applidation.running}"/>
+					<istrue value="${tomcat.manager.update}"/>
+				</and>
+				<and>
+					<istrue value="${application.stopped}"/>
+					<istrue value="${tomcat.manager.update}"/>
+				</and>
+			</or>
+		</condition>
+		<condition property="application.undeployable">
+			<or>
+				<istrue value="${application.running}"/>
+				<istrue value="${application.stopped}"/>
+			</or>
+		</condition>
+	</target>
+
+	<target name="deploy" 
+					description="Install web application"
+					depends="war, tomcat.application.status"
+		            if="application.deployable">
+		<deploy 
+						url="${cargo.tomcat.manager.url}" 
+						username="${cargo.remote.username}"
+						password="${cargo.remote.password}"
+						path="/${cargo.checklist.context.path}" 
+						war="${target}/${name}.war"/>
+	</target>
+
+	<target name="redeploy" 
+					description="Install web application"
+					depends="war, undeploy">
+		<deploy 
+			url="${cargo.tomcat.manager.url}" 
+			username="${cargo.remote.username}"
+			password="${cargo.remote.password}"
+			path="/${cargo.checklist.context.path}" 
+						war="${target}/${name}.war"/>
+	</target>
+
+	<target name="undeploy" description="Remove web application"
+		depends="tomcat.application.status"
+		if="application.undeployable">
+		<undeploy 
+			url="${cargo.tomcat.manager.url}" 
+			username="${cargo.remote.username}"
+			password="${cargo.remote.password}"
+			path="/${cargo.checklist.context.path}"/>
+	</target>
+
+	<target name="check.upload.method">
+		<condition property="wagon.upload.remote">
+			<equals arg1="${wagon.upload.protocol}" arg2="scp" />
+		</condition>
+		<condition property="wagon.upload.local">
+			<equals arg1="${wagon.upload.protocol}" arg2="file" />
+		</condition>
+	</target>
+
+	<target name="upload.remote" depends="check.upload.method" if="wagon.upload.remote">
+		<scp todir="${wagon.checklist.static.url}" trust="true" keyfile="${server.privateKey}" passphrase="${server.passphrase}">
+			<fileset dir="${main.static}">
+				<include name="**/*" />
+			</fileset>
+		</scp>
+	</target>
+
+	<target name="upload.local" depends="check.upload.method" if="wagon.upload.local">
+		<copy todir="${wagon.checklist.static.url}">
+			<fileset dir="${main.static}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="upload" depends="upload.remote, upload.local"/>
 </project>
