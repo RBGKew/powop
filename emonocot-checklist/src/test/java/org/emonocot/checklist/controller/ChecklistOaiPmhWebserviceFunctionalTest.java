@@ -243,10 +243,50 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
                 with(xml).get(
                 "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.relationshipCategory.findAll { it.@resource == 'http://rs.tdwg.org/ontology/voc/TaxonConcept#HasSynonym' }.size()"));
         assertEquals(
+                "The parent should be present",
+                1,
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.relationshipCategory.findAll { it.@resource == 'http://rs.tdwg.org/ontology/voc/TaxonConcept#IsChildTaxonOf' }.size()"));
+        assertEquals(
                 "The distributional data should be present",
                 NUMBER_OF_DISTRIBUTION_RECORDS,
                 with(xml).get(
                 "OAI-PMH.GetRecord.record.metadata.TaxonConcept.describedBy.SpeciesProfileModel.hasInformation.Distribution.size()"));
+        assertEquals(
+                "The citation title should be present",
+                "Vestibulum erat massa dapibus sit amet dictum vel",
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.publishedInCitation.PublicationCitation.title"));
+        assertEquals(
+                "The citation authorship should be present",
+                "Pargetter",
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.publishedInCitation.PublicationCitation.authorship"));
+        assertEquals(
+                "The citation type should be present",
+                "http://rs.tdwg.org/ontology/voc/PublicationCitation#BookSection",
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.publishedInCitation.PublicationCitation.publicationType.@resource"));
+        assertEquals(
+                "The publication title should be present",
+                "Lorem ipsum dolor sit amet consectetur adipiscing elit",
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.publishedInCitation.PublicationCitation.parentPublication.PublicationCitation.title"));
+        assertEquals(
+                "The publication authorship should be present",
+                "Archer",
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.publishedInCitation.PublicationCitation.parentPublication.PublicationCitation.authorship"));
+        assertEquals(
+                "The publication publisher should be present",
+                "Lorem",
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.publishedInCitation.PublicationCitation.parentPublication.PublicationCitation.publisher"));
+        assertEquals(
+                "The publication type should be present",
+                "http://rs.tdwg.org/ontology/voc/PublicationCitation#Book",
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.publishedInCitation.PublicationCitation.parentPublication.PublicationCitation.publicationType.@resource"));
 
     }
 }
