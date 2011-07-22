@@ -3,6 +3,7 @@
     authors*,
     databasechangelog*,
     databasechangeloglock*,
+    place_of_publication*,
     plant_author*,
     plant_citation*,
     plant_locality*,
@@ -10,7 +11,8 @@
     plant_name_deleted*,
     publication*,
     publication_edition*,
-    publication_type*)>
+    publication_type*,
+    web_log*)>
 
 <!ELEMENT author_type EMPTY>
 <!ATTLIST author_type
@@ -29,6 +31,8 @@
     AUTHOR CDATA #REQUIRED
     FILENAME CDATA #REQUIRED
     DATEEXECUTED CDATA #REQUIRED
+    ORDEREXECUTED CDATA #REQUIRED
+    EXECTYPE CDATA #REQUIRED
     MD5SUM CDATA #IMPLIED
     DESCRIPTION CDATA #IMPLIED
     COMMENTS CDATA #IMPLIED
@@ -42,6 +46,12 @@
     LOCKED CDATA #REQUIRED
     LOCKGRANTED CDATA #IMPLIED
     LOCKEDBY CDATA #IMPLIED
+>
+
+<!ELEMENT place_of_publication EMPTY>
+<!ATTLIST place_of_publication
+    Place_of_publication_id CDATA #REQUIRED
+    Place_of_publication CDATA #IMPLIED
 >
 
 <!ELEMENT plant_author EMPTY>
@@ -86,6 +96,10 @@
     Date_Locality_modified CDATA #IMPLIED
     Date_Authors_modified CDATA #IMPLIED
     Date_Citations_modified CDATA #IMPLIED
+    Publication_author CDATA #IMPLIED
+    Volume_and_page CDATA #IMPLIED
+    First_published CDATA #IMPLIED
+    Place_of_publication_id CDATA #IMPLIED
 >
 
 <!ELEMENT plant_name_deleted EMPTY>
@@ -108,6 +122,10 @@
     Date_Locality_modified CDATA #IMPLIED
     Date_Authors_modified CDATA #IMPLIED
     Date_Citations_modified CDATA #IMPLIED
+    Publication_author CDATA #IMPLIED
+    Volume_and_page CDATA #IMPLIED
+    First_published CDATA #IMPLIED
+    Place_of_publication_id CDATA #IMPLIED
 >
 
 <!ELEMENT publication EMPTY>
@@ -131,4 +149,26 @@
 <!ATTLIST publication_type
     Publication_type_id CDATA #REQUIRED
     Type_of_publication CDATA #IMPLIED
+>
+
+<!ELEMENT web_log EMPTY>
+<!ATTLIST web_log
+    web_log_id CDATA #REQUIRED
+    search_date CDATA #REQUIRED
+    ip_address CDATA #IMPLIED
+    search_type CDATA #IMPLIED
+    result_count CDATA #IMPLIED
+    family CDATA #IMPLIED
+    genus CDATA #IMPLIED
+    species CDATA #IMPLIED
+    author CDATA #IMPLIED
+    infra_rank CDATA #IMPLIED
+    infra_epithet CDATA #IMPLIED
+    publication CDATA #IMPLIED
+    published CDATA #IMPLIED
+    tdwg_codes CDATA #IMPLIED
+    checklist CDATA #IMPLIED
+    req_referer CDATA #IMPLIED
+    req_host CDATA #IMPLIED
+    remote_host CDATA #IMPLIED
 >

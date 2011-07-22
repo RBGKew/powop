@@ -12,30 +12,53 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+/**
+ *
+ * @author ben
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({
-        "/applicationContext-test.xml" })
-public class FamilyFilteringIntegrationTest extends AbstractPersistenceTestSupport {
-	
-	@Autowired
-	private TaxonDao taxonDao;
-	
-	@Test
-	public void nonFilteringTest() {
-		assertNotNull("TaxonDAO should not be null",taxonDao);
-		Page<ChangeEvent<Taxon>> result = taxonDao.page(null, null, null, null, null);
-		assertEquals("page() should return five objects", Integer.valueOf(5), result.size());		
-	}
+@ContextConfiguration({ "/applicationContext-test.xml" })
+public class FamilyFilteringIntegrationTest extends
+        AbstractPersistenceTestSupport {
 
-	@Test
-	public void familyFilteringWithValidFilterTermTest() {
-		Page<ChangeEvent<Taxon>> result = taxonDao.page("Loreaceae", null, null, null, null);
-		assertEquals("page() should return four objects", Integer.valueOf(4), result.size());		
-	}
-	
-	@Test
-	public void familyFilteringWithInvalidFilterTermTest() {
-		Page<ChangeEvent<Taxon>> result = taxonDao.page("Badgeraceae", null, null, null, null);
-		assertEquals("page() should return no objects", Integer.valueOf(0), result.size());		
-	}
+    /**
+     *
+     */
+    @Autowired
+    private TaxonDao taxonDao;
+
+    /**
+     *
+     */
+    @Test
+    public final void nonFilteringTest() {
+        assertNotNull("TaxonDAO should not be null", taxonDao);
+        Page<ChangeEvent<Taxon>> result = taxonDao.page(null, null, null, null,
+                null);
+        assertEquals("page() should return five objects", Integer.valueOf(5),
+                result.size());
+    }
+
+    /**
+     *
+     */
+    @Test
+    public final void familyFilteringWithValidFilterTermTest() {
+        Page<ChangeEvent<Taxon>> result = taxonDao.page("Loreaceae", null,
+                null, null, null);
+        assertEquals("page() should return four objects", Integer.valueOf(4),
+                result.size());
+    }
+
+    /**
+     *
+     */
+    @Test
+    public final void familyFilteringWithInvalidFilterTermTest() {
+        Page<ChangeEvent<Taxon>> result = taxonDao.page("Badgeraceae", null,
+                null, null, null);
+        assertEquals("page() should return no objects", Integer.valueOf(0),
+                result.size());
+    }
 }

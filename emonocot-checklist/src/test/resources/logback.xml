@@ -5,6 +5,25 @@
       <pattern>%d{ISO8601} | %-5p | %t | %c | %m%n</pattern>
     </encoder>
   </appender>
+  <!-- Used in UsageLoggingIntegrationTest -->
+  <appender name="database" class="org.emonocot.checklist.logging.DBAppender">
+    <connectionSource
+      class="ch.qos.logback.core.db.DataSourceConnectionSource">
+      <dataSource
+        class="org.apache.commons.dbcp.BasicDataSource">
+        <driverClassName>${jdbc.driver.classname}</driverClassName>
+        <url>${jdbc.driver.url}</url>
+        <username>${jdbc.driver.username}</username>
+        <password>${jdbc.driver.password}</password>
+        <maxActive>15</maxActive>
+        <maxIdle>7</maxIdle>
+        <validationQuery>SELECT 1</validationQuery>
+      </dataSource>
+    </connectionSource>
+  </appender>
+  <logger name="query" level="INFO" additivity="false">
+    <appender-ref ref="database"/>
+  </logger>
   <root level="WARN">
     <appender-ref ref="stdout"/>
   </root>
