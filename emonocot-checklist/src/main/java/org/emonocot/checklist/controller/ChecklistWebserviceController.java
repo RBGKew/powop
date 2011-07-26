@@ -34,7 +34,7 @@ public class ChecklistWebserviceController {
      */
     private static final String CHECKLIST_WEBSERVICE_SEARCH_TYPE = "te";
 
-/**
+   /**
     * Logger for debugging requests, errors etc.
     */
    private static Logger logger

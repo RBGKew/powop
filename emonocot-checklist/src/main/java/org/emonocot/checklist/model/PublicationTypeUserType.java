@@ -99,8 +99,13 @@ public class PublicationTypeUserType implements UserType {
             final String string) throws SQLException {
         Integer identifier = (Integer) StandardBasicTypes.INTEGER.nullSafeGet(
                 resultSet, string);
-        PublicationType result = PublicationType.fromInt(identifier);
-        return result;
+        try {
+            PublicationType result = PublicationType.fromInt(identifier);
+            return result;
+        } catch (IllegalArgumentException iae) {
+            logger.error(iae.getMessage());
+        }
+        return null;
     }
 
 

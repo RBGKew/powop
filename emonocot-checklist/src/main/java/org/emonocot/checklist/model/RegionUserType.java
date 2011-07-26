@@ -100,8 +100,13 @@ public class RegionUserType implements UserType {
             final String string) throws SQLException {
         Integer region = (Integer) StandardBasicTypes.INTEGER.nullSafeGet(
                 resultSet, string);
-        Region result = Region.fromCode(region);
-        return result;
+        try {
+            Region result = Region.fromCode(region);
+            return result;
+        } catch(IllegalArgumentException iae) {
+            logger.error(iae.getMessage());
+        }
+        return null;
     }
 
 

@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.tdwg.Name;
-import org.tdwg.PublishedInCitation;
 
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 

@@ -1,7 +1,5 @@
-package org.tdwg;
+package org.tdwg.voc;
 
-import org.tdwg.voc.LinkType;
-import org.tdwg.voc.PublicationCitation;
 
 /**
  *

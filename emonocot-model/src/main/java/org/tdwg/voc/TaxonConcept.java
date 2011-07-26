@@ -5,7 +5,6 @@ import java.util.Set;
 
 import org.tdwg.Actor;
 import org.tdwg.Concept;
-import org.tdwg.PublishedInCitation;
 
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 

@@ -2,11 +2,12 @@ package org.openarchives.pmh.marshall;
 
 import javax.xml.namespace.QName;
 
+import org.openarchives.pmh.Header;
 import org.openarchives.pmh.OAIPMH;
 import org.openarchives.pmh.Record;
 import org.openarchives.pmh.ResumptionToken;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
-import org.tdwg.PublishedInCitation;
+import org.tdwg.voc.PublishedInCitation;
 
 import com.thoughtworks.xstream.io.xml.QNameMap;
 
@@ -40,9 +41,6 @@ public class OpenArchivesQNameMapFactory extends
         qNameMap.registerMapping(new QName(
                 "http://www.openarchives.org/OAI/2.0/", "OAI-PMH"),
                 OAIPMH.class);
-        qNameMap.registerMapping(new QName(
-                "http://www.openarchives.org/OAI/2.0/", "record", "oai"),
-                PublishedInCitation.class);
         qNameMap.registerMapping(new QName(
                 "http://www.openarchives.org/OAI/2.0/oai_dc/", "dc", "oai_dc"),
                 "dc");
