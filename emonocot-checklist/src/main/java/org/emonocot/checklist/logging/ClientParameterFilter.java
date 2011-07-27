@@ -8,8 +8,10 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.MDC;
+import org.springframework.http.HttpStatus;
 
 /**
  *
@@ -31,6 +33,11 @@ public class ClientParameterFilter implements Filter {
      *
      */
     private String parameterName = ClientParameterFilter.DEFAULT_PARAMETER_NAME;
+
+    /**
+     *
+     */
+    private FilterConfig filterConfig = null;
 
     /**
      *
@@ -58,7 +65,11 @@ public class ClientParameterFilter implements Filter {
                 MDC.remove(LoggingConstants.MDC_CLIENT_NAME_KEY);
             }
         } else {
-            chain.doFilter(request, response);
+            ((HttpServletResponse) response).sendError(
+                    HttpStatus.BAD_REQUEST.value(),
+                    "Required parameter "
+                    + parameterName + " not present in request");
+            return;
         }
     }
 

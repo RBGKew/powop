@@ -77,6 +77,17 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
     }
 
     /**
+     * Tests that any request which does not include the parameter
+     * "scratchpad" results in a "400 BAD REQUEST".
+     */
+    @Test
+    public final void testRequestWithoutClientParameter() {
+        given().parameters("verb", "Identify").expect()
+        .statusCode(HttpStatus.BAD_REQUEST.value())
+        .get("/oai");
+    }
+
+    /**
      * Tests ListIdentifiers without any restrictions.
      */
     @Test
@@ -84,7 +95,9 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
 
         String xml = given()
                 .parameters("verb", "ListIdentifiers", "metadataPrefix",
-                        "oai_dc").get("/oai").asString();
+                        "oai_dc",
+                        "scratchpad", "functional-test.e-monocot.org")
+                        .get("/oai").asString();
         assertEquals("There should be 6 identifiers returned",
                 TOTAL_NUMBER_OF_NODES,
                 with(xml).get("OAI-PMH.ListIdentifiers.header.size()"));
@@ -98,7 +111,9 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
 
         String xml = given()
                 .parameters("verb", "ListIdentifiers", "metadataPrefix",
-                        "oai_dc", "set", "Loreaceae").get("/oai").asString();
+                        "oai_dc", "set", "Loreaceae",
+                        "scratchpad", "functional-test.e-monocot.org")
+                        .get("/oai").asString();
         assertEquals("There should be 5 identifiers returned",
                 NODES_IN_LOREACEAE,
                 with(xml).get("OAI-PMH.ListIdentifiers.header.size()"));
@@ -111,7 +126,9 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
     public final void testListIdentifiersInEmptySet() {
         expect().statusCode(HttpStatus.BAD_REQUEST.value()).given()
                 .parameters("verb", "ListIdentifiers", "metadataPrefix",
-                        "oai_dc", "set", "Orchidaceae").get("/oai");
+                        "oai_dc", "set", "Orchidaceae",
+                        "scratchpad", "functional-test.e-monocot.org")
+                        .get("/oai");
     }
 
     /**
@@ -122,7 +139,8 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
 
         String xml = given()
                 .parameters("verb", "ListIdentifiers", "metadataPrefix",
-                        "oai_dc", "from", "2011-08-01T01:00:00Z")
+                        "oai_dc", "from", "2011-08-01T01:00:00Z",
+                        "scratchpad", "functional-test.e-monocot.org")
                         .get("/oai").asString();
         assertEquals("There should be 0 identifiers returned",
                 0,
@@ -137,7 +155,8 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
 
         String xml = given()
                 .parameters("verb", "ListIdentifiers", "metadataPrefix",
-                        "oai_dc", "until", "2011-08-01T01:00:00Z")
+                        "oai_dc", "until", "2011-08-01T01:00:00Z",
+                        "scratchpad", "functional-test.e-monocot.org")
                         .get("/oai").asString();
         assertEquals("There should be 6 identifiers returned",
                 TOTAL_NUMBER_OF_NODES,
@@ -153,7 +172,8 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
 
         String xml = given()
                 .parameters("verb", "GetRecord", "metadataPrefix",
-                        "rdf", "identifier", "urn:kew.org:wcs:taxon:1")
+                        "rdf", "identifier", "urn:kew.org:wcs:taxon:1",
+                        "scratchpad", "functional-test.e-monocot.org")
                         .get("/oai").asString();
         assertEquals(
                 "The response should include the identifier of the "

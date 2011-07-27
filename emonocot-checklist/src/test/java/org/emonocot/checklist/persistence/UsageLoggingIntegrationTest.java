@@ -67,6 +67,5 @@ public class UsageLoggingIntegrationTest extends
                 1, jdbcTemplate.queryForInt(
                         "SELECT COUNT(web_log_id) FROM web_log"));
         super.assertDatasetsEqual("org/emonocot/checklist/persistence/UsageLoggingIntegrationTest.loggingTest-expected.xml");
-
     }
 }

@@ -60,6 +60,16 @@ public class ChecklistWebserviceFunctionalTest {
     }
 
     /**
+     * Tests that any request which does not include the parameter
+     * "scratchpad" results in a "400 BAD REQUEST".
+     */
+    @Test
+    public final void testRequestWithoutClientParameter() {
+        given().expect().statusCode(HttpStatus.BAD_REQUEST.value())
+        .get("/endpoint");
+    }
+
+    /**
      * Tests that the PING request returns the response
      * "200 OK".
      *
@@ -68,7 +78,8 @@ public class ChecklistWebserviceFunctionalTest {
      */
     @Test
     public final void testPing() throws Exception {
-        expect().statusCode(HttpStatus.OK.value()).get("/endpoint");
+        given().parameters("scratchpad", "functional-test.e-monocot.org")
+        .expect().statusCode(HttpStatus.OK.value()).get("/endpoint");
     }
 
    /**
@@ -80,7 +91,8 @@ public class ChecklistWebserviceFunctionalTest {
    @Test
    public final void testGet() throws Exception {
        String xml = given().parameters("function", "details_tcs",
-               "id", "urn:kew.org:wcs:taxon:1")
+               "id", "urn:kew.org:wcs:taxon:1",
+               "scratchpad", "functional-test.e-monocot.org")
                .get("/endpoint").andReturn().body().asString();
        assertEquals("TaxonName id should equal 'urn:kew.org:wcs:name:1'",
                "urn:kew.org:wcs:name:1",
@@ -151,14 +163,16 @@ public class ChecklistWebserviceFunctionalTest {
         String searchName = "Lorem";
         // get nothing
         String xml = given()
-                .parameters("function", "search", "search", "Misspelt name")
+                .parameters("function", "search", "search", "Misspelt name",
+                        "scratchpad", "functional-test.e-monocot.org")
                 .get("/endpoint").asString();
         assertNotNull("A results element was expected", with(xml)
                 .get("results"));
         assertFalse(xml.contains("<value"));
 
         // get a record
-        xml = given().parameters("function", "search", "search", searchName)
+        xml = given().parameters("function", "search", "search", searchName,
+                "scratchpad", "functional-test.e-monocot.org")
                 .get("/endpoint").asString();
         assertNotNull("A results element was expected", with(xml)
                 .get("results"));
