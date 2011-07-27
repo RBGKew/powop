@@ -24,4 +24,4 @@ go
 online database monocot_checklist
 go
 
-print 'You now need to run the SybaseSchemaUpdate.sql script'
+print 'You now need to run the SybaseUpdate.sql script'

@@ -390,10 +390,10 @@ AS /* View created to pull Monocot data from for the eMonocot project */
                Institute,
                Institute_id,
                Date_modified,
-               NULL AS Date_deleted
-       FROM  Plant_Name,    
+               Date_deleted
+       FROM  Plant_Name_Deleted,    
              Family_Permissions
-          WHERE  Plant_Name.Family = Family_Permissions.family
+          WHERE  Plant_Name_Deleted.Family = Family_Permissions.family
             AND  Family_Permissions.eMonocot = 1
 UNION ALL
        SELECT  Plant_name_id,
@@ -428,10 +428,10 @@ UNION ALL
                Institute,
                Institute_id,
                Date_modified,
-               Deleted_date
-       FROM  Plant_Name_Deleted,    
+               NULL AS Deleted_date
+       FROM  Plant_Name,    
              Family_Permissions   
-       WHERE  Plant_Name_Deleted.Family = Family_Permissions.family
+       WHERE  Plant_Name.Family = Family_Permissions.family
          AND  Family_Permissions.eMonocot = 1
 go 
 
@@ -439,5 +439,62 @@ setuser
 go
 
 
-PRINT 'You now need to create the emonocot login and emonocot user in the monocot_checklist database.'
-PRINT 'Then run the SybaseUserGrants.sql script'
+print 'granting monocot_guest user permissions on monocot_checklist'
+-----------------------------------------------------------------------------
+-- Grants permissions on the 'monocot_checklist' to the emonocot user
+-----------------------------------------------------------------------------
+USE master
+go
+
+IF NOT EXISTS (SELECT 1 FROM master.dbo.syslogins WHERE name = 'emonocot_guest')
+BEGIN
+	PRINT "Login 'emonocot_guest' not found. Attempting to create it now"
+	exec sp_addlogin 'emonocot_guest', 'emonopass', 'monocot_checklist', 'us_english', 'eMonocot wcsTaxonExtractor'
+END
+go
+
+USE monocot_checklist
+go
+
+IF NOT EXISTS (SELECT 1 FROM monocot_checklist.dbo.sysusers WHERE name = 'emonocot_guest')
+BEGIN
+    PRINT "User 'emonocot_guest' not found. Attempting to create it now"
+	exec sp_adduser 'emonocot_guest' , 'emonocot_guest' , 'public'
+END
+go
+
+
+print 'granting emonocot_guest user permissions on monocot_checklist'
+
+grant select on Author_Types to emonocot_guest
+go
+
+grant select on Authors to emonocot_guest
+go
+
+grant select on Place_of_Publication to emonocot_guest
+go
+
+grant select on Plant_Author to emonocot_guest
+go
+
+grant select on Plant_Citation to emonocot_guest
+go
+
+grant select on Plant_Locality to emonocot_guest
+go
+
+grant select on Publication to emonocot_guest
+go
+
+grant select on Publication_Edition to emonocot_guest
+go
+
+grant select on Publication_Type to emonocot_guest
+go
+
+grant select on vwMonocot_Name to emonocot_guest
+go
+
+grant select, insert on web_log to emonocot_guest
+go
