@@ -57,7 +57,6 @@ public class TaxonRankTerm extends DefinedTerm {
                 TaxonRankTerm.SUB_SUB_FORM,
                 TaxonRankTerm.SUB_SUB_VARIETY,
                 TaxonRankTerm.SUB_VARIETY,
-                TaxonRankTerm.SUB_VARIETY,
                 TaxonRankTerm.SUBCLASS,
                 TaxonRankTerm.SUBDIVISION,
                 TaxonRankTerm.SUBFAMILY,

@@ -248,10 +248,16 @@ public class Taxon implements IdentifiableEntity<String> {
         this.id = newId;
     }
 
+    /**
+     * @return the identifier for this object.
+     */
     public final String getIdentifier() {
         return Taxon.IDENTIFIER_PREFIX + this.id;
     }
 
+    /**
+     * @param identifier set the identifier of this taxon
+     */
     public final void setIdentifier(final String identifier) {
         if (identifier.startsWith(Taxon.IDENTIFIER_PREFIX)) {
             try {
@@ -442,7 +448,8 @@ public class Taxon implements IdentifiableEntity<String> {
      * @param infraspecificEpithet
      *            the infraspecificEpithet to set
      */
-    public final void setInfraspecificEpithet(final String infraspecificEpithet) {
+    public final void setInfraspecificEpithet(
+            final String infraspecificEpithet) {
         this.infraspecificEpithet = infraspecificEpithet;
     }
 

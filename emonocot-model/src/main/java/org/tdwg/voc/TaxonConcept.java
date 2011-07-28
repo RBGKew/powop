@@ -377,7 +377,7 @@ public class TaxonConcept extends Concept {
            for (PublicationCitation publicationCitation
                    : publicationCitations) {
                tcomPublishedInCitations.add(new PublishedInCitation(
-                       publicationCitation, true));
+                       publicationCitation, false));
            }
        } else {
            tcomPublishedInCitations = null;
@@ -414,7 +414,7 @@ public class TaxonConcept extends Concept {
                    = new HashSet<PublishedInCitation>();
            }
            tcomPublishedInCitations.add(
-                   new PublishedInCitation(publicationCitation, true));
+                   new PublishedInCitation(publicationCitation, false));
        }
    }
 }

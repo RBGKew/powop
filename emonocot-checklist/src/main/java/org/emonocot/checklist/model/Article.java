@@ -16,6 +16,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Publication_edition")
 public class Article {
+   /**
+    *
+    */
+   public static final String IDENTIFIER_PREFIX
+       = "urn:kew.org:wcs:publicationEdition:";
 
    /**
     *
@@ -53,12 +58,14 @@ public class Article {
     * @param newAuthor Set the author of the article
     * @param newTitle Set the title of the article
     * @param newPublication Set the parent publication of this one
+    * @param newId Set the id of this publication
     */
     public Article(final String newAuthor, final String newTitle,
-            final Publication newPublication) {
+            final Publication newPublication, final Integer newId) {
         this.author = newAuthor;
         this.title = newTitle;
         this.publication = newPublication;
+        this.id = newId;
     }
 
     /**
@@ -106,4 +113,10 @@ public class Article {
         this.publication = newPublication;
     }
 
+    /**
+     * @return the identifier for this object.
+     */
+    public final String getIdentifier() {
+        return Article.IDENTIFIER_PREFIX + this.id;
+    }
 }

@@ -104,6 +104,10 @@
       <class-a>org.emonocot.checklist.model.Article</class-a>
       <class-b bean-factory="org.emonocot.checklist.view.assembler.ArticleBeanFactory">org.tdwg.voc.PublicationCitation</class-b>
       <field>
+        <a>identifier</a>
+        <b>identifier</b>
+      </field>
+      <field>
         <a>title</a>
         <b>tpubTitle</b>
       </field>
@@ -120,6 +124,10 @@
     <mapping>
       <class-a>org.emonocot.checklist.model.Publication</class-a>
       <class-b bean-factory="org.emonocot.checklist.view.assembler.PublicationBeanFactory">org.tdwg.voc.PublicationCitation</class-b>
+      <field>
+        <a>identifier</a>
+        <b>identifier</b>
+      </field>
       <field>
         <a>title</a>
         <b>tpubTitle</b>

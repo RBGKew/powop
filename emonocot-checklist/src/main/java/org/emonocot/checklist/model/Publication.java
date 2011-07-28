@@ -18,6 +18,11 @@ import org.hibernate.annotations.TypeDef;
 @TypeDef(name = "publicationTypeUserType",
         typeClass = PublicationTypeUserType.class)
 public class Publication {
+    /**
+    *
+    */
+   public static final String IDENTIFIER_PREFIX
+       = "urn:kew.org:wcs:publication:";
 
    /**
     *
@@ -62,13 +67,16 @@ public class Publication {
     * @param newAuthor set the author
     * @param newPublisher set the publisher
     * @param newType set the type
+    * @param newId set the id
     */
     public Publication(final String newTitle, final String newAuthor,
-            final String newPublisher, final PublicationType newType) {
+            final String newPublisher, final PublicationType newType,
+            final Integer newId) {
         this.title = newTitle;
         this.author = newAuthor;
         this.publisher = newPublisher;
         this.type = newType;
+        this.id = newId;
     }
 
     /**
@@ -129,5 +137,12 @@ public class Publication {
      */
     public final void setType(final PublicationType newType) {
         this.type = newType;
+    }
+
+    /**
+     * @return the identifier for this object.
+     */
+    public final String getIdentifier() {
+        return Publication.IDENTIFIER_PREFIX + this.id;
     }
 }

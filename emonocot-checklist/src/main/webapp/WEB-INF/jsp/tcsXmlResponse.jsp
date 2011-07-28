@@ -25,6 +25,20 @@
 	        <c:url var="url" value="${baseUrl}">
 	            <c:param name="function" value="details_tcs"/>
 	            <c:param name="id" value="${child.identifier}"/>
+	            <c:param name="scratchpad" value="${param.scratchpad}"/>
+	        </c:url>
+	        <TaxonRelationship type="is parent taxon of">
+	          <jsp:element name="ToTaxonConcept">
+	            <jsp:attribute name="ref">${em:escape(url)}</jsp:attribute>
+	            <jsp:attribute name="linkType">external</jsp:attribute>
+	          </jsp:element>
+	        </TaxonRelationship>
+	      </c:forEach>
+	      <c:if test="${not empty result.parentTaxon}">
+	        <c:url var="url" value="${baseUrl}">
+	            <c:param name="function" value="details_tcs"/>
+	            <c:param name="id" value="${result.parentTaxon.identifier}"/>
+	            <c:param name="scratchpad" value="${param.scratchpad}"/>
 	        </c:url>
 	        <TaxonRelationship type="is child taxon of">
 	          <jsp:element name="ToTaxonConcept">
@@ -32,11 +46,12 @@
 	            <jsp:attribute name="linkType">external</jsp:attribute>
 	          </jsp:element>
 	        </TaxonRelationship>
-	      </c:forEach>
+	      </c:if>
 	      <c:forEach var="synonym" items="${result.synonyms}">
 	        <c:url var="url" value="${baseUrl}">
 	            <c:param name="function" value="details_tcs"/>
 	            <c:param name="id" value="${synonym.identifier}"/>
+	            <c:param name="scratchpad" value="${param.scratchpad}"/>
 	        </c:url>
 	        <TaxonRelationship type="has synonym">
 	          <jsp:element name="ToTaxonConcept">

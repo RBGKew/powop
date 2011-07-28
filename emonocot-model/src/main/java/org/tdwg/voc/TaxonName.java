@@ -120,7 +120,7 @@ public class TaxonName extends Name {
     /**
      * @return the specific epithet of a bi- or trinomial name
      */
-    public final String getTnSpecificEpithet() {
+    public final String getSpecificEpithet() {
         return tnSpecificEpithet;
     }
 
@@ -242,7 +242,7 @@ public class TaxonName extends Name {
            for (PublicationCitation publicationCitation
                    : publicationCitations) {
                tcomPublishedInCitations.add(new PublishedInCitation(
-                       publicationCitation, true));
+                       publicationCitation, false));
            }
        } else {
            tcomPublishedInCitations = null;
@@ -279,7 +279,7 @@ public class TaxonName extends Name {
                    = new HashSet<PublishedInCitation>();
            }
            tcomPublishedInCitations.add(
-                   new PublishedInCitation(publicationCitation, true));
+                   new PublishedInCitation(publicationCitation, false));
        }
    }
 }

@@ -1,9 +1,11 @@
 package org.emonocot.checklist.controller;
 
-import static com.jayway.restassured.RestAssured.expect;
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.path.xml.XmlPath.with;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Properties;
 
@@ -148,9 +150,18 @@ public class ChecklistWebserviceFunctionalTest {
                2,
                with(xml).get(
                        "DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship.findAll { it.@type == 'has synonym' }.size()"));
+       assertEquals("One taxonomic parent should be present",
+               1,
+               with(xml).get(
+                       "DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship.findAll { it.@type == 'is child taxon of' }.size()"));
        assertTrue("The links to external data should be absolute, not relative",               
                ((String)with(xml).get(
-                       "DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship[0].ToTaxonConcept.@ref")).startsWith("http://"));
+                       "DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship[0].ToTaxonConcept.@ref"))
+                       .startsWith("http://"));
+       assertTrue("The links to external data should include the client id parameter",               
+               ((String)with(xml).get(
+                       "DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship[0].ToTaxonConcept.@ref"))
+                       .contains("&scratchpad=functional-test.e-monocot.org"));
    }
 
     /**
@@ -223,5 +234,15 @@ public class ChecklistWebserviceFunctionalTest {
                 "World Checklist System: Taxon Extractor Service",
                 with(xml).get(
                 "results.value.metadata.title"));
+        assertEquals(
+                "The title of the service should be included",
+                "This Checklist gives information on the accepted scientific names and synonyms of selected plant families.",
+                with(xml).get(
+                "results.value.metadata.description"));
+        assertEquals(
+                "The title of the service should be included",
+                "http://apps.kew.org/wcsp/home.do",
+                with(xml).get(
+                "results.value.metadata.url"));
     }
 }

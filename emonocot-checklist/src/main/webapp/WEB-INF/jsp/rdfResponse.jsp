@@ -18,7 +18,7 @@
     <metadata><!-- Check whether to use this or the metadata table in wcs -->
     	<title><spring:message code="checklistWebserviceController.serviceName"/></title>
     	<description><spring:message code="checklistWebserviceController.serviceDescription"/></description>
-    	<url><spring:message code="checklistWebservideController.baseURL"/></url>
+    	<url><spring:message code="checklistWebserviceController.serviceUrl"/></url>
     	<!-- Not applicable -->
     	<!-- <indexed_on></indexed_on>-->
     </metadata>

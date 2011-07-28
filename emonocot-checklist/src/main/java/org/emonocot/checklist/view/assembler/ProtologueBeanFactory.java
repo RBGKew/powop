@@ -1,5 +1,7 @@
 package org.emonocot.checklist.view.assembler;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,7 +18,10 @@ import org.tdwg.voc.PublicationTypeTerm;
  *
  */
 public class ProtologueBeanFactory implements BeanFactory {
-    Pattern pattern = Pattern.compile("(.*?):(.*?)");
+    /**
+     *
+     */
+    private Pattern pattern = Pattern.compile("(.*?):(.*?)");
 
    /**
     *
@@ -56,6 +61,13 @@ public class ProtologueBeanFactory implements BeanFactory {
                             taxon.getProtologue().getTitle()
                             + taxon.getVolumeAndPage());
                 }
+            }
+            try {
+                publicationCitation
+                  .setIdentifier(
+                          new URI(taxon.getProtologue().getIdentifier()));
+            } catch (URISyntaxException e) {
+               new RuntimeException(e);
             }
         }
 

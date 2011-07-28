@@ -13,6 +13,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Place_of_publication")
 public class Protologue {
+   /**
+    *
+    */
+   public static final String IDENTIFIER_PREFIX
+       = "urn:kew.org:wcs:placeOfPublication:";
 
    /**
     *
@@ -35,9 +40,11 @@ public class Protologue {
     /**
      *
      * @param newTitle the title of the protologue
+     * @param newId the Id of the protologue
      */
-    public Protologue(final String newTitle) {
+    public Protologue(final String newTitle, final Integer newId) {
         this.title = newTitle;
+        this.id = newId;
     }
 
     /**
@@ -53,5 +60,12 @@ public class Protologue {
      */
     public final void setTitle(final String newTitle) {
         this.title = newTitle;
+    }
+
+    /**
+     * @return the identifier for this object.
+     */
+    public final String getIdentifier() {
+        return Protologue.IDENTIFIER_PREFIX + this.id;
     }
 }
