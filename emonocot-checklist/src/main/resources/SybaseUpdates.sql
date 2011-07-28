@@ -329,7 +329,7 @@ go
 print 'Altering table monocot_checklist.dbo.Family_Permissions'
 
 alter table Family_Permissions
-     add  eMonocot     bit     default 0     not null
+     add  emonocot     bit     default 0     not null
 go
 
 
@@ -357,7 +357,6 @@ go
 
 CREATE VIEW dbo.vwMonocot_Name
 AS /* View created to pull Monocot data from for the eMonocot project */
-   /* Also see 'eMonocot' User                                        */
        SELECT  Plant_name_id,
                Date_of_entry,
                Full_epithet,
@@ -394,7 +393,7 @@ AS /* View created to pull Monocot data from for the eMonocot project */
        FROM  Plant_Name_Deleted,    
              Family_Permissions
           WHERE  Plant_Name_Deleted.Family = Family_Permissions.family
-            AND  Family_Permissions.eMonocot = 1
+            AND  Family_Permissions.emonocot = 1
 UNION ALL
        SELECT  Plant_name_id,
                Date_of_entry,
@@ -428,11 +427,11 @@ UNION ALL
                Institute,
                Institute_id,
                Date_modified,
-               NULL AS Deleted_date
+               NULL AS Date_deleted
        FROM  Plant_Name,    
              Family_Permissions   
        WHERE  Plant_Name.Family = Family_Permissions.family
-         AND  Family_Permissions.eMonocot = 1
+         AND  Family_Permissions.emonocot = 1
 go 
 
 setuser
@@ -443,6 +442,8 @@ print 'granting monocot_guest user permissions on monocot_checklist'
 -----------------------------------------------------------------------------
 -- Grants permissions on the 'monocot_checklist' to the emonocot user
 -----------------------------------------------------------------------------
+
+/*
 USE master
 go
 
@@ -492,9 +493,33 @@ go
 
 grant select on Publication_Type to emonocot_guest
 go
-
-grant select on vwMonocot_Name to emonocot_guest
+*/
+grant select on vwMonocot_Name to monocot_guest
 go
-
+/*
 grant select, insert on web_log to emonocot_guest
 go
+*/
+
+Print 'Adding Family_Permissions for the monocot family'
+
+UPDATE Family_Permissions
+SET emonocot = 1
+WHERE family IN('Acoraceae', 'Alismataceae', 'Alstroemeriaceae', 'Amaryllidaceae',
+                'Anarthriaceae', 'Aponogetonaceae', 'Araceae', 'Arecaceae', 'Asparagaceae',
+                'Asteliaceae', 'Blandfordiaceae', 'Boryaceae', 'Bromeliaceae',
+                'Burmanniaceae', 'Butomaceae', 'Campynemataceae', 'Cannaceae',
+                'Centrolepidaceae', 'Colchicaceae', 'Commelinaceae', 'Corsiaceae',
+                'Costaceae', 'Cyclanthaceae', 'Cymodoceaceae', 'Cyperaceae', 'Dasypogonaceae',
+                'Dioscoreaceae', 'Doryanthaceae', 'Ecdeiocoleaceae', 'Eriocaulaceae',
+                'Flagellariaceae', 'Haemodoraceae', 'Hanguanaceae', 'Heliconiaceae',
+                'Hydrocharitaceae', 'Hypoxidaceae', 'Iridaceae', 'Ixioliriaceae',
+                'Joinvilleaceae', 'Juncaceae', 'Juncaginaceae', 'Lanariaceae', 'Liliaceae',
+                'Lowiaceae', 'Marantaceae', 'Mayacaceae', 'Melanthiaceae', 'Musaceae',
+                'Nartheciaceae', 'Orchidaceae', 'Pandanaceae', 'Petermanniaceae', 'Petrosaviaceae',
+                'Philesiaceae', 'Philydraceae', 'Poaceae', 'Pontederiaceae',
+                'Posidoniaceae', 'Potamogetonaceae', 'Rapateaceae', 'Restionaceae', 'Rhipogonaceae',
+                'Ruppiaceae', 'Scheuchzeriaceae', 'Smilacaceae', 'Stemonaceae', 'Strelitziaceae',
+                'Tecophilaeaceae', 'Thurniaceae', 'Tofieldiaceae', 'Triuridaceae', 'Typhaceae',
+                'Velloziaceae', 'Xanthorrhoeaceae', 'Xeronemataceae', 'Xyridaceae',
+                'Zingiberaceae', 'Zosteraceae')
