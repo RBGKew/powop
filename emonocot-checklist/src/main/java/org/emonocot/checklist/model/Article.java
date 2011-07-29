@@ -14,7 +14,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "Publication_edition")
+@Table(name = "Publication_Edition")
 public class Article {
    /**
     *

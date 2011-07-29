@@ -13,7 +13,7 @@ public enum AuthorType {
     /**
      *
      */
-    PRI,
+    PRM,
     /**
      *
      */

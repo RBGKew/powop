@@ -465,4 +465,52 @@ UNION ALL
             <column name="remote_host" type="varchar(50)"/>            
         </createTable>
     </changeSet>
+    <changeSet author="jk00kg" id="2011-07-29">
+        <renameColumn tableName="Plant_Name" oldColumnName="Modified_date" newColumnName="Date_modified" columnDataType="datetime"/>
+        <renameColumn tableName="Plant_Name_Deleted" oldColumnName="Modified_date" newColumnName="Date_modified" columnDataType="datetime"/>
+        <renameColumn tableName="Plant_Name_Deleted" oldColumnName="Deleted_date" newColumnName="Date_deleted" columnDataType="datetime"/>
+    </changeSet>
+    <changeSet author="jk00kg" id="2011-07-29_1">
+        <createView viewName="vwMonocot_Name" replaceIfExists="true">
+       SELECT  Plant_name_id,
+               Date_of_entry,
+               Full_epithet,
+               Family,
+               Genus,
+               Genus_hybrid_marker,
+               Species,
+               Species_hybrid_marker,
+               Infraspecific_rank,
+               Infraspecific_epithet,
+               Accepted_plant_name_id,
+               Institute_id,
+               Date_modified,
+               Date_deleted,
+               Publication_author,
+               Volume_and_page,
+               First_published,
+               Place_of_publication_id
+       FROM  Plant_Name_Deleted
+UNION ALL
+       SELECT  Plant_name_id,
+               Date_of_entry,
+               Full_epithet,
+               Family,
+               Genus_hybrid_marker,
+               Genus,
+               Species_hybrid_marker,
+               Species,
+               Infraspecific_rank,
+               Infraspecific_epithet,
+               Accepted_plant_name_id,
+               Institute_id,
+               Date_modified,
+               NULL AS Date_deleted,
+               Publication_author,
+               Volume_and_page,
+               First_published,
+               Place_of_publication_id
+       FROM  Plant_Name
+        </createView>
+    </changeSet>
 </databaseChangeLog>

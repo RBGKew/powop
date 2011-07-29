@@ -20,7 +20,6 @@ public class AuthorshipConverter implements ConfigurableCustomConverter {
      */
     private String parameter;
 
-    @Override
     public final Object convert(final Object destinationFieldValue,
             final Object sourceFieldValue, final Class destinationClass,
             final Class sourceClass) {
@@ -43,8 +42,8 @@ public class AuthorshipConverter implements ConfigurableCustomConverter {
                 return null;
             }
         } else if (parameter.equals("combinationAuthorship")) {
-            if (authors.containsKey(AuthorType.PRI)) {
-                return authors.get(AuthorType.PRI).getName();
+            if (authors.containsKey(AuthorType.PRM)) {
+                return authors.get(AuthorType.PRM).getName();
             } else {
                 return null;
             }
@@ -61,8 +60,8 @@ public class AuthorshipConverter implements ConfigurableCustomConverter {
                 stringBuffer.append(") ");
             }
 
-            if (authors.containsKey(AuthorType.PRI)) {
-                stringBuffer.append(authors.get(AuthorType.PRI).getName());
+            if (authors.containsKey(AuthorType.PRM)) {
+                stringBuffer.append(authors.get(AuthorType.PRM).getName());
             }
             return stringBuffer.toString();
         } else {
@@ -70,7 +69,6 @@ public class AuthorshipConverter implements ConfigurableCustomConverter {
         }
     }
 
-    @Override
     public final void setParameter(final String newParameter) {
         this.parameter = newParameter;
     }

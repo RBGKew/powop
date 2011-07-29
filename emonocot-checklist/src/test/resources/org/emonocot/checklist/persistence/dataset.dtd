@@ -83,7 +83,7 @@
     Full_epithet CDATA #IMPLIED
     Institute_id CDATA #IMPLIED
     Accepted_plant_name_id CDATA #IMPLIED
-    Modified_date CDATA #IMPLIED
+    Date_modified CDATA #IMPLIED
     Date_of_entry CDATA #IMPLIED
     Family CDATA #IMPLIED
     Genus_hybrid_marker CDATA #IMPLIED
@@ -108,8 +108,8 @@
     Full_epithet CDATA #IMPLIED
     Institute_id CDATA #IMPLIED
     Accepted_plant_name_id CDATA #IMPLIED
-    Modified_date CDATA #IMPLIED
-    Deleted_date CDATA #IMPLIED
+    Date_modified CDATA #IMPLIED
+    Date_deleted CDATA #IMPLIED
     Date_of_entry CDATA #IMPLIED
     Family CDATA #IMPLIED
     Genus_hybrid_marker CDATA #IMPLIED

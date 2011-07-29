@@ -56,7 +56,7 @@ public class GetRecordViewTest extends AbstractOaiPmhViewTestCase {
         taxon.setIdentifier("urn:kew.org:wcs:taxon:2043");
         taxon.setName("Agrostis capillaris");
         taxon.setNameId("urn:lsid:ipni.org:names:385550-1:1.4");
-        taxon.getAuthors().put(AuthorType.PRI, new Author("L."));
+        taxon.getAuthors().put(AuthorType.PRM, new Author("L."));
         taxon.setProtologueAuthor("Linnaeus");
         taxon.setPublicationDate("1753");
         taxon.setVolumeAndPage("1: 62.");

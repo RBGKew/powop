@@ -120,14 +120,14 @@ public class Taxon implements IdentifiableEntity<String> {
     /**
      *
      */
-    @Column(name = "Modified_date")
+    @Column(name = "Date_modified")
     @Type(type = "dateTimeUserType")
     private DateTime dateModified;
 
     /**
      *
      */
-    @Column(name = "Deleted_date", nullable = true)
+    @Column(name = "Date_deleted", nullable = true)
     @Type(type = "dateTimeUserType")
     private DateTime dateDeleted;
 
@@ -189,11 +189,11 @@ public class Taxon implements IdentifiableEntity<String> {
    inverseJoinColumns = {
            @JoinColumn(name = "Author_id")
    })
-   @Where(clause = "Author_type_id = 'PRI'")
+   @Where(clause = "Author_type_id = 'PRM'")
    private Author combinationAuthorship;
   */
    @ManyToMany(fetch = FetchType.LAZY)
-   @JoinTable(name = "Plant_author", joinColumns = {
+   @JoinTable(name = "Plant_Author", joinColumns = {
            @JoinColumn(name = "Plant_name_id")
        },
        inverseJoinColumns = {
@@ -232,7 +232,7 @@ public class Taxon implements IdentifiableEntity<String> {
     *
     */
    @ManyToMany(fetch = FetchType.LAZY)
-   @JoinTable(name = "Plant_citation", joinColumns = {
+   @JoinTable(name = "Plant_Citation", joinColumns = {
            @JoinColumn(name = "Plant_name_id")
        },
        inverseJoinColumns = {

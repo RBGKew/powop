@@ -31,12 +31,12 @@ public class ChecklistTriggerIntegrationTest extends AbstractPersistenceTestSupp
     @Test
     public final void testUpdatePlantName() throws SQLException {
         jdbcTemplate.execute("UPDATE Plant_name SET Family = 'Loremaceae' WHERE Plant_name_id = 1");
-        SqlRowSet resultSet = jdbcTemplate.queryForRowSet("SELECT Modified_date, Date_Name_modified, Date_Locality_modified,"
+        SqlRowSet resultSet = jdbcTemplate.queryForRowSet("SELECT Date_modified, Date_Name_modified, Date_Locality_modified,"
                 + " Date_Citations_modified, Date_Authors_modified FROM Plant_name WHERE Plant_name_id = 1");
         assertTrue("There should be one Plant_name row",
                 resultSet.first());
-        assertNotNull("Modified_date should not be null",
-                resultSet.getObject("Modified_date"));
+        assertNotNull("Date_modified should not be null",
+                resultSet.getObject("Date_modified"));
         assertNotNull("Date_Name_modified should not be null",
                 resultSet.getObject("Date_Name_modified"));
         assertNull("Date_Locality_modified should be null",
@@ -45,8 +45,8 @@ public class ChecklistTriggerIntegrationTest extends AbstractPersistenceTestSupp
                 resultSet.getObject("Date_Authors_modified"));
         assertNull("Date_Citations_modified should be null",
                 resultSet.getObject("Date_Citations_modified"));
-        assertEquals("Modified_date should equal Date_Name_modified",
-                resultSet.getObject("Modified_date"),
+        assertEquals("Date_modified should equal Date_Name_modified",
+                resultSet.getObject("Date_modified"),
                 resultSet.getObject("Date_Name_modified"));
     }
 
@@ -58,12 +58,12 @@ public class ChecklistTriggerIntegrationTest extends AbstractPersistenceTestSupp
     public final void testDeletePlantName() throws SQLException {
         jdbcTemplate.execute("DELETE FROM Plant_name WHERE Plant_name_id = 1");
         SqlRowSet resultSet = jdbcTemplate.queryForRowSet(
-          "SELECT Modified_date, Date_Name_modified, Date_Locality_modified,"
-        + " Date_Citations_modified, Date_Authors_modified, Deleted_date from Plant_name_deleted where Plant_name_id = 1");
+          "SELECT Date_modified, Date_Name_modified, Date_Locality_modified,"
+        + " Date_Citations_modified, Date_Authors_modified, Date_deleted from Plant_name_deleted where Plant_name_id = 1");
         assertTrue("There should be one Plant_name row",
                 resultSet.first());
-        assertNull("Modified_date should be null",
-                resultSet.getObject("Modified_date"));
+        assertNull("Date_modified should be null",
+                resultSet.getObject("Date_modified"));
         assertNull("Date_Name_modified should be null",
                 resultSet.getObject("Date_Name_modified"));
         assertNull("Date_Locality_modified should be null",
@@ -72,14 +72,14 @@ public class ChecklistTriggerIntegrationTest extends AbstractPersistenceTestSupp
                 resultSet.getObject("Date_Authors_modified"));
         assertNull("Date_Citations_modified should be null",
                 resultSet.getObject("Date_Citations_modified"));
-        assertEquals("Modified_date should equal Date_Name_modified",
-                resultSet.getObject("Modified_date"),
+        assertEquals("Date_modified should equal Date_Name_modified",
+                resultSet.getObject("Date_modified"),
                 resultSet.getObject("Date_Name_modified"));
-        assertNotNull("Deleted_date should not be null",
-                resultSet.getObject("Deleted_date"));
+        assertNotNull("Date_deleted should not be null",
+                resultSet.getObject("Date_deleted"));
 
         resultSet = jdbcTemplate.queryForRowSet(
-          "SELECT Modified_date, Date_Name_modified, Date_Locality_modified,"
+          "SELECT Date_modified, Date_Name_modified, Date_Locality_modified,"
         + " Date_Citations_modified, Date_Authors_modified from Plant_name where Plant_name_id = 1");
         assertFalse("There should be no Plant_name rows returned",
                 resultSet.first());
@@ -95,12 +95,12 @@ public class ChecklistTriggerIntegrationTest extends AbstractPersistenceTestSupp
         "UPDATE Plant_locality SET Area_code_L3 = 'SWE' WHERE Plant_locality_id = 1");
 
         SqlRowSet resultSet = jdbcTemplate.queryForRowSet(
-          "SELECT Modified_date, Date_Name_modified, Date_Locality_modified,"
+          "SELECT Date_modified, Date_Name_modified, Date_Locality_modified,"
         + " Date_Citations_modified, Date_Authors_modified FROM Plant_name WHERE Plant_name_id = 2");
         assertTrue("There should be one Plant_name row",
                 resultSet.first());
-        assertNotNull("Modified_date should not be null",
-                resultSet.getObject("Modified_date"));
+        assertNotNull("Date_modified should not be null",
+                resultSet.getObject("Date_modified"));
         /**
          * Hmmm. Setting the Date_locality_modified causes the
          * Plant_name update trigger to fire, setting
@@ -115,8 +115,8 @@ public class ChecklistTriggerIntegrationTest extends AbstractPersistenceTestSupp
                 resultSet.getObject("Date_Authors_modified"));
         assertNull("Date_Citations_modified should be null",
                 resultSet.getObject("Date_Citations_modified"));
-        assertEquals("Modified_date should equal Date_Name_modified",
-                resultSet.getObject("Modified_date"),
+        assertEquals("Date_modified should equal Date_Name_modified",
+                resultSet.getObject("Date_modified"),
                 resultSet.getObject("Date_Name_modified"));
     }
 
@@ -129,12 +129,12 @@ public class ChecklistTriggerIntegrationTest extends AbstractPersistenceTestSupp
         jdbcTemplate.execute(
         "INSERT INTO Plant_locality (Plant_name_id, Region_code_L2, Area_code_L3) VALUES (1,10,'GRB')");
         SqlRowSet resultSet = jdbcTemplate.queryForRowSet(
-          "SELECT Modified_date, Date_Name_modified, Date_Locality_modified,"
+          "SELECT Date_modified, Date_Name_modified, Date_Locality_modified,"
         + " Date_Citations_modified, Date_Authors_modified FROM Plant_name WHERE Plant_name_id = 1");
         assertTrue("There should be one Plant_name row",
                 resultSet.first());
-        assertNotNull("Modified_date should not be null",
-                resultSet.getObject("Modified_date"));
+        assertNotNull("Date_modified should not be null",
+                resultSet.getObject("Date_modified"));
         assertNotNull("Date_Name_modified should not be null",
                 resultSet.getObject("Date_Name_modified"));
         assertNotNull("Date_Locality_modified should not be null",
@@ -143,8 +143,8 @@ public class ChecklistTriggerIntegrationTest extends AbstractPersistenceTestSupp
                 resultSet.getObject("Date_Authors_modified"));
         assertNull("Date_Citations_modified should be null",
                 resultSet.getObject("Date_Citations_modified"));
-        assertEquals("Modified_date should equal Date_Name_modified",
-                resultSet.getObject("Modified_date"),
+        assertEquals("Date_modified should equal Date_Name_modified",
+                resultSet.getObject("Date_modified"),
                 resultSet.getObject("Date_Name_modified"));
     }
 
@@ -157,12 +157,12 @@ public class ChecklistTriggerIntegrationTest extends AbstractPersistenceTestSupp
         jdbcTemplate.execute(
         "DELETE FROM Plant_locality WHERE Plant_locality_id = 1");
         SqlRowSet resultSet = jdbcTemplate.queryForRowSet(
-          "SELECT Modified_date, Date_Name_modified, Date_Locality_modified,"
+          "SELECT Date_modified, Date_Name_modified, Date_Locality_modified,"
         + " Date_Citations_modified, Date_Authors_modified FROM Plant_name WHERE Plant_name_id = 2");
         assertTrue("There should be one Plant_name row",
                 resultSet.first());
-        assertNotNull("Modified_date should not be null",
-                resultSet.getObject("Modified_date"));
+        assertNotNull("Date_modified should not be null",
+                resultSet.getObject("Date_modified"));
         assertNotNull("Date_Name_modified should not be null",
                 resultSet.getObject("Date_Name_modified"));
         assertNotNull("Date_Locality_modified should not be null",
@@ -171,8 +171,8 @@ public class ChecklistTriggerIntegrationTest extends AbstractPersistenceTestSupp
                 resultSet.getObject("Date_Authors_modified"));
         assertNull("Date_Citations_modified should be null",
                 resultSet.getObject("Date_Citations_modified"));
-        assertEquals("Modified_date should equal Date_Name_modified",
-                resultSet.getObject("Modified_date"),
+        assertEquals("Date_modified should equal Date_Name_modified",
+                resultSet.getObject("Date_modified"),
                 resultSet.getObject("Date_Name_modified"));
     }
 
@@ -185,12 +185,12 @@ public class ChecklistTriggerIntegrationTest extends AbstractPersistenceTestSupp
         jdbcTemplate.execute(
         "UPDATE Plant_author SET Author_type_id = 'COM' WHERE Plant_author_id = 1");
         SqlRowSet resultSet = jdbcTemplate.queryForRowSet(
-          "SELECT Modified_date, Date_Name_modified, Date_Locality_modified,"
+          "SELECT Date_modified, Date_Name_modified, Date_Locality_modified,"
         + " Date_Citations_modified, Date_Authors_modified FROM Plant_name WHERE Plant_name_id = 3");
         assertTrue("There should be one Plant_name row",
                 resultSet.first());
-        assertNotNull("Modified_date should not be null",
-                resultSet.getObject("Modified_date"));
+        assertNotNull("Date_modified should not be null",
+                resultSet.getObject("Date_modified"));
         assertNotNull("Date_Name_modified should not be null",
                 resultSet.getObject("Date_Name_modified"));
         assertNull("Date_Locality_modified should be null",
@@ -199,8 +199,8 @@ public class ChecklistTriggerIntegrationTest extends AbstractPersistenceTestSupp
                 resultSet.getObject("Date_Authors_modified"));
         assertNull("Date_Citations_modified should be null",
                 resultSet.getObject("Date_Citations_modified"));
-        assertEquals("Modified_date should equal Date_Name_modified",
-                resultSet.getObject("Modified_date"),
+        assertEquals("Date_modified should equal Date_Name_modified",
+                resultSet.getObject("Date_modified"),
                 resultSet.getObject("Date_Name_modified"));
     }
 
@@ -213,12 +213,12 @@ public class ChecklistTriggerIntegrationTest extends AbstractPersistenceTestSupp
         jdbcTemplate.execute(
         "INSERT INTO Plant_author (Plant_name_id, Author_type_id, Author_id) VALUES (1,'BAS',1)");
         SqlRowSet resultSet = jdbcTemplate.queryForRowSet(
-          "SELECT Modified_date, Date_Name_modified, Date_Locality_modified,"
+          "SELECT Date_modified, Date_Name_modified, Date_Locality_modified,"
         + " Date_Citations_modified, Date_Authors_modified FROM Plant_name WHERE Plant_name_id = 1");
         assertTrue("There should be one Plant_name row",
                 resultSet.first());
-        assertNotNull("Modified_date should not be null",
-                resultSet.getObject("Modified_date"));
+        assertNotNull("Date_modified should not be null",
+                resultSet.getObject("Date_modified"));
         assertNotNull("Date_Name_modified should not be null",
                 resultSet.getObject("Date_Name_modified"));
         assertNull("Date_Locality_modified should be null",
@@ -227,8 +227,8 @@ public class ChecklistTriggerIntegrationTest extends AbstractPersistenceTestSupp
                 resultSet.getObject("Date_Authors_modified"));
         assertNull("Date_Citations_modified should be null",
                 resultSet.getObject("Date_Citations_modified"));
-        assertEquals("Modified_date should equal Date_Name_modified",
-                resultSet.getObject("Modified_date"),
+        assertEquals("Date_modified should equal Date_Name_modified",
+                resultSet.getObject("Date_modified"),
                 resultSet.getObject("Date_Name_modified"));
     }
 
@@ -241,12 +241,12 @@ public class ChecklistTriggerIntegrationTest extends AbstractPersistenceTestSupp
         jdbcTemplate.execute(
         "DELETE FROM Plant_author WHERE Plant_author_id = 1");
         SqlRowSet resultSet = jdbcTemplate.queryForRowSet(
-          "SELECT Modified_date, Date_Name_modified, Date_Locality_modified,"
+          "SELECT Date_modified, Date_Name_modified, Date_Locality_modified,"
         + " Date_Citations_modified, Date_Authors_modified FROM Plant_name WHERE Plant_name_id = 3");
         assertTrue("There should be one Plant_name row",
                 resultSet.first());
-        assertNotNull("Modified_date should not be null",
-                resultSet.getObject("Modified_date"));
+        assertNotNull("Date_modified should not be null",
+                resultSet.getObject("Date_modified"));
         assertNotNull("Date_Name_modified should not be null",
                 resultSet.getObject("Date_Name_modified"));
         assertNull("Date_Locality_modified should be null",
@@ -255,8 +255,8 @@ public class ChecklistTriggerIntegrationTest extends AbstractPersistenceTestSupp
                 resultSet.getObject("Date_Authors_modified"));
         assertNull("Date_Citations_modified should be null",
                 resultSet.getObject("Date_Citations_modified"));
-        assertEquals("Modified_date should equal Date_Name_modified",
-                resultSet.getObject("Modified_date"),
+        assertEquals("Date_modified should equal Date_Name_modified",
+                resultSet.getObject("Date_modified"),
                 resultSet.getObject("Date_Name_modified"));
     }
 
@@ -269,12 +269,12 @@ public class ChecklistTriggerIntegrationTest extends AbstractPersistenceTestSupp
         jdbcTemplate.execute(
         "UPDATE Plant_citation SET Publication_edition_id = 2 WHERE Plant_citation_id = 1");
         SqlRowSet resultSet = jdbcTemplate.queryForRowSet(
-          "SELECT Modified_date, Date_Name_modified, Date_Locality_modified,"
+          "SELECT Date_modified, Date_Name_modified, Date_Locality_modified,"
         + " Date_Citations_modified, Date_Authors_modified FROM Plant_name WHERE Plant_name_id = 4");
         assertTrue("There should be one Plant_name row",
                 resultSet.first());
-        assertNotNull("Modified_date should not be null",
-                resultSet.getObject("Modified_date"));
+        assertNotNull("Date_modified should not be null",
+                resultSet.getObject("Date_modified"));
         assertNotNull("Date_Name_modified should not be null",
                 resultSet.getObject("Date_Name_modified"));
         assertNull("Date_Locality_modified should be null",
@@ -283,8 +283,8 @@ public class ChecklistTriggerIntegrationTest extends AbstractPersistenceTestSupp
                 resultSet.getObject("Date_Authors_modified"));
         assertNotNull("Date_Citations_modified should not be null",
                 resultSet.getObject("Date_Citations_modified"));
-        assertEquals("Modified_date should equal Date_Name_modified",
-                resultSet.getObject("Modified_date"),
+        assertEquals("Date_modified should equal Date_Name_modified",
+                resultSet.getObject("Date_modified"),
                 resultSet.getObject("Date_Name_modified"));
     }
 
@@ -297,12 +297,12 @@ public class ChecklistTriggerIntegrationTest extends AbstractPersistenceTestSupp
         jdbcTemplate.execute(
         "INSERT INTO Plant_citation (Plant_name_id, Publication_edition_id) VALUES (1,1)");
         SqlRowSet resultSet = jdbcTemplate.queryForRowSet(
-          "SELECT Modified_date, Date_Name_modified, Date_Locality_modified,"
+          "SELECT Date_modified, Date_Name_modified, Date_Locality_modified,"
         + " Date_Citations_modified, Date_Authors_modified FROM Plant_name WHERE Plant_name_id = 1");
         assertTrue("There should be one Plant_name row",
                 resultSet.first());
-        assertNotNull("Modified_date should not be null",
-                resultSet.getObject("Modified_date"));
+        assertNotNull("Date_modified should not be null",
+                resultSet.getObject("Date_modified"));
         assertNotNull("Date_Name_modified should not be null",
                 resultSet.getObject("Date_Name_modified"));
         assertNull("Date_Locality_modified should be null",
@@ -311,8 +311,8 @@ public class ChecklistTriggerIntegrationTest extends AbstractPersistenceTestSupp
                 resultSet.getObject("Date_Authors_modified"));
         assertNotNull("Date_Citations_modified should not be null",
                 resultSet.getObject("Date_Citations_modified"));
-        assertEquals("Modified_date should equal Date_Name_modified",
-                resultSet.getObject("Modified_date"),
+        assertEquals("Date_modified should equal Date_Name_modified",
+                resultSet.getObject("Date_modified"),
                 resultSet.getObject("Date_Name_modified"));
     }
 
@@ -325,12 +325,12 @@ public class ChecklistTriggerIntegrationTest extends AbstractPersistenceTestSupp
         jdbcTemplate.execute(
         "DELETE FROM Plant_citation WHERE Plant_citation_id = 1");
         SqlRowSet resultSet = jdbcTemplate.queryForRowSet(
-          "SELECT Modified_date, Date_Name_modified, Date_Locality_modified,"
+          "SELECT Date_modified, Date_Name_modified, Date_Locality_modified,"
         + " Date_Citations_modified, Date_Authors_modified FROM Plant_name WHERE Plant_name_id = 4");
         assertTrue("There should be one Plant_name row",
                 resultSet.first());
-        assertNotNull("Modified_date should not be null",
-                resultSet.getObject("Modified_date"));
+        assertNotNull("Date_modified should not be null",
+                resultSet.getObject("Date_modified"));
         assertNotNull("Date_Name_modified should not be null",
                 resultSet.getObject("Date_Name_modified"));
         assertNull("Date_Locality_modified should be null",
@@ -339,8 +339,8 @@ public class ChecklistTriggerIntegrationTest extends AbstractPersistenceTestSupp
                 resultSet.getObject("Date_Authors_modified"));
         assertNotNull("Date_Citations_modified should not be null",
                 resultSet.getObject("Date_Citations_modified"));
-        assertEquals("Modified_date should equal Date_Name_modified",
-                resultSet.getObject("Modified_date"),
+        assertEquals("Date_modified should equal Date_Name_modified",
+                resultSet.getObject("Date_modified"),
                 resultSet.getObject("Date_Name_modified"));
     }
 }

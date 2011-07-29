@@ -11,7 +11,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "Place_of_publication")
+@Table(name = "Place_of_Publication")
 public class Protologue {
    /**
     *
