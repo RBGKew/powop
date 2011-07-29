@@ -6,7 +6,7 @@
     </encoder>
   </appender>
   <!-- Used in UsageLoggingIntegrationTest -->
-  <appender name="database" class="org.emonocot.checklist.logging.AltDBAppender">
+  <appender name="database" class="org.emonocot.checklist.logging.DBAppender">
       <dataSource
         class="org.apache.commons.dbcp.BasicDataSource">
         <driverClassName>${jdbc.driver.classname}</driverClassName>
@@ -17,6 +17,7 @@
         <maxIdle>7</maxIdle>
         <validationQuery>SELECT 1</validationQuery>
       </dataSource>
+      <insertSql>${querylog.insert.statement}</insertSql>
   </appender>
   <logger name="query" level="INFO" additivity="false">
     <appender-ref ref="database"/>
@@ -24,7 +25,7 @@
   <root level="WARN">
     <appender-ref ref="stdout"/>
   </root>
-  <logger name="org.emonocot.checklist.logging.AltDBAppender" level="TRACE" additivity="false">
+  <logger name="org.emonocot.checklist.logging.DBAppender" level="TRACE" additivity="false">
     <appender-ref ref="stdout"/>
   </logger>
   <!-- uncomment to see the xml responses -->

@@ -49,8 +49,8 @@ public class UsageLoggingIntegrationTest extends
                         "SELECT COUNT(web_log_id) FROM web_log"));
         try {
             MDC.put(LoggingConstants.SEARCH_TYPE_KEY, "st");
-            MDC.put(LoggingConstants.QUERY_KEY, "QueryString");
-            MDC.put(LoggingConstants.FAMILY_KEY, "FamilyString");
+            MDC.put(LoggingConstants.QUERY_KEY,
+                    "Familyaceae Genus specificEpithet");
             MDC.put(LoggingConstants.RESULT_COUNT_KEY, "123");
             MDC.put(ClassicConstants.REQUEST_REMOTE_HOST_MDC_KEY, "127.0.0.1");
             MDC.put(LoggingConstants.MDC_CLIENT_NAME_KEY, "e-monocot.org");

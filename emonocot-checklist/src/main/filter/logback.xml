@@ -29,6 +29,7 @@
         <maxIdle>7</maxIdle>
         <validationQuery>SELECT 1</validationQuery>
       </dataSource>
+      <insertSql>${querylog.insert.statement}</insertSql>
   </appender>
   <logger name="query" level="INFO" additivity="false">
     <appender-ref ref="database"/>
@@ -36,7 +37,7 @@
   <root level="${logging.checklist.level}">
     <appender-ref ref="${logging.checklist.method}"/>
   </root>
-  <logger name="org.emonocot.checklist.logging.AltDBAppender" level="TRACE" additivity="false">
+  <logger name="org.emonocot.checklist.logging.DBAppender" level="TRACE" additivity="false">
     <appender-ref ref="stdout"/>
   </logger>
 </configuration>
