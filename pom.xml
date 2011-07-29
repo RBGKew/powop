@@ -944,6 +944,14 @@
             <url>http://129.67.24.160/repository</url>
         </repository>
         <repository>
+          <id>emonocot.snapshots</id>
+          <name>eMonocot Snapshots</name>
+          <url>http://129.67.24.160/snapshots</url>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+        <repository>
             <id>smartics</id>
             <url>http://www.smartics.de/nexus/content/groups/public-group</url>
             <releases>
