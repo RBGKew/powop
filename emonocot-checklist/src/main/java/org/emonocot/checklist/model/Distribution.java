@@ -12,17 +12,21 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 import org.emonocot.model.geography.Country;
 import org.emonocot.model.geography.Region;
 
 /**
- *
+ * 
  * @author ben
- *
+ * 
  */
 @Entity
 @Table(name = "Plant_Locality")
-@TypeDef(name = "regionUserType", typeClass = RegionUserType.class)
+@TypeDefs({
+            @TypeDef(name = "regionUserType", typeClass = RegionUserType.class),
+            @TypeDef(name = "countryUserType", typeClass = CountryUserType.class)
+})
 public class Distribution {
 
     /**
@@ -35,7 +39,7 @@ public class Distribution {
     /**
      *
      */
-    @Enumerated(EnumType.STRING)
+    @Type(type = "countryUserType")
     @Column(name = "Area_code_L3", length = Country.COUNTRY_CODE_LENGTH)
     private Country country;
 
@@ -54,7 +58,7 @@ public class Distribution {
     private Integer id;
 
     /**
-     *
+     * 
      * @return the country of this distribution record or null if a country is
      *         not mentioned
      */
@@ -63,9 +67,9 @@ public class Distribution {
     }
 
     /**
-     *
-     * @return the region of this distribution record or null if a region is
-     *         not mentioned
+     * 
+     * @return the region of this distribution record or null if a region is not
+     *         mentioned
      */
     public final Region getRegion() {
         return region;
@@ -74,13 +78,17 @@ public class Distribution {
     /**
      * Empty class constructor.
      */
-    public Distribution() { }
+    public Distribution() {
+    }
 
     /**
-     *
-     * @param newTaxon The taxon this distribution record refers to
-     * @param newRegion The region mentioned in this distribution record
-     * @param newCountry The country mentioned in this distribution record
+     * 
+     * @param newTaxon
+     *            The taxon this distribution record refers to
+     * @param newRegion
+     *            The region mentioned in this distribution record
+     * @param newCountry
+     *            The country mentioned in this distribution record
      */
     public Distribution(final Taxon newTaxon, final Region newRegion,
             final Country newCountry) {

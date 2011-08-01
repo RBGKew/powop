@@ -1,7 +1,7 @@
 Plant_name_id,Full_epithet,Accepted_plant_name_id,Family,Genus,Species,Infraspecific_rank,Infraspecific_epithet,Date_of_entry,Publication_author,Volume_and_page,First_published,Place_of_publication_id
-1,Lorem ipsum,NULL,Loreaceae,Lorem,ipsum,NULL,NULL,2011-06-01 09:00:01.0,Pargetter,2: 34-56,1784,1
-2,Lorem dolor,NULL,Loreaceae,Lorem,dolor,NULL,NULL,2011-06-14 23:59:00,Archer,123,1765,2
-3,Lorem,NULL,Loreaceae,Lorem,NULL,NULL,NULL,2011-06-14 23:59:00,Archer,123,1765,2
+1,Lorem ipsum,1,Loreaceae,Lorem,ipsum,NULL,NULL,2011-06-01 09:00:01.0,Pargetter,2: 34-56,1784,1
+2,Lorem dolor,2,Loreaceae,Lorem,dolor,NULL,NULL,2011-06-14 23:59:00,Archer,123,1765,2
+3,Lorem,3,Loreaceae,Lorem,NULL,NULL,NULL,2011-06-14 23:59:00,Archer,123,1765,2
 4,Lorem consectetur,1,Loreaceae,Lorem,consectetur,NULL,NULL,2011-11-14 23:59:00,Tucker, 12:,1906,3
-5,Lorem adipiscing,1,Loreaceae,Lorem,adipiscing,NULL,NULL,2011-11-14 23:59:00,Archer,123,1765,2,
-6,Curabitur vehicula,NULL,Curabituraceae,Curabitur,vehicula,NULL,NULL,2011-11-14 23:59:00,Hebden,: 34-56,1973,4
+5,Lorem adipiscing,1,Loreaceae,Lorem,adipiscing,NULL,NULL,2011-11-14 23:59:00,Archer,123,1765,2
+6,Curabitur vehicula,6,Curabituraceae,Curabitur,vehicula,NULL,NULL,2011-11-14 23:59:00,Hebden,: 34-56,1973,4

@@ -144,7 +144,7 @@ public class Taxon implements IdentifiableEntity<String> {
      */
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "Accepted_plant_name_id")
-    @Where(clause = "Plant_name_id > 0")
+    @Where(clause = "Plant_name_id > 0 AND Plant_name_id <> Accepted_plant_name_id")
     private Set<Taxon> synonyms = new HashSet<Taxon>();
 
     /**

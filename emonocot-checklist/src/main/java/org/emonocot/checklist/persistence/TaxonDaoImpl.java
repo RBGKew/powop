@@ -99,9 +99,12 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
      */
     protected final void inferRelatedTaxa(final Taxon taxon) {
         // Add children
+        System.out.println("");
+        System.out.println("Taxon name: "+taxon.getName());
+        System.out.println("");
         Criteria criteria = getSession().createCriteria(Taxon.class)
                 .add(Restrictions.eq("genus", taxon.getGenus()))
-                .add(Restrictions.isNull("acceptedName"))
+                .add(Restrictions.eqProperty("acceptedName.id", "id"))
                 .add(Restrictions.eq("family", taxon.getFamily()));
 
         if (taxon.getGenusHybridMarker() == null) {
@@ -124,11 +127,11 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
                             Restrictions.isNotNull("infraspecificEpithet"),
                             Restrictions.ne("infraspecificEpithet", "")))
                     .add(Restrictions.eq("species", taxon.getSpecies()));
-                if (taxon.getSpeciesHybridMarker() != null) {
+                if (taxon.getSpeciesHybridMarker() == null) {
+                    criteria.add(Restrictions.isNull("speciesHybridMarker"));
+                } else {
                     criteria.add(Restrictions.eq("speciesHybridMarker",
                             taxon.getSpeciesHybridMarker()));
-                } else {
-                    criteria.add(Restrictions.isNull("speciesHybridMarker"));
                 }
             break;
         default:
@@ -142,7 +145,7 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
         // Add Parent
         Criteria parentCriteria = getSession().createCriteria(Taxon.class)
         .add(Restrictions.eq("genus", taxon.getGenus()))
-        .add(Restrictions.isNull("acceptedName"))
+        .add(Restrictions.eqProperty("acceptedName.id", "id"))
         .add(Restrictions.eq("family", taxon.getFamily()));
 
         if (taxon.getGenusHybridMarker() == null) {

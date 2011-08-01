@@ -1,6 +1,6 @@
 Plant_name_id,Full_epithet,Accepted_plant_name_id,Family,Genus,Species,Infraspecific_rank,Infraspecific_epithet,Date_of_entry
-1,Lorem ipsum,NULL,Araceae,Lorem,ipsum,NULL,NULL,2011-06-14 23:59:00
-2,Lorem dolor,NULL,Araceae,Lorem,dolor,NULL,NULL,2011-06-14 23:59:00
-3,Lorem,NULL,Araceae,Lorem,NULL,NULL,NULL,2011-06-14 23:59:00
+1,Lorem ipsum,1,Araceae,Lorem,ipsum,NULL,NULL,2011-06-14 23:59:00
+2,Lorem dolor,2,Araceae,Lorem,dolor,NULL,NULL,2011-06-14 23:59:00
+3,Lorem,3,Araceae,Lorem,NULL,NULL,NULL,2011-06-14 23:59:00
 4,Lorem consectetur,1,Araceae,Lorem,consectetur,NULL,NULL,2011-06-14 23:59:00
 5,Lorem adipiscing,1,Araceae,Lorem,adipiscing,NULL,NULL,2011-06-14 23:59:00

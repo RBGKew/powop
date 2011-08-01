@@ -139,7 +139,7 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
 
         String xml = given()
                 .parameters("verb", "ListIdentifiers", "metadataPrefix",
-                        "oai_dc", "from", "2011-08-01T01:00:00Z",
+                        "oai_dc", "from", "2011-09-01T01:00:00Z",
                         "scratchpad", "functional-test.e-monocot.org")
                         .get("/oai").asString();
         assertEquals("There should be 0 identifiers returned",
@@ -155,7 +155,7 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
 
         String xml = given()
                 .parameters("verb", "ListIdentifiers", "metadataPrefix",
-                        "oai_dc", "until", "2011-08-01T01:00:00Z",
+                        "oai_dc", "until", "2011-09-01T01:00:00Z",
                         "scratchpad", "functional-test.e-monocot.org")
                         .get("/oai").asString();
         assertEquals("There should be 6 identifiers returned",
