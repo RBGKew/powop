@@ -201,6 +201,7 @@
 				<istrue value="${application.stopped}"/>
 			</or>
 		</condition>
+		<echo message="${application.status}" />
 	</target>
 
 	<target name="deploy" 

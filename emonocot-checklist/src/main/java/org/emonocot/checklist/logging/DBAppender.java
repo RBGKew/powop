@@ -3,14 +3,11 @@ package org.emonocot.checklist.logging;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.sql.DataSource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -166,7 +163,6 @@ public class DBAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
      */
     @Override
     protected final void append(final ILoggingEvent loggingEvent) {
-        Logger logger = LoggerFactory.getLogger(DBAppender.class);
         try {
             final String family;
             final String genus;
@@ -300,10 +296,8 @@ public class DBAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
             }
              });
         } catch (DataAccessException dae) {
-            logger.debug(dae.getMessage());
             throw dae;
         }
-        logger.info("Logged event successfully");
     }
 
     /**

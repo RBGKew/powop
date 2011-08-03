@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 
 import org.emonocot.checklist.format.ChecklistIdentifierFormatter;
@@ -205,8 +204,12 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
         } catch (ParseException e) {
             throw new IllegalArgumentException(e);
         }
-        // Taxon cannot be null because we would have thrown an exception
-        // prior to this point
+        /**
+         * If the taxon does not exist return null
+         */
+        if (taxon == null) {
+            return null;
+        }
 
         if (taxon.getDateDeleted() != null) {
             return new ChangeEventImpl<Taxon>(taxon, ChangeType.DELETE,
