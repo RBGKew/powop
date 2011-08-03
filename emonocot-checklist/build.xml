@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="emonocot-checklist" 
 	default="prepare" basedir=".">
-	<property file="${user.home}/.ant/${profile}.properties" />
+	<property file="./${profile}.properties" />
 	<property name="name" value="emonocot-checklist"/>
 	<property name="target" value="${basedir}/target" />
 	<property name="main.src" value="${basedir}/src/main/java" />

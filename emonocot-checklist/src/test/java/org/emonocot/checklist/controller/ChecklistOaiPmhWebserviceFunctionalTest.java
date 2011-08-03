@@ -27,7 +27,12 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
     /**
      *
      */
-    private static final int TOTAL_NUMBER_OF_NODES = 6;
+    private static final int TOTAL_NUMBER_OF_NODES = 7;
+
+    /**
+    *
+    */
+     private static final int NODES_UNTIL_DATE = 6;
 
   /**
    *
@@ -142,8 +147,8 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
                         "oai_dc", "from", "2011-09-01T01:00:00Z",
                         "scratchpad", "functional-test.e-monocot.org")
                         .get("/oai").asString();
-        assertEquals("There should be 0 identifiers returned",
-                0,
+        assertEquals("There should be 1 identifier returned",
+                1,
                 with(xml).get("OAI-PMH.ListIdentifiers.header.size()"));
     }
 
@@ -159,7 +164,7 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
                         "scratchpad", "functional-test.e-monocot.org")
                         .get("/oai").asString();
         assertEquals("There should be 6 identifiers returned",
-                TOTAL_NUMBER_OF_NODES,
+                NODES_UNTIL_DATE,
                 with(xml).get("OAI-PMH.ListIdentifiers.header.size()"));
     }
 

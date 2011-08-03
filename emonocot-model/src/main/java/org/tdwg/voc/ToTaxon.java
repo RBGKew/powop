@@ -54,9 +54,6 @@ public class ToTaxon {
    protected ToTaxon(final TaxonConcept taxonConcept) {
        if (taxonConcept != null && taxonConcept.getIdentifier() != null) {
            this.setResource(taxonConcept.getIdentifier());
-           //this.setTaxonConcept(taxonConcept);
-       } else {
-           this.setTaxonConcept(taxonConcept);
        }
    }
 

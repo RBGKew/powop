@@ -252,7 +252,11 @@ public class Taxon implements IdentifiableEntity<String> {
      * @return the identifier for this object.
      */
     public final String getIdentifier() {
+        if (this.id != null) {
         return Taxon.IDENTIFIER_PREFIX + this.id;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -655,5 +659,13 @@ public class Taxon implements IdentifiableEntity<String> {
      */
     public final void setProtologue(final Protologue newProtologue) {
         this.protologue = newProtologue;
+    }
+
+    /**
+     *
+     * @return the id;
+     */
+    public final Integer getId() {
+        return id;
     }
 }

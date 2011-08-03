@@ -630,4 +630,7 @@ UNION ALL
       WHERE Plant_name_id = OLD.Plant_name_id
       </sql>
     </changeSet>
+     <changeSet author="ben" id="2011-08-03_1">
+        <dropForeignKeyConstraint baseTableName="Plant_Name" constraintName="FKC663741FC1A8E6DC"/>
+    </changeSet>
 </databaseChangeLog>
