@@ -103,8 +103,10 @@ public class RegionUserType implements UserType {
         try {
             Region result = Region.fromCode(region);
             return result;
-        } catch(IllegalArgumentException iae) {
+        } catch (IllegalArgumentException iae) {
             logger.error(iae.getMessage());
+        } catch (NullPointerException npe) {
+            logger.error(npe.getMessage());
         }
         return null;
     }
