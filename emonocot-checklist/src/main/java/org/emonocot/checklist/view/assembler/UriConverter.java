@@ -5,6 +5,8 @@ import java.net.URISyntaxException;
 
 import org.dozer.CustomConverter;
 import org.dozer.MappingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -12,6 +14,10 @@ import org.dozer.MappingException;
  *
  */
 public class UriConverter implements CustomConverter {
+    /**
+     *
+     */
+    private static Logger logger = LoggerFactory.getLogger(UriConverter.class);
     /**
      *
      * @param destination the existing destination field value
@@ -29,9 +35,8 @@ public class UriConverter implements CustomConverter {
             try {
                 return new URI(((String) source));
             } catch (URISyntaxException urise) {
-                throw new MappingException("Converter UriConverter used"
-                        + " incorrectly. Arguments passed in were:"
-                        + destination + " and " + source, urise);
+                logger.error(urise.getMessage());
+                return null;
             }
         } else {
             throw new MappingException("Converter UriConverter used"
