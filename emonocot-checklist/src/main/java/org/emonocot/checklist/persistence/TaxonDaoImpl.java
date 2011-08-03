@@ -97,10 +97,7 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
      *            is the object to try and provide related taxa for
      */
     protected final void inferRelatedTaxa(final Taxon taxon) {
-        // Add children
-        System.out.println("");
-        System.out.println("Taxon name: "+taxon.getName());
-        System.out.println("");
+
         Criteria criteria = getSession().createCriteria(Taxon.class)
                 .add(Restrictions.eq("genus", taxon.getGenus()))
                 .add(Restrictions.eqProperty("acceptedName.id", "id"))
