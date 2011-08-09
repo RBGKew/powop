@@ -1,4 +1,4 @@
-package org.emonocot.job.dwca;
+package org.emonocot.job.dwc;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -42,8 +42,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
         "/applicationContext-test.xml" })
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class DarwinCoreJobIntegrationTest {
-    
-    Logger logger = LoggerFactory.getLogger(DarwinCoreJobIntegrationTest.class);
+
+    /**
+     *
+     */
+    private Logger logger = LoggerFactory.getLogger(
+            DarwinCoreJobIntegrationTest.class);
 
     /**
      *

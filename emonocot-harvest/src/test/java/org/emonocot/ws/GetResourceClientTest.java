@@ -1,13 +1,10 @@
 package org.emonocot.ws;
 
-import static org.custommonkey.xmlunit.XMLAssert.assertXMLEqual;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Date;
 
 import org.apache.http.HttpStatus;
@@ -50,8 +47,7 @@ public class GetResourceClientTest {
      *
      */
     private Resource content = new ClassPathResource(
-            "/org/emonocot/job/dwca/test.zip");
-
+            "/org/emonocot/job/dwc/test.zip");
     /**
      *
      * @throws IOException
