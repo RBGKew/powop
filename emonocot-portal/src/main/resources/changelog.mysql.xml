@@ -453,4 +453,39 @@
            referencedTableName="logging_event" referencedColumnNames="event_id"
         />
     </changeSet>
+    <changeSet author="ben" id="2011-07-28_1">
+      <addColumn tableName="Taxon">
+        <column name="authorship" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-28_2">
+      <addColumn tableName="Taxon">
+        <column name="basionymAuthorship" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-28_3">
+      <addColumn tableName="Taxon">
+        <column name="uninomial" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-28_4">
+      <addColumn tableName="Taxon">
+        <column name="genus" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-28_5">
+      <addColumn tableName="Taxon">
+        <column name="specificEpithet" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-28_6">
+      <addColumn tableName="Taxon">
+        <column name="infraspecificEpithet" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-28_7">
+      <addColumn tableName="Taxon">
+        <column name="rank" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
 </databaseChangeLog>

@@ -15,37 +15,6 @@ public class TaxonRelationshipTerm extends DefinedTerm {
     /**
      *
      */
-    private static TaxonRelationshipTerm[] terms;
-
-    static {
-        terms = new TaxonRelationshipTerm[]{
-                TaxonRelationshipTerm.DOES_NOT_INCLUDE,
-                TaxonRelationshipTerm.INCLUDES,
-                TaxonRelationshipTerm.DOES_NOT_OVERLAP,
-                TaxonRelationshipTerm.OVERLAPS,
-                TaxonRelationshipTerm.EXCLUDES,
-                TaxonRelationshipTerm.HAS_SYNONYM,
-                TaxonRelationshipTerm.IS_SYONYM_FOR,
-                TaxonRelationshipTerm.HAS_VERNACULAR,
-                TaxonRelationshipTerm.IS_VERNACULAR_FOR,
-                TaxonRelationshipTerm.IS_AMBIREGNAL_OF,
-                TaxonRelationshipTerm.IS_ANAMORPH_OF,
-                TaxonRelationshipTerm.IS_CHILD_TAXON_OF,
-                TaxonRelationshipTerm.IS_PARENT_TAXON_OF,
-                TaxonRelationshipTerm.IS_CONGRUENT_TO,
-                TaxonRelationshipTerm.IS_FEMALE_PARENT_OF,
-                TaxonRelationshipTerm.IS_MALE_PARENT_OF,
-                TaxonRelationshipTerm.IS_FIRST_PARENT_OF,
-                TaxonRelationshipTerm.IS_SECOND_PARENT_OF,
-                TaxonRelationshipTerm.IS_HYBRID_PARENT_OF,
-                TaxonRelationshipTerm.IS_HYBRID_CHILD_OF,
-                TaxonRelationshipTerm.IS_NOT_CONGRUENT_TO,
-                TaxonRelationshipTerm.IS_NOT_INCLUDED_IN
-        };
-    }
-    /**
-     *
-     */
     public static final TaxonRelationshipTerm DOES_NOT_INCLUDE
         = new TaxonRelationshipTerm(
             "http://rs.tdwg.org/ontology/voc/TaxonConcept#DoesNotInclude",
@@ -206,7 +175,7 @@ public class TaxonRelationshipTerm extends DefinedTerm {
     /**
      *
      */
-    public static final TaxonRelationshipTerm IS_SYONYM_FOR
+    public static final TaxonRelationshipTerm IS_SYNONYM_FOR
         = new TaxonRelationshipTerm(
             "http://rs.tdwg.org/ontology/voc/TaxonConcept#IsSynonymFor",
             "Is Synonym For");
@@ -234,6 +203,38 @@ public class TaxonRelationshipTerm extends DefinedTerm {
         = new TaxonRelationshipTerm(
             "http://rs.tdwg.org/ontology/voc/TaxonConcept#Overlaps",
             "Overlaps");
+
+    /**
+    *
+    */
+   private static TaxonRelationshipTerm[] terms;
+
+   static {
+       terms = new TaxonRelationshipTerm[]{
+               TaxonRelationshipTerm.DOES_NOT_INCLUDE,
+               TaxonRelationshipTerm.INCLUDES,
+               TaxonRelationshipTerm.DOES_NOT_OVERLAP,
+               TaxonRelationshipTerm.OVERLAPS,
+               TaxonRelationshipTerm.EXCLUDES,
+               TaxonRelationshipTerm.HAS_SYNONYM,
+               TaxonRelationshipTerm.IS_SYNONYM_FOR,
+               TaxonRelationshipTerm.HAS_VERNACULAR,
+               TaxonRelationshipTerm.IS_VERNACULAR_FOR,
+               TaxonRelationshipTerm.IS_AMBIREGNAL_OF,
+               TaxonRelationshipTerm.IS_ANAMORPH_OF,
+               TaxonRelationshipTerm.IS_CHILD_TAXON_OF,
+               TaxonRelationshipTerm.IS_PARENT_TAXON_OF,
+               TaxonRelationshipTerm.IS_CONGRUENT_TO,
+               TaxonRelationshipTerm.IS_FEMALE_PARENT_OF,
+               TaxonRelationshipTerm.IS_MALE_PARENT_OF,
+               TaxonRelationshipTerm.IS_FIRST_PARENT_OF,
+               TaxonRelationshipTerm.IS_SECOND_PARENT_OF,
+               TaxonRelationshipTerm.IS_HYBRID_PARENT_OF,
+               TaxonRelationshipTerm.IS_HYBRID_CHILD_OF,
+               TaxonRelationshipTerm.IS_NOT_CONGRUENT_TO,
+               TaxonRelationshipTerm.IS_NOT_INCLUDED_IN
+       };
+   }
 
     /**
      *

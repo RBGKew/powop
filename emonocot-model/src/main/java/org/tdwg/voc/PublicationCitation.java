@@ -119,6 +119,12 @@ public class PublicationCitation extends org.tdwg.PublicationCitation {
         if (tpubPublicationType == null) {
             return null;
         } else {
+            if (tpubPublicationType.getDefinedTerm() == null
+                    && tpubPublicationType.getResource() != null) {
+                tpubPublicationType.setDefinedTerm(
+                        PublicationTypeTerm.fromValue(
+                                tpubPublicationType.getResource().toString()));
+            }
             return (PublicationTypeTerm) tpubPublicationType.getDefinedTerm();
         }
     }

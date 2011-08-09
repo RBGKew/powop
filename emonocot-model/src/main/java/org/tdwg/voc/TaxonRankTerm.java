@@ -11,78 +11,8 @@ import org.tdwg.DefinedTerm;
  *
  */
 public class TaxonRankTerm extends DefinedTerm {
-
+    
     /**
-     *
-     */
-    private static TaxonRankTerm[] terms;
-
-    static {
-        terms = new TaxonRankTerm[] {
-                TaxonRankTerm.BIO_VARIETY,
-                TaxonRankTerm.CANDIDATE,
-                TaxonRankTerm.CLASS,
-                TaxonRankTerm.CONVAR,
-                TaxonRankTerm.CULTIVAR,
-                TaxonRankTerm.CULTIVAR_GROUP,
-                TaxonRankTerm.DENOMINATION_CLASS,
-                TaxonRankTerm.DIVISION,
-                TaxonRankTerm.DOMAIN,
-                TaxonRankTerm.EMPIRE,
-                TaxonRankTerm.FAMILY,
-                TaxonRankTerm.FORM,
-                TaxonRankTerm.GENUS,
-                TaxonRankTerm.GRAFT_CHIMAERA,
-                TaxonRankTerm.GREX,
-                TaxonRankTerm.INFRACLASS,
-                TaxonRankTerm.INFRADIVISION,
-                TaxonRankTerm.INFRAFAMILY,
-                TaxonRankTerm.INFRAGENERIC_TAXON,
-                TaxonRankTerm.INFRAGENUS,
-                TaxonRankTerm.INFRAKINGDOM,
-                TaxonRankTerm.INFRAORDER,
-                TaxonRankTerm.INFRAPHYLUM,
-                TaxonRankTerm.INFRASPECIES,
-                TaxonRankTerm.INFRASPECIFIC_TAXON,
-                TaxonRankTerm.INFRATRIBE,
-                TaxonRankTerm.KINGDOM,
-                TaxonRankTerm.ORDER,
-                TaxonRankTerm.PATHO_VARIETY,
-                TaxonRankTerm.PHYLUM,
-                TaxonRankTerm.SECTION,
-                TaxonRankTerm.SERIES,
-                TaxonRankTerm.SPECIAL_FORM,
-                TaxonRankTerm.SPECIES,
-                TaxonRankTerm.SPECIES_AGGREGATE,
-                TaxonRankTerm.SUB_SUB_FORM,
-                TaxonRankTerm.SUB_SUB_VARIETY,
-                TaxonRankTerm.SUB_VARIETY,
-                TaxonRankTerm.SUBCLASS,
-                TaxonRankTerm.SUBDIVISION,
-                TaxonRankTerm.SUBFAMILY,
-                TaxonRankTerm.SUBFORM,
-                TaxonRankTerm.SUBGENUS,
-                TaxonRankTerm.SUBKINGDOM,
-                TaxonRankTerm.SUBORDER,
-                TaxonRankTerm.SUBPHYLUM,
-                TaxonRankTerm.SUBSECTION,
-                TaxonRankTerm.SUBSERIES,
-                TaxonRankTerm.SUBSPECIES,
-                TaxonRankTerm.SUBSPECIFIC_AGGREGATE,
-                TaxonRankTerm.SUBTRIBE,
-                TaxonRankTerm.SUPERCLASS,
-                TaxonRankTerm.SUPERDIVISION,
-                TaxonRankTerm.SUPERFAMILY,
-                TaxonRankTerm.SUPERKINGDOM,
-                TaxonRankTerm.SUPERORDER,
-                TaxonRankTerm.SUPERPHYLUM,
-                TaxonRankTerm.SUPERTRIBE,
-                TaxonRankTerm.TRIBE,
-                TaxonRankTerm.VARIETY
-        };
-    }
-
-   /**
     *
     */
     public static final TaxonRankTerm BIO_VARIETY = new TaxonRankTerm(
@@ -509,6 +439,76 @@ public class TaxonRankTerm extends DefinedTerm {
             "http://rs.tdwg.org/ontology/voc/TaxonRank#Variety",
             "Variety");
 
+    /**
+     *
+     */
+    private static TaxonRankTerm[] terms;
+
+    static {
+        terms = new TaxonRankTerm[] {
+                TaxonRankTerm.BIO_VARIETY,
+                TaxonRankTerm.CANDIDATE,
+                TaxonRankTerm.CLASS,
+                TaxonRankTerm.CONVAR,
+                TaxonRankTerm.CULTIVAR,
+                TaxonRankTerm.CULTIVAR_GROUP,
+                TaxonRankTerm.DENOMINATION_CLASS,
+                TaxonRankTerm.DIVISION,
+                TaxonRankTerm.DOMAIN,
+                TaxonRankTerm.EMPIRE,
+                TaxonRankTerm.FAMILY,
+                TaxonRankTerm.FORM,
+                TaxonRankTerm.GENUS,
+                TaxonRankTerm.GRAFT_CHIMAERA,
+                TaxonRankTerm.GREX,
+                TaxonRankTerm.INFRACLASS,
+                TaxonRankTerm.INFRADIVISION,
+                TaxonRankTerm.INFRAFAMILY,
+                TaxonRankTerm.INFRAGENERIC_TAXON,
+                TaxonRankTerm.INFRAGENUS,
+                TaxonRankTerm.INFRAKINGDOM,
+                TaxonRankTerm.INFRAORDER,
+                TaxonRankTerm.INFRAPHYLUM,
+                TaxonRankTerm.INFRASPECIES,
+                TaxonRankTerm.INFRASPECIFIC_TAXON,
+                TaxonRankTerm.INFRATRIBE,
+                TaxonRankTerm.KINGDOM,
+                TaxonRankTerm.ORDER,
+                TaxonRankTerm.PATHO_VARIETY,
+                TaxonRankTerm.PHYLUM,
+                TaxonRankTerm.SECTION,
+                TaxonRankTerm.SERIES,
+                TaxonRankTerm.SPECIAL_FORM,
+                TaxonRankTerm.SPECIES,
+                TaxonRankTerm.SPECIES_AGGREGATE,
+                TaxonRankTerm.SUB_SUB_FORM,
+                TaxonRankTerm.SUB_SUB_VARIETY,
+                TaxonRankTerm.SUB_VARIETY,
+                TaxonRankTerm.SUBCLASS,
+                TaxonRankTerm.SUBDIVISION,
+                TaxonRankTerm.SUBFAMILY,
+                TaxonRankTerm.SUBFORM,
+                TaxonRankTerm.SUBGENUS,
+                TaxonRankTerm.SUBKINGDOM,
+                TaxonRankTerm.SUBORDER,
+                TaxonRankTerm.SUBPHYLUM,
+                TaxonRankTerm.SUBSECTION,
+                TaxonRankTerm.SUBSERIES,
+                TaxonRankTerm.SUBSPECIES,
+                TaxonRankTerm.SUBSPECIFIC_AGGREGATE,
+                TaxonRankTerm.SUBTRIBE,
+                TaxonRankTerm.SUPERCLASS,
+                TaxonRankTerm.SUPERDIVISION,
+                TaxonRankTerm.SUPERFAMILY,
+                TaxonRankTerm.SUPERKINGDOM,
+                TaxonRankTerm.SUPERORDER,
+                TaxonRankTerm.SUPERPHYLUM,
+                TaxonRankTerm.SUPERTRIBE,
+                TaxonRankTerm.TRIBE,
+                TaxonRankTerm.VARIETY
+        };
+    }
+
    /**
     *
     */
@@ -538,7 +538,7 @@ public class TaxonRankTerm extends DefinedTerm {
     */
    public static final TaxonRankTerm fromValue(final String uri) {
        for (TaxonRankTerm term : terms) {
-           if (term.getIdentifier().toString().equals(uri)) {
+           if (term != null && term.getIdentifier().toString().equals(uri)) {
                return term;
            }
        }

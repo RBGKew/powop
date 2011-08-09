@@ -113,7 +113,7 @@ public abstract class TaxonRelationshipResolver
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if (term.equals(TaxonRelationshipTerm.IS_SYONYM_FOR)) {
+            if (term.equals(TaxonRelationshipTerm.IS_SYNONYM_FOR)) {
                 if (!related.getSynonyms().contains(taxon)) {
                     taxon.setAccepted(related);
                     related.getSynonyms().add(taxon);

@@ -85,7 +85,7 @@ public class OaiPmhClient implements StepExecutionListener {
            this.proxyPort = Integer.decode(newProxyPort);
        } catch (NumberFormatException nfe) {
            logger.warn(nfe.getMessage());
-       }       
+       }
    }
 
    /**
@@ -148,14 +148,15 @@ public class OaiPmhClient implements StepExecutionListener {
         StringBuffer query = new StringBuffer("?");
 
         if (resumptionToken != null) {
-            query.append("resumptionToken=" + resumptionToken + "&verb=ListRecords");
+            query.append("resumptionToken=" + resumptionToken
+                    + "&verb=ListRecords");
         } else {
             query.append("verb=ListRecords&metadataPrefix=rdf");
             if (dateLastHarvested != null) {
-				DateTime from = new DateTime(Long.parseLong(dateLastHarvested));
-				query.append("&from="
-						+ DATE_TIME_PRINTER.print(from
-								.toDateTime(DateTimeZone.UTC)));
+                DateTime from = new DateTime(Long.parseLong(dateLastHarvested));
+                query.append("&from="
+                        + DATE_TIME_PRINTER.print(from
+                                .toDateTime(DateTimeZone.UTC)));
             }
         }
         HttpGet httpGet = new HttpGet(authorityURI + query.toString());

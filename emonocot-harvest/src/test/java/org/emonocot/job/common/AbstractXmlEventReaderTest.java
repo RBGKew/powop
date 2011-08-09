@@ -1,4 +1,4 @@
-package org.emonocot.job.scratchpads;
+package org.emonocot.job.common;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;

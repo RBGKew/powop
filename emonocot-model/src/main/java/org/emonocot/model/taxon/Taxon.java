@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -90,6 +92,41 @@ public class Taxon extends Base {
 
     /**
      *
+     */
+    private String authorship;
+
+    /**
+     *
+     */
+    private String basionymAuthorship;
+
+    /**
+     *
+     */
+    private String uninomial;
+
+    /**
+     *
+     */
+    private String genus;
+
+    /**
+     *
+     */
+    private String specificEpithet;
+
+    /**
+     *
+     */
+    private String infraSpecificEpithet;
+
+    /**
+     *
+     */
+    private Rank rank;
+
+    /**
+     *
      * @return a list of images of the taxon
      */
     @ManyToMany(fetch = FetchType.LAZY)
@@ -121,7 +158,7 @@ public class Taxon extends Base {
      * @param newImages
      *            Set the images associated with this taxon
      */
-    public void setImages(List<Image> newImages) {
+    public void setImages(final List<Image> newImages) {
         this.images = newImages;
     }
 
@@ -130,7 +167,7 @@ public class Taxon extends Base {
      * @param newReferences
      *            Set the references associated with this taxon
      */
-    public void setReferences(Set<Reference> newReferences) {
+    public void setReferences(final Set<Reference> newReferences) {
         this.references = newReferences;
     }
 
@@ -138,7 +175,7 @@ public class Taxon extends Base {
      *
      * @param newContent Set the content associated with this taxon
      */
-    public void setContent(Map<Feature, Content> newContent) {
+    public void setContent(final Map<Feature, Content> newContent) {
         this.content = newContent;
     }
 
@@ -146,7 +183,7 @@ public class Taxon extends Base {
      *
      * @param newDeleted Should this taxon be deleted?
      */
-    public void setDeleted(boolean newDeleted) {
+    public void setDeleted(final boolean newDeleted) {
         this.deleted = newDeleted;
     }
 
@@ -170,10 +207,10 @@ public class Taxon extends Base {
 
     /**
      *
-     * @param name Set the taxonomic name of the taxon
+     * @param newName Set the taxonomic name of the taxon
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setName(final String newName) {
+        this.name = newName;
     }
 
     /**
@@ -188,10 +225,10 @@ public class Taxon extends Base {
 
     /**
      *
-     * @param parent Set the taxonomic parent
+     * @param newParent Set the taxonomic parent
      */
-    public void setParent(Taxon parent) {
-        this.parent = parent;
+    public void setParent(final Taxon newParent) {
+        this.parent = newParent;
     }
 
     /**
@@ -206,10 +243,10 @@ public class Taxon extends Base {
 
     /**
      *
-     * @param children Set the taxonomic children
+     * @param newChildren Set the taxonomic children
      */
-    public void setChildren(Set<Taxon> children) {
-        this.children = children;
+    public void setChildren(final Set<Taxon> newChildren) {
+        this.children = newChildren;
     }
 
     /**
@@ -224,10 +261,10 @@ public class Taxon extends Base {
 
     /**
      *
-     * @param accepted Set the accepted name
+     * @param newAccepted Set the accepted name
      */
-    public void setAccepted(Taxon accepted) {
-        this.accepted = accepted;
+    public void setAccepted(final Taxon newAccepted) {
+        this.accepted = newAccepted;
     }
 
     /**
@@ -242,10 +279,10 @@ public class Taxon extends Base {
 
     /**
      *
-     * @param synonyms Set the synonyms of this taxon
+     * @param newSynonyms Set the synonyms of this taxon
      */
-    public void setSynonyms(Set<Taxon> synonyms) {
-        this.synonyms = synonyms;
+    public void setSynonyms(final Set<Taxon> newSynonyms) {
+        this.synonyms = newSynonyms;
     }
 
     /**
@@ -262,9 +299,118 @@ public class Taxon extends Base {
 
     /**
      *
-     * @param distribution Set the distribution associated with this taxon
+     * @param newDistribution Set the distribution associated with this taxon
      */
-    public void setDistribution(Map<GeographicalRegion, Distribution> distribution) {
-        this.distribution = distribution;
+    public void setDistribution(
+            final Map<GeographicalRegion, Distribution> newDistribution) {
+        this.distribution = newDistribution;
+    }
+
+    /**
+     *
+     * @param newAuthorship set the authorship
+     */
+    public void setAuthorship(final String newAuthorship) {
+        this.authorship = newAuthorship;
+    }
+
+    /**
+     *
+     * @param newBasionymAuthorship set the basionymAuthorship
+     */
+    public void setBasionymAuthorship(
+            final String newBasionymAuthorship) {
+        this.basionymAuthorship = newBasionymAuthorship;
+    }
+
+    /**
+     *
+     * @param newUninomial Set the uninomial
+     */
+    public void setUninomial(final String newUninomial) {
+        this.uninomial = newUninomial;
+    }
+
+    /**
+     *
+     * @param newGenusPart Set the genus part of the name
+     */
+    public void setGenus(final String newGenusPart) {
+        this.genus = newGenusPart;
+    }
+
+    /**
+     *
+     * @param newSpecificEpithet set the specific epithet
+     */
+    public void setSpecificEpithet(final String newSpecificEpithet) {
+        this.specificEpithet = newSpecificEpithet;
+    }
+
+    /**
+     *
+     * @param newInfraspecificEpithet Set the infraspecific epithet
+     */
+    public void setInfraSpecificEpithet(
+            final String newInfraspecificEpithet) {
+        this.infraSpecificEpithet = newInfraspecificEpithet;
+    }
+
+    /**
+     *
+     * @param newRank set the rank of this taxon
+     */
+    public void setRank(final Rank newRank) {
+        this.rank = newRank;
+    }
+
+    /**
+     * @return the authorship
+     */
+    public String getAuthorship() {
+        return authorship;
+    }
+
+    /**
+     * @return the basionymAuthorship
+     */
+    public String getBasionymAuthorship() {
+        return basionymAuthorship;
+    }
+
+    /**
+     * @return the uninomial
+     */
+    public String getUninomial() {
+        return uninomial;
+    }
+
+    /**
+     * @return the genus
+     */
+    public String getGenus() {
+        return genus;
+    }
+
+    /**
+     * @return the specificEpithet
+     */
+    public String getSpecificEpithet() {
+        return specificEpithet;
+    }
+
+    /**
+     * @return the infraSpecificEpithet
+     */
+    public String getInfraSpecificEpithet() {
+        return infraSpecificEpithet;
+    }
+
+    /**
+     * @return the rank
+     */
+    @Enumerated(value = EnumType.STRING)
+    public Rank getRank() {
+        return rank;
     }
 }

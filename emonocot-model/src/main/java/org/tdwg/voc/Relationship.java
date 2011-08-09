@@ -50,6 +50,12 @@ public class Relationship extends BaseThing {
      */
     public final TaxonRelationshipTerm getRelationshipCategory() {
         if (tcRelationshipCategory != null) {
+            if (tcRelationshipCategory.getTaxonRelationshipTerm() == null
+                    && tcRelationshipCategory.getResource() != null) {
+                tcRelationshipCategory.setTaxonRelationshipTerm(
+                  TaxonRelationshipTerm.fromValue(
+                          tcRelationshipCategory.getResource().toString()));
+            }
             return  tcRelationshipCategory.getTaxonRelationshipTerm();
         } else {
             return null;

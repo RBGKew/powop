@@ -14,6 +14,6 @@ public class SynonymRelationshipBeanFactory extends
      * @return the taxon relationship term
      */
     public final TaxonRelationshipTerm getRelationshipTerm() {
-        return TaxonRelationshipTerm.IS_SYONYM_FOR;
+        return TaxonRelationshipTerm.IS_SYNONYM_FOR;
     }
 }

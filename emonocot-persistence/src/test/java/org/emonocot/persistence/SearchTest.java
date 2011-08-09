@@ -117,7 +117,7 @@ public class SearchTest {
      */
     @Test
     public final void setUpTestDataWithinTransaction() throws Exception {
-        
+
         doInTransaction(new Callable() {
             public Object call() {
                 FullTextSession fullTextSession = Search
@@ -185,7 +185,7 @@ public class SearchTest {
        }
    }
 
-   /**
+  /**
    *
    */
   @Test
@@ -200,5 +200,4 @@ public class SearchTest {
           System.out.println(t.getName());
       }
   }
-
 }

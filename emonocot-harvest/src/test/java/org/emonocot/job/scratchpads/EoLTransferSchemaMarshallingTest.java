@@ -10,6 +10,7 @@ import java.io.IOException;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.stax.StAXSource;
 
+import org.emonocot.job.common.AbstractXmlEventReaderTest;
 import org.emonocot.job.scratchpads.model.EoLAgent;
 import org.emonocot.job.scratchpads.model.EoLDataObject;
 import org.emonocot.job.scratchpads.model.EoLTaxonItem;

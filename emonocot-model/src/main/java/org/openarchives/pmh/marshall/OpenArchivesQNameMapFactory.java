@@ -2,12 +2,10 @@ package org.openarchives.pmh.marshall;
 
 import javax.xml.namespace.QName;
 
-import org.openarchives.pmh.Header;
 import org.openarchives.pmh.OAIPMH;
 import org.openarchives.pmh.Record;
 import org.openarchives.pmh.ResumptionToken;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
-import org.tdwg.voc.PublishedInCitation;
 
 import com.thoughtworks.xstream.io.xml.QNameMap;
 
@@ -27,7 +25,7 @@ public class OpenArchivesQNameMapFactory extends
      * namespace.
      */
     @Override
-    protected final QNameMap createInstance() {
+    public final QNameMap createInstance() {
         QNameMap qNameMap = new QNameMap();
         qNameMap.setDefaultNamespace("http://www.openarchives.org/OAI/2.0/");
         qNameMap.setDefaultPrefix("oai");

@@ -3,6 +3,7 @@ package org.tdwg.voc;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.emonocot.model.taxon.Rank;
 import org.tdwg.Name;
 
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
@@ -57,9 +58,9 @@ public class TaxonName extends Name {
     private String tnRankString;
 
     /**
-   *
-   */
-    private DefinedTermLinkType tnRank;
+     *
+     */
+    private TaxonRank tnRank;
 
     /**
      *
@@ -182,7 +183,13 @@ public class TaxonName extends Name {
         if (tnRank == null) {
             return null;
         } else {
-            return (TaxonRankTerm) tnRank.getDefinedTerm();
+            if (tnRank.getTaxonRankTerm() == null
+                    && tnRank.getResource() != null) {
+                tnRank.setTaxonRankTerm(
+                        TaxonRankTerm.fromValue(
+                                tnRank.getResource().toString()));
+            }
+            return tnRank.getTaxonRankTerm();
         }
     }
 
@@ -191,7 +198,7 @@ public class TaxonName extends Name {
      */
     public final void setRank(final TaxonRankTerm rank) {
         if (rank != null) {
-            this.tnRank = new DefinedTermLinkType(rank, true);
+            this.tnRank = new TaxonRank(rank, true);
         } else {
             this.tnRank = null;
         }

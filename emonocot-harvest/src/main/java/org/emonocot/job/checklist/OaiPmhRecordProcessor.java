@@ -6,6 +6,8 @@ import org.emonocot.harvest.common.TaxonRelationship;
 import org.emonocot.harvest.common.TaxonRelationshipResolver;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.GeographyConverter;
+import org.emonocot.model.taxon.Rank;
+import org.emonocot.model.taxon.RankConverter;
 import org.emonocot.model.taxon.Taxon;
 import org.hibernate.engine.Status;
 import org.openarchives.pmh.Record;
@@ -43,6 +45,16 @@ public class OaiPmhRecordProcessor
     private Converter<String, GeographicalRegion>
         geographyConverter = new GeographyConverter();
 
+    /**
+     *
+     */
+    private Converter<String, Rank> rankConverter = new RankConverter();
+
+    /**
+     * @param record an OAI-PMH Record object
+     * @return a taxon object
+     * @throws Exception if there is a problem processing this record
+     */
     public final Taxon process(final Record record) throws Exception {
         Taxon taxon = taxonService.find(record.getHeader().getIdentifier()
                 .toString(), "taxon-with-related");
@@ -93,6 +105,25 @@ public class OaiPmhRecordProcessor
         if (taxonConcept.getHasName() != null) {
             logger.info(taxonConcept.getHasName().getNameComplete());
             taxon.setName(taxonConcept.getHasName().getNameComplete());
+            taxon.setAuthorship(taxonConcept.getHasName().getAuthorship());
+            taxon.setBasionymAuthorship(
+                    taxonConcept.getHasName().getBasionymAuthorship());
+            taxon.setUninomial(taxonConcept.getHasName().getUninomial());
+            taxon.setGenus(taxonConcept.getHasName().getGenusPart());
+            taxon.setSpecificEpithet(
+                    taxonConcept.getHasName().getSpecificEpithet());
+            taxon.setInfraSpecificEpithet(
+                    taxonConcept.getHasName().getInfraSpecificEpithet());
+            if (taxonConcept.getHasName().getRank() != null) {
+                taxon.setRank(rankConverter.convert(
+                    taxonConcept.getHasName()
+                      .getRank().getIdentifier().toString()));
+            } else {
+                taxon.setRank(rankConverter.convert(
+                        taxonConcept.getHasName()
+                          .getRankString()));
+            }
+            
         } else {
             taxon.setName(taxonConcept.getTitle());
         }

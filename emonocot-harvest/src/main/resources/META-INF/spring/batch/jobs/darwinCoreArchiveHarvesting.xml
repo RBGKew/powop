@@ -39,7 +39,11 @@
 			<batch:description>Process the core file containing the taxa</batch:description>
 			<batch:tasklet>
 				<batch:chunk reader="itemReader" processor="itemProcessor"
-					writer="itemWriter" commit-interval="10" />
+					writer="itemWriter" commit-interval="10" skip-limit="100">
+					<batch:skippable-exception-classes>
+                      <batch:include class="org.emonocot.job.dwc.taxon.TaxonProcessingException"/>
+                    </batch:skippable-exception-classes>
+				</batch:chunk>			    
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="cleanupResources" />
 		</batch:step>
@@ -156,7 +160,11 @@
 		</property>
 	</bean>
 
-	<bean id="fieldSetMapper" class="org.emonocot.job.dwc.taxon.TaxonFieldSetMapper" />
+	<bean id="fieldSetMapper" class="org.emonocot.job.dwc.taxon.TaxonFieldSetMapper"  scope="step">
+	    <property name="fieldNames">
+			<value>#{jobExecutionContext['dwca.core.fieldNames']}</value>
+		</property>
+	</bean>
 
 	<bean id="itemWriter"
 		class="org.springframework.batch.item.database.HibernateItemWriter">

@@ -11,38 +11,8 @@ import org.tdwg.DefinedTerm;
  *
  */
 public class PublicationTypeTerm extends DefinedTerm {
-   /**
-    *
-    */
-   private static PublicationTypeTerm[] terms;
-
-   static {
-       terms = new PublicationTypeTerm[] {
-               PublicationTypeTerm.ARTWORK,
-               PublicationTypeTerm.AUDIOVISUAL_MATERIAL,
-               PublicationTypeTerm.BOOK,
-               PublicationTypeTerm.BOOK_SERIES,
-               PublicationTypeTerm.BOOK_SECTION,
-               PublicationTypeTerm.CONFERENCE_PROCEEDINGS,
-               PublicationTypeTerm.COMMENTRY,
-               PublicationTypeTerm.COMPUTER_PROGRAM,
-               PublicationTypeTerm.COMMUNICATION,
-               PublicationTypeTerm.DETERMINATION,
-               PublicationTypeTerm.EDITED_BOOK,
-               PublicationTypeTerm.GENERIC,
-               PublicationTypeTerm.JOURNAL_ARTICLE,
-               PublicationTypeTerm.JOURNAL,
-               PublicationTypeTerm.MAGAZINE_ARTICLE,
-               PublicationTypeTerm.MAP,
-               PublicationTypeTerm.PATENT,
-               PublicationTypeTerm.REPORT,
-               PublicationTypeTerm.SUB_REFERENCE,
-               PublicationTypeTerm.THESIS,
-               PublicationTypeTerm.WEB_PAGE
-       };
-   }
-
-    /**
+   
+  /**
    *
    */
     public static final PublicationTypeTerm ARTWORK = new PublicationTypeTerm(
@@ -194,6 +164,37 @@ public class PublicationTypeTerm extends DefinedTerm {
     public static final PublicationTypeTerm WEB_PAGE = new PublicationTypeTerm(
             "http://rs.tdwg.org/ontology/voc/PublicationCitation#WebPage",
             "WebPage");
+    
+    /**
+    *
+    */
+   private static PublicationTypeTerm[] terms;
+
+   static {
+       terms = new PublicationTypeTerm[] {
+               PublicationTypeTerm.ARTWORK,
+               PublicationTypeTerm.AUDIOVISUAL_MATERIAL,
+               PublicationTypeTerm.BOOK,
+               PublicationTypeTerm.BOOK_SERIES,
+               PublicationTypeTerm.BOOK_SECTION,
+               PublicationTypeTerm.CONFERENCE_PROCEEDINGS,
+               PublicationTypeTerm.COMMENTRY,
+               PublicationTypeTerm.COMPUTER_PROGRAM,
+               PublicationTypeTerm.COMMUNICATION,
+               PublicationTypeTerm.DETERMINATION,
+               PublicationTypeTerm.EDITED_BOOK,
+               PublicationTypeTerm.GENERIC,
+               PublicationTypeTerm.JOURNAL_ARTICLE,
+               PublicationTypeTerm.JOURNAL,
+               PublicationTypeTerm.MAGAZINE_ARTICLE,
+               PublicationTypeTerm.MAP,
+               PublicationTypeTerm.PATENT,
+               PublicationTypeTerm.REPORT,
+               PublicationTypeTerm.SUB_REFERENCE,
+               PublicationTypeTerm.THESIS,
+               PublicationTypeTerm.WEB_PAGE
+       };
+   }
 
   /**
    *
