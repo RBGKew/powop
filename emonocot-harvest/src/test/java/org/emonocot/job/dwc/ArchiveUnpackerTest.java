@@ -2,8 +2,10 @@ package org.emonocot.job.dwc;
 
 import java.io.File;
 import static org.junit.Assert.assertArrayEquals;
+import static org.hamcrest.collection.IsArrayContaining.hasItemInArray;
 
 import org.junit.Test;
+import static org.junit.Assert.assertThat;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
@@ -48,9 +50,12 @@ public class ArchiveUnpackerTest {
                 "eml.xml",
                 "images.txt",
                 "meta.xml",
-                "taxa.txt"};
-        assertArrayEquals("ArchiveUnpacker should unpack the expected files",
-                expectedFiles, actualFiles);
+                "taxa.txt"
+                };
+        for (String expectedFile : expectedFiles) {
+            assertThat(actualFiles,
+                hasItemInArray(expectedFile));
+        }
     }
 
 }
