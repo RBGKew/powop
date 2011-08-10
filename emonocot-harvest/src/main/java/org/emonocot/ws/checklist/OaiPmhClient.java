@@ -32,9 +32,9 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.oxm.Unmarshaller;
 
 /**
- *
+ * 
  * @author ben
- *
+ * 
  */
 public class OaiPmhClient implements StepExecutionListener {
     /**
@@ -43,52 +43,64 @@ public class OaiPmhClient implements StepExecutionListener {
     private StepExecution stepExecution;
 
     /**
-     * should be dateTimeNoMillis() but the grassbase webapp is not
-     * configured properly (my fault!)
+     * should be dateTimeNoMillis() but the grassbase webapp is not configured
+     * properly (my fault!)
      */
-    private static final DateTimeFormatter DATE_TIME_PRINTER = ISODateTimeFormat.dateTime();
+    private static final DateTimeFormatter DATE_TIME_PRINTER = ISODateTimeFormat
+            .dateTime();
 
     /**
     *
     */
     static final int BUFFER = 2048;
 
-   /**
+    /**
     *
     */
     private Logger logger = LoggerFactory.getLogger(OaiPmhClient.class);
 
-   /**
+    /**
     *
     */
-   private String proxyHost;
+    private String proxyHost;
 
-   /**
+    /**
     *
     */
-   private Integer proxyPort;
+    private Integer proxyPort;
+    
+    private String servicesClientIdentifier;
 
-   /**
-    *
-    * @param newProxyHost Set the proxy host
-    */
-   public final void setProxyHost(final String newProxyHost) {
-       this.proxyHost = newProxyHost;
-   }
+    /**
+     * 
+     * @param newProxyHost
+     *            Set the proxy host
+     */
+    public final void setProxyHost(final String newProxyHost) {
+        this.proxyHost = newProxyHost;
+    }
 
-   /**
-    *
-    * @param newProxyPort Set the proxy port
-    */
-   public final void setProxyPort(final String newProxyPort) {
-       try {
-           this.proxyPort = Integer.decode(newProxyPort);
-       } catch (NumberFormatException nfe) {
-           logger.warn(nfe.getMessage());
-       }
-   }
+    /**
+     * 
+     * @param newProxyPort
+     *            Set the proxy port
+     */
+    public final void setProxyPort(final String newProxyPort) {
+        try {
+            this.proxyPort = Integer.decode(newProxyPort);
+        } catch (NumberFormatException nfe) {
+            logger.warn(nfe.getMessage());
+        }
+    }
 
-   /**
+    /**
+     * @param servicesClientIdentifier the servicesClientIdentifier to set
+     */
+    public final void setServicesClientIdentifier(String servicesClientIdentifier) {
+        this.servicesClientIdentifier = servicesClientIdentifier;
+    }
+
+    /**
     *
     */
     private HttpClient httpClient = new DefaultHttpClient();
@@ -99,15 +111,16 @@ public class OaiPmhClient implements StepExecutionListener {
     private Unmarshaller unmarshaller;
 
     /**
-     *
-     * @param newUnmarshaller Set the unmarshaller to use
+     * 
+     * @param newUnmarshaller
+     *            Set the unmarshaller to use
      */
     public final void setUnmarshaller(final Unmarshaller newUnmarshaller) {
         this.unmarshaller = newUnmarshaller;
     }
 
     /**
-     *
+     * 
      * @param newHttpClient
      *            Set the http client instance to use.
      */
@@ -116,7 +129,7 @@ public class OaiPmhClient implements StepExecutionListener {
     }
 
     /**
-     *
+     * 
      * @param authorityName
      *            The name of the authority being harvested.
      * @param authorityURI
@@ -133,11 +146,12 @@ public class OaiPmhClient implements StepExecutionListener {
      */
     public final ExitStatus listRecords(final String authorityName,
             final String authorityURI, final String dateLastHarvested,
-            final String temporaryFileName, final String resumptionToken) {
+            final String temporaryFileName, final String resumptionToken,
+            final String set) {
         if (proxyHost != null && proxyPort != null) {
             HttpHost proxy = new HttpHost(proxyHost, proxyPort);
-            httpClient.getParams()
-                .setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
+            httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,
+                    proxy);
         }
 
         httpClient.getParams().setParameter("http.useragent",
@@ -146,21 +160,26 @@ public class OaiPmhClient implements StepExecutionListener {
         BufferedOutputStream bufferedOutputStream = null;
 
         StringBuffer query = new StringBuffer("?");
+        query.append("scratchpad="+servicesClientIdentifier);
 
-        if (resumptionToken != null) {
-            query.append("resumptionToken=" + resumptionToken
+        if (resumptionToken != null && resumptionToken.length() > 0) {
+            query.append("&resumptionToken=" + resumptionToken
                     + "&verb=ListRecords");
         } else {
-            query.append("verb=ListRecords&metadataPrefix=rdf");
-            if (dateLastHarvested != null) {
+            query.append("&verb=ListRecords&metadataPrefix=rdf");
+            if (dateLastHarvested != null && dateLastHarvested.length() > 0) {
                 DateTime from = new DateTime(Long.parseLong(dateLastHarvested));
                 query.append("&from="
                         + DATE_TIME_PRINTER.print(from
                                 .toDateTime(DateTimeZone.UTC)));
             }
+            if (set != null && set.length() > 0) {
+                // check it's a valid set?!?
+                query.append("&set=" + set);
+            }
         }
         HttpGet httpGet = new HttpGet(authorityURI + query.toString());
-
+        logger.info("Log a get: " + httpGet.getRequestLine().toString());
         try {
             HttpResponse httpResponse = httpClient.execute(httpGet);
             logger.info("Issuing " + httpGet.getRequestLine().toString()
@@ -176,9 +195,7 @@ public class OaiPmhClient implements StepExecutionListener {
                             new FileOutputStream(new File(temporaryFileName)));
                     int count;
                     byte[] data = new byte[BUFFER];
-                    while ((count
-                            = bufferedInputStream.read(data, 0, BUFFER))
-                            != -1) {
+                    while ((count = bufferedInputStream.read(data, 0, BUFFER)) != -1) {
                         bufferedOutputStream.write(data, 0, count);
                     }
                     bufferedOutputStream.flush();
@@ -212,8 +229,7 @@ public class OaiPmhClient implements StepExecutionListener {
                 try {
                     bufferedInputStream.close();
                 } catch (IOException ioe) {
-                    logger.error(
-                            "Input Output Exception closing inputStream for "
+                    logger.error("Input Output Exception closing inputStream for "
                             + authorityURI + " " + ioe.getLocalizedMessage());
                 }
             }
@@ -221,8 +237,7 @@ public class OaiPmhClient implements StepExecutionListener {
                 try {
                     bufferedOutputStream.close();
                 } catch (IOException ioe) {
-                    logger.error(
-                            "Input Output Exception closing outputStream for "
+                    logger.error("Input Output Exception closing outputStream for "
                             + authorityURI + " " + ioe.getLocalizedMessage());
                 }
             }
@@ -230,7 +245,7 @@ public class OaiPmhClient implements StepExecutionListener {
     }
 
     /**
-     *
+     * 
      * @param temporaryFileName
      *            Set the temporary file name
      * @return an exit status indicating that the harvesting should continue or
@@ -240,10 +255,9 @@ public class OaiPmhClient implements StepExecutionListener {
             final String temporaryFileName) {
 
         try {
-            StaxEventItemReader<ResumptionToken> staxEventItemReader
-                    = new StaxEventItemReader<ResumptionToken>();
-            staxEventItemReader.setFragmentRootElementName(
-                    "{http://www.openarchives.org/OAI/2.0/}resumptionToken");
+            StaxEventItemReader<ResumptionToken> staxEventItemReader = new StaxEventItemReader<ResumptionToken>();
+            staxEventItemReader
+                    .setFragmentRootElementName("{http://www.openarchives.org/OAI/2.0/}resumptionToken");
             staxEventItemReader.setUnmarshaller(unmarshaller);
             staxEventItemReader.setResource(new FileSystemResource(
                     temporaryFileName));
@@ -254,18 +268,17 @@ public class OaiPmhClient implements StepExecutionListener {
             ResumptionToken resumptionToken = staxEventItemReader.read();
             staxEventItemReader.close();
             if (resumptionToken == null) {
-                stepExecution.getJobExecution()
-                .getExecutionContext().remove("resumption.token");
+                stepExecution.getJobExecution().getExecutionContext()
+                        .remove("resumption.token");
                 return new ExitStatus("NO RESUMPTION TOKEN");
             } else {
-            	stepExecution.getJobExecution()
-                .getExecutionContext().remove("resumption.token");
+                stepExecution.getJobExecution().getExecutionContext()
+                        .remove("resumption.token");
                 logger.info(resumptionToken.getValue() + " "
                         + resumptionToken.getCompleteListSize() + " "
                         + resumptionToken.getCursor());
-                stepExecution.getJobExecution()
-                .getExecutionContext().put("resumption.token",
-                        resumptionToken.getValue());
+                stepExecution.getJobExecution().getExecutionContext()
+                        .put("resumption.token", resumptionToken.getValue());
                 return new ExitStatus("RESUMPTION TOKEN PRESENT");
             }
         } catch (UnexpectedInputException e) {

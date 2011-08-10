@@ -17,7 +17,7 @@ public class RankConverter implements Converter<String, Rank> {
         if (identifier == null) {
             return null;
         } else {
-            return Rank.valueOf(identifier);
+            return Rank.valueOf(identifier.toUpperCase());
         }
     }
 

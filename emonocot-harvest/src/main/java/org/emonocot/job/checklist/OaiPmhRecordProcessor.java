@@ -117,7 +117,7 @@ public class OaiPmhRecordProcessor
             if (taxonConcept.getHasName().getRank() != null) {
                 taxon.setRank(rankConverter.convert(
                     taxonConcept.getHasName()
-                      .getRank().getIdentifier().toString()));
+                      .getRankString()));
             } else {
                 taxon.setRank(rankConverter.convert(
                         taxonConcept.getHasName()
