@@ -2,6 +2,7 @@ package org.emonocot.checklist.persistence;
 
 import java.util.List;
 
+import org.emonocot.checklist.model.Family;
 import org.emonocot.checklist.model.Taxon;
 
 /**
@@ -30,4 +31,20 @@ public interface TaxonDao extends IdentifiableService<Taxon> {
      *         a DataRetrievalFailureException if none match
      */
     Taxon get(Integer id);
+
+    /**
+     * Returns the genera associated with this family.
+     *
+     * @param family the family
+     * @return A list of genera
+     */
+    List<Taxon> getGenera(Family family);
+
+    /**
+     * Returns the number of genera in a family.
+     *
+     * @param family the family
+     * @return the number of accepted genera
+     */
+    Integer countGenera(Family family);
 }

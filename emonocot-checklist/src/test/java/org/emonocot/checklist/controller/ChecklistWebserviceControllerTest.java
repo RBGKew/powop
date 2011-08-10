@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import org.easymock.EasyMock;
 import org.emonocot.checklist.format.ChecklistIdentifierFormatter;
+import org.emonocot.checklist.model.Family;
 import org.emonocot.checklist.model.Taxon;
 import org.emonocot.checklist.persistence.TaxonDao;
 import org.junit.Before;
@@ -26,7 +27,11 @@ public class ChecklistWebserviceControllerTest {
     /**
      *
      */
-    static final Integer TAXON_IDENTIFIER = 123;
+    private static final Integer TAXON_IDENTIFIER = 123;
+    /**
+     *
+     */
+    private static final Integer FAMILY_IDENTIFIER = -80;
     /**
      *
      */
@@ -90,6 +95,25 @@ public class ChecklistWebserviceControllerTest {
     }
 
     /**
+    *
+    */
+   @Test
+   public final void testSearchForFamily() {
+       EasyMock.expect(taxonDao.countGenera(
+               EasyMock.eq(Family.Poaceae))).andReturn(
+               new Integer(0));
+       EasyMock.replay(taxonDao);
+       ModelAndView modelAndView = checklistWebserviceController
+               .search("Poaceae");
+       ModelAndViewAssert.assertViewName(modelAndView, "rdfFamilyResponse");
+       ModelAndViewAssert
+               .assertModelAttributeAvailable(modelAndView, "numberOfGenera");
+       ModelAndViewAssert
+       .assertModelAttributeAvailable(modelAndView, "family");
+       EasyMock.verify(taxonDao);
+   }
+
+    /**
      *
      */
     @Test
@@ -104,6 +128,24 @@ public class ChecklistWebserviceControllerTest {
                 .assertModelAttributeAvailable(modelAndView, "result");
         EasyMock.verify(taxonDao);
     }
+
+    /**
+    *
+    */
+   @Test
+   public final void testGetFamily() {
+       EasyMock.expect(taxonDao.getGenera(EasyMock.eq(Family.Poaceae)))
+               .andReturn(new ArrayList<Taxon>());
+       EasyMock.replay(taxonDao);
+       ModelAndView modelAndView
+           = checklistWebserviceController.get(FAMILY_IDENTIFIER.longValue());
+       ModelAndViewAssert.assertViewName(modelAndView, "tcsXmlFamilyResponse");
+       ModelAndViewAssert
+               .assertModelAttributeAvailable(modelAndView, "family");
+       ModelAndViewAssert
+       .assertModelAttributeAvailable(modelAndView, "children");
+       EasyMock.verify(taxonDao);
+   }
 
     /**
      *

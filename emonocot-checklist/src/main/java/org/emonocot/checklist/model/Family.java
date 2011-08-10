@@ -9,321 +9,375 @@ public enum Family {
     /**
      *
      */
-    Acoraceae,
+    Acoraceae(1),
     /**
      *
      */
-    Anarthriaceae,
+    Anarthriaceae(2),
     /**
      *
      */
-    Araceae,
+    Araceae(3),
     /**
      *
      */
-    Arecaceae,
+    Arecaceae(4),
     /**
      *
      */
-    Asparagaceae,
+    Asparagaceae(5),
     /**
      *
      */
-    Bromeliaceae,
+    Bromeliaceae(6),
     /**
      *
      */
-    Burmanniaceae,
+    Burmanniaceae(7),
     /**
      *
      */
-    Cannaceae,
+    Cannaceae(8),
     /**
      *
      */
-    Centrolepidaceae,
+    Centrolepidaceae(9),
     /**
      *
      */
-    Commelinaceae,
+    Commelinaceae(10),
     /**
      *
      */
-    Costaceae,
+    Costaceae(11),
     /**
      *
      */
-    Cyclanthaceae,
+    Cyclanthaceae(12),
     /**
      *
      */
-    Cyperaceae,
+    Cyperaceae(13),
     /**
      *
      */
-    Dasypogonaceae,
+    Dasypogonaceae(14),
     /**
      *
      */
-    Dioscoreaceae,
+    Dioscoreaceae(15),
     /**
      *
      */
-    Ecdeiocoleaceae,
+    Ecdeiocoleaceae(16),
     /**
      *
      */
-    Eriocaulaceae,
+    Eriocaulaceae(17),
     /**
      *
      */
-    Flagellariaceae,
+    Flagellariaceae(18),
     /**
      *
      */
-    Haemodoraceae,
+    Haemodoraceae(19),
     /**
      *
      */
-    Hanguanaceae,
+    Hanguanaceae(20),
     /**
      *
      */
-    Heliconiaceae,
+    Heliconiaceae(21),
     /**
      *
      */
-    Hydatellaceae,
+    Hydatellaceae(22),
     /**
      *
      */
-    Hydrocharitaceae,
+    Hydrocharitaceae(23),
     /**
      *
      */
-    Iridaceae,
+    Iridaceae(24),
     /**
      *
      */
-    Joinvilleaceae,
+    Joinvilleaceae(25),
     /**
      *
      */
-    Juncaceae,
+    Juncaceae(26),
     /**
      *
      */
-    Lanariaceae,
+    Lanariaceae(27),
     /**
      *
      */
-    Lowiaceae,
+    Lowiaceae(28),
     /**
      *
      */
-    Marantaceae,
+    Marantaceae(29),
     /**
      *
      */
-    Mayacaceae,
+    Mayacaceae(30),
     /**
      *
      */
-    Musaceae,
+    Musaceae(31),
     /**
      *
      */
-    Orchidaceae,
+    Orchidaceae(32),
     /**
      *
      */
-    Petrosaviaceae,
+    Petrosaviaceae(33),
     /**
      *
      */
-    Philydraceae,
+    Philydraceae(34),
     /**
      *
      */
-    Pontederiaceae,
+    Pontederiaceae(35),
     /**
      *
      */
-    Rapateaceae,
+    Rapateaceae(36),
     /**
      *
      */
-    Restionaceae,
+    Restionaceae(37),
     /**
      *
      */
-    Strelitziaceae,
+    Strelitziaceae(38),
     /**
      *
      */
-    Thurniaceae,
+    Thurniaceae(39),
     /**
      *
      */
-    Typhaceae,
+    Typhaceae(40),
     /**
      *
      */
-    Xyridaceae,
+    Xyridaceae(41),
     /**
      *
      */
-    Zingiberaceae,
+    Zingiberaceae(42),
     /**
      *
      */
-    Cymodoceaceae,
+    Cymodoceaceae(43),
     /**
      *
      */
-    Alismataceae,
+    Alismataceae(44),
     /**
      *
      */
-    Alliaceae,
+    Alliaceae(45),
     /**
      *
      */
-    Alstroemeriaceae,
+    Alstroemeriaceae(46),
     /**
      *
      */
-    Aponogetonaceae,
+    Aponogetonaceae(47),
     /**
      *
      */
-    Asteliaceae,
+    Asteliaceae(48),
     /**
      *
      */
-    Blandfordiaceae,
+    Blandfordiaceae(49),
     /**
      *
      */
-    Boryaceae,
+    Boryaceae(50),
     /**
      *
      */
-    Butomaceae,
+    Butomaceae(51),
     /**
      *
      */
-    Campynemaceae,
+    Campynemaceae(52),
     /**
      *
      */
-    Colchicaceae,
+    Colchicaceae(53),
     /**
      *
      */
-    Corsiaceae,
+    Corsiaceae(54),
     /**
      *
      */
-    Doryanthaceae,
+    Doryanthaceae(55),
     /**
      *
      */
-    Hypoxidaceae,
+    Hypoxidaceae(56),
     /**
      *
      */
-    Ixioliriaceae,
+    Ixioliriaceae(57),
     /**
      *
      */
-    Juncaginaceae,
+    Juncaginaceae(58),
     /**
      *
      */
-    Liliaceae,
+    Liliaceae(59),
     /**
      *
      */
-    Limnocharitaceae,
+    Limnocharitaceae(60),
     /**
      *
      */
-    Luzuriagaceae,
+    Luzuriagaceae(61),
     /**
      *
      */
-    Melanthiaceae,
+    Melanthiaceae(62),
     /**
      *
      */
-    Nartheciaceae,
+    Nartheciaceae(63),
     /**
      *
      */
-    Pandanaceae,
+    Pandanaceae(64),
     /**
      *
      */
-    Philesiaceae,
+    Philesiaceae(65),
     /**
      *
      */
-    Posidoniaceae,
+    Posidoniaceae(66),
     /**
      *
      */
-    Potamogetonaceae,
+    Potamogetonaceae(67),
     /**
      *
      */
-    Rhipogonaceae,
+    Rhipogonaceae(68),
     /**
      *
      */
-    Ruppiaceae,
+    Ruppiaceae(69),
     /**
      *
      */
-    Scheuchzeriaceae,
+    Scheuchzeriaceae(70),
     /**
      *
      */
-    Smilacaceae,
+    Smilacaceae(71),
     /**
      *
      */
-    Stemonaceae,
+    Stemonaceae(72),
     /**
      *
      */
-    Tecophilaeaceae,
+    Tecophilaeaceae(73),
     /**
      *
      */
-    Tofieldiaceae,
+    Tofieldiaceae(74),
     /**
      *
      */
-    Triuridaceae,
+    Triuridaceae(75),
     /**
      *
      */
-    Velloziaceae,
+    Velloziaceae(76),
     /**
      *
      */
-    Xanthorrhoeaceae,
+    Xanthorrhoeaceae(77),
     /**
      *
      */
-    Xeronemataceae,
+    Xeronemataceae(78),
     /**
      *
      */
-    Zosteraceae,
+    Zosteraceae(79),
     /**
      *
      */
-    Poaceae,
+    Poaceae(80);
+
+    /**
+     *
+     */
+    public static String IDENTIFIER_PREFIX = "urn:kew.org:wcs:family:";
+
+   /**
+    *
+    */
+   public static String NAME_IDENTIFIER_PREFIX = "urn:kew.org:wcs:familyName:";
+
+    /**
+     *
+     */
+    private long identifier;
+
+    /**
+     *
+     * @param newIdentifier the identifier of the family
+     */
+    private Family(final long newIdentifier) {
+        this.identifier = -1 * newIdentifier;
+    }
+
+    /**
+     *
+     * @param theIdentifier an identifier
+     * @return A Family enum value
+     */
+    public static Family fromIdentifier(final long theIdentifier) {
+        for (Family family : Family.values()) {
+            if (family.identifier == theIdentifier) {
+                return family;
+            }
+        }
+        throw new IllegalArgumentException(
+                theIdentifier + " is not a valid identifier value for Family");
+    }
+
+    /**
+     *
+     * @return the identifier of the family
+     */
+    public String getIdentifier() {
+        return Family.IDENTIFIER_PREFIX + (-1 * identifier);
+    }
+
+   /**
+    *
+    * @return the identifier of the family
+    */
+   public String getNameId() {
+       return Family.NAME_IDENTIFIER_PREFIX + (-1 * identifier);
+   }
 }

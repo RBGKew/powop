@@ -10,6 +10,7 @@ import org.emonocot.checklist.format.ChecklistIdentifierFormatter;
 import org.emonocot.checklist.model.ChangeEvent;
 import org.emonocot.checklist.model.ChangeEventImpl;
 import org.emonocot.checklist.model.ChangeType;
+import org.emonocot.checklist.model.Family;
 import org.emonocot.checklist.model.Taxon;
 import org.emonocot.model.pager.DefaultPageImpl;
 import org.emonocot.model.pager.Page;
@@ -57,7 +58,8 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
     @Transactional(readOnly = true)
     public final List<Taxon> search(final String search) {
         List<Taxon> results = getSession().createCriteria(Taxon.class)
-                .add(Restrictions.eq("name", search)).list();
+                .add(Restrictions.eq("name", search))
+                .add(Restrictions.isNull("dateDeleted")).list();
         for (Taxon taxon : results) {
             inferRelatedTaxa(taxon);
             Hibernate.initialize(taxon.getSynonyms());
@@ -75,7 +77,8 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
         // Retrieve taxon with the database id, rather than the
         // "identifier" we gave them and they passed in
         Criteria criteria = getSession().createCriteria(Taxon.class).add(
-                Restrictions.idEq(id));
+                Restrictions.idEq(id))
+                .add(Restrictions.isNull("dateDeleted"));
         criteria.setFetchMode("acceptedName", FetchMode.JOIN);
         criteria.setFetchMode("protologue", FetchMode.JOIN);
 
@@ -101,7 +104,8 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
         Criteria criteria = getSession().createCriteria(Taxon.class)
                 .add(Restrictions.eq("genus", taxon.getGenus()))
                 .add(Restrictions.eqProperty("acceptedName.id", "id"))
-                .add(Restrictions.eq("family", taxon.getFamily()));
+                .add(Restrictions.eq("family", taxon.getFamily()))
+                .add(Restrictions.isNull("dateDeleted"));
 
         if (taxon.getGenusHybridMarker() == null) {
             criteria.add(Restrictions.isNull("genusHybridMarker"));
@@ -142,7 +146,8 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
         Criteria parentCriteria = getSession().createCriteria(Taxon.class)
         .add(Restrictions.eq("genus", taxon.getGenus()))
         .add(Restrictions.eqProperty("acceptedName.id", "id"))
-        .add(Restrictions.eq("family", taxon.getFamily()));
+        .add(Restrictions.eq("family", taxon.getFamily()))
+        .add(Restrictions.isNull("dateDeleted"));
 
         if (taxon.getGenusHybridMarker() == null) {
             parentCriteria.add(Restrictions.isNull("genusHybridMarker"));
@@ -341,5 +346,34 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
                     ((Long) countCriteria.uniqueResult()).intValue(),
                     pageNumber, pageSize, results);
         }
+    }
+
+    /**
+     * @param family Set the family
+     * @return a list of accepted genera belonging to that family
+     */
+    public final List<Taxon> getGenera(final Family family) {
+        Criteria criteria = getSession().createCriteria(Taxon.class)
+        .add(Restrictions.isNull("dateDeleted"))
+        .add(Restrictions.eq("family", family.toString()))
+        .add(Restrictions.or(Restrictions.eq("species", ""),
+                Restrictions.isNull("species")))
+        .add(Restrictions.eqProperty("acceptedName.id", "id"));
+        return (List<Taxon>) criteria.list();
+    }
+
+    /**
+     * @param family set the family
+     * @return a count of the number of accepted genera
+     */
+    public final Integer countGenera(final Family family) {
+        Criteria criteria = getSession().createCriteria(Taxon.class)
+        .add(Restrictions.isNull("dateDeleted"))
+        .add(Restrictions.eq("family", family.toString()))
+        .add(Restrictions.or(Restrictions.eq("species", ""),
+                Restrictions.isNull("species")))
+        .add(Restrictions.eqProperty("acceptedName.id", "id"))
+        .setProjection(Projections.rowCount());
+        return ((Long)criteria.uniqueResult()).intValue();
     }
 }

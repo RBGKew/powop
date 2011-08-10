@@ -3,6 +3,7 @@ package org.emonocot.checklist.format;
 import java.text.ParseException;
 import java.util.Locale;
 
+import org.emonocot.checklist.model.Family;
 import org.emonocot.checklist.model.Taxon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,11 @@ public class ChecklistIdentifierFormatter implements Formatter<Long> {
         if (value == null) {
             return null;
         } else {
-            return Taxon.IDENTIFIER_PREFIX + value;
+            if (value < 0) {
+                return Family.IDENTIFIER_PREFIX + (-1 * value);
+            } else {
+                return Taxon.IDENTIFIER_PREFIX + value;
+            }
         }
     }
 
@@ -50,6 +55,15 @@ public class ChecklistIdentifierFormatter implements Formatter<Long> {
                 throw new ParseException(string
                         + " is not a valid identifier format",
                         Taxon.IDENTIFIER_PREFIX.length());
+            }
+        } else if (string.startsWith(Family.IDENTIFIER_PREFIX)) {
+            try {
+                return (Long.parseLong(string
+                        .substring(Family.IDENTIFIER_PREFIX.length()))) * -1;
+            } catch (Exception e) {
+                throw new ParseException(string
+                        + " is not a valid identifier format",
+                        Family.IDENTIFIER_PREFIX.length());
             }
         } else {
             throw new ParseException(string

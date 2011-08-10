@@ -29,15 +29,10 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
      */
     private static final int TOTAL_NUMBER_OF_NODES = 7;
 
-    /**
-    *
-    */
-     private static final int NODES_UNTIL_DATE = 6;
-
   /**
    *
    */
-    private static final int NODES_IN_LOREACEAE = 5;
+    private static final int NODES_IN_LOWIACEAE = 5;
 
     /**
     *
@@ -116,11 +111,11 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
 
         String xml = given()
                 .parameters("verb", "ListIdentifiers", "metadataPrefix",
-                        "oai_dc", "set", "Loreaceae",
+                        "oai_dc", "set", "Lowiaceae",
                         "scratchpad", "functional-test.e-monocot.org")
                         .get("/oai").asString();
         assertEquals("There should be 5 identifiers returned",
-                NODES_IN_LOREACEAE,
+                NODES_IN_LOWIACEAE,
                 with(xml).get("OAI-PMH.ListIdentifiers.header.size()"));
     }
 
@@ -147,8 +142,8 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
                         "oai_dc", "from", "2011-09-01T01:00:00Z",
                         "scratchpad", "functional-test.e-monocot.org")
                         .get("/oai").asString();
-        assertEquals("There should be 1 identifier returned",
-                1,
+        assertEquals("There should be no identifiers returned",
+                0,
                 with(xml).get("OAI-PMH.ListIdentifiers.header.size()"));
     }
 
@@ -163,8 +158,8 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
                         "oai_dc", "until", "2011-09-01T01:00:00Z",
                         "scratchpad", "functional-test.e-monocot.org")
                         .get("/oai").asString();
-        assertEquals("There should be 6 identifiers returned",
-                NODES_UNTIL_DATE,
+        assertEquals("There should be 7 identifiers returned",
+                TOTAL_NUMBER_OF_NODES,
                 with(xml).get("OAI-PMH.ListIdentifiers.header.size()"));
     }
 

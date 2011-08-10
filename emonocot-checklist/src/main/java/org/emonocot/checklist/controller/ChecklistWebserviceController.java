@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.emonocot.checklist.format.annotation.ChecklistIdentifierFormat;
 import org.emonocot.checklist.logging.LoggingConstants;
+import org.emonocot.checklist.model.Family;
 import org.emonocot.checklist.model.Taxon;
 import org.emonocot.checklist.persistence.TaxonDao;
 import org.slf4j.Logger;
@@ -84,6 +85,31 @@ public class ChecklistWebserviceController {
             @RequestParam(value = "search", required = true)
             final String search) {
         logger.debug("search");
+        if (search.endsWith("aceae")) {
+            try {
+                Family family = Family.valueOf(search);
+                Integer numberOfGenera = taxonDao.countGenera(family);
+                ModelAndView modelAndView
+                    = new ModelAndView("rdfFamilyResponse");
+                modelAndView.addObject("family", family);
+                modelAndView.addObject("numberOfGenera", numberOfGenera);
+                try {
+                    MDC.put(LoggingConstants.SEARCH_TYPE_KEY,
+                            CHECKLIST_WEBSERVICE_SEARCH_TYPE);
+                    MDC.put(LoggingConstants.QUERY_KEY, search);
+                    MDC.put(LoggingConstants.RESULT_COUNT_KEY,
+                            Integer.toString(numberOfGenera));
+                    queryLog.info("ChecklistWebserviceController.get");
+                } finally {
+                    MDC.remove(LoggingConstants.SEARCH_TYPE_KEY);
+                    MDC.remove(LoggingConstants.QUERY_KEY);
+                    MDC.remove(LoggingConstants.RESULT_COUNT_KEY);
+                }
+                return modelAndView;
+            } catch (IllegalArgumentException iae) {
+                // do nothing
+            }
+        }
         ModelAndView modelAndView = new ModelAndView("rdfResponse");
         List<Taxon> taxa = taxonDao.search(search);
         modelAndView.addObject("result", taxa);
@@ -114,19 +140,40 @@ public class ChecklistWebserviceController {
             @RequestParam(value = "id")
             final Long id) {
         logger.debug("get");
-        ModelAndView modelAndView = new ModelAndView("tcsXmlResponse");
-        Taxon taxon = taxonDao.get(id.intValue());
-        modelAndView.addObject("result", taxon);
-        try {
-            MDC.put(LoggingConstants.SEARCH_TYPE_KEY,
-                    CHECKLIST_WEBSERVICE_SEARCH_TYPE);
-            MDC.put(LoggingConstants.QUERY_KEY, id.toString());
-            MDC.put(LoggingConstants.RESULT_COUNT_KEY, "1");
-            queryLog.info("ChecklistWebserviceController.get");
-        } finally {
-            MDC.remove(LoggingConstants.SEARCH_TYPE_KEY);
-            MDC.remove(LoggingConstants.QUERY_KEY);
-            MDC.remove(LoggingConstants.RESULT_COUNT_KEY);
+        ModelAndView modelAndView = new ModelAndView();
+        if (id < 0) {
+            modelAndView.setViewName("tcsXmlFamilyResponse");
+            Family family = Family.fromIdentifier(id);
+            List<Taxon> children = taxonDao.getGenera(family);
+            modelAndView.addObject("children", children);
+            modelAndView.addObject("family", family);
+            try {
+                MDC.put(LoggingConstants.SEARCH_TYPE_KEY,
+                        CHECKLIST_WEBSERVICE_SEARCH_TYPE);
+                MDC.put(LoggingConstants.QUERY_KEY, family.name());
+                MDC.put(LoggingConstants.RESULT_COUNT_KEY,
+                        Integer.toString(children.size()));
+                queryLog.info("ChecklistWebserviceController.get");
+            } finally {
+                MDC.remove(LoggingConstants.SEARCH_TYPE_KEY);
+                MDC.remove(LoggingConstants.QUERY_KEY);
+                MDC.remove(LoggingConstants.RESULT_COUNT_KEY);
+            }
+        } else {
+            modelAndView.setViewName("tcsXmlResponse");
+            Taxon taxon = taxonDao.get(id.intValue());
+            modelAndView.addObject("result", taxon);
+            try {
+                MDC.put(LoggingConstants.SEARCH_TYPE_KEY,
+                        CHECKLIST_WEBSERVICE_SEARCH_TYPE);
+                MDC.put(LoggingConstants.QUERY_KEY, id.toString());
+                MDC.put(LoggingConstants.RESULT_COUNT_KEY, "1");
+                queryLog.info("ChecklistWebserviceController.get");
+            } finally {
+                MDC.remove(LoggingConstants.SEARCH_TYPE_KEY);
+                MDC.remove(LoggingConstants.QUERY_KEY);
+                MDC.remove(LoggingConstants.RESULT_COUNT_KEY);
+            }
         }
         return modelAndView;
     }
