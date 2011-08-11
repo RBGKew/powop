@@ -68,7 +68,10 @@ public class OaiPmhClient implements StepExecutionListener {
     *
     */
     private Integer proxyPort;
-    
+
+    /**
+     * 
+     */
     private String servicesClientIdentifier;
 
     /**
@@ -94,9 +97,11 @@ public class OaiPmhClient implements StepExecutionListener {
     }
 
     /**
-     * @param servicesClientIdentifier the servicesClientIdentifier to set
+     * @param servicesClientIdentifier
+     *            Sets an identifier for this client sent in service operations
      */
-    public final void setServicesClientIdentifier(String servicesClientIdentifier) {
+    public final void setServicesClientIdentifier(
+            final String servicesClientIdentifier) {
         this.servicesClientIdentifier = servicesClientIdentifier;
     }
 
@@ -140,6 +145,8 @@ public class OaiPmhClient implements StepExecutionListener {
      *            The name of the temporary file to store the response in.
      * @param resumptionToken
      *            The resumption token if present.
+     * @param set
+     *            The string representation of a set (taxon) to harvest
      * @return An exit status indicating that the step was completed, failed, or
      *         if the authority responded with a NO RECORDS MATCH response
      *         indicating that no records have been modified
@@ -160,7 +167,7 @@ public class OaiPmhClient implements StepExecutionListener {
         BufferedOutputStream bufferedOutputStream = null;
 
         StringBuffer query = new StringBuffer("?");
-        query.append("scratchpad="+servicesClientIdentifier);
+        query.append("scratchpad=" + servicesClientIdentifier);
 
         if (resumptionToken != null && resumptionToken.length() > 0) {
             query.append("&resumptionToken=" + resumptionToken
@@ -302,10 +309,16 @@ public class OaiPmhClient implements StepExecutionListener {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.batch.core.StepExecutionListener#afterStep(org.springframework.batch.core.StepExecution)
+     */
     public final ExitStatus afterStep(final StepExecution newStepExecution) {
         return null;
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.batch.core.StepExecutionListener#beforeStep(org.springframework.batch.core.StepExecution)
+     */
     public final void beforeStep(final StepExecution newStepExecution) {
         this.stepExecution = newStepExecution;
     }
