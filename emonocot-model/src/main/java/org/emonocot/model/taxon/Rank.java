@@ -117,6 +117,10 @@ public enum Rank {
     /**
      *
      */
+    LUSUS,
+    /**
+     *
+     */
     ORDER,
     /**
      *

@@ -126,7 +126,21 @@ public class ArchiveMetadataReader implements StepExecutionListener {
         idField.setTerm(identifierTerm);
 
         List<ArchiveField> fields = archiveFile.getFieldsSorted();
-        fields.add(idField.getIndex(), idField);
+        /**
+         * Its not clear if you should include the id field twice but if it
+         * is present twice, ignore it.
+         */
+        boolean idListed = false;
+        for (ArchiveField field : fields) {
+            if (field.getIndex() != null
+                    && field.getIndex().equals(idField.getIndex())) {
+                idListed = true;
+                break;
+            }
+        }
+        if (!idListed) {
+            fields.add(idField.getIndex(), idField);
+        }
         executionContext.put("dwca." + prefix + ".fieldNames",
                 toFieldNames(fields));
 

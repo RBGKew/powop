@@ -11,6 +11,14 @@
 	<context:annotation-config />
 
 	<batch:job id="DarwinCoreArchiveHarvesting">
+	    <batch:step id="markTaxonRecords">
+	        <batch:description>Mark the taxon records we expect to be present in this archive</batch:description>
+	        <batch:tasklet ref="markTaxonRecordsTasklet" />
+			<batch:next on="COMPLETED" to="getDWCArchive" />
+			<batch:listeners>
+			  <batch:listener ref="recordAnnotator"/>
+			</batch:listeners>
+	    </batch:step>
 		<batch:step id="getDWCArchive">
 			<batch:description>Get the darwin core archive</batch:description>
 			<batch:tasklet ref="getDWCArchiveTasklet" />
@@ -39,14 +47,19 @@
 			<batch:description>Process the core file containing the taxa</batch:description>
 			<batch:tasklet>
 				<batch:chunk reader="itemReader" processor="itemProcessor"
-					writer="itemWriter" commit-interval="10" skip-limit="100">
+					writer="itemWriter" commit-interval="10" skip-limit="10000">
 					<batch:skippable-exception-classes>
                       <batch:include class="org.emonocot.job.dwc.taxon.TaxonProcessingException"/>
                     </batch:skippable-exception-classes>
 				</batch:chunk>			    
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="cleanupResources" />
+			<batch:listeners>
+			  <batch:listener ref="taxonProcessListener"/>
+			</batch:listeners>
 		</batch:step>
+		<!-- <batch:decision decider="" id="processDescription">
+		</batch:decision>-->
 		<batch:step id="cleanupResources">
 			<batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="dwcArchiveResourceDeletingTasklet" />
@@ -68,6 +81,22 @@
 				</bean>
 			</list>
 		</property>
+	</bean>
+	
+	<bean id="markTaxonRecordsTasklet"
+		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+		scope="step">
+		<property name="targetObject" ref="recordAnnotator" />
+		<property name="targetMethod" value="annotateRecords" />
+		<property name="arguments">
+			<list>
+				<value>#{jobParameters['family']}</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="recordAnnotator" class="org.emonocot.job.dwc.RecordAnnotator">
+	  <property name="hibernateSessionFactory" ref="sessionFactory"/>
 	</bean>
 
 	<bean id="getDWCArchiveTasklet"
@@ -164,6 +193,11 @@
 	    <property name="fieldNames">
 			<value>#{jobExecutionContext['dwca.core.fieldNames']}</value>
 		</property>
+	</bean>
+	
+	<bean id="taxonProcessListener" class="org.emonocot.job.dwc.TaxonProcessListener">
+	  <property name="hibernateSessionFactory" ref="sessionFactory"/>
+	  <property name="transactionManager" ref="transactionManager"/>
 	</bean>
 
 	<bean id="itemWriter"

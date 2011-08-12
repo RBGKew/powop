@@ -488,4 +488,59 @@
         <column name="rank" type="varchar(255)"/>
       </addColumn>
     </changeSet>
+    <changeSet author="ben" id="2011-08-12_1">
+      <addColumn tableName="Taxon">
+        <column name="accordingTo" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2011-08-12_2">
+      <addColumn tableName="Taxon">
+        <column name="family" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2011-08-12_3">
+      <addColumn tableName="Taxon">
+        <column name="infraGenericEpithet" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2011-08-12_4">
+      <addColumn tableName="Taxon">
+        <column name="kingdom" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2011-08-12_5">
+      <addColumn tableName="Taxon">
+        <column name="nomenclaturalCode" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2011-08-12_6">
+      <addColumn tableName="Taxon">
+        <column name="ordr" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2011-08-12_7">
+      <addColumn tableName="Taxon">
+        <column name="phylum" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2011-08-12_8">
+      <addColumn tableName="Taxon">
+        <column name="status" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2011-08-12_9">
+      <createTable tableName="Annotation">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="annotatedObjId" type="bigint"/>
+            <column name="annotatedObjType" type="varchar(255)"/>
+            <column name="code" type="varchar(255)"/>
+            <column name="jobId" type="bigint"/>
+            <column name="present" type="boolean" defaultValueBoolean="false">
+              <constraints nullable="false"/>
+            </column>
+            <column name="text" type="varchar(255)"/>
+      </createTable>
+    </changeSet>  
 </databaseChangeLog>

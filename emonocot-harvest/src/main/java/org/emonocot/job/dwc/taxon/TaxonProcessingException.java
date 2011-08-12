@@ -20,4 +20,12 @@ public class TaxonProcessingException extends RuntimeException {
      */
     private static final long serialVersionUID = 999609749452018246L;
 
+    /**
+     *
+     * @return a short code representing this class of error
+     */
+    public String getCode() {
+        return this.getClass().getSimpleName().toUpperCase();
+    }
+
 }

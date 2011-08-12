@@ -7,16 +7,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.Base;
 import org.emonocot.model.description.Content;
 import org.emonocot.model.description.Distribution;
@@ -26,6 +29,7 @@ import org.emonocot.model.media.Image;
 import org.emonocot.model.reference.Reference;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Where;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
@@ -127,6 +131,56 @@ public class Taxon extends Base {
 
     /**
      *
+     */
+    private TaxonomicStatus status;
+
+    /**
+     *
+     */
+    private String infraGenericEpithet;
+
+    /**
+     *
+     */
+    private String accordingTo;
+
+    /**
+     *
+     */
+    private String family;
+
+    /**
+     *
+     */
+    private String kingdom;
+
+    /**
+     *
+     */
+    private String phylum;
+
+    /**
+     *
+     */
+    private String clazz;
+
+    /**
+     *
+     */
+    private String order;
+
+    /**
+     *
+     */
+    private NomenclaturalCode nomenclaturalCode;
+
+    /**
+     *
+     */
+    private Set<Annotation> annotations = new HashSet<Annotation>();
+
+    /**
+     *
      * @return a list of images of the taxon
      */
     @ManyToMany(fetch = FetchType.LAZY)
@@ -158,7 +212,7 @@ public class Taxon extends Base {
      * @param newImages
      *            Set the images associated with this taxon
      */
-    public void setImages(final List<Image> newImages) {
+    public void setImages(List<Image> newImages) {
         this.images = newImages;
     }
 
@@ -167,7 +221,7 @@ public class Taxon extends Base {
      * @param newReferences
      *            Set the references associated with this taxon
      */
-    public void setReferences(final Set<Reference> newReferences) {
+    public void setReferences(Set<Reference> newReferences) {
         this.references = newReferences;
     }
 
@@ -175,7 +229,7 @@ public class Taxon extends Base {
      *
      * @param newContent Set the content associated with this taxon
      */
-    public void setContent(final Map<Feature, Content> newContent) {
+    public void setContent(Map<Feature, Content> newContent) {
         this.content = newContent;
     }
 
@@ -183,7 +237,7 @@ public class Taxon extends Base {
      *
      * @param newDeleted Should this taxon be deleted?
      */
-    public void setDeleted(final boolean newDeleted) {
+    public void setDeleted(boolean newDeleted) {
         this.deleted = newDeleted;
     }
 
@@ -209,7 +263,7 @@ public class Taxon extends Base {
      *
      * @param newName Set the taxonomic name of the taxon
      */
-    public void setName(final String newName) {
+    public void setName(String newName) {
         this.name = newName;
     }
 
@@ -227,7 +281,7 @@ public class Taxon extends Base {
      *
      * @param newParent Set the taxonomic parent
      */
-    public void setParent(final Taxon newParent) {
+    public void setParent(Taxon newParent) {
         this.parent = newParent;
     }
 
@@ -245,7 +299,7 @@ public class Taxon extends Base {
      *
      * @param newChildren Set the taxonomic children
      */
-    public void setChildren(final Set<Taxon> newChildren) {
+    public void setChildren(Set<Taxon> newChildren) {
         this.children = newChildren;
     }
 
@@ -263,7 +317,7 @@ public class Taxon extends Base {
      *
      * @param newAccepted Set the accepted name
      */
-    public void setAccepted(final Taxon newAccepted) {
+    public void setAccepted(Taxon newAccepted) {
         this.accepted = newAccepted;
     }
 
@@ -281,7 +335,7 @@ public class Taxon extends Base {
      *
      * @param newSynonyms Set the synonyms of this taxon
      */
-    public void setSynonyms(final Set<Taxon> newSynonyms) {
+    public void setSynonyms(Set<Taxon> newSynonyms) {
         this.synonyms = newSynonyms;
     }
 
@@ -302,7 +356,7 @@ public class Taxon extends Base {
      * @param newDistribution Set the distribution associated with this taxon
      */
     public void setDistribution(
-            final Map<GeographicalRegion, Distribution> newDistribution) {
+            Map<GeographicalRegion, Distribution> newDistribution) {
         this.distribution = newDistribution;
     }
 
@@ -310,7 +364,7 @@ public class Taxon extends Base {
      *
      * @param newAuthorship set the authorship
      */
-    public void setAuthorship(final String newAuthorship) {
+    public void setAuthorship(String newAuthorship) {
         this.authorship = newAuthorship;
     }
 
@@ -319,7 +373,7 @@ public class Taxon extends Base {
      * @param newBasionymAuthorship set the basionymAuthorship
      */
     public void setBasionymAuthorship(
-            final String newBasionymAuthorship) {
+            String newBasionymAuthorship) {
         this.basionymAuthorship = newBasionymAuthorship;
     }
 
@@ -327,7 +381,7 @@ public class Taxon extends Base {
      *
      * @param newUninomial Set the uninomial
      */
-    public void setUninomial(final String newUninomial) {
+    public void setUninomial(String newUninomial) {
         this.uninomial = newUninomial;
     }
 
@@ -335,7 +389,7 @@ public class Taxon extends Base {
      *
      * @param newGenusPart Set the genus part of the name
      */
-    public void setGenus(final String newGenusPart) {
+    public void setGenus(String newGenusPart) {
         this.genus = newGenusPart;
     }
 
@@ -343,7 +397,7 @@ public class Taxon extends Base {
      *
      * @param newSpecificEpithet set the specific epithet
      */
-    public void setSpecificEpithet(final String newSpecificEpithet) {
+    public void setSpecificEpithet(String newSpecificEpithet) {
         this.specificEpithet = newSpecificEpithet;
     }
 
@@ -352,7 +406,7 @@ public class Taxon extends Base {
      * @param newInfraspecificEpithet Set the infraspecific epithet
      */
     public void setInfraSpecificEpithet(
-            final String newInfraspecificEpithet) {
+            String newInfraspecificEpithet) {
         this.infraSpecificEpithet = newInfraspecificEpithet;
     }
 
@@ -360,7 +414,7 @@ public class Taxon extends Base {
      *
      * @param newRank set the rank of this taxon
      */
-    public void setRank(final Rank newRank) {
+    public void setRank(Rank newRank) {
         this.rank = newRank;
     }
 
@@ -413,4 +467,150 @@ public class Taxon extends Base {
     public Rank getRank() {
         return rank;
     }
+
+    /**
+     *
+     * @param newStatus Set the taxonomic status
+     */
+    public void setStatus(TaxonomicStatus newStatus) {
+       this.status = newStatus;
+    }
+
+    @Enumerated(value = EnumType.STRING)
+    public TaxonomicStatus getStatus() {
+        return status;
+    }
+
+    /**
+     *
+     * @param newInfraGenericEpithet Set the infrageneric epithet
+     */
+    public void setInfraGenericEpithet(String newInfraGenericEpithet) {
+        this.infraGenericEpithet = newInfraGenericEpithet;
+    }
+
+    /**
+     * @return the infrageneric epithet
+     */
+    public String getInfraGenericEpithet() {
+        return infraGenericEpithet;
+    }
+
+    /**
+     *
+     * @param newAccordingTo Set the according to
+     */
+    public void setAccordingTo(String newAccordingTo) {
+        this.accordingTo = newAccordingTo;
+    }
+
+    /**
+     * @return the according to
+     */
+    public String getAccordingTo() {
+        return accordingTo;
+    }
+
+    /**
+     *
+     * @param newFamily set the family
+     */
+    public void setFamily(String newFamily) {
+        this.family = newFamily;
+    }
+
+    /**
+     *
+     * @param newKingdom set the kingdom
+     */
+    public void setKingdom(String newKingdom) {
+        this.kingdom = newKingdom;
+    }
+
+    /**
+     *
+     * @param newPhylum set the phylum
+     */
+    public void setPhylum(String newPhylum) {
+        this.phylum = newPhylum;
+    }
+
+    /**
+     *
+     * @param newClass set the class
+     */
+    public void setClass(String newClass) {
+        this.clazz = newClass;
+    }
+
+    /**
+     *
+     * @param newOrder set the order
+     */
+    public void setOrder(String newOrder) {
+        this.order = newOrder;
+    }
+
+    /**
+     *
+     * @param newNomenclaturalCode
+     */
+    public void setNomenclaturalCode(NomenclaturalCode newNomenclaturalCode) {
+        this.nomenclaturalCode = newNomenclaturalCode;
+    }
+
+    /**
+     * @return the nomenclatural code
+     */
+    @Enumerated(EnumType.STRING)
+    public NomenclaturalCode getNomenclaturalCode() {
+        return nomenclaturalCode;
+    }
+
+    /**
+     * @return the family
+     */
+    public String getFamily() {
+        return family;
+    }
+
+    /**
+     * @return the kingdom
+     */
+    public String getKingdom() {
+        return kingdom;
+    }
+
+    /**
+     * @return the phylum
+     */
+    public String getPhylum() {
+        return phylum;
+    }
+
+    /**
+     * @return the order
+     */
+    @Column(name = "ordr")
+    public String getOrder() {
+        return order;
+    }
+
+    /**
+     * @return the annotations
+     */
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "annotatedObjId")
+    @Where(clause = "annotatedObjType = 'Taxon'")
+    public Set<Annotation> getAnnotations() {
+        return annotations;
+    }
+
+    /**
+     * @param annotations the annotations to set
+     */
+    public void setAnnotations(Set<Annotation> annotations) {
+        this.annotations = annotations;
+    }
+
 }

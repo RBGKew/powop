@@ -1,10 +1,11 @@
 /**
  *
  */
-@org.hibernate.annotations.GenericGenerator(
-                name = "system-increment",
-                strategy = "increment"
-)
+@org.hibernate.annotations.GenericGenerators({
+  @org.hibernate.annotations.GenericGenerator(name = "system-increment", strategy = "increment"),
+  @org.hibernate.annotations.GenericGenerator(name = "annotation-sequence", strategy = "identity", parameters = {
+         
+  })})
 @org.hibernate.annotations.TypeDefs({
         @org.hibernate.annotations.TypeDef(name = "dateTimeUserType",
             typeClass =
