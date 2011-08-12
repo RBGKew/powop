@@ -1,9 +1,8 @@
 package org.emonocot.job.dwc.taxon;
 
 import java.text.ParseException;
-import java.util.Map;
 
-import org.emonocot.harvest.common.TaxonRelationshipResolver;
+import org.emonocot.job.dwc.DarwinCoreFieldSetMapper;
 import org.emonocot.model.taxon.NomenclaturalCode;
 import org.emonocot.model.taxon.Rank;
 import org.emonocot.model.taxon.RankConverter;
@@ -12,13 +11,10 @@ import org.emonocot.model.taxon.TaxonomicStatus;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
-import org.gbif.dwc.terms.TermFactory;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.item.file.mapping.FieldSetMapper;
-import org.springframework.batch.item.file.transform.FieldSet;
 import org.springframework.core.convert.ConversionException;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.Parser;
@@ -30,8 +26,7 @@ import org.springframework.validation.BindException;
  * @author ben
  *
  */
-public class TaxonFieldSetMapper extends TaxonRelationshipResolver
-    implements FieldSetMapper<Taxon> {
+public class TaxonFieldSetMapper extends DarwinCoreFieldSetMapper<Taxon> {
 
    /**
     *
@@ -42,158 +37,133 @@ public class TaxonFieldSetMapper extends TaxonRelationshipResolver
     /**
      *
      */
-    private String[] fieldNames;
+    private Converter<String, Rank> rankConverter = new RankConverter();
 
     /**
      *
      */
-    private Map<String,String> defaultValues;
+    private Parser<DateTime> dateTimeParser
+        = new DateTimeParser(ISODateTimeFormat.dateOptionalTimeParser());
 
     /**
      *
      */
-    private Converter<String,Rank> rankConverter = new RankConverter();
-
-    /**
-     *
-     */
-    private Parser<DateTime> dateTimeParser = new DateTimeParser(ISODateTimeFormat.dateOptionalTimeParser());
-
-    /**
-     *
-     */
-    private TermFactory termFactory = new TermFactory();
-
-    /**
-     *
-     * @param newFieldNames Set the names of the fields
-     */
-    public final void setFieldNames(final String[] newFieldNames) {
-        this.fieldNames = newFieldNames;
+    public TaxonFieldSetMapper() {
+        super(Taxon.class);
     }
 
     /**
-    *
-    * @param newDefaultValues Set the defaultValues of the fields
-    */
-   public final void setDefaultValues(final Map<String,String> newDefaultValues) {
-       this.defaultValues = newDefaultValues;
-   }
-
-   /**
-    *
-    */
-   public final Taxon mapFieldSet(final FieldSet fieldSet)
-            throws BindException {
-       Taxon taxon = new Taxon();
-       for (int i = 0; i < fieldNames.length; i++) {
-           ConceptTerm term = termFactory.findTerm(fieldNames[i]);
-           if (term instanceof DcTerm) {
-               DcTerm dcTerm = (DcTerm) term;
-                switch (dcTerm) {
-                case modified:
-                    try {
-                        taxon.setModified(dateTimeParser.parse(fieldSet.readString(i), null));
-                    } catch (ParseException pe) {
-                        BindException be = new BindException(taxon, "target");
-                        be.rejectValue("modified", "not.valid", pe.getMessage());
-                        throw be;
-                    }
-                    break;
-                case created:
-                    try {
-                        taxon.setCreated(dateTimeParser.parse(fieldSet.readString(i), null));
-                    } catch (ParseException pe) {
-                        BindException be = new BindException(taxon, "target");
-                        be.rejectValue("created", "not.valid", pe.getMessage());
-                        throw be;
-                    }
-                case source:
-                    taxon.setSource(fieldSet.readString(i));
-                default:
-                    break;
+     *
+     * @param taxon the object to map onto
+     * @param fieldName the name of the field
+     * @param value the value to map
+     * @throws BindException if there is a problem mapping
+     *         the value to the object
+     */
+    public final void mapField(final Taxon taxon, final String fieldName,
+            final String value) throws BindException {
+        ConceptTerm term = getTermFactory().findTerm(fieldName);
+        if (term instanceof DcTerm) {
+            DcTerm dcTerm = (DcTerm) term;
+            switch (dcTerm) {
+            case modified:
+                try {
+                    taxon.setModified(dateTimeParser.parse(
+                            value, null));
+                } catch (ParseException pe) {
+                    BindException be = new BindException(taxon, "target");
+                    be.rejectValue("modified", "not.valid", pe.getMessage());
+                    throw be;
                 }
-           }
-           // DwcTerms
-           if (term instanceof DwcTerm) {
-               DwcTerm dwcTerm = (DwcTerm) term;
-               switch(dwcTerm) {
-               case taxonID:
-                 taxon.setIdentifier(fieldSet.readString(i));
-                 super.bind(taxon);
-                 break;
-               case scientificNameID:
-                   // should do something like
-                   // taxon.setNameIdentifier(fieldSet.readString(i))
-                   break;
-               case scientificName:
-                   taxon.setName(fieldSet.readString(i));
-                   break;
-               case scientificNameAuthorship:
-                  taxon.setAuthorship(fieldSet.readString(i));
-                  break;
-               case taxonRank:
-                  // should do something like
-                  try {
-                     Rank rank = rankConverter.convert(
-                             fieldSet.readString(i).toUpperCase().replaceAll(" ", "_"));
-                     taxon.setRank(rank);
-                  } catch (ConversionException ce) {
-                     logger.error(ce.getMessage());
-                     return null;
-                  }
-                  break;
-               case taxonomicStatus:
-                  TaxonomicStatus status = TaxonomicStatus.valueOf(fieldSet.readString(i));
-                  taxon.setStatus(status);
-                   break;
-               case parentNameUsageID:
-                   // Ignore for now as we're not importing this taxon anyway
-                   break;
-               case acceptedNameUsageID:
-                   // Ignore for now as we're not importing this taxon anyway
-                   break;
-               case genus:
-                   taxon.setGenus(fieldSet.readString(i));
-                   break;
-               case subgenus:
-                   taxon.setInfraGenericEpithet(fieldSet.readString(i));
-                   break;
-               case specificEpithet:
-                   taxon.setSpecificEpithet(fieldSet.readString(i));
-                   break;
-               case infraspecificEpithet:
-                   taxon.setInfraSpecificEpithet(fieldSet.readString(i));
-                   break;
-               case nameAccordingTo:
-                   taxon.setAccordingTo(fieldSet.readString(i));
-                   break;
-               case kingdom:
-                   taxon.setKingdom(fieldSet.readString(i));
-                   break;
-               case phylum:
-                   taxon.setPhylum(fieldSet.readString(i));
-                   break;
-               case classs:
-                   taxon.setClass(fieldSet.readString(i));
-                   break;
-               case order:
-                   taxon.setOrder(fieldSet.readString(i));
-                   break;
-               case family:
-                   taxon.setFamily(fieldSet.readString(i));
-                   break;
-               case nomenclaturalCode:
-                   taxon.setNomenclaturalCode(
-                           NomenclaturalCode.valueOf(
-                                   fieldSet.readString(i)));
-               default:
-                   break;
-               }
-           }
-       }
-
-        return taxon;
+                break;
+            case created:
+                try {
+                    taxon.setCreated(dateTimeParser.parse(
+                            value, null));
+                } catch (ParseException pe) {
+                    BindException be = new BindException(taxon, "target");
+                    be.rejectValue("created", "not.valid", pe.getMessage());
+                    throw be;
+                }
+            case source:
+                taxon.setSource(value);
+            default:
+                break;
+            }
+        }
+        // DwcTerms
+        if (term instanceof DwcTerm) {
+            DwcTerm dwcTerm = (DwcTerm) term;
+            switch (dwcTerm) {
+            case taxonID:
+                taxon.setIdentifier(value);
+                super.bind(taxon);
+                break;
+            case scientificNameID:
+                // should do something like
+                // taxon.setNameIdentifier(value)
+                break;
+            case scientificName:
+                taxon.setName(value);
+                break;
+            case scientificNameAuthorship:
+                taxon.setAuthorship(value);
+                break;
+            case taxonRank:
+                // should do something like
+                try {
+                    Rank rank = rankConverter.convert(value
+                            .toUpperCase().replaceAll(" ", "_"));
+                    taxon.setRank(rank);
+                } catch (ConversionException ce) {
+                    logger.error(ce.getMessage());
+                }
+                break;
+            case taxonomicStatus:
+                TaxonomicStatus status = TaxonomicStatus.valueOf(value);
+                taxon.setStatus(status);
+                break;
+            case parentNameUsageID:
+                // Ignore for now as we're not importing this taxon anyway
+                break;
+            case acceptedNameUsageID:
+                // Ignore for now as we're not importing this taxon anyway
+                break;
+            case genus:
+                taxon.setGenus(value);
+                break;
+            case subgenus:
+                taxon.setInfraGenericEpithet(value);
+                break;
+            case specificEpithet:
+                taxon.setSpecificEpithet(value);
+                break;
+            case infraspecificEpithet:
+                taxon.setInfraSpecificEpithet(value);
+                break;
+            case nameAccordingTo:
+                taxon.setAccordingTo(value);
+                break;
+            case kingdom:
+                taxon.setKingdom(value);
+                break;
+            case phylum:
+                taxon.setPhylum(value);
+                break;
+            case classs:
+                taxon.setClass(value);
+                break;
+            case order:
+                taxon.setOrder(value);
+                break;
+            case family:
+                taxon.setFamily(value);
+                break;
+            case nomenclaturalCode:
+                taxon.setNomenclaturalCode(NomenclaturalCode.valueOf(value));
+            default:
+                break;
+            }
+        }
     }
-
 }

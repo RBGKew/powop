@@ -53,13 +53,30 @@
                     </batch:skippable-exception-classes>
 				</batch:chunk>			    
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="cleanupResources" />
+			<batch:next on="COMPLETED" to="processDescriptionDecision" />
 			<batch:listeners>
-			  <batch:listener ref="taxonProcessListener"/>
+			  <batch:listener ref="processingExceptionProcessListener"/>
 			</batch:listeners>
 		</batch:step>
-		<!-- <batch:decision decider="" id="processDescription">
-		</batch:decision>-->
+		<batch:decision decider="processDescriptionDecider" id="processDescriptionDecision">
+		  <batch:next on="DESCRIPTION_PRESENT" to="processDescriptionFile"/>
+		  <batch:next on="DESCRIPTION_ABSENT" to="cleanupResources"/>
+		</batch:decision>
+		<batch:step id="processDescriptionFile">
+			<batch:description>Process the extension file containing the descriptions</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="descriptionReader" processor="descriptionProcessor"
+					writer="descriptionWriter" commit-interval="10" skip-limit="100">
+					<batch:skippable-exception-classes>
+                      <batch:include class="org.emonocot.job.dwc.description.DescriptionProcessingException"/>
+                    </batch:skippable-exception-classes>
+				</batch:chunk>			    
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="cleanupResources" />
+			<batch:listeners>
+			  <batch:listener ref="processingExceptionProcessListener"/>
+			</batch:listeners>
+		</batch:step>
 		<batch:step id="cleanupResources">
 			<batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="dwcArchiveResourceDeletingTasklet" />
@@ -193,14 +210,70 @@
 	    <property name="fieldNames">
 			<value>#{jobExecutionContext['dwca.core.fieldNames']}</value>
 		</property>
+		<property name="defaultValues">
+			<value>#{jobExecutionContext['dwca.core.defaultValues']}</value>
+		</property>
 	</bean>
 	
-	<bean id="taxonProcessListener" class="org.emonocot.job.dwc.TaxonProcessListener">
+	<bean id="processingExceptionProcessListener" class="org.emonocot.job.dwc.ProcessingExceptionProcessListener">
 	  <property name="hibernateSessionFactory" ref="sessionFactory"/>
 	  <property name="transactionManager" ref="transactionManager"/>
 	</bean>
 
 	<bean id="itemWriter"
+		class="org.springframework.batch.item.database.HibernateItemWriter">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="processDescriptionDecider" class="org.emonocot.job.dwc.description.ProcessDescriptionDecider"/>
+	
+	<bean id="descriptionReader" class="org.springframework.batch.item.file.FlatFileItemReader"
+		scope="step">
+		<property name="encoding">
+			<value>#{jobExecutionContext['dwca.description.encoding']}</value>
+		</property>
+		<property name="linesToSkip">
+			<value>#{jobExecutionContext['dwca.description.ignoreHeaderLines']}</value>
+		</property>
+		<property name="resource">
+			<bean class="org.springframework.core.io.FileSystemResource"
+				scope="step">
+				<constructor-arg value="#{jobExecutionContext['dwca.description.file']}" />
+			</bean>
+		</property>
+		<property name="lineMapper" ref="descriptionLineMapper" />
+	</bean>
+
+	<bean id="descriptionProcessor" class="org.emonocot.job.dwc.description.DescriptionValidator" />
+
+	<bean id="descriptionLineMapper"
+		class="org.springframework.batch.item.file.mapping.DefaultLineMapper"
+		scope="step">
+		<property name="lineTokenizer" ref="descriptionLineTokenizer" />
+		<property name="fieldSetMapper" ref="descriptionFieldSetMapper" />
+	</bean>
+
+	<bean id="descriptionLineTokenizer"
+		class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer"
+		scope="step">
+		<property name="names">
+			<value>#{jobExecutionContext['dwca.description.fieldNames']}</value>
+		</property>
+		<property name="delimiter">
+			<value>#{jobExecutionContext['dwca.description.fieldsTerminatedBy']}</value>
+		</property>
+	</bean>
+
+	<bean id="descriptionFieldSetMapper" class="org.emonocot.job.dwc.description.DescriptionFieldSetMapper"  scope="step">
+	    <property name="fieldNames">
+			<value>#{jobExecutionContext['dwca.description.fieldNames']}</value>
+		</property>
+		<property name="defaultValues">
+			<value>#{jobExecutionContext['dwca.description.defaultValues']}</value>
+		</property>
+	</bean>
+
+	<bean id="descriptionItemWriter"
 		class="org.springframework.batch.item.database.HibernateItemWriter">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>

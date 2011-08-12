@@ -1,11 +1,18 @@
 package org.emonocot.job.dwc.taxon;
 
+import org.emonocot.job.dwc.DarwinCoreProcessingException;
+
 /**
  *
  * @author ben
  *
  */
-public class TaxonProcessingException extends RuntimeException {
+public class TaxonProcessingException extends DarwinCoreProcessingException {
+
+   /**
+    *
+    */
+   private static final long serialVersionUID = 999609749452018246L;
 
     /**
      *
@@ -14,18 +21,4 @@ public class TaxonProcessingException extends RuntimeException {
     public TaxonProcessingException(final String msg) {
         super(msg);
     }
-
-    /**
-     *
-     */
-    private static final long serialVersionUID = 999609749452018246L;
-
-    /**
-     *
-     * @return a short code representing this class of error
-     */
-    public String getCode() {
-        return this.getClass().getSimpleName().toUpperCase();
-    }
-
 }

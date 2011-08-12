@@ -2,9 +2,9 @@ package org.emonocot.job.dwc;
 
 import java.io.Serializable;
 
-import org.emonocot.job.dwc.taxon.TaxonProcessingException;
+import org.emonocot.job.dwc.description.DescriptionProcessingException;
 import org.emonocot.model.common.Annotation;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.common.Base;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,12 +24,13 @@ import org.springframework.util.Assert;
  * @author ben
  *
  */
-public class TaxonProcessListener extends HibernateDaoSupport implements
-        ItemProcessListener<Taxon, Taxon>, StepExecutionListener {
+public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
+        implements ItemProcessListener<Base, Base>, StepExecutionListener {
    /**
     *
     */
-   private Logger logger = LoggerFactory.getLogger(TaxonProcessListener.class);
+   private Logger logger = LoggerFactory.getLogger(
+           DwCProcessingExceptionProcessListener.class);
 
    /**
     *
@@ -66,7 +67,7 @@ public class TaxonProcessListener extends HibernateDaoSupport implements
     /**
      * @param item the item to be processed
      */
-    public void beforeProcess(final Taxon item) {
+    public void beforeProcess(final Base item) {
 
     }
 
@@ -74,7 +75,7 @@ public class TaxonProcessListener extends HibernateDaoSupport implements
      * @param item the item to be processed
      * @param result the resulting object
      */
-    public void afterProcess(final Taxon item, final Taxon result) {
+    public void afterProcess(final Base item, final Base result) {
 
     }
 
@@ -82,14 +83,14 @@ public class TaxonProcessListener extends HibernateDaoSupport implements
      * @param item the item to be processed
      * @param e the exception thrown
      */
-    public final void onProcessError(final Taxon item, final Exception e) {
-        if (e instanceof TaxonProcessingException) {
-            TaxonProcessingException tpe = (TaxonProcessingException) e;
-            logger.debug(tpe.getCode() + " | " + tpe.getMessage());
+    public final void onProcessError(final Base item, final Exception e) {
+        if (e instanceof DescriptionProcessingException) {
+            DarwinCoreProcessingException dwcpe = (DarwinCoreProcessingException) e;
+            logger.debug(dwcpe.getCode() + " | " + dwcpe.getMessage());
             final Annotation annotation = new Annotation();
             annotation.setJobId(stepExecution.getJobExecutionId());
-            annotation.setCode(tpe.getCode());
-            annotation.setText(tpe.getMessage());
+            annotation.setCode(dwcpe.getCode());
+            annotation.setText(dwcpe.getMessage());
             transactionTemplate.execute(
                     new TransactionCallback<Serializable>() {
 
