@@ -106,7 +106,7 @@ public class OaiPmhClient implements StepExecutionListener {
     }
 
     /**
-    *
+    * 
     */
     private HttpClient httpClient = new DefaultHttpClient();
 
@@ -181,16 +181,15 @@ public class OaiPmhClient implements StepExecutionListener {
                                 .toDateTime(DateTimeZone.UTC)));
             }
             if (set != null && set.length() > 0) {
-                // check it's a valid set?!?
                 query.append("&set=" + set);
             }
         }
         HttpGet httpGet = new HttpGet(authorityURI + query.toString());
-        logger.info("Log a get: " + httpGet.getRequestLine().toString());
         try {
+            logger.info("Issuing " + httpGet.getRequestLine().toString());
             HttpResponse httpResponse = httpClient.execute(httpGet);
-            logger.info("Issuing " + httpGet.getRequestLine().toString()
-                    + " response " + httpResponse.getStatusLine().toString());
+            logger.info("Got response "
+                    + httpResponse.getStatusLine().toString());
 
             switch (httpResponse.getStatusLine().getStatusCode()) {
             case HttpURLConnection.HTTP_OK:
@@ -310,14 +309,16 @@ public class OaiPmhClient implements StepExecutionListener {
     }
 
     /* (non-Javadoc)
-     * @see org.springframework.batch.core.StepExecutionListener#afterStep(org.springframework.batch.core.StepExecution)
+     * @see org.springframework.batch.core.StepExecutionListener#afterStep(org.
+     * springframework.batch.core.StepExecution)
      */
     public final ExitStatus afterStep(final StepExecution newStepExecution) {
         return null;
     }
 
     /* (non-Javadoc)
-     * @see org.springframework.batch.core.StepExecutionListener#beforeStep(org.springframework.batch.core.StepExecution)
+     * @see org.springframework.batch.core.StepExecutionListener#beforeStep(org.
+     * springframework.batch.core.StepExecution)
      */
     public final void beforeStep(final StepExecution newStepExecution) {
         this.stepExecution = newStepExecution;

@@ -30,9 +30,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
- *
+ * 
  * @author ben
- *
+ * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
@@ -43,8 +43,8 @@ public class ChecklistHarvestingJobIntegrationTest {
     /**
      *
      */
-    private Logger logger = LoggerFactory.getLogger(
-            ChecklistHarvestingJobIntegrationTest.class);
+    private Logger logger = LoggerFactory
+            .getLogger(ChecklistHarvestingJobIntegrationTest.class);
 
     /**
      *
@@ -61,11 +61,11 @@ public class ChecklistHarvestingJobIntegrationTest {
     /**
      * 1288569600 in unix time.
      */
-    private static final BaseDateTime PAST_DATETIME
-    = new DateTime(2010, 11, 1, 9, 0, 0, 0);
+    private static final BaseDateTime PAST_DATETIME = new DateTime(2010, 11, 1,
+            9, 0, 0, 0);
 
     /**
-     *
+     * 
      * @throws IOException
      *             if a temporary file cannot be created.
      * @throws NoSuchJobException
@@ -84,16 +84,15 @@ public class ChecklistHarvestingJobIntegrationTest {
             NoSuchJobException, JobExecutionAlreadyRunningException,
             JobRestartException, JobInstanceAlreadyCompleteException,
             JobParametersInvalidException {
-        Map<String, JobParameter> parameters =
-            new HashMap<String, JobParameter>();
+        Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
         parameters.put("authority.name", new JobParameter(
                 "http://scratchpad.cate-araceae.org"));
         parameters.put("authority.uri", new JobParameter(
                 "http://129.67.24.160/test/oai.xml"));
         parameters
                 .put("authority.last.harvested",
-                     new JobParameter(Long.toString((
-                     ChecklistHarvestingJobIntegrationTest.PAST_DATETIME
+                        new JobParameter(
+                                Long.toString((ChecklistHarvestingJobIntegrationTest.PAST_DATETIME
                                         .getMillis()))));
         parameters.put("request.interval", new JobParameter("10000"));
         parameters.put("temporary.file.name", new JobParameter(File
@@ -104,8 +103,39 @@ public class ChecklistHarvestingJobIntegrationTest {
                 .getJob("OaiPmhTaxonHarvesting");
         assertNotNull("OaiPmhTaxonHarvestingJob must not be null",
                 oaiPmhTaxonHarvestingJob);
-        JobExecution jobExecution = jobLauncher.run(
-                oaiPmhTaxonHarvestingJob, jobParameters);
+        JobExecution jobExecution = jobLauncher.run(oaiPmhTaxonHarvestingJob,
+                jobParameters);
+
+        for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
+            logger.info(stepExecution.getStepName() + " "
+                    + stepExecution.getReadCount() + " "
+                    + stepExecution.getFilterCount() + " "
+                    + stepExecution.getWriteCount());
+        }
+    }
+
+    @Test
+    public final void testHarvestBySet() throws IOException,
+            NoSuchJobException, JobExecutionAlreadyRunningException,
+            JobRestartException, JobInstanceAlreadyCompleteException,
+            JobParametersInvalidException {
+        Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
+        parameters.put("authority.name", new JobParameter(
+                "http://test.e-monocot.org/checklist/"));
+        parameters.put("authority.uri", new JobParameter(
+                "http://test.e-monocot.org/wcsTaxonExtractor/oai"));
+        parameters.put("request.interval", new JobParameter("10000"));
+        parameters.put("temporary.file.name", new JobParameter(File
+                .createTempFile("test", ".xml").getAbsolutePath()));
+        parameters.put("set", new JobParameter("Rhipogonaceae"));
+        JobParameters jobParameters = new JobParameters(parameters);
+
+        Job oaiPmhTaxonHarvestingJob = jobLocator
+                .getJob("OaiPmhTaxonHarvesting");
+        assertNotNull("OaiPmhTaxonHarvestingJob must not be null",
+                oaiPmhTaxonHarvestingJob);
+        JobExecution jobExecution = jobLauncher.run(oaiPmhTaxonHarvestingJob,
+                jobParameters);
 
         for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
             logger.info(stepExecution.getStepName() + " "
