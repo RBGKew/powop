@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
      <changeSet author="ben" id="1303384038461-1">
         <createTable tableName="batch_job_execution">
             <column name="JOB_EXECUTION_ID" type="BIGINT">
@@ -542,5 +544,16 @@
             </column>
             <column name="text" type="varchar(255)"/>
       </createTable>
-    </changeSet>  
+    </changeSet>
+    <changeSet author="ben" id="2011-08-18_1">
+      <modifyDataType tableName="Content" columnName="content" newDataType="longtext"/>
+    </changeSet>
+    <changeSet author="ben" id="2011-08-18_2">
+      <modifyDataType tableName="Annotation" columnName="text" newDataType="longtext"/>      
+    </changeSet>
+    <changeSet author="ben" id="2011-08-18_3">
+      <addColumn tableName="Image">
+        <column name="caption" type="varchar(255)"/>
+      </addColumn> 
+    </changeSet>
 </databaseChangeLog>

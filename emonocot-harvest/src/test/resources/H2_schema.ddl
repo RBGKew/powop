@@ -5,7 +5,7 @@ create table Content (DTYPE varchar(31) not null, id bigint not null, created ti
 drop table if exists Distribution;
 create table Distribution (id bigint not null, created timestamp, creator varchar(255), identifier varchar(255), license varchar(255), modified timestamp, source varchar(255), region varchar(255), taxon_id bigint, primary key (id));
 drop table if exists Image;
-create table Image (id bigint not null, created timestamp, creator varchar(255), identifier varchar(255), license varchar(255), modified timestamp, source varchar(255), url varchar(255), primary key (id));
+create table Image (id bigint not null, created timestamp, creator varchar(255), identifier varchar(255), license varchar(255), modified timestamp, source varchar(255), url varchar(255), caption varchar(255), taxon_id bigint, primary key (id));
 drop table if exists Reference;
 create table Reference (id bigint not null, created timestamp, creator varchar(255), identifier varchar(255), license varchar(255), modified timestamp, source varchar(255), primary key (id));
 drop table if exists Taxon;
@@ -16,6 +16,7 @@ drop table if exists Taxon_Reference;
 create table Taxon_Reference (Taxon_id bigint not null, references_id bigint not null, primary key (Taxon_id, references_id));
 alter table Content add constraint FK9BEFCC591EDCD08D foreign key (taxon_id) references Taxon;
 alter table Distribution add constraint FKAB93A2A41EDCD08D foreign key (taxon_id) references Taxon;
+alter table Image add constraint FK437B93B1EDCD08D foreign key (taxon_id) references Taxon;
 alter table Taxon add constraint FK4CD9EAA54493690 foreign key (accepted_id) references Taxon;
 alter table Taxon add constraint FK4CD9EAAA9E98AAD foreign key (parent_id) references Taxon;
 alter table Taxon_Image add constraint FK56D693661EDCD08D foreign key (Taxon_id) references Taxon;

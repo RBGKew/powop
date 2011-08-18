@@ -9,55 +9,11 @@ public enum Rank {
     /**
      *
      */
-    BIO_VARIETY,
-    /**
-     *
-     */
-    CANDIDATE,
-    /**
-     *
-     */
-    CLASS,
-    /**
-     *
-     */
-    CONVAR,
-    /**
-     *
-     */
     CULTIVAR,
     /**
      *
      */
     CULTIVAR_GROUP,
-    /**
-     *
-     */
-    DENOMINATION_CLASS,
-    /**
-     *
-     */
-    DIVISION,
-    /**
-     *
-     */
-    DOMAIN,
-    /**
-     *
-     */
-    EMPIRE,
-    /**
-     *
-     */
-    FAMILY,
-    /**
-     *
-     */
-    FORM,
-    /**
-     *
-     */
-    GENUS,
     /**
      *
      */
@@ -69,39 +25,11 @@ public enum Rank {
     /**
      *
      */
-    INFRACLASS,
+    CONVAR,
     /**
      *
      */
-    INFRADIVISION,
-    /**
-     *
-     */
-    INFRAFAMILY,
-    /**
-     *
-     */
-    INFRAGENERIC_TAXON,
-    /**
-     *
-     */
-    INFRAGENUS,
-    /**
-     *
-     */
-    INFRAKINGDOM,
-    /**
-     *
-     */
-    INFRAORDER,
-    /**
-     *
-     */
-    INFRAPHYLUM,
-    /**
-     *
-     */
-    INFRASPECIES,
+    DENOMINATION_CLASS,
     /**
      *
      */
@@ -109,35 +37,7 @@ public enum Rank {
     /**
      *
      */
-    INFRATRIBE,
-    /**
-     *
-     */
-    KINGDOM,
-    /**
-     *
-     */
     LUSUS,
-    /**
-     *
-     */
-    ORDER,
-    /**
-     *
-     */
-    PATHO_VARIETY,
-    /**
-     *
-     */
-    PHYLUM,
-    /**
-     *
-     */
-    SECTION,
-    /**
-     *
-     */
-    SERIES,
     /**
      *
      */
@@ -145,15 +45,7 @@ public enum Rank {
     /**
      *
      */
-    SPECIES,
-    /**
-     *
-     */
-    SPECIES_AGGREGATE,
-    /**
-     *
-     */
-    SUB_SUB_FORM,
+    CANDIDATE,
     /**
      *
      */
@@ -165,15 +57,19 @@ public enum Rank {
     /**
      *
      */
-    SUBCLASS,
+    BIO_VARIETY,
     /**
      *
      */
-    SUBDIVISION,
+    PATHO_VARIETY,
     /**
      *
      */
-    SUBFAMILY,
+    VARIETY,
+    /**
+     *
+     */
+    SUB_SUB_FORM,
     /**
      *
      */
@@ -181,23 +77,31 @@ public enum Rank {
     /**
      *
      */
-    SUBGENUS,
+    FORM,
+     /**
+     *
+     */
+    INFRASPECIES,
+   /**
+    *
+    */
+   SUBSPECIFIC_AGGREGATE,
+    /**
+    *
+    */
+   SUBSPECIES,
+   /**
+    *
+    */
+   SPECIES_AGGREGATE,
     /**
      *
      */
-    SUBKINGDOM,
+    SPECIES,
     /**
      *
      */
-    SUBORDER,
-    /**
-     *
-     */
-    SUBPHYLUM,
-    /**
-     *
-     */
-    SUBSECTION,
+    INFRAGENERIC_TAXON,
     /**
      *
      */
@@ -205,11 +109,31 @@ public enum Rank {
     /**
      *
      */
-    SUBSPECIES,
+    SERIES,
     /**
      *
      */
-    SUBSPECIFIC_AGGREGATE,
+    SUBSECTION,
+    /**
+     *
+     */
+    SECTION,
+    /**
+     *
+     */
+    INFRAGENUS,
+    /**
+     *
+     */
+    SUBGENUS,
+    /**
+     *
+     */
+    GENUS,
+    /**
+     *
+     */
+    INFRATRIBE,
     /**
      *
      */
@@ -217,27 +141,7 @@ public enum Rank {
     /**
      *
      */
-    SUPERCLASS,
-    /**
-     *
-     */
-    SUPERDIVISION,
-    /**
-     *
-     */
-    SUPERFAMILY,
-    /**
-     *
-     */
-    SUPERKINGDOM,
-    /**
-     *
-     */
-    SUPERORDER,
-    /**
-     *
-     */
-    SUPERPHYLUM,
+    TRIBE,
     /**
      *
      */
@@ -245,9 +149,105 @@ public enum Rank {
     /**
      *
      */
-    TRIBE,
+    INFRAFAMILY,
     /**
      *
      */
-    VARIETY;
+    SUBFAMILY,
+    /**
+     *
+     */
+    FAMILY,
+    /**
+     *
+     */
+    SUPERFAMILY,
+    /**
+     *
+     */
+    INFRAORDER,
+    /**
+     *
+     */
+    SUBORDER,
+    /**
+     *
+     */
+    ORDER,
+    /**
+     *
+     */
+    SUPERORDER,
+    /**
+     *
+     */
+    INFRACLASS,
+    /**
+     *
+     */
+    SUBCLASS,
+    /**
+     *
+     */
+    CLASS,
+    /**
+     *
+     */
+    SUPERCLASS,
+    /**
+     *
+     */
+    INFRAPHYLUM,
+    /**
+     *
+     */
+    SUBPHYLUM,
+    /**
+     *
+     */
+    PHYLUM,
+    /**
+     *
+     */
+    SUPERPHYLUM,
+    /**
+     *
+     */
+    INFRADIVISION,
+    /**
+     *
+     */
+    SUBDIVISION,
+    /**
+     *
+     */
+    DIVISION,
+    /**
+     *
+     */
+    SUPERDIVISION,
+    /**
+     *
+     */
+    INFRAKINGDOM,
+    /**
+     *
+     */
+    SUBKINGDOM,
+    /**
+     *
+     */
+    KINGDOM,
+    /**
+     *
+     */
+    SUPERKINGDOM,
+    /**
+     *
+     */
+    DOMAIN,
+    /**
+     *
+     */
+    EMPIRE;
 }

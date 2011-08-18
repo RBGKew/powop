@@ -1,11 +1,11 @@
-package org.emonocot.job.dwc.description;
+package org.emonocot.job.dwc;
 
 /**
  *
  * @author ben
  *
  */
-public class NoTaxonException extends DescriptionProcessingException {
+public class NoTaxonException extends DarwinCoreProcessingException {
 
     /**
      * 

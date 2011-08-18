@@ -46,7 +46,7 @@
 		<batch:step id="processCoreFile">
 			<batch:description>Process the core file containing the taxa</batch:description>
 			<batch:tasklet>
-				<batch:chunk reader="itemReader" processor="itemProcessor"
+				<batch:chunk reader="taxonReader" processor="taxonProcessor"
 					writer="itemWriter" commit-interval="10" skip-limit="10000">
 					<batch:skippable-exception-classes>
                       <batch:include class="org.emonocot.job.dwc.DarwinCoreProcessingException"/>
@@ -61,13 +61,33 @@
 		</batch:step>
 		<batch:decision decider="processDescriptionDecider" id="processDescriptionDecision">
 		  <batch:next on="DESCRIPTION_PRESENT" to="processDescriptionFile"/>
-		  <batch:next on="DESCRIPTION_ABSENT" to="cleanupResources"/>
+		  <batch:next on="DESCRIPTION_ABSENT" to="processImagesDecision"/>
 		</batch:decision>
 		<batch:step id="processDescriptionFile">
 			<batch:description>Process the extension file containing the descriptions</batch:description>
 			<batch:tasklet>
 				<batch:chunk reader="descriptionReader" processor="descriptionProcessor"
-					writer="descriptionWriter" commit-interval="10" skip-limit="10000">
+					writer="itemWriter" commit-interval="10" skip-limit="10000">
+					<batch:skippable-exception-classes>
+                      <batch:include class="org.emonocot.job.dwc.DarwinCoreProcessingException"/>
+                      <batch:include class="org.springframework.batch.item.file.FlatFileParseException"/>
+                    </batch:skippable-exception-classes>
+				</batch:chunk>			    
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="processImagesDecision" />
+			<batch:listeners>
+			  <batch:listener ref="processingExceptionProcessListener"/>
+			</batch:listeners>
+		</batch:step>
+		<batch:decision decider="processImageDecider" id="processImagesDecision">
+		  <batch:next on="IMAGE_PRESENT" to="processImageFile"/>
+		  <batch:next on="IMAGE_ABSENT" to="cleanupResources"/>
+		</batch:decision>
+		<batch:step id="processImageFile">
+			<batch:description>Process the extension file containing the images</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="imageReader" processor="imageProcessor"
+					writer="itemWriter" commit-interval="10" skip-limit="10000">
 					<batch:skippable-exception-classes>
                       <batch:include class="org.emonocot.job.dwc.DarwinCoreProcessingException"/>
                       <batch:include class="org.springframework.batch.item.file.FlatFileParseException"/>
@@ -171,7 +191,7 @@
 
 	<bean id="archiveFactory" class="org.gbif.dwc.text.ArchiveFactory" />
 
-	<bean id="itemReader" class="org.springframework.batch.item.file.FlatFileItemReader"
+	<bean id="taxonReader" class="org.springframework.batch.item.file.FlatFileItemReader"
 		scope="step">
 		<property name="encoding">
 			<value>#{jobExecutionContext['dwca.core.encoding']}</value>
@@ -185,19 +205,19 @@
 				<constructor-arg value="#{jobExecutionContext['dwca.core.file']}" />
 			</bean>
 		</property>
-		<property name="lineMapper" ref="lineMapper" />
+		<property name="lineMapper" ref="taxonLineMapper" />
 	</bean>
 
-	<bean id="itemProcessor" class="org.emonocot.job.dwc.taxon.TaxonValidator" />
+	<bean id="taxonProcessor" class="org.emonocot.job.dwc.taxon.TaxonValidator" />
 
-	<bean id="lineMapper"
+	<bean id="taxonLineMapper"
 		class="org.springframework.batch.item.file.mapping.DefaultLineMapper"
 		scope="step">
-		<property name="lineTokenizer" ref="lineTokenizer" />
-		<property name="fieldSetMapper" ref="fieldSetMapper" />
+		<property name="lineTokenizer" ref="taxonLineTokenizer" />
+		<property name="fieldSetMapper" ref="taxonFieldSetMapper" />
 	</bean>
 
-	<bean id="lineTokenizer"
+	<bean id="taxonLineTokenizer"
 		class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer"
 		scope="step">
 		<property name="names">
@@ -208,7 +228,7 @@
 		</property>
 	</bean>
 
-	<bean id="fieldSetMapper" class="org.emonocot.job.dwc.taxon.TaxonFieldSetMapper"  scope="step">
+	<bean id="taxonFieldSetMapper" class="org.emonocot.job.dwc.taxon.TaxonFieldSetMapper"  scope="step">
 	    <property name="fieldNames">
 			<value>#{jobExecutionContext['dwca.core.fieldNames']}</value>
 		</property>
@@ -217,15 +237,7 @@
 		</property>
 	</bean>
 	
-	<bean id="processingExceptionProcessListener" class="org.emonocot.job.dwc.DwCProcessingExceptionProcessListener">
-	  <property name="hibernateSessionFactory" ref="sessionFactory"/>
-	  <property name="transactionManager" ref="transactionManager"/>
-	</bean>
-
-	<bean id="itemWriter"
-		class="org.springframework.batch.item.database.HibernateItemWriter">
-		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
+	<!-- Descriptions -->
 	
 	<bean id="processDescriptionDecider" class="org.emonocot.job.dwc.description.ProcessDescriptionDecider"/>
 	
@@ -274,8 +286,64 @@
 			<value>#{jobExecutionContext['dwca.description.defaultValues']}</value>
 		</property>
 	</bean>
+	
+	<!-- Images -->
+	
+	<bean id="processImageDecider" class="org.emonocot.job.dwc.image.ProcessImageDecider"/>
+	
+	<bean id="imageReader" class="org.springframework.batch.item.file.FlatFileItemReader"
+		scope="step">
+		<property name="encoding">
+			<value>#{jobExecutionContext['dwca.image.encoding']}</value>
+		</property>
+		<property name="linesToSkip">
+			<value>#{jobExecutionContext['dwca.image.ignoreHeaderLines']}</value>
+		</property>
+		<property name="resource">
+			<bean class="org.springframework.core.io.FileSystemResource"
+				scope="step">
+				<constructor-arg value="#{jobExecutionContext['dwca.image.file']}" />
+			</bean>
+		</property>
+		<property name="lineMapper" ref="imageLineMapper" />
+	</bean>
 
-	<bean id="descriptionWriter"
+	<bean id="imageProcessor" class="org.emonocot.job.dwc.image.ImageValidator" />
+
+	<bean id="imageLineMapper"
+		class="org.springframework.batch.item.file.mapping.DefaultLineMapper"
+		scope="step">
+		<property name="lineTokenizer" ref="imageLineTokenizer" />
+		<property name="fieldSetMapper" ref="imageFieldSetMapper" />
+	</bean>
+
+	<bean id="imageLineTokenizer"
+		class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer"
+		scope="step">
+		<property name="names">
+			<value>#{jobExecutionContext['dwca.image.fieldNames']}</value>
+		</property>
+		<property name="delimiter">
+			<value>#{jobExecutionContext['dwca.image.fieldsTerminatedBy']}</value>
+		</property>
+	</bean>
+
+	<bean id="imageFieldSetMapper" class="org.emonocot.job.dwc.image.ImageFieldSetMapper"  scope="step">
+	    <property name="fieldNames">
+			<value>#{jobExecutionContext['dwca.image.fieldNames']}</value>
+		</property>
+		<property name="defaultValues">
+			<value>#{jobExecutionContext['dwca.image.defaultValues']}</value>
+		</property>
+	</bean>
+	
+	<!-- Writing -->
+	<bean id="processingExceptionProcessListener" class="org.emonocot.job.dwc.DwCProcessingExceptionProcessListener">
+	  <property name="hibernateSessionFactory" ref="sessionFactory"/>
+	  <property name="transactionManager" ref="transactionManager"/>
+	</bean>
+
+	<bean id="itemWriter"
 		class="org.springframework.batch.item.database.HibernateItemWriter">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>

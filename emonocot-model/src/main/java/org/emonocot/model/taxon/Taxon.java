@@ -13,6 +13,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKey;
@@ -184,6 +185,10 @@ public class Taxon extends Base {
      * @return a list of images of the taxon
      */
     @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "Taxon_Image",
+        joinColumns = { @JoinColumn(name = "Taxon_id") },
+        inverseJoinColumns = { @JoinColumn(name = "images_id") })
     public List<Image> getImages() {
         return images;
     }

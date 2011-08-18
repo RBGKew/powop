@@ -26,7 +26,10 @@ public class DescriptionDaoImpl extends DaoImpl<Content> implements
     public DescriptionDaoImpl() {
         super(Content.class);
     }
-    
+
+    /**
+     * @return the list of document fields
+     */
     protected final String[] getDocumentFields() {
         return new String[] {"title"};
     }

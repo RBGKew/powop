@@ -1,5 +1,6 @@
 package org.emonocot.job.dwc.description;
 
+import org.emonocot.job.dwc.NoTaxonException;
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.service.TaxonService;
