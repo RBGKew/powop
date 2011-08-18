@@ -1,6 +1,7 @@
 package org.emonocot.model.description;
 
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.hibernate.search.annotations.Field;
@@ -31,6 +32,7 @@ public class TextContent extends Content {
      *
      * @return the content as a string
      */
+    @Lob
     @Field
     public String getContent() {
         return content;
@@ -47,6 +49,6 @@ public class TextContent extends Content {
 
     @Override
     public int hashCode() {
-        return super.hashCode() + this.content.hashCode();
+        return super.hashCode() + (this.content == null ? 0 : this.content.hashCode());
     }
 }

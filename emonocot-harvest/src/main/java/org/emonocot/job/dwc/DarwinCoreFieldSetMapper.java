@@ -5,6 +5,8 @@ import java.util.Map;
 import org.emonocot.harvest.common.TaxonRelationshipResolver;
 import org.emonocot.model.common.Base;
 import org.gbif.dwc.terms.TermFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.FieldSet;
 import org.springframework.validation.BindException;
@@ -16,6 +18,11 @@ import org.springframework.validation.BindException;
  */
 public abstract class DarwinCoreFieldSetMapper<T extends Base> extends
         TaxonRelationshipResolver implements FieldSetMapper<T> {
+    /**
+     *
+     */
+    private Logger logger = LoggerFactory.getLogger(DarwinCoreFieldSetMapper.class);
+    
 
     /**
      *
@@ -42,6 +49,7 @@ public abstract class DarwinCoreFieldSetMapper<T extends Base> extends
      *
      */
     private Map<String, String> defaultValues;
+
     /**
      *
      */
@@ -91,13 +99,14 @@ public abstract class DarwinCoreFieldSetMapper<T extends Base> extends
             be.reject("could not instantiate", e.getMessage());
             throw be;
         }
+        logger.debug("Mapping object " + t);
         for (int i = 0; i < fieldNames.length; i++) {
             mapField(t, fieldNames[i], fieldSet.readString(i));
         }
         for (String defaultTerm : defaultValues.keySet()) {
             mapField(t, defaultTerm, defaultValues.get(defaultTerm));
         }
-
+        logger.debug("Returning object " + t);
         return t;
     }
 

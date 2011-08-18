@@ -1,6 +1,7 @@
 package org.emonocot.job.dwc.description;
 
 import org.emonocot.model.description.TextContent;
+import org.emonocot.model.taxon.Taxon;
 import org.emonocot.service.TaxonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,14 +48,30 @@ public class DescriptionValidator implements
      */
     public final TextContent process(final TextContent textContent)
             throws Exception {
-//        if (taxon.getIdentifier() == null) {
-//            throw new NoIdentifierException(taxon);
-//        }
-//        Taxon persistedTaxon = taxonService.find(taxon.getIdentifier());
-//        if (persistedTaxon == null) {
-//            throw new CannotFindRecordException(taxon.getIdentifier());
-//        }
-//
+        logger.info("Validating " + textContent);
+
+        if (textContent.getTaxon() == null) {
+            throw new NoTaxonException(textContent + " has no Taxon set");
+        }
+
+        if (textContent.getFeature() == null) {
+            throw new NoFeatureException(textContent + " has no Feature set");
+        }
+
+        Taxon taxon = textContent.getTaxon();
+        if(taxon.getContent().containsKey(textContent.getFeature())) {
+            TextContent persistedContent = (TextContent) taxon.getContent().get(textContent.getFeature());
+            if ((persistedContent.getModified() == null
+                    && textContent.getModified() == persistedContent.getModified()) 
+                    || persistedContent.getModified().equals(textContent.getModified())) {
+                // The content hasn't changed, skip it
+                return null;
+            } else {
+                // the content has changed, return it.
+                return textContent;
+            }
+        }
+        
 //        boolean anAnnotationPresent = false;
 //        for (Annotation annotation : persistedTaxon.getAnnotations()) {
 //            if (annotation.getJobId().equals(

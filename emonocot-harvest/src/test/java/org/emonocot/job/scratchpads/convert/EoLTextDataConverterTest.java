@@ -109,7 +109,7 @@ public class EoLTextDataConverterTest {
                 .setSource("http://scratchpad.cate-araceae.org/"
                         + "content/anthurium-schott");
         persistedTextContent.setTaxon(taxon);
-        persistedTextContent.setFeature(Feature.GENERAL_DESCRIPTION);
+        persistedTextContent.setFeature(Feature.general);
         persistedTextContent
                 .setContent("&lt;p&gt;HABIT :   evergreen   herbs, stem"
                         + " erect, creeping, or short- to long-climbing,"
@@ -138,7 +138,7 @@ public class EoLTextDataConverterTest {
         EasyMock.expect(featureConverter.convert(
                 EasyMock.eq("http://rs.tdwg.org/ontology/voc/"
                                 + "SPMInfoItems#GeneralDescription")))
-                .andReturn(Feature.GENERAL_DESCRIPTION);
+                .andReturn(Feature.general);
         EasyMock.replay(dateTimeConverter, licenseConverter, featureConverter,
                 descriptionService);
 
@@ -156,7 +156,7 @@ public class EoLTextDataConverterTest {
         assertEquals("License should be set properly",
                 textContent.getLicense(), License.ATTRIBUTION_NONCOMMERCIAL);
         assertEquals("Feature should be set properly",
-                textContent.getFeature(), Feature.GENERAL_DESCRIPTION);
+                textContent.getFeature(), Feature.general);
         assertEquals("Taxon should be set properly", textContent.getTaxon(),
                 taxon);
         assertEquals("Source should be set properly", textContent.getSource(),
@@ -194,10 +194,10 @@ public class EoLTextDataConverterTest {
                 featureConverter.convert(EasyMock
                         .eq("http://rs.tdwg.org/ontology/voc/"
                                 + "SPMInfoItems#GeneralDescription")))
-                .andReturn(Feature.GENERAL_DESCRIPTION);
+                .andReturn(Feature.general);
         EasyMock.expect(
                 descriptionService.getTextContent(
-                        EasyMock.eq(Feature.GENERAL_DESCRIPTION),
+                        EasyMock.eq(Feature.general),
                         EasyMock.eq(taxon))).andReturn(null);
         EasyMock.replay(dateTimeConverter, licenseConverter, featureConverter,
                 descriptionService);
@@ -216,7 +216,7 @@ public class EoLTextDataConverterTest {
         assertEquals("License should be set properly",
                 textContent.getLicense(), License.ATTRIBUTION_NONCOMMERCIAL);
         assertEquals("Feature should be set properly",
-                textContent.getFeature(), Feature.GENERAL_DESCRIPTION);
+                textContent.getFeature(), Feature.general);
         assertEquals("Taxon should be set properly", textContent.getTaxon(),
                 taxon);
         assertEquals("Source should be set properly", textContent.getSource(),
@@ -256,10 +256,10 @@ public class EoLTextDataConverterTest {
                 featureConverter.convert(EasyMock
                         .eq("http://rs.tdwg.org/ontology/voc/"
                                 + "SPMInfoItems#GeneralDescription")))
-                .andReturn(Feature.GENERAL_DESCRIPTION);
+                .andReturn(Feature.general);
         EasyMock.expect(
                 descriptionService.getTextContent(
-                        EasyMock.eq(Feature.GENERAL_DESCRIPTION),
+                        EasyMock.eq(Feature.general),
                         EasyMock.eq(taxon))).andReturn(persistedTextContent);
         EasyMock.replay(dateTimeConverter, licenseConverter, featureConverter,
                 descriptionService);
@@ -298,10 +298,10 @@ public class EoLTextDataConverterTest {
                 featureConverter.convert(EasyMock
                         .eq("http://rs.tdwg.org/ontology/voc/"
                                 + "SPMInfoItems#GeneralDescription")))
-                .andReturn(Feature.GENERAL_DESCRIPTION);
+                .andReturn(Feature.general);
         EasyMock.expect(
                 descriptionService.getTextContent(
-                        EasyMock.eq(Feature.GENERAL_DESCRIPTION),
+                        EasyMock.eq(Feature.general),
                         EasyMock.eq(taxon))).andReturn(persistedTextContent);
         EasyMock.replay(dateTimeConverter, licenseConverter, featureConverter,
                 descriptionService);
@@ -319,7 +319,7 @@ public class EoLTextDataConverterTest {
         assertEquals("License should be set properly",
                 textContent.getLicense(), License.ATTRIBUTION_NONCOMMERCIAL);
         assertEquals("Feature should be set properly",
-                textContent.getFeature(), Feature.GENERAL_DESCRIPTION);
+                textContent.getFeature(), Feature.general);
         assertEquals("Taxon should be set properly", textContent.getTaxon(),
                 taxon);
         assertEquals("Source should be set properly", textContent.getSource(),

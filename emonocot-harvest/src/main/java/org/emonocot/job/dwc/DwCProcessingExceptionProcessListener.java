@@ -10,8 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.ItemProcessListener;
+import org.springframework.batch.core.ItemReadListener;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
+import org.springframework.batch.item.file.FlatFileParseException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
@@ -25,7 +27,8 @@ import org.springframework.util.Assert;
  *
  */
 public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
-        implements ItemProcessListener<Base, Base>, StepExecutionListener {
+        implements ItemProcessListener<Base, Base>,
+        ItemReadListener<Base>, StepExecutionListener {
    /**
     *
     */
@@ -99,7 +102,7 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
                   return getSession().save(annotation);
                 }
               });
-        }
+        }      
     }
 
     /**
@@ -115,6 +118,42 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
      */
     public final ExitStatus afterStep(final StepExecution newStepExecution) {
         return null;
+    }
+
+    /**
+     * @param base the object read
+     */
+    public void afterRead(Base base) {
+        
+    }
+
+    /**
+     *
+     */
+    public void beforeRead() {
+        
+    }
+
+    /**
+     * @param e the exception
+     */
+    public void onReadError(Exception e) {
+        if(e instanceof FlatFileParseException) {
+            FlatFileParseException ffpe = (FlatFileParseException)e;
+            logger.debug("FlatFileParseException | " + ffpe.getMessage());
+            final Annotation annotation = new Annotation();
+            annotation.setJobId(stepExecution.getJobExecutionId());
+            annotation.setCode("FlatFileParseException");
+            annotation.setText(ffpe.getMessage());
+            transactionTemplate.execute(
+                    new TransactionCallback<Serializable>() {
+
+                public Serializable doInTransaction(
+                        final TransactionStatus status) {
+                  return getSession().save(annotation);
+                }
+              });
+        }
     }
 
 }

@@ -49,7 +49,8 @@
 				<batch:chunk reader="itemReader" processor="itemProcessor"
 					writer="itemWriter" commit-interval="10" skip-limit="10000">
 					<batch:skippable-exception-classes>
-                      <batch:include class="org.emonocot.job.dwc.taxon.TaxonProcessingException"/>
+                      <batch:include class="org.emonocot.job.dwc.DarwinCoreProcessingException"/>
+                      <batch:include class="org.springframework.batch.item.file.FlatFileParseException"/>
                     </batch:skippable-exception-classes>
 				</batch:chunk>			    
 			</batch:tasklet>
@@ -66,9 +67,10 @@
 			<batch:description>Process the extension file containing the descriptions</batch:description>
 			<batch:tasklet>
 				<batch:chunk reader="descriptionReader" processor="descriptionProcessor"
-					writer="descriptionWriter" commit-interval="10" skip-limit="100">
+					writer="descriptionWriter" commit-interval="10" skip-limit="10000">
 					<batch:skippable-exception-classes>
-                      <batch:include class="org.emonocot.job.dwc.description.DescriptionProcessingException"/>
+                      <batch:include class="org.emonocot.job.dwc.DarwinCoreProcessingException"/>
+                      <batch:include class="org.springframework.batch.item.file.FlatFileParseException"/>
                     </batch:skippable-exception-classes>
 				</batch:chunk>			    
 			</batch:tasklet>
@@ -215,7 +217,7 @@
 		</property>
 	</bean>
 	
-	<bean id="processingExceptionProcessListener" class="org.emonocot.job.dwc.ProcessingExceptionProcessListener">
+	<bean id="processingExceptionProcessListener" class="org.emonocot.job.dwc.DwCProcessingExceptionProcessListener">
 	  <property name="hibernateSessionFactory" ref="sessionFactory"/>
 	  <property name="transactionManager" ref="transactionManager"/>
 	</bean>
@@ -273,7 +275,7 @@
 		</property>
 	</bean>
 
-	<bean id="descriptionItemWriter"
+	<bean id="descriptionWriter"
 		class="org.springframework.batch.item.database.HibernateItemWriter">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
