@@ -124,6 +124,7 @@ public class ChecklistHarvestingJobIntegrationTest {
                 "http://test.e-monocot.org/checklist/"));
         parameters.put("authority.uri", new JobParameter(
                 "http://test.e-monocot.org/wcsTaxonExtractor/oai"));
+        parameters.put("authority.last.harvested", new JobParameter(""));
         parameters.put("request.interval", new JobParameter("10000"));
         parameters.put("temporary.file.name", new JobParameter(File
                 .createTempFile("test", ".xml").getAbsolutePath()));

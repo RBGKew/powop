@@ -15,6 +15,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.emonocot.job.io.StaxEventItemReader;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -108,7 +109,8 @@ public class OaiPmhClient implements StepExecutionListener {
     /**
     * 
     */
-    private HttpClient httpClient = new DefaultHttpClient();
+    private HttpClient httpClient = new DefaultHttpClient(
+            new ThreadSafeClientConnManager());
 
     /**
      *
@@ -160,7 +162,10 @@ public class OaiPmhClient implements StepExecutionListener {
             httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,
                     proxy);
         }
-
+        logger.info("Authority name=" + authorityName + " Authority URI="
+                + authorityURI + " date=" + dateLastHarvested + " tempFile="
+                + temporaryFileName + "resumToken=" + resumptionToken + "set="
+                + set);
         httpClient.getParams().setParameter("http.useragent",
                 "org.emonocot.ws.checklist.OaiPmhClient");
         BufferedInputStream bufferedInputStream = null;
@@ -219,6 +224,7 @@ public class OaiPmhClient implements StepExecutionListener {
                         + httpResponse.getStatusLine() + " for document "
                         + authorityURI); // This is not an error in this
                                          // application but a server side error
+                httpGet.abort();
                 return ExitStatus.FAILED;
             }
 
@@ -308,7 +314,9 @@ public class OaiPmhClient implements StepExecutionListener {
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.springframework.batch.core.StepExecutionListener#afterStep(org.
      * springframework.batch.core.StepExecution)
      */
@@ -316,7 +324,9 @@ public class OaiPmhClient implements StepExecutionListener {
         return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.springframework.batch.core.StepExecutionListener#beforeStep(org.
      * springframework.batch.core.StepExecution)
      */

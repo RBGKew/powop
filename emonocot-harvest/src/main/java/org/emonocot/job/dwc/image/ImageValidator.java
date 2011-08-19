@@ -193,7 +193,6 @@ public class ImageValidator implements
     public void afterChunk() {
     }
 
-    @Override
     public void beforeChunk() {
         boundImages.clear();
     }
@@ -205,7 +204,6 @@ public class ImageValidator implements
      */
     class TaxonComparator implements Comparator<Taxon> {
 
-        @Override
         public int compare(final Taxon o1, final Taxon o2) {
             if (o1 == o2) {
                 return 0;

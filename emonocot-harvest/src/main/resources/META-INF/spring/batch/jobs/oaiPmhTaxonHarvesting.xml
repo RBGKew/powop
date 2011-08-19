@@ -13,6 +13,7 @@
 		<batch:step id="listRecords">
 		    <batch:description>Call ListRecords on the resource, using the resumption token if available</batch:description>
 			<batch:tasklet ref="oaiPmhListRecordsTasklet" />
+			<batch:next on="FAILED" to="cleanupResources" />
 			<batch:next on="NO RECORDS MATCH" to="cleanupResources" />
 			<batch:next on="COMPLETED" to="processRecords" />
 			<batch:listeners>

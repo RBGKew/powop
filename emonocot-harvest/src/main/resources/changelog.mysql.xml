@@ -556,4 +556,9 @@
         <column name="caption" type="varchar(255)"/>
       </addColumn> 
     </changeSet>
+    <changeSet author="jk00kg" id="2011-08-19_1">
+      <addColumn tableName="Image">
+        <column name="taxon_id" type="bigint"/>
+      </addColumn> 
+    </changeSet>
 </databaseChangeLog>
