@@ -33,9 +33,9 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.oxm.Unmarshaller;
 
 /**
- * 
+ *
  * @author ben
- * 
+ *
  */
 public class OaiPmhClient implements StepExecutionListener {
     /**
@@ -45,10 +45,11 @@ public class OaiPmhClient implements StepExecutionListener {
 
     /**
      * should be dateTimeNoMillis() but the grassbase webapp is not configured
-     * properly (my fault!)
+     * properly (my fault!).
+     *
+     * Hmm!
      */
-    private static final DateTimeFormatter DATE_TIME_PRINTER = ISODateTimeFormat
-            .dateTime();
+    private static final DateTimeFormatter DATE_TIME_PRINTER = ISODateTimeFormat.dateTimeNoMillis();
 
     /**
     *
@@ -71,21 +72,23 @@ public class OaiPmhClient implements StepExecutionListener {
     private Integer proxyPort;
 
     /**
-     * 
+     *
      */
     private String servicesClientIdentifier;
 
     /**
-     * 
+     *
      * @param newProxyHost
      *            Set the proxy host
      */
     public final void setProxyHost(final String newProxyHost) {
-        this.proxyHost = newProxyHost;
+        if (newProxyHost != null && newProxyHost != "") {
+            this.proxyHost = newProxyHost;
+        }
     }
 
     /**
-     * 
+     *
      * @param newProxyPort
      *            Set the proxy port
      */
@@ -106,8 +109,8 @@ public class OaiPmhClient implements StepExecutionListener {
         this.servicesClientIdentifier = servicesClientIdentifier;
     }
 
-    /**
-    * 
+   /**
+    *
     */
     private HttpClient httpClient = new DefaultHttpClient(
             new ThreadSafeClientConnManager());
@@ -118,7 +121,7 @@ public class OaiPmhClient implements StepExecutionListener {
     private Unmarshaller unmarshaller;
 
     /**
-     * 
+     *
      * @param newUnmarshaller
      *            Set the unmarshaller to use
      */
@@ -127,7 +130,7 @@ public class OaiPmhClient implements StepExecutionListener {
     }
 
     /**
-     * 
+     *
      * @param newHttpClient
      *            Set the http client instance to use.
      */
@@ -136,7 +139,7 @@ public class OaiPmhClient implements StepExecutionListener {
     }
 
     /**
-     * 
+     *
      * @param authorityName
      *            The name of the authority being harvested.
      * @param authorityURI
@@ -162,10 +165,7 @@ public class OaiPmhClient implements StepExecutionListener {
             httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,
                     proxy);
         }
-        logger.info("Authority name=" + authorityName + " Authority URI="
-                + authorityURI + " date=" + dateLastHarvested + " tempFile="
-                + temporaryFileName + "resumToken=" + resumptionToken + "set="
-                + set);
+
         httpClient.getParams().setParameter("http.useragent",
                 "org.emonocot.ws.checklist.OaiPmhClient");
         BufferedInputStream bufferedInputStream = null;
@@ -173,7 +173,12 @@ public class OaiPmhClient implements StepExecutionListener {
 
         StringBuffer query = new StringBuffer("?");
         query.append("scratchpad=" + servicesClientIdentifier);
-
+        logger.info("Authority name: " + authorityName
+                + " Authority URI: " + authorityURI
+                + " date: " + dateLastHarvested
+                + " tempFile: " + temporaryFileName
+                + " resumptionToken: " + resumptionToken
+                + "set: " + set);
         if (resumptionToken != null && resumptionToken.length() > 0) {
             query.append("&resumptionToken=" + resumptionToken
                     + "&verb=ListRecords");
@@ -198,6 +203,7 @@ public class OaiPmhClient implements StepExecutionListener {
 
             switch (httpResponse.getStatusLine().getStatusCode()) {
             case HttpURLConnection.HTTP_OK:
+                logger.info("Got Status 200 OK");
                 HttpEntity entity = httpResponse.getEntity();
                 if (entity != null) {
                     bufferedInputStream = new BufferedInputStream(
@@ -241,7 +247,8 @@ public class OaiPmhClient implements StepExecutionListener {
                 try {
                     bufferedInputStream.close();
                 } catch (IOException ioe) {
-                    logger.error("Input Output Exception closing inputStream for "
+                    logger.error(
+                            "Input Output Exception closing inputStream for "
                             + authorityURI + " " + ioe.getLocalizedMessage());
                 }
             }
@@ -249,7 +256,8 @@ public class OaiPmhClient implements StepExecutionListener {
                 try {
                     bufferedOutputStream.close();
                 } catch (IOException ioe) {
-                    logger.error("Input Output Exception closing outputStream for "
+                    logger.error(
+                            "Input Output Exception closing outputStream for "
                             + authorityURI + " " + ioe.getLocalizedMessage());
                 }
             }
@@ -257,7 +265,7 @@ public class OaiPmhClient implements StepExecutionListener {
     }
 
     /**
-     * 
+     *
      * @param temporaryFileName
      *            Set the temporary file name
      * @return an exit status indicating that the harvesting should continue or
@@ -267,9 +275,11 @@ public class OaiPmhClient implements StepExecutionListener {
             final String temporaryFileName) {
 
         try {
-            StaxEventItemReader<ResumptionToken> staxEventItemReader = new StaxEventItemReader<ResumptionToken>();
+            StaxEventItemReader<ResumptionToken> staxEventItemReader
+                = new StaxEventItemReader<ResumptionToken>();
             staxEventItemReader
-                    .setFragmentRootElementName("{http://www.openarchives.org/OAI/2.0/}resumptionToken");
+                    .setFragmentRootElementName(
+                    "{http://www.openarchives.org/OAI/2.0/}resumptionToken");
             staxEventItemReader.setUnmarshaller(unmarshaller);
             staxEventItemReader.setResource(new FileSystemResource(
                     temporaryFileName));
@@ -314,21 +324,24 @@ public class OaiPmhClient implements StepExecutionListener {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
+     * (non-Javadoc).
+     *
      * @see org.springframework.batch.core.StepExecutionListener#afterStep(org.
      * springframework.batch.core.StepExecution)
+     * @param newStepExecution set the step execution
+     * @return an exit status
      */
     public final ExitStatus afterStep(final StepExecution newStepExecution) {
         return null;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
+     * (non-Javadoc).
+     *
      * @see org.springframework.batch.core.StepExecutionListener#beforeStep(org.
      * springframework.batch.core.StepExecution)
+     * @param newStepExecution set the step execution
      */
     public final void beforeStep(final StepExecution newStepExecution) {
         this.stepExecution = newStepExecution;
