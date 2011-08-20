@@ -148,6 +148,22 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
     }
 
     /**
+     * In response to http://129.67.24.160/bugzilla/show_bug.cgi?id=67.
+     */
+    @Test
+    public final void testHandleFromDateWithHoursOfDayAfterTwelve() {
+
+        String xml = given()
+                .parameters("verb", "ListIdentifiers", "metadataPrefix",
+                        "oai_dc", "from", "2011-09-01T21:00:00Z",
+                        "scratchpad", "functional-test.e-monocot.org")
+                        .get("/oai").asString();
+        assertEquals("There should be no identifiers returned",
+                0,
+                with(xml).get("OAI-PMH.ListIdentifiers.header.size()"));
+    }
+
+    /**
      * Tests ListIdentifiers of object modified before a certain date.
      */
     @Test

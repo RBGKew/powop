@@ -27,7 +27,7 @@ public class DateTimeConverter implements Converter {
      * sections.
      */
     public static final String UTC_DATETIME_PATTERN
-        = "yyyy-MM-dd'T'hh:mm:ss'Z'";
+        = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
     /**
      *
