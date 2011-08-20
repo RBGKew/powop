@@ -184,7 +184,8 @@ public class OaiPmhClient implements StepExecutionListener {
                     + "&verb=ListRecords");
         } else {
             query.append("&verb=ListRecords&metadataPrefix=rdf");
-            if (dateLastHarvested != null && dateLastHarvested.length() > 0) {
+            if (dateLastHarvested != null && dateLastHarvested.length() > 0
+                    && !dateLastHarvested.equals("null")) {
                 DateTime from = new DateTime(Long.parseLong(dateLastHarvested));
                 query.append("&from="
                         + DATE_TIME_PRINTER.print(from

@@ -31,22 +31,51 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+/**
+ *
+ * @author ben
+ *
+ */
 public class OaiPmhClientTest {
 
+    /**
+     *
+     */
     private String authorityName;
+    /**
+     *
+     */
     private String authorityURI;
+    /**
+     *
+     */
     private String dateLastHarvested;
+    /**
+     *
+     */
     private String resumptionToken;
+    /**
+     *
+     */
     private String set;
+    /**
+     *
+     */
     private String servicesClientIdentifier;
+    /**
+     *
+     */
     private String temporaryFileName;
+    /**
+     *
+     */
     private HttpResponse response;
 
     /**
-     * @throws Exception
+     * @throws Exception if there is a problem setting up the test
      */
     @Before
-    public void setUp() throws Exception {
+    public final void setUp() throws Exception {
         // Initialise "Job Parameters"
         resumptionToken = null;
         temporaryFileName = "tmpFile";
@@ -70,7 +99,7 @@ public class OaiPmhClientTest {
                 authorityURI
                         + "?scratchpad=" + servicesClientIdentifier
                         + "&verb=ListRecords&metadataPrefix=rdf"
-                        + "&from=1970-01-01T00:00:00.001Z&set=" + set);
+                        + "&from=1970-01-01T00:00:00Z&set=" + set);
         HttpClient mockHttpClient = createMock(HttpClient.class);
         expect(mockHttpClient.getParams()).andReturn(new BasicHttpParams());
         expect(mockHttpClient.execute(HttpGetMatcher.eqHttpGet(get)))
