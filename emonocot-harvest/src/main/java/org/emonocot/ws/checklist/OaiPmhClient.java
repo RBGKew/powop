@@ -181,7 +181,8 @@ public class OaiPmhClient implements StepExecutionListener {
                 + " tempFile: " + temporaryFileName
                 + " resumptionToken: " + resumptionToken
                 + "set: " + set);
-        if (resumptionToken != null && resumptionToken.length() > 0) {
+        if (resumptionToken != null && resumptionToken.length() > 0
+                && !resumptionToken.equals("null")) {
             query.append("&resumptionToken=" + resumptionToken
                     + "&verb=ListRecords");
         } else {
