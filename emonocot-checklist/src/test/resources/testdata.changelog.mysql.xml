@@ -155,4 +155,21 @@
             <column name="Place_of_publication_id" index="12" type="STRING"/>
         </loadUpdateData>
     </changeSet>
+    <changeSet author="ben" id="2011-08-21_1">
+        <loadUpdateData tableName="plant_name" file="src/test/resources/org/emonocot/checklist/taxon-2011.08.21.csv" primaryKey="Plant_name_id">
+            <column name="Plant_name_id" index="0" type="NUMERIC"/>
+            <column name="Full_epithet" index="1" type="STRING"/>
+            <column name="Accepted_plant_name_id" index="2" type="NUMERIC"/>
+            <column name="Family" index="3" type="STRING"/>
+            <column name="Genus" index="4" type="STRING"/>
+            <column name="Species" index="5" type="STRING"/>
+            <column name="Infraspecific_rank" index="6" type="STRING"/>
+            <column name="Infraspecific_epithet" index="7" type="STRING"/>
+            <column name="Date_of_entry" index="8" type="STRING"/>
+            <column name="Publication_author" index="9" type="STRING"/>
+            <column name="Volume_and_page" index="10" type="STRING"/>
+            <column name="First_published" index="11" type="STRING"/>
+            <column name="Place_of_publication_id" index="12" type="STRING"/>
+        </loadUpdateData>
+    </changeSet>
 </databaseChangeLog>

@@ -1,11 +1,9 @@
-package org.emonocot.checklist.controller;
+package org.emonocot.checklist.controller.oai;
 
 import static com.jayway.restassured.RestAssured.expect;
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.path.xml.XmlPath.with;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 
 import java.util.Properties;
 
@@ -27,7 +25,7 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
     /**
      *
      */
-    private static final int TOTAL_NUMBER_OF_NODES = 7;
+    private static final int TOTAL_NUMBER_OF_NODES = 8;
 
   /**
    *
@@ -98,7 +96,7 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
                         "oai_dc",
                         "scratchpad", "functional-test.e-monocot.org")
                         .get("/oai").asString();
-        assertEquals("There should be 6 identifiers returned",
+        assertEquals("There should be 8 identifiers returned",
                 TOTAL_NUMBER_OF_NODES,
                 with(xml).get("OAI-PMH.ListIdentifiers.header.size()"));
     }
@@ -175,7 +173,7 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
                         "scratchpad", "functional-test.e-monocot.org")
                         .get("/oai").asString();
         assertEquals("There should be 7 identifiers returned",
-                TOTAL_NUMBER_OF_NODES,
+                7,
                 with(xml).get("OAI-PMH.ListIdentifiers.header.size()"));
     }
 
@@ -325,4 +323,29 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
                 "OAI-PMH.GetRecord.record.metadata.TaxonConcept.publishedInCitation.PublicationCitation.parentPublication.PublicationCitation.publicationType.@resource"));
 
     }
+
+    /**
+     * Test that the accepted name relationships are being serialized properly
+     * In response to http://129.67.24.160/bugzilla/show_bug.cgi?id=69.
+     */
+    @Test
+    public final void testGetSynonymRecord() {
+
+        String xml = given()
+                .parameters("verb", "GetRecord", "metadataPrefix",
+                        "rdf", "identifier", "urn:kew.org:wcs:taxon:6",
+                        "scratchpad", "functional-test.e-monocot.org")
+                        .get("/oai").asString();
+
+        assertEquals(
+                "The accepted name should be present",
+                1,
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.relationshipCategory.findAll { it.@resource == 'http://rs.tdwg.org/ontology/voc/TaxonConcept#IsSynonymFor' }.size()"));
+        assertEquals(
+                "The accepted name should be serialized as a link",
+                "urn:kew.org:wcs:taxon:6",
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.toTaxon.@resource"));
+        }
 }

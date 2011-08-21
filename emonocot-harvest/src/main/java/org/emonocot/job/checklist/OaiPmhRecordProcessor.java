@@ -174,17 +174,25 @@ public class OaiPmhRecordProcessor
     private void addRelationship(final Taxon taxon,
             final Relationship relationship) {
         String identifier = null;
-        if (relationship.getToTaxonRelation().getTaxonConcept() != null) {
+        if (relationship.getToTaxonRelation().getTaxonConcept() != null
+                && relationship.getToTaxonRelation().getTaxonConcept()
+                .getIdentifier() != null) {
             identifier = relationship.getToTaxonRelation().getTaxonConcept()
                     .getIdentifier().toString();
-        } else {
+        } else if (relationship.getToTaxonRelation().getResource() != null) {
             identifier = relationship.getToTaxonRelation().getResource()
                     .toString();
         }
 
-        TaxonRelationshipTerm term = resolveRelationshipTerm(relationship
+        if (identifier != null) {
+            TaxonRelationshipTerm term = resolveRelationshipTerm(relationship
                 .getRelationshipCategoryRelation());
-        addTaxonRelationship(new TaxonRelationship(taxon, term), identifier);
+            addTaxonRelationship(new TaxonRelationship(taxon, term),
+                    identifier);
+        } else {
+            logger.warn("Could not find identifier for relationship of taxon "
+                    + taxon.getIdentifier());
+        }
     }
 
     /**

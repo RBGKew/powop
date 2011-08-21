@@ -37,7 +37,7 @@
   <root level="${logging.checklist.level}">
     <appender-ref ref="${logging.checklist.method}"/>
   </root>
-  <logger name="org.emonocot.checklist.logging.DBAppender" level="TRACE" additivity="false">
-    <appender-ref ref="stdout"/>
+  <logger name="org.hibernate.SQL" level="TRACE">
+    <appender-ref ref="file"/>
   </logger>
 </configuration>
