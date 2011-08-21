@@ -30,9 +30,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
- * 
+ *
  * @author ben
- * 
+ *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
@@ -65,7 +65,7 @@ public class ChecklistHarvestingJobIntegrationTest {
             9, 0, 0, 0);
 
     /**
-     * 
+     *
      * @throws IOException
      *             if a temporary file cannot be created.
      * @throws NoSuchJobException

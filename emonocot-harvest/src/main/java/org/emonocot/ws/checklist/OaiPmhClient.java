@@ -5,6 +5,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 
 import org.apache.http.HttpEntity;
@@ -14,6 +15,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.params.ConnRoutePNames;
+import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.emonocot.job.io.StaxEventItemReader;
@@ -231,6 +233,17 @@ public class OaiPmhClient implements StepExecutionListener {
                         + httpResponse.getStatusLine() + " for document "
                         + authorityURI); // This is not an error in this
                                          // application but a server side error
+                BufferedHttpEntity bufferedEntity
+                    = new BufferedHttpEntity(httpResponse.getEntity());
+                InputStreamReader reader
+                    = new InputStreamReader(bufferedEntity.getContent());
+                StringBuffer stringBuffer = new StringBuffer();
+                int count;
+                char[] content = new char[BUFFER];
+                while ((count = reader.read(content, 0, BUFFER)) != -1) {
+                   stringBuffer.append(content);
+                }
+                logger.info("Server Response was: " + stringBuffer.toString());
                 httpGet.abort();
                 return ExitStatus.FAILED;
             }
