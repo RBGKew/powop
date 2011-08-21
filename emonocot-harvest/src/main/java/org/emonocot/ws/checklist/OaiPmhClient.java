@@ -152,16 +152,16 @@ public class OaiPmhClient implements StepExecutionListener {
      *            The name of the temporary file to store the response in.
      * @param resumptionToken
      *            The resumption token if present.
-     * @param set
+     * @param requestSubsetName
      *            The string representation of a set (taxon) to harvest
      * @return An exit status indicating that the step was completed, failed, or
      *         if the authority responded with a NO RECORDS MATCH response
      *         indicating that no records have been modified
      */
     public final ExitStatus listRecords(final String authorityName,
-            final String authorityURI, final String dateLastHarvested,
-            final String temporaryFileName, final String resumptionToken,
-            final String set) {
+            final String authorityUri, final String dateLastHarvested,
+            final String temporaryFileName, final String requestSubsetName,
+            final String resumptionToken) {
         if (proxyHost != null && proxyPort != null) {
             HttpHost proxy = new HttpHost(proxyHost, proxyPort);
             httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,
@@ -176,11 +176,11 @@ public class OaiPmhClient implements StepExecutionListener {
         StringBuffer query = new StringBuffer("?");
         query.append("scratchpad=" + servicesClientIdentifier);
         logger.info("Authority name: " + authorityName
-                + " Authority URI: " + authorityURI
+                + " Authority URI: " + authorityUri
                 + " date: " + dateLastHarvested
                 + " tempFile: " + temporaryFileName
                 + " resumptionToken: " + resumptionToken
-                + "set: " + set);
+                + "set: " + requestSubsetName);
         if (resumptionToken != null && resumptionToken.length() > 0
                 && !resumptionToken.equals("null")) {
             query.append("&resumptionToken=" + resumptionToken
@@ -194,11 +194,11 @@ public class OaiPmhClient implements StepExecutionListener {
                         + DATE_TIME_PRINTER.print(from
                                 .toDateTime(DateTimeZone.UTC)));
             }
-            if (set != null && set.length() > 0) {
-                query.append("&set=" + set);
+            if (requestSubsetName != null && requestSubsetName.length() > 0) {
+                query.append("&set=" + requestSubsetName);
             }
         }
-        HttpGet httpGet = new HttpGet(authorityURI + query.toString());
+        HttpGet httpGet = new HttpGet(authorityUri + query.toString());
         try {
             logger.info("Issuing " + httpGet.getRequestLine().toString());
             HttpResponse httpResponse = httpClient.execute(httpGet);
@@ -232,7 +232,7 @@ public class OaiPmhClient implements StepExecutionListener {
             default:
                 logger.info("Server returned unexpected status code "
                         + httpResponse.getStatusLine() + " for document "
-                        + authorityURI); // This is not an error in this
+                        + authorityUri); // This is not an error in this
                                          // application but a server side error
                 BufferedHttpEntity bufferedEntity
                     = new BufferedHttpEntity(httpResponse.getEntity());
@@ -251,11 +251,11 @@ public class OaiPmhClient implements StepExecutionListener {
 
         } catch (ClientProtocolException cpe) {
             logger.error("Client Protocol Exception getting document "
-                    + authorityURI + " " + cpe.getLocalizedMessage());
+                    + authorityUri + " " + cpe.getLocalizedMessage());
             return ExitStatus.FAILED;
         } catch (IOException ioe) {
             logger.error("Input Output Exception getting document "
-                    + authorityURI + " " + ioe.getLocalizedMessage());
+                    + authorityUri + " " + ioe.getLocalizedMessage());
             return ExitStatus.FAILED;
         } finally {
             if (bufferedInputStream != null) {
@@ -264,7 +264,7 @@ public class OaiPmhClient implements StepExecutionListener {
                 } catch (IOException ioe) {
                     logger.error(
                             "Input Output Exception closing inputStream for "
-                            + authorityURI + " " + ioe.getLocalizedMessage());
+                            + authorityUri + " " + ioe.getLocalizedMessage());
                 }
             }
             if (bufferedOutputStream != null) {
@@ -273,7 +273,7 @@ public class OaiPmhClient implements StepExecutionListener {
                 } catch (IOException ioe) {
                     logger.error(
                             "Input Output Exception closing outputStream for "
-                            + authorityURI + " " + ioe.getLocalizedMessage());
+                            + authorityUri + " " + ioe.getLocalizedMessage());
                 }
             }
         }

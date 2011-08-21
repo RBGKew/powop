@@ -101,8 +101,8 @@
 				<value>#{jobParameters['authority.uri']}</value>
 				<value>#{jobParameters['authority.last.harvested']}</value>
 				<value>#{jobParameters['temporary.file.name']}</value>
-				<value>#{jobExecutionContext['resumption.token']}</value>
-                <value>#{jobParameters['request.subset.name']}</value>
+				<value>#{jobParameters['request.subset.name']}</value>
+                <value>#{jobExecutionContext['resumption.token']}</value>
 			</list>
 		</property>
 	</bean>
