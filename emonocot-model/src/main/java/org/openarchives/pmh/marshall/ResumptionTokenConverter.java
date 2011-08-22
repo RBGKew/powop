@@ -56,7 +56,9 @@ public class ResumptionTokenConverter implements Converter {
             writer.addAttribute("cursor", resumptionToken.getCursor()
                     .toString());
         }
-        writer.setValue(resumptionToken.getValue());
+        if (resumptionToken.getValue() != null) {
+            writer.setValue(resumptionToken.getValue());
+        }
     }
 
     public final Object unmarshal(final HierarchicalStreamReader reader,

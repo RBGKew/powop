@@ -554,10 +554,6 @@ public abstract class AbstractOaiPmhController {
                 cache.put(new Element(resumptionToken.getValue(),
                         resumptionToken), false);
             } else {
-                resumptionToken = ResumptionToken.emptyResumptionToken();
-                modelAndView.addObject(
-                        AbstractOaiPmhController.RESUMPTION_TOKEN_KEY,
-                        resumptionToken);
                 cache.remove(rToken);
             }
 
@@ -691,10 +687,6 @@ public abstract class AbstractOaiPmhController {
                 cache.put(new Element(resumptionToken.getValue(),
                         resumptionToken), false);
             } else {
-                resumptionToken = ResumptionToken.emptyResumptionToken();
-                modelAndView.addObject(
-                        AbstractOaiPmhController.RESUMPTION_TOKEN_KEY,
-                        resumptionToken);
                 cache.remove(rToken);
             }
 
