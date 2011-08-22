@@ -14,9 +14,7 @@ import org.emonocot.checklist.view.oai.AbstractOaiPmhViewTestCase;
 import org.emonocot.model.pager.DefaultPageImpl;
 import org.emonocot.model.pager.Page;
 import org.joda.time.DateTime;
-import org.openarchives.pmh.MetadataPrefix;
 import org.openarchives.pmh.Request;
-import org.openarchives.pmh.ResumptionToken;
 import org.openarchives.pmh.Verb;
 
 /**
