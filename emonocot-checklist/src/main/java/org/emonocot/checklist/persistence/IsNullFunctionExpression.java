@@ -4,7 +4,6 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.CriteriaQuery;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.engine.TypedValue;
-import org.hibernate.util.StringHelper;
 
 /**
  *
@@ -44,8 +43,8 @@ public class IsNullFunctionExpression implements Criterion {
     public final String toSqlString(final Criteria criteria,
             final CriteriaQuery criteriaQuery) {
         String[] columns = criteriaQuery.findColumns(propertyName, criteria);
-        String result = " and " + StringHelper.qualify("ISNULL(", columns)
-                + " )";
+        String result = "cast(" + columns[0]
+                + " as datetime) is null";
         if (columns.length > 1) {
             result = '(' + result + ')';
         }
@@ -69,4 +68,11 @@ public class IsNullFunctionExpression implements Criterion {
             return "ISNULL(" + propertyName + ")";
     }
 
+    /**
+     * @param propertyName Set the propertyName
+     * @return a Criterion
+     */
+    public static IsNullFunctionExpression isNull(final String propertyName) {
+        return new IsNullFunctionExpression(propertyName);
+    }
 }

@@ -59,7 +59,7 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
     public final List<Taxon> search(final String search) {
         List<Taxon> results = getSession().createCriteria(Taxon.class)
                 .add(Restrictions.eq("name", search))
-                .add(Restrictions.isNull("dateDeleted")).list();
+                .add(IsNullFunctionExpression.isNull("dateDeleted")).list();
         for (Taxon taxon : results) {
             inferRelatedTaxa(taxon);
             Hibernate.initialize(taxon.getSynonyms());
@@ -78,7 +78,7 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
         // "identifier" we gave them and they passed in
         Criteria criteria = getSession().createCriteria(Taxon.class).add(
                 Restrictions.idEq(id))
-                .add(Restrictions.isNull("dateDeleted"));
+                .add(IsNullFunctionExpression.isNull("dateDeleted"));
         criteria.setFetchMode("acceptedName", FetchMode.JOIN);
         criteria.setFetchMode("protologue", FetchMode.JOIN);
 
@@ -105,7 +105,7 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
                 .add(Restrictions.eq("genus", taxon.getGenus()))
                 .add(Restrictions.eqProperty("acceptedName.id", "id"))
                 .add(Restrictions.eq("family", taxon.getFamily()))
-                .add(Restrictions.isNull("dateDeleted"));
+                .add(IsNullFunctionExpression.isNull("dateDeleted"));
 
         if (taxon.getGenusHybridMarker() == null) {
             criteria.add(Restrictions.isNull("genusHybridMarker"));
@@ -147,7 +147,7 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
         .add(Restrictions.eq("genus", taxon.getGenus()))
         .add(Restrictions.eqProperty("acceptedName.id", "id"))
         .add(Restrictions.eq("family", taxon.getFamily()))
-        .add(Restrictions.isNull("dateDeleted"));
+        .add(IsNullFunctionExpression.isNull("dateDeleted"));
 
         if (taxon.getGenusHybridMarker() == null) {
             parentCriteria.add(Restrictions.isNull("genusHybridMarker"));
@@ -260,11 +260,11 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
                     .disjunction()
                     .add(Restrictions.gt("dateDeleted", from))
                     .add(Restrictions.conjunction()
-                            .add(Restrictions.isNull("dateDeleted"))
+                            .add(IsNullFunctionExpression.isNull("dateDeleted"))
                             .add(Restrictions.gt("dateModified", from)))
                     .add(Restrictions.conjunction()
-                            .add(Restrictions.isNull("dateDeleted"))
-                            .add(Restrictions.isNull("dateModified"))
+                            .add(IsNullFunctionExpression.isNull("dateDeleted"))
+                            .add(IsNullFunctionExpression.isNull("dateModified"))
                             .add(Restrictions.gt("dateEntered", from))));
         }
 
@@ -273,11 +273,11 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
                     .disjunction()
                     .add(Restrictions.lt("dateDeleted", until))
                     .add(Restrictions.conjunction()
-                            .add(Restrictions.isNull("dateDeleted"))
+                            .add(IsNullFunctionExpression.isNull("dateDeleted"))
                             .add(Restrictions.lt("dateModified", until)))
                     .add(Restrictions.conjunction()
-                            .add(Restrictions.isNull("dateDeleted"))
-                            .add(Restrictions.isNull("dateModified"))
+                            .add(IsNullFunctionExpression.isNull("dateDeleted"))
+                            .add(IsNullFunctionExpression.isNull("dateModified"))
                             .add(Restrictions.lt("dateEntered", until))));
         }
 
@@ -323,11 +323,11 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
                         .disjunction()
                         .add(Restrictions.gt("dateDeleted", from))
                         .add(Restrictions.conjunction()
-                                .add(Restrictions.isNull("dateDeleted"))
+                                .add(IsNullFunctionExpression.isNull("dateDeleted"))
                                 .add(Restrictions.gt("dateModified", from)))
                         .add(Restrictions.conjunction()
-                                .add(Restrictions.isNull("dateDeleted"))
-                                .add(Restrictions.isNull("dateModified"))
+                                .add(IsNullFunctionExpression.isNull("dateDeleted"))
+                                .add(IsNullFunctionExpression.isNull("dateModified"))
                                 .add(Restrictions.gt("dateEntered", from))));
             }
             if (until != null) {
@@ -335,11 +335,11 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
                         .disjunction()
                         .add(Restrictions.lt("dateDeleted", until))
                         .add(Restrictions.conjunction()
-                                .add(Restrictions.isNull("dateDeleted"))
+                                .add(IsNullFunctionExpression.isNull("dateDeleted"))
                                 .add(Restrictions.lt("dateModified", until)))
                         .add(Restrictions.conjunction()
-                                .add(Restrictions.isNull("dateDeleted"))
-                                .add(Restrictions.isNull("dateModified"))
+                                .add(IsNullFunctionExpression.isNull("dateDeleted"))
+                                .add(IsNullFunctionExpression.isNull("dateModified"))
                                 .add(Restrictions.lt("dateEntered", until))));
             }
             return new DefaultPageImpl<ChangeEvent<Taxon>>(
@@ -354,7 +354,7 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
      */
     public final List<Taxon> getGenera(final Family family) {
         Criteria criteria = getSession().createCriteria(Taxon.class)
-        .add(Restrictions.isNull("dateDeleted"))
+        .add(IsNullFunctionExpression.isNull("dateDeleted"))
         .add(Restrictions.eq("family", family.toString()))
         .add(Restrictions.or(Restrictions.eq("species", ""),
                 Restrictions.isNull("species")))
@@ -368,7 +368,7 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
      */
     public final Integer countGenera(final Family family) {
         Criteria criteria = getSession().createCriteria(Taxon.class)
-        .add(Restrictions.isNull("dateDeleted"))
+        .add(IsNullFunctionExpression.isNull("dateDeleted"))
         .add(Restrictions.eq("family", family.toString()))
         .add(Restrictions.or(Restrictions.eq("species", ""),
                 Restrictions.isNull("species")))
