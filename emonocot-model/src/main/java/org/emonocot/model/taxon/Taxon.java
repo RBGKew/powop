@@ -604,9 +604,10 @@ public class Taxon extends Base {
     /**
      * @return the annotations
      */
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "annotatedObjId")
     @Where(clause = "annotatedObjType = 'Taxon'")
+    @Cascade({CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
     public Set<Annotation> getAnnotations() {
         return annotations;
     }

@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.emonocot.harvest.common.TaxonRelationship;
 import org.emonocot.harvest.common.TaxonRelationshipResolver;
+import org.emonocot.model.common.Annotation;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.GeographyConverter;
 import org.emonocot.model.taxon.Rank;
@@ -13,6 +14,9 @@ import org.hibernate.engine.Status;
 import org.openarchives.pmh.Record;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.core.convert.converter.Converter;
 import org.tdwg.voc.DefinedTermLinkType;
@@ -29,9 +33,8 @@ import org.tdwg.voc.TaxonRelationshipTerm;
  * @author ben
  *
  */
-public class OaiPmhRecordProcessor
-    extends TaxonRelationshipResolver
-    implements ItemProcessor<Record, Taxon> {
+public class OaiPmhRecordProcessor extends TaxonRelationshipResolver
+    implements ItemProcessor<Record, Taxon>, StepExecutionListener {
 
    /**
     *
@@ -49,6 +52,8 @@ public class OaiPmhRecordProcessor
      *
      */
     private Converter<String, Rank> rankConverter = new RankConverter();
+
+    private StepExecution stepExecution;
 
     /**
      * @param record an OAI-PMH Record object
@@ -71,7 +76,11 @@ public class OaiPmhRecordProcessor
                 taxon = new Taxon();
                 TaxonConcept taxonConcept = record.getMetadata()
                         .getTaxonConcept();
-
+                Annotation annotation = new Annotation();
+                annotation.setAnnotatedObjType("Taxon");
+                annotation.setJobId(stepExecution.getJobExecutionId());
+                annotation.setCode("Created");
+                taxon.getAnnotations().add(annotation);
                 processTaxon(taxon, taxonConcept);
 
             }
@@ -84,7 +93,11 @@ public class OaiPmhRecordProcessor
             } else {
                 TaxonConcept taxonConcept = record.getMetadata()
                 .getTaxonConcept();
-
+                Annotation annotation = new Annotation();
+                annotation.setAnnotatedObjType("Taxon");
+                annotation.setJobId(stepExecution.getJobExecutionId());
+                annotation.setCode("Updated");
+                taxon.getAnnotations().add(annotation);
                 processTaxon(taxon, taxonConcept);
             }
         }
@@ -123,7 +136,7 @@ public class OaiPmhRecordProcessor
                         taxonConcept.getHasName()
                           .getRankString()));
             }
-            
+
         } else {
             taxon.setName(taxonConcept.getTitle());
         }
@@ -234,5 +247,20 @@ public class OaiPmhRecordProcessor
             return TaxonRelationshipTerm.fromValue(relationshipCategory
                     .getResource().toString());
         }
+    }
+
+    /**
+     * @param newStepExecution Set the step exectuion
+     */
+    public void beforeStep(StepExecution newStepExecution) {
+        this.stepExecution = newStepExecution;
+    }
+
+    /**
+     * @param stepExectuion Set the step execution
+     * @return the exit status
+     */
+    public ExitStatus afterStep(StepExecution stepExecution) {
+        return null;
     }
 }

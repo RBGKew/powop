@@ -84,7 +84,8 @@ public class ChecklistHarvestingJobIntegrationTest {
             NoSuchJobException, JobExecutionAlreadyRunningException,
             JobRestartException, JobInstanceAlreadyCompleteException,
             JobParametersInvalidException {
-        Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
+        Map<String, JobParameter> parameters
+            = new HashMap<String, JobParameter>();
         parameters.put("authority.name", new JobParameter(
                 "http://scratchpad.cate-araceae.org"));
         parameters.put("authority.uri", new JobParameter(
@@ -128,7 +129,7 @@ public class ChecklistHarvestingJobIntegrationTest {
         parameters.put("request.interval", new JobParameter("10000"));
         parameters.put("temporary.file.name", new JobParameter(File
                 .createTempFile("test", ".xml").getAbsolutePath()));
-        parameters.put("set", new JobParameter("Rhipogonaceae"));
+        parameters.put("request.subset.name", new JobParameter("Acoraceae"));
         JobParameters jobParameters = new JobParameters(parameters);
 
         Job oaiPmhTaxonHarvestingJob = jobLocator

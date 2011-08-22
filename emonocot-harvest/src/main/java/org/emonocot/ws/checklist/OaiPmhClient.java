@@ -144,14 +144,12 @@ public class OaiPmhClient implements StepExecutionListener {
      *
      * @param authorityName
      *            The name of the authority being harvested.
-     * @param authorityURI
+     * @param authorityUri
      *            The endpoint (uri) being harvested.
      * @param dateLastHarvested
      *            The dateTime when this authority was last harvested.
      * @param temporaryFileName
      *            The name of the temporary file to store the response in.
-     * @param resumptionToken
-     *            The resumption token if present.
      * @param requestSubsetName
      *            The string representation of a set (taxon) to harvest
      * @return An exit status indicating that the step was completed, failed, or
@@ -160,8 +158,7 @@ public class OaiPmhClient implements StepExecutionListener {
      */
     public final ExitStatus listRecords(final String authorityName,
             final String authorityUri, final String dateLastHarvested,
-            final String temporaryFileName, final String requestSubsetName,
-            final String resumptionToken) {
+            final String temporaryFileName, final String requestSubsetName) {
         if (proxyHost != null && proxyPort != null) {
             HttpHost proxy = new HttpHost(proxyHost, proxyPort);
             httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,
@@ -175,12 +172,19 @@ public class OaiPmhClient implements StepExecutionListener {
 
         StringBuffer query = new StringBuffer("?");
         query.append("scratchpad=" + servicesClientIdentifier);
+        String resumptionToken = null;
+        if (stepExecution.getJobExecution().getExecutionContext()
+                .containsKey("resumption.token")) {
+            resumptionToken = (String) stepExecution.getJobExecution()
+                .getExecutionContext().get("resumption.token");
+        }
         logger.info("Authority name: " + authorityName
                 + " Authority URI: " + authorityUri
                 + " date: " + dateLastHarvested
                 + " tempFile: " + temporaryFileName
                 + " resumptionToken: " + resumptionToken
                 + "set: " + requestSubsetName);
+
         if (resumptionToken != null && resumptionToken.length() > 0
                 && !resumptionToken.equals("null")) {
             query.append("&resumptionToken=" + resumptionToken
@@ -305,13 +309,15 @@ public class OaiPmhClient implements StepExecutionListener {
             ResumptionToken resumptionToken = staxEventItemReader.read();
             staxEventItemReader.close();
             if (resumptionToken == null) {
+                logger.info("Resumption Token Not Found");
                 stepExecution.getJobExecution().getExecutionContext()
                         .remove("resumption.token");
                 return new ExitStatus("NO RESUMPTION TOKEN");
             } else {
                 stepExecution.getJobExecution().getExecutionContext()
                         .remove("resumption.token");
-                logger.info(resumptionToken.getValue() + " "
+                logger.info("Found resumption token"
+                        + resumptionToken.getValue() + " "
                         + resumptionToken.getCompleteListSize() + " "
                         + resumptionToken.getCursor());
                 stepExecution.getJobExecution().getExecutionContext()
