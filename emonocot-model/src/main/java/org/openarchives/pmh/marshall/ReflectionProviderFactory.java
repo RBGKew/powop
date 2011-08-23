@@ -208,6 +208,7 @@ public class ReflectionProviderFactory extends
         "tnBasionymAuthorship",
         "tnCombinationAuthorship",
         "tnNameComplete",
+        "tnFamily",
         "tnUninomial",
         "tnGenusPart",
         "tnSpecificEpithet",

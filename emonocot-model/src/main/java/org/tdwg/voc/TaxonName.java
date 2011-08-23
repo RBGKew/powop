@@ -71,7 +71,12 @@ public class TaxonName extends Name {
      *
      */
     private String tnCombinationAuthorship;
-
+    
+    /**
+     * Naughty, I know, but we do need to know the family of a name.
+     */
+    private String tnFamily;
+    
     /**
      *
      * @return the authorship of this name
@@ -288,5 +293,21 @@ public class TaxonName extends Name {
            tcomPublishedInCitations.add(
                    new PublishedInCitation(publicationCitation, false));
        }
-   }
+    }
+
+    /**
+     * @return the family
+     */
+    public final String getFamily() {
+        return tnFamily;
+    }
+
+    /**
+     * @param family
+     *            the family to set
+     */
+    public final void setFamily(String family) {
+        this.tnFamily = family;
+    }
+
 }

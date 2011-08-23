@@ -186,6 +186,9 @@ public class OpenArchivesQNameMapFactory extends
                 "nameComplete", "tn"), "tnNameComplete");
         qNameMap.registerMapping(new QName(
                 "http://rs.tdwg.org/ontology/voc/TaxonName#",
+                "family", "tn"), "tnFamily");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/TaxonName#",
                 "uninomial", "tn"), "tnUninomial");
         qNameMap.registerMapping(new QName(
                 "http://rs.tdwg.org/ontology/voc/TaxonName#",

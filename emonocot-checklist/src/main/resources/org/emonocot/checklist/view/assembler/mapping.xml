@@ -154,6 +154,10 @@
         <b>nameComplete</b>
       </field>
       <field>
+        <a>family</a>
+        <b>family</b>
+      </field>
+      <field>
         <a>species</a>
         <b>specificEpithet</b>
       </field>
