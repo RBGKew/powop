@@ -54,6 +54,9 @@ public abstract class TaxonRelationshipBeanFactory implements BeanFactory {
         } catch (URISyntaxException use) {
             logger.error("Could not convert identifier to uri "
                     + use.getMessage());
+        } catch (NullPointerException npe) {
+            logger.error("Could not convert identifier to uri "
+                    + npe.getMessage());
         }
         return relationship;
     }
