@@ -16,6 +16,7 @@ import org.springframework.batch.core.ItemWriteListener;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.item.ItemProcessor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.tdwg.voc.TaxonConcept;
 import org.tdwg.voc.TaxonRelationshipTerm;
 
@@ -66,6 +67,16 @@ public class NullTaxonProcessor implements ItemProcessor<String, Taxon>,
     *
     */
    private String authorityUri;
+
+    /**
+     *
+     * @param taxonService
+     *            Set the taxon service
+     */
+   @Autowired
+    public final void setTaxonService(final TaxonService taxonService) {
+        this.taxonService = taxonService;
+    }
 
     /**
      * @param identifier Set the identifier of the taxon
@@ -211,13 +222,5 @@ public class NullTaxonProcessor implements ItemProcessor<String, Taxon>,
      */
     public final void setAuthorityUri(final String newAuthorityUri) {
         this.authorityUri = newAuthorityUri;
-    }
-
-    /**
-     *
-     * @param newTaxonService Set the taxon service
-     */
-    public final void setTaxonService(final TaxonService newTaxonService) {
-        this.taxonService = newTaxonService;
-    }
+    }    
 }

@@ -200,7 +200,6 @@
 	<bean id="nullItemProcessor" class="org.emonocot.job.checklist.NullTaxonProcessor" scope="step">
 	  <property name="oaiPmhClient" ref="oaiPmhClient"/>
 	  <property name="oaiPmhRecordProcessor" ref="taxonItemProcessor"/>
-	  <property name="taxonService" ref="taxonServiceImpl"/>
 	  <property name="authorityName" value="#{jobParameters['authority.name']}"/>
 	  <property name="authorityUri" value="#{jobParameters['authority.uri']}"/>
 	  <property name="temporaryFileName" value="#{jobParameters['temporary.file.name']}"/>

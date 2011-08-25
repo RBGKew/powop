@@ -132,9 +132,12 @@ public class OaiPmhClient implements StepExecutionListener {
     /**
      *
      */
-    private int connectionTimeoutMillis = 180;
+    private int connectionTimeoutMillis = 180 * 1000;
 
-    private int socketTimeoutMillis = 360;
+    /**
+     *
+     */
+    private int socketTimeoutMillis = 360 * 1000;
 
     /**
      *

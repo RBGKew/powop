@@ -7,26 +7,28 @@ import org.emonocot.harvest.common.TaxonRelationshipResolver;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.GeographyConverter;
+import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Rank;
 import org.emonocot.model.taxon.RankConverter;
 import org.emonocot.model.taxon.Taxon;
-import org.emonocot.model.taxon.TaxonomicStatus;
+import org.emonocot.service.ReferenceService;
+import org.emonocot.service.impl.ReferenceServiceImpl;
 import org.hibernate.engine.Status;
 import org.openarchives.pmh.Record;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.ExitStatus;
-import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.item.ItemProcessor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.tdwg.voc.DefinedTermLinkType;
 import org.tdwg.voc.Distribution;
 import org.tdwg.voc.InfoItem;
+import org.tdwg.voc.PublicationCitation;
 import org.tdwg.voc.Relationship;
 import org.tdwg.voc.RelationshipCategory;
 import org.tdwg.voc.SpeciesProfileModel;
 import org.tdwg.voc.TaxonConcept;
+import org.tdwg.voc.TaxonName;
 import org.tdwg.voc.TaxonRelationshipTerm;
 
 /**
@@ -53,6 +55,20 @@ public class OaiPmhRecordProcessor extends TaxonRelationshipResolver
      *
      */
     private Converter<String, Rank> rankConverter = new RankConverter();
+
+    /**
+     *
+     */
+    private ReferenceService referenceService;
+
+    /**
+     *
+     * @param referenceService Set the reference service
+     */
+    @Autowired
+    public final void setReferenceService(ReferenceService referenceService) {
+        this.referenceService = referenceService;
+    }
 
     /**
      * @param record an OAI-PMH Record object
@@ -116,26 +132,39 @@ public class OaiPmhRecordProcessor extends TaxonRelationshipResolver
         taxon.setIdentifier(taxonConcept.getIdentifier().toString());
         super.bind(taxon);
         if (taxonConcept.getHasName() != null) {
-            logger.info(taxonConcept.getHasName().getNameComplete());
-            taxon.setName(taxonConcept.getHasName().getNameComplete());
-            taxon.setAuthorship(taxonConcept.getHasName().getAuthorship());
+            TaxonName taxonName = taxonConcept.getHasName();
+            logger.info(taxonName.getNameComplete());
+            taxon.setName(taxonName.getNameComplete());
+            taxon.setAuthorship(taxonName.getAuthorship());
             taxon.setBasionymAuthorship(
-                    taxonConcept.getHasName().getBasionymAuthorship());
-            taxon.setFamily(taxonConcept.getHasName().getFamily());
-            taxon.setUninomial(taxonConcept.getHasName().getUninomial());
-            taxon.setGenus(taxonConcept.getHasName().getGenusPart());
+                    taxonName.getBasionymAuthorship());
+            taxon.setFamily(taxonName.getFamily());
+            taxon.setUninomial(taxonName.getUninomial());
+            taxon.setGenus(taxonName.getGenusPart());
             taxon.setSpecificEpithet(
-                    taxonConcept.getHasName().getSpecificEpithet());
+                    taxonName.getSpecificEpithet());
             taxon.setInfraSpecificEpithet(
-                    taxonConcept.getHasName().getInfraSpecificEpithet());
-            if (taxonConcept.getHasName().getRank() != null) {
+                    taxonName.getInfraSpecificEpithet());
+            if (taxonName.getPublishedInCitations() != null
+                    && !taxonName.getPublishedInCitations().isEmpty()) {
+                PublicationCitation protologue = taxonName
+                        .getPublishedInCitations().iterator().next();
+                Reference reference = referenceService.find(protologue
+                        .getIdentifier().toString());
+                if (reference == null) {
+                    // We've not seen this before
+                    reference = new Reference();
+                }
+                // TODO Created / modified dates on publications? Bridge too far?
+                
+
+            }
+            if (taxonName.getRank() != null) {
                 taxon.setRank(rankConverter.convert(
-                    taxonConcept.getHasName()
-                      .getRankString()));
+                        taxonName.getRankString()));
             } else {
                 taxon.setRank(rankConverter.convert(
-                        taxonConcept.getHasName()
-                          .getRankString()));
+                        taxonName.getRankString()));
             }
 
         } else {
@@ -143,9 +172,10 @@ public class OaiPmhRecordProcessor extends TaxonRelationshipResolver
         }
         if (taxonConcept.getHasRelationship() != null) {
             for (Relationship relationship
-                : taxonConcept.getHasRelationship()) {
+                    : taxonConcept.getHasRelationship()) {
                 addRelationship(taxon, relationship);
             }
+
         }
 
         if (taxonConcept.getDescribedBy() != null) {
@@ -188,14 +218,17 @@ public class OaiPmhRecordProcessor extends TaxonRelationshipResolver
     private void addRelationship(final Taxon taxon,
             final Relationship relationship) {
         String identifier = null;
-        if (relationship.getToTaxonRelation().getTaxonConcept() != null
+        if (relationship.getToTaxonRelation() != null
+                && relationship.getToTaxonRelation().getTaxonConcept() != null
                 && relationship.getToTaxonRelation().getTaxonConcept()
-                .getIdentifier() != null) {
+                        .getIdentifier() != null) {
             identifier = relationship.getToTaxonRelation().getTaxonConcept()
                     .getIdentifier().toString();
         } else if (relationship.getToTaxonRelation().getResource() != null) {
             identifier = relationship.getToTaxonRelation().getResource()
                     .toString();
+        } else {
+            logger.warn("Could not get related taxon");
         }
 
         if (identifier != null) {
@@ -220,6 +253,10 @@ public class OaiPmhRecordProcessor extends TaxonRelationshipResolver
             final Set<DefinedTermLinkType> hasValueRelation) {
         // TODO - what if there are no terms or multiple terms - throw an error?
         GeographicalRegion region = null;
+        if (hasValueRelation == null || hasValueRelation.isEmpty()) {
+            logger.error("No geographical term returned");
+            return null;
+        }
         DefinedTermLinkType definedTermLinkType = hasValueRelation.iterator()
                 .next();
         if (definedTermLinkType.getDefinedTerm() != null) {
