@@ -204,37 +204,37 @@
     <mapping map-id="accepted">
         <class-a>org.emonocot.checklist.model.Taxon</class-a>
         <class-b bean-factory="org.emonocot.checklist.view.assembler.AcceptedRelationshipBeanFactory">org.tdwg.voc.Relationship</class-b>
-        <field>
+        <!-- <field>
             <a>this</a>
             <b>toTaxon</b>
-        </field>
+        </field>-->
     </mapping>  
     
     <mapping map-id="synonym">
         <class-a>org.emonocot.checklist.model.Taxon</class-a>
         <class-b bean-factory="org.emonocot.checklist.view.assembler.SynonymRelationshipBeanFactory">org.tdwg.voc.Relationship</class-b>
-        <field>
+        <!-- <field>
             <a>this</a>
             <b>toTaxon</b>
-        </field>
+        </field>-->
     </mapping>
     
     <mapping map-id="parent">
         <class-a>org.emonocot.checklist.model.Taxon</class-a>
         <class-b bean-factory="org.emonocot.checklist.view.assembler.ParentRelationshipBeanFactory">org.tdwg.voc.Relationship</class-b>
-        <field>
+        <!-- <field>
             <a>this</a>
             <b>toTaxon</b>
-        </field>
+        </field>-->
     </mapping>
     
     <mapping map-id="child">
         <class-a>org.emonocot.checklist.model.Taxon</class-a>
         <class-b bean-factory="org.emonocot.checklist.view.assembler.ChildRelationshipBeanFactory">org.tdwg.voc.Relationship</class-b>
-        <field>
+        <!-- <field>
             <a>this</a>
             <b>toTaxon</b>
-        </field>
+        </field>-->
     </mapping>
     
      <mapping>

@@ -277,7 +277,7 @@ public class Taxon extends Base {
      * @return the immediate taxonomic parent
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @Cascade({CascadeType.ALL })
+    @Cascade({CascadeType.SAVE_UPDATE })
     public Taxon getParent() {
         return parent;
     }
@@ -313,7 +313,7 @@ public class Taxon extends Base {
      * @return get the accepted name of this synonym
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @Cascade({CascadeType.ALL })
+    @Cascade({CascadeType.SAVE_UPDATE })
     public Taxon getAccepted() {
         return accepted;
     }
@@ -426,6 +426,7 @@ public class Taxon extends Base {
     /**
      * @return the authorship
      */
+    @Field
     public String getAuthorship() {
         return authorship;
     }
@@ -433,6 +434,7 @@ public class Taxon extends Base {
     /**
      * @return the basionymAuthorship
      */
+    @Field
     public String getBasionymAuthorship() {
         return basionymAuthorship;
     }
@@ -440,6 +442,7 @@ public class Taxon extends Base {
     /**
      * @return the uninomial
      */
+    @Field
     public String getUninomial() {
         return uninomial;
     }
@@ -447,6 +450,7 @@ public class Taxon extends Base {
     /**
      * @return the genus
      */
+    @Field
     public String getGenus() {
         return genus;
     }
@@ -454,6 +458,7 @@ public class Taxon extends Base {
     /**
      * @return the specificEpithet
      */
+    @Field
     public String getSpecificEpithet() {
         return specificEpithet;
     }
@@ -461,6 +466,7 @@ public class Taxon extends Base {
     /**
      * @return the infraSpecificEpithet
      */
+    @Field
     public String getInfraSpecificEpithet() {
         return infraSpecificEpithet;
     }
@@ -497,6 +503,7 @@ public class Taxon extends Base {
     /**
      * @return the infrageneric epithet
      */
+    @Field
     public String getInfraGenericEpithet() {
         return infraGenericEpithet;
     }
@@ -512,6 +519,7 @@ public class Taxon extends Base {
     /**
      * @return the according to
      */
+    @Field
     public String getAccordingTo() {
         return accordingTo;
     }
@@ -575,6 +583,7 @@ public class Taxon extends Base {
     /**
      * @return the family
      */
+    @Field
     public String getFamily() {
         return family;
     }
@@ -582,6 +591,7 @@ public class Taxon extends Base {
     /**
      * @return the kingdom
      */
+    @Field
     public String getKingdom() {
         return kingdom;
     }
@@ -589,6 +599,7 @@ public class Taxon extends Base {
     /**
      * @return the phylum
      */
+    @Field
     public String getPhylum() {
         return phylum;
     }
@@ -596,6 +607,7 @@ public class Taxon extends Base {
     /**
      * @return the order
      */
+    @Field
     @Column(name = "ordr")
     public String getOrder() {
         return order;

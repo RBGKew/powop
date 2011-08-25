@@ -202,16 +202,11 @@ public abstract class Base {
             return false;
         }
         Base base = (Base) other;
-        return ObjectUtils.equals(this.created, base.created)
-                && ObjectUtils.equals(this.modified, base.modified)
-                && ObjectUtils.equals(this.license, base.license)
-                && ObjectUtils.equals(this.creator, base.creator);
+        return ObjectUtils.equals(this.identifier, base.identifier);
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode() + ObjectUtils.hashCode(this.created)
-                + ObjectUtils.hashCode(this.modified) + ObjectUtils.hashCode(this.license)
-                + ObjectUtils.hashCode(this.creator);
+        return ObjectUtils.hashCode(this.identifier);
     }
 }

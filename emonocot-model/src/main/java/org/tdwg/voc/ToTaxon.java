@@ -44,7 +44,7 @@ public class ToTaxon {
    /**
     *
     */
-   protected ToTaxon() {
+   public ToTaxon() {
    }
 
    /**

@@ -117,4 +117,12 @@ public class Relationship extends BaseThing {
    public final RelationshipCategory getRelationshipCategoryRelation() {
        return tcRelationshipCategory;
    }
+
+   /**
+    *
+    * @param toTaxon Set the toTaxon
+    */
+    public final void setToTaxon(final ToTaxon toTaxon) {
+        this.tcToTaxon = toTaxon;
+    }
 }

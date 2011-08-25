@@ -13,5 +13,9 @@ public enum TaxonomicStatus {
     /**
      *
      */
-    synonym
+    synonym,
+    /**
+     *
+     */
+    unplaced
 }

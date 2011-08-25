@@ -1,8 +1,16 @@
 package org.emonocot.checklist.view.assembler;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import org.dozer.BeanFactory;
+import org.emonocot.checklist.model.Taxon;
+import org.hibernate.LazyInitializationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tdwg.voc.Relationship;
 import org.tdwg.voc.TaxonRelationshipTerm;
+import org.tdwg.voc.ToTaxon;
 
 /**
  *
@@ -10,6 +18,11 @@ import org.tdwg.voc.TaxonRelationshipTerm;
  *
  */
 public abstract class TaxonRelationshipBeanFactory implements BeanFactory {
+    /**
+     *
+     */
+    private static Logger logger = LoggerFactory
+            .getLogger(TaxonRelationshipBeanFactory.class);
 
     /**
      *
@@ -31,6 +44,17 @@ public abstract class TaxonRelationshipBeanFactory implements BeanFactory {
         }
         Relationship relationship = new Relationship();
         relationship.setRelationshipCategoryRelation(getRelationshipTerm());
+        try {
+            Taxon taxon = (Taxon) source;
+            ToTaxon toTaxon = new ToTaxon();
+            toTaxon.setResource(new URI(taxon.getIdentifier()));
+            relationship.setToTaxon(toTaxon);
+        } catch (LazyInitializationException lie) {
+            logger.error("Exception initializing taxon " + lie.getMessage());
+        } catch (URISyntaxException use) {
+            logger.error("Could not convert identifier to uri "
+                    + use.getMessage());
+        }
         return relationship;
     }
 
