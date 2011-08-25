@@ -32,20 +32,23 @@ public class GeographicRegionConverter implements CustomConverter {
             Distribution distribution = (Distribution) source;
             GeographicRegion geographicRegion = new GeographicRegion();
 
-            if (distribution.getCountry() == null) {
+            if (distribution.getCountry() != null) {
+                geographicRegion.setCode(distribution.getCountry().getCode());
+                geographicRegion.setName(distribution.getCountry().getName());
+
+            } else if (distribution.getRegion() != null) {
                 geographicRegion.setCode(distribution.getRegion().getCode()
                         .toString());
                 geographicRegion.setName(distribution.getRegion().getName());
-            } else {
-                geographicRegion.setCode(distribution.getCountry().getCode());
-                geographicRegion.setName(distribution.getCountry().getName());
             }
-            try {
-                geographicRegion.setIdentifier(new URI(
-                        "http://rs.tdwg.org/ontology/voc/GeographicRegion.rdf#"
-                                + geographicRegion.getCode()));
-            } catch (URISyntaxException use) {
-                throw new MappingException(use);
+            if (geographicRegion.getCode() != null) {
+                try {
+                    geographicRegion.setIdentifier(new URI(
+                       "http://rs.tdwg.org/ontology/voc/GeographicRegion.rdf#"
+                                    + geographicRegion.getCode()));
+                } catch (URISyntaxException use) {
+                    throw new MappingException(use);
+                }
             }
             return geographicRegion;
         } else {
