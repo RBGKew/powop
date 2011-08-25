@@ -105,7 +105,7 @@ public class EoLTextDataObjectConverter implements
                             textContent.getTaxon());
 
             if (persistedTextContent != null
-                    && persistedTextContent.equals(textContent)) {
+                    && !persistedTextContent.getModified().isBefore(textContent.getModified())) {
                 return persistedTextContent;
             }
         }
