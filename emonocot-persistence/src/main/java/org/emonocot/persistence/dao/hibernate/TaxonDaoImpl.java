@@ -32,7 +32,8 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
                 new Fetch("parent", FetchMode.JOIN),
                 new Fetch("accepted", FetchMode.JOIN),
                 new Fetch("children", FetchMode.SELECT),
-                new Fetch("synonyms", FetchMode.SELECT)
+                new Fetch("synonyms", FetchMode.SELECT),
+                new Fetch("annotations", FetchMode.SELECT)
         });
         FETCH_PROFILES.put("taxon-page", new Fetch[] {
                 new Fetch("parent", FetchMode.JOIN),
@@ -73,6 +74,13 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
         case CONTINENT:
             facetingRequest = facetContext.name(facetName.name())
                     .onField("continent").discrete()
+                    .orderedBy(FacetSortOrder.FIELD_VALUE)
+                    .includeZeroCounts(true)
+                    .createFacetingRequest();
+            break;
+        case FAMILY:
+            facetingRequest = facetContext.name(facetName.name())
+                    .onField("family").discrete()
                     .orderedBy(FacetSortOrder.FIELD_VALUE)
                     .includeZeroCounts(true)
                     .createFacetingRequest();

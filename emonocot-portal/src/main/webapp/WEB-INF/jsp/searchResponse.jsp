@@ -161,7 +161,7 @@
         <div class="threecol">
         <ul id="facets">
           <c:forEach var="facetName" items="${result.facetNames}">
-            <li><spring:message code="${facetName}" />            
+            <li><h2><spring:message code="${facetName}" /></h2>            
               <ul class="facet">              
                 <jsp:scriptlet>
                   String facetName = (String) pageContext.getAttribute("facetName");
@@ -196,14 +196,14 @@
                       org.hibernate.search.query.facet.Facet facet = result.getFacets().get(facetName).get(result.getSelectedFacets().get(facetName));
                       pageContext.setAttribute("selectedFacetName",facet.getValue());   
                     </jsp:scriptlet>
-                    <spring:message code="${selectedFacetName}" />
+                    ${selectedFacetName}
                   </li>
                 </c:when>
                 <c:otherwise>
                   <c:forEach var="facet" items="${result.facets[facetName]}" varStatus="loopStatus">
                     <li>
                       <c:choose>
-                        <c:when test="${facet.count == 0}"><spring:message code="${facet.value}" /></c:when>
+                        <c:when test="${facet.count == 0}">${facet.value}</c:when>
                         <c:otherwise>
                           <jsp:element name="a">
                             <jsp:attribute name="href">
@@ -224,7 +224,7 @@
                                 </c:forEach>
                             </c:url>
                           </jsp:attribute>
-                          <spring:message code="${facet.value}" />
+                          ${facet.value}
                         </jsp:element>
                       </c:otherwise>
                     </c:choose>

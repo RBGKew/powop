@@ -18,11 +18,16 @@ import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.params.HttpProtocolParams;
 import org.emonocot.job.io.StaxEventItemReader;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.openarchives.pmh.Metadata;
+import org.openarchives.pmh.Record;
 import org.openarchives.pmh.ResumptionToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +38,7 @@ import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.oxm.Unmarshaller;
+import org.tdwg.voc.TaxonConcept;
 
 /**
  *
@@ -51,7 +57,8 @@ public class OaiPmhClient implements StepExecutionListener {
      *
      * Hmm!
      */
-    private static final DateTimeFormatter DATE_TIME_PRINTER = ISODateTimeFormat.dateTimeNoMillis();
+    private static final DateTimeFormatter DATE_TIME_PRINTER = ISODateTimeFormat
+            .dateTimeNoMillis();
 
     /**
     *
@@ -124,6 +131,13 @@ public class OaiPmhClient implements StepExecutionListener {
 
     /**
      *
+     */
+    private int connectionTimeoutMillis = 180;
+
+    private int socketTimeoutMillis = 360;
+
+    /**
+     *
      * @param newUnmarshaller
      *            Set the unmarshaller to use
      */
@@ -159,14 +173,19 @@ public class OaiPmhClient implements StepExecutionListener {
     public final ExitStatus listRecords(final String authorityName,
             final String authorityUri, final String dateLastHarvested,
             final String temporaryFileName, final String requestSubsetName) {
+        logger.info("ProxyHost " + proxyHost + " ProxyPort " + proxyPort);
         if (proxyHost != null && proxyPort != null) {
+            logger.info("Setting Proxy");
             HttpHost proxy = new HttpHost(proxyHost, proxyPort);
             httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,
                     proxy);
         }
-
-        httpClient.getParams().setParameter("http.useragent",
+        HttpParams httpParams = httpClient.getParams();
+        HttpProtocolParams.setUserAgent(httpParams,
                 "org.emonocot.ws.checklist.OaiPmhClient");
+        HttpConnectionParams.setConnectionTimeout(httpParams,
+                connectionTimeoutMillis);
+        HttpConnectionParams.setSoTimeout(httpParams, socketTimeoutMillis);
         BufferedInputStream bufferedInputStream = null;
         BufferedOutputStream bufferedOutputStream = null;
 
@@ -282,6 +301,155 @@ public class OaiPmhClient implements StepExecutionListener {
             }
         }
     }
+
+   /**
+    *
+    * @param identifier The identifier of the record you want to get
+    *
+    * @param authorityName
+    *            The name of the authority being harvested.
+    * @param authorityUri
+    *            The endpoint (uri) being harvested.
+    * @param temporaryFileName
+    *            The name of the temporary file to store the response in.
+    * @return An exit status indicating that the step was completed, failed, or
+    *         if the authority responded with a NO RECORDS MATCH response
+    *         indicating that no records have been modified
+    */
+    public final TaxonConcept getRecord(final String identifier,
+            final String authorityName, final String authorityUri,
+            final String temporaryFileName) throws Exception {
+       if (proxyHost != null && proxyPort != null) {
+           HttpHost proxy = new HttpHost(proxyHost, proxyPort);
+           httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,
+                   proxy);
+       }
+
+       HttpParams httpParams = httpClient.getParams();
+       HttpProtocolParams.setUserAgent(httpParams,
+               "org.emonocot.ws.checklist.OaiPmhClient");
+       HttpConnectionParams.setConnectionTimeout(httpParams,
+               connectionTimeoutMillis);
+       HttpConnectionParams.setSoTimeout(httpParams, socketTimeoutMillis);
+       BufferedInputStream bufferedInputStream = null;
+       BufferedOutputStream bufferedOutputStream = null;
+
+       StringBuffer query = new StringBuffer("?");
+       query.append("scratchpad=" + servicesClientIdentifier);
+
+       logger.info("Authority name: " + authorityName
+               + " Authority URI: " + authorityUri
+               + " tempFile: " + temporaryFileName
+               + " identifier " + identifier);
+
+
+        query.append("&verb=GetRecord&metadataPrefix=rdf&identifier="
+                + identifier);
+       HttpGet httpGet = new HttpGet(authorityUri + query.toString());
+       try {
+           logger.info("Issuing " + httpGet.getRequestLine().toString());
+           HttpResponse httpResponse = httpClient.execute(httpGet);
+           logger.info("Got response "
+                   + httpResponse.getStatusLine().toString());
+
+           switch (httpResponse.getStatusLine().getStatusCode()) {
+           case HttpURLConnection.HTTP_OK:
+               logger.info("Got Status 200 OK");
+               HttpEntity entity = httpResponse.getEntity();
+               if (entity != null) {
+                   bufferedInputStream = new BufferedInputStream(
+                           entity.getContent());
+                   bufferedOutputStream = new BufferedOutputStream(
+                           new FileOutputStream(new File(temporaryFileName)));
+                   int count;
+                   byte[] data = new byte[BUFFER];
+                   while ((count = bufferedInputStream.read(data, 0, BUFFER)) != -1) {
+                       bufferedOutputStream.write(data, 0, count);
+                   }
+                   bufferedOutputStream.flush();
+                   bufferedOutputStream.close();
+                   bufferedInputStream.close();
+               } else {
+                   logger.info("Server returned "
+                           + httpResponse.getStatusLine()
+                           + " but HttpEntity is null");
+                   throw new Exception("Server returned "
+                           + httpResponse.getStatusLine()
+                           + " but HttpEntity is null");
+               }
+               StaxEventItemReader<Record> staxEventItemReader
+               = new StaxEventItemReader<Record>();
+               staxEventItemReader
+                   .setFragmentRootElementName(
+                   "{http://www.openarchives.org/OAI/2.0/}record");
+               staxEventItemReader.setUnmarshaller(unmarshaller);
+               staxEventItemReader.setResource(new FileSystemResource(
+                   temporaryFileName));
+
+               staxEventItemReader.afterPropertiesSet();
+               staxEventItemReader.open(stepExecution.getExecutionContext());
+
+               Record record = staxEventItemReader.read();
+               staxEventItemReader.close();
+               return record.getMetadata().getTaxonConcept();
+           default:
+               logger.info("Server returned unexpected status code "
+                       + httpResponse.getStatusLine() + " for document "
+                       + authorityUri); // This is not an error in this
+                                        // application but a server side error
+               BufferedHttpEntity bufferedEntity
+                   = new BufferedHttpEntity(httpResponse.getEntity());
+               InputStreamReader reader
+                   = new InputStreamReader(bufferedEntity.getContent());
+               StringBuffer stringBuffer = new StringBuffer();
+               int count;
+               char[] content = new char[BUFFER];
+               while ((count = reader.read(content, 0, BUFFER)) != -1) {
+                  stringBuffer.append(content);
+               }
+               logger.info("Server Response was: " + stringBuffer.toString());
+               httpGet.abort();
+               throw new Exception("Server returned unexpected status code "
+                       + httpResponse.getStatusLine() + " for document "
+                       + authorityUri);
+           }
+
+       } catch (ClientProtocolException cpe) {
+           logger.error("Client Protocol Exception getting document "
+                   + authorityUri + " " + cpe.getLocalizedMessage());
+           throw new Exception("Client Protocol Exception getting document "
+                   + authorityUri + " " + cpe.getLocalizedMessage(), cpe);
+       } catch (IOException ioe) {
+           logger.error("Input Output Exception getting document "
+                   + authorityUri + " " + ioe.getLocalizedMessage());
+           throw new Exception("Input Output Exception getting document "
+                   + authorityUri + " " + ioe.getLocalizedMessage(), ioe);
+       } catch (Exception e) {
+           logger.error("Exception reading document "
+                   + temporaryFileName + " " + e.getLocalizedMessage());
+           throw new Exception("Exception reading document "
+                   + temporaryFileName + " " + e.getLocalizedMessage());
+    } finally {
+           if (bufferedInputStream != null) {
+               try {
+                   bufferedInputStream.close();
+               } catch (IOException ioe) {
+                   logger.error(
+                           "Input Output Exception closing inputStream for "
+                           + authorityUri + " " + ioe.getLocalizedMessage());
+               }
+           }
+           if (bufferedOutputStream != null) {
+               try {
+                   bufferedOutputStream.close();
+               } catch (IOException ioe) {
+                   logger.error(
+                           "Input Output Exception closing outputStream for "
+                           + authorityUri + " " + ioe.getLocalizedMessage());
+               }
+           }
+       }
+   }
 
     /**
      *

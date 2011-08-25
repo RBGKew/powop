@@ -6,6 +6,12 @@ package org.emonocot.persistence.dao;
  *
  */
 public enum FacetName {
-    CONTINENT
-
+    /**
+     * Facet on the continent.
+     */
+    CONTINENT,
+    /**
+     * Facet on the taxonomic family.
+     */
+    FAMILY
 }

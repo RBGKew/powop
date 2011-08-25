@@ -172,7 +172,7 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
                 luceneQuery = queryBuilder.all().createQuery();
             }
             FullTextQuery fullTextQuery
-                = fullTextSession.createFullTextQuery(luceneQuery);
+                = fullTextSession.createFullTextQuery(luceneQuery, type);
             if (spatialQuery != null && spatialQuery.trim().length() != 0) {
                 // TODO Implement spatial filter
             }

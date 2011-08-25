@@ -88,7 +88,8 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
      */
     public final void onProcessError(final Base item, final Exception e) {
         if (e instanceof DescriptionProcessingException) {
-            DarwinCoreProcessingException dwcpe = (DarwinCoreProcessingException) e;
+            DarwinCoreProcessingException dwcpe
+                = (DarwinCoreProcessingException) e;
             logger.debug(dwcpe.getCode() + " | " + dwcpe.getMessage());
             final Annotation annotation = new Annotation();
             annotation.setJobId(stepExecution.getJobExecutionId());
@@ -102,7 +103,7 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
                   return getSession().save(annotation);
                 }
               });
-        }      
+        }
     }
 
     /**
@@ -124,7 +125,7 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
      * @param base the object read
      */
     public void afterRead(Base base) {
-        
+
     }
 
     /**

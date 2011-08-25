@@ -22,7 +22,6 @@ public abstract class DarwinCoreFieldSetMapper<T extends Base> extends
      *
      */
     private Logger logger = LoggerFactory.getLogger(DarwinCoreFieldSetMapper.class);
-    
 
     /**
      *

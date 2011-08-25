@@ -15,6 +15,12 @@ public class TaxonRelationship {
     *
     */
    private Taxon from;
+
+   /**
+    *
+    */
+   private String toIdentifier;
+
    /**
     *
     */
@@ -22,6 +28,7 @@ public class TaxonRelationship {
    /**
     *
     */
+
    private Callable<Taxon> to;
 
    /**
@@ -64,5 +71,19 @@ public class TaxonRelationship {
      */
     public final Callable<Taxon> getTo() {
         return to;
+    }
+
+    /**
+     * @return the toIdentifier
+     */
+    public final String getToIdentifier() {
+        return toIdentifier;
+    }
+
+    /**
+     * @param newToIdentifier the toIdentifier to set
+     */
+    public final void setToIdentifier(final String newToIdentifier) {
+        this.toIdentifier = newToIdentifier;
     }
 }

@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -130,6 +131,7 @@ public class ChecklistHarvestingJobIntegrationTest {
      *             if the job is already running
      */
     @Test
+    @Ignore
     public final void testHarvestBySet() throws IOException,
             NoSuchJobException, JobExecutionAlreadyRunningException,
             JobRestartException, JobInstanceAlreadyCompleteException,

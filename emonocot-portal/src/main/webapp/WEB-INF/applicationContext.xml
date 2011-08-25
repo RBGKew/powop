@@ -16,7 +16,7 @@
 
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
-		<property name="basename" value="messages" />
+		<property name="basename" value="portal-messages" />
 	</bean>
 
 	<bean id="conversionService" class="org.emonocot.portal.format.PortalFormatterFactory" />

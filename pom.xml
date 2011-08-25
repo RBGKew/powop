@@ -26,7 +26,7 @@
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>3.0.5.RELEASE</spring.version>
+        <spring.version>3.0.6.RELEASE</spring.version>
         <hibernate.version>3.6.2.Final</hibernate.version>
         <spring.security.version>3.0.4.RELEASE</spring.security.version>
         <spring.batch.version>2.1.6.RELEASE</spring.batch.version>

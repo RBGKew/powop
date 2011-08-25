@@ -35,7 +35,7 @@
 		<batch:step id="resumeHarvesting">
 		    <batch:description>Is there a resumption token available or should we finish harvesting?</batch:description>
 			<batch:tasklet ref="oaiPmhResumptionTokenTasklet" />
-			<batch:next on="NO RESUMPTION TOKEN" to="cleanupResources" />
+			<batch:next on="NO RESUMPTION TOKEN" to="checkNullRecords" />
 			<batch:next on="RESUMPTION TOKEN PRESENT" to="throttleRequests" />
 			<batch:listeners>
 				<batch:listener ref="oaiPmhClient" />
@@ -45,6 +45,17 @@
 		    <batch:description>Waits for a defined period to avoid overwhelming the server with lots of requests</batch:description>
 			<batch:tasklet ref="throttleRequestsTasklet" />
 			<batch:next on="COMPLETED" to="listRecords" />
+	    </batch:step>
+	    <batch:step id="checkNullRecords">
+	        <batch:description>Get the NULL records which haven't been harvested within this job</batch:description>
+	        <batch:tasklet>
+	          <batch:chunk reader="nullItemReader" processor="nullItemProcessor"
+					writer="itemWriter" commit-interval="10"/>
+	        </batch:tasklet>
+	        <batch:next on="COMPLETED" to="cleanupResources"/>
+	        <batch:listeners>
+	          <batch:listener ref="nullItemProcessor"/>
+	        </batch:listeners>
 	    </batch:step>
 		<batch:step id="cleanupResources">
 		    <batch:description>Cleanup the resources</batch:description>
@@ -162,6 +173,18 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="nullItemReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
+	  <property name="useStatelessSession" value="false"/>
+	  <property name="sessionFactory" ref="sessionFactory" />
+	  <property name="queryString" value="select t.identifier from Taxon t left join t.annotations a where a.jobId = :jobId and a.code = :code and t.name is null"/>
+	  <property name="parameterValues">
+	    <map>
+	     <entry key="jobId" value="#{stepExecution.jobExecutionId}"/>
+	     <entry key="code" value="Created"/>
+	    </map>
+	  </property>
+	</bean>
 
     <bean id="taxonItemProcessor" class="org.emonocot.job.checklist.OaiPmhRecordProcessor" />
 
@@ -173,5 +196,13 @@
 	<bean id="itemWriter" class="org.emonocot.job.checklist.OaiPmhRecordItemWriter">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-
+	
+	<bean id="nullItemProcessor" class="org.emonocot.job.checklist.NullTaxonProcessor" scope="step">
+	  <property name="oaiPmhClient" ref="oaiPmhClient"/>
+	  <property name="oaiPmhRecordProcessor" ref="taxonItemProcessor"/>
+	  <property name="taxonService" ref="taxonServiceImpl"/>
+	  <property name="authorityName" value="#{jobParameters['authority.name']}"/>
+	  <property name="authorityUri" value="#{jobParameters['authority.uri']}"/>
+	  <property name="temporaryFileName" value="#{jobParameters['temporary.file.name']}"/>
+	</bean>
 </beans>

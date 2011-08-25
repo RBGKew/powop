@@ -10,6 +10,7 @@ import org.emonocot.model.geography.GeographyConverter;
 import org.emonocot.model.taxon.Rank;
 import org.emonocot.model.taxon.RankConverter;
 import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.taxon.TaxonomicStatus;
 import org.hibernate.engine.Status;
 import org.openarchives.pmh.Record;
 import org.slf4j.Logger;
@@ -34,7 +35,7 @@ import org.tdwg.voc.TaxonRelationshipTerm;
  *
  */
 public class OaiPmhRecordProcessor extends TaxonRelationshipResolver
-    implements ItemProcessor<Record, Taxon>, StepExecutionListener {
+    implements ItemProcessor<Record, Taxon> {
 
    /**
     *
@@ -52,8 +53,6 @@ public class OaiPmhRecordProcessor extends TaxonRelationshipResolver
      *
      */
     private Converter<String, Rank> rankConverter = new RankConverter();
-
-    private StepExecution stepExecution;
 
     /**
      * @param record an OAI-PMH Record object
@@ -78,7 +77,7 @@ public class OaiPmhRecordProcessor extends TaxonRelationshipResolver
                         .getTaxonConcept();
                 Annotation annotation = new Annotation();
                 annotation.setAnnotatedObjType("Taxon");
-                annotation.setJobId(stepExecution.getJobExecutionId());
+                annotation.setJobId(getStepExecution().getJobExecutionId());
                 annotation.setCode("Created");
                 taxon.getAnnotations().add(annotation);
                 processTaxon(taxon, taxonConcept);
@@ -95,9 +94,10 @@ public class OaiPmhRecordProcessor extends TaxonRelationshipResolver
                 .getTaxonConcept();
                 Annotation annotation = new Annotation();
                 annotation.setAnnotatedObjType("Taxon");
-                annotation.setJobId(stepExecution.getJobExecutionId());
+                annotation.setJobId(getStepExecution().getJobExecutionId());
                 annotation.setCode("Updated");
                 taxon.getAnnotations().add(annotation);
+
                 processTaxon(taxon, taxonConcept);
             }
         }
@@ -111,7 +111,7 @@ public class OaiPmhRecordProcessor extends TaxonRelationshipResolver
      * @param taxon Set the taxon object
      * @param taxonConcept Set the taxonConcept object
      */
-    private void processTaxon(
+    public final void processTaxon(
             final Taxon taxon, final TaxonConcept taxonConcept) {
         taxon.setIdentifier(taxonConcept.getIdentifier().toString());
         super.bind(taxon);
@@ -121,6 +121,7 @@ public class OaiPmhRecordProcessor extends TaxonRelationshipResolver
             taxon.setAuthorship(taxonConcept.getHasName().getAuthorship());
             taxon.setBasionymAuthorship(
                     taxonConcept.getHasName().getBasionymAuthorship());
+            taxon.setFamily(taxonConcept.getHasName().getFamily());
             taxon.setUninomial(taxonConcept.getHasName().getUninomial());
             taxon.setGenus(taxonConcept.getHasName().getGenusPart());
             taxon.setSpecificEpithet(
@@ -200,8 +201,10 @@ public class OaiPmhRecordProcessor extends TaxonRelationshipResolver
         if (identifier != null) {
             TaxonRelationshipTerm term = resolveRelationshipTerm(relationship
                 .getRelationshipCategoryRelation());
-            addTaxonRelationship(new TaxonRelationship(taxon, term),
-                    identifier);
+            TaxonRelationship taxonRelationship = new TaxonRelationship(taxon,
+                    term);
+            taxonRelationship.setToIdentifier(identifier);
+            addTaxonRelationship(taxonRelationship, identifier);
         } else {
             logger.warn("Could not find identifier for relationship of taxon "
                     + taxon.getIdentifier());
@@ -247,20 +250,5 @@ public class OaiPmhRecordProcessor extends TaxonRelationshipResolver
             return TaxonRelationshipTerm.fromValue(relationshipCategory
                     .getResource().toString());
         }
-    }
-
-    /**
-     * @param newStepExecution Set the step exectuion
-     */
-    public void beforeStep(StepExecution newStepExecution) {
-        this.stepExecution = newStepExecution;
-    }
-
-    /**
-     * @param stepExectuion Set the step execution
-     * @return the exit status
-     */
-    public ExitStatus afterStep(StepExecution stepExecution) {
-        return null;
     }
 }

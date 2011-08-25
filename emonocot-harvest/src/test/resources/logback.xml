@@ -12,6 +12,13 @@
   <logger name="org.emonocot.ws" additivity="false" level="INFO">
     <appender-ref ref="stdout"/>
   </logger>
+  <logger name="org.emonocot.harvest" additivity="false" level="INFO">
+    <appender-ref ref="stdout"/>
+  </logger>
+  <!-- Uncomment to see the SQL -->
+  <!-- <logger name="org.hibernate.SQL" level="TRACE">
+    <appender-ref ref="stdout"/>
+  </logger>-->
   <root level="WARN">
     <appender-ref ref="stdout"/>
   </root>

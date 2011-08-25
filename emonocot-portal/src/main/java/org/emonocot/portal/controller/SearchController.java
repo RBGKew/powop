@@ -1,6 +1,7 @@
 package org.emonocot.portal.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.emonocot.model.pager.Page;
@@ -70,29 +71,24 @@ public class SearchController {
                     required = false, defaultValue = "0") final Integer start,
             @RequestParam(value = "facet", required = false)
             @FacetRequestFormat
-                final FacetRequest facets) {
-        /**
-         * Set<FacetRequest> facets stick to  single facet for now due to
-         * SPR-7839
-         * DataBinder/BeanWrapper regression: Binding to a nested Map
-         * property fails in 3.0.5, works in 3.0.4
-         */
+                final List<FacetRequest> facets) {
 
         ModelAndView modelAndView = new ModelAndView("searchResponse");
 
 
         Map<FacetName, Integer> selectedFacets = null;
-        if (facets != null) { // && !facets.isEmpty()
+        if (facets != null && !facets.isEmpty()) {
             selectedFacets = new HashMap<FacetName, Integer>();
-            //for (FacetRequest facetRequest : facets) {
+            for (FacetRequest facetRequest : facets) {
                 selectedFacets
-                  .put(facets.getFacet(), facets.getSelected());
-           // }
+                  .put(facetRequest.getFacet(), facetRequest.getSelected());
+            }
         }
 
         Page<Taxon> result = taxonService.search(
                 query, null, limit, start,
-                new FacetName[]{FacetName.CONTINENT}, selectedFacets);
+                new FacetName[]{
+                     FacetName.FAMILY, FacetName.CONTINENT}, selectedFacets);
         queryLog.info("Query: \'{}\', start: {}, limit: {},"
                 + "facet: [{}], {} results",
                 new Object[]{query, start, limit, selectedFacets,
