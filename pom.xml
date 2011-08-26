@@ -821,7 +821,7 @@
                 <version>2.1</version>
                 <configuration>
                     <preparationGoals>clean install</preparationGoals>
-                    <goals>deploy site-deploy</goals>
+                    <goals>deploy</goals>
                 </configuration>
             </plugin>
         </plugins>
