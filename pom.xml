@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.emonocot</groupId>
     <artifactId>emonocot</artifactId>
-    <version>0.0.8</version>
+    <version>0.0.9-SNAPSHOT</version>
     <description>eMonocot aims to create a global online resource for monocot plants. It will
         provide a focus for taxonomists working on monocots and will help people discover
         information about monocots by providing tools for identification, up-to-date checklists,
@@ -75,7 +75,6 @@
         <connection>scm:cvs:pserver:anonymous:@129.67.24.160:/var/cvs:emonocot</connection>
         <developerConnection>scm:cvs:pserver:${developer.username}:@129.67.24.160:/var/cvs:emonocot</developerConnection>
         <url>http://129.67.24.160/viewvc/cvsroot/emonocot/</url>
-      <tag>emonocot-0_0_8</tag>
   </scm>
     <dependencyManagement>
         <dependencies>
