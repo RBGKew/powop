@@ -315,7 +315,7 @@ public class OaiPmhRecordProcessor extends TaxonRelationshipResolver
         if (definedTermLinkType.getDefinedTerm() != null) {
             region = geographyConverter.convert(definedTermLinkType
                     .getDefinedTerm().getIdentifier().toString());
-        } else {
+        } else if (definedTermLinkType.getResource() != null) {
             region = geographyConverter.convert(definedTermLinkType
                     .getResource().toString());
         }

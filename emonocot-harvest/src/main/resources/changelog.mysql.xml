@@ -599,4 +599,7 @@
             <column name="protologue_id"/>
         </createIndex>
     </changeSet>
+    <changeSet author="ben" id="2011-08-26_10">
+        <dropColumn tableName="Reference" columnName="DTYPE"/>
+    </changeSet>
 </databaseChangeLog>
