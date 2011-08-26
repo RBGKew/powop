@@ -17,7 +17,14 @@ public class GeographyConverter implements
         = "http://rs.tdwg.org/ontology/voc/GeographicRegion.rdf#";
 
 
+    /**
+     * @param identifier set the identifier
+     * @return a geographical region
+     */
     public final GeographicalRegion convert(final String identifier) {
+        if (identifier == null) {
+            return null;
+        }
         if (identifier.startsWith(GeographyConverter.TDWG_VOCABULARY_PREFIX)) {
             String code = identifier
                     .substring(GeographyConverter.TDWG_VOCABULARY_PREFIX

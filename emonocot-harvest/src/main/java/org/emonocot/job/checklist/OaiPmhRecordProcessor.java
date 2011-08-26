@@ -1,5 +1,8 @@
 package org.emonocot.job.checklist;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.emonocot.harvest.common.TaxonRelationship;
@@ -8,6 +11,8 @@ import org.emonocot.model.common.Annotation;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.GeographyConverter;
 import org.emonocot.model.reference.Reference;
+import org.emonocot.model.reference.ReferenceType;
+import org.emonocot.model.reference.ReferenceTypeConverter;
 import org.emonocot.model.taxon.Rank;
 import org.emonocot.model.taxon.RankConverter;
 import org.emonocot.model.taxon.Taxon;
@@ -54,6 +59,12 @@ public class OaiPmhRecordProcessor extends TaxonRelationshipResolver
     /**
      *
      */
+    private Converter<String, ReferenceType>
+        referenceTypeConverter = new ReferenceTypeConverter();
+
+    /**
+     *
+     */
     private Converter<String, Rank> rankConverter = new RankConverter();
 
     /**
@@ -63,9 +74,14 @@ public class OaiPmhRecordProcessor extends TaxonRelationshipResolver
 
     /**
      *
+     */
+    private Map<String, Reference> referencesWithinChunk
+        = new HashMap<String, Reference>();
+
+    /**
+     *
      * @param referenceService Set the reference service
      */
-    @Autowired
     public final void setReferenceService(ReferenceService referenceService) {
         this.referenceService = referenceService;
     }
@@ -149,14 +165,33 @@ public class OaiPmhRecordProcessor extends TaxonRelationshipResolver
                     && !taxonName.getPublishedInCitations().isEmpty()) {
                 PublicationCitation protologue = taxonName
                         .getPublishedInCitations().iterator().next();
-                Reference reference = referenceService.find(protologue
-                        .getIdentifier().toString());
+                String referenceIdentifier = protologue
+                    .getIdentifier().toString();
+                Reference reference = null;
+                if (referencesWithinChunk.containsKey(referenceIdentifier)) {
+                    reference = referencesWithinChunk.get(referenceIdentifier);
+                } else {
+                    reference = referenceService.find(referenceIdentifier);
+                    referencesWithinChunk.put(referenceIdentifier, reference);
+                }
                 if (reference == null) {
                     // We've not seen this before
                     reference = new Reference();
+                    reference.setIdentifier(referenceIdentifier);
+                    referencesWithinChunk.put(referenceIdentifier, reference);
                 }
                 // TODO Created / modified dates on publications? Bridge too far?
-                
+                reference.setTitle(protologue.getTpubTitle());
+                reference.setVolume(protologue.getVolume());
+                reference.setPages(protologue.getPages());
+                reference.setDate(protologue.getDatePublished());
+                if (protologue.getPublicationType() != null
+                        && protologue.getPublicationType()
+                        .getIdentifier() != null) {
+                    reference.setType(referenceTypeConverter.convert(protologue
+                            .getPublicationType().getIdentifier().toString()));
+                }
+                taxon.setProtologue(reference);
 
             }
             if (taxonName.getRank() != null) {
@@ -190,8 +225,9 @@ public class OaiPmhRecordProcessor extends TaxonRelationshipResolver
                             org.emonocot.model.description.Distribution dist
                                 = resolveDistribution(distribution
                                     .getHasValueRelation());
-                            if (!taxon.getDistribution().keySet()
-                                    .contains(dist.getRegion())) {
+                            if (dist.getRegion() != null
+                                    && !taxon.getDistribution().keySet()
+                                            .contains(dist.getRegion())) {
                                 dist.setTaxon(taxon);
                                 taxon.getDistribution().put(dist.getRegion(),
                                         dist);
@@ -204,6 +240,23 @@ public class OaiPmhRecordProcessor extends TaxonRelationshipResolver
                 }
             }
         }
+    }
+
+   /**
+    *
+    */
+    @Override
+   public final void beforeChunk() {
+        this.referencesWithinChunk = new HashMap<String,Reference>();
+        super.beforeChunk();
+   }
+    
+    /**
+     * @param items the items to be written
+     */
+    public final void beforeWrite(final List<? extends Taxon> items) {
+        super.beforeWrite(items);
+        this.referencesWithinChunk.clear();
     }
 
     /**

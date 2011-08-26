@@ -186,7 +186,10 @@
 	  </property>
 	</bean>
 
-    <bean id="taxonItemProcessor" class="org.emonocot.job.checklist.OaiPmhRecordProcessor" />
+    <bean id="taxonItemProcessor" class="org.emonocot.job.checklist.OaiPmhRecordProcessor">
+      <property name="taxonService" ref="taxonServiceImpl"/>
+      <property name="referenceService" ref="referenceServiceImpl"/>
+    </bean>
 
 	<bean id="taxonItemValidator" class="org.emonocot.job.checklist.OaiPmhRecordValidator"
 		scope="step">
@@ -200,6 +203,7 @@
 	<bean id="nullItemProcessor" class="org.emonocot.job.checklist.NullTaxonProcessor" scope="step">
 	  <property name="oaiPmhClient" ref="oaiPmhClient"/>
 	  <property name="oaiPmhRecordProcessor" ref="taxonItemProcessor"/>
+	  <property name="taxonService" ref="taxonServiceImpl"/>
 	  <property name="authorityName" value="#{jobParameters['authority.name']}"/>
 	  <property name="authorityUri" value="#{jobParameters['authority.uri']}"/>
 	  <property name="temporaryFileName" value="#{jobParameters['temporary.file.name']}"/>

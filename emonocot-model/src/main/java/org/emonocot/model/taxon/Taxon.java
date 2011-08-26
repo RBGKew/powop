@@ -180,6 +180,8 @@ public class Taxon extends Base {
      */
     private Set<Annotation> annotations = new HashSet<Annotation>();
 
+    private Reference protologue;
+
     /**
      *
      * @return a list of images of the taxon
@@ -629,6 +631,23 @@ public class Taxon extends Base {
      */
     public void setAnnotations(Set<Annotation> annotations) {
         this.annotations = annotations;
+    }
+
+    /**
+     *
+     * @param reference set the protologue
+     */
+    public void setProtologue(Reference reference) {
+        this.protologue = reference;
+    }
+
+    /**
+     * @return the protologue
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Cascade({CascadeType.SAVE_UPDATE })
+    public final Reference getProtologue() {
+        return protologue;
     }
 
 }

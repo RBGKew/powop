@@ -67,7 +67,6 @@ public abstract class TaxonRelationshipResolver
     *
     * @param taxonService Set the taxon service
     */
-   @Autowired
    public final void setTaxonService(final TaxonService taxonService) {
        this.taxonService = taxonService;
    }
@@ -192,7 +191,7 @@ public abstract class TaxonRelationshipResolver
     /**
      * @param items the items to be written
      */
-    public final void beforeWrite(final List<? extends Taxon> items) {
+    public void beforeWrite(final List<? extends Taxon> items) {
         logger.info("Before Write");
         for (TaxonRelationship taxonRelationship : taxonRelationships) {
             TaxonRelationshipTerm term = taxonRelationship.getTerm();
@@ -253,7 +252,7 @@ public abstract class TaxonRelationshipResolver
     /**
      *
      */
-    public final void beforeChunk() {
+    public void beforeChunk() {
         logger.info("Before Chunk");
         this.taxonRelationships = new HashSet<TaxonRelationship>();
         this.inverseRelationships = new HashMap<String,Set<TaxonRelationship>>();

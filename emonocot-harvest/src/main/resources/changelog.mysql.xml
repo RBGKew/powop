@@ -561,4 +561,42 @@
         <column name="taxon_id" type="bigint"/>
       </addColumn> 
     </changeSet>
+    <changeSet author="ben" id="2011-08-26_1">
+      <addColumn tableName="Reference">
+        <column name="datePublished" type="varchar(255)"/>
+      </addColumn> 
+    </changeSet>
+    <changeSet author="ben" id="2011-08-26_2">
+      <addColumn tableName="Reference">
+        <column name="pages" type="varchar(255)"/>
+      </addColumn> 
+    </changeSet>
+    <changeSet author="ben" id="2011-08-26_3">
+      <addColumn tableName="Reference">
+        <column name="title" type="varchar(255)"/>
+      </addColumn> 
+    </changeSet>
+    <changeSet author="ben" id="2011-08-26_4">
+      <addColumn tableName="Reference">
+        <column name="volume" type="varchar(255)"/>
+      </addColumn> 
+    </changeSet>
+    <changeSet author="ben" id="2011-08-26_5">
+      <addColumn tableName="Reference">
+        <column name="type" type="integer"/>
+      </addColumn> 
+    </changeSet>
+    <changeSet author="ben" id="2011-08-26_7">
+      <addColumn tableName="Taxon">
+        <column name="protologue_id" type="bigint"/>
+      </addColumn> 
+    </changeSet>
+    <changeSet author="ben" id="2011-08-26_8">
+        <addForeignKeyConstraint baseColumnNames="protologue_id" baseTableName="Taxon" constraintName="FK4CD9EAACA0AED" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="Reference"/>
+    </changeSet>
+    <changeSet author="ben" id="2011-08-26_9">
+        <createIndex indexName="Taxon_protologue_IDX" tableName="Taxon" unique="false">
+            <column name="protologue_id"/>
+        </createIndex>
+    </changeSet>
 </databaseChangeLog>

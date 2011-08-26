@@ -3,6 +3,7 @@ package org.emonocot.service.impl;
 import org.emonocot.model.media.Image;
 import org.emonocot.persistence.dao.ImageDao;
 import org.emonocot.service.ImageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,5 +14,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class ImageServiceImpl extends ServiceImpl<Image, ImageDao> implements
         ImageService {
+    
+    @Autowired
+    public void setImageDao(ImageDao imageDao) {
+        super.dao = imageDao;
+    }
 
 }
