@@ -47,7 +47,7 @@
 			<batch:description>Process the core file containing the taxa</batch:description>
 			<batch:tasklet>
 				<batch:chunk reader="taxonReader" processor="taxonProcessor"
-					writer="itemWriter" commit-interval="10" skip-limit="10000">
+					writer="itemWriter" commit-interval="100" skip-limit="10000">
 					<batch:skippable-exception-classes>
                       <batch:include class="org.emonocot.job.dwc.DarwinCoreProcessingException"/>
                       <batch:include class="org.springframework.batch.item.file.FlatFileParseException"/>
@@ -67,7 +67,7 @@
 			<batch:description>Process the extension file containing the descriptions</batch:description>
 			<batch:tasklet>
 				<batch:chunk reader="descriptionReader" processor="descriptionProcessor"
-					writer="itemWriter" commit-interval="10" skip-limit="10000">
+					writer="itemWriter" commit-interval="100" skip-limit="10000">
 					<batch:skippable-exception-classes>
                       <batch:include class="org.emonocot.job.dwc.DarwinCoreProcessingException"/>
                       <batch:include class="org.springframework.batch.item.file.FlatFileParseException"/>
@@ -87,7 +87,7 @@
 			<batch:description>Process the extension file containing the images</batch:description>
 			<batch:tasklet>
 				<batch:chunk reader="imageReader" processor="imageProcessor"
-					writer="itemWriter" commit-interval="10" skip-limit="10000">
+					writer="itemWriter" commit-interval="100" skip-limit="10000">
 					<batch:skippable-exception-classes>
                       <batch:include class="org.emonocot.job.dwc.DarwinCoreProcessingException"/>
                       <batch:include class="org.springframework.batch.item.file.FlatFileParseException"/>
@@ -226,6 +226,7 @@
 		<property name="delimiter">
 			<value>#{jobExecutionContext['dwca.core.fieldsTerminatedBy']}</value>
 		</property>
+		<property name="strict" value="false"/>
 	</bean>
 
 	<bean id="taxonFieldSetMapper" class="org.emonocot.job.dwc.taxon.TaxonFieldSetMapper"  scope="step">
@@ -235,6 +236,7 @@
 		<property name="defaultValues">
 			<value>#{jobExecutionContext['dwca.core.defaultValues']}</value>
 		</property>
+		<property name="taxonService" ref="taxonServiceImpl"/>
 	</bean>
 	
 	<!-- Descriptions -->
@@ -276,6 +278,7 @@
 		<property name="delimiter">
 			<value>#{jobExecutionContext['dwca.description.fieldsTerminatedBy']}</value>
 		</property>
+		<property name="strict" value="false"/>
 	</bean>
 
 	<bean id="descriptionFieldSetMapper" class="org.emonocot.job.dwc.description.DescriptionFieldSetMapper"  scope="step">
@@ -285,6 +288,7 @@
 		<property name="defaultValues">
 			<value>#{jobExecutionContext['dwca.description.defaultValues']}</value>
 		</property>
+		<property name="taxonService" ref="taxonServiceImpl"/>
 	</bean>
 	
 	<!-- Images -->
@@ -326,6 +330,7 @@
 		<property name="delimiter">
 			<value>#{jobExecutionContext['dwca.image.fieldsTerminatedBy']}</value>
 		</property>
+		<property name="strict" value="false"/>
 	</bean>
 
 	<bean id="imageFieldSetMapper" class="org.emonocot.job.dwc.image.ImageFieldSetMapper"  scope="step">
@@ -335,6 +340,7 @@
 		<property name="defaultValues">
 			<value>#{jobExecutionContext['dwca.image.defaultValues']}</value>
 		</property>
+		<property name="taxonService" ref="taxonServiceImpl"/>
 	</bean>
 	
 	<!-- Writing -->

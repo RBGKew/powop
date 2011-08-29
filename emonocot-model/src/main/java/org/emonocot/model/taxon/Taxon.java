@@ -187,6 +187,7 @@ public class Taxon extends Base {
      * @return a list of images of the taxon
      */
     @ManyToMany(fetch = FetchType.LAZY)
+    @Cascade({CascadeType.SAVE_UPDATE})
     @JoinTable(
         name = "Taxon_Image",
         joinColumns = { @JoinColumn(name = "Taxon_id") },
@@ -650,4 +651,13 @@ public class Taxon extends Base {
         return protologue;
     }
 
+    /**
+     *
+     * @param feature set the feature
+     * @return content or null if this taxon has no content
+     */
+    @Transient
+    public final Content getContent(final Feature feature) {
+        return content.get(feature);
+    }
 }

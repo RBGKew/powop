@@ -1,11 +1,11 @@
 package org.emonocot.job.dwc;
 
-import java.io.File;
-import static org.junit.Assert.assertArrayEquals;
 import static org.hamcrest.collection.IsArrayContaining.hasItemInArray;
+import static org.junit.Assert.assertThat;
+
+import java.io.File;
 
 import org.junit.Test;
-import static org.junit.Assert.assertThat;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 

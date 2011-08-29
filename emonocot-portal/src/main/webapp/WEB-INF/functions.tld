@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib 
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+    version="2.1">
+
+    <display-name>eMonocot Portal Custom Functions</display-name>    
+    <tlib-version>1.0</tlib-version>
+    <short-name>emonocot</short-name>
+    <uri>http://e-monocot.org/portal/functions</uri>
+    <function>
+        <name>features</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>org.emonocot.model.description.Feature[] features()</function-signature>
+    </function>
+    <function>
+        <name>content</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>org.emonocot.model.description.TextContent content(org.emonocot.model.taxon.Taxon,org.emonocot.model.description.Feature)</function-signature>
+    </function>
+</taglib>

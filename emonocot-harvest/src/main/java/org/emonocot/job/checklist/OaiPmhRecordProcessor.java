@@ -198,8 +198,13 @@ public class OaiPmhRecordProcessor extends TaxonRelationshipResolver
                 taxon.setRank(rankConverter.convert(
                         taxonName.getRankString()));
             } else {
-                taxon.setRank(rankConverter.convert(
+                try{
+                    taxon.setRank(rankConverter.convert(
                         taxonName.getRankString()));
+                } catch (IllegalArgumentException iae) {
+                    // TODO do something more creative
+                    logger.error(iae.getMessage());
+                }
             }
 
         } else {

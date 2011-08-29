@@ -43,7 +43,7 @@ public class DescriptionFieldSetMapper extends
     */
     private Logger logger = LoggerFactory
             .getLogger(DescriptionFieldSetMapper.class);
-    
+
     /**
     *
     */

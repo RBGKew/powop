@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 
 import org.emonocot.model.common.Base;
 import org.emonocot.model.taxon.Taxon;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
@@ -103,6 +105,7 @@ public class Image extends Base {
      * @return a list of taxa
      */
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "images")
+    @Cascade({CascadeType.SAVE_UPDATE})
     public List<Taxon> getTaxa() {
         return taxa;
     }

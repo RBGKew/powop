@@ -1,0 +1,1 @@
+urn:kew.org:wcs:taxon:346006	vernacular	http://www.palmweb.org/?q=cdm_dataportal/taxon/56104165-7428-40e8-8a47-91146f87a411	2010-02-15T19:46:51Z	2010-02-15T19:46:51Z	null	Kuru-tsugu, mani.	A. Henderson, A New Species of Arenga (Palmae). 2006,	http://www.palmweb.org/?q=cdm_dataportal/reference/ee56f731-d474-4295-8750-6bfd42a989ed,
