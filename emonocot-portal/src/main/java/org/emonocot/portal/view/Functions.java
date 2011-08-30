@@ -1,7 +1,10 @@
 package org.emonocot.portal.view;
 
+import java.util.Set;
+
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.description.Feature;
+import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.taxon.Taxon;
 
 /**
@@ -32,5 +35,14 @@ public final class Functions {
      */
     public static TextContent content(Taxon taxon, Feature feature) {
         return (TextContent)taxon.getContent().get(feature);
+    }
+    
+    /**
+     *
+     * @param taxon Set the taxon
+     * @return the list of regions we have distribution records for
+     */
+    public static Set<GeographicalRegion> regions(Taxon taxon) {
+        return taxon.getDistribution().keySet();        
     }
 }

@@ -93,7 +93,7 @@ public class SearchController {
                 + "facet: [{}], {} results",
                 new Object[]{query, start, limit, selectedFacets,
                 result.size()});
-
+        
         result.putParam("query", query);
 
         modelAndView.addObject("result", result);

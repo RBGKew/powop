@@ -19,4 +19,9 @@
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>org.emonocot.model.description.TextContent content(org.emonocot.model.taxon.Taxon,org.emonocot.model.description.Feature)</function-signature>
     </function>
+    <function>
+        <name>regions</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.util.Set regions(org.emonocot.model.taxon.Taxon)</function-signature>
+    </function>
 </taglib>
