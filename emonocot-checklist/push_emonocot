@@ -6,8 +6,8 @@ mkdir sandbox
 cd sandbox/
 export CVSROOT=$3@cvs:/var/cvs
 export ANT_OPTS=-Xmx512m
-cvs checkout -r $1 emonocot-checklist
-cd emonocot-checklist
+cvs checkout -r $1 wcsTaxonExtractor
+cd wcsTaxonExtractor
 ant -Dprofile=$2 redeploy 
 ant -Dprofile=$2 upload
-echo "redeployed emonocot-checklist to $2 successfully"
+echo "redeployed wcsTaxonExtractor to $2 successfully"

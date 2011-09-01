@@ -7,7 +7,7 @@
  
   [[1]] Download {{{http://www.chiark.greenend.org.uk/%7Esgtatham/putty/download.html}PuTTY}}
   
-  [[2]] Use Pagent to create a public and private key.
+  [[2]] Use PuttyGen to create a public and private key.
   
     [[a]] Select SSH-2 RSA
     
