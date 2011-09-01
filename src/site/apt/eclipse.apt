@@ -17,7 +17,7 @@
     
     [[e]] Right click in the view and select Properties.
     
-    [[f]] The Server is http://129.67.24.160/ci
+    [[f]] The Server is http://build.e-monocot.org/ci
     
     [[g]] Add your username and password
     
@@ -35,7 +35,7 @@
     
     [[d]] Select <<Bugzilla>> as the type of repository and select <<next>>
     
-    [[e]] The Server is http://129.67.24.160/bugzilla/ .
+    [[e]] The Server is http://build.e-monocot.org/bugzilla/ .
     
     [[f]] Add your username and password and click Finish
     

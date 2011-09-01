@@ -81,6 +81,13 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
                     .includeZeroCounts(true)
                     .createFacetingRequest();
             break;
+        case AUTHORITY:
+            facetingRequest = facetContext.name(facetName.name())
+                    .onField("authorities.name").discrete()
+                    .orderedBy(FacetSortOrder.FIELD_VALUE)
+                    .includeZeroCounts(true)
+                    .createFacetingRequest();
+            break;
         case FAMILY:
             facetingRequest = facetContext.name(facetName.name())
                     .onField("family").discrete()

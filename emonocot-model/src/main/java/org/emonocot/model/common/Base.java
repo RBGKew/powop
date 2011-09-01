@@ -1,17 +1,26 @@
 package org.emonocot.model.common;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.MapKeyEnumerated;
 import javax.persistence.MappedSuperclass;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.emonocot.model.authority.Authority;
+import org.emonocot.model.authority.AuthorityType;
 import org.emonocot.model.hibernate.DateTimeBridge;
 import org.hibernate.annotations.Type;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.FieldBridge;
+import org.hibernate.search.annotations.IndexedEmbedded;
 import org.hibernate.search.annotations.Parameter;
 import org.joda.time.DateTime;
 
@@ -57,6 +66,27 @@ public abstract class Base {
      *
      */
     private String identifier;
+
+    /**
+     *
+     */
+    private Map<AuthorityType,Authority> authorities = new HashMap<AuthorityType,Authority>();
+
+    /**
+     * @return the authorities
+     */
+    @ManyToMany(fetch = FetchType.LAZY)
+    @IndexedEmbedded
+    public final Map<AuthorityType, Authority> getAuthorities() {
+        return authorities;
+    }
+
+    /**
+     * @param authorities the authorities to set
+     */
+    public final void setAuthorities(Map<AuthorityType, Authority> authorities) {
+        this.authorities = authorities;
+    }
 
     /**
      *

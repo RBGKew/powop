@@ -1,0 +1,370 @@
+id,country,region,continent
+DEN,Denmark,Northern Europe,Europe
+FIN,Finland,Northern Europe,Europe
+FOR,Føroyar,Northern Europe,Europe
+GRB,Great Britain,Northern Europe,Europe
+ICE,Iceland,Northern Europe,Europe
+IRE,Ireland,Northern Europe,Europe
+NOR,Norway,Northern Europe,Europe
+SVA,Svalbard,Northern Europe,Europe
+SWE,Sweden,Northern Europe,Europe
+AUT,Austria,Middle Europe,Europe
+BGM,Belgium,Middle Europe,Europe
+CZE,Czechoslovakia,Middle Europe,Europe
+GER,Germany,Middle Europe,Europe
+HUN,Hungary,Middle Europe,Europe
+NET,Netherlands,Middle Europe,Europe
+POL,Poland,Middle Europe,Europe
+SWI,Switzerland,Middle Europe,Europe
+BAL,Baleares,Southwestern Europe,Europe
+COR,Corse,Southwestern Europe,Europe
+FRA,France,Southwestern Europe,Europe
+POR,Portugal,Southwestern Europe,Europe
+SAR,Sardegna,Southwestern Europe,Europe
+SPA,Spain,Southwestern Europe,Europe
+ALB,Albania,Southeastern Europe,Europe
+BUL,Bulgaria,Southeastern Europe,Europe
+GRC,Greece,Southeastern Europe,Europe
+ITA,Italy,Southeastern Europe,Europe
+KRI,Kriti,Southeastern Europe,Europe
+ROM,Romania,Southeastern Europe,Europe
+SIC,Sicilia,Southeastern Europe,Europe
+TUE,Turkey-in-Europe,Southeastern Europe,Europe
+YUG,Yugoslavia,Southeastern Europe,Europe
+BLR,Belarus,Eastern Europe,Europe
+BLT,Baltic States,Eastern Europe,Europe
+KRY,Krym,Eastern Europe,Europe
+RUC,Central European Russia,Eastern Europe,Europe
+RUE,East European Russia,Eastern Europe,Europe
+RUN,North European Russia,Eastern Europe,Europe
+RUS,South European Russia,Eastern Europe,Europe
+RUW,Northwest European Russia,Eastern Europe,Europe
+UKR,Ukraine,Eastern Europe,Europe
+ALG,Algeria,Northern Africa,Africa
+EGY,Egypt,Northern Africa,Africa
+LBY,Libya,Northern Africa,Africa
+MOR,Morocco,Northern Africa,Africa
+TUN,Tunisia,Northern Africa,Africa
+WSA,Western Sahara,Northern Africa,Africa
+AZO,Azores,Macaronesia,Africa
+CNY,Canary Is.,Macaronesia,Africa
+CVI,Cape Verde,Macaronesia,Africa
+MDR,Madeira,Macaronesia,Africa
+SEL,Selvagens,Macaronesia,Africa
+BEN,Benin,West Tropical Africa,Africa
+BKN,Burkina,West Tropical Africa,Africa
+GAM,The Gambia,West Tropical Africa,Africa
+GHA,Ghana,West Tropical Africa,Africa
+GNB,Guinea-Bissau,West Tropical Africa,Africa
+GUI,Guinea,West Tropical Africa,Africa
+IVO,Ivory Coast,West Tropical Africa,Africa
+LBR,Liberia,West Tropical Africa,Africa
+MLI,Mali,West Tropical Africa,Africa
+MTN,Mauritania,West Tropical Africa,Africa
+NGA,Nigeria,West Tropical Africa,Africa
+NGR,Niger,West Tropical Africa,Africa
+SEN,Senegal,West Tropical Africa,Africa
+SIE,Sierra Leone,West Tropical Africa,Africa
+TOG,Togo,West Tropical Africa,Africa
+BUR,Burundi,West-Central Tropical Africa,Africa
+CAB,Cabinda,West-Central Tropical Africa,Africa
+CAF,Central African Republic,West-Central Tropical Africa,Africa
+CMN,Cameroon,West-Central Tropical Africa,Africa
+CON,Congo,West-Central Tropical Africa,Africa
+EQG,Equatorial Guinea,West-Central Tropical Africa,Africa
+GAB,Gabon,West-Central Tropical Africa,Africa
+GGI,Gulf of Guinea Is.,West-Central Tropical Africa,Africa
+RWA,Rwanda,West-Central Tropical Africa,Africa
+ZAI,Zaire,West-Central Tropical Africa,Africa
+CHA,Chad,Northeast Tropical Africa,Africa
+DJI,Djibouti,Northeast Tropical Africa,Africa
+ERI,Eritrea,Northeast Tropical Africa,Africa
+ETH,Ethiopia,Northeast Tropical Africa,Africa
+SOC,Socotra,Northeast Tropical Africa,Africa
+SOM,Somalia,Northeast Tropical Africa,Africa
+SUD,Sudan,Northeast Tropical Africa,Africa
+KEN,Kenya,East Tropical Africa,Africa
+TAN,Tanzania,East Tropical Africa,Africa
+UGA,Uganda,East Tropical Africa,Africa
+ANG,Angola,South Tropical Africa,Africa
+MLW,Malawi,South Tropical Africa,Africa
+MOZ,Mozambique,South Tropical Africa,Africa
+ZAM,Zambia,South Tropical Africa,Africa
+ZIM,Zimbabwe,South Tropical Africa,Africa
+BOT,Botswana,Southern Africa,Africa
+CPP,Cape Provinces,Southern Africa,Africa
+CPV,Caprivi Strip,Southern Africa,Africa
+LES,Lesotho,Southern Africa,Africa
+NAM,Namibia,Southern Africa,Africa
+NAT,KwaZulu-Natal,Southern Africa,Africa
+OFS,Free State,Southern Africa,Africa
+SWZ,Swaziland,Southern Africa,Africa
+TVL,Northern Provinces,Southern Africa,Africa
+ASC,Ascension,Middle Atlantic Ocean,Africa
+STH,St.Helena,Middle Atlantic Ocean,Africa
+ALD,Aldabra,Western Indian Ocean,Africa
+CGS,Chagos Archipelago,Western Indian Ocean,Africa
+COM,Comoros,Western Indian Ocean,Africa
+MAU,Mauritius,Western Indian Ocean,Africa
+MCI,Mozambique Channel Is.,Western Indian Ocean,Africa
+MDG,Madagascar,Western Indian Ocean,Africa
+REU,Réunion,Western Indian Ocean,Africa
+ROD,Rodrigues,Western Indian Ocean,Africa
+SEY,Seychelles,Western Indian Ocean,Africa
+ALT,Altay,Siberia,Asia-Temperate
+BRY,Buryatiya,Siberia,Asia-Temperate
+CTA,Chita,Siberia,Asia-Temperate
+IRK,Irkutsk,Siberia,Asia-Temperate
+KRA,Krasnoyarsk,Siberia,Asia-Temperate
+TVA,Tuva,Siberia,Asia-Temperate
+WSB,West Siberia,Siberia,Asia-Temperate
+YAK,Yakutskiya,Siberia,Asia-Temperate
+AMU,Amur,Russian Far East,Asia-Temperate
+KAM,Kamchatka,Russian Far East,Asia-Temperate
+KHA,Khabarovsk,Russian Far East,Asia-Temperate
+KUR,Kuril Is.,Russian Far East,Asia-Temperate
+MAG,Magadan,Russian Far East,Asia-Temperate
+PRM,Primorye,Russian Far East,Asia-Temperate
+SAK,Sakhalin,Russian Far East,Asia-Temperate
+KAZ,Kazakhstan,Middle Asia,Asia-Temperate
+KGZ,Kirgizistan,Middle Asia,Asia-Temperate
+TKM,Turkmenistan,Middle Asia,Asia-Temperate
+TZK,Tadzhikistan,Middle Asia,Asia-Temperate
+UZB,Uzbekistan,Middle Asia,Asia-Temperate
+NCS,North Caucasus,Caucasus,Asia-Temperate
+TCS,Transcaucasus,Caucasus,Asia-Temperate
+AFG,Afghanistan,Western Asia,Asia-Temperate
+CYP,Cyprus,Western Asia,Asia-Temperate
+EAI,East Aegean Is.,Western Asia,Asia-Temperate
+IRN,Iran,Western Asia,Asia-Temperate
+IRQ,Iraq,Western Asia,Asia-Temperate
+LBS,Lebanon-Syria,Western Asia,Asia-Temperate
+PAL,Palestine,Western Asia,Asia-Temperate
+SIN,Sinai,Western Asia,Asia-Temperate
+TUR,Turkey,Western Asia,Asia-Temperate
+GST,Gulf States,Arabian Peninsula,Asia-Temperate
+KUW,Kuwait,Arabian Peninsula,Asia-Temperate
+OMA,Oman,Arabian Peninsula,Asia-Temperate
+SAU,Saudi Arabia,Arabian Peninsula,Asia-Temperate
+YEM,Yemen,Arabian Peninsula,Asia-Temperate
+CHC,China South-Central,China,Asia-Temperate
+CHH,Hainan,China,Asia-Temperate
+CHI,Inner Mongolia,China,Asia-Temperate
+CHM,Manchuria,China,Asia-Temperate
+CHN,China North-Central,China,Asia-Temperate
+CHQ,Qinghai,China,Asia-Temperate
+CHS,China Southeast,China,Asia-Temperate
+CHT,Tibet,China,Asia-Temperate
+CHX,Xinjiang,China,Asia-Temperate
+MON,Mongolia,Mongolia,Asia-Temperate
+JAP,Japan,Eastern Asia,Asia-Temperate
+KOR,Korea,Eastern Asia,Asia-Temperate
+KZN,Kazan-retto,Eastern Asia,Asia-Temperate
+NNS,Nansei-shoto,Eastern Asia,Asia-Temperate
+OGA,Ogasawara-shoto,Eastern Asia,Asia-Temperate
+TAI,Taiwan,Eastern Asia,Asia-Temperate
+ASS,Assam,Indian Subcontinent,Asia-Tropical
+BAN,Bangladesh,Indian Subcontinent,Asia-Tropical
+EHM,East Himalaya,Indian Subcontinent,Asia-Tropical
+IND,India,Indian Subcontinent,Asia-Tropical
+LDV,Laccadive Is.,Indian Subcontinent,Asia-Tropical
+MDV,Maldives,Indian Subcontinent,Asia-Tropical
+NEP,Nepal,Indian Subcontinent,Asia-Tropical
+PAK,Pakistan,Indian Subcontinent,Asia-Tropical
+SRL,Sri Lanka,Indian Subcontinent,Asia-Tropical
+WHM,West Himalaya,Indian Subcontinent,Asia-Tropical
+AND,Andaman Is.,Indo-China,Asia-Tropical
+CBD,Cambodia,Indo-China,Asia-Tropical
+LAO,Laos,Indo-China,Asia-Tropical
+MYA,Myanmar,Indo-China,Asia-Tropical
+NCB,Nicobar Is.,Indo-China,Asia-Tropical
+SCS,South China Sea,Indo-China,Asia-Tropical
+THA,Thailand,Indo-China,Asia-Tropical
+VIE,Vietnam,Indo-China,Asia-Tropical
+BOR,Borneo,Malesia,Asia-Tropical
+CKI,Cocos (Keeling) Is.,Malesia,Asia-Tropical
+JAW,Jawa,Malesia,Asia-Tropical
+LSI,Lesser Sunda Is.,Malesia,Asia-Tropical
+MLY,Malaya,Malesia,Asia-Tropical
+MOL,Maluku,Malesia,Asia-Tropical
+PHI,Philippines,Malesia,Asia-Tropical
+SUL,Sulawesi,Malesia,Asia-Tropical
+SUM,Sumatera,Malesia,Asia-Tropical
+XMS,Christmas I.,Malesia,Asia-Tropical
+BIS,Bismarck Archipelago,Papuasia,Asia-Tropical
+NWG,New Guinea,Papuasia,Asia-Tropical
+SOL,Solomon Is.,Papuasia,Asia-Tropical
+NFK,Norfolk Is.,Australia,Australasia
+NSW,New South Wales,Australia,Australasia
+NTA,Northern Territory,Australia,Australasia
+QLD,Queensland,Australia,Australasia
+SOA,South Australia,Australia,Australasia
+TAS,Tasmania,Australia,Australasia
+VIC,Victoria,Australia,Australasia
+WAU,Western Australia,Australia,Australasia
+ATP,Antipodean Is.,New Zealand,Australasia
+CTM,Chatham Is.,New Zealand,Australasia
+KER,Kermadec Is.,New Zealand,Australasia
+NZN,New Zealand North,New Zealand,Australasia
+NZS,New Zealand South,New Zealand,Australasia
+FIJ,Fiji,Southwestern Pacific,Pacific
+GIL,Gilbert Is.,Southwestern Pacific,Pacific
+HBI,Howland-Baker Is.,Southwestern Pacific,Pacific
+NRU,Nauru,Southwestern Pacific,Pacific
+NUE,Niue,Southwestern Pacific,Pacific
+NWC,New Caledonia,Southwestern Pacific,Pacific
+PHX,Phoenix Is.,Southwestern Pacific,Pacific
+SAM,Samoa,Southwestern Pacific,Pacific
+SCZ,Santa Cruz Is.,Southwestern Pacific,Pacific
+TOK,Tokelau-Manihiki,Southwestern Pacific,Pacific
+TON,Tonga,Southwestern Pacific,Pacific
+TUV,Tuvalu,Southwestern Pacific,Pacific
+VAN,Vanuatu,Southwestern Pacific,Pacific
+WAL,Wallis-Futuna Is.,Southwestern Pacific,Pacific
+COO,Cook Is.,South-Central Pacific,Pacific
+EAS,Easter Is.,South-Central Pacific,Pacific
+LIN,Line Is.,South-Central Pacific,Pacific
+MRQ,Marquesas,South-Central Pacific,Pacific
+PIT,Pitcairn Is.,South-Central Pacific,Pacific
+SCI,Society Is.,South-Central Pacific,Pacific
+TUA,Tuamotu,South-Central Pacific,Pacific
+TUB,Tubuai Is.,South-Central Pacific,Pacific
+CRL,Caroline Is.,Northwestern Pacific,Pacific
+MCS,Marcus I.,Northwestern Pacific,Pacific
+MRN,Marianas,Northwestern Pacific,Pacific
+MRS,Marshall Is.,Northwestern Pacific,Pacific
+WAK,Wake I.,Northwestern Pacific,Pacific
+HAW,Hawaii,North-Central Pacific,Pacific
+ALU,Aleutian Is.,Subarctic America,Northern America
+ASK,Alaska,Subarctic America,Northern America
+GNL,Greenland,Subarctic America,Northern America
+NUN,Nunavut,Subarctic America,Northern America
+NWT,Northwest Territories,Subarctic America,Northern America
+YUK,Yukon,Subarctic America,Northern America
+ABT,Alberta,Western Canada,Northern America
+BRC,British Columbia,Western Canada,Northern America
+MAN,Manitoba,Western Canada,Northern America
+SAS,Saskatchewan,Western Canada,Northern America
+LAB,Labrador,Eastern Canada,Northern America
+NBR,New Brunswick,Eastern Canada,Northern America
+NFL,Newfoundland,Eastern Canada,Northern America
+NSC,Nova Scotia,Eastern Canada,Northern America
+ONT,Ontario,Eastern Canada,Northern America
+PEI,Prince Edward I.,Eastern Canada,Northern America
+QUE,Québec,Eastern Canada,Northern America
+COL,Colorado,Northwestern U.S.A.,Northern America
+IDA,Idaho,Northwestern U.S.A.,Northern America
+MNT,Montana,Northwestern U.S.A.,Northern America
+ORE,Oregon,Northwestern U.S.A.,Northern America
+WAS,Washington,Northwestern U.S.A.,Northern America
+WYO,Wyoming,Northwestern U.S.A.,Northern America
+ILL,Illinois,North-Central U.S.A.,Northern America
+IOW,Iowa,North-Central U.S.A.,Northern America
+KAN,Kansas,North-Central U.S.A.,Northern America
+MIN,Minnesota,North-Central U.S.A.,Northern America
+MSO,Missouri,North-Central U.S.A.,Northern America
+NDA,North Dakota,North-Central U.S.A.,Northern America
+NEB,Nebraska,North-Central U.S.A.,Northern America
+OKL,Oklahoma,North-Central U.S.A.,Northern America
+SDA,South Dakota,North-Central U.S.A.,Northern America
+WIS,Wisconsin,North-Central U.S.A.,Northern America
+CNT,Connecticut,Northeastern U.S.A.,Northern America
+INI,Indiana,Northeastern U.S.A.,Northern America
+MAI,Maine,Northeastern U.S.A.,Northern America
+MAS,Masachusettes,Northeastern U.S.A.,Northern America
+MIC,Michigan,Northeastern U.S.A.,Northern America
+NWH,New Hampshire,Northeastern U.S.A.,Northern America
+NWJ,New Jersey,Northeastern U.S.A.,Northern America
+NWY,New York,Northeastern U.S.A.,Northern America
+OHI,Ohio,Northeastern U.S.A.,Northern America
+PEN,Pennsylvania,Northeastern U.S.A.,Northern America
+RHO,Rhode I.,Northeastern U.S.A.,Northern America
+VER,Vermont,Northeastern U.S.A.,Northern America
+WVA,West Virginia,Northeastern U.S.A.,Northern America
+ARI,Arizona,Southwestern U.S.A.,Northern America
+CAL,California,Southwestern U.S.A.,Northern America
+NEV,Nevada,Southwestern U.S.A.,Northern America
+UTA,Utah,Southwestern U.S.A.,Northern America
+NWM,New Mexico,South-Central U.S.A.,Northern America
+TEX,Texas,South-Central U.S.A.,Northern America
+ALA,Alabama,Southeastern U.S.A.,Northern America
+ARK,Arkansas,Southeastern U.S.A.,Northern America
+DEL,Delaware,Southeastern U.S.A.,Northern America
+FLA,Florida,Southeastern U.S.A.,Northern America
+GEO,Georgia,Southeastern U.S.A.,Northern America
+KTY,Kentucky,Southeastern U.S.A.,Northern America
+LOU,Louisiana,Southeastern U.S.A.,Northern America
+MRY,Maryland,Southeastern U.S.A.,Northern America
+MSI,Mississippi,Southeastern U.S.A.,Northern America
+NCA,North Carolina,Southeastern U.S.A.,Northern America
+SCA,South Carolina,Southeastern U.S.A.,Northern America
+TEN,Tennessee,Southeastern U.S.A.,Northern America
+VRG,Virginia,Southeastern U.S.A.,Northern America
+WDC,District of Columbia,Southeastern U.S.A.,Northern America
+MXC,Mexico Central,Mexico,Northern America
+MXE,Mexico Northeast,Mexico,Northern America
+MXG,Mexico Gulf,Mexico,Northern America
+MXI,Mexican Pacific Is.,Mexico,Northern America
+MXN,Mexico Northwest,Mexico,Northern America
+MXS,Mexico Southwest,Mexico,Northern America
+MXT,Mexico Southeast,Mexico,Northern America
+BLZ,Belize,Central America,Southern America
+COS,Costa Rica,Central America,Southern America
+CPI,Central American Pacific Is.,Central America,Southern America
+ELS,El Salvador,Central America,Southern America
+GUA,Guatemala,Central America,Southern America
+HON,Honduras,Central America,Southern America
+NIC,Nicaragua,Central America,Southern America
+PAN,Panamá,Central America,Southern America
+ARU,Aruba,Caribbean,Southern America
+BAH,Bahamas,Caribbean,Southern America
+BER,Bermuda,Caribbean,Southern America
+CAY,Cayman Is.,Caribbean,Southern America
+CUB,Cuba,Caribbean,Southern America
+DOM,Dominican Republic,Caribbean,Southern America
+HAI,Haiti,Caribbean,Southern America
+JAM,Jamaica,Caribbean,Southern America
+LEE,Leeward Is.,Caribbean,Southern America
+NLA,Netherlands Antilles,Caribbean,Southern America
+PUE,Puerto Rico,Caribbean,Southern America
+SWC,Southwest Caribbean,Caribbean,Southern America
+TCI,Turks-Caicos Is.,Caribbean,Southern America
+TRT,Trinidad-Tobago,Caribbean,Southern America
+VNA,Venezuelan Antilles,Caribbean,Southern America
+WIN,Windward Is.,Caribbean,Southern America
+FRG,French Guiana,Northern South America,Southern America
+GUY,Guyana,Northern South America,Southern America
+SUR,Suriname,Northern South America,Southern America
+VEN,Venezuela,Northern South America,Southern America
+BOL,Bolivia,Western South America,Southern America
+CLM,Colombia,Western South America,Southern America
+ECU,Ecuador,Western South America,Southern America
+GAL,Galápagos,Western South America,Southern America
+PER,Peru,Western South America,Southern America
+BZC,Brazil West-Central,Brazil,Southern America
+BZE,Brazil Northeast,Brazil,Southern America
+BZL,Brazil Southeast,Brazil,Southern America
+BZN,Brazil North,Brazil,Southern America
+BZS,Brazil South,Brazil,Southern America
+AGE,Argentina Northeast,Southern South America,Southern America
+AGS,Argentina South,Southern South America,Southern America
+AGW,Argentina Northwest,Southern South America,Southern America
+CLC,Chile Central,Southern South America,Southern America
+CLN,Chile North,Southern South America,Southern America
+CLS,Chile South,Southern South America,Southern America
+DSV,Desventurados Is.,Southern South America,Southern America
+JNF,Juan Fernández Is.,Southern South America,Southern America
+PAR,Paraguay,Southern South America,Southern America
+URU,Uruguay,Southern South America,Southern America
+ASP,Amsterdam-St.Paul Is.,Subantarctic Islands,Antarctic
+BOU,Bouvet I.,Subantarctic Islands,Antarctic
+CRZ,Crozet Is.,Subantarctic Islands,Antarctic
+FAL,Falkland Is.,Subantarctic Islands,Antarctic
+HMD,Heard-McDonald Is.,Subantarctic Islands,Antarctic
+KEG,Kerguelen,Subantarctic Islands,Antarctic
+MAQ,Macquarie Is.,Subantarctic Islands,Antarctic
+MPE,Marion-Prince Edward Is.,Subantarctic Islands,Antarctic
+SGE,South Georgia,Subantarctic Islands,Antarctic
+SSA,South Sandwich Is.,Subantarctic Islands,Antarctic
+TDC,Tristan da Cunha,Subantarctic Islands,Antarctic
+ANT,Antarctica,Antarctic Continent,Antarctic

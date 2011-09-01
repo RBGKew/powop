@@ -1,6 +1,9 @@
 package org.emonocot.job.dwc.taxon;
 
+import org.emonocot.model.authority.Authority;
+import org.emonocot.model.authority.AuthorityType;
 import org.emonocot.model.common.Annotation;
+import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.service.TaxonService;
 import org.slf4j.Logger;
@@ -36,9 +39,23 @@ public class TaxonValidator implements ItemProcessor<Taxon, Taxon>,
     /**
      *
      */
+    private Authority authority;
+
+    /**
+     *
+     */
     @Autowired
     public final void setTaxonService(TaxonService taxonService) {
         this.taxonService = taxonService;
+    }
+
+    /**
+    *
+    * @param authorityName Set the id of the authority
+    */
+    public final void setAuthorityName(String authorityName) {
+      authority = new Authority();
+      authority.setId(Long.parseLong(authorityName));
     }
 
     /**
@@ -59,17 +76,19 @@ public class TaxonValidator implements ItemProcessor<Taxon, Taxon>,
         for (Annotation annotation : persistedTaxon.getAnnotations()) {
             if (annotation.getJobId().equals(
                     stepExecution.getJobExecutionId())) {
-                annotation.setPresent(true);
-                anAnnotationPresent = true;
+                annotation.setType(AnnotationType.Present);
                 break;
             }
         }
 
         if (!anAnnotationPresent) {
             throw new UnexpectedTaxonException(taxon.getIdentifier());
+        } else {
+            if (!persistedTaxon.getAuthorities().containsValue(authority)) {
+                persistedTaxon.getAuthorities().put(AuthorityType.Secondary_Authority, authority);
+            }
         }
-
-        return taxon;
+        return persistedTaxon;
     }
 
     /**

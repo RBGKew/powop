@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.springframework.format.datetime.joda.DateTimeParser;
 
 /**
- * In response to http://129.67.24.160/bugzilla/show_bug.cgi?id=67.
+ * In response to http://build.e-monocot.org/bugzilla/show_bug.cgi?id=67.
  * @author ben
  *
  */

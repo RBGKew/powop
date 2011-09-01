@@ -13,5 +13,9 @@ public enum FacetName {
     /**
      * Facet on the taxonomic family.
      */
-    FAMILY
+    FAMILY,
+    /**
+     * Facet on the source system.
+     */
+    AUTHORITY
 }

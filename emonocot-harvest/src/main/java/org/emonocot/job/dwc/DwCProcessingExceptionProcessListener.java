@@ -3,7 +3,9 @@ package org.emonocot.job.dwc;
 import java.io.Serializable;
 
 import org.emonocot.job.dwc.description.DescriptionProcessingException;
+import org.emonocot.model.authority.Authority;
 import org.emonocot.model.common.Annotation;
+import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.common.Base;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -44,6 +46,20 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
     *
     */
    private TransactionTemplate transactionTemplate = null;
+
+   /**
+    *
+    */
+   private Authority authority = null;
+
+  /**
+   *
+   * @param authorityName Set the id of the authority
+   */
+   public final void setAuthorityName(String authorityName) {
+     authority = new Authority();
+     authority.setId(Long.parseLong(authorityName));
+   }
 
    /**
     *
@@ -95,6 +111,8 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
             annotation.setJobId(stepExecution.getJobExecutionId());
             annotation.setCode(dwcpe.getCode());
             annotation.setText(dwcpe.getMessage());
+            annotation.setAuthority(authority);
+            annotation.setType(dwcpe.getType());
             transactionTemplate.execute(
                     new TransactionCallback<Serializable>() {
 
@@ -132,7 +150,7 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
      *
      */
     public void beforeRead() {
-        
+
     }
 
     /**
@@ -145,6 +163,8 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
             final Annotation annotation = new Annotation();
             annotation.setJobId(stepExecution.getJobExecutionId());
             annotation.setCode("FlatFileParseException");
+            annotation.setAuthority(authority);
+            annotation.setType(AnnotationType.Error);
             annotation.setText(ffpe.getMessage());
             transactionTemplate.execute(
                     new TransactionCallback<Serializable>() {

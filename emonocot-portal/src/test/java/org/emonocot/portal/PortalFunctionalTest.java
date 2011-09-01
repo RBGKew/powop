@@ -26,7 +26,7 @@ public class PortalFunctionalTest extends SeleneseTestCase {
         selenium = new DefaultSelenium("localhost",
         PortalFunctionalTest.SELENIUM_SERVER_PORT,
         System.getProperty("selenium.browser.profile","*firefox /usr/lib/firefox-3.6/firefox"),
-        System.getProperty("selenium.target.portal","http://129.67.24.160/latest/portal")
+        System.getProperty("selenium.target.portal","http://build.e-monocot.org/latest/portal")
         );
         selenium.start();
     }

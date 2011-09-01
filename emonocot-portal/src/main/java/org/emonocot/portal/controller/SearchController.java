@@ -85,15 +85,14 @@ public class SearchController {
             }
         }
 
-        Page<Taxon> result = taxonService.search(
-                query, null, limit, start,
-                new FacetName[]{
-                     FacetName.FAMILY, FacetName.CONTINENT}, selectedFacets);
+        Page<Taxon> result = taxonService.search(query, null, limit, start,
+                new FacetName[] {FacetName.FAMILY, FacetName.CONTINENT,
+                        FacetName.AUTHORITY }, selectedFacets);
         queryLog.info("Query: \'{}\', start: {}, limit: {},"
                 + "facet: [{}], {} results",
                 new Object[]{query, start, limit, selectedFacets,
                 result.size()});
-        
+
         result.putParam("query", query);
 
         modelAndView.addObject("result", result);

@@ -37,7 +37,7 @@
     
   [[5]] Download and install {{{http://sourceforge.net/projects/sshwindows/files/OpenSSH%20for%20Windows%20-%20Release/}OpenSSH for Windows}}
   
-  [[6]] On the command line run 'ssh -l username 129.67.24.160' and accept the authenticity of the server, which will create a known_hosts file in $\{homedir\}/.ssh/ that allows scp within maven to work.
+  [[6]] On the command line run 'ssh -l username build.e-monocot.org' and accept the authenticity of the server, which will create a known_hosts file in $\{homedir\}/.ssh/ that allows scp within maven to work.
   
   [[7]] Install the attached file (settings.xml) into $\{homedir\}/.m2/ changing the username and passphrase and setting the location of your private key.
   

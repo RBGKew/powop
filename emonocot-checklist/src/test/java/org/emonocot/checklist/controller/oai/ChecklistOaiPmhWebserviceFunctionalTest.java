@@ -54,7 +54,7 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
         properties.load(propertiesFile.getInputStream());
         RestAssured.baseURI = properties.getProperty(
                 "functional.test.baseUri",
-                "http://129.67.24.160");
+                "http://build.e-monocot.org");
         RestAssured.port = Integer.parseInt(
                 properties.getProperty("functional.test.port",
                 "80"));
@@ -146,7 +146,7 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
     }
 
     /**
-     * In response to http://129.67.24.160/bugzilla/show_bug.cgi?id=67.
+     * In response to http://build.e-monocot.org/bugzilla/show_bug.cgi?id=67.
      */
     @Test
     public final void testHandleFromDateWithHoursOfDayAfterTwelve() {
@@ -326,7 +326,7 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
 
     /**
      * Test that the accepted name relationships are being serialized properly
-     * In response to http://129.67.24.160/bugzilla/show_bug.cgi?id=69.
+     * In response to http://build.e-monocot.org/bugzilla/show_bug.cgi?id=69.
      */
     @Test
     public final void testGetSynonymRecord() {

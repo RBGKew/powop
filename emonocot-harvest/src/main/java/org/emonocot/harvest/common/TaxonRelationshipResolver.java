@@ -7,7 +7,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
+import org.emonocot.model.authority.Authority;
+import org.emonocot.model.authority.AuthorityType;
 import org.emonocot.model.common.Annotation;
+import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.service.TaxonService;
 import org.slf4j.Logger;
@@ -63,6 +66,28 @@ public abstract class TaxonRelationshipResolver
     */
    protected TaxonService taxonService;
 
+  /**
+   *
+   */
+  private Authority authority;
+
+  /**
+   *
+   * @param authorityName Set the id of the authority
+   */
+   public final void setAuthorityName(String authorityName) {
+     authority = new Authority();
+     authority.setId(Long.parseLong(authorityName));
+   }
+
+   /**
+    *
+    * @return the authority
+    */
+   protected final Authority getAuthority() {
+       return authority;
+   }
+
    /**
     *
     * @param taxonService Set the taxon service
@@ -103,7 +128,11 @@ public abstract class TaxonRelationshipResolver
                         annotation.setJobId(
                                 getStepExecution().getJobExecutionId());
                         annotation.setCode("Created");
+                        annotation.setType(AnnotationType.Create);
+                        annotation.setAuthority(authority);
                         taxon.getAnnotations().add(annotation);
+                        taxon.getAuthorities().put(
+                                AuthorityType.Primary_Authority, authority);
                         taxon.setIdentifier(identifier);
                         logger.info("Didn't taxon with identifier " + identifier
                                 + " from service returning new taxon");

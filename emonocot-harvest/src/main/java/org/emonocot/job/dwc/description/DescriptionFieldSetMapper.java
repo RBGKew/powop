@@ -101,8 +101,8 @@ public class DescriptionFieldSetMapper extends
                 } else {
                     object.setTaxon(taxon);
                 }
-                
-                break;                
+
+                break;
             default:
                 break;
             }

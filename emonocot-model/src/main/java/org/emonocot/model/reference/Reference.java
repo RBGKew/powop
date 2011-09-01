@@ -44,7 +44,7 @@ public class Reference extends Base {
      *
      * @param newTitle set the title
      */
-    public final void setTitle(final String newTitle) {
+    public void setTitle(String newTitle) {
         this.title = newTitle;
     }
 
@@ -52,7 +52,7 @@ public class Reference extends Base {
      *
      * @param newVolume set the volume
      */
-    public final void setVolume(final String newVolume) {
+    public void setVolume(String newVolume) {
         this.volume = newVolume;
     }
 
@@ -60,7 +60,7 @@ public class Reference extends Base {
      *
      * @param newPages set the pages
      */
-    public final void setPages(final String newPages) {
+    public void setPages(String newPages) {
         this.pages = newPages;
     }
 
@@ -68,7 +68,7 @@ public class Reference extends Base {
      *
      * @param newDatePublished set the date published
      */
-    public final void setDate(final String newDatePublished) {
+    public void setDate(String newDatePublished) {
         this.datePublished = newDatePublished;
     }
 
@@ -76,7 +76,7 @@ public class Reference extends Base {
      *
      * @param newReferenceType set the reference type
      */
-    public final void setType(final ReferenceType newReferenceType) {
+    public void setType(ReferenceType newReferenceType) {
         this.type = newReferenceType;
     }
 
@@ -84,14 +84,14 @@ public class Reference extends Base {
      * @return the datePublished
      */
     @Field
-    public final String getDatePublished() {
+    public String getDatePublished() {
         return datePublished;
     }
 
     /**
      * @param newDatePublished the datePublished to set
      */
-    public final void setDatePublished(final String newDatePublished) {
+    public void setDatePublished(String newDatePublished) {
         this.datePublished = newDatePublished;
     }
 
@@ -99,7 +99,7 @@ public class Reference extends Base {
      * @return the title
      */
     @Field
-    public final String getTitle() {
+    public String getTitle() {
         return title;
     }
 
@@ -107,7 +107,7 @@ public class Reference extends Base {
      * @return the volume
      */
     @Field
-    public final String getVolume() {
+    public String getVolume() {
         return volume;
     }
 
@@ -115,14 +115,14 @@ public class Reference extends Base {
      * @return the pages
      */
     @Field
-    public final String getPages() {
+    public String getPages() {
         return pages;
     }
 
     /**
      * @return the type
      */
-    public final ReferenceType getType() {
+    public ReferenceType getType() {
         return type;
     }
 }

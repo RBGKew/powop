@@ -1,5 +1,6 @@
 package org.emonocot.job.dwc.taxon;
 
+import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.taxon.Taxon;
 
 /**
@@ -14,11 +15,17 @@ public class NoIdentifierException extends TaxonProcessingException {
     */
    private static final long serialVersionUID = -4140158822002083763L;
 
-   /**
-    *
-    * @param t the taxon
-    */
+    /**
+     *
+     * @param t
+     *            the taxon
+     */
     public NoIdentifierException(final Taxon t) {
         super(t + " has no identifier");
+    }
+
+    @Override
+    public final AnnotationType getType() {
+        return AnnotationType.Error;
     }
 }

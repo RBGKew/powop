@@ -1,5 +1,7 @@
 package org.emonocot.job.dwc;
 
+import org.emonocot.model.common.AnnotationType;
+
 /**
  *
  * @author ben
@@ -8,16 +10,21 @@ package org.emonocot.job.dwc;
 public class NoTaxonException extends DarwinCoreProcessingException {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 4236165074026471554L;
 
     /**
-     * 
+     *
      * @param msg Set the message
      */
-    public NoTaxonException(String msg) {
+    public NoTaxonException(final String msg) {
         super(msg);
+    }
+
+    @Override
+    public final AnnotationType getType() {
+        return AnnotationType.Error;
     }
 
 }

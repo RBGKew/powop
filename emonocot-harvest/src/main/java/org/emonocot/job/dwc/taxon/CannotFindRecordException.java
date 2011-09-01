@@ -1,5 +1,7 @@
 package org.emonocot.job.dwc.taxon;
 
+import org.emonocot.model.common.AnnotationType;
+
 /**
  *
  * @author ben
@@ -18,6 +20,11 @@ public class CannotFindRecordException extends TaxonProcessingException {
      */
     public CannotFindRecordException(final String identifier) {
         super("Cannot find a taxon with identifier " + identifier);
+    }
+
+    @Override
+    public final AnnotationType getType() {
+        return AnnotationType.Error;
     }
 
 }

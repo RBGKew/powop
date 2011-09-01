@@ -90,9 +90,9 @@ public class DarwinCoreJobIntegrationTest {
         Map<String, JobParameter> parameters =
             new HashMap<String, JobParameter>();
         parameters.put("authority.name", new JobParameter(
-                "http://scratchpad.cate-araceae.org"));
+                "1"));
         parameters.put("authority.uri", new JobParameter(
-                "http://129.67.24.160/test/test.zip"));
+                "http://build.e-monocot.org/test/test.zip"));
         parameters.put(
                 "authority.last.harvested",
                 new JobParameter(Long

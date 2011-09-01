@@ -7,9 +7,9 @@
  
 Using the Issue Tracker
 
-  In eMonocot, we're using an {{{http://129.67.24.160/bugzilla/}issue tracker}} to keep track of our work. There are a number of ways to follow the tracker:
+  In eMonocot, we're using an {{{http://build.e-monocot.org/bugzilla/}issue tracker}} to keep track of our work. There are a number of ways to follow the tracker:
   
- * By visiting the issue tracker in a web browser, for example, to look at the {{{http://129.67.24.160/bugzilla/buglist.cgi?query_format=advanced&columnlist=short_desc%2Cvotes%2Cpriority&order=votes%2Cpriority&field0-0-0=cf_epic&bug_status=BACKLOG&type0-0-0=notequals&value0-0-0=true&product=emonocot}backlog}}.
+ * By visiting the issue tracker in a web browser, for example, to look at the {{{http://build.e-monocot.org/bugzilla/buglist.cgi?query_format=advanced&columnlist=short_desc%2Cvotes%2Cpriority&order=votes%2Cpriority&field0-0-0=cf_epic&bug_status=BACKLOG&type0-0-0=notequals&value0-0-0=true&product=emonocot}backlog}}.
 
  * By asking to recieve email reports on a daily or weekly basis (talk to Ben if you would like to receive emails). 
 

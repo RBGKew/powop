@@ -88,9 +88,9 @@ public class ChecklistHarvestingJobIntegrationTest {
         Map<String, JobParameter> parameters
             = new HashMap<String, JobParameter>();
         parameters.put("authority.name", new JobParameter(
-                "http://scratchpad.cate-araceae.org"));
+                "1"));
         parameters.put("authority.uri", new JobParameter(
-                "http://129.67.24.160/test/oai.xml"));
+                "http://build.e-monocot.org/test/oai.xml"));
         parameters.put("authority.last.harvested",
           new JobParameter(Long.toString((
             ChecklistHarvestingJobIntegrationTest.PAST_DATETIME
@@ -139,7 +139,7 @@ public class ChecklistHarvestingJobIntegrationTest {
         Map<String, JobParameter> parameters
             = new HashMap<String, JobParameter>();
         parameters.put("authority.name", new JobParameter(
-                "http://test.e-monocot.org/checklist/"));
+                "1"));
         parameters.put("authority.uri", new JobParameter(
                 "http://test.e-monocot.org/wcsTaxonExtractor/oai"));
         parameters.put("authority.last.harvested", new JobParameter(""));

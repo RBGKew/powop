@@ -41,7 +41,7 @@ public class ChecklistWebserviceFunctionalTest {
         properties.load(propertiesFile.getInputStream());
         RestAssured.baseURI = properties.getProperty(
                 "functional.test.baseUri",
-                "http://129.67.24.160");
+                "http://build.e-monocot.org");
         RestAssured.port = Integer.parseInt(
                 properties.getProperty("functional.test.port",
                 "80"));

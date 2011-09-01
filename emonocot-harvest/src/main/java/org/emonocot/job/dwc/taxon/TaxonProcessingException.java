@@ -7,7 +7,8 @@ import org.emonocot.job.dwc.DarwinCoreProcessingException;
  * @author ben
  *
  */
-public class TaxonProcessingException extends DarwinCoreProcessingException {
+public abstract class TaxonProcessingException extends
+        DarwinCoreProcessingException {
 
    /**
     *

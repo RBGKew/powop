@@ -37,7 +37,7 @@
 							<fromDir>src/main/static-resources</fromDir>
 							<includes>**/*</includes>
 							<serverId>build.server</serverId>
-						    <url>scp://129.67.24.160/var/www/html/</url>
+						    <url>scp://build.e-monocot.org/var/www/html/</url>
 						</configuration>
 					</execution>
 				</executions>

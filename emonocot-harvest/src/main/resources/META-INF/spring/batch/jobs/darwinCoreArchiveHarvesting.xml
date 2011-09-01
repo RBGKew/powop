@@ -11,25 +11,26 @@
 	<context:annotation-config />
 
 	<batch:job id="DarwinCoreArchiveHarvesting">
-	    <batch:step id="markTaxonRecords">
-	        <batch:description>Mark the taxon records we expect to be present in this archive</batch:description>
-	        <batch:tasklet ref="markTaxonRecordsTasklet" />
-			<batch:next on="COMPLETED" to="getDWCArchive" />
-			<batch:listeners>
-			  <batch:listener ref="recordAnnotator"/>
-			</batch:listeners>
-	    </batch:step>
+	    <batch:description>Gets a Darwin Core Archive from a web-accessible URI, unpacks it in a local folder, reads the metadata, then imports the content</batch:description>
 		<batch:step id="getDWCArchive">
 			<batch:description>Get the darwin core archive</batch:description>
 			<batch:tasklet ref="getDWCArchiveTasklet" />
 			<batch:next on="NOT MODIFIED" to="cleanupResourcesNotModified" />
-			<batch:next on="COMPLETED" to="unpackDWCArchive" />
+			<batch:next on="COMPLETED" to="markTaxonRecords" />
 		</batch:step>
 		<batch:step id="cleanupResourcesNotModified">
 			<batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="dwcArchiveResourceDeletingTasklet" />
 			<batch:end on="COMPLETE" exit-code="NOT MODIFIED" />
 		</batch:step>
+		<batch:step id="markTaxonRecords">
+	        <batch:description>Mark the taxon records we expect to be present in this archive</batch:description>
+	        <batch:tasklet ref="markTaxonRecordsTasklet" />
+			<batch:next on="COMPLETED" to="unpackDWCArchive" />
+			<batch:listeners>
+			  <batch:listener ref="recordAnnotator"/>
+			</batch:listeners>
+	    </batch:step>
 		<batch:step id="unpackDWCArchive">
 			<batch:description>Unzip the archive to a temporary directory</batch:description>
 			<batch:tasklet ref="unpackDWCArchiveTasklet" />
@@ -99,7 +100,7 @@
 			  <batch:listener ref="processingExceptionProcessListener"/>
 			</batch:listeners>
 		</batch:step>
-		<batch:step id="cleanupResources">
+	    <batch:step id="cleanupResources">
 			<batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="dwcArchiveResourceDeletingTasklet" />
 		</batch:step>
@@ -130,12 +131,13 @@
 		<property name="arguments">
 			<list>
 				<value>#{jobParameters['family']}</value>
+				<value>#{jobParameters['authority.name']}</value>
 			</list>
 		</property>
 	</bean>
 	
 	<bean id="recordAnnotator" class="org.emonocot.job.dwc.RecordAnnotator">
-	  <property name="hibernateSessionFactory" ref="sessionFactory"/>
+	  <property name="dataSource" ref="dataSource"/>
 	</bean>
 
 	<bean id="getDWCArchiveTasklet"
@@ -208,7 +210,9 @@
 		<property name="lineMapper" ref="taxonLineMapper" />
 	</bean>
 
-	<bean id="taxonProcessor" class="org.emonocot.job.dwc.taxon.TaxonValidator" />
+	<bean id="taxonProcessor" class="org.emonocot.job.dwc.taxon.TaxonValidator" scope="step">
+	  <property name="authorityName" value="#{jobParameters['authority.name']}"/>
+	</bean>
 
 	<bean id="taxonLineMapper"
 		class="org.springframework.batch.item.file.mapping.DefaultLineMapper"
@@ -344,7 +348,8 @@
 	</bean>
 	
 	<!-- Writing -->
-	<bean id="processingExceptionProcessListener" class="org.emonocot.job.dwc.DwCProcessingExceptionProcessListener">
+	<bean id="processingExceptionProcessListener" class="org.emonocot.job.dwc.DwCProcessingExceptionProcessListener" scope="step">
+	  <property name="authorityName" value="#{jobParameters['authority.name']}"/>
 	  <property name="hibernateSessionFactory" ref="sessionFactory"/>
 	  <property name="transactionManager" ref="transactionManager"/>
 	</bean>

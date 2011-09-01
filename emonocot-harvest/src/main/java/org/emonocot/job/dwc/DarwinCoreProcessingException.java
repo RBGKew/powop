@@ -1,11 +1,13 @@
 package org.emonocot.job.dwc;
 
+import org.emonocot.model.common.AnnotationType;
+
 /**
  *
  * @author ben
  *
  */
-public class DarwinCoreProcessingException extends RuntimeException {
+public abstract class DarwinCoreProcessingException extends RuntimeException {
 
     /**
      *
@@ -52,5 +54,11 @@ public class DarwinCoreProcessingException extends RuntimeException {
    public final String getCode() {
        return this.getClass().getSimpleName().toUpperCase();
    }
+
+   /**
+    *
+    * @return the type of annotation to create
+    */
+   public abstract AnnotationType getType();
 
 }

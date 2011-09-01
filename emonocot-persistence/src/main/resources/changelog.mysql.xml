@@ -602,4 +602,258 @@
     <changeSet author="ben" id="2011-08-26_10">
         <dropColumn tableName="Reference" columnName="DTYPE"/>
     </changeSet>
+    <changeSet id="2011-08-31_1" author="ben">
+      <addColumn tableName="Annotation">
+        <column name="dateTime" type="integer"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-08-31_2" author="ben">
+      <addColumn tableName="Annotation">
+        <column name="type" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-08-31_3" author="ben">
+      <addColumn tableName="Annotation">
+        <column name="authority_id" type="bigint"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-08-31_4" author="ben">
+      <createTable tableName="Authority">
+          <column name="id" type="bigint" autoIncrement="true">
+            <constraints nullable="false" primaryKey="true"/>
+          </column>
+          <column name="name" type="varchar(255)"/>
+          <column name="uri" type="varchar(255)"/>
+      </createTable>
+    </changeSet>
+    <changeSet id="2011-08-31_5" author="ben">
+      <createTable tableName="Content_Authority">
+          <column name="Content_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+          </column>
+          <column name="authorities_id" type="bigint">
+            <constraints nullable="false"/>
+          </column>
+          <column name="authorities_KEY" type="integer">
+            <constraints nullable="false" primaryKey="true"/>
+          </column>
+      </createTable>
+    </changeSet>
+    <changeSet id="2011-08-31_6" author="ben">
+      <createTable tableName="Distribution_Authority">
+          <column name="Distribution_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+          </column>
+          <column name="authorities_id" type="bigint">
+            <constraints nullable="false"/>
+          </column>
+          <column name="authorities_KEY" type="integer">
+            <constraints nullable="false" primaryKey="true"/>
+          </column>
+      </createTable>
+    </changeSet>
+    <changeSet id="2011-08-31_7" author="ben">
+      <createTable tableName="Image_Authority">
+          <column name="Image_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+          </column>
+          <column name="authorities_id" type="bigint">
+            <constraints nullable="false"/>
+          </column>
+          <column name="authorities_KEY" type="integer">
+            <constraints nullable="false" primaryKey="true"/>
+          </column>
+      </createTable>
+    </changeSet>
+    <changeSet id="2011-08-31_8" author="ben">
+      <createTable tableName="Reference_Authority">
+          <column name="Reference_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+          </column>
+          <column name="authorities_id" type="bigint">
+            <constraints nullable="false"/>
+          </column>
+          <column name="authorities_KEY" type="integer">
+            <constraints nullable="false" primaryKey="true"/>
+          </column>
+      </createTable>
+    </changeSet>
+    <changeSet id="2011-08-31_9" author="ben">
+      <createTable tableName="Taxon_Authority">
+          <column name="Taxon_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+          </column>
+          <column name="authorities_id" type="bigint">
+            <constraints nullable="false"/>
+          </column>
+          <column name="authorities_KEY" type="integer">
+            <constraints nullable="false" primaryKey="true"/>
+          </column>
+      </createTable>
+    </changeSet>
+    <changeSet id="2011-08-31_10" author="ben">
+      <addForeignKeyConstraint constraintName="FK35CA12BD59FA9B5F" 
+                               referencedTableName="Content"
+                               baseColumnNames="Content_id"
+                               baseTableName="Content_Authority"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2011-08-31_11" author="ben">
+      <addForeignKeyConstraint constraintName="FK35CA12BD2AFF4188" 
+                               referencedTableName="Authority"
+                               baseColumnNames="authorities_id"
+                               baseTableName="Content_Authority"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2011-08-31_12" author="ben">
+      <addForeignKeyConstraint constraintName="FK221AC748BFDB6E15" 
+                               referencedTableName="Distribution"
+                               baseColumnNames="Distribution_id"
+                               baseTableName="Distribution_Authority"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2011-08-31_13" author="ben">
+      <addForeignKeyConstraint constraintName="FK221AC7482AFF4188" 
+                               referencedTableName="Authority"
+                               baseColumnNames="authorities_id"
+                               baseTableName="Distribution_Authority"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2011-08-31_14" author="ben">
+      <addForeignKeyConstraint constraintName="FK7800CD1F544A087" 
+                               referencedTableName="Image"
+                               baseColumnNames="Image_id"
+                               baseTableName="Image_Authority"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2011-08-31_15" author="ben">
+      <addForeignKeyConstraint constraintName="FK7800CD1F2AFF4188" 
+                               referencedTableName="Authority"
+                               baseColumnNames="authorities_id"
+                               baseTableName="Image_Authority"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2011-08-31_16" author="ben">
+      <addForeignKeyConstraint constraintName="FK5B73C70F1914B32E" 
+                               referencedTableName="Reference"
+                               baseColumnNames="Reference_id"
+                               baseTableName="Reference_Authority"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2011-08-31_17" author="ben">
+      <addForeignKeyConstraint constraintName="FK5B73C70F2AFF4188" 
+                               referencedTableName="Authority"
+                               baseColumnNames="authorities_id"
+                               baseTableName="Reference_Authority"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2011-08-31_18" author="ben">
+      <addForeignKeyConstraint constraintName="FKA565F3CE1EDCD08D" 
+                               referencedTableName="Taxon"
+                               baseColumnNames="Taxon_id"
+                               baseTableName="Taxon_Authority"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2011-08-31_19" author="ben">
+      <addForeignKeyConstraint constraintName="FKA565F3CE2AFF4188" 
+                               referencedTableName="Authority"
+                               baseColumnNames="authorities_id"
+                               baseTableName="Taxon_Authority"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2011-08-31_20" author="ben">
+      <addForeignKeyConstraint constraintName="FK1A21C74F92954226" 
+                               referencedTableName="Authority"
+                               baseColumnNames="authority_id"
+                               baseTableName="Annotation"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2011-08-31_21" author="ben">
+      <insert tableName="Authority">
+        <column name="id" valueNumeric="1"/>
+        <column name="name" value="WCS"/>
+        <column name="uri" value="http://apps.kew.org/wcsTaxonExtractor/oai"/>
+      </insert>
+    </changeSet>
+    <changeSet id="2011-08-31_22" author="ben">
+      <insert tableName="Authority">
+        <column name="id" valueNumeric="2"/>
+        <column name="name" value="PalmWeb"/>
+        <column name="uri" value="http://www.palmweb.org/archive.zip"/>
+      </insert>
+    </changeSet>
+    <changeSet id="2011-08-31_23" author="ben">
+      <createTable tableName="Time">
+          <column name="id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+          </column>
+          <column name="year" type="int(11)">
+            <constraints nullable="false"/>
+          </column>
+          <column name="quarter" type="int(11)">
+            <constraints nullable="false"/>
+          </column>
+          <column name="month" type="int(11)">
+            <constraints nullable="false"/>
+          </column>
+          <column name="month_name" type="varchar(10)">
+            <constraints nullable="false"/>
+          </column>
+          <column name="week" type="int(11)">
+            <constraints nullable="false"/>
+          </column>
+          <column name="day" type="int(11)">
+            <constraints nullable="false"/>
+          </column>
+          <column name="day_name" type="varchar(10)">
+            <constraints nullable="false"/>
+          </column>
+      </createTable>
+    </changeSet>
+    <changeSet id="2011-08-31_24" author="ben">
+      <createProcedure>
+        CREATE PROCEDURE populateDate()
+        BEGIN
+          DECLARE i INT DEFAULT 0;
+          DECLARE dt DATE;
+          WHILE i &lt; 365 DO
+            SET dt = adddate('2011-08-01',i);
+            INSERT INTO Time VALUES (datediff(dt,'2011-08-01'),year(dt),quarter(dt),month(dt),monthname(dt),week(dt),weekday(dt),dayname(dt));
+            SET i = i + 1;
+          END WHILE;
+        END;
+      </createProcedure>        
+    </changeSet>
+    <changeSet id="2011-08-31_25" author="ben">
+      <sql>
+        call populateDate();
+      </sql>        
+    </changeSet>
+    <changeSet id="2011-09-01_1" author="ben">
+      <dropColumn tableName="Annotation" columnName="present"/>
+    </changeSet>
+    <changeSet id="2011-09-01_2" author="ben">
+      <createTable tableName="Region">
+          <column name="id" type="varchar(3)">
+            <constraints nullable="false" primaryKey="true"/>
+          </column>
+          <column name="country" type="varchar(32)">
+            <constraints nullable="false"/>
+          </column>
+          <column name="region" type="varchar(32)">
+            <constraints nullable="false"/>
+          </column>
+          <column name="continent" type="varchar(16)">
+            <constraints nullable="false"/>
+          </column>
+      </createTable>
+    </changeSet>
+    <changeSet id="2011-09-01_3" author="ben">
+        <loadData tableName="Region" file="../emonocot-persistence/src/main/resources/regions.csv">
+            <column name="id" index="0" type="STRING"/>
+            <column name="country" index="1" type="STRING"/>
+            <column name="region" index="2" type="STRING"/>
+            <column name="continent" index="3" type="STRING"/>
+        </loadData>
+    </changeSet>
 </databaseChangeLog>

@@ -81,7 +81,7 @@ public class HarvestingJobIntegrationTest {
         parameters.put("authority.name", new JobParameter(
                 "http://scratchpad.cate-araceae.org"));
         parameters.put("authority.uri", new JobParameter(
-                "http://129.67.24.160/test/test.xml"));
+                "http://build.e-monocot.org/test/test.xml"));
         parameters.put(
                 "authority.last.harvested",
                 new JobParameter(Long

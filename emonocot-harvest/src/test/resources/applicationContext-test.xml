@@ -25,6 +25,7 @@
 
 	<jdbc:embedded-database id="dataSource" type="H2">
 	    <jdbc:script location="classpath:H2_schema.ddl" />
+	    <jdbc:script location="classpath:test_data.sql"/>
 	</jdbc:embedded-database>
 
 	<bean id="sessionFactory"

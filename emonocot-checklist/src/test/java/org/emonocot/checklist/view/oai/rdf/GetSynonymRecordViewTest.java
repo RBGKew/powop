@@ -19,7 +19,7 @@ import org.openarchives.pmh.Request;
 import org.openarchives.pmh.Verb;
 
 /**
- * In response to http://129.67.24.160/bugzilla/show_bug.cgi?id=69.
+ * In response to http://build.e-monocot.org/bugzilla/show_bug.cgi?id=69.
  *
  * @author ben
  *

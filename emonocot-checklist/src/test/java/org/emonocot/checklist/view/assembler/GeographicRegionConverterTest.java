@@ -16,7 +16,7 @@ import org.springframework.core.io.Resource;
 import org.tdwg.voc.TaxonConcept;
 
 /**
- * In response to http://129.67.24.160/bugzilla/show_bug.cgi?id=70
+ * In response to http://build.e-monocot.org/bugzilla/show_bug.cgi?id=70
  * 'Null Pointer Exception in Geographical Region Converter'.
  *
  * @author ben

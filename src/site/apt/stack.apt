@@ -13,9 +13,9 @@
  
  * Build Tool: {{{http://maven.apache.org} Maven}} (2.2.1)
  
- * Build Server: {{{http://129.67.24.160/ci} Jenkins}}
+ * Build Server: {{{http://build.e-monocot.org/ci} Jenkins}}
   
- * Source Code: {{{http://129.67.24.160/viewvc/cvsroot/emonocot/}CVS}}  :pserver:username@129.67.24.160:/var/cvs  co emonocot
+ * Source Code: {{{http://build.e-monocot.org/viewvc/cvsroot/emonocot/}CVS}}  :pserver:username@build.e-monocot.org:/var/cvs  co emonocot
  
- * Issue Tracker: {{{http://129.67.24.160/bugzilla/}Bugzilla}}.
+ * Issue Tracker: {{{http://build.e-monocot.org/bugzilla/}Bugzilla}}.
  

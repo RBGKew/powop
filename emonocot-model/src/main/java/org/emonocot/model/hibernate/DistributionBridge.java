@@ -17,6 +17,12 @@ import org.hibernate.search.bridge.LuceneOptions;
  */
 public class DistributionBridge implements FieldBridge {
 
+    /**
+     * @param name Set the name of the field
+     * @param value Set the value to be indexed
+     * @param document Set the lucene document
+     * @param luceneOptions Set the options for indexing
+     */
     public final void set(final String name, final Object value,
             final Document document, final LuceneOptions luceneOptions) {
         Distribution distribution = (Distribution) value;

@@ -91,6 +91,7 @@ public class NullTaxonProcessor implements ItemProcessor<String, Taxon>,
         if (identifier.equals("urn:kew.org:wcs:taxon:-9999")) {
             return null;
         }
+
         Taxon taxon = ((Taxon) taxonService.find(identifier,
                 "taxon-with-related"));
         TaxonConcept taxonConcept = oaiPmhClient.getRecord(
@@ -222,5 +223,5 @@ public class NullTaxonProcessor implements ItemProcessor<String, Taxon>,
      */
     public final void setAuthorityUri(final String newAuthorityUri) {
         this.authorityUri = newAuthorityUri;
-    }    
+    }
 }

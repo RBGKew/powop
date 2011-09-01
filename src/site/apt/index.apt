@@ -13,14 +13,14 @@ About eMonocot
 
   * You can email the whole team using {{{mailto:ict-team@e-monocot.org}ict-team@e-monocot.org}} - emails are archived {{{http://e-monocot.org/node/1395/og/forum/1731}here}}
  
-  * Mock web pages are {{{http://129.67.24.160/mocks/}here}}
+  * Mock web pages are {{{http://build.e-monocot.org/mocks/}here}}
 
-  * The latest portal prototype is {{{http://129.67.24.160/latest/portal/}here}}
+  * The latest portal prototype is {{{http://build.e-monocot.org/latest/portal/}here}}
 
   * The portal we're using for user acceptance testing is {{{http://test.e-monocot.org/}here}}
 
   * The 'live' portal will be deployed {{{http://beta.e-monocot.org/}here}}
 
-  * Please file issues {{{http://129.67.24.160/bugzilla/}here}}
+  * Please file issues {{{http://build.e-monocot.org/bugzilla/}here}}
   
   []

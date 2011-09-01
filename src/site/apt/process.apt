@@ -11,51 +11,51 @@ Development Process
   
 * eMonocot Backlog Lists
 
- * {{{http://129.67.24.160/bugzilla/buglist.cgi?query_format=advanced&field0-0-0=cf_epic&bug_status=NEW&type0-0-0=equals&value0-0-0=true&product=emonocot}eMonocot Epics}}
+ * {{{http://build.e-monocot.org/bugzilla/buglist.cgi?query_format=advanced&field0-0-0=cf_epic&bug_status=NEW&type0-0-0=equals&value0-0-0=true&product=emonocot}eMonocot Epics}}
 
- * {{{http://129.67.24.160/bugzilla/buglist.cgi?query_format=advanced&field0-0-0=cf_epic&bug_status=NEW&type0-0-0=notequals&value0-0-0=true&product=emonocot}New Issues}}
+ * {{{http://build.e-monocot.org/bugzilla/buglist.cgi?query_format=advanced&field0-0-0=cf_epic&bug_status=NEW&type0-0-0=notequals&value0-0-0=true&product=emonocot}New Issues}}
   
- * {{{http://129.67.24.160/bugzilla/buglist.cgi?query_format=advanced&columnlist=short_desc%2Cvotes&order=votes&field0-0-0=cf_epic&bug_status=BACKLOG&type0-0-0=notequals&value0-0-0=true&product=emonocot}Backlog}}
+ * {{{http://build.e-monocot.org/bugzilla/buglist.cgi?query_format=advanced&columnlist=short_desc%2Cvotes&order=votes&field0-0-0=cf_epic&bug_status=BACKLOG&type0-0-0=notequals&value0-0-0=true&product=emonocot}Backlog}}
  
- * {{{http://129.67.24.160/bugzilla/buglist.cgi?query_format=advanced&field0-0-0=cf_epic&bug_status=READY_TO_DEVELOP&type0-0-0=notequals&value0-0-0=true&product=emonocot} Ready to develop}}
+ * {{{http://build.e-monocot.org/bugzilla/buglist.cgi?query_format=advanced&field0-0-0=cf_epic&bug_status=READY_TO_DEVELOP&type0-0-0=notequals&value0-0-0=true&product=emonocot} Ready to develop}}
  
- * {{{http://129.67.24.160/bugzilla/buglist.cgi?query_format=advanced&field0-0-0=cf_epic&bug_status=IN_DEVELOPMENT&type0-0-0=notequals&value0-0-0=true&product=emonocot}In development}}
+ * {{{http://build.e-monocot.org/bugzilla/buglist.cgi?query_format=advanced&field0-0-0=cf_epic&bug_status=IN_DEVELOPMENT&type0-0-0=notequals&value0-0-0=true&product=emonocot}In development}}
  
- * {{{http://129.67.24.160/bugzilla/buglist.cgi?query_format=advanced&field0-0-0=cf_epic&bug_status=READY_FOR_REVIEW&type0-0-0=notequals&value0-0-0=true&product=emonocot}Ready to review}}
+ * {{{http://build.e-monocot.org/bugzilla/buglist.cgi?query_format=advanced&field0-0-0=cf_epic&bug_status=READY_FOR_REVIEW&type0-0-0=notequals&value0-0-0=true&product=emonocot}Ready to review}}
  
- * {{{http://129.67.24.160/bugzilla/buglist.cgi?query_format=advanced&field0-0-0=cf_epic&bug_status=RESOLVED&type0-0-0=notequals&value0-0-0=true&product=emonocot}Resolved}}
+ * {{{http://build.e-monocot.org/bugzilla/buglist.cgi?query_format=advanced&field0-0-0=cf_epic&bug_status=RESOLVED&type0-0-0=notequals&value0-0-0=true&product=emonocot}Resolved}}
  
  []
  
 * eMonocot Backlog Lists organized by Target Milestone (for the next phase of development)
 
- * {{{http://129.67.24.160/bugzilla/buglist.cgi?query_format=advanced&target_milestone=0.0.7}0.0.7 - June 2011}}
+ * {{{http://build.e-monocot.org/bugzilla/buglist.cgi?query_format=advanced&target_milestone=0.0.7}0.0.7 - June 2011}}
 
- * {{{http://129.67.24.160/bugzilla/buglist.cgi?query_format=advanced&target_milestone=0.0.8}0.0.8 - July 2011}}
+ * {{{http://build.e-monocot.org/bugzilla/buglist.cgi?query_format=advanced&target_milestone=0.0.8}0.0.8 - July 2011}}
   
- * {{{http://129.67.24.160/bugzilla/buglist.cgi?query_format=advanced&target_milestone=current}0.0.9 - August 2011}}
+ * {{{http://build.e-monocot.org/bugzilla/buglist.cgi?query_format=advanced&target_milestone=current}0.0.9 - August 2011}}
  
- * {{{http://129.67.24.160/bugzilla/buglist.cgi?query_format=advanced&target_milestone=0.1.0}0.1.0 - September 2011}}
+ * {{{http://build.e-monocot.org/bugzilla/buglist.cgi?query_format=advanced&target_milestone=0.1.0}0.1.0 - September 2011}}
  
  []
 
 * eMonocot Backlog Lists organized by Epic
 
- * {{{http://129.67.24.160/bugzilla/showdependencytree.cgi?id=7&hide_resolved=1}Browsing data}}
+ * {{{http://build.e-monocot.org/bugzilla/showdependencytree.cgi?id=7&hide_resolved=1}Browsing data}}
 
- * {{{http://129.67.24.160/bugzilla/showdependencytree.cgi?id=8&hide_resolved=1}Searching / Querying data}}
+ * {{{http://build.e-monocot.org/bugzilla/showdependencytree.cgi?id=8&hide_resolved=1}Searching / Querying data}}
   
- * {{{http://129.67.24.160/bugzilla/showdependencytree.cgi?id=9&hide_resolved=1}Identifying a Plant}}
+ * {{{http://build.e-monocot.org/bugzilla/showdependencytree.cgi?id=9&hide_resolved=1}Identifying a Plant}}
  
- * {{{http://129.67.24.160/bugzilla/showdependencytree.cgi?id=10&hide_resolved=1}Downloading data}}
+ * {{{http://build.e-monocot.org/bugzilla/showdependencytree.cgi?id=10&hide_resolved=1}Downloading data}}
  
- * {{{http://129.67.24.160/bugzilla/showdependencytree.cgi?id=11&hide_resolved=1}Reporting summary data}}
+ * {{{http://build.e-monocot.org/bugzilla/showdependencytree.cgi?id=11&hide_resolved=1}Reporting summary data}}
  
- * {{{http://129.67.24.160/bugzilla/showdependencytree.cgi?id=12&hide_resolved=1}Browsing metadata about users}}
+ * {{{http://build.e-monocot.org/bugzilla/showdependencytree.cgi?id=12&hide_resolved=1}Browsing metadata about users}}
  
- * {{{http://129.67.24.160/bugzilla/showdependencytree.cgi?id=13&hide_resolved=1}Browsing metadata about tasks and activities (workflow)}}
+ * {{{http://build.e-monocot.org/bugzilla/showdependencytree.cgi?id=13&hide_resolved=1}Browsing metadata about tasks and activities (workflow)}}
 
- * {{{http://129.67.24.160/bugzilla/showdependencytree.cgi?id=14&hide_resolved=1}Publishing data for use via a web-service}} 
+ * {{{http://build.e-monocot.org/bugzilla/showdependencytree.cgi?id=14&hide_resolved=1}Publishing data for use via a web-service}} 
  
  []
  
