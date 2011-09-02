@@ -77,6 +77,7 @@ public class TaxonValidator implements ItemProcessor<Taxon, Taxon>,
             if (annotation.getJobId().equals(
                     stepExecution.getJobExecutionId())) {
                 annotation.setType(AnnotationType.Present);
+                anAnnotationPresent = true;
                 break;
             }
         }

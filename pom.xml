@@ -70,6 +70,17 @@
                 <role>Developer</role>
             </roles>
         </developer>
+        <developer>
+            <name>Annapaola Santarsiero</name>
+            <id>annapaola</id>
+            <email>annapaola.santarsiero@zoo.ox.ac.uk</email>
+            <organization>Department of Zoology, University of Oxford</organization>
+            <organizationUrl>http://www.zoo.ox.ac.uk/</organizationUrl>
+            <timezone>+1</timezone>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
     </developers>
     <scm>
         <connection>scm:cvs:pserver:anonymous:@build.e-monocot.org:/var/cvs:emonocot</connection>
@@ -862,14 +873,14 @@
                     </reportSet>
                 </reportSets>
             </plugin>
-            <plugin>
+            <!-- <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-changelog-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
                     <connectionType>developerConnection</connectionType>
                 </configuration>
-            </plugin>
+            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>

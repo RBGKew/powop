@@ -1,5 +1,7 @@
 package org.emonocot.job.dwc.description;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.ParseException;
 
 import org.emonocot.job.dwc.DarwinCoreFieldSetMapper;
@@ -95,8 +97,16 @@ public class DescriptionFieldSetMapper extends
             DwcTerm dwcTerm = (DwcTerm) term;
             switch (dwcTerm) {
             case taxonID:
+                try {
+                    URI uri = new URI(value);
+                } catch (URISyntaxException urise) {
+                    BindException be = new BindException(object, "target");
+                    be.rejectValue("coreId", "not.valid", urise.getMessage());
+                    throw be;
+                }
                 Taxon taxon = taxonService.find(value);
-                if(taxon == null) {
+                if (taxon == null) {
+                    logger.error("Cannot find record " + value);
                     throw new CannotFindRecordException(value);
                 } else {
                     object.setTaxon(taxon);

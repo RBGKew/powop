@@ -52,11 +52,28 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
     */
    private Authority authority = null;
 
+   /**
+    *
+    */
+   private static final String PROCESS_CORE_FILE = "processCoreFile";
+
+   /**
+    *
+    */
+    private static final String PROCESS_DESCRIPTION_FILE
+        = "processDescriptionFile";
+
+    /**
+     *
+     */
+    private static final String PROCESS_IMAGE_FILE
+        = "processImageFile";
+
   /**
    *
    * @param authorityName Set the id of the authority
    */
-   public final void setAuthorityName(String authorityName) {
+   public final void setAuthorityName(final String authorityName) {
      authority = new Authority();
      authority.setId(Long.parseLong(authorityName));
    }
@@ -103,6 +120,7 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
      * @param e the exception thrown
      */
     public final void onProcessError(final Base item, final Exception e) {
+        logger.debug("Process Error " + e.getMessage());
         if (e instanceof DescriptionProcessingException) {
             DarwinCoreProcessingException dwcpe
                 = (DarwinCoreProcessingException) e;
@@ -113,14 +131,27 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
             annotation.setText(dwcpe.getMessage());
             annotation.setAuthority(authority);
             annotation.setType(dwcpe.getType());
-            transactionTemplate.execute(
-                    new TransactionCallback<Serializable>() {
+            String stepName = stepExecution.getStepName();
+            if (stepName.equals(PROCESS_CORE_FILE)) {
+                annotation.setAnnotatedObjType("Taxon");
+            } else if (stepName.equals(PROCESS_DESCRIPTION_FILE)) {
+                annotation.setAnnotatedObjType("TextContent");
+            } else if (stepName.equals(PROCESS_IMAGE_FILE)) {
+                annotation.setAnnotatedObjType("Image");
+            }
+            try {
+                transactionTemplate
+                        .execute(new TransactionCallback<Serializable>() {
 
-                public Serializable doInTransaction(
-                        final TransactionStatus status) {
-                  return getSession().save(annotation);
-                }
-              });
+                            public Serializable doInTransaction(
+                                    final TransactionStatus status) {
+                                return getSession().save(annotation);
+                            }
+                        });
+            } catch (Throwable t) {
+                logger.error(t.getMessage());
+                throw new RuntimeException(t);
+            }
         }
     }
 
@@ -142,7 +173,7 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
     /**
      * @param base the object read
      */
-    public void afterRead(Base base) {
+    public void afterRead(final Base base) {
 
     }
 
@@ -156,9 +187,9 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
     /**
      * @param e the exception
      */
-    public void onReadError(Exception e) {
-        if(e instanceof FlatFileParseException) {
-            FlatFileParseException ffpe = (FlatFileParseException)e;
+    public final void onReadError(final Exception e) {
+        if (e instanceof FlatFileParseException) {
+            FlatFileParseException ffpe = (FlatFileParseException) e;
             logger.debug("FlatFileParseException | " + ffpe.getMessage());
             final Annotation annotation = new Annotation();
             annotation.setJobId(stepExecution.getJobExecutionId());
@@ -166,14 +197,27 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
             annotation.setAuthority(authority);
             annotation.setType(AnnotationType.Error);
             annotation.setText(ffpe.getMessage());
-            transactionTemplate.execute(
-                    new TransactionCallback<Serializable>() {
+            String stepName = stepExecution.getStepName();
+            if (stepName.equals(PROCESS_CORE_FILE)) {
+                annotation.setAnnotatedObjType("Taxon");
+            } else if (stepName.equals(PROCESS_DESCRIPTION_FILE)) {
+                annotation.setAnnotatedObjType("TextContent");
+            } else if (stepName.equals(PROCESS_IMAGE_FILE)) {
+                annotation.setAnnotatedObjType("Image");
+            }
+            try {
+                transactionTemplate
+                        .execute(new TransactionCallback<Serializable>() {
 
-                public Serializable doInTransaction(
-                        final TransactionStatus status) {
-                  return getSession().save(annotation);
-                }
-              });
+                            public Serializable doInTransaction(
+                                    final TransactionStatus status) {
+                                return getSession().save(annotation);
+                            }
+                        });
+            } catch (Throwable t) {
+                logger.error(t.getMessage());
+                throw new RuntimeException(t);
+            }
         }
     }
 
