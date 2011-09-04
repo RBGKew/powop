@@ -117,5 +117,4 @@ public class Image extends Base {
     public void setTaxa(List<Taxon> taxa) {
         this.taxa = taxa;
     }
-
 }

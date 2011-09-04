@@ -108,7 +108,7 @@ public class ImageValidator implements
                     boundImages.put(persistedImage.getIdentifier(), persistedImage);
                     // Assume the image hasn't changed, but maybe this taxon
                     // should be associated with it
-                    if(persistedImage.getTaxa().contains(image.getTaxa())) {
+                    if(persistedImage.getTaxa().contains(image.getTaxon())) {
                         // do nothing
                     } else {
                         // Add the taxon to the list of taxa
@@ -128,7 +128,7 @@ public class ImageValidator implements
             // We've already seen this image within this chunk and we'll
             // update it with this taxon but that's it, assuming that it
             // isn't a more up to date version
-            if (boundImage.getTaxa().contains(image.getTaxa())) {
+            if (boundImage.getTaxa().contains(image.getTaxon())) {
                 // do nothing
             } else {
                 // Add the taxon to the list of taxa

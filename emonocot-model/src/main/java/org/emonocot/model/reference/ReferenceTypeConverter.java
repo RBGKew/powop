@@ -1,13 +1,17 @@
 package org.emonocot.model.reference;
 
+import java.text.ParseException;
+import java.util.Locale;
+
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.format.Parser;
 
 /**
  * 
  * @author ben
  * 
  */
-public class ReferenceTypeConverter implements Converter<String, ReferenceType> {
+public class ReferenceTypeConverter implements Converter<String, ReferenceType>, Parser<ReferenceType> {
 
     /**
     *
@@ -32,6 +36,15 @@ public class ReferenceTypeConverter implements Converter<String, ReferenceType> 
         } else {
             throw new IllegalArgumentException(identifier
                     + " is not a valid TDWG publication type");
+        }
+    }
+
+    @Override
+    public ReferenceType parse(String value, Locale locale) throws ParseException {
+        try {
+            return convert(value);
+        } catch(IllegalArgumentException iae) {
+            throw new ParseException(value, 0);
         }
     }
 }

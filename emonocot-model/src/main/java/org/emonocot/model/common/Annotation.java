@@ -1,6 +1,5 @@
 package org.emonocot.model.common;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -71,14 +70,14 @@ public class Annotation {
      * @return the authority
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    public final Authority getAuthority() {
+    public Authority getAuthority() {
         return authority;
     }
 
     /**
      * @param authority the authority to set
      */
-    public final void setAuthority(Authority authority) {
+    public void setAuthority(Authority authority) {
         this.authority = authority;
     }
 
@@ -86,14 +85,14 @@ public class Annotation {
      * @return the type
      */
     @Enumerated(value = EnumType.STRING)
-    public final AnnotationType getType() {
+    public AnnotationType getType() {
         return type;
     }
 
     /**
      * @param type the type to set
      */
-    public final void setType(AnnotationType type) {
+    public void setType(AnnotationType type) {
         this.type = type;
     }
 
@@ -192,14 +191,14 @@ public class Annotation {
      * @return the dateTime
      */
     @Type(type = "olapDateTime")
-    public final DateTime getDateTime() {
+    public DateTime getDateTime() {
         return dateTime;
     }
 
     /**
      * @param dateTime the dateTime to set
      */
-    public final void setDateTime(DateTime dateTime) {
+    public void setDateTime(DateTime dateTime) {
         this.dateTime = dateTime;
     }
 }

@@ -201,6 +201,11 @@ public class Taxon extends Base {
      * @return a list of references about the taxon
      */
     @ManyToMany(fetch = FetchType.LAZY)
+    @Cascade({CascadeType.SAVE_UPDATE})
+    @JoinTable(
+        name = "Taxon_Reference",
+        joinColumns = { @JoinColumn(name = "Taxon_id") },
+        inverseJoinColumns = { @JoinColumn(name = "references_id") })
     public Set<Reference> getReferences() {
         return references;
     }
@@ -647,7 +652,7 @@ public class Taxon extends Base {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @Cascade({CascadeType.SAVE_UPDATE })
-    public final Reference getProtologue() {
+    public Reference getProtologue() {
         return protologue;
     }
 
@@ -657,7 +662,7 @@ public class Taxon extends Base {
      * @return content or null if this taxon has no content
      */
     @Transient
-    public final Content getContent(final Feature feature) {
+    public Content getContent(Feature feature) {
         return content.get(feature);
     }
 }

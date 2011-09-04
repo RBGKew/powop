@@ -1,8 +1,16 @@
 package org.emonocot.model.reference;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 
 import org.emonocot.model.common.Base;
+import org.emonocot.model.taxon.Taxon;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 
@@ -39,6 +47,77 @@ public class Reference extends Base {
      *
      */
     private ReferenceType type;
+    
+    /**
+     *
+     */
+    private String author;
+    
+    /**
+     *
+     */
+    private String publishedIn;
+
+    /**
+     *
+     */
+    private String citation;
+
+    /**
+     *
+     */
+    private Set<Taxon> taxa = new HashSet<Taxon>();
+    
+    /**
+     *
+     * @return the author
+     */
+    @Field
+    public String getAuthor() {
+        return author;
+    }
+
+    /**
+     * 
+     * @param author Set the author
+     */
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    /**
+     *
+     * @return the publication this reference was published in
+     */
+    @Field
+    public String getPublishedIn() {
+        return publishedIn;
+    }
+
+    /**
+     *
+     * @param publishedIn Set the publication this reference was published in
+     */
+    public void setPublishedIn(String publishedIn) {
+        this.publishedIn = publishedIn;
+    }
+
+    /**
+     *
+     * @return the full citation
+     */
+    @Field
+    public String getCitation() {
+        return citation;
+    }
+
+    /**
+     *
+     * @param citation Set the full citation
+     */
+    public void setCitation(String citation) {
+        this.citation = citation;
+    }
 
     /**
      *
@@ -124,5 +203,23 @@ public class Reference extends Base {
      */
     public ReferenceType getType() {
         return type;
+    }
+    /**
+     * The list of all taxa associated with this reference
+     *
+     * @return a set of taxa
+     */
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "references")
+    @Cascade({CascadeType.SAVE_UPDATE})
+    public Set<Taxon> getTaxa() {
+        return taxa;
+    }
+
+    /**
+     *
+     * @param taxa Set the taxa associated with this reference
+     */
+    public void setTaxa(Set<Taxon> taxa) {
+        this.taxa = taxa;
     }
 }

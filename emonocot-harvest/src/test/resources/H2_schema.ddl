@@ -15,7 +15,7 @@ create table Image (id bigint not null, created timestamp, creator varchar(255),
 drop table if exists Image_Authority;
 create table Image_Authority (Image_id bigint not null, authorities_id bigint not null, authorities_KEY integer, primary key (Image_id, authorities_KEY));
 drop table if exists Reference;
-create table Reference (id bigint not null, created timestamp, creator varchar(255), identifier varchar(255), license varchar(255), modified timestamp, source varchar(255), datePublished varchar(255), pages varchar(255), title varchar(255), type integer, volume varchar(255), primary key (id));
+create table Reference (id bigint not null, created timestamp, creator varchar(255), identifier varchar(255), license varchar(255), modified timestamp, source varchar(255), author varchar(255), citation varchar(255), datePublished varchar(255), pages varchar(255), publishedIn varchar(255), title varchar(255), type integer, volume varchar(255), primary key (id));
 drop table if exists Reference_Authority;
 create table Reference_Authority (Reference_id bigint not null, authorities_id bigint not null, authorities_KEY integer, primary key (Reference_id, authorities_KEY));
 drop table if exists Taxon;

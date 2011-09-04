@@ -69,6 +69,12 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
     private static final String PROCESS_IMAGE_FILE
         = "processImageFile";
 
+    /**
+    *
+    */
+   private static final String PROCESS_REFERENCE_FILE
+       = "processReferenceFile";
+
   /**
    *
    * @param authorityName Set the id of the authority
@@ -138,6 +144,8 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
                 annotation.setAnnotatedObjType("TextContent");
             } else if (stepName.equals(PROCESS_IMAGE_FILE)) {
                 annotation.setAnnotatedObjType("Image");
+            } else if (stepName.equals(PROCESS_REFERENCE_FILE)) {
+                annotation.setAnnotatedObjType("Reference");
             }
             try {
                 transactionTemplate
@@ -204,6 +212,8 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
                 annotation.setAnnotatedObjType("TextContent");
             } else if (stepName.equals(PROCESS_IMAGE_FILE)) {
                 annotation.setAnnotatedObjType("Image");
+            } else if (stepName.equals(PROCESS_REFERENCE_FILE)) {
+                annotation.setAnnotatedObjType("Reference");
             }
             try {
                 transactionTemplate

@@ -856,4 +856,19 @@
             <column name="continent" index="3" type="STRING"/>
         </loadData>
     </changeSet>
+    <changeSet id="2011-09-04_1" author="ben">
+      <addColumn tableName="Reference">
+        <column name="author" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-09-04_2" author="ben">
+      <addColumn tableName="Reference">
+        <column name="citation" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-09-04_3" author="ben">
+      <addColumn tableName="Reference">
+        <column name="publishedIn" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
 </databaseChangeLog>

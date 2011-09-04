@@ -1,14 +1,17 @@
-package org.emonocot.job.dwc.image;
+package org.emonocot.job.dwc.reference;
 
 import java.text.ParseException;
 
 import org.emonocot.job.dwc.DarwinCoreFieldSetMapper;
 import org.emonocot.job.dwc.taxon.CannotFindRecordException;
-import org.emonocot.model.media.Image;
+import org.emonocot.model.reference.Reference;
+import org.emonocot.model.reference.ReferenceType;
+import org.emonocot.model.reference.ReferenceTypeConverter;
 import org.emonocot.model.taxon.Taxon;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
+import org.gbif.dwc.terms.GbifTerm;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
@@ -22,35 +25,46 @@ import org.springframework.validation.BindException;
  * @author ben
  *
  */
-public class ImageFieldSetMapper extends
-        DarwinCoreFieldSetMapper<Image> {
+public class ReferenceFieldSetMapper extends
+        DarwinCoreFieldSetMapper<Reference> {
 
     /**
      *
      */
-    public ImageFieldSetMapper() {
-        super(Image.class);
+    public ReferenceFieldSetMapper() {
+        super(Reference.class);
     }
 
     /**
     *
     */
     private Logger logger = LoggerFactory
-            .getLogger(ImageFieldSetMapper.class);
+            .getLogger(ReferenceFieldSetMapper.class);
     
     /**
     *
     */
    private Parser<DateTime> dateTimeParser
        = new DateTimeParser(ISODateTimeFormat.dateOptionalTimeParser());
+   
+   /**
+    *
+    */
+   private Parser<ReferenceType> referenceTypeParser = new ReferenceTypeConverter();
 
     @Override
-    public void mapField(final Image object, final String fieldName,
+    public void mapField(final Reference object, final String fieldName,
             final String value) throws BindException {
         ConceptTerm term = getTermFactory().findTerm(fieldName);
         if (term instanceof DcTerm) {
             DcTerm dcTerm = (DcTerm) term;
             switch (dcTerm) {
+            case creator:
+                object.setAuthor(value);
+                break;
+            case date:
+                object.setDatePublished(value);
+                break;
             case modified:
                 try {
                     object.setModified(dateTimeParser.parse(
@@ -72,14 +86,25 @@ public class ImageFieldSetMapper extends
                 }
                 break;
             case source:
-                object.setSource(value);
+                object.setPublishedIn(value);
+                break;
+            case type:
+                try {
+                    object.setType(referenceTypeParser.parse(value, null));
+                } catch (ParseException pe) {
+                    BindException be = new BindException(object, "target");
+                    be.rejectValue("type", "not.valid", pe.getMessage());
+                    throw be;
+                }
                 break;
             case title:
-                object.setCaption(value);
+                object.setTitle(value);
+                break;
+            case bibliographicCitation:
+                object.setCitation(value);
                 break;
             case identifier:
                 object.setIdentifier(value);
-                object.setUrl(value);
                 break;
             default:
                 break;
@@ -94,12 +119,21 @@ public class ImageFieldSetMapper extends
                 if (taxon == null) {
                     throw new CannotFindRecordException(value);
                 } else {
-                    taxon.getImages().add(object);
-                    object.setTaxon(taxon);
+                    taxon.getReferences().add(object);
                     object.getTaxa().add(taxon);
                 }
 
                 break;
+            default:
+                break;
+            }
+        }
+        
+        // Gbif
+        if (term instanceof GbifTerm) {
+            GbifTerm gbifTerm = (GbifTerm) term;
+            switch (gbifTerm) {
+            
             default:
                 break;
             }

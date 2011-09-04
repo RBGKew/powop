@@ -39,7 +39,7 @@ public class Authority {
    @Id
    @GeneratedValue(generator = "system-increment")
    @DocumentId
-    public final Long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -47,7 +47,7 @@ public class Authority {
      * @param id
      *            the id to set
      */
-    public final void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -55,7 +55,7 @@ public class Authority {
      * @return the name
      */
     @Field
-    public final String getName() {
+    public String getName() {
         return name;
     }
 
@@ -63,21 +63,21 @@ public class Authority {
      * @param name
      *            the name to set
      */
-    public final void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
     /**
      * @return the uri
      */
-    public final String getUri() {
+    public String getUri() {
         return uri;
     }
 
     /**
      * @param uri the uri to set
      */
-    public final void setUri(String uri) {
+    public void setUri(String uri) {
         this.uri = uri;
     }
 }

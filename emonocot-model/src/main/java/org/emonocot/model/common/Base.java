@@ -77,14 +77,14 @@ public abstract class Base {
      */
     @ManyToMany(fetch = FetchType.LAZY)
     @IndexedEmbedded
-    public final Map<AuthorityType, Authority> getAuthorities() {
+    public Map<AuthorityType, Authority> getAuthorities() {
         return authorities;
     }
 
     /**
      * @param authorities the authorities to set
      */
-    public final void setAuthorities(Map<AuthorityType, Authority> authorities) {
+    public void setAuthorities(Map<AuthorityType, Authority> authorities) {
         this.authorities = authorities;
     }
 
