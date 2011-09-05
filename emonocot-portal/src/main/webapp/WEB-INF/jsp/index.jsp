@@ -15,7 +15,7 @@
           <div class="twelvecol">
             <div id ="search">
               <form id="search.form" accept-charset="UTF-8" method="GET" action="search">
-                <input type="text" placeholder="search" name="query"/>
+                <input class="box" type="text" placeholder="search" name="query"/>
                 <input type="submit" value="go" name="submit"/>
               </form>
             </div>

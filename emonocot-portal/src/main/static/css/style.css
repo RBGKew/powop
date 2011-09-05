@@ -1,4 +1,6 @@
-#search {border: solid thin; margin: 0.5em; padding: 0.5em}
+/**#search {border: solid thin; margin: 0.5em; padding: 0.5em;}*/
+#search {border: solid thin;padding: 0.5em;margin: 0.5em;margin-right:40em;-moz-border-radius: 15px;border-radius: 15px;}
+.box {border: solid thin;padding: 0.2em;-moz-border-radius: 10px;border-radius: 10px;}
 #pages {float:left}
 #pageSize {list-style: none; margin: 0px; padding: 0px; float: right}
 #pageSize li {display:inline; padding: 0.5em}
@@ -10,4 +12,3 @@
 #results {list-style:none; margin: 0.5em; padding: 0.5em}
 .facet {list-style:none}
 .taxonName {font-style: italic;}
-
