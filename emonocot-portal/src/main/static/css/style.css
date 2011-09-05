@@ -9,4 +9,5 @@
 #facets {border: thin solid; list-style:none; margin: 0.5em; padding: 0.5em}
 #results {list-style:none; margin: 0.5em; padding: 0.5em}
 .facet {list-style:none}
+.taxonName {font-style: italic;}
 
