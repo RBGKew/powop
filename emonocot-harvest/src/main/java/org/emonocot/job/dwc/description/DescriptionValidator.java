@@ -1,6 +1,7 @@
 package org.emonocot.job.dwc.description;
 
 import org.emonocot.job.dwc.NoTaxonException;
+import org.emonocot.model.authority.Authority;
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.service.TaxonService;
@@ -33,6 +34,20 @@ public class DescriptionValidator implements
      *
      */
     private StepExecution stepExecution;
+    
+    /**
+     *
+     */
+    private Authority authority;
+    
+    /**
+    *
+    * @param authorityName Set the id of the authority
+    */
+    public final void setAuthorityName(String authorityName) {
+      authority = new Authority();
+      authority.setId(Long.parseLong(authorityName));
+    }
 
     /**
      *
@@ -71,23 +86,11 @@ public class DescriptionValidator implements
                 // the content has changed, return it.
                 return textContent;
             }
+        } else {
+            textContent.getAuthorities().add(authority);
+            textContent.setAuthority(authority);
+            return textContent;
         }
-        
-//        boolean anAnnotationPresent = false;
-//        for (Annotation annotation : persistedTaxon.getAnnotations()) {
-//            if (annotation.getJobId().equals(
-//                    stepExecution.getJobExecutionId())) {
-//                annotation.setPresent(true);
-//                anAnnotationPresent = true;
-//                break;
-//            }
-//        }
-//
-//        if (!anAnnotationPresent) {
-//            throw new UnexpectedTaxonException(taxon.getIdentifier());
-//        }
-//
-        return textContent;
     }
 
     /**

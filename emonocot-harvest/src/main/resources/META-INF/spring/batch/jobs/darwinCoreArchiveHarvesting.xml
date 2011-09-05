@@ -286,7 +286,9 @@
 		<property name="lineMapper" ref="descriptionLineMapper" />
 	</bean>
 
-	<bean id="descriptionProcessor" class="org.emonocot.job.dwc.description.DescriptionValidator" />
+	<bean id="descriptionProcessor" class="org.emonocot.job.dwc.description.DescriptionValidator" scope="step">
+	  <property name="authorityName" value="#{jobParameters['authority.name']}"/>
+	</bean>
 
 	<bean id="descriptionLineMapper"
 		class="org.springframework.batch.item.file.mapping.DefaultLineMapper"
@@ -338,7 +340,9 @@
 		<property name="lineMapper" ref="imageLineMapper" />
 	</bean>
 
-	<bean id="imageProcessor" class="org.emonocot.job.dwc.image.ImageValidator" />
+	<bean id="imageProcessor" class="org.emonocot.job.dwc.image.ImageValidator" scope="step">
+	  <property name="authorityName" value="#{jobParameters['authority.name']}"/>
+	</bean>
 
 	<bean id="imageLineMapper"
 		class="org.springframework.batch.item.file.mapping.DefaultLineMapper"
@@ -390,7 +394,9 @@
 		<property name="lineMapper" ref="referenceLineMapper" />
 	</bean>
 
-	<bean id="referenceProcessor" class="org.emonocot.job.dwc.reference.ReferenceValidator" />
+	<bean id="referenceProcessor" class="org.emonocot.job.dwc.reference.ReferenceValidator" scope="step">
+	  <property name="authorityName" value="#{jobParameters['authority.name']}"/>
+	</bean>
 
 	<bean id="referenceLineMapper"
 		class="org.springframework.batch.item.file.mapping.DefaultLineMapper"

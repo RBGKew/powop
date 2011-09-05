@@ -7,7 +7,6 @@ import java.util.Set;
 
 import org.emonocot.harvest.common.TaxonRelationship;
 import org.emonocot.harvest.common.TaxonRelationshipResolver;
-import org.emonocot.model.authority.AuthorityType;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.geography.GeographicalRegion;
@@ -113,8 +112,8 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
                 annotation.setType(AnnotationType.Create);
                 annotation.setAuthority(getAuthority());
                 taxon.getAnnotations().add(annotation);
-                taxon.getAuthorities().put(AuthorityType.Primary_Authority,
-                        getAuthority());
+                taxon.getAuthorities().add(getAuthority());
+                taxon.setAuthority(getAuthority());
                 processTaxon(taxon, taxonConcept);
             }
         } else {
@@ -133,8 +132,8 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
                 annotation.setCode("Updated");
                 annotation.setAuthority(getAuthority());
                 taxon.getAnnotations().add(annotation);
-                taxon.getAuthorities().put(AuthorityType.Primary_Authority,
-                        getAuthority());
+                taxon.getAuthorities().add(getAuthority());
+                taxon.setAuthority(getAuthority());
                 processTaxon(taxon, taxonConcept);
             }
         }

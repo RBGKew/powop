@@ -871,4 +871,104 @@
         <column name="publishedIn" type="varchar(255)"/>
       </addColumn>
     </changeSet>
+    <changeSet id="2011-09-05_1" author="ben">
+      <addColumn tableName="Content">
+        <column name="authority_id" type="bigint"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-09-05_2" author="ben">
+      <addColumn tableName="Distribution">
+        <column name="authority_id" type="bigint"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-09-05_3" author="ben">
+      <addColumn tableName="Image">
+        <column name="authority_id" type="bigint"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-09-05_4" author="ben">
+      <addColumn tableName="Reference">
+        <column name="authority_id" type="bigint"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-09-05_5" author="ben">
+      <addColumn tableName="Taxon">
+        <column name="authority_id" type="bigint"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-09-05_6" author="ben">
+      <addForeignKeyConstraint constraintName="FK9BEFCC5992954226" 
+                               referencedTableName="Authority"
+                               baseColumnNames="authority_id"
+                               baseTableName="Content"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2011-09-05_7" author="ben">
+      <addForeignKeyConstraint constraintName="FKAB93A2A492954226" 
+                               referencedTableName="Authority"
+                               baseColumnNames="authority_id"
+                               baseTableName="Distribution"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2011-09-05_8" author="ben">
+      <addForeignKeyConstraint constraintName="FK437B93B92954226" 
+                               referencedTableName="Authority"
+                               baseColumnNames="authority_id"
+                               baseTableName="Image"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2011-09-05_9" author="ben">
+      <addForeignKeyConstraint constraintName="FK404D5F2B92954226" 
+                               referencedTableName="Authority"
+                               baseColumnNames="authority_id"
+                               baseTableName="Reference"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2011-09-05_10" author="ben">
+      <addForeignKeyConstraint constraintName="FK4CD9EAA92954226" 
+                               referencedTableName="Authority"
+                               baseColumnNames="authority_id"
+                               baseTableName="Taxon"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2011-09-05_11" author="ben">
+      <sql>
+        update Content left join Content_Authority on (Content.id = Content_Authority.Content_id) set authority_id = Content_Authority.authorities_id where Content_Authority.authorities_KEY = 0;
+      </sql>
+    </changeSet>
+    <changeSet id="2011-09-05_12" author="ben">
+      <sql>
+        update Distribution left join Distribution_Authority on (Distribution.id = Distribution_Authority.Distribution_id) set authority_id = Distribution_Authority.authorities_id where Distribution_Authority.authorities_KEY = 0;
+      </sql>
+    </changeSet>
+    <changeSet id="2011-09-05_13" author="ben">
+      <sql>
+        update Image left join Image_Authority on (Image.id = Image_Authority.Image_id)  set authority_id = Image_Authority.authorities_id where Image_Authority.authorities_KEY = 0;
+      </sql>
+    </changeSet>
+    <changeSet id="2011-09-05_14" author="ben">
+      <sql>
+        update Reference left join Reference_Authority on (Reference.id = Reference_Authority.Reference_id) set authority_id = Reference_Authority.authorities_id where Reference_Authority.authorities_KEY = 0;
+      </sql>
+    </changeSet>
+    <changeSet id="2011-09-05_15" author="ben">
+      <sql>
+        update Taxon left join Taxon_Authority on (Taxon.id = Taxon_Authority.Taxon_id) set authority_id = Taxon_Authority.authorities_id where Taxon_Authority.authorities_KEY = 0;
+      </sql>
+    </changeSet>
+    <changeSet id="2011-09-05_16" author="ben">
+      <dropColumn tableName="Content_Authority" columnName="authorities_KEY"/>
+    </changeSet>
+    <changeSet id="2011-09-05_17" author="ben">
+      <dropColumn tableName="Distribution_Authority" columnName="authorities_KEY"/>
+    </changeSet>
+    <changeSet id="2011-09-05_18" author="ben">
+      <dropColumn tableName="Image_Authority" columnName="authorities_KEY"/>
+    </changeSet>
+    <changeSet id="2011-09-05_19" author="ben">
+      <dropColumn tableName="Reference_Authority" columnName="authorities_KEY"/>
+    </changeSet>
+    <changeSet id="2011-09-05_20" author="ben">
+      <dropColumn tableName="Taxon_Authority" columnName="authorities_KEY"/>
+    </changeSet>
 </databaseChangeLog>

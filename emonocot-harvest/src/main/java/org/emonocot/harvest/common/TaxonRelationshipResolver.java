@@ -8,7 +8,6 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 
 import org.emonocot.model.authority.Authority;
-import org.emonocot.model.authority.AuthorityType;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.taxon.Taxon;
@@ -131,8 +130,8 @@ public abstract class TaxonRelationshipResolver
                         annotation.setType(AnnotationType.Create);
                         annotation.setAuthority(authority);
                         taxon.getAnnotations().add(annotation);
-                        taxon.getAuthorities().put(
-                                AuthorityType.Primary_Authority, authority);
+                        taxon.getAuthorities().add(authority);
+                        taxon.setAuthority(authority);
                         taxon.setIdentifier(identifier);
                         logger.info("Didn't taxon with identifier " + identifier
                                 + " from service returning new taxon");

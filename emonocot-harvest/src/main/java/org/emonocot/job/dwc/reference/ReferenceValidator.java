@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.emonocot.model.authority.Authority;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.service.ReferenceService;
@@ -50,6 +51,20 @@ public class ReferenceValidator implements
      *
      */
     private StepExecution stepExecution;
+    
+    /**
+     *
+     */
+  private Authority authority;
+  
+  /**
+  *
+  * @param authorityName Set the id of the authority
+  */
+  public final void setAuthorityName(String authorityName) {
+    authority = new Authority();
+    authority.setId(Long.parseLong(authorityName));
+  }
 
     /**
      *
@@ -82,6 +97,8 @@ public class ReferenceValidator implements
             if (persistedReference == null) {
                 // We've not seen this reference before
                 boundReferences.put(reference.getIdentifier(), reference);
+                reference.getAuthorities().add(authority);
+                reference.setAuthority(authority);
                 return reference;
             } else {
                 // We've seen this reference before, but not in this chunk

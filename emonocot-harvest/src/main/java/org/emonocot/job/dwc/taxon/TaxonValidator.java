@@ -1,7 +1,6 @@
 package org.emonocot.job.dwc.taxon;
 
 import org.emonocot.model.authority.Authority;
-import org.emonocot.model.authority.AuthorityType;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.taxon.Taxon;
@@ -85,8 +84,8 @@ public class TaxonValidator implements ItemProcessor<Taxon, Taxon>,
         if (!anAnnotationPresent) {
             throw new UnexpectedTaxonException(taxon.getIdentifier());
         } else {
-            if (!persistedTaxon.getAuthorities().containsValue(authority)) {
-                persistedTaxon.getAuthorities().put(AuthorityType.Secondary_Authority, authority);
+            if (!persistedTaxon.getAuthorities().contains(authority)) {
+                persistedTaxon.getAuthorities().add(authority);
             }
         }
         return persistedTaxon;

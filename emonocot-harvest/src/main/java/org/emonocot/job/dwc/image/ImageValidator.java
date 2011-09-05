@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.emonocot.model.authority.Authority;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.service.ImageService;
@@ -70,6 +71,20 @@ public class ImageValidator implements
     /**
      *
      */
+    private Authority authority;
+    
+   /**
+    *
+    * @param authorityName Set the id of the authority
+    */
+    public final void setAuthorityName(String authorityName) {
+      authority = new Authority();
+      authority.setId(Long.parseLong(authorityName));
+    }
+    
+    /**
+     *
+     */
     @Autowired
     public final void setTaxonService(TaxonService taxonService) {
         this.taxonService = taxonService;
@@ -99,6 +114,8 @@ public class ImageValidator implements
                 // We've not seen this image before
                 boundImages.put(image.getIdentifier(), image);
                 image.getTaxon().getImages().add(image);
+                image.setAuthority(authority);
+                image.getAuthorities().add(authority);
                 logger.info("Adding image " + image.getIdentifier());
                 return image;
             } else {

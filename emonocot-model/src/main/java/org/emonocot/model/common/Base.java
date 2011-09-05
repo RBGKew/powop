@@ -1,7 +1,7 @@
 package org.emonocot.model.common;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -9,12 +9,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.MapKeyEnumerated;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.emonocot.model.authority.Authority;
-import org.emonocot.model.authority.AuthorityType;
 import org.emonocot.model.hibernate.DateTimeBridge;
 import org.hibernate.annotations.Type;
 import org.hibernate.search.annotations.DocumentId;
@@ -68,23 +67,46 @@ public abstract class Base {
     private String identifier;
 
     /**
+     * As Jo pointed out, having a map of AuthorityType -> Authority
+     * didn't allow for more than one secondary authority.
+     */
+    private Set<Authority> authorities = new HashSet<Authority>();
+    
+    /**
      *
      */
-    private Map<AuthorityType,Authority> authorities = new HashMap<AuthorityType,Authority>();
+    private Authority authority;
 
     /**
-     * @return the authorities
+     *
+     * @return the primary authority
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    public Authority getAuthority() {
+        return authority;
+    }
+
+    /**
+     *
+     * @param authority Set the authority
+     */
+    public void setAuthority(Authority authority) {
+        this.authority = authority;
+    }
+
+    /**
+     * @return the authorities, including the primary authority
      */
     @ManyToMany(fetch = FetchType.LAZY)
     @IndexedEmbedded
-    public Map<AuthorityType, Authority> getAuthorities() {
+    public Set<Authority> getAuthorities() {
         return authorities;
     }
 
     /**
      * @param authorities the authorities to set
      */
-    public void setAuthorities(Map<AuthorityType, Authority> authorities) {
+    public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
     }
 
