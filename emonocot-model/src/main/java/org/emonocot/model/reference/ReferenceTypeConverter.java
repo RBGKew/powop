@@ -7,13 +7,14 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.Parser;
 
 /**
- * 
+ *
  * @author ben
- * 
+ *
  */
-public class ReferenceTypeConverter implements Converter<String, ReferenceType>, Parser<ReferenceType> {
+public class ReferenceTypeConverter implements
+        Converter<String, ReferenceType>, Parser<ReferenceType> {
 
-    /**
+   /**
     *
     */
     private static final String TDWG_VOCABULARY_PREFIX = "http://rs.tdwg.org/ontology/voc/PublicationCitation#";
@@ -39,11 +40,17 @@ public class ReferenceTypeConverter implements Converter<String, ReferenceType>,
         }
     }
 
-    @Override
-    public ReferenceType parse(String value, Locale locale) throws ParseException {
+    /**
+     * @param value Set the string to parse
+     * @param locale Set the locale
+     * @return the ReferenceType
+     * @throws ParseException if there is a problem parsing the string
+     */
+    public final ReferenceType parse(final String value, final Locale locale)
+            throws ParseException {
         try {
             return convert(value);
-        } catch(IllegalArgumentException iae) {
+        } catch (IllegalArgumentException iae) {
             throw new ParseException(value, 0);
         }
     }
