@@ -199,7 +199,7 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
                 taxon.setProtologue(reference);
 
             }
-            try{
+            try {
                 taxon.setRank(rankConverter.convert(
                         taxonName.getRankString()));
             } catch (IllegalArgumentException iae) {

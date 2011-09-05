@@ -41,7 +41,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class ImageValidator implements
         ItemProcessor<Image, Image>, StepExecutionListener, ChunkListener,
-        ItemWriteListener<Image>{
+        ItemWriteListener<Image> {
     /**
      *
      */
@@ -90,7 +90,7 @@ public class ImageValidator implements
      */
     public final Image process(final Image image)
             throws Exception {
-        logger.info("Validating " + image);
+        logger.info("Validating " + image.getIdentifier());
 
         Image boundImage = boundImages.get(image.getIdentifier());
         if (boundImage == null) {
@@ -98,6 +98,8 @@ public class ImageValidator implements
             if (persistedImage == null) {
                 // We've not seen this image before
                 boundImages.put(image.getIdentifier(), image);
+                image.getTaxon().getImages().add(image);
+                logger.info("Adding image " + image.getIdentifier());
                 return image;
             } else {
                 // We've seen this image before, but not in this chunk
@@ -105,23 +107,39 @@ public class ImageValidator implements
                 if ((persistedImage.getModified() == null
                     && image.getModified() == persistedImage.getModified())
                     || persistedImage.getModified().equals(image.getModified())) {
-                    boundImages.put(persistedImage.getIdentifier(), persistedImage);
                     // Assume the image hasn't changed, but maybe this taxon
                     // should be associated with it
-                    if(persistedImage.getTaxa().contains(image.getTaxon())) {
+                    if (persistedImage.getTaxa().contains(image.getTaxon())) {
                         // do nothing
+                        return null;
                     } else {
                         // Add the taxon to the list of taxa
+                        boundImages.put(persistedImage.getIdentifier(), persistedImage);
+                        logger.info("Updating image " + image.getIdentifier());
                         persistedImage.getTaxa().add(image.getTaxon());
+                        image.getTaxon().getImages().add(persistedImage);
+                        return persistedImage;
                     }
-                    return persistedImage;
                 } else {
                     // Assume that this is the first of several times this image
                     // appears in the result set, and we'll use this version to
                     // overwrite the existing image
-                    image.setId(persistedImage.getId());
-                    boundImages.put(image.getIdentifier(), image);
-                    return image;
+                    persistedImage.setCaption(image.getCaption());
+                    persistedImage.setCreated(image.getCreated());
+                    persistedImage.setCreator(image.getCreator());
+                    persistedImage.setIdentifier(image.getIdentifier());
+                    persistedImage.setLicense(image.getLicense());
+                    persistedImage.setModified(image.getModified());
+                    persistedImage.setSource(image.getSource());
+                    persistedImage.setTaxon(image.getTaxon());
+                    persistedImage.getTaxa().clear();
+                    persistedImage.getTaxa().add(image.getTaxon());
+                    if (!image.getTaxon().getImages().contains(persistedImage)) {
+                        image.getTaxon().getImages().add(persistedImage);
+                    }
+                    boundImages.put(image.getIdentifier(), persistedImage);
+                    logger.info("Overwriting image " + image.getIdentifier());
+                    return persistedImage;
                 }
             }
         } else {
@@ -132,9 +150,11 @@ public class ImageValidator implements
                 // do nothing
             } else {
                 // Add the taxon to the list of taxa
+                image.getTaxon().getImages().add(boundImage);
                 boundImage.getTaxa().add(image.getTaxon());
             }
             // We've already returned this object once
+            logger.info("Skipping image " + image.getIdentifier());
             return null;
         }
     }
@@ -165,6 +185,7 @@ public class ImageValidator implements
      * @param images the list of images to write
      */
     public void beforeWrite(List<? extends Image> images) {
+        logger.info("Before Write");
         Comparator<Taxon> comparator = new TaxonComparator();
         for (Image image : images) {
             if (!image.getTaxa().isEmpty()) {
@@ -190,11 +211,16 @@ public class ImageValidator implements
     /**
      *
      */
-    public void afterChunk() {
+    public final void afterChunk() {
+        logger.info("After Chunk");
     }
 
-    public void beforeChunk() {
-        boundImages.clear();
+    /**
+     *
+     */
+    public final void beforeChunk() {
+        logger.info("Before Chunk");
+        boundImages = new HashMap<String, Image>();
     }
 
     /**
@@ -204,6 +230,14 @@ public class ImageValidator implements
      */
     class TaxonComparator implements Comparator<Taxon> {
 
+        /**
+         * @param o1
+         *            Set the first taxon
+         * @param o2
+         *            Set the second taxon
+         * @return < 0 if the first should come before the second, > 0 if the
+         *         first should come after and 0 if they are equal
+         */
         public int compare(final Taxon o1, final Taxon o2) {
             if (o1 == o2) {
                 return 0;

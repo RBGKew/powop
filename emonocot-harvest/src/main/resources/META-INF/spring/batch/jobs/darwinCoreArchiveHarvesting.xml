@@ -98,6 +98,7 @@
 			<batch:next on="COMPLETED" to="cleanupResources" />
 			<batch:listeners>
 			  <batch:listener ref="processingExceptionProcessListener"/>
+			  <batch:listener ref="imageProcessor"/>
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="processReferenceDecider" id="processReferencesDecision">
@@ -118,6 +119,7 @@
 			<batch:next on="COMPLETED" to="cleanupResources" />
 			<batch:listeners>
 			  <batch:listener ref="processingExceptionProcessListener"/>
+			  <batch:listener ref="referenceProcessor"/>
 			</batch:listeners>
 		</batch:step>
 	    <batch:step id="cleanupResources">

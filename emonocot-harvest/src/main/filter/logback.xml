@@ -28,10 +28,13 @@
     <appender-ref ref="${logging.harvester.method}"/>
   </root>
    <!-- uncomment to see the harvesting debug -->
-  <logger name="org.emonocot.ws" level="DEBUG">
+  <logger name="org.emonocot.ws" level="DEBUG" additivity="false">
     <appender-ref ref="${logging.harvester.method}"/>
   </logger>
-  <logger name="org.emonocot.job" level="DEBUG">
+  <logger name="org.emonocot.job" level="DEBUG" additivity="false">
+    <appender-ref ref="${logging.harvester.method}"/>
+  </logger>
+  <logger name="org.emonocot.job.dwc.image" level="DEBUG" additivity="false">
     <appender-ref ref="${logging.harvester.method}"/>
   </logger>
 </configuration>

@@ -198,13 +198,21 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
     public final void onReadError(final Exception e) {
         if (e instanceof FlatFileParseException) {
             FlatFileParseException ffpe = (FlatFileParseException) e;
-            logger.debug("FlatFileParseException | " + ffpe.getMessage());
+            StringBuffer message = new StringBuffer();
+            message.append(ffpe.getMessage());
+            if (ffpe.getCause() != null) {
+                message.append(" " + ffpe.getCause().getMessage());
+                logger.debug("FlatFileParseException | " + ffpe.getMessage()
+                        + " Cause " + ffpe.getCause().getMessage());
+            } else {
+                logger.debug("FlatFileParseException | " + ffpe.getMessage());
+            }
             final Annotation annotation = new Annotation();
             annotation.setJobId(stepExecution.getJobExecutionId());
             annotation.setCode("FlatFileParseException");
             annotation.setAuthority(authority);
             annotation.setType(AnnotationType.Error);
-            annotation.setText(ffpe.getMessage());
+            annotation.setText(message.toString());
             String stepName = stepExecution.getStepName();
             if (stepName.equals(PROCESS_CORE_FILE)) {
                 annotation.setAnnotatedObjType("Taxon");

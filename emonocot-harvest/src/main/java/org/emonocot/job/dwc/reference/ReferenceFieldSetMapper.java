@@ -46,14 +46,15 @@ public class ReferenceFieldSetMapper extends
     */
    private Parser<DateTime> dateTimeParser
        = new DateTimeParser(ISODateTimeFormat.dateOptionalTimeParser());
-   
+
    /**
     *
     */
-   private Parser<ReferenceType> referenceTypeParser = new ReferenceTypeConverter();
+    private Parser<ReferenceType> referenceTypeParser
+        = new ReferenceTypeConverter();
 
     @Override
-    public void mapField(final Reference object, final String fieldName,
+    public final void mapField(final Reference object, final String fieldName,
             final String value) throws BindException {
         ConceptTerm term = getTermFactory().findTerm(fieldName);
         if (term instanceof DcTerm) {
@@ -119,7 +120,6 @@ public class ReferenceFieldSetMapper extends
                 if (taxon == null) {
                     throw new CannotFindRecordException(value);
                 } else {
-                    taxon.getReferences().add(object);
                     object.getTaxa().add(taxon);
                 }
 
@@ -128,12 +128,11 @@ public class ReferenceFieldSetMapper extends
                 break;
             }
         }
-        
+
         // Gbif
         if (term instanceof GbifTerm) {
             GbifTerm gbifTerm = (GbifTerm) term;
             switch (gbifTerm) {
-            
             default:
                 break;
             }

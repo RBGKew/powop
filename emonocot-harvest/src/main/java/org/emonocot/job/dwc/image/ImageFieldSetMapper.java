@@ -37,7 +37,7 @@ public class ImageFieldSetMapper extends
     */
     private Logger logger = LoggerFactory
             .getLogger(ImageFieldSetMapper.class);
-    
+
     /**
     *
     */
@@ -94,7 +94,6 @@ public class ImageFieldSetMapper extends
                 if (taxon == null) {
                     throw new CannotFindRecordException(value);
                 } else {
-                    taxon.getImages().add(object);
                     object.setTaxon(taxon);
                     object.getTaxa().add(taxon);
                 }

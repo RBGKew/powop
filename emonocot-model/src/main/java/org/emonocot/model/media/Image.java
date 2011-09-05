@@ -28,7 +28,7 @@ public class Image extends Base {
      *
      */
     private String url;
-    
+
     /**
      *
      */
@@ -38,7 +38,7 @@ public class Image extends Base {
      *
      */
     private Taxon taxon;
-    
+
     /**
      *
      */
