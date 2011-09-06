@@ -186,7 +186,7 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
             if (facets != null && facets.length != 0) {
                 FacetManager facetManager = fullTextQuery.getFacetManager();
               QueryBuilder queryBuilder = fullTextSession.getSearchFactory()
-              .buildQueryBuilder().forEntity(type).get();
+              .buildQueryBuilder().forEntity(getAnalyzerType()).get();
               for (FacetName facetName : facets) {
                 FacetingRequest facetingRequest
                   = createFacetingRequest(queryBuilder.facet(),

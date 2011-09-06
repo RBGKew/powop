@@ -15,7 +15,8 @@ public enum FacetName {
      */
     FAMILY,
     /**
-     * Facet for the complete authorship including basionym/parenthetical author 
+     * Facet for the complete authorship including basionym/parenthetical
+     * author.
      */
     AUTHORSHIP,
     /**
@@ -23,7 +24,11 @@ public enum FacetName {
      */
     AUTHORITY,
     /**
-     * The rank of a plant name
+     * The rank of a plant name.
      */
-    RANK
+    RANK,
+    /**
+     * The type (class) of object.
+     */
+    CLASS
 }

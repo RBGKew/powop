@@ -8,6 +8,7 @@ import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.dao.FacetName;
 import org.emonocot.persistence.dao.SearchableObjectDao;
+import org.hibernate.search.ProjectionConstants;
 import org.hibernate.search.query.dsl.FacetContext;
 import org.hibernate.search.query.facet.FacetSortOrder;
 import org.hibernate.search.query.facet.FacetingRequest;
@@ -38,6 +39,12 @@ public class SearchableDaoImpl extends DaoImpl<SearchableObject> implements
         FacetingRequest facetingRequest = null;
 
         switch (facetName) {
+        case CLASS:
+            facetingRequest = facetContext.name(facetName.name())
+                    .onField(ProjectionConstants.OBJECT_CLASS).discrete()
+                    .orderedBy(FacetSortOrder.FIELD_VALUE)
+                    .includeZeroCounts(true).createFacetingRequest();
+            break;
         case CONTINENT:
             facetingRequest = facetContext.name(facetName.name())
                     .onField("continent").discrete()

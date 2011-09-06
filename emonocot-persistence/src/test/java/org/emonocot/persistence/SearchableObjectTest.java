@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
+import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.GeographicalRegion;
@@ -82,8 +83,13 @@ public class SearchableObjectTest {
         transactionManager.commit(status);
         return value;
     }
-   
-   private Image createImage(String caption){
+
+   /**
+    *
+    * @param caption Set the caption
+    * @return an image
+    */
+   private Image createImage(final String caption) {
        Image img = new Image();
        img.setCaption(caption);
        return img;
@@ -162,6 +168,23 @@ public class SearchableObjectTest {
      */
     @Test
     public final void testSearch() {
-        soDao.search("Aus", null, null, null, null, null);
+        Page<SearchableObject> pager = soDao.search("Aus", null, null, null, null, null);
+        for (SearchableObject obj : pager.getRecords()) {
+            System.out.println(obj);
+        }
     }
+
+   /**
+    *
+    */
+   @Test
+   public final void testSearchWithFacets() {
+       Page<SearchableObject> pager = soDao.search("Aus", null, null, null, new FacetName[] {FacetName.CLASS}, null);
+       for (String facetName : pager.getFacetNames()) {
+           System.out.println(facetName);
+           for (Facet facet : pager.getFacets().get(facetName)) {
+               System.out.println("\t" + facet.getValue() + " " + facet.getCount());
+           }
+       }
+   }
 }
