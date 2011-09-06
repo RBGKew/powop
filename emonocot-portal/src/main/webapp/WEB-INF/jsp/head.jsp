@@ -3,7 +3,9 @@
   xmlns:c="http://java.sun.com/jsp/jstl/core"
   xmlns:spring="http://www.springframework.org/tags"
   version="2.0">
-  <head>        
+  <head> 
+  	<!-- Include the latest version of jQuery -->
+  	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>       
     <meta charset="utf-8"/>                      
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
     <meta http-equiv="Content-Language" content="en" />
