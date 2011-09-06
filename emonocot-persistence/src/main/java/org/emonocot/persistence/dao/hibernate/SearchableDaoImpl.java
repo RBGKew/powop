@@ -5,6 +5,7 @@ package org.emonocot.persistence.dao.hibernate;
 
 import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.hibernate.Fetch;
+import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.dao.FacetName;
 import org.emonocot.persistence.dao.SearchableObjectDao;
 import org.hibernate.search.query.dsl.FacetContext;
@@ -66,6 +67,8 @@ public class SearchableDaoImpl extends DaoImpl<SearchableObject> implements
         return new String[]{"name","caption","title"};
     }
 
-    
-
+    @Override
+    protected Class getAnalyzerType() {
+        return Taxon.class;
+    }
 }

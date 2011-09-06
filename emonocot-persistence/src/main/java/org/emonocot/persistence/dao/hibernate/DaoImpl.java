@@ -163,7 +163,7 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
             org.apache.lucene.search.Query luceneQuery = null;
             QueryParser parser
             = new MultiFieldQueryParser(Version.LUCENE_31, getDocumentFields(),
-                    searchFactory.getAnalyzer(type));
+                    searchFactory.getAnalyzer(getAnalyzerType()));
             if (query != null && !query.equals("")) {
                luceneQuery = parser.parse(query);
             } else {
@@ -233,5 +233,17 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
         } catch (ParseException e) {
             throw new QuerySyntaxException("Exception parsing " + query, e);
         }
+    }
+
+    /**
+     * Given https://hibernate.onjira.com/browse/HSEARCH-703, we need this
+     * workaround, currently.
+     *
+     * This should be removed once the issue is resolved by the hibernate
+     * search team
+     * @return a class to retrieve an analyzer for.
+     */
+    protected Class getAnalyzerType() {
+        return type;
     }
 }
