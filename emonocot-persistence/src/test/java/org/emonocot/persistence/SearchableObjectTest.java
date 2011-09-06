@@ -179,7 +179,7 @@ public class SearchableObjectTest {
     */
    @Test
    public final void testSearchWithFacets() {
-       Page<SearchableObject> pager = soDao.search("Aus", null, null, null, new FacetName[] {FacetName.CLASS}, null);
+       Page<SearchableObject> pager = soDao.search("Aus", null, null, null, new FacetName[] {FacetName.CLASS, FacetName.FAMILY}, null);
        for (String facetName : pager.getFacetNames()) {
            System.out.println(facetName);
            for (Facet facet : pager.getFacets().get(facetName)) {

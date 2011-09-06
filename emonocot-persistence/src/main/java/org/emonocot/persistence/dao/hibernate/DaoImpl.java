@@ -168,7 +168,7 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
                luceneQuery = parser.parse(query);
             } else {
                 QueryBuilder queryBuilder
-                    = searchFactory.buildQueryBuilder().forEntity(type).get();
+                    = searchFactory.buildQueryBuilder().forEntity(getAnalyzerType()).get();
                 luceneQuery = queryBuilder.all().createQuery();
             }
             FullTextQuery fullTextQuery

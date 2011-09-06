@@ -99,7 +99,7 @@ public class SearchController {
         if (selectedFacets == null
                 || !selectedFacets.containsKey(FacetName.CLASS)) {
             Page<SearchableObject> result = searchableObjectService.search(
-                    query, null, limit, start, FacetName.values(),
+                    query, null, limit, start, new FacetName[] {FacetName.CLASS},
                     selectedFacets);
             queryLog.info("Query: \'{}\', start: {}, limit: {},"
                     + "facet: [{}], {} results", new Object[] { query, start,
@@ -111,14 +111,15 @@ public class SearchController {
             logger.debug(selectedFacets.size()
                     + " facets have been selected from " + facets.size()
                     + " available");
-
-            switch (selectedFacets.get(FacetName.CLASS)) {
-            case 1:
+            Integer classFacet = selectedFacets.remove(FacetName.CLASS);
+            switch (classFacet) {
+            case 1:                
                 Page<Taxon> result = taxonService.search(query, null, limit,
-                        start, FacetName.values(), selectedFacets);
+                        start, new FacetName[] {FacetName.FAMILY}, selectedFacets);
                 queryLog.info("Query: \'{}\', start: {}, limit: {},"
                         + "facet: [{}], {} results", new Object[] { query,
                         start, limit, selectedFacets, result.size() });
+                result.setSelectedFacet(FacetName.CLASS.name(),1);
 
                 result.putParam("query", query);
                 modelAndView.addObject("result", result);
@@ -127,7 +128,7 @@ public class SearchController {
 
             default:
                 logger.error("We can't search by an object of FacetName.CLASS idx="
-                        + selectedFacets.get(FacetName.CLASS));
+                        + classFacet);
                 break;
 
             }
