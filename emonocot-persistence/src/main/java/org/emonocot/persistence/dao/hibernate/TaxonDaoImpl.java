@@ -14,9 +14,9 @@ import org.hibernate.search.query.facet.FacetingRequest;
 import org.springframework.stereotype.Repository;
 
 /**
- *
+ * 
  * @author ben
- *
+ * 
  */
 @Repository
 public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
@@ -33,8 +33,7 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
                 new Fetch("accepted", FetchMode.JOIN),
                 new Fetch("children", FetchMode.SELECT),
                 new Fetch("synonyms", FetchMode.SELECT),
-                new Fetch("annotations", FetchMode.SELECT)
-        });
+                new Fetch("annotations", FetchMode.SELECT) });
         FETCH_PROFILES.put("taxon-page", new Fetch[] {
                 new Fetch("parent", FetchMode.JOIN),
                 new Fetch("accepted", FetchMode.JOIN),
@@ -43,16 +42,15 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
                 new Fetch("distribution", FetchMode.SELECT),
                 new Fetch("content", FetchMode.SELECT),
                 new Fetch("images", FetchMode.SELECT),
-                new Fetch("protologue", FetchMode.JOIN)
-        });
+                new Fetch("protologue", FetchMode.JOIN) });
     }
 
     /**
-     *
+     * 
      * @return the fields to search by default
      */
     protected final String[] getDocumentFields() {
-        return new String[] {"title", "name"};
+        return new String[] { "title", "name", "authorship" };
     }
 
     /**
@@ -63,7 +61,7 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
     }
 
     /**
-     *
+     * 
      * @param facetContext The faceting context of this request
      * @param facetName The name of the facet required
      * @return the faceting context
@@ -78,22 +76,31 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
             facetingRequest = facetContext.name(facetName.name())
                     .onField("continent").discrete()
                     .orderedBy(FacetSortOrder.FIELD_VALUE)
-                    .includeZeroCounts(true)
-                    .createFacetingRequest();
+                    .includeZeroCounts(true).createFacetingRequest();
             break;
         case AUTHORITY:
             facetingRequest = facetContext.name(facetName.name())
                     .onField("authorities.name").discrete()
                     .orderedBy(FacetSortOrder.FIELD_VALUE)
-                    .includeZeroCounts(true)
-                    .createFacetingRequest();
+                    .includeZeroCounts(true).createFacetingRequest();
             break;
         case FAMILY:
             facetingRequest = facetContext.name(facetName.name())
                     .onField("family").discrete()
                     .orderedBy(FacetSortOrder.FIELD_VALUE)
-                    .includeZeroCounts(true)
-                    .createFacetingRequest();
+                    .includeZeroCounts(true).createFacetingRequest();
+            break;
+        case RANK:
+            facetingRequest = facetContext.name(facetName.name())
+                    .onField("rank").discrete()
+                    .orderedBy(FacetSortOrder.FIELD_VALUE)
+                    .includeZeroCounts(true).createFacetingRequest();
+            break;
+        case AUTHORSHIP:
+            facetingRequest = facetContext.name(facetName.name())
+                    .onField("authorship").discrete()
+                    .orderedBy(FacetSortOrder.FIELD_VALUE)
+                    .includeZeroCounts(true).createFacetingRequest();
             break;
         default:
             break;

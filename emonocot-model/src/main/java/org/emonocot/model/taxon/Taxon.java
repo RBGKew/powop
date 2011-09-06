@@ -22,6 +22,7 @@ import javax.persistence.Transient;
 
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.Base;
+import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.description.Content;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
@@ -42,7 +43,7 @@ import org.hibernate.search.annotations.IndexedEmbedded;
  */
 @Entity
 @Indexed
-public class Taxon extends Base {
+public class Taxon extends SearchableObject{
 
     /**
      *
