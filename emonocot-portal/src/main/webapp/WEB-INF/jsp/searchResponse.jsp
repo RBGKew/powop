@@ -73,7 +73,7 @@
                 </c:otherwise>
               </c:choose>
             </c:forEach>
-            <li><spring:message code="results.per.page" /></li>
+            <spring:message code="results.per.page" />
           </ul>
           <ul id="pageNumber">
             <c:if test="${result.prevIndex != null}">

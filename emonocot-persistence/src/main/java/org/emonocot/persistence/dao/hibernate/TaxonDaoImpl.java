@@ -72,6 +72,7 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
         FacetingRequest facetingRequest = null;
 
         switch (facetName) {
+        //TODO: Class facet
         case CONTINENT:
             facetingRequest = facetContext.name(facetName.name())
                     .onField("continent").discrete()
