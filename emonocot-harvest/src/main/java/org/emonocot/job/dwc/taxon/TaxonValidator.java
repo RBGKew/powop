@@ -63,6 +63,7 @@ public class TaxonValidator implements ItemProcessor<Taxon, Taxon>,
      * @return Taxon a taxon object
      */
     public final Taxon process(final Taxon taxon) throws Exception {
+        logger.info("Processing " + taxon.getIdentifier());
         if (taxon.getIdentifier() == null) {
             throw new NoIdentifierException(taxon);
         }
@@ -75,6 +76,11 @@ public class TaxonValidator implements ItemProcessor<Taxon, Taxon>,
         for (Annotation annotation : persistedTaxon.getAnnotations()) {
             if (annotation.getJobId().equals(
                     stepExecution.getJobExecutionId())) {
+                if (annotation.getType().equals(AnnotationType.Present)) {
+                    throw new TaxonAlreadyProcessedException("Taxon "
+                            + taxon.getIdentifier()
+                            + " already found once in this archive");
+                }
                 annotation.setType(AnnotationType.Present);
                 anAnnotationPresent = true;
                 break;
@@ -84,7 +90,18 @@ public class TaxonValidator implements ItemProcessor<Taxon, Taxon>,
         if (!anAnnotationPresent) {
             throw new UnexpectedTaxonException(taxon.getIdentifier());
         } else {
-            if (!persistedTaxon.getAuthorities().contains(authority)) {
+            /**
+             * Using java.util.Collection.contains() does not work on lazy
+             * collections.
+             */
+            boolean contains = false;
+            for (Authority auth : persistedTaxon.getAuthorities()) {
+                if (auth.equals(authority)) {
+                    contains = true;
+                    break;
+                }
+            }
+            if (!contains) {
                 persistedTaxon.getAuthorities().add(authority);
             }
         }

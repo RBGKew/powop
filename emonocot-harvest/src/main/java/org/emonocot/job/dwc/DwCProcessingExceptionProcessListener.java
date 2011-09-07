@@ -127,7 +127,7 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
      */
     public final void onProcessError(final Base item, final Exception e) {
         logger.debug("Process Error " + e.getMessage());
-        if (e instanceof DescriptionProcessingException) {
+        if (e instanceof DarwinCoreProcessingException) {
             DarwinCoreProcessingException dwcpe
                 = (DarwinCoreProcessingException) e;
             logger.debug(dwcpe.getCode() + " | " + dwcpe.getMessage());
