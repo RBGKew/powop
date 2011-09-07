@@ -8,6 +8,7 @@ import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.dao.FacetName;
 import org.emonocot.persistence.dao.TaxonDao;
 import org.hibernate.FetchMode;
+import org.hibernate.search.ProjectionConstants;
 import org.hibernate.search.query.dsl.FacetContext;
 import org.hibernate.search.query.facet.FacetSortOrder;
 import org.hibernate.search.query.facet.FacetingRequest;
@@ -46,11 +47,11 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
     }
 
     /**
-     * 
+     *
      * @return the fields to search by default
      */
     protected final String[] getDocumentFields() {
-        return new String[] { "title", "name", "authorship" };
+        return new String[] {"title", "name", "authorship" };
     }
 
     /**
@@ -61,7 +62,7 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
     }
 
     /**
-     * 
+     *
      * @param facetContext The faceting context of this request
      * @param facetName The name of the facet required
      * @return the faceting context
@@ -72,7 +73,12 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
         FacetingRequest facetingRequest = null;
 
         switch (facetName) {
-        //TODO: Class facet
+        case CLASS:
+            facetingRequest = facetContext.name(facetName.name())
+                    .onField(ProjectionConstants.OBJECT_CLASS).discrete()
+                    .orderedBy(FacetSortOrder.FIELD_VALUE)
+                    .includeZeroCounts(true).createFacetingRequest();
+            break;
         case CONTINENT:
             facetingRequest = facetContext.name(facetName.name())
                     .onField("continent").discrete()

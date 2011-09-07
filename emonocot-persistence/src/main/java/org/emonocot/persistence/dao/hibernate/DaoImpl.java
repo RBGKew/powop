@@ -1,5 +1,6 @@
 package org.emonocot.persistence.dao.hibernate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,8 +10,10 @@ import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.util.Version;
 import org.emonocot.model.common.Base;
 import org.emonocot.model.hibernate.Fetch;
+import org.emonocot.model.media.Image;
 import org.emonocot.model.pager.DefaultPageImpl;
 import org.emonocot.model.pager.Page;
+import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.QuerySyntaxException;
 import org.emonocot.persistence.dao.Dao;
 import org.emonocot.persistence.dao.FacetName;
@@ -203,11 +206,11 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
                 for (FacetName facetName : selectedFacets.keySet()) {
                     List<Facet> facetResults =
                         facetManager.getFacets(facetName.name());
-                    facetManager.getFacetGroup(
-                            facetName.name())
-                            .selectFacets(
-                                    facetResults.get(
-                                            selectedFacets.get(facetName)));
+                    Integer facetIndex = selectedFacets.get(facetName);
+                    Facet selectedFacet = facetResults.get(facetIndex);
+                    facetManager.getFacetGroup(facetName.name())
+                            .selectFacets(selectedFacet);
+
                 }
                 results = (List<T>) fullTextQuery.list();
             }
@@ -224,8 +227,8 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
             }
             if (selectedFacets != null && !selectedFacets.isEmpty()) {
                 for (FacetName facetName : selectedFacets.keySet()) {
-                    page.setSelectedFacet(facetName.name(),
-                            selectedFacets.get(facetName));
+                    Integer selectedFacetIndex = selectedFacets.get(facetName);
+                    page.setSelectedFacet(facetName.name(), selectedFacetIndex);
                 }
             }
 

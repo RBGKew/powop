@@ -21,7 +21,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.Base;
 import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.description.Content;
 import org.emonocot.model.description.Distribution;
@@ -42,8 +41,8 @@ import org.hibernate.search.annotations.IndexedEmbedded;
  *
  */
 @Entity
-@Indexed
-public class Taxon extends SearchableObject{
+@Indexed(index = "org.emonocot.model.common.SearchableObject")
+public class Taxon extends SearchableObject {
 
     /**
      *
@@ -665,5 +664,10 @@ public class Taxon extends SearchableObject{
     @Transient
     public Content getContent(Feature feature) {
         return content.get(feature);
+    }
+
+    @Transient
+    public final String getClassName() {
+      return "Taxon";
     }
 }

@@ -71,12 +71,12 @@ public class TaxonName extends Name {
      *
      */
     private String tnCombinationAuthorship;
-    
+
     /**
      * Naughty, I know, but we do need to know the family of a name.
      */
     private String tnFamily;
-    
+
     /**
      *
      * @return the authorship of this name

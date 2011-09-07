@@ -7,8 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
-import org.emonocot.model.common.Base;
 import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.taxon.Taxon;
 import org.hibernate.annotations.Cascade;
@@ -23,7 +23,7 @@ import org.hibernate.search.annotations.IndexedEmbedded;
  *
  */
 @Entity
-@Indexed
+@Indexed(index = "org.emonocot.model.common.SearchableObject")
 public class Image extends SearchableObject {
     /**
      *
@@ -117,5 +117,10 @@ public class Image extends SearchableObject {
      */
     public void setTaxa(List<Taxon> taxa) {
         this.taxa = taxa;
+    }
+
+    @Transient
+    public final String getClassName() {
+      return "Image";
     }
 }

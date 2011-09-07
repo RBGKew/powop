@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.apache.commons.lang.ObjectUtils;
+import org.emonocot.model.common.Base;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
@@ -22,12 +24,12 @@ public class Authority {
     *
     */
    private Long id;
-   
+
    /**
     *
     */
    private String name;
-   
+
    /**
     *
     */
@@ -79,5 +81,23 @@ public class Authority {
      */
     public void setUri(String uri) {
         this.uri = uri;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        // check for self-comparison
+        if (this == other) {
+            return true;
+        }
+        if (other == null || other.getClass() != this.getClass()) {
+            return false;
+        }
+        Authority authority = (Authority) other;
+        return ObjectUtils.equals(this.id, authority.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return ObjectUtils.hashCode(this.id);
     }
 }

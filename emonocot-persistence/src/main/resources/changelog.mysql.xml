@@ -971,4 +971,34 @@
     <changeSet id="2011-09-05_20" author="ben">
       <dropColumn tableName="Taxon_Authority" columnName="authorities_KEY"/>
     </changeSet>
+    <changeSet id="2011-09-06_1" author="ben">
+      <dropPrimaryKey tableName="Content_Authority"/>
+    </changeSet>
+    <changeSet id="2011-09-06_2" author="ben">
+      <dropPrimaryKey tableName="Distribution_Authority"/>
+    </changeSet>
+    <changeSet id="2011-09-06_3" author="ben">
+      <dropPrimaryKey tableName="Image_Authority"/>
+    </changeSet>
+    <changeSet id="2011-09-06_4" author="ben">
+      <dropPrimaryKey tableName="Reference_Authority"/>
+    </changeSet>
+    <changeSet id="2011-09-06_5" author="ben">
+      <dropPrimaryKey tableName="Taxon_Authority"/>
+    </changeSet>
+    <changeSet id="2011-09-06_6" author="ben">
+      <addPrimaryKey tableName="Content_Authority" columnNames="Content_id,authorities_id"/>
+    </changeSet>
+    <changeSet id="2011-09-06_7" author="ben">
+      <addPrimaryKey tableName="Distribution_Authority" columnNames="Distribution_id,authorities_id"/>
+    </changeSet>
+    <changeSet id="2011-09-06_8" author="ben">
+      <addPrimaryKey tableName="Image_Authority" columnNames="Image_id,authorities_id"/>
+    </changeSet>
+    <changeSet id="2011-09-06_9" author="ben">
+      <addPrimaryKey tableName="Reference_Authority" columnNames="Reference_id,authorities_id"/>
+    </changeSet>
+    <changeSet id="2011-09-06_10" author="ben">
+      <addPrimaryKey tableName="Taxon_Authority" columnNames="Taxon_id,authorities_id"/>
+    </changeSet>
 </databaseChangeLog>

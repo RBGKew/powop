@@ -3,6 +3,7 @@ package org.emonocot.model.description;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 import org.emonocot.model.common.Base;
 import org.emonocot.model.geography.GeographicalRegion;
@@ -72,5 +73,10 @@ public class Distribution extends Base {
   @ContainedIn
   public Taxon getTaxon() {
       return taxon;
+  }
+
+  @Transient
+  public final String getClassName() {
+    return "Distribution";
   }
 }

@@ -2,6 +2,7 @@ package org.emonocot.model.description;
 
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.hibernate.search.annotations.Field;
@@ -50,5 +51,10 @@ public class TextContent extends Content {
     @Override
     public int hashCode() {
         return super.hashCode() + (this.content == null ? 0 : this.content.hashCode());
+    }
+
+    @Transient
+    public final String getClassName() {
+      return "TextContent";
     }
 }

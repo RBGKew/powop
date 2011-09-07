@@ -239,8 +239,20 @@
       </div>
       <div class="ninecol last">
       <ul id="results">      
-        <c:forEach var="taxon" items="${result.records}">
-          <li><a href="taxon/${taxon.identifier}">${taxon.name}</a></li>
+        <c:forEach var="item" items="${result.records}">
+          <li>
+          <c:choose>
+            <c:when test="${item.className == 'Taxon'}">
+              <a href="taxon/${item.identifier}">${item.name}</a>
+            </c:when>
+            <c:when test="${item.className == 'Image'}">
+              <a href="image/${item.identifier}">${item.caption}</a>
+            </c:when>
+            <c:otherwise>
+              Unknown class ${item.className}
+            </c:otherwise>
+          </c:choose>
+          </li>
         </c:forEach>
       </ul>
       </div>

@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.emonocot.model.authority.Authority;
@@ -71,7 +72,7 @@ public abstract class Base {
      * didn't allow for more than one secondary authority.
      */
     private Set<Authority> authorities = new HashSet<Authority>();
-    
+
     /**
      *
      */

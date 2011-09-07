@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.Transient;
 
 import org.emonocot.model.common.Base;
 import org.emonocot.model.taxon.Taxon;
@@ -47,12 +48,12 @@ public class Reference extends Base {
      *
      */
     private ReferenceType type;
-    
+
     /**
      *
      */
     private String author;
-    
+
     /**
      *
      */
@@ -67,7 +68,7 @@ public class Reference extends Base {
      *
      */
     private Set<Taxon> taxa = new HashSet<Taxon>();
-    
+
     /**
      *
      * @return the author
@@ -78,7 +79,7 @@ public class Reference extends Base {
     }
 
     /**
-     * 
+     *
      * @param author Set the author
      */
     public void setAuthor(String author) {
@@ -205,12 +206,12 @@ public class Reference extends Base {
         return type;
     }
     /**
-     * The list of all taxa associated with this reference
+     * The list of all taxa associated with this reference.
      *
      * @return a set of taxa
      */
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "references")
-    @Cascade({CascadeType.SAVE_UPDATE})
+    @Cascade({CascadeType.SAVE_UPDATE })
     public Set<Taxon> getTaxa() {
         return taxa;
     }
@@ -221,5 +222,10 @@ public class Reference extends Base {
      */
     public void setTaxa(Set<Taxon> taxa) {
         this.taxa = taxa;
+    }
+
+    @Transient
+    public final String getClassName() {
+      return "Reference";
     }
 }

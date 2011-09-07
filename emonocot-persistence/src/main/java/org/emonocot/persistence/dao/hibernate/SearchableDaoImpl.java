@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.emonocot.persistence.dao.hibernate;
 
@@ -22,19 +22,28 @@ import org.springframework.stereotype.Repository;
 public class SearchableDaoImpl extends DaoImpl<SearchableObject> implements
         SearchableObjectDao {
 
+    /**
+     *
+     */
     public SearchableDaoImpl() {
         super(SearchableObject.class);
     }
 
     @Override
-    protected Fetch[] getProfile(String profile) {
+    protected final Fetch[] getProfile(final String profile) {
         // TODO Auto-generated method stub
         return null;
     }
 
+   /**
+    *
+    * @param facetContext The faceting context of this request
+    * @param facetName The name of the facet required
+    * @return the faceting context
+    */
     @Override
-    protected FacetingRequest createFacetingRequest(FacetContext facetContext,
-            FacetName facetName) {
+    protected final FacetingRequest createFacetingRequest(
+            final FacetContext facetContext, final FacetName facetName) {
 
         FacetingRequest facetingRequest = null;
 
@@ -69,9 +78,12 @@ public class SearchableDaoImpl extends DaoImpl<SearchableObject> implements
         return facetingRequest;
     }
 
+    /**
+     * @return the fields to search
+     */
     @Override
-    protected String[] getDocumentFields() {
-        return new String[]{"name","caption","title"};
+    protected final String[] getDocumentFields() {
+        return new String[]{"name", "caption", "title"};
     }
 
     @Override

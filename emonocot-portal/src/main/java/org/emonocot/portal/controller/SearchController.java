@@ -9,6 +9,7 @@ import org.emonocot.model.pager.Page;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.dao.FacetName;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
+import org.emonocot.service.ImageService;
 import org.emonocot.service.SearchableObjectService;
 import org.emonocot.service.TaxonService;
 import org.slf4j.Logger;
@@ -24,7 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * 
  * @author ben
- * 
+ *
  */
 @Controller
 public class SearchController {
@@ -34,16 +35,28 @@ public class SearchController {
     */
     private static Logger queryLog = LoggerFactory.getLogger("query");
 
+    /**
+     *
+     */
     private static Logger logger = LoggerFactory
             .getLogger(SearchController.class);
     /**
      *
      */
     private TaxonService taxonService;
+
+    /**
+     *
+     */
     private SearchableObjectService searchableObjectService;
 
     /**
-     * 
+     *
+     */
+    private ImageService imageService;
+
+    /**
+     *
      * @param taxonService
      *            Set the taxon service
      */
@@ -52,11 +65,27 @@ public class SearchController {
         this.taxonService = taxonService;
     }
 
+    /**
+     *
+     * @param searchableObjectService
+     *            set the service to search across all 'searchable' objects
+     */
     @Autowired
-    public void setSearchableObjectService(
-            SearchableObjectService searchableObjectService) {
+    public final void setSearchableObjectService(
+            final SearchableObjectService searchableObjectService) {
         this.searchableObjectService = searchableObjectService;
     }
+
+   /**
+    *
+    * @param imageService
+    *            set the image service
+    */
+   @Autowired
+   public final void setImageService(
+           final ImageService imageService) {
+       this.imageService = imageService;
+   }
 
     /**
      * @return the name of the index view
@@ -67,7 +96,7 @@ public class SearchController {
     }
 
     /**
-     * 
+     *
      * @param query
      *            Set the query
      * @param limit
@@ -99,7 +128,9 @@ public class SearchController {
         if (selectedFacets == null
                 || !selectedFacets.containsKey(FacetName.CLASS)) {
             Page<SearchableObject> result = searchableObjectService.search(
-                    query, null, limit, start, new FacetName[] {FacetName.CLASS},
+                    query, null, limit, start, new FacetName[] {FacetName.CLASS,
+                            FacetName.FAMILY, FacetName.CONTINENT,
+                            FacetName.AUTHORITY},
                     selectedFacets);
             queryLog.info("Query: \'{}\', start: {}, limit: {},"
                     + "facet: [{}], {} results", new Object[] { query, start,
@@ -108,30 +139,36 @@ public class SearchController {
             result.putParam("query", query);
             modelAndView.addObject("result", result);
         } else {
+            Page<? extends SearchableObject> result = null;
             logger.debug(selectedFacets.size()
                     + " facets have been selected from " + facets.size()
                     + " available");
-            Integer classFacet = selectedFacets.remove(FacetName.CLASS);
-            switch (classFacet) {
-            case 1:                
-                Page<Taxon> result = taxonService.search(query, null, limit,
-                        start, new FacetName[] {FacetName.FAMILY}, selectedFacets);
+            switch (selectedFacets.get(FacetName.CLASS)) {
+            case 1:
+                result = taxonService.search(query, null, limit,
+                        start, new FacetName[] {FacetName.CLASS,
+                                FacetName.FAMILY, FacetName.CONTINENT,
+                                FacetName.AUTHORITY }, selectedFacets);
                 queryLog.info("Query: \'{}\', start: {}, limit: {},"
-                        + "facet: [{}], {} results", new Object[] { query,
+                        + "facet: [{}], {} results", new Object[] {query,
                         start, limit, selectedFacets, result.size() });
-                result.setSelectedFacet(FacetName.CLASS.name(),1);
-
-                result.putParam("query", query);
-                modelAndView.addObject("result", result);
                 break;
             case 0:
-
+                result = imageService.search(query, null, limit,
+                        start, new FacetName[] {FacetName.CLASS,
+                        FacetName.FAMILY, FacetName.CONTINENT,
+                        FacetName.AUTHORITY}, selectedFacets);
+                queryLog.info("Query: \'{}\', start: {}, limit: {},"
+                        + "facet: [{}], {} results", new Object[] {query,
+                        start, limit, selectedFacets, result.size() });
+                break;
             default:
                 logger.error("We can't search by an object of FacetName.CLASS idx="
-                        + classFacet);
+                        + selectedFacets.get(FacetName.CLASS));
                 break;
-
             }
+            result.putParam("query", query);
+            modelAndView.addObject("result", result);
         }
         return modelAndView;
     }
