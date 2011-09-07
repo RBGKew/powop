@@ -173,6 +173,10 @@
         <a>rank</a>
         <b>rank</b>
       </field>
+      <field>
+        <a>volumeAndPage</a>
+        <b>microReference</b>
+      </field>
       <field type="one-way">
           <a>this</a>
           <b set-method="addPublicationCitation">publishedInCitations</b>

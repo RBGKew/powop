@@ -2,11 +2,9 @@ package org.emonocot.checklist.view.assembler;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.dozer.BeanFactory;
-import org.emonocot.checklist.model.Article;
 import org.emonocot.checklist.model.Taxon;
 import org.hibernate.Hibernate;
 import org.tdwg.voc.PublicationCitation;
@@ -18,10 +16,6 @@ import org.tdwg.voc.PublicationTypeTerm;
  *
  */
 public class ProtologueBeanFactory implements BeanFactory {
-    /**
-     *
-     */
-    private Pattern pattern = Pattern.compile("(.*?):(.*?)");
 
    /**
     *
@@ -44,24 +38,9 @@ public class ProtologueBeanFactory implements BeanFactory {
 
         if (Hibernate.isInitialized(taxon.getProtologue())
                 && taxon.getProtologue() != null) {
-            if (taxon.getVolumeAndPage() != null) {
-                Matcher matcher = pattern.matcher(taxon.getVolumeAndPage());
-                if (matcher.matches()) {
-                    // then the volume and page falls into the pattern
-                  if (matcher.group(1).length() > 0) {
-                      publicationCitation.setVolume(matcher.group(1));
-                  }
-                  if (matcher.group(2).length() > 0) {
-                      publicationCitation.setPages(matcher.group(2));
-                  }
-                  publicationCitation.setTpubTitle(
-                          taxon.getProtologue().getTitle());
-                } else {
-                    publicationCitation.setTpubTitle(
-                            taxon.getProtologue().getTitle()
-                            + taxon.getVolumeAndPage());
-                }
-            }
+
+            publicationCitation.setTpubTitle(taxon.getProtologue().getTitle());
+
             try {
                 publicationCitation
                   .setIdentifier(
@@ -73,5 +52,4 @@ public class ProtologueBeanFactory implements BeanFactory {
 
         return publicationCitation;
     }
-
 }
