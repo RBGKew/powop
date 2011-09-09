@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
      <changeSet author="ben" id="1303384038461-1">
-        <createTable tableName="batch_job_execution">
+        <createTable tableName="BATCH_JOB_EXECUTION">
             <column name="JOB_EXECUTION_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -23,7 +23,7 @@
         </createTable>
     </changeSet>
     <changeSet author="ben" id="1303384038461-2">
-        <createTable tableName="batch_job_execution_context">
+        <createTable tableName="BATCH_JOB_EXECUTION_CONTEXT">
             <column name="JOB_EXECUTION_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -34,14 +34,14 @@
         </createTable>
     </changeSet>
     <changeSet author="ben" id="1303384038461-3">
-        <createTable tableName="batch_job_execution_seq">
+        <createTable tableName="BATCH_JOB_EXECUTION_SEQ">
             <column name="ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
     <changeSet author="ben" id="1303384038461-4">
-        <createTable tableName="batch_job_instance">
+        <createTable tableName="BATCH_JOB_INSTANCE">
             <column name="JOB_INSTANCE_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -55,7 +55,7 @@
         </createTable>
     </changeSet>
     <changeSet author="ben" id="1303384038461-5">
-        <createTable tableName="batch_job_params">
+        <createTable tableName="BATCH_JOB_PARAMS">
             <column name="JOB_INSTANCE_ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
@@ -72,14 +72,14 @@
         </createTable>
     </changeSet>
     <changeSet author="ben" id="1303384038461-6">
-        <createTable tableName="batch_job_seq">
+        <createTable tableName="BATCH_JOB_SEQ">
             <column name="ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
     <changeSet author="ben" id="1303384038461-7">
-        <createTable tableName="batch_step_execution">
+        <createTable tableName="BATCH_STEP_EXECUTION">
             <column name="STEP_EXECUTION_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -111,7 +111,7 @@
         </createTable>
     </changeSet>
     <changeSet author="ben" id="1303384038461-8">
-        <createTable tableName="batch_step_execution_context">
+        <createTable tableName="BATCH_STEP_EXECUTION_CONTEXT">
             <column name="STEP_EXECUTION_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -122,70 +122,70 @@
         </createTable>
     </changeSet>
     <changeSet author="ben" id="1303384038461-9">
-        <createTable tableName="batch_step_execution_seq">
+        <createTable tableName="BATCH_STEP_EXECUTION_SEQ">
             <column name="ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
     <changeSet author="ben" id="1303384038461-10">
-        <addForeignKeyConstraint baseColumnNames="JOB_INSTANCE_ID" baseTableName="batch_job_execution" constraintName="JOB_INST_EXEC_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="JOB_INSTANCE_ID" referencedTableName="batch_job_instance"/>
+        <addForeignKeyConstraint baseColumnNames="JOB_INSTANCE_ID" baseTableName="BATCH_JOB_EXECUTION" constraintName="JOB_INST_EXEC_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="JOB_INSTANCE_ID" referencedTableName="BATCH_JOB_INSTANCE"/>
     </changeSet>
     <changeSet author="ben" id="1303384038461-11">
-        <addForeignKeyConstraint baseColumnNames="JOB_EXECUTION_ID" baseTableName="batch_job_execution_context" constraintName="JOB_EXEC_CTX_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="JOB_EXECUTION_ID" referencedTableName="batch_job_execution"/>
+        <addForeignKeyConstraint baseColumnNames="JOB_EXECUTION_ID" baseTableName="BATCH_JOB_EXECUTION_CONTEXT" constraintName="JOB_EXEC_CTX_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="JOB_EXECUTION_ID" referencedTableName="BATCH_JOB_EXECUTION"/>
     </changeSet>
     <changeSet author="ben" id="1303384038461-12">
-        <addForeignKeyConstraint baseColumnNames="JOB_INSTANCE_ID" baseTableName="batch_job_params" constraintName="JOB_INST_PARAMS_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="JOB_INSTANCE_ID" referencedTableName="batch_job_instance"/>
+        <addForeignKeyConstraint baseColumnNames="JOB_INSTANCE_ID" baseTableName="BATCH_JOB_PARAMS" constraintName="JOB_INST_PARAMS_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="JOB_INSTANCE_ID" referencedTableName="BATCH_JOB_EXECUTION_INSTANCE"/>
     </changeSet>
     <changeSet author="ben" id="1303384038461-13">
-        <addForeignKeyConstraint baseColumnNames="JOB_EXECUTION_ID" baseTableName="batch_step_execution" constraintName="JOB_EXEC_STEP_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="JOB_EXECUTION_ID" referencedTableName="batch_job_execution"/>
+        <addForeignKeyConstraint baseColumnNames="JOB_EXECUTION_ID" baseTableName="BATCH_STEP_EXECUTION" constraintName="JOB_EXEC_STEP_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="JOB_EXECUTION_ID" referencedTableName="BATCH_JOB_EXECUTION"/>
     </changeSet>
     <changeSet author="ben" id="1303384038461-14">
-        <addForeignKeyConstraint baseColumnNames="STEP_EXECUTION_ID" baseTableName="batch_step_execution_context" constraintName="STEP_EXEC_CTX_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="STEP_EXECUTION_ID" referencedTableName="batch_step_execution"/>
+        <addForeignKeyConstraint baseColumnNames="STEP_EXECUTION_ID" baseTableName="BATCH_STEP_EXECUTION_CONTEXT" constraintName="STEP_EXEC_CTX_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="STEP_EXECUTION_ID" referencedTableName="BATCH_STEP_EXECUTION"/>
     </changeSet>
     <changeSet author="ben" id="1303384038461-15">
-        <createIndex indexName="JOB_INST_EXEC_IDX" tableName="batch_job_execution" unique="false">
+        <createIndex indexName="JOB_INST_EXEC_IDX" tableName="BATCH_JOB_EXECUTION" unique="false">
             <column name="JOB_INSTANCE_ID"/>
         </createIndex>
     </changeSet>
     <changeSet author="ben" id="1303384038461-16">
-        <createIndex indexName="JOB_EXECUTION_IDX" tableName="batch_job_execution" unique="true">
+        <createIndex indexName="JOB_EXECUTION_IDX" tableName="BATCH_JOB_EXECUTION" unique="true">
             <column name="JOB_EXECUTION_ID"/>
         </createIndex>
     </changeSet>
     <changeSet author="ben" id="1303384038461-17">
-        <createIndex indexName="JOB_EXECUTION_CONTEXT_IDX" tableName="batch_job_execution_context" unique="true">
+        <createIndex indexName="JOB_EXECUTION_CONTEXT_IDX" tableName="BATCH_JOB_EXECUTION_CONTEXT" unique="true">
             <column name="JOB_EXECUTION_ID"/>
         </createIndex>
     </changeSet>
     <changeSet author="ben" id="1303384038461-18">
-        <createIndex indexName="JOB_INST_IDX" tableName="batch_job_instance" unique="true">
+        <createIndex indexName="JOB_INST_IDX" tableName="BATCH_JOB_INSTANCE" unique="true">
             <column name="JOB_NAME"/>
             <column name="JOB_KEY"/>
         </createIndex>
     </changeSet>
     <changeSet author="ben" id="1303384038461-19">
-        <createIndex indexName="JOB_INSTANCE_IDX" tableName="batch_job_instance" unique="true">
+        <createIndex indexName="JOB_INSTANCE_IDX" tableName="BATCH_JOB_INSTANCE" unique="true">
             <column name="JOB_INSTANCE_ID"/>
         </createIndex>
     </changeSet>
     <changeSet author="ben" id="1303384038461-20">
-        <createIndex indexName="JOB_INST_PARAMS_IDX" tableName="batch_job_params" unique="false">
+        <createIndex indexName="JOB_INST_PARAMS_IDX" tableName="BATCH_JOB_PARAMS" unique="false">
             <column name="JOB_INSTANCE_ID"/>
         </createIndex>
     </changeSet>
     <changeSet author="ben" id="1303384038461-21">
-        <createIndex indexName="JOB_EXEC_STEP_IDX" tableName="batch_step_execution" unique="false">
+        <createIndex indexName="JOB_EXEC_STEP_IDX" tableName="BATCH_STEP_EXECUTION" unique="false">
             <column name="JOB_EXECUTION_ID"/>
         </createIndex>
     </changeSet>
     <changeSet author="ben" id="1303384038461-22">
-        <createIndex indexName="STEP_EXECUTION_IDX" tableName="batch_step_execution" unique="true">
+        <createIndex indexName="STEP_EXECUTION_IDX" tableName="BATCH_STEP_EXECUTION" unique="true">
             <column name="STEP_EXECUTION_ID"/>
         </createIndex>
     </changeSet>
     <changeSet author="ben" id="1303384038461-23">
-        <createIndex indexName="STEP_EXECUTION_CONTEXT_IDX" tableName="batch_step_execution_context" unique="true">
+        <createIndex indexName="STEP_EXECUTION_CONTEXT_IDX" tableName="BATCH_STEP_EXECUTION_CONTEXT" unique="true">
             <column name="STEP_EXECUTION_ID"/>
         </createIndex>
     </changeSet>
