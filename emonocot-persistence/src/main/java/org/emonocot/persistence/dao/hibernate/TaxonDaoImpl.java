@@ -50,6 +50,7 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
      *
      * @return the fields to search by default
      */
+    @Override
     protected final String[] getDocumentFields() {
         return new String[] {"title", "name", "authorship" };
     }

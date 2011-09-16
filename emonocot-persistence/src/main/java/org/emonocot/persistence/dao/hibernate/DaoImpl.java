@@ -1,6 +1,5 @@
 package org.emonocot.persistence.dao.hibernate;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,16 +8,14 @@ import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.util.Version;
 import org.emonocot.model.common.Base;
+import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.hibernate.Fetch;
-import org.emonocot.model.media.Image;
 import org.emonocot.model.pager.DefaultPageImpl;
 import org.emonocot.model.pager.Page;
-import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.QuerySyntaxException;
 import org.emonocot.persistence.dao.Dao;
 import org.emonocot.persistence.dao.FacetName;
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.UnresolvableObjectException;
 import org.hibernate.criterion.Restrictions;
@@ -175,7 +172,8 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
                 luceneQuery = queryBuilder.all().createQuery();
             }
             FullTextQuery fullTextQuery
-                = fullTextSession.createFullTextQuery(luceneQuery, type);
+                // Not sure why queries against Taxon.class returns just Taxon.class in Type facet but Image.class returns both
+                = fullTextSession.createFullTextQuery(luceneQuery, SearchableObject.class);
             if (spatialQuery != null && spatialQuery.trim().length() != 0) {
                 // TODO Implement spatial filter
             }
@@ -191,9 +189,8 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
               QueryBuilder queryBuilder = fullTextSession.getSearchFactory()
               .buildQueryBuilder().forEntity(getAnalyzerType()).get();
               for (FacetName facetName : facets) {
-                FacetingRequest facetingRequest
-                  = createFacetingRequest(queryBuilder.facet(),
-                        facetName);
+                FacetingRequest facetingRequest = createFacetingRequest(
+                        queryBuilder.facet(), facetName);
                 facetManager.enableFaceting(facetingRequest);
               }
             }

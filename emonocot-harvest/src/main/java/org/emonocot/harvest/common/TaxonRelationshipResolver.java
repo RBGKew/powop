@@ -133,7 +133,7 @@ public abstract class TaxonRelationshipResolver
                         taxon.getAuthorities().add(authority);
                         taxon.setAuthority(authority);
                         taxon.setIdentifier(identifier);
-                        logger.info("Didn't taxon with identifier " + identifier
+                        logger.info("Didn't find taxon with identifier " + identifier
                                 + " from service returning new taxon");
                         taxaWithinChunk.put(identifier, taxon);
                     } else {

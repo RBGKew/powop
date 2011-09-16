@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.pager.Page;
-import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.dao.FacetName;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
 import org.emonocot.service.ImageService;
@@ -144,20 +143,22 @@ public class SearchController {
                     + " facets have been selected from " + facets.size()
                     + " available");
             switch (selectedFacets.get(FacetName.CLASS)) {
-            case 1:
-                result = taxonService.search(query, null, limit,
-                        start, new FacetName[] {FacetName.CLASS,
-                                FacetName.FAMILY, FacetName.CONTINENT,
-                                FacetName.AUTHORITY }, selectedFacets);
-                queryLog.info("Query: \'{}\', start: {}, limit: {},"
-                        + "facet: [{}], {} results", new Object[] {query,
-                        start, limit, selectedFacets, result.size() });
-                break;
             case 0:
+                logger.debug("Using the image service for "+ query);
                 result = imageService.search(query, null, limit,
                         start, new FacetName[] {FacetName.CLASS,
                         FacetName.FAMILY, FacetName.CONTINENT,
                         FacetName.AUTHORITY}, selectedFacets);
+                queryLog.info("Query: \'{}\', start: {}, limit: {},"
+                        + "facet: [{}], {} results", new Object[] {query,
+                        start, limit, selectedFacets, result.size() });
+                break;
+            case 1:
+                logger.debug("Using the taxon service for "+ query);
+                result = taxonService.search(query, null, limit,
+                        start, new FacetName[] {FacetName.CLASS,
+                        FacetName.FAMILY, FacetName.CONTINENT,
+                        FacetName.AUTHORITY }, selectedFacets);
                 queryLog.info("Query: \'{}\', start: {}, limit: {},"
                         + "facet: [{}], {} results", new Object[] {query,
                         start, limit, selectedFacets, result.size() });

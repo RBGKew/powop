@@ -193,8 +193,12 @@
                   </li>
                   <li>
                     <jsp:scriptlet>
-                      org.hibernate.search.query.facet.Facet facet = result.getFacets().get(facetName).get(result.getSelectedFacets().get(facetName));
-                      pageContext.setAttribute("selectedFacetName",facet.getValue());   
+                      try{
+                          org.hibernate.search.query.facet.Facet facet = result.getFacets().get(facetName).get(result.getSelectedFacets().get(facetName));
+                          pageContext.setAttribute("selectedFacetName",facet.getValue());
+                      } catch(Exception e){
+                          pageContext.setAttribute("selectedFacetName", "Unable to display name of selected option");
+                      }
                     </jsp:scriptlet>
                     ${selectedFacetName}
                   </li>
