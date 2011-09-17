@@ -1107,6 +1107,9 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>2.8.1</version>
                         <configuration>
+                            <excludes>
+                             <exclude>**/*FunctionalTest.java</exclude>
+                            </excludes>
                             <includes>
                                 <include>**/*IntegrationTest.java</include>
                             </includes>
@@ -1126,6 +1129,9 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>2.8.1</version>
                         <configuration>
+                            <excludes>
+                             <exclude>**/*IntegrationTest.java</exclude>
+                            </excludes>
                             <includes>
                               <include>**/*FunctionalTest.java</include>
                             </includes>
