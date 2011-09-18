@@ -85,6 +85,11 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
             final SessionFactory sessionFactory) {
         this.setSessionFactory(sessionFactory);
     }
+    
+    public final void delete(final String identifier) {
+        T t = load(identifier);
+        getSession().delete(t);
+    }
 
     public final T load(final String identifier) {
         return load(identifier, null);
@@ -121,10 +126,11 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
    /**
     *
     * @param t The object to save.
-    * @return the id of the object
+    * @return the saved object
     */
-   public final Long save(final T t) {
-       return (Long) getSession().save(t);
+   public final T save(final T t) {
+       getSession().save(t);
+       return t;
    }
 
   /**

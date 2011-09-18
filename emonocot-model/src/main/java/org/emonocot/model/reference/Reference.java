@@ -25,6 +25,11 @@ import org.hibernate.search.annotations.Indexed;
 public class Reference extends Base {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = -5928234699377084008L;
+
+    /**
      *
      */
     private String title;

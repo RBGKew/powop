@@ -20,6 +20,13 @@ public interface Dao<T extends Base> {
      * @return the object or throw and exception if that object does not exist
      */
     T load(String identifier);
+    
+   /**
+    *
+    * @param identifier
+    *            Set the identifier of the object you would like to delete
+    */
+   void delete(String identifier);
 
     /**
     *
@@ -52,7 +59,7 @@ public interface Dao<T extends Base> {
    * @param t The object to save.
    * @return the id of the object
    */
-  Long save(T t);
+  T save(T t);
 
  /**
   *

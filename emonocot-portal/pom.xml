@@ -111,7 +111,23 @@
           <dependency>
              <groupId>org.apache.ant</groupId>
              <artifactId>ant-junit</artifactId>
-          </dependency> 
+          </dependency>
+          <dependency>
+            <groupId>org.picocontainer</groupId>
+            <artifactId>picocontainer</artifactId>
+          </dependency>
+          <dependency>
+            <groupId>cuke4duke</groupId>
+            <artifactId>cuke4duke</artifactId>
+          </dependency>
+          <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-lgpl</artifactId>
+          </dependency>
+          <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-lgpl</artifactId>
+          </dependency>
 	</dependencies>
 	<build>
 		<finalName>emonocot-portal</finalName>

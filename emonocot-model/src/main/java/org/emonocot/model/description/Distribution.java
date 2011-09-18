@@ -28,6 +28,11 @@ import org.hibernate.search.annotations.Indexed;
 public class Distribution extends Base {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = -970244833684895241L;
+
+/**
     *
     */
    private Taxon taxon;

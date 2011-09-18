@@ -26,6 +26,11 @@ import org.hibernate.search.annotations.IndexedEmbedded;
 @Indexed(index = "org.emonocot.model.common.SearchableObject")
 public class Image extends SearchableObject {
     /**
+     * 
+     */
+    private static final long serialVersionUID = 3341900807619517602L;
+
+    /**
      *
      */
     private String url;

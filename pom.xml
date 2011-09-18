@@ -745,7 +745,29 @@
 		      <artifactId>YUIAnt</artifactId>
 		      <version>0.1</version>
 		      <scope>test</scope>
-	      </dependency> 
+	      </dependency>
+	      <dependency>
+            <groupId>org.picocontainer</groupId>
+            <artifactId>picocontainer</artifactId>
+            <version>2.10.2</version>
+            <scope>test</scope>
+          </dependency>
+          <dependency>
+            <groupId>cuke4duke</groupId>
+            <artifactId>cuke4duke</artifactId>
+            <version>0.4.3</version>
+            <scope>test</scope>
+          </dependency>
+          <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-lgpl</artifactId>
+            <version>1.6.4</version>
+          </dependency>
+          <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-lgpl</artifactId>
+            <version>1.6.4</version>
+          </dependency>
         </dependencies>
     </dependencyManagement>
     <build>
@@ -858,7 +880,7 @@
                     <goals>deploy</goals>
                 </configuration>
             </plugin>
-        </plugins>
+        </plugins>        
     </build>
     <reporting>
         <plugins>
@@ -1015,6 +1037,11 @@
             <id>Java.Net</id>
             <url>http://download.java.net/maven/2/</url>
         </repository>
+        <repository>
+            <id>cukes</id>
+            <name>Cucumber maven repo</name>
+            <url>http://cukes.info/maven</url>
+        </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
@@ -1040,6 +1067,11 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>cukes</id>
+            <name>Cucumber maven repo</name>
+            <url>http://cukes.info/maven</url>
         </pluginRepository>
         <pluginRepository>
             <id>emonocot.release</id>
@@ -1142,8 +1174,43 @@
         </profile>
         <profile>
             <id>functional</id>
+            <properties>
+              <!-- <cucumber.installGems>true</cucumber.installGems>-->
+            </properties>
             <build>
                 <plugins>
+                    <plugin>
+                      <groupId>cuke4duke</groupId>
+                      <artifactId>cuke4duke-maven-plugin</artifactId>
+                      <configuration>
+                        <jvmArgs>
+                          <jvmArg>
+                            -Dcuke4duke.objectFactory=cuke4duke.internal.jvmclass.PicoFactory
+                          </jvmArg>
+                          <jvmArg>-Dfile.encoding=UTF-8</jvmArg>
+                        </jvmArgs>
+                        <cucumberArgs>
+                          <cucumberArg>--format</cucumberArg>
+                          <cucumberArg>junit</cucumberArg>
+                          <cucumberArg>--out</cucumberArg>
+                          <cucumberArg>target/surefire-reports</cucumberArg>
+                          <cucumberArg>--require</cucumberArg>
+                          <cucumberArg>${basedir}/target/test-classes</cucumberArg>       
+                        </cucumberArgs>
+                        <gems>
+                          <gem>install cuke4duke --version 0.4.3</gem>
+                        </gems>
+                      </configuration>
+                      <executions>
+                        <execution>
+                          <id>run-features</id>
+                          <phase>integration-test</phase>
+                          <goals>
+                            <goal>cucumber</goal>
+                          </goals>
+                        </execution>
+                      </executions>
+                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>

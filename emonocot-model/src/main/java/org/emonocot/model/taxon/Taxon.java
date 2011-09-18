@@ -20,6 +20,7 @@ import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.description.Content;
@@ -43,6 +44,11 @@ import org.hibernate.search.annotations.IndexedEmbedded;
 @Entity
 @Indexed(index = "org.emonocot.model.common.SearchableObject")
 public class Taxon extends SearchableObject {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -3512557213090466877L;
 
     /**
      *
@@ -181,6 +187,11 @@ public class Taxon extends SearchableObject {
     private Set<Annotation> annotations = new HashSet<Annotation>();
 
     private Reference protologue;
+    
+    /**
+     * default constructor required for Jackson
+     */
+    public Taxon() { }
 
     /**
      *
@@ -192,6 +203,7 @@ public class Taxon extends SearchableObject {
         name = "Taxon_Image",
         joinColumns = { @JoinColumn(name = "Taxon_id") },
         inverseJoinColumns = { @JoinColumn(name = "images_id") })
+    @JsonIgnore
     public List<Image> getImages() {
         return images;
     }
@@ -206,6 +218,7 @@ public class Taxon extends SearchableObject {
         name = "Taxon_Reference",
         joinColumns = { @JoinColumn(name = "Taxon_id") },
         inverseJoinColumns = { @JoinColumn(name = "references_id") })
+    @JsonIgnore
     public Set<Reference> getReferences() {
         return references;
     }
@@ -216,6 +229,7 @@ public class Taxon extends SearchableObject {
      */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon")
     @MapKey(name = "feature")
+    @JsonIgnore
     public Map<Feature, Content> getContent() {
         return content;
     }
@@ -259,6 +273,7 @@ public class Taxon extends SearchableObject {
      * @return whether this taxon should be deleted or not
      */
     @Transient
+    @JsonIgnore
     public boolean isDeleted() {
         return deleted;
     }
@@ -286,6 +301,7 @@ public class Taxon extends SearchableObject {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @Cascade({CascadeType.SAVE_UPDATE })
+    @JsonIgnore
     public Taxon getParent() {
         return parent;
     }
@@ -304,6 +320,7 @@ public class Taxon extends SearchableObject {
      */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
     @Cascade({CascadeType.SAVE_UPDATE })
+    @JsonIgnore
     public Set<Taxon> getChildren() {
         return children;
     }
@@ -322,6 +339,7 @@ public class Taxon extends SearchableObject {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @Cascade({CascadeType.SAVE_UPDATE })
+    @JsonIgnore
     public Taxon getAccepted() {
         return accepted;
     }
@@ -340,6 +358,7 @@ public class Taxon extends SearchableObject {
      */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "accepted")
     @Cascade({CascadeType.SAVE_UPDATE })
+    @JsonIgnore
     public Set<Taxon> getSynonyms() {
         return synonyms;
     }
@@ -360,6 +379,7 @@ public class Taxon extends SearchableObject {
     @Cascade({CascadeType.ALL })
     @MapKey(name = "region")
     @IndexedEmbedded
+    @JsonIgnore
     public Map<GeographicalRegion, Distribution> getDistribution() {
         return distribution;
     }
@@ -628,6 +648,7 @@ public class Taxon extends SearchableObject {
     @JoinColumn(name = "annotatedObjId")
     @Where(clause = "annotatedObjType = 'Taxon'")
     @Cascade({CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+    @JsonIgnore
     public Set<Annotation> getAnnotations() {
         return annotations;
     }
@@ -652,6 +673,7 @@ public class Taxon extends SearchableObject {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @Cascade({CascadeType.SAVE_UPDATE })
+    @JsonIgnore
     public Reference getProtologue() {
         return protologue;
     }
@@ -662,11 +684,13 @@ public class Taxon extends SearchableObject {
      * @return content or null if this taxon has no content
      */
     @Transient
+    @JsonIgnore
     public Content getContent(Feature feature) {
         return content.get(feature);
     }
 
     @Transient
+    @JsonIgnore
     public final String getClassName() {
       return "Taxon";
     }

@@ -1,5 +1,7 @@
 package org.emonocot.model.authority;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,7 +20,12 @@ import org.hibernate.search.annotations.Indexed;
  */
 @Entity
 @Indexed
-public class Authority {
+public class Authority implements Serializable {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2463044801110563816L;
 
    /**
     *

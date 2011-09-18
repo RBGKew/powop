@@ -173,16 +173,4 @@ public class SearchController {
         }
         return modelAndView;
     }
-
-    /**
-     * @param identifier
-     *            Set the identifier of the taxon
-     * @return A model and view containing a taxon
-     */
-    @RequestMapping(value = "/taxon/{identifier}", method = RequestMethod.GET)
-    public final ModelAndView getTaxon(@PathVariable final String identifier) {
-        ModelAndView modelAndView = new ModelAndView("taxonPage");
-        modelAndView.addObject(taxonService.load(identifier, "taxon-page"));
-        return modelAndView;
-    }
 }

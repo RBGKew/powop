@@ -1,5 +1,7 @@
 package org.emonocot.model.common;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -19,7 +21,12 @@ import org.joda.time.DateTime;
  *
  */
 @Entity
-public class Annotation {
+public class Annotation implements Serializable {
+
+   /**
+    * 
+    */
+    private static final long serialVersionUID = -3382251087008774134L;
 
    /**
     *

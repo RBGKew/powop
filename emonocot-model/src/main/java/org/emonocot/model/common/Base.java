@@ -1,5 +1,6 @@
 package org.emonocot.model.common;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,9 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.emonocot.model.authority.Authority;
 import org.emonocot.model.hibernate.DateTimeBridge;
 import org.hibernate.annotations.Type;
@@ -30,7 +31,7 @@ import org.joda.time.DateTime;
  *
  */
 @MappedSuperclass
-public abstract class Base {
+public abstract class Base implements Serializable {
 
     /**
      *
@@ -100,6 +101,7 @@ public abstract class Base {
      */
     @ManyToMany(fetch = FetchType.LAZY)
     @IndexedEmbedded
+    @JsonIgnore
     public Set<Authority> getAuthorities() {
         return authorities;
     }

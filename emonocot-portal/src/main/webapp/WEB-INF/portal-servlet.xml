@@ -13,10 +13,19 @@
     
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
         <property name="webBindingInitializer" ref="webBindingInitializer"/>
+        <property name="messageConverters">
+         <list>
+           <ref bean="jsonConverter" />
+         </list>
+       </property>
     </bean>
     
     <bean id="webBindingInitializer" class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
       <property name="conversionService" ref="conversionService"/>
+    </bean>
+    
+    <bean id="jsonConverter"  class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+      <property name="supportedMediaTypes" value="application/json" />
     </bean>
 
     <bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">

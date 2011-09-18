@@ -16,6 +16,11 @@ import org.hibernate.search.annotations.Indexed;
 @Entity
 @Indexed
 public class TextContent extends Content {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -177666938449346483L;
     /**
      *
      */

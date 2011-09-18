@@ -22,6 +22,13 @@ public interface Service<T extends Base> {
      */
     T load(String identifer);
     
+   /**
+    *
+    * @param identifier
+    *            Set the identifier of the object you would like to delete
+    */
+   void delete(String identifier);
+    
     /**
      *
      * @param identifier The identifier of the object required.
@@ -52,7 +59,7 @@ public interface Service<T extends Base> {
     * @param t The object to save.
     * @return the id of the object
     */
-   Long save(T t);
+   T save(T t);
    
    /**
     * @param query

@@ -20,27 +20,39 @@ public abstract class ServiceImpl<T extends Base, DAO extends Dao<T>>
         implements Service<T> {
 
     /**
-     * @param identifier the identifier of the object
-     * @param the fetch profile to use
-     * @return the object
-     */
-    public T load(String identifier, String fetch) {
-        return dao.load(identifier, fetch);
-    }
-
-    /**
-     * @param identifier the identifier of the object
-     * @param the fetch profile to use
-     * @return the object
-     */
-    public T find(String identifier, String fetch) {
-        return dao.find(identifier, fetch);
-    }
-
-    /**
      *
      */
     protected DAO dao;
+    
+    /**
+     * @param identifier the identifier of the object
+     * @param the fetch profile to use
+     * @return the object
+     */
+    @Transactional(readOnly = true)
+    public T load(String identifier, String fetch) {
+        return dao.load(identifier, fetch);
+    }
+    
+   /**
+    *
+    * @param identifier
+    *            Set the identifier of the object you would like to delete
+    */
+   @Transactional
+   public void delete(String identifier) {
+       dao.delete(identifier);
+   }
+
+    /**
+     * @param identifier the identifier of the object
+     * @param the fetch profile to use
+     * @return the object
+     */
+   @Transactional(readOnly = true)
+    public T find(String identifier, String fetch) {
+        return dao.find(identifier, fetch);
+    }
 
     /**
      * @param identifier the identifier of the object
@@ -65,7 +77,7 @@ public abstract class ServiceImpl<T extends Base, DAO extends Dao<T>>
      * @return the identifier of the object
      */
     @Transactional
-    public Long save(T t) {
+    public T save(T t) {
         return dao.save(t);
     }
 
