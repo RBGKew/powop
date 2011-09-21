@@ -282,7 +282,7 @@
 	<profile>
 		<id>functional</id>
 		<properties>
-          <!-- <cucumber.installGems>true</cucumber.installGems>-->
+          <cucumber.installGems>true</cucumber.installGems>
         </properties>
 		<build>
 			<plugins>
