@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.emonocot.harvest.common.TaxonRelationship;
 import org.emonocot.harvest.common.TaxonRelationshipResolver;
+import org.emonocot.model.authority.Authority;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.geography.GeographicalRegion;
@@ -132,7 +133,21 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
                 annotation.setCode("Updated");
                 annotation.setAuthority(getAuthority());
                 taxon.getAnnotations().add(annotation);
-                taxon.getAuthorities().add(getAuthority());
+                /**
+                 * Using java.util.Collection.contains() does not work on lazy
+                 * collections.
+                 */
+                boolean contains = false;
+                for (Authority auth : taxon.getAuthorities()) {
+                    if (auth.equals(getAuthority())) {
+                        contains = true;
+                        break;
+                    }
+                }
+                if (!contains) {
+                    taxon.getAuthorities().add(getAuthority());
+                }
+
                 taxon.setAuthority(getAuthority());
                 processTaxon(taxon, taxonConcept);
             }

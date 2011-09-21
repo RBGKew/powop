@@ -8,4 +8,7 @@
   <root level="WARN">
     <appender-ref ref="stdout"/>
   </root>
+  <logger name="org.springframework.web.client" level="DEBUG">
+    <appender-ref ref="stdout"/>
+  </logger>
 </configuration>

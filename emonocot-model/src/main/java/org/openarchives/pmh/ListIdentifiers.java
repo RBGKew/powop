@@ -3,7 +3,7 @@ package org.openarchives.pmh;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.openarchives.pmh.marshall.ResumptionTokenConverter;
+import org.openarchives.pmh.marshall.xml.ResumptionTokenConverter;
 
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;

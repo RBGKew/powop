@@ -1,8 +1,10 @@
 package org.emonocot.persistence.dao.hibernate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
@@ -10,25 +12,32 @@ import org.apache.lucene.util.Version;
 import org.emonocot.model.common.Base;
 import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.hibernate.Fetch;
+import org.emonocot.model.media.Image;
 import org.emonocot.model.pager.DefaultPageImpl;
 import org.emonocot.model.pager.Page;
+import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.QuerySyntaxException;
 import org.emonocot.persistence.dao.Dao;
 import org.emonocot.persistence.dao.FacetName;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
+import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.hibernate.UnresolvableObjectException;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.search.FullTextQuery;
 import org.hibernate.search.FullTextSession;
+import org.hibernate.search.ProjectionConstants;
 import org.hibernate.search.Search;
 import org.hibernate.search.SearchFactory;
 import org.hibernate.search.query.dsl.FacetContext;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.hibernate.search.query.engine.spi.FacetManager;
 import org.hibernate.search.query.facet.Facet;
+import org.hibernate.search.query.facet.FacetSortOrder;
 import org.hibernate.search.query.facet.FacetingRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.orm.hibernate3.HibernateObjectRetrievalFailureException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -54,19 +63,51 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
      * @param criteria Set a Criteria instance
      * @param fetch Set the name of the fetch profile
      */
-    protected final void enableProfile(final Criteria criteria,
+    protected void enableProfilePreQuery(final Criteria criteria,
             final String fetch) {
         if (fetch != null) {
             for (Fetch f : getProfile(fetch)) {
-                criteria.setFetchMode(f.getAssociation(), f.getMode());
+                if (f.getMode().equals(FetchMode.JOIN)) {
+                    criteria.setFetchMode(f.getAssociation(), f.getMode());
+                }
             }
         }
     }
 
     /**
+    *
+    * @param t Set a the fetched object
+    * @param fetch Set the name of the fetch profile
+    */
+   protected final void enableProfilePostQuery(final T t,
+           final String fetch) {
+       if (fetch != null && t != null) {
+           for (Fetch f : getProfile(fetch)) {
+               if (f.getMode().equals(FetchMode.SELECT)) {
+                   Object proxy;
+                    try {
+                        proxy = PropertyUtils.getProperty(t, f.getAssociation());
+                    } catch (Exception e) {
+                        throw new InvalidDataAccessApiUsageException(
+                                "Cannot get proxy " + f.getAssociation()
+                                        + " for class " + type, e);
+                    }
+                   Hibernate.initialize(proxy);
+               }
+           }
+       }
+   }
+
+    /**
      *
      */
     protected Class<T> type;
+
+    /**
+     *
+     */
+    private static Class SEARCHABLE_CLASSES[] = new Class[] { Image.class,
+            Taxon.class };
 
     /**
      *
@@ -85,25 +126,43 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
             final SessionFactory sessionFactory) {
         this.setSessionFactory(sessionFactory);
     }
-    
+
+    /**
+     * @param identifier Set the identifier
+     */
     public final void delete(final String identifier) {
         T t = load(identifier);
         getSession().delete(t);
     }
 
+    /**
+     * @param identifier set the identifier
+     * @return the loaded object
+     */
     public final T load(final String identifier) {
         return load(identifier, null);
     }
 
+    /**
+     * @param identifier Set the identifier
+     * @return the object, or null if the object cannot be found
+     */
     public final T find(final String identifier) {
         return find(identifier, null);
     }
 
+    /**
+     * @param identifier Set the identifier
+     * @param fetch Set the fetch profile (can be null)
+     * @return the loaded object
+     */
     public final T load(final String identifier, final String fetch) {
 
-        Criteria criteria = getSession().createCriteria(type)
-        .add(Restrictions.eq("identifier", identifier));
-        enableProfile(criteria, fetch);
+        Criteria criteria = getSession().createCriteria(type).add(
+                Restrictions.eq("identifier", identifier));
+
+        enableProfilePreQuery(criteria, fetch);
+
         T t = (T) criteria.uniqueResult();
 
         if (t == null) {
@@ -111,14 +170,21 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
                     new UnresolvableObjectException(identifier,
                             "Object could not be resolved"));
         }
+        enableProfilePostQuery(t, fetch);
         return t;
     }
 
+    /**
+     * @param identifier Set the identifer
+     * @param fetch Set the fetch profile
+     * @return the object or null if it cannot be found
+     */
     public final T find(final String identifier, final String fetch) {
         Criteria criteria = getSession().createCriteria(type)
         .add(Restrictions.eq("identifier", identifier));
-        enableProfile(criteria, fetch);
+        enableProfilePreQuery(criteria, fetch);
         T t = (T) criteria.uniqueResult();
+        enableProfilePostQuery(t, fetch);
 
         return t;
     }
@@ -145,10 +211,64 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
    *
    * @param facetContext the facet context
    * @param facetName the facet name
-   * @return The faceting request
+   * @param facetManager set the facet manager
    */
-  protected abstract FacetingRequest createFacetingRequest(
-          final FacetContext facetContext, final FacetName facetName);
+  protected abstract void createFacetingRequest(
+            final FacetContext facetContext, final FacetName facetName,
+            FacetManager facetManager);
+
+    /**
+     *
+     * @param facetName Set the facet name
+     * @param facetManager Set the facet manager
+     * @param selectedFacetIndex Set the selected facet
+     */
+    protected void selectFacet(final FacetName facetName,
+            final FacetManager facetManager,
+            final Integer selectedFacetIndex) {
+        switch (facetName) {
+        case CLASS:
+            break;
+        default:
+            List<Facet> facetResults =
+                facetManager.getFacets(facetName.name());
+            Facet selectedFacet = facetResults.get(selectedFacetIndex);
+            facetManager.getFacetGroup(facetName.name())
+                    .selectFacets(selectedFacet);
+            break;
+        }
+    }
+
+    /**
+     *
+     * @param page the page of results
+     * @param facetName the facet name
+     * @param facetManager the facet manager
+     */
+    protected void addFacet(final Page<T> page, final FacetName facetName,
+            final FacetManager facetManager) {
+        switch (facetName) {
+        case CLASS:
+            List<Facet> facets = new ArrayList<Facet>();
+            page.addFacets(facetName.name(), facets);
+            for (Class clazz : SEARCHABLE_CLASSES) {
+                if (clazz.equals(type)) {
+                    facets.add(new FakeFacet("CLASS",
+                            ProjectionConstants.OBJECT_CLASS, clazz.getName(),
+                            page.size()));
+                } else {
+                    facets.add(new FakeFacet("CLASS",
+                            ProjectionConstants.OBJECT_CLASS, clazz.getName(),
+                            0));
+                }
+            }
+            break;
+        default:
+            page.addFacets(facetName.name(),
+                    facetManager.getFacets(facetName.name()));
+            break;
+        }
+    }
 
   /**
    *
@@ -156,7 +276,10 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
    */
   protected abstract String[] getDocumentFields();
 
-    public final Page<T> search(final String query,
+  /**
+   *
+   */
+  public final Page<T> search(final String query,
             final String spatialQuery,
             final Integer pageSize, final Integer pageNumber,
             final FacetName[] facets,
@@ -177,9 +300,7 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
                     = searchFactory.buildQueryBuilder().forEntity(getAnalyzerType()).get();
                 luceneQuery = queryBuilder.all().createQuery();
             }
-            FullTextQuery fullTextQuery
-                // Not sure why queries against Taxon.class returns just Taxon.class in Type facet but Image.class returns both
-                = fullTextSession.createFullTextQuery(luceneQuery, SearchableObject.class);
+            FullTextQuery fullTextQuery = fullTextSession.createFullTextQuery(luceneQuery, type);
             if (spatialQuery != null && spatialQuery.trim().length() != 0) {
                 // TODO Implement spatial filter
             }
@@ -195,9 +316,7 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
               QueryBuilder queryBuilder = fullTextSession.getSearchFactory()
               .buildQueryBuilder().forEntity(getAnalyzerType()).get();
               for (FacetName facetName : facets) {
-                FacetingRequest facetingRequest = createFacetingRequest(
-                        queryBuilder.facet(), facetName);
-                facetManager.enableFaceting(facetingRequest);
+                  createFacetingRequest(queryBuilder.facet(), facetName, facetManager);
               }
             }
 
@@ -207,13 +326,8 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
                 FacetManager facetManager = fullTextQuery.getFacetManager();
 
                 for (FacetName facetName : selectedFacets.keySet()) {
-                    List<Facet> facetResults =
-                        facetManager.getFacets(facetName.name());
-                    Integer facetIndex = selectedFacets.get(facetName);
-                    Facet selectedFacet = facetResults.get(facetIndex);
-                    facetManager.getFacetGroup(facetName.name())
-                            .selectFacets(selectedFacet);
-
+                    selectFacet(facetName, facetManager,
+                            selectedFacets.get(facetName));
                 }
                 results = (List<T>) fullTextQuery.list();
             }
@@ -224,8 +338,7 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
             if (facets != null && facets.length != 0) {
                 FacetManager facetManager = fullTextQuery.getFacetManager();
                 for (FacetName facetName : facets) {
-                    page.addFacets(facetName.name(),
-                        facetManager.getFacets(facetName.name()));
+                    addFacet(page, facetName, facetManager);
                 }
             }
             if (selectedFacets != null && !selectedFacets.isEmpty()) {

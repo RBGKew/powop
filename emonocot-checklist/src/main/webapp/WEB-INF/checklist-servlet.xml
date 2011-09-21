@@ -38,20 +38,20 @@
         <property name="location" value="classpath:/applicationContext-view.xml"/>
     </bean>
     
-    <bean id="marshaller" class="org.emonocot.model.marshall.XStreamMarshaller">
+    <bean id="marshaller" class="org.emonocot.model.marshall.xml.XStreamMarshaller">
         <property name="autodetectAnnotations" value="true"/>
         <property name="reflectionProvider" ref="reflectionProvider"/>
         <property name="streamDriver" ref="oaiPmhStreamDriver"/>
         <property name="converters">
           <array>
-            <bean class="org.emonocot.model.marshall.UriConverter"/>
+            <bean class="org.emonocot.model.marshall.xml.UriConverter"/>
           </array>
         </property>
     </bean>
     
-    <bean id="reflectionProvider" class="org.openarchives.pmh.marshall.ReflectionProviderFactory"/>
+    <bean id="reflectionProvider" class="org.openarchives.pmh.marshall.xml.ReflectionProviderFactory"/>
     
-    <bean id="oaiPmhStreamDriver" class="org.emonocot.model.marshall.StaxDriver">
+    <bean id="oaiPmhStreamDriver" class="org.emonocot.model.marshall.xml.StaxDriver">
 		<constructor-arg ref="oaiPmhQNameMap" />
 		<property name="startDocument" value="false"/>
 		<property name="repairingNamespace" value="false"/>
@@ -61,7 +61,7 @@
 	</bean>
 
 	<bean id="oaiPmhQNameMap"
-		  class="org.openarchives.pmh.marshall.OpenArchivesQNameMapFactory" />
+		  class="org.openarchives.pmh.marshall.xml.OpenArchivesQNameMapFactory" />
     
     <bean id="mapper"  class="org.emonocot.checklist.view.assembler.DozerBeanMapperFactoryBean">
         <property name="customFieldMapper">

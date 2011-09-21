@@ -2,8 +2,8 @@ package org.openarchives.pmh;
 
 import java.net.URI;
 
-import org.emonocot.model.marshall.DateTimeConverter;
-import org.emonocot.model.marshall.UriElementConverter;
+import org.emonocot.model.marshall.xml.DateTimeConverter;
+import org.emonocot.model.marshall.xml.UriElementConverter;
 import org.joda.time.DateTime;
 
 import com.thoughtworks.xstream.annotations.XStreamConverter;

@@ -3,10 +3,10 @@ package org.openarchives.pmh;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.emonocot.model.marshall.DateTimeConverter;
+import org.emonocot.model.marshall.xml.DateTimeConverter;
 import org.joda.time.DateTime;
-import org.openarchives.pmh.marshall.DeletedRecordConverter;
-import org.openarchives.pmh.marshall.GranularityConverter;
+import org.openarchives.pmh.marshall.xml.DeletedRecordConverter;
+import org.openarchives.pmh.marshall.xml.GranularityConverter;
 
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;

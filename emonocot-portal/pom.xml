@@ -25,8 +25,8 @@
 			<artifactId>junit</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.seleniumhq.selenium.client-drivers</groupId>
-			<artifactId>selenium-java-client-driver</artifactId>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -71,11 +71,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
+		</dependency>	
 		<dependency>
               <groupId>ch.qos.logback</groupId>
               <artifactId>logback-classic</artifactId>
@@ -111,10 +107,6 @@
           <dependency>
              <groupId>org.apache.ant</groupId>
              <artifactId>ant-junit</artifactId>
-          </dependency>
-          <dependency>
-            <groupId>org.picocontainer</groupId>
-            <artifactId>picocontainer</artifactId>
           </dependency>
           <dependency>
             <groupId>cuke4duke</groupId>
@@ -180,6 +172,7 @@
 					<url>${jdbc.driver.url}</url>
 					<username>${jdbc.driver.username}</username>
 					<password>${jdbc.driver.password}</password>
+					<dropFirst>${jdbc.drop.database.first}</dropFirst>
 				</configuration>
 				<dependencies>
 					<dependency>
@@ -285,4 +278,63 @@
 		</plugin>
 	  </plugins>
 	</reporting>
+	<profiles>
+	<profile>
+		<id>functional</id>
+		<properties>
+          <!-- <cucumber.installGems>true</cucumber.installGems>-->
+        </properties>
+		<build>
+			<plugins>
+				<plugin>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>pre-integration-test</id>
+							<phase>pre-integration-test</phase>
+							<configuration>
+								<tasks>
+									<mkdir dir="${basedir}/target/surefire-reports/TEST-features" />
+								</tasks>
+							</configuration>
+							<goals>
+								<goal>run</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>cuke4duke</groupId>
+					<artifactId>cuke4duke-maven-plugin</artifactId>
+					<configuration>
+						<jvmArgs>
+							<jvmArg>-Dcuke4duke.objectFactory=cuke4duke.internal.jvmclass.SpringFactory</jvmArg>
+							<jvmArg>-Dfile.encoding=UTF-8</jvmArg>
+						</jvmArgs>
+						<cucumberArgs>
+							<cucumberArg>--format</cucumberArg>
+							<cucumberArg>junit</cucumberArg>
+							<cucumberArg>--out</cucumberArg>
+							<cucumberArg>${basedir}/target/surefire-reports</cucumberArg>
+							<cucumberArg>--require</cucumberArg>
+							<cucumberArg>${basedir}/target/test-classes</cucumberArg>
+						</cucumberArgs>
+						<gems>
+							<gem>install cuke4duke --version 0.4.3</gem>
+						</gems>
+					</configuration>
+					<executions>
+						<execution>
+							<id>features</id>
+							<phase>integration-test</phase>
+							<goals>
+								<goal>cucumber</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</build>
+	</profile>
+</profiles>
 </project>

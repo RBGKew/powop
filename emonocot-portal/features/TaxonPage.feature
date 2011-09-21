@@ -1,9 +1,10 @@
-Feature: Taxon Page Feature
+Feature: Taxon Page
 In order to ensure that Taxon pages have italic titles
 I want to check the title of a taxon page.
+http://build.e-monocot.org/bugzilla/show_bug.cgi?id=36
 
-Scenario: Taxon Title Scenario
-Given There is a taxon with id 2295 and name 'Acorus'
+Scenario: Taxon Title
+Given there is a taxon with id "urn:kew.org:wcs:taxon:2295" and name "Acorus"
 When I navigate to the page
-Then The page title should be 'Acorus'
-And The title class should be taxonName
+Then the page title should be "Acorus"
+And the title class should be "taxonName"

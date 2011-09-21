@@ -137,22 +137,22 @@
 		<property name="encoding" value="UTF-8"/>
 	</bean>
 
-	<bean id="oaiPmhResponseUnmarshaller" class="org.emonocot.model.marshall.XStreamMarshaller">
+	<bean id="oaiPmhResponseUnmarshaller" class="org.emonocot.model.marshall.xml.XStreamMarshaller">
 		<property name="autodetectAnnotations" value="true" />
 		<property name="qNameMap" ref="oaiPmhQNameMap" />
 		<property name="reflectionProvider" ref="reflectionProvider" />
 		<property name="streamDriver" ref="oaiPmhResponseStreamDriver" />
 		<property name="converters">
 			<list>
-				<bean class="org.openarchives.pmh.marshall.ResumptionTokenConverter" />
-				<bean class="org.emonocot.model.marshall.UriConverter" />
+				<bean class="org.openarchives.pmh.marshall.xml.ResumptionTokenConverter" />
+				<bean class="org.emonocot.model.marshall.xml.UriConverter" />
 			</list>
 		</property>
 	</bean>
 
-	<bean id="reflectionProvider" class="org.openarchives.pmh.marshall.ReflectionProviderFactory" />
+	<bean id="reflectionProvider" class="org.openarchives.pmh.marshall.xml.ReflectionProviderFactory" />
 
-	<bean id="oaiPmhResponseStreamDriver" class="org.emonocot.model.marshall.StaxDriver">
+	<bean id="oaiPmhResponseStreamDriver" class="org.emonocot.model.marshall.xml.StaxDriver">
 		<constructor-arg ref="oaiPmhQNameMap" />
 		<property name="repairingNamespace" value="false" />
 		<property name="xmlInputFactory">
@@ -161,7 +161,7 @@
 	</bean>
 
 	<bean id="oaiPmhQNameMap"
-		class="org.openarchives.pmh.marshall.OpenArchivesQNameMapFactory" />
+		class="org.openarchives.pmh.marshall.xml.OpenArchivesQNameMapFactory" />
 
 	<bean id="itemProcessor"
 		class="org.springframework.batch.item.support.CompositeItemProcessor"

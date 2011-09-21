@@ -46,7 +46,7 @@ import org.hibernate.search.annotations.IndexedEmbedded;
 public class Taxon extends SearchableObject {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -3512557213090466877L;
 
@@ -187,11 +187,6 @@ public class Taxon extends SearchableObject {
     private Set<Annotation> annotations = new HashSet<Annotation>();
 
     private Reference protologue;
-    
-    /**
-     * default constructor required for Jackson
-     */
-    public Taxon() { }
 
     /**
      *

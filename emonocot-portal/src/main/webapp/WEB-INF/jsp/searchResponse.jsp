@@ -161,7 +161,7 @@
         <div class="threecol">
         <ul id="facets">
           <c:forEach var="facetName" items="${result.facetNames}">
-            <li><h2><spring:message code="${facetName}" /></h2>            
+            <li id="${facetName}"><h2><spring:message code="${facetName}" /></h2>            
               <ul class="facet">              
                 <jsp:scriptlet>
                   String facetName = (String) pageContext.getAttribute("facetName");
@@ -200,7 +200,7 @@
                           pageContext.setAttribute("selectedFacetName", "Unable to display name of selected option");
                       }
                     </jsp:scriptlet>
-                    ${selectedFacetName}
+                    <spring:message code="${selectedFacetName}" />                    
                   </li>
                 </c:when>
                 <c:otherwise>
@@ -228,7 +228,7 @@
                                 </c:forEach>
                             </c:url>
                           </jsp:attribute>
-                          ${facet.value}
+                          <spring:message code="${facet.value}" />
                         </jsp:element>
                       </c:otherwise>
                     </c:choose>

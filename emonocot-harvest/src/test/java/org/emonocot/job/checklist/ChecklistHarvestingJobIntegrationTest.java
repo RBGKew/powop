@@ -1,5 +1,6 @@
 package org.emonocot.job.checklist;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
@@ -14,6 +15,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameter;
@@ -106,13 +108,15 @@ public class ChecklistHarvestingJobIntegrationTest {
                 oaiPmhTaxonHarvestingJob);
         JobExecution jobExecution = jobLauncher.run(oaiPmhTaxonHarvestingJob,
                 jobParameters);
+        assertEquals("Job should complete normally",
+                jobExecution.getExitStatus(), ExitStatus.COMPLETED);
 
-        for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
-            logger.info(stepExecution.getStepName() + " "
-                    + stepExecution.getReadCount() + " "
-                    + stepExecution.getFilterCount() + " "
-                    + stepExecution.getWriteCount());
-        }
+//        for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
+//            logger.info(stepExecution.getStepName() + " "
+//                    + stepExecution.getReadCount() + " "
+//                    + stepExecution.getFilterCount() + " "
+//                    + stepExecution.getWriteCount());
+//        }
     }
 
     /**

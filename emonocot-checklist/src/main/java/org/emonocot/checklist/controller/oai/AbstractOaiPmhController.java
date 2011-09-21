@@ -14,7 +14,7 @@ import net.sf.ehcache.Element;
 import org.joda.time.DateTime;
 import org.emonocot.checklist.model.ChangeEvent;
 import org.emonocot.checklist.persistence.IdentifiableService;
-import org.emonocot.model.marshall.DateTimeConverter;
+import org.emonocot.model.marshall.xml.DateTimeConverter;
 import org.emonocot.model.pager.Page;
 import org.openarchives.pmh.BadResumptionTokenException;
 import org.openarchives.pmh.CannotDisseminateFormatException;

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet author="ben" id="2011-07-29_15">
+      <sql>
+      CREATE TRIGGER `Plant_name_update_trigger` BEFORE UPDATE ON `plant_name` FOR 
+      EACH ROW SET NEW.Date_modified = NOW(), NEW.Date_Name_modified = NOW()
+      </sql>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-29_16">
+      <sql>
+      CREATE TRIGGER `Plant_name_delete_trigger` AFTER DELETE ON `plant_name` FOR 
+      EACH ROW INSERT INTO plant_name_deleted (Plant_name_id, Full_epithet, Institute_id, Accepted_plant_name_id,
+      Date_modified, Date_of_entry, Family, Genus_hybrid_marker, Genus, Species_hybrid_marker, Species, Infraspecific_rank,
+      Infraspecific_epithet, Date_Name_modified, Date_Locality_modified, Date_Authors_modified, Date_Citations_modified,
+      Date_deleted) VALUES (OLD.Plant_name_id, OLD.Full_epithet, OLD.Institute_id, OLD.Accepted_plant_name_id,
+      OLD.Date_modified, OLD.Date_of_entry, OLD.Family, OLD.Genus_hybrid_marker, OLD.Genus, OLD.Species_hybrid_marker, OLD.Species, 
+      OLD.Infraspecific_rank, OLD.Infraspecific_epithet, OLD.Date_Name_modified, OLD.Date_Locality_modified, OLD.Date_Authors_modified,
+      OLD.Date_Citations_modified, NOW())
+      </sql>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-29_17">
+      <sql>
+      CREATE TRIGGER `Plant_locality_insert_trigger` AFTER INSERT ON `plant_locality` FOR 
+      EACH ROW UPDATE plant_name SET Date_modified = NOW(), Date_Locality_modified = NOW()
+      WHERE Plant_name_id = NEW.Plant_name_id
+      </sql>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-29_18">
+      <sql>
+      CREATE TRIGGER `Plant_locality_update_trigger` AFTER UPDATE ON `plant_locality` FOR 
+      EACH ROW UPDATE plant_name SET Date_modified = NOW(), Date_Locality_modified = NOW()
+      WHERE Plant_name_id = NEW.Plant_name_id
+      </sql>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-29_19">
+      <sql>
+      CREATE TRIGGER `Plant_locality_delete_trigger` AFTER DELETE ON `plant_locality` FOR 
+      EACH ROW UPDATE plant_name SET Date_modified = NOW(), Date_Locality_modified = NOW()
+      WHERE Plant_name_id = OLD.Plant_name_id
+      </sql>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-29_20">
+      <sql>
+      CREATE TRIGGER `Plant_author_insert_trigger` AFTER INSERT ON `plant_author` FOR 
+      EACH ROW UPDATE plant_name SET Date_modified = NOW(), Date_Authors_modified = NOW()
+      WHERE Plant_name_id = NEW.Plant_name_id
+      </sql>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-29_21">
+      <sql>
+      CREATE TRIGGER `Plant_author_update_trigger` AFTER UPDATE ON `plant_author` FOR 
+      EACH ROW UPDATE plant_name SET Date_modified = NOW(), Date_Authors_modified = NOW()
+      WHERE Plant_name_id = NEW.Plant_name_id
+      </sql>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-29_22">
+      <sql>
+      CREATE TRIGGER `Plant_author_delete_trigger` AFTER DELETE ON `plant_author` FOR 
+      EACH ROW UPDATE plant_name SET Date_modified = NOW(), Date_Authors_modified = NOW()
+      WHERE Plant_name_id = OLD.Plant_name_id
+      </sql>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-29_23">
+      <sql>
+      CREATE TRIGGER `Plant_citation_insert_trigger` AFTER INSERT ON `plant_citation` FOR 
+      EACH ROW UPDATE plant_name SET Date_modified = NOW(), Date_Citations_modified = NOW()
+      WHERE Plant_name_id = NEW.Plant_name_id
+      </sql>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-29_24">
+      <sql>
+      CREATE TRIGGER `Plant_citation_update_trigger` AFTER UPDATE ON `plant_citation` FOR 
+      EACH ROW UPDATE plant_name SET Date_modified = NOW(), Date_Citations_modified = NOW()
+      WHERE Plant_name_id = NEW.Plant_name_id
+      </sql>
+    </changeSet>
+    <changeSet author="ben" id="2011-07-29_25">
+      <sql>
+      CREATE TRIGGER `Plant_citation_delete_trigger` AFTER DELETE ON `plant_citation` FOR 
+      EACH ROW UPDATE plant_name SET Date_modified = NOW(), Date_Citations_modified = NOW()
+      WHERE Plant_name_id = OLD.Plant_name_id
+      </sql>
+    </changeSet>
+     <changeSet author="ben" id="2011-08-03_1">
+        <dropForeignKeyConstraint baseTableName="Plant_Name" constraintName="FKC663741FC1A8E6DC"/>
+    </changeSet>
+</databaseChangeLog>

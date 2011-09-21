@@ -5,6 +5,7 @@ import org.emonocot.model.reference.Reference;
 import org.emonocot.persistence.dao.FacetName;
 import org.emonocot.persistence.dao.ReferenceDao;
 import org.hibernate.search.query.dsl.FacetContext;
+import org.hibernate.search.query.engine.spi.FacetManager;
 import org.hibernate.search.query.facet.FacetingRequest;
 import org.springframework.stereotype.Repository;
 
@@ -29,16 +30,10 @@ public class ReferenceDaoImpl extends DaoImpl<Reference> implements
         return null;
     }
 
-    /**
-     * @param facetContext Set the facet context
-     * @param facetName Set the facet name
-     * @return a faceting request
-     */
     @Override
-    protected final FacetingRequest createFacetingRequest(
-            final FacetContext facetContext, final FacetName facetName) {
+    protected final void createFacetingRequest(final FacetContext facetContext,
+            final FacetName facetName, final FacetManager facetManager) {
         // TODO Auto-generated method stub
-        return null;
     }
 
     /**

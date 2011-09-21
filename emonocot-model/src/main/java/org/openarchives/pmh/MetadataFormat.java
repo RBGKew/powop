@@ -1,6 +1,6 @@
 package org.openarchives.pmh;
 
-import org.openarchives.pmh.marshall.MetadataPrefixConverter;
+import org.openarchives.pmh.marshall.xml.MetadataPrefixConverter;
 
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 

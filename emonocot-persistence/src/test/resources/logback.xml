@@ -9,4 +9,7 @@
   <root level="WARN">
     <appender-ref ref="stdout"/>
   </root>
+  <!-- <logger name="org.hibernate.SQL" level="TRACE">
+    <appender-ref ref="stdout"/>
+  </logger>-->
 </configuration>

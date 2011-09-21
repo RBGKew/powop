@@ -135,7 +135,7 @@
         <addForeignKeyConstraint baseColumnNames="JOB_EXECUTION_ID" baseTableName="BATCH_JOB_EXECUTION_CONTEXT" constraintName="JOB_EXEC_CTX_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="JOB_EXECUTION_ID" referencedTableName="BATCH_JOB_EXECUTION"/>
     </changeSet>
     <changeSet author="ben" id="1303384038461-12">
-        <addForeignKeyConstraint baseColumnNames="JOB_INSTANCE_ID" baseTableName="BATCH_JOB_PARAMS" constraintName="JOB_INST_PARAMS_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="JOB_INSTANCE_ID" referencedTableName="BATCH_JOB_EXECUTION_INSTANCE"/>
+        <addForeignKeyConstraint baseColumnNames="JOB_INSTANCE_ID" baseTableName="BATCH_JOB_PARAMS" constraintName="JOB_INST_PARAMS_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="JOB_INSTANCE_ID" referencedTableName="BATCH_JOB_INSTANCE"/>
     </changeSet>
     <changeSet author="ben" id="1303384038461-13">
         <addForeignKeyConstraint baseColumnNames="JOB_EXECUTION_ID" baseTableName="BATCH_STEP_EXECUTION" constraintName="JOB_EXEC_STEP_FK" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="JOB_EXECUTION_ID" referencedTableName="BATCH_JOB_EXECUTION"/>
@@ -811,6 +811,11 @@
       </createTable>
     </changeSet>
     <changeSet id="2011-08-31_24" author="ben">
+      <sql>
+        DROP PROCEDURE IF EXISTS populateDate;
+      </sql>
+    </changeSet>
+    <changeSet id="2011-08-31_25" author="ben">
       <createProcedure>
         CREATE PROCEDURE populateDate()
         BEGIN
@@ -824,7 +829,7 @@
         END;
       </createProcedure>        
     </changeSet>
-    <changeSet id="2011-08-31_25" author="ben">
+    <changeSet id="2011-08-31_26" author="ben">
       <sql>
         call populateDate();
       </sql>        
@@ -971,6 +976,26 @@
     <changeSet id="2011-09-05_20" author="ben">
       <dropColumn tableName="Taxon_Authority" columnName="authorities_KEY"/>
     </changeSet>
+    <changeSet id="2011-09-05_21" author="ben">
+      <dropForeignKeyConstraint constraintName="FK35CA12BD59FA9B5F" 
+                               baseTableName="Content_Authority"/>
+    </changeSet>
+    <changeSet id="2011-09-05_22" author="ben">
+      <dropForeignKeyConstraint constraintName="FK221AC748BFDB6E15" 
+                               baseTableName="Distribution_Authority"/>
+    </changeSet>
+    <changeSet id="2011-09-05_23" author="ben">
+      <dropForeignKeyConstraint constraintName="FK7800CD1F544A087" 
+                               baseTableName="Image_Authority"/>
+    </changeSet>
+    <changeSet id="2011-09-05_24" author="ben">
+      <dropForeignKeyConstraint constraintName="FK5B73C70F1914B32E" 
+                               baseTableName="Reference_Authority"/>
+    </changeSet>
+    <changeSet id="2011-09-05_25" author="ben">
+      <dropForeignKeyConstraint constraintName="FKA565F3CE1EDCD08D" 
+                               baseTableName="Taxon_Authority"/>
+    </changeSet>
     <changeSet id="2011-09-06_1" author="ben">
       <dropPrimaryKey tableName="Content_Authority"/>
     </changeSet>
@@ -1000,5 +1025,40 @@
     </changeSet>
     <changeSet id="2011-09-06_10" author="ben">
       <addPrimaryKey tableName="Taxon_Authority" columnNames="Taxon_id,authorities_id"/>
+    </changeSet>
+    <changeSet id="2011-09-19_01" author="ben">
+      <addForeignKeyConstraint constraintName="FK35CA12BD59FA9B5F" 
+                               referencedTableName="Content"
+                               baseColumnNames="Content_id"
+                               baseTableName="Content_Authority"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2011-09-19_02" author="ben">
+      <addForeignKeyConstraint constraintName="FK221AC748BFDB6E15" 
+                               referencedTableName="Distribution"
+                               baseColumnNames="Distribution_id"
+                               baseTableName="Distribution_Authority"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2011-09-19_03" author="ben">
+      <addForeignKeyConstraint constraintName="FK7800CD1F544A087" 
+                               referencedTableName="Image"
+                               baseColumnNames="Image_id"
+                               baseTableName="Image_Authority"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2011-09-19_04" author="ben">
+      <addForeignKeyConstraint constraintName="FK5B73C70F1914B32E" 
+                               referencedTableName="Reference"
+                               baseColumnNames="Reference_id"
+                               baseTableName="Reference_Authority"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2011-09-19_05" author="ben">
+      <addForeignKeyConstraint constraintName="FKA565F3CE1EDCD08D" 
+                               referencedTableName="Taxon"
+                               baseColumnNames="Taxon_id"
+                               baseTableName="Taxon_Authority"
+                               referencedColumnNames="id"/>
     </changeSet>
 </databaseChangeLog>

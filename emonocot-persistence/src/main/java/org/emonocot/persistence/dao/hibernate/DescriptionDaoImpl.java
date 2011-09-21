@@ -8,6 +8,7 @@ import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.dao.DescriptionDao;
 import org.emonocot.persistence.dao.FacetName;
 import org.hibernate.search.query.dsl.FacetContext;
+import org.hibernate.search.query.engine.spi.FacetManager;
 import org.hibernate.search.query.facet.FacetingRequest;
 import org.springframework.stereotype.Repository;
 
@@ -47,10 +48,9 @@ public class DescriptionDaoImpl extends DaoImpl<Content> implements
     }
 
     @Override
-    protected final FacetingRequest createFacetingRequest(
-            final FacetContext facetContext, final FacetName facetName) {
+    protected final void createFacetingRequest(final FacetContext facetContext,
+            final FacetName facetName, final FacetManager facetManager) {
         // TODO Auto-generated method stub
-        return null;
     }
 
 }

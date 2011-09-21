@@ -10,14 +10,15 @@ import org.emonocot.persistence.dao.TaxonDao;
 import org.hibernate.FetchMode;
 import org.hibernate.search.ProjectionConstants;
 import org.hibernate.search.query.dsl.FacetContext;
+import org.hibernate.search.query.engine.spi.FacetManager;
 import org.hibernate.search.query.facet.FacetSortOrder;
 import org.hibernate.search.query.facet.FacetingRequest;
 import org.springframework.stereotype.Repository;
 
 /**
- * 
+ *
  * @author ben
- * 
+ *
  */
 @Repository
 public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
@@ -62,35 +63,28 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
         super(Taxon.class);
     }
 
-    /**
-     *
-     * @param facetContext The faceting context of this request
-     * @param facetName The name of the facet required
-     * @return the faceting context
-     */
-    protected final FacetingRequest createFacetingRequest(
-            final FacetContext facetContext, final FacetName facetName) {
+    @Override
+    protected final void createFacetingRequest(final FacetContext facetContext,
+            final FacetName facetName, final FacetManager facetManager) {
 
         FacetingRequest facetingRequest = null;
 
         switch (facetName) {
         case CLASS:
-            facetingRequest = facetContext.name(facetName.name())
-                    .onField(ProjectionConstants.OBJECT_CLASS).discrete()
-                    .orderedBy(FacetSortOrder.FIELD_VALUE)
-                    .includeZeroCounts(true).createFacetingRequest();
             break;
         case CONTINENT:
             facetingRequest = facetContext.name(facetName.name())
                     .onField("continent").discrete()
                     .orderedBy(FacetSortOrder.FIELD_VALUE)
                     .includeZeroCounts(true).createFacetingRequest();
+            facetManager.enableFaceting(facetingRequest);
             break;
         case AUTHORITY:
             facetingRequest = facetContext.name(facetName.name())
                     .onField("authorities.name").discrete()
                     .orderedBy(FacetSortOrder.FIELD_VALUE)
                     .includeZeroCounts(true).createFacetingRequest();
+            facetManager.enableFaceting(facetingRequest);
             break;
         case FAMILY:
             facetingRequest = facetContext.name(facetName.name())
@@ -103,18 +97,18 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
                     .onField("rank").discrete()
                     .orderedBy(FacetSortOrder.FIELD_VALUE)
                     .includeZeroCounts(true).createFacetingRequest();
+            facetManager.enableFaceting(facetingRequest);
             break;
         case AUTHORSHIP:
             facetingRequest = facetContext.name(facetName.name())
                     .onField("authorship").discrete()
                     .orderedBy(FacetSortOrder.FIELD_VALUE)
                     .includeZeroCounts(true).createFacetingRequest();
+            facetManager.enableFaceting(facetingRequest);
             break;
         default:
             break;
         }
-
-        return facetingRequest;
     }
 
     public final boolean verify(final String identifer,

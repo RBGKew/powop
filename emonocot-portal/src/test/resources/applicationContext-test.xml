@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	                    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:property-placeholder location="classpath:application.properties" />
+
+	<bean name="taxonService" class="org.emonocot.service.impl.TaxonServiceImpl">
+		<property name="taxonDao" ref="taxonDaoImpl" />
+	</bean>
+
+	<bean name="taxonDaoImpl" class="org.emonocot.portal.remoting.TaxonDaoImpl">
+		<property name="restTemplate" ref="restTemplate" />
+		<property name="baseUri" value="${selenium.target.portal}" />
+	</bean>
+	
+	<bean name="imageService" class="org.emonocot.service.impl.ImageServiceImpl">
+		<property name="imageDao" ref="imageDaoImpl" />
+	</bean>
+
+	<bean name="imageDaoImpl" class="org.emonocot.portal.remoting.ImageDaoImpl">
+		<property name="restTemplate" ref="restTemplate" />
+		<property name="baseUri" value="${selenium.target.portal}" />
+	</bean>
+
+	<bean name="restTemplate" class="org.springframework.web.client.RestTemplate">
+		<property name="messageConverters">
+			<list>
+				<ref bean="jsonConverter"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="jsonConverter"
+		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		<property name="supportedMediaTypes" value="application/json" />
+		<property name="objectMapper">
+			<bean class="org.emonocot.model.marshall.json.CustomObjectMapper" />
+		</property>
+	</bean>
+</beans>

@@ -77,12 +77,12 @@
 		<property name="unmarshaller" ref="eolTransferSchemaUnmarshaller" />
 	</bean>
 	
-	<bean id="eolTransferSchemaUnmarshaller" class="org.emonocot.model.marshall.XStreamMarshaller">
+	<bean id="eolTransferSchemaUnmarshaller" class="org.emonocot.model.marshall.xml.XStreamMarshaller">
 	  <property name="streamDriver" ref="eolTransferSchemaStreamDriver" />
 	  <property name="annotatedClass" value="org.emonocot.job.scratchpads.model.EoLTaxonItem"/>
     </bean>
 
-	<bean id="eolTransferSchemaStreamDriver" class="org.emonocot.model.marshall.StaxDriver">
+	<bean id="eolTransferSchemaStreamDriver" class="org.emonocot.model.marshall.xml.StaxDriver">
 		<constructor-arg ref="eolTransferSchemaQNameMap" />
 		<property name="repairingNamespace" value="false"/>
 		<property name="xmlInputFactory">

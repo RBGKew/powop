@@ -16,7 +16,7 @@
           <div class="row">
             <div class="twelvecol">
               <header>
-                <h2> <span class="taxonName">${taxon.name}</span> ${taxon.authorship}</h2>
+                <h2 id="page-title"> <span class="taxonName">${taxon.name}</span> ${taxon.authorship}</h2>
               </header>
             </div>            
           </div>

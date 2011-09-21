@@ -1,11 +1,15 @@
 package org.emonocot.portal.controller;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.service.TaxonService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,10 +19,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ *
+ * @author ben
+ *
+ */
 @Controller
 public class TaxonController {
-    
-    /**
+
+   /**
     *
     */
    private static Logger logger = LoggerFactory
@@ -26,8 +35,21 @@ public class TaxonController {
    /**
     *
     */
-   private TaxonService taxonService;
-   
+   private TaxonService service;
+
+   /**
+    *
+    */
+   private String baseUrl;
+
+   /**
+    *
+    * @param newBaseUrl Set the base url
+    */
+   public final void setBaseUrl(final String newBaseUrl) {
+       this.baseUrl = newBaseUrl;
+   }
+
    /**
    *
    * @param taxonService
@@ -35,7 +57,7 @@ public class TaxonController {
    */
   @Autowired
   public final void setTaxonService(final TaxonService taxonService) {
-      this.taxonService = taxonService;
+      this.service = taxonService;
   }
 
   /**
@@ -44,31 +66,57 @@ public class TaxonController {
    * @return A model and view containing a taxon
    */
   @RequestMapping(value = "/taxon/{identifier}", method = RequestMethod.GET)
-  public final ModelAndView getTaxon(@PathVariable final String identifier) {
+  public final ModelAndView getTaxonPage(@PathVariable final String identifier) {
       ModelAndView modelAndView = new ModelAndView("taxonPage");
-      modelAndView.addObject(taxonService.load(identifier, "taxon-page"));
+      modelAndView.addObject(service.load(identifier, "taxon-page"));
       return modelAndView;
   }
-  
+
+    /**
+     * @param identifier
+     *            Set the identifier of the taxon
+     * @return A model and view containing a taxon
+     */
+    @RequestMapping(value = "/taxon/{identifier}",
+                    method = RequestMethod.GET,
+                    headers = "Accept=application/json")
+    public final ResponseEntity<Taxon> get(
+            @PathVariable final String identifier) {
+        return new ResponseEntity<Taxon>(service.find(identifier),
+                HttpStatus.OK);
+    }
+
   /**
    * @param taxon
    *            the taxon to save
    * @return A response entity containing a newly created taxon
    */
-  @RequestMapping(value = "/taxon", method = RequestMethod.POST, headers="Accept=application/json")
-  public final ResponseEntity<Taxon> postTaxon(@RequestBody Taxon taxon) {
-      return new ResponseEntity<Taxon>(taxonService.save(taxon),HttpStatus.CREATED);
-  }
-  
+    @RequestMapping(value = "/taxon",
+                    method = RequestMethod.POST)
+    public final ResponseEntity<Taxon> create(
+            @RequestBody final Taxon taxon) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        try {
+            httpHeaders.setLocation(new URI(baseUrl + "taxon/" + taxon.getIdentifier()));
+        } catch (URISyntaxException e) {
+            logger.error(e.getMessage());
+        }
+        ResponseEntity<Taxon> response = new ResponseEntity<Taxon>(
+                service.save(taxon), httpHeaders, HttpStatus.CREATED);
+        return response;
+    }
+
   /**
    * @param identifier
    *            Set the identifier of the taxon
    * @return A response entity containing the status
    */
-  @RequestMapping(value = "/taxon/{identifier}", method = RequestMethod.DELETE, headers="Accept=application/json")
-  public final ResponseEntity<Taxon> deleteTaxon(@PathVariable final String identifier) {
-      taxonService.delete(identifier);
-      return new ResponseEntity<Taxon>(HttpStatus.OK);
-  }
+    @RequestMapping(value = "/taxon/{identifier}",
+                    method = RequestMethod.DELETE)
+    public final ResponseEntity<Taxon> delete(
+            @PathVariable final String identifier) {
+        service.delete(identifier);
+        return new ResponseEntity<Taxon>(HttpStatus.OK);
+    }
 
 }

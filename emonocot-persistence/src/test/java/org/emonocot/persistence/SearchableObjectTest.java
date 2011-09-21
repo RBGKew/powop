@@ -1,13 +1,14 @@
 package org.emonocot.persistence;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertArrayEquals;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
 import org.emonocot.model.common.SearchableObject;
-import org.emonocot.model.description.Distribution;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.Region;
@@ -15,149 +16,91 @@ import org.emonocot.model.media.Image;
 import org.emonocot.model.pager.Page;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.dao.FacetName;
+import org.emonocot.persistence.dao.ImageDao;
 import org.emonocot.persistence.dao.SearchableObjectDao;
 import org.emonocot.persistence.dao.TaxonDao;
-import org.hibernate.SessionFactory;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 import org.hibernate.search.query.facet.Facet;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 /**
  *
  * @author ben
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"/applicationContext-test.xml" })
-public class SearchableObjectTest {
+public class SearchableObjectTest extends AbstractPersistenceTest {
 
     /**
      *
      */
     @Autowired
-    private SearchableObjectDao soDao;
-
-    /**
-     *
-     */
-    @Autowired
-    private SessionFactory sessionFactory;
+    private SearchableObjectDao searchableObjectDao;
 
    /**
     *
     */
    @Autowired
-   private PlatformTransactionManager transactionManager;
+   private TaxonDao taxonDao;
 
-   /**
-    *
-    * @param task Set the method to run in a transaction
-    * @return the object returned by the callable method
-    * @throws Exception if there is a problem running the method
-    */
-   private Object doInTransaction(final Callable task) throws Exception {
-        DefaultTransactionDefinition transactionDefinition
-         = new DefaultTransactionDefinition();
-        transactionDefinition.setName("test");
-        transactionDefinition
-                .setPropagationBehavior(
-                        TransactionDefinition.PROPAGATION_REQUIRED);
-        TransactionStatus status = transactionManager
-                .getTransaction(transactionDefinition);
-        Object value = null;
-        try {
-            value = task.call();
-        } catch (Exception ex) {
-            transactionManager.rollback(status);
-            throw ex;
-        }
-        transactionManager.commit(status);
-        return value;
-    }
-
-   /**
-    *
-    * @param caption Set the caption
-    * @return an image
-    */
-   private Image createImage(final String caption) {
-       Image img = new Image();
-       img.setCaption(caption);
-       return img;
-   }
-
-    /**
-     *
-     * @param name the name of the taxon
-     * @param parent the taxonomic parent
-     * @param accepted the accepted name
-     * @param distributions the distribution of the taxon
-     * @return a new taxon
-     */
-    private Taxon createTaxon(final String name, final Taxon parent,
-            final Taxon accepted, final GeographicalRegion[] distributions) {
-        Taxon taxon = new Taxon();
-        taxon.setName(name);
-        if (parent != null) {
-            taxon.setParent(parent);
-            parent.getChildren().add(taxon);
-        }
-
-        if (accepted != null) {
-            taxon.setAccepted(accepted);
-            accepted.getSynonyms().add(taxon);
-        }
-
-        for (GeographicalRegion region : distributions) {
-            Distribution distribution = new Distribution();
-            distribution.setRegion(region);
-            distribution.setTaxon(taxon);
-            taxon.getDistribution().put(region,  distribution);
-        }
-        return taxon;
-    }
+  /**
+   *
+   */
+  @Autowired
+  private ImageDao imageDao;
 
     /**
      * @throws Exception if there is a problem with the callable
      */
     @Test
     public final void setUpTestDataWithinTransaction() throws Exception {
-
         doInTransaction(new Callable() {
             public Object call() {
                 FullTextSession fullTextSession = Search
-                        .getFullTextSession(sessionFactory.getCurrentSession());
+                        .getFullTextSession(getSession());
                 fullTextSession.purgeAll(Taxon.class);
-                Taxon taxon1 = createTaxon("Aus", null, null,
+                fullTextSession.purgeAll(Image.class);
+                Taxon taxon1 = createTaxon("Aus", "1", null, null,
                         new GeographicalRegion[] {});
-                Taxon taxon2 = createTaxon("Aus bus", taxon1, null,
+                Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null,
                         new GeographicalRegion[] {Continent.AUSTRALASIA,
                                 Region.BRAZIL, Region.CARIBBEAN });
-                Taxon taxon3 = createTaxon("Aus ceus", taxon1, null,
+                Taxon taxon3 = createTaxon("Aus ceus", "3", taxon1, null,
                         new GeographicalRegion[] {Region.NEW_ZEALAND});
-                Taxon taxon4 = createTaxon("Aus deus", null, taxon2,
+                Taxon taxon4 = createTaxon("Aus deus", "4", null, taxon2,
                         new GeographicalRegion[] {});
-                Taxon taxon5 = createTaxon("Aus eus", null, taxon3,
+                Taxon taxon5 = createTaxon("Aus eus", "5", null, taxon3,
                         new GeographicalRegion[] {});
-                Image img1 = createImage("Aus");
-                Image img2 = createImage("Aus bus");
-                soDao.saveOrUpdate(taxon1);
-                soDao.saveOrUpdate(taxon2);
-                soDao.saveOrUpdate(taxon3);
-                soDao.saveOrUpdate(taxon4);
-                soDao.saveOrUpdate(taxon5);
-                soDao.saveOrUpdate(img1);
-                soDao.saveOrUpdate(img2);
-                sessionFactory.getCurrentSession().flush();
+                Image img1 = createImage("Aus", "1");
+                Image img2 = createImage("Aus bus", "2");
+                searchableObjectDao.saveOrUpdate(taxon1);
+                searchableObjectDao.saveOrUpdate(taxon2);
+                searchableObjectDao.saveOrUpdate(taxon3);
+                searchableObjectDao.saveOrUpdate(taxon4);
+                searchableObjectDao.saveOrUpdate(taxon5);
+                searchableObjectDao.saveOrUpdate(img1);
+                searchableObjectDao.saveOrUpdate(img2);
+                getSession().flush();
+                return null;
+            }
+        });
+    }
+
+    /**
+     *
+     * @throws Exception if there is a problem
+     */
+    public final void tearDownTestDataWithinTransaction() throws Exception {
+        doInTransaction(new Callable() {
+            public Object call() {
+                taxonDao.delete("5");
+                taxonDao.delete("4");
+                taxonDao.delete("3");
+                taxonDao.delete("2");
+                taxonDao.delete("1");
+                imageDao.delete("1");
+                imageDao.delete("2");
                 return null;
             }
         });
@@ -168,23 +111,62 @@ public class SearchableObjectTest {
      */
     @Test
     public final void testSearch() {
-        Page<SearchableObject> pager = soDao.search("Aus", null, null, null, null, null);
-        for (SearchableObject obj : pager.getRecords()) {
-            System.out.println(obj);
-        }
+        Page<SearchableObject> pager = searchableObjectDao.search("Aus", null,
+                null, null, null, null);
+        assertEquals("there should be seven objects saved", (Integer) 7,
+                pager.size());
     }
 
    /**
     *
     */
-   @Test
-   public final void testSearchWithFacets() {
-       Page<SearchableObject> pager = soDao.search("Aus", null, null, null, new FacetName[] {FacetName.CLASS, FacetName.FAMILY}, null);
-       for (String facetName : pager.getFacetNames()) {
-           System.out.println(facetName);
-           for (Facet facet : pager.getFacets().get(facetName)) {
-               System.out.println("\t" + facet.getValue() + " " + facet.getCount());
-           }
-       }
-   }
+    @Test
+    public final void testSearchWithFacets() {
+        Map<FacetName, Integer> selectedFacets = new HashMap<FacetName, Integer>();
+        selectedFacets.put(FacetName.CLASS, 1);
+        Page<SearchableObject> pager = searchableObjectDao.search("Aus", null,
+                null, null,
+                new FacetName[] {FacetName.CLASS, FacetName.FAMILY },
+                selectedFacets);
+        assertArrayEquals("There should be two facets returned", new String[] {
+                "FAMILY", "CLASS" }, pager.getFacetNames().toArray());
+
+        List<Facet> classFacets = pager.getFacets().get("CLASS");
+        String[] facetNames = new String[classFacets.size()];
+        for (int i = 0; i < facetNames.length; i++) {
+            facetNames[i] = classFacets.get(i).getValue();
+        }
+
+        assertArrayEquals("There should be two terms in CLASS", new String[] {
+                "org.emonocot.model.media.Image",
+                "org.emonocot.model.taxon.Taxon" }, facetNames);
+    }
+
+    /**
+     * @throws Exception
+     *             if there is a problem tearing down and adding the test data
+     */
+    @Test
+    public final void testSearchWithFacetsInTaxonDao() throws Exception {
+        Map<FacetName, Integer> selectedFacets = new HashMap<FacetName, Integer>();
+        selectedFacets.put(FacetName.CLASS, 1);
+        Page<Taxon> pager = taxonDao.search("Aus", null,
+                null, null,
+                new FacetName[] {FacetName.CLASS,
+                FacetName.FAMILY, FacetName.CONTINENT,
+                FacetName.AUTHORITY }, selectedFacets);
+        assertArrayEquals("There should be four facets returned", new String[] {
+                "FAMILY", "AUTHORITY", "CLASS", "CONTINENT" }, pager
+                .getFacetNames().toArray());
+
+        List<Facet> classFacets = pager.getFacets().get("CLASS");
+        String[] facetNames = new String[classFacets.size()];
+        for (int i = 0; i < facetNames.length; i++) {
+            facetNames[i] = classFacets.get(i).getValue();
+        }
+
+        assertArrayEquals("There should be two terms in CLASS", new String[] {
+                "org.emonocot.model.media.Image",
+                "org.emonocot.model.taxon.Taxon" }, facetNames);      
+    }
 }

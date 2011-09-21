@@ -40,5 +40,16 @@ public class GeographyConverter implements
         throw new IllegalArgumentException(identifier
                 + " is not a valid TDWG region");
     }
+    
+    /**
+     * @param identifier set the identifier
+     * @return a geographical region
+     */
+    public final String convert(final GeographicalRegion region) {
+        if (region == null) {
+            return null;
+        }
+        return GeographyConverter.TDWG_VOCABULARY_PREFIX + region.toString();
+    }
 
 }

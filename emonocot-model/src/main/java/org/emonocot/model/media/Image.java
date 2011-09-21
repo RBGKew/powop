@@ -9,6 +9,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.taxon.Taxon;
 import org.hibernate.annotations.Cascade;
@@ -26,7 +27,7 @@ import org.hibernate.search.annotations.IndexedEmbedded;
 @Indexed(index = "org.emonocot.model.common.SearchableObject")
 public class Image extends SearchableObject {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 3341900807619517602L;
 
@@ -124,7 +125,12 @@ public class Image extends SearchableObject {
         this.taxa = taxa;
     }
 
+    /**
+     *
+     * @return the name of this class
+     */
     @Transient
+    @JsonIgnore
     public final String getClassName() {
       return "Image";
     }

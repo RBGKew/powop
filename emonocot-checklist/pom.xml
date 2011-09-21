@@ -297,6 +297,7 @@
 					<url>${jdbc.driver.url}</url>
 					<username>${jdbc.driver.username}</username>
 					<password>${jdbc.driver.password}</password>
+					<dropFirst>${jdbc.drop.database.first}</dropFirst>
 				</configuration>
 				<dependencies>
 					<dependency>

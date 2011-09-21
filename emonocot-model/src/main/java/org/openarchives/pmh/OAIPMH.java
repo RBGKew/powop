@@ -1,9 +1,9 @@
 package org.openarchives.pmh;
 
-import org.emonocot.model.marshall.DateTimeConverter;
+import org.emonocot.model.marshall.xml.DateTimeConverter;
 import org.joda.time.DateTime;
-import org.openarchives.pmh.marshall.ErrorConverter;
-import org.openarchives.pmh.marshall.RequestConverter;
+import org.openarchives.pmh.marshall.xml.ErrorConverter;
+import org.openarchives.pmh.marshall.xml.RequestConverter;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;

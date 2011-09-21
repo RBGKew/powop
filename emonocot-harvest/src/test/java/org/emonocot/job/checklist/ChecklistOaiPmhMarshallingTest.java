@@ -16,9 +16,9 @@ import org.emonocot.job.common.AbstractXmlEventReaderTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.openarchives.pmh.Record;
-import org.openarchives.pmh.marshall.OpenArchivesQNameMapFactory;
-import org.openarchives.pmh.marshall.ReflectionProviderFactory;
-import org.openarchives.pmh.marshall.ResumptionTokenConverter;
+import org.openarchives.pmh.marshall.xml.OpenArchivesQNameMapFactory;
+import org.openarchives.pmh.marshall.xml.ReflectionProviderFactory;
+import org.openarchives.pmh.marshall.xml.ResumptionTokenConverter;
 import org.springframework.oxm.Unmarshaller;
 import org.tdwg.voc.DefinedTermLinkType;
 import org.tdwg.voc.Distribution;
@@ -30,10 +30,10 @@ import org.tdwg.voc.TaxonConcept;
 import org.tdwg.voc.TaxonName;
 import org.tdwg.voc.TaxonRankTerm;
 import org.tdwg.voc.TaxonRelationshipTerm;
-import org.emonocot.model.marshall.UriConverter;
-import org.emonocot.model.marshall.XStreamMarshaller;
 
-import org.emonocot.model.marshall.StaxDriver;
+import org.emonocot.model.marshall.xml.StaxDriver;
+import org.emonocot.model.marshall.xml.UriConverter;
+import org.emonocot.model.marshall.xml.XStreamMarshaller;
 
 import com.bea.xml.stream.MXParserFactory;
 import com.thoughtworks.xstream.converters.ConverterMatcher;
