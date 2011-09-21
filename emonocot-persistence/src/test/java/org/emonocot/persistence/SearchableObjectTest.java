@@ -1,7 +1,9 @@
 package org.emonocot.persistence;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.collection.IsCollectionContaining.hasItems;
+import static org.hamcrest.collection.IsArrayContaining.hasItemInArray;
 
 import java.util.HashMap;
 import java.util.List;
@@ -128,8 +130,8 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
                 null, null,
                 new FacetName[] {FacetName.CLASS, FacetName.FAMILY },
                 selectedFacets);
-        assertArrayEquals("There should be two facets returned", new String[] {
-                "FAMILY", "CLASS" }, pager.getFacetNames().toArray());
+        assertThat("There should be two facets returned", pager.getFacetNames(),
+                hasItems("CLASS", "FAMILY"));
 
         List<Facet> classFacets = pager.getFacets().get("CLASS");
         String[] facetNames = new String[classFacets.size()];
@@ -137,9 +139,10 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
             facetNames[i] = classFacets.get(i).getValue();
         }
 
-        assertArrayEquals("There should be two terms in CLASS", new String[] {
-                "org.emonocot.model.media.Image",
-                "org.emonocot.model.taxon.Taxon" }, facetNames);
+        assertThat("org.emonocot.model.taxon.Taxon should be a facet in CLASS",
+                facetNames, hasItemInArray("org.emonocot.model.taxon.Taxon"));
+        assertThat("org.emonocot.model.media.Image should be a facet in CLASS",
+                facetNames, hasItemInArray("org.emonocot.model.media.Image"));
     }
 
     /**
@@ -155,9 +158,8 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
                 new FacetName[] {FacetName.CLASS,
                 FacetName.FAMILY, FacetName.CONTINENT,
                 FacetName.AUTHORITY }, selectedFacets);
-        assertArrayEquals("There should be four facets returned", new String[] {
-                "FAMILY", "AUTHORITY", "CLASS", "CONTINENT" }, pager
-                .getFacetNames().toArray());
+        assertThat("There should be two facets returned", pager.getFacetNames(),
+                hasItems("CLASS", "FAMILY"));
 
         List<Facet> classFacets = pager.getFacets().get("CLASS");
         String[] facetNames = new String[classFacets.size()];
@@ -165,8 +167,9 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
             facetNames[i] = classFacets.get(i).getValue();
         }
 
-        assertArrayEquals("There should be two terms in CLASS", new String[] {
-                "org.emonocot.model.media.Image",
-                "org.emonocot.model.taxon.Taxon" }, facetNames);      
+        assertThat("org.emonocot.model.taxon.Taxon should be a facet in CLASS",
+                facetNames, hasItemInArray("org.emonocot.model.taxon.Taxon"));
+        assertThat("org.emonocot.model.media.Image should be a facet in CLASS",
+                facetNames, hasItemInArray("org.emonocot.model.media.Image"));
     }
 }
