@@ -1197,6 +1197,12 @@
                                     <includes>
                                         <include>**/*FunctionalTest.java</include>
                                     </includes>
+                                    <systemProperties>
+                                      <property>
+                                        <name>DISPLAY</name>
+                                        <value>${env.DISPLAY}</value>
+                                      </property>
+                                    </systemProperties>
                                 </configuration>
                             </execution>
                         </executions>
