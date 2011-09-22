@@ -3,6 +3,8 @@ package org.emonocot.portal.driver;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+import javax.annotation.PreDestroy;
+
 import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Component;
 
@@ -64,7 +66,7 @@ public class WebDriverFacade {
     /**
      *
      */
-    @After
+    @PreDestroy
     public final void destroy() {
         if (browser != null) {
             browser.close();

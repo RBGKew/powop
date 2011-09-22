@@ -1,9 +1,11 @@
 package org.emonocot.model.marshall.xml;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
+import java.net.URL;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
@@ -332,6 +334,16 @@ public class StaxDriver extends AbstractXmlDriver {
      */
     public final void setStartDocument(final boolean doStartDocument) {
         this.startDocument = doStartDocument;
+    }
+
+    public HierarchicalStreamReader createReader(URL arg0) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public HierarchicalStreamReader createReader(File arg0) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

@@ -3,6 +3,7 @@ package org.emonocot.portal.feature;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.emonocot.model.media.Image;
@@ -97,12 +98,10 @@ public class FacetOnObjectTypeFeature {
      *            Set the options
      *
      */
-    @Then("^there should be the following options$")
-    public final void thereShouldBeOptions(List<String> options) {
-        assertEquals((Integer) options.size(),
-                searchResultsPage.getClassFacetNumber());
+    @Then("^there should be the following options:$")
+    public final void thereShouldBeOptions(final List<Row> options) {
         assertArrayEquals(
-                options.toArray(new String[options.size()]),
+                options.get(0).toArray(),
                 searchResultsPage.getClassFacets());
 
     }
@@ -117,4 +116,38 @@ public class FacetOnObjectTypeFeature {
         }
     }
 
+    /**
+     *
+     * @author ben
+     *
+     */
+    public static class Row implements Serializable {
+        /**
+         *
+         */
+        private static final long serialVersionUID = 1L;
+        /**
+         *
+         */
+        public String first;
+        /**
+         *
+         */
+        public String second;
+
+        /**
+         * @return the value of the object as a string
+         */
+        public final String toString() {
+            return "{first: \"" + first + "\", second: \"" + second + "\"}";
+        }
+
+        /**
+         *
+         * @return the row as an array
+         */
+        public final String[] toArray() {
+            return new String[] {first, second};
+        }
+    }
 }
