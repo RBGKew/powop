@@ -31,11 +31,11 @@ public enum WebDriverType {
      */
     public static WebDriverType fromString(final String className) {
         for (WebDriverType t : WebDriverType.values()) {
-            if (t.className == className) {
+            if (t.className.equals(className)) {
                 return t;
             }
         }
-        throw new IllegalArgumentException("Unrecognized web driver class + "
+        throw new IllegalArgumentException("Unrecognized web driver class "
                 + className);
     }
 
