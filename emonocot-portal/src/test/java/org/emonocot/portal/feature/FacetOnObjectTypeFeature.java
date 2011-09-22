@@ -3,25 +3,24 @@ package org.emonocot.portal.feature;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 
+import java.util.List;
+
 import org.emonocot.model.media.Image;
 import org.emonocot.portal.driver.Portal;
 import org.emonocot.portal.driver.SearchResultsPage;
 import org.emonocot.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import cuke4duke.Table;
-import cuke4duke.annotation.After;
-import cuke4duke.annotation.I18n.EN.Given;
-import cuke4duke.annotation.I18n.EN.Then;
-import cuke4duke.annotation.I18n.EN.When;
-import cuke4duke.spring.StepDefinitions;
+import cucumber.annotation.After;
+import cucumber.annotation.en.Given;
+import cucumber.annotation.en.Then;
+import cucumber.annotation.en.When;
 
 /**
  *
  * @author ben
  *
  */
-@StepDefinitions
 public class FacetOnObjectTypeFeature {
     /**
      *
@@ -99,12 +98,11 @@ public class FacetOnObjectTypeFeature {
      *
      */
     @Then("^there should be the following options$")
-    public final void thereShouldBeOptions(final Table options) {
-        assertEquals((Integer) options.rows().get(0).size(),
+    public final void thereShouldBeOptions(List<String> options) {
+        assertEquals((Integer) options.size(),
                 searchResultsPage.getClassFacetNumber());
         assertArrayEquals(
-                options.rows().get(0)
-                        .toArray(new String[options.rows().get(0).size()]),
+                options.toArray(new String[options.size()]),
                 searchResultsPage.getClassFacets());
 
     }

@@ -6,7 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Component;
 
-import cuke4duke.annotation.After;
+import cucumber.annotation.After;
 
 /**
  *

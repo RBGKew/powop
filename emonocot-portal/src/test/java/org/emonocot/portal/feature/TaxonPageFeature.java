@@ -8,11 +8,10 @@ import org.emonocot.portal.driver.TaxonPage;
 import org.emonocot.service.TaxonService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import cuke4duke.annotation.After;
-import cuke4duke.annotation.I18n.EN.Given;
-import cuke4duke.annotation.I18n.EN.Then;
-import cuke4duke.annotation.I18n.EN.When;
-import cuke4duke.spring.StepDefinitions;
+import cucumber.annotation.After;
+import cucumber.annotation.en.Given;
+import cucumber.annotation.en.Then;
+import cucumber.annotation.en.When;
 
 
 
@@ -21,7 +20,6 @@ import cuke4duke.spring.StepDefinitions;
  * @author ben
  *
  */
-@StepDefinitions
 public class TaxonPageFeature {
 
     /**

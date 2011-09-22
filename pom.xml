@@ -752,9 +752,15 @@
 		      <scope>test</scope>
 	      </dependency>
           <dependency>
-            <groupId>cuke4duke</groupId>
-            <artifactId>cuke4duke</artifactId>
-            <version>0.4.3</version>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-spring</artifactId>
+            <version>1.0.0-emonocot</version>
+            <scope>test</scope>
+          </dependency>
+          <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>1.0.0-emonocot</version>
             <scope>test</scope>
           </dependency>
           <dependency>
