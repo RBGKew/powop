@@ -6,6 +6,10 @@ import java.lang.reflect.InvocationTargetException;
 import javax.annotation.PreDestroy;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxBinary;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.firefox.internal.ProfilesIni;
 import org.springframework.stereotype.Component;
 
 import cucumber.annotation.After;
@@ -20,23 +24,22 @@ public class WebDriverFacade {
 
     /**
      *
+     * @return the webdriver
      */
-    private static Constructor<WebDriver> driverConstructor = getDriverConstructor();
-
-    /**
-     *
-     * @return the constructor for the web dri
-     */
-    private static Constructor<WebDriver> getDriverConstructor() {
+    private static WebDriver createWebDriver() {
         String driverName = System.getProperty("webdriver.impl",
                 "org.openqa.selenium.firefox.FirefoxDriver");
-        try {
-            return (Constructor<WebDriver>) Thread.currentThread()
-                    .getContextClassLoader().loadClass(driverName)
-                    .getConstructor();
-        } catch (Throwable problem) {
-            problem.printStackTrace();
-            throw new RuntimeException("Couldn't load " + driverName, problem);
+        WebDriverType type = WebDriverType.fromString(driverName);
+
+        switch(type) {
+          case FIREFOX:
+          default:
+              FirefoxBinary firefoxBinary = new FirefoxBinary();
+              String display = System.getProperty("DISPLAY", ":99");
+              firefoxBinary.setEnvironmentProperty("DISPLAY", display);
+              ProfilesIni allProfiles = new ProfilesIni();
+              FirefoxProfile profile = allProfiles.getProfile("default");
+              return new FirefoxDriver(firefoxBinary, profile);
         }
     }
 
@@ -58,7 +61,7 @@ public class WebDriverFacade {
     public final WebDriver getWebDriver() throws InvocationTargetException,
             IllegalAccessException, InstantiationException {
         if (browser == null) {
-            browser = driverConstructor.newInstance();
+            browser = createWebDriver();
         }
         return browser;
     }
