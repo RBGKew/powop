@@ -224,6 +224,7 @@
                     <output>${project.build.directory}/static/js/header.js</output>
                     <includes>
                       <include>${project.build.directory}/static/uncompressed/modernizr-2.0.4.js</include>
+                      <include>${project.build.directory}/static/uncompressed/jquery.aw-showcase.js</include>
                     </includes>
                   </aggregation>
                   <aggregation>
