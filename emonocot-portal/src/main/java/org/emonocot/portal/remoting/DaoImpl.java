@@ -1,7 +1,5 @@
 package org.emonocot.portal.remoting;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Map;
 
 import org.emonocot.model.common.Base;

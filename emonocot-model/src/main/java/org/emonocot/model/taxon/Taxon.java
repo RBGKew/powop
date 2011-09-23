@@ -21,12 +21,16 @@ import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.description.Content;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.geography.GeographicalRegion;
+import org.emonocot.model.marshall.json.DescriptionMapDeserializer;
+import org.emonocot.model.marshall.json.DescriptionMapSerializer;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.reference.Reference;
 import org.hibernate.annotations.Cascade;
@@ -223,8 +227,9 @@ public class Taxon extends SearchableObject {
      * @return a map of content about the taxon, indexed by the subject
      */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon")
+    @Cascade({CascadeType.ALL })
     @MapKey(name = "feature")
-    @JsonIgnore
+    @JsonSerialize(using = DescriptionMapSerializer.class)
     public Map<Feature, Content> getContent() {
         return content;
     }
@@ -251,7 +256,11 @@ public class Taxon extends SearchableObject {
      *
      * @param newContent Set the content associated with this taxon
      */
+    @JsonDeserialize(using = DescriptionMapDeserializer.class )
     public void setContent(Map<Feature, Content> newContent) {
+        for (Content c : newContent.values()) {
+            c.setTaxon(this);
+        }
         this.content = newContent;
     }
 

@@ -9,6 +9,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.emonocot.model.common.Base;
 import org.emonocot.model.taxon.Taxon;
 import org.hibernate.search.annotations.Field;
@@ -37,6 +38,7 @@ public abstract class Content extends Base {
      * @param newTaxon
      *            Set the taxon that this content is about.
      */
+    @JsonIgnore
     public void setTaxon(Taxon newTaxon) {
         this.taxon = newTaxon;
     }
@@ -64,6 +66,7 @@ public abstract class Content extends Base {
      *
      * @return Get the taxon that this content is about.
      */
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     public Taxon getTaxon() {
         return taxon;

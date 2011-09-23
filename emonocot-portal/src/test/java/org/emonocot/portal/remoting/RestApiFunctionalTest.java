@@ -1,5 +1,7 @@
 package org.emonocot.portal.remoting;
 
+import org.emonocot.model.description.Feature;
+import org.emonocot.model.description.TextContent;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.dao.ImageDao;
@@ -39,6 +41,11 @@ public class RestApiFunctionalTest {
         Taxon taxon = new Taxon();
         taxon.setName("Acorus");
         taxon.setIdentifier("urn:kew.org:wcs:taxon:2295");
+        TextContent textContent = new TextContent();
+        textContent.setContent("Lorem ipsum");
+        textContent.setFeature(Feature.habitat);
+        textContent.setTaxon(taxon);
+        taxon.getContent().put(Feature.habitat, textContent);
         taxonDao.save(taxon);
         taxonDao.delete("urn:kew.org:wcs:taxon:2295");
     }

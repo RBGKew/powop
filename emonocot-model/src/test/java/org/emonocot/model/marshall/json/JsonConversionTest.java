@@ -1,10 +1,14 @@
 package org.emonocot.model.marshall.json;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.emonocot.model.description.Feature;
+import org.emonocot.model.description.TextContent;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.taxon.Taxon;
 import org.junit.Test;
@@ -28,14 +32,20 @@ public class JsonConversionTest {
      */
     @Test
     public final void testReadTaxon() throws Exception {
-        String content
-            = "{\"identifier\":\"urn:kew.org:wcs:taxon:2295\",\"name\":\"Acorus\"}";
+        String content = "{\"identifier\":\"urn:kew.org:wcs:taxon:2295\",\"name\":\"Acorus\", \"content\": [{\"feature\":\"habitat\",\"content\":\"Lorem ipsum\"}]}";
         Taxon taxon = (Taxon) objectMapper.readValue(content, Taxon.class);
         assertNotNull("Returned object should not be null", taxon);
         assertEquals("The identifier should be \"urn:kew.org:wcs:taxon:2295\"",
                 "urn:kew.org:wcs:taxon:2295", taxon.getIdentifier());
-        assertEquals("The name should be \"Acorus\"",
-                "Acorus", taxon.getName());
+        assertEquals("The name should be \"Acorus\"", "Acorus", taxon.getName());
+        assertFalse("There should be some content", taxon.getContent()
+                .isEmpty());
+        assertTrue("There should information on habitat", taxon.getContent()
+                .containsKey(Feature.habitat));
+        assertEquals("The habitat should be 'Lorem ipsum'", ((TextContent)taxon.getContent()
+                .get(Feature.habitat)).getContent(), "Lorem ipsum");
+        assertEquals("The taxon should be set on the content", taxon
+                .getContent().get(Feature.habitat).getTaxon(), taxon);
     }
 
     /**
@@ -49,11 +59,16 @@ public class JsonConversionTest {
        Taxon taxon = new Taxon();
        taxon.setIdentifier("urn:kew.org:wcs:taxon:2295");
        taxon.setName("Acorus");
+       TextContent textContent = new TextContent();
+       textContent.setContent("Lorem ipsum");
+       textContent.setFeature(Feature.habitat);
+       textContent.setTaxon(taxon);
+       taxon.getContent().put(Feature.habitat, textContent);
 
        try {
            objectMapper.writeValueAsString(taxon);
        } catch (Exception e) {
-           fail();
+            fail(e.getMessage());
        }
 
    }
@@ -75,6 +90,5 @@ public class JsonConversionTest {
       } catch (Exception e) {
           fail();
       }
-
   }
 }

@@ -5,6 +5,7 @@ import javax.persistence.Lob;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 
@@ -18,7 +19,7 @@ import org.hibernate.search.annotations.Indexed;
 public class TextContent extends Content {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -177666938449346483L;
     /**
@@ -59,6 +60,7 @@ public class TextContent extends Content {
     }
 
     @Transient
+    @JsonIgnore
     public final String getClassName() {
       return "TextContent";
     }

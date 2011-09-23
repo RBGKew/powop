@@ -32,6 +32,9 @@
 				<ref bean="jsonConverter"/>
 			</list>
 		</property>
+		<property name="errorHandler">
+		  <bean class="org.emonocot.portal.remoting.LoggingResponseErrorHandler"/>
+		</property>
 	</bean>
 
 	<bean id="jsonConverter"

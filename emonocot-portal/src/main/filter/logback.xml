@@ -39,4 +39,7 @@
   <root level="${logging.portal.level}">
     <appender-ref ref="${logging.portal.method}"/>
   </root>
+  <logger name="org.springframework" level="DEBUG" additivity="false">
+    <appender-ref ref="file"/>
+  </logger>
 </configuration>

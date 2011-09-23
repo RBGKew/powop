@@ -225,14 +225,14 @@ public enum Feature {
      */
     vernacular("http://rs.gbif.org/vocabulary/gbif/descriptionType/vernacular",
             "vernacular");
- 
-  
-
     /**
      *
      */
     private String uri;
-    
+
+    /**
+     *
+     */
     private String term;
 
     /**

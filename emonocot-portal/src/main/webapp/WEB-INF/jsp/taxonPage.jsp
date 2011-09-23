@@ -41,17 +41,19 @@
               </div>
             </div>
           </c:if>
-          <c:forEach var="feature" items="${em:features()}">
-            <c:set var="content" value="${em:content(taxon,feature)}"/>
-            <c:if test="${content != null}">
-              <div class="row">
-                <div class="twelvecol">
-                  <h5>${feature}</h5>
-                  <p>${content.content}</p>
+          <div id="textContent">
+            <c:forEach var="feature" items="${em:features()}">
+              <c:set var="content" value="${em:content(taxon,feature)}"/>
+              <c:if test="${content != null}">
+                <div class="row">
+                  <div class="twelvecol">
+                    <h5>${feature}</h5>
+                    <p>${content.content}</p>
+                  </div>
                 </div>
-              </div>
-            </c:if>
+              </c:if>
           </c:forEach>
+          </div>
           <c:if test="${not empty em:regions(taxon)}">
             <div class="row">
               <h5><spring:message code="distribution"/></h5>
