@@ -207,7 +207,9 @@
                   <c:forEach var="facet" items="${result.facets[facetName]}" varStatus="loopStatus">
                     <li>
                       <c:choose>
-                        <c:when test="${facet.count == 0}">${facet.value}</c:when>
+                        <c:when test="${facet.count == 0}">
+                           <spring:message code="${facet.value}" />
+                        </c:when>
                         <c:otherwise>
                           <jsp:element name="a">
                             <jsp:attribute name="href">
