@@ -149,7 +149,7 @@
 					<webResources>
 						<resource>
 							<directory>src/main/filter</directory>
-							<targetPath>WEB-INF/classes</targetPath>
+							<targetPath>WEB-INF</targetPath>
 							<filtering>true</filtering>
 						</resource>
 					</webResources>
