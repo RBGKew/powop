@@ -24,8 +24,8 @@ public class Portal extends PageObject {
                 "application.properties");
         Properties properties = new Properties();
         properties.load(propertiesFile.getInputStream());
-        setBaseUri(properties.getProperty("selenium.target.portal",
-                "http://build.e-monocot.org/latest/portal"));
+        setBaseUri(properties.getProperty("selenium.target",
+                "http://build.e-monocot.org/latest/portal/"));
     }
 
     /**
@@ -43,7 +43,6 @@ public class Portal extends PageObject {
      * @return a search results page
      */
     public final SearchResultsPage search(final String query) {
-        System.out.println(getBaseUri() + "search?query=" + query);
         return openAs(getBaseUri() + "search?query=" + query,
                 SearchResultsPage.class);
     }
