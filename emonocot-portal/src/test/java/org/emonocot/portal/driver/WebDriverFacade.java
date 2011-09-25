@@ -42,7 +42,7 @@ public class WebDriverFacade {
         default:
             FirefoxBinary firefoxBinary = new FirefoxBinary();
             String display = properties.getProperty("selenium.display.port",
-                    ":1");
+                    ":0");
             firefoxBinary.setEnvironmentProperty("DISPLAY", display);
             ProfilesIni allProfiles = new ProfilesIni();
             FirefoxProfile profile = allProfiles.getProfile("default");

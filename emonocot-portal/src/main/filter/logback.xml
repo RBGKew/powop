@@ -16,7 +16,7 @@
     </connectionSource>
   </appender>
   <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <File>${logging.portal.location}</File>
+    <File>${logging.location}</File>
     <encoder>
       <pattern>%d{ISO8601} | %X{req.remoteHost} | %X{req.requestURI} | %X{req.userAgent}  | %-5p | %t | %c | %m%n</pattern>
     </encoder>
@@ -36,10 +36,7 @@
   <logger name="query" level="INFO" additivity="false">
     <appender-ref ref="database"/>
   </logger>
-  <root level="${logging.portal.level}">
-    <appender-ref ref="${logging.portal.method}"/>
+  <root level="${logging.level}">
+    <appender-ref ref="${logging.method}"/>
   </root>
-  <logger name="org.springframework" level="DEBUG" additivity="false">
-    <appender-ref ref="file"/>
-  </logger>
 </configuration>

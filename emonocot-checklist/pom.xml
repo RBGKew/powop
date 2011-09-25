@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>emonocot</artifactId>
@@ -13,12 +14,13 @@
 	<name>eMonocot Checklist</name>
 	<description>eMonocot Checklist Webservice</description>
 	<dependencies>
-	    <!-- Geography classes are shared -->
-	    <dependency>
+		<!-- Geography classes are shared -->
+		<dependency>
 			<groupId>org.emonocot</groupId>
 			<artifactId>emonocot-model</artifactId>
 		</dependency>
-		<!-- dependencies from emonocot-model not included when compiling with java 1.5 for some reason -->
+		<!-- dependencies from emonocot-model not included when compiling with 
+			java 1.5 for some reason -->
 		<dependency>
 			<groupId>org.joda</groupId>
 			<artifactId>com.springsource.org.joda.time</artifactId>
@@ -47,15 +49,15 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>org.springframework.orm</artifactId>
 		</dependency>
-	    <dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>org.springframework.oxm</artifactId>
-	    </dependency>
-	    <dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>org.springframework.context</artifactId>
-	    </dependency>
-	    <dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>org.springframework.oxm</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>org.springframework.context</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 		</dependency>
@@ -108,25 +110,25 @@
 			<artifactId>xercesImpl</artifactId>
 		</dependency>
 		<dependency>
-		    <groupId>net.sf.ehcache</groupId>
+			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache-core</artifactId>
 		</dependency>
 		<dependency>
-            <groupId>net.sf.dozer</groupId>
-            <artifactId>dozer</artifactId>
-        </dependency>
-        <dependency>
+			<groupId>net.sf.dozer</groupId>
+			<artifactId>dozer</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
 		<dependency>
-              <groupId>ch.qos.logback</groupId>
-              <artifactId>logback-classic</artifactId>
-        </dependency>
-        <dependency>
-             <groupId>ch.qos.logback</groupId>
-             <artifactId>logback-core</artifactId>
-        </dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.codehaus.woodstox</groupId>
 			<artifactId>wstx-asl</artifactId>
@@ -135,58 +137,48 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
-        <dependency>
-            <groupId>com.sybase</groupId>
-            <artifactId>jconnect</artifactId>
-        </dependency>
-	    <dependency>
-		    <groupId>com.jayway.restassured</groupId>
+		<dependency>
+			<groupId>com.sybase</groupId>
+			<artifactId>jconnect</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.jayway.restassured</groupId>
 			<artifactId>org.emonocot.rest-assured</artifactId>
 		</dependency>
 		<dependency>
-            <groupId>org.codehaus.groovy.modules.http-builder</groupId>
-            <artifactId>http-builder</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-library</artifactId>
-        </dependency>
-        <dependency>
-           <groupId>tomcat</groupId>
-           <artifactId>catalina-ant</artifactId>
-        </dependency>
-        <dependency>
-           <groupId>org.apache.ant</groupId>
-           <artifactId>ant-junit</artifactId>
-        </dependency> 
+			<groupId>org.codehaus.groovy.modules.http-builder</groupId>
+			<artifactId>http-builder</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-library</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>tomcat</groupId>
+			<artifactId>catalina-ant</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.ant</groupId>
+			<artifactId>ant-junit</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>emonocot-checklist</finalName>
 		<testResources>
-          <testResource>
-            <directory>src/test/resources</directory>
-            <filtering>true</filtering>
-          </testResource>
-        </testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+			</testResource>
+		</testResources>
 		<extensions>
-          <extension>
-            <groupId>org.apache.maven.wagon</groupId>
-            <artifactId>wagon-ssh</artifactId>
-            <version>1.0-beta-7</version>
-          </extension>
-        </extensions> 
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh</artifactId>
+				<version>1.0-beta-7</version>
+			</extension>
+		</extensions>
 		<plugins>
-		  <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>wagon-maven-plugin</artifactId>
-            <version>1.0-beta-3</version>
-            <configuration>
-              <fromDir>src/main/static</fromDir>
-              <includes>*</includes>
-              <url>${wagon.checklist.static.url}</url>
-            </configuration>
-          </plugin>
-          <plugin>
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>hibernate3-maven-plugin</artifactId>
 				<version>2.1</version>
@@ -252,52 +244,16 @@
 				</configuration>
 			</plugin>
 			<plugin>
-	          <groupId>org.codehaus.mojo</groupId>
-	          <artifactId>hibernate3-maven-plugin</artifactId>
-	          <version>2.1</version>
-	          <configuration>
-		        <components>
-			      <component>
-				    <name>hbm2ddl</name>
-				    <implementation>annotationconfiguration</implementation>
-			      </component>
-		        </components>
-		        <componentProperties>
-		          <export>false</export>
-			      <propertyfile>/src/test/resources/mysql/hibernate.properties</propertyfile>
-			      <outputfilename>001_schema.ddl</outputfilename>
-			      <configurationfile>/src/main/resources/hibernate.cfg.xml</configurationfile>
-		        </componentProperties>
-	          </configuration>
-	          <dependencies>
-		         <dependency>
-			      <groupId>org.hibernate</groupId>
-			      <artifactId>hibernate-core</artifactId>
-			      <version>${hibernate.version}</version>
-		        </dependency>
-		        <dependency>
-				  <groupId>org.slf4j</groupId>
-				  <artifactId>slf4j-api</artifactId>
-				  <version>1.6.1</version>
-			    </dependency>
-			    <dependency>
-				  <groupId>org.slf4j</groupId>
-				  <artifactId>slf4j-simple</artifactId>
-				  <version>1.6.1</version>
-			    </dependency>
-	          </dependencies>
-            </plugin>
-			<plugin>
 				<groupId>org.liquibase</groupId>
 				<artifactId>liquibase-maven-plugin</artifactId>
 				<version>2.0.1</version>
 				<configuration>
-					<changeLogFile>${database.changelog}</changeLogFile>
+					<changeLogFile>${liquibase.changelog}</changeLogFile>
 					<driver>${jdbc.driver.classname}</driver>
 					<url>${jdbc.driver.url}</url>
 					<username>${jdbc.driver.username}</username>
 					<password>${jdbc.driver.password}</password>
-					<dropFirst>${jdbc.drop.database.first}</dropFirst>
+					<dropFirst>${liquibase.drop.database.first}</dropFirst>
 				</configuration>
 				<dependencies>
 					<dependency>
@@ -333,25 +289,35 @@
 								<artifactId>${project.artifactId}</artifactId>
 								<type>war</type>
 								<properties>
-                                  <context>${cargo.checklist.context.path}</context>
-                                </properties>
+									<context>${cargo.context.path}</context>
+								</properties>
 							</deployable>
 						</deployables>
 					</deployer>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>wagon-maven-plugin</artifactId>
+				<version>1.0-beta-3</version>
+				<configuration>
+					<fromDir>src/main/static</fromDir>
+					<includes>*</includes>
+					<url>${wagon.static.url}</url>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<reporting>
-	  <plugins>
-	    <plugin>
-		  <groupId>de.smartics.maven.plugin</groupId>
-		  <artifactId>org.emonocot.maven-issues-plugin</artifactId>
-		  <version>0.4.0</version>
-		  <configuration>
-		    <component>emonocot-checklist</component>
-		  </configuration>
-		</plugin>
-	  </plugins>
+		<plugins>
+			<plugin>
+				<groupId>de.smartics.maven.plugin</groupId>
+				<artifactId>org.emonocot.maven-issues-plugin</artifactId>
+				<version>0.4.0</version>
+				<configuration>
+					<component>emonocot-checklist</component>
+				</configuration>
+			</plugin>
+		</plugins>
 	</reporting>
 </project>

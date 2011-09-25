@@ -212,11 +212,12 @@
 				<artifactId>liquibase-maven-plugin</artifactId>
 				<version>2.0.1</version>
 				<configuration>
-					<changeLogFile>../emonocot-persistence/src/main/resources/${database.changelog}</changeLogFile>
+					<changeLogFile>../emonocot-persistence/src/main/resources/${liquibase.changelog}</changeLogFile>
 					<driver>${jdbc.driver.classname}</driver>
 					<url>${jdbc.driver.url}</url>
 					<username>${jdbc.driver.username}</username>
 					<password>${jdbc.driver.password}</password>
+					<dropFirst>${liquibase.drop.database.first}</dropFirst>
 				</configuration>
 				<dependencies>
 					<dependency>
@@ -252,7 +253,7 @@
 								<artifactId>${project.artifactId}</artifactId>
 								<type>war</type>
 								<properties>
-									<context>${cargo.harvester.context.path}</context>
+									<context>${cargo.context.path}</context>
 								</properties>
 							</deployable>
 						</deployables>

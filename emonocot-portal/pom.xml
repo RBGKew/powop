@@ -140,18 +140,7 @@
             <filtering>true</filtering>
           </testResource>
         </testResources>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>wagon-maven-plugin</artifactId>
-				<version>1.0-beta-3</version>
-				<configuration>
-					<fromDir>${project.build.directory}/static</fromDir>
-					<includes>**</includes>
-					<excludes>uncompressed/*.js</excludes>
-					<url>${wagon.portal.static.url}</url>
-				</configuration>
-			</plugin>
+		<plugins>			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
@@ -171,12 +160,12 @@
 				<artifactId>liquibase-maven-plugin</artifactId>
 				<version>2.0.1</version>
 				<configuration>
-					<changeLogFile>../emonocot-persistence/src/main/resources/${database.changelog}</changeLogFile>
+					<changeLogFile>../emonocot-persistence/src/main/resources/${liquibase.changelog}</changeLogFile>
 					<driver>${jdbc.driver.classname}</driver>
 					<url>${jdbc.driver.url}</url>
 					<username>${jdbc.driver.username}</username>
 					<password>${jdbc.driver.password}</password>
-					<dropFirst>${jdbc.drop.database.first}</dropFirst>
+					<dropFirst>${liquibase.drop.database.first}</dropFirst>
 				</configuration>
 				<dependencies>
 					<dependency>
@@ -262,11 +251,22 @@
 								<artifactId>${project.artifactId}</artifactId>
 								<type>war</type>
 								<properties>
-									<context>${cargo.portal.context.path}</context>
+									<context>${cargo.context.path}</context>
 								</properties>
 							</deployable>
 						</deployables>
 					</deployer>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>wagon-maven-plugin</artifactId>
+				<version>1.0-beta-3</version>
+				<configuration>
+					<fromDir>${project.build.directory}/static</fromDir>
+					<includes>**</includes>
+					<excludes>uncompressed/*.js</excludes>
+					<url>${wagon.static.url}</url>
 				</configuration>
 			</plugin>
 		</plugins>

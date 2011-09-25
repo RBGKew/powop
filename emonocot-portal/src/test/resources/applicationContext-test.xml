@@ -14,7 +14,7 @@
 
 	<bean name="taxonDaoImpl" class="org.emonocot.portal.remoting.TaxonDaoImpl">
 		<property name="restTemplate" ref="restTemplate" />
-		<property name="baseUri" value="${selenium.target.portal}" />
+		<property name="baseUri" value="${selenium.target}" />
 	</bean>
 	
 	<bean name="imageService" class="org.emonocot.service.impl.ImageServiceImpl">
@@ -23,7 +23,7 @@
 
 	<bean name="imageDaoImpl" class="org.emonocot.portal.remoting.ImageDaoImpl">
 		<property name="restTemplate" ref="restTemplate" />
-		<property name="baseUri" value="${selenium.target.portal}" />
+		<property name="baseUri" value="${selenium.target}" />
 	</bean>
 
 	<bean name="restTemplate" class="org.springframework.web.client.RestTemplate">
