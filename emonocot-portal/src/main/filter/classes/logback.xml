@@ -22,7 +22,7 @@
     </encoder>
     <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
       <maxIndex>1</maxIndex>
-      <FileNamePattern>${logging.portal.location}.%i</FileNamePattern>
+      <FileNamePattern>${logging.location}.%i</FileNamePattern>
     </rollingPolicy>
     <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
       <MaxFileSize>100KB</MaxFileSize>
