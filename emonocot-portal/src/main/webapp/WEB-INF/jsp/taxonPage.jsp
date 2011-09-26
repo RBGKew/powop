@@ -22,6 +22,7 @@
 					</header>
 				</div>
 			</div>
+			
 			<c:if test="${taxon.protologue != null}">
 				<c:set var="protologue" value="${taxon.protologue}" />
 				<div class="row">
@@ -30,33 +31,25 @@
 						${protologue.pages}</div>
 				</div>
 			</c:if>
-
+			<div class="row">
+				<div class="twelvecol">
 			<c:if test="${not empty taxon.images}">
 				<div id="showcase" class="showcase">
 					<c:forEach var="image" items="${taxon.images}" varStatus="status">
-						<!-- Each child div in #showcase with the class .showcase-slide represents a slide. -->
 						<div class="showcase-slide">
 							<div class="showcase-content">
 								<img src="${image.url}" title="${image.caption}"
 									alt="${status.index}" />
 							</div>
 
-							<!-- Put the thumbnail content in a div with the class .showcase-thumbnail -->
 							<div class="showcase-thumbnail">
-
 								<img src="${image.url}" alt="${status.index}" width="140px" />
-								<!-- The div below with the class .showcase-thumbnail-caption contains the thumbnail caption. -->
-								<div class="showcase-thumbnail-caption">${image.caption}</div> 
-								<!-- The div below with the class .showcase-thumbnail-cover is used for the thumbnails active state. -->
-								<div class="showcase-thumbnail-cover"></div>
-
+								<div class="showcase-thumbnail-caption">${image.caption}</div>
+								<div class="showcase-thumbnail-cover">/* */</div>
 							</div>
-							<!-- Put the caption content in a div with the class .showcase-caption -->
-
 							<div class="showcase-caption">
 								<h2>${image.caption}</h2>
 							</div>
-
 						</div>
 					</c:forEach>
 				</div>
@@ -66,18 +59,22 @@
 					</div>
 				</div>
 			</c:if>
+			<BR />
+			</div>
+			</div>
+
 			<div id="textContent">
-			  <c:forEach var="feature" items="${em:features()}">
-				<c:set var="content" value="${em:content(taxon,feature)}" />
-				<c:if test="${content != null}">
-					<div class="row">
-						<div class="twelvecol">
-							<h5>${feature}</h5>
-							<p>${content.content}</p>
+				<c:forEach var="feature" items="${em:features()}">
+					<c:set var="content" value="${em:content(taxon,feature)}" />
+					<c:if test="${content != null}">
+						<div class="row">
+							<div class="twelvecol">
+								<h5>${feature}</h5>
+								<p>${content.content}</p>
+							</div>
 						</div>
-					</div>
-				</c:if>
-			  </c:forEach>
+					</c:if>
+				</c:forEach>
 			</div>
 			<c:if test="${not empty em:regions(taxon)}">
 				<div class="row">
@@ -162,12 +159,16 @@
 					</div>
 				</div>
 			</c:if>
+
+
 		</article>
 	</div>
 
 
 
 	<jsp:include page="/WEB-INF/jsp/footer.jsp" />
+
+
 </body>
 	</html>
 </jsp:root>
