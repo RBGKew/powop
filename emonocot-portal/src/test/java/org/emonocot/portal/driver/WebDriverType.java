@@ -9,7 +9,8 @@ public enum WebDriverType {
     /**
      *
      */
-    FIREFOX("org.openqa.selenium.firefox.FirefoxDriver");
+    FIREFOX("org.openqa.selenium.firefox.FirefoxDriver"),
+    CHROME("org.openqa.selenium.chrome.ChromeDriver");
 
     /**
      *

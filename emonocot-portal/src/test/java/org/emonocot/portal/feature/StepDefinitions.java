@@ -147,6 +147,21 @@ public class StepDefinitions {
   public final void theProtologueShouldBe(final String protologue) {
       assertEquals(taxonPage.getProtologue(), protologue);
   }
+  
+  @Then("^the main image caption should be \"([^\"]*)\"$")
+  public void theMainImageCaptionShouldBe(String caption) {
+      assertEquals(caption,taxonPage.getMainImageCaption());
+  }
+
+  @Then("^the main image should be \"([^\"]*)\"$")
+  public void theMainImageShouldBe(String image) {
+	  assertEquals(image,taxonPage.getMainImage());
+  }
+  
+  @Then("^there should be (\\d+) thumbnails$")
+  public void thereShouldBeThumbnails(int thumbnails) {
+	  assertEquals(thumbnails,taxonPage.getThumbnails());
+  }
 
     /**
      *

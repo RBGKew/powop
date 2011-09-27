@@ -61,6 +61,7 @@ public class TestDataManager {
         for (ImageRow imageRow : imageRows) {
             Image i = new Image();
             i.setCaption(imageRow.caption);
+            i.setUrl(imageRow.url);
             i.setIdentifier(imageRow.identifier);
             imageService.save(i);
             data.push(i);
@@ -90,6 +91,21 @@ public class TestDataManager {
                Reference reference = new Reference();
                reference.setIdentifier(taxonRow.protologue);
                t.setProtologue(reference);
+           }
+           if (taxonRow.image1 != null) {
+               Image image = new Image();
+               image.setIdentifier(taxonRow.image1);
+               t.getImages().add(image);
+           }
+           if (taxonRow.image2 != null) {
+               Image image = new Image();
+               image.setIdentifier(taxonRow.image2);
+               t.getImages().add(image);
+           }
+           if (taxonRow.image3 != null) {
+               Image image = new Image();
+               image.setIdentifier(taxonRow.image3);
+               t.getImages().add(image);
            }
            taxonService.save(t);
        }

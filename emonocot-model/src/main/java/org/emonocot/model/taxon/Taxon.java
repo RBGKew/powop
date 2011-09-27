@@ -211,7 +211,7 @@ public class Taxon extends SearchableObject {
         inverseJoinColumns = { @JoinColumn(name = "images_id") })
     @JsonSerialize(contentUsing = ImageSerializer.class)
     public List<Image> getImages() {
-        return images;
+    	return images;
     }
 
     /**

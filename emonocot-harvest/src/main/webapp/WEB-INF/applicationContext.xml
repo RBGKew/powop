@@ -19,22 +19,6 @@
     
     <tx:annotation-driven/>
     
-    <bean name="hibernateSearchIndexPurger"
-		class="org.emonocot.persistence.hibernate.HibernateSearchIndexPurger"
-		init-method="purgeIndices" depends-on="transactionManager">
-	  <property name="purgeOnInit" value="${hibernate.search.purge.indexes.on.init}"/>
-	  <property name="indexedClasses">
-	    <list>
-	      <value>org.emonocot.model.authority.Authority</value>
-	      <value>org.emonocot.model.description.Distribution</value>
-	      <value>org.emonocot.model.description.TextContent</value>
-	      <value>org.emonocot.model.media.Image</value>
-	      <value>org.emonocot.model.reference.Reference</value>
-	      <value>org.emonocot.model.taxon.Taxon</value>
-	    </list>
-	  </property>
-	</bean>
-    
     <bean name="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
       <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
@@ -66,7 +50,7 @@
      <sec:authentication-manager>
       <sec:authentication-provider>
         <sec:user-service>
-          <sec:user name="admin" password="${harvester.admin.password}" authorities="ROLE_ADMIN" />
+          <sec:user name="admin" password="${batch.admin.password}" authorities="ROLE_ADMIN" />
         </sec:user-service>
       </sec:authentication-provider>
     </sec:authentication-manager>

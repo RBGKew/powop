@@ -121,7 +121,7 @@
 		<property name="unmarshaller" ref="oaiPmhResponseUnmarshaller" />
 		<property name="proxyHost" value="${http.proxyHost}" />
 		<property name="proxyPort" value="${http.proxyPort}" />
-        <property name="servicesClientIdentifier" value="${harvester.services.client.identifier}"/>
+        <property name="servicesClientIdentifier" value="${batch.services.client.identifier}"/>
 	</bean>
 
 	<bean id="itemReader" class="org.emonocot.job.io.StaxEventItemReader"

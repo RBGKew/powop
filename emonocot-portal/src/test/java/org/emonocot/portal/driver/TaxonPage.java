@@ -1,5 +1,7 @@
 package org.emonocot.portal.driver;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -30,6 +32,12 @@ public class TaxonPage extends PageObject {
      */
     @FindBy(how = How.ID, using = "protologue")
     private WebElement protologue;
+    
+    @FindBy(how = How.CLASS_NAME, using = "showcase-content")
+    private WebElement mainImage;
+    
+    @FindBy(how = How.CLASS_NAME, using = "showcase-thumbnail-wrapper")
+    private WebElement thumbnailContainer;
 
     /**
      *
@@ -80,5 +88,17 @@ public class TaxonPage extends PageObject {
     public final String getProtologue() {
         return protologue.getText();
     }
+
+	public String getMainImageCaption() {
+		return mainImage.findElement(By.tagName("img")).getAttribute("title");
+	}
+
+	public String getMainImage() {
+		return mainImage.findElement(By.tagName("img")).getAttribute("src");
+	}
+
+	public int getThumbnails() {
+		return thumbnailContainer.findElements(By.className("showcase-thumbnail")).size();
+	}
 
 }

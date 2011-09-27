@@ -1,15 +1,19 @@
 package org.emonocot.portal.driver;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
 import javax.annotation.PreDestroy;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.ProfilesIni;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
@@ -38,6 +42,14 @@ public class WebDriverFacade {
         WebDriverType type = WebDriverType.fromString(driverName);
 
         switch (type) {
+        case CHROME:
+        	String chromeLocation = properties.getProperty("selenium.webdriver.chrome.location");
+        	ChromeDriverService service = new ChromeDriverService.Builder()
+            .usingChromeDriverExecutable(new File(chromeLocation))
+            .usingAnyFreePort()
+            .build();
+            service.start();
+            return new RemoteWebDriver(service.getUrl(), DesiredCapabilities.chrome());
         case FIREFOX:
         default:
             FirefoxBinary firefoxBinary = new FirefoxBinary();
