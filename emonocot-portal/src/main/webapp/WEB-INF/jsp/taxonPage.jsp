@@ -10,6 +10,7 @@
 	<html class="no-js" lang="en" dir="ltr">
 <jsp:include page="/WEB-INF/jsp/head.jsp" />
 <body>
+<div id="wrapper">
 	<div class="container">
 		<jsp:include page="/WEB-INF/jsp/header.jsp" />
 		<article>
@@ -162,7 +163,7 @@
 		</article>
 	</div>
 
-
+</div>
 
 	<jsp:include page="/WEB-INF/jsp/footer.jsp" />
 

@@ -10,10 +10,27 @@
       </header>
     </div>
   </div> -->
- 
-  		<div id="actionHeader">
+  
+  
+ 		<!-- Commented to try another header (27-09) -->
+  		<!--  <div id="actionHeader">
    			<h6>
                 <a href="http://www.e-monocot.org">from the e-monocot team</a>
             </h6>
   		</div>
+  		-->
+  		<div id="headerContainer">
+            <div id="annotateHeader">
+                <div class="section" id="logo">
+                    <h6 id="bounceLogo"><a href="">eMonocot</a></h6>
+                </div>
+                <div id="save" class="section" style="float:right;">
+                    <div class="" id="resultsElements">
+                        Prova
+                    </div>
+                </div>
+            </div>
+        </div>
+  		
+  		
 </jsp:root>
