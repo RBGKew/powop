@@ -11,7 +11,7 @@ import cucumber.junit.Feature;
  *
  */
 @RunWith(Cucumber.class)
-@Feature("features/TaxonPage.feature")
-public class TaxonPageFeatureFunctionalTest {
+@Feature("features/FacetOnObjectType.feature")
+public class FacetOnObjectTypeFunctionalTest {
 
 }

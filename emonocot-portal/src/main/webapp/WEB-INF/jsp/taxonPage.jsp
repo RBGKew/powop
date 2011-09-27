@@ -26,9 +26,7 @@
 			<c:if test="${taxon.protologue != null}">
 				<c:set var="protologue" value="${taxon.protologue}" />
 				<div class="row">
-					<div class="twelvecol">${protologue.title}
-						${protologue.datePublished} ${protologue.volume}
-						${protologue.pages}</div>
+					<div id="protologue" class="twelvecol">${protologue.title}	${protologue.datePublished} ${protologue.volume} ${protologue.pages}</div>
 				</div>
 			</c:if>
 			<div class="row">

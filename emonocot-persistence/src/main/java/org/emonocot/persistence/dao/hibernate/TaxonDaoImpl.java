@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.model.taxon.Taxon;
-import org.emonocot.persistence.dao.FacetName;
 import org.emonocot.persistence.dao.TaxonDao;
+import org.emonocot.service.FacetName;
 import org.hibernate.FetchMode;
 import org.hibernate.search.ProjectionConstants;
 import org.hibernate.search.query.dsl.FacetContext;

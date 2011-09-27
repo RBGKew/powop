@@ -3,8 +3,8 @@ package org.emonocot.portal.controller;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.emonocot.model.media.Image;
-import org.emonocot.service.ImageService;
+import org.emonocot.model.reference.Reference;
+import org.emonocot.service.ReferenceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,17 +23,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
  *
  */
 @Controller
-public class ImageController {
+public class ReferenceController {
 
    /**
     *
     */
    private static Logger logger = LoggerFactory
-           .getLogger(ImageController.class);
+           .getLogger(ReferenceController.class);
    /**
     *
     */
-   private ImageService service;
+   private ReferenceService service;
 
    /**
     *
@@ -50,58 +50,59 @@ public class ImageController {
 
    /**
    *
-   * @param imageService
-   *            Set the image service
+   * @param referenceService
+   *            Set the reference service
    */
   @Autowired
-  public final void setImageService(final ImageService imageService) {
-      this.service = imageService;
+    public final void setReferenceService(
+            final ReferenceService referenceService) {
+      this.service = referenceService;
   }
 
   /**
    * @param identifier
-   *            Set the identifier of the image
-   * @return A model and view containing a image
+   *            Set the identifier of the reference
+   * @return A model and view containing a reference
    */
-  @RequestMapping(value = "/image/{identifier}",
+  @RequestMapping(value = "/reference/{identifier}",
                   method = RequestMethod.GET,
                   headers = "Accept=application/json")
-  public final ResponseEntity<Image> get(
+  public final ResponseEntity<Reference> get(
           @PathVariable final String identifier) {
-      return new ResponseEntity<Image>(service.find(identifier),
+      return new ResponseEntity<Reference>(service.find(identifier),
               HttpStatus.OK);
   }
 
   /**
-   * @param image
-   *            the image to save
-   * @return A response entity containing a newly created image
+   * @param reference
+   *            the reference to save
+   * @return A response entity containing a newly created reference
    */
-    @RequestMapping(value = "/image",
+    @RequestMapping(value = "/reference",
                     method = RequestMethod.POST)
-    public final ResponseEntity<Image> create(
-            @RequestBody final Image image) {
+    public final ResponseEntity<Reference> create(
+            @RequestBody final Reference reference) {
         HttpHeaders httpHeaders = new HttpHeaders();
         try {
-            httpHeaders.setLocation(new URI(baseUrl + "image/" + image.getIdentifier()));
+            httpHeaders.setLocation(new URI(baseUrl + "reference/" + reference.getIdentifier()));
         } catch (URISyntaxException e) {
             logger.error(e.getMessage());
         }
-        ResponseEntity<Image> response = new ResponseEntity<Image>(
-                service.save(image), httpHeaders, HttpStatus.CREATED);
+        ResponseEntity<Reference> response = new ResponseEntity<Reference>(
+                service.save(reference), httpHeaders, HttpStatus.CREATED);
         return response;
     }
 
   /**
    * @param identifier
-   *            Set the identifier of the image
+   *            Set the identifier of the reference
    * @return A response entity containing the status
    */
-    @RequestMapping(value = "/image/{identifier}",
+    @RequestMapping(value = "/reference/{identifier}",
                     method = RequestMethod.DELETE)
-    public final ResponseEntity<Image> delete(
+    public final ResponseEntity<Reference> delete(
             @PathVariable final String identifier) {
         service.delete(identifier);
-        return new ResponseEntity<Image>(HttpStatus.OK);
+        return new ResponseEntity<Reference>(HttpStatus.OK);
     }
 }

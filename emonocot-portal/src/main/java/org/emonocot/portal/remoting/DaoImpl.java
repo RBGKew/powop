@@ -5,7 +5,7 @@ import java.util.Map;
 import org.emonocot.model.common.Base;
 import org.emonocot.model.pager.Page;
 import org.emonocot.persistence.dao.Dao;
-import org.emonocot.persistence.dao.FacetName;
+import org.emonocot.service.FacetName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

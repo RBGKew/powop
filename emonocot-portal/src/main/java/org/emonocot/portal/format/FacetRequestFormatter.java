@@ -3,8 +3,8 @@ package org.emonocot.portal.format;
 import java.text.ParseException;
 import java.util.Locale;
 
-import org.emonocot.persistence.dao.FacetName;
 import org.emonocot.portal.controller.FacetRequest;
+import org.emonocot.service.FacetName;
 import org.springframework.format.Formatter;
 
 /**

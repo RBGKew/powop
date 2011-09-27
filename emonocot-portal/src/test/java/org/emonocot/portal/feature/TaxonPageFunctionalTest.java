@@ -11,7 +11,7 @@ import cucumber.junit.Feature;
  *
  */
 @RunWith(Cucumber.class)
-@Feature("features/DisplayTextualDataInTaxonPage.feature")
-public class DisplayTextualDataInTaxonPageFeatureFunctionalTest {
+@Feature("features/TaxonPage.feature")
+public class TaxonPageFunctionalTest {
 
 }

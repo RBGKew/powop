@@ -2,8 +2,8 @@ package org.emonocot.persistence.dao.hibernate;
 
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.model.media.Image;
-import org.emonocot.persistence.dao.FacetName;
 import org.emonocot.persistence.dao.ImageDao;
+import org.emonocot.service.FacetName;
 import org.hibernate.search.ProjectionConstants;
 import org.hibernate.search.query.dsl.FacetContext;
 import org.hibernate.search.query.engine.spi.FacetManager;

@@ -72,7 +72,7 @@ public class ImageValidator implements
      *
      */
     private Authority authority;
-    
+
    /**
     *
     * @param authorityName Set the id of the authority
@@ -81,7 +81,7 @@ public class ImageValidator implements
       authority = new Authority();
       authority.setId(Long.parseLong(authorityName));
     }
-    
+
     /**
      *
      */

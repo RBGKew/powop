@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.emonocot.model.common.Base;
 import org.emonocot.model.pager.Page;
+import org.emonocot.service.FacetName;
 
 /**
  *

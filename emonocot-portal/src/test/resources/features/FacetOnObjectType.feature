@@ -7,7 +7,9 @@ Scenario: Search for Both Taxa and Images
 Given there are taxa with the following properties:
 | identifier                 | name   |
 | urn:kew.org:wcs:taxon:2295 | Acorus |
-And there is an image with id "urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg" and caption "Acorus"
+And there are images with the following properties:
+| identifier                                                                             | caption   |
+| urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg  | Acorus    |
 When I search for "Acorus"
 Then there should be 2 results
 And there should be the following options:
@@ -18,7 +20,9 @@ Scenario: Search for Only Taxa
 Given there are taxa with the following properties:
 | identifier                 | name   |
 | urn:kew.org:wcs:taxon:2295 | Acorus |
-And there is an image with id "urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg" and caption "Acorus"
+And there are images with the following properties:
+| identifier                                                                             | caption   |
+| urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg  | Acorus    |
 When I search for "Acorus"
 And I select "Taxa"
 Then there should be 1 result
@@ -30,7 +34,9 @@ Scenario: Search for Only Images
 Given there are taxa with the following properties:
 | identifier                 | name   |
 | urn:kew.org:wcs:taxon:2295 | Acorus |
-And there is an image with id "urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg" and caption "Acorus"
+And there are images with the following properties:
+| identifier                                                                             | caption   |
+| urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg  | Acorus    |
 When I search for "Acorus"
 And I select "Images"
 Then there should be 1 result

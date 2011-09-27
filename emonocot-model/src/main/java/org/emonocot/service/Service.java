@@ -4,7 +4,6 @@ import java.util.Map;
 
 import org.emonocot.model.common.Base;
 import org.emonocot.model.pager.Page;
-import org.emonocot.persistence.dao.FacetName;
 
 /**
  *
@@ -21,21 +20,21 @@ public interface Service<T extends Base> {
      *         object is not found
      */
     T load(String identifer);
-    
+
    /**
     *
     * @param identifier
     *            Set the identifier of the object you would like to delete
     */
    void delete(String identifier);
-    
+
     /**
      *
      * @param identifier The identifier of the object required.
      * @return The object, or null if the object is not found
      */
     T find(String identifier);
-    
+
     /**
     *
     * @param identifier
@@ -60,7 +59,7 @@ public interface Service<T extends Base> {
     * @return the id of the object
     */
    T save(T t);
-   
+
    /**
     * @param query
     *            A lucene query

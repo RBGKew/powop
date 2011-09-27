@@ -1,4 +1,4 @@
-package org.emonocot.persistence.dao;
+package org.emonocot.service;
 
 /**
  *

@@ -6,8 +6,8 @@ import java.util.Map;
 
 import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.pager.Page;
-import org.emonocot.persistence.dao.FacetName;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
+import org.emonocot.service.FacetName;
 import org.emonocot.service.ImageService;
 import org.emonocot.service.SearchableObjectService;
 import org.emonocot.service.TaxonService;

@@ -6,7 +6,7 @@ import org.emonocot.model.description.TextContent;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.dao.DescriptionDao;
-import org.emonocot.persistence.dao.FacetName;
+import org.emonocot.service.FacetName;
 import org.hibernate.search.query.dsl.FacetContext;
 import org.hibernate.search.query.engine.spi.FacetManager;
 import org.hibernate.search.query.facet.FacetingRequest;

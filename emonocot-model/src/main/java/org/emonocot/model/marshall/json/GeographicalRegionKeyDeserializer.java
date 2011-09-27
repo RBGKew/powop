@@ -19,7 +19,7 @@ public class GeographicalRegionKeyDeserializer extends StdKeyDeserializer {
     /**
      *
      */
-    protected GeographicalRegionKeyDeserializer() {
+    public GeographicalRegionKeyDeserializer() {
         super(GeographicalRegion.class);
     }
 

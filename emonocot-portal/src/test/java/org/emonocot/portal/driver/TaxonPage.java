@@ -27,6 +27,12 @@ public class TaxonPage extends PageObject {
 
     /**
      *
+     */
+    @FindBy(how = How.ID, using = "protologue")
+    private WebElement protologue;
+
+    /**
+     *
      * @return the page title
      */
     public final String getTaxonName() {
@@ -65,6 +71,14 @@ public class TaxonPage extends PageObject {
             return false;
         }
         return true;
+    }
+
+    /**
+     *
+     * @return the protologue
+     */
+    public final String getProtologue() {
+        return protologue.getText();
     }
 
 }

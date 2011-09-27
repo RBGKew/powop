@@ -1,6 +1,6 @@
 package org.emonocot.portal.controller;
 
-import org.emonocot.persistence.dao.FacetName;
+import org.emonocot.service.FacetName;
 
 /**
  *

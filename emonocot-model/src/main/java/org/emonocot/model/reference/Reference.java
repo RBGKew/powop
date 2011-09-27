@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.emonocot.model.common.Base;
 import org.emonocot.model.taxon.Taxon;
 import org.hibernate.annotations.Cascade;
@@ -230,6 +231,7 @@ public class Reference extends Base {
     }
 
     @Transient
+    @JsonIgnore
     public final String getClassName() {
       return "Reference";
     }

@@ -18,7 +18,7 @@ import org.emonocot.model.pager.Page;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.QuerySyntaxException;
 import org.emonocot.persistence.dao.Dao;
-import org.emonocot.persistence.dao.FacetName;
+import org.emonocot.service.FacetName;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;

@@ -31,6 +31,10 @@ import org.emonocot.model.description.Feature;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.marshall.json.DescriptionMapDeserializer;
 import org.emonocot.model.marshall.json.DescriptionMapSerializer;
+import org.emonocot.model.marshall.json.ImageDeserializer;
+import org.emonocot.model.marshall.json.ImageSerializer;
+import org.emonocot.model.marshall.json.ReferenceDeserializer;
+import org.emonocot.model.marshall.json.ReferenceSerializer;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.reference.Reference;
 import org.hibernate.annotations.Cascade;
@@ -190,6 +194,9 @@ public class Taxon extends SearchableObject {
      */
     private Set<Annotation> annotations = new HashSet<Annotation>();
 
+    /**
+     *
+     */
     private Reference protologue;
 
     /**
@@ -202,7 +209,7 @@ public class Taxon extends SearchableObject {
         name = "Taxon_Image",
         joinColumns = { @JoinColumn(name = "Taxon_id") },
         inverseJoinColumns = { @JoinColumn(name = "images_id") })
-    @JsonIgnore
+    @JsonSerialize(contentUsing = ImageSerializer.class)
     public List<Image> getImages() {
         return images;
     }
@@ -239,6 +246,7 @@ public class Taxon extends SearchableObject {
      * @param newImages
      *            Set the images associated with this taxon
      */
+    @JsonDeserialize(contentUsing = ImageDeserializer.class)
     public void setImages(List<Image> newImages) {
         this.images = newImages;
     }
@@ -256,7 +264,7 @@ public class Taxon extends SearchableObject {
      *
      * @param newContent Set the content associated with this taxon
      */
-    @JsonDeserialize(using = DescriptionMapDeserializer.class )
+    @JsonDeserialize(using = DescriptionMapDeserializer.class)
     public void setContent(Map<Feature, Content> newContent) {
         for (Content c : newContent.values()) {
             c.setTaxon(this);
@@ -668,6 +676,7 @@ public class Taxon extends SearchableObject {
      *
      * @param reference set the protologue
      */
+    @JsonDeserialize(using = ReferenceDeserializer.class)
     public void setProtologue(Reference reference) {
         this.protologue = reference;
     }
@@ -677,7 +686,7 @@ public class Taxon extends SearchableObject {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @Cascade({CascadeType.SAVE_UPDATE })
-    @JsonIgnore
+    @JsonSerialize(using = ReferenceSerializer.class)
     public Reference getProtologue() {
         return protologue;
     }

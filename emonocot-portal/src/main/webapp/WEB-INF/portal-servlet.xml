@@ -26,9 +26,13 @@
     
     <bean id="jsonConverter"  class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
       <property name="supportedMediaTypes" value="application/json" />
-      <property name="objectMapper">
-        <bean class="org.emonocot.model.marshall.json.CustomObjectMapper"/>
-      </property>
+      <property name="objectMapper" ref="customObjectMapper"/>
+    </bean>
+    
+    <bean name="customObjectMapper" class="org.emonocot.model.marshall.json.CustomObjectMapperFactory" >
+      <property name="referenceService" ref="referenceServiceImpl"/>
+      <property name="taxonService" ref="taxonServiceImpl"/>
+      <property name="imageService" ref="imageServiceImpl"/>
     </bean>
 
     <bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">

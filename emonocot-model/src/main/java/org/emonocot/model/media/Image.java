@@ -10,7 +10,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.common.SearchableObject;
+import org.emonocot.model.marshall.json.TaxonDeserializer;
+import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.emonocot.model.taxon.Taxon;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -112,7 +116,8 @@ public class Image extends SearchableObject {
      * @return a list of taxa
      */
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "images")
-    @Cascade({CascadeType.SAVE_UPDATE})
+    @Cascade({CascadeType.SAVE_UPDATE })
+    @JsonSerialize(contentUsing = TaxonSerializer.class)
     public List<Taxon> getTaxa() {
         return taxa;
     }
@@ -121,6 +126,7 @@ public class Image extends SearchableObject {
      *
      * @param taxa Set the taxa associated with this image
      */
+    @JsonDeserialize(contentUsing = TaxonDeserializer.class)
     public void setTaxa(List<Taxon> taxa) {
         this.taxa = taxa;
     }
