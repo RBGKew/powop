@@ -1,5 +1,6 @@
 package org.emonocot.portal.driver;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -19,6 +20,12 @@ public class SearchResultsPage extends PageObject {
     */
    @FindBy(how = How.ID, using = "results")
    private WebElement results;
+
+   /**
+    *
+    */
+   @FindBy(how = How.ID, using = "pages")
+   private WebElement message;
 
    /**
    *
@@ -73,6 +80,31 @@ public class SearchResultsPage extends PageObject {
                 .xpath("ul/li/a[text() = \'" + clazz + "\']"));
         return openAs(classFacet.getAttribute("href"),
                 SearchResultsPage.class);
+    }
+
+    /**
+     *
+     * @return an array of results
+     */
+    public final List<String[]> getResults() {
+        List<WebElement> links = results.findElements(By.xpath("li/a"));
+        List<String[]> linksList = new ArrayList<String[]>();
+        for (WebElement webElement : links) {
+            String[] link = new String[2];
+            String href = webElement.getAttribute("href");
+            link[0] = href.substring(href.lastIndexOf("/") + 1);
+            link[1] = webElement.getText();
+            linksList.add(link);
+        }
+        return linksList;
+    }
+
+    /**
+     *
+     * @return the message from the search results page
+     */
+    public final String getMessage() {
+        return message.getText();
     }
 
 }

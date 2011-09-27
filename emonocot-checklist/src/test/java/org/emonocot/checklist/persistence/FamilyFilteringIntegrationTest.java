@@ -37,7 +37,7 @@ public class FamilyFilteringIntegrationTest extends
         Page<ChangeEvent<Taxon>> result = taxonDao.page(null, null, null, null,
                 null);
         assertEquals("page() should return five objects", Integer.valueOf(5),
-                result.size());
+                result.getSize());
     }
 
     /**
@@ -48,7 +48,7 @@ public class FamilyFilteringIntegrationTest extends
         Page<ChangeEvent<Taxon>> result = taxonDao.page("Loreaceae", null,
                 null, null, null);
         assertEquals("page() should return four objects", Integer.valueOf(4),
-                result.size());
+                result.getSize());
     }
 
     /**
@@ -59,6 +59,6 @@ public class FamilyFilteringIntegrationTest extends
         Page<ChangeEvent<Taxon>> result = taxonDao.page("Badgeraceae", null,
                 null, null, null);
         assertEquals("page() should return no objects", Integer.valueOf(0),
-                result.size());
+                result.getSize());
     }
 }

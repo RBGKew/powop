@@ -484,15 +484,15 @@ public abstract class AbstractOaiPmhController {
         Page<ChangeEvent> results = service.page(set, from, until, pageSize, 0);
         log(null, "ListIdentifiers", results.getRecords().size(), set);
 
-        if (results.size() == 0) {
+        if (results.getSize() == 0) {
             throw new NoRecordsMatchException("No records match");
         }
 
         modelAndView.addObject(AbstractOaiPmhController.OBJECT_KEY, results);
 
-        if (results.size() > results.getRecords().size() && cache != null) {
+        if (results.getSize() > results.getRecords().size() && cache != null) {
             ResumptionToken resumptionToken
-                = new ResumptionToken(results.size(),
+                = new ResumptionToken(results.getSize(),
                     pageSize, results.getCurrentIndex(),
                     from, until, metadataPrefix, set);
             modelAndView.addObject(
@@ -537,16 +537,16 @@ public abstract class AbstractOaiPmhController {
             log(null, "ListIdentifiers", results.getRecords().size(),
                     resumptionToken.getSet());
 
-            if (results.size() == 0) {
+            if (results.getSize() == 0) {
                 throw new NoRecordsMatchException("No records match");
             }
 
             modelAndView
                     .addObject(AbstractOaiPmhController.OBJECT_KEY, results);
 
-            if (results.size() > ((results.getPageSize() * results
+            if (results.getSize() > ((results.getPageSize() * results
                     .getCurrentIndex()) + results.getRecords().size())) {
-                resumptionToken.updateResults(results.size(), pageSize,
+                resumptionToken.updateResults(results.getSize(), pageSize,
                         results.getCurrentIndex());
                 modelAndView.addObject(
                         AbstractOaiPmhController.RESUMPTION_TOKEN_KEY,
@@ -609,15 +609,15 @@ public abstract class AbstractOaiPmhController {
 
         log(null, "ListRecords", results.getRecords().size(), set);
 
-        if (results.size() == 0) {
+        if (results.getSize() == 0) {
             throw new NoRecordsMatchException("No records match");
         }
 
         modelAndView.addObject(AbstractOaiPmhController.OBJECT_KEY, results);
 
-        if (results.size() > results.getRecords().size() && cache != null) {
+        if (results.getSize() > results.getRecords().size() && cache != null) {
             ResumptionToken resumptionToken
-                = new ResumptionToken(results.size(),
+                = new ResumptionToken(results.getSize(),
                     pageSize, results.getCurrentIndex(),
                     from, until, metadataPrefix, set);
             modelAndView.addObject(
@@ -670,16 +670,16 @@ public abstract class AbstractOaiPmhController {
             log(null, "ListRecords", results.getRecords().size(),
                     resumptionToken.getSet());
 
-            if (results.size() == 0) {
+            if (results.getSize() == 0) {
                 throw new NoRecordsMatchException("No records match");
             }
 
             modelAndView
                     .addObject(AbstractOaiPmhController.OBJECT_KEY, results);
 
-            if (results.size() > ((results.getPageSize() * results
+            if (results.getSize() > ((results.getPageSize() * results
                     .getCurrentIndex()) + results.getRecords().size())) {
-                resumptionToken.updateResults(results.size(), pageSize,
+                resumptionToken.updateResults(results.getSize(), pageSize,
                         results.getCurrentIndex());
                 modelAndView.addObject(
                         AbstractOaiPmhController.RESUMPTION_TOKEN_KEY,

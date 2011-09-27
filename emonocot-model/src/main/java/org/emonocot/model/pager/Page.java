@@ -63,7 +63,7 @@ public interface Page<T> {
      *
      * @return the total number of objects available.
      */
-    Integer size();
+    Integer getSize();
 
     /**
      * Returns the index of the first record in this result set.

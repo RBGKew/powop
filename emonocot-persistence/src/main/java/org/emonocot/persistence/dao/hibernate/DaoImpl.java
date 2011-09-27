@@ -255,7 +255,7 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
                 if (clazz.equals(type)) {
                     facets.add(new FakeFacet("CLASS",
                             ProjectionConstants.OBJECT_CLASS, clazz.getName(),
-                            page.size()));
+                            page.getSize()));
                 } else {
                     facets.add(new FakeFacet("CLASS",
                             ProjectionConstants.OBJECT_CLASS, clazz.getName(),

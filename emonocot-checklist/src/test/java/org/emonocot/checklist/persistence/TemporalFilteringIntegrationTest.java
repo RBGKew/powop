@@ -25,7 +25,7 @@ public class TemporalFilteringIntegrationTest extends AbstractPersistenceTestSup
 	public void nonFilteringTest() {
 		assertNotNull("TaxonDAO should not be null",taxonDao);
 		Page<ChangeEvent<Taxon>> result = taxonDao.page(null, null, null, null, null);
-		assertEquals("page() should return five objects", Integer.valueOf(5), result.size());		
+		assertEquals("page() should return five objects", Integer.valueOf(5), result.getSize());		
 	}
 	
 	@Test
@@ -33,7 +33,7 @@ public class TemporalFilteringIntegrationTest extends AbstractPersistenceTestSup
 		DateTime dateTime = new DateTime(2011,1, 1, 12, 0, 0, 0);
 		
 		Page<ChangeEvent<Taxon>> result = taxonDao.page(null, dateTime, null, null, null);
-		assertEquals("page() should return three objects", Integer.valueOf(3), result.size());		
+		assertEquals("page() should return three objects", Integer.valueOf(3), result.getSize());		
 	}
 	
 	@Test
@@ -41,7 +41,7 @@ public class TemporalFilteringIntegrationTest extends AbstractPersistenceTestSup
 		DateTime dateTime = new DateTime(2011,10, 1, 12, 0, 0, 0);
 		
 		Page<ChangeEvent<Taxon>> result = taxonDao.page(null, null, dateTime, null, null);
-		assertEquals("page() should return four objects", Integer.valueOf(4), result.size());		
+		assertEquals("page() should return four objects", Integer.valueOf(4), result.getSize());		
 	}
 	
 	@Test
@@ -50,6 +50,6 @@ public class TemporalFilteringIntegrationTest extends AbstractPersistenceTestSup
 		DateTime to = new DateTime(2011,10, 1, 12, 0, 0, 0);
 		
 		Page<ChangeEvent<Taxon>> result = taxonDao.page(null, from, to, null, null);
-		assertEquals("page() should return two objects", Integer.valueOf(2), result.size());		
+		assertEquals("page() should return two objects", Integer.valueOf(2), result.getSize());		
 	}
 }

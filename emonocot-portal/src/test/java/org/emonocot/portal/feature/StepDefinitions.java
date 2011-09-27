@@ -7,9 +7,6 @@ import static org.junit.Assert.assertFalse;
 import java.io.Serializable;
 import java.util.List;
 
-import org.emonocot.model.description.Feature;
-import org.emonocot.model.description.TextContent;
-import org.emonocot.model.taxon.Taxon;
 import org.emonocot.portal.driver.Portal;
 import org.emonocot.portal.driver.SearchResultsPage;
 import org.emonocot.portal.driver.TaxonPage;
@@ -30,8 +27,6 @@ public class StepDefinitions {
      */
     private SearchResultsPage searchResultsPage;
 
-
-
     /**
     *
     */
@@ -42,7 +37,6 @@ public class StepDefinitions {
      *
      */
     private TaxonPage taxonPage;
-
 
     /**
      *
@@ -55,14 +49,14 @@ public class StepDefinitions {
     }
 
     /**
-    *
-    * @param clazz
-    *            Set the class to restrict the search results to
-    */
-   @When("^I select \"([^\"]+)\"$")
-   public final void iSelect(final String clazz) {
-       searchResultsPage = searchResultsPage.selectClassFacet(clazz);
-   }
+     *
+     * @param clazz
+     *            Set the class to restrict the search results to
+     */
+    @When("^I select \"([^\"]+)\"$")
+    public final void iSelect(final String clazz) {
+        searchResultsPage = searchResultsPage.selectClassFacet(clazz);
+    }
 
     /**
      *
@@ -76,92 +70,132 @@ public class StepDefinitions {
 
     /**
      *
+     * @param results Set the results
+     */
+    @Then("^the following results should be displayed:$")
+    public final void theFollowingResultsShouldBeDisplayed(
+            final List<ResultRow> results) {
+        int actualNumberOfResults = (int) searchResultsPage.getResultNumber();
+        assertEquals(results.size(), actualNumberOfResults);
+        List<String[]> actualResults = searchResultsPage.getResults();
+        for (int i = 0; i < actualNumberOfResults; i++) {
+            assertArrayEquals(actualResults.get(i), results.get(i).toArray());
+        }
+    }
+
+    /**
+     *
+     * @param message Set the message
+     */
+    @Then("^the search results page should display \"([^\"]*)\"$")
+    public final void theSearchResultsPageShouldDisplay(final String message) {
+        assertEquals(message, searchResultsPage.getMessage());
+    }
+
+    /**
+     *
      * @param options
      *            Set the options
      *
      */
     @Then("^there should be the following options:$")
     public final void thereShouldBeOptions(final List<Row> options) {
-        assertArrayEquals(
-                options.get(0).toArray(),
+        assertArrayEquals(options.get(0).toArray(),
                 searchResultsPage.getClassFacets());
 
     }
 
-   /**
-    * @param identifier Set the page
-    */
-   @When("^I navigate to taxon page \"([^\"]*)\"$")
-   public final void iNavigateToThePage(final String identifier) {
-       taxonPage = portal
-               .getTaxonPage(identifier);
-   }
+    /**
+     * @param identifier
+     *            Set the page
+     */
+    @When("^I navigate to taxon page \"([^\"]*)\"$")
+    public final void iNavigateToThePage(final String identifier) {
+        taxonPage = portal.getTaxonPage(identifier);
+    }
 
-   /**
-    *
-    * @param title Set the title
-    */
-   @Then("^the page title should be \"([^\"]*)\"$")
-   public final void thePageTitleShouldBeAcorus(final String title) {
-       assertEquals(title, taxonPage.getTaxonName());
-   }
+    /**
+     *
+     * @param title
+     *            Set the title
+     */
+    @Then("^the page title should be \"([^\"]*)\"$")
+    public final void thePageTitleShouldBeAcorus(final String title) {
+        assertEquals(title, taxonPage.getTaxonName());
+    }
 
-   /**
-    *
-    * @param clazz Set the page class
-    */
-   @Then("^the title class should be \"([^\"]*)\"$")
-   public final void theTitleClassShouldBeTaxonName(final String clazz) {
-       assertEquals(clazz, taxonPage.getTaxonNameClass());
-   }
+    /**
+     *
+     * @param clazz
+     *            Set the page class
+     */
+    @Then("^the title class should be \"([^\"]*)\"$")
+    public final void theTitleClassShouldBeTaxonName(final String clazz) {
+        assertEquals(clazz, taxonPage.getTaxonNameClass());
+    }
 
-   /**
-    *
-    * @param paragraph
-    *            Set the paragraph
-    * @param heading
-    *            Set the heading
-    */
-   @Then("^there should be a paragraph \"([^\"]*)\" with the heading \"([^\"]*)\"$")
-   public final void thereShouldBeAParagraphWithTheHeading(
-           final String paragraph, final String heading) {
-       assertEquals(paragraph, taxonPage.getParagraph(heading));
-   }
+    /**
+     *
+     * @param paragraph
+     *            Set the paragraph
+     * @param heading
+     *            Set the heading
+     */
+    @Then("^there should be a paragraph \"([^\"]*)\" with the heading \"([^\"]*)\"$")
+    public final void thereShouldBeAParagraphWithTheHeading(
+            final String paragraph, final String heading) {
+        assertEquals(paragraph, taxonPage.getParagraph(heading));
+    }
 
-   /**
-   *
-   * @param heading
-   *            Set the heading
-   */
-  @Then("^there should not be a paragraph with the heading \"([^\"]*)\"$")
-   public final void thereShouldNotBeAParagraphWithTheHeading(
-           final String heading) {
-      assertFalse(taxonPage.doesParagraphExist(heading));
-  }
+    /**
+     *
+     * @param heading
+     *            Set the heading
+     */
+    @Then("^there should not be a paragraph with the heading \"([^\"]*)\"$")
+    public final void thereShouldNotBeAParagraphWithTheHeading(
+            final String heading) {
+        assertFalse(taxonPage.doesParagraphExist(heading));
+    }
 
-  /**
-   *
-   * @param protologue Set the protologue
-   */
-  @Then("^the protologue should be \"([^\"]*)\"$")
-  public final void theProtologueShouldBe(final String protologue) {
-      assertEquals(taxonPage.getProtologue(), protologue);
-  }
-  
-  @Then("^the main image caption should be \"([^\"]*)\"$")
-  public void theMainImageCaptionShouldBe(String caption) {
-      assertEquals(caption,taxonPage.getMainImageCaption());
-  }
+    /**
+     *
+     * @param protologue
+     *            Set the protologue
+     */
+    @Then("^the protologue should be \"([^\"]*)\"$")
+    public final void theProtologueShouldBe(final String protologue) {
+        assertEquals(taxonPage.getProtologue(), protologue);
+    }
 
-  @Then("^the main image should be \"([^\"]*)\"$")
-  public void theMainImageShouldBe(String image) {
-	  assertEquals(image,taxonPage.getMainImage());
-  }
-  
-  @Then("^there should be (\\d+) thumbnails$")
-  public void thereShouldBeThumbnails(int thumbnails) {
-	  assertEquals(thumbnails,taxonPage.getThumbnails());
-  }
+    /**
+     *
+     * @param caption
+     *            Set the caption
+     */
+    @Then("^the main image caption should be \"([^\"]*)\"$")
+    public final void theMainImageCaptionShouldBe(final String caption) {
+        assertEquals(caption, taxonPage.getMainImageCaption());
+    }
+
+    /**
+     *
+     * @param image
+     *            Set the image
+     */
+    @Then("^the main image should be \"([^\"]*)\"$")
+    public final void theMainImageShouldBe(final String image) {
+        assertEquals(image, taxonPage.getMainImage());
+    }
+
+    /**
+     *
+     * @param thumbnails Set the thumbnails
+     */
+    @Then("^there should be (\\d+) thumbnails$")
+    public final void thereShouldBeThumbnails(final int thumbnails) {
+        assertEquals(thumbnails, taxonPage.getThumbnails());
+    }
 
     /**
      *
@@ -194,7 +228,31 @@ public class StepDefinitions {
          * @return the row as an array
          */
         public final String[] toArray() {
-            return new String[] {first, second};
+            return new String[] {first, second };
         }
+    }
+
+    /**
+    *
+    * @author ben
+    *
+    */
+   public static class ResultRow {
+       /**
+        *
+        */
+       public String page;
+       /**
+        *
+        */
+       public String text;
+
+       /**
+       *
+       * @return the row as an array
+       */
+      public final String[] toArray() {
+          return new String[] {page, text };
+      }
     }
 }

@@ -133,7 +133,7 @@ public class SearchController {
                     selectedFacets);
             queryLog.info("Query: \'{}\', start: {}, limit: {},"
                     + "facet: [{}], {} results", new Object[] { query, start,
-                    limit, selectedFacets, result.size() });
+                    limit, selectedFacets, result.getSize() });
 
             result.putParam("query", query);
             modelAndView.addObject("result", result);
@@ -151,7 +151,7 @@ public class SearchController {
                         FacetName.AUTHORITY}, selectedFacets);
                 queryLog.info("Query: \'{}\', start: {}, limit: {},"
                         + "facet: [{}], {} results", new Object[] {query,
-                        start, limit, selectedFacets, result.size() });
+                        start, limit, selectedFacets, result.getSize() });
                 break;
             case 1:
                 logger.debug("Using the taxon service for "+ query);
@@ -161,7 +161,7 @@ public class SearchController {
                         FacetName.AUTHORITY }, selectedFacets);
                 queryLog.info("Query: \'{}\', start: {}, limit: {},"
                         + "facet: [{}], {} results", new Object[] {query,
-                        start, limit, selectedFacets, result.size() });
+                        start, limit, selectedFacets, result.getSize() });
                 break;
             default:
                 logger.error("We can't search by an object of FacetName.CLASS idx="

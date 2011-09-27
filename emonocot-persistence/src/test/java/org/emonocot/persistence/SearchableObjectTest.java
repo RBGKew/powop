@@ -116,7 +116,7 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
         Page<SearchableObject> pager = searchableObjectDao.search("Aus", null,
                 null, null, null, null);
         assertEquals("there should be seven objects saved", (Integer) 7,
-                pager.size());
+                pager.getSize());
     }
 
    /**

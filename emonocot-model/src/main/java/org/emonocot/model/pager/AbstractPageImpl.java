@@ -264,7 +264,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      *
      * @return the total number of objects available.
      */
-    public final Integer size() {
+    public final Integer getSize() {
         return size;
     }
 

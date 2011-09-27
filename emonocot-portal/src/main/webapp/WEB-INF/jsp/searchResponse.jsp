@@ -39,8 +39,18 @@
 						<input type="submit" value="go" name="submit" /> 
 					</form>
 					<div id="pages">
-						<spring:message code="pager.message" arguments="${result.firstRecord}, ${result.lastRecord}" />
-						<jsp:expression>result.size()</jsp:expression>
+					  <c:set var="query" value="${result.params['query']}" />
+					  <c:choose>
+					    <c:when test="${result.size != 0}">
+					      <spring:message code="pager.message" arguments="${result.firstRecord}, ${result.lastRecord}, ${result.size}" />
+					    </c:when>
+					    <c:when test="${empty query}">					  
+					      <spring:message code="pager.no.results" />
+					    </c:when>
+					    <c:otherwise>
+					      <spring:message code="pager.no.results.matching" arguments="${query}" />
+					    </c:otherwise>
+					  </c:choose>						
 					</div>
 					<jsp:scriptlet>
 						Integer[] pageSizes = new Integer[] { 10, 20, 50, 100 };

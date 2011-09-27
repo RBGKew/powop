@@ -1,5 +1,7 @@
 package org.emonocot.portal.feature;
 
+import static org.junit.Assert.fail;
+
 import java.util.List;
 import java.util.Stack;
 
@@ -14,6 +16,7 @@ import org.emonocot.model.taxon.Taxon;
 import org.emonocot.service.ImageService;
 import org.emonocot.service.ReferenceService;
 import org.emonocot.service.TaxonService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import cucumber.annotation.After;
@@ -67,6 +70,23 @@ public class TestDataManager {
             data.push(i);
         }
     }
+
+   /**
+    *
+    * @param name Set the name
+    */
+   @Given("^there are no taxa called \"([^\"]*)\"$")
+   public final void thereAreNoTaxaCalled(final String name) {
+       for (int i = 0; i < data.size(); i++) {
+           Base b = data.get(i);
+           if (b.getClass().equals(Taxon.class)) {
+               Taxon t = (Taxon) b;
+               if (name.equals(t.getName())) {
+                   fail();
+               }
+           }
+       }
+   }
 
     /**
     *
