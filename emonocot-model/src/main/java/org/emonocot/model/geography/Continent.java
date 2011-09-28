@@ -46,7 +46,7 @@ public enum Continent implements GeographicalRegion {
     /**
      * The TDWG Code.
      */
-    private int code;
+    private Integer code;
 
     /**
      * The human-readable name.
@@ -67,7 +67,7 @@ public enum Continent implements GeographicalRegion {
      *
      * @return The TDWG code of this continent.
      */
-    public int getCode() {
+    public Integer getCode() {
         return code;
     }
 
