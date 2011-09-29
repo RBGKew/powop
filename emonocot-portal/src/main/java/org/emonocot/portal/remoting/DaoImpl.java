@@ -146,8 +146,10 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
     public final Page<T> search(final String query, final String spatialQuery,
             final Integer pageSize, final Integer pageNumber,
             final FacetName[] facets,
-            final Map<FacetName, Integer> selectedFacets) {
+            final Map<FacetName, Integer> selectedFacets,
+            final String sort) {
         // TODO Auto-generated method stub
+        // TODO move persistence to persistence package?
         return null;
     }
 

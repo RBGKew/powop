@@ -93,8 +93,8 @@ public abstract class ServiceImpl<T extends Base, DAO extends Dao<T>>
     @Transactional(readOnly = true)
     public Page<T> search(String query, String spatialQuery, Integer pageSize,
             Integer pageNumber, FacetName[] facets,
-            Map<FacetName, Integer> selectedFacets) {
+            Map<FacetName, Integer> selectedFacets, String sort) {
         return dao.search(query, spatialQuery, pageSize, pageNumber, facets,
-                selectedFacets);
+                selectedFacets, sort);
     }
 }

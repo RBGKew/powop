@@ -6,7 +6,6 @@ import org.emonocot.persistence.dao.ReferenceDao;
 import org.emonocot.service.FacetName;
 import org.hibernate.search.query.dsl.FacetContext;
 import org.hibernate.search.query.engine.spi.FacetManager;
-import org.hibernate.search.query.facet.FacetingRequest;
 import org.springframework.stereotype.Repository;
 
 /**

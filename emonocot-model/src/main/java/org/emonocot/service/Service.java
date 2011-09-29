@@ -78,5 +78,6 @@ public interface Service<T extends Base> {
     */
    Page<T> search(String query, String spatialQuery, Integer pageSize,
          Integer pageNumber, FacetName[] facets,
-         Map<FacetName, Integer> selectedFacets);
+         Map<FacetName, Integer> selectedFacets,
+         String sort);
 }

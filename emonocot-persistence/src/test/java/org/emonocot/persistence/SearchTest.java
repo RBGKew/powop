@@ -15,19 +15,11 @@ import org.emonocot.model.pager.Page;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.dao.TaxonDao;
 import org.emonocot.service.FacetName;
-import org.hibernate.SessionFactory;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 import org.hibernate.search.query.facet.Facet;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 /**
  *
@@ -83,7 +75,7 @@ public class SearchTest extends AbstractPersistenceTest {
     public final void testSearch() {
         assertNotNull("taxonDao should not be null", taxonDao);
         Page<Taxon> page = taxonDao.search("name:Aus", null, null, null,
-                new FacetName[]{FacetName.CONTINENT}, null);
+                new FacetName[]{FacetName.CONTINENT}, null, null);
         for (Taxon t : page.getRecords()) {
             System.out.println(t.getName());
         }
@@ -105,7 +97,7 @@ public class SearchTest extends AbstractPersistenceTest {
         selectedFacets.put(FacetName.CONTINENT, 0);
 
        Page<Taxon> page = taxonDao.search("name:Aus", null, null, null,
-               new FacetName[]{FacetName.CONTINENT}, selectedFacets);
+               new FacetName[]{FacetName.CONTINENT}, selectedFacets, null);
        for (Taxon t : page.getRecords()) {
            System.out.println(t.getName());
        }
@@ -126,7 +118,7 @@ public class SearchTest extends AbstractPersistenceTest {
       Page<Taxon> page = taxonDao.search(
 
               "name:Aus", "Intersects(100.0 -40.0 155.0 -5.0)",
-              null, null, null, null);
+              null, null, null, null, null);
       for (Taxon t : page.getRecords()) {
           System.out.println(t.getName());
       }

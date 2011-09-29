@@ -19,6 +19,8 @@ import org.emonocot.model.taxon.Taxon;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Fields;
+import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
 
@@ -76,7 +78,7 @@ public class Image extends SearchableObject {
      *
      * @return the caption
      */
-    @Field
+    @Fields({@Field,@Field(name="label", index = Index.UN_TOKENIZED)})
     public String getCaption() {
         return caption;
     }

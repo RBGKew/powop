@@ -41,6 +41,8 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
 import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Fields;
+import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
 
@@ -294,7 +296,7 @@ public class Taxon extends SearchableObject {
      *
      * @return the full taxonomic name of the taxon, including authority
      */
-    @Field
+    @Fields(value={@Field,@Field(name="label", index=Index.UN_TOKENIZED)})
     public String getName() {
         return name;
     }

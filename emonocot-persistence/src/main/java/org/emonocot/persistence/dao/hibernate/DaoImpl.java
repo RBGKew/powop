@@ -8,9 +8,10 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
 import org.apache.lucene.util.Version;
 import org.emonocot.model.common.Base;
-import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.pager.DefaultPageImpl;
@@ -34,8 +35,6 @@ import org.hibernate.search.query.dsl.FacetContext;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.hibernate.search.query.engine.spi.FacetManager;
 import org.hibernate.search.query.facet.Facet;
-import org.hibernate.search.query.facet.FacetSortOrder;
-import org.hibernate.search.query.facet.FacetingRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.orm.hibernate3.HibernateObjectRetrievalFailureException;
@@ -283,7 +282,8 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
             final String spatialQuery,
             final Integer pageSize, final Integer pageNumber,
             final FacetName[] facets,
-            final Map<FacetName, Integer> selectedFacets) {
+            final Map<FacetName, Integer> selectedFacets,
+            final String sort) {
         FullTextSession fullTextSession
          = Search.getFullTextSession(getSession());
         SearchFactory searchFactory = fullTextSession.getSearchFactory();
@@ -319,6 +319,11 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
                   createFacetingRequest(queryBuilder.facet(), facetName, facetManager);
               }
             }
+
+            //Sort by Relevance/Lucene 'Score'
+            if(sort==null) fullTextQuery.setSort(new Sort(new SortField(null, SortField.SCORE, false)));
+            //TODO figure out what type we are actually searching by
+            else fullTextQuery.setSort(new Sort(new SortField(sort, SortField.STRING_VAL, false)));
 
             List<T> results = (List<T>) fullTextQuery.list();
 

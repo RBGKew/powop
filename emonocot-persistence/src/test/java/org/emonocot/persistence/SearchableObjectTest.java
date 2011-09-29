@@ -5,7 +5,9 @@ import static org.junit.Assert.assertThat;
 import static org.hamcrest.collection.IsCollectionContaining.hasItems;
 import static org.hamcrest.collection.IsArrayContaining.hasItemInArray;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -114,7 +116,7 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
     @Test
     public final void testSearch() {
         Page<SearchableObject> pager = searchableObjectDao.search("Aus", null,
-                null, null, null, null);
+                null, null, null, null, null);
         assertEquals("there should be seven objects saved", (Integer) 7,
                 pager.getSize());
     }
@@ -129,7 +131,7 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
         Page<SearchableObject> pager = searchableObjectDao.search("Aus", null,
                 null, null,
                 new FacetName[] {FacetName.CLASS, FacetName.FAMILY },
-                selectedFacets);
+                selectedFacets, null);
         assertThat("There should be two facets returned", pager.getFacetNames(),
                 hasItems("CLASS", "FAMILY"));
 
@@ -157,7 +159,7 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
                 null, null,
                 new FacetName[] {FacetName.CLASS,
                 FacetName.FAMILY, FacetName.CONTINENT,
-                FacetName.AUTHORITY }, selectedFacets);
+                FacetName.AUTHORITY }, selectedFacets, null);
         assertThat("There should be two facets returned", pager.getFacetNames(),
                 hasItems("CLASS", "FAMILY"));
 
@@ -171,5 +173,27 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
                 facetNames, hasItemInArray("org.emonocot.model.taxon.Taxon"));
         assertThat("org.emonocot.model.media.Image should be a facet in CLASS",
                 facetNames, hasItemInArray("org.emonocot.model.media.Image"));
+    }
+    
+    @Test
+    public final void testSearchWithSorting(){
+        //run a search and get results by relevance (default)
+        Page<SearchableObject> results = searchableObjectDao.search("Au*", null, null, null, null, null, null);
+        System.out.println("The unsorted order");
+        for (SearchableObject searchableObject : results.getRecords()) {
+            //Print the 'title'
+            if(searchableObject.getClass().getName().contains("Taxon"))
+                    System.out.println(((Taxon) searchableObject).getName());
+            else System.out.println(((Image) searchableObject).getCaption());
+        }
+        
+        results = searchableObjectDao.search("Au*", null, null, null, null, null, "label");
+        System.out.println("The sorted order");
+        for (SearchableObject searchableObject : results.getRecords()) {
+            //Print the 'title'
+            if(searchableObject.getClass().getName().contains("Taxon"))
+                    System.out.println(((Taxon) searchableObject).getName());
+            else System.out.println(((Image) searchableObject).getCaption());
+        }
     }
 }

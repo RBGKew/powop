@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-  <!--<logger name="org.emonocot.job" additivity="false" level="WARN">
-    <appender-ref ref="stdout"/>
-  </logger>
-  <logger name="org.emonocot.ws" additivity="false" level="INFO">
-    <appender-ref ref="stdout"/>
-  </logger>-->
   <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <File>${logging.harvester.location}</File>
+    <File>${logging.location}</File>
     <encoder>
       <pattern>%d{ISO8601} | %X{req.remoteHost} | %X{req.requestURI} | %X{req.userAgent}  | %-5p | %t | %c | %m%n</pattern>
     </encoder>
     <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
       <maxIndex>10</maxIndex>
-      <FileNamePattern>${logging.harvester.location}.%i</FileNamePattern>
+      <FileNamePattern>${logging.location}.%i</FileNamePattern>
     </rollingPolicy>
     <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
       <MaxFileSize>100MB</MaxFileSize>
@@ -24,17 +18,7 @@
       <pattern>%d{ISO8601} | %X{req.remoteHost} | %X{req.requestURI} | %X{req.userAgent}  | %-5p | %t | %c | %m%n</pattern>
     </encoder>
   </appender>
-  <root level="${logging.harvester.level}" additivity="true">
-    <appender-ref ref="${logging.harvester.method}"/>
-  </root>
-   <!-- uncomment to see the harvesting debug -->
-  <logger name="org.emonocot.ws" level="DEBUG" additivity="false">
-    <appender-ref ref="${logging.harvester.method}"/>
-  </logger>
-  <logger name="org.emonocot.job" level="DEBUG" additivity="false">
-    <appender-ref ref="${logging.harvester.method}"/>
-  </logger>
-  <logger name="org.emonocot.job.dwc.image" level="DEBUG" additivity="false">
-    <appender-ref ref="${logging.harvester.method}"/>
-  </logger>
+  <root level="${logging.level}" additivity="true">
+    <appender-ref ref="${logging.method}"/>
+  </root>   
 </configuration>

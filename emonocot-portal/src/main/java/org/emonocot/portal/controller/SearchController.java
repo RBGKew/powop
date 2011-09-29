@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -111,7 +110,8 @@ public class SearchController {
             @RequestParam(value = "query", required = false) final String query,
             @RequestParam(value = "limit", required = false, defaultValue = "10") final Integer limit,
             @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
-            @RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets) {
+            @RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
+            @RequestParam(value="sort", required = false) final String sort) {
 
         ModelAndView modelAndView = new ModelAndView("searchResponse");
 
@@ -130,7 +130,7 @@ public class SearchController {
                     query, null, limit, start, new FacetName[] {FacetName.CLASS,
                             FacetName.FAMILY, FacetName.CONTINENT,
                             FacetName.AUTHORITY},
-                    selectedFacets);
+                    selectedFacets, sort);
             queryLog.info("Query: \'{}\', start: {}, limit: {},"
                     + "facet: [{}], {} results", new Object[] { query, start,
                     limit, selectedFacets, result.getSize() });
@@ -148,7 +148,7 @@ public class SearchController {
                 result = imageService.search(query, null, limit,
                         start, new FacetName[] {FacetName.CLASS,
                         FacetName.FAMILY, FacetName.CONTINENT,
-                        FacetName.AUTHORITY}, selectedFacets);
+                        FacetName.AUTHORITY}, selectedFacets, sort);
                 queryLog.info("Query: \'{}\', start: {}, limit: {},"
                         + "facet: [{}], {} results", new Object[] {query,
                         start, limit, selectedFacets, result.getSize() });
@@ -158,7 +158,7 @@ public class SearchController {
                 result = taxonService.search(query, null, limit,
                         start, new FacetName[] {FacetName.CLASS,
                         FacetName.FAMILY, FacetName.CONTINENT,
-                        FacetName.AUTHORITY }, selectedFacets);
+                        FacetName.AUTHORITY }, selectedFacets, sort);
                 queryLog.info("Query: \'{}\', start: {}, limit: {},"
                         + "facet: [{}], {} results", new Object[] {query,
                         start, limit, selectedFacets, result.getSize() });

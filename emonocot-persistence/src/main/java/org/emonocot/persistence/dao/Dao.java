@@ -82,10 +82,12 @@ public interface Dao<T extends Base> {
      *            The names of the facets you want to calculate
      * @param selectedFacets
      *            A map of facets which you would like to restrict the search by
+     * @param sort
+     *            A representation for the order results should be returned in
      * @return a Page from the resultset
      */
   Page<T> search(String query, String spatialQuery, Integer pageSize,
           Integer pageNumber, FacetName[] facets,
-          Map<FacetName, Integer> selectedFacets);
+          Map<FacetName, Integer> selectedFacets, String sort);
 
 }
