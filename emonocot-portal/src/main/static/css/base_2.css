@@ -17,7 +17,7 @@ h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, cite, cod
 
 
 body {
-    background: url(/images/light-bg.jpg) no-repeat #ededed;
+    background: url(images/emonocot/light-bg.jpg) no-repeat #ededed;
     font-family: "Gill Sans", "Verdana", sans-serif;
     font-size: 13px;
     line-height: 18px;
@@ -127,7 +127,7 @@ button, input.input-text, input.button, textarea, select {
 
 input.input-text, textarea {
     display: block;
-    background: #fff url(/images/input-bg.png) no-repeat 0 0;
+    background: #fff url(images/forms/input-bg.png) no-repeat 0 0;
     margin: 0 0 10px;
     padding: 3px 4px;
     border: 1px solid #bbb;
@@ -258,15 +258,15 @@ div#actionHeader h6 a {
     width: 49px;
     padding: 0;
     margin: 0;
-    background: url(../images/logo.png) no-repeat;
+    background: url(images/emonocot/logo.png) no-repeat;
     text-indent: -9999px;
     display: block;
 }
 
-div.home-header h1 {
+div.page-bubble div.home-header h1 {
     font-size: 64px;
     margin-bottom: 0;
-    background: url(../images/logo-lrg.png) no-repeat;
+    background: url(/images/logo-lrg.png) no-repeat;
     text-indent: -9999px;
 }
 
@@ -338,7 +338,7 @@ div#footer p a {
 /* @group Bounce Styles */
 
 div.page-bubble {
-    background: #ccc url(../images/emonocot-home-bg.png) no-repeat;
+    background: #ccc url(images/emonocot/emonocot-home-bg.png) no-repeat;
     margin-left: 180px;
     width: 500px;
     padding: 40px;
@@ -361,7 +361,7 @@ div.page-bubble form {
 
 div.page-bubble .shadow {
     display: block;
-    background: url(../images/page-bubble-shadow.png) no-repeat;
+    background: url(images/emonocot/page-bubble-shadow.png) no-repeat;
     width: 579px;
     height: 17px;
     position: absolute;
@@ -377,7 +377,7 @@ div.page-bubble a#helpLink {
     right: 20px;
     width: 32px;
     height: 32px;
-    background: url(../images/help-icon.png) 0 0 no-repeat;
+    background: url(images/emonocot/help-icon.png) 0 0 no-repeat;
     text-indent: -9999px;
 }
 
@@ -390,7 +390,7 @@ div.steps {
     margin: 20px 0 60px 200px;
     width: 540px;
     height: 140px;
-    /*background: url(../images/bounce-intro-steps.png);*/
+    /*background: url(../images/bounce/bounce-intro-steps.png);*/
 }
 
 div#footerBall {
@@ -414,45 +414,7 @@ div.page-bubble h2 {
 }
 
 body {
-    background: url(../images/light-bg.jpg) no-repeat #eaeaea;
+    background: url(images/emonocot/light-bg.jpg) no-repeat #eaeaea;
     min-width: 1040px;
 }
-
-div.content-wrapper {
-	width: 910px;
-	background-color: #ffffff;
-	background-image: url("/images/clue-bg.jpg?1315525395");
-	background-repeat: repeat-x;
-	background-attachment: scroll;
-	background-position: center bottom;
-	background-clip: border-box;
-	background-origin: padding-box;
-	background-size: auto auto;
-	padding-top: 20px;
-	padding-right: 0pt;
-	padding-bottom: 20px;
-	padding-left: 30px;
-	box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.15);
-	min-height: 430px;
-}
-
-div#annotateHeader {
-	background-color: #ffffff;
-	/*background-image: url("/images/bounce/annotate-bar-light.jpg?1315525395");*/
-	background-repeat: repeat-x;
-	background-attachment: scroll;
-	background-position: 0% 0%;
-	background-clip: border-box;
-	background-origin: padding-box;
-	background-size: auto auto;
-	/*height: 60px;*/
-	height: 80px;
-	width: 940px;
-	box-shadow: 0pt 1px 1px rgba(0, 0, 0, 0.42);
-	border-bottom-left-radius: 3px;
-	border-bottom-right-radius: 3px;
-	position: relative;
-	margin-bottom: 30px;
-}
-
 

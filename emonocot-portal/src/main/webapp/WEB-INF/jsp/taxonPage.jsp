@@ -16,63 +16,66 @@
 		<article>
 			<div class="row">
 				<div class="twelvecol">
-					<header>
-						<h2 id="page-title">
-							<span class="taxonName">${taxon.name}</span>${taxon.authorship}
-						</h2>
-					</header>
-				</div>
-			</div>
-			
-			<c:if test="${taxon.protologue != null}">
-				<c:set var="protologue" value="${taxon.protologue}" />
+					<div class="content-wrapper">
+			<article>
 				<div class="row">
-					<div id="protologue" class="twelvecol">${protologue.title}	${protologue.datePublished} ${protologue.volume} ${protologue.pages}</div>
-				</div>
-			</c:if>
-			<div class="row">
-				<div class="twelvecol">
-			<c:if test="${not empty taxon.images}">
-				<div id="showcase" class="showcase">
-					<c:forEach var="image" items="${taxon.images}" varStatus="status">
-						<div class="showcase-slide">
-							<div class="showcase-content">
-								<img src="${image.url}" title="${image.caption}"
-									alt="${status.index}" />
-							</div>
-
-							<div class="showcase-thumbnail">
-								<img src="${image.url}" alt="${status.index}" width="140px" />
-								<div class="showcase-thumbnail-caption">${image.caption}</div>
-								<div class="showcase-thumbnail-cover">/* */</div>
-							</div>
-							<div class="showcase-caption">
-								<h2>${image.caption}</h2>
-							</div>
-						</div>
-					</c:forEach>
-				</div>
-				<div class="showcase-slide" style="display: none;">
-					<div class="showcase-content">
-						<div class="showcase-content-wrapper"></div>
+					<div class="twelvecol">
+						<header>
+							<h2 id="page-title">
+								<span class="taxonName">${taxon.name}</span>${taxon.authorship}
+							</h2>
+						</header>
 					</div>
 				</div>
-			</c:if>
-			<BR />
-			</div>
-			</div>
-
-			<div id="textContent">
-				<c:forEach var="feature" items="${em:features()}">
-					<c:set var="content" value="${em:content(taxon,feature)}" />
-					<c:if test="${content != null}">
-						<div class="row">
-							<div class="twelvecol">
-								<h5>${feature}</h5>
-								<p>${content.content}</p>
+				<c:if test="${taxon.protologue != null}">
+					<c:set var="protologue" value="${taxon.protologue}" />
+					<div class="row">
+						<div id="protologue" class="twelvecol">${protologue.title}
+							${protologue.datePublished} ${protologue.volume}
+							${protologue.pages}</div>
+					</div>
+				</c:if>
+				<div class="row">
+					<div class="twelvecol">
+						<c:if test="${not empty taxon.images}">
+							<div id="showcase" class="showcase">
+								<c:forEach var="image" items="${taxon.images}" varStatus="status">
+									<div class="showcase-slide">
+										<div class="showcase-content">
+											<img src="${image.url}" title="${image.caption}" alt="${status.index}" />
+										</div>
+										<div class="showcase-thumbnail">
+											<img src="${image.url}" alt="${status.index}" width="140px" />
+											<div class="showcase-thumbnail-caption">${image.caption}</div>
+											<div class="showcase-thumbnail-cover">/* */</div>
+										</div>
+										<div class="showcase-caption">
+											<h2>${image.caption}</h2>
+										</div>
+									</div>
+								</c:forEach>
 							</div>
-						</div>
-					</c:if>
+							<div class="showcase-slide" style="display: none;">
+								<div class="showcase-content">
+									<div class="showcase-content-wrapper"></div>
+								</div>
+							</div>
+						</c:if>
+						<BR />
+					</div>
+				</div>
+
+				<div id="textContent">
+					<c:forEach var="feature" items="${em:features()}">
+						<c:set var="content" value="${em:content(taxon,feature)}" />
+						<c:if test="${content != null}">
+							<div class="row">
+								<div class="twelvecol">
+									<h5>${feature}</h5>
+									<p>${content.content}</p>
+								</div>
+							</div>
+						</c:if>
 				</c:forEach>
 			</div>
 			<c:if test="${not empty em:regions(taxon)}">
@@ -142,86 +145,86 @@
 						</ul>
 					</div>
 				</div>
-			</c:if>
-			<c:if test="${taxon.parent != null}">
-				<div class="row">
-					<h5>
-						<spring:message code="parent" />
-					</h5>
-					<div class="twelvecol">
-						<jsp:element name="a">
-                  <jsp:attribute name="href">
-                    <c:url value="/taxon/${taxon.parent.identifier}" />
-                  </jsp:attribute>
-                  ${taxon.parent.name} ${taxon.parent.authorship}
-                </jsp:element>
-
+				</c:if>
+				<c:if test="${taxon.parent != null}">
+					<div class="row">
+						<h5>
+							<spring:message code="parent" />
+						</h5>
+						<div class="twelvecol">
+							<jsp:element name="a">
+                  				<jsp:attribute name="href">
+                    				<c:url value="/taxon/${taxon.parent.identifier}" />
+                  				</jsp:attribute>
+                  				${taxon.parent.name} ${taxon.parent.authorship}
+                			</jsp:element>
+						</div>
 					</div>
-				</div>
-			</c:if>
-			<c:if test="${not empty taxon.children}">
-				<div class="row">
-					<h5>
-						<spring:message code="children" />
-					</h5>
-					<div class="twelvecol">
-						<ul>
-							<c:forEach var="child" items="${taxon.children}">
-								<li><jsp:element name="a">
-                    <jsp:attribute name="href">
-                      <c:url value="/taxon/${child.identifier}" />
-                    </jsp:attribute>
-                    ${child.name} ${child.authorship}
-                  </jsp:element></li>
-							</c:forEach>
-						</ul>
+				</c:if>
+				<c:if test="${not empty taxon.children}">
+					<div class="row">
+						<h5>
+							<spring:message code="children" />
+						</h5>
+						<div class="twelvecol">
+							<ul>
+								<c:forEach var="child" items="${taxon.children}">
+									<li>
+										<jsp:element name="a">
+                    						<jsp:attribute name="href">
+                      							<c:url value="/taxon/${child.identifier}" />
+                    						</jsp:attribute>
+                    						${child.name} ${child.authorship}
+                  						</jsp:element>
+                  					</li>
+								</c:forEach>
+							</ul>
+						</div>
 					</div>
-				</div>
-			</c:if>
-			<c:if test="${taxon.accepted != null}">
-				<div class="row">
-					<h5>
-						<spring:message code="accepted" />
-					</h5>
-					<div class="twelvecol">
-						<jsp:element name="a">
-                    <jsp:attribute name="href">
-                      <c:url value="/taxon/${taxon.accepted.identifier}" />
-                    </jsp:attribute>
-                    ${taxon.accepted.name} ${taxon.accepted.authorship}
-               </jsp:element>
+				</c:if>
+				<c:if test="${taxon.accepted != null}">
+					<div class="row">
+						<h5>
+							<spring:message code="accepted" />
+						</h5>
+						<div class="twelvecol">
+							<jsp:element name="a">
+                    			<jsp:attribute name="href">
+                      				<c:url value="/taxon/${taxon.accepted.identifier}" />
+                    			</jsp:attribute>
+                    			${taxon.accepted.name} ${taxon.accepted.authorship}
+               				</jsp:element>
+						</div>
 					</div>
-				</div>
-			</c:if>
-			<c:if test="${not empty taxon.synonyms}">
-				<div class="row">
-					<h5>
-						<spring:message code="synonyms" />
-					</h5>
-					<div class="twelvecol">
-						<ul>
-							<c:forEach var="synonym" items="${taxon.synonyms}">
-								<li><jsp:element name="a">
-                      <jsp:attribute name="href">
-                        <c:url value="/taxon/${synonym.identifier}" />
-                      </jsp:attribute>
-                      ${synonym.name} ${synonym.authorship}
-                    </jsp:element></li>
-							</c:forEach>
-						</ul>
+				</c:if>
+				<c:if test="${not empty taxon.synonyms}">
+					<div class="row">
+						<h5>
+							<spring:message code="synonyms" />
+						</h5>
+						<div class="twelvecol">
+							<ul>
+								<c:forEach var="synonym" items="${taxon.synonyms}">
+									<li>
+										<jsp:element name="a">
+                      						<jsp:attribute name="href">
+                        						<c:url value="/taxon/${synonym.identifier}" />
+                      						</jsp:attribute>
+                      						${synonym.name} ${synonym.authorship}
+                    					</jsp:element>
+                    				</li>
+								</c:forEach>
+							</ul>
+						</div>
 					</div>
-				</div>
-			</c:if>
-
-
-		</article>
+				</c:if>
+			</article>
+			</div>
+			</div>
+			</div>
+		</div>
 	</div>
-
-</div>
-
 	<jsp:include page="/WEB-INF/jsp/footer.jsp" />
-
-
 </body>
-	</html>
+</html>
 </jsp:root>
