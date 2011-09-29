@@ -36,11 +36,17 @@ public class GeographyConverter implements
             } else if (code.length() == 3) {
                 return Country.fromString(code);
             }
+        } else if (identifier.length() == 1) {
+            return Continent.fromString(identifier);
+        } else if (identifier.length() == 2) {
+            return Region.fromString(identifier);
+        } else if (identifier.length() == 3) {
+            return Country.fromString(identifier);
         }
         throw new IllegalArgumentException(identifier
                 + " is not a valid TDWG region");
     }
-    
+
     /**
      * @param identifier set the identifier
      * @return a geographical region

@@ -22,6 +22,11 @@
     <function>
         <name>regions</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.util.Set regions(org.emonocot.model.taxon.Taxon)</function-signature>
+        <function-signature>java.util.List regions(org.emonocot.model.taxon.Taxon)</function-signature>
+    </function>
+    <function>
+        <name>map</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.String map(org.emonocot.model.taxon.Taxon)</function-signature>
     </function>
 </taglib>

@@ -5,9 +5,12 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.emonocot.model.common.Base;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.hibernate.DistributionBridge;
+import org.emonocot.model.marshall.json.GeographicalRegionDeserializer;
 import org.emonocot.model.taxon.Taxon;
 import org.hibernate.annotations.Type;
 import org.hibernate.search.annotations.ClassBridge;
@@ -27,12 +30,12 @@ import org.hibernate.search.annotations.Indexed;
         index = Index.UN_TOKENIZED)
 public class Distribution extends Base {
 
-   /**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = -970244833684895241L;
 
-/**
+   /**
     *
     */
    private Taxon taxon;
@@ -48,6 +51,7 @@ public class Distribution extends Base {
      * @param geoRegion
      *            the geographical region this distribution is concerned with
      */
+    @JsonDeserialize(using = GeographicalRegionDeserializer.class)
     public void setRegion(GeographicalRegion geoRegion) {
         this.region = geoRegion;
     }
@@ -66,6 +70,7 @@ public class Distribution extends Base {
     * @param newTaxon
     *            Set the taxon that this distribution is about.
     */
+   @JsonIgnore
    public void setTaxon(Taxon newTaxon) {
        this.taxon = newTaxon;
    }
@@ -76,11 +81,13 @@ public class Distribution extends Base {
    */
   @ManyToOne(fetch = FetchType.LAZY)
   @ContainedIn
+  @JsonIgnore
   public Taxon getTaxon() {
       return taxon;
   }
 
   @Transient
+  @JsonIgnore
   public final String getClassName() {
     return "Distribution";
   }

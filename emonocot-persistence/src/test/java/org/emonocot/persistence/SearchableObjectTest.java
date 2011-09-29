@@ -65,16 +65,16 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
                         .getFullTextSession(getSession());
                 fullTextSession.purgeAll(Taxon.class);
                 fullTextSession.purgeAll(Image.class);
-                Taxon taxon1 = createTaxon("Aus", "1", null, null,
+                Taxon taxon1 = createTaxon("Aus", "1", null, null,"Ausaceae",
                         new GeographicalRegion[] {});
-                Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null,
+                Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null,"Ausaceae",
                         new GeographicalRegion[] {Continent.AUSTRALASIA,
                                 Region.BRAZIL, Region.CARIBBEAN });
-                Taxon taxon3 = createTaxon("Aus ceus", "3", taxon1, null,
+                Taxon taxon3 = createTaxon("Aus ceus", "3", taxon1, null,"Ausaceae",
                         new GeographicalRegion[] {Region.NEW_ZEALAND});
-                Taxon taxon4 = createTaxon("Aus deus", "4", null, taxon2,
+                Taxon taxon4 = createTaxon("Aus deus", "4", null, taxon2,"Ausaceae",
                         new GeographicalRegion[] {});
-                Taxon taxon5 = createTaxon("Aus eus", "5", null, taxon3,
+                Taxon taxon5 = createTaxon("Aus eus", "5", null, taxon3,"Ausaceae",
                         new GeographicalRegion[] {});
                 Image img1 = createImage("Aus", "1");
                 Image img2 = createImage("Aus bus", "2");
@@ -145,6 +145,8 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
                 facetNames, hasItemInArray("org.emonocot.model.taxon.Taxon"));
         assertThat("org.emonocot.model.media.Image should be a facet in CLASS",
                 facetNames, hasItemInArray("org.emonocot.model.media.Image"));
+        assertEquals("There should be one value for the FAMILY facet", 1, pager
+                .getFacets().get("FAMILY").size());
     }
 
     /**
@@ -173,6 +175,8 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
                 facetNames, hasItemInArray("org.emonocot.model.taxon.Taxon"));
         assertThat("org.emonocot.model.media.Image should be a facet in CLASS",
                 facetNames, hasItemInArray("org.emonocot.model.media.Image"));
+        assertEquals("There should be one value for the FAMILY facet", 1, pager
+                .getFacets().get("FAMILY").size());
     }
     
     @Test

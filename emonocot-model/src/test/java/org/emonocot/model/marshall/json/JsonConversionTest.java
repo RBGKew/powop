@@ -8,8 +8,10 @@ import static org.junit.Assert.fail;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.easymock.EasyMock;
+import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
+import org.emonocot.model.geography.Country;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Taxon;
@@ -78,7 +80,7 @@ public class JsonConversionTest {
         EasyMock.expect(imageService.load("urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg")).andReturn(image);
         EasyMock.replay(referenceService, imageService);
 
-        String content = "{\"identifier\":\"urn:kew.org:wcs:taxon:2295\",\"name\":\"Acorus\",\"protologue\":\"urn:kew.org:wcs:publication:1\", \"content\": [{\"feature\":\"habitat\",\"content\":\"Lorem ipsum\"}], \"images\":[\"urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg\"]}";
+        String content = "{\"identifier\":\"urn:kew.org:wcs:taxon:2295\",\"name\":\"Acorus\",\"protologue\":\"urn:kew.org:wcs:publication:1\", \"content\": [{\"feature\":\"habitat\",\"content\":\"Lorem ipsum\"}], \"images\":[\"urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg\"],\"distribution\":[{\"region\":\"REU\"}]}";
         Taxon taxon = (Taxon) objectMapper.readValue(content, Taxon.class);
         EasyMock.verify(referenceService, imageService);
 
@@ -99,6 +101,10 @@ public class JsonConversionTest {
                 taxon.getProtologue());
         assertTrue("The taxon should contain the image", taxon.getImages()
                 .contains(image));
+        assertFalse("The taxon should contain a distribution", taxon
+                .getDistribution().isEmpty());
+        assertTrue("The taxon should occur in Reunion", taxon.getDistribution()
+                .containsKey(Country.REU));
 
     }
 
@@ -113,11 +119,16 @@ public class JsonConversionTest {
         Taxon taxon = new Taxon();
         taxon.setIdentifier("urn:kew.org:wcs:taxon:2295");
         taxon.setName("Acorus");
+        System.out.println(objectMapper.writeValueAsString(taxon));
         TextContent textContent = new TextContent();
         textContent.setContent("Lorem ipsum");
         textContent.setFeature(Feature.habitat);
         textContent.setTaxon(taxon);
         taxon.getContent().put(Feature.habitat, textContent);
+        Distribution distribution = new Distribution();
+        distribution.setTaxon(taxon);
+        distribution.setRegion(Country.REU);
+        taxon.getDistribution().put(Country.REU, distribution);
         Reference reference = new Reference();
         reference.setIdentifier("urn:kew.org:wcs:publication:1");
         taxon.setProtologue(reference);
@@ -143,6 +154,7 @@ public class JsonConversionTest {
         Image image = new Image();
         image.setIdentifier("urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg");
         image.setCaption("Acorus");
+        System.out.println(objectMapper.writeValueAsString(image));
         image.getTaxa().add(taxon);
 
         try {

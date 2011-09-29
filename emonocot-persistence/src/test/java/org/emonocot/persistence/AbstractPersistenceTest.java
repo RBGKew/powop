@@ -70,17 +70,19 @@ public abstract class AbstractPersistenceTest {
     /**
     *
     * @param name the name of the taxon
-    * @param identifier set the identifier of the taxon
-    * @param parent the taxonomic parent
-    * @param accepted the accepted name
-    * @param distributions the distribution of the taxon
+     * @param identifier set the identifier of the taxon
+     * @param parent the taxonomic parent
+     * @param accepted the accepted name
+     * @param family the family
+     * @param distributions the distribution of the taxon
     * @return a new taxon
     */
     final Taxon createTaxon(final String name, final String identifier,
-            final Taxon parent, final Taxon accepted,
+            final Taxon parent, final Taxon accepted, final String family,
             final GeographicalRegion[] distributions) {
        Taxon taxon = new Taxon();
        taxon.setName(name);
+       taxon.setFamily(family);
        taxon.setIdentifier(identifier);
        if (parent != null) {
            taxon.setParent(parent);

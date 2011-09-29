@@ -30,8 +30,8 @@ public class SearchResultsPage extends PageObject {
    /**
    *
    */
-  @FindBy(how = How.ID, using = "CLASS")
-  private WebElement classFacets;
+  @FindBy(how = How.ID, using = "facets")
+  private WebElement facets;
 
    /**
     *
@@ -42,23 +42,23 @@ public class SearchResultsPage extends PageObject {
     }
 
     /**
-     *
+     * @param facetName set the facet name
      * @return the number of class facets
      */
-    public final Integer getClassFacetNumber() {
-        return classFacets.findElements(By.xpath("ul/li")).size();
+    public final Integer getFacetNumber(final String facetName) {
+        return facets.findElements(By.xpath("li[@id = '" + facetName + "']/ul/li")).size();
     }
 
     /**
-     *
-     * @return an array of the class facet labels
+     * @param facetName Set the facet name
+     * @return an array of the facet labels
      */
-    public final String[] getClassFacets() {
-        List<WebElement> classFacetOptions = classFacets.findElements(By
-                .xpath("ul/li"));
-        String[] result = new String[classFacetOptions.size()];
+    public final String[] getFacets(final String facetName) {
+        List<WebElement> facetOptions = facets.findElements(By
+                .xpath("li[h2/text() = '" + facetName + "']/ul/li"));
+        String[] result = new String[facetOptions.size()];
         for (int i = 0; i < result.length; i++) {
-            WebElement classFacetOption = classFacetOptions.get(i);
+            WebElement classFacetOption = facetOptions.get(i);
 
             try {
                 result[i] = classFacetOption.findElement(By.tagName("a"))
@@ -71,13 +71,14 @@ public class SearchResultsPage extends PageObject {
     }
 
     /**
-     *
-     * @param clazz the name of the class to facet on
+     * @param facetName the name of the facet
+     * @param facetValue the name of the facet value to select
      * @return the corresponding search results page
      */
-    public final SearchResultsPage selectClassFacet(final String clazz) {
-        WebElement classFacet = classFacets.findElement(By
-                .xpath("ul/li/a[text() = \'" + clazz + "\']"));
+    public final SearchResultsPage selectFacet(final String facetName,
+            final String facetValue) {
+        WebElement classFacet = facets.findElement(By
+                .xpath("li[h2/text() = '" + facetName + "']/ul/li/a[text() = \'" + facetValue + "\']"));
         return openAs(classFacet.getAttribute("href"),
                 SearchResultsPage.class);
     }

@@ -31,10 +31,39 @@ public class TaxonRow {
    *
    */
     public String protologue;
-    
+
+    /**
+     *
+     */
     public String image1;
-    
+
+    /**
+     *
+     */
     public String image2;
-    
+
+    /**
+     *
+     */
     public String image3;
+
+    /**
+     *
+     */
+    public String family;
+
+    /**
+    *
+    */
+   public String distribution1;
+
+   /**
+    *
+    */
+   public String distribution2;
+
+   /**
+    *
+    */
+   public String distribution3;
 }

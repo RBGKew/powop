@@ -3,7 +3,6 @@
  */
 package org.emonocot.persistence.dao.hibernate;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.emonocot.model.common.SearchableObject;

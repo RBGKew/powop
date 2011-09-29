@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.Stack;
 
 import org.emonocot.model.common.Base;
+import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
+import org.emonocot.model.geography.GeographicalRegion;
+import org.emonocot.model.geography.GeographyConverter;
 
 import org.emonocot.model.media.Image;
 import org.emonocot.model.reference.Reference;
@@ -30,6 +33,11 @@ import cucumber.annotation.en.Given;
  *
  */
 public class TestDataManager {
+
+    /**
+     *
+     */
+    private GeographyConverter geographyConverter = new GeographyConverter();
 
     /**
      *
@@ -100,6 +108,7 @@ public class TestDataManager {
            Taxon t = new Taxon();
            data.push(t);
            t.setName(taxonRow.name);
+           t.setFamily(taxonRow.family);
            t.setIdentifier(taxonRow.identifier);
            if (taxonRow.diagnostic != null) {
                createTextualData(t, taxonRow.diagnostic, Feature.diagnostic);
@@ -126,6 +135,30 @@ public class TestDataManager {
                Image image = new Image();
                image.setIdentifier(taxonRow.image3);
                t.getImages().add(image);
+           }
+           if (taxonRow.distribution1 != null) {
+               Distribution distribution = new Distribution();
+               GeographicalRegion geographicalRegion
+                   = geographyConverter.convert(taxonRow.distribution1);
+               distribution.setRegion(geographicalRegion);
+               distribution.setTaxon(t);
+               t.getDistribution().put(geographicalRegion, distribution);
+           }
+           if (taxonRow.distribution2 != null) {
+               Distribution distribution = new Distribution();
+               GeographicalRegion geographicalRegion
+                   = geographyConverter.convert(taxonRow.distribution2);
+               distribution.setRegion(geographicalRegion);
+               distribution.setTaxon(t);
+               t.getDistribution().put(geographicalRegion, distribution);
+           }
+           if (taxonRow.distribution3 != null) {
+               Distribution distribution = new Distribution();
+               GeographicalRegion geographicalRegion
+                   = geographyConverter.convert(taxonRow.distribution3);
+               distribution.setRegion(geographicalRegion);
+               distribution.setTaxon(t);
+               t.getDistribution().put(geographicalRegion, distribution);
            }
            taxonService.save(t);
        }

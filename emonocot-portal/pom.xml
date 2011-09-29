@@ -210,28 +210,17 @@
                 <nosuffix>true</nosuffix>
                 <aggregations>
                   <aggregation>
-                    <output>${project.build.directory}/static/js/jquery.aw-showcase.js</output>
+                    <output>${project.build.directory}/static/js/header.js</output>
                     <includes>
-                      <!-- <include>${project.build.directory}/static/uncompressed/modernizr-2.0.4.js</include> -->
                       <include>${project.build.directory}/static/uncompressed/jquery.aw-showcase.js</include>
                     </includes>
                   </aggregation>
-                  
-                
                   <aggregation>
                     <output>${project.build.directory}/static/js/functions.js</output>
-                    <includes>
-                      <!-- <include>${project.build.directory}/static/uncompressed/modernizr-2.0.4.js</include> -->
+                    <includes>                      
                       <include>${project.build.directory}/static/uncompressed/functions.js</include>
                     </includes>
                   </aggregation>
-                  
-                <!--   <aggregation>
-                    <output>${project.build.directory}/static/js/footer.js</output>
-                    <includes>
-                      <include>${project.build.directory}/static/uncompressed/css3-mediaqueries.js</include>
-                    </includes>
-                  </aggregation> -->
                 </aggregations>
               </configuration>
 			</plugin>

@@ -6,24 +6,24 @@ import java.util.Map;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.SerializerProvider;
-import org.emonocot.model.description.Content;
-import org.emonocot.model.description.Feature;
+import org.emonocot.model.description.Distribution;
+import org.emonocot.model.geography.GeographicalRegion;
 
 /**
  *
  * @author ben
  *
  */
-public class DescriptionMapSerializer extends
-        JsonSerializer<Map<Feature, Content>> {
+public class DistributionMapSerializer extends
+        JsonSerializer<Map<GeographicalRegion, Distribution>> {
 
     @Override
-    public final void serialize(final Map<Feature, Content> map,
+    public final void serialize(final Map<GeographicalRegion, Distribution> map,
             final JsonGenerator jsonGenerator,
             final SerializerProvider serializationProvider) throws IOException {
         jsonGenerator.writeStartArray();
-        for (Content content : map.values()) {
-            jsonGenerator.writeObject(content);
+        for (Distribution distribution : map.values()) {
+            jsonGenerator.writeObject(distribution);
         }
         jsonGenerator.writeEndArray();
 

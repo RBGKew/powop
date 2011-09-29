@@ -5,7 +5,7 @@ package org.emonocot.model.geography;
  * @author ben
  *
  */
-public enum Region implements GeographicalRegion {
+public enum Region implements GeographicalRegion<Region> {
     NORTHERN_EUROPE(10, "Northern Europe", Continent.EUROPE),
     MIDDLE_EUROPE(11, "Middle Europe", Continent.EUROPE),
     SOUTHWESTERN_EUROPE(12, "Southwestern Europe", Continent.EUROPE),
@@ -149,5 +149,15 @@ public enum Region implements GeographicalRegion {
     @Override
     public String toString() {
         return Integer.toString(code);
+    }
+
+   /**
+    *
+    * @param other the other region
+    * @return 1 if other is after this, -1 if other is before this and 0 if
+    *         other is equal to this
+    */
+    public int compareNames(final Region other) {
+        return this.name.compareTo(other.name);
     }
 }

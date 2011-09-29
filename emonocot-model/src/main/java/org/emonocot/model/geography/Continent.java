@@ -5,7 +5,7 @@ package org.emonocot.model.geography;
  * @author ben
  *
  */
-public enum Continent implements GeographicalRegion {
+public enum Continent implements GeographicalRegion<Continent> {
     /**
      *
      */
@@ -98,5 +98,15 @@ public enum Continent implements GeographicalRegion {
     @Override
     public String toString() {
         return Integer.toString(code);
+    }
+
+   /**
+    *
+    * @param other the other region
+    * @return 1 if other is after this, -1 if other is before this and 0 if
+    *         other is equal to this
+    */
+    public int compareNames(final Continent other) {
+        return this.name.compareTo(other.name);
     }
 }

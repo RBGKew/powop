@@ -49,13 +49,13 @@ public class StepDefinitions {
     }
 
     /**
-     *
-     * @param clazz
-     *            Set the class to restrict the search results to
+     * @param facetName the facet to restric
+     * @param facetValue
+     *            Set the facet value to select
      */
-    @When("^I select \"([^\"]+)\"$")
-    public final void iSelect(final String clazz) {
-        searchResultsPage = searchResultsPage.selectClassFacet(clazz);
+    @When("^I restrict the \"([^\"]+)\" by selecting \"([^\"]+)\"$")
+    public final void iSelect(final String facetName, final String facetValue) {
+        searchResultsPage = searchResultsPage.selectFacet(facetName, facetValue);
     }
 
     /**
@@ -98,10 +98,38 @@ public class StepDefinitions {
      *            Set the options
      *
      */
-    @Then("^there should be the following options:$")
-    public final void thereShouldBeOptions(final List<Row> options) {
-        assertArrayEquals(options.get(0).toArray(),
-                searchResultsPage.getClassFacets());
+    @Then("^the Type facet should have the following options:$")
+    public final void thereShouldBeOptionsForClassFacet(final List<Row> options) {
+        assertFacets("Type", options);
+
+    }
+
+    /**
+    *
+    * @param options
+    *            Set the options
+    *
+    */
+   @Then("^the Family facet should have the following options:$")
+   public final void thereShouldBeOptionsForFamilyFacet(final List<Row> options) {
+       assertFacets("Family", options);
+
+   }
+
+    /**
+     * @param facetName Set the facet name
+     * @param options
+     *            Set the options
+     */
+    public final void assertFacets(final String facetName, final List<Row> options) {
+        String[] expected = new String[options.size()];
+        for (int i = 0; i < options.size(); i++) {
+            expected[i] = options.get(i).facet;
+        }
+        String[] actual = searchResultsPage.getFacets(facetName);
+        System.out.println(expected);
+        System.out.println(actual);
+        assertArrayEquals(expected, actual);
 
     }
 
@@ -199,6 +227,15 @@ public class StepDefinitions {
 
     /**
      *
+     * @param url Set the url
+     */
+    @Then("^the distribution map should be \"([^\"]*)\"$")
+    public final void theDistributionMapShouldBe(final String url) {
+        assertEquals(url, taxonPage.getDistributionMap());
+    }
+
+    /**
+     *
      * @author ben
      *
      */
@@ -210,26 +247,7 @@ public class StepDefinitions {
         /**
          *
          */
-        public String first;
-        /**
-         *
-         */
-        public String second;
-
-        /**
-         * @return the value of the object as a string
-         */
-        public final String toString() {
-            return "{first: \"" + first + "\", second: \"" + second + "\"}";
-        }
-
-        /**
-         *
-         * @return the row as an array
-         */
-        public final String[] toArray() {
-            return new String[] {first, second };
-        }
+        public String facet;
     }
 
     /**

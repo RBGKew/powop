@@ -47,16 +47,16 @@ public class SearchTest extends AbstractPersistenceTest {
                 fullTextSession.purgeAll(Taxon.class);
                 fullTextSession.purgeAll(Image.class);
                 Taxon taxon1 = createTaxon("Aus", null, null, null,
-                        new GeographicalRegion[] {});
+                        null, new GeographicalRegion[] {});
                 Taxon taxon2 = createTaxon("Aus bus", null, taxon1, null,
-                        new GeographicalRegion[] {Continent.AUSTRALASIA,
+                        null, new GeographicalRegion[] {Continent.AUSTRALASIA,
                                 Region.BRAZIL, Region.CARIBBEAN });
                 Taxon taxon3 = createTaxon("Aus ceus", null, taxon1, null,
-                        new GeographicalRegion[] {Region.NEW_ZEALAND});
+                        null, new GeographicalRegion[] {Region.NEW_ZEALAND});
                 Taxon taxon4 = createTaxon("Aus deus", null, null, taxon2,
-                        new GeographicalRegion[] {});
+                        null, new GeographicalRegion[] {});
                 Taxon taxon5 = createTaxon("Aus eus", null, null, taxon3,
-                        new GeographicalRegion[] {});
+                        null, new GeographicalRegion[] {});
                 taxonDao.saveOrUpdate(taxon1);
                 taxonDao.saveOrUpdate(taxon2);
                 taxonDao.saveOrUpdate(taxon3);

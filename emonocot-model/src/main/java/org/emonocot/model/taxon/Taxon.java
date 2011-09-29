@@ -31,6 +31,8 @@ import org.emonocot.model.description.Feature;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.marshall.json.DescriptionMapDeserializer;
 import org.emonocot.model.marshall.json.DescriptionMapSerializer;
+import org.emonocot.model.marshall.json.DistributionMapDeserializer;
+import org.emonocot.model.marshall.json.DistributionMapSerializer;
 import org.emonocot.model.marshall.json.ImageDeserializer;
 import org.emonocot.model.marshall.json.ImageSerializer;
 import org.emonocot.model.marshall.json.ReferenceDeserializer;
@@ -393,7 +395,7 @@ public class Taxon extends SearchableObject {
     @Cascade({CascadeType.ALL })
     @MapKey(name = "region")
     @IndexedEmbedded
-    @JsonIgnore
+    @JsonSerialize(using = DistributionMapSerializer.class)
     public Map<GeographicalRegion, Distribution> getDistribution() {
         return distribution;
     }
@@ -402,8 +404,12 @@ public class Taxon extends SearchableObject {
      *
      * @param newDistribution Set the distribution associated with this taxon
      */
+    @JsonDeserialize(using = DistributionMapDeserializer.class)
     public void setDistribution(
             Map<GeographicalRegion, Distribution> newDistribution) {
+        for (Distribution d : newDistribution.values()) {
+            d.setTaxon(this);
+        }
         this.distribution = newDistribution;
     }
 

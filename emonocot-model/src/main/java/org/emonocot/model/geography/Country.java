@@ -5,7 +5,7 @@ package org.emonocot.model.geography;
  * @author ben
  *
  */
-public enum Country implements GeographicalRegion {
+public enum Country implements GeographicalRegion<Country> {
     DEN("DEN", "Denmark", Region.NORTHERN_EUROPE, "DK"),
     FIN("FIN", "Finland", Region.NORTHERN_EUROPE, "FI"),
     FOR("FOR", "Føroyar", Region.NORTHERN_EUROPE, "FO"),
@@ -477,5 +477,15 @@ public enum Country implements GeographicalRegion {
    @Override
    public String toString() {
        return code;
+   }
+
+  /**
+   *
+   * @param other the other region
+   * @return 1 if other is after this, -1 if other is before this and 0 if
+   *         other is equal to this
+   */
+   public int compareNames(final Country other) {
+       return this.name.compareTo(other.name);
    }
 }

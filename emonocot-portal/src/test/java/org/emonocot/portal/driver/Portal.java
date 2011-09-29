@@ -27,9 +27,13 @@ public class Portal extends PageObject {
         setBaseUri(properties.getProperty("selenium.target",
                 "http://build.e-monocot.org/latest/portal/"));
     }
-    
-    public HomePage getHomePage() {
-    	return openAs(getBaseUri(), HomePage.class);
+
+    /**
+     *
+     * @return the home page
+     */
+    public final HomePage getHomePage() {
+        return openAs(getBaseUri(), HomePage.class);
     }
 
     /**

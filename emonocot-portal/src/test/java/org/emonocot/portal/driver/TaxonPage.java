@@ -1,7 +1,5 @@
 package org.emonocot.portal.driver;
 
-import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -32,12 +30,24 @@ public class TaxonPage extends PageObject {
      */
     @FindBy(how = How.ID, using = "protologue")
     private WebElement protologue;
-    
+
+    /**
+     *
+     */
     @FindBy(how = How.CLASS_NAME, using = "showcase-content")
     private WebElement mainImage;
-    
+
+    /**
+     *
+     */
     @FindBy(how = How.CLASS_NAME, using = "showcase-thumbnail-wrapper")
     private WebElement thumbnailContainer;
+
+   /**
+    *
+    */
+   @FindBy(how = How.ID, using = "alternative-map")
+   private WebElement map;
 
     /**
      *
@@ -89,16 +99,37 @@ public class TaxonPage extends PageObject {
         return protologue.getText();
     }
 
-	public String getMainImageCaption() {
-		return mainImage.findElement(By.tagName("img")).getAttribute("title");
-	}
+    /**
+     *
+     * @return the caption of the main image
+     */
+    public final String getMainImageCaption() {
+        return mainImage.findElement(By.tagName("img")).getAttribute("title");
+    }
 
-	public String getMainImage() {
-		return mainImage.findElement(By.tagName("img")).getAttribute("src");
-	}
+    /**
+     *
+     * @return the url of the main image
+     */
+    public final String getMainImage() {
+        return mainImage.findElement(By.tagName("img")).getAttribute("src");
+    }
 
-	public int getThumbnails() {
-		return thumbnailContainer.findElements(By.className("showcase-thumbnail")).size();
-	}
+    /**
+     *
+     * @return the number of thumbnails
+     */
+    public final int getThumbnails() {
+        return thumbnailContainer.findElements(
+                By.className("showcase-thumbnail")).size();
+    }
+
+    /**
+     *
+     * @return the url of the distribution map
+     */
+    public final String getDistributionMap() {
+        return map.getAttribute("src");
+    }
 
 }

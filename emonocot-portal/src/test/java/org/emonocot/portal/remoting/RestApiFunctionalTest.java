@@ -1,7 +1,9 @@
 package org.emonocot.portal.remoting;
 
+import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
+import org.emonocot.model.geography.Country;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.dao.ImageDao;
@@ -65,6 +67,10 @@ public class RestApiFunctionalTest {
         textContent.setFeature(Feature.habitat);
         textContent.setTaxon(taxon);
         taxon.getContent().put(Feature.habitat, textContent);
+        Distribution distribution = new Distribution();
+        distribution.setTaxon(taxon);
+        distribution.setRegion(Country.REU);
+        taxon.getDistribution().put(Country.REU, distribution);
         taxon.getImages().add(image);
         taxonDao.save(taxon);
 
