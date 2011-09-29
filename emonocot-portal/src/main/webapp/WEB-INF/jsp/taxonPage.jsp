@@ -17,9 +17,7 @@
 			<div class="row">
 				<div class="twelvecol">
 					<div class="content-wrapper">
-			<article>
-				<div class="row">
-					<div class="twelvecol">
+			
 						<header>
 							<h2 id="page-title">
 								<span class="taxonName">${taxon.name}</span>${taxon.authorship}
@@ -218,12 +216,13 @@
 						</div>
 					</div>
 				</c:if>
+				</div>
+				
 			</article>
 			</div>
 			</div>
-			</div>
-		</div>
-	</div>
+			
+	
 	<jsp:include page="/WEB-INF/jsp/footer.jsp" />
 </body>
 </html>
