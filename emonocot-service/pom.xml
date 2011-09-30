@@ -4,11 +4,11 @@
   <parent>
     <artifactId>emonocot</artifactId>
     <groupId>org.emonocot</groupId>
-    <version>0.0.9-SNAPSHOT</version>
+    <version>0.0.9</version>
   </parent>
   <groupId>org.emonocot</groupId>
   <artifactId>emonocot-service</artifactId>
-  <version>0.0.9-SNAPSHOT</version>
+  <version>0.0.9</version>
   <name>eMonocot Service Layer</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
