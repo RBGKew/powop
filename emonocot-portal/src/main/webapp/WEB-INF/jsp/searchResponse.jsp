@@ -42,26 +42,13 @@
 							<input type="submit" value="go" name="submit" />
 						</form>
 
-						<div id="pages">
-							<c:set var="query" value="${result.params['query']}" />
-							<c:choose>
-								<c:when test="${result.size != 0}">
-									<spring:message code="pager.message" arguments="${result.firstRecord}, ${result.lastRecord}, ${result.size}" />
-								</c:when>
-								<c:when test="${empty query}">
-									<spring:message code="pager.no.results" />
-								</c:when>
-								<c:otherwise>
-									<spring:message code="pager.no.results.matching" arguments="${query}" />
-								</c:otherwise>
-							</c:choose>
-						</div>
+						
 
 						<jsp:scriptlet>
 							Integer[] pageSizes = new Integer[] { 10, 20, 50, 100 };
 							request.setAttribute("pageSizes", pageSizes);
 						</jsp:scriptlet>
-						<div class="fivecol last">
+						
 							<ul id="pageSize">
 								<c:forEach var="pageSize" items="${pageSizes}">
 									<c:choose>
@@ -94,7 +81,23 @@
 								</c:forEach>
 								<spring:message code="results.per.page" />
 							</ul>
+						<div class="row">
+						
+							<div id="pages">
+							<c:set var="query" value="${result.params['query']}" />
+							<c:choose>
+								<c:when test="${result.size != 0}">
+									<spring:message code="pager.message" arguments="${result.firstRecord}, ${result.lastRecord}, ${result.size}" />
+								</c:when>
+								<c:when test="${empty query}">
+									<spring:message code="pager.no.results" />
+								</c:when>
+								<c:otherwise>
+									<spring:message code="pager.no.results.matching" arguments="${query}" />
+								</c:otherwise>
+							</c:choose>
 						</div>
+						
 						<ul id="pageNumber">
 							<c:if test="${result.prevIndex != null}">
 								<li>
@@ -175,10 +178,13 @@
 							</c:if>
 						</ul>
 						<!-- </div>      div end search  -->
-
+						
+					
+						</div>
+						<br/>
 						<div class="row">
 							<div class="threecol">
-								<ul id="facets">
+								<ul id="facets"> 
 									<c:forEach var="facetName" items="${result.facetNames}">
 										<li id="${facetName}">
 											<h2>
@@ -294,6 +300,7 @@
 			</div>
 		</div>
 	</div>
+	<br/>
 	<jsp:include page="/WEB-INF/jsp/footer.jsp" />
 </body>
 </html>

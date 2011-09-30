@@ -15,7 +15,7 @@
 	<div id="headerContainer">
 		<div id="annotateHeader">
 			<div class="home-header">
-				<h1>emonocot</h1>
+				<h1><a href="/" title="home">emonocot</a></h1>
 				<!--  <h2 class="subheader"></h2>
 				<a href="http://www.e-monocot.org" id="helpLink">What is emonocot?</a>-->
 			</div>

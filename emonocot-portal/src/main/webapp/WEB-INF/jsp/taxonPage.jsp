@@ -11,11 +11,11 @@
 <jsp:include page="/WEB-INF/jsp/head.jsp" />
 <body>
 <div id="wrapper">
-	<div class="container">
+	<div id="container">
 		<jsp:include page="/WEB-INF/jsp/header.jsp" />
-		<article>
-			<div class="row">
-				<div class="twelvecol">
+		
+		<!-- <div class="row">
+				<div class="twelvecol"> -->	
 					<div class="content-wrapper">
 			
 						<header>
@@ -23,8 +23,7 @@
 								<span class="taxonName">${taxon.name}</span>${taxon.authorship}
 							</h2>
 						</header>
-					</div>
-				</div>
+					
 				<c:if test="${taxon.protologue != null}">
 					<c:set var="protologue" value="${taxon.protologue}" />
 					<div class="row">
@@ -62,7 +61,7 @@
 						<BR />
 					</div>
 				</div>
-
+				<br />
 				<div id="textContent">
 					<c:forEach var="feature" items="${em:features()}">
 						<c:set var="content" value="${em:content(taxon,feature)}" />
@@ -76,6 +75,7 @@
 						</c:if>
 				</c:forEach>
 			</div>
+			<br/>
 			<c:if test="${not empty em:regions(taxon)}">
 				<div class="row">
 					<h5>
@@ -144,6 +144,7 @@
 					</div>
 				</div>
 				</c:if>
+				<br/>
 				<c:if test="${taxon.parent != null}">
 					<div class="row">
 						<h5>
@@ -159,6 +160,7 @@
 						</div>
 					</div>
 				</c:if>
+				<br/>
 				<c:if test="${not empty taxon.children}">
 					<div class="row">
 						<h5>
@@ -180,6 +182,7 @@
 						</div>
 					</div>
 				</c:if>
+				<br/>
 				<c:if test="${taxon.accepted != null}">
 					<div class="row">
 						<h5>
@@ -195,6 +198,7 @@
 						</div>
 					</div>
 				</c:if>
+				<br/>
 				<c:if test="${not empty taxon.synonyms}">
 					<div class="row">
 						<h5>
@@ -216,13 +220,18 @@
 						</div>
 					</div>
 				</c:if>
-				</div>
 				
-			</article>
+				
+				
+		</div>
+			<!--  </div>		
+				</div>-->	
+				
+			
 			</div>
 			</div>
 			
-	
+	<br/>
 	<jsp:include page="/WEB-INF/jsp/footer.jsp" />
 </body>
 </html>
