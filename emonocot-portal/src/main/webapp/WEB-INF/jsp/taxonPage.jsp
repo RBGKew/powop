@@ -136,7 +136,7 @@
 					});
 					</script>
 					<div class="twelvecol">
-						<ul>
+						<ul id="distribution-textual">
 							<c:forEach var="region" items="${em:regions(taxon)}">
 								<li><spring:message code="${region}" /></li>
 							</c:forEach>

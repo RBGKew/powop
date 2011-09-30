@@ -16,7 +16,12 @@
 
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
-		<property name="basename" value="portal-messages" />
+		<property name="basenames">
+		  <list>
+		    <value>portal-messages</value>
+		    <value>application</value>
+		  </list>
+		</property>
 		<property name="useCodeAsDefaultMessage" value="true"/>
 	</bean>
 

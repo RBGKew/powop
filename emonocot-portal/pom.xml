@@ -153,6 +153,7 @@
 							<filtering>true</filtering>
 						</resource>
 					</webResources>
+					<encoding></encoding>
 				</configuration>
 			</plugin>
 			<plugin>

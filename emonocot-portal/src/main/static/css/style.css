@@ -12,3 +12,9 @@
 #results {list-style:none; margin: 0.5em; padding: 0.5em}
 .facet {list-style:none}
 .taxonName {font-style: italic;}
+.taxonName:after {content: " "}
+#distribution-textual {width: 100%; list-style:none}
+#distribution-textual li {float: left; padding-left: 0.5em}
+#distribution-textual li:first-child {padding-left: 0}
+#distribution-textual li:after {content: ","}
+#distribution-textual li:last-child:after {content: ""}

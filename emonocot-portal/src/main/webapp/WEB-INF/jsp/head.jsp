@@ -10,48 +10,30 @@
 <meta http-equiv="Content-Language" content="en" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link type="images/x-icon" href="images/favicon.ico" rel="shortcut icon" />
-
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.js">/* */</script>
+<script type="text/javascript" src="http://openlayers.org/api/OpenLayers.js">/* */</script>
 <jsp:element name="script">
-	<jsp:attribute name="type">text/javascript</jsp:attribute>
-	<jsp:attribute name="src">
-		<c:url
-			value="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.js" />
-	</jsp:attribute>   
-      /* */
+  <jsp:attribute name="type">text/javascript</jsp:attribute>
+  <jsp:attribute name="src">
+	<spring:message code="portal.baseUrl"/>/js/header.js
+  </jsp:attribute>
+  /* */   
 </jsp:element>
-<jsp:element name="script">
-	<jsp:attribute name="type">text/javascript</jsp:attribute>
-	<jsp:attribute name="src">
-		<c:url value="http://openlayers.org/api/OpenLayers.js" />
-	</jsp:attribute>   
-      /* */
-    </jsp:element>
-<jsp:element name="script">
-
-	<jsp:attribute name="type">text/javascript</jsp:attribute>
-
-	<jsp:attribute name="src">
-		<c:url value="/js/header.js" />
-	</jsp:attribute>
-      /* */   
-    </jsp:element>
 
 <jsp:element name="script">
-	<jsp:attribute name="type">text/javascript</jsp:attribute>
-
-	<jsp:attribute name="src">
-		<c:url value="/js/functions.js" />
-	</jsp:attribute>
-      /* */   
-    </jsp:element>
-
+  <jsp:attribute name="type">text/javascript</jsp:attribute>
+  <jsp:attribute name="src">
+	<spring:message code="portal.baseUrl"/>/js/functions.js
+  </jsp:attribute>
+  /* */   
+</jsp:element>
 
 <jsp:element name="link">
 	<jsp:attribute name="rel">stylesheet</jsp:attribute>
 	<jsp:attribute name="type">text/css</jsp:attribute>
 	<jsp:attribute name="media">screen</jsp:attribute>
 	<jsp:attribute name="href">
-		<c:url value="/css/base.css" />
+		<spring:message code="portal.baseUrl"/>/css/base.css
 	</jsp:attribute>
 </jsp:element>
 
@@ -63,7 +45,7 @@
 	<jsp:attribute name="type">text/css</jsp:attribute>
 	<jsp:attribute name="media">screen</jsp:attribute>
 	<jsp:attribute name="href">
-		<c:url value="/css/1140.css" />
+		<spring:message code="portal.baseUrl"/>/css/1140.css
 	</jsp:attribute>
 </jsp:element>
 
@@ -72,25 +54,15 @@
 	<jsp:attribute name="type">text/css</jsp:attribute>
 	<jsp:attribute name="media">screen</jsp:attribute>
 	<jsp:attribute name="href">
-		<c:url value="/css/style.css" />
+		<spring:message code="portal.baseUrl"/>/css/style.css
 	</jsp:attribute>
 </jsp:element>
-<!-- 
-	<jsp:element name="link">
-	  <jsp:attribute name="rel">stylesheet</jsp:attribute>
-	  <jsp:attribute name="type">text/css</jsp:attribute>
-	  <jsp:attribute name="media">screen</jsp:attribute>
-	  <jsp:attribute name="href">
-	    <c:url value="/css/thumb.css"/>
-	  </jsp:attribute>
-	</jsp:element>
-	 -->
 <jsp:element name="link">
 	<jsp:attribute name="rel">stylesheet</jsp:attribute>
 	<jsp:attribute name="type">text/css</jsp:attribute>
 	<jsp:attribute name="media">screen</jsp:attribute>
 	<jsp:attribute name="href">
-		<c:url value="/css/style-aw.css" />
+		<spring:message code="portal.baseUrl"/>/css/style-aw.css
 	</jsp:attribute>
 </jsp:element></head>
 </jsp:root>
