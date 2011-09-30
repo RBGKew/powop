@@ -8,6 +8,7 @@ import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.comms.Sorting;
 import org.emonocot.model.pager.Page;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
+import org.emonocot.portal.format.annotation.SortingFormat;
 import org.emonocot.service.FacetName;
 import org.emonocot.service.ImageService;
 import org.emonocot.service.SearchableObjectService;
@@ -112,7 +113,7 @@ public class SearchController {
             @RequestParam(value = "limit", required = false, defaultValue = "10") final Integer limit,
             @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
             @RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
-            @RequestParam(value="sort", required = false) final String sortParam) {
+            @RequestParam(value="sort", required = false) @SortingFormat final Sorting sort) {
 
         ModelAndView modelAndView = new ModelAndView("searchResponse");
 
@@ -124,13 +125,6 @@ public class SearchController {
                         facetRequest.getSelected());
             }
         }
-        
-        //TODO replace with Formatted Sort
-        Sorting sort;
-        if(sortParam==null)
-            sort = null;
-        else
-            sort = new Sorting(sortParam);
 
         if (selectedFacets == null
                 || !selectedFacets.containsKey(FacetName.CLASS)) {
@@ -177,6 +171,7 @@ public class SearchController {
                 break;
             }
             result.putParam("query", query);
+            result.putParam("sort", sort);
             modelAndView.addObject("result", result);
         }
         return modelAndView;

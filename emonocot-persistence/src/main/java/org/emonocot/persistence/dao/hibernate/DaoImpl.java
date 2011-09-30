@@ -324,6 +324,7 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
 
             //If a sort wasn't requested, go by Relevance/Lucene 'Score'
             if(sort==null) fullTextQuery.setSort(new Sort(new SortField(null, SortField.SCORE, false)));
+            else if(sort.getFieldName()==null) fullTextQuery.setSort(new Sort(new SortField(null, SortField.SCORE, false)));
             //otherwise figure out what type we are actually searching by
             //TODO cope with different datatypes, not just the string value of the field
             else fullTextQuery.setSort(new Sort(new SortField(
