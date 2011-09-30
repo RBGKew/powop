@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.emonocot.model.comms.Sorting;
 import org.hibernate.search.query.facet.Facet;
 
 /**
@@ -104,7 +105,7 @@ public interface Page<T> {
     *
     * @return a list of the names of available facets
     */
-   Set<String> getFacetNames();
+   List<String> getFacetNames();
 
     /**
      *
@@ -162,4 +163,15 @@ public interface Page<T> {
    * @param selected Set the index of the selected facet
    */
   void setSelectedFacet(String facetName, Integer selected);
+
+  /**
+   *
+   * @return the sorting
+   */
+  Sorting getSort();
+
+  /**
+   * @param newSort set the sorting
+   */
+  void setSort(Sorting newSort);
 }

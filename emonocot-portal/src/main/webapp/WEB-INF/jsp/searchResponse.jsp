@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 	<jsp:directive.page contentType="text/html" pageEncoding="UTF-8" />
 	<jsp:output omit-xml-declaration="true" />
@@ -38,7 +39,12 @@
 										</jsp:scriptlet>
                						</jsp:attribute>
              					</jsp:element>
-							</c:forEach>
+							</c:forEach>							
+							<jsp:element name="input">
+							    <jsp:attribute name="type">hidden</jsp:attribute>
+              				    <jsp:attribute name="name">sort</jsp:attribute>
+               					<jsp:attribute name="value">${result.sort}</jsp:attribute>
+							</jsp:element>
 							<input type="submit" value="go" name="submit" />
 						</form>
 
@@ -63,6 +69,7 @@
                          									<c:param name="query" value="${result.params['query']}" />
                          									<c:param name="limit" value="${pageSize}" />
                          									<c:param name="start" value="0" />
+                         									<c:param name="sort">${result.sort}</c:param>
                          									<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
                            										<c:param name="facet">
                              										<jsp:scriptlet>
@@ -81,8 +88,7 @@
 								</c:forEach>
 								<spring:message code="results.per.page" />
 							</ul>
-						<div class="row">
-						
+						<div class="row">						
 							<div id="pages">
 							<c:set var="query" value="${result.params['query']}" />
 							<c:choose>
@@ -107,6 +113,7 @@
 					                    		<c:param name="query" value="${result.params['query']}" />
 					                    		<c:param name="limit" value="${result.pageSize}" />
 					                    		<c:param name="start" value="${result.prevIndex}" />
+					                    		<c:param name="sort">${result.sort}</c:param>
                       							<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
                         							<c:param name="facet">
                           								<jsp:scriptlet>
@@ -136,6 +143,7 @@
                          								<c:param name="query" value="${result.params['query']}" />
                           								<c:param name="limit" value="${result.pageSize}" />
                           								<c:param name="start" value="${index}" />
+                          								<c:param name="sort">${result.sort}</c:param>
                           								<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
                             								<c:param name="facet">
                               									<jsp:scriptlet>
@@ -163,6 +171,7 @@
                       							<c:param name="query" value="${result.params['query']}" />
                       							<c:param name="limit" value="${result.pageSize}" />
                       							<c:param name="start" value="${result.nextIndex}" />
+                      							<c:param name="sort">${result.sort}</c:param>
                       							<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
                         							<c:param name="facet">
                           								<jsp:scriptlet>
@@ -204,6 +213,7 @@
                           												<c:param name="query" value="${result.params['query']}" />
                           												<c:param name="limit" value="${result.pageSize}" />
                           												<c:param name="start" value="0" />
+                          												<c:param name="sort">${result.sort}</c:param>
                           												<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
                             												<c:if test="${selectedFacet != facetName}">
                               													<c:param name="facet">
@@ -249,6 +259,7 @@
                                 													<c:param name="query" value="${result.params['query']}" />
                                 													<c:param name="limit" value="${result.pageSize}" />
                                 													<c:param name="start" value="0" />
+                                													<c:param name="sort">${result.sort}</c:param>
                                 													<c:param name="facet" value="${facetName}.${loopStatus.index}" />
                                 													<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
                                   														<c:if test="${selectedFacet != facetName}">  
@@ -273,6 +284,47 @@
 											</ul>
 										</li>
 									</c:forEach>
+									<li id="sort">
+											<h2>
+												<spring:message code="sort" />
+											</h2>
+											<ul class="facet">
+											  <c:forEach var="sortItem" items="${em:sortItems()}">
+											     <li>
+											     <jsp:scriptlet>
+                          						     org.emonocot.model.comms.Sorting sortItem = (org.emonocot.model.comms.Sorting) pageContext.getAttribute("sortItem");
+                          							 pageContext.setAttribute("equalsSortItem", new Boolean(sortItem.equals(result.getSort())));
+												 </jsp:scriptlet>
+											     <c:choose>											       
+											       <c:when test="${equalsSortItem}">
+											         <spring:message code="${sortItem}"/>
+											       </c:when>
+											       <c:otherwise>
+											         <jsp:element name="a">
+                  						              <jsp:attribute name="href">
+                    						            <c:url value="search">
+                      							          <c:param name="query" value="${result.params['query']}" />
+                      							          <c:param name="limit" value="${result.pageSize}" />
+                      							          <c:param name="start" value="0" />
+                      							          <c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+                        							        <c:param name="facet">
+                          								      <jsp:scriptlet>
+                          									    String selectedFacet = (String) pageContext.getAttribute("selectedFacet");
+															    out.println(selectedFacet + "." + result.getSelectedFacets().get(selectedFacet));
+														      </jsp:scriptlet>
+                        							        </c:param>
+                      							          </c:forEach>                      														    
+               						                      <c:param name="sort">${sortItem}</c:param>
+                    						            </c:url>
+                  						              </jsp:attribute>
+                  						              <spring:message code="${sortItem}"/>
+                  					                </jsp:element>
+                  					              </c:otherwise>
+                  					            </c:choose>
+											  </li>
+											  </c:forEach>
+											</ul>
+									</li>
 								</ul>
 							</div>
 							<div class="ninecol last">

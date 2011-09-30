@@ -14,7 +14,9 @@ import org.emonocot.model.geography.GeographyConverter;
 
 import org.emonocot.model.media.Image;
 import org.emonocot.model.reference.Reference;
+import org.emonocot.model.taxon.Rank;
 import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.taxon.TaxonomicStatus;
 
 import org.emonocot.service.ImageService;
 import org.emonocot.service.ReferenceService;
@@ -110,6 +112,12 @@ public class TestDataManager {
            t.setName(taxonRow.name);
            t.setFamily(taxonRow.family);
            t.setIdentifier(taxonRow.identifier);
+           if (taxonRow.rank != null) {
+               t.setRank(Rank.valueOf(taxonRow.rank));
+           }
+           if (taxonRow.status != null) {
+               t.setStatus(TaxonomicStatus.valueOf(taxonRow.status));
+           }
            if (taxonRow.diagnostic != null) {
                createTextualData(t, taxonRow.diagnostic, Feature.diagnostic);
            }

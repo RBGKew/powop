@@ -7,18 +7,17 @@ package org.emonocot.service;
  */
 public enum FacetName {
     /**
-     * Facet on the continent.
+     * The type (class) of object.
      */
-    CONTINENT,
+    CLASS,
     /**
      * Facet on the taxonomic family.
      */
     FAMILY,
     /**
-     * Facet for the complete authorship including basionym/parenthetical
-     * author.
+     * Facet on the continent.
      */
-    AUTHORSHIP,
+    CONTINENT,
     /**
      * Facet on the source system.
      */
@@ -28,7 +27,11 @@ public enum FacetName {
      */
     RANK,
     /**
-     * The type (class) of object.
+     * The taxonomic status of the taxon.
      */
-    CLASS
+    TAXONOMIC_STATUS,
+    /**
+     * The date the taxon was published.
+     */
+    DATE_PUBLISHED
 }

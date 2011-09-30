@@ -5,7 +5,10 @@ import java.util.concurrent.Callable;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.media.Image;
+import org.emonocot.model.reference.Reference;
+import org.emonocot.model.taxon.Rank;
 import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.taxon.TaxonomicStatus;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.runner.RunWith;
@@ -74,16 +77,26 @@ public abstract class AbstractPersistenceTest {
      * @param parent the taxonomic parent
      * @param accepted the accepted name
      * @param family the family
+     * @param datePublished set the date published
+     * @param rank set the rank
+     * @param status set the status
      * @param distributions the distribution of the taxon
-    * @return a new taxon
+     * @return a new taxon
     */
     final Taxon createTaxon(final String name, final String identifier,
             final Taxon parent, final Taxon accepted, final String family,
+            final String datePublished, final Rank rank,
+            final TaxonomicStatus status,
             final GeographicalRegion[] distributions) {
        Taxon taxon = new Taxon();
        taxon.setName(name);
        taxon.setFamily(family);
        taxon.setIdentifier(identifier);
+       taxon.setStatus(status);
+       taxon.setRank(rank);
+       Reference reference = new Reference();
+       reference.setDatePublished(datePublished);
+       taxon.setProtologue(reference);
        if (parent != null) {
            taxon.setParent(parent);
            parent.getChildren().add(taxon);

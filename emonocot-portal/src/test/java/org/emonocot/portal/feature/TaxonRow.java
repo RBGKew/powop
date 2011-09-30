@@ -66,4 +66,14 @@ public class TaxonRow {
     *
     */
    public String distribution3;
+
+   /**
+    *
+    */
+   public String rank;
+
+   /**
+    *
+    */
+   public String status;
 }

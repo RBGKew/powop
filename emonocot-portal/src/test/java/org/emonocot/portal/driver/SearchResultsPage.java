@@ -50,6 +50,18 @@ public class SearchResultsPage extends PageObject {
     }
 
     /**
+     *
+     * @param sort The string to sort by
+     * @return a search results page
+     */
+   public final SearchResultsPage sort(final String sort) {
+       WebElement classFacet = facets.findElement(By
+               .xpath("li[h2/text() = 'Sort']/ul/li/a[text() = \'" + sort + "\']"));
+       return openAs(classFacet.getAttribute("href"),
+               SearchResultsPage.class);
+   }
+
+    /**
      * @param facetName Set the facet name
      * @return an array of the facet labels
      */

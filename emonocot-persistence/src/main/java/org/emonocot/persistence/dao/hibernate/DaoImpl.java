@@ -107,7 +107,7 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
     /**
      *
      */
-    private static Class SEARCHABLE_CLASSES[] = new Class[] { Image.class,
+    protected static Class SEARCHABLE_CLASSES[] = new Class[] { Image.class,
             Taxon.class };
 
     /**
@@ -322,14 +322,21 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
               }
             }
 
-            //If a sort wasn't requested, go by Relevance/Lucene 'Score'
-            if(sort==null) fullTextQuery.setSort(new Sort(new SortField(null, SortField.SCORE, false)));
-            else if(sort.getFieldName()==null) fullTextQuery.setSort(new Sort(new SortField(null, SortField.SCORE, false)));
-            //otherwise figure out what type we are actually searching by
-            //TODO cope with different datatypes, not just the string value of the field
-            else fullTextQuery.setSort(new Sort(new SortField(
-                    sort.getFieldName(), SortField.STRING_VAL,
-                    sort.getDirection()==SortDirection.REVERSE)));
+            if (sort == null) {
+                //If a sort wasn't requested, go by Relevance/Lucene 'Score'
+                fullTextQuery.setSort(new Sort(new SortField(null,
+                        SortField.SCORE, false)));
+            } else if (sort.getFieldName() == null) {
+                fullTextQuery.setSort(new Sort(new SortField(null,
+                        SortField.SCORE, false)));
+            } else {
+                // otherwise figure out what type we are actually searching by
+                // TODO cope with different datatypes, not just the string value
+                // of the field
+                fullTextQuery.setSort(new Sort(new SortField(sort
+                        .getFieldName(), SortField.STRING_VAL, sort
+                        .getDirection() == SortDirection.REVERSE)));
+            }
 
             List<T> results = (List<T>) fullTextQuery.list();
 

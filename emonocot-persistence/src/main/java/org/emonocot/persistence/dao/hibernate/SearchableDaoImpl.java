@@ -91,23 +91,31 @@ public class SearchableDaoImpl extends DaoImpl<SearchableObject> implements
            final FacetManager facetManager,
            final Integer selectedFacetIndex) {
        switch (facetName) {
-       default:
+       case CLASS:
+       case CONTINENT:
+       case AUTHORITY:
+       case FAMILY:
            List<Facet> facetResults =
                facetManager.getFacets(facetName.name());
            Facet selectedFacet = facetResults.get(selectedFacetIndex);
            facetManager.getFacetGroup(facetName.name())
                    .selectFacets(selectedFacet);
+       default:
            break;
        }
    }
 
-   @Override
+    @Override
     protected final void addFacet(final Page<SearchableObject> page,
             final FacetName facetName, final FacetManager facetManager) {
        switch (facetName) {
-       default:
+       case CLASS:
+       case CONTINENT:
+       case AUTHORITY:
+       case FAMILY:
            page.addFacets(facetName.name(),
                    facetManager.getFacets(facetName.name()));
+       default:
            break;
        }
    }

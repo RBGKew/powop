@@ -47,20 +47,20 @@ public class FetchProfileTest extends AbstractPersistenceTest {
                 fullTextSession.purgeAll(Image.class);
                 Taxon taxon1 = createTaxon("Aus",
                         "urn:lsid:example.com:taxon:1", null, null,
-                        null, new GeographicalRegion[] {});
+                        null, null, null, null, new GeographicalRegion[] {});
                 Taxon taxon2 = createTaxon("Aus bus",
                         "urn:lsid:example.com:taxon:2", taxon1, null,
-                        null, new GeographicalRegion[] {Continent.AUSTRALASIA,
+                        null, null, null, null, new GeographicalRegion[] {Continent.AUSTRALASIA,
                                 Region.BRAZIL, Region.CARIBBEAN });
                 Taxon taxon3 = createTaxon("Aus ceus",
                         "urn:lsid:example.com:taxon:3", taxon1, null,
-                        null, new GeographicalRegion[] {Region.NEW_ZEALAND });
+                        null, null, null, null, new GeographicalRegion[] {Region.NEW_ZEALAND });
                 Taxon taxon4 = createTaxon("Aus deus",
                         "urn:lsid:example.com:taxon:4", null, taxon2,
-                        null, new GeographicalRegion[] {});
+                        null, null, null, null, new GeographicalRegion[] {});
                 Taxon taxon5 = createTaxon("Aus eus",
                         "urn:lsid:example.com:taxon:5", null, taxon3,
-                        null, new GeographicalRegion[] {});
+                        null, null, null, null, new GeographicalRegion[] {});
                 taxonDao.saveOrUpdate(taxon1);
                 taxonDao.saveOrUpdate(taxon2);
                 taxonDao.saveOrUpdate(taxon3);

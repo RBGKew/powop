@@ -29,6 +29,7 @@ import org.emonocot.model.description.Content;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.geography.GeographicalRegion;
+import org.emonocot.model.hibernate.DistributionBridge;
 import org.emonocot.model.marshall.json.DescriptionMapDeserializer;
 import org.emonocot.model.marshall.json.DescriptionMapSerializer;
 import org.emonocot.model.marshall.json.DistributionMapDeserializer;
@@ -42,11 +43,13 @@ import org.emonocot.model.reference.Reference;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
+import org.hibernate.search.annotations.ClassBridge;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Fields;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.Store;
 
 /**
  *
@@ -298,7 +301,8 @@ public class Taxon extends SearchableObject {
      *
      * @return the full taxonomic name of the taxon, including authority
      */
-    @Fields(value={@Field,@Field(name="label", index=Index.UN_TOKENIZED)})
+    @Fields(value = {@Field,
+            @Field(name = "label", index = Index.UN_TOKENIZED) })
     public String getName() {
         return name;
     }
@@ -522,6 +526,7 @@ public class Taxon extends SearchableObject {
     /**
      * @return the rank
      */
+    @Field
     @Enumerated(value = EnumType.STRING)
     public Rank getRank() {
         return rank;
@@ -535,6 +540,7 @@ public class Taxon extends SearchableObject {
        this.status = newStatus;
     }
 
+    @Field
     @Enumerated(value = EnumType.STRING)
     public TaxonomicStatus getStatus() {
         return status;
@@ -695,6 +701,7 @@ public class Taxon extends SearchableObject {
     @ManyToOne(fetch = FetchType.LAZY)
     @Cascade({CascadeType.SAVE_UPDATE })
     @JsonSerialize(using = ReferenceSerializer.class)
+    @IndexedEmbedded
     public Reference getProtologue() {
         return protologue;
     }

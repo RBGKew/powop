@@ -49,6 +49,16 @@ public class StepDefinitions {
     }
 
     /**
+     *
+     * @param sort
+     *            Set the sort selection
+     */
+   @When("^I sort \"([^\"]+)\"$")
+   public final void whenISort(final String sort) {
+       searchResultsPage = searchResultsPage.sort(sort);
+   }
+
+    /**
      * @param facetName the facet to restric
      * @param facetValue
      *            Set the facet value to select
@@ -101,7 +111,6 @@ public class StepDefinitions {
     @Then("^the Type facet should have the following options:$")
     public final void thereShouldBeOptionsForClassFacet(final List<Row> options) {
         assertFacets("Type", options);
-
     }
 
     /**
@@ -113,8 +122,29 @@ public class StepDefinitions {
    @Then("^the Family facet should have the following options:$")
    public final void thereShouldBeOptionsForFamilyFacet(final List<Row> options) {
        assertFacets("Family", options);
-
    }
+
+   /**
+   *
+   * @param options
+   *            Set the options
+   *
+   */
+  @Then("^the Rank facet should have the following options:$")
+  public final void thereShouldBeOptionsForRankFacet(final List<Row> options) {
+      assertFacets("Rank", options);
+  }
+
+  /**
+  *
+   * @param options
+   *            Set the options
+   *
+   */
+  @Then("^the Status facet should have the following options:$")
+  public final void thereShouldBeOptionsForStatusFacet(final List<Row> options) {
+      assertFacets("Status", options);
+  }
 
     /**
      * @param facetName Set the facet name

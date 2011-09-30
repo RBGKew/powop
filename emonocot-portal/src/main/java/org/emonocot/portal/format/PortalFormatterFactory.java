@@ -16,7 +16,8 @@ public class PortalFormatterFactory extends
         super.installFormatters(registry);
         registry.addFormatterForFieldAnnotation(
                 new FacetRequestAnnotationFormatterFactory());
-        registry.addFormatterForFieldAnnotation(new SortingAnnotationFormatterFactory());
+        registry.addFormatterForFieldAnnotation(
+                new SortingAnnotationFormatterFactory());
     }
 
 }

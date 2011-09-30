@@ -138,6 +138,7 @@ public class SearchController {
                     limit, selectedFacets, result.getSize() });
 
             result.putParam("query", query);
+            result.setSort(sort);
             modelAndView.addObject("result", result);
         } else {
             Page<? extends SearchableObject> result = null;
@@ -160,7 +161,8 @@ public class SearchController {
                 result = taxonService.search(query, null, limit,
                         start, new FacetName[] {FacetName.CLASS,
                         FacetName.FAMILY, FacetName.CONTINENT,
-                        FacetName.AUTHORITY }, selectedFacets, sort);
+                        FacetName.AUTHORITY, FacetName.RANK,
+                        FacetName.TAXONOMIC_STATUS}, selectedFacets, sort);
                 queryLog.info("Query: \'{}\', start: {}, limit: {},"
                         + "facet: [{}], {} results", new Object[] {query,
                         start, limit, selectedFacets, result.getSize() });
@@ -170,8 +172,8 @@ public class SearchController {
                         + selectedFacets.get(FacetName.CLASS));
                 break;
             }
-            result.putParam("query", query);
-            result.putParam("sort", sort);
+            result.putParam("query", query);            
+            result.setSort(sort);
             modelAndView.addObject("result", result);
         }
         return modelAndView;

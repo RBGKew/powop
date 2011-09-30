@@ -10,10 +10,12 @@ import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.emonocot.model.common.Base;
+import org.emonocot.model.hibernate.DatePublishedBridge;
 import org.emonocot.model.taxon.Taxon;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.FieldBridge;
 import org.hibernate.search.annotations.Indexed;
 
 /**
@@ -169,7 +171,7 @@ public class Reference extends Base {
     /**
      * @return the datePublished
      */
-    @Field
+    @Field(bridge = @FieldBridge(impl = DatePublishedBridge.class))
     public String getDatePublished() {
         return datePublished;
     }

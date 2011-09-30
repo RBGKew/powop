@@ -26,16 +26,29 @@ public class SortingAnnotationFormatterFactory implements
        FIELD_TYPES.add(Sorting.class);
    }
 
+   /**
+    * @return the field types
+    */
     public final Set<Class<?>> getFieldTypes() {
         return FIELD_TYPES;
     }
 
+    /**
+     * @param sortingFormat Set the sorting format annotation
+     * @param fieldType Set the field type
+     * @return the parser
+     */
     public final Parser<?> getParser(
             final SortingFormat sortingFormat,
             final Class<?> fieldType) {
         return new SortingFormatter();
     }
 
+    /**
+     * @param sortingFormat Set the sorting format annotation
+     * @param fieldType Set the field type
+     * @return the printer
+     */
     public final Printer<?> getPrinter(
             final SortingFormat sortingFormat, final Class<?> fieldType) {
         return new SortingFormatter();

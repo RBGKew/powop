@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import org.emonocot.model.comms.Sorting;
+import org.emonocot.model.comms.Sorting.SortDirection;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.Status;
@@ -135,5 +137,17 @@ public final class Functions {
         for (int i = 1; i < areas.size(); i++) {
             stringBuffer.append("," + areas.get(i).getCode());
         }
+    }
+
+    /**
+     *
+     * @return a list of sorting items
+     */
+    public static List<Sorting> sortItems() {
+        List<Sorting> sortItems = new ArrayList<Sorting>();
+        sortItems.add(new Sorting("label"));
+        sortItems.add(new Sorting("created", SortDirection.REVERSE));
+        sortItems.add(new Sorting(null));
+        return sortItems;
     }
 }

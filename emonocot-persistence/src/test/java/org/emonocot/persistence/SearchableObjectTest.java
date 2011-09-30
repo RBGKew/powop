@@ -1,9 +1,10 @@
 package org.emonocot.persistence;
 
+import static org.hamcrest.collection.IsArrayContaining.hasItemInArray;
+import static org.hamcrest.collection.IsCollectionContaining.hasItems;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static org.hamcrest.collection.IsCollectionContaining.hasItems;
-import static org.hamcrest.collection.IsArrayContaining.hasItemInArray;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +18,9 @@ import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.Region;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.pager.Page;
+import org.emonocot.model.taxon.Rank;
 import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.taxon.TaxonomicStatus;
 import org.emonocot.persistence.dao.ImageDao;
 import org.emonocot.persistence.dao.SearchableObjectDao;
 import org.emonocot.persistence.dao.TaxonDao;
@@ -41,20 +44,21 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
     @Autowired
     private SearchableObjectDao searchableObjectDao;
 
-   /**
+    /**
     *
     */
-   @Autowired
-   private TaxonDao taxonDao;
-
-  /**
-   *
-   */
-  @Autowired
-  private ImageDao imageDao;
+    @Autowired
+    private TaxonDao taxonDao;
 
     /**
-     * @throws Exception if there is a problem with the callable
+   *
+   */
+    @Autowired
+    private ImageDao imageDao;
+
+    /**
+     * @throws Exception
+     *             if there is a problem with the callable
      */
     @Test
     public final void setUpTestDataWithinTransaction() throws Exception {
@@ -64,17 +68,24 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
                         .getFullTextSession(getSession());
                 fullTextSession.purgeAll(Taxon.class);
                 fullTextSession.purgeAll(Image.class);
-                Taxon taxon1 = createTaxon("Aus", "1", null, null,"Ausaceae",
+                Taxon taxon1 = createTaxon("Aus", "1", null, null, "Ausaceae",
+                        "(1753)", Rank.GENUS, TaxonomicStatus.accepted,
                         new GeographicalRegion[] {});
-                Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null,"Ausaceae",
-                        new GeographicalRegion[] {Continent.AUSTRALASIA,
-                                Region.BRAZIL, Region.CARIBBEAN });
-                Taxon taxon3 = createTaxon("Aus ceus", "3", taxon1, null,"Ausaceae",
-                        new GeographicalRegion[] {Region.NEW_ZEALAND});
-                Taxon taxon4 = createTaxon("Aus deus", "4", null, taxon2,"Ausaceae",
-                        new GeographicalRegion[] {});
-                Taxon taxon5 = createTaxon("Aus eus", "5", null, taxon3,"Ausaceae",
-                        new GeographicalRegion[] {});
+                Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null,
+                        "Ausaceae", "(1775)", Rank.SPECIES,
+                        TaxonomicStatus.accepted, new GeographicalRegion[] {
+                                Continent.AUSTRALASIA, Region.BRAZIL,
+                                Region.CARIBBEAN });
+                Taxon taxon3 = createTaxon("Aus ceus", "3", taxon1, null,
+                        "Ausaceae", "(1805)", Rank.SPECIES,
+                        TaxonomicStatus.accepted,
+                        new GeographicalRegion[] {Region.NEW_ZEALAND });
+                Taxon taxon4 = createTaxon("Aus deus", "4", null, taxon2,
+                        "Ausaceae", "(1895)", Rank.SPECIES,
+                        TaxonomicStatus.synonym, new GeographicalRegion[] {});
+                Taxon taxon5 = createTaxon("Aus eus", "5", null, taxon3,
+                        "Ausaceae", "(1935)", Rank.SPECIES,
+                        TaxonomicStatus.synonym, new GeographicalRegion[] {});
                 Image img1 = createImage("Aus", "1");
                 Image img2 = createImage("Aus bus", "2");
                 searchableObjectDao.saveOrUpdate(taxon1);
@@ -92,7 +103,8 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
 
     /**
      *
-     * @throws Exception if there is a problem
+     * @throws Exception
+     *             if there is a problem
      */
     public final void tearDownTestDataWithinTransaction() throws Exception {
         doInTransaction(new Callable() {
@@ -120,7 +132,7 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
                 pager.getSize());
     }
 
-   /**
+    /**
     *
     */
     @Test
@@ -129,10 +141,10 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
         selectedFacets.put(FacetName.CLASS, 1);
         Page<SearchableObject> pager = searchableObjectDao.search("Aus", null,
                 null, null,
-                new FacetName[] {FacetName.CLASS, FacetName.FAMILY },
+                new FacetName[] {FacetName.CLASS, FacetName.FAMILY},
                 selectedFacets, null);
-        assertThat("There should be two facets returned", pager.getFacetNames(),
-                hasItems("CLASS", "FAMILY"));
+        assertThat("There should be two facets returned",
+                pager.getFacetNames(), hasItems("CLASS", "FAMILY"));
 
         List<Facet> classFacets = pager.getFacets().get("CLASS");
         String[] facetNames = new String[classFacets.size()];
@@ -156,13 +168,14 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
     public final void testSearchWithFacetsInTaxonDao() throws Exception {
         Map<FacetName, Integer> selectedFacets = new HashMap<FacetName, Integer>();
         selectedFacets.put(FacetName.CLASS, 1);
-        Page<Taxon> pager = taxonDao.search("Aus", null,
-                null, null,
-                new FacetName[] {FacetName.CLASS,
-                FacetName.FAMILY, FacetName.CONTINENT,
-                FacetName.AUTHORITY }, selectedFacets, null);
-        assertThat("There should be two facets returned", pager.getFacetNames(),
-                hasItems("CLASS", "FAMILY"));
+        Page<Taxon> pager = taxonDao.search("Aus", null, null, null,
+                new FacetName[] {FacetName.CLASS, FacetName.FAMILY,
+                        FacetName.CONTINENT, FacetName.AUTHORITY,
+                        FacetName.RANK, FacetName.TAXONOMIC_STATUS },
+                selectedFacets, null);
+        assertEquals("There should be five taxa returned", (Integer)5, pager.getSize());
+        assertThat("There should be two facets returned",
+                pager.getFacetNames(), hasItems("CLASS", "FAMILY"));
 
         List<Facet> classFacets = pager.getFacets().get("CLASS");
         String[] facetNames = new String[classFacets.size()];
@@ -176,31 +189,39 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
                 facetNames, hasItemInArray("org.emonocot.model.media.Image"));
         assertEquals("There should be one value for the FAMILY facet", 1, pager
                 .getFacets().get("FAMILY").size());
+
+        selectedFacets.put(FacetName.RANK, 1);
+        pager = taxonDao.search("Aus", null, null, null,
+                new FacetName[] {FacetName.CLASS, FacetName.FAMILY,
+                        FacetName.CONTINENT, FacetName.AUTHORITY,
+                        FacetName.RANK, FacetName.TAXONOMIC_STATUS },
+                selectedFacets, null);
+        assertEquals("There should be four taxa returned", (Integer)4, pager.getSize());
     }
-    
+
     /**
-     * TODO find a test that is less fragile
+     *
      */
     @Test
-    public final void testSearchWithSorting(){
-        //run a search and get results by relevance (default)
-        Page<SearchableObject> results = searchableObjectDao.search("Au*", null, null, null, null, null, null);
-        System.out.println("The unsorted order");
-        for (SearchableObject searchableObject : results.getRecords()) {
-            //Print the 'label'
-            if(searchableObject.getClass().getName().contains("Taxon"))
-                    System.out.println("t: "+((Taxon) searchableObject).getName());
-            else System.out.println("i: "+((Image) searchableObject).getCaption());
-        }
-        
+    public final void testSearchWithSorting() {
+        Page<SearchableObject> results = searchableObjectDao.search("Au*",
+                null, null, null, null, null, null);
+
         Sorting sort = new Sorting("label");
-        results = searchableObjectDao.search("Au*", null, null, null, null, null, sort);
-        System.out.println("The sorted order");
-        for (SearchableObject searchableObject : results.getRecords()) {
-            //Print the 'label'
-            if(searchableObject.getClass().getName().contains("Taxon"))
-                    System.out.println("t: "+((Taxon) searchableObject).getName());
-            else System.out.println("i: "+((Image) searchableObject).getCaption());
+        results = searchableObjectDao.search("Au*", null, null, null, null,
+                null, sort);
+        String[] actual = new String[results.getSize()];
+        for (int i = 0; i < results.getSize(); i++) {
+            if (results.getRecords().get(i).getClass().equals(Taxon.class)) {
+                actual[i] = ((Taxon) results.getRecords().get(i)).getName();
+            } else {
+                actual[i] = ((Image) results.getRecords().get(i)).getCaption();
+            }
         }
+
+        String[] expected = new String[] {"Aus", "Aus", "Aus bus", "Aus bus",
+                "Aus ceus", "Aus deus", "Aus eus" };
+
+        assertArrayEquals(expected, actual);
     }
 }

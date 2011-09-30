@@ -2,11 +2,13 @@ package org.emonocot.model.pager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.emonocot.model.comms.Sorting;
 import org.hibernate.search.query.facet.Facet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -106,6 +108,11 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      */
     private Map<String, Integer> selectedFacets
         = new HashMap<String, Integer>();
+
+    /**
+     *
+     */
+    private Sorting sort;
 
     /**
      * Constructor.
@@ -309,8 +316,11 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
         return facets;
     }
 
-    public final Set<String> getFacetNames() {
-        return facets.keySet();
+    public final List<String> getFacetNames() {
+        List<String> facetNames = new ArrayList<String>();
+        facetNames.addAll(facets.keySet());
+        Collections.sort(facetNames, new FacetNameComparator());
+        return facetNames;
     }
 
     public final void putParam(final String name, final Object value) {
@@ -387,5 +397,19 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
     public final void setSelectedFacet(final String facetName,
             final Integer selected) {
         selectedFacets.put(facetName, selected);
+    }
+
+    /**
+     * @return the sort
+     */
+    public final Sorting getSort() {
+        return sort;
+    }
+
+    /**
+     * @param newSort set the sorting
+     */
+    public final void setSort(final Sorting newSort) {
+        this.sort = newSort;
     }
 }
