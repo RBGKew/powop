@@ -3,6 +3,7 @@ package org.emonocot.service.impl;
 import java.util.Map;
 
 import org.emonocot.model.common.Base;
+import org.emonocot.model.comms.Sorting;
 import org.emonocot.model.pager.Page;
 import org.emonocot.persistence.dao.Dao;
 import org.emonocot.service.FacetName;
@@ -93,7 +94,7 @@ public abstract class ServiceImpl<T extends Base, DAO extends Dao<T>>
     @Transactional(readOnly = true)
     public Page<T> search(String query, String spatialQuery, Integer pageSize,
             Integer pageNumber, FacetName[] facets,
-            Map<FacetName, Integer> selectedFacets, String sort) {
+            Map<FacetName, Integer> selectedFacets, Sorting sort) {
         return dao.search(query, spatialQuery, pageSize, pageNumber, facets,
                 selectedFacets, sort);
     }

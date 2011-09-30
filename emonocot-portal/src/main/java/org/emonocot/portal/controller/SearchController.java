@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.emonocot.model.common.SearchableObject;
+import org.emonocot.model.comms.Sorting;
 import org.emonocot.model.pager.Page;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
 import org.emonocot.service.FacetName;
@@ -111,7 +112,7 @@ public class SearchController {
             @RequestParam(value = "limit", required = false, defaultValue = "10") final Integer limit,
             @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
             @RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
-            @RequestParam(value="sort", required = false) final String sort) {
+            @RequestParam(value="sort", required = false) final String sortParam) {
 
         ModelAndView modelAndView = new ModelAndView("searchResponse");
 
@@ -123,6 +124,13 @@ public class SearchController {
                         facetRequest.getSelected());
             }
         }
+        
+        //TODO replace with Formatted Sort
+        Sorting sort;
+        if(sortParam==null)
+            sort = null;
+        else
+            sort = new Sorting(sortParam);
 
         if (selectedFacets == null
                 || !selectedFacets.containsKey(FacetName.CLASS)) {

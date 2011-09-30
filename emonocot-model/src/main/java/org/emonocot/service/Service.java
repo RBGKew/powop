@@ -3,6 +3,7 @@ package org.emonocot.service;
 import java.util.Map;
 
 import org.emonocot.model.common.Base;
+import org.emonocot.model.comms.Sorting;
 import org.emonocot.model.pager.Page;
 
 /**
@@ -79,5 +80,5 @@ public interface Service<T extends Base> {
    Page<T> search(String query, String spatialQuery, Integer pageSize,
          Integer pageNumber, FacetName[] facets,
          Map<FacetName, Integer> selectedFacets,
-         String sort);
+         Sorting sort);
 }

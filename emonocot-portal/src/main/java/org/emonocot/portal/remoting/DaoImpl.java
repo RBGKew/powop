@@ -3,6 +3,7 @@ package org.emonocot.portal.remoting;
 import java.util.Map;
 
 import org.emonocot.model.common.Base;
+import org.emonocot.model.comms.Sorting;
 import org.emonocot.model.pager.Page;
 import org.emonocot.persistence.dao.Dao;
 import org.emonocot.service.FacetName;
@@ -147,7 +148,7 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
             final Integer pageSize, final Integer pageNumber,
             final FacetName[] facets,
             final Map<FacetName, Integer> selectedFacets,
-            final String sort) {
+            final Sorting sort) {
         // TODO Auto-generated method stub
         // TODO move persistence to persistence package?
         return null;

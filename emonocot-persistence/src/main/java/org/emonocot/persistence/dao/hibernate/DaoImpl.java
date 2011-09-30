@@ -12,6 +12,8 @@ import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.util.Version;
 import org.emonocot.model.common.Base;
+import org.emonocot.model.comms.Sorting;
+import org.emonocot.model.comms.Sorting.SortDirection;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.pager.DefaultPageImpl;
@@ -283,7 +285,7 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
             final Integer pageSize, final Integer pageNumber,
             final FacetName[] facets,
             final Map<FacetName, Integer> selectedFacets,
-            final String sort) {
+            final Sorting sort) {
         FullTextSession fullTextSession
          = Search.getFullTextSession(getSession());
         SearchFactory searchFactory = fullTextSession.getSearchFactory();
@@ -320,10 +322,13 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
               }
             }
 
-            //Sort by Relevance/Lucene 'Score'
+            //If a sort wasn't requested, go by Relevance/Lucene 'Score'
             if(sort==null) fullTextQuery.setSort(new Sort(new SortField(null, SortField.SCORE, false)));
-            //TODO figure out what type we are actually searching by
-            else fullTextQuery.setSort(new Sort(new SortField(sort, SortField.STRING_VAL, false)));
+            //otherwise figure out what type we are actually searching by
+            //TODO cope with different datatypes, not just the string value of the field
+            else fullTextQuery.setSort(new Sort(new SortField(
+                    sort.getFieldName(), SortField.STRING_VAL,
+                    sort.getDirection()==SortDirection.REVERSE)));
 
             List<T> results = (List<T>) fullTextQuery.list();
 

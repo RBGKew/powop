@@ -5,14 +5,13 @@ import static org.junit.Assert.assertThat;
 import static org.hamcrest.collection.IsCollectionContaining.hasItems;
 import static org.hamcrest.collection.IsArrayContaining.hasItemInArray;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
 import org.emonocot.model.common.SearchableObject;
+import org.emonocot.model.comms.Sorting;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.Region;
@@ -179,25 +178,29 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
                 .getFacets().get("FAMILY").size());
     }
     
+    /**
+     * TODO find a test that is less fragile
+     */
     @Test
     public final void testSearchWithSorting(){
         //run a search and get results by relevance (default)
         Page<SearchableObject> results = searchableObjectDao.search("Au*", null, null, null, null, null, null);
         System.out.println("The unsorted order");
         for (SearchableObject searchableObject : results.getRecords()) {
-            //Print the 'title'
+            //Print the 'label'
             if(searchableObject.getClass().getName().contains("Taxon"))
-                    System.out.println(((Taxon) searchableObject).getName());
-            else System.out.println(((Image) searchableObject).getCaption());
+                    System.out.println("t: "+((Taxon) searchableObject).getName());
+            else System.out.println("i: "+((Image) searchableObject).getCaption());
         }
         
-        results = searchableObjectDao.search("Au*", null, null, null, null, null, "label");
+        Sorting sort = new Sorting("label");
+        results = searchableObjectDao.search("Au*", null, null, null, null, null, sort);
         System.out.println("The sorted order");
         for (SearchableObject searchableObject : results.getRecords()) {
-            //Print the 'title'
+            //Print the 'label'
             if(searchableObject.getClass().getName().contains("Taxon"))
-                    System.out.println(((Taxon) searchableObject).getName());
-            else System.out.println(((Image) searchableObject).getCaption());
+                    System.out.println("t: "+((Taxon) searchableObject).getName());
+            else System.out.println("i: "+((Image) searchableObject).getCaption());
         }
     }
 }
