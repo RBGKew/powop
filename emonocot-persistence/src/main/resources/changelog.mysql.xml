@@ -818,14 +818,15 @@
     <changeSet id="2011-08-31_25" author="ben">
       <createProcedure>
         CREATE PROCEDURE populateDate()
-        BEGIN
-          DECLARE i INT DEFAULT 0;
+        BEGIN          
           DECLARE dt DATE;
-          WHILE i &lt; 365 DO
-            SET dt = adddate('2011-08-01',i);
+          SET @i = 0;
+          REPEAT
+            SET dt = adddate('2011-08-01',@i);
             INSERT INTO Time VALUES (datediff(dt,'2011-08-01'),year(dt),quarter(dt),month(dt),monthname(dt),week(dt),weekday(dt),dayname(dt));
-            SET i = i + 1;
-          END WHILE;
+            SET @i = @i + 1;
+            UNTIL @i > 365
+          END REPEAT;
         END;
       </createProcedure>        
     </changeSet>
