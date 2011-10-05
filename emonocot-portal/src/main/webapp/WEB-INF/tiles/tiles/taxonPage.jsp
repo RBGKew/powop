@@ -3,17 +3,6 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
-	<jsp:directive.page contentType="text/html" pageEncoding="UTF-8" />
-	<jsp:output omit-xml-declaration="true" />
-	<jsp:output doctype-root-element="HTML"
-		doctype-system="about:legacy-compat" />
-	<html class="no-js" lang="en" dir="ltr">
-<jsp:include page="/WEB-INF/jsp/head.jsp" />
-<body>
-<div id="wrapper">
-	<div id="container">
-		<jsp:include page="/WEB-INF/jsp/header.jsp" />
-		
 		<!-- <div class="row">
 				<div class="twelvecol"> -->	
 					<div class="content-wrapper">
@@ -224,15 +213,4 @@
 				
 				
 		</div>
-			<!--  </div>		
-				</div>-->	
-				
-			
-			</div>
-			</div>
-			
-	<br/>
-	<jsp:include page="/WEB-INF/jsp/footer.jsp" />
-</body>
-</html>
 </jsp:root>
