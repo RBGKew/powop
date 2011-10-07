@@ -6,7 +6,7 @@ import org.easymock.EasyMock;
 import org.emonocot.job.dwc.description.DescriptionFieldSetMapper;
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.taxon.Taxon;
-import org.emonocot.service.TaxonService;
+import org.emonocot.api.TaxonService;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.item.ExecutionContext;

@@ -1,9 +1,9 @@
 package org.emonocot.model.marshall.json;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import org.emonocot.service.ImageService;
-import org.emonocot.service.ReferenceService;
-import org.emonocot.service.TaxonService;
+import org.emonocot.api.ImageService;
+import org.emonocot.api.ReferenceService;
+import org.emonocot.api.TaxonService;
 
 /**
 *

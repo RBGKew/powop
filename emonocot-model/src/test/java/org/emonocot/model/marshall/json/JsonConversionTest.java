@@ -8,6 +8,9 @@ import static org.junit.Assert.fail;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.easymock.EasyMock;
+import org.emonocot.api.ImageService;
+import org.emonocot.api.ReferenceService;
+import org.emonocot.api.TaxonService;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
@@ -15,9 +18,6 @@ import org.emonocot.model.geography.Country;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Taxon;
-import org.emonocot.service.ImageService;
-import org.emonocot.service.ReferenceService;
-import org.emonocot.service.TaxonService;
 import org.junit.Before;
 import org.junit.Test;
 

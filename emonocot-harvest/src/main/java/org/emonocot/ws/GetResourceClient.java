@@ -87,7 +87,7 @@ public class GetResourceClient {
     /**
      * Executes a HTTP GET request with the If-Modified-Since header set to
      * dateLastHarvested. If the resource has not been modified then the
-     * authority may respond with the HTTP status 304 NOT MODIFIED, in which
+     * Source may respond with the HTTP status 304 NOT MODIFIED, in which
      * case the method will return an ExitStatus with an exit code 'NOT
      * MODIFIED' and the job will terminate.
      *
@@ -96,15 +96,15 @@ public class GetResourceClient {
      * exit code 'COMPLETE'.
      *
      * @param authorityName
-     *            The name of the authority being harvested.
+     *            The name of the Source being harvested.
      * @param authorityURI
      *            The endpoint (uri) being harvested.
      * @param dateLastHarvested
-     *            The dateTime when this authority was last harvested.
+     *            The dateTime when this Source was last harvested.
      * @param temporaryFileName
      *            The name of the temporary file to store the response in
      * @return An exit status indicating that the step was completed, failed, or
-     *         if the authority responded with a 304 NOT MODIFIED response
+     *         if the Source responded with a 304 NOT MODIFIED response
      *         indicating that no records have been modified
      */
     public final ExitStatus getResource(final String authorityName,
@@ -196,7 +196,7 @@ public class GetResourceClient {
     /**
      * Executes a HTTP GET request with the If-Modified-Since header set to
      * dateLastHarvested. If the resource has not been modified then the
-     * authority may respond with the HTTP status 304 NOT MODIFIED, in which
+     * Source may respond with the HTTP status 304 NOT MODIFIED, in which
      * case the method will return an ExitStatus with an exit code 'NOT
      * MODIFIED' and the job will terminate.
      *
@@ -205,15 +205,15 @@ public class GetResourceClient {
      * exit code 'COMPLETE'.
      *
      * @param authorityName
-     *            The name of the authority being harvested.
+     *            The name of the Source being harvested.
      * @param authorityURI
      *            The endpoint (uri) being harvested.
      * @param dateLastHarvested
-     *            The dateTime when this authority was last harvested.
+     *            The dateTime when this Source was last harvested.
      * @param temporaryFileName
      *            The name of the temporary file to store the response in
      * @return An exit status indicating that the step was completed, failed, or
-     *         if the authority responded with a 304 NOT MODIFIED response
+     *         if the Source responded with a 304 NOT MODIFIED response
      *         indicating that no records have been modified
      */
     public final ExitStatus getBinaryResource(final String authorityName,

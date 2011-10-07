@@ -1,7 +1,7 @@
 package org.emonocot.job.scratchpads;
 
 import org.emonocot.job.scratchpads.model.EoLTaxonItem;
-import org.emonocot.service.TaxonService;
+import org.emonocot.api.TaxonService;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,7 +16,7 @@ public class EoLTaxonItemValidator implements
     /**
      *
      */
-    private String authority;
+    private String Source;
 
     /**
      *
@@ -49,9 +49,9 @@ public class EoLTaxonItemValidator implements
 
     /**
      *
-     * @param newAuthority Set the authority from which this item was harvested
+     * @param newSource Set the Source from which this item was harvested
      */
-    public final void setAuthority(final String newAuthority) {
-        this.authority = newAuthority;
+    public final void setSource(final String newSource) {
+        this.Source = newSource;
     }
 }

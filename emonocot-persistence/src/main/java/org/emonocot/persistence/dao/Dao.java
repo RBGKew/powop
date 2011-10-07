@@ -2,10 +2,10 @@ package org.emonocot.persistence.dao;
 
 import java.util.Map;
 
+import org.emonocot.api.FacetName;
+import org.emonocot.api.Sorting;
 import org.emonocot.model.common.Base;
-import org.emonocot.model.comms.Sorting;
 import org.emonocot.model.pager.Page;
-import org.emonocot.service.FacetName;
 
 /**
  *

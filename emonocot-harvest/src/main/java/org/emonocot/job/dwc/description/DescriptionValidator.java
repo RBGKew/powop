@@ -1,10 +1,10 @@
 package org.emonocot.job.dwc.description;
 
 import org.emonocot.job.dwc.NoTaxonException;
-import org.emonocot.model.authority.Authority;
+import org.emonocot.model.source.Source;
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.taxon.Taxon;
-import org.emonocot.service.TaxonService;
+import org.emonocot.api.TaxonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
@@ -38,15 +38,15 @@ public class DescriptionValidator implements
     /**
      *
      */
-    private Authority authority;
+    private Source source;
     
     /**
     *
-    * @param authorityName Set the id of the authority
+    * @param souceName Set the id of the source
     */
-    public final void setAuthorityName(String authorityName) {
-      authority = new Authority();
-      authority.setId(Long.parseLong(authorityName));
+    public final void setSourceName(String sourceName) {
+      source = new Source();
+      source.setId(Long.parseLong(sourceName));
     }
 
     /**
@@ -87,8 +87,8 @@ public class DescriptionValidator implements
                 return textContent;
             }
         } else {
-            textContent.getAuthorities().add(authority);
-            textContent.setAuthority(authority);
+            textContent.getSources().add(source);
+            textContent.setAuthority(source);
             return textContent;
         }
     }

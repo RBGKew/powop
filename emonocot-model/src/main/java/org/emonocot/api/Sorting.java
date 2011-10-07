@@ -1,4 +1,4 @@
-package org.emonocot.model.comms;
+package org.emonocot.api;
 
 /**
  * @author jk00kg

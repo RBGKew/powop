@@ -188,13 +188,13 @@
 
     <bean id="taxonItemProcessor" class="org.emonocot.job.checklist.OaiPmhRecordProcessorImpl" scope="step">
       <property name="taxonService" ref="taxonServiceImpl"/>
-      <property name="authorityName" value="#{jobParameters['authority.name']}"/>
+      <property name="sourceName" value="#{jobParameters['authority.name']}"/>
       <property name="referenceService" ref="referenceServiceImpl"/>
     </bean>
 
 	<bean id="taxonItemValidator" class="org.emonocot.job.checklist.OaiPmhRecordValidator"
 		scope="step">
-		<property name="authority" value="#{jobParameters['authority.name']}" />
+		<property name="source" value="#{jobParameters['authority.name']}" />
 	</bean>
 
 	<bean id="itemWriter" class="org.emonocot.job.checklist.OaiPmhRecordItemWriter">
@@ -205,8 +205,8 @@
 	  <property name="oaiPmhClient" ref="oaiPmhClient"/>
 	  <property name="oaiPmhRecordProcessor" ref="taxonItemProcessor"/>
 	  <property name="taxonService" ref="taxonServiceImpl"/>
-	  <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-	  <property name="authorityUri" value="#{jobParameters['authority.uri']}"/>
+	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
+	  <property name="sourceUri" value="#{jobParameters['authority.uri']}"/>
 	  <property name="temporaryFileName" value="#{jobParameters['temporary.file.name']}"/>
 	</bean>
 </beans>

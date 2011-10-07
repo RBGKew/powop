@@ -7,11 +7,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
-import org.emonocot.model.authority.Authority;
+import org.emonocot.model.source.Source;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.taxon.Taxon;
-import org.emonocot.service.TaxonService;
+import org.emonocot.api.TaxonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
@@ -68,23 +68,23 @@ public abstract class TaxonRelationshipResolver
   /**
    *
    */
-  private Authority authority;
+  private Source source;
 
   /**
    *
-   * @param authorityName Set the id of the authority
+   * @param SourceName Set the id of the Source
    */
-   public final void setAuthorityName(String authorityName) {
-     authority = new Authority();
-     authority.setId(Long.parseLong(authorityName));
+   public final void setSourceName(String sourceName) {
+     source = new Source();
+     source.setId(Long.parseLong(sourceName));
    }
 
    /**
     *
-    * @return the authority
+    * @return the Source
     */
-   protected final Authority getAuthority() {
-       return authority;
+   protected final Source getSource() {
+       return source;
    }
 
    /**
@@ -128,10 +128,10 @@ public abstract class TaxonRelationshipResolver
                                 getStepExecution().getJobExecutionId());
                         annotation.setCode("Created");
                         annotation.setType(AnnotationType.Create);
-                        annotation.setAuthority(authority);
+                        annotation.setSource(source);
                         taxon.getAnnotations().add(annotation);
-                        taxon.getAuthorities().add(authority);
-                        taxon.setAuthority(authority);
+                        taxon.getSources().add(source);
+                        taxon.setAuthority(source);
                         taxon.setIdentifier(identifier);
                         logger.info("Didn't find taxon with identifier " + identifier
                                 + " from service returning new taxon");

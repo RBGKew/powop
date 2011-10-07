@@ -6,8 +6,8 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
+import org.emonocot.api.Service;
 import org.emonocot.model.common.Base;
-import org.emonocot.service.Service;
 
 /**
  *

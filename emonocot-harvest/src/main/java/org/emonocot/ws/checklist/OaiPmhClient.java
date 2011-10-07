@@ -159,21 +159,21 @@ public class OaiPmhClient implements StepExecutionListener {
     /**
      *
      * @param authorityName
-     *            The name of the authority being harvested.
+     *            The name of the Source being harvested.
      * @param authorityUri
      *            The endpoint (uri) being harvested.
-     * @param dateLastHarvested
-     *            The dateTime when this authority was last harvested.
+     * @param authorityLastHarvested
+     *            The dateTime when this Source was last harvested.
      * @param temporaryFileName
      *            The name of the temporary file to store the response in.
      * @param requestSubsetName
      *            The string representation of a set (taxon) to harvest
      * @return An exit status indicating that the step was completed, failed, or
-     *         if the authority responded with a NO RECORDS MATCH response
+     *         if the Source responded with a NO RECORDS MATCH response
      *         indicating that no records have been modified
      */
     public final ExitStatus listRecords(final String authorityName,
-            final String authorityUri, final String dateLastHarvested,
+            final String authorityUri, final String authorityLastHarvested,
             final String temporaryFileName, final String requestSubsetName) {
         logger.info("ProxyHost " + proxyHost + " ProxyPort " + proxyPort);
         if (proxyHost != null && proxyPort != null) {
@@ -199,9 +199,9 @@ public class OaiPmhClient implements StepExecutionListener {
             resumptionToken = (String) stepExecution.getJobExecution()
                 .getExecutionContext().get("resumption.token");
         }
-        logger.info("Authority name: " + authorityName
-                + " Authority URI: " + authorityUri
-                + " date: " + dateLastHarvested
+        logger.info("Source name: " + authorityName
+                + " Source URI: " + authorityUri
+                + " date: " + authorityLastHarvested
                 + " tempFile: " + temporaryFileName
                 + " resumptionToken: " + resumptionToken
                 + "set: " + requestSubsetName);
@@ -212,9 +212,9 @@ public class OaiPmhClient implements StepExecutionListener {
                     + "&verb=ListRecords");
         } else {
             query.append("&verb=ListRecords&metadataPrefix=rdf");
-            if (dateLastHarvested != null && dateLastHarvested.length() > 0
-                    && !dateLastHarvested.equals("null")) {
-                DateTime from = new DateTime(Long.parseLong(dateLastHarvested));
+            if (authorityLastHarvested != null && authorityLastHarvested.length() > 0
+                    && !authorityLastHarvested.equals("null")) {
+                DateTime from = new DateTime(Long.parseLong(authorityLastHarvested));
                 query.append("&from="
                         + DATE_TIME_PRINTER.print(from
                                 .toDateTime(DateTimeZone.UTC)));
@@ -309,13 +309,13 @@ public class OaiPmhClient implements StepExecutionListener {
     * @param identifier The identifier of the record you want to get
     *
     * @param authorityName
-    *            The name of the authority being harvested.
+    *            The name of the Source being harvested.
     * @param authorityUri
     *            The endpoint (uri) being harvested.
     * @param temporaryFileName
     *            The name of the temporary file to store the response in.
     * @return An exit status indicating that the step was completed, failed, or
-    *         if the authority responded with a NO RECORDS MATCH response
+    *         if the Source responded with a NO RECORDS MATCH response
     *         indicating that no records have been modified
     */
     public final TaxonConcept getRecord(final String identifier,
@@ -339,8 +339,8 @@ public class OaiPmhClient implements StepExecutionListener {
        StringBuffer query = new StringBuffer("?");
        query.append("scratchpad=" + servicesClientIdentifier);
 
-       logger.info("Authority name: " + authorityName
-               + " Authority URI: " + authorityUri
+       logger.info("Source name: " + authorityName
+               + " Source URI: " + authorityUri
                + " tempFile: " + temporaryFileName
                + " identifier " + identifier);
 

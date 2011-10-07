@@ -35,11 +35,11 @@ public class OaiPmhClientTest {
     /**
      *
      */
-    private String authorityName;
+    private String SourceName;
     /**
      *
      */
-    private String authorityURI;
+    private String SourceURI;
     /**
      *
      */
@@ -76,8 +76,8 @@ public class OaiPmhClientTest {
         set = "setParam";
         dateLastHarvested = "1";
         // also see 'from' RequestParam in HttpGet() constructors
-        authorityURI = "http://test.authority.uri/path";
-        authorityName = "Test Authoritative Source";
+        SourceURI = "http://test.Source.uri/path";
+        SourceName = "Test Authoritative Source";
         servicesClientIdentifier = "OaiPmhClientTest";
 
         response = new BasicHttpResponse(new BasicStatusLine(
@@ -96,7 +96,7 @@ public class OaiPmhClientTest {
         // expected params are set manually to ensure
         // the expected URL matches the order
         HttpGet get = new HttpGet(
-                authorityURI
+                SourceURI
                         + "?scratchpad=" + servicesClientIdentifier
                         + "&verb=ListRecords&metadataPrefix=rdf"
                         + "&from=1970-01-01T00:00:00Z&set=" + set);
@@ -113,7 +113,7 @@ public class OaiPmhClientTest {
         underTest.beforeStep(stepExecution);
         underTest.setServicesClientIdentifier(servicesClientIdentifier);
 
-        underTest.listRecords(authorityName, authorityURI, dateLastHarvested,
+        underTest.listRecords(SourceName, SourceURI, dateLastHarvested,
                 temporaryFileName, set);
         verify(mockHttpClient);
 
@@ -129,7 +129,7 @@ public class OaiPmhClientTest {
         resumptionToken = "token";
         HttpClient mockHttpClient = createMock(HttpClient.class);
 
-        HttpGet get = new HttpGet(authorityURI + "?scratchpad="
+        HttpGet get = new HttpGet(SourceURI + "?scratchpad="
                 + servicesClientIdentifier + "&resumptionToken="
                 + resumptionToken + "&verb=ListRecords");
         JobExecution jobExecution = new JobExecution(1L);
@@ -148,7 +148,7 @@ public class OaiPmhClientTest {
         underTest.beforeStep(stepExecution);
         underTest.setServicesClientIdentifier(servicesClientIdentifier);
 
-        underTest.listRecords(authorityName, authorityURI, dateLastHarvested,
+        underTest.listRecords(SourceName, SourceURI, dateLastHarvested,
                 temporaryFileName, set);
         verify(mockHttpClient);
 

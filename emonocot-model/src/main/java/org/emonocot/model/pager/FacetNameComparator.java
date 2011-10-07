@@ -2,7 +2,7 @@ package org.emonocot.model.pager;
 
 import java.util.Comparator;
 
-import org.emonocot.service.FacetName;
+import org.emonocot.api.FacetName;
 
 /**
  *

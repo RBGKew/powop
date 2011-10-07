@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
-import org.emonocot.model.authority.Authority;
+import org.emonocot.model.source.Source;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
@@ -61,7 +61,7 @@ public class Annotation implements Serializable {
     /**
      *
      */
-    private Authority authority;
+    private Source source;
 
     /**
      *
@@ -77,15 +77,15 @@ public class Annotation implements Serializable {
      * @return the authority
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    public Authority getAuthority() {
-        return authority;
+    public Source getSource() {
+        return source;
     }
 
     /**
-     * @param authority the authority to set
+     * @param source the source to set
      */
-    public void setAuthority(Authority authority) {
-        this.authority = authority;
+    public void setSource(Source source) {
+        this.source = source;
     }
 
     /**

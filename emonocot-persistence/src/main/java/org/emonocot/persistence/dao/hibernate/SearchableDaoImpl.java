@@ -5,12 +5,12 @@ package org.emonocot.persistence.dao.hibernate;
 
 import java.util.List;
 
+import org.emonocot.api.FacetName;
 import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.model.pager.Page;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.dao.SearchableObjectDao;
-import org.emonocot.service.FacetName;
 import org.hibernate.search.ProjectionConstants;
 import org.hibernate.search.query.dsl.FacetContext;
 import org.hibernate.search.query.engine.spi.FacetManager;

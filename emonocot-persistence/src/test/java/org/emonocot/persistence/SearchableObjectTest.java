@@ -11,8 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
+import org.emonocot.api.FacetName;
+import org.emonocot.api.Sorting;
 import org.emonocot.model.common.SearchableObject;
-import org.emonocot.model.comms.Sorting;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.Region;
@@ -24,7 +25,6 @@ import org.emonocot.model.taxon.TaxonomicStatus;
 import org.emonocot.persistence.dao.ImageDao;
 import org.emonocot.persistence.dao.SearchableObjectDao;
 import org.emonocot.persistence.dao.TaxonDao;
-import org.emonocot.service.FacetName;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 import org.hibernate.search.query.facet.Facet;

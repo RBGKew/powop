@@ -44,17 +44,17 @@ public class RecordAnnotator
     /**
      *
      * @param family Set the family of taxa to be harvested
-     * @param authorityName Set the authority name
+     * @param SourceName Set the Source name
      * @return the exit status
      */
-    public final ExitStatus annotateRecords(final String family, String authorityName) {
+    public final ExitStatus annotateRecords(final String family, String SourceName) {
         StringBuffer queryString = new StringBuffer(
-          "insert into Annotation (annotatedObjId, annotatedObjType, jobId,  dateTime, authority_id, type) select t.id, 'Taxon', ");
+          "insert into Annotation (annotatedObjId, annotatedObjType, jobId,  dateTime, source_id, type) select t.id, 'Taxon', ");
         queryString.append(stepExecution.getJobExecutionId());
         queryString.append(", ");
         queryString.append(OlapDateTimeUserType.convert(new DateTime()));
         queryString.append(", ");
-        queryString.append(authorityName);
+        queryString.append(SourceName);
         queryString.append(", 'Absent' from Taxon t where t.family = '");
         queryString.append(family);
         queryString.append("'");

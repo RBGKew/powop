@@ -1,10 +1,10 @@
 package org.emonocot.job.dwc.taxon;
 
-import org.emonocot.model.authority.Authority;
+import org.emonocot.model.source.Source;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.taxon.Taxon;
-import org.emonocot.service.TaxonService;
+import org.emonocot.api.TaxonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
@@ -38,7 +38,7 @@ public class TaxonValidator implements ItemProcessor<Taxon, Taxon>,
     /**
      *
      */
-    private Authority authority;
+    private Source Source;
 
     /**
      *
@@ -50,11 +50,11 @@ public class TaxonValidator implements ItemProcessor<Taxon, Taxon>,
 
     /**
     *
-    * @param authorityName Set the id of the authority
+    * @param SourceName Set the id of the Source
     */
-    public final void setAuthorityName(String authorityName) {
-      authority = new Authority();
-      authority.setId(Long.parseLong(authorityName));
+    public final void setSourceName(String SourceName) {
+      Source = new Source();
+      Source.setId(Long.parseLong(SourceName));
     }
 
     /**
@@ -95,14 +95,14 @@ public class TaxonValidator implements ItemProcessor<Taxon, Taxon>,
              * collections.
              */
             boolean contains = false;
-            for (Authority auth : persistedTaxon.getAuthorities()) {
-                if (auth.equals(authority)) {
+            for (Source auth : persistedTaxon.getSources()) {
+                if (auth.equals(Source)) {
                     contains = true;
                     break;
                 }
             }
             if (!contains) {
-                persistedTaxon.getAuthorities().add(authority);
+                persistedTaxon.getSources().add(Source);
             }
         }
         return persistedTaxon;

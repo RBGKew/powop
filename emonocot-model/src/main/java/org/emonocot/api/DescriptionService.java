@@ -1,4 +1,4 @@
-package org.emonocot.service;
+package org.emonocot.api;
 
 import org.emonocot.model.description.Content;
 import org.emonocot.model.description.Feature;

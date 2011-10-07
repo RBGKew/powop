@@ -1062,4 +1062,75 @@
                                baseTableName="Taxon_Authority"
                                referencedColumnNames="id"/>
     </changeSet>
+    <changeSet id="2011-10-07_01" author="ben">
+      <renameColumn tableName="Annotation" oldColumnName="authority_id" newColumnName="source_id"/>
+    </changeSet>
+    <changeSet id="2011-10-07_02" author="ben">
+      <renameTable newTableName="Source" oldTableName="Authority"/>
+    </changeSet>
+    <changeSet id="2011-10-07_03" author="ben">
+      <renameTable oldTableName="Content_Authority" newTableName="Content_Source"/>
+    </changeSet>
+    <changeSet id="2011-10-07_04" author="ben">
+      <renameTable oldTableName="Distribution_Authority" newTableName="Distribution_Source"/>
+    </changeSet>
+    <changeSet id="2011-10-07_05" author="ben">
+      <renameTable oldTableName="Image_Authority" newTableName="Image_Source"/>
+    </changeSet>
+    <changeSet id="2011-10-07_06" author="ben">
+      <renameTable oldTableName="Reference_Authority" newTableName="Reference_Source"/>
+    </changeSet>
+    <changeSet id="2011-10-07_07" author="ben">
+      <renameTable oldTableName="Taxon_Authority" newTableName="Taxon_Source"/>
+    </changeSet>
+    <changeSet id="2011-10-07_08" author="ben">
+      <renameColumn tableName="Content_Source" oldColumnName="authorities_id" newColumnName="sources_id"/>
+    </changeSet>
+    <changeSet id="2011-10-07_09" author="ben">
+      <renameColumn tableName="Distribution_Source" oldColumnName="authorities_id" newColumnName="sources_id"/>
+    </changeSet>
+    <changeSet id="2011-10-07_10" author="ben">
+      <renameColumn tableName="Image_Source" oldColumnName="authorities_id" newColumnName="sources_id"/>
+    </changeSet>
+    <changeSet id="2011-10-07_11" author="ben">
+      <renameColumn tableName="Reference_Source" oldColumnName="authorities_id" newColumnName="sources_id"/>
+    </changeSet>
+    <changeSet id="2011-10-07_12" author="ben">
+      <renameColumn tableName="Taxon_Source" oldColumnName="authorities_id" newColumnName="sources_id"/>
+    </changeSet>
+    <changeSet id="2011-10-07_13" author="ben">
+      <createTable tableName="Principal">
+        <column name="id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>
+        <column name="DTYPE" type="varchar(31)">
+            <constraints nullable="false"/>
+        </column>
+        <column name="created" type="timestamp"/>
+        <column name="identifier" type="varchar(255)">
+            <constraints unique="true"/>
+        </column>
+        <column name="modified" type="timestamp"/>
+        <column name="accountNonExpired" type="boolean"/>
+        <column name="accountNonLocked" type="boolean"/>
+        <column name="credentialsNonExpired" type="boolean"/>
+        <column name="enabled" type="boolean"/>
+        <column name="password" type="varchar(255)"/>
+      </createTable>
+    </changeSet>
+    <changeSet id="2011-10-07_14" author="ben">
+      <createTable tableName="User_permissions">
+        <column name="User_id" type="bigint">
+            <constraints nullable="false"/>
+        </column>
+        <column name="permissions" type="integer"/>      
+      </createTable>
+    </changeSet>
+    <changeSet id="2011-10-07_15" author="ben">
+      <addForeignKeyConstraint constraintName="FKB4582A309E0AAB54" 
+                               referencedTableName="Principal"
+                               baseColumnNames="User_id"
+                               baseTableName="User_permissions"
+                               referencedColumnNames="id"/>
+    </changeSet>
 </databaseChangeLog>

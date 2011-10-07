@@ -297,7 +297,7 @@
 					<url>${jdbc.driver.url}</url>
 					<username>${jdbc.driver.username}</username>
 					<password>${jdbc.driver.password}</password>
-					<dropFirst>${liquibase.database.first}</dropFirst>
+					<dropFirst>${liquibase.drop.database.first}</dropFirst>
 				</configuration>
 				<dependencies>
 					<dependency>

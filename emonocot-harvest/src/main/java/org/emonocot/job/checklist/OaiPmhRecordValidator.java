@@ -13,14 +13,14 @@ public class OaiPmhRecordValidator implements
     /**
      *
      */
-    private String authority;
+    private String Source;
 
     /**
      *
-     * @param newAuthority Set the authority of the item
+     * @param newSource Set the Source of the item
      */
-    public final void setAuthority(final String newAuthority) {
-        this.authority = newAuthority;
+    public final void setSource(final String newSource) {
+        this.Source = newSource;
     }
 
     public final Record process(final Record item) {

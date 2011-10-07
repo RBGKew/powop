@@ -6,7 +6,7 @@ import java.util.Set;
 
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.harvest.common.TaxonRelationship;
-import org.emonocot.service.TaxonService;
+import org.emonocot.api.TaxonService;
 import org.emonocot.ws.checklist.OaiPmhClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,12 +61,12 @@ public class NullTaxonProcessor implements ItemProcessor<String, Taxon>,
    /**
     *
     */
-   private String authorityName;
+   private String SourceName;
 
    /**
     *
     */
-   private String authorityUri;
+   private String SourceUri;
 
     /**
      *
@@ -95,7 +95,7 @@ public class NullTaxonProcessor implements ItemProcessor<String, Taxon>,
         Taxon taxon = ((Taxon) taxonService.find(identifier,
                 "taxon-with-related"));
         TaxonConcept taxonConcept = oaiPmhClient.getRecord(
-                identifier, authorityName, authorityUri,
+                identifier, SourceName, SourceUri,
                 temporaryFileName);
         Set<TaxonRelationship> inverseRelationships
             = new HashSet<TaxonRelationship>();
@@ -212,16 +212,16 @@ public class NullTaxonProcessor implements ItemProcessor<String, Taxon>,
     }
 
     /**
-     * @param newAuthorityName the authorityName to set
+     * @param newSourceName the SourceName to set
      */
-    public final void setAuthorityName(final String newAuthorityName) {
-        this.authorityName = newAuthorityName;
+    public final void setSourceName(final String newSourceName) {
+        this.SourceName = newSourceName;
     }
 
     /**
-     * @param newAuthorityUri the authorityUri to set
+     * @param newSourceUri the SourceUri to set
      */
-    public final void setAuthorityUri(final String newAuthorityUri) {
-        this.authorityUri = newAuthorityUri;
+    public final void setSourceUri(final String newSourceUri) {
+        this.SourceUri = newSourceUri;
     }
 }

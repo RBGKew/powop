@@ -3,7 +3,7 @@ package org.emonocot.job.dwc;
 import java.io.Serializable;
 
 import org.emonocot.job.dwc.description.DescriptionProcessingException;
-import org.emonocot.model.authority.Authority;
+import org.emonocot.model.source.Source;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.common.Base;
@@ -50,7 +50,7 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
    /**
     *
     */
-   private Authority authority = null;
+   private Source Source = null;
 
    /**
     *
@@ -77,11 +77,11 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
 
   /**
    *
-   * @param authorityName Set the id of the authority
+   * @param SourceName Set the id of the Source
    */
-   public final void setAuthorityName(final String authorityName) {
-     authority = new Authority();
-     authority.setId(Long.parseLong(authorityName));
+   public final void setSourceName(final String SourceName) {
+     Source = new Source();
+     Source.setId(Long.parseLong(SourceName));
    }
 
    /**
@@ -135,7 +135,7 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
             annotation.setJobId(stepExecution.getJobExecutionId());
             annotation.setCode(dwcpe.getCode());
             annotation.setText(dwcpe.getMessage());
-            annotation.setAuthority(authority);
+            annotation.setSource(Source);
             annotation.setType(dwcpe.getType());
             String stepName = stepExecution.getStepName();
             if (stepName.equals(PROCESS_CORE_FILE)) {
@@ -210,7 +210,7 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
             final Annotation annotation = new Annotation();
             annotation.setJobId(stepExecution.getJobExecutionId());
             annotation.setCode("FlatFileParseException");
-            annotation.setAuthority(authority);
+            annotation.setSource(Source);
             annotation.setType(AnnotationType.Error);
             annotation.setText(message.toString());
             String stepName = stepExecution.getStepName();

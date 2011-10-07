@@ -7,7 +7,7 @@ import java.util.Set;
 
 import org.emonocot.harvest.common.TaxonRelationship;
 import org.emonocot.harvest.common.TaxonRelationshipResolver;
-import org.emonocot.model.authority.Authority;
+import org.emonocot.model.source.Source;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.geography.GeographicalRegion;
@@ -18,7 +18,7 @@ import org.emonocot.model.reference.ReferenceTypeConverter;
 import org.emonocot.model.taxon.Rank;
 import org.emonocot.model.taxon.RankConverter;
 import org.emonocot.model.taxon.Taxon;
-import org.emonocot.service.ReferenceService;
+import org.emonocot.api.ReferenceService;
 import org.hibernate.engine.Status;
 import org.openarchives.pmh.Record;
 import org.slf4j.Logger;
@@ -111,10 +111,10 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
                 annotation.setJobId(getStepExecution().getJobExecutionId());
                 annotation.setCode("Created");
                 annotation.setType(AnnotationType.Create);
-                annotation.setAuthority(getAuthority());
+                annotation.setSource(getSource());
                 taxon.getAnnotations().add(annotation);
-                taxon.getAuthorities().add(getAuthority());
-                taxon.setAuthority(getAuthority());
+                taxon.getSources().add(getSource());
+                taxon.setAuthority(getSource());
                 processTaxon(taxon, taxonConcept);
             }
         } else {
@@ -131,24 +131,24 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
                 annotation.setJobId(getStepExecution().getJobExecutionId());
                 annotation.setType(AnnotationType.Update);
                 annotation.setCode("Updated");
-                annotation.setAuthority(getAuthority());
+                annotation.setSource(getSource());
                 taxon.getAnnotations().add(annotation);
                 /**
                  * Using java.util.Collection.contains() does not work on lazy
                  * collections.
                  */
                 boolean contains = false;
-                for (Authority auth : taxon.getAuthorities()) {
-                    if (auth.equals(getAuthority())) {
+                for (Source auth : taxon.getSources()) {
+                    if (auth.equals(getSource())) {
                         contains = true;
                         break;
                     }
                 }
                 if (!contains) {
-                    taxon.getAuthorities().add(getAuthority());
+                    taxon.getSources().add(getSource());
                 }
 
-                taxon.setAuthority(getAuthority());
+                taxon.setAuthority(getSource());
                 processTaxon(taxon, taxonConcept);
             }
         }
@@ -223,7 +223,7 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
                 annotation.setType(AnnotationType.Warn);
                 annotation.setCode("rank");
                 annotation.setText(iae.getMessage());
-                annotation.setAuthority(getAuthority());
+                annotation.setSource(getSource());
                 taxon.getAnnotations().add(annotation);
             }
 
@@ -323,7 +323,7 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
             annotation.setCode("related");
             annotation.setText("Could not find identifier for relationship of taxon "
                     + taxon.getIdentifier());
-            annotation.setAuthority(getAuthority());
+            annotation.setSource(getSource());
             taxon.getAnnotations().add(annotation);
         }
     }
@@ -346,7 +346,7 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
             annotation.setCode("distribution");
             annotation.setText("No geographical term returned"
                     + taxon.getIdentifier());
-            annotation.setAuthority(getAuthority());
+            annotation.setSource(getSource());
             taxon.getAnnotations().add(annotation);
             return null;
         }

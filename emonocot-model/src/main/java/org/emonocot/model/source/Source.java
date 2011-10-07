@@ -1,4 +1,4 @@
-package org.emonocot.model.authority;
+package org.emonocot.model.source;
 
 import java.io.Serializable;
 
@@ -20,7 +20,7 @@ import org.hibernate.search.annotations.Indexed;
  */
 @Entity
 @Indexed
-public class Authority implements Serializable {
+public class Source implements Serializable {
 
     /**
      * 
@@ -99,7 +99,7 @@ public class Authority implements Serializable {
         if (other == null || other.getClass() != this.getClass()) {
             return false;
         }
-        Authority authority = (Authority) other;
+        Source authority = (Source) other;
         return ObjectUtils.equals(this.id, authority.id);
     }
 

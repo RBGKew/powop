@@ -15,8 +15,8 @@ import javax.persistence.MappedSuperclass;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.emonocot.model.authority.Authority;
 import org.emonocot.model.hibernate.DateTimeBridge;
+import org.emonocot.model.source.Source;
 import org.hibernate.annotations.Type;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
@@ -72,19 +72,19 @@ public abstract class Base implements Serializable {
      * As Jo pointed out, having a map of AuthorityType -> Authority
      * didn't allow for more than one secondary authority.
      */
-    private Set<Authority> authorities = new HashSet<Authority>();
+    private Set<Source> sources = new HashSet<Source>();
 
     /**
      *
      */
-    private Authority authority;
+    private Source authority;
 
     /**
      *
      * @return the primary authority
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    public Authority getAuthority() {
+    public Source getAuthority() {
         return authority;
     }
 
@@ -92,7 +92,7 @@ public abstract class Base implements Serializable {
      *
      * @param authority Set the authority
      */
-    public void setAuthority(Authority authority) {
+    public void setAuthority(Source authority) {
         this.authority = authority;
     }
 
@@ -102,15 +102,15 @@ public abstract class Base implements Serializable {
     @ManyToMany(fetch = FetchType.LAZY)
     @IndexedEmbedded
     @JsonIgnore
-    public Set<Authority> getAuthorities() {
-        return authorities;
+    public Set<Source> getSources() {
+        return sources;
     }
 
     /**
-     * @param authorities the authorities to set
+     * @param sources the authorities to set
      */
-    public void setAuthorities(Set<Authority> authorities) {
-        this.authorities = authorities;
+    public void setSources(Set<Source> sources) {
+        this.sources = sources;
     }
 
     /**

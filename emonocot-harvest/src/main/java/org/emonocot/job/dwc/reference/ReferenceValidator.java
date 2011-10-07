@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.emonocot.model.authority.Authority;
+import org.emonocot.model.source.Source;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Taxon;
-import org.emonocot.service.ReferenceService;
-import org.emonocot.service.TaxonService;
+import org.emonocot.api.ReferenceService;
+import org.emonocot.api.TaxonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
@@ -55,15 +55,15 @@ public class ReferenceValidator implements
     /**
      *
      */
-  private Authority authority;
+  private Source source;
   
   /**
   *
-  * @param authorityName Set the id of the authority
+  * @param sourceName Set the id of the source
   */
-  public final void setAuthorityName(String authorityName) {
-    authority = new Authority();
-    authority.setId(Long.parseLong(authorityName));
+  public final void setSourceName(String sourceName) {
+    source = new Source();
+    source.setId(Long.parseLong(sourceName));
   }
 
     /**
@@ -97,8 +97,8 @@ public class ReferenceValidator implements
             if (persistedReference == null) {
                 // We've not seen this reference before
                 boundReferences.put(reference.getIdentifier(), reference);
-                reference.getAuthorities().add(authority);
-                reference.setAuthority(authority);
+                reference.getSources().add(source);
+                reference.setAuthority(source);
                 return reference;
             } else {
                 // We've seen this reference before, but not in this chunk

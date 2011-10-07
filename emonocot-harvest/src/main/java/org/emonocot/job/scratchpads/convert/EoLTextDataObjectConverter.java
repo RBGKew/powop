@@ -5,7 +5,7 @@ import org.joda.time.DateTime;
 import org.emonocot.model.common.License;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
-import org.emonocot.service.DescriptionService;
+import org.emonocot.api.DescriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 

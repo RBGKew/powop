@@ -1,8 +1,8 @@
 package org.emonocot.service.impl;
 
+import org.emonocot.api.TaxonService;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.dao.TaxonDao;
-import org.emonocot.service.TaxonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

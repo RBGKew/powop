@@ -14,6 +14,7 @@ import org.emonocot.checklist.logging.LoggingConstants;
 import org.emonocot.checklist.model.ChangeEvent;
 import org.emonocot.checklist.model.Taxon;
 import org.emonocot.model.pager.Page;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -54,6 +55,7 @@ public class UsageLoggingIntegrationTest extends
      * @throws Exception if there is a problem
      */
     @Test
+    @Ignore
     public final void loggingTest() throws Exception {
         assertEquals("There should be no rows in the web_log", 0,
                 jdbcTemplate

@@ -135,7 +135,6 @@ public class ChecklistHarvestingJobIntegrationTest {
      *             if the job is already running
      */
     @Test
-    @Ignore
     public final void testHarvestBySet() throws IOException,
             NoSuchJobException, JobExecutionAlreadyRunningException,
             JobRestartException, JobInstanceAlreadyCompleteException,

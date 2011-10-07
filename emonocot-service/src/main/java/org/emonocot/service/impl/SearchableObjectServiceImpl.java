@@ -3,9 +3,9 @@
  */
 package org.emonocot.service.impl;
 
+import org.emonocot.api.SearchableObjectService;
 import org.emonocot.model.common.SearchableObject;
 import org.emonocot.persistence.dao.SearchableObjectDao;
-import org.emonocot.service.SearchableObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

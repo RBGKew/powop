@@ -10,9 +10,9 @@ import org.codehaus.jackson.map.SerializationConfig;
 import org.codehaus.jackson.map.introspect.Annotated;
 import org.codehaus.jackson.map.jsontype.TypeIdResolver;
 import org.codehaus.jackson.map.jsontype.TypeResolverBuilder;
-import org.emonocot.service.ImageService;
-import org.emonocot.service.ReferenceService;
-import org.emonocot.service.TaxonService;
+import org.emonocot.api.ImageService;
+import org.emonocot.api.ReferenceService;
+import org.emonocot.api.TaxonService;
 
 /**
  *

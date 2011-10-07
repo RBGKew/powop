@@ -233,7 +233,7 @@
 	</bean>
 
 	<bean id="taxonProcessor" class="org.emonocot.job.dwc.taxon.TaxonValidator" scope="step">
-	  <property name="authorityName" value="#{jobParameters['authority.name']}"/>
+	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
 	</bean>
 
 	<bean id="taxonLineMapper"
@@ -287,7 +287,7 @@
 	</bean>
 
 	<bean id="descriptionProcessor" class="org.emonocot.job.dwc.description.DescriptionValidator" scope="step">
-	  <property name="authorityName" value="#{jobParameters['authority.name']}"/>
+	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
 	</bean>
 
 	<bean id="descriptionLineMapper"
@@ -341,7 +341,7 @@
 	</bean>
 
 	<bean id="imageProcessor" class="org.emonocot.job.dwc.image.ImageValidator" scope="step">
-	  <property name="authorityName" value="#{jobParameters['authority.name']}"/>
+	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
 	</bean>
 
 	<bean id="imageLineMapper"
@@ -395,7 +395,7 @@
 	</bean>
 
 	<bean id="referenceProcessor" class="org.emonocot.job.dwc.reference.ReferenceValidator" scope="step">
-	  <property name="authorityName" value="#{jobParameters['authority.name']}"/>
+	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
 	</bean>
 
 	<bean id="referenceLineMapper"
@@ -429,7 +429,7 @@
 	
 	<!-- Writing -->
 	<bean id="processingExceptionProcessListener" class="org.emonocot.job.dwc.DwCProcessingExceptionProcessListener" scope="step">
-	  <property name="authorityName" value="#{jobParameters['authority.name']}"/>
+	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
 	  <property name="hibernateSessionFactory" ref="sessionFactory"/>
 	  <property name="transactionManager" ref="transactionManager"/>
 	</bean>

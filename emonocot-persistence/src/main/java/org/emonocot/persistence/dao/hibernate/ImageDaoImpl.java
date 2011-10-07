@@ -3,12 +3,12 @@ package org.emonocot.persistence.dao.hibernate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.emonocot.api.FacetName;
 import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.pager.Page;
 import org.emonocot.persistence.dao.ImageDao;
-import org.emonocot.service.FacetName;
 import org.hibernate.search.ProjectionConstants;
 import org.hibernate.search.query.dsl.FacetContext;
 import org.hibernate.search.query.engine.spi.FacetManager;

@@ -1,9 +1,8 @@
-package org.emonocot.service;
+package org.emonocot.api;
 
 import java.util.Map;
 
 import org.emonocot.model.common.Base;
-import org.emonocot.model.comms.Sorting;
 import org.emonocot.model.pager.Page;
 
 /**

@@ -12,7 +12,7 @@ import org.emonocot.model.common.License;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.taxon.Taxon;
-import org.emonocot.service.DescriptionService;
+import org.emonocot.api.DescriptionService;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Before;

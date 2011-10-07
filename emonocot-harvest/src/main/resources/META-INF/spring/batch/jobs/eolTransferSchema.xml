@@ -103,7 +103,7 @@
 	</bean>
 	
 	<bean id="taxonItemValidator" class="org.emonocot.job.scratchpads.EoLTaxonItemValidator" scope="step">
-		<property name="authority" value="#{jobParameters['authority.name']}" />
+		<property name="source" value="#{jobParameters['authority.name']}" />
 	</bean>
 	
 	<bean id="itemWriter" class="org.springframework.batch.item.database.HibernateItemWriter">

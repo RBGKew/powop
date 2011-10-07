@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.emonocot.model.comms.Sorting;
+import org.emonocot.api.Sorting;
 import org.hibernate.search.query.facet.Facet;
 
 /**

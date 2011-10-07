@@ -10,7 +10,7 @@
 	</context-param>
 	<context-param>
       <param-name>webAppRootKey</param-name>
-      <param-value>emonocot.harvester.root</param-value>
+      <param-value>${webAppRootKey}</param-value>
     </context-param>
 	
 	<context-param>

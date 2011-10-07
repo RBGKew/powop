@@ -1,8 +1,8 @@
 package org.emonocot.service.impl;
 
+import org.emonocot.api.ReferenceService;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.persistence.dao.ReferenceDao;
-import org.emonocot.service.ReferenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

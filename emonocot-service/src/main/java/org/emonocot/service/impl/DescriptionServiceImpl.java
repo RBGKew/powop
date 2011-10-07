@@ -1,11 +1,11 @@
 package org.emonocot.service.impl;
 
+import org.emonocot.api.DescriptionService;
 import org.emonocot.model.description.Content;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.dao.DescriptionDao;
-import org.emonocot.service.DescriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
