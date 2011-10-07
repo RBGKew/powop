@@ -3,7 +3,7 @@ package org.emonocot.portal.format;
 import java.text.ParseException;
 import java.util.Locale;
 
-import org.emonocot.model.comms.Sorting;
+import org.emonocot.api.Sorting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.Formatter;

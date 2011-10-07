@@ -4,7 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.emonocot.model.taxon.Taxon;
-import org.emonocot.service.TaxonService;
+import org.emonocot.api.TaxonService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

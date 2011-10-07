@@ -1,6 +1,6 @@
 package org.emonocot.portal.controller;
 
-import org.emonocot.service.FacetName;
+import org.emonocot.api.FacetName;
 
 /**
  *

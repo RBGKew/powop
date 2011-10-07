@@ -18,9 +18,9 @@ import org.emonocot.model.taxon.Rank;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.model.taxon.TaxonomicStatus;
 
-import org.emonocot.service.ImageService;
-import org.emonocot.service.ReferenceService;
-import org.emonocot.service.TaxonService;
+import org.emonocot.api.ImageService;
+import org.emonocot.api.ReferenceService;
+import org.emonocot.api.TaxonService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 

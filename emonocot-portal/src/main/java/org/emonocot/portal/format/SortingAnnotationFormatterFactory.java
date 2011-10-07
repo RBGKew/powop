@@ -3,7 +3,7 @@ package org.emonocot.portal.format;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.emonocot.model.comms.Sorting;
+import org.emonocot.api.Sorting;
 import org.emonocot.portal.format.annotation.SortingFormat;
 import org.springframework.format.AnnotationFormatterFactory;
 import org.springframework.format.Parser;

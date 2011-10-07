@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.util.Locale;
 
 import org.emonocot.portal.controller.FacetRequest;
-import org.emonocot.service.FacetName;
+import org.emonocot.api.FacetName;
 import org.springframework.format.Formatter;
 
 /**

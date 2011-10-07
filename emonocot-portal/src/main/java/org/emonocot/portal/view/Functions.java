@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import org.emonocot.model.comms.Sorting;
-import org.emonocot.model.comms.Sorting.SortDirection;
+import org.emonocot.api.Sorting;
+import org.emonocot.api.Sorting.SortDirection;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.Status;

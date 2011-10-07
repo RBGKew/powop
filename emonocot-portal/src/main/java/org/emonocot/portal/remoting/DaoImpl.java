@@ -3,10 +3,10 @@ package org.emonocot.portal.remoting;
 import java.util.Map;
 
 import org.emonocot.model.common.Base;
-import org.emonocot.model.comms.Sorting;
+import org.emonocot.api.Sorting;
 import org.emonocot.model.pager.Page;
 import org.emonocot.persistence.dao.Dao;
-import org.emonocot.service.FacetName;
+import org.emonocot.api.FacetName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
