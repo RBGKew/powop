@@ -14,6 +14,9 @@
   <definition name="taxonPage" extends="base">    
     <put-attribute name="body" value="/WEB-INF/tiles/tiles/taxonPage.jsp" />
   </definition>
+  <definition name="imagePage" extends="base">    
+    <put-attribute name="body" value="/WEB-INF/tiles/tiles/imagePage.jsp" />
+  </definition>
   <definition name="searchResponse" extends="base">    
     <put-attribute name="body" value="/WEB-INF/tiles/tiles/searchResponse.jsp" />
   </definition>

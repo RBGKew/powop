@@ -150,4 +150,13 @@ public final class Functions {
         sortItems.add(new Sorting(null));
         return sortItems;
     }
+    /*
+    public static String encodeURL(String url){
+		return URLEncoder.encodePathSegment(url, UTF8_ENCODING);
+    }
+    
+        public static String decodeURL(String url){
+    	return URLDecoder.decodeURL(url);
+    }
+*/
 }

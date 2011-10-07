@@ -34,4 +34,14 @@
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>java.util.List sortItems()</function-signature>
     </function>
+    <function>
+        <name>encodeURL</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.String encodeURL(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <name>decodeURL</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.String decodeURL(java.lang.String)</function-signature>
+    </function>
 </taglib>
