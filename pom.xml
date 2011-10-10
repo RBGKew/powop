@@ -783,6 +783,11 @@
             <artifactId>tiles-jsp</artifactId>
             <version>2.2.2</version>
           </dependency>
+          <dependency>
+            <groupId>pentaho</groupId>
+            <artifactId>mondrian</artifactId>
+            <version>3.2.1.14022</version>
+          </dependency>
         </dependencies>
     </dependencyManagement>
     <build>
@@ -1056,6 +1061,11 @@
             <id>cukes</id>
             <name>Cucumber maven repo</name>
             <url>http://cukes.info/maven</url>
+        </repository>
+        <repository>
+            <id>repo.pentaho.org</id>
+            <name>repo.pentaho.org-releases</name>
+            <url>http://repository.pentaho.org/artifactory/repo</url>
         </repository>
     </repositories>
     <pluginRepositories>
