@@ -297,7 +297,7 @@
 								<ul class="facet">
 									<c:forEach var="sortItem" items="${em:sortItems()}">
 										<li>
-											<jsp:scriptlet>Sorting.comms.Sorting sortItem = (Sorting.comms.Sorting) pageContext.getAttribute("sortItem");
+											<jsp:scriptlet>org.emonocot.api.Sorting sortItem = (org.emonocot.api.Sorting) pageContext.getAttribute("sortItem");
                           							 pageContext.setAttribute("equalsSortItem", new Boolean(sortItem.equals(result.getSort())));</jsp:scriptlet> <c:choose>
 												<c:when test="${equalsSortItem}">
 													<spring:message code="${sortItem}" />

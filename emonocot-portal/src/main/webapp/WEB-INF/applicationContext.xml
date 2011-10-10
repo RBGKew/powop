@@ -34,12 +34,12 @@
 		init-method="purgeIndices" depends-on="transactionManager">
 	  <property name="purgeOnInit" value="${hibernate.search.purge.indexes.on.init}"/>
 	  <property name="indexedClasses">
-	    <list>
-	      <value>org.emonocot.model.authority.Authority</value>
+	    <list>	      
 	      <value>org.emonocot.model.description.Distribution</value>
 	      <value>org.emonocot.model.description.TextContent</value>
 	      <value>org.emonocot.model.media.Image</value>
 	      <value>org.emonocot.model.reference.Reference</value>
+	      <value>org.emonocot.model.source.Source</value>
 	      <value>org.emonocot.model.taxon.Taxon</value>
 	    </list>
 	  </property>

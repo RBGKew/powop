@@ -1062,11 +1062,21 @@
                                baseTableName="Taxon_Authority"
                                referencedColumnNames="id"/>
     </changeSet>
-    <changeSet id="2011-10-07_01" author="ben">
-      <renameColumn tableName="Annotation" oldColumnName="authority_id" newColumnName="source_id"/>
+    <changeSet id="2011-10-07_01a" author="ben">
+      <dropForeignKeyConstraint baseTableName="Annotation" constraintName="FK1A21C74F92954226"/>
     </changeSet>
-    <changeSet id="2011-10-07_02" author="ben">
+    <changeSet id="2011-10-07_01b" author="ben">
+      <renameColumn tableName="Annotation" oldColumnName="authority_id" newColumnName="source_id" columnDataType="bigint"/>
+    </changeSet>    
+    <changeSet id="2011-10-07_02a" author="ben">
       <renameTable newTableName="Source" oldTableName="Authority"/>
+    </changeSet>
+    <changeSet id="2011-10-07_02b" author="ben">
+      <addForeignKeyConstraint constraintName="FK1A21C74F92954226" 
+                               referencedTableName="Source"
+                               baseColumnNames="source_id"
+                               baseTableName="Annotation"
+                               referencedColumnNames="id"/>
     </changeSet>
     <changeSet id="2011-10-07_03" author="ben">
       <renameTable oldTableName="Content_Authority" newTableName="Content_Source"/>
@@ -1083,20 +1093,70 @@
     <changeSet id="2011-10-07_07" author="ben">
       <renameTable oldTableName="Taxon_Authority" newTableName="Taxon_Source"/>
     </changeSet>
-    <changeSet id="2011-10-07_08" author="ben">
-      <renameColumn tableName="Content_Source" oldColumnName="authorities_id" newColumnName="sources_id"/>
+    <changeSet id="2011-10-07_08a" author="ben">
+      <dropForeignKeyConstraint baseTableName="Content_Source" constraintName="FK35CA12BD2AFF4188"/>
+    </changeSet>    
+    <changeSet id="2011-10-07_08b" author="ben">
+      <renameColumn tableName="Content_Source" oldColumnName="authorities_id" newColumnName="sources_id" columnDataType="bigint"/>
     </changeSet>
-    <changeSet id="2011-10-07_09" author="ben">
-      <renameColumn tableName="Distribution_Source" oldColumnName="authorities_id" newColumnName="sources_id"/>
+    <changeSet id="2011-10-07_08c" author="ben">
+      <addForeignKeyConstraint constraintName="FK35CA12BD2AFF4188" 
+                               referencedTableName="Source"
+                               baseColumnNames="sources_id"
+                               baseTableName="Content_Source"
+                               referencedColumnNames="id"/>
     </changeSet>
-    <changeSet id="2011-10-07_10" author="ben">
-      <renameColumn tableName="Image_Source" oldColumnName="authorities_id" newColumnName="sources_id"/>
+    <changeSet id="2011-10-07_09a" author="ben">
+      <dropForeignKeyConstraint baseTableName="Distribution_Source" constraintName="FK221AC7482AFF4188"/>
     </changeSet>
-    <changeSet id="2011-10-07_11" author="ben">
-      <renameColumn tableName="Reference_Source" oldColumnName="authorities_id" newColumnName="sources_id"/>
+    <changeSet id="2011-10-07_09b" author="ben">
+      <renameColumn tableName="Distribution_Source" oldColumnName="authorities_id" newColumnName="sources_id" columnDataType="bigint"/>
     </changeSet>
-    <changeSet id="2011-10-07_12" author="ben">
-      <renameColumn tableName="Taxon_Source" oldColumnName="authorities_id" newColumnName="sources_id"/>
+    <changeSet id="2011-10-07_09c" author="ben">
+      <addForeignKeyConstraint constraintName="FK221AC7482AFF4188" 
+                               referencedTableName="Source"
+                               baseColumnNames="sources_id"
+                               baseTableName="Distribution_Source"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2011-10-07_10a" author="ben">
+      <dropForeignKeyConstraint baseTableName="Image_Source" constraintName="FK7800CD1F2AFF4188"/>
+    </changeSet>
+    <changeSet id="2011-10-07_10b" author="ben">
+      <renameColumn tableName="Image_Source" oldColumnName="authorities_id" newColumnName="sources_id" columnDataType="bigint"/>
+    </changeSet>
+    <changeSet id="2011-10-07_10c" author="ben">
+      <addForeignKeyConstraint constraintName="FK7800CD1F2AFF4188" 
+                               referencedTableName="Source"
+                               baseColumnNames="sources_id"
+                               baseTableName="Image_Source"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2011-10-07_11a" author="ben">
+      <dropForeignKeyConstraint baseTableName="Reference_Source" constraintName="FK5B73C70F2AFF4188"/>
+    </changeSet>
+    <changeSet id="2011-10-07_11b" author="ben">
+      <renameColumn tableName="Reference_Source" oldColumnName="authorities_id" newColumnName="sources_id" columnDataType="bigint"/>
+    </changeSet>
+    <changeSet id="2011-10-07_11c" author="ben">
+      <addForeignKeyConstraint constraintName="FK5B73C70F2AFF4188" 
+                               referencedTableName="Source"
+                               baseColumnNames="sources_id"
+                               baseTableName="Reference_Source"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2011-10-07_12a" author="ben">
+      <dropForeignKeyConstraint baseTableName="Taxon_Source" constraintName="FKA565F3CE2AFF4188"/>
+    </changeSet>
+    <changeSet id="2011-10-07_12b" author="ben">
+      <renameColumn tableName="Taxon_Source" oldColumnName="authorities_id" newColumnName="sources_id" columnDataType="bigint"/>
+    </changeSet>
+    <changeSet id="2011-10-07_12c" author="ben">
+      <addForeignKeyConstraint constraintName="FKA565F3CE2AFF4188" 
+                               referencedTableName="Source"
+                               baseColumnNames="sources_id"
+                               baseTableName="Taxon_Source"
+                               referencedColumnNames="id"/>
     </changeSet>
     <changeSet id="2011-10-07_13" author="ben">
       <createTable tableName="Principal">
