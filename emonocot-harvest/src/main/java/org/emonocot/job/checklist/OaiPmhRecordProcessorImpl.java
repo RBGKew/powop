@@ -19,8 +19,8 @@ import org.emonocot.model.taxon.Rank;
 import org.emonocot.model.taxon.RankConverter;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.api.ReferenceService;
-import org.hibernate.engine.Status;
 import org.openarchives.pmh.Record;
+import org.openarchives.pmh.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
@@ -75,7 +75,7 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
      *
      */
     private Map<String, Reference> referencesWithinChunk
-        = new HashMap<String, Reference>();    
+        = new HashMap<String, Reference>();
 
     /**
      *
@@ -97,7 +97,7 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
         if (taxon == null) {
             // We don't have a record of this taxon yet
             if (record.getHeader().getStatus() != null
-                    && record.getHeader().getStatus().equals(Status.DELETED)) {
+                    && record.getHeader().getStatus().equals(Status.deleted)) {
                 // It was created and then deleted in between harvesting - so
                 // ignore.
                 return null;
@@ -120,7 +120,7 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
         } else {
             // We do have a record of this taxon yet
             if (record.getHeader().getStatus() != null
-                    && record.getHeader().getStatus().equals(Status.DELETED)) {
+                    && record.getHeader().getStatus().equals(Status.deleted)) {
                 // We have a record of it and now we need to delete it
                 taxon.setDeleted(true);
             } else {
