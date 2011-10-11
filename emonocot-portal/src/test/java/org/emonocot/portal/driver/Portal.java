@@ -24,8 +24,13 @@ public class Portal extends PageObject {
                 "application.properties");
         Properties properties = new Properties();
         properties.load(propertiesFile.getInputStream());
-        setBaseUri(properties.getProperty("selenium.target",
-                "http://build.e-monocot.org/latest/portal/"));
+        String baseUri = properties.getProperty("functional.test.baseUri",
+        "http://build.e-monocot.org");
+        int port = Integer.valueOf(properties.getProperty(
+                "functional.test.port", "80"));
+        String basePath = properties.getProperty("functional.test.basePath",
+                "/latest/portal");
+        setBaseUri(baseUri + ":" + port + basePath + "/");
     }
 
     /**

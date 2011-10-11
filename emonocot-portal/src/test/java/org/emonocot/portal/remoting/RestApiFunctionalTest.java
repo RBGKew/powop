@@ -1,16 +1,27 @@
 package org.emonocot.portal.remoting;
 
+import java.io.IOException;
+import java.util.Properties;
+
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.geography.Country;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.user.User;
 import org.emonocot.persistence.dao.ImageDao;
 import org.emonocot.persistence.dao.TaxonDao;
+import org.emonocot.portal.feature.TestAuthentication;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -34,6 +45,51 @@ public class RestApiFunctionalTest {
     */
    @Autowired
    private ImageDao imageDao;
+
+   /**
+    *
+    */
+   private String password;
+
+   /**
+    *
+    */
+   private String username;
+
+   /**
+    *
+    * @throws IOException if there is a problem reading the properties file
+    */
+    public RestApiFunctionalTest() throws IOException {
+        Resource propertiesFile = new ClassPathResource(
+                "application.properties");
+        Properties properties = new Properties();
+        properties.load(propertiesFile.getInputStream());
+        username = properties.getProperty("functional.test.username", null);
+        password = properties.getProperty("functional.test.password", null);
+    }
+
+    /**
+     *
+     */
+    @Before
+    public final void setUp() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        securityContext
+          .setAuthentication(
+                  new TestAuthentication(user));
+    }
+
+    /**
+     *
+     */
+    @After
+    public final void tearDown() {
+        SecurityContextHolder.clearContext();
+    }
 
   /**
    *

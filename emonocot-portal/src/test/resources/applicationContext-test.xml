@@ -14,7 +14,7 @@
 
 	<bean name="taxonDaoImpl" class="org.emonocot.portal.remoting.TaxonDaoImpl">
 		<property name="restTemplate" ref="restTemplate" />
-		<property name="baseUri" value="${selenium.target}" />
+		<property name="baseUri" value="${functional.test.baseUri}:${functional.test.port}${functional.test.basePath}/" />
 	</bean>
 	
 	<bean name="imageService" class="org.emonocot.service.impl.ImageServiceImpl">
@@ -23,7 +23,7 @@
 
 	<bean name="imageDaoImpl" class="org.emonocot.portal.remoting.ImageDaoImpl">
 		<property name="restTemplate" ref="restTemplate" />
-		<property name="baseUri" value="${selenium.target}" />
+		<property name="baseUri" value="${functional.test.baseUri}:${functional.test.port}${functional.test.basePath}/" />
 	</bean>
 	
 	<bean name="referenceService" class="org.emonocot.service.impl.ReferenceServiceImpl">
@@ -32,10 +32,11 @@
 
 	<bean name="referenceDaoImpl" class="org.emonocot.portal.remoting.ReferenceDaoImpl">
 		<property name="restTemplate" ref="restTemplate" />
-		<property name="baseUri" value="${selenium.target}" />
+		<property name="baseUri" value="${functional.test.baseUri}:${functional.test.port}${functional.test.basePath}/" />
 	</bean>
 
 	<bean name="restTemplate" class="org.springframework.web.client.RestTemplate">
+	    <constructor-arg ref="httpClientFactory"/>
 		<property name="messageConverters">
 			<list>
 				<ref bean="jsonConverter"/>
@@ -45,7 +46,9 @@
 		  <bean class="org.emonocot.portal.remoting.LoggingResponseErrorHandler"/>
 		</property>
 	</bean>
-
+	
+	<bean id="httpClientFactory" class="org.emonocot.portal.driver.AuthenticatingHttpClientFactory"/>  
+		
 	<bean id="jsonConverter"
 		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
 		<property name="supportedMediaTypes" value="application/json" />

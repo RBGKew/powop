@@ -13,80 +13,113 @@ import org.hibernate.search.annotations.FieldBridge;
 import org.hibernate.search.annotations.Parameter;
 import org.joda.time.DateTime;
 
+/**
+ *
+ * @author ben
+ *
+ */
 @Entity
 public abstract class Principal {
 
    /**
     *
     */
-	private DateTime created;
+    private DateTime created;
 
    /**
     *
     */
-	private DateTime modified;
+    private DateTime modified;
 
    /**
     *
     */
-	private Long id;
+    private Long id;
 
    /**
     *
     */
-	private String identifier;
+    private String identifier;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2461535344191283847L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -2461535344191283847L;
 
-	@Type(type="dateTimeUserType")
-    @FieldBridge(impl = DateTimeBridge.class, params = {
-        @Parameter(name = "resolution", value = "MILLISECOND")
-    })
-	public DateTime getCreated() {
-		return created;
-	}
+    /**
+     *
+     * @return the date this principal was created
+     */
+    @Type(type = "dateTimeUserType")
+    @FieldBridge(impl = DateTimeBridge.class, params = { @Parameter(name = "resolution", value = "MILLISECOND") })
+    public DateTime getCreated() {
+        return created;
+    }
 
-	public void setCreated(DateTime created) {
-		this.created = created;
-	}
+    /**
+     *
+     * @param created Set the date this principal was created
+     */
+    public void setCreated(DateTime created) {
+        this.created = created;
+    }
 
-	@Type(type="dateTimeUserType")
-    @FieldBridge(impl = DateTimeBridge.class, params = {
-        @Parameter(name = "resolution", value = "MILLISECOND")
-    })
-	public DateTime getModified() {
-		return modified;
-	}
+    /**
+     *
+     * @return the date this princpal was modified
+     */
+    @Type(type = "dateTimeUserType")
+    @FieldBridge(impl = DateTimeBridge.class, params = { @Parameter(name = "resolution", value = "MILLISECOND") })
+    public DateTime getModified() {
+        return modified;
+    }
 
-	public void setModified(DateTime modified) {
-		this.modified = modified;
-	}
+    /**
+     *
+     * @param modified Set the date this principal was modified
+     */
+    public void setModified(DateTime modified) {
+        this.modified = modified;
+    }
 
-	@Id
+    /**
+     *
+     * @return the id
+     */
+    @Id
     @GeneratedValue(generator = "system-increment")
     @DocumentId
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    /**
+     *
+     * @param id Set the id
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	@NaturalId
-	public String getIdentifier() {
-		return identifier;
-	}
+    /**
+     *
+     * @return the identifier of this principal
+     */
+    @NaturalId
+    public String getIdentifier() {
+        return identifier;
+    }
 
-	public void setIdentifier(String identifier) {
-		this.identifier = identifier;
-	}
+    /**
+     *
+     * @param identifier Set the identifier
+     */
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
 
-	@Override
-    public boolean equals(Object other) {
+    @Override
+    public final boolean equals(final Object other) {
         // check for self-comparison
         if (this == other) {
             return true;
@@ -99,7 +132,7 @@ public abstract class Principal {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return ObjectUtils.hashCode(this.identifier);
     }
 }

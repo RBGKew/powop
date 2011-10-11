@@ -3,6 +3,7 @@ create table Content (DTYPE varchar(31) not null, id bigint not null, created ti
 create table Content_Source (Content_id bigint not null, sources_id bigint not null, primary key (Content_id, sources_id));
 create table Distribution (id bigint not null, created timestamp, creator varchar(255), identifier varchar(255), license varchar(255), modified timestamp, source varchar(255), region varchar(255), authority_id bigint, taxon_id bigint, primary key (id));
 create table Distribution_Source (Distribution_id bigint not null, sources_id bigint not null, primary key (Distribution_id, sources_id));
+create table Group_permissions (Group_id bigint not null, permissions integer);
 create table Image (id bigint not null, created timestamp, creator varchar(255), identifier varchar(255), license varchar(255), modified timestamp, source varchar(255), caption varchar(255), url varchar(255), authority_id bigint, taxon_id bigint, primary key (id));
 create table Image_Source (Image_id bigint not null, sources_id bigint not null, primary key (Image_id, sources_id));
 create table Principal (DTYPE varchar(31) not null, id bigint not null, created timestamp, identifier varchar(255), modified timestamp, accountNonExpired boolean, accountNonLocked boolean, credentialsNonExpired boolean, enabled boolean, password varchar(255), primary key (id), unique (identifier));
@@ -13,6 +14,7 @@ create table Taxon (id bigint not null, created timestamp, creator varchar(255),
 create table Taxon_Image (Taxon_id bigint not null, images_id bigint not null);
 create table Taxon_Reference (Taxon_id bigint not null, references_id bigint not null, primary key (Taxon_id, references_id));
 create table Taxon_Source (Taxon_id bigint not null, sources_id bigint not null, primary key (Taxon_id, sources_id));
+create table User_Group (User_id bigint not null, groups_id bigint not null, primary key (User_id, groups_id));
 create table User_permissions (User_id bigint not null, permissions integer);
 alter table Annotation add constraint FK1A21C74FCF3DA2C4 foreign key (source_id) references Source;
 alter table Annotation add constraint FK1A21C74F9E599897 foreign key (annotatedObjId) references Taxon;
@@ -24,6 +26,7 @@ alter table Distribution add constraint FKAB93A2A46B53D29C foreign key (authorit
 alter table Distribution add constraint FKAB93A2A41EDCD08D foreign key (taxon_id) references Taxon;
 alter table Distribution_Source add constraint FKF9182E36F247EE07 foreign key (sources_id) references Source;
 alter table Distribution_Source add constraint FKF9182E36BFDB6E15 foreign key (Distribution_id) references Distribution;
+alter table Group_permissions add constraint FK7A63C2A45090CB20 foreign key (Group_id) references Principal;
 alter table Image add constraint FK437B93B6B53D29C foreign key (authority_id) references Source;
 alter table Image add constraint FK437B93B1EDCD08D foreign key (taxon_id) references Taxon;
 alter table Image_Source add constraint FKFFA0CFBFF247EE07 foreign key (sources_id) references Source;
@@ -41,4 +44,6 @@ alter table Taxon_Reference add constraint FK164D2BD6968322D1 foreign key (refer
 alter table Taxon_Reference add constraint FK164D2BD61EDCD08D foreign key (Taxon_id) references Taxon;
 alter table Taxon_Source add constraint FK9531BF70F247EE07 foreign key (sources_id) references Source;
 alter table Taxon_Source add constraint FK9531BF701EDCD08D foreign key (Taxon_id) references Taxon;
+alter table User_Group add constraint FKE7B7ED0BDA0BABAB foreign key (groups_id) references Principal;
+alter table User_Group add constraint FKE7B7ED0B9E0AAB54 foreign key (User_id) references Principal;
 alter table User_permissions add constraint FKB4582A309E0AAB54 foreign key (User_id) references Principal;

@@ -2,7 +2,9 @@ package org.emonocot.portal.feature;
 
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
 import java.util.Stack;
 
 import org.emonocot.model.common.Base;
@@ -17,12 +19,18 @@ import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Rank;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.model.taxon.TaxonomicStatus;
+import org.emonocot.model.user.User;
 
 import org.emonocot.api.ImageService;
 import org.emonocot.api.ReferenceService;
 import org.emonocot.api.TaxonService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import cucumber.annotation.After;
 import cucumber.annotation.en.Given;
@@ -47,6 +55,29 @@ public class TestDataManager {
     private Stack<Base> data = new Stack<Base>();
 
     /**
+     *
+     */
+    private String username;
+
+    /**
+     *
+     */
+    private String password;
+
+    /**
+     * @throws IOException if there is a problem loading the properties file
+     *
+     */
+    public TestDataManager() throws IOException {
+        Resource propertiesFile = new ClassPathResource(
+                "application.properties");
+        Properties properties = new Properties();
+        properties.load(propertiesFile.getInputStream());
+        username = properties.getProperty("functional.test.username", null);
+        password = properties.getProperty("functional.test.password", null);
+    }
+
+    /**
     *
     */
    @Autowired
@@ -65,12 +96,18 @@ public class TestDataManager {
     private ReferenceService referenceService;
 
     /**
+     *
+     */
+    private Authentication previousAuthentication = null;
+
+    /**
     *
     * @param imageRows set the image rows
     */
    @Given("^there are images with the following properties:$")
     public final void thereAreImagesWithTheFollowingProperties(
             final List<ImageRow> imageRows) {
+       enableAuthentication();
         for (ImageRow imageRow : imageRows) {
             Image i = new Image();
             i.setCaption(imageRow.caption);
@@ -79,9 +116,33 @@ public class TestDataManager {
             imageService.save(i);
             data.push(i);
         }
+        disableAuthentication();
     }
 
    /**
+    *
+    */
+   private void disableAuthentication() {
+       SecurityContext securityContext = SecurityContextHolder.getContext();
+       securityContext.setAuthentication(previousAuthentication);
+    }
+
+   /**
+    *
+    */
+    private void enableAuthentication() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        previousAuthentication = securityContext.getAuthentication();
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        securityContext
+          .setAuthentication(
+                  new TestAuthentication(user));
+
+    }
+
+/**
     *
     * @param name Set the name
     */
@@ -105,7 +166,7 @@ public class TestDataManager {
    @Given("^there are taxa with the following properties:$")
    public final void thereAreTaxaWithTheFollowingProperties(
            final List<TaxonRow> taxonRows) {
-
+       enableAuthentication();
        for (TaxonRow taxonRow : taxonRows) {
            Taxon t = new Taxon();
            data.push(t);
@@ -170,6 +231,7 @@ public class TestDataManager {
            }
            taxonService.save(t);
        }
+       disableAuthentication();
    }
 
    /**
@@ -179,7 +241,7 @@ public class TestDataManager {
   @Given("^there are references with the following properties:$")
   public final void thereAreReferencesWithTheFollowingProperties(
           final List<ReferenceRow> referenceRows) {
-
+      enableAuthentication();
       for (ReferenceRow referenceRow : referenceRows) {
           Reference r = new Reference();
           data.push(r);
@@ -190,6 +252,7 @@ public class TestDataManager {
           r.setPages(referenceRow.page);
           referenceService.save(r);
       }
+      disableAuthentication();
   }
 
   /**
@@ -212,6 +275,7 @@ public class TestDataManager {
      */
     @After
     public final void tearDown() {
+        enableAuthentication();
         while (!data.isEmpty()) {
             Base base = data.pop();
             if (base instanceof Taxon) {
@@ -222,5 +286,6 @@ public class TestDataManager {
                 referenceService.delete(base.getIdentifier());
             }
         }
+        disableAuthentication();
     }
 }

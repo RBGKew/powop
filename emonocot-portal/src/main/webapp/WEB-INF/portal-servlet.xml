@@ -50,5 +50,5 @@
     <bean id="viewResolver" class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
       <property name="basename" value="views"/>
     </bean>    
-
+    
 </beans>

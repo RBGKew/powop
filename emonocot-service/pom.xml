@@ -26,6 +26,14 @@
       <groupId>org.springframework</groupId>
       <artifactId>org.springframework.context</artifactId>
     </dependency>
+    <dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.easymock</groupId>
+		<artifactId>easymock</artifactId>
+	</dependency>
   </dependencies>
   <reporting>
 	  <plugins>
