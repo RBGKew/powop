@@ -339,6 +339,7 @@
 											<a href="taxon/${item.identifier}">${item.name}</a>
 										</c:when>
 										<c:when test="${item.className == 'Image'}">
+											<!-- <a href="image/${em:encodePathSegment(item.identifier)}">${item.caption}</a> -->
 											<a href="image/${item.identifier}">${item.caption}</a>
 										</c:when>
 										<c:otherwise>

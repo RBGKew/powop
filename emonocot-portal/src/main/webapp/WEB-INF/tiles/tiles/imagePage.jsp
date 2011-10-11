@@ -6,10 +6,35 @@
 	
 	
 	<div class="content-wrapper">
-		<header>
-			<h2 id="page-title">
-				<span class="taxonName">${taxon.name}</span>${taxon.authorship}
-			</h2>
-		</header>
+		<div>${image.caption}</div>
+		<!-- 
+		<c:if test="${not empty image.taxa}">
+					<div class="row">
+						<h5>
+							<spring:message code="taxon" />
+						</h5>
+						<div class="twelvecol">
+						<ul>
+								<c:forEach var="taxon" items="${image.taxa}">
+								<li>
+							<jsp:element name="a">
+                  				<jsp:attribute name="href">
+                    				<c:url value="/taxon/${image.taxon.identifier}" />
+                  				</jsp:attribute>
+                  				${image.taxon.name}
+                			</jsp:element>
+                			</li>
+                			</c:forEach>
+                			</ul>
+						</div>
+					</div>
+				</c:if>
+			 -->	
+	
+		<div class="showcase-content">
+			<img src="${image.url}" title="${image.caption}" alt="${status.index}" />
+		</div>
+			
+		
 	</div>
 </jsp:root>

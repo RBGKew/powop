@@ -38,8 +38,8 @@ public class ImageDaoImpl extends DaoImpl<Image> implements ImageDao {
      */
     @Override
     protected final Fetch[] getProfile(final String profile) {
-        // TODO Auto-generated method stub
-        return null;
+        
+        return new Fetch[] {};
     }
 
     @Override

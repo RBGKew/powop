@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -57,7 +58,22 @@ public class ImageController {
   public final void setImageService(final ImageService imageService) {
       this.service = imageService;
   }
+  
+  
 
+  /**
+   * @param identifier
+   *            Set the identifier of the image
+   * @return A model and view containing an image
+   */
+  @RequestMapping(value = "/image/{identifier}", method = RequestMethod.GET)
+  public final ModelAndView getImagePage(@PathVariable final String identifier) {
+      ModelAndView modelAndView = new ModelAndView("imagePage");
+      modelAndView.addObject(service.load(identifier, "image-page"));
+      return modelAndView;
+  }
+  
+  
   /**
    * @param identifier
    *            Set the identifier of the image

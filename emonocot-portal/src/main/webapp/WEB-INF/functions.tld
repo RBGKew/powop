@@ -35,9 +35,9 @@
         <function-signature>java.util.List sortItems()</function-signature>
     </function>
     <function>
-        <name>encodeURL</name>
+        <name>encodePathSegment</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String encodeURL(java.lang.String)</function-signature>
+        <function-signature>java.lang.String encodePathSegment(java.lang.String)</function-signature>
     </function>
     <function>
         <name>decodeURL</name>

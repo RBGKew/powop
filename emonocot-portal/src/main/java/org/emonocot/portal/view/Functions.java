@@ -1,5 +1,7 @@
 package org.emonocot.portal.view;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,6 +31,8 @@ public final class Functions {
      */
     private Functions() {
     }
+    
+    private static final String UTF8_CHARSET = "UTF-8";
 
     /**
      *
@@ -150,13 +154,16 @@ public final class Functions {
         sortItems.add(new Sorting(null));
         return sortItems;
     }
-    /*
-    public static String encodeURL(String url){
-		return URLEncoder.encodePathSegment(url, UTF8_ENCODING);
+    
+    public static String encodePathSegment(String url) throws UnsupportedEncodingException{
+    	
+			return URLEncoder.encodePathSegment(url, UTF8_CHARSET);
+		
     }
     
-        public static String decodeURL(String url){
-    	return URLDecoder.decodeURL(url);
+    public static String decodeURL(String url) throws URISyntaxException{
+    	
+			return URLDecoder.decodeURL(url, UTF8_CHARSET);
+		
     }
-*/
 }
