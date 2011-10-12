@@ -54,6 +54,10 @@
       <groupId>pentaho</groupId>
       <artifactId>mondrian</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.olap4j</groupId>
+      <artifactId>olap4j</artifactId>
+    </dependency>
   </dependencies>
   <reporting>
 	  <plugins>
