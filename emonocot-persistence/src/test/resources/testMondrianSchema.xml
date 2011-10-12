@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-Mondrian example does not appear to follow it's own DTD 
-<!DOCTYPE Schema SYSTEM "../../main/resources/pentaho/mondrian/mondrian.dtd" >
--->
+<!-- Mondrian example does not appear to follow it's own DTD <!DOCTYPE Schema SYSTEM "../../main/resources/pentaho/mondrian/mondrian.dtd" 
+    > -->
 <Schema name="testSchema">
     <Cube name="harvest">
         <Table name="annotation"/>
-        <Dimension name="taxa" foreignKey="taxon_id">
+        <Dimension name="taxa" foreignKey="annotationObjid">
             <Hierarchy hasAll="true" primaryKey="id">
                 <Table name="taxon"/>
-                <Level name="family" column="family" uniqueMembers="true" />
-                <Level name="genus" column="genus" uniqueMembers="true" />
-                <Level name="species" column="species" uniqueMembers="true" />
+                <Level name="family" column="family" uniqueMembers="true"/>
+                <Level name="genus" column="genus" uniqueMembers="true"/>
+                <Level name="species" column="species" uniqueMembers="true"/>
             </Hierarchy>
         </Dimension>
-        <!--<Dimension name="source system" foreignkey="source_id"></Dimension>-->
-        <Measure name="number harvested" column="annotatedObjId"
-            aggregator="count" formatString="#,###" />
+        <!--<Dimension name="source system" foreignkey="source_id"></Dimension> -->
+        <Dimension name="Objects">
+            <Hierarchy hasAll="true">
+                <Level name="Object type" column="annotatedObjType" uniqueMembers="true"/>
+            </Hierarchy>
+        </Dimension>
+        <Measure name="number harvested" column="annotatedObjId" aggregator="count"
+            formatString="#,###"/>
     </Cube>
 </Schema>
