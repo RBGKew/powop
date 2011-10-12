@@ -40,7 +40,6 @@ public class ReferenceFieldSetMapper extends
     */
     private Logger logger = LoggerFactory
             .getLogger(ReferenceFieldSetMapper.class);
-    
     /**
     *
     */

@@ -107,7 +107,7 @@ public class TaxonFieldSetMapper extends DarwinCoreFieldSetMapper<Taxon> {
             case scientificName:
                 taxon.setName(value);
                 break;
-            case scientificNameAuthorship:
+            case scientificNameAuthorship:                
                 taxon.setAuthorship(value);
                 break;
             case taxonRank:

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.emonocot.harvest.common.TaxonRelationship;
 import org.emonocot.harvest.common.TaxonRelationshipResolver;
@@ -42,6 +43,11 @@ import org.tdwg.voc.TaxonRelationshipTerm;
  */
 public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
     implements OaiPmhRecordProcessor {
+    /**
+     *  TODO Replace when http://build.e-monocot.org/bugzilla/show_bug.cgi?id=101
+     *  is resolved.
+     */
+    static Pattern illegalCharacters = Pattern.compile("([\\xC2\\x8A])");
 
    /**
     *
@@ -170,7 +176,22 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
             TaxonName taxonName = taxonConcept.getHasName();
             logger.info(taxonName.getNameComplete());
             taxon.setName(taxonName.getNameComplete());
-            taxon.setAuthorship(taxonName.getAuthorship());
+            /**
+             *  TODO Replace when http://build.e-monocot.org/bugzilla/show_bug.cgi?id=101
+             *  is resolved.
+             */
+            if (taxonName.getAuthorship() != null && illegalCharacters.matcher(taxonName.getAuthorship()).matches()) {
+                Annotation annotation = new Annotation();
+                annotation.setAnnotatedObjType("Taxon");
+                annotation.setJobId(getStepExecution().getJobExecutionId());
+                annotation.setType(AnnotationType.Warn);
+                annotation.setCode("authorship");
+                annotation.setText("Contains illegal characters");
+                annotation.setSource(getSource());
+                taxon.getAnnotations().add(annotation);
+            } else {
+                taxon.setAuthorship(taxonName.getAuthorship());
+            }
             taxon.setBasionymAuthorship(
                     taxonName.getBasionymAuthorship());
             taxon.setFamily(taxonName.getFamily());

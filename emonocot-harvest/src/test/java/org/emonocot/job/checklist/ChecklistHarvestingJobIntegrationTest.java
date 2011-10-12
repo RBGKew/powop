@@ -64,7 +64,7 @@ public class ChecklistHarvestingJobIntegrationTest {
     /**
      * 1288569600 in unix time.
      */
-    private static final BaseDateTime PAST_DATETIME = new DateTime(2010, 11, 1,
+    static final BaseDateTime PAST_DATETIME = new DateTime(2010, 11, 1,
             9, 0, 0, 0);
 
     /**
@@ -119,51 +119,52 @@ public class ChecklistHarvestingJobIntegrationTest {
 //        }
     }
 
-    /**
-     *
-     * @throws IOException
-     *             if a temporary file cannot be created.
-     * @throws NoSuchJobException
-     *             if SpeciesPageHarvestingJob cannot be located
-     * @throws JobParametersInvalidException
-     *             if the job parameters are invalid
-     * @throws JobInstanceAlreadyCompleteException
-     *             if the job has already completed
-     * @throws JobRestartException
-     *             if the job cannot be restarted
-     * @throws JobExecutionAlreadyRunningException
-     *             if the job is already running
-     */
-    @Test
-    public final void testHarvestBySet() throws IOException,
-            NoSuchJobException, JobExecutionAlreadyRunningException,
-            JobRestartException, JobInstanceAlreadyCompleteException,
-            JobParametersInvalidException {
-        Map<String, JobParameter> parameters
-            = new HashMap<String, JobParameter>();
-        parameters.put("authority.name", new JobParameter(
-                "1"));
-        parameters.put("authority.uri", new JobParameter(
-                "http://test.e-monocot.org/wcsTaxonExtractor/oai"));
-        parameters.put("authority.last.harvested", new JobParameter(""));
-        parameters.put("request.interval", new JobParameter("10000"));
-        parameters.put("temporary.file.name", new JobParameter(File
-                .createTempFile("test", ".xml").getAbsolutePath()));
-        parameters.put("request.subset.name", new JobParameter("Acoraceae"));
-        JobParameters jobParameters = new JobParameters(parameters);
-
-        Job oaiPmhTaxonHarvestingJob = jobLocator
-                .getJob("OaiPmhTaxonHarvesting");
-        assertNotNull("OaiPmhTaxonHarvestingJob must not be null",
-                oaiPmhTaxonHarvestingJob);
-        JobExecution jobExecution = jobLauncher.run(oaiPmhTaxonHarvestingJob,
-                jobParameters);
-
-        for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
-            logger.info(stepExecution.getStepName() + " "
-                    + stepExecution.getReadCount() + " "
-                    + stepExecution.getFilterCount() + " "
-                    + stepExecution.getWriteCount());
-        }
-    }
+//    /**
+//     *
+//     * @throws IOException
+//     *             if a temporary file cannot be created.
+//     * @throws NoSuchJobException
+//     *             if SpeciesPageHarvestingJob cannot be located
+//     * @throws JobParametersInvalidException
+//     *             if the job parameters are invalid
+//     * @throws JobInstanceAlreadyCompleteException
+//     *             if the job has already completed
+//     * @throws JobRestartException
+//     *             if the job cannot be restarted
+//     * @throws JobExecutionAlreadyRunningException
+//     *             if the job is already running
+//     */
+//    @Test
+//    @Ignore
+//    public final void testHarvestBySet() throws IOException,
+//            NoSuchJobException, JobExecutionAlreadyRunningException,
+//            JobRestartException, JobInstanceAlreadyCompleteException,
+//            JobParametersInvalidException {
+//        Map<String, JobParameter> parameters
+//            = new HashMap<String, JobParameter>();
+//        parameters.put("authority.name", new JobParameter(
+//                "1"));
+//        parameters.put("authority.uri", new JobParameter(
+//                "http://test.e-monocot.org/wcsTaxonExtractor/oai"));
+//        parameters.put("authority.last.harvested", new JobParameter(""));
+//        parameters.put("request.interval", new JobParameter("10000"));
+//        parameters.put("temporary.file.name", new JobParameter(File
+//                .createTempFile("test", ".xml").getAbsolutePath()));
+//        parameters.put("request.subset.name", new JobParameter("Acoraceae"));
+//        JobParameters jobParameters = new JobParameters(parameters);
+//
+//        Job oaiPmhTaxonHarvestingJob = jobLocator
+//                .getJob("OaiPmhTaxonHarvesting");
+//        assertNotNull("OaiPmhTaxonHarvestingJob must not be null",
+//                oaiPmhTaxonHarvestingJob);
+//        JobExecution jobExecution = jobLauncher.run(oaiPmhTaxonHarvestingJob,
+//                jobParameters);
+//
+//        for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
+//            logger.info(stepExecution.getStepName() + " "
+//                    + stepExecution.getReadCount() + " "
+//                    + stepExecution.getFilterCount() + " "
+//                    + stepExecution.getWriteCount());
+//        }
+//    }
 }
