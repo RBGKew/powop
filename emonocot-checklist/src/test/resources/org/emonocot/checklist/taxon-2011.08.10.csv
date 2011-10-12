@@ -1,4 +1,5 @@
 Plant_name_id,Full_epithet,Accepted_plant_name_id,Family,Genus,Species,Infraspecific_rank,Infraspecific_epithet,Date_of_entry,Publication_author,Volume_and_page,First_published,Place_of_publication_id
+-9999,Unplaced,-9999,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL
 1,Lorem ipsum,1,Lowiaceae,Lorem,ipsum,NULL,NULL,2011-06-01 09:00:01.0,Pargetter,2: 34-56,1784,1
 2,Lorem dolor,2,Lowiaceae,Lorem,dolor,NULL,NULL,2011-06-14 23:59:00,Archer,123,1765,2
 3,Lorem,3,Lowiaceae,Lorem,NULL,NULL,NULL,2011-06-14 23:59:00,Archer,123,1765,2

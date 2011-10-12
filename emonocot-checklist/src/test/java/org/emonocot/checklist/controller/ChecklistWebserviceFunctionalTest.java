@@ -163,7 +163,26 @@ public class ChecklistWebserviceFunctionalTest {
                        "DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship[0].ToTaxonConcept.@ref"))
                        .contains("&scratchpad=functional-test.e-monocot.org"));
    }
-   
+
+   /**
+    * Tests the GET response returns a valid document containing
+    * a taxon of species rank.
+    * @throws Exception
+    *             if there is a problem with the test
+    */
+   @Test
+   public final void testSynonym() throws Exception {
+       String xml = given().parameters("function", "details_tcs",
+               "id", "urn:kew.org:wcs:taxon:4",
+               "scratchpad", "functional-test.e-monocot.org")
+               .get("/endpoint").andReturn().body().asString();
+
+       assertEquals("One accepted name should be present",
+               1,
+               with(xml).get(
+                       "DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship.findAll { it.@type == 'is synonym for' }.size()"));
+   }
+
    /**
     * Tests the GET response returns a valid document containing
     * a taxon of family rank.

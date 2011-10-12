@@ -60,6 +60,19 @@
 	          </jsp:element>
 	        </TaxonRelationship>
 	      </c:forEach>
+	      <c:if test="${not empty result.acceptedName and result.acceptedName.identifier ne result.identifier}">
+	        <c:url var="url" value="${baseUrl}">
+	            <c:param name="function" value="details_tcs"/>
+	            <c:param name="id" value="${result.acceptedName.identifier}"/>
+	            <c:param name="scratchpad" value="${param.scratchpad}"/>
+	        </c:url>
+	        <TaxonRelationship type="is synonym for">
+	          <jsp:element name="ToTaxonConcept">
+	            <jsp:attribute name="ref">${em:escape(url)}</jsp:attribute>
+	            <jsp:attribute name="linkType">external</jsp:attribute>
+	          </jsp:element>
+	        </TaxonRelationship>
+	      </c:if>
 	    </TaxonRelationships>
 	  </TaxonConcept>
 	</TaxonConcepts>
