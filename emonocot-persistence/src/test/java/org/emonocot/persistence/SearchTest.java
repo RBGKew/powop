@@ -18,6 +18,8 @@ import org.emonocot.persistence.dao.TaxonDao;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 import org.hibernate.search.query.facet.Facet;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,45 +29,40 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  */
 public class SearchTest extends AbstractPersistenceTest {
+    /**
+     * @throws java.lang.Exception if there is a problem
+     */
+    @Before
+    public final void setUp() throws Exception {
+        super.doSetUp();
+    }
+
+    /**
+     * @throws java.lang.Exception if there is a problem
+     */
+    @After
+    public final void tearDown() throws Exception {
+        super.doTearDown();
+    }
 
     /**
      *
      */
-    @Autowired
-    private TaxonDao taxonDao;
-
-    /**
-     * @throws Exception if there is a problem with the callable
-     */
-    @Test
-    public final void setUpTestDataWithinTransaction() throws Exception {
-
-        doInTransaction(new Callable() {
-            public Object call() {
-                FullTextSession fullTextSession = Search
-                        .getFullTextSession(getSession());
-                fullTextSession.purgeAll(Taxon.class);
-                fullTextSession.purgeAll(Image.class);
-                Taxon taxon1 = createTaxon("Aus", null, null, null,
-                        null, null, null, null, null, null, new GeographicalRegion[] {});
-                Taxon taxon2 = createTaxon("Aus bus", null, taxon1, null,
-                        null, null, null, null, null, null, new GeographicalRegion[] {Continent.AUSTRALASIA,
-                                Region.BRAZIL, Region.CARIBBEAN });
-                Taxon taxon3 = createTaxon("Aus ceus", null, taxon1, null,
-                        null, null, null, null, null, null, new GeographicalRegion[] {Region.NEW_ZEALAND});
-                Taxon taxon4 = createTaxon("Aus deus", null, null, taxon2,
-                        null, null, null, null, null, null, new GeographicalRegion[] {});
-                Taxon taxon5 = createTaxon("Aus eus", null, null, taxon3,
-                        null, null, null, null, null, null, new GeographicalRegion[] {});
-                taxonDao.saveOrUpdate(taxon1);
-                taxonDao.saveOrUpdate(taxon2);
-                taxonDao.saveOrUpdate(taxon3);
-                taxonDao.saveOrUpdate(taxon4);
-                taxonDao.saveOrUpdate(taxon5);
-                getSession().flush();
-                return null;
-            }
-        });
+    @Override
+    public final void setUpTestData() {
+        Taxon taxon1 = createTaxon("Aus", "1", null, null, null, null, null,
+                null, null, null, new GeographicalRegion[] {});
+        Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null, null, null,
+                null, null, null, null,
+                new GeographicalRegion[] {Continent.AUSTRALASIA,
+                        Region.BRAZIL, Region.CARIBBEAN });
+        Taxon taxon3 = createTaxon("Aus ceus", "3", taxon1, null, null, null,
+                null, null, null, null,
+                new GeographicalRegion[] {Region.NEW_ZEALAND });
+        Taxon taxon4 = createTaxon("Aus deus", "4", null, taxon2, null, null,
+                null, null, null, null, new GeographicalRegion[] {});
+        Taxon taxon5 = createTaxon("Aus eus", "5", null, taxon3, null, null,
+                null, null, null, null, new GeographicalRegion[] {});
     }
 
     /**
@@ -73,7 +70,6 @@ public class SearchTest extends AbstractPersistenceTest {
      */
     @Test
     public final void testSearch() {
-        assertNotNull("taxonDao should not be null", taxonDao);
         Page<Taxon> page = taxonDao.search("name:Aus", null, null, null,
                 new FacetName[]{FacetName.CONTINENT}, null, null);
         for (Taxon t : page.getRecords()) {

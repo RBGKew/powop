@@ -28,6 +28,8 @@ import org.emonocot.persistence.dao.TaxonDao;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 import org.hibernate.search.query.facet.Facet;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -45,80 +47,45 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
     private SearchableObjectDao searchableObjectDao;
 
     /**
-    *
-    */
-    @Autowired
-    private TaxonDao taxonDao;
-
-    /**
-   *
-   */
-    @Autowired
-    private ImageDao imageDao;
-
-    /**
-     * @throws Exception
-     *             if there is a problem with the callable
+     * @throws java.lang.Exception if there is a problem
      */
-    @Test
-    public final void setUpTestDataWithinTransaction() throws Exception {
-        doInTransaction(new Callable() {
-            public Object call() {
-                FullTextSession fullTextSession = Search
-                        .getFullTextSession(getSession());
-                fullTextSession.purgeAll(Taxon.class);
-                fullTextSession.purgeAll(Image.class);
-                Taxon taxon1 = createTaxon("Aus", "1", null, null, "Ausaceae",
-                        null, null, "(1753)",
-                        Rank.GENUS, TaxonomicStatus.accepted, new GeographicalRegion[] {});
-                Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null,
-                        "Ausaceae", null, null,
-                        "(1775)", Rank.SPECIES, TaxonomicStatus.accepted, new GeographicalRegion[] {
-                                Continent.AUSTRALASIA, Region.BRAZIL,
-                                Region.CARIBBEAN });
-                Taxon taxon3 = createTaxon("Aus ceus", "3", taxon1, null,
-                        "Ausaceae", null, null,
-                        "(1805)",
-                        Rank.SPECIES, TaxonomicStatus.accepted, new GeographicalRegion[] {Region.NEW_ZEALAND });
-                Taxon taxon4 = createTaxon("Aus deus", "4", null, taxon2,
-                        "Ausaceae", null, null,
-                        "(1895)", Rank.SPECIES, TaxonomicStatus.synonym, new GeographicalRegion[] {});
-                Taxon taxon5 = createTaxon("Aus eus", "5", null, taxon3,
-                        "Ausaceae", null, null,
-                        "(1935)", Rank.SPECIES, TaxonomicStatus.synonym, new GeographicalRegion[] {});
-                Image img1 = createImage("Aus", "1");
-                Image img2 = createImage("Aus bus", "2");
-                searchableObjectDao.saveOrUpdate(taxon1);
-                searchableObjectDao.saveOrUpdate(taxon2);
-                searchableObjectDao.saveOrUpdate(taxon3);
-                searchableObjectDao.saveOrUpdate(taxon4);
-                searchableObjectDao.saveOrUpdate(taxon5);
-                searchableObjectDao.saveOrUpdate(img1);
-                searchableObjectDao.saveOrUpdate(img2);
-                getSession().flush();
-                return null;
-            }
-        });
+    @Before
+    public final void setUp() throws Exception {
+        super.doSetUp();
+    }
+
+    /**
+     * @throws java.lang.Exception if there is a problem
+     */
+    @After
+    public final void tearDown() throws Exception {
+        super.doTearDown();
     }
 
     /**
      *
-     * @throws Exception
-     *             if there is a problem
      */
-    public final void tearDownTestDataWithinTransaction() throws Exception {
-        doInTransaction(new Callable() {
-            public Object call() {
-                taxonDao.delete("5");
-                taxonDao.delete("4");
-                taxonDao.delete("3");
-                taxonDao.delete("2");
-                taxonDao.delete("1");
-                imageDao.delete("1");
-                imageDao.delete("2");
-                return null;
-            }
-        });
+    @Override
+    public final void setUpTestData() {
+        Taxon taxon1 = createTaxon("Aus", "1", null, null, "Ausaceae", null,
+                null, "(1753)", Rank.GENUS, TaxonomicStatus.accepted,
+                new GeographicalRegion[] {});
+        Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null, "Ausaceae",
+                null, null, "(1775)", Rank.SPECIES, TaxonomicStatus.accepted,
+                new GeographicalRegion[] { Continent.AUSTRALASIA,
+                        Region.BRAZIL, Region.CARIBBEAN });
+        Taxon taxon3 = createTaxon("Aus ceus", "3", taxon1, null, "Ausaceae",
+                null, null, "(1805)", Rank.SPECIES, TaxonomicStatus.accepted,
+                new GeographicalRegion[] { Region.NEW_ZEALAND });
+        Taxon taxon4 = createTaxon("Aus deus", "4", null, taxon2, "Ausaceae",
+                null, null, "(1895)", Rank.SPECIES, TaxonomicStatus.synonym,
+                new GeographicalRegion[] {});
+        Taxon taxon5 = createTaxon("Aus eus", "5", null, taxon3, "Ausaceae",
+                null, null, "(1935)", Rank.SPECIES, TaxonomicStatus.synonym,
+                new GeographicalRegion[] {});
+        Image img1 = createImage("Aus", "1");
+        Image img2 = createImage("Aus bus", "2");
+
     }
 
     /**

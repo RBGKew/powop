@@ -14,6 +14,8 @@ import org.emonocot.persistence.dao.TaxonDao;
 import org.hibernate.Hibernate;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,48 +30,43 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class FetchProfileTest extends AbstractPersistenceTest {
 
     /**
-     *
+     * @throws java.lang.Exception if there is a problem
      */
-    @Autowired
-    private TaxonDao taxonDao;
+    @Before
+    public final void setUp() throws Exception {
+        super.doSetUp();
+    }
 
     /**
-     * @throws Exception if there is a problem with the callable
+     * @throws java.lang.Exception if there is a problem
      */
-    @Test
-    public final void setUpTestDataWithinTransaction() throws Exception {
+    @After
+    public final void tearDown() throws Exception {
+        super.doTearDown();
+    }
 
-        doInTransaction(new Callable() {
-            public Object call() {
-                FullTextSession fullTextSession = Search
-                        .getFullTextSession(getSession());
-                fullTextSession.purgeAll(Taxon.class);
-                fullTextSession.purgeAll(Image.class);
-                Taxon taxon1 = createTaxon("Aus",
-                        "urn:lsid:example.com:taxon:1", null, null,
-                        null, null, null, null, null, null, new GeographicalRegion[] {});
-                Taxon taxon2 = createTaxon("Aus bus",
-                        "urn:lsid:example.com:taxon:2", taxon1, null,
-                        null, null, null, null, null, null, new GeographicalRegion[] {Continent.AUSTRALASIA,
-                                Region.BRAZIL, Region.CARIBBEAN });
-                Taxon taxon3 = createTaxon("Aus ceus",
-                        "urn:lsid:example.com:taxon:3", taxon1, null,
-                        null, null, null, null, null, null, new GeographicalRegion[] {Region.NEW_ZEALAND });
-                Taxon taxon4 = createTaxon("Aus deus",
-                        "urn:lsid:example.com:taxon:4", null, taxon2,
-                        null, null, null, null, null, null, new GeographicalRegion[] {});
-                Taxon taxon5 = createTaxon("Aus eus",
-                        "urn:lsid:example.com:taxon:5", null, taxon3,
-                        null, null, null, null, null, null, new GeographicalRegion[] {});
-                taxonDao.saveOrUpdate(taxon1);
-                taxonDao.saveOrUpdate(taxon2);
-                taxonDao.saveOrUpdate(taxon3);
-                taxonDao.saveOrUpdate(taxon4);
-                taxonDao.saveOrUpdate(taxon5);
-                getSession().flush();
-                return null;
-            }
-        });
+    /**
+     *
+     */
+    @Override
+    public final void setUpTestData() {
+
+        Taxon taxon1 = createTaxon("Aus", "urn:lsid:example.com:taxon:1", null,
+                null, null, null, null, null, null, null,
+                new GeographicalRegion[] {});
+        Taxon taxon2 = createTaxon("Aus bus", "urn:lsid:example.com:taxon:2",
+                taxon1, null, null, null, null, null, null, null,
+                new GeographicalRegion[] {Continent.AUSTRALASIA,
+                        Region.BRAZIL, Region.CARIBBEAN });
+        Taxon taxon3 = createTaxon("Aus ceus", "urn:lsid:example.com:taxon:3",
+                taxon1, null, null, null, null, null, null, null,
+                new GeographicalRegion[] {Region.NEW_ZEALAND });
+        Taxon taxon4 = createTaxon("Aus deus", "urn:lsid:example.com:taxon:4",
+                null, taxon2, null, null, null, null, null, null,
+                new GeographicalRegion[] {});
+        Taxon taxon5 = createTaxon("Aus eus", "urn:lsid:example.com:taxon:5",
+                null, taxon3, null, null, null, null, null, null,
+                new GeographicalRegion[] {});
     }
 
     /**
@@ -77,7 +74,6 @@ public class FetchProfileTest extends AbstractPersistenceTest {
      */
     @Test
     public final void testFetchProfile() {
-        assertNotNull("taxonDao should not be null", taxonDao);
         Taxon taxon = taxonDao.load("urn:lsid:example.com:taxon:1",
                 "taxon-page");
         assertTrue("Images should be initialized",

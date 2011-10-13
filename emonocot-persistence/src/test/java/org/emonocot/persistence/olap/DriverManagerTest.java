@@ -57,19 +57,6 @@ public class DriverManagerTest extends AbstractPersistenceTest {
     private Connection connection;
 
     /**
-     *
-     */
-    private TaxonDao taxonDao;
-
-    /**
-     * @param taxonDao the taxonDao to set
-     */
-    @Autowired
-    public final void setTaxonDao(final TaxonDao taxonDao) {
-        this.taxonDao = taxonDao;
-    }
-
-    /**
      * @param newDataSource
      *            the dataSource to set
      */
@@ -83,6 +70,7 @@ public class DriverManagerTest extends AbstractPersistenceTest {
      */
     @Before
     public final void setUp() throws Exception {
+        super.doSetUp();
         // Catalog name needs to be given from root directory/webapp root
         properties = new PropertyList();
         properties.put(RolapConnectionProperties.Catalog.name(),
@@ -94,47 +82,36 @@ public class DriverManagerTest extends AbstractPersistenceTest {
      * @throws java.lang.Exception if there is a problem
      */
     @After
-    public void tearDown() throws Exception {
+    public final void tearDown() throws Exception {
+        super.doTearDown();
     }
 
     /**
-     * @throws Exception if there is a problem setting up the test data
+     *
      */
-    @Test
-    public final void setUpTestData() throws Exception {
-        doInTransaction(new Callable() {
-
-            public Object call() {
-                Taxon taxon1 = createTaxon("Aus",
-                        "urn:lsid:example.com:taxon:1", null, null,
-                        "Ausidae", "Aus", null, null, null, null, new GeographicalRegion[] {});
-                createAnnotation(taxon1);
-                Taxon taxon2 = createTaxon("Aus bus",
-                        "urn:lsid:example.com:taxon:2", taxon1, null,
-                        "Ausidae", "Aus", "bus", null, null, null, new GeographicalRegion[] {Continent.AUSTRALASIA,
-                                Region.BRAZIL, Region.CARIBBEAN });
-                createAnnotation(taxon2);
-                Taxon taxon3 = createTaxon("Aus ceus",
-                        "urn:lsid:example.com:taxon:3", taxon1, null,
-                        "Ausidae", "Aus", "ceus", null, null, null, new GeographicalRegion[] {Region.NEW_ZEALAND });
-                createAnnotation(taxon3);
-                Taxon taxon4 = createTaxon("Aus deus",
-                        "urn:lsid:example.com:taxon:4", null, taxon2,
-                        "Ausidae", "Aus", "deus", null, null, null, new GeographicalRegion[] {});
-                createAnnotation(taxon4);
-                Taxon taxon5 = createTaxon("Aus eus",
-                        "urn:lsid:example.com:taxon:5", null, taxon3,
-                        "Ausidae", "Aus", "eus", null, null, null, new GeographicalRegion[] {});
-                createAnnotation(taxon5);
-                taxonDao.saveOrUpdate(taxon1);
-                taxonDao.saveOrUpdate(taxon2);
-                taxonDao.saveOrUpdate(taxon3);
-                taxonDao.saveOrUpdate(taxon4);
-                taxonDao.saveOrUpdate(taxon5);
-                getSession().flush();
-                return null;
-            }
-        });
+    @Override
+    public final void setUpTestData() {
+        Taxon taxon1 = createTaxon("Aus", "urn:lsid:example.com:taxon:1", null,
+                null, "Ausidae", "Aus", null, null, null, null,
+                new GeographicalRegion[] {});
+        createAnnotation(taxon1);
+        Taxon taxon2 = createTaxon("Aus bus", "urn:lsid:example.com:taxon:2",
+                taxon1, null, "Ausidae", "Aus", "bus", null, null, null,
+                new GeographicalRegion[] {Continent.AUSTRALASIA,
+                        Region.BRAZIL, Region.CARIBBEAN });
+        createAnnotation(taxon2);
+        Taxon taxon3 = createTaxon("Aus ceus", "urn:lsid:example.com:taxon:3",
+                taxon1, null, "Ausidae", "Aus", "ceus", null, null, null,
+                new GeographicalRegion[] {Region.NEW_ZEALAND });
+        createAnnotation(taxon3);
+        Taxon taxon4 = createTaxon("Aus deus", "urn:lsid:example.com:taxon:4",
+                null, taxon2, "Ausidae", "Aus", "deus", null, null, null,
+                new GeographicalRegion[] {});
+        createAnnotation(taxon4);
+        Taxon taxon5 = createTaxon("Aus eus", "urn:lsid:example.com:taxon:5",
+                null, taxon3, "Ausidae", "Aus", "eus", null, null, null,
+                new GeographicalRegion[] {});
+        createAnnotation(taxon5);
     }
     /**
      *
@@ -167,9 +144,9 @@ public class DriverManagerTest extends AbstractPersistenceTest {
 //              System.out.println(axes[1].getPositions().get(i).get(0) + " " + cell.getValue());
 //        }
         assertEquals("The label should be Ausidae",
-                axes[1].getPositions().get(1).get(0).getName(), "Ausidae");
+                axes[1].getPositions().get(0).get(0).getName(), "Ausidae");
         assertEquals("The value should be 5", result
-                .getCell(new int[] {0, 1 }).getFormattedValue(), "5");
+                .getCell(new int[] {0, 0 }).getFormattedValue(), "5");
     }
 
 }
