@@ -2,6 +2,8 @@ package org.emonocot.persistence;
 
 import java.util.concurrent.Callable;
 
+import org.emonocot.model.common.Annotation;
+import org.emonocot.model.common.Base;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.media.Image;
@@ -77,20 +79,25 @@ public abstract class AbstractPersistenceTest {
      * @param parent the taxonomic parent
      * @param accepted the accepted name
      * @param family the family
+     * @param genus TODO
+     * @param specificEpithet TODO
      * @param datePublished set the date published
      * @param rank set the rank
      * @param status set the status
      * @param distributions the distribution of the taxon
      * @return a new taxon
     */
-    final Taxon createTaxon(final String name, final String identifier,
+    public final Taxon createTaxon(final String name, final String identifier,
             final Taxon parent, final Taxon accepted, final String family,
+            final String genus, final String specificEpithet,
             final String datePublished, final Rank rank,
             final TaxonomicStatus status,
             final GeographicalRegion[] distributions) {
        Taxon taxon = new Taxon();
        taxon.setName(name);
        taxon.setFamily(family);
+       taxon.setGenus(genus);
+       taxon.setSpecificEpithet(specificEpithet);
        taxon.setIdentifier(identifier);
        taxon.setStatus(status);
        taxon.setRank(rank);
@@ -115,6 +122,20 @@ public abstract class AbstractPersistenceTest {
        }
        return taxon;
    }
+
+   /**
+    * @param base Set the annotated object
+    * @return a new annotation
+    */
+    public final Annotation createAnnotation(final Base base) {
+        Annotation annotation = new Annotation();
+
+        if (base.getClass().equals(Taxon.class)) {
+            annotation.setAnnotatedObjType("Taxon");
+            ((Taxon) base).getAnnotations().add(annotation);
+        }
+        return annotation;
+    }
 
    /**
     *

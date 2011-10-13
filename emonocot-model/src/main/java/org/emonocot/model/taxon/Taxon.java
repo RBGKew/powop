@@ -29,7 +29,6 @@ import org.emonocot.model.description.Content;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.geography.GeographicalRegion;
-import org.emonocot.model.hibernate.DistributionBridge;
 import org.emonocot.model.marshall.json.DescriptionMapDeserializer;
 import org.emonocot.model.marshall.json.DescriptionMapSerializer;
 import org.emonocot.model.marshall.json.DistributionMapDeserializer;
@@ -43,13 +42,11 @@ import org.emonocot.model.reference.Reference;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
-import org.hibernate.search.annotations.ClassBridge;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Fields;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
-import org.hibernate.search.annotations.Store;
 
 /**
  *
@@ -113,8 +110,7 @@ public class Taxon extends SearchableObject {
     /**
      *
      */
-    private Map<GeographicalRegion, Distribution> distribution
-        = new HashMap<GeographicalRegion, Distribution>();
+    private Map<GeographicalRegion, Distribution> distribution = new HashMap<GeographicalRegion, Distribution>();
 
     /**
      *
@@ -211,14 +207,11 @@ public class Taxon extends SearchableObject {
      * @return a list of images of the taxon
      */
     @ManyToMany(fetch = FetchType.LAZY)
-    @Cascade({CascadeType.SAVE_UPDATE})
-    @JoinTable(
-        name = "Taxon_Image",
-        joinColumns = { @JoinColumn(name = "Taxon_id") },
-        inverseJoinColumns = { @JoinColumn(name = "images_id") })
+    @Cascade({ CascadeType.SAVE_UPDATE })
+    @JoinTable(name = "Taxon_Image", joinColumns = { @JoinColumn(name = "Taxon_id") }, inverseJoinColumns = { @JoinColumn(name = "images_id") })
     @JsonSerialize(contentUsing = ImageSerializer.class)
     public List<Image> getImages() {
-    	return images;
+        return images;
     }
 
     /**
@@ -226,11 +219,8 @@ public class Taxon extends SearchableObject {
      * @return a list of references about the taxon
      */
     @ManyToMany(fetch = FetchType.LAZY)
-    @Cascade({CascadeType.SAVE_UPDATE})
-    @JoinTable(
-        name = "Taxon_Reference",
-        joinColumns = { @JoinColumn(name = "Taxon_id") },
-        inverseJoinColumns = { @JoinColumn(name = "references_id") })
+    @Cascade({ CascadeType.SAVE_UPDATE })
+    @JoinTable(name = "Taxon_Reference", joinColumns = { @JoinColumn(name = "Taxon_id") }, inverseJoinColumns = { @JoinColumn(name = "references_id") })
     @JsonIgnore
     public Set<Reference> getReferences() {
         return references;
@@ -241,7 +231,7 @@ public class Taxon extends SearchableObject {
      * @return a map of content about the taxon, indexed by the subject
      */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon")
-    @Cascade({CascadeType.ALL })
+    @Cascade({ CascadeType.ALL })
     @MapKey(name = "feature")
     @JsonSerialize(using = DescriptionMapSerializer.class)
     public Map<Feature, Content> getContent() {
@@ -269,7 +259,8 @@ public class Taxon extends SearchableObject {
 
     /**
      *
-     * @param newContent Set the content associated with this taxon
+     * @param newContent
+     *            Set the content associated with this taxon
      */
     @JsonDeserialize(using = DescriptionMapDeserializer.class)
     public void setContent(Map<Feature, Content> newContent) {
@@ -281,7 +272,8 @@ public class Taxon extends SearchableObject {
 
     /**
      *
-     * @param newDeleted Should this taxon be deleted?
+     * @param newDeleted
+     *            Should this taxon be deleted?
      */
     public void setDeleted(boolean newDeleted) {
         this.deleted = newDeleted;
@@ -301,7 +293,7 @@ public class Taxon extends SearchableObject {
      *
      * @return the full taxonomic name of the taxon, including authority
      */
-    @Fields(value = {@Field,
+    @Fields(value = { @Field,
             @Field(name = "label", index = Index.UN_TOKENIZED) })
     public String getName() {
         return name;
@@ -309,7 +301,8 @@ public class Taxon extends SearchableObject {
 
     /**
      *
-     * @param newName Set the taxonomic name of the taxon
+     * @param newName
+     *            Set the taxonomic name of the taxon
      */
     public void setName(String newName) {
         this.name = newName;
@@ -320,7 +313,7 @@ public class Taxon extends SearchableObject {
      * @return the immediate taxonomic parent
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @Cascade({CascadeType.SAVE_UPDATE })
+    @Cascade({ CascadeType.SAVE_UPDATE })
     @JsonIgnore
     public Taxon getParent() {
         return parent;
@@ -328,7 +321,8 @@ public class Taxon extends SearchableObject {
 
     /**
      *
-     * @param newParent Set the taxonomic parent
+     * @param newParent
+     *            Set the taxonomic parent
      */
     public void setParent(Taxon newParent) {
         this.parent = newParent;
@@ -339,7 +333,7 @@ public class Taxon extends SearchableObject {
      * @return Get the immediate taxonomic children
      */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
-    @Cascade({CascadeType.SAVE_UPDATE })
+    @Cascade({ CascadeType.SAVE_UPDATE })
     @JsonIgnore
     public Set<Taxon> getChildren() {
         return children;
@@ -347,7 +341,8 @@ public class Taxon extends SearchableObject {
 
     /**
      *
-     * @param newChildren Set the taxonomic children
+     * @param newChildren
+     *            Set the taxonomic children
      */
     public void setChildren(Set<Taxon> newChildren) {
         this.children = newChildren;
@@ -358,7 +353,7 @@ public class Taxon extends SearchableObject {
      * @return get the accepted name of this synonym
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @Cascade({CascadeType.SAVE_UPDATE })
+    @Cascade({ CascadeType.SAVE_UPDATE })
     @JsonIgnore
     public Taxon getAccepted() {
         return accepted;
@@ -366,7 +361,8 @@ public class Taxon extends SearchableObject {
 
     /**
      *
-     * @param newAccepted Set the accepted name
+     * @param newAccepted
+     *            Set the accepted name
      */
     public void setAccepted(Taxon newAccepted) {
         this.accepted = newAccepted;
@@ -377,7 +373,7 @@ public class Taxon extends SearchableObject {
      * @return the synonyms of this taxon
      */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "accepted")
-    @Cascade({CascadeType.SAVE_UPDATE })
+    @Cascade({ CascadeType.SAVE_UPDATE })
     @JsonIgnore
     public Set<Taxon> getSynonyms() {
         return synonyms;
@@ -385,7 +381,8 @@ public class Taxon extends SearchableObject {
 
     /**
      *
-     * @param newSynonyms Set the synonyms of this taxon
+     * @param newSynonyms
+     *            Set the synonyms of this taxon
      */
     public void setSynonyms(Set<Taxon> newSynonyms) {
         this.synonyms = newSynonyms;
@@ -396,7 +393,7 @@ public class Taxon extends SearchableObject {
      * @return the distribution associated with this taxon
      */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon", orphanRemoval = true)
-    @Cascade({CascadeType.ALL })
+    @Cascade({ CascadeType.ALL })
     @MapKey(name = "region")
     @IndexedEmbedded
     @JsonSerialize(using = DistributionMapSerializer.class)
@@ -406,7 +403,8 @@ public class Taxon extends SearchableObject {
 
     /**
      *
-     * @param newDistribution Set the distribution associated with this taxon
+     * @param newDistribution
+     *            Set the distribution associated with this taxon
      */
     @JsonDeserialize(using = DistributionMapDeserializer.class)
     public void setDistribution(
@@ -419,7 +417,8 @@ public class Taxon extends SearchableObject {
 
     /**
      *
-     * @param newAuthorship set the authorship
+     * @param newAuthorship
+     *            set the authorship
      */
     public void setAuthorship(String newAuthorship) {
         this.authorship = newAuthorship;
@@ -427,16 +426,17 @@ public class Taxon extends SearchableObject {
 
     /**
      *
-     * @param newBasionymAuthorship set the basionymAuthorship
+     * @param newBasionymAuthorship
+     *            set the basionymAuthorship
      */
-    public void setBasionymAuthorship(
-            String newBasionymAuthorship) {
+    public void setBasionymAuthorship(String newBasionymAuthorship) {
         this.basionymAuthorship = newBasionymAuthorship;
     }
 
     /**
      *
-     * @param newUninomial Set the uninomial
+     * @param newUninomial
+     *            Set the uninomial
      */
     public void setUninomial(String newUninomial) {
         this.uninomial = newUninomial;
@@ -444,7 +444,8 @@ public class Taxon extends SearchableObject {
 
     /**
      *
-     * @param newGenusPart Set the genus part of the name
+     * @param newGenusPart
+     *            Set the genus part of the name
      */
     public void setGenus(String newGenusPart) {
         this.genus = newGenusPart;
@@ -452,7 +453,8 @@ public class Taxon extends SearchableObject {
 
     /**
      *
-     * @param newSpecificEpithet set the specific epithet
+     * @param newSpecificEpithet
+     *            set the specific epithet
      */
     public void setSpecificEpithet(String newSpecificEpithet) {
         this.specificEpithet = newSpecificEpithet;
@@ -460,16 +462,17 @@ public class Taxon extends SearchableObject {
 
     /**
      *
-     * @param newInfraspecificEpithet Set the infraspecific epithet
+     * @param newInfraspecificEpithet
+     *            Set the infraspecific epithet
      */
-    public void setInfraSpecificEpithet(
-            String newInfraspecificEpithet) {
+    public void setInfraSpecificEpithet(String newInfraspecificEpithet) {
         this.infraSpecificEpithet = newInfraspecificEpithet;
     }
 
     /**
      *
-     * @param newRank set the rank of this taxon
+     * @param newRank
+     *            set the rank of this taxon
      */
     public void setRank(Rank newRank) {
         this.rank = newRank;
@@ -534,10 +537,11 @@ public class Taxon extends SearchableObject {
 
     /**
      *
-     * @param newStatus Set the taxonomic status
+     * @param newStatus
+     *            Set the taxonomic status
      */
     public void setStatus(TaxonomicStatus newStatus) {
-       this.status = newStatus;
+        this.status = newStatus;
     }
 
     @Field
@@ -548,7 +552,8 @@ public class Taxon extends SearchableObject {
 
     /**
      *
-     * @param newInfraGenericEpithet Set the infrageneric epithet
+     * @param newInfraGenericEpithet
+     *            Set the infrageneric epithet
      */
     public void setInfraGenericEpithet(String newInfraGenericEpithet) {
         this.infraGenericEpithet = newInfraGenericEpithet;
@@ -564,7 +569,8 @@ public class Taxon extends SearchableObject {
 
     /**
      *
-     * @param newAccordingTo Set the according to
+     * @param newAccordingTo
+     *            Set the according to
      */
     public void setAccordingTo(String newAccordingTo) {
         this.accordingTo = newAccordingTo;
@@ -580,7 +586,8 @@ public class Taxon extends SearchableObject {
 
     /**
      *
-     * @param newFamily set the family
+     * @param newFamily
+     *            set the family
      */
     public void setFamily(String newFamily) {
         this.family = newFamily;
@@ -588,7 +595,8 @@ public class Taxon extends SearchableObject {
 
     /**
      *
-     * @param newKingdom set the kingdom
+     * @param newKingdom
+     *            set the kingdom
      */
     public void setKingdom(String newKingdom) {
         this.kingdom = newKingdom;
@@ -596,7 +604,8 @@ public class Taxon extends SearchableObject {
 
     /**
      *
-     * @param newPhylum set the phylum
+     * @param newPhylum
+     *            set the phylum
      */
     public void setPhylum(String newPhylum) {
         this.phylum = newPhylum;
@@ -604,7 +613,8 @@ public class Taxon extends SearchableObject {
 
     /**
      *
-     * @param newClass set the class
+     * @param newClass
+     *            set the class
      */
     public void setClass(String newClass) {
         this.clazz = newClass;
@@ -612,7 +622,8 @@ public class Taxon extends SearchableObject {
 
     /**
      *
-     * @param newOrder set the order
+     * @param newOrder
+     *            set the order
      */
     public void setOrder(String newOrder) {
         this.order = newOrder;
@@ -673,14 +684,15 @@ public class Taxon extends SearchableObject {
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "annotatedObjId")
     @Where(clause = "annotatedObjType = 'Taxon'")
-    @Cascade({CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
     @JsonIgnore
     public Set<Annotation> getAnnotations() {
         return annotations;
     }
 
     /**
-     * @param annotations the annotations to set
+     * @param annotations
+     *            the annotations to set
      */
     public void setAnnotations(Set<Annotation> annotations) {
         this.annotations = annotations;
@@ -688,7 +700,8 @@ public class Taxon extends SearchableObject {
 
     /**
      *
-     * @param reference set the protologue
+     * @param reference
+     *            set the protologue
      */
     @JsonDeserialize(using = ReferenceDeserializer.class)
     public void setProtologue(Reference reference) {
@@ -699,7 +712,7 @@ public class Taxon extends SearchableObject {
      * @return the protologue
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @Cascade({CascadeType.SAVE_UPDATE })
+    @Cascade({ CascadeType.SAVE_UPDATE })
     @JsonSerialize(using = ReferenceSerializer.class)
     @IndexedEmbedded
     public Reference getProtologue() {
@@ -708,7 +721,8 @@ public class Taxon extends SearchableObject {
 
     /**
      *
-     * @param feature set the feature
+     * @param feature
+     *            set the feature
      * @return content or null if this taxon has no content
      */
     @Transient
@@ -717,9 +731,13 @@ public class Taxon extends SearchableObject {
         return content.get(feature);
     }
 
+    /**
+     *
+     * @return the class name
+     */
     @Transient
     @JsonIgnore
     public final String getClassName() {
-      return "Taxon";
+        return "Taxon";
     }
 }

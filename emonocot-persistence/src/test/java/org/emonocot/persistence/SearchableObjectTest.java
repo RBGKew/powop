@@ -69,23 +69,23 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
                 fullTextSession.purgeAll(Taxon.class);
                 fullTextSession.purgeAll(Image.class);
                 Taxon taxon1 = createTaxon("Aus", "1", null, null, "Ausaceae",
-                        "(1753)", Rank.GENUS, TaxonomicStatus.accepted,
-                        new GeographicalRegion[] {});
+                        null, null, "(1753)",
+                        Rank.GENUS, TaxonomicStatus.accepted, new GeographicalRegion[] {});
                 Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null,
-                        "Ausaceae", "(1775)", Rank.SPECIES,
-                        TaxonomicStatus.accepted, new GeographicalRegion[] {
+                        "Ausaceae", null, null,
+                        "(1775)", Rank.SPECIES, TaxonomicStatus.accepted, new GeographicalRegion[] {
                                 Continent.AUSTRALASIA, Region.BRAZIL,
                                 Region.CARIBBEAN });
                 Taxon taxon3 = createTaxon("Aus ceus", "3", taxon1, null,
-                        "Ausaceae", "(1805)", Rank.SPECIES,
-                        TaxonomicStatus.accepted,
-                        new GeographicalRegion[] {Region.NEW_ZEALAND });
+                        "Ausaceae", null, null,
+                        "(1805)",
+                        Rank.SPECIES, TaxonomicStatus.accepted, new GeographicalRegion[] {Region.NEW_ZEALAND });
                 Taxon taxon4 = createTaxon("Aus deus", "4", null, taxon2,
-                        "Ausaceae", "(1895)", Rank.SPECIES,
-                        TaxonomicStatus.synonym, new GeographicalRegion[] {});
+                        "Ausaceae", null, null,
+                        "(1895)", Rank.SPECIES, TaxonomicStatus.synonym, new GeographicalRegion[] {});
                 Taxon taxon5 = createTaxon("Aus eus", "5", null, taxon3,
-                        "Ausaceae", "(1935)", Rank.SPECIES,
-                        TaxonomicStatus.synonym, new GeographicalRegion[] {});
+                        "Ausaceae", null, null,
+                        "(1935)", Rank.SPECIES, TaxonomicStatus.synonym, new GeographicalRegion[] {});
                 Image img1 = createImage("Aus", "1");
                 Image img2 = createImage("Aus bus", "2");
                 searchableObjectDao.saveOrUpdate(taxon1);

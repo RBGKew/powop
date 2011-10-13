@@ -24,7 +24,7 @@ import org.joda.time.DateTime;
 public class Annotation implements Serializable {
 
    /**
-    * 
+    *
     */
     private static final long serialVersionUID = -3382251087008774134L;
 
