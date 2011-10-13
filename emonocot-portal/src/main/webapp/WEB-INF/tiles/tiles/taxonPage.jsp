@@ -34,7 +34,7 @@
 											<!-- <img src="${image.url}" alt="${status.index}" width="140px" /> -->
 											<img src="${image.url}" alt="${status.index}" />
 											<div class="showcase-thumbnail-caption">${image.caption}</div>
-											<div class="showcase-thumbnail-cover">/* */</div>
+											<!-- <div class="showcase-thumbnail-cover">/* */</div> -->
 										</div>
 										<div class="showcase-caption">
 											<h2>${image.caption}</h2>

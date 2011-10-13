@@ -19,8 +19,7 @@
 		<div class="showcase-content">
 			<img src="${image.url}" title="${image.caption}" alt="${status.index}" />
 		</div>
-		<div class="row">
-			<div class="twelvecol">
+		
 				<div id="showcase" class="showcase">
 					<c:forEach var="image" items="${taxon.images}">
 						<div class="showcase-slide">
@@ -28,12 +27,10 @@
 								<a href="/portal/image/${image.identifier}"><img src="${image.url}" alt="${status.index}" /></a>
 								<!-- <img src="${image.url}" alt="${status.index}" width="140px" /> -->
 								<div class="showcase-thumbnail-caption">${image.caption}</div>
-								<div class="showcase-thumbnail-cover">/* */</div>
 							</div>
 						</div>
 					</c:forEach>
 				</div>
-			</div>
-		</div>
+			
 	</div>
 </jsp:root>
