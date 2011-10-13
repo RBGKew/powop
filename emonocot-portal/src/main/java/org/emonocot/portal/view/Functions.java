@@ -31,10 +31,7 @@ public final class Functions {
     private Functions() {
     }
 
-    /**
-     *
-     */
-    private static final String UTF8_CHARSET = "UTF-8";
+    
 
     /**
      *

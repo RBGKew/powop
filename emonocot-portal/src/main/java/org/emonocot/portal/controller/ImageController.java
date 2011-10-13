@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 
 import org.emonocot.model.media.Image;
 import org.emonocot.api.ImageService;
+import org.emonocot.api.TaxonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,11 @@ public class ImageController {
     *
     */
    private ImageService service;
+   
+   /**
+   *
+   */
+  private TaxonService taxonService;
 
    /**
     *
@@ -59,6 +65,16 @@ public class ImageController {
       this.service = imageService;
   }
   
+  /**
+  *
+  * @param taxonService
+  *            Set the image service
+  */
+ @Autowired
+ public final void setTaxonService(final TaxonService taxonService) {
+     this.taxonService = taxonService;
+ }
+  
   
 
   /**
@@ -69,7 +85,9 @@ public class ImageController {
   @RequestMapping(value = "/image/{identifier}", method = RequestMethod.GET)
   public final ModelAndView getImagePage(@PathVariable final String identifier) {
       ModelAndView modelAndView = new ModelAndView("imagePage");
-      modelAndView.addObject(service.load(identifier, "image-page"));
+      Image image = service.load(identifier, "image-page");
+      modelAndView.addObject(image);
+      modelAndView.addObject(taxonService.load(image.getTaxon().getIdentifier(), "taxon-page"));
       return modelAndView;
   }
   

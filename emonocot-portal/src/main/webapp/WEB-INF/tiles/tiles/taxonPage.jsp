@@ -28,10 +28,11 @@
 								<c:forEach var="image" items="${taxon.images}" varStatus="status">
 									<div class="showcase-slide">
 										<div class="showcase-content">
-											<img src="${image.url}" title="${image.caption}" alt="${status.index}" />
+											<a href="/portal/image/${image.identifier}"><img src="${image.url}" title="${image.caption}" alt="${status.index}" /></a>
 										</div>
 										<div class="showcase-thumbnail">
-											<img src="${image.url}" alt="${status.index}" width="140px" />
+											<!-- <img src="${image.url}" alt="${status.index}" width="140px" /> -->
+											<img src="${image.url}" alt="${status.index}" />
 											<div class="showcase-thumbnail-caption">${image.caption}</div>
 											<div class="showcase-thumbnail-cover">/* */</div>
 										</div>

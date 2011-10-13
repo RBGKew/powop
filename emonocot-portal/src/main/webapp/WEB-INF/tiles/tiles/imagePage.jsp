@@ -6,35 +6,34 @@
 	
 	
 	<div class="content-wrapper">
-		<div>${image.caption}</div>
-		<!-- 
-		<c:if test="${not empty image.taxa}">
-					<div class="row">
-						<h5>
-							<spring:message code="taxon" />
-						</h5>
-						<div class="twelvecol">
-						<ul>
-								<c:forEach var="taxon" items="${image.taxa}">
-								<li>
-							<jsp:element name="a">
-                  				<jsp:attribute name="href">
-                    				<c:url value="/taxon/${image.taxon.identifier}" />
-                  				</jsp:attribute>
-                  				${image.taxon.name}
-                			</jsp:element>
-                			</li>
-                			</c:forEach>
-                			</ul>
-						</div>
-					</div>
-				</c:if>
-			 -->	
-	
+		<header>
+			<h2 id="page-title">${image.caption}</h2>
+		</header>
+		<br/>
+		<h5>
+			<spring:message code="imageOf"/>
+			<a href="/portal/taxon/${image.taxon.identifier}">${image.taxon.name}</a>
+		</h5>
+		
+		<br/>
 		<div class="showcase-content">
 			<img src="${image.url}" title="${image.caption}" alt="${status.index}" />
 		</div>
-			
-		
+		<div class="row">
+			<div class="twelvecol">
+				<div id="showcase" class="showcase">
+					<c:forEach var="image" items="${taxon.images}">
+						<div class="showcase-slide">
+							<div class="showcase-thumbnail">
+								<a href="/portal/image/${image.identifier}"><img src="${image.url}" alt="${status.index}" /></a>
+								<!-- <img src="${image.url}" alt="${status.index}" width="140px" /> -->
+								<div class="showcase-thumbnail-caption">${image.caption}</div>
+								<div class="showcase-thumbnail-cover">/* */</div>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
+			</div>
+		</div>
 	</div>
 </jsp:root>
