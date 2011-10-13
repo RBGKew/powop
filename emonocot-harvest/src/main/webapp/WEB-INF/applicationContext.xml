@@ -63,7 +63,7 @@
       <property name="validationQuery" value="SELECT 1"/>
     </bean>
     
-     <sec:authentication-manager>
+     <sec:authentication-manager alias="authenticationManager">
       <sec:authentication-provider>
         <sec:user-service>
           <sec:user name="admin" password="${harvester.admin.password}" authorities="ROLE_ADMIN" />
