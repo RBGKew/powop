@@ -31,6 +31,20 @@
 						</div>
 					</c:forEach>
 				</div>
+				
+				
+			<c:forEach var="image" items="${taxon.images}">
+			<div class="showcase-thumbnail">
+				
+					<div class="showcase-thumbnail-container">
+					
+						<a href="/portal/image/${image.identifier}"><img src="${image.url}" alt="${status.index}" /></a>
+						<!-- <img src="${image.url}" alt="${status.index}" width="140px" /> -->
+						<div class="showcase-thumbnail-caption">${image.caption}</div>
+					
+				</div>
+				</div>
+			</c:forEach>
 			
 	</div>
 </jsp:root>
