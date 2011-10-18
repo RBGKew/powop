@@ -1,6 +1,7 @@
 package org.emonocot.portal.driver;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
@@ -16,7 +17,7 @@ import org.openqa.selenium.support.PageFactory;
  */
 public abstract class PageObject {
 
-    /**
+   /**
     *
     */
    @FindBy(how = How.TAG_NAME, using = "a")
@@ -68,7 +69,8 @@ public abstract class PageObject {
      */
     protected <T extends PageObject> T openAs(String address, Class<T> pageClass) {
         open(address);
-        if (webDriver.getCurrentUrl().startsWith(getBaseUri()  + "login")) {
+        Pattern loginPattern = Pattern.compile(".*/login.*");
+        if (loginPattern.matcher(webDriver.getCurrentUrl()).matches()) {
             LoginPage loginPage = pageObjectInstance(LoginPage.class);
             loginPage.setBaseUri(baseUri);
             loginPage.testDataManager = this.testDataManager;
