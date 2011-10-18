@@ -1323,4 +1323,7 @@
         <column name="permissions" valueNumeric="9"/>
       </insert>
     </changeSet>
+    <changeSet id="2011-10-18_01" author="annapaola">
+      <renameColumn tableName="Source" oldColumnName="name" newColumnName="identifier" columnDataType="varchar(255)"/>
+    </changeSet>
 </databaseChangeLog>

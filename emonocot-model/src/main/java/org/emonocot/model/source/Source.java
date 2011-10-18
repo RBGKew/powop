@@ -20,7 +20,7 @@ import org.hibernate.search.annotations.Indexed;
  */
 @Entity
 @Indexed
-public class Source implements Serializable {
+public class Source extends Base {
 
     /**
      *
@@ -30,51 +30,7 @@ public class Source implements Serializable {
    /**
     *
     */
-   private Long id;
-
-   /**
-    *
-    */
-   private String name;
-
-   /**
-    *
-    */
    private String uri;
-
-    /**
-     * @return the id
-     */
-   @Id
-   @GeneratedValue(generator = "system-increment")
-   @DocumentId
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * @param id
-     *            the id to set
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
-     * @return the name
-     */
-    @Field
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @param name
-     *            the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
 
     /**
      * @return the uri
@@ -88,23 +44,5 @@ public class Source implements Serializable {
      */
     public void setUri(String uri) {
         this.uri = uri;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        // check for self-comparison
-        if (this == other) {
-            return true;
-        }
-        if (other == null || other.getClass() != this.getClass()) {
-            return false;
-        }
-        Source authority = (Source) other;
-        return ObjectUtils.equals(this.id, authority.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return ObjectUtils.hashCode(this.id);
     }
 }

@@ -91,7 +91,7 @@ public class StepDefinitions {
    @Given("^there are source systems with the following properties:$")
    public final void thereAreSourceSystemsWithTheFollowingProperties(List<SourceRow> rows) {
        for (SourceRow row : rows) {
-
+    	   testDataManager.createSourceSystem(row.identifier);
        }
    }
 

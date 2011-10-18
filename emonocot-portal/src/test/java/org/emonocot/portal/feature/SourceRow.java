@@ -10,5 +10,5 @@ public class SourceRow {
     /**
      *
      */
-    public String name;
+    public String identifier;
 }

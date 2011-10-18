@@ -21,7 +21,7 @@ create table Reference (id bigint not null, created timestamp, creator varchar(2
 drop table if exists Reference_Source;
 create table Reference_Source (Reference_id bigint not null, sources_id bigint not null, primary key (Reference_id));
 drop table if exists Source;
-create table Source (id bigint not null, name varchar(255), uri varchar(255), primary key (id));
+create table Source (id bigint not null, identifier varchar(255), uri varchar(255), primary key (id));
 drop table if exists Taxon;
 create table Taxon (id bigint not null, created timestamp, creator varchar(255), identifier varchar(255), license varchar(255), modified timestamp, source varchar(255), accordingTo varchar(255), authorship varchar(255), basionymAuthorship varchar(255), family varchar(255), genus varchar(255), infraGenericEpithet varchar(255), infraSpecificEpithet varchar(255), kingdom varchar(255), name varchar(255), nomenclaturalCode varchar(255), ordr varchar(255), phylum varchar(255), rank varchar(255), specificEpithet varchar(255), status varchar(255), uninomial varchar(255), authority_id bigint, accepted_id bigint, parent_id bigint, protologue_id bigint, primary key (id));
 drop table if exists Taxon_Source;

@@ -9,6 +9,7 @@ import java.util.Stack;
 import org.emonocot.api.GroupService;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.ReferenceService;
+import org.emonocot.api.SourceService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.UserService;
 import org.emonocot.model.common.Base;
@@ -94,6 +95,12 @@ public class TestDataManager {
      */
     @Autowired
     private ReferenceService referenceService;
+    
+    /**
+    *
+    */
+   @Autowired
+   private SourceService sourceService;
 
    /**
     *
@@ -170,12 +177,12 @@ public class TestDataManager {
     *
     * @param name Set the name
     */
-   public final void createSourceSystem(final String name) {
+   public final void createSourceSystem(final String identifier) {
         enableAuthentication();
         Source source = new Source();
-        source.setName(name);
-        // sourceService.save(source);
-        // data.push(source);
+        source.setIdentifier(identifier);
+        sourceService.save(source);
+        data.push(source);
         disableAuthentication();
    }
 

@@ -7,6 +7,15 @@
 	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<context:property-placeholder location="classpath:application.properties" />
+	
+	<bean name="sourceService" class="org.emonocot.service.impl.SourceServiceImpl">
+		<property name="sourceDao" ref="sourceDaoImpl" />
+	</bean>
+
+	<bean name="sourceDaoImpl" class="org.emonocot.portal.remoting.SourceDaoImpl">
+		<property name="restTemplate" ref="restTemplate" />
+		<property name="baseUri" value="${functional.test.baseUri}:${functional.test.port}${functional.test.basePath}/" />
+	</bean>
 
 	<bean name="taxonService" class="org.emonocot.service.impl.TaxonServiceImpl">
 		<property name="taxonDao" ref="taxonDaoImpl" />
