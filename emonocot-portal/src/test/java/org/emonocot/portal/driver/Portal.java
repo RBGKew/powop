@@ -3,6 +3,7 @@ package org.emonocot.portal.driver;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,15 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class Portal extends PageObject {
+
+   /**
+    *
+    * @param testDataManager set the test data manager
+    */
+    @Autowired
+    public void setTestDataManager(TestDataManager testDataManager) {
+        super.testDataManager = testDataManager;
+    }
 
     /**
      *
@@ -58,5 +68,15 @@ public class Portal extends PageObject {
     public final SearchResultsPage search(final String query) {
         return openAs(getBaseUri() + "search?query=" + query,
                 SearchResultsPage.class);
+    }
+
+    /**
+     *
+     * @param source the name of the source
+     * @return the source admin page
+     */
+    public final SourceAdminPage getSourceAdminPage(final String source) {
+        return openAs(getBaseUri() + "admin/source/" + source,
+                SourceAdminPage.class);
     }
 }

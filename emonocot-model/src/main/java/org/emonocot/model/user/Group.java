@@ -10,6 +10,12 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.emonocot.model.marshall.json.GroupDeserializer;
+import org.emonocot.model.marshall.json.UserDeserializer;
+import org.emonocot.model.marshall.json.UserSerializer;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.springframework.security.core.GrantedAuthority;
@@ -42,6 +48,7 @@ public class Group extends Principal {
      */
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "groups")
     @Cascade({CascadeType.SAVE_UPDATE })
+    @JsonSerialize(contentUsing = UserSerializer.class)
     public Set<User> getMembers() {
         return members;
     }
@@ -49,6 +56,7 @@ public class Group extends Principal {
     /**
      * @param members the members to set
      */
+    @JsonDeserialize(contentUsing = UserDeserializer.class)
     public void setMembers(Set<User> members) {
         this.members = members;
     }
@@ -58,6 +66,7 @@ public class Group extends Principal {
      * @return a collection of granted authorities
      */
     @Transient
+    @JsonIgnore
     public Collection<GrantedAuthority> getGrantedAuthorities() {
         return (Collection) permissions;
     }
@@ -75,6 +84,7 @@ public class Group extends Principal {
      *
      * @param groupName Set the group name
      */
+    @JsonIgnore
     public void setName(final String groupName) {
         setIdentifier(groupName);
     }
@@ -83,6 +93,7 @@ public class Group extends Principal {
      *
      * @return the name of this group
      */
+    @JsonIgnore
     @Transient
     public String getName() {
         return getIdentifier();

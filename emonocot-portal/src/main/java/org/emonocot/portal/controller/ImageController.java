@@ -36,7 +36,7 @@ public class ImageController {
     *
     */
    private ImageService service;
-   
+
    /**
    *
    */
@@ -64,6 +64,7 @@ public class ImageController {
   public final void setImageService(final ImageService imageService) {
       this.service = imageService;
   }
+
   
   /**
   *
@@ -90,8 +91,7 @@ public class ImageController {
       modelAndView.addObject(taxonService.load(image.getTaxon().getIdentifier(), "taxon-page"));
       return modelAndView;
   }
-  
-  
+
   /**
    * @param identifier
    *            Set the identifier of the image

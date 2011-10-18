@@ -28,18 +28,4 @@ public class ReferenceDaoImpl extends DaoImpl<Reference> implements
     protected final Fetch[] getProfile(final String profile) {
         return null;
     }
-
-    @Override
-    protected final void createFacetingRequest(final FacetContext facetContext,
-            final FacetName facetName, final FacetManager facetManager) {
-        // TODO Auto-generated method stub
-    }
-
-    /**
-     * @return the document fields to search by default
-     */
-    @Override
-    protected final String[] getDocumentFields() {
-        return new String[] {"title"};
-    }
 }

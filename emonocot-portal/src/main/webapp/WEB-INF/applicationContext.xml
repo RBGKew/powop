@@ -35,31 +35,31 @@
     <bean id="saltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource">
         <property name="userPropertyToUse" value="getUsername"/>
     </bean>
-        
-    <sec:http access-decision-manager-ref="accessDecisionManager">
-      <sec:intercept-url pattern="/login*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-      <sec:intercept-url pattern="/taxon" method="POST" access="PERMISSION_CREATE_TAXON"/>
-      <sec:intercept-url pattern="/taxon/*" method="DELETE" access="PERMISSION_DELETE_TAXON"/>
-      <sec:intercept-url pattern="/image" method="POST" access="PERMISSION_CREATE_IMAGE"/>
-      <sec:intercept-url pattern="/image/*" method="DELETE" access="PERMISSION_DELETE_IMAGE"/>
-      <sec:intercept-url pattern="/reference" method="POST" access="PERMISSION_CREATE_REFERENCE"/>
-      <sec:intercept-url pattern="/reference/*" method="DELETE" access="PERMISSION_DELETE_REFERENCE"/>
-      <sec:form-login login-page='/login'/>
+    
+    <sec:http-firewall ref="httpFirewall"/>
+    <!-- Due to SEC-1606 https://jira.springsource.org/browse/SEC-1606 should
+      be fixed in 3.0.5.RELEASE -->
+    <bean name="httpFirewall" class="org.emonocot.portal.auth.RequestDispatcherAwareHttpFirewall"/>
+    
+    <sec:http use-expressions="true">
+      <sec:intercept-url pattern="/login*" access="isAnonymous()"/>
+      <sec:intercept-url pattern="/taxon" method="POST" access="hasRole('PERMISSION_CREATE_TAXON')"/>
+      <sec:intercept-url pattern="/taxon/*" method="DELETE" access="hasRole('PERMISSION_DELETE_TAXON')"/>
+      <sec:intercept-url pattern="/image" method="POST" access="hasRole('PERMISSION_CREATE_IMAGE')"/>
+      <sec:intercept-url pattern="/image/*" method="DELETE" access="hasRole('PERMISSION_DELETE_IMAGE')"/>
+      <sec:intercept-url pattern="/reference" method="POST" access="hasRole('PERMISSION_CREATE_REFERENCE')"/>
+      <sec:intercept-url pattern="/reference/*" method="DELETE" access="hasRole('PERMISSION_DELETE_REFERENCE')"/>
+      <sec:intercept-url pattern="/user" method="POST" access="hasRole('PERMISSION_CREATE_USER')"/>
+      <sec:intercept-url pattern="/user/*" method="DELETE" access="hasRole('PERMISSION_DELETE_USER')"/>
+      <sec:intercept-url pattern="/group" method="POST" access="hasRole('PERMISSION_CREATE_GROUP')"/>
+      <sec:intercept-url pattern="/group/*" method="DELETE" access="hasRole('PERMISSION_DELETE_GROUP')"/>
+      <sec:intercept-url pattern="/admin/source/*" access="hasRole('PERMISSION_VIEW_SOURCE')"/>
+      <sec:form-login login-page='/login' login-processing-url="/process_login" authentication-failure-url="/login?error=true"/>
+      <sec:access-denied-handler error-page="/accessDenied"/>
+      <sec:logout logout-url="/logout"/>
       <sec:http-basic />
     </sec:http>
     
-    <bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
-        <property name="allowIfAllAbstainDecisions" value="false"/>
-        <property name="decisionVoters">
-            <list>
-                <bean class="org.springframework.security.access.vote.RoleVoter">
-                    <property name="rolePrefix" value="PERMISSION_"/>
-                </bean>
-                <bean class="org.springframework.security.access.vote.AuthenticatedVoter"/>
-            </list>
-        </property>
-    </bean>
-
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basenames">

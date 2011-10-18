@@ -9,20 +9,28 @@
 
     <context:component-scan base-package="org.emonocot.portal.controller" />
     
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+      <property name="order" value="0" />
+      <property name="useDefaultSuffixPattern" value="false"/>
+    </bean>
+    
     <!-- Due to https://jira.springsource.org/browse/SPR-6164 we need to include this to prevent uri's with dots being truncated -->
     
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-        <property name="webBindingInitializer" ref="webBindingInitializer"/>
+        <property name="webBindingInitializer">
+          <bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+            <property name="conversionService" ref="conversionService"/>
+            <property name="validator" ref="validator"/>
+          </bean>
+        </property>
         <property name="messageConverters">
          <list>
            <ref bean="jsonConverter" />
          </list>
        </property>
-    </bean>
+    </bean>   
     
-    <bean id="webBindingInitializer" class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
-      <property name="conversionService" ref="conversionService"/>
-    </bean>
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
     
     <bean id="jsonConverter"  class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
       <property name="supportedMediaTypes" value="application/json" />
@@ -33,10 +41,8 @@
       <property name="referenceService" ref="referenceServiceImpl"/>
       <property name="taxonService" ref="taxonServiceImpl"/>
       <property name="imageService" ref="imageServiceImpl"/>
-    </bean>
-
-    <bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
-      <property name="useDefaultSuffixPattern" value="false"/>
+      <property name="groupService" ref="groupServiceImpl"/>
+      <property name="userService" ref="userServiceImpl"/>
     </bean>
     
     <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
@@ -49,6 +55,16 @@
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
       <property name="basename" value="views"/>
-    </bean>    
+      <property name="order" value="1"/>
+    </bean>   
+    
+    <!-- required for redirect: and forward: This goes last-->
+    <bean id="urlBasedViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+      <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+      <property name="prefix" value="/WEB-INF/jsp/"/>
+      <property name="suffix" value=".jsp"/>
+    </bean>
+    
+    <mvc:view-controller path="/accessDenied" view-name="accessDenied"/>
     
 </beans>

@@ -134,7 +134,7 @@
 		</copy>
 
 		<!-- copy resource files to the build tree this time with filtering-->
-		<copy todir="${target}/${name}/WEB-INF/classes" filtering="true">
+		<copy todir="${target}/${name}/WEB-INF" filtering="true">
 			<filterchain>
 				<expandproperties/>
 			</filterchain>
@@ -155,7 +155,7 @@
 				<include name="**/*.jar" />
 			</fileset>
 		</copy>
-		<war basedir="${target}/${name}" destfile="${target}/${name}.war" webxml="${main.webapp}/WEB-INF/web.xml" compress="true">
+		<war basedir="${target}/${name}" destfile="${target}/${name}.war" webxml="${target}/${name}/WEB-INF/web.xml" compress="true">
 			<webinf dir="${target}/${name}/WEB-INF" />
 		</war>
 	</target>

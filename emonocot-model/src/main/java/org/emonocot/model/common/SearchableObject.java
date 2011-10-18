@@ -10,6 +10,6 @@ import javax.persistence.MappedSuperclass;
  *
  */
 @MappedSuperclass
-public abstract class SearchableObject extends Base {
+public abstract class SearchableObject extends BaseData {
 
 }

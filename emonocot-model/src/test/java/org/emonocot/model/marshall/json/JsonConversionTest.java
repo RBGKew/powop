@@ -8,9 +8,11 @@ import static org.junit.Assert.fail;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.easymock.EasyMock;
+import org.emonocot.api.GroupService;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.ReferenceService;
 import org.emonocot.api.TaxonService;
+import org.emonocot.api.UserService;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
@@ -18,6 +20,8 @@ import org.emonocot.model.geography.Country;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.user.Group;
+import org.emonocot.model.user.User;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -51,16 +55,30 @@ public class JsonConversionTest {
     /**
      *
      */
+    private UserService userService;
+
+    /**
+     *
+     */
+    private GroupService groupService;
+
+    /**
+     *
+     */
     @Before
     public final void setUp() {
         referenceService = EasyMock.createMock(ReferenceService.class);
         taxonService = EasyMock.createMock(TaxonService.class);
         imageService = EasyMock.createMock(ImageService.class);
+        userService = EasyMock.createMock(UserService.class);
+        groupService = EasyMock.createMock(GroupService.class);
         CustomObjectMapperFactory objectMapperFactory
             = new CustomObjectMapperFactory();
         objectMapperFactory.setReferenceService(referenceService);
         objectMapperFactory.setTaxonService(taxonService);
         objectMapperFactory.setImageService(imageService);
+        objectMapperFactory.setGroupService(groupService);
+        objectMapperFactory.setUserService(userService);
         objectMapper = objectMapperFactory.getObject();
     }
 
@@ -214,4 +232,44 @@ public class JsonConversionTest {
         assertEquals("The title should be \"Lorem ipsum\"", "Lorem ipsum",
                 reference.getTitle());
      }
+
+  /**
+   *
+   * @throws Exception
+   *             if there is a problem serializing the object
+   */
+  @Test
+  public final void testWriteUser() throws Exception {
+      User user = new User();
+      user.setUsername("test@example.com");
+      user.setPassword("123456");
+      Group group = new Group();
+      group.setIdentifier("groupname");
+      user.getGroups().add(group);
+      System.out.println(objectMapper.writeValueAsString(user));
+  }
+
+  /**
+  *
+  * @throws Exception
+  *             if there is a problem serializing the object
+  */
+ @Test
+ public final void testReadUser() throws Exception {
+     Group group = new Group();
+     EasyMock.expect(groupService.load(EasyMock.eq("TestGroup"))).andReturn(group);
+     EasyMock.replay(groupService, userService);
+
+     String content = "{\"identifier\":\"test@example.com\",\"password\":\"Lorem ipsum\", \"groups\":[\"TestGroup\"]}";
+      User user = (User) objectMapper.readValue(content,
+              User.class);
+      EasyMock.verify(userService, groupService);
+
+      assertNotNull("Returned object should not be null", user);
+      assertEquals(
+              "The username should be \"test@example.com\"",
+              "test@example.com", user.getIdentifier());
+      assertEquals("The group should be \"TestGroup\"", group,
+              user.getGroups().iterator().next());
+ }
 }

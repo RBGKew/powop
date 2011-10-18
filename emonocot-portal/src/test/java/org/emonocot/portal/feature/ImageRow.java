@@ -16,7 +16,10 @@ public class ImageRow {
      *
      */
     public String identifier;
-    
+
+    /**
+     *
+     */
     public String url;
 
 }

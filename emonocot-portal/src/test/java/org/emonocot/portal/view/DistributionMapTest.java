@@ -22,11 +22,9 @@ public class DistributionMapTest {
     public final void testMapUrlConstruction() {
         Taxon taxon = new Taxon();
         createDistribution(taxon, Country.REU);
-        createDistribution(taxon, Country.MAU);
-        createDistribution(taxon, Country.MDG);
 
         assertEquals("The map service url fragment should be correct",
-                "tdwg3:present:MDG,MAU,REU",
+                "tdwg3:present:REU",
                 Functions.map(taxon));
     }
 

@@ -121,6 +121,7 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
                 taxon.getAnnotations().add(annotation);
                 taxon.getSources().add(getSource());
                 taxon.setAuthority(getSource());
+                taxon.setIdentifier(taxonConcept.getIdentifier().toString());
                 processTaxon(taxon, taxonConcept);
             }
         } else {
@@ -170,7 +171,6 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
      */
     public final void processTaxon(
             final Taxon taxon, final TaxonConcept taxonConcept) {
-        taxon.setIdentifier(taxonConcept.getIdentifier().toString());
         super.bind(taxon);
         if (taxonConcept.getHasName() != null) {
             TaxonName taxonName = taxonConcept.getHasName();

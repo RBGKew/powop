@@ -176,6 +176,11 @@
                 <version>${spring.security.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>org.springframework.security.taglibs</artifactId>
+                <version>${spring.security.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.springframework.batch</groupId>
                 <artifactId>org.springframework.batch.core</artifactId>
                 <version>${spring.batch.version}</version>
@@ -442,6 +447,11 @@
                 <artifactId>hibernate-jpa-2.0-api</artifactId>
                 <version>1.0.0.Final</version>
             </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>4.2.0.Final</version>
+             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-search</artifactId>

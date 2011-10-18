@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
-public class ImageServiceImpl extends ServiceImpl<Image, ImageDao> implements
+public class ImageServiceImpl extends SearchableServiceImpl<Image, ImageDao> implements
         ImageService {
     
     @Autowired

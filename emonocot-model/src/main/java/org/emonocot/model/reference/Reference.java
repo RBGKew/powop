@@ -9,7 +9,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.emonocot.model.common.Base;
+import org.emonocot.model.common.BaseData;
 import org.emonocot.model.hibernate.DatePublishedBridge;
 import org.emonocot.model.taxon.Taxon;
 import org.hibernate.annotations.Cascade;
@@ -25,7 +25,7 @@ import org.hibernate.search.annotations.Indexed;
  */
 @Entity
 @Indexed
-public class Reference extends Base {
+public class Reference extends BaseData {
 
     /**
      *

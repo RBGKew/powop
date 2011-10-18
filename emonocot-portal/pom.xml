@@ -137,12 +137,20 @@
             <artifactId>org.springframework.security.config</artifactId>
           </dependency>
           <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>org.springframework.security.taglibs</artifactId>
+          </dependency>
+          <dependency>
               <groupId>net.sf.ehcache</groupId>
               <artifactId>ehcache-core</artifactId>
           </dependency>
           <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
+          </dependency>
+          <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
           </dependency>
 	</dependencies>
 	<build>

@@ -9,10 +9,13 @@ import org.emonocot.model.description.TextContent;
 import org.emonocot.model.geography.Country;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.user.Group;
 import org.emonocot.model.user.User;
+import org.emonocot.persistence.dao.GroupDao;
 import org.emonocot.persistence.dao.ImageDao;
 import org.emonocot.persistence.dao.TaxonDao;
-import org.emonocot.portal.feature.TestAuthentication;
+import org.emonocot.persistence.dao.UserDao;
+import org.emonocot.portal.driver.TestAuthentication;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,6 +48,18 @@ public class RestApiFunctionalTest {
     */
    @Autowired
    private ImageDao imageDao;
+
+   /**
+    *
+    */
+   @Autowired
+   private GroupDao groupDao;
+
+   /**
+    *
+    */
+   @Autowired
+   private UserDao userDao;
 
    /**
     *
@@ -133,4 +148,23 @@ public class RestApiFunctionalTest {
         taxonDao.delete("urn:kew.org:wcs:taxon:2295");
         imageDao.delete("urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg");
     }
+
+    /**
+    *
+    */
+   @Test
+   public final void testUser() {
+       Group group = new Group();
+       group.setIdentifier("PalmWeb");
+       groupDao.save(group);
+
+       User user = new User();
+       user.setIdentifier("test@example.com");
+       user.setPassword("test1234");
+       user.getGroups().add(group);
+       userDao.save(user);
+
+       userDao.delete("test@example.com");
+       groupDao.delete("PalmWeb");
+   }
 }

@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.emonocot.model.common.Base;
 import org.emonocot.model.hibernate.DateTimeBridge;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
@@ -19,7 +20,7 @@ import org.joda.time.DateTime;
  *
  */
 @Entity
-public abstract class Principal {
+public abstract class Principal extends Base {
 
    /**
     *
@@ -30,16 +31,6 @@ public abstract class Principal {
     *
     */
     private DateTime modified;
-
-   /**
-    *
-    */
-    private Long id;
-
-   /**
-    *
-    */
-    private String identifier;
 
     /**
      *
@@ -80,59 +71,5 @@ public abstract class Principal {
      */
     public void setModified(DateTime modified) {
         this.modified = modified;
-    }
-
-    /**
-     *
-     * @return the id
-     */
-    @Id
-    @GeneratedValue(generator = "system-increment")
-    @DocumentId
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     *
-     * @param id Set the id
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
-     *
-     * @return the identifier of this principal
-     */
-    @NaturalId
-    public String getIdentifier() {
-        return identifier;
-    }
-
-    /**
-     *
-     * @param identifier Set the identifier
-     */
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
-
-    @Override
-    public final boolean equals(final Object other) {
-        // check for self-comparison
-        if (this == other) {
-            return true;
-        }
-        if (other == null || other.getClass() != this.getClass()) {
-            return false;
-        }
-        Principal principal = (Principal) other;
-        return ObjectUtils.equals(this.identifier, principal.identifier);
-    }
-
-    @Override
-    public final int hashCode() {
-        return ObjectUtils.hashCode(this.identifier);
     }
 }

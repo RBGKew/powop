@@ -31,7 +31,35 @@ public enum Permission implements GrantedAuthority {
     /**
      *
      */
-    PERMISSION_DELETE_REFERENCE;
+    PERMISSION_DELETE_REFERENCE,
+    /**
+     *
+     */
+   PERMISSION_CREATE_USER,
+    /**
+     *
+     */
+    PERMISSION_DELETE_USER,
+    /**
+     *
+     */
+    PERMISSION_CREATE_GROUP,
+    /**
+     *
+     */
+    PERMISSION_DELETE_GROUP,
+    /**
+     *
+     */
+    PERMISSION_VIEW_SOURCE,
+    /**
+     *
+     */
+    PERMISSION_CREATE_SOURCE,
+    /**
+     *
+     */
+    PERMISSION_DELETE_SOURCE;
 
     /**
      * @return the authority

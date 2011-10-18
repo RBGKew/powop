@@ -37,18 +37,23 @@ import org.springframework.util.Assert;
  *
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends ServiceImpl<User,UserDao> implements UserService {
     protected GroupDao groupDao;
 
-    protected UserDao dao;
+    private SaltSource saltSource;
 
-    private SaltSource saltSource = new ReflectionSaltSource();
-
-    private PasswordEncoder passwordEncoder = new Md5PasswordEncoder();
+    private PasswordEncoder passwordEncoder;
 
     private AuthenticationManager authenticationManager;
 
-    private UserCache userCache = new NullUserCache();
+    private UserCache userCache;
+    
+    public UserServiceImpl() {
+        saltSource = new ReflectionSaltSource();
+        ((ReflectionSaltSource)saltSource).setUserPropertyToUse("getUsername");
+        passwordEncoder = new Md5PasswordEncoder();
+        userCache = new NullUserCache();
+    }
 
     @Autowired(required = false)
     public void setUserCache(UserCache userCache) {
@@ -73,8 +78,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Autowired
-    protected void setDao(UserDao dao) {
-        this.dao = dao;
+    public void setUserDao(UserDao userDao) {
+        this.dao = userDao;
     }
 
     @Autowired
@@ -168,7 +173,7 @@ public class UserServiceImpl implements UserService {
 
         User user = dao.find(username);
         if (user != null) {
-            dao.delete((User) user);
+            dao.delete(username);
         }
 
         userCache.removeUserFromCache(username);
@@ -252,10 +257,8 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(readOnly = false)
     public void deleteGroup(String groupName) {
-        Assert.hasText(groupName);
-
-        Group group = groupDao.find(groupName);
-        groupDao.delete(group);
+        Assert.hasText(groupName);        
+        groupDao.delete(groupName);
     }
 
     @Transactional(readOnly = true)
@@ -318,15 +321,22 @@ public class UserServiceImpl implements UserService {
         group.setName(newName);
         groupDao.update(group);
     }
-
+    
+    @Override
     @Transactional(readOnly = false)
-    public String save(User user) {
+    public User save(User user) {
+        createUser(user);
+        return user;
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void saveOrUpdate(User user) {
         if (user.getId() == null || dao.load(user.getUsername()) == null) {
             createUser(user);
         } else {
             updateUser(user);
-        }
-        return user.getUsername();
+        }       
     }
 
     @Transactional(readOnly = false)
@@ -361,5 +371,9 @@ public class UserServiceImpl implements UserService {
 
     public void deleteMembership(String username, String groupName, String role) {
         this.removeUserFromGroup(username, groupName);
+    }
+
+    public Group findGroup(String identifier) {
+        return groupDao.find(identifier);
     }
 }

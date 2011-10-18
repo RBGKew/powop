@@ -11,6 +11,15 @@
   <definition name="index" extends="base">
     <put-attribute name="body" value="/WEB-INF/tiles/tiles/index.jsp" />
   </definition>
+  <definition name="register" extends="base">
+    <put-attribute name="body" value="/WEB-INF/tiles/tiles/register.jsp" />
+  </definition>
+  <definition name="login" extends="base">
+    <put-attribute name="body" value="/WEB-INF/tiles/tiles/login.jsp" />
+  </definition>
+  <definition name="accessDenied" extends="base">    
+    <put-attribute name="body" value="/WEB-INF/tiles/tiles/accessDenied.jsp" />
+  </definition>
   <definition name="taxonPage" extends="base">    
     <put-attribute name="body" value="/WEB-INF/tiles/tiles/taxonPage.jsp" />
   </definition>
@@ -19,5 +28,8 @@
   </definition>
   <definition name="searchResponse" extends="base">    
     <put-attribute name="body" value="/WEB-INF/tiles/tiles/searchResponse.jsp" />
+  </definition>
+  <definition name="userPage" extends="base">    
+    <put-attribute name="body" value="/WEB-INF/tiles/tiles/userPage.jsp" />
   </definition>
 </tiles-definitions>

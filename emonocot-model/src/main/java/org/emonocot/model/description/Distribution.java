@@ -7,7 +7,7 @@ import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.emonocot.model.common.Base;
+import org.emonocot.model.common.BaseData;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.hibernate.DistributionBridge;
 import org.emonocot.model.marshall.json.GeographicalRegionDeserializer;
@@ -28,7 +28,7 @@ import org.hibernate.search.annotations.Indexed;
 @ClassBridge(name = "geographicalRegion",
         impl = DistributionBridge.class,
         index = Index.UN_TOKENIZED)
-public class Distribution extends Base {
+public class Distribution extends BaseData {
 
     /**
      *

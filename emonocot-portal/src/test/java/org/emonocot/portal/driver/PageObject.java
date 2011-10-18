@@ -1,6 +1,12 @@
 package org.emonocot.portal.driver;
 
+import java.util.List;
+
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 
 /**
@@ -11,6 +17,12 @@ import org.openqa.selenium.support.PageFactory;
 public abstract class PageObject {
 
     /**
+    *
+    */
+   @FindBy(how = How.TAG_NAME, using = "a")
+   private List<WebElement> links;
+
+    /**
      *
      */
     private WebDriver webDriver;
@@ -19,6 +31,11 @@ public abstract class PageObject {
     *
     */
    private String baseUri;
+
+   /**
+    *
+    */
+   protected TestDataManager testDataManager;
 
     /**
      *
@@ -51,8 +68,15 @@ public abstract class PageObject {
      */
     protected <T extends PageObject> T openAs(String address, Class<T> pageClass) {
         open(address);
+        if (webDriver.getCurrentUrl().startsWith(getBaseUri()  + "login")) {
+            LoginPage loginPage = pageObjectInstance(LoginPage.class);
+            loginPage.setBaseUri(baseUri);
+            loginPage.testDataManager = this.testDataManager;
+            throw new RequiresLoginException(loginPage);
+        }
         T pageObject = pageObjectInstance(pageClass);
         pageObject.setBaseUri(baseUri);
+        pageObject.testDataManager = this.testDataManager;
         return pageObject;
     }
 
@@ -82,6 +106,25 @@ public abstract class PageObject {
             webDriver = new WebDriverFacade().getWebDriver();
         } catch (Exception e) {
             throw new IllegalStateException(e);
+        }
+    }
+
+    /**
+     *
+     * @return the web driver
+     */
+    public final WebDriver getWebDriver() {
+        return webDriver;
+    }
+
+    /**
+     * Assumption that we're handling authentication via
+     * tomcat and using Cookies.
+     */
+    public final void disableAuthentication() {
+        Cookie cookie = webDriver.manage().getCookieNamed("jsessionid");
+        if (cookie != null) {
+            webDriver.manage().deleteCookie(cookie);
         }
     }
 }

@@ -25,7 +25,7 @@ public class UserServiceImplTest {
         saltSource.setUserPropertyToUse("getUsername");
         userService.setSaltSource(saltSource);
         userDao = EasyMock.createMock(UserDao.class);
-        userService.setDao(userDao);
+        userService.setUserDao(userDao);
     }
     
     @Test
@@ -35,7 +35,7 @@ public class UserServiceImplTest {
         User user = new User();
         user.setUsername("test@example.com");
         user.setPassword(password);
-        userDao.save(EasyMock.and(EasyMock.eq(user),EasyMock.capture(capture)));
+        EasyMock.expect(userDao.save(EasyMock.and(EasyMock.eq(user),EasyMock.capture(capture)))).andReturn(user);        
         
         EasyMock.replay(userDao);
         userService.save(user);

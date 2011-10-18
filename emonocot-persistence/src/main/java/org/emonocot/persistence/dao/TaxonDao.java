@@ -2,8 +2,11 @@ package org.emonocot.persistence.dao;
 
 import org.emonocot.model.taxon.Taxon;
 
-public interface TaxonDao extends Dao<Taxon> {
-    
-    boolean verify(String identifer, String scientificName);
+/**
+ *
+ * @author ben
+ *
+ */
+public interface TaxonDao extends SearchableDao<Taxon> {
 
 }

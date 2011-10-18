@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.emonocot.model.common.Base;
+import org.emonocot.model.common.BaseData;
 import org.emonocot.model.taxon.Taxon;
 import org.hibernate.search.annotations.Field;
 
@@ -21,7 +21,7 @@ import org.hibernate.search.annotations.Field;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class Content extends Base {
+public abstract class Content extends BaseData {
 
     /**
      *

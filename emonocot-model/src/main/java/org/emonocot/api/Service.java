@@ -56,28 +56,13 @@ public interface Service<T extends Base> {
    /**
     *
     * @param t The object to save.
-    * @return the id of the object
+    * @return the object
     */
    T save(T t);
 
    /**
-    * @param query
-    *            A lucene query
-    * @param spatialQuery
-    *            A spatial query to filter the results by
-    * @param pageSize
-    *            The maximum number of results to return
-    * @param pageNumber
-    *            The offset (in pageSize chunks, 0-based) from the beginning of
-    *            the recordset
-    * @param facets
-    *            The names of the facets you want to calculate
-    * @param selectedFacets
-    *            A map of facets which you would like to restrict the search by
-    * @return a Page from the resultset
+    *
+    * @param t The object to save.
     */
-   Page<T> search(String query, String spatialQuery, Integer pageSize,
-         Integer pageNumber, FacetName[] facets,
-         Map<FacetName, Integer> selectedFacets,
-         Sorting sort);
+  void saveOrUpdate(T t);
 }

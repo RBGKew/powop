@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.emonocot.api.FacetName;
-import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.pager.Page;
@@ -26,7 +25,7 @@ import org.springframework.stereotype.Repository;
  *
  */
 @Repository
-public class ImageDaoImpl extends DaoImpl<Image> implements ImageDao {
+public class ImageDaoImpl extends SearchableDaoImpl<Image> implements ImageDao {
 	
 	/**
     *

@@ -10,9 +10,11 @@ import org.codehaus.jackson.map.SerializationConfig;
 import org.codehaus.jackson.map.introspect.Annotated;
 import org.codehaus.jackson.map.jsontype.TypeIdResolver;
 import org.codehaus.jackson.map.jsontype.TypeResolverBuilder;
+import org.emonocot.api.GroupService;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.ReferenceService;
 import org.emonocot.api.TaxonService;
+import org.emonocot.api.UserService;
 
 /**
  *
@@ -35,6 +37,30 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
      *
      */
     private ImageService imageService;
+
+    /**
+     *
+     */
+    private UserService userService;
+
+    /**
+     *
+     */
+    private GroupService groupService;
+
+    /**
+     * @param userService the userService to set
+     */
+    public final void setUserService(final UserService userService) {
+        this.userService = userService;
+    }
+
+    /**
+     * @param groupService the groupService to set
+     */
+    public final void setGroupService(final GroupService groupService) {
+        this.groupService = groupService;
+    }
 
     /**
      * @param newReferenceService the referenceService to set
@@ -81,6 +107,18 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
                     = ImageDeserializer.class.newInstance();
                 imageDeserializer.setService(imageService);
                 return imageDeserializer;
+            } else if (jsonDeserializerClass
+                    .equals(UserDeserializer.class)) {
+                UserDeserializer userDeserializer
+                    = UserDeserializer.class.newInstance();
+                userDeserializer.setService(userService);
+                return userDeserializer;
+            } else if (jsonDeserializerClass
+                    .equals(GroupDeserializer.class)) {
+                GroupDeserializer groupDeserializer
+                    = GroupDeserializer.class.newInstance();
+                groupDeserializer.setService(groupService);
+                return groupDeserializer;
             }
         } catch (IllegalAccessException iae) {
             return null;

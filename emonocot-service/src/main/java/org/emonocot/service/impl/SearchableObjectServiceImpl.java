@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
-public class SearchableObjectServiceImpl extends ServiceImpl<SearchableObject, SearchableObjectDao> implements SearchableObjectService {
+public class SearchableObjectServiceImpl extends SearchableServiceImpl<SearchableObject, SearchableObjectDao> implements SearchableObjectService {
 
     @Autowired
     public void setSearchableObjectDao(SearchableObjectDao searchableObjectDao){

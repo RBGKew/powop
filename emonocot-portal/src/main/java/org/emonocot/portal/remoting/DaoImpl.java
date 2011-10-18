@@ -127,6 +127,14 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
         restTemplate.postForObject(baseUri + resourceDir, t, type);
         return t;
     }
+    /**
+     * @param t the object to update
+     */
+    public final void update(final T t) {
+        logger.debug("POST: " + baseUri + resourceDir + "/" + t.getIdentifier());
+        restTemplate.postForObject(
+                baseUri + resourceDir + "/" + t.getIdentifier(), t, type);
+    }
 
     /**
      * @param t the object to save or update

@@ -1,9 +1,11 @@
 package org.emonocot.model.marshall.json;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.emonocot.api.GroupService;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.ReferenceService;
 import org.emonocot.api.TaxonService;
+import org.emonocot.api.UserService;
 import org.springframework.beans.factory.FactoryBean;
 
 /**
@@ -27,6 +29,31 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper>  {
      *
      */
     private ImageService imageService;
+
+    /**
+    *
+    */
+   private UserService userService;
+
+   /**
+    *
+    */
+   private GroupService groupService;
+
+   /**
+    * @param userService the userService to set
+    */
+   public final void setUserService(final UserService userService) {
+       this.userService = userService;
+   }
+
+   /**
+    * @param groupService the groupService to set
+    */
+   public final void setGroupService(final GroupService groupService) {
+       this.groupService = groupService;
+   }
+
 
     /**
     *
@@ -64,6 +91,8 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper>  {
             objectMapper.setTaxonService(taxonService);
             objectMapper.setReferenceService(referenceService);
             objectMapper.setImageService(imageService);
+            objectMapper.setUserService(userService);
+            objectMapper.setGroupService(groupService);
             objectMapper.init();
         }
         return objectMapper;

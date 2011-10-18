@@ -20,6 +20,24 @@
 	<bean name="imageService" class="org.emonocot.service.impl.ImageServiceImpl">
 		<property name="imageDao" ref="imageDaoImpl" />
 	</bean>
+	
+	<bean name="groupService" class="org.emonocot.service.impl.GroupServiceImpl">
+		<property name="groupDao" ref="groupDaoImpl" />
+	</bean>
+	
+	<bean name="userService" class="org.emonocot.service.impl.UserServiceImpl">
+		<property name="userDao" ref="userDaoImpl" />
+	</bean>
+	
+	<bean name="userDaoImpl" class="org.emonocot.portal.remoting.UserDaoImpl">
+		<property name="restTemplate" ref="restTemplate" />
+		<property name="baseUri" value="${functional.test.baseUri}:${functional.test.port}${functional.test.basePath}/" />
+	</bean>
+	
+	<bean name="groupDaoImpl" class="org.emonocot.portal.remoting.GroupDaoImpl">
+		<property name="restTemplate" ref="restTemplate" />
+		<property name="baseUri" value="${functional.test.baseUri}:${functional.test.port}${functional.test.basePath}/" />
+	</bean>
 
 	<bean name="imageDaoImpl" class="org.emonocot.portal.remoting.ImageDaoImpl">
 		<property name="restTemplate" ref="restTemplate" />

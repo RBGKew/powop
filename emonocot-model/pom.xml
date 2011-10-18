@@ -36,6 +36,10 @@
 			<artifactId>org.springframework.beans</artifactId>
 		</dependency>
 		<dependency>
+		  <groupId>org.springframework</groupId>
+		  <artifactId>org.springframework.orm</artifactId>
+	    </dependency>
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>org.springframework.context</artifactId>
 		</dependency>

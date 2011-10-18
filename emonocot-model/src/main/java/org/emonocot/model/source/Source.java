@@ -23,7 +23,7 @@ import org.hibernate.search.annotations.Indexed;
 public class Source implements Serializable {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -2463044801110563816L;
 

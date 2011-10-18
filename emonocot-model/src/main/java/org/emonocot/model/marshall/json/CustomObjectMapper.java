@@ -1,9 +1,11 @@
 package org.emonocot.model.marshall.json;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.emonocot.api.GroupService;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.ReferenceService;
 import org.emonocot.api.TaxonService;
+import org.emonocot.api.UserService;
 
 /**
 *
@@ -23,6 +25,31 @@ public class CustomObjectMapper extends ObjectMapper {
      *
      */
     private ImageService imageService;
+
+    /**
+    *
+    */
+   private UserService userService;
+
+   /**
+    *
+    */
+   private GroupService groupService;
+
+   /**
+    * @param userService the userService to set
+    */
+   public final void setUserService(final UserService userService) {
+       this.userService = userService;
+   }
+
+   /**
+    * @param groupService the groupService to set
+    */
+   public final void setGroupService(final GroupService groupService) {
+       this.groupService = groupService;
+   }
+
     /**
      *
      * @param newReferenceService
@@ -62,6 +89,8 @@ public class CustomObjectMapper extends ObjectMapper {
         handlerInstantiator.setReferenceService(referenceService);
         handlerInstantiator.setTaxonService(taxonService);
         handlerInstantiator.setImageService(imageService);
+        handlerInstantiator.setGroupService(groupService);
+        handlerInstantiator.setUserService(userService);
         setHandlerInstantiator(handlerInstantiator);
         CustomModule module = new CustomModule();
         registerModule(module);

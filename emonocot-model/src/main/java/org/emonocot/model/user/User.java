@@ -14,6 +14,13 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.emonocot.model.marshall.json.GroupDeserializer;
+import org.emonocot.model.marshall.json.GroupSerializer;
+import org.emonocot.model.marshall.json.TaxonDeserializer;
+import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.springframework.security.core.GrantedAuthority;
@@ -78,6 +85,7 @@ public class User extends Principal implements UserDetails {
     /**
      * @return the username
      */
+    @JsonIgnore
     @Transient
     public String getUsername() {
         return getIdentifier();
@@ -131,6 +139,7 @@ public class User extends Principal implements UserDetails {
     /**
      * @return the authorities associated with the account
      */
+    @JsonIgnore
     @Transient
     public Collection<GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> grantedAuthorities
@@ -186,6 +195,7 @@ public class User extends Principal implements UserDetails {
      *
      * @param username Set the username
      */
+    @JsonIgnore
     public void setUsername(String username) {
         setIdentifier(username);
     }
@@ -202,6 +212,7 @@ public class User extends Principal implements UserDetails {
      *
      * @param groups Set the groups
      */
+    @JsonDeserialize(contentUsing = GroupDeserializer.class)
     public void setGroups(Set<Group> groups) {
         this.groups = groups;
     }
@@ -216,6 +227,7 @@ public class User extends Principal implements UserDetails {
         name = "User_Group",
         joinColumns = { @JoinColumn(name = "User_id") },
         inverseJoinColumns = { @JoinColumn(name = "groups_id") })
+    @JsonSerialize(contentUsing = GroupSerializer.class)
     public Set<Group> getGroups() {
         return groups;
     }

@@ -1,7 +1,6 @@
 package org.emonocot.persistence.dao.hibernate;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.emonocot.api.FacetName;
-import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.model.pager.Page;
 import org.emonocot.model.taxon.Taxon;
@@ -29,7 +27,7 @@ import org.springframework.stereotype.Repository;
  *
  */
 @Repository
-public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
+public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
     private static final DateFormat formatter = new SimpleDateFormat( "yyyy" );
 
     /**
@@ -190,12 +188,6 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
            break;
        }
    }
-
-    public final boolean verify(final String identifer,
-            final String scientificName) {
-        // TODO Auto-generated method stub
-        return false;
-    }
 
     @Override
     protected final Fetch[] getProfile(final String profile) {

@@ -39,12 +39,7 @@ public class EoLTaxonItemValidator implements
      *         null if it is invalid
      */
     public final EoLTaxonItem process(final EoLTaxonItem item) {
-        if (taxonService.verify(item.getIdentifer(),
-                item.getScientificName())) {
-            return item;
-        } else {
-            return null;
-        }
+        return item;
     }
 
     /**
