@@ -1326,4 +1326,11 @@
     <changeSet id="2011-10-18_01" author="annapaola">
       <renameColumn tableName="Source" oldColumnName="name" newColumnName="identifier" columnDataType="varchar(255)"/>
     </changeSet>
+    <changeSet id="2011-10-19_01" author="ben">
+      <insert tableName="Source">
+        <column name="id" valueNumeric="3"/>
+        <column name="identifier" value="CATE-Araceae"/>
+        <column name="uri" value="http://www.cate-araceae.org/checklist.zip"/>
+      </insert>
+    </changeSet>
 </databaseChangeLog>

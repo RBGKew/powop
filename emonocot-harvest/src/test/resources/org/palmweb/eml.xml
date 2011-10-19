@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<eml:eml xmlns:eml="eml://ecoinformatics.org/eml-2.1.0"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:res="eml://ecoinformatics.org/resource-2.1.0"
+	xmlns:acc="eml://ecoinformatics.org/access-2.1.0" xmlns:doc="eml://ecoinformatics.org/documentation-2.1.0"
+	xmlns:prot="eml://ecoinformatics.org/protocol-2.1.0" xmlns:ds="eml://ecoinformatics.org/dataset-2.1.0"
+	xmlns:cit="eml://ecoinformatics.org/literature-2.1.0" xmlns:sw="eml://ecoinformatics.org/software-2.1.0"
+
+	xmlns:physical="eml://ecoinformatics.org/physical-2.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dc="http://purl.org/dc/terms/"
+	xsi:schemaLocation="eml://ecoinformatics.org/eml-2.1.0 https://code.ecoinformatics.org/code/eml/tags/RELEASE_EML_2_1_0/eml.xsd"
+	packageId="http://www.palmweb.org/eml.xml" system="PalmWeb" scope="system">
+
+	<!-- The sheet is concerned with descriptions of datasets only -->
+	<dataset>
+		<alternateIdentifier>1e69d470-bf3c-11e0-962b-0800200c9a66</alternateIdentifier>
+		<title>PalmWeb</title>
+		<!-- The creator is the person who created the resource (not necessarily 
+			the author of this metadata about the resource) -->
+		<!-- Metadata Provider -->
+		
+		<!-- Associated parties-->
+		
+		<!-- Identified in the Other section of the GBIF Extended Metadata Doc -->
+		<pubDate>27/04/2011 16:12:34</pubDate>
+		<!-- Identified in the Other section of the GBIF Extended Metadata Doc -->
+		<!-- This is the RESOURCE language and not the metadata language which 
+			is at the bottom -->
+		<language>English</language>
+		<!-- The brief overview -->
+		<abstract>
+			<para></para>
+		</abstract>
+		<!-- Keywords can optionally reference a thesaurus -->
+		<keywordSet>
+			<keyword>e-Taxonomy</keyword>
+		</keywordSet>
+		<intellectualRights>
+			<para></para>
+		</intellectualRights>
+		<coverage>
+			<geographicCoverage>
+				<geographicDescription>Global</geographicDescription>
+			</geographicCoverage>
+			<temporalCoverage>
+				<singleDateTime>
+					<calendarDate>27/04/2011 16:12:34</calendarDate>
+				</singleDateTime>
+			</temporalCoverage>
+			<taxonomicCoverage>
+				<generalTaxonomicCoverage>Arecaceae</generalTaxonomicCoverage>
+			</taxonomicCoverage>
+		</coverage>
+		<!-- Contact This is mandatory in EML -->
+		
+		<project>
+			<title>PalmWeb</title>
+			<!-- Individuals -->
+			<abstract>An open-access taxonomic web-revision of the Araceae</abstract>
+		</project>
+	</dataset>
+</eml:eml>

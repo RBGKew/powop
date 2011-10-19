@@ -8,6 +8,7 @@ import org.emonocot.model.source.Source;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.api.ReferenceService;
+import org.emonocot.api.SourceService;
 import org.emonocot.api.TaxonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,9 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author ben
  *
  */
-public class ReferenceValidator implements
-        ItemProcessor<Reference, Reference>, StepExecutionListener, ChunkListener,
-        ItemWriteListener<Reference>{
+public class ReferenceValidator implements ItemProcessor<Reference, Reference>,
+        StepExecutionListener, ChunkListener, ItemWriteListener<Reference> {
     /**
      *
      */
@@ -51,28 +51,45 @@ public class ReferenceValidator implements
      *
      */
     private StepExecution stepExecution;
-    
+
     /**
      *
      */
-  private Source source;
-  
+    private Source source;
+
+  /**
+   *
+   */
+  private String sourceName;
+
+  /**
+   *
+   */
+  private SourceService sourceService;
+
   /**
   *
   * @param sourceName Set the id of the source
   */
   public final void setSourceName(String sourceName) {
-    source = new Source();
-    source.setId(Long.parseLong(sourceName));
+    this.sourceName = sourceName;
   }
 
     /**
      *
      */
     @Autowired
-    public final void setTaxonService(TaxonService taxonService) {
-        this.taxonService = taxonService;
+    public final void setSourceService(SourceService sourceService) {
+        this.sourceService = sourceService;
     }
+
+    /**
+    *
+    */
+   @Autowired
+   public final void setTaxonService(TaxonService taxonService) {
+       this.taxonService = taxonService;
+   }
 
     /**
      *
@@ -97,8 +114,8 @@ public class ReferenceValidator implements
             if (persistedReference == null) {
                 // We've not seen this reference before
                 boundReferences.put(reference.getIdentifier(), reference);
-                reference.getSources().add(source);
-                reference.setAuthority(source);
+                reference.getSources().add(getSource());
+                reference.setAuthority(getSource());
                 return reference;
             } else {
                 // We've seen this reference before, but not in this chunk
@@ -141,6 +158,17 @@ public class ReferenceValidator implements
             // We've already returned this object once
             return null;
         }
+    }
+
+    /**
+     *
+     * @return the source
+     */
+    private Source getSource() {
+        if (source == null) {
+            this.source = sourceService.load(sourceName);
+        }
+        return source;
     }
 
     /**

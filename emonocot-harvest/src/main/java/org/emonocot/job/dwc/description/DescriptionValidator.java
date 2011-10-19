@@ -4,6 +4,7 @@ import org.emonocot.job.dwc.NoTaxonException;
 import org.emonocot.model.source.Source;
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.taxon.Taxon;
+import org.emonocot.api.SourceService;
 import org.emonocot.api.TaxonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,19 +35,28 @@ public class DescriptionValidator implements
      *
      */
     private StepExecution stepExecution;
-    
+
     /**
      *
      */
     private Source source;
-    
+
+    /**
+     *
+     */
+    private String sourceName;
+
+    /**
+     *
+     */
+    private SourceService sourceService;
+
     /**
     *
-    * @param souceName Set the id of the source
+    * @param souceName Set the name of the source
     */
     public final void setSourceName(String sourceName) {
-      source = new Source();
-      source.setId(Long.parseLong(sourceName));
+      this.sourceName = sourceName;
     }
 
     /**
@@ -56,6 +66,14 @@ public class DescriptionValidator implements
     public final void setTaxonService(TaxonService taxonService) {
         this.taxonService = taxonService;
     }
+
+    /**
+    *
+    */
+   @Autowired
+   public final void setSourceService(SourceService sourceService) {
+       this.sourceService = sourceService;
+   }
 
     /**
      * @param textContent a textContent object
@@ -87,10 +105,21 @@ public class DescriptionValidator implements
                 return textContent;
             }
         } else {
-            textContent.getSources().add(source);
-            textContent.setAuthority(source);
+            textContent.getSources().add(getSource());
+            textContent.setAuthority(getSource());
             return textContent;
         }
+    }
+
+    /**
+     *
+     * @return the source
+     */
+    private Source getSource() {
+        if (source == null) {
+            this.source = sourceService.load(sourceName);
+        }
+        return source;
     }
 
     /**

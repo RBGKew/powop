@@ -7,7 +7,9 @@ import org.emonocot.model.source.Source;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.common.Base;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
@@ -50,7 +52,12 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
    /**
     *
     */
-   private Source Source = null;
+   private Source source = null;
+
+   /**
+    *
+    */
+   private String sourceName;
 
    /**
     *
@@ -77,11 +84,10 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
 
   /**
    *
-   * @param SourceName Set the id of the Source
+   * @param sourceName Set the name of the Source
    */
-   public final void setSourceName(final String SourceName) {
-     Source = new Source();
-     Source.setId(Long.parseLong(SourceName));
+   public final void setSourceName(final String sourceName) {
+     this.sourceName = sourceName;
    }
 
    /**
@@ -135,7 +141,7 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
             annotation.setJobId(stepExecution.getJobExecutionId());
             annotation.setCode(dwcpe.getCode());
             annotation.setText(dwcpe.getMessage());
-            annotation.setSource(Source);
+            annotation.setSource(getSource());
             annotation.setType(dwcpe.getType());
             String stepName = stepExecution.getStepName();
             if (stepName.equals(PROCESS_CORE_FILE)) {
@@ -161,6 +167,20 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
                 throw new RuntimeException(t);
             }
         }
+    }
+
+    /**
+     *
+     * @return the source
+     */
+    private Source getSource() {
+        if (source == null) {
+            Criteria criteria = getSession().createCriteria(Source.class).add(
+                    Restrictions.eq("identifier", sourceName));
+
+            source = (Source) criteria.uniqueResult();
+        }
+        return source;
     }
 
     /**
@@ -210,7 +230,7 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
             final Annotation annotation = new Annotation();
             annotation.setJobId(stepExecution.getJobExecutionId());
             annotation.setCode("FlatFileParseException");
-            annotation.setSource(Source);
+            annotation.setSource(getSource());
             annotation.setType(AnnotationType.Error);
             annotation.setText(message.toString());
             String stepName = stepExecution.getStepName();

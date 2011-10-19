@@ -11,6 +11,7 @@ import org.emonocot.model.source.Source;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.api.ImageService;
+import org.emonocot.api.SourceService;
 import org.emonocot.api.TaxonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,15 +72,24 @@ public class ImageValidator implements
     /**
      *
      */
-    private Source Source;
+    private Source source;
+
+    /**
+     *
+     */
+    private String sourceName;
+
+    /**
+     *
+     */
+    private SourceService sourceService;
 
    /**
     *
-    * @param SourceName Set the id of the Source
+    * @param sourceName Set the name of the Source
     */
-    public final void setSourceName(String SourceName) {
-      Source = new Source();
-      Source.setId(Long.parseLong(SourceName));
+    public final void setSourceName(String sourceName) {
+      this.sourceName = sourceName;
     }
 
     /**
@@ -89,6 +99,14 @@ public class ImageValidator implements
     public final void setTaxonService(TaxonService taxonService) {
         this.taxonService = taxonService;
     }
+
+   /**
+    *
+    */
+   @Autowired
+   public final void setSourceService(SourceService sourceService) {
+       this.sourceService = sourceService;
+   }
 
     /**
      *
@@ -114,8 +132,8 @@ public class ImageValidator implements
                 // We've not seen this image before
                 boundImages.put(image.getIdentifier(), image);
                 image.getTaxon().getImages().add(image);
-                image.setAuthority(Source);
-                image.getSources().add(Source);
+                image.setAuthority(getSource());
+                image.getSources().add(getSource());
                 logger.info("Adding image " + image.getIdentifier());
                 return image;
             } else {
@@ -174,6 +192,17 @@ public class ImageValidator implements
             logger.info("Skipping image " + image.getIdentifier());
             return null;
         }
+    }
+
+    /**
+     *
+     * @return the source
+     */
+    private Source getSource() {
+        if (source == null) {
+            source = sourceService.load(sourceName);
+        }
+        return source;
     }
 
     /**
