@@ -5,7 +5,9 @@ import static org.junit.Assert.assertNull;
 import java.net.URI;
 
 import org.easymock.EasyMock;
+import org.emonocot.api.SourceService;
 import org.emonocot.api.TaxonService;
+import org.emonocot.model.source.Source;
 import org.emonocot.model.taxon.Taxon;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -44,6 +46,11 @@ public class InvalidCharacterTest {
    private TaxonService taxonService;
 
    /**
+    *
+    */
+   private SourceService sourceService;
+
+   /**
     * @throws Exception if something goes wrong
     */
    @Before
@@ -63,7 +70,10 @@ public class InvalidCharacterTest {
        taxonConcept.setHasName(taxonName);
        taxonName.setAuthorship("\u008A");
        taxonService = EasyMock.createMock(TaxonService.class);
+       sourceService = EasyMock.createMock(SourceService.class);
        processor.setTaxonService(taxonService);
+       processor.setSourceService(sourceService);
+       processor.setSourceName("test");
        processor.beforeStep(new StepExecution("test", new JobExecution(1L)));
    }
 
@@ -73,9 +83,14 @@ public class InvalidCharacterTest {
    @Test
    public final void testSkipDeletedRecord() throws Exception {
        EasyMock.expect(
-               taxonService.load(EasyMock.eq("urn:lsid:example.com:test:123"),
-                       EasyMock.isA(String.class))).andReturn(null);
+               taxonService.find(EasyMock.eq("urn:lsid:example.com:test:123"),
+                       EasyMock.eq("taxon-with-related"))).andReturn(null);
+       EasyMock.expect(
+               sourceService.load(EasyMock.eq("test"))).andReturn(new Source());
+       EasyMock.replay(taxonService, sourceService);
+
        Taxon t = processor.process(record);
        assertNull("Authorship should be null because it contains invalid characters", t.getAuthorship());
+       EasyMock.verify(taxonService, sourceService);
    }
 }
