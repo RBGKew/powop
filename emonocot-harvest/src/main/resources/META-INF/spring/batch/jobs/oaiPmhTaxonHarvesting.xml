@@ -188,6 +188,7 @@
 
     <bean id="taxonItemProcessor" class="org.emonocot.job.checklist.OaiPmhRecordProcessorImpl" scope="step">
       <property name="taxonService" ref="taxonServiceImpl"/>
+      <property name="sourceService" ref="sourceServiceImpl"/>
       <property name="sourceName" value="#{jobParameters['authority.name']}"/>
       <property name="referenceService" ref="referenceServiceImpl"/>
     </bean>

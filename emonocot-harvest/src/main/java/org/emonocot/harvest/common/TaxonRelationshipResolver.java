@@ -7,11 +7,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
-import org.emonocot.model.source.Source;
+import org.emonocot.api.SourceService;
+import org.emonocot.api.TaxonService;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationType;
+import org.emonocot.model.source.Source;
 import org.emonocot.model.taxon.Taxon;
-import org.emonocot.api.TaxonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
@@ -19,7 +20,6 @@ import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.ItemWriteListener;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.tdwg.voc.TaxonRelationshipTerm;
 
 /**
@@ -65,6 +65,11 @@ public abstract class TaxonRelationshipResolver
     */
    protected TaxonService taxonService;
 
+   /**
+    *
+    */
+   private SourceService sourceService;
+
   /**
    *
    */
@@ -72,11 +77,15 @@ public abstract class TaxonRelationshipResolver
 
   /**
    *
-   * @param SourceName Set the id of the Source
    */
-   public final void setSourceName(String sourceName) {
-     source = new Source();
-     source.setId(Long.parseLong(sourceName));
+  private String sourceName;
+
+  /**
+   *
+   * @param sourceName Set the name of the Source
+   */
+   public void setSourceName(String sourceName) {
+     this.sourceName = sourceName;
    }
 
    /**
@@ -84,6 +93,9 @@ public abstract class TaxonRelationshipResolver
     * @return the Source
     */
    protected final Source getSource() {
+       if (source == null) {
+           source = sourceService.load(sourceName);
+       }
        return source;
    }
 
@@ -95,11 +107,19 @@ public abstract class TaxonRelationshipResolver
        this.taxonService = taxonService;
    }
 
+  /**
+   *
+   * @param sourceService Set the source service
+   */
+  public final void setSourceService(final SourceService sourceService) {
+      this.sourceService = sourceService;
+  }
+
    /**
     *
     * @return the inverse relationships
     */
-   public final Map<String,Set<TaxonRelationship>> getInverseRelationships() {
+   public final Map<String, Set<TaxonRelationship>> getInverseRelationships() {
        return inverseRelationships;
    }
 
@@ -128,10 +148,10 @@ public abstract class TaxonRelationshipResolver
                                 getStepExecution().getJobExecutionId());
                         annotation.setCode("Created");
                         annotation.setType(AnnotationType.Create);
-                        annotation.setSource(source);
+                        annotation.setSource(getSource());
                         taxon.getAnnotations().add(annotation);
-                        taxon.getSources().add(source);
-                        taxon.setAuthority(source);
+                        taxon.getSources().add(getSource());
+                        taxon.setAuthority(getSource());
                         taxon.setIdentifier(identifier);
                         logger.info("Didn't find taxon with identifier " + identifier
                                 + " from service returning new taxon");

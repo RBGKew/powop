@@ -90,7 +90,7 @@ public class ChecklistHarvestingJobIntegrationTest {
         Map<String, JobParameter> parameters
             = new HashMap<String, JobParameter>();
         parameters.put("authority.name", new JobParameter(
-                "1"));
+                "test"));
         parameters.put("authority.uri", new JobParameter(
                 "http://build.e-monocot.org/test/oai.xml"));
         parameters.put("authority.last.harvested",

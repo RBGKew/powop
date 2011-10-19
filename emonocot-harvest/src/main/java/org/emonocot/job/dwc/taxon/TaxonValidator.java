@@ -4,6 +4,7 @@ import org.emonocot.model.source.Source;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.taxon.Taxon;
+import org.emonocot.api.SourceService;
 import org.emonocot.api.TaxonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,17 @@ public class TaxonValidator implements ItemProcessor<Taxon, Taxon>,
     /**
      *
      */
-    private Source Source;
+    private Source source;
+
+    /**
+     *
+     */
+    private String sourceName;
+
+    /**
+     *
+     */
+    private SourceService sourceService;
 
     /**
      *
@@ -48,13 +59,20 @@ public class TaxonValidator implements ItemProcessor<Taxon, Taxon>,
         this.taxonService = taxonService;
     }
 
+   /**
+    *
+    */
+   @Autowired
+   public final void setSourceService(SourceService sourceService) {
+       this.sourceService = sourceService;
+   }
+
     /**
     *
-    * @param SourceName Set the id of the Source
+    * @param sourceName Set the name of the Source
     */
-    public final void setSourceName(String SourceName) {
-      Source = new Source();
-      Source.setId(Long.parseLong(SourceName));
+    public final void setSourceName(final String sourceName) {
+      this.sourceName = sourceName;
     }
 
     /**
@@ -96,16 +114,27 @@ public class TaxonValidator implements ItemProcessor<Taxon, Taxon>,
              */
             boolean contains = false;
             for (Source auth : persistedTaxon.getSources()) {
-                if (auth.equals(Source)) {
+                if (auth.equals(getSource())) {
                     contains = true;
                     break;
                 }
             }
             if (!contains) {
-                persistedTaxon.getSources().add(Source);
+                persistedTaxon.getSources().add(getSource());
             }
         }
         return persistedTaxon;
+    }
+
+    /**
+     *
+     * @return the source
+     */
+    private Source getSource() {
+        if (source == null) {
+            source = sourceService.load(sourceName);
+        }
+        return source;
     }
 
     /**

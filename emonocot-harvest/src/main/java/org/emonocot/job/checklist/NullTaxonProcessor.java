@@ -61,12 +61,12 @@ public class NullTaxonProcessor implements ItemProcessor<String, Taxon>,
    /**
     *
     */
-   private String SourceName;
+   private String sourceName;
 
    /**
     *
     */
-   private String SourceUri;
+   private String sourceUri;
 
     /**
      *
@@ -95,7 +95,7 @@ public class NullTaxonProcessor implements ItemProcessor<String, Taxon>,
         Taxon taxon = ((Taxon) taxonService.find(identifier,
                 "taxon-with-related"));
         TaxonConcept taxonConcept = oaiPmhClient.getRecord(
-                identifier, SourceName, SourceUri,
+                identifier, sourceName, sourceUri,
                 temporaryFileName);
         Set<TaxonRelationship> inverseRelationships
             = new HashSet<TaxonRelationship>();
@@ -215,13 +215,13 @@ public class NullTaxonProcessor implements ItemProcessor<String, Taxon>,
      * @param newSourceName the SourceName to set
      */
     public final void setSourceName(final String newSourceName) {
-        this.SourceName = newSourceName;
+        this.sourceName = newSourceName;
     }
 
     /**
      * @param newSourceUri the SourceUri to set
      */
     public final void setSourceUri(final String newSourceUri) {
-        this.SourceUri = newSourceUri;
+        this.sourceUri = newSourceUri;
     }
 }
