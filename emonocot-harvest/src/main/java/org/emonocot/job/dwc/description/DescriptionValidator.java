@@ -1,5 +1,6 @@
 package org.emonocot.job.dwc.description;
 
+import org.emonocot.job.dwc.DarwinCoreValidator;
 import org.emonocot.job.dwc.NoTaxonException;
 import org.emonocot.model.source.Source;
 import org.emonocot.model.description.TextContent;
@@ -19,61 +20,11 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author ben
  *
  */
-public class DescriptionValidator implements
-        ItemProcessor<TextContent, TextContent>, StepExecutionListener {
+public class DescriptionValidator extends DarwinCoreValidator<TextContent> {
     /**
      *
      */
     private Logger logger = LoggerFactory.getLogger(DescriptionValidator.class);
-
-    /**
-     *
-     */
-    private TaxonService taxonService;
-
-    /**
-     *
-     */
-    private StepExecution stepExecution;
-
-    /**
-     *
-     */
-    private Source source;
-
-    /**
-     *
-     */
-    private String sourceName;
-
-    /**
-     *
-     */
-    private SourceService sourceService;
-
-    /**
-    *
-    * @param souceName Set the name of the source
-    */
-    public final void setSourceName(String sourceName) {
-      this.sourceName = sourceName;
-    }
-
-    /**
-     *
-     */
-    @Autowired
-    public final void setTaxonService(TaxonService taxonService) {
-        this.taxonService = taxonService;
-    }
-
-    /**
-    *
-    */
-   @Autowired
-   public final void setSourceService(SourceService sourceService) {
-       this.sourceService = sourceService;
-   }
 
     /**
      * @param textContent a textContent object
@@ -110,31 +61,4 @@ public class DescriptionValidator implements
             return textContent;
         }
     }
-
-    /**
-     *
-     * @return the source
-     */
-    private Source getSource() {
-        if (source == null) {
-            this.source = sourceService.load(sourceName);
-        }
-        return source;
-    }
-
-    /**
-     * @param newStepExecution Set the step execution
-     */
-    public final void beforeStep(final StepExecution newStepExecution) {
-        this.stepExecution = newStepExecution;
-    }
-
-    /**
-     * @param newStepExecution Set the step execution
-     * @return the exit status
-     */
-    public final ExitStatus afterStep(final StepExecution newStepExecution) {
-        return null;
-    }
-
 }

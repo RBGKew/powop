@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.emonocot.job.dwc.DarwinCoreValidator;
 import org.emonocot.model.source.Source;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Taxon;
@@ -25,8 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author ben
  *
  */
-public class ReferenceValidator implements ItemProcessor<Reference, Reference>,
-        StepExecutionListener, ChunkListener, ItemWriteListener<Reference> {
+public class ReferenceValidator extends DarwinCoreValidator<Reference> implements ChunkListener, ItemWriteListener<Reference> {
     /**
      *
      */
@@ -40,56 +40,7 @@ public class ReferenceValidator implements ItemProcessor<Reference, Reference>,
     /**
      *
      */
-    private TaxonService taxonService;
-
-    /**
-     *
-     */
     private ReferenceService referenceService;
-
-    /**
-     *
-     */
-    private StepExecution stepExecution;
-
-    /**
-     *
-     */
-    private Source source;
-
-  /**
-   *
-   */
-  private String sourceName;
-
-  /**
-   *
-   */
-  private SourceService sourceService;
-
-  /**
-  *
-  * @param sourceName Set the id of the source
-  */
-  public final void setSourceName(String sourceName) {
-    this.sourceName = sourceName;
-  }
-
-    /**
-     *
-     */
-    @Autowired
-    public final void setSourceService(SourceService sourceService) {
-        this.sourceService = sourceService;
-    }
-
-    /**
-    *
-    */
-   @Autowired
-   public final void setTaxonService(TaxonService taxonService) {
-       this.taxonService = taxonService;
-   }
 
     /**
      *
@@ -160,31 +111,8 @@ public class ReferenceValidator implements ItemProcessor<Reference, Reference>,
         }
     }
 
-    /**
-     *
-     * @return the source
-     */
-    private Source getSource() {
-        if (source == null) {
-            this.source = sourceService.load(sourceName);
-        }
-        return source;
-    }
+    
 
-    /**
-     * @param newStepExecution Set the step execution
-     */
-    public final void beforeStep(final StepExecution newStepExecution) {
-        this.stepExecution = newStepExecution;
-    }
-
-    /**
-     * @param newStepExecution Set the step execution
-     * @return the exit status
-     */
-    public final ExitStatus afterStep(final StepExecution newStepExecution) {
-        return null;
-    }
 
     /**
      * @param images the list of references written

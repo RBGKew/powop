@@ -1,5 +1,6 @@
 package org.emonocot.job.dwc.taxon;
 
+import org.emonocot.job.dwc.DarwinCoreValidator;
 import org.emonocot.model.source.Source;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationType;
@@ -19,61 +20,11 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author ben
  *
  */
-public class TaxonValidator implements ItemProcessor<Taxon, Taxon>,
-        StepExecutionListener {
+public class TaxonValidator extends DarwinCoreValidator<Taxon> {
     /**
      *
      */
     private Logger logger = LoggerFactory.getLogger(TaxonValidator.class);
-
-    /**
-     *
-     */
-    private TaxonService taxonService;
-
-    /**
-     *
-     */
-    private StepExecution stepExecution;
-
-    /**
-     *
-     */
-    private Source source;
-
-    /**
-     *
-     */
-    private String sourceName;
-
-    /**
-     *
-     */
-    private SourceService sourceService;
-
-    /**
-     *
-     */
-    @Autowired
-    public final void setTaxonService(TaxonService taxonService) {
-        this.taxonService = taxonService;
-    }
-
-   /**
-    *
-    */
-   @Autowired
-   public final void setSourceService(SourceService sourceService) {
-       this.sourceService = sourceService;
-   }
-
-    /**
-    *
-    * @param sourceName Set the name of the Source
-    */
-    public final void setSourceName(final String sourceName) {
-      this.sourceName = sourceName;
-    }
 
     /**
      * @param taxon a taxon object
@@ -85,7 +36,7 @@ public class TaxonValidator implements ItemProcessor<Taxon, Taxon>,
         if (taxon.getIdentifier() == null) {
             throw new NoIdentifierException(taxon);
         }
-        Taxon persistedTaxon = taxonService.find(taxon.getIdentifier());
+        Taxon persistedTaxon = getTaxonService().find(taxon.getIdentifier());
         if (persistedTaxon == null) {
             throw new CannotFindRecordException(taxon.getIdentifier());
         }
@@ -93,7 +44,7 @@ public class TaxonValidator implements ItemProcessor<Taxon, Taxon>,
         boolean anAnnotationPresent = false;
         for (Annotation annotation : persistedTaxon.getAnnotations()) {
             if (annotation.getJobId().equals(
-                    stepExecution.getJobExecutionId())) {
+                    getStepExecution().getJobExecutionId())) {
                 if (annotation.getType().equals(AnnotationType.Present)) {
                     throw new TaxonAlreadyProcessedException("Taxon "
                             + taxon.getIdentifier()
@@ -125,31 +76,4 @@ public class TaxonValidator implements ItemProcessor<Taxon, Taxon>,
         }
         return persistedTaxon;
     }
-
-    /**
-     *
-     * @return the source
-     */
-    private Source getSource() {
-        if (source == null) {
-            source = sourceService.load(sourceName);
-        }
-        return source;
-    }
-
-    /**
-     * @param newStepExecution Set the step execution
-     */
-    public final void beforeStep(final StepExecution newStepExecution) {
-        this.stepExecution = newStepExecution;
-    }
-
-    /**
-     * @param newStepExecution Set the step execution
-     * @return the exit status
-     */
-    public final ExitStatus afterStep(final StepExecution newStepExecution) {
-        return null;
-    }
-
 }

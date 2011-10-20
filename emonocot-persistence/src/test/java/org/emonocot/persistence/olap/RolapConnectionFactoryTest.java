@@ -7,30 +7,22 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-import java.util.concurrent.Callable;
-
 import javax.sql.DataSource;
 
 import mondrian.olap.Axis;
-import mondrian.olap.Cell;
 import mondrian.olap.Connection;
 import mondrian.olap.DriverManager;
-import mondrian.olap.Position;
 import mondrian.olap.Query;
 import mondrian.olap.Result;
 import mondrian.olap.Util.PropertyList;
+import mondrian.rolap.RolapConnection;
 import mondrian.rolap.RolapConnectionProperties;
 
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.Region;
-import org.emonocot.model.media.Image;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.AbstractPersistenceTest;
-import org.emonocot.persistence.dao.TaxonDao;
-import org.hibernate.Session;
-import org.hibernate.search.FullTextSession;
-import org.hibernate.search.Search;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,30 +32,14 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author jk00kg
  *
  */
-public class DriverManagerTest extends AbstractPersistenceTest {
+public class RolapConnectionFactoryTest extends AbstractPersistenceTest {
 
-    /**
-     *
-     */
-    private PropertyList properties;
-    /**
-     *
-     */
+    private RolapConnectionFactory rolapConnectionFactory;
+    
+    @Autowired
     private DataSource dataSource;
 
-    /**
-     *
-     */
-    private Connection connection;
-
-    /**
-     * @param newDataSource
-     *            the dataSource to set
-     */
-    @Autowired
-    public final void setDataSource(final DataSource newDataSource) {
-        this.dataSource = newDataSource;
-    }
+    
 
     /**
      * @throws java.lang.Exception if there is a problem
@@ -71,12 +47,10 @@ public class DriverManagerTest extends AbstractPersistenceTest {
     @Before
     public final void setUp() throws Exception {
         super.doSetUp();
-        // Catalog name needs to be given from root directory/webapp root
-        properties = new PropertyList();
-        properties.put(RolapConnectionProperties.Catalog.name(),
-                "target/test-classes/testMondrianSchema.xml");
-        properties.put(RolapConnectionProperties.PoolNeeded.name(), "true");
-
+        rolapConnectionFactory = new RolapConnectionFactory();
+        rolapConnectionFactory.setDataSource(dataSource);
+        rolapConnectionFactory.setCatalogName("target/classes/olap.xml");
+        rolapConnectionFactory.setPoolNeeded(Boolean.TRUE);
     }
     /**
      * @throws java.lang.Exception if there is a problem
@@ -117,21 +91,20 @@ public class DriverManagerTest extends AbstractPersistenceTest {
      *
      */
     @Test
-    public final void createMondrianConnectionTest() {
-        if (dataSource == null) {
-            fail("The context hasn't loaded");
+    public final void createConnection() {
+        try {
+          assertNotNull("The connection should not be null", rolapConnectionFactory.getObject());
+        } catch(Exception e) {
+            fail("No exception expected here");
         }
-        connection = DriverManager.getConnection(properties, null, dataSource);
-        assertNotNull("The connection should not be null", connection);
     }
 
     /**
      *
      */
     @Test
-    public final void queryTest() {
-        connection = DriverManager.getConnection(properties, null, dataSource);
-        assertNotNull("The connection should not be null", connection);
+    public final void queryTest() throws Exception {
+        Connection connection = rolapConnectionFactory.getObject();
         Query query = connection
                 .parseQuery("SELECT {[Measures].[number harvested]} on COLUMNS,"
                     + " {[taxa].[family].members} on ROWS" + " FROM harvest");

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.emonocot.job.dwc.DarwinCoreValidator;
 import org.emonocot.model.source.Source;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.taxon.Taxon;
@@ -41,9 +42,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author ben
  *
  */
-public class ImageValidator implements
-        ItemProcessor<Image, Image>, StepExecutionListener, ChunkListener,
-        ItemWriteListener<Image> {
+public class ImageValidator extends DarwinCoreValidator<Image> implements
+        ChunkListener, ItemWriteListener<Image> {
     /**
      *
      */
@@ -57,57 +57,8 @@ public class ImageValidator implements
     /**
      *
      */
-    private TaxonService taxonService;
-
-    /**
-     *
-     */
     private ImageService imageService;
-
-    /**
-     *
-     */
-    private StepExecution stepExecution;
-
-    /**
-     *
-     */
-    private Source source;
-
-    /**
-     *
-     */
-    private String sourceName;
-
-    /**
-     *
-     */
-    private SourceService sourceService;
-
-   /**
-    *
-    * @param sourceName Set the name of the Source
-    */
-    public final void setSourceName(String sourceName) {
-      this.sourceName = sourceName;
-    }
-
-    /**
-     *
-     */
-    @Autowired
-    public final void setTaxonService(TaxonService taxonService) {
-        this.taxonService = taxonService;
-    }
-
-   /**
-    *
-    */
-   @Autowired
-   public final void setSourceService(SourceService sourceService) {
-       this.sourceService = sourceService;
-   }
-
+   
     /**
      *
      */
@@ -192,32 +143,6 @@ public class ImageValidator implements
             logger.info("Skipping image " + image.getIdentifier());
             return null;
         }
-    }
-
-    /**
-     *
-     * @return the source
-     */
-    private Source getSource() {
-        if (source == null) {
-            source = sourceService.load(sourceName);
-        }
-        return source;
-    }
-
-    /**
-     * @param newStepExecution Set the step execution
-     */
-    public final void beforeStep(final StepExecution newStepExecution) {
-        this.stepExecution = newStepExecution;
-    }
-
-    /**
-     * @param newStepExecution Set the step execution
-     * @return the exit status
-     */
-    public final ExitStatus afterStep(final StepExecution newStepExecution) {
-        return null;
     }
 
     /**

@@ -41,19 +41,18 @@ xsi:schemaLocation="http://rs.tdwg.org/dwc/text/   http://rs.tdwg.org/dwc/text/t
     <field default="Content licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License"            term="http://purl.org/dc/terms/rights"/>
     <field default="Plantae" term="http://rs.tdwg.org/dwc/terms/kingdom"/>
     <field default="Magnoliophyta" term="http://rs.tdwg.org/dwc/terms/phylum"/>
-    <field default="Commelinids" term="http://rs.tdwg.org/dwc/terms/class"/>
 
-    <field default="Arecales" term="http://rs.tdwg.org/dwc/terms/order"/>
+    <field default="Alismatales" term="http://rs.tdwg.org/dwc/terms/order"/>
 
-    <field default="Arecaceae" term="http://rs.tdwg.org/dwc/terms/family"/>
+    <field default="Araceae" term="http://rs.tdwg.org/dwc/terms/family"/>
 
     <field default="ICBN" term="http://rs.tdwg.org/dwc/terms/nomenclaturalCode"/>
 
     <field default="Taxon" term="http://rs.tdwg.org/dwc/terms/type"/>
 
-    <field default="PalmWeb" term="http://rs.tdwg.org/dwc/terms/datasetName"/>
+    <field default="CATE-Araceae" term="http://rs.tdwg.org/dwc/terms/datasetName"/>
 
-    <field default="http://www.palmweb.org" term="http://rs.tdwg.org/dwc/terms/datasetID"/>
+    <field default="http://www.cate-araceae.org" term="http://rs.tdwg.org/dwc/terms/datasetID"/>
 
   </core>
 
@@ -82,7 +81,7 @@ xsi:schemaLocation="http://rs.tdwg.org/dwc/text/   http://rs.tdwg.org/dwc/text/t
     <field index="8" term="http://purl.org/dc/terms/relationID"/>
     <field default="Content licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License"                       term="http://purl.org/dc/terms/license"/>
     <field default="EN" term="http://purl.org/dc/terms/language"/>
-    <field default="Palmweb 2011. Palmweb: Palms of the World Online. Published onthe internet http://www.palmweb.org. Accessed on 18/07/2011."                       term="http://purl.org/dc/terms/bibliographicCitation"/>
+    <field default="Haigh, A., Clark, B., Reynolds, L., Mayo, S.J., Croat, T.B., Lay, L., Boyce, P.C., Mora, M., Bogner, J., Sellaro, M., Wong, S.Y., Kostelac, C., Grayum, M.H., Keating, R.C., Ruckert, G., Naylor, M.F. & Hay, A., CATE Araceae. CATE Araceae, CATE Araceae Team. http://www.cate-araceae.org?view=8565a980-af6c-464a-8d53-7986e8aa5edb (accessed October 20,2011)"                       term="http://purl.org/dc/terms/bibliographicCitation"/>
   </extension>
 
   <extension
