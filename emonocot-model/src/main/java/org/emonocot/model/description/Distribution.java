@@ -1,18 +1,27 @@
 package org.emonocot.model.description;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.BaseData;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.hibernate.DistributionBridge;
 import org.emonocot.model.marshall.json.GeographicalRegionDeserializer;
 import org.emonocot.model.taxon.Taxon;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.Where;
 import org.hibernate.search.annotations.ClassBridge;
 import org.hibernate.search.annotations.ContainedIn;
 import org.hibernate.search.annotations.Index;
@@ -46,6 +55,11 @@ public class Distribution extends BaseData {
     private GeographicalRegion region;
 
     /**
+    *
+    */
+   private Set<Annotation> annotations = new HashSet<Annotation>();
+
+    /**
      * Set the lowest level this georegion is concerned with.
      *
      * @param geoRegion
@@ -73,6 +87,26 @@ public class Distribution extends BaseData {
    @JsonIgnore
    public void setTaxon(Taxon newTaxon) {
        this.taxon = newTaxon;
+   }
+
+   /**
+    * @return the annotations
+    */
+   @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+   @JoinColumn(name = "annotatedObjId")
+   @Where(clause = "annotatedObjType = 'Distribution'")
+   @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+   @JsonIgnore
+   public Set<Annotation> getAnnotations() {
+       return annotations;
+   }
+
+   /**
+    * @param annotations
+    *            the annotations to set
+    */
+   public void setAnnotations(Set<Annotation> annotations) {
+       this.annotations = annotations;
    }
 
   /**

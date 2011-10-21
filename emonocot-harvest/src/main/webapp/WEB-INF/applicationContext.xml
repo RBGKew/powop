@@ -18,6 +18,11 @@
     <context:component-scan base-package="org.emonocot.persistence.dao.hibernate"/>
     
     <tx:annotation-driven/>
+    	
+	<bean id="validator"
+      class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+      
+      <!-- TODO Add conversion service -->
     
     <bean name="hibernateSearchIndexPurger"
 		class="org.emonocot.persistence.hibernate.HibernateSearchIndexPurger"

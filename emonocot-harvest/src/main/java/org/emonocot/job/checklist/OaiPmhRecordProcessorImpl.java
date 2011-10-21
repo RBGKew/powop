@@ -4,27 +4,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Pattern;
 
+import org.emonocot.api.ReferenceService;
 import org.emonocot.harvest.common.TaxonRelationship;
 import org.emonocot.harvest.common.TaxonRelationshipResolver;
-import org.emonocot.model.source.Source;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.geography.GeographicalRegion;
-import org.emonocot.model.geography.GeographyConverter;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.model.reference.ReferenceType;
-import org.emonocot.model.reference.ReferenceTypeConverter;
+import org.emonocot.model.source.Source;
 import org.emonocot.model.taxon.Rank;
-import org.emonocot.model.taxon.RankConverter;
 import org.emonocot.model.taxon.Taxon;
-import org.emonocot.api.ReferenceService;
 import org.openarchives.pmh.Record;
 import org.openarchives.pmh.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.convert.converter.Converter;
+import org.springframework.core.convert.ConversionException;
+import org.springframework.core.convert.ConversionService;
 import org.tdwg.voc.DefinedTermLinkType;
 import org.tdwg.voc.Distribution;
 import org.tdwg.voc.InfoItem;
@@ -43,34 +40,16 @@ import org.tdwg.voc.TaxonRelationshipTerm;
  */
 public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
     implements OaiPmhRecordProcessor {
-    /**
-     *  TODO Replace when http://build.e-monocot.org/bugzilla/show_bug.cgi?id=101
-     *  is resolved.
-     */
-    static Pattern illegalCharacters = Pattern.compile("([\\xC2\\x8A])");
 
    /**
     *
     */
     private Logger logger
         = LoggerFactory.getLogger(OaiPmhRecordProcessorImpl.class);
-
     /**
      *
      */
-    private Converter<String, GeographicalRegion>
-        geographyConverter = new GeographyConverter();
-
-    /**
-     *
-     */
-    private Converter<String, ReferenceType>
-        referenceTypeConverter = new ReferenceTypeConverter();
-
-    /**
-     *
-     */
-    private Converter<String, Rank> rankConverter = new RankConverter();
+    private ConversionService conversionService;
 
     /**
      *
@@ -90,6 +69,32 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
     public final void setReferenceService(ReferenceService referenceService) {
         this.referenceService = referenceService;
     }
+
+    /**
+    *
+    * @param conversionService Set the conversion service
+    */
+   public final void setConversionService(ConversionService conversionService) {
+       this.conversionService = conversionService;
+   }
+
+   /**
+    *
+    * @param type Set the object type
+    * @param code Set the annotation code
+    * @param annotationType set the annotation type
+    * @return an Annotation
+    */
+    private Annotation addAnnotation(final String type, final String code,
+            final AnnotationType annotationType) {
+       Annotation annotation = new Annotation();
+       annotation.setAnnotatedObjType(type);
+       annotation.setJobId(getStepExecution().getJobExecutionId());
+       annotation.setCode(code);
+       annotation.setType(annotationType);
+       annotation.setSource(getSource());
+       return annotation;
+   }
 
     /**
      * @param record an OAI-PMH Record object
@@ -112,13 +117,9 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
                 taxon = new Taxon();
                 TaxonConcept taxonConcept = record.getMetadata()
                         .getTaxonConcept();
-                Annotation annotation = new Annotation();
-                annotation.setAnnotatedObjType("Taxon");
-                annotation.setJobId(getStepExecution().getJobExecutionId());
-                annotation.setCode("Created");
-                annotation.setType(AnnotationType.Create);
-                annotation.setSource(getSource());
-                taxon.getAnnotations().add(annotation);
+                taxon.getAnnotations()
+                        .add(addAnnotation("Taxon", "Created",
+                                AnnotationType.Create));
                 taxon.getSources().add(getSource());
                 taxon.setAuthority(getSource());
                 taxon.setIdentifier(taxonConcept.getIdentifier().toString());
@@ -133,13 +134,9 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
             } else {
                 TaxonConcept taxonConcept = record.getMetadata()
                 .getTaxonConcept();
-                Annotation annotation = new Annotation();
-                annotation.setAnnotatedObjType("Taxon");
-                annotation.setJobId(getStepExecution().getJobExecutionId());
-                annotation.setType(AnnotationType.Update);
-                annotation.setCode("Updated");
-                annotation.setSource(getSource());
-                taxon.getAnnotations().add(annotation);
+
+                taxon.getAnnotations().add(addAnnotation("Taxon", "Updated",
+                        AnnotationType.Update));
                 /**
                  * Using java.util.Collection.contains() does not work on lazy
                  * collections.
@@ -176,31 +173,14 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
             TaxonName taxonName = taxonConcept.getHasName();
             logger.info(taxonName.getNameComplete());
             taxon.setName(taxonName.getNameComplete());
-            /**
-             *  TODO Replace when http://build.e-monocot.org/bugzilla/show_bug.cgi?id=101
-             *  is resolved.
-             */
-            if (taxonName.getAuthorship() != null && illegalCharacters.matcher(taxonName.getAuthorship()).matches()) {
-                Annotation annotation = new Annotation();
-                annotation.setAnnotatedObjType("Taxon");
-                annotation.setJobId(getStepExecution().getJobExecutionId());
-                annotation.setType(AnnotationType.Warn);
-                annotation.setCode("authorship");
-                annotation.setText("Contains illegal characters");
-                annotation.setSource(getSource());
-                taxon.getAnnotations().add(annotation);
-            } else {
-                taxon.setAuthorship(taxonName.getAuthorship());
-            }
-            taxon.setBasionymAuthorship(
-                    taxonName.getBasionymAuthorship());
+            taxon.setAuthorship(taxonName.getAuthorship());
+            taxon.setBasionymAuthorship(taxonName.getBasionymAuthorship());
             taxon.setFamily(taxonName.getFamily());
             taxon.setUninomial(taxonName.getUninomial());
             taxon.setGenus(taxonName.getGenusPart());
-            taxon.setSpecificEpithet(
-                    taxonName.getSpecificEpithet());
-            taxon.setInfraSpecificEpithet(
-                    taxonName.getInfraSpecificEpithet());
+            taxon.setSpecificEpithet(taxonName.getSpecificEpithet());
+            taxon.setInfraSpecificEpithet(taxonName.getInfraSpecificEpithet());
+            taxon.setProtologueMicroReference(taxonName.getMicroReference());
             if (taxonName.getPublishedInCitations() != null
                     && !taxonName.getPublishedInCitations().isEmpty()) {
                 PublicationCitation protologue = taxonName
@@ -218,6 +198,7 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
                     // We've not seen this before
                     reference = new Reference();
                     reference.setIdentifier(referenceIdentifier);
+                    reference.getAnnotations().add(addAnnotation("Reference","Created",AnnotationType.Create));
                     referencesWithinChunk.put(referenceIdentifier, reference);
                 }
                 // TODO Created / modified dates on publications? Bridge too far?
@@ -228,26 +209,24 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
                 if (protologue.getPublicationType() != null
                         && protologue.getPublicationType()
                         .getIdentifier() != null) {
-                    reference.setType(referenceTypeConverter.convert(protologue
-                            .getPublicationType().getIdentifier().toString()));
+                    try {
+                        reference.setType(conversionService.convert(protologue
+                                .getPublicationType().getIdentifier()
+                                .toString(), ReferenceType.class));
+                    } catch (ConversionException ce) {
+                        reference.getAnnotations().add(
+                                addAnnotation("Reference", "type", ce));
+                    }
                 }
                 taxon.setProtologue(reference);
 
             }
             try {
-                taxon.setRank(rankConverter.convert(
-                        taxonName.getRankString()));
-            } catch (IllegalArgumentException iae) {
-                Annotation annotation = new Annotation();
-                annotation.setAnnotatedObjType("Taxon");
-                annotation.setJobId(getStepExecution().getJobExecutionId());
-                annotation.setType(AnnotationType.Warn);
-                annotation.setCode("rank");
-                annotation.setText(iae.getMessage());
-                annotation.setSource(getSource());
-                taxon.getAnnotations().add(annotation);
+                taxon.setRank(conversionService.convert(
+                        taxonName.getRankString(), Rank.class));
+            } catch (ConversionException ce) {
+                taxon.getAnnotations().add(addAnnotation("Taxon", "rank", ce));
             }
-
         } else {
             taxon.setName(taxonConcept.getTitle());
         }
@@ -288,7 +267,21 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
         }
     }
 
-   /**
+    /**
+     *
+     * @param type Set the type of object
+     * @param property Set the property
+     * @param exception Set the exception
+     * @return an annotation
+     */
+   private Annotation addAnnotation(final String type, final String property,
+            final ConversionException exception) {
+        Annotation a = addAnnotation(type, property, AnnotationType.Warn);
+        a.setText(exception.getMessage());
+        return a;
+    }
+
+/**
     *
     */
     @Override
@@ -337,14 +330,9 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
             taxonRelationship.setToIdentifier(identifier);
             addTaxonRelationship(taxonRelationship, identifier);
         } else {
-            Annotation annotation = new Annotation();
-            annotation.setAnnotatedObjType("Taxon");
-            annotation.setJobId(getStepExecution().getJobExecutionId());
-            annotation.setType(AnnotationType.Warn);
-            annotation.setCode("related");
+            Annotation annotation = addAnnotation("Taxon","related",AnnotationType.Warn);
             annotation.setText("Could not find identifier for relationship of taxon "
                     + taxon.getIdentifier());
-            annotation.setSource(getSource());
             taxon.getAnnotations().add(annotation);
         }
     }
@@ -360,29 +348,31 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
         // TODO - what if there are no terms or multiple terms - throw an error?
         GeographicalRegion region = null;
         if (hasValueRelation == null || hasValueRelation.isEmpty()) {
-            Annotation annotation = new Annotation();
-            annotation.setAnnotatedObjType("Taxon");
-            annotation.setJobId(getStepExecution().getJobExecutionId());
-            annotation.setType(AnnotationType.Warn);
-            annotation.setCode("distribution");
+            Annotation annotation = addAnnotation("Taxon", "distribution",
+                    AnnotationType.Warn);
             annotation.setText("No geographical term returned"
                     + taxon.getIdentifier());
-            annotation.setSource(getSource());
             taxon.getAnnotations().add(annotation);
             return null;
         }
         DefinedTermLinkType definedTermLinkType = hasValueRelation.iterator()
                 .next();
+        String id = null;
         if (definedTermLinkType.getDefinedTerm() != null) {
-            region = geographyConverter.convert(definedTermLinkType
-                    .getDefinedTerm().getIdentifier().toString());
+            id = definedTermLinkType
+                    .getDefinedTerm().getIdentifier().toString();
         } else if (definedTermLinkType.getResource() != null) {
-            region = geographyConverter.convert(definedTermLinkType
-                    .getResource().toString());
+            id = definedTermLinkType
+                    .getResource().toString();
         }
         org.emonocot.model.description.Distribution distribution
            = new org.emonocot.model.description.Distribution();
-        distribution.setRegion(region);
+        try {
+            distribution.setRegion(conversionService.convert(id,
+                    GeographicalRegion.class));
+        } catch (ConversionException ce) {
+            distribution.getAnnotations().add(addAnnotation("Distribution", "type", ce));
+        }
         logger.info("Resolving " + definedTermLinkType
                 + " returning " + region);
         return distribution;

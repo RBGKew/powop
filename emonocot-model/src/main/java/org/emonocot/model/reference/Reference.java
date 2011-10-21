@@ -5,15 +5,19 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.BaseData;
 import org.emonocot.model.hibernate.DatePublishedBridge;
 import org.emonocot.model.taxon.Taxon;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Where;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.FieldBridge;
 import org.hibernate.search.annotations.Indexed;
@@ -76,6 +80,11 @@ public class Reference extends BaseData {
      *
      */
     private Set<Taxon> taxa = new HashSet<Taxon>();
+
+   /**
+    *
+    */
+   private Set<Annotation> annotations = new HashSet<Annotation>();
 
     /**
      *
@@ -230,6 +239,26 @@ public class Reference extends BaseData {
      */
     public void setTaxa(Set<Taxon> taxa) {
         this.taxa = taxa;
+    }
+
+    /**
+     * @return the annotations
+     */
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "annotatedObjId")
+    @Where(clause = "annotatedObjType = 'Reference'")
+    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+    @JsonIgnore
+    public Set<Annotation> getAnnotations() {
+        return annotations;
+    }
+
+    /**
+     * @param annotations
+     *            the annotations to set
+     */
+    public void setAnnotations(Set<Annotation> annotations) {
+        this.annotations = annotations;
     }
 
     @Transient

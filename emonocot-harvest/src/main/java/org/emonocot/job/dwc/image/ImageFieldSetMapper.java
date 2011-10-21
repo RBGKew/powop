@@ -1,5 +1,7 @@
 package org.emonocot.job.dwc.image;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 
 import org.emonocot.job.dwc.DarwinCoreFieldSetMapper;
@@ -30,6 +32,11 @@ public class ImageFieldSetMapper extends
      */
     public ImageFieldSetMapper() {
         super(Image.class);
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-1");
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     /**
@@ -43,6 +50,10 @@ public class ImageFieldSetMapper extends
     */
    private Parser<DateTime> dateTimeParser
        = new DateTimeParser(ISODateTimeFormat.dateOptionalTimeParser());
+   /**
+    *
+    */
+   private MessageDigest messageDigest;
 
     @Override
     public void mapField(final Image object, final String fieldName,
@@ -78,7 +89,7 @@ public class ImageFieldSetMapper extends
                 object.setCaption(value);
                 break;
             case identifier:
-                object.setIdentifier(value);
+                object.setIdentifier(convertUrlToIdentifier(value));
                 object.setUrl(value);
                 break;
             default:
@@ -102,6 +113,19 @@ public class ImageFieldSetMapper extends
             default:
                 break;
             }
+        }
+    }
+
+    /**
+     *
+     * @param value the string url of the image
+     * @return a digested version of the url suitable for use as an identifier
+     */
+    private String convertUrlToIdentifier(final String value) {
+        if (value == null) {
+            return null;
+        } else {
+          return new String(messageDigest.digest(value.getBytes()));
         }
     }
 }

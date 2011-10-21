@@ -91,6 +91,8 @@ public class DarwinCoreJobIntegrationTest {
             new HashMap<String, JobParameter>();
         parameters.put("authority.name", new JobParameter(
                 "test"));
+        parameters.put("family", new JobParameter(
+        "test"));
         parameters.put("authority.uri", new JobParameter(
                 "http://build.e-monocot.org/test/test.zip"));
         parameters.put(

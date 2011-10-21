@@ -19,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+import javax.validation.constraints.Size;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
@@ -60,7 +61,7 @@ public class Taxon extends SearchableObject {
     /**
      *
      */
-    private static final long serialVersionUID = -3512557213090466877L;
+    private static final long serialVersionUID = -3511287213090466877L;
 
     /**
      *
@@ -204,6 +205,11 @@ public class Taxon extends SearchableObject {
 
     /**
      *
+     */
+    private String protologueMicroReference;
+
+    /**
+     *
      * @return a list of images of the taxon
      */
     @ManyToMany(fetch = FetchType.LAZY)
@@ -295,6 +301,7 @@ public class Taxon extends SearchableObject {
      */
     @Fields(value = { @Field,
             @Field(name = "label", index = Index.UN_TOKENIZED) })
+    @Size(max = 128)
     public String getName() {
         return name;
     }
@@ -482,6 +489,7 @@ public class Taxon extends SearchableObject {
      * @return the authorship
      */
     @Field
+    @Size(max = 128)
     public String getAuthorship() {
         return authorship;
     }
@@ -490,6 +498,7 @@ public class Taxon extends SearchableObject {
      * @return the basionymAuthorship
      */
     @Field
+    @Size(max = 128)
     public String getBasionymAuthorship() {
         return basionymAuthorship;
     }
@@ -498,6 +507,7 @@ public class Taxon extends SearchableObject {
      * @return the uninomial
      */
     @Field
+    @Size(max = 128)
     public String getUninomial() {
         return uninomial;
     }
@@ -506,6 +516,7 @@ public class Taxon extends SearchableObject {
      * @return the genus
      */
     @Field
+    @Size(max = 128)
     public String getGenus() {
         return genus;
     }
@@ -514,6 +525,7 @@ public class Taxon extends SearchableObject {
      * @return the specificEpithet
      */
     @Field
+    @Size(max = 128)
     public String getSpecificEpithet() {
         return specificEpithet;
     }
@@ -522,6 +534,7 @@ public class Taxon extends SearchableObject {
      * @return the infraSpecificEpithet
      */
     @Field
+    @Size(max = 128)
     public String getInfraSpecificEpithet() {
         return infraSpecificEpithet;
     }
@@ -563,6 +576,7 @@ public class Taxon extends SearchableObject {
      * @return the infrageneric epithet
      */
     @Field
+    @Size(max = 128)
     public String getInfraGenericEpithet() {
         return infraGenericEpithet;
     }
@@ -580,6 +594,7 @@ public class Taxon extends SearchableObject {
      * @return the according to
      */
     @Field
+    @Size(max = 128)
     public String getAccordingTo() {
         return accordingTo;
     }
@@ -649,6 +664,7 @@ public class Taxon extends SearchableObject {
      * @return the family
      */
     @Field
+    @Size(max = 128)
     public String getFamily() {
         return family;
     }
@@ -657,6 +673,7 @@ public class Taxon extends SearchableObject {
      * @return the kingdom
      */
     @Field
+    @Size(max = 128)
     public String getKingdom() {
         return kingdom;
     }
@@ -665,6 +682,7 @@ public class Taxon extends SearchableObject {
      * @return the phylum
      */
     @Field
+    @Size(max = 128)
     public String getPhylum() {
         return phylum;
     }
@@ -674,6 +692,7 @@ public class Taxon extends SearchableObject {
      */
     @Field
     @Column(name = "ordr")
+    @Size(max = 128)
     public String getOrder() {
         return order;
     }
@@ -717,6 +736,21 @@ public class Taxon extends SearchableObject {
     @IndexedEmbedded
     public Reference getProtologue() {
         return protologue;
+    }
+
+    /**
+     * @return the protologueMicroReference
+     */
+    @Size(max = 128)
+    public String getProtologueMicroReference() {
+        return protologueMicroReference;
+    }
+
+    /**
+     * @param protologueMicroReference the protologueMicroReference to set
+     */
+    public void setProtologueMicroReference(String protologueMicroReference) {
+        this.protologueMicroReference = protologueMicroReference;
     }
 
     /**

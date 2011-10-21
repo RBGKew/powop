@@ -3,14 +3,11 @@ package org.emonocot.job.dwc;
 import javax.sql.DataSource;
 
 import org.emonocot.model.hibernate.OlapDateTimeUserType;
-import org.hibernate.Query;
-import org.hibernate.SessionFactory;
 import org.joda.time.DateTime;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
  *
@@ -32,7 +29,7 @@ public class RecordAnnotator
 
    /**
     *
-    * @param sessionFactory Set the session factory
+    * @param dataSource set the data source
     */
    public final void setDataSource(
            final DataSource dataSource) {
@@ -42,16 +39,15 @@ public class RecordAnnotator
    }
 
     /**
-     *
-     * @param family Set the family of taxa to be harvested
-     * @param sourceName Set the Source name
+     * @param family Set the family
+     * @param authority Set the authority
      * @return the exit status
      */
     public final ExitStatus annotateRecords(final String family,
-            final String sourceName) {
+            final String authority) {
         Integer sourceId = jdbcTemplate
                 .queryForInt("Select id from source where identifier = '"
-                        + sourceName + "'");
+                        + authority  + "'");
         StringBuffer queryString = new StringBuffer(
           "insert into Annotation (annotatedObjId, annotatedObjType, jobId,  dateTime, source_id, type) select t.id, 'Taxon', ");
         queryString.append(stepExecution.getJobExecutionId());
@@ -59,7 +55,9 @@ public class RecordAnnotator
         queryString.append(OlapDateTimeUserType.convert(new DateTime()));
         queryString.append(", ");
         queryString.append(sourceId);
-        queryString.append(", 'Absent' from Taxon t where t.family = '");
+        queryString.append(", 'Absent' from Taxon t left join Taxon a on (t.accepted_id = a.id) where t.family = '");
+        queryString.append(family);
+        queryString.append("' or a.family = '");
         queryString.append(family);
         queryString.append("'");
 

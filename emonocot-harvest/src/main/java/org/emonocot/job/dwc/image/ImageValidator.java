@@ -9,6 +9,8 @@ import java.util.Map;
 
 import org.emonocot.job.dwc.DarwinCoreValidator;
 import org.emonocot.model.source.Source;
+import org.emonocot.model.common.Annotation;
+import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.api.ImageService;
@@ -58,7 +60,7 @@ public class ImageValidator extends DarwinCoreValidator<Image> implements
      *
      */
     private ImageService imageService;
-   
+
     /**
      *
      */
@@ -85,6 +87,8 @@ public class ImageValidator extends DarwinCoreValidator<Image> implements
                 image.getTaxon().getImages().add(image);
                 image.setAuthority(getSource());
                 image.getSources().add(getSource());
+                Annotation annotation = createAnnotation("Image", "Create", AnnotationType.Create);
+                image.getAnnotations().add(annotation);
                 logger.info("Adding image " + image.getIdentifier());
                 return image;
             } else {
@@ -110,6 +114,7 @@ public class ImageValidator extends DarwinCoreValidator<Image> implements
                     // Assume that this is the first of several times this image
                     // appears in the result set, and we'll use this version to
                     // overwrite the existing image
+
                     persistedImage.setCaption(image.getCaption());
                     persistedImage.setCreated(image.getCreated());
                     persistedImage.setCreator(image.getCreator());
@@ -123,6 +128,9 @@ public class ImageValidator extends DarwinCoreValidator<Image> implements
                     if (!image.getTaxon().getImages().contains(persistedImage)) {
                         image.getTaxon().getImages().add(persistedImage);
                     }
+                    Annotation annotation = createAnnotation("Image", "Create",
+                            AnnotationType.Create);
+                    persistedImage.getAnnotations().add(annotation);
                     boundImages.put(image.getIdentifier(), persistedImage);
                     logger.info("Overwriting image " + image.getIdentifier());
                     return persistedImage;

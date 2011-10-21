@@ -30,6 +30,7 @@
 			<batch:next on="COMPLETED" to="resumeHarvesting" />
 			<batch:listeners>
 				  <batch:listener ref="taxonItemProcessor" />
+				  <batch:listener ref="taxonItemValidator" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="resumeHarvesting">
@@ -167,9 +168,9 @@
 		class="org.springframework.batch.item.support.CompositeItemProcessor"
 		scope="step">
 		<property name="delegates">
-			<list>
-				<ref bean="taxonItemValidator" />
+			<list>				
 				<ref bean="taxonItemProcessor"/>
+				<ref bean="taxonItemValidator" />
 			</list>
 		</property>
 	</bean>
@@ -191,11 +192,14 @@
       <property name="sourceService" ref="sourceServiceImpl"/>
       <property name="sourceName" value="#{jobParameters['authority.name']}"/>
       <property name="referenceService" ref="referenceServiceImpl"/>
+      <property name="conversionService" ref="conversionService"/>
     </bean>
 
 	<bean id="taxonItemValidator" class="org.emonocot.job.checklist.OaiPmhRecordValidator"
 		scope="step">
-		<property name="source" value="#{jobParameters['authority.name']}" />
+		<property name="sourceName" value="#{jobParameters['authority.name']}" />
+		<property name="sourceService" ref="sourceServiceImpl" />
+		<property name="validator" ref="validator" />
 	</bean>
 
 	<bean id="itemWriter" class="org.emonocot.job.checklist.OaiPmhRecordItemWriter">

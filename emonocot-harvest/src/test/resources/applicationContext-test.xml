@@ -7,10 +7,24 @@
 	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
 
-    <bean name="jobLauncherTestUtils" class="org.springframework.batch.test.JobLauncherTestUtils">
-      <property name="jobRepository" ref="jobRepository"/>
-      <property name="jobLauncher" ref="jobLauncher"/>
-    </bean>
+	<bean name="jobLauncherTestUtils" class="org.springframework.batch.test.JobLauncherTestUtils">
+		<property name="jobRepository" ref="jobRepository" />
+		<property name="jobLauncher" ref="jobLauncher" />
+	</bean>
+
+	<bean id="conversionService"
+		class="org.springframework.context.support.ConversionServiceFactoryBean">
+		<property name="converters">
+			<list>
+				<bean class="org.emonocot.model.geography.GeographyConverter" />
+				<bean class="org.emonocot.model.reference.ReferenceTypeConverter" />
+				<bean class="org.emonocot.model.taxon.RankConverter" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="validator"
+      class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 
 	<bean name="jobRepository"
 		class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean" />
@@ -29,8 +43,8 @@
 	</bean>
 
 	<jdbc:embedded-database id="dataSource" type="H2">
-	    <jdbc:script location="classpath:H2_schema.ddl" />
-	    <jdbc:script location="classpath:test_data.sql"/>
+		<jdbc:script location="classpath:H2_schema.ddl" />
+		<jdbc:script location="classpath:test_data.sql" />
 	</jdbc:embedded-database>
 
 	<bean id="sessionFactory"
@@ -44,7 +58,8 @@
 				hibernate.search.default.indexBase=./target/indexes
             </value>
 		</property>
-		<property name="configLocation" value="classpath:org/emonocot/model/hibernate.cfg.xml" />
+		<property name="configLocation"
+			value="classpath:org/emonocot/model/hibernate.cfg.xml" />
 		<property name="configurationClass" value="org.hibernate.cfg.AnnotationConfiguration" />
 	</bean>
 

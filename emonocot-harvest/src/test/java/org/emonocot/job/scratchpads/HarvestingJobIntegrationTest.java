@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.batch.core.Job;
@@ -72,6 +73,7 @@ public class HarvestingJobIntegrationTest {
      *             if the job is already running
      */
     @Test
+    @Ignore
     public final void testNotModifiedResponse() throws IOException,
             NoSuchJobException, JobExecutionAlreadyRunningException,
             JobRestartException, JobInstanceAlreadyCompleteException,

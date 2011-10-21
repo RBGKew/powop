@@ -1333,4 +1333,9 @@
         <column name="uri" value="http://www.cate-araceae.org/checklist.zip"/>
       </insert>
     </changeSet>
+    <changeSet id="2011-10-20_01" author="ben">
+      <addColumn tableName="Taxon">
+        <column name="protologueMicroReference" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
 </databaseChangeLog>

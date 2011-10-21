@@ -155,7 +155,7 @@
 				<value>#{jobParameters['family']}</value>
 				<value>#{jobParameters['authority.name']}</value>
 			</list>
-		</property>
+		</property>	
 	</bean>
 	
 	<bean id="recordAnnotator" class="org.emonocot.job.dwc.RecordAnnotator">

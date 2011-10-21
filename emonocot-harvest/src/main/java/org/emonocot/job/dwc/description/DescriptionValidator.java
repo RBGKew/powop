@@ -3,6 +3,8 @@ package org.emonocot.job.dwc.description;
 import org.emonocot.job.dwc.DarwinCoreValidator;
 import org.emonocot.job.dwc.NoTaxonException;
 import org.emonocot.model.source.Source;
+import org.emonocot.model.common.Annotation;
+import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.api.SourceService;
@@ -44,7 +46,7 @@ public class DescriptionValidator extends DarwinCoreValidator<TextContent> {
         }
 
         Taxon taxon = textContent.getTaxon();
-        if(taxon.getContent().containsKey(textContent.getFeature())) {
+        if (taxon.getContent().containsKey(textContent.getFeature())) {
             TextContent persistedContent = (TextContent) taxon.getContent().get(textContent.getFeature());
             if ((persistedContent.getModified() == null
                     && textContent.getModified() == persistedContent.getModified()) 
@@ -52,10 +54,13 @@ public class DescriptionValidator extends DarwinCoreValidator<TextContent> {
                 // The content hasn't changed, skip it
                 return null;
             } else {
-                // the content has changed, return it.
+                Annotation annotation = createAnnotation("TextContent", "Update", AnnotationType.Update);
+                textContent.getAnnotations().add(annotation);
                 return textContent;
             }
         } else {
+            Annotation annotation = createAnnotation("TextContent", "Create", AnnotationType.Create);
+            textContent.getAnnotations().add(annotation);
             textContent.getSources().add(getSource());
             textContent.setAuthority(getSource());
             return textContent;
