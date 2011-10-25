@@ -23,7 +23,37 @@
 				</c:if>
 				<div class="row">
 					<div class="twelvecol">
-						<c:if test="${not empty taxon.images}">
+					 		<c:if test="${not empty taxon.images}">
+						<div id="container">
+	<div id="gallery" class="ad-gallery">
+      <div class="ad-image-wrapper">&#160;</div>
+      <div class="ad-controls">&#160;</div>
+      <div class="ad-nav">
+        <div class="ad-thumbs">
+          <ul class="ad-thumb-list" >
+          <c:forEach var="image" items="${taxon.images}" varStatus="status">
+            <li>
+              <a href="${image.url}" >
+                <img src="${image.url}" class="${status.index}" title="${image.caption}"/>
+              </a>
+            </li>
+            </c:forEach>
+           </ul>
+          </div> 
+		</div>
+		<div id="descriptions">&#160;</div>
+	</div>
+	
+</div>
+</c:if>
+		<!-- 		<div id="img"></div>
+            			<ul id="gallery" class="jcarousel-skin-tango">
+            				<c:forEach var="image" items="${taxon.images}" varStatus="status">
+               					 <li><a href="${image.url}" title="${image.caption}"><img src="${image.url}" alt="${status.index}" width="100" height="80" /></a></li>
+			                </c:forEach>    
+            			</ul> -->	
+						
+						<!-- 
 							<div id="showcase" class="showcase">
 								<c:forEach var="image" items="${taxon.images}" varStatus="status">
 									<div class="showcase-slide">
@@ -31,10 +61,10 @@
 											<a href="/portal/image/${image.identifier}"><img src="${image.url}" title="${image.caption}" alt="${status.index}" /></a>
 										</div>
 										<div class="showcase-thumbnail">
-											<!-- <img src="${image.url}" alt="${status.index}" width="140px" /> -->
-											<img src="${image.url}" alt="${status.index}" />
+											///<img src="${image.url}" alt="${status.index}" width="140px" /> 
+						 				<img src="${image.url}" alt="${status.index}" />
 											<div class="showcase-thumbnail-caption">${image.caption}</div>
-											<!-- <div class="showcase-thumbnail-cover">/* */</div> -->
+											 <div class="showcase-thumbnail-cover">/* */</div> 
 										</div>
 										<div class="showcase-caption">
 											<h2>${image.caption}</h2>
@@ -47,7 +77,14 @@
 									<div class="showcase-content-wrapper"></div>
 								</div>
 							</div>
-						</c:if>
+							 -->
+							
+						
+				<!--  	</c:if>-->	
+				
+				
+				
+				
 						<BR />
 					</div>
 				</div>

@@ -88,7 +88,9 @@ public class ImageController {
       ModelAndView modelAndView = new ModelAndView("imagePage");
       Image image = service.load(identifier, "image-page");
       modelAndView.addObject(image);
-      modelAndView.addObject(taxonService.load(image.getTaxon().getIdentifier(), "taxon-page"));
+      if(image.getTaxon() != null) {
+          modelAndView.addObject(taxonService.load(image.getTaxon().getIdentifier(), "taxon-page"));
+      }
       return modelAndView;
   }
 

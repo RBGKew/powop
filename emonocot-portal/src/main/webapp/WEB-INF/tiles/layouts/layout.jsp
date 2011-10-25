@@ -11,13 +11,15 @@
         <tiles:insertAttribute name="head" />
         <body>
 	      <div id="wrapper">
-		    <div id="container">
+		  <!--   <div id="container">--> 
 			  <tiles:insertAttribute name="header" />
 			  <tiles:insertAttribute name="body" />
-            </div>
+          <!-- </div>  --> 
 	      </div>
 	      <br />
 	      <tiles:insertAttribute name="footer" />
+
+	      
         </body>
       </html>
 </jsp:root>

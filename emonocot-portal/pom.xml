@@ -238,10 +238,39 @@
                 <outputDirectory>${project.build.directory}/static/</outputDirectory>
                 <nosuffix>true</nosuffix>
                 <aggregations>
-                  <aggregation>
+                  <!-- <aggregation>
                     <output>${project.build.directory}/static/js/header.js</output>
                     <includes>
                       <include>${project.build.directory}/static/uncompressed/jquery.aw-showcase.js</include>
+                    </includes>
+                  </aggregation>
+                   -->
+                   <!--
+                  <aggregation>
+                    <output>${project.build.directory}/static/js/header.js</output>
+                    <includes>
+                      <include>${project.build.directory}/static/uncompressed/js/jquery.galleria.min.js</include>
+                      <include>${project.build.directory}/static/uncompressed/js/jquery.hotkeys-0.7.8-packed.js</include>
+                      <include>${project.build.directory}/static/uncompressed/js/tutorial.js</include>
+                      <include>${project.build.directory}/static/uncompressed/js/jquery.jcarousel.pack.js</include>
+                    </includes>
+                  </aggregation>
+                   -->
+                   <!-- 
+                   <aggregation>
+                    <output>${project.build.directory}/static/js/header.js</output>
+                    <includes>
+                      <include>${project.build.directory}/static/uncompressed/js-galleriffic/jquery.galleriffic.js</include>
+                      <include>${project.build.directory}/static/uncompressed/js-galleriffic/jquery.history.js</include>
+                      <include>${project.build.directory}/static/uncompressed/js-galleriffic/jquery.opacityrollover.js</include>
+                      <include>${project.build.directory}/static/uncompressed/js-galleriffic/jush.js</include>
+                    </includes>
+                  </aggregation>
+                   -->
+                   <aggregation>
+                    <output>${project.build.directory}/static/js/header.js</output>
+                    <includes>
+                      <include>${project.build.directory}/static/uncompressed/ad-gallery/jquery.ad-gallery.js</include>
                     </includes>
                   </aggregation>
                   <aggregation>

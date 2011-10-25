@@ -6,7 +6,7 @@
 	
 	
 	<div class="content-wrapper">
-		
+		<div>${source.identifier}</div>
 			
 	</div>
 </jsp:root>

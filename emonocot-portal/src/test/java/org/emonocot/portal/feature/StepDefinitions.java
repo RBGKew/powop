@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.emonocot.portal.driver.HomePage;
+import org.emonocot.portal.driver.IllustratedPage;
 import org.emonocot.portal.driver.LoginPage;
 import org.emonocot.portal.driver.PageObject;
 import org.emonocot.portal.driver.Portal;
@@ -273,6 +274,11 @@ public class StepDefinitions {
     public final void iNavigateToThePage(final String identifier) {
         currentPage = portal.getTaxonPage(identifier);
     }
+    
+    @When("^I navigate to image page \"([^\"]*)\"$")
+    public void navigateToImagePage(final String identifier) {
+    	currentPage = portal.getImagePage(identifier);
+    }
 
     /**
      *
@@ -335,7 +341,7 @@ public class StepDefinitions {
      */
     @Then("^the main image caption should be \"([^\"]*)\"$")
     public final void theMainImageCaptionShouldBe(final String caption) {
-        assertEquals(caption, ((TaxonPage) currentPage).getMainImageCaption());
+        assertEquals(caption, ((IllustratedPage) currentPage).getMainImageCaption());
     }
 
     /**
@@ -345,7 +351,7 @@ public class StepDefinitions {
      */
     @Then("^the main image should be \"([^\"]*)\"$")
     public final void theMainImageShouldBe(final String image) {
-        assertEquals(image, ((TaxonPage) currentPage).getMainImage());
+        assertEquals(image, ((IllustratedPage) currentPage).getMainImage());
     }
 
     /**
@@ -354,7 +360,7 @@ public class StepDefinitions {
      */
     @Then("^there should be (\\d+) thumbnails$")
     public final void thereShouldBeThumbnails(final int thumbnails) {
-        assertEquals(thumbnails, ((TaxonPage) currentPage).getThumbnails());
+        assertEquals(thumbnails, ((IllustratedPage) currentPage).getThumbnails());
     }
 
     /**

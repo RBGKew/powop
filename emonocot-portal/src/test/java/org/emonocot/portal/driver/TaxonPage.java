@@ -11,7 +11,7 @@ import org.openqa.selenium.support.How;
  * @author ben
  *
  */
-public class TaxonPage extends PageObject {
+public class TaxonPage extends PageObject implements IllustratedPage {
 
     /**
      *
@@ -34,13 +34,13 @@ public class TaxonPage extends PageObject {
     /**
      *
      */
-    @FindBy(how = How.CLASS_NAME, using = "showcase-content")
+    @FindBy(how = How.CLASS_NAME, using = "ad-image-wrapper")
     private WebElement mainImage;
 
     /**
      *
      */
-    @FindBy(how = How.CLASS_NAME, using = "showcase-thumbnail-wrapper")
+    @FindBy(how = How.CLASS_NAME, using = "ad-thumb-list")
     private WebElement thumbnailContainer;
 
    /**
@@ -104,7 +104,7 @@ public class TaxonPage extends PageObject {
      * @return the caption of the main image
      */
     public final String getMainImageCaption() {
-        return mainImage.findElement(By.tagName("img")).getAttribute("title");
+        return mainImage.findElement(By.className("ad-image-description")).getText();
     }
 
     /**
@@ -121,7 +121,7 @@ public class TaxonPage extends PageObject {
      */
     public final int getThumbnails() {
         return thumbnailContainer.findElements(
-                By.className("showcase-thumbnail")).size();
+                By.tagName("li")).size();
     }
 
     /**
