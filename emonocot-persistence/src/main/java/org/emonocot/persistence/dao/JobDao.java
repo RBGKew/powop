@@ -2,8 +2,7 @@ package org.emonocot.persistence.dao;
 
 import java.util.List;
 
-import mondrian.olap.Result;
-
+import org.olap4j.CellSet;
 import org.springframework.batch.core.JobExecution;
 
 /**
@@ -26,7 +25,7 @@ public interface JobDao {
      * @param jobExecutionId Set the job execution identifier
      * @return a result object
      */
-    Result countObjects(Long jobExecutionId);
+    CellSet countObjects(Long jobExecutionId);
 
     /**
      *
@@ -34,6 +33,6 @@ public interface JobDao {
      * @param objectType set the object type
      * @return a result object
      */
-    Result countErrors(Long jobExecutionId, String objectType);
+    CellSet countErrors(Long jobExecutionId, String objectType);
 
 }

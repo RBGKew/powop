@@ -1,4 +1,4 @@
-package org.emonocot.persistence.dao.hibernate;
+package org.emonocot.persistence.dao.olap;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -6,15 +6,25 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import mondrian.olap.Connection;
-import mondrian.olap.Query;
-import mondrian.olap.Result;
+import org.olap4j.CellSet;
+import org.olap4j.OlapConnection;
+import org.olap4j.OlapException;
+import org.olap4j.OlapParameterMetaData;
+import org.olap4j.PreparedOlapStatement;
+import org.olap4j.metadata.Dimension;
+import org.olap4j.metadata.Member;
+import org.olap4j.type.MemberType;
 
 import org.emonocot.persistence.dao.JobDao;
+import org.emonocot.persistence.olap.OlapExecutionException;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.CleanupFailureDataAccessException;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.UncategorizedDataAccessException;
+import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
@@ -34,15 +44,15 @@ public class JobDaoImpl extends JdbcDaoSupport implements JobDao {
     /**
      *
      */
-    private Connection connection;
+    private OlapConnection olapConnection;
 
     /**
      *
      * @param connection Set the connection
      */
     @Autowired
-    public void setConnection(Connection connection) {
-        this.connection = connection;
+    public void setOlapConnection(OlapConnection olapConnection) {
+        this.olapConnection = olapConnection;
     }
 
     /**
@@ -75,11 +85,40 @@ public class JobDaoImpl extends JdbcDaoSupport implements JobDao {
     * @param jobExecutionId Set the job execution identifier
     * @return a result object
     */
-    public final Result countObjects(final Long jobExecutionId) {
-        Query query = connection
-                .parseQuery("select {[Object Type].[Object Type].members} on columns from Job  where Parameter(\"jobExecutionId\", [Job],[Job].[1])");
-        query.setParameter("jobExecutionId", jobExecutionId.toString());
-        return connection.execute(query);
+    public final CellSet countObjects(final Long jobExecutionId) {
+        PreparedOlapStatement statement = null;
+        try {
+            statement = olapConnection
+                    .prepareOlapStatement("select {[Object Type].[Object Type].members} on columns from Job  where Parameter(\"jobExecutionId\", [Job],[Job].[1])");
+            setParameter(statement, 1, jobExecutionId.toString());
+            return statement.executeQuery();
+        } catch (Exception e) {
+            throw new OlapExecutionException("OlapException", e);
+        } finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException sqle) {
+                    throw new CleanupFailureDataAccessException(
+                            "Could not Clean up", sqle);
+                }
+            }
+        }
+    }
+
+    /**
+     *
+     * @param statement the prepared statement
+     * @param index Set the index
+     * @param value Set the value
+     * @throws SQLException if something goes wrong
+     */
+    private void setParameter(PreparedOlapStatement statement,
+            int index, String value) throws SQLException {
+        OlapParameterMetaData parameterMetaData = statement.getParameterMetaData();
+        MemberType type = (MemberType) parameterMetaData.getParameterOlapType(index);  
+        Dimension dimension = type.getDimension();
+        statement.setObject(index, dimension.getDefaultHierarchy().getRootMembers().get(value));
     }
 
     /**
@@ -88,13 +127,26 @@ public class JobDaoImpl extends JdbcDaoSupport implements JobDao {
     * @param objectType set the object type
     * @return a result object
     */
-    public final Result countErrors(final Long jobExecutionId,
+    public final CellSet countErrors(final Long jobExecutionId,
             final String objectType) {
-        Query query = connection
-                .parseQuery("select {[Type].[Type].members} on columns from Job where (Parameter(\"jobExecutionId\", [Job],[Job].[1]), Parameter(\"objectType\",[Object Type],[Object Type].[Taxon]))");
-        query.setParameter("jobExecutionId", jobExecutionId.toString());
-        query.setParameter("objectType", objectType);
-        return connection.execute(query);
+        PreparedOlapStatement statement = null;
+        try {
+          statement =  olapConnection
+                .prepareOlapStatement("select {[Type].[Type].members} on columns from Job where (Parameter(\"jobExecutionId\", [Job],[Job].[1]), Parameter(\"objectType\",[Object Type],[Object Type].[Taxon]))");
+          setParameter(statement, 1, jobExecutionId.toString());
+          setParameter(statement, 2, objectType);
+          return statement.executeQuery();
+        } catch(Exception e) {
+            throw new OlapExecutionException("OlapException",e);
+        } finally {
+            if (statement != null) {
+                try {
+                statement.close();
+                } catch(SQLException sqle) {
+                    throw new CleanupFailureDataAccessException("Could not Clean up", sqle);
+                }
+            }
+        }
     }
 
     /**

@@ -1,27 +1,21 @@
 package org.emonocot.persistence.olap;
 
+import java.sql.Connection;
+
 import javax.sql.DataSource;
 
-import mondrian.olap.Connection;
-import mondrian.olap.DriverManager;
-import mondrian.olap.Util.PropertyList;
-import mondrian.rolap.RolapConnectionProperties;
-
+import org.olap4j.OlapConnection;
+import org.olap4j.OlapWrapper;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 
 /**
  *
  * @author ben
  *
  */
-public class OlapConnectionFactory implements FactoryBean<Connection> {
+public class OlapConnectionFactory implements FactoryBean<OlapConnection> {
 
-    /**
-    *
-    */
-   private PropertyList properties;
    /**
     *
     */
@@ -30,32 +24,7 @@ public class OlapConnectionFactory implements FactoryBean<Connection> {
    /**
     *
     */
-   private Connection connection;
-   /**
-    *
-    */
-   private Resource catalog;
-   /**
-    *
-    */
-   private Boolean poolNeeded;
-
-   /**
-    *
-    * @param catalog Set the catalogue name
-    */
-   public final void setCatalog(final Resource catalog) {
-    this.catalog = catalog;
-   }
-
-
-   /**
-    *
-    * @param poolNeeded Set whether the pool is needed
-    */
-    public final void setPoolNeeded(final Boolean poolNeeded) {
-        this.poolNeeded = poolNeeded;
-    }
+   private OlapConnection olapConnection;
 
 
 /**
@@ -72,24 +41,20 @@ public class OlapConnectionFactory implements FactoryBean<Connection> {
     * @return a connection
     * @throws Exception if there is a problem creating the connection
     */
-    public final Connection getObject() throws Exception {
-        if (connection == null) {
-            properties = new PropertyList();
-            properties.put(RolapConnectionProperties.Catalog.name(),
-                    catalog.getFile().getAbsolutePath());
-            properties.put(RolapConnectionProperties.PoolNeeded.name(),
-                    poolNeeded.toString());
-            connection = DriverManager.getConnection(properties, null,
-                    dataSource);
+    public final OlapConnection getObject() throws Exception {
+        if (olapConnection == null) {
+            Connection connection = dataSource.getConnection();
+            OlapWrapper wrapper = (OlapWrapper) connection;
+            olapConnection = wrapper.unwrap(OlapConnection.class);
         }
-        return connection;
+        return olapConnection;
     }
 
     /**
      * @return the object type
      */
     public final Class<?> getObjectType() {
-        return Connection.class;
+        return OlapConnection.class;
     }
 
     /**
@@ -98,4 +63,7 @@ public class OlapConnectionFactory implements FactoryBean<Connection> {
     public final boolean isSingleton() {
         return false;
     }
+    
+    
+    
 }

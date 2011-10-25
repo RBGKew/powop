@@ -8,15 +8,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import mondrian.olap.Axis;
-import mondrian.olap.Result;
-
 import org.emonocot.model.common.AnnotationType;
 import org.emonocot.persistence.AbstractPersistenceTest;
 import org.emonocot.persistence.dao.JobDao;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.olap4j.CellSet;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameter;
@@ -78,8 +76,8 @@ public class JobDaoTest extends AbstractPersistenceTest {
        assertFalse(jobExecutions.isEmpty());
        assertEquals("Job identifier should match the expected value",
                 jobExecutions.get(0).getId(), new Long(1));
-       Result result = jobDao.countObjects(1L);
-       
+       CellSet cellSet = jobDao.countObjects(1L);       
+       cellSet = jobDao.countErrors(1L, "Taxon");
    }
 
 }

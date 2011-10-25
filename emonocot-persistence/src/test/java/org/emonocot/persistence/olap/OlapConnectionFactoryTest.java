@@ -4,12 +4,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-import javax.sql.DataSource;
+import java.io.PrintWriter;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 
-import mondrian.olap.Axis;
-import mondrian.olap.Connection;
-import mondrian.olap.Query;
-import mondrian.olap.Result;
+import javax.sql.DataSource;
 
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.GeographicalRegion;
@@ -19,20 +19,24 @@ import org.emonocot.persistence.AbstractPersistenceTest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.olap4j.CellSet;
+import org.olap4j.CellSetAxis;
+import org.olap4j.OlapConnection;
+import org.olap4j.layout.CellSetFormatter;
+import org.olap4j.layout.RectangularCellSetFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 
 /**
  * @author jk00kg
  *
  */
-public class RolapConnectionFactoryTest extends AbstractPersistenceTest {
+public class OlapConnectionFactoryTest extends AbstractPersistenceTest {
 
     /**
      *
      */
-    private OlapConnectionFactory rolapConnectionFactory;
+    @Autowired
+    private OlapConnection olapConnection;
 
     /**
      *
@@ -45,12 +49,7 @@ public class RolapConnectionFactoryTest extends AbstractPersistenceTest {
      */
     @Before
     public final void setUp() throws Exception {
-        super.doSetUp();
-        rolapConnectionFactory = new OlapConnectionFactory();
-        rolapConnectionFactory.setDataSource(dataSource);
-        Resource catalog = new ClassPathResource("classpath:/olap.xml");
-        rolapConnectionFactory.setCatalog(catalog);
-        rolapConnectionFactory.setPoolNeeded(Boolean.TRUE);
+        super.doSetUp();       
     }
     /**
      * @throws java.lang.Exception if there is a problem
@@ -93,7 +92,7 @@ public class RolapConnectionFactoryTest extends AbstractPersistenceTest {
     @Test
     public final void createConnection() {
         try {
-          assertNotNull("The connection should not be null", rolapConnectionFactory.getObject());
+          assertNotNull("The connection should not be null", olapConnection);
         } catch(Exception e) {
             fail("No exception expected here");
         }
@@ -103,23 +102,23 @@ public class RolapConnectionFactoryTest extends AbstractPersistenceTest {
      *
      */
     @Test
-    public final void queryTest() throws Exception {
-        Connection connection = rolapConnectionFactory.getObject();
-        Query query = connection
-                .parseQuery("SELECT {[Measures].[number harvested]} on COLUMNS,"
-                    + " {[taxa].[family].members} on ROWS" + " FROM harvest");
+    public final void queryTest() throws Exception {        
+        CellSet result = olapConnection.createStatement().executeOlapQuery("SELECT {[Measures].[Object Numbers]} on COLUMNS,"
+                    + " {[taxa].[family].members} on ROWS" + " FROM Job");
 
-        Result result = connection.execute(query);
         assertNotNull(result);
-        Axis[] axes = result.getAxes();
-//        for (int i = 0; i < axes[1].getPositions().size(); i++) {
-//            Cell cell = result.getCell(new int[] {0,i});
-//              System.out.println(axes[1].getPositions().get(i).get(0) + " " + cell.getValue());
-//        }
+        List<CellSetAxis> axes = result.getAxes();
+        CellSetFormatter cellSetFormatter = new RectangularCellSetFormatter(true);
+        PrintWriter writer = new PrintWriter(System.out);
+        cellSetFormatter.format(result,  writer);
+        writer.flush();
         assertEquals("The label should be Ausidae",
-                axes[1].getPositions().get(0).get(0).getName(), "Ausidae");
+                axes.get(1).getPositions().get(0).getMembers().get(0).getName(), "Ausidae");
+        List<Integer> index = new ArrayList<Integer>();
+        index.add(0);
+        index.add(0);
         assertEquals("The value should be 5", result
-                .getCell(new int[] {0, 0 }).getFormattedValue(), "5");
+                .getCell(index).getFormattedValue(), "5");
     }
 
 }
