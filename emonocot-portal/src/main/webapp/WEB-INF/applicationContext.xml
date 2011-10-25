@@ -24,6 +24,12 @@
        </sec:authentication-provider>
     </sec:authentication-manager>
     
+    <bean name="connection" class="org.emonocot.persistence.olap.RolapConnectionFactory">
+	  <property name="dataSource" ref="dataSource"/>
+	  <property name="catalog" value="classpath:/olap.xml"/>
+	  <property name="poolNeeded" value="true"/>
+	</bean>
+    
     <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
         <property name="configLocation" value="classpath:/ehcache.xml" />
         <property name="shared" value="true"/>

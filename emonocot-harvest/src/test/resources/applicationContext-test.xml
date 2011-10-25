@@ -43,6 +43,7 @@
 	</bean>
 
 	<jdbc:embedded-database id="dataSource" type="H2">
+	    <jdbc:script location="classpath:/org/springframework/batch/core/schema-h2.sql" />
 		<jdbc:script location="classpath:H2_schema.ddl" />
 		<jdbc:script location="classpath:test_data.sql" />
 	</jdbc:embedded-database>

@@ -13,14 +13,16 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class SourceDaoImpl extends DaoImpl<Source> implements SourceDao {
 
-	public SourceDaoImpl() {
-		super(Source.class);
-	}
+    /**
+     *
+     */
+    public SourceDaoImpl() {
+        super(Source.class);
+    }
 
-	protected Fetch[] getProfile(String profile) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-   
+    protected Fetch[] getProfile(String profile) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

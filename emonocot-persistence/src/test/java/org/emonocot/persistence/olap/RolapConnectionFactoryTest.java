@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.emonocot.persistence.olap;
 
 import static org.junit.Assert.assertEquals;
@@ -11,12 +8,8 @@ import javax.sql.DataSource;
 
 import mondrian.olap.Axis;
 import mondrian.olap.Connection;
-import mondrian.olap.DriverManager;
 import mondrian.olap.Query;
 import mondrian.olap.Result;
-import mondrian.olap.Util.PropertyList;
-import mondrian.rolap.RolapConnection;
-import mondrian.rolap.RolapConnectionProperties;
 
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.GeographicalRegion;
@@ -27,6 +20,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 /**
  * @author jk00kg
@@ -34,12 +29,16 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class RolapConnectionFactoryTest extends AbstractPersistenceTest {
 
-    private RolapConnectionFactory rolapConnectionFactory;
-    
+    /**
+     *
+     */
+    private OlapConnectionFactory rolapConnectionFactory;
+
+    /**
+     *
+     */
     @Autowired
     private DataSource dataSource;
-
-    
 
     /**
      * @throws java.lang.Exception if there is a problem
@@ -47,9 +46,10 @@ public class RolapConnectionFactoryTest extends AbstractPersistenceTest {
     @Before
     public final void setUp() throws Exception {
         super.doSetUp();
-        rolapConnectionFactory = new RolapConnectionFactory();
+        rolapConnectionFactory = new OlapConnectionFactory();
         rolapConnectionFactory.setDataSource(dataSource);
-        rolapConnectionFactory.setCatalogName("target/classes/olap.xml");
+        Resource catalog = new ClassPathResource("classpath:/olap.xml");
+        rolapConnectionFactory.setCatalog(catalog);
         rolapConnectionFactory.setPoolNeeded(Boolean.TRUE);
     }
     /**

@@ -1,13 +1,11 @@
 package org.emonocot.model.common;
 
-import java.io.Serializable;
+import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
@@ -21,17 +19,12 @@ import org.joda.time.DateTime;
  *
  */
 @Entity
-public class Annotation implements Serializable {
+public class Annotation extends Base {
 
    /**
     *
     */
     private static final long serialVersionUID = -3382251087008774134L;
-
-   /**
-    *
-    */
-    private Long id;
 
    /**
     *
@@ -67,6 +60,13 @@ public class Annotation implements Serializable {
      *
      */
     private AnnotationType type;
+
+    /**
+     *
+     */
+    public Annotation() {
+        setIdentifier(UUID.randomUUID().toString());
+    }
 
    /**
     *
@@ -146,22 +146,6 @@ public class Annotation implements Serializable {
      */
     public void setJobId(Long jobId) {
         this.jobId = jobId;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
-     * @return the id
-     */
-    @Id
-    @GeneratedValue(generator = "annotation-sequence")
-    public Long getId() {
-        return id;
     }
 
     /**

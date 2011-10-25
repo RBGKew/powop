@@ -1,26 +1,15 @@
 package org.emonocot.persistence;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
-import java.util.concurrent.Callable;
 
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.Region;
-import org.emonocot.model.media.Image;
 import org.emonocot.model.taxon.Taxon;
-import org.emonocot.persistence.dao.TaxonDao;
 import org.hibernate.Hibernate;
-import org.hibernate.search.FullTextSession;
-import org.hibernate.search.Search;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  *
@@ -74,7 +63,7 @@ public class FetchProfileTest extends AbstractPersistenceTest {
      */
     @Test
     public final void testFetchProfile() {
-        Taxon taxon = taxonDao.load("urn:lsid:example.com:taxon:1",
+        Taxon taxon = getTaxonDao().load("urn:lsid:example.com:taxon:1",
                 "taxon-page");
         assertTrue("Images should be initialized",
                 Hibernate.isInitialized(taxon.getImages()));

@@ -161,8 +161,8 @@
 	</target>
 
 	<target name="tomcat.application.status">
-		<property name="running" value="${cargo.checklist.context.path}:running"/>
-		<property name="stopped" value="${cargo.checklist.context.path}:stopped"/>
+		<property name="running" value="${cargo.context.path}:running"/>
+		<property name="stopped" value="${cargo.context.path}:stopped"/>
 
 		<list url="${cargo.tomcat.manager.url}"
 				outputproperty="application.status"
@@ -170,23 +170,23 @@
 				password="${cargo.remote.password}">
 		</list>
 
-		<condition property="application.running">
+		<condition property="application.running" else="false">
 			<contains string="${application.status}" substring="${running}"/>
 		</condition>
-		<condition property="application.stopped">
+		<condition property="application.stopped" else="false">
 			<contains string="${application.status}" substring="${stopped}"/>
 		</condition>
-		<condition property="context.notInstalled">
+		<condition property="application.notInstalled" else="false">
 			<and>
 				<isfalse value="${application.running}"/>
 				<isfalse value="${application.stopped}"/>
 			</and>
 		</condition>
-		<condition property="application.deployable">
+		<condition property="application.deployable" else="false">
 			<or>
 				<istrue value="${application.notInstalled}"/>
 				<and>
-					<istrue value="${applidation.running}"/>
+					<istrue value="${application.running}"/>
 					<istrue value="${tomcat.manager.update}"/>
 				</and>
 				<and>
@@ -195,13 +195,14 @@
 				</and>
 			</or>
 		</condition>
-		<condition property="application.undeployable">
+		<condition property="application.undeployable" else="false">
 			<or>
 				<istrue value="${application.running}"/>
 				<istrue value="${application.stopped}"/>
 			</or>
 		</condition>
-		<echo message="${application.status}" />
+		<echo message="Application can be deployed straight? ${application.deployable}" />
+		<echo message="Application must be redeployed? ${application.undeployable}" />
 	</target>
 
 	<target name="deploy" 
@@ -212,7 +213,7 @@
 						url="${cargo.tomcat.manager.url}" 
 						username="${cargo.remote.username}"
 						password="${cargo.remote.password}"
-						path="/${cargo.portal.context.path}" 
+						path="/${cargo.context.path}" 
 						war="${target}/${name}.war"/>
 	</target>
 
@@ -223,7 +224,7 @@
 			url="${cargo.tomcat.manager.url}" 
 			username="${cargo.remote.username}"
 			password="${cargo.remote.password}"
-			path="/${cargo.portal.context.path}" 
+			path="/${cargo.context.path}" 
 						war="${target}/${name}.war"/>
 	</target>
 
@@ -234,7 +235,7 @@
 			url="${cargo.tomcat.manager.url}" 
 			username="${cargo.remote.username}"
 			password="${cargo.remote.password}"
-			path="/${cargo.portal.context.path}"/>
+			path="/${cargo.context.path}"/>
 	</target>
 	
 	<target name="compress-static" description="Minifiy the static files">
@@ -284,7 +285,7 @@
 	</target>
 
 	<target name="upload.remote" depends="check.upload.method" if="wagon.upload.remote">
-		<scp todir="${wagon.portal.static.url}" trust="true" keyfile="${server.privateKey}" passphrase="${server.passphrase}">
+		<scp todir="${wagon.static.url}" trust="true" keyfile="${server.privateKey}" passphrase="${server.passphrase}">
 			<fileset dir="${target}/static/">
 				<include name="**/*" />
 			</fileset>
@@ -292,7 +293,7 @@
 	</target>
 
 	<target name="upload.local" depends="check.upload.method" if="wagon.upload.local">
-		<copy todir="${wagon.portal.static.url}">
+		<copy todir="${wagon.static.url}">
 			<fileset dir="${target}/static/">
 				<include name="**/*" />
 			</fileset>

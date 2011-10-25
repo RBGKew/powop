@@ -1338,4 +1338,12 @@
         <column name="protologueMicroReference" type="varchar(255)"/>
       </addColumn>
     </changeSet>
+    <changeSet id="2011-10-25_01" author="ben">
+      <addColumn tableName="Annotation">
+        <column name="identifier" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-10-25_02" author="ben">
+      <sql>update Annotation set identifier = UUID() where identifier is null</sql>
+    </changeSet>
 </databaseChangeLog>

@@ -2,10 +2,12 @@ package org.emonocot.persistence;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 import java.util.concurrent.Callable;
 
 import org.emonocot.model.common.Annotation;
+import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.common.Base;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.geography.Continent;
@@ -16,6 +18,7 @@ import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Rank;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.model.taxon.TaxonomicStatus;
+import org.emonocot.persistence.dao.AnnotationDao;
 import org.emonocot.persistence.dao.ImageDao;
 import org.emonocot.persistence.dao.TaxonDao;
 import org.hibernate.Session;
@@ -23,6 +26,12 @@ import org.hibernate.SessionFactory;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 import org.junit.runner.RunWith;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobParameter;
+import org.springframework.batch.core.JobInstance;
+import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.repository.dao.JobExecutionDao;
+import org.springframework.batch.core.repository.dao.JobInstanceDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -56,23 +65,41 @@ public abstract class AbstractPersistenceTest {
      *
      */
     @Autowired
-    protected TaxonDao taxonDao;
+    private TaxonDao taxonDao;
 
     /**
      *
      */
    @Autowired
-   protected ImageDao imageDao;
+   private ImageDao imageDao;
+
+    /**
+     *
+     */
+    @Autowired
+    private AnnotationDao annotationDao;
+
+   /**
+    *
+    */
+   @Autowired
+   private JobInstanceDao jobInstanceDao;
+
+   /**
+    *
+    */
+   @Autowired
+   private JobExecutionDao jobExecutionDao;
 
     /**
      * A list of objects in the order they were created.
      */
-    private List<Base> setUp = new ArrayList<Base>();
+    private List<Object> setUp = new ArrayList<Object>();
 
     /**
      * A stack of objects.
      */
-    private Stack<Base> tearDown = new Stack<Base>();
+    private Stack<Object> tearDown = new Stack<Object>();
 
     /**
      *
@@ -170,6 +197,26 @@ public abstract class AbstractPersistenceTest {
         return annotation;
     }
 
+    /**
+     *
+     * @param objectType Set the object type
+     * @param jobId set the job id
+     * @param objectId set the object id
+     * @param type Set the annotation type
+     * @return an annotation
+     */
+    public final Annotation createAnnotation(final String objectType,
+            final Long jobId, final Long objectId, final AnnotationType type) {
+        Annotation annotation = new Annotation();
+        annotation.setAnnotatedObjType(objectType);
+        annotation.setAnnotatedObjId(objectId);
+        annotation.setJobId(jobId);
+        annotation.setType(type);
+        setUp.add(annotation);
+        tearDown.push(annotation);
+        return annotation;
+    }
+
    /**
     *
     * @param caption Set the caption
@@ -213,11 +260,19 @@ public abstract class AbstractPersistenceTest {
                 fullTextSession.purgeAll(Taxon.class);
                 fullTextSession.purgeAll(Image.class);
                 setUpTestData();
-                for (Base base : setUp) {
-                    if (base.getClass().equals(Taxon.class)) {
-                        taxonDao.saveOrUpdate((Taxon) base);
-                    } else if (base.getClass().equals(Image.class)) {
-                        imageDao.saveOrUpdate((Image) base);
+                for (Object obj : setUp) {
+                    if (obj.getClass().equals(Taxon.class)) {
+                        taxonDao.saveOrUpdate((Taxon) obj);
+                    } else if (obj.getClass().equals(Image.class)) {
+                        imageDao.saveOrUpdate((Image) obj);
+                    } else if (obj.getClass().equals(Annotation.class)) {
+                            annotationDao.saveOrUpdate((Annotation) obj);
+                    } else if (obj.getClass().equals(JobExecution.class)) {
+                        jobExecutionDao.saveJobExecution((JobExecution) obj);
+                    } else if (obj.getClass().equals(JobInstance.class)) {
+                        jobInstanceDao.createJobInstance(
+                                ((JobInstance) obj).getJobName(),
+                                ((JobInstance) obj).getJobParameters());
                     }
                 }
                 getSession().flush();
@@ -231,21 +286,67 @@ public abstract class AbstractPersistenceTest {
      * @throws Exception if there is a problem tearing down the test
      */
     public final void doTearDown() throws Exception {
-        setUp = new ArrayList<Base>();
+        setUp = new ArrayList<Object>();
         doInTransaction(new Callable() {
             public Object call() throws Exception {
                 while (!tearDown.isEmpty()) {
-                    Base base = tearDown.pop();
-                    if (base.getClass().equals(Taxon.class)) {
-                        taxonDao.delete(base.getIdentifier());
-                    } else if (base.getClass().equals(Image.class)) {
-                        imageDao.delete(base.getIdentifier());
+                    Object obj = tearDown.pop();
+                    if (obj.getClass().equals(Taxon.class)) {
+                        taxonDao.delete(((Taxon) obj).getIdentifier());
+                    } else if (obj.getClass().equals(Image.class)) {
+                        imageDao.delete(((Image) obj).getIdentifier());
+                    } else if (obj.getClass().equals(Annotation.class)) {
+                        annotationDao.delete(((Annotation) obj).getIdentifier());
                     }
-                }                
+                }
                 getSession().flush();
                 return null;
             }
         });
+    }
+
+    /**
+     *
+     * @param jobInstance Set the job instance
+     * @return a job execution
+     */
+    public final JobExecution createJobExecution(
+            final JobInstance jobInstance) {
+        JobExecution jobExecution = new JobExecution(jobInstance);
+        setUp.add(jobExecution);
+        tearDown.push(jobExecution);
+        return jobExecution;
+    }
+
+    /**
+    *
+    * @param id set the id
+    * @param jobParameters set the job parameters
+    * @param jobName set the job name
+    * @return a job instance
+    */
+    public final JobInstance createJobInstance(final Long id,
+            final Map<String, JobParameter> jobParameters,
+            final String jobName) {
+        JobInstance jobInstance = new JobInstance(id, new JobParameters(
+                jobParameters), jobName);
+       setUp.add(jobInstance);
+       tearDown.push(jobInstance);
+       return jobInstance;
+   }
+
+    /**
+     * @return the taxonDao
+     */
+    public final TaxonDao getTaxonDao() {
+        return taxonDao;
+    }
+
+    /**
+     * @return the imageDao
+     */
+    public final ImageDao getImageDao() {
+        return imageDao;
     }
 
 }

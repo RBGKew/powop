@@ -75,8 +75,7 @@ public class ImageController {
  public final void setTaxonService(final TaxonService taxonService) {
      this.taxonService = taxonService;
  }
-  
-  
+
 
   /**
    * @param identifier

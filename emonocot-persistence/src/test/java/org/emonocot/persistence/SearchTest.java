@@ -1,27 +1,18 @@
 package org.emonocot.persistence;
 
-import static org.junit.Assert.assertNotNull;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Callable;
 
 import org.emonocot.api.FacetName;
-import org.emonocot.model.description.Distribution;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.Region;
-import org.emonocot.model.media.Image;
 import org.emonocot.model.pager.Page;
 import org.emonocot.model.taxon.Taxon;
-import org.emonocot.persistence.dao.TaxonDao;
-import org.hibernate.search.FullTextSession;
-import org.hibernate.search.Search;
 import org.hibernate.search.query.facet.Facet;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -70,7 +61,7 @@ public class SearchTest extends AbstractPersistenceTest {
      */
     @Test
     public final void testSearch() {
-        Page<Taxon> page = taxonDao.search("name:Aus", null, null, null,
+        Page<Taxon> page = getTaxonDao().search("name:Aus", null, null, null,
                 new FacetName[]{FacetName.CONTINENT}, null, null);
         for (Taxon t : page.getRecords()) {
             System.out.println(t.getName());
@@ -92,7 +83,7 @@ public class SearchTest extends AbstractPersistenceTest {
 
         selectedFacets.put(FacetName.CONTINENT, 0);
 
-       Page<Taxon> page = taxonDao.search("name:Aus", null, null, null,
+       Page<Taxon> page = getTaxonDao().search("name:Aus", null, null, null,
                new FacetName[]{FacetName.CONTINENT}, selectedFacets, null);
        for (Taxon t : page.getRecords()) {
            System.out.println(t.getName());
@@ -111,7 +102,7 @@ public class SearchTest extends AbstractPersistenceTest {
   public final void testSpatialSearch() {
       System.out.println(
               "testSpatialSearch() should return Aus bus but not Aus ceus");
-      Page<Taxon> page = taxonDao.search(
+      Page<Taxon> page = getTaxonDao().search(
 
               "name:Aus", "Intersects(100.0 -40.0 155.0 -5.0)",
               null, null, null, null, null);

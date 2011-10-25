@@ -8,8 +8,39 @@
 
 
 	<jdbc:embedded-database id="dataSource" type="H2">
+	    <jdbc:script location="classpath:/org/springframework/batch/core/schema-h2.sql" />
 	    <jdbc:script location="classpath:H2_schema.ddl" />
 	</jdbc:embedded-database>
+	
+	<bean name="connection" class="org.emonocot.persistence.olap.RolapConnectionFactory">
+	  <property name="dataSource" ref="dataSource"/>
+	  <property name="catalog" value="classpath:olap.xml"/>
+	  <property name="poolNeeded" value="true"/>
+	</bean>
+	
+	<bean name="jdbcTemplate" class="org.springframework.jdbc.core.simple.SimpleJdbcTemplate">
+	  <constructor-arg ref="dataSource"/>
+	</bean>
+	
+	<bean id="jobExecutionIncrementer" class="org.springframework.jdbc.support.incrementer.H2SequenceMaxValueIncrementer">
+	  <constructor-arg ref="dataSource"/>
+	  <constructor-arg value="BATCH_JOB_EXECUTION_SEQ"/>
+	</bean>
+	
+	<bean id="jobIncrementer" class="org.springframework.jdbc.support.incrementer.H2SequenceMaxValueIncrementer">
+	  <constructor-arg ref="dataSource"/>
+	  <constructor-arg value="BATCH_JOB_SEQ"/>
+	</bean>
+	
+	<bean name="jdbcJobInstanceDao" class="org.springframework.batch.core.repository.dao.JdbcJobInstanceDao">
+	  <property name="jdbcTemplate" ref="jdbcTemplate"/>
+	  <property name="jobIncrementer" ref="jobIncrementer"/>
+	</bean>
+	
+	<bean name="jdbcJobExecutionDao" class="org.springframework.batch.core.repository.dao.JdbcJobExecutionDao">
+	  <property name="jdbcTemplate" ref="jdbcTemplate"/>
+	  <property name="jobExecutionIncrementer" ref="jobExecutionIncrementer"/>
+	</bean>
 
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">

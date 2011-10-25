@@ -213,7 +213,6 @@ public class Taxon extends SearchableObject {
      * @return a list of images of the taxon
      */
     @ManyToMany(fetch = FetchType.LAZY)
-    @Cascade({ CascadeType.SAVE_UPDATE })
     @JoinTable(name = "Taxon_Image", joinColumns = { @JoinColumn(name = "Taxon_id") }, inverseJoinColumns = { @JoinColumn(name = "images_id") })
     @JsonSerialize(contentUsing = ImageSerializer.class)
     public List<Image> getImages() {
@@ -250,7 +249,7 @@ public class Taxon extends SearchableObject {
      *            Set the images associated with this taxon
      */
     @JsonDeserialize(contentUsing = ImageDeserializer.class)
-    public void setImages(List<Image> newImages) {
+    public void setImages(List<Image> newImages) {        
         this.images = newImages;
     }
 

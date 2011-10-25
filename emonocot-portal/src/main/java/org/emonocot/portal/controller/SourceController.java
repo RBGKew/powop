@@ -36,7 +36,7 @@ public class SourceController {
     *
     */
    private SourceService service;
-   
+
    /**
    *
    */
@@ -48,9 +48,8 @@ public class SourceController {
   */
  public final void setBaseUrl(final String newBaseUrl) {
      this.baseUrl = newBaseUrl;
- } 
- 
- 
+ }
+
  /**
  *
  * @param sourceService
@@ -118,8 +117,5 @@ public final ResponseEntity<Source> get(
             @PathVariable final String identifier) {
         service.delete(identifier);
         return new ResponseEntity<Source>(HttpStatus.OK);
-    }  
-  
-
-
+    }
 }

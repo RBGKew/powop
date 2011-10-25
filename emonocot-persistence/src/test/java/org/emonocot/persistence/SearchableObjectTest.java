@@ -135,7 +135,7 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
     public final void testSearchWithFacetsInTaxonDao() throws Exception {
         Map<FacetName, Integer> selectedFacets = new HashMap<FacetName, Integer>();
         selectedFacets.put(FacetName.CLASS, 1);
-        Page<Taxon> pager = taxonDao.search("Aus", null, null, null,
+        Page<Taxon> pager = getTaxonDao().search("Aus", null, null, null,
                 new FacetName[] {FacetName.CLASS, FacetName.FAMILY,
                         FacetName.CONTINENT, FacetName.AUTHORITY,
                         FacetName.RANK, FacetName.TAXONOMIC_STATUS },
@@ -158,7 +158,7 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
                 .getFacets().get("FAMILY").size());
 
         selectedFacets.put(FacetName.RANK, 1);
-        pager = taxonDao.search("Aus", null, null, null,
+        pager = getTaxonDao().search("Aus", null, null, null,
                 new FacetName[] {FacetName.CLASS, FacetName.FAMILY,
                         FacetName.CONTINENT, FacetName.AUTHORITY,
                         FacetName.RANK, FacetName.TAXONOMIC_STATUS },
