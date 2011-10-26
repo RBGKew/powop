@@ -1,15 +1,8 @@
 package org.emonocot.model.source;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.emonocot.model.common.Base;
-import org.hibernate.search.annotations.DocumentId;
-import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 
 /**

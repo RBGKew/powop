@@ -11,20 +11,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link type="images/x-icon" href="images/favicon.ico" rel="shortcut icon" />
 <!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.js">/* */</script> -->
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">/* */</script>
 <script type="text/javascript" src="http://openlayers.org/api/OpenLayers.js">/* */</script>
 <jsp:element name="script">
   <jsp:attribute name="type">text/javascript</jsp:attribute>
-  <jsp:attribute name="src">
-	<spring:message code="portal.baseUrl"/>/js/header.js
-  </jsp:attribute>
+  <jsp:attribute name="src"><spring:message code="portal.baseUrl"/>/js/header.js</jsp:attribute>
   /* */   
 </jsp:element>
 
 <jsp:element name="script">
   <jsp:attribute name="type">text/javascript</jsp:attribute>
-  <jsp:attribute name="src">
-	<spring:message code="portal.baseUrl"/>/js/functions.js
+  <jsp:attribute name="src"><spring:message code="portal.baseUrl"/>/js/functions.js
   </jsp:attribute>
   /* */   
 </jsp:element>
@@ -33,64 +30,9 @@
 	<jsp:attribute name="rel">stylesheet</jsp:attribute>
 	<jsp:attribute name="type">text/css</jsp:attribute>
 	<jsp:attribute name="media">screen</jsp:attribute>
-	<jsp:attribute name="href">
-		<spring:message code="portal.baseUrl"/>/css/ad-gallery/jquery.ad-gallery.css
+	<jsp:attribute name="href"><spring:message code="portal.baseUrl"/>/css/ad-gallery/jquery.ad-gallery.css
 	</jsp:attribute>
 </jsp:element>
-<!-- 
-<jsp:element name="link">
-	<jsp:attribute name="rel">stylesheet</jsp:attribute>
-	<jsp:attribute name="type">text/css</jsp:attribute>
-	<jsp:attribute name="media">screen</jsp:attribute>
-	<jsp:attribute name="href">
-		<spring:message code="portal.baseUrl"/>/css/css-galleriffic/basic.css
-	</jsp:attribute>
-</jsp:element>
-<jsp:element name="link">
-	<jsp:attribute name="rel">stylesheet</jsp:attribute>
-	<jsp:attribute name="type">text/css</jsp:attribute>
-	<jsp:attribute name="media">screen</jsp:attribute>
-	<jsp:attribute name="href">
-		<spring:message code="portal.baseUrl"/>/css/css-galleriffic/white.css
-	</jsp:attribute>
-</jsp:element>
-<jsp:element name="link">
-	<jsp:attribute name="rel">stylesheet</jsp:attribute>
-	<jsp:attribute name="type">text/css</jsp:attribute>
-	<jsp:attribute name="media">screen</jsp:attribute>
-	<jsp:attribute name="href">
-		<spring:message code="portal.baseUrl"/>/css/css-galleriffic/galleriffic-5.css
-	</jsp:attribute>
-</jsp:element>
- -->
-<!-- 
-<jsp:element name="link">
-	<jsp:attribute name="rel">stylesheet</jsp:attribute>
-	<jsp:attribute name="type">text/css</jsp:attribute>
-	<jsp:attribute name="media">screen</jsp:attribute>
-	<jsp:attribute name="href">
-		<spring:message code="portal.baseUrl"/>/css/gallery/jquery.jcarousel.css
-	</jsp:attribute>
-</jsp:element>
-
-<jsp:element name="link">
-	<jsp:attribute name="rel">stylesheet</jsp:attribute>
-	<jsp:attribute name="type">text/css</jsp:attribute>
-	<jsp:attribute name="media">screen</jsp:attribute>
-	<jsp:attribute name="href">
-		<spring:message code="portal.baseUrl"/>/css/gallery/main.css
-	</jsp:attribute>
-</jsp:element>
-
-<jsp:element name="link">
-	<jsp:attribute name="rel">stylesheet</jsp:attribute>
-	<jsp:attribute name="type">text/css</jsp:attribute>
-	<jsp:attribute name="media">screen</jsp:attribute>
-	<jsp:attribute name="href">
-		<spring:message code="portal.baseUrl"/>/css/gallery/skin.css
-	</jsp:attribute>
-</jsp:element>
- -->
  
 <jsp:element name="link">
 	<jsp:attribute name="rel">stylesheet</jsp:attribute>
@@ -119,19 +61,5 @@
 		<spring:message code="portal.baseUrl"/>/css/style.css
 	</jsp:attribute>
 </jsp:element> 
-
-<!-- 
-<jsp:element name="link">
-	<jsp:attribute name="rel">stylesheet</jsp:attribute>
-	<jsp:attribute name="type">text/css</jsp:attribute>
-	<jsp:attribute name="media">screen</jsp:attribute>
-	<jsp:attribute name="href">
-		<spring:message code="portal.baseUrl"/>/css/style-aw.css
-	</jsp:attribute>
-</jsp:element>
- -->
-<!-- <script type="text/javascript">
-			document.write('<style>.noscript { display: none; }</style>');
-		</script> -->
 </head>
 </jsp:root>

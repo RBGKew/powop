@@ -3,10 +3,12 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
-	
-	
-	<div class="content-wrapper">
-		<div>${source.identifier}</div>
-			
+
+	<div class="row">
+		<div class="twelvecol">
+			<div class="content-wrapper">
+				<div>${source.identifier}</div>
+			</div>
+		</div>
 	</div>
 </jsp:root>

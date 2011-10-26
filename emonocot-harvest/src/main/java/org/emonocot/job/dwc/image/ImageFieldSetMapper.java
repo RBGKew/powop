@@ -1,5 +1,6 @@
 package org.emonocot.job.dwc.image;
 
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
@@ -125,7 +126,13 @@ public class ImageFieldSetMapper extends
         if (value == null) {
             return null;
         } else {
-          return new String(messageDigest.digest(value.getBytes()));
+            try {
+                return new String(messageDigest.digest(value.getBytes()),
+                        "US-ASCII");
+            } catch (UnsupportedEncodingException e) {
+                logger.error(e.getMessage());
+                return null;
+            }
         }
     }
 }

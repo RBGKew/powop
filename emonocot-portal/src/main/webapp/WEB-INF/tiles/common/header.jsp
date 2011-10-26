@@ -4,8 +4,8 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:security="http://www.springframework.org/security/tags"
 	version="2.0">
-	<div id="headerContainer">
-		<div id="annotateHeader">
+	<div id="headerContainer" class="row">
+		<div id="annotateHeader" class="twelvecol">
 			<div class="home-header">
 				<h1><a href="/" title="home">emonocot</a></h1>
 				<security:authorize access="!isAuthenticated()">
