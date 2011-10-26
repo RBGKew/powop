@@ -26,6 +26,9 @@
   <definition name="imagePage" extends="base">    
     <put-attribute name="body" value="/WEB-INF/tiles/tiles/imagePage.jsp" />
   </definition>
+    <definition name="sourcePage" extends="base">    
+    <put-attribute name="body" value="/WEB-INF/tiles/tiles/sourcePage.jsp" />
+  </definition>
   <definition name="searchResponse" extends="base">    
     <put-attribute name="body" value="/WEB-INF/tiles/tiles/searchResponse.jsp" />
   </definition>

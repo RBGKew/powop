@@ -7,7 +7,11 @@
 	<div class="row">
 		<div class="twelvecol">
 			<div class="content-wrapper">
-				<div>${source.identifier}</div>
+				<h2 id="page-title">${source.identifier}</h2>
+				<br/>
+				<a href="${source.uri}">
+					<spring:message code="availableAt" />
+				</a>	
 			</div>
 		</div>
 	</div>

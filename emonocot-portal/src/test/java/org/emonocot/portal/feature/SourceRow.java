@@ -11,4 +11,5 @@ public class SourceRow {
      *
      */
     public String identifier;
+    public String uri;
 }

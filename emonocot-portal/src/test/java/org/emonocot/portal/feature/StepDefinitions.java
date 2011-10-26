@@ -16,6 +16,7 @@ import org.emonocot.portal.driver.ProfilePage;
 import org.emonocot.portal.driver.RegistrationPage;
 import org.emonocot.portal.driver.RequiresLoginException;
 import org.emonocot.portal.driver.SearchResultsPage;
+import org.emonocot.portal.driver.SourcePage;
 import org.emonocot.portal.driver.TaxonPage;
 import org.emonocot.portal.driver.TestDataManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,7 +93,7 @@ public class StepDefinitions {
    @Given("^there are source systems with the following properties:$")
    public final void thereAreSourceSystemsWithTheFollowingProperties(List<SourceRow> rows) {
        for (SourceRow row : rows) {
-    	   testDataManager.createSourceSystem(row.identifier);
+    	   testDataManager.createSourceSystem(row.identifier, row.uri);
        }
    }
 
@@ -197,6 +198,17 @@ public class StepDefinitions {
             assertArrayEquals(actualResults.get(i), results.get(i).toArray());
         }
     }
+    
+    
+    @Then("^there should be a link to \"([^\"]*)\"$")
+    public void thereShouldBeALinkTo(String link) {
+    	assertEquals(link, ((SourcePage) currentPage).getLink());
+    }
+
+    @Then("^the source name should be \"([^\"]*)\"$")
+    public void theSourceNameShouldBe(String name) {
+    	assertEquals(name, ((SourcePage) currentPage).getName());
+    }
 
     /**
      *
@@ -278,6 +290,11 @@ public class StepDefinitions {
     @When("^I navigate to image page \"([^\"]*)\"$")
     public void navigateToImagePage(final String identifier) {
     	currentPage = portal.getImagePage(identifier);
+    }
+    
+    @When("^I navigate to source page \"([^\"]*)\"$")
+    public void navigateToSourcePage(final String identifier) {
+    	currentPage = portal.getSourcePage(identifier);
     }
 
     /**

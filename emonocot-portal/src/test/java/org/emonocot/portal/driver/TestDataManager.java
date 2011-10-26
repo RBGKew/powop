@@ -175,12 +175,14 @@ public class TestDataManager {
 
    /**
     *
-    * @param name Set the name
+    * @param uri TODO
+ * @param name Set the name
     */
-   public final void createSourceSystem(final String identifier) {
+   public final void createSourceSystem(final String identifier, String uri) {
         enableAuthentication();
         Source source = new Source();
         source.setIdentifier(identifier);
+        source.setUri(uri);
         sourceService.save(source);
         data.push(source);
         disableAuthentication();
@@ -379,6 +381,8 @@ public class TestDataManager {
                 userService.delete(base.getIdentifier());
             } else if (base instanceof Group) {
                 groupService.delete(base.getIdentifier());
+            } else if (base instanceof Source) {
+                sourceService.delete(base.getIdentifier());
             }
         }
         disableAuthentication();

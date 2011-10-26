@@ -83,4 +83,8 @@ public class Portal extends PageObject {
 	public ImagePage getImagePage(String identifier) {
 		return openAs(getBaseUri() + "image/" + identifier, ImagePage.class);
 	}
+
+	public SourcePage getSourcePage(String identifier) {
+		return openAs(getBaseUri() + "source/" + identifier, SourcePage.class);
+	}
 }

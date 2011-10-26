@@ -68,7 +68,7 @@ public final void setSourceService(final SourceService sourceService) {
 @RequestMapping(value = "/source/{identifier}", method = RequestMethod.GET)
 public final ModelAndView getSourcePage(@PathVariable final String identifier) {
     ModelAndView modelAndView = new ModelAndView("sourcePage");
-    modelAndView.addObject(service.load(identifier, "source-page"));
+    modelAndView.addObject(service.load(identifier));
     return modelAndView;
 }
 
