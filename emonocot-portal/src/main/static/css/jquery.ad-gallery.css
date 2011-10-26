@@ -41,10 +41,10 @@
     }
     .ad-gallery .ad-image-wrapper .ad-prev, .ad-gallery .ad-image-wrapper .ad-next {
       /* Or else IE will hide it */
-      background: url(../images/non-existing.jpg)\9
+      background: url('../images/non-existing.jpg')\9
     }
       .ad-gallery .ad-image-wrapper .ad-prev .ad-prev-image, .ad-gallery .ad-image-wrapper .ad-next .ad-next-image {
-        background: url(../images/ad_prev.png);
+        background: url('../images/ad_prev.png');
         width: 30px;
         height: 30px;
         /*display: none;*/
@@ -78,14 +78,14 @@
         text-align: left;
         width: 100%;
         z-index: 2;
-        background: url(../images/opa75.png);
+        background: url('../images/opa75.png');
         color: #000;
       }
       
 /*    * html .ad-gallery .ad-image-wrapper .ad-image .ad-image-description {*/
 	* html .ad-gallery .ad-image-wrapper .ad-image {
         background: none;
-        filter:progid:DXImageTransform.Microsoft.AlphaImageLoader (enabled=true, sizingMethod=scale, src=../images/opa75.png);
+        filter:progid:DXImageTransform.Microsoft.AlphaImageLoader (enabled=true, sizingMethod=scale, src='../images/opa75.png');
       }
         .ad-gallery .ad-image-wrapper .ad-image .ad-image-description .ad-description-title {
           display: block;
@@ -130,7 +130,7 @@
       left: -20px;
       width: 13px;
       display: block;
-      background: url(../images/ad_scroll_back.png) 0px 22px no-repeat;
+      background: url('../images/ad_scroll_back.png') 0px 22px no-repeat;
     }
     .ad-gallery .ad-forward {
       cursor: pointer;

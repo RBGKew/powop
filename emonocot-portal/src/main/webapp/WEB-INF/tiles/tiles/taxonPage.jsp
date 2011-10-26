@@ -35,12 +35,11 @@
 													varStatus="status">
 													<li><a href="${image.url}"> <img
 															src="${image.url}" class="${status.index}"
-															title="${image.caption}" /> </a></li>
+															title="${image.caption}" ad-href="/portal/image/${image.identifier}" /></a></li>
 												</c:forEach>
 											</ul>
 										</div>
 									</div>
-									<div id="descriptions">&#160;</div>
 								</div>
 
 							</div>

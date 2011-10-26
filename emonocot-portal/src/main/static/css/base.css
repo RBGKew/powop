@@ -287,7 +287,7 @@ small#hint {
     padding-left: 50px;
 }
 
-/*div#container,*/
+div#container,
 div.wrapper {
     position: relative;
     width: 940px;

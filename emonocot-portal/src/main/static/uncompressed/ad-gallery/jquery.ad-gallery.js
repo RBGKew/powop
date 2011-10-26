@@ -324,16 +324,16 @@
           } else if(thumb.attr('title') && thumb.attr('title').length) {
             title = thumb.attr('title');
           };
-          context.images[i] = { thumb: thumb.attr('src'), image: image_src, error: false,
+          /*context.images[i] = { thumb: thumb.attr('src'), image: image_src, error: false,
                                 preloaded: false, desc: desc, title: title, size: false,
-                                link: link };
-                                /*var hRef = false;
+                                link: link };*/
+                                var hRef = false;
           if (thumb.attr('ad-href')) {
           hRef = thumb.attr('ad-href');
           };
           context.images[i] = { thumb: thumb.attr('src'), image: image_src, error: false,
           preloaded: false, desc: desc, title: title, size: false, articleHref: hRef
-          };*/
+          };
         }
       );
       // Wait until all thumbs are loaded, and then set the width of the ul
@@ -551,7 +551,7 @@
       if(this.images[index]) {
         var context = this;
         var image = this.images[index];
-        var img_container = $(document.createElement('div')).addClass('ad-image');
+        /*var img_container = $(document.createElement('div')).addClass('ad-image');
         var img = $(new Image()).attr('src', image.image);
         if(image.link) {
           var link = $('<a href="'+ image.link +'" target="_blank"></a>');
@@ -560,7 +560,7 @@
         } else {
           img_container.append(img);
         }
-        /*
+        */
         if (image.articleHref) {
         	var img_container = $(document.createElement('div')).addClass('ad-image');
         	var img_link = $(document.createElement('a')).attr('href', image.articleHref);
@@ -572,7 +572,7 @@
         	var img_container = $(document.createElement('div')).addClass('ad-image');
         	var img = $(new Image()).attr('src', image.image);
         	img_container.append(img);
-        	}*/
+        	}
         
         this.image_wrapper.prepend(img_container);
         var size = this._getContainedImageSize(image.size.width, image.size.height);
