@@ -1,6 +1,8 @@
 package org.emonocot.job.dwc.image;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
@@ -90,7 +92,6 @@ public class ImageFieldSetMapper extends
                 object.setCaption(value);
                 break;
             case identifier:
-                object.setIdentifier(convertUrlToIdentifier(value));
                 object.setUrl(value);
                 break;
             default:
@@ -113,25 +114,6 @@ public class ImageFieldSetMapper extends
                 break;
             default:
                 break;
-            }
-        }
-    }
-
-    /**
-     *
-     * @param value the string url of the image
-     * @return a digested version of the url suitable for use as an identifier
-     */
-    private String convertUrlToIdentifier(final String value) {
-        if (value == null) {
-            return null;
-        } else {
-            try {
-                return new String(messageDigest.digest(value.getBytes()),
-                        "US-ASCII");
-            } catch (UnsupportedEncodingException e) {
-                logger.error(e.getMessage());
-                return null;
             }
         }
     }

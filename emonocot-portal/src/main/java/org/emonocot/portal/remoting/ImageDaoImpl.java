@@ -19,4 +19,13 @@ public class ImageDaoImpl extends DaoImpl<Image> implements ImageDao {
         super(Image.class, "image");
     }
 
+    /**
+     * @param url Set the url
+     * @return an image or null if one doesn't exist
+     */
+    public final Image findByUrl(final String url) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

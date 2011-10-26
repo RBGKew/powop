@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.emonocot.job.dwc.DarwinCoreValidator;
 import org.emonocot.model.source.Source;
@@ -76,20 +77,21 @@ public class ImageValidator extends DarwinCoreValidator<Image> implements
      */
     public final Image process(final Image image)
             throws Exception {
-        logger.info("Validating " + image.getIdentifier());
+        logger.info("Validating " + image.getUrl());
 
-        Image boundImage = boundImages.get(image.getIdentifier());
+        Image boundImage = boundImages.get(image.getUrl());
         if (boundImage == null) {
-            Image persistedImage = imageService.find(image.getIdentifier());
+            Image persistedImage = imageService.findByUrl(image.getUrl());
             if (persistedImage == null) {
                 // We've not seen this image before
-                boundImages.put(image.getIdentifier(), image);
+                image.setIdentifier(UUID.randomUUID().toString());
+                boundImages.put(image.getUrl(), image);
                 image.getTaxon().getImages().add(image);
                 image.setAuthority(getSource());
                 image.getSources().add(getSource());
                 Annotation annotation = createAnnotation("Image", "Create", AnnotationType.Create);
                 image.getAnnotations().add(annotation);
-                logger.info("Adding image " + image.getIdentifier());
+                logger.info("Adding image " + image.getUrl());
                 return image;
             } else {
                 // We've seen this image before, but not in this chunk
@@ -104,8 +106,8 @@ public class ImageValidator extends DarwinCoreValidator<Image> implements
                         return null;
                     } else {
                         // Add the taxon to the list of taxa
-                        boundImages.put(persistedImage.getIdentifier(), persistedImage);
-                        logger.info("Updating image " + image.getIdentifier());
+                        boundImages.put(persistedImage.getUrl(), persistedImage);
+                        logger.info("Updating image " + image.getUrl());
                         persistedImage.getTaxa().add(image.getTaxon());
                         image.getTaxon().getImages().add(persistedImage);
                         return persistedImage;
@@ -118,7 +120,6 @@ public class ImageValidator extends DarwinCoreValidator<Image> implements
                     persistedImage.setCaption(image.getCaption());
                     persistedImage.setCreated(image.getCreated());
                     persistedImage.setCreator(image.getCreator());
-                    persistedImage.setIdentifier(image.getIdentifier());
                     persistedImage.setLicense(image.getLicense());
                     persistedImage.setModified(image.getModified());
                     persistedImage.setSource(image.getSource());
@@ -131,8 +132,8 @@ public class ImageValidator extends DarwinCoreValidator<Image> implements
                     Annotation annotation = createAnnotation("Image", "Create",
                             AnnotationType.Create);
                     persistedImage.getAnnotations().add(annotation);
-                    boundImages.put(image.getIdentifier(), persistedImage);
-                    logger.info("Overwriting image " + image.getIdentifier());
+                    boundImages.put(image.getUrl(), persistedImage);
+                    logger.info("Overwriting image " + image.getUrl());
                     return persistedImage;
                 }
             }
@@ -148,7 +149,7 @@ public class ImageValidator extends DarwinCoreValidator<Image> implements
                 boundImage.getTaxa().add(image.getTaxon());
             }
             // We've already returned this object once
-            logger.info("Skipping image " + image.getIdentifier());
+            logger.info("Skipping image " + image.getUrl());
             return null;
         }
     }

@@ -343,7 +343,7 @@
 											<a href="image/${item.identifier}">${item.caption}</a>
 										</c:when>
 										<c:when test="${item.className == 'Source'}">
-											<a href="source/${item.identifier}">${item.name}</a>
+											<a href="source/${item.identifier}">${item.identifier}</a>
 										</c:when>
 										<c:otherwise>
               									Unknown class ${item.className}

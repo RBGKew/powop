@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.emonocot.model.source.Source;
+import org.emonocot.service.JobService;
 import org.emonocot.api.SourceService;
 
 import org.slf4j.Logger;
@@ -27,92 +28,106 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class SourceController {
 
-   /**
-    *
-    */
-   private static Logger logger = LoggerFactory
-           .getLogger(SourceController.class);
-   /**
-    *
-    */
-   private SourceService service;
+    /**
+     *
+     */
+    private static Logger logger = LoggerFactory
+            .getLogger(SourceController.class);
+    /**
+     *
+     */
+    private SourceService service;
 
-   /**
-   *
-   */
-  private String baseUrl;
+    /**
+     *
+     */
+    private String baseUrl;
+    
+    private JobService jobService;
 
-  /**
-  *
-  * @param newBaseUrl Set the base url
-  */
- public final void setBaseUrl(final String newBaseUrl) {
-     this.baseUrl = newBaseUrl;
- }
+    /**
+     *
+     * @param newBaseUrl
+     *            Set the base url
+     */
+    public final void setBaseUrl(final String newBaseUrl) {
+        this.baseUrl = newBaseUrl;
+    }
 
- /**
- *
- * @param sourceService
- *            Set the source service
- */
-@Autowired
-public final void setSourceService(final SourceService sourceService) {
-    this.service = sourceService;
-}
+    /**
+     *
+     * @param sourceService
+     *            Set the source service
+     */
+    @Autowired
+    public final void setSourceService(final SourceService sourceService) {
+        this.service = sourceService;
+    }
 
-/**
- * @param identifier
- *            Set the identifier of the source
- * @return A model and view containing a source
- */
-@RequestMapping(value = "/source/{identifier}", method = RequestMethod.GET)
-public final ModelAndView getSourcePage(@PathVariable final String identifier) {
-    ModelAndView modelAndView = new ModelAndView("sourcePage");
-    modelAndView.addObject(service.load(identifier));
-    return modelAndView;
-}
+    /**
+     * @param identifier
+     *            Set the identifier of the source
+     * @return A model and view containing a source
+     */
+    @RequestMapping(value = "/source/{identifier}", method = RequestMethod.GET)
+    public final ModelAndView getSourcePage(
+            @PathVariable final String identifier) {
+        ModelAndView modelAndView = new ModelAndView("sourcePage");
+        modelAndView.addObject(service.load(identifier));
+        return modelAndView;
+    }
 
-/**
- * @param identifier
- *            Set the identifier of the source
- * @return A model and view containing a source
- */
-@RequestMapping(value = "/source/{identifier}",
-                method = RequestMethod.GET,
-                headers = "Accept=application/json")
-public final ResponseEntity<Source> get(
-        @PathVariable final String identifier) {
-    return new ResponseEntity<Source>(service.find(identifier),
-            HttpStatus.OK);
-}
+    /**
+     * @param identifier
+     *            Set the identifier of the source
+     * @return A model and view containing a source
+     */
+    @RequestMapping(value = "/admin/source/{identifier}", method = RequestMethod.GET)
+    public final ModelAndView getSourceAdminPage(
+            @PathVariable final String identifier) {
+        ModelAndView modelAndView = new ModelAndView("sourceAdminPage");
+        modelAndView.addObject(service.load(identifier));
+        modelAndView.addObject("jobExecutions", jobService.listJobExecutions(identifier,1));
+        return modelAndView;
+    }
 
-/**
- * @param source
- *            the source to save
- * @return A response entity containing a newly created source
- */
-  @RequestMapping(value = "/source",
-                  method = RequestMethod.POST)
-  public final ResponseEntity<Source> create(
-          @RequestBody final Source source) {
-      HttpHeaders httpHeaders = new HttpHeaders();
-      try {
-          httpHeaders.setLocation(new URI(baseUrl + "source/" + source.getIdentifier()));
-      } catch (URISyntaxException e) {
-          logger.error(e.getMessage());
-      }
-      ResponseEntity<Source> response = new ResponseEntity<Source>(
-              service.save(source), httpHeaders, HttpStatus.CREATED);
-      return response;
-  }
+    /**
+     * @param identifier
+     *            Set the identifier of the source
+     * @return A model and view containing a source
+     */
+    @RequestMapping(value = "/source/{identifier}", method = RequestMethod.GET, headers = "Accept=application/json")
+    public final ResponseEntity<Source> get(
+            @PathVariable final String identifier) {
+        return new ResponseEntity<Source>(service.find(identifier),
+                HttpStatus.OK);
+    }
 
-  /**
-   * @param identifier
-   *            Set the identifier of the source
-   * @return A response entity containing the status
-   */
-    @RequestMapping(value = "/source/{identifier}",
-                    method = RequestMethod.DELETE)
+    /**
+     * @param source
+     *            the source to save
+     * @return A response entity containing a newly created source
+     */
+    @RequestMapping(value = "/source", method = RequestMethod.POST)
+    public final ResponseEntity<Source> create(@RequestBody final Source source) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        try {
+            httpHeaders.setLocation(new URI(baseUrl + "source/"
+                    + source.getIdentifier()));
+        } catch (URISyntaxException e) {
+            logger.error(e.getMessage());
+        }
+        ResponseEntity<Source> response = new ResponseEntity<Source>(
+                service.save(source), httpHeaders, HttpStatus.CREATED);
+        return response;
+    }
+
+    /**
+     * @param identifier
+     *            Set the identifier of the source
+     * @return A response entity containing the status
+     */
+    @RequestMapping(value = "/source/{identifier}", method = RequestMethod.DELETE)
     public final ResponseEntity<Source> delete(
             @PathVariable final String identifier) {
         service.delete(identifier);

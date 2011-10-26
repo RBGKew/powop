@@ -22,32 +22,7 @@ public abstract class Base implements Serializable {
     /**
      *
      */
-    private Long id;
-
-    /**
-     *
-     */
     private String identifier;
-
-    /**
-     *
-     * @param newId
-     *            Set the identifier of this object.
-     */
-    public void setId(Long newId) {
-        this.id = newId;
-    }
-
-    /**
-     *
-     * @return Get the identifier for this object.
-     */
-    @Id
-    @GeneratedValue(generator = "system-increment")
-    @DocumentId
-    public Long getId() {
-        return id;
-    }
 
     /**
      *
@@ -78,7 +53,7 @@ public abstract class Base implements Serializable {
     }
 
     /**
-     * 
+     *
      * @param identifier
      *            Set the unique identifier of the object
      */

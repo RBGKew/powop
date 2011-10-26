@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
@@ -72,6 +74,30 @@ public class Annotation extends Base {
     *
     */
    private DateTime dateTime = new DateTime();
+
+   /**
+    *
+    */
+   private Long id;
+
+    /**
+     *
+     * @see org.emonocot.model.common.Base#getId()
+     */
+    @Id
+    @GeneratedValue(generator = "annotation-sequence")
+    public Long getId() {
+        return id;
+    }
+
+    /**
+    *
+    * @param newId
+    *            Set the identifier of this object.
+    */
+    public void setId(Long newId) {
+       this.id = newId;
+    }
 
     /**
      * @return the authority

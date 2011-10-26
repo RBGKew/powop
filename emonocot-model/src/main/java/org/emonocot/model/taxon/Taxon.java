@@ -25,7 +25,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.SearchableObject;
+import org.emonocot.model.common.BaseData;
 import org.emonocot.model.description.Content;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
@@ -56,7 +56,7 @@ import org.hibernate.search.annotations.IndexedEmbedded;
  */
 @Entity
 @Indexed(index = "org.emonocot.model.common.SearchableObject")
-public class Taxon extends SearchableObject {
+public class Taxon extends BaseData {
 
     /**
      *

@@ -2,7 +2,7 @@ package org.emonocot.api;
 
 import java.util.Map;
 
-import org.emonocot.model.common.SearchableObject;
+import org.emonocot.model.common.Base;
 import org.emonocot.model.pager.Page;
 
 /**
@@ -11,7 +11,7 @@ import org.emonocot.model.pager.Page;
  *
  * @param <T>
  */
-public interface SearchableService<T extends SearchableObject> extends Service<T> {
+public interface SearchableService<T extends Base> {
    /**
     * @param query
     *            A lucene query

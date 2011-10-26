@@ -70,7 +70,9 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
-	<context:component-scan base-package="org.emonocot.service.impl" />
+	<context:component-scan base-package="org.emonocot.service.impl">
+	  <context:exclude-filter type="assignable" expression="org.emonocot.service.JobService"/>
+	</context:component-scan>
 	<context:component-scan base-package="org.emonocot.persistence.dao.hibernate"/>
 
 	<context:annotation-config />

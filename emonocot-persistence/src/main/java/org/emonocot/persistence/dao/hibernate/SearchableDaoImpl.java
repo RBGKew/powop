@@ -13,7 +13,7 @@ import org.apache.lucene.util.Version;
 import org.emonocot.api.FacetName;
 import org.emonocot.api.Sorting;
 import org.emonocot.api.Sorting.SortDirection;
-import org.emonocot.model.common.SearchableObject;
+import org.emonocot.model.common.Base;
 import org.emonocot.model.pager.DefaultPageImpl;
 import org.emonocot.model.pager.Page;
 import org.emonocot.persistence.QuerySyntaxException;
@@ -34,7 +34,7 @@ import org.hibernate.search.query.facet.Facet;
  *
  * @param <T>
  */
-public abstract class SearchableDaoImpl<T extends SearchableObject> extends
+public abstract class SearchableDaoImpl<T extends Base> extends
         DaoImpl<T> implements SearchableDao<T> {
 
     /**
@@ -113,7 +113,7 @@ public abstract class SearchableDaoImpl<T extends SearchableObject> extends
     * @return the fields to search by default
     */
    protected abstract String[] getDocumentFields();
-    
+
     /**
     *
     */

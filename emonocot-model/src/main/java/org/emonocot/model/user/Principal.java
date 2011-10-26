@@ -35,7 +35,32 @@ public abstract class Principal extends Base {
     /**
      *
      */
+    private Long id;
+
+    /**
+     *
+     */
     private static final long serialVersionUID = -2461535344191283847L;
+
+    /**
+    *
+    * @param newId
+    *            Set the identifier of this object.
+    */
+   public void setId(Long newId) {
+       this.id = newId;
+   }
+
+   /**
+    *
+    * @return Get the identifier for this object.
+    */
+   @Id
+   @GeneratedValue(generator = "system-increment")
+   @DocumentId
+   public Long getId() {
+       return id;
+   }
 
     /**
      *

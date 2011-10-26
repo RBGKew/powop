@@ -7,6 +7,13 @@ import org.emonocot.model.media.Image;
  * @author ben
  *
  */
-public interface ImageService extends SearchableService<Image> {
+public interface ImageService extends Service<Image>, SearchableService<Image> {
+
+    /**
+     *
+     * @param url Set the Url
+     * @return an image or null if one doesn't exist
+     */
+    Image findByUrl(String url);
 
 }

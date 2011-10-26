@@ -31,8 +31,6 @@ public final class Functions {
     private Functions() {
     }
 
-    
-
     /**
      *
      * @return the list of features

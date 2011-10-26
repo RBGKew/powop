@@ -5,7 +5,7 @@ import java.util.Map;
 import org.emonocot.api.FacetName;
 import org.emonocot.api.SearchableService;
 import org.emonocot.api.Sorting;
-import org.emonocot.model.common.SearchableObject;
+import org.emonocot.model.common.Base;
 import org.emonocot.model.pager.Page;
 import org.emonocot.persistence.dao.SearchableDao;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @param <T> the type of object provided by this service
  * @param <DAO> the DAO used by this service
  */
-public abstract class SearchableServiceImpl<T extends SearchableObject, DAO extends SearchableDao<T>>
+public abstract class SearchableServiceImpl<T extends Base, DAO extends SearchableDao<T>>
         extends ServiceImpl<T,DAO> implements SearchableService<T> {
 
     /**

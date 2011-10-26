@@ -12,6 +12,14 @@
 				<a href="${source.uri}">
 					<spring:message code="availableAt" />
 				</a>	
+				<div>
+					<jsp:element name="a">
+						<jsp:attribute name="href">
+							<c:url value="/admin/source/${source.identifier}" />
+						</jsp:attribute>
+                  	    <spring:message code="administrator.page"/>
+                  </jsp:element>
+				</div>
 			</div>
 		</div>
 	</div>

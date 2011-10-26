@@ -5,6 +5,7 @@ import org.emonocot.model.media.Image;
 import org.emonocot.persistence.dao.ImageDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -18,6 +19,15 @@ public class ImageServiceImpl extends SearchableServiceImpl<Image, ImageDao> imp
     @Autowired
     public void setImageDao(ImageDao imageDao) {
         super.dao = imageDao;
+    }
+
+    /**
+     * @param url Set the url
+     * @return an image or null if one doesn't exist
+     */
+    @Transactional(readOnly = true)
+    public final Image findByUrl(final String url) {
+        return dao.findByUrl(url);
     }
 
 }

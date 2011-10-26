@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
-public class SourceServiceImpl extends ServiceImpl<Source, SourceDao> implements
+public class SourceServiceImpl extends SearchableServiceImpl<Source, SourceDao> implements
         SourceService {
 
     @Autowired

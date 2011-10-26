@@ -9,11 +9,10 @@ import static org.junit.Assert.assertThat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
 
 import org.emonocot.api.FacetName;
 import org.emonocot.api.Sorting;
-import org.emonocot.model.common.SearchableObject;
+import org.emonocot.model.common.Base;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.Region;
@@ -22,11 +21,7 @@ import org.emonocot.model.pager.Page;
 import org.emonocot.model.taxon.Rank;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.model.taxon.TaxonomicStatus;
-import org.emonocot.persistence.dao.ImageDao;
 import org.emonocot.persistence.dao.SearchableObjectDao;
-import org.emonocot.persistence.dao.TaxonDao;
-import org.hibernate.search.FullTextSession;
-import org.hibernate.search.Search;
 import org.hibernate.search.query.facet.Facet;
 import org.junit.After;
 import org.junit.Before;
@@ -93,7 +88,7 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
      */
     @Test
     public final void testSearch() {
-        Page<SearchableObject> pager = searchableObjectDao.search("Aus", null,
+        Page<Base> pager = searchableObjectDao.search("Aus", null,
                 null, null, null, null, null);
         assertEquals("there should be seven objects saved", (Integer) 7,
                 pager.getSize());
@@ -106,7 +101,7 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
     public final void testSearchWithFacets() {
         Map<FacetName, Integer> selectedFacets = new HashMap<FacetName, Integer>();
         selectedFacets.put(FacetName.CLASS, 1);
-        Page<SearchableObject> pager = searchableObjectDao.search("Aus", null,
+        Page<Base> pager = searchableObjectDao.search("Aus", null,
                 null, null,
                 new FacetName[] {FacetName.CLASS, FacetName.FAMILY},
                 selectedFacets, null);
@@ -171,7 +166,7 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
      */
     @Test
     public final void testSearchWithSorting() {
-        Page<SearchableObject> results = searchableObjectDao.search("Au*",
+        Page<Base> results = searchableObjectDao.search("Au*",
                 null, null, null, null, null, null);
 
         Sorting sort = new Sorting("label");

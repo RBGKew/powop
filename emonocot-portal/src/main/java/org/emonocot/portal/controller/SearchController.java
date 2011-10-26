@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.emonocot.model.common.SearchableObject;
+import org.emonocot.model.common.Base;
 import org.emonocot.api.Sorting;
 import org.emonocot.model.pager.Page;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
@@ -12,6 +12,7 @@ import org.emonocot.portal.format.annotation.SortingFormat;
 import org.emonocot.api.FacetName;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.SearchableObjectService;
+import org.emonocot.api.SourceService;
 import org.emonocot.api.TaxonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +49,11 @@ public class SearchController {
     /**
      *
      */
+    private SourceService sourceService;
+
+    /**
+     *
+     */
     private SearchableObjectService searchableObjectService;
 
     /**
@@ -64,6 +70,16 @@ public class SearchController {
     public final void setTaxonService(final TaxonService taxonService) {
         this.taxonService = taxonService;
     }
+
+    /**
+    *
+    * @param sourceService
+    *            Set the source service
+    */
+   @Autowired
+   public final void setSourceService(final SourceService sourceService) {
+       this.sourceService = sourceService;
+   }
 
     /**
      *
@@ -128,7 +144,7 @@ public class SearchController {
 
         if (selectedFacets == null
                 || !selectedFacets.containsKey(FacetName.CLASS)) {
-            Page<SearchableObject> result = searchableObjectService.search(
+            Page<Base> result = searchableObjectService.search(
                     query, null, limit, start, new FacetName[] {FacetName.CLASS,
                             FacetName.FAMILY, FacetName.CONTINENT,
                             FacetName.AUTHORITY},
@@ -141,7 +157,7 @@ public class SearchController {
             result.setSort(sort);
             modelAndView.addObject("result", result);
         } else {
-            Page<? extends SearchableObject> result = null;
+            Page<? extends Base> result = null;
             logger.debug(selectedFacets.size()
                     + " facets have been selected from " + facets.size()
                     + " available");
@@ -157,6 +173,16 @@ public class SearchController {
                         start, limit, selectedFacets, result.getSize() });
                 break;
             case 1:
+                logger.debug("Using the source service for "+ query);
+                result = sourceService.search(query, null, limit,
+                        start, new FacetName[] {FacetName.CLASS,
+                        FacetName.FAMILY, FacetName.CONTINENT,
+                        FacetName.AUTHORITY}, selectedFacets, sort);
+                queryLog.info("Query: \'{}\', start: {}, limit: {},"
+                        + "facet: [{}], {} results", new Object[] {query,
+                        start, limit, selectedFacets, result.getSize() });
+                break;
+            case 2:
                 logger.debug("Using the taxon service for "+ query);
                 result = taxonService.search(query, null, limit,
                         start, new FacetName[] {FacetName.CLASS,

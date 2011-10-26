@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.emonocot.api.FacetName;
 import org.emonocot.api.Sorting;
-import org.emonocot.model.common.SearchableObject;
+import org.emonocot.model.common.Base;
 import org.emonocot.model.pager.Page;
 
 /**
@@ -13,7 +13,7 @@ import org.emonocot.model.pager.Page;
  *
  * @param <T>
  */
-public interface SearchableDao<T extends SearchableObject> extends Dao<T> {
+public interface SearchableDao<T extends Base> extends Dao<T> {
 
     /**
      * @param query
