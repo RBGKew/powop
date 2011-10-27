@@ -5,6 +5,8 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -24,6 +26,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
 import org.hibernate.search.annotations.ClassBridge;
 import org.hibernate.search.annotations.ContainedIn;
+import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
 
@@ -58,6 +61,31 @@ public class Distribution extends BaseData {
     *
     */
    private Set<Annotation> annotations = new HashSet<Annotation>();
+   
+   /**
+   *
+   */
+  private Long id;
+
+  /**
+  *
+  * @param newId
+  *            Set the identifier of this object.
+  */
+ public void setId(Long newId) {
+     this.id = newId;
+ }
+
+ /**
+  *
+  * @return Get the identifier for this object.
+  */
+ @Id
+ @GeneratedValue(generator = "system-increment")
+ @DocumentId
+ public Long getId() {
+     return id;
+ }
 
     /**
      * Set the lowest level this georegion is concerned with.

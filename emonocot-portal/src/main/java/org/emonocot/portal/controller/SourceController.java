@@ -63,6 +63,16 @@ public class SourceController {
     public final void setSourceService(final SourceService sourceService) {
         this.service = sourceService;
     }
+    
+   /**
+    *
+    * @param jobService
+    *            Set the job service
+    */
+   @Autowired
+   public final void setSourceService(final JobService jobService) {
+       this.jobService = jobService;
+   }
 
     /**
      * @param identifier

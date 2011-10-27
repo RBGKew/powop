@@ -7,7 +7,13 @@
 	<div id="headerContainer" class="row">
 		<div id="annotateHeader" class="twelvecol">
 			<div class="home-header">
-				<a href="/portal/" title="home"><h1>emonocot</h1></a>
+			    <jsp:element name="a">
+			      <jsp:attribute name="title">home</jsp:attribute>
+			      <jsp:attribute name="href">
+			        <c:url value="/"/>
+			      </jsp:attribute>
+			      <h1>emonocot</h1>
+			    </jsp:element>
 				<security:authorize access="!isAuthenticated()">
 				  <jsp:element  name="a">
 				    <jsp:attribute name="href">

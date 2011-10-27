@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -25,7 +27,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.BaseData;
+import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.description.Content;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
@@ -43,6 +45,7 @@ import org.emonocot.model.reference.Reference;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
+import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Fields;
 import org.hibernate.search.annotations.Index;
@@ -56,7 +59,7 @@ import org.hibernate.search.annotations.IndexedEmbedded;
  */
 @Entity
 @Indexed(index = "org.emonocot.model.common.SearchableObject")
-public class Taxon extends BaseData {
+public class Taxon extends SearchableObject {
 
     /**
      *
@@ -207,6 +210,31 @@ public class Taxon extends BaseData {
      *
      */
     private String protologueMicroReference;
+    
+    /**
+    *
+    */
+   private Long id;
+
+   /**
+   *
+   * @param newId
+   *            Set the identifier of this object.
+   */
+  public void setId(Long newId) {
+      this.id = newId;
+  }
+
+  /**
+   *
+   * @return Get the identifier for this object.
+   */
+  @Id
+  @GeneratedValue(generator = "system-increment")
+  @DocumentId
+  public Long getId() {
+      return id;
+  }
 
     /**
      *

@@ -6,7 +6,6 @@ import java.util.Set;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -69,31 +68,6 @@ public abstract class BaseData extends Base {
 
     /**
      *
-     */
-    private Long id;
-
-    /**
-    *
-    * @param newId
-    *            Set the identifier of this object.
-    */
-   public void setId(Long newId) {
-       this.id = newId;
-   }
-
-   /**
-    *
-    * @return Get the identifier for this object.
-    */
-   @Id
-   @GeneratedValue(generator = "system-increment")
-   @DocumentId
-   public Long getId() {
-       return id;
-   }
-
-    /**
-     *
      * @return the primary authority
      */
     @ManyToOne(fetch = FetchType.LAZY)
@@ -113,7 +87,7 @@ public abstract class BaseData extends Base {
      * @return the authorities, including the primary authority
      */
     @ManyToMany(fetch = FetchType.LAZY)
-    @IndexedEmbedded
+    @IndexedEmbedded(depth = 1)
     @JsonIgnore
     public Set<Source> getSources() {
         return sources;

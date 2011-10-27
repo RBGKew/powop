@@ -7,6 +7,8 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -17,13 +19,14 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.BaseData;
+import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.emonocot.model.taxon.Taxon;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
+import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Fields;
 import org.hibernate.search.annotations.Index;
@@ -37,7 +40,7 @@ import org.hibernate.search.annotations.IndexedEmbedded;
  */
 @Entity
 @Indexed(index = "org.emonocot.model.common.SearchableObject")
-public class Image extends BaseData {
+public class Image extends SearchableObject {
     /**
      *
      */
@@ -67,6 +70,31 @@ public class Image extends BaseData {
     *
     */
    private Set<Annotation> annotations = new HashSet<Annotation>();
+   
+   /**
+   *
+   */
+  private Long id;
+
+  /**
+  *
+  * @param newId
+  *            Set the identifier of this object.
+  */
+ public void setId(Long newId) {
+     this.id = newId;
+ }
+
+ /**
+  *
+  * @return Get the identifier for this object.
+  */
+ @Id
+ @GeneratedValue(generator = "system-increment")
+ @DocumentId
+ public Long getId() {
+     return id;
+ }
 
     /**
      *

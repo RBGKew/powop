@@ -6,7 +6,7 @@ package org.emonocot.persistence.dao.hibernate;
 import java.util.List;
 
 import org.emonocot.api.FacetName;
-import org.emonocot.model.common.Base;
+import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.model.pager.Page;
 import org.emonocot.model.taxon.Taxon;
@@ -24,14 +24,14 @@ import org.springframework.stereotype.Repository;
  *
  */
 @Repository
-public class SearchableObjectDaoImpl extends SearchableDaoImpl<Base> implements
+public class SearchableObjectDaoImpl extends SearchableDaoImpl<SearchableObject> implements
         SearchableObjectDao {
 
     /**
      *
      */
     public SearchableObjectDaoImpl() {
-        super(Base.class);
+        super(SearchableObject.class);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class SearchableObjectDaoImpl extends SearchableDaoImpl<Base> implements
             break;
         case AUTHORITY:
             facetingRequest = facetContext.name(facetName.name())
-                    .onField("authorities.name").discrete()
+                    .onField("sources.label").discrete()
                     .orderedBy(FacetSortOrder.FIELD_VALUE)
                     .includeZeroCounts(true).createFacetingRequest();
             facetManager.enableFaceting(facetingRequest);
@@ -106,7 +106,7 @@ public class SearchableObjectDaoImpl extends SearchableDaoImpl<Base> implements
    }
 
     @Override
-    protected final void addFacet(final Page<Base> page,
+    protected final void addFacet(final Page<SearchableObject> page,
             final FacetName facetName, final FacetManager facetManager) {
        switch (facetName) {
        case CLASS:

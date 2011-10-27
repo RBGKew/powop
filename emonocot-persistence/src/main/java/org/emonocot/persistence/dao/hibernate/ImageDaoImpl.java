@@ -75,7 +75,7 @@ public class ImageDaoImpl extends SearchableDaoImpl<Image> implements ImageDao {
             break;
         case AUTHORITY:
             facetingRequest = facetContext.name(facetName.name())
-                    .onField("authorities.name").discrete()
+                    .onField("sources.label").discrete()
                     .orderedBy(FacetSortOrder.FIELD_VALUE)
                     .includeZeroCounts(true).createFacetingRequest();
             facetManager.enableFaceting(facetingRequest);

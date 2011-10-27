@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.emonocot.model.common.Base;
+import org.emonocot.model.common.SearchableObject;
 import org.emonocot.api.Sorting;
 import org.emonocot.model.pager.Page;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
@@ -144,10 +144,9 @@ public class SearchController {
 
         if (selectedFacets == null
                 || !selectedFacets.containsKey(FacetName.CLASS)) {
-            Page<Base> result = searchableObjectService.search(
+            Page<SearchableObject> result = searchableObjectService.search(
                     query, null, limit, start, new FacetName[] {FacetName.CLASS,
-                            FacetName.FAMILY, FacetName.CONTINENT,
-                            FacetName.AUTHORITY},
+                            FacetName.FAMILY, FacetName.CONTINENT, FacetName.AUTHORITY},
                     selectedFacets, sort);
             queryLog.info("Query: \'{}\', start: {}, limit: {},"
                     + "facet: [{}], {} results", new Object[] { query, start,
@@ -157,7 +156,7 @@ public class SearchController {
             result.setSort(sort);
             modelAndView.addObject("result", result);
         } else {
-            Page<? extends Base> result = null;
+            Page<? extends SearchableObject> result = null;
             logger.debug(selectedFacets.size()
                     + " facets have been selected from " + facets.size()
                     + " available");
@@ -187,7 +186,8 @@ public class SearchController {
                 result = taxonService.search(query, null, limit,
                         start, new FacetName[] {FacetName.CLASS,
                         FacetName.FAMILY, FacetName.CONTINENT,
-                        FacetName.AUTHORITY, FacetName.RANK,
+                        //FacetName.AUTHORITY,
+                        FacetName.RANK,
                         FacetName.TAXONOMIC_STATUS}, selectedFacets, sort);
                 queryLog.info("Query: \'{}\', start: {}, limit: {},"
                         + "facet: [{}], {} results", new Object[] {query,

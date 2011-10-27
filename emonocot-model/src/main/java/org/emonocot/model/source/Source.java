@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.emonocot.model.common.Base;
+import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.hibernate.IdentifierBridge;
 import org.hibernate.search.annotations.ClassBridge;
 import org.hibernate.search.annotations.ClassBridges;
@@ -29,7 +29,7 @@ import org.hibernate.search.annotations.Indexed;
                     impl = IdentifierBridge.class,
                     index = Index.UN_TOKENIZED)
 })
-public class Source extends Base {
+public class Source extends SearchableObject {
 
     /**
      *

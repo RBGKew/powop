@@ -13,7 +13,12 @@
 				<br />
 				<h5>
 					<spring:message code="imageOf" />
-					<a href="/portal/taxon/${image.taxon.identifier}">${image.taxon.name}</a>
+					<jsp:element name="a">
+					  <jsp:attribute name="href">
+                        <c:url value="/taxon/${image.taxon.identifier}" />
+                      </jsp:attribute>					
+					  ${image.taxon.name}
+					</jsp:element>
 				</h5>
 
 				<br /> <img id="main-img" src="${image.url}"
@@ -29,9 +34,11 @@
 								<ul class="ad-thumb-list">
 									<c:forEach var="image" items="${taxon.images}"
 										varStatus="status">
-										<li><a href="${image.url}"> <img src="${image.url}"
+										<li><a href="${image.url}">
+										    <c:url var="url" value="/image/${image.identifier}"/> 
+										    <img src="${image.url}"
 												class="${status.index}"
-												onclick="javascript:location.href='/portal/image/${image.identifier}';" />
+												onclick="javascript:location.href='${url}';" />
 										</a></li>
 									</c:forEach>
 								</ul>

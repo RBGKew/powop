@@ -54,6 +54,8 @@
       <sec:intercept-url pattern="/user/*" method="DELETE" access="hasRole('PERMISSION_DELETE_USER')"/>
       <sec:intercept-url pattern="/group" method="POST" access="hasRole('PERMISSION_CREATE_GROUP')"/>
       <sec:intercept-url pattern="/group/*" method="DELETE" access="hasRole('PERMISSION_DELETE_GROUP')"/>
+      <sec:intercept-url pattern="/source" method="POST" access="hasRole('PERMISSION_CREATE_SOURCE')"/>
+      <sec:intercept-url pattern="/source/*" method="DELETE" access="hasRole('PERMISSION_DELETE_SOURCE')"/>
       <sec:intercept-url pattern="/admin/source/*" access="hasRole('PERMISSION_VIEW_SOURCE')"/>
       <sec:form-login login-page='/login' login-processing-url="/process_login" authentication-failure-url="/login?error=true"/>
       <sec:access-denied-handler error-page="/accessDenied"/>

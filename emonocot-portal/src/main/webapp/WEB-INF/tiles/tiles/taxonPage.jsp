@@ -33,9 +33,11 @@
 											<ul class="ad-thumb-list">
 												<c:forEach var="image" items="${taxon.images}"
 													varStatus="status">
-													<li><a href="${image.url}"> <img
+													<li><a href="${image.url}">
+													    <c:url var="url" value="/image/${image.identifier}"/> 
+													    <img
 															src="${image.url}" class="${status.index}"
-															title="${image.caption}" ad-href="/portal/image/${image.identifier}" /></a></li>
+															title="${image.caption}" ad-href="${url}" /></a></li>
 												</c:forEach>
 											</ul>
 										</div>

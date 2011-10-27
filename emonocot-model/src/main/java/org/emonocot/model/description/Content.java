@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
@@ -12,6 +14,7 @@ import org.apache.commons.lang.ObjectUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.emonocot.model.common.BaseData;
 import org.emonocot.model.taxon.Taxon;
+import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 
 /**
@@ -32,6 +35,31 @@ public abstract class Content extends BaseData {
      *
      */
     private Feature feature;
+    
+    /**
+    *
+    */
+   private Long id;
+
+   /**
+   *
+   * @param newId
+   *            Set the identifier of this object.
+   */
+  public void setId(Long newId) {
+      this.id = newId;
+  }
+
+  /**
+   *
+   * @return Get the identifier for this object.
+   */
+  @Id
+  @GeneratedValue(generator = "system-increment")
+  @DocumentId
+  public Long getId() {
+      return id;
+  }
 
     /**
      *

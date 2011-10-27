@@ -14,6 +14,7 @@ import org.emonocot.api.FacetName;
 import org.emonocot.api.Sorting;
 import org.emonocot.api.Sorting.SortDirection;
 import org.emonocot.model.common.Base;
+import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.pager.DefaultPageImpl;
 import org.emonocot.model.pager.Page;
 import org.emonocot.persistence.QuerySyntaxException;
@@ -34,12 +35,13 @@ import org.hibernate.search.query.facet.Facet;
  *
  * @param <T>
  */
-public abstract class SearchableDaoImpl<T extends Base> extends
+public abstract class SearchableDaoImpl<T extends SearchableObject> extends
         DaoImpl<T> implements SearchableDao<T> {
 
     /**
      *
      * @param newType Set the type of object handled by this class
+     * @param searchTypes Set the subclasses of T to be searched for
      */
     public SearchableDaoImpl(final Class<T> newType) {
         super(newType);

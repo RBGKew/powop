@@ -1346,4 +1346,83 @@
     <changeSet id="2011-10-25_02" author="ben">
       <sql>update Annotation set identifier = UUID() where identifier is null</sql>
     </changeSet>
+    <changeSet id="2011-10-27_01" author="ben">
+      <insert tableName="Group_permissions">
+        <column name="Group_id" valueNumeric="1"/>
+        <column name="permissions" valueNumeric="10"/>
+      </insert>
+    </changeSet>
+    <changeSet id="2011-10-27_02" author="ben">
+      <insert tableName="Group_permissions">
+        <column name="Group_id" valueNumeric="1"/>
+        <column name="permissions" valueNumeric="11"/>
+      </insert>
+    </changeSet>
+    <changeSet id="2011-10-27_03" author="ben">
+      <insert tableName="Group_permissions">
+        <column name="Group_id" valueNumeric="1"/>
+        <column name="permissions" valueNumeric="12"/>
+      </insert>
+    </changeSet>
+    <changeSet id="2011-10-27_04" author="ben">
+      <addColumn tableName="Source">
+        <column name="created" type="datetime"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-10-27_05" author="ben">
+      <addColumn tableName="Source">
+        <column name="creator" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-10-27_06" author="ben">
+      <addColumn tableName="Source">
+        <column name="license" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-10-27_07" author="ben">
+      <addColumn tableName="Source">
+        <column name="modified" type="datetime"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-10-27_08" author="ben">
+      <addColumn tableName="Source">
+        <column name="source" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-10-27_09" author="ben">
+      <addColumn tableName="Source">
+        <column name="authority_id" type="bigint"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-10-27_10" author="ben">
+      <createTable tableName="Source_Source">
+          <column name="Source_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+          </column>
+          <column name="sources_id" type="bigint">
+            <constraints nullable="false"  primaryKey="true"/>
+          </column>
+      </createTable>
+    </changeSet>
+    <changeSet id="2011-10-27_11" author="ben">
+      <addForeignKeyConstraint constraintName="FK1A21C74F92954237" 
+                               referencedTableName="Source"
+                               baseColumnNames="authority_id"
+                               baseTableName="Source"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2011-10-27_12" author="ben">
+      <addForeignKeyConstraint constraintName="FK1A21D74F92954237" 
+                               referencedTableName="Source"
+                               baseColumnNames="Source_id"
+                               baseTableName="Source_Source"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2011-10-27_13" author="ben">
+      <addForeignKeyConstraint constraintName="FK1A21F74F92954237" 
+                               referencedTableName="Source"
+                               baseColumnNames="sources_id"
+                               baseTableName="Source_Source"
+                               referencedColumnNames="id"/>
+    </changeSet>
 </databaseChangeLog>

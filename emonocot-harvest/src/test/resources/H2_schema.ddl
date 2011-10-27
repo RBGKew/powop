@@ -21,7 +21,9 @@ create table Reference (id bigint not null, created timestamp, creator varchar(2
 drop table if exists Reference_Source;
 create table Reference_Source (Reference_id bigint not null, sources_id bigint not null, primary key (Reference_id));
 drop table if exists Source;
-create table Source (id bigint not null, identifier varchar(255), uri varchar(255), primary key (id));
+create table Source (id bigint not null, identifier varchar(255), created timestamp, creator varchar(255), license varchar(255), modified timestamp, source varchar(255), uri varchar(255), authority_id bigint, primary key (id));
+drop table if exists Source_Source;
+create table Source_Source (Source_id bigint not null, sources_id bigint not null, primary key (Source_id));
 drop table if exists Taxon;
 create table Taxon (id bigint not null, created timestamp, creator varchar(255), identifier varchar(255), license varchar(255), modified timestamp, source varchar(255), accordingTo varchar(255), authorship varchar(255), basionymAuthorship varchar(255), family varchar(255), genus varchar(255), infraGenericEpithet varchar(255), infraSpecificEpithet varchar(255), kingdom varchar(255), name varchar(255), nomenclaturalCode varchar(255), ordr varchar(255), phylum varchar(255), protologueMicroReference varchar(255), rank varchar(255), specificEpithet varchar(255), status varchar(255), uninomial varchar(255), authority_id bigint, accepted_id bigint, parent_id bigint, protologue_id bigint, primary key (id));
 drop table if exists Taxon_Source;
@@ -51,6 +53,9 @@ alter table Image_Source add constraint FK7800CD1F2AFF4188 foreign key (sources_
 alter table Reference add constraint FK404D5F2B92954226 foreign key (authority_id) references Source;
 alter table Reference_Source add constraint FK5B73C70F1914B32E foreign key (Reference_id) references Reference;
 alter table Reference_Source add constraint FK5B73C70F2AFF4188 foreign key (sources_id) references Source;
+alter table Source add constraint FK9BAFCC5992954226 foreign key (authority_id) references Source;
+alter table Source_Source add constraint FK36CA12BD59FA9B5F foreign key (Source_id) references Source;
+alter table Source_Source add constraint FK36CA12BD2AFF4188 foreign key (sources_id) references Source;
 alter table Taxon add constraint FK4CD9EAA54493690 foreign key (accepted_id) references Taxon;
 alter table Taxon add constraint FK4CD9EAA92954226 foreign key (authority_id) references Source;
 alter table Taxon add constraint FK4CD9EAACA0AED foreign key (protologue_id) references Reference;

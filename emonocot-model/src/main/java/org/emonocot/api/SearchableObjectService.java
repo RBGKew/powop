@@ -1,12 +1,12 @@
 package org.emonocot.api;
 
-import org.emonocot.model.common.Base;
+import org.emonocot.model.common.SearchableObject;
 
 /**
  * @author jk00kg
  *
  */
 public interface SearchableObjectService extends
-        SearchableService<Base> {
+        SearchableService<SearchableObject> {
 
 }

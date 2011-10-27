@@ -12,7 +12,7 @@ import java.util.Map;
 
 import org.emonocot.api.FacetName;
 import org.emonocot.api.Sorting;
-import org.emonocot.model.common.Base;
+import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.Region;
@@ -88,7 +88,7 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
      */
     @Test
     public final void testSearch() {
-        Page<Base> pager = searchableObjectDao.search("Aus", null,
+        Page<SearchableObject> pager = searchableObjectDao.search("Aus", null,
                 null, null, null, null, null);
         assertEquals("there should be seven objects saved", (Integer) 7,
                 pager.getSize());
@@ -101,9 +101,9 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
     public final void testSearchWithFacets() {
         Map<FacetName, Integer> selectedFacets = new HashMap<FacetName, Integer>();
         selectedFacets.put(FacetName.CLASS, 1);
-        Page<Base> pager = searchableObjectDao.search("Aus", null,
+        Page<SearchableObject> pager = searchableObjectDao.search("Aus", null,
                 null, null,
-                new FacetName[] {FacetName.CLASS, FacetName.FAMILY},
+                new FacetName[] {FacetName.CLASS, FacetName.FAMILY,FacetName.CONTINENT, FacetName.AUTHORITY},
                 selectedFacets, null);
         assertThat("There should be two facets returned",
                 pager.getFacetNames(), hasItems("CLASS", "FAMILY"));
@@ -116,8 +116,6 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
 
         assertThat("org.emonocot.model.taxon.Taxon should be a facet in CLASS",
                 facetNames, hasItemInArray("org.emonocot.model.taxon.Taxon"));
-        assertThat("org.emonocot.model.media.Image should be a facet in CLASS",
-                facetNames, hasItemInArray("org.emonocot.model.media.Image"));
         assertEquals("There should be one value for the FAMILY facet", 1, pager
                 .getFacets().get("FAMILY").size());
     }
@@ -166,7 +164,7 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
      */
     @Test
     public final void testSearchWithSorting() {
-        Page<Base> results = searchableObjectDao.search("Au*",
+        Page<SearchableObject> results = searchableObjectDao.search("Au*",
                 null, null, null, null, null, null);
 
         Sorting sort = new Sorting("label");

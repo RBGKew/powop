@@ -35,8 +35,6 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-
-
 /**
  *
  * @author ben
@@ -175,8 +173,8 @@ public class TestDataManager {
 
    /**
     *
-    * @param uri TODO
- * @param name Set the name
+    * @param uri Set the uri
+    * @param name Set the name
     */
    public final void createSourceSystem(final String identifier, String uri) {
         enableAuthentication();
