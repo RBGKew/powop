@@ -141,7 +141,7 @@ public class StepDefinitions {
      */
     @After
     public final void tearDown() {
-       //testDataManager.tearDown();
+       testDataManager.tearDown();
     }
 
     /**
