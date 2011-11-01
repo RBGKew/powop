@@ -6,12 +6,8 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.emonocot.model.common.SearchableObject;
-import org.emonocot.model.hibernate.IdentifierBridge;
-import org.hibernate.search.annotations.ClassBridge;
-import org.hibernate.search.annotations.ClassBridges;
+import org.emonocot.model.common.BaseData;
 import org.hibernate.search.annotations.DocumentId;
-import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
 
 /**
@@ -21,15 +17,8 @@ import org.hibernate.search.annotations.Indexed;
  *
  */
 @Entity
-@Indexed(index = "org.emonocot.model.common.SearchableObject")
-@ClassBridges({
-    @ClassBridge(name = "name",
-            impl = IdentifierBridge.class),
-    @ClassBridge(name = "label",
-                    impl = IdentifierBridge.class,
-                    index = Index.UN_TOKENIZED)
-})
-public class Source extends SearchableObject {
+@Indexed
+public class Source extends BaseData {
 
     /**
      *
@@ -46,7 +35,7 @@ public class Source extends SearchableObject {
     */
    private Long id;
 
-   /**
+  /**
    *
    * @param newId
    *            Set the identifier of this object.

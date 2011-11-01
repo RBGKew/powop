@@ -13,10 +13,12 @@ import org.apache.lucene.util.Version;
 import org.emonocot.api.FacetName;
 import org.emonocot.api.Sorting;
 import org.emonocot.api.Sorting.SortDirection;
-import org.emonocot.model.common.Base;
 import org.emonocot.model.common.SearchableObject;
+import org.emonocot.model.media.Image;
 import org.emonocot.model.pager.DefaultPageImpl;
 import org.emonocot.model.pager.Page;
+import org.emonocot.model.source.Source;
+import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.QuerySyntaxException;
 import org.emonocot.persistence.dao.SearchableDao;
 import org.hibernate.search.FullTextQuery;
@@ -37,14 +39,22 @@ import org.hibernate.search.query.facet.Facet;
  */
 public abstract class SearchableDaoImpl<T extends SearchableObject> extends
         DaoImpl<T> implements SearchableDao<T> {
+    /**
+    *
+    */
+    protected static Class SEARCHABLE_CLASSES[] = new Class[] { Image.class,
+      Taxon.class };
+
+    private Class[] searchableClasses;
 
     /**
      *
      * @param newType Set the type of object handled by this class
      * @param searchTypes Set the subclasses of T to be searched for
      */
-    public SearchableDaoImpl(final Class<T> newType) {
+    public SearchableDaoImpl(final Class<T> newType, Class... searchTypes) {
         super(newType);
+        this.searchableClasses = searchTypes;
     }
 
     /**
@@ -141,7 +151,7 @@ public abstract class SearchableDaoImpl<T extends SearchableObject> extends
                      = searchFactory.buildQueryBuilder().forEntity(getAnalyzerType()).get();
                  luceneQuery = queryBuilder.all().createQuery();
              }
-             FullTextQuery fullTextQuery = fullTextSession.createFullTextQuery(luceneQuery, type);
+             FullTextQuery fullTextQuery = fullTextSession.createFullTextQuery(luceneQuery, searchableClasses);
              if (spatialQuery != null && spatialQuery.trim().length() != 0) {
                  // TODO Implement spatial filter
              }

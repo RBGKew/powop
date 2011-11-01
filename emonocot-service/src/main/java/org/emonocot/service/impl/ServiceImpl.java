@@ -85,4 +85,13 @@ public abstract class ServiceImpl<T extends Base, DAO extends Dao<T>>
     public void saveOrUpdate(T t) {
         dao.saveOrUpdate(t);
     }
+    
+    /**
+     * @param t the object to update
+     * @return the identifier of the object
+     */
+    @Transactional
+    public void update(T t) {
+        dao.update(t);
+    }
 }

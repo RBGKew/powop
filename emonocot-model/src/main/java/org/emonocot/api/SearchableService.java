@@ -11,7 +11,7 @@ import org.emonocot.model.pager.Page;
  *
  * @param <T>
  */
-public interface SearchableService<T extends SearchableObject> {
+public interface SearchableService<T extends SearchableObject> extends Service<T> {
    /**
     * @param query
     *            A lucene query

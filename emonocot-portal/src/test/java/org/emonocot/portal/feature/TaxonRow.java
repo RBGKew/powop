@@ -76,4 +76,9 @@ public class TaxonRow {
     *
     */
    public String status;
+
+   /**
+    *
+    */
+   public String source;
 }

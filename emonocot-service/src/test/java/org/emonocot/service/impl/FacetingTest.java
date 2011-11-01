@@ -1,4 +1,4 @@
-package org.emonocot.persistence;
+package org.emonocot.service.impl;
 
 import static org.hamcrest.collection.IsArrayContaining.hasItemInArray;
 import static org.hamcrest.collection.IsCollectionContaining.hasItems;
@@ -6,47 +6,97 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.emonocot.api.AnnotationService;
 import org.emonocot.api.FacetName;
+import org.emonocot.api.ImageService;
+import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.Sorting;
+import org.emonocot.api.SourceService;
+import org.emonocot.api.TaxonService;
+import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.Region;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.pager.Page;
+import org.emonocot.model.source.Source;
 import org.emonocot.model.taxon.Rank;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.model.taxon.TaxonomicStatus;
-import org.emonocot.persistence.dao.SearchableObjectDao;
+import org.emonocot.persistence.DataManagementSupport;
 import org.hibernate.search.query.facet.Facet;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  *
  * @author ben
  *
  */
-public class SearchableObjectTest extends AbstractPersistenceTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration({"/applicationContext-test.xml" })
+public class FacetingTest extends DataManagementSupport {
 
     /**
      *
      */
     @Autowired
-    private SearchableObjectDao searchableObjectDao;
+    private TaxonService taxonService;
+
+    /**
+     *
+     */
+    @Autowired
+    private ImageService imageService;
+
+    /**
+     *
+     */
+    @Autowired
+    private AnnotationService annotationService;
+
+   /**
+    *
+    */
+   @Autowired
+   private SourceService sourceService;
+
+    /**
+     *
+     */
+    @Autowired
+    private SearchableObjectService searchableObjectService;
 
     /**
      * @throws java.lang.Exception if there is a problem
      */
     @Before
     public final void setUp() throws Exception {
-        super.doSetUp();
+        setUpTestData();
+
+        for (Object obj : getSetUp()) {
+            if (obj.getClass().equals(Taxon.class)) {
+                taxonService.saveOrUpdate((Taxon) obj);
+            } else if (obj.getClass().equals(Image.class)) {
+                imageService.saveOrUpdate((Image) obj);
+            } else if (obj.getClass().equals(Annotation.class)) {
+                annotationService.saveOrUpdate((Annotation) obj);
+            } else if (obj.getClass().equals(Source.class)) {
+                sourceService.saveOrUpdate((Source) obj);
+            }
+        }
     }
 
     /**
@@ -54,7 +104,19 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
      */
     @After
     public final void tearDown() throws Exception {
-        super.doTearDown();
+        setSetUp(new ArrayList<Object>());
+        while (!getTearDown().isEmpty()) {
+            Object obj = getTearDown().pop();
+            if (obj.getClass().equals(Taxon.class)) {
+                taxonService.delete(((Taxon) obj).getIdentifier());
+            } else if (obj.getClass().equals(Image.class)) {
+                imageService.delete(((Image) obj).getIdentifier());
+            } else if (obj.getClass().equals(Annotation.class)) {
+                annotationService.delete(((Annotation) obj).getIdentifier());
+            } else if (obj.getClass().equals(Source.class)) {
+                sourceService.delete(((Source) obj).getIdentifier());
+            }
+        }
     }
 
     /**
@@ -62,24 +124,25 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
      */
     @Override
     public final void setUpTestData() {
+        Source source = createSource("test", "http://example.com");
         Taxon taxon1 = createTaxon("Aus", "1", null, null, "Ausaceae", null,
                 null, "(1753)", Rank.GENUS, TaxonomicStatus.accepted,
-                new GeographicalRegion[] {});
+                source, new GeographicalRegion[] {});
         Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null, "Ausaceae",
                 null, null, "(1775)", Rank.SPECIES, TaxonomicStatus.accepted,
-                new GeographicalRegion[] { Continent.AUSTRALASIA,
+                source, new GeographicalRegion[] {Continent.AUSTRALASIA,
                         Region.BRAZIL, Region.CARIBBEAN });
         Taxon taxon3 = createTaxon("Aus ceus", "3", taxon1, null, "Ausaceae",
                 null, null, "(1805)", Rank.SPECIES, TaxonomicStatus.accepted,
-                new GeographicalRegion[] { Region.NEW_ZEALAND });
+                source, new GeographicalRegion[] {Region.NEW_ZEALAND });
         Taxon taxon4 = createTaxon("Aus deus", "4", null, taxon2, "Ausaceae",
                 null, null, "(1895)", Rank.SPECIES, TaxonomicStatus.synonym,
-                new GeographicalRegion[] {});
+                source, new GeographicalRegion[] {});
         Taxon taxon5 = createTaxon("Aus eus", "5", null, taxon3, "Ausaceae",
                 null, null, "(1935)", Rank.SPECIES, TaxonomicStatus.synonym,
-                new GeographicalRegion[] {});
-        Image img1 = createImage("Aus", "1");
-        Image img2 = createImage("Aus bus", "2");
+                source, new GeographicalRegion[] {});
+        Image img1 = createImage("Aus", "1", source);
+        Image img2 = createImage("Aus bus", "2", source);
 
     }
 
@@ -88,7 +151,7 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
      */
     @Test
     public final void testSearch() {
-        Page<SearchableObject> pager = searchableObjectDao.search("Aus", null,
+        Page<SearchableObject> pager = searchableObjectService.search("Aus", null,
                 null, null, null, null, null);
         assertEquals("there should be seven objects saved", (Integer) 7,
                 pager.getSize());
@@ -101,7 +164,7 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
     public final void testSearchWithFacets() {
         Map<FacetName, Integer> selectedFacets = new HashMap<FacetName, Integer>();
         selectedFacets.put(FacetName.CLASS, 1);
-        Page<SearchableObject> pager = searchableObjectDao.search("Aus", null,
+        Page<SearchableObject> pager = searchableObjectService.search("Aus", null,
                 null, null,
                 new FacetName[] {FacetName.CLASS, FacetName.FAMILY,FacetName.CONTINENT, FacetName.AUTHORITY},
                 selectedFacets, null);
@@ -128,7 +191,7 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
     public final void testSearchWithFacetsInTaxonDao() throws Exception {
         Map<FacetName, Integer> selectedFacets = new HashMap<FacetName, Integer>();
         selectedFacets.put(FacetName.CLASS, 1);
-        Page<Taxon> pager = getTaxonDao().search("Aus", null, null, null,
+        Page<Taxon> pager = taxonService.search("Aus", null, null, null,
                 new FacetName[] {FacetName.CLASS, FacetName.FAMILY,
                         FacetName.CONTINENT, FacetName.AUTHORITY,
                         FacetName.RANK, FacetName.TAXONOMIC_STATUS },
@@ -151,7 +214,7 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
                 .getFacets().get("FAMILY").size());
 
         selectedFacets.put(FacetName.RANK, 1);
-        pager = getTaxonDao().search("Aus", null, null, null,
+        pager = taxonService.search("Aus", null, null, null,
                 new FacetName[] {FacetName.CLASS, FacetName.FAMILY,
                         FacetName.CONTINENT, FacetName.AUTHORITY,
                         FacetName.RANK, FacetName.TAXONOMIC_STATUS },
@@ -164,11 +227,11 @@ public class SearchableObjectTest extends AbstractPersistenceTest {
      */
     @Test
     public final void testSearchWithSorting() {
-        Page<SearchableObject> results = searchableObjectDao.search("Au*",
+        Page<SearchableObject> results = searchableObjectService.search("Au*",
                 null, null, null, null, null, null);
 
         Sorting sort = new Sorting("label");
-        results = searchableObjectDao.search("Au*", null, null, null, null,
+        results = searchableObjectService.search("Au*", null, null, null, null,
                 null, sort);
         String[] actual = new String[results.getSize()];
         for (int i = 0; i < results.getSize(); i++) {

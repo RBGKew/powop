@@ -5,21 +5,27 @@ about that taxon
 http://build.e-monocot.org/bugzilla/show_bug.cgi?id=3
 
 Scenario: Search for a single taxon
-Given there are taxa with the following properties:
-| identifier                 | name             |
-| urn:kew.org:wcs:taxon:123  | Rhipogonum album |
-| urn:kew.org:wcs:taxon:456  | Arum italicum    |
+Given there are source systems with the following properties:
+| identifier | uri                 |
+| test       | http://example.com  |
+And there are taxa with the following properties:
+| identifier                 | name             | source |
+| urn:kew.org:wcs:taxon:123  | Rhipogonum album | test   |
+| urn:kew.org:wcs:taxon:456  | Arum italicum    | test   |
 When I search for "Rhipogonum album"
 Then the following results should be displayed:
 | page                       | text                  |
 | urn:kew.org:wcs:taxon:123  | Rhipogonum album      |
 
 Scenario: Search for multiple taxa with the same epithet
-Given there are taxa with the following properties:
-| identifier                 | name                  |
-| urn:kew.org:wcs:taxon:123  | Anthurium discolor    |
-| urn:kew.org:wcs:taxon:456  | Arum italicum         |
-| urn:kew.org:wcs:taxon:789  | Bulbophyllum discolor |
+Given there are source systems with the following properties:
+| identifier | uri                 |
+| test       | http://example.com  |
+And there are taxa with the following properties:
+| identifier                 | name                  | source |
+| urn:kew.org:wcs:taxon:123  | Anthurium discolor    | test   |
+| urn:kew.org:wcs:taxon:456  | Arum italicum         | test   |
+| urn:kew.org:wcs:taxon:789  | Bulbophyllum discolor | test   |
 When I search for "discolor"
 Then the following results should be displayed:
 | page                       | text                  |
@@ -27,15 +33,18 @@ Then the following results should be displayed:
 | urn:kew.org:wcs:taxon:789  | Bulbophyllum discolor |
 
 Scenario: Search for multiple taxa within the same genus
-Given there are taxa with the following properties:
-| identifier                    | name                    |
-| urn:kew.org:wcs:taxon:286768  | Rhipogonum              |
-| urn:kew.org:wcs:taxon:286789  | Rhipogonum album        |
-| urn:kew.org:wcs:taxon:286937  | Rhipogonum brevifolium  |
-| urn:kew.org:wcs:taxon:286791  | Rhipogonum discolor     |
-| urn:kew.org:wcs:taxon:286793  | Rhipogonum elseyanum    |
-| urn:kew.org:wcs:taxon:286806  | Rhipogonum fawcettianum |
-| urn:kew.org:wcs:taxon:286796  | Rhipogonum scandens     |
+Given there are source systems with the following properties:
+| identifier | uri                 |
+| test       | http://example.com  |
+And there are taxa with the following properties:
+| identifier                    | name                    | source |
+| urn:kew.org:wcs:taxon:286768  | Rhipogonum              | test   |
+| urn:kew.org:wcs:taxon:286789  | Rhipogonum album        | test   |
+| urn:kew.org:wcs:taxon:286937  | Rhipogonum brevifolium  | test   |
+| urn:kew.org:wcs:taxon:286791  | Rhipogonum discolor     | test   |
+| urn:kew.org:wcs:taxon:286793  | Rhipogonum elseyanum    | test   |
+| urn:kew.org:wcs:taxon:286806  | Rhipogonum fawcettianum | test   |
+| urn:kew.org:wcs:taxon:286796  | Rhipogonum scandens     | test   |
 When I search for "Rhipogonum"
 Then the following results should be displayed:
 | page                          | text                    |
@@ -48,10 +57,13 @@ Then the following results should be displayed:
 | urn:kew.org:wcs:taxon:286796  | Rhipogonum scandens     |
 
 Scenario: Negative search
-Given there are taxa with the following properties:
-| identifier                    | name                    |
-| urn:kew.org:wcs:taxon:286768  | Rhipogonum              |
-| urn:kew.org:wcs:taxon:286789  | Rhipogonum album        |
+Given there are source systems with the following properties:
+| identifier | uri                 |
+| test       | http://example.com  |
+And there are taxa with the following properties:
+| identifier                    | name                    | source |
+| urn:kew.org:wcs:taxon:286768  | Rhipogonum              | test   |
+| urn:kew.org:wcs:taxon:286789  | Rhipogonum album        | test   |
 And there are no taxa called "Rhipoga"
 When I search for "Rhipoga"
 Then there should be 0 results

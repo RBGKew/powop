@@ -22,4 +22,9 @@ public class ImageRow {
      */
     public String url;
 
+    /**
+     *
+     */
+    public String source;
+
 }

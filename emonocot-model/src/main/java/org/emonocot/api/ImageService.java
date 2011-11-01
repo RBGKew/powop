@@ -7,7 +7,7 @@ import org.emonocot.model.media.Image;
  * @author ben
  *
  */
-public interface ImageService extends Service<Image>, SearchableService<Image> {
+public interface ImageService extends SearchableService<Image> {
 
     /**
      *

@@ -37,24 +37,47 @@ import org.springframework.util.Assert;
  *
  */
 @Service
-public class UserServiceImpl extends ServiceImpl<User,UserDao> implements UserService {
-    protected GroupDao groupDao;
+public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
+        UserService {
+    /**
+     *
+     */
+    private GroupDao groupDao;
 
+    /**
+     *
+     */
     private SaltSource saltSource;
 
+    /**
+     *
+     */
     private PasswordEncoder passwordEncoder;
 
+    /**
+     *
+     */
     private AuthenticationManager authenticationManager;
 
+    /**
+     *
+     */
     private UserCache userCache;
-    
+
+    /**
+     *
+     */
     public UserServiceImpl() {
         saltSource = new ReflectionSaltSource();
-        ((ReflectionSaltSource)saltSource).setUserPropertyToUse("getUsername");
+        ((ReflectionSaltSource) saltSource).setUserPropertyToUse("getUsername");
         passwordEncoder = new Md5PasswordEncoder();
         userCache = new NullUserCache();
     }
 
+    /**
+     *
+     * @param userCache Set the user cache
+     */
     @Autowired(required = false)
     public void setUserCache(UserCache userCache) {
         Assert.notNull(userCache, "userCache cannot be null");
@@ -204,7 +227,7 @@ public class UserServiceImpl extends ServiceImpl<User,UserDao> implements UserSe
             throws UsernameNotFoundException, DataAccessException {
         Assert.hasText(username);
         try {
-            User user = dao.load(username);            
+            User user = dao.load(username);
             userCache.putUserInCache(user);
             return user;
         } catch (ObjectRetrievalFailureException orfe) {
@@ -241,7 +264,8 @@ public class UserServiceImpl extends ServiceImpl<User,UserDao> implements UserSe
     }
 
     @Transactional(readOnly = false)
-    public void createGroup(final String groupName, List<GrantedAuthority> authorities) {
+    public void createGroup(final String groupName,
+            List<GrantedAuthority> authorities) {
         Assert.hasText(groupName);
         Assert.notNull(authorities);
 
@@ -257,7 +281,7 @@ public class UserServiceImpl extends ServiceImpl<User,UserDao> implements UserSe
 
     @Transactional(readOnly = false)
     public void deleteGroup(String groupName) {
-        Assert.hasText(groupName);        
+        Assert.hasText(groupName);
         groupDao.delete(groupName);
     }
 
@@ -321,7 +345,7 @@ public class UserServiceImpl extends ServiceImpl<User,UserDao> implements UserSe
         group.setName(newName);
         groupDao.update(group);
     }
-    
+
     @Override
     @Transactional(readOnly = false)
     public User save(User user) {
@@ -336,14 +360,13 @@ public class UserServiceImpl extends ServiceImpl<User,UserDao> implements UserSe
             createUser(user);
         } else {
             updateUser(user);
-        }       
+        }
     }
 
     @Transactional(readOnly = false)
-    public String update(User user) {
+    public void update(User user) {
         updateUser(user);
-        return user.getUsername();
-    }    
+    }
 
     @Transactional(readOnly = false)
     public void saveGroup(Group group) {

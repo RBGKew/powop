@@ -13,6 +13,7 @@ import org.codehaus.jackson.map.jsontype.TypeResolverBuilder;
 import org.emonocot.api.GroupService;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.ReferenceService;
+import org.emonocot.api.SourceService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.UserService;
 
@@ -47,6 +48,11 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
      *
      */
     private GroupService groupService;
+
+    /**
+    *
+    */
+   private SourceService sourceService;
 
     /**
      * @param userService the userService to set
@@ -84,6 +90,13 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
         this.imageService = newImageService;
     }
 
+    /**
+     * @param newSourceService the sourceService to set
+     */
+    public final void setSourceService(final SourceService newSourceService) {
+        this.sourceService = newSourceService;
+    }
+
     @Override
     public final JsonDeserializer<?> deserializerInstance(
             final DeserializationConfig deserializerConfig,
@@ -119,6 +132,12 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
                     = GroupDeserializer.class.newInstance();
                 groupDeserializer.setService(groupService);
                 return groupDeserializer;
+            } else if (jsonDeserializerClass
+                    .equals(SourceDeserializer.class)) {
+                SourceDeserializer sourceDeserializer
+                    = SourceDeserializer.class.newInstance();
+                sourceDeserializer.setService(sourceService);
+                return sourceDeserializer;
             }
         } catch (IllegalAccessException iae) {
             return null;

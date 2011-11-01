@@ -210,7 +210,7 @@ public class Taxon extends SearchableObject {
      *
      */
     private String protologueMicroReference;
-    
+
     /**
     *
     */

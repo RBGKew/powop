@@ -8,7 +8,9 @@ import java.util.List;
 import org.emonocot.api.FacetName;
 import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.hibernate.Fetch;
+import org.emonocot.model.media.Image;
 import org.emonocot.model.pager.Page;
+import org.emonocot.model.source.Source;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.dao.SearchableObjectDao;
 import org.hibernate.search.ProjectionConstants;
@@ -31,7 +33,7 @@ public class SearchableObjectDaoImpl extends SearchableDaoImpl<SearchableObject>
      *
      */
     public SearchableObjectDaoImpl() {
-        super(SearchableObject.class);
+        super(SearchableObject.class, Taxon.class, Image.class);
     }
 
     @Override
@@ -63,7 +65,7 @@ public class SearchableObjectDaoImpl extends SearchableDaoImpl<SearchableObject>
             break;
         case AUTHORITY:
             facetingRequest = facetContext.name(facetName.name())
-                    .onField("sources.label").discrete()
+                    .onField("sources.identifier").discrete()
                     .orderedBy(FacetSortOrder.FIELD_VALUE)
                     .includeZeroCounts(true).createFacetingRequest();
             facetManager.enableFaceting(facetingRequest);

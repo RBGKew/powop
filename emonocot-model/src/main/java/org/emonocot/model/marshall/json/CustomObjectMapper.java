@@ -4,6 +4,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.emonocot.api.GroupService;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.ReferenceService;
+import org.emonocot.api.SourceService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.UserService;
 
@@ -35,6 +36,11 @@ public class CustomObjectMapper extends ObjectMapper {
     *
     */
    private GroupService groupService;
+
+   /**
+    *
+    */
+   private SourceService sourceService;
 
    /**
     * @param userService the userService to set
@@ -74,6 +80,14 @@ public class CustomObjectMapper extends ObjectMapper {
     public final void setImageService(final ImageService newImageService) {
         this.imageService = newImageService;
     }
+
+    /**
+     * @param newSourceService the sourceService to set
+     */
+    public final void setSourceService(final SourceService newSourceService) {
+        this.sourceService = newSourceService;
+    }
+
     /**
     *
     */
@@ -91,6 +105,7 @@ public class CustomObjectMapper extends ObjectMapper {
         handlerInstantiator.setImageService(imageService);
         handlerInstantiator.setGroupService(groupService);
         handlerInstantiator.setUserService(userService);
+        handlerInstantiator.setSourceService(sourceService);
         setHandlerInstantiator(handlerInstantiator);
         CustomModule module = new CustomModule();
         registerModule(module);

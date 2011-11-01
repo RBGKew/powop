@@ -42,18 +42,18 @@ public class SearchTest extends AbstractPersistenceTest {
     @Override
     public final void setUpTestData() {
         Taxon taxon1 = createTaxon("Aus", "1", null, null, null, null, null,
-                null, null, null, new GeographicalRegion[] {});
+                null, null, null, null, new GeographicalRegion[] {});
         Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null, null, null,
                 null, null, null, null,
-                new GeographicalRegion[] {Continent.AUSTRALASIA,
+                null, new GeographicalRegion[] {Continent.AUSTRALASIA,
                         Region.BRAZIL, Region.CARIBBEAN });
         Taxon taxon3 = createTaxon("Aus ceus", "3", taxon1, null, null, null,
                 null, null, null, null,
-                new GeographicalRegion[] {Region.NEW_ZEALAND });
+                null, new GeographicalRegion[] {Region.NEW_ZEALAND });
         Taxon taxon4 = createTaxon("Aus deus", "4", null, taxon2, null, null,
-                null, null, null, null, new GeographicalRegion[] {});
+                null, null, null, null, null, new GeographicalRegion[] {});
         Taxon taxon5 = createTaxon("Aus eus", "5", null, taxon3, null, null,
-                null, null, null, null, new GeographicalRegion[] {});
+                null, null, null, null, null, new GeographicalRegion[] {});
     }
 
     /**

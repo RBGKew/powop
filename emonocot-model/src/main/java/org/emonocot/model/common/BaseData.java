@@ -6,16 +6,17 @@ import java.util.Set;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.hibernate.DateTimeBridge;
+import org.emonocot.model.marshall.json.SourceDeserializer;
+import org.emonocot.model.marshall.json.SourceSerializer;
 import org.emonocot.model.source.Source;
 import org.hibernate.annotations.Type;
-import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.FieldBridge;
 import org.hibernate.search.annotations.IndexedEmbedded;
@@ -71,6 +72,7 @@ public abstract class BaseData extends Base {
      * @return the primary authority
      */
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonSerialize(using = SourceSerializer.class)
     public Source getAuthority() {
         return authority;
     }
@@ -79,6 +81,7 @@ public abstract class BaseData extends Base {
      *
      * @param authority Set the authority
      */
+    @JsonDeserialize(using = SourceDeserializer.class)
     public void setAuthority(Source authority) {
         this.authority = authority;
     }
@@ -88,7 +91,7 @@ public abstract class BaseData extends Base {
      */
     @ManyToMany(fetch = FetchType.LAZY)
     @IndexedEmbedded(depth = 1)
-    @JsonIgnore
+    @JsonSerialize(contentUsing = SourceSerializer.class)
     public Set<Source> getSources() {
         return sources;
     }
@@ -96,6 +99,7 @@ public abstract class BaseData extends Base {
     /**
      * @param sources the authorities to set
      */
+    @JsonDeserialize(contentUsing = SourceDeserializer.class)
     public void setSources(Set<Source> sources) {
         this.sources = sources;
     }

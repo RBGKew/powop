@@ -1,7 +1,5 @@
 package org.emonocot.persistence.dao.hibernate;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +26,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
-    private static final DateFormat formatter = new SimpleDateFormat( "yyyy" );
 
     /**
      *
@@ -67,7 +64,7 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
      *
      */
     public TaxonDaoImpl() {
-        super(Taxon.class);
+        super(Taxon.class, Taxon.class);
     }
 
     @Override
@@ -86,7 +83,7 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
             break;
         case AUTHORITY:
             facetingRequest = facetContext.name(facetName.name())
-                    .onField("sources.label").discrete()
+                    .onField("sources.identifier").discrete()
                     .orderedBy(FacetSortOrder.FIELD_VALUE)
                     .includeZeroCounts(true).createFacetingRequest();
             facetManager.enableFaceting(facetingRequest);
@@ -112,19 +109,6 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
                     .includeZeroCounts(true).createFacetingRequest();
             facetManager.enableFaceting(facetingRequest);
             break;
-//        case DATE_PUBLISHED:
-//            facetingRequest = facetContext.name(facetName.name())
-//                    .onField("protologue.datePublished").range().below(1751)
-//                    .from(1751).to(1800)
-//                    .from(1801).to(1850)
-//                    .from(1851).to(1900)
-//                    .from(1901).to(1950)
-//                    .from(1951).to(2000)
-//                    .above(2000)
-//                    .orderedBy(FacetSortOrder.RANGE_DEFINITION_ODER)
-//                    .createFacetingRequest();
-//            facetManager.enableFaceting(facetingRequest);
-//            break;
         default:
             break;
         }
@@ -146,7 +130,6 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
        case FAMILY:
        case RANK:
        case TAXONOMIC_STATUS:
-//       case DATE_PUBLISHED:
            List<Facet> facetResults =
                facetManager.getFacets(facetName.name());
            Facet selectedFacet = facetResults.get(selectedFacetIndex);
@@ -181,7 +164,6 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
        case FAMILY:
        case RANK:
        case TAXONOMIC_STATUS:
-//       case DATE_PUBLISHED:
            page.addFacets(facetName.name(),
                    facetManager.getFacets(facetName.name()));
        default:

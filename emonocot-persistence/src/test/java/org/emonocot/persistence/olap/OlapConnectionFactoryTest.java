@@ -66,24 +66,24 @@ public class OlapConnectionFactoryTest extends AbstractPersistenceTest {
     public final void setUpTestData() {
         Taxon taxon1 = createTaxon("Aus", "urn:lsid:example.com:taxon:1", null,
                 null, "Ausidae", "Aus", null, null, null, null,
-                new GeographicalRegion[] {});
+                null, new GeographicalRegion[] {});
         createAnnotation(taxon1);
         Taxon taxon2 = createTaxon("Aus bus", "urn:lsid:example.com:taxon:2",
                 taxon1, null, "Ausidae", "Aus", "bus", null, null, null,
-                new GeographicalRegion[] {Continent.AUSTRALASIA,
+                null, new GeographicalRegion[] {Continent.AUSTRALASIA,
                         Region.BRAZIL, Region.CARIBBEAN });
         createAnnotation(taxon2);
         Taxon taxon3 = createTaxon("Aus ceus", "urn:lsid:example.com:taxon:3",
                 taxon1, null, "Ausidae", "Aus", "ceus", null, null, null,
-                new GeographicalRegion[] {Region.NEW_ZEALAND });
+                null, new GeographicalRegion[] {Region.NEW_ZEALAND });
         createAnnotation(taxon3);
         Taxon taxon4 = createTaxon("Aus deus", "urn:lsid:example.com:taxon:4",
                 null, taxon2, "Ausidae", "Aus", "deus", null, null, null,
-                new GeographicalRegion[] {});
+                null, new GeographicalRegion[] {});
         createAnnotation(taxon4);
         Taxon taxon5 = createTaxon("Aus eus", "urn:lsid:example.com:taxon:5",
                 null, taxon3, "Ausidae", "Aus", "eus", null, null, null,
-                new GeographicalRegion[] {});
+                null, new GeographicalRegion[] {});
         createAnnotation(taxon5);
     }
     /**

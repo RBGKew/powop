@@ -2,13 +2,10 @@ package org.emonocot.model.common;
 
 import java.io.Serializable;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.hibernate.annotations.NaturalId;
-import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 
 /**

@@ -49,11 +49,6 @@ public class SearchController {
     /**
      *
      */
-    private SourceService sourceService;
-
-    /**
-     *
-     */
     private SearchableObjectService searchableObjectService;
 
     /**
@@ -70,16 +65,6 @@ public class SearchController {
     public final void setTaxonService(final TaxonService taxonService) {
         this.taxonService = taxonService;
     }
-
-    /**
-    *
-    * @param sourceService
-    *            Set the source service
-    */
-   @Autowired
-   public final void setSourceService(final SourceService sourceService) {
-       this.sourceService = sourceService;
-   }
 
     /**
      *
@@ -149,7 +134,7 @@ public class SearchController {
                             FacetName.FAMILY, FacetName.CONTINENT, FacetName.AUTHORITY},
                     selectedFacets, sort);
             queryLog.info("Query: \'{}\', start: {}, limit: {},"
-                    + "facet: [{}], {} results", new Object[] { query, start,
+                    + "facet: [{}], {} results", new Object[] {query, start,
                     limit, selectedFacets, result.getSize() });
 
             result.putParam("query", query);
@@ -162,7 +147,7 @@ public class SearchController {
                     + " available");
             switch (selectedFacets.get(FacetName.CLASS)) {
             case 0:
-                logger.debug("Using the image service for "+ query);
+                logger.debug("Using the image service for " + query);
                 result = imageService.search(query, null, limit,
                         start, new FacetName[] {FacetName.CLASS,
                         FacetName.FAMILY, FacetName.CONTINENT,
@@ -170,23 +155,13 @@ public class SearchController {
                 queryLog.info("Query: \'{}\', start: {}, limit: {},"
                         + "facet: [{}], {} results", new Object[] {query,
                         start, limit, selectedFacets, result.getSize() });
-                break;
+                break;            
             case 1:
-                logger.debug("Using the source service for "+ query);
-                result = sourceService.search(query, null, limit,
-                        start, new FacetName[] {FacetName.CLASS,
-                        FacetName.FAMILY, FacetName.CONTINENT,
-                        FacetName.AUTHORITY}, selectedFacets, sort);
-                queryLog.info("Query: \'{}\', start: {}, limit: {},"
-                        + "facet: [{}], {} results", new Object[] {query,
-                        start, limit, selectedFacets, result.getSize() });
-                break;
-            case 2:
-                logger.debug("Using the taxon service for "+ query);
+                logger.debug("Using the taxon service for " + query);
                 result = taxonService.search(query, null, limit,
                         start, new FacetName[] {FacetName.CLASS,
                         FacetName.FAMILY, FacetName.CONTINENT,
-                        //FacetName.AUTHORITY,
+                        FacetName.AUTHORITY,
                         FacetName.RANK,
                         FacetName.TAXONOMIC_STATUS}, selectedFacets, sort);
                 queryLog.info("Query: \'{}\', start: {}, limit: {},"

@@ -59,7 +59,7 @@ public class StepDefinitions {
             final List<ImageRow> imageRows) {
         for (ImageRow imageRow : imageRows) {
             testDataManager.createImage(imageRow.identifier,
-                     imageRow.caption, imageRow.url);
+                     imageRow.caption, imageRow.url, imageRow.source);
         }
     }
 
@@ -119,7 +119,7 @@ public class StepDefinitions {
             testDataManager.createTaxon(row.name, row.family, row.identifier,
                     row.rank, row.status, row.diagnostic, row.habitat,
                     row.protologue, row.image1, row.image2, row.image3,
-                    row.distribution1, row.distribution2, row.distribution3);
+                    row.distribution1, row.distribution2, row.distribution3, row.source);
        }
 
    }
@@ -198,8 +198,11 @@ public class StepDefinitions {
             assertArrayEquals(actualResults.get(i), results.get(i).toArray());
         }
     }
-    
-    
+
+    /**
+     *
+     * @param link
+     */
     @Then("^there should be a link to \"([^\"]*)\"$")
     public void thereShouldBeALinkTo(String link) {
     	assertEquals(link, ((SourcePage) currentPage).getLink());
@@ -286,14 +289,22 @@ public class StepDefinitions {
     public final void iNavigateToThePage(final String identifier) {
         currentPage = portal.getTaxonPage(identifier);
     }
-    
+
+    /**
+     *
+     * @param identifier
+     */
     @When("^I navigate to image page \"([^\"]*)\"$")
-    public void navigateToImagePage(final String identifier) {
+    public final void navigateToImagePage(final String identifier) {
     	currentPage = portal.getImagePage(identifier);
     }
-    
+
+    /**
+     *
+     * @param identifier
+     */
     @When("^I navigate to source page \"([^\"]*)\"$")
-    public void navigateToSourcePage(final String identifier) {
+    public final void navigateToSourcePage(final String identifier) {
     	currentPage = portal.getSourcePage(identifier);
     }
 
@@ -375,7 +386,7 @@ public class StepDefinitions {
      *
      * @param thumbnails Set the thumbnails
      */
-    @Then("^there should be (\\d+) thumbnails$")
+    @Then("^there should be (\\d+) thumbnail[s]?$")
     public final void thereShouldBeThumbnails(final int thumbnails) {
         assertEquals(thumbnails, ((IllustratedPage) currentPage).getThumbnails());
     }

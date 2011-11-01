@@ -93,7 +93,7 @@ public class TestDataManager {
      */
     @Autowired
     private ReferenceService referenceService;
-    
+
     /**
     *
     */
@@ -120,16 +120,23 @@ public class TestDataManager {
     /**
     *
     * @param identifier Set the identifier
-    * @param caption Set the caption
-    * @param url Set the url
+     * @param caption Set the caption
+     * @param url Set the url
+     * @param source Set the source
     */
     public final void createImage(final String identifier,
-            final String caption, final String url) {
+            final String caption, final String url, final String source) {
        enableAuthentication();
        Image image = new Image();
        image.setCaption(caption);
        image.setUrl(url);
        image.setIdentifier(identifier);
+       if (source != null) {
+           Source s = new Source();
+           s.setIdentifier(source);
+           image.setAuthority(s);
+           image.getSources().add(s);
+       }
        imageService.save(image);
        data.push(image);
        disableAuthentication();
@@ -229,19 +236,20 @@ public class TestDataManager {
     /**
     *
     * @param name Set the name
-    * @param family Set the family
-    * @param identifier Set the identifier
-    * @param rank Set the rank
-    * @param status Set the status
-    * @param diagnostic Set the diagnostic
-    * @param habitat Set the habitat
-    * @param protologue Set the protologue
-    * @param image1 Set the image1
-    * @param image2 Set the image2
-    * @param image3 Set the image3
-    * @param distribution1 Set the distribution1
-    * @param distribution2 Set the distribution2
-    * @param distribution3 Set the distribution3
+     * @param family Set the family
+     * @param identifier Set the identifier
+     * @param rank Set the rank
+     * @param status Set the status
+     * @param diagnostic Set the diagnostic
+     * @param habitat Set the habitat
+     * @param protologue Set the protologue
+     * @param image1 Set the image1
+     * @param image2 Set the image2
+     * @param image3 Set the image3
+     * @param distribution1 Set the distribution1
+     * @param distribution2 Set the distribution2
+     * @param distribution3 Set the distribution3
+     * @param source Set the source
     *
     */
     public final void createTaxon(final String name, final String family,
@@ -249,7 +257,7 @@ public class TestDataManager {
             final String diagnostic, final String habitat,
             final String protologue, final String image1, final String image2,
             final String image3, final String distribution1,
-            final String distribution2, final String distribution3) {
+            final String distribution2, final String distribution3, String source) {
         enableAuthentication();
         Taxon taxon = new Taxon();
         data.push(taxon);
@@ -311,6 +319,12 @@ public class TestDataManager {
             distribution.setRegion(geographicalRegion);
             distribution.setTaxon(taxon);
             taxon.getDistribution().put(geographicalRegion, distribution);
+        }
+        if (source != null) {
+            Source s = new Source();
+            s.setIdentifier(source);
+            taxon.setAuthority(s);
+            taxon.getSources().add(s);
         }
         taxonService.save(taxon);
 

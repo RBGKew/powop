@@ -4,6 +4,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.emonocot.api.GroupService;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.ReferenceService;
+import org.emonocot.api.SourceService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.UserService;
 import org.springframework.beans.factory.FactoryBean;
@@ -39,6 +40,11 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper>  {
     *
     */
    private GroupService groupService;
+
+   /**
+    *
+    */
+   private SourceService sourceService;
 
    /**
     * @param userService the userService to set
@@ -77,6 +83,14 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper>  {
     public final void setImageService(final ImageService newImageService) {
         this.imageService = newImageService;
     }
+
+    /**
+     * @param sourceService the sourceService to set
+     */
+    public final void setSourceService(final SourceService sourceService) {
+        this.sourceService = sourceService;
+    }
+
     /**
      *
      */
@@ -93,6 +107,7 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper>  {
             objectMapper.setImageService(imageService);
             objectMapper.setUserService(userService);
             objectMapper.setGroupService(groupService);
+            objectMapper.setSourceService(sourceService);
             objectMapper.init();
         }
         return objectMapper;

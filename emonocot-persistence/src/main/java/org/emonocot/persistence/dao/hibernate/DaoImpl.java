@@ -3,9 +3,6 @@ package org.emonocot.persistence.dao.hibernate;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.emonocot.model.common.Base;
 import org.emonocot.model.hibernate.Fetch;
-import org.emonocot.model.media.Image;
-import org.emonocot.model.source.Source;
-import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.dao.Dao;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
@@ -79,12 +76,6 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
      *
      */
     protected Class<T> type;
-
-    /**
-     *
-     */
-    protected static Class SEARCHABLE_CLASSES[] = new Class[] { Image.class,Source.class,
-            Taxon.class };
 
     /**
      *
