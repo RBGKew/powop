@@ -115,7 +115,7 @@ public class OaiPmhRecordValidator implements
         	if(taxon.getAuthorship() != null) {
         		logger.debug(taxon.getAuthorship() + " (" + taxon.getAuthorship().length() + ") is valid?");
         	}
-            for (ConstraintViolation<org.emonocot.job.taxonmatch.Taxon> violation : violations) {
+            for (ConstraintViolation<Taxon> violation : violations) {
             	logger.debug(violation.getMessage());
                 Object o = violation.getLeafBean();
                 if (o.getClass().equals(Taxon.class)) {
