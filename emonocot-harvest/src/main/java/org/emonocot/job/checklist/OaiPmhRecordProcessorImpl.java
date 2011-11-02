@@ -143,13 +143,16 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
                  */
                 boolean contains = false;
                 for (Source auth : taxon.getSources()) {
-                    if (auth.equals(getSource())) {
+                    if (auth.getIdentifier().equals(getSource().getIdentifier())) {
                         contains = true;
                         break;
                     }
                 }
                 if (!contains) {
+                	logger.debug(taxon.getName() + " does not contain " + getSource().getIdentifier() + " adding");
                     taxon.getSources().add(getSource());
+                } else {
+                	logger.debug(taxon.getName() + " does contain " + getSource().getIdentifier() + " skipping");
                 }
 
                 taxon.setAuthority(getSource());

@@ -20,5 +20,8 @@
   </appender>
   <root level="${logging.level}" additivity="true">
     <appender-ref ref="${logging.method}"/>
-  </root>   
+  </root>
+  <logger name="org.emonocot.job.checklist" level="DEBUG" additivity="false">
+    <appender-ref ref="file"/>
+  </logger>
 </configuration>
