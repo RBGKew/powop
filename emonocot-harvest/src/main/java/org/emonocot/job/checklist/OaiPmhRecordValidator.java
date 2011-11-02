@@ -32,6 +32,7 @@ import org.springframework.core.convert.ConversionException;
  */
 public class OaiPmhRecordValidator implements
         ItemProcessor<Taxon, Taxon>, StepExecutionListener {
+	
     /**
      *
      */
@@ -104,9 +105,18 @@ public class OaiPmhRecordValidator implements
     public final Taxon process(final Taxon taxon) throws Exception {
         Set<ConstraintViolation<Taxon>> violations = validator.validate(taxon);
         if (violations.isEmpty()) {
+        	logger.debug(taxon.getName() + " is valid");
+        	if(taxon.getAuthorship() != null) {
+        		logger.debug(taxon.getAuthorship() + " (" + taxon.getAuthorship().length() + ") is valid");
+        	}
             return taxon;
         } else {
-            for (ConstraintViolation<Taxon> violation : violations) {
+        	logger.debug(taxon.getName() + " is not valid");
+        	if(taxon.getAuthorship() != null) {
+        		logger.debug(taxon.getAuthorship() + " (" + taxon.getAuthorship().length() + ") is valid?");
+        	}
+            for (ConstraintViolation<org.emonocot.job.taxonmatch.Taxon> violation : violations) {
+            	logger.debug(violation.getMessage());
                 Object o = violation.getLeafBean();
                 if (o.getClass().equals(Taxon.class)) {
                     ((Taxon) o).getAnnotations().add(
