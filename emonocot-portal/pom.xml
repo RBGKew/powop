@@ -83,11 +83,7 @@
 		<dependency>
 			<groupId>xerces</groupId>
 			<artifactId>xercesImpl</artifactId>
-		</dependency>
-		<dependency>
-    	    <groupId>javax</groupId>
-    	    <artifactId>javaee-api</artifactId>
-    	</dependency>
+		</dependency>		
     	<dependency>
     	    <groupId>org.liquibase</groupId>
 		    <artifactId>liquibase-core</artifactId>
