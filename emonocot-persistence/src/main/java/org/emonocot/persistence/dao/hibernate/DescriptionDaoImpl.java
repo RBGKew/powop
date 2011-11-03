@@ -1,6 +1,5 @@
 package org.emonocot.persistence.dao.hibernate;
 
-import org.emonocot.model.description.Content;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.hibernate.Fetch;
@@ -14,14 +13,14 @@ import org.springframework.stereotype.Repository;
  *
  */
 @Repository
-public class DescriptionDaoImpl extends DaoImpl<Content> implements
+public class DescriptionDaoImpl extends DaoImpl<TextContent> implements
         DescriptionDao {
 
     /**
      *
      */
     public DescriptionDaoImpl() {
-        super(Content.class);
+        super(TextContent.class);
     }
 
     /**

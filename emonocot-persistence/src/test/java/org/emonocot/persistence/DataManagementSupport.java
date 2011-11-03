@@ -9,6 +9,8 @@ import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.common.Base;
 import org.emonocot.model.description.Distribution;
+import org.emonocot.model.description.Feature;
+import org.emonocot.model.description.TextContent;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.reference.Reference;
@@ -85,6 +87,14 @@ public abstract class DataManagementSupport {
        setUp.add(annotation);
        tearDown.push(annotation);
        return annotation;
+   }
+   
+   public final TextContent createTextContent(final Taxon taxon, final Feature feature, final String content) {
+       TextContent textContent = new TextContent();
+       textContent.setFeature(feature);
+       textContent.setContent(content);
+       taxon.getContent().put(feature, textContent);
+       return textContent;
    }
 
     /**

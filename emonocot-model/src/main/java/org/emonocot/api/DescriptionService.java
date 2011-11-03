@@ -1,6 +1,5 @@
 package org.emonocot.api;
 
-import org.emonocot.model.description.Content;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.taxon.Taxon;
@@ -10,7 +9,7 @@ import org.emonocot.model.taxon.Taxon;
  * @author ben
  *
  */
-public interface DescriptionService extends Service<Content> {
+public interface DescriptionService extends Service<TextContent> {
 
     /**
      *

@@ -1,6 +1,6 @@
 package org.emonocot.persistence.dao;
 
-import org.emonocot.model.description.Content;
+import org.emonocot.model.description.TextContent;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.taxon.Taxon;
@@ -10,7 +10,7 @@ import org.emonocot.model.taxon.Taxon;
  * @author ben
  *
  */
-public interface DescriptionDao extends Dao<Content> {
+public interface DescriptionDao extends Dao<TextContent> {
 
     /**
      *

@@ -1,7 +1,6 @@
 package org.emonocot.service.impl;
 
 import org.emonocot.api.DescriptionService;
-import org.emonocot.model.description.Content;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.taxon.Taxon;
@@ -16,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @Service
-public class DescriptionServiceImpl extends ServiceImpl<Content, DescriptionDao> implements
+public class DescriptionServiceImpl extends ServiceImpl<TextContent, DescriptionDao> implements
         DescriptionService {
 
     @Transactional(readOnly = true)

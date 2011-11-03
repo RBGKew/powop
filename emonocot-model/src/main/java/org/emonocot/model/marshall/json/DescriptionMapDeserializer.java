@@ -8,7 +8,6 @@ import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonToken;
 import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
-import org.emonocot.model.description.Content;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
 
@@ -18,13 +17,13 @@ import org.emonocot.model.description.TextContent;
  *
  */
 public class DescriptionMapDeserializer extends
-        JsonDeserializer<Map<Feature, Content>> {
+        JsonDeserializer<Map<Feature, TextContent>> {
 
     @Override
-    public final Map<Feature, Content> deserialize(final JsonParser jsonParser,
+    public final Map<Feature, TextContent> deserialize(final JsonParser jsonParser,
             final DeserializationContext deserializationContext)
             throws IOException {
-        Map<Feature, Content> content = new HashMap<Feature, Content>();
+        Map<Feature, TextContent> content = new HashMap<Feature, TextContent>();
         while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
             TextContent textContent = jsonParser.readValueAs(TextContent.class);
             content.put(textContent.getFeature(), textContent);

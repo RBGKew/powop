@@ -7,7 +7,6 @@
     <mapping package="org.emonocot.model.common"/>
     <mapping class="org.emonocot.model.source.Source"/>
     <mapping class="org.emonocot.model.common.Annotation"/>
-    <mapping class="org.emonocot.model.description.Content"/>
     <mapping class="org.emonocot.model.description.Distribution"/>
     <mapping class="org.emonocot.model.description.TextContent"/>
     <mapping class="org.emonocot.model.media.Image"/>

@@ -28,9 +28,9 @@ import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.SearchableObject;
-import org.emonocot.model.description.Content;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
+import org.emonocot.model.description.TextContent;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.marshall.json.DescriptionMapDeserializer;
 import org.emonocot.model.marshall.json.DescriptionMapSerializer;
@@ -109,7 +109,7 @@ public class Taxon extends SearchableObject {
     /**
      *
      */
-    private Map<Feature, Content> content = new HashMap<Feature, Content>();
+    private Map<Feature, TextContent> content = new HashMap<Feature, TextContent>();
 
     /**
      *
@@ -267,7 +267,8 @@ public class Taxon extends SearchableObject {
     @Cascade({ CascadeType.ALL })
     @MapKey(name = "feature")
     @JsonSerialize(using = DescriptionMapSerializer.class)
-    public Map<Feature, Content> getContent() {
+    @IndexedEmbedded
+    public Map<Feature, TextContent> getContent() {
         return content;
     }
 
@@ -296,8 +297,8 @@ public class Taxon extends SearchableObject {
      *            Set the content associated with this taxon
      */
     @JsonDeserialize(using = DescriptionMapDeserializer.class)
-    public void setContent(Map<Feature, Content> newContent) {
-        for (Content c : newContent.values()) {
+    public void setContent(Map<Feature, TextContent> newContent) {
+        for (TextContent c : newContent.values()) {
             c.setTaxon(this);
         }
         this.content = newContent;
@@ -788,7 +789,7 @@ public class Taxon extends SearchableObject {
      */
     @Transient
     @JsonIgnore
-    public Content getContent(Feature feature) {
+    public TextContent getContent(Feature feature) {
         return content.get(feature);
     }
 
