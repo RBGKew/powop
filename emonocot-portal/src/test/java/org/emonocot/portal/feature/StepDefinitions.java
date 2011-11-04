@@ -117,7 +117,7 @@ public class StepDefinitions {
            final List<TaxonRow> rows) {
        for (TaxonRow row : rows) {
             testDataManager.createTaxon(row.name, row.family, row.identifier,
-                    row.rank, row.status, row.diagnostic, row.habitat,
+                    row.rank, row.status, row.diagnostic, row.habitat, row.general,
                     row.protologue, row.image1, row.image2, row.image3,
                     row.distribution1, row.distribution2, row.distribution3, row.source);
        }

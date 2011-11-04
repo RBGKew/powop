@@ -127,7 +127,7 @@ public class SearchableObjectDaoImpl extends SearchableDaoImpl<SearchableObject>
      */
     @Override
     protected final String[] getDocumentFields() {
-        return new String[]{"name", "caption", "title"};
+        return new String[]{"name", "caption", "title", "content.content"};
     }
 
     /**

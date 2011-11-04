@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.emonocot.api.FacetName;
 import org.emonocot.model.description.Feature;
-import org.emonocot.model.description.TextContent;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.Region;
@@ -16,7 +15,6 @@ import org.emonocot.model.taxon.Taxon;
 import org.hibernate.search.query.facet.Facet;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -38,7 +36,7 @@ public class SearchTest extends AbstractPersistenceTest {
      */
     @After
     public final void tearDown() throws Exception {
-        //super.doTearDown();
+        super.doTearDown();
     }
 
     /**
@@ -65,7 +63,7 @@ public class SearchTest extends AbstractPersistenceTest {
     /**
      *
      */
-    @Test @Ignore
+    @Test
     public final void testSearch() {
         Page<Taxon> page = getTaxonDao().search("name:Aus", null, null, null,
                 new FacetName[]{FacetName.CONTINENT}, null, null);
@@ -82,7 +80,7 @@ public class SearchTest extends AbstractPersistenceTest {
    /**
     *
     */
-   @Test @Ignore
+   @Test
    public final void testRestrictedSearch() {
         Map<FacetName, Integer> selectedFacets
             = new HashMap<FacetName, Integer>();
@@ -104,7 +102,7 @@ public class SearchTest extends AbstractPersistenceTest {
   /**
    *
    */
-  @Test @Ignore
+  @Test
   public final void testSpatialSearch() {
       System.out.println(
               "testSpatialSearch() should return Aus bus but not Aus ceus");
@@ -122,7 +120,7 @@ public class SearchTest extends AbstractPersistenceTest {
    */
   @Test
   public final void testSearchEmbeddedContent() {
-      Page<Taxon> page = getTaxonDao().search("content.content:Lorem", null, null, null,
+      Page<Taxon> page = getTaxonDao().search("Lorem", null, null, null,
               null, null, null);
       for (Taxon t : page.getRecords()) {
           System.out.println(t.getName());

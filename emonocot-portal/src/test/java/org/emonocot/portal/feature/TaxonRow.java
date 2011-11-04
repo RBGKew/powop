@@ -28,9 +28,14 @@ public class TaxonRow {
     public String diagnostic;
 
     /**
-   *
-   */
+     *
+     */
     public String protologue;
+
+    /**
+     *
+     */
+   public String general;
 
     /**
      *

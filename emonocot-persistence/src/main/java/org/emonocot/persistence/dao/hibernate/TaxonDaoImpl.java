@@ -57,7 +57,7 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
      */
     @Override
     protected final String[] getDocumentFields() {
-        return new String[] {"title", "name", "authorship" };
+        return new String[] {"title", "name", "authorship", "content.content" };
     }
 
     /**

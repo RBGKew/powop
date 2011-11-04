@@ -242,6 +242,7 @@ public class TestDataManager {
      * @param status Set the status
      * @param diagnostic Set the diagnostic
      * @param habitat Set the habitat
+     * @param general TODO
      * @param protologue Set the protologue
      * @param image1 Set the image1
      * @param image2 Set the image2
@@ -255,9 +256,9 @@ public class TestDataManager {
     public final void createTaxon(final String name, final String family,
             final String identifier, final String rank, final String status,
             final String diagnostic, final String habitat,
-            final String protologue, final String image1, final String image2,
-            final String image3, final String distribution1,
-            final String distribution2, final String distribution3, String source) {
+            final String general, final String protologue, final String image1,
+            final String image2, final String image3,
+            final String distribution1, final String distribution2, final String distribution3, String source) {
         enableAuthentication();
         Taxon taxon = new Taxon();
         data.push(taxon);
@@ -275,6 +276,9 @@ public class TestDataManager {
         }
         if (habitat != null) {
             createTextualData(taxon, habitat, Feature.habitat);
+        }
+        if (general != null) {
+            createTextualData(taxon, general, Feature.general);
         }
         if (protologue != null) {
             Reference reference = new Reference();

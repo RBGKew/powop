@@ -1425,4 +1425,16 @@
                                baseTableName="Source_Source"
                                referencedColumnNames="id"/>
     </changeSet>
+    <changeSet id="2011-11-04_01" author="ben">
+      <renameTable newTableName="TextContent" oldTableName="Content"/>
+    </changeSet>
+    <changeSet id="2011-11-04_02" author="ben">
+      <renameTable newTableName="TextContent_Source" oldTableName="Content_Source"/>
+    </changeSet>
+    <changeSet id="2011-11-04_03" author="ben">
+      <renameColumn tableName="TextContent_Source" oldColumnName="Content_id" columnDataType="bigint" newColumnName="TextContent_id"/>
+    </changeSet>
+    <changeSet id="2011-11-04_04" author="ben">
+      <dropColumn tableName="TextContent" columnName="DTYPE"/>
+    </changeSet>
 </databaseChangeLog>
