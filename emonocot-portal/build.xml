@@ -60,7 +60,7 @@
 		<delete dir="${target}" />
 	</target>
 
-	<target name="prepare" description="Creates directories required for build" >
+	<target name="prepare" depends="clean" description="Creates directories required for build" >
 		<echo message="preparing directory structure for build" />
 		<mkdir dir="${target}" />
 	</target>
@@ -119,7 +119,7 @@
 		<fail if="junit.failure" message="Unit test(s) failed.  See reports!" />
 	</target>
 
-	<target name="war" depends="test" description="Puts all build artefacts into a warfile structure in the build directory">
+	<target name="war" depends="compile" description="Puts all build artefacts into a warfile structure in the build directory">
 
 		<echo message="creating war structure" />
 		<mkdir dir="${target}/${name}" />
@@ -155,15 +155,19 @@
 				<include name="**/*.jar" />
 			</fileset>
 		</copy>
-		<war basedir="${target}/${name}" destfile="${target}/${name}.war" webxml="${target}/${name}/WEB-INF/web.xml" compress="true">
-			<webinf dir="${target}/${name}/WEB-INF" />
-		</war>
+		<war basedir="${target}/${name}" destfile="${target}/${name}.war"
+             webxml="${target}/${name}/WEB-INF/web.xml" compress="true"/>
 	</target>
 
 	<target name="tomcat.application.status">
 		<property name="running" value="${cargo.context.path}:running"/>
 		<property name="stopped" value="${cargo.context.path}:stopped"/>
 
+		<echo message="${cargo.tomcat.manager.url}"/>
+		<echo message="${cargo.remote.username}"/>
+		<echo message="${cargo.remote.password}"/>
+		<echo message="${cargo.context.path}"/>
+		
 		<list url="${cargo.tomcat.manager.url}"
 				outputproperty="application.status"
 				username="${cargo.remote.username}"
@@ -312,7 +316,7 @@
 	    <taskdef name="liquibase.ant.DatabaseUpdateTask">
 	        <classpath location="${test.lib}/liquibase-5.5.23.jar"/>	 
 	    </taskdef>
-	 
+
 	    <updateDatabase
 	            changeLogFile="../emonocot-persistence/src/main/resources/${database.changelog}"
 	            driver="${jdbc.driver.classname}"

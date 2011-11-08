@@ -60,7 +60,7 @@
 		<delete dir="${target}" />
 	</target>
 
-	<target name="prepare" description="Creates directories required for build" >
+	<target name="prepare" depends="clean" description="Creates directories required for build" >
 		<echo message="preparing directory structure for build" />
 		<mkdir dir="${target}" />
 	</target>
@@ -119,7 +119,7 @@
 		<fail if="junit.failure" message="Unit test(s) failed.  See reports!" />
 	</target>
 
-	<target name="war" depends="test" description="Puts all build artefacts into a warfile structure in the build directory">
+	<target name="war" depends="compile" description="Puts all build artefacts into a warfile structure in the build directory">
 
 		<echo message="creating war structure" />
 		<mkdir dir="${target}/${name}" />
@@ -134,7 +134,7 @@
 		</copy>
 
 		<!-- copy resource files to the build tree this time with filtering-->
-		<copy todir="${target}/${name}/WEB-INF/classes" filtering="true">
+		<copy todir="${target}/${name}/WEB-INF" filtering="true">
 			<filterchain>
 				<expandproperties/>
 			</filterchain>
@@ -155,9 +155,8 @@
 				<include name="**/*.jar" />
 			</fileset>
 		</copy>
-		<war basedir="${target}/${name}" destfile="${target}/${name}.war" webxml="${main.webapp}/WEB-INF/web.xml" compress="true">
-			<webinf dir="${target}/${name}/WEB-INF" />
-		</war>
+		<war basedir="${target}/${name}" destfile="${target}/${name}.war"
+             webxml="${target}/${name}/WEB-INF/web.xml" compress="true"/>
 	</target>
 
 	<target name="tomcat.application.status">
@@ -186,7 +185,7 @@
 			<or>
 				<istrue value="${application.notInstalled}"/>
 				<and>
-					<istrue value="${applidation.running}"/>
+					<istrue value="${application.running}"/>
 					<istrue value="${tomcat.manager.update}"/>
 				</and>
 				<and>
