@@ -1,6 +1,8 @@
 package org.emonocot.job.dwc.taxon;
 
+import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.AnnotationType;
+import org.emonocot.model.taxon.Taxon;
 
 /**
  *
@@ -16,10 +18,12 @@ public class TaxonAlreadyProcessedException extends TaxonProcessingException {
 
     /**
      *
-     * @param msg Set the message
+     * @param taxon Set the taxon
      */
-    public TaxonAlreadyProcessedException(final String msg) {
-        super(msg);
+    public TaxonAlreadyProcessedException(final Taxon taxon) {
+        super("Taxon " + taxon.getIdentifier()
+                + " already found once in this archive",
+                AnnotationCode.AlreadyProcessed, taxon.getIdentifier());
     }
 
     /**

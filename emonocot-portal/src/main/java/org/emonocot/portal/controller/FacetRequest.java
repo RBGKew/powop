@@ -15,7 +15,7 @@ public class FacetRequest {
     /**
      * The selected facet.
      */
-    private Integer selected;
+    private String selected;
 
     /**
      * @return the facet
@@ -34,14 +34,14 @@ public class FacetRequest {
     /**
      * @return the selected
      */
-    public final Integer getSelected() {
+    public final String getSelected() {
         return selected;
     }
 
     /**
      * @param newSelected the selected to set
      */
-    public final void setSelected(final Integer newSelected) {
+    public final void setSelected(final String newSelected) {
         this.selected = newSelected;
     }
 

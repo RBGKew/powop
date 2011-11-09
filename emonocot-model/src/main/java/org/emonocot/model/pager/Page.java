@@ -149,7 +149,7 @@ public interface Page<T> {
      *
      * @return The selected facets
      */
-  Map<String, Integer> getSelectedFacets();
+  Map<String, String> getSelectedFacets();
 
   /**
    *
@@ -160,9 +160,9 @@ public interface Page<T> {
 
   /**
    * @param facetName Set the facet name
-   * @param selected Set the index of the selected facet
+   * @param selected Set the selected facet
    */
-  void setSelectedFacet(String facetName, Integer selected);
+  void setSelectedFacet(String facetName, String selected);
 
   /**
    *

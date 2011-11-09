@@ -3,10 +3,13 @@ package org.emonocot.job.dwc;
 import java.io.Serializable;
 
 import org.emonocot.job.dwc.description.DescriptionProcessingException;
+import org.emonocot.job.dwc.taxon.CannotFindRecordException;
 import org.emonocot.model.source.Source;
 import org.emonocot.model.common.Annotation;
+import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.common.Base;
+import org.emonocot.model.common.RecordType;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -25,6 +28,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindException;
 /**
  *
  * @author ben
@@ -138,21 +142,14 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
                 = (DarwinCoreProcessingException) e;
             logger.debug(dwcpe.getCode() + " | " + dwcpe.getMessage());
             final Annotation annotation = new Annotation();
+            annotation.setRecordType(getRecordType());
             annotation.setJobId(stepExecution.getJobExecutionId());
             annotation.setCode(dwcpe.getCode());
+            annotation.setRecordType(dwcpe.getRecordType());
+            annotation.setValue(dwcpe.getValue());
             annotation.setText(dwcpe.getMessage());
             annotation.setSource(getSource());
             annotation.setType(dwcpe.getType());
-            String stepName = stepExecution.getStepName();
-            if (stepName.equals(PROCESS_CORE_FILE)) {
-                annotation.setAnnotatedObjType("Taxon");
-            } else if (stepName.equals(PROCESS_DESCRIPTION_FILE)) {
-                annotation.setAnnotatedObjType("TextContent");
-            } else if (stepName.equals(PROCESS_IMAGE_FILE)) {
-                annotation.setAnnotatedObjType("Image");
-            } else if (stepName.equals(PROCESS_REFERENCE_FILE)) {
-                annotation.setAnnotatedObjType("Reference");
-            }
             try {
                 transactionTemplate
                         .execute(new TransactionCallback<Serializable>() {
@@ -167,6 +164,24 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
                 throw new RuntimeException(t);
             }
         }
+    }
+
+    /**
+     *
+     * @return the record type we are currently processing
+     */
+    private RecordType getRecordType() {
+        String stepName = stepExecution.getStepName();
+        if (stepName.equals(PROCESS_CORE_FILE)) {
+            return RecordType.Taxon;
+        } else if (stepName.equals(PROCESS_DESCRIPTION_FILE)) {
+            return RecordType.TextContent;
+        } else if (stepName.equals(PROCESS_IMAGE_FILE)) {
+            return RecordType.TextContent;
+        } else if (stepName.equals(PROCESS_REFERENCE_FILE)) {
+            return RecordType.Reference;
+        }
+        return null;
     }
 
     /**
@@ -220,29 +235,35 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
             FlatFileParseException ffpe = (FlatFileParseException) e;
             StringBuffer message = new StringBuffer();
             message.append(ffpe.getMessage());
+            final Annotation annotation = new Annotation();
             if (ffpe.getCause() != null) {
                 message.append(" " + ffpe.getCause().getMessage());
                 logger.debug("FlatFileParseException | " + ffpe.getMessage()
                         + " Cause " + ffpe.getCause().getMessage());
+                if (ffpe.getCause().getClass()
+                        .equals(CannotFindRecordException.class)) {
+                    annotation.setCode(AnnotationCode.BadIdentifier);
+                    CannotFindRecordException cfre = (CannotFindRecordException) ffpe
+                            .getCause();
+                    annotation.setValue(cfre.getValue());
+                } else if (ffpe.getCause().getClass()
+                        .equals(BindException.class)) {
+                    annotation.setCode(AnnotationCode.BadField);
+                    BindException be = (BindException) ffpe
+                            .getCause();
+                    annotation.setValue(be.getFieldError().getField());
+                } else {
+                    annotation.setCode(AnnotationCode.BadRecord);
+                }
             } else {
                 logger.debug("FlatFileParseException | " + ffpe.getMessage());
             }
-            final Annotation annotation = new Annotation();
+
             annotation.setJobId(stepExecution.getJobExecutionId());
-            annotation.setCode("FlatFileParseException");
+            annotation.setRecordType(getRecordType());
             annotation.setSource(getSource());
             annotation.setType(AnnotationType.Error);
             annotation.setText(message.toString());
-            String stepName = stepExecution.getStepName();
-            if (stepName.equals(PROCESS_CORE_FILE)) {
-                annotation.setAnnotatedObjType("Taxon");
-            } else if (stepName.equals(PROCESS_DESCRIPTION_FILE)) {
-                annotation.setAnnotatedObjType("TextContent");
-            } else if (stepName.equals(PROCESS_IMAGE_FILE)) {
-                annotation.setAnnotatedObjType("Image");
-            } else if (stepName.equals(PROCESS_REFERENCE_FILE)) {
-                annotation.setAnnotatedObjType("Reference");
-            }
             try {
                 transactionTemplate
                         .execute(new TransactionCallback<Serializable>() {

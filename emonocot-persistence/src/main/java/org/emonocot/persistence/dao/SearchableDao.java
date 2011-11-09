@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.emonocot.api.FacetName;
 import org.emonocot.api.Sorting;
-import org.emonocot.model.common.SearchableObject;
+import org.emonocot.model.common.Base;
 import org.emonocot.model.pager.Page;
 
 /**
@@ -13,7 +13,7 @@ import org.emonocot.model.pager.Page;
  *
  * @param <T>
  */
-public interface SearchableDao<T extends SearchableObject> extends Dao<T> {
+public interface SearchableDao<T extends Base> extends Dao<T> {
 
     /**
      * @param query
@@ -31,10 +31,11 @@ public interface SearchableDao<T extends SearchableObject> extends Dao<T> {
      *            A map of facets which you would like to restrict the search by
      * @param sort
      *            A representation for the order results should be returned in
+     * @param fetch Set the fetch profile
      * @return a Page from the resultset
      */
   Page<T> search(String query, String spatialQuery, Integer pageSize,
           Integer pageNumber, FacetName[] facets,
-          Map<FacetName, Integer> selectedFacets, Sorting sort);
+          Map<FacetName, String> selectedFacets, Sorting sort, String fetch);
 
 }

@@ -1,7 +1,9 @@
 package org.emonocot.job.dwc.image;
 
 import org.emonocot.job.dwc.DarwinCoreProcessingException;
+import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.AnnotationType;
+import org.emonocot.model.common.RecordType;
 
 /**
  *
@@ -14,9 +16,12 @@ public class ImageProcessingException extends
     /**
      *
      * @param msg the message
+     * @param code the code
+     * @param value the value
      */
-    public ImageProcessingException(final String msg) {
-        super(msg);
+    public ImageProcessingException(final String msg, final AnnotationCode code,
+            final String value) {
+        super(msg, code, RecordType.Image, value);
     }
 
     /**

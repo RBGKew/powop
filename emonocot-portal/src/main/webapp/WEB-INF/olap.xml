@@ -10,16 +10,14 @@
 				<Level name="species" column="specificEpithet" uniqueMembers="true" />
 			</Hierarchy>
 		</Dimension>
-		<Dimension name="Job" foreignKey="jobId">
-			<Hierarchy hasAll="true" allMemberName="Globally"
-				primaryKey="JOB_EXECUTION_ID">
-				<Table name="batch_job_execution" />
-				<Level name="Job" column="JOB_INSTANCE_ID" uniqueMembers="true" />
-			</Hierarchy>
+		<Dimension name="Job" >
+		    <Hierarchy hasAll="true">
+				<Level name="Job" column="jobId" uniqueMembers="true" />
+			</Hierarchy>			
 		</Dimension>
 		<Dimension name="Object Type">
 			<Hierarchy hasAll="true">
-				<Level name="Object type" column="annotatedObjType"
+				<Level name="Object Type" column="recordType"
 					uniqueMembers="true" />
 			</Hierarchy>
 		</Dimension>

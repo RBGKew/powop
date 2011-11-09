@@ -98,20 +98,17 @@ public class ImageDaoImpl extends SearchableDaoImpl<Image> implements ImageDao {
      *            Set the facet name
      * @param facetManager
      *            Set the facet manager
-     * @param selectedFacetIndex
+     * @param selectedFacet
      *            Set the selected facet
      */
     @Override
     protected final void selectFacet(final FacetName facetName,
-            final FacetManager facetManager, final Integer selectedFacetIndex) {
+            final FacetManager facetManager, final String selectedFacet) {
         switch (facetName) {
         case CONTINENT:
         case AUTHORITY:
         case FAMILY:
-            List<Facet> facetResults = facetManager.getFacets(facetName.name());
-            Facet selectedFacet = facetResults.get(selectedFacetIndex);
-            facetManager.getFacetGroup(facetName.name()).selectFacets(
-                    selectedFacet);
+            doSelectFacet(facetName, facetManager, selectedFacet);
         default:
             break;
         }

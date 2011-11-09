@@ -45,6 +45,7 @@ import org.emonocot.model.reference.Reference;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
+import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Fields;
@@ -278,7 +279,7 @@ public class Taxon extends SearchableObject {
      *            Set the images associated with this taxon
      */
     @JsonDeserialize(contentUsing = ImageDeserializer.class)
-    public void setImages(List<Image> newImages) {        
+    public void setImages(List<Image> newImages) {
         this.images = newImages;
     }
 
@@ -691,7 +692,8 @@ public class Taxon extends SearchableObject {
     /**
      * @return the family
      */
-    @Field
+    @Field(analyzer = @Analyzer(
+            definition =  "facetAnalyzer"))
     @Size(max = 128)
     public String getFamily() {
         return family;

@@ -32,7 +32,7 @@ public class Processor implements ItemProcessor<Taxon, Result> {
      */
     public final Result process(final Taxon taxon) throws Exception {
         Page<org.emonocot.model.taxon.Taxon> page = taxonService.search("\""
-                + taxon.getName() + "\"", null, null, null, null, null, null);     
+                + taxon.getName() + "\"", null, null, null, null, null, null, null);     
         Result result = new Result();
         result.setOriginalIdentifier(taxon.getIdentifier());
         result.setName(taxon.getName());

@@ -1,6 +1,8 @@
 package org.emonocot.job.dwc;
 
+import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.AnnotationType;
+import org.emonocot.model.common.RecordType;
 
 /**
  *
@@ -17,9 +19,12 @@ public class NoTaxonException extends DarwinCoreProcessingException {
     /**
      *
      * @param msg Set the message
+     * @param recordType the type of object missing a taxon
+     * @param lineNumber the record number with a missing taxon identifier
      */
-    public NoTaxonException(final String msg) {
-        super(msg);
+    public NoTaxonException(final String msg, final RecordType recordType,
+            final Integer lineNumber) {
+        super(msg, AnnotationCode.BadField, recordType, lineNumber.toString());
     }
 
     @Override

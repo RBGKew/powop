@@ -15,12 +15,23 @@ import org.springframework.format.Formatter;
 public class FacetRequestFormatter
     implements Formatter<FacetRequest> {
 
+    /**
+     * @param facetRequest Set the facet request
+     * @param locale Set the locale
+     * @return the facet request as a string
+     */
     public final String print(
             final FacetRequest facetRequest, final Locale locale) {
         return facetRequest.getFacet().name()
             + "." + facetRequest.getSelected();
     }
 
+    /**
+     * @param facetRequest the facet request as a string
+     * @param locale Set the locale
+     * @return a FacetRequest object
+     * @throws ParseException if there is a problem parsing the string
+     */
     public final FacetRequest parse(
             final String facetRequest, final Locale locale)
             throws ParseException {
@@ -34,7 +45,7 @@ public class FacetRequestFormatter
                 = facetRequest.substring(facetRequest.indexOf(".") + 1);
             FacetRequest result = new FacetRequest();
             result.setFacet(FacetName.valueOf(facetName));
-            result.setSelected(Integer.parseInt(selectedFacet));
+            result.setSelected(selectedFacet);
             return result;
         }
     }

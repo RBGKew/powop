@@ -4,7 +4,9 @@ import org.emonocot.job.dwc.DarwinCoreValidator;
 import org.emonocot.job.dwc.NoTaxonException;
 import org.emonocot.model.source.Source;
 import org.emonocot.model.common.Annotation;
+import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.AnnotationType;
+import org.emonocot.model.common.RecordType;
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.api.SourceService;
@@ -38,7 +40,8 @@ public class DescriptionValidator extends DarwinCoreValidator<TextContent> {
         logger.info("Validating " + textContent);
 
         if (textContent.getTaxon() == null) {
-            throw new NoTaxonException(textContent + " has no Taxon set");
+            throw new NoTaxonException(textContent + " has no Taxon set",
+                    RecordType.TextContent, getStepExecution().getReadCount());
         }
 
         if (textContent.getFeature() == null) {
@@ -47,19 +50,25 @@ public class DescriptionValidator extends DarwinCoreValidator<TextContent> {
 
         Taxon taxon = textContent.getTaxon();
         if (taxon.getContent().containsKey(textContent.getFeature())) {
-            TextContent persistedContent = (TextContent) taxon.getContent().get(textContent.getFeature());
-            if ((persistedContent.getModified() == null
-                    && textContent.getModified() == persistedContent.getModified()) 
-                    || persistedContent.getModified().equals(textContent.getModified())) {
+            TextContent persistedContent = (TextContent) taxon.getContent()
+                    .get(textContent.getFeature());
+            if ((persistedContent.getModified() == null && textContent
+                    .getModified() == persistedContent.getModified())
+                    || persistedContent.getModified().equals(
+                            textContent.getModified())) {
                 // The content hasn't changed, skip it
                 return null;
             } else {
-                Annotation annotation = createAnnotation("TextContent", "Update", AnnotationType.Update);
+                Annotation annotation = createAnnotation(textContent,
+                        RecordType.TextContent, AnnotationCode.Update,
+                        AnnotationType.Info);
                 textContent.getAnnotations().add(annotation);
                 return textContent;
             }
         } else {
-            Annotation annotation = createAnnotation("TextContent", "Create", AnnotationType.Create);
+            Annotation annotation = createAnnotation(textContent,
+                    RecordType.TextContent, AnnotationCode.Create,
+                    AnnotationType.Info);
             textContent.getAnnotations().add(annotation);
             textContent.getSources().add(getSource());
             textContent.setAuthority(getSource());

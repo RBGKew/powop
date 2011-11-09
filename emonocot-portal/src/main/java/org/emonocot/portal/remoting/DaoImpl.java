@@ -150,13 +150,14 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
      * @param pageNumber set the page number
      * @param facets set the facets to be calculated
      * @param selectedFacets set the facets that are selected
+     * @param fetch TODO
      * @return a page of objects
      */
     public final Page<T> search(final String query, final String spatialQuery,
             final Integer pageSize, final Integer pageNumber,
             final FacetName[] facets,
-            final Map<FacetName, Integer> selectedFacets,
-            final Sorting sort) {
+            final Map<FacetName, String> selectedFacets,
+            final Sorting sort, String fetch) {
         // TODO Auto-generated method stub
         // TODO move persistence to persistence package?
         return null;

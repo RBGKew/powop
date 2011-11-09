@@ -10,7 +10,6 @@ import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.pager.Page;
-import org.emonocot.model.source.Source;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.dao.SearchableObjectDao;
 import org.hibernate.search.ProjectionConstants;
@@ -26,8 +25,8 @@ import org.springframework.stereotype.Repository;
  *
  */
 @Repository
-public class SearchableObjectDaoImpl extends SearchableDaoImpl<SearchableObject> implements
-        SearchableObjectDao {
+public class SearchableObjectDaoImpl extends
+        SearchableDaoImpl<SearchableObject> implements SearchableObjectDao {
 
     /**
      *
@@ -86,22 +85,18 @@ public class SearchableObjectDaoImpl extends SearchableDaoImpl<SearchableObject>
     *
     * @param facetName Set the facet name
     * @param facetManager Set the facet manager
-    * @param selectedFacetIndex Set the selected facet
+    * @param selectedFacet Set the selected facet
     */
    @Override
    protected final void selectFacet(final FacetName facetName,
            final FacetManager facetManager,
-           final Integer selectedFacetIndex) {
+           final String selectedFacet) {
        switch (facetName) {
        case CLASS:
        case CONTINENT:
        case AUTHORITY:
        case FAMILY:
-           List<Facet> facetResults =
-               facetManager.getFacets(facetName.name());
-           Facet selectedFacet = facetResults.get(selectedFacetIndex);
-           facetManager.getFacetGroup(facetName.name())
-                   .selectFacets(selectedFacet);
+           doSelectFacet(facetName, facetManager, selectedFacet);
        default:
            break;
        }

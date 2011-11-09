@@ -13,14 +13,14 @@ import org.apache.lucene.util.Version;
 import org.emonocot.api.FacetName;
 import org.emonocot.api.Sorting;
 import org.emonocot.api.Sorting.SortDirection;
-import org.emonocot.model.common.SearchableObject;
+import org.emonocot.model.common.Base;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.pager.DefaultPageImpl;
 import org.emonocot.model.pager.Page;
-import org.emonocot.model.source.Source;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.QuerySyntaxException;
 import org.emonocot.persistence.dao.SearchableDao;
+import org.hibernate.Criteria;
 import org.hibernate.search.FullTextQuery;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.ProjectionConstants;
@@ -37,9 +37,9 @@ import org.hibernate.search.query.facet.Facet;
  *
  * @param <T>
  */
-public abstract class SearchableDaoImpl<T extends SearchableObject> extends
+public abstract class SearchableDaoImpl<T extends Base> extends
         DaoImpl<T> implements SearchableDao<T> {
-    /**
+   /**
     *
     */
     protected static Class SEARCHABLE_CLASSES[] = new Class[] { Image.class,
@@ -71,21 +71,41 @@ public abstract class SearchableDaoImpl<T extends SearchableObject> extends
       *
       * @param facetName Set the facet name
       * @param facetManager Set the facet manager
-      * @param selectedFacetIndex Set the selected facet
+      * @param selectedFacet Set the selected facet
       */
      protected void selectFacet(final FacetName facetName,
              final FacetManager facetManager,
-             final Integer selectedFacetIndex) {
+             final String selectedFacetName) {
          switch (facetName) {
          case CLASS:
              break;
          default:
-             List<Facet> facetResults =
-                 facetManager.getFacets(facetName.name());
-             Facet selectedFacet = facetResults.get(selectedFacetIndex);
-             facetManager.getFacetGroup(facetName.name())
-                     .selectFacets(selectedFacet);
+             doSelectFacet(facetName, facetManager, selectedFacetName);
              break;
+         }
+     }
+
+     /**
+      *
+      * @param facetName Set the facet name
+      * @param facetManager Set the facet manager
+      * @param selectedFacetName Set the selected facet name
+      */
+     protected final void doSelectFacet(final FacetName facetName,
+             final FacetManager facetManager,
+             final String selectedFacetName) {
+         List<Facet> facetResults =
+             facetManager.getFacets(facetName.name());
+         Facet selectedFacet = null;
+         for (Facet f : facetResults) {
+             if (f.getValue().equals(selectedFacetName)) {
+                 selectedFacet = f;
+                 break;
+             }
+         }
+         if (selectedFacet != null) {
+             facetManager.getFacetGroup(facetName.name())
+                 .selectFacets(selectedFacet);
          }
      }
 
@@ -126,15 +146,30 @@ public abstract class SearchableDaoImpl<T extends SearchableObject> extends
     */
    protected abstract String[] getDocumentFields();
 
-    /**
-    *
+   /**
+    * @param query
+    *            A lucene query
+ * @param spatialQuery
+    *            A spatial query to filter the results by
+ * @param pageSize
+    *            The maximum number of results to return
+ * @param pageNumber
+    *            The offset (in pageSize chunks, 0-based) from the beginning of
+    *            the recordset
+ * @param facets
+    *            The names of the facets you want to calculate
+ * @param selectedFacets
+    *            A map of facets which you would like to restrict the search by
+ * @param sort
+    *            A representation for the order results should be returned in
+    * @return a Page from the resultset
     */
    public final Page<T> search(final String query,
              final String spatialQuery,
              final Integer pageSize, final Integer pageNumber,
              final FacetName[] facets,
-             final Map<FacetName, Integer> selectedFacets,
-             final Sorting sort) {
+             final Map<FacetName, String> selectedFacets,
+             final Sorting sort, String fetch) {
          FullTextSession fullTextSession
           = Search.getFullTextSession(getSession());
          SearchFactory searchFactory = fullTextSession.getSearchFactory();
@@ -187,6 +222,12 @@ public abstract class SearchableDaoImpl<T extends SearchableObject> extends
                          .getDirection() == SortDirection.REVERSE)));
              }
 
+             if (fetch != null && (selectedFacets == null || selectedFacets.isEmpty())) {
+                 Criteria criteria = fullTextSession.createCriteria(getAnalyzerType());
+                 enableProfilePreQuery(criteria, fetch);
+                 fullTextQuery.setCriteriaQuery(criteria);
+             }
+
              List<T> results = (List<T>) fullTextQuery.list();
 
              if (selectedFacets != null && !selectedFacets.isEmpty()) {
@@ -196,7 +237,13 @@ public abstract class SearchableDaoImpl<T extends SearchableObject> extends
                      selectFacet(facetName, facetManager,
                              selectedFacets.get(facetName));
                  }
+                 Criteria criteria = fullTextSession.createCriteria(getAnalyzerType());
+                 enableProfilePreQuery(criteria, fetch);
                  results = (List<T>) fullTextQuery.list();
+             }
+
+             for (T t : results) {
+                 enableProfilePostQuery(t, fetch);
              }
 
              Page<T> page = new DefaultPageImpl<T>(
@@ -210,8 +257,8 @@ public abstract class SearchableDaoImpl<T extends SearchableObject> extends
              }
              if (selectedFacets != null && !selectedFacets.isEmpty()) {
                  for (FacetName facetName : selectedFacets.keySet()) {
-                     Integer selectedFacetIndex = selectedFacets.get(facetName);
-                     page.setSelectedFacet(facetName.name(), selectedFacetIndex);
+                     String selectedFacet = selectedFacets.get(facetName);
+                     page.setSelectedFacet(facetName.name(), selectedFacet);
                  }
              }
 

@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.emonocot.model.common.Annotation;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.Region;
@@ -67,24 +68,29 @@ public class OlapConnectionFactoryTest extends AbstractPersistenceTest {
         Taxon taxon1 = createTaxon("Aus", "urn:lsid:example.com:taxon:1", null,
                 null, "Ausidae", "Aus", null, null, null, null,
                 null, new GeographicalRegion[] {});
-        createAnnotation(taxon1);
+        Annotation annotation1 = createAnnotation(taxon1);
+        taxon1.getAnnotations().add(annotation1);
         Taxon taxon2 = createTaxon("Aus bus", "urn:lsid:example.com:taxon:2",
                 taxon1, null, "Ausidae", "Aus", "bus", null, null, null,
                 null, new GeographicalRegion[] {Continent.AUSTRALASIA,
                         Region.BRAZIL, Region.CARIBBEAN });
-        createAnnotation(taxon2);
+        Annotation annotation2 = createAnnotation(taxon2);
+        taxon2.getAnnotations().add(annotation2);
         Taxon taxon3 = createTaxon("Aus ceus", "urn:lsid:example.com:taxon:3",
                 taxon1, null, "Ausidae", "Aus", "ceus", null, null, null,
                 null, new GeographicalRegion[] {Region.NEW_ZEALAND });
-        createAnnotation(taxon3);
+        Annotation annotation3 = createAnnotation(taxon3);
+        taxon3.getAnnotations().add(annotation3);
         Taxon taxon4 = createTaxon("Aus deus", "urn:lsid:example.com:taxon:4",
                 null, taxon2, "Ausidae", "Aus", "deus", null, null, null,
                 null, new GeographicalRegion[] {});
-        createAnnotation(taxon4);
+        Annotation annotation4 = createAnnotation(taxon4);
+        taxon4.getAnnotations().add(annotation4);
         Taxon taxon5 = createTaxon("Aus eus", "urn:lsid:example.com:taxon:5",
                 null, taxon3, "Ausidae", "Aus", "eus", null, null, null,
                 null, new GeographicalRegion[] {});
-        createAnnotation(taxon5);
+        Annotation annotation5 = createAnnotation(taxon5);
+        taxon5.getAnnotations().add(annotation5);
     }
     /**
      *
@@ -93,7 +99,7 @@ public class OlapConnectionFactoryTest extends AbstractPersistenceTest {
     public final void createConnection() {
         try {
           assertNotNull("The connection should not be null", olapConnection);
-        } catch(Exception e) {
+        } catch (Exception e) {
             fail("No exception expected here");
         }
     }
@@ -102,7 +108,7 @@ public class OlapConnectionFactoryTest extends AbstractPersistenceTest {
      *
      */
     @Test
-    public final void queryTest() throws Exception {        
+    public final void queryTest() throws Exception {
         CellSet result = olapConnection.createStatement().executeOlapQuery("SELECT {[Measures].[Object Numbers]} on COLUMNS,"
                     + " {[taxa].[family].members} on ROWS" + " FROM Job");
 

@@ -1,19 +1,13 @@
 package org.emonocot.job.dwc.taxon;
 
 import org.emonocot.job.dwc.DarwinCoreValidator;
-import org.emonocot.model.source.Source;
 import org.emonocot.model.common.Annotation;
+import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.AnnotationType;
+import org.emonocot.model.source.Source;
 import org.emonocot.model.taxon.Taxon;
-import org.emonocot.api.SourceService;
-import org.emonocot.api.TaxonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.ExitStatus;
-import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.core.StepExecutionListener;
-import org.springframework.batch.item.ItemProcessor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -45,19 +39,18 @@ public class TaxonValidator extends DarwinCoreValidator<Taxon> {
         for (Annotation annotation : persistedTaxon.getAnnotations()) {
             if (annotation.getJobId().equals(
                     getStepExecution().getJobExecutionId())) {
-                if (annotation.getType().equals(AnnotationType.Present)) {
-                    throw new TaxonAlreadyProcessedException("Taxon "
-                            + taxon.getIdentifier()
-                            + " already found once in this archive");
+                if (annotation.getCode().equals(AnnotationCode.Present)) {
+                    throw new TaxonAlreadyProcessedException(taxon);
                 }
-                annotation.setType(AnnotationType.Present);
+                annotation.setType(AnnotationType.Info);
+                annotation.setCode(AnnotationCode.Present);
                 anAnnotationPresent = true;
                 break;
             }
         }
 
         if (!anAnnotationPresent) {
-            throw new UnexpectedTaxonException(taxon.getIdentifier());
+            throw new UnexpectedTaxonException(taxon);
         } else {
             /**
              * Using java.util.Collection.contains() does not work on lazy

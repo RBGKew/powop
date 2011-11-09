@@ -24,6 +24,11 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
     /**
      *
      */
+    private static final long serialVersionUID = 3235700796905201107L;
+
+    /**
+     *
+     */
     protected static final Integer MAX_PAGE_LABELS = 3;
 
     /**
@@ -106,8 +111,8 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
     /**
      *
      */
-    private Map<String, Integer> selectedFacets
-        = new HashMap<String, Integer>();
+    private Map<String, String> selectedFacets
+        = new HashMap<String, String>();
 
     /**
      *
@@ -307,15 +312,25 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
         return pageSize;
     }
 
+    /**
+     * @param facetName Set the facet name
+     * @param newFacets set the calculated facets
+     */
     public final void addFacets(
             final String facetName, final List<Facet> newFacets) {
         this.facets.put(facetName, newFacets);
     }
 
+    /**
+     * @return a map of the calculated facets
+     */
     public final Map<String, List<Facet>> getFacets() {
         return facets;
     }
 
+    /**
+     * @return a list of the calculated facet names
+     */
     public final List<String> getFacetNames() {
         List<String> facetNames = new ArrayList<String>();
         facetNames.addAll(facets.keySet());
@@ -323,14 +338,25 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
         return facetNames;
     }
 
+    /**
+     * @param name Set the parameter name
+     * @param value Set the parameter value
+     */
     public final void putParam(final String name, final Object value) {
         this.parameters.put(name, value);
     }
 
+    /**
+     * @return a map of the parameters
+     */
     public final Map<String, Object> getParams() {
         return parameters;
     }
 
+    /**
+     * @param index set the page number
+     * @return the label for a given page
+     */
     public final String getPageNumber(final int index) {
         return pageNumbers.get(index);
     }
@@ -374,7 +400,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      * @return The index of the selected facet, or null if the facet is not
      *         selected
      */
-    public final Map<String, Integer> getSelectedFacets() {
+    public final Map<String, String> getSelectedFacets() {
         return selectedFacets;
     }
 
@@ -395,7 +421,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      *            Set the index of the selected facet
      */
     public final void setSelectedFacet(final String facetName,
-            final Integer selected) {
+            final String selected) {
         selectedFacets.put(facetName, selected);
     }
 

@@ -1437,4 +1437,119 @@
     <changeSet id="2011-11-04_04" author="ben">
       <dropColumn tableName="TextContent" columnName="DTYPE"/>
     </changeSet>
+    <changeSet id="2011-11-09_01" author="ben">
+      <sql>
+        UPDATE BATCH_JOB_PARAMS SET STRING_VAL = "WCS" WHERE STRING_VAL = "1"; 
+      </sql>
+    </changeSet>
+    <changeSet id="2011-11-09_02" author="ben">
+      <addColumn tableName="Annotation">
+        <column name="recordType" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-11-09_03" author="ben">
+      <addColumn tableName="Annotation">
+        <column name="value" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-11-09_04" author="ben">
+      <sql>
+        UPDATE Annotation SET recordType = annotatedObjType; 
+      </sql>
+    </changeSet>
+    <changeSet id="2011-11-09_05" author="ben">
+      <sql>
+        UPDATE Annotation SET annotatedObjType = NULL where annotatedObjId is NULL; 
+      </sql>
+    </changeSet>
+    <changeSet id="2011-11-09_06" author="ben">
+      <sql>
+        UPDATE Annotation SET value = code where code in ("rank","related"); 
+      </sql>
+    </changeSet>
+    <changeSet id="2011-11-09_07" author="ben">
+      <sql>
+        UPDATE Annotation SET value = substring(text,40) where code = "UNEXPECTEDTAXONEXCEPTION"; 
+      </sql>
+    </changeSet>
+    <changeSet id="2011-11-09_08" author="ben">
+      <sql>
+        UPDATE Annotation SET value = substring(substring(text,7),1,instr(substring(text,7)," ")) where code = "TAXONALREADYPROCESSEDEXCEPTION"; 
+      </sql>
+    </changeSet>
+    <changeSet id="2011-11-09_09" author="ben">
+      <sql>
+        UPDATE Annotation SET value = substring(text,37) where code = "CANNOTFINDRECORDEXCEPTION"; 
+      </sql>
+    </changeSet>
+    <changeSet id="2011-11-09_10" author="ben">
+      <sql>
+        UPDATE Annotation SET code = "BadField" where code in ("rank","related"); 
+      </sql>
+    </changeSet>
+    <changeSet id="2011-11-09_11" author="ben">
+      <sql>
+        UPDATE Annotation SET code = "Update" WHERE code = "Updated"; 
+      </sql>
+    </changeSet>
+    <changeSet id="2011-11-09_12" author="ben">
+      <sql>
+        UPDATE Annotation SET code = "Create" WHERE code = "Created"; 
+      </sql>
+    </changeSet>
+    <changeSet id="2011-11-09_13" author="ben">
+      <sql>
+        UPDATE Annotation SET code = "Unexpected" WHERE code = "UNEXPECTEDTAXONEXCEPTION"; 
+      </sql>
+    </changeSet>
+    <changeSet id="2011-11-09_14" author="ben">
+      <sql>
+        UPDATE Annotation SET code = "BadIdentifier" WHERE code = "CANNOTFINDRECORDEXCEPTION"; 
+      </sql>
+    </changeSet>
+    <changeSet id="2011-11-09_15" author="ben">
+      <sql>
+        UPDATE Annotation SET code = "BadRecord" WHERE code = "FlatFileParseException"; 
+      </sql>
+    </changeSet>
+    <changeSet id="2011-11-09_16" author="ben">
+      <sql>
+        UPDATE Annotation SET code = "Present" WHERE type = "Present"; 
+      </sql>
+    </changeSet>
+    <changeSet id="2011-11-09_17" author="ben">
+      <sql>
+        UPDATE Annotation SET code = "Absent" WHERE type = "Absent"; 
+      </sql>
+    </changeSet>    
+    <changeSet id="2011-11-09_18" author="ben">
+      <sql>
+        UPDATE Annotation SET type = "Info" WHERE type = "Create"; 
+      </sql>
+    </changeSet>
+    <changeSet id="2011-11-09_19" author="ben">
+      <sql>
+        UPDATE Annotation SET type = "Info" WHERE type = "Update"; 
+      </sql>
+    </changeSet>
+    <changeSet id="2011-11-09_20" author="ben">
+      <sql>
+        UPDATE Annotation SET type = "Info" WHERE type = "Present"; 
+      </sql>
+    </changeSet>
+    <changeSet id="2011-11-09_21" author="ben">
+      <sql>
+        UPDATE Annotation SET type = "Warn" WHERE type = "Absent"; 
+      </sql>
+    </changeSet>
+    <changeSet id="2011-11-09_22" author="ben">
+      <sql>
+        UPDATE Annotation SET type = "Warn" WHERE type = "Unexpected"; 
+      </sql>
+    </changeSet>
+    <changeSet id="2011-11-09_23" author="ben">
+      <sql>
+        UPDATE Annotation SET code = "AlreadyProcessed" WHERE code = "TAXONALREADYPROCESSEDEXCEPTION"; 
+      </sql>
+    </changeSet>
 </databaseChangeLog>

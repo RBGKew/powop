@@ -151,7 +151,7 @@ public class FacetingTest extends DataManagementSupport {
     @Test
     public final void testSearch() {
         Page<SearchableObject> pager = searchableObjectService.search("Aus", null,
-                null, null, null, null, null);
+                null, null, null, null, null, null);
         assertEquals("there should be seven objects saved", (Integer) 7,
                 pager.getSize());
     }
@@ -161,12 +161,12 @@ public class FacetingTest extends DataManagementSupport {
     */
     @Test
     public final void testSearchWithFacets() {
-        Map<FacetName, Integer> selectedFacets = new HashMap<FacetName, Integer>();
-        selectedFacets.put(FacetName.CLASS, 1);
+        Map<FacetName, String> selectedFacets = new HashMap<FacetName, String>();
+        selectedFacets.put(FacetName.CLASS, "org.emonocot.model.taxon.Taxon");
         Page<SearchableObject> pager = searchableObjectService.search("Aus", null,
                 null, null,
                 new FacetName[] {FacetName.CLASS, FacetName.FAMILY,FacetName.CONTINENT, FacetName.AUTHORITY},
-                selectedFacets, null);
+                selectedFacets, null, null);
         assertThat("There should be two facets returned",
                 pager.getFacetNames(), hasItems("CLASS", "FAMILY"));
 
@@ -188,13 +188,13 @@ public class FacetingTest extends DataManagementSupport {
      */
     @Test
     public final void testSearchWithFacetsInTaxonDao() throws Exception {
-        Map<FacetName, Integer> selectedFacets = new HashMap<FacetName, Integer>();
-        selectedFacets.put(FacetName.CLASS, 1);
+        Map<FacetName, String> selectedFacets = new HashMap<FacetName, String>();
+        selectedFacets.put(FacetName.CLASS, "org.emonocot.model.taxon.Taxon");
         Page<Taxon> pager = taxonService.search("Aus", null, null, null,
                 new FacetName[] {FacetName.CLASS, FacetName.FAMILY,
                         FacetName.CONTINENT, FacetName.AUTHORITY,
                         FacetName.RANK, FacetName.TAXONOMIC_STATUS },
-                selectedFacets, null);
+                selectedFacets, null, null);
         assertEquals("There should be five taxa returned", (Integer)5, pager.getSize());
         assertThat("There should be two facets returned",
                 pager.getFacetNames(), hasItems("CLASS", "FAMILY"));
@@ -212,12 +212,18 @@ public class FacetingTest extends DataManagementSupport {
         assertEquals("There should be one value for the FAMILY facet", 1, pager
                 .getFacets().get("FAMILY").size());
 
-        selectedFacets.put(FacetName.RANK, 1);
+        selectedFacets.put(FacetName.RANK, "species");
         pager = taxonService.search("Aus", null, null, null,
                 new FacetName[] {FacetName.CLASS, FacetName.FAMILY,
                         FacetName.CONTINENT, FacetName.AUTHORITY,
                         FacetName.RANK, FacetName.TAXONOMIC_STATUS },
-                selectedFacets, null);
+                selectedFacets, null, null);
+//        for (String facetName : pager.getFacetNames()) {
+//            System.out.println(facetName);
+//            for (Facet facet : pager.getFacets().get(facetName)) {
+//                System.out.println(facet.getValue() + " " + facet.getCount());
+//            }
+//        }
         assertEquals("There should be four taxa returned", (Integer)4, pager.getSize());
     }
 
@@ -227,11 +233,11 @@ public class FacetingTest extends DataManagementSupport {
     @Test
     public final void testSearchWithSorting() {
         Page<SearchableObject> results = searchableObjectService.search("Au*",
-                null, null, null, null, null, null);
+                null, null, null, null, null, null, null);
 
         Sorting sort = new Sorting("label");
         results = searchableObjectService.search("Au*", null, null, null, null,
-                null, sort);
+                null, sort, null);
         String[] actual = new String[results.getSize()];
         for (int i = 0; i < results.getSize(); i++) {
             if (results.getRecords().get(i).getClass().equals(Taxon.class)) {

@@ -10,16 +10,14 @@
                 <Level name="species" column="SPECIFICEPITHET" uniqueMembers="true"/>
             </Hierarchy>
         </Dimension>
-        <Dimension name="Job" foreignKey="JOBID">
-			<Hierarchy hasAll="true" allMemberName="Globally"
-				primaryKey="JOB_EXECUTION_ID">
-				<Table name="BATCH_JOB_EXECUTION" />
-				<Level name="Job" column="JOB_INSTANCE_ID" uniqueMembers="true" />
-			</Hierarchy>
+        <Dimension name="Job">
+            <Hierarchy hasAll="true">
+				<Level name="Job" column="JOBID" uniqueMembers="true" />
+			</Hierarchy>			
 		</Dimension>
 		<Dimension name="Object Type">
 			<Hierarchy hasAll="true">
-				<Level name="Object type" column="ANNOTATEDOBJTYPE"
+				<Level name="Object Type" column="RECORDTYPE"
 					uniqueMembers="true" />
 			</Hierarchy>
 		</Dimension>
@@ -33,9 +31,7 @@
 				<Level name="Type" column="TYPE" uniqueMembers="true" />
 			</Hierarchy>
 		</Dimension>
-		<Measure name="Object Numbers" column="ANNOTATEDOBJID"
-			aggregator="distinct-count" formatString="#,###" />
-		<Measure name="Annotation Numbers" column="ID" aggregator="distinct-count"
-			formatString="#,###" />
+		<Measure name="Object Numbers" column="ANNOTATEDOBJID" aggregator="distinct-count" formatString="#,###" />
+		<Measure name="Annotation Numbers" column="ID" aggregator="distinct-count" formatString="#,###" />
     </Cube>
 </Schema>

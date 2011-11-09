@@ -1,6 +1,8 @@
 package org.emonocot.job.dwc.taxon;
 
+import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.AnnotationType;
+import org.emonocot.model.taxon.Taxon;
 
 /**
  *
@@ -16,15 +18,18 @@ public class UnexpectedTaxonException extends TaxonProcessingException {
 
     /**
      *
-     * @param identifier the identifier of the unexpected taxon
+     * @param taxon the unexpected taxon
      */
-    public UnexpectedTaxonException(final String identifier) {
-        super("Found unexpected taxon with identifier " + identifier);
+    public UnexpectedTaxonException(final Taxon taxon) {
+        super(
+                "Found unexpected taxon with identifier "
+                        + taxon.getIdentifier(), AnnotationCode.Unexpected,
+                taxon.getIdentifier());
     }
 
     @Override
     public final AnnotationType getType() {
-        return AnnotationType.Unexpected;
+        return AnnotationType.Warn;
     }
 
 }

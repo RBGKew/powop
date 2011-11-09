@@ -32,6 +32,15 @@
   <definition name="sourceAdminPage" extends="base">    
     <put-attribute name="body" value="/WEB-INF/tiles/tiles/sourceAdminPage.jsp" />
   </definition>
+  <definition name="sourceJobPage" extends="base">    
+    <put-attribute name="body" value="/WEB-INF/tiles/tiles/sourceJobPage.jsp" />
+  </definition>
+  <definition name="sourceJobDetails" extends="base">    
+    <put-attribute name="body" value="/WEB-INF/tiles/tiles/sourceJobDetails.jsp" />
+  </definition>
+  <definition name="jobAnnotations" extends="base">    
+    <put-attribute name="body" value="/WEB-INF/tiles/tiles/jobAnnotations.jsp" />
+  </definition>
   <definition name="searchResponse" extends="base">    
     <put-attribute name="body" value="/WEB-INF/tiles/tiles/searchResponse.jsp" />
   </definition>

@@ -7,6 +7,6 @@ import org.emonocot.model.common.Annotation;
  * @author ben
  *
  */
-public interface AnnotationDao extends Dao<Annotation> {
+public interface AnnotationDao extends SearchableDao<Annotation> {
 
 }

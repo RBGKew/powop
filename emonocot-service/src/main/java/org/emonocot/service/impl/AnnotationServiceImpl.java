@@ -13,7 +13,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class AnnotationServiceImpl extends
-        ServiceImpl<Annotation, AnnotationDao> implements AnnotationService {
+        SearchableServiceImpl<Annotation, AnnotationDao> implements
+        AnnotationService {
 
     /**
      *

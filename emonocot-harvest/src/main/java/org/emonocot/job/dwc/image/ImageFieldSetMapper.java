@@ -1,10 +1,5 @@
 package org.emonocot.job.dwc.image;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 
 import org.emonocot.job.dwc.DarwinCoreFieldSetMapper;
@@ -35,11 +30,6 @@ public class ImageFieldSetMapper extends
      */
     public ImageFieldSetMapper() {
         super(Image.class);
-        try {
-            messageDigest = MessageDigest.getInstance("SHA-1");
-        } catch (NoSuchAlgorithmException e) {
-            throw new IllegalArgumentException(e);
-        }
     }
 
     /**
@@ -53,10 +43,6 @@ public class ImageFieldSetMapper extends
     */
    private Parser<DateTime> dateTimeParser
        = new DateTimeParser(ISODateTimeFormat.dateOptionalTimeParser());
-   /**
-    *
-    */
-   private MessageDigest messageDigest;
 
     @Override
     public void mapField(final Image object, final String fieldName,

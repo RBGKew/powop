@@ -118,23 +118,19 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
     *
     * @param facetName Set the facet name
     * @param facetManager Set the facet manager
-    * @param selectedFacetIndex Set the selected facet
+    * @param selectedFacet Set the selected facet
     */
    @Override
    protected final void selectFacet(final FacetName facetName,
            final FacetManager facetManager,
-           final Integer selectedFacetIndex) {
+           final String selectedFacet) {
        switch (facetName) {
        case CONTINENT:
        case AUTHORITY:
        case FAMILY:
        case RANK:
        case TAXONOMIC_STATUS:
-           List<Facet> facetResults =
-               facetManager.getFacets(facetName.name());
-           Facet selectedFacet = facetResults.get(selectedFacetIndex);
-           facetManager.getFacetGroup(facetName.name())
-                   .selectFacets(selectedFacet);
+           doSelectFacet(facetName, facetManager, selectedFacet);
        default:
            break;
        }

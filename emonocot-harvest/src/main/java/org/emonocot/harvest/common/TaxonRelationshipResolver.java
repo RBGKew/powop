@@ -10,6 +10,7 @@ import java.util.concurrent.Callable;
 import org.emonocot.api.SourceService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.common.Annotation;
+import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.source.Source;
 import org.emonocot.model.taxon.Taxon;
@@ -143,11 +144,11 @@ public abstract class TaxonRelationshipResolver
                     if (taxon == null) {
                         taxon = new Taxon();
                         Annotation annotation = new Annotation();
-                        annotation.setAnnotatedObjType("Taxon");
+                        annotation.setAnnotatedObj(taxon);
                         annotation.setJobId(
                                 getStepExecution().getJobExecutionId());
-                        annotation.setCode("Created");
-                        annotation.setType(AnnotationType.Create);
+                        annotation.setCode(AnnotationCode.Create);
+                        annotation.setType(AnnotationType.Info);
                         annotation.setSource(getSource());
                         taxon.getAnnotations().add(annotation);
                         taxon.getSources().add(getSource());

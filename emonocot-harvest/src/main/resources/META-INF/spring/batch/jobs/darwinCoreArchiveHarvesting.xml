@@ -25,10 +25,12 @@
 		</batch:step>
 		<batch:step id="markTaxonRecords">
 	        <batch:description>Mark the taxon records we expect to be present in this archive</batch:description>
-	        <batch:tasklet ref="markTaxonRecordsTasklet" />
+	        <batch:tasklet>
+				<batch:chunk reader="markReader" processor="markProcessor" writer="itemWriter" commit-interval="100"/>	    
+			</batch:tasklet>
 			<batch:next on="COMPLETED" to="unpackDWCArchive" />
 			<batch:listeners>
-			  <batch:listener ref="recordAnnotator"/>
+			  <batch:listener ref="markProcessor"/>
 			</batch:listeners>
 	    </batch:step>
 		<batch:step id="unpackDWCArchive">
@@ -145,22 +147,22 @@
 		</property>
 	</bean>
 	
-	<bean id="markTaxonRecordsTasklet"
-		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
-		scope="step">
-		<property name="targetObject" ref="recordAnnotator" />
-		<property name="targetMethod" value="annotateRecords" />
-		<property name="arguments">
-			<list>
-				<value>#{jobParameters['family']}</value>
-				<value>#{jobParameters['authority.name']}</value>
-			</list>
-		</property>	
+	<bean id="markReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
+	  <property name="queryString" value="from Taxon as taxon left join taxon.accepted as accepted where taxon.family = :family or accepted.family = :family"/>
+	  <property name="sessionFactory" ref="sessionFactory"/>
+	  <property name="parameterValues">
+	    <map>
+	      <entry key="family"  value="#{jobParameters['family']}"/>
+	    </map>
+	  </property>
 	</bean>
 	
-	<bean id="recordAnnotator" class="org.emonocot.job.dwc.RecordAnnotator">
-	  <property name="dataSource" ref="dataSource"/>
-	</bean>
+	<bean id="markProcessor"
+		class="org.emonocot.job.dwc.RecordAnnotator"
+		scope="step">
+		<property name="sourceName" value="#{jobParameters['authority.name']}"/>
+		<property name="sourceService" ref="sourceServiceImpl"/>
+	</bean>	
 
 	<bean id="getDWCArchiveTasklet"
 		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"

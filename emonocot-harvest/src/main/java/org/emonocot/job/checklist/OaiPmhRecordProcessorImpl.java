@@ -9,7 +9,10 @@ import org.emonocot.api.ReferenceService;
 import org.emonocot.harvest.common.TaxonRelationship;
 import org.emonocot.harvest.common.TaxonRelationshipResolver;
 import org.emonocot.model.common.Annotation;
+import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.AnnotationType;
+import org.emonocot.model.common.Base;
+import org.emonocot.model.common.RecordType;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.model.reference.ReferenceType;
@@ -80,15 +83,20 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
 
    /**
     *
-    * @param type Set the object type
+    * @param object Set the object type
     * @param code Set the annotation code
     * @param annotationType set the annotation type
+    * @param recordType set the record type
+    * @param value Set the value
     * @return an Annotation
     */
-    private Annotation addAnnotation(final String type, final String code,
-            final AnnotationType annotationType) {
+    private Annotation addAnnotation(final Base object,
+            final AnnotationCode code, final AnnotationType annotationType,
+            final RecordType recordType, final String value) {
        Annotation annotation = new Annotation();
-       annotation.setAnnotatedObjType(type);
+       annotation.setAnnotatedObj(object);
+       annotation.setRecordType(recordType);
+       annotation.setValue(value);
        annotation.setJobId(getStepExecution().getJobExecutionId());
        annotation.setCode(code);
        annotation.setType(annotationType);
@@ -117,16 +125,18 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
                 taxon = new Taxon();
                 TaxonConcept taxonConcept = record.getMetadata()
                         .getTaxonConcept();
-                taxon.getAnnotations()
-                        .add(addAnnotation("Taxon", "Created",
-                                AnnotationType.Create));
+                
                 taxon.getSources().add(getSource());
                 taxon.setAuthority(getSource());
                 taxon.setIdentifier(taxonConcept.getIdentifier().toString());
+                taxon.getAnnotations().add(
+                        addAnnotation(taxon, AnnotationCode.Create,
+                                AnnotationType.Info, RecordType.Taxon,
+                                taxon.getIdentifier()));
                 processTaxon(taxon, taxonConcept);
             }
         } else {
-            // We do have a record of this taxon yet
+            // We do have a record of this taxon already persisted
             if (record.getHeader().getStatus() != null
                     && record.getHeader().getStatus().equals(Status.deleted)) {
                 // We have a record of it and now we need to delete it
@@ -135,24 +145,29 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
                 TaxonConcept taxonConcept = record.getMetadata()
                 .getTaxonConcept();
 
-                taxon.getAnnotations().add(addAnnotation("Taxon", "Updated",
-                        AnnotationType.Update));
+                taxon.getAnnotations().add(
+                        addAnnotation(taxon, AnnotationCode.Update,
+                                AnnotationType.Info, RecordType.Taxon,
+                                taxon.getIdentifier()));
                 /**
                  * Using java.util.Collection.contains() does not work on lazy
                  * collections.
                  */
                 boolean contains = false;
                 for (Source auth : taxon.getSources()) {
-                    if (auth.getIdentifier().equals(getSource().getIdentifier())) {
+                    if (auth.getIdentifier()
+                            .equals(getSource().getIdentifier())) {
                         contains = true;
                         break;
                     }
                 }
                 if (!contains) {
-                	logger.debug(taxon.getName() + " does not contain " + getSource().getIdentifier() + " adding");
+                    logger.debug(taxon.getName() + " does not contain "
+                            + getSource().getIdentifier() + " adding");
                     taxon.getSources().add(getSource());
                 } else {
-                	logger.debug(taxon.getName() + " does contain " + getSource().getIdentifier() + " skipping");
+                    logger.debug(taxon.getName() + " does contain "
+                            + getSource().getIdentifier() + " skipping");
                 }
 
                 taxon.setAuthority(getSource());
@@ -201,7 +216,10 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
                     // We've not seen this before
                     reference = new Reference();
                     reference.setIdentifier(referenceIdentifier);
-                    reference.getAnnotations().add(addAnnotation("Reference","Created",AnnotationType.Create));
+                    reference.getAnnotations().add(
+                            addAnnotation(reference, AnnotationCode.Create,
+                                    AnnotationType.Info, RecordType.Reference,
+                                    referenceIdentifier));
                     referencesWithinChunk.put(referenceIdentifier, reference);
                 }
                 // TODO Created / modified dates on publications? Bridge too far?
@@ -218,7 +236,8 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
                                 .toString(), ReferenceType.class));
                     } catch (ConversionException ce) {
                         reference.getAnnotations().add(
-                                addAnnotation("Reference", "type", ce));
+                                addAnnotation(reference, RecordType.Reference,
+                                        "type", ce));
                     }
                 }
                 taxon.setProtologue(reference);
@@ -228,7 +247,8 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
                 taxon.setRank(conversionService.convert(
                         taxonName.getRankString(), Rank.class));
             } catch (ConversionException ce) {
-                taxon.getAnnotations().add(addAnnotation("Taxon", "rank", ce));
+                taxon.getAnnotations().add(
+                        addAnnotation(taxon, RecordType.Taxon, "rank", ce));
             }
         } else {
             taxon.setName(taxonConcept.getTitle());
@@ -272,14 +292,17 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
 
     /**
      *
-     * @param type Set the type of object
+     * @param object Set the type of object
      * @param property Set the property
+     * @param recordType Set the record type
      * @param exception Set the exception
      * @return an annotation
      */
-   private Annotation addAnnotation(final String type, final String property,
+    private Annotation addAnnotation(final Base object,
+            final RecordType recordType, final String property,
             final ConversionException exception) {
-        Annotation a = addAnnotation(type, property, AnnotationType.Warn);
+        Annotation a = addAnnotation(object, AnnotationCode.BadField,
+                AnnotationType.Warn, recordType, property);
         a.setText(exception.getMessage());
         return a;
     }
@@ -333,8 +356,11 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
             taxonRelationship.setToIdentifier(identifier);
             addTaxonRelationship(taxonRelationship, identifier);
         } else {
-            Annotation annotation = addAnnotation("Taxon","related",AnnotationType.Warn);
-            annotation.setText("Could not find identifier for relationship of taxon "
+            Annotation annotation = addAnnotation(taxon,
+                    AnnotationCode.BadField, AnnotationType.Warn,
+                    RecordType.Taxon, "related");
+            annotation
+                    .setText("Could not find identifier for relationship of taxon "
                     + taxon.getIdentifier());
             taxon.getAnnotations().add(annotation);
         }
@@ -351,8 +377,9 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
         // TODO - what if there are no terms or multiple terms - throw an error?
         GeographicalRegion region = null;
         if (hasValueRelation == null || hasValueRelation.isEmpty()) {
-            Annotation annotation = addAnnotation("Taxon", "distribution",
-                    AnnotationType.Warn);
+            Annotation annotation = addAnnotation(taxon,
+                    AnnotationCode.BadField, AnnotationType.Warn,
+                    RecordType.Taxon, "distribution");
             annotation.setText("No geographical term returned"
                     + taxon.getIdentifier());
             taxon.getAnnotations().add(annotation);
@@ -374,7 +401,9 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
             distribution.setRegion(conversionService.convert(id,
                     GeographicalRegion.class));
         } catch (ConversionException ce) {
-            distribution.getAnnotations().add(addAnnotation("Distribution", "type", ce));
+            distribution.getAnnotations().add(
+                    addAnnotation(distribution, RecordType.Distribution,
+                            "type", ce));
         }
         logger.info("Resolving " + definedTermLinkType
                 + " returning " + region);

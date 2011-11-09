@@ -6,8 +6,10 @@ import java.util.Map;
 import java.util.Stack;
 
 import org.emonocot.model.common.Annotation;
+import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.common.Base;
+import org.emonocot.model.common.RecordType;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
@@ -71,25 +73,34 @@ public abstract class DataManagementSupport {
 
     /**
     *
-    * @param objectType Set the object type
     * @param jobId set the job id
-    * @param objectId set the object id
-    * @param type Set the annotation type
-    * @return an annotation
+     * @param object set the object id
+     * @param type Set the annotation type
+     * @param recordType Set the record type
+     * @param code Set the annotation code
+     * @return an annotation
     */
-   public final Annotation createAnnotation(final String objectType,
-           final Long jobId, final Long objectId, final AnnotationType type) {
+    public final Annotation createAnnotation(final Long jobId,
+            final Base object, final AnnotationType type,
+            final RecordType recordType, final AnnotationCode code) {
        Annotation annotation = new Annotation();
-       annotation.setAnnotatedObjType(objectType);
-       annotation.setAnnotatedObjId(objectId);
+       annotation.setAnnotatedObj(object);
        annotation.setJobId(jobId);
        annotation.setType(type);
-       setUp.add(annotation);
-       tearDown.push(annotation);
+       annotation.setRecordType(recordType);
+       annotation.setCode(code);
        return annotation;
    }
-   
-   public final TextContent createTextContent(final Taxon taxon, final Feature feature, final String content) {
+
+   /**
+    *
+    * @param taxon Set the taxon
+    * @param feature Set the feature
+    * @param content Set the content
+    * @return a text content object
+    */
+    public final TextContent createTextContent(final Taxon taxon,
+            final Feature feature, final String content) {
        TextContent textContent = new TextContent();
        textContent.setFeature(feature);
        textContent.setContent(content);
@@ -174,11 +185,7 @@ public abstract class DataManagementSupport {
      */
     public final Annotation createAnnotation(final Base base) {
         Annotation annotation = new Annotation();
-
-        if (base.getClass().equals(Taxon.class)) {
-            annotation.setAnnotatedObjType("Taxon");
-            ((Taxon) base).getAnnotations().add(annotation);
-        }
+        annotation.setAnnotatedObj(base);
         return annotation;
     }
 

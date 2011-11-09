@@ -7,6 +7,6 @@ import org.emonocot.model.common.Annotation;
  * @author ben
  *
  */
-public interface AnnotationService extends Service<Annotation> {
+public interface AnnotationService extends SearchableService<Annotation> {
 
 }

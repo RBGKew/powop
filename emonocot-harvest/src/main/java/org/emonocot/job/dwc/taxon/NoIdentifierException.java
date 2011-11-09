@@ -1,5 +1,6 @@
 package org.emonocot.job.dwc.taxon;
 
+import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.taxon.Taxon;
 
@@ -21,7 +22,7 @@ public class NoIdentifierException extends TaxonProcessingException {
      *            the taxon
      */
     public NoIdentifierException(final Taxon t) {
-        super(t + " has no identifier");
+        super(t + " has no identifier", AnnotationCode.BadField, "identifier");
     }
 
     @Override

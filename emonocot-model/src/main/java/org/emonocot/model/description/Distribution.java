@@ -37,9 +37,7 @@ import org.hibernate.search.annotations.Indexed;
  */
 @Entity
 @Indexed
-@ClassBridge(name = "geographicalRegion",
-        impl = DistributionBridge.class,
-        index = Index.UN_TOKENIZED)
+@ClassBridge(name = "geographicalRegion", impl = DistributionBridge.class, index = Index.UN_TOKENIZED)
 public class Distribution extends BaseData {
 
     /**
@@ -47,10 +45,10 @@ public class Distribution extends BaseData {
      */
     private static final long serialVersionUID = -970244833684895241L;
 
-   /**
+    /**
     *
     */
-   private Taxon taxon;
+    private Taxon taxon;
 
     /**
      *
@@ -60,36 +58,36 @@ public class Distribution extends BaseData {
     /**
     *
     */
-   private Set<Annotation> annotations = new HashSet<Annotation>();
-   
-   /**
+    private Set<Annotation> annotations = new HashSet<Annotation>();
+
+    /**
    *
    */
-  private Long id;
+    private Long id;
 
-  /**
-  *
-  * @param newId
-  *            Set the identifier of this object.
-  */
- public void setId(Long newId) {
-     this.id = newId;
- }
+    /**
+     *
+     * @param newId
+     *            Set the identifier of this object.
+     */
+    public void setId(Long newId) {
+        this.id = newId;
+    }
 
- /**
-  *
-  * @return Get the identifier for this object.
-  */
- @Id
- @GeneratedValue(generator = "system-increment")
- @DocumentId
- public Long getId() {
-     return id;
- }
+    /**
+     *
+     * @return Get the identifier for this object.
+     */
+    @Id
+    @GeneratedValue(generator = "system-increment")
+    @DocumentId
+    public Long getId() {
+        return id;
+    }
 
     /**
      * Set the lowest level this georegion is concerned with.
-     *
+     * 
      * @param geoRegion
      *            the geographical region this distribution is concerned with
      */
@@ -102,55 +100,55 @@ public class Distribution extends BaseData {
      *
      * @return the lowest level geo region this distribution is concerned with
      */
-    @Type(type="tdwgRegionUserType")
+    @Type(type = "tdwgRegionUserType")
     public GeographicalRegion getRegion() {
         return region;
     }
 
-   /**
-    *
-    * @param newTaxon
-    *            Set the taxon that this distribution is about.
-    */
-   @JsonIgnore
-   public void setTaxon(Taxon newTaxon) {
-       this.taxon = newTaxon;
-   }
+    /**
+     *
+     * @param newTaxon
+     *            Set the taxon that this distribution is about.
+     */
+    @JsonIgnore
+    public void setTaxon(Taxon newTaxon) {
+        this.taxon = newTaxon;
+    }
 
-   /**
-    * @return the annotations
-    */
-   @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-   @JoinColumn(name = "annotatedObjId")
-   @Where(clause = "annotatedObjType = 'Distribution'")
-   @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-   @JsonIgnore
-   public Set<Annotation> getAnnotations() {
-       return annotations;
-   }
+    /**
+     * @return the annotations
+     */
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "annotatedObjId")
+    @Where(clause = "annotatedObjType = 'Distribution'")
+    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+    @JsonIgnore
+    public Set<Annotation> getAnnotations() {
+        return annotations;
+    }
 
-   /**
-    * @param annotations
-    *            the annotations to set
-    */
-   public void setAnnotations(Set<Annotation> annotations) {
-       this.annotations = annotations;
-   }
+    /**
+     * @param annotations
+     *            the annotations to set
+     */
+    public void setAnnotations(Set<Annotation> annotations) {
+        this.annotations = annotations;
+    }
 
-  /**
-   *
-   * @return Get the taxon that this distribution is about.
-   */
-  @ManyToOne(fetch = FetchType.LAZY)
-  @ContainedIn
-  @JsonIgnore
-  public Taxon getTaxon() {
-      return taxon;
-  }
+    /**
+     *
+     * @return Get the taxon that this distribution is about.
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @ContainedIn
+    @JsonIgnore
+    public Taxon getTaxon() {
+        return taxon;
+    }
 
-  @Transient
-  @JsonIgnore
-  public final String getClassName() {
-    return "Distribution";
-  }
+    @Transient
+    @JsonIgnore
+    public final String getClassName() {
+        return "Distribution";
+    }
 }

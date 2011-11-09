@@ -4,16 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.emonocot.model.common.SearchableObject;
-import org.emonocot.api.Sorting;
-import org.emonocot.model.pager.Page;
-import org.emonocot.portal.format.annotation.FacetRequestFormat;
-import org.emonocot.portal.format.annotation.SortingFormat;
 import org.emonocot.api.FacetName;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.SearchableObjectService;
-import org.emonocot.api.SourceService;
+import org.emonocot.api.Sorting;
 import org.emonocot.api.TaxonService;
+import org.emonocot.model.common.SearchableObject;
+import org.emonocot.model.pager.Page;
+import org.emonocot.portal.format.annotation.FacetRequestFormat;
+import org.emonocot.portal.format.annotation.SortingFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,16 +76,15 @@ public class SearchController {
         this.searchableObjectService = searchableObjectService;
     }
 
-   /**
-    *
-    * @param imageService
-    *            set the image service
-    */
-   @Autowired
-   public final void setImageService(
-           final ImageService imageService) {
-       this.imageService = imageService;
-   }
+    /**
+     *
+     * @param imageService
+     *            set the image service
+     */
+    @Autowired
+    public final void setImageService(final ImageService imageService) {
+        this.imageService = imageService;
+    }
 
     /**
      * @return the name of the index view
@@ -114,13 +112,13 @@ public class SearchController {
             @RequestParam(value = "limit", required = false, defaultValue = "10") final Integer limit,
             @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
             @RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
-            @RequestParam(value="sort", required = false) @SortingFormat final Sorting sort) {
+            @RequestParam(value = "sort", required = false) @SortingFormat final Sorting sort) {
 
         ModelAndView modelAndView = new ModelAndView("searchResponse");
 
-        Map<FacetName, Integer> selectedFacets = null;
+        Map<FacetName, String> selectedFacets = null;
         if (facets != null && !facets.isEmpty()) {
-            selectedFacets = new HashMap<FacetName, Integer>();
+            selectedFacets = new HashMap<FacetName, String>();
             for (FacetRequest facetRequest : facets) {
                 selectedFacets.put(facetRequest.getFacet(),
                         facetRequest.getSelected());
@@ -130,9 +128,10 @@ public class SearchController {
         if (selectedFacets == null
                 || !selectedFacets.containsKey(FacetName.CLASS)) {
             Page<SearchableObject> result = searchableObjectService.search(
-                    query, null, limit, start, new FacetName[] {FacetName.CLASS,
-                            FacetName.FAMILY, FacetName.CONTINENT, FacetName.AUTHORITY},
-                    selectedFacets, sort);
+                    query, null, limit, start, new FacetName[] {
+                            FacetName.CLASS, FacetName.FAMILY,
+                            FacetName.CONTINENT, FacetName.AUTHORITY },
+                    selectedFacets, sort, null);
             queryLog.info("Query: \'{}\', start: {}, limit: {},"
                     + "facet: [{}], {} results", new Object[] {query, start,
                     limit, selectedFacets, result.getSize() });
@@ -145,35 +144,32 @@ public class SearchController {
             logger.debug(selectedFacets.size()
                     + " facets have been selected from " + facets.size()
                     + " available");
-            switch (selectedFacets.get(FacetName.CLASS)) {
-            case 0:
+            if (selectedFacets.get(FacetName.CLASS).equals(
+                    "org.emonocot.model.media.Image")) {
                 logger.debug("Using the image service for " + query);
-                result = imageService.search(query, null, limit,
-                        start, new FacetName[] {FacetName.CLASS,
-                        FacetName.FAMILY, FacetName.CONTINENT,
-                        FacetName.AUTHORITY}, selectedFacets, sort);
+                result = imageService.search(query, null, limit, start,
+                        new FacetName[] {FacetName.CLASS, FacetName.FAMILY,
+                                FacetName.CONTINENT, FacetName.AUTHORITY },
+                        selectedFacets, sort, null);
                 queryLog.info("Query: \'{}\', start: {}, limit: {},"
                         + "facet: [{}], {} results", new Object[] {query,
                         start, limit, selectedFacets, result.getSize() });
-                break;            
-            case 1:
+            } else if (selectedFacets.get(FacetName.CLASS).equals(
+                    "org.emonocot.model.taxon.Taxon")) {
                 logger.debug("Using the taxon service for " + query);
-                result = taxonService.search(query, null, limit,
-                        start, new FacetName[] {FacetName.CLASS,
-                        FacetName.FAMILY, FacetName.CONTINENT,
-                        FacetName.AUTHORITY,
-                        FacetName.RANK,
-                        FacetName.TAXONOMIC_STATUS}, selectedFacets, sort);
+                result = taxonService.search(query, null, limit, start,
+                        new FacetName[] {FacetName.CLASS, FacetName.FAMILY,
+                                FacetName.CONTINENT, FacetName.AUTHORITY,
+                                FacetName.RANK, FacetName.TAXONOMIC_STATUS },
+                        selectedFacets, sort, null);
                 queryLog.info("Query: \'{}\', start: {}, limit: {},"
                         + "facet: [{}], {} results", new Object[] {query,
                         start, limit, selectedFacets, result.getSize() });
-                break;
-            default:
+            } else {
                 logger.error("We can't search by an object of FacetName.CLASS idx="
                         + selectedFacets.get(FacetName.CLASS));
-                break;
             }
-            result.putParam("query", query);            
+            result.putParam("query", query);
             result.setSort(sort);
             modelAndView.addObject("result", result);
         }

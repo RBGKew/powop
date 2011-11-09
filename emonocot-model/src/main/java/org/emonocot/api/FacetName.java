@@ -33,5 +33,21 @@ public enum FacetName {
     /**
      * The date the taxon was published.
      */
-    DATE_PUBLISHED
+    DATE_PUBLISHED,
+    /**
+     * The type of object annotated.
+     */
+    RECORD_TYPE,
+    /**
+     * The type of issue.
+     */
+    ISSUE_TYPE,
+    /**
+     * The error code.
+     */
+    ERROR_CODE,
+    /**
+     * The job id.
+     */
+    JOB_INSTANCE
 }

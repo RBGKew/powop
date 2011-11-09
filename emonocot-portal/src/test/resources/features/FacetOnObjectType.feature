@@ -44,7 +44,7 @@ And the Type facet should have the following options:
 | Taxa      |
 And the Family facet should have the following options:
 | facet        |
-| acoraceae    |
+| Acoraceae    |
 When I restrict the "Rank" by selecting "Species"
 Then there should be 2 results
 When I restrict the "Status" by selecting "Accepted Name"

@@ -3,8 +3,11 @@ package org.emonocot.job.dwc;
 import org.emonocot.api.SourceService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.common.Annotation;
+import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.AnnotationType;
+import org.emonocot.model.common.Base;
 import org.emonocot.model.common.BaseData;
+import org.emonocot.model.common.RecordType;
 import org.emonocot.model.source.Source;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,18 +64,20 @@ public abstract class DarwinCoreValidator<T extends BaseData> implements
 
     /**
     *
-    * @param type The type of object
+    * @param object The type of object
+    * @param recordType The record type
     * @param code the code of the annotation
     * @param annotationType the type of annotation
     * @return an annotation
     */
-   protected final Annotation createAnnotation(final String type,
-           final String code, final AnnotationType annotationType) {
+    protected final Annotation createAnnotation(final Base object,
+            final RecordType recordType, final AnnotationCode code,
+            final AnnotationType annotationType) {
        Annotation annotation = new Annotation();
-       annotation.setAnnotatedObjType(type);
+       annotation.setAnnotatedObj(object);
        annotation.setJobId(getStepExecution().getJobExecutionId());
        annotation.setCode(code);
-       annotation.setType(annotationType);
+       annotation.setRecordType(recordType);
        annotation.setSource(getSource());
        return annotation;
    }

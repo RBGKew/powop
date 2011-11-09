@@ -5,8 +5,11 @@ import java.io.Serializable;
 import javax.persistence.MappedSuperclass;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.solr.analysis.StandardTokenizerFactory;
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.search.annotations.AnalyzerDef;
 import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.TokenizerDef;
 
 /**
  *
@@ -14,6 +17,8 @@ import org.hibernate.search.annotations.Field;
  *
  */
 @MappedSuperclass
+@AnalyzerDef(name = "facetAnalyzer",
+        tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class))
 public abstract class Base implements Serializable {
 
     /**

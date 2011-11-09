@@ -2,17 +2,35 @@ package org.emonocot.model.common;
 
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
+import org.emonocot.model.description.Distribution;
+import org.emonocot.model.description.TextContent;
+import org.emonocot.model.hibernate.AnnotatedObjBridge;
+import org.emonocot.model.hibernate.DateTimeBridge;
+import org.emonocot.model.media.Image;
+import org.emonocot.model.reference.Reference;
 import org.emonocot.model.source.Source;
+import org.emonocot.model.taxon.Taxon;
+import org.hibernate.annotations.Any;
+import org.hibernate.annotations.AnyMetaDef;
+import org.hibernate.annotations.MetaValue;
 import org.hibernate.annotations.Type;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.DocumentId;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.FieldBridge;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Parameter;
 import org.joda.time.DateTime;
 
 /**
@@ -21,6 +39,7 @@ import org.joda.time.DateTime;
  *
  */
 @Entity
+@Indexed
 public class Annotation extends Base {
 
    /**
@@ -31,12 +50,7 @@ public class Annotation extends Base {
    /**
     *
     */
-    private String annotatedObjType;
-
-    /**
-    *
-    */
-    private Long annotatedObjId;
+    private Base annotatedObj;
 
    /**
     *
@@ -46,7 +60,7 @@ public class Annotation extends Base {
     /**
      *
      */
-    private String code;
+    private AnnotationCode code;
 
     /**
      *
@@ -80,11 +94,22 @@ public class Annotation extends Base {
     */
    private Long id;
 
+   /**
+    *
+    */
+   private RecordType recordType;
+
+   /**
+    *
+    */
+   private String value;
+
     /**
      *
-     * @see org.emonocot.model.common.Base#getId()
+     * @return the id
      */
     @Id
+    @DocumentId
     @GeneratedValue(generator = "annotation-sequence")
     public Long getId() {
         return id;
@@ -117,6 +142,8 @@ public class Annotation extends Base {
     /**
      * @return the type
      */
+    @Field(analyzer = @Analyzer(
+            definition =  "facetAnalyzer"))
     @Enumerated(value = EnumType.STRING)
     public AnnotationType getType() {
         return type;
@@ -132,36 +159,34 @@ public class Annotation extends Base {
     /**
      * @return the annotatedObj
      */
-    public String getAnnotatedObjType() {
-        return annotatedObjType;
+    @Any(metaColumn = @Column(
+                name = "annotatedObjType"), optional = true,
+                fetch = FetchType.EAGER)
+    @AnyMetaDef(idType = "long", metaType = "string", metaValues = {
+            @MetaValue(targetEntity = Taxon.class, value = "Taxon"),
+            @MetaValue(targetEntity = Distribution.class, value = "Distribution"),
+            @MetaValue(targetEntity = TextContent.class, value = "TextContent"),
+            @MetaValue(targetEntity = Image.class, value = "Image"),
+            @MetaValue(targetEntity = Reference.class, value = "Reference")
+            })
+    @JoinColumn(name = "annotatedObjId")
+    @FieldBridge(impl = AnnotatedObjBridge.class)
+    public Base getAnnotatedObj() {
+        return annotatedObj;
     }
 
     /**
      * @param annotatedObj
      *            the annotatedObj to set
      */
-    public void setAnnotatedObjType(String annotatedObjType) {
-        this.annotatedObjType = annotatedObjType;
-    }
-
-    /**
-     * @return the annotatedObj
-     */
-    public Long getAnnotatedObjId() {
-        return annotatedObjId;
-    }
-
-    /**
-     * @param annotatedObj
-     *            the annotatedObj to set
-     */
-    public void setAnnotatedObjId(Long annotatedObjId) {
-        this.annotatedObjId = annotatedObjId;
+    public void setAnnotatedObj(Base annotatedObj) {
+        this.annotatedObj = annotatedObj;
     }
 
     /**
      * @return the jobId
      */
+    @Field
     public Long getJobId() {
         return jobId;
     }
@@ -178,13 +203,14 @@ public class Annotation extends Base {
      *
      * @param code Set the code
      */
-    public void setCode(String code) {
+    public void setCode(AnnotationCode code) {
         this.code = code;
     }
 
     /**
      * @return the text
      */
+    @Field
     @Lob
     public String getText() {
         return text;
@@ -200,13 +226,36 @@ public class Annotation extends Base {
     /**
      * @return the code
      */
-    public String getCode() {
+    @Field(analyzer = @Analyzer(
+            definition =  "facetAnalyzer"))
+    @Enumerated(value = EnumType.STRING)
+    public AnnotationCode getCode() {
         return code;
+    }
+
+    /**
+     * @return the record type
+     */
+    @Field(analyzer = @Analyzer(
+            definition =  "facetAnalyzer"))
+    @Enumerated(value = EnumType.STRING)
+    public RecordType getRecordType() {
+        return recordType;
+    }
+
+    /**
+     * @param recordType Set the record type
+     */
+    public void setRecordType(RecordType recordType) {
+        this.recordType = recordType;
     }
 
     /**
      * @return the dateTime
      */
+    @FieldBridge(impl = DateTimeBridge.class, params = {
+        @Parameter(name = "resolution", value = "MILLISECOND")
+    })
     @Type(type = "olapDateTime")
     public DateTime getDateTime() {
         return dateTime;
@@ -218,4 +267,20 @@ public class Annotation extends Base {
     public void setDateTime(DateTime dateTime) {
         this.dateTime = dateTime;
     }
+
+    /**
+     * @return the value
+     */
+    @Field
+    public String getValue() {
+        return value;
+    }
+
+    /**
+     * @param value the value to set
+     */
+    public void setValue(String value) {
+        this.value = value;
+    }
+
 }

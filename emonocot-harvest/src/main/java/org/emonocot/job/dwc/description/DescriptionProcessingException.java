@@ -1,7 +1,9 @@
 package org.emonocot.job.dwc.description;
 
 import org.emonocot.job.dwc.DarwinCoreProcessingException;
+import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.AnnotationType;
+import org.emonocot.model.common.RecordType;
 
 /**
  *
@@ -12,11 +14,13 @@ public class DescriptionProcessingException extends
         DarwinCoreProcessingException {
 
     /**
-     *
+     * @param code the annotation code
+     * @param value the value
      * @param msg the message
      */
-    public DescriptionProcessingException(final String msg) {
-        super(msg);
+    public DescriptionProcessingException(final String msg,
+            final AnnotationCode code, final String value) {
+        super(msg, code, RecordType.TextContent, value);
     }
 
     /**

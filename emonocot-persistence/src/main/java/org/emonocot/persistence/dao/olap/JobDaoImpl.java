@@ -2,29 +2,29 @@ package org.emonocot.persistence.dao.olap;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.emonocot.persistence.dao.JobDao;
+import org.emonocot.persistence.dao.OlapResult;
+import org.emonocot.persistence.olap.OlapExecutionException;
 import org.olap4j.CellSet;
 import org.olap4j.OlapConnection;
-import org.olap4j.OlapException;
 import org.olap4j.OlapParameterMetaData;
+import org.olap4j.Position;
 import org.olap4j.PreparedOlapStatement;
 import org.olap4j.metadata.Dimension;
 import org.olap4j.metadata.Member;
 import org.olap4j.type.MemberType;
-
-import org.emonocot.persistence.dao.JobDao;
-import org.emonocot.persistence.olap.OlapExecutionException;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobInstance;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.CleanupFailureDataAccessException;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.UncategorizedDataAccessException;
-import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
@@ -48,7 +48,7 @@ public class JobDaoImpl extends JdbcDaoSupport implements JobDao {
 
     /**
      *
-     * @param connection Set the connection
+     * @param olapConnection Set the connection
      */
     @Autowired
     public void setOlapConnection(OlapConnection olapConnection) {
@@ -68,16 +68,18 @@ public class JobDaoImpl extends JdbcDaoSupport implements JobDao {
     *
     * @param authorityName the name of the authorty
     * @param pageSize set the maximum size of the list of executions
+    * @param pageNumber set the page number
     * @return a list of job executions
     */
     public final List<JobExecution> getJobExecutions(final String authorityName,
-            final Integer pageSize) {
-        if (pageSize != null) {
-            getJdbcTemplate().setMaxRows(pageSize);
+            final Integer pageSize, final Integer pageNumber) {
+        if (pageSize == null || pageNumber == null) {
+            return getJdbcTemplate().query("select bje.JOB_EXECUTION_ID, bje.START_TIME, bje.CREATE_TIME, bje.END_TIME, bje.STATUS, bje.EXIT_CODE, bje.EXIT_MESSAGE, bji.JOB_INSTANCE_ID, bji.JOB_NAME from BATCH_JOB_EXECUTION as bje join BATCH_JOB_PARAMS as bjp on (bje.JOB_INSTANCE_ID = bjp.JOB_INSTANCE_ID) join BATCH_JOB_INSTANCE as bji on (bje.JOB_INSTANCE_ID = bji.JOB_INSTANCE_ID) where bjp.KEY_NAME = 'authority.name' and bjp.STRING_VAL = ? order by START_TIME desc", rowMapper, authorityName);
+        } else if (pageNumber == null) {
+            return getJdbcTemplate().query("select bje.JOB_EXECUTION_ID, bje.START_TIME, bje.CREATE_TIME, bje.END_TIME, bje.STATUS, bje.EXIT_CODE, bje.EXIT_MESSAGE, bji.JOB_INSTANCE_ID, bji.JOB_NAME from BATCH_JOB_EXECUTION as bje join BATCH_JOB_PARAMS as bjp on (bje.JOB_INSTANCE_ID = bjp.JOB_INSTANCE_ID) join BATCH_JOB_INSTANCE as bji on (bje.JOB_INSTANCE_ID = bji.JOB_INSTANCE_ID) where bjp.KEY_NAME = 'authority.name' and bjp.STRING_VAL = ? order by START_TIME desc LIMIT ?", rowMapper, authorityName,pageSize);
         } else {
-            getJdbcTemplate().setMaxRows(10);
+            return getJdbcTemplate().query("select bje.JOB_EXECUTION_ID, bje.START_TIME, bje.CREATE_TIME, bje.END_TIME, bje.STATUS, bje.EXIT_CODE, bje.EXIT_MESSAGE, bji.JOB_INSTANCE_ID, bji.JOB_NAME from BATCH_JOB_EXECUTION as bje join BATCH_JOB_PARAMS as bjp on (bje.JOB_INSTANCE_ID = bjp.JOB_INSTANCE_ID) join BATCH_JOB_INSTANCE as bji on (bje.JOB_INSTANCE_ID = bji.JOB_INSTANCE_ID) where bjp.KEY_NAME = 'authority.name' and bjp.STRING_VAL = ? order by START_TIME desc LIMIT ? OFFSET ?", rowMapper, authorityName,pageSize, pageNumber * pageSize);
         }
-        return getJdbcTemplate().query("select bje.JOB_EXECUTION_ID, bje.CREATE_TIME, bje.END_TIME, bje.STATUS, bje.EXIT_CODE, bje.EXIT_MESSAGE from BATCH_JOB_EXECUTION as bje join BATCH_JOB_PARAMS as bjp on (bje.JOB_INSTANCE_ID = bjp.JOB_INSTANCE_ID) where bjp.KEY_NAME = 'authority.name' and bjp.STRING_VAL = ? order by START_TIME desc", rowMapper, authorityName);
     }
 
     /**
@@ -85,13 +87,15 @@ public class JobDaoImpl extends JdbcDaoSupport implements JobDao {
     * @param jobExecutionId Set the job execution identifier
     * @return a result object
     */
-    public final CellSet countObjects(final Long jobExecutionId) {
+    public final List<OlapResult> countObjects(final Long jobExecutionId) {
         PreparedOlapStatement statement = null;
         try {
+            String query = "SELECT {[Object Type].[Object Type].members} ON COLUMNS FROM Job  WHERE {[Job].[$1]}";
+            query = query.replace("$1", jobExecutionId.toString());
             statement = olapConnection
-                    .prepareOlapStatement("select {[Object Type].[Object Type].members} on columns from Job  where Parameter(\"jobExecutionId\", [Job],[Job].[1])");
-            setParameter(statement, 1, jobExecutionId.toString());
-            return statement.executeQuery();
+                    .prepareOlapStatement(query);
+            CellSet cellSet = statement.executeQuery();
+            return resultList(cellSet);
         } catch (Exception e) {
             throw new OlapExecutionException("OlapException", e);
         } finally {
@@ -108,17 +112,36 @@ public class JobDaoImpl extends JdbcDaoSupport implements JobDao {
 
     /**
      *
+     * @param cellSet set the cell set
+     * @return a list of olap results
+     */
+    private List<OlapResult> resultList(final CellSet cellSet) {
+        List<OlapResult> results = new ArrayList<OlapResult>();
+        for (Position position : cellSet.getAxes().get(0).getPositions()) {
+            results.add(new OlapResultImpl(cellSet.getCell(position)
+                    .getFormattedValue(), position.getMembers().get(0)
+                    .getCaption()));
+        }
+        return results;
+    }
+
+    /**
+     *
      * @param statement the prepared statement
      * @param index Set the index
      * @param value Set the value
      * @throws SQLException if something goes wrong
      */
-    private void setParameter(PreparedOlapStatement statement,
-            int index, String value) throws SQLException {
-        OlapParameterMetaData parameterMetaData = statement.getParameterMetaData();
-        MemberType type = (MemberType) parameterMetaData.getParameterOlapType(index);  
+    private void setParameter(final PreparedOlapStatement statement,
+            final int index, final String value) throws SQLException {
+        OlapParameterMetaData parameterMetaData = statement
+                .getParameterMetaData();
+        MemberType type = (MemberType) parameterMetaData
+                .getParameterOlapType(index);
         Dimension dimension = type.getDimension();
-        statement.setObject(index, dimension.getDefaultHierarchy().getRootMembers().get(value));
+        Member allMembers = dimension.getDefaultHierarchy().getRootMembers()
+                .get(0);
+        statement.setObject(index, allMembers.getChildMembers().get(value));
     }
 
     /**
@@ -127,23 +150,26 @@ public class JobDaoImpl extends JdbcDaoSupport implements JobDao {
     * @param objectType set the object type
     * @return a result object
     */
-    public final CellSet countErrors(final Long jobExecutionId,
+    public final List<OlapResult> countErrors(final Long jobExecutionId,
             final String objectType) {
         PreparedOlapStatement statement = null;
         try {
-          statement =  olapConnection
-                .prepareOlapStatement("select {[Type].[Type].members} on columns from Job where (Parameter(\"jobExecutionId\", [Job],[Job].[1]), Parameter(\"objectType\",[Object Type],[Object Type].[Taxon]))");
-          setParameter(statement, 1, jobExecutionId.toString());
-          setParameter(statement, 2, objectType);
-          return statement.executeQuery();
-        } catch(Exception e) {
-            throw new OlapExecutionException("OlapException",e);
+            String query = "select {[Type].[Type].members} ON COLUMNS FROM Job WHERE ([Measures].[Annotation Numbers], [Job].[$1], [Object Type].[$2])";
+            query = query.replace("$1", jobExecutionId.toString());
+            query = query.replace("$2", objectType);
+            statement =  olapConnection
+                .prepareOlapStatement(query);
+            CellSet cellSet = statement.executeQuery();
+            return resultList(cellSet);
+        } catch (Exception e) {
+            throw new OlapExecutionException("OlapException", e);
         } finally {
             if (statement != null) {
                 try {
                 statement.close();
-                } catch(SQLException sqle) {
-                    throw new CleanupFailureDataAccessException("Could not Clean up", sqle);
+                } catch (SQLException sqle) {
+                    throw new CleanupFailureDataAccessException(
+                            "Could not Clean up", sqle);
                 }
             }
         }
@@ -164,10 +190,14 @@ public class JobDaoImpl extends JdbcDaoSupport implements JobDao {
          */
         public final JobExecution mapRow(final ResultSet resultSet,
                 final int rowNumber) throws SQLException {
-            JobExecution jobExecution = new JobExecution(
-                    resultSet.getLong("JOB_EXECUTION_ID"));
-            jobExecution.setCreateTime(resultSet.getDate("CREATE_TIME"));
-            jobExecution.setEndTime(resultSet.getDate("END_TIME"));
+            JobInstance jobInstance = new JobInstance(resultSet.getBigDecimal(
+                    "JOB_INSTANCE_ID").longValue(),
+                    new JobParameters(), resultSet.getString("JOB_NAME"));
+            JobExecution jobExecution = new JobExecution(jobInstance,
+                    resultSet.getBigDecimal("JOB_EXECUTION_ID").longValue());
+            jobExecution.setStartTime(resultSet.getTimestamp("START_TIME"));
+            jobExecution.setCreateTime(resultSet.getTimestamp("CREATE_TIME"));
+            jobExecution.setEndTime(resultSet.getTimestamp("END_TIME"));
             jobExecution.setStatus(BatchStatus.valueOf(resultSet
                     .getString("STATUS")));
             ExitStatus exitStatus = new ExitStatus(
@@ -177,5 +207,15 @@ public class JobDaoImpl extends JdbcDaoSupport implements JobDao {
             return jobExecution;
         }
 
+    }
+
+    /**
+    *
+    * @param identifier the identifier of the job
+    * @return a job execution
+    */
+    public final JobExecution load(final Long identifier) {
+        JobExecution jobExecution = getJdbcTemplate().queryForObject("select bje.JOB_EXECUTION_ID, bje.START_TIME, bje.CREATE_TIME, bje.END_TIME, bje.STATUS, bje.EXIT_CODE, bje.EXIT_MESSAGE, bji.JOB_INSTANCE_ID, bji.JOB_NAME from BATCH_JOB_EXECUTION as bje join BATCH_JOB_INSTANCE as bji on (bje.JOB_INSTANCE_ID = bji.JOB_INSTANCE_ID) where bje.JOB_EXECUTION_ID = ?", rowMapper, identifier);
+        return jobExecution;
     }
 }

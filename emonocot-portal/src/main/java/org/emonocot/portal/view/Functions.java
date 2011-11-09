@@ -1,9 +1,8 @@
 package org.emonocot.portal.view;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import org.emonocot.api.Sorting;
@@ -18,6 +17,15 @@ import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.GeographicalRegionComparator;
 import org.emonocot.model.geography.Region;
 import org.emonocot.model.taxon.Taxon;
+import org.hibernate.proxy.HibernateProxy;
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
+import org.joda.time.Interval;
+import org.joda.time.Period;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.PeriodFormat;
+import org.joda.time.format.PeriodFormatter;
+import org.joda.time.format.PeriodFormatterBuilder;
 
 /**
  *
@@ -151,4 +159,46 @@ public final class Functions {
         sortItems.add(new Sorting(null));
         return sortItems;
     }
+
+    /**
+     *
+     * @param object the object, which may be a proxy or may not
+     * @return the object
+     */
+    public static Object deproxy(final Object object) {
+        if (object instanceof HibernateProxy) {
+            return ((HibernateProxy) object).getHibernateLazyInitializer()
+                    .getImplementation();
+        } else {
+            return object;
+        }
+    }
+
+    /**
+     *
+     * @param start Set the start date
+     * @param end Set the end date
+     * @return a formatted period
+     */
+    public static String formatPeriod(final Date start, final Date end) {
+        DateTime startDate = new DateTime(start);
+        DateTime endDate = new DateTime(end);
+
+        Period period = new Interval(startDate, endDate).toPeriod();
+        PeriodFormatter formatter = new PeriodFormatterBuilder()
+                .minimumPrintedDigits(2).appendHours().appendSeparator(":")
+                .appendMinutes().appendSeparator(":").appendSeconds()
+                .toFormatter();
+        return formatter.print(period);
+    }
+
+    /**
+    *
+    * @param date Set the date
+    * @return a formatted date
+    */
+   public static String formatDate(final Date date) {
+       DateTime dateTime = new DateTime(date);
+       return DateTimeFormat.forStyle("SS").print(dateTime);
+   }
 }

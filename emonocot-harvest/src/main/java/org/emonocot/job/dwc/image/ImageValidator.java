@@ -8,23 +8,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.emonocot.api.ImageService;
 import org.emonocot.job.dwc.DarwinCoreValidator;
-import org.emonocot.model.source.Source;
 import org.emonocot.model.common.Annotation;
+import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.AnnotationType;
+import org.emonocot.model.common.RecordType;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.taxon.Taxon;
-import org.emonocot.api.ImageService;
-import org.emonocot.api.SourceService;
-import org.emonocot.api.TaxonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
-import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.ItemWriteListener;
-import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.core.StepExecutionListener;
-import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -89,7 +84,9 @@ public class ImageValidator extends DarwinCoreValidator<Image> implements
                 image.getTaxon().getImages().add(image);
                 image.setAuthority(getSource());
                 image.getSources().add(getSource());
-                Annotation annotation = createAnnotation("Image", "Create", AnnotationType.Create);
+                Annotation annotation = createAnnotation(image,
+                        RecordType.Image, AnnotationCode.Create,
+                        AnnotationType.Info);
                 image.getAnnotations().add(annotation);
                 logger.info("Adding image " + image.getUrl());
                 return image;
@@ -129,8 +126,9 @@ public class ImageValidator extends DarwinCoreValidator<Image> implements
                     if (!image.getTaxon().getImages().contains(persistedImage)) {
                         image.getTaxon().getImages().add(persistedImage);
                     }
-                    Annotation annotation = createAnnotation("Image", "Create",
-                            AnnotationType.Create);
+                    Annotation annotation = createAnnotation(image,
+                            RecordType.Image, AnnotationCode.Create,
+                            AnnotationType.Info);
                     persistedImage.getAnnotations().add(annotation);
                     boundImages.put(image.getUrl(), persistedImage);
                     logger.info("Overwriting image " + image.getUrl());

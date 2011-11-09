@@ -8,7 +8,7 @@
     <display-name>eMonocot Portal Custom Functions</display-name>    
     <tlib-version>1.0</tlib-version>
     <short-name>emonocot</short-name>
-    <uri>http://e-monocot.org/portal/functions</uri>
+    <uri>http://e-monocot.org/portal/functions</uri>    
     <function>
         <name>features</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
@@ -33,5 +33,20 @@
         <name>sortItems</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>java.util.List sortItems()</function-signature>
-    </function>    
+    </function>
+    <function>
+        <name>deproxy</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.Object deproxy(java.lang.Object)</function-signature>
+    </function>
+    <function>
+        <name>formatPeriod</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.String formatPeriod(java.util.Date,java.util.Date)</function-signature>
+    </function>
+    <function>
+        <name>formatDate</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.String formatDate(java.util.Date)</function-signature>
+    </function>
 </taglib>

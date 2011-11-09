@@ -1,6 +1,8 @@
 package org.emonocot.job.dwc.taxon;
 
 import org.emonocot.job.dwc.DarwinCoreProcessingException;
+import org.emonocot.model.common.AnnotationCode;
+import org.emonocot.model.common.RecordType;
 
 /**
  *
@@ -18,8 +20,11 @@ public abstract class TaxonProcessingException extends
     /**
      *
      * @param msg the message
+     * @param code the code
+     * @param value the value
      */
-    public TaxonProcessingException(final String msg) {
-        super(msg);
+    public TaxonProcessingException(final String msg,
+            final AnnotationCode code, final String value) {
+        super(msg, code, RecordType.Taxon, value);
     }
 }

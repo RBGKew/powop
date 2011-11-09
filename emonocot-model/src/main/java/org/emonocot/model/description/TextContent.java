@@ -26,6 +26,7 @@ import org.hibernate.annotations.Where;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
 
 /**
  *
@@ -44,89 +45,90 @@ public class TextContent extends BaseData {
      *
      */
     private String content;
-    
-    /**
-    *
-    */
-   private Taxon taxon;
 
    /**
     *
     */
-   private Feature feature;
-   
+    private Taxon taxon;
+
    /**
+    *
+    */
+    private Feature feature;
+
+    /**
    *
    */
-  private Long id;
-  
-  /**
+    private Long id;
+
+    /**
   *
   */
- private Set<Annotation> annotations = new HashSet<Annotation>();
-
-  /**
-  *
-  * @param newId
-  *            Set the identifier of this object.
-  */
- public void setId(Long newId) {
-     this.id = newId;
- }
-
- /**
-  *
-  * @return Get the identifier for this object.
-  */
- @Id
- @GeneratedValue(generator = "system-increment")
- @DocumentId
- public Long getId() {
-     return id;
- }
-
-   /**
-    *
-    * @param newTaxon
-    *            Set the taxon that this content is about.
-    */
-   @JsonIgnore
-   public void setTaxon(Taxon newTaxon) {
-       this.taxon = newTaxon;
-   }
-
-   /**
-    *
-    * @return Return the subject that this content is about.
-    */
-   @Enumerated(value = EnumType.STRING)
-   @Field
-   public Feature getFeature() {
-       return feature;
-   }
-
-   /**
-    *
-    * @param newFeature
-    *            Set the subject that this content is about.
-    */
-   public void setFeature(Feature newFeature) {
-       this.feature = newFeature;
-   }
-
-   /**
-    *
-    * @return Get the taxon that this content is about.
-    */
-   @JsonIgnore
-   @ManyToOne(fetch = FetchType.LAZY)
-   public Taxon getTaxon() {
-       return taxon;
-   }
+    private Set<Annotation> annotations = new HashSet<Annotation>();
 
     /**
      *
-     * @param newContent Set the content of this object.
+     * @param newId
+     *            Set the identifier of this object.
+     */
+    public void setId(Long newId) {
+        this.id = newId;
+    }
+
+    /**
+     *
+     * @return Get the identifier for this object.
+     */
+    @Id
+    @GeneratedValue(generator = "system-increment")
+    @DocumentId
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     *
+     * @param newTaxon
+     *            Set the taxon that this content is about.
+     */
+    @JsonIgnore
+    public void setTaxon(Taxon newTaxon) {
+        this.taxon = newTaxon;
+    }
+
+    /**
+     *
+     * @return Return the subject that this content is about.
+     */
+    @Enumerated(value = EnumType.STRING)
+    @Field
+    public Feature getFeature() {
+        return feature;
+    }
+
+    /**
+     *
+     * @param newFeature
+     *            Set the subject that this content is about.
+     */
+    public void setFeature(Feature newFeature) {
+        this.feature = newFeature;
+    }
+
+    /**
+     *
+     * @return Get the taxon that this content is about.
+     */
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    public Taxon getTaxon() {
+        return taxon;
+    }
+
+    /**
+     *
+     * @param newContent
+     *            Set the content of this object.
      */
     public void setContent(String newContent) {
         this.content = newContent;
@@ -147,7 +149,7 @@ public class TextContent extends BaseData {
         if (!super.equals(other)) {
             return false;
         }
-     
+
         TextContent otherContent = (TextContent) other;
         return ObjectUtils.equals(this.feature, otherContent.feature)
                 && ObjectUtils.equals(this.taxon, otherContent.taxon)
@@ -157,13 +159,14 @@ public class TextContent extends BaseData {
     @Override
     public int hashCode() {
         return super.hashCode() + ObjectUtils.hashCode(this.taxon)
-        + ObjectUtils.hashCode(this.feature) +(this.content == null ? 0 : this.content.hashCode());
+                + ObjectUtils.hashCode(this.feature)
+                + (this.content == null ? 0 : this.content.hashCode());
     }
 
     @Transient
     @JsonIgnore
     public final String getClassName() {
-      return "TextContent";
+        return "TextContent";
     }
 
     /**

@@ -143,7 +143,7 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
                         annotationDao.saveOrUpdate((Annotation) obj);
                     } else if (obj.getClass().equals(Source.class)) {
                         sourceDao.saveOrUpdate((Source) obj);
-                    }else if (obj.getClass().equals(JobExecution.class)) {
+                    } else if (obj.getClass().equals(JobExecution.class)) {
                         jobExecutionDao.saveJobExecution((JobExecution) obj);
                     } else if (obj.getClass().equals(JobInstance.class)) {
                         jobInstanceDao.createJobInstance(

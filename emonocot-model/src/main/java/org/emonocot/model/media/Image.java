@@ -66,48 +66,49 @@ public class Image extends SearchableObject {
      */
     private List<Taxon> taxa = new ArrayList<Taxon>();
 
-   /**
-    *
-    */
-   private Set<Annotation> annotations = new HashSet<Annotation>();
-   
-   /**
-   *
-   */
-  private Long id;
-
-  /**
-  *
-  * @param newId
-  *            Set the identifier of this object.
-  */
- public void setId(Long newId) {
-     this.id = newId;
- }
-
- /**
-  *
-  * @return Get the identifier for this object.
-  */
- @Id
- @GeneratedValue(generator = "system-increment")
- @DocumentId
- public Long getId() {
-     return id;
- }
+    /**
+     *
+     */
+    private Set<Annotation> annotations = new HashSet<Annotation>();
 
     /**
      *
-     * @param newUrl Set the url of the image
+     */
+    private Long id;
+
+    /**
+     *
+     * @param newId
+     *            Set the identifier of this object.
+     */
+    public void setId(Long newId) {
+        this.id = newId;
+    }
+
+    /**
+     *
+     * @return Get the identifier for this object.
+     */
+    @Id
+    @GeneratedValue(generator = "system-increment")
+    @DocumentId
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     *
+     * @param newUrl
+     *            Set the url of the image
      */
     public void setUrl(String newUrl) {
         this.url = newUrl;
     }
 
-   /**
-    *
-    * @return the url of the image
-    */
+    /**
+     *
+     * @return the url of the image
+     */
     @Field
     public String getUrl() {
         return url;
@@ -117,22 +118,23 @@ public class Image extends SearchableObject {
      *
      * @return the caption
      */
-    @Fields({@Field,@Field(name="label", index = Index.UN_TOKENIZED)})
+    @Fields({ @Field, @Field(name = "label", index = Index.UN_TOKENIZED) })
     public String getCaption() {
         return caption;
     }
 
     /**
-     *
-     * @param caption Set the caption
+     * 
+     * @param caption
+     *            Set the caption
      */
     public void setCaption(String caption) {
         this.caption = caption;
     }
 
     /**
-     * The taxon (page) this image should link to - should
-     * be the lowest rank taxon in taxa?
+     * The taxon (page) this image should link to - should be the lowest rank
+     * taxon in taxa?
      *
      * @return the taxon this image is of
      */
@@ -144,7 +146,8 @@ public class Image extends SearchableObject {
 
     /**
      *
-     * @param taxon Set the taxon this image is of
+     * @param taxon
+     *            Set the taxon this image is of
      */
     public void setTaxon(Taxon taxon) {
         this.taxon = taxon;
@@ -153,11 +156,11 @@ public class Image extends SearchableObject {
     /**
      * The list of all taxa associated with this image - including e.g. genera
      * family, and so on.
-     *
+     * 
      * @return a list of taxa
      */
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "images")
-    @Cascade({CascadeType.SAVE_UPDATE })
+    @Cascade({ CascadeType.SAVE_UPDATE })
     @JsonSerialize(contentUsing = TaxonSerializer.class)
     public List<Taxon> getTaxa() {
         return taxa;
@@ -165,7 +168,8 @@ public class Image extends SearchableObject {
 
     /**
      *
-     * @param taxa Set the taxa associated with this image
+     * @param taxa
+     *            Set the taxa associated with this image
      */
     @JsonDeserialize(contentUsing = TaxonDeserializer.class)
     public void setTaxa(List<Taxon> taxa) {
@@ -179,7 +183,7 @@ public class Image extends SearchableObject {
     @Transient
     @JsonIgnore
     public final String getClassName() {
-      return "Image";
+        return "Image";
     }
 
     /**
