@@ -4,16 +4,18 @@
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 
-	<div class="row">
-		<div class="twelvecol">
-			<div class="content-wrapper">
-				<h2 id="page-title">${source.identifier}</h2>
-				<br/>
-				<a href="${source.uri}">
-					<spring:message code="availableAt" />
-				</a>	
-				
-			</div>
+	<div class="content">
+		<div class="page-header">
+			<h2 id="page-title">${source.identifier}</h2>
+		</div>
+		<div class="row">
+			<br/>
+			<a href="${source.uri}">
+				<spring:message code="availableAt" />
+			</a>
+			<br/>
+			
 		</div>
 	</div>
+	
 </jsp:root>

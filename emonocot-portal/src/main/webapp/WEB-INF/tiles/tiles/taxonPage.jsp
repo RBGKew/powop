@@ -3,28 +3,33 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
-	<div class="row">
-		<div class="twelvecol">
-			<div class="content-wrapper">
+	
 
-				<header>
+	
+	<div class="content">
+		<div class="page-header">
+			<!-- <header>
 				<h2 id="page-title">
 					<span class="taxonName">${taxon.name}</span>${taxon.authorship}
 				</h2>
-				</header>
-
-				<c:if test="${taxon.protologue != null}">
-					<c:set var="protologue" value="${taxon.protologue}" />
-					<div class="row">
-						<div id="protologue" class="twelvecol">${protologue.title}
-							${protologue.datePublished} ${protologue.volume}
-							${protologue.pages}</div>
-					</div>
-				</c:if>
-				<div class="row">
-					<div class="twelvecol">
+			</header> -->
+			<h2 id="page-title">
+				<span class="taxonName">${taxon.name}</span>${taxon.authorship}
+			</h2>
+				
+			<c:if test="${taxon.protologue != null}">
+				<c:set var="protologue" value="${taxon.protologue}" />
+				<div id="protologue" class="twelvecol">${protologue.title}
+					${protologue.datePublished} ${protologue.volume}
+					${protologue.pages}
+				</div>
+			</c:if>
+		</div>
+		
+		<div class="row">
+			<div class="span12" style="border-right: 1px solid #eee;">	
 						<c:if test="${not empty taxon.images}">
-							<div id="container">
+							<!-- <div id="container"> -->
 								<div id="gallery" class="ad-gallery">
 									<div class="ad-image-wrapper">&#160;</div>
 									<div class="ad-controls">&#160;</div>
@@ -44,7 +49,7 @@
 									</div>
 								</div>
 
-							</div>
+							<!-- </div> -->
 						</c:if>
 
 
@@ -52,31 +57,26 @@
 
 
 						<BR />
-					</div>
-				</div>
+					
 				<br />
 				<div id="textContent">
 					<c:forEach var="feature" items="${em:features()}">
 						<c:set var="content" value="${em:content(taxon,feature)}" />
 						<c:if test="${content != null}">
-							<div class="row">
-								<div class="twelvecol">
-									<h5>${feature}</h5>
-									<p>${content.content}</p>
-								</div>
+							<div>
+							  <h5>${feature}</h5>
+							  <p>${content.content}</p>
 							</div>
 						</c:if>
 					</c:forEach>
 				</div>
 				<br />
 				<c:if test="${not empty em:regions(taxon)}">
-					<div class="row">
-						<h5>
-							<spring:message code="distribution" />
-						</h5>
-						<div class="twelvecol">
-							<div id="map" style="height: 470px; width: 700px">
-								<jsp:element name="img">
+					<h5>
+						<spring:message code="distribution" />
+					</h5>
+					<div id="map" style="height: 470px; width: 700px">
+						<jsp:element name="img">
 						    <jsp:attribute name="id">alternative-map</jsp:attribute>
 							<jsp:attribute name="src">
 								<c:url value="http://edit.br.fgov.be/edit_wp5/v1/areas.php">
@@ -93,10 +93,9 @@
 								</c:url>
 							</jsp:attribute>
 						</jsp:element>
-							</div>
-						</div>
-						<c:set var="mapUrl">
-							<c:url value="http://edit.br.fgov.be/edit_wp5/v1/areas.php">
+					</div>
+					<c:set var="mapUrl">
+						<c:url value="http://edit.br.fgov.be/edit_wp5/v1/areas.php">
 								<c:param name="callback" value="foo" />
 								<!-- callback -->
 								<c:param name="ms" value="1" />
@@ -109,9 +108,9 @@
 								<!-- Areas -->
 								<c:param name="as" value="present:FF0000,,0.25" />
 								<!-- Area Styling -->
-							</c:url>
-						</c:set>
-						<script type="text/javascript">
+						</c:url>
+					</c:set>
+					<script type="text/javascript">
 							var map;
 
 							function foo(data) {
@@ -185,94 +184,78 @@
 									data : null
 								});
 							});
-						</script>
-						<div class="twelvecol">
-							<ul id="distribution-textual">
-								<c:forEach var="region" items="${em:regions(taxon)}">
-									<li><spring:message code="${region}" />
-									</li>
-								</c:forEach>
-							</ul>
-						</div>
-					</div>
+					</script>
+					
+					<ul id="distribution-textual">
+						<c:forEach var="region" items="${em:regions(taxon)}">
+							<li>
+								<spring:message code="${region}" />
+							</li>
+						</c:forEach>
+					</ul>
 				</c:if>
 				<br />
 				<c:if test="${taxon.parent != null}">
-					<div class="row">
-						<h5>
-							<spring:message code="parent" />
-						</h5>
-						<div class="twelvecol">
-							<jsp:element name="a">
-                  				<jsp:attribute name="href">
-                    				<c:url value="/taxon/${taxon.parent.identifier}" />
-                  				</jsp:attribute>
-                  				${taxon.parent.name} ${taxon.parent.authorship}
-                			</jsp:element>
-						</div>
-					</div>
-				</c:if>
+					<h5>
+						<spring:message code="parent" />
+					</h5>
+					<jsp:element name="a">
+						<jsp:attribute name="href">
+							<c:url value="/taxon/${taxon.parent.identifier}" />
+                  		</jsp:attribute>
+                  		${taxon.parent.name} ${taxon.parent.authorship}
+                	</jsp:element>
+                </c:if>
 				<br />
 				<c:if test="${not empty taxon.children}">
-					<div class="row">
-						<h5>
-							<spring:message code="children" />
-						</h5>
-						<div class="twelvecol">
-							<ul>
-								<c:forEach var="child" items="${taxon.children}">
-									<li><jsp:element name="a">
-                    						<jsp:attribute name="href">
-                      							<c:url value="/taxon/${child.identifier}" />
-                    						</jsp:attribute>
-                    						${child.name} ${child.authorship}
-                  						</jsp:element></li>
-								</c:forEach>
-							</ul>
-						</div>
-					</div>
+					<h5>
+						<spring:message code="children" />
+					</h5>
+					<ul>
+						<c:forEach var="child" items="${taxon.children}">
+							<li>
+								<jsp:element name="a">
+									<jsp:attribute name="href">
+										<c:url value="/taxon/${child.identifier}" />
+									</jsp:attribute>
+									${child.name} ${child.authorship}
+                  				</jsp:element>
+                  			</li>
+						</c:forEach>
+					</ul>
 				</c:if>
 				<br />
 				<c:if test="${taxon.accepted != null}">
-					<div class="row">
-						<h5>
-							<spring:message code="accepted" />
-						</h5>
-						<div class="twelvecol">
-							<jsp:element name="a">
-                    			<jsp:attribute name="href">
-                      				<c:url
-										value="/taxon/${taxon.accepted.identifier}" />
-                    			</jsp:attribute>
-                    			${taxon.accepted.name} ${taxon.accepted.authorship}
-               				</jsp:element>
-						</div>
-					</div>
-				</c:if>
+					<h5>
+						<spring:message code="accepted" />
+					</h5>
+					<jsp:element name="a">
+                    	<jsp:attribute name="href">
+                      		<c:url value="/taxon/${taxon.accepted.identifier}" />
+                    	</jsp:attribute>
+                    	${taxon.accepted.name} ${taxon.accepted.authorship}
+               		</jsp:element>
+               		</c:if>
 				<br />
 				<c:if test="${not empty taxon.synonyms}">
-					<div class="row">
-						<h5>
-							<spring:message code="synonyms" />
-						</h5>
-						<div class="twelvecol">
-							<ul>
-								<c:forEach var="synonym" items="${taxon.synonyms}">
-									<li><jsp:element name="a">
-                      						<jsp:attribute name="href">
-                        						<c:url
-													value="/taxon/${synonym.identifier}" />
-                      						</jsp:attribute>
-                      						${synonym.name} ${synonym.authorship}
-                    					</jsp:element></li>
-								</c:forEach>
-							</ul>
-						</div>
-					</div>
+					<h5>
+						<spring:message code="synonyms" />
+					</h5>
+					<ul>
+						<c:forEach var="synonym" items="${taxon.synonyms}">
+							<li>
+								<jsp:element name="a">
+                      				<jsp:attribute name="href">
+                        				<c:url value="/taxon/${synonym.identifier}" />
+                      				</jsp:attribute>
+                      				${synonym.name} ${synonym.authorship}
+                    			</jsp:element>
+                   			</li>
+						</c:forEach>
+					</ul>
 				</c:if>
-
 			</div>
+			<div class="span4">Prova</div>
 		</div>
-
 	</div>
 </jsp:root>

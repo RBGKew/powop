@@ -72,7 +72,7 @@ public class TaxonPage extends PageObject implements IllustratedPage {
      */
     public final String getParagraph(final String heading) {
         WebElement element = textContent.findElement(By
-                .xpath("div/div[h5 = '" + heading + "']/p"));
+                .xpath("div[h5 = '" + heading + "']/p"));
         return element.getText();
     }
 

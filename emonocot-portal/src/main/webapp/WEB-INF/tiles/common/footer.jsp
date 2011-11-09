@@ -10,5 +10,5 @@
     </jsp:attribute>
     /* */
   </jsp:element>
-	      
+	<footer><p>eMonocot</p></footer>      
 </jsp:root>

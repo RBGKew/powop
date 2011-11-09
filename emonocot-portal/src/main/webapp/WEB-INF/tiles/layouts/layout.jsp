@@ -7,19 +7,15 @@
 	<jsp:output omit-xml-declaration="true" />
 	<jsp:output doctype-root-element="HTML"
 		doctype-system="about:legacy-compat" />
-	  <html class="no-js" lang="en" dir="ltr">
-        <tiles:insertAttribute name="head" />
-        <body>
-	      <div id="wrapper">
-		  	<div id="container">
-			  <tiles:insertAttribute name="header" />
-			  <tiles:insertAttribute name="body" />
-          	</div>
-	      </div>
-	      <br />
-	      <tiles:insertAttribute name="footer" />
-
-	      
-        </body>
-      </html>
+	<html class="no-js" lang="en" dir="ltr">
+		<tiles:insertAttribute name="head" />
+        <body> 
+			<tiles:insertAttribute name="header" />
+			<div class="container">
+				<tiles:insertAttribute name="body" />
+      			<br />
+	      		<tiles:insertAttribute name="footer" />
+	      	</div>
+		</body>
+	</html>
 </jsp:root>

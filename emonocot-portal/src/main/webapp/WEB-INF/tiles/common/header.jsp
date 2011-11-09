@@ -4,39 +4,58 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:security="http://www.springframework.org/security/tags"
 	version="2.0">
-	<div id="headerContainer" class="row">
+	<!-- <div id="headerContainer" class="row">
 		<div id="annotateHeader" class="twelvecol">
-			<div class="home-header">
-			    <jsp:element name="a">
+			<div class="home-header">  -->
+		
+	<div class="topbar">
+		<div class="fill">
+			<div class="container">
+				<a class="brand" href="/portal">eMonocot</a>	
+			    <!--<jsp:element name="a">
 			      <jsp:attribute name="title">home</jsp:attribute>
 			      <jsp:attribute name="href">
 			        <c:url value="/"/>
 			      </jsp:attribute>
 			      <h1>emonocot</h1>
-			    </jsp:element>
+			    </jsp:element> -->
+			    <div class="offset12">
+			    <ul class="nav">
 				<security:authorize access="!isAuthenticated()">
-				  <jsp:element  name="a">
+				  <li><jsp:element  name="a">
 				    <jsp:attribute name="href">
 					  <c:url value="/register"/> 
 			        </jsp:attribute>
 			        <spring:message code="register"/>
 			      </jsp:element>
-			      <jsp:element  name="a">
+			      </li>
+			      <li><jsp:element  name="a">
 				    <jsp:attribute name="href">
 					  <c:url value="/login"/> 
 			        </jsp:attribute>
 			        <spring:message code="login"/>
 			      </jsp:element>
+			      </li>
 			    </security:authorize>
 			    <security:authorize access="isAuthenticated()">
-			      <jsp:element  name="a">
+			      <li><jsp:element  name="a">
 				    <jsp:attribute name="href">
 					  <c:url value="/logout"/> 
 			        </jsp:attribute>
 			        <spring:message code="logout"/>
 			      </jsp:element>
-			    </security:authorize>			    
+			      </li>
+			    </security:authorize>
+			    </ul>
+			    </div>
 			</div>
 		</div>
 	</div>
+		
+			    
+			    
+			    		    
+	<!-- 	</div>
+		</div>
+	</div>  -->	
 </jsp:root>

@@ -4,11 +4,10 @@
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 
-	<div class="row">
-		<div class="twelvecol">
-			<div class="content-wrapper">
-				<h1>${user.username}</h1>
-			</div>
+	<div class="content">
+		<div class="page-header">&#160;</div>
+		<div class="row">
+			<h1>${user.username}</h1>
 		</div>
 	</div>
 </jsp:root>
