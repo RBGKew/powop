@@ -3,22 +3,17 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:security="http://www.springframework.org/security/tags"
-	version="2.0">
-	<!-- <div id="headerContainer" class="row">
-		<div id="annotateHeader" class="twelvecol">
-			<div class="home-header">  -->
-		
+	version="2.0">		
 	<div class="topbar">
 		<div class="fill">
 			<div class="container">
-				<a class="brand" href="/portal">eMonocot</a>	
-			    <!--<jsp:element name="a">
-			      <jsp:attribute name="title">home</jsp:attribute>
+			    <jsp:element name="a">
+			      <jsp:attribute name="class">brand</jsp:attribute>
 			      <jsp:attribute name="href">
 			        <c:url value="/"/>
 			      </jsp:attribute>
-			      <h1>emonocot</h1>
-			    </jsp:element> -->
+				  eMonocot			    
+			    </jsp:element>
 			    <div class="offset12">
 			    <ul class="nav">
 				<security:authorize access="!isAuthenticated()">
@@ -51,11 +46,4 @@
 			</div>
 		</div>
 	</div>
-		
-			    
-			    
-			    		    
-	<!-- 	</div>
-		</div>
-	</div>  -->	
 </jsp:root>

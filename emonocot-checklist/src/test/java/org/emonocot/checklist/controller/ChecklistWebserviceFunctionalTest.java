@@ -154,11 +154,11 @@ public class ChecklistWebserviceFunctionalTest {
                1,
                with(xml).get(
                        "DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship.findAll { it.@type == 'is child taxon of' }.size()"));
-       assertTrue("The links to external data should be absolute, not relative",               
+       assertTrue("The links to external data should be absolute, not relative",
                ((String)with(xml).get(
                        "DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship[0].ToTaxonConcept.@ref"))
                        .startsWith("http://"));
-       assertTrue("The links to external data should include the client id parameter",               
+       assertTrue("The links to external data should include the client id parameter",
                ((String)with(xml).get(
                        "DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship[0].ToTaxonConcept.@ref"))
                        .contains("&scratchpad=functional-test.e-monocot.org"));
@@ -166,7 +166,7 @@ public class ChecklistWebserviceFunctionalTest {
 
    /**
     * Tests the GET response returns a valid document containing
-    * a taxon of species rank.
+    * a synonym.
     * @throws Exception
     *             if there is a problem with the test
     */
@@ -181,6 +181,25 @@ public class ChecklistWebserviceFunctionalTest {
                1,
                with(xml).get(
                        "DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship.findAll { it.@type == 'is synonym for' }.size()"));
+   }
+
+   /**
+    * Tests the GET response returns a valid document containing
+    * a taxon of species rank.
+    * @throws Exception
+    *             if there is a problem with the test
+    */
+   @Test
+   public final void testGenus() throws Exception {
+       String xml = given().parameters("function", "details_tcs",
+               "id", "urn:kew.org:wcs:taxon:3",
+               "scratchpad", "functional-test.e-monocot.org")
+               .get("/endpoint").andReturn().body().asString();
+
+       assertEquals("One taxonomic parent should be present",
+               1,
+               with(xml).get(
+                       "DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship.findAll { it.@type == 'is child taxon of' }.size()"));
    }
 
    /**
@@ -250,11 +269,11 @@ public class ChecklistWebserviceFunctionalTest {
                0,
                with(xml).get(
                        "DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship.findAll { it.@type == 'is child taxon of' }.size()"));
-       assertTrue("The links to external data should be absolute, not relative",               
+       assertTrue("The links to external data should be absolute, not relative",
                ((String)with(xml).get(
                        "DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship[0].ToTaxonConcept.@ref"))
                        .startsWith("http://"));
-       assertTrue("The links to external data should include the client id parameter",               
+       assertTrue("The links to external data should include the client id parameter",
                ((String)with(xml).get(
                        "DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship[0].ToTaxonConcept.@ref"))
                        .contains("&scratchpad=functional-test.e-monocot.org"));

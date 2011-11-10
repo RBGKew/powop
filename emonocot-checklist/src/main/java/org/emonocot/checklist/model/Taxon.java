@@ -255,7 +255,11 @@ public class Taxon implements IdentifiableEntity<String> {
      */
     public final String getIdentifier() {
         if (this.id != null) {
-        return Taxon.IDENTIFIER_PREFIX + this.id;
+            if (this.id > 0) {
+               return Taxon.IDENTIFIER_PREFIX + this.id;
+            } else {
+                return Family.IDENTIFIER_PREFIX + (this.id * -1);
+            }
         } else {
             return null;
         }
@@ -269,6 +273,14 @@ public class Taxon implements IdentifiableEntity<String> {
             try {
                 this.id = Integer.parseInt(identifier
                         .substring(Taxon.IDENTIFIER_PREFIX.length()));
+            } catch (Exception e) {
+                throw new IllegalArgumentException(identifier
+                        + " is not a valid identifier format");
+            }
+        } else if (identifier.startsWith(Family.IDENTIFIER_PREFIX)) {
+            try {
+                this.id = -1 * Integer.parseInt(identifier
+                        .substring(Family.IDENTIFIER_PREFIX.length()));
             } catch (Exception e) {
                 throw new IllegalArgumentException(identifier
                         + " is not a valid identifier format");

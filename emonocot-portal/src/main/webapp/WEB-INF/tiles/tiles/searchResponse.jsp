@@ -12,82 +12,45 @@
 		  <h2 id="page-title"><spring:message code="search.emonocot"/></h2>
 	</div>
 	<div class="row">
-			<form id="search.form" accept-charset="UTF-8" method="GET"
-				action="search">
-				<jsp:element name="input">
-					<jsp:attribute name="placeholder">search</jsp:attribute>
-					<jsp:attribute name="value">${result.params['query']}</jsp:attribute>
-					<jsp:attribute name="type">text</jsp:attribute>
-					<jsp:attribute name="name">query</jsp:attribute>
-				</jsp:element>
-				<input type="hidden" name="limit" value="${result.pageSize}" /> <input
-					type="hidden" name="start" value="0" />
-				<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-					<jsp:element name="input">
-						<jsp:attribute name="type">hidden</jsp:attribute>
-						<jsp:attribute name="name">facet</jsp:attribute>
-						<jsp:attribute name="value">
-							<jsp:scriptlet>
-							    String selectedFacet = (String) pageContext.getAttribute("selectedFacet");
-                                out.print(selectedFacet + "." + result.getSelectedFacets().get(selectedFacet));
-                            </jsp:scriptlet>
-						</jsp:attribute>
-					</jsp:element>
-				</c:forEach>
-				<jsp:element name="input">
-					<jsp:attribute name="type">hidden</jsp:attribute>
-					<jsp:attribute name="name">sort</jsp:attribute>
-					<jsp:attribute name="value">${result.sort}</jsp:attribute>
-				</jsp:element>
-				<input type="submit" value="go" name="submit" class="btn" />
-			</form>
+	  <form id="search.form" accept-charset="UTF-8" method="GET" action="search">
+	    <jsp:element name="input">
+	      <jsp:attribute name="class">xxlarge</jsp:attribute>
+		  <jsp:attribute name="placeholder">search</jsp:attribute>
+		  <jsp:attribute name="value">${result.params['query']}</jsp:attribute>
+		  <jsp:attribute name="type">text</jsp:attribute>
+		  <jsp:attribute name="name">query</jsp:attribute>
+		</jsp:element>
+		<input type="hidden" name="limit" value="${result.pageSize}" />
+		<input type="hidden" name="start" value="0" />
+		<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+		 <jsp:element name="input">
+		   <jsp:attribute name="type">hidden</jsp:attribute>
+		   <jsp:attribute name="name">facet</jsp:attribute>
+		   <jsp:attribute name="value">
+			 <jsp:scriptlet>
+			   String selectedFacet = (String) pageContext.getAttribute("selectedFacet");
+               out.print(selectedFacet + "." + result.getSelectedFacets().get(selectedFacet));
+             </jsp:scriptlet>
+		   </jsp:attribute>
+		  </jsp:element>
+		</c:forEach>
+		<jsp:element name="input">
+		  <jsp:attribute name="type">hidden</jsp:attribute>
+		  <jsp:attribute name="name">sort</jsp:attribute>
+		  <jsp:attribute name="value">${result.sort}</jsp:attribute>
+		</jsp:element>
+		<input type="submit" value="go" name="submit" class="btn primary" />
+	  </form>
+	</div>
+	<div class="row">		
+	  <div class="pagination">
+	    <tags:pagination pager="${result}" url="search"/>
+	  </div>
 	</div>
 	<div class="row">
-			<div class="span8">
-			    <jsp:scriptlet>
-              	Integer[] pageSizes = new Integer[] { 10, 20, 50, 100 };
-            	request.setAttribute("pageSizes", pageSizes);
-             	</jsp:scriptlet>
-				<c:forEach var="pageSize" items="${pageSizes}">
-					<div class="btn">
-						<c:choose>
-							<c:when test="${pageSize == result.pageSize}">${pageSize}</c:when>
-							<c:otherwise>
-								<jsp:element name="a">
-									<jsp:attribute name="href">
-										<c:url value="search">
-											<c:param name="query" value="${result.params['query']}" />
-											<c:param name="limit" value="${pageSize}" />
-											<c:param name="start" value="0" />
-											<c:param name="sort">${result.sort}</c:param>
-											<c:forEach var="selectedFacet"
-												items="${result.selectedFacetNames}">
-												<c:param name="facet">
-													<jsp:scriptlet>
-													  String selectedFacet = (String) pageContext.getAttribute("selectedFacet");
-                                                      out.println(selectedFacet + "." + result.getSelectedFacets().get(selectedFacet));
-                                                    </jsp:scriptlet>
-												</c:param>
-											</c:forEach>
-										</c:url>
-									</jsp:attribute>
-	                         		${pageSize}
-	                         	</jsp:element>
-							</c:otherwise>
-						</c:choose>
-					</div>
-				</c:forEach>
-				<div>
-					<spring:message code="results.per.page" />
-				</div>
-			</div>
-			<div id="pages" class="span8">				
-				<tags:results pager="${result}"/>
-			</div>
-
-			<div class="pagination">
-				<tags:pagination pager="${result}" url="search"/>
-			</div>
+	  <div id="pages" class="span8">				
+		<tags:results pager="${result}"/>
+      </div>
 	</div>
 	<div class="row">
 		<div class="span4">
