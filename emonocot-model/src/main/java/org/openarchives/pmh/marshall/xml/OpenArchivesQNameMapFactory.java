@@ -37,6 +37,9 @@ public class OpenArchivesQNameMapFactory extends
                 Record.class);
         qNameMap.registerMapping(new QName(
                 "http://www.openarchives.org/OAI/2.0/",
+                "error", "oai"), "error");
+        qNameMap.registerMapping(new QName(
+                "http://www.openarchives.org/OAI/2.0/",
                 "resumptionToken", "oai"), ResumptionToken.class);
         qNameMap.registerMapping(new QName(
                 "http://www.openarchives.org/OAI/2.0/", "OAI-PMH"),

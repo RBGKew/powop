@@ -4,10 +4,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.emonocot.model.common.Annotation;
+import org.emonocot.model.common.AnnotationCode;
+import org.emonocot.model.common.AnnotationType;
+import org.emonocot.model.common.Base;
+import org.emonocot.model.common.RecordType;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.harvest.common.TaxonRelationship;
 import org.emonocot.api.TaxonService;
 import org.emonocot.ws.checklist.OaiPmhClient;
+import org.emonocot.ws.checklist.OaiPmhException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
@@ -94,6 +100,7 @@ public class NullTaxonProcessor implements ItemProcessor<String, Taxon>,
 
         Taxon taxon = ((Taxon) taxonService.find(identifier,
                 "taxon-with-related"));
+        try {
         TaxonConcept taxonConcept = oaiPmhClient.getRecord(
                 identifier, sourceName, sourceUri,
                 temporaryFileName);
@@ -133,7 +140,37 @@ public class NullTaxonProcessor implements ItemProcessor<String, Taxon>,
                     + taxon.getIdentifier());
             return null;
         }
+        } catch (OaiPmhException ope) {
+            taxon.getAnnotations().add(
+                    addAnnotation(taxon, AnnotationCode.BadRecord,
+                            AnnotationType.Error, RecordType.Taxon,
+                            taxon.getIdentifier()));
+            return taxon;
+        }
     }
+
+    /**
+    *
+    * @param object Set the object type
+    * @param code Set the annotation code
+    * @param annotationType set the annotation type
+    * @param recordType set the record type
+    * @param value Set the value
+    * @return an Annotation
+    */
+    private Annotation addAnnotation(final Base object,
+            final AnnotationCode code, final AnnotationType annotationType,
+            final RecordType recordType, final String value) {
+       Annotation annotation = new Annotation();
+       annotation.setAnnotatedObj(object);
+       annotation.setRecordType(recordType);
+       annotation.setValue(value);
+       annotation.setJobId(stepExecution.getJobExecutionId());
+       annotation.setCode(code);
+       annotation.setType(annotationType);
+       annotation.setSource(oaiPmhRecordProcessor.getSource());
+       return annotation;
+   }
 
     /**
      * @param newStepExecution Set the step execution

@@ -1,18 +1,16 @@
 package org.emonocot.job.checklist;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.xml.transform.stax.StAXSource;
 
 import org.emonocot.job.common.AbstractXmlEventReaderTest;
-
+import org.emonocot.model.marshall.xml.StaxDriver;
+import org.emonocot.model.marshall.xml.UriConverter;
+import org.emonocot.model.marshall.xml.XStreamMarshaller;
 import org.junit.Before;
 import org.junit.Test;
 import org.openarchives.pmh.Record;
@@ -30,10 +28,6 @@ import org.tdwg.voc.TaxonConcept;
 import org.tdwg.voc.TaxonName;
 import org.tdwg.voc.TaxonRankTerm;
 import org.tdwg.voc.TaxonRelationshipTerm;
-
-import org.emonocot.model.marshall.xml.StaxDriver;
-import org.emonocot.model.marshall.xml.UriConverter;
-import org.emonocot.model.marshall.xml.XStreamMarshaller;
 
 import com.bea.xml.stream.MXParserFactory;
 import com.thoughtworks.xstream.converters.ConverterMatcher;

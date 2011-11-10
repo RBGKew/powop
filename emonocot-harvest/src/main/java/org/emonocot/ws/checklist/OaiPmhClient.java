@@ -26,6 +26,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.openarchives.pmh.OAIPMH;
 import org.openarchives.pmh.Record;
 import org.openarchives.pmh.ResumptionToken;
 import org.slf4j.Logger;
@@ -51,10 +52,7 @@ public class OaiPmhClient implements StepExecutionListener {
     private StepExecution stepExecution;
 
     /**
-     * should be dateTimeNoMillis() but the grassbase webapp is not configured
-     * properly (my fault!).
      *
-     * Hmm!
      */
     private static final DateTimeFormatter DATE_TIME_PRINTER = ISODateTimeFormat
             .dateTimeNoMillis();
@@ -353,11 +351,12 @@ public class OaiPmhClient implements StepExecutionListener {
            HttpResponse httpResponse = httpClient.execute(httpGet);
            logger.info("Got response "
                    + httpResponse.getStatusLine().toString());
+           HttpEntity entity = null;
 
            switch (httpResponse.getStatusLine().getStatusCode()) {
            case HttpURLConnection.HTTP_OK:
                logger.info("Got Status 200 OK");
-               HttpEntity entity = httpResponse.getEntity();
+               entity = httpResponse.getEntity();
                if (entity != null) {
                    bufferedInputStream = new BufferedInputStream(
                            entity.getContent());
@@ -394,6 +393,39 @@ public class OaiPmhClient implements StepExecutionListener {
                Record record = staxEventItemReader.read();
                staxEventItemReader.close();
                return record.getMetadata().getTaxonConcept();
+           case HttpURLConnection.HTTP_BAD_REQUEST:
+               logger.info("Got Status 400 BAD REQUEST");
+               entity = httpResponse.getEntity();
+               if (entity != null) {
+                   bufferedInputStream = new BufferedInputStream(
+                           entity.getContent());
+                   bufferedOutputStream = new BufferedOutputStream(
+                           new FileOutputStream(new File(temporaryFileName)));
+                   int count;
+                   byte[] data = new byte[BUFFER];
+                   while ((count = bufferedInputStream.read(data, 0, BUFFER)) != -1) {
+                       bufferedOutputStream.write(data, 0, count);
+                   }
+                   bufferedOutputStream.flush();
+                   bufferedOutputStream.close();
+                   bufferedInputStream.close();
+               } else {
+                   logger.info("Server returned "
+                           + httpResponse.getStatusLine()
+                           + " but HttpEntity is null");
+                   throw new Exception("Server returned "
+                           + httpResponse.getStatusLine()
+                           + " but HttpEntity is null");
+               }
+               StaxEventItemReader<OAIPMH> errorReader = new StaxEventItemReader<OAIPMH>();
+               errorReader.setFragmentRootElementName("{http://www.openarchives.org/OAI/2.0/}OAI-PMH");
+               errorReader.setUnmarshaller(unmarshaller);
+               errorReader.setResource(new FileSystemResource(temporaryFileName));
+               errorReader.afterPropertiesSet();
+               errorReader.open(stepExecution.getExecutionContext());
+               OAIPMH oaipmh = errorReader.read();
+               errorReader.close();
+               throw new OaiPmhException(oaipmh.getError());
            default:
                logger.info("Server returned unexpected status code "
                        + httpResponse.getStatusLine() + " for document "
@@ -429,8 +461,12 @@ public class OaiPmhClient implements StepExecutionListener {
        } catch (Exception e) {
            logger.error("Exception reading document "
                    + temporaryFileName + " " + e.getLocalizedMessage());
-           throw new Exception("Exception reading document "
+           if (e.getClass().equals(OaiPmhException.class)) {
+               throw e;
+           } else {
+               throw new Exception(e.getClass() + " reading document "
                    + temporaryFileName + " " + e.getLocalizedMessage());
+           }
     } finally {
            if (bufferedInputStream != null) {
                try {

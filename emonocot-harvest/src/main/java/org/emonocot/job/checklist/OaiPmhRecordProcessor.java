@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.emonocot.harvest.common.TaxonRelationship;
+import org.emonocot.model.source.Source;
 import org.emonocot.model.taxon.Taxon;
 import org.openarchives.pmh.Record;
 import org.springframework.batch.core.ChunkListener;
@@ -38,5 +39,11 @@ public interface OaiPmhRecordProcessor extends ItemProcessor<Record, Taxon>,
      * @param SourceName set the Source id
      */
     void setSourceName(String SourceName);
+
+    /**
+     *
+     * @return the current source
+     */
+    Source getSource();
 
 }

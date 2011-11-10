@@ -93,7 +93,7 @@ public abstract class TaxonRelationshipResolver
     *
     * @return the Source
     */
-   protected final Source getSource() {
+   public final Source getSource() {
        if (source == null) {
            source = sourceService.load(sourceName);
        }
