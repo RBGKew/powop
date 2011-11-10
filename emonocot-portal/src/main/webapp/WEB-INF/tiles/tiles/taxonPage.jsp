@@ -35,13 +35,13 @@
 									<div class="ad-controls">&#160;</div>
 									<div class="ad-nav">
 										<div class="ad-thumbs">
-											<ul class="ad-thumb-list">
+											<ul class="ad-thumb-list media-grid">
 												<c:forEach var="image" items="${taxon.images}"
 													varStatus="status">
 													<li><a href="${image.url}">
 													    <c:url var="url" value="/image/${image.identifier}"/> 
 													    <img
-															src="${image.url}" class="${status.index}"
+															src="${image.url}" class="${status.index} thumbnail"
 															title="${image.caption}" ad-href="${url}" /></a></li>
 												</c:forEach>
 											</ul>

@@ -7,6 +7,25 @@
 	version="2.0">
 	<jsp:useBean id="result" scope="request"
 		type="org.emonocot.model.pager.Page&lt;org.emonocot.model.taxon.Taxon&gt;" />
+		
+<style type="text/css">
+a.thumb {
+		display:block;
+		/*float:left;*/
+		width:100px;
+		height:100px;
+		line-height:100px;
+		overflow:hidden;
+		position:relative;
+		z-index:1;		
+	}
+	a.thumb  img{
+		/*float:left;*/
+		position:absolute;
+		top:-20px;
+		left:-50px;	
+	}</style>		
+		
   <div class="content">
 	<div class="page-header">
 		  <h2 id="page-title"><spring:message code="search.emonocot"/></h2>
@@ -181,28 +200,36 @@
 				</li>
 			</ul>
 		</div>
-		<div class="span10" style="border-left: 1px solid #eee;">
-			<ul id="results">
+		<div class="span12" style="border-left: 1px solid #eee;">
+			<div id="results" >
 				<c:forEach var="item" items="${result.records}">
-					<li>
-					    <c:choose>
-							<c:when test="${item.className == 'Taxon'}">
-								<a href="taxon/${item.identifier}">${item.name}</a>
-							</c:when>
-							<c:when test="${item.className == 'Image'}">
-								<a href="image/${item.identifier}">${item.caption}</a>
-							</c:when>
-							<c:when test="${item.className == 'Source'}">
-								<a href="source/${item.identifier}">${item.identifier}</a>
-							</c:when>
-							<c:otherwise>
+					<div class="well">
+							<c:choose>
+								<c:when test="${item.className == 'Taxon'}">
+								<div class="row" style="margin-left:0px;">
+									<a href="taxon/${item.identifier}">${item.name}</a>
+									<!-- <p class="thumb"><a><img src="${images.image.url}" title="${images.image.caption}"/></a></p> -->
+									</div>
+								</c:when>
+								<c:when test="${item.className == 'Image'}">
+									<!-- <a href="image/${em:encodePathSegment(item.identifier)}">${item.caption}</a> -->
+									<div class="row" style="margin-left:0px;">
+										<a href="image/${item.identifier}">${item.caption}</a>
+										<a class="thumb" style="float:right"><img src="${item.url}" title="${item.caption}"/></a>
+									</div>
+								</c:when>
+								<c:otherwise>
 									Unknown class ${item.className}
-						    </c:otherwise>
-						</c:choose>
-					</li>
-				</c:forEach>
-			</ul>
-		</div>
+								</c:otherwise>
+								
+							</c:choose>
+						</div>	
+					
+					</c:forEach>
+				
+				
+				</div>
+			</div>
 	</div>
   </div>
 </jsp:root>

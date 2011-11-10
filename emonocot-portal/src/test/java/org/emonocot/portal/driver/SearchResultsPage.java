@@ -38,7 +38,7 @@ public class SearchResultsPage extends PageObject {
     * @return the number of results
     */
     public final Integer getResultNumber() {
-        return results.findElements(By.tagName("li")).size();
+        return results.findElements(By.xpath("div/div/a[1]")).size();
     }
 
     /**
@@ -100,7 +100,7 @@ public class SearchResultsPage extends PageObject {
      * @return an array of results
      */
     public final List<String[]> getResults() {
-        List<WebElement> links = results.findElements(By.xpath("li/a"));
+        List<WebElement> links = results.findElements(By.xpath("div/div/a[1]"));
         List<String[]> linksList = new ArrayList<String[]>();
         for (WebElement webElement : links) {
             String[] link = new String[2];
