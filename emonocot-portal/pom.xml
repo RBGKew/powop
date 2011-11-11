@@ -218,9 +218,8 @@
                             <copy todir="${project.build.directory}/static/images">
                               <fileset dir="${basedir}/src/main/static/images" includes="**/*" />
                             </copy>
-                            <copy todir="${project.build.directory}/static/css">
-                              <fileset dir="${basedir}/src/main/static/css" includes="**/*" />
-                            </copy>
+                            <delete dir="${project.build.directory}/static/css/" />
+                            <mkdir dir="${project.build.directory}/static/css/" />
                         </tasks>
                     </configuration>
                     <goals>
@@ -229,56 +228,48 @@
                 </execution>
               </executions>
             </plugin>
+            <plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>lesscss-maven-plugin</artifactId>
+              <version>1.0-beta-2</version>              
+              <executions>
+                <execution>
+                  <id>compile-bootstrap</id>
+                  <goals>
+                    <goal>compile</goal>
+                  </goals>
+                </execution>
+              </executions>
+              <configuration>
+                <outputDirectory>${project.build.directory}/compiled-less/</outputDirectory>
+                <includes>
+                  <include>bootstrap.less</include>
+                </includes>
+              </configuration>
+            </plugin>
 			<plugin>
               <groupId>net.alchim31.maven</groupId>
               <artifactId>yuicompressor-maven-plugin</artifactId>
               <version>1.1</version>
               <configuration>
-                <sourceDirectory>${basedir}/src/main/static</sourceDirectory>
-                <outputDirectory>${project.build.directory}/static/</outputDirectory>
                 <nosuffix>true</nosuffix>
-                <aggregations>
-                  <!-- <aggregation>
-                    <output>${project.build.directory}/static/js/header.js</output>
+                <aggregations>                 
+                   <aggregation>
+                    <output>${project.build.directory}/static/css/style.css</output>
                     <includes>
-                      <include>${project.build.directory}/static/uncompressed/jquery.aw-showcase.js</include>
+                      <include>${basedir}/src/main/css/before.css</include>
+                      <include>${project.build.directory}/compiled-less/bootstrap.css</include>
+                      <include>${basedir}/src/main/css/ad-gallery/jquery.ad-gallery.css</include>               
+                       <include>${basedir}/src/main/css/after.css</include>       
                     </includes>
-                  </aggregation>
-                   -->
-                   <!--
+                  </aggregation>    
                   <aggregation>
                     <output>${project.build.directory}/static/js/header.js</output>
                     <includes>
-                      <include>${project.build.directory}/static/uncompressed/js/jquery.galleria.min.js</include>
-                      <include>${project.build.directory}/static/uncompressed/js/jquery.hotkeys-0.7.8-packed.js</include>
-                      <include>${project.build.directory}/static/uncompressed/js/tutorial.js</include>
-                      <include>${project.build.directory}/static/uncompressed/js/jquery.jcarousel.pack.js</include>
+                      <include>${basedir}/src/main/js/ad-gallery/jquery.ad-gallery.js</include>
+                      <include>${basedir}/src/main/js/functions.js</include>
                     </includes>
-                  </aggregation>
-                   -->
-                   <!-- 
-                   <aggregation>
-                    <output>${project.build.directory}/static/js/header.js</output>
-                    <includes>
-                      <include>${project.build.directory}/static/uncompressed/js-galleriffic/jquery.galleriffic.js</include>
-                      <include>${project.build.directory}/static/uncompressed/js-galleriffic/jquery.history.js</include>
-                      <include>${project.build.directory}/static/uncompressed/js-galleriffic/jquery.opacityrollover.js</include>
-                      <include>${project.build.directory}/static/uncompressed/js-galleriffic/jush.js</include>
-                    </includes>
-                  </aggregation>
-                   -->
-                   <aggregation>
-                    <output>${project.build.directory}/static/js/header.js</output>
-                    <includes>
-                      <include>${project.build.directory}/static/uncompressed/ad-gallery/jquery.ad-gallery.js</include>
-                    </includes>
-                  </aggregation>
-                  <aggregation>
-                    <output>${project.build.directory}/static/js/functions.js</output>
-                    <includes>                      
-                      <include>${project.build.directory}/static/uncompressed/functions.js</include>
-                    </includes>
-                  </aggregation>
+                  </aggregation>              
                 </aggregations>
               </configuration>
 			</plugin>

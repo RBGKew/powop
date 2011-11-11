@@ -19,6 +19,13 @@ import org.emonocot.portal.driver.SearchResultsPage;
 import org.emonocot.portal.driver.SourcePage;
 import org.emonocot.portal.driver.TaxonPage;
 import org.emonocot.portal.driver.TestDataManager;
+import org.emonocot.portal.rows.GroupRow;
+import org.emonocot.portal.rows.ImageRow;
+import org.emonocot.portal.rows.ReferenceRow;
+import org.emonocot.portal.rows.RegistrationRow;
+import org.emonocot.portal.rows.SourceRow;
+import org.emonocot.portal.rows.TaxonRow;
+import org.emonocot.portal.rows.UserRow;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import cucumber.annotation.After;
@@ -80,7 +87,7 @@ public class StepDefinitions {
     */
     @Given("^there are users with the following properties:$")
     public final void thereAreUsersWithTheFollowingProperties(
-            final List<UserRow> rows) {   
+            final List<UserRow> rows) {
         for (UserRow row : rows) {
            testDataManager.createUser(row.identifier, row.password, row.group1);
        }
@@ -118,8 +125,8 @@ public class StepDefinitions {
        for (TaxonRow row : rows) {
             testDataManager.createTaxon(row.name, row.family, row.identifier,
                     row.rank, row.status, row.diagnostic, row.habitat, row.general,
-                    row.protologue, row.image1, row.image2, row.image3,
-                    row.distribution1, row.distribution2, row.distribution3, row.source);
+                    row.protologue, row.protologueMicroReference, row.image1, row.image2,
+                    row.image3, row.distribution1, row.distribution2, row.distribution3, row.source);
        }
 
    }

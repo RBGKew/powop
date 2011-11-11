@@ -1,4 +1,4 @@
-package org.emonocot.portal.feature;
+package org.emonocot.portal.rows;
 
 /**
  *
@@ -86,4 +86,9 @@ public class TaxonRow {
     *
     */
    public String source;
+
+   /**
+    *
+    */
+   public String protologueMicroReference;
 }

@@ -10,5 +10,9 @@
     </jsp:attribute>
     /* */
   </jsp:element>
-	<footer><p>eMonocot</p></footer>      
+  <footer class="footer">
+    <div class="container">  
+      <p>eMonocot</p>
+    </div>
+  </footer>      
 </jsp:root>

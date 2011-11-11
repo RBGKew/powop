@@ -244,6 +244,7 @@ public class TestDataManager {
      * @param habitat Set the habitat
      * @param general TODO
      * @param protologue Set the protologue
+     * @param microReference TODO
      * @param image1 Set the image1
      * @param image2 Set the image2
      * @param image3 Set the image3
@@ -256,15 +257,16 @@ public class TestDataManager {
     public final void createTaxon(final String name, final String family,
             final String identifier, final String rank, final String status,
             final String diagnostic, final String habitat,
-            final String general, final String protologue, final String image1,
-            final String image2, final String image3,
-            final String distribution1, final String distribution2, final String distribution3, String source) {
+            final String general, final String protologue, String microReference,
+            final String image1, final String image2,
+            final String image3, final String distribution1, final String distribution2, final String distribution3, String source) {
         enableAuthentication();
         Taxon taxon = new Taxon();
         data.push(taxon);
         taxon.setName(name);
         taxon.setFamily(family);
         taxon.setIdentifier(identifier);
+        taxon.setProtologueMicroReference(microReference);
         if (rank != null) {
             taxon.setRank(Rank.valueOf(rank));
         }

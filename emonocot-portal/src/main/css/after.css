@@ -1,0 +1,42 @@
+body{padding-top:40px;}
+.taxonName {font-style: italic}
+#distribution-textual {list-style:none;margin:0px; padding-left:0; text-indent:0; clear: both}
+#distribution-textual li {float:left; padding-left:0.5em}
+#distribution-textual li:first-child:before {padding-left: 0em}
+#distribution-textual li:after {content: ","}
+#distribution-textual li:last-child:after {content: ""}
+section {width: 100%; clear: both}
+
+.masthead {
+    background-color: #049CD9;
+    background-image: -moz-linear-gradient(#004D9F, #049CD9);
+    background-repeat: no-repeat;
+}
+docs.css (line 62)
+.jumbotron {
+    min-width: 940px;
+    padding-top: 40px;
+}
+
+.jumbotron .inner {
+    background: url("../img/grid-18px.png") repeat scroll center top transparent;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) inset;
+    padding: 45px 0;
+}
+
+.jumbotron h1, .jumbotron p {
+    color: #FFFFFF;
+    margin-bottom: 9px;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.jumbotron h1 {
+    font-size: 54px;
+    line-height: 1;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+
+
+footer {background-color:#252525}

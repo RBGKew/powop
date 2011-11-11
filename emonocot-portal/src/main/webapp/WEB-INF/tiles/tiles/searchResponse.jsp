@@ -200,8 +200,8 @@ a.thumb {
 				</li>
 			</ul>
 		</div>
-		<div class="span12" style="border-left: 1px solid #eee;">
-			<div id="results" >
+		<div class="span12">
+			<div id="results"  style="border-left: 1px solid #eee;">
 				<c:forEach var="item" items="${result.records}">
 					<div class="well">
 							<c:choose>

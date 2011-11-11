@@ -35,6 +35,11 @@
         <function-signature>java.util.List sortItems()</function-signature>
     </function>
     <function>
+        <name>sort</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.util.List sort(java.util.Collection)</function-signature>
+    </function>
+    <function>
         <name>deproxy</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>java.lang.Object deproxy(java.lang.Object)</function-signature>

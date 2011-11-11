@@ -1,7 +1,9 @@
 package org.emonocot.portal.view;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +18,7 @@ import org.emonocot.model.geography.Country;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.GeographicalRegionComparator;
 import org.emonocot.model.geography.Region;
+import org.emonocot.model.taxon.AlphabeticalTaxonComparator;
 import org.emonocot.model.taxon.Taxon;
 import org.hibernate.proxy.HibernateProxy;
 import org.joda.time.DateTime;
@@ -73,6 +76,18 @@ public final class Functions {
         Collections.sort(regions, comparator);
         return regions;
     }
+
+    /**
+    *
+    * @param taxa Set the taxa to sort
+    * @return the list of taxa sorted alphabetically
+    */
+   public static List<Taxon> sort(final Collection<Taxon> taxa) {
+       Comparator<Taxon> comparator = new AlphabeticalTaxonComparator();
+       List<Taxon> list = new ArrayList<Taxon>(taxa);
+       Collections.sort(list, comparator);
+       return list;
+   }
 
     /**
      * Returns a string which can be passed to the

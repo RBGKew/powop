@@ -11,6 +11,7 @@
 		<tiles:insertAttribute name="head" />
         <body> 
 			<tiles:insertAttribute name="header" />
+			<tiles:insertAttribute name="hero" />
 			<div class="container">
 				<tiles:insertAttribute name="body" />
 	      	</div>

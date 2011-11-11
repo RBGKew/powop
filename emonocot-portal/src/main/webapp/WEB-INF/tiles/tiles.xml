@@ -8,7 +8,13 @@
     <put-attribute name="header" value="/WEB-INF/tiles/common/header.jsp" />
     <put-attribute name="footer" value="/WEB-INF/tiles/common/footer.jsp" />
   </definition>
-  <definition name="index" extends="base">
+  <definition name="indexLayout" template="/WEB-INF/tiles/layouts/indexLayout.jsp">
+    <put-attribute name="head" value="/WEB-INF/tiles/common/head.jsp" />
+    <put-attribute name="header" value="/WEB-INF/tiles/common/header.jsp" />
+    <put-attribute name="footer" value="/WEB-INF/tiles/common/footer.jsp" />
+  </definition>
+  <definition name="index" extends="indexLayout">
+    <put-attribute name="hero" value="/WEB-INF/tiles/tiles/hero.jsp" />
     <put-attribute name="body" value="/WEB-INF/tiles/tiles/index.jsp" />
   </definition>
   <definition name="register" extends="base">
