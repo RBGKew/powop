@@ -175,6 +175,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends
          SearchFactory searchFactory = fullTextSession.getSearchFactory();
 
          try {
+             //Create a lucene query
              org.apache.lucene.search.Query luceneQuery = null;
              QueryParser parser
              = new MultiFieldQueryParser(Version.LUCENE_31, getDocumentFields(),
@@ -191,6 +192,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends
                  // TODO Implement spatial filter
              }
 
+             //Set additional result parameters
              if (pageSize != null) {
                  fullTextQuery.setMaxResults(pageSize);
                  if (pageNumber != null) {
@@ -199,11 +201,11 @@ public abstract class SearchableDaoImpl<T extends Base> extends
              }
              if (facets != null && facets.length != 0) {
                  FacetManager facetManager = fullTextQuery.getFacetManager();
-               QueryBuilder queryBuilder = fullTextSession.getSearchFactory()
-               .buildQueryBuilder().forEntity(getAnalyzerType()).get();
-               for (FacetName facetName : facets) {
-                   createFacetingRequest(queryBuilder.facet(), facetName, facetManager);
-               }
+                 QueryBuilder queryBuilder = fullTextSession.getSearchFactory()
+                        .buildQueryBuilder().forEntity(getAnalyzerType()).get();
+                 for (FacetName facetName : facets) {
+                     createFacetingRequest(queryBuilder.facet(), facetName, facetManager);
+                 }
              }
 
              if (sort == null) {
@@ -222,14 +224,13 @@ public abstract class SearchableDaoImpl<T extends Base> extends
                          .getDirection() == SortDirection.REVERSE)));
              }
 
+             //Run the search
              if (fetch != null && (selectedFacets == null || selectedFacets.isEmpty())) {
                  Criteria criteria = fullTextSession.createCriteria(getAnalyzerType());
                  enableProfilePreQuery(criteria, fetch);
                  fullTextQuery.setCriteriaQuery(criteria);
              }
-
              List<T> results = (List<T>) fullTextQuery.list();
-
              if (selectedFacets != null && !selectedFacets.isEmpty()) {
                  FacetManager facetManager = fullTextQuery.getFacetManager();
 
@@ -242,7 +243,9 @@ public abstract class SearchableDaoImpl<T extends Base> extends
                  results = (List<T>) fullTextQuery.list();
              }
 
+             //Create the results page
              for (T t : results) {
+//TODO review
                  enableProfilePostQuery(t, fetch);
              }
 

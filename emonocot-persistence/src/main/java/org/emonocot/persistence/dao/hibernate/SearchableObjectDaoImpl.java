@@ -62,6 +62,13 @@ public class SearchableObjectDaoImpl extends
                     .includeZeroCounts(true).createFacetingRequest();
             facetManager.enableFaceting(facetingRequest);
             break;
+        case REGION:
+            facetingRequest = facetContext.name(facetName.name())
+                    .onField("region").discrete()
+                    .orderedBy(FacetSortOrder.FIELD_VALUE)
+                    .includeZeroCounts(true).createFacetingRequest();
+            facetManager.enableFaceting(facetingRequest);
+            break;
         case AUTHORITY:
             facetingRequest = facetContext.name(facetName.name())
                     .onField("sources.identifier").discrete()
@@ -94,6 +101,7 @@ public class SearchableObjectDaoImpl extends
        switch (facetName) {
        case CLASS:
        case CONTINENT:
+       case REGION:
        case AUTHORITY:
        case FAMILY:
            doSelectFacet(facetName, facetManager, selectedFacet);
@@ -108,6 +116,7 @@ public class SearchableObjectDaoImpl extends
        switch (facetName) {
        case CLASS:
        case CONTINENT:
+       case REGION:
        case AUTHORITY:
        case FAMILY:
            page.addFacets(facetName.name(),

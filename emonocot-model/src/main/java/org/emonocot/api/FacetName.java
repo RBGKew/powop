@@ -19,6 +19,10 @@ public enum FacetName {
      */
     CONTINENT,
     /**
+     * The region for a Taxon's distibution to include
+     */
+    REGION,
+    /**
      * Facet on the source system.
      */
     AUTHORITY,

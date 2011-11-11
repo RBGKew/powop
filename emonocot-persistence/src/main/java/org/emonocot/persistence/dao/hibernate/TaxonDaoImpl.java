@@ -81,6 +81,13 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
                     .includeZeroCounts(true).createFacetingRequest();
             facetManager.enableFaceting(facetingRequest);
             break;
+        case REGION:
+            facetingRequest = facetContext.name(facetName.name())
+                    .onField("region").discrete()
+                    .orderedBy(FacetSortOrder.FIELD_VALUE)
+                    .includeZeroCounts(true).createFacetingRequest();
+            facetManager.enableFaceting(facetingRequest);
+            break;
         case AUTHORITY:
             facetingRequest = facetContext.name(facetName.name())
                     .onField("sources.identifier").discrete()
@@ -126,6 +133,7 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
            final String selectedFacet) {
        switch (facetName) {
        case CONTINENT:
+       case REGION:
        case AUTHORITY:
        case FAMILY:
        case RANK:

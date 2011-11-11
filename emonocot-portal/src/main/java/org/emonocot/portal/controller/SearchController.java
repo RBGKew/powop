@@ -127,11 +127,20 @@ public class SearchController {
 
         if (selectedFacets == null
                 || !selectedFacets.containsKey(FacetName.CLASS)) {
-            Page<SearchableObject> result = searchableObjectService.search(
+            
+//refactor //workspace//
+            Page<? extends SearchableObject> result = null;
+            if (selectedFacets != null && selectedFacets.containsKey(FacetName.CONTINENT))
+                result = searchableObjectService.search(
+                        query, null, limit, start, new FacetName[] {FacetName.CLASS,
+                                FacetName.FAMILY, FacetName.REGION, FacetName.AUTHORITY},
+                        selectedFacets, sort, null);
+            else result = searchableObjectService.search(
                     query, null, limit, start, new FacetName[] {
                             FacetName.CLASS, FacetName.FAMILY,
                             FacetName.CONTINENT, FacetName.AUTHORITY },
                     selectedFacets, sort, null);
+            
             queryLog.info("Query: \'{}\', start: {}, limit: {},"
                     + "facet: [{}], {} results", new Object[] {query, start,
                     limit, selectedFacets, result.getSize() });
