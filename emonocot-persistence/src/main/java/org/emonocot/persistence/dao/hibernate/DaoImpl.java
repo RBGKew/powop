@@ -36,16 +36,20 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
      *
      * @param criteria Set a Criteria instance
      * @param fetch Set the name of the fetch profile
+     * @return 
      */
-    protected void enableProfilePreQuery(final Criteria criteria,
+    protected boolean enableProfilePreQuery(final Criteria criteria,
             final String fetch) {
+    	boolean setCriteria = false;
         if (fetch != null) {
             for (Fetch f : getProfile(fetch)) {
                 if (f.getMode().equals(FetchMode.JOIN)) {
                     criteria.setFetchMode(f.getAssociation(), f.getMode());
+                    setCriteria = true;
                 }
             }
         }
+        return setCriteria;
     }
 
     /**

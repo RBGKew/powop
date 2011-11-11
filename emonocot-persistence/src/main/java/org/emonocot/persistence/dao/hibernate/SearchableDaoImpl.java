@@ -227,8 +227,10 @@ public abstract class SearchableDaoImpl<T extends Base> extends
              //Run the search
              if (fetch != null && (selectedFacets == null || selectedFacets.isEmpty())) {
                  Criteria criteria = fullTextSession.createCriteria(getAnalyzerType());
-                 enableProfilePreQuery(criteria, fetch);
-                 fullTextQuery.setCriteriaQuery(criteria);
+                 boolean setCriteria = enableProfilePreQuery(criteria, fetch);
+                 if(setCriteria) {
+                     fullTextQuery.setCriteriaQuery(criteria);
+                 }
              }
              List<T> results = (List<T>) fullTextQuery.list();
              if (selectedFacets != null && !selectedFacets.isEmpty()) {
@@ -239,7 +241,10 @@ public abstract class SearchableDaoImpl<T extends Base> extends
                              selectedFacets.get(facetName));
                  }
                  Criteria criteria = fullTextSession.createCriteria(getAnalyzerType());
-                 enableProfilePreQuery(criteria, fetch);
+                 boolean setCriteria = enableProfilePreQuery(criteria, fetch);
+                 if(setCriteria) {
+                     fullTextQuery.setCriteriaQuery(criteria);
+                 }
                  results = (List<T>) fullTextQuery.list();
              }
 

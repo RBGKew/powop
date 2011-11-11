@@ -3,7 +3,9 @@
  */
 package org.emonocot.persistence.dao.hibernate;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.emonocot.api.FacetName;
 import org.emonocot.model.common.SearchableObject;
@@ -12,6 +14,7 @@ import org.emonocot.model.media.Image;
 import org.emonocot.model.pager.Page;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.dao.SearchableObjectDao;
+import org.hibernate.FetchMode;
 import org.hibernate.search.ProjectionConstants;
 import org.hibernate.search.query.dsl.FacetContext;
 import org.hibernate.search.query.engine.spi.FacetManager;
@@ -28,6 +31,17 @@ import org.springframework.stereotype.Repository;
 public class SearchableObjectDaoImpl extends
         SearchableDaoImpl<SearchableObject> implements SearchableObjectDao {
 
+	/**
+    *
+    */
+   private static Map<String, Fetch[]> FETCH_PROFILES;
+   
+   static {
+       FETCH_PROFILES = new HashMap<String, Fetch[]>();
+       FETCH_PROFILES.put("taxon-with-image", new Fetch[] {
+               new Fetch("image", FetchMode.SELECT) });
+   }
+	
     /**
      *
      */
@@ -37,8 +51,7 @@ public class SearchableObjectDaoImpl extends
 
     @Override
     protected final Fetch[] getProfile(final String profile) {
-        // TODO Auto-generated method stub
-        return null;
+        return SearchableObjectDaoImpl.FETCH_PROFILES.get(profile);
     }
 
     @Override

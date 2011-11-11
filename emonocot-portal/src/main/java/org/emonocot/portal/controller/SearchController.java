@@ -139,7 +139,7 @@ public class SearchController {
                     query, null, limit, start, new FacetName[] {
                             FacetName.CLASS, FacetName.FAMILY,
                             FacetName.CONTINENT, FacetName.AUTHORITY },
-                    selectedFacets, sort, null);
+                    selectedFacets, sort, "taxon-with-image");
             
             queryLog.info("Query: \'{}\', start: {}, limit: {},"
                     + "facet: [{}], {} results", new Object[] {query, start,
@@ -170,7 +170,7 @@ public class SearchController {
                         new FacetName[] {FacetName.CLASS, FacetName.FAMILY,
                                 FacetName.CONTINENT, FacetName.AUTHORITY,
                                 FacetName.RANK, FacetName.TAXONOMIC_STATUS },
-                        selectedFacets, sort, null);
+                        selectedFacets, sort, "taxon-with-image");
                 queryLog.info("Query: \'{}\', start: {}, limit: {},"
                         + "facet: [{}], {} results", new Object[] {query,
                         start, limit, selectedFacets, result.getSize() });

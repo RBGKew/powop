@@ -208,7 +208,21 @@ a.thumb {
 								<c:when test="${item.className == 'Taxon'}">
 								<div class="row" style="margin-left:0px;">
 									<a href="taxon/${item.identifier}">${item.name}</a>
-									<!-- <p class="thumb"><a><img src="${images.image.url}" title="${images.image.caption}"/></a></p> -->
+									<a class="thumb" style="float:right">
+										<c:choose>
+											<c:when test="${not empty item.image}">
+												<img src="${item.image.url}" title="${item.image.caption}"/>
+											</c:when>
+											<c:otherwise>
+												<jsp:element name="img">
+    												<jsp:attribute name="src">
+        												<c:url value="/images/no_image_2.jpg"/>
+    												</jsp:attribute>
+    												<jsp:attribute name="alt">No image available</jsp:attribute>
+												</jsp:element>
+											</c:otherwise>
+										</c:choose>
+									</a>
 									</div>
 								</c:when>
 								<c:when test="${item.className == 'Image'}">
