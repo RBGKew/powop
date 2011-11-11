@@ -95,6 +95,9 @@ public class ImageFieldSetMapper extends
                 } else {
                     object.setTaxon(taxon);
                     object.getTaxa().add(taxon);
+                    if (taxon.getImage() == null) {
+                        taxon.setImage(object);
+                    }
                 }
 
                 break;

@@ -1552,4 +1552,29 @@
         UPDATE Annotation SET code = "AlreadyProcessed" WHERE code = "TAXONALREADYPROCESSEDEXCEPTION"; 
       </sql>
     </changeSet>
+    <changeSet id="2011-11-11_01" author="ben">
+      <addColumn tableName="Image">
+        <column name="image_id" type="bigint"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-11-11_02" author="ben">
+      <addColumn tableName="Taxon">
+        <column name="image_id" type="bigint"/>
+      </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2011-11-11_03">
+        <addForeignKeyConstraint constraintName="FKAB93B2A41EDCD08D" baseTableName="Image" baseColumnNames="image_id"
+           referencedTableName="Image" referencedColumnNames="id"
+        />
+    </changeSet>
+    <changeSet author="ben" id="2011-11-11_04">
+        <addForeignKeyConstraint constraintName="FKAB93B2A41EDCD08E" baseTableName="Taxon" baseColumnNames="image_id"
+           referencedTableName="Image" referencedColumnNames="id"
+        />
+    </changeSet>
+    <changeSet id="2011-11-11_05" author="ben">
+      <sql>
+        UPDATE Taxon join Taxon_Image on (Taxon.id = Taxon_Image.Taxon_id) SET Taxon.image_id = Taxon_Image.images_id; 
+      </sql>
+    </changeSet>
 </databaseChangeLog>
