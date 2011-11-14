@@ -3,6 +3,8 @@ package org.emonocot.persistence.dao.hibernate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
@@ -39,12 +41,20 @@ import org.hibernate.search.query.facet.Facet;
  */
 public abstract class SearchableDaoImpl<T extends Base> extends
         DaoImpl<T> implements SearchableDao<T> {
+    /**
+     * regex that matches queries with terms in them.
+     */
+    private Pattern pattern = Pattern.compile("\\w+:");
+
    /**
     *
     */
     protected static Class SEARCHABLE_CLASSES[] = new Class[] { Image.class,
       Taxon.class };
 
+    /**
+     *
+     */
     private Class[] searchableClasses;
 
     /**
@@ -169,7 +179,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends
              final Integer pageSize, final Integer pageNumber,
              final FacetName[] facets,
              final Map<FacetName, String> selectedFacets,
-             final Sorting sort, String fetch) {
+             final Sorting sort, final String fetch) {
          FullTextSession fullTextSession
           = Search.getFullTextSession(getSession());
          SearchFactory searchFactory = fullTextSession.getSearchFactory();
@@ -177,9 +187,14 @@ public abstract class SearchableDaoImpl<T extends Base> extends
          try {
              //Create a lucene query
              org.apache.lucene.search.Query luceneQuery = null;
-             QueryParser parser
-             = new MultiFieldQueryParser(Version.LUCENE_31, getDocumentFields(),
-                     searchFactory.getAnalyzer(getAnalyzerType()));
+             Matcher matcher = pattern.matcher(query);
+             QueryParser parser = null;
+             if (matcher.matches()) {
+                 parser = new QueryParser(Version.LUCENE_31, getDefaultField(), searchFactory.getAnalyzer(getAnalyzerType()));
+             } else {
+                 parser = new MultiFieldQueryParser(Version.LUCENE_31, getDocumentFields(),
+                         searchFactory.getAnalyzer(getAnalyzerType()));
+             }
              if (query != null && !query.equals("")) {
                 luceneQuery = parser.parse(query);
              } else {
@@ -276,7 +291,9 @@ public abstract class SearchableDaoImpl<T extends Base> extends
          }
      }
 
-     /**
+     public abstract String getDefaultField();
+
+    /**
       * Given https://hibernate.onjira.com/browse/HSEARCH-703, we need this
       * workaround, currently.
       *

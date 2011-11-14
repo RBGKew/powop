@@ -12,15 +12,23 @@
 	    <div class="container">
     	<h1><spring:message code="hero.title"/></h1>
         <p class="lead"><spring:message code="hero.message"/></p>
+        <script type="text/javascript">				
+		  $(document).ready(function() {
+			  $("input#query").autocomplete({
+		            source: "autocomplete",
+		            minLength: 2
+		        });
+		  });
+		</script>
      	<form action="search" method="GET">
           <div class="clearfix">
      		<div class="input">					
-			  <input name="query" class="xxlarge" type="text" value="" />
+			  <input id="query" name="query" class="xxlarge" type="text" value="" />
 			  <button type="submit" class="btn primary">
 					<span>SEARCH</span>
 			  </button>					
 			</div>
-			<span class="help-block">Search for... </span>
+			<span class="help-block"><spring:message code="search.for"/></span>
 		  </div>
 		</form> 
 		</div>

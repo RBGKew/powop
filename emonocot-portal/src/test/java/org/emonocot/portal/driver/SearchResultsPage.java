@@ -24,6 +24,18 @@ public class SearchResultsPage extends PageObject {
    /**
     *
     */
+   @FindBy(how = How.CLASS_NAME, using = "ui-autocomplete")
+   private WebElement autocomplete;
+
+  /**
+   *
+   */
+  @FindBy(how = How.ID, using = "query")
+  private WebElement query;
+
+   /**
+    *
+    */
    @FindBy(how = How.ID, using = "pages")
    private WebElement message;
 
@@ -83,6 +95,20 @@ public class SearchResultsPage extends PageObject {
     }
 
     /**
+     * @return an array of the autocomplete options
+     */
+    public final String[] getAutocompleteOptions() {
+        List<WebElement> autocompleteOptions = autocomplete.findElements(By
+                .xpath("li/a"));
+        String[] result = new String[autocompleteOptions.size()];
+        for (int i = 0; i < result.length; i++) {
+            WebElement autocompleteOption = autocompleteOptions.get(i);
+            result[i] = autocompleteOption.getText();
+        }
+        return result;
+    }
+
+    /**
      * @param facetName the name of the facet
      * @param facetValue the name of the facet value to select
      * @return the corresponding search results page
@@ -118,6 +144,14 @@ public class SearchResultsPage extends PageObject {
      */
     public final String getMessage() {
         return message.getText();
+    }
+
+    /**
+     *
+     * @param queryString Set the query on the search results page
+     */
+    public final void setQuery(final String queryString) {
+        query.sendKeys(queryString);
     }
 
 }

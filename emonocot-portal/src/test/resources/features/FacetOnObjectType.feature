@@ -16,7 +16,7 @@ And there are images with the following properties:
 When I search for "Acorus"
 Then there should be 2 results
 And the Type facet should have the following options:
-| facet  |
+| option |
 | Images |
 | Taxa   |
 
@@ -39,11 +39,11 @@ When I search for "Acorus"
 And I restrict the "Type" by selecting "Taxa"
 Then there should be 5 results
 And the Type facet should have the following options:
-| facet     |
+| option    |
 | All Types |
 | Taxa      |
 And the Family facet should have the following options:
-| facet        |
+| option       |
 | Acoraceae    |
 When I restrict the "Rank" by selecting "Species"
 Then there should be 2 results
@@ -64,6 +64,6 @@ When I search for "Acorus"
 And I restrict the "Type" by selecting "Images"
 Then there should be 1 result
 And the Type facet should have the following options:
-| facet     |
+| option    |
 | All Types |
 | Images    |

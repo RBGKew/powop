@@ -18,7 +18,6 @@ import org.hibernate.FetchMode;
 import org.hibernate.search.ProjectionConstants;
 import org.hibernate.search.query.dsl.FacetContext;
 import org.hibernate.search.query.engine.spi.FacetManager;
-import org.hibernate.search.query.facet.Facet;
 import org.hibernate.search.query.facet.FacetSortOrder;
 import org.hibernate.search.query.facet.FacetingRequest;
 import org.springframework.stereotype.Repository;
@@ -145,6 +144,11 @@ public class SearchableObjectDaoImpl extends
     @Override
     protected final String[] getDocumentFields() {
         return new String[]{"name", "caption", "title", "content.content"};
+    }
+
+    @Override
+    public final String getDefaultField() {
+        return "label";
     }
 
     /**

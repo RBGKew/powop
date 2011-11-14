@@ -61,7 +61,7 @@
 					</jsp:element>
 				</spring:bind>
 				
-				<jsp:element name="input" class="btn">
+				<jsp:element name="input" class="btn primary">
 					<jsp:attribute name="type">submit</jsp:attribute>
 					<jsp:attribute name="value">
 						<spring:message code="submit" />

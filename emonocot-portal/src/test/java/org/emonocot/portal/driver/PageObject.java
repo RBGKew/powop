@@ -4,11 +4,14 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -16,6 +19,16 @@ import org.openqa.selenium.support.PageFactory;
  *
  */
 public abstract class PageObject {
+
+    /**
+     *
+     */
+    private static final Integer AJAX_WAIT_STEP = 100;
+
+    /**
+     *
+     */
+    private static Logger logger = LoggerFactory.getLogger(PageObject.class);
 
    /**
     *
@@ -80,6 +93,25 @@ public abstract class PageObject {
         pageObject.setBaseUri(baseUri);
         pageObject.testDataManager = this.testDataManager;
         return pageObject;
+    }
+
+    /**
+     * @param initialPause Set the initial wait time
+     */
+    public final void waitForAjax(final Integer initialPause) {
+        try {
+            Thread.sleep(initialPause);
+            while (true) {
+                Boolean ajaxIsComplete = (Boolean) ((JavascriptExecutor) webDriver)
+                        .executeScript("return jQuery.active == 0");
+                if (ajaxIsComplete) {
+                    break;
+                }
+                Thread.sleep(AJAX_WAIT_STEP);
+            }
+        } catch (InterruptedException ie) {
+            logger.error(ie.getMessage());
+        }
     }
 
     /**

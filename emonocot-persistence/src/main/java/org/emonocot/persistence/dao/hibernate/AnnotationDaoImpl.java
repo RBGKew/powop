@@ -110,4 +110,9 @@ public class AnnotationDaoImpl extends SearchableDaoImpl<Annotation> implements
     public final String[] getDocumentFields() {
         return new String[] {"type", "code", "text"};
     }
+
+    @Override
+    public final String getDefaultField() {
+        return "text";
+    }
 }

@@ -43,6 +43,11 @@ public class StepDefinitions {
     /**
      *
      */
+    private static final Integer MILLISECONDS_IN_A_SECOND = 1000;
+
+    /**
+     *
+     */
     private PageObject currentPage;
 
     /**
@@ -163,6 +168,14 @@ public class StepDefinitions {
 
     /**
      *
+     */
+    @When("^I am on the search page$")
+    public final void iAmOnTheSearchPage() {
+        currentPage = portal.search("");
+    }
+
+    /**
+     *
      * @param sort
      *            Set the sort selection
      */
@@ -180,6 +193,24 @@ public class StepDefinitions {
     public final void iSelect(final String facetName, final String facetValue) {
         currentPage = ((SearchResultsPage) currentPage).selectFacet(facetName, facetValue);
     }
+
+    /**
+     *
+     * @param query Set the query
+     */
+    @When("^I type for \"([^\"]*)\" in the search box$")
+    public void typeInTheSearchBox(final String query) {
+        ((SearchResultsPage) currentPage).setQuery(query);
+    }
+
+   /**
+    *
+    * @param wait Set the wait time
+    */
+   @When("^I wait for (\\d+) second[s]?$")
+   public void typeInTheSearchBox(final Integer wait) {
+       currentPage.waitForAjax(wait * MILLISECONDS_IN_A_SECOND);
+   }
 
     /**
      *
@@ -273,6 +304,22 @@ public class StepDefinitions {
       assertFacets("Status", options);
   }
 
+  /**
+  *
+   * @param options
+   *            Set the options
+   *
+   */
+  @Then("^the autocomplete box should display the following options:$")
+  public final void theAutocompleteBoxShouldDisplayTheFollowingOptions(final List<Row> options) {
+      String[] expected = new String[options.size()];
+      for (int i = 0; i < options.size(); i++) {
+          expected[i] = options.get(i).option;
+      }
+      String[] actual = ((SearchResultsPage)currentPage).getAutocompleteOptions();
+      assertArrayEquals(expected, actual);
+  }
+
     /**
      * @param facetName Set the facet name
      * @param options
@@ -281,7 +328,7 @@ public class StepDefinitions {
     public final void assertFacets(final String facetName, final List<Row> options) {
         String[] expected = new String[options.size()];
         for (int i = 0; i < options.size(); i++) {
-            expected[i] = options.get(i).facet;
+            expected[i] = options.get(i).option;
         }
         String[] actual = ((SearchResultsPage) currentPage).getFacets(facetName);
         assertArrayEquals(expected, actual);
@@ -496,7 +543,7 @@ public class StepDefinitions {
         /**
          *
          */
-        public String facet;
+        public String option;
     }
 
     /**

@@ -1,5 +1,6 @@
 package org.emonocot.portal.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,9 @@ import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.Sorting;
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.common.SearchableObject;
+import org.emonocot.model.media.Image;
 import org.emonocot.model.pager.Page;
+import org.emonocot.model.taxon.Taxon;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
 import org.emonocot.portal.format.annotation.SortingFormat;
 import org.slf4j.Logger;
@@ -20,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -183,5 +187,63 @@ public class SearchController {
             modelAndView.addObject("result", result);
         }
         return modelAndView;
+    }
+
+    /**
+     * @param term
+     *            The term to search for
+     * @return A list of terms to serialize
+     */
+    @RequestMapping(value = "/autocomplete",
+                    method = RequestMethod.GET,
+                    headers = "Accept=application/json")
+    public final @ResponseBody List<Match> get(
+            @RequestParam(required = true) final String term) {
+        Page<SearchableObject> result = searchableObjectService.search(term
+                + "*", null, 10, 0, null, null, null, null);
+        List<Match> matches = new ArrayList<Match>();
+        for (SearchableObject object : result.getRecords()) {
+            if (object.getClass().equals(Taxon.class)) {
+                matches.add(new Match(((Taxon) object).getName()));
+            } else {
+                matches.add(new Match(((Image) object).getCaption()));
+            }
+        }
+        return matches;
+    }
+
+    /**
+     *
+     * @author ben
+     *
+     */
+    class Match {
+
+        /**
+         *
+         */
+        private String label;
+
+        /**
+         * @return the label
+         */
+        public final String getLabel() {
+            return label;
+        }
+
+        /**
+         * @param newLabel the label to set
+         */
+        public final void setLabel(final String newLabel) {
+            this.label = newLabel;
+        }
+
+        /**
+         *
+         * @param newLabel Set the label
+         */
+        public Match(final String newLabel) {
+            this.label = newLabel;
+        }
     }
 }

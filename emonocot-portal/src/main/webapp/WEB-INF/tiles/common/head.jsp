@@ -10,6 +10,7 @@
 <title>eMonocot</title>
 <link type="images/x-icon" href="images/favicon.ico" rel="shortcut icon" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">/**/</script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js">/**/</script>
 <script type="text/javascript" src="http://openlayers.org/api/OpenLayers.js">/**/</script>
 
 

@@ -13,7 +13,6 @@
 		
 		<div class="row">
 			<form:form commandName="registrationForm">
-			<!-- <table> -->
 				<spring:bind path="registrationForm.username">
 					<c:choose>
 						<c:when test="${not empty status.errorMessage}">
@@ -89,27 +88,12 @@
 						</div>
 					</jsp:element>
 				</spring:bind>
-								<!-- <tr>
-									<td><spring:message code="repeatPassword" />
-									</td>
-									<td><form:password path="repeatPassword" />
-									</td>
-									<td><form:errors path="repeatPassword" />
-									</td>
-								</tr> -->
-								
-								<!-- <tr>
-									<td colspan="3"> -->
-				<jsp:element name="input" class="btn" >
+				<jsp:element name="input" class="btn primary" >
 					<jsp:attribute name="type">submit</jsp:attribute>
 					<jsp:attribute name="value">
 						<spring:message code="submit" />
 					</jsp:attribute>
 				</jsp:element>
-				
-				<!-- </td>
-				</tr> 
-				</table>-->
 			</form:form>
 		</div>
 	</div>

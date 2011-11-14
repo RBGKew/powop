@@ -6,31 +6,20 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	version="2.0">
 	<jsp:useBean id="result" scope="request"
-		type="org.emonocot.model.pager.Page&lt;org.emonocot.model.taxon.Taxon&gt;" />
-		
-<style type="text/css">
-a.thumb {
-		display:block;
-		/*float:left;*/
-		width:100px;
-		height:100px;
-		line-height:100px;
-		overflow:hidden;
-		position:relative;
-		z-index:1;		
-	}
-	a.thumb  img{
-		/*float:left;*/
-		position:absolute;
-		top:-20px;
-		left:-50px;	
-	}</style>		
-		
+		type="org.emonocot.model.pager.Page&lt;org.emonocot.model.taxon.Taxon&gt;" />		
   <div class="content">
 	<div class="page-header">
 		  <h2 id="page-title"><spring:message code="search.emonocot"/></h2>
 	</div>
 	<div class="row">
+	  <script type="text/javascript">				
+		  $(document).ready(function() {
+			  $("input#query").autocomplete({
+		            source: "autocomplete",
+		            minLength: 2
+		        });
+		  });
+		</script>
 	  <form id="search.form" accept-charset="UTF-8" method="GET" action="search">
 	    <jsp:element name="input">
 	      <jsp:attribute name="class">xxlarge</jsp:attribute>
@@ -38,6 +27,7 @@ a.thumb {
 		  <jsp:attribute name="value">${result.params['query']}</jsp:attribute>
 		  <jsp:attribute name="type">text</jsp:attribute>
 		  <jsp:attribute name="name">query</jsp:attribute>
+		  <jsp:attribute name="id">query</jsp:attribute>
 		</jsp:element>
 		<input type="hidden" name="limit" value="${result.pageSize}" />
 		<input type="hidden" name="start" value="0" />

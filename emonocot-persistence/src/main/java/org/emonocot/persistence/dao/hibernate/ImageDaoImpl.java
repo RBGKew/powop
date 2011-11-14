@@ -145,7 +145,12 @@ public class ImageDaoImpl extends SearchableDaoImpl<Image> implements ImageDao {
 
     @Override
     protected final String[] getDocumentFields() {
-        return new String[] { "caption" };
+        return new String[] {"caption" };
+    }
+
+    @Override
+    public final String getDefaultField() {
+        return "caption";
     }
 
     /**

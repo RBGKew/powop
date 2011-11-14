@@ -38,5 +38,21 @@ docs.css (line 62)
 }
 
 
+a.thumb {
+		display:block;
+		/*float:left;*/
+		width:100px;
+		height:100px;
+		line-height:100px;
+		overflow:hidden;
+		position:relative;
+		z-index:1;		
+	}
+a.thumb  img{
+		/*float:left;*/
+		position:absolute;
+		top:-20px;
+		left:-50px;	
+}
 
 footer {background-color:#252525}

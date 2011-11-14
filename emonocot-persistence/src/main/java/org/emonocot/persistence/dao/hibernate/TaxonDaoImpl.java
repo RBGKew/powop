@@ -178,6 +178,11 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
    }
 
     @Override
+    public final String getDefaultField() {
+        return "name";
+    }
+
+    @Override
     protected final Fetch[] getProfile(final String profile) {
         return TaxonDaoImpl.FETCH_PROFILES.get(profile);
     }
