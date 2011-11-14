@@ -6,7 +6,7 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	version="2.0">
 	<jsp:useBean id="result" scope="request"
-		type="org.emonocot.model.pager.Page&lt;org.emonocot.model.taxon.Taxon&gt;" />		
+		type="org.emonocot.model.pager.Page&lt;org.emonocot.model.taxon.Taxon&gt;" />
   <div class="content">
 	<div class="page-header">
 		  <h2 id="page-title"><spring:message code="search.emonocot"/></h2>
@@ -51,16 +51,8 @@
 		<input type="submit" value="go" name="submit" class="btn primary" />
 	  </form>
 	</div>
-	<div class="row">		
-	  <div class="pagination">
-	    <tags:pagination pager="${result}" url="search"/>
-	  </div>
-	</div>
-	<div class="row">
-	  <div id="pages" class="span8">				
-		<tags:results pager="${result}"/>
-      </div>
-	</div>
+	
+	
 	<div class="row">
 		<div class="span4">
 			<ul id="facets">
@@ -191,13 +183,37 @@
 			</ul>
 		</div>
 		<div class="span12">
+    
+     
+			<div class="pagination">
+	    		<tags:pagination pager="${result}" url="search"/>
+	  		</div>
+	  		<div class="row">
+	  			<div id="pages" class="span8">				
+					<tags:results pager="${result}"/>
+      			</div>
+      			<div style="float:right">
+      			<jsp:element name="img">
+      				<jsp:attribute name="src">
+      					<c:url value="/images/list_icon.jpg"/>
+      				</jsp:attribute>
+      				<jsp:attribute name="alt">Display as a list</jsp:attribute>
+      			</jsp:element>&#160;
+      			<jsp:element name="img">
+      				<jsp:attribute name="src">
+      					<c:url value="/images/grid_icon.jpg"/>
+      				</jsp:attribute>
+      				<jsp:attribute name="alt">Display as a grid</jsp:attribute>
+      			</jsp:element>
+      			</div>
+      		</div>
 			<div id="results"  style="border-left: 1px solid #eee;">
 				<c:forEach var="item" items="${result.records}">
 					<div class="well">
 							<c:choose>
 								<c:when test="${item.className == 'Taxon'}">
 								<div class="row" style="margin-left:0px;">
-									<a href="taxon/${item.identifier}">${item.name}</a>
+									<a href="taxon/${item.identifier}"><em>${item.name}</em> ${item.authorship}</a>
 									<a class="thumb" style="float:right">
 										<c:choose>
 											<c:when test="${not empty item.image}">
@@ -206,7 +222,7 @@
 											<c:otherwise>
 												<jsp:element name="img">
     												<jsp:attribute name="src">
-        												<c:url value="/images/no_image_2.jpg"/>
+        												<c:url value="/images/no_image_3.jpg"/>
     												</jsp:attribute>
     												<jsp:attribute name="alt">No image available</jsp:attribute>
 												</jsp:element>
