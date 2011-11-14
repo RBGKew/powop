@@ -341,7 +341,7 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
 
         String xml = given()
                 .parameters("verb", "GetRecord", "metadataPrefix",
-                        "rdf", "identifier", "urn:kew.org:wcs:taxon:6",
+                        "rdf", "identifier", "urn:kew.org:wcs:taxon:4",
                         "scratchpad", "functional-test.e-monocot.org")
                         .get("/oai").asString();
 
@@ -352,7 +352,7 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
                 "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.relationshipCategory.findAll { it.@resource == 'http://rs.tdwg.org/ontology/voc/TaxonConcept#IsSynonymFor' }.size()"));
         assertEquals(
                 "The accepted name should be serialized as a link",
-                "urn:kew.org:wcs:taxon:6",
+                "urn:kew.org:wcs:taxon:1",
                 with(xml).get(
                 "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.toTaxon.@resource"));
         }
