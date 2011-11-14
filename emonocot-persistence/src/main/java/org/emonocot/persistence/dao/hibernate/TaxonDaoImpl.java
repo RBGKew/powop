@@ -166,6 +166,7 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
            }
            break;
        case CONTINENT:
+       case REGION: 
        case AUTHORITY:
        case FAMILY:
        case RANK:

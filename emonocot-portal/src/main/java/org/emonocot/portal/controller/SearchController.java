@@ -127,65 +127,72 @@ public class SearchController {
                 selectedFacets.put(facetRequest.getFacet(),
                         facetRequest.getSelected());
             }
-        }
-
-        if (selectedFacets == null
-                || !selectedFacets.containsKey(FacetName.CLASS)) {
-            
-//refactor //workspace//
-            Page<? extends SearchableObject> result = null;
-            if (selectedFacets != null && selectedFacets.containsKey(FacetName.CONTINENT))
-                result = searchableObjectService.search(
-                        query, null, limit, start, new FacetName[] {FacetName.CLASS,
-                                FacetName.FAMILY, FacetName.REGION, FacetName.AUTHORITY},
-                        selectedFacets, sort, null);
-            else result = searchableObjectService.search(
-                    query, null, limit, start, new FacetName[] {
-                            FacetName.CLASS, FacetName.FAMILY,
-                            FacetName.CONTINENT, FacetName.AUTHORITY },
-                    selectedFacets, sort, "taxon-with-image");
-            
-            queryLog.info("Query: \'{}\', start: {}, limit: {},"
-                    + "facet: [{}], {} results", new Object[] {query, start,
-                    limit, selectedFacets, result.getSize() });
-
-            result.putParam("query", query);
-            result.setSort(sort);
-            modelAndView.addObject("result", result);
-        } else {
-            Page<? extends SearchableObject> result = null;
             logger.debug(selectedFacets.size()
                     + " facets have been selected from " + facets.size()
                     + " available");
+        }
+        else {
+            logger.debug("There were no facets available to select from");
+        }
+        
+        //Decide which facets to return
+        List<FacetName> responseFacetList = new ArrayList<FacetName>();
+        responseFacetList.add(FacetName.CLASS);
+        responseFacetList.add(FacetName.FAMILY);
+        responseFacetList.add(FacetName.CONTINENT);
+        responseFacetList.add(FacetName.AUTHORITY);
+        if (selectedFacets == null){
+            logger.debug("No selected facets, setting default response facets");
+        }
+        else {
+            if (selectedFacets.containsKey(FacetName.CLASS)) {
+                if (selectedFacets.get(FacetName.CLASS).equals(
+                        "org.emonocot.model.taxon.Taxon")) {
+                    logger.debug("Adding taxon specific facets");
+                    responseFacetList.add(FacetName.RANK);
+                    responseFacetList.add(FacetName.TAXONOMIC_STATUS);
+                }
+            }
+            if (selectedFacets.containsKey(FacetName.CONTINENT)) {
+                logger.debug("Adding region facet");
+                responseFacetList.add(FacetName.REGION);
+            }
+            else selectedFacets.remove(FacetName.REGION);
+        }
+        FacetName[] responseFacets = new FacetName[]{};
+        responseFacets = responseFacetList.toArray(responseFacets);
+        
+        //Run the search
+        Page<? extends SearchableObject> result = null;
+        if (selectedFacets == null
+                || !selectedFacets.containsKey(FacetName.CLASS)) {
+            result = searchableObjectService.search(
+                    query, null, limit, start, responseFacets,
+                    selectedFacets, sort, "taxon-with-image");
+        } else {
             if (selectedFacets.get(FacetName.CLASS).equals(
                     "org.emonocot.model.media.Image")) {
                 logger.debug("Using the image service for " + query);
                 result = imageService.search(query, null, limit, start,
-                        new FacetName[] {FacetName.CLASS, FacetName.FAMILY,
-                                FacetName.CONTINENT, FacetName.AUTHORITY },
+                        responseFacets,
                         selectedFacets, sort, null);
-                queryLog.info("Query: \'{}\', start: {}, limit: {},"
-                        + "facet: [{}], {} results", new Object[] {query,
-                        start, limit, selectedFacets, result.getSize() });
             } else if (selectedFacets.get(FacetName.CLASS).equals(
                     "org.emonocot.model.taxon.Taxon")) {
                 logger.debug("Using the taxon service for " + query);
                 result = taxonService.search(query, null, limit, start,
-                        new FacetName[] {FacetName.CLASS, FacetName.FAMILY,
-                                FacetName.CONTINENT, FacetName.AUTHORITY,
-                                FacetName.RANK, FacetName.TAXONOMIC_STATUS },
+                        responseFacets,
                         selectedFacets, sort, "taxon-with-image");
-                queryLog.info("Query: \'{}\', start: {}, limit: {},"
-                        + "facet: [{}], {} results", new Object[] {query,
-                        start, limit, selectedFacets, result.getSize() });
             } else {
                 logger.error("We can't search by an object of FacetName.CLASS idx="
                         + selectedFacets.get(FacetName.CLASS));
             }
-            result.putParam("query", query);
-            result.setSort(sort);
-            modelAndView.addObject("result", result);
         }
+        queryLog.info("Query: \'{}\', start: {}, limit: {},"
+                + "facet: [{}], {} results", new Object[] {query,
+                start, limit, selectedFacets, result.getSize() });
+        result.putParam("query", query);
+        result.setSort(sort);
+        modelAndView.addObject("result", result);
         return modelAndView;
     }
 
