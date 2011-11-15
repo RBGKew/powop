@@ -260,7 +260,7 @@
                     <output>${project.build.directory}/static/js/header.js</output>
                     <includes>
                       <include>${basedir}/src/main/js/ad-gallery/jquery.ad-gallery.js</include>
-                      <include>${basedir}/src/main/js/functions.js</include> 
+                      <include>${basedir}/src/main/js/functions.js</include>
                     </includes>
                   </aggregation>              
                 </aggregations>
