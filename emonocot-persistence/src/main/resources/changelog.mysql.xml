@@ -1577,4 +1577,39 @@
         UPDATE Taxon join Taxon_Image on (Taxon.id = Taxon_Image.Taxon_id) SET Taxon.image_id = Taxon_Image.images_id; 
       </sql>
     </changeSet>
+    <changeSet id="2011-11-15_01" author="ben">
+      <createIndex tableName="Taxon" indexName="Taxon_identifier_IDX" unique="true">
+        <column name="identifier"/>
+      </createIndex>
+    </changeSet>
+    <changeSet id="2011-11-15_02" author="ben">
+      <createIndex tableName="Image" indexName="Image_identifier_IDX" unique="true">
+        <column name="identifier"/>
+      </createIndex>
+    </changeSet>
+    <changeSet id="2011-11-15_03" author="ben">
+      <createIndex tableName="Source" indexName="Source_identifier_IDX" unique="true">
+        <column name="identifier"/>
+      </createIndex>
+    </changeSet>
+    <changeSet id="2011-11-15_04" author="ben">
+      <sql>
+        Update Annotation set recordType = "Taxon" where recordType is NULL;
+      </sql>
+    </changeSet>
+    <changeSet id="2011-11-15_05" author="ben">
+      <sql>
+        UPDATE Taxon SET Taxon.accepted_id = NULL where Taxon.accepted_id = Taxon.id;
+      </sql>
+    </changeSet>
+    <changeSet id="2011-11-15_06" author="ben">
+      <sql>
+        UPDATE Taxon SET Taxon.status = 'accepted' where Taxon.accepted_id is null;
+      </sql>
+    </changeSet>
+    <changeSet id="2011-11-15_07" author="ben">
+      <sql>
+        UPDATE Taxon SET Taxon.status = 'synonym' where Taxon.accepted_id is not null;
+      </sql>
+    </changeSet>
 </databaseChangeLog>

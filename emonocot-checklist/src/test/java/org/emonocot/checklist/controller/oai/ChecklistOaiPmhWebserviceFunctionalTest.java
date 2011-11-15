@@ -209,6 +209,12 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
                 with(xml).get(
                 "OAI-PMH.GetRecord.record.metadata.TaxonConcept.identifier"));
         assertEquals(
+                "The response should include the status of the "
+                + "taxon concept",
+                "http://e-monocot.org/TaxonomicStatus#accepted",
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.status.@resource"));
+        assertEquals(
                 "The response should include the identifier of the "
                 + "taxon name",
                 "urn:kew.org:wcs:name:1",

@@ -7,6 +7,7 @@ import javax.persistence.MappedSuperclass;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.solr.analysis.StandardTokenizerFactory;
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.AnalyzerDef;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.TokenizerDef;
@@ -24,13 +25,18 @@ public abstract class Base implements Serializable {
     /**
      *
      */
+    private static final long serialVersionUID = 4778611345983453363L;
+    /**
+     *
+     */
     private String identifier;
 
     /**
      *
      * @return The unique identifier of the object
      */
-    @Field
+    @Field(analyzer = @Analyzer(
+            definition =  "facetAnalyzer"))
     @NaturalId
     public String getIdentifier() {
         return identifier;

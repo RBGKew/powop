@@ -12,6 +12,7 @@ import org.emonocot.api.TaxonService;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.AnnotationType;
+import org.emonocot.model.common.RecordType;
 import org.emonocot.model.source.Source;
 import org.emonocot.model.taxon.Taxon;
 import org.slf4j.Logger;
@@ -148,6 +149,7 @@ public abstract class TaxonRelationshipResolver
                         annotation.setJobId(
                                 getStepExecution().getJobExecutionId());
                         annotation.setCode(AnnotationCode.Create);
+                        annotation.setRecordType(RecordType.Taxon);
                         annotation.setType(AnnotationType.Info);
                         annotation.setSource(getSource());
                         taxon.getAnnotations().add(annotation);

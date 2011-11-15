@@ -434,4 +434,59 @@ UNION ALL
     <changeSet id="2011-07-29_1" author="ben">
        <modifyDataType tableName="web_log" columnName="search_date" newDataType="timestamp"/>
     </changeSet>
+    <changeSet author="ben" id="2011-11-15_01">
+        <addColumn tableName="Plant_Name">
+            <column name="Taxon_status_id" type="varchar(1)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2011-11-15_02">
+        <addColumn tableName="Plant_Name_Deleted">
+            <column name="Taxon_status_id" type="varchar(1)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2011-11-15_03">
+        <createView viewName="vwMonocot_Name" replaceIfExists="true">
+       SELECT  Plant_name_id,
+               Date_of_entry,
+               Full_epithet,
+               Family,
+               Genus,
+               Genus_hybrid_marker,
+               Species,
+               Species_hybrid_marker,
+               Infraspecific_rank,
+               Infraspecific_epithet,
+               Accepted_plant_name_id,
+               Taxon_status_id,
+               Institute_id,
+               Date_modified,
+               Date_deleted,
+               Publication_author,
+               Volume_and_page,
+               First_published,
+               Place_of_publication_id
+       FROM  Plant_Name_Deleted
+UNION ALL
+       SELECT  Plant_name_id,
+               Date_of_entry,
+               Full_epithet,
+               Family,
+               Genus,
+               Genus_hybrid_marker,
+               Species,
+               Species_hybrid_marker,
+               Infraspecific_rank,
+               Infraspecific_epithet,
+               Accepted_plant_name_id,
+               Taxon_status_id,
+               Institute_id,
+               Date_modified,
+               NULL AS Date_deleted,
+               Publication_author,
+               Volume_and_page,
+               First_published,
+               Place_of_publication_id
+       FROM  Plant_Name
+        </createView>
+    </changeSet>
 </databaseChangeLog>

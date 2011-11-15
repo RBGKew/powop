@@ -11,7 +11,7 @@ import org.tdwg.DefinedTerm;
  *
  */
 public class TaxonRankTerm extends DefinedTerm {
-    
+
     /**
     *
     */

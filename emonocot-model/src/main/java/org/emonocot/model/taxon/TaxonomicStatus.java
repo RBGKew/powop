@@ -17,5 +17,13 @@ public enum TaxonomicStatus {
     /**
      *
      */
-    unplaced
+    unplaced,
+    /**
+     *
+     */
+    illegitimate,
+    /**
+     *
+     */
+    invalid
 }

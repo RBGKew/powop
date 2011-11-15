@@ -88,6 +88,9 @@ public class OpenArchivesQNameMapFactory extends
                 "primary", "tc"), "tcPrimary");
         qNameMap.registerMapping(new QName(
                 "http://rs.tdwg.org/ontology/voc/TaxonConcept#",
+                "status", "tc"), "tcStatus");
+        qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/TaxonConcept#",
                 "hasName", "tc"), "tcHasName");
         qNameMap.registerMapping(new QName(
                 "http://rs.tdwg.org/ontology/voc/TaxonName#",

@@ -174,6 +174,7 @@ public class ReflectionProviderFactory extends
         "tcomTcsEquivalence",
         "tcomPublishedInCitations",
         "tcPrimary",
+        "tcStatus",
         "tcAccordingTo",
         "tcHasName",
         "tcHasRelationships",

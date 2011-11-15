@@ -40,6 +40,11 @@ public class TaxonConcept extends Concept {
     /**
      *
      */
+    private TaxonomicStatus tcStatus;
+
+    /**
+     *
+     */
     @XStreamImplicit(itemFieldName = "tcHasRelationship")
     private Set<HasRelationship> tcHasRelationships = null;
 
@@ -417,4 +422,32 @@ public class TaxonConcept extends Concept {
                    new PublishedInCitation(publicationCitation, false));
        }
    }
+
+    /**
+     * @return the status
+     */
+    public final TaxonStatusTerm getStatus() {
+        if (tcStatus == null) {
+            return null;
+        } else {
+            if (tcStatus.getTaxonStatusTerm() == null
+                    && tcStatus.getResource() != null) {
+                tcStatus.setTaxonStatusTerm(
+                        TaxonStatusTerm.fromValue(
+                                tcStatus.getResource().toString()));
+            }
+            return tcStatus.getTaxonStatusTerm();
+        }
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public final void setStatus(final TaxonStatusTerm status) {
+        if (status != null) {
+            this.tcStatus = new TaxonomicStatus(status, true);
+        } else {
+            this.tcStatus = null;
+        }
+    }
 }

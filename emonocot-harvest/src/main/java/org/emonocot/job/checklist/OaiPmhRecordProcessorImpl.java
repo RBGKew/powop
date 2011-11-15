@@ -19,6 +19,7 @@ import org.emonocot.model.reference.ReferenceType;
 import org.emonocot.model.source.Source;
 import org.emonocot.model.taxon.Rank;
 import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.taxon.TaxonomicStatus;
 import org.openarchives.pmh.Record;
 import org.openarchives.pmh.Status;
 import org.slf4j.Logger;
@@ -198,7 +199,7 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
             taxon.setGenus(taxonName.getGenusPart());
             taxon.setSpecificEpithet(taxonName.getSpecificEpithet());
             taxon.setInfraSpecificEpithet(taxonName.getInfraSpecificEpithet());
-            taxon.setProtologueMicroReference(taxonName.getMicroReference());
+            taxon.setProtologueMicroReference(taxonName.getMicroReference());            
             if (taxonName.getPublishedInCitations() != null
                     && !taxonName.getPublishedInCitations().isEmpty()) {
                 PublicationCitation protologue = taxonName
@@ -252,6 +253,16 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
             }
         } else {
             taxon.setName(taxonConcept.getTitle());
+        }
+        if (taxonConcept.getStatus() != null) {
+            try {
+                taxon.setStatus(conversionService.convert(taxonConcept
+                        .getStatus().getIdentifier().toString(),
+                        TaxonomicStatus.class));
+            } catch (ConversionException ce) {
+                taxon.getAnnotations().add(
+                    addAnnotation(taxon, RecordType.Taxon, "status", ce));
+            }
         }
         if (taxonConcept.getHasRelationship() != null) {
             for (Relationship relationship

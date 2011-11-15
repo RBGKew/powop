@@ -20,9 +20,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.Where;
 import org.joda.time.DateTime;
 
@@ -33,6 +32,8 @@ import org.joda.time.DateTime;
  */
 @Entity
 @Table(name = "vwMonocot_Name")
+@TypeDef(name = "taxonStatusUserType",
+        typeClass = TaxonStatusUserType.class)
 public class Taxon implements IdentifiableEntity<String> {
 
     /**
@@ -154,6 +155,13 @@ public class Taxon implements IdentifiableEntity<String> {
      */
     @Transient
     private Taxon parentTaxon;
+
+    /**
+     *
+     */
+    @Column(name = "Taxon_status_id")
+    @Type(type = "taxonStatusUserType")
+    private TaxonStatus status;
 
     /**
      *
@@ -681,5 +689,19 @@ public class Taxon implements IdentifiableEntity<String> {
      */
     public final Integer getId() {
         return id;
+    }
+
+    /**
+     * @return the status
+     */
+    public final TaxonStatus getStatus() {
+        return status;
+    }
+
+    /**
+     * @param newStatus the status to set
+     */
+    public final void setStatus(final TaxonStatus newStatus) {
+        this.status = newStatus;
     }
 }

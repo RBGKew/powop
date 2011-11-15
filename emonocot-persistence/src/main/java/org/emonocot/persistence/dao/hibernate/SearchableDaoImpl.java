@@ -55,7 +55,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends
     private Class[] searchableClasses;
 
     /**
-     * 
+     *
      * @param newType
      *            Set the type of object handled by this class
      * @param searchTypes
@@ -77,7 +77,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends
             FacetManager facetManager);
 
     /**
-     * 
+     *
      * @param facetName Set the facet name
      * @param facetManager Set the facet manager
      * @param selectedFacet Set the selected facet
@@ -94,7 +94,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends
     }
 
     /**
-     * 
+     *
      * @param facetName
      *            Set the facet name
      * @param facetManager
@@ -119,7 +119,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends
     }
 
     /**
-     * 
+     *
      * @param page the page of results
      * @param facetName the facet name
      * @param facetManager the facet manager
@@ -186,7 +186,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends
                 parser = new MultiFieldQueryParser(Version.LUCENE_31, getDocumentFields(),
                         searchFactory.getAnalyzer(getAnalyzerType()));
             }
-            if (query != null && !query.equals("")) {
+            if (query != null && !query.trim().equals("")) {
                 luceneQuery = parser.parse(query);
             } else {
                 QueryBuilder queryBuilder = searchFactory.buildQueryBuilder()
