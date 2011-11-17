@@ -44,7 +44,6 @@ import org.emonocot.model.media.Image;
 import org.emonocot.model.reference.Reference;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.Where;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.DocumentId;
@@ -218,7 +217,11 @@ public class Taxon extends SearchableObject {
     */
    private Long id;
 
-    private Image image;
+   /**
+    *
+    */
+   private Image image;
+
 
    /**
    *

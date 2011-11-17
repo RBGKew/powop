@@ -14,7 +14,7 @@ import cucumber.junit.Feature;
  */
 @RunWith(ListeningCucumber.class)
 @Listener(TakeScreenshotListener.class)
-@Feature("features/SourcePage.feature")
-public class SourcePageFunctionalTest {
+@Feature("features/Authentication.feature")
+public class AuthenticationFunctionalTest {
 
 }

@@ -59,10 +59,11 @@ public class TaxonPage extends PageObject implements IllustratedPage {
 
     /**
      *
+     * @param attribute Set the CSS attribute you're interested in
      * @return the class of the page title
      */
-    public final String getTaxonNameClass() {
-        return title.findElement(By.xpath("span")).getAttribute("class");
+    public final String getTaxonNameStyle(final String attribute) {
+        return title.findElement(By.xpath("span")).getCssValue(attribute);
     }
 
     /**

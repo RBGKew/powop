@@ -374,12 +374,13 @@ public class StepDefinitions {
 
     /**
      *
-     * @param clazz
-     *            Set the page class
+     * @param attribute
+     *            Set the title attribute to check
+     * @param value Set the expected value
      */
-    @Then("^the title class should be \"([^\"]*)\"$")
-    public final void theTitleClassShouldBeTaxonName(final String clazz) {
-        assertEquals(clazz, ((TaxonPage) currentPage).getTaxonNameClass());
+    @Then("^the page title \"([^\"]*)\" should be \"([^\"]*)\"$")
+    public final void theTitleAttributeShouldBeTaxonName(final String attribute, final String value) {
+        assertEquals(value, ((TaxonPage) currentPage).getTaxonNameStyle(attribute));
     }
 
     /**

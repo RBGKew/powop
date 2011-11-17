@@ -158,7 +158,11 @@
         <dependency>
            <groupId>org.apache.ant</groupId>
            <artifactId>ant-junit</artifactId>
-        </dependency> 
+        </dependency>
+        <dependency>
+		  <groupId>com.h2database</groupId>
+		  <artifactId>h2</artifactId>
+	  </dependency>
 	</dependencies>
 	<build>
 		<finalName>emonocot-checklist</finalName>

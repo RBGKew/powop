@@ -182,6 +182,30 @@ public class FacetingTest extends DataManagementSupport {
                 .getFacets().get("FAMILY").size());
     }
 
+    @Test
+    public final void testSearchWithRegion() {
+        Map<FacetName, String> selectedFacets = new HashMap<FacetName, String>();
+        selectedFacets.put(FacetName.CLASS, "org.emonocot.model.taxon.Taxon");
+        selectedFacets.put(FacetName.REGION, "NEW_ZEALAND");
+        Page<SearchableObject> pager = searchableObjectService.search("Aus", null,
+                null, null,
+                new FacetName[] {FacetName.CLASS, FacetName.FAMILY,FacetName.CONTINENT, FacetName.REGION, FacetName.AUTHORITY},
+                selectedFacets, null, null);
+        assertThat("There should be two facets returned",
+                pager.getFacetNames(), hasItems("CLASS", "FAMILY"));
+
+        List<Facet> classFacets = pager.getFacets().get("CLASS");
+        String[] facetNames = new String[classFacets.size()];
+        for (int i = 0; i < facetNames.length; i++) {
+            facetNames[i] = classFacets.get(i).getValue();
+        }
+
+        assertThat("org.emonocot.model.taxon.Taxon should be a facet in CLASS",
+                facetNames, hasItemInArray("org.emonocot.model.taxon.Taxon"));
+        assertEquals("There should be one value for the FAMILY facet", 1, pager
+                .getFacets().get("FAMILY").size());
+    }
+
     /**
      * @throws Exception
      *             if there is a problem tearing down and adding the test data

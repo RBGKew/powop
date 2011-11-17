@@ -73,7 +73,7 @@ public class WebDriverFacade {
      * @throws IOException
      *             If we cannot create the webdriver
      */
-    public final WebDriver getWebDriver() throws IOException  {
+    public final static WebDriver getWebDriver() throws IOException  {
         if (browser == null) {
             browser = createWebDriver();
         }

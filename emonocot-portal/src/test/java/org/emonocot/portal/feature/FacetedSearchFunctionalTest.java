@@ -8,13 +8,12 @@ import org.junit.runner.RunWith;
 import cucumber.junit.Feature;
 
 /**
- *
- * @author ben
+ * @author jk00kg
  *
  */
 @RunWith(ListeningCucumber.class)
 @Listener(TakeScreenshotListener.class)
-@Feature("features/SourcePage.feature")
-public class SourcePageFunctionalTest {
+@Feature("features/FacetedSearch.feature")
+public class FacetedSearchFunctionalTest {
 
 }
