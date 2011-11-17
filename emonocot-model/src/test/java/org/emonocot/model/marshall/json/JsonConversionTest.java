@@ -22,6 +22,7 @@ import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.model.user.Group;
 import org.emonocot.model.user.User;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -136,6 +137,7 @@ public class JsonConversionTest {
         String content = "{\"identifier\":\"urn:kew.org:wcs:taxon:2295\",\"name\":\"Acorus\",\"protologue\":\"urn:kew.org:wcs:publication:1\"}";
         Taxon taxon = new Taxon();
         taxon.setIdentifier("urn:kew.org:wcs:taxon:2295");
+        taxon.setCreated(new DateTime());
         taxon.setName("Acorus");
         System.out.println(objectMapper.writeValueAsString(taxon));
         TextContent textContent = new TextContent();

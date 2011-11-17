@@ -11,17 +11,21 @@ Background:
   | identifier | uri                 |
   | test       | http://example.com  |
   And there are taxa with the following properties:
-  | identifier                    | name                    | source | general          |
-  | urn:kew.org:wcs:taxon:286768  | Rhipogonum              | test   | acuminate leaves |
-  | urn:kew.org:wcs:taxon:286793  | Rhipogonum elseyanum    | test   |                  |
-  | urn:kew.org:wcs:taxon:286806  | Rhipogonum fawcettianum | test   |                  |
-  | urn:kew.org:wcs:taxon:286937  | Rhipogonum brevifolium  | test   |                  |
-  | urn:kew.org:wcs:taxon:286789  | Rhipogonum album        | test   | obovate leaves   |
-  | urn:kew.org:wcs:taxon:286791  | Rhipogonum discolor     | test   |                  |
-  | urn:kew.org:wcs:taxon:286796  | Rhipogonum scandens     | test   |                  |
-  | urn:kew.org:wcs:taxon:16186   | Arum italicum           | test   |                  |
-  | urn:kew.org:wcs:taxon:10924   | Anthurium discolor      | test   |                  |
-  | urn:kew.org:wcs:taxon:209460  | Typhonium discolor      | test   |                  |
+  | identifier                   | name                      | source | general          | created                  |
+  | urn:kew.org:wcs:taxon:286768 | Rhipogonum                | test   | acuminate leaves | 1980-10-01T12:00:01.000Z |
+  | urn:kew.org:wcs:taxon:286793 | Rhipogonum elseyanum      | test   |                  | 1981-10-01T12:00:01.000Z |
+  | urn:kew.org:wcs:taxon:286806 | Rhipogonum fawcettianum   | test   |                  | 1982-10-01T12:00:01.000Z |
+  | urn:kew.org:wcs:taxon:286937 | Rhipogonum brevifolium    | test   |                  | 1983-10-01T12:00:01.000Z |
+  | urn:kew.org:wcs:taxon:286789 | Rhipogonum album          | test   | obovate leaves   | 1984-10-01T12:00:01.000Z |
+  | urn:kew.org:wcs:taxon:286791 | Rhipogonum discolor       | test   |                  | 1985-10-01T12:00:01.000Z |
+  | urn:kew.org:wcs:taxon:286796 | Rhipogonum scandens       | test   |                  | 1986-10-01T12:00:01.000Z |
+  | urn:kew.org:wcs:taxon:16186  | Arum italicum             | test   |                  | 1987-10-01T12:00:01.000Z |
+  | urn:kew.org:wcs:taxon:10924  | Anthurium discolor        | test   |                  | 1988-10-01T12:00:01.000Z |
+  | urn:kew.org:wcs:taxon:209460 | Typhonium discolor        | test   |                  | 1989-10-01T12:00:01.000Z |
+  | urn:kew.org:wcs:taxon:16205  | Arum italicum italicum    | test   |                  | 1990-10-01T12:00:01.000Z |
+  | urn:kew.org:wcs:taxon:16187  | Arum italicum albispathum | test   |                  | 1991-10-01T12:00:01.000Z |
+  | urn:kew.org:wcs:taxon:16191  | Arum italicum canariense	 | test   |                  | 1991-11-01T12:00:01.000Z |
+  | urn:kew.org:wcs:taxon:16212	 | Arum italicum neglectum   | test   |                  | 1991-12-01T12:00:01.000Z |
   And there are no taxa called "Rhipoga"
   And I am on the search page
 
@@ -49,6 +53,15 @@ Scenario: Search for multiple taxa with the same epithet
   | urn:kew.org:wcs:taxon:286791 | Rhipogonum discolor |
   | urn:kew.org:wcs:taxon:10924  | Anthurium discolor  |
   | urn:kew.org:wcs:taxon:209460 | Typhonium discolor  |
+  
+Scenario: Search for a taxon by its infraspecific epithet
+  You should be able to search for a taxon by simply typing 
+  the infraspecific epithet (rather than being required to
+  type a genus and specific epithet first).
+  When I search for "canariense"
+  Then the following results should be displayed:
+  | page                         | text                      |
+  | urn:kew.org:wcs:taxon:16191  | Arum italicum canariense	 |
 
 Scenario: Search for multiple taxa within the same genus
   Searching using the generic epithet on its own should return all
@@ -103,7 +116,7 @@ Scenario: Sort taxa Alphabetically
   As a taxonomist, in order to produce a checklist of taxa
   I want to sort the results returned alphabetically
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=74
-  When I search for "Rhipogonum"
+  When I search for "Rhipogonum album"
   And I sort "Alphabetically"
   Then there should be 7 results
   And the following results should be displayed:
@@ -115,3 +128,21 @@ Scenario: Sort taxa Alphabetically
   | urn:kew.org:wcs:taxon:286793  | Rhipogonum elseyanum    |
   | urn:kew.org:wcs:taxon:286806  | Rhipogonum fawcettianum |
   | urn:kew.org:wcs:taxon:286796  | Rhipogonum scandens     |
+
+Scenario: Sort taxa by Recency
+  As a taxonomist, in order to find out if there is any new information
+  about my group of interest
+  I want to sort the results returned in date order, newest first
+  http://build.e-monocot.org/bugzilla/show_bug.cgi?id=74
+  When I search for "Rhipogonum album"
+  And I sort "Recency"
+  Then there should be 7 results
+  And the following results should be displayed:
+  | page                          | text                    |
+  | urn:kew.org:wcs:taxon:286796  | Rhipogonum scandens     |
+  | urn:kew.org:wcs:taxon:286791  | Rhipogonum discolor     |
+  | urn:kew.org:wcs:taxon:286789  | Rhipogonum album        |
+  | urn:kew.org:wcs:taxon:286937  | Rhipogonum brevifolium  |
+  | urn:kew.org:wcs:taxon:286806  | Rhipogonum fawcettianum |
+  | urn:kew.org:wcs:taxon:286793  | Rhipogonum elseyanum    |
+  | urn:kew.org:wcs:taxon:286768  | Rhipogonum              |

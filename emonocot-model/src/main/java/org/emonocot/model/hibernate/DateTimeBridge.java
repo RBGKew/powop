@@ -14,12 +14,20 @@ public class DateTimeBridge extends DateBridge {
 
     @Override
     public final DateTime stringToObject(final String stringValue) {
-        return new DateTime(super.stringToObject(stringValue));
+        if (stringValue != null) {
+            return new DateTime(super.stringToObject(stringValue));
+        } else {
+            return null;
+        }
     }
 
     @Override
     public final String objectToString(final Object object) {
-        return super.objectToString(((DateTime) object).toDate());
+        if (object != null) {
+            return super.objectToString(((DateTime) object).toDate());
+        } else {
+            return null;
+        }
     }
 
     @Override

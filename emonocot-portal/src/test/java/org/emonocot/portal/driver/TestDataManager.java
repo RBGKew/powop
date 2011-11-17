@@ -27,6 +27,9 @@ import org.emonocot.model.taxon.TaxonomicStatus;
 import org.emonocot.model.user.Group;
 import org.emonocot.model.user.Permission;
 import org.emonocot.model.user.User;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -47,6 +50,11 @@ public class TestDataManager {
      *
      */
     private GeographyConverter geographyConverter = new GeographyConverter();
+
+    /**
+     *
+     */
+    private DateTimeFormatter dateTimeFormatter = ISODateTimeFormat.dateTime();
 
     /**
      *
@@ -252,6 +260,7 @@ public class TestDataManager {
      * @param distribution2 Set the distribution2
      * @param distribution3 Set the distribution3
      * @param source Set the source
+     * @param created TODO
     *
     */
     public final void createTaxon(final String name, final String family,
@@ -259,7 +268,7 @@ public class TestDataManager {
             final String diagnostic, final String habitat,
             final String general, final String protologue, String microReference,
             final String image1, final String image2,
-            final String image3, final String distribution1, final String distribution2, final String distribution3, String source) {
+            final String image3, final String distribution1, final String distribution2, final String distribution3, String source, String created) {
         enableAuthentication();
         Taxon taxon = new Taxon();
         data.push(taxon);
@@ -267,42 +276,42 @@ public class TestDataManager {
         taxon.setFamily(family);
         taxon.setIdentifier(identifier);
         taxon.setProtologueMicroReference(microReference);
-        if (rank != null && rank.length()>0) {
+        if (rank != null && rank.length() > 0) {
             taxon.setRank(Rank.valueOf(rank));
         }
-        if (status != null && status.length()>0) {
+        if (status != null && status.length() > 0) {
             taxon.setStatus(TaxonomicStatus.valueOf(status));
         }
-        if (diagnostic != null && diagnostic.length()>0) {
+        if (diagnostic != null && diagnostic.length() > 0) {
             createTextualData(taxon, diagnostic, Feature.diagnostic);
         }
-        if (habitat != null && habitat.length()>0) {
+        if (habitat != null && habitat.length() > 0) {
             createTextualData(taxon, habitat, Feature.habitat);
         }
-        if (general != null && general.length()>0) {
+        if (general != null && general.length() > 0) {
             createTextualData(taxon, general, Feature.general);
         }
-        if (protologue != null && protologue.length()>0) {
+        if (protologue != null && protologue.length() > 0) {
             Reference reference = new Reference();
             reference.setIdentifier(protologue);
             taxon.setProtologue(reference);
         }
-        if (image1 != null && image1.length()>0) {
+        if (image1 != null && image1.length() > 0) {
             Image image = new Image();
             image.setIdentifier(image1);
             taxon.getImages().add(image);
         }
-        if (image2 != null && image2.length()>0) {
+        if (image2 != null && image2.length() > 0) {
             Image image = new Image();
             image.setIdentifier(image2);
             taxon.getImages().add(image);
         }
-        if (image3 != null && image3.length()>0) {
+        if (image3 != null && image3.length() > 0) {
             Image image = new Image();
             image.setIdentifier(image3);
             taxon.getImages().add(image);
         }
-        if (distribution1 != null && distribution1.length()>0) {
+        if (distribution1 != null && distribution1.length() > 0) {
             Distribution distribution = new Distribution();
             GeographicalRegion geographicalRegion = geographyConverter
                     .convert(distribution1);
@@ -310,7 +319,7 @@ public class TestDataManager {
             distribution.setTaxon(taxon);
             taxon.getDistribution().put(geographicalRegion, distribution);
         }
-        if (distribution2 != null && distribution2.length()>0) {
+        if (distribution2 != null && distribution2.length() > 0) {
             Distribution distribution = new Distribution();
             GeographicalRegion geographicalRegion = geographyConverter
                     .convert(distribution2);
@@ -318,7 +327,7 @@ public class TestDataManager {
             distribution.setTaxon(taxon);
             taxon.getDistribution().put(geographicalRegion, distribution);
         }
-        if (distribution3 != null && distribution3.length()>0) {
+        if (distribution3 != null && distribution3.length() > 0) {
             Distribution distribution = new Distribution();
             GeographicalRegion geographicalRegion = geographyConverter
                     .convert(distribution3);
@@ -326,11 +335,15 @@ public class TestDataManager {
             distribution.setTaxon(taxon);
             taxon.getDistribution().put(geographicalRegion, distribution);
         }
-        if (source != null && source.length()>0) {
+        if (source != null && source.length() > 0) {
             Source s = new Source();
             s.setIdentifier(source);
             taxon.setAuthority(s);
             taxon.getSources().add(s);
+        }
+        if (created != null && created.length() > 0) {
+            DateTime dateTime = dateTimeFormatter.parseDateTime(created);
+            taxon.setCreated(dateTime);
         }
         taxonService.save(taxon);
 

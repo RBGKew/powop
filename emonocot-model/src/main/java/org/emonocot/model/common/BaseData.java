@@ -13,12 +13,15 @@ import javax.persistence.MappedSuperclass;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.hibernate.DateTimeBridge;
+import org.emonocot.model.marshall.json.DateTimeDeserializer;
+import org.emonocot.model.marshall.json.DateTimeSerializer;
 import org.emonocot.model.marshall.json.SourceDeserializer;
 import org.emonocot.model.marshall.json.SourceSerializer;
 import org.emonocot.model.source.Source;
 import org.hibernate.annotations.Type;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.FieldBridge;
+import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.IndexedEmbedded;
 import org.hibernate.search.annotations.Parameter;
 import org.joda.time.DateTime;
@@ -119,9 +122,11 @@ public abstract class BaseData extends Base {
      * @return Get the time this object was created.
      */
     @Type(type="dateTimeUserType")
+    @Field(index = Index.UN_TOKENIZED)
     @FieldBridge(impl = DateTimeBridge.class, params = {
         @Parameter(name = "resolution", value = "MILLISECOND")
     })
+    @JsonSerialize(using = DateTimeSerializer.class)
     public DateTime getCreated() {
         return created;
     }
@@ -131,9 +136,11 @@ public abstract class BaseData extends Base {
      * @return Get the time this object was last modified.
      */
     @Type(type="dateTimeUserType")
+    @Field(index = Index.UN_TOKENIZED)
     @FieldBridge(impl = DateTimeBridge.class, params = {
         @Parameter(name = "resolution", value = "MILLISECOND")
     })
+    @JsonSerialize(using = DateTimeSerializer.class)
     public DateTime getModified() {
         return modified;
     }
@@ -152,6 +159,7 @@ public abstract class BaseData extends Base {
      * @param newCreated
      *            Set the created time for this object.
      */
+    @JsonDeserialize(using = DateTimeDeserializer.class)
     public void setCreated(DateTime newCreated) {
         this.created = newCreated;
     }
@@ -161,6 +169,7 @@ public abstract class BaseData extends Base {
      * @param newModified
      *            Set the modified time for this object.
      */
+    @JsonDeserialize(using = DateTimeDeserializer.class)
     public void setModified(DateTime newModified) {
         this.modified = newModified;
     }

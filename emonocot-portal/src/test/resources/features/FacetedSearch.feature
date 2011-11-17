@@ -29,6 +29,7 @@ And there are taxa with the following properties:
   And there are images with the following properties:
   | identifier                                                                            | caption | source |
   | urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg | Acorus  | test   |
+  And I am on the search page
 
 Scenario: Search for Both Taxa and Images
   As a user, I would like to be able to search for any pages 
@@ -43,7 +44,8 @@ Scenario: Search for Both Taxa and Images
   | Taxa   |
 
 Scenario: Search for Only Taxa
-  As a taxonomist I would like to search for taxa matching a particular term
+  As a taxonomist I would like to search for taxa matching a particular term,
+  and then to narrow down the list to include only accepted species
   When I search for "Acorus"
   And I restrict the "Type" by selecting "Taxa"
   Then there should be 5 results
@@ -70,6 +72,23 @@ Scenario: Search for Only Images
   | option    |
   | All Types |
   | Images    |
+  
+Scenario: Facet on Family
+  As a taxonomist specializing in the Araceae
+  I would like to be able to search within on family of plants
+  When I restrict the "Family" by selecting "Araceae"
+  Then there should be 9 results
+  And the following results should be displayed:
+  | page                         | text              |
+  | urn:kew.org:wcs:taxon:456456 | Arum alpinariae   |
+  | urn:kew.org:wcs:taxon:16041  | Arum apulum       |
+  | urn:kew.org:wcs:taxon:16050  | Arum balansanum   |
+  | urn:kew.org:wcs:taxon:16052  | Arum besserianum  |
+  | urn:kew.org:wcs:taxon:16060  | Arum byzantinum   |
+  | urn:kew.org:wcs:taxon:16074  | Arum concinnatum  |
+  | urn:kew.org:wcs:taxon:16088  | Arum creticum     |
+  | urn:kew.org:wcs:taxon:16095  | Arum cylindraceum |
+  | urn:kew.org:wcs:taxon:16240  | Arum maculatum    |
 
 Scenario: Facet on continent and region
   We should also be able to facet on the continent and region where a taxon occurs.
