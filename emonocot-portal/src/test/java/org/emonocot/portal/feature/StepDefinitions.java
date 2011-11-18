@@ -253,6 +253,25 @@ public class StepDefinitions {
 
     /**
      *
+     * @param number set the thumbnail caption to compare to
+     */
+    @Then("^the main image caption should be the (\\d+)\\w+ caption$")
+    public final void theMainImageCaptionShouldEqualTheCaption(final int number) {
+        assertEquals(((TaxonPage) currentPage).getMainImageCaption(),
+                ((TaxonPage) currentPage).getThumbnailCaption(number));
+    }
+
+    /**
+     *
+     * @param number set the thumbnail image to compare to
+     */
+    @Then("^the main image should be the (\\d+)\\w+ image$")
+    public final void theMainImageShouldBeTheImage(final int number) {
+        assertEquals(((TaxonPage) currentPage).getMainImage(),
+                ((TaxonPage) currentPage).getThumbnailImage(number));
+    }
+    /**
+     *
      * @param link
      */
     @Then("^there should be a link to \"([^\"]*)\"$")
@@ -397,12 +416,10 @@ public class StepDefinitions {
 
     /**
      *
-     * @param identifier Set the identifier
      */
-    @Then("the image page for image \"([^\"]*)\" should be displayed")
-    public final void theImagePageShouldBeDisplayed(final String identifier) {
-        assertEquals(currentPage.getClass(), ImagePage.class);
-        assertEquals(currentPage.getUri(), "image/" + identifier);
+    @Then("the image page should be displayed")
+    public final void theImagePageShouldBeDisplayed() {
+        assertEquals(currentPage.getClass(), ImagePage.class); 
     }
 
     /**

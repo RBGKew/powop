@@ -154,4 +154,26 @@ public class TaxonPage extends PageObject implements IllustratedPage {
                 By.xpath("div[@class='ad-image']/a")).getAttribute("href");
         return openAs(link, ImagePage.class);
     }
+
+    /**
+     *
+     * @param thumbnail Set the thumbnail number
+     * @return the caption
+     */
+    public final String getThumbnailCaption(final int thumbnail) {
+        List<WebElement> thumbnails = thumbnailContainer.findElements(By
+                .xpath("li/a/img"));
+        return thumbnails.get(thumbnail - 1).getAttribute("title");
+    }
+
+   /**
+    *
+    * @param thumbnail Set the thumbnail number
+    * @return the image
+    */
+    public final String getThumbnailImage(final int thumbnail) {
+        List<WebElement> thumbnails = thumbnailContainer.findElements(By
+                .xpath("li/a/img"));
+        return thumbnails.get(thumbnail - 1).getAttribute("src");
+    }
 }

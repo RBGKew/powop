@@ -60,14 +60,14 @@ Scenario: Image Gallery
   displayed as thumbnails underneath 
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=39
   # This is the main image set for that taxon - acceptance testers should verify that the image is displayed properly
-  Then the main image should be "http://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Acorus_calamus1.jpg/450px-Acorus_calamus1.jpg"
-  And the main image caption should be "Acorus calamus"
+  Then the main image should be the 1st image
+  And the main image caption should be the 1st caption
   And there should be 3 thumbnails
   When I select the 2nd thumbnail
-  Then the main image should be "http://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Illustration_Acorus_calamus0.jpg/376px-Illustration_Acorus_calamus0.jpg"
-  And the main image caption should be "Acorus calamus (Illustration)"
+  Then the main image should be the 2nd image
+  And the main image caption should be the 2nd caption
   When I select the 3rd thumbnail
-  Then the main image should be "http://upload.wikimedia.org/wikipedia/commons/7/73/Acorus_calamus_illustration.jpg"
-  And the main image caption should be "Sweet flag (drawing)"
+  Then the main image should be the 3rd image
+  And the main image caption should be the 3rd caption
   When I select the main image
-  Then the image page for image "789" should be displayed
+  Then the image page should be displayed
