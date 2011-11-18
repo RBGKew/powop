@@ -10,7 +10,7 @@
     <name>${taxon.name}</name>
     <canonical_form>${taxon.name}</canonical_form>
     <id>${taxon.identifier}</id>
-    <ancestry>${taxon.family}|${taxon.genus}<c:if test="${taxon.species}">|${taxon.species}</c:if></ancestry>
+    <ancestry>${taxon.family}|${taxon.genus}<c:if test="${taxon.species}">|${taxon.species}</c:if><c:if test="${taxon.infraspecificEpithet}">|${taxon.infraspecificEpithet}</c:if></ancestry>
     <ranked_ancestry>${taxon.family}|${taxon.genus}</ranked_ancestry>
     <rank>${taxon.rank.label}</rank>
     <number_of_children>${fn:length(taxon.childTaxa)}</number_of_children>

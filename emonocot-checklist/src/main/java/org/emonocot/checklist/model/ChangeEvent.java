@@ -30,7 +30,7 @@ public interface ChangeEvent<T extends IdentifiableEntity> {
 
     /**
      *
-     * @return the identifier
+     * @return the identifier for the changed object
      */
     String getIdentifier();
 }

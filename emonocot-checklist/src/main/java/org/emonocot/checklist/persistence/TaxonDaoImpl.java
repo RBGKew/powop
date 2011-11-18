@@ -52,8 +52,8 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
     }
 
     /**
-     * @param search the full name of the taxon excluding authors to search with
-     * @return a taxon
+     * @param search the full name of the taxon excluding authors
+     * @return a list of un-deleted Taxa with a name matching the parameter
      */
     @Transactional(readOnly = true)
     public final List<Taxon> search(final String search) {
@@ -69,16 +69,17 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
     }
 
     /**
+     * Retrieve taxon with the database id, rather than the
+     * "identifier" string used in views
      * @param id the identifier of the taxon to get
      * @return a taxon
      */
     @Transactional(readOnly = true)
     public final Taxon get(final Integer id) {
-        // Retrieve taxon with the database id, rather than the
-        // "identifier" we gave them and they passed in
         Criteria criteria = getSession().createCriteria(Taxon.class).add(
                 Restrictions.idEq(id))
-                .add(IsNullFunctionExpression.isNull("dateDeleted"));
+                //TODO Remove this criterion
+                /*.add(IsNullFunctionExpression.isNull("dateDeleted"))*/;
         criteria.setFetchMode("acceptedName", FetchMode.JOIN);
         criteria.setFetchMode("protologue", FetchMode.JOIN);
 
@@ -95,9 +96,8 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
     }
 
     /**
-     *
-     * @param taxon
-     *            is the object to try and provide related taxa for
+     * Basic string matching to add the immediate parent and child taxa
+     * @param taxon the taxon to add related taxa to
      */
     protected final void inferRelatedTaxa(final Taxon taxon) {
         if(taxon.getAcceptedName() != null && taxon.getAcceptedName().getId().equals(taxon.getId())) {
@@ -107,48 +107,48 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
         if(taxon.getAcceptedName() != null) {
             return;
         }
-        
 
-        Criteria criteria = getSession().createCriteria(Taxon.class)
+        //Add child taxa
+        Criteria childrenCriteria = getSession().createCriteria(Taxon.class)
                 .add(Restrictions.eq("genus", taxon.getGenus()))
                 .add(Restrictions.eqProperty("acceptedName.id", "id"))
                 .add(Restrictions.eq("family", taxon.getFamily()))
                 .add(IsNullFunctionExpression.isNull("dateDeleted"));
 
         if (taxon.getGenusHybridMarker() == null) {
-            criteria.add(Restrictions.isNull("genusHybridMarker"));
+            childrenCriteria.add(Restrictions.isNull("genusHybridMarker"));
         } else {
-            criteria.add(Restrictions.eq("genusHybridMarker",
+            childrenCriteria.add(Restrictions.eq("genusHybridMarker",
                     taxon.getGenusHybridMarker()));
         }
         switch (taxon.getRank()) {
         case GENUS:
-            criteria.add(Restrictions.and(Restrictions.isNotNull("species"),
+            childrenCriteria.add(Restrictions.and(Restrictions.isNotNull("species"),
                     Restrictions.ne("species", "")));
-            criteria.add(Restrictions.or(
+            childrenCriteria.add(Restrictions.or(
                     Restrictions.isNull("infraspecificEpithet"),
                     Restrictions.eq("infraspecificEpithet", "")));
             break;
         case SPECIES:
-            criteria.add(
+            childrenCriteria.add(
                     Restrictions.and(
                             Restrictions.isNotNull("infraspecificEpithet"),
                             Restrictions.ne("infraspecificEpithet", "")))
                     .add(Restrictions.eq("species", taxon.getSpecies()));
                 if (taxon.getSpeciesHybridMarker() == null) {
-                    criteria.add(Restrictions.isNull("speciesHybridMarker"));
+                    childrenCriteria.add(Restrictions.isNull("speciesHybridMarker"));
                 } else {
-                    criteria.add(Restrictions.eq("speciesHybridMarker",
+                    childrenCriteria.add(Restrictions.eq("speciesHybridMarker",
                             taxon.getSpeciesHybridMarker()));
                 }
             break;
         default:
             // set up so no records are returned
-            criteria.add(Restrictions.idEq(null));
+            childrenCriteria.add(Restrictions.idEq(null));
             break;
         }
 
-        taxon.setChildTaxa(new HashSet<Taxon>(criteria.list()));
+        taxon.setChildTaxa(new HashSet<Taxon>(childrenCriteria.list()));
 
         // Add Parent
         Criteria parentCriteria = getSession().createCriteria(Taxon.class)
@@ -170,7 +170,8 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
                     Restrictions.eq("species", "")));
             break;
         case SUBSPECIES:
-            // TODO: case other infrasp. ranks:
+        case VARIETY:
+        case INFRASPECIFIC:
             parentCriteria.add(
                     Restrictions.or(
                             Restrictions.isNull("infraspecificEpithet"),
@@ -184,8 +185,9 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
                             Restrictions.isNull("speciesHybridMarker"));
                 }
             break;
-        case GENUS:
         default:
+            // set up so no records are returned
+            parentCriteria.add(Restrictions.idEq(null));
             return;
         }
 
@@ -200,9 +202,8 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
     }
 
     /**
-     * @param identifier
-     *            Set the identifier of the taxon to find
-     * @return a taxon
+     * @param identifier Set the identifier of the taxon to find
+     * @return a Change Event for a taxon
      */
     @Transactional(readOnly = true)
     public final ChangeEvent<Taxon> find(final Serializable identifier) {

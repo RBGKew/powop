@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="emonocot-portal" 
+<project name="wcsTaxonExtractor" 
 	default="prepare" basedir=".">
 	<property file="./${profile}.properties" />
-	<property name="name" value="emonocot-portal"/>
+	<property name="name" value="wcsTaxonExtractor"/>
 	<property name="target" value="${basedir}/target" />
 	<property name="main.src" value="${basedir}/src/main/java" />
 	<property name="main.filter" value="${basedir}/src/main/filter" />
@@ -60,7 +60,7 @@
 		<delete dir="${target}" />
 	</target>
 
-	<target name="prepare" description="Creates directories required for build" >
+	<target name="prepare" depends="clean" description="Creates directories required for build" >
 		<echo message="preparing directory structure for build" />
 		<mkdir dir="${target}" />
 	</target>
@@ -119,7 +119,7 @@
 		<fail if="junit.failure" message="Unit test(s) failed.  See reports!" />
 	</target>
 
-	<target name="war" depends="test" description="Puts all build artefacts into a warfile structure in the build directory">
+	<target name="war" depends="compile" description="Puts all build artefacts into a warfile structure in the build directory">
 
 		<echo message="creating war structure" />
 		<mkdir dir="${target}/${name}" />

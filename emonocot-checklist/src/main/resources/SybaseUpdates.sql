@@ -80,6 +80,9 @@ go
 print 'Creating Trigger trg_plantName_update'
 go
 
+use monocot_checklist
+go
+
 create trigger dbo.trg_plantName_update
 
 on dbo.Plant_Name
@@ -206,11 +209,8 @@ begin
 select @num_updated = @@rowcount
 
     if @num_updated = 0
-/* TODO: This escape may nolonger be valid */
     return
 
-
-/* TODO: Replace with stored procedure */
     update Plant_Name
     set Date_localities_modified = getDate(),
         Date_modified = getDate()
@@ -245,10 +245,8 @@ begin
 select @num_updated = @@rowcount
 
     if @num_updated = 0
-/* TODO: This escape may nolonger be valid */
     return
 
-/* TODO: Replace with stored procedure */
     update Plant_Name
     set Date_authors_modified = getDate(),
         Date_modified = getDate()
@@ -284,10 +282,8 @@ begin
 select @num_updated = @@rowcount
 
     if @num_updated = 0
-/* TODO: This escape may nolonger be valid */
     return
 
-/* TODO: Replace with stored procedure */
     update Plant_Name
     set Date_citations_modified = getDate(),
         Date_modified = getDate()
@@ -440,66 +436,14 @@ go
 
 print 'granting monocot_guest user permissions on monocot_checklist'
 -----------------------------------------------------------------------------
--- Grants permissions on the 'monocot_checklist' to the emonocot user
+-- Grants permissions on the 'monocot_checklist' to the monocot_guest user
 -----------------------------------------------------------------------------
 
-/*
-USE master
+use monocot_checklist
 go
 
-IF NOT EXISTS (SELECT 1 FROM master.dbo.syslogins WHERE name = 'emonocot_guest')
-BEGIN
-	PRINT "Login 'emonocot_guest' not found. Attempting to create it now"
-	exec sp_addlogin 'emonocot_guest', 'emonopass', 'monocot_checklist', 'us_english', 'eMonocot wcsTaxonExtractor'
-END
-go
-
-USE monocot_checklist
-go
-
-IF NOT EXISTS (SELECT 1 FROM monocot_checklist.dbo.sysusers WHERE name = 'emonocot_guest')
-BEGIN
-    PRINT "User 'emonocot_guest' not found. Attempting to create it now"
-	exec sp_adduser 'emonocot_guest' , 'emonocot_guest' , 'public'
-END
-go
-
-
-print 'granting emonocot_guest user permissions on monocot_checklist'
-
-grant select on Author_Types to emonocot_guest
-go
-
-grant select on Authors to emonocot_guest
-go
-
-grant select on Place_of_Publication to emonocot_guest
-go
-
-grant select on Plant_Author to emonocot_guest
-go
-
-grant select on Plant_Citation to emonocot_guest
-go
-
-grant select on Plant_Locality to emonocot_guest
-go
-
-grant select on Publication to emonocot_guest
-go
-
-grant select on Publication_Edition to emonocot_guest
-go
-
-grant select on Publication_Type to emonocot_guest
-go
-*/
 grant select on vwMonocot_Name to monocot_guest
 go
-/*
-grant select, insert on web_log to emonocot_guest
-go
-*/
 
 Print 'Adding Family_Permissions for the monocot family'
 

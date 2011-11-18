@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.sql.DataSource;
@@ -27,6 +29,10 @@ import org.dbunit.dataset.xml.FlatDtdDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
+import org.emonocot.checklist.model.ChangeEvent;
+import org.emonocot.checklist.model.ChangeType;
+import org.emonocot.checklist.model.Taxon;
+import org.emonocot.model.pager.Page;
 import org.junit.After;
 import org.junit.Before;
 import org.slf4j.Logger;
@@ -286,6 +292,22 @@ public class AbstractPersistenceTestSupport {
         }
     }
 
+
+    /**
+     * Returns a subset of results based on a particular ChangeType  
+     * @param type the ChangeType to include in the results returned
+     * @param result the Page of ChangeEvents to inspect
+     * @return
+     */
+    protected final List<ChangeEvent<Taxon>> listResults(ChangeType type,
+            Page<ChangeEvent<Taxon>> result) {
+        List<ChangeEvent<Taxon>> list = new ArrayList<ChangeEvent<Taxon>>();
+        for (ChangeEvent<Taxon> event : result.getRecords()) {
+            if (event.getType() == type)
+                list.add(event);
+        }
+        return list;
+    }
     /**
      *
      * @param expectedDataSetName the expected data set name
