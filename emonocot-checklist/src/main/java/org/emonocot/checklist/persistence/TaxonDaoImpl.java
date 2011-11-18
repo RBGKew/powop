@@ -77,9 +77,7 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
     @Transactional(readOnly = true)
     public final Taxon get(final Integer id) {
         Criteria criteria = getSession().createCriteria(Taxon.class).add(
-                Restrictions.idEq(id))
-                //TODO Remove this criterion
-                /*.add(IsNullFunctionExpression.isNull("dateDeleted"))*/;
+                Restrictions.idEq(id));
         criteria.setFetchMode("acceptedName", FetchMode.JOIN);
         criteria.setFetchMode("protologue", FetchMode.JOIN);
 
