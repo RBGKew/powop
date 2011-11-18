@@ -7,7 +7,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.emonocot.persistence.dao.JobDao;
+import org.emonocot.persistence.dao.JobExecutionDao;
 import org.emonocot.persistence.dao.OlapResult;
 import org.emonocot.persistence.olap.OlapExecutionException;
 import org.olap4j.CellSet;
@@ -35,7 +35,8 @@ import org.springframework.stereotype.Repository;
  *
  */
 @Repository
-public class JobDaoImpl extends JdbcDaoSupport implements JobDao {
+public class JobExecutionDaoImpl extends JdbcDaoSupport implements
+        JobExecutionDao {
     /**
      *
      */
@@ -217,5 +218,21 @@ public class JobDaoImpl extends JdbcDaoSupport implements JobDao {
     public final JobExecution load(final Long identifier) {
         JobExecution jobExecution = getJdbcTemplate().queryForObject("select bje.JOB_EXECUTION_ID, bje.START_TIME, bje.CREATE_TIME, bje.END_TIME, bje.STATUS, bje.EXIT_CODE, bje.EXIT_MESSAGE, bji.JOB_INSTANCE_ID, bji.JOB_NAME from BATCH_JOB_EXECUTION as bje join BATCH_JOB_INSTANCE as bji on (bje.JOB_INSTANCE_ID = bji.JOB_INSTANCE_ID) where bje.JOB_EXECUTION_ID = ?", rowMapper, identifier);
         return jobExecution;
+    }
+
+    /**
+     *
+     * @param id The id to delete
+     */
+    public final void delete(final long id) {
+        getJdbcTemplate().update("DELETE from BATCH_JOB_EXECUTION where JOB_EXECUTION_ID = ?", id);
+    }
+
+   /**
+    *
+    * @param jobExecution The jobExecution to save
+    */
+    public final void save(final JobExecution jobExecution) {
+        getJdbcTemplate().update("INSERT INTO BATCH_JOB_EXECUTION (JOB_EXECUTION_ID, JOB_INSTANCE_ID) where JOB_EXECUTION_ID = ?", jobExecution.getId(),jobExecution.getJobInstance().getId());
     }
 }

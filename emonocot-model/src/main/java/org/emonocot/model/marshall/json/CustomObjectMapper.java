@@ -3,6 +3,7 @@ package org.emonocot.model.marshall.json;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.emonocot.api.GroupService;
 import org.emonocot.api.ImageService;
+import org.emonocot.api.JobInstanceService;
 import org.emonocot.api.ReferenceService;
 import org.emonocot.api.SourceService;
 import org.emonocot.api.TaxonService;
@@ -41,6 +42,11 @@ public class CustomObjectMapper extends ObjectMapper {
     *
     */
    private SourceService sourceService;
+
+   /**
+    *
+    */
+   private JobInstanceService jobInstanceService;
 
    /**
     * @param userService the userService to set
@@ -82,6 +88,14 @@ public class CustomObjectMapper extends ObjectMapper {
     }
 
     /**
+     * @param newJobInstanceService the jobInstanceService to set
+     */
+    public final void setJobInstanceService(
+            final JobInstanceService newJobInstanceService) {
+        this.jobInstanceService = newJobInstanceService;
+    }
+
+    /**
      * @param newSourceService the sourceService to set
      */
     public final void setSourceService(final SourceService newSourceService) {
@@ -107,7 +121,7 @@ public class CustomObjectMapper extends ObjectMapper {
         handlerInstantiator.setUserService(userService);
         handlerInstantiator.setSourceService(sourceService);
         setHandlerInstantiator(handlerInstantiator);
-        CustomModule module = new CustomModule();
+        CustomModule module = new CustomModule(jobInstanceService);
         registerModule(module);
     }
 }

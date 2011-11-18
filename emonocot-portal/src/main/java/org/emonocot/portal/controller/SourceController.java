@@ -11,9 +11,10 @@ import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.pager.Page;
 import org.emonocot.model.source.Source;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
-import org.emonocot.service.JobService;
+import org.emonocot.service.JobDataService;
 import org.emonocot.api.AnnotationService;
 import org.emonocot.api.FacetName;
+import org.emonocot.api.JobExecutionService;
 import org.emonocot.api.SourceService;
 
 import org.slf4j.Logger;
@@ -62,7 +63,7 @@ public class SourceController {
     /**
      *
      */
-    private JobService jobService;
+    private JobDataService jobDataService;
 
     /**
      *
@@ -93,12 +94,12 @@ public class SourceController {
 
    /**
     *
-    * @param jobService
+    * @param newJobDataService
     *            Set the job service
     */
    @Autowired
-   public final void setSourceService(final JobService jobService) {
-       this.jobService = jobService;
+   public final void setSourceService(final JobDataService newJobDataService) {
+       this.jobDataService = newJobDataService;
    }
 
     /**
@@ -126,7 +127,7 @@ public class SourceController {
             @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start) {
         ModelAndView modelAndView = new ModelAndView("sourceAdminPage");
         modelAndView.addObject(service.load(identifier));
-        List<JobExecution> jobExecutions = jobService.listJobExecutions(identifier, limit, start);
+        List<JobExecution> jobExecutions = jobDataService.listJobExecutions(identifier, limit, start);
         modelAndView.addObject("jobExecutions", jobExecutions);
         return modelAndView;
     }
@@ -144,15 +145,15 @@ public class SourceController {
             @RequestParam(value = "recordType", required = false) final String recordType) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject(service.load(identifier));
-        modelAndView.addObject("job", jobService.load(jobId));
+        modelAndView.addObject("job", jobDataService.find(jobId));
 
         if (recordType == null) {
            modelAndView.setViewName("sourceJobPage");
-           modelAndView.addObject("results", jobService.countObjects(jobId));
+           modelAndView.addObject("results", jobDataService.countObjects(jobId));
         } else {
             modelAndView.addObject("recordType", recordType);
             modelAndView.setViewName("sourceJobDetails");
-            modelAndView.addObject("results", jobService.countErrors(jobId, recordType));
+            modelAndView.addObject("results", jobDataService.countErrors(jobId, recordType));
         }
         return modelAndView;
     }
@@ -173,7 +174,7 @@ public class SourceController {
             @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start) {
         ModelAndView modelAndView = new ModelAndView("jobAnnotations");
         modelAndView.addObject(service.load(identifier));
-        modelAndView.addObject("job", jobService.load(jobId));
+        modelAndView.addObject("job", jobDataService.find(jobId));
         Map<FacetName, String> selectedFacets = new HashMap<FacetName, String>();
         if (facets != null && !facets.isEmpty()) {
             for (FacetRequest facetRequest : facets) {

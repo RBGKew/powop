@@ -3,10 +3,10 @@ package org.emonocot.portal.controller;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.emonocot.api.GroupService;
-import org.emonocot.model.user.Group;
+import org.emonocot.api.JobInstanceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.core.JobInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,18 +23,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
  *
  */
 @Controller
-public class GroupController {
+public class JobInstanceController {
 
     /**
     *
     */
    private static Logger logger = LoggerFactory
-           .getLogger(GroupController.class);
+           .getLogger(JobInstanceController.class);
 
     /**
      *
      */
-    private GroupService service;
+    private JobInstanceService service;
 
    /**
     *
@@ -50,10 +50,10 @@ public class GroupController {
    }
 
     /**
-     * @param groupService set the group service
+     * @param service set the job instance service
      */
     @Autowired
-    public final void setGroupService(GroupService service) {
+    public final void setInstanceService(JobInstanceService service) {
         this.service = service;
     }
 
@@ -62,46 +62,46 @@ public class GroupController {
        *            Set the identifier of the group
        * @return A model and view containing a group
        */
-      @RequestMapping(value = "/group/{identifier}",
+      @RequestMapping(value = "/jobInstance/{identifier}",
                       method = RequestMethod.GET,
                       headers = "Accept=application/json")
-    public final ResponseEntity<Group> get(
-            @PathVariable final String identifier) {
-        return new ResponseEntity<Group>(service.find(identifier),
+    public final ResponseEntity<JobInstance> get(
+            @PathVariable final Long identifier) {
+        return new ResponseEntity<JobInstance>(service.find(identifier),
                 HttpStatus.OK);
     }
 
       /**
-       * @param group
-       *            the group to save
-       * @return A response entity containing a newly created group
+       * @param jobInstance
+       *            the job instance to save
+       * @return A response entity containing a newly created job instance
        */
-        @RequestMapping(value = "/group",
+        @RequestMapping(value = "/jobInstance",
                         method = RequestMethod.POST)
-      public final ResponseEntity<Group> create(@RequestBody final Group group) {
+      public final ResponseEntity<JobInstance> create(@RequestBody final JobInstance jobInstance) {
           HttpHeaders httpHeaders = new HttpHeaders();
           try {
-              httpHeaders.setLocation(new URI(baseUrl + "group/"
-                      + group.getIdentifier()));
+              httpHeaders.setLocation(new URI(baseUrl + "jobInstance/"
+                      + jobInstance.getId()));
           } catch (URISyntaxException e) {
               logger.error(e.getMessage());
           }
-          service.save(group);
-          ResponseEntity<Group> response = new ResponseEntity<Group>(
-                  group, httpHeaders, HttpStatus.CREATED);
+          service.save(jobInstance);
+          ResponseEntity<JobInstance> response = new ResponseEntity<JobInstance>(
+                  jobInstance, httpHeaders, HttpStatus.CREATED);
           return response;
       }
 
       /**
        * @param identifier
-       *            Set the identifier of the group
+       *            Set the identifier of the jobInstance
        * @return A response entity containing the status
        */
-        @RequestMapping(value = "/group/{identifier}",
+        @RequestMapping(value = "/jobInstance/{identifier}",
                         method = RequestMethod.DELETE)
-        public final ResponseEntity<Group> delete(
-                @PathVariable final String identifier) {
+        public final ResponseEntity<JobInstance> delete(
+                @PathVariable final Long identifier) {
             service.delete(identifier);
-            return new ResponseEntity<Group>(HttpStatus.OK);
+            return new ResponseEntity<JobInstance>(HttpStatus.OK);
         }
 }

@@ -2,8 +2,13 @@ package org.emonocot.model.marshall.json;
 
 import org.codehaus.jackson.Version;
 import org.codehaus.jackson.map.Module;
+import org.codehaus.jackson.map.module.SimpleDeserializers;
 import org.codehaus.jackson.map.module.SimpleKeyDeserializers;
+import org.codehaus.jackson.map.module.SimpleSerializers;
+import org.emonocot.api.JobInstanceService;
 import org.emonocot.model.geography.GeographicalRegion;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobInstance;
 
 /**
  *
@@ -11,6 +16,19 @@ import org.emonocot.model.geography.GeographicalRegion;
  *
  */
 public class CustomModule extends Module {
+
+    /**
+     *
+     */
+    private JobInstanceService jobInstanceService;
+
+    /**
+     *
+     * @param newJobInstanceService Set the job instance service
+     */
+    public CustomModule(final JobInstanceService newJobInstanceService) {
+        this.jobInstanceService = newJobInstanceService;
+    }
 
     @Override
     public final String getModuleName() {
@@ -23,6 +41,16 @@ public class CustomModule extends Module {
         keyDeserializers.addDeserializer(GeographicalRegion.class,
                 new GeographicalRegionKeyDeserializer());
         setupContext.addKeyDeserializers(keyDeserializers);
+        SimpleSerializers simpleSerializers = new SimpleSerializers();
+        simpleSerializers.addSerializer(new JobInstanceSerializer());
+        setupContext.addSerializers(simpleSerializers);
+
+        SimpleDeserializers simpleDeserializers = new SimpleDeserializers();
+        simpleDeserializers.addDeserializer(JobInstance.class,
+                new JobInstanceDeserializer());
+        simpleDeserializers.addDeserializer(JobExecution.class,
+                new JobExecutionDeserializer(jobInstanceService));
+        setupContext.addDeserializers(simpleDeserializers);
     }
 
     @Override

@@ -19,7 +19,7 @@ import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.Region;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.AbstractPersistenceTest;
-import org.emonocot.persistence.dao.JobDao;
+import org.emonocot.persistence.dao.JobExecutionDao;
 import org.emonocot.persistence.dao.OlapResult;
 import org.junit.After;
 import org.junit.Before;
@@ -42,7 +42,7 @@ public class JobDaoTest extends AbstractPersistenceTest {
      *
      */
     @Autowired
-    private JobDao jobDao;
+    private JobExecutionDao jobDao;
 
     /**
      * @throws java.lang.Exception if there is a problem

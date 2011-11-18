@@ -9,7 +9,7 @@ import org.springframework.batch.core.JobExecution;
  * @author ben
  *
  */
-public interface JobDao {
+public interface JobExecutionDao {
 
     /**
      *
@@ -42,5 +42,17 @@ public interface JobDao {
     * @return a job execution
     */
     JobExecution load(Long identifier);
+
+    /**
+     *
+     * @param id The id to delete
+     */
+    void delete(long id);
+
+    /**
+    *
+    * @param jobExecution The jobExecution to save
+    */
+    void save(JobExecution jobExecution);
 
 }
