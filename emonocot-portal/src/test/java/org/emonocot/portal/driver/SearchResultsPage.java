@@ -44,13 +44,21 @@ public class SearchResultsPage extends PageObject {
    */
   @FindBy(how = How.ID, using = "facets")
   private WebElement facets;
+  
+  /**
+  *
+  */
+ @FindBy(how = How.ID, using = "viewIcons")
+ private WebElement viewIcons;
+
+ 
 
    /**
     *
     * @return the number of results
     */
     public final Integer getResultNumber() {
-        return results.findElements(By.xpath("div/div/a[1]")).size();
+        return results.findElements(By.className("result")).size();
     }
 
     /**
@@ -72,6 +80,17 @@ public class SearchResultsPage extends PageObject {
        return openAs(classFacet.getAttribute("href"),
                SearchResultsPage.class);
    }
+   
+   /**
+   *
+   * @param view Go to the grid view
+   * @return a search results page
+   */
+ public final SearchResultsPage view(final String grid) {
+     WebElement idViewIcon = viewIcons.findElement(By.xpath("div/a[@title = \'" + grid +"\']"));
+     return openAs(idViewIcon.getAttribute("href"),
+             SearchResultsPage.class);
+ }
 
     /**
      * @param facetName Set the facet name
@@ -126,13 +145,13 @@ public class SearchResultsPage extends PageObject {
      * @return an array of results
      */
     public final List<String[]> getResults() {
-        List<WebElement> links = results.findElements(By.xpath("div/div/a[1]"));
+        List<WebElement> links = results.findElements(By.className("result"));
         List<String[]> linksList = new ArrayList<String[]>();
         for (WebElement webElement : links) {
             String[] link = new String[2];
             String href = webElement.getAttribute("href");
             link[0] = href.substring(href.lastIndexOf("/") + 1);
-            link[1] = webElement.getText();
+            link[1] = webElement.getAttribute("title");
             linksList.add(link);
         }
         return linksList;
@@ -153,5 +172,29 @@ public class SearchResultsPage extends PageObject {
     public final void setQuery(final String queryString) {
         query.sendKeys(queryString);
     }
+    
+    /**
+    *
+    * @return true if the icons exist, false otherwise
+    */
+   public final Boolean viewIconDisplay() {
+	   try {
+           WebElement element = viewIcons.findElement(By.tagName("div"));
+       } catch (NoSuchElementException e) {
+           return false;
+       }
+       return true;
+   }
+
+	public boolean resultsAreDisplayedInGrid() {
+		try {
+	           WebElement element = results.findElement(By.xpath("ul/li"));
+	       } catch (NoSuchElementException e) {
+	           return false;
+	       }
+	       return true;
+
+	}
+
 
 }

@@ -217,6 +217,25 @@ public class StepDefinitions {
    public final void typeInTheSearchBox(final Integer wait) {
        currentPage.waitForAjax(wait * MILLISECONDS_IN_A_SECOND);
    }
+   
+   /**
+   *
+   * @param click Click on the grid icon
+   */
+   @When("^I click on the \"([^\"]*)\" icon$")
+   public void iClickOnTheGridIcon(final String view) {
+       currentPage = ((SearchResultsPage) currentPage).view(view);
+   }
+   
+   /**
+   *
+   * @param results
+   *            Show the view icons
+   */
+   @Then("^the view icons should be displayed$")
+   public void theViewIconsShouldBeDisplayed() {
+	   assertTrue(((SearchResultsPage) currentPage).viewIconDisplay());
+   }
 
    /**
     *
@@ -366,6 +385,15 @@ public class StepDefinitions {
         String[] actual = ((SearchResultsPage) currentPage).getFacets(facetName);
         assertArrayEquals(expected, actual);
 
+    }
+    
+    /**
+     * 
+     * 
+     */
+    @Then("^the images should be displayed in a grid.$")
+    public void theImagesShouldBeDisplayedInAGrid() {
+    	assertTrue(((SearchResultsPage) currentPage).resultsAreDisplayedInGrid());
     }
 
     /**

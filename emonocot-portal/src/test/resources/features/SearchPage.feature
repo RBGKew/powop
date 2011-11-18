@@ -27,6 +27,11 @@ Background:
   | urn:kew.org:wcs:taxon:16191  | Arum italicum canariense	 | test   |                  | 1991-11-01T12:00:01.000Z |
   | urn:kew.org:wcs:taxon:16212	 | Arum italicum neglectum   | test   |                  | 1991-12-01T12:00:01.000Z |
   And there are no taxa called "Rhipoga"
+  And there are images with the following properties:
+  | identifier | url                                                                | caption   |
+  | 123        | http://upload.wikimedia.org/wikipedia/commons/7/7b/Poa_annua.jpeg  | Poa annua |
+  | 456        | http://upload.wikimedia.org/wikipedia/commons/4/4f/Poa.annua.jpg   | Poa annua |
+  | 789        | http://upload.wikimedia.org/wikipedia/commons/7/78/Poa.annua.2.jpg | Poa annua |
   And I am on the search page
 
 Scenario: Search for a single taxon
@@ -128,6 +133,16 @@ Scenario: Sort taxa Alphabetically
   | urn:kew.org:wcs:taxon:286793  | Rhipogonum elseyanum    |
   | urn:kew.org:wcs:taxon:286806  | Rhipogonum fawcettianum |
   | urn:kew.org:wcs:taxon:286796  | Rhipogonum scandens     |
+  
+Scenario: View Images in a grid
+ As a botanist in the herbarium, in order to identify a monocot
+ I want to see the images displayed in a grid.
+ When I restrict the "Type" by selecting "Images"
+ Then there should be 3 results
+ And the view icons should be displayed
+ When I click on the "grid" icon 
+ Then the images should be displayed in a grid.
+ 
 
 Scenario: Sort taxa by Recency
   As a taxonomist, in order to find out if there is any new information

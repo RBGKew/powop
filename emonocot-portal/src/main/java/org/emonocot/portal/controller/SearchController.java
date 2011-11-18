@@ -108,6 +108,8 @@ public class SearchController {
      *            Set the offset
      * @param facets
      *            The facets to set
+     * @param view
+     * 
      * @return a model and view
      */
     @RequestMapping(value = "/search", method = RequestMethod.GET)
@@ -116,7 +118,8 @@ public class SearchController {
             @RequestParam(value = "limit", required = false, defaultValue = "10") final Integer limit,
             @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
             @RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
-            @RequestParam(value = "sort", required = false) @SortingFormat final Sorting sort) {
+            @RequestParam(value = "sort", required = false) @SortingFormat final Sorting sort,
+            @RequestParam(value = "view", required = false, defaultValue = "list") final String view) {
 
         ModelAndView modelAndView = new ModelAndView("searchResponse");
 
@@ -191,6 +194,7 @@ public class SearchController {
                 + "facet: [{}], {} results", new Object[] {query,
                 start, limit, selectedFacets, result.getSize() });
         result.putParam("query", query);
+        result.putParam("view", view);
         result.setSort(sort);
         modelAndView.addObject("result", result);
         return modelAndView;
