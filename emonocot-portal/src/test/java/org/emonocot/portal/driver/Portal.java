@@ -80,11 +80,21 @@ public class Portal extends PageObject {
                 SourceAdminPage.class);
     }
 
-	public ImagePage getImagePage(String identifier) {
-		return openAs(getBaseUri() + "image/" + identifier, ImagePage.class);
-	}
+    /**
+     *
+     * @param identifier Set the identifier of the image page
+     * @return an image page
+     */
+    public final ImagePage getImagePage(final String identifier) {
+        return openAs(getBaseUri() + "image/" + identifier, ImagePage.class);
+    }
 
-	public SourcePage getSourcePage(String identifier) {
-		return openAs(getBaseUri() + "source/" + identifier, SourcePage.class);
-	}
+    /**
+     *
+     * @param identifier Set the identifier of the source page
+     * @return a source page
+     */
+    public final SourcePage getSourcePage(final String identifier) {
+        return openAs(getBaseUri() + "source/" + identifier, SourcePage.class);
+    }
 }

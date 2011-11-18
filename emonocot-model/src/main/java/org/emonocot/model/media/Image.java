@@ -158,7 +158,7 @@ public class Image extends SearchableObject {
     /**
      * The list of all taxa associated with this image - including e.g. genera
      * family, and so on.
-     * 
+     *
      * @return a list of taxa
      */
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "images")

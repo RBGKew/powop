@@ -14,11 +14,13 @@ Background:
   | identifier                    | title    | datePublished | volume | page  | 
   | urn:kew.org:wcs:publication:1 | Sp. Pl.  | (1753)        | 1      | 304pp |
   And there are images with the following properties:
-  | identifier | url                                                                | caption |
-  | 123        | http://upload.wikimedia.org/wikipedia/commons/7/7b/Poa_annua.jpeg  | Acorus  |
+  | identifier | url                                                                                                                              | caption                       |
+  | 123        | http://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Acorus_calamus1.jpg/450px-Acorus_calamus1.jpg                           | Acorus calamus                |
+  | 456        | http://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Illustration_Acorus_calamus0.jpg/376px-Illustration_Acorus_calamus0.jpg | Acorus calamus (Illustration) |
+  | 789        | http://upload.wikimedia.org/wikipedia/commons/7/73/Acorus_calamus_illustration.jpg                                               | Sweet flag (drawing)          |
   And there are taxa with the following properties:
-  | identifier                 | name   | protologue                    | protologueMicroReference | distribution1 | diagnostic                                                          | habitat                                                                                   | image1 |
-  | urn:kew.org:wcs:taxon:2295 | Acorus | urn:kew.org:wcs:publication:1 | : 324                    | MAU           | These grasslike evergreen plants are hemicryptophytes or geophytes. | Their natural habitat is at the waterside or close to marshes, often found with reedbeds. | 123    |
+  | identifier                 | name   | protologue                    | protologueMicroReference | distribution1 | diagnostic                                                          | habitat                                                                                   | image1 | image2 | image3 |
+  | urn:kew.org:wcs:taxon:2295 | Acorus | urn:kew.org:wcs:publication:1 | : 324                    | MAU           | These grasslike evergreen plants are hemicryptophytes or geophytes. | Their natural habitat is at the waterside or close to marshes, often found with reedbeds. | 789    | 456    | 123    |
   And I navigate to taxon page "urn:kew.org:wcs:taxon:2295" 
 
 Scenario: Taxon Title
@@ -58,6 +60,14 @@ Scenario: Image Gallery
   displayed as thumbnails underneath 
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=39
   # This is the main image set for that taxon - acceptance testers should verify that the image is displayed properly
-  Then the main image should be "http://upload.wikimedia.org/wikipedia/commons/7/7b/Poa_annua.jpeg"
-  And the main image caption should be "Acorus"
-  And there should be 1 thumbnail
+  Then the main image should be "http://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Acorus_calamus1.jpg/450px-Acorus_calamus1.jpg"
+  And the main image caption should be "Acorus calamus"
+  And there should be 3 thumbnails
+  When I select the 2nd thumbnail
+  Then the main image should be "http://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Illustration_Acorus_calamus0.jpg/376px-Illustration_Acorus_calamus0.jpg"
+  And the main image caption should be "Acorus calamus (Illustration)"
+  When I select the 3rd thumbnail
+  Then the main image should be "http://upload.wikimedia.org/wikipedia/commons/7/73/Acorus_calamus_illustration.jpg"
+  And the main image caption should be "Sweet flag (drawing)"
+  When I select the main image
+  Then the image page for image "789" should be displayed

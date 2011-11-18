@@ -19,7 +19,7 @@ public class RegistrationPage extends PageObject {
     @FindBy(how = How.ID, using = "registrationForm")
     private WebElement registrationForm;
 
-    /**
+   /**
     *
     * @param username Set the username
     */
@@ -57,16 +57,18 @@ public class RegistrationPage extends PageObject {
     */
    public final PageObject submit() {
        registrationForm.submit();
-       if (getWebDriver().getCurrentUrl().equals(this.getBaseUri() + "/register")) {
-           return super.openAs(getWebDriver().getCurrentUrl(),
-                   RegistrationPage.class);
-       } else {
-           String url = getWebDriver().getCurrentUrl();
-           String identifier = url.substring(url.lastIndexOf("/") + 1);
-           User user = new User();
-           user.setUsername(identifier);
-           testDataManager.registerObject(user);
-           return super.openAs(getWebDriver().getCurrentUrl(), ProfilePage.class);
+        if (getWebDriver().getCurrentUrl().equals(
+                this.getBaseUri() + "/register")) {
+            return super.openAs(getWebDriver().getCurrentUrl(),
+                    RegistrationPage.class);
+        } else {
+            String url = getWebDriver().getCurrentUrl();
+            String identifier = url.substring(url.lastIndexOf("/") + 1);
+            User user = new User();
+            user.setUsername(identifier);
+            testDataManager.registerObject(user);
+            return super.openAs(getWebDriver().getCurrentUrl(),
+                    ProfilePage.class);
        }
    }
 

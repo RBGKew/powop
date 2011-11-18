@@ -1,11 +1,28 @@
 package org.emonocot.portal.driver;
 
+/**
+ *
+ * @author ben
+ *
+ */
 public interface IllustratedPage {
 
-	String getMainImageCaption();
+    /**
+     *
+     * @return the main image caption
+     */
+    String getMainImageCaption();
 
-	String getMainImage();
+    /**
+     *
+     * @return the main image url
+     */
+    String getMainImage();
 
-	int getThumbnails();
+    /**
+     *
+     * @return the number of thumbnails
+     */
+    int getThumbnails();
 
 }

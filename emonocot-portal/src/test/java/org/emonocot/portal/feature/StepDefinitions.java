@@ -3,12 +3,14 @@ package org.emonocot.portal.feature;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.Serializable;
 import java.util.List;
 
 import org.emonocot.portal.driver.HomePage;
 import org.emonocot.portal.driver.IllustratedPage;
+import org.emonocot.portal.driver.ImagePage;
 import org.emonocot.portal.driver.LoginPage;
 import org.emonocot.portal.driver.PageObject;
 import org.emonocot.portal.driver.Portal;
@@ -21,6 +23,7 @@ import org.emonocot.portal.driver.TaxonPage;
 import org.emonocot.portal.driver.TestDataManager;
 import org.emonocot.portal.rows.GroupRow;
 import org.emonocot.portal.rows.ImageRow;
+import org.emonocot.portal.rows.LoginRow;
 import org.emonocot.portal.rows.ReferenceRow;
 import org.emonocot.portal.rows.RegistrationRow;
 import org.emonocot.portal.rows.SourceRow;
@@ -153,7 +156,9 @@ public class StepDefinitions {
      */
     @After
     public final void tearDown() {
-       testDataManager.tearDown();
+        currentPage.logOut();
+        currentPage.disableAuthentication();
+        testDataManager.tearDown();
     }
 
     /**
@@ -191,7 +196,8 @@ public class StepDefinitions {
      */
     @When("^I restrict the \"([^\"]+)\" by selecting \"([^\"]+)\"$")
     public final void iSelect(final String facetName, final String facetValue) {
-        currentPage = ((SearchResultsPage) currentPage).selectFacet(facetName, facetValue);
+        currentPage = ((SearchResultsPage) currentPage).selectFacet(facetName,
+                facetValue);
     }
 
     /**
@@ -199,7 +205,7 @@ public class StepDefinitions {
      * @param query Set the query
      */
     @When("^I type for \"([^\"]*)\" in the search box$")
-    public void typeInTheSearchBox(final String query) {
+    public final void typeInTheSearchBox(final String query) {
         ((SearchResultsPage) currentPage).setQuery(query);
     }
 
@@ -208,8 +214,16 @@ public class StepDefinitions {
     * @param wait Set the wait time
     */
    @When("^I wait for (\\d+) second[s]?$")
-   public void typeInTheSearchBox(final Integer wait) {
+   public final void typeInTheSearchBox(final Integer wait) {
        currentPage.waitForAjax(wait * MILLISECONDS_IN_A_SECOND);
+   }
+
+   /**
+    *
+    */
+   @When("I select the login link in the header")
+   public final void selectLoginLink() {
+       currentPage = currentPage.selectLoginLink();
    }
 
     /**
@@ -346,7 +360,7 @@ public class StepDefinitions {
 
     /**
      *
-     * @param identifier
+     * @param identifier Set the page
      */
     @When("^I navigate to image page \"([^\"]*)\"$")
     public final void navigateToImagePage(final String identifier) {
@@ -355,11 +369,20 @@ public class StepDefinitions {
 
     /**
      *
-     * @param identifier
+     * @param identifier Set the page
      */
     @When("^I navigate to source page \"([^\"]*)\"$")
     public final void navigateToSourcePage(final String identifier) {
     	currentPage = portal.getSourcePage(identifier);
+    }
+
+    /**
+     *
+     * @param thumbnail Set the thumbnail
+     */
+    @When("I select the (\\d+)\\w+ thumbnail")
+    public final void selectTheThumbnail(final Integer thumbnail) {
+        ((TaxonPage) currentPage).selectThumbnail(thumbnail);
     }
 
     /**
@@ -370,6 +393,16 @@ public class StepDefinitions {
     @Then("^the page title should be \"([^\"]*)\"$")
     public final void thePageTitleShouldBeAcorus(final String title) {
         assertEquals(title, ((TaxonPage) currentPage).getTaxonName());
+    }
+
+    /**
+     *
+     * @param identifier Set the identifier
+     */
+    @Then("the image page for image \"([^\"]*)\" should be displayed")
+    public final void theImagePageShouldBeDisplayed(final String identifier) {
+        assertEquals(currentPage.getClass(), ImagePage.class);
+        assertEquals(currentPage.getUri(), "image/" + identifier);
     }
 
     /**
@@ -463,6 +496,14 @@ public class StepDefinitions {
         currentPage = ((HomePage) currentPage).selectRegistrationLink();
     }
 
+   /**
+    *
+    */
+   @When("^I select the main image$")
+   public final void selectTheMainImage() {
+       currentPage = ((TaxonPage) currentPage).selectMainImage();
+   }
+
     /**
      *
      * @param data Set the registration data
@@ -479,11 +520,22 @@ public class StepDefinitions {
     }
 
     /**
+    *
+    * @param data Set the login data
+    */
+   @When("^I enter the following data into the login form:$")
+   public final void enterTheFollowingDataIntoTheFormForm(
+           final List<LoginRow> data) {
+       ((LoginPage) currentPage).setUsername(data.get(0).username);
+       ((LoginPage) currentPage).setPassword(data.get(0).password);
+   }
+
+    /**
      *
      * @param source Set the source admin page
      */
     @When("^I navigate to source admin page for \"([^\"]*)\"$")
-    public void navigateToSourceAdminPageFor(final String source) {
+    public final void navigateToSourceAdminPageFor(final String source) {
         try {
             currentPage = portal.getSourceAdminPage(source);
         } catch (RequiresLoginException rle) {
@@ -495,9 +547,17 @@ public class StepDefinitions {
      *
      */
     @When("^I submit the registration form$")
-    public final void submitTheForm() {
+    public final void submitTheRegistrationForm() {
         currentPage = ((RegistrationPage) currentPage).submit();
     }
+
+   /**
+    *
+    */
+   @When("^I submit the login form$")
+   public final void submitTheLoginForm() {
+       currentPage = ((LoginPage) currentPage).submit();
+   }
 
     /**
      *
@@ -506,6 +566,14 @@ public class StepDefinitions {
     public final void myProfilePageShouldBeDisplayed() {
         assertEquals(ProfilePage.class, currentPage.getClass());
     }
+
+   /**
+    *
+    */
+   @Then("^I should be logged in to the portal$")
+   public final void iShouldBeLoggedInToThePortal() {
+       assertTrue(currentPage.loggedIn());
+   }
 
     /**
      *
@@ -526,7 +594,7 @@ public class StepDefinitions {
     /**
      *
      */
-    @When("^I open the portal home page$")
+    @When("^I am on the portal home page$")
     public final void openThePortalHomePage() {
         currentPage = portal.getHomePage();
     }

@@ -185,7 +185,7 @@ public class Radish extends Suite {
                 }
                 CucumberScenario scenario = (CucumberScenario) tagStatement;
                 Description description = Description.createTestDescription(
-                        clazz, scenario.getVisualName());               
+                        clazz, scenario.getVisualName());
                 testSuiteDescription.addChild(description);
 
                 Throwable[] failures = new Throwable[results.length];

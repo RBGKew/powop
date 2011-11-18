@@ -1,5 +1,7 @@
 package org.emonocot.portal.driver;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -133,4 +135,23 @@ public class TaxonPage extends PageObject implements IllustratedPage {
         return map.getAttribute("src");
     }
 
+    /**
+     *
+     * @param thumbnail Set the thumbnail
+     */
+    public final void selectThumbnail(final Integer thumbnail) {
+        List<WebElement> thumbnails = thumbnailContainer.findElements(By
+                .xpath("li/a"));
+        thumbnails.get(thumbnail - 1).click();
+    }
+
+    /**
+     *
+     * @return the image page
+     */
+    public final ImagePage selectMainImage() {
+        String link = mainImage.findElement(
+                By.xpath("div[@class='ad-image']/a")).getAttribute("href");
+        return openAs(link, ImagePage.class);
+    }
 }

@@ -3,6 +3,7 @@ package org.emonocot.portal.driver;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -20,6 +21,12 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class PageObject {
 
+   /**
+    *
+    */
+   @FindBy(how = How.CLASS_NAME, using = "nav")
+   private WebElement nav;
+
     /**
      *
      */
@@ -29,6 +36,16 @@ public abstract class PageObject {
      *
      */
     private static Logger logger = LoggerFactory.getLogger(PageObject.class);
+
+    /**
+    *
+    * @return the registration page
+    */
+    public final RegistrationPage selectRegistrationLink() {
+         return openAs(
+                 nav.findElement(By.linkText("Register")).getAttribute("href"),
+                 RegistrationPage.class);
+    }
 
    /**
     *
@@ -75,20 +92,32 @@ public abstract class PageObject {
 
     /**
      *
-     * @param <T>
-     * @param address
-     * @param pageClass
-     * @return
+     * @param <T> The type of page
+     * @param address the url of the page
+     * @param pageClass the class of the page
+     * @return the page
      */
-    protected <T extends PageObject> T openAs(String address, Class<T> pageClass) {
+    protected final <T extends PageObject> T openAs(
+            final String address, final Class<T> pageClass) {
         open(address);
         Pattern loginPattern = Pattern.compile(".*/login.*");
-        if (loginPattern.matcher(webDriver.getCurrentUrl()).matches()) {
+        if (loginPattern.matcher(webDriver.getCurrentUrl()).matches()
+                && !pageClass.equals(LoginPage.class)) {
             LoginPage loginPage = pageObjectInstance(LoginPage.class);
             loginPage.setBaseUri(baseUri);
             loginPage.testDataManager = this.testDataManager;
             throw new RequiresLoginException(loginPage);
         }
+        return getPage(pageClass);
+    }
+
+   /**
+    *
+    * @param <T> The type of page
+    * @param pageClass the class of the page
+    * @return the page
+    */
+    protected final <T extends PageObject> T getPage(final Class<T> pageClass) {
         T pageObject = pageObjectInstance(pageClass);
         pageObject.setBaseUri(baseUri);
         pageObject.testDataManager = this.testDataManager;
@@ -159,6 +188,47 @@ public abstract class PageObject {
         Cookie cookie = webDriver.manage().getCookieNamed("jsessionid");
         if (cookie != null) {
             webDriver.manage().deleteCookie(cookie);
+        }
+    }
+
+    /**
+     *
+     * @return the current (baseURI-relative) uri
+     */
+    public final String getUri() {
+        String url = webDriver.getCurrentUrl();
+        url = url.substring(baseUri.length());
+        return url;
+    }
+
+    /**
+     *
+     * @return the login page
+     */
+    public final LoginPage selectLoginLink() {
+        return this.openAs(
+                nav.findElement(By.linkText("Login")).getAttribute("href"),
+                LoginPage.class);
+    }
+
+    /**
+     *
+     * @return true, if the user is logged in
+     */
+    public final Boolean loggedIn() {
+        WebElement logout = nav.findElement(By.linkText("Logout"));
+        return (logout != null);
+    }
+
+    /**
+     *
+     */
+    public final void logOut() {
+        try {
+            openAs(nav.findElement(By.linkText("Logout")).getAttribute("href"),
+                    HomePage.class);
+        } catch (Exception e) {
+            // Nothing
         }
     }
 }

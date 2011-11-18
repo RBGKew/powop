@@ -91,15 +91,22 @@ public class JsonConversionTest {
     @Test
     public final void testReadTaxon() throws Exception {
         Reference reference = new Reference();
-        Image image = new Image();
+        Image image1 = new Image();
+        image1.setIdentifier("urn:identifier:image:0");
+        Image image2 = new Image();
+        image1.setIdentifier("urn:identifier:image:1");
+        Image image3 = new Image();
+        image1.setIdentifier("urn:identifier:image:2");
         EasyMock.expect(
                 referenceService.load(EasyMock
                         .eq("urn:kew.org:wcs:publication:1"))).andReturn(
                 reference);
-        EasyMock.expect(imageService.load("urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg")).andReturn(image);
+        EasyMock.expect(imageService.load("urn:identifier:image:0")).andReturn(image1);
+        EasyMock.expect(imageService.load("urn:identifier:image:1")).andReturn(image2);
+        EasyMock.expect(imageService.load("urn:identifier:image:2")).andReturn(image3);
         EasyMock.replay(referenceService, imageService);
 
-        String content = "{\"identifier\":\"urn:kew.org:wcs:taxon:2295\",\"name\":\"Acorus\",\"protologue\":\"urn:kew.org:wcs:publication:1\", \"content\": [{\"feature\":\"habitat\",\"content\":\"Lorem ipsum\"}], \"images\":[\"urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg\"],\"distribution\":[{\"region\":\"REU\"}]}";
+        String content = "{\"identifier\":\"urn:kew.org:wcs:taxon:2295\",\"name\":\"Acorus\",\"protologue\":\"urn:kew.org:wcs:publication:1\", \"content\": [{\"feature\":\"habitat\",\"content\":\"Lorem ipsum\"}], \"images\":[\"urn:identifier:image:0\",\"urn:identifier:image:1\",\"urn:identifier:image:2\"],\"distribution\":[{\"region\":\"REU\"}]}";
         Taxon taxon = (Taxon) objectMapper.readValue(content, Taxon.class);
         EasyMock.verify(referenceService, imageService);
 
@@ -118,8 +125,12 @@ public class JsonConversionTest {
                 .getContent().get(Feature.habitat).getTaxon(), taxon);
         assertEquals("The protologue should be set", reference,
                 taxon.getProtologue());
-        assertTrue("The taxon should contain the image", taxon.getImages()
-                .contains(image));
+        assertTrue("The taxon should contain the image1 in position 0", taxon.getImages().get(0)
+                .equals(image1));
+        assertTrue("The taxon should contain the image2 in position 1", taxon.getImages().get(1)
+                .equals(image2));
+        assertTrue("The taxon should contain the image3 in position 2", taxon.getImages().get(2)
+                .equals(image3));
         assertFalse("The taxon should contain a distribution", taxon
                 .getDistribution().isEmpty());
         assertTrue("The taxon should occur in Reunion", taxon.getDistribution()
@@ -139,7 +150,6 @@ public class JsonConversionTest {
         taxon.setIdentifier("urn:kew.org:wcs:taxon:2295");
         taxon.setCreated(new DateTime());
         taxon.setName("Acorus");
-        System.out.println(objectMapper.writeValueAsString(taxon));
         TextContent textContent = new TextContent();
         textContent.setContent("Lorem ipsum");
         textContent.setFeature(Feature.habitat);
@@ -152,7 +162,13 @@ public class JsonConversionTest {
         Reference reference = new Reference();
         reference.setIdentifier("urn:kew.org:wcs:publication:1");
         taxon.setProtologue(reference);
-
+        for (int i = 0; i < 3; i++) {
+            Image image = new Image();
+            image.setIdentifier("urn:identifier:image:" + i);
+            image.setTaxon(taxon);
+            taxon.getImages().add(image);
+        }
+        System.out.println(objectMapper.writeValueAsString(taxon));
         try {
             objectMapper.writeValueAsString(taxon);
         } catch (Exception e) {

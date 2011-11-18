@@ -299,17 +299,17 @@ public class TestDataManager {
         if (image1 != null && image1.length() > 0) {
             Image image = new Image();
             image.setIdentifier(image1);
-            taxon.getImages().add(image);
+            taxon.getImages().add(0, image);
         }
         if (image2 != null && image2.length() > 0) {
             Image image = new Image();
             image.setIdentifier(image2);
-            taxon.getImages().add(image);
+            taxon.getImages().add(1, image);
         }
         if (image3 != null && image3.length() > 0) {
             Image image = new Image();
             image.setIdentifier(image3);
-            taxon.getImages().add(image);
+            taxon.getImages().add(2, image);
         }
         if (distribution1 != null && distribution1.length() > 0) {
             Distribution distribution = new Distribution();
