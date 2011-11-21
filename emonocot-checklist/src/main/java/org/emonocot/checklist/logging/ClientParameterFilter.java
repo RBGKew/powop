@@ -56,7 +56,8 @@ public class ClientParameterFilter implements Filter {
     public final void doFilter(final ServletRequest request,
             final ServletResponse response, final FilterChain chain)
             throws IOException, ServletException {
-        if (request.getParameter(parameterName) != null) {
+        if (request.getParameter(parameterName) != null
+                && request.getParameter(parameterName).trim().length()<1) {
             MDC.put(LoggingConstants.MDC_CLIENT_NAME_KEY,
                     request.getParameter(parameterName));
             try {
