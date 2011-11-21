@@ -77,7 +77,8 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
     @Transactional(readOnly = true)
     public final Taxon get(final Integer id) {
         Criteria criteria = getSession().createCriteria(Taxon.class).add(
-                Restrictions.idEq(id));
+                Restrictions.idEq(id))
+                .add(IsNullFunctionExpression.isNull("dateDeleted"));
         criteria.setFetchMode("acceptedName", FetchMode.JOIN);
         criteria.setFetchMode("protologue", FetchMode.JOIN);
 
@@ -205,14 +206,29 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
      */
     @Transactional(readOnly = true)
     public final ChangeEvent<Taxon> find(final Serializable identifier) {
+        Integer taxonId = null;
         Taxon taxon = null;
         try {
-            taxon = get(
-                identifierFormatter.parse((String) identifier, null)
-                .intValue());
+            taxonId = identifierFormatter.parse((String) identifier, null)
+                .intValue();
         } catch (ParseException e) {
             throw new IllegalArgumentException(e);
         }
+        
+        Criteria criteria = getSession().createCriteria(Taxon.class).add(
+                Restrictions.idEq(taxonId));
+        criteria.setFetchMode("acceptedName", FetchMode.JOIN);
+        criteria.setFetchMode("protologue", FetchMode.JOIN);
+
+        taxon = (Taxon) criteria.uniqueResult();
+        if (taxon != null) {
+            Hibernate.initialize(taxon.getSynonyms());
+            Hibernate.initialize(taxon.getDistribution());
+            Hibernate.initialize(taxon.getAuthors());
+            Hibernate.initialize(taxon.getCitations());
+            inferRelatedTaxa(taxon);
+        }
+        
         /**
          * If the taxon does not exist return null
          */

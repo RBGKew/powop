@@ -56,4 +56,18 @@ public class ChangeTypeIntegrationTest extends
         ChangeEvent<Taxon> result = taxonDao.find(Taxon.IDENTIFIER_PREFIX+4);
         assertNull(result);
     }
+    
+    @Test
+    public void getDeletedTaxon(){
+        assertNotNull("TaxonDAO should not be null", taxonDao);
+        Taxon actual = taxonDao.get(new Integer(3));
+        assertNull("Taxon should be null", actual);
+    }
+    
+    @Test
+    public void getTaxonTest(){
+        assertNotNull("TaxonDAO should not be null", taxonDao);
+        Taxon actual = taxonDao.get(new Integer(2));
+        assertNotNull("Taxon should not be null", actual);
+    }
 }
