@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${logging.checklist.location}</File>
+        <File>${logging.location}</File>
         <encoder>
             <pattern>%d{ISO8601} | %X{req.remoteHost} | %X{req.requestURI} | %X{req.userAgent} |
                 %-5p | %t | %c | %m%n</pattern>
@@ -35,8 +35,8 @@
     <logger name="query" level="INFO" additivity="false">
         <appender-ref ref="database"/>
     </logger>
-    <root level="${logging.checklist.level}">
-        <appender-ref ref="${logging.checklist.method}"/>
+    <root level="${logging.level}">
+        <appender-ref ref="${logging.method}"/>
     </root>
   <logger name="org.emonocot.checklist.logging.DBAppender" level="WARN" additivity="false">
     <appender-ref ref="file"/>
