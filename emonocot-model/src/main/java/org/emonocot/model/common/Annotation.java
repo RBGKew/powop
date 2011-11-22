@@ -13,10 +13,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.hibernate.AnnotatedObjBridge;
 import org.emonocot.model.hibernate.DateTimeBridge;
+import org.emonocot.model.marshall.json.AnnotatableObjectSerializer;
+import org.emonocot.model.marshall.json.AnnotatableObjectDeserializer;
+import org.emonocot.model.marshall.json.SourceDeserializer;
+import org.emonocot.model.marshall.json.SourceSerializer;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.model.source.Source;
@@ -127,6 +133,7 @@ public class Annotation extends Base {
     /**
      * @return the authority
      */
+    @JsonSerialize(using = SourceSerializer.class)
     @ManyToOne(fetch = FetchType.LAZY)
     public Source getSource() {
         return source;
@@ -135,6 +142,7 @@ public class Annotation extends Base {
     /**
      * @param source the source to set
      */
+    @JsonDeserialize(using = SourceDeserializer.class)
     public void setSource(Source source) {
         this.source = source;
     }
@@ -171,6 +179,7 @@ public class Annotation extends Base {
             })
     @JoinColumn(name = "annotatedObjId")
     @FieldBridge(impl = AnnotatedObjBridge.class)
+    @JsonSerialize(using = AnnotatableObjectSerializer.class)
     public Base getAnnotatedObj() {
         return annotatedObj;
     }
@@ -179,6 +188,7 @@ public class Annotation extends Base {
      * @param annotatedObj
      *            the annotatedObj to set
      */
+    @JsonDeserialize(using = AnnotatableObjectDeserializer.class)
     public void setAnnotatedObj(Base annotatedObj) {
         this.annotatedObj = annotatedObj;
     }

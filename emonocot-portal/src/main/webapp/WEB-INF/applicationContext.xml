@@ -57,6 +57,12 @@
       <sec:intercept-url pattern="/source" method="POST" access="hasRole('PERMISSION_CREATE_SOURCE')"/>
       <sec:intercept-url pattern="/source/*" method="DELETE" access="hasRole('PERMISSION_DELETE_SOURCE')"/>
       <sec:intercept-url pattern="/admin/source/*" access="hasRole('PERMISSION_VIEW_SOURCE')"/>
+      <sec:intercept-url pattern="/jobExecution" method="POST" access="hasRole('PERMISSION_CREATE_JOBEXECUTION')"/>
+      <sec:intercept-url pattern="/jobExecution/*" method="DELETE" access="hasRole('PERMISSION_DELETE_JOBEXECUTION')"/>
+      <sec:intercept-url pattern="/jobInstance" method="POST" access="hasRole('PERMISSION_CREATE_JOBINSTANCE')"/>
+      <sec:intercept-url pattern="/jobInstance/*" method="DELETE" access="hasRole('PERMISSION_DELETE_JOBINSTANCE')"/>
+      <sec:intercept-url pattern="/annotation" method="POST" access="hasRole('PERMISSION_CREATE_ANNOTATION')"/>
+      <sec:intercept-url pattern="/annotation/*" method="DELETE" access="hasRole('PERMISSION_DELETE_ANNOTATION')"/>
       <sec:form-login login-page='/login' login-processing-url="/process_login" authentication-failure-url="/login?error=true"/>
       <sec:access-denied-handler error-page="/accessDenied"/>
       <sec:logout logout-url="/logout"/>

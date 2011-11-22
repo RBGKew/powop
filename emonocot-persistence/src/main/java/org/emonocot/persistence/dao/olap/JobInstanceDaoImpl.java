@@ -1,10 +1,18 @@
 package org.emonocot.persistence.dao.olap;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -73,16 +81,51 @@ public class JobInstanceDaoImpl extends JdbcDaoSupport implements
      *            The jobExecution to save
      */
     public final void save(final JobInstance jobInstance) {
+        String jobKey = createJobKey(jobInstance.getJobParameters());
         getJdbcTemplate().update(
-                "INSERT into BATCH_JOB_INSTANCE(JOB_INSTANCE_ID, JOB_NAME, VERSION)"
-                        + " values (?, ?, ?)", jobInstance.getId(),
-                jobInstance.getJobName(), jobInstance.getVersion());
+                "INSERT into BATCH_JOB_INSTANCE(JOB_INSTANCE_ID, JOB_NAME, VERSION, JOB_KEY)"
+                        + " values (?, ?, ?, ?)", jobInstance.getId(),
+                jobInstance.getJobName(), jobInstance.getVersion(), jobKey);
         for (String key : jobInstance.getJobParameters().getParameters()
                 .keySet()) {
             JobParameter jobParameter = jobInstance.getJobParameters()
                     .getParameters().get(key);
             insertParameter(jobInstance.getId(), jobParameter.getType(), key,
                     jobParameter.getValue());
+        }
+    }
+
+    /**
+     *
+     * @param jobParameters Set the job parameters
+     * @return the generated job key
+     */
+    private String createJobKey(final JobParameters jobParameters) {
+
+        Map<String, JobParameter> props = jobParameters.getParameters();
+        StringBuffer stringBuffer = new StringBuffer();
+        List<String> keys = new ArrayList<String>(props.keySet());
+        Collections.sort(keys);
+        for (String key : keys) {
+            stringBuffer.append(key + "=" + props.get(key).toString()
+                    + ";");
+        }
+
+        MessageDigest digest;
+        try {
+            digest = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException(
+                    "MD5 algorithm not available.  Fatal (should be in the JDK).");
+        }
+
+        try {
+            byte[] bytes = digest.digest(stringBuffer.toString()
+                    .getBytes("UTF-8"));
+            return String.format("%032x", new BigInteger(1, bytes));
+        } catch (UnsupportedEncodingException e) {
+            throw new IllegalStateException(
+                    "UTF-8 encoding not available.  Fatal (should be in the JDK).");
         }
     }
 
@@ -153,8 +196,10 @@ public class JobInstanceDaoImpl extends JdbcDaoSupport implements
             JobInstance jobInstance = new JobInstance(resultSet.getBigDecimal(
                     "JOB_INSTANCE_ID").longValue(), jobParameters,
                     resultSet.getString("JOB_NAME"));
-            jobInstance.setVersion(resultSet.getBigDecimal("VERSION")
-                    .intValue());
+            BigDecimal version = resultSet.getBigDecimal("VERSION");
+            if (version != null) {
+                jobInstance.setVersion(version.intValue());
+            }
             return jobInstance;
         }
 
@@ -185,7 +230,7 @@ public class JobInstanceDaoImpl extends JdbcDaoSupport implements
             }
         };
         getJdbcTemplate().query("SELECT JOB_INSTANCE_ID, KEY_NAME, TYPE_CD, "
-         + "STRING_VAL, DATE_VAL, LONG_VAL, DOUBLE_VAL from %PREFIX%JOB_PARAMS where JOB_INSTANCE_ID = ?", rowCallbackHandler, instanceId);
+         + "STRING_VAL, DATE_VAL, LONG_VAL, DOUBLE_VAL from BATCH_JOB_PARAMS where JOB_INSTANCE_ID = ?", rowCallbackHandler, instanceId);
         return new JobParameters(map);
     }
 }

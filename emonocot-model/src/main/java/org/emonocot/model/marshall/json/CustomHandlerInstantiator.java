@@ -16,6 +16,7 @@ import org.emonocot.api.ReferenceService;
 import org.emonocot.api.SourceService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.UserService;
+import org.emonocot.model.common.Base;
 
 /**
  *
@@ -138,6 +139,14 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
                     = SourceDeserializer.class.newInstance();
                 sourceDeserializer.setService(sourceService);
                 return sourceDeserializer;
+            } else if (jsonDeserializerClass
+                    .equals(AnnotatableObjectDeserializer.class)) {
+                AnnotatableObjectDeserializer annotatableObjectDeserializer
+                    = AnnotatableObjectDeserializer.class.newInstance();
+                annotatableObjectDeserializer.addService(taxonService);
+                annotatableObjectDeserializer.addService(imageService);
+                annotatableObjectDeserializer.addService(referenceService);
+                return annotatableObjectDeserializer;
             }
         } catch (IllegalAccessException iae) {
             return null;

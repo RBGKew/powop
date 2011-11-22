@@ -9,7 +9,6 @@ import org.codehaus.jackson.map.JsonDeserializer;
 import org.emonocot.api.JobInstanceService;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
-import org.springframework.batch.core.explore.JobExplorer;
 
 /**
  *
@@ -47,5 +46,4 @@ public class JobExecutionDeserializer extends JsonDeserializer<JobExecution> {
         JobInstance jobInstance = jobInstanceService.find(jobInstanceId);
         return new JobExecution(jobInstance, jobId);
     }
-
 }

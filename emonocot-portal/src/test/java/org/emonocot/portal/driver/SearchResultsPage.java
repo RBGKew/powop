@@ -10,90 +10,93 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
 /**
- *
+ * 
  * @author ben
- *
+ * 
  */
 public class SearchResultsPage extends PageObject {
-   /**
-    *
-    */
-   @FindBy(how = How.ID, using = "results")
-   private WebElement results;
+    /**
+     *
+     */
+    @FindBy(how = How.ID, using = "results")
+    private WebElement results;
 
-   /**
-    *
-    */
-   @FindBy(how = How.CLASS_NAME, using = "ui-autocomplete")
-   private WebElement autocomplete;
+    /**
+     *
+     */
+    @FindBy(how = How.CLASS_NAME, using = "ui-autocomplete")
+    private WebElement autocomplete;
 
-  /**
-   *
-   */
-  @FindBy(how = How.ID, using = "query")
-  private WebElement query;
+    /**
+     *
+     */
+    @FindBy(how = How.ID, using = "query")
+    private WebElement query;
 
-   /**
-    *
-    */
-   @FindBy(how = How.ID, using = "pages")
-   private WebElement message;
+    /**
+     *
+     */
+    @FindBy(how = How.ID, using = "pages")
+    private WebElement message;
 
-   /**
-   *
-   */
-  @FindBy(how = How.ID, using = "facets")
-  private WebElement facets;
-  
-  /**
-  *
-  */
- @FindBy(how = How.ID, using = "viewIcons")
- private WebElement viewIcons;
+    /**
+     *
+     */
+    @FindBy(how = How.ID, using = "facets")
+    private WebElement facets;
 
- 
+    /**
+     *
+     */
+    @FindBy(how = How.ID, using = "viewIcons")
+    private WebElement viewIcons;
 
-   /**
-    *
-    * @return the number of results
-    */
+    /**
+     *
+     * @return the number of results
+     */
     public final Integer getResultNumber() {
         return results.findElements(By.className("result")).size();
     }
 
     /**
-     * @param facetName set the facet name
+     * @param facetName
+     *            set the facet name
      * @return the number of class facets
      */
     public final Integer getFacetNumber(final String facetName) {
-        return facets.findElements(By.xpath("li[@id = '" + facetName + "']/ul/li")).size();
+        return facets.findElements(
+                By.xpath("li[@id = '" + facetName + "']/ul/li")).size();
     }
 
     /**
      *
-     * @param sort The string to sort by
+     * @param sort
+     *            The string to sort by
      * @return a search results page
      */
-   public final SearchResultsPage sort(final String sort) {
-       WebElement classFacet = facets.findElement(By
-               .xpath("li[h2/text() = 'Sort']/ul/li/a[text() = \'" + sort + "\']"));
-       return openAs(classFacet.getAttribute("href"),
-               SearchResultsPage.class);
-   }
-   
-   /**
-   *
-   * @param view Go to the grid view
-   * @return a search results page
-   */
- public final SearchResultsPage view(final String grid) {
-     WebElement idViewIcon = viewIcons.findElement(By.xpath("div/a[@title = \'" + grid +"\']"));
-     return openAs(idViewIcon.getAttribute("href"),
-             SearchResultsPage.class);
- }
+    public final SearchResultsPage sort(final String sort) {
+        WebElement classFacet = facets.findElement(By
+                .xpath("li[h2/text() = 'Sort']/ul/li/a[text() = \'" + sort
+                        + "\']"));
+        return openAs(classFacet.getAttribute("href"), SearchResultsPage.class);
+    }
 
     /**
-     * @param facetName Set the facet name
+     *
+     * @param grid
+     *            Go to the grid view
+     * @return a search results page
+     */
+    public final SearchResultsPage view(final String grid) {
+        WebElement idViewIcon = viewIcons.findElement(By
+                .xpath("div/a[@title = \'" + grid + "\']"));
+        return openAs(idViewIcon.getAttribute("href"), SearchResultsPage.class);
+    }
+
+    /**
+     * @param facetName
+     *            Set the facet name
      * @return an array of the facet labels
      */
     public final String[] getFacets(final String facetName) {
@@ -128,16 +131,17 @@ public class SearchResultsPage extends PageObject {
     }
 
     /**
-     * @param facetName the name of the facet
-     * @param facetValue the name of the facet value to select
+     * @param facetName
+     *            the name of the facet
+     * @param facetValue
+     *            the name of the facet value to select
      * @return the corresponding search results page
      */
     public final SearchResultsPage selectFacet(final String facetName,
             final String facetValue) {
-        WebElement classFacet = facets.findElement(By
-                .xpath("li[h2/text() = '" + facetName + "']/ul/li/a[text() = \'" + facetValue + "\']"));
-        return openAs(classFacet.getAttribute("href"),
-                SearchResultsPage.class);
+        WebElement classFacet = facets.findElement(By.xpath("li[h2/text() = '"
+                + facetName + "']/ul/li/a[text() = \'" + facetValue + "\']"));
+        return openAs(classFacet.getAttribute("href"), SearchResultsPage.class);
     }
 
     /**
@@ -167,34 +171,38 @@ public class SearchResultsPage extends PageObject {
 
     /**
      *
-     * @param queryString Set the query on the search results page
+     * @param queryString
+     *            Set the query on the search results page
      */
     public final void setQuery(final String queryString) {
         query.sendKeys(queryString);
     }
-    
+
     /**
-    *
-    * @return true if the icons exist, false otherwise
-    */
-   public final Boolean viewIconDisplay() {
-	   try {
-           WebElement element = viewIcons.findElement(By.tagName("div"));
-       } catch (NoSuchElementException e) {
-           return false;
-       }
-       return true;
-   }
+     *
+     * @return true if the icons exist, false otherwise
+     */
+    public final Boolean viewIconDisplay() {
+        try {
+            WebElement element = viewIcons.findElement(By.tagName("div"));
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+        return true;
+    }
 
-	public boolean resultsAreDisplayedInGrid() {
-		try {
-	           WebElement element = results.findElement(By.xpath("ul/li"));
-	       } catch (NoSuchElementException e) {
-	           return false;
-	       }
-	       return true;
+    /**
+     *
+     * @return true if the results are displayed in a grid
+     */
+    public final boolean resultsAreDisplayedInGrid() {
+        try {
+            WebElement element = results.findElement(By.xpath("ul/li"));
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+        return true;
 
-	}
-
+    }
 
 }

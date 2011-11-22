@@ -233,6 +233,24 @@ public class JobExecutionDaoImpl extends JdbcDaoSupport implements
     * @param jobExecution The jobExecution to save
     */
     public final void save(final JobExecution jobExecution) {
-        getJdbcTemplate().update("INSERT INTO BATCH_JOB_EXECUTION (JOB_EXECUTION_ID, JOB_INSTANCE_ID) where JOB_EXECUTION_ID = ?", jobExecution.getId(),jobExecution.getJobInstance().getId());
+        String exitCode = null;
+        String exitDescription = null;
+        if (jobExecution.getExitStatus() != null) {
+            exitCode = jobExecution.getExitStatus().getExitCode();
+            exitDescription = jobExecution.getExitStatus().getExitDescription();
+        }
+        getJdbcTemplate()
+                .update("INSERT INTO BATCH_JOB_EXECUTION (JOB_EXECUTION_ID, VERSION, JOB_INSTANCE_ID, CREATE_TIME, START_TIME, END_TIME, STATUS, EXIT_CODE, EXIT_MESSAGE, LAST_UPDATED) VALUES (?,?,?,?,?,?,?,?,?,?)",
+                        jobExecution.getId(),
+                        jobExecution.getVersion(),
+                        jobExecution.getJobInstance().getId(),
+                        jobExecution.getCreateTime(),
+                        jobExecution.getStartTime(),
+                        jobExecution.getEndTime(),
+                        jobExecution.getStatus().name(),
+                        exitCode,
+                        exitDescription,
+                        jobExecution.getLastUpdated()
+                        );
     }
 }

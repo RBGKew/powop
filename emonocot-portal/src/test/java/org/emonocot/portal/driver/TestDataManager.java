@@ -3,15 +3,24 @@ package org.emonocot.portal.driver;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Stack;
 
+import org.emonocot.api.AnnotationService;
 import org.emonocot.api.GroupService;
 import org.emonocot.api.ImageService;
+import org.emonocot.api.JobExecutionService;
+import org.emonocot.api.JobInstanceService;
 import org.emonocot.api.ReferenceService;
 import org.emonocot.api.SourceService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.UserService;
+import org.emonocot.model.common.Annotation;
+import org.emonocot.model.common.AnnotationType;
+import org.emonocot.model.common.RecordType;
+import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.Base;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
@@ -30,6 +39,14 @@ import org.emonocot.model.user.User;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.batch.core.BatchStatus;
+import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobInstance;
+import org.springframework.batch.core.JobParameter;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -49,6 +66,12 @@ public class TestDataManager {
     /**
      *
      */
+    private Logger logger = LoggerFactory
+            .getLogger(TestDataManager.class);
+
+    /**
+     *
+     */
     private GeographyConverter geographyConverter = new GeographyConverter();
 
     /**
@@ -59,7 +82,7 @@ public class TestDataManager {
     /**
      *
      */
-    private Stack<Base> data = new Stack<Base>();
+    private Stack<Object> data = new Stack<Object>();
 
     /**
      *
@@ -76,6 +99,7 @@ public class TestDataManager {
      *
      */
     public TestDataManager() throws IOException {
+        logger.debug("Initializing TestDataManager");
         Resource propertiesFile = new ClassPathResource(
                 "application.properties");
         Properties properties = new Properties();
@@ -119,6 +143,24 @@ public class TestDataManager {
    */
   @Autowired
   private GroupService groupService;
+
+  /**
+   *
+   */
+  @Autowired
+  private AnnotationService annotationService;
+
+  /**
+   *
+   */
+  @Autowired
+  private JobExecutionService jobExecutionService;
+
+  /**
+   *
+   */
+  @Autowired
+  private JobInstanceService jobInstanceService;
 
     /**
      *
@@ -176,12 +218,16 @@ public class TestDataManager {
         User user = new User();
         user.setIdentifier(identifier);
         user.setPassword(newPassword);
+        user.setAccountNonExpired(true);
+        user.setAccountNonLocked(true);
+        user.setEnabled(true);
+        user.setCredentialsNonExpired(true);
         if (group1 != null) {
             Group g1 = new Group();
             g1.setIdentifier(group1);
             user.getGroups().add(g1);
         }
-        userService.save(user);
+        userService.createUser(user);
         data.push(user);
         disableAuthentication();
    }
@@ -189,9 +235,10 @@ public class TestDataManager {
    /**
     *
     * @param uri Set the uri
-    * @param name Set the name
+    * @param identifier Set the identifier
     */
-   public final void createSourceSystem(final String identifier, String uri) {
+    public final void createSourceSystem(final String identifier,
+            final String uri) {
         enableAuthentication();
         Source source = new Source();
         source.setIdentifier(identifier);
@@ -250,9 +297,9 @@ public class TestDataManager {
      * @param status Set the status
      * @param diagnostic Set the diagnostic
      * @param habitat Set the habitat
-     * @param general TODO
+     * @param general Set the general
      * @param protologue Set the protologue
-     * @param microReference TODO
+     * @param microReference Set the microReference
      * @param image1 Set the image1
      * @param image2 Set the image2
      * @param image3 Set the image3
@@ -260,15 +307,18 @@ public class TestDataManager {
      * @param distribution2 Set the distribution2
      * @param distribution3 Set the distribution3
      * @param source Set the source
-     * @param created TODO
+     * @param created Set the created date
     *
     */
     public final void createTaxon(final String name, final String family,
             final String identifier, final String rank, final String status,
             final String diagnostic, final String habitat,
-            final String general, final String protologue, String microReference,
-            final String image1, final String image2,
-            final String image3, final String distribution1, final String distribution2, final String distribution3, String source, String created) {
+            final String general, final String protologue,
+            final String microReference, final String image1,
+            final String image2, final String image3,
+            final String distribution1, final String distribution2,
+            final String distribution3, final String source,
+            final String created) {
         enableAuthentication();
         Taxon taxon = new Taxon();
         data.push(taxon);
@@ -380,6 +430,158 @@ public class TestDataManager {
         referenceService.save(r);
     }
 
+    /**
+     *
+     * @param jobId Set the job id
+     * @param jobName Set the job name
+     * @param authorityName Set the authority name
+     * @param version Set the version
+     */
+    public final void createJobInstance(final String jobId,
+            final String jobName, final String authorityName,
+            final String version) {
+        enableAuthentication();
+        Long id = null;
+        if (jobId != null && jobId.length() > 0) {
+            id = Long.parseLong(jobId);
+        }
+        Integer v = null;
+        if (version != null && version.length() > 0) {
+            v = Integer.parseInt(version);
+        }
+        Map<String, JobParameter> jobParameterMap
+             = new HashMap<String, JobParameter>();
+
+        if (authorityName != null && authorityName.length() > 0) {
+            jobParameterMap.put("authority.name", new JobParameter(
+                    authorityName));
+        }
+        JobParameters jobParameters = new JobParameters(jobParameterMap);
+        JobInstance jobInstance = new JobInstance(id, jobParameters, jobName);
+        jobInstance.setVersion(v);
+        data.push(jobInstance);
+        jobInstanceService.save(jobInstance);
+        disableAuthentication();
+    }
+
+    /**
+     *
+     * @param jobId Set the jobId
+     * @param jobInstance Set the job instance
+     * @param createTime Set the create time
+     * @param endTime Set the end time
+     * @param startTime Set the start time
+     * @param lastUpdated Set the last updated date
+     * @param status Set the status
+     * @param version Set the version
+     * @param exitCode Set the exit code
+     * @param exitMessage Set the exit message
+     */
+    public final void createJobExecution(final String jobId,
+            final String jobInstance, final String createTime,
+            final String endTime, final String startTime,
+            final String lastUpdated, final String status,
+            final String version, final String exitCode,
+            final String exitMessage) {
+        enableAuthentication();
+        Long id = null;
+        if (jobId != null && jobId.length() > 0) {
+            id = Long.parseLong(jobId);
+        }
+        Long jobInstanceId = null;
+        if (jobInstance != null) {
+            jobInstanceId = Long.parseLong(jobInstance);
+        }
+        JobExecution jobExecution = new JobExecution(new JobInstance(
+                jobInstanceId, null, "test"), id);
+        if (createTime != null && createTime.length() > 0) {
+            jobExecution.setCreateTime(dateTimeFormatter.parseDateTime(
+                    createTime).toDate());
+        }
+        if (startTime != null && startTime.length() > 0) {
+            jobExecution.setStartTime(dateTimeFormatter
+                    .parseDateTime(startTime).toDate());
+        }
+        if (endTime != null && endTime.length() > 0) {
+            jobExecution.setEndTime(dateTimeFormatter.parseDateTime(endTime)
+                    .toDate());
+        }
+        if (lastUpdated != null && lastUpdated.length() > 0) {
+            jobExecution.setLastUpdated(dateTimeFormatter.parseDateTime(
+                    lastUpdated).toDate());
+        }
+        if (status != null && status.length() > 0) {
+            jobExecution.setStatus(BatchStatus.valueOf(status));
+        }
+        if (version != null && version.length() > 0) {
+            jobExecution.setVersion(Integer.parseInt(version));
+        }
+        ExitStatus exitStatus = null;
+        if (exitCode != null && exitCode.length() > 0) {
+            if (exitMessage != null && exitMessage.length() > 0) {
+                exitStatus = new ExitStatus(exitCode, exitMessage);
+            } else {
+                exitStatus = new ExitStatus(exitCode);
+            }
+        }
+        jobExecution.setExitStatus(exitStatus);
+        data.push(jobExecution);
+        jobExecutionService.save(jobExecution);
+        disableAuthentication();
+    }
+
+    /**
+     *
+     * @param identifier Set the identifier
+     * @param code Set the code
+     * @param type Set the type
+     * @param recordType Set the record type
+     * @param value Set the value
+     * @param text Set the text
+     * @param jobId Set the jobId
+     * @param dateTime Set the dateTime
+     * @param source Set the source
+     * @param object Set the object
+     */
+    public final void createAnnotation(final String identifier,
+            final String code, final String type, final String recordType,
+            final String value, final String text, final String jobId,
+            final String dateTime, final String source, final String object) {
+        enableAuthentication();
+        Annotation annotation = new Annotation();
+        if (code != null && code.length() > 0) {
+            annotation.setCode(AnnotationCode.valueOf(code));
+        }
+        if (type != null && type.length() > 0) {
+            annotation.setType(AnnotationType.valueOf(type));
+        }
+        if (recordType != null && recordType.length() > 0) {
+            annotation.setRecordType(RecordType.valueOf(recordType));
+        }
+        annotation.setIdentifier(identifier);
+        annotation.setValue(value);
+        annotation.setText(text);
+        if (jobId != null && jobId.length() > 0) {
+            annotation.setJobId(Long.valueOf(jobId));
+        }
+        if (dateTime != null && dateTime.length() > 0) {
+            annotation.setDateTime(dateTimeFormatter.parseDateTime(dateTime));
+        }
+        if (source != null && source.length() > 0) {
+            Source s = new Source();
+            s.setIdentifier(source);
+            annotation.setSource(s);
+        }
+        if (object != null && object.length() > 0) {
+            Taxon t = new Taxon();
+            t.setIdentifier(object);
+            annotation.setAnnotatedObj(t);
+        }
+        data.push(annotation);
+        annotationService.save(annotation);
+        disableAuthentication();
+    }
+
   /**
    *
    * @param taxon Set the taxon
@@ -401,19 +603,25 @@ public class TestDataManager {
     public final void tearDown() {
         enableAuthentication();
         while (!data.isEmpty()) {
-            Base base = data.pop();
-            if (base instanceof Taxon) {
-                taxonService.delete(base.getIdentifier());
-            } else if (base instanceof Image) {
-                imageService.delete(base.getIdentifier());
-            } else if (base instanceof Reference) {
-                referenceService.delete(base.getIdentifier());
-            } else if (base instanceof User) {
-                userService.delete(base.getIdentifier());
-            } else if (base instanceof Group) {
-                groupService.delete(base.getIdentifier());
-            } else if (base instanceof Source) {
-                sourceService.delete(base.getIdentifier());
+            Object object = data.pop();
+            if (object instanceof Taxon) {
+                taxonService.delete(((Taxon) object).getIdentifier());
+            } else if (object instanceof Image) {
+                imageService.delete(((Image) object).getIdentifier());
+            } else if (object instanceof Reference) {
+                referenceService.delete(((Reference) object).getIdentifier());
+            } else if (object instanceof User) {
+                userService.delete(((User) object).getIdentifier());
+            } else if (object instanceof Group) {
+                groupService.delete(((Group) object).getIdentifier());
+            } else if (object instanceof Source) {
+                sourceService.delete(((Source) object).getIdentifier());
+            } else if (object instanceof Annotation) {
+                annotationService.delete(((Annotation) object).getIdentifier());
+            } else if (object instanceof JobInstance) {
+                jobInstanceService.delete(((JobInstance) object).getId());
+            } else if (object instanceof JobExecution) {
+                jobExecutionService.delete(((JobExecution) object).getId());
             }
         }
         disableAuthentication();

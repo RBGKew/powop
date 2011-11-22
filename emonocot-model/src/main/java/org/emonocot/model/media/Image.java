@@ -126,7 +126,7 @@ public class Image extends SearchableObject {
     }
 
     /**
-     * 
+     *
      * @param caption
      *            Set the caption
      */

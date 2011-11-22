@@ -70,7 +70,7 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
 
     /**
      * Retrieve taxon with the database id, rather than the
-     * "identifier" string used in views
+     * "identifier" string used in views.
      * @param id the identifier of the taxon to get
      * @return a taxon
      */
@@ -96,14 +96,14 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
 
     /**
      * Basic string matching to add the immediate parent and child taxa
-     * @param taxon the taxon to add related taxa to
+     * @param taxon the taxon to add related taxa to.
      */
     protected final void inferRelatedTaxa(final Taxon taxon) {
         if(taxon.getAcceptedName() != null && taxon.getAcceptedName().getId().equals(taxon.getId())) {
             taxon.setAcceptedName(null);
         }
-        
-        if(taxon.getAcceptedName() != null) {
+
+        if (taxon.getAcceptedName() != null) {
             return;
         }
 

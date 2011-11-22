@@ -56,7 +56,7 @@ public abstract class PageObject {
     /**
      *
      */
-    private WebDriver webDriver;
+    protected WebDriver webDriver;
 
    /**
     *
@@ -67,13 +67,6 @@ public abstract class PageObject {
     *
     */
    protected TestDataManager testDataManager;
-
-    /**
-     *
-     */
-    public PageObject() {
-        tryCreateWebDriver();
-    }
 
     /**
      *
@@ -106,6 +99,7 @@ public abstract class PageObject {
             LoginPage loginPage = pageObjectInstance(LoginPage.class);
             loginPage.setBaseUri(baseUri);
             loginPage.testDataManager = this.testDataManager;
+            loginPage.webDriver = this.webDriver;
             throw new RequiresLoginException(loginPage);
         }
         return getPage(pageClass);
@@ -121,6 +115,7 @@ public abstract class PageObject {
         T pageObject = pageObjectInstance(pageClass);
         pageObject.setBaseUri(baseUri);
         pageObject.testDataManager = this.testDataManager;
+        pageObject.webDriver = this.webDriver;
         return pageObject;
     }
 
@@ -145,31 +140,21 @@ public abstract class PageObject {
 
     /**
      *
-     * @param <T>
-     * @param pageClass
-     * @return
+     * @param <T> The type of page
+     * @param pageClass Set the page class
+     * @return an instance of class T
      */
-    private <T extends PageObject> T pageObjectInstance(Class<T> pageClass) {
+    private <T extends PageObject> T 
+        pageObjectInstance(final Class<T> pageClass) {
         return PageFactory.initElements(webDriver, pageClass);
     }
 
     /**
      *
-     * @param address
+     * @param address Set hte address
      */
-    private void open(String address) {
+    private void open(final String address) {
         webDriver.navigate().to(address);
-    }
-
-    /**
-     *
-     */
-    private void tryCreateWebDriver() {
-        try {
-            webDriver = new WebDriverFacade().getWebDriver();
-        } catch (Exception e) {
-            throw new IllegalStateException(e);
-        }
     }
 
     /**

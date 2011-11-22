@@ -39,7 +39,7 @@
 				      </th>
 				    </tr>
 				  </thead>
-					<tbody>
+					<tbody id="jobs">
 						<c:forEach var="jobExecution" items="${jobExecutions}">
 							<tr>
 								<td>

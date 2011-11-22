@@ -34,6 +34,10 @@ public class JobInstanceDeserializer extends JsonDeserializer<JobInstance> {
         jsonParser.nextToken();
         String jobName = jsonParser.getText();
         jsonParser.nextToken();
+        assert jsonParser.getCurrentName() == "version";
+        jsonParser.nextToken();
+        Integer version = jsonParser.getIntValue();
+        jsonParser.nextToken();
         assert jsonParser.getCurrentName() == "parameters";
         jsonToken = jsonParser.nextToken();
         assert jsonToken == JsonToken.START_ARRAY;
@@ -77,7 +81,9 @@ public class JobInstanceDeserializer extends JsonDeserializer<JobInstance> {
         }
 
         JobParameters jobParameters = new JobParameters(jobParameterMap);
-        return new JobInstance(jobId, jobParameters, jobName);
+        JobInstance jobInstance = new JobInstance(jobId, jobParameters, jobName);
+        jobInstance.setVersion(version);
+        return jobInstance;
     }
 
 }

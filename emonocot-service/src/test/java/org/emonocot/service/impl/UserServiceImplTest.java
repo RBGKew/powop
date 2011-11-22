@@ -27,7 +27,10 @@ public class UserServiceImplTest {
         userDao = EasyMock.createMock(UserDao.class);
         userService.setUserDao(userDao);
     }
-    
+
+    /**
+     *
+     */
     @Test
     public final void testEncodePassword() {
         String password = "t35t";
@@ -35,12 +38,13 @@ public class UserServiceImplTest {
         User user = new User();
         user.setUsername("test@example.com");
         user.setPassword(password);
-        EasyMock.expect(userDao.save(EasyMock.and(EasyMock.eq(user),EasyMock.capture(capture)))).andReturn(user);        
-        
+        EasyMock.expect(
+                userDao.save(EasyMock.and(EasyMock.eq(user),
+                        EasyMock.capture(capture)))).andReturn(user);
         EasyMock.replay(userDao);
-        userService.save(user);
+        userService.createUser(user);
         EasyMock.verify(userDao);
-        
+
         assertFalse(capture.getValue().getPassword().equals(password));
     }
 

@@ -52,6 +52,9 @@ public abstract class SearchableDaoImpl<T extends Base> extends
     protected static Class SEARCHABLE_CLASSES[] = new Class[] { Image.class,
             Taxon.class };
 
+    /**
+     *
+     */
     private Class[] searchableClasses;
 
     /**
@@ -80,7 +83,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends
      *
      * @param facetName Set the facet name
      * @param facetManager Set the facet manager
-     * @param selectedFacet Set the selected facet
+     * @param selectedFacetName Set the selected facet
      */
     protected void selectFacet(final FacetName facetName,
             final FacetManager facetManager, final String selectedFacetName) {
@@ -156,14 +159,21 @@ public abstract class SearchableDaoImpl<T extends Base> extends
     protected abstract String[] getDocumentFields();
 
     /**
-     * @param query A lucene query
-     * @param spatialQuery A spatial query to filter the results by
-     * @param pageSize The maximum number of results to return
-     * @param pageNumber The offset (in pageSize chunks, 0-based) from the beginning of
+     * @param query
+     *            A lucene query
+     * @param spatialQuery
+     *            A spatial query to filter the results by
+     * @param pageSize
+     *            The maximum number of results to return
+     * @param pageNumber
+     *            The offset (in pageSize chunks, 0-based) from the beginning of
      *            the recordset
-     * @param facets The names of the facets you want to calculate
-     * @param selectedFacets A map of facets which you would like to restrict the search by
-     * @param sort A representation for the order results should be returned in
+     * @param facets
+     *            The names of the facets you want to calculate
+     * @param selectedFacets
+     *            A map of facets which you would like to restrict the search by
+     * @param sort
+     *            A representation for the order results should be returned in
      * @return a Page from the resultset
      */
     public final Page<T> search(final String query, final String spatialQuery,
@@ -177,16 +187,17 @@ public abstract class SearchableDaoImpl<T extends Base> extends
 
         try {
             // Create a lucene query
-            org.apache.lucene.search.Query luceneQuery = null;
-            Matcher matcher = pattern.matcher(query);
-            QueryParser parser = null;
-            if (matcher.matches()) {
-                parser = new QueryParser(Version.LUCENE_31, getDefaultField(), searchFactory.getAnalyzer(getAnalyzerType()));
-            } else {
-                parser = new MultiFieldQueryParser(Version.LUCENE_31, getDocumentFields(),
-                        searchFactory.getAnalyzer(getAnalyzerType()));
-            }
+            org.apache.lucene.search.Query luceneQuery = null;            
+            
             if (query != null && !query.trim().equals("")) {
+                Matcher matcher = pattern.matcher(query);
+                QueryParser parser = null;
+                if (matcher.matches()) {
+                    parser = new QueryParser(Version.LUCENE_31, getDefaultField(), searchFactory.getAnalyzer(getAnalyzerType()));
+                } else {
+                    parser = new MultiFieldQueryParser(Version.LUCENE_31, getDocumentFields(),
+                            searchFactory.getAnalyzer(getAnalyzerType()));
+                }
                 luceneQuery = parser.parse(query);
             } else {
                 QueryBuilder queryBuilder = searchFactory.buildQueryBuilder()

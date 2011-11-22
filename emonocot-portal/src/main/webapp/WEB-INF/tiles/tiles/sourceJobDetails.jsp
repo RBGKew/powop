@@ -41,7 +41,7 @@
 					<td><spring:message code="category" /></td>
 					<td><spring:message code="records.harvested" /></td>
 				</thead>
-				<tbody>
+				<tbody id="results">
 					<c:forEach var="result" items="${results}">
 						<tr>
 							<td>${result.label}</td>

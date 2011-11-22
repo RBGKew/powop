@@ -26,12 +26,12 @@ public class JobExecutionServiceImpl implements JobDataService {
 
     /**
      *
-     * @param jobDao
+     * @param jobExecutionDao
      *            set the job dao
      */
     @Autowired
-    public void setJobDao(JobExecutionDao jobDao) {
-        this.dao = jobDao;
+    public void setJobExecutionDao(JobExecutionDao jobExecutionDao) {
+        this.dao = jobExecutionDao;
     }
 
     /**

@@ -19,14 +19,20 @@ import org.emonocot.portal.driver.RegistrationPage;
 import org.emonocot.portal.driver.RequiresLoginException;
 import org.emonocot.portal.driver.SearchResultsPage;
 import org.emonocot.portal.driver.SourcePage;
+import org.emonocot.portal.driver.SourceAdminPage;
+import org.emonocot.portal.driver.SourceJobPage;
 import org.emonocot.portal.driver.TaxonPage;
 import org.emonocot.portal.driver.TestDataManager;
+import org.emonocot.portal.rows.AnnotationRow;
 import org.emonocot.portal.rows.GroupRow;
 import org.emonocot.portal.rows.ImageRow;
+import org.emonocot.portal.rows.JobExecutionRow;
+import org.emonocot.portal.rows.JobInstanceRow;
 import org.emonocot.portal.rows.LoginRow;
 import org.emonocot.portal.rows.ReferenceRow;
 import org.emonocot.portal.rows.RegistrationRow;
 import org.emonocot.portal.rows.SourceRow;
+import org.emonocot.portal.rows.SummaryRow;
 import org.emonocot.portal.rows.TaxonRow;
 import org.emonocot.portal.rows.UserRow;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +71,7 @@ public class StepDefinitions {
     @Autowired
     private TestDataManager testDataManager;
 
-    /**
+   /**
     *
     * @param imageRows set the image rows
     */
@@ -77,6 +83,54 @@ public class StepDefinitions {
                      imageRow.caption, imageRow.url, imageRow.source);
         }
     }
+
+  /**
+   *
+   * @param jobInstanceRows set the job instance rows
+   */
+  @Given("^there are job instances with the following properties:$")
+  public final void thereAreJobInstancesWithTheFollowingProperties(
+           final List<JobInstanceRow> jobInstanceRows) {
+       for (JobInstanceRow jobInstanceRow : jobInstanceRows) {
+            testDataManager.createJobInstance(jobInstanceRow.jobId,
+                    jobInstanceRow.jobName, jobInstanceRow.authorityName,
+                    jobInstanceRow.version);
+       }
+   }
+
+ /**
+  *
+  * @param jobExecutionRows set the job execution rows
+  */
+ @Given("^there are job executions with the following properties:$")
+ public final void thereAreJobExecutionsWithTheFollowingProperties(
+          final List<JobExecutionRow> jobExecutionRows) {
+      for (JobExecutionRow jobExecution : jobExecutionRows) {
+            testDataManager.createJobExecution(jobExecution.jobId,
+                    jobExecution.jobInstance, jobExecution.createTime,
+                    jobExecution.endTime, jobExecution.startTime,
+                    jobExecution.lastUpdated, jobExecution.status,
+                    jobExecution.version, jobExecution.exitCode,
+                    jobExecution.exitMessage);
+      }
+  }
+
+ /**
+ *
+ * @param annotationRows set the job instance rows
+ */
+@Given("^there are annotations with the following properties:$")
+public final void thereAreAnnotationsWithTheFollowingProperties(
+         final List<AnnotationRow> annotationRows) {
+     for (AnnotationRow annotationRow : annotationRows) {
+            testDataManager.createAnnotation(annotationRow.identifier,
+                    annotationRow.code, annotationRow.type,
+                    annotationRow.recordType, annotationRow.value,
+                    annotationRow.text, annotationRow.jobId,
+                    annotationRow.dateTime, annotationRow.source,
+                    annotationRow.object);
+     }
+ }
 
    /**
     *  @param rows Set the rows
@@ -105,12 +159,13 @@ public class StepDefinitions {
     *
     * @param rows Set the rows
     */
-   @Given("^there are source systems with the following properties:$")
-   public final void thereAreSourceSystemsWithTheFollowingProperties(List<SourceRow> rows) {
-       for (SourceRow row : rows) {
-    	   testDataManager.createSourceSystem(row.identifier, row.uri);
-       }
-   }
+    @Given("^there are source systems with the following properties:$")
+    public final void thereAreSourceSystemsWithTheFollowingProperties(
+            final List<SourceRow> rows) {
+        for (SourceRow row : rows) {
+            testDataManager.createSourceSystem(row.identifier, row.uri);
+        }
+    }
 
 
 
@@ -156,8 +211,10 @@ public class StepDefinitions {
      */
     @After
     public final void tearDown() {
-        currentPage.logOut();
-        currentPage.disableAuthentication();
+        if (currentPage != null) {
+            currentPage.logOut();
+            currentPage.disableAuthentication();
+        }
         testDataManager.tearDown();
     }
 
@@ -217,25 +274,82 @@ public class StepDefinitions {
    public final void typeInTheSearchBox(final Integer wait) {
        currentPage.waitForAjax(wait * MILLISECONDS_IN_A_SECOND);
    }
-   
+
    /**
    *
-   * @param click Click on the grid icon
+   * @param view Click on the grid icon
    */
    @When("^I click on the \"([^\"]*)\" icon$")
-   public void iClickOnTheGridIcon(final String view) {
+   public final void iClickOnTheGridIcon(final String view) {
        currentPage = ((SearchResultsPage) currentPage).view(view);
    }
-   
+
    /**
-   *
-   * @param results
-   *            Show the view icons
-   */
-   @Then("^the view icons should be displayed$")
-   public void theViewIconsShouldBeDisplayed() {
-	   assertTrue(((SearchResultsPage) currentPage).viewIconDisplay());
+    *
+    * @param username Set the username
+    * @param password Set the password
+    */
+    @When("^I am logged in as \"([^\"]*)\" with the password \"([^\"]*)\"$")
+    public final void iAmLoggedInAsWithPassword(final String username,
+            final String password) {
+        currentPage = portal.getLoginPage();
+        ((LoginPage) currentPage).setUsername(username);
+        ((LoginPage) currentPage).setPassword(password);
+        currentPage = ((LoginPage) currentPage).submit();
+    }
+
+    /**
+     *
+     * @param job Set the job
+     */
+    @When("^I select the (\\d+)\\w+ job$")
+    public final void iSelectTheJob(final int job) {
+        currentPage = ((SourceAdminPage) currentPage).selectJob(job);
+    }
+
+    /**
+     *
+     * @param category Set the category
+     */
+    @When("^I select the job category \"([^\"]*)\"$")
+    public final void iSelectTheJobCategory(final String category) {
+        currentPage = ((SourceJobPage) currentPage).selectCategory(category);
+    }
+
+    /**
+    *
+    * @param results Set the results
+    */
+   @Then("^the summary results should be as follows:$")
+   public final void theSummaryResultsShouldBeAsFollows(
+           final List<SummaryRow> results) {
+        int actualNumberOfResults = (int) ((SourceJobPage) currentPage)
+                .getResultNumber();
+        assertEquals(results.size(), actualNumberOfResults);
+        List<String[]> actualResults = ((SourceJobPage) currentPage)
+                .getResults();
+       for (int i = 0; i < actualNumberOfResults; i++) {
+           assertArrayEquals(actualResults.get(i), results.get(i).toArray());
+       }
    }
+
+    /**
+     *
+     * @param jobs Set the number of jobs listed
+     */
+    @Then("^there should be (\\d+) jobs listed$")
+    public final void thereShouldBeJobsListed(final int jobs) {
+        assertEquals(jobs, ((SourceAdminPage) currentPage).getJobsListed()
+                .intValue());
+    }
+
+    /**
+     *
+     */
+    @Then("^the view icons should be displayed$")
+    public final void theViewIconsShouldBeDisplayed() {
+        assertTrue(((SearchResultsPage) currentPage).viewIconDisplay());
+    }
 
    /**
     *

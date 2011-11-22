@@ -44,6 +44,7 @@
       <property name="groupService" ref="groupServiceImpl"/>
       <property name="userService" ref="userServiceImpl"/>
       <property name="sourceService" ref="sourceServiceImpl"/>
+      <property name="jobInstanceService" ref="jobInstanceServiceImpl"/>
     </bean>
     
     <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">

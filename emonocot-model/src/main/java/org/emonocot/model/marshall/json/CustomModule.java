@@ -43,6 +43,7 @@ public class CustomModule extends Module {
         setupContext.addKeyDeserializers(keyDeserializers);
         SimpleSerializers simpleSerializers = new SimpleSerializers();
         simpleSerializers.addSerializer(new JobInstanceSerializer());
+        simpleSerializers.addSerializer(new JobExecutionSerializer());
         setupContext.addSerializers(simpleSerializers);
 
         SimpleDeserializers simpleDeserializers = new SimpleDeserializers();

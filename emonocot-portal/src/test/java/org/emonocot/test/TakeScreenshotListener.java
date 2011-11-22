@@ -21,7 +21,7 @@ public class TakeScreenshotListener extends RunListener {
     /**
      * @param failure Set the failure
      */
-    public final void testFailure(final Failure failure) {        
+    public final void testFailure(final Failure failure) {
         try {
             File file = ((TakesScreenshot) WebDriverFacade.getWebDriver())
                     .getScreenshotAs(OutputType.FILE);

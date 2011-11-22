@@ -1,8 +1,15 @@
 package org.emonocot.portal.remoting;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
+import org.emonocot.model.common.Annotation;
+import org.emonocot.model.common.AnnotationCode;
+import org.emonocot.model.common.AnnotationType;
+import org.emonocot.model.common.RecordType;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
@@ -11,16 +18,24 @@ import org.emonocot.model.media.Image;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.model.user.Group;
 import org.emonocot.model.user.User;
+import org.emonocot.persistence.dao.AnnotationDao;
 import org.emonocot.persistence.dao.GroupDao;
 import org.emonocot.persistence.dao.ImageDao;
+import org.emonocot.persistence.dao.JobExecutionDao;
+import org.emonocot.persistence.dao.JobInstanceDao;
 import org.emonocot.persistence.dao.TaxonDao;
 import org.emonocot.persistence.dao.UserDao;
 import org.emonocot.portal.driver.TestAuthentication;
+import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobInstance;
+import org.springframework.batch.core.JobParameter;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -61,6 +76,24 @@ public class RestApiFunctionalTest {
     */
    @Autowired
    private UserDao userDao;
+
+   /**
+    *
+    */
+   @Autowired
+   private JobExecutionDao jobExecutionDao;
+
+   /**
+    *
+    */
+   @Autowired
+   private JobInstanceDao jobInstanceDao;
+
+   /**
+    *
+    */
+   @Autowired
+   private AnnotationDao annotationDao;
 
    /**
     *
@@ -167,5 +200,42 @@ public class RestApiFunctionalTest {
 
        userDao.delete("test@example.com");
        groupDao.delete("PalmWeb");
+   }
+
+   /**
+    *
+    */
+   @Test
+   public final void testJobExecution() {
+        Map<String, JobParameter> jobParametersMap = new HashMap<String, JobParameter>();
+        jobParametersMap.put("authority.name", new JobParameter("test"));
+        JobInstance jobInstance = new JobInstance(1L, new JobParameters(
+                jobParametersMap), "testJob");
+        jobInstance.setVersion(1);
+        jobInstanceDao.save(jobInstance);
+
+
+        JobExecution jobExecution = new JobExecution(jobInstance, 1L);
+        jobExecution.setCreateTime(new Date());
+        jobExecutionDao.save(jobExecution);
+
+        jobExecutionDao.delete(1L);
+        jobInstanceDao.delete(1L);
+   }
+
+   /**
+    *
+    */
+   public final void testAnnotation() {
+       Annotation annotation = new Annotation();
+       annotation.setCode(AnnotationCode.BadField);
+       annotation.setDateTime(new DateTime());
+       annotation.setJobId(1L);
+       annotation.setRecordType(RecordType.Taxon);
+       annotation.setType(AnnotationType.Error);
+       annotation.setValue("test");
+
+       annotationDao.save(annotation);
+       annotationDao.delete(annotation.getIdentifier());
    }
 }

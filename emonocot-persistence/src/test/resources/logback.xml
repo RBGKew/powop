@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-  <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
-    <encoding>UTF-8</encoding>
+  <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">    
     <encoder>
       <pattern>%d{ISO8601} | %-5p | %t | %c | %m%n</pattern>
     </encoder>

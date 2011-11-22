@@ -30,17 +30,17 @@ import org.springframework.stereotype.Repository;
 public class SearchableObjectDaoImpl extends
         SearchableDaoImpl<SearchableObject> implements SearchableObjectDao {
 
-	/**
+   /**
     *
     */
-   private static Map<String, Fetch[]> FETCH_PROFILES;
-   
-   static {
-       FETCH_PROFILES = new HashMap<String, Fetch[]>();
-       FETCH_PROFILES.put("taxon-with-image", new Fetch[] {
-               new Fetch("image", FetchMode.SELECT) });
-   }
-	
+    private static Map<String, Fetch[]> FETCH_PROFILES;
+
+    static {
+        FETCH_PROFILES = new HashMap<String, Fetch[]>();
+        FETCH_PROFILES.put("taxon-with-image", new Fetch[] {new Fetch("image",
+                FetchMode.SELECT) });
+    }
+
     /**
      *
      */
@@ -101,49 +101,51 @@ public class SearchableObjectDaoImpl extends
     }
 
     /**
-    *
-    * @param facetName Set the facet name
-    * @param facetManager Set the facet manager
-    * @param selectedFacet Set the selected facet
-    */
-   @Override
-   protected final void selectFacet(final FacetName facetName,
-           final FacetManager facetManager,
-           final String selectedFacet) {
-       switch (facetName) {
-       case CLASS:
-       case CONTINENT:
-       case REGION:
-       case AUTHORITY:
-       case FAMILY:
-           doSelectFacet(facetName, facetManager, selectedFacet);
-       default:
-           break;
-       }
-   }
+     *
+     * @param facetName
+     *            Set the facet name
+     * @param facetManager
+     *            Set the facet manager
+     * @param selectedFacet
+     *            Set the selected facet
+     */
+    @Override
+    protected final void selectFacet(final FacetName facetName,
+            final FacetManager facetManager, final String selectedFacet) {
+        switch (facetName) {
+        case CLASS:
+        case CONTINENT:
+        case REGION:
+        case AUTHORITY:
+        case FAMILY:
+            doSelectFacet(facetName, facetManager, selectedFacet);
+        default:
+            break;
+        }
+    }
 
     @Override
     protected final void addFacet(final Page<SearchableObject> page,
             final FacetName facetName, final FacetManager facetManager) {
-       switch (facetName) {
-       case CLASS:
-       case CONTINENT:
-       case REGION:
-       case AUTHORITY:
-       case FAMILY:
-           page.addFacets(facetName.name(),
-                   facetManager.getFacets(facetName.name()));
-       default:
-           break;
-       }
-   }
+        switch (facetName) {
+        case CLASS:
+        case CONTINENT:
+        case REGION:
+        case AUTHORITY:
+        case FAMILY:
+            page.addFacets(facetName.name(),
+                    facetManager.getFacets(facetName.name()));
+        default:
+            break;
+        }
+    }
 
     /**
      * @return the fields to search
      */
     @Override
     protected final String[] getDocumentFields() {
-        return new String[]{"name", "caption", "title", "content.content"};
+        return new String[] {"name", "caption", "title", "content.content" };
     }
 
     @Override

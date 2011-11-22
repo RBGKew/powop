@@ -16,8 +16,10 @@
 				
 				<div class="alert-message">
   					<a class="close" href="#">×</a>
-					<p><strong>${SPRING_SECURITY_LAST_EXCEPTION.class.name}</strong></p>
-					<p>${SPRING_SECURITY_LAST_EXCEPTION.cause.class.name}</p>
+					<p><strong><spring:message code="${SPRING_SECURITY_LAST_EXCEPTION.class.name}"/></strong></p>
+					<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.cause}">
+					    <p><spring:message code="${SPRING_SECURITY_LAST_EXCEPTION.cause.class.name}"/></p>
+					</c:if>				
 				</div>
 			</c:if>
 			
@@ -60,41 +62,16 @@
 						</div>
 					</jsp:element>
 				</spring:bind>
-				
-				<jsp:element name="input" class="btn primary">
-					<jsp:attribute name="type">submit</jsp:attribute>
-					<jsp:attribute name="value">
+				<div class="clearfix">
+				  <div class="input">
+				    <jsp:element name="input" class="btn primary">
+					  <jsp:attribute name="type">submit</jsp:attribute>
+					  <jsp:attribute name="value">
 						<spring:message code="submit" />
-					</jsp:attribute>
-				</jsp:element>
-				
-				<!-- <table>
-					<tr>
-						<td><spring:message code="username" />
-									</td>
-									<td><form:input path="j_username" />
-									</td>
-									<td><form:errors path="j_username" />
-									</td>
-								</tr>
-								<tr>
-									<td><spring:message code="password" />
-									</td>
-									<td><form:password path="j_password" />
-									</td>
-									<td><form:errors path="j_password" />
-									</td>
-								</tr>
-								<tr>
-									<td colspan="3"><jsp:element name="input">
-											<jsp:attribute name="type">submit</jsp:attribute>
-											<jsp:attribute name="value">
-												<spring:message code="submit" />
-											</jsp:attribute>
-										</jsp:element></td>
-								</tr>
-							</table>
-							 -->
+					  </jsp:attribute>
+				    </jsp:element>
+				  </div>
+				</div>			
 			</form:form>
 		</div>
 	</div>

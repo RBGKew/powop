@@ -88,12 +88,16 @@
 						</div>
 					</jsp:element>
 				</spring:bind>
-				<jsp:element name="input" class="btn primary" >
-					<jsp:attribute name="type">submit</jsp:attribute>
-					<jsp:attribute name="value">
+				<div class="clearfix">
+				  <div class="input">
+				    <jsp:element name="input" class="btn primary" >
+					  <jsp:attribute name="type">submit</jsp:attribute>
+					  <jsp:attribute name="value">
 						<spring:message code="submit" />
-					</jsp:attribute>
-				</jsp:element>
+					  </jsp:attribute>
+				    </jsp:element>
+				  </div>
+				</div>
 			</form:form>
 		</div>
 	</div>

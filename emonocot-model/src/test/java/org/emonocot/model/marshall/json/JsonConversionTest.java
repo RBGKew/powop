@@ -16,6 +16,9 @@ import org.emonocot.api.ImageService;
 import org.emonocot.api.ReferenceService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.UserService;
+import org.emonocot.model.common.Annotation;
+import org.emonocot.model.common.AnnotationCode;
+import org.emonocot.model.common.RecordType;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
@@ -310,8 +313,45 @@ public class JsonConversionTest {
         jobParameterMap.put("authority.name", new JobParameter("test"));
         JobInstance jobInstance = new JobInstance(1L, new JobParameters(
                 jobParameterMap), "testJob");
+        jobInstance.setVersion(1);
 
         System.out.println(objectMapper.writeValueAsString(jobInstance));
+
+    }
+
+   /**
+    *
+    * @throws Exception
+    *             if there is a problem serializing the object
+    */
+    @Test
+    public final void testReadJobInstance() throws Exception {
+        JobInstance jobInstance = objectMapper.readValue("{\"id\":1,\"jobName\":\"testJob\", \"version\":\"1\",\"parameters\":[{\"name\":\"authority.name\",\"type\":\"STRING\",\"value\":\"test\"}]}", JobInstance.class);
+        assertEquals(jobInstance.getId(), new Long(1L));
+        assertEquals(jobInstance.getJobName(), "testJob");
+        assertEquals(
+                jobInstance.getJobParameters().getString("authority.name"),
+                "test");
+    }
+
+    /**
+    *
+    * @throws Exception
+    *             if there is a problem serializing the object
+    */
+    @Test
+    public final void testWriteAnnotation() throws Exception {
+        Annotation annotation = new Annotation();
+        annotation.setCode(AnnotationCode.Absent);
+        annotation.setDateTime(new DateTime());
+        annotation.setIdentifier("1");
+        annotation.setRecordType(RecordType.Taxon);
+        annotation.setText("wibble");
+        annotation.setValue("wibble");
+        Taxon t = new Taxon();
+        t.setIdentifier("testIdentifier");
+        annotation.setAnnotatedObj(t);
+        System.out.println(objectMapper.writeValueAsString(annotation));
 
     }
 
@@ -321,13 +361,15 @@ public class JsonConversionTest {
     *             if there is a problem serializing the object
     */
     @Test
-    public final void testReadJobInstance() throws Exception {
-        JobInstance jobInstance = objectMapper.readValue("{\"id\":1,\"jobName\":\"testJob\",\"parameters\":[{\"name\":\"authority.name\",\"type\":\"STRING\",\"value\":\"test\"}]}", JobInstance.class);
-        assertEquals(jobInstance.getId(), new Long(1L));
-        assertEquals(jobInstance.getJobName(), "testJob");
-        assertEquals(
-                jobInstance.getJobParameters().getString("authority.name"),
-                "test");
+    public final void testAnnotation() throws Exception {
+        Taxon taxon = new Taxon();
+        EasyMock.expect(taxonService.find(EasyMock.eq("testIdentifier")))
+                .andReturn(taxon);
+        EasyMock.replay(taxonService);
+        Annotation annotation = objectMapper.readValue("{\"value\":\"wibble\",\"id\":null,\"type\":null,\"source\":null,\"code\":\"Absent\",\"text\":\"wibble\",\"jobId\":null,\"annotatedObj\":\"testIdentifier\",\"recordType\":\"Taxon\",\"dateTime\":1321973454966,\"identifier\":\"1\"}", Annotation.class);
+        EasyMock.verify(taxonService);
 
+        assertNotNull(annotation.getAnnotatedObj());
+        assertEquals(taxon, annotation.getAnnotatedObj());
     }
 }

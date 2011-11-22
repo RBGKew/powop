@@ -61,6 +61,33 @@
 		<property name="restTemplate" ref="restTemplate" />
 		<property name="baseUri" value="${functional.test.baseUri}:${functional.test.port}${functional.test.basePath}/" />
 	</bean>
+	
+	<bean name="annotationService" class="org.emonocot.service.impl.AnnotationServiceImpl">
+		<property name="annotationDao" ref="annotationDaoImpl" />
+	</bean>
+
+	<bean name="annotationDaoImpl" class="org.emonocot.portal.remoting.AnnotationDaoImpl">
+		<property name="restTemplate" ref="restTemplate" />
+		<property name="baseUri" value="${functional.test.baseUri}:${functional.test.port}${functional.test.basePath}/" />
+	</bean>
+	
+	<bean name="jobExecutionService" class="org.emonocot.service.impl.JobExecutionServiceImpl">
+		<property name="jobExecutionDao" ref="jobExecutionDaoImpl" />
+	</bean>
+
+	<bean name="jobExecutionDaoImpl" class="org.emonocot.portal.remoting.JobExecutionDaoImpl">
+		<property name="restTemplate" ref="restTemplate" />
+		<property name="baseUri" value="${functional.test.baseUri}:${functional.test.port}${functional.test.basePath}/" />
+	</bean>
+	
+	<bean name="jobInstanceService" class="org.emonocot.service.impl.JobInstanceServiceImpl">
+		<property name="jobInstanceDao" ref="jobInstanceDaoImpl" />
+	</bean>
+
+	<bean name="jobInstanceDaoImpl" class="org.emonocot.portal.remoting.JobInstanceDaoImpl">
+		<property name="restTemplate" ref="restTemplate" />
+		<property name="baseUri" value="${functional.test.baseUri}:${functional.test.port}${functional.test.basePath}/" />
+	</bean>
 
 	<bean name="restTemplate" class="org.springframework.web.client.RestTemplate">
 	    <constructor-arg ref="httpClientFactory"/>
@@ -82,5 +109,7 @@
 		<property name="objectMapper" ref="customObjectMapper"/>
 	</bean>
 	
-	<bean name="customObjectMapper" class="org.emonocot.model.marshall.json.CustomObjectMapperFactory" />
+	<bean name="customObjectMapper" class="org.emonocot.model.marshall.json.CustomObjectMapperFactory" >
+	  <property name="jobInstanceService" ref="jobInstanceService"/>
+	</bean>
 </beans>

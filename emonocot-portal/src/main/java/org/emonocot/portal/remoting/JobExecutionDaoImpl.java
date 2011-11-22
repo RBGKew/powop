@@ -17,12 +17,13 @@ import org.springframework.web.client.RestTemplate;
  *
  */
 @Repository
-public class JobDaoImpl implements JobExecutionDao {
+public class JobExecutionDaoImpl implements JobExecutionDao {
 
     /**
      * Logger.
      */
-    private static Logger logger = LoggerFactory.getLogger(JobDaoImpl.class);
+    private static Logger logger = LoggerFactory
+            .getLogger(JobExecutionDaoImpl.class);
 
     /**
     *
@@ -32,7 +33,7 @@ public class JobDaoImpl implements JobExecutionDao {
     /**
     *
     */
-    private String resourceDir;
+    private String resourceDir = "jobExecution";
 
     /**
      *
@@ -72,18 +73,29 @@ public class JobDaoImpl implements JobExecutionDao {
         return null;
     }
 
-    public JobExecution load(Long identifier) {
+    /**
+     * @param identifier the identifier of the job execution to load
+     * @return a job execution
+     */
+    public final JobExecution load(final Long identifier) {
         return restTemplate.getForObject(baseUri + resourceDir + "/"
                 + identifier, JobExecution.class);
     }
 
-    public void delete(long id) {
+    /**
+     * @param id the id of the job execution to delete
+     */
+    public final void delete(final long id) {
         restTemplate.delete(baseUri + resourceDir + "/" + id);
     }
 
-    public void save(JobExecution jobExecution) {
+    /**
+     * @param jobExecution the job execution to save
+     */
+    public final void save(final JobExecution jobExecution) {
         logger.debug("POST: " + baseUri + resourceDir);
-        restTemplate.postForObject(baseUri + resourceDir, jobExecution, JobExecution.class);
+        restTemplate.postForObject(baseUri + resourceDir, jobExecution,
+                JobExecution.class);
     }
 
 }

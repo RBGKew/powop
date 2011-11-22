@@ -220,26 +220,35 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
 
     /**
      * DO NOT CALL THIS METHOD IN LONG RUNNING SESSIONS OR CONVERSATIONS A
-     * THROWN UsernameNotFoundException WILL RENDER THE CONVERSATION UNUSABLE
+     * THROWN UsernameNotFoundException WILL RENDER THE CONVERSATION UNUSABLE.
+     * @param username Set the username
      */
     @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String username)
-            throws UsernameNotFoundException, DataAccessException {
-        Assert.hasText(username);
+    public UserDetails loadUserByUsername(final String username) {
+        try {
+            Assert.hasText(username);
+        } catch (IllegalArgumentException iae) {
+            throw new UsernameNotFoundException(username, iae);
+        }
         try {
             User user = dao.load(username);
             userCache.putUserInCache(user);
             return user;
         } catch (ObjectRetrievalFailureException orfe) {
-            throw new UsernameNotFoundException(username);
+            throw new UsernameNotFoundException(username, orfe);
         } catch (NonUniqueResultException nure) {
             throw new IncorrectResultSizeDataAccessException(
                     "More than one user found with name '" + username + "'", 1);
         }
     }
 
+    /**
+     * @param groupName Set the group name
+     * @param authority Set the granted authority
+     */
     @Transactional(readOnly = false)
-    public void addGroupAuthority(String groupName, GrantedAuthority authority) {
+    public final void addGroupAuthority(final String groupName,
+            final GrantedAuthority authority) {
         Assert.hasText(groupName);
         Assert.notNull(authority);
 
@@ -344,23 +353,6 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
 
         group.setName(newName);
         groupDao.update(group);
-    }
-
-    @Override
-    @Transactional(readOnly = false)
-    public User save(User user) {
-        createUser(user);
-        return user;
-    }
-
-    @Override
-    @Transactional(readOnly = false)
-    public void saveOrUpdate(User user) {
-        if (user.getId() == null || dao.load(user.getUsername()) == null) {
-            createUser(user);
-        } else {
-            updateUser(user);
-        }
     }
 
     @Transactional(readOnly = false)

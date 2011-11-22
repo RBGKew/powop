@@ -44,7 +44,7 @@
 					<th><spring:message code="record.type" /></th>
 					<th><spring:message code="records.harvested" /></th>
 				</thead>
-				<tbody>
+				<tbody id="results">
 					<c:forEach var="result" items="${results}">
 						<tr>
 							<td><c:choose>

@@ -29,6 +29,8 @@ public class JobInstanceSerializer extends JsonSerializer<JobInstance> {
         jsonGenerator.writeNumber(jobInstance.getId());
         jsonGenerator.writeFieldName("jobName");
         jsonGenerator.writeString(jobInstance.getJobName());
+        jsonGenerator.writeFieldName("version");
+        jsonGenerator.writeNumber(jobInstance.getVersion());
         jsonGenerator.writeArrayFieldStart("parameters");
         for (String parameterName : jobInstance.getJobParameters()
                 .getParameters().keySet()) {

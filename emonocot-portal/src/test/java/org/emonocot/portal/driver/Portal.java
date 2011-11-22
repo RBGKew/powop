@@ -3,6 +3,9 @@ package org.emonocot.portal.driver;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -18,18 +21,32 @@ public class Portal extends PageObject {
 
    /**
     *
-    * @param testDataManager set the test data manager
     */
-    @Autowired
-    public void setTestDataManager(TestDataManager testDataManager) {
-        super.testDataManager = testDataManager;
-    }
+   private Logger logger = LoggerFactory
+           .getLogger(Portal.class);
+
+   /**
+    * @param testDataManager Set the test data manager
+    */
+   @Autowired
+   public final void setTestDataManager(final TestDataManager testDataManager) {
+       super.testDataManager = testDataManager;
+   }
+
+   /**
+    * @param webDriver set the webdriver
+    */
+   @Autowired
+   public final void setWebDriver(final WebDriver webDriver) {
+       super.webDriver = webDriver;
+   }
 
     /**
      *
      * @throws IOException if there is a problem opening the properties file
      */
     public Portal() throws IOException {
+        logger.debug("Portal() constructor");
         Resource propertiesFile = new ClassPathResource(
                 "application.properties");
         Properties properties = new Properties();
@@ -96,5 +113,13 @@ public class Portal extends PageObject {
      */
     public final SourcePage getSourcePage(final String identifier) {
         return openAs(getBaseUri() + "source/" + identifier, SourcePage.class);
+    }
+
+    /**
+     *
+     * @return the login page
+     */
+    public final LoginPage getLoginPage() {
+        return openAs(getBaseUri() + "login", LoginPage.class);
     }
 }
