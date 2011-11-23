@@ -65,7 +65,7 @@ public enum Rank {
     /**
      *
      */
-    VARIETY,
+    VARIETY("var", "Variety"),
     /**
      *
      */
@@ -81,7 +81,7 @@ public enum Rank {
      /**
      *
      */
-    INFRASPECIES,
+    INFRASPECIES("infrasp", "Infraspecies"),
    /**
     *
     */
@@ -89,7 +89,7 @@ public enum Rank {
     /**
     *
     */
-   SUBSPECIES,
+   SUBSPECIES("ssp", "Subspecies"),
    /**
     *
     */
@@ -97,7 +97,7 @@ public enum Rank {
     /**
      *
      */
-    SPECIES,
+    SPECIES("sp", "Species"),
     /**
      *
      */
@@ -129,7 +129,7 @@ public enum Rank {
     /**
      *
      */
-    GENUS,
+    GENUS("gen", "Genus"),
     /**
      *
      */
@@ -157,7 +157,7 @@ public enum Rank {
     /**
      *
      */
-    FAMILY,
+    FAMILY("fam", "Family"),
     /**
      *
      */
@@ -250,4 +250,41 @@ public enum Rank {
      *
      */
     EMPIRE;
+    
+    private Rank() { }
+    
+    /**
+    *
+    */
+   private String abbreviation;
+
+   /**
+    *
+    */
+   private String label;
+
+   /**
+    *
+    * @param newAbbreviation Set the abbreviation of the rank
+    * @param newLabel Set the label of the rank
+    */
+   private Rank(final String newAbbreviation,
+           final String newLabel) {
+       this.abbreviation = newAbbreviation;
+       this.label = newLabel;
+   }
+   
+   /**
+    * @return the abbreviation
+    */
+   public String getAbbreviation() {
+       return abbreviation;
+   }
+
+   /**
+    * @return the label
+    */
+   public String getLabel() {
+       return label;
+   }
 }

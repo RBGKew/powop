@@ -9,10 +9,16 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.emonocot.api.FacetName;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.model.pager.Page;
+import org.emonocot.model.taxon.Family;
+import org.emonocot.model.taxon.Rank;
 import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.taxon.TaxonomicStatus;
 import org.emonocot.persistence.dao.TaxonDao;
+import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.search.ProjectionConstants;
 import org.hibernate.search.query.dsl.FacetContext;
 import org.hibernate.search.query.engine.spi.FacetManager;
@@ -222,5 +228,37 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
 		ancestors.add(t);
 		
 	}
+
+    /**
+     * Returns the genera associated with this family.
+     * TODO Remove once families are imported
+     * 
+     * @param family
+     *            the family
+     * @return A list of genera
+     */
+    public List<Taxon> getGenera(Family family) {
+        Criteria criteria = getSession().createCriteria(Taxon.class);
+        criteria.add(Restrictions.eq("family", family.toString()));
+        criteria.add(Restrictions.eq("rank",Rank.GENUS));
+        criteria.add(Restrictions.eq("status", TaxonomicStatus.accepted));
+        return (List<Taxon>) criteria.list();
+    }
+
+    /**
+     * Returns the number of genera in a family.
+     * TODO Remove once families are imported
+     *
+     * @param family the family
+     * @return the number of accepted genera
+     */
+    public Integer countGenera(Family family) {
+        Criteria criteria = getSession().createCriteria(Taxon.class);
+        criteria.add(Restrictions.eq("family", family.toString()));
+        criteria.add(Restrictions.eq("rank",Rank.GENUS));
+        criteria.add(Restrictions.eq("status", TaxonomicStatus.accepted));
+        criteria.setProjection(Projections.rowCount());
+        return ((Long)criteria.uniqueResult()).intValue();
+    }
     
 }
