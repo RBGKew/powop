@@ -40,6 +40,8 @@ import org.emonocot.model.marshall.json.ImageDeserializer;
 import org.emonocot.model.marshall.json.ImageSerializer;
 import org.emonocot.model.marshall.json.ReferenceDeserializer;
 import org.emonocot.model.marshall.json.ReferenceSerializer;
+import org.emonocot.model.marshall.json.TaxonDeserializer;
+import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.reference.Reference;
 import org.hibernate.annotations.Cascade;
@@ -221,6 +223,11 @@ public class Taxon extends SearchableObject {
     *
     */
    private Image image;
+   
+   /**
+   *
+   */
+  private List<Taxon> ancestors = new ArrayList <Taxon>();
 
 
    /**
@@ -356,7 +363,7 @@ public class Taxon extends SearchableObject {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @Cascade({ CascadeType.SAVE_UPDATE })
-    @JsonIgnore
+    @JsonSerialize(using=TaxonSerializer.class)
     public Taxon getParent() {
         return parent;
     }
@@ -365,7 +372,9 @@ public class Taxon extends SearchableObject {
      *
      * @param newParent
      *            Set the taxonomic parent
+     *            
      */
+    @JsonDeserialize(using=TaxonDeserializer.class)
     public void setParent(Taxon newParent) {
         this.parent = newParent;
     }
@@ -810,4 +819,21 @@ public class Taxon extends SearchableObject {
     public final String getClassName() {
         return "Taxon";
     }
+
+    /**
+    *
+    * @return the ancestors of the taxon
+    */
+   @Transient
+	public List<Taxon> getAncestors() {
+		return ancestors;
+	}
+
+   /**
+   *
+   * @param set the ancestors of the taxon
+   */
+	public void setAncestors(List<Taxon> ancestors) {
+		this.ancestors = ancestors;
+	}
 }

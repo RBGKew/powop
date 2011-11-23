@@ -5,18 +5,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.emonocot.api.FacetName;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.model.pager.Page;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.dao.TaxonDao;
 import org.hibernate.FetchMode;
+import org.hibernate.Hibernate;
 import org.hibernate.search.ProjectionConstants;
 import org.hibernate.search.query.dsl.FacetContext;
 import org.hibernate.search.query.engine.spi.FacetManager;
 import org.hibernate.search.query.facet.Facet;
 import org.hibernate.search.query.facet.FacetSortOrder;
 import org.hibernate.search.query.facet.FacetingRequest;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -48,7 +51,8 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
                 new Fetch("distribution", FetchMode.SELECT),
                 new Fetch("content", FetchMode.SELECT),
                 new Fetch("images", FetchMode.SELECT),
-                new Fetch("protologue", FetchMode.JOIN) });
+                new Fetch("protologue", FetchMode.JOIN),
+                new Fetch("ancestors", FetchMode.SELECT)});
         FETCH_PROFILES.put("taxon-with-image", new Fetch[] {
                 new Fetch("image", FetchMode.SELECT) });
     }
@@ -187,4 +191,36 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
     protected final Fetch[] getProfile(final String profile) {
         return TaxonDaoImpl.FETCH_PROFILES.get(profile);
     }
+
+	@Override
+	protected void enableProfilePostQuery(Taxon t, String fetch) {
+		if (fetch != null && t != null) {
+	           for (Fetch f : getProfile(fetch)) {
+	        	   if(f.getAssociation().equals("ancestors")) {
+	        		   List<Taxon> ancestors = new ArrayList<Taxon>();
+	        		   getAncestors(t,ancestors);
+	        		   t.setAncestors(ancestors);
+	        	   } else if (f.getMode().equals(FetchMode.SELECT)) {
+	                   Object proxy;
+	                    try {
+	                        proxy = PropertyUtils.getProperty(t, f.getAssociation());
+	                    } catch (Exception e) {
+	                        throw new InvalidDataAccessApiUsageException(
+	                                "Cannot get proxy " + f.getAssociation()
+	                                        + " for class " + type, e);
+	                    }
+	                   Hibernate.initialize(proxy);
+	               }
+	           }
+	       }
+	}
+
+	private void getAncestors(Taxon t, List<Taxon> ancestors) {
+		if(t.getParent() != null) {
+			getAncestors(t.getParent(), ancestors);
+		}
+		ancestors.add(t);
+		
+	}
+    
 }

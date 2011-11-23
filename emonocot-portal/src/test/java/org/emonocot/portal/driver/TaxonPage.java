@@ -44,6 +44,24 @@ public class TaxonPage extends PageObject implements IllustratedPage {
      */
     @FindBy(how = How.CLASS_NAME, using = "ad-thumb-list")
     private WebElement thumbnailContainer;
+    
+    /**
+    *
+    */
+   @FindBy(how = How.CLASS_NAME, using = "ancestorsList")
+   private List<WebElement> ancestors;
+   
+   /**
+   *
+   */
+   @FindBy(how = How.CLASS_NAME, using = "childrenList")
+   private WebElement children;
+   
+   /**
+   *
+   */
+   @FindBy(how = How.CLASS_NAME, using = "childrenList")
+   private List<WebElement> subordinateNumber;
 
    /**
     *
@@ -176,4 +194,26 @@ public class TaxonPage extends PageObject implements IllustratedPage {
                 .xpath("li/a/img"));
         return thumbnails.get(thumbnail - 1).getAttribute("src");
     }
+    /**
+    *
+    * @return the number of ancestors
+    */
+    public Integer getAncestorsNumber() {
+    	return ancestors.size();
+    }
+    
+    /**
+    *
+    * @return the subordinate taxa
+    */
+	public final String getSubordinateTaxa() {
+		return children.getText();
+	}
+
+	public Integer getChildrenNumber() {
+		return subordinateNumber.size();
+	}
+	
+
+
 }

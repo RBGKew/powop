@@ -189,7 +189,7 @@ public final void thereAreAnnotationsWithTheFollowingProperties(
             testDataManager.createTaxon(row.name, row.family, row.identifier,
                     row.rank, row.status, row.diagnostic, row.habitat, row.general,
                     row.protologue, row.protologueMicroReference, row.image1, row.image2,
-                    row.image3, row.distribution1, row.distribution2, row.distribution3, row.source, row.created);
+                    row.image3, row.distribution1, row.distribution2, row.distribution3, row.source, row.created, row.parent);
        }
 
    }
@@ -274,6 +274,7 @@ public final void thereAreAnnotationsWithTheFollowingProperties(
    public final void typeInTheSearchBox(final Integer wait) {
        currentPage.waitForAjax(wait * MILLISECONDS_IN_A_SECOND);
    }
+  
 
    /**
    *
@@ -368,6 +369,34 @@ public final void thereAreAnnotationsWithTheFollowingProperties(
     public final void thereShouldBeResults(final Integer results) {
         assertEquals(results, ((SearchResultsPage) currentPage).getResultNumber());
     }
+    
+    /**
+    *
+    * @param ancestors Set the ancestors
+    */
+    @Then("^there should be (\\d+) ancestor[s]?$")
+    public final void thereShouldBeAncestors(Integer ancestors) {
+    	assertEquals(ancestors, ((TaxonPage) currentPage).getAncestorsNumber());
+    }
+    
+    /**
+    *
+    * @param subordinateTaxa Set the value of subordinate taxa link
+    */
+    @Then("^the subordinate taxon link should say \"([^\"]*)\"$")
+    public void theSubordinateTaxonLinkShouldSay(final String subordinate) {
+    	assertEquals(subordinate, ((TaxonPage) currentPage).getSubordinateTaxa());
+    }
+    
+    /**
+    *
+    * @param subordinateNumber Set the number of subordinate taxa
+    */
+    @Then("^there should be (\\d+) subordinate taxa$")
+    public final void thereShouldBeSubordinateTaxa(Integer subordinateNumber) {
+    	assertEquals(subordinateNumber, ((TaxonPage) currentPage).getChildrenNumber());
+    }
+    
 
     /**
      *

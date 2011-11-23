@@ -25,7 +25,11 @@ public class TaxonDeserializer extends BaseDeserializer<Taxon> {
             final DeserializationContext deserializationContext)
             throws IOException {
         String identifier = jsonParser.getText();
-        return service.load(identifier, "taxon-page");
+        if (service != null) {
+            return service.load(identifier, "taxon-page");
+        } else {
+        	return null; 
+        }
     }
 
 }

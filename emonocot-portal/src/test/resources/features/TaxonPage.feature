@@ -19,8 +19,10 @@ Background:
   | 456        | http://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Illustration_Acorus_calamus0.jpg/376px-Illustration_Acorus_calamus0.jpg | Acorus calamus (Illustration) |
   | 789        | http://upload.wikimedia.org/wikipedia/commons/7/73/Acorus_calamus_illustration.jpg                                               | Sweet flag (drawing)          |
   And there are taxa with the following properties:
-  | identifier                 | name   | protologue                    | protologueMicroReference | distribution1 | diagnostic                                                          | habitat                                                                                   | image1 | image2 | image3 |
-  | urn:kew.org:wcs:taxon:2295 | Acorus | urn:kew.org:wcs:publication:1 | : 324                    | MAU           | These grasslike evergreen plants are hemicryptophytes or geophytes. | Their natural habitat is at the waterside or close to marshes, often found with reedbeds. | 789    | 456    | 123    |
+  | identifier                 | name                        | parent                     | protologue                    | protologueMicroReference | distribution1 | diagnostic                                                          | habitat                                                                                   | image1 | image2 | image3 |
+  | urn:kew.org:wcs:taxon:2295 | Acorus                      |                            | urn:kew.org:wcs:publication:1 | : 324                    | MAU           | These grasslike evergreen plants are hemicryptophytes or geophytes. | Their natural habitat is at the waterside or close to marshes, often found with reedbeds. | 789    | 456    | 123    |
+  | urn:kew.org:wcs:taxon:2304 | Acorus calamus              | urn:kew.org:wcs:taxon:2295 |                               |                          |               |                                                                     |                                                                                           |        |        |        |                            
+  | urn:kew.org:wcs:taxon:2309 | Acorus calamus var. calamus | urn:kew.org:wcs:taxon:2304 |                               |                          |               |                                                                     |                                                                                           |        |        |        |                            
   And I navigate to taxon page "urn:kew.org:wcs:taxon:2295" 
 
 Scenario: Taxon Title
@@ -71,3 +73,16 @@ Scenario: Image Gallery
   And the main image caption should be the 3rd caption
   When I select the main image
   Then the image page should be displayed
+  
+Scenario: Display Taxa Relationship
+  The taxon relationships should be displayed in a tree. 
+  The tree should contain links to the taxon ancestors and an anchor to the section 
+  of the taxon page listing its children, where they exist.
+  http://build.e-monocot.org/bugzilla/show_bug.cgi?id=77
+  When I navigate to taxon page "urn:kew.org:wcs:taxon:2304"
+  Then there should be 1 ancestor
+  And the subordinate taxon link should say "1 subordinate taxa"
+  When I navigate to taxon page "urn:kew.org:wcs:taxon:2309"
+  And there should be 2 ancestors
+  And there should be 0 subordinate taxa
+  

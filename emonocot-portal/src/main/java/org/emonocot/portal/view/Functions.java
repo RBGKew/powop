@@ -216,4 +216,15 @@ public final class Functions {
        DateTime dateTime = new DateTime(date);
        return DateTimeFormat.forStyle("SS").print(dateTime);
    }
+   
+   /**
+   *
+   * @param list Set the list
+   * @param index Set the index
+   * @return a sublist starting at index
+   */
+  public static List<Taxon> sublist(final List<Taxon> list, final Integer index) {
+      return list.subList(index, list.size());
+  }
+   
 }

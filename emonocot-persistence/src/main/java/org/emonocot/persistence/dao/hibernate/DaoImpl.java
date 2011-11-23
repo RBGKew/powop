@@ -57,7 +57,7 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
     * @param t Set a the fetched object
     * @param fetch Set the name of the fetch profile
     */
-   protected final void enableProfilePostQuery(final T t,
+   protected void enableProfilePostQuery(final T t,
            final String fetch) {
        if (fetch != null && t != null) {
            for (Fetch f : getProfile(fetch)) {

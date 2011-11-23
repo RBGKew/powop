@@ -308,17 +308,15 @@ public class TestDataManager {
      * @param distribution3 Set the distribution3
      * @param source Set the source
      * @param created Set the created date
+     * @param parent TODO
     *
     */
     public final void createTaxon(final String name, final String family,
             final String identifier, final String rank, final String status,
             final String diagnostic, final String habitat,
-            final String general, final String protologue,
-            final String microReference, final String image1,
-            final String image2, final String image3,
-            final String distribution1, final String distribution2,
-            final String distribution3, final String source,
-            final String created) {
+            final String general, final String protologue, String microReference,
+            final String image1, final String image2,
+            final String image3, final String distribution1, final String distribution2, final String distribution3, String source, String created, String parent) {
         enableAuthentication();
         Taxon taxon = new Taxon();
         data.push(taxon);
@@ -394,6 +392,11 @@ public class TestDataManager {
         if (created != null && created.length() > 0) {
             DateTime dateTime = dateTimeFormatter.parseDateTime(created);
             taxon.setCreated(dateTime);
+        }
+        if (parent != null && parent.length() > 0) {
+            Taxon p = new Taxon();
+            p.setIdentifier(parent);
+            taxon.setParent(p);
         }
         taxonService.save(taxon);
 

@@ -54,4 +54,9 @@
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>java.lang.String formatDate(java.util.Date)</function-signature>
     </function>
+    <function>
+        <name>sublist</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.util.List sublist(java.util.List, java.lang.Integer)</function-signature>
+    </function>
 </taglib>
