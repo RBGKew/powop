@@ -115,7 +115,8 @@ public class ChecklistWebserviceController {
             }
         }
         ModelAndView modelAndView = new ModelAndView("rdfResponse");
-        Page<Taxon> taxa = taxonService.search(search,null,null,null,null,null,null,null);
+        Page<Taxon> taxa = taxonService.search(search, null, null, null, null,
+                null, null, "taxon-with-related");
         modelAndView.addObject("result", taxa.getRecords());
         try {
             MDC.put(LoggingConstants.SEARCH_TYPE_KEY,

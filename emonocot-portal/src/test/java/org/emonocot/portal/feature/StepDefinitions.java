@@ -22,7 +22,6 @@ import org.emonocot.portal.driver.SourcePage;
 import org.emonocot.portal.driver.SourceAdminPage;
 import org.emonocot.portal.driver.SourceJobPage;
 import org.emonocot.portal.driver.TaxonPage;
-import org.emonocot.portal.driver.TestDataManager;
 import org.emonocot.portal.rows.AnnotationRow;
 import org.emonocot.portal.rows.GroupRow;
 import org.emonocot.portal.rows.ImageRow;
@@ -35,6 +34,7 @@ import org.emonocot.portal.rows.SourceRow;
 import org.emonocot.portal.rows.SummaryRow;
 import org.emonocot.portal.rows.TaxonRow;
 import org.emonocot.portal.rows.UserRow;
+import org.emonocot.test.TestDataManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import cucumber.annotation.After;
@@ -186,10 +186,10 @@ public final void thereAreAnnotationsWithTheFollowingProperties(
    public final void thereAreTaxaWithTheFollowingProperties(
            final List<TaxonRow> rows) {
        for (TaxonRow row : rows) {
-            testDataManager.createTaxon(row.name, row.family, row.identifier,
-                    row.rank, row.status, row.diagnostic, row.habitat, row.general,
-                    row.protologue, row.protologueMicroReference, row.image1, row.image2,
-                    row.image3, row.distribution1, row.distribution2, row.distribution3, row.source, row.created, row.parent);
+            testDataManager.createTaxon(row.identifier, row.name, row.family,
+                    null, null, row.rank, row.status, row.diagnostic,
+                    row.habitat, row.general, row.protologue, row.protologueMicroReference,
+                    row.image1, row.image2, row.image3, row.distribution1, row.distribution2, row.distribution3, row.source, row.created, row.parent, null);
        }
 
    }

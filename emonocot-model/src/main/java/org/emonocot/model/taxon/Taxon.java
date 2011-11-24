@@ -363,7 +363,7 @@ public class Taxon extends SearchableObject {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @Cascade({ CascadeType.SAVE_UPDATE })
-    @JsonSerialize(using=TaxonSerializer.class)
+    @JsonSerialize(using = TaxonSerializer.class)
     public Taxon getParent() {
         return parent;
     }
@@ -372,9 +372,9 @@ public class Taxon extends SearchableObject {
      *
      * @param newParent
      *            Set the taxonomic parent
-     *            
+     *
      */
-    @JsonDeserialize(using=TaxonDeserializer.class)
+    @JsonDeserialize(using = TaxonDeserializer.class)
     public void setParent(Taxon newParent) {
         this.parent = newParent;
     }
@@ -405,7 +405,7 @@ public class Taxon extends SearchableObject {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @Cascade({ CascadeType.SAVE_UPDATE })
-    @JsonIgnore
+    @JsonSerialize(using = TaxonSerializer.class)
     public Taxon getAccepted() {
         return accepted;
     }
@@ -415,6 +415,7 @@ public class Taxon extends SearchableObject {
      * @param newAccepted
      *            Set the accepted name
      */
+    @JsonDeserialize(using = TaxonDeserializer.class)
     public void setAccepted(Taxon newAccepted) {
         this.accepted = newAccepted;
     }

@@ -1,4 +1,4 @@
-package org.emonocot.portal.driver;
+package org.emonocot.test;
 
 import java.util.Collection;
 

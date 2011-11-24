@@ -10,10 +10,10 @@
     <name>${taxon.name}</name>
     <canonical_form>${taxon.name}</canonical_form>
     <id>${taxon.identifier}</id>
-    <ancestry>${taxon.family}|${taxon.genus}<c:if test="${taxon.specificEpithet}">|${taxon.specificEpithet}</c:if><c:if test="${taxon.infraspecificEpithet}">|${taxon.infraspecificEpithet}</c:if></ancestry>
+    <ancestry>${taxon.family}|${taxon.genus}<c:if test="${taxon.specificEpithet}">|${taxon.specificEpithet}</c:if><c:if test="${taxon.infraSpecificEpithet}">|${taxon.infraSpecificEpithet}</c:if></ancestry>
     <ranked_ancestry>${taxon.family}|${taxon.genus}</ranked_ancestry>
     <rank>${taxon.rank.label}</rank>
-    <number_of_children>${fn:length(taxon.childTaxa)}</number_of_children>
+    <number_of_children>${fn:length(taxon.children)}</number_of_children>
     <number_of_children_synonyms>${fn:length(taxon.synonyms)}</number_of_children_synonyms>
     <metadata><!-- Check whether to use this or the metadata table in wcs -->
     	<title><spring:message code="checklistWebserviceController.serviceName"/></title>

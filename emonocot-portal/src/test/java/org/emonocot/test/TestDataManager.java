@@ -1,4 +1,4 @@
-package org.emonocot.portal.driver;
+package org.emonocot.test;
 
 import static org.junit.Assert.fail;
 
@@ -289,38 +289,68 @@ public class TestDataManager {
    }
 
     /**
-    *
-    * @param name Set the name
-     * @param family Set the family
-     * @param identifier Set the identifier
-     * @param rank Set the rank
-     * @param status Set the status
-     * @param diagnostic Set the diagnostic
-     * @param habitat Set the habitat
-     * @param general Set the general
-     * @param protologue Set the protologue
-     * @param microReference Set the microReference
-     * @param image1 Set the image1
-     * @param image2 Set the image2
-     * @param image3 Set the image3
-     * @param distribution1 Set the distribution1
-     * @param distribution2 Set the distribution2
-     * @param distribution3 Set the distribution3
-     * @param source Set the source
-     * @param created Set the created date
-     * @param parent TODO
-    *
-    */
-    public final void createTaxon(final String name, final String family,
-            final String identifier, final String rank, final String status,
-            final String diagnostic, final String habitat,
-            final String general, final String protologue, String microReference,
-            final String image1, final String image2,
-            final String image3, final String distribution1, final String distribution2, final String distribution3, String source, String created, String parent) {
+     *
+     * @param identifier
+     *            Set the identifier
+     * @param name
+     *            Set the name
+     * @param family
+     *            Set the family
+     * @param genus
+     *            Set the genus
+     * @param specificEpithet
+     *            Set the specific epithet
+     * @param rank
+     *            Set the rank
+     * @param status
+     *            Set the status
+     * @param diagnostic
+     *            Set the diagnostic
+     * @param habitat
+     *            Set the habitat
+     * @param general
+     *            Set the general
+     * @param protologue
+     *            Set the protologue
+     * @param microReference
+     *            Set the microReference
+     * @param image1
+     *            Set the image1
+     * @param image2
+     *            Set the image2
+     * @param image3
+     *            Set the image3
+     * @param distribution1
+     *            Set the distribution1
+     * @param distribution2
+     *            Set the distribution2
+     * @param distribution3
+     *            Set the distribution3
+     * @param source
+     *            Set the source
+     * @param created
+     *            Set the created date
+     * @param parent
+     *            Set the parent taxon
+     * @param accepted
+     *            Set the accepted taxon
+     *
+     */
+    public final void createTaxon(final String identifier, final String name,
+            final String family, String genus, String specificEpithet,
+            final String rank, final String status, final String diagnostic,
+            final String habitat, final String general,
+            final String protologue, String microReference,
+            final String image1, final String image2, final String image3,
+            final String distribution1, final String distribution2,
+            final String distribution3, String source, String created,
+            String parent, String accepted) {
         enableAuthentication();
         Taxon taxon = new Taxon();
         data.push(taxon);
         taxon.setName(name);
+        taxon.setGenus(genus);
+        taxon.setSpecificEpithet(specificEpithet);
         taxon.setFamily(family);
         taxon.setIdentifier(identifier);
         taxon.setProtologueMicroReference(microReference);
@@ -397,6 +427,11 @@ public class TestDataManager {
             Taxon p = new Taxon();
             p.setIdentifier(parent);
             taxon.setParent(p);
+        }
+        if (accepted != null && accepted.length() > 0) {
+            Taxon a = new Taxon();
+            a.setIdentifier(accepted);
+            taxon.setAccepted(a);
         }
         taxonService.save(taxon);
 

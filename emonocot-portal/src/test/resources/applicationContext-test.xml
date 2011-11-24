@@ -8,6 +8,8 @@
 
 	<context:property-placeholder location="classpath:application.properties" />
 	
+	<bean name="testDataManager" class="org.emonocot.test.TestDataManager"/>
+	
 	<bean name="sourceService" class="org.emonocot.service.impl.SourceServiceImpl">
 		<property name="sourceDao" ref="sourceDaoImpl" />
 	</bean>

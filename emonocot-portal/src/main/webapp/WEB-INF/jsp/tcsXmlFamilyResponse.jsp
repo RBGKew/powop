@@ -7,7 +7,7 @@
   <DataSet xmlns='http://www.tdwg.org/schemas/tcs/1.01' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.tdwg.org/schemas/tcs/1.01 http://www.tdwg.org/standards/117/files/TCS101/v101.xsd">
 	<TaxonNames>
-	  <TaxonName id="urn:kew.org:wcs:name:${id}" nomenclaturalCode="Botanical">
+	  <TaxonName id="urn:kew.org:wcs:familyName:${id}" nomenclaturalCode="Botanical">
 	    <Simple>${family}</Simple>
 	    <Rank code="fam">Family</Rank>
 	    <CanonicalName>
@@ -17,7 +17,7 @@
 	</TaxonNames>
 	<TaxonConcepts>
 	  <TaxonConcept id="${family.identifier}">
-	    <Name scientific="true" ref="urn:kew.org:wcs:name:${id}">${family}</Name>
+	    <Name scientific="true" ref="urn:kew.org:wcs:familyName:${id}">${family}</Name>
 	    <Rank code="fam">Family</Rank>
 	    <spring:message code="checklistWebservideController.baseURL" var="baseUrl"/>
 	    <TaxonRelationships>

@@ -21,6 +21,22 @@
 			<artifactId>emonocot-model</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>com.jayway.restassured</groupId>
+			<artifactId>org.emonocot.rest-assured</artifactId>
+		</dependency>
+		<dependency>
+            <groupId>org.codehaus.groovy.modules.http-builder</groupId>
+            <artifactId>http-builder</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+        </dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
