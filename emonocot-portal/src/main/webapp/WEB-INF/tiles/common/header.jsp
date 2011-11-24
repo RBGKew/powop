@@ -2,6 +2,7 @@
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
 	xmlns:security="http://www.springframework.org/security/tags"
 	version="2.0">		
 	<div class="topbar">
@@ -14,7 +15,7 @@
 			      </jsp:attribute>
 				  eMonocot			    
 			    </jsp:element>
-			    <div class="offset12">
+			    <div class="offset12 pull-right">
 			    <ul class="nav">
 				<security:authorize access="!isAuthenticated()">
 				  <li><jsp:element  name="a">

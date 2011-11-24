@@ -268,8 +268,7 @@
                       <include>${basedir}/src/main/css/before.css</include>
                       <include>${project.build.directory}/compiled-less/bootstrap.css</include>
                       <include>${basedir}/src/main/css/jqueryui/jqueryui.css</include>
-                      <include>${basedir}/src/main/css/ad-gallery/jquery.ad-gallery.css</include>                 
-                       <include>${basedir}/src/main/css/after.css</include>       
+                      <include>${basedir}/src/main/css/ad-gallery/jquery.ad-gallery.css</include>       
                     </includes>
                   </aggregation>    
                   <aggregation>

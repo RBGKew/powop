@@ -6,13 +6,7 @@
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 	
-	<style type="text/css">
-		ul#taxonHierarchy, ul#taxonHierarchy ul {
-     list-style-type: none;
-   }
-
-	</style>
-
+	
 	<div class="content">
 		<div class="page-header">
 			<h2 id="page-title">
@@ -235,7 +229,7 @@
 			
 		</div>
 		<div class="span4 info-right">
-			<ul id="taxonHierarchy">
+			<ul id="taxonHierarchy" class="no-bullet">
 				<c:if test="${not empty taxon.ancestors}">
 					<tags:tree taxon = "${taxon}" ancestors="${taxon.ancestors}" />
 				</c:if>

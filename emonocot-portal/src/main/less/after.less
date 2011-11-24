@@ -8,8 +8,8 @@ body{padding-top:40px;}
 section {width: 100%; clear: both}
 
 .masthead {
-    background-color: #049CD9;
-    background-image: -moz-linear-gradient(#004D9F, #049CD9);
+    background-color: @baseColor;
+    background-image: -moz-linear-gradient(darken(@baseColor, 15), @baseColor);
     background-repeat: no-repeat;
 }
 docs.css (line 62)
@@ -32,7 +32,7 @@ docs.css (line 62)
 }
 
 .jumbotron h1 {
-    font-size: 54px;
+    font-size: 48px;
     line-height: 1;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
@@ -43,16 +43,26 @@ a.thumb {
 		/*float:left;*/
 		width:100px;
 		height:100px;
-		line-height:100px;
 		overflow:hidden;
 		position:relative;
-		z-index:1;		
-	}
+		z-index:1;
+}
+	
 a.thumb  img{
 		/*float:left;*/
 		position:absolute;
 		top:-20px;
 		left:-50px;	
 }
+
+.media-grid a.ad-active {
+	border:3px solid #CCC;
+}
+
+
+ul.no-bullet, ul.no-bullet ul {
+     list-style-type: none;
+}
+
 
 footer {background-color:#252525}

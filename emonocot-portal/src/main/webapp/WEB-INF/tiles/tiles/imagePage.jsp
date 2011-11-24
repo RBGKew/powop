@@ -37,7 +37,7 @@
 		
 		<div id="gallery" class="ad-gallery">
 			<div class="ad-image-wrapper" style="display: none">&#160;</div>
-			<div class="ad-controls">&#160;</div>
+			<!-- <div class="ad-controls">&#160;</div> -->
 			<div class="ad-nav">
 				<div class="ad-thumbs">
 					<ul class="ad-thumb-list media-grid">

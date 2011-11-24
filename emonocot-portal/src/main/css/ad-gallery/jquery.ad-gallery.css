@@ -139,37 +139,39 @@
       width: 13px;
       background: url('../images/ad_scroll_forward.png') 0px 22px no-repeat;
     }
-    .ad-gallery .ad-nav .ad-thumbs {
+	.ad-gallery .ad-nav .ad-thumbs {
       overflow: hidden;
       width: 100%;
     }
-      .ad-gallery .ad-thumbs .ad-thumb-list {
-        float: left;
+	.ad-gallery .ad-thumbs .ad-thumb-list {
+		float: left;
         width: 9000px;
         list-style: none;
-      }
-        .ad-gallery .ad-thumbs li {
-          float: left;
-          padding-right: 5px;
-        }
-          .ad-gallery .ad-thumbs li a {
-            display: block;
-          }
-           /*.ad-gallery .ad-thumbs li a img {
-              border: 3px solid #CCC;
-              display: block;
-            }*/
-            .ad-gallery .ad-thumbs li a img {
-max-height:100px;
-height:auto !important;
-max-width:100px;
-width:auto !important;
-border: 3px solid #CCC;
-display: block;
-}
-            .ad-gallery .ad-thumbs li a.ad-active img {
-              border: 3px solid #616161;
-            }
+     }
+	.ad-gallery .ad-thumbs li {
+		float: left;
+		padding-right: 5px;
+	}
+	.ad-gallery .ad-thumbs li a {
+		display: block;
+	}
+	/*.ad-gallery .ad-thumbs li a img {
+		border: 3px solid #CCC;
+		display: block;
+	}*/
+	.ad-gallery .ad-thumbs li a img {
+		max-height:100px;
+		height:auto !important;
+		max-width:100px;
+		width:auto !important;
+		/*border: 3px solid #CCC;*/
+		display: block;
+	}
+	
+	/*.ad-gallery .ad-thumbs li a.ad-active img {
+		border: 3px solid #616161;
+	}*/
+	
 /* Can't do display none, since Opera won't load the images then */
 .ad-preloads {
   position: absolute;

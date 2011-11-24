@@ -11,9 +11,9 @@
   	
 	<div class="content">
 		<div class="page-header">
-			<h2 id="page-title"><spring:message code="search.emonocot"/></h2>
-		</div>
 		<div class="row">
+			<h2 id="page-title" class="span6"><spring:message code="search.emonocot"/></h2>
+			
 			<script type="text/javascript">				
 				$(document).ready(function() {
 					$("input#query").autocomplete({
@@ -23,10 +23,10 @@
 				});
 			</script>
 			
-			<form id="search.form" accept-charset="UTF-8" method="GET" action="search">
+			<form id="search.form" class="pull-right" accept-charset="UTF-8" method="GET" action="search">
 				<jsp:element name="input">
 					<jsp:attribute name="class">xxlarge</jsp:attribute>
-					<jsp:attribute name="placeholder">search</jsp:attribute>
+					<jsp:attribute name="placeholder">Search</jsp:attribute>
 					<jsp:attribute name="value">${result.params['query']}</jsp:attribute>
 					<jsp:attribute name="type">text</jsp:attribute>
 					<jsp:attribute name="name">query</jsp:attribute>
@@ -51,18 +51,20 @@
 					<jsp:attribute name="name">sort</jsp:attribute>
 					<jsp:attribute name="value">${result.sort}</jsp:attribute>
 				</jsp:element>
-				<input type="submit" value="go" name="submit" class="btn primary" />
+				<input type="submit" value="GO" name="submit" class="btn primary" />
 			</form>
+		</div>
+		
 		</div>
 		
 		<div class="row">
 			<div class="span4">
-				<ul id="facets">
+				<ul id="facets" class="no-bullet">
 					<c:forEach var="facetName" items="${result.facetNames}">
 						<li id="${facetName}">
-							<h2>
+							<h3>
 								<spring:message code="${facetName}" />
-							</h2>
+							</h3>
 							<ul class="facet">
 								<jsp:scriptlet>
 									String facetName = (String) pageContext.getAttribute("facetName");
@@ -146,9 +148,9 @@
 						</li>
 					</c:forEach>
 					<li id="sort">
-						<h2>
+						<h3>
 							<spring:message code="sort" />
-						</h2>
+						</h3>
 						<ul class="facet">
 							<c:forEach var="sortItem" items="${em:sortItems()}">
 								<li>
@@ -190,7 +192,7 @@
 			</div>
 			
 			<div class="span12">
-				<div style="border-left: 1px solid #eee;">
+				
 					<div class="pagination">
 						<tags:pagination pager="${result}" url="search"/>
 		  			</div>
@@ -270,15 +272,15 @@
 	      			</div>
 
 					
-					<div id="results">
+					<div id="results" class="span10">
 					<c:choose>
 					
 					<c:when test="${result.params['view'] == 'grid'}">
-					
+					<br/>
 					<ul class="media-grid"> 
 					<c:forEach var="item" items="${result.records}">
-						<li class="thumbnail" >
-							<a class="result thumb" href="image/${item.identifier}" data-placement="below" rel="twipsy" title="${item.caption}"><img src="${item.url}" /></a>
+						<li>
+							<a class="result thumb" href="image/${item.identifier}" data-placement="below" rel="twipsy" title="${item.caption}"><img class="thumbnail" src="${item.url}" /></a>
 						</li>
 						</c:forEach>
 						</ul>
@@ -291,8 +293,15 @@
 							<c:choose>
 								<c:when test="${item.className == 'Taxon'}">
 									<div class="row" style="margin-left:0px;">
+										<jsp:element name="img">
+					      					<jsp:attribute name="src">
+					      						<c:url value="/images/icons/taxon_icon.jpg"/>
+					      					</jsp:attribute>
+					      					<jsp:attribute name="class">pull-left</jsp:attribute>
+					      					<jsp:attribute name="alt">Taxon</jsp:attribute>
+					      				</jsp:element>
 										<a class="result span8" href="taxon/${item.identifier}" title="${item.name}"><h4><em>${item.name}</em> ${item.authorship}</h4></a>
-										<a class="thumb" style="float:right">
+										<a class="thumb pull-right">
 											<c:choose>
 												<c:when test="${not empty item.image}">
 													<img src="${item.image.url}" title="${item.image.caption}"/>
@@ -311,8 +320,15 @@
 								</c:when>
 								<c:when test="${item.className == 'Image'}">
 									<div class="row" style="margin-left:0px;">
+										<jsp:element name="img">
+					      					<jsp:attribute name="src">
+					      						<c:url value="/images/icons/image_icon.jpg"/>
+					      					</jsp:attribute>
+					      					<jsp:attribute name="class">pull-left</jsp:attribute>
+					      					<jsp:attribute name="alt">Image</jsp:attribute>
+					      				</jsp:element>
 										<a class="result span8" href="image/${item.identifier}" title="${item.caption}"><h4>${item.caption}</h4></a>
-										<a class="thumb" style="float:right"><img src="${item.url}" title="${item.caption}"/></a>
+										<a class="thumb pull-right"><img src="${item.url}" title="${item.caption}"/></a>
 									</div>
 								</c:when>
 								<c:otherwise>
@@ -333,7 +349,7 @@
 						});
 					</script>
 				</div>
-				</div>
+				
 			</div>
 		</div>
 	</div>

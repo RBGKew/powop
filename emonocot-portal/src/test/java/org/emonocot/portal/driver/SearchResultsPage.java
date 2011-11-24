@@ -77,7 +77,7 @@ public class SearchResultsPage extends PageObject {
      */
     public final SearchResultsPage sort(final String sort) {
         WebElement classFacet = facets.findElement(By
-                .xpath("li[h2/text() = 'Sort']/ul/li/a[text() = \'" + sort
+                .xpath("li[h3/text() = 'Sort']/ul/li/a[text() = \'" + sort
                         + "\']"));
         return openAs(classFacet.getAttribute("href"), SearchResultsPage.class);
     }
@@ -101,7 +101,7 @@ public class SearchResultsPage extends PageObject {
      */
     public final String[] getFacets(final String facetName) {
         List<WebElement> facetOptions = facets.findElements(By
-                .xpath("li[h2/text() = '" + facetName + "']/ul/li"));
+                .xpath("li[h3/text() = '" + facetName + "']/ul/li"));
         String[] result = new String[facetOptions.size()];
         for (int i = 0; i < result.length; i++) {
             WebElement classFacetOption = facetOptions.get(i);
@@ -139,7 +139,7 @@ public class SearchResultsPage extends PageObject {
      */
     public final SearchResultsPage selectFacet(final String facetName,
             final String facetValue) {
-        WebElement classFacet = facets.findElement(By.xpath("li[h2/text() = '"
+        WebElement classFacet = facets.findElement(By.xpath("li[h3/text() = '"
                 + facetName + "']/ul/li/a[text() = \'" + facetValue + "\']"));
         return openAs(classFacet.getAttribute("href"), SearchResultsPage.class);
     }
