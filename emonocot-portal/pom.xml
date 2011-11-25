@@ -232,7 +232,7 @@
                             <delete dir="${project.build.directory}/static/js/" />
                             <mkdir dir="${project.build.directory}/static/js/" />
                             <copy todir="${project.build.directory}/static/images">
-                              <fileset dir="${basedir}/src/main/static/images" includes="**/*" />
+                              <fileset dir="${basedir}/src/main/images" includes="**/*" />
                             </copy>
                             <delete dir="${project.build.directory}/static/css/" />
                             <mkdir dir="${project.build.directory}/static/css/" />
@@ -268,7 +268,8 @@
                       <include>${basedir}/src/main/css/before.css</include>
                       <include>${project.build.directory}/compiled-less/bootstrap.css</include>
                       <include>${basedir}/src/main/css/jqueryui/jqueryui.css</include>
-                      <include>${basedir}/src/main/css/ad-gallery/jquery.ad-gallery.css</include>       
+                      <include>${basedir}/src/main/css/ad-gallery/jquery.ad-gallery.css</include>                 
+                      <include>${basedir}/src/main/css/jsTree/jsTree.css</include>
                     </includes>
                   </aggregation>    
                   <aggregation>
@@ -277,6 +278,7 @@
                       <include>${basedir}/src/main/js/ad-gallery/jquery.ad-gallery.js</include>
                       <include>${basedir}/src/main/js/functions.js</include>
                       <include>${basedir}/src/main/js/bootstrap-twipsy.js</include>
+                      <include>${basedir}/src/main/js/jsTree/jquery.jstree.js</include>
                     </includes>
                   </aggregation>              
                 </aggregations>

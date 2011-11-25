@@ -174,6 +174,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends
      *            A map of facets which you would like to restrict the search by
      * @param sort
      *            A representation for the order results should be returned in
+     * @param fetch Set the fetch profile
      * @return a Page from the resultset
      */
     public final Page<T> search(final String query, final String spatialQuery,
@@ -187,15 +188,18 @@ public abstract class SearchableDaoImpl<T extends Base> extends
 
         try {
             // Create a lucene query
-            org.apache.lucene.search.Query luceneQuery = null;            
-            
+            org.apache.lucene.search.Query luceneQuery = null;
+
             if (query != null && !query.trim().equals("")) {
                 Matcher matcher = pattern.matcher(query);
                 QueryParser parser = null;
                 if (matcher.matches()) {
-                    parser = new QueryParser(Version.LUCENE_31, getDefaultField(), searchFactory.getAnalyzer(getAnalyzerType()));
+                    parser = new QueryParser(Version.LUCENE_31,
+                            getDefaultField(),
+                            searchFactory.getAnalyzer(getAnalyzerType()));
                 } else {
-                    parser = new MultiFieldQueryParser(Version.LUCENE_31, getDocumentFields(),
+                    parser = new MultiFieldQueryParser(Version.LUCENE_31,
+                            getDocumentFields(),
                             searchFactory.getAnalyzer(getAnalyzerType()));
                 }
                 luceneQuery = parser.parse(query);

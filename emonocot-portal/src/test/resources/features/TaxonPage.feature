@@ -37,7 +37,7 @@ Scenario: Display Distribution Map
   map will be shown on the taxon page
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=40
   # This is the url of a map of Mauritus - acceptance testers should verify that the map is displayed properly
-  Then the distribution map should be "http://edit.br.fgov.be/edit_wp5/v1/areas.php?l=earth&ms=470&bbox=-180%2c-90%2c180%2c90&ad=tdwg3%3apresent%3aMAU&as=present%3aFF0000%2c%2c0.25"
+  Then the distribution map should be "http://edit.br.fgov.be/edit_wp5/v1/areas.php?l=earth&ms=800&bbox=-180%2c-90%2c180%2c90&ad=tdwg3%3apresent%3aMAU&as=present%3aFF0000%2c%2c0.25"
 
 Scenario: Display Protologue
   The protologue should be displayed prominently at the top

@@ -26,6 +26,9 @@
   <definition name="accessDenied" extends="base">    
     <put-attribute name="body" value="/WEB-INF/tiles/tiles/accessDenied.jsp" />
   </definition>
+  <definition name="classificationPage" extends="base">
+    <put-attribute name="body" value="/WEB-INF/tiles/tiles/classificationPage.jsp" />
+  </definition>
   <definition name="taxonPage" extends="base">    
     <put-attribute name="body" value="/WEB-INF/tiles/tiles/taxonPage.jsp" />
   </definition>

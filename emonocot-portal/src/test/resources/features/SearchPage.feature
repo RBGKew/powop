@@ -106,7 +106,7 @@ Scenario: Autocomplete
   Only a few results are returned, and the user is able to select one and search
   using that result or continue with their own query.
   When I type for "Rhipogonum" in the search box
-  And I wait for 1 second
+  And I wait for 3 seconds
   Then the autocomplete box should display the following options:
   | option                  |
   | Rhipogonum              |

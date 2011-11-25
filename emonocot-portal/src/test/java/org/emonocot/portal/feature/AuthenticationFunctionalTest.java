@@ -14,7 +14,8 @@ import cucumber.junit.Feature;
  */
 @RunWith(ListeningCucumber.class)
 @Listener(TakeScreenshotListener.class)
-@Feature("features/Authentication.feature")
+@Feature(value = "features/Authentication.feature",
+        packages = "org.emonocot.portal.steps")
 public class AuthenticationFunctionalTest {
 
 }

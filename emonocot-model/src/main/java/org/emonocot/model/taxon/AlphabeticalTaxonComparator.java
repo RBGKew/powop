@@ -16,7 +16,19 @@ public class AlphabeticalTaxonComparator implements Comparator<Taxon> {
      *         regions are equal
      */
     public final int compare(final Taxon o1, final Taxon o2) {
-        int o = o1.getName().compareTo(o2.getName());
+        int o = 0;
+        /**
+         * Nulls last
+         */
+        if (o1.getName() == null) {
+            if (o1.getName() != o2.getName()) {
+                o = 1;
+            }
+        }
+        if (o2.getName() == null) {
+            o = -1;
+        }
+        o = o1.getName().compareTo(o2.getName());
 
         /**
          * Homonyms

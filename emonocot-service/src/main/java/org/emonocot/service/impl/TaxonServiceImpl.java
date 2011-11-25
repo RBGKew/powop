@@ -16,11 +16,15 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @Service
-public class TaxonServiceImpl extends SearchableServiceImpl<Taxon, TaxonDao> implements
-        TaxonService {
+public class TaxonServiceImpl extends SearchableServiceImpl<Taxon, TaxonDao>
+        implements TaxonService {
 
+    /**
+     *
+     * @param taxonDao Set the taxon dao
+     */
     @Autowired
-    public void setTaxonDao(TaxonDao taxonDao) {
+    public final void setTaxonDao(TaxonDao taxonDao) {
         super.dao = taxonDao;
     }
 
@@ -32,7 +36,7 @@ public class TaxonServiceImpl extends SearchableServiceImpl<Taxon, TaxonDao> imp
      * @return A list of genera
      */
     @Transactional(readOnly = true)
-    public List<Taxon> getGenera(Family family) {
+    public final List<Taxon> getGenera(final Family family) {
         return dao.getGenera(family);
     }
 
@@ -44,8 +48,28 @@ public class TaxonServiceImpl extends SearchableServiceImpl<Taxon, TaxonDao> imp
      * @return the number of accepted genera
      */
     @Transactional(readOnly = true)
-    public Integer countGenera(Family family) {
+    public final Integer countGenera(final Family family) {
         return dao.countGenera(family);
+    }
+
+    /**
+     * Returns the child taxa of the taxon with identifier specified.
+     * @param identifier Set the identifier
+     *
+     * @param pageSize
+     *            The maximum number of results to return
+     * @param pageNumber
+     *            The offset (in pageSize chunks, 0-based) from the beginning of
+     *            the recordset
+     * @param fetch
+     *            Set the fetch profile
+     *
+     * @return a Page from the resultset
+     */
+    @Transactional(readOnly = true)
+    public final List<Taxon> loadChildren(final String identifier,
+            final Integer pageSize, final Integer pageNumber, final String fetch) {
+        return dao.loadChildren(identifier, pageSize, pageNumber, fetch);
     }
 
 }

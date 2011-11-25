@@ -77,7 +77,7 @@
 				  				<c:url value="http://edit.br.fgov.be/edit_wp5/v1/areas.php">
 				  					<c:param name="l" value="earth" />
 				  					<!-- Layer -->
-				  					<c:param name="ms" value="470" />
+				  					<c:param name="ms" value="800" />
 				  					<!-- Map Size -->
 				  					<c:param name="bbox" value="-180,-90,180,90" />
 				  					<!-- Bounding Box -->

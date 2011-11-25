@@ -10,9 +10,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
 /**
- * 
+ *
  * @author ben
- * 
+ *
  */
 public class SearchResultsPage extends PageObject {
     /**

@@ -14,7 +14,8 @@ import cucumber.junit.Feature;
  */
 @RunWith(ListeningCucumber.class)
 @Listener(TakeScreenshotListener.class)
-@Feature("features/ImagePage.feature")
+@Feature(value = "features/ImagePage.feature",
+        packages = "org.emonocot.portal.steps")
 public class ImagePageFunctionalTest {
 
 }

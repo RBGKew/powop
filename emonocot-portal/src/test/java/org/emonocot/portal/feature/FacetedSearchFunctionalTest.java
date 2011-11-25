@@ -13,7 +13,8 @@ import cucumber.junit.Feature;
  */
 @RunWith(ListeningCucumber.class)
 @Listener(TakeScreenshotListener.class)
-@Feature("features/FacetedSearch.feature")
+@Feature(value = "features/FacetedSearch.feature",
+        packages = "org.emonocot.portal.steps")
 public class FacetedSearchFunctionalTest {
 
 }

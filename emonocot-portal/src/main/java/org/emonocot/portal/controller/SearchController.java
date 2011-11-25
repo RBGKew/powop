@@ -109,7 +109,7 @@ public class SearchController {
      * @param facets
      *            The facets to set
      * @param view
-     * 
+     *
      * @return a model and view
      */
     @RequestMapping(value = "/search", method = RequestMethod.GET)
@@ -133,11 +133,10 @@ public class SearchController {
             logger.debug(selectedFacets.size()
                     + " facets have been selected from " + facets.size()
                     + " available");
-        }
-        else {
+        } else {
             logger.debug("There were no facets available to select from");
         }
-        
+
         //Decide which facets to return
         List<FacetName> responseFacetList = new ArrayList<FacetName>();
         responseFacetList.add(FacetName.CLASS);
@@ -146,8 +145,7 @@ public class SearchController {
         responseFacetList.add(FacetName.AUTHORITY);
         if (selectedFacets == null){
             logger.debug("No selected facets, setting default response facets");
-        }
-        else {
+        } else {
             if (selectedFacets.containsKey(FacetName.CLASS)) {
                 if (selectedFacets.get(FacetName.CLASS).equals(
                         "org.emonocot.model.taxon.Taxon")) {
@@ -159,12 +157,13 @@ public class SearchController {
             if (selectedFacets.containsKey(FacetName.CONTINENT)) {
                 logger.debug("Adding region facet");
                 responseFacetList.add(FacetName.REGION);
+            } else {
+                selectedFacets.remove(FacetName.REGION);
             }
-            else selectedFacets.remove(FacetName.REGION);
         }
         FacetName[] responseFacets = new FacetName[]{};
         responseFacets = responseFacetList.toArray(responseFacets);
-        
+
         //Run the search
         Page<? extends SearchableObject> result = null;
         if (selectedFacets == null
@@ -224,6 +223,7 @@ public class SearchController {
     }
 
     /**
+     * Used to return the autocomplete matches.
      *
      * @author ben
      *

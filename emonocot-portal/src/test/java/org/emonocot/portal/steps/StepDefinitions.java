@@ -1,4 +1,4 @@
-package org.emonocot.portal.feature;
+package org.emonocot.portal.steps;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.Serializable;
 import java.util.List;
 
+import org.emonocot.portal.driver.ClassificationPage;
 import org.emonocot.portal.driver.HomePage;
 import org.emonocot.portal.driver.IllustratedPage;
 import org.emonocot.portal.driver.ImagePage;
@@ -18,27 +19,16 @@ import org.emonocot.portal.driver.ProfilePage;
 import org.emonocot.portal.driver.RegistrationPage;
 import org.emonocot.portal.driver.RequiresLoginException;
 import org.emonocot.portal.driver.SearchResultsPage;
-import org.emonocot.portal.driver.SourcePage;
 import org.emonocot.portal.driver.SourceAdminPage;
 import org.emonocot.portal.driver.SourceJobPage;
+import org.emonocot.portal.driver.SourcePage;
 import org.emonocot.portal.driver.TaxonPage;
-import org.emonocot.portal.rows.AnnotationRow;
-import org.emonocot.portal.rows.GroupRow;
-import org.emonocot.portal.rows.ImageRow;
-import org.emonocot.portal.rows.JobExecutionRow;
-import org.emonocot.portal.rows.JobInstanceRow;
 import org.emonocot.portal.rows.LoginRow;
-import org.emonocot.portal.rows.ReferenceRow;
 import org.emonocot.portal.rows.RegistrationRow;
-import org.emonocot.portal.rows.SourceRow;
 import org.emonocot.portal.rows.SummaryRow;
-import org.emonocot.portal.rows.TaxonRow;
-import org.emonocot.portal.rows.UserRow;
-import org.emonocot.test.TestDataManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import cucumber.annotation.After;
-import cucumber.annotation.en.Given;
 import cucumber.annotation.en.Then;
 import cucumber.annotation.en.When;
 
@@ -68,156 +58,22 @@ public class StepDefinitions {
     /**
      *
      */
-    @Autowired
-    private TestDataManager testDataManager;
-
-   /**
-    *
-    * @param imageRows set the image rows
-    */
-   @Given("^there are images with the following properties:$")
-   public final void thereAreImagesWithTheFollowingProperties(
-            final List<ImageRow> imageRows) {
-        for (ImageRow imageRow : imageRows) {
-            testDataManager.createImage(imageRow.identifier,
-                     imageRow.caption, imageRow.url, imageRow.source);
-        }
-    }
-
-  /**
-   *
-   * @param jobInstanceRows set the job instance rows
-   */
-  @Given("^there are job instances with the following properties:$")
-  public final void thereAreJobInstancesWithTheFollowingProperties(
-           final List<JobInstanceRow> jobInstanceRows) {
-       for (JobInstanceRow jobInstanceRow : jobInstanceRows) {
-            testDataManager.createJobInstance(jobInstanceRow.jobId,
-                    jobInstanceRow.jobName, jobInstanceRow.authorityName,
-                    jobInstanceRow.version);
-       }
-   }
-
- /**
-  *
-  * @param jobExecutionRows set the job execution rows
-  */
- @Given("^there are job executions with the following properties:$")
- public final void thereAreJobExecutionsWithTheFollowingProperties(
-          final List<JobExecutionRow> jobExecutionRows) {
-      for (JobExecutionRow jobExecution : jobExecutionRows) {
-            testDataManager.createJobExecution(jobExecution.jobId,
-                    jobExecution.jobInstance, jobExecution.createTime,
-                    jobExecution.endTime, jobExecution.startTime,
-                    jobExecution.lastUpdated, jobExecution.status,
-                    jobExecution.version, jobExecution.exitCode,
-                    jobExecution.exitMessage);
-      }
-  }
-
- /**
- *
- * @param annotationRows set the job instance rows
- */
-@Given("^there are annotations with the following properties:$")
-public final void thereAreAnnotationsWithTheFollowingProperties(
-         final List<AnnotationRow> annotationRows) {
-     for (AnnotationRow annotationRow : annotationRows) {
-            testDataManager.createAnnotation(annotationRow.identifier,
-                    annotationRow.code, annotationRow.type,
-                    annotationRow.recordType, annotationRow.value,
-                    annotationRow.text, annotationRow.jobId,
-                    annotationRow.dateTime, annotationRow.source,
-                    annotationRow.object);
-     }
- }
-
-   /**
-    *  @param rows Set the rows
-    */
-   @Given("^there are groups with the following properties:$")
-    public final void thereGroupsWithTheFollowingProperties(
-            final List<GroupRow> rows) {
-       for (GroupRow row : rows) {
-           testDataManager.createGroup(row.identifier, row.permission1);
-       }
-   }
-
-   /**
-    *
-    * @param rows Set the rows
-    */
-    @Given("^there are users with the following properties:$")
-    public final void thereAreUsersWithTheFollowingProperties(
-            final List<UserRow> rows) {
-        for (UserRow row : rows) {
-           testDataManager.createUser(row.identifier, row.password, row.group1);
-       }
-   }
-
-   /**
-    *
-    * @param rows Set the rows
-    */
-    @Given("^there are source systems with the following properties:$")
-    public final void thereAreSourceSystemsWithTheFollowingProperties(
-            final List<SourceRow> rows) {
-        for (SourceRow row : rows) {
-            testDataManager.createSourceSystem(row.identifier, row.uri);
-        }
-    }
-
-
-
-/**
-    *
-    * @param name Set the name
-    */
-   @Given("^there are no taxa called \"([^\"]*)\"$")
-   public final void thereAreNoTaxaCalled(final String name) {
-       testDataManager.assertNoTaxaWithName(name);
-   }
-
-    /**
-    *
-    * @param rows set the taxon rows
-    */
-   @Given("^there are taxa with the following properties:$")
-   public final void thereAreTaxaWithTheFollowingProperties(
-           final List<TaxonRow> rows) {
-       for (TaxonRow row : rows) {
-            testDataManager.createTaxon(row.identifier, row.name, row.family,
-                    null, null, row.rank, row.status, row.diagnostic,
-                    row.habitat, row.general, row.protologue, row.protologueMicroReference,
-                    row.image1, row.image2, row.image3, row.distribution1, row.distribution2, row.distribution3, row.source, row.created, row.parent, null);
-       }
-
-   }
-
-   /**
-   *
-   * @param rows set the rows
-   */
-  @Given("^there are references with the following properties:$")
-  public final void thereAreReferencesWithTheFollowingProperties(
-          final List<ReferenceRow> rows) {
-      for (ReferenceRow row : rows) {
-            testDataManager.createReference(row.identifier, row.title,
-                    row.datePublished, row.volume, row.page);
-      }
-  }
-    /**
-     *
-     */
     @After
     public final void tearDown() {
         if (currentPage != null) {
             currentPage.logOut();
             currentPage.disableAuthentication();
         }
-        testDataManager.tearDown();
     }
 
+    /**
+     *
+     * @param nodeName the node name to expand
+     */
+    @When("^I expand \"([^\"]*)\"$")
+    public final void iExpand(final String nodeName) {
+        ((ClassificationPage) currentPage).expandNode(nodeName);
+    }
     /**
      *
      * @param query
@@ -226,6 +82,14 @@ public final void thereAreAnnotationsWithTheFollowingProperties(
     @When("^I search for \"([^\"]+)\"$")
     public final void whenISearchFor(final String query) {
         currentPage = portal.search(query);
+    }
+
+    /**
+     *
+     */
+    @When("^I am on the classification page$")
+    public final void iAmOnTheClassificationPage() {
+        currentPage = portal.getClassificationPage();
     }
 
     /**
@@ -274,7 +138,6 @@ public final void thereAreAnnotationsWithTheFollowingProperties(
    public final void typeInTheSearchBox(final Integer wait) {
        currentPage.waitForAjax(wait * MILLISECONDS_IN_A_SECOND);
    }
-  
 
    /**
    *
@@ -315,6 +178,22 @@ public final void thereAreAnnotationsWithTheFollowingProperties(
     @When("^I select the job category \"([^\"]*)\"$")
     public final void iSelectTheJobCategory(final String category) {
         currentPage = ((SourceJobPage) currentPage).selectCategory(category);
+    }
+
+    /**
+     * @param results Set the expected results
+     */
+    @Then("^the following nodes should be displayed:$")
+    public final void theTheFollowingNodesShouldBeDisplayed(
+            final List<ResultRow> results) {
+        int actualNumberOfResults = (int) ((ClassificationPage) currentPage)
+                .getNodeNumber();
+        assertEquals(results.size(), actualNumberOfResults);
+        List<String[]> actualResults = ((ClassificationPage) currentPage)
+                .getNodes();
+        for (int i = 0; i < actualNumberOfResults; i++) {
+            assertArrayEquals(actualResults.get(i), results.get(i).toArray());
+        }
     }
 
     /**
@@ -367,47 +246,57 @@ public final void thereAreAnnotationsWithTheFollowingProperties(
      */
     @Then("^there should be (\\d) result[s]?$")
     public final void thereShouldBeResults(final Integer results) {
-        assertEquals(results, ((SearchResultsPage) currentPage).getResultNumber());
+        assertEquals(results,
+                ((SearchResultsPage) currentPage).getResultNumber());
     }
-    
-    /**
-    *
-    * @param ancestors Set the ancestors
-    */
-    @Then("^there should be (\\d+) ancestor[s]?$")
-    public final void thereShouldBeAncestors(Integer ancestors) {
-    	assertEquals(ancestors, ((TaxonPage) currentPage).getAncestorsNumber());
-    }
-    
-    /**
-    *
-    * @param subordinateTaxa Set the value of subordinate taxa link
-    */
-    @Then("^the subordinate taxon link should say \"([^\"]*)\"$")
-    public void theSubordinateTaxonLinkShouldSay(final String subordinate) {
-    	assertEquals(subordinate, ((TaxonPage) currentPage).getSubordinateTaxa());
-    }
-    
-    /**
-    *
-    * @param subordinateNumber Set the number of subordinate taxa
-    */
-    @Then("^there should be (\\d+) subordinate taxa$")
-    public final void thereShouldBeSubordinateTaxa(Integer subordinateNumber) {
-    	assertEquals(subordinateNumber, ((TaxonPage) currentPage).getChildrenNumber());
-    }
-    
 
     /**
      *
-     * @param results Set the results
+     * @param ancestors
+     *            Set the ancestors
+     */
+    @Then("^there should be (\\d+) ancestor[s]?$")
+    public final void thereShouldBeAncestors(final Integer ancestors) {
+        assertEquals(ancestors, ((TaxonPage) currentPage).getAncestorsNumber());
+    }
+
+    /**
+     *
+     * @param subordinate
+     *            Set the value of subordinate taxa link
+     */
+    @Then("^the subordinate taxon link should say \"([^\"]*)\"$")
+    public final void theSubordinateTaxonLinkShouldSay(
+                  final String subordinate) {
+        assertEquals(subordinate,
+                ((TaxonPage) currentPage).getSubordinateTaxa());
+    }
+
+    /**
+     *
+     * @param subordinateNumber
+     *            Set the number of subordinate taxa
+     */
+    @Then("^there should be (\\d+) subordinate taxa$")
+    public final void thereShouldBeSubordinateTaxa(
+            final Integer subordinateNumber) {
+        assertEquals(subordinateNumber,
+                ((TaxonPage) currentPage).getChildrenNumber());
+    }
+
+    /**
+     *
+     * @param results
+     *            Set the results
      */
     @Then("^the following results should be displayed:$")
     public final void theFollowingResultsShouldBeDisplayed(
             final List<ResultRow> results) {
-        int actualNumberOfResults = (int) ((SearchResultsPage) currentPage).getResultNumber();
+        int actualNumberOfResults = (int) ((SearchResultsPage) currentPage)
+                .getResultNumber();
         assertEquals(results.size(), actualNumberOfResults);
-        List<String[]> actualResults = ((SearchResultsPage) currentPage).getResults();
+        List<String[]> actualResults = ((SearchResultsPage) currentPage)
+                .getResults();
         for (int i = 0; i < actualNumberOfResults; i++) {
             assertArrayEquals(actualResults.get(i), results.get(i).toArray());
         }
@@ -434,16 +323,20 @@ public final void thereAreAnnotationsWithTheFollowingProperties(
     }
     /**
      *
-     * @param link
+     * @param link Set the link
      */
     @Then("^there should be a link to \"([^\"]*)\"$")
-    public void thereShouldBeALinkTo(String link) {
-    	assertEquals(link, ((SourcePage) currentPage).getLink());
+    public final void thereShouldBeALinkTo(final String link) {
+        assertEquals(link, ((SourcePage) currentPage).getLink());
     }
 
+    /**
+     *
+     * @param name Set the name
+     */
     @Then("^the source name should be \"([^\"]*)\"$")
-    public void theSourceNameShouldBe(String name) {
-    	assertEquals(name, ((SourcePage) currentPage).getName());
+    public final void theSourceNameShouldBe(final String name) {
+        assertEquals(name, ((SourcePage) currentPage).getName());
     }
 
     /**

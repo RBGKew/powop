@@ -14,8 +14,8 @@ import cucumber.junit.Feature;
  */
 @RunWith(ListeningCucumber.class)
 @Listener(TakeScreenshotListener.class)
-@Feature(value = "features/TaxonPage.feature",
-        packages = "org.emonocot.portal.steps")
-public class TaxonPageFunctionalTest {
+@Feature(value = "features/ClassificationTree.feature",
+         packages = "org.emonocot.portal.steps")
+public class ClassificationTreeFunctionalTest {
 
 }
