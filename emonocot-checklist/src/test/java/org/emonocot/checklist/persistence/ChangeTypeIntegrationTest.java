@@ -45,7 +45,7 @@ public class ChangeTypeIntegrationTest extends
     @Test
     public void findDeletedTaxonTest() {
         assertNotNull("TaxonDAO should not be null", taxonDao);
-        ChangeEvent<Taxon> result = taxonDao.find(Taxon.IDENTIFIER_PREFIX+3);
+        ChangeEvent<Taxon> result = taxonDao.find(Taxon.IDENTIFIER_PREFIX+10);
         assertNotNull(result);
         assertEquals("result ", ChangeType.DELETE, result.getType());
     }
@@ -60,7 +60,7 @@ public class ChangeTypeIntegrationTest extends
     @Test
     public void getDeletedTaxon(){
         assertNotNull("TaxonDAO should not be null", taxonDao);
-        Taxon actual = taxonDao.get(new Integer(3));
+        Taxon actual = taxonDao.get(new Integer(10));
         assertNull("Taxon should be null", actual);
     }
     

@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.emonocot.model.common.Annotation;
@@ -110,7 +111,7 @@ public class Distribution extends BaseData {
      * @param newTaxon
      *            Set the taxon that this distribution is about.
      */
-    @JsonIgnore
+    @JsonBackReference("distribution-taxon")
     public void setTaxon(Taxon newTaxon) {
         this.taxon = newTaxon;
     }
@@ -141,7 +142,7 @@ public class Distribution extends BaseData {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @ContainedIn
-    @JsonIgnore
+    @JsonBackReference("distribution-taxon")
     public Taxon getTaxon() {
         return taxon;
     }

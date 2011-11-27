@@ -8,4 +8,8 @@
   <root level="WARN">
     <appender-ref ref="stdout"/>
   </root>
+  <!-- uncommment to see the debug statements-->
+  <!--<logger name="org.emonocot.persistence" level="DEBUG" additivity="false">
+    <appender-ref ref="stdout"/>
+  </logger>-->
 </configuration>

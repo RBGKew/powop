@@ -116,8 +116,7 @@ public class JsonConversionTest {
         EasyMock.expect(imageService.load("urn:identifier:image:2")).andReturn(
                 image3);
         EasyMock.replay(referenceService, imageService);
-
-        String content = "{\"identifier\":\"urn:kew.org:wcs:taxon:2295\",\"name\":\"Acorus\",\"protologue\":\"urn:kew.org:wcs:publication:1\", \"content\": [{\"feature\":\"habitat\",\"content\":\"Lorem ipsum\"}], \"images\":[\"urn:identifier:image:0\",\"urn:identifier:image:1\",\"urn:identifier:image:2\"],\"distribution\":[{\"region\":\"REU\"}]}";
+        String content = "{\"identifier\":\"urn:kew.org:wcs:taxon:2295\",\"name\":\"Acorus\",\"protologue\":\"urn:kew.org:wcs:publication:1\", \"content\": {\"habitat\":{\"feature\":\"habitat\",\"content\":\"Lorem ipsum\"}}, \"images\":[\"urn:identifier:image:0\",\"urn:identifier:image:1\",\"urn:identifier:image:2\"],\"distribution\":{\"REU\":{\"region\":\"REU\"}}}";
         Taxon taxon = (Taxon) objectMapper.readValue(content, Taxon.class);
         EasyMock.verify(referenceService, imageService);
 

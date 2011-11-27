@@ -10,11 +10,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -27,6 +26,7 @@ import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.emonocot.model.taxon.Taxon;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
@@ -34,6 +34,8 @@ import org.hibernate.search.annotations.Fields;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
+
+import com.vividsolutions.jts.geom.Point;
 
 /**
  *
@@ -46,7 +48,7 @@ public class Image extends SearchableObject {
     /**
      *
      */
-    private static final long serialVersionUID = 3341900807619517602L;
+    private static long serialVersionUID = 3341900807619517602L;
 
     /**
      *
@@ -57,6 +59,31 @@ public class Image extends SearchableObject {
      *
      */
     private String caption;
+
+    /**
+     *
+     */
+    private String description;
+
+    /**
+     *
+     */
+    private String spatial;
+    
+    /**
+     *
+     */
+    private String format;
+    
+    /**
+     *
+     */
+    private String keywords;
+
+    /**
+     *
+     */
+    private Point location;
 
     /**
      *
@@ -78,6 +105,91 @@ public class Image extends SearchableObject {
      */
     private Long id;
 
+    /**
+    *
+    * @return the description
+    */
+   @Lob
+   @Field
+   public String getDescription() {
+       return description;
+   }
+
+   /**
+    *
+    * @param description Set the description
+    */
+   public void setDescription(String description) {
+       this.description = description;
+   }
+
+   /**
+    *
+    * @return the location as a string
+    */
+   @Field
+   public String getSpatial() {
+       return spatial;
+   }
+
+   /**
+    *
+    * @param spatial Set the location as a string
+    */
+   public void setSpatial(final String spatial) {
+       this.spatial = spatial;
+   }
+
+   /**
+    *
+    * @return the format of the image
+    */
+   public String getFormat() {
+       return format;
+   }
+
+   /**
+    *
+    * @param format Set the format of the image
+    */
+   public void setFormat(String format) {
+       this.format = format;
+   }
+
+   /**
+    *
+    * @return the keywords as a string, comma separated
+    */
+   @Field
+   public String getKeywords() {
+       return keywords;
+   }
+
+   /**
+    *
+    * @param keywords Set the keywords as a string, comma separated
+    */
+   public void setKeywords(String keywords) {
+       this.keywords = keywords;
+   }
+
+   /**
+    *
+    * @return the location the image was taken
+    */
+   @Type(type = "spatialType")
+   public Point getLocation() {
+       return location;
+   }
+
+   /**
+    *
+    * @param location Set the location the image was taken
+    */
+   public void setLocation(Point location) {
+       this.location = location;
+   }
+    
     /**
      *
      * @param newId
@@ -184,7 +296,7 @@ public class Image extends SearchableObject {
      */
     @Transient
     @JsonIgnore
-    public final String getClassName() {
+    public String getClassName() {
         return "Image";
     }
 

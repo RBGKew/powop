@@ -2,5 +2,5 @@
 <dataset  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./dataset.xsd">
   <plant_name Plant_name_id="2" Full_epithet="Lorem consectetur" Date_of_entry="2010-11-01 09:00:01.0" Date_modified="2011-08-01 09:00:01.0" Family="Loreaceae" Genus="Lorem" Species="consectetur" />
   <plant_name Plant_name_id="1" Full_epithet="Lorem ipsum" Date_of_entry="2011-11-01 09:00:01.0" Family="Loreaceae" Genus="Lorem" Species="ipsum" />
-  <plant_name_deleted Plant_name_id="3" Full_epithet="Lorem faucibus" Date_of_entry="2011-06-01 09:00:01.0" Date_deleted="2011-08-01 09:00:01.0" Family="Loreaceae" Genus="Lorem" Species="faucibus" />
+  <plant_name_deleted Plant_name_id="10" Full_epithet="Lorem faucibus" Date_of_entry="2011-06-01 09:00:01.0" Date_deleted="2011-08-01 09:00:01.0" Family="Loreaceae" Genus="Lorem" Species="faucibus" />
 </dataset>

@@ -41,20 +41,25 @@
 		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
 		<property name="jobRepository" ref="jobRepository" />
 	</bean>
-
-	<jdbc:embedded-database id="dataSource" type="H2">
-	    <jdbc:script location="classpath:/org/springframework/batch/core/schema-drop-h2.sql" />
-	    <jdbc:script location="classpath:/org/springframework/batch/core/schema-h2.sql" />
-		<jdbc:script location="classpath:H2_schema.ddl" />
-		<jdbc:script location="classpath:test_data.sql" />
-	</jdbc:embedded-database>
+	<bean name="dataSource"
+		class="org.emonocot.persistence.spatial.GeoDBTestDataSourceFactory">
+		<property name="testDatabaseName" value="testdb" />
+		<property name="schemaLocations">
+			<list>
+				<value>classpath:/org/springframework/batch/core/schema-drop-h2.sql</value>
+				<value>classpath:/org/springframework/batch/core/schema-h2.sql</value>
+				<value>classpath:H2_schema.ddl</value>
+			</list>
+		</property>
+		<property name="testDataLocation" value="classpath:test_data.sql"/>
+	</bean>
 
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="hibernateProperties">
 			<value>
-				hibernate.dialect=org.hibernate.dialect.H2Dialect
+				hibernate.dialect=org.hibernatespatial.geodb.GeoDBDialect
 				hibernate.hbm2ddl.auto=validate
 				hibernate.search.default.directory_provider=filesystem
 				hibernate.search.default.indexBase=./target/indexes

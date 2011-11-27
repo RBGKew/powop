@@ -24,6 +24,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.common.Annotation;
@@ -32,10 +33,6 @@ import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.geography.GeographicalRegion;
-import org.emonocot.model.marshall.json.DescriptionMapDeserializer;
-import org.emonocot.model.marshall.json.DescriptionMapSerializer;
-import org.emonocot.model.marshall.json.DistributionMapDeserializer;
-import org.emonocot.model.marshall.json.DistributionMapSerializer;
 import org.emonocot.model.marshall.json.ImageDeserializer;
 import org.emonocot.model.marshall.json.ImageSerializer;
 import org.emonocot.model.marshall.json.ReferenceDeserializer;
@@ -280,7 +277,7 @@ public class Taxon extends SearchableObject {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon")
     @Cascade({ CascadeType.ALL })
     @MapKey(name = "feature")
-    @JsonSerialize(using = DescriptionMapSerializer.class)
+    @JsonManagedReference("content-taxon")
     @IndexedEmbedded
     public Map<Feature, TextContent> getContent() {
         return content;
@@ -310,11 +307,8 @@ public class Taxon extends SearchableObject {
      * @param newContent
      *            Set the content associated with this taxon
      */
-    @JsonDeserialize(using = DescriptionMapDeserializer.class)
+    @JsonManagedReference("content-taxon")
     public void setContent(Map<Feature, TextContent> newContent) {
-        for (TextContent c : newContent.values()) {
-            c.setTaxon(this);
-        }
         this.content = newContent;
     }
 
@@ -448,7 +442,7 @@ public class Taxon extends SearchableObject {
     @Cascade({ CascadeType.ALL })
     @MapKey(name = "region")
     @IndexedEmbedded
-    @JsonSerialize(using = DistributionMapSerializer.class)
+    @JsonManagedReference("distribution-taxon")
     public Map<GeographicalRegion, Distribution> getDistribution() {
         return distribution;
     }
@@ -458,12 +452,9 @@ public class Taxon extends SearchableObject {
      * @param newDistribution
      *            Set the distribution associated with this taxon
      */
-    @JsonDeserialize(using = DistributionMapDeserializer.class)
+    @JsonManagedReference("distribution-taxon")
     public void setDistribution(
             Map<GeographicalRegion, Distribution> newDistribution) {
-        for (Distribution d : newDistribution.values()) {
-            d.setTaxon(this);
-        }
         this.distribution = newDistribution;
     }
 

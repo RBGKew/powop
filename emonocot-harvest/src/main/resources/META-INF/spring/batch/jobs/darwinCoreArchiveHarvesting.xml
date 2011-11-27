@@ -97,11 +97,22 @@
                     </batch:skippable-exception-classes>
 				</batch:chunk>			    
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="cleanupResources" />
+			<batch:next on="COMPLETED" to="handleBinaryImages" />
 			<batch:listeners>
 			  <batch:listener ref="processingExceptionProcessListener"/>
 			  <batch:listener ref="imageProcessor"/>
 			</batch:listeners>
+		</batch:step>
+		<batch:step id="handleBinaryImages">
+			<batch:description>Retrieve images which are not cached, obtain EXIF metadata from the binary files
+			  then resize the images
+			</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="processImageFilesReader" processor="processImageFilesProcessor"
+					writer="itemWriter" commit-interval="100" skip-limit="10000">
+				</batch:chunk>			    
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="cleanupResources" />
 		</batch:step>
 		<batch:decision decider="processReferenceDecider" id="processReferencesDecision">
 		  <batch:next on="REFERENCE_PRESENT" to="processReferenceFile"/>
@@ -373,6 +384,20 @@
 			<value>#{jobExecutionContext['dwca.image.defaultValues']}</value>
 		</property>
 		<property name="taxonService" ref="taxonServiceImpl"/>
+	</bean>
+	
+	<bean id="processImageFilesReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
+	  <property name="useStatelessSession" value="false"/>
+	  <property name="sessionFactory" ref="sessionFactory" />
+	  <property name="queryString" value="from Image i join i.authority a where a.identifer = :authority"/>
+	  <property name="parameterValues">
+	    <map>
+	     <entry key="authority" value="#{jobParameters['authority.name']}"/>
+	    </map>
+	  </property>
+	</bean>
+	
+	<bean id="processImageFilesProcessor" class="org.emonocot.job.dwc.media.ImageFileProcessor" >
 	</bean>
 	
 	<!-- References -->

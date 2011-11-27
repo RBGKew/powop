@@ -7,16 +7,15 @@
 	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     
-       <bean name="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
-            <property name="driverClass" value="org.h2.Driver" />
-            <property name="url"
-                value="jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1" />
-       </bean>    
-
-	<jdbc:initialize-database data-source="dataSource">
-	    <jdbc:script location="classpath:/org/springframework/batch/core/schema-h2.sql" />
-	    <jdbc:script location="classpath:H2_schema.ddl" />
-	</jdbc:initialize-database>
+       <bean name="dataSource" class="org.emonocot.persistence.spatial.GeoDBTestDataSourceFactory">
+           <property name="testDatabaseName" value="testdb" />
+           <property name="schemaLocations">
+             <list>
+               <value>classpath:/org/springframework/batch/core/schema-h2.sql</value>
+               <value>classpath:H2_schema.ddl</value>
+             </list>
+           </property>
+       </bean>
 	
 	<bean name="connection" class="org.emonocot.persistence.olap.OlapConnectionFactory" depends-on="dataSource">
 	  <property name="dataSource">
@@ -56,7 +55,7 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="hibernateProperties">
 			<value>
-				hibernate.dialect=org.hibernate.dialect.H2Dialect
+				hibernate.dialect=org.hibernatespatial.geodb.GeoDBDialect
 				hibernate.hbm2ddl.auto=validate
 				hibernate.search.default.directory_provider=filesystem
 				hibernate.search.default.indexBase=./target/indexes

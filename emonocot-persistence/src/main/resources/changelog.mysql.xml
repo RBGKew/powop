@@ -1648,4 +1648,39 @@
         <column name="permissions" valueNumeric="18"/>
       </insert>
     </changeSet>
+    <changeSet id="2011-11-26_01" author="ben">
+      <sql>
+        UPDATE Taxon SET Taxon.parent_id = NULL where Taxon.accepted_id is not NULL;
+      </sql>
+    </changeSet>
+    <changeSet author="ben" id="2011-11-26_02">
+      <addColumn tableName="Image">
+        <column name="description" type="longtext"/>
+      </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2011-11-26_03">
+      <addColumn tableName="Image">
+        <column name="format" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2011-11-26_04">
+      <addColumn tableName="Image">
+        <column name="keywords" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2011-11-26_05">
+      <addColumn tableName="Image">
+        <column name="spatial" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2011-11-26_06">
+      <addColumn tableName="Image">
+        <column name="keywords" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2011-11-26_07">
+      <addColumn tableName="Image">
+        <column name="location" type="GEOMETRY"/>
+      </addColumn>
+    </changeSet>    
 </databaseChangeLog>

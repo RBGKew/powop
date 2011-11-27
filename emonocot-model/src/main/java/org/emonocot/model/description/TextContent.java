@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.BaseData;
@@ -26,7 +27,6 @@ import org.hibernate.annotations.Where;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.IndexedEmbedded;
 
 /**
  *
@@ -91,7 +91,7 @@ public class TextContent extends BaseData {
      * @param newTaxon
      *            Set the taxon that this content is about.
      */
-    @JsonIgnore
+    @JsonBackReference("content-taxon")
     public void setTaxon(Taxon newTaxon) {
         this.taxon = newTaxon;
     }
@@ -119,8 +119,8 @@ public class TextContent extends BaseData {
      *
      * @return Get the taxon that this content is about.
      */
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference("content-taxon")
     public Taxon getTaxon() {
         return taxon;
     }
