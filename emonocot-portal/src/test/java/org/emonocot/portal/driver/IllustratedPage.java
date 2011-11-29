@@ -9,9 +9,10 @@ public interface IllustratedPage {
 
     /**
      *
+     * @param property TODO
      * @return the main image caption
      */
-    String getMainImageCaption();
+    String getMainImageProperty(String property);
 
     /**
      *

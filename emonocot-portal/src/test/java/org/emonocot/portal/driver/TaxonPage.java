@@ -124,7 +124,7 @@ public class TaxonPage extends PageObject implements IllustratedPage {
      *
      * @return the caption of the main image
      */
-    public final String getMainImageCaption() {
+    public final String getMainImageProperty(String property) {
         return mainImage.findElement(By.className("ad-image-description")).getText();
     }
 

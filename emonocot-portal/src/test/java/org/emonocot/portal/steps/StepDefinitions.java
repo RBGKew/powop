@@ -308,7 +308,7 @@ public class StepDefinitions {
      */
     @Then("^the main image caption should be the (\\d+)\\w+ caption$")
     public final void theMainImageCaptionShouldEqualTheCaption(final int number) {
-        assertEquals(((TaxonPage) currentPage).getMainImageCaption(),
+        assertEquals(((TaxonPage) currentPage).getMainImageProperty(null),
                 ((TaxonPage) currentPage).getThumbnailCaption(number));
     }
 
@@ -532,13 +532,15 @@ public class StepDefinitions {
     }
 
     /**
-     *
-     * @param caption
-     *            Set the caption
+     * @param property Set the property to find
+     * @param value
+     *            Set the expected value
      */
-    @Then("^the main image caption should be \"([^\"]*)\"$")
-    public final void theMainImageCaptionShouldBe(final String caption) {
-        assertEquals(caption, ((IllustratedPage) currentPage).getMainImageCaption());
+    @Then("^the main image ([^\"]*) should be \"([^\"]*)\"$")
+    public final void theMainImagePropertyShouldBe(final String property,
+            final String value) {
+        assertEquals(value,
+                ((IllustratedPage) currentPage).getMainImageProperty(property));
     }
 
     /**

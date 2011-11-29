@@ -64,4 +64,9 @@
         <function-class>org.emonocot.checklist.view.Functions</function-class>
         <function-signature>java.lang.String escape(java.lang.String)</function-signature>
     </function>
+    <function>
+        <name>split</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.util.List split(java.lang.String, java.lang.String)</function-signature>
+    </function>
 </taglib>

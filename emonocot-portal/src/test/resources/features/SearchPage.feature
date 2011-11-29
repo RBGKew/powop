@@ -28,10 +28,10 @@ Background:
   | urn:kew.org:wcs:taxon:16212	 | Arum italicum neglectum   | test   |                  | 1991-12-01T12:00:01.000Z |
   And there are no taxa called "Rhipoga"
   And there are images with the following properties:
-  | identifier | url                                                                | caption   |
-  | 123        | http://upload.wikimedia.org/wikipedia/commons/7/7b/Poa_annua.jpeg  | Poa annua |
-  | 456        | http://upload.wikimedia.org/wikipedia/commons/4/4f/Poa.annua.jpg   | Poa annua |
-  | 789        | http://upload.wikimedia.org/wikipedia/commons/7/78/Poa.annua.2.jpg | Poa annua |
+  | identifier | url                                                                | caption   | description     | creator          | locality                          |
+  | 123        | http://upload.wikimedia.org/wikipedia/commons/7/7b/Poa_annua.jpeg  | Poa annua | Habit           | Rasbak           | Nederlands                        |
+  | 456        | http://upload.wikimedia.org/wikipedia/commons/4/4f/Poa.annua.jpg   | Poa annua | Panicle         | James K. Lindsey | Commanster, Belgian High Ardennes |
+  | 789        | http://upload.wikimedia.org/wikipedia/commons/7/78/Poa.annua.2.jpg | Poa annua | Panicle         | James K. Lindsey | Commanster, Belgian High Ardennes |
   And I am on the search page
 
 Scenario: Search for a single taxon
@@ -135,13 +135,23 @@ Scenario: Sort taxa Alphabetically
   | urn:kew.org:wcs:taxon:286796  | Rhipogonum scandens     |
   
 Scenario: View Images in a grid
- As a botanist in the herbarium, in order to identify a monocot
- I want to see the images displayed in a grid.
- When I restrict the "Type" by selecting "Images"
- Then there should be 3 results
- And the view icons should be displayed
- When I click on the "grid" icon 
- Then the images should be displayed in a grid.
+  As a botanist in the herbarium, in order to identify a monocot
+  I want to see the images displayed in a grid.
+  When I restrict the "Type" by selecting "Images"
+  Then there should be 3 results
+  And the view icons should be displayed
+  When I click on the "grid" icon 
+  Then the images should be displayed in a grid.
+ 
+Scenario: Search for images by their descriptions
+  As a botanist in the herbarium, in order to find an image of a particular character
+  I want to be able to search for images by their metadata including their descriptions.
+  When I restrict the "Type" by selecting "Images"
+  And I search for "Panicle"
+  Then the following results should be displayed:
+  | page | text      |
+  | 456  | Poa annua |
+  | 789  | Poa annua |
  
 
 Scenario: Sort taxa by Recency

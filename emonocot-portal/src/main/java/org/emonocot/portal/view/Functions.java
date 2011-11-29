@@ -30,6 +30,8 @@ import org.joda.time.format.PeriodFormat;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
+import com.rc.retroweaver.runtime.Arrays;
+
 /**
  *
  * @author ben
@@ -216,15 +218,27 @@ public final class Functions {
        DateTime dateTime = new DateTime(date);
        return DateTimeFormat.forStyle("SS").print(dateTime);
    }
-   
-   /**
-   *
-   * @param list Set the list
-   * @param index Set the index
-   * @return a sublist starting at index
-   */
-  public static List<Taxon> sublist(final List<Taxon> list, final Integer index) {
-      return list.subList(index, list.size());
-  }
-   
+
+    /**
+     *
+     * @param list
+     *            Set the list
+     * @param index
+     *            Set the index
+     * @return a sublist starting at index
+     */
+    public static List<Taxon> sublist(final List<Taxon> list,
+            final Integer index) {
+        return list.subList(index, list.size());
+    }
+
+    /**
+     *
+     * @param string The string to split
+     * @param pattern The pattern to split upon
+     * @return an array of substrings
+     */
+    public static List<String> split(final String string, final String pattern) {
+        return Arrays.asList(string.split(pattern));
+    }
 }

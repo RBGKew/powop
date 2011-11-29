@@ -40,7 +40,8 @@ public class DataSetup {
             final List<ImageRow> imageRows) {
         for (ImageRow imageRow : imageRows) {
             testDataManager.createImage(imageRow.identifier, imageRow.caption,
-                    imageRow.url, imageRow.source);
+                    imageRow.url, imageRow.source, imageRow.description,
+                    imageRow.locality, imageRow.creator);
         }
     }
 

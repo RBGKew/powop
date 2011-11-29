@@ -27,4 +27,18 @@ public class ImageRow {
      */
     public String source;
 
+    /**
+     *
+     */
+    public String description;
+
+    /**
+     *
+     */
+    public String creator;
+
+    /**
+     *
+     */
+    public String locality;
 }

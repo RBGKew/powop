@@ -173,14 +173,22 @@ public class TestDataManager {
      * @param caption Set the caption
      * @param url Set the url
      * @param source Set the source
+     * @param description Set the description
+     * @param locality Set the locality
+     * @param creator Set the creator
     */
     public final void createImage(final String identifier,
-            final String caption, final String url, final String source) {
+            final String caption, final String url, final String source,
+            final String description, final String locality,
+            final String creator) {
        enableAuthentication();
        Image image = new Image();
        image.setCaption(caption);
        image.setUrl(url);
        image.setIdentifier(identifier);
+       image.setDescription(description);
+       image.setLocality(locality);
+       image.setCreator(creator);
        if (source != null) {
            Source s = new Source();
            s.setIdentifier(source);
