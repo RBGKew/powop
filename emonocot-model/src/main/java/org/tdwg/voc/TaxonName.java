@@ -3,7 +3,6 @@ package org.tdwg.voc;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.emonocot.model.taxon.Rank;
 import org.tdwg.Name;
 
 import com.thoughtworks.xstream.annotations.XStreamImplicit;

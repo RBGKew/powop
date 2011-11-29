@@ -7,7 +7,7 @@ create table Distribution_Source (Distribution_id bigint not null, sources_id bi
 drop table if exists Group_permissions;
 create table Group_permissions (Group_id bigint not null, permissions integer);
 drop table if exists Image;
-create table Image (id bigint not null, identifier varchar(255), created timestamp, creator varchar(255), license varchar(255), modified timestamp, source varchar(255), caption varchar(255), description clob, format varchar(255), keywords varchar(255), location BLOB, spatial varchar(255), url varchar(255), authority_id bigint, image_id bigint, taxon_id bigint, primary key (id), unique (identifier));
+create table Image (id bigint not null, identifier varchar(255), created timestamp, creator varchar(255), license varchar(255), modified timestamp, source varchar(255), caption varchar(255), description clob, format varchar(255), keywords varchar(255), location BLOB, locality varchar(255), url varchar(255), authority_id bigint, image_id bigint, taxon_id bigint, primary key (id), unique (identifier));
 drop table if exists Image_Source;
 create table Image_Source (Image_id bigint not null, sources_id bigint not null, primary key (Image_id, sources_id));
 drop table if exists Principal;

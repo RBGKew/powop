@@ -68,13 +68,13 @@ public class Image extends SearchableObject {
     /**
      *
      */
-    private String spatial;
-    
+    private String locality;
+
     /**
      *
      */
     private String format;
-    
+
     /**
      *
      */
@@ -128,16 +128,16 @@ public class Image extends SearchableObject {
     * @return the location as a string
     */
    @Field
-   public String getSpatial() {
-       return spatial;
+   public String getLocality() {
+       return locality;
    }
 
    /**
     *
-    * @param spatial Set the location as a string
+    * @param locality Set the location as a string
     */
-   public void setSpatial(final String spatial) {
-       this.spatial = spatial;
+   public void setLocality(final String locality) {
+       this.locality = locality;
    }
 
    /**
@@ -189,7 +189,7 @@ public class Image extends SearchableObject {
    public void setLocation(Point location) {
        this.location = location;
    }
-    
+
     /**
      *
      * @param newId

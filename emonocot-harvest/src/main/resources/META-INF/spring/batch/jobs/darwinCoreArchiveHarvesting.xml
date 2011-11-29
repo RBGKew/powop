@@ -25,12 +25,10 @@
 		</batch:step>
 		<batch:step id="markTaxonRecords">
 	        <batch:description>Mark the taxon records we expect to be present in this archive</batch:description>
-	        <batch:tasklet>
-				<batch:chunk reader="markReader" processor="markProcessor" writer="itemWriter" commit-interval="100"/>	    
-			</batch:tasklet>
+	        <batch:tasklet ref="markTaxonRecordsTasklet" />
 			<batch:next on="COMPLETED" to="unpackDWCArchive" />
 			<batch:listeners>
-			  <batch:listener ref="markProcessor"/>
+			  <batch:listener ref="recordAnnotator"/>
 			</batch:listeners>
 	    </batch:step>
 		<batch:step id="unpackDWCArchive">
@@ -109,7 +107,7 @@
 			</batch:description>
 			<batch:tasklet>
 				<batch:chunk reader="processImageFilesReader" processor="processImageFilesProcessor"
-					writer="itemWriter" commit-interval="100" skip-limit="10000">
+					writer="itemWriter" commit-interval="100">
 				</batch:chunk>			    
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="cleanupResources" />
@@ -158,22 +156,22 @@
 		</property>
 	</bean>
 	
-	<bean id="markReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
-	  <property name="queryString" value="from Taxon as taxon left join taxon.accepted as accepted where taxon.family = :family or accepted.family = :family"/>
-	  <property name="sessionFactory" ref="sessionFactory"/>
-	  <property name="parameterValues">
-	    <map>
-	      <entry key="family"  value="#{jobParameters['family']}"/>
-	    </map>
-	  </property>
+	<bean id="markTaxonRecordsTasklet"
+          class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+          scope="step">
+        <property name="targetObject" ref="recordAnnotator" />
+        <property name="targetMethod" value="annotateRecords" />
+     	<property name="arguments">
+         <list>
+          <value>#{jobParameters['family']}</value>
+          <value>#{jobParameters['authority.name']}</value>
+         </list>
+        </property>
+    </bean>
+
+    <bean id="recordAnnotator" class="org.emonocot.job.dwc.RecordAnnotator">
+       <property name="dataSource" ref="dataSource"/>
 	</bean>
-	
-	<bean id="markProcessor"
-		class="org.emonocot.job.dwc.RecordAnnotator"
-		scope="step">
-		<property name="sourceName" value="#{jobParameters['authority.name']}"/>
-		<property name="sourceService" ref="sourceServiceImpl"/>
-	</bean>	
 
 	<bean id="getDWCArchiveTasklet"
 		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
@@ -387,9 +385,8 @@
 	</bean>
 	
 	<bean id="processImageFilesReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
-	  <property name="useStatelessSession" value="false"/>
-	  <property name="sessionFactory" ref="sessionFactory" />
-	  <property name="queryString" value="from Image i join i.authority a where a.identifer = :authority"/>
+	  <property name="sessionFactory" ref="sessionFactory" />	  
+	  <property name="queryString" value="select i from Image i join i.authority a where a.identifier = :authority"/>
 	  <property name="parameterValues">
 	    <map>
 	     <entry key="authority" value="#{jobParameters['authority.name']}"/>
@@ -397,7 +394,12 @@
 	  </property>
 	</bean>
 	
-	<bean id="processImageFilesProcessor" class="org.emonocot.job.dwc.media.ImageFileProcessor" >
+	<bean id="processImageFilesProcessor" class="org.emonocot.job.dwc.image.ImageFileProcessor" scope="step">
+	  <property name="getResourceClient" ref="getResourceClient" />
+	  <property name="authorityName" value="#{jobParameters['authority.name']}"/>
+	  <property name="thumbnailDirectory" value="${harvester.thumbnail.directory}"/>
+	  <property name="imageMagickSearchPath" value="${harvester.imagemagick.path}"/>
+	  <property name="imageDirectory" value="${harvester.image.directory}"/>
 	</bean>
 	
 	<!-- References -->

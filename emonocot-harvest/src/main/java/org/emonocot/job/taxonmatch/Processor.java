@@ -12,7 +12,7 @@ import org.springframework.batch.item.ItemProcessor;
  * @author ben
  *
  */
-public class Processor implements ItemProcessor<Taxon, Result> {
+public class Processor implements ItemProcessor<TaxonDTO, Result> {
     /**
      *
      */
@@ -30,7 +30,7 @@ public class Processor implements ItemProcessor<Taxon, Result> {
      * @return a result
      * @throws Exception if there is a problem
      */
-    public final Result process(final Taxon taxon) throws Exception {
+    public final Result process(final TaxonDTO taxon) throws Exception {
         Page<org.emonocot.model.taxon.Taxon> page = taxonService.search("\""
                 + taxon.getName() + "\"", null, null, null, null, null, null, null);     
         Result result = new Result();

@@ -199,7 +199,7 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
             taxon.setGenus(taxonName.getGenusPart());
             taxon.setSpecificEpithet(taxonName.getSpecificEpithet());
             taxon.setInfraSpecificEpithet(taxonName.getInfraSpecificEpithet());
-            taxon.setProtologueMicroReference(taxonName.getMicroReference());            
+            taxon.setProtologueMicroReference(taxonName.getMicroReference());
             if (taxonName.getPublishedInCitations() != null
                     && !taxonName.getPublishedInCitations().isEmpty()) {
                 PublicationCitation protologue = taxonName

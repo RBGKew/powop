@@ -487,6 +487,7 @@
 		      <groupId>org.hibernatespatial</groupId>
               <artifactId>hibernate-spatial-h2-geodb</artifactId>
 		      <version>1.1</version>
+		      <scope>test</scope>
 	        </dependency>
             <dependency>
                 <groupId>org.joda</groupId>

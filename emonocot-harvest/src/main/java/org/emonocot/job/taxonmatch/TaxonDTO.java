@@ -5,7 +5,7 @@ package org.emonocot.job.taxonmatch;
  * @author ben
  *
  */
-public class Taxon {
+public class TaxonDTO {
 
     /**
      *

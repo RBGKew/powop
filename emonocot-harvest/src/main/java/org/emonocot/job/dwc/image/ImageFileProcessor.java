@@ -13,20 +13,32 @@ import org.emonocot.model.media.Image;
 import org.emonocot.ws.GetResourceClient;
 import org.im4java.core.ConvertCmd;
 import org.im4java.core.IMOperation;
+import org.im4java.core.MogrifyCmd;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.core.io.FileSystemResource;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 
+/**
+ *
+ * @author ben
+ *
+ */
 public class ImageFileProcessor implements ItemProcessor<Image, Image> {
-    
+
+   /**
+    *
+    */
+    private Logger logger = LoggerFactory.getLogger(ImageFileProcessor.class);
+
     /**
      *
      */
-    private final Integer THUMBNAIL_DIMENSION = 100;
-    
+    private final Double THUMBNAIL_DIMENSION = 100D;
+
     /**
      *
      */
@@ -35,12 +47,17 @@ public class ImageFileProcessor implements ItemProcessor<Image, Image> {
     /**
      *
      */
-    private FileSystemResource imageDirectory;
+    private String searchPath;
 
     /**
      *
      */
-    private FileSystemResource thumbnailDirectory;
+    private String imageDirectory;
+
+    /**
+     *
+     */
+    private String thumbnailDirectory;
 
     /**
      *
@@ -57,85 +74,159 @@ public class ImageFileProcessor implements ItemProcessor<Image, Image> {
      */
     private GetResourceClient getResourceClient;
 
-    public void setThumbnailDirectory(FileSystemResource thumbnailDirectory) {
-        this.thumbnailDirectory = thumbnailDirectory;
-    }
-    
-    public void setImageDirectory(FileSystemResource imageDirectory) {
-        this.imageDirectory = imageDirectory;
-    }
-
-    public void setAuthorityName(String authorityName) {
-        this.authorityName = authorityName;
+    /**
+     *
+     * @param newThumbnailDirectory set the thumbnail directory
+     */
+    public final void setThumbnailDirectory(
+            final String newThumbnailDirectory) {
+        this.thumbnailDirectory = newThumbnailDirectory;
     }
 
-    public void setGetResourceClient(GetResourceClient getResourceClient) {
-        this.getResourceClient = getResourceClient;
+    /**
+     *
+     * @param imageMagickSearchPath set the thumbnail directory
+     */
+   public final void setImageMagickSearchPath(
+           final String imageMagickSearchPath) {
+       this.searchPath = imageMagickSearchPath;
+   }
+
+    /**
+     *
+     * @param newImageDirectory Set the image directory
+     */
+    public final void setImageDirectory(
+            final String newImageDirectory) {
+        this.imageDirectory = newImageDirectory;
     }
 
-    public Image process(Image image) throws Exception {       
-        String imageFileName = imageDirectory.getFile().getAbsolutePath() + File.separatorChar + image.getIdentifier() + '.' + image.getFormat();
-        String thumbnailFileName = thumbnailDirectory.getFile().getAbsolutePath() + File.separatorChar + image.getIdentifier() + '.' + image.getFormat();
+    /**
+     *
+     * @param newAuthorityName Set the authority name
+     */
+    public final void setAuthorityName(final String newAuthorityName) {
+        this.authorityName = newAuthorityName;
+    }
+
+    /**
+     *
+     * @param newGetResourceClient set the get resource client
+     */
+    public final void setGetResourceClient(
+            final GetResourceClient newGetResourceClient) {
+        this.getResourceClient = newGetResourceClient;
+    }
+
+    /**
+     * @param image Set the image
+     * @return an image or null if the image is to be skipped
+     * @throws Exception if there is a problem processing the image
+     */
+    public final Image process(final Image image) throws Exception {
+        String imageFileName = imageDirectory + File.separatorChar
+                + image.getIdentifier() + '.' + image.getFormat();
+        String thumbnailFileName = thumbnailDirectory + File.separatorChar
+                + image.getIdentifier() + '.' + image.getFormat();
         File file = new File(imageFileName);
-        System.out.println("Checking for " + imageFileName);
-        if(file.exists()) {
-            System.out.println("File Exists");
+        if (file.exists()) {
+            logger.info("File exists in image directory, skipping");
             return null;
         } else {
             try {
                 getResourceClient.getBinaryResource(authorityName,
-                        image.getUrl(),
-                        "1",
-                        imageFileName);
+                        image.getUrl(), "1", imageFileName);
                 file = new File(imageFileName);
                 ImageInfo imageInfo = Sanselan.getImageInfo(file);
-                Integer width = imageInfo.getWidth();
-                Integer height = imageInfo.getHeight();
-                System.out.println(width + " * " + height);
-                
-                
-                if(width > height) {
-                    Integer newWidth = (width / height) * 100; 
-                    Integer offset = (newWidth - 100) / 2;
+                Double width = new Double(imageInfo.getWidth());
+                Double height = new Double(imageInfo.getHeight());
+                logger.debug("Image " + imageFileName + " dimensions: " + width + " x " + height);
+
+                if (width > height) {
+                    Double newWidth = (width / height) * THUMBNAIL_DIMENSION;
+                    Double xOffset = (newWidth - THUMBNAIL_DIMENSION) / 2.0D;
                     // shrink to 100px high then crop
-                    ConvertCmd cmd = new ConvertCmd();                    
-                    IMOperation op = new IMOperation();
-                    op.addImage(imageFileName);
-                    op.resize(100, newWidth);                    
-                    op.addImage(thumbnailFileName);
-                    cmd.run(op);
-                    
-                    IMOperation op2 = new IMOperation();
-                    op2 = new IMOperation();
-                    op2.addImage(thumbnailFileName);
-                    op2.crop(100, 100, offset);
-                    cmd.run(op2);
-                    
+                    ConvertCmd convert = new ConvertCmd();
+                    if (searchPath != null) {
+                        convert.setSearchPath(searchPath);
+                    }
+                    IMOperation resize = new IMOperation();
+                    resize.addImage(imageFileName);
+                    logger.debug("Resizing to " + newWidth.intValue()
+                            + " * " + THUMBNAIL_DIMENSION.intValue());
+                    resize.resize(newWidth.intValue(),
+                            THUMBNAIL_DIMENSION.intValue());
+                    resize.addImage(thumbnailFileName);
+                    convert.run(resize);
+
+                    MogrifyCmd mogrify = new MogrifyCmd();
+                    if (searchPath != null) {
+                        mogrify.setSearchPath(searchPath);
+                    }
+                    IMOperation crop = new IMOperation();
+                    crop = new IMOperation();
+                    logger.debug("Cropping to " + xOffset.intValue() + " * 0");
+                    crop.crop(THUMBNAIL_DIMENSION.intValue(),
+                            THUMBNAIL_DIMENSION.intValue(), xOffset.intValue());
+                    crop.addImage(thumbnailFileName);
+                    mogrify.run(crop);
+
                 } else {
-                    
+                    Double newHeight = (height / width) * THUMBNAIL_DIMENSION;
+                    Double yOffset = (newHeight - THUMBNAIL_DIMENSION) / 2.0D;
+                    // shrink to 100px high then crop
+                    ConvertCmd convert = new ConvertCmd();
+                    if (searchPath != null) {
+                        convert.setSearchPath(searchPath);
+                    }
+                    IMOperation resize = new IMOperation();
+                    resize.addImage(imageFileName);
+                    logger.debug("Resizing to " + THUMBNAIL_DIMENSION.intValue()
+                            + " * " + newHeight.intValue());
+                    resize.resize(THUMBNAIL_DIMENSION.intValue(),
+                            newHeight.intValue());
+                    resize.addImage(thumbnailFileName);
+                    convert.run(resize);
+
+                    MogrifyCmd mogrify = new MogrifyCmd();
+                    if (searchPath != null) {
+                        mogrify.setSearchPath(searchPath);
+                    }
+                    IMOperation crop = new IMOperation();
+                    crop = new IMOperation();
+                    logger.debug("Cropping to 0 * " + yOffset.intValue());
+                    crop.crop(THUMBNAIL_DIMENSION.intValue(),
+                            THUMBNAIL_DIMENSION.intValue(), 0, yOffset.intValue());
+                    crop.addImage(thumbnailFileName);
+                    mogrify.run(crop);
                 }
                 IImageMetadata metadata = Sanselan.getMetadata(file);
-                
+
                 if (metadata instanceof JpegImageMetadata) {
                     JpegImageMetadata jpegMetadata = (JpegImageMetadata) metadata;
                     StringBuffer keywords = null;
                     StringBuffer spatial = null;
-                    
-                    for(Object o : jpegMetadata.getItems()) {
-                        if(o instanceof ImageMetadata.Item) {
+
+                    for (Object o : jpegMetadata.getItems()) {
+                        if (o instanceof ImageMetadata.Item) {
                             ImageMetadata.Item item = (ImageMetadata.Item) o;
-                            if(item.getKeyword().equals("Object Name") && image.getCaption() == null) {
+                            if (item.getKeyword().equals("Object Name")
+                                    && image.getCaption() == null) {
                                 image.setCaption(item.getText());
                             }
-                            if(item.getKeyword().equals("Keywords")) {
-                                if(keywords == null) {
+                            if (item.getKeyword().equals("Keywords")) {
+                                if (keywords == null) {
                                     keywords = new StringBuffer();
                                     keywords.append(item.getText());
                                 } else {
                                     keywords.append(", " + item.getText());
                                 }
-                            } else if(item.getKeyword().equals("Sublocation") || item.getKeyword().equals("Province/State") || item.getKeyword().equals("Country/Primary Location Name")) {
-                                if(spatial == null) {
+                            } else if (item.getKeyword().equals("Sublocation")
+                                    || item.getKeyword().equals(
+                                            "Province/State")
+                                    || item.getKeyword().equals(
+                                            "Country/Primary Location Name")) {
+                                if (spatial == null) {
                                     spatial = new StringBuffer();
                                     spatial.append(item.getText());
                                 } else {
@@ -144,33 +235,41 @@ public class ImageFileProcessor implements ItemProcessor<Image, Image> {
                             }
                         }
                     }
-                    if(spatial != null && image.getSpatial() == null) {
-                        image.setSpatial(spatial.toString());
+                    if (spatial != null && image.getLocality() == null) {
+                        image.setLocality(spatial.toString());
                     }
-                    if(keywords != null && image.getKeywords() == null) {
+                    if (keywords != null && image.getKeywords() == null) {
                         image.setKeywords(keywords.toString());
                     }
-                    if(jpegMetadata.findEXIFValue(TiffConstants.TIFF_TAG_ARTIST) != null && image.getCreator() == null) {
-                        image.setCreator(jpegMetadata.findEXIFValue(TiffConstants.TIFF_TAG_ARTIST).getStringValue());
+                    if (jpegMetadata
+                            .findEXIFValue(TiffConstants.TIFF_TAG_ARTIST) != null
+                            && image.getCreator() == null) {
+                        image.setCreator(jpegMetadata.findEXIFValue(
+                                TiffConstants.TIFF_TAG_ARTIST).getStringValue());
                     }
-                    if(jpegMetadata.findEXIFValue(TiffConstants.TIFF_TAG_IMAGE_DESCRIPTION) != null && image.getDescription() == null) {
-                        image.setDescription(jpegMetadata.findEXIFValue(TiffConstants.TIFF_TAG_IMAGE_DESCRIPTION).getStringValue());
+                    if (jpegMetadata
+                            .findEXIFValue(TiffConstants.TIFF_TAG_IMAGE_DESCRIPTION) != null
+                            && image.getDescription() == null) {
+                        image.setDescription(jpegMetadata.findEXIFValue(
+                                TiffConstants.TIFF_TAG_IMAGE_DESCRIPTION)
+                                .getStringValue());
                     }
                     TiffImageMetadata exifMetadata = jpegMetadata.getExif();
                     if (exifMetadata != null) {
-                        TiffImageMetadata.GPSInfo gpsInfo = exifMetadata.getGPS();
+                        TiffImageMetadata.GPSInfo gpsInfo = exifMetadata
+                                .getGPS();
                         if (null != gpsInfo && image.getLocation() == null) {
                             Point location = geometryFactory
-                                    .createPoint(new Coordinate(
-                                            gpsInfo.getLongitudeAsDegreesEast(),
+                                    .createPoint(new Coordinate(gpsInfo
+                                            .getLongitudeAsDegreesEast(),
                                             gpsInfo.getLatitudeAsDegreesNorth()));
                             image.setLocation(location);
                         }
                     }
                 }
-            } catch(Exception e) {
+            } catch (Exception e) {
                 System.out.println(e.toString());
-                for(StackTraceElement ste : e.getStackTrace()) {
+                for (StackTraceElement ste : e.getStackTrace()) {
                     System.out.println(ste);
                 }
             }

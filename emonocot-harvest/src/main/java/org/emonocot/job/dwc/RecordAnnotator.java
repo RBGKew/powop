@@ -1,39 +1,21 @@
 package org.emonocot.job.dwc;
 
-import org.emonocot.api.SourceService;
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.AnnotationCode;
-import org.emonocot.model.common.AnnotationType;
-import org.emonocot.model.source.Source;
-import org.emonocot.model.taxon.Taxon;
+import javax.sql.DataSource;
+
+import org.emonocot.model.hibernate.OlapDateTimeUserType;
 import org.joda.time.DateTime;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
-import org.springframework.batch.item.ItemProcessor;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
  *
  * @author ben
  *
  */
-public class RecordAnnotator implements ItemProcessor<Taxon, Taxon>,
+public class RecordAnnotator implements
         StepExecutionListener {
-
-    /**
-     *
-     */
-    private String sourceName;
-
-    /**
-     *
-     */
-    private Source source;
-
-    /**
-     *
-     */
-    private SourceService sourceService;
 
     /**
      *
@@ -42,44 +24,43 @@ public class RecordAnnotator implements ItemProcessor<Taxon, Taxon>,
 
     /**
      *
-     * @param newSourceName Set the source name
      */
-    public final void setSourceName(final String newSourceName) {
-        this.sourceName = newSourceName;
-    }
+    private JdbcTemplate jdbcTemplate;
 
     /**
-     * @return the source
+     *
+     * @param sessionFactory Set the session factory
      */
-    private Source getSource() {
-        if (source == null) {
-            source = sourceService.load(sourceName);
-        }
-        return source;
+    public final void setDataSource(final DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate();
+        jdbcTemplate.setDataSource(dataSource);
+        jdbcTemplate.afterPropertiesSet();
     }
 
     /**
      *
-     * @param newSourceService Set the source service
+     * @param family Set the family of taxa to be harvested
+     * @param sourceName Set the Source name
+     * @return the exit status
      */
-    public final void setSourceService(final SourceService newSourceService) {
-        this.sourceService = newSourceService;
-    }
-
-    /**
-     * @param taxon Set the taxon
-     * @return an annotated taxon
-     */
-    public final Taxon process(final Taxon taxon) {
-        Annotation annotation = new Annotation();
-        annotation.setAnnotatedObj(taxon);
-        annotation.setDateTime(new DateTime());
-        annotation.setJobId(stepExecution.getJobExecutionId());
-        annotation.setSource(getSource());
-        annotation.setCode(AnnotationCode.Absent);
-        annotation.setType(AnnotationType.Warn);
-        taxon.getAnnotations().add(annotation);
-        return taxon;
+    public final ExitStatus annotateRecords(final String family,
+      final String sourceName) {
+    Integer sourceId = jdbcTemplate.queryForInt("Select id from source where identifier = '"
+      + sourceName + "'");
+      StringBuffer queryString = new StringBuffer(
+     "insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, source_id, type, code) select t.id, 'Taxon', ");
+      queryString.append(stepExecution.getJobExecutionId());
+      queryString.append(", ");
+      queryString.append(OlapDateTimeUserType.convert(new DateTime()));
+      queryString.append(", ");
+      queryString.append(sourceId);
+      queryString.append(", 'Absent', 'Warn' from Taxon t left join Taxon a on (t.accepted_id = a.id) where t.family = '");
+      queryString.append(family);
+      queryString.append("' or a.family = '");
+      queryString.append(family);
+      queryString.append("'");
+      jdbcTemplate.update(queryString.toString());
+      return ExitStatus.COMPLETED;
     }
 
     /**

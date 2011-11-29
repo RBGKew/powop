@@ -1670,12 +1670,17 @@
     </changeSet>
     <changeSet author="ben" id="2011-11-26_05">
       <addColumn tableName="Image">
-        <column name="spatial" type="varchar(255)"/>
+        <column name="locality" type="varchar(255)"/>
       </addColumn>
     </changeSet>
     <changeSet author="ben" id="2011-11-26_06">
       <addColumn tableName="Image">
         <column name="location" type="GEOMETRY"/>
       </addColumn>
-    </changeSet>    
+    </changeSet>
+    <changeSet id="2011-11-28_01" author="ben">
+      <sql>
+        UPDATE Image SET Image.format = 'jpg';
+      </sql>
+    </changeSet>
 </databaseChangeLog>
