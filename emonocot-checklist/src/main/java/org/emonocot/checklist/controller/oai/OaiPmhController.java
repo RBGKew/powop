@@ -9,6 +9,7 @@ import net.sf.ehcache.Ehcache;
 
 import org.emonocot.checklist.logging.LoggingConstants;
 import org.emonocot.checklist.model.Family;
+import org.emonocot.checklist.model.Taxon;
 import org.emonocot.checklist.persistence.TaxonDao;
 import org.openarchives.pmh.MetadataFormat;
 import org.openarchives.pmh.MetadataPrefix;
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/oai")
-public class OaiPmhController extends AbstractOaiPmhController {
+public class OaiPmhController extends AbstractOaiPmhController<Taxon, TaxonDao> {
 
     /**
      * Logger for reporting, statistics etc.
@@ -76,6 +77,13 @@ public class OaiPmhController extends AbstractOaiPmhController {
             org.openarchives.pmh.Set set = new org.openarchives.pmh.Set();
             set.setSetName(family.name());
             set.setSetSpec(family.name());
+            sets.add(set);
+        }
+
+        for (Object[] result : getService().listSets()) {
+            org.openarchives.pmh.Set set = new org.openarchives.pmh.Set();
+            set.setSetName(result[1].toString());
+            set.setSetSpec(result[0].toString() + ":" + result[1].toString());
             sets.add(set);
         }
         return sets;

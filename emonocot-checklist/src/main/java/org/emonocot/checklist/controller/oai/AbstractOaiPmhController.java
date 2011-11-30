@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,6 +14,7 @@ import net.sf.ehcache.Element;
 
 import org.joda.time.DateTime;
 import org.emonocot.checklist.model.ChangeEvent;
+import org.emonocot.checklist.model.IdentifiableEntity;
 import org.emonocot.checklist.persistence.IdentifiableService;
 import org.emonocot.model.marshall.xml.DateTimeConverter;
 import org.emonocot.model.pager.Page;
@@ -50,7 +52,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @author ben
  *
  */
-public abstract class AbstractOaiPmhController {
+public abstract class AbstractOaiPmhController<T extends IdentifiableEntity, SERVICE extends IdentifiableService<T>> {
 
     /**
      * Logger for debugging requests, errors etc.
@@ -122,7 +124,7 @@ public abstract class AbstractOaiPmhController {
     /**
      *
      */
-    private IdentifiableService service;
+    private SERVICE service;
 
     /**
      *
@@ -179,8 +181,16 @@ public abstract class AbstractOaiPmhController {
      * @param newIdentifiableService Set the service used by this controller
      */
     public final void setService(
-            final IdentifiableService newIdentifiableService) {
+            final SERVICE newIdentifiableService) {
         this.service = newIdentifiableService;
+    }
+
+    /**
+     *
+     * @return the service used by this controller
+     */
+    protected final SERVICE getService() {
+        return service;
     }
 
     /**
@@ -481,7 +491,7 @@ public abstract class AbstractOaiPmhController {
                 constructRequest(Verb.ListIdentifiers, from, until, set, null,
                         metadataPrefix));
 
-        Page<ChangeEvent> results = service.page(set, from, until, pageSize, 0);
+        Page<ChangeEvent<T>> results = service.page(set, from, until, pageSize, 0);
         log(null, "ListIdentifiers", results.getRecords().size(), set);
 
         if (results.getSize() == 0) {
@@ -529,7 +539,7 @@ public abstract class AbstractOaiPmhController {
                     constructRequest(Verb.ListIdentifiers, null, null, null,
                             rToken, null));
 
-            Page<ChangeEvent> results = service.page(resumptionToken
+            Page<ChangeEvent<T>> results = service.page(resumptionToken
                     .getSet(), resumptionToken.getFrom(), resumptionToken
                     .getUntil(), pageSize, (resumptionToken.getCursor()
                     .intValue() / pageSize) + 1);
@@ -546,6 +556,7 @@ public abstract class AbstractOaiPmhController {
 
             if (results.getSize() > ((results.getPageSize() * results
                     .getCurrentIndex()) + results.getRecords().size())) {
+                resumptionToken.setValue(UUID.randomUUID().toString());
                 resumptionToken.updateResults(results.getSize(), pageSize,
                         results.getCurrentIndex());
                 modelAndView.addObject(
@@ -553,8 +564,6 @@ public abstract class AbstractOaiPmhController {
                         resumptionToken);
                 cache.put(new Element(resumptionToken.getValue(),
                         resumptionToken), false);
-            } else {
-                cache.remove(rToken);
             }
 
             return modelAndView;
@@ -605,7 +614,7 @@ public abstract class AbstractOaiPmhController {
             modelAndView.setViewName(AbstractOaiPmhController.LIST_DC_VIEW);
         }
 
-        Page<ChangeEvent> results = service.page(set, from, until, pageSize, 0);
+        Page<ChangeEvent<T>> results = service.page(set, from, until, pageSize, 0);
 
         log(null, "ListRecords", results.getRecords().size(), set);
 
@@ -662,7 +671,7 @@ public abstract class AbstractOaiPmhController {
                 modelAndView.setViewName(AbstractOaiPmhController.LIST_DC_VIEW);
             }
 
-            Page<ChangeEvent> results = service.page(resumptionToken
+            Page<ChangeEvent<T>> results = service.page(resumptionToken
                     .getSet(), resumptionToken.getFrom(), resumptionToken
                     .getUntil(), pageSize, (resumptionToken.getCursor()
                     .intValue() / pageSize) + 1);
@@ -679,6 +688,7 @@ public abstract class AbstractOaiPmhController {
 
             if (results.getSize() > ((results.getPageSize() * results
                     .getCurrentIndex()) + results.getRecords().size())) {
+                resumptionToken.setValue(UUID.randomUUID().toString());
                 resumptionToken.updateResults(results.getSize(), pageSize,
                         results.getCurrentIndex());
                 modelAndView.addObject(
@@ -686,8 +696,6 @@ public abstract class AbstractOaiPmhController {
                         resumptionToken);
                 cache.put(new Element(resumptionToken.getValue(),
                         resumptionToken), false);
-            } else {
-                cache.remove(rToken);
             }
 
             return modelAndView;

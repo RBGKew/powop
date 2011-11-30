@@ -47,4 +47,12 @@ public interface TaxonDao extends IdentifiableService<Taxon> {
      * @return the number of accepted genera
      */
     Integer countGenera(Family family);
+
+    /**
+     * Returns the list of generic sets provided by this source.
+     *
+     * @return a list of String[] objects where the first member of the array is
+     *         the family name and the second member is the genus name
+     */
+    List<Object[]> listSets();
 }

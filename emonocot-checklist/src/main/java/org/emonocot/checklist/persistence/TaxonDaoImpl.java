@@ -18,6 +18,7 @@ import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.joda.time.DateTime;
@@ -95,11 +96,13 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
     }
 
     /**
-     * Basic string matching to add the immediate parent and child taxa
+     * Basic string matching to add the immediate parent and child taxa.
+     *
      * @param taxon the taxon to add related taxa to.
      */
     protected final void inferRelatedTaxa(final Taxon taxon) {
-        if(taxon.getAcceptedName() != null && taxon.getAcceptedName().getId().equals(taxon.getId())) {
+        if (taxon.getAcceptedName() != null
+                && taxon.getAcceptedName().getId().equals(taxon.getId())) {
             taxon.setAcceptedName(null);
         }
 
@@ -214,7 +217,7 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
         } catch (ParseException e) {
             throw new IllegalArgumentException(e);
         }
-        
+
         Criteria criteria = getSession().createCriteria(Taxon.class).add(
                 Restrictions.idEq(taxonId));
         criteria.setFetchMode("acceptedName", FetchMode.JOIN);
@@ -228,7 +231,7 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
             Hibernate.initialize(taxon.getCitations());
             inferRelatedTaxa(taxon);
         }
-        
+
         /**
          * If the taxon does not exist return null
          */
@@ -275,7 +278,17 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
         criteria.setFetchMode("protologue", FetchMode.JOIN);
 
         if (set != null) {
-            criteria.add(Restrictions.eq("family", set));
+            if (set.indexOf(":") == -1) {
+                criteria.add(Restrictions.eq("family", set));
+            } else {
+                // This is a hierarchical set where the first part is the family
+                // and the second part is the genus
+                String family = set.substring(0, set.indexOf(":"));
+                String genus = set.substring(set.indexOf(":") + 1);
+                criteria.add(Restrictions.eq("family", family));
+                criteria.add(Restrictions.eq("genus", genus));
+                
+            }
         }
 
         if (from != null) {
@@ -339,7 +352,16 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
             Criteria countCriteria = getSession().createCriteria(Taxon.class)
                     .setProjection(Projections.rowCount());
             if (set != null) {
-                countCriteria.add(Restrictions.eq("family", set));
+                if (set.indexOf(":") == -1) {
+                    countCriteria.add(Restrictions.eq("family", set));
+                } else {
+                    // This is a hierarchical set where the first part is the
+                    // family and the second part is the genus
+                    String family = set.substring(0, set.indexOf(":"));
+                    String genus = set.substring(set.indexOf(":") + 1);
+                    countCriteria.add(Restrictions.eq("family", family));
+                    countCriteria.add(Restrictions.eq("genus", genus));
+                }
             }
             if (from != null) {
                 countCriteria.add(Restrictions
@@ -375,6 +397,7 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
      * @param family Set the family
      * @return a list of accepted genera belonging to that family
      */
+    @Transactional(readOnly = true)
     public final List<Taxon> getGenera(final Family family) {
         Criteria criteria = getSession().createCriteria(Taxon.class)
         .add(IsNullFunctionExpression.isNull("dateDeleted"))
@@ -389,6 +412,7 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
      * @param family set the family
      * @return a count of the number of accepted genera
      */
+    @Transactional(readOnly = true)
     public final Integer countGenera(final Family family) {
         Criteria criteria = getSession().createCriteria(Taxon.class)
         .add(IsNullFunctionExpression.isNull("dateDeleted"))
@@ -397,6 +421,29 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
                 Restrictions.isNull("species")))
         .add(Restrictions.eqProperty("acceptedName.id", "id"))
         .setProjection(Projections.rowCount());
-        return ((Long)criteria.uniqueResult()).intValue();
+        return ((Long) criteria.uniqueResult()).intValue();
+    }
+
+    /**
+     * Returns the list of generic sets provided by this source.
+     *
+     * @return a list of String[] objects where the first member of the array is
+     *         the family name and the second member is the genus name
+     */
+    @Transactional(readOnly = true)
+    public final List<Object[]> listSets() {
+        Criteria criteria = getSession().createCriteria(Taxon.class)
+        .add(IsNullFunctionExpression.isNull("dateDeleted"))
+        .add(Restrictions.eqProperty("acceptedName.id", "id"))
+        .add(Restrictions.isNotNull("genus"))
+        .add(Restrictions.isNotNull("family"))
+        .setProjection(
+              Projections.projectionList()
+                .add(Projections.property("family"))
+                .add(Projections.property("genus"))
+                .add(Projections.groupProperty("genus")))
+        .addOrder(Order.asc("family"))
+        .addOrder(Order.asc("genus"));
+        return (List<Object[]>) criteria.list();
     }
 }
