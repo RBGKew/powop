@@ -21,6 +21,7 @@ import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.SearchableObject;
+import org.emonocot.model.hibernate.TaxonomyBridge;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.emonocot.model.taxon.Taxon;
@@ -28,6 +29,8 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.ClassBridge;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Fields;
@@ -44,6 +47,8 @@ import com.vividsolutions.jts.geom.Point;
  */
 @Entity
 @Indexed(index = "org.emonocot.model.common.SearchableObject")
+@ClassBridge(name = "taxon", impl = TaxonomyBridge.class, index = Index.UN_TOKENIZED,
+        analyzer = @Analyzer(definition = "facetAnalyzer"))
 public class Image extends SearchableObject {
     /**
      *

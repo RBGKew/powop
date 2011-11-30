@@ -10,6 +10,7 @@ import org.hibernate.annotations.NaturalId;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.AnalyzerDef;
 import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.TokenizerDef;
 
 /**
@@ -36,7 +37,7 @@ public abstract class Base implements Serializable {
      * @return The unique identifier of the object
      */
     @Field(analyzer = @Analyzer(
-            definition =  "facetAnalyzer"))
+            definition =  "facetAnalyzer"), index = Index.UN_TOKENIZED)
     @NaturalId
     public String getIdentifier() {
         return identifier;

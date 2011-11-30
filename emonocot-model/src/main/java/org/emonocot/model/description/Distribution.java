@@ -88,7 +88,7 @@ public class Distribution extends BaseData {
 
     /**
      * Set the lowest level this georegion is concerned with.
-     * 
+     *
      * @param geoRegion
      *            the geographical region this distribution is concerned with
      */

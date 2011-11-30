@@ -12,7 +12,7 @@
   </jsp:element>
   <footer class="footer">
     <div class="container">  
-      <p>eMonocot</p>
+      <p>eMonocot <spring:message code="application.version"/></p>
     </div>
   </footer>      
 </jsp:root>
