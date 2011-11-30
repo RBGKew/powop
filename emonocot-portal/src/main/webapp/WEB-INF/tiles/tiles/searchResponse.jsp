@@ -77,7 +77,9 @@
 											<jsp:element name="a">
 												<jsp:attribute name="href">
 													<c:url value="search">
-														<c:param name="query" value="${result.params['query']}" />
+													    <c:forEach var="p" items="${result.paramNames}">									
+										                    <c:param name="${p}" value="${result.params[p]}"/>																	
+										                </c:forEach>														
 														<c:param name="limit" value="${result.pageSize}" />
 														<c:param name="start" value="0" />
 														<c:param name="sort">${result.sort}</c:param>
@@ -119,7 +121,9 @@
 														<jsp:element name="a">
 															<jsp:attribute name="href">
 																<c:url value="search">
-																	<c:param name="query" value="${result.params['query']}" />
+																	<c:forEach var="p" items="${result.paramNames}">									
+										                                <c:param name="${p}" value="${result.params[p]}"/>																	
+										                            </c:forEach>
 																	<c:param name="limit" value="${result.pageSize}" />
 																	<c:param name="start" value="0" />
 																	<c:param name="sort">${result.sort}</c:param>
@@ -166,7 +170,9 @@
 											<jsp:element name="a">
 												<jsp:attribute name="href">
 													<c:url value="search">
-														<c:param name="query" value="${result.params['query']}" />
+														<c:forEach var="p" items="${result.paramNames}">									
+										                    <c:param name="${p}" value="${result.params[p]}"/>																	
+										                </c:forEach>
 														<c:param name="limit" value="${result.pageSize}" />
 														<c:param name="start" value="0" />
 														<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
@@ -280,7 +286,8 @@
 					<ul class="media-grid"> 
 					<c:forEach var="item" items="${result.records}">
 						<li>
-							<a class="result thumb" href="image/${item.identifier}" data-placement="below" rel="twipsy" title="${item.caption}"><img class="thumbnail" src="${item.url}" /></a>
+						    <c:url var="thumbnail" value="/thumbnails/${item.identifier}.jpg"/>
+							<a class="result thumb" href="image/${item.identifier}" data-placement="below" rel="twipsy" title="${item.caption}"><img class="thumbnail" src="${thumbnail}" /></a>
 						</li>
 						</c:forEach>
 						</ul>
@@ -300,11 +307,12 @@
 					      					<jsp:attribute name="class">pull-left</jsp:attribute>
 					      					<jsp:attribute name="alt">Taxon</jsp:attribute>
 					      				</jsp:element>
-										<a class="result span8" href="taxon/${item.identifier}" title="${item.name}"><h4><em>${item.name}</em> ${item.authorship}</h4></a>
+										<a class="result pull-left" href="taxon/${item.identifier}" title="${item.name}"><h4><em>${item.name}</em> ${item.authorship}</h4></a>
 										<a class="thumb pull-right">
 											<c:choose>
 												<c:when test="${not empty item.image}">
-													<img src="${item.image.url}" title="${item.image.caption}"/>
+												    <c:url var="thumbnail" value="/thumbnails/${item.image.identifier}.jpg"/>
+													<img src="${thumbnail}" title="${item.image.caption}"/>
 												</c:when>
 												<c:otherwise>
 													<jsp:element name="img">
@@ -327,8 +335,9 @@
 					      					<jsp:attribute name="class">pull-left</jsp:attribute>
 					      					<jsp:attribute name="alt">Image</jsp:attribute>
 					      				</jsp:element>
-										<a class="result span8" href="image/${item.identifier}" title="${item.caption}"><h4>${item.caption}</h4></a>
-										<a class="thumb pull-right"><img src="${item.url}" title="${item.caption}"/></a>
+					      				<c:url var="thumbnail" value="/thumbnails/${item.identifier}.jpg"/>
+										<a class="result pull-left" href="image/${item.identifier}" title="${item.caption}"><h4>${item.caption}</h4></a>
+										<a class="thumb pull-right"><img src="${thumbnail}" title="${item.caption}"/></a>
 									</div>
 								</c:when>
 								<c:otherwise>

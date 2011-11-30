@@ -12,7 +12,9 @@
 				<li class="prev"><jsp:element name="a">
 								<jsp:attribute name="href">
 									<c:url value="${url}">
-										<c:param name="query" value="${pager.params['query']}" />
+										<c:forEach var="p" items="${pager.paramNames}">									
+										    <c:param name="${p}" value="${pager.params[p]}"/>																	
+										</c:forEach>	
 										<c:param name="limit" value="${pager.pageSize}" />
 										<c:param name="start" value="${pager.prevIndex}" />
 										<c:param name="sort">${pager.sort}</c:param>
@@ -48,7 +50,9 @@
 					<li><jsp:element name="a">
 								<jsp:attribute name="href">
 									<c:url value="${url}">
-										<c:param name="query" value="${pager.params['query']}" />
+										<c:forEach var="p" items="${pager.paramNames}">									
+										    <c:param name="${p}" value="${pager.params[p]}"/>																	
+										</c:forEach>
 										<c:param name="limit" value="${pager.pageSize}" />
 										<c:param name="start" value="${index}" />
 										<c:param name="sort">${pager.sort}</c:param>
@@ -78,7 +82,9 @@
 				<li class="next"><jsp:element name="a">
 								<jsp:attribute name="href">
 									<c:url value="${url}">
-										<c:param name="query" value="${pager.params['query']}" />
+										<c:forEach var="p" items="${pager.paramNames}">									
+										    <c:param name="${p}" value="${pager.params[p]}"/>																	
+										</c:forEach>
 										<c:param name="limit" value="${pager.pageSize}" />
 										<c:param name="start" value="${pager.nextIndex}" />
 										<c:param name="sort">${pager.sort}</c:param>

@@ -44,19 +44,19 @@ public class TaxonPage extends PageObject implements IllustratedPage {
      */
     @FindBy(how = How.CLASS_NAME, using = "ad-thumb-list")
     private WebElement thumbnailContainer;
-    
+
     /**
     *
     */
    @FindBy(how = How.CLASS_NAME, using = "ancestorsList")
    private List<WebElement> ancestors;
-   
+
    /**
    *
    */
    @FindBy(how = How.CLASS_NAME, using = "childrenList")
    private WebElement children;
-   
+
    /**
    *
    */
@@ -121,11 +121,12 @@ public class TaxonPage extends PageObject implements IllustratedPage {
     }
 
     /**
-     *
+     * @param property Set the property to get
      * @return the caption of the main image
      */
-    public final String getMainImageProperty(String property) {
-        return mainImage.findElement(By.className("ad-image-description")).getText();
+    public final String getMainImageProperty(final String property) {
+        return mainImage.findElement(By.className("ad-image-description"))
+                .getText();
     }
 
     /**
@@ -191,29 +192,32 @@ public class TaxonPage extends PageObject implements IllustratedPage {
     */
     public final String getThumbnailImage(final int thumbnail) {
         List<WebElement> thumbnails = thumbnailContainer.findElements(By
-                .xpath("li/a/img"));
-        return thumbnails.get(thumbnail - 1).getAttribute("src");
+                .xpath("li/a"));
+        return thumbnails.get(thumbnail - 1).getAttribute("href");
     }
+
     /**
-    *
-    * @return the number of ancestors
-    */
-    public Integer getAncestorsNumber() {
-    	return ancestors.size();
+     *
+     * @return the number of ancestors
+     */
+    public final Integer getAncestorsNumber() {
+        return ancestors.size();
     }
-    
+
     /**
-    *
-    * @return the subordinate taxa
-    */
-	public final String getSubordinateTaxa() {
-		return children.getText();
-	}
+     *
+     * @return the subordinate taxa
+     */
+    public final String getSubordinateTaxa() {
+        return children.getText();
+    }
 
-	public Integer getChildrenNumber() {
-		return subordinateNumber.size();
-	}
-	
-
+    /**
+     *
+     * @return the number of children
+     */
+    public final Integer getChildrenNumber() {
+        return subordinateNumber.size();
+    }
 
 }

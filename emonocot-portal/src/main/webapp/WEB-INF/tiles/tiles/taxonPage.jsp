@@ -46,8 +46,9 @@
 							  <c:forEach var="image" items="${taxon.images}" varStatus="status">
 							    <li>
 							      <a href="${image.url}">
+							        <c:url var="thumbnail" value="/thumbnails/${image.identifier}.jpg"/>
 								    <c:url var="url" value="/image/${image.identifier}"/> 
-							        <img	src="${image.url}" class="${status.index} thumbnail" title="${image.caption}" ad-href="${url}" />
+							        <img	src="${thumbnail}" class="${status.index} thumbnail" title="${image.caption}" ad-href="${url}" />
 							      </a>
 							    </li>
 							  </c:forEach>

@@ -54,7 +54,7 @@ public class RecordAnnotator implements
       queryString.append(OlapDateTimeUserType.convert(new DateTime()));
       queryString.append(", ");
       queryString.append(sourceId);
-      queryString.append(", 'Absent', 'Warn' from Taxon t left join Taxon a on (t.accepted_id = a.id) where t.family = '");
+      queryString.append(", 'Warn', 'Absent' from Taxon t left join Taxon a on (t.accepted_id = a.id) where t.family = '");
       queryString.append(family);
       queryString.append("' or a.family = '");
       queryString.append(family);

@@ -354,6 +354,13 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
     }
 
     /**
+     * @return the parameter names
+     */
+    public final Set<String> getParamNames() {
+        return parameters.keySet();
+    }
+
+    /**
      * @param index set the page number
      * @return the label for a given page
      */

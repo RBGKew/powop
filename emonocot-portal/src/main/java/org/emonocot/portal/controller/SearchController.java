@@ -193,7 +193,20 @@ public class SearchController {
                 + "facet: [{}], {} results", new Object[] {query,
                 start, limit, selectedFacets, result.getSize() });
         result.putParam("query", query);
-        result.putParam("view", view);
+
+        /**
+         * Allow users to switch between grid and list view only when viewing
+         * images. TODO Remove if / when we decide that you can have a grid of
+         * Taxa
+         */
+        if (selectedFacets != null
+                && selectedFacets.containsKey(FacetName.CLASS)
+                && selectedFacets.get(FacetName.CLASS).equals(
+                        "org.emonocot.model.media.Image")) {
+            result.putParam("view", view);
+        } else {
+            result.putParam("view", "list");
+        }
         result.setSort(sort);
         modelAndView.addObject("result", result);
         return modelAndView;

@@ -150,7 +150,7 @@
      }
 	.ad-gallery .ad-thumbs li {
 		float: left;
-		padding-right: 5px;
+		/*padding-right: 5px;*/
 	}
 	.ad-gallery .ad-thumbs li a {
 		display: block;

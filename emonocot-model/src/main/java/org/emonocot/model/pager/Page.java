@@ -120,6 +120,12 @@ public interface Page<T> {
     */
    Map<String, Object> getParams();
 
+   /**
+    *
+    * @return the parameter names
+    */
+   Set<String> getParamNames();
+
     /**
      * Get a string label for a given page (NOTE: Labels may not be calculated
      * for each page in the result set, especially if the result set is large or
