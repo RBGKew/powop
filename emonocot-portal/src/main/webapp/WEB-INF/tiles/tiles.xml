@@ -56,4 +56,13 @@
   <definition name="userPage" extends="base">    
     <put-attribute name="body" value="/WEB-INF/tiles/tiles/userPage.jsp" />
   </definition>
+  <definition name="404" extends="base">    
+    <put-attribute name="body" value="/WEB-INF/tiles/tiles/404.jsp" />
+  </definition>
+  <definition name="500" extends="base">    
+    <put-attribute name="body" value="/WEB-INF/tiles/tiles/500.jsp" />
+  </definition>
+  <definition name="405" extends="base">    
+    <put-attribute name="body" value="/WEB-INF/tiles/tiles/405.jsp" />
+  </definition>
 </tiles-definitions>

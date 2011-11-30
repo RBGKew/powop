@@ -7,22 +7,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.emonocot.api.TaxonService;
 import org.emonocot.model.taxon.AlphabeticalTaxonComparator;
 import org.emonocot.model.taxon.Taxon;
-import org.emonocot.api.TaxonService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.hibernate3.HibernateObjectRetrievalFailureException;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.rc.retroweaver.runtime.Collections;
@@ -285,4 +289,18 @@ public class TaxonController {
         }
     }
 
+   /**
+    *
+    * @param ex The exception
+    * @param request The httpServletRequest
+    * @return a model and view containing the exception
+    */
+   @ResponseStatus(HttpStatus.NOT_FOUND)
+   @ExceptionHandler({ HibernateObjectRetrievalFailureException.class })
+   public final ModelAndView handleBadArgument(final Exception ex,
+           final HttpServletRequest request) {
+       ModelAndView modelAndView = new ModelAndView("404");
+       modelAndView.addObject("exception", ex);
+       return modelAndView;
+   }
 }
