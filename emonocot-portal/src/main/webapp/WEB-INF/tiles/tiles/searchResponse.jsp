@@ -58,7 +58,7 @@
 		</div>
 		
 		<div class="row">
-			<div class="span4">
+			<div class="span5">
 				<ul id="facets" class="no-bullet">
 					<c:forEach var="facetName" items="${result.facetNames}">
 						<li id="${facetName}">
@@ -197,7 +197,7 @@
 				</ul>
 			</div>
 			
-			<div class="span12">
+			<div class="span11">
 				
 					<div class="pagination">
 						<tags:pagination pager="${result}" url="search"/>
@@ -278,7 +278,7 @@
 	      			</div>
 
 					
-					<div id="results" class="span10">
+					<div id="results" class="span11">
 					<c:choose>
 					
 					<c:when test="${result.params['view'] == 'grid'}">
@@ -307,7 +307,7 @@
 					      					<jsp:attribute name="class">pull-left</jsp:attribute>
 					      					<jsp:attribute name="alt">Taxon</jsp:attribute>
 					      				</jsp:element>
-										<a class="result pull-left" href="taxon/${item.identifier}" title="${item.name}"><h4><em>${item.name}</em> ${item.authorship}</h4></a>
+										<a class="result pull-left" href="taxon/${item.identifier}" title="${item.name}"><h4 class="h4Results"><em>${item.name}</em> ${item.authorship}</h4></a>
 										<a class="thumb pull-right">
 											<c:choose>
 												<c:when test="${not empty item.image}">
@@ -335,8 +335,8 @@
 					      					<jsp:attribute name="class">pull-left</jsp:attribute>
 					      					<jsp:attribute name="alt">Image</jsp:attribute>
 					      				</jsp:element>
-					      				<c:url var="thumbnail" value="/thumbnails/${item.identifier}.jpg"/>
-										<a class="result pull-left" href="image/${item.identifier}" title="${item.caption}"><h4>${item.caption}</h4></a>
+										<c:url var="thumbnail" value="/thumbnails/${item.identifier}.jpg"/>
+										<a class="result pull-left" href="image/${item.identifier}" title="${item.caption}"><h4 class="h4Results">${item.caption}</h4></a>
 										<a class="thumb pull-right"><img src="${thumbnail}" title="${item.caption}"/></a>
 									</div>
 								</c:when>

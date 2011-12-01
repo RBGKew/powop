@@ -9,4 +9,8 @@
   <root level="WARN">
     <appender-ref ref="stdout"/>
   </root>
+  <!-- Uncomment to debug job output -->
+  <!-- <logger name="org.emonocot.job" level="DEBUG" additivity="false">
+    <appender-ref ref="stdout"/>
+  </logger>-->
 </configuration>

@@ -7,6 +7,7 @@
         background-color: #ffffff;
       }
     </style>
+    <br/>
     <div class="row">
         <div class="span-one-third">
           	<h2><spring:message code="identify.title"/></h2>

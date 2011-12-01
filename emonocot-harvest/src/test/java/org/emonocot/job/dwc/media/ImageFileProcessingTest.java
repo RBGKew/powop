@@ -3,6 +3,7 @@ package org.emonocot.job.dwc.media;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
+import java.util.Properties;
 import java.util.UUID;
 
 import org.emonocot.job.dwc.image.ImageFileProcessor;
@@ -11,7 +12,9 @@ import org.emonocot.ws.GetResourceClient;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 
 /**
  *
@@ -53,12 +56,18 @@ public class ImageFileProcessingTest {
         thumbnailDirectory.mkdir();
         thumbnailDirectory.deleteOnExit();
         imageFileProcessor.setThumbnailDirectory(thumbnailDirectoryName);
+        
+        Resource propertiesFile = new ClassPathResource(
+                "application.properties");
+        Properties properties = new Properties();
+        properties.load(propertiesFile.getInputStream());
+        imageFileProcessor.setImageMagickSearchPath(properties.getProperty("harvester.imagemagick.path", null));
     }
 
     /**
      *
      */
-    @After
+    //@After
     public final void tearDown() {
         String imagesDirectoryName = System.getProperty("java.io.tmpdir")
         + File.separatorChar + "images";

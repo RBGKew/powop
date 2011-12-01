@@ -85,7 +85,7 @@ public class ImageFileProcessor implements ItemProcessor<Image, Image> {
 
     /**
      *
-     * @param imageMagickSearchPath set the thumbnail directory
+     * @param imageMagickSearchPath set the image magick search path directory
      */
    public final void setImageMagickSearchPath(
            final String imageMagickSearchPath) {
@@ -129,6 +129,7 @@ public class ImageFileProcessor implements ItemProcessor<Image, Image> {
         String thumbnailFileName = thumbnailDirectory + File.separatorChar
                 + image.getIdentifier() + '.' + image.getFormat();
         File file = new File(imageFileName);
+        logger.debug("Image File " + imageFileName);
         if (file.exists()) {
             logger.info("File exists in image directory, skipping");
             return null;
