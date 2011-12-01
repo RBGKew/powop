@@ -40,7 +40,14 @@
       <property name="password" value="${jdbc.driver.password}"/>
       <property name="maxActive" value="15"/>
       <property name="maxIdle" value="7"/>
+      <property name="maxWait" value="60000"/>
+      <property name="timeBetweenEvictionRunsMillis" value="30000"/>
+      <property name="minEvictableIdleTimeMillis" value="30000"/>
+      <property name="numTestsPerEvictionRun" value="3"/>
+      <property name="testWhileIdle" value="true"/>
       <property name="validationQuery" value="SELECT 1"/>
+      <property name="removeAbandoned" value="true"/>
+      <property name="logAbandoned" value="true"/>
     </bean>
     
     <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">

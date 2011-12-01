@@ -59,4 +59,8 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
         <servlet-name>wcsTaxonExtractor</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+    
+    <session-config>
+	    <session-timeout>1</session-timeout>
+	</session-config>
 </web-app>
