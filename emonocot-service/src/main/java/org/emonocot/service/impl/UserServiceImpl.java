@@ -4,13 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.emonocot.api.UserService;
+import org.emonocot.model.common.Base;
+import org.emonocot.model.common.SecuredObject;
 import org.emonocot.model.user.Group;
+import org.emonocot.model.user.Principal;
 import org.emonocot.model.user.User;
 import org.emonocot.persistence.dao.GroupDao;
 import org.emonocot.persistence.dao.UserDao;
 import org.hibernate.NonUniqueResultException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.orm.ObjectRetrievalFailureException;
 import org.springframework.security.access.AccessDeniedException;
@@ -27,6 +31,14 @@ import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.cache.NullUserCache;
+import org.springframework.security.acls.model.AccessControlEntry; 
+import org.springframework.security.acls.model.Permission;
+import org.springframework.security.acls.model.MutableAclService;
+import org.springframework.security.acls.domain.PrincipalSid;
+import org.springframework.security.acls.domain.ObjectIdentityImpl;
+import org.springframework.security.acls.model.MutableAcl;
+import org.springframework.security.acls.model.NotFoundException;
+import org.springframework.security.acls.model.ObjectIdentity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -39,10 +51,20 @@ import org.springframework.util.Assert;
 @Service
 public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
         UserService {
+    
+    /**
+    *
+    */
+    private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     /**
      *
      */
     private GroupDao groupDao;
+    
+    /**
+     *
+     */
+    private MutableAclService mutableAclService;
 
     /**
      *
@@ -73,6 +95,15 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
         passwordEncoder = new Md5PasswordEncoder();
         userCache = new NullUserCache();
     }
+    
+    /**
+    *
+    * @param userCache Set the user cache
+    */
+   @Autowired(required = false)
+   public void setMutableAclService(MutableAclService mutableAclService) {       
+       this.mutableAclService = mutableAclService;
+   }
 
     /**
      *
@@ -186,7 +217,6 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
             String password = passwordEncoder.encodePassword(rawPassword, salt);
             ((User) user).setPassword(password);
         }
-
         dao.save((User) user);
     }
 
@@ -390,5 +420,45 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
 
     public Group findGroup(String identifier) {
         return groupDao.find(identifier);
+    }
+    
+    @Transactional(readOnly = false)
+    public <T extends SecuredObject> void addPermission(T object, Principal recipient, Permission permission, Class<T> clazz) {
+        MutableAcl acl;
+        ObjectIdentity oid = new ObjectIdentityImpl(clazz.getCanonicalName(), object.getId());
+
+        try {
+            acl = (MutableAcl) mutableAclService.readAclById(oid);
+        } catch (NotFoundException nfe) {
+            acl = mutableAclService.createAcl(oid);
+        }
+
+        acl.insertAce(acl.getEntries().size(), permission, new PrincipalSid(recipient.getIdentifier     ()), true);
+        mutableAclService.updateAcl(acl);
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("Added permission " + permission + " for Sid " + recipient + " securedObject " + object);
+        }
+    }
+    
+    @Transactional(readOnly = false)
+    public <T extends SecuredObject> void deletePermission(T object, Principal recipient, Permission permission, Class<T> clazz) {
+        ObjectIdentity oid = new ObjectIdentityImpl(clazz.getCanonicalName(), object.getId());
+        MutableAcl acl = (MutableAcl) mutableAclService.readAclById(oid);
+
+        // Remove all permissions associated with this particular recipient (string equality used to keep things simple)
+        List<AccessControlEntry> entries = acl.getEntries();
+
+        for (int i = 0; i < entries.size(); i++) {
+            if (entries.get(i).getSid().equals(recipient.getIdentifier()) && entries.get(i).getPermission().equals(permission)) {
+                acl.deleteAce(i);
+            }
+        }
+
+        mutableAclService.updateAcl(acl);
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("Deleted securedObject " + object + " ACL permissions for recipient " + recipient);
+        }
     }
 }

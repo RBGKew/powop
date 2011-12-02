@@ -25,6 +25,58 @@
        </sec:authentication-provider>
     </sec:authentication-manager>
     
+    <sec:global-method-security pre-post-annotations="enabled">
+      <sec:expression-handler ref="expressionHandler" />
+   </sec:global-method-security>
+   
+   <bean id="expressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+     <property name="permissionEvaluator" ref="permissionEvaluator" />
+   </bean>
+   
+   <bean class="org.springframework.security.acls.AclPermissionEvaluator" id="permissionEvaluator">
+      <constructor-arg ref="aclService"/>
+   </bean>
+   
+   <bean class="org.springframework.security.acls.jdbc.JdbcMutableAclService" id="aclService">
+  <constructor-arg ref="dataSource"/>
+        <constructor-arg ref="lookupStrategy"/>
+        <constructor-arg ref="aclCache"/>
+ </bean>
+  
+ <bean id="lookupStrategy" class="org.springframework.security.acls.jdbc.BasicLookupStrategy">
+    <constructor-arg ref="dataSource"/>
+    <constructor-arg ref="aclCache"/>
+    <constructor-arg ref="aclAuthorizationStrategy"/>
+    <constructor-arg ref="auditLogger"/>
+ </bean>
+ 
+ <bean id="aclCache" class="org.springframework.security.acls.domain.EhCacheBasedAclCache">
+        <constructor-arg>
+            <bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+                <property name="cacheManager" ref="cacheManager"/>
+                <property name="cacheName" value="aclCache"/>
+            </bean>
+        </constructor-arg>
+ </bean>
+ 
+ <bean id="aclAuthorizationStrategy" class="org.springframework.security.acls.domain.AclAuthorizationStrategyImpl">
+        <constructor-arg>
+            <list>
+                <bean class="org.springframework.security.core.authority.GrantedAuthorityImpl">
+                    <constructor-arg value="PERMISSION_CHANGE_OWNERSHIP"/>
+                </bean>
+                <bean class="org.springframework.security.core.authority.GrantedAuthorityImpl">
+                    <constructor-arg value="PERMISSION_MODIFY_AUDIT"/>
+                </bean>
+                <bean class="org.springframework.security.core.authority.GrantedAuthorityImpl">
+                    <constructor-arg value="PERMISSION_MODIFY_ACE"/>
+                </bean>
+            </list>
+        </constructor-arg>
+    </bean>
+    
+    <bean id="auditLogger" class="org.springframework.security.acls.domain.ConsoleAuditLogger"/>
+    
     <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
         <property name="configLocation" value="classpath:/ehcache.xml" />
         <property name="shared" value="true"/>

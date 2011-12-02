@@ -13,6 +13,7 @@
              <list>
                <value>classpath:/org/springframework/batch/core/schema-h2.sql</value>
                <value>classpath:H2_schema.ddl</value>
+               <value>classpath:acl.ddl</value>
              </list>
            </property>
        </bean>

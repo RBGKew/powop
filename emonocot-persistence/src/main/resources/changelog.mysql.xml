@@ -1683,4 +1683,118 @@
         UPDATE Image SET Image.format = 'jpg';
       </sql>
     </changeSet>
+    <changeSet author="ben" id="2011-12-02_01">
+        <createTable tableName="acl_sid">
+            <column name="id" type="bigint(20)" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="principal" type="tinyint(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sid" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>            
+        </createTable>
+    </changeSet>
+     <changeSet author="ben" id="2011-12-02_02">
+        <createIndex indexName="acl_sid_idx" tableName="acl_sid" unique="true">
+            <column name="sid"/>
+            <column name="principal"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2011-12-02_03">
+        <createTable tableName="acl_class">
+            <column name="id" type="bigint(20)" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="class" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sid" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>            
+        </createTable>
+    </changeSet>
+    <changeSet author="ben" id="2011-12-02_04">
+        <createIndex indexName="acl_class_idx" tableName="acl_class" unique="true">
+            <column name="class"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2011-12-02_05">
+        <createTable tableName="acl_entry">
+            <column name="id" type="bigint(20)" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="acl_object_identity" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ace_order" type="int(11)">
+                <constraints nullable="false"/>
+            </column> 
+            <column name="sid" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mask" type="int(11)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="granting" type="tinyint(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="audit_success" type="tinyint(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="audit_failure" type="tinyint(1)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+      </changeSet>
+      <changeSet author="ben" id="2011-12-02_06">
+        <createIndex indexName="acl_entry_idx" tableName="acl_entry" unique="true">
+            <column name="acl_object_identity"/>
+            <column name="ace_order"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2011-12-02_07">
+        <createTable tableName="acl_object_identity">
+            <column name="id" type="bigint(20)" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="object_id_class" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="object_id_identity" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="parent_object" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="owner_sid" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>            
+            <column name="entries_inheriting" type="tinyint(1)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+      </changeSet>
+      <changeSet author="ben" id="2011-12-02_08">
+        <createIndex indexName="acl_object_identity_idx" tableName="acl_object_identity" unique="true">
+            <column name="object_id_class"/>
+            <column name="object_id_identity"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2011-12-02_09">
+        <addForeignKeyConstraint constraintName="acl_entry_object_identity_fk" baseColumnNames="acl_object_identity" baseTableName="acl_entry" referencedColumnNames="id" referencedTableName="acl_object_identity"/>
+    </changeSet>
+    <changeSet author="ben" id="2011-12-02_10">
+        <addForeignKeyConstraint constraintName="acl_entry_sid_fk" baseColumnNames="sid" baseTableName="acl_entry" referencedColumnNames="id" referencedTableName="acl_sid"/>
+    </changeSet>
+    <changeSet author="ben" id="2011-12-02_11">
+        <addForeignKeyConstraint constraintName="acl_object_identity_object_identity_fk" baseColumnNames="parent_object" baseTableName="acl_object_identity" referencedColumnNames="id" referencedTableName="acl_object_identity"/>
+    </changeSet>
+    <changeSet author="ben" id="2011-12-02_12">
+        <addForeignKeyConstraint constraintName="acl_object_identity_class_fk" baseColumnNames="object_id_class" baseTableName="acl_object_identity" referencedColumnNames="id" referencedTableName="acl_class"/>
+    </changeSet>
+    <changeSet author="ben" id="2011-12-02_13">
+        <addForeignKeyConstraint constraintName="acl_object_identity_sid_fk" baseColumnNames="owner_sid" baseTableName="acl_object_identity" referencedColumnNames="id" referencedTableName="acl_sid"/>
+    </changeSet>
 </databaseChangeLog>

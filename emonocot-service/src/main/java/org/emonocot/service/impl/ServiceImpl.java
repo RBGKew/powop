@@ -55,7 +55,7 @@ public abstract class ServiceImpl<T extends Base, DAO extends Dao<T>>
      * @return the object loaded using the default fetch profile
      */
     @Transactional(readOnly = true)
-    public final T load(final String identifier) {
+    public T load(final String identifier) {
         return dao.load(identifier);
     }
 

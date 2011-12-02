@@ -3,6 +3,7 @@ package org.emonocot.model.common;
 import java.io.Serializable;
 
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.solr.analysis.StandardTokenizerFactory;
@@ -21,7 +22,7 @@ import org.hibernate.search.annotations.TokenizerDef;
 @MappedSuperclass
 @AnalyzerDef(name = "facetAnalyzer",
         tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class))
-public abstract class Base implements Serializable {
+public abstract class Base implements Serializable, SecuredObject {
 
     /**
      *

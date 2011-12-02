@@ -20,6 +20,8 @@ import org.emonocot.model.source.Source;
 import org.emonocot.model.taxon.Rank;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.model.taxon.TaxonomicStatus;
+import org.emonocot.model.user.Group;
+import org.emonocot.model.user.User;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameter;
@@ -69,6 +71,27 @@ public abstract class DataManagementSupport {
      */
     public final void setTearDown(Stack<Object> tearDown) {
         this.tearDown = tearDown;
+    }
+    
+    public final Group createGroup(String groupName) {
+        Group group = new Group();
+        group.setIdentifier(groupName);
+        setUp.add(group);
+        tearDown.push(group);
+        return group;
+    }
+    
+    public final User createUser(String username, String password) {
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setAccountNonExpired(true);
+        user.setAccountNonLocked(true);
+        user.setEnabled(true);
+        user.setCredentialsNonExpired(true);
+        setUp.add(user);
+        tearDown.push(user);
+        return user;
     }
 
     /**
