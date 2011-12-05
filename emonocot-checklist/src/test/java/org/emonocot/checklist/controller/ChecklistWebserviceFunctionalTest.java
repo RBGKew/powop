@@ -104,8 +104,8 @@ public class ChecklistWebserviceFunctionalTest {
                "Botanical",
                with(xml).get(
                        "DataSet.TaxonNames.TaxonName.@nomenclaturalCode"));
-       assertEquals("Simple should equal 'Lorem ipsum'",
-               "Lorem ipsum",
+       assertEquals("Simple should equal 'Lorem ipsum (Archer) Pargetter'",
+               "Lorem ipsum (Archer) Pargetter",
                with(xml).get(
                        "DataSet.TaxonNames.TaxonName.Simple"));
        assertEquals("Rank should equal 'Species'",
@@ -130,8 +130,8 @@ public class ChecklistWebserviceFunctionalTest {
                with(xml).get(
                        "DataSet.TaxonConcepts.TaxonConcept.Name.@ref"));
        assertEquals(
-               "TaxonConcept.Name should equal 'Lorem ipsum'",
-               "Lorem ipsum",
+               "TaxonConcept.Name should equal 'Lorem ipsum (Archer) Pargetter'",
+               "Lorem ipsum (Archer) Pargetter",
                with(xml).get(
                        "DataSet.TaxonConcepts.TaxonConcept.Name"));
        assertEquals("TaxonConcept.Rank should equal 'Species'",

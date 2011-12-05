@@ -8,7 +8,7 @@
 		xsi:schemaLocation="http://www.tdwg.org/schemas/tcs/1.01 http://www.tdwg.org/standards/117/files/TCS101/v101.xsd">
 	<TaxonNames>
 	  <TaxonName id="${result.nameId}" nomenclaturalCode="Botanical">
-	    <Simple>${result.name}</Simple>
+	    <Simple>${result.name} ${em:authorship(result.authors)}</Simple>
 	    <Rank code="${result.rank.abbreviation}">${result.rank.label}</Rank>
 	    <CanonicalName>
 	     <Simple>${result.name}</Simple>
@@ -17,7 +17,7 @@
 	</TaxonNames>
 	<TaxonConcepts>
 	  <TaxonConcept id="${result.identifier}">
-	    <Name scientific="true" ref="${result.nameId}">${result.name}</Name>
+	    <Name scientific="true" ref="${result.nameId}">${result.name} ${em:authorship(result.authors)}</Name>
 	    <Rank code="${result.rank.abbreviation}">${result.rank.label}</Rank>
 	    <spring:message code="checklistWebservideController.baseURL" var="baseUrl"/>
 	    <TaxonRelationships>
