@@ -6,7 +6,10 @@
 	<property name="target" value="${basedir}/target" />
 	<property name="main.src" value="${basedir}/src/main/java" />
 	<property name="main.filter" value="${basedir}/src/main/filter" />
-	<property name="main.static" value="${basedir}/src/main/static" />
+	<property name="main.images" value="${basedir}/src/main/images" />
+	<property name="main.js" value="${basedir}/src/main/js" />
+	<property name="main.css" value="${basedir}/src/main/css" />
+	<property name="main.less" value="${basedir}/src/main/less" />
 	<property name="main.webapp" value="${basedir}/src/main/webapp" />
 	<property name="main.resources" value="${basedir}/src/main/resources" />
 	<property name="test.src" value="${basedir}/src/test/java" />
@@ -242,7 +245,23 @@
 			path="/${cargo.context.path}"/>
 	</target>
 	
-	<target name="compress-static" description="Minifiy the static files">
+	<target name="compile-less" description="Compile the less files">
+		 <taskdef name="lesscss" classname="org.emonocot.task.LessCSSTask">
+			      <classpath>
+			        <path location="${test.lib}/emonocot-task-0.0.1.jar"/>
+			      	<path location="${test.lib}/lesscss4j-1.0.0.jar"/>
+			      	<path location="${test.lib}/rhino-1.7R3.jar"/>
+			      	<path location="${test.lib}/commons-logging-1.1.1.jar"/>
+			      	<path location="${test.lib}/commons-lang3-3.0.1.jar"/>
+			      	<path location="${test.lib}/commons-io-2.0.1.jar"/>
+			      </classpath>
+		 </taskdef>
+		<delete dir="${target}/compiled-less/"/>
+	    <mkdir dir="${target}/compiled-less/" />
+		<lesscss dir="${main.less}" includes="bootstrap.less" todir="${target}/compiled-less/" />
+	</target>
+	
+	<target name="compress-static" description="Minifiy the static files" depends="compile-less">
 	    <taskdef name="yuicompress" classname="com.yahoo.platform.yui.compressor.YUICompressTask">
 	      <classpath>
 	        <path location="${test.lib}/yuicompressor-2.2.5.jar"/>
@@ -256,27 +275,45 @@
 	    <mkdir dir="${target}/static/js/" />
 	    <yuicompress linebreak="300" warn="false" munge="yes" preserveallsemicolons="true"
 	                outputfolder="${target}/yuicompressor/" >
-	      <fileset dir="${main.static}/uncompressed/" >
-	        <include name="*.js" />
+	      <fileset dir="${main.js}" >
+	        <include name="**/*.js" />
 	      </fileset>
 	    </yuicompress>
 		<concat destfile="${target}/static/js/header.js">
-		        <filelist dir="${target}/yuicompressor/"
-		            files="modernizr-2.0.4.js"/>
+		  <filelist dir="${target}/yuicompressor/">
+		  	<file name="ad-gallery/jquery.ad-gallery.js" />
+		    <file name="functions.js" />
+		  	<file name="bootstrap-twipsy.js" />
+		    <file name="jsTree/jquery.jstree.js" />
+		  </filelist>
 		</concat>
-		<concat destfile="${target}/static/js/footer.js">
-				<filelist dir="${target}/yuicompressor/"
-				            files="css3-mediaqueries.js"/>
-		</concat>
+		<yuicompress linebreak="300" warn="false" munge="yes" preserveallsemicolons="true"
+			                outputfolder="${target}/yuicompressor/" >
+		    <fileset dir="${main.css}" >
+			  <include name="**/*.css" />			  
+			</fileset>
+	    </yuicompress>
+		<yuicompress linebreak="300" warn="false" munge="yes" preserveallsemicolons="true"
+					                outputfolder="${target}/yuicompressor/" >
+			<fileset dir="${target}/compiled-less/" >
+			  <include name="*.css" />			  
+			</fileset>
+	    </yuicompress>
+		<concat destfile="${target}/static/css/style.css">
+		  <filelist dir="${target}/yuicompressor/">
+			  <file name="before.css"/>
+			  <file name="bootstrap.css"/>
+			  <file name="jqueryui/jqueryui.css"/>
+			  <file name="ad-gallery/jquery.ad-gallery.css"/>              
+			  <file name="jsTree/jsTree.css"/>
+		  </filelist>		  
+		</concat>		
 	</target>
 	
-	<target name="copy-images-css" description="copy images and css to target static dir" depends="compress-static">
+	<target name="copy-images-css" description="copy images to target static dir" depends="compress-static">
 		<copy todir="${target}/static/images">
-		  <fileset dir="${main.static}/images" includes="**/*" />
-		</copy>
-		<copy todir="${target}/static/css">
-		  <fileset dir="${main.static}/css" includes="**/*" />
-		</copy>
+		  <fileset dir="${main.images}" includes="**/*" />
+		</copy>		
 	</target>
 
 	<target name="check.upload.method" depends="copy-images-css">
