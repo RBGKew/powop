@@ -2,6 +2,7 @@ package org.emonocot.portal.steps;
 
 import java.util.List;
 
+import org.emonocot.portal.rows.AccessControlRow;
 import org.emonocot.portal.rows.AnnotationRow;
 import org.emonocot.portal.rows.GroupRow;
 import org.emonocot.portal.rows.ImageRow;
@@ -81,7 +82,7 @@ public class DataSetup {
     /**
      *
      * @param annotationRows
-     *            set the job instance rows
+     *            set the annotation rows
      */
     @Given("^there are annotations with the following properties:$")
     public final void thereAreAnnotationsWithTheFollowingProperties(
@@ -95,6 +96,20 @@ public class DataSetup {
                     annotationRow.object);
         }
     }
+    
+    /**
+    *
+    * @param aceRows
+    *            set the ACE rows
+    */
+   @Given("^there are the following access controls:$")
+   public final void thereAreTheFollowingAccessControls(
+           final List<AccessControlRow> aceRows) {
+       for (AccessControlRow aceRow : aceRows) {
+            testDataManager.createAcl(aceRow.principal, aceRow.principalType,
+                    aceRow.object, aceRow.permission);
+       }
+   }
 
     /**
      * @param rows

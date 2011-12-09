@@ -1797,4 +1797,10 @@
     <changeSet author="ben" id="2011-12-02_13">
         <addForeignKeyConstraint constraintName="acl_object_identity_sid_fk" baseColumnNames="owner_sid" baseTableName="acl_object_identity" referencedColumnNames="id" referencedTableName="acl_sid"/>
     </changeSet>
+    <changeSet author="ben" id="2011-12-09_01">
+        <dropColumn tableName="acl_class" columnName="sid"/>
+    </changeSet>
+    <changeSet author="ben" id="2011-12-09_02">
+        <dropNotNullConstraint tableName="acl_object_identity" columnName="parent_object" columnDataType="bigint(20)"/>
+    </changeSet>
 </databaseChangeLog>

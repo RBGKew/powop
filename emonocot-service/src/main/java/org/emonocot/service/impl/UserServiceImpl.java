@@ -33,6 +33,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.cache.NullUserCache;
 import org.springframework.security.acls.model.AccessControlEntry; 
 import org.springframework.security.acls.model.Permission;
+import org.springframework.security.acls.model.Sid; 
 import org.springframework.security.acls.model.MutableAclService;
 import org.springframework.security.acls.domain.PrincipalSid;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
@@ -423,7 +424,7 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
     }
     
     @Transactional(readOnly = false)
-    public <T extends SecuredObject> void addPermission(T object, Principal recipient, Permission permission, Class<T> clazz) {
+    public void addPermission(SecuredObject object, Principal recipient, Permission permission, Class<? extends SecuredObject> clazz) {
         MutableAcl acl;
         ObjectIdentity oid = new ObjectIdentityImpl(clazz.getCanonicalName(), object.getId());
 
@@ -433,7 +434,7 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
             acl = mutableAclService.createAcl(oid);
         }
 
-        acl.insertAce(acl.getEntries().size(), permission, new PrincipalSid(recipient.getIdentifier     ()), true);
+        acl.insertAce(acl.getEntries().size(), permission, new PrincipalSid(recipient.getIdentifier()), true);
         mutableAclService.updateAcl(acl);
 
         if (logger.isDebugEnabled()) {
@@ -442,15 +443,15 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
     }
     
     @Transactional(readOnly = false)
-    public <T extends SecuredObject> void deletePermission(T object, Principal recipient, Permission permission, Class<T> clazz) {
+    public void deletePermission(SecuredObject object, Principal recipient, Permission permission, Class<? extends SecuredObject> clazz) {
         ObjectIdentity oid = new ObjectIdentityImpl(clazz.getCanonicalName(), object.getId());
         MutableAcl acl = (MutableAcl) mutableAclService.readAclById(oid);
-
+        Sid sid = new PrincipalSid(recipient.getIdentifier());
         // Remove all permissions associated with this particular recipient (string equality used to keep things simple)
         List<AccessControlEntry> entries = acl.getEntries();
 
         for (int i = 0; i < entries.size(); i++) {
-            if (entries.get(i).getSid().equals(recipient.getIdentifier()) && entries.get(i).getPermission().equals(permission)) {
+            if (entries.get(i).getSid().equals(sid) && entries.get(i).getPermission().equals(permission)) {
                 acl.deleteAce(i);
             }
         }

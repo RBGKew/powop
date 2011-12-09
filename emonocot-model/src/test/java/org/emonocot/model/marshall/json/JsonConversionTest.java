@@ -28,9 +28,11 @@ import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.model.user.Group;
 import org.emonocot.model.user.User;
+import org.emonocot.portal.model.AceDto;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.security.acls.domain.BasePermission; 
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
@@ -178,7 +180,6 @@ public class JsonConversionTest {
             image.setTaxon(taxon);
             taxon.getImages().add(image);
         }
-        System.out.println(objectMapper.writeValueAsString(taxon));
         try {
             objectMapper.writeValueAsString(taxon);
         } catch (Exception e) {
@@ -200,7 +201,6 @@ public class JsonConversionTest {
         Image image = new Image();
         image.setIdentifier("urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg");
         image.setCaption("Acorus");
-        System.out.println(objectMapper.writeValueAsString(image));
         image.getTaxa().add(taxon);
 
         try {
@@ -274,7 +274,11 @@ public class JsonConversionTest {
         Group group = new Group();
         group.setIdentifier("groupname");
         user.getGroups().add(group);
-        System.out.println(objectMapper.writeValueAsString(user));
+        try{
+          objectMapper.writeValueAsString(user);
+        } catch (Exception e) {
+            fail();
+        }
     }
 
     /**
@@ -314,7 +318,11 @@ public class JsonConversionTest {
                 jobParameterMap), "testJob");
         jobInstance.setVersion(1);
 
-        System.out.println(objectMapper.writeValueAsString(jobInstance));
+        try {
+            objectMapper.writeValueAsString(jobInstance);
+        } catch (Exception e) {
+            fail("No exception expected here");
+        }
 
     }
 
@@ -333,7 +341,7 @@ public class JsonConversionTest {
                 "test");
     }
 
-    /**
+   /**
     *
     * @throws Exception
     *             if there is a problem serializing the object
@@ -350,11 +358,15 @@ public class JsonConversionTest {
         Taxon t = new Taxon();
         t.setIdentifier("testIdentifier");
         annotation.setAnnotatedObj(t);
-        System.out.println(objectMapper.writeValueAsString(annotation));
+        try{
+            objectMapper.writeValueAsString(annotation);
+          } catch (Exception e) {
+              fail();
+          }
 
     }
 
-    /**
+   /**
     *
     * @throws Exception
     *             if there is a problem serializing the object
@@ -370,5 +382,51 @@ public class JsonConversionTest {
 
         assertNotNull(annotation.getAnnotatedObj());
         assertEquals(taxon, annotation.getAnnotatedObj());
+    }
+    
+    /**
+    *
+    * @throws Exception
+    *             if there is a problem serializing the object
+    */
+    @Test
+    public final void testWriteAce() throws Exception {
+        AceDto ace = new AceDto();
+        User user = new User();
+        user.setIdentifier("userIdentifier");
+        ace.setPermission(BasePermission.CREATE);
+        Taxon t = new Taxon();
+        t.setIdentifier("testIdentifier");
+        ace.setObject(t);
+        ace.setPrincipal(user);
+        try{
+            System.out.println(objectMapper.writeValueAsString(ace));
+          } catch (Exception e) {
+              fail();
+          }
+    }
+    
+    /**
+    *
+    * @throws Exception
+    *             if there is a problem serializing the object
+    */
+    @Test
+    public final void testAce() throws Exception {
+        User user = new User();
+        Taxon taxon = new Taxon();
+        EasyMock.expect(userService.find(EasyMock.eq("userIdentifier")))
+                .andReturn(user);
+        EasyMock.expect(groupService.find(EasyMock.eq("userIdentifier")))
+        .andReturn(null);
+        EasyMock.expect(taxonService.find(EasyMock.eq("testIdentifier")))
+        .andReturn(taxon);
+        EasyMock.replay(userService, taxonService, groupService);
+        AceDto aceDto = objectMapper.readValue("{\"principal\":\"userIdentifier\",\"object\":\"testIdentifier\",\"permission\":\"CREATE\"}", AceDto.class);
+        EasyMock.verify(userService, taxonService, groupService);
+
+        assertEquals(taxon, aceDto.getObject());
+        assertEquals(user, aceDto.getPrincipal());
+        assertEquals(BasePermission.CREATE, aceDto.getPermission());
     }
 }

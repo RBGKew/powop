@@ -4,7 +4,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.emonocot.api.GroupService;
+import org.emonocot.api.UserService;
 import org.emonocot.model.user.Group;
+import org.emonocot.portal.model.AceDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,11 @@ public class GroupController {
      *
      */
     private GroupService service;
+    
+    /**
+     *
+     */
+    private UserService userService;
 
    /**
     *
@@ -55,6 +62,14 @@ public class GroupController {
     @Autowired
     public final void setGroupService(GroupService service) {
         this.service = service;
+    }
+    
+    /**
+     * @param userService set the user service
+     */
+    @Autowired
+    public final void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
       /**
@@ -104,4 +119,35 @@ public class GroupController {
             service.delete(identifier);
             return new ResponseEntity<Group>(HttpStatus.OK);
         }
+        
+        /**
+         * @param identifier
+         *            Set the identifier of the group
+         * @return A response entity containing the status
+         */
+          @RequestMapping(value = "/group/{identifier}/permission",
+                          params = "!delete",
+                          method = RequestMethod.POST)
+          public final ResponseEntity<AceDto> addPermission(
+                  @PathVariable final String identifier, @RequestBody final AceDto ace) {
+              Group group = service.find(identifier);
+              userService.addPermission(ace.getObject(), group, ace.getPermission(), ace.getObject().getClass());
+              ResponseEntity<AceDto> responseEntity = new ResponseEntity<AceDto>(ace, HttpStatus.CREATED);
+              return responseEntity;
+          }
+          
+          /**
+           * @param identifier
+           *            Set the identifier of the group
+           * @return A response entity containing the status
+           */
+            @RequestMapping(value = "/group/{identifier}/permission",
+                            params = "delete",
+                            method = RequestMethod.POST)
+            public final ResponseEntity<AceDto> deletePermission(
+                    @PathVariable final String identifier, @RequestBody final AceDto ace) {
+                Group group = service.find(identifier);
+                userService.deletePermission(ace.getObject(), group, ace.getPermission(), ace.getObject().getClass());
+                return new ResponseEntity<AceDto>(ace, HttpStatus.OK);
+            }
 }

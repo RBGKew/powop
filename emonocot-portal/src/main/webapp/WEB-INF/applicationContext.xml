@@ -38,9 +38,11 @@
    </bean>
    
    <bean class="org.springframework.security.acls.jdbc.JdbcMutableAclService" id="aclService">
-  <constructor-arg ref="dataSource"/>
-        <constructor-arg ref="lookupStrategy"/>
-        <constructor-arg ref="aclCache"/>
+      <constructor-arg ref="dataSource"/>
+      <constructor-arg ref="lookupStrategy"/>
+      <constructor-arg ref="aclCache"/>
+      <property name="sidIdentityQuery" value="${spring.security.sid.identity.query}"/>
+      <property name="classIdentityQuery" value="${spring.security.class.identity.query}"/>
  </bean>
   
  <bean id="lookupStrategy" class="org.springframework.security.acls.jdbc.BasicLookupStrategy">

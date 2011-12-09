@@ -902,6 +902,12 @@
               <artifactId>im4java</artifactId>
               <version>1.2.0-emonocot</version>
          </dependency>
+         <dependency>
+              <groupId>org.emonocot</groupId>
+              <artifactId>emonocot-task</artifactId>
+              <version>0.0.1</version>
+              <scope>test</scope>
+         </dependency>
         </dependencies>
     </dependencyManagement>
     <build>

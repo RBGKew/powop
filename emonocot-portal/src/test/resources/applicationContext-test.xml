@@ -36,7 +36,9 @@
 		<property name="groupDao" ref="groupDaoImpl" />
 	</bean>
 	
-	<bean name="userService" class="org.emonocot.service.impl.UserServiceImpl">
+	<bean name="userService" class="org.emonocot.portal.remoting.RemoteUserServiceImpl">
+	    <property name="restTemplate" ref="restTemplate" />
+		<property name="baseUri" value="${functional.test.baseUri}:${functional.test.port}${functional.test.basePath}/" />
 		<property name="userDao" ref="userDaoImpl" />
 	</bean>
 	

@@ -22,6 +22,7 @@ import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.common.RecordType;
 import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.Base;
+import org.emonocot.model.common.SecuredObject;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
@@ -34,8 +35,10 @@ import org.emonocot.model.taxon.Rank;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.model.taxon.TaxonomicStatus;
 import org.emonocot.model.user.Group;
+import org.emonocot.model.user.Principal;
 import org.emonocot.model.user.Permission;
 import org.emonocot.model.user.User;
+import org.emonocot.portal.model.AceDto;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -50,6 +53,7 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -201,14 +205,40 @@ public class TestDataManager {
     }
 
    /**
-    * @param objectType Set the object type
+    * @param principal Set the identifier of the principal
+    * @param principalType Set the type of principal (group, user)
+    * @param object Set the identifier of the object
+    * @param permission Set the permission 
     */
-   public final void createAcl(final String objectType) {
+   public final void createAcl(final String principal, final String principalType, final String object, final String permission) {
        enableAuthentication();
-//           Acl acl = new Acl();
-//           source.setName(row.name);
-//           sourceService.save(source);
-//           data.push(source);
+       Principal recipient = null;
+       if(principalType.equals("user")) {
+           recipient = new User();
+       } else {
+           recipient = new Group();
+       }
+       recipient.setIdentifier(principal);
+       Taxon taxon = new Taxon();
+       taxon.setIdentifier(object);
+       org.springframework.security.acls.model.Permission perm = null;
+       if(permission.equals("READ")) {
+           perm = BasePermission.READ;
+       } else if(permission.equals("WRITE")) {
+           perm = BasePermission.WRITE;          
+       } else if(permission.equals("CREATE")) {
+           perm = BasePermission.CREATE;
+       } else if(permission.equals("DELETE")) {
+           perm = BasePermission.DELETE;
+       } else {
+           perm = BasePermission.ADMINISTRATION;
+       }
+       userService.addPermission(taxon, recipient, perm, Taxon.class);
+       AceDto ace = new AceDto();
+       ace.setObject(taxon);
+       ace.setPermission(perm);
+       ace.setPrincipal(recipient);
+       data.push(ace);
        disableAuthentication();
    }
 
@@ -668,6 +698,10 @@ public class TestDataManager {
                 jobInstanceService.delete(((JobInstance) object).getId());
             } else if (object instanceof JobExecution) {
                 jobExecutionService.delete(((JobExecution) object).getId());
+            } else if (object instanceof AceDto) {
+                AceDto ace = (AceDto) object;
+                userService.deletePermission(ace.getObject(),
+                        ace.getPrincipal(), ace.getPermission(), Taxon.class);
             }
         }
         disableAuthentication();

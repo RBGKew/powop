@@ -13,6 +13,9 @@ Background:
   And there are groups with the following properties:
   | identifier    | permission1            |
   | test          | PERMISSION_VIEW_SOURCE |
+  And there are the following access controls:
+  | principal | principalType | object | permission |
+  | test      | group         | test   | READ       |
   And there are users with the following properties:
   | identifier       | password  | group1 |
   | test@example.com | Poa annua | test   |

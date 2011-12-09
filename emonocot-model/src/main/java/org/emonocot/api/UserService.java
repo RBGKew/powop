@@ -15,6 +15,6 @@ import org.springframework.security.acls.model.Permission;
 public interface UserService extends Service<User>, UserDetailsManager,
         GroupManager {
     
-    public <T extends SecuredObject> void addPermission(T object, Principal recipient, Permission permission, Class<T> clazz);
-    public <T extends SecuredObject> void deletePermission(T object, Principal recipient, Permission permission, Class<T> clazz);
+    public void addPermission(SecuredObject object, Principal recipient, Permission permission, Class<? extends SecuredObject> clazz);
+    public void deletePermission(SecuredObject object, Principal recipient, Permission permission, Class<? extends SecuredObject> clazz);
 }

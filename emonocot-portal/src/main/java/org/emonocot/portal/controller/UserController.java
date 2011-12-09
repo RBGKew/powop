@@ -8,7 +8,9 @@ import javax.validation.Valid;
 import org.emonocot.api.GroupService;
 import org.emonocot.api.UserService;
 import org.emonocot.model.user.Group;
+import org.emonocot.model.user.Principal;
 import org.emonocot.model.user.User;
+import org.emonocot.portal.model.AceDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.security.acls.model.Permission;
 
 /**
  *
@@ -118,4 +121,37 @@ public class UserController {
           service.delete(identifier);
           return new ResponseEntity<User>(HttpStatus.OK);
       }
+      
+      /**
+       * @param identifier
+       *            Set the identifier of the user
+       * @return A response entity containing the status
+       */
+        @RequestMapping(value = "/user/{identifier}/permission",
+                        params = "!delete",
+                        method = RequestMethod.POST)
+        public final ResponseEntity<AceDto> addPermission(
+                @PathVariable final String identifier, 
+                @RequestBody final AceDto ace) {
+            User user = service.find(identifier);
+            service.addPermission(ace.getObject(), user, ace.getPermission(), ace.getObject().getClass());
+            ResponseEntity<AceDto> responseEntity = new ResponseEntity<AceDto>(ace, HttpStatus.CREATED);
+            return responseEntity;
+        }
+        
+        /**
+         * @param identifier
+         *            Set the identifier of the user
+         * @return A response entity containing the status
+         */
+          @RequestMapping(value = "/user/{identifier}/permission",
+                          params ="delete",
+                          method = RequestMethod.POST)
+          public final ResponseEntity<AceDto> deletePermission(
+                  @PathVariable final String identifier, 
+                  @RequestBody final AceDto ace) {
+              User user = service.find(identifier);
+              service.deletePermission(ace.getObject(), user, ace.getPermission(), ace.getObject().getClass());
+              return new ResponseEntity<AceDto>(ace, HttpStatus.OK);
+          }
 }
