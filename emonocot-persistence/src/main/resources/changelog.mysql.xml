@@ -1803,4 +1803,11 @@
     <changeSet author="ben" id="2011-12-09_02">
         <dropNotNullConstraint tableName="acl_object_identity" columnName="parent_object" columnDataType="bigint(20)"/>
     </changeSet>
+    <changeSet id="2011-13-13_01" author="ben">
+      <comment>Added PERMISSION_ADMINISTRATE to the admin group</comment>
+      <insert tableName="Group_permissions">
+        <column name="Group_id" valueNumeric="1"/>
+        <column name="permissions" valueNumeric="19"/>
+      </insert>
+    </changeSet>
 </databaseChangeLog>

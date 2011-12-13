@@ -113,6 +113,9 @@
    
    <bean class="org.springframework.security.acls.AclPermissionEvaluator" id="permissionEvaluator">
       <constructor-arg ref="aclService"/>
+      <property name="sidRetrievalStrategy">
+        <bean class="org.emonocot.service.impl.GroupSidRetrievalStrategyImpl"/>
+      </property>
    </bean>
    
    <bean class="org.springframework.security.acls.jdbc.JdbcMutableAclService" id="aclService">

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.emonocot.api.UserService;
-import org.emonocot.model.common.Base;
 import org.emonocot.model.common.SecuredObject;
 import org.emonocot.model.user.Group;
 import org.emonocot.model.user.Principal;
@@ -18,6 +17,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.orm.ObjectRetrievalFailureException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.acls.domain.ObjectIdentityImpl;
+import org.springframework.security.acls.domain.PrincipalSid;
+import org.springframework.security.acls.model.AccessControlEntry;
+import org.springframework.security.acls.model.MutableAcl;
+import org.springframework.security.acls.model.MutableAclService;
+import org.springframework.security.acls.model.NotFoundException;
+import org.springframework.security.acls.model.ObjectIdentity;
+import org.springframework.security.acls.model.Permission;
+import org.springframework.security.acls.model.Sid;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.ReflectionSaltSource;
@@ -31,15 +39,6 @@ import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.cache.NullUserCache;
-import org.springframework.security.acls.model.AccessControlEntry; 
-import org.springframework.security.acls.model.Permission;
-import org.springframework.security.acls.model.Sid; 
-import org.springframework.security.acls.model.MutableAclService;
-import org.springframework.security.acls.domain.PrincipalSid;
-import org.springframework.security.acls.domain.ObjectIdentityImpl;
-import org.springframework.security.acls.model.MutableAcl;
-import org.springframework.security.acls.model.NotFoundException;
-import org.springframework.security.acls.model.ObjectIdentity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -52,16 +51,18 @@ import org.springframework.util.Assert;
 @Service
 public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
         UserService {
-    
+
     /**
     *
     */
-    private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static Logger logger = LoggerFactory
+            .getLogger(UserServiceImpl.class);
+
     /**
      *
      */
     private GroupDao groupDao;
-    
+
     /**
      *
      */
@@ -96,55 +97,84 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
         passwordEncoder = new Md5PasswordEncoder();
         userCache = new NullUserCache();
     }
-    
-    /**
-    *
-    * @param userCache Set the user cache
-    */
-   @Autowired(required = false)
-   public void setMutableAclService(MutableAclService mutableAclService) {       
-       this.mutableAclService = mutableAclService;
-   }
 
     /**
      *
-     * @param userCache Set the user cache
+     * @param mutableAclService
+     *            Set the mutable acl service
      */
     @Autowired(required = false)
-    public void setUserCache(UserCache userCache) {
+    public final void setMutableAclService(
+            final MutableAclService mutableAclService) {
+        this.mutableAclService = mutableAclService;
+    }
+
+    /**
+     *
+     * @param userCache
+     *            Set the user cache
+     */
+    @Autowired(required = false)
+    public final void setUserCache(final UserCache userCache) {
         Assert.notNull(userCache, "userCache cannot be null");
         this.userCache = userCache;
     }
 
+    /**
+     *
+     * @param passwordEncoder Set the password encoder
+     */
     @Autowired(required = false)
-    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+    public final void setPasswordEncoder(final PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     *
+     * @param saltSource Set the salt source
+     */
     @Autowired(required = false)
-    public void setSaltSource(SaltSource saltSource) {
+    public final void setSaltSource(final SaltSource saltSource) {
         this.saltSource = saltSource;
     }
 
+    /**
+     *
+     * @param authenticationManager Set the authentication manager
+     */
     @Autowired(required = false)
-    public void setAuthenticationManager(
-            AuthenticationManager authenticationManager) {
+    public final void setAuthenticationManager(
+            final AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
 
+    /**
+     *
+     * @param userDao Set the user dao
+     */
     @Autowired
-    public void setUserDao(UserDao userDao) {
+    public final void setUserDao(final UserDao userDao) {
         this.dao = userDao;
     }
 
+    /**
+     *
+     * @param groupDao Set the group dao
+     */
     @Autowired
-    public void setGroupDao(GroupDao groupDao) {
+    public final void setGroupDao(final GroupDao groupDao) {
         this.groupDao = groupDao;
     }
 
+    /**
+     *
+     * @param currentAuth Set the current authentication
+     * @param newPassword Set the new password
+     * @return return the new authentication
+     */
     @Transactional(readOnly = false)
-    protected Authentication createNewAuthentication(
-            Authentication currentAuth, String newPassword) {
+    protected final Authentication createNewAuthentication(
+            final Authentication currentAuth, final String newPassword) {
         UserDetails user = loadUserByUsername(currentAuth.getName());
 
         UsernamePasswordAuthenticationToken newAuthentication = new UsernamePasswordAuthenticationToken(
@@ -154,8 +184,13 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
         return newAuthentication;
     }
 
+    /**
+     * @param oldPassword Set the old password
+     * @param newPassword Set the new password
+     */
     @Transactional(readOnly = false)
-    public void changePassword(String oldPassword, String newPassword) {
+    public final void changePassword(final String oldPassword,
+            final String newPassword) {
         Assert.hasText(oldPassword);
         Assert.hasText(newPassword);
         Authentication authentication = SecurityContextHolder.getContext()
@@ -183,8 +218,14 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
         }
     }
 
+    /**
+     *
+     * @param username Set the username
+     * @param newPassword Set the new password
+     */
     @Transactional(readOnly = false)
-    public void changePasswordForUser(String username, String newPassword) {
+    public final void changePasswordForUser(final String username,
+            final String newPassword) {
         Assert.hasText(username);
         Assert.hasText(newPassword);
 
@@ -207,8 +248,11 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
         }
     }
 
+    /**
+     * @param user Set the user details
+     */
     @Transactional(readOnly = false)
-    public void createUser(UserDetails user) {
+    public final void createUser(final UserDetails user) {
         Assert.isInstanceOf(User.class, user);
 
         String rawPassword = user.getPassword();
@@ -221,8 +265,11 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
         dao.save((User) user);
     }
 
+    /**
+     * @param username The username of the user to delete
+     */
     @Transactional(readOnly = false)
-    public void deleteUser(String username) {
+    public final void deleteUser(final String username) {
         Assert.hasLength(username);
 
         User user = dao.find(username);
@@ -233,16 +280,22 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
         userCache.removeUserFromCache(username);
     }
 
+    /**
+     * @param user Set the user to update
+     */
     @Transactional(readOnly = false)
-    public void updateUser(UserDetails user) {
+    public final void updateUser(final UserDetails user) {
         Assert.isInstanceOf(User.class, user);
 
         dao.update((User) user);
         userCache.removeUserFromCache(user.getUsername());
     }
 
+    /**
+     * @param username The username of the user to test for
+     */
     @Transactional(readOnly = true)
-    public boolean userExists(String username) {
+    public final boolean userExists(final String username) {
         Assert.hasText(username);
 
         User user = dao.find(username);
@@ -252,10 +305,13 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
     /**
      * DO NOT CALL THIS METHOD IN LONG RUNNING SESSIONS OR CONVERSATIONS A
      * THROWN UsernameNotFoundException WILL RENDER THE CONVERSATION UNUSABLE.
-     * @param username Set the username
+     *
+     * @param username
+     *            Set the username
+     * @return the userdetails of the user
      */
     @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(final String username) {
+    public final UserDetails loadUserByUsername(final String username) {
         try {
             Assert.hasText(username);
         } catch (IllegalArgumentException iae) {
@@ -274,8 +330,10 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
     }
 
     /**
-     * @param groupName Set the group name
-     * @param authority Set the granted authority
+     * @param groupName
+     *            Set the group name
+     * @param authority
+     *            Set the granted authority
      */
     @Transactional(readOnly = false)
     public final void addGroupAuthority(final String groupName,
@@ -289,8 +347,13 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
         }
     }
 
+    /**
+     * @param username Set the username
+     * @param groupName Set the group name
+     */
     @Transactional(readOnly = false)
-    public void addUserToGroup(String username, String groupName) {
+    public final void addUserToGroup(final String username,
+            final String groupName) {
         Assert.hasText(username);
         Assert.hasText(groupName);
 
@@ -303,9 +366,13 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
         }
     }
 
+    /**
+     * @param groupName Set the group name
+     * @param authorities Set the authorities granted to the group
+     */
     @Transactional(readOnly = false)
-    public void createGroup(final String groupName,
-            List<GrantedAuthority> authorities) {
+    public final void createGroup(final String groupName,
+            final List<GrantedAuthority> authorities) {
         Assert.hasText(groupName);
         Assert.notNull(authorities);
 
@@ -319,27 +386,45 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
         groupDao.save(group);
     }
 
+    /**
+     * @param groupName The name of the group to delete
+     */
     @Transactional(readOnly = false)
-    public void deleteGroup(String groupName) {
+    public final void deleteGroup(final String groupName) {
         Assert.hasText(groupName);
         groupDao.delete(groupName);
     }
 
+    /**
+     * @return a list of all of the groups
+     */
     @Transactional(readOnly = true)
-    public List<String> findAllGroups() {
+    public final List<String> findAllGroups() {
         return groupDao.listNames(null, null);
     }
 
+    /**
+     * @param groupName
+     *            The name of the group for which the authorities should be
+     *            found
+     * @return the authorities granted to the group
+     */
     @Transactional(readOnly = true)
-    public List<GrantedAuthority> findGroupAuthorities(String groupName) {
+    public final List<GrantedAuthority> findGroupAuthorities(
+            final String groupName) {
         Assert.hasText(groupName);
         Group group = groupDao.find(groupName);
 
         return new ArrayList<GrantedAuthority>(group.getGrantedAuthorities());
     }
 
+    /**
+     * @param groupName
+     *            the name of the group for which the users should be found
+     * @return the list of usernames belonging to that group
+     */
     @Transactional(readOnly = true)
-    public List<String> findUsersInGroup(String groupName) {
+    public final List<String> findUsersInGroup(final String groupName) {
         Assert.hasText(groupName);
         Group group = groupDao.find(groupName);
 
@@ -348,9 +433,16 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
         return users;
     }
 
+    /**
+     * @param groupName
+     *            The name of the group for which the authority should be
+     *            removed
+     * @param authority
+     *            The authority to remove
+     */
     @Transactional(readOnly = false)
-    public void removeGroupAuthority(String groupName,
-            GrantedAuthority authority) {
+    public final void removeGroupAuthority(final String groupName,
+            final GrantedAuthority authority) {
         Assert.hasText(groupName);
         Assert.notNull(authority);
 
@@ -361,8 +453,16 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
         }
     }
 
+    /**
+     * @param username
+     *            Set the name of the user to remove from the group
+     * @param groupName
+     *            Set the name of the group from which the user should be
+     *            removed
+     */
     @Transactional(readOnly = false)
-    public void removeUserFromGroup(String username, String groupName) {
+    public final void removeUserFromGroup(final String username,
+            final String groupName) {
         Assert.hasText(username);
         Assert.hasText(groupName);
 
@@ -375,8 +475,12 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
         }
     }
 
+    /**
+     * @param oldName Set the old name of the group
+     * @param newName Set the new name of the group
+     */
     @Transactional(readOnly = false)
-    public void renameGroup(String oldName, String newName) {
+    public final void renameGroup(final String oldName, final String newName) {
         Assert.hasText(oldName);
         Assert.hasText(newName);
 
@@ -386,28 +490,58 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
         groupDao.update(group);
     }
 
+    /**
+     * @param user Set the user to update
+     */
     @Transactional(readOnly = false)
-    public void update(User user) {
+    public final void update(final User user) {
         updateUser(user);
     }
 
+    /**
+     *
+     * @param group Set the group to save
+     */
     @Transactional(readOnly = false)
-    public void saveGroup(Group group) {
+    public final void saveGroup(final Group group) {
         groupDao.save(group);
     }
 
-    public String createGroup(String groupName, String groupType,
-            String parentGroupId) {
+    /**
+     *
+     * @param groupName Set the name of the group
+     * @param groupType Set the type of group (ignored)
+     * @param parentGroupId Set the parent group (ignored)
+     * @return the name of the group
+     */
+    public final String createGroup(final String groupName,
+            final String groupType, final String parentGroupId) {
         this.createGroup(groupName, new ArrayList<GrantedAuthority>());
         return groupName;
     }
 
-    public void createMembership(String username, String groupName, String role) {
+    /**
+     *
+     * @param username Set the name of the user
+     * @param groupName Set the name of the group
+     * @param role Set the role of the user in the group (ignored)
+     */
+    public final void createMembership(final String username,
+            final String groupName, final String role) {
         this.addUserToGroup(username, groupName);
     }
 
-    public String createUser(String username, String givenName,
-            String familyName, String businessEmail) {
+    /**
+     *
+     * @param username Set the username
+     * @param givenName Set the given name
+     * @param familyName Set the family name
+     * @param businessEmail Set the email address
+     * @return the username of the created user
+     */
+    public final String createUser(final String username,
+            final String givenName, final String familyName,
+            final String businessEmail) {
         User user = new User();
         user.setUsername(username);
         user.setEmailAddress(businessEmail);
@@ -415,18 +549,40 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
         return username;
     }
 
-    public void deleteMembership(String username, String groupName, String role) {
+    /**
+     *
+     * @param username Set the name of the user to remove from the group
+     * @param groupName Set the name of the group
+     * @param role Set the role of the user in that group (ignored)
+     */
+    public final void deleteMembership(final String username,
+            final String groupName, final String role) {
         this.removeUserFromGroup(username, groupName);
     }
 
-    public Group findGroup(String identifier) {
+    /**
+     *
+     * @param identifier Set the name of the group to find
+     * @return the group or null if the group does not exist
+     */
+    public final Group findGroup(final String identifier) {
         return groupDao.find(identifier);
     }
-    
+
+    /**
+     * @param object Set the secured object
+     * @param recipient Set the recipient principal
+     * @param permission Set the type of permission
+     * @param clazz Set the class of object
+     *
+     */
     @Transactional(readOnly = false)
-    public void addPermission(SecuredObject object, Principal recipient, Permission permission, Class<? extends SecuredObject> clazz) {
+    public void addPermission(final SecuredObject object,
+            final Principal recipient, final Permission permission,
+            final Class<? extends SecuredObject> clazz) {
         MutableAcl acl;
-        ObjectIdentity oid = new ObjectIdentityImpl(clazz.getCanonicalName(), object.getId());
+        ObjectIdentity oid = new ObjectIdentityImpl(clazz.getCanonicalName(),
+                object.getId());
 
         try {
             acl = (MutableAcl) mutableAclService.readAclById(oid);
@@ -434,24 +590,38 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
             acl = mutableAclService.createAcl(oid);
         }
 
-        acl.insertAce(acl.getEntries().size(), permission, new PrincipalSid(recipient.getIdentifier()), true);
+        acl.insertAce(acl.getEntries().size(), permission, new PrincipalSid(
+                recipient.getIdentifier()), true);
         mutableAclService.updateAcl(acl);
 
         if (logger.isDebugEnabled()) {
-            logger.debug("Added permission " + permission + " for Sid " + recipient + " securedObject " + object);
+            logger.debug("Added permission " + permission + " for Sid "
+                    + recipient + " securedObject " + object);
         }
     }
-    
+
+    /**
+     * @param object Set the secured object
+     * @param recipient Set the recipient principal
+     * @param permission Set the type of permission
+     * @param clazz Set the class of object
+     *
+     */
     @Transactional(readOnly = false)
-    public void deletePermission(SecuredObject object, Principal recipient, Permission permission, Class<? extends SecuredObject> clazz) {
-        ObjectIdentity oid = new ObjectIdentityImpl(clazz.getCanonicalName(), object.getId());
+    public void deletePermission(final SecuredObject object,
+            final Principal recipient, final Permission permission,
+            final Class<? extends SecuredObject> clazz) {
+        ObjectIdentity oid = new ObjectIdentityImpl(clazz.getCanonicalName(),
+                object.getId());
         MutableAcl acl = (MutableAcl) mutableAclService.readAclById(oid);
         Sid sid = new PrincipalSid(recipient.getIdentifier());
-        // Remove all permissions associated with this particular recipient (string equality used to keep things simple)
+        // Remove all permissions associated with this particular recipient
+        // (string equality used to keep things simple)
         List<AccessControlEntry> entries = acl.getEntries();
 
         for (int i = 0; i < entries.size(); i++) {
-            if (entries.get(i).getSid().equals(sid) && entries.get(i).getPermission().equals(permission)) {
+            if (entries.get(i).getSid().equals(sid)
+                    && entries.get(i).getPermission().equals(permission)) {
                 acl.deleteAce(i);
             }
         }
@@ -459,7 +629,8 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
         mutableAclService.updateAcl(acl);
 
         if (logger.isDebugEnabled()) {
-            logger.debug("Deleted securedObject " + object + " ACL permissions for recipient " + recipient);
+            logger.debug("Deleted securedObject " + object
+                    + " ACL permissions for recipient " + recipient);
         }
     }
 }

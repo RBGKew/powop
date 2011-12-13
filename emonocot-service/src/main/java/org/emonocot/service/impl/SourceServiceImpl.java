@@ -22,30 +22,29 @@ public class SourceServiceImpl extends ServiceImpl<Source, SourceDao> implements
      * @param sourceDao Set the source dao
      */
     @Autowired
-    public void setSourceDao(SourceDao sourceDao) {
+    public final void setSourceDao(SourceDao sourceDao) {
         super.dao = sourceDao;
     }
-    
+
     /**
-     * TODO Enable once the functional tests are working
+     *
      * @param identifier the identifier of the object
-     * @param the fetch profile to use
+     * @param fetch the fetch profile to use
      * @return the object
      */
-    //@PostAuthorize("hasPermission(returnObject, 'READ')")
+    @PostAuthorize("hasPermission(returnObject, 'READ') or hasRole('PERMISSION_ADMINISTRATE')")
     @Transactional(readOnly = true)
-    public Source load(String identifier, String fetch) {
+    public final Source load(final String identifier, final String fetch) {
         return dao.load(identifier, fetch);
     }
-    
+
     /**
-     * TODO Enable once the functional tests are working
      *
      * @param identifier the identifier of the object
      * @return the object loaded using the default fetch profile
      *
      */
-    //@PostAuthorize("hasPermission(returnObject, 'READ')")
+    @PostAuthorize("hasPermission(returnObject, 'READ') or hasRole('PERMISSION_ADMINISTRATE')")
     @Transactional(readOnly = true)
     public final Source load(final String identifier) {
         return dao.load(identifier);

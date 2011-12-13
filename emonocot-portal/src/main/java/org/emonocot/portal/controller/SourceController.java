@@ -6,17 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.emonocot.api.AnnotationService;
+import org.emonocot.api.FacetName;
+import org.emonocot.api.SourceService;
 import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.pager.Page;
 import org.emonocot.model.source.Source;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
 import org.emonocot.service.JobDataService;
-import org.emonocot.api.AnnotationService;
-import org.emonocot.api.FacetName;
-import org.emonocot.api.JobExecutionService;
-import org.emonocot.api.SourceService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.JobExecution;
@@ -111,7 +108,7 @@ public class SourceController {
     public final ModelAndView getSourcePage(
             @PathVariable final String identifier) {
         ModelAndView modelAndView = new ModelAndView("sourcePage");
-        modelAndView.addObject(service.load(identifier));
+        modelAndView.addObject(service.find(identifier));
         return modelAndView;
     }
 

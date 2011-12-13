@@ -3,9 +3,9 @@ package org.emonocot.model.user;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
- * 
+ *
  * @author ben
- * 
+ *
  */
 public enum Permission implements GrantedAuthority {
     /**
@@ -83,7 +83,11 @@ public enum Permission implements GrantedAuthority {
     /**
      *
      */
-    PERMISSION_DELETE_ANNOTATION;
+    PERMISSION_DELETE_ANNOTATION,
+    /**
+     *
+     */
+    PERMISSION_ADMINISTRATE;
 
     /**
      * @return the authority
