@@ -839,6 +839,13 @@
 		      <version>0.1</version>
 		      <scope>test</scope>
 	      </dependency>
+	      <dependency>
+              <groupId>org.emonocot</groupId>
+              <artifactId>emonocot-task</artifactId>
+              <version>0.0.1</version>
+              <scope>test</scope>
+          </dependency>
+	      <!-- Above are required for ANT build / deploy -->
           <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-spring</artifactId>
@@ -901,12 +908,6 @@
               <groupId>org.im4java</groupId>
               <artifactId>im4java</artifactId>
               <version>1.2.0-emonocot</version>
-         </dependency>
-         <dependency>
-              <groupId>org.emonocot</groupId>
-              <artifactId>emonocot-task</artifactId>
-              <version>0.0.1</version>
-              <scope>test</scope>
          </dependency>
         </dependencies>
     </dependencyManagement>

@@ -133,6 +133,10 @@
              <artifactId>ant-junit</artifactId>
           </dependency>
           <dependency>
+             <groupId>org.emonocot</groupId>
+             <artifactId>emonocot-task</artifactId>
+          </dependency>
+          <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-spring</artifactId>
           </dependency>
@@ -175,10 +179,6 @@
           <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-          </dependency>
-          <dependency>
-              <groupId>org.emonocot</groupId>
-              <artifactId>emonocot-task</artifactId>
           </dependency>
 	</dependencies>
 	<build>
