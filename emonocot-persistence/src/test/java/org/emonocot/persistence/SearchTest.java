@@ -88,7 +88,7 @@ public class SearchTest extends AbstractPersistenceTest {
         selectedFacets.put(FacetName.CONTINENT, "AUSTRALASIA");
 
         Page<Taxon> page = getTaxonDao().search("name:Aus", null, null, null,
-                new FacetName[] {FacetName.CONTINENT }, selectedFacets, null, null);
+                new FacetName[] {FacetName.CONTINENT , FacetName.REGION}, selectedFacets, null, null);
         for (Taxon t : page.getRecords()) {
             System.out.println(t.getName());
         }
@@ -96,6 +96,10 @@ public class SearchTest extends AbstractPersistenceTest {
         for (Facet facet : page.getFacets().get(FacetName.CONTINENT.name())) {
             System.out.println(facet.getValue() + " " + facet.getCount());
         }
+        for (Facet facet : page.getFacets().get(FacetName.REGION.name())) {
+            System.out.println(facet.getValue() + " " + facet.getCount());
+        }
+        
     }
 
     /**

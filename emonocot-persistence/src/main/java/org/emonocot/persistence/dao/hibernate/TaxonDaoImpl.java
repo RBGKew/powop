@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.emonocot.api.FacetName;
+import org.emonocot.model.geography.Continent;
+import org.emonocot.model.geography.Region;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.model.pager.Page;
 import org.emonocot.model.taxon.Family;
@@ -95,42 +97,42 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
             facetingRequest = facetContext.name(facetName.name())
                     .onField("continent").discrete()
                     .orderedBy(FacetSortOrder.FIELD_VALUE)
-                    .includeZeroCounts(true).createFacetingRequest();
+                    .includeZeroCounts(false).createFacetingRequest();
             facetManager.enableFaceting(facetingRequest);
             break;
         case REGION:
             facetingRequest = facetContext.name(facetName.name())
                     .onField("region").discrete()
                     .orderedBy(FacetSortOrder.FIELD_VALUE)
-                    .includeZeroCounts(true).createFacetingRequest();
+                    .includeZeroCounts(false).createFacetingRequest();
             facetManager.enableFaceting(facetingRequest);
             break;
         case AUTHORITY:
             facetingRequest = facetContext.name(facetName.name())
                     .onField("sources.identifier").discrete()
                     .orderedBy(FacetSortOrder.FIELD_VALUE)
-                    .includeZeroCounts(true).createFacetingRequest();
+                    .includeZeroCounts(false).createFacetingRequest();
             facetManager.enableFaceting(facetingRequest);
             break;
         case FAMILY:
             facetingRequest = facetContext.name(facetName.name())
                     .onField("family").discrete()
                     .orderedBy(FacetSortOrder.FIELD_VALUE)
-                    .includeZeroCounts(true).createFacetingRequest();
+                    .includeZeroCounts(false).createFacetingRequest();
             facetManager.enableFaceting(facetingRequest);
             break;
         case RANK:
             facetingRequest = facetContext.name(facetName.name())
                     .onField("rank").discrete()
                     .orderedBy(FacetSortOrder.FIELD_VALUE)
-                    .includeZeroCounts(true).createFacetingRequest();
+                    .includeZeroCounts(false).createFacetingRequest();
             facetManager.enableFaceting(facetingRequest);
             break;
         case TAXONOMIC_STATUS:
             facetingRequest = facetContext.name(facetName.name())
                     .onField("status").discrete()
                     .orderedBy(FacetSortOrder.FIELD_VALUE)
-                    .includeZeroCounts(true).createFacetingRequest();
+                    .includeZeroCounts(false).createFacetingRequest();
             facetManager.enableFaceting(facetingRequest);
             break;
         default:
@@ -165,8 +167,27 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
 
     @Override
     protected final void addFacet(final Page<Taxon> page,
-            final FacetName facetName, final FacetManager facetManager) {
+            final FacetName facetName, final FacetManager facetManager, Map<FacetName, String> selectedFacets) {
         switch (facetName) {
+        case REGION:
+        	String selectedContinent = selectedFacets.get(FacetName.CONTINENT);
+        	if(selectedContinent != null) {
+        		Continent continent = Continent.valueOf(selectedContinent);
+        		List<Facet> facets = facetManager.getFacets(facetName.REGION.name());
+        		List<Facet> filteredFacets = new ArrayList<Facet>();
+        		for(Facet f : facets) {
+        			Region r = Region.valueOf(f.getValue());
+        			if (r.getContinent().equals(continent)){
+        				filteredFacets.add(f);
+        			}
+        		}
+        	    page.addFacets(facetName.name(), filteredFacets);
+         	} else {
+         		// should not really get here
+         		page.addFacets(facetName.name(),
+                        facetManager.getFacets(facetName.name()));
+         	}
+        	break;
         case CLASS:
             List<Facet> facets = new ArrayList<Facet>();
             page.addFacets(facetName.name(), facets);
@@ -183,7 +204,6 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
             }
             break;
         case CONTINENT:
-        case REGION:
         case AUTHORITY:
         case FAMILY:
         case RANK:

@@ -16,6 +16,8 @@ import org.emonocot.api.FacetName;
 import org.emonocot.api.Sorting;
 import org.emonocot.api.Sorting.SortDirection;
 import org.emonocot.model.common.Base;
+import org.emonocot.model.geography.Continent;
+import org.emonocot.model.geography.Region;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.pager.DefaultPageImpl;
 import org.emonocot.model.pager.Page;
@@ -126,10 +128,30 @@ public abstract class SearchableDaoImpl<T extends Base> extends
      * @param page the page of results
      * @param facetName the facet name
      * @param facetManager the facet manager
+     * @param selectedFacets add the select facets
      */
     protected void addFacet(final Page<T> page, final FacetName facetName,
-            final FacetManager facetManager) {
+            final FacetManager facetManager, Map<FacetName, String> selectedFacets) {
         switch (facetName) {
+        case REGION:
+        	String selectedContinent = selectedFacets.get(FacetName.CONTINENT);
+        	if(selectedContinent != null) {
+        		Continent continent = Continent.valueOf(selectedContinent);
+        		List<Facet> facets = facetManager.getFacets(facetName.REGION.name());
+        		List<Facet> filteredFacets = new ArrayList<Facet>();
+        		for(Facet f : facets) {
+        			Region r = Region.valueOf(f.getValue());
+        			if (r.getContinent().equals(continent)){
+        				filteredFacets.add(f);
+        			}
+        		}
+        	    page.addFacets(facetName.name(), filteredFacets);
+         	} else {
+         		// should not really get here
+         		page.addFacets(facetName.name(),
+                        facetManager.getFacets(facetName.name()));
+         	}
+        	break;
         case CLASS:
             List<Facet> facets = new ArrayList<Facet>();
             page.addFacets(facetName.name(), facets);
@@ -286,7 +308,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends
             if (facets != null && facets.length != 0) {
                 FacetManager facetManager = fullTextQuery.getFacetManager();
                 for (FacetName facetName : facets) {
-                    addFacet(page, facetName, facetManager);
+                    addFacet(page, facetName, facetManager, selectedFacets);
                 }
             }
             if (selectedFacets != null && !selectedFacets.isEmpty()) {

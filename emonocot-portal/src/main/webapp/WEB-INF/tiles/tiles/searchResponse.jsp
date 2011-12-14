@@ -60,6 +60,7 @@
 		<div class="row">
 			<div class="span5">
 				<ul id="facets" class="no-bullet">
+					<h3><spring:message code="restrictSearch" /></h3>
 					<c:forEach var="facetName" items="${result.facetNames}">
 						<li id="${facetName}">
 							<h3>
@@ -98,6 +99,7 @@
 												<spring:message code="${facetName}.clearFacet" />
 											</jsp:element>
 										</li>
+										
 										<li>
 											<jsp:scriptlet>
 												try {

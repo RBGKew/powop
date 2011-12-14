@@ -56,7 +56,6 @@ Scenario: Search for Only Taxa
   And the Family facet should have the following options:
   | option    |
   | Acoraceae |
-  | Araceae   |
   When I restrict the "Rank" by selecting "Species"
   Then there should be 2 results
   When I restrict the "Status" by selecting "Accepted Name"
