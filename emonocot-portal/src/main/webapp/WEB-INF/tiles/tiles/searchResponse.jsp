@@ -288,7 +288,7 @@
 					<ul class="media-grid"> 
 					<c:forEach var="item" items="${result.records}">
 						<li>
-						    <c:url var="thumbnail" value="/thumbnails/${item.identifier}.jpg"/>
+						    <c:url var="thumbnail" value="/images/thumbnails/${item.identifier}.jpg"/>
 							<a class="result thumb" href="image/${item.identifier}" data-placement="below" rel="twipsy" title="${item.caption}"><img class="thumbnail" src="${thumbnail}" /></a>
 						</li>
 						</c:forEach>
@@ -313,7 +313,7 @@
 										<a class="thumb pull-right">
 											<c:choose>
 												<c:when test="${not empty item.image}">
-												    <c:url var="thumbnail" value="/thumbnails/${item.image.identifier}.jpg"/>
+												    <c:url var="thumbnail" value="/images/thumbnails/${item.image.identifier}.jpg"/>
 													<img src="${thumbnail}" title="${item.image.caption}"/>
 												</c:when>
 												<c:otherwise>
@@ -337,7 +337,7 @@
 					      					<jsp:attribute name="class">pull-left</jsp:attribute>
 					      					<jsp:attribute name="alt">Image</jsp:attribute>
 					      				</jsp:element>
-										<c:url var="thumbnail" value="/thumbnails/${item.identifier}.jpg"/>
+										<c:url var="thumbnail" value="/images/thumbnails/${item.identifier}.jpg"/>
 										<a class="result pull-left" href="image/${item.identifier}" title="${item.caption}"><h4 class="h4Results">${item.caption}</h4></a>
 										<a class="thumb pull-right"><img src="${thumbnail}" title="${item.caption}"/></a>
 									</div>

@@ -78,7 +78,7 @@
 				<div class="ad-thumbs">
 					<ul class="ad-thumb-list media-grid">
 						<c:forEach var="image" items="${taxon.images}" varStatus="status">
-						  <c:url var="thumbnail" value="/thumbnails/${image.identifier}.jpg"/>
+						  <c:url var="thumbnail" value="/images/thumbnails/${image.identifier}.jpg"/>
 					      <li>
 						    <a href="${image.url}">
 							  <c:url var="url" value="/image/${image.identifier}"/> 
