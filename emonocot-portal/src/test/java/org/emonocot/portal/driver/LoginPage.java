@@ -42,6 +42,6 @@ public class LoginPage extends PageObject {
      */
     public final PageObject submit() {
         loginForm.submit();
-        return openAs(getWebDriver().getCurrentUrl(), HomePage.class);
+        return openAs(getWebDriver().getCurrentUrl(), ProfilePage.class);
     }
 }

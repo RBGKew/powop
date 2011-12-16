@@ -24,6 +24,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.acls.domain.BasePermission;
+import org.springframework.security.acls.model.AccessControlEntry;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -130,7 +131,7 @@ public class ACLTest extends DataManagementSupport {
         Authentication authentication = authenticationManager
                 .authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        userService.addPermission(source, group, BasePermission.READ,
+        userService.addPermission(source, "test", BasePermission.READ,
                 Source.class);
         SecurityContextHolder.clearContext();
     }
@@ -142,6 +143,13 @@ public class ACLTest extends DataManagementSupport {
     @After
     public final void tearDown() throws Exception {
         setSetUp(new ArrayList<Object>());
+        token = new UsernamePasswordAuthenticationToken("admin@e-monocot.org",
+        "sPePhAz6");
+        Authentication authentication = authenticationManager.authenticate(token);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        userService.deletePermission(source, "test", BasePermission.READ,
+                Source.class);
+        SecurityContextHolder.clearContext();
         while (!getTearDown().isEmpty()) {
             Object obj = getTearDown().pop();
             if (obj.getClass().equals(Taxon.class)) {
@@ -157,7 +165,7 @@ public class ACLTest extends DataManagementSupport {
             } else if (obj.getClass().equals(Group.class)) {
                 userService.deleteGroup(((Group) obj).getIdentifier());
             }
-        }
+        }                
     }
 
     /**
@@ -224,4 +232,14 @@ public class ACLTest extends DataManagementSupport {
        SecurityContextHolder.clearContext();
    }
 
+  /**
+   *
+   */
+  @Test
+  public final void testListAces() {
+
+      for (Object[] row : userService.listAces("test")) {
+          System.out.println("Object: " + row[0] + " ACE: " + row[1]);
+      }
+  }
 }

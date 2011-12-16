@@ -12,6 +12,7 @@ import org.emonocot.portal.driver.ClassificationPage;
 import org.emonocot.portal.driver.HomePage;
 import org.emonocot.portal.driver.IllustratedPage;
 import org.emonocot.portal.driver.ImagePage;
+import org.emonocot.portal.driver.GroupFormPage;
 import org.emonocot.portal.driver.LoginPage;
 import org.emonocot.portal.driver.PageObject;
 import org.emonocot.portal.driver.Portal;
@@ -23,9 +24,12 @@ import org.emonocot.portal.driver.SourceAdminPage;
 import org.emonocot.portal.driver.SourceJobPage;
 import org.emonocot.portal.driver.SourcePage;
 import org.emonocot.portal.driver.TaxonPage;
+import org.emonocot.portal.rows.AccessControlRow;
+import org.emonocot.portal.rows.GroupRow;
 import org.emonocot.portal.rows.LoginRow;
 import org.emonocot.portal.rows.RegistrationRow;
 import org.emonocot.portal.rows.SummaryRow;
+import org.emonocot.portal.rows.UserRow;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import cucumber.annotation.After;
@@ -92,12 +96,85 @@ public class StepDefinitions {
         currentPage = portal.getClassificationPage();
     }
 
+   /**
+    *
+    */
+   @When("^I am on the group page$")
+   public final void iAmOnTheGroupPage() {
+       currentPage = portal.getGroupPage();
+   }
+
     /**
      *
      */
     @When("^I am on the search page$")
     public final void iAmOnTheSearchPage() {
         currentPage = portal.search("");
+    }
+
+    /**
+     *
+     * @param text Set the link text
+     */
+    @When("^I select \"(Create a new group)\"$")
+    public final void iSelect(final String text) {
+        currentPage = currentPage.selectLink(text, GroupFormPage.class);
+    }
+
+    /**
+     * @param groupRows
+     *            set the group rows
+     */
+    @When("^I enter the following data into the group form:$")
+    public final void iEnterTheFollowingDataInTheGroupForm(
+            final List<GroupRow> groupRows) {
+        // TODO not implemented yet
+    }
+
+    /**
+     *
+     * @param aceRows
+     *            Set the access control rows
+     */
+    @When("^I enter the following data into the access controls form:$")
+    public final void iEnterTheFollowingDataInTheAccessControlForm(
+            final List<AccessControlRow> aceRows) {
+        // TODO not implemented yet
+    }
+
+    /**
+     *
+     * @param userRows Set the user rows
+     */
+    @When("^I enter the following data into the members form:$")
+    public final void iEnterTheFollowingDataIntoTheMembersForm(
+            final List<UserRow> userRows) {
+        // TODO not implemented yet
+    }
+
+    @When("^I select \"(Edit this group)\"$")
+    public void I_select_(String arg1) {
+     // TODO not implemented yet
+    }
+
+    @When("^I submit the access controls form$")
+    public void I_submit_the_access_controls_form() {
+     // TODO not implemented yet
+    }
+
+    @When("^I submit the group form$")
+    public void I_submit_the_group_form() {
+     // TODO not implemented yet
+    }
+
+    @When("^I submit the members form$")
+    public void I_submit_the_members_form() {
+     // TODO not implemented yet
+    }
+
+    @When("^I go to the page for the group \"([^\"]*)\"$")
+    public void I_go_to_the_page_for_the_group_(String arg1) {
+     // TODO not implemented yet
     }
 
     /**
@@ -194,6 +271,15 @@ public class StepDefinitions {
         for (int i = 0; i < actualNumberOfResults; i++) {
             assertArrayEquals(actualResults.get(i), results.get(i).toArray());
         }
+    }
+
+    /**
+     *
+     * @param message Set the expected info message
+     */
+    @Then("^an info message should say \"([^\"]*)\"$")
+    public final void anInfoMessageShouldSay(final String message) {
+        assertEquals(message, currentPage.getInfoMessage());
     }
 
     /**

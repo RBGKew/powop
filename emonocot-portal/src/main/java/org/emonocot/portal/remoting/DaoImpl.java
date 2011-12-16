@@ -1,15 +1,21 @@
 package org.emonocot.portal.remoting;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
-import org.emonocot.model.common.Base;
+import org.emonocot.api.FacetName;
 import org.emonocot.api.Sorting;
+import org.emonocot.model.common.Base;
 import org.emonocot.model.pager.Page;
 import org.emonocot.persistence.dao.Dao;
-import org.emonocot.api.FacetName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -26,6 +32,18 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
      */
     private static Logger logger
         = LoggerFactory.getLogger(DaoImpl.class);
+
+    /**
+     *
+     */
+    private static HttpHeaders httpHeaders = new HttpHeaders();
+
+    static {
+        List<MediaType> acceptableMediaTypes = new ArrayList<MediaType>();
+        acceptableMediaTypes.add(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(acceptableMediaTypes);
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+    }
 
    /**
     *
@@ -48,10 +66,10 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
     private String resourceDir;
 
     /**
-     *
+     * @param restTemplate Set the rest template
      */
     @Autowired
-    public void setRestTemplate(RestTemplate restTemplate) {
+    public final void setRestTemplate(final RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
@@ -78,15 +96,20 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
      * @return an object
      */
     public final T load(final String identifier) {
-        return restTemplate.getForObject(baseUri + resourceDir + "/"
-                + identifier, type);
+        HttpEntity<T> requestEntity = new HttpEntity<T>(httpHeaders);
+        HttpEntity<T> responseEntity = restTemplate.exchange(baseUri
+                + resourceDir + "/" + identifier, HttpMethod.GET,
+                requestEntity, type);
+        return responseEntity.getBody();
     }
 
     /**
      * @param identifier the identifier of the object to delete
      */
     public final void delete(final String identifier) {
-        restTemplate.delete(baseUri + resourceDir + "/" + identifier);
+        HttpEntity<T> requestEntity = new HttpEntity<T>(httpHeaders);
+        restTemplate.exchange(baseUri + resourceDir + "/" + identifier,
+                HttpMethod.DELETE, requestEntity, type);
     }
 
     /**
@@ -94,8 +117,11 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
      * @return an object
      */
     public final T find(final String identifier) {
-        return restTemplate.getForObject(baseUri + resourceDir + "/"
-                + identifier, type);
+        HttpEntity<T> requestEntity = new HttpEntity<T>(httpHeaders);
+        HttpEntity<T> responseEntity = restTemplate.exchange(baseUri
+                + resourceDir + "/" + identifier, HttpMethod.GET,
+                requestEntity, type);
+        return responseEntity.getBody();
     }
 
     /**
@@ -124,16 +150,21 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
      */
     public final T save(final T t) {
         logger.debug("POST: " + baseUri + resourceDir);
-        restTemplate.postForObject(baseUri + resourceDir, t, type);
-        return t;
+        HttpEntity<T> requestEntity = new HttpEntity<T>(t, httpHeaders);
+        HttpEntity<T> responseEntity = restTemplate.exchange(baseUri
+                + resourceDir, HttpMethod.POST,
+                requestEntity, type);
+        return responseEntity.getBody();
     }
     /**
      * @param t the object to update
      */
     public final void update(final T t) {
         logger.debug("POST: " + baseUri + resourceDir + "/" + t.getIdentifier());
-        restTemplate.postForObject(
-                baseUri + resourceDir + "/" + t.getIdentifier(), t, type);
+        HttpEntity<T> requestEntity = new HttpEntity<T>(t, httpHeaders);
+        restTemplate.exchange(baseUri
+                + resourceDir + "/" + t.getIdentifier(), HttpMethod.POST,
+                requestEntity, type);
     }
 
     /**
@@ -160,6 +191,22 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
             final Sorting sort, String fetch) {
         // TODO Auto-generated method stub
         // TODO move persistence to persistence package?
+        return null;
+    }
+
+    /**
+     * @return the total number of objects
+     */
+    public final Long count() {
+        return null;
+    }
+
+    /**
+     * @param page Set the offset (in size chunks, 0-based), optional
+     * @param size Set the page size
+     * @return A list of results
+     */
+    public final List<T> list(final Integer page, final Integer size) {
         return null;
     }
 

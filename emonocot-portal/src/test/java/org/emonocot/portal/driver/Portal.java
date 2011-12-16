@@ -131,4 +131,12 @@ public class Portal extends PageObject {
     public final ClassificationPage getClassificationPage() {
         return openAs(getBaseUri() + "classify", ClassificationPage.class);
     }
+
+    /**
+     *
+     * @return the group page
+     */
+    public final PageObject getGroupPage() {
+        return openAs(getBaseUri() + "group", GroupPage.class);
+    }
 }

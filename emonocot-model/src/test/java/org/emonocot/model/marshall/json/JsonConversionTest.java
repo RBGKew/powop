@@ -32,7 +32,7 @@ import org.emonocot.portal.model.AceDto;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.security.acls.domain.BasePermission; 
+import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
@@ -383,7 +383,7 @@ public class JsonConversionTest {
         assertNotNull(annotation.getAnnotatedObj());
         assertEquals(taxon, annotation.getAnnotatedObj());
     }
-    
+
     /**
     *
     * @throws Exception
@@ -393,19 +393,17 @@ public class JsonConversionTest {
     public final void testWriteAce() throws Exception {
         AceDto ace = new AceDto();
         User user = new User();
-        user.setIdentifier("userIdentifier");
         ace.setPermission(BasePermission.CREATE);
-        Taxon t = new Taxon();
-        t.setIdentifier("testIdentifier");
-        ace.setObject(t);
-        ace.setPrincipal(user);
-        try{
+
+        ace.setObject("testIdentifier");
+        ace.setPrincipal("userIdentifier");
+        try {
             System.out.println(objectMapper.writeValueAsString(ace));
           } catch (Exception e) {
               fail();
           }
     }
-    
+
     /**
     *
     * @throws Exception
@@ -413,20 +411,11 @@ public class JsonConversionTest {
     */
     @Test
     public final void testAce() throws Exception {
-        User user = new User();
-        Taxon taxon = new Taxon();
-        EasyMock.expect(userService.find(EasyMock.eq("userIdentifier")))
-                .andReturn(user);
-        EasyMock.expect(groupService.find(EasyMock.eq("userIdentifier")))
-        .andReturn(null);
-        EasyMock.expect(taxonService.find(EasyMock.eq("testIdentifier")))
-        .andReturn(taxon);
-        EasyMock.replay(userService, taxonService, groupService);
-        AceDto aceDto = objectMapper.readValue("{\"principal\":\"userIdentifier\",\"object\":\"testIdentifier\",\"permission\":\"CREATE\"}", AceDto.class);
-        EasyMock.verify(userService, taxonService, groupService);
 
-        assertEquals(taxon, aceDto.getObject());
-        assertEquals(user, aceDto.getPrincipal());
+        AceDto aceDto = objectMapper.readValue("{\"principal\":\"userIdentifier\",\"object\":\"testIdentifier\",\"permission\":\"CREATE\"}", AceDto.class);
+
+        assertEquals("testIdentifier", aceDto.getObject());
+        assertEquals("userIdentifier", aceDto.getPrincipal());
         assertEquals(BasePermission.CREATE, aceDto.getPermission());
     }
 }

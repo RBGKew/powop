@@ -17,11 +17,12 @@ import org.emonocot.api.ReferenceService;
 import org.emonocot.api.SourceService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.UserService;
+import org.emonocot.api.convert.StringToPermissionConverter;
 import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.AnnotationType;
-import org.emonocot.model.common.RecordType;
 import org.emonocot.model.common.AnnotationCode;
+import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.common.Base;
+import org.emonocot.model.common.RecordType;
 import org.emonocot.model.common.SecuredObject;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
@@ -35,7 +36,6 @@ import org.emonocot.model.taxon.Rank;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.model.taxon.TaxonomicStatus;
 import org.emonocot.model.user.Group;
-import org.emonocot.model.user.Principal;
 import org.emonocot.model.user.Permission;
 import org.emonocot.model.user.User;
 import org.emonocot.portal.model.AceDto;
@@ -51,9 +51,9 @@ import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -208,36 +208,34 @@ public class TestDataManager {
     * @param principal Set the identifier of the principal
     * @param principalType Set the type of principal (group, user)
     * @param object Set the identifier of the object
-    * @param permission Set the permission 
+    * @param clazz Set the class of object being secured
+    * @param permission Set the permission
     */
-   public final void createAcl(final String principal, final String principalType, final String object, final String permission) {
+    public final void createAcl(final String principal, final String principalType, final String object, final String objectType, final String permission) {
        enableAuthentication();
-       Principal recipient = null;
-       if(principalType.equals("user")) {
-           recipient = new User();
-       } else {
-           recipient = new Group();
-       }
-       recipient.setIdentifier(principal);
        Taxon taxon = new Taxon();
        taxon.setIdentifier(object);
        org.springframework.security.acls.model.Permission perm = null;
-       if(permission.equals("READ")) {
-           perm = BasePermission.READ;
-       } else if(permission.equals("WRITE")) {
-           perm = BasePermission.WRITE;          
-       } else if(permission.equals("CREATE")) {
-           perm = BasePermission.CREATE;
-       } else if(permission.equals("DELETE")) {
-           perm = BasePermission.DELETE;
+       Converter<String, org.springframework.security.acls.model.Permission> converter = new StringToPermissionConverter();
+       perm = converter.convert(permission);
+       Class<? extends SecuredObject> clazz = null;
+       if (objectType.equals("Source")) {
+           clazz = Source.class;
        } else {
-           perm = BasePermission.ADMINISTRATION;
+           clazz = Taxon.class;
        }
-       userService.addPermission(taxon, recipient, perm, Taxon.class);
+       if (principalType.equals("user")) {
+           userService.addPermission(taxon, principal, perm, clazz);
+       } else {
+           groupService.addPermission(taxon, principal, perm, clazz);
+       }
+
        AceDto ace = new AceDto();
-       ace.setObject(taxon);
+       ace.setObject(object);
        ace.setPermission(perm);
-       ace.setPrincipal(recipient);
+       ace.setPrincipal(principal);
+       ace.setClazz(clazz);
+
        data.push(ace);
        disableAuthentication();
    }
@@ -700,8 +698,10 @@ public class TestDataManager {
                 jobExecutionService.delete(((JobExecution) object).getId());
             } else if (object instanceof AceDto) {
                 AceDto ace = (AceDto) object;
-                userService.deletePermission(ace.getObject(),
-                        ace.getPrincipal(), ace.getPermission(), Taxon.class);
+                Taxon taxon = new Taxon();
+                taxon.setIdentifier(ace.getObject());
+                userService.deletePermission(taxon, ace.getPrincipal(),
+                        ace.getPermission(), ace.getClazz());
             }
         }
         disableAuthentication();

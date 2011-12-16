@@ -1,6 +1,7 @@
 package org.emonocot.api;
 
 import org.emonocot.model.common.Base;
+import org.emonocot.model.pager.Page;
 
 /**
  *
@@ -62,4 +63,11 @@ public interface Service<T extends Base> {
     * @param t The object to save.
     */
   void saveOrUpdate(T t);
+
+  /**
+   * @param page Set the offset (in size chunks, 0-based), optional
+   * @param size Set the page size
+   * @return A page of results
+   */
+  Page<T> list(Integer page, Integer size);
 }

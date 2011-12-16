@@ -217,4 +217,26 @@ public abstract class PageObject {
             // Nothing
         }
     }
+
+    /**
+     *
+     * @return the info message
+     */
+    public final String getInfoMessage() {
+        WebElement webElement = webDriver.findElement(By
+                .cssSelector(".alert-message.info p"));
+        return webElement.getText();
+    }
+
+    /**
+     *
+     * @param text Set the link text
+     * @param clazz Set the expected page
+     * @return the page object
+     */
+    public final PageObject selectLink(final String text,
+            final Class<? extends PageObject> clazz) {
+        return this.openAs(this.webDriver.findElement(By.linkText(text))
+                .getAttribute("href"), clazz);
+    }
 }

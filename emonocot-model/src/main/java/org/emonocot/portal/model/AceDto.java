@@ -2,14 +2,8 @@ package org.emonocot.portal.model;
 
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.emonocot.model.common.SecuredObject;
-import org.emonocot.model.marshall.json.AnnotatableObjectDeserializer;
-import org.emonocot.model.marshall.json.AnnotatableObjectSerializer;
-import org.emonocot.model.marshall.json.PermissionSerializer;
 import org.emonocot.model.marshall.json.PermissionDeserializer;
-import org.emonocot.model.marshall.json.PrincipalSerializer;
-import org.emonocot.model.marshall.json.PrincipalDeserializer;
-import org.emonocot.model.user.Principal;
+import org.emonocot.model.marshall.json.PermissionSerializer;
 import org.springframework.security.acls.model.Permission;
 
 /**
@@ -21,33 +15,51 @@ public class AceDto {
     /**
      *
      */
-    private SecuredObject object;
-    
+    private String object;
+
     /**
      *
      */
     private Permission permission;
-    
+
     /**
      *
      */
-    private Principal principal;
+    private String principal;
+
+    /**
+     *
+     */
+    private Class clazz;
+
+    /**
+     * @return the clazz
+     */
+    public final Class getClazz() {
+        return clazz;
+    }
+
+    /**
+     * @param clazz the clazz to set
+     */
+    public final void setClazz(final Class clazz) {
+        this.clazz = clazz;
+    }
 
     /**
      *
      * @return the secured object
      */
-    @JsonSerialize(using = AnnotatableObjectSerializer.class)
-    public SecuredObject getObject() {
+    public final String getObject() {
         return object;
     }
-    
+
     /**
      *
      * @return the permission
      */
     @JsonSerialize(using = PermissionSerializer.class)
-    public Permission getPermission() {
+    public final Permission getPermission() {
         return permission;
     }
 
@@ -55,8 +67,7 @@ public class AceDto {
      *
      * @param object Set the secured object
      */
-    @JsonDeserialize(using = AnnotatableObjectDeserializer.class)
-    public void setObject(SecuredObject object) {
+    public final void setObject(final String object) {
         this.object = object;
     }
 
@@ -65,7 +76,7 @@ public class AceDto {
      * @param permission Set the permission
      */
      @JsonDeserialize(using = PermissionDeserializer.class)
-    public void setPermission(Permission permission) {
+    public final void setPermission(final Permission permission) {
         this.permission = permission;
     }
 
@@ -73,8 +84,7 @@ public class AceDto {
      *
      * @return the principal
      */
-    @JsonSerialize(using = PrincipalSerializer.class)
-    public Principal getPrincipal() {
+    public final String getPrincipal() {
         return principal;
     }
 
@@ -82,8 +92,7 @@ public class AceDto {
      *
      * @param principal Set the principal
      */
-    @JsonDeserialize(using = PrincipalDeserializer.class)
-    public void setPrincipal(Principal principal) {
+    public final void setPrincipal(String principal) {
         this.principal = principal;
     }
 

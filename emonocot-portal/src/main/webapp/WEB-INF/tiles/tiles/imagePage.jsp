@@ -39,20 +39,19 @@
 		      <td><spring:message code="image.creator"/></td>
 		      <td>${image.creator}</td>
 		    </tr>
-		  </tbody>
-		  <tr>
+		    <tr>
 		      <td><spring:message code="image.caption"/></td>
 		      <td>${image.caption}</td>
-		  </tr>
-		  <tr>
+		    </tr>
+		    <tr>
 		      <td><spring:message code="image.description"/></td>
 		      <td>${image.description}</td>
-		  </tr>
-		  <tr>
+		    </tr>
+		    <tr>
 		      <td><spring:message code="image.locality"/></td>
 		      <td>${image.locality}</td>
-		  </tr>
-		  <tr>
+		    </tr>
+		    <tr>
 		      <td><spring:message code="image.keywords"/></td>
 		      <td>
 		        <c:if test="${not empty image.keywords}">
@@ -68,7 +67,8 @@
 		          </c:forEach>
 		        </c:if>
 		      </td>
-		  </tr>
+		    </tr>
+		    </tbody>
 		</table>
 		<h2><spring:message code="related.images"/></h2>
 		<div id="gallery" class="ad-gallery">

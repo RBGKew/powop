@@ -16,6 +16,11 @@ public class RegistrationPage extends PageObject {
     /**
      *
      */
+    private String username = null;
+
+    /**
+     *
+     */
     @FindBy(how = How.ID, using = "registrationForm")
     private WebElement registrationForm;
 
@@ -24,6 +29,7 @@ public class RegistrationPage extends PageObject {
     * @param username Set the username
     */
    public final void setUsername(final String username) {
+       this.username = username;
        registrationForm.findElement(By.name("username")).sendKeys(username);
    }
 
@@ -56,19 +62,18 @@ public class RegistrationPage extends PageObject {
     * @return the response page
     */
    public final PageObject submit() {
-       registrationForm.submit();
+        registrationForm.submit();
         if (getWebDriver().getCurrentUrl().equals(
                 this.getBaseUri() + "/register")) {
+            username = null;
             return super.openAs(getWebDriver().getCurrentUrl(),
                     RegistrationPage.class);
         } else {
-            String url = getWebDriver().getCurrentUrl();
-            String identifier = url.substring(url.lastIndexOf("/") + 1);
             User user = new User();
-            user.setUsername(identifier);
+            user.setUsername(username);
             testDataManager.registerObject(user);
             return super.openAs(getWebDriver().getCurrentUrl(),
-                    ProfilePage.class);
+                    LoginPage.class);
        }
    }
 

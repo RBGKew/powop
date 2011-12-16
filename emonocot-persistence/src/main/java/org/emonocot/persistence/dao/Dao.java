@@ -1,5 +1,7 @@
 package org.emonocot.persistence.dao;
 
+import java.util.List;
+
 import org.emonocot.model.common.Base;
 
 /**
@@ -69,4 +71,16 @@ public interface Dao<T extends Base> {
   * @param t The object to update.
   */
   void update(T t);
+
+  /**
+   * @return the total number of objects
+   */
+  Long count();
+
+  /**
+   * @param page Set the offset (in size chunks, 0-based), optional
+   * @param size Set the page size
+   * @return A list of results
+   */
+  List<T> list(Integer page, Integer size);
 }

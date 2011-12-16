@@ -32,7 +32,9 @@
 		<property name="imageDao" ref="imageDaoImpl" />
 	</bean>
 	
-	<bean name="groupService" class="org.emonocot.service.impl.GroupServiceImpl">
+	<bean name="groupService" class="org.emonocot.portal.remoting.RemoteGroupServiceImpl">
+	    <property name="restTemplate" ref="restTemplate" />
+		<property name="baseUri" value="${functional.test.baseUri}:${functional.test.port}${functional.test.basePath}/" />
 		<property name="groupDao" ref="groupDaoImpl" />
 	</bean>
 	

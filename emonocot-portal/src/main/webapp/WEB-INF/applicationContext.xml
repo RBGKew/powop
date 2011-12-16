@@ -4,7 +4,6 @@
 	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:sec="http://www.springframework.org/schema/security"
 	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-	                    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		                http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 		                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 		                http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.4.xsd">
@@ -40,12 +39,15 @@
       </property>
    </bean>
    
-   <bean class="org.springframework.security.acls.jdbc.JdbcMutableAclService" id="aclService">
+   <bean class="org.emonocot.persistence.dao.hibernate.AclServiceImpl" id="aclService">
       <constructor-arg ref="dataSource"/>
       <constructor-arg ref="lookupStrategy"/>
       <constructor-arg ref="aclCache"/>
       <property name="sidIdentityQuery" value="${spring.security.sid.identity.query}"/>
       <property name="classIdentityQuery" value="${spring.security.class.identity.query}"/>
+      <property name="aclAuthorizationStrategy" ref="aclAuthorizationStrategy"/>
+      <property name="auditLogger" ref="auditLogger"/>
+      <property name="sessionFactory" ref="sessionFactory"/>
  </bean>
   
  <bean id="lookupStrategy" class="org.springframework.security.acls.jdbc.BasicLookupStrategy">
@@ -101,6 +103,7 @@
     
     <sec:http use-expressions="true">
       <sec:intercept-url pattern="/login*" access="isAnonymous()"/>
+      <sec:intercept-url pattern="/home" access="!isAnonymous()"/>
       <sec:intercept-url pattern="/taxon" method="POST" access="hasRole('PERMISSION_CREATE_TAXON')"/>
       <sec:intercept-url pattern="/taxon/*" method="DELETE" access="hasRole('PERMISSION_DELETE_TAXON')"/>
       <sec:intercept-url pattern="/image" method="POST" access="hasRole('PERMISSION_CREATE_IMAGE')"/>
@@ -120,7 +123,8 @@
       <sec:intercept-url pattern="/jobInstance/*" method="DELETE" access="hasRole('PERMISSION_DELETE_JOBINSTANCE')"/>
       <sec:intercept-url pattern="/annotation" method="POST" access="hasRole('PERMISSION_CREATE_ANNOTATION')"/>
       <sec:intercept-url pattern="/annotation/*" method="DELETE" access="hasRole('PERMISSION_DELETE_ANNOTATION')"/>
-      <sec:form-login login-page='/login' login-processing-url="/process_login" authentication-failure-url="/login?error=true"/>
+      <sec:form-login login-page='/login' login-processing-url="/process_login" authentication-failure-url="/login?error=true" default-target-url="/home"/>
+      <sec:remember-me/>
       <sec:access-denied-handler error-page="/accessDenied"/>
       <sec:logout logout-url="/logout"/>
       <sec:http-basic />
@@ -137,7 +141,19 @@
 		<property name="useCodeAsDefaultMessage" value="true"/>
 	</bean>
 
-	<bean id="conversionService" class="org.emonocot.portal.format.PortalFormatterFactory" />
+	<bean id="conversionService" class="org.emonocot.portal.format.PortalFormatterFactory" >
+	  <property name="converters">
+	    <set>
+	      <ref bean="aceDtoConverter"/>
+	      <bean class="org.emonocot.api.convert.StringToPermissionConverter"/>
+	      <bean class="org.emonocot.api.convert.PermissionToStringConverter"/>
+	      <bean class="org.emonocot.api.convert.StringToClassConverter"/>
+	      <bean class="org.emonocot.api.convert.ClassToStringConverter"/>
+	    </set>
+	  </property>
+	</bean>
+	
+	<bean name="aceDtoConverter" class="org.emonocot.portal.convert.AceDtoConverter"/>
 
 	<tx:annotation-driven />
 

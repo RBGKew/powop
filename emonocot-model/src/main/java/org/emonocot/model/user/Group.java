@@ -13,7 +13,6 @@ import javax.persistence.Transient;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.emonocot.model.marshall.json.GroupDeserializer;
 import org.emonocot.model.marshall.json.UserDeserializer;
 import org.emonocot.model.marshall.json.UserSerializer;
 import org.hibernate.annotations.Cascade;
@@ -77,6 +76,7 @@ public class Group extends Principal {
      * @return true if the user was added to the group
      */
     public final boolean addMember(final User user) {
+        user.getGroups().add(this);
         return this.members.add(user);
     }
 
@@ -105,6 +105,7 @@ public class Group extends Principal {
      * @return true if the user has been removed, false otherwise
      */
     public final boolean removeMember(final User user) {
+        user.getGroups().remove(this);
         return this.members.remove(user);
     }
 

@@ -329,10 +329,10 @@ public abstract class SearchableDaoImpl<T extends Base> extends
     /**
      * Given https://hibernate.onjira.com/browse/HSEARCH-703, we need this
      * workaround, currently.
-     * 
+     *
      * This should be removed once the issue is resolved by the hibernate search
      * team
-     * 
+     *
      * @return a class to retrieve an analyzer for.
      */
     protected Class getAnalyzerType() {

@@ -5,9 +5,9 @@
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 
 	<div class="content">
-		<div class="page-header">&#160;</div>
-		<div class="row">
-			<h1>${user.username}</h1>
-		</div>
+		<div class="page-header">
+		  <h2 id="page-title">${user.username}</h2>
+        </div>
+		<div class="row">${user.username}</div>
 	</div>
 </jsp:root>

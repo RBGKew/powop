@@ -37,6 +37,11 @@ public abstract class BaseData extends Base {
     /**
      *
      */
+    private static final long serialVersionUID = 1L;
+
+    /**
+     *
+     */
     private License license;
 
     /**

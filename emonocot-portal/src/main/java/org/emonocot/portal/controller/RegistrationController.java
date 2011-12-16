@@ -1,14 +1,14 @@
 package org.emonocot.portal.controller;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.emonocot.api.UserService;
 import org.emonocot.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -50,12 +50,14 @@ public class RegistrationController {
      *
      * @param form
      *            Set the registration form
+     * @param result Set the binding results
+     * @param session Set the http session
      * @return a model and view
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public final ModelAndView post(
             @Valid @ModelAttribute("registrationForm") final RegistrationForm form,
-            final BindingResult result) {
+            final BindingResult result, final HttpSession session) {
         if (result.hasErrors()) {
             return new ModelAndView("register");
         }
@@ -69,8 +71,12 @@ public class RegistrationController {
         user.setEnabled(true);
 
         service.createUser(user);
-        ModelAndView modelAndView = new ModelAndView("redirect:/user/"
-                + user.getUsername());
+        ModelAndView modelAndView = new ModelAndView("redirect:/home");
+        String[] codes = new String[] {"registration.successful" };
+        Object[] args = new Object[] { };
+        DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
+                codes, args);
+        session.setAttribute("info", message);
         return modelAndView;
     }
 }

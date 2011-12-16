@@ -15,13 +15,12 @@ public class PortalFormatterFactory extends
     @Override
     public final void installFormatters(final FormatterRegistry registry) {
         super.installFormatters(registry);
-        registry.addFormatterForFieldAnnotation(
-                new FacetRequestAnnotationFormatterFactory());
-        registry.addFormatterForFieldAnnotation(
-                new SortingAnnotationFormatterFactory());
+
+        registry.addFormatterForFieldAnnotation(new FacetRequestAnnotationFormatterFactory());
+        registry.addFormatterForFieldAnnotation(new SortingAnnotationFormatterFactory());
+        registry.addFormatterForFieldAnnotation(new PermissionAnnotationFormatterFactory());
         // Required for checklist
-        registry.addFormatterForFieldAnnotation(
-                new ChecklistIdentifierAnnotationFormatterFactory());
+        registry.addFormatterForFieldAnnotation(new ChecklistIdentifierAnnotationFormatterFactory());
     }
 
 }

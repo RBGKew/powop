@@ -11,7 +11,7 @@ public class AccessControlRow {
      *
      */
     public String principal;
-    
+
     /**
      *
      */
@@ -21,9 +21,14 @@ public class AccessControlRow {
      *
      */
     public String permission;
-    
+
     /**
      *
      */
     public String object;
+
+    /**
+     *
+     */
+    public String objectType;
 }

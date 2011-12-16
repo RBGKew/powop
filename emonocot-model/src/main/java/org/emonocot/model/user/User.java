@@ -19,8 +19,6 @@ import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.marshall.json.GroupDeserializer;
 import org.emonocot.model.marshall.json.GroupSerializer;
-import org.emonocot.model.marshall.json.TaxonDeserializer;
-import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.springframework.security.core.GrantedAuthority;

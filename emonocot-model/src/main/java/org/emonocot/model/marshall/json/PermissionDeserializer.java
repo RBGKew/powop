@@ -6,31 +6,32 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
-import org.emonocot.model.user.Principal;
+import org.emonocot.api.convert.StringToPermissionConverter;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.acls.model.Permission;
-import org.springframework.security.acls.domain.BasePermission; 
 
+/**
+ *
+ * @author ben
+ *
+ */
 public class PermissionDeserializer extends JsonDeserializer<Permission> {
-    
+
+    /**
+     *
+     */
+    private Converter<String, Permission> converter = new StringToPermissionConverter();
+
     @Override
-    public Permission deserialize(final JsonParser jsonParser,
+    public final Permission deserialize(final JsonParser jsonParser,
             final DeserializationContext deserializationContext)
             throws IOException {
         String permission = jsonParser.getText();
-        if(permission == null) {
-            return null;
-        } else if(permission.equals("CREATE")) {
-            return BasePermission.CREATE;
-        } else if(permission.equals("READ")) {
-            return BasePermission.READ;
-        } else if(permission.equals("WRITE")) {
-            return BasePermission.WRITE;
-        } else if(permission.equals("DELETE")) {
-            return BasePermission.DELETE;
-        } else if(permission.equals("ADMINISTRATION")) {
-            return BasePermission.ADMINISTRATION;
-        } else {
-            throw new JsonParseException(permission + " is not a valid value", jsonParser.getCurrentLocation());
+        try {
+            return converter.convert(permission);
+        } catch (IllegalArgumentException iae) {
+            throw new JsonParseException(iae.getMessage(),
+                    jsonParser.getCurrentLocation(), iae);
         }
     }
 

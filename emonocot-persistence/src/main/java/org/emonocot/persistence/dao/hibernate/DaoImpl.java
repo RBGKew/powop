@@ -1,5 +1,7 @@
 package org.emonocot.persistence.dao.hibernate;
 
+import java.util.List;
+
 import org.apache.commons.beanutils.PropertyUtils;
 import org.emonocot.model.common.Base;
 import org.emonocot.model.hibernate.Fetch;
@@ -9,6 +11,7 @@ import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.hibernate.UnresolvableObjectException;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
@@ -27,20 +30,23 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
 
     /**
      *
-     * @param profile Set the name of the profile
+     * @param profile
+     *            Set the name of the profile
      * @return a list of Fetch instances
      */
     protected abstract Fetch[] getProfile(String profile);
 
     /**
      *
-     * @param criteria Set a Criteria instance
-     * @param fetch Set the name of the fetch profile
-     * @return 
+     * @param criteria
+     *            Set a Criteria instance
+     * @param fetch
+     *            Set the name of the fetch profile
+     * @return true if the criteria have been set, false otherwise
      */
     protected boolean enableProfilePreQuery(final Criteria criteria,
             final String fetch) {
-    	boolean setCriteria = false;
+        boolean setCriteria = false;
         if (fetch != null) {
             for (Fetch f : getProfile(fetch)) {
                 if (f.getMode().equals(FetchMode.JOIN)) {
@@ -53,28 +59,30 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
     }
 
     /**
-    *
-    * @param t Set a the fetched object
-    * @param fetch Set the name of the fetch profile
-    */
-   protected void enableProfilePostQuery(final T t,
-           final String fetch) {
-       if (fetch != null && t != null) {
-           for (Fetch f : getProfile(fetch)) {
-               if (f.getMode().equals(FetchMode.SELECT)) {
-                   Object proxy;
+     *
+     * @param t
+     *            Set a the fetched object
+     * @param fetch
+     *            Set the name of the fetch profile
+     */
+    protected void enableProfilePostQuery(final T t, final String fetch) {
+        if (fetch != null && t != null) {
+            for (Fetch f : getProfile(fetch)) {
+                if (f.getMode().equals(FetchMode.SELECT)) {
+                    Object proxy;
                     try {
-                        proxy = PropertyUtils.getProperty(t, f.getAssociation());
+                        proxy = PropertyUtils
+                                .getProperty(t, f.getAssociation());
                     } catch (Exception e) {
                         throw new InvalidDataAccessApiUsageException(
                                 "Cannot get proxy " + f.getAssociation()
                                         + " for class " + type, e);
                     }
-                   Hibernate.initialize(proxy);
-               }
-           }
-       }
-   }
+                    Hibernate.initialize(proxy);
+                }
+            }
+        }
+    }
 
     /**
      *
@@ -83,7 +91,8 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
 
     /**
      *
-     * @param newType Set the type of object handled by this DAO
+     * @param newType
+     *            Set the type of object handled by this DAO
      */
     public DaoImpl(final Class<T> newType) {
         this.type = newType;
@@ -91,7 +100,8 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
 
     /**
      *
-     * @param sessionFactory Set the session factory
+     * @param sessionFactory
+     *            Set the session factory
      */
     @Autowired
     public final void setHibernateSessionFactory(
@@ -100,7 +110,8 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
     }
 
     /**
-     * @param identifier Set the identifier
+     * @param identifier
+     *            Set the identifier
      */
     public final void delete(final String identifier) {
         T t = load(identifier);
@@ -108,7 +119,8 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
     }
 
     /**
-     * @param identifier set the identifier
+     * @param identifier
+     *            set the identifier
      * @return the loaded object
      */
     public final T load(final String identifier) {
@@ -116,7 +128,8 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
     }
 
     /**
-     * @param identifier Set the identifier
+     * @param identifier
+     *            Set the identifier
      * @return the object, or null if the object cannot be found
      */
     public final T find(final String identifier) {
@@ -124,8 +137,10 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
     }
 
     /**
-     * @param identifier Set the identifier
-     * @param fetch Set the fetch profile (can be null)
+     * @param identifier
+     *            Set the identifier
+     * @param fetch
+     *            Set the fetch profile (can be null)
      * @return the loaded object
      */
     public T load(final String identifier, final String fetch) {
@@ -147,13 +162,15 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
     }
 
     /**
-     * @param identifier Set the identifer
-     * @param fetch Set the fetch profile
+     * @param identifier
+     *            Set the identifer
+     * @param fetch
+     *            Set the fetch profile
      * @return the object or null if it cannot be found
      */
     public T find(final String identifier, final String fetch) {
-        Criteria criteria = getSession().createCriteria(type)
-        .add(Restrictions.eq("identifier", identifier));
+        Criteria criteria = getSession().createCriteria(type).add(
+                Restrictions.eq("identifier", identifier));
         enableProfilePreQuery(criteria, fetch);
         T t = (T) criteria.uniqueResult();
         enableProfilePostQuery(t, fetch);
@@ -161,29 +178,58 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
         return t;
     }
 
-   /**
-    *
-    * @param t The object to save.
-    * @return the saved object
-    */
-   public final T save(final T t) {
-       getSession().save(t);
-       return t;
-   }
+    /**
+     *
+     * @param t
+     *            The object to save.
+     * @return the saved object
+     */
+    public final T save(final T t) {
+        getSession().save(t);
+        return t;
+    }
 
-  /**
-   *
-   * @param t The object to save.
-   */
-  public final void saveOrUpdate(final T t) {
-      getSession().saveOrUpdate(t);
-  }
+    /**
+     *
+     * @param t
+     *            The object to save.
+     */
+    public final void saveOrUpdate(final T t) {
+        getSession().saveOrUpdate(t);
+    }
 
-  /**
-  *
-  * @param t The object to update.
-  */
- public final void update(final T t) {
-     getSession().update(t);
- }
+    /**
+     *
+     * @param t
+     *            The object to update.
+     */
+    public final void update(final T t) {
+        getSession().update(t);
+    }
+
+    /**
+     * @return the total number of objects
+     */
+    public final Long count() {
+        Criteria criteria = getSession().createCriteria(type);
+        criteria.setProjection(Projections.rowCount());
+        return (Long) criteria.uniqueResult();
+    }
+
+    /**
+     * @param page Set the offset (in size chunks, 0-based), optional
+     * @param size Set the page size
+     * @return A list of results
+     */
+    public final List<T> list(final Integer page, final Integer size) {
+        Criteria criteria = getSession().createCriteria(type);
+
+        if (size != null) {
+            criteria.setMaxResults(size);
+            if (page != null) {
+                criteria.setFirstResult(page * size);
+            }
+        }
+        return (List<T>) criteria.list();
+    }
 }

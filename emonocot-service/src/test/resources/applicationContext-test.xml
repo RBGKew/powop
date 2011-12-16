@@ -118,11 +118,14 @@
       </property>
    </bean>
    
-   <bean class="org.springframework.security.acls.jdbc.JdbcMutableAclService" id="aclService">
-  <constructor-arg ref="dataSource"/>
-        <constructor-arg ref="lookupStrategy"/>
-        <constructor-arg ref="aclCache"/>
- </bean>
+   <bean class="org.emonocot.persistence.dao.hibernate.AclServiceImpl" id="aclService">
+    <constructor-arg ref="dataSource"/>
+    <constructor-arg ref="lookupStrategy"/>
+    <constructor-arg ref="aclCache"/>
+    <property name="aclAuthorizationStrategy" ref="aclAuthorizationStrategy"/>
+    <property name="auditLogger" ref="auditLogger"/>
+    <property name="sessionFactory" ref="sessionFactory"/>
+  </bean>
   
  <bean id="lookupStrategy" class="org.springframework.security.acls.jdbc.BasicLookupStrategy">
     <constructor-arg ref="dataSource"/>

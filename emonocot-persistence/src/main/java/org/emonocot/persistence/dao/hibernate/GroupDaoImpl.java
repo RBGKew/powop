@@ -1,10 +1,13 @@
 package org.emonocot.persistence.dao.hibernate;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.model.user.Group;
 import org.emonocot.persistence.dao.GroupDao;
+import org.hibernate.FetchMode;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +18,18 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class GroupDaoImpl extends DaoImpl<Group> implements GroupDao {
+
+    /**
+    *
+    */
+   private static Map<String, Fetch[]> FETCH_PROFILES;
+
+   static {
+       FETCH_PROFILES = new HashMap<String, Fetch[]>();
+       FETCH_PROFILES.put("group-page", new Fetch[] {
+               new Fetch("members", FetchMode.SELECT),
+               new Fetch("permissions", FetchMode.SELECT)});
+   }
 
     /**
      *
@@ -60,7 +75,7 @@ public class GroupDaoImpl extends DaoImpl<Group> implements GroupDao {
     }
 
     @Override
-    protected Fetch[] getProfile(String profile) {
-        return null;
+    protected final Fetch[] getProfile(final String profile) {
+        return GroupDaoImpl.FETCH_PROFILES.get(profile);
     }
 }

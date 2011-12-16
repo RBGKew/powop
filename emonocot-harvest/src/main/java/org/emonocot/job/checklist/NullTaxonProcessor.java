@@ -94,7 +94,7 @@ public class NullTaxonProcessor implements ItemProcessor<String, Taxon>,
         /**
          * WCS has a fake taxon record for unplaced taxa
          */
-        if (identifier.equals("urn:kew.org:wcs:taxon:-9999")) {
+        if (identifier.equals("urn:kew.org:wcs:family:9999")) {
             return null;
         }
 

@@ -1810,4 +1810,11 @@
         <column name="permissions" valueNumeric="19"/>
       </insert>
     </changeSet>
+    <changeSet id="2011-12-16_01" author="ben">
+      <comment>Added PERMISSION_WRITE_GROUP to the admin group</comment>
+      <insert tableName="Group_permissions">
+        <column name="Group_id" valueNumeric="1"/>
+        <column name="permissions" valueNumeric="20"/>
+      </insert>
+    </changeSet>
 </databaseChangeLog>

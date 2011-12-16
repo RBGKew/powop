@@ -107,7 +107,7 @@ public class DataSetup {
            final List<AccessControlRow> aceRows) {
        for (AccessControlRow aceRow : aceRows) {
             testDataManager.createAcl(aceRow.principal, aceRow.principalType,
-                    aceRow.object, aceRow.permission);
+                    aceRow.object, aceRow.objectType, aceRow.permission);
        }
    }
 

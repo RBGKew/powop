@@ -22,7 +22,7 @@ public class PrincipalDeserializer extends
      *
      */
     protected Service<User> userService;
-    
+
     /**
     *
     */
@@ -42,7 +42,7 @@ public class PrincipalDeserializer extends
     public final void setGroupService(final Service<Group> newGroupService) {
         this.groupService = newGroupService;
     }
-    
+
     /**
     *
     * @param newUserService
@@ -63,7 +63,7 @@ public class PrincipalDeserializer extends
          */
         if (userService != null && groupService != null) {
             Principal principal = groupService.find(identifier);
-            if(principal == null) {
+            if (principal == null) {
                 return userService.find(identifier);
             } else {
                 return principal;

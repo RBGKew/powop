@@ -6,8 +6,8 @@ import java.util.List;
 import org.emonocot.api.UserService;
 import org.emonocot.model.common.SecuredObject;
 import org.emonocot.model.user.Group;
-import org.emonocot.model.user.Principal;
 import org.emonocot.model.user.User;
+import org.emonocot.persistence.dao.AclService;
 import org.emonocot.persistence.dao.GroupDao;
 import org.emonocot.persistence.dao.UserDao;
 import org.hibernate.NonUniqueResultException;
@@ -21,7 +21,6 @@ import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.domain.PrincipalSid;
 import org.springframework.security.acls.model.AccessControlEntry;
 import org.springframework.security.acls.model.MutableAcl;
-import org.springframework.security.acls.model.MutableAclService;
 import org.springframework.security.acls.model.NotFoundException;
 import org.springframework.security.acls.model.ObjectIdentity;
 import org.springframework.security.acls.model.Permission;
@@ -66,7 +65,7 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
     /**
      *
      */
-    private MutableAclService mutableAclService;
+    private AclService aclService;
 
     /**
      *
@@ -100,13 +99,13 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
 
     /**
      *
-     * @param mutableAclService
-     *            Set the mutable acl service
+     * @param aclService
+     *            Set the acl service
      */
     @Autowired(required = false)
-    public final void setMutableAclService(
-            final MutableAclService mutableAclService) {
-        this.mutableAclService = mutableAclService;
+    public final void setAclService(
+            final AclService aclService) {
+        this.aclService = aclService;
     }
 
     /**
@@ -293,6 +292,7 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
 
     /**
      * @param username The username of the user to test for
+     * @return true if the user exists, false otherwise
      */
     @Transactional(readOnly = true)
     public final boolean userExists(final String username) {
@@ -578,21 +578,21 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
      */
     @Transactional(readOnly = false)
     public void addPermission(final SecuredObject object,
-            final Principal recipient, final Permission permission,
+            final String recipient, final Permission permission,
             final Class<? extends SecuredObject> clazz) {
         MutableAcl acl;
         ObjectIdentity oid = new ObjectIdentityImpl(clazz.getCanonicalName(),
                 object.getId());
 
         try {
-            acl = (MutableAcl) mutableAclService.readAclById(oid);
+            acl = (MutableAcl) aclService.readAclById(oid);
         } catch (NotFoundException nfe) {
-            acl = mutableAclService.createAcl(oid);
+            acl = aclService.createAcl(oid);
         }
 
         acl.insertAce(acl.getEntries().size(), permission, new PrincipalSid(
-                recipient.getIdentifier()), true);
-        mutableAclService.updateAcl(acl);
+                recipient), true);
+        aclService.updateAcl(acl);
 
         if (logger.isDebugEnabled()) {
             logger.debug("Added permission " + permission + " for Sid "
@@ -609,12 +609,12 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
      */
     @Transactional(readOnly = false)
     public void deletePermission(final SecuredObject object,
-            final Principal recipient, final Permission permission,
+            final String recipient, final Permission permission,
             final Class<? extends SecuredObject> clazz) {
         ObjectIdentity oid = new ObjectIdentityImpl(clazz.getCanonicalName(),
                 object.getId());
-        MutableAcl acl = (MutableAcl) mutableAclService.readAclById(oid);
-        Sid sid = new PrincipalSid(recipient.getIdentifier());
+        MutableAcl acl = (MutableAcl) aclService.readAclById(oid);
+        Sid sid = new PrincipalSid(recipient);
         // Remove all permissions associated with this particular recipient
         // (string equality used to keep things simple)
         List<AccessControlEntry> entries = acl.getEntries();
@@ -626,11 +626,21 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
             }
         }
 
-        mutableAclService.updateAcl(acl);
+        aclService.updateAcl(acl);
 
         if (logger.isDebugEnabled()) {
             logger.debug("Deleted securedObject " + object
                     + " ACL permissions for recipient " + recipient);
         }
+    }
+
+    /**
+     *
+     * @param recipient Set the principal
+     * @return a list of access control entries
+     */
+    @Transactional
+    public final List<Object[]> listAces(final String recipient) {
+        return aclService.listAces(new PrincipalSid(recipient));
     }
 }

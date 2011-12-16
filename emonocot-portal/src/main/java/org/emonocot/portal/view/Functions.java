@@ -9,6 +9,8 @@ import java.util.List;
 
 import org.emonocot.api.Sorting;
 import org.emonocot.api.Sorting.SortDirection;
+import org.emonocot.api.convert.ClassToStringConverter;
+import org.emonocot.api.convert.PermissionToStringConverter;
 import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.Status;
@@ -20,15 +22,15 @@ import org.emonocot.model.geography.GeographicalRegionComparator;
 import org.emonocot.model.geography.Region;
 import org.emonocot.model.taxon.AlphabeticalTaxonComparator;
 import org.emonocot.model.taxon.Taxon;
+import org.hibernate.Hibernate;
 import org.hibernate.proxy.HibernateProxy;
 import org.joda.time.DateTime;
-import org.joda.time.Duration;
 import org.joda.time.Interval;
 import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.PeriodFormat;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
+import org.springframework.core.convert.support.DefaultConversionService;
 
 import com.rc.retroweaver.runtime.Arrays;
 
@@ -38,6 +40,16 @@ import com.rc.retroweaver.runtime.Arrays;
  *
  */
 public final class Functions {
+    /**
+     *
+     */
+    private static DefaultConversionService conversionService = new DefaultConversionService();
+
+    static {
+        conversionService.addConverter(new PermissionToStringConverter());
+        conversionService.addConverter(new ClassToStringConverter());
+    }
+
     /**
      *
      */
@@ -240,5 +252,14 @@ public final class Functions {
      */
     public static List<String> split(final String string, final String pattern) {
         return Arrays.asList(string.split(pattern));
+    }
+
+    /**
+     *
+     * @param object the object to convert
+     * @return a string
+     */
+    public static String convert(final Object object) {
+        return conversionService.convert(object, String.class);
     }
 }

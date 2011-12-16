@@ -6,11 +6,10 @@ package org.emonocot.model.common;
  *
  */
 public interface SecuredObject {
-    
     /**
      *
      * @return the id
      */
-    public Long getId();
+    Long getId();
 
 }

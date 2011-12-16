@@ -69,4 +69,9 @@
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>java.util.List split(java.lang.String, java.lang.String)</function-signature>
     </function>
+    <function>
+        <name>convert</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.String convert(java.lang.Object)</function-signature>
+    </function>
 </taglib>

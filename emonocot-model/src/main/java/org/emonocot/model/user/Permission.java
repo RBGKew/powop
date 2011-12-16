@@ -87,7 +87,11 @@ public enum Permission implements GrantedAuthority {
     /**
      *
      */
-    PERMISSION_ADMINISTRATE;
+    PERMISSION_ADMINISTRATE,
+    /**
+     *
+     */
+    PERMISSION_WRITE_GROUP;
 
     /**
      * @return the authority

@@ -58,6 +58,13 @@
 			    <security:authorize access="isAuthenticated()">
 			      <li><jsp:element  name="a">
 				    <jsp:attribute name="href">
+					  <c:url value="/home"/> 
+			        </jsp:attribute>
+			        <security:authentication property="principal.username" />
+			      </jsp:element>
+			      </li>
+			      <li><jsp:element  name="a">
+				    <jsp:attribute name="href">
 					  <c:url value="/logout"/> 
 			        </jsp:attribute>
 			        <spring:message code="logout"/>
