@@ -216,6 +216,7 @@
 		<property name="arguments">
 			<list>
 				<value>#{jobParameters['unpack.directory.name']}</value>
+				<value>#{jobParameters['authority.name']}</value>
 			</list>
 		</property>
 	</bean>

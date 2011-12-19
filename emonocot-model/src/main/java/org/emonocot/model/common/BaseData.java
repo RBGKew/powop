@@ -42,7 +42,7 @@ public abstract class BaseData extends Base {
     /**
      *
      */
-    private License license;
+    private String license;
 
     /**
      *
@@ -116,9 +116,8 @@ public abstract class BaseData extends Base {
      *
      * @return Get the license of this object.
      */
-    @Enumerated(value = EnumType.STRING)
     @Field
-    public License getLicense() {
+    public String getLicense() {
         return license;
     }
 
@@ -184,7 +183,7 @@ public abstract class BaseData extends Base {
      * @param newLicense
      *            Set the license for this object.
      */
-    public void setLicense(License newLicense) {
+    public void setLicense(String newLicense) {
         this.license = newLicense;
     }
 

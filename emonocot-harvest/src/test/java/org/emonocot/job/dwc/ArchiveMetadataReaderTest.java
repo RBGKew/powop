@@ -3,8 +3,17 @@ package org.emonocot.job.dwc;
 import static org.hamcrest.collection.IsArrayContaining.hasItemInArray;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
+import java.util.HashSet;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+
+import org.easymock.EasyMock;
+import org.emonocot.api.SourceService;
+import org.emonocot.model.source.Source;
 import org.junit.Test;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
@@ -30,19 +39,43 @@ public class ArchiveMetadataReaderTest {
    private ArchiveMetadataReader archiveMetadataReader
        = new ArchiveMetadataReader();
 
+   /**
+    *
+    */
+   private SourceService sourceService;
+
+   /**
+    *
+    */
+   private Validator validator;
+
     /**
      * @throws Exception if there is a problem accessing the file
      */
     @Test
     public final void testReadMetadata() throws Exception {
+        Source source = new Source();
+        source.setIdentifier("CATE-Araceae");
+        sourceService = EasyMock.createMock(SourceService.class);
+        validator = EasyMock.createMock(Validator.class);
+        EasyMock.expect(sourceService.find(EasyMock.eq("test"))).andReturn(
+                source);
+        EasyMock.expect(validator.validate(EasyMock.eq(source))).andReturn(
+                new HashSet<ConstraintViolation<Source>>());
+        sourceService.saveOrUpdate(EasyMock.eq(source));
+        EasyMock.replay(sourceService, validator);
         ExecutionContext executionContext = new ExecutionContext();
 
         JobExecution jobExecution = new JobExecution(0L);
         jobExecution.setExecutionContext(executionContext);
+        archiveMetadataReader.setSourceService(sourceService);
+        archiveMetadataReader.setValidator(validator);
 
         archiveMetadataReader.beforeStep(
                 new StepExecution("test", jobExecution));
-        archiveMetadataReader.readMetadata(content.getFile().getAbsolutePath());
+        archiveMetadataReader.readMetadata(content.getFile().getAbsolutePath(),
+                "test");
+        EasyMock.verify(sourceService, validator);
 
         assertNotNull("core file must be present",
                 executionContext.getString("dwca.core.file"));
@@ -195,7 +228,19 @@ public class ArchiveMetadataReaderTest {
             assertThat(actualReferenceFieldNames,
                     hasItemInArray(expectedReferenceFieldName));
         }
-
+        assertEquals(source.getDescription(), "An open-access taxonomic web-revision of the Araceae");
+        assertEquals(source.getCreator(), "Anna Haigh");
+        assertEquals(source.getCreatorEmail(), "a.haigh@kew.org");
+        assertEquals(source.getIdentifier(), "CATE-Araceae");
+        assertEquals(source.getLicense(), "The data in this site, unless otherwise specified (under 'rights'), is licensed using the Creative Commons Attribution Non-Commercial Share Alike License (cc by-nc-sa).");
+        assertEquals(source.getLogoUrl(), "https://www.cate-araceae.org/css/images/cate-logo.png");
+        assertEquals(source.getPublisherEmail(), "admin@cate-araceae.org");
+        assertEquals(source.getPublisherName(), "Ben Clark");
+        assertEquals(source.getSource(), "Haigh, A., Clark, B., Reynolds, L., Mayo, S.J., Croat, T.B., Lay, L., Boyce, P.C., Mora, M., Bogner, J., Sellaro, M., Wong, S.Y., Kostelac, C., Grayum, M.H., Keating, R.C., Ruckert, G., Naylor, M.F. and Hay, A., CATE Araceae, 14 Dec 2011 . 17 Dec 2011.");
+        assertEquals(source.getTitle(), "CATE Araceae");
+        assertEquals(source.getUri(), "http://www.cate-araceae.org");
+        assertEquals(source.getCreated().toString(), "2011-04-27T00:00:00.000+01:00");
+        assertNull(source.getModified());
     }
 
 }

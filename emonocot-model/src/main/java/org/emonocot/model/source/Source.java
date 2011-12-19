@@ -28,7 +28,7 @@ public class Source extends BaseData {
     /**
      *
      */
-    private static final long serialVersionUID = -2463044801110563816L;
+    private static long serialVersionUID = -2463044801110563816L;
 
     /**
     *
@@ -117,14 +117,14 @@ public class Source extends BaseData {
      */
     @Transient
     @JsonIgnore
-    public final String getClassName() {
+    public String getClassName() {
         return "Source";
     }
 
     /**
      * @return the creatorEmail
      */
-    public final String getCreatorEmail() {
+    public String getCreatorEmail() {
         return creatorEmail;
     }
 
@@ -132,7 +132,7 @@ public class Source extends BaseData {
      * @param creatorEmail the creatorEmail to set
      */
     @Email
-    public final void setCreatorEmail(String creatorEmail) {
+    public void setCreatorEmail(String creatorEmail) {
         this.creatorEmail = creatorEmail;
     }
 
@@ -142,14 +142,14 @@ public class Source extends BaseData {
     @Lob
     @Field
     @Length(max = 1431655761)
-    public final String getDescription() {
+    public String getDescription() {
         return description;
     }
 
     /**
      * @param description the description to set
      */
-    public final void setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -157,14 +157,14 @@ public class Source extends BaseData {
      * @return the logoUrl
      */
     @URL
-    public final String getLogoUrl() {
+    public String getLogoUrl() {
         return logoUrl;
     }
 
     /**
      * @param logoUrl the logoUrl to set
      */
-    public final void setLogoUrl(String logoUrl) {
+    public void setLogoUrl(String logoUrl) {
         this.logoUrl = logoUrl;
     }
 
@@ -172,28 +172,28 @@ public class Source extends BaseData {
      * @return the publisherName
      */
     @Field
-    public final String getPublisherName() {
+    public String getPublisherName() {
         return publisherName;
     }
 
     /**
      * @param publisherName the publisherName to set
      */
-    public final void setPublisherName(String publisherName) {
+    public void setPublisherName(String publisherName) {
         this.publisherName = publisherName;
     }
 
     /**
      * @return the publisherEmail
      */
-    public final String getPublisherEmail() {
+    public String getPublisherEmail() {
         return publisherEmail;
     }
 
     /**
      * @param publisherEmail the publisherEmail to set
      */
-    public final void setPublisherEmail(String publisherEmail) {
+    public void setPublisherEmail(String publisherEmail) {
         this.publisherEmail = publisherEmail;
     }
 
@@ -201,14 +201,14 @@ public class Source extends BaseData {
      * @return the subject
      */
     @Field
-    public final String getSubject() {
+    public String getSubject() {
         return subject;
     }
 
     /**
      * @param subject the subject to set
      */
-    public final void setSubject(String subject) {
+    public void setSubject(String subject) {
         this.subject = subject;
     }
 
@@ -216,14 +216,14 @@ public class Source extends BaseData {
      * @return the title
      */
     @Field
-    public final String getTitle() {
+    public String getTitle() {
         return title;
     }
 
     /**
      * @param title the title to set
      */
-    public final void setTitle(String title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 

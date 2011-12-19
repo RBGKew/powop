@@ -1,12 +1,20 @@
 package org.emonocot.job.dwc;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+
+import org.emonocot.api.SourceService;
+import org.emonocot.model.source.Source;
+import org.emonocot.model.taxon.Taxon;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
@@ -15,12 +23,18 @@ import org.gbif.dwc.text.ArchiveFactory;
 import org.gbif.dwc.text.ArchiveField;
 import org.gbif.dwc.text.ArchiveFile;
 import org.gbif.dwc.text.UnsupportedArchiveException;
+import org.gbif.metadata.BasicMetadata;
+import org.gbif.metadata.eml.Eml;
+import org.gbif.metadata.eml.EmlFactory;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.item.ExecutionContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -28,11 +42,11 @@ import org.springframework.batch.item.ExecutionContext;
  *
  */
 public class ArchiveMetadataReader implements StepExecutionListener {
-   /**
+    /**
     *
     */
-    private Logger logger
-        = LoggerFactory.getLogger(ArchiveMetadataReader.class);
+    private Logger logger = LoggerFactory
+            .getLogger(ArchiveMetadataReader.class);
 
     /**
      *
@@ -46,11 +60,42 @@ public class ArchiveMetadataReader implements StepExecutionListener {
 
     /**
      *
-     * @param newArchiveFactory Set the Archive Factory
      */
-    public final void setArchiveFactory(
-            final ArchiveFactory newArchiveFactory) {
+    private String sourceName;
+
+    /**
+     *
+     */
+    private SourceService sourceService;
+
+    /**
+     *
+     */
+    private Validator validator;
+
+    /**
+     *
+     * @param newArchiveFactory
+     *            Set the Archive Factory
+     */
+    public final void setArchiveFactory(final ArchiveFactory newArchiveFactory) {
         this.archiveFactory = newArchiveFactory;
+    }
+
+    /**
+     * @param sourceService the sourceService to set
+     */
+    @Autowired
+    public final void setSourceService(final SourceService sourceService) {
+        this.sourceService = sourceService;
+    }
+
+    /**
+     * @param validator the validator to set
+     */
+    @Autowired
+    public final void setValidator(Validator validator) {
+        this.validator = validator;
     }
 
     /**
@@ -60,12 +105,23 @@ public class ArchiveMetadataReader implements StepExecutionListener {
      * @return An exit status indicating whether the step has been completed or
      *         failed
      */
-    public final ExitStatus readMetadata(final String archiveDirectory) {
+    public final ExitStatus readMetadata(final String archiveDirectory, final String sourceName) {
+        this.sourceName = sourceName;
         try {
-            Archive archive
-                = archiveFactory.openArchive(new File(archiveDirectory));
+            Archive archive = archiveFactory.openArchive(new File(
+                    archiveDirectory));
 
             ArchiveFile core = archive.getCore();
+            String metadataFileName = archiveDirectory + File.separator
+                    + archive.getMetadataLocation();
+            if (metadataFileName != null) {
+                try {
+                    Eml eml = EmlFactory.build(new FileInputStream(metadataFileName));
+                    updateSourceMetadata(eml);
+                } catch (SAXException e) {
+                    logger.error(e.getMessage(), e);
+                }
+            }
             getMetadata(core, "core", DwcTerm.taxonID);
 
             if (archive.getExtension(GbifTerm.Description) != null) {
@@ -79,8 +135,8 @@ public class ArchiveMetadataReader implements StepExecutionListener {
             }
 
             if (archive.getExtension(GbifTerm.Image) != null) {
-                getMetadata(archive.getExtension(GbifTerm.Image),
-                        "image", DwcTerm.taxonID);
+                getMetadata(archive.getExtension(GbifTerm.Image), "image",
+                        DwcTerm.taxonID);
             }
 
             if (archive.getExtension(GbifTerm.Reference) != null) {
@@ -92,8 +148,8 @@ public class ArchiveMetadataReader implements StepExecutionListener {
                     + archiveDirectory + " " + uae.getLocalizedMessage());
             return ExitStatus.FAILED;
         } catch (IOException ioe) {
-            logger.error("Input Output Exception reading "
-                    + archiveDirectory + " " + ioe.getLocalizedMessage());
+            logger.error("Input Output Exception reading " + archiveDirectory
+                    + " " + ioe.getLocalizedMessage());
             return ExitStatus.FAILED;
         }
         return ExitStatus.COMPLETED;
@@ -101,9 +157,113 @@ public class ArchiveMetadataReader implements StepExecutionListener {
 
     /**
      *
-     * @param archiveFile The archive file to examine
-     * @param prefix the prefix to append to the properties
-     * @param identifierTerm the name of the identifier property
+     * @param basicMetadata
+     *            Set the metadata
+     */
+    private void updateSourceMetadata(final BasicMetadata basicMetadata) {
+        boolean update = false;
+        Source source = sourceService.find(sourceName);
+        if (!nullSafeEquals(source.getSource(),
+                basicMetadata.getCitationString())) {
+            source.setSource(basicMetadata.getCitationString());
+            update = true;
+        }
+        if (!nullSafeEquals(source.getCreatorEmail(),
+                basicMetadata.getCreatorEmail())) {
+            source.setCreatorEmail(basicMetadata.getCreatorEmail());
+            update = true;
+        }
+        if (!nullSafeEquals(source.getCreator(),
+                basicMetadata.getCreatorName())) {
+            source.setCreator(basicMetadata.getCreatorName());
+            update = true;
+        }
+        if (!nullSafeEquals(source.getDescription(),
+                basicMetadata.getDescription())) {
+            source.setDescription(basicMetadata.getDescription());
+            update = true;
+        }
+        if (!nullSafeEquals(source.getUri(),
+                basicMetadata.getHomepageUrl())) {
+            source.setUri(basicMetadata.getHomepageUrl());
+            update = true;
+        }
+        if (!nullSafeEquals(source.getLogoUrl(),
+                basicMetadata.getLogoUrl())) {
+            source.setLogoUrl(basicMetadata.getLogoUrl());
+            update = true;
+        }
+        if (!nullSafeEquals(source.getPublisherEmail(),
+                basicMetadata.getPublisherEmail())) {
+            source.setPublisherEmail(basicMetadata.getPublisherEmail());
+            update = true;
+        }
+        if (!nullSafeEquals(source.getPublisherName(),
+                basicMetadata.getPublisherName())) {
+            source.setPublisherName(basicMetadata.getPublisherName());
+            update = true;
+        }
+        if (!nullSafeEquals(source.getSubject(),
+                basicMetadata.getSubject())) {
+            source.setSubject(basicMetadata.getSubject());
+            update = true;
+        }
+        if (!nullSafeEquals(source.getTitle(),
+                basicMetadata.getTitle())) {
+            source.setTitle(basicMetadata.getTitle());
+            update = true;
+        }
+        if (!nullSafeEquals(source.getLicense(),
+                basicMetadata.getRights())) {
+            source.setLicense(basicMetadata.getRights());
+            update = true;
+        }
+        if (basicMetadata.getPublished() != null) {
+            DateTime published = new DateTime(basicMetadata.getPublished());
+            if (source.getCreated() == null) {
+                source.setCreated(published);
+                update = true;
+            } else if (published.isAfter(source.getCreated())) {
+                source.setModified(published);
+                update = true;
+            }
+        }
+
+        if (update) {
+            Set<ConstraintViolation<Source>> violations = validator.validate(source);
+            if (violations.isEmpty()) {
+              logger.info("Updating metadata for source " + sourceName);
+              sourceService.saveOrUpdate(source);
+            } else {
+                for (ConstraintViolation<Source> violation : violations) {
+                    logger.error(violation.getMessage());
+                }
+            }
+        }
+    }
+
+    /**
+     *
+     * @param string1 Set the first string
+     * @param string2 Set the second string
+     * @return true if the strings are equal, false otherwise
+     */
+    private boolean nullSafeEquals(final String string1, final String string2) {
+        if (string1 == null) {
+            return string1 == string2;
+        } else {
+            return string1.equals(string2);
+        }
+    }
+
+    /**
+     *
+     * @param archiveFile
+     *            The archive file to examine
+     * @param prefix
+     *            the prefix to append to the properties
+     * @param identifierTerm
+     *            the name of the identifier property
      */
     private void getMetadata(final ArchiveFile archiveFile,
             final String prefix, final ConceptTerm identifierTerm) {
@@ -127,8 +287,8 @@ public class ArchiveMetadataReader implements StepExecutionListener {
 
         List<ArchiveField> fields = archiveFile.getFieldsSorted();
         /**
-         * Its not clear if you should include the id field twice but if it
-         * is present twice, ignore it.
+         * Its not clear if you should include the id field twice but if it is
+         * present twice, ignore it.
          */
         boolean idListed = false;
         for (ArchiveField field : fields) {
@@ -149,16 +309,15 @@ public class ArchiveMetadataReader implements StepExecutionListener {
     }
 
     /**
-     * Method which extracts the default fields from the
-     * archive and exposes them.
+     * Method which extracts the default fields from the archive and exposes
+     * them.
      *
-     * @param fields the list of fields
+     * @param fields
+     *            the list of fields
      * @return a map of property names -> default values
      */
-    private Map<String, String> getDefaultValues(
-            final List<ArchiveField> fields) {
-        Map<String, String> defaultValues
-            = new HashMap<String, String>();
+    private Map<String, String> getDefaultValues(final List<ArchiveField> fields) {
+        Map<String, String> defaultValues = new HashMap<String, String>();
         for (ArchiveField field : fields) {
             if (field.getIndex() == null) {
                 defaultValues.put(field.getTerm().qualifiedName(),
@@ -169,10 +328,11 @@ public class ArchiveMetadataReader implements StepExecutionListener {
     }
 
     /**
-     * Method which converts from archive fields to string field names.
-     *  To be used by fieldSet mapper
+     * Method which converts from archive fields to string field names. To be
+     * used by fieldSet mapper
      *
-     * @param fields the DwC/A fields
+     * @param fields
+     *            the DwC/A fields
      * @return an array of string names
      */
     private String[] toFieldNames(final List<ArchiveField> fields) {
@@ -187,10 +347,17 @@ public class ArchiveMetadataReader implements StepExecutionListener {
         return names.toArray(new String[names.size()]);
     }
 
+    /**
+     * @param newStepExecution Set the step execution
+     * @return the exit status
+     */
     public final ExitStatus afterStep(final StepExecution newStepExecution) {
         return null;
     }
 
+    /**
+     * @param newStepExecution Set the step execution
+     */
     public final void beforeStep(final StepExecution newStepExecution) {
         this.stepExecution = newStepExecution;
     }
