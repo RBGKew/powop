@@ -352,7 +352,7 @@ public class GroupController {
         String[] codes = new String[] {"ace.added.to.group" };
         Object[] args = new Object[] {
                 conversionService.convert(ace.getPermission(), String.class),
-                ace.getClass().getCanonicalName(), ace.getObject() };
+                ace.getClazz().getSimpleName(), ace.getObject() };
         DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
                 codes, args);
         modelMap.addAttribute("info", message);
@@ -391,7 +391,7 @@ public class GroupController {
         String[] codes = new String[] {"ace.removed.from.group" };
         Object[] args = new Object[] {
                 conversionService.convert(permission, String.class),
-                conversionService.convert(clazz, String.class), ace.getObject() };
+                clazz.getSimpleName(), ace.getObject() };
         DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
                 codes, args);
         modelMap.addAttribute("info", message);

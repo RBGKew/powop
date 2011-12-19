@@ -139,4 +139,13 @@ public class Portal extends PageObject {
     public final PageObject getGroupPage() {
         return openAs(getBaseUri() + "group", GroupPage.class);
     }
+
+    /**
+     *
+     * @param groupName Set the group name
+     * @return the current page
+     */
+    public final PageObject getGroupPage(final String groupName) {
+        return openAs(getBaseUri() + "group/" + groupName, GroupPage.class);
+    }
 }

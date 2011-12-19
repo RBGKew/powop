@@ -12,7 +12,7 @@ import org.openqa.selenium.support.How;
  */
 public class LoginPage extends PageObject {
 
-    /**
+   /**
     *
     */
     @FindBy(how = How.ID, using = "loginForm")

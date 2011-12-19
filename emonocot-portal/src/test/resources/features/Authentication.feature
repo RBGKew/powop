@@ -49,20 +49,20 @@ Scenario: Add privileges to a group
   Given I am logged in as "admin@example.com" with the password "Poa annua"
   And I am on the group page
   When I select "Create a new group"
-#  And I enter the following data into the group form:
-#  | identifier |
-#  | test       |
-#  And I submit the group form
-#  And an info message should say "Group test created"
-#  When I go to the page for the group "test"
-#  And I select "Edit this group"
-#  When I enter the following data into the members form:
-#  | identifier        |
-#  | admin@example.com |
-#  And I submit the members form
-#  Then an info message should say "admin@example.com was added to the group"
-#  When I enter the following data into the access controls form:
-#  | object  |
-#  | PalmWeb |
-#  And I submit the access controls form
-#  Then an info message should say "Read accesss to Source PalmWeb was added to the group"
+  And I enter the following data into the group form:
+  | identifier |
+  | test       |
+  And I submit the group form
+  Then an info message should say "Group test created"
+  When I go to the page for the group "test"
+  And I select "Edit this group"
+  And I enter the following data into the members form:
+  | identifier        |
+  | admin@example.com |
+  And I submit the members form
+  Then an info message should say "admin@example.com was added to the group"
+  When I enter the following data into the access controls form:
+  | object  |
+  | PalmWeb |
+  And I submit the access controls form
+  Then an info message should say "READ access to Source PalmWeb was added to the group"

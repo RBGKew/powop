@@ -9,10 +9,12 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.emonocot.portal.driver.ClassificationPage;
+import org.emonocot.portal.driver.GroupUpdatePage;
 import org.emonocot.portal.driver.HomePage;
 import org.emonocot.portal.driver.IllustratedPage;
 import org.emonocot.portal.driver.ImagePage;
 import org.emonocot.portal.driver.GroupFormPage;
+import org.emonocot.portal.driver.GroupPage;
 import org.emonocot.portal.driver.LoginPage;
 import org.emonocot.portal.driver.PageObject;
 import org.emonocot.portal.driver.Portal;
@@ -128,7 +130,7 @@ public class StepDefinitions {
     @When("^I enter the following data into the group form:$")
     public final void iEnterTheFollowingDataInTheGroupForm(
             final List<GroupRow> groupRows) {
-        // TODO not implemented yet
+        ((GroupFormPage) currentPage).setGroupName(groupRows.get(0).identifier);
     }
 
     /**
@@ -139,7 +141,7 @@ public class StepDefinitions {
     @When("^I enter the following data into the access controls form:$")
     public final void iEnterTheFollowingDataInTheAccessControlForm(
             final List<AccessControlRow> aceRows) {
-        // TODO not implemented yet
+        ((GroupUpdatePage) currentPage).setSecureObject(aceRows.get(0).object);
     }
 
     /**
@@ -149,32 +151,50 @@ public class StepDefinitions {
     @When("^I enter the following data into the members form:$")
     public final void iEnterTheFollowingDataIntoTheMembersForm(
             final List<UserRow> userRows) {
-        // TODO not implemented yet
+        ((GroupUpdatePage) currentPage).setMember(userRows.get(0).identifier);
     }
 
+    /**
+     *
+     * @param linkText Set the link text
+     */
     @When("^I select \"(Edit this group)\"$")
-    public void I_select_(String arg1) {
-     // TODO not implemented yet
+    public final void iSelectEditThisGroup(final String linkText) {
+        currentPage = ((GroupPage) currentPage).selectLink(linkText,
+                GroupUpdatePage.class);
     }
 
+    /**
+     *
+     */
     @When("^I submit the access controls form$")
-    public void I_submit_the_access_controls_form() {
-     // TODO not implemented yet
+    public final void iSubmitTheAccessControlsForm() {
+        currentPage = ((GroupUpdatePage) currentPage).submitAceForm();
     }
 
+    /**
+     *
+     */
     @When("^I submit the group form$")
-    public void I_submit_the_group_form() {
-     // TODO not implemented yet
+    public final void iSubmitTheGroupForm() {
+         currentPage = ((GroupFormPage) currentPage).submit();
     }
 
+    /**
+     *
+     */
     @When("^I submit the members form$")
-    public void I_submit_the_members_form() {
-     // TODO not implemented yet
+    public final void iSubmitTheMembersForm() {
+       currentPage = ((GroupUpdatePage) currentPage).submitMemberForm();
     }
 
+    /**
+     *
+     * @param groupName Set the groupName
+     */
     @When("^I go to the page for the group \"([^\"]*)\"$")
-    public void I_go_to_the_page_for_the_group_(String arg1) {
-     // TODO not implemented yet
+    public final void iGoToThePageForTheGroup(final String groupName) {
+      currentPage = portal.getGroupPage(groupName);
     }
 
     /**
