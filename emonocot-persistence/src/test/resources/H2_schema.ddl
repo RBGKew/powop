@@ -17,7 +17,7 @@ create table Reference (id bigint not null, identifier varchar(255), created tim
 drop table if exists Reference_Source;
 create table Reference_Source (Reference_id bigint not null, sources_id bigint not null, primary key (Reference_id, sources_id));
 drop table if exists Source;
-create table Source (id bigint not null, identifier varchar(255), created timestamp, creator varchar(255), license varchar(255), modified timestamp, source varchar(255), uri varchar(255), authority_id bigint, primary key (id), unique (identifier));
+create table Source (id bigint not null, identifier varchar(255), created timestamp, creator varchar(255), license varchar(255), modified timestamp, source varchar(255), creatorEmail varchar(255), description clob, logoUrl varchar(255), publisherEmail varchar(255), publisherName varchar(255), subject varchar(255), title varchar(255), uri varchar(255), authority_id bigint, primary key (id), unique (identifier));
 drop table if exists Source_Source;
 create table Source_Source (Source_id bigint not null, sources_id bigint not null, primary key (Source_id, sources_id));
 drop table if exists Taxon;

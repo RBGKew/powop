@@ -1817,4 +1817,46 @@
         <column name="permissions" valueNumeric="20"/>
       </insert>
     </changeSet>
+    <changeSet id="2011-12-19_01" author="ben">
+      <comment>Implemented changes required for bug #141 Harvest details about Source from DwC Archive</comment>
+      <addColumn tableName="Source">
+        <column name="creatorEmail" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-12-19_02" author="ben">
+      <comment>Implemented changes required for bug #141 Harvest details about Source from DwC Archive</comment>
+      <addColumn tableName="Source">
+        <column name="description" type="longtext"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-12-19_03" author="ben">
+      <comment>Implemented changes required for bug #141 Harvest details about Source from DwC Archive</comment>
+      <addColumn tableName="Source">
+        <column name="logoUrl" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-12-19_04" author="ben">
+      <comment>Implemented changes required for bug #141 Harvest details about Source from DwC Archive</comment>
+      <addColumn tableName="Source">
+        <column name="publisherName" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-12-19_05" author="ben">
+      <comment>Implemented changes required for bug #141 Harvest details about Source from DwC Archive</comment>
+      <addColumn tableName="Source">
+        <column name="publisherEmail" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-12-19_06" author="ben">
+      <comment>Implemented changes required for bug #141 Harvest details about Source from DwC Archive</comment>
+      <addColumn tableName="Source">
+        <column name="subject" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-12-19_07" author="ben">
+      <comment>Implemented changes required for bug #141 Harvest details about Source from DwC Archive</comment>
+      <addColumn tableName="Source">
+        <column name="title" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
 </databaseChangeLog>
