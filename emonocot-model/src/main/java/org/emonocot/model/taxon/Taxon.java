@@ -220,7 +220,7 @@ public class Taxon extends SearchableObject {
     *
     */
    private Image image;
-   
+
    /**
    *
    */

@@ -14,7 +14,6 @@ import javax.validation.Validator;
 
 import org.emonocot.api.SourceService;
 import org.emonocot.model.source.Source;
-import org.emonocot.model.taxon.Taxon;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;

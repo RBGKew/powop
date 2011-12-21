@@ -101,12 +101,12 @@ public abstract class DarwinCoreFieldSetMapper<T extends Base> extends
         logger.debug("Mapping object " + t);
         try {
           for (int i = 0; i < fieldNames.length; i++) {
-            mapField(t, fieldNames[i], fieldSet.readString(i));
+              mapField(t, fieldNames[i], fieldSet.readString(i));
           }
           for (String defaultTerm : defaultValues.keySet()) {
             mapField(t, defaultTerm, defaultValues.get(defaultTerm));
           }
-        } catch(BindException e) {
+        } catch (BindException e) {
             logger.error(e.getMessage());
             throw e;
         }

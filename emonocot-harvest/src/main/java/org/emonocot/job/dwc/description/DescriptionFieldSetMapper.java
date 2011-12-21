@@ -3,24 +3,30 @@ package org.emonocot.job.dwc.description;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.emonocot.api.ReferenceService;
 import org.emonocot.job.dwc.DarwinCoreFieldSetMapper;
 import org.emonocot.job.dwc.taxon.CannotFindRecordException;
+import org.emonocot.model.common.Annotation;
+import org.emonocot.model.common.AnnotationCode;
+import org.emonocot.model.common.AnnotationType;
+import org.emonocot.model.common.RecordType;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
-import org.emonocot.model.taxon.NomenclaturalCode;
-import org.emonocot.model.taxon.Rank;
+import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Taxon;
-import org.emonocot.model.taxon.TaxonomicStatus;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
-import org.gbif.dwc.terms.GbifTerm;
+import org.gbif.dwc.terms.UnknownTerm;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.convert.ConversionException;
+import org.springframework.batch.core.ChunkListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Parser;
 import org.springframework.format.datetime.joda.DateTimeParser;
 import org.springframework.validation.BindException;
@@ -31,7 +37,7 @@ import org.springframework.validation.BindException;
  *
  */
 public class DescriptionFieldSetMapper extends
-        DarwinCoreFieldSetMapper<TextContent> {
+        DarwinCoreFieldSetMapper<TextContent> implements ChunkListener {
 
     /**
      *
@@ -52,21 +58,41 @@ public class DescriptionFieldSetMapper extends
    private Parser<DateTime> dateTimeParser
        = new DateTimeParser(ISODateTimeFormat.dateOptionalTimeParser());
 
+    /**
+     *
+     */
+    private Map<String, Reference> boundReferences = new HashMap<String, Reference>();
+
+    /**
+     *
+     */
+    private ReferenceService referenceService;
+
+    /**
+     * @param referenceService the referenceService to set
+     */
+    @Autowired
+    public final void setReferenceService(
+            final ReferenceService referenceService) {
+        this.referenceService = referenceService;
+    }
+
     @Override
-    public void mapField(final TextContent object, final String fieldName,
+    public final void mapField(final TextContent object, final String fieldName,
             final String value) throws BindException {
         ConceptTerm term = getTermFactory().findTerm(fieldName);
         if (term instanceof DcTerm) {
             DcTerm dcTerm = (DcTerm) term;
             switch (dcTerm) {
             case modified:
-                try {
-                    object.setModified(dateTimeParser.parse(
-                            value, null));
-                } catch (ParseException pe) {
-                    BindException be = new BindException(object, "target");
-                    be.rejectValue("modified", "not.valid", pe.getMessage());
-                    throw be;
+                if (value.length() > 0) {
+                    try {
+                        object.setModified(dateTimeParser.parse(value, null));
+                    } catch (ParseException pe) {
+                        BindException be = new BindException(object, "target");
+                        be.rejectValue("modified", "not.valid", pe.getMessage());
+                        throw be;
+                    }
                 }
                 break;
             case created:
@@ -117,5 +143,68 @@ public class DescriptionFieldSetMapper extends
                 break;
             }
         }
+
+        // Unknowns Terms
+        if (term instanceof UnknownTerm) {
+            UnknownTerm unknownTerm = (UnknownTerm) term;
+            if (unknownTerm.qualifiedName().equals(
+                    "http://purl.org/dc/terms/relationID")) {
+                if (value.indexOf(",") != -1) {
+                    String[] values = value.split(",");
+                    for (String v : values) {
+                        resolveReference(object, v);
+                    }
+                } else {
+                    resolveReference(object, value);
+                }
+            }
+        }
     }
+
+    /**
+     *
+     * @param object Set the text content object
+     * @param value the source of the reference to resolve
+     */
+    private void resolveReference(final TextContent object, final String value) {
+        if (boundReferences .containsKey(value)) {
+            object.getReferences().add(boundReferences.get(value));
+        } else {
+            Reference r = referenceService.find(value);
+            if (r == null) {
+                r = new Reference();
+                Annotation annotation = new Annotation();
+                annotation.setAnnotatedObj(r);
+                annotation.setJobId(
+                        getStepExecution().getJobExecutionId());
+                annotation.setCode(AnnotationCode.Create);
+                annotation.setRecordType(RecordType.Reference);
+                annotation.setType(AnnotationType.Info);
+                annotation.setSource(getSource());
+                r.getAnnotations().add(annotation);
+                r.getSources().add(getSource());
+                r.setAuthority(getSource());
+                r.setSource(value);
+            }
+            boundReferences.put(value, r);
+            object.getReferences().add(r);
+        }
+    }
+
+   /**
+    *
+    */
+   @Override
+   public final void afterChunk() {
+       logger.info("After Chunk");
+   }
+
+   /**
+    *
+    */
+   @Override
+   public final void beforeChunk() {
+       logger.info("Before Chunk");
+       boundReferences = new HashMap<String, Reference>();
+   }
 }

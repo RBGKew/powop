@@ -1859,4 +1859,41 @@
         <column name="title" type="varchar(255)"/>
       </addColumn>
     </changeSet>
+    <changeSet id="2011-12-20_01" author="ben">
+      <comment>Implemented changes required for bug #54 Process References File</comment>
+      <addColumn tableName="Reference">
+        <column name="number" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-12-20_02" author="ben">
+      <comment>Implemented changes required for bug #54 Process References File</comment>
+      <addColumn tableName="Reference">
+        <column name="referenceAbstract" type="longtext"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2011-12-20_03" author="ben">
+      <comment>Implemented changes required for bug #54 Process References File</comment>
+      <addColumn tableName="Reference">
+        <column name="keywords" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2011-12-21_01">
+       <comment>Implemented changes required for bug #54 Process References File - adding references to text content</comment>
+       <createTable tableName="TextContent_Reference">
+            <column name="TextContent_id" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="references_id" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="ben" id="2011-12-21_02">
+        <comment>Implemented changes required for bug #54 Process References File - adding references to text content</comment>
+        <addForeignKeyConstraint constraintName="TextContent_Reference_TextContent_fk" baseColumnNames="TextContent_id" baseTableName="TextContent_Reference" referencedColumnNames="id" referencedTableName="TextContent"/>
+    </changeSet>
+    <changeSet author="ben" id="2011-12-21_03">
+        <comment>Implemented changes required for bug #54 Process References File - adding references to text content</comment>
+        <addForeignKeyConstraint constraintName="TextContent_Reference_Reference_fk" baseColumnNames="references_id" baseTableName="TextContent_Reference" referencedColumnNames="id" referencedTableName="Reference"/>
+    </changeSet>
 </databaseChangeLog>

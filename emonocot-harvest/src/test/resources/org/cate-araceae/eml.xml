@@ -12,297 +12,40 @@
 	<!-- The sheet is concerned with descriptions of datasets only -->
 	<dataset>
 		<alternateIdentifier>1d08a760-63d8-44af-b087-e38c325cddd6</alternateIdentifier>
-		<title>CATE Araceae</title>
-		<!-- The creator is the person who created the resource (not necessarily 
-			the author of this metadata about the resource) -->
+		<title>CATE Araceae</title>		
 		<creator>
 			<individualName>
 				<givenName>Anna</givenName>
 				<surName>Haigh</surName>
 			</individualName>
-			<organizationName>Royal Botanic Gardens, Kew</organizationName>
-			<positionName></positionName>
+			<onlineUrl>http://www.cate-araceae.org</onlineUrl>
+			<electronicMailAddress>a.haigh@kew.org</electronicMailAddress>
 		</creator>
-		<creator>
-			<individualName>
-				<givenName>Ben</givenName>
-				<surName>Clark</surName>
-			</individualName>
-			<organizationName>University of Oxford</organizationName>
-			<positionName>Senior Software Developer</positionName>
-			<address>
-				<city>The Tinbergen Building, South Parks Road</city>
-				<administrativeArea></administrativeArea>
-				<postalCode>OX1 3PS</postalCode>
-				<country>GBR</country>
-			</address>
-			<electronicMailAddress>admin@cate-araceae.org</electronicMailAddress>
-		</creator>
-		<creator>
-			<individualName>
-				<givenName>Greg</givenName>
-				<surName>Ruckert</surName>
-			</individualName>
-		</creator>
-		<creator>
-			<individualName>
-				<surName>kotrexkie</surName>
-			</individualName>
-		</creator>
-		<creator>
-			<individualName>
-				<givenName>Mark F.</givenName>
-				<surName>Naylor</surName>
-			</individualName>
-		</creator>
-		<creator>
-			<individualName>
-				<givenName>Peter Charles</givenName>
-				<surName>Boyce</surName>
-			</individualName>
-		</creator>
-		<creator>
-			<individualName>
-				<surName>redtrafik</surName>
-			</individualName>
-		</creator>
-		<creator>
-			<individualName>
-				<surName>researchcooperative</surName>
-			</individualName>
-		</creator>
-		<creator>
-			<individualName>
-				<givenName>Simon Joseph</givenName>
-				<surName>Mayo</surName>
-			</individualName>
-		</creator>
-		<metadataProvider>
-			<individualName>
-				<givenName>Anna</givenName>
-				<surName>Haigh</surName>
-			</individualName>
-			<organizationName>Royal Botanic Gardens, Kew</organizationName>
-			<positionName></positionName>
-		</metadataProvider>
 		<metadataProvider>
 			<individualName>
 				<givenName>Ben</givenName>
 				<surName>Clark</surName>
-			</individualName>
-			<organizationName>University of Oxford</organizationName>
-			<positionName>Senior Software Developer</positionName>
-			<address>
-				<city>The Tinbergen Building, South Parks Road</city>
-				<administrativeArea></administrativeArea>
-				<postalCode>OX1 3PS</postalCode>
-				<country>GBR</country>
-			</address>
+			</individualName>			
 			<electronicMailAddress>admin@cate-araceae.org</electronicMailAddress>
-		</metadataProvider>
-		<!-- Note that associated parties have roles -->
-		<associatedParty>
-			<individualName>
-				<givenName>Anna</givenName>
-				<surName>Haigh</surName>
-			</individualName>
-			<organizationName>Royal Botanic Gardens, Kew</organizationName>
-			<positionName></positionName>
-			<role>User</role>
-		</associatedParty>
-		<associatedParty>
-			<individualName>
-				<givenName>Ben</givenName>
-				<surName>Clark</surName>
-			</individualName>
-			<organizationName>University of Oxford</organizationName>
-			<positionName>Senior Software Developer</positionName>
-			<address>
-				<city>The Tinbergen Building, South Parks Road</city>
-				<administrativeArea></administrativeArea>
-				<postalCode>OX1 3PS</postalCode>
-				<country>GBR</country>
-			</address>
-			<electronicMailAddress>admin@cate-araceae.org</electronicMailAddress>
-			<role>User</role>
-		</associatedParty>
-		<associatedParty>
-			<individualName>
-				<givenName>Laura</givenName>
-				<surName>Reynolds</surName>
-			</individualName>
-			<role>User</role>
-		</associatedParty>
-		<associatedParty>
-			<individualName>
-				<givenName>Simon Joseph</givenName>
-				<surName>Mayo</surName>
-			</individualName>
-			<role>User</role>
-		</associatedParty>
-		<associatedParty>
-			<individualName>
-				<givenName>Thomas Bernard</givenName>
-				<surName>Croat</surName>
-			</individualName>
-			<role>User</role>
-		</associatedParty>
-		<associatedParty>
-			<individualName>
-				<givenName>Lucinda</givenName>
-				<surName>Lay</surName>
-			</individualName>
-			<role>User</role>
-		</associatedParty>
-		<associatedParty>
-			<individualName>
-				<givenName>Peter Charles</givenName>
-				<surName>Boyce</surName>
-			</individualName>
-			<role>User</role>
-		</associatedParty>
-		<associatedParty>
-			<individualName>
-				<givenName>Marcela</givenName>
-				<surName>Mora</surName>
-			</individualName>
-			<role>User</role>
-		</associatedParty>
-		<associatedParty>
-			<individualName>
-				<givenName>Josef</givenName>
-				<surName>Bogner</surName>
-			</individualName>
-			<role>User</role>
-		</associatedParty>
-		<associatedParty>
-			<individualName>
-				<givenName>Marcelo</givenName>
-				<surName>Sellaro</surName>
-			</individualName>
-			<role>User</role>
-		</associatedParty>
-		<associatedParty>
-			<individualName>
-				<givenName>Sin Yeng</givenName>
-				<surName>Wong</surName>
-			</individualName>
-			<role>User</role>
-		</associatedParty>
-		<associatedParty>
-			<individualName>
-				<givenName>Carla</givenName>
-				<surName>Kostelac</surName>
-			</individualName>
-			<role>User</role>
-		</associatedParty>
-		<associatedParty>
-			<individualName>
-				<givenName>Michael Howard</givenName>
-				<surName>Grayum</surName>
-			</individualName>
-			<role>User</role>
-		</associatedParty>
-		<associatedParty>
-			<individualName>
-				<givenName>Richard Clark</givenName>
-				<surName>Keating</surName>
-			</individualName>
-			<role>User</role>
-		</associatedParty>
-		<associatedParty>
-			<individualName>
-				<givenName>Greg</givenName>
-				<surName>Ruckert</surName>
-			</individualName>
-			<role>User</role>
-		</associatedParty>
-		<associatedParty>
-			<individualName>
-				<givenName>Mark F.</givenName>
-				<surName>Naylor</surName>
-			</individualName>
-			<role>User</role>
-		</associatedParty>
-		<associatedParty>
-			<individualName>
-				<givenName>Alastair</givenName>
-				<surName>Hay</surName>
-			</individualName>
-			<role>User</role>
-		</associatedParty>
-		<!-- Identified in the Other section of the GBIF Extended Metadata Doc -->
-		<pubDate>27/04/2011 16:12:34</pubDate>
-		<!-- Identified in the Other section of the GBIF Extended Metadata Doc -->
-		<!-- This is the RESOURCE language and not the metadata language which 
-			is at the bottom -->
+		</metadataProvider>		
+		<pubDate>2011-04-27</pubDate>		
 		<language>English</language>
-		<!-- The brief overview -->
 		<abstract>
 			<para>An open-access taxonomic web-revision of the Araceae</para>
-		</abstract>
-		<!-- Keywords can optionally reference a thesaurus -->
+		</abstract>		
 		<keywordSet>
 			<keyword>e-Taxonomy</keyword>
-			<keyword> e-Science</keyword>
 			<keyword> CATE</keyword>
 			<keyword> Creating a Taxonomic e-Science</keyword>
-			<keyword> Natural Environment Research Council</keyword>
-			<keyword> nerc</keyword>
-			<keyword> university of oxford</keyword>
-			<keyword> royal botanic gardens kew</keyword>
-			<keyword> rbgk</keyword>
-			<keyword> Missouri Botanic Garden</keyword>
-			<keyword> Universiteit Leiden</keyword>
-			<keyword> Flora Malesiana</keyword>
-			<keyword> botany</keyword>
-			<keyword> taxonomy</keyword>
-			<keyword> monograph</keyword>
-			<keyword> revision</keyword>
-			<keyword> specimens</keyword>
-			<keyword> authors</keyword>
-			<keyword> authorities</keyword>
-			<keyword> collectors</keyword>
-			<keyword> images</keyword>
-			<keyword> tdwg</keyword>
-			<keyword> standards</keyword>
-			<keyword> idenitifcation</keyword>
-			<keyword> keys</keyword>
-			<keyword> species descriptions</keyword>
-			<keyword> digitisation</keyword>
-			<keyword> protologues</keyword>
-			<keyword> lsids</keyword>
-			<keyword> life science identifiers</keyword>
+			<keyword> University of Oxford</keyword>
+			<keyword> Royal Botanic Gardens Kew</keyword>
 			<keyword> Araceae</keyword>
 			<keyword> Arum</keyword>
 			<keyword> Philodendron</keyword>
-			<keyword> Anthurium</keyword>
-			<keyword> Simon Mayo</keyword>
-			<keyword> Anna Haigh</keyword>
-			<keyword> Laura Reynolds</keyword>
-			<keyword> Marcelo Sellaro</keyword>
-			<keyword> Lucinda Lay</keyword>
-			<keyword> Tom Croat</keyword>
-			<keyword> Carla Kostelac</keyword>
-			<keyword> Mike Grayum</keyword>
-			<keyword> Rich Keating</keyword>
-			<keyword> Marcela Mora</keyword>
-			<keyword> Josef Bogner</keyword>
-			<keyword> Peter Boyce</keyword>
-			<keyword> Wong Sin Yeng</keyword>
-			<keyword> Alistair Hay</keyword>
+			<keyword> Anthurium</keyword>			
 		</keywordSet>
 		<intellectualRights>
-			<para>The data in this site, unless otherwise specified (under
-				'rights'), is licensed using the Creative Commons Attribution
-				Non-Commercial Share Alike License (cc by-nc-sa). This license lets
-				others remix, tweak, and build upon our work non-commercially, as
-				long as they credit us and license their new creations under the
-				identical terms. Others can download and redistribute data, and they
-				can also translate it, or make new creations based on the data
-				published here. All new work based on data published here will carry
-				the same license, so any derivatives will also be non-commercial in
-				nature.</para>
+			<para>The data in this site, unless otherwise specified (under 'rights'), is licensed using the Creative Commons Attribution Non-Commercial Share Alike License (cc by-nc-sa).</para>
 		</intellectualRights>
 		<coverage>
 			<geographicCoverage>
@@ -310,14 +53,13 @@
 			</geographicCoverage>
 			<temporalCoverage>
 				<singleDateTime>
-					<calendarDate>27/04/2011 16:12:34</calendarDate>
+					<calendarDate>2011-04-27</calendarDate>
 				</singleDateTime>
 			</temporalCoverage>
 			<taxonomicCoverage>
 				<generalTaxonomicCoverage>Araceae</generalTaxonomicCoverage>
 			</taxonomicCoverage>
 		</coverage>
-		<!-- This is mandatory in EML -->
 		<contact>
 			<individualName>
 				<givenName>Anna</givenName>
@@ -422,8 +164,15 @@
 				<givenName>Alastair</givenName>
 				<surName>Hay</surName>
 			</individualName>
-			<abstract>An open-access taxonomic web-revision of the Araceae
-			</abstract>
+			<abstract>An open-access taxonomic web-revision of the Araceae</abstract>
 		</project>
 	</dataset>
+	<additionalMetadata>
+	  <metadata>
+	    <gbif>
+	      <citation>Haigh, A., Clark, B., Reynolds, L., Mayo, S.J., Croat, T.B., Lay, L., Boyce, P.C., Mora, M., Bogner, J., Sellaro, M., Wong, S.Y., Kostelac, C., Grayum, M.H., Keating, R.C., Ruckert, G., Naylor, M.F. and Hay, A., CATE Araceae, 14 Dec 2011 . 17 Dec 2011.</citation>
+	      <resourceLogoUrl>https://www.cate-araceae.org/css/images/cate-logo.png</resourceLogoUrl>
+	    </gbif>
+	  </metadata>	  
+	</additionalMetadata>
 </eml:eml>

@@ -35,8 +35,7 @@ public class ReferenceTypeConverter implements
                             .length());
             return ReferenceType.valueOf(code);
         } else {
-            throw new IllegalArgumentException(identifier
-                    + " is not a valid TDWG publication type");
+            return ReferenceType.valueOf(identifier);
         }
     }
 

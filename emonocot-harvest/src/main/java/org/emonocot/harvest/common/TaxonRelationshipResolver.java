@@ -313,7 +313,7 @@ public abstract class TaxonRelationshipResolver
     /**
      *
      */
-    public final void afterChunk() {
+    public void afterChunk() {
         logger.info("After Chunk");
     }
 

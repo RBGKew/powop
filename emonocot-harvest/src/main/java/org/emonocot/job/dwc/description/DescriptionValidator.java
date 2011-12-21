@@ -52,9 +52,9 @@ public class DescriptionValidator extends DarwinCoreValidator<TextContent> {
         if (taxon.getContent().containsKey(textContent.getFeature())) {
             TextContent persistedContent = (TextContent) taxon.getContent()
                     .get(textContent.getFeature());
-            if ((persistedContent.getModified() == null && textContent
-                    .getModified() == persistedContent.getModified())
-                    || persistedContent.getModified().equals(
+            if ((persistedContent.getModified() != null && textContent
+                    .getModified() != null)
+                    && !persistedContent.getModified().isBefore(
                             textContent.getModified())) {
                 // The content hasn't changed, skip it
                 return null;

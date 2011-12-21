@@ -14,12 +14,9 @@ xsi:schemaLocation="http://rs.tdwg.org/dwc/text/   http://rs.tdwg.org/dwc/text/t
 <location>taxon.txt</location>
     </files>
     <id index="0" />
-
     <field index="0" term="http://rs.tdwg.org/dwc/terms/taxonID" />
-
     <field index="1" term="http://rs.tdwg.org/dwc/terms/scientificName"/>
     <field index="2" term="http://rs.tdwg.org/dwc/terms/scientificNameAuthorship"/>
-
     <field index="3" term="http://rs.tdwg.org/dwc/terms/taxonRank"/>
     <field index="4" term="http://rs.tdwg.org/dwc/terms/taxonomicStatus"/>
     <field index="5" term="http://rs.tdwg.org/dwc/terms/acceptedNameUsageID"/>
@@ -29,32 +26,22 @@ xsi:schemaLocation="http://rs.tdwg.org/dwc/text/   http://rs.tdwg.org/dwc/text/t
     <field index="9" term="http://rs.tdwg.org/dwc/terms/infraspecificEpithet"/>
     <field index="10" term="http://purl.org/dc/elements/1.1/source"/>
     <field index="11" term="http://purl.org/dc/terms/created"/>
-
     <field index="12" term="http://purl.org/dc/terms/modified"/>
-
-    <field index="12" term="http://rs.tdwg.org/dwc/terms/parentNameUsageID"/>
-    <field index="13" term="http://rs.tdwg.org/dwc/terms/namePublishedIn"/>
-    <field index="14" term="http://rs.tdwg.org/dwc/terms/namePublishedInID"/>
-    <field index="15" term="http://rs.tdwg.org/dwc/terms/nomenclaturalStatus"/>
-    <field default="Palmweb 2011. Palmweb: Palms of the World Online. Published onthe internet http://www.palmweb.org. Accessed on 18/07/2011."            term="http://purl.org/dc/terms/bibliographicCitation"/>
-
-    <field default="Content licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License"            term="http://purl.org/dc/terms/rights"/>
+    <field index="13" term="http://rs.tdwg.org/dwc/terms/parentNameUsageID"/>
+    <field index="14" term="http://rs.tdwg.org/dwc/terms/namePublishedIn"/>
+    <field index="15" term="http://rs.tdwg.org/dwc/terms/namePublishedInID"/>
+    <field index="16" term="http://rs.tdwg.org/dwc/terms/nomenclaturalStatus"/>
+    <field default="Palmweb 2011. Palmweb: Palms of the World Online. Published onthe internet http://www.palmweb.org. Accessed on 18/07/2011." term="http://purl.org/dc/terms/bibliographicCitation"/>
+    <field default="Content licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License" term="http://purl.org/dc/terms/rights"/>
     <field default="Plantae" term="http://rs.tdwg.org/dwc/terms/kingdom"/>
     <field default="Magnoliophyta" term="http://rs.tdwg.org/dwc/terms/phylum"/>
     <field default="Commelinids" term="http://rs.tdwg.org/dwc/terms/class"/>
-
     <field default="Arecales" term="http://rs.tdwg.org/dwc/terms/order"/>
-
     <field default="Arecaceae" term="http://rs.tdwg.org/dwc/terms/family"/>
-
     <field default="ICBN" term="http://rs.tdwg.org/dwc/terms/nomenclaturalCode"/>
-
     <field default="Taxon" term="http://rs.tdwg.org/dwc/terms/type"/>
-
     <field default="PalmWeb" term="http://rs.tdwg.org/dwc/terms/datasetName"/>
-
     <field default="http://www.palmweb.org" term="http://rs.tdwg.org/dwc/terms/datasetID"/>
-
   </core>
 
   <extension
@@ -63,18 +50,13 @@ xsi:schemaLocation="http://rs.tdwg.org/dwc/text/   http://rs.tdwg.org/dwc/text/t
     linesTerminatedBy="\n"
     ignoreHeaderLines="0"
     rowType="http://rs.gbif.org/terms/1.0/Description">
-
     <files>
-
       <location>description.txt</location>
     </files>
-
     <coreId index="0" />
-
     <field index="1" term="http://purl.org/dc/terms/type"/>
     <field index="2" term="http://purl.org/dc/elements/1.1/source"/>
     <field index="3" term="http://purl.org/dc/terms/modified"/>
-
     <field index="4" term="http://purl.org/dc/terms/created"/>
     <field index="5" term="http://purl.org/dc/terms/creator"/>
     <field index="6" term="	http://purl.org/dc/terms/description"/>
@@ -84,7 +66,6 @@ xsi:schemaLocation="http://rs.tdwg.org/dwc/text/   http://rs.tdwg.org/dwc/text/t
     <field default="EN" term="http://purl.org/dc/terms/language"/>
     <field default="Palmweb 2011. Palmweb: Palms of the World Online. Published onthe internet http://www.palmweb.org. Accessed on 18/07/2011."                       term="http://purl.org/dc/terms/bibliographicCitation"/>
   </extension>
-
   <extension
      encoding="UTF-8"
      fieldsTerminatedBy="\t"
@@ -92,10 +73,8 @@ xsi:schemaLocation="http://rs.tdwg.org/dwc/text/   http://rs.tdwg.org/dwc/text/t
      ignoreHeaderLines="0" 
      rowType="http://rs.gbif.org/terms/1.0/Image">
     <files>
-
       <location>images.txt</location>
     </files>
-
     <coreId index="0" />
     <field index="1" term="http://purl.org/dc/terms/identifier"/>
     <field index="2" term="http://purl.org/dc/terms/title"/>
@@ -109,21 +88,22 @@ xsi:schemaLocation="http://rs.tdwg.org/dwc/text/   http://rs.tdwg.org/dwc/text/t
     fieldsTerminatedBy="\t"
     linesTerminatedBy="\n"
     ignoreHeaderLines="0"
-    rowType="http://rs.gbif.org/terms/1.0/Distribution">
+    rowType="http://rs.gbif.org/terms/1.0/Reference">
     <files>
-
-      <location>distribution.txt</location>
+      <location>reference.txt</location>
     </files>
     <coreId index="0" />
-
-    <field index="1" term="http://purl.org/dc/terms/created"/>
-    <field index="2" term="http://purl.org/dc/terms/modified"/>
-
-    <field index="3" term="http://rs.tdwg.org/dwc/terms/occurrenceStatus"/>
-    <field index="4" term="http://rs.tdwg.org/dwc/terms/locationID"/>
-    <field index="5" term="http://purl.org/dc/terms/relation"/>
-    <field index="6" term="http://purl.org/dc/terms/relationID"/>
+    <field index="1" term="http://purl.org/dc/terms/modified"/>
+    <field index="2" term="http://purl.org/dc/terms/created"/>
+    <field index="3" term="http://purl.org/dc/terms/identifier"/>
+    <field index="4" term="http://purl.org/dc/terms/bibliographicCitation"/>
+    <field index="5" term="http://purl.org/dc/terms/type"/>
+    <field index="6" term="http://purl.org/dc/terms/title"/>
+    <field index="7" term="http://purl.org/ontology/bibo/volume"/>
+    <field index="8" term="http://purl.org/ontology/bibo/number"/>
+    <field index="9" term="http://purl.org/ontology/bibo/pages"/>
+    <field index="10" term="http://purl.org/dc/terms/description"/>
+    <field index="11" term="http://purl.org/dc/terms/date"/>
+    <field index="12" term="http://purl.org/dc/terms/creator"/>
   </extension>
-
-
 </archive>

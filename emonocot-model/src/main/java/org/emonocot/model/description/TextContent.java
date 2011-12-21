@@ -10,7 +10,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
@@ -20,6 +22,7 @@ import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.BaseData;
+import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Taxon;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -46,25 +49,30 @@ public class TextContent extends BaseData {
      */
     private String content;
 
-   /**
+    /**
     *
     */
     private Taxon taxon;
 
-   /**
+    /**
     *
     */
     private Feature feature;
 
     /**
-   *
-   */
+     *
+     */
     private Long id;
 
     /**
-  *
-  */
+     *
+     */
     private Set<Annotation> annotations = new HashSet<Annotation>();
+
+    /**
+     *
+     */
+    private Set<Reference> references = new HashSet<Reference>();
 
     /**
      *
@@ -187,5 +195,22 @@ public class TextContent extends BaseData {
      */
     public void setAnnotations(Set<Annotation> annotations) {
         this.annotations = annotations;
+    }
+
+    /**
+     * @return the references
+     */
+    @ManyToMany(fetch = FetchType.LAZY)
+    @Cascade({ CascadeType.SAVE_UPDATE })
+    @JoinTable(name = "TextContent_Reference", joinColumns = { @JoinColumn(name = "TextContent_id") }, inverseJoinColumns = { @JoinColumn(name = "references_id") })
+    public Set<Reference> getReferences() {
+        return references;
+    }
+
+    /**
+     * @param references the references to set
+     */
+    public void setReferences(Set<Reference> references) {
+        this.references = references;
     }
 }

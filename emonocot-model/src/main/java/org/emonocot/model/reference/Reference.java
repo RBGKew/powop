@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
@@ -84,35 +85,50 @@ public class Reference extends BaseData {
      */
     private Set<Taxon> taxa = new HashSet<Taxon>();
 
-   /**
+    /**
     *
     */
-   private Set<Annotation> annotations = new HashSet<Annotation>();
-   
-   /**
-   *
-   */
-  private Long id;
+    private Set<Annotation> annotations = new HashSet<Annotation>();
 
-  /**
-  *
-  * @param newId
-  *            Set the identifier of this object.
-  */
- public void setId(Long newId) {
-     this.id = newId;
- }
+    /**
+     *
+     */
+    private Long id;
 
- /**
-  *
-  * @return Get the identifier for this object.
-  */
- @Id
- @GeneratedValue(generator = "system-increment")
- @DocumentId
- public Long getId() {
-     return id;
- }
+    /**
+     *
+     */
+    private String referenceAbstract;
+
+    /**
+     *
+     */
+    private String number;
+
+    /**
+     *
+     */
+    private String keywords;
+
+    /**
+     *
+     * @param newId
+     *            Set the identifier of this object.
+     */
+    public void setId(Long newId) {
+        this.id = newId;
+    }
+
+    /**
+     *
+     * @return Get the identifier for this object.
+     */
+    @Id
+    @GeneratedValue(generator = "system-increment")
+    @DocumentId
+    public Long getId() {
+        return id;
+    }
 
     /**
      *
@@ -125,7 +141,8 @@ public class Reference extends BaseData {
 
     /**
      *
-     * @param author Set the author
+     * @param author
+     *            Set the author
      */
     public void setAuthor(String author) {
         this.author = author;
@@ -142,7 +159,8 @@ public class Reference extends BaseData {
 
     /**
      *
-     * @param publishedIn Set the publication this reference was published in
+     * @param publishedIn
+     *            Set the publication this reference was published in
      */
     public void setPublishedIn(String publishedIn) {
         this.publishedIn = publishedIn;
@@ -159,7 +177,8 @@ public class Reference extends BaseData {
 
     /**
      *
-     * @param citation Set the full citation
+     * @param citation
+     *            Set the full citation
      */
     public void setCitation(String citation) {
         this.citation = citation;
@@ -167,7 +186,8 @@ public class Reference extends BaseData {
 
     /**
      *
-     * @param newTitle set the title
+     * @param newTitle
+     *            set the title
      */
     public void setTitle(String newTitle) {
         this.title = newTitle;
@@ -175,7 +195,8 @@ public class Reference extends BaseData {
 
     /**
      *
-     * @param newVolume set the volume
+     * @param newVolume
+     *            set the volume
      */
     public void setVolume(String newVolume) {
         this.volume = newVolume;
@@ -183,7 +204,8 @@ public class Reference extends BaseData {
 
     /**
      *
-     * @param newPages set the pages
+     * @param newPages
+     *            set the pages
      */
     public void setPages(String newPages) {
         this.pages = newPages;
@@ -191,7 +213,8 @@ public class Reference extends BaseData {
 
     /**
      *
-     * @param newDatePublished set the date published
+     * @param newDatePublished
+     *            set the date published
      */
     public void setDate(String newDatePublished) {
         this.datePublished = newDatePublished;
@@ -199,7 +222,8 @@ public class Reference extends BaseData {
 
     /**
      *
-     * @param newReferenceType set the reference type
+     * @param newReferenceType
+     *            set the reference type
      */
     public void setType(ReferenceType newReferenceType) {
         this.type = newReferenceType;
@@ -214,7 +238,8 @@ public class Reference extends BaseData {
     }
 
     /**
-     * @param newDatePublished the datePublished to set
+     * @param newDatePublished
+     *            the datePublished to set
      */
     public void setDatePublished(String newDatePublished) {
         this.datePublished = newDatePublished;
@@ -250,20 +275,22 @@ public class Reference extends BaseData {
     public ReferenceType getType() {
         return type;
     }
+
     /**
      * The list of all taxa associated with this reference.
      *
      * @return a set of taxa
      */
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "references")
-    @Cascade({CascadeType.SAVE_UPDATE })
+    @Cascade({ CascadeType.SAVE_UPDATE })
     public Set<Taxon> getTaxa() {
         return taxa;
     }
 
     /**
      *
-     * @param taxa Set the taxa associated with this reference
+     * @param taxa
+     *            Set the taxa associated with this reference
      */
     public void setTaxa(Set<Taxon> taxa) {
         this.taxa = taxa;
@@ -289,9 +316,55 @@ public class Reference extends BaseData {
         this.annotations = annotations;
     }
 
+    /**
+     * @return the abstract
+     */
+    @Lob
+    @Field
+    public String getReferenceAbstract() {
+        return referenceAbstract;
+    }
+
+    /**
+     * @param referenceAbstract the abstract to set
+     */
+    public void setReferenceAbstract(String referenceAbstract) {
+        this.referenceAbstract = referenceAbstract;
+    }
+
+    /**
+     * @return the number
+     */
+    @Field
+    public String getNumber() {
+        return number;
+    }
+
+    /**
+     * @param number the number to set
+     */
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    /**
+     * @return the keywords
+     */
+    @Field
+    public String getKeywords() {
+        return keywords;
+    }
+
+    /**
+     * @param keywords the keywords to set
+     */
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
+    }
+
     @Transient
     @JsonIgnore
     public final String getClassName() {
-      return "Reference";
+        return "Reference";
     }
 }

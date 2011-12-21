@@ -9,5 +9,37 @@ public enum ReferenceType {
     /**
      *
      */
-    Generic
+    Generic,
+    /**
+     *
+     */
+    Book,
+    /**
+     *
+     */
+    Chapter,
+    /**
+     *
+     */
+    Cd,
+    /**
+     *
+     */
+    Database,
+    /**
+     *
+     */
+    Journal,
+    /**
+     *
+     */
+    PersonalCommunication,
+    /**
+     *
+     */
+    Series,
+    /**
+     *
+     */
+    WebPage;
 }

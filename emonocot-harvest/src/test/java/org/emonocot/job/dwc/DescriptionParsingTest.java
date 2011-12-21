@@ -5,7 +5,10 @@ import java.util.HashMap;
 import org.easymock.EasyMock;
 import org.emonocot.job.dwc.description.DescriptionFieldSetMapper;
 import org.emonocot.model.description.TextContent;
+import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Taxon;
+import org.emonocot.service.impl.ReferenceServiceImpl;
+import org.emonocot.api.ReferenceService;
 import org.emonocot.api.TaxonService;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,6 +40,11 @@ public class DescriptionParsingTest {
    /**
     *
     */
+   private ReferenceService referenceService = null;
+
+   /**
+    *
+    */
     private FlatFileItemReader<TextContent> flatFileItemReader = new FlatFileItemReader<TextContent>();
 
    /**
@@ -60,11 +68,13 @@ public class DescriptionParsingTest {
        tokenizer.setNames(names);
 
        taxonService = EasyMock.createMock(TaxonService.class);
+       referenceService = EasyMock.createMock(ReferenceService.class);
 
         DescriptionFieldSetMapper fieldSetMapper = new DescriptionFieldSetMapper();
         fieldSetMapper.setFieldNames(names);
         fieldSetMapper.setDefaultValues(new HashMap<String, String>());
         fieldSetMapper.setTaxonService(taxonService);
+        fieldSetMapper.setReferenceService(referenceService);
         DefaultLineMapper<TextContent> lineMapper
             = new DefaultLineMapper<TextContent>();
         lineMapper.setFieldSetMapper(fieldSetMapper);
@@ -83,7 +93,8 @@ public class DescriptionParsingTest {
     @Test
     public final void testRead() throws Exception {
         EasyMock.expect(taxonService.find(EasyMock.isA(String.class))).andReturn(new Taxon()).anyTimes();
-        EasyMock.replay(taxonService);
+        EasyMock.expect(referenceService.find(EasyMock.isA(String.class))).andReturn(new Reference()).anyTimes();
+        EasyMock.replay(taxonService, referenceService);
         flatFileItemReader.open(new ExecutionContext());
         flatFileItemReader.read();
 

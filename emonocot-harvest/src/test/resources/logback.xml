@@ -10,7 +10,10 @@
     <appender-ref ref="stdout"/>
   </root>
   <!-- Uncomment to debug job output -->
-  <!-- <logger name="org.emonocot.job" level="DEBUG" additivity="false">
+  <logger name="org.emonocot.job" level="DEBUG" additivity="false">
     <appender-ref ref="stdout"/>
-  </logger>-->
+  </logger>
+  <logger name="org.emonocot.job.image" level="DEBUG" additivity="false">
+    <appender-ref ref="stdout"/>
+  </logger>
 </configuration>

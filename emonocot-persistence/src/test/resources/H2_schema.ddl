@@ -13,7 +13,7 @@ create table Image_Source (Image_id bigint not null, sources_id bigint not null,
 drop table if exists Principal;
 create table Principal (DTYPE varchar(31) not null, id bigint not null, identifier varchar(255), created timestamp, modified timestamp, accountNonExpired boolean, accountNonLocked boolean, credentialsNonExpired boolean, enabled boolean, password varchar(255), primary key (id), unique (identifier));
 drop table if exists Reference;
-create table Reference (id bigint not null, identifier varchar(255), created timestamp, creator varchar(255), license varchar(255), modified timestamp, source varchar(255), author varchar(255), citation varchar(255), datePublished varchar(255), pages varchar(255), publishedIn varchar(255), title varchar(255), type integer, volume varchar(255), authority_id bigint, primary key (id), unique (identifier));
+create table Reference (id bigint not null, identifier varchar(255), created timestamp, creator varchar(255), license varchar(255), modified timestamp, source varchar(255), author varchar(255), citation varchar(255), datePublished varchar(255), keywords varchar(255), number varchar(255), pages varchar(255), publishedIn varchar(255), referenceAbstract clob, title varchar(255), type integer, volume varchar(255), authority_id bigint, primary key (id), unique (identifier));
 drop table if exists Reference_Source;
 create table Reference_Source (Reference_id bigint not null, sources_id bigint not null, primary key (Reference_id, sources_id));
 drop table if exists Source;
@@ -30,6 +30,8 @@ drop table if exists Taxon_Source;
 create table Taxon_Source (Taxon_id bigint not null, sources_id bigint not null, primary key (Taxon_id, sources_id));
 drop table if exists TextContent;
 create table TextContent (id bigint not null, identifier varchar(255), created timestamp, creator varchar(255), license varchar(255), modified timestamp, source varchar(255), content clob, feature varchar(255), authority_id bigint, taxon_id bigint, primary key (id), unique (identifier));
+drop table if exists TextContent_Reference;
+create table TextContent_Reference (TextContent_id bigint not null, references_id bigint not null, primary key (TextContent_id, references_id));
 drop table if exists TextContent_Source;
 create table TextContent_Source (TextContent_id bigint not null, sources_id bigint not null, primary key (TextContent_id, sources_id));
 drop table if exists User_Group;
@@ -66,6 +68,8 @@ alter table Taxon_Source add constraint FK9531BF701EDCD08D foreign key (Taxon_id
 alter table Taxon_Source add constraint FK9531BF70F247EE07 foreign key (sources_id) references Source;
 alter table TextContent add constraint FK6A10726C1EDCD08D foreign key (taxon_id) references Taxon;
 alter table TextContent add constraint FK6A10726C6B53D29C foreign key (authority_id) references Source;
+alter table TextContent_Reference add constraint FKF3F2F783968322D1 foreign key (references_id) references Reference;
+alter table TextContent_Reference add constraint FKF3F2F7832D1A3054 foreign key (TextContent_id) references TextContent;
 alter table TextContent_Source add constraint FK724F8D6E139F7DF foreign key (TextContent_id) references TextContent;
 alter table TextContent_Source add constraint FK724F8D6EF247EE07 foreign key (sources_id) references Source;
 alter table User_Group add constraint FKE7B7ED0BDA0BABAB foreign key (groups_id) references Principal;

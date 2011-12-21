@@ -9,4 +9,11 @@ import org.emonocot.model.reference.Reference;
  */
 public interface ReferenceService extends Service<Reference> {
 
+    /**
+     *
+     * @param source The external identifier for this reference
+     * @return a reference or null if it cannot be found
+     */
+    Reference findBySource(String source);
+
 }

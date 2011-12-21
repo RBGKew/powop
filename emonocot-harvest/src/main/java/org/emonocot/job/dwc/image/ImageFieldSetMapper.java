@@ -1,10 +1,13 @@
 package org.emonocot.job.dwc.image;
 
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.emonocot.job.dwc.DarwinCoreFieldSetMapper;
 import org.emonocot.job.dwc.taxon.CannotFindRecordException;
 import org.emonocot.model.media.Image;
+import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Taxon;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
@@ -37,6 +40,11 @@ public class ImageFieldSetMapper extends
     */
     private Logger logger = LoggerFactory
             .getLogger(ImageFieldSetMapper.class);
+
+    /**
+    *
+    */
+   private Map<String, Taxon> boundTaxa = new HashMap<String, Taxon>();
 
     /**
     *
@@ -89,15 +97,18 @@ public class ImageFieldSetMapper extends
             DwcTerm dwcTerm = (DwcTerm) term;
             switch (dwcTerm) {
             case taxonID:
-                Taxon taxon = taxonService.find(value);
+                Taxon taxon = null;
+                if (boundTaxa.containsKey(value)) {
+                    taxon = boundTaxa.get(value);
+                } else {
+                    taxon = taxonService.find(value);
+                    boundTaxa.put(taxon.getIdentifier(), taxon);
+                }
                 if (taxon == null) {
                     throw new CannotFindRecordException(value);
                 } else {
                     object.setTaxon(taxon);
                     object.getTaxa().add(taxon);
-                    if (taxon.getImage() == null) {
-                        taxon.setImage(object);
-                    }
                 }
 
                 break;
@@ -106,4 +117,21 @@ public class ImageFieldSetMapper extends
             }
         }
     }
+
+    /**
+    *
+    */
+   @Override
+   public final void afterChunk() {
+       logger.info("After Chunk");
+   }
+
+   /**
+    *
+    */
+   @Override
+   public final void beforeChunk() {
+       logger.info("Before Chunk");
+       boundTaxa = new HashMap<String, Taxon>();
+   }
 }

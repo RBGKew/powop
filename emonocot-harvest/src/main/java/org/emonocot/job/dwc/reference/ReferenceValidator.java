@@ -3,22 +3,20 @@ package org.emonocot.job.dwc.reference;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import org.emonocot.api.ReferenceService;
 import org.emonocot.job.dwc.DarwinCoreValidator;
-import org.emonocot.model.source.Source;
+import org.emonocot.model.common.Annotation;
+import org.emonocot.model.common.AnnotationCode;
+import org.emonocot.model.common.AnnotationType;
+import org.emonocot.model.common.RecordType;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Taxon;
-import org.emonocot.api.ReferenceService;
-import org.emonocot.api.SourceService;
-import org.emonocot.api.TaxonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
-import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.ItemWriteListener;
-import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.core.StepExecutionListener;
-import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -26,7 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author ben
  *
  */
-public class ReferenceValidator extends DarwinCoreValidator<Reference> implements ChunkListener, ItemWriteListener<Reference> {
+public class ReferenceValidator extends DarwinCoreValidator<Reference>
+        implements ChunkListener, ItemWriteListener<Reference> {
     /**
      *
      */
@@ -59,40 +58,81 @@ public class ReferenceValidator extends DarwinCoreValidator<Reference> implement
             throws Exception {
         logger.info("Validating " + reference);
 
-        Reference boundReference = boundReferences.get(reference.getIdentifier());
+        Reference boundReference = boundReferences.get(reference.getSource());
         if (boundReference == null) {
-            Reference persistedReference = referenceService.find(reference.getIdentifier());
+            Reference persistedReference = referenceService
+                    .findBySource(reference.getSource());
             if (persistedReference == null) {
                 // We've not seen this reference before
-                boundReferences.put(reference.getIdentifier(), reference);
+                reference.setIdentifier(UUID.randomUUID().toString());
+                boundReferences.put(reference.getSource(), reference);
+                for(Taxon t : reference.getTaxa()) {
+                    t.getReferences().add(reference);
+                }
                 reference.getSources().add(getSource());
                 reference.setAuthority(getSource());
+                Annotation annotation = createAnnotation(reference,
+                        RecordType.Reference, AnnotationCode.Create,
+                        AnnotationType.Info);
+                reference.getAnnotations().add(annotation);
+                logger.info("Adding reference " + reference.getSource());
                 return reference;
             } else {
                 // We've seen this reference before, but not in this chunk
 
-                if ((persistedReference.getModified() == null
-                    && reference.getModified() == persistedReference.getModified())
-                    || persistedReference.getModified().equals(reference.getModified())) {
-                    boundReferences.put(persistedReference.getIdentifier(), persistedReference);
+                if ((persistedReference.getModified() != null && reference
+                        .getModified() != null)
+                        && !persistedReference.getModified().isBefore(
+                                reference.getModified())) {
                     // Assume the reference hasn't changed, but maybe this taxon
                     // should be associated with it
                     Taxon taxon = reference.getTaxa().iterator().next();
-                            
-                    if(persistedReference.getTaxa().contains(taxon)) {
+
+                    if (persistedReference.getTaxa().contains(taxon)) {
                         // do nothing
                     } else {
                         // Add the taxon to the list of taxa
+                        boundReferences.put(persistedReference.getSource(),
+                                persistedReference);
+                        logger.info("Updating reference " + reference.getSource());
                         persistedReference.getTaxa().add(taxon);
+                        for (Taxon t : reference.getTaxa()) {
+                            t.getReferences().add(persistedReference);
+                        }
                     }
                     return persistedReference;
                 } else {
-                    // Assume that this is the first of several times this reference
-                    // appears in the result set, and we'll use this version to
-                    // overwrite the existing reference
-                    reference.setId(persistedReference.getId());
-                    boundReferences.put(reference.getIdentifier(), reference);
-                    return reference;
+                    // Assume that this is the first of several times this
+                    // reference appears in the result set, and we'll use this
+                    // version to overwrite the existing reference
+                    persistedReference.setNumber(reference.getNumber());
+                    persistedReference.setAuthor(reference.getAuthor());
+                    persistedReference.setCitation(reference.getCitation());
+                    persistedReference.setCreated(reference.getCreated());
+                    persistedReference.setDate(reference.getDatePublished());
+                    persistedReference.setKeywords(reference.getKeywords());
+                    persistedReference.setPages(reference.getPages());
+                    persistedReference.setPublishedIn(reference.getPublishedIn());
+                    persistedReference.setReferenceAbstract(reference.getReferenceAbstract());
+                    persistedReference.setTitle(reference.getTitle());
+                    persistedReference.setType(reference.getType());
+                    persistedReference.setVolume(reference.getVolume());
+
+                    persistedReference.getTaxa().clear();
+                    for (Taxon t : reference.getTaxa()) {
+                        persistedReference.getTaxa().add(t);
+                        if (!t.getReferences().contains(persistedReference)) {
+                            t.getReferences().add(persistedReference);
+                        }
+                    }
+                    Annotation annotation = createAnnotation(persistedReference,
+                            RecordType.Image, AnnotationCode.Update,
+                            AnnotationType.Info);
+                    persistedReference.getAnnotations().add(annotation);
+                    boundReferences.put(reference.getSource(), persistedReference);
+                    logger.info("Overwriting reference " + persistedReference.getSource());
+                    return persistedReference;
+
                 }
             }
         } else {
@@ -104,35 +144,38 @@ public class ReferenceValidator extends DarwinCoreValidator<Reference> implement
                 // do nothing
             } else {
                 // Add the taxon to the list of taxa
+                for(Taxon t : reference.getTaxa()) {
+                    t.getReferences().add(boundReference);
+                }
                 boundReference.getTaxa().add(taxon);
             }
             // We've already returned this object once
+            logger.info("Skipping reference " + reference.getSource());
             return null;
         }
     }
 
-    
-
 
     /**
-     * @param images the list of references written
+     * @param references the list of references written
      */
-    public void afterWrite(List<? extends Reference> references) {
+    public void afterWrite(final List<? extends Reference> references) {
 
     }
 
     /**
-     * @param images the list of references to write
+     * @param references the list of references to write
      */
-    public void beforeWrite(List<? extends Reference> references) {
-        
+    public void beforeWrite(final List<? extends Reference> references) {
+
     }
 
     /**
      * @param exception the exception thrown
-     * @param images the list of references
+     * @param references the list of references
      */
-    public void onWriteError(Exception exception, List<? extends Reference> references) {
+    public void onWriteError(final Exception exception,
+            final List<? extends Reference> references) {
 
     }
 

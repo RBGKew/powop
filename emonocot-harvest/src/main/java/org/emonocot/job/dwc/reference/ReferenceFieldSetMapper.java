@@ -12,6 +12,7 @@ import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
+import org.gbif.dwc.terms.UnknownTerm;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
@@ -100,11 +101,17 @@ public class ReferenceFieldSetMapper extends
             case title:
                 object.setTitle(value);
                 break;
+            case description:
+                object.setReferenceAbstract(value);
+                break;
+            case subject:
+                object.setKeywords(value);
+                break;
             case bibliographicCitation:
                 object.setCitation(value);
                 break;
             case identifier:
-                object.setIdentifier(value);
+                object.setSource(value);
                 break;
             default:
                 break;
@@ -134,6 +141,21 @@ public class ReferenceFieldSetMapper extends
             switch (gbifTerm) {
             default:
                 break;
+            }
+        }
+
+     // Unknown
+        if (term instanceof UnknownTerm) {
+            UnknownTerm unknownTerm = (UnknownTerm) term;
+            if (unknownTerm.qualifiedName().equals(
+                    "http://purl.org/ontology/bibo/volume")) {
+                object.setVolume(value);
+            } else if (unknownTerm.qualifiedName().equals(
+                    "http://purl.org/ontology/bibo/number")) {
+                object.setNumber(value);
+            } else if (unknownTerm.qualifiedName().equals(
+                    "http://purl.org/ontology/bibo/pages")) {
+                object.setPages(value);
             }
         }
     }

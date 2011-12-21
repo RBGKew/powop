@@ -84,18 +84,18 @@ public class ImageValidator extends DarwinCoreValidator<Image> implements
                 image.getTaxon().getImages().add(image);
                 image.setAuthority(getSource());
                 image.getSources().add(getSource());
-                Annotation annotation = createAnnotation(image,
-                        RecordType.Image, AnnotationCode.Create,
-                        AnnotationType.Info);
-                image.getAnnotations().add(annotation);
+//                Annotation annotation = createAnnotation(image,
+//                        RecordType.Image, AnnotationCode.Create,
+//                        AnnotationType.Info);
+//                image.getAnnotations().add(annotation);
                 logger.info("Adding image " + image.getUrl());
                 return image;
             } else {
                 // We've seen this image before, but not in this chunk
 
-                if ((persistedImage.getModified() == null
-                    && image.getModified() == persistedImage.getModified())
-                    || persistedImage.getModified().equals(image.getModified())) {
+                if ((persistedImage.getModified() != null
+                    && image.getModified() != null)
+                    && !persistedImage.getModified().isBefore(image.getModified())) {
                     // Assume the image hasn't changed, but maybe this taxon
                     // should be associated with it
                     if (persistedImage.getTaxa().contains(image.getTaxon())) {
@@ -126,10 +126,10 @@ public class ImageValidator extends DarwinCoreValidator<Image> implements
                     if (!image.getTaxon().getImages().contains(persistedImage)) {
                         image.getTaxon().getImages().add(persistedImage);
                     }
-                    Annotation annotation = createAnnotation(image,
-                            RecordType.Image, AnnotationCode.Create,
-                            AnnotationType.Info);
-                    persistedImage.getAnnotations().add(annotation);
+//                    Annotation annotation = createAnnotation(image,
+//                            RecordType.Image, AnnotationCode.Create,
+//                            AnnotationType.Info);
+//                    persistedImage.getAnnotations().add(annotation);
                     boundImages.put(image.getUrl(), persistedImage);
                     logger.info("Overwriting image " + image.getUrl());
                     return persistedImage;
@@ -162,7 +162,7 @@ public class ImageValidator extends DarwinCoreValidator<Image> implements
     /**
      * @param images the list of images to write
      */
-    public void beforeWrite(List<? extends Image> images) {
+    public final void beforeWrite(final List<? extends Image> images) {
         logger.info("Before Write");
         Comparator<Taxon> comparator = new TaxonComparator();
         for (Image image : images) {
@@ -176,13 +176,22 @@ public class ImageValidator extends DarwinCoreValidator<Image> implements
                 }
             }
         }
+        for (Image image : images) {
+            if (!image.getTaxa().isEmpty()) {
+                for (Taxon t : image.getTaxa()) {
+                    if (t.getImage() == null) {
+                        t.setImage(t.getImages().get(0));
+                    }
+                }
+            }
+        }
     }
 
     /**
      * @param exception the exception thrown
      * @param images the list of images
      */
-    public void onWriteError(Exception exception, List<? extends Image> images) {
+    public final void onWriteError(final Exception exception, final List<? extends Image> images) {
 
     }
 
