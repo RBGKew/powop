@@ -38,8 +38,10 @@ public class ImageDaoImpl extends SearchableDaoImpl<Image> implements ImageDao {
 
     static {
         FETCH_PROFILES = new HashMap<String, Fetch[]>();
-        FETCH_PROFILES.put("image-page", new Fetch[] { new Fetch("taxon",
-                FetchMode.JOIN)
+        FETCH_PROFILES.put("image-page", new Fetch[] { 
+        		new Fetch("taxon", FetchMode.JOIN),
+        		new Fetch("authority", FetchMode.JOIN),
+        		new Fetch("sources", FetchMode.SELECT)
         // new Fetch("taxa", FetchMode.SELECT)
                 });
 

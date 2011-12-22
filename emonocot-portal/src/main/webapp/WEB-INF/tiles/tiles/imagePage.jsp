@@ -91,6 +91,21 @@
 			</div>
 		</div>
 	</div>
+	<div class="span4 info-right">
+		<div>${image.authority}</div>
+			<ul>
+				<c:forEach var="source" items="${em:sort(image.sources)}">
+					<li>
+						<jsp:element name="a">
+							<jsp:attribute name="href">
+                        		<c:url value="/source/${source.title}" />
+                      		</jsp:attribute>
+                      	${source.title}
+                    	</jsp:element>
+                   	</li>
+				</c:forEach>
+			</ul>
+	</div>
 	</div>
 </div>
 	

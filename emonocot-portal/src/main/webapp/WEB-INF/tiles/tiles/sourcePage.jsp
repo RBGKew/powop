@@ -6,8 +6,10 @@
 
 	<div class="content">
 		<div class="page-header">
-			<h2 id="page-title">${source.identifier}</h2>
-			
+			<div class="row">
+				<h2 id="page-title">${source.identifier}</h2>
+				<img src="${source.logoUrl}" class="pull-right"/>		    
+			</div>
 			<jsp:element name="a">
 					<jsp:attribute name="href">
 						<c:url value="/admin/source/${source.identifier}" />
@@ -22,7 +24,17 @@
 				<spring:message code="availableAt" />
 			</a>
 			</div>
-			<br/>
+			<br/>	
+		</div>
+		<div>
+			<p>${source.title}</p>
+			<p>${source.publisherName}</p>
+			<div>
+				<h5>
+					<spring:message code="synonyms" />
+				</h5>
+				<p>${source.description}</p>
+			</div>
 			
 		</div>
 	</div>

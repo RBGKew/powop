@@ -62,6 +62,9 @@ public class ImageFileProcessingTest {
         Properties properties = new Properties();
         properties.load(propertiesFile.getInputStream());
         imageFileProcessor.setImageMagickSearchPath(properties.getProperty("harvester.imagemagick.path", null));
+        
+        getResourceClient.setProxyHost(properties.getProperty("http.proxyHost", null));
+        getResourceClient.setProxyPort(properties.getProperty("http.proxyPort", null));
     }
 
     /**

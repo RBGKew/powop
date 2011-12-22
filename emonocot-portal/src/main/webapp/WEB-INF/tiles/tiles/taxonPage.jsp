@@ -35,6 +35,7 @@
 						<spring:message code="isAccepted" />
 					</c:otherwise>
 				</c:choose>
+				
 			
 				<c:if test="${not empty taxon.images}">
 					<section id="gallery" class="ad-gallery">
@@ -230,6 +231,20 @@
 			
 		</div>
 		<div class="span4 info-right">
+			<div>${taxon.authority}</div>
+			<ul>
+				<c:forEach var="source" items="${em:sort(taxon.sources)}">
+					<li>
+						<jsp:element name="a">
+							<jsp:attribute name="href">
+                        		<c:url value="/source/${source.title}" />
+                      		</jsp:attribute>
+                      	${source.title}
+                    	</jsp:element>
+                   	</li>
+				</c:forEach>
+			</ul>
+				
 			<ul id="taxonHierarchy" class="no-bullet">
 				<c:if test="${not empty taxon.ancestors}">
 					<tags:tree taxon = "${taxon}" ancestors="${taxon.ancestors}" />
