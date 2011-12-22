@@ -92,13 +92,13 @@
 		</div>
 	</div>
 	<div class="span4 info-right">
-		<div>${image.authority}</div>
+		<div><spring:message code="sources" /></div>
 			<ul>
-				<c:forEach var="source" items="${em:sort(image.sources)}">
+				<c:forEach var="source" items="${image.sources}">
 					<li>
 						<jsp:element name="a">
 							<jsp:attribute name="href">
-                        		<c:url value="/source/${source.title}" />
+                        		<c:url value="/source/${source.identifier}" />
                       		</jsp:attribute>
                       	${source.title}
                     	</jsp:element>
