@@ -233,7 +233,7 @@
 		<div class="span4 info-right">
 			<div>${taxon.authority}</div>
 			<ul>
-				<c:forEach var="source" items="${em:sort(taxon.sources)}">
+				<c:forEach var="source" items="${taxon.sources}">
 					<li>
 						<jsp:element name="a">
 							<jsp:attribute name="href">
