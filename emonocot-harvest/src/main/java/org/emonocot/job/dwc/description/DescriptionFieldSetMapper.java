@@ -81,6 +81,7 @@ public class DescriptionFieldSetMapper extends
     public final void mapField(final TextContent object, final String fieldName,
             final String value) throws BindException {
         ConceptTerm term = getTermFactory().findTerm(fieldName);
+        logger.info("Mapping " + fieldName + " " + " " + value + " to " + object);
         if (term instanceof DcTerm) {
             DcTerm dcTerm = (DcTerm) term;
             switch (dcTerm) {

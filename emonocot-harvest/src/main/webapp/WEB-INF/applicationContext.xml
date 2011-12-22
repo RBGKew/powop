@@ -78,9 +78,24 @@
       <property name="url" value="${jdbc.driver.url}"/>
       <property name="username" value="${jdbc.driver.username}"/>
       <property name="password" value="${jdbc.driver.password}"/>
-      <property name="maxActive" value="15"/>
-      <property name="maxIdle" value="7"/>
+      <property name="initialSize" value="8"/>
+      <property name="maxActive" value="20"/>
+      <property name="maxIdle" value="10"/>
+      <property name="minIdle" value="1"/>
+      <property name="maxWait" value="10000"/>
+      <property name="removeAbandoned" value="true"/>
+      <property name="removeAbandonedTimeout" value="300"/>
+      <property name="logAbandoned" value="true"/>
+      <property name="defaultAutoCommit" value="true"/>
+      <property name="defaultReadOnly" value="false"/>
       <property name="validationQuery" value="SELECT 1"/>
+      <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+      <property name="minEvictableIdleTimeMillis" value="30000"/>
+      <property name="numTestsPerEvictionRun" value="3"/>
+      <property name="testWhileIdle" value="true"/>
+      <property name="testOnReturn" value="true"/>
+      <property name="testOnBorrow" value="true"/>
+      <property name="defaultTransactionIsolation" value="2"/>
     </bean>
     
      <sec:authentication-manager alias="authenticationManager">

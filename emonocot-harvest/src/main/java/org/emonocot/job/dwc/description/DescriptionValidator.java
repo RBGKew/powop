@@ -2,6 +2,7 @@ package org.emonocot.job.dwc.description;
 
 import org.emonocot.job.dwc.DarwinCoreValidator;
 import org.emonocot.job.dwc.NoTaxonException;
+import org.emonocot.model.reference.Reference;
 import org.emonocot.model.source.Source;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationCode;
@@ -57,13 +58,23 @@ public class DescriptionValidator extends DarwinCoreValidator<TextContent> {
                     && !persistedContent.getModified().isBefore(
                             textContent.getModified())) {
                 // The content hasn't changed, skip it
+                logger.info("Skipping " + textContent);
                 return null;
             } else {
-                Annotation annotation = createAnnotation(textContent,
+                Annotation annotation = createAnnotation(persistedContent,
                         RecordType.TextContent, AnnotationCode.Update,
                         AnnotationType.Info);
-                textContent.getAnnotations().add(annotation);
-                return textContent;
+                persistedContent.getAnnotations().add(annotation);
+                persistedContent.setContent(textContent.getContent());
+                persistedContent.setCreated(textContent.getCreated());
+                persistedContent.setModified(textContent.getModified());
+                persistedContent.setCreator(textContent.getCreator());
+                persistedContent.setLicense(textContent.getLicense());
+                persistedContent.setSource(textContent.getSource());
+                persistedContent.getReferences().clear();
+                persistedContent.getReferences().addAll(textContent.getReferences());
+                logger.info("Updating " + textContent);
+                return persistedContent;
             }
         } else {
             Annotation annotation = createAnnotation(textContent,

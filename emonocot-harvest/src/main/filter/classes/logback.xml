@@ -21,4 +21,7 @@
   <root level="${logging.level}" additivity="true">
     <appender-ref ref="${logging.method}"/>
   </root>
+   <logger name="org.emonocot.job.dwc.description" level="DEBUG" additivity="false">
+    <appender-ref ref="stdout"/>
+  </logger>
 </configuration>
