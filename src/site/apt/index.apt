@@ -24,6 +24,15 @@ About eMonocot
   * Please file issues {{{http://build.e-monocot.org/bugzilla/}here}}
   
   []
+  
+Live Issues
+  
+      These issues are actively being worked on in the current iteration:
+
+%{html-template-snippet|htmlFile=src/site/snippet/kanbanColumn.html|paramFile=src/site/snippet/ready.properties}
+%{html-template-snippet|htmlFile=src/site/snippet/kanbanColumn.html|paramFile=src/site/snippet/indev.properties}
+%{html-template-snippet|htmlFile=src/site/snippet/kanbanColumn.html|paramFile=src/site/snippet/finished.properties}
+%{html-template-snippet|htmlFile=src/site/snippet/kanbanColumn.html|paramFile=src/site/snippet/testing.properties}
 
 Build Status
 

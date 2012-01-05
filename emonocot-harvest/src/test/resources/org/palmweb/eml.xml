@@ -8,7 +8,7 @@
 	xmlns:dc="http://purl.org/dc/terms/"
 	xsi:schemaLocation="eml://ecoinformatics.org/eml-2.1.0 https://code.ecoinformatics.org/code/eml/tags/RELEASE_EML_2_1_0/eml.xsd"
 	packageId="http://www.palmweb.org/eml.xml
-	system="PalmWeb" scope="system">
+"	system="PalmWeb" scope="system">
 	<dataset>
 		<alternateIdentifier>f9b15d90-2aea-11e1-9314-0800200c9a66</alternateIdentifier>
 		<title>Palmweb - Palms of the World Online</title>		
@@ -41,7 +41,7 @@
 			<keyword> Palms</keyword>		
 		</keywordSet>
 		<intellectualRights>
-			<para>With the exception of the artwork, all the content in Palmweb is served under the Creative Commons Attribution-Noncommercial-Share Alike license. Artwork may be subject to copyright agreements between the artist and original publisher and may not be re-used without consent.</para>
+			<para>With the exception of the artwork, all the content in Palmweb is served under the Creative Commons Attribution-Noncommercial-Share Alike license.</para>
 		</intellectualRights>
 		<coverage>
 			<geographicCoverage>

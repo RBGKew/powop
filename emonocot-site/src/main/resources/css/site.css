@@ -221,6 +221,11 @@ corner-bot-right2 {
 	float: left;
     margin: 0 0 0 24px;
 }
+
+.section {
+	clear: both;
+}
+
 .title {
     background: url("../images/line.gif") repeat-x scroll center bottom transparent;
     padding: 10px 0 0 15px;
@@ -306,4 +311,28 @@ div.cent ul,ol {
 div.cent pre {
   width: 100%;
   overflow: none
+}
+
+.kanban-column {
+    float: left;
+    width: 25%;
+    overflow: auto;
+}
+.kanban-column thead {
+    background-color: #bbb;
+}
+.kanban-column .Highest {
+    background-color: #60B7E2;
+}
+.kanban-column .High {
+    background-color: #57E6DA;
+}
+.kanban-column .Normal {
+    background-color: #93D952;
+}
+.kanban-column .Low {
+    background-color: #D5F04F;
+}
+.kanban-column .Lowest {
+    background-color: #E6DE4B;
 }

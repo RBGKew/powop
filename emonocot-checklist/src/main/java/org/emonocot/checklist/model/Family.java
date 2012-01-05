@@ -93,10 +93,6 @@ public enum Family {
     /**
      *
      */
-    Hydatellaceae(22),
-    /**
-     *
-     */
     Hydrocharitaceae(23),
     /**
      *
@@ -325,7 +321,15 @@ public enum Family {
     /**
      *
      */
-    Poaceae(80);
+    Poaceae(80),
+    /**
+     *
+     */
+    Amaryllidaceae(81),
+    /**
+     *
+     */
+    Petermanniaceae(82);
 
     /**
      *

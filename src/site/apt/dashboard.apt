@@ -1,0 +1,27 @@
+ ------
+ Dashboard
+ ------
+ Ben Clark
+ ------
+ Date
+ 
+Dashboard
+
+    eMonocot uses {{{http://build.e-monocot.org/bugzilla/}bugzilla}} to manage its issues
+
+Current Iteration
+
+    These issues are actively being worked on in the current iteration:
+
+%{html-template-snippet|htmlFile=src/site/snippet/kanbanColumn.html|paramFile=src/site/snippet/ready.properties}
+%{html-template-snippet|htmlFile=src/site/snippet/kanbanColumn.html|paramFile=src/site/snippet/indev.properties}
+%{html-template-snippet|htmlFile=src/site/snippet/kanbanColumn.html|paramFile=src/site/snippet/finished.properties}
+%{html-template-snippet|htmlFile=src/site/snippet/kanbanColumn.html|paramFile=src/site/snippet/testing.properties}
+
+Backlog
+
+    These issues are candidates for future iterations:
+
+%{html-template-snippet|htmlFile=src/site/snippet/kanbanColumn.html|paramFile=src/site/snippet/new.properties}
+%{html-template-snippet|htmlFile=src/site/snippet/kanbanColumn.html|paramFile=src/site/snippet/backlog.properties}
+%{html-template-snippet|htmlFile=src/site/snippet/kanbanColumn.html|paramFile=src/site/snippet/planning.properties}

@@ -16,6 +16,7 @@
     </links>
     <menu>
       <item name="Introduction" href="index.html"/>
+      <item name="Dashboard" href="dashboard.html"/>
       <item name="Development Process" href="process.html"/>
       <item name="Using the Issue Tracker" href="issues.html"/>
       <item name="Portal Features" href="portal.html"/>
