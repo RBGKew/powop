@@ -251,9 +251,12 @@
 				<configuration>
 					<webResources>
 						<resource>
-							<directory>src/main/filter</directory>
-							<targetPath>WEB-INF</targetPath>
+							<directory>src/main/webapp</directory>							
 							<filtering>true</filtering>
+							<includes>
+							  <include>**/*.properties</include>
+							  <include>**/*.xml</include>
+							</includes>
 						</resource>
 					</webResources>
 				</configuration>

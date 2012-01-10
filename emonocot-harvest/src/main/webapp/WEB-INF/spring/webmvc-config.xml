@@ -7,6 +7,7 @@
 
     <context:property-placeholder location="classpath:application.properties"/>
     <import resource="classpath*:/META-INF/spring/batch/bootstrap/manager/execution-context.xml" />
+    <import resource="classpath*:/META-INF/spring/batch/bootstrap/manager/jmx-context.xml" />
     <import resource="classpath*:/META-INF/spring/batch/servlet/manager/controller-context.xml"/>
     <import resource="classpath*:/META-INF/spring/batch/servlet/manager/integration-context.xml"/>
     <import resource="classpath*:/META-INF/spring/batch/servlet/manager/manager-context.xml"/>

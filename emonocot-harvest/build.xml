@@ -5,7 +5,6 @@
 	<property name="name" value="emonocot-harvest"/>
 	<property name="target" value="${basedir}/target" />
 	<property name="main.src" value="${basedir}/src/main/java" />
-	<property name="main.filter" value="${basedir}/src/main/filter" />
 	<property name="main.static" value="${basedir}/src/main/static" />
 	<property name="main.webapp" value="${basedir}/src/main/webapp" />
 	<property name="main.resources" value="${basedir}/src/main/resources" />
@@ -129,17 +128,19 @@
 		<copy todir="${target}/${name}" filtering="false">
 			<fileset dir="${main.webapp}">
 				<include name="**/*"/>
-				<exclude name="WEB-INF/web.xml"/>
+				<exclude name="**/*.xml"/>
+				<exclude name="**/*.properties"/>
 			</fileset>
 		</copy>
 
 		<!-- copy resource files to the build tree this time with filtering-->
-		<copy todir="${target}/${name}/WEB-INF" filtering="true">
+		<copy todir="${target}/${name}" filtering="true">
 			<filterchain>
 				<expandproperties/>
 			</filterchain>
-			<fileset dir="${main.filter}">
-				<include name="**/*"/>
+			<fileset dir="${main.webapp}">
+				<include name="**/*.xml"/>
+				<include name="**/*.properties"/>
 			</fileset>
 		</copy>
 
