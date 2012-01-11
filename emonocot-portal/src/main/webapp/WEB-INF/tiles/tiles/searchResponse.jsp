@@ -150,9 +150,12 @@
 										</c:forEach>
 									</c:otherwise>
 								</c:choose>
+								
 							</ul>
+							
 						</li>
 					</c:forEach>
+					
 					<li id="sort">
 						<h3>
 							<spring:message code="sort" />
@@ -220,7 +223,7 @@
 	      				</jsp:scriptlet>
 	      				<div id="viewIcons">
 						<c:if test="${viewOption != false}">
-	      					<div style="float:right">
+	      					<div class="right">
 		      					<jsp:element name="a">
 		      						<jsp:attribute name="title">list</jsp:attribute>
 		      						<jsp:attribute name="href">
@@ -299,9 +302,10 @@
 					<c:otherwise>
 					<c:forEach var="item" items="${result.records}">
 						<div class="well">
+							<table><tbody><tr>
 							<c:choose>
 								<c:when test="${item.className == 'Taxon'}">
-									<div class="row" style="margin-left:0px;">
+									<td>
 										<jsp:element name="img">
 					      					<jsp:attribute name="src">
 					      						<c:url value="/images/icons/taxon_icon.jpg"/>
@@ -309,7 +313,22 @@
 					      					<jsp:attribute name="class">pull-left</jsp:attribute>
 					      					<jsp:attribute name="alt">Taxon</jsp:attribute>
 					      				</jsp:element>
-										<a class="result pull-left" href="taxon/${item.identifier}" title="${item.name}"><h4 class="h4Results"><em>${item.name}</em> ${item.authorship}</h4></a>
+					      			</td>
+									<td>
+									<a class="result" href="taxon/${item.identifier}" title="${item.name}"><h4 class="h4Results"><em>${item.name}</em> ${item.authorship}</h4></a><br/>
+										
+										<c:choose>
+				  							<c:when test="${item.accepted != null}">
+												<spring:message code="resultIsSynonym" />
+											</c:when>
+											<c:otherwise>
+												<spring:message code="resultIsAccepted" />
+											</c:otherwise>
+										</c:choose>
+										
+										
+									</td>
+									<td>	
 										<a class="thumb pull-right">
 											<c:choose>
 												<c:when test="${not empty item.image}">
@@ -326,10 +345,10 @@
 												</c:otherwise>
 											</c:choose>
 										</a>
-									</div>
+									</td>
 								</c:when>
 								<c:when test="${item.className == 'Image'}">
-									<div class="row" style="margin-left:0px;">
+									<div class="row no-margin-left">
 										<jsp:element name="img">
 					      					<jsp:attribute name="src">
 					      						<c:url value="/images/icons/image_icon.jpg"/>
@@ -346,6 +365,7 @@
 									Unknown class ${item.className}
 								</c:otherwise>
 							</c:choose>
+							</tr></tbody></table>
 						</div>
 							</c:forEach>
 						</c:otherwise>

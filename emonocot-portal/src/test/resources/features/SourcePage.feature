@@ -9,12 +9,13 @@ Feature: Source Page
 
 Background:
   Given there are source systems with the following properties:
-  | identifier | uri                 |
-  | test       | http://example.com  |
+  | identifier | title | uri                 |
+  |    test    | test  | http://example.com  |
 
 Scenario: Check SourcePage
   The source page should contain the name of the source
-  and a link to the source (website) 
+  and a link to the source (website)
   When I navigate to source page "test"  
-  Then the source name should be "test"
+  Then the source title should be "test"
   And there should be a link to "http://example.com/"
+ 

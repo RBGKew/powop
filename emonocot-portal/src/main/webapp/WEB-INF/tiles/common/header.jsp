@@ -25,7 +25,7 @@
 				    	</li>
 			    		<li>
 			    			<jsp:element  name="a">
-				    			<jsp:attribute name="href"><c:url value="/"/></jsp:attribute>
+				    			<jsp:attribute name="href"><c:url value="/classify"/></jsp:attribute>
 				    			<spring:message code="classify.title"/>
 				    		</jsp:element>
 			    		</li>

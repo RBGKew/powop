@@ -30,6 +30,7 @@ import org.emonocot.portal.rows.AccessControlRow;
 import org.emonocot.portal.rows.GroupRow;
 import org.emonocot.portal.rows.LoginRow;
 import org.emonocot.portal.rows.RegistrationRow;
+import org.emonocot.portal.rows.SourceRow;
 import org.emonocot.portal.rows.SummaryRow;
 import org.emonocot.portal.rows.UserRow;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -440,9 +441,9 @@ public class StepDefinitions {
      *
      * @param name Set the name
      */
-    @Then("^the source name should be \"([^\"]*)\"$")
-    public final void theSourceNameShouldBe(final String name) {
-        assertEquals(name, ((SourcePage) currentPage).getName());
+    @Then("^the source title should be \"([^\"]*)\"$")
+    public final void theSourceTitleShouldBe(final String title) {
+		assertEquals(title, ((SourcePage) currentPage).getTitle());
     }
 
     /**
@@ -616,6 +617,7 @@ public class StepDefinitions {
         assertEquals(paragraph, ((TaxonPage) currentPage).getParagraph(heading));
     }
 
+    /**
     /**
      *
      * @param heading

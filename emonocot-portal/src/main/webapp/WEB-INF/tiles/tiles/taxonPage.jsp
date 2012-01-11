@@ -72,7 +72,7 @@
 			<c:if test="${not empty em:regions(taxon)}">
 				<section id="distribution">
 					<h5><spring:message code="distribution" /></h5>
-			  		<div id="map" style="height: 470px; width: 700px">
+			  		<div id="map">
 						<jsp:element name="img">
 				  			<jsp:attribute name="id">alternative-map</jsp:attribute>
 				  			<jsp:attribute name="src">

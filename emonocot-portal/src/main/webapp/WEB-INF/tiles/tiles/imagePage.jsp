@@ -4,14 +4,6 @@
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 
-<style type="text/css">
-  .centeredImage
-    {
-    text-align:center;
-    display:block;
-    }
-</style>
-
 <div class="content">
 
 	<div class="page-header">
@@ -30,7 +22,7 @@
 			</jsp:element>
 		</h5>	
 	
-		<div  class="centeredImage">
+		<div class="centeredImage">
 		    <img id="main-img" src="${image.url}" title="${image.caption}" alt="${status.index}" />
 		</div>
 		<table id="image-properties">
@@ -72,7 +64,7 @@
 		</table>
 		<h2><spring:message code="related.images"/></h2>
 		<div id="gallery" class="ad-gallery">
-			<div class="ad-image-wrapper" style="display: none">&#160;</div>
+			<div class="ad-image-wrapper no-display">&#160;</div>
 			<!-- <div class="ad-controls">&#160;</div> -->
 			<div class="ad-nav">
 				<div class="ad-thumbs">

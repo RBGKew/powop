@@ -270,15 +270,17 @@ public class TestDataManager {
 
    /**
     *
-    * @param uri Set the uri
     * @param identifier Set the identifier
+    * @param uri Set the uri
+    * @param title Set the title
     */
     public final void createSourceSystem(final String identifier,
-            final String uri) {
+            final String uri, String title) {
         enableAuthentication();
         Source source = new Source();
         source.setIdentifier(identifier);
         source.setUri(uri);
+        source.setTitle(title);
         sourceService.save(source);
         data.push(source);
         disableAuthentication();

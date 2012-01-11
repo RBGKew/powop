@@ -146,7 +146,7 @@ public class DataSetup {
     public final void thereAreSourceSystemsWithTheFollowingProperties(
             final List<SourceRow> rows) {
         for (SourceRow row : rows) {
-            testDataManager.createSourceSystem(row.identifier, row.uri);
+            testDataManager.createSourceSystem(row.identifier, row.uri, row.title);
         }
     }
 

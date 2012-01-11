@@ -6,36 +6,74 @@
 
 	<div class="content">
 		<div class="page-header">
-			<div class="row">
-				<h2 id="page-title">${source.identifier}</h2>
-				<img src="${source.logoUrl}" class="pull-right"/>		    
-			</div>
+			<img src="${source.logoUrl}"/>		    
+			
 			<jsp:element name="a">
-					<jsp:attribute name="href">
-						<c:url value="/admin/source/${source.identifier}" />
-					</jsp:attribute>
-					<spring:message code="administrator.page"/>
-				</jsp:element>
+				<jsp:attribute name="href">
+					<c:url value="/admin/source/${source.identifier}" />
+				</jsp:attribute>
+				<jsp:attribute name="class">
+					pull-right
+				</jsp:attribute>
+				<spring:message code="administrator.page"/>
+			</jsp:element>
 		</div>
-		<div class="row">
+		<div>
+			<div class="row">
+			<h3 id="page-title" class="span12">${source.title}</h3>
 			<div class="content-wrapper">
-			<br/>
-			<a href="${source.uri}">
+			<a href="${source.uri}" class="pull-right">
 				<spring:message code="availableAt" />
 			</a>
 			</div>
-			<br/>	
-		</div>
-		<div>
-			<p>${source.title}</p>
-			<p>${source.publisherName}</p>
-			<div>
-				<h5>
-					<spring:message code="synonyms" />
-				</h5>
-				<p>${source.description}</p>
 			</div>
+			<h5>
+				<spring:message code="creator" />
+			</h5>
+			<p>${source.creator}</p>
+			<h5>
+				<spring:message code="email" />
+			</h5>
+			<a href="mailto:${source.creatorEmail}">${source.creatorEmail}</a>
 			
+			<h5>
+				<spring:message code="creationDate" />
+			</h5>
+			<p>${source.created}</p>
+			
+			<h5>
+				<spring:message code="description" />
+			</h5>
+			<p>${source.description}</p>
+
+			<h5>
+				<spring:message code="publisherName" />
+			</h5>
+			<p>${source.publisherName}</p>
+			<h5>
+				<spring:message code="email" />
+			</h5>
+			<a href="mailto:${source.publisherEmail}">${source.publisherEmail}</a>
+			<h5>
+				<spring:message code="keywords" />
+			</h5>
+			<c:if test="${not empty source.subject}">
+		          <c:forEach var="subject" items="${em:split(source.subject,';')}" varStatus="status">
+		            <c:choose>
+		              <c:when test="${status.last}">
+		                <span class="label">${subject}</span>
+		              </c:when>
+		              <c:otherwise>
+		                <span class="label">${subject}</span>&#160;
+		              </c:otherwise>
+		            </c:choose>		          
+		          </c:forEach>
+		        </c:if>
+			
+			<h5>
+				<spring:message code="reference" />
+			</h5>
+			<p>${source.source}</p>
 		</div>
 	</div>
 	

@@ -1,5 +1,7 @@
 package org.emonocot.portal.driver;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
@@ -21,7 +23,7 @@ public class SourcePage extends PageObject {
    *
    */
   @FindBy(how = How.ID, using = "page-title")
-  private WebElement name;
+  private WebElement title;
 
     /**
      *
@@ -33,10 +35,11 @@ public class SourcePage extends PageObject {
 
     /**
      *
-     * @return the name
+     * @return the title
      */
-    public final String getName() {
-        return name.getText();
+    public final String getTitle() {
+        return title.getText();
     }
+   
 
 }
