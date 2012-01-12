@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "/applicationContext-test.xml" })
-public class DateTimeFormatterTest {
+public class DateTimeFormatterIntegrationTest {
 	
 	@Autowired
 	ConversionService conversionService;
@@ -35,7 +35,7 @@ public class DateTimeFormatterTest {
 	public void testConversionService() {
 
 		try{
-			conversionService.convert("2010-06-17T10:45:45.067Z", DateTime.class);
+			conversionService.convert("17/06/10 10:45", DateTime.class);
 		} catch(Exception e) {
 			for(StackTraceElement ste : e.getStackTrace()) {
 				System.err.println(ste);
