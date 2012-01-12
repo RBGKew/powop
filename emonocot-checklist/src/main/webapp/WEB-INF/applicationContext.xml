@@ -12,8 +12,20 @@
     <context:property-placeholder location="classpath:application.properties"/>    
     <context:component-scan base-package="org.emonocot.checklist.persistence"/>
     
-    <bean id="conversionService"
-      class="org.emonocot.checklist.format.ChecklistFormatterFactory"/>
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+      <property name="registerDefaultFormatters" value="true"/>
+      <property name="formatters">
+        <list>
+            <bean class="org.openarchives.pmh.format.MetadataPrefixAnnotationFormatterFactory"/>
+            <bean class="org.emonocot.checklist.format.ChecklistIdentifierAnnotationFormatterFactory"/>
+        </list>
+      </property>
+      <property name="formatterRegistrars">
+        <list>
+            <bean class="org.springframework.format.datetime.joda.JodaTimeFormatterRegistrar"/>
+        </list>
+    </property>
+    </bean>
     
     <tx:annotation-driven/>
     
