@@ -22,6 +22,7 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 import org.hibernate.annotations.Where;
 import org.joda.time.DateTime;
 
@@ -32,8 +33,10 @@ import org.joda.time.DateTime;
  */
 @Entity
 @Table(name = "vwMonocot_Name")
-@TypeDef(name = "taxonStatusUserType",
-        typeClass = TaxonStatusUserType.class)
+@TypeDefs({@TypeDef(name = "taxonStatusUserType",
+        		typeClass = TaxonStatusUserType.class)/*,
+        @TypeDef(name = "climateUserType",
+        		typeClass = ClimateUserType.class)*/})
 public class Taxon implements IdentifiableEntity<String> {
 
     /**
@@ -249,6 +252,10 @@ public class Taxon implements IdentifiableEntity<String> {
            @JoinColumn(name = "Publication_edition_id")
        })
    private Set<Article> citations = new HashSet<Article>();
+   
+   @ManyToOne
+   @JoinColumn(name = "Climate_id")
+   private Climate climate;
 
     /**
      * @param newId
@@ -704,4 +711,18 @@ public class Taxon implements IdentifiableEntity<String> {
     public final void setStatus(final TaxonStatus newStatus) {
         this.status = newStatus;
     }
+
+	/**
+	 * @param climate the climate to set
+	 */
+	public void setClimate(Climate climate) {
+		this.climate = climate;
+	}
+
+	/**
+	 * @return the climate
+	 */
+	public Climate getClimate() {
+		return climate;
+	}
 }

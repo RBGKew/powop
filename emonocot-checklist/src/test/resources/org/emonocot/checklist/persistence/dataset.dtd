@@ -12,7 +12,8 @@
     publication*,
     publication_edition*,
     publication_type*,
-    web_log*)>
+    web_log*,
+    climate*)>
 
 <!ELEMENT author_type EMPTY>
 <!ATTLIST author_type
@@ -100,6 +101,7 @@
     Volume_and_page CDATA #IMPLIED
     First_published CDATA #IMPLIED
     Place_of_publication_id CDATA #IMPLIED
+    Climate_id CDATA #IMPLIED
 >
 
 <!ELEMENT plant_name_deleted EMPTY>
@@ -126,6 +128,7 @@
     Volume_and_page CDATA #IMPLIED
     First_published CDATA #IMPLIED
     Place_of_publication_id CDATA #IMPLIED
+    Climate_id CDATA #IMPLIED
 >
 
 <!ELEMENT publication EMPTY>
@@ -172,3 +175,9 @@
     req_host CDATA #IMPLIED
     remote_host CDATA #IMPLIED
 >
+
+<!ELEMENT climate EMPTY>
+<!ATTLIST climate
+	Climate_id CDATA #REQUIED
+	Climate_abbreviation CDATA #IMPLIED
+	Climate_description CDATA #IMPLIED>

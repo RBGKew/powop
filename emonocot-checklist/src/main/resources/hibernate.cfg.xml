@@ -12,5 +12,6 @@
     <mapping class="org.emonocot.checklist.model.Publication"/>
     <mapping class="org.emonocot.checklist.model.PublicationType"/>
     <mapping class="org.emonocot.checklist.model.Taxon"/>
+    <mapping class="org.emonocot.checklist.model.Climate"/>
   </session-factory>
 </hibernate-configuration>

@@ -190,4 +190,7 @@
             <column name="Place_of_publication_id" index="13" type="STRING"/>
         </loadUpdateData>
     </changeSet>
+    <changeSet id="2012-01-13" author="jk00kg">
+    	
+    </changeSet>
 </databaseChangeLog>
