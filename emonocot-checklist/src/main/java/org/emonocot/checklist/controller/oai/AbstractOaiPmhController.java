@@ -13,6 +13,7 @@ import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.ISODateTimeFormat;
 import org.emonocot.checklist.model.ChangeEvent;
 import org.emonocot.checklist.model.IdentifiableEntity;
 import org.emonocot.checklist.persistence.IdentifiableService;
@@ -171,8 +172,9 @@ public abstract class AbstractOaiPmhController<T extends IdentifiableEntity, SER
      * @param newEarliestDatestamp Set the earliest datestamp in this repository
      */
     public final void setEarliestDatestamp(
-            final DateTime newEarliestDatestamp) {
-        this.earliestDatestamp = newEarliestDatestamp;
+            final String newEarliestDatestamp) {
+        this.earliestDatestamp = ISODateTimeFormat.dateTime().parseDateTime(
+                newEarliestDatestamp);
     }
 
     /**
