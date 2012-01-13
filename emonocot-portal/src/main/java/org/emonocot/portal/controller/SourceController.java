@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
 import org.emonocot.api.AnnotationService;
 import org.emonocot.api.FacetName;
 import org.emonocot.api.SourceService;
@@ -18,10 +21,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -112,13 +119,14 @@ public class SourceController {
         return modelAndView;
     }
 
+    
     /**
      * @param identifier
      *            Set the identifier of the source
      * @return A model and view containing a source
      */
-    @RequestMapping(value = "/admin/source/{identifier}", method = RequestMethod.GET)
-    public final ModelAndView getSourceAdminPage(
+    @RequestMapping(value = "/admin/source/{identifier}", method = RequestMethod.GET, params="!form")
+    public final ModelAndView getPage(
             @PathVariable final String identifier,
             @RequestParam(value = "limit", required = false, defaultValue = "10") final Integer limit,
             @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start) {
@@ -128,6 +136,18 @@ public class SourceController {
         modelAndView.addObject("jobExecutions", jobExecutions);
         return modelAndView;
     }
+    
+    /**
+    *
+    * @param modelMap
+    *            Set the model map
+    * @return the name of the view
+    */
+   @RequestMapping(value = "/admin/source/{identifier}", method = RequestMethod.GET, params="form")
+   public final String createForm(@PathVariable final String identifier, final ModelMap modelMap) {
+       modelMap.addAttribute(service.load(identifier));
+       return "sourceAdminForm";
+   }
 
     /**
      * @param identifier
@@ -190,6 +210,33 @@ public class SourceController {
 
         return modelAndView;
     }
+    
+    /**
+    *
+    * @param source
+    *            Set the source
+    * @param result 
+    * 			Set the binding results
+    * @return a model and view
+    */
+    @RequestMapping(value = "/admin/source/{identifier}", method =
+    		RequestMethod.POST, headers="Accept=text/html")
+    		    public final String post(@PathVariable final String identifier,
+    		            @Valid final Source source,
+    		            final BindingResult result, final HttpSession session) {
+    	
+    		        if (result.hasErrors()) {
+    		            return "sourceAdminForm";
+    		        }
+
+    		        service.saveOrUpdate(source);
+    		        String[] codes = new String[] {"source.updated" };
+    		        Object[] args = new Object[] {source.getTitle()};
+    		        DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
+    		                codes, args);
+    		        session.putValue("info", message);
+    		        return "redirect:/admin/source/" + identifier + "?form=true";
+    		    }
 
     /**
      * @param identifier

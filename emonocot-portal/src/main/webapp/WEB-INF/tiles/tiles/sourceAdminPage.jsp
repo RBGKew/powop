@@ -9,6 +9,18 @@
 				<img src="${source.logoUrl}"/>
     		</div>
     		<div>
+    		
+		    <div>
+		      <jsp:element name="a">
+		        <jsp:attribute name="href">
+		          <c:url value="/admin/source/${source.identifier}">
+		            <c:param name="form">true</c:param>
+		          </c:url>
+		        </jsp:attribute>
+		        <spring:message code="edit.group"/>
+		      </jsp:element>
+		    </div>
+		 
 			<div class="row">
 			<h3 class="span12">${source.title}</h3>
 			<a href="${source.uri}" class="pull-right">

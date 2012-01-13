@@ -41,6 +41,9 @@
   <definition name="sourceAdminPage" extends="base">    
     <put-attribute name="body" value="/WEB-INF/tiles/tiles/sourceAdminPage.jsp" />
   </definition>
+  <definition name="sourceAdminForm" extends="base">    
+    <put-attribute name="body" value="/WEB-INF/tiles/tiles/sourceAdminForm.jsp" />
+  </definition>
   <definition name="sourceJobPage" extends="base">    
     <put-attribute name="body" value="/WEB-INF/tiles/tiles/sourceJobPage.jsp" />
   </definition>
