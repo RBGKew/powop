@@ -79,6 +79,10 @@
         <groupId>org.opengeo</groupId>
         <artifactId>geodb</artifactId>
     </dependency>
+    <dependency>
+       <groupId>net.sourceforge.hatbox</groupId>
+       <artifactId>org.emonocot.hatbox</artifactId>
+    </dependency>
   </dependencies>
   <reporting>
 	  <plugins>

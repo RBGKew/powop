@@ -1,6 +1,9 @@
 package org.emonocot.persistence.dao.hibernate;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.emonocot.model.common.Base;
@@ -11,12 +14,17 @@ import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.hibernate.UnresolvableObjectException;
+import org.hibernate.collection.PersistentCollection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.proxy.HibernateProxy;
+import org.hibernate.proxy.LazyInitializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.orm.hibernate3.HibernateObjectRetrievalFailureException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+
+import com.rc.retroweaver.runtime.Arrays;
 
 /**
  *
@@ -69,18 +77,73 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
         if (fetch != null && t != null) {
             for (Fetch f : getProfile(fetch)) {
                 if (f.getMode().equals(FetchMode.SELECT)) {
-                    Object proxy;
-                    try {
-                        proxy = PropertyUtils
-                                .getProperty(t, f.getAssociation());
-                    } catch (Exception e) {
-                        throw new InvalidDataAccessApiUsageException(
-                                "Cannot get proxy " + f.getAssociation()
-                                        + " for class " + type, e);
+                    String association = f.getAssociation();
+                    if (association.indexOf(".") == -1) {
+                        initializeProperty(t, f.getAssociation());
+                    } else {
+                        List<String> associations = Arrays.asList(association.split("\\."));
+                        initializeProperties(t, associations);
                     }
-                    Hibernate.initialize(proxy);
                 }
             }
+        }
+    }
+
+    /**
+     *
+     * @param o the object being initialized
+     * @param associations a list of associations being initialized
+     */
+    protected void initializeProperties(final Object o, final List<String> associations) {
+        List<String> assocs = new ArrayList<String>(associations);
+        String association = assocs.remove(0);
+        Object associatedObject = initializeProperty(o, association);
+        if (Collection.class.isAssignableFrom(associatedObject.getClass())) {
+            int i = 0;
+            for (Object obj : (Collection) associatedObject) {
+                if (!assocs.isEmpty()) {
+                    initializeProperties(obj, assocs);
+                }
+            }
+        } else if (Map.class.isAssignableFrom(associatedObject.getClass())) {
+            int i = 0;
+            for (Object obj : ((Map) associatedObject).values()) {
+                if (!assocs.isEmpty()) {
+                    initializeProperties(obj, assocs);
+                }
+            }
+        } else {
+            if (!assocs.isEmpty()) {
+                initializeProperties(associatedObject, assocs);
+            }
+        }
+    }
+
+    /**
+     *
+     * @param o Set the object
+     * @param association Set the association to initialize
+     */
+    protected Object initializeProperty(final Object o, final String association) {
+        Object object;
+        try {
+            object = PropertyUtils.getProperty(o, association);
+        } catch (Exception e) {
+            throw new InvalidDataAccessApiUsageException("Cannot get proxy "
+                    + association + " for class " + o.getClass(), e);
+        }
+        if (object == null) {
+            return null;
+        } else if (object instanceof HibernateProxy) {
+            ((HibernateProxy) object).getHibernateLazyInitializer().initialize();
+            LazyInitializer lazyInitializer = ((HibernateProxy) object)
+                    .getHibernateLazyInitializer();
+            return lazyInitializer.getImplementation();
+        } else if (object instanceof PersistentCollection) {
+            ((PersistentCollection) object).forceInitialization();
+            return object;
+        } else {
+            return object;
         }
     }
 
@@ -206,6 +269,16 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
     public final void update(final T t) {
         getSession().update(t);
     }
+
+    /**
+    *
+    * @param t
+    *            The object to merge.
+    * @return the merged object
+    */
+   public final T merge(final T t) {
+       return (T) getSession().merge(t);
+   }
 
     /**
      * @return the total number of objects

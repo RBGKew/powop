@@ -74,4 +74,14 @@
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>java.lang.String convert(java.lang.Object)</function-signature>
     </function>
+    <function>
+        <name>bibliography</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>org.emonocot.portal.view.bibliography.Bibliography bibliography(org.emonocot.model.taxon.Taxon)</function-signature>
+    </function>
+    <function>
+        <name>citekey</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.String citekey(org.emonocot.portal.view.bibliography.Bibliography, org.emonocot.model.reference.Reference)</function-signature>
+    </function>
 </taglib>

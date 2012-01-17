@@ -66,7 +66,7 @@ public class ReferenceValidator extends DarwinCoreValidator<Reference>
                 // We've not seen this reference before
                 reference.setIdentifier(UUID.randomUUID().toString());
                 boundReferences.put(reference.getSource(), reference);
-                for(Taxon t : reference.getTaxa()) {
+                for (Taxon t : reference.getTaxa()) {
                     t.getReferences().add(reference);
                 }
                 reference.getSources().add(getSource());
@@ -126,7 +126,7 @@ public class ReferenceValidator extends DarwinCoreValidator<Reference>
                         }
                     }
                     Annotation annotation = createAnnotation(persistedReference,
-                            RecordType.Image, AnnotationCode.Update,
+                            RecordType.Reference, AnnotationCode.Update,
                             AnnotationType.Info);
                     persistedReference.getAnnotations().add(annotation);
                     boundReferences.put(reference.getSource(), persistedReference);
@@ -144,7 +144,7 @@ public class ReferenceValidator extends DarwinCoreValidator<Reference>
                 // do nothing
             } else {
                 // Add the taxon to the list of taxa
-                for(Taxon t : reference.getTaxa()) {
+                for (Taxon t : reference.getTaxa()) {
                     t.getReferences().add(boundReference);
                 }
                 boundReference.getTaxa().add(taxon);
@@ -185,6 +185,9 @@ public class ReferenceValidator extends DarwinCoreValidator<Reference>
     public void afterChunk() {
     }
 
+    /**
+     *
+     */
     public void beforeChunk() {
         boundReferences.clear();
     }

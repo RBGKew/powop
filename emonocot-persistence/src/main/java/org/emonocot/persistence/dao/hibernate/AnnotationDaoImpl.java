@@ -31,7 +31,8 @@ public class AnnotationDaoImpl extends SearchableDaoImpl<Annotation> implements
    static {
        FETCH_PROFILES = new HashMap<String, Fetch[]>();
        FETCH_PROFILES.put("annotated-obj", new Fetch[] {
-               new Fetch("annotatedObj", FetchMode.SELECT)});
+               new Fetch("annotatedObj", FetchMode.SELECT)
+       });
    }
 
     /**
@@ -54,7 +55,7 @@ public class AnnotationDaoImpl extends SearchableDaoImpl<Annotation> implements
         switch (facetName) {
         case RECORD_TYPE:
             facetingRequest = facetContext.name(facetName.name())
-                    .onField("annotatedObjType").discrete()
+                    .onField("recordType").discrete()
                     .orderedBy(FacetSortOrder.FIELD_VALUE)
                     .includeZeroCounts(true).createFacetingRequest();
             facetManager.enableFaceting(facetingRequest);
@@ -108,7 +109,7 @@ public class AnnotationDaoImpl extends SearchableDaoImpl<Annotation> implements
 
     @Override
     public final String[] getDocumentFields() {
-        return new String[] {"type", "code", "text"};
+        return new String[] {"annotationType", "code", "text"};
     }
 
     @Override

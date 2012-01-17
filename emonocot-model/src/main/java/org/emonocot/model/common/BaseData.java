@@ -3,8 +3,6 @@ package org.emonocot.model.common;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;

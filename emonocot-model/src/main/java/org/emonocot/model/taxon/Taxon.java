@@ -265,7 +265,7 @@ public class Taxon extends SearchableObject {
     @ManyToMany(fetch = FetchType.LAZY)
     @Cascade({ CascadeType.SAVE_UPDATE })
     @JoinTable(name = "Taxon_Reference", joinColumns = { @JoinColumn(name = "Taxon_id") }, inverseJoinColumns = { @JoinColumn(name = "references_id") })
-    @JsonIgnore
+    @JsonSerialize(contentUsing = ReferenceSerializer.class)
     public Set<Reference> getReferences() {
         return references;
     }
@@ -274,7 +274,7 @@ public class Taxon extends SearchableObject {
      *
      * @return a map of content about the taxon, indexed by the subject
      */
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon", orphanRemoval = true)
     @Cascade({ CascadeType.ALL })
     @MapKey(name = "feature")
     @JsonManagedReference("content-taxon")
@@ -298,6 +298,7 @@ public class Taxon extends SearchableObject {
      * @param newReferences
      *            Set the references associated with this taxon
      */
+    @JsonDeserialize(contentUsing = ReferenceDeserializer.class)
     public void setReferences(Set<Reference> newReferences) {
         this.references = newReferences;
     }

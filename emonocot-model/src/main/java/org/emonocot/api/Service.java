@@ -2,6 +2,8 @@ package org.emonocot.api;
 
 import org.emonocot.model.common.Base;
 import org.emonocot.model.pager.Page;
+import org.emonocot.model.taxon.Taxon;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -70,4 +72,12 @@ public interface Service<T extends Base> {
    * @return A page of results
    */
   Page<T> list(Integer page, Integer size);
+
+  /**
+   * @param t
+   *            the object to merge
+   * @return the merged object
+   */
+  @Transactional
+  T merge(T t);
 }

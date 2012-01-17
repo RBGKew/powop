@@ -110,7 +110,7 @@ public class JsonConversionTest {
         EasyMock.expect(
                 referenceService.load(EasyMock
                         .eq("urn:kew.org:wcs:publication:1"))).andReturn(
-                reference);
+                reference).anyTimes();
         EasyMock.expect(imageService.load("urn:identifier:image:0")).andReturn(
                 image1);
         EasyMock.expect(imageService.load("urn:identifier:image:1")).andReturn(
@@ -118,7 +118,7 @@ public class JsonConversionTest {
         EasyMock.expect(imageService.load("urn:identifier:image:2")).andReturn(
                 image3);
         EasyMock.replay(referenceService, imageService);
-        String content = "{\"identifier\":\"urn:kew.org:wcs:taxon:2295\",\"name\":\"Acorus\",\"protologue\":\"urn:kew.org:wcs:publication:1\", \"content\": {\"habitat\":{\"feature\":\"habitat\",\"content\":\"Lorem ipsum\"}}, \"images\":[\"urn:identifier:image:0\",\"urn:identifier:image:1\",\"urn:identifier:image:2\"],\"distribution\":{\"REU\":{\"region\":\"REU\"}}}";
+        String content = "{\"identifier\":\"urn:kew.org:wcs:taxon:2295\",\"name\":\"Acorus\",\"protologue\":\"urn:kew.org:wcs:publication:1\", \"content\": {\"habitat\":{\"feature\":\"habitat\",\"content\":\"Lorem ipsum\", \"references\":[\"urn:kew.org:wcs:publication:1\"]}}, \"images\":[\"urn:identifier:image:0\",\"urn:identifier:image:1\",\"urn:identifier:image:2\"],\"distribution\":{\"REU\":{\"region\":\"REU\"}}}";
         Taxon taxon = (Taxon) objectMapper.readValue(content, Taxon.class);
         EasyMock.verify(referenceService, imageService);
 
@@ -135,6 +135,9 @@ public class JsonConversionTest {
                         .getContent(), "Lorem ipsum");
         assertEquals("The taxon should be set on the content", taxon
                 .getContent().get(Feature.habitat).getTaxon(), taxon);
+        assertTrue("The reference should be set on the content",
+                taxon.getContent().get(Feature.habitat).getReferences()
+                        .contains(reference));
         assertEquals("The protologue should be set", reference,
                 taxon.getProtologue());
         assertTrue("The taxon should contain the image1 in position 0", taxon
@@ -158,6 +161,8 @@ public class JsonConversionTest {
     @Test
     public final void testWriteTaxon() throws Exception {
         String content = "{\"identifier\":\"urn:kew.org:wcs:taxon:2295\",\"name\":\"Acorus\",\"protologue\":\"urn:kew.org:wcs:publication:1\"}";
+        Reference reference = new Reference();
+        reference.setIdentifier("urn:kew.org:wcs:publication:1");
         Taxon taxon = new Taxon();
         taxon.setIdentifier("urn:kew.org:wcs:taxon:2295");
         taxon.setCreated(new DateTime());
@@ -165,14 +170,14 @@ public class JsonConversionTest {
         TextContent textContent = new TextContent();
         textContent.setContent("Lorem ipsum");
         textContent.setFeature(Feature.habitat);
+        textContent.getReferences().add(reference);
         textContent.setTaxon(taxon);
         taxon.getContent().put(Feature.habitat, textContent);
         Distribution distribution = new Distribution();
         distribution.setTaxon(taxon);
         distribution.setRegion(Country.REU);
         taxon.getDistribution().put(Country.REU, distribution);
-        Reference reference = new Reference();
-        reference.setIdentifier("urn:kew.org:wcs:publication:1");
+        taxon.getReferences().add(reference);
         taxon.setProtologue(reference);
         for (int i = 0; i < 3; i++) {
             Image image = new Image();

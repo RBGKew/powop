@@ -169,7 +169,7 @@ public class Annotation extends Base {
      */
     @Any(metaColumn = @Column(
                 name = "annotatedObjType"), optional = true,
-                fetch = FetchType.EAGER)
+                fetch = FetchType.LAZY)
     @AnyMetaDef(idType = "long", metaType = "string", metaValues = {
             @MetaValue(targetEntity = Taxon.class, value = "Taxon"),
             @MetaValue(targetEntity = Distribution.class, value = "Distribution"),
@@ -177,7 +177,7 @@ public class Annotation extends Base {
             @MetaValue(targetEntity = Image.class, value = "Image"),
             @MetaValue(targetEntity = Reference.class, value = "Reference")
             })
-    @JoinColumn(name = "annotatedObjId")
+    @JoinColumn(name = "annotatedObjId", nullable = true)
     @FieldBridge(impl = AnnotatedObjBridge.class)
     @JsonSerialize(using = AnnotatableObjectSerializer.class)
     public Base getAnnotatedObj() {

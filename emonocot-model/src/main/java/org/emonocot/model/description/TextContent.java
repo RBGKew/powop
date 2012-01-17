@@ -20,13 +20,18 @@ import javax.persistence.Transient;
 import org.apache.commons.lang.ObjectUtils;
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.BaseData;
+import org.emonocot.model.marshall.json.ReferenceDeserializer;
+import org.emonocot.model.marshall.json.ReferenceSerializer;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Taxon;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
+import org.hibernate.search.annotations.ContainedIn;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
@@ -128,6 +133,7 @@ public class TextContent extends BaseData {
      * @return Get the taxon that this content is about.
      */
     @ManyToOne(fetch = FetchType.LAZY)
+    @ContainedIn
     @JsonBackReference("content-taxon")
     public Taxon getTaxon() {
         return taxon;
@@ -203,14 +209,16 @@ public class TextContent extends BaseData {
     @ManyToMany(fetch = FetchType.LAZY)
     @Cascade({ CascadeType.SAVE_UPDATE })
     @JoinTable(name = "TextContent_Reference", joinColumns = { @JoinColumn(name = "TextContent_id") }, inverseJoinColumns = { @JoinColumn(name = "references_id") })
+    @JsonSerialize(contentUsing = ReferenceSerializer.class)
     public Set<Reference> getReferences() {
         return references;
     }
 
     /**
-     * @param references the references to set
+     * @param newReferences the references to set
      */
-    public void setReferences(Set<Reference> references) {
-        this.references = references;
+    @JsonDeserialize(contentUsing = ReferenceDeserializer.class)
+    public void setReferences(Set<Reference> newReferences) {
+        this.references = newReferences;
     }
 }

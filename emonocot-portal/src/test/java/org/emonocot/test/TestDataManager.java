@@ -208,10 +208,12 @@ public class TestDataManager {
     * @param principal Set the identifier of the principal
     * @param principalType Set the type of principal (group, user)
     * @param object Set the identifier of the object
-    * @param clazz Set the class of object being secured
+    * @param objectType Set the class of object being secured
     * @param permission Set the permission
     */
-    public final void createAcl(final String principal, final String principalType, final String object, final String objectType, final String permission) {
+    public final void createAcl(final String principal,
+            final String principalType, final String object,
+            final String objectType, final String permission) {
        enableAuthentication();
        Taxon taxon = new Taxon();
        taxon.setIdentifier(object);
@@ -344,6 +346,7 @@ public class TestDataManager {
      *            Set the status
      * @param diagnostic
      *            Set the diagnostic
+     * @param diagnosticReference1 TODO
      * @param habitat
      *            Set the habitat
      * @param general
@@ -372,17 +375,21 @@ public class TestDataManager {
      *            Set the parent taxon
      * @param accepted
      *            Set the accepted taxon
+     * @param reference1 Set the reference
      *
      */
     public final void createTaxon(final String identifier, final String name,
-            final String family, String genus, String specificEpithet,
-            final String rank, final String status, final String diagnostic,
-            final String habitat, final String general,
-            final String protologue, String microReference,
-            final String image1, final String image2, final String image3,
+            final String family, final String genus,
+            final String specificEpithet, final String rank,
+            final String status, final String diagnostic,
+            final String diagnosticReference1, final String habitat,
+            final String general, final String protologue,
+            final String microReference, final String image1,
+            final String image2, final String image3,
             final String distribution1, final String distribution2,
-            final String distribution3, String source, String created,
-            String parent, String accepted) {
+            final String distribution3, final String source,
+            final String created, final String parent, final String accepted,
+            final String reference1) {
         enableAuthentication();
         Taxon taxon = new Taxon();
         data.push(taxon);
@@ -399,13 +406,14 @@ public class TestDataManager {
             taxon.setStatus(TaxonomicStatus.valueOf(status));
         }
         if (diagnostic != null && diagnostic.length() > 0) {
-            createTextualData(taxon, diagnostic, Feature.diagnostic);
+            createTextualData(taxon, diagnostic, Feature.diagnostic,
+                    diagnosticReference1);
         }
         if (habitat != null && habitat.length() > 0) {
-            createTextualData(taxon, habitat, Feature.habitat);
+            createTextualData(taxon, habitat, Feature.habitat, null);
         }
         if (general != null && general.length() > 0) {
-            createTextualData(taxon, general, Feature.general);
+            createTextualData(taxon, general, Feature.general, null);
         }
         if (protologue != null && protologue.length() > 0) {
             Reference reference = new Reference();
@@ -471,6 +479,12 @@ public class TestDataManager {
             a.setIdentifier(accepted);
             taxon.setAccepted(a);
         }
+
+        if (reference1 != null && reference1.length() > 0) {
+            Reference r = new Reference();
+            r.setIdentifier(reference1);
+            taxon.getReferences().add(r);
+        }
         taxonService.save(taxon);
 
         disableAuthentication();
@@ -487,14 +501,15 @@ public class TestDataManager {
   /**
    *
    * @param identifier Set the identifier
-   * @param title Set the title
-   * @param datePublished Set the datePublished
-   * @param volume Set the volume
-   * @param page Set the page
+ * @param title Set the title
+ * @param datePublished Set the datePublished
+ * @param volume Set the volume
+ * @param page Set the page
+ * @param citation Set the citation
    */
     public final void createReference(final String identifier,
             final String title, final String datePublished,
-            final String volume, final String page) {
+            final String volume, final String page, final String citation) {
         enableAuthentication();
         Reference r = new Reference();
         data.push(r);
@@ -503,6 +518,7 @@ public class TestDataManager {
         r.setDatePublished(datePublished);
         r.setVolume(volume);
         r.setPages(page);
+        r.setCitation(citation);
         referenceService.save(r);
     }
 
@@ -661,16 +677,22 @@ public class TestDataManager {
   /**
    *
    * @param taxon Set the taxon
-   * @param text Set the text
-   * @param feature Set the feature
+ * @param text Set the text
+ * @param feature Set the feature
+ * @param reference Set the reference
    */
   private void createTextualData(final Taxon taxon, final String text,
-          final Feature feature) {
+          final Feature feature, final String reference) {
       TextContent textContent = new TextContent();
       textContent.setContent(text);
       textContent.setFeature(feature);
       textContent.setTaxon(taxon);
       taxon.getContent().put(feature, textContent);
+      if (reference != null && reference.length() > 0) {
+          Reference ref = new Reference();
+          ref.setIdentifier(reference);
+          textContent.getReferences().add(ref);
+      }
   }
 
     /**

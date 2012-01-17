@@ -7,6 +7,48 @@ body{padding-top:40px;}
 #distribution-textual li:last-child:after {content: ""}
 section {width: 100%; clear: both}
 
+ul.citations {
+    list-style: none;
+}
+
+ul.citations {
+    list-style: none;
+    margin: 0px;
+    float: right;
+}
+
+ul.citations:before {
+    content: "[";
+}
+
+ul.citations:after {
+    content: "]";
+}
+
+ul.citations li {
+  display: inline;
+}
+
+ul.citations li:last-child:after {
+    content: "";
+}
+ul.citations li:after {
+    content: ",";
+}
+ul.citations li:before {
+    content: "";
+}
+section#bibliography li a:before {
+    content: "[";
+}
+section#bibliography li a:after {
+    content: "]";
+}
+section#bibliography ul {
+    list-style: none;
+}
+
+
 .masthead {
     background-color: @baseColor;
     background-image: -moz-linear-gradient(darken(@baseColor, 15), @baseColor);

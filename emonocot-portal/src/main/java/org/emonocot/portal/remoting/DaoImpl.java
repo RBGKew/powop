@@ -175,6 +175,17 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
     }
 
     /**
+    *
+    * @param t
+    *            The object to merge.
+    * @return the merged object
+    */
+   public final T merge(final T t) {
+       // TODO Auto-generated method stub
+       return null;
+   }
+
+    /**
      * @param query set the query
      * @param spatialQuery set the spatial query
      * @param pageSize set the page size

@@ -13,6 +13,10 @@ public enum ReferenceType {
     /**
      *
      */
+    Article,
+    /**
+     *
+     */
     Book,
     /**
      *

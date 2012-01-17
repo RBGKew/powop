@@ -220,4 +220,27 @@ public class TaxonPage extends PageObject implements IllustratedPage {
         return subordinateNumber.size();
     }
 
+    /**
+     *
+     * @param citeKey The citation key of the bibliography entry of interest
+     * @return the bibliography entry
+     */
+    public final String getBibliographyEntry(final String citeKey) {
+        WebElement bibliography = webDriver.findElement(By.id("bibliography"));
+        WebElement element = bibliography.findElement(By
+                .xpath("ul/li[a = '" + citeKey + "']"));
+        return element.getText();
+    }
+
+    /**
+     *
+     * @param topic The text topic
+     * @return the citations for that topic
+     */
+    public final String getCitations(final String topic) {
+        WebElement element = textContent.findElement(By
+                .xpath("div[h5 = '" + topic + "']/span[@class='citations']"));
+        return element.getText();
+    }
+
 }

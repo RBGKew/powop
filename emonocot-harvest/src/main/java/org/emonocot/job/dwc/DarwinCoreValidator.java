@@ -75,6 +75,7 @@ public abstract class DarwinCoreValidator<T extends BaseData> implements
             final AnnotationType annotationType) {
        Annotation annotation = new Annotation();
        annotation.setAnnotatedObj(object);
+       annotation.setType(annotationType);
        annotation.setJobId(getStepExecution().getJobExecutionId());
        annotation.setCode(code);
        annotation.setRecordType(recordType);

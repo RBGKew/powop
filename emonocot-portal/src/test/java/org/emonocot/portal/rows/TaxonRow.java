@@ -30,6 +30,11 @@ public class TaxonRow {
     /**
      *
      */
+    public String diagnosticReference1;
+
+    /**
+     *
+     */
     public String protologue;
 
     /**
@@ -96,9 +101,29 @@ public class TaxonRow {
    *
    */
   public String created;
-  
+
   /**
-  *
-  */
- public String parent;
+   *
+   */
+  public String parent;
+
+  /**
+   *
+   */
+  public String accepted;
+
+  /**
+   *
+   */
+  public String reference1;
+
+  /**
+   *
+   */
+  public String specificEpithet;
+
+  /**
+   *
+   */
+  public String genus;
 }

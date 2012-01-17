@@ -109,6 +109,16 @@ public abstract class ServiceImpl<T extends Base, DAO extends Dao<T>>
     }
 
     /**
+     * @param t
+     *            the object to merge
+     * @return the merged object
+     */
+    @Transactional
+    public final T merge(final T t) {
+        return dao.merge(t);
+    }
+
+    /**
      * @param page Set the offset (in size chunks, 0-based), optional
      * @param size Set the page size
      * @return A page of results

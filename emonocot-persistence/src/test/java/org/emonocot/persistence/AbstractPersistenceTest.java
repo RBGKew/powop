@@ -5,10 +5,12 @@ import java.util.concurrent.Callable;
 
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.media.Image;
+import org.emonocot.model.reference.Reference;
 import org.emonocot.model.source.Source;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.dao.AnnotationDao;
 import org.emonocot.persistence.dao.ImageDao;
+import org.emonocot.persistence.dao.ReferenceDao;
 import org.emonocot.persistence.dao.SourceDao;
 import org.emonocot.persistence.dao.TaxonDao;
 import org.hibernate.Session;
@@ -54,6 +56,12 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
      */
     @Autowired
     private TaxonDao taxonDao;
+    
+   /**
+    *
+    */
+   @Autowired
+   private ReferenceDao referenceDao;
 
     /**
      *
@@ -143,6 +151,8 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
                         annotationDao.saveOrUpdate((Annotation) obj);
                     } else if (obj.getClass().equals(Source.class)) {
                         sourceDao.saveOrUpdate((Source) obj);
+                    } else if (obj.getClass().equals(Reference.class)) {
+                        referenceDao.saveOrUpdate((Reference) obj);
                     } else if (obj.getClass().equals(JobExecution.class)) {
                         jobExecutionDao.saveJobExecution((JobExecution) obj);
                     } else if (obj.getClass().equals(JobInstance.class)) {
@@ -175,6 +185,8 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
                         annotationDao.delete(((Annotation) obj).getIdentifier());
                     } else if (obj.getClass().equals(Source.class)) {
                         sourceDao.delete(((Source) obj).getIdentifier());
+                    } else if (obj.getClass().equals(Reference.class)) {
+                        referenceDao.delete(((Reference) obj).getIdentifier());
                     }
                 }
                 getSession().flush();

@@ -31,6 +31,8 @@ import org.hibernate.search.query.facet.FacetingRequest;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Repository;
 
+import com.rc.retroweaver.runtime.Arrays;
+
 /**
  *
  * @author ben
@@ -63,8 +65,10 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
                 new Fetch("synonyms", FetchMode.SELECT),
                 new Fetch("distribution", FetchMode.SELECT),
                 new Fetch("content", FetchMode.SELECT),
+                new Fetch("content.references", FetchMode.SELECT),
                 new Fetch("images", FetchMode.SELECT),
                 new Fetch("protologue", FetchMode.JOIN),
+                new Fetch("references", FetchMode.SELECT),
                 new Fetch("ancestors", FetchMode.SELECT),
                 new Fetch("authority", FetchMode.JOIN),
                 new Fetch("sources", FetchMode.SELECT)});
@@ -241,16 +245,13 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
                     getAncestors(t, ancestors);
                     t.setAncestors(ancestors);
                 } else if (f.getMode().equals(FetchMode.SELECT)) {
-                    Object proxy;
-                    try {
-                        proxy = PropertyUtils
-                                .getProperty(t, f.getAssociation());
-                    } catch (Exception e) {
-                        throw new InvalidDataAccessApiUsageException(
-                                "Cannot get proxy " + f.getAssociation()
-                                        + " for class " + type, e);
+                    String association = f.getAssociation();
+                    if (association.indexOf(".") == -1) {
+                        initializeProperty(t, f.getAssociation());
+                    } else {
+                        List<String> associations = Arrays.asList(association.split("\\."));
+                        initializeProperties(t, associations);
                     }
-                    Hibernate.initialize(proxy);
                 }
             }
         }

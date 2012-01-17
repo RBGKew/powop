@@ -428,6 +428,30 @@ public class StepDefinitions {
         assertEquals(((TaxonPage) currentPage).getMainImage(),
                 ((TaxonPage) currentPage).getThumbnailImage(number));
     }
+
+    /**
+     *
+     * @param citeKey Set the citation key
+     * @param bibliographyEntry Set the expected bibliography entry
+     */
+    @Then("^the bibliography entry \"([^\"]*)\" should be \"([^\"]*)\"$")
+    public final void theBibliographyEntryShouldBe(final String citeKey,
+            final String bibliographyEntry) {
+        assertEquals(((TaxonPage) currentPage).getBibliographyEntry(citeKey),
+                bibliographyEntry);
+    }
+
+    /**
+     *
+     * @param topic Set the topic
+     * @param citations Set the expected citations
+     */
+    @Then("^the citation for the \"([^\"]*)\" topic should be \"([^\"]*)\"$")
+    public final void theCitationForTheTopicShouldBe(final String topic,
+            final String citations) {
+        assertEquals(((TaxonPage) currentPage).getCitations(topic),
+                citations);
+    }
     /**
      *
      * @param link Set the link
@@ -439,11 +463,11 @@ public class StepDefinitions {
 
     /**
      *
-     * @param name Set the name
+     * @param title Set the name
      */
     @Then("^the source title should be \"([^\"]*)\"$")
     public final void theSourceTitleShouldBe(final String title) {
-		assertEquals(title, ((SourcePage) currentPage).getTitle());
+        assertEquals(title, ((SourcePage) currentPage).getTitle());
     }
 
     /**

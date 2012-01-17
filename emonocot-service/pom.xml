@@ -73,6 +73,10 @@
         <groupId>net.sf.ehcache</groupId>
         <artifactId>ehcache-core</artifactId>
     </dependency>
+    <dependency>
+       <groupId>net.sourceforge.hatbox</groupId>
+       <artifactId>org.emonocot.hatbox</artifactId>
+    </dependency>
   </dependencies>
   <reporting>
 	  <plugins>

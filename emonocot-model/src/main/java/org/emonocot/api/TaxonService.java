@@ -47,5 +47,4 @@ public interface TaxonService extends SearchableService<Taxon> {
      * @return a List from the resultset
      */
     List<Taxon> loadChildren(String identifier, Integer pageSize, Integer pageNumber, String fetch);
-
 }

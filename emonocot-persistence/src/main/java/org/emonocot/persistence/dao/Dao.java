@@ -73,6 +73,13 @@ public interface Dao<T extends Base> {
   void update(T t);
 
   /**
+  *
+  * @param t The object to merge.
+  * @return the merged object
+  */
+  T merge(T t);
+
+  /**
    * @return the total number of objects
    */
   Long count();

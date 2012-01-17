@@ -2,23 +2,15 @@ package org.emonocot.job.dwc.description;
 
 import org.emonocot.job.dwc.DarwinCoreValidator;
 import org.emonocot.job.dwc.NoTaxonException;
-import org.emonocot.model.reference.Reference;
-import org.emonocot.model.source.Source;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.common.RecordType;
 import org.emonocot.model.description.TextContent;
+import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Taxon;
-import org.emonocot.api.SourceService;
-import org.emonocot.api.TaxonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.ExitStatus;
-import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.core.StepExecutionListener;
-import org.springframework.batch.item.ItemProcessor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *

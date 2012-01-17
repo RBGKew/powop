@@ -72,7 +72,12 @@ public abstract class DataManagementSupport {
     public final void setTearDown(Stack<Object> tearDown) {
         this.tearDown = tearDown;
     }
-    
+
+    /**
+     *
+     * @param groupName Set the group name
+     * @return a Group
+     */
     public final Group createGroup(String groupName) {
         Group group = new Group();
         group.setIdentifier(groupName);
@@ -80,8 +85,14 @@ public abstract class DataManagementSupport {
         tearDown.push(group);
         return group;
     }
-    
-    public final User createUser(String username, String password) {
+
+    /**
+     *
+     * @param username Set the username
+     * @param password Set the password
+     * @return a User
+     */
+    public final User createUser(final String username, final String password) {
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
@@ -118,15 +129,21 @@ public abstract class DataManagementSupport {
    /**
     *
     * @param taxon Set the taxon
-    * @param feature Set the feature
-    * @param content Set the content
+ * @param feature Set the feature
+ * @param content Set the content
+ * @param reference Set the reference
     * @return a text content object
     */
     public final TextContent createTextContent(final Taxon taxon,
-            final Feature feature, final String content) {
+            final Feature feature, final String content,
+            final Reference reference) {
        TextContent textContent = new TextContent();
        textContent.setFeature(feature);
        textContent.setContent(content);
+       textContent.setTaxon(taxon);
+       if (reference != null) {
+           textContent.getReferences().add(reference);
+       }
        taxon.getContent().put(feature, textContent);
        return textContent;
    }
@@ -233,6 +250,24 @@ public abstract class DataManagementSupport {
         setUp.add(image);
         tearDown.push(image);
         return image;
+    }
+
+    /**
+     *
+     * @param identifier Set the identifier
+     * @param title Set the title
+     * @param author Set the author
+     * @return a reference
+     */
+    public final Reference createReference(final String identifier,
+            final String title, final String author) {
+        Reference reference = new Reference();
+        reference.setIdentifier(identifier);
+        reference.setTitle(title);
+        reference.setAuthor(author);
+        setUp.add(reference);
+        tearDown.push(reference);
+        return reference;
     }
 
     /**

@@ -6,7 +6,7 @@
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 	
-	
+	<c:set var="bibliography" value="${em:bibliography(taxon)}"/>
 	<div class="content">
 		<div class="page-header">
 			<h2 id="page-title">
@@ -65,6 +65,13 @@
 							<div>
 						    	<h5><spring:message code="${feature}"/></h5>
 						    	<p>${content.content}</p>
+						    	<c:if test="${not empty content.references }">
+						    	  <span class="citations">
+						    	    <c:forEach var="reference" items="${content.references}">
+						    	      <li><a href="#${reference.identifier}">${em:citekey(bibliography, reference)}</a></li>
+						    	    </c:forEach>
+						    	  </span>
+						    	</c:if>
 						  	</div>
 						</c:if>
 					</c:forEach>
@@ -228,11 +235,27 @@
 					</ul>
 				</section>
 			</c:if>
+			<c:if test="${not empty bibliography.references}">
+		        <section id="bibliography">
+					<h5>
+						<spring:message code="bibliography" />
+					</h5>
+					<ul>
+						<c:forEach var="reference" items="${bibliography.references}">
+							<li>
+								<a id="${reference.identifier}">${em:citekey(bibliography,reference)}</a>                      				
+                      		    ${reference.citation}
+                   			</li>
+						</c:forEach>
+					</ul>
+		       </section>
+		   </c:if>
 			
 		</div>
 		<div class="span4 info-right">
-			<div><spring:message code="sources" /></div>
-			<ul>
+		    <section id="sources">
+			  <h5><spring:message code="sources" /></h5>
+			  <ul>
 				<c:forEach var="source" items="${taxon.sources}">
 					<li>
 						<jsp:element name="a">
@@ -243,7 +266,8 @@
                     	</jsp:element>
                    	</li>
 				</c:forEach>
-			</ul>
+			  </ul>
+			</section>
 				
 			<ul id="taxonHierarchy" class="no-bullet">
 				<c:if test="${not empty taxon.ancestors}">

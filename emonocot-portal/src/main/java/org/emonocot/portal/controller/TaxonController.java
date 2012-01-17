@@ -152,8 +152,9 @@ public class TaxonController {
         } catch (URISyntaxException e) {
             logger.error(e.getMessage());
         }
-        ResponseEntity<Taxon> response = new ResponseEntity<Taxon>(
-                service.save(taxon), httpHeaders, HttpStatus.CREATED);
+        service.merge(taxon);
+        ResponseEntity<Taxon> response = new ResponseEntity<Taxon>(taxon,
+                httpHeaders, HttpStatus.CREATED);
         return response;
     }
 

@@ -669,6 +669,24 @@
                 <artifactId>geodb</artifactId>
                 <version>0.7-RC1</version>
                 <scope>test</scope>
+                <exclusions>
+                  <exclusion>
+                    <groupId>net.sourceforge.hatbox</groupId>
+                    <artifactId>hatbox</artifactId>
+                  </exclusion>
+                </exclusions>
+            </dependency>
+            <!-- 
+            /**
+             * To cope with the fact that hatbox is compiled with support for both java 6 and java 1.5,
+             * leading to "java.lang.SecurityException: Prohibited package name: java.sql"
+             */
+             -->
+            <dependency>
+              <groupId>net.sourceforge.hatbox</groupId>
+              <artifactId>org.emonocot.hatbox</artifactId>
+              <version>1.0.b9</version>
+              <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>mysql</groupId>

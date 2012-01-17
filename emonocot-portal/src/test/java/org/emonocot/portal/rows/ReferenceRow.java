@@ -31,4 +31,9 @@ public class ReferenceRow {
      *
      */
     public String page;
+
+    /**
+     *
+     */
+    public String citation;
 }

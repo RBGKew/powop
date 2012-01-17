@@ -170,12 +170,12 @@ public class DataSetup {
             final List<TaxonRow> rows) {
         for (TaxonRow row : rows) {
             testDataManager.createTaxon(row.identifier, row.name, row.family,
-                    null, null, row.rank, row.status, row.diagnostic,
-                    row.habitat, row.general, row.protologue,
-                    row.protologueMicroReference, row.image1, row.image2,
-                    row.image3, row.distribution1, row.distribution2,
-                    row.distribution3, row.source, row.created, row.parent,
-                    null);
+                    row.genus, row.specificEpithet, row.rank, row.status,
+                    row.diagnostic, row.diagnosticReference1, row.habitat,
+                    row.general, row.protologue, row.protologueMicroReference,
+                    row.image1, row.image2, row.image3, row.distribution1,
+                    row.distribution2, row.distribution3, row.source,
+                    row.created, row.parent, row.accepted, row.reference1);
         }
 
     }
@@ -190,7 +190,7 @@ public class DataSetup {
             final List<ReferenceRow> rows) {
         for (ReferenceRow row : rows) {
             testDataManager.createReference(row.identifier, row.title,
-                    row.datePublished, row.volume, row.page);
+                    row.datePublished, row.volume, row.page, row.citation);
         }
     }
 

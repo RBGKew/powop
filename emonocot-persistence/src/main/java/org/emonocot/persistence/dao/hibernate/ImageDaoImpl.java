@@ -38,11 +38,10 @@ public class ImageDaoImpl extends SearchableDaoImpl<Image> implements ImageDao {
 
     static {
         FETCH_PROFILES = new HashMap<String, Fetch[]>();
-        FETCH_PROFILES.put("image-page", new Fetch[] { 
-        		new Fetch("taxon", FetchMode.JOIN),
-        		new Fetch("authority", FetchMode.JOIN),
-        		new Fetch("sources", FetchMode.SELECT)
-        // new Fetch("taxa", FetchMode.SELECT)
+        FETCH_PROFILES.put("image-page", new Fetch[] {
+                new Fetch("taxon", FetchMode.JOIN),
+                new Fetch("authority", FetchMode.JOIN),
+                new Fetch("sources", FetchMode.SELECT)
                 });
 
     }
@@ -135,7 +134,7 @@ public class ImageDaoImpl extends SearchableDaoImpl<Image> implements ImageDao {
         		Continent continent = Continent.valueOf(selectedContinent);
         		List<Facet> facets = facetManager.getFacets(facetName.REGION.name());
         		List<Facet> filteredFacets = new ArrayList<Facet>();
-        		for(Facet f : facets) {
+        		for (Facet f : facets) {
         			Region r = Region.valueOf(f.getValue());
         			if (r.getContinent().equals(continent)){
         				filteredFacets.add(f);

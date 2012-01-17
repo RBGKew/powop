@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.emonocot.api.ReferenceService;
 import org.emonocot.job.dwc.DarwinCoreFieldSetMapper;
@@ -145,7 +146,7 @@ public class DescriptionFieldSetMapper extends
             }
         }
 
-        // Unknowns Terms
+        // Unknown Terms
         if (term instanceof UnknownTerm) {
             UnknownTerm unknownTerm = (UnknownTerm) term;
             if (unknownTerm.qualifiedName().equals(
@@ -168,27 +169,32 @@ public class DescriptionFieldSetMapper extends
      * @param value the source of the reference to resolve
      */
     private void resolveReference(final TextContent object, final String value) {
-        if (boundReferences .containsKey(value)) {
-            object.getReferences().add(boundReferences.get(value));
+        if (value == null || value.trim().length() == 0) {
+            // there is not citation identifier
+            return;
         } else {
-            Reference r = referenceService.find(value);
-            if (r == null) {
-                r = new Reference();
-                Annotation annotation = new Annotation();
-                annotation.setAnnotatedObj(r);
-                annotation.setJobId(
-                        getStepExecution().getJobExecutionId());
-                annotation.setCode(AnnotationCode.Create);
-                annotation.setRecordType(RecordType.Reference);
-                annotation.setType(AnnotationType.Info);
-                annotation.setSource(getSource());
-                r.getAnnotations().add(annotation);
-                r.getSources().add(getSource());
-                r.setAuthority(getSource());
-                r.setSource(value);
+            if (boundReferences.containsKey(value)) {
+                object.getReferences().add(boundReferences.get(value));
+            } else {
+                Reference r = referenceService.findBySource(value);
+                if (r == null) {
+                    r = new Reference();
+                    r.setIdentifier(UUID.randomUUID().toString());
+                    Annotation annotation = new Annotation();
+                    annotation.setAnnotatedObj(r);
+                    annotation.setJobId(getStepExecution().getJobExecutionId());
+                    annotation.setCode(AnnotationCode.Create);
+                    annotation.setRecordType(RecordType.Reference);
+                    annotation.setType(AnnotationType.Info);
+                    annotation.setSource(getSource());
+                    r.getAnnotations().add(annotation);
+                    r.getSources().add(getSource());
+                    r.setAuthority(getSource());
+                    r.setSource(value);
+                }
+                boundReferences.put(value, r);
+                object.getReferences().add(r);
             }
-            boundReferences.put(value, r);
-            object.getReferences().add(r);
         }
     }
 

@@ -20,9 +20,11 @@ import org.emonocot.model.geography.Country;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.GeographicalRegionComparator;
 import org.emonocot.model.geography.Region;
+import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.AlphabeticalTaxonComparator;
 import org.emonocot.model.taxon.Taxon;
-import org.hibernate.Hibernate;
+import org.emonocot.portal.view.bibliography.Bibliography;
+import org.emonocot.portal.view.bibliography.SimpleBibliographyImpl;
 import org.hibernate.proxy.HibernateProxy;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
@@ -262,4 +264,26 @@ public final class Functions {
     public static String convert(final Object object) {
         return conversionService.convert(object, String.class);
     }
+
+    /**
+     *
+     * @param taxon Set the taxon
+     * @return the bibliography
+     */
+    public static Bibliography bibliography(final Taxon taxon) {
+        Bibliography bibliography = new SimpleBibliographyImpl();
+        bibliography.setReferences(taxon);
+        return bibliography;
+    }
+
+   /**
+    *
+    * @param bibliography Set the bibliography
+    * @param reference Set the reference
+    * @return the citation key
+    */
+    public static String citekey(final Bibliography bibliography,
+            final Reference reference) {
+       return bibliography.getKey(reference);
+   }
 }

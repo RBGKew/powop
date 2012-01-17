@@ -71,7 +71,7 @@ public class JobDaoTest extends AbstractPersistenceTest {
         super.createJobExecution(jobInstance);
         Taxon taxon1 = createTaxon("Aus", "1", null, null, null, null, null,
                 null, null, null, null, new GeographicalRegion[] {});
-        createTextContent(taxon1, Feature.habitat, "Lorem ipsum");
+        createTextContent(taxon1, Feature.habitat, "Lorem ipsum", null);
         Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null, null, null,
                 null, null, null, null, null,
                 new GeographicalRegion[] {Continent.AUSTRALASIA,

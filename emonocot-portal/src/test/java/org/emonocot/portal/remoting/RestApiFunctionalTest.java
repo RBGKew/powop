@@ -16,6 +16,7 @@ import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.geography.Country;
 import org.emonocot.model.media.Image;
+import org.emonocot.model.reference.Reference;
 import org.emonocot.model.source.Source;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.model.user.Group;
@@ -25,6 +26,7 @@ import org.emonocot.persistence.dao.GroupDao;
 import org.emonocot.persistence.dao.ImageDao;
 import org.emonocot.persistence.dao.JobExecutionDao;
 import org.emonocot.persistence.dao.JobInstanceDao;
+import org.emonocot.persistence.dao.ReferenceDao;
 import org.emonocot.persistence.dao.SourceDao;
 import org.emonocot.persistence.dao.TaxonDao;
 import org.emonocot.persistence.dao.UserDao;
@@ -48,9 +50,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
- * 
+ *
  * @author ben
- * 
+ *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/applicationContext-test.xml")
@@ -68,11 +70,17 @@ public class RestApiFunctionalTest {
     @Autowired
     private ImageDao imageDao;
 
-    /**
+   /**
     *
     */
     @Autowired
     private GroupDao groupDao;
+
+   /**
+    *
+    */
+    @Autowired
+    private ReferenceDao referenceDao;
 
     /**
     *
@@ -178,13 +186,19 @@ public class RestApiFunctionalTest {
         image.setUrl("http://upload.wikimedia.org/wikipedia/commons/2/25/Illustration_Acorus_calamus0.jpg");
         imageDao.save(image);
 
+        Reference reference = new Reference();
+        reference.setIdentifier("referenceIdentifier");
+        referenceDao.save(reference);
+
         Taxon taxon = new Taxon();
         taxon.setName("Acorus");
         taxon.setIdentifier("urn:kew.org:wcs:taxon:2295");
         TextContent textContent = new TextContent();
         textContent.setContent("Lorem ipsum");
         textContent.setFeature(Feature.habitat);
+        textContent.getReferences().add(reference);
         textContent.setTaxon(taxon);
+        taxon.getReferences().add(reference);
         taxon.getContent().put(Feature.habitat, textContent);
         Distribution distribution = new Distribution();
         distribution.setTaxon(taxon);
@@ -194,6 +208,7 @@ public class RestApiFunctionalTest {
         taxonDao.save(taxon);
 
         taxonDao.delete("urn:kew.org:wcs:taxon:2295");
+        referenceDao.delete("referenceIdentifier");
         imageDao.delete("urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg");
     }
 
