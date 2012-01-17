@@ -258,9 +258,15 @@
         </field>
        <field>
           <a>distribution</a>
-          <b set-method="addHasInformation">hasInformation</b>
+          <b set-method="addHasInformations">hasInformation</b>
           <a-hint>org.emonocot.checklist.model.Distribution</a-hint>
           <b-hint>org.tdwg.voc.Distribution</b-hint>
+        </field>
+       <field>
+          <a>climate</a>
+          <b set-method="addHasInformation">hasInformation</b>
+          <a-hint>org.emonocot.checklist.model.Climate</a-hint>
+          <b-hint>org.tdwg.voc.Habitat</b-hint>
         </field>
     </mapping>
     
@@ -271,6 +277,15 @@
             <a>this</a>
             <b set-method="addValue">hasValue</b>
         </field>
+    </mapping>
+    
+    <mapping>
+    	<class-a>org.emonocot.checklist.model.Climate</class-a>
+    	<class-b>org.tdwg.voc.Habitat</class-b>
+    	<field>
+    		<a>description</a>
+    		<b>hasContent</b>
+    	</field>
     </mapping>
     
 </mappings>    

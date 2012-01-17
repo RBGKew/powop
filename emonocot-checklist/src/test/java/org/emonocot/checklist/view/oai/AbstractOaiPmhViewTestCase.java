@@ -149,8 +149,9 @@ public abstract class AbstractOaiPmhViewTestCase extends XMLTestCase {
      */
     public final void testView() throws Exception {
         view.render(model, request, response);
-        logger.info(((MockHttpServletResponse) response)
+                System.out.println(((MockHttpServletResponse) response)
                 .getContentAsString());
+        
         Diff difference = new Diff(getExpected(),
                 ((MockHttpServletResponse) response).getContentAsString());
         difference
@@ -189,10 +190,13 @@ public abstract class AbstractOaiPmhViewTestCase extends XMLTestCase {
                   + "hasInformation[1]/Distribution[1]/hasValue[1]/@resource",
                   "/OAI-PMH[1]/GetRecord[1]/record[1]/metadata[1]/"
                   + "TaxonConcept[1]/describedBy[1]/SpeciesProfileModel[1]/"
-                  + "hasInformation[2]/Distribution[1]/hasValue[1]/@resource",
+                  + "hasInformation[2]/hasContent[1]/text()[1]",
                   "/OAI-PMH[1]/GetRecord[1]/record[1]/metadata[1]/"
                   + "TaxonConcept[1]/describedBy[1]/SpeciesProfileModel[1]/"
-                  + "hasInformation[3]/Distribution[1]/hasValue[1]/@resource"));
+                  + "hasInformation[3]/Distribution[1]/hasValue[1]/@resource",
+                  "/OAI-PMH[1]/GetRecord[1]/record[1]/metadata[1]/"
+                  + "TaxonConcept[1]/describedBy[1]/SpeciesProfileModel[1]/"
+                  + "hasInformation[4]/Distribution[1]/hasValue[1]/@resource"));
         difference
                 .overrideElementQualifier(
                         new RecursiveElementNameAndTextQualifier());

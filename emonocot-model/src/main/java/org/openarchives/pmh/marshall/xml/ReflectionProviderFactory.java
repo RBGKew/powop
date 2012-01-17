@@ -298,7 +298,8 @@ public class ReflectionProviderFactory extends
         "tcomTcsEquivalence",
         "spmCategory",
         "spmContextValues",
-        "spmHasValues"
+        "spmHasValues",
+        "spmHasContent"
    };
 
    /**
@@ -404,12 +405,13 @@ public class ReflectionProviderFactory extends
                 ReflectionProviderFactory.RELATIONSHIP_FIELDS);
         sorter.registerFieldOrder(SpeciesProfileModel.class,
                 ReflectionProviderFactory.SPM_FIELDS);
-        sorter.registerFieldOrder(InfoItem.class,
-                ReflectionProviderFactory.INFO_ITEM_FIELDS);
         sorter.registerFieldOrder(Distribution.class,
                 ReflectionProviderFactory.INFO_ITEM_FIELDS);
         sorter.registerFieldOrder(QuantitativeData.class,
                 ReflectionProviderFactory.QUANTITATIVE_DATA_FIELDS);
+        //More generic classes go later than sub-classes
+        sorter.registerFieldOrder(InfoItem.class,
+                ReflectionProviderFactory.INFO_ITEM_FIELDS);
         sorter.registerFieldOrder(PublicationCitation.class,
                 ReflectionProviderFactory.PUBLICATION_CITATION_FIELDS);
 

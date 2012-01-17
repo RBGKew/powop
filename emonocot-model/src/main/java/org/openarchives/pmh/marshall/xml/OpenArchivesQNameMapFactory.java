@@ -271,6 +271,9 @@ public class OpenArchivesQNameMapFactory extends
                 "http://rs.tdwg.org/ontology/voc/SpeciesProfileModel#",
                 "hasValue", "spm"), "spmHasValue");
         qNameMap.registerMapping(new QName(
+                "http://rs.tdwg.org/ontology/voc/SpeciesProfileModel#",
+                "hasContent", "spm"), "spmHasContent");
+        qNameMap.registerMapping(new QName(
                 "http://rs.tdwg.org/ontology/voc/GeographicRegion#",
                 "GeographicRegion", "gr"), "grGeographicRegion");
         qNameMap.registerMapping(new QName(

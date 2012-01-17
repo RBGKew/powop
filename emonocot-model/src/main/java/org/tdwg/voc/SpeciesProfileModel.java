@@ -100,7 +100,7 @@ public class SpeciesProfileModel extends Description {
      *
      * @param infoItems add more information to this description
      */
-    public final void addHasInformation(final Set<InfoItem> infoItems) {
+    public final void addHasInformations(final Set<InfoItem> infoItems) {
         if (infoItems != null) {
             if (this.spmHasInformations == null) {
                 this.spmHasInformations = new HashSet<HasInformation>();
@@ -108,6 +108,16 @@ public class SpeciesProfileModel extends Description {
             for (InfoItem infoItem : infoItems) {
                 spmHasInformations.add(new HasInformation(infoItem));
             }
+        }
+    }
+
+    /**
+     *
+     * @param infoItem add a single item of information to this description
+     */
+    public final void addHasInformation(final InfoItem infoItem) {
+        if (infoItem != null) {
+            spmHasInformations.add(new HasInformation(infoItem));
         }
     }
 }
