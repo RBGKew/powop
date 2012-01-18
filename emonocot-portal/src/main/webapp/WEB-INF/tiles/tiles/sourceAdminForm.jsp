@@ -41,7 +41,7 @@
 						<jsp:attribute name="class">${class}</jsp:attribute>
 						<label><spring:message code="source.title" /></label>
 						<div class="input">
-							<form:input path="title" />
+							<form:input class="xxlarge" path="title" />
 							<span class="help-inline"><form:errors path="title" /></span>
 						</div>
 					</jsp:element>
@@ -59,8 +59,26 @@
 						<jsp:attribute name="class">${class}</jsp:attribute>
 						<label><spring:message code="source.uri" /></label>
 						<div class="input">
-							<form:input path="uri" />
+							<form:input class="xxlarge" path="uri" />
 							<span class="help-inline"><form:errors path="uri" /></span>
+						</div>
+					</jsp:element>
+				</spring:bind>
+				<spring:bind path="source.logoUrl">
+					<c:choose>
+						<c:when test="${not empty status.errorMessage}">
+							<c:set var="class">clearfix error</c:set>
+						</c:when>
+						<c:otherwise>
+							<c:set var="class">clearfix</c:set>
+						</c:otherwise>
+					</c:choose>
+					<jsp:element name="div">
+						<jsp:attribute name="class">${class}</jsp:attribute>
+						<label><spring:message code="source.logoUrl" /></label>
+						<div class="input">
+							<form:input class="xxlarge" path="logoUrl" />
+							<span class="help-inline"><form:errors path="logoUrl" /></span>
 						</div>
 					</jsp:element>
 				</spring:bind>
@@ -77,7 +95,7 @@
 						<jsp:attribute name="class">${class}</jsp:attribute>
 						<label><spring:message code="source.creator" /></label>
 						<div class="input">
-							<form:input path="creator" />
+							<form:input class="xxlarge" path="creator" />
 							<span class="help-inline"><form:errors path="creator" /></span>
 						</div>
 					</jsp:element>
@@ -95,7 +113,7 @@
 						<jsp:attribute name="class">${class}</jsp:attribute>
 						<label><spring:message code="source.creatorEmail" /></label>
 						<div class="input">
-							<form:input path="creatorEmail" />
+							<form:input class="xxlarge" path="creatorEmail" />
 							<span class="help-inline"><form:errors path="creatorEmail" /></span>
 						</div>
 					</jsp:element>
@@ -111,9 +129,9 @@
 					</c:choose>
 					<jsp:element name="div">
 						<jsp:attribute name="class">${class}</jsp:attribute>
-						<label><spring:message code="source.creatorEmail" /></label>
+						<label><spring:message code="source.created" /></label>
 						<div class="input">
-							<form:input path="created" />
+							<form:input class="xxlarge" path="created" />
 							<span class="help-inline"><form:errors path="created" /></span>
 						</div>
 					</jsp:element>
@@ -131,7 +149,7 @@
 						<jsp:attribute name="class">${class}</jsp:attribute>
 						<label><spring:message code="source.description" /></label>
 						<div class="input">
-							<form:input path="description" />
+							<form:textarea class="xxlarge" rows="5" path="description" />
 							<span class="help-inline"><form:errors path="description" /></span>
 						</div>
 					</jsp:element>
@@ -149,7 +167,7 @@
 						<jsp:attribute name="class">${class}</jsp:attribute>
 						<label><spring:message code="source.publisherName" /></label>
 						<div class="input">
-							<form:input path="publisherName" />
+							<form:input class="xxlarge" path="publisherName" />
 							<span class="help-inline"><form:errors path="publisherName" /></span>
 						</div>
 					</jsp:element>
@@ -167,13 +185,48 @@
 						<jsp:attribute name="class">${class}</jsp:attribute>
 						<label><spring:message code="source.publisherEmail" /></label>
 						<div class="input">
-							<form:input path="publisherEmail" />
+							<form:input class="xxlarge" path="publisherEmail" />
 							<span class="help-inline"><form:errors path="publisherEmail" /></span>
 						</div>
 					</jsp:element>
 				</spring:bind>
-					
-												
+				<spring:bind path="source.subject">
+					<c:choose>
+						<c:when test="${not empty status.errorMessage}">
+							<c:set var="class">clearfix error</c:set>
+						</c:when>
+						<c:otherwise>
+							<c:set var="class">clearfix</c:set>
+						</c:otherwise>
+					</c:choose>
+					<jsp:element name="div">
+						<jsp:attribute name="class">${class}</jsp:attribute>
+						<label><spring:message code="source.subject" /></label>
+						<div class="input">
+							<form:textarea class="xxlarge" path="subject" />
+							<span class="help-inline"><form:errors path="subject" /></span>
+						</div>
+					</jsp:element>
+				</spring:bind>
+				<spring:bind path="source.source">
+					<c:choose>
+						<c:when test="${not empty status.errorMessage}">
+							<c:set var="class">clearfix error</c:set>
+						</c:when>
+						<c:otherwise>
+							<c:set var="class">clearfix</c:set>
+						</c:otherwise>
+					</c:choose>
+					<jsp:element name="div">
+						<jsp:attribute name="class">${class}</jsp:attribute>
+						<label><spring:message code="source.source" /></label>
+						<div class="input">
+							<form:textarea class="xxlarge" path="source" />
+							<span class="help-inline"><form:errors path="source" /></span>
+						</div>
+					</jsp:element>
+				</spring:bind>	
+											
 				<div class="clearfix">
 				  <div class="input">
 				    <jsp:element name="input" class="btn primary">

@@ -24,6 +24,12 @@ public class SourcePage extends PageObject {
    */
   @FindBy(how = How.ID, using = "page-title")
   private WebElement title;
+  
+  /**
+  *
+  */
+ @FindBy(how = How.ID, using = "source-uri")
+ private WebElement uri;
 
     /**
      *
@@ -40,6 +46,14 @@ public class SourcePage extends PageObject {
     public final String getTitle() {
         return title.getText();
     }
+    
+    /**
+    *
+    * @return the uri
+    */
+   public final String getSourceUri() {
+       return uri.getText();
+   }
    
 
 }

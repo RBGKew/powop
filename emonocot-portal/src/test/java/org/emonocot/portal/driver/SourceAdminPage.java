@@ -19,6 +19,22 @@ public class SourceAdminPage extends PageObject {
     */
    @FindBy(how = How.ID, using = "jobs")
    private WebElement jobs;
+   
+   /**
+   *
+   */
+  @FindBy(how = How.ID, using = "source-uri")
+  private WebElement uri;
+  
+  /**
+  *
+  * @return the uri
+  */
+ public final String getSourceUri() {
+     return uri.getAttribute("href");
+ }
+ 
+
 
     /**
      *

@@ -22,40 +22,40 @@
 			<div class="row">
 			<h3 id="page-title" class="span12">${source.title}</h3>
 			<div class="content-wrapper">
-			<a href="${source.uri}" class="pull-right">
+			<a href="${source.uri}" id="source-uri" class="pull-right">
 				<spring:message code="availableAt" />
 			</a>
 			</div>
 			</div>
 			<h5>
-				<spring:message code="creator" />
+				<spring:message code="source.creator" />
 			</h5>
 			<p>${source.creator}</p>
 			<h5>
-				<spring:message code="email" />
+				<spring:message code="source.creatorEmail" />
 			</h5>
 			<a href="mailto:${source.creatorEmail}">${source.creatorEmail}</a>
 			
 			<h5>
-				<spring:message code="creationDate" />
+				<spring:message code="source.created" />
 			</h5>
 			<p>${source.created}</p>
 			
 			<h5>
-				<spring:message code="description" />
+				<spring:message code="source.description" />
 			</h5>
 			<p>${source.description}</p>
 
 			<h5>
-				<spring:message code="publisherName" />
+				<spring:message code="source.publisherName" />
 			</h5>
 			<p>${source.publisherName}</p>
 			<h5>
-				<spring:message code="email" />
+				<spring:message code="source.publisherEmail" />
 			</h5>
 			<a href="mailto:${source.publisherEmail}">${source.publisherEmail}</a>
 			<h5>
-				<spring:message code="keywords" />
+				<spring:message code="source.subject" />
 			</h5>
 			<c:if test="${not empty source.subject}">
 		          <c:forEach var="subject" items="${em:split(source.subject,';')}" varStatus="status">
@@ -71,7 +71,7 @@
 		        </c:if>
 			
 			<h5>
-				<spring:message code="reference" />
+				<spring:message code="source.source" />
 			</h5>
 			<p>${source.source}</p>
 		</div>

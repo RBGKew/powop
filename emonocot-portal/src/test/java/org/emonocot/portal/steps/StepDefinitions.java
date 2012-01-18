@@ -24,6 +24,7 @@ import org.emonocot.portal.driver.RequiresLoginException;
 import org.emonocot.portal.driver.SearchResultsPage;
 import org.emonocot.portal.driver.SourceAdminPage;
 import org.emonocot.portal.driver.SourceJobPage;
+import org.emonocot.portal.driver.SourceFormPage;
 import org.emonocot.portal.driver.SourcePage;
 import org.emonocot.portal.driver.TaxonPage;
 import org.emonocot.portal.rows.AccessControlRow;
@@ -133,6 +134,16 @@ public class StepDefinitions {
             final List<GroupRow> groupRows) {
         ((GroupFormPage) currentPage).setGroupName(groupRows.get(0).identifier);
     }
+    
+    /**
+     * @param sourceRows
+     *            set the source rows
+     */
+    @When("^I enter the following data into the source form:$")
+    public void IEnterTheFollowingDataIntoTheSourceForm(
+    		final List<SourceRow> sourceRows) {
+    	((SourceFormPage) currentPage).setSourceUri(sourceRows.get(0).uri);
+    }
 
     /**
      *
@@ -164,6 +175,16 @@ public class StepDefinitions {
         currentPage = ((GroupPage) currentPage).selectLink(linkText,
                 GroupUpdatePage.class);
     }
+    
+    /**
+    *
+    * @param linkText Set the link text
+    */
+   @When("^I select \"(Edit this source)\"$")
+   public final void iSelectEditThisSource(final String linkText) {
+       currentPage = ((SourceAdminPage) currentPage).selectLink(linkText,
+               SourceFormPage.class);
+   }
 
     /**
      *
@@ -180,6 +201,14 @@ public class StepDefinitions {
     public final void iSubmitTheGroupForm() {
          currentPage = ((GroupFormPage) currentPage).submit();
     }
+    
+    /**
+    *
+    */
+   @When("^I submit the source form$")
+   public final void iSubmitTheSourceForm() {
+        currentPage = ((SourceFormPage) currentPage).submit();
+   }
 
     /**
      *
@@ -328,6 +357,11 @@ public class StepDefinitions {
     public final void thereShouldBeJobsListed(final int jobs) {
         assertEquals(jobs, ((SourceAdminPage) currentPage).getJobsListed()
                 .intValue());
+    }
+    
+    @Then("^the source uri should be \"([^\"]*)\"$")
+    public void theSourceUriShouldBe(final String uri) {
+    	assertEquals(uri, ((SourceAdminPage) currentPage).getSourceUri());
     }
 
     /**

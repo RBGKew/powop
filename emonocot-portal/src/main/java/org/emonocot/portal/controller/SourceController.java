@@ -28,7 +28,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -228,8 +227,18 @@ public class SourceController {
     		        if (result.hasErrors()) {
     		            return "sourceAdminForm";
     		        }
-
-    		        service.saveOrUpdate(source);
+                    Source persistedSource = service.load(identifier);
+                    persistedSource.setTitle(source.getTitle());
+                    persistedSource.setUri(source.getUri());
+                    persistedSource.setCreator(source.getCreator());
+                    persistedSource.setCreatorEmail(source.getCreatorEmail());
+                    persistedSource.setCreated(source.getCreated());
+                    persistedSource.setDescription(source.getDescription());
+                    persistedSource.setPublisherName(source.getPublisherName());
+                    persistedSource.setPublisherEmail(source.getPublisherEmail());
+                    persistedSource.setSubject(source.getSubject());
+                    persistedSource.setSource(source.getSource());
+    		        service.saveOrUpdate(persistedSource);
     		        String[] codes = new String[] {"source.updated" };
     		        Object[] args = new Object[] {source.getTitle()};
     		        DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(

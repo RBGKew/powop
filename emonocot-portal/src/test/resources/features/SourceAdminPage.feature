@@ -8,8 +8,8 @@ Feature: Source Admin Page
 
 Background:
   Given there are source systems with the following properties:
-  | identifier | uri                 |
-  | test       | http://example.com  |
+  | identifier | uri                 | title      |
+  | test       | http://example.com  | test title |
   And there are groups with the following properties:
   | identifier    | permission1            |
   | test          | PERMISSION_VIEW_SOURCE |
@@ -64,3 +64,17 @@ Scenario: Check SourcePage
   | Error | 1     |
   | Info  | 2     |
   | Warn  | 1     |
+  
+Scenario: Edit SourceAdminPage
+  In order to allow privileged users access to restricted areas, as an
+  administrator, I want to be able to edit a source page
+  Given I am logged in as "test@example.com" with the password "Poa annua"
+  When I navigate to source admin page for "test" 
+  And I select "Edit this source"
+  And I enter the following data into the source form:
+  | uri               |
+  | http://google.com |
+  And I submit the source form
+  Then an info message should say "test title was updated"
+  When I navigate to source admin page for "test" 
+  Then the source uri should be "http://google.com/"   
