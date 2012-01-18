@@ -149,7 +149,7 @@ public abstract class AbstractOaiPmhViewTestCase extends XMLTestCase {
      */
     public final void testView() throws Exception {
         view.render(model, request, response);
-                System.out.println(((MockHttpServletResponse) response)
+        logger.info(((MockHttpServletResponse) response)
                 .getContentAsString());
         
         Diff difference = new Diff(getExpected(),
