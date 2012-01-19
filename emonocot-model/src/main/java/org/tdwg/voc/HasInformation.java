@@ -52,6 +52,11 @@ public class HasInformation {
      */
     private QuantitativeData grassQuantitativeData;
 
+	/**
+	 * 
+	 */
+	private Habitat spmiHabitat;
+
     /**
      *
      */
@@ -67,6 +72,8 @@ public class HasInformation {
             this.spmiDistribution = (Distribution) newInfoItem;
         } else if (newInfoItem instanceof QuantitativeData) {
             this.grassQuantitativeData = (QuantitativeData) newInfoItem;
+        } else if (newInfoItem instanceof Habitat){
+            this.spmiHabitat = (Habitat) newInfoItem;
         } else {
             this.spmInfoItem = newInfoItem;
         }
@@ -81,6 +88,8 @@ public class HasInformation {
             return spmiDistribution;
         } else if (this.grassQuantitativeData != null) {
             return grassQuantitativeData;
+        } else if (this.spmiHabitat != null) {
+            return spmiHabitat;
         } else {
             return this.spmInfoItem;
         }
@@ -95,6 +104,8 @@ public class HasInformation {
             this.spmiDistribution = (Distribution) newInfoItem;
         } else if (newInfoItem instanceof QuantitativeData) {
             this.grassQuantitativeData = (QuantitativeData) newInfoItem;
+        } else if (newInfoItem instanceof Habitat) {
+            this.spmiHabitat = (Habitat) newInfoItem;
         } else {
             this.spmInfoItem = newInfoItem;
         }

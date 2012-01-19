@@ -14,6 +14,7 @@ import org.openarchives.pmh.Set;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
 import org.tdwg.PublicationCitation;
 import org.tdwg.voc.Distribution;
+import org.tdwg.voc.Habitat;
 import org.tdwg.voc.InfoItem;
 import org.tdwg.voc.Relationship;
 import org.tdwg.voc.SpeciesProfileModel;
@@ -409,6 +410,8 @@ public class ReflectionProviderFactory extends
         sorter.registerFieldOrder(InfoItem.class,
                 ReflectionProviderFactory.INFO_ITEM_FIELDS);
         sorter.registerFieldOrder(Distribution.class,
+                ReflectionProviderFactory.INFO_ITEM_FIELDS);
+        sorter.registerFieldOrder(Habitat.class,
                 ReflectionProviderFactory.INFO_ITEM_FIELDS);
         sorter.registerFieldOrder(QuantitativeData.class,
                 ReflectionProviderFactory.QUANTITATIVE_DATA_FIELDS);
