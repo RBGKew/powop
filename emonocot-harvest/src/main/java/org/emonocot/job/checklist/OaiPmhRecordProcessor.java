@@ -36,9 +36,9 @@ public interface OaiPmhRecordProcessor extends ItemProcessor<Record, Taxon>,
     Map<String, Set<TaxonRelationship>> getInverseRelationships();
 
     /**
-     * @param SourceName set the Source id
+     * @param sourceName set the Source id
      */
-    void setSourceName(String SourceName);
+    void setSourceName(String sourceName);
 
     /**
      *

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+    <!-- ActiveMQ ConnectionFactory -->    
+    <Resource name="jms/ConnectionFactory" auth="Container" type="org.apache.activemq.ActiveMQConnectionFactory"
+        description="JMS Connection Factory" factory="org.apache.activemq.jndi.JNDIReferenceFactory" 
+        brokerURL="tcp://localhost:61616" brokerName="localhost"/>
+
+    <!-- ActiveMQ HibernateSearch queue -->    
+    <Resource name="queue/eMonocotLuceneQueue" auth="Container" type="org.apache.activemq.command.ActiveMQQueue"
+        description="eMonocot Lucene Queue" factory="org.apache.activemq.jndi.JNDIReferenceFactory"
+        physicalName="eMonocotLuceneQueue"/>
+    
+</Context>

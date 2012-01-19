@@ -14,7 +14,7 @@
                            http://activemq.apache.org/schema/core 
                            http://activemq.apache.org/schema/core/activemq-core.xsd">
     
-    <context:component-scan base-package="org.emonocot.portal.messaging" />
+    <context:component-scan base-package="org.emonocot.harvest.messaging" />
     
     <!--  Embedded ActiveMQ Broker -->
     <amq:broker id="broker" useJmx="false" persistent="false">

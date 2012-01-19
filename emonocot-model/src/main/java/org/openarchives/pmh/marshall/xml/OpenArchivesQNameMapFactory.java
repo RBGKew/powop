@@ -2,12 +2,10 @@ package org.openarchives.pmh.marshall.xml;
 
 import javax.xml.namespace.QName;
 
-import org.openarchives.pmh.Metadata;
 import org.openarchives.pmh.OAIPMH;
 import org.openarchives.pmh.Record;
 import org.openarchives.pmh.ResumptionToken;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
-import org.tdwg.voc.TaxonConcept;
 
 import com.thoughtworks.xstream.io.xml.QNameMap;
 

@@ -1,4 +1,4 @@
-package org.emonocot.portal.messaging;
+package org.emonocot.harvest.messaging;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -13,27 +13,44 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+/**
+ *
+ * @author ben
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 public class JmsMessageListenerIntegrationTest {
 
-    final Logger logger = LoggerFactory.getLogger(JmsMessageListenerIntegrationTest.class);
+    /**
+     *
+     */
+    private static Logger logger = LoggerFactory
+            .getLogger(JmsMessageListenerIntegrationTest.class);
 
+    /**
+     *
+     */
     @Autowired
     private AtomicInteger counter = null;
-    
+
+    /**
+     *
+     * @throws Exception if there is a problem
+     */
     @Test
-    public void testMessage() throws Exception {
+    public final void testMessage() throws Exception {
         assertNotNull("Counter is null.", counter);
 
         int expectedCount = 100;
-        
+
         logger.info("Testing...");
-        
+
         // give listener a chance to process messages
         Thread.sleep(2 * 1000);
-        
-        assertEquals("Message is not '" + expectedCount + "'.", expectedCount, counter.get());
+
+        assertEquals("Message is not '" + expectedCount + "'.", expectedCount,
+                counter.get());
     }
-    
+
 }

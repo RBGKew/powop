@@ -1,4 +1,4 @@
-package org.emonocot.portal.messaging;
+package org.emonocot.harvest.messaging;
 
 import javax.annotation.PostConstruct;
 import javax.jms.JMSException;
@@ -13,34 +13,54 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Component;
 
+/**
+ *
+ * @author ben
+ *
+ */
 @Component
 public class JmsMessageProducer {
 
-    private static final Logger logger = LoggerFactory.getLogger(JmsMessageProducer.class);
+    /**
+     *
+     */
+    private static Logger logger = LoggerFactory
+            .getLogger(JmsMessageProducer.class);
 
+    /**
+     *
+     */
     protected static final String MESSAGE_COUNT = "messageCount";
 
+    /**
+     *
+     */
     @Autowired
     private JmsTemplate template = null;
+
+    /**
+     *
+     */
     private int messageCount = 100;
 
     /**
-     * Generates JMS messages
+     * Generates JMS messages.
+     * @throws JMSException if there is a problem sending a JMS message
      */
     @PostConstruct
-    public void generateMessages() throws JMSException {
+    public final void generateMessages() throws JMSException {
         for (int i = 0; i < messageCount; i++) {
             final int index = i;
             final String text = "Message number is " + i + ".";
 
-            template.send(
-                    new MessageCreator() {
-                public Message createMessage(Session session) throws JMSException {
+            template.send(new MessageCreator() {
+                public Message createMessage(final Session session)
+                        throws JMSException {
                     TextMessage message = session.createTextMessage(text);
                     message.setIntProperty(MESSAGE_COUNT, index);
-                    
+
                     logger.info("Sending message: " + text);
-                    
+
                     return message;
                 }
             });

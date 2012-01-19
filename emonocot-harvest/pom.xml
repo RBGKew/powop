@@ -228,6 +228,22 @@
           <groupId>net.sourceforge.hatbox</groupId>
           <artifactId>org.emonocot.hatbox</artifactId>
         </dependency>
+        <dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>org.springframework.jms</artifactId>
+		</dependency>
+        <dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-spring</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+		</dependency>
+		<dependency>
+	       <groupId>org.apache.xbean</groupId>
+	       <artifactId>xbean-spring</artifactId>
+        </dependency>
 	</dependencies>
 	<build>
 		<finalName>emonocot-harvest</finalName>

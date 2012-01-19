@@ -126,7 +126,6 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
                 taxon = new Taxon();
                 TaxonConcept taxonConcept = record.getMetadata()
                         .getTaxonConcept();
-                
                 taxon.getSources().add(getSource());
                 taxon.setAuthority(getSource());
                 taxon.setIdentifier(taxonConcept.getIdentifier().toString());

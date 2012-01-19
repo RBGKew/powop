@@ -1,4 +1,4 @@
-package org.emonocot.portal.messaging;
+package org.emonocot.harvest.messaging;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -12,33 +12,47 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ *
+ * @author ben
+ *
+ */
 @Component
-public class JmsMessageListener implements MessageListener { 
+public class JmsMessageListener implements MessageListener {
 
-    private static final Logger logger = LoggerFactory.getLogger(JmsMessageListener.class);
+    /**
+     *
+     */
+    private static Logger logger = LoggerFactory
+            .getLogger(JmsMessageListener.class);
 
+    /**
+     *
+     */
     @Autowired
     private AtomicInteger counter = null;
 
     /**
+     * @param message Set the message
      * Implementation of <code>MessageListener</code>.
      */
-    public void onMessage(Message message) {
-        try {   
-            int messageCount = message.getIntProperty(JmsMessageProducer.MESSAGE_COUNT);
-            
+    public final void onMessage(final Message message) {
+        try {
+            int messageCount = message
+                    .getIntProperty(JmsMessageProducer.MESSAGE_COUNT);
+
             if (message instanceof TextMessage) {
-                TextMessage tm = (TextMessage)message;
+                TextMessage tm = (TextMessage) message;
                 String msg = tm.getText();
-                
-                
-                logger.info("Processed message '{}'.  value={}", msg, messageCount);
-                
+
+                logger.info("Processed message '{}'.  value={}", msg,
+                        messageCount);
+
                 counter.incrementAndGet();
             }
         } catch (JMSException e) {
             logger.error(e.getMessage(), e);
         }
     }
-    
+
 }

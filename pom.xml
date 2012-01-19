@@ -926,6 +926,11 @@
               <artifactId>im4java</artifactId>
               <version>1.2.0-emonocot</version>
          </dependency>
+         <dependency>
+	       <groupId>org.apache.xbean</groupId>
+	       <artifactId>xbean-spring</artifactId>
+	       <version>3.6</version>
+        </dependency>
         </dependencies>
     </dependencyManagement>
     <build>

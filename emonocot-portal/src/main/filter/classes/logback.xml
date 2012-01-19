@@ -35,10 +35,7 @@
   </appender>
   <logger name="query" level="INFO" additivity="false">
     <appender-ref ref="database"/>
-  </logger>
-  <logger name="org.emonocot.persistence.dao.olap" level="DEBUG" additivity="false">
-    <appender-ref ref="stdout"/>
-  </logger>
+  </logger>  
   <root level="${logging.level}">
     <appender-ref ref="${logging.method}"/>
   </root>
