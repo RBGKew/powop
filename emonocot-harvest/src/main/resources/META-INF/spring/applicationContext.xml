@@ -119,7 +119,7 @@
        <sec:intercept-url pattern="/**" access="hasRole('ROLE_ADMIN')" />
     </sec:http>
     
-   <amq:broker id="broker" brokerName="${amq.broker.name}" useJmx="true" persistent="false">
+   <amq:broker id="broker" brokerName="${amq.broker.name}" useJmx="false" persistent="false">
         <amq:transportConnectors>
             <amq:transportConnector uri="${amq.broker.uri}"/>
         </amq:transportConnectors>
