@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context>
-    <!-- ActiveMQ ConnectionFactory -->    
+<Context docBase="${cargo.context.docBase}" path="${cargo.context.path}">
     <Resource name="${amq.connectionFactory.jndi_name}" auth="Container" type="org.apache.activemq.ActiveMQConnectionFactory"
         description="JMS Connection Factory" factory="org.apache.activemq.jndi.JNDIReferenceFactory" 
         brokerURL="${amq.broker.uri}" brokerName="${amq.broker.name}"/>
-
-    <!-- ActiveMQ HibernateSearch queue -->    
     <Resource name="${amq.queue.jndi_name}" auth="Container" type="org.apache.activemq.command.ActiveMQQueue"
         description="eMonocot Lucene Queue" factory="org.apache.activemq.jndi.JNDIReferenceFactory"
-        physicalName="${amq.queue.physical_name}"/>
-    
+        physicalName="${amq.queue.physical_name}"/>    
 </Context>
