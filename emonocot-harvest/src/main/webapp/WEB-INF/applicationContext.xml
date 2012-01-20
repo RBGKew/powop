@@ -5,18 +5,12 @@
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:sec="http://www.springframework.org/schema/security"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:jee="http://www.springframework.org/schema/jee"
-	xmlns:amq="http://activemq.apache.org/schema/core"
-	xmlns:jms="http://www.springframework.org/schema/jms"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	                    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		                http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 		                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-		                http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.4.xsd
-		                http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
-		                http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
-		                http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
+		                http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.4.xsd">
 		                
 	<context:property-placeholder location="classpath:application.properties"/>
     <context:annotation-config/>
@@ -71,9 +65,7 @@
         <value>
           hibernate.dialect=${hibernate.dialect}
           hibernate.hbm2ddl.auto=validate
-          hibernate.search.default.directory_provider=filesystem-master
-          hibernate.search.default.refresh=${hibernate.search.default.refresh}
-          hibernate.search.default.sourceBase=${hibernate.search.default.sourceBase}
+          hibernate.search.default.directory_provider=filesystem
 		  hibernate.search.default.indexBase=${hibernate.search.default.indexBase}
         </value>
       </property>
@@ -86,24 +78,9 @@
       <property name="url" value="${jdbc.driver.url}"/>
       <property name="username" value="${jdbc.driver.username}"/>
       <property name="password" value="${jdbc.driver.password}"/>
-      <property name="initialSize" value="8"/>
-      <property name="maxActive" value="20"/>
-      <property name="maxIdle" value="10"/>
-      <property name="minIdle" value="1"/>
-      <property name="maxWait" value="10000"/>
-      <property name="removeAbandoned" value="true"/>
-      <property name="removeAbandonedTimeout" value="300"/>
-      <property name="logAbandoned" value="true"/>
-      <property name="defaultAutoCommit" value="true"/>
-      <property name="defaultReadOnly" value="false"/>
+      <property name="maxActive" value="15"/>
+      <property name="maxIdle" value="7"/>
       <property name="validationQuery" value="SELECT 1"/>
-      <property name="timeBetweenEvictionRunsMillis" value="60000"/>
-      <property name="minEvictableIdleTimeMillis" value="30000"/>
-      <property name="numTestsPerEvictionRun" value="3"/>
-      <property name="testWhileIdle" value="true"/>
-      <property name="testOnReturn" value="true"/>
-      <property name="testOnBorrow" value="true"/>
-      <property name="defaultTransactionIsolation" value="2"/>
     </bean>
     
      <sec:authentication-manager alias="authenticationManager">
@@ -114,30 +91,7 @@
       </sec:authentication-provider>
     </sec:authentication-manager>
     
-    <sec:http auto-config='true' use-expressions="true">
-       <sec:intercept-url pattern="/jobs" access="permitAll"/>
-       <sec:intercept-url pattern="/**" access="hasRole('ROLE_ADMIN')" />
+    <sec:http auto-config='true'>
+       <sec:intercept-url pattern="/**" access="ROLE_ADMIN" />
     </sec:http>
-    
-   <amq:broker id="broker" brokerName="${amq.broker.name}" useJmx="true" persistent="false">
-        <amq:transportConnectors>
-            <amq:transportConnector uri="${amq.broker.uri}"/>
-        </amq:transportConnectors>
-    </amq:broker>
-    
-    <jee:jndi-lookup id="connectionFactory" jndi-name="java:comp/env/${amq.connectionFactory.jndi_name}" />
-    <jee:jndi-lookup id="eMonocotLuceneQueue" jndi-name="java:comp/env/${amq.queue.jndi_name}" />
-   
-    
-    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
-       <constructor-arg ref="connectionFactory"/>
-    </bean>
-    
-    <bean id="messageDrivenSearchController" class="org.emonocot.harvest.common.index.MessageDrivenSearchController">
-      <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
-    
-    <jms:listener-container connection-factory="connectionFactory" concurrency="10" transaction-manager="transactionManager">
-        <jms:listener destination="eMonocotLuceneQueue" ref="messageDrivenSearchController"/>
-    </jms:listener-container>
 </beans>
