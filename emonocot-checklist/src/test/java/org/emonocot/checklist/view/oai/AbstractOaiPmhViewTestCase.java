@@ -186,6 +186,9 @@ public abstract class AbstractOaiPmhViewTestCase extends XMLTestCase {
                   + "TaxonConcept[1]/hasRelationship[2]/Relationship[1]/"
                   + "toTaxon[1]/@resource",
                   "/OAI-PMH[1]/GetRecord[1]/record[1]/metadata[1]/"
+                  + "TaxonConcept[1]/hasRelationship[3]/Relationship[1]/"
+                  + "toTaxon[1]/@resource",
+                  "/OAI-PMH[1]/GetRecord[1]/record[1]/metadata[1]/"
                   + "TaxonConcept[1]/describedBy[1]/SpeciesProfileModel[1]/"
                   + "hasInformation[1]/Distribution[1]/hasValue[1]/@resource",
                   "/OAI-PMH[1]/GetRecord[1]/record[1]/metadata[1]/"

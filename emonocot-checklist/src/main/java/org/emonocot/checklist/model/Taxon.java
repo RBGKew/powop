@@ -1,7 +1,9 @@
 package org.emonocot.checklist.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,7 +24,6 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
-import org.hibernate.annotations.TypeDefs;
 import org.hibernate.annotations.Where;
 import org.joda.time.DateTime;
 
@@ -33,10 +34,8 @@ import org.joda.time.DateTime;
  */
 @Entity
 @Table(name = "vwMonocot_Name")
-@TypeDefs({@TypeDef(name = "taxonStatusUserType",
-        		typeClass = TaxonStatusUserType.class)/*,
-        @TypeDef(name = "climateUserType",
-        		typeClass = ClimateUserType.class)*/})
+@TypeDef(name = "taxonStatusUserType",
+        		typeClass = TaxonStatusUserType.class)
 public class Taxon implements IdentifiableEntity<String> {
 
     /**
@@ -152,6 +151,14 @@ public class Taxon implements IdentifiableEntity<String> {
     @JoinColumn(name = "Accepted_plant_name_id")
     @Where(clause = "Plant_name_id > 0 AND Plant_name_id <> Accepted_plant_name_id")
     private Set<Taxon> synonyms = new HashSet<Taxon>();
+
+    /**
+     *
+     */
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "Basionym_id")
+    @Where(clause = "Plant_name_id > 0")
+    private Taxon basionym;
 
     /**
      *
@@ -549,11 +556,61 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
+	 * @param basionym the basionym to set
+	 */
+	public void setBasionym(Taxon basionym) {
+		this.basionym = basionym;
+	}
+
+	/**
+	 * @return the basionym
+	 */
+	public Taxon getBasionym() {
+		return basionym;
+	}
+
+	/**
      *
      * @return the synonyms of this taxon
      */
     public final Set<Taxon> getSynonyms() {
         return synonyms;
+    }
+
+    /**
+     * Method implemented on the premise that this method is only called once per time the taxon is loaded
+     * @return the synonyms of this taxon
+     */
+    public final Set<Taxon> getHeterotypicSynonyms() {
+    	Set<Taxon> heterotypicSynonyms = new HashSet<Taxon>();
+    	heterotypicSynonyms.addAll(synonyms);
+    	heterotypicSynonyms.remove(basionym);
+    	heterotypicSynonyms.removeAll(getHomotypicSynonyms());
+    	return heterotypicSynonyms;
+    }
+
+    /**
+     * N.B. This differs from the WCS view in that these relationships are only available from accepted names
+     * Method implemented on the premise that this method is only called once per time the taxon is loaded
+     * @return the homotypic synonyms of this taxon
+     */
+    public final Set<Taxon> getHomotypicSynonyms() {
+    	//Create a list of homotypic names
+    	ArrayList<Taxon> homotypicNames = new ArrayList<Taxon>();
+    	homotypicNames.add(this);//temporarily
+    	if(getBasionym() != null)
+    		homotypicNames.add(basionym);
+    	
+    	//for each homotypic name (including <this>) check whether it is a basionym for any synonym
+    	for (int i = 0; i < homotypicNames.size(); i++) {
+			for (Taxon taxon : synonyms) {
+				if(taxon.getBasionym() == homotypicNames.get(i))
+					homotypicNames.add(taxon);
+			}
+		}
+    	homotypicNames.remove(this);
+    	homotypicNames.remove(basionym);//which is provided separately
+        return new HashSet<Taxon>(homotypicNames);
     }
 
     /**

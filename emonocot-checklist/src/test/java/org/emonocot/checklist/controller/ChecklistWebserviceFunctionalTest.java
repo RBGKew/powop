@@ -146,8 +146,8 @@ public class ChecklistWebserviceFunctionalTest {
                "sp",
                with(xml).get(
                        "DataSet.TaxonConcepts.TaxonConcept.Rank.@code"));
-       assertEquals("Two synonyms should be present",
-               2,
+       assertEquals("Three synonyms should be present",
+               3,
                with(xml).get(
                        "DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship.findAll { it.@type == 'has synonym' }.size()"));
        assertEquals("One taxonomic parent should be present",

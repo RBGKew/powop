@@ -78,8 +78,20 @@
           <a-hint>org.emonocot.checklist.model.Taxon</a-hint>
           <b-hint>org.tdwg.voc.Relationship</b-hint>
         </field>
-        <field map-id="accepted">
-            <a>synonyms</a>
+        <field type="one-way" map-id="has-basionym">
+            <a>basionym</a>
+            <b set-method="addHasRelationship">hasRelationship</b>
+            <a-hint>org.emonocot.checklist.model.Taxon</a-hint>
+            <b-hint>org.tdwg.voc.Relationship</b-hint>
+        </field>
+        <field map-id="has-heterotypic">
+            <a>heterotypicSynonyms</a>
+            <b>hasRelationship</b>
+            <a-hint>org.emonocot.checklist.model.Taxon</a-hint>
+            <b-hint>org.tdwg.voc.Relationship</b-hint>
+        </field>
+        <field map-id="has-homotypic">
+            <a>homotypicSynonyms</a>
             <b>hasRelationship</b>
             <a-hint>org.emonocot.checklist.model.Taxon</a-hint>
             <b-hint>org.tdwg.voc.Relationship</b-hint>
@@ -90,7 +102,7 @@
             <a-hint>org.emonocot.checklist.model.Taxon</a-hint>
             <b-hint>org.tdwg.voc.Relationship</b-hint>
         </field>
-        <field type="one-way" map-id="synonym">
+        <field type="one-way" map-id="synonymFor">
             <a>acceptedName</a>
             <b set-method="addHasRelationship">hasRelationship</b>
             <a-hint>org.emonocot.checklist.model.Taxon</a-hint>
@@ -213,16 +225,7 @@
         <class-b bean-factory="org.emonocot.checklist.view.assembler.ProtologueBeanFactory">org.tdwg.voc.PublicationCitation</class-b>
     </mapping>
     
-    <mapping map-id="accepted">
-        <class-a>org.emonocot.checklist.model.Taxon</class-a>
-        <class-b bean-factory="org.emonocot.checklist.view.assembler.AcceptedRelationshipBeanFactory">org.tdwg.voc.Relationship</class-b>
-        <!-- <field>
-            <a>this</a>
-            <b>toTaxon</b>
-        </field>-->
-    </mapping>  
-    
-    <mapping map-id="synonym">
+    <mapping map-id="synonymFor">
         <class-a>org.emonocot.checklist.model.Taxon</class-a>
         <class-b bean-factory="org.emonocot.checklist.view.assembler.SynonymRelationshipBeanFactory">org.tdwg.voc.Relationship</class-b>
         <!-- <field>
@@ -230,6 +233,21 @@
             <b>toTaxon</b>
         </field>-->
     </mapping>
+    
+    <mapping map-id="has-basionym">
+    	<class-a>org.emonocot.checklist.model.Taxon</class-a>
+    	<class-b bean-factory="org.emonocot.checklist.view.assembler.HasBasionymRelationshipBeanFactory">org.tdwg.voc.Relationship</class-b>
+    </mapping>
+    
+    <mapping map-id="has-heterotypic">
+        <class-a>org.emonocot.checklist.model.Taxon</class-a>
+        <class-b bean-factory="org.emonocot.checklist.view.assembler.HasHeterotypicSynonymRelationshipBeanFactory">org.tdwg.voc.Relationship</class-b>
+    </mapping>  
+    
+    <mapping map-id="has-homotypic">
+        <class-a>org.emonocot.checklist.model.Taxon</class-a>
+        <class-b bean-factory="org.emonocot.checklist.view.assembler.HasHomotypicSynonymRelationshipBeanFactory">org.tdwg.voc.Relationship</class-b>
+    </mapping>  
     
     <mapping map-id="parent">
         <class-a>org.emonocot.checklist.model.Taxon</class-a>

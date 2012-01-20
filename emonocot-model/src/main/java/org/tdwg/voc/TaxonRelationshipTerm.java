@@ -47,6 +47,30 @@ public class TaxonRelationshipTerm extends DefinedTerm {
     /**
      *
      */
+    public static final TaxonRelationshipTerm HAS_SYNONYM_HETEROTYPIC
+        = new TaxonRelationshipTerm(
+            "http://e-monocot.org/volatile/tdwg/rs/ontology/voc/TaxonConcept#HasSynonymHeterotypic",
+            "Has Heterotypic Synonym");
+
+    /**
+     *
+     */
+    public static final TaxonRelationshipTerm HAS_SYNONYM_HOMOTYPIC
+        = new TaxonRelationshipTerm(
+            "http://e-monocot.org/volatile/tdwg/rs/ontology/voc/TaxonConcept#HasSynonymHomotypic",
+            "Has Homotypic Synonym");
+
+    /**
+     *
+     */
+    public static final TaxonRelationshipTerm HAS_BASIONYM
+        = new TaxonRelationshipTerm(
+            "http://e-monocot.org/volatile/tdwg/rs/ontology/voc/TaxonConcept#HasBasionym",
+            "Has Basionym");
+
+    /**
+     *
+     */
     public static final TaxonRelationshipTerm HAS_VERNACULAR
         = new TaxonRelationshipTerm(
             "http://rs.tdwg.org/ontology/voc/TaxonConcept#HasVernacular",
@@ -217,6 +241,9 @@ public class TaxonRelationshipTerm extends DefinedTerm {
                TaxonRelationshipTerm.OVERLAPS,
                TaxonRelationshipTerm.EXCLUDES,
                TaxonRelationshipTerm.HAS_SYNONYM,
+               TaxonRelationshipTerm.HAS_BASIONYM,
+               TaxonRelationshipTerm.HAS_SYNONYM_HETEROTYPIC,
+               TaxonRelationshipTerm.HAS_SYNONYM_HOMOTYPIC,
                TaxonRelationshipTerm.IS_SYNONYM_FOR,
                TaxonRelationshipTerm.HAS_VERNACULAR,
                TaxonRelationshipTerm.IS_VERNACULAR_FOR,

@@ -84,6 +84,7 @@
     Full_epithet CDATA #IMPLIED
     Institute_id CDATA #IMPLIED
     Accepted_plant_name_id CDATA #IMPLIED
+    Basionym_id CDATA #IMPLIED
     Date_modified CDATA #IMPLIED
     Date_of_entry CDATA #IMPLIED
     Family CDATA #IMPLIED
@@ -110,6 +111,7 @@
     Full_epithet CDATA #IMPLIED
     Institute_id CDATA #IMPLIED
     Accepted_plant_name_id CDATA #IMPLIED
+    Basionym_id CDATA #IMPLIED
     Date_modified CDATA #IMPLIED
     Date_deleted CDATA #IMPLIED
     Date_of_entry CDATA #IMPLIED
