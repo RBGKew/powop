@@ -138,6 +138,6 @@
     </bean>
     
     <jms:listener-container connection-factory="connectionFactory" concurrency="10" transaction-manager="transactionManager">
-        <jms:listener destination="eMonocotLuceneQueue" ref="messageDrivenSearchController"/>
+        <jms:listener destination="${amq.queue.physical_name}" ref="messageDrivenSearchController"/>
     </jms:listener-container>
 </beans>
