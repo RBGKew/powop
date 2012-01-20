@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context docBase="${cargo.context.docBase}" path="${cargo.context.path}">
+<Context>
     <Resource name="${amq.connectionFactory.jndi_name}" auth="Container" type="org.apache.activemq.ActiveMQConnectionFactory"
         description="JMS Connection Factory" factory="org.apache.activemq.jndi.JNDIReferenceFactory" 
         brokerURL="${amq.broker.uri}" brokerName="${amq.broker.name}"/>
