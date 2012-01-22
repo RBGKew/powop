@@ -2,10 +2,7 @@ package org.emonocot.model.taxon;
 
 import static org.junit.Assert.fail;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -19,19 +16,18 @@ public class AlphabeticalTaxonComparatorTest {
      */
     private AlphabeticalTaxonComparator comparator = new AlphabeticalTaxonComparator();
 
-    /**
-     *
-     */
-    private List<Taxon> taxa = new ArrayList<Taxon>();
+    private Taxon t1 = null;
+    
+    private Taxon t2 = null;
 
     /**
      *
      */
+    @Before
     public final void setUp() {
-        Taxon t1 = new Taxon();
-        Taxon t2 = new Taxon();
-        taxa.add(t1);
-        taxa.add(t2);
+        t1 = new Taxon();
+        t2 = new Taxon();
+        t2.setName("Poa annua");
     }
 
     /**
@@ -44,11 +40,13 @@ public class AlphabeticalTaxonComparatorTest {
      * .compare(AlphabeticalTaxonComparator.java:19)
      * org.emonocot.model.taxon.AlphabeticalTaxonComparator
      * .compare(AlphabeticalTaxonComparator.java:10)
+     *
+     * Also bug http://build.e-monocot.org/bugzilla/show_bug.cgi?id=149
      */
     @Test
     public final void testNullTaxa() {
         try {
-            Collections.sort(taxa, comparator);
+            comparator.compare(t1, t2);
         } catch (Exception e) {
             fail("No exception expected here");
         }

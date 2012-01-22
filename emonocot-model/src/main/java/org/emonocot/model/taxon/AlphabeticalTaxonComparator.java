@@ -22,19 +22,31 @@ public class AlphabeticalTaxonComparator implements Comparator<Taxon> {
          */
         if (o1.getName() == null) {
             if (o1.getName() != o2.getName()) {
-                o = 1;
+                return 1;
+            } else {
+            	return 0;
             }
+        } else if (o2.getName() == null) {
+            return -1;
+        } else {
+            o = o1.getName().compareTo(o2.getName());
         }
-        if (o2.getName() == null) {
-            o = -1;
-        }
-        o = o1.getName().compareTo(o2.getName());
 
         /**
          * Homonyms
          */
         if (o == 0) {
-            return o1.getAuthorship().compareTo(o2.getAuthorship());
+        	if (o1.getAuthorship() == null) {
+                if (o1.getAuthorship() != o2.getAuthorship()) {
+                    return 1;
+                } else {
+                	return 0;
+                }
+            } else if (o2.getAuthorship() == null) {
+                return -1;
+            } else {
+            	return o1.getAuthorship().compareTo(o2.getAuthorship());
+            }            
         } else {
             return o;
         }
