@@ -1,9 +1,13 @@
 package org.emonocot.persistence.dao.hibernate;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.persistence.dao.ReferenceDao;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +19,17 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ReferenceDaoImpl extends DaoImpl<Reference> implements
         ReferenceDao {
+   /**
+    *
+    */
+    private static Map<String, Fetch[]> FETCH_PROFILES;
+
+    static {
+        FETCH_PROFILES = new HashMap<String, Fetch[]>();
+        FETCH_PROFILES.put("reference-with-taxa", new Fetch[] {
+                new Fetch("taxa", FetchMode.SELECT)
+                });
+    }
 
     /**
      *
@@ -23,9 +38,14 @@ public class ReferenceDaoImpl extends DaoImpl<Reference> implements
         super(Reference.class);
     }
 
+    /**
+     * @param profile
+     *            Set the profile name
+     * @return an array of related objects to fetch
+     */
     @Override
     protected final Fetch[] getProfile(final String profile) {
-        return null;
+        return ReferenceDaoImpl.FETCH_PROFILES.get(profile);
     }
 
     /**

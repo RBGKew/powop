@@ -201,46 +201,10 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
             taxon.setProtologueMicroReference(taxonName.getMicroReference());
             if (taxonName.getPublishedInCitations() != null
                     && !taxonName.getPublishedInCitations().isEmpty()) {
-                PublicationCitation protologue = taxonName
+                PublicationCitation protologuePublicationCitation = taxonName
                         .getPublishedInCitations().iterator().next();
-                String referenceIdentifier = protologue
-                    .getIdentifier().toString();
-                Reference reference = null;
-                if (referencesWithinChunk.containsKey(referenceIdentifier)) {
-                    reference = referencesWithinChunk.get(referenceIdentifier);
-                } else {
-                    reference = referenceService.find(referenceIdentifier);
-                    referencesWithinChunk.put(referenceIdentifier, reference);
-                }
-                if (reference == null) {
-                    // We've not seen this before
-                    reference = new Reference();
-                    reference.setIdentifier(referenceIdentifier);
-                    reference.getAnnotations().add(
-                            addAnnotation(reference, AnnotationCode.Create,
-                                    AnnotationType.Info, RecordType.Reference,
-                                    referenceIdentifier));
-                    referencesWithinChunk.put(referenceIdentifier, reference);
-                }
-                // TODO Created / modified dates on publications? Bridge too far?
-                reference.setTitle(protologue.getTpubTitle());
-                reference.setVolume(protologue.getVolume());
-                reference.setPages(protologue.getPages());
-                reference.setDate(protologue.getDatePublished());
-                if (protologue.getPublicationType() != null
-                        && protologue.getPublicationType()
-                        .getIdentifier() != null) {
-                    try {
-                        reference.setType(conversionService.convert(protologue
-                                .getPublicationType().getIdentifier()
-                                .toString(), ReferenceType.class));
-                    } catch (ConversionException ce) {
-                        reference.getAnnotations().add(
-                                addAnnotation(reference, RecordType.Reference,
-                                        "type", ce));
-                    }
-                }
-                taxon.setProtologue(reference);
+                Reference protologue = processPublicationCitation(protologuePublicationCitation);
+                taxon.setProtologue(protologue);
 
             }
             try {
@@ -268,7 +232,6 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
                     : taxonConcept.getHasRelationship()) {
                 addRelationship(taxon, relationship);
             }
-
         }
 
         if (taxonConcept.getDescribedBy() != null) {
@@ -298,6 +261,61 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
                 }
             }
         }
+
+        if (taxonConcept.getPublishedInCitations() != null) {
+            for (PublicationCitation publication : taxonConcept
+                    .getPublishedInCitations()) {
+                Reference reference  = processPublicationCitation(publication);
+                taxon.getReferences().add(reference);
+                reference.getTaxa().add(taxon);
+            }
+        }
+    }
+
+    /**
+     *
+     * @param publicationCitation Set the publication citation
+     * @return a reference
+     */
+    private Reference processPublicationCitation(
+            final PublicationCitation publicationCitation) {
+        String referenceIdentifier = publicationCitation.getIdentifier()
+                .toString();
+        Reference reference = null;
+        if (referencesWithinChunk.containsKey(referenceIdentifier)) {
+            reference = referencesWithinChunk.get(referenceIdentifier);
+        } else {
+            reference = referenceService.find(referenceIdentifier, "reference-with-taxa");
+            referencesWithinChunk.put(referenceIdentifier, reference);
+        }
+        if (reference == null) {
+            // We've not seen this before
+            reference = new Reference();
+            reference.setIdentifier(referenceIdentifier);
+            reference.getAnnotations().add(
+                    addAnnotation(reference, AnnotationCode.Create,
+                            AnnotationType.Info, RecordType.Reference,
+                            referenceIdentifier));
+            referencesWithinChunk.put(referenceIdentifier, reference);
+        }
+        // TODO Created / modified dates on publications? Bridge too far?
+        reference.setTitle(publicationCitation.getTpubTitle());
+        reference.setVolume(publicationCitation.getVolume());
+        reference.setPages(publicationCitation.getPages());
+        reference.setDate(publicationCitation.getDatePublished());
+        if (publicationCitation.getPublicationType() != null
+                && publicationCitation.getPublicationType().getIdentifier() != null) {
+            try {
+                reference.setType(conversionService.convert(publicationCitation
+                        .getPublicationType().getIdentifier().toString(),
+                        ReferenceType.class));
+            } catch (ConversionException ce) {
+                reference.getAnnotations().add(
+                        addAnnotation(reference, RecordType.Reference, "type",
+                                ce));
+            }
+        }
+        return reference;
     }
 
     /**
