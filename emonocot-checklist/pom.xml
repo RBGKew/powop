@@ -203,7 +203,7 @@
 					</components>
 					<componentProperties>
 						<export>false</export>
-						<propertyfile>/src/test/resources/sybase/hibernate.properties</propertyfile>
+						<propertyfile>/src/test/resources/${db}/hibernate.properties</propertyfile>
 						<outputfilename>001_schema.ddl</outputfilename>
 						<configurationfile>/src/main/resources/org/emonocot/model/hibernate.cfg.xml</configurationfile>
 					</componentProperties>
@@ -234,6 +234,11 @@
 						<artifactId>mysql-connector-java</artifactId>
 						<version>5.1.15</version>
 					</dependency>
+					<dependency>
+                      <groupId>org.hibernate</groupId>
+                      <artifactId>hibernate-validator</artifactId>                    
+                      <version>4.2.0.Final</version>
+                    </dependency>
 					<dependency>
 						<groupId>com.sybase</groupId>
 						<artifactId>jconnect</artifactId>

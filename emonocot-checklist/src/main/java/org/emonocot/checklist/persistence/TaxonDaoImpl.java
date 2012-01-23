@@ -82,10 +82,14 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
                 .add(IsNullFunctionExpression.isNull("dateDeleted"));
         criteria.setFetchMode("acceptedName", FetchMode.JOIN);
         criteria.setFetchMode("protologue", FetchMode.JOIN);
+        criteria.setFetchMode("basionym", FetchMode.JOIN);
 
         Taxon taxon = (Taxon) criteria.uniqueResult();
         if (taxon != null) {
             Hibernate.initialize(taxon.getSynonyms());
+            for (Taxon synonym : taxon.getSynonyms()) {
+                Hibernate.initialize(synonym.getBasionym());
+            }
             Hibernate.initialize(taxon.getDistribution());
             Hibernate.initialize(taxon.getAuthors());
             Hibernate.initialize(taxon.getCitations());

@@ -7,6 +7,7 @@
     plant_author*,
     plant_citation*,
     plant_locality*,
+    vwMonocot_Name*,
     plant_name*,
     plant_name_deleted*,
     publication*,
@@ -80,6 +81,33 @@
 
 <!ELEMENT plant_name EMPTY>
 <!ATTLIST plant_name
+    Plant_name_id CDATA #REQUIRED
+    Full_epithet CDATA #IMPLIED
+    Institute_id CDATA #IMPLIED
+    Accepted_plant_name_id CDATA #IMPLIED
+    Basionym_id CDATA #IMPLIED
+    Date_modified CDATA #IMPLIED
+    Date_of_entry CDATA #IMPLIED
+    Family CDATA #IMPLIED
+    Genus_hybrid_marker CDATA #IMPLIED
+    Genus CDATA #IMPLIED
+    Species_hybrid_marker CDATA #IMPLIED
+    Species CDATA #IMPLIED
+    Infraspecific_rank CDATA #IMPLIED
+    Infraspecific_epithet CDATA #IMPLIED
+    Date_Name_modified CDATA #IMPLIED
+    Date_Locality_modified CDATA #IMPLIED
+    Date_Authors_modified CDATA #IMPLIED
+    Date_Citations_modified CDATA #IMPLIED
+    Publication_author CDATA #IMPLIED
+    Volume_and_page CDATA #IMPLIED
+    First_published CDATA #IMPLIED
+    Place_of_publication_id CDATA #IMPLIED
+    Climate_id CDATA #IMPLIED
+>
+
+<!ELEMENT vwMonocot_Name EMPTY>
+<!ATTLIST vwMonocot_Name
     Plant_name_id CDATA #REQUIRED
     Full_epithet CDATA #IMPLIED
     Institute_id CDATA #IMPLIED
@@ -180,6 +208,6 @@
 
 <!ELEMENT climate EMPTY>
 <!ATTLIST climate
-	Climate_id CDATA #REQUIED
+	Climate_id CDATA #REQUIRED
 	Climate_abbreviation CDATA #IMPLIED
 	Climate_description CDATA #IMPLIED>

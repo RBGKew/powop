@@ -1,9 +1,7 @@
 package org.emonocot.checklist.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.Where;
@@ -34,8 +33,7 @@ import org.joda.time.DateTime;
  */
 @Entity
 @Table(name = "vwMonocot_Name")
-@TypeDef(name = "taxonStatusUserType",
-        		typeClass = TaxonStatusUserType.class)
+@TypeDef(name = "taxonStatusUserType", typeClass = TaxonStatusUserType.class)
 public class Taxon implements IdentifiableEntity<String> {
 
     /**
@@ -186,62 +184,49 @@ public class Taxon implements IdentifiableEntity<String> {
     @JoinColumn(name = "Plant_name_id")
     private Set<Distribution> distribution = new HashSet<Distribution>();
 
-   /**
-    * Due to https://hibernate.onjira.com/browse/HHH-4335
-    * '@WhereJoinTable doesn't work with @ManyToOne', we can't use
-    * the following code, so we're forced to resort to the following.
-    *
-   @ManyToOne(fetch = FetchType.LAZY)
-   @JoinTable(name = "Plant_author", joinColumns = {
-           @JoinColumn(name = "Plant_name_id")
-   },
-   inverseJoinColumns = {
-           @JoinColumn(name = "Author_id")
-   })
-   @Where(clause = "Author_type_id = 'PAR' or Author_type_id = 'RPL'")
-   private Author basionymAuthorship;
+    /**
+     * Due to https://hibernate.onjira.com/browse/HHH-4335 '@WhereJoinTable
+     * doesn't work with @ManyToOne', we can't use the following code, so we're
+     * forced to resort to the following.
+     *
+     * @ManyToOne(fetch = FetchType.LAZY)
+     * @JoinTable(name = "Plant_author", joinColumns = {
+     * @JoinColumn(name = "Plant_name_id") }, inverseJoinColumns = {
+     * @JoinColumn(name = "Author_id") })
+     * @Where(clause = "Author_type_id = 'PAR' or Author_type_id = 'RPL'")
+     *               private Author basionymAuthorship;
+     * @ManyToOne(fetch = FetchType.LAZY)
+     * @JoinTable(name = "Plant_author", joinColumns = {
+     * @JoinColumn(name = "Plant_name_id") }, inverseJoinColumns = {
+     * @JoinColumn(name = "Author_id") })
+     * @Where(clause = "Author_type_id = 'PRM'") private Author
+     *               combinationAuthorship;
+     */
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "Plant_Author", joinColumns = { @JoinColumn(name = "Plant_name_id") }, inverseJoinColumns = { @JoinColumn(name = "Author_id") })
+    @MapKeyColumn(name = "Author_type_id")
+    @MapKeyEnumerated(EnumType.STRING)
+    private Map<AuthorType, Author> authors = new HashMap<AuthorType, Author>();
 
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinTable(name = "Plant_author", joinColumns = {
-           @JoinColumn(name = "Plant_name_id")
-   },
-   inverseJoinColumns = {
-           @JoinColumn(name = "Author_id")
-   })
-   @Where(clause = "Author_type_id = 'PRM'")
-   private Author combinationAuthorship;
-  */
-   @ManyToMany(fetch = FetchType.LAZY)
-   @JoinTable(name = "Plant_Author", joinColumns = {
-           @JoinColumn(name = "Plant_name_id")
-       },
-       inverseJoinColumns = {
-           @JoinColumn(name = "Author_id")
-       })
-   @MapKeyColumn(name = "Author_type_id")
-   @MapKeyEnumerated(EnumType.STRING)
-   private Map<AuthorType, Author> authors = new HashMap<AuthorType, Author>();
-
-   /**
+    /**
     *
     */
-   @Column(name = "Publication_author")
-   private String protologueAuthor;
+    @Column(name = "Publication_author")
+    private String protologueAuthor;
 
-   /**
+    /**
     *
     */
-   @Column(name = "Volume_and_page")
-   private String volumeAndPage;
+    @Column(name = "Volume_and_page")
+    private String volumeAndPage;
 
-   /**
+    /**
     *
     */
-   @Column(name = "First_published")
-   private String publicationDate;
+    @Column(name = "First_published")
+    private String publicationDate;
 
-   /**
+    /**
     *
     */
     @ManyToOne(fetch = FetchType.LAZY)
@@ -251,18 +236,16 @@ public class Taxon implements IdentifiableEntity<String> {
    /**
     *
     */
-   @ManyToMany(fetch = FetchType.LAZY)
-   @JoinTable(name = "Plant_Citation", joinColumns = {
-           @JoinColumn(name = "Plant_name_id")
-       },
-       inverseJoinColumns = {
-           @JoinColumn(name = "Publication_edition_id")
-       })
-   private Set<Article> citations = new HashSet<Article>();
-   
-   @ManyToOne
-   @JoinColumn(name = "Climate_id")
-   private Climate climate;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "Plant_Citation", joinColumns = { @JoinColumn(name = "Plant_name_id") }, inverseJoinColumns = { @JoinColumn(name = "Publication_edition_id") })
+    private Set<Article> citations = new HashSet<Article>();
+
+    /**
+     *
+     */
+    @ManyToOne
+    @JoinColumn(name = "Climate_id")
+    private Climate climate;
 
     /**
      * @param newId
@@ -278,7 +261,7 @@ public class Taxon implements IdentifiableEntity<String> {
     public final String getIdentifier() {
         if (this.id != null) {
             if (this.id > 0) {
-               return Taxon.IDENTIFIER_PREFIX + this.id;
+                return Taxon.IDENTIFIER_PREFIX + this.id;
             } else {
                 return Family.IDENTIFIER_PREFIX + (this.id * -1);
             }
@@ -288,7 +271,8 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param identifier set the identifier of this taxon
+     * @param identifier
+     *            set the identifier of this taxon
      */
     public final void setIdentifier(final String identifier) {
         if (identifier.startsWith(Taxon.IDENTIFIER_PREFIX)) {
@@ -301,8 +285,9 @@ public class Taxon implements IdentifiableEntity<String> {
             }
         } else if (identifier.startsWith(Family.IDENTIFIER_PREFIX)) {
             try {
-                this.id = -1 * Integer.parseInt(identifier
-                        .substring(Family.IDENTIFIER_PREFIX.length()));
+                this.id = -1
+                        * Integer.parseInt(identifier
+                                .substring(Family.IDENTIFIER_PREFIX.length()));
             } catch (Exception e) {
                 throw new IllegalArgumentException(identifier
                         + " is not a valid identifier format");
@@ -362,11 +347,11 @@ public class Taxon implements IdentifiableEntity<String> {
                 this.rank = Rank.SPECIES;
             } else if (infraspecificRank != null) {
                 // if this grows loop through Rank.values()
-                if (infraspecificRank.contains(
-                        Rank.SUBSPECIES.getAbbreviation())) {
+                if (infraspecificRank.contains(Rank.SUBSPECIES
+                        .getAbbreviation())) {
                     this.rank = Rank.SUBSPECIES;
-                } else if (infraspecificRank.contains(
-                        Rank.VARIETY.getAbbreviation())) {
+                } else if (infraspecificRank.contains(Rank.VARIETY
+                        .getAbbreviation())) {
                     this.rank = Rank.VARIETY;
                 } else {
                     this.rank = Rank.INFRASPECIFIC;
@@ -463,7 +448,6 @@ public class Taxon implements IdentifiableEntity<String> {
 
     /**
      * @return the infraspecificRank
-     *
      */
     public final String getInfraspecificRank() {
         return infraspecificRank;
@@ -488,8 +472,7 @@ public class Taxon implements IdentifiableEntity<String> {
      * @param infraspecificEpithet
      *            the infraspecificEpithet to set
      */
-    public final void setInfraspecificEpithet(
-            final String infraspecificEpithet) {
+    public final void setInfraspecificEpithet(final String infraspecificEpithet) {
         this.infraspecificEpithet = infraspecificEpithet;
     }
 
@@ -501,7 +484,8 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param dateEntered the dateEntered to set
+     * @param dateEntered
+     *            the dateEntered to set
      */
     public void setDateEntered(DateTime dateEntered) {
         this.dateEntered = dateEntered;
@@ -556,20 +540,21 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-	 * @param basionym the basionym to set
-	 */
-	public void setBasionym(Taxon basionym) {
-		this.basionym = basionym;
-	}
+     * @param newBasionym
+     *            the basionym to set
+     */
+    public final void setBasionym(final Taxon newBasionym) {
+        this.basionym = newBasionym;
+    }
 
-	/**
-	 * @return the basionym
-	 */
-	public Taxon getBasionym() {
-		return basionym;
-	}
+    /**
+     * @return the basionym
+     */
+    public final Taxon getBasionym() {
+        return basionym;
+    }
 
-	/**
+    /**
      *
      * @return the synonyms of this taxon
      */
@@ -578,39 +563,61 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * Method implemented on the premise that this method is only called once per time the taxon is loaded
+     * Method implemented on the premise that this method is only called once
+     * per time the taxon is loaded.
+     *
      * @return the synonyms of this taxon
      */
     public final Set<Taxon> getHeterotypicSynonyms() {
-    	Set<Taxon> heterotypicSynonyms = new HashSet<Taxon>();
-    	heterotypicSynonyms.addAll(synonyms);
-    	heterotypicSynonyms.remove(basionym);
-    	heterotypicSynonyms.removeAll(getHomotypicSynonyms());
-    	return heterotypicSynonyms;
+        Set<Taxon> heterotypicSynonyms = new HashSet<Taxon>();
+        heterotypicSynonyms.addAll(synonyms);
+        heterotypicSynonyms.remove(basionym);
+        heterotypicSynonyms.removeAll(getHomotypicSynonyms());
+        return heterotypicSynonyms;
     }
 
     /**
-     * N.B. This differs from the WCS view in that these relationships are only available from accepted names
-     * Method implemented on the premise that this method is only called once per time the taxon is loaded
+     * N.B. This differs from the WCS view in that these relationships are only
+     * available from accepted names Method implemented on the premise that this
+     * method is only called once per time the taxon is loaded
+     *
      * @return the homotypic synonyms of this taxon
      */
     public final Set<Taxon> getHomotypicSynonyms() {
-    	//Create a list of homotypic names
-    	ArrayList<Taxon> homotypicNames = new ArrayList<Taxon>();
-    	homotypicNames.add(this);//temporarily
-    	if(getBasionym() != null)
-    		homotypicNames.add(basionym);
-    	
-    	//for each homotypic name (including <this>) check whether it is a basionym for any synonym
-    	for (int i = 0; i < homotypicNames.size(); i++) {
-			for (Taxon taxon : synonyms) {
-				if(taxon.getBasionym() == homotypicNames.get(i))
-					homotypicNames.add(taxon);
-			}
-		}
-    	homotypicNames.remove(this);
-    	homotypicNames.remove(basionym);//which is provided separately
-        return new HashSet<Taxon>(homotypicNames);
+        Set<Taxon> homotypicNames = new HashSet<Taxon>();
+
+        if (getBasionym() != null) {
+            for (Taxon taxon : synonyms) {
+                if (taxon.getBasionym() != null
+                        && taxon.getBasionym().getId()
+                                .equals(getBasionym().getId())) {
+                    homotypicNames.add(taxon);
+                }
+            }
+        }
+
+        for (Taxon taxon : synonyms) {
+            if (taxon.getBasionym() != null
+                    && taxon.getBasionym().getId()
+                            .equals(this.getId())) {
+                homotypicNames.add(taxon);
+            }
+        }
+
+        Set<Taxon> secondStepHomotypicNames = new HashSet<Taxon>();
+        for (Taxon taxon : synonyms) {
+            for (Taxon homotypicSynonym : homotypicNames) {
+                if (taxon.getBasionym() != null
+                        && taxon.getBasionym().getId()
+                                .equals(homotypicSynonym.getId())) {
+                    secondStepHomotypicNames.add(taxon);
+                }
+            }
+        }
+
+        homotypicNames.addAll(secondStepHomotypicNames);
+
+        return homotypicNames;
     }
 
     /**
@@ -685,7 +692,8 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param newCitations the citations to set
+     * @param newCitations
+     *            the citations to set
      */
     public final void setCitations(final Set<Article> newCitations) {
         this.citations = newCitations;
@@ -699,7 +707,8 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param newProtologueAuthor set the protologue author
+     * @param newProtologueAuthor
+     *            set the protologue author
      */
     public final void setProtologueAuthor(final String newProtologueAuthor) {
         this.protologueAuthor = newProtologueAuthor;
@@ -713,7 +722,8 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param newVolumeAndPage set the volume and page
+     * @param newVolumeAndPage
+     *            set the volume and page
      */
     public final void setVolumeAndPage(final String newVolumeAndPage) {
         this.volumeAndPage = newVolumeAndPage;
@@ -727,7 +737,8 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param newPublicationDate set the publication date
+     * @param newPublicationDate
+     *            set the publication date
      */
     public final void setPublicationDate(final String newPublicationDate) {
         this.publicationDate = newPublicationDate;
@@ -741,7 +752,8 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param newProtologue set the protologue
+     * @param newProtologue
+     *            set the protologue
      */
     public final void setProtologue(final Protologue newProtologue) {
         this.protologue = newProtologue;
@@ -763,23 +775,58 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param newStatus the status to set
+     * @param newStatus
+     *            the status to set
      */
     public final void setStatus(final TaxonStatus newStatus) {
         this.status = newStatus;
     }
 
-	/**
-	 * @param climate the climate to set
-	 */
-	public void setClimate(Climate climate) {
-		this.climate = climate;
-	}
+    /**
+     * @param climate
+     *            the climate to set
+     */
+    public void setClimate(Climate climate) {
+        this.climate = climate;
+    }
 
-	/**
-	 * @return the climate
-	 */
-	public Climate getClimate() {
-		return climate;
-	}
+    /**
+     * @return the climate
+     */
+    public Climate getClimate() {
+        return climate;
+    }
+
+    /**
+     * @param other The other object to compare to
+     * @return true if the object is equal to this object, false otherwise
+     */
+    @Override
+    public final boolean equals(Object other) {
+        // check for self-comparison
+        if (this == other) {
+            return true;
+        }
+        if (other == null || other.getClass() != this.getClass()) {
+            return false;
+        }
+        Taxon taxon = (Taxon) other;
+        return ObjectUtils.equals(this.getIdentifier(), this.getIdentifier());
+    }
+
+    /**
+     *
+     */
+    @Override
+    public final int hashCode() {
+        return ObjectUtils.hashCode(this.getIdentifier());
+    }
+
+    /**
+     *
+     */
+    @Override
+    public final String toString() {
+        return "org.emonocot.checklist.model.Taxon<" + this.id + ">";
+    }
 }

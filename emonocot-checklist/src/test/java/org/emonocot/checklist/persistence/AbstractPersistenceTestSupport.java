@@ -97,8 +97,7 @@ public class AbstractPersistenceTestSupport {
      *             if there is a problem with DBUnit
      */
     @Before
-    public final void setUp() throws IOException, ClassNotFoundException,
-            InstantiationException, IllegalAccessException,
+    public final void setUp() throws IOException,
             DatabaseUnitException, SQLException {
         Resource propertiesFile = new ClassPathResource(
                 "application.properties");
@@ -107,13 +106,21 @@ public class AbstractPersistenceTestSupport {
         String dataTypeFactoryClassName = (String) properties
                 .get("dbunit.datatypefactory.class");
         if (dataTypeFactoryClassName != null) {
+            try {
             Class dataTypeFactoryClass = Class
                     .forName(dataTypeFactoryClassName);
             dataTypeFactory = (IDataTypeFactory) dataTypeFactoryClass
                     .newInstance();
-            jdbcTemplate = new JdbcTemplate();
-            jdbcTemplate.setDataSource(dataSource);
+            } catch (ClassNotFoundException cnfe) {
+                logger.warn(cnfe.getMessage());
+            } catch (InstantiationException ie) {
+                logger.warn(ie.getMessage());
+            } catch (IllegalAccessException iae) {
+                logger.warn(iae.getMessage());
+            }
         }
+        jdbcTemplate = new JdbcTemplate();
+        jdbcTemplate.setDataSource(dataSource);
 
         Resource dataSetFile = new ClassPathResource(
                 "org/emonocot/checklist/persistence/"
