@@ -38,6 +38,30 @@ public class Article {
    /**
     *
     */
+   @Column(name = "Published_date")
+   private String publishedDate;
+
+   /**
+    *
+    */
+   @Column(name = "Volume")
+   private String volume;
+
+   /**
+    *
+    */
+   @Column(name = "Page_number_from")
+   private String pageFrom;
+
+   /**
+    *
+    */
+   @Column(name = "Page_number_to")
+   private String pageTo;
+
+   /**
+    *
+    */
    @Column(name = "Article_title")
    private String title;
 
@@ -56,16 +80,26 @@ public class Article {
    /**
     *
     * @param newAuthor Set the author of the article
-    * @param newTitle Set the title of the article
-    * @param newPublication Set the parent publication of this one
-    * @param newId Set the id of this publication
+ * @param newTitle Set the title of the article
+ * @param newPublication Set the parent publication of this one
+ * @param newId Set the id of this publication
+ * @param newVolume Set the volume of the publication
+ * @param newPageFrom Set the first page of the publication
+ * @param newPageTo Set the last page of the publication
+ * @param newPublishedDate Set the published date
     */
     public Article(final String newAuthor, final String newTitle,
-            final Publication newPublication, final Integer newId) {
+            final Publication newPublication, final Integer newId,
+            final String newVolume, final String newPageFrom,
+            final String newPageTo, final String newPublishedDate) {
         this.author = newAuthor;
         this.title = newTitle;
         this.publication = newPublication;
         this.id = newId;
+        this.volume = newVolume;
+        this.pageFrom = newPageFrom;
+        this.pageTo = newPageTo;
+        this.publishedDate = newPublishedDate;
     }
 
     /**
@@ -118,5 +152,65 @@ public class Article {
      */
     public final String getIdentifier() {
         return Article.IDENTIFIER_PREFIX + this.id;
+    }
+
+    /**
+     *
+     * @param newPublishedDate Set the published date
+     */
+    public final void setPublishedDate(final String newPublishedDate) {
+        this.publishedDate = newPublishedDate;
+    }
+
+    /**
+     *
+     * @return the published date
+     */
+    public final String getPublishedDate() {
+        return publishedDate;
+    }
+
+    /**
+     *
+     * @param newVolume Set the volume
+     */
+    public final void setVolume(final String newVolume) {
+        this.volume = newVolume;
+    }
+
+    /**
+     *
+     * @return the volume
+     */
+    public final String getVolume() {
+        return volume;
+    }
+
+    /**
+     * @return the pageFrom
+     */
+    public final String getPageFrom() {
+        return pageFrom;
+    }
+
+    /**
+     * @param newPageFrom the pageFrom to set
+     */
+    public final void setPageFrom(final String newPageFrom) {
+        this.pageFrom = newPageFrom;
+    }
+
+    /**
+     * @return the pageTo
+     */
+    public final String getPageTo() {
+        return pageTo;
+    }
+
+    /**
+     * @param newPageTo the pageTo to set
+     */
+    public final void setPageTo(final String newPageTo) {
+        this.pageTo = newPageTo;
     }
 }

@@ -1896,4 +1896,10 @@
         <comment>Implemented changes required for bug #54 Process References File - adding references to text content</comment>
         <addForeignKeyConstraint constraintName="TextContent_Reference_Reference_fk" baseColumnNames="references_id" baseTableName="TextContent_Reference" referencedColumnNames="id" referencedTableName="Reference"/>
     </changeSet>
+    <changeSet author="ben" id="2012-01-23_01">
+        <comment>Implemented changes required for bug #118 Display Related References for a taxon on the taxon page</comment>
+        <addColumn tableName="Reference">
+            <column name="publisher" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

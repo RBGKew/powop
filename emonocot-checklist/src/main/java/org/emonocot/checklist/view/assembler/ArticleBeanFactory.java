@@ -28,6 +28,20 @@ public class ArticleBeanFactory implements BeanFactory {
 
         Article article = (Article) source;
         PublicationCitation publicationCitation = new PublicationCitation();
+        if (article.getPageFrom() != null) {
+            if (article.getPageTo() != null) {
+                publicationCitation.setPages(article.getPageFrom()
+                        + " - " + article.getPageTo());
+            } else {
+                publicationCitation.setPages(article.getPageFrom()
+                        + " -");
+            }
+        } else {
+            if (article.getPageTo() != null) {
+                publicationCitation
+                        .setPages("- " + article.getPageTo());
+            }
+        }
         if (Hibernate.isInitialized(article.getPublication())
                 && article.getPublication() != null) {
             switch (article.getPublication().getType()) {

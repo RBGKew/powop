@@ -243,8 +243,17 @@
 					<ul>
 						<c:forEach var="reference" items="${bibliography.references}">
 							<li>
-								<a id="${reference.identifier}">${em:citekey(bibliography,reference)}</a>                      				
-                      		    ${reference.citation}
+								<a id="${reference.identifier}">${em:citekey(bibliography,reference)}</a>
+								<c:choose>
+								  <c:when test="${not empty reference.citation}">
+								    ${reference.citation}
+								  </c:when>
+								  <c:otherwise>
+								    <!-- Construct reference ourselves -->
+								    ${reference.author} <c:if test="${not empty reference.datePublished}">(${reference.datePublished})</c:if> ${reference.title} ${reference.publishedIn} ${reference.volume} <c:if test="${not empty reference.pages}">: ${reference.pages}</c:if> <c:if test="${not empty reference.publisher}">${reference.publisher}.</c:if>
+								  </c:otherwise>
+								</c:choose>                   				
+                      		    
                    			</li>
 						</c:forEach>
 					</ul>

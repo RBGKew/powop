@@ -16,7 +16,6 @@
 
 package org.emonocot.job.io;
 
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
@@ -40,9 +39,6 @@ import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
-//CHANGE - needed to work with Spring core 3.0.1
-//import org.springframework.xml.transform.StaxSource;
-//END CHANGE
 
 /**
  * Item reader for reading XML input based on StAX.
@@ -66,7 +62,7 @@ public class StaxEventItemReader<T> extends
     /**
      *
      */
-    private static final Log logger = LogFactory
+    private static Log logger = LogFactory
             .getLog(StaxEventItemReader.class);
 
     /**
@@ -146,39 +142,39 @@ public class StaxEventItemReader<T> extends
         this.strict = newStrict;
     }
 
-    public void setResource(Resource resource) {
-        this.resource = resource;
+    /**
+     * @param newResource Set the resource
+     */
+    public final void setResource(final Resource newResource) {
+        this.resource = newResource;
     }
 
     /**
-     * @param unmarshaller
+     * @param newUnmarshaller
      *            maps xml fragments corresponding to records to objects
      */
-    public void setUnmarshaller(Unmarshaller unmarshaller) {
-        this.unmarshaller = unmarshaller;
+    public final void setUnmarshaller(final Unmarshaller newUnmarshaller) {
+        this.unmarshaller = newUnmarshaller;
     }
 
     /**
-     * @param fragmentRootElementName
+     * @param newFragmentName
      *            name of the root element of the fragment
      */
-    public void setFragmentRootElementName(String fragmentRootElementName) {
-        this.fragmentRootElementName = fragmentRootElementName;
+    public final void setFragmentRootElementName(
+            final String newFragmentName) {
+        this.fragmentRootElementName = newFragmentName;
     }
 
     /**
      * Ensure that all required dependencies for the ItemReader to run are
      * provided after all properties have been set.
-     * 
+     *
      * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
-     * @throws IllegalArgumentException
-     *             if the Resource, FragmentDeserializer or
-     *             FragmentRootElementName is null, or if the root element is
-     *             empty.
-     * @throws IllegalStateException
-     *             if the Resource does not exist.
+     * @throws Exception
+     *             if there is a problem
      */
-    public void afterPropertiesSet() throws Exception {
+    public final void afterPropertiesSet() throws Exception {
         Assert.notNull(unmarshaller, "The Unmarshaller must not be null.");
         Assert.hasLength(fragmentRootElementName,
                 "The FragmentRootElementName must not be null");
@@ -197,21 +193,22 @@ public class StaxEventItemReader<T> extends
      * This implementation simply looks for the next corresponding element, it
      * does not care about element nesting. You will need to override this
      * method to correctly handle composite fragments.
-     *
+     * @param xmlEventReader Set the XML event reader
      * @return <code>true</code> if next fragment was found, <code>false</code>
      *         otherwise.
      */
     protected final boolean moveCursorToNextFragment(
-            final XMLEventReader reader) {
+            final XMLEventReader xmlEventReader) {
         try {
             while (true) {
-                while (reader.peek() != null && !reader.peek().isStartElement()) {
-                    reader.nextEvent();
+                while (xmlEventReader.peek() != null
+                        && !xmlEventReader.peek().isStartElement()) {
+                    xmlEventReader.nextEvent();
                 }
-                if (reader.peek() == null) {
+                if (xmlEventReader.peek() == null) {
                     return false;
                 }
-                QName startElementName = ((StartElement) reader.peek())
+                QName startElementName = ((StartElement) xmlEventReader.peek())
                         .getName();
                 if (startElementName.getLocalPart().equals(
                         fragmentRootElementName)) {
@@ -221,7 +218,7 @@ public class StaxEventItemReader<T> extends
                         return true;
                     }
                 }
-                reader.nextEvent();
+                xmlEventReader.nextEvent();
 
             }
         } catch (XMLStreamException e) {
@@ -230,12 +227,15 @@ public class StaxEventItemReader<T> extends
         }
     }
 
-    protected void doClose() throws Exception {
+    /**
+     * @throws Exception if there is a problem closing the reader
+     */
+    protected final void doClose() throws Exception {
         try {
             if (fragmentReader != null) {
                 fragmentReader.close();
             }
-            if(reader != null) {
+            if (reader != null) {
                 reader.close();
             }
         } finally {
@@ -245,14 +245,18 @@ public class StaxEventItemReader<T> extends
 
     }
 
-    protected void doOpen() throws Exception {
+    /**
+     * @throws Exception if there is a problem opening the resource
+     */
+    protected final void doOpen() throws Exception {
         Assert.notNull(resource, "The Resource must not be null.");
 
         noInput = false;
         if (!resource.exists()) {
             if (strict) {
                 throw new IllegalStateException(
-                        "Input resource must exist (reader is in 'strict' mode)");
+                        "Input resource must exist"
+                        + " (reader is in 'strict' mode)");
             }
             noInput = true;
             logger.warn("Input resource does not exist "
@@ -262,7 +266,8 @@ public class StaxEventItemReader<T> extends
         if (!resource.isReadable()) {
             if (strict) {
                 throw new IllegalStateException(
-                        "Input resource must be readable (reader is in 'strict' mode)");
+                        "Input resource must be readable"
+                        + " (reader is in 'strict' mode)");
             }
             noInput = true;
             logger.warn("Input resource is not readable "
@@ -270,7 +275,8 @@ public class StaxEventItemReader<T> extends
             return;
         }
 
-        reader = new InputStreamReader(resource.getInputStream(), this.encoding);
+        reader = new InputStreamReader(resource.getInputStream(),
+                this.encoding);
         eventReader = XMLInputFactory.newInstance()
                 .createXMLEventReader(reader);
         fragmentReader = new DefaultFragmentEventReader(eventReader);
@@ -279,8 +285,10 @@ public class StaxEventItemReader<T> extends
 
     /**
      * Move to next fragment and map it to item.
+     * @return an item
+     * @throws Exception if there is a problem reading from the resource
      */
-    protected T doRead() throws Exception {
+    protected final T doRead() throws Exception {
 
         if (noInput) {
             return null;
@@ -312,18 +320,20 @@ public class StaxEventItemReader<T> extends
      * exceptions to be thrown that were already skipped in previous runs.
      */
     @Override
-    protected void jumpToItem(int itemIndex) throws Exception {
+    protected final void jumpToItem(final int itemIndex) throws Exception {
         for (int i = 0; i < itemIndex; i++) {
             readToStartFragment();
             readToEndFragment();
         }
     }
 
-    /*
+    /**
      * Read until the first StartElement tag that matches the provided
      * fragmentRootElementName. Because there may be any number of tags in
      * between where the reader is now and the fragment start, this is done in a
      * loop until the element type and name match.
+     *
+     * @throws XMLStreamException if there is a problem reading the preamble
      */
     private void readToStartFragment() throws XMLStreamException {
         while (true) {
@@ -336,11 +346,13 @@ public class StaxEventItemReader<T> extends
         }
     }
 
-    /*
+    /**
      * Read until the first EndElement tag that matches the provided
      * fragmentRootElementName. Because there may be any number of tags in
      * between where the reader is now and the fragment end tag, this is done in
      * a loop until the element type and name match
+     *
+     * @throws XMLStreamException if there is a problem reading the resource
      */
     private void readToEndFragment() throws XMLStreamException {
         while (true) {

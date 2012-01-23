@@ -303,6 +303,13 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
         reference.setVolume(publicationCitation.getVolume());
         reference.setPages(publicationCitation.getPages());
         reference.setDate(publicationCitation.getDatePublished());
+        reference.setAuthor(publicationCitation.getAuthorship());
+        if (publicationCitation.getParentPublication() != null) {
+            reference.setPublishedIn(publicationCitation.getParentPublication()
+                    .getTpubTitle());
+            reference.setPublisher(publicationCitation.getParentPublication()
+                    .getPublisher());
+        }
         if (publicationCitation.getPublicationType() != null
                 && publicationCitation.getPublicationType().getIdentifier() != null) {
             try {

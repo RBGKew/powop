@@ -110,6 +110,8 @@ public class Reference extends BaseData {
      */
     private String keywords;
 
+    private String publisher;
+
     /**
      *
      * @param newId
@@ -366,5 +368,22 @@ public class Reference extends BaseData {
     @JsonIgnore
     public final String getClassName() {
         return "Reference";
+    }
+
+    /**
+     *
+     * @param publisher Set the publisher
+     */
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    /**
+     *
+     * @return the publisher
+     */
+    @Field
+    public String getPublisher() {
+        return publisher;
     }
 }

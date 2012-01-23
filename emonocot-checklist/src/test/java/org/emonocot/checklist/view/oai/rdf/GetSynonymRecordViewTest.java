@@ -63,7 +63,7 @@ public class GetSynonymRecordViewTest extends AbstractOaiPmhViewTestCase {
 
         taxon.getCitations().add(
             new Article("Mauris Tincidunt",
-                        "Morbi a facilisis orci", publication, 2));
+                        "Morbi a facilisis orci", publication, 2, null, null, null, null));
 
         Taxon acceptedName = new Taxon();
         acceptedName.setIdentifier("urn:kew.org:wcs:taxon:2045");

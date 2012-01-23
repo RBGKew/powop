@@ -608,4 +608,24 @@ UNION ALL
        FROM  Plant_Name
        </createView>
     </changeSet>
+    <changeSet id="2012-01-23_01" author="ben">
+    	<addColumn tableName="Publication_Edition">
+    		<column name="Published_date" type="varchar(30)"/>
+    	</addColumn>    	
+    </changeSet>
+    <changeSet id="2012-01-23_02" author="ben">
+    	<addColumn tableName="Publication_Edition">
+    		<column name="Volume" type="varchar(50)"/>
+    	</addColumn>    	
+    </changeSet>
+    <changeSet id="2012-01-23_03" author="ben">
+    	<addColumn tableName="Publication_Edition">
+    		<column name="Page_number_from" type="varchar(30)"/>
+    	</addColumn>    	
+    </changeSet>
+    <changeSet id="2012-01-23_04" author="ben">
+    	<addColumn tableName="Publication_Edition">
+    		<column name="Page_number_to" type="varchar(30)"/>
+    	</addColumn>    	
+    </changeSet>
 </databaseChangeLog>

@@ -136,6 +136,14 @@
         <b>authorship</b>
       </field>
       <field>
+        <a>volume</a>
+        <b>volume</b>
+      </field>
+      <field>
+        <a>publishedDate</a>
+        <b>datePublished</b>
+      </field>
+      <field>
         <a>publication</a>
         <b>parentPublication</b>
       </field>
