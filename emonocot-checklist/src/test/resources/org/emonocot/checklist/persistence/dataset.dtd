@@ -14,7 +14,8 @@
     publication_edition*,
     publication_type*,
     web_log*,
-    climate*)>
+    climate*,
+    lifeform*)>
 
 <!ELEMENT author_type EMPTY>
 <!ATTLIST author_type
@@ -104,6 +105,7 @@
     First_published CDATA #IMPLIED
     Place_of_publication_id CDATA #IMPLIED
     Climate_id CDATA #IMPLIED
+    Lifeform_id CDATA #IMPLIED
 >
 
 <!ELEMENT vwMonocot_Name EMPTY>
@@ -131,6 +133,7 @@
     First_published CDATA #IMPLIED
     Place_of_publication_id CDATA #IMPLIED
     Climate_id CDATA #IMPLIED
+    Lifeform_id CDATA #IMPLIED
 >
 
 <!ELEMENT plant_name_deleted EMPTY>
@@ -159,6 +162,7 @@
     First_published CDATA #IMPLIED
     Place_of_publication_id CDATA #IMPLIED
     Climate_id CDATA #IMPLIED
+    Lifeform_id CDATA #IMPLIED
 >
 
 <!ELEMENT publication EMPTY>
@@ -208,6 +212,14 @@
 
 <!ELEMENT climate EMPTY>
 <!ATTLIST climate
-	Climate_id CDATA #REQUIRED
+	Climate_id CDATA #REQUIED
 	Climate_abbreviation CDATA #IMPLIED
-	Climate_description CDATA #IMPLIED>
+	Climate_description CDATA #IMPLIED
+>
+
+<!ELEMENT lifeform EMPTY>
+<!ATTLIST lifeform
+	Lifeform_id CDATA #REQUIED
+	Lifeform_abbreviation CDATA #IMPLIED
+	Lifeform_description CDATA #IMPLIED
+>

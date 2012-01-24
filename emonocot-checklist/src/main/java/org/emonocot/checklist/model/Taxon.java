@@ -248,6 +248,13 @@ public class Taxon implements IdentifiableEntity<String> {
     private Climate climate;
 
     /**
+     *
+     */
+    @ManyToOne
+    @JoinColumn(name = "Lifeform_id")
+    private Lifeform lifeform;
+
+    /**
      * @param newId
      *            Set the id
      */
@@ -798,6 +805,20 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
+	 * @param lifeform the lifeform to set
+	 */
+	public void setLifeform(Lifeform lifeform) {
+		this.lifeform = lifeform;
+	}
+
+	/**
+	 * @return the lifeform
+	 */
+	public Lifeform getLifeform() {
+		return lifeform;
+	}
+
+	/**
      * @param other The other object to compare to
      * @return true if the object is equal to this object, false otherwise
      */

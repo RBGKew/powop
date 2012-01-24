@@ -1,4 +1,6 @@
-package org.tdwg.voc;
+package org.emonocot.voc;
+
+import org.tdwg.voc.InfoItem;
 
 /**
  * @author jk00kg

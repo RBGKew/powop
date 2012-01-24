@@ -305,9 +305,11 @@ public class OpenArchivesQNameMapFactory extends
                 "http://grassbase.kew.org/ontology/Character#",
                 "mean", "grass"), "grassMean");
         qNameMap.registerMapping(new QName(
-                "http://rs.tdwg.org/ontology/voc/SPMInfoItems#",
-                "Habitat", "spmi"), "spmiHabitat");
-        // TODO register other mappings
+                "http://volatile.e-monocot.org/tdwg/rs/ontology/voc/EMInfoItem#",
+                "Habitat", "em"), "emHabitat");
+        qNameMap.registerMapping(new QName(
+                "http://volatile.e-monocot.org/tdwg/rs/ontology/voc/EMInfoItem#",
+                "Lifeform", "em"), "emLifeform");
         return qNameMap;
     }
 

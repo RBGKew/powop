@@ -292,7 +292,13 @@
           <a>climate</a>
           <b set-method="addHasInformation">hasInformation</b>
           <a-hint>org.emonocot.checklist.model.Climate</a-hint>
-          <b-hint>org.tdwg.voc.Habitat</b-hint>
+          <b-hint>org.emonocot.voc.Habitat</b-hint>
+        </field>
+       <field>
+          <a>lifeform</a>
+          <b set-method="addHasInformation">hasInformation</b>
+          <a-hint>org.emonocot.checklist.model.Lifeform</a-hint>
+          <b-hint>org.emonocot.voc.Lifeform</b-hint>
         </field>
     </mapping>
     
@@ -307,11 +313,20 @@
     
     <mapping>
     	<class-a>org.emonocot.checklist.model.Climate</class-a>
-    	<class-b>org.tdwg.voc.Habitat</class-b>
+    	<class-b>org.emonocot.voc.Habitat</class-b>
     	<field>
     		<a>description</a>
     		<b>hasContent</b>
     	</field>
     </mapping>
     
+    <mapping>
+    	<class-a>org.emonocot.checklist.model.Lifeform</class-a>
+    	<class-b>org.emonocot.voc.Lifeform</class-b>
+    	<field>
+    		<a>description</a>
+    		<b>hasContent</b>
+    	</field>
+    </mapping>
+
 </mappings>    

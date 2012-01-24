@@ -3,6 +3,8 @@ package org.tdwg.voc;
 import java.io.Serializable;
 import java.net.URI;
 
+import org.emonocot.voc.Habitat;
+import org.emonocot.voc.Lifeform;
 import org.kew.grassbase.ontology.QuantitativeData;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -55,7 +57,12 @@ public class HasInformation {
 	/**
 	 * 
 	 */
-	private Habitat spmiHabitat;
+	private Habitat emHabitat;
+
+	/**
+	 * 
+	 */
+	private Lifeform emLifeform;
 
     /**
      *
@@ -73,7 +80,9 @@ public class HasInformation {
         } else if (newInfoItem instanceof QuantitativeData) {
             this.grassQuantitativeData = (QuantitativeData) newInfoItem;
         } else if (newInfoItem instanceof Habitat){
-            this.spmiHabitat = (Habitat) newInfoItem;
+            this.emHabitat = (Habitat) newInfoItem;
+        } else if (newInfoItem instanceof Lifeform){
+            this.emLifeform = (Lifeform) newInfoItem;
         } else {
             this.spmInfoItem = newInfoItem;
         }
@@ -88,8 +97,10 @@ public class HasInformation {
             return spmiDistribution;
         } else if (this.grassQuantitativeData != null) {
             return grassQuantitativeData;
-        } else if (this.spmiHabitat != null) {
-            return spmiHabitat;
+        } else if (this.emHabitat != null) {
+            return emHabitat;
+        } else if (this.emLifeform != null) {
+        	return emLifeform;
         } else {
             return this.spmInfoItem;
         }
@@ -105,7 +116,9 @@ public class HasInformation {
         } else if (newInfoItem instanceof QuantitativeData) {
             this.grassQuantitativeData = (QuantitativeData) newInfoItem;
         } else if (newInfoItem instanceof Habitat) {
-            this.spmiHabitat = (Habitat) newInfoItem;
+            this.emHabitat = (Habitat) newInfoItem;
+        } else if (newInfoItem instanceof Lifeform){
+            this.emLifeform = (Lifeform) newInfoItem;
         } else {
             this.spmInfoItem = newInfoItem;
         }

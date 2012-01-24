@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.tdwg.voc.Habitat;
+import org.emonocot.voc.Habitat;
 
 /**
  *

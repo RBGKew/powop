@@ -224,6 +224,14 @@ public class OAIPMH {
         = "http://rs.tdwg.org/ontology/voc/GeographicRegion#";
 
     /**
+     * 
+     */
+    @XStreamAlias("xmlns:em")
+    @XStreamAsAttribute
+    private String xmlnsEmNamespace
+        = "http://volatile.e-monocot.org/tdwg/rs/ontology/voc/EMInfoItem#";
+
+    /**
      * Gets the value of the responseDate property.
      *
      * @return The date the response was submitted

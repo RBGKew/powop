@@ -49,7 +49,7 @@ public class TaxonRelationshipTerm extends DefinedTerm {
      */
     public static final TaxonRelationshipTerm HAS_SYNONYM_HETEROTYPIC
         = new TaxonRelationshipTerm(
-            "http://e-monocot.org/volatile/tdwg/rs/ontology/voc/TaxonConcept#HasSynonymHeterotypic",
+            "http://volatile.e-monocot.org/tdwg/rs/ontology/voc/TaxonConcept#HasSynonymHeterotypic",
             "Has Heterotypic Synonym");
 
     /**
@@ -57,7 +57,7 @@ public class TaxonRelationshipTerm extends DefinedTerm {
      */
     public static final TaxonRelationshipTerm HAS_SYNONYM_HOMOTYPIC
         = new TaxonRelationshipTerm(
-            "http://e-monocot.org/volatile/tdwg/rs/ontology/voc/TaxonConcept#HasSynonymHomotypic",
+            "http://volatile.e-monocot.org/tdwg/rs/ontology/voc/TaxonConcept#HasSynonymHomotypic",
             "Has Homotypic Synonym");
 
     /**
@@ -65,7 +65,7 @@ public class TaxonRelationshipTerm extends DefinedTerm {
      */
     public static final TaxonRelationshipTerm HAS_BASIONYM
         = new TaxonRelationshipTerm(
-            "http://e-monocot.org/volatile/tdwg/rs/ontology/voc/TaxonConcept#HasBasionym",
+            "http://volatile.e-monocot.org/tdwg/rs/ontology/voc/TaxonConcept#HasBasionym",
             "Has Basionym");
 
     /**
