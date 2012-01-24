@@ -375,7 +375,8 @@ public class TestDataManager {
      *            Set the parent taxon
      * @param accepted
      *            Set the accepted taxon
-     * @param reference1 Set the reference
+     * @param reference1 Set the first reference
+     * @param reference2 Set the second reference
      *
      */
     public final void createTaxon(final String identifier, final String name,
@@ -389,7 +390,7 @@ public class TestDataManager {
             final String distribution1, final String distribution2,
             final String distribution3, final String source,
             final String created, final String parent, final String accepted,
-            final String reference1) {
+            final String reference1, final String reference2) {
         enableAuthentication();
         Taxon taxon = new Taxon();
         data.push(taxon);
@@ -485,6 +486,12 @@ public class TestDataManager {
             r.setIdentifier(reference1);
             taxon.getReferences().add(r);
         }
+
+        if (reference2 != null && reference2.length() > 0) {
+            Reference r = new Reference();
+            r.setIdentifier(reference2);
+            taxon.getReferences().add(r);
+        }
         taxonService.save(taxon);
 
         disableAuthentication();
@@ -502,20 +509,25 @@ public class TestDataManager {
    *
    * @param identifier Set the identifier
  * @param title Set the title
+ * @param authors Set the authors
  * @param datePublished Set the datePublished
  * @param volume Set the volume
  * @param page Set the page
  * @param citation Set the citation
+ * @param publisher Set the publisher
    */
     public final void createReference(final String identifier,
-            final String title, final String datePublished,
-            final String volume, final String page, final String citation) {
+            final String title, final String authors,
+            final String datePublished, final String volume, final String page,
+            final String citation, final String publisher) {
         enableAuthentication();
         Reference r = new Reference();
         data.push(r);
         r.setIdentifier(identifier);
+        r.setAuthor(authors);
         r.setTitle(title);
         r.setDatePublished(datePublished);
+        r.setPublisher(publisher);
         r.setVolume(volume);
         r.setPages(page);
         r.setCitation(citation);

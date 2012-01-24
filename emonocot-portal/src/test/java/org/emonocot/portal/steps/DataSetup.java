@@ -175,7 +175,8 @@ public class DataSetup {
                     row.general, row.protologue, row.protologueMicroReference,
                     row.image1, row.image2, row.image3, row.distribution1,
                     row.distribution2, row.distribution3, row.source,
-                    row.created, row.parent, row.accepted, row.reference1);
+                    row.created, row.parent, row.accepted, row.reference1,
+                    row.reference2);
         }
 
     }
@@ -190,7 +191,8 @@ public class DataSetup {
             final List<ReferenceRow> rows) {
         for (ReferenceRow row : rows) {
             testDataManager.createReference(row.identifier, row.title,
-                    row.datePublished, row.volume, row.page, row.citation);
+                    row.authors, row.datePublished, row.volume, row.page,
+                    row.citation, row.publisher);
         }
     }
 

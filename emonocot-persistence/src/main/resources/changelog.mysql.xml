@@ -1902,4 +1902,10 @@
             <column name="publisher" type="varchar(255)"/>
         </addColumn>
     </changeSet>
+    <changeSet author="ben" id="2012-01-24_01">
+        <comment>Implemented changes required for bug #118 Display Related References for a taxon on the taxon page</comment>
+        <addColumn tableName="Reference">
+            <column name="publishedInAuthor" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

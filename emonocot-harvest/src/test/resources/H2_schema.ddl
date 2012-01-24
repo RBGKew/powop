@@ -13,7 +13,7 @@ create table Image_Source (Image_id bigint not null, sources_id bigint not null,
 drop table if exists Principal;
 create table Principal (DTYPE varchar(31) not null, id bigint not null, identifier varchar(255), created timestamp, modified timestamp, accountNonExpired boolean, accountNonLocked boolean, credentialsNonExpired boolean, enabled boolean, password varchar(255), primary key (id), unique (identifier));
 drop table if exists Reference;
-create table Reference (id bigint not null, identifier varchar(255), created timestamp, creator varchar(255), license varchar(255), modified timestamp, source varchar(255), author varchar(255), citation varchar(255), datePublished varchar(255), keywords varchar(255), number varchar(255), pages varchar(255), publishedIn varchar(255), publisher varchar(255), referenceAbstract clob, title varchar(255), type integer, volume varchar(255), authority_id bigint, primary key (id), unique (identifier));
+create table Reference (id bigint not null, identifier varchar(255), created timestamp, creator varchar(255), license varchar(255), modified timestamp, source varchar(255), author varchar(255), citation varchar(255), datePublished varchar(255), keywords varchar(255), number varchar(255), pages varchar(255), publishedIn varchar(255), publishedInAuthor varchar(255), publisher varchar(255), referenceAbstract clob, title varchar(255), type integer, volume varchar(255), authority_id bigint, primary key (id), unique (identifier));
 drop table if exists Reference_Source;
 create table Reference_Source (Reference_id bigint not null, sources_id bigint not null, primary key (Reference_id, sources_id));
 drop table if exists Source;

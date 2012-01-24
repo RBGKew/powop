@@ -20,6 +20,11 @@ public class ReferenceRow {
     /**
      *
      */
+    public String authors;
+
+    /**
+     *
+     */
     public String datePublished;
 
     /**
@@ -36,4 +41,9 @@ public class ReferenceRow {
      *
      */
     public String citation;
+
+    /**
+     *
+     */
+    public String publisher;
 }

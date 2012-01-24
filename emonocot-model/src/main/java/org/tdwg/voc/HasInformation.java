@@ -54,15 +54,15 @@ public class HasInformation {
      */
     private QuantitativeData grassQuantitativeData;
 
-	/**
-	 * 
-	 */
-	private Habitat emHabitat;
+    /**
+     * 
+     */
+    private Habitat emHabitat;
 
-	/**
-	 * 
-	 */
-	private Lifeform emLifeform;
+    /**
+     * 
+     */
+    private Lifeform emLifeform;
 
     /**
      *

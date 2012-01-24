@@ -11,18 +11,19 @@ Feature: Taxon Page
 
 Background:
   Given there are references with the following properties:
-  | identifier                    | title    | datePublished | volume | page  | citation                |
-  | urn:kew.org:wcs:publication:1 | Sp. Pl.  | (1753)        | 1      | 304pp | Sp. Pl. (1753): 1 304pp |
+  | identifier                    | authors                      | title                                                        | datePublished | volume | page  | citation                | publisher                                               |
+  | urn:kew.org:wcs:publication:1 |                              | Sp. Pl.                                                      | (1753)        | 1      | 304pp | Sp. Pl. (1753): 1 304pp |                                                         |
+  | urn:kew.org:wcs:publication:2 | Govaerts, R. & Frodin, D.G.  | World Checklist and Bibliography of Araceae (and Acoraceae)  | 2002          |        | 1-560 |                         | The Board of Trustees of the Royal Botanic Gardens, Kew |
   And there are images with the following properties:
   | identifier | url                                                                                                                              | caption                       |
   | 123        | http://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Acorus_calamus1.jpg/450px-Acorus_calamus1.jpg                           | Acorus calamus                |
   | 456        | http://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Illustration_Acorus_calamus0.jpg/376px-Illustration_Acorus_calamus0.jpg | Acorus calamus (Illustration) |
   | 789        | http://upload.wikimedia.org/wikipedia/commons/7/73/Acorus_calamus_illustration.jpg                                               | Sweet flag (drawing)          |
   And there are taxa with the following properties:
-  | identifier                 | name                        | parent                     | protologue                    | protologueMicroReference | distribution1 | diagnostic                                                          | habitat                                                                                   | image1 | image2 | image3 | diagnosticReference1          | reference1                    |
-  | urn:kew.org:wcs:taxon:2295 | Acorus                      |                            | urn:kew.org:wcs:publication:1 | : 324                    | MAU           | These grasslike evergreen plants are hemicryptophytes or geophytes. | Their natural habitat is at the waterside or close to marshes, often found with reedbeds. | 789    | 456    | 123    | urn:kew.org:wcs:publication:1 | urn:kew.org:wcs:publication:1 |
-  | urn:kew.org:wcs:taxon:2304 | Acorus calamus              | urn:kew.org:wcs:taxon:2295 |                               |                          |               |                                                                     |                                                                                           |        |        |        |                               |                               |
-  | urn:kew.org:wcs:taxon:2309 | Acorus calamus var. calamus | urn:kew.org:wcs:taxon:2304 |                               |                          |               |                                                                     |                                                                                           |        |        |        |                               |                               |
+  | identifier                 | name                        | parent                     | protologue                    | protologueMicroReference | distribution1 | diagnostic                                                          | habitat                                                                                   | image1 | image2 | image3 | diagnosticReference1          | reference1                    | reference2                    |
+  | urn:kew.org:wcs:taxon:2295 | Acorus                      |                            | urn:kew.org:wcs:publication:1 | : 324                    | MAU           | These grasslike evergreen plants are hemicryptophytes or geophytes. | Their natural habitat is at the waterside or close to marshes, often found with reedbeds. | 789    | 456    | 123    | urn:kew.org:wcs:publication:1 | urn:kew.org:wcs:publication:1 | urn:kew.org:wcs:publication:2 |
+  | urn:kew.org:wcs:taxon:2304 | Acorus calamus              | urn:kew.org:wcs:taxon:2295 |                               |                          |               |                                                                     |                                                                                           |        |        |        |                               |                               |                               |
+  | urn:kew.org:wcs:taxon:2309 | Acorus calamus var. calamus | urn:kew.org:wcs:taxon:2304 |                               |                          |               |                                                                     |                                                                                           |        |        |        |                               |                               |                               |
   And I navigate to taxon page "urn:kew.org:wcs:taxon:2295" 
 
 Scenario: Taxon Title
@@ -91,7 +92,12 @@ Scenario: Textual Citations
   The references should be displayed as small citation keys (e.g. [1]) which link to the 
   bibliography at the bottom of the page. At the bottom of the page, there should be the 
   bibliography with the references listed in full.
+  http://build.e-monocot.org/bugzilla/show_bug.cgi?id=38
   Then the citation for the "Diagnostic" topic should be "1"
   And the bibliography entry "1" should be "1 Sp. Pl. (1753): 1 304pp"
-  
-  
+
+Scenario: Bibliography
+  Taxa can have general references as well, and these should be displayed in the bibliography
+  at the bottom of the page.
+  http://build.e-monocot.org/bugzilla/show_bug.cgi?id=118
+  Then the bibliography entry "2" should be "2 Govaerts, R. & Frodin, D.G. (2002). World Checklist and Bibliography of Araceae (and Acoraceae): 1-560. The Board of Trustees of the Royal Botanic Gardens, Kew."

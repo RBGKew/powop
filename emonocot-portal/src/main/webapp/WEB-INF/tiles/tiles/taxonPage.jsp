@@ -249,8 +249,8 @@
 								    ${reference.citation}
 								  </c:when>
 								  <c:otherwise>
-								    <!-- Construct reference ourselves -->
-								    ${reference.author} <c:if test="${not empty reference.datePublished}">(${reference.datePublished})</c:if> ${reference.title} ${reference.publishedIn} ${reference.volume} <c:if test="${not empty reference.pages}">: ${reference.pages}</c:if> <c:if test="${not empty reference.publisher}">${reference.publisher}.</c:if>
+								    <!-- Construct reference ourselves -->								    
+								    ${reference.author}<c:if test="${not empty reference.datePublished}"> (${reference.datePublished})</c:if>. ${reference.title}<c:if test="${not empty reference.publishedInAuthor}"> ${reference.publishedInAuthor}</c:if><c:if test="${not empty reference.publishedIn}"> ${reference.publishedIn}</c:if><c:if test="${not empty reference.volume}"> ${reference.volume}</c:if><c:if test="${not empty reference.pages}">: ${reference.pages}</c:if>. <c:if test="${not empty reference.publisher}">${reference.publisher}.</c:if>
 								  </c:otherwise>
 								</c:choose>                   				
                       		    

@@ -38,7 +38,7 @@ public class Reference extends BaseData {
     /**
      *
      */
-    private static final long serialVersionUID = -5928234699377084008L;
+    private static long serialVersionUID = -5928234699377084008L;
 
     /**
      *
@@ -78,6 +78,11 @@ public class Reference extends BaseData {
     /**
      *
      */
+    private String publishedInAuthor;
+
+    /**
+     *
+     */
     private String citation;
 
     /**
@@ -110,6 +115,9 @@ public class Reference extends BaseData {
      */
     private String keywords;
 
+    /**
+     *
+     */
     private String publisher;
 
     /**
@@ -143,11 +151,11 @@ public class Reference extends BaseData {
 
     /**
      *
-     * @param author
+     * @param newAuthor
      *            Set the author
      */
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthor(String newAuthor) {
+        this.author = newAuthor;
     }
 
     /**
@@ -161,11 +169,11 @@ public class Reference extends BaseData {
 
     /**
      *
-     * @param publishedIn
+     * @param newPublishedIn
      *            Set the publication this reference was published in
      */
-    public void setPublishedIn(String publishedIn) {
-        this.publishedIn = publishedIn;
+    public void setPublishedIn(String newPublishedIn) {
+        this.publishedIn = newPublishedIn;
     }
 
     /**
@@ -179,11 +187,11 @@ public class Reference extends BaseData {
 
     /**
      *
-     * @param citation
+     * @param newCitation
      *            Set the full citation
      */
-    public void setCitation(String citation) {
-        this.citation = citation;
+    public void setCitation(String newCitation) {
+        this.citation = newCitation;
     }
 
     /**
@@ -366,7 +374,7 @@ public class Reference extends BaseData {
 
     @Transient
     @JsonIgnore
-    public final String getClassName() {
+    public String getClassName() {
         return "Reference";
     }
 
@@ -385,5 +393,21 @@ public class Reference extends BaseData {
     @Field
     public String getPublisher() {
         return publisher;
+    }
+
+    /**
+     *
+     * @param newPublishedInAuthor Set the published in author
+     */
+    public void setPublishedInAuthor(String newPublishedInAuthor) {
+        this.publishedInAuthor = newPublishedInAuthor;
+    }
+
+    /**
+     *
+     */
+    @Field
+    public String getPublishedInAuthor() {
+        return publishedInAuthor;
     }
 }
