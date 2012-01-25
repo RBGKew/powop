@@ -162,6 +162,10 @@ public class ChecklistWebserviceFunctionalTest {
                ((String)with(xml).get(
                        "DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship[0].ToTaxonConcept.@ref"))
                        .contains("&scratchpad=functional-test.e-monocot.org"));
+       assertEquals("TaxonName publication attribute should equal '(Archer) Pargetter in Pargetter, Integer elementum lorem ut nibh scelerisque at condimentum 2: 34-56 1784'",
+               "(Archer) Pargetter in Pargetter, Integer elementum lorem ut nibh scelerisque at condimentum 2: 34-56 1784",
+               with(xml).get(
+                       "DataSet.TaxonNames.TaxonName.@itis_em_other_ref"));
    }
 
    /**

@@ -3,6 +3,10 @@ package org.emonocot.checklist.persistence;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
+import org.dbunit.dataset.DataSetException;
 import org.emonocot.checklist.model.ChangeEvent;
 import org.emonocot.checklist.model.Taxon;
 import org.emonocot.model.pager.Page;
@@ -48,6 +52,17 @@ public class FamilyFilteringIntegrationTest extends
         Page<ChangeEvent<Taxon>> result = taxonDao.page("Loreaceae", null,
                 null, null, null);
         assertEquals("page() should return four objects", Integer.valueOf(4),
+                result.getSize());
+    }
+
+    /**
+     *
+     */
+    @Test
+    public final void genusWildcardFilteringTest() {
+    	Page<ChangeEvent<Taxon>> result = taxonDao.page("Loreaceae:L", null,
+                null, null, null);
+        assertEquals("page() should return three objects", Integer.valueOf(3),
                 result.getSize());
     }
 

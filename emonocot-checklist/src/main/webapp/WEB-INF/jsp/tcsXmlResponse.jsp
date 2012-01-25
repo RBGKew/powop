@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
   xmlns:c="http://java.sun.com/jsp/jstl/core"
+  xmlns:fn="http://java.sun.com/jsp/jstl/functions"
   xmlns:spring="http://www.springframework.org/tags"
   xmlns:em="http://e-monocot.org/checklist/functions"
   version="2.0">
   <DataSet xmlns='http://www.tdwg.org/schemas/tcs/1.01' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.tdwg.org/schemas/tcs/1.01 http://www.tdwg.org/standards/117/files/TCS101/v101.xsd">
 	<TaxonNames>
-	  <TaxonName id="${result.nameId}" nomenclaturalCode="Botanical">
+	  <jsp:element name="TaxonName">
+	   <jsp:attribute name="id">${result.nameId}</jsp:attribute>
+	   <jsp:attribute name="nomenclaturalCode">Botanical</jsp:attribute>
+	   <jsp:attribute name="itis_em_other_ref">
+	       ${em:authorship(result.authors)}<c:if test="${not empty result.protologueAuthor}"> in ${em:escape(result.protologueAuthor)}</c:if>,<jsp:text> ${result.protologue.title} ${result.volumeAndPage} ${result.publicationDate}</jsp:text>
+	   </jsp:attribute>
 	    <Simple>${result.name} ${em:authorship(result.authors)}</Simple>
 	    <Rank code="${result.rank.abbreviation}">${result.rank.label}</Rank>
 	    <CanonicalName>
 	     <Simple>${result.name}</Simple>
 	    </CanonicalName>
-	  </TaxonName>
+	  </jsp:element>
 	</TaxonNames>
 	<TaxonConcepts>
 	  <TaxonConcept id="${result.identifier}">

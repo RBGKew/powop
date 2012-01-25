@@ -18,6 +18,7 @@ import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -283,15 +284,15 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
 
         if (set != null) {
             if (set.indexOf(":") == -1) {
-                criteria.add(Restrictions.eq("family", set));
+            	String family = set.substring(0);
+                criteria.add(Restrictions.eq("family", family));
             } else {
                 // This is a hierarchical set where the first part is the family
                 // and the second part is the genus
                 String family = set.substring(0, set.indexOf(":"));
                 String genus = set.substring(set.indexOf(":") + 1);
                 criteria.add(Restrictions.eq("family", family));
-                criteria.add(Restrictions.eq("genus", genus));
-                
+                criteria.add(Restrictions.like("genus", genus, MatchMode.START));
             }
         }
 
@@ -327,6 +328,7 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
                 criteria.setFirstResult(pageSize * pageNumber);
             }
         }
+        logger.info(criteria.toString());
         List<Taxon> taxa = (List<Taxon>) criteria.list();
         if (taxa.isEmpty()) {
             return new DefaultPageImpl<ChangeEvent<Taxon>>(0, pageNumber,
@@ -364,7 +366,7 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
                     String family = set.substring(0, set.indexOf(":"));
                     String genus = set.substring(set.indexOf(":") + 1);
                     countCriteria.add(Restrictions.eq("family", family));
-                    countCriteria.add(Restrictions.eq("genus", genus));
+                    countCriteria.add(Restrictions.like("genus", genus, MatchMode.START));
                 }
             }
             if (from != null) {

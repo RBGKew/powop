@@ -136,6 +136,23 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
     }
 
     /**
+     * Tests ListIdentifiers in a hierachical set where the set / subset
+     * is encoded like "{set}:{subset}*".
+     */
+    @Test
+    public final void testListIdentifiersInHierachicalSetWithWildcard() {
+
+        String xml = given()
+                .parameters("verb", "ListIdentifiers", "metadataPrefix",
+                        "oai_dc", "set", "Lowiaceae:Lo",
+                        "scratchpad", "functional-test.e-monocot.org")
+                        .get("/oai").asString();
+        assertEquals("There should be 5 identifiers returned",
+                NODES_IN_LOWIACEAE,
+                with(xml).get("OAI-PMH.ListIdentifiers.header.size()"));
+    }
+
+    /**
      * Tests ListIdentifiers where no nodes match.
      */
     @Test
