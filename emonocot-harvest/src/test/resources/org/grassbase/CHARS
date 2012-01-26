@@ -1,0 +1,6265 @@
+*SHOW World Grass Species - character list, Version 7, April 2005
+
+*COMMENT W.D. Clayton, K.T. Harman & H. Williamson, Royal Botanic Gardens, Kew.
+
+*CHARACTER LIST
+#1. <plant duration>/
+       1. annual/
+       2. perennial/
+
+#2. <degree of perennation>/
+       1. persisting <<implicit>>/
+       2. short-lived <perennating organs weakly expressed and difficult to
+          observe>/
+
+#3. <key couplet for bamboo life-form>/
+       1. herbaceous, or if woody then unlike a bamboo <in a colloquial sense>
+          <<implicit>>/
+       2. woody bamboo <with characteristic culm and foliage>/
+
+#4. <plant density>/
+       1. culms solitary/
+       2. cushion forming/
+       3. mat forming/
+       4. <uni> caespitose <forming a single clump>/
+       5. pluricaespitose <separate clumps linked by rhizomes>/
+
+#5. <plant> clumped <degree of culm density>/
+       1. loosely/
+       2. moderately/
+       3. densely/
+
+#6. roots <unusual states>/
+       1. simple <<implicit>>/
+       2. bearing tubers/
+       3. aromatic/
+       4. woolly/
+
+#7. rootstock <presence>/
+       1. not evident/
+       2. evident <knotty and woody>/
+
+#8. cataphylls <presence>/
+       1. inconspicuous/
+       2. evident/
+
+#9. rhizomes <presence>/
+       1. absent <<implicit>>/
+       2. short <often obliquely ascending>/
+       3. elongated <running>/
+
+#10. rhizomes <lepto- or pachymorph>/
+       1. leptomorph <uniformly slender>/
+       2. pachymorph <substantially thicker than culm at some point>/
+
+#11. rhizomes <consistency>/
+       1. hollow/
+       2. with peripheral air canals/
+       3. spongy/
+       4. fleshy/
+       5. firm/
+       6. wiry/
+       7. tuberous/
+       8. knotty/
+       9. woody/
+
+#12. rhizomes <presence of scales>/
+       1. not obviously scaly/
+       2. scaly/
+
+#13. rhizomes <indumentum>/
+       1. glabrous/
+       2. hairy <with straight hairs>/
+       3. woolly <with crimped hairs>/
+
+#14. stolons <presence>/
+       1. absent <<implicit>>/
+       2. present/
+
+#15. stolons <equality of internodes>/
+       1. with subequal internodes <leafy runners>/
+       2. with alternating elongated and bunched internodes/
+
+#16. butt sheaths <base of basal leaf-sheaths; presence>/
+       1. present <<implicit>>/
+       2. absent <basal sheaths evanescent or scale-like>/
+
+#17. butt sheaths <consistency>/
+       1. papery/
+       2. herbaceous/
+       3. scarious/
+       4. coriaceous/
+       5. indurate/
+       6. fleshy/
+       7. spongy/
+
+#18. butt sheaths <presence of bulb>/
+       1. not bulbous <<implicit>>/
+       2. thickened and forming a bulb/
+
+#19. butt sheaths <colour>/
+       1. pallid/
+       2. yellow/
+       3. green/
+       4. glaucous/
+       5. grey/
+       6. light brown/
+       7. dark brown/
+       8. red/
+       9. purple/
+
+#20. butt sheaths <sheen>/
+       1. dull/
+       2. glossy/
+
+#21. butt sheaths <ribbbing & reticulation>/
+       1. without ribs/
+       2. distinctly ribbed/
+       3. reticulately veined/
+
+#22. butt sheaths <indumentum> <<ordered>>/
+       1. glabrous/
+       2. sparsely hairy/
+       3. pubescent/
+       4. pilose/
+       5. hirsute/
+       6. villous/
+       7. woolly/
+
+#23. butt sheaths with <hair colour>/
+       1. white hairs <<implicit>>/
+       2. grey hairs/
+       3. yellow hairs/
+       4. tawny hairs/
+       5. dark brown hairs/
+       6. red hairs/
+       7. purple hairs/
+
+#24. butt sheaths <persistence>/
+       1. withering <when dead> <<implicit>>/
+       2. persistent and investing base of culm/
+
+#25. butt sheaths with <kind of dead sheath investing culm>/
+       1. soft dead sheaths/
+       2. compacted dead sheaths <not much altered>/
+       3. curly dead sheaths <like wood shavings>/
+       4. dead sheaths fracturing into segments/
+       5. fibrous dead sheaths/
+       6. reticulate dead sheaths/
+
+#26. basal innovations <origin>/
+       1. extravaginal/
+       2. intravaginal/
+
+#27. basal innovations <compression>/
+       1. subterete <<implicit>>/
+       2. flabellate <strongly compressed and interleaved like a fan>/
+
+#28. glands <type of dwarf gland <comment if siting ambiguous>>/
+       1. absent/
+       2. capitate/
+       3. wart-like <convex>/
+       4. raised crateriform/
+       5. sunken crateriform/
+       6. elongated/
+       7. annular/
+       8. lacunose/
+
+#29. culms <habit>/
+       1. erect/
+       2. geniculately ascending/
+       3. decumbent <touching ground at knees>/
+       4. prostrate <lying on ground>/
+       5. rambling <on low vegetation>/
+       6. at first whip-like then subsiding on other vegetation/
+       7. arching/
+       8. leaning <on other vegetation>/
+       9. scandent <climbing or scrambling>/
+
+#30. culms <stature>/
+       1. reed-like/
+       2. robust/
+       3. of moderate stature/
+       4. slender/
+       5. weak/
+
+#31. culms <straightness>/
+       1. straight/
+       2. curved/
+       3. tortuous/
+       4. zigzag/
+
+#32. culms <inclination of tip - if a bamboo>/
+       1. erect at the tip/
+       2. inclined at the tip/
+       3. nodding at the tip/
+       4. drooping at the tip/
+       5. pendulous at the tip/
+
+#33. culms <height>/
+       cm long/
+
+#34. culms <diameter of lower internodes>/
+       mm diam./
+
+#35. culms <consistency>/
+       1. spongy/
+       2. compressible/
+       3. firm <<implicit>>/
+       4. wiry/
+       5. woody/
+
+#36. culms <number of nodes>/
+       -noded/
+
+#37. culms with <site of uppermost node as fraction of total culm length>/
+       of their length below uppermost node/
+
+#38. culms <nodal roots>/
+       1. without nodal roots/
+       2. with prop roots/
+       3. rooting from lower nodes/
+       4. with root dots on the nodes/
+       5. with aerial roots from the nodes <mainly bamboos>/
+       6. with root thorns from the nodes/
+       7. eventually collapsing and rooting from upper nodes/
+
+#39. culms <fragility>/
+       1. tough <<implicit>>/
+       2. disarticulating at the nodes <associated with axillary spikelets>/
+
+#40. culms <presence of corms>/
+       1. not swollen at the base <<implicit>>/
+       2. swollen at the base/
+
+#41. culms forming <corm shape>/
+       1. an ovoid corm/
+       2. moniliform corms/
+       3. an elongated corm/
+
+#42. culm-internodes <inequality of length - excluding peduncle>/
+       1. similar in length/
+       2. abbreviated and bulging at the base <bamboos>/
+       3. abbreviated and closely packed at the base/
+       4. shorter and closely spaced at top of culm/
+       5. unequal, the upper longer/
+       6. unequal, the lower longer/
+       7. alternately elongated and bunched/
+
+#43. culm-internodes <transverse section>/
+       1. terete/
+       2. semiterete <flattened along one face>/
+       3. channelled <along one face>/
+       4. elliptical in section/
+       5. quadrangular/
+
+#44. culm-internodes <hollowness>/
+       1. thin-walled/
+       2. thick-walled/
+       3. solid/
+       4. with septate pith/
+
+#45. culm-internodes <length>/
+       cm long/
+
+#46. culm-internodes <colour>/
+       1. white/
+       2. yellow/
+       3. light green/
+       4. mid-green/
+       5. dark green/
+       6. glaucous/
+       7. grey/
+       8. brown/
+       9. purple/
+       10. black/
+
+#47. culm-internodes <variegation>/
+       1. concolorous/
+       2. striped/
+       3. mottled/
+
+#48. culm-internodes <presence of sessile glands>/
+       1. eglandular/
+       2. glandular/
+
+#49. culm-internodes <surface relief>/
+       1. estriate/
+       2. striate/
+       3. ridged/
+
+#50. culm-internodes <roughness>/
+       1. smooth/
+       2. scaberulous/
+       3. antrorsely scabrous/
+       4. retrorsely scabrous/
+       5. papillose/
+
+#51. culm-internodes distally <indumentum, at least below nodes> <<ordered>>/
+       1. mealy/
+       2. pruinose/
+       3. glabrous/
+       4. pubescent/
+       5. pilose/
+       6. hirsute/
+       7. hispid/
+       8. woolly/
+       9. with <longitudinal> pubescent line/
+
+#52. culm-internodes with <hair type>/
+       1. simple hairs <<implicit>>/
+       2. tubercle-based hairs/
+       3. reflexed hairs/
+       4. capitate hairs/
+       5. clavellate hairs/
+       6. turgid hairs/
+
+#53. culm-nodes <constriction>/
+       1. constricted/
+       2. flush with internodes/
+       3. swollen/
+       4. flanged/
+
+#54. culm-nodes <presence of supra-nodal ridge>/
+       1. without obvious supra-nodal ridge/
+       2. with distinct supra-nodal ridge/
+
+#55. culm-nodes <colour>/
+       1. pallid/
+       2. green/
+       3. brown/
+       4. purple/
+       5. black/
+
+#56. culm-nodes <exudate>/
+       1. without exudate/
+       2. viscid/
+
+#57. culm-nodes <indumentum <comment on colour>>/
+       1. glabrous/
+       2. pubescent/
+       3. bearded/
+
+#58. lateral branches <extent of aerial branching>/
+       1. lacking <above basal tillers>/
+       2. sparse/
+       3. ample/
+       4. fastigiate/
+       5. suffrutescent/
+       6. dendroid <bamboos>/
+
+#59. lateral <aerial> branches <intra- or extravaginal>/
+       1. extravaginal/
+       2. intravaginal/
+       3. infravaginal/
+
+#60. lateral branches arising from <where>/
+       1. lower culm/
+       2. mid culm/
+       3. upper culm/
+
+#61. lateral branches <inclination>/
+       1. erect <0-15 degrees>/
+       2. ascending <16-60 degrees>/
+       3. spreading <61-90 degrees>/
+       4. reflexed/
+
+#62. buds or branches <presence on lower culm>/
+       1. present on lower quarter of culm/
+       2. absent from lower quarter of culm/
+
+#63. bud complement <number>/
+       /
+
+#64. bud prophyll <length of principal prophyll>/
+       mm long/
+
+#65. bud prophyll <number of keels>/
+       1. 1-keeled/
+       2. 2-keeled/
+
+#66. bud prophyll margins <fusion>/
+       1. free/
+       2. fused/
+
+#67. branch complement <constancy>/
+       1. constant/
+       2. variable/
+
+#68. branch complement <number> <<ordered>>/
+       1. one/
+       2. two/
+       3. three/
+       4. several <4-10>/
+       5. many/
+
+#69. branch complement <arrangement>/
+       1. solitary/
+       2. in a horizontal line <at the same level>/
+       3. in an irregular line/
+       4. in a clump/
+       5. girdling the culm/
+       6. flabellate <around a triangular space>/
+
+#70. branch complement <origin>/
+       1. apparently arising below the node/
+       2. at the node <<implicit>>/
+       3. subtended by a bare patch above the node/
+
+#71. branch complement with <equality>/
+       1. subequal branches/
+       2. 1 branch dominant/
+       3. 2 branches dominant/
+       4. 3 branches dominant/
+       5. interspersed leafless fibrillar branches/
+
+#72. branch complement <thickness relative to stem>/
+       1. as thick as stem <at least the dominants>/
+       2. thinner than stem/
+
+#73. culm-sheaths <presence; occur below foliage, mainly in bamboos>/
+       1. absent <<implicit>>/
+       2. present/
+
+#74. culm-sheaths <persistence>/
+       1. persistent/
+       2. tardily deciduous <often hanging from the culm>/
+       3. deciduous but leaving a persistent girdle/
+       4. deciduous/
+
+#75. culm-sheaths <length>/
+       cm long/
+
+#76. culm-sheaths <length as a fraction of internode>/
+       length of internode/
+
+#77. culm-sheaths <length-width ratio>/
+       times as long as wide/
+
+#78. culm-sheaths <presence of basal lobes>/
+       1. without basal lobes <<implicit>>/
+       2. with basal lobes/
+
+#79. culm-sheaths <consistency>/
+       1. chartaceous/
+       2. coriaceous/
+
+#80. culm-sheaths <colour when fresh>/
+       1. white/
+       2. yellow/
+       3. green/
+       4. glaucous/
+       5. brown/
+       6. red/
+       7. purple/
+
+#81. culm-sheaths <variegation>/
+       1. concolorous/
+       2. striped/
+       3. obscurely mottled with last colour/
+       4. distinctly mottled with last colour/
+
+#82. culm-sheaths <roughness>/
+       1. smooth/
+       2. antrorsely scabrous/
+       3. retrorsely scabrous/
+
+#83. culm-sheaths <surface indumentum>/
+       1. glabrous <except for shoulders and margins>/
+       2. puberulous/
+       3. pubescent/
+       4. pilose/
+       5. hispid/
+
+#84. culm-sheaths hairy <where>/
+       1. throughout/
+       2. above/
+       3. below/
+       4. at the base/
+
+#85. culm-sheaths with <inclination of hairs>/
+       1. appressed hairs/
+       2. erect hairs/
+       3. reflexed hairs/
+
+#86. culm-sheaths with <hair colour>/
+       1. white hairs/
+       2. grey hairs/
+       3. yellow hairs/
+       4. tawny hairs/
+       5. dark brown hairs/
+       6. red hairs/
+       7. purple hairs/
+       8. black hairs/
+
+#87. culm-sheaths <presence of marginal hairs>/
+       1. glabrous on margins/
+       2. hairy on margins/
+
+#88. culm-sheaths <shape of apex>/
+       1. concave at apex/
+       2. truncate at apex/
+       3. convex at apex/
+       4. triangular at apex/
+       5. asymmetrical at apex/
+
+#89. culm-sheaths <presence of auricles>/
+       1. without auricles/
+       2. auriculate/
+
+#90. culm-sheaths with <auricle apex>/
+       1. obtuse auricles/
+       2. acute auricles/
+
+#91. culm-sheaths with <equality of auricles>/
+       1. equal auricles/
+       2. subequal auricles/
+       3. unequal auricles/
+
+#92. culm-sheaths with <auricle length>/
+       mm high auricles/
+
+#93. culm-sheaths with <auricle width>/
+       mm wide auricles/
+
+#94. culm-sheaths <hairs on shoulders, or auricles when present>/
+       1. glabrous on shoulders/
+       2. pubescent on shoulders/
+       3. ciliate on shoulders/
+       4. setose on shoulders/
+
+#95. culm-sheaths shoulders with <straight or curved hairs>/
+       1. straight hairs/
+       2. curved hairs/
+
+#96. culm-sheaths shoulders with <hair length>/
+       mm long hairs/
+
+#97. culm-sheath ligule <height>/
+       mm high/
+
+#98. culm-sheath ligule <colour>/
+       1. pallid/
+       2. green/
+       3. brown/
+       4. reddish/
+       5. purple/
+
+#99. culm-sheath ligule <apical ornament>/
+       1. entire/
+       2. dentate/
+       3. lacerate/
+       4. fimbriate <lacerations bearing a group of long hairs>/
+       5. ciliolate/
+       6. ciliate/
+
+#100. culm-sheath blade <outline>/
+       1. inconspicuous/
+       2. linear/
+       3. lanceolate/
+       4. narrowly ovate/
+       5. ovate/
+       6. triangular/
+
+#101. culm-sheath blade <basal constriction>/
+       1. constricted at base <semi-petiolate>/
+       2. narrower than sheath/
+       3. as wide as sheath at base <attached across its whole width>/
+       4. cordate/
+
+#102. culm-sheath blade <persistence>/
+       1. indistinctly demarcated from sheath/
+       2. demarcated but persistent/
+       3. deciduous/
+
+#103. culm-sheath blade <carriage>/
+       1. erect/
+       2. spreading/
+       3. reflexed/
+
+#104. culm-sheath blade <length>/
+       cm long/
+
+#105. culm-sheath blade <width>/
+       mm wide/
+
+#106. culm-sheath blade <wrinkling>/
+       1. flat/
+       2. wrinkled/
+
+#107. culm-sheath blade <indumentum>/
+       1. glabrous on surface/
+       2. scabrid/
+       3. pubescent/
+       4. hispid/
+       5. with ciliate margins/
+
+#108. culm-sheath blade <shape of apex>/
+       1. obtuse/
+       2. acute/
+       3. acuminate/
+       4. attenuate/
+       5. cuspidate/
+       6. mucronate/
+
+#109. leaves <basal or cauline>/
+       1. mostly basal/
+       2. basal and cauline/
+       3. cauline <<comment if herbaceous without butt sheaths>>/
+
+#110. leaves <number in leaf complement - if cauline>/
+       per branch <or culm when unbranched; refers to foliage culms if distinct
+          from flowering culms. Zero if not in distinct complements>/
+
+#111. leaves <phyllotaxy>/
+       1. apparently irregular <<implicit>>/
+       2. distichous/
+       3. spiral/
+
+#112. leaves <differentiation of sheath and blade>/
+       1. differentiated into sheath and blade <<implicit>>/
+       2. without demarcation between sheath and blade <no abaxial collar;
+          ligule may be present>/
+       3. with sheath almost obsolete/
+       4. with blades commonly suppressed, transferring photosynthetic function
+          to sheath and culm/
+
+#113. leaves <heterophylly>/
+       1. all alike <<implicit>>/
+       2. heterophyllous being wider on the culm/
+       3. much reduced on the culm <when foliage basal, else see culm-sheaths>/
+       4. heterophyllous with a basal winter rosette <vernal leaves described>/
+       5. heterophyllous with the distal narrower and retrorsely scabrid at the
+          apex/
+       6. heterophyllous <unspecified - explained in comment>/
+
+#114. leaf-sheaths <looseness>/
+       1. solid and functionally replacing culm/
+       2. tight <on the culm>/
+       3. loose/
+       4. inflated <refers to ordinary leaves, not those subtending an
+          inflorescence or cleistogenes>/
+       5. deciduous/
+
+#115. leaf-sheaths <presence of basal thickening; but see butt-sheath if
+          bulbous>/
+       1. unthickened at base/
+       2. thickened at base/
+
+#116. leaf-sheaths <marginal union>/
+       1. open for most of their length/
+       2. tubular for much of their length/
+
+#117. leaf-sheaths with <fraction closed>/
+       of their length closed/
+
+#118. leaf-sheaths with <involute margins>/
+       1. flat margins/
+       2. infolded margins/
+
+#119. leaf-sheaths <length>/
+       cm long/
+
+#120. leaf-sheaths <length relative to internode>/
+       1. obsolete on upper internodes/
+       2. mostly shorter than adjacent culm internode <upper nodes visible>/
+       3. subequal to internodes <or variable>/
+       4. longer than adjacent culm internode <overlapping>/
+
+#121. leaf-sheaths <width relative to blade>/
+       1. narrower than blade at the collar/
+       2. as wide as blade at the collar/
+       3. wider than blade at the collar/
+
+#122. leaf-sheaths <presence of sessile glands>/
+       1. eglandular/
+       2. glandular <on surface, midvein or margins>/
+
+#123. leaf-sheaths <exudate>/
+       1. without exudate <<implicit>>/
+       2. pruinose/
+       3. viscid/
+       4. resinous/
+
+#124. leaf-sheaths <presence of keel>/
+       1. without keel <or thickening>/
+       2. medianly thickened/
+       3. keeled <but not winged>/
+       4. with winged keel/
+
+#125. leaf-sheaths <venation>/
+       1. indistinctly veined/
+       2. striately veined/
+       3. reticulately veined/
+       4. ribbed/
+
+#126. leaf-sheaths <roughness>/
+       1. smooth/
+       2. scaberulous/
+       3. antrorsely scabrous/
+       4. retrorsely scabrous/
+       5. papillose/
+       6. punctate/
+       7. transversely wrinkled/
+
+#127. leaf-sheaths <surface indumentum> <<ordered>>/
+       1. glabrous on surface <excepting mouth & margin>/
+       2. puberulous/
+       3. pubescent/
+       4. pilose/
+       5. hirsute/
+       6. hispid/
+       7. woolly/
+
+#128. leaf-sheaths with <hair type>/
+       1. simple hairs <<implicit>>/
+       2. tubercle-based hairs/
+       3. reflexed hairs/
+       4. hooked hairs/
+       5. capitate hairs/
+       6. clavellate hairs/
+       7. turgid hairs/
+
+#129. leaf-sheaths hairs <colour>/
+       1. white/
+       2. grey/
+       3. yellow/
+       4. tawny/
+       5. dark brown/
+       6. red/
+       7. purple/
+       8. black/
+
+#130. leaf-sheaths outer margin <presence of hairs>/
+       1. glabrous/
+       2. hairy/
+
+#131. leaf-sheaths inner surface <indumentum>/
+       1. glabrous/
+       2. puberulous/
+
+#132. leaf-sheath oral hairs <beside ligule or on auricles> <<ordered>>/
+       1. scanty <a few bristles>/
+       2. lacking/
+       3. pubescent/
+       4. ciliate/
+       5. bearded/
+       6. setose/
+       7. woolly/
+
+#133. leaf-sheath oral hairs <terete or flat>/
+       1. terete/
+       2. flat/
+
+#134. leaf-sheath oral hairs <carriage>/
+       1. erect/
+       2. spreading/
+       3. curly/
+       4. deciduous/
+
+#135. leaf-sheath oral hairs <length>/
+       mm long/
+
+#136. leaf-sheath oral hairs <colour>/
+       1. pale/
+       2. dark/
+
+#137. leaf-sheath auricles <presence>/
+       1. absent <<implicit>>/
+       2. erect <usually adnate to ligule>/
+       3. erect and connate forming a tooth opposite blade <when sheath
+          tubular>/
+       4. falcate/
+
+#138. leaf-sheath auricles <length>/
+       mm long/
+
+#139. leaf-sheath auricles <shape of apex>/
+       1. obtuse/
+       2. acute/
+       3. acuminate/
+
+#140. ligule <structure - at midculm node when cauline foliage present>
+          <<mandatory>>/
+       1. an eciliate membrane <apical hairs absent>/
+       2. a ciliolate membrane <apical hairs shorter than membrane>/
+       3. a ciliate membrane <apical hairs as long as, or longer than,
+          membrane>/
+       4. a fringe of hairs <membrane absent or obscure>/
+       5. absent/
+
+#141. ligule <length on culm leaves>/
+       mm long/
+
+#142. ligule <length on basal shoots when different>/
+       mm long on basal shoots/
+
+#143. ligule <consistency>/
+       1. hyaline/
+       2. membranous/
+       3. scarious/
+
+#144. ligule <colour>/
+       1. translucent/
+       2. white/
+       3. brown/
+       4. red/
+       5. purple/
+
+#145. ligule <abaxial indumentum>/
+       1. glabrous on abaxial surface/
+       2. scaberulous on abaxial surface/
+       3. pubescent on abaxial surface/
+       4. pilose on abaxial surface/
+       5. ciliate from base of abaxial surface/
+       6. setose from base of abaxial surface/
+       7. with a secondary abaxial membrane/
+
+#146. ligule <apex incision>/
+       1. entire/
+       2. erose/
+       3. bilobed/
+       4. trilobed/
+       5. lacerate/
+
+#147. ligule <shape of apex>/
+       1. truncate/
+       2. obtuse/
+       3. acute/
+       4. acuminate/
+
+#148. collar <abaxial surface at junction between sheath and blade - colour>/
+       1. pallid/
+       2. concolorous <with sheath and blade>/
+       3. dark/
+
+#149. collar <external ligule>/
+       1. without external ligule <<implicit>>/
+       2. with <membranous> external ligule/
+
+#150. collar <indumentum of collar, or external ligule>/
+       1. glabrous/
+       2. pubescent/
+       3. ciliate/
+       4. pilose/
+       5. bearded/
+
+#151. collar with hairs <length>/
+       mm long/
+
+#152. leaf-blade base <shape>/
+       1. tapering to the midrib <but not discretely petiolate>/
+       2. simple <narrowing or slightly rounded> <<implicit>>/
+       3. cuneate/
+       4. truncate/
+       5. broadly rounded/
+       6. cordate/
+       7. amplexicaul/
+       8. sagittate/
+
+#153. leaf-blade base <symmetry>/
+       1. symmetrical/
+       2. asymmetrical/
+
+#154. leaf-blade base <presence of false petiole>/
+       1. without a false petiole <<implicit>>/
+       2. with a brief petiole-like connection to sheath <mainly bamboos>/
+       3. with a false petiole <elongated, at least in the upper leaves>/
+
+#155. leaf-blade base petiole <length>/
+       cm long/
+
+#156. leaf-blade base petiole <indumentum>/
+       1. glabrous/
+       2. pubescent/
+       3. pilose/
+
+#157. leaf-blades <carriage>/
+       1. appressed/
+       2. erect/
+       3. ascending <<implicit>>/
+       4. spreading/
+       5. drooping/
+       6. reflexed/
+       7. floating <flat on the water>/
+
+#158. leaf-blades <straightness>/
+       1. straight <<implicit>>/
+       2. curved/
+       3. curled/
+       4. flexuous/
+       5. tortuous <spirally twisted>/
+
+#159. leaf-blades <inversion>/
+       1. not inverted <<implicit>>/
+       2. inverted <twisted to bring lower epidermis uppermost>/
+
+#160. leaf-blades <persistence>/
+       1. persistent <<implicit>>/
+       2. deciduous at the ligule/
+       3. deciduous with part of sheath attached/
+
+#161. leaf-blades <outline>/
+       1. aciculate/
+       2. filiform/
+       3. linear <<implicit>>/
+       4. lanceolate/
+       5. elliptic/
+       6. oblong/
+       7. ovate/
+       8. triangular/
+
+#162. leaf-blades <direction of taper>/
+       1. tapering towards sheath <widest in distal half>/
+       2. tapering towards tip <widest near base>/
+       3. tapering towards tip and sheath <widest in middle>/
+       4. parallel-sided <equally wide for most of length>/
+
+#163. leaf-blades <vernation>/
+       1. flat <<implicit>>/
+       2. plicate <pleated>/
+       3. conduplicate <folded>/
+       4. involute/
+       5. convolute/
+       6. revolute/
+       7. terete <apparently without lamina>/
+
+#164. leaf-blades <outline of transverse section>/
+       1. linear in section/
+       2. angular in section/
+       3. elliptic in section/
+       4. circular in section/
+
+#165. leaf-blades <length>/
+       cm long/
+
+#166. leaf-blades <width>/
+       mm wide/
+
+#167. leaf-blades <length of uppermost leaf>/
+       cm long at summit of culm/
+
+#168. leaf-blades <width in winter rosette>/
+       mm wide in winter rosette/
+
+#169. leaf-blades <consistency>/
+       1. membranous/
+       2. herbaceous <<implicit>>/
+       3. chartaceous/
+       4. fleshy/
+       5. coriaceous/
+       6. indurate/
+
+#170. leaf-blades <stiffness>/
+       1. stiff/
+       2. firm <<implicit>>/
+       3. flaccid/
+
+#171. leaf-blades <colour>/
+       1. yellowish green/
+       2. light green/
+       3. mid-green/
+       4. dark green/
+       5. glaucous/
+       6. grey-green/
+       7. red/
+       8. purple/
+
+#172. leaf-blades <whether discolorous>/
+       1. concolorous/
+       2. discolorous with last colour beneath <different colours above and
+          below>/
+       3. with undersurface a different shade on either side of midrib/
+       4. variegated <<describe in comment>>/
+       5. withering along margins/
+
+#173. leaf-blades <presence of sessile glands - other than margins>/
+       1. eglandular/
+       2. glandular <on surface or midvein>/
+
+#174. leaf-blades <exudate>/
+       1. without exudate <<implicit>>/
+       2. pruinose/
+       3. viscid/
+       4. resinous/
+
+#175. leaf-blades <presence of scent>/
+       1. without scent <<implicit>>/
+       2. aromatic/
+
+#176. leaf-blade midrib <distinctness on upper surface>/
+       1. indistinct/
+       2. evident/
+       3. conspicuous/
+       4. widened/
+
+#177. leaf-blade midrib <emergence on lower surface>/
+       1. scarcely raised beneath/
+       2. prominent beneath <but not keeled>/
+       3. keeled beneath/
+
+#178. leaf-blade venation <clarity>/
+       1. indistinct <except for midrib>/
+       2. distinct/
+       3. prominent/
+
+#179. leaf-blade venation <slanting>/
+       1. parallel <<implicit>>/
+       2. slanting obliquely from midrib/
+
+#180. leaf-blade venation comprising <number of vascular bundles>/
+       vascular bundles/
+
+#181. leaf-blade venation of <number of orders>/
+       orders <counting midrib as first>/
+
+#182. leaf-blade venation with <number of second order veins>/
+       secondary veins/
+
+#183. leaf-blade venation with <number of inner ridges>/
+       inner ridges/
+
+#184. leaf-blade venation with sclerenchyma strands <presence above or below
+          veins>/
+       1. absent/
+       2. below veins/
+       3. above some veins/
+       4. above all veins/
+
+#185. leaf-blade venation with <number of sclerenchyma strands <mainly
+          Festuca>>/
+       subepidermal sclerenchyma strands/
+
+#186. leaf-blade venation with <separate> subepidermal sclerenchyma strands
+          <equality of size>/
+       1. similar in size/
+       2. unequal in size <apart from midrib and margins>/
+       3. enlarged at midrib/
+       4. enlarged at leaf margins/
+
+#187. leaf-blade venation with subepidermal sclerenchyma <attachment to veins>/
+       1. free from veins/
+       2. attached to veins above/
+       3. attached to veins below/
+       4. attached to veins above and below/
+
+#188. leaf-blade venation <presence of abaxial subepidermal sclerenchyma layer>/
+       1. without layer of subepidermal sclerenchyma masking vein striation/
+       2. with sclerenchyma strands widened to form a discontinuous subepidermal
+          layer/
+       3. with unevenly thickened subepidermal sclerenchyma layer on the
+          underside/
+       4. with continuous uniform subepidermal sclerenchyma layer on the
+          underside/
+
+#189. leaf-blade venation <presence of cross veins>/
+       1. without <apparent> cross veins <<implicit>>/
+       2. with obscure cross veins <requiring careful inspection>/
+       3. with distinct cross veins <obvious under x10 lens>/
+
+#190. leaf-blade surface <presence of grooves or ribs>/
+       1. ungrooved/
+       2. grooved along midline/
+       3. grooved on either side of midline/
+       4. ribbed/
+
+#191. leaf-blade surface grooved <which side grooved or ribbed>/
+       1. adaxially <upper>/
+       2. abaxially <lower>/
+
+#192. leaf-blade surface with <shape of ribs>/
+       1. rounded ribs/
+       2. rectangular ribs/
+       3. ribs raised into sinuous lamellae/
+
+#193. leaf-blade surface <roughness>/
+       1. smooth/
+       2. scaberulous/
+       3. scabrous/
+       4. papillose/
+
+#194. leaf-blade surface rough <which side>/
+       1. adaxially <upper>/
+       2. abaxially <lower>/
+       3. on both sides/
+
+#195. leaf-blade surface <indumentum> <<ordered>>/
+       1. glabrous/
+       2. puberulous/
+       3. pubescent/
+       4. pilose/
+       5. hirsute/
+       6. hispid/
+       7. woolly/
+
+#196. leaf-blade surface hairless <extent when glabrous>/
+       1. throughout/
+       2. except near base/
+
+#197. leaf-blade surface <hair density>/
+       1. sparsely hairy/
+       2. moderately hairy <<implicit>>/
+       3. densely hairy/
+
+#198. leaf-blade surface hairy <which side>/
+       1. adaxially <upper>/
+       2. abaxially <lower>/
+       3. on both sides/
+
+#199. leaf-blade surface with <hair type>/
+       1. simple hairs <<implicit>>/
+       2. tubercle-based hairs/
+       3. capitate hairs/
+       4. clavellate hairs/
+       5. turgid hairs/
+
+#200. leaf-blade margins <thickening>/
+       1. unthickened/
+       2. cartilaginous/
+
+#201. leaf-blade margins <presence of glands>/
+       1. eglandular/
+       2. glandular/
+
+#202. leaf-blade margins <indentation>/
+       1. entire <<implicit>>/
+       2. undulate/
+       3. crenate <crinkled, at least on one margin>/
+       4. serrulate/
+
+#203. leaf-blade margins <roughness> <<ordered>>/
+       1. smooth/
+       2. scaberulous/
+       3. scabrous/
+       4. spinulose/
+
+#204. leaf-blade margins <hairiness>/
+       1. glabrous/
+       2. pubescent/
+       3. ciliate/
+       4. tuberculate-ciliate/
+       5. with tufts of hair/
+       6. tuberculate <without hair>/
+
+#205. leaf-blade margins hairy <where>/
+       1. all along <<implicit>>/
+       2. at base <only>/
+
+#206. leaf-blade apex <shape> <<ordered>>/
+       1. obtuse/
+       2. abruptly acute/
+       3. acute/
+       4. acuminate/
+       5. attenuate/
+       6. caudate/
+
+#207. leaf-blade apex <pungency>/
+       1. muticous <<implicit>>/
+       2. pungent <pricking the fingers>/
+
+#208. leaf-blade apex <termination>/
+       1. soon splitting/
+       2. hooded/
+       3. asymmetrical/
+       4. simple <<implicit>>/
+       5. apiculate/
+       6. hardened/
+       7. callose/
+       8. filiform/
+
+#209. leaf-blade apex <vesture>/
+       1. without special vesture <undifferentiated from lamina> <<implicit>>/
+       2. smooth/
+       3. antrorsely scabrous/
+       4. retrorsely scabrous/
+       5. hairy/
+
+#210. flowering specimens <whether flowering parts are described in the
+          database>/
+       1. described <<implicit>>/
+       2. unknown <all bamboos>/
+
+#211. <plant sexuality>/
+       1. bisexual <<implicit>>/
+       2. gynodioecious ("male", in this context, indicating the bisexual state)
+          <<describe female, and comment on bisexual state in male section>>/
+       3. monoecious <including sequential sex forms at different times>/
+       4. androdioecious/
+       5. dioecious/
+
+#212. <plant sexuality if monoecious>/
+       1. with male and female spikelets in the same inflorescence/
+       2. with male and female spikelets in different inflorescences
+          <<implicit>>/
+       3. with male terminal and mixed axillary inflorescences/
+       4. with a male and a female inflorescence subtended by the same spatheole
+          <Coix>/
+       5. with sex changing according to season/
+
+#213. synflorescence <type of inflorescence aggregation> <<mandatory>>/
+       1. simple <discrete and lacking subtending bracts, or rarely with
+          rudiments> <<implicit>>/
+       2. compound <a spathate aggregation of racemose inflorescences, the
+          latter terminating branches>/
+       3. bractiferous <a bracteate or spathate system bearing single spikelets
+          or dwarf bracteolate fascicles in the axils - bamboos only>/
+
+#214. synflorescence <shape when compound or bractiferous>/
+       1. scanty/
+       2. linear/
+       3. paniculate/
+       4. fastigiate <about the axis>/
+       5. fasciculate <the spatheoles in bunches>/
+       6. globose/
+       7. stellate/
+       8. clustered at the nodes <bamboos>/
+
+#215. synflorescence in <shape of clusters - if nodal>/
+       1. globose clusters/
+       2. stellate clusters/
+       3. oblong clusters/
+       4. compact unilateral clumps/
+       5. untidy tufts/
+
+#216. synflorescence <length of synflorescence or nodal cluster - if compound or
+          bractiferous>/
+       cm long/
+
+#217. synflorescence <density of synflorescence or nodal cluster - if compound
+          or bractiferous>/
+       1. dense/
+       2. lax/
+       3. open/
+
+#218. synflorescence <separation of clusters - if nodal>/
+       cm between clusters/
+
+#219. synflorescence <internode indumentum - if nodal>/
+       1. glabrous on internodes/
+       2. scabrid on internodes/
+       3. hispidulous on internodes/
+       4. pubescent on internodes/
+       5. pilose on internodes/
+
+#220. synflorescence with <shape of principal subtending bracts - if
+          bractiferous>/
+       1. glumaceous subtending bracts/
+       2. spathaceous subtending bracts/
+       3. foliaceous subtending bracts/
+
+#221. synflorescence bracts <length - if bractiferous>/
+       mm long/
+
+#222. synflorescence <presence of spikelet buds - if bractiferous>/
+       1. without axillary buds at base of spikelet <semelauctant>/
+       2. with axillary buds at base of spikelet <iterauctant>/
+
+#223. synflorescence <presence of dwarf shoots - if compound or bractiferous>/
+       1. with simple <homogeneous> branching/
+       2. with ultimate <large> bract subtending a compact bracteolate fascicle
+          of spikelets <mostly bamboos>/
+       3. with principal spatheoles embracing a compact fascicle of racemes,
+          each subtended by a subsidiary bract/
+       4. with multiple branching from a dwarf shoot in penultimate spathe
+          <Andropogoneae>/
+
+#224. synflorescence <presence of prophylls - if compound or bractiferous>/
+       1. without prophylls <adjoining spikelet> <<implicit>>/
+       2. prophyllate below lateral spikelets/
+
+#225. synflorescence with <number of prophyll keels>/
+       1. unkeeled prophylls/
+       2. 1-keeled prophylls/
+       3. 2-keeled prophylls/
+
+#226. synflorescence <relation to leaves - if nodal>/
+       1. leafy between clusters/
+       2. leafless between clusters <pseudo-racemose>/
+       3. leafless between <clusters and> branches <pseudo-paniculate>/
+
+#227. synflorescence <total length - if nodal>/
+       cm long overall/
+
+#228. synflorescence <on leafless culm>/
+       1. on the same culm as leaves <<implicit>>/
+       2. on a specialized culm bearing a single <rarely more> leaf-blade/
+       3. on a separate leafless culm/
+
+#229. inflorescence <type - refers to true inflorescence (i.e., above uppermost
+          sheath) in a compound system; <inapplicable if bractiferous> see Note
+          for definitions> <<mandatory>>/
+       1. a panicle <<including spiciform panicles with dwarf laterals more or
+          less accrescent to a central axis, and Pennisetum spp with 1
+          involucral bristle>>/
+       2. a panicle with branches tipped by a raceme <or heteromorphic triad;
+          Andropogoneae.> <<Enter under panicle; raceme shape, length & number
+          of spikelets; rhachis; rhachis internode>>/
+       3. composed of <spikes or> racemes <<these occasionally bearing secondary
+          lateral racemelets (rarely variable between panicle and raceme, and
+          then scored for both). Triads or contiguous pairs shed as a whole from
+          a tough central axis are racemes; the term is also used here for a
+          broadly winged rhachis bearing involucral clusters (Chlorocalymma,
+          Trachys). Single spikelets subtended by 1 sterile bristle and
+          deciduous with it are homology problems; they are treated as reduced
+          racemes (except Pennisetum). Single spikelets without rhachis
+          extension are treated as spikelets, regardless of supposed homology
+          (Boutelouinae, Zoysiinae, Stenotaphrum)>>/
+       4. comprising only a few spikelets <and type undefinable>/
+
+#230. inflorescence comprising <number of spikelets> <<if few or in a panicle>>/
+       fertile spikelets/
+
+#231. inflorescence <location of fertile inflorescence>/
+       1. terminal <on culms and principal branches> <<implicit>>/
+       2. terminal and axillary <excluding cleistogenes; including compound
+          systems>/
+       3. axillary <only>/
+
+#232. inflorescence <whether overtopping basal leaves>/
+       1. aerial <<implicit>>/
+       2. shorter than basal leaves/
+
+#233. inflorescence bearing <juvenility>/
+       1. well-developed spikelets at emergence <<implicit>>/
+       2. juvenile spikelets at emergence/
+
+#234. inflorescence <tumbleweed>/
+       1. not deciduous as a whole <or composed of a single spikelet>
+          <<implicit>>/
+       2. deciduous as a whole/
+
+#235. inflorescence <presence of rudimentary bracts within inflorescence> <<see
+          also subtending leaf, peduncle tip and basal sterile spikelets>>/
+       1. without bracts <<implicit>>/
+       2. bracteate at branch bases/
+       3. bracteate at pedicel base/
+
+#236. inflorescence subtended by <type of subtending leaf>/
+       1. an unspecialized leaf-sheath <and blade> <<implicit>>/
+       2. an inflated leaf-sheath <lightly inflated, with blade>/
+       3. a spatheole <or spathe, much modified with rudimentary blade>/
+       4. sheathless <or inconspicuously sheathed> blades/
+       5. bracts/
+
+#237. inflorescence <exsertion from sheath>/
+       1. exserted <<implicit>>/
+       2. embraced at base by subtending leaf/
+       3. enclosed <by sheath or spatheole>/
+
+#238. inflorescence with <number, when several emerging from a sheath>/
+       peduncles per sheath/
+
+#239. axillary inflorescences present <location>/
+       1. throughout the plant/
+       2. in upper axils/
+       3. in lower axils/
+
+#240. axillary inflorescences <comparison with terminal - if the latter
+          fertile>/
+       1. similar to terminal/
+       2. different from terminal/
+       3. intermingled with terminal/
+
+#241. axillary inflorescences <shape>/
+       1. open/
+       2. loosely contracted/
+       3. compact/
+       4. enclosed/
+
+#242. spatheole <form; excluding secondary bractlets when present>/
+       1. cymbiform or tubular <<implicit>>/
+       2. expanded/
+       3. glumaceous/
+
+#243. spatheole <outline> <<ordered>>/
+       1. linear/
+       2. lanceolate/
+       3. elliptic/
+       4. oblong/
+       5. ovate/
+       6. globose/
+
+#244. spatheole <length>/
+       cm long/
+
+#245. spatheole <consistency>/
+       1. hyaline/
+       2. membranous/
+       3. chartaceous/
+       4. herbaceous/
+       5. scarious/
+       6. coriaceous/
+       7. indurate/
+
+#246. spatheole <colour>/
+       1. yellow/
+       2. green/
+       3. glaucous/
+       4. grey/
+       5. brown/
+       6. red/
+       7. purple/
+
+#247. spatheole <presence of tubercles>/
+       1. without tubercles/
+       2. tuberculate/
+
+#248. spatheole <indumentum> <<ordered>>/
+       1. glabrous/
+       2. puberulous/
+       3. pubescent/
+       4. pilose/
+       5. hirsute/
+       6. setose/
+
+#249. peduncle <presence>/
+       1. brief, the infloresence subsessile/
+       2. distinct <<implicit>>/
+
+#250. peduncle <flexion>/
+       1. straight <<implicit>>/
+       2. nodding/
+       3. flexuous/
+       4. deflexed/
+
+#251. peduncle <transverse section>/
+       1. terete/
+       2. elliptic in section/
+       3. angular/
+       4. flattened/
+
+#252. peduncle <length>/
+       cm long/
+
+#253. peduncle <presence of glands>/
+       1. eglandular/
+       2. glandular/
+
+#254. peduncle <roughness below inflorescence>/
+       1. smooth/
+       2. scaberulous above/
+       3. antrorsely scabrous above/
+       4. retrorsely scabrous above/
+       5. tuberculate above/
+
+#255. peduncle <indumentum below inflorescence> <<ordered>>/
+       1. glabrous/
+       2. pubescent above/
+       3. pilose above/
+       4. hirsute above/
+       5. hispid above/
+
+#256. peduncle <apical expansion>/
+       1. cylindrical at apex/
+       2. widened at apex/
+       3. expanded into a conical flask at apex/
+       4. tipped by a glumaceous appendage <of uncertain homology <see also
+          subtending leaf, indeterminate bracts within inflorescence, and basal
+          sterile spikelets>>/
+
+#257. peduncle <persistence>/
+       1. persistent <on culm> <<implicit>>/
+       2. fracturing <part way along>/
+       3. disarticulating <with all or part of the inflorescence>/
+
+#258. peduncle disarticulating <with uppermost sheath>/
+       1. above uppermost sheath/
+       2. below uppermost sheaths <or spatheole>/
+
+#259. peduncle base <shape - if disarticulating and leafless>/
+       1. blunt/
+       2. pungent/
+
+#260. panicle <type>/
+       1. open/
+       2. contracted/
+       3. spiciform/
+       4. glomerate/
+       5. capitate/
+
+#261. panicle <outline> <<ordered>>/
+       1. linear/
+       2. lanceolate/
+       3. elliptic/
+       4. oblong/
+       5. ovate/
+       6. pyramidal/
+       7. globose/
+       8. obovate/
+       9. corymbose/
+
+#262. panicle <interruption>/
+       1. continuous <confluent if glomerate>/
+       2. interrupted/
+
+#263. panicle <density>/
+       1. dense/
+       2. loose/
+       3. effuse/
+
+#264. panicle <taper - if spiciform>/
+       1. truncate or rounded at the ends <<implicit>>/
+       2. tapering above/
+       3. tapering below/
+
+#265. panicle <one-sided>/
+       1. equilateral <<implicit>>/
+       2. nodding <to one side>/
+       3. secund/
+
+#266. panicle <straightness>/
+       1. straight/
+       2. curved/
+       3. flexuous/
+
+#267. panicle <length>/
+       cm long/
+
+#268. panicle <width>/
+       cm wide/
+
+#269. panicle <fraction of culm length>/
+       of <total> culm length/
+
+#270. panicle bearing <sparse>/
+       1. many spikelets <<implicit>>/
+       2. few spikelets <few enough to count>/
+
+#271. panicle <spikelet distribution <if open or contracted, but not
+          raceme-tipped>>/
+       1. evenly furnished <with spikelets> <<implicit>>/
+       2. contracted about primary branches/
+       3. contracted about secondary branches/
+       4. with spikelets clumped along branches/
+       5. gathered into fascicles/
+       6. with spikelets clustered towards branch tips/
+
+#272. primary panicle branches <accrescence>/
+       1. free <<implicit>>/
+       2. accrescent to a central axis/
+
+#273. primary panicle branches <or clusters - number>/
+       in number/
+
+#274. primary panicle branches <development - if accrescent to a central axis.
+          <Rest of branches inapplicable, but see central axis>>/
+       1. with evident branchlets on axis/
+       2. with lateral <branch or pedicel> stumps on axis/
+       3. with sessile scars on axis/
+
+#275. primary panicle branches <carriage>/
+       1. appressed <erect>/
+       2. ascending/
+       3. spreading/
+       4. drooping/
+       5. reflexed/
+
+#276. primary panicle branches <spacing>/
+       1. closely spaced/
+       2. moderately spaced/
+       3. distant/
+
+#277. primary panicle branches <number at lowest node>/
+       -nate/
+
+#278. primary panicle branches <whorled>/
+       1. not whorled <<implicit>>/
+       2. whorled at lower nodes <only>/
+       3. whorled at most nodes/
+
+#279. primary panicle branches <amount of branching> <<ordered>>/
+       1. indistinct the panicle almost racemose/
+       2. simple/
+       3. sparsely divided/
+       4. moderately divided <<implicit>>/
+       5. profusely divided/
+
+#280. primary panicle branches subdividing <orders of branching>/
+       times <not counting pedicels>/
+
+#281. primary panicle branches branching <type of branching>/
+       1. laterally <<implicit>>/
+       2. dichotomously <dividing into equal parts>/
+       3. divaricately <widely divergent>/
+
+#282. primary panicle branches rebranched <origin of proximal secondary
+          branches>/
+       1. near base/
+       2. below middle/
+       3. at middle/
+       4. above middle/
+
+#283. primary panicle branches <length>/
+       cm long/
+
+#284. primary panicle branches with lower <length as fraction of panicle>/
+       length of panicle/
+
+#285. primary panicle branches bearing <number of spikelets>/
+       fertile spikelets on each lower branch/
+
+#286. primary panicle branches <naked or sterile below - if open or contracted>/
+       1. naked below <<implicit>>/
+       2. bearing spikelets almost to the base/
+       3. bearing sterile spikelets below, fertile at tip/
+       4. elongating after flowering/
+
+#287. primary panicle branches <presence of sterile branches>/
+       1. without sterile bristles <<implicit>>/
+       2. sterile at the tips <with or without other sterile branches>/
+       3. <wholly> sterile at lowest node/
+
+#288. panicle axis <conspicuousness>/
+       1. dominant/
+       2. distinct/
+       3. differing little from branches/
+
+#289. panicle axis <number of nodes>/
+       noded/
+
+#290. panicle axis with lower internodes <length>/
+       cm long/
+
+#291. panicle axis <transverse section>/
+       1. terete/
+       2. with rounded ribs/
+       3. angular <or long angular ribs>/
+       4. with briefly decurrent <angular> ribs/
+       5. flat/
+
+#292. panicle axis <presence of glands>/
+       1. eglandular/
+       2. glandular/
+
+#293. panicle axis <roughness> <<ordered>>/
+       1. smooth/
+       2. with occasional prickles/
+       3. scaberulous/
+       4. <antrorsely> scabrous/
+       5. retrorsely scabrous/
+       6. tuberculate/
+
+#294. panicle axis <indumentum> <<ordered>>/
+       1. with scattered hairs/
+       2. glabrous <<implicit>>/
+       3. puberulous/
+       4. pubescent/
+       5. pilose/
+       6. hirsute/
+       7. villous/
+       8. plumose/
+       9. hispidulous/
+       10. hispid/
+
+#295. panicle axis with <hair type>/
+       1. simple hairs <<implicit>>/
+       2. tubercle-based hairs/
+       3. hooked hairs/
+       4. capitate hairs/
+       5. clavellate hairs/
+
+#296. panicle axis bearing <persistence of branches>/
+       1. persistent branches <but may be tipped by a fragile raceme>
+          <<implicit>>/
+       2. deciduous <elongated> branches/
+       3. deciduous spikelet clusters <or involucres>/
+
+#297. panicle branches <stiffness>/
+       1. stiff/
+       2. flexible <<implicit>>/
+       3. capillary/
+
+#298. panicle branches <curvature>/
+       1. straight/
+       2. arcuate/
+       3. flexuous/
+       4. sinuous/
+       5. zig-zag/
+       6. tangled/
+       7. abruptly recurved near tip/
+
+#299. panicle branches <transverse section>/
+       1. terete/
+       2. channelled/
+       3. angular/
+       4. flat/
+
+#300. panicle branches <apical expansion, usually when bearing racemes>/
+       1. parallel-sided/
+       2. apically expanded/
+
+#301. panicle branches <whether secund>/
+       1. multilateral <or irregular>/
+       2. secund/
+
+#302. panicle branches bearing <spikelet density>/
+       1. congested spikelets/
+       2. approximate spikelets/
+       3. distant spikelets/
+       4. the terminal spikelet distant on a long pedicel/
+
+#303. panicle branches <presence of sessile glands>/
+       1. eglandular/
+       2. glandular/
+
+#304. panicle branches <exudate>/
+       1. without exudate <<implicit>>/
+       2. pruinose/
+       3. viscid/
+       4. resinous/
+
+#305. panicle branches <roughness> <<ordered>>/
+       1. smooth/
+       2. with occasional prickles/
+       3. scaberulous/
+       4. <antrorsely> scabrous/
+       5. retrorsely scabrous/
+       6. tuberculate/
+
+#306. panicle branches rough <where>/
+       1. proximally/
+       2. throughout/
+       3. distally/
+
+#307. panicle branches <surface indumentum> <<ordered>>/
+       1. with scattered hairs/
+       2. glabrous <<implicit>>/
+       3. puberulous/
+       4. pubescent/
+       5. pilose/
+       6. hirsute/
+       7. villous/
+       8. plumose/
+       9. hispidulous/
+       10. hispid/
+
+#308. panicle branches hairy <where>/
+       1. generally <<implicit>>/
+       2. at tip/
+
+#309. panicle branches with <hair type>/
+       1. simple hairs <<implicit>>/
+       2. tubercle-based hairs/
+       3. hooked hairs/
+       4. capitate hairs/
+       5. clavellate hairs/
+       6. turgid hairs/
+
+#310. panicle branches <axillary hairs>/
+       1. glabrous in axils/
+       2. pubescent in axils/
+       3. bearded in axils/
+
+#311. panicle branches <presence of pulvini>/
+       1. with insignificant pulvini/
+       2. with prominent pulvini/
+
+#312. panicle branches terminating in a <bristle length if sterile only at tip
+          (not involucral)>/
+       mm long bristle/
+
+#313. racemes <numerous>/
+       1. few <up to 30> <<implicit>>/
+       2. numerous/
+
+#314. racemes <number>/
+       /
+
+#315. racemes <disposition>/
+       1. single/
+       2. paired/
+       3. digitate/
+       4. borne along a central axis/
+
+#316. racemes <spacing>/
+       1. simply spaced <in 1 whorl or moderately dispersed> <<implicit>>/
+       2. the lowest whorled <the rest scattered>/
+       3. in several whorls/
+       4. distant/
+       5. closely spaced/
+
+#317. racemes <compaction>/
+       1. not compacted <<implicit>>/
+       2. in a unilateral false spike/
+       3. in a bilateral false spike/
+       4. in a multilateral false spike/
+       5. in an interrupted false spike/
+       6. in a head/
+
+#318. racemes <special cases if paired or digitate>/
+       1. side by side <<implicit>>/
+       2. end to end/
+       3. appressed back to back/
+       4. intertwined/
+       5. with abortive upper raceme represented by a single sterile spikelet/
+
+#319. racemes <carriage>/
+       1. sunken/
+       2. appressed/
+       3. erect/
+       4. ascending <<implicit>>/
+       5. spreading <horizontally>/
+       6. radiating <in all directions>/
+       7. drooping/
+       8. deflexed/
+
+#320. racemes <outline>/
+       1. linear <<implicit>>/
+       2. moniliform/
+       3. lanceolate/
+       4. oblong/
+       5. ovate/
+       6. globose/
+       7. obovate/
+       8. clavate/
+       9. cuneate/
+
+#321. racemes <curvature>/
+       1. straight <<implicit>>/
+       2. arcuate/
+       3. flexuous/
+       4. sinuous <or zig-zag>/
+       5. incurved/
+       6. corkscrew spiralled/
+       7. watch-spring spiralled/
+
+#322. racemes <whether cylindrical, the spikelets flush with internodes to form
+          a rat tail>/
+       1. ragged <<implicit>>/
+       2. smoothly terete/
+
+#323. racemes <number of sides bearing fertile spikelets>/
+       1. unilateral/
+       2. bilateral/
+       3. paucilateral <indefinite or irregular>/
+       4. multilateral <bottle-brush>/
+
+#324. racemes <length>/
+       cm long/
+
+#325. racemes <width, including spikelets>/
+       mm wide/
+
+#326. racemes bearing <few or many spikelets>/
+       1. 1 spikelet <of any kind>/
+       2. a triad of spikelets <usually 1 fertile, 2 sterile>/
+       3. few fertile spikelets/
+       4. many spikelets <<implicit>>/
+
+#327. racemes bearing <number of fertile spikelets if few>/
+       fertile spikelets on each/
+
+#328. racemes <presence of secondary branches>/
+       1. simple <<implicit>>/
+       2. with branchlets <only> at base of longer racemes/
+       3. secondarily branched/
+
+#329. racemes <with> secondary branches <shape>/
+       1. racemulose/
+       2. glomerate/
+       3. involucral/
+
+#330. central inflorescence axis <length>/
+       cm long/
+
+#331. central inflorescence axis <consistency>/
+       1. unspecialized <terete or angular> <<implicit>>/
+       2. flattened <but not foliaceous>/
+       3. winged/
+       4. foliaceous/
+       5. corky/
+       6. woody/
+
+#332. central inflorescence axis <fragility>/
+       1. tough <<implicit>>/
+       2. fracturing into irregular segments/
+       3. disarticulating at nodes/
+
+#333. central inflorescence axis <indumentum> <<ordered>>/
+       1. with scattered hairs/
+       2. glabrous/
+       3. puberulous/
+       4. pubescent/
+       5. pilose/
+       6. hirsute/
+       7. villous/
+       8. hispid/
+
+#334. central inflorescence axis tip <shape>/
+       1. without extension <<implicit>>/
+       2. with blunt extension/
+       3. subulate/
+       4. filiform/
+       5. spinose/
+
+#335. rhachis <presence>/
+       1. evident <above lowest spikelet> <<implicit>>/
+       2. obsolete <raceme-base may be present>/
+
+#336. rhachis <fragility>/
+       1. tough <or obsolete> <<implicit>>/
+       2. fracturing into irregular segments/
+       3. fragile at the nodes/
+       4. fragile but the lowest <fertile> internode fused to peduncle/
+
+#337. rhachis <including raceme-base - persistence <if tough but not single>>/
+       1. persistent <<implicit>>/
+       2. deciduous from axis/
+
+#338. rhachis <persistence of secondary branches>/
+       1. with persistent <on the rhachis> secondary branchlets <<implicit>>/
+       2. with separately deciduous secondary branchlets/
+
+#339. rhachis <presence of wings>/
+       1. wingless <<implicit>>/
+       2. narrowly winged/
+       3. broadly winged <wider than midrib>/
+
+#340. rhachis <consistency - if broadly winged>/
+       1. membranous/
+       2. herbaceous <<implicit>>/
+       3. foliaceous/
+
+#341. rhachis <folding - if winged>/
+       1. not appreciably folded <<implicit>>/
+       2. folded longitudinally to embrace spikelets/
+       3. folded transversely to form a capsule/
+       4. forming pockets/
+
+#342. rhachis with <shape of midrib if winged>/
+       1. sharp-edged midrib/
+       2. rounded midrib/
+
+#343. rhachis <cross-section - inapplicable if broadly winged>/
+       1. flattened/
+       2. angular <including triquetrous>/
+       3. subterete/
+       4. semiterete <flat or slightly hollowed on one face>/
+       5. subcylindrical and excavated/
+       6. enlarged into a woody cob/
+
+#344. rhachis <width>/
+       mm wide/
+
+#345. rhachis <colour <comment on actual colour>>/
+       1. light-coloured/
+       2. drab <green or stramineous> <<implicit>>/
+       3. dark-coloured/
+
+#346. rhachis <surface roughness>/
+       1. smooth on surface/
+       2. scabrous on surface/
+
+#347. rhachis <surface indumentum - see also pedicel stump indumentum>
+          <<ordered>>/
+       1. with scattered hairs/
+       2. glabrous on surface/
+       3. puberulous on surface/
+       4. pubescent on surface/
+       5. pilose on surface/
+       6. hirsute on surface/
+       7. villous on surface/
+       8. plumose on surface/
+       9. woolly on surface/
+
+#348. rhachis <marginal or edge roughness> <<ordered>>/
+       1. smooth on margins/
+       2. scaberulous on margins/
+       3. scabrous on margins/
+       4. spinulose on margins/
+       5. tuberculate on margins/
+
+#349. rhachis <marginal or edge hairs> <<ordered>>/
+       1. glabrous on margins/
+       2. pubescent on margins/
+       3. ciliate on margins/
+       4. villous on margins/
+       5. plumose on margins/
+       6. setose on margins/
+
+#350. rhachis terminating in a <presence of sterile tip>/
+       1. spikelet <fertile or underdeveloped (incl terminal triplet in
+          Andropogoneae)> <<implicit>>/
+       2. <modified> sterile spikelet/
+       3. barren extension/
+
+#351. rhachis extension <shape>/
+       1. inconspicuous/
+       2. flattened/
+       3. subulate/
+       4. bristle-like/
+       5. a forked bristle/
+       6. a fan of bristles/
+
+#352. rhachis extension <length>/
+       mm long/
+
+#353. rhachis hairs <above or below on internode>/
+       1. evenly distributed/
+       2. lengthening towards internode tip/
+       3. mainly at internode tip/
+       4. on upper part of internode/
+       5. on lower part of internode/
+
+#354. rhachis hairs <on how many margins or edges>/
+       1. on 1 margin/
+       2. on 2 margins/
+       3. on 3 margins/
+
+#355. rhachis hairs <colour of principal hairs>/
+       1. white/
+       2. grey/
+       3. yellow/
+       4. tawny/
+       5. dark brown/
+       6. red/
+       7. purple/
+
+#356. rhachis hairs <length of principal hairs>/
+       mm long/
+
+#357. spikelet packing <orientation relative to lower glume - if unambiguous>/
+       1. adaxial/
+       2. abaxial/
+       3. alternately adaxial and abaxial <Thrasya>/
+       4. broadside to rhachis/
+
+#358. spikelet packing <whether opposite - if bilateral>/
+       1. alternate <<implicit>>/
+       2. opposite/
+
+#359. spikelet packing <density>/
+       1. crowded/
+       2. contiguous <<implicit>>/
+       3. lax/
+       4. distant/
+
+#360. spikelet packing with <equality of internodes>/
+       1. subequal internodes <<implicit>>/
+       2. lowest <fertile> internode elongated/
+       3. upper internodes elongated/
+
+#361. spikelet packing <per cm>/
+       spikelets per cm/
+
+#362. spikelet packing <distance between spikelets in same row <comment if
+          ambiguous> as a fraction of their length>/
+       their length apart/
+
+#363. spikelet packing <regularity of rows>/
+       1. irregular/
+       2. regular/
+
+#364. spikelet packing <number of rows if evident>/
+       -rowed/
+
+#365. rhachis internodes <shape>/
+       1. indefinite <rhachis continuous without evident segments <length then
+          measured between origins of pedicels or pedicel groups>> <<implicit>>/
+       2. filiform/
+       3. linear/
+       4. columnar <cultrate>/
+       5. oblong/
+       6. clavate <linear below, widening above <but tip scored separately>>/
+       7. cuneate/
+       8. pyriform/
+       9. inflated/
+       10. hour-glass shaped/
+
+#366. rhachis internodes <length>/
+       mm long/
+
+#367. rhachis internodes <length as fraction of spikelet>/
+       length of fertile spikelet/
+
+#368. rhachis internodes <abscission mode - if fragile>/
+       1. falling with spikelet alongside <<implicit>>/
+       2. falling with spikelet above/
+       3. falling in segments of 1-2 fertile nodes surmounted by 1-3 nodes of
+          sterile spikelets, these alternating along the raceme/
+
+#369. rhachis internodes <special cases - if fragile>/
+       1. unspecialized <<implicit>>/
+       2. flat and forming a U or V shape with the pedicel in rear view/
+       3. with a basal circular pore between internode and pedicel/
+       4. together with the pedicel framing edges of sessile spikelets/
+       5. adherent to upper glume of sessile spikelet/
+       6. bearing a sterile companion laterally <its pedicel fused to and
+          shorter than internode>/
+       7. with the lower <fertile> often bearing triads <instead of a pair>/
+
+#370. rhachis internode tip <shape>/
+       1. not enlarged <relative to body of internode>/
+       2. clavate <gradually widening>/
+       3. pyriform/
+       4. discoid/
+
+#371. rhachis internode tip <obliquity>/
+       1. transverse/
+       2. oblique/
+
+#372. rhachis internode tip <concavity>/
+       1. flat/
+       2. cupuliform/
+       3. crateriform/
+       4. notched/
+
+#373. rhachis internode tip with <rim features>/
+       1. simple rim/
+       2. lobed rim/
+       3. scarious rim/
+       4. hairy rim/
+
+#374. raceme-bases <shape - of partial peduncle or naked rhachis supporting
+          individual racemes, when more than one>/
+       1. brief <insignificant but sometimes bearing ornamentation>
+          <<implicit>>/
+       2. filiform/
+       3. linear/
+       4. cuneate/
+       5. flattened <strap-shaped>/
+       6. swollen/
+
+#375. raceme-bases <branching - if racemes digitate>/
+       1. simple <<implicit>>/
+       2. dichotomously branched/
+
+#376. raceme-bases <equality>/
+       1. subequal/
+       2. unequal (the longer measured)/
+
+#377. raceme-bases <length>/
+       mm long/
+
+#378. raceme-bases <indumentum> <<ordered>>/
+       1. glabrous/
+       2. pubescent/
+       3. pilose/
+       4. hirsute/
+       5. plumose/
+       6. stiffly setose/
+
+#379. raceme-bases hairy <where>/
+       1. generally <<implicit>>/
+       2. at tip/
+       3. on margins/
+       4. at base/
+       5. in axils/
+
+#380. raceme-bases with <hair length>/
+       mm long hairs/
+
+#381. raceme-bases <presence of appendage>/
+       1. unappendaged <<implicit>>/
+       2. scariously rimmed/
+       3. shortly lobed/
+       4. extended into an oblong appendage/
+       5. extended into a flask-like appendage/
+
+#382. raceme-bases with <length of appendage>/
+       mm long appendage/
+
+#383. raceme-bases <persistence>/
+       1. persistent <on plant>/
+       2. shed with the raceme/
+
+#384. raceme-bases <shape of base - if deciduous>/
+       1. truncate/
+       2. obtuse/
+       3. acute/
+       4. pungent/
+
+#385. sexes <segregation - if monoecious on same inflorescence>/
+       1. mixed/
+       2. segregated/
+
+#386. sexes <segregated> on <same or separate branches>/
+       1. unisexual branches/
+       2. bisexual branches/
+
+#387. sexes with male <above or below - if segregated>/
+       1. above/
+       2. conjugate <unisexual branches at same level>/
+       3. below/
+
+#388. sexes with <number of male spikelets>/
+       male spikelets per branch/
+
+#389. spikelets <inclination relative to branch>/
+       1. embracing internode/
+       2. sunken/
+       3. squeezed between internode and pedicel <Andropogoneae - if pedicel
+          free>/
+       4. appressed/
+       5. ascending/
+       6. spreading/
+       7. pectinate/
+       8. pendulous/
+       9. deflexed/
+
+#390. spikelets <kinds of cluster. The clusters may include sterile and
+          monoecious male spikelets. A deciduous inflorescence does not count as
+          a single cluster, but may contain clusters. <Inapplicable if
+          bractiferous>>/
+       1. solitary/
+       2. in pairs <may include barren pedicels>/
+       3. in threes <not counting terminal triplet in a raceme of paired
+          spikelets>/
+       4. clustered at each node <more than 3 spikelets, but not involucral>/
+       5. in a cluster of closely packed nodes/
+       6. subtended by an involucre <may be of only a few bristles or sterile
+          spikelets; not counting basal sterile spikelets>/
+
+#391. fertile spikelets <presence of pedicels, which may be connate>/
+       1. sessile <or subsessile with pedicel represented by a brief stump>/
+       2. sessile and pedicelled/
+       3. pedicelled/
+
+#392. fertile spikelets <number in cluster>/
+       in the cluster/
+
+#393. fertile spikelets <similarity, other than size>/
+       1. all alike <<implicit>>/
+       2. heteromorphic <<comment on difference. Treated as companion in
+          Andropogon allies if otherwise resembling sterile pedicelled
+          spikelets>>/
+
+#394. fertile spikelets <equality if clustered>/
+       1. subequal/
+       2. the upper smaller/
+       3. the lower smaller/
+       4. the lateral <when level> smaller/
+       5. the central <when level> smaller/
+
+#395. fertile spikelets <relative pedicel length, if clustered with pedicelled
+          sterile (or male) spikelets>/
+       1. on shorter pedicels than sterile/
+       2. on similar pedicels to sterile/
+       3. on longer pedicels than sterile/
+
+#396. fertile spikelets <number of sessile in cluster, if some fertile spikelets
+          pedicelled>/
+       sessile/
+
+#397. companion sterile spikelets <presence of pedicels>/
+       1. sessile/
+       2. sessile & pedicelled/
+       3. pedicelled/
+
+#398. companion sterile spikelets <number in cluster>/
+       in the cluster/
+
+#399. male spikelets <diclinous male, presence of pedicels>/
+       1. sessile/
+       2. sessile and pedicelled/
+       3. pedicelled/
+
+#400. male spikelets <number in cluster>/
+       in a cluster/
+
+#401. involucre composed of <type>/
+       1. bristles <may include some sterile spikelets>/
+       2. imperfect spikelets <only - includes Anthephora>/
+
+#402. involucre <union of parts>/
+       1. free throughout <<implicit>>/
+       2. united into a herbaceous lobed scale/
+       3. connate into a disc below/
+       4. connate into a cup below/
+       5. with pedicels forming a cup/
+       6. with pedicels forming a long tube/
+
+#403. involucre with <length of disc or cup>/
+       mm connate/
+
+#404. involucre <shape of whole involucre> <<ordered>>/
+       1. linear/
+       2. lanceolate/
+       3. elliptic/
+       4. oblong/
+       5. ovate/
+       6. globose/
+       7. oblate/
+       8. obovate/
+       9. flabellate/
+       10. cuneate/
+
+#405. involucre <length overall, but excluding single emergent bristle when
+          present>/
+       mm long/
+
+#406. involucre base <shape>/
+       1. truncate/
+       2. obtuse/
+       3. obconical/
+       4. bluntly stipitate/
+       5. pungently stipitate/
+
+#407. involucre base <length>/
+       mm long/
+
+#408. involucre base <indumentum>/
+       1. glabrous/
+       2. pubescent/
+       3. pilose/
+       4. villous/
+
+#409. involucral bristles <persistence>/
+       1. persistent/
+       2. deciduous with the fertile spikelets/
+
+#410. involucral bristles <branching>/
+       1. simple <<implicit>>/
+       2. branched/
+
+#411. involucral bristles <few or many>/
+       1. few <<implicit>>/
+       2. numerous/
+
+#412. involucral bristles <whorls>/
+       1. in one whorl/
+       2. with an outer whorl of thinner bristles/
+       3. emerging irregularly from body of a burr/
+
+#413. involucral bristles <number>/
+       in principal whorl <excluding the whorl of short outer bristles, if
+          present>/
+
+#414. involucral bristles <number per spikelet if assignable - spikelets include
+          abortive ones>/
+       per spikelet/
+
+#415. involucral inner bristles <relative length of inner and outer>/
+       1. shorter than outer/
+       2. subequal to outer/
+       3. longer than outer/
+
+#416. involucral bristles <presence of 1 longer bristle>/
+       1. with longest bristle scarcely emergent/
+       2. with one conspicuously longer bristle/
+
+#417. involucral bristles <length above union of longest>/
+       mm long/
+
+#418. involucral bristles <flattening>/
+       1. terete/
+       2. flattened/
+       3. expanded <narrowly elliptic and cartilaginous>/
+
+#419. involucral bristles <presence of grooves>/
+       1. without grooves/
+       2. grooved on the face/
+
+#420. involucral bristles <stiffness>/
+       1. flexible/
+       2. rigid/
+
+#421. involucral bristles <exudate>/
+       1. without exudate <<implicit>>/
+       2. viscid/
+
+#422. involucral bristles <roughness>/
+       1. smooth/
+       2. antrorsely scaberulous <only>/
+       3. retrorsely scaberulous <at least partly>/
+
+#423. involucral bristles retrorse <whether wholly or partly>/
+       1. entirely/
+       2. above, antrorse below/
+       3. mingled with antrorse scabridity/
+
+#424. involucral bristles <indumentum> <<ordered>>/
+       1. glabrous/
+       2. pubescent/
+       3. ciliate <or pilose>/
+       4. villous/
+       5. plumose/
+       6. woolly/
+
+#425. involucral bristles <shape of tip>/
+       1. obtuse/
+       2. acute/
+       3. spinose/
+       4. attenuate <<implicit>>/
+
+#426. pedicels <presence. Refers to principal pedicels - usually supporting
+          sterile spikelets in Andropogoneae <clarify in comment if ambiguous>.
+          Not counting basal sterile spikelets>>/
+       1. absent <or square and inconspicuous> <<implicit>>/
+       2. present <or square and ornamented>/
+
+#427. pedicels <fusion>/
+       1. free <<implicit>>/
+       2. adnate at the base to lower glume of sessile spikelet/
+       3. with the longest <of several> adnate below to <unjointed> rhachis/
+       4. fused to internode/
+       5. fused to each other/
+
+#428. pedicels united <how much - if fused to internode or each other>/
+       1. wholly/
+       2. along margins <or some of them. When fused to each other>/
+       3. at tip/
+       4. below/
+
+#429. pedicels <shape>/
+       1. filiform/
+       2. linear/
+       3. columnar <cultrate>/
+       4. oblong/
+       5. narrowly elliptic/
+       6. clavate <linear below, widening above <but tip scored separately>>/
+       7. cuneate/
+       8. pyriform/
+       9. inflated/
+       10. reduced to a stump <but bearing ornamentation, the spikelets
+          subsessile>/
+
+#430. pedicels <transverse section>/
+       1. terete/
+       2. semiterete/
+       3. angular/
+       4. flattened/
+       5. foliaceous/
+
+#431. pedicels <curvature>/
+       1. straight/
+       2. curved/
+       3. flexuous/
+       4. sinuous/
+       5. recurved/
+
+#432. pedicels <equality>/
+       1. subequal/
+       2. unequal/
+
+#433. pedicels <length; generally of principals in a raceme or laterals in a
+          panicle>/
+       mm long/
+
+#434. pedicels <length as fraction of fertile spikelet>/
+       length of fertile spikelet/
+
+#435. pedicels <length as fraction of internode <mainly Andropogoneae>>/
+       length of internode/
+
+#436. pedicels <length of terminal if different>/
+       mm long at branch tip/
+
+#437. pedicels <presence of glands>/
+       1. eglandular/
+       2. glandular/
+
+#438. pedicels <presence of translucent median line>/
+       1. without a translucent median line <<implicit>>/
+       2. with a translucent median line (also present in internodes)/
+
+#439. pedicels <roughness>/
+       1. smooth/
+       2. scaberulous/
+       3. scabrous/
+
+#440. pedicels <indumentum> <<ordered>>/
+       1. bearing a few <long> hairs/
+       2. glabrous/
+       3. puberulous/
+       4. pubescent/
+       5. ciliate <or pilose>/
+       6. villous/
+       7. plumose/
+       8. setose/
+
+#441. pedicels hairy <at tip or base>/
+       1. all along/
+       2. all along but hairs longer above/
+       3. at tip <only>/
+       4. above/
+       5. in the middle/
+       6. below/
+       7. at base/
+
+#442. pedicels hairy on <surface or margins>/
+       1. surface/
+       2. margins <more than 1>/
+       3. one margin/
+
+#443. pedicels with <hair colour>/
+       1. white hairs/
+       2. grey hairs/
+       3. yellow hairs/
+       4. tawny hairs/
+       5. dark brown hairs/
+       6. red hairs/
+       7. purple hairs/
+
+#444. pedicels with <length of hairs>/
+       mm long hairs/
+
+#445. pedicels <with> tip <shape>/
+       1. rectangular/
+       2. oblique/
+       3. widened <but shape indefinite>/
+       4. discoid/
+       5. cupuliform/
+       6. globular/
+       7. pyriform/
+       8. lobed/
+
+#446. pedicels <presence of appengages>/
+       1. without appendage <<implicit>>/
+       2. winged/
+       3. auriculate <laterally>/
+       4. toothed <a distinct apical tooth, as opposed to irregular lobes>/
+       5. bibracteate <Oryza>/
+
+#447. basal sterile spikelets <presence at base of inflorescence or individual
+          racemes, but excluding companions in isolated triads>/
+       1. absent <<implicit>>/
+       2. represented by a single scale <glume or vestige>/
+       3. rudimentary <but of several scales>/
+       4. well-developed/
+
+#448. basal sterile spikelets <number in inflorescence; or lower raceme when
+          more than 1 <but indicate this in comment>>/
+       in number/
+
+#449. basal sterile spikelets <number in upper raceme>/
+       in upper raceme/
+
+#450. basal sterile spikelets <whether clustered>/
+       1. single/
+       2. paired/
+       3. paired with a fertile pedicelled spikelet <but confined to base so not
+          regular companions>/
+
+#451. basal sterile spikelets <whether involucral>/
+       1. not involucral <<implicit>>/
+       2. forming an involucre about the fertile/
+
+#452. basal sterile spikelets <special internodes>/
+       1. with normal internodes <<implicit>>/
+       2. with both pairs arising at about the same level/
+       3. with swollen internode in lower raceme/
+
+#453. basal sterile spikelets <presence of pedicels>/
+       1. subsessile <pedicels at most square>/
+       2. sessile and pedicelled/
+       3. pedicelled/
+
+#454. basal sterile spikelets <persistence>/
+       1. persistent <or tardily deciduous> <<implicit>>/
+       2. deciduous with the fertile/
+       3. separately deciduous/
+
+#455. basal sterile spikelet pedicels <fusion to internode>/
+       1. free <<implicit>>/
+       2. fused to internode in lower raceme/
+
+#456. basal sterile spikelet pedicels <shape>/
+       1. linear/
+       2. oblong/
+       3. swollen <barrel-shaped> in lower raceme/
+       4. square/
+
+#457. basal sterile spikelet pedicels <length>/
+       mm long/
+
+#458. basal sterile spikelets <sex, if well-developed>/
+       1. barren/
+       2. male/
+
+#459. basal sterile spikelets <outline> <<ordered>>/
+       1. linear/
+       2. lanceolate/
+       3. elliptic/
+       4. oblong/
+       5. ovate/
+       6. orbicular/
+       7. oblate/
+       8. obovate/
+       9. flabellate/
+       10. cuneate/
+
+#460. basal sterile spikelets <length>/
+       mm long/
+
+#461. basal sterile spikelets <size relative to fertile>/
+       1. smaller than fertile/
+       2. equalling fertile/
+       3. larger than fertile/
+
+#462. basal sterile spikelet glumes <consistency of lower or only glume>/
+       1. membranous/
+       2. chartaceous/
+       3. herbaceous/
+       4. scarious/
+       5. cartilaginous/
+       6. coriaceous/
+       7. indurate/
+
+#463. basal sterile spikelet glumes <presence of wing>/
+       1. wingless <<implicit>>/
+       2. winged on keel/
+       3. winged on margins/
+
+#464. basal sterile spikelet glumes <presence of depressions>/
+       1. without depressions <<implicit>>/
+       2. pitted/
+       3. lacunose/
+
+#465. basal sterile spikelet glumes <roughness>/
+       1. smooth/
+       2. scaberulous/
+       3. scabrous/
+       4. tuberculate/
+       5. rugose/
+
+#466. basal sterile spikelet glumes <surface indumentum> <<ordered>>/
+       1. glabrous/
+       2. pubescent/
+       3. pilose/
+       4. hirsute/
+       5. villous/
+       6. setose/
+
+#467. basal sterile spikelet glumes with <hair colour>/
+       1. white hairs/
+       2. grey hairs/
+       3. yellow hairs/
+       4. tawny hairs/
+       5. dark brown hairs/
+       6. red hairs/
+       7. purple hairs/
+
+#468. basal sterile spikelet glumes <marginal vesture>/
+       1. smooth on margins/
+       2. scabrous on margins/
+       3. tuberculate on margins/
+       4. ciliate on margins/
+       5. setose on margins/
+
+#469. basal sterile spikelet glumes <shape of apex>/
+       1. emarginate/
+       2. truncate/
+       3. obtuse/
+       4. acute/
+       5. acuminate/
+       6. attenuate/
+       7. setaceously attenuate/
+
+#470. basal sterile spikelet lower glume <presence of awn>/
+       1. muticous/
+       2. mucronate/
+       3. awned/
+
+#471. basal sterile spikelet lemmas <presence of awn>/
+       1. awnless/
+       2. awned/
+
+#472. companion sterile spikelets <presence, accompanying fertile spikelets in
+          body of inflorescence <Include isolated triads and barren pedicels.
+          May occasionally be fertile in Andropogon allies.>>/
+       1. absent <<implicit>>/
+       2. represented by barren pedicels/
+       3. represented by awns <<record only number of awns, spikelet length and
+          persistence, glume surface indumentum>>/
+       4. represented by single glumes/
+       5. rudimentary <as to size>/
+       6. well-developed/
+
+#473. companion sterile spikelets comprising <number of awn-like scales>/
+       1. 1 awn/
+       2. 2 awns/
+       3. a tuft of awns/
+
+#474. companion sterile spikelets <presence of lemmas - if applicable>/
+       1. comprising 2 unequal glumes without lemmas/
+       2. comprising 2 subequal glumes without lemmas/
+       3. containing empty lemmas/
+       4. male/
+       5. bisexual <but otherwise resembling the sterile spikelet of
+          Andropogoneae>/
+       6. female/
+
+#475. companion sterile spikelets <outline, unless awn-like> <<ordered>>/
+       1. linear/
+       2. lanceolate/
+       3. elliptic/
+       4. oblong/
+       5. ovate/
+       6. orbicular/
+       7. oblate/
+       8. obovate/
+       9. flabellate/
+       10. cuneate/
+
+#476. companion sterile spikelets <symmetry>/
+       1. symmetrical/
+       2. asymmetrical/
+
+#477. companion sterile spikelets <compression - if developed>/
+       1. laterally compressed/
+       2. subterete/
+       3. dorsally compressed/
+
+#478. companion sterile spikelets <length; including awn-like spikelets>/
+       mm long/
+
+#479. companion sterile spikelets <length relative to fertile, unless awn-like>/
+       1. shorter than fertile/
+       2. as long as fertile/
+       3. longer than fertile/
+
+#480. companion sterile spikelets <persistence>/
+       1. persistent/
+       2. deciduous with the fertile <of its own segment when racemose>/
+       3. fused to and deciduous with fertile spikelet belonging to segment
+          above/
+       4. separately deciduous/
+
+#481. companion sterile spikelet callus <presence>/
+       1. indistinct <<implicit>>/
+       2. square/
+       3. oblong/
+       4. cuneate/
+       5. linear/
+
+#482. companion sterile spikelet callus <length>/
+       mm long/
+
+#483. companion sterile spikelet callus <shape of base>/
+       1. 2-toothed/
+       2. emarginate/
+       3. truncate/
+       4. obtuse/
+       5. acute/
+       6. pungent/
+
+#484. companion sterile spikelet glumes <union>/
+       1. free/
+       2. united below/
+
+#485. companion sterile spikelet glumes <equality of width>/
+       1. similar in width/
+       2. markedly unequal in width/
+
+#486. companion sterile spikelet glumes <lower or only glume - consistency>/
+       1. membranous/
+       2. chartaceous/
+       3. herbaceous/
+       4. cartilaginous/
+       5. coriaceous/
+       6. indurate/
+       7. subulate <<apical characters inapplicable>>/
+
+#487. companion sterile spikelet glumes <consistency of margins>/
+       1. similar <consistency> on margins <<implicit>>/
+       2. thinner on margins/
+       3. thicker on margins/
+
+#488. companion sterile spikelet glumes <length>/
+       mm long/
+
+#489. companion sterile spikelet glumes <presence of glands>/
+       1. eglandular/
+       2. glandular/
+
+#490. companion sterile spikelet glumes <presence of keels>/
+       1. without keels/
+       2. keeled/
+
+#491. companion sterile spikelet glumes <presence of wings>/
+       1. wingless <<implicit>>/
+       2. winged on keels/
+       3. winged on margins/
+
+#492. companion sterile spikelet glumes <vein distinctness>/
+       1. inconspicuously veined/
+       2. distinctly veined/
+       3. ribbed/
+
+#493. companion sterile spikelet glumes <vein number>/
+       -veined/
+
+#494. companion sterile spikelet glumes <presence of depressions>/
+       1. without depressions <<implicit>>/
+       2. pitted/
+       3. lacunose/
+       4. sulcate/
+       5. concave/
+
+#495. companion sterile spikelet glumes <surface roughness, incl awn-like
+          spikelets> <<ordered>>/
+       1. smooth/
+       2. scaberulous/
+       3. scabrous/
+       4. spinulose/
+       5. tuberculate/
+       6. muricate/
+       7. rugose/
+
+#496. companion sterile spikelet glumes <surface indumentum, incl awn-like
+          spikelets> <<ordered>>/
+       1. glabrous/
+       2. puberulous/
+       3. pubescent/
+       4. pilose/
+       5. hirsute/
+       6. villous/
+       7. plumose/
+       8. setose/
+
+#497. companion sterile spikelet glumes with <hair colour>/
+       1. white hairs <<implicit>>/
+       2. grey hairs/
+       3. yellow hairs/
+       4. tawny hairs/
+       5. dark brown hairs/
+       6. red hairs/
+       7. purple hairs/
+
+#498. companion sterile spikelet glumes <marginal roughness>/
+       1. smooth on margins/
+       2. scaberulous on margins/
+       3. scabrous on margins/
+       4. spinulose on margins/
+       5. tuberculate on margins/
+
+#499. companion sterile spikelet glumes <marginal hairs>/
+       1. eciliate on margins/
+       2. ciliolate on margins/
+       3. ciliate on margins/
+       4. setose on margins/
+
+#500. companion sterile spikelet glumes <incision>/
+       1. entire/
+       2. erose/
+       3. dentate/
+       4. lobed/
+
+#501. companion sterile spikelet glumes <number of teeth or lobes>/
+       -fid/
+
+#502. companion sterile spikelet glumes <shape of apex> <<ordered>>/
+       1. emarginate/
+       2. truncate/
+       3. obtuse/
+       4. acute/
+       5. acuminate/
+       6. attenuate/
+       7. setaceously attenuate/
+       8. caudate/
+
+#503. companion sterile spikelet glumes <presence of awn>/
+       1. muticous/
+       2. pungent/
+       3. mucronate/
+       4. awned/
+
+#504. companion sterile spikelet glumes <number of awns, if both glumes
+          present>/
+       1. one glume awned/
+       2. both glumes awned/
+       3. several-awned <more than 1 per glume>/
+
+#505. companion sterile spikelet glumes with <awn length>/
+       mm long awn/
+
+#506. companion sterile spikelet glumes awn <whether hairy>/
+       1. glabrous <<implicit>>/
+       2. pubescent/
+       3. ciliate/
+       4. plumose/
+
+#507. companion sterile spikelet lemmas <number>/
+       /
+
+#508. companion sterile spikelet lemmas <exsertion>/
+       1. exserted from glumes/
+       2. enclosed by glumes/
+
+#509. companion sterile spikelet lemmas <length>/
+       mm long/
+
+#510. companion sterile spikelet lemmas <incision>/
+       1. entire/
+       2. dentate/
+       3. lobed/
+
+#511. companion sterile spikelet lemmas <presence of awns>/
+       1. muticous/
+       2. 1-awned/
+       3. several-awned/
+
+#512. companion sterile spikelet lemmas with <awn length>/
+       mm long awn/
+
+#513. apical sterile spikelets <presence at apex of inflorescence or individual
+          racemes, but excluding companions forming pairs or triads with fertile
+          spikelets>/
+       1. absent <<implicit>>/
+       2. awn-like/
+       3. rudimentary <much smaller than fertile>/
+       4. barren <with well developed glumes>/
+       5. male/
+
+#514. apical sterile spikelets <number>/
+       in number/
+
+#515. apical sterile spikelets <continuity with fertile portion>/
+       1. continuous with fertile portion of inflorescence/
+       2. abruptly narrower than fertile portion of inflorescence/
+
+#516. apical sterile spikelets <length>/
+       mm long/
+
+#517. spikelets comprising <number of basal sterile florets or vestiges, if
+          present>/
+       basal sterile florets/
+
+#518. spikelets comprising <number of fertile florets>/
+       fertile florets/
+
+#519. spikelets <presence of apical florets>/
+       1. without rhachilla extension <beyond uppermost fertile floret>/
+       2. with a barren rhachilla extension/
+       3. with diminished <sterile or smaller> florets at the apex/
+
+#520. spikelets <key couplet for 1-flowered groups> <<mandatory>>/
+       1. of 1 fertile floret with or without additional sterile florets/
+       2. of 2 or more fertile florets/
+
+#521. spikelets <key couplet for panicoid> <<mandatory>>/
+       1. two-flowered - the lower floret male or barren, the upper fertile
+          <rarely with rhachilla extension or rudiment>/
+       2. one-many-flowered - if two-flowered then both fertile or the upper
+          sterile/
+
+#522. spikelets <outline> <<ordered>>/
+       1. linear/
+       2. lanceolate/
+       3. elliptic/
+       4. oblong/
+       5. ovate/
+       6. orbicular/
+       7. oblate/
+       8. obovate/
+       9. oblanceolate/
+       10. rhomboid <incl scutate, pentagonal>/
+       11. cuneate/
+
+#523. spikelets <comparative width of outline>/
+       1. narrowly proportioned/
+       2. moderately proportioned <<implicit>>/
+       3. broadly proportioned/
+
+#524. spikelets <distinctive solid shape>/
+       1. of unremarkable solid shape <<implicit>>/
+       2. thorn-like/
+       3. fusiform/
+       4. turbinate/
+       5. urceolate/
+       6. cochleate/
+       7. hemispherical/
+       8. globose/
+       9. like a bird's head/
+
+#525. spikelets with <shape of base above callus>/
+       1. cordate base/
+       2. truncate base/
+       3. obtuse base/
+       4. acute base/
+       5. attenuate base/
+
+#526. spikelets <straightness>/
+       1. straight <<implicit>>/
+       2. curved/
+       3. tilted on the pedicel/
+
+#527. spikelets <compression of fertile> <<mandatory>>/
+       1. laterally compressed/
+       2. subterete/
+       3. dorsally compressed/
+
+#528. spikelets compressed <how much>/
+       1. slightly <spikelets plump>/
+       2. moderately <<implicit>>/
+       3. strongly/
+
+#529. spikelets <profile curvature>/
+       1. symmetrical <<implicit>>/
+       2. gibbous/
+       3. turgidly plano-convex <the flat side slightly gibbous>/
+       4. plano-convex/
+       5. concavo-convex/
+
+#530. spikelets <shape of apex> <<ordered>>/
+       1. truncate/
+       2. obtuse/
+       3. subacute/
+       4. acute/
+       5. acuminate/
+       6. cuspidate/
+       7. rostrate/
+       8. caudate/
+
+#531. spikelets <length>/
+       mm long/
+
+#532. spikelets <width>/
+       mm wide/
+
+#533. spikelets with hairs extending <length of hairs, if any, beyond apex>/
+       mm beyond apex/
+
+#534. spikelets <abscission> <<mandatory>>/
+       1. persistent on plant <cereals>/
+       2. falling entire/
+       3. breaking up at maturity/
+
+#535. spikelets deciduous <site of abscission - if falling entire>/
+       1. from the base <<implicit>>/
+       2. with the <whole> pedicel <but no other organ; excluding partial
+          attachment (some Polypogon) which is treated as a callus.>/
+       3. in a cluster with fused pedicels <and sometimes a basal extension, but
+          no other organ>/
+       4. with accessory branch structures/
+
+#536. spikelets <secondary abscission - if falling entire>/
+       1. without secondary abscission <<implicit>>/
+       2. readily shedding glumes/
+       3. readily shedding fertile florets/
+       4. readily shedding apical florets/
+
+#537. pedicel base <shape - if falling attached to its spikelet (or cluster when
+          pedicels fused)>/
+       1. truncate/
+       2. acute/
+       3. pungent/
+       4. hooked/
+
+#538. spikelets <rhachilla persistence - if spikelets break up>/
+       1. rhachilla deciduous <excepting glumes & sterile florets> <<implicit>>/
+       2. rhachilla persistent <at least proximally, until lemmas have been
+          shed>/
+
+#539. spikelets disarticulating <where - if rhachilla deciduous>/
+       1. below each fertile floret <or below sterile if attached>/
+       2. between fertile florets but the lowest falling with glumes attached/
+       3. between fertile florets but the distal falling as a whole/
+       4. below groups of fertile florets/
+       5. above glumes but not between florets <when 2 or more fertile>/
+
+#540. spikelets <palea retention on persistent rhachilla>/
+       1. retaining paleas/
+       2. shedding paleas/
+
+#541. spikelets <extent of rhachilla persistence>/
+       1. tough throughout <<implicit>>/
+       2. fragile above/
+       3. becoming fragile after lemmas shed/
+
+#542. spikelets with the distal <fertile> florets <where disarticulating - if
+          rhachilla partially persistent>/
+       1. disarticulating separately/
+       2. disarticulating into irregular segments/
+       3. falling as a whole/
+
+#543. spikelet callus <shape> <<ordered>>/
+       1. brief <<implicit>>/
+       2. square <as long as wide>/
+       3. oblong/
+       4. cuneate/
+       5. linear/
+       6. globular/
+       7. toroidal/
+
+#544. spikelet callus <curvature>/
+       1. straight/
+       2. curved/
+
+#545. spikelet callus <whether adnate to glume>/
+       1. free from lower glume <<implicit>>/
+       2. incorporating lowest rhachilla internode with adnate lower glume/
+       3. supplemented by thickened base of upper glume/
+
+#546. spikelet callus <length>/
+       mm long/
+
+#547. spikelet callus <indumentum> <<ordered>>/
+       1. glabrous/
+       2. pubescent/
+       3. pilose/
+       4. bearded/
+
+#548. spikelet callus hairy <where>/
+       1. throughout/
+       2. above/
+       3. below/
+       4. on the sides/
+
+#549. spikelet callus base <shape>/
+       1. truncate/
+       2. obtuse/
+       3. acute/
+       4. pungent/
+       5. 2-toothed/
+
+#550. spikelet callus <presence of central peg - if truncate>/
+       1. simple <<implicit>>/
+       2. with central boss/
+       3. with central peg/
+
+#551. spikelet callus <angle of attachment>/
+       1. attached transversely/
+       2. attached obliquely/
+       3. inserted/
+
+#552. spikelet callus with <shape of scar>/
+       1. circular scar/
+       2. elliptic scar/
+       3. linear scar/
+
+#553. spikelet callus hairs <colour>/
+       1. white/
+       2. grey/
+       3. yellow/
+       4. tawny/
+       5. dark brown/
+       6. red/
+       7. purple/
+
+#554. spikelet callus hairs <length>/
+       mm long/
+
+#555. spikelet callus hairs <length as fraction of spikelet>/
+       length of spikelet/
+
+#556. rhachilla internodes <elongation between glumes and lowest fertile
+          floret>/
+       1. brief up to lowest fertile floret <<implicit>>/
+       2. elongated between glumes/
+       3. elongated below <proximal> basal sterile floret/
+       4. elongated between basal sterile florets <when more than 1>/
+       5. elongated below proximal fertile floret/
+
+#557. rhachilla elongation <thickness>/
+       1. stout/
+       2. slender/
+       3. sinuous but straightening at maturity to extrude floret/
+
+#558. rhachilla elongation <length>/
+       mm long/
+
+#559. rhachilla elongation <indumentum>/
+       1. glabrous <<implicit>>/
+       2. scabrous/
+       3. pubescent/
+       4. pilose/
+
+#560. rhachilla internodes <presence between fertile florets - if more than 1>/
+       1. suppressed between <fertile> florets <these arising at about the same
+          level>/
+       2. definite <between fertile florets <Subsequent characters refer to
+          these internodes; for sterile terminal segments see rhachilla
+          extension>> <<implicit>>/
+
+#561. rhachilla internodes <transverse section>/
+       1. terete/
+       2. angular/
+       3. compressed/
+       4. flattened/
+
+#562. rhachilla internodes <thickening>/
+       1. narrow <<implicit>>/
+       2. clavate/
+       3. thickened/
+       4. spongy and fused to embedded lemmas/
+
+#563. rhachilla internodes <alignment>/
+       1. straight <<implicit>>/
+       2. curved/
+       3. zig-zag/
+       4. springy and forming a hair trap/
+
+#564. rhachilla internodes <length>/
+       mm long/
+
+#565. rhachilla internodes <visibility>/
+       1. obscured by lemmas/
+       2. eventually visible <entirely or partly> between lemmas/
+
+#566. rhachilla internodes <surface roughness>/
+       1. smooth/
+       2. scaberulous/
+
+#567. rhachilla internodes <indumentum> <<ordered>>/
+       1. glabrous <<implicit>>/
+       2. sparsely hairy/
+       3. pubescent/
+       4. pilose/
+       5. villous/
+
+#568. rhachilla internodes hairy <extent>/
+       1. all along <<implicit>>/
+       2. all along but hairs longer above/
+       3. at tip <only>/
+       4. above/
+       5. below/
+
+#569. rhachilla internodes with <hair length>/
+       mm long hairs/
+
+#570. floret callus <presence <a callus forms the foot of a deciduous floret (or
+          of sterile florets if attached); the rhachilla internode, which falls
+          with and alongside the floret, may be evident or obsolete>>/
+       1. brief <<implicit>>/
+       2. evident <not much longer than wide>/
+       3. elongated/
+
+#571. floret callus <curvature>/
+       1. straight <<implicit>>/
+       2. curved/
+
+#572. floret callus <length>/
+       mm long/
+
+#573. floret callus <presence of wings>/
+       1. without wings <<implicit>>/
+       2. winged <or scarred>/
+       3. subtended by a fleshy frill/
+
+#574. floret callus with <type of wings>/
+       1. apical wings adnate to lemma/
+       2. apical wings shrivelled to concave scars <in dried state>/
+       3. apical wings reduced to convex swellings/
+       4. free apical wings/
+       5. lateral wings/
+
+#575. floret callus <with> these appendages <length of wings or frill>/
+       mm long/
+
+#576. floret callus <indumentum>/
+       1. glabrous/
+       2. sparsely hairy/
+       3. pubescent/
+       4. pilose/
+       5. bearded/
+       6. woolly/
+
+#577. floret callus hairy <where>/
+       1. on the surface/
+       2. on the margins <dorsally subglabrous>/
+       3. in a ring above/
+       4. in a ring below/
+       5. in rings above and below/
+       6. in 1 tuft/
+       7. in 2 tufts/
+       8. in 4 tufts/
+
+#578. floret callus with <longer hairs where>/
+       1. subequal hairs/
+       2. longer hairs above/
+       3. longer hairs below/
+       4. longer hairs above and below/
+
+#579. floret callus <shape of base>/
+       1. truncate <or emarginate; not expanded>/
+       2. obtuse <<implicit>>/
+       3. acute/
+       4. pungent/
+       5. unequally 2-toothed <pungent tooth with lateral spur>/
+       6. 2-toothed/
+       7. expanded/
+
+#580. floret callus <disarticulation>/
+       1. disarticulating transversely/
+       2. disarticulating obliquely/
+       3. fracturing irregularly/
+
+#581. floret callus with <shape of scar>/
+       1. circular scar/
+       2. elliptic scar/
+       3. linear scar/
+
+#582. floret callus hairs <length>/
+       mm long/
+
+#583. floret callus hairs <length as fraction of lemma>/
+       length of lemma/
+
+#584. glumes <presence>/
+       1. both absent or obscure/
+       2. one the lower absent or obscure/
+       3. one the upper absent or obscure/
+       4. one to two the lower present in some spikelets <often the sessile of a
+          pair>/
+       5. two <<implicit>>/
+       6. several <more than 2, or indefinite number in bamboos>/
+
+#585. glumes comprising <number of gemmiferous bracts between distal prophyll
+          and empty glumes <bamboos>>/
+       gemmiferous bracts/
+
+#586. glumes <number>/
+       empty glumes/
+
+#587. glumes <whether lateral>/
+       1. distichous <<implicit>>/
+       2. lateral <opposite, but rotated with respect to lemma>/
+       3. oblique <not strictly opposite>/
+       4. collateral <side by side>/
+       5. whorled/
+
+#588. glumes <union>/
+       1. free <<implicit>>/
+       2. connate along margins below/
+
+#589. glumes <fraction connate>/
+       of their length connate/
+
+#590. glumes <persistence - if spikelets break up>/
+       1. persistent <on branch>/
+       2. lower persistent, upper deciduous/
+       3. lower deciduous, upper persistent/
+       4. <both> deciduous/
+       5. deciduous <together> with pedicel attached/
+
+#591. glumes <similarity, apart from some difference in size>/
+       1. similar <in shape, texture, etc>/
+       2. dissimilar/
+
+#592. glumes <relative width>/
+       1. with lower narrower than upper/
+       2. subequal in width/
+       3. with lower wider than upper/
+
+#593. glumes <length of longer relative to rest of spikelet, excluding awns>/
+       1. shorter than spikelet/
+       2. reaching apex of florets/
+       3. exceeding apex of florets/
+
+#594. glumes <consistency relative to fertile lemma>/
+       1. thinner than fertile lemma/
+       2. similar to fertile lemma in texture <<implicit>>/
+       3. firmer than fertile lemma/
+
+#595. glumes <sheen>/
+       1. dull <<implicit>>/
+       2. shiny/
+
+#596. glumes <divergence>/
+       1. incurved at apex/
+       2. parallel to lemmas <<implicit>>/
+       3. recurved at apex/
+       4. gaping/
+
+#597. lower glume <outline> <<ordered>>/
+       1. subulate <or bristle-like, with indefinite or briefly triangular body
+          <apical characters inapplicable except for incision>>/
+       2. linear/
+       3. lanceolate/
+       4. elliptic/
+       5. oblong/
+       6. ovate/
+       7. orbicular/
+       8. oblate/
+       9. obovate/
+       10. flabellate/
+       11. cuneate/
+
+#598. lower glume <symmetry>/
+       1. symmetrical/
+       2. asymmetrical/
+
+#599. lower glume <clasping>/
+       1. not clasping/
+       2. clasping <base of spikelet to form a collar - mainly Paniceae>/
+       3. auriculate at base/
+
+#600. lower glume <gibbosity>/
+       1. not gibbous <<implicit>>/
+       2. gibbous/
+       3. saccate/
+
+#601. lower glume <length>/
+       mm long/
+
+#602. lower glume <length as fraction of upper>/
+       length of upper glume/
+
+#603. lower glume <length as fraction of spikelet (mainly Paniceae)>/
+       length of spikelet/
+
+#604. lower glume <consistency>/
+       1. hyaline/
+       2. membranous/
+       3. chartaceous/
+       4. herbaceous/
+       5. scarious/
+       6. cartilaginous/
+       7. coriaceous/
+       8. indurate/
+
+#605. lower glume <apical consistency>/
+       1. of similar consistency above <<implicit>>/
+       2. much thinner above/
+       3. firmer above/
+
+#606. lower glume <marginal consistency>/
+       1. of similar consistency on margins <<implicit>>/
+       2. much thinner on margins/
+       3. firmer on margins/
+
+#607. lower glume <colour>/
+       1. pallid/
+       2. yellow/
+       3. light green/
+       4. mid-green/
+       5. dark green/
+       6. glaucous/
+       7. grey/
+       8. light brown/
+       9. dark brown/
+       10. red/
+       11. purple/
+       12. black/
+
+#608. lower glume <presence of sessile glands>/
+       1. eglandular/
+       2. glandular/
+
+#609. lower glume <exudate>/
+       1. without exudate <<implicit>>/
+       2. viscid/
+       3. resinous/
+
+#610. lower glume <oil streaks>/
+       1. without oil streaks <<implicit>>/
+       2. with oil streaks/
+
+#611. lower glume <presence of keels>/
+       1. without keels/
+       2. 1-keeled/
+       3. 2-keeled <or inflexed>/
+
+#612. lower glume keel-less <extent>/
+       1. throughout/
+       2. except near apex/
+
+#613. lower glume keeled <extent>/
+       1. all along <<implicit>>/
+       2. above/
+       3. below/
+
+#614. lower glume keeled <position - if 2-keeled>/
+       1. dorsally/
+       2. dorsally below, flaring to lateral above/
+       3. laterally/
+       4. frontally/
+
+#615. lower glume keeled <distinctness>/
+       1. sharply <<implicit>>/
+       2. obtusely <with abrupt flexion rather than sharp keel>/
+
+#616. lower glume <presence of wings>/
+       1. wingless <<implicit>>/
+       2. winged on keel/
+       3. winged on margins/
+
+#617. lower glume winged <width>/
+       1. broadly/
+       2. moderately <<implicit>>/
+       3. narrowly/
+
+#618. lower glume winged <extent>/
+       1. all along/
+       2. near apex/
+       3. above/
+       4. in the middle/
+       5. below/
+
+#619. lower glume <vein number>/
+       -veined/
+
+#620. lower glume primary vein <extension to apex>/
+       1. extending to apex/
+       2. falling short of apex/
+
+#621. lower glume primary vein <midvein or keels - roughness. Knobs and spines
+          on 2-keeled glumes are treated as surface(flank) roughness>
+          <<ordered>>/
+       1. smooth/
+       2. scaberulous/
+       3. scabrous/
+       4. spinulose/
+       5. tuberculate/
+       6. with pectinate knobs/
+
+#622. lower glume primary vein <presence of hairs(except tufts) or spines>/
+       1. eciliate <<implicit>>/
+       2. ciliolate/
+       3. ciliate/
+       4. pectinately ciliate <stiff and evenly spaced>/
+       5. pectinately spinose/
+       6. pubescent <when different from surface>/
+
+#623. lower glume lateral veins <clarity>/
+       1. absent/
+       2. obscure/
+       3. distinct <<implicit>>/
+       4. prominent/
+       5. <equally> thickened/
+       6. unequally thickened/
+
+#624. lower glume lateral veins <presence of ribs>/
+       1. without ribs <<implicit>>/
+       2. ribbed/
+
+#625. lower glume lateral veins <presence of cross-veins or branching>/
+       1. without connecting veins/
+       2. transversely connected at apex <only>/
+       3. with cross-veins/
+       4. <dichotomously> branching above/
+
+#626. lower glume lateral veins <divergence>/
+       1. meeting <and uniting> at apex/
+       2. convergent at apex/
+       3. parallel at apex/
+       4. divergent at apex/
+
+#627. lower glume lateral veins <extension to apex>/
+       1. excurrent/
+       2. all extending to apex/
+       3. with some <but not all> extending to apex/
+       4. all falling short of apex/
+
+#628. lower glume lateral veins <presence in keel>/
+       1. dissociated from keel <keel 1-veined> <<implicit>>/
+       2. several in each keel/
+
+#629. lower glume intercarinal veins <presence - if 2-keeled>/
+       1. absent/
+       2. obscure/
+       3. distinct/
+       4. absent below, prominent above/
+
+#630. lower glume intercarinal veins <number>/
+       in number/
+
+#631. lower glume surface <depression in transverse section>/
+       1. convex <<implicit>>/
+       2. flat/
+       3. concave/
+       4. with V-shaped depression <between keels>/
+       5. with a longitudinal median groove/
+       6. grooved on either side of midvein/
+       7. deeply depressed <between keels>/
+
+#632. lower glume surface impressed <extent of flattening or depression>/
+       1. throughout <<implicit>>/
+       2. above/
+       3. below/
+       4. with a boss blocking lower end/
+
+#633. lower glume surface <relief> <<ordered>>/
+       1. smooth <<implicit>>/
+       2. asperulous/
+       3. scabrous/
+       4. spinose/
+       5. with hooked spines/
+       6. tuberculate/
+       7. wrinkled/
+       8. muricate <pattern of knobs>/
+       9. rugose/
+       10. cancellate <latticed pattern>/
+       11. areolate <pattern of depressions>/
+
+#634. lower glume surface rough <where, excluding keels>/
+       1. generally <<implicit>>/
+       2. at apex/
+       3. above/
+       4. in the middle/
+       5. below/
+       6. on flanks <only>/
+       7. on veins/
+       8. between veins/
+       9. in lines <unrelated to veins>/
+       10. in transverse rows/
+
+#635. lower glume surface <presence of waist>/
+       1. not waisted <<implicit>>/
+       2. laterally waisted/
+       3. transversely waisted <extending across back>/
+
+#636. lower glume surface <presence of pits>/
+       1. without pits <<implicit>>/
+       2. pitted/
+       3. lacunose/
+       4. fenestrate/
+
+#637. lower glume surface <general indumentum> <<ordered>>/
+       1. glabrous <except for keel, margin & special indumentum> <<implicit>>/
+       2. puberulous/
+       3. pubescent/
+       4. pilose/
+       5. hirsute/
+       6. villous/
+       7. hispidulous/
+       8. hispid/
+       9. setose/
+       10. woolly/
+
+#638. lower glume surface hairy <where>/
+       1. generally <<implicit>>/
+       2. at apex/
+       3. above/
+       4. in the middle/
+       5. below/
+       6. at base/
+       7. on veins/
+       8. between veins/
+       9. in lines <unrelated to veins>/
+
+#639. lower glume surface with <hair type>/
+       1. simple hairs <<implicit>>/
+       2. tubercle-based hairs/
+       3. hooked hairs/
+       4. capitate hairs/
+       5. clavate hairs/
+       6. turgid hairs/
+
+#640. lower glume surface <special indumentum - tufts>/
+       1. without hair tufts <<implicit>>/
+       2. with basal tufts of hair/
+       3. with marginal tufts of hair/
+       4. with a dorsal tuft of hair/
+       5. with tufts of hair along primary vein/
+       6. with transverse tufts of hair/
+       7. with a transverse fringe of hair/
+       8. with an apical beard/
+
+#641. lower glume inner surface <indumentum>/
+       1. glabrous/
+       2. scabrous/
+       3. pubescent/
+       4. pilose/
+       5. villous/
+
+#642. lower glume margins <inrolled>/
+       1. flat/
+       2. inrolled/
+
+#643. lower glume margins <hairiness>/
+       1. eciliate <<implicit>>/
+       2. ciliolate/
+       3. ciliate/
+       4. tuberculately ciliate/
+       5. setose/
+
+#644. lower glume hairs <colour of principal hairs>/
+       1. white/
+       2. grey/
+       3. yellow/
+       4. tawny/
+       5. dark brown/
+       6. red/
+       7. purple/
+       8. black/
+
+#645. lower glume hairs <length of principal hairs>/
+       mm long/
+
+#646. lower glume apex <incision>/
+       1. entire <<implicit>>/
+       2. erose/
+       3. with a unilateral tooth/
+       4. dentate/
+       5. lobed/
+
+#647. lower glume apex <number of teeth or lobes>/
+       -fid/
+
+#648. lower glume apex <shape of apex or tip of lobes> <<ordered>>/
+       1. emarginate/
+       2. truncate/
+       3. obtuse/
+       4. acute/
+       5. acuminate/
+       6. attenuate/
+       7. setaceously attenuate/
+       8. cuspidate/
+       9. rostrate/
+       10. caudate/
+       11. laterally pinched <compressed>/
+
+#649. lower glume apex <presence of awn>/
+       1. muticous <<implicit>>/
+       2. mucronate/
+       3. awned/
+       4. awned only on distal spikelets/
+
+#650. lower glume apex <number of awns>/
+       -awned/
+
+#651. lower glume awn <position>/
+       1. terminal <from apex or sinus> <<implicit>>/
+       2. subapical/
+       3. dorsal/
+
+#652. lower glume awn <length>/
+       mm long/
+
+#653. lower glume awn <whether hooked>/
+       1. straight <<implicit>>/
+       2. hooked/
+
+#654. lower glume awn <vesture>/
+       1. without vesture <<implicit>>/
+       2. viscid/
+       3. ciliolate/
+       4. ciliate/
+
+#655. upper glume <outline - of uppermost if more than 2> <<ordered>>/
+       1. subulate <or bristle-like with indefinite or briefly triangular body
+          <apical characters inapplicable except for incision>>/
+       2. linear/
+       3. lanceolate/
+       4. elliptic/
+       5. oblong/
+       6. ovate/
+       7. orbicular/
+       8. oblate/
+       9. obovate/
+       10. flabellate/
+       11. cuneate/
+
+#656. upper glume <symmetry>/
+       1. symmetrical/
+       2. asymmetrical/
+
+#657. upper glume <presence of basal auricles>/
+       1. without auricles <<implicit>>/
+       2. auriculate at base/
+
+#658. upper glume dorsally <straightness of back in profile>/
+       1. convex in profile/
+       2. straight in profile/
+       3. concave in profile/
+
+#659. upper glume <gibbosity>/
+       1. not gibbous <<implicit>>/
+       2. gibbous/
+       3. saccate/
+       4. spurred/
+       5. waisted/
+
+#660. upper glume <length>/
+       mm long/
+
+#661. upper glume <length as fraction of lemma>/
+       length of adjacent fertile lemma/
+
+#662. upper glume <length as fraction of spikelet>/
+       length of spikelet/
+
+#663. upper glume <width relative to fertile lemma>/
+       1. narrower than lemma/
+       2. as wide as lemma/
+       3. wider than lemma/
+
+#664. upper glume <consistency>/
+       1. hyaline/
+       2. membranous/
+       3. chartaceous/
+       4. herbaceous/
+       5. scarious/
+       6. cartilaginous/
+       7. coriaceous/
+       8. indurate/
+
+#665. upper glume <apical consistency>/
+       1. of similar consistency above <<implicit>>/
+       2. much thinner above/
+       3. firmer above/
+
+#666. upper glume with <marginal consistency>/
+       1. undifferentiated margins <<implicit>>/
+       2. hyaline margins/
+       3. membranous margins/
+       4. chartaceous margins/
+       5. scarious margins/
+       6. cartilaginous margins/
+
+#667. upper glume <fenestration>/
+       1. not thinner in the body <<implicit>>/
+       2. thinner along midline/
+
+#668. upper glume <colour>/
+       1. pallid/
+       2. yellow/
+       3. light green/
+       4. mid-green/
+       5. dark green/
+       6. glaucous/
+       7. grey/
+       8. light brown/
+       9. dark brown/
+       10. red/
+       11. purple/
+       12. black/
+
+#669. upper glume <presence of sessile glands>/
+       1. eglandular/
+       2. glandular/
+
+#670. upper glume <exudate>/
+       1. without exudate <<implicit>>/
+       2. viscid/
+       3. resinous/
+
+#671. upper glume <keels>/
+       1. without keels/
+       2. 1-keeled/
+       3. 2-keeled/
+
+#672. upper glume keel-less <extent>/
+       1. throughout/
+       2. except near apex/
+
+#673. upper glume keeled <extent>/
+       1. all along <<implicit>>/
+       2. above/
+       3. below/
+
+#674. upper glume <presence of wings>/
+       1. wingless <<implicit>>/
+       2. winged on keel/
+       3. winged on margins/
+
+#675. upper glume winged <extent>/
+       1. all along/
+       2. near apex/
+       3. above/
+       4. in the middle/
+       5. below/
+
+#676. upper glume <vein number>/
+       -veined/
+
+#677. upper glume primary vein <clarity of mid or keel vein>/
+       1. absent/
+       2. obscure/
+       3. distinct <<implicit>>/
+       4. conspicuous/
+       5. thickened/
+
+#678. upper glume primary vein <depression>/
+       1. not depressed <<implicit>>/
+       2. depressed/
+       3. grooved on either side/
+
+#679. upper glume primary vein <roughness> <<ordered>>/
+       1. smooth/
+       2. scaberulous/
+       3. scabrous/
+       4. spinulose/
+       5. tuberculate/
+       6. with pectinate knobs/
+
+#680. upper glume primary vein <presence of hairs(except tufts) or spines>/
+       1. eciliate <<implicit>>/
+       2. ciliolate/
+       3. ciliate/
+       4. pectinately ciliate <stiff and evenly spaced>/
+       5. pectinately spinose/
+       6. pubescent <when different from surface>/
+
+#681. upper glume lateral veins <clarity>/
+       1. absent/
+       2. obscure/
+       3. distinct <<implicit>>/
+       4. prominent/
+       5. <equally> thickened/
+       6. unequally thickened/
+
+#682. upper glume lateral veins <presence of ribs>/
+       1. without ribs <<implicit>>/
+       2. ribbed/
+
+#683. upper glume lateral veins <presence of cross-veins>/
+       1. without cross-veins/
+       2. transversely connected at apex <only>/
+       3. with cross-veins/
+
+#684. upper glume lateral veins <divergence <mainly Triticeae>>/
+       1. meeting <and uniting> at apex/
+       2. convergent at apex/
+       3. parallel at apex/
+       4. divergent at apex/
+
+#685. upper glume lateral veins <extension to apex>/
+       1. excurrent/
+       2. all extending to apex/
+       3. with some <but not all> extending to apex/
+       4. all falling short of apex/
+
+#686. upper glume surface <roughness> <<ordered>>/
+       1. smooth <<implicit>>/
+       2. asperulous/
+       3. scabrous/
+       4. spinose/
+       5. with hooked spines/
+       6. papillose/
+       7. tuberculate/
+       8. wrinkled/
+       9. rugose/
+
+#687. upper glume surface rough <where>/
+       1. generally <<implicit>>/
+       2. at apex/
+       3. above/
+       4. in the middle/
+       5. below/
+       6. on veins/
+       7. between veins/
+       8. in lines <unrelated to veins>/
+
+#688. upper glume surface <general indumentum> <<ordered>>/
+       1. glabrous <except for keel, margins & special indumentum> <<implicit>>/
+       2. puberulous/
+       3. pubescent/
+       4. pilose/
+       5. hirsute/
+       6. villous/
+       7. hispidulous/
+       8. hispid/
+       9. setose/
+       10. woolly/
+
+#689. upper glume surface hairy <where>/
+       1. generally <<implicit>>/
+       2. at apex/
+       3. above/
+       4. in the middle/
+       5. below/
+       6. at base/
+       7. on veins/
+       8. between veins/
+       9. in lines <unrelated to veins>/
+
+#690. upper glume surface with <hair type>/
+       1. simple hairs <<implicit>>/
+       2. tubercle-based hairs/
+       3. hooked hairs/
+       4. capitate hairs/
+       5. clavate hairs/
+       6. turgid hairs/
+       7. verruculose hairs/
+
+#691. upper glume surface <special indumentum - tufts>/
+       1. without hair tufts <<implicit>>/
+       2. with basal tufts of hair/
+       3. with marginal tufts of hair/
+       4. with a dorsal tuft of hair/
+       5. with tufts of hair along primary vein/
+       6. with transverse tufts of hair/
+       7. with a transverse fringe of hair/
+       8. with an apical beard/
+
+#692. upper glume inner surface <indumentum>/
+       1. glabrous/
+       2. scabrous/
+       3. pubescent/
+       4. pilose/
+       5. villous/
+
+#693. upper glume margins <roughness>/
+       1. smooth/
+       2. scaberulous/
+       3. scabrous/
+       4. spinulose/
+       5. tuberculate/
+
+#694. upper glume margins <hairiness>/
+       1. eciliate <<implicit>>/
+       2. ciliolate/
+       3. ciliate/
+       4. villous/
+       5. setose/
+       6. pubescent/
+
+#695. upper glume hairs <colour of principal hairs>/
+       1. white/
+       2. grey/
+       3. yellow/
+       4. tawny/
+       5. dark brown/
+       6. red/
+       7. purple/
+       8. black/
+
+#696. upper glume hairs <length of principal hairs>/
+       mm long/
+
+#697. upper glume apex <incision>/
+       1. entire <<implicit>>/
+       2. erose/
+       3. with a unilateral tooth/
+       4. dentate/
+       5. lobed/
+
+#698. upper glume apex <number of teeth or lobes>/
+       -fid/
+
+#699. upper glume apex <shape of apex or tip of lobes> <<ordered>>/
+       1. emarginate/
+       2. truncate/
+       3. obtuse/
+       4. acute/
+       5. acuminate/
+       6. attenuate/
+       7. setaceously attenuate/
+       8. cuspidate/
+       9. rostrate/
+       10. caudate/
+       11. laterally pinched <compressed>/
+
+#700. upper glume <presence of awns>/
+       1. muticous <<implicit>>/
+       2. mucronate/
+       3. awned/
+       4. awned only on distal spikelets/
+
+#701. upper glume <number of awns>/
+       -awned/
+
+#702. upper glume awn <position>/
+       1. terminal <from apex or sinus> <<implicit>>/
+       2. subapical/
+       3. dorsal/
+       4. oblique/
+
+#703. upper glume awn <length>/
+       mm long/
+
+#704. upper glume awn <presence of hairs>/
+       1. glabrous/
+       2. hispidulous/
+       3. ciliate/
+       4. plumose/
+
+#705. basal sterile florets <presence, including vestiges <controlling character
+          for dependencies>>/
+       1. absent <<implicit>>/
+       2. 1/
+       3. 2 or more/
+
+#706. basal sterile florets <similarity if more than 1>/
+       1. similar/
+       2. dissimilar/
+
+#707. basal sterile florets <reduction to vestiges>/
+       1. developed <<implicit>>/
+       2. with vestigial lower floret/
+       3. both vestigial/
+
+#708. basal sterile florets <sex>/
+       1. male/
+       2. barren/
+
+#709. basal sterile florets <presence of palea>/
+       1. with palea/
+       2. without significant palea <may be rudimentary; lemma present>/
+
+#710. basal sterile florets <persistence - if spikelet breaks up>/
+       1. persisting on inflorescence/
+       2. separately deciduous/
+       3. attached to and deciduous with the fertile/
+
+#711. lemma of lower sterile floret <presence>/
+       1. present <<implicit>>/
+       2. absent <the floret represented by a palea>/
+
+#712. lemma of lower sterile floret <comparison with other scales>/
+       1. unlike other scales <<implicit>>/
+       2. similar to upper glume/
+       3. similar to fertile lemma/
+
+#713. lemma of lower sterile floret <outline> <<ordered>>/
+       1. subulate <<apical characters inapplicable>>/
+       2. linear/
+       3. lanceolate/
+       4. elliptic/
+       5. oblong/
+       6. ovate/
+       7. orbicular/
+       8. oblate/
+       9. trullate/
+       10. obovate/
+
+#714. lemma of lower sterile floret <presence of basal auricles>/
+       1. without auricles <<implicit>>/
+       2. auriculate at base/
+
+#715. lemma of lower sterile floret <gibbosity>/
+       1. not gibbous <<implicit>>/
+       2. gibbous/
+
+#716. lemma of lower sterile floret <length>/
+       mm long/
+
+#717. lemma of lower sterile floret <length as fraction of fertile lemma>/
+       length of fertile lemma/
+
+#718. lemma of lower sterile floret <length as fraction of spikelet>/
+       length of spikelet/
+
+#719. lemma of lower sterile floret <consistency>/
+       1. hyaline/
+       2. membranous/
+       3. chartaceous/
+       4. herbaceous/
+       5. scarious/
+       6. cartilaginous/
+       7. coriaceous/
+       8. indurate/
+       9. fleshy/
+
+#720. lemma of lower sterile floret <apical consistemcy>/
+       1. of similar consistency above <<implicit>>/
+       2. much thinner above/
+       3. firmer above/
+
+#721. lemma of lower sterile floret <marginal consistency>/
+       1. of similar consistency on margins <<implicit>>/
+       2. much thinner on margins/
+       3. thicker on margins/
+
+#722. lemma of lower sterile floret <fenestration>/
+       1. not thinner in the body <<implicit>>/
+       2. thinner along midline/
+       3. hyaline between veins/
+       4. fenestrate <with hyaline patches>/
+
+#723. lemma of lower sterile floret <colour>/
+       1. pallid/
+       2. yellow/
+       3. light green/
+       4. mid-green/
+       5. dark green/
+       6. glaucous/
+       7. grey/
+       8. light brown/
+       9. dark brown/
+       10. red/
+       11. purple/
+       12. black/
+
+#724. lemma of lower sterile floret <presence of sessile glands>/
+       1. eglandular <<implicit>>/
+       2. glandular/
+
+#725. lemma of lower sterile floret <presence of keels>/
+       1. without keels <<implicit>>/
+       2. 1-keeled/
+       3. 2-keeled/
+
+#726. lemma of lower sterile floret <presence of wings>/
+       1. wingless <<implicit>>/
+       2. winged on keel/
+       3. winged on margins/
+
+#727. lemma of lower sterile floret <number of veins>/
+       -veined/
+
+#728. lemma of lower sterile floret <clarity of midvein>/
+       1. without midvein/
+       2. with obscure midvein/
+       3. with evident midvein/
+       4. with conspicuous midvein/
+
+#729. lemma of lower sterile floret <clarity of lateral veins>/
+       1. without lateral veins/
+       2. obscurely veined/
+       3. distinctly veined <<implicit>>/
+       4. prominently veined/
+       5. with thickened veins/
+
+#730. lemma of lower sterile floret <presence of ribs>/
+       1. without ribs <<implicit>>/
+       2. ribbed/
+
+#731. lemma of lower sterile floret <vein spacing>/
+       1. with equidistant veins/
+       2. with unevenly spaced veins/
+
+#732. lemma of lower sterile floret <presence of cross-veins>/
+       1. without cross-veins/
+       2. with veins transversely connected at apex <only>/
+       3. with cross-veins/
+
+#733. lemma of lower sterile floret <apical union of veins>/
+       1. with veins free at apex/
+       2. with veins meeting and uniting at apex/
+
+#734. lemma of lower sterile floret <transverse curvature>/
+       1. convex across back/
+       2. flat across back/
+       3. concave across back/
+
+#735. lemma of lower sterile floret <presence of median groove or split>/
+       1. without grooves <<implicit>>/
+       2. sulcate/
+       3. with 2 longitudinal grooves/
+       4. readily splitting into two halves/
+
+#736. lemma of lower sterile floret <roughness> <<ordered>>/
+       1. smooth <<implicit>>/
+       2. scaberulous/
+       3. scabrous/
+       4. spinulose/
+       5. papillose/
+       6. tuberculate/
+       7. wrinkled/
+       8. rugose/
+
+#737. lemma of lower sterile floret rough <where>/
+       1. throughout <<implicit>>/
+       2. at apex/
+       3. above/
+       4. in the middle/
+       5. below/
+       6. on midvein/
+       7. on <lateral> veins/
+       8. on flanks/
+
+#738. lemma of lower sterile floret <general indumentum> <<ordered>>/
+       1. glabrous <except for midvein, margins & special indumentum>
+          <<implicit>>/
+       2. puberulous/
+       3. pubescent/
+       4. pilose/
+       5. hirsute/
+       6. villous/
+       7. hispidulous/
+       8. hispid/
+       9. setose/
+       10. woolly/
+
+#739. lemma of lower sterile floret hairy <extent of general indumentum>/
+       1. all along <<implicit>>/
+       2. at apex/
+       3. above/
+       4. in the middle/
+       5. below/
+       6. at base/
+
+#740. lemma of lower sterile floret hairy <location of general indumentum>/
+       1. generally <<implicit>>/
+       2. on veins/
+       3. between veins/
+       4. between veins but central interspaces glabrous/
+       5. in lines <unrelated to veins>/
+
+#741. lemma of lower sterile floret with <hair type>/
+       1. simple hairs <<implicit>>/
+       2. tubercle-based hairs/
+       3. reflexed hairs/
+       4. hooked hairs/
+       5. capitate hairs/
+       6. clavate hairs/
+       7. turgid hairs/
+       8. verruculose hairs/
+
+#742. lemma of lower sterile floret <special indumentum - tufts>/
+       1. without hair tufts <<implicit>>/
+       2. with basal tufts of hair/
+       3. with marginal tufts of hair/
+       4. with <transverse> dorsal tufts of hair/
+       5. with a transverse fringe of hair/
+       6. with conspicuous apical hairs/
+
+#743. lemma of lower sterile floret <number of hair tufts>/
+       hair tufts in all/
+
+#744. lemma of lower sterile floret <midvein hairs>/
+       1. eciliate on midvein <not distinct from general indumentum>
+          <<implicit>>/
+       2. ciliolate on midvein/
+       3. ciliate on midvein/
+       4. setose on midvein/
+       5. pubescent on midvein/
+
+#745. lemma of lower sterile floret <marginal roughness>/
+       1. smooth on margins/
+       2. scaberulous on margins/
+       3. scabrous on margins/
+       4. spinulose on margins/
+       5. tuberculate on margins/
+
+#746. lemma of lower sterile floret <marginal hairs>/
+       1. eciliate on margins <<implicit>>/
+       2. ciliolate on margins/
+       3. ciliate on margins/
+       4. villous on margins/
+       5. setose on margins/
+       6. pubescent on margins/
+
+#747. lemma of lower sterile floret fringed <extent of marginal hairs>/
+       1. all along/
+       2. above/
+       3. in the middle/
+       4. below/
+
+#748. lemma of lower sterile floret bearing <colour of principal hairs>/
+       1. white hairs/
+       2. grey hairs/
+       3. yellow hairs/
+       4. tawny hairs/
+       5. dark brown hairs/
+       6. red hairs/
+       7. purple hairs/
+       8. black hairs/
+
+#749. lemma of lower sterile floret bearing hairs <length of principal hairs>/
+       mm long/
+
+#750. lemma of lower sterile floret <incision>/
+       1. entire <<implicit>>/
+       2. erose/
+       3. dentate/
+       4. lobed/
+
+#751. lemma of lower sterile floret <number of teeth or lobes>/
+       -fid/
+
+#752. lemma of lower sterile floret <shape of apex or lobes> <<ordered>>/
+       1. emarginate/
+       2. truncate/
+       3. obtuse/
+       4. acute/
+       5. acuminate/
+       6. attenuate/
+       7. setaceously attenuate/
+       8. cuspidate/
+       9. rostrate/
+       10. caudate/
+       11. laterally pinched at apex/
+
+#753. lemma of lower sterile floret <presence of awn>/
+       1. muticous <<implicit>>/
+       2. mucronate/
+       3. awned/
+
+#754. awn of lower sterile floret <origin>/
+       1. terminal <from apex or sinus> <<implicit>>/
+       2. subapical/
+       3. dorsal/
+
+#755. awn of lower sterile floret arising <origin of dorsal awn as fraction of
+          lemma length>/
+       way up back of lemma/
+
+#756. awn of lower sterile floret <curvature>/
+       1. straight <<implicit>>/
+       2. curved/
+       3. flexuous/
+       4. geniculate/
+
+#757. awn of lower sterile floret <length>/
+       mm long/
+
+#758. palea of lower sterile floret <consistency>/
+       1. hyaline <<implicit>>/
+       2. membranous/
+       3. becoming indurate on keels at maturity/
+       4. becoming indurate on flanks at maturity/
+       5. woody/
+
+#759. palea of lower sterile floret <length>/
+       mm long/
+
+#760. palea of lower sterile floret <length as fraction of its lemma>/
+       length of lemma/
+
+#761. palea of lower sterile floret <presence of wings>/
+       1. wingless <<implicit>>/
+       2. winged on keels/
+       3. winged on margins/
+
+#762. palea of lower sterile floret <vesture>/
+       1. smooth/
+       2. scabrous/
+       3. pubescent/
+       4. pilose/
+       5. hirsute/
+       6. villous/
+       7. woolly/
+
+#763. palea of lower sterile floret adorned <where>/
+       1. on keels/
+       2. on back/
+       3. on flanks/
+
+#764. lemma of upper sterile floret <outline>/
+       1. subulate <<apical characters inapplicable>>/
+       2. linear/
+       3. lanceolate/
+       4. elliptic/
+       5. oblong/
+       6. ovate/
+       7. orbicular/
+       8. oblate/
+       9. obovate/
+
+#765. lemma of upper sterile floret basally <consticted or expanded>/
+       1. simple <<implicit>>/
+       2. constricted/
+       3. auriculate/
+
+#766. lemma of upper sterile floret <length>/
+       mm long/
+
+#767. lemma of upper sterile floret <length as fraction of lower>/
+       length of lower sterile floret/
+
+#768. lemma of upper sterile floret <consistency> <<ordered>>/
+       1. hyaline/
+       2. membranous/
+       3. chartaceous/
+       4. herbaceous/
+       5. scarious/
+       6. cartilaginous/
+       7. coriaceous/
+       8. indurate/
+       9. fleshy/
+
+#769. lemma of upper sterile floret <roughness>/
+       1. smooth <<implicit>>/
+       2. scabrous/
+       3. tuberculate/
+       4. ribbed/
+       5. rugose throughout/
+       6. rugose above/
+       7. rugose below/
+
+#770. lemma of upper sterile floret <surface indumentum>/
+       1. glabrous <<implicit>>/
+       2. pubescent/
+       3. pilose/
+       4. villous/
+
+#771. lemma of upper sterile floret <midvein hairs>/
+       1. eciliate on midvein <not distinct from general indumentum>
+          <<implicit>>/
+       2. pubescent on midvein/
+       3. ciliolate on midvein/
+       4. ciliate on midvein/
+       5. setose on midvein/
+
+#772. lemma of upper sterile floret <marginal hairs>/
+       1. eciliate on margins <<implicit>>/
+       2. ciliolate on margins/
+       3. ciliate on margins/
+       4. villous on margins/
+       5. tufted on margins/
+
+#773. lemma of upper sterile floret fringed <extent of marginal hairs>/
+       1. all along/
+       2. above/
+       3. in the middle/
+       4. below/
+
+#774. lemma of upper sterile floret <incision>/
+       1. entire <<implicit>>/
+       2. erose/
+       3. dentate/
+       4. lobed/
+
+#775. lemma of upper sterile floret <number of teeth or lobes>/
+       -fid/
+
+#776. lemma of upper sterile floret <shape of apex> <<ordered>>/
+       1. emarginate/
+       2. truncate/
+       3. obtuse/
+       4. acute/
+       5. acuminate/
+       6. attenuate/
+       7. setaceously attenuate/
+       8. caudate/
+
+#777. lemma of upper sterile floret <presence of awn>/
+       1. muticous <<implicit>>/
+       2. mucronate/
+       3. awned/
+
+#778. awn of upper sterile floret <position>/
+       1. terminal <from apex or sinus> <<implicit>>/
+       2. subapical/
+       3. dorsal/
+
+#779. awn of upper sterile floret arising <origin of dorsal awn as fraction of
+          lemma length>/
+       way up back of lemma/
+
+#780. awn of upper sterile floret <curvature>/
+       1. straight/
+       2. curved/
+       3. flexuous/
+       4. geniculate/
+
+#781. awn of upper sterile floret <length>/
+       mm long/
+
+#782. fertile florets <divergence if more than 1>/
+       1. appressed to rhachilla/
+       2. divergent/
+
+#783. fertile florets overlapping <fraction overlapping in same row>/
+       their length/
+
+#784. fertile florets <freedom of tip - if more than 1>/
+       1. incurved at tip/
+       2. imbricate to tip/
+       3. free at tip/
+       4. recurved at tip/
+
+#785. fertile florets <size gradation - if more than 1>/
+       1. decreasing in size upwards <<implicit>>/
+       2. all similar in size/
+       3. increasing in size upwards/
+
+#786. fertile florets <sex>/
+       1. bisexual <<implicit>>/
+       2. female/
+
+#787. fertile florets <similarity if more than 1>/
+       1. all alike <<implicit>>/
+       2. alike but female above/
+       3. with the lowest dissimilar/
+       4. with the uppermost dissimilar <if more than 2 florets <comment on
+          difference>>/
+
+#788. lowest fertile lemma <sex - if dissimilar>/
+       1. bisexual/
+       2. female/
+
+#789. lowest fertile lemma <outline> <<ordered>>/
+       1. linear/
+       2. lanceolate/
+       3. elliptic/
+       4. oblong/
+       5. ovate/
+       6. orbicular/
+       7. oblate/
+       8. obovate/
+       9. flabellate/
+       10. cuneate/
+
+#790. lowest fertile lemma <length>/
+       mm long/
+
+#791. lowest fertile lemma <length as fraction of adjacent lemma>/
+       length of adjacent lemma/
+
+#792. lowest fertile lemma <relative consistency>/
+       1. of similar consistency to adjacent lemma <<implicit>>/
+       2. thinner than adjacent lemma/
+       3. firmer than adjacent lemma/
+
+#793. lowest fertile lemma <indumentum>/
+       1. glabrous/
+       2. hairy/
+
+#794. lowest fertile lemma <incision>/
+       1. entire/
+       2. lobed/
+
+#795. lowest fertile lemma <presence of awn>/
+       1. muticous/
+       2. mucronate/
+       3. awned/
+
+#796. fertile lemma <presence>/
+       1. present <<implicit>>/
+       2. absent/
+
+#797. fertile lemma <flattened outline<<ordered>>/
+       1. linear/
+       2. lanceolate/
+       3. elliptic/
+       4. oblong/
+       5. ovate/
+       6. orbicular/
+       7. oblate/
+       8. trullate <margins angled rather than smoothly curved>/
+       9. obovate/
+       10. oblanceolate/
+       11. flabellate/
+       12. cuneate/
+
+#798. fertile lemma <comparative width of outline>/
+       1. narrowly proportioned/
+       2. moderately prportioned <<implicit>>/
+       3. broadly proportioned/
+
+#799. fertile lemma widest at <position of widest point as fraction of length>/
+       of its length from base/
+
+#800. fertile lemma <symmetry>/
+       1. symmetrical/
+       2. asymmetrical/
+
+#801. fertile lemma <presence of basal auricles or thickening>/
+       1. without auricles <<implicit>>/
+       2. auriculate at base/
+       3. thickened on margins at base/
+
+#802. fertile lemma <compression>/
+       1. laterally compressed/
+       2. subterete/
+       3. dorsally compressed/
+
+#803. fertile lemma dorsally <straightness of back in profile>/
+       1. convex along back/
+       2. straight along back/
+       3. concave along back/
+
+#804. fertile lemma <gibbosity>/
+       1. not gibbous <<implicit>>/
+       2. gibbous/
+       3. lunate in profile/
+
+#805. fertile lemma <unflattened shape>/
+       1. linear in profile/
+       2. lanceolate in profile/
+       3. elliptic in profile/
+       4. oblong in profile/
+       5. ovate in profile/
+       6. oblanceolate in profile/
+       7. triangular in profile/
+       8. trapezoidal in profile/
+       9. hemispherical/
+       10. globose/
+
+#806. fertile lemma <length>/
+       mm long/
+
+#807. fertile lemma <width>/
+       mm wide/
+
+#808. fertile lemma <consistency>/
+       1. hyaline/
+       2. membranous/
+       3. chartaceous/
+       4. herbaceous/
+       5. scarious/
+       6. cartilaginous/
+       7. coriaceous/
+       8. indurate <crustaceous, bony or woody>/
+
+#809. fertile lemma <apical consistency>/
+       1. of similar consistency above <<implicit>>/
+       2. much thinner above/
+       3. firmer above/
+
+#810. fertile lemma <marginal consistency>/
+       1. of similar consistency on margins <<implicit>>/
+       2. much thinner on margins/
+       3. firmer on margins/
+
+#811. fertile lemma <colour>/
+       1. pallid/
+       2. yellow/
+       3. light green/
+       4. mid-green/
+       5. dark green/
+       6. glaucous/
+       7. grey/
+       8. light brown/
+       9. dark brown/
+       10. red/
+       11. purple/
+       12. black/
+
+#812. fertile lemma <distribution of colour>/
+       1. concolorous/
+       2. suffused with last colour/
+       3. mottled with last colour/
+       4. streaked with last colour/
+       5. bordered with last colour/
+       6. tipped with last colour/
+
+#813. fertile lemma <sheen>/
+       1. dull <<implicit>>/
+       2. shiny/
+
+#814. fertile lemma <presence of sessile glands>/
+       1. eglandular <<implicit>>/
+       2. glandular on surface/
+       3. glandular on veins/
+
+#815. fertile lemma <exudate>/
+       1. without exudate <<implicit>>/
+       2. pruinose/
+       3. viscid/
+       4. resinous/
+
+#816. fertile lemma <presence of keel>/
+       1. without keel/
+       2. keeled/
+
+#817. fertile lemma rounded <extent>/
+       1. throughout/
+       2. except near apex/
+
+#818. fertile lemma <clarity of keel>/
+       1. lightly keeled/
+       2. distinctly keeled <<implicit>>/
+       3. the keel enlarged into a pocket around grain/
+
+#819. fertile lemma keeled <extent>/
+       1. all along <<implicit>>/
+       2. above/
+       3. below/
+
+#820. fertile lemma <presence of wings>/
+       1. wingless <<implicit>>/
+       2. winged on keel/
+       3. winged on margins/
+
+#821. fertile lemma <vein number>/
+       -veined/
+
+#822. fertile lemma <key couplet for chloridoid veins>/
+       1. 0-3 -veined/
+       2. more than 3-veined/
+
+#823. fertile lemma <presence of veins <controlling character for
+          dependencies>>/
+       1. without veins/
+       2. one-veined/
+       3. several-veined <<implicit>>/
+
+#824. lemma midvein <prominence>/
+       1. simple/
+       2. thickened <conspicuously>/
+       3. with contiguous subsidiary veins/
+
+#825. lemma midvein <extension to apex>/
+       1. extending to apex/
+       2. falling short of apex/
+
+#826. lemma midvein <roughness, especially when keeled>/
+       1. without distinctive roughness <<implicit>>/
+       2. scaberulous/
+       3. scabrous/
+       4. spinulose/
+
+#827. lemma midvein <hairiness - except tufts>/
+       1. eciliate <not distinct from general indumentum> <<implicit>>/
+       2. ciliolate/
+       3. ciliate/
+       4. pectinately ciliate <stiff and evenly spaced>/
+       5. hispid/
+       6. setose/
+       7. pubescent/
+
+#828. lemma midvein hairy <where>/
+       1. all along <<implicit>>/
+       2. above/
+       3. in the middle/
+       4. below/
+       5. at base/
+
+#829. lemma lateral veins <clarity>/
+       1. obscure/
+       2. with distinct primaries but obscure intermediates/
+       3. distinct/
+       4. prominent/
+       5. thickened/
+
+#830. lemma lateral veins <presence of ribs>/
+       1. without ribs <<implicit>>/
+       2. ribbed/
+
+#831. lemma lateral veins <clarity in lower part>/
+       1. absent or obscure below/
+       2. evident below/
+
+#832. lemma lateral veins <spacing if 3-veined>/
+       1. midway between midvein and margin/
+       2. close to midvein/
+       3. close to margins/
+
+#833. lemma lateral veins <spacing if 5 or more veined>/
+       1. evenly spaced/
+       2. unevenly spaced/
+       3. in close groups/
+
+#834. lemma lateral veins <presence of dichotomous branching>/
+       1. unbranched <<implicit>>/
+       2. branched/
+       3. augmented by subsidiaries in lobes/
+
+#835. lemma lateral veins <presence of cross-veins>/
+       1. without cross-veins/
+       2. transversely connected at apex <only>/
+       3. with cross-veins/
+
+#836. lemma lateral veins <convergence>/
+       1. meeting <and uniting> above/
+       2. convergent above/
+       3. more or less parallel/
+       4. divergent above/
+
+#837. lemma lateral veins <apical extent <mainly Poeae>>/
+       1. excurrent/
+       2. extending close to apex/
+       3. stopping well short of apex <but present in upper third of lemma>/
+       4. less than two thirds length of lemma/
+
+#838. lemma surface <roughness> <<ordered>>/
+       1. smooth <<implicit>>/
+       2. granulose/
+       3. asperulous/
+       4. scaberulous/
+       5. scabrous/
+       6. papillose/
+       7. tuberculate/
+       8. striate/
+       9. reticulate/
+       10. punctate/
+       11. pitted/
+
+#839. lemma surface rough <where>/
+       1. generally <<implicit>>/
+       2. above/
+       3. in the middle/
+       4. below/
+       5. on veins/
+       6. between veins/
+       7. in lines <unrelated to veins>/
+
+#840. lemma surface <relief>/
+       1. unwrinkled <<implicit>>/
+       2. rugulose/
+       3. rugose/
+       4. corrugate/
+
+#841. lemma surface <presence of longitudinal grooves (other than ribs) or
+          splits>/
+       1. without grooves <<implicit>>/
+       2. with a median groove/
+       3. with 2 longitudinal grooves/
+       4. with longitudinal folds/
+       5. eventually splitting/
+
+#842. lemma surface <presence of germination flap>/
+       1. without germination flap/
+       2. with distinct germination flap/
+
+#843. lemma surface <general indumentum> <<ordered>>/
+       1. glabrous <except for midvein, marginal, special & apical indumentum>
+          <<implicit>>/
+       2. puberulous/
+       3. pubescent/
+       4. pilose/
+       5. hirsute/
+       6. villous/
+       7. plumose/
+       8. hispidulous/
+       9. hispid/
+       10. setose/
+       11. woolly/
+
+#844. lemma surface hairy <extent of general indumentum>/
+       1. all along <<implicit>>/
+       2. above <excluding apical ornament>/
+       3. in the middle/
+       4. below/
+       5. at base/
+
+#845. lemma surface hairy <where>/
+       1. on back <<implicit>>/
+       2. on veins <recorded under margins if veins marginal>/
+       3. between veins/
+       4. between veins but central interspaces glabrous/
+       5. in lines <unrelated to veins>/
+
+#846. lemma surface with <hair type>/
+       1. simple hairs <<implicit>>/
+       2. tubercle-based hairs/
+       3. reflexed hairs/
+       4. semicircular hairs/
+       5. hooked hairs/
+       6. capitate hairs/
+       7. clavate hairs/
+       8. turgid hairs/
+
+#847. lemma surface <special indumentum - tufts>/
+       1. without hair tufts <<implicit>>/
+       2. with basal hair tufts near margin/
+       3. with marginal hair tufts <above base>/
+       4. with tufts of hair on midvein/
+       5. with a transverse row of hair tufts/
+       6. with 2 transverse rows of hair tufts/
+       7. with a transverse fringe of hair/
+       8. with conspicuous apical hairs <but if a ring see corona appendage>/
+
+#848. lemma surface bearing <number of hair tufts>/
+       hair tufts in all/
+
+#849. lemma inner surface <indumentum>/
+       1. glabrous/
+       2. scabrous/
+       3. pubescent/
+       4. pilose/
+       5. transversely fringed/
+
+#850. lemma margins <fusion>/
+       1. free <<implicit>>/
+       2. connate below/
+       3. closed except for an apical pore/
+       4. fused below to those of opposing floret forming an urn/
+
+#851. lemma margins with <extent connate below>/
+       of their length connate/
+
+#852. lemma margins <vernation - if free>/
+       1. flat <<implicit>>/
+       2. interlocking with palea margins/
+       3. involute/
+       4. convolute/
+
+#853. lemma margins <coverage of palea>/
+       1. exposing palea <<implicit>>/
+       2. covering most of palea/
+       3. interlocking with palea keels/
+
+#854. lemma margins <roughness>/
+       1. without distinctive roughness <<implicit>>/
+       2. scaberulous/
+       3. scabrous/
+       4. spinulose/
+       5. tuberculate/
+
+#855. lemma margins <hairiness>/
+       1. eciliate <not distinct from general indumentum> <<implicit>>/
+       2. ciliolate/
+       3. ciliate/
+       4. setose/
+       5. pubescent/
+       6. pilose/
+       7. villous/
+       8. woolly/
+
+#856. lemma margins hairy <extent of hairiness>/
+       1. all along <<implicit>>/
+       2. above/
+       3. in the middle/
+       4. below/
+       5. at base/
+
+#857. lemma hairs <colour of principal hairs>/
+       1. white/
+       2. grey/
+       3. yellow/
+       4. tawny/
+       5. dark brown/
+       6. red/
+       7. purple/
+       8. black/
+
+#858. lemma hairs <length of principal hairs>/
+       mm long/
+
+#859. lemma apex <incision>/
+       1. entire <<implicit>>/
+       2. erose/
+       3. dentate/
+       4. lobed/
+
+#860. lemma apex <number of primary teeth or lobes>/
+       -fid/
+
+#861. lemma apex <equality of lobes>/
+       1. with simple equal lobes <<implicit>>/
+       2. with outer lobes longer/
+       3. with outer lobes shorter/
+       4. with central lobe bidentate/
+       5. with lateral lobes bidentate/
+       6. with irregular lobes/
+
+#862. lemma apex with <shape of lobes>/
+       1. filiform lobes/
+       2. linear lobes/
+       3. lanceolate lobes/
+       4. oblong lobes/
+       5. ovate lobes/
+       6. triangular lobes/
+       7. heterogeneous lobes/
+       8. outer lobes winged/
+       9. margins splitting into evanescent supplementary lobes/
+
+#863. lemma with lobes <length>/
+       mm long/
+
+#864. lemma incised <fraction of lemma length>/
+       of lemma length/
+
+#865. lemma apex <shape of apex or tip of lobes> <<ordered>>/
+       1. emarginate/
+       2. truncate/
+       3. obtuse/
+       4. acute/
+       5. acuminate/
+       6. attenuate/
+       7. setaceously attenuate/
+       8. cuspidate/
+       9. apiculate/
+       10. rostrate/
+       11. caudate/
+
+#866. lemma apex <ornamentation - for long hairs see surface tufts or apical
+          appendage>/
+       1. without ornament <<implicit>>/
+       2. cucullate/
+       3. laterally pinched/
+       4. with a little green crest/
+       5. with a green spot/
+       6. with a shallow excavation/
+       7. papillose/
+       8. tuberculate/
+       9. scabrous/
+       10. pubescent/
+       11. woolly/
+
+#867. lemma apex <presence of appendage>/
+       1. without appendage <<implicit>>/
+       2. with an annular corona <but no membranous extension>/
+       3. with a membranous corona/
+       4. surmounted by a ring of hairs <on corona when present>/
+       5. with a short cylindrical neck <supporting awn though not part of its
+          column - Stipa>/
+       6. with a conical beak/
+       7. with a trilobate appendage/
+       8. with outer margin prolonged as a hyaline appendage/
+
+#868. lemma apex with corona <width>/
+       mm wide/
+
+#869. lemma apex with this appendage <length of corona, neck or lateral
+          extension>/
+       mm long/
+
+#870. lemma apex <presence of awn>/
+       1. muticous <<implicit>>/
+       2. pungent/
+       3. mucronate <may be further described using awn characters>/
+       4. awned/
+       5. awned only on distal spikelets/
+
+#871. lemma apex <number of awns>/
+       -awned/
+
+#872. principal lemma awn <eccentricity>/
+       1. median <<implicit>>/
+       2. eccentric/
+
+#873. principal lemma awn < position>/
+       1. apical <<implicit>>/
+       2. subapical/
+       3. from a sinus/
+       4. dorsal/
+
+#874. principal lemma awn arising <origin of dorsal awn as fraction of lemma
+          length>/
+       way up back of lemma/
+
+#875. principal lemma awn <overall shape>/
+       1. straight <<implicit>>/
+       2. curved/
+       3. flexuous/
+       4. coiled <open coils, not a twisted column>/
+       5. hooked <at tip>/
+       6. geniculate/
+       7. bigeniculate/
+       8. 3-branched <laterals inserted above, not on, lemma tip>/
+
+#876. principal lemma awn <flexion relative to lemma or column>/
+       1. ascending <<implicit>>/
+       2. spreading/
+       3. reflexed <through an angle>/
+       4. recurved <with a semicircular bend> at base of limb/
+       5. briefly coiled <or twisted> at base of limb <not a column, Aristida>/
+       6. twisted together <with others in panicle>/
+
+#877. principal lemma awn <presence of basal constriction,expansion or fusion>/
+       1. simple at base <<implicit>>/
+       2. pseudo-articulate at base <persistent but with apparent abscission
+          line>/
+       3. pseudo-articulate across body of lemma/
+       4. constricted at base/
+       5. conically expanded at base/
+       6. adnate to lemma lobes at base/
+
+#878. principal lemma awn <basal cross-section>/
+       1. subterete below/
+       2. triquetrous below/
+       3. flat below/
+
+#879. principal lemma awn <stiffness>/
+       1. stiff/
+       2. flexible/
+       3. filiform/
+
+#880. principal lemma awn <nature of tip>/
+       1. attenuate <<implicit>>/
+       2. pungent/
+       3. with scarcely tapering limb/
+       4. with clavate limb/
+       5. with thread-like crinkled tip/
+
+#881. principal lemma awn <length including column>/
+       mm long overall/
+
+#882. principal lemma awn <length as fraction of lemma>/
+       length of lemma/
+
+#883. principal lemma awn with <length of limb above column or distal bend>/
+       mm long limb/
+
+#884. principal lemma awn <exsertion>/
+       1. clearly exserted from spikelet <<implicit>>/
+       2. not or scarcely exserted from spikelet/
+
+#885. principal lemma awn <presence of column>/
+       1. without a column <<implicit>>/
+       2. with a straight or slightly twisted column/
+       3. with twisted column/
+
+#886. principal lemma awn <persistence>/
+       1. persistent <<implicit>>/
+       2. deciduous/
+
+#887. principal lemma awn abscissing/
+       1. across body of lemma/
+       2. from top of lemma/
+       3. from top of column/
+
+#888. principal lemma awn limb <roughness> <<ordered>>/
+       1. smooth/
+       2. scaberulous/
+       3. scabrous/
+       4. retrorsely scabrous/
+
+#889. principal lemma awn limb <indumentum> <<ordered>>/
+       1. glabrous <<implicit>>/
+       2. puberulous/
+       3. pubescent/
+       4. ciliate/
+       5. hirsute/
+       6. plumose/
+
+#890. principal lemma awn with <length of limb hairs>/
+       mm long hairs/
+
+#891. principal lemma awn <extent of limb hairs>/
+       1. hairy throughout limb <<implicit>>/
+       2. glabrescent towards tip/
+       3. glabrescent towards base of limb/
+       4. glabrescent towards tip and base of limb/
+
+#892. middle segment of lemma awn <length - if bigeniculate>/
+       mm long/
+
+#893. middle segment of lemma awn <indumentum> <<ordered>>/
+       1. glabrous <<implicit>>/
+       2. hispidulous/
+       3. puberulous/
+       4. pubescent/
+       5. ciliate/
+       6. hirtellous/
+       7. hirsute/
+       8. plumose/
+
+#894. column of lemma awn <length>/
+       mm long/
+
+#895. column of lemma awn <length as fraction of limb>/
+       length of limb/
+
+#896. column of lemma awn <roughness>/
+       1. smooth/
+       2. scabrous/
+
+#897. column of lemma awn <general indumentum> <<ordered>>/
+       1. glabrous <except for top> <<implicit>>/
+       2. hispidulous/
+       3. puberulous/
+       4. pubescent/
+       5. ciliate/
+       6. hirtellous/
+       7. hirsute/
+       8. plumose/
+
+#898. column of lemma awn hairy <where>/
+       1. generally <<implicit>>/
+       2. on upper part/
+       3. on lower part/
+       4. on the spiral/
+
+#899. column of lemma awn <presence of apical hairs at junction with limb>/
+       1. without distinct apical hairs <<implicit>>/
+       2. with pubescent apex/
+       3. with bearded apex/
+
+#900. column of lemma awn with <length of hairs>/
+       mm long hairs/
+
+#901. lateral lemma awns <presence>/
+       1. absent <<implicit>>/
+       2. present/
+
+#902. lateral lemma awns arising <origin - if principal unbranched>/
+       1. on <unlobed> apex <<implicit>>/
+       2. on apex of lobes/
+       3. on inner edge of lobes/
+       4. on outer edge of lobes/
+       5. between lobes/
+       6. on margin of lemma <as an awn-like lobe>/
+       7. dorsally/
+
+#903. lateral lemma awns <flexure relative to principal>/
+       1. ascending <principal not spreading>/
+       2. spreading less than principal/
+       3. spreading as much as principal/
+       4. spreading more than principal/
+       5. wrapped around principal/
+       6. gyrate <twisted together at base>/
+
+#904. lateral lemma awns <persistence - if principal unbranched>/
+       1. persistent <<implicit>>/
+       2. deciduous with the principal/
+
+#905. lateral lemma awns <length>/
+       mm long/
+
+#906. lateral lemma awns <exsertion>/
+       1. exserted/
+       2. equalling glumes/
+       3. enclosed by glumes/
+
+#907. lateral lemma awns <equality>/
+       1. longer than principal/
+       2. subequal to principal/
+       3. shorter than principal/
+       4. of irregular length/
+
+#908. lateral lemm awns <length as fraction of principal>/
+       length of principal/
+
+#909. lateral lemma awns of <equality of width>/
+       1. equal width <<implicit>>/
+       2. unequal width/
+
+#910. lateral lemma awns <indumentum>/
+       1. glabrous <<implicit>>/
+       2. ciliolate/
+       3. ciliate/
+       4. plumose/
+
+#911. palea <presence>/
+       1. present <<implicit>>/
+       2. absent or minute/
+
+#912. palea <fusion>/
+       1. free <<implicit>>/
+       2. fused below to rhachilla internode/
+       3. fused below to lemma margins/
+
+#913. palea <gape>/
+       1. embraced by lemma <tip may protrude apically> <<implicit>>/
+       2. inturned at apex/
+       3. reflexed at apex/
+       4. separating from lemma above/
+       5. gaping/
+       6. readily splitting down midline/
+
+#914. palea <outline> <<ordered>>/
+       1. linear/
+       2. lanceolate/
+       3. elliptic/
+       4. oblong/
+       5. ovate/
+       6. orbicular/
+       7. obovate/
+       8. oblanceolate/
+
+#915. palea with flaps <width relative to space between keels>/
+       1. narrower than body/
+       2. as wide as body/
+       3. wider than body/
+
+#916. palea with <presence of flap auricles>/
+       1. entire flaps <<implicit>>/
+       2. auriculate flaps/
+
+#917. palea <vernation>/
+       1. not rolled <<implicit>>/
+       2. involute/
+       3. tightly convolute around flower/
+
+#918. palea <straightness>/
+       1. straight <<implicit>>/
+       2. with a basal protruberance/
+       3. bowed outwards/
+       4. falcate/
+
+#919. palea <length>/
+       mm long/
+
+#920. palea <fraction of lemma length>/
+       length of lemma/
+
+#921. palea <consistency>/
+       1. hyaline/
+       2. membranous <<implicit>>/
+       3. chartaceous/
+       4. scarious/
+       5. cartilaginous/
+       6. coriaceous/
+       7. indurate/
+       8. spongy/
+
+#922. palea <variation in consistency>/
+       1. of uniform consistency/
+       2. thinner above/
+       3. thinner on margins/
+
+#923. palea <number of veins, including keels>/
+       -veined/
+
+#924. palea <presence of keels>/
+       1. without keels/
+       2. 1-keeled/
+       3. 2-keeled but the uppermost without keels/
+       4. 2-keeled <<implicit>>/
+
+#925. palea keels <whether extending to apex>/
+       1. extending to apex/
+       2. falling well short of apex/
+
+#926. palea keels <spacing>/
+       1. separated <<implicit>>/
+       2. approximate/
+       3. contiguous above a sulcus/
+       4. distant but flanking a median depression/
+
+#927. palea keels <width>/
+       mm apart/
+
+#928. palea keels <thickening>/
+       1. unthickened <<implicit>>/
+       2. thickened/
+
+#929. palea keels <presence of wings>/
+       1. wingless <<implicit>>/
+       2. winged/
+
+#930. palea keels <how much winged>/
+       1. narrowly winged/
+       2. conspicuously winged/
+
+#931. palea keels with <wing type>/
+       1. entire wings <<implicit>>/
+       2. erose wings/
+       3. toothed wings/
+       4. clavate appendages on wings/
+       5. each wing 1-awned/
+       6. each wing 2-awned/
+
+#932. palea keels <roughness> <<ordered>>/
+       1. smooth <<implicit>>/
+       2. scaberulous/
+       3. scabrous/
+       4. spinulose/
+       5. tuberculate/
+
+#933. palea keels <indumentum> <<ordered>>/
+       1. eciliate <<implicit>>/
+       2. puberulous/
+       3. pubescent/
+       4. ciliolate/
+       5. ciliate/
+       6. pectinate/
+       7. villous/
+       8. woolly/
+       9. with a crest of hairs/
+
+#934. palea keels adorned <where; refers to longer enations when more than 1
+          kind <but clarify in comment>>/
+       1. all along/
+       2. above/
+       3. in the middle/
+       4. below/
+
+#935. palea keels with <extent of enations as fraction of palea length>/
+       of their length adorned/
+
+#936. palea keels adorned <density>/
+       1. densely/
+       2. sparsely/
+
+#937. palea keels with <number of prickles or hairs>/
+       enations per keel/
+
+#938. palea keels with hairs <length of hairs>/
+       mm long/
+
+#939. palea surface <roughness> <<ordered>>/
+       1. smooth/
+       2. granular/
+       3. asperulous/
+       4. scaberulous/
+       5. scabrous/
+       6. papillose/
+       7. tuberculate/
+       8. rugose/
+       9. pitted/
+
+#940. palea surface <indumentum - excluding keels and apex> <<ordered>>/
+       1. glabrous <<implicit>>/
+       2. puberulous/
+       3. pubescent/
+       4. pilose/
+       5. hirsute/
+       6. villous/
+       7. woolly/
+
+#941. palea surface hairy <where>/
+       1. on back/
+       2. on flanks/
+       3. on margins/
+       4. in a transverse fringe/
+
+#942. palea surface hairy <extent>/
+       1. all along/
+       2. above/
+       3. in the middle/
+       4. below/
+       5. at base/
+
+#943. palea surface with <hair type>/
+       1. simple hairs <<implicit>>/
+       2. hooked hairs/
+       3. turgid hairs/
+
+#944. palea apex <incision>/
+       1. entire/
+       2. erose/
+       3. dentate/
+       4. lobed/
+       5. divided to base/
+
+#945. palea apex <number of teeth>/
+       -fid/
+
+#946. palea apex <shape of apex or teeth> <<ordered>>/
+       1. emarginate/
+       2. truncate/
+       3. obtuse/
+       4. acute/
+       5. acuminate/
+       6. cuspidate/
+       7. caudate/
+
+#947. palea apex <ornamentation>/
+       1. undifferentiated <<implicit>>/
+       2. glabrous/
+       3. pubescent/
+       4. ciliate/
+       5. papillose/
+       6. tuberculate/
+       7. scaberulous/
+       8. excavated/
+       9. with green spots/
+
+#948. palea apex <presence of awn>/
+       1. muticous <<implicit>>/
+       2. with excurrent keel veins/
+       3. awned/
+
+#949. palea awns <length of apical awns>/
+       mm long/
+
+#950. palea awns <indumentum>/
+       1. glabrous <<implicit>>/
+       2. hairy/
+
+#951. rhachilla extension <length beyond distal fertile floret, either barren or
+          supporting modified sterile florets>/
+       mm long/
+
+#952. rhachilla extension <length as fraction of fertile floret>/
+       length of fertile floret/
+
+#953. rhachilla extension <curvature>/
+       1. straight/
+       2. bent/
+
+#954. rhachilla extension <indumentum>/
+       1. glabrous <<implicit>>/
+       2. sparsely hairy/
+       3. pubescent/
+       4. pilose/
+       5. villous/
+
+#955. rhachilla extension hairy <where>/
+       1. throughout/
+       2. throughout but longer above/
+       3. at tip <only>/
+       4. above/
+       5. in the middle/
+       6. below/
+
+#956. rhachilla extension with <hair length>/
+       mm long hairs/
+
+#957. apical sterile florets <resemblance to fertile>/
+       1. resembling fertile though underdeveloped <<rest of section
+          inapplicable>>/
+       2. distinct from fertile <and variously modified> <<implicit>>/
+
+#958. apical sterile florets <number, if distinguishable>/
+       in number/
+
+#959. apical sterile florets <abscission - if spikelet breaks up>/
+       1. deciduous with fertile floret <<implicit>>/
+       2. abscissing from fertile floret/
+
+#960. apical sterile florets <similarity>/
+       1. similar <but diminishing in size, or single> <<implicit>>/
+       2. dissimilar <the first (lowest) different and separate>/
+
+#961. first apical floret <sex>/
+       1. male/
+       2. barren/
+
+#962. first apical floret <outline> <<ordered>>/
+       1. linear/
+       2. lanceolate/
+       3. elliptic/
+       4. oblong/
+       5. ovate/
+       6. orbicular/
+       7. flabellate/
+       8. cuneate/
+
+#963. first apical floret <length>/
+       mm long/
+
+#964. first apical floret <indumentum>/
+       1. glabrous/
+       2. pubescent/
+       3. pilose/
+       4. hirsute/
+       5. villous/
+
+#965. first apical floret <presence of awns>/
+       1. muticous/
+       2. mucronate/
+       3. awned/
+
+#966. apical sterile florets <remainder when first different - sex>/
+       1. male/
+       2. barren/
+
+#967. apical sterile florets <clumping>/
+       1. separate <or single> <<implicit>>/
+       2. in a clump/
+
+#968. apical sterile florets with internodes <length - when 2 or more florets>/
+       mm long between them/
+
+#969. apical sterile florets <outline of lemma or clump> <<ordered>>/
+       1. rudimentary <the body small or indefinitely distinguished from the awn
+          it bears>/
+       2. linear/
+       3. lanceolate/
+       4. elliptic/
+       5. oblong/
+       6. ovate/
+       7. orbicular/
+       8. flabellate/
+       9. cuneate/
+
+#970. apical sterile florets <length of body>/
+       mm long/
+
+#971. apical sterile lemmas <presence of wings>/
+       1. wingless <<implicit>>/
+       2. winged on keel/
+       3. winged on margins/
+
+#972. apical sterile lemmas <indumentum of body>/
+       1. glabrous <<implicit>>/
+       2. scabrous/
+       3. pubescent/
+       4. pilose <ciliate>/
+
+#973. apical sterile lemmas adorned <extent of hairs>/
+       1. all over <<implicit>>/
+       2. on keel/
+       3. on margins/
+
+#974. apical sterile lemmas <incision>/
+       1. entire <<implicit>>/
+       2. dentate/
+       3. lobed/
+
+#975. apical sterile lemmas <number of teeth or lobes>/
+       -fid/
+
+#976. apical sterile lemmas <shape of apex> <<ordered>>/
+       1. emarginate/
+       2. truncate/
+       3. obtuse/
+       4. acute/
+       5. acuminate/
+       6. attenuate/
+       7. cuspidate/
+
+#977. apical sterile lemmas <presence of awns, at least on distal floret>/
+       1. muticous <<implicit>>/
+       2. mucronate/
+       3. awned/
+
+#978. apical sterile lemmas <number of awns on each>/
+       -awned/
+
+#979. apical sterile lemma awns <position>/
+       1. terminal <from apex or sinus> <<implicit>>/
+       2. subapical/
+       3. dorsal/
+
+#980. apical sterile lemma awns <straightness>/
+       1. straight <<implicit>>/
+       2. geniculate/
+       3. hooked/
+
+#981. apical sterile lemma awns <equality if more than 1>/
+       1. equal/
+       2. unequal/
+
+#982. apical sterile lemma awns <length of longest>/
+       mm long/
+
+#983. apical sterile lemma awns <indumentum>/
+       1. glabrous <<implicit>>/
+       2. retrorsely scabrous/
+       3. ciliate/
+
+#984. apical sterile lemma awns <total sterile awns(incl first), if
+          distinguishable>/
+       per spikelet in number/
+
+#985. lodicules <number>/
+       1. absent/
+       2. 1/
+       3. 2/
+       4. 3/
+       5. several/
+       6. represented by a ring of hairs/
+
+#986. lodicules <union>/
+       1. free <<implicit>>/
+       2. united/
+       3. adnate to palea/
+
+#987. lodicules <outline>/
+       1. linear/
+       2. lanceolate/
+       3. elliptic/
+       4. oblong/
+       5. orbicular/
+       6. ovate/
+       7. obovate/
+       8. oblanceolate/
+       9. cuneate/
+
+#988. lodicules <length>/
+       mm long/
+
+#989. lodicules <consistency>/
+       1. membranous <above>/
+       2. scarious/
+       3. coriaceous/
+       4. fleshy <throughout>/
+
+#990. lodicules <presence of veins>/
+       1. veinless/
+       2. veined/
+
+#991. lodicules <hairiness>/
+       1. glabrous <<implicit>>/
+       2. ciliate/
+
+#992. lodicules hairy <where>/
+       1. across the apex/
+       2. on the corners/
+
+#993. lodicules <incision>/
+       1. entire/
+       2. with a small lateral lobe/
+       3. 2-toothed/
+       4. irregularly toothed/
+
+#994. lodicules <shape of apex or lobes>/
+       1. emarginate/
+       2. truncate/
+       3. obtuse/
+       4. acute/
+       5. acuminate/
+
+#995. anthers <number. <Diclinous male spikelets entered here, but need
+          rearranging in description. Comment if sterile florets different>>/
+
+#996. anthers <shape>/
+       1. linear/
+       2. oblong/
+       3. subglobose/
+
+#997. anthers <attachment to filament>/
+       1. basifixed/
+       2. medifixed/
+
+#998. anthers <length>/
+       mm long/
+
+#999. anthers <aerial cleistogamy; see also cleistogenes>/
+       1. retained within floret/
+       2. eventually exserted/
+
+#1000. anthers <dehiscence>/
+       1. dehiscent by a longitudinal slit/
+       2. dehiscent by a subapical slit/
+       3. indehiscent <with deformed pollen>/
+
+#1001. anthers <colour>/
+       1. pallid/
+       2. yellow/
+       3. green/
+       4. brown/
+       5. orange/
+       6. red/
+       7. purple/
+       8. black/
+
+#1002. anther tip <ornametation>/
+       1. smooth/
+       2. apiculate/
+       3. penicillate/
+       4. pubescent/
+       5. with extended connective <between anthers>/
+
+#1003. filaments <union>/
+       1. free <<implicit>>/
+       2. united in groups/
+       3. united in a tube/
+
+#1004. filaments united for <extent of union>/
+       of their length/
+
+#1005. filaments <length>/
+       mm long/
+
+#1006. staminodes <presence <refers to female florets if diclinous>>/
+       1. absent <<implicit>>/
+       2. present/
+
+#1007. staminodes <length>/
+       mm long/
+
+#1008. stigmas <number>/
+       /
+
+#1009. stigmas <whether protogynous>/
+       1. protandrous/
+       2. protogynous/
+
+#1010. stigmas <exsertion>/
+       1. retained within floret/
+       2. laterally exserted/
+       3. terminally exserted/
+       4. terminally exserted and tangled/
+
+#1011. stigmas <colour>/
+       1. white/
+       2. yellow/
+       3. brown/
+       4. red/
+       5. purple/
+
+#1012. stigmas <indumentum>/
+       1. plumose <<implicit>>/
+       2. sparsely hairy/
+       3. pubescent/
+       4. papillose/
+       5. retrorsely barbellate/
+
+#1013. styles <length>/
+       mm long/
+
+#1014. styles <union>/
+       1. free to the base/
+       2. connate below/
+
+#1015. styles <fraction of length connate>/
+       of their length connate/
+
+#1016. ovary <presence of apical appendage>/
+       1. unappendaged <<implicit>>/
+       2. with a fleshy appendage below style insertion/
+       3. with a fleshy appendage above style insertion/
+       4. umbonate <best seen in bamboos at the semi-mature stage>/
+       5. beaked/
+       6. with a steeple-like appendage/
+
+#1017. ovary <indumentum>/
+       1. glabrous/
+       2. with a few apical hairs/
+       3. pubescent on apex/
+       4. pubescent all over/
+
+#1018. caryopsis with <type of pericarp>/
+       1. adherent pericarp/
+       2. tardily free pericarp <cistoid>/
+       3. free soft pericarp <follicoid>/
+       4. free brittle pericarp <nucoid>/
+       5. fleshy pericarp <baccoid>/
+
+#1019. caryopsis <outline>/
+       1. linear/
+       2. lanceolate/
+       3. fusiform/
+       4. ellipsoid/
+       5. oblong/
+       6. ovoid/
+       7. orbicular/
+       8. reniform/
+       9. obovoid/
+       10. oblanceolate/
+       11. square/
+
+#1020. caryopsis <compression, viewed from embryo>/
+       1. isodiametric <in section>/
+       2. laterally compressed/
+       3. dorsally compressed <slightly>/
+       4. <dorsally> flattened/
+
+#1021. caryopsis <transverse section>/
+       1. biconvex/
+       2. plano-convex/
+       3. concavo-convex/
+       4. trigonous/
+       5. quadrangular/
+
+#1022. caryopsis <presence of basal stipe>/
+       1. estipitate/
+       2. stipitate/
+
+#1023. caryopsis <presence of hilar groove>/
+       1. without sulcus/
+       2. sulcate on hilar side/
+
+#1024. caryopsis <exposure>/
+       1. concealed by floret/
+       2. exposed between gaping lemma and palea at maturity/
+
+#1025. caryopsis <length>/
+       mm long/
+
+#1026. caryopsis <colour>/
+       1. pallid/
+       2. grey/
+       3. yellow/
+       4. green/
+       5. light brown/
+       6. dark brown/
+       7. red/
+       8. purple/
+       9. black/
+
+#1027. caryopsis <roughness>/
+       1. smooth/
+       2. granular/
+       3. striate/
+       4. reticulate/
+       5. rugose/
+       6. pitted/
+
+#1028. caryopsis <indumentum>/
+       1. glabrous/
+       2. hairy at apex/
+       3. hairy all over/
+
+#1029. caryopsis <shape of apex>/
+       1. emarginate/
+       2. truncate/
+       3. obtuse/
+       4. acute/
+       5. acuminate/
+       6. cuspidate/
+       7. apiculate/
+
+#1030. caryopsis apex <presence of apical appendage>/
+       1. unappendaged/
+       2. fleshy/
+       3. umbonate/
+       4. rostrate/
+       5. bicornate/
+
+#1031. embryo <length as fraction of caryopsis>/
+       length of caryopsis/
+
+#1032. embryo <basal projection>/
+       1. not projecting/
+       2. projecting below grain/
+
+#1033. embryo with <position of plumule>/
+       1. apical plumule/
+       2. lateral plumule/
+       3. basal plumule/
+
+#1034. hilum <shape>/
+       1. punctiform/
+       2. elliptic/
+       3. linear <and straight>/
+       4. curved <and elongated>/
+
+#1035. hilum <length as fraction of caryopsis>/
+       length of caryopsis/
+
+#1036. endosperm <consistency>/
+       1. flinty <translucent>/
+       2. farinose/
+       3. soft/
+       4. liquid/
+       5. evanescent/
+
+#1037. disseminule comprising a/
+       1. seed/
+       2. caryopsis/
+       3. caryopsis and palea/
+       4. floret/
+       5. floret with sterile lemmas/
+       6. group of fertile florets/
+       7. spikelet/
+       8. rhachis internode <one internode bearing 1 or more spikelets>/
+       9. branch <including racemelet, cluster and multiple internodes>/
+       10. inflorescence/
+       11. synflorescence <one or more inflorescences with subtending leaves>/
+
+#1038. secondary disseminule/
+       1. none <<implicit>>/
+       2. a floret/
+       3. a spikelet/
+       4. a branch/
+       5. an inflorescence/
+
+#1039. male inflorescence <location>/
+       1. terminal/
+       2. axillary/
+
+#1040. male inflorescence <similarity to female <add comment after character if
+          gynodioeciously bisexual>>/
+       1. similar to female/
+       2. unlike female/
+
+#1041. male inflorescence <facies>/
+       1. a spathate compound head/
+       2. a panicle/
+       3. a single raceme/
+       4. of subdigitate racemes/
+       5. of racemes along a central axis/
+       6. of few spikelets/
+
+#1042. male inflorescence with <whether racemes pectinate>/
+       1. non-pectinate racemes <<implicit>>/
+       2. pectinate racemes/
+
+#1043. male spikelets <similarity to female>/
+       1. resembling female/
+       2. similar to female but less developed/
+       3. distinct from female/
+
+#1044. male spikelets with <pedicel fusion - if monoecious with male segregated
+          (mostly Andropogoneae); else see principal pedicel>/
+       1. free pedicels/
+       2. pedicels fused to rhachis/
+
+#1045. male spikelets <number of male florets>/
+       flowered/
+
+#1046. male spikelets <presence of rhachilla extension>/
+       1. without rhachilla extension <underdeveloped florets may be present>
+          <<implicit>>/
+       2. with barren rhachilla extension/
+       3. with rudimentary <modified> apical florets/
+
+#1047. male spikelets <persistence>/
+       1. persistent/
+       2. separately deciduous/
+       3. all deciduous together <but separate from female, when more than 1>/
+       4. deciduous with the fertile/
+
+#1048. male spikelets <outline> <<ordered>>/
+       1. linear/
+       2. lanceolate/
+       3. elliptic/
+       4. oblong/
+       5. ovate/
+       6. obovate/
+       7. oblanceolate/
+       8. cuneate/
+
+#1049. male spikelets <length>/
+       mm long/
+
+#1050. male spikelets <indumentum>/
+       1. glabrous/
+       2. hairy/
+
+#1051. male spikelets <shape of apex>/
+       1. obtuse/
+       2. acute/
+       3. dentate/
+
+#1052. male spikelet glumes <presence>/
+       1. absent/
+       2. 1/
+       3. 2/
+
+#1053. male spikelet glumes <outline> <<ordered>>/
+       1. subulate/
+       2. linear/
+       3. lanceolate/
+       4. elliptic/
+       5. oblong/
+       6. triangular/
+       7. ovate/
+       8. orbicular/
+       9. oblate/
+       10. obovate/
+       11. cuneate/
+
+#1054. male spikelet glumes <length>/
+       mm long/
+
+#1055. male spikelet glumes/
+       1. membranous/
+       2. coriaceous/
+
+#1056. male spikelet glumes <presence of wing>/
+       1. wingless/
+       2. winged/
+
+#1057. male spikelet glumes <vein number>/
+       -veined/
+
+#1058. male spikelet glumes <presence of awn>/
+       1. muticous/
+       2. awned/
+
+#1059. male spikelet glumes with <awn length>/
+       mm long awn/
+
+#1060. male spikelet lemma <length>/
+       mm long/
+
+#1061. male spikelet lemma <number of veins>/
+       -veined/
+
+#1062. male spikelet lemma <presence of cross-veins>/
+       1. without cross-veins/
+       2. with cross-veins/
+
+#1063. male spikelet lemma <presence of awn>/
+       1. muticous/
+       2. awned/
+
+#1064. male spikelet lemma with <length of awn>/
+       mm long awn/
+
+#1065. cleistogenes <presence of concealed spikelets of different appearance>/
+       1. absent <but aerial cleistogamy may occur> <<implicit>>/
+       2. present/
+
+#1066. cleistogenes <location>/
+       1. in upper sheaths/
+       2. in lower sheaths/
+       3. underground <rhizanthogenes>/
+
+#1067. cleistogenes <number of florets>/
+       -flowered/
+
+#1068. cleistogenes <length>/
+       mm long/
+
+#1069. vegetative proliferation <of spikelet>/
+       1. absent <<implicit>>/
+       2. occurs/
+
+#1070. vivipary <germination on culm>/
+       1. absent <<implicit>>/
+       2. occurs/
+
+#1071. <continental distribution>/
+       1. Europe/
+       2. Africa/
+       3. Temperate Asia/
+       4. Tropical Asia/
+       5. Australasia/
+       6. Pacific/
+       7. North America/
+       8. South America/
+       9. Antarctica/
+
+#1072. Europe: <regional distribution <TDWG scheme>>/
+       1. northern <10>/
+       2. central <11>/
+       3. southwestern <12>/
+       4. southeastern <13>/
+       5. eastern <14>/
+
+#1073. Africa: <regional distribution>/
+       1. north <20>/
+       2. Macaronesia <21>/
+       3. west tropical <22>/
+       4. west-central tropical <23>/
+       5. northeast tropical <24>/
+       6. east tropical <25>/
+       7. southern tropical <26>/
+       8. south <27>/
+       9. middle Atlantic ocean <28>/
+       10. western Indian ocean <29>/
+
+#1074. Asia-temperate: <regional distribution>/
+       1. Siberia <30>/
+       2. Soviet far east <31>/
+       3. Soviet Middle Asia <32>/
+       4. Caucasus <33>/
+       5. western Asia <34>/
+       6. Arabia <35>/
+       7. China <36>/
+       8. Mongolia <37>/
+       9. eastern Asia <38>/
+
+#1075. Asia-tropical: <regional distribution>/
+       1. India <40>/
+       2. Indo-China <41>/
+       3. Malesia <42>/
+       4. Papuasia <43>/
+
+#1076. Australasia: <regional distribution>/
+       1. Australia <50>/
+       2. New Zealand <51>/
+
+#1077. Pacific: <regional distribution>/
+       1. southwestern <60>/
+       2. south-central <61>/
+       3. northwestern <62>/
+       4. north-central <63>/
+
+#1078. North America: <regional distribution>/
+       1. Subarctic <70>/
+       2. western Canada <71>/
+       3. eastern Canada <72>/
+       4. northwest USA <73>/
+       5. north-central USA <74>/
+       6. northeast USA <75>/
+       7. southwest USA <76>/
+       8. south-central USA <77>/
+       9. southeast USA <78>/
+       10. Mexico <79>/
+
+#1079. South America: <regional distribution>/
+       1. Mesoamericana <80>/
+       2. Caribbean <81>/
+       3. northern South America <82>/
+       4. western South America <83>/
+       5. Brazil <84>/
+       6. southern South America <85>/
+
+#1080. Antarctic: <regional distribution>/
+       1. Subantarctic islands <90>/
+       2. Antarctic continent <91>/
+
+#1081. <presence in selected countries; TDWG 3-letter code>/
+
+#1082. <tribe> <<mandatory>>/
+       1. Andropogoneae/
+       2. Anomochloeae/
+       3. Aristideae/
+       4. Arundineae/
+       5. Arundinelleae/
+       6. Aveneae/
+       7. Bambuseae/
+       8. Brachyelytreae/
+       9. Brachypodieae/
+       10. Bromeae/
+       11. Brylkinieae/
+       12. Centotheceae/
+       13. Cynodonteae/
+       14. Diarrheneae/
+       15. Ehrharteae/
+       16. Eragrostideae/
+       17. Eriachneae/
+       18. Hainardieae/
+       19. Hubbardieae/
+       20. Isachneae/
+       21. Leptureae/
+       22. Lygeae/
+       23. Meliceae/
+       24. Micraireae/
+       25. Nardeae/
+       26. Olyreae/
+       27. Orcuttieae/
+       28. Oryzeae/
+       29. Paniceae/
+       30. Pappophoreae/
+       31. Parianeae/
+       32. Phaenospermateae/
+       33. Phareae/
+       34. Phyllorachideae/
+       35. Poeae/
+       36. Steyermarkochloeae/
+       37. Stipeae/
+       38. Streptochaeteae/
+       39. Streptogyneae/
+       40. Triticeae/
+
+#1083. <familiar synonyms in current use>/
+
+#1084. <references; notes clarifying taxonomic scope of species>/
+
+#1085. <source and year of coding or revision. <Intended as a rough guide to
+          reliability; no list of sources is currently maintained>>/
+
+#1086. entry changed by <<flag to denote changes made since last update.
+          Remember to alter source-of-coding character.>>/
+       1. adding new item/
+       2. replacing description/
+       3. changing name <<from what?>>/
+       4. deleting synonymous item <<this one, or its incorrect synonym?>>/
+
+#1087. <comment on diagnostic characters - level 1>/
+
+#1088. <comment on diagnostic characters - level 2>/
+
+#1089. <comment on diagnostic characters - level 3>/
+
+#1090. HTML Hyperlink <filename for tonath>/

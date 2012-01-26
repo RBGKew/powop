@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+     <changeSet author="ben" id="2012-01-24_01">
+        <comment>Load the grass data</comment>
+        <sql>
+            LOAD DATA LOCAL INFILE '/tmp/GrassChecklist.txt' INTO TABLE name FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (identifier, item);
+        </sql>
+    </changeSet>
+    <changeSet author="ben" id="2012-01-24_02">
+        <comment>Amend the identifiers</comment>
+        <sql>
+            UPDATE name SET identifier = concat('urn:kew.org:wcs:taxon:', identifier);
+        </sql>
+    </changeSet>
+    <changeSet author="ben" id="2012-01-24_03">
+        <comment>Export the taxon table</comment>
+        <sql>
+           SELECT name.identifier, ifnull(name,''), ifnull(authorship,'') INTO OUTFILE '/tmp/taxon.txt' FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' FROM grassbase.name LEFT JOIN uat.taxon ON (uat.taxon.identifier = grassbase.name.identifier);
+        </sql>
+    </changeSet>
+</databaseChangeLog>

@@ -931,6 +931,11 @@
 	       <artifactId>xbean-spring</artifactId>
 	       <version>3.6</version>
         </dependency>
+        <dependency>
+            <groupId>au.org.ala.delta</groupId>
+            <artifactId>delta-common</artifactId>
+            <version>1.0-BETA-emonocot</version>
+        </dependency>
         </dependencies>
     </dependencyManagement>
     <build>

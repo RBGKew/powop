@@ -66,11 +66,11 @@
 						    	<h5><spring:message code="${feature}"/></h5>
 						    	<p>${content.content}</p>
 						    	<c:if test="${not empty content.references }">
-						    	  <span class="citations">
+						    	  <ul class="citations">
 						    	    <c:forEach var="reference" items="${content.references}">
 						    	      <li><a href="#${reference.identifier}">${em:citekey(bibliography, reference)}</a></li>
 						    	    </c:forEach>
-						    	  </span>
+						    	  </ul>
 						    	</c:if>
 						  	</div>
 						</c:if>

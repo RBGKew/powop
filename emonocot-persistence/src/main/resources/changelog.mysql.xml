@@ -1908,4 +1908,11 @@
             <column name="publishedInAuthor" type="varchar(255)"/>
         </addColumn>
     </changeSet>
+    <changeSet id="2012-01-25_01" author="ben">
+      <comment>Add grassbase as an authority</comment>
+      <insert tableName="Source">
+        <column name="id" valueNumeric="4"/>
+        <column name="identifier" value="GrassBase"/>        
+      </insert>
+    </changeSet>
 </databaseChangeLog>
