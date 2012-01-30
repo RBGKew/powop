@@ -9,45 +9,31 @@
     <context:property-placeholder location="classpath:application.properties"/>
 	<context:annotation-config />
 
-	<batch:job id="OaiPmhTaxonHarvesting">
-	    <batch:description>Harvests records from an OAI-PMH repository</batch:description>
-		<batch:step id="listRecords">
-		    <batch:description>Call ListRecords on the resource, using the resumption token if available</batch:description>
-			<batch:tasklet ref="oaiPmhListRecordsTasklet" />
+	<batch:job id="SingleRecordTaxonHarvesting">
+	    <batch:description>Harvests a single record from an OAI-PMH Repository</batch:description>
+		<batch:step id="getRecord">
+		    <batch:description>Call GetRecord on the resource</batch:description>
+			<batch:tasklet ref="oaiPmhGetRecordTasklet" />
 			<batch:next on="FAILED" to="cleanupResources" />
 			<batch:next on="NO RECORDS MATCH" to="cleanupResources" />
-			<batch:next on="COMPLETED" to="processRecords" />
+			<batch:next on="COMPLETED" to="processRecord" />
 			<batch:listeners>
 				<batch:listener ref="oaiPmhClient" />
 			</batch:listeners>
 		</batch:step>
-		<batch:step id="processRecords">
-		    <batch:description>Process the records</batch:description>
+		<batch:step id="processRecord">
+		    <batch:description>Process the record</batch:description>
 			<batch:tasklet>
 				<batch:chunk reader="itemReader" processor="itemProcessor"
-					writer="itemWriter" commit-interval="10">
+					writer="itemWriter" commit-interval="1">
 			    </batch:chunk>
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="resumeHarvesting" />
+			<batch:next on="COMPLETED" to="checkNullRecords" />
 			<batch:listeners>
 				  <batch:listener ref="taxonItemProcessor" />
 				  <batch:listener ref="taxonItemValidator" />
 			</batch:listeners>
-		</batch:step>
-		<batch:step id="resumeHarvesting">
-		    <batch:description>Is there a resumption token available or should we finish harvesting?</batch:description>
-			<batch:tasklet ref="oaiPmhResumptionTokenTasklet" />
-			<batch:next on="NO RESUMPTION TOKEN" to="checkNullRecords" />
-			<batch:next on="RESUMPTION TOKEN PRESENT" to="throttleRequests" />
-			<batch:listeners>
-				<batch:listener ref="oaiPmhClient" />
-			</batch:listeners>
-		</batch:step>
-		<batch:step id="throttleRequests">
-		    <batch:description>Waits for a defined period to avoid overwhelming the server with lots of requests</batch:description>
-			<batch:tasklet ref="throttleRequestsTasklet" />
-			<batch:next on="COMPLETED" to="listRecords" />
-	    </batch:step>
+		</batch:step>		
 	    <batch:step id="checkNullRecords">
 	        <batch:description>Get the NULL records which haven't been harvested within this job</batch:description>
 	        <batch:tasklet>
@@ -65,32 +51,6 @@
 			<batch:end on="COMPLETED"/>
 		</batch:step>
 	</batch:job>
-	
-	<bean id="throttleRequestsTasklet"
-		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
-		scope="step">
-		<property name="targetObject" ref="waitingBean" />
-		<property name="targetMethod" value="wait" />
-		<property name="arguments">
-			<list>
-				<value>#{jobParameters['request.interval']}</value>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="waitingBean" class="org.emonocot.harvest.common.DelayingBean"/>
-
-	<bean id="oaiPmhResumptionTokenTasklet"
-		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
-		scope="step">
-		<property name="targetObject" ref="oaiPmhClient" />
-		<property name="targetMethod" value="resumptionTokenPresent" />
-		<property name="arguments">
-			<list>
-				<value>#{jobParameters['temporary.file.name']}</value>
-			</list>
-		</property>
-	</bean>
 
 	<bean id="oaiPmhResourceDeletingTasklet"
 		class="org.emonocot.harvest.common.MultiResourceDeletingTasklet"
@@ -103,18 +63,17 @@
 		</property>
 	</bean>
 
-	<bean id="oaiPmhListRecordsTasklet"
+	<bean id="oaiPmhGetRecordTasklet"
 		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
 		scope="step">
 		<property name="targetObject" ref="oaiPmhClient" />
-		<property name="targetMethod" value="listRecords" />
+		<property name="targetMethod" value="getRecord" />
 		<property name="arguments">
 			<list>
+			    <value>#{jobParameters['record.identifier']}</value>
 				<value>#{jobParameters['authority.name']}</value>
 				<value>#{jobParameters['authority.uri']}</value>
-				<value>#{jobParameters['authority.last.harvested']}</value>
 				<value>#{jobParameters['temporary.file.name']}</value>
-				<value>#{jobParameters['request.subset.name']}</value>
 			</list>
 		</property>
 	</bean>

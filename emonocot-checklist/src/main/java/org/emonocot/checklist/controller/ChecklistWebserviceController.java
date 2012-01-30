@@ -163,11 +163,15 @@ public class ChecklistWebserviceController {
         } else {
             modelAndView.setViewName("tcsXmlResponse");
             Taxon taxon = taxonDao.get(id.intValue());
-            if(taxon.getAcceptedName() == null || taxon.getAcceptedName().getId().equals(taxon.getId())) {
+            if (taxon.getAcceptedName() == null
+                    || taxon.getAcceptedName().getId().equals(taxon.getId())) {
                 // This taxon is accepted
-                // Due to the fact that family records are not present, a dummy reference to the parent taxon must
+                // Due to the fact that family records are not present, a dummy
+                // reference to the parent taxon must
                 // be added for accepted genera
-                if(taxon.getParentTaxon() == null && (taxon.getRank() != null && taxon.getRank().equals(Rank.GENUS))) {
+                if (taxon.getParentTaxon() == null
+                        && (taxon.getRank() != null && taxon.getRank().equals(
+                                Rank.GENUS))) {
                     Taxon parent = new Taxon();
                     Family family = Family.valueOf(taxon.getFamily());
                     parent.setName(taxon.getFamily());

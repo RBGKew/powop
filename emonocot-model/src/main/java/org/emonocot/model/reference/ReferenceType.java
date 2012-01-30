@@ -13,7 +13,7 @@ public enum ReferenceType {
     /**
      *
      */
-    Article,
+    JournalArticle,
     /**
      *
      */
@@ -21,7 +21,7 @@ public enum ReferenceType {
     /**
      *
      */
-    Chapter,
+    BookSection,
     /**
      *
      */
@@ -37,7 +37,7 @@ public enum ReferenceType {
     /**
      *
      */
-    PersonalCommunication,
+    Communication,
     /**
      *
      */

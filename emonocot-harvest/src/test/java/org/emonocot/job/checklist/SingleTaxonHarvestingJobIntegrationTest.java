@@ -20,6 +20,7 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersInvalidException;
+import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.configuration.JobLocator;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.NoSuchJobException;
@@ -37,15 +38,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
-        "/META-INF/spring/batch/jobs/oaiPmhTaxonHarvesting.xml",
+        "/META-INF/spring/batch/jobs/singleRecordTaxonHarvesting.xml",
         "/META-INF/spring/applicationContext-test.xml" })
-public class ChecklistHarvestingJobIntegrationTest {
+public class SingleTaxonHarvestingJobIntegrationTest {
 
     /**
      *
      */
     private Logger logger = LoggerFactory
-            .getLogger(ChecklistHarvestingJobIntegrationTest.class);
+            .getLogger(SingleTaxonHarvestingJobIntegrationTest.class);
 
     /**
      *
@@ -89,31 +90,33 @@ public class ChecklistHarvestingJobIntegrationTest {
             = new HashMap<String, JobParameter>();
         parameters.put("authority.name", new JobParameter(
                 "test"));
+        parameters.put("record.identifier", new JobParameter(
+        "urn:example.com:test:identifier"));
         parameters.put("authority.uri", new JobParameter(
                 "http://build.e-monocot.org/test/oai.xml"));
         parameters.put("authority.last.harvested",
           new JobParameter(Long.toString((
-            ChecklistHarvestingJobIntegrationTest.PAST_DATETIME
+            SingleTaxonHarvestingJobIntegrationTest.PAST_DATETIME
             .getMillis()))));
         parameters.put("request.interval", new JobParameter("10000"));
         parameters.put("temporary.file.name", new JobParameter(File
                 .createTempFile("test", ".xml").getAbsolutePath()));
         JobParameters jobParameters = new JobParameters(parameters);
 
-        Job oaiPmhTaxonHarvestingJob = jobLocator
-                .getJob("OaiPmhTaxonHarvesting");
-        assertNotNull("OaiPmhTaxonHarvestingJob must not be null",
-                oaiPmhTaxonHarvestingJob);
-        JobExecution jobExecution = jobLauncher.run(oaiPmhTaxonHarvestingJob,
+        Job singleRecordTaxonHarvestingJob = jobLocator
+                .getJob("SingleRecordTaxonHarvesting");
+        assertNotNull("SingleRecordTaxonHarvesting must not be null",
+                singleRecordTaxonHarvestingJob);
+        JobExecution jobExecution = jobLauncher.run(singleRecordTaxonHarvestingJob,
                 jobParameters);
         assertEquals("Job should complete normally",
                 jobExecution.getExitStatus(), ExitStatus.COMPLETED);
 
-//        for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
-//            logger.info(stepExecution.getStepName() + " "
-//                    + stepExecution.getReadCount() + " "
-//                    + stepExecution.getFilterCount() + " "
-//                    + stepExecution.getWriteCount());
-//        }
+        for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
+            logger.info(stepExecution.getStepName() + " "
+                    + stepExecution.getReadCount() + " "
+                    + stepExecution.getFilterCount() + " "
+                    + stepExecution.getWriteCount());
+        }
     }
 }

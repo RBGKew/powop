@@ -37,6 +37,7 @@
 			<list>
 				<bean class="org.emonocot.model.geography.GeographyConverter" />
 				<bean class="org.emonocot.model.reference.ReferenceTypeConverter" />
+				<bean class="org.emonocot.model.taxon.TaxonomicStatusConverter" />
 				<bean class="org.emonocot.model.taxon.RankConverter" />
 				<!-- Required due to SPR-6564 Spring ConversionService breaks String-to-Resource resolution -->
 				<bean class="org.emonocot.harvest.common.FileConverter" />

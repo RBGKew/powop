@@ -27,6 +27,17 @@ public class IdDoesNotExistException extends Exception {
         this.identifier = newIdentifier;
     }
 
+    /**
+     *
+     * @param newIdentifier Set the identifier which does not exist
+     * @param cause Set the root cause
+     */
+    public IdDoesNotExistException(final Serializable newIdentifier,
+            final Throwable cause) {
+        super(cause);
+        this.identifier = newIdentifier;
+    }
+
     @Override
     public final String getMessage() {
         return "Could not find object with identifier " + identifier;

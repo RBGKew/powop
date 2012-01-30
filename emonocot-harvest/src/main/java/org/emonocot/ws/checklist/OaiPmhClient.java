@@ -304,7 +304,7 @@ public class OaiPmhClient implements StepExecutionListener {
 
    /**
     *
-    * @param identifier The identifier of the record you want to get
+    * @param recordIdentifier The identifier of the record you want to get
     *
     * @param authorityName
     *            The name of the Source being harvested.
@@ -315,8 +315,10 @@ public class OaiPmhClient implements StepExecutionListener {
     * @return An exit status indicating that the step was completed, failed, or
     *         if the Source responded with a NO RECORDS MATCH response
     *         indicating that no records have been modified
+    * @throws Exception if there is a problem
     */
-    public final TaxonConcept getRecord(final String identifier,
+    public final ExitStatus getRecord(
+            final String recordIdentifier,
             final String authorityName, final String authorityUri,
             final String temporaryFileName) throws Exception {
        if (proxyHost != null && proxyPort != null) {
@@ -340,11 +342,11 @@ public class OaiPmhClient implements StepExecutionListener {
        logger.info("Source name: " + authorityName
                + " Source URI: " + authorityUri
                + " tempFile: " + temporaryFileName
-               + " identifier " + identifier);
+               + " identifier " + recordIdentifier);
 
 
         query.append("&verb=GetRecord&metadataPrefix=rdf&identifier="
-                + identifier);
+                + recordIdentifier);
        HttpGet httpGet = new HttpGet(authorityUri + query.toString());
        try {
            logger.info("Issuing " + httpGet.getRequestLine().toString());
@@ -378,21 +380,7 @@ public class OaiPmhClient implements StepExecutionListener {
                            + httpResponse.getStatusLine()
                            + " but HttpEntity is null");
                }
-               StaxEventItemReader<Record> staxEventItemReader
-               = new StaxEventItemReader<Record>();
-               staxEventItemReader
-                   .setFragmentRootElementName(
-                   "{http://www.openarchives.org/OAI/2.0/}record");
-               staxEventItemReader.setUnmarshaller(unmarshaller);
-               staxEventItemReader.setResource(new FileSystemResource(
-                   temporaryFileName));
-
-               staxEventItemReader.afterPropertiesSet();
-               staxEventItemReader.open(stepExecution.getExecutionContext());
-
-               Record record = staxEventItemReader.read();
-               staxEventItemReader.close();
-               return record.getMetadata().getTaxonConcept();
+               return ExitStatus.COMPLETED;
            case HttpURLConnection.HTTP_BAD_REQUEST:
                logger.info("Got Status 400 BAD REQUEST");
                entity = httpResponse.getEntity();

@@ -402,4 +402,54 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
                 with(xml).get(
                 "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.toTaxon.findAll { it.@resource == 'urn:kew.org:wcs:taxon:1' }.size()"));
         }
+
+    /**
+     * Test that the genera include links to the parent family
+     * In response to http://build.e-monocot.org/bugzilla/show_bug.cgi?id=181.
+     */
+    @Test
+    public final void testGetGenusRecord() {
+
+        String xml = given()
+                .parameters("verb", "GetRecord", "metadataPrefix",
+                        "rdf", "identifier", "urn:kew.org:wcs:taxon:3",
+                        "scratchpad", "functional-test.e-monocot.org")
+                        .get("/oai").asString();
+
+        assertEquals(
+                "The parent should be present",
+                1,
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.relationshipCategory.findAll { it.@resource == 'http://rs.tdwg.org/ontology/voc/TaxonConcept#IsChildTaxonOf' }.size()"));
+        assertEquals(
+                "The parent should be serialized as a link",
+                1,
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.toTaxon.findAll { it.@resource == 'urn:kew.org:wcs:family:28' }.size()"));
+        }
+
+    /**
+     * Test that the family include links to the children
+     * In response to http://build.e-monocot.org/bugzilla/show_bug.cgi?id=181.
+     */
+    @Test
+    public final void testGetFamilyRecord() {
+
+        String xml = given()
+                .parameters("verb", "GetRecord", "metadataPrefix",
+                        "rdf", "identifier", "urn:kew.org:wcs:family:28",
+                        "scratchpad", "functional-test.e-monocot.org")
+                        .get("/oai").asString();
+
+        assertEquals(
+                "The parent should be present",
+                1,
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.relationshipCategory.findAll { it.@resource == 'http://rs.tdwg.org/ontology/voc/TaxonConcept#IsParentTaxonOf' }.size()"));
+        assertEquals(
+                "The parent should be serialized as a link",
+                1,
+                with(xml).get(
+                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.toTaxon.findAll { it.@resource == 'urn:kew.org:wcs:taxon:3' }.size()"));
+        }
 }

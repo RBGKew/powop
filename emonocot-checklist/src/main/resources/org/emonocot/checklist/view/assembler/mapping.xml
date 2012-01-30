@@ -49,7 +49,7 @@
     
     <mapping map-null="false"> 
         <class-a>org.emonocot.checklist.model.Taxon</class-a>
-        <class-b>org.tdwg.voc.TaxonConcept</class-b>
+        <class-b bean-factory="org.emonocot.checklist.view.assembler.TaxonBeanFactory">org.tdwg.voc.TaxonConcept</class-b>
         <field>
           <a>identifier</a>
           <b>identifier</b>

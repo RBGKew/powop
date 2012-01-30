@@ -79,12 +79,12 @@ public abstract class AbstractOaiPmhController<T extends IdentifiableEntity, SER
     /**
      *
      */
-    private static final String RDF_VIEW_NAME = "oai/getRecord.rdf";
+    static final String RDF_VIEW_NAME = "oai/getRecord.rdf";
 
     /**
      *
      */
-    private static final String DUBLIN_CORE_VIEW_NAME = "oai/getRecord.dc";
+    static final String DUBLIN_CORE_VIEW_NAME = "oai/getRecord.dc";
 
     /**
      *
@@ -299,7 +299,7 @@ public abstract class AbstractOaiPmhController<T extends IdentifiableEntity, SER
      *             if the id cannot be found in the repository
      */
     @RequestMapping(method = RequestMethod.GET, params = "verb=GetRecord")
-    public final ModelAndView getRecord(
+    public ModelAndView getRecord(
             @RequestParam(value = "identifier", required = true)
                 final Serializable identifier,
             @RequestParam(value = "metadataPrefix", required = true)
