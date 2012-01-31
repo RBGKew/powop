@@ -285,6 +285,8 @@
                       <include>${basedir}/src/main/js/ad-gallery/jquery.ad-gallery.js</include>
                       <include>${basedir}/src/main/js/functions.js</include>
                       <include>${basedir}/src/main/js/bootstrap-twipsy.js</include>
+                      <include>${basedir}/src/main/js/bootstrap-dropdown.js</include>
+                      <include>${basedir}/src/main/js/bootstrap-scrollspy.js</include>
                       <include>${basedir}/src/main/js/jsTree/jquery.jstree.js</include>
                     </includes>
                   </aggregation>              

@@ -37,11 +37,31 @@
 	  </c:when>
 	  <c:otherwise>
 	    <c:if test="${not empty taxon.children}">
+	    <c:choose>
+	    <c:when test="${fn:length(taxon.children) > 5 }">
 		  <ul>
 		    <li>
 		      <a class="childrenList" href="#children">${fn:length(taxon.children)} <spring:message code="numberOfChildren" /></a>
 			</li>
 		  </ul>
+		 </c:when>
+		 <c:otherwise>
+		 <ul>
+		    <c:forEach var="child" items="${em:sort(taxon.children)}">
+							<li>
+								<jsp:element name="a">
+									<jsp:attribute name="class">
+										childrenList
+									</jsp:attribute>
+									<jsp:attribute name="href">
+										<c:url value="/taxon/${child.identifier}" />
+									</jsp:attribute>
+									${child.name} ${child.authorship}
+                  				</jsp:element>
+                  			</li>
+						</c:forEach>
+		  </ul></c:otherwise>
+		 </c:choose>
 		</c:if>
 	  </c:otherwise>
 	</c:choose>

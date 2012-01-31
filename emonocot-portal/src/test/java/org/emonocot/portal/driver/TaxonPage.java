@@ -93,7 +93,7 @@ public class TaxonPage extends PageObject implements IllustratedPage {
      */
     public final String getParagraph(final String heading) {
         WebElement element = textContent.findElement(By
-                .xpath("div[h5 = '" + heading + "']/p"));
+                .xpath("div[a/h5 = '" + heading + "']/p"));
         return element.getText();
     }
 
@@ -239,7 +239,7 @@ public class TaxonPage extends PageObject implements IllustratedPage {
      */
     public final String getCitations(final String topic) {
         WebElement element = textContent.findElement(By
-                .xpath("div[h5 = '" + topic + "']/ul[@class='citations']"));
+                .xpath("div[a/h5 = '" + topic + "']/ul[@class='citations']"));
         return element.getText();
     }
 

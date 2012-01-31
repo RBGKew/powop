@@ -82,7 +82,7 @@ Scenario: Display Taxa Relationship
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=77
   When I navigate to taxon page "urn:kew.org:wcs:taxon:2304"
   Then there should be 1 ancestor
-  And the subordinate taxon link should say "1 subordinate taxa"
+  And the subordinate taxon link should say "Acorus calamus var. calamus"
   When I navigate to taxon page "urn:kew.org:wcs:taxon:2309"
   And there should be 2 ancestors
   And there should be 0 subordinate taxa
