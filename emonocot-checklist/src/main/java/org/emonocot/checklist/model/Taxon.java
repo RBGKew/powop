@@ -27,9 +27,7 @@ import org.hibernate.annotations.Where;
 import org.joda.time.DateTime;
 
 /**
- *
  * @author ben
- *
  */
 @Entity
 @Table(name = "vwMonocot_Name")
@@ -153,9 +151,8 @@ public class Taxon implements IdentifiableEntity<String> {
     /**
      *
      */
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Basionym_id")
-    @Where(clause = "Plant_name_id > 0")
     private Taxon basionym;
 
     /**
@@ -188,7 +185,7 @@ public class Taxon implements IdentifiableEntity<String> {
      * Due to https://hibernate.onjira.com/browse/HHH-4335 '@WhereJoinTable
      * doesn't work with @ManyToOne', we can't use the following code, so we're
      * forced to resort to the following.
-     *
+     * 
      * @ManyToOne(fetch = FetchType.LAZY)
      * @JoinTable(name = "Plant_author", joinColumns = {
      * @JoinColumn(name = "Plant_name_id") }, inverseJoinColumns = {
@@ -233,7 +230,7 @@ public class Taxon implements IdentifiableEntity<String> {
     @JoinColumn(name = "Place_of_publication_id")
     private Protologue protologue;
 
-   /**
+    /**
     *
     */
     @ManyToMany(fetch = FetchType.LAZY)
@@ -255,8 +252,7 @@ public class Taxon implements IdentifiableEntity<String> {
     private Lifeform lifeform;
 
     /**
-     * @param newId
-     *            Set the id
+     * @param newId Set the id
      */
     public void setId(final Integer newId) {
         this.id = newId;
@@ -278,8 +274,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param identifier
-     *            set the identifier of this taxon
+     * @param identifier set the identifier of this taxon
      */
     public final void setIdentifier(final String identifier) {
         if (identifier.startsWith(Taxon.IDENTIFIER_PREFIX)) {
@@ -306,7 +301,6 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     *
      * @return the name id of the taxon
      */
     public final String getNameId() {
@@ -318,16 +312,13 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     *
-     * @param string
-     *            Set the identifier of the name in the taxon
+     * @param string Set the identifier of the name in the taxon
      */
     public final void setNameId(final String string) {
         this.nameId = string;
     }
 
     /**
-     *
      * @return the name of the taxon
      */
     public final String getName() {
@@ -335,9 +326,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     *
-     * @param string
-     *            Set the name of the taxon
+     * @param string Set the name of the taxon
      */
     public final void setName(final String string) {
         this.name = string;
@@ -371,8 +360,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param rank
-     *            the rank to set
+     * @param rank the rank to set
      */
     public final void setRank(final Rank rank) {
         this.rank = rank;
@@ -386,8 +374,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param family
-     *            the family to set
+     * @param family the family to set
      */
     public final void setFamily(final String family) {
         this.family = family;
@@ -401,8 +388,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param genusHybridMarker
-     *            the genusHybridMarker to set
+     * @param genusHybridMarker the genusHybridMarker to set
      */
     public final void setGenusHybridMarker(final String genusHybridMarker) {
         this.genusHybridMarker = genusHybridMarker;
@@ -416,8 +402,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param genus
-     *            the genus to set
+     * @param genus the genus to set
      */
     public final void setGenus(final String genus) {
         this.genus = genus;
@@ -431,8 +416,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param speciesHybridMarker
-     *            the speciesHybridMarker to set
+     * @param speciesHybridMarker the speciesHybridMarker to set
      */
     public final void setSpeciesHybridMarker(final String speciesHybridMarker) {
         this.speciesHybridMarker = speciesHybridMarker;
@@ -446,8 +430,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param species
-     *            the species to set
+     * @param species the species to set
      */
     public final void setSpecies(final String species) {
         this.species = species;
@@ -461,8 +444,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param infraspecificRank
-     *            the infraspecificRank to set
+     * @param infraspecificRank the infraspecificRank to set
      */
     public final void setInfraspecificRank(final String infraspecificRank) {
         this.infraspecificRank = infraspecificRank;
@@ -476,8 +458,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param infraspecificEpithet
-     *            the infraspecificEpithet to set
+     * @param infraspecificEpithet the infraspecificEpithet to set
      */
     public final void setInfraspecificEpithet(final String infraspecificEpithet) {
         this.infraspecificEpithet = infraspecificEpithet;
@@ -491,8 +472,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param dateEntered
-     *            the dateEntered to set
+     * @param dateEntered the dateEntered to set
      */
     public void setDateEntered(DateTime dateEntered) {
         this.dateEntered = dateEntered;
@@ -506,8 +486,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param dateModified
-     *            Sets the date the taxon was last modified
+     * @param dateModified Sets the date the taxon was last modified
      */
     public final void setDateModified(final DateTime dateModified) {
         this.dateModified = dateModified;
@@ -522,15 +501,13 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param dateDeleted
-     *            Sets the date the taxon was deleted
+     * @param dateDeleted Sets the date the taxon was deleted
      */
     public final void setDateDeleted(final DateTime dateDeleted) {
         this.dateDeleted = dateDeleted;
     }
 
     /**
-     *
      * @return the accepted name of the synonym
      */
     public final Taxon getAcceptedName() {
@@ -538,19 +515,16 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     *
-     * @param newAcceptedName
-     *            Set the accepted name of the synonym
+     * @param newAcceptedName Set the accepted name of the synonym
      */
     public final void setAcceptedName(final Taxon newAcceptedName) {
         this.acceptedName = newAcceptedName;
     }
 
     /**
-     * @param newBasionym
-     *            the basionym to set
+     * @param newBasionym the basionym to set
      */
-    public final void setBasionym(final Taxon newBasionym) {
+    public final void setBasionym(Taxon newBasionym) {
         this.basionym = newBasionym;
     }
 
@@ -558,11 +532,21 @@ public class Taxon implements IdentifiableEntity<String> {
      * @return the basionym
      */
     public final Taxon getBasionym() {
+        if (basionym != null) {
+            // This may be a Taxon object or a Hibernate proxy for a potentially
+            // null Taxon
+            try {
+                if (basionym.getId() < 0) {
+                    setBasionym(null);
+                }
+            } catch (NullPointerException npe) {
+                setBasionym(null);
+            }
+        }
         return basionym;
     }
 
     /**
-     *
      * @return the synonyms of this taxon
      */
     public final Set<Taxon> getSynonyms() {
@@ -572,7 +556,7 @@ public class Taxon implements IdentifiableEntity<String> {
     /**
      * Method implemented on the premise that this method is only called once
      * per time the taxon is loaded.
-     *
+     * 
      * @return the synonyms of this taxon
      */
     public final Set<Taxon> getHeterotypicSynonyms() {
@@ -587,12 +571,11 @@ public class Taxon implements IdentifiableEntity<String> {
      * N.B. This differs from the WCS view in that these relationships are only
      * available from accepted names Method implemented on the premise that this
      * method is only called once per time the taxon is loaded
-     *
+     * 
      * @return the homotypic synonyms of this taxon
      */
     public final Set<Taxon> getHomotypicSynonyms() {
         Set<Taxon> homotypicNames = new HashSet<Taxon>();
-
         if (getBasionym() != null) {
             for (Taxon taxon : synonyms) {
                 if (taxon.getBasionym() != null
@@ -605,8 +588,7 @@ public class Taxon implements IdentifiableEntity<String> {
 
         for (Taxon taxon : synonyms) {
             if (taxon.getBasionym() != null
-                    && taxon.getBasionym().getId()
-                            .equals(this.getId())) {
+                    && taxon.getBasionym().getId().equals(this.getId())) {
                 homotypicNames.add(taxon);
             }
         }
@@ -628,9 +610,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     *
-     * @param newSynonyms
-     *            Set the synonyms of this taxon
+     * @param newSynonyms Set the synonyms of this taxon
      */
     public final void setSynonyms(final Set<Taxon> newSynonyms) {
         this.synonyms = newSynonyms;
@@ -644,8 +624,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param parentTaxon
-     *            the parentTaxon to set
+     * @param parentTaxon the parentTaxon to set
      */
     public final void setParentTaxon(final Taxon parentTaxon) {
         this.parentTaxon = parentTaxon;
@@ -659,15 +638,13 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param childTaxa
-     *            the childTaxa to set
+     * @param childTaxa the childTaxa to set
      */
     public final void setChildTaxa(final Set<Taxon> childTaxa) {
         this.childTaxa = childTaxa;
     }
 
     /**
-     *
      * @return the distribution of this taxon
      */
     public final Set<Distribution> getDistribution() {
@@ -675,16 +652,13 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     *
-     * @param newDistribution
-     *            Set the distribution of this taxon
+     * @param newDistribution Set the distribution of this taxon
      */
     public final void setDistribution(final Set<Distribution> newDistribution) {
         this.distribution = newDistribution;
     }
 
     /**
-     *
      * @return the authors of this taxon
      */
     public final Map<AuthorType, Author> getAuthors() {
@@ -699,8 +673,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param newCitations
-     *            the citations to set
+     * @param newCitations the citations to set
      */
     public final void setCitations(final Set<Article> newCitations) {
         this.citations = newCitations;
@@ -714,8 +687,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param newProtologueAuthor
-     *            set the protologue author
+     * @param newProtologueAuthor set the protologue author
      */
     public final void setProtologueAuthor(final String newProtologueAuthor) {
         this.protologueAuthor = newProtologueAuthor;
@@ -729,8 +701,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param newVolumeAndPage
-     *            set the volume and page
+     * @param newVolumeAndPage set the volume and page
      */
     public final void setVolumeAndPage(final String newVolumeAndPage) {
         this.volumeAndPage = newVolumeAndPage;
@@ -744,8 +715,7 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param newPublicationDate
-     *            set the publication date
+     * @param newPublicationDate set the publication date
      */
     public final void setPublicationDate(final String newPublicationDate) {
         this.publicationDate = newPublicationDate;
@@ -759,15 +729,13 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param newProtologue
-     *            set the protologue
+     * @param newProtologue set the protologue
      */
     public final void setProtologue(final Protologue newProtologue) {
         this.protologue = newProtologue;
     }
 
     /**
-     *
      * @return the id;
      */
     public final Integer getId() {
@@ -782,16 +750,14 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-     * @param newStatus
-     *            the status to set
+     * @param newStatus the status to set
      */
     public final void setStatus(final TaxonStatus newStatus) {
         this.status = newStatus;
     }
 
     /**
-     * @param climate
-     *            the climate to set
+     * @param climate the climate to set
      */
     public void setClimate(Climate climate) {
         this.climate = climate;
@@ -805,20 +771,20 @@ public class Taxon implements IdentifiableEntity<String> {
     }
 
     /**
-	 * @param lifeform the lifeform to set
-	 */
-	public void setLifeform(Lifeform lifeform) {
-		this.lifeform = lifeform;
-	}
+     * @param lifeform the lifeform to set
+     */
+    public void setLifeform(Lifeform lifeform) {
+        this.lifeform = lifeform;
+    }
 
-	/**
-	 * @return the lifeform
-	 */
-	public Lifeform getLifeform() {
-		return lifeform;
-	}
+    /**
+     * @return the lifeform
+     */
+    public Lifeform getLifeform() {
+        return lifeform;
+    }
 
-	/**
+    /**
      * @param other The other object to compare to
      * @return true if the object is equal to this object, false otherwise
      */

@@ -17,6 +17,7 @@ import org.emonocot.model.pager.Page;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
@@ -197,15 +198,23 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
             parentCriteria.add(Restrictions.idEq(null));
             return;
         }
-
-        List<Taxon> results = (List<Taxon>) parentCriteria.list();
-        if (results.size() == 1) {
-            taxon.setParentTaxon(results.get(0));
-        } else {
-            // TODO log that we can't infer a parent
+        
+        try {
+            Taxon results = (Taxon) parentCriteria.uniqueResult();//list();
+            taxon.setParentTaxon(results);
+        } catch (HibernateException he){
+            logger.error("Could not identify a single 'parent' taxon for taxon" + 
+                    taxon.getIdentifier() + "were returned", he);
             taxon.setParentTaxon(null);
         }
-        return;
+//        List<Taxon> results = (List<Taxon>) parentCriteria.list();
+//        if (results.size() == 1) {
+//            taxon.setParentTaxon(results.get(0));
+//        } else {
+//            // TODO log that we can't infer a parent
+//            taxon.setParentTaxon(null);
+//        }
+//        return;
     }
 
     /**
@@ -227,6 +236,7 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
                 Restrictions.idEq(taxonId));
         criteria.setFetchMode("acceptedName", FetchMode.JOIN);
         criteria.setFetchMode("protologue", FetchMode.JOIN);
+        criteria.setFetchMode("basionym", FetchMode.JOIN);
 
         taxon = (Taxon) criteria.uniqueResult();
         if (taxon != null) {
@@ -281,6 +291,7 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
         Criteria criteria = getSession().createCriteria(Taxon.class);
         criteria.setFetchMode("acceptedName", FetchMode.JOIN);
         criteria.setFetchMode("protologue", FetchMode.JOIN);
+        criteria.setFetchMode("basionym", FetchMode.JOIN);
 
         if (set != null) {
             if (set.indexOf(":") == -1) {
@@ -328,7 +339,7 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
                 criteria.setFirstResult(pageSize * pageNumber);
             }
         }
-        logger.info(criteria.toString());
+
         List<Taxon> taxa = (List<Taxon>) criteria.list();
         if (taxa.isEmpty()) {
             return new DefaultPageImpl<ChangeEvent<Taxon>>(0, pageNumber,
