@@ -118,24 +118,24 @@ public class SourceController {
         return modelAndView;
     }
 
-    
     /**
      * @param identifier
      *            Set the identifier of the source
      * @return A model and view containing a source
      */
-    @RequestMapping(value = "/admin/source/{identifier}", method = RequestMethod.GET, params="!form")
+    @RequestMapping(value = "/admin/source/{identifier}", method = RequestMethod.GET, params = "!form")
     public final ModelAndView getPage(
             @PathVariable final String identifier,
             @RequestParam(value = "limit", required = false, defaultValue = "10") final Integer limit,
             @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start) {
         ModelAndView modelAndView = new ModelAndView("sourceAdminPage");
         modelAndView.addObject(service.load(identifier));
-        List<JobExecution> jobExecutions = jobDataService.listJobExecutions(identifier, limit, start);
+        List<JobExecution> jobExecutions = jobDataService.listJobExecutions(
+                identifier, limit, start);
         modelAndView.addObject("jobExecutions", jobExecutions);
         return modelAndView;
     }
-    
+
     /**
     *
     * @param modelMap
@@ -164,12 +164,14 @@ public class SourceController {
         modelAndView.addObject("job", jobDataService.find(jobId));
 
         if (recordType == null) {
-           modelAndView.setViewName("sourceJobPage");
-           modelAndView.addObject("results", jobDataService.countObjects(jobId));
+            modelAndView.setViewName("sourceJobPage");
+            modelAndView.addObject("results",
+                    jobDataService.countObjects(jobId));
         } else {
             modelAndView.addObject("recordType", recordType);
             modelAndView.setViewName("sourceJobDetails");
-            modelAndView.addObject("results", jobDataService.countErrors(jobId, recordType));
+            modelAndView.addObject("results",
+                    jobDataService.countErrors(jobId, recordType));
         }
         return modelAndView;
     }
@@ -209,43 +211,43 @@ public class SourceController {
 
         return modelAndView;
     }
-    
+
     /**
-    *
-    * @param source
-    *            Set the source
-    * @param result 
-    * 			Set the binding results
-    * @return a model and view
-    */
-    @RequestMapping(value = "/admin/source/{identifier}", method =
-    		RequestMethod.POST, headers="Accept=text/html")
-    		    public final String post(@PathVariable final String identifier,
-    		            @Valid final Source source,
-    		            final BindingResult result, final HttpSession session) {
-    	
-    		        if (result.hasErrors()) {
-    		            return "sourceAdminForm";
-    		        }
-                    Source persistedSource = service.load(identifier);
-                    persistedSource.setTitle(source.getTitle());
-                    persistedSource.setUri(source.getUri());
-                    persistedSource.setCreator(source.getCreator());
-                    persistedSource.setCreatorEmail(source.getCreatorEmail());
-                    persistedSource.setCreated(source.getCreated());
-                    persistedSource.setDescription(source.getDescription());
-                    persistedSource.setPublisherName(source.getPublisherName());
-                    persistedSource.setPublisherEmail(source.getPublisherEmail());
-                    persistedSource.setSubject(source.getSubject());
-                    persistedSource.setSource(source.getSource());
-    		        service.saveOrUpdate(persistedSource);
-    		        String[] codes = new String[] {"source.updated" };
-    		        Object[] args = new Object[] {source.getTitle()};
-    		        DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
-    		                codes, args);
-    		        session.putValue("info", message);
-    		        return "redirect:/admin/source/" + identifier + "?form=true";
-    		    }
+     * 
+     * @param source
+     *            Set the source
+     * @param result
+     *            Set the binding results
+     * @return a model and view
+     */
+    @RequestMapping(value = "/admin/source/{identifier}", method = RequestMethod.POST, headers = "Accept=text/html")
+    public final String post(@PathVariable final String identifier,
+            @Valid final Source source, final BindingResult result,
+            final HttpSession session) {
+
+        if (result.hasErrors()) {
+            return "sourceAdminForm";
+        }
+        Source persistedSource = service.load(identifier);
+        persistedSource.setTitle(source.getTitle());
+        persistedSource.setUri(source.getUri());
+        persistedSource.setCreator(source.getCreator());
+        persistedSource.setCreatorEmail(source.getCreatorEmail());
+        persistedSource.setCreated(source.getCreated());
+        persistedSource.setDescription(source.getDescription());
+        persistedSource.setPublisherName(source.getPublisherName());
+        persistedSource.setPublisherEmail(source.getPublisherEmail());
+        persistedSource.setSubject(source.getSubject());
+        persistedSource.setSource(source.getSource());
+        persistedSource.setLogoUrl(source.getLogoUrl());
+        service.saveOrUpdate(persistedSource);
+        String[] codes = new String[] {"source.updated" };
+        Object[] args = new Object[] {source.getTitle() };
+        DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
+                codes, args);
+        session.putValue("info", message);
+        return "redirect:/admin/source/" + identifier + "?form=true";
+    }
 
     /**
      * @param identifier

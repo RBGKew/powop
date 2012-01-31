@@ -15,25 +15,30 @@ import org.openqa.selenium.support.How;
 public class SourceAdminPage extends PageObject {
 
     /**
-    *
-    */
-   @FindBy(how = How.ID, using = "jobs")
-   private WebElement jobs;
-   
-   /**
-   *
-   */
-  @FindBy(how = How.ID, using = "source-uri")
-  private WebElement uri;
-  
-  /**
-  *
-  * @return the uri
-  */
- public final String getSourceUri() {
-     return uri.getAttribute("href");
- }
- 
+     *
+     */
+    @FindBy(how = How.ID, using = "jobs")
+    private WebElement jobs;
+    /**
+     *
+     */
+    @FindBy(how = How.ID, using = "source-uri")
+    private WebElement uri;
+
+    /**
+     *
+     */
+   @FindBy(how = How.ID, using = "source-logo")
+   private WebElement logo;
+
+    /**
+     *
+     * @return the uri
+     */
+    public final String getSourceUri() {
+        return uri.getAttribute("href");
+    }
+
 
 
     /**
@@ -55,5 +60,14 @@ public class SourceAdminPage extends PageObject {
         return openAs(
                 list.get(job - 1).getAttribute("href"),
                 SourceJobPage.class);
+    }
+
+
+    /**
+     *
+     * @return the source logo
+     */
+    public final String getSourceLogo() {
+        return logo.getAttribute("src");
     }
 }

@@ -13,7 +13,7 @@ public class TaxonomicStatusConverter implements
     /**
      * @param identifier
      *            the taxon rank identifier to convert
-     * @return a Rank object or null if the taxon rank term is null
+     * @return a TaxonomicStatus object or null if the taxon status term is null
      */
     public final TaxonomicStatus convert(final String identifier) {
         if (identifier == null) {

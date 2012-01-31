@@ -40,6 +40,10 @@ public class DateTimeConverter implements Converter {
     private static final DateTimeFormatter PARSER
         =  ISODateTimeFormat.dateTimeParser();
 
+    /**
+     * @param clazz the class to be converted
+     * @return true if the class can be converted
+     */
     public final boolean canConvert(final Class clazz) {
        if (clazz != null && clazz.equals(DateTime.class)) {
            return true;
@@ -47,6 +51,11 @@ public class DateTimeConverter implements Converter {
        return false;
     }
 
+    /**
+     * @param value the value to write
+     * @param writer the writer to use
+     * @param context the marshalling context
+     */
     public final void marshal(final Object value,
             final HierarchicalStreamWriter writer,
             final MarshallingContext context) {
@@ -56,6 +65,11 @@ public class DateTimeConverter implements Converter {
                 dateTime.toDateTime(DateTimeZone.UTC)));
     }
 
+    /**
+     * @param reader the reader to use
+     * @param context the unmarshalling context
+     * @return the unmarshalled object
+     */
     public final Object unmarshal(final HierarchicalStreamReader reader,
             final UnmarshallingContext context) {
         String value = reader.getValue();

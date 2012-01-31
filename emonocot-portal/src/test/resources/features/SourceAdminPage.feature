@@ -72,9 +72,10 @@ Scenario: Edit SourceAdminPage
   When I navigate to source admin page for "test" 
   And I select "Edit this source"
   And I enter the following data into the source form:
-  | uri               |
-  | http://google.com |
+  | uri                | logoUrl                      |
+  | http://example.com | http://example.com/logo.png |
   And I submit the source form
   Then an info message should say "test title was updated"
   When I navigate to source admin page for "test" 
-  Then the source uri should be "http://google.com/"   
+  Then the source uri should be "http://example.com/"
+  And the source logo should be "http://example.com/logo.png"

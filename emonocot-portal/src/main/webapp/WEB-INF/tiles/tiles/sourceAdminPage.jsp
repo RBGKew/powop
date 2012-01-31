@@ -6,7 +6,7 @@
 
 	<div class="content">
 			<div class="page-header">
-				<img src="${source.logoUrl}"/>
+				<img id="source-logo" src="${source.logoUrl}"/>
     		</div>
     		<div>
     		

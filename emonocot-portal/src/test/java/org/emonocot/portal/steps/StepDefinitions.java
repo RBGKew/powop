@@ -134,15 +134,16 @@ public class StepDefinitions {
             final List<GroupRow> groupRows) {
         ((GroupFormPage) currentPage).setGroupName(groupRows.get(0).identifier);
     }
-    
+
     /**
      * @param sourceRows
      *            set the source rows
      */
     @When("^I enter the following data into the source form:$")
-    public void IEnterTheFollowingDataIntoTheSourceForm(
-    		final List<SourceRow> sourceRows) {
-    	((SourceFormPage) currentPage).setSourceUri(sourceRows.get(0).uri);
+    public final void iEnterTheFollowingDataIntoTheSourceForm(
+            final List<SourceRow> sourceRows) {
+        ((SourceFormPage) currentPage).setSourceUri(sourceRows.get(0).uri);
+        ((SourceFormPage) currentPage).setLogoUrl(sourceRows.get(0).logoUrl);
     }
 
     /**
@@ -358,11 +359,24 @@ public class StepDefinitions {
         assertEquals(jobs, ((SourceAdminPage) currentPage).getJobsListed()
                 .intValue());
     }
-    
+
+    /**
+     *
+     * @param uri Set the expected source uri
+     */
     @Then("^the source uri should be \"([^\"]*)\"$")
-    public void theSourceUriShouldBe(final String uri) {
-    	assertEquals(uri, ((SourceAdminPage) currentPage).getSourceUri());
+    public final void theSourceUriShouldBe(final String uri) {
+        assertEquals(uri, ((SourceAdminPage) currentPage).getSourceUri());
     }
+
+   /**
+    *
+    * @param logo Set the expected source logo
+    */
+   @Then("^the source logo should be \"([^\"]*)\"$")
+   public final void theSourceLogoShouldBe(final String logo) {
+       assertEquals(logo, ((SourceAdminPage) currentPage).getSourceLogo());
+   }
 
     /**
      *
@@ -583,18 +597,19 @@ public class StepDefinitions {
         for (int i = 0; i < options.size(); i++) {
             expected[i] = options.get(i).option;
         }
-        String[] actual = ((SearchResultsPage) currentPage).getFacets(facetName);
+        String[] actual = ((SearchResultsPage) currentPage)
+                .getFacets(facetName);
         assertArrayEquals(expected, actual);
 
     }
-    
+
     /**
-     * 
-     * 
+     *
      */
     @Then("^the images should be displayed in a grid.$")
-    public void theImagesShouldBeDisplayedInAGrid() {
-    	assertTrue(((SearchResultsPage) currentPage).resultsAreDisplayedInGrid());
+    public final void theImagesShouldBeDisplayedInAGrid() {
+        assertTrue(((SearchResultsPage) currentPage)
+                .resultsAreDisplayedInGrid());
     }
 
     /**
@@ -612,7 +627,7 @@ public class StepDefinitions {
      */
     @When("^I navigate to image page \"([^\"]*)\"$")
     public final void navigateToImagePage(final String identifier) {
-    	currentPage = portal.getImagePage(identifier);
+        currentPage = portal.getImagePage(identifier);
     }
 
     /**
@@ -621,7 +636,7 @@ public class StepDefinitions {
      */
     @When("^I navigate to source page \"([^\"]*)\"$")
     public final void navigateToSourcePage(final String identifier) {
-    	currentPage = portal.getSourcePage(identifier);
+        currentPage = portal.getSourcePage(identifier);
     }
 
     /**
@@ -648,7 +663,7 @@ public class StepDefinitions {
      */
     @Then("the image page should be displayed")
     public final void theImagePageShouldBeDisplayed() {
-        assertEquals(currentPage.getClass(), ImagePage.class); 
+        assertEquals(currentPage.getClass(), ImagePage.class);
     }
 
     /**
@@ -659,7 +674,8 @@ public class StepDefinitions {
      */
     @Then("^the page title \"([^\"]*)\" should be \"([^\"]*)\"$")
     public final void theTitleAttributeShouldBeTaxonName(final String attribute, final String value) {
-        assertEquals(value, ((TaxonPage) currentPage).getTaxonNameStyle(attribute));
+        assertEquals(value,
+                ((TaxonPage) currentPage).getTaxonNameStyle(attribute));
     }
 
     /**
@@ -725,7 +741,8 @@ public class StepDefinitions {
      */
     @Then("^there should be (\\d+) thumbnail[s]?$")
     public final void thereShouldBeThumbnails(final int thumbnails) {
-        assertEquals(thumbnails, ((IllustratedPage) currentPage).getThumbnails());
+        assertEquals(thumbnails,
+                ((IllustratedPage) currentPage).getThumbnails());
     }
 
     /**
