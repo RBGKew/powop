@@ -1942,7 +1942,7 @@
     <changeSet id="2012-02-01_01" author="ben">
       <comment>Sorting out problems in UAT relating to taxonomic status</comment>
       <sql>
-        UPDATE taxon SET accepted_id = NULL where accepted_id = 182076;
+        UPDATE Taxon SET accepted_id = NULL where accepted_id = 182076;
       </sql>
     </changeSet>
 </databaseChangeLog>
