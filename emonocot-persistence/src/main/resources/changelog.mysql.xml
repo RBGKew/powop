@@ -1945,4 +1945,17 @@
         UPDATE Taxon SET accepted_id = NULL where accepted_id = 182076;
       </sql>
     </changeSet>
+    <changeSet id="2012-02-01_02" author="ben">
+      <comment>Sorting duplicate images in the cate-araceae dataset</comment>
+      <sql>
+        UPDATE taxon_image SET images_id = 3486 WHERE Taxon_id = 111 AND images_id = 3739;
+        UPDATE taxon_image SET images_id = 3410 WHERE Taxon_id = 115 AND images_id = 3623;
+        UPDATE taxon_image SET images_id = 3886 WHERE Taxon_id = 4221 AND images_id = 3480;
+        UPDATE taxon_image SET images_id = 3757 WHERE Taxon_id = 3569 AND images_id = 3961;
+        DELETE FROM image WHERE id = 3739;
+        DELETE FROM image WHERE id = 3623; 
+        DELETE FROM image WHERE id = 3480; 
+        DELETE FROM image WHERE id = 3961;  
+      </sql>
+    </changeSet>
 </databaseChangeLog>

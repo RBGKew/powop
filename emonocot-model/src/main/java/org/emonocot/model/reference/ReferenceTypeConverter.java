@@ -35,6 +35,15 @@ public class ReferenceTypeConverter implements
                             .length());
             return ReferenceType.valueOf(code);
         } else {
+            if (identifier.equals("Article")) {
+                return ReferenceType.JournalArticle;
+            } else if (identifier.equals("Chapter")) {
+                return ReferenceType.BookSection;
+            } else if (identifier.equals("PersonalCommunication")) {
+                return ReferenceType.Communication;
+            } else if (identifier.equals("Webpage")) {
+                return ReferenceType.WebPage;
+            }
             return ReferenceType.valueOf(identifier);
         }
     }
