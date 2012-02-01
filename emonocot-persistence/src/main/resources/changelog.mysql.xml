@@ -1918,25 +1918,25 @@
     <changeSet id="2012-01-30_01" author="ben">
       <comment>Sorting out problems in UAT relating to taxonomic status</comment>
       <sql>
-        UPDATE taxon SET status = 'unplaced', accepted_id = NULL WHERE status IS NULL AND accepted_id = 182076;
+        UPDATE Taxon SET status = 'unplaced', accepted_id = NULL WHERE status IS NULL AND accepted_id = 182076;
       </sql>
     </changeSet>
     <changeSet id="2012-01-30_02" author="ben">
       <comment>Sorting out problems in UAT relating to taxonomic status</comment>
       <sql>
-        DELETE FROM taxon WHERE id = 182076;
+        DELETE FROM Taxon WHERE id = 182076;
       </sql>
     </changeSet>
     <changeSet id="2012-01-30_03" author="ben">
       <comment>Sorting out problems in UAT relating to taxonomic status</comment>
       <sql>
-        UPDATE taxon SET status = 'synonym' WHERE status IS NULL AND accepted_id IS NOT NULL and parent_id IS NULL;
+        UPDATE Taxon SET status = 'synonym' WHERE status IS NULL AND accepted_id IS NOT NULL and parent_id IS NULL;
       </sql>
     </changeSet>
     <changeSet id="2012-01-30_04" author="ben">
       <comment>Sorting out problems in UAT relating to taxonomic status</comment>
       <sql>
-        UPDATE taxon SET status = 'accepted' WHERE status IS NULL AND accepted_id IS NULL and parent_id IS NOT NULL;
+        UPDATE Taxon SET status = 'accepted' WHERE status IS NULL AND accepted_id IS NULL and parent_id IS NOT NULL;
       </sql>
     </changeSet>
 </databaseChangeLog>
