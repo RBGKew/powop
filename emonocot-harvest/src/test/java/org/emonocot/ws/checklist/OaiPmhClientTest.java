@@ -71,7 +71,7 @@ public class OaiPmhClientTest {
     /**
      *
      */
-    private String temporaryFileName;
+    private File tempFile = null;
     /**
      *
      */
@@ -121,7 +121,7 @@ public class OaiPmhClientTest {
         ((XStreamMarshaller) unmarshaller).afterPropertiesSet();
         // Initialise "Job Parameters"
         resumptionToken = null;
-        temporaryFileName = "tmpFile";
+        tempFile = File.createTempFile("tmpFile", "xml");
         set = "setParam";
         dateLastHarvested = "1";
         // also see 'from' RequestParam in HttpGet() constructors
@@ -154,6 +154,7 @@ public class OaiPmhClientTest {
         expect(mockHttpClient.execute(HttpGetMatcher.eqHttpGet(get)))
                 .andReturn(response);
         replay(mockHttpClient);
+        
         StepExecution stepExecution
             = new StepExecution("test", new JobExecution(1L));
 
@@ -163,7 +164,7 @@ public class OaiPmhClientTest {
         underTest.setServicesClientIdentifier(servicesClientIdentifier);
 
         underTest.listRecords(authorityName, authorityUri, dateLastHarvested,
-                temporaryFileName, set);
+                tempFile.getAbsolutePath(), set);
         verify(mockHttpClient);
 
     }
@@ -198,7 +199,7 @@ public class OaiPmhClientTest {
         underTest.setServicesClientIdentifier(servicesClientIdentifier);
 
         underTest.listRecords(authorityName, authorityUri, dateLastHarvested,
-                temporaryFileName, set);
+                tempFile.getAbsolutePath(), set);
         verify(mockHttpClient);
     }
 
@@ -221,7 +222,6 @@ public class OaiPmhClientTest {
         ClassPathResource idDoesNotExistResource = new ClassPathResource("/org/emonocot/job/oai/IdDoesNotExist.xml");
         response.setEntity(
                 new FileEntity(idDoesNotExistResource.getFile(), "text/xml"));
-        File tempFile = File.createTempFile(temporaryFileName, "xml");
         HttpClient mockHttpClient = createMock(HttpClient.class);
         expect(mockHttpClient.getParams()).andReturn(new BasicHttpParams());
         expect(mockHttpClient.execute(HttpGetMatcher.eqHttpGet(get)))
