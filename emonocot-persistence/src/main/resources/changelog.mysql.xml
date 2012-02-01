@@ -1939,4 +1939,10 @@
         UPDATE Taxon SET status = 'accepted' WHERE status IS NULL AND accepted_id IS NULL and parent_id IS NOT NULL;
       </sql>
     </changeSet>
+    <changeSet id="2012-02-01_01" author="ben">
+      <comment>Sorting out problems in UAT relating to taxonomic status</comment>
+      <sql>
+        UPDATE taxon SET accepted_id = NULL where accepted_id = 182076;
+      </sql>
+    </changeSet>
 </databaseChangeLog>

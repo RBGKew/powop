@@ -805,7 +805,7 @@
             </dependency>
             <dependency>
                 <groupId>javax</groupId>
-                <artifactId>javaee-api</artifactId>
+                <artifactId>javaee-api-no-jpa</artifactId>
                 <version>5.0</version>
             </dependency>
             <dependency>
