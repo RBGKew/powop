@@ -10,7 +10,7 @@
 	<div class="row">
 			<jsp:element name="img">
 				<jsp:attribute name="src">
-					<c:url value="/images/imagePageIcon.jpg"/>
+					<c:url value="/images/ImagePageIcon.jpg"/>
 				</jsp:attribute>
 				<jsp:attribute name="class">pull-left</jsp:attribute>
 				<jsp:attribute name="alt">Image</jsp:attribute>
