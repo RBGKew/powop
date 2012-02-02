@@ -203,18 +203,10 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
             Taxon results = (Taxon) parentCriteria.uniqueResult();//list();
             taxon.setParentTaxon(results);
         } catch (HibernateException he){
-            logger.error("Could not identify a single 'parent' taxon for taxon" + 
-                    taxon.getIdentifier() + "were returned", he);
+            logger.error("Could not identify a single 'parent' taxon for taxon " + 
+                    taxon.getIdentifier(), he);
             taxon.setParentTaxon(null);
         }
-//        List<Taxon> results = (List<Taxon>) parentCriteria.list();
-//        if (results.size() == 1) {
-//            taxon.setParentTaxon(results.get(0));
-//        } else {
-//            // TODO log that we can't infer a parent
-//            taxon.setParentTaxon(null);
-//        }
-//        return;
     }
 
     /**

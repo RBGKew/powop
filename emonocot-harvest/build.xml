@@ -9,14 +9,14 @@
 	<property name="main.webapp" value="${basedir}/src/main/webapp" />
 	<property name="main.resources" value="${basedir}/src/main/resources" />
 	<property name="test.src" value="${basedir}/src/test/java" />
-	<property name="compile.lib" value="${basedir}/lib/compile" />
+	<property name="runtime.lib" value="${basedir}/lib/runtime" />
 	<property name="test.lib" value="${basedir}/lib/test" />
 	<property name="provided.lib" value="${basedir}/lib/provided" />
 	<property name="test.resources" value="${basedir}/src/test/resources" />
 	<!--When set to true, any existing update will be undeployed first. The default value is set to false.-->
 	<property name="tomcat.manager.update" value="false" />
 	<path id="main.class.path">
-		<fileset dir="${compile.lib}">
+		<fileset dir="${runtime.lib}">
 			<include name="**/*.jar" />
 		</fileset>
 		<fileset dir="${provided.lib}">
@@ -24,7 +24,7 @@
 		</fileset>
 	</path>
 	<path id="test.class.path">
-		<fileset dir="${compile.lib}">
+		<fileset dir="${runtime.lib}">
 			<include name="**/*.jar" />
 		</fileset>
 		<fileset dir="${provided.lib}">
@@ -152,7 +152,7 @@
 		</copy>
 		<!-- copy rest of required jars from lib to WEB-INF/lib" -->
 		<copy todir="${target}/${name}/WEB-INF/lib">
-			<fileset dir="${compile.lib}">
+			<fileset dir="${runtime.lib}">
 				<include name="**/*.jar" />
 			</fileset>
 		</copy>
