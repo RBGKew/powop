@@ -11,12 +11,26 @@ import org.junit.Test;
 import org.springframework.security.authentication.dao.ReflectionSaltSource;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 
+/**
+ *
+ * @author ben
+ *
+ */
 public class UserServiceImplTest {
-    
-    UserServiceImpl userService;
-    
-    UserDao userDao;
-    
+
+    /**
+     *
+     */
+    private UserServiceImpl userService;
+
+    /**
+     *
+     */
+    private UserDao userDao;
+
+    /**
+     *
+     */
     @Before
     public final void setUp() {
         userService = new UserServiceImpl();

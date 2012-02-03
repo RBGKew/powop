@@ -78,7 +78,7 @@ public class TaxonController {
      */
     @RequestMapping(value = "/classify", method = RequestMethod.GET)
     public final ModelAndView getClassification() {
-        ModelAndView modelAndView = new ModelAndView("classificationPage");
+        ModelAndView modelAndView = new ModelAndView("classify");
         return modelAndView;
     }
 
@@ -122,7 +122,7 @@ public class TaxonController {
      */
     @RequestMapping(value = "/taxon/{identifier}", method = RequestMethod.GET)
     public final ModelAndView getTaxonPage(@PathVariable final String identifier) {
-        ModelAndView modelAndView = new ModelAndView("taxonPage");
+        ModelAndView modelAndView = new ModelAndView("taxon/show");
         modelAndView.addObject(service.load(identifier, "taxon-page"));
         return modelAndView;
     }

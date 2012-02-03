@@ -2,66 +2,55 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:sec="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	                    http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
 	                    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
-	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-	                    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.4.xsd">
+	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+    
+       <bean name="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+            <property name="driverClass" value="org.h2.Driver" />
+            <property name="url"
+                value="jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1" />
+       </bean>    
 
-	<bean name="dataSource"
-		class="org.emonocot.persistence.spatial.GeoDBTestDataSourceFactory">
-		<property name="testDatabaseName" value="testdb" />
-		<property name="schemaLocations">
-			<list>
-				<value>classpath:/org/springframework/batch/core/schema-drop-h2.sql</value>
-				<value>classpath:/org/springframework/batch/core/schema-h2.sql</value>
-				<value>classpath:H2_schema.ddl</value>
-				<value>classpath:acl.ddl</value>
-			</list>
-		</property>
-		<property name="testDataLocation" value="classpath:test_data.sql"/>
+	<jdbc:initialize-database data-source="dataSource">
+	    <jdbc:script location="classpath:/org/springframework/batch/core/schema-drop-h2.sql" />
+	    <jdbc:script location="classpath:/org/springframework/batch/core/schema-h2.sql" />
+	    <jdbc:script location="classpath:H2_schema.ddl" />
+	</jdbc:initialize-database>
+	
+	<bean name="connection" class="org.emonocot.persistence.olap.OlapConnectionFactory" depends-on="dataSource">
+	  <property name="dataSource">
+	    <bean class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+	      <property name="driverClass" value="mondrian.olap4j.MondrianOlap4jDriver" />
+	      <property name="url" value="jdbc:mondrian:Jdbc=jdbc:h2:mem:testdb;Catalog=target/test-classes/olap.xml"/>
+	    </bean>
+	  </property>	  
 	</bean>
-
-	<bean name="connection" class="org.emonocot.persistence.olap.OlapConnectionFactory"
-		depends-on="dataSource">
-		<property name="dataSource">
-			<bean class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
-				<property name="driverClass" value="mondrian.olap4j.MondrianOlap4jDriver" />
-				<property name="url"
-					value="jdbc:mondrian:Jdbc=jdbc:h2:mem:testdb;Catalog=target/test-classes/olap.xml" />
-			</bean>
-		</property>
+	
+	<bean name="jdbcTemplate" class="org.springframework.jdbc.core.simple.SimpleJdbcTemplate">
+	  <constructor-arg ref="dataSource"/>
 	</bean>
-
-	<bean name="jdbcTemplate"
-		class="org.springframework.jdbc.core.simple.SimpleJdbcTemplate">
-		<constructor-arg ref="dataSource" />
+	
+	<bean id="jobExecutionIncrementer" class="org.springframework.jdbc.support.incrementer.H2SequenceMaxValueIncrementer">
+	  <constructor-arg ref="dataSource"/>
+	  <constructor-arg value="BATCH_JOB_EXECUTION_SEQ"/>
 	</bean>
-
-	<bean id="jobExecutionIncrementer"
-		class="org.springframework.jdbc.support.incrementer.H2SequenceMaxValueIncrementer">
-		<constructor-arg ref="dataSource" />
-		<constructor-arg value="BATCH_JOB_EXECUTION_SEQ" />
+	
+	<bean id="jobIncrementer" class="org.springframework.jdbc.support.incrementer.H2SequenceMaxValueIncrementer">
+	  <constructor-arg ref="dataSource"/>
+	  <constructor-arg value="BATCH_JOB_SEQ"/>
 	</bean>
-
-	<bean id="jobIncrementer"
-		class="org.springframework.jdbc.support.incrementer.H2SequenceMaxValueIncrementer">
-		<constructor-arg ref="dataSource" />
-		<constructor-arg value="BATCH_JOB_SEQ" />
+	
+	<bean name="jdbcJobInstanceDao" class="org.springframework.batch.core.repository.dao.JdbcJobInstanceDao">
+	  <property name="jdbcTemplate" ref="jdbcTemplate"/>
+	  <property name="jobIncrementer" ref="jobIncrementer"/>
 	</bean>
-
-	<bean name="jdbcJobInstanceDao"
-		class="org.springframework.batch.core.repository.dao.JdbcJobInstanceDao">
-		<property name="jdbcTemplate" ref="jdbcTemplate" />
-		<property name="jobIncrementer" ref="jobIncrementer" />
-	</bean>
-
-	<bean name="jdbcJobExecutionDao"
-		class="org.springframework.batch.core.repository.dao.JdbcJobExecutionDao">
-		<property name="jdbcTemplate" ref="jdbcTemplate" />
-		<property name="jobExecutionIncrementer" ref="jobExecutionIncrementer" />
+	
+	<bean name="jdbcJobExecutionDao" class="org.springframework.batch.core.repository.dao.JdbcJobExecutionDao">
+	  <property name="jdbcTemplate" ref="jdbcTemplate"/>
+	  <property name="jobExecutionIncrementer" ref="jobExecutionIncrementer"/>
 	</bean>
 
 	<bean id="sessionFactory"
@@ -69,14 +58,13 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="hibernateProperties">
 			<value>
-				hibernate.dialect=org.hibernatespatial.geodb.GeoDBDialect
+				hibernate.dialect=org.hibernate.dialect.H2Dialect
 				hibernate.hbm2ddl.auto=validate
 				hibernate.search.default.directory_provider=filesystem
 				hibernate.search.default.indexBase=./target/indexes
-			</value>
+            </value>
 		</property>
-		<property name="configLocation"
-			value="classpath:org/emonocot/model/hibernate.cfg.xml" />
+		<property name="configLocation" value="classpath:org/emonocot/model/hibernate.cfg.xml" />
 		<property name="configurationClass" value="org.hibernate.cfg.AnnotationConfiguration" />
 	</bean>
 
@@ -87,83 +75,9 @@
 
 	<context:component-scan base-package="org.emonocot.persistence.dao.hibernate" />
 	<context:component-scan base-package="org.emonocot.persistence.dao.olap" />
-	<context:component-scan base-package="org.emonocot.service.impl" />
-	
-	<sec:authentication-manager alias="authenticationManager">	   
-       <sec:authentication-provider user-service-ref='userServiceImpl'>
-         <sec:password-encoder ref="passwordEncoder">
-           <sec:salt-source ref="saltSource"/>
-         </sec:password-encoder>
-       </sec:authentication-provider>
-    </sec:authentication-manager>
-    
-    <bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder"/>
-    
-    <bean id="saltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource">
-        <property name="userPropertyToUse" value="getUsername"/>
-    </bean>
-    
-    <sec:global-method-security pre-post-annotations="enabled">
-      <sec:expression-handler ref="expressionHandler" />
-   </sec:global-method-security>
-   
-   <bean id="expressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
-     <property name="permissionEvaluator" ref="permissionEvaluator" />
-   </bean>
-   
-   <bean class="org.springframework.security.acls.AclPermissionEvaluator" id="permissionEvaluator">
-      <constructor-arg ref="aclService"/>
-      <property name="sidRetrievalStrategy">
-        <bean class="org.emonocot.service.impl.GroupSidRetrievalStrategyImpl"/>
-      </property>
-   </bean>
-   
-   <bean class="org.emonocot.persistence.dao.hibernate.AclServiceImpl" id="aclService">
-    <constructor-arg ref="dataSource"/>
-    <constructor-arg ref="lookupStrategy"/>
-    <constructor-arg ref="aclCache"/>
-    <property name="aclAuthorizationStrategy" ref="aclAuthorizationStrategy"/>
-    <property name="auditLogger" ref="auditLogger"/>
-    <property name="sessionFactory" ref="sessionFactory"/>
-  </bean>
-  
- <bean id="lookupStrategy" class="org.springframework.security.acls.jdbc.BasicLookupStrategy">
-    <constructor-arg ref="dataSource"/>
-    <constructor-arg ref="aclCache"/>
-    <constructor-arg ref="aclAuthorizationStrategy"/>
-    <constructor-arg ref="auditLogger"/>
- </bean>
- 
- <bean id="aclCache" class="org.springframework.security.acls.domain.EhCacheBasedAclCache">
-        <constructor-arg>
-            <bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
-                <property name="cacheManager">
-                    <bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
-                </property>
-                <property name="cacheName" value="aclCache"/>
-            </bean>
-        </constructor-arg>
- </bean>
- 
- <bean id="aclAuthorizationStrategy" class="org.springframework.security.acls.domain.AclAuthorizationStrategyImpl">
-        <constructor-arg>
-            <list>
-                <bean class="org.springframework.security.core.authority.GrantedAuthorityImpl">
-                    <constructor-arg value="PERMISSION_CHANGE_OWNERSHIP"/>
-                </bean>
-                <bean class="org.springframework.security.core.authority.GrantedAuthorityImpl">
-                    <constructor-arg value="PERMISSION_MODIFY_AUDIT"/>
-                </bean>
-                <bean class="org.springframework.security.core.authority.GrantedAuthorityImpl">
-                    <constructor-arg value="PERMISSION_MODIFY_ACE"/>
-                </bean>
-            </list>
-        </constructor-arg>
-    </bean>
-    
-    <bean id="auditLogger" class="org.springframework.security.acls.domain.ConsoleAuditLogger"/>
+    <context:component-scan base-package="org.emonocot.service.impl" />
 
-	<tx:annotation-driven />
+    <tx:annotation-driven/>
 	<context:annotation-config />
 
 </beans>

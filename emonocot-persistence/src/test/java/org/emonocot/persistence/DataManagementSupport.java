@@ -20,8 +20,6 @@ import org.emonocot.model.source.Source;
 import org.emonocot.model.taxon.Rank;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.model.taxon.TaxonomicStatus;
-import org.emonocot.model.user.Group;
-import org.emonocot.model.user.User;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameter;
@@ -74,38 +72,6 @@ public abstract class DataManagementSupport {
     }
 
     /**
-     *
-     * @param groupName Set the group name
-     * @return a Group
-     */
-    public final Group createGroup(String groupName) {
-        Group group = new Group();
-        group.setIdentifier(groupName);
-        setUp.add(group);
-        tearDown.push(group);
-        return group;
-    }
-
-    /**
-     *
-     * @param username Set the username
-     * @param password Set the password
-     * @return a User
-     */
-    public final User createUser(final String username, final String password) {
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setAccountNonExpired(true);
-        user.setAccountNonLocked(true);
-        user.setEnabled(true);
-        user.setCredentialsNonExpired(true);
-        setUp.add(user);
-        tearDown.push(user);
-        return user;
-    }
-
-    /**
     *
     * @param jobId set the job id
      * @param object set the object id
@@ -129,21 +95,15 @@ public abstract class DataManagementSupport {
    /**
     *
     * @param taxon Set the taxon
- * @param feature Set the feature
- * @param content Set the content
- * @param reference Set the reference
+    * @param feature Set the feature
+    * @param content Set the content
     * @return a text content object
     */
     public final TextContent createTextContent(final Taxon taxon,
-            final Feature feature, final String content,
-            final Reference reference) {
+            final Feature feature, final String content) {
        TextContent textContent = new TextContent();
        textContent.setFeature(feature);
        textContent.setContent(content);
-       textContent.setTaxon(taxon);
-       if (reference != null) {
-           textContent.getReferences().add(reference);
-       }
        taxon.getContent().put(feature, textContent);
        return textContent;
    }
@@ -250,24 +210,6 @@ public abstract class DataManagementSupport {
         setUp.add(image);
         tearDown.push(image);
         return image;
-    }
-
-    /**
-     *
-     * @param identifier Set the identifier
-     * @param title Set the title
-     * @param author Set the author
-     * @return a reference
-     */
-    public final Reference createReference(final String identifier,
-            final String title, final String author) {
-        Reference reference = new Reference();
-        reference.setIdentifier(identifier);
-        reference.setTitle(title);
-        reference.setAuthor(author);
-        setUp.add(reference);
-        tearDown.push(reference);
-        return reference;
     }
 
     /**

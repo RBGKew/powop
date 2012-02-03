@@ -15,28 +15,6 @@
 			      </jsp:attribute>
 				  eMonocot			    
 			    </jsp:element>
-			    <div>
-			    	<ul>
-			    		<li>
-			    			<jsp:element  name="a">
-				    			<jsp:attribute name="href"><c:url value="/"/></jsp:attribute>
-				    			<spring:message code="identify.title"/>
-				    		</jsp:element>
-				    	</li>
-			    		<li>
-			    			<jsp:element  name="a">
-				    			<jsp:attribute name="href"><c:url value="/classify"/></jsp:attribute>
-				    			<spring:message code="classify.title"/>
-				    		</jsp:element>
-			    		</li>
-			    		<li>
-			    			<jsp:element  name="a">
-				    			<jsp:attribute name="href"><c:url value="/search?query="/></jsp:attribute>
-				    			<spring:message code="explore.title"/>
-				    		</jsp:element>
-				    	</li>
-			    	</ul>
-			    </div>
 			    <div class="offset12 pull-right">
 			    <ul class="nav">
 				<security:authorize access="!isAuthenticated()">
@@ -58,13 +36,6 @@
 			    <security:authorize access="isAuthenticated()">
 			      <li><jsp:element  name="a">
 				    <jsp:attribute name="href">
-					  <c:url value="/home"/> 
-			        </jsp:attribute>
-			        <security:authentication property="principal.username" />
-			      </jsp:element>
-			      </li>
-			      <li><jsp:element  name="a">
-				    <jsp:attribute name="href">
 					  <c:url value="/logout"/> 
 			        </jsp:attribute>
 			        <spring:message code="logout"/>
@@ -72,9 +43,8 @@
 			      </li>
 			    </security:authorize>
 			    </ul>
-			    
+			    </div>
 			</div>
 		</div>
 	</div>
-</div>
 </jsp:root>

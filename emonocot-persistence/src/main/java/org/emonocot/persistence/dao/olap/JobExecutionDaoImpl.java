@@ -49,11 +49,11 @@ public class JobExecutionDaoImpl extends JdbcDaoSupport implements
 
     /**
      *
-     * @param olapConnection Set the connection
+     * @param newOlapConnection Set the connection
      */
     @Autowired
-    public void setOlapConnection(OlapConnection olapConnection) {
-        this.olapConnection = olapConnection;
+    public final void setOlapConnection(final OlapConnection newOlapConnection) {
+        this.olapConnection = newOlapConnection;
     }
 
     /**
@@ -61,7 +61,7 @@ public class JobExecutionDaoImpl extends JdbcDaoSupport implements
      * @param dataSource Set the data source
      */
     @Autowired
-    public void setDatasource(DataSource dataSource) {
+    public final void setDatasource(final DataSource dataSource) {
         super.setDataSource(dataSource);
     }
 

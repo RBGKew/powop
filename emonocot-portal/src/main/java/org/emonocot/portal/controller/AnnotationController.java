@@ -51,12 +51,12 @@ public class AnnotationController {
     }
 
     /**
-     * @param service
+     * @param newService
      *            set the annotation service
      */
     @Autowired
-    public final void setAnnotationService(AnnotationService service) {
-        this.service = service;
+    public final void setAnnotationService(final AnnotationService newService) {
+        this.service = newService;
     }
 
     /**

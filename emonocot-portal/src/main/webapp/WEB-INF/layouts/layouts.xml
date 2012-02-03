@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+  <definition name="default" template="/WEB-INF/layouts/default.jspx">
+    <put-attribute name="head" value="/WEB-INF/views/head.jspx" />
+    <put-attribute name="header" value="/WEB-INF/views/header.jspx" />
+    <put-attribute name="footer" value="/WEB-INF/views/footer.jspx" />
+  </definition>
+  <definition name="frontPage" template="/WEB-INF/layouts/frontPage.jspx">
+    <put-attribute name="head" value="/WEB-INF/views/head.jspx" />
+    <put-attribute name="header" value="/WEB-INF/views/header.jspx" />
+    <put-attribute name="footer" value="/WEB-INF/views/footer.jspx" />
+  </definition>
+  <definition name="exception" template="/WEB-INF/layouts/checklist/exception.jsp"/>
+  <definition name="rdfFamilyResponse" template="/WEB-INF/layouts/checklist/rdfFamilyResponse.jsp"/>
+  <definition name="rdfResponse" template="/WEB-INF/layouts/checklist/rdfResponse.jsp"/>
+  <definition name="tcsXmlFamilyResponse" template="/WEB-INF/layouts/checklist/tcsXmlFamilyResponse.jsp"/>
+  <definition name="tcsXmlResponse" template="/WEB-INF/layouts/checklist/tcsXmlResponse.jsp"/>
+</tiles-definitions>

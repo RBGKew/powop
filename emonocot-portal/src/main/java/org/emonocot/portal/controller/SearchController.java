@@ -61,41 +61,33 @@ public class SearchController {
 
     /**
      *
-     * @param taxonService
+     * @param newTaxonService
      *            Set the taxon service
      */
     @Autowired
-    public final void setTaxonService(final TaxonService taxonService) {
-        this.taxonService = taxonService;
+    public final void setTaxonService(final TaxonService newTaxonService) {
+        this.taxonService = newTaxonService;
     }
 
     /**
      *
-     * @param searchableObjectService
+     * @param newSearchableObjectService
      *            set the service to search across all 'searchable' objects
      */
     @Autowired
     public final void setSearchableObjectService(
-            final SearchableObjectService searchableObjectService) {
-        this.searchableObjectService = searchableObjectService;
+            final SearchableObjectService newSearchableObjectService) {
+        this.searchableObjectService = newSearchableObjectService;
     }
 
     /**
      *
-     * @param imageService
+     * @param newImageService
      *            set the image service
      */
     @Autowired
-    public final void setImageService(final ImageService imageService) {
-        this.imageService = imageService;
-    }
-
-    /**
-     * @return the name of the index view
-     */
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public final String index() {
-        return "index";
+    public final void setImageService(final ImageService newImageService) {
+        this.imageService = newImageService;
     }
 
     /**
@@ -114,14 +106,14 @@ public class SearchController {
      */
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public final ModelAndView search(
-            @RequestParam(value = "query", required = false) final String query,
-            @RequestParam(value = "limit", required = false, defaultValue = "10") final Integer limit,
-            @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
-            @RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
-            @RequestParam(value = "sort", required = false) @SortingFormat final Sorting sort,
-            @RequestParam(value = "view", required = false, defaultValue = "list") final String view) {
+        @RequestParam(value = "query", required = false) final String query,
+        @RequestParam(value = "limit", required = false, defaultValue = "10") final Integer limit,
+        @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
+        @RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
+        @RequestParam(value = "sort", required = false) @SortingFormat final Sorting sort,
+        @RequestParam(value = "view", required = false, defaultValue = "list") final String view) {
 
-        ModelAndView modelAndView = new ModelAndView("searchResponse");
+        ModelAndView modelAndView = new ModelAndView("search");
 
         Map<FacetName, String> selectedFacets = null;
         if (facets != null && !facets.isEmpty()) {
@@ -143,7 +135,7 @@ public class SearchController {
         responseFacetList.add(FacetName.FAMILY);
         responseFacetList.add(FacetName.CONTINENT);
         responseFacetList.add(FacetName.AUTHORITY);
-        if (selectedFacets == null){
+        if (selectedFacets == null) {
             logger.debug("No selected facets, setting default response facets");
         } else {
             if (selectedFacets.containsKey(FacetName.CLASS)) {

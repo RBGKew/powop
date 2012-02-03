@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:form="http://www.springframework.org/tags/form"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 	
@@ -13,7 +12,6 @@
 		</div>
 		
 		<div class="row">
-		    <tags:info/>
 			<c:if test="${param.error}">
 				
 				<div class="alert-message">
@@ -64,16 +62,6 @@
 						</div>
 					</jsp:element>
 				</spring:bind>
-				<div class="clearfix">
-				  <label for="_spring_security_remember_me"><spring:message code="remember.me" /></label>
-				  <div class="input">
-				    <jsp:element name="input">
-				      <jsp:attribute name="name">_spring_security_remember_me</jsp:attribute>
-					  <jsp:attribute name="type">checkbox</jsp:attribute>
-					  <jsp:attribute name="value"></jsp:attribute>
-				    </jsp:element>
-				  </div>
-				</div>
 				<div class="clearfix">
 				  <div class="input">
 				    <jsp:element name="input" class="btn primary">

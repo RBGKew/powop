@@ -189,7 +189,7 @@ public class GroupController {
         aceDto.setClazz(Source.class);
         aceDto.setPermission(BasePermission.READ);
         modelMap.addAttribute("ace", aceDto);
-        return "groupUpdateForm";
+        return "group/update";
     }
 
     /**
@@ -216,7 +216,7 @@ public class GroupController {
         aceDto.setPermission(BasePermission.READ);
         modelMap.addAttribute("ace", aceDto);
         modelMap.addAttribute("user", new User());
-        return "groupUpdateForm";
+        return "group/update";
     }
 
     /**
@@ -250,7 +250,7 @@ public class GroupController {
             @RequestParam(value = "size", defaultValue = "10", required = false) final Integer size,
             final ModelMap modelMap) {
         modelMap.addAttribute("result", service.list(page, size));
-        return "groupList";
+        return "group/list";
     }
 
     /**
@@ -262,7 +262,7 @@ public class GroupController {
     @RequestMapping(value = "/group", params = "form", method = RequestMethod.GET)
     public final String createForm(final ModelMap modelMap) {
         modelMap.addAttribute(new Group());
-        return "groupForm";
+        return "group/create";
     }
 
     /**
@@ -284,7 +284,7 @@ public class GroupController {
             @RequestParam(value = "size", defaultValue = "10", required = false) final Integer size,
             final ModelMap modelMap) {
         if (result.hasErrors()) {
-            return "groupForm";
+            return "group/create";
         }
         service.save(group);
         String[] codes = new String[] {"group.created" };
@@ -293,7 +293,7 @@ public class GroupController {
                 codes, args);
         modelMap.addAttribute("info", message);
         modelMap.addAttribute("result", service.list(page, size));
-        return "groupList";
+        return "group/list";
     }
 
     /**
@@ -310,7 +310,7 @@ public class GroupController {
             final ModelMap modelMap) {
         modelMap.addAttribute("group", service.load(identifier, "group-page"));
         modelMap.addAttribute("aces", service.listAces(identifier));
-        return "groupPage";
+        return "group/show";
     }
 
     /**
@@ -332,7 +332,7 @@ public class GroupController {
         aceDto.setClazz(Source.class);
         aceDto.setPermission(BasePermission.READ);
         modelMap.addAttribute("ace", aceDto);
-        return "groupUpdateForm";
+        return "group/update";
     }
 
     /**
@@ -361,7 +361,7 @@ public class GroupController {
         aceDto.setClazz(Source.class);
         aceDto.setPermission(BasePermission.READ);
         modelMap.addAttribute("ace", aceDto);
-        return "groupUpdateForm";
+        return "group/update";
     }
 
     /**
@@ -400,6 +400,6 @@ public class GroupController {
         aceDto.setPermission(BasePermission.READ);
         aceDto.setClazz(Source.class);
         modelMap.addAttribute("ace", aceDto);
-        return "groupUpdateForm";
+        return "group/update";
     }
 }

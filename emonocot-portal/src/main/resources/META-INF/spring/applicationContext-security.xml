@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sec="http://www.springframework.org/schema/security"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		                http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.4.xsd">
+	<bean id="loggerListener"
+		class="org.springframework.security.authentication.event.LoggerListener" />
+
+	<sec:authentication-manager alias="authenticationManager">
+		<sec:authentication-provider
+			user-service-ref='userServiceImpl'>
+			<sec:password-encoder ref="passwordEncoder">
+				<sec:salt-source ref="saltSource" />
+			</sec:password-encoder>
+		</sec:authentication-provider>
+	</sec:authentication-manager>
+
+	<sec:global-method-security
+		pre-post-annotations="enabled">
+		<sec:expression-handler ref="expressionHandler" />
+	</sec:global-method-security>
+
+	<bean id="expressionHandler"
+		class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+		<property name="permissionEvaluator" ref="permissionEvaluator" />
+	</bean>
+
+	<bean class="org.springframework.security.acls.AclPermissionEvaluator"
+		id="permissionEvaluator">
+		<constructor-arg ref="aclService" />
+		<property name="sidRetrievalStrategy">
+			<bean class="org.emonocot.service.impl.GroupSidRetrievalStrategyImpl" />
+		</property>
+	</bean>
+
+	<bean class="org.emonocot.persistence.dao.hibernate.AclServiceImpl"
+		id="aclService">
+		<constructor-arg ref="dataSource" />
+		<constructor-arg ref="lookupStrategy" />
+		<constructor-arg ref="aclCache" />
+		<property name="sidIdentityQuery" value="${spring.security.sid.identity.query}" />
+		<property name="classIdentityQuery" value="${spring.security.class.identity.query}" />
+		<property name="aclAuthorizationStrategy" ref="aclAuthorizationStrategy" />
+		<property name="auditLogger" ref="auditLogger" />
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="lookupStrategy"
+		class="org.springframework.security.acls.jdbc.BasicLookupStrategy">
+		<constructor-arg ref="dataSource" />
+		<constructor-arg ref="aclCache" />
+		<constructor-arg ref="aclAuthorizationStrategy" />
+		<constructor-arg ref="auditLogger" />
+	</bean>
+
+	<bean id="aclCache"
+		class="org.springframework.security.acls.domain.EhCacheBasedAclCache">
+		<constructor-arg>
+			<bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+				<property name="cacheManager" ref="cacheManager" />
+				<property name="cacheName" value="aclCache" />
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<bean id="aclAuthorizationStrategy"
+		class="org.springframework.security.acls.domain.AclAuthorizationStrategyImpl">
+		<constructor-arg>
+			<list>
+				<bean
+					class="org.springframework.security.core.authority.GrantedAuthorityImpl">
+					<constructor-arg value="PERMISSION_CHANGE_OWNERSHIP" />
+				</bean>
+				<bean
+					class="org.springframework.security.core.authority.GrantedAuthorityImpl">
+					<constructor-arg value="PERMISSION_MODIFY_AUDIT" />
+				</bean>
+				<bean
+					class="org.springframework.security.core.authority.GrantedAuthorityImpl">
+					<constructor-arg value="PERMISSION_MODIFY_ACE" />
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean id="auditLogger"
+		class="org.springframework.security.acls.domain.ConsoleAuditLogger" />
+
+	<bean id="cacheManager"
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation" value="classpath:/ehcache.xml" />
+		<property name="shared" value="true" />
+	</bean>
+
+
+	<bean id="passwordEncoder"
+		class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
+
+	<bean id="saltSource"
+		class="org.springframework.security.authentication.dao.ReflectionSaltSource">
+		<property name="userPropertyToUse" value="getUsername" />
+	</bean>
+
+	<sec:http-firewall ref="httpFirewall" />
+	<!-- Due to SEC-1606 https://jira.springsource.org/browse/SEC-1606 should 
+		be fixed in 3.0.5.RELEASE -->
+	<bean name="httpFirewall"
+		class="org.emonocot.portal.auth.RequestDispatcherAwareHttpFirewall" />
+
+	<sec:http use-expressions="true">
+		<sec:intercept-url pattern="/login*" access="isAnonymous()" />
+		<sec:intercept-url pattern="/home" access="!isAnonymous()" />
+		<sec:intercept-url pattern="/taxon" method="POST"
+			access="hasRole('PERMISSION_CREATE_TAXON')" />
+		<sec:intercept-url pattern="/taxon/*" method="DELETE"
+			access="hasRole('PERMISSION_DELETE_TAXON')" />
+		<sec:intercept-url pattern="/image" method="POST"
+			access="hasRole('PERMISSION_CREATE_IMAGE')" />
+		<sec:intercept-url pattern="/image/*" method="DELETE"
+			access="hasRole('PERMISSION_DELETE_IMAGE')" />
+		<sec:intercept-url pattern="/reference" method="POST"
+			access="hasRole('PERMISSION_CREATE_REFERENCE')" />
+		<sec:intercept-url pattern="/reference/*" method="DELETE"
+			access="hasRole('PERMISSION_DELETE_REFERENCE')" />
+		<sec:intercept-url pattern="/user" method="POST"
+			access="hasRole('PERMISSION_CREATE_USER')" />
+		<sec:intercept-url pattern="/user/*" method="DELETE"
+			access="hasRole('PERMISSION_DELETE_USER')" />
+		<sec:intercept-url pattern="/group" method="POST"
+			access="hasRole('PERMISSION_CREATE_GROUP')" />
+		<sec:intercept-url pattern="/group/*" method="DELETE"
+			access="hasRole('PERMISSION_DELETE_GROUP')" />
+		<sec:intercept-url pattern="/source" method="POST"
+			access="hasRole('PERMISSION_CREATE_SOURCE')" />
+		<sec:intercept-url pattern="/source/*" method="DELETE"
+			access="hasRole('PERMISSION_DELETE_SOURCE')" />
+		<sec:intercept-url pattern="/admin/source/*"
+			access="hasRole('PERMISSION_VIEW_SOURCE')" />
+		<sec:intercept-url pattern="/jobExecution" method="POST"
+			access="hasRole('PERMISSION_CREATE_JOBEXECUTION')" />
+		<sec:intercept-url pattern="/jobExecution/*" method="DELETE"
+			access="hasRole('PERMISSION_DELETE_JOBEXECUTION')" />
+		<sec:intercept-url pattern="/jobInstance" method="POST"
+			access="hasRole('PERMISSION_CREATE_JOBINSTANCE')" />
+		<sec:intercept-url pattern="/jobInstance/*" method="DELETE"
+			access="hasRole('PERMISSION_DELETE_JOBINSTANCE')" />
+		<sec:intercept-url pattern="/annotation" method="POST"
+			access="hasRole('PERMISSION_CREATE_ANNOTATION')" />
+		<sec:intercept-url pattern="/annotation/*" method="DELETE"
+			access="hasRole('PERMISSION_DELETE_ANNOTATION')" />
+		<sec:form-login login-page='/login'
+			login-processing-url="/process_login" authentication-failure-url="/login?error=true"
+			default-target-url="/home" />
+		<sec:remember-me />
+		<sec:access-denied-handler error-page="/accessDenied" />
+		<sec:logout logout-url="/logout" />
+		<sec:http-basic />
+	</sec:http>
+	<beans profile="default">
+	    <context:property-placeholder location="classpath:META-INF/spring/application.properties" />
+	</beans>
+	<beans profile="local">
+	    <context:property-placeholder location="classpath:META-INF/spring/local.properties" />
+	</beans>
+</beans>

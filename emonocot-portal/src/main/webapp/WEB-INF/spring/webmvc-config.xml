@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:component-scan base-package="org.emonocot" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>WEB-INF/i18n/messages</value>
+				<value>WEB-INF/i18n/application</value>
+			</list>
+		</property>
+		<property name="useCodeAsDefaultMessage" value="true"/>
+	</bean>
+	
+	<mvc:view-controller path="/" view-name="index"/>
+	<mvc:view-controller path="/accessDenied" view-name="accessDenied"/>
+    <mvc:view-controller path="/uncaughtException" view-name="uncaughtException"/>
+    <mvc:view-controller path="/resourceNotFound" view-name="resourceNotFound"/>
+    <mvc:view-controller path="/methodNotAllowed" view-name="methodNotAllowed"/>	
+
+	<bean id="conversionService" class="org.emonocot.portal.format.PortalFormatterFactory">
+		<property name="converters">
+			<set>
+				<ref bean="aceDtoConverter" />
+				<bean class="org.emonocot.api.convert.StringToPermissionConverter" />
+				<bean class="org.emonocot.api.convert.PermissionToStringConverter" />
+				<bean class="org.emonocot.api.convert.StringToClassConverter" />
+				<bean class="org.emonocot.api.convert.ClassToStringConverter" />
+			</set>
+		</property>
+	</bean>
+
+	<bean name="aceDtoConverter" class="org.emonocot.portal.convert.AceDtoConverter" />
+
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<property name="order" value="0" />
+		<property name="useDefaultSuffixPattern" value="false" />
+	</bean>
+
+	<!-- Due to https://jira.springsource.org/browse/SPR-6164 we need to include 
+		this to prevent uri's with dots being truncated -->
+
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="webBindingInitializer">
+			<bean
+				class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+				<property name="conversionService" ref="conversionService" />
+				<property name="validator" ref="validator" />
+			</bean>
+		</property>
+		<property name="messageConverters">
+			<list>
+				<ref bean="jsonConverter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+
+	<bean id="jsonConverter"
+		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		<property name="supportedMediaTypes" value="application/json" />
+		<property name="objectMapper" ref="customObjectMapper" />
+	</bean>
+
+	<bean name="customObjectMapper"
+		class="org.emonocot.model.marshall.json.CustomObjectMapperFactory">
+		<property name="referenceService" ref="referenceServiceImpl" />
+		<property name="taxonService" ref="taxonServiceImpl" />
+		<property name="imageService" ref="imageServiceImpl" />
+		<property name="groupService" ref="groupServiceImpl" />
+		<property name="userService" ref="userServiceImpl" />
+		<property name="sourceService" ref="sourceServiceImpl" />
+		<property name="jobInstanceService" ref="jobInstanceServiceImpl" />
+	</bean>
+
+	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver"
+		id="tilesViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.tiles2.TilesView" />
+	</bean>
+
+	<bean class="org.springframework.web.servlet.view.tiles2.TilesConfigurer"
+		id="tilesConfigurer">
+		<property name="definitions">
+			<list>
+				<value>/WEB-INF/layouts/layouts.xml</value>
+				<value>/WEB-INF/views/**/views.xml</value>
+			</list>
+		</property>
+	</bean>
+</beans>

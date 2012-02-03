@@ -58,9 +58,8 @@
 		</div>
 		
 		<div class="row">
-			<div class="span5">
+			<div class="span4">
 				<ul id="facets" class="no-bullet">
-					<h3><spring:message code="restrictSearch" /></h3>
 					<c:forEach var="facetName" items="${result.facetNames}">
 						<li id="${facetName}">
 							<h3>
@@ -78,9 +77,7 @@
 											<jsp:element name="a">
 												<jsp:attribute name="href">
 													<c:url value="search">
-													    <c:forEach var="p" items="${result.paramNames}">									
-										                    <c:param name="${p}" value="${result.params[p]}"/>																	
-										                </c:forEach>														
+														<c:param name="query" value="${result.params['query']}" />
 														<c:param name="limit" value="${result.pageSize}" />
 														<c:param name="start" value="0" />
 														<c:param name="sort">${result.sort}</c:param>
@@ -99,7 +96,6 @@
 												<spring:message code="${facetName}.clearFacet" />
 											</jsp:element>
 										</li>
-										
 										<li>
 											<jsp:scriptlet>
 												try {
@@ -123,9 +119,7 @@
 														<jsp:element name="a">
 															<jsp:attribute name="href">
 																<c:url value="search">
-																	<c:forEach var="p" items="${result.paramNames}">									
-										                                <c:param name="${p}" value="${result.params[p]}"/>																	
-										                            </c:forEach>
+																	<c:param name="query" value="${result.params['query']}" />
 																	<c:param name="limit" value="${result.pageSize}" />
 																	<c:param name="start" value="0" />
 																	<c:param name="sort">${result.sort}</c:param>
@@ -150,12 +144,9 @@
 										</c:forEach>
 									</c:otherwise>
 								</c:choose>
-								
 							</ul>
-							
 						</li>
 					</c:forEach>
-					
 					<li id="sort">
 						<h3>
 							<spring:message code="sort" />
@@ -175,9 +166,7 @@
 											<jsp:element name="a">
 												<jsp:attribute name="href">
 													<c:url value="search">
-														<c:forEach var="p" items="${result.paramNames}">									
-										                    <c:param name="${p}" value="${result.params[p]}"/>																	
-										                </c:forEach>
+														<c:param name="query" value="${result.params['query']}" />
 														<c:param name="limit" value="${result.pageSize}" />
 														<c:param name="start" value="0" />
 														<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
@@ -202,7 +191,7 @@
 				</ul>
 			</div>
 			
-			<div class="span11">
+			<div class="span12">
 				
 					<div class="pagination">
 						<tags:pagination pager="${result}" url="search"/>
@@ -223,7 +212,7 @@
 	      				</jsp:scriptlet>
 	      				<div id="viewIcons">
 						<c:if test="${viewOption != false}">
-	      					<div class="right">
+	      					<div style="float:right">
 		      					<jsp:element name="a">
 		      						<jsp:attribute name="title">list</jsp:attribute>
 		      						<jsp:attribute name="href">
@@ -283,7 +272,7 @@
 	      			</div>
 
 					
-					<div id="results" class="span11">
+					<div id="results" class="span10">
 					<c:choose>
 					
 					<c:when test="${result.params['view'] == 'grid'}">
@@ -291,8 +280,7 @@
 					<ul class="media-grid"> 
 					<c:forEach var="item" items="${result.records}">
 						<li>
-						    <c:url var="thumbnail" value="/images/thumbnails/${item.identifier}.jpg"/>
-							<a class="result thumb" href="image/${item.identifier}" data-placement="below" rel="twipsy" title="${item.caption}"><img class="thumbnail" src="${thumbnail}" /></a>
+							<a class="result thumb" href="image/${item.identifier}" data-placement="below" rel="twipsy" title="${item.caption}"><img class="thumbnail" src="${item.url}" /></a>
 						</li>
 						</c:forEach>
 						</ul>
@@ -302,10 +290,9 @@
 					<c:otherwise>
 					<c:forEach var="item" items="${result.records}">
 						<div class="well">
-							<table><tbody><tr>
 							<c:choose>
 								<c:when test="${item.className == 'Taxon'}">
-									<td>
+									<div class="row" style="margin-left:0px;">
 										<jsp:element name="img">
 					      					<jsp:attribute name="src">
 					      						<c:url value="/images/icons/taxon_icon.jpg"/>
@@ -313,27 +300,11 @@
 					      					<jsp:attribute name="class">pull-left</jsp:attribute>
 					      					<jsp:attribute name="alt">Taxon</jsp:attribute>
 					      				</jsp:element>
-					      			</td>
-									<td>
-									<a class="result" href="taxon/${item.identifier}" title="${item.name}"><h4 class="h4Results"><em>${item.name}</em> ${item.authorship}</h4></a><br/>
-										
-										<c:choose>
-				  							<c:when test="${item.accepted != null}">
-												<spring:message code="resultIsSynonym" />
-											</c:when>
-											<c:otherwise>
-												<spring:message code="resultIsAccepted" />
-											</c:otherwise>
-										</c:choose>
-										
-										
-									</td>
-									<td>	
+										<a class="result span8" href="taxon/${item.identifier}" title="${item.name}"><h4><em>${item.name}</em> ${item.authorship}</h4></a>
 										<a class="thumb pull-right">
 											<c:choose>
 												<c:when test="${not empty item.image}">
-												    <c:url var="thumbnail" value="/images/thumbnails/${item.image.identifier}.jpg"/>
-													<img src="${thumbnail}" title="${item.image.caption}"/>
+													<img src="${item.image.url}" title="${item.image.caption}"/>
 												</c:when>
 												<c:otherwise>
 													<jsp:element name="img">
@@ -345,10 +316,10 @@
 												</c:otherwise>
 											</c:choose>
 										</a>
-									</td>
+									</div>
 								</c:when>
 								<c:when test="${item.className == 'Image'}">
-									<div class="row no-margin-left">
+									<div class="row" style="margin-left:0px;">
 										<jsp:element name="img">
 					      					<jsp:attribute name="src">
 					      						<c:url value="/images/icons/image_icon.jpg"/>
@@ -356,16 +327,14 @@
 					      					<jsp:attribute name="class">pull-left</jsp:attribute>
 					      					<jsp:attribute name="alt">Image</jsp:attribute>
 					      				</jsp:element>
-										<c:url var="thumbnail" value="/images/thumbnails/${item.identifier}.jpg"/>
-										<a class="result pull-left" href="image/${item.identifier}" title="${item.caption}"><h4 class="h4Results">${item.caption}</h4></a>
-										<a class="thumb pull-right"><img src="${thumbnail}" title="${item.caption}"/></a>
+										<a class="result span8" href="image/${item.identifier}" title="${item.caption}"><h4>${item.caption}</h4></a>
+										<a class="thumb pull-right"><img src="${item.url}" title="${item.caption}"/></a>
 									</div>
 								</c:when>
 								<c:otherwise>
 									Unknown class ${item.className}
 								</c:otherwise>
 							</c:choose>
-							</tr></tbody></table>
 						</div>
 							</c:forEach>
 						</c:otherwise>

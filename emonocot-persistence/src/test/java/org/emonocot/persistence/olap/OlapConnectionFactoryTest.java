@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.io.PrintWriter;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +49,7 @@ public class OlapConnectionFactoryTest extends AbstractPersistenceTest {
      */
     @Before
     public final void setUp() throws Exception {
-        super.doSetUp();       
+        super.doSetUp();
     }
     /**
      * @throws java.lang.Exception if there is a problem
@@ -105,21 +104,23 @@ public class OlapConnectionFactoryTest extends AbstractPersistenceTest {
     }
 
     /**
-     *
+     * @throws Exception if there is a problem
      */
     @Test
     public final void queryTest() throws Exception {
-        CellSet result = olapConnection.createStatement().executeOlapQuery("SELECT {[Measures].[Object Numbers]} on COLUMNS,"
-                    + " {[taxa].[family].members} on ROWS" + " FROM Job");
+        CellSet result = olapConnection.createStatement().executeOlapQuery(
+                "SELECT {[Measures].[Object Numbers]} on COLUMNS,"
+                        + " {[taxa].[family].members} on ROWS" + " FROM Job");
 
         assertNotNull(result);
         List<CellSetAxis> axes = result.getAxes();
-        CellSetFormatter cellSetFormatter = new RectangularCellSetFormatter(true);
+        CellSetFormatter cellSetFormatter = new RectangularCellSetFormatter(
+                true);
         PrintWriter writer = new PrintWriter(System.out);
-        cellSetFormatter.format(result,  writer);
+        cellSetFormatter.format(result, writer);
         writer.flush();
-        assertEquals("The label should be Ausidae",
-                axes.get(1).getPositions().get(0).getMembers().get(0).getName(), "Ausidae");
+        assertEquals("The label should be Ausidae", axes.get(1).getPositions()
+                .get(0).getMembers().get(0).getName(), "Ausidae");
         List<Integer> index = new ArrayList<Integer>();
         index.add(0);
         index.add(0);

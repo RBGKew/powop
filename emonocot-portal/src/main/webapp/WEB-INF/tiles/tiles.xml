@@ -41,9 +41,6 @@
   <definition name="sourceAdminPage" extends="base">    
     <put-attribute name="body" value="/WEB-INF/tiles/tiles/sourceAdminPage.jsp" />
   </definition>
-  <definition name="sourceAdminForm" extends="base">    
-    <put-attribute name="body" value="/WEB-INF/tiles/tiles/sourceAdminForm.jsp" />
-  </definition>
   <definition name="sourceJobPage" extends="base">    
     <put-attribute name="body" value="/WEB-INF/tiles/tiles/sourceJobPage.jsp" />
   </definition>
@@ -58,26 +55,5 @@
   </definition>
   <definition name="userPage" extends="base">    
     <put-attribute name="body" value="/WEB-INF/tiles/tiles/userPage.jsp" />
-  </definition>
-  <definition name="groupList" extends="base">    
-    <put-attribute name="body" value="/WEB-INF/tiles/tiles/groupList.jsp" />
-  </definition>
-  <definition name="groupForm" extends="base">    
-    <put-attribute name="body" value="/WEB-INF/tiles/tiles/groupForm.jsp" />
-  </definition>
-  <definition name="groupUpdateForm" extends="base">    
-    <put-attribute name="body" value="/WEB-INF/tiles/tiles/groupUpdateForm.jsp" />
-  </definition>
-  <definition name="groupPage" extends="base">    
-    <put-attribute name="body" value="/WEB-INF/tiles/tiles/groupPage.jsp" />
-  </definition>
-  <definition name="404" extends="base">    
-    <put-attribute name="body" value="/WEB-INF/tiles/tiles/404.jsp" />
-  </definition>
-  <definition name="500" extends="base">    
-    <put-attribute name="body" value="/WEB-INF/tiles/tiles/500.jsp" />
-  </definition>
-  <definition name="405" extends="base">    
-    <put-attribute name="body" value="/WEB-INF/tiles/tiles/405.jsp" />
   </definition>
 </tiles-definitions>

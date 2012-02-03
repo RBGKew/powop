@@ -5,69 +5,21 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
-
-	<c:set var="bibliography" value="${em:bibliography(taxon)}"/>
- <div class="anchorbar" data-scrollspy="scrollspy">
-			<div class="fill">
-				<div class="container">
-					<ul>
-						<li><a href="#images"><spring:message code="images" /></a></li>
-						<c:forEach var="feature" items="${em:features()}">
-							<c:choose>
-								<c:when test="${feature == 'general'}">
-			      					<li><a href="#${feature}"><spring:message code="${feature}" /></a></li>
-			      				</c:when>
-			      				<c:when test="${feature == 'diagnostic'}">
-			      					<li><a href="#${feature}"><spring:message code="${feature}" /></a></li>
-			      				</c:when>
-			      			</c:choose>
-						</c:forEach>
-						<li class="dropdown" data-dropdown="dropdown" >
-			    			<a href="#" class="dropdown-toggle"><spring:message code="more" /></a>
-			    			<ul class="dropdown-menu">
-			    				<c:forEach var="feature" items="${em:features()}">
-			    					<c:set var="content" value="${em:content(taxon,feature)}" />
-			    					<c:if test="${(content != null) &amp;&amp; (feature != 'general') &amp;&amp; (feature != 'diagnostic')}">
-			      						<li><a href="#${feature}"><spring:message code="${feature}" /></a></li>
-			      					</c:if>
-			      				</c:forEach>
-			    			</ul>
-  						</li>
-						<li><a href="#map"><spring:message code="distributionMap" /></a></li>
-						<li><a href="#children"><spring:message code="children" /></a></li>
-						<li><a href="#synonyms"><spring:message code="synonyms" /></a></li>
-						<li><a href="#bibliography"><spring:message code="bibliography" /></a></li>
-					</ul>
-  				</div>
-  			</div>
-		</div>
 	
-		
-		
-	<div class="content taxon-content">	
-<div class="page-header">
-		
-		<div class="row">
-			<jsp:element name="img">
-				<jsp:attribute name="src">
-					<c:url value="/images/taxonPageIcon.jpg"/>
-				</jsp:attribute>
-				<jsp:attribute name="class">pull-left</jsp:attribute>
-				<jsp:attribute name="alt">Taxon</jsp:attribute>
-			</jsp:element>
-			
+	
+	<div class="content">
+		<div class="page-header">
 			<h2 id="page-title">
 				<span class="taxonName">${taxon.name}</span> ${taxon.authorship}
 			</h2>				
 			<c:if test="${taxon.protologue != null}">
 				<small id="protologue">${taxon.protologue.title} ${taxon.protologue.volume}${taxon.protologueMicroReference} ${taxon.protologue.datePublished}</small>
 			</c:if>
-			</div>
 		</div>
 		
 		<div class="row">
 			<div class="span12">
-				<c:choose>
+		  		<c:choose>
 				  	<c:when test="${taxon.accepted != null}">
 						<section id="accepted">
 							<spring:message code="isSynonym" />
@@ -81,68 +33,44 @@
 					</c:when>
 					<c:otherwise>
 						<spring:message code="isAccepted" />
-						<jsp:element name="a">
-							<jsp:attribute name="href">
-                        		<c:url value="/source/${taxon.authority.identifier}" />
-                      		</jsp:attribute>
-                      	${taxon.authority.title}
-                    	</jsp:element>
 					</c:otherwise>
 				</c:choose>
-				
-				<section id="images">
+			
 				<c:if test="${not empty taxon.images}">
 					<section id="gallery" class="ad-gallery">
-						<div class="ad-image-wrapper">&#160;</div>
-						<c:if test="${fn:length(taxon.images) == 1 }"> 
-  							<c:set value="no-display" var="cssClass"></c:set>
-						</c:if>
-						<div class="ad-controls ${cssClass}">&#160;</div>
-						<div class="ad-nav ${cssClass}">
+				    	<div class="ad-image-wrapper">&#160;</div>
+						<div class="ad-controls">&#160;</div>
+						<div class="ad-nav">
 						  <div class="ad-thumbs">
 						    <ul class="ad-thumb-list media-grid">
 							  <c:forEach var="image" items="${taxon.images}" varStatus="status">
 							    <li>
 							      <a href="${image.url}">
-							        <c:url var="thumbnail" value="/images/thumbnails/${image.identifier}.jpg"/>
-								    <c:url var="url" value="/image/${image.identifier}"/>
-							        <img src="${thumbnail}" class="${status.index} thumbnail" title="${image.caption}" ad-href="${url}"/>
+								    <c:url var="url" value="/image/${image.identifier}"/> 
+							        <img	src="${image.url}" class="${status.index} thumbnail" title="${image.caption}" ad-href="${url}" />
 							      </a>
 							    </li>
 							  </c:forEach>
 						    </ul>
 						  </div>
 				    	</div>
-				   
-				</section>
+			  		</section>
 				</c:if>
-				</section>
-				
 				<section id="textContent">
 					<c:forEach var="feature" items="${em:features()}">
 						<c:set var="content" value="${em:content(taxon,feature)}" />
 						<c:if test="${content != null}">
 							<div>
-								<a id="${feature}">
-									<h5><spring:message code="${feature}"/></h5>
-								</a>
-						    	<p class="justified">${content.content}</p>
-						    	<c:if test="${not empty content.references }">
-						    	  <ul class="citations">
-						    	    <c:forEach var="reference" items="${content.references}">
-						    	      <li><a href="#${reference.identifier}">${em:citekey(bibliography, reference)}</a></li>
-						    	    </c:forEach>
-						    	  </ul>
-						    	</c:if>
+						    	<h5><spring:message code="${feature}"/></h5>
+						    	<p>${content.content}</p>
 						  	</div>
 						</c:if>
 					</c:forEach>
-				</section>
-				
-				<c:if test="${not empty em:regions(taxon)}">
+				</section>			
+			<c:if test="${not empty em:regions(taxon)}">
 				<section id="distribution">
 					<h5><spring:message code="distribution" /></h5>
-					<div id="map">
+			  		<div id="map" style="height: 470px; width: 700px">
 						<jsp:element name="img">
 				  			<jsp:attribute name="id">alternative-map</jsp:attribute>
 				  			<jsp:attribute name="src">
@@ -180,7 +108,6 @@
 					
 					<script type="text/javascript">
 						var map;
-						 
 						function foo(data) {
 					  		if (!data) {
 	                  	} else {
@@ -299,48 +226,9 @@
 					</ul>
 				</section>
 			</c:if>
-			<c:if test="${not empty bibliography.references}">
-		        <section id="bibliography">
-					<h5>
-						<spring:message code="bibliography" />
-					</h5>
-					<ul>
-						<c:forEach var="reference" items="${bibliography.references}">
-							<li>
-								<a id="${reference.identifier}">${em:citekey(bibliography,reference)}</a>
-								<c:choose>
-								  <c:when test="${not empty reference.citation}">
-								    ${reference.citation}
-								  </c:when>
-								  <c:otherwise>
-								    <!-- Construct reference ourselves -->								    
-								    ${reference.author}<c:if test="${not empty reference.datePublished}"> (${reference.datePublished})</c:if>. ${reference.title}<c:if test="${not empty reference.publishedInAuthor}"> ${reference.publishedInAuthor}</c:if><c:if test="${not empty reference.publishedIn}"> ${reference.publishedIn}</c:if><c:if test="${not empty reference.volume}"> ${reference.volume}</c:if><c:if test="${not empty reference.pages}">: ${reference.pages}</c:if>. <c:if test="${not empty reference.publisher}">${reference.publisher}.</c:if>
-								  </c:otherwise>
-								</c:choose>
-							</li>
-						</c:forEach>
-					</ul>
-		       </section>
-		   </c:if>
+			
 		</div>
 		<div class="span4 info-right">
-			<section id="sources">
-				<h5><spring:message code="sources" /></h5>
-				<ul>
-					<c:forEach var="source" items="${taxon.sources}">
-						<li>
-							<jsp:element name="a">
-								<jsp:attribute name="href">
-	                        		<c:url value="/source/${source.identifier}" />
-	                      		</jsp:attribute>
-	                      	${source.title}
-	                    	</jsp:element>
-	                   	</li>
-					</c:forEach>
-				</ul>
-			</section>
-			
-			<h5><spring:message code="taxonomicTree" /></h5>	
 			<ul id="taxonHierarchy" class="no-bullet">
 				<c:if test="${not empty taxon.ancestors}">
 					<tags:tree taxon = "${taxon}" ancestors="${taxon.ancestors}" />

@@ -1,18 +1,1 @@
 insert into Source (id, identifier, uri) values (1, 'test', 'http://example.com');
-insert into Taxon (id, identifier, name, family) values (1, 'urn:lsid:cate-araceae.org:taxon:5cd5a6aa-6bfb-1014-a918-dc439151c9e5', 'Acontias conspurcatus','test');
-insert into Taxon (id, identifier, name, family) values (2, 'urn:lsid:cate-araceae.org:taxon:5cd5c756-6bfb-1014-a918-dc439151c9e5', 'Acontias cubensis','test');
-insert into Taxon (id, identifier, name, family) values (3, 'urn:lsid:cate-araceae.org:taxon:5cd5e85c-6bfb-1014-a918-dc439151c9e5', 'Acontias diversifolius','test');
-insert into Taxon (id, identifier, name, family) values (4, 'urn:lsid:cate-araceae.org:taxon:5c7a00ea-6bfb-1014-a918-dc439151c9e5', 'Acontias hastifolius','test');
-insert into Taxon (id, identifier, name, family) values (5, 'urn:lsid:cate-araceae.org:taxon:5cd6156a-6bfb-1014-a918-dc439151c9e5', 'Acontias helleborifolius','test');
-insert into Taxon (id, identifier, name, family) values (6, 'urn:lsid:cate-araceae.org:taxon:5c7a04f7-6bfb-1014-a918-dc439151c9e5', 'Acontias hoffmannii','test');
-insert into Taxon (id, identifier, name, family) values (7, 'urn:lsid:cate-araceae.org:taxon:5c7a08f9-6bfb-1014-a918-dc439151c9e5', 'Acontias luridus','test');
-insert into Taxon (id, identifier, name, family) values (8, 'urn:lsid:cate-araceae.org:taxon:5c7478df-6bfb-1014-a918-dc439151c9e5', 'Acontias platylobus','test');
-insert into Taxon (id, identifier, name, family) values (9, 'urn:lsid:cate-araceae.org:taxon:5c7a0cef-6bfb-1014-a918-dc439151c9e5', 'Acontias plumieri','test');
-insert into Taxon (id, identifier, name, family) values (10, 'urn:lsid:cate-araceae.org:taxon:5c747dbe-6bfb-1014-a918-dc439151c9e5', 'Acontias riedelianus','test');
-insert into Taxon (id, identifier, name, family) values (11, 'urn:lsid:cate-araceae.org:taxon:5cd66483-6bfb-1014-a918-dc439151c9e5', 'Acontias striatipes','test');
-insert into Taxon (id, identifier, name, family) values (12, 'urn:lsid:cate-araceae.org:taxon:5cd6850d-6bfb-1014-a918-dc439151c9e5', 'Acontias variegatus','test');
-insert into Taxon (id, identifier, name, family) values (13, 'urn:lsid:cate-araceae.org:taxon:5c74820b-6bfb-1014-a918-dc439151c9e5', 'Acontias wendlandii','test');
-insert into Taxon (id, identifier, name, family) values (14, 'urn:lsid:cate-araceae.org:taxon:5cd58503-6bfb-1014-a918-dc439151c9e5', 'Acontias','test');
-insert into Taxon (id, identifier, name, family) values (15, 'urn:lsid:cate-araceae.org:taxon:5cd6c8e9-6bfb-1014-a918-dc439151c9e5', 'Adelonema erythropus','test');
-insert into Taxon (id, identifier, name, family) values (16, 'urn:lsid:cate-araceae.org:taxon:5cd6a8b2-6bfb-1014-a918-dc439151c9e5', 'Adelonema','test');
-insert into Taxon (id, identifier, name, family) values (17, 'urn:lsid:cate-project.org:taxon:19c6f4d2-3336-46bc-bba3-a4880cf62196', 'Afrorhaphidophora africana','test');

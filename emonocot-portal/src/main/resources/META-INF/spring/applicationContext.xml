@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		                http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	<context:annotation-config />
+	<context:component-scan base-package="org.emonocot">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="assignable" expression="org.emonocot.portal.remoting.DaoImpl"/>
+		<context:exclude-filter type="assignable" expression="org.emonocot.portal.remoting.JobExecutionDaoImpl"/>
+		<context:exclude-filter type="assignable" expression="org.emonocot.portal.remoting.JobInstanceDaoImpl"/>
+	</context:component-scan>
+
+	<tx:annotation-driven />
+
+	<bean name="hibernateSearchIndexPurger"
+		class="org.emonocot.persistence.hibernate.HibernateSearchIndexPurger"
+		init-method="purgeIndices" depends-on="transactionManager">
+		<property name="purgeOnInit" value="${hibernate.search.purge.indexes.on.init}" />
+		<property name="indexedClasses">
+			<list>
+				<value>org.emonocot.model.description.Distribution</value>
+				<value>org.emonocot.model.description.TextContent</value>
+				<value>org.emonocot.model.media.Image</value>
+				<value>org.emonocot.model.reference.Reference</value>
+				<value>org.emonocot.model.source.Source</value>
+				<value>org.emonocot.model.taxon.Taxon</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean name="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean name="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="hibernateProperties">
+			<value>
+				hibernate.dialect=${hibernate.dialect}
+				hibernate.hbm2ddl.auto=validate
+				hibernate.search.default.directory_provider=${hibernate.search.default.directory_provider}
+				hibernate.search.default.sourceBase=${hibernate.search.default.sourceBase}
+				hibernate.search.default.indexBase=${hibernate.search.default.indexBase}
+				hibernate.search.default.refresh=${hibernate.search.default.refresh}
+				hibernate.search.worker.backend=${hibernate.search.worker.backend}
+				hibernate.search.worker.jms.connection_factory=java:comp/env/${amq.connectionFactory.jndi_name}
+				hibernate.search.worker.jms.queue=java:comp/env/${amq.queue.jndi_name}
+				hibernate.search.worker.jndi.java.naming.factory.initial=org.apache.activemq.jndi.ActiveMQInitialContextFactory
+				hibernate.search.worker.jndi.java.naming.provider.url=${amq.broker.uri}
+				hibernate.search.worker.jndi.queue.${amq.queue.physical_name}=${amq.queue.jndi_name}
+			</value>
+		</property>
+		<property name="annotatedClasses">
+			<list>
+				<value>org.emonocot.model.source.Source</value>
+				<value>org.emonocot.model.common.Annotation</value>
+				<value>org.emonocot.model.description.Distribution</value>
+				<value>org.emonocot.model.description.TextContent</value>
+				<value>org.emonocot.model.media.Image</value>
+				<value>org.emonocot.model.reference.Reference</value>
+				<value>org.emonocot.model.taxon.Taxon</value>
+				<value>org.emonocot.model.user.User</value>
+				<value>org.emonocot.model.user.Group</value>
+			</list>
+		</property>
+		<property name="annotatedPackages" value="org.emonocot.model.common"/>
+	</bean>
+
+	<bean name="connection" class="org.emonocot.persistence.olap.OlapConnectionFactory">
+		<property name="dataSource">
+			<bean class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+				<property name="driverClass" value="mondrian.olap4j.MondrianOlap4jDriver" />
+				<property name="url" value="${mondrian.url}" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver.classname}" />
+		<property name="url" value="${jdbc.driver.url}" />
+		<property name="username" value="${jdbc.driver.username}" />
+		<property name="password" value="${jdbc.driver.password}" />
+		<property name="initialSize" value="8" />
+		<property name="maxActive" value="20" />
+		<property name="maxIdle" value="10" />
+		<property name="minIdle" value="1" />
+		<property name="maxWait" value="10000" />
+		<property name="removeAbandoned" value="true" />
+		<property name="removeAbandonedTimeout" value="300" />
+		<property name="logAbandoned" value="true" />
+		<property name="defaultAutoCommit" value="true" />
+		<property name="defaultReadOnly" value="false" />
+		<property name="validationQuery" value="SELECT 1" />
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<property name="minEvictableIdleTimeMillis" value="30000" />
+		<property name="numTestsPerEvictionRun" value="3" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnReturn" value="true" />
+		<property name="testOnBorrow" value="true" />
+		<property name="defaultTransactionIsolation" value="2" />
+	</bean>
+	<beans profile="default">
+	    <context:property-placeholder location="classpath:META-INF/spring/application.properties" />
+	</beans>
+	<beans profile="local">
+	    <context:property-placeholder location="classpath:META-INF/spring/local.properties" />
+	</beans>
+</beans>

@@ -16,7 +16,7 @@ import org.emonocot.model.source.Source;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.model.user.Group;
 import org.emonocot.model.user.User;
-import org.emonocot.persistence.DataManagementSupport;
+import org.emonocot.test.DataManagementSupport;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +24,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.acls.domain.BasePermission;
-import org.springframework.security.acls.model.AccessControlEntry;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -38,7 +37,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({ "/applicationContext-test.xml" })
+@ContextConfiguration({"classpath*:META-INF/spring/applicationContext*.xml" })
 public class ACLTest extends DataManagementSupport {
 
     /**
@@ -165,7 +164,7 @@ public class ACLTest extends DataManagementSupport {
             } else if (obj.getClass().equals(Group.class)) {
                 userService.deleteGroup(((Group) obj).getIdentifier());
             }
-        }                
+        }
     }
 
     /**

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	                    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.4.xsd">
+	<sec:authentication-manager alias="authenticationManager">
+		<sec:authentication-provider
+			user-service-ref='userServiceImpl'>
+			<sec:password-encoder ref="passwordEncoder">
+				<sec:salt-source ref="saltSource" />
+			</sec:password-encoder>
+		</sec:authentication-provider>
+	</sec:authentication-manager>
+
+	<bean id="passwordEncoder"
+		class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
+
+	<bean id="saltSource"
+		class="org.springframework.security.authentication.dao.ReflectionSaltSource">
+		<property name="userPropertyToUse" value="getUsername" />
+	</bean>
+
+	<sec:global-method-security
+		pre-post-annotations="enabled">
+		<sec:expression-handler ref="expressionHandler" />
+	</sec:global-method-security>
+
+	<bean id="expressionHandler"
+		class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+		<property name="permissionEvaluator" ref="permissionEvaluator" />
+	</bean>
+
+	<bean class="org.springframework.security.acls.AclPermissionEvaluator"
+		id="permissionEvaluator">
+		<constructor-arg ref="aclService" />
+		<property name="sidRetrievalStrategy">
+			<bean class="org.emonocot.service.impl.GroupSidRetrievalStrategyImpl" />
+		</property>
+	</bean>
+
+	<bean class="org.emonocot.persistence.dao.hibernate.AclServiceImpl"
+		id="aclService">
+		<constructor-arg ref="dataSource" />
+		<constructor-arg ref="lookupStrategy" />
+		<constructor-arg ref="aclCache" />
+		<property name="aclAuthorizationStrategy" ref="aclAuthorizationStrategy" />
+		<property name="auditLogger" ref="auditLogger" />
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="lookupStrategy"
+		class="org.springframework.security.acls.jdbc.BasicLookupStrategy">
+		<constructor-arg ref="dataSource" />
+		<constructor-arg ref="aclCache" />
+		<constructor-arg ref="aclAuthorizationStrategy" />
+		<constructor-arg ref="auditLogger" />
+	</bean>
+
+	<bean id="aclCache"
+		class="org.springframework.security.acls.domain.EhCacheBasedAclCache">
+		<constructor-arg>
+			<bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+				<property name="cacheManager">
+					<bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" />
+				</property>
+				<property name="cacheName" value="aclCache" />
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<bean id="aclAuthorizationStrategy"
+		class="org.springframework.security.acls.domain.AclAuthorizationStrategyImpl">
+		<constructor-arg>
+			<list>
+				<bean
+					class="org.springframework.security.core.authority.GrantedAuthorityImpl">
+					<constructor-arg value="PERMISSION_CHANGE_OWNERSHIP" />
+				</bean>
+				<bean
+					class="org.springframework.security.core.authority.GrantedAuthorityImpl">
+					<constructor-arg value="PERMISSION_MODIFY_AUDIT" />
+				</bean>
+				<bean
+					class="org.springframework.security.core.authority.GrantedAuthorityImpl">
+					<constructor-arg value="PERMISSION_MODIFY_ACE" />
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean id="auditLogger"
+		class="org.springframework.security.acls.domain.ConsoleAuditLogger" />
+
+</beans>

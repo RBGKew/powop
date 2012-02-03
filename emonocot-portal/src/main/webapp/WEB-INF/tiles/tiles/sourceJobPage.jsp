@@ -21,7 +21,8 @@
 						</th>
 						<th><spring:message code="jobExecution.exitStatus.exitCode" />
 						</th>
-						<th><spring:message code="jobExecution.exitStatus.exitDescription" />
+						<th><spring:message
+								code="jobExecution.exitStatus.exitDescription" />
 						</th>
 					</tr>
 				</thead>

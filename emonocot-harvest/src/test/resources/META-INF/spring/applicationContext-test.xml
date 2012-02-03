@@ -7,6 +7,17 @@
 	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
 
+	<context:component-scan base-package="org.emonocot">
+	  <context:exclude-filter type="assignable" expression="org.emonocot.api.JobInstanceService"/>
+	  <context:exclude-filter type="assignable" expression="org.emonocot.api.JobExecutionService"/>
+	  <context:exclude-filter type="assignable"
+			expression="org.emonocot.persistence.dao.JobExecutionDao" />
+	  <context:exclude-filter type="assignable"
+			expression="org.emonocot.persistence.dao.JobInstanceDao" />
+	</context:component-scan>
+
+	<context:annotation-config />
+
 	<bean name="jobLauncherTestUtils" class="org.springframework.batch.test.JobLauncherTestUtils">
 		<property name="jobRepository" ref="jobRepository" />
 		<property name="jobLauncher" ref="jobLauncher" />
@@ -18,6 +29,7 @@
 			<list>
 				<bean class="org.emonocot.model.geography.GeographyConverter" />
 				<bean class="org.emonocot.model.reference.ReferenceTypeConverter" />
+				<bean class="org.emonocot.model.taxon.TaxonomicStatusConverter" />
 				<bean class="org.emonocot.model.taxon.RankConverter" />
 			</list>
 		</property>
@@ -48,14 +60,14 @@
 			<list>
 				<value>classpath:/org/springframework/batch/core/schema-drop-h2.sql</value>
 				<value>classpath:/org/springframework/batch/core/schema-h2.sql</value>
-				<value>classpath:H2_schema.ddl</value>
+				<value>classpath:/META-INF/database/H2_schema.ddl</value>
 			</list>
 		</property>
-		<property name="testDataLocation" value="classpath:test_data.sql"/>
+		<property name="testDataLocation" value="classpath:/META-INF/database/test_data.sql"/>
 	</bean>
 
 	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="hibernateProperties">
 			<value>
@@ -65,22 +77,25 @@
 				hibernate.search.default.indexBase=./target/indexes
             </value>
 		</property>
-		<property name="configLocation"
-			value="classpath:org/emonocot/model/hibernate.cfg.xml" />
-		<property name="configurationClass" value="org.hibernate.cfg.AnnotationConfiguration" />
+		<property name="annotatedClasses">
+			<list>
+				<value>org.emonocot.model.source.Source</value>
+				<value>org.emonocot.model.common.Annotation</value>
+				<value>org.emonocot.model.description.Distribution</value>
+				<value>org.emonocot.model.description.TextContent</value>
+				<value>org.emonocot.model.media.Image</value>
+				<value>org.emonocot.model.reference.Reference</value>
+				<value>org.emonocot.model.taxon.Taxon</value>
+				<value>org.emonocot.model.user.User</value>
+				<value>org.emonocot.model.user.Group</value>
+			</list>
+		</property>
+		<property name="annotatedPackages" value="org.emonocot.model.common" />
 	</bean>
 
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-
-	<context:component-scan base-package="org.emonocot.service.impl">
-	  <context:exclude-filter type="assignable" expression="org.emonocot.api.JobInstanceService"/>
-	  <context:exclude-filter type="assignable" expression="org.emonocot.api.JobExecutionService"/>
-	</context:component-scan>
-	<context:component-scan base-package="org.emonocot.persistence.dao.hibernate"/>
-
-	<context:annotation-config />
 
 </beans>

@@ -18,7 +18,6 @@
 			<list>
 				<bean class="org.emonocot.model.geography.GeographyConverter" />
 				<bean class="org.emonocot.model.reference.ReferenceTypeConverter" />
-				<bean class="org.emonocot.model.taxon.TaxonomicStatusConverter" />
 				<bean class="org.emonocot.model.taxon.RankConverter" />
 			</list>
 		</property>

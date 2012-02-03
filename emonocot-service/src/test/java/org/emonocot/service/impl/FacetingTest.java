@@ -29,7 +29,7 @@ import org.emonocot.model.source.Source;
 import org.emonocot.model.taxon.Rank;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.model.taxon.TaxonomicStatus;
-import org.emonocot.persistence.DataManagementSupport;
+import org.emonocot.test.DataManagementSupport;
 import org.hibernate.search.query.facet.Facet;
 import org.junit.After;
 import org.junit.Before;
@@ -45,7 +45,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"/applicationContext-test.xml" })
+@ContextConfiguration({"classpath*:META-INF/spring/applicationContext*.xml" })
 public class FacetingTest extends DataManagementSupport {
 
     /**
@@ -150,8 +150,8 @@ public class FacetingTest extends DataManagementSupport {
      */
     @Test
     public final void testSearch() {
-        Page<SearchableObject> pager = searchableObjectService.search("Aus", null,
-                null, null, null, null, null, null);
+        Page<SearchableObject> pager = searchableObjectService.search("Aus",
+                null, null, null, null, null, null, null);
         assertEquals("there should be seven objects saved", (Integer) 7,
                 pager.getSize());
     }
@@ -163,9 +163,10 @@ public class FacetingTest extends DataManagementSupport {
     public final void testSearchWithFacets() {
         Map<FacetName, String> selectedFacets = new HashMap<FacetName, String>();
         selectedFacets.put(FacetName.CLASS, "org.emonocot.model.taxon.Taxon");
-        Page<SearchableObject> pager = searchableObjectService.search("Aus", null,
-                null, null,
-                new FacetName[] {FacetName.CLASS, FacetName.FAMILY,FacetName.CONTINENT, FacetName.AUTHORITY},
+        Page<SearchableObject> pager = searchableObjectService.search("Aus",
+                null, null, null, new FacetName[] {FacetName.CLASS,
+                        FacetName.FAMILY, FacetName.CONTINENT,
+                        FacetName.AUTHORITY },
                 selectedFacets, null, null);
         assertThat("There should be two facets returned",
                 pager.getFacetNames(), hasItems("CLASS", "FAMILY"));
@@ -182,14 +183,18 @@ public class FacetingTest extends DataManagementSupport {
                 .getFacets().get("FAMILY").size());
     }
 
+    /**
+     *
+     */
     @Test
     public final void testSearchWithRegion() {
         Map<FacetName, String> selectedFacets = new HashMap<FacetName, String>();
         selectedFacets.put(FacetName.CLASS, "org.emonocot.model.taxon.Taxon");
         selectedFacets.put(FacetName.REGION, "NEW_ZEALAND");
-        Page<SearchableObject> pager = searchableObjectService.search("Aus", null,
-                null, null,
-                new FacetName[] {FacetName.CLASS, FacetName.FAMILY,FacetName.CONTINENT, FacetName.REGION, FacetName.AUTHORITY},
+        Page<SearchableObject> pager = searchableObjectService.search("Aus",
+                null, null, null, new FacetName[] {FacetName.CLASS,
+                        FacetName.FAMILY, FacetName.CONTINENT,
+                        FacetName.REGION, FacetName.AUTHORITY },
                 selectedFacets, null, null);
         assertThat("There should be two facets returned",
                 pager.getFacetNames(), hasItems("CLASS", "FAMILY"));
@@ -215,11 +220,12 @@ public class FacetingTest extends DataManagementSupport {
         Map<FacetName, String> selectedFacets = new HashMap<FacetName, String>();
         selectedFacets.put(FacetName.CLASS, "org.emonocot.model.taxon.Taxon");
         Page<Taxon> pager = taxonService.search("Aus", null, null, null,
-                new FacetName[] {FacetName.CLASS, FacetName.FAMILY,
+                new FacetName[] { FacetName.CLASS, FacetName.FAMILY,
                         FacetName.CONTINENT, FacetName.AUTHORITY,
                         FacetName.RANK, FacetName.TAXONOMIC_STATUS },
                 selectedFacets, null, null);
-        assertEquals("There should be five taxa returned", (Integer)5, pager.getSize());
+        assertEquals("There should be five taxa returned", (Integer) 5,
+                pager.getSize());
         assertThat("There should be two facets returned",
                 pager.getFacetNames(), hasItems("CLASS", "FAMILY"));
 
@@ -248,7 +254,8 @@ public class FacetingTest extends DataManagementSupport {
 //                System.out.println(facet.getValue() + " " + facet.getCount());
 //            }
 //        }
-        assertEquals("There should be four taxa returned", (Integer)4, pager.getSize());
+        assertEquals("There should be four taxa returned", (Integer) 4,
+                pager.getSize());
     }
 
     /**

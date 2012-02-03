@@ -77,7 +77,7 @@ public class UserController {
      *            set the user service
      */
     @Autowired
-    public final void setUserService(UserService userService) {
+    public final void setUserService(final UserService userService) {
         this.service = userService;
     }
 
@@ -89,7 +89,7 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext()
                 .getAuthentication();
         User user = (User) authentication.getPrincipal();
-        ModelAndView modelAndView = new ModelAndView("userPage");
+        ModelAndView modelAndView = new ModelAndView("user/show");
         modelAndView.addObject(service.load(user.getUsername()));
         return modelAndView;
     }

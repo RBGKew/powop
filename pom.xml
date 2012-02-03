@@ -668,7 +668,6 @@
                 <groupId>org.opengeo</groupId>
                 <artifactId>geodb</artifactId>
                 <version>0.7-RC1</version>
-                <scope>test</scope>
                 <exclusions>
                   <exclusion>
                     <groupId>net.sourceforge.hatbox</groupId>

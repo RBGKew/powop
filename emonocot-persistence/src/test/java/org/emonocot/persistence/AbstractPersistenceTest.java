@@ -13,6 +13,7 @@ import org.emonocot.persistence.dao.ImageDao;
 import org.emonocot.persistence.dao.ReferenceDao;
 import org.emonocot.persistence.dao.SourceDao;
 import org.emonocot.persistence.dao.TaxonDao;
+import org.emonocot.test.DataManagementSupport;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.search.FullTextSession;
@@ -36,7 +37,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"/applicationContext-test.xml" })
+@ContextConfiguration({"classpath*:META-INF/spring/applicationContext*.xml" })
 public abstract class AbstractPersistenceTest extends DataManagementSupport {
 
     /**
@@ -56,7 +57,7 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
      */
     @Autowired
     private TaxonDao taxonDao;
-    
+
    /**
     *
     */

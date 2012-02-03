@@ -113,7 +113,7 @@ public class SourceController {
     @RequestMapping(value = "/source/{identifier}", method = RequestMethod.GET)
     public final ModelAndView getSourcePage(
             @PathVariable final String identifier) {
-        ModelAndView modelAndView = new ModelAndView("sourcePage");
+        ModelAndView modelAndView = new ModelAndView("source/show");
         modelAndView.addObject(service.find(identifier));
         return modelAndView;
     }
@@ -128,7 +128,7 @@ public class SourceController {
             @PathVariable final String identifier,
             @RequestParam(value = "limit", required = false, defaultValue = "10") final Integer limit,
             @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start) {
-        ModelAndView modelAndView = new ModelAndView("sourceAdminPage");
+        ModelAndView modelAndView = new ModelAndView("admin/source/show");
         modelAndView.addObject(service.load(identifier));
         List<JobExecution> jobExecutions = jobDataService.listJobExecutions(
                 identifier, limit, start);
@@ -145,7 +145,7 @@ public class SourceController {
    @RequestMapping(value = "/admin/source/{identifier}", method = RequestMethod.GET, params="form")
    public final String createForm(@PathVariable final String identifier, final ModelMap modelMap) {
        modelMap.addAttribute(service.load(identifier));
-       return "sourceAdminForm";
+       return "admin/source/update";
    }
 
     /**
@@ -164,12 +164,12 @@ public class SourceController {
         modelAndView.addObject("job", jobDataService.find(jobId));
 
         if (recordType == null) {
-            modelAndView.setViewName("sourceJobPage");
+            modelAndView.setViewName("admin/source/job");
             modelAndView.addObject("results",
                     jobDataService.countObjects(jobId));
         } else {
             modelAndView.addObject("recordType", recordType);
-            modelAndView.setViewName("sourceJobDetails");
+            modelAndView.setViewName("admin/source/jobDetails");
             modelAndView.addObject("results",
                     jobDataService.countErrors(jobId, recordType));
         }
@@ -190,7 +190,7 @@ public class SourceController {
             @RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
             @RequestParam(value = "limit", required = false, defaultValue = "10") final Integer limit,
             @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start) {
-        ModelAndView modelAndView = new ModelAndView("jobAnnotations");
+        ModelAndView modelAndView = new ModelAndView("admin/source/jobAnnotations");
         modelAndView.addObject(service.load(identifier));
         modelAndView.addObject("job", jobDataService.find(jobId));
         Map<FacetName, String> selectedFacets = new HashMap<FacetName, String>();
@@ -213,7 +213,7 @@ public class SourceController {
     }
 
     /**
-     * 
+     * @param session Set the session
      * @param source
      *            Set the source
      * @param result

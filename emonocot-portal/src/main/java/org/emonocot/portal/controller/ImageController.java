@@ -88,7 +88,7 @@ public class ImageController {
      */
     @RequestMapping(value = "/image/{identifier}", method = RequestMethod.GET)
     public final ModelAndView getImagePage(@PathVariable final String identifier) {
-        ModelAndView modelAndView = new ModelAndView("imagePage");
+        ModelAndView modelAndView = new ModelAndView("image/show");
         Image image = service.load(identifier, "image-page");
         modelAndView.addObject(image);
         if (image.getTaxon() != null) {
@@ -139,19 +139,4 @@ public class ImageController {
         service.delete(identifier);
         return new ResponseEntity<Image>(HttpStatus.OK);
     }
-
-    /**
-    *
-    * @param ex The exception
-    * @param request The httpServletRequest
-    * @return a model and view containing the exception
-    */
-   @ResponseStatus(HttpStatus.NOT_FOUND)
-   @ExceptionHandler({ HibernateObjectRetrievalFailureException.class })
-   public final ModelAndView handleBadArgument(final Exception ex,
-           final HttpServletRequest request) {
-       ModelAndView modelAndView = new ModelAndView("404");
-       modelAndView.addObject("exception", ex);
-       return modelAndView;
-   }
 }
