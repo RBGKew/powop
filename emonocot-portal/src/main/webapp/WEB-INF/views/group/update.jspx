@@ -90,7 +90,7 @@
 		            <c:url value="/group/${group.identifier}">
 			          <c:param name="aces">true</c:param>
 			          <c:param name="delete">true</c:param>
-			          <c:param name="identifier">${object.identifier}</c:param>
+			          <c:param name="object">${object.identifier}</c:param>
 			          <c:param name="clazz">${em:convert(object.class)}</c:param>
 			          <c:param name="permission">${em:convert(ace.permission)}</c:param>
 			        </c:url>

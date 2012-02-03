@@ -1,8 +1,6 @@
 package org.emonocot.portal.controller;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.emonocot.api.GroupService;
@@ -18,13 +16,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.acls.model.Permission;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,7 +36,15 @@ import org.springframework.web.bind.annotation.RequestParam;
  *
  */
 @Controller
-public class GroupController {
+@RequestMapping("/group")
+public class GroupController extends GenericController<Group, GroupService> {
+
+    /**
+     *
+     */
+    public GroupController() {
+        super("group");
+    }
 
    /**
     *
@@ -50,26 +55,7 @@ public class GroupController {
     /**
      *
      */
-    private GroupService service;
-
-    /**
-     *
-     */
     private UserService userService;
-
-    /**
-    *
-    */
-    private String baseUrl;
-
-    /**
-     *
-     * @param newBaseUrl
-     *            Set the base url
-     */
-    public final void setBaseUrl(final String newBaseUrl) {
-        this.baseUrl = newBaseUrl;
-    }
 
     /**
      *
@@ -77,90 +63,44 @@ public class GroupController {
     private ConversionService conversionService;
 
     /**
-     * @param service
+     * @param groupService
      *            set the group service
      */
     @Autowired
-    public final void setGroupService(final GroupService service) {
-        this.service = service;
+    public final void setGroupService(final GroupService groupService) {
+        super.setService(groupService);
     }
 
     /**
-     * @param userService
+     * @param newUserService
      *            set the user service
      */
     @Autowired
-    public final void setUserService(final UserService userService) {
-        this.userService = userService;
+    public final void setUserService(final UserService newUserService) {
+        this.userService = newUserService;
     }
 
     /**
-     *
+     * @param newConversionService Set the conversion service
      */
     @Autowired
     public final void setConversionService(
-            final ConversionService conversionService) {
-        this.conversionService = conversionService;
+            final ConversionService newConversionService) {
+        this.conversionService = newConversionService;
     }
 
-    /**
-     * Get a group object - JSON version.
-     *
-     * @param identifier
-     *            Set the identifier of the group
-     * @return A model and view containing a group
-     */
-    @RequestMapping(value = "/group/{identifier}", method = RequestMethod.GET, headers="Accept=application/json")
-    public final ResponseEntity<Group> get(@PathVariable final String identifier) {
-        return new ResponseEntity<Group>(service.find(identifier),
-                HttpStatus.OK);
-    }
-
-    /**
-     * Save a new group - JSON version.
-     *
-     * @param group
-     *            the group to save
-     * @return A response entity containing a newly created group
-     */
-    @RequestMapping(value = "/group", method = RequestMethod.POST, headers="Content-Type=application/json")
-    public final ResponseEntity<Group> create(@RequestBody final Group group) {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        try {
-            httpHeaders.setLocation(new URI(baseUrl + "group/"
-                    + group.getIdentifier()));
-        } catch (URISyntaxException e) {
-            logger.error(e.getMessage());
-        }
-        service.save(group);
-        ResponseEntity<Group> response = new ResponseEntity<Group>(group,
-                httpHeaders, HttpStatus.CREATED);
-        return response;
-    }
 
     /**
      * @param identifier
      *            Set the identifier of the group
      * @return A response entity containing the status
      */
-    @RequestMapping(value = "/group/{identifier}", headers="Accept=application/json", method = RequestMethod.DELETE)
-    public final ResponseEntity<Group> delete(
-            @PathVariable final String identifier) {
-        service.delete(identifier);
-        return new ResponseEntity<Group>(HttpStatus.OK);
-    }
-
-    /**
-     * @param identifier
-     *            Set the identifier of the group
-     * @return A response entity containing the status
-     */
-    @RequestMapping(value = "/group/{identifier}/permission", params = "!delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/{identifier}/permission", params = "!delete", method = RequestMethod.POST)
     public final ResponseEntity<AceDto> addPermission(
             @PathVariable final String identifier, @RequestBody final AceDto ace) {
         SecuredObject object = conversionService.convert(ace,
                 SecuredObject.class);
-        service.addPermission(object, identifier, ace.getPermission(),
+        getService().addPermission(object, identifier, ace.getPermission(),
                 ace.getClazz());
         ResponseEntity<AceDto> responseEntity = new ResponseEntity<AceDto>(ace,
                 HttpStatus.CREATED);
@@ -170,61 +110,9 @@ public class GroupController {
     /**
      * @param identifier
      *            Set the identifier of the group
-     * @return the view name
-     */
-    @RequestMapping(value = "/group/{identifier}", params = { "members",
-            "!delete" }, method = RequestMethod.POST)
-    public final String addMember(@PathVariable final String identifier,
-            @ModelAttribute("user") final User user, ModelMap modelMap) {
-        userService.addUserToGroup(user.getUsername(), identifier);
-        modelMap.addAttribute("group", service.load(identifier, "group-page"));
-        modelMap.addAttribute("aces", service.listAces(identifier));
-        String[] codes = new String[] {"user.added.to.group" };
-        Object[] args = new Object[] {user.getUsername() };
-        DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
-                codes, args);
-        modelMap.addAttribute("info", message);
-        modelMap.addAttribute("user", new User());
-        AceDto aceDto  = new AceDto();
-        aceDto.setClazz(Source.class);
-        aceDto.setPermission(BasePermission.READ);
-        modelMap.addAttribute("ace", aceDto);
-        return "group/update";
-    }
-
-    /**
-     * @param identifier
-     *            Set the identifier of the group
-     * @param user Set the user to remove
-     * @param modelMap Set the model map
-     * @return the view name
-     */
-    @RequestMapping(value = "/group/{identifier}", params = { "members",
-            "delete" }, method = RequestMethod.GET)
-    public final String removeMember(@PathVariable final String identifier,
-            @RequestParam final String user, final ModelMap modelMap) {
-        userService.removeUserFromGroup(user, identifier);
-        modelMap.addAttribute("group", service.load(identifier, "group-page"));
-        modelMap.addAttribute("aces", service.listAces(identifier));
-        String[] codes = new String[] {"user.removed.from.group" };
-        Object[] args = new Object[] {user };
-        DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
-                codes, args);
-        modelMap.addAttribute("info", message);
-        AceDto aceDto  = new AceDto();
-        aceDto.setClazz(Source.class);
-        aceDto.setPermission(BasePermission.READ);
-        modelMap.addAttribute("ace", aceDto);
-        modelMap.addAttribute("user", new User());
-        return "group/update";
-    }
-
-    /**
-     * @param identifier
-     *            Set the identifier of the group
      * @return A response entity containing the status
      */
-    @RequestMapping(value = "/group/{identifier}/permission", params = "delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/{identifier}/permission", params = "delete", method = RequestMethod.POST)
     public final ResponseEntity<AceDto> deletePermission(
             @PathVariable final String identifier, @RequestBody final AceDto ace) {
         SecuredObject object = conversionService.convert(ace,
@@ -235,33 +123,73 @@ public class GroupController {
     }
 
     /**
+     * @param identifier
+     *            Set the identifier of the group
+     * @param user the user to add to the group
+     * @param session Set the session
+     * @return the view name
+     */
+    @RequestMapping(value = "/{identifier}", params = { "members", "!delete" }, method = RequestMethod.POST)
+    public final String addMember(@PathVariable final String identifier,
+            @ModelAttribute("user") final User user,
+            final HttpSession session) {
+        userService.addUserToGroup(user.getUsername(), identifier);
+        String[] codes = new String[] {"user.added.to.group" };
+        Object[] args = new Object[] {user.getUsername() };
+        DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
+                codes, args);
+        session.setAttribute("info", message);
+        return "redirect:/group/" + identifier + "?form";
+    }
+
+    /**
+     * @param identifier
+     *            Set the identifier of the group
+     * @param user Set the user to remove
+     * @param session Set the session
+     * @return the view name
+     */
+    @RequestMapping(value = "/{identifier}", params = { "members",
+            "delete" }, method = RequestMethod.GET)
+    public final String removeMember(@PathVariable final String identifier,
+            @RequestParam final String user, final HttpSession session) {
+        userService.removeUserFromGroup(user, identifier);
+        String[] codes = new String[] {"user.removed.from.group" };
+        Object[] args = new Object[] {user };
+        DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
+                codes, args);
+        session.setAttribute("info", message);
+        return "redirect:/group/" + identifier + "?form";
+    }
+
+    /**
      *
      * @param page
      *            Set the page number
      * @param size
      *            Set the page size
-     * @param modelMap
-     *            Set the model map
+     * @param model
+     *            Set the model
      * @return the view name
      */
-    @RequestMapping(value = "/group", params = "!form", method = RequestMethod.GET)
+    @RequestMapping(params = "!form", method = RequestMethod.GET)
     public final String list(
             @RequestParam(value = "page", defaultValue = "0", required = false) final Integer page,
             @RequestParam(value = "size", defaultValue = "10", required = false) final Integer size,
-            final ModelMap modelMap) {
-        modelMap.addAttribute("result", service.list(page, size));
+            final Model model) {
+        model.addAttribute("result", getService().list(page, size));
         return "group/list";
     }
 
     /**
      *
-     * @param modelMap
+     * @param model
      *            Set the model map
      * @return the name of the view
      */
-    @RequestMapping(value = "/group", params = "form", method = RequestMethod.GET)
-    public final String createForm(final ModelMap modelMap) {
-        modelMap.addAttribute(new Group());
+    @RequestMapping(params = "form", method = RequestMethod.GET)
+    public final String create(final Model model) {
+        model.addAttribute(new Group());
         return "group/create";
     }
 
@@ -273,43 +201,44 @@ public class GroupController {
      * @param size Set the page size
      * @param result
      *            Set the binding result
-     * @param modelMap
-     *            Set the model map
+     * @param model
+     *            Set the model
+     * @param session Set the session
      * @return the name of the view
      */
-    @RequestMapping(value = "/group", method = RequestMethod.POST, headers="Accept=text/html")
+    @RequestMapping(method = RequestMethod.POST, headers = "Accept=text/html")
     public final String create(@Valid final Group group,
             final BindingResult result,
             @RequestParam(value = "page", defaultValue = "0", required = false) final Integer page,
             @RequestParam(value = "size", defaultValue = "10", required = false) final Integer size,
-            final ModelMap modelMap) {
+            final Model model,
+            final HttpSession session) {
         if (result.hasErrors()) {
             return "group/create";
         }
-        service.save(group);
+        getService().save(group);
         String[] codes = new String[] {"group.created" };
         Object[] args = new Object[] {group.getIdentifier()};
         DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
                 codes, args);
-        modelMap.addAttribute("info", message);
-        modelMap.addAttribute("result", service.list(page, size));
-        return "group/list";
+        session.setAttribute("info", message);
+        return "redirect:/group";
     }
 
     /**
      *
      * @param identifier
      *            Set the identifier of the object
-     * @param modelMap
+     * @param model
      *            Set the model map
      * @return the view name
      */
-    @RequestMapping(value = "/group/{identifier}", params = "!form", method = RequestMethod.GET)
+    @RequestMapping(value = "/{identifier}", params = "!form", method = RequestMethod.GET)
     public final String show(
             @PathVariable("identifier") final String identifier,
-            final ModelMap modelMap) {
-        modelMap.addAttribute("group", service.load(identifier, "group-page"));
-        modelMap.addAttribute("aces", service.listAces(identifier));
+            final Model model) {
+        model.addAttribute("group", getService().load(identifier, "group-page"));
+        model.addAttribute("aces", getService().listAces(identifier));
         return "group/show";
     }
 
@@ -317,51 +246,47 @@ public class GroupController {
      *
      * @param identifier
      *            Set the identifier of the object
-     * @param modelMap
+     * @param model
      *            Set the model map
      * @return the view name
      */
-    @RequestMapping(value = "/group/{identifier}", params = "form", method = RequestMethod.GET)
+    @RequestMapping(value = "/{identifier}", params = "form", method = RequestMethod.GET)
     public final String updateForm(
             @PathVariable("identifier") final String identifier,
-            final ModelMap modelMap) {
-        modelMap.addAttribute("group", service.load(identifier, "group-page"));
-        modelMap.addAttribute("aces", service.listAces(identifier));
-        modelMap.addAttribute("user", new User());
+            final Model model) {
+        model.addAttribute("group", getService().load(identifier, "group-page"));
+        model.addAttribute("aces", getService().listAces(identifier));
+        model.addAttribute("user", new User());
         AceDto aceDto  = new AceDto();
         aceDto.setClazz(Source.class);
         aceDto.setPermission(BasePermission.READ);
-        modelMap.addAttribute("ace", aceDto);
+        model.addAttribute("ace", aceDto);
         return "group/update";
     }
 
     /**
      * @param identifier
      *            Set the identifier of the group
+     * @param ace Set the ace
+     * @param session Set the session
      * @return the view name
      */
-    @RequestMapping(value = "/group/{identifier}", params = { "aces", "!delete" }, method = RequestMethod.POST)
+    @RequestMapping(value = "/{identifier}", params = { "aces", "!delete" }, method = RequestMethod.POST)
     public final String addAce(@PathVariable final String identifier,
-            @ModelAttribute("ace") final AceDto ace, ModelMap modelMap) {
+            @ModelAttribute("ace") final AceDto ace,
+            final HttpSession session) {
         SecuredObject object = conversionService.convert(ace,
                 SecuredObject.class);
-        service.addPermission(object, identifier, ace.getPermission(),
+        getService().addPermission(object, identifier, ace.getPermission(),
                 ace.getClazz());
-        modelMap.addAttribute("group", service.load(identifier, "group-page"));
-        modelMap.addAttribute("aces", service.listAces(identifier));
         String[] codes = new String[] {"ace.added.to.group" };
         Object[] args = new Object[] {
                 conversionService.convert(ace.getPermission(), String.class),
                 ace.getClazz().getSimpleName(), ace.getObject() };
         DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
                 codes, args);
-        modelMap.addAttribute("info", message);
-        modelMap.addAttribute("user", new User());
-        AceDto aceDto  = new AceDto();
-        aceDto.setClazz(Source.class);
-        aceDto.setPermission(BasePermission.READ);
-        modelMap.addAttribute("ace", aceDto);
-        return "group/update";
+        session.setAttribute("info", message);
+        return "redirect:/group/" + identifier + "?form";
     }
 
     /**
@@ -370,36 +295,31 @@ public class GroupController {
      * @param object
      *            Set the identifier of the secured object
      * @param clazz Set the class of the secured object
+     * @param session Set the session
+     * @param permission Set the permission
      * @return the view name
      */
-    @RequestMapping(value = "/group/{identifier}", params = { "aces",
+    @RequestMapping(value = "/{identifier}", params = { "aces",
             "delete" }, method = RequestMethod.GET)
     public final String removeAce(@PathVariable final String identifier,
             @RequestParam final String object,
             @RequestParam final Class clazz,
             @RequestParam @PermissionFormat final Permission permission,
-            ModelMap modelMap) {
+            final HttpSession session) {
         AceDto ace = new AceDto();
         ace.setClazz(clazz);
         ace.setObject(object);
         ace.setPrincipal(identifier);
         SecuredObject securedObject = conversionService.convert(ace,
                 SecuredObject.class);
-        service.deletePermission(securedObject, identifier, permission, clazz);
-        modelMap.addAttribute("group", service.load(identifier, "group-page"));
-        modelMap.addAttribute("aces", service.listAces(identifier));
+        getService().deletePermission(securedObject, identifier, permission, clazz);        
         String[] codes = new String[] {"ace.removed.from.group" };
         Object[] args = new Object[] {
                 conversionService.convert(permission, String.class),
                 clazz.getSimpleName(), ace.getObject() };
         DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
                 codes, args);
-        modelMap.addAttribute("info", message);
-        modelMap.addAttribute("user", new User());
-        AceDto aceDto = new AceDto();
-        aceDto.setPermission(BasePermission.READ);
-        aceDto.setClazz(Source.class);
-        modelMap.addAttribute("ace", aceDto);
-        return "group/update";
+        session.setAttribute("info", message);
+        return "redirect:/group/" + identifier + "?form";
     }
 }
