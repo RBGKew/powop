@@ -279,6 +279,9 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
      */
     private Reference processPublicationCitation(
             final PublicationCitation publicationCitation) {
+    	if(publicationCitation == null) {
+    		return null;
+    	}
         String referenceIdentifier = publicationCitation.getIdentifier()
                 .toString();
         Reference reference = null;
