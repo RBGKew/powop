@@ -8,6 +8,7 @@ import org.emonocot.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,16 +51,21 @@ public class RegistrationController {
      *
      * @param form
      *            Set the registration form
-     * @param result Set the binding results
-     * @param session Set the http session
-     * @return a model and view
+     * @param result
+     *            Set the binding results
+     * @param session
+     *            Set the http session
+     * @param model
+     *            Set the model
+     * @return the view name
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public final ModelAndView post(
+    public final String post(
             @Valid @ModelAttribute("registrationForm") final RegistrationForm form,
-            final BindingResult result, final HttpSession session) {
+            final BindingResult result, final HttpSession session,
+            final Model model) {
         if (result.hasErrors()) {
-            return new ModelAndView("register");
+            return "register";
         }
 
         User user = new User();
@@ -71,12 +77,11 @@ public class RegistrationController {
         user.setEnabled(true);
 
         service.createUser(user);
-        ModelAndView modelAndView = new ModelAndView("redirect:/home");
         String[] codes = new String[] {"registration.successful" };
-        Object[] args = new Object[] { };
+        Object[] args = new Object[] {};
         DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
                 codes, args);
         session.setAttribute("info", message);
-        return modelAndView;
+        return "redirect:/home";
     }
 }

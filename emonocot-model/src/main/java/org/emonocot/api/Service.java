@@ -2,7 +2,6 @@ package org.emonocot.api;
 
 import org.emonocot.model.common.Base;
 import org.emonocot.model.pager.Page;
-import org.emonocot.model.taxon.Taxon;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

@@ -94,8 +94,9 @@ public abstract class GenericController<T extends Base,
         } catch (URISyntaxException e) {
             logger.error(e.getMessage());
         }
-        ResponseEntity<T> response = new ResponseEntity<T>(
-                service.save(object), httpHeaders, HttpStatus.CREATED);
+        service.merge(object);
+        ResponseEntity<T> response = new ResponseEntity<T>(object, httpHeaders,
+                HttpStatus.CREATED);
         return response;
     }
 

@@ -3,13 +3,8 @@ package org.emonocot.portal.remoting;
 import java.util.List;
 
 import org.emonocot.model.taxon.Family;
-import org.emonocot.model.taxon.Rank;
 import org.emonocot.model.taxon.Taxon;
-import org.emonocot.model.taxon.TaxonomicStatus;
 import org.emonocot.persistence.dao.TaxonDao;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 /**

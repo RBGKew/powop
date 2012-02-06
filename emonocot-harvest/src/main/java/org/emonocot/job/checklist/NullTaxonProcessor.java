@@ -32,9 +32,9 @@ import org.tdwg.voc.TaxonConcept;
 import org.tdwg.voc.TaxonRelationshipTerm;
 
 /**
- * 
+ *
  * @author ben
- * 
+ *
  */
 public class NullTaxonProcessor implements ItemProcessor<String, Taxon>,
         ChunkListener, StepExecutionListener, ItemWriteListener<Taxon> {

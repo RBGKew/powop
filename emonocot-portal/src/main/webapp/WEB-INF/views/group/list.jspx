@@ -15,7 +15,7 @@
         </div>
 		<div class="row">
 			<div class="pagination">
-						<tags:pagination pager="${result}" url="/group"/>
+						<tags:pagination pager="${result}" url="group"/>
 		  	</div>
 		</div>
 		<div class="row">

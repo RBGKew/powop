@@ -13,7 +13,7 @@
 		<tags:results pager="${result}" />
 	  </div>
 	  <div class="pagination">
-		<tags:pagination pager="${result}" url="/admin/source/${source.identifier}/jobs/${job.jobId}/messages" />
+		<tags:pagination pager="${result}" url="messages" />
 	  </div>
 	</div>
 	<div class="row">

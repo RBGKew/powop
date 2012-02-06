@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -100,20 +101,20 @@ public class SearchController {
      *            Set the offset
      * @param facets
      *            The facets to set
-     * @param view
+     * @param view Set the view
+     * @param model Set the model
      *
      * @return a model and view
      */
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public final ModelAndView search(
+    public final String search(
         @RequestParam(value = "query", required = false) final String query,
         @RequestParam(value = "limit", required = false, defaultValue = "10") final Integer limit,
         @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
         @RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
         @RequestParam(value = "sort", required = false) @SortingFormat final Sorting sort,
-        @RequestParam(value = "view", required = false, defaultValue = "list") final String view) {
-
-        ModelAndView modelAndView = new ModelAndView("search");
+        @RequestParam(value = "view", required = false, defaultValue = "list") final String view,
+        final Model model) {
 
         Map<FacetName, String> selectedFacets = null;
         if (facets != null && !facets.isEmpty()) {
@@ -200,8 +201,8 @@ public class SearchController {
             result.putParam("view", "list");
         }
         result.setSort(sort);
-        modelAndView.addObject("result", result);
-        return modelAndView;
+        model.addAttribute("result", result);
+        return "search";
     }
 
     /**
