@@ -15,6 +15,10 @@
 		<param-name>logbackConfigLocation</param-name>
 		<param-value>/WEB-INF/classes/logback.xml</param-value>
 	</context-param>
+	<taglib>
+      <taglib-uri>http://e-monocot.org/portal/functions</taglib-uri>
+      <taglib-location>/WEB-INF/tags/functions.tld</taglib-location>
+    </taglib>
 
 	<listener>
 		<listener-class>org.emonocot.common.logback.LogbackConfigListener

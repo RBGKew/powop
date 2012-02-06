@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	                    http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    
+       <bean name="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+            <property name="driverClass" value="org.h2.Driver" />
+            <property name="url"
+                value="jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1" />
+       </bean>    
+
+	<jdbc:initialize-database data-source="dataSource">
+	    <jdbc:script location="classpath:/org/springframework/batch/core/schema-h2.sql" />
+	    <jdbc:script location="classpath:H2_schema.ddl" />
+	</jdbc:initialize-database>
+	
+	<bean name="connection" class="org.emonocot.persistence.olap.OlapConnectionFactory" depends-on="dataSource">
+	  <property name="dataSource">
+	    <bean class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+	      <property name="driverClass" value="mondrian.olap4j.MondrianOlap4jDriver" />
+	      <property name="url" value="jdbc:mondrian:Jdbc=jdbc:h2:mem:testdb;Catalog=target/test-classes/olap.xml"/>
+	    </bean>
+	  </property>	  
+	</bean>
+	
+	<bean name="jdbcTemplate" class="org.springframework.jdbc.core.simple.SimpleJdbcTemplate">
+	  <constructor-arg ref="dataSource"/>
+	</bean>
+	
+	<bean id="jobExecutionIncrementer" class="org.springframework.jdbc.support.incrementer.H2SequenceMaxValueIncrementer">
+	  <constructor-arg ref="dataSource"/>
+	  <constructor-arg value="BATCH_JOB_EXECUTION_SEQ"/>
+	</bean>
+	
+	<bean id="jobIncrementer" class="org.springframework.jdbc.support.incrementer.H2SequenceMaxValueIncrementer">
+	  <constructor-arg ref="dataSource"/>
+	  <constructor-arg value="BATCH_JOB_SEQ"/>
+	</bean>
+	
+	<bean name="jdbcJobInstanceDao" class="org.springframework.batch.core.repository.dao.JdbcJobInstanceDao">
+	  <property name="jdbcTemplate" ref="jdbcTemplate"/>
+	  <property name="jobIncrementer" ref="jobIncrementer"/>
+	</bean>
+	
+	<bean name="jdbcJobExecutionDao" class="org.springframework.batch.core.repository.dao.JdbcJobExecutionDao">
+	  <property name="jdbcTemplate" ref="jdbcTemplate"/>
+	  <property name="jobExecutionIncrementer" ref="jobExecutionIncrementer"/>
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="hibernateProperties">
+			<value>
+				hibernate.dialect=org.hibernate.dialect.H2Dialect
+				hibernate.hbm2ddl.auto=validate
+				hibernate.search.default.directory_provider=filesystem
+				hibernate.search.default.indexBase=./target/indexes
+            </value>
+		</property>
+		<property name="configLocation" value="classpath:org/emonocot/model/hibernate.cfg.xml" />
+		<property name="configurationClass" value="org.hibernate.cfg.AnnotationConfiguration" />
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<context:component-scan base-package="org.emonocot.persistence.dao.hibernate" />
+	<context:component-scan base-package="org.emonocot.persistence.dao.olap" />
+
+	<context:annotation-config />
+
+</beans>
