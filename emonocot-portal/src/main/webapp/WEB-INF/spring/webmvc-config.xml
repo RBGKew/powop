@@ -10,17 +10,6 @@
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 	
-	<bean id="messageSource"
-		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-		<property name="basenames">
-			<list>
-				<value>WEB-INF/i18n/messages</value>
-				<value>WEB-INF/i18n/application</value>
-			</list>
-		</property>
-		<property name="useCodeAsDefaultMessage" value="true"/>
-	</bean>
-	
 	<mvc:view-controller path="/" view-name="index"/>
 	<mvc:view-controller path="/classify" view-name="classify"/>
 	<mvc:view-controller path="/accessDenied" view-name="accessDenied"/>

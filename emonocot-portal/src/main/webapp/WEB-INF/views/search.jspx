@@ -5,6 +5,7 @@
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:spring="http://www.springframework.org/tags"
 	version="2.0">
+	<spring:message code="portal.baseUrl" var="baseUrl"/>
 	<jsp:useBean id="result" scope="request" 
 	type="org.emonocot.model.pager.Page&lt;org.emonocot.model.taxon.Taxon&gt;" />
 	
@@ -205,7 +206,7 @@
 			<div class="span11">
 				
 					<div class="pagination">
-						<tags:pagination pager="${result}" url="search"/>
+						<tags:pagination pager="${result}" url="${baseUrl}/search"/>
 		  			</div>
 		  			<div class="row">
 		  				<div id="pages" class="span8">				

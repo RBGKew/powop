@@ -16,21 +16,13 @@
 			<batch:description>Get the darwin core archive</batch:description>
 			<batch:tasklet ref="getDWCArchiveTasklet" />
 			<batch:next on="NOT MODIFIED" to="cleanupResourcesNotModified" />
-			<batch:next on="COMPLETED" to="markTaxonRecords" />
+			<batch:next on="COMPLETED" to="unpackDWCArchive" />
 		</batch:step>
 		<batch:step id="cleanupResourcesNotModified">
 			<batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="dwcArchiveResourceDeletingTasklet" />
 			<batch:end on="COMPLETE" exit-code="NOT MODIFIED" />
 		</batch:step>
-		<batch:step id="markTaxonRecords">
-	        <batch:description>Mark the taxon records we expect to be present in this archive</batch:description>
-	        <batch:tasklet ref="markTaxonRecordsTasklet" />
-			<batch:next on="COMPLETED" to="unpackDWCArchive" />
-			<batch:listeners>
-			  <batch:listener ref="recordAnnotator"/>
-			</batch:listeners>
-	    </batch:step>
 		<batch:step id="unpackDWCArchive">
 			<batch:description>Unzip the archive to a temporary directory</batch:description>
 			<batch:tasklet ref="unpackDWCArchiveTasklet" />
@@ -39,15 +31,43 @@
 		<batch:step id="readArchiveMetadata">
 			<batch:description>Read the metadata from the archive and figure out how to interpret the files</batch:description>
 			<batch:tasklet ref="readDWCArchiveMetadataTasklet" />
-			<batch:next on="COMPLETED" to="processCoreFile" />
+			<batch:next on="COMPLETED" to="checkTaxonProcessingMode" />
 			<batch:listeners>
 				<batch:listener ref="dwcArchiveMetadataReader" />
 			</batch:listeners>
 		</batch:step>
-		<batch:step id="processCoreFile">
-			<batch:description>Process the core file containing the taxa</batch:description>
+		<batch:decision decider="taxonProcessingModeDecider" id="checkTaxonProcessingMode">
+		  <batch:next on="CHECK_TAXA" to="markTaxonRecords"/>
+		  <batch:next on="IMPORT_TAXA" to="importCoreFile"/>
+		</batch:decision>
+		<batch:step id="markTaxonRecords">
+	        <batch:description>Mark the taxon records we expect to be present in this archive</batch:description>
+	        <batch:tasklet ref="markTaxonRecordsTasklet" />
+			<batch:next on="COMPLETED" to="checkCoreFile" />
+			<batch:listeners>
+			  <batch:listener ref="recordAnnotator"/>
+			</batch:listeners>
+	    </batch:step>
+		<batch:step id="checkCoreFile">
+			<batch:description>Process the core file containing the taxa but only check the taxa, don't modify or create taxa</batch:description>
 			<batch:tasklet>
-				<batch:chunk reader="taxonReader" processor="taxonProcessor"
+				<batch:chunk reader="taxonCheckingReader" processor="taxonCheckingProcessor"
+					writer="itemWriter" commit-interval="100" skip-limit="10000">
+					<batch:skippable-exception-classes>
+                      <batch:include class="org.emonocot.job.dwc.DarwinCoreProcessingException"/>
+                      <batch:include class="org.springframework.batch.item.file.FlatFileParseException"/>
+                    </batch:skippable-exception-classes>
+				</batch:chunk>			    
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="processDescriptionDecision" />
+			<batch:listeners>
+			  <batch:listener ref="processingExceptionProcessListener"/>
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="importCoreFile">
+			<batch:description>Process the core file containing the taxa, creating and modifying where neccessary</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="taxonImportingReader" processor="taxonImportingProcessor"
 					writer="itemWriter" commit-interval="100" skip-limit="10000">
 					<batch:skippable-exception-classes>
                       <batch:include class="org.emonocot.job.dwc.DarwinCoreProcessingException"/>
@@ -140,7 +160,7 @@
 	    <batch:step id="cleanupResources">
 			<batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="dwcArchiveResourceDeletingTasklet" />
-		</batch:step>
+		</batch:step>	    
 	</batch:job>
 
 	<bean id="dwcArchiveResourceDeletingTasklet"
@@ -230,8 +250,10 @@
 	</bean>
 
 	<bean id="archiveFactory" class="org.gbif.dwc.text.ArchiveFactory" />
+	
+	<bean id="taxonProcessingModeDecider" class="org.emonocot.job.dwc.taxon.TaxonProcessingModeDecider"/>
 
-	<bean id="taxonReader" class="org.springframework.batch.item.file.FlatFileItemReader"
+	<bean id="taxonCheckingReader" class="org.springframework.batch.item.file.FlatFileItemReader"
 		scope="step">
 		<property name="encoding">
 			<value>#{jobExecutionContext['dwca.core.encoding']}</value>
@@ -245,18 +267,46 @@
 				<constructor-arg value="#{jobExecutionContext['dwca.core.file']}" />
 			</bean>
 		</property>
-		<property name="lineMapper" ref="taxonLineMapper" />
+		<property name="lineMapper" ref="taxonCheckingLineMapper" />
+	</bean>
+	
+	<bean id="taxonImportingReader" class="org.springframework.batch.item.file.FlatFileItemReader"
+		scope="step">
+		<property name="encoding">
+			<value>#{jobExecutionContext['dwca.core.encoding']}</value>
+		</property>
+		<property name="linesToSkip">
+			<value>#{jobExecutionContext['dwca.core.ignoreHeaderLines']}</value>
+		</property>
+		<property name="resource">
+			<bean class="org.springframework.core.io.FileSystemResource"
+				scope="step">
+				<constructor-arg value="#{jobExecutionContext['dwca.core.file']}" />
+			</bean>
+		</property>
+		<property name="lineMapper" ref="taxonImportingLineMapper" />
 	</bean>
 
-	<bean id="taxonProcessor" class="org.emonocot.job.dwc.taxon.TaxonValidator" scope="step">
+	<bean id="taxonCheckingProcessor" class="org.emonocot.job.dwc.taxon.TaxonCheckingValidator" scope="step">
+	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
+	</bean>
+	
+	<bean id="taxonImportingProcessor" class="org.emonocot.job.dwc.taxon.TaxonImportingValidator" scope="step">
 	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
 	</bean>
 
-	<bean id="taxonLineMapper"
+	<bean id="taxonCheckingLineMapper"
 		class="org.springframework.batch.item.file.mapping.DefaultLineMapper"
 		scope="step">
 		<property name="lineTokenizer" ref="taxonLineTokenizer" />
-		<property name="fieldSetMapper" ref="taxonFieldSetMapper" />
+		<property name="fieldSetMapper" ref="taxonCheckingFieldSetMapper" />
+	</bean>
+	
+	<bean id="taxonImportingLineMapper"
+		class="org.springframework.batch.item.file.mapping.DefaultLineMapper"
+		scope="step">
+		<property name="lineTokenizer" ref="taxonLineTokenizer" />
+		<property name="fieldSetMapper" ref="taxonImportingFieldSetMapper" />
 	</bean>
 
 	<bean id="taxonLineTokenizer"
@@ -271,7 +321,17 @@
 		<property name="strict" value="false"/>
 	</bean>
 
-	<bean id="taxonFieldSetMapper" class="org.emonocot.job.dwc.taxon.TaxonFieldSetMapper"  scope="step">
+	<bean id="taxonCheckingFieldSetMapper" class="org.emonocot.job.dwc.taxon.TaxonCheckingFieldSetMapper"  scope="step">
+	    <property name="fieldNames">
+			<value>#{jobExecutionContext['dwca.core.fieldNames']}</value>
+		</property>
+		<property name="defaultValues">
+			<value>#{jobExecutionContext['dwca.core.defaultValues']}</value>
+		</property>
+		<property name="taxonService" ref="taxonServiceImpl"/>
+	</bean>
+	
+	<bean id="taxonImportingFieldSetMapper" class="org.emonocot.job.dwc.taxon.TaxonImportingFieldSetMapper"  scope="step">
 	    <property name="fieldNames">
 			<value>#{jobExecutionContext['dwca.core.fieldNames']}</value>
 		</property>

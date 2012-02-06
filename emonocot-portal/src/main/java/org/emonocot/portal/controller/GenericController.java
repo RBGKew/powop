@@ -128,5 +128,4 @@ public abstract class GenericController<T extends Base,
     public final SERVICE getService() {
         return service;
     }
-
 }

@@ -5,7 +5,7 @@
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:security="http://www.springframework.org/security/tags"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
-
+    <spring:message code="portal.baseUrl" var="baseUrl"/>
 	<div class="content">
 		<div class="page-header">
 		  <h2 id="page-title"><spring:message code="groups"/></h2>
@@ -15,7 +15,7 @@
         </div>
 		<div class="row">
 			<div class="pagination">
-						<tags:pagination pager="${result}" url="group"/>
+						<tags:pagination pager="${result}" url="${baseUrl}/group"/>
 		  	</div>
 		</div>
 		<div class="row">

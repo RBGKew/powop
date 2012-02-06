@@ -4,6 +4,7 @@
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<spring:message code="portal.baseUrl" var="baseUrl"/>
   <div class="content">
 	<div class="page-header">
 	  <h2 id="page-title">${source.identifier}</h2>
@@ -13,7 +14,7 @@
 		<tags:results pager="${result}" />
 	  </div>
 	  <div class="pagination">
-		<tags:pagination pager="${result}" url="messages" />
+		<tags:pagination pager="${result}" url="${baseUrl}/admin/source/${source.identifier}/jobs/${job.jobId}/messages" />
 	  </div>
 	</div>
 	<div class="row">

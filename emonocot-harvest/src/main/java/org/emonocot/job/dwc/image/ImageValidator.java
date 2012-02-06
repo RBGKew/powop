@@ -10,10 +10,6 @@ import java.util.UUID;
 
 import org.emonocot.api.ImageService;
 import org.emonocot.job.dwc.DarwinCoreValidator;
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.AnnotationCode;
-import org.emonocot.model.common.AnnotationType;
-import org.emonocot.model.common.RecordType;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.taxon.Taxon;
 import org.slf4j.Logger;

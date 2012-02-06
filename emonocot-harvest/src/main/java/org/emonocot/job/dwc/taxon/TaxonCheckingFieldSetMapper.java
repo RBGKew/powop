@@ -8,6 +8,7 @@ import org.emonocot.model.taxon.Rank;
 import org.emonocot.model.taxon.RankConverter;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.model.taxon.TaxonomicStatus;
+import org.emonocot.model.taxon.TaxonomicStatusConverter;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
@@ -26,18 +27,25 @@ import org.springframework.validation.BindException;
  * @author ben
  *
  */
-public class TaxonFieldSetMapper extends DarwinCoreFieldSetMapper<Taxon> {
+public class TaxonCheckingFieldSetMapper extends
+        DarwinCoreFieldSetMapper<Taxon> {
 
    /**
     *
     */
     private Logger logger
-        = LoggerFactory.getLogger(TaxonFieldSetMapper.class);
+        = LoggerFactory.getLogger(TaxonCheckingFieldSetMapper.class);
 
     /**
      *
      */
     private Converter<String, Rank> rankConverter = new RankConverter();
+
+    /**
+     *
+     */
+    private Converter<String, TaxonomicStatus> taxonomicStatusConverter
+        = new TaxonomicStatusConverter();
 
     /**
      *
@@ -48,7 +56,7 @@ public class TaxonFieldSetMapper extends DarwinCoreFieldSetMapper<Taxon> {
     /**
      *
      */
-    public TaxonFieldSetMapper() {
+    public TaxonCheckingFieldSetMapper() {
         super(Taxon.class);
     }
 
@@ -121,7 +129,8 @@ public class TaxonFieldSetMapper extends DarwinCoreFieldSetMapper<Taxon> {
                 }
                 break;
             case taxonomicStatus:
-                TaxonomicStatus status = TaxonomicStatus.valueOf(value);
+                TaxonomicStatus status = taxonomicStatusConverter
+                        .convert(value);
                 taxon.setStatus(status);
                 break;
             case parentNameUsageID:
