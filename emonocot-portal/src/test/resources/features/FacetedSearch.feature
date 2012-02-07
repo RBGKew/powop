@@ -47,7 +47,7 @@ Scenario: Search for Only Taxa
   As a taxonomist I would like to search for taxa matching a particular term,
   and then to narrow down the list to include only accepted species
   When I search for "Acorus"
-  And I restrict the "Type" by selecting "Taxa"
+  And I restrict the type of object by selecting "Taxa"
   Then there should be 5 results
   And the Type facet should have the following options:
   | option    |
@@ -65,7 +65,7 @@ Scenario: Search for Only Images
   As a member of the public, I would like to be able to search for an
   image of a plant I am interested in
   When I search for "Acorus"
-  And I restrict the "Type" by selecting "Images"
+  And I restrict the type of object by selecting "Images"
   Then there should be 1 result
   And the Type facet should have the following options:
   | option    |

@@ -239,7 +239,7 @@ public class StepDefinitions {
    }
 
     /**
-     * @param facetName the facet to restric
+     * @param facetName the facet to restrict
      * @param facetValue
      *            Set the facet value to select
      */
@@ -247,6 +247,15 @@ public class StepDefinitions {
     public final void iSelect(final String facetName, final String facetValue) {
         currentPage = ((SearchResultsPage) currentPage).selectFacet(facetName,
                 facetValue);
+    }
+    
+    /**
+     * @param facetValue
+     *            Set the facet value to select
+     */
+    @When("^I restrict the type of object by selecting \"([^\"]+)\"$")
+    public final void facetOnType(final String facetValue) {
+        iSelect("Restrict your search",facetValue);
     }
 
     /**
@@ -535,7 +544,7 @@ public class StepDefinitions {
      */
     @Then("^the Type facet should have the following options:$")
     public final void thereShouldBeOptionsForClassFacet(final List<Row> options) {
-        assertFacets("Type", options);
+        assertFacets("Restrict your search", options);
     }
 
     /**

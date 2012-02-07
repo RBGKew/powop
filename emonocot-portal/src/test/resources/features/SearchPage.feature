@@ -137,7 +137,7 @@ Scenario: Sort taxa Alphabetically
 Scenario: View Images in a grid
   As a botanist in the herbarium, in order to identify a monocot
   I want to see the images displayed in a grid.
-  When I restrict the "Type" by selecting "Images"
+  When I restrict the type of object by selecting "Images"
   Then there should be 3 results
   And the view icons should be displayed
   When I click on the "grid" icon 
@@ -146,7 +146,7 @@ Scenario: View Images in a grid
 Scenario: Search for images by their descriptions
   As a botanist in the herbarium, in order to find an image of a particular character
   I want to be able to search for images by their metadata including their descriptions.
-  When I restrict the "Type" by selecting "Images"
+  When I restrict the "Restrict your search" by selecting "Images"
   And I search for "Panicle"
   Then the following results should be displayed:
   | page | text      |

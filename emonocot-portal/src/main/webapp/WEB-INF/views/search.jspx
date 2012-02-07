@@ -8,65 +8,71 @@
 	<jsp:useBean id="result" scope="request" 
 	type="org.emonocot.model.pager.Page&lt;org.emonocot.model.taxon.Taxon&gt;" />
 	
-  	
+
 	<div class="content">
 		<div class="page-header">
-		<div class="row">
-			<h2 id="page-title" class="span6"><spring:message code="search.emonocot"/></h2>
-			
-			<script type="text/javascript">				
-				$(document).ready(function() {
-					$("input#query").autocomplete({
-			        	source: "autocomplete",
-			        	minLength: 2
+			<div class="row">
+				<h2 id="page-title" class="span6"><spring:message code="search.emonocot"/></h2>
+				
+				<script type="text/javascript">
+					$(document).ready(function() {
+						$("input#query").autocomplete({
+							source: "autocomplete",
+							minLength: 2
+						});
 					});
-				});
-			</script>
-			
-			<form id="search.form" class="pull-right" accept-charset="UTF-8" method="GET" action="search">
-				<jsp:element name="input">
-					<jsp:attribute name="class">xxlarge</jsp:attribute>
-					<jsp:attribute name="placeholder">Search</jsp:attribute>
-					<jsp:attribute name="value">${result.params['query']}</jsp:attribute>
-					<jsp:attribute name="type">text</jsp:attribute>
-					<jsp:attribute name="name">query</jsp:attribute>
-					<jsp:attribute name="id">query</jsp:attribute>
-				</jsp:element>
-				<input type="hidden" name="limit" value="${result.pageSize}" />
-				<input type="hidden" name="start" value="0" />
-				<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+				</script>
+				
+				<form id="search.form" class="pull-right" accept-charset="UTF-8" method="GET" action="search">
+					<jsp:element name="input">
+						<jsp:attribute name="class">xxlarge</jsp:attribute>
+						<jsp:attribute name="placeholder">Search</jsp:attribute>
+						<jsp:attribute name="value">${result.params['query']}</jsp:attribute>
+						<jsp:attribute name="type">text</jsp:attribute>
+						<jsp:attribute name="name">query</jsp:attribute>
+						<jsp:attribute name="id">query</jsp:attribute>
+					</jsp:element>
+					<input type="hidden" name="limit" value="${result.pageSize}" />
+					<input type="hidden" name="start" value="0" />
+					<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+						<jsp:element name="input">
+							<jsp:attribute name="type">hidden</jsp:attribute>
+							<jsp:attribute name="name">facet</jsp:attribute>
+							<jsp:attribute name="value">
+								<jsp:scriptlet>
+									String selectedFacet = (String) pageContext.getAttribute("selectedFacet");
+									out.print(selectedFacet + "." + result.getSelectedFacets().get(selectedFacet));
+								</jsp:scriptlet>
+							</jsp:attribute>
+						</jsp:element>
+					</c:forEach>
 					<jsp:element name="input">
 						<jsp:attribute name="type">hidden</jsp:attribute>
-						<jsp:attribute name="name">facet</jsp:attribute>
-						<jsp:attribute name="value">
-							<jsp:scriptlet>
-								String selectedFacet = (String) pageContext.getAttribute("selectedFacet");
-								out.print(selectedFacet + "." + result.getSelectedFacets().get(selectedFacet));
-							</jsp:scriptlet>
-						</jsp:attribute>
+						<jsp:attribute name="name">sort</jsp:attribute>
+						<jsp:attribute name="value">${result.sort}</jsp:attribute>
 					</jsp:element>
-				</c:forEach>
-				<jsp:element name="input">
-					<jsp:attribute name="type">hidden</jsp:attribute>
-					<jsp:attribute name="name">sort</jsp:attribute>
-					<jsp:attribute name="value">${result.sort}</jsp:attribute>
+					<input type="submit" value="GO" name="submit" class="btn primary" />
+				</form>
+			</div>
+			<div>
+				<jsp:element  name="a">
+					<jsp:attribute name="href"><c:url value="/search?query="/></jsp:attribute>
+					<jsp:attribute name="class">pull-right</jsp:attribute>
+					<spring:message code="reset"/>
 				</jsp:element>
-				<input type="submit" value="GO" name="submit" class="btn primary" />
-			</form>
-		</div>
-		
+			</div><br/>
 		</div>
 		
 		<div class="row">
 			<div class="span5">
 				<ul id="facets" class="no-bullet">
-					<h3><spring:message code="restrictSearch" /></h3>
-					<c:forEach var="facetName" items="${result.facetNames}">
-						<li id="${facetName}">
-							<h3>
-								<spring:message code="${facetName}" />
-							</h3>
-							<ul class="facet">
+				<c:forEach var="facetName" items="${result.facetNames}">
+					<li id="${facetName}">
+						<h3>
+							<spring:message code="${facetName}" />
+						</h3>
+						
+						<ul class="facet">
 								<jsp:scriptlet>
 									String facetName = (String) pageContext.getAttribute("facetName");
 									pageContext.setAttribute("facetSelected", new Boolean(result.isFacetSelected(facetName)));
@@ -203,10 +209,55 @@
 			</div>
 			
 			<div class="span11">
-				
-					<div class="pagination">
+				<div class="row">
+					<div class="pagination span8">
 						<tags:pagination pager="${result}" url="search"/>
 		  			</div>
+		  			<div class="btn-group pull-right">
+						<a class="btn btn-primary" href="#"><spring:message code="sortBy" /></a>
+						<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret">&#160;</span></a>
+						<ul class="dropdown-menu">
+							<c:forEach var="sortItem" items="${em:sortItems()}">
+								<li>
+									<jsp:scriptlet>
+										org.emonocot.api.Sorting sortItem = (org.emonocot.api.Sorting) pageContext.getAttribute("sortItem");
+										pageContext.setAttribute("equalsSortItem", new Boolean(sortItem.equals(result.getSort())));
+									</jsp:scriptlet>
+									<c:choose>
+										<c:when test="${equalsSortItem}">
+											<spring:message code="${sortItem}" />
+										</c:when>
+										<c:otherwise>
+											<jsp:element name="a">
+												<jsp:attribute name="href">
+													<c:url value="search">
+														<c:forEach var="p" items="${result.paramNames}">
+															<c:param name="${p}" value="${result.params[p]}"/>
+														</c:forEach>
+														<c:param name="limit" value="${result.pageSize}" />
+														<c:param name="start" value="0" />
+														<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+															<c:param name="facet">
+																<jsp:scriptlet>
+																	String selectedFacet = (String) pageContext.getAttribute("selectedFacet");
+																	out.println(selectedFacet + "." + result.getSelectedFacets().get(selectedFacet));
+																</jsp:scriptlet>
+															</c:param>
+														</c:forEach>
+														<c:param name="sort">${sortItem}</c:param>
+													</c:url>
+												</jsp:attribute>
+												<spring:message code="${sortItem}" />
+											</jsp:element>
+										</c:otherwise>
+									</c:choose>
+								</li>
+							</c:forEach>
+						</ul>
+					</div><!-- /btn-group -->
+					</div>
+				
+				
 		  			<div class="row">
 		  				<div id="pages" class="span8">				
 							<tags:results pager="${result}"/>
@@ -222,155 +273,205 @@
 	      					}
 	      				</jsp:scriptlet>
 	      				<div id="viewIcons">
-						<c:if test="${viewOption != false}">
-	      					<div class="right">
-		      					<jsp:element name="a">
-		      						<jsp:attribute name="title">list</jsp:attribute>
-		      						<jsp:attribute name="href">
-								        <c:url value="search">
-								        	<c:param name="query" value="${result.params['query']}" />
-											<c:param name="limit" value="${result.pageSize}" />
-											<c:param name="start" value="0" />
-											<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-												<c:param name="facet">
-													<jsp:scriptlet>
-														String selectedFacet = (String) pageContext.getAttribute("selectedFacet");
-														out.println(selectedFacet + "." + result.getSelectedFacets().get(selectedFacet));
-													</jsp:scriptlet>
-												</c:param>
-											</c:forEach>
-											<c:param name="sort">${sortItem}</c:param>
-											<c:param name="view">list</c:param>
-										</c:url>
-									</jsp:attribute>
-									<jsp:element name="img">
-		      							<jsp:attribute name="src">
-		      								<c:url value="/images/list_icon.jpg"/>
-		      							</jsp:attribute>
-		      							<jsp:attribute name="alt">Display as a list</jsp:attribute>
-		      						</jsp:element>
-								</jsp:element>
-								&#160;
-								<jsp:element name="a">
-									<jsp:attribute name="title">grid</jsp:attribute>
-		      						<jsp:attribute name="href">
-								        <c:url value="search">
-											<c:param name="query" value="${result.params['query']}" />
-											<c:param name="limit" value="${result.pageSize}" />
-											<c:param name="start" value="0" />
-											<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-												<c:param name="facet">
-													<jsp:scriptlet>
-														String selectedFacet = (String) pageContext.getAttribute("selectedFacet");
-														out.println(selectedFacet + "." + result.getSelectedFacets().get(selectedFacet));
-													</jsp:scriptlet>
-												</c:param>
-											</c:forEach>
-											<c:param name="sort">${sortItem}</c:param>
-											<c:param name="view">grid</c:param>
-										</c:url>
-									</jsp:attribute>
-									<jsp:element name="img">
-				      					<jsp:attribute name="src">
-				      						<c:url value="/images/grid_icon.jpg"/>
-				      					</jsp:attribute>
-				      					<jsp:attribute name="alt">Display as a grid</jsp:attribute>
-				      				</jsp:element>
+					<div class="right">
+						<jsp:element name="a">
+							<jsp:attribute name="title">simpleList</jsp:attribute>
+							<jsp:attribute name="href">
+								<c:url value="search">
+									<c:param name="query" value="${result.params['query']}" />
+										<c:param name="limit" value="${result.pageSize}" />
+										<c:param name="start" value="0" />
+										<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+											<c:param name="facet">
+												<jsp:scriptlet>
+													String selectedFacet = (String) pageContext.getAttribute("selectedFacet");
+													out.println(selectedFacet + "." + result.getSelectedFacets().get(selectedFacet));
+												</jsp:scriptlet>
+											</c:param>
+										</c:forEach>
+										<c:param name="sort">${sortItem}</c:param>
+										<c:param name="view">simpleList</c:param>
+									</c:url>
+								</jsp:attribute>
+								<jsp:element name="img">
+		      						<jsp:attribute name="src">
+		      							<c:url value="/images/simpleList_icon.jpg"/>
+		      						</jsp:attribute>
+		      						<jsp:attribute name="alt">Display as a simple list</jsp:attribute>
+		      					</jsp:element>
+							</jsp:element>
+							&#160;
+		      				<jsp:element name="a">
+		      					<jsp:attribute name="title">list</jsp:attribute>
+		      					<jsp:attribute name="href">
+							        <c:url value="search">
+							        	<c:param name="query" value="${result.params['query']}" />
+										<c:param name="limit" value="${result.pageSize}" />
+										<c:param name="start" value="0" />
+										<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+											<c:param name="facet">
+												<jsp:scriptlet>
+													String selectedFacet = (String) pageContext.getAttribute("selectedFacet");
+													out.println(selectedFacet + "." + result.getSelectedFacets().get(selectedFacet));
+												</jsp:scriptlet>
+											</c:param>
+										</c:forEach>
+										<c:param name="sort">${sortItem}</c:param>
+										<c:param name="view">list</c:param>
+									</c:url>
+								</jsp:attribute>
+								<jsp:element name="img">
+		      						<jsp:attribute name="src">
+		      							<c:url value="/images/list_icon.jpg"/>
+		      						</jsp:attribute>
+		      						<jsp:attribute name="alt">Display as a list</jsp:attribute>
+		      					</jsp:element>
+							</jsp:element>
+							&#160;
+							<jsp:element name="a">
+								<jsp:attribute name="title">grid</jsp:attribute>
+		      					<jsp:attribute name="href">
+							        <c:url value="search">
+										<c:param name="query" value="${result.params['query']}" />
+										<c:param name="limit" value="${result.pageSize}" />
+										<c:param name="start" value="0" />
+										<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+											<c:param name="facet">
+												<jsp:scriptlet>
+													String selectedFacet = (String) pageContext.getAttribute("selectedFacet");
+													out.println(selectedFacet + "." + result.getSelectedFacets().get(selectedFacet));
+												</jsp:scriptlet>
+											</c:param>
+										</c:forEach>
+										<c:param name="sort">${sortItem}</c:param>
+										<c:param name="view">grid</c:param>
+									</c:url>
+								</jsp:attribute>
+								<jsp:element name="img">
+				      				<jsp:attribute name="src">
+				      					<c:url value="/images/grid_icon.jpg"/>
+				      				</jsp:attribute>
+				      				<jsp:attribute name="alt">Display as a grid</jsp:attribute>
 				      			</jsp:element>
-	      					</div>
-		      			</c:if>
-		      			</div>
-	      			</div>
+				      		</jsp:element>
+					</div>
+				</div>
+				</div>
+
 
 					
 					<div id="results" class="span11">
 					<c:choose>
-					
 					<c:when test="${result.params['view'] == 'grid'}">
-					<br/>
-					<ul class="media-grid"> 
-					<c:forEach var="item" items="${result.records}">
-						<li>
-						    <c:url var="thumbnail" value="/images/thumbnails/${item.identifier}.jpg"/>
-							<a class="result thumb" href="image/${item.identifier}" data-placement="below" rel="twipsy" title="${item.caption}"><img class="thumbnail" src="${thumbnail}" /></a>
-						</li>
-						</c:forEach>
+						<br/>
+						<ul class="media-grid"> 
+							<c:forEach var="item" items="${result.records}">
+								<li>
+						 			<c:url var="thumbnail" value="/images/thumbnails/${item.identifier}.jpg"/>
+									<a class="result thumb" href="image/${item.identifier}" data-placement="below" rel="twipsy" title="${item.caption}"><img class="thumbnail" src="${thumbnail}" /></a>
+								</li>
+							</c:forEach>
 						</ul>
 					</c:when>
-					
-
-					<c:otherwise>
-					<c:forEach var="item" items="${result.records}">
-						<div class="well">
-							<table><tbody><tr>
-							<c:choose>
-								<c:when test="${item.className == 'Taxon'}">
-									<td>
-										<jsp:element name="img">
-					      					<jsp:attribute name="src">
-					      						<c:url value="/images/icons/taxon_icon.jpg"/>
-					      					</jsp:attribute>
-					      					<jsp:attribute name="class">pull-left</jsp:attribute>
-					      					<jsp:attribute name="alt">Taxon</jsp:attribute>
-					      				</jsp:element>
-					      			</td>
-									<td>
-									<a class="result" href="taxon/${item.identifier}" title="${item.name}"><h4 class="h4Results"><em>${item.name}</em> ${item.authorship}</h4></a><br/>
-										
+					<c:when test="${result.params['view'] == 'simpleList'}">
+						<br/>
+						<ul class="media-grid"> 
+							<c:forEach var="item" items="${result.records}">
+								<li>
+						 			<c:url var="thumbnail" value="/images/thumbnails/${item.identifier}.jpg"/>
+									<a class="result thumb" href="image/${item.identifier}" data-placement="below" rel="twipsy" title="${item.caption}"><img class="thumbnail" src="${thumbnail}" /></a>
+								</li>
+							</c:forEach>
+						</ul>
+					</c:when>
+					<c:when test="${result.params['view'] == 'list'}">
+						<table>
+							<tbody>
+								<c:forEach var="item" items="${result.records}">
+									<tr>
 										<c:choose>
-				  							<c:when test="${item.accepted != null}">
-												<spring:message code="resultIsSynonym" />
+											<c:when test="${item.className == 'Taxon'}">
+												<td class="icon-column">
+													<jsp:element name="img">
+										      			<jsp:attribute name="src">
+										      				<c:url value="/images/taxonPageIconWhite.jpg"/>
+										      			</jsp:attribute>
+										      			<jsp:attribute name="class">pull-left</jsp:attribute>
+										      			<jsp:attribute name="alt">Taxon</jsp:attribute>
+										      		</jsp:element>
+										      	</td>
+												<td>
+													
+													<a class="result" href="taxon/${item.identifier}" title="${item.name}">
+														<c:if test="${item.status == 'synonym'}">
+															<c:set value="title-no-bold" var="cssClass"></c:set>
+														</c:if>
+														<h4 class="h4Results ${cssClass}"><em>${item.name}</em> ${item.authorship}</h4>
+													</a><br/>
+													<c:choose>
+									  					<c:when test="${item.accepted != null}">
+															<spring:message code="resultIsSynonym" />${item.status}
+														</c:when>
+														<c:otherwise>
+															<spring:message code="resultIsAccepted" />${item.status}
+														</c:otherwise>
+													</c:choose>
+													<br/>
+													<spring:message code="resultRank" /> ${item.rank}<br/>
+												</td>
+												<td>	
+													<a class="thumb pull-right">
+														<c:choose>
+															<c:when test="${not empty item.image}">
+															    <c:url var="thumbnail" value="/images/thumbnails/${item.image.identifier}.jpg"/>
+																<img src="${thumbnail}" title="${item.image.caption}"/>
+															</c:when>
+															<c:otherwise>
+																<jsp:element name="img">
+																	<jsp:attribute name="src">
+																		<c:url value="/images/no_image_3.jpg"/>
+							    									</jsp:attribute>
+							    									<jsp:attribute name="alt">No image available</jsp:attribute>
+																</jsp:element>
+															</c:otherwise>
+														</c:choose>
+													</a>
+												</td>
+											</c:when>
+											<c:when test="${item.className == 'Image'}">
+												<td class="icon-column">
+													<jsp:element name="img">
+										      			<jsp:attribute name="src">
+										      				<c:url value="/images/imagePageIconWhite.jpg"/>
+										      			</jsp:attribute>
+										      			<jsp:attribute name="class">pull-left</jsp:attribute>
+										      			<jsp:attribute name="alt">Image</jsp:attribute>
+										      		</jsp:element>
+										      	</td>
+										      	<td>
+										      		<a class="result" href="image/${item.identifier}" title="${item.caption}"><h4 class="h4Results">${item.caption}</h4></a>
+										      		<c:if test="${item.creator != null}">
+										      			<b><spring:message code="image.creator"/></b> ${item.creator}
+										      		</c:if>
+										      	</td>
+												<td>
+													<a class="thumb pull-right">
+														<c:url var="thumbnail" value="/images/thumbnails/${item.identifier}.jpg"/>
+														<img src="${thumbnail}" title="${item.caption}"/>
+													</a>
+												</td>
 											</c:when>
 											<c:otherwise>
-												<spring:message code="resultIsAccepted" />
+												Unknown class ${item.className}
 											</c:otherwise>
 										</c:choose>
-										
-										
-									</td>
-									<td>	
-										<a class="thumb pull-right">
-											<c:choose>
-												<c:when test="${not empty item.image}">
-												    <c:url var="thumbnail" value="/images/thumbnails/${item.image.identifier}.jpg"/>
-													<img src="${thumbnail}" title="${item.image.caption}"/>
-												</c:when>
-												<c:otherwise>
-													<jsp:element name="img">
-	    												<jsp:attribute name="src">
-	        												<c:url value="/images/no_image_3.jpg"/>
-	    												</jsp:attribute>
-	    												<jsp:attribute name="alt">No image available</jsp:attribute>
-													</jsp:element>
-												</c:otherwise>
-											</c:choose>
-										</a>
-									</td>
-								</c:when>
-								<c:when test="${item.className == 'Image'}">
-									<div class="row no-margin-left">
-										<jsp:element name="img">
-					      					<jsp:attribute name="src">
-					      						<c:url value="/images/icons/image_icon.jpg"/>
-					      					</jsp:attribute>
-					      					<jsp:attribute name="class">pull-left</jsp:attribute>
-					      					<jsp:attribute name="alt">Image</jsp:attribute>
-					      				</jsp:element>
-										<c:url var="thumbnail" value="/images/thumbnails/${item.identifier}.jpg"/>
-										<a class="result pull-left" href="image/${item.identifier}" title="${item.caption}"><h4 class="h4Results">${item.caption}</h4></a>
-										<a class="thumb pull-right"><img src="${thumbnail}" title="${item.caption}"/></a>
-									</div>
-								</c:when>
-								<c:otherwise>
-									Unknown class ${item.className}
-								</c:otherwise>
-							</c:choose>
-							</tr></tbody></table>
-						</div>
-							</c:forEach>
-						</c:otherwise>
-						</c:choose>
-				
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</c:when>
+				</c:choose>
+
 					
 					<script>
 						$(function () {
