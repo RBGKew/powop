@@ -205,6 +205,7 @@
 				    <nonFilteredFileExtensions>           
                       <nonFilteredFileExtension>jsp</nonFilteredFileExtension>
                       <nonFilteredFileExtensions>jspx</nonFilteredFileExtensions>
+                      <nonFilteredFileExtensions>tag</nonFilteredFileExtensions>
                     </nonFilteredFileExtensions>
 					<webResources>
 						<resource>
