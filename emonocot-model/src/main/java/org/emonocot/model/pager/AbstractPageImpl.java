@@ -271,6 +271,10 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
     public final Integer getCurrentIndex() {
         return currentIndex;
     }
+    
+    public final String getCurrentPageNumber() {
+    	return this.pageNumbers.get(currentIndex);
+    }
 
     /**
      *

@@ -37,15 +37,11 @@
 				</li>
 			</c:otherwise>
 		</c:choose>
-		<c:forEach var="index" items="${pager.indices}">
+		<!--<c:forEach var="index" items="${pager.indices}">
 			<c:choose>
-				<c:when test="${pager.currentIndex eq index}">
-					<li class="active"><a href="#"> <jsp:scriptlet>
-							Integer index = (Integer) jspContext.getAttribute("index");
-                            org.emonocot.model.pager.Page pager = (org.emonocot.model.pager.Page) jspContext.getAttribute("pager");
-                            out.println(pager.getPageNumber(index));
-                      </jsp:scriptlet> </a></li>
-				</c:when>
+				<c:when test="${pager.currentIndex eq index}">-->
+					<li class="active"><a href="#">${pager.currentPageNumber}</a></li>
+				<!--</c:when>
 				<c:otherwise>
 					<li><jsp:element name="a">
 								<jsp:attribute name="href">
@@ -76,7 +72,7 @@
 				    </li>
 				</c:otherwise>
 			</c:choose>
-		</c:forEach>
+		</c:forEach>-->
 		<c:choose>
 			<c:when test="${pager.nextIndex != null}">
 				<li class="next"><jsp:element name="a">

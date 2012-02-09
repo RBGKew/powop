@@ -44,6 +44,13 @@ public class SearchResultsPage extends PageObject {
      */
     @FindBy(how = How.ID, using = "facets")
     private WebElement facets;
+    
+    /**
+    *
+    */
+   @FindBy(how = How.ID, using = "sorting")
+   private WebElement sorting;
+
 
     /**
      *
@@ -76,8 +83,8 @@ public class SearchResultsPage extends PageObject {
      * @return a search results page
      */
     public final SearchResultsPage sort(final String sort) {
-        WebElement classFacet = facets.findElement(By
-                .xpath("li[h3/text() = 'Sort']/ul/li/a[text() = \'" + sort
+        WebElement classFacet = sorting.findElement(By
+                .xpath("li/a[text() = \'" + sort
                         + "\']"));
         return openAs(classFacet.getAttribute("href"), SearchResultsPage.class);
     }

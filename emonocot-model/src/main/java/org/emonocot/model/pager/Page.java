@@ -137,6 +137,11 @@ public interface Page<T> {
      *         calculated a label for that page
      */
    String getPageNumber(int index);
+   /**
+    * Return the current page number
+    */
+   String getCurrentPageNumber();
+   
 
     /**
      * Get a list of page indices for which labels are available.
