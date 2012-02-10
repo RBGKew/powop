@@ -16,3 +16,5 @@ insert into Taxon (id, identifier, name, family) values (14, 'urn:lsid:cate-arac
 insert into Taxon (id, identifier, name, family) values (15, 'urn:lsid:cate-araceae.org:taxon:5cd6c8e9-6bfb-1014-a918-dc439151c9e5', 'Adelonema erythropus','test');
 insert into Taxon (id, identifier, name, family) values (16, 'urn:lsid:cate-araceae.org:taxon:5cd6a8b2-6bfb-1014-a918-dc439151c9e5', 'Adelonema','test');
 insert into Taxon (id, identifier, name, family) values (17, 'urn:lsid:cate-project.org:taxon:19c6f4d2-3336-46bc-bba3-a4880cf62196', 'Afrorhaphidophora africana','test');
+insert into Taxon (id, identifier, name, family) values (18, 'urn:lsid:grassbase.kew.org:taxa:387039', 'Elyhordeum × montanense','test');
+insert into Taxon (id, identifier, name, family) values (19, 'urn:kew.org:wcs:taxon:303017', 'Conanthera johowi','Tecophilaeaceae');
