@@ -11,6 +11,8 @@ import java.util.Set;
 import org.easymock.EasyMock;
 import org.emonocot.api.SourceService;
 import org.emonocot.api.TaxonService;
+import org.emonocot.harvest.common.TaxonRelationshipResolver;
+import org.emonocot.harvest.common.TaxonRelationshipResolverImpl;
 import org.emonocot.model.geography.GeographyConverter;
 import org.emonocot.model.reference.ReferenceTypeConverter;
 import org.emonocot.model.source.Source;
@@ -97,6 +99,9 @@ public class OaiPmhRecordProcessorTest {
         processor.setSourceName("WCS");
         sourceService = EasyMock.createMock(SourceService.class);
         processor.setSourceService(sourceService);
+
+        TaxonRelationshipResolver resolver = new TaxonRelationshipResolverImpl();
+        processor.setTaxonRelationshipResolver(resolver);
 
         StepExecution stepExecution = new StepExecution("test step",
                 new JobExecution(1L));

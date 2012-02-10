@@ -2,6 +2,7 @@ package org.emonocot.job.dwc.reference;
 
 import java.text.ParseException;
 
+import org.emonocot.api.TaxonService;
 import org.emonocot.job.dwc.DarwinCoreFieldSetMapper;
 import org.emonocot.job.dwc.taxon.CannotFindRecordException;
 import org.emonocot.model.reference.Reference;
@@ -17,6 +18,7 @@ import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Parser;
 import org.springframework.format.datetime.joda.DateTimeParser;
 import org.springframework.validation.BindException;
@@ -52,6 +54,19 @@ public class ReferenceFieldSetMapper extends
     */
     private Parser<ReferenceType> referenceTypeParser
         = new ReferenceTypeConverter();
+    /**
+     *
+     */
+    private TaxonService taxonService;
+
+    /**
+     *
+     * @param newTaxonService Set the taxon service
+     */
+    @Autowired
+    public final void setTaxonService(final TaxonService newTaxonService) {
+        this.taxonService = newTaxonService;
+    }
 
     @Override
     public final void mapField(final Reference object, final String fieldName,
@@ -111,7 +126,13 @@ public class ReferenceFieldSetMapper extends
                 object.setCitation(value);
                 break;
             case identifier:
-                object.setSource(value);
+                if (value != null && value.trim().length() > 0) {
+                   if (value.startsWith("http://")) {
+                       object.setSource(value);
+                   } else {
+                       object.setIdentifier(value);
+                   }
+                }
                 break;
             default:
                 break;

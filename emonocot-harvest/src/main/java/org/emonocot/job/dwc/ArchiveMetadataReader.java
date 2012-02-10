@@ -101,10 +101,13 @@ public class ArchiveMetadataReader implements StepExecutionListener {
      *
      * @param archiveDirectory
      *            The directory where the DwC Archive has been unpacked to
+     * @param sourceName Set the name of the source
+     * @param taxonProcessingMode Set the taxon processing mode
      * @return An exit status indicating whether the step has been completed or
      *         failed
      */
-    public final ExitStatus readMetadata(final String archiveDirectory, final String sourceName) {
+    public final ExitStatus readMetadata(final String archiveDirectory,
+            final String sourceName, final String taxonProcessingMode) {
         this.sourceName = sourceName;
         try {
             Archive archive = archiveFactory.openArchive(new File(
@@ -151,6 +154,12 @@ public class ArchiveMetadataReader implements StepExecutionListener {
                     + " " + ioe.getLocalizedMessage());
             return ExitStatus.FAILED;
         }
+
+        if (taxonProcessingMode != null) {
+            stepExecution.getJobExecution().getExecutionContext()
+                    .put("taxon.processing.mode", taxonProcessingMode);
+        }
+
         return ExitStatus.COMPLETED;
     }
 

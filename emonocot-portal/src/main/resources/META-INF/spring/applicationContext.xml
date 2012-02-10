@@ -107,6 +107,7 @@
 	</bean>
 	<beans profile="default">
 	    <context:property-placeholder location="classpath:META-INF/spring/application.properties" />
+	    <context:property-override location="classpath:META-INF/spring/application.properties" ignore-unresolvable="true"/>
 	    <bean id="messageSource"
 			class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 			<property name="basenames">
@@ -120,6 +121,7 @@
 	</beans>
 	<beans profile="local">
 	    <context:property-placeholder location="classpath:META-INF/spring/local.properties" />
+	    <context:property-override location="classpath:META-INF/spring/local.properties" ignore-unresolvable="true"/>
 	    <bean id="messageSource"
 			class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 			<property name="basenames">

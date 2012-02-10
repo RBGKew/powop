@@ -86,4 +86,12 @@ public class TaxonRelationship {
     public final void setToIdentifier(final String newToIdentifier) {
         this.toIdentifier = newToIdentifier;
     }
+
+    /**
+     *
+     * @param taxon Set the taxon this relationship is from
+     */
+    public final void setFrom(final Taxon taxon) {
+       this.from = taxon;
+    }
 }

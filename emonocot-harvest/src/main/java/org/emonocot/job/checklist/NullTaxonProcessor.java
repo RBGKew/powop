@@ -1,18 +1,18 @@
 package org.emonocot.job.checklist;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
+import org.emonocot.api.TaxonService;
+import org.emonocot.harvest.common.AuthorityAware;
+import org.emonocot.harvest.common.TaxonRelationshipResolver;
+import org.emonocot.harvest.common.TaxonRelationship;
+import org.emonocot.job.io.StaxEventItemReader;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.AnnotationType;
-import org.emonocot.model.common.Base;
 import org.emonocot.model.common.RecordType;
 import org.emonocot.model.taxon.Taxon;
-import org.emonocot.harvest.common.TaxonRelationship;
-import org.emonocot.job.io.StaxEventItemReader;
-import org.emonocot.api.TaxonService;
 import org.emonocot.ws.checklist.OaiPmhClient;
 import org.emonocot.ws.checklist.OaiPmhException;
 import org.openarchives.pmh.Record;
@@ -21,9 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.ExitStatus;
-import org.springframework.batch.core.ItemWriteListener;
 import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -36,18 +34,13 @@ import org.tdwg.voc.TaxonRelationshipTerm;
  * @author ben
  *
  */
-public class NullTaxonProcessor implements ItemProcessor<String, Taxon>,
-        ChunkListener, StepExecutionListener, ItemWriteListener<Taxon> {
+public class NullTaxonProcessor extends AuthorityAware implements ItemProcessor<String, Taxon>,
+        ChunkListener {
 
     /**
     *
     */
     private Logger logger = LoggerFactory.getLogger(NullTaxonProcessor.class);
-
-    /**
-    *
-    */
-    private StepExecution stepExecution;
 
     /**
     *
@@ -72,11 +65,6 @@ public class NullTaxonProcessor implements ItemProcessor<String, Taxon>,
     /**
     *
     */
-    private String sourceName;
-
-    /**
-    *
-    */
     private String sourceUri;
 
     /**
@@ -85,7 +73,12 @@ public class NullTaxonProcessor implements ItemProcessor<String, Taxon>,
     private Unmarshaller unmarshaller;
 
     /**
-     * 
+     *
+     */
+    private TaxonRelationshipResolver taxonRelationshipResolver;
+
+    /**
+     *
      * @param taxonService
      *            Set the taxon service
      */
@@ -94,8 +87,19 @@ public class NullTaxonProcessor implements ItemProcessor<String, Taxon>,
         this.taxonService = taxonService;
     }
 
+   /**
+    *
+    * @param resolver
+    *            Set the taxon relationship resolver
+    */
+    @Autowired
+    public final void setTaxonRelationshipResolver(
+            final TaxonRelationshipResolver resolver) {
+        this.taxonRelationshipResolver = resolver;
+    }
+
     /**
-     * 
+     *
      * @param newUnmarshaller
      *            Set the unmarshaller to use
      */
@@ -125,7 +129,7 @@ public class NullTaxonProcessor implements ItemProcessor<String, Taxon>,
 
         try {
             ExitStatus exitStatus = oaiPmhClient.getRecord(identifier,
-                    sourceName, sourceUri, temporaryFileName);
+                    getSource().getIdentifier(), sourceUri, temporaryFileName);
             if (exitStatus.equals(ExitStatus.COMPLETED)) {
                 StaxEventItemReader<Record> staxEventItemReader
                   = new StaxEventItemReader<Record>();
@@ -136,7 +140,7 @@ public class NullTaxonProcessor implements ItemProcessor<String, Taxon>,
                         temporaryFileName));
 
                 staxEventItemReader.afterPropertiesSet();
-                staxEventItemReader.open(stepExecution.getExecutionContext());
+                staxEventItemReader.open(getStepExecution().getExecutionContext());
 
                 Record record = staxEventItemReader.read();
                 staxEventItemReader.close();
@@ -188,7 +192,7 @@ public class NullTaxonProcessor implements ItemProcessor<String, Taxon>,
                                         .getIdentifier());
                                 inverseRelationships.add(synonymRelationship);
                             }
-                            oaiPmhRecordProcessor.getInverseRelationships()
+                            taxonRelationshipResolver.getInverseRelationships()
                                     .put(taxon.getIdentifier(),
                                             inverseRelationships);
                             oaiPmhRecordProcessor.processTaxon(taxon,
@@ -211,86 +215,24 @@ public class NullTaxonProcessor implements ItemProcessor<String, Taxon>,
                 return null;
             }
         } catch (OaiPmhException ope) {
-            taxon.getAnnotations().add(
-                    addAnnotation(taxon, AnnotationCode.BadRecord,
-                            AnnotationType.Error, RecordType.Taxon,
-                            taxon.getIdentifier()));
+            Annotation annotation = createAnnotation(taxon, RecordType.Taxon,
+                    AnnotationCode.BadRecord, AnnotationType.Error);
+            annotation.setValue(taxon.getIdentifier());
+            taxon.getAnnotations().add(annotation);
             return taxon;
         }
     }
 
-    /**
-     *
-     * @param object
-     *            Set the object type
-     * @param code
-     *            Set the annotation code
-     * @param annotationType
-     *            set the annotation type
-     * @param recordType
-     *            set the record type
-     * @param value
-     *            Set the value
-     * @return an Annotation
-     */
-    private Annotation addAnnotation(final Base object,
-            final AnnotationCode code, final AnnotationType annotationType,
-            final RecordType recordType, final String value) {
-        Annotation annotation = new Annotation();
-        annotation.setAnnotatedObj(object);
-        annotation.setRecordType(recordType);
-        annotation.setValue(value);
-        annotation.setJobId(stepExecution.getJobExecutionId());
-        annotation.setCode(code);
-        annotation.setType(annotationType);
-        annotation.setSource(oaiPmhRecordProcessor.getSource());
-        return annotation;
-    }
 
     /**
      * @param newStepExecution
      *            Set the step execution
      */
+    @Override
     public final void beforeStep(final StepExecution newStepExecution) {
-        this.stepExecution = newStepExecution;
+        super.beforeStep(newStepExecution);
         oaiPmhClient.beforeStep(newStepExecution);
         oaiPmhRecordProcessor.beforeStep(newStepExecution);
-    }
-
-    /**
-     * @param newStepExecution
-     *            Set the stepExecution
-     * @return an exit status
-     */
-    public final ExitStatus afterStep(final StepExecution newStepExecution) {
-        return null;
-    }
-
-    /**
-     * @param items
-     *            the items to be written
-     */
-    public final void beforeWrite(final List<? extends Taxon> items) {
-        oaiPmhRecordProcessor.beforeWrite(items);
-    }
-
-    /**
-     * @param items
-     *            the list of items written
-     */
-    public final void afterWrite(final List<? extends Taxon> items) {
-        oaiPmhRecordProcessor.afterWrite(items);
-    }
-
-    /**
-     * @param exception
-     *            the exception thrown
-     * @param items
-     *            the items which we tried to write
-     */
-    public final void onWriteError(final Exception exception,
-            final List<? extends Taxon> items) {
-        oaiPmhRecordProcessor.onWriteError(exception, items);
     }
 
     /**
@@ -330,14 +272,6 @@ public class NullTaxonProcessor implements ItemProcessor<String, Taxon>,
      */
     public final void setTemporaryFileName(final String newTemporaryFileName) {
         this.temporaryFileName = newTemporaryFileName;
-    }
-
-    /**
-     * @param newSourceName
-     *            the SourceName to set
-     */
-    public final void setSourceName(final String newSourceName) {
-        this.sourceName = newSourceName;
     }
 
     /**

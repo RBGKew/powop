@@ -222,9 +222,14 @@ public class Taxon extends SearchableObject {
    private Image image;
 
    /**
-   *
-   */
-  private List<Taxon> ancestors = new ArrayList <Taxon>();
+    *
+    */
+   private List<Taxon> ancestors = new ArrayList <Taxon>();
+
+   /**
+    *
+    */
+  private String nameIdentifier;
 
 
    /**
@@ -668,8 +673,17 @@ public class Taxon extends SearchableObject {
      * @param newClass
      *            set the class
      */
-    public void setClass(String newClass) {
+    public void setClazz(String newClass) {
         this.clazz = newClass;
+    }
+
+    /**
+     * @return the class of the taxon
+     */
+    @Field
+    @Column(name = "class")
+    public String getClazz() {
+        return clazz;
     }
 
     /**
@@ -817,16 +831,28 @@ public class Taxon extends SearchableObject {
     *
     * @return the ancestors of the taxon
     */
-   @Transient
-	public List<Taxon> getAncestors() {
-		return ancestors;
-	}
+    @Transient
+    public List<Taxon> getAncestors() {
+        return ancestors;
+    }
 
-   /**
-   *
-   * @param set the ancestors of the taxon
-   */
-	public void setAncestors(List<Taxon> ancestors) {
-		this.ancestors = ancestors;
-	}
+    /**
+     *
+     * @param ancestors Set the ancestors of the taxon
+     */
+    public void setAncestors(List<Taxon> ancestors) {
+        this.ancestors = ancestors;
+    }
+
+    /**
+     *
+     * @param newIdentifier Set the name identifier
+     */
+    public void setNameIdentifier(String newIdentifier) {
+        this.nameIdentifier = newIdentifier;
+    }
+
+    public String getNameIdentifier() {
+        return nameIdentifier;
+    }
 }

@@ -1,8 +1,20 @@
 package org.emonocot.job.dwc.taxon;
 
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.emonocot.api.ReferenceService;
+import org.emonocot.api.TaxonService;
+import org.emonocot.harvest.common.TaxonRelationshipResolver;
+import org.emonocot.harvest.common.TaxonRelationship;
+import org.emonocot.harvest.common.TaxonRelationshipResolverImpl;
 import org.emonocot.job.dwc.DarwinCoreFieldSetMapper;
+import org.emonocot.model.common.Annotation;
+import org.emonocot.model.common.AnnotationCode;
+import org.emonocot.model.common.AnnotationType;
+import org.emonocot.model.common.RecordType;
+import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.NomenclaturalCode;
 import org.emonocot.model.taxon.Rank;
 import org.emonocot.model.taxon.RankConverter;
@@ -12,29 +24,33 @@ import org.emonocot.model.taxon.TaxonomicStatusConverter;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
+import org.gbif.dwc.terms.UnknownTerm;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.core.ChunkListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionException;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.Parser;
 import org.springframework.format.datetime.joda.DateTimeParser;
 import org.springframework.validation.BindException;
+import org.tdwg.voc.TaxonRelationshipTerm;
 
 /**
  *
  * @author ben
  *
  */
-public class TaxonCheckingFieldSetMapper extends
-        DarwinCoreFieldSetMapper<Taxon> {
+public class TaxonFieldSetMapper extends
+        DarwinCoreFieldSetMapper<Taxon> implements ChunkListener {
 
    /**
     *
     */
     private Logger logger
-        = LoggerFactory.getLogger(TaxonCheckingFieldSetMapper.class);
+        = LoggerFactory.getLogger(TaxonFieldSetMapper.class);
 
     /**
      *
@@ -50,14 +66,66 @@ public class TaxonCheckingFieldSetMapper extends
     /**
      *
      */
+    private TaxonRelationshipResolver taxonRelationshipResolver = new TaxonRelationshipResolverImpl();
+
+    /**
+     *
+     */
     private Parser<DateTime> dateTimeParser
         = new DateTimeParser(ISODateTimeFormat.dateOptionalTimeParser());
 
     /**
      *
      */
-    public TaxonCheckingFieldSetMapper() {
+    private Map<String, Taxon> boundTaxa = new HashMap<String, Taxon>();
+
+    /**
+     *
+     */
+    private TaxonService taxonService;
+
+    /**
+     *
+     */
+    private HashMap<String, Reference> boundReferences;
+
+    /**
+     *
+     */
+    private ReferenceService referenceService;
+
+    /**
+     *
+     */
+    public TaxonFieldSetMapper() {
         super(Taxon.class);
+    }
+
+    /**
+     *
+     * @param newTaxonService Set the taxon service
+     */
+    @Autowired
+    public final void setTaxonService(final TaxonService newTaxonService) {
+        this.taxonService = newTaxonService;
+    }
+
+    /**
+     * @param newReferenceService Set the reference service
+     */
+    @Autowired
+    public final void setReferenceService(
+            final ReferenceService newReferenceService) {
+        this.referenceService = newReferenceService;
+    }
+
+    /**
+     * @param resolver Set the taxon relationship resolver
+     */
+    @Autowired
+    public final void setTaxonRelationshipResolver(
+            final TaxonRelationshipResolver resolver) {
+        this.taxonRelationshipResolver = resolver;
     }
 
     /**
@@ -106,11 +174,9 @@ public class TaxonCheckingFieldSetMapper extends
             switch (dwcTerm) {
             case taxonID:
                 taxon.setIdentifier(value);
-                super.bind(taxon);
                 break;
             case scientificNameID:
-                // should do something like
-                // taxon.setNameIdentifier(value)
+                taxon.setNameIdentifier(value);
                 break;
             case scientificName:
                 taxon.setName(value);
@@ -119,7 +185,6 @@ public class TaxonCheckingFieldSetMapper extends
                 taxon.setAuthorship(value);
                 break;
             case taxonRank:
-                // should do something like
                 try {
                     Rank rank = rankConverter.convert(value
                             .toUpperCase().replaceAll(" ", "_"));
@@ -134,10 +199,20 @@ public class TaxonCheckingFieldSetMapper extends
                 taxon.setStatus(status);
                 break;
             case parentNameUsageID:
-                // Ignore for now as we're not importing this taxon anyway
+                if (value != null && value.trim().length() != 0) {
+                    TaxonRelationship taxonRelationship = new TaxonRelationship(
+                            taxon, TaxonRelationshipTerm.IS_CHILD_TAXON_OF);
+                    taxonRelationshipResolver.addTaxonRelationship(
+                            taxonRelationship, value);
+                }
                 break;
             case acceptedNameUsageID:
-                // Ignore for now as we're not importing this taxon anyway
+                if (value != null && value.trim().length() != 0) {
+                    TaxonRelationship taxonRelationship = new TaxonRelationship(
+                            taxon, TaxonRelationshipTerm.IS_SYNONYM_FOR);
+                    taxonRelationshipResolver.addTaxonRelationship(
+                            taxonRelationship, value);
+                }
                 break;
             case genus:
                 taxon.setGenus(value);
@@ -161,7 +236,7 @@ public class TaxonCheckingFieldSetMapper extends
                 taxon.setPhylum(value);
                 break;
             case classs:
-                taxon.setClass(value);
+                taxon.setClazz(value);
                 break;
             case order:
                 taxon.setOrder(value);
@@ -171,9 +246,53 @@ public class TaxonCheckingFieldSetMapper extends
                 break;
             case nomenclaturalCode:
                 taxon.setNomenclaturalCode(NomenclaturalCode.valueOf(value));
+                break;
+            case namePublishedInID:
+                if (value != null && value.trim().length() > 0) {
+                    Reference protologue = null;
+                    if (boundReferences.containsKey(value)) {
+                        protologue = boundReferences.get(value);
+                    } else {
+                        protologue = referenceService.find(value);
+                        if (protologue == null) {
+                            protologue = new Reference();
+                            protologue.setIdentifier(value);
+                            Annotation annotation = createAnnotation(
+                                    protologue, RecordType.Reference,
+                                    AnnotationCode.Create, AnnotationType.Info);
+                            protologue.getAnnotations().add(annotation);
+                        }
+                        boundReferences.put(protologue.getIdentifier(),
+                                protologue);
+                    }
+                    taxon.setProtologue(protologue);
+                }
             default:
                 break;
             }
         }
+        // Unknown Terms
+        if (term instanceof UnknownTerm) {
+            UnknownTerm unknownTerm = (UnknownTerm) term;
+            if (unknownTerm.qualifiedName().equals(
+                    "http://emonocot.org/protologueMicroReference")) {
+                taxon.setProtologueMicroReference(value);
+            }
+        }
     }
+    /**
+    *
+    */
+   public final void afterChunk() {
+       logger.info("After Chunk");
+   }
+
+   /**
+    *
+    */
+   public final void beforeChunk() {
+       logger.info("Before Chunk");
+       boundTaxa = new HashMap<String, Taxon>();
+       boundReferences = new HashMap<String, Reference>();
+   }
 }

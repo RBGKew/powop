@@ -72,8 +72,21 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
                 new Fetch("ancestors", FetchMode.SELECT),
                 new Fetch("authority", FetchMode.JOIN),
                 new Fetch("sources", FetchMode.SELECT)});
-        FETCH_PROFILES.put("taxon-with-image", new Fetch[] { new Fetch("image",
+        FETCH_PROFILES.put("taxon-with-image", new Fetch[] {new Fetch("image",
                 FetchMode.SELECT) });
+    }
+
+    /**
+     * The rank held by the the root(s) of the taxonomic classification.
+     */
+    private Rank rootRank;
+
+    /**
+     *
+     * @param rank Set the root rank
+     */
+    public final void setRootRank(final String rank) {
+        this.rootRank = Rank.valueOf(rank);
     }
 
     /**
@@ -82,7 +95,7 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
      */
     @Override
     protected final String[] getDocumentFields() {
-        return new String[] { "title", "name", "authorship", "content.content" };
+        return new String[] {"title", "name", "authorship", "content.content" };
     }
 
     /**
@@ -325,6 +338,9 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
             criteria.add(Restrictions.isNull("parent"));
             criteria.add(Restrictions.isNotNull("name"));
             criteria.add(Restrictions.eq("status", TaxonomicStatus.accepted));
+            if (rootRank != null) {
+                criteria.add(Restrictions.eq("rank", rootRank));
+            }
         } else {
             criteria.createAlias("parent", "p");
             criteria.add(Restrictions.eq("p.identifier", identifier));

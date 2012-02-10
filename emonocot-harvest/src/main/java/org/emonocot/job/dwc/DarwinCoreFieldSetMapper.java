@@ -2,7 +2,7 @@ package org.emonocot.job.dwc;
 
 import java.util.Map;
 
-import org.emonocot.harvest.common.TaxonRelationshipResolver;
+import org.emonocot.harvest.common.AuthorityAware;
 import org.emonocot.model.common.Base;
 import org.gbif.dwc.terms.TermFactory;
 import org.slf4j.Logger;
@@ -16,12 +16,13 @@ import org.springframework.validation.BindException;
  * @author ben
  * @param <T> the type of object which this class maps
  */
-public abstract class DarwinCoreFieldSetMapper<T extends Base> extends
-        TaxonRelationshipResolver implements FieldSetMapper<T> {
+public abstract class DarwinCoreFieldSetMapper<T extends Base> extends AuthorityAware implements
+        FieldSetMapper<T> {
     /**
      *
      */
-    private Logger logger = LoggerFactory.getLogger(DarwinCoreFieldSetMapper.class);
+    private Logger logger = LoggerFactory
+            .getLogger(DarwinCoreFieldSetMapper.class);
 
     /**
      *

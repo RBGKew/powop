@@ -10,7 +10,8 @@ Background:
   | test       | http://example.com  |
 And there are taxa with the following properties:
   | identifier                   | name                           | family    | rank    | status   | source | parent                     |
-  | urn:kew.org:wcs:family:1     | Acoraceae                      | Acoraceae | FAMILY  | accepted | test   |                            |
+  | urn:kew.org:wcs:family:2     | Acorales                       |           | ORDER   | accepted | test   |                            |
+  | urn:kew.org:wcs:family:1     | Acoraceae                      | Acoraceae | FAMILY  | accepted | test   | urn:kew.org:wcs:family:2   |
   | urn:kew.org:wcs:taxon:2295   | Acorus                         | Acoraceae | GENUS   | accepted | test   | urn:kew.org:wcs:family:1   |
   | urn:kew.org:wcs:taxon:2304   | Acorus calamus                 | Acoraceae | SPECIES | accepted | test   | urn:kew.org:wcs:taxon:2295 |
   | urn:kew.org:wcs:taxon:2305   | Acorus calamus var. americanus | Acoraceae | VARIETY | accepted | test   | urn:kew.org:wcs:taxon:2304 |
@@ -25,19 +26,20 @@ Scenario: Browse taxonomic hierarchy
   When I am on the classification page
   Then the following nodes should be displayed:
   | page                     | text      |
-  | urn:kew.org:wcs:family:1 | Acoraceae |
-  When I expand "Acoraceae"
+  | urn:kew.org:wcs:family:2 | Acorales  |
+  When I expand "Acorales"
   And I wait for 2 seconds
   Then the following nodes should be displayed:
   | page                       | text      |
+  | urn:kew.org:wcs:family:2   | Acorales  |
   | urn:kew.org:wcs:family:1   | Acoraceae |
-  | urn:kew.org:wcs:taxon:2295 | Acorus    |
   # The following does not seem to work because jsTree uses event
   # delegation and this does not work well with Selenium / Firefox
   # When I expand "Acorus"
   # And I wait for 2 seconds
   # Then the following nodes should be displayed:
   # | page                       | text           |
+  # | urn:kew.org:wcs:family:2   | Acorales       |
   # | urn:kew.org:wcs:family:1   | Acoraceae      |
   # | urn:kew.org:wcs:taxon:2295 | Acorus         |
   # | urn:kew.org:wcs:taxon:2304 | Acorus calamus |
@@ -45,6 +47,7 @@ Scenario: Browse taxonomic hierarchy
   # And I wait for 1 second
   # Then the following nodes should be displayed:
   # | page                       | text                           |
+  # | urn:kew.org:wcs:family:2   | Acorales                       |
   # | urn:kew.org:wcs:family:1   | Acoraceae                      |
   # | urn:kew.org:wcs:taxon:2295 | Acorus                         |
   # | urn:kew.org:wcs:taxon:2304 | Acorus calamus                 |

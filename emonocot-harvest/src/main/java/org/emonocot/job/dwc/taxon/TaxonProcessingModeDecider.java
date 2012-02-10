@@ -21,6 +21,7 @@ public class TaxonProcessingModeDecider implements JobExecutionDecider {
             final StepExecution stepExecution) {
         if (jobExecution.getExecutionContext().containsKey(
                 "taxon.processing.mode")) {
+
             String taxonProcessingMode = jobExecution.getExecutionContext()
                     .getString("taxon.processing.mode");
             return new FlowExecutionStatus(taxonProcessingMode);

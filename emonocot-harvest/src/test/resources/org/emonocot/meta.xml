@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<archive xmlns="http://rs.tdwg.org/dwc/text/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://rs.tdwg.org/dwc/text/   http://rs.tdwg.org/dwc/text/tdwg_dwc_text.xsd" metadata="eml.xml">
+  <core
+    encoding="UTF-8"
+    fieldsTerminatedBy="\t"
+    linesTerminatedBy="\n"
+    ignoreHeaderLines="0"
+    rowType="http://rs.tdwg.org/dwc/terms/Taxon">
+    <files>      
+      <location>taxon.txt</location>
+    </files>
+    <id index="0" />
+    <field index="0" term="http://rs.tdwg.org/dwc/terms/taxonID" />
+    <field index="1" term="http://rs.tdwg.org/dwc/terms/acceptedNameUsageID"/>
+    <field index="2" term="http://rs.tdwg.org/dwc/terms/parentNameUsageID"/>
+    <field index="3" term="http://rs.tdwg.org/dwc/terms/taxonomicStatus"/>
+    <field index="4" term="http://rs.tdwg.org/dwc/terms/order"/>
+    <field index="5" term="http://rs.tdwg.org/dwc/terms/scientificName"/>
+    <field index="6" term="http://rs.tdwg.org/dwc/terms/scientificNameAuthorship"/>
+    <field index="7" term="http://rs.tdwg.org/dwc/terms/taxonRank"/>
+    <field index="8" term="http://rs.tdwg.org/dwc/terms/nomenclaturalStatus"/>
+    <field index="9" term="http://emonocot.org/protologueMicroReference"/>
+    <field index="10" term="http://rs.tdwg.org/dwc/terms/namePublishedInID"/>
+    <field default="eMonocot. (2010, 1st November). Retrieved Wednesday, 8th February, 2012, from http://e-monocot.org" term="http://purl.org/dc/terms/bibliographicCitation"/>
+    <field default="Content licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License" term="http://purl.org/dc/terms/rights"/>
+    <field default="Plantae" term="http://rs.tdwg.org/dwc/terms/kingdom"/>
+    <field default="Magnoliophyta" term="http://rs.tdwg.org/dwc/terms/phylum"/>
+    <field default="ICBN" term="http://rs.tdwg.org/dwc/terms/nomenclaturalCode"/>
+    <field default="Taxon" term="http://rs.tdwg.org/dwc/terms/type"/>
+    <field default="eMonocot" term="http://rs.tdwg.org/dwc/terms/datasetName"/>
+    <field default="http://e-monocot.org" term="http://rs.tdwg.org/dwc/terms/datasetID"/>
+  </core>
+  <extension encoding="UTF-8" fieldsTerminatedBy="\t"
+		linesTerminatedBy="\n" ignoreHeaderLines="0"
+		rowType="http://rs.gbif.org/terms/1.0/Reference">
+		<files>
+			<location>reference.txt</location>
+		</files>
+		<coreid index="0" />
+		<field index="1" term="http://purl.org/dc/terms/creator" />
+		<field index="2" term="http://purl.org/dc/terms/date" />
+		<field index="3" term="http://purl.org/dc/terms/title" />
+		<field index="4" term="http://purl.org/dc/terms/bibliographicCitation" />
+		<field index="5" term="http://purl.org/dc/terms/identifier" />		
+		<field default="Generic" term="http://purl.org/dc/terms/type" />
+  </extension>
+</archive>

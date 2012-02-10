@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.emonocot.api.ReferenceService;
+import org.emonocot.api.TaxonService;
 import org.emonocot.job.dwc.DarwinCoreFieldSetMapper;
 import org.emonocot.job.dwc.taxon.CannotFindRecordException;
 import org.emonocot.model.common.Annotation;
@@ -27,18 +28,20 @@ import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
+import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Parser;
 import org.springframework.format.datetime.joda.DateTimeParser;
 import org.springframework.validation.BindException;
 
 /**
- *
+ * 
  * @author ben
- *
+ * 
  */
 public class DescriptionFieldSetMapper extends
-        DarwinCoreFieldSetMapper<TextContent> implements ChunkListener {
+        DarwinCoreFieldSetMapper<TextContent> implements ChunkListener,
+        StepExecutionListener {
 
     /**
      *
@@ -56,13 +59,14 @@ public class DescriptionFieldSetMapper extends
     /**
     *
     */
-   private Parser<DateTime> dateTimeParser
-       = new DateTimeParser(ISODateTimeFormat.dateOptionalTimeParser());
+    private Parser<DateTime> dateTimeParser
+        = new DateTimeParser(ISODateTimeFormat.dateOptionalTimeParser());
 
     /**
      *
      */
-    private Map<String, Reference> boundReferences = new HashMap<String, Reference>();
+    private Map<String, Reference> boundReferences
+        = new HashMap<String, Reference>();
 
     /**
      *
@@ -70,19 +74,36 @@ public class DescriptionFieldSetMapper extends
     private ReferenceService referenceService;
 
     /**
-     * @param referenceService the referenceService to set
+     *
+     */
+    private TaxonService taxonService;
+
+    /**
+     * @param newReferenceService
+     *            the referenceService to set
      */
     @Autowired
     public final void setReferenceService(
-            final ReferenceService referenceService) {
-        this.referenceService = referenceService;
+            final ReferenceService newReferenceService) {
+        this.referenceService = newReferenceService;
+    }
+
+    /**
+     *
+     * @param newTaxonService
+     *            Set the taxon service
+     */
+    @Autowired
+    public final void setTaxonService(final TaxonService newTaxonService) {
+        this.taxonService = newTaxonService;
     }
 
     @Override
-    public final void mapField(final TextContent object, final String fieldName,
-            final String value) throws BindException {
+    public final void mapField(final TextContent object,
+            final String fieldName, final String value) throws BindException {
         ConceptTerm term = getTermFactory().findTerm(fieldName);
-        logger.info("Mapping " + fieldName + " " + " " + value + " to " + object);
+        logger.info("Mapping " + fieldName + " " + " " + value + " to "
+                + object);
         if (term instanceof DcTerm) {
             DcTerm dcTerm = (DcTerm) term;
             switch (dcTerm) {
@@ -99,8 +120,7 @@ public class DescriptionFieldSetMapper extends
                 break;
             case created:
                 try {
-                    object.setCreated(dateTimeParser.parse(
-                            value, null));
+                    object.setCreated(dateTimeParser.parse(value, null));
                 } catch (ParseException pe) {
                     BindException be = new BindException(object, "target");
                     be.rejectValue("created", "not.valid", pe.getMessage());
@@ -165,8 +185,10 @@ public class DescriptionFieldSetMapper extends
 
     /**
      *
-     * @param object Set the text content object
-     * @param value the source of the reference to resolve
+     * @param object
+     *            Set the text content object
+     * @param value
+     *            the source of the reference to resolve
      */
     private void resolveReference(final TextContent object, final String value) {
         if (value == null || value.trim().length() == 0) {
@@ -180,13 +202,9 @@ public class DescriptionFieldSetMapper extends
                 if (r == null) {
                     r = new Reference();
                     r.setIdentifier(UUID.randomUUID().toString());
-                    Annotation annotation = new Annotation();
-                    annotation.setAnnotatedObj(r);
-                    annotation.setJobId(getStepExecution().getJobExecutionId());
-                    annotation.setCode(AnnotationCode.Create);
-                    annotation.setRecordType(RecordType.Reference);
-                    annotation.setType(AnnotationType.Info);
-                    annotation.setSource(getSource());
+                    Annotation annotation = super.createAnnotation(r,
+                            RecordType.Reference, AnnotationCode.Create,
+                            AnnotationType.Info);
                     r.getAnnotations().add(annotation);
                     r.getSources().add(getSource());
                     r.setAuthority(getSource());
@@ -198,20 +216,18 @@ public class DescriptionFieldSetMapper extends
         }
     }
 
-   /**
+    /**
     *
     */
-   @Override
-   public final void afterChunk() {
-       logger.info("After Chunk");
-   }
+    public final void afterChunk() {
+        logger.info("After Chunk");
+    }
 
-   /**
+    /**
     *
     */
-   @Override
-   public final void beforeChunk() {
-       logger.info("Before Chunk");
-       boundReferences = new HashMap<String, Reference>();
-   }
+    public final void beforeChunk() {
+        logger.info("Before Chunk");
+        boundReferences = new HashMap<String, Reference>();
+    }
 }

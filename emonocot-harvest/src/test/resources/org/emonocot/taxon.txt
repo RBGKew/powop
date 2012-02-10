@@ -1,0 +1,403 @@
+urn:kew.org:wcs:family:1		urn:kew.org:wcs:family:83	accepted	Acorales	Acoraceae	Martinov	Family		: 6	3f1ff8b7-c17f-4bf8-ac01-4c9150d8ffa2
+urn:kew.org:wcs:family:10		urn:kew.org:wcs:family:87	accepted	Commelinales	Commelinaceae	Mirb.	Family	nom. cons.	8: 177	66bc1362-0909-4b57-9344-f8873fd7cd26
+urn:kew.org:wcs:family:100	urn:kew.org:wcs:family:84		synonym	Alismatales	Juncaginales	Mart.	Order		: 6	4075d1ee-b708-4edf-8034-60800af4cdc5
+urn:kew.org:wcs:family:101	urn:kew.org:wcs:family:84		synonym	Alismatales	Lemnales	Link	Order		1: 289	893d79b4-9051-440b-af50-522dd6ff9e0e
+urn:kew.org:wcs:family:102	urn:kew.org:wcs:family:84		synonym	Alismatales	Najadales	Bercht. & J.Presl	Order		: 271	7e393fe5-6aec-4c45-864e-0449b97e2bb1
+urn:kew.org:wcs:family:103	urn:kew.org:wcs:family:84		synonym	Alismatales	Orontiales	J.Presl	Order		7: 1653 ['1553']	be873325-2e34-4dae-a6cb-e4c967ac45c1
+urn:kew.org:wcs:family:104	urn:kew.org:wcs:family:84		synonym	Alismatales	Pistiales	Mart.	Order		: 5	4075d1ee-b708-4edf-8034-60800af4cdc5
+urn:kew.org:wcs:family:105	urn:kew.org:wcs:family:84		synonym	Alismatales	Posidoniales	Nakai	Order		: 211	b66e296f-2f55-4920-abbe-66ecdc84e0f5
+urn:kew.org:wcs:family:106	urn:kew.org:wcs:family:84		synonym	Alismatales	Potamogetonales	Dumort.	Order		: 59	3398abb9-4ae6-402c-b1b6-f98e19602f4c
+urn:kew.org:wcs:family:107	urn:kew.org:wcs:family:84		synonym	Alismatales	Ruppiales	Nakai	Order		25: 5	b7b35304-f2b7-461b-a92c-04cc45a4233c
+urn:kew.org:wcs:family:108	urn:kew.org:wcs:family:84		synonym	Alismatales	Scheuchzeriales	B.Boivin	Order		103: 494	20863afc-9d79-446b-b478-7c194eb94254
+urn:kew.org:wcs:family:109	urn:kew.org:wcs:family:84		synonym	Alismatales	Tofieldiales	Reveal & Zomlefer	Order		8: 176	34a8b7da-babe-4504-930c-d02b6b971a74
+urn:kew.org:wcs:family:11		urn:kew.org:wcs:family:93	accepted	Zingiberales	Costaceae	Nakai	Family		17: 203	33e72a81-a16d-4f75-8537-d5c221bf5d2f
+urn:kew.org:wcs:family:110	urn:kew.org:wcs:family:84		synonym	Alismatales	Vallisneriales	Nakai	Order		24: 14	8757cef3-bf5f-423b-8d55-c8d91b6ea3df
+urn:kew.org:wcs:family:111	urn:kew.org:wcs:family:84		synonym	Alismatales	Zosterales	J.Presl	Order		7: 1667	be873325-2e34-4dae-a6cb-e4c967ac45c1
+urn:kew.org:wcs:family:112	urn:kew.org:wcs:family:3		synonym	Alismatales	Arisaraceae	Raf.	Family		4: 16	3aa87db5-1a51-4bb6-845c-c35728326344
+urn:kew.org:wcs:family:113	urn:kew.org:wcs:family:3		synonym	Alismatales	Caladiaceae	Salisb.	Family		: 5. 15–31	e388be8f-aa6f-4b83-8170-214b31cecb6e
+urn:kew.org:wcs:family:114	urn:kew.org:wcs:family:3		synonym	Alismatales	Callaceae	Rchb. ex Bartl.	Family		": 25, 66"	0367a4b7-7cf6-494b-915c-d2d45e6e4f93
+urn:kew.org:wcs:family:115	urn:kew.org:wcs:family:3		synonym	Alismatales	Colocasiaceae	Vines	Family		2: 541	3f11f770-817e-4d2a-8225-ffeb8d24e03a
+urn:kew.org:wcs:family:116	urn:kew.org:wcs:family:3		synonym	Alismatales	Cryptocorynaceae	J.Agardh	Family		: 32	cf3fc9d4-cdfc-4cae-bbdd-0990910ca662
+urn:kew.org:wcs:family:117	urn:kew.org:wcs:family:3		synonym	Alismatales	Dracontiaceae	Salisb.	Family		: 7	e388be8f-aa6f-4b83-8170-214b31cecb6e
+urn:kew.org:wcs:family:118	urn:kew.org:wcs:family:3		synonym	Alismatales	Lasiaceae	Vines	Family		2: 540	3f11f770-817e-4d2a-8225-ffeb8d24e03a
+urn:kew.org:wcs:family:119	urn:kew.org:wcs:family:3		synonym	Alismatales	Lemnaceae	Gray	Family	nom. cons.	2: 729	b07a800a-980a-454c-bbc7-0a86b7544251
+urn:kew.org:wcs:family:12		urn:kew.org:wcs:family:90	accepted	Pandanales	Cyclanthaceae	Poit. ex A.Rich.	Family	nom. cons.	5: 222	f3515099-a784-4536-88c8-c2e51566c0cb
+urn:kew.org:wcs:family:120	urn:kew.org:wcs:family:3		synonym	Alismatales	Monsteraceae	Vines	Family		2: 540	3f11f770-817e-4d2a-8225-ffeb8d24e03a
+urn:kew.org:wcs:family:121	urn:kew.org:wcs:family:3		synonym	Alismatales	Orontiaceae	Bartl.	Family		": 24, 68"	e63ef901-a56a-4bb5-9d5c-d39f893b4184
+urn:kew.org:wcs:family:122	urn:kew.org:wcs:family:3		synonym	Alismatales	Philodendraceae	Vines	Family		2: 540	3f11f770-817e-4d2a-8225-ffeb8d24e03a
+urn:kew.org:wcs:family:123	urn:kew.org:wcs:family:3		synonym	Alismatales	Pistiaceae	Rich. ex C.Agardh	Family		: 130	c821d405-434e-4e9e-93bd-12c6cde4a6b3
+urn:kew.org:wcs:family:124	urn:kew.org:wcs:family:3		synonym	Alismatales	Pothaceae	Raf.	Family		4: 16	3aa87db5-1a51-4bb6-845c-c35728326344
+urn:kew.org:wcs:family:125	urn:kew.org:wcs:family:3		synonym	Alismatales	Wolffiaceae	Bubani	Family		4: 22	96d3334c-a209-41a8-b99c-ddb05e0ca1b1
+urn:kew.org:wcs:family:126	urn:kew.org:wcs:family:23		synonym	Alismatales	Blyxaceae	Nakai	Family		24: 14	8757cef3-bf5f-423b-8d55-c8d91b6ea3df
+urn:kew.org:wcs:family:127	urn:kew.org:wcs:family:23		synonym	Alismatales	Elodeaceae	Dumort.	Family		: 54	3398abb9-4ae6-402c-b1b6-f98e19602f4c
+urn:kew.org:wcs:family:128	urn:kew.org:wcs:family:23		synonym	Alismatales	Enhalaceae	Nakai	Family		": 210, 211"	b66e296f-2f55-4920-abbe-66ecdc84e0f5
+urn:kew.org:wcs:family:129	urn:kew.org:wcs:family:23		synonym	Alismatales	Halophilaceae	J.Agardh	Family		: 50	cf3fc9d4-cdfc-4cae-bbdd-0990910ca662
+urn:kew.org:wcs:family:13		urn:kew.org:wcs:family:92	accepted	Poales	Cyperaceae	Juss.	Family	nom. cons.	: 26	e0e6e32b-5064-4fee-826d-80f5891dc045
+urn:kew.org:wcs:family:130	urn:kew.org:wcs:family:23		synonym	Alismatales	Hydrillaceae	Prantl	Family		: 188	317acda7-91a2-4543-b5de-3d8f1c320e2c
+urn:kew.org:wcs:family:131	urn:kew.org:wcs:family:23		synonym	Alismatales	Najadaceae	Juss.	Family	nom. cons.	: 18	0520290f-96e0-4837-b670-0c1e517b0ce6
+urn:kew.org:wcs:family:132	urn:kew.org:wcs:family:23		synonym	Alismatales	Stratiotaceae	Schultz Sch.	Family		: 274	3426e604-cd7b-4c3b-bd2b-d827e68aa606
+urn:kew.org:wcs:family:133	urn:kew.org:wcs:family:23		synonym	Alismatales	Thalassiaceae	Nakai	Family		: 210	b66e296f-2f55-4920-abbe-66ecdc84e0f5
+urn:kew.org:wcs:family:134	urn:kew.org:wcs:family:23		synonym	Alismatales	Vallisneriaceae	Dumort.	Family		": 54, 55"	3398abb9-4ae6-402c-b1b6-f98e19602f4c
+urn:kew.org:wcs:family:135	urn:kew.org:wcs:family:58		synonym	Alismatales	Heterostylaceae	Hutch.	Family		2: 41	dc021688-54c2-4cf2-b4a2-c586b66d74b2
+urn:kew.org:wcs:family:136	urn:kew.org:wcs:family:58		synonym	Alismatales	Lilaeaceae	Dumort.	Family	nom. cons.	": 62, 65"	3398abb9-4ae6-402c-b1b6-f98e19602f4c
+urn:kew.org:wcs:family:137	urn:kew.org:wcs:family:58		synonym	Alismatales	Maundiaceae	Nakai	Family		: 213	b66e296f-2f55-4920-abbe-66ecdc84e0f5
+urn:kew.org:wcs:family:138	urn:kew.org:wcs:family:58		synonym	Alismatales	Triglochinaceae	Bercht. & J.Presl	Family		": 1(7–13): 1, 2"	7e393fe5-6aec-4c45-864e-0449b97e2bb1
+urn:kew.org:wcs:family:139	urn:kew.org:wcs:family:67		synonym	Alismatales	Zannichelliaceae	Chevall.	Family	nom. cons.	2: 257	a2ca25da-eb0e-4c1e-a1e5-0ee917e8e8a2
+urn:kew.org:wcs:family:14		urn:kew.org:wcs:family:403	accepted	Dasypogonales	Dasypogonaceae	Dumort.	Family		": 54, 55"	3398abb9-4ae6-402c-b1b6-f98e19602f4c
+urn:kew.org:wcs:family:140	urn:kew.org:wcs:family:4		synonym	Arecales	Acristaceae	O.F.Cook	Family		16: 252	263cbe20-93a5-4210-81e3-681c86904f34
+urn:kew.org:wcs:family:141	urn:kew.org:wcs:family:4		synonym	Arecales	Borassaceae	Schultz Sch.	Family		: 318	3426e604-cd7b-4c3b-bd2b-d827e68aa606
+urn:kew.org:wcs:family:142	urn:kew.org:wcs:family:4		synonym	Arecales	Calamaceae	Kunth ex Perleb	Family		: 13	7f09b634-76cf-452d-8e11-d3931ef354b1
+urn:kew.org:wcs:family:143	urn:kew.org:wcs:family:4		synonym	Arecales	Ceroxylaceae	Vines	Family		2: 544	3f11f770-817e-4d2a-8225-ffeb8d24e03a
+urn:kew.org:wcs:family:144	urn:kew.org:wcs:family:4		synonym	Arecales	Chamaedoreaceae	O.F.Cook	Family		16: 252	263cbe20-93a5-4210-81e3-681c86904f34
+urn:kew.org:wcs:family:145	urn:kew.org:wcs:family:4		synonym	Arecales	Cocosaceae	Schultz Sch.	Family		: 316	3426e604-cd7b-4c3b-bd2b-d827e68aa606
+urn:kew.org:wcs:family:146	urn:kew.org:wcs:family:4		synonym	Arecales	Coryphaceae	Schultz Sch.	Family		: 317	3426e604-cd7b-4c3b-bd2b-d827e68aa606
+urn:kew.org:wcs:family:147	urn:kew.org:wcs:family:4		synonym	Arecales	Geonomataceae	O.F.Cook	Family		16: 252	263cbe20-93a5-4210-81e3-681c86904f34
+urn:kew.org:wcs:family:148	urn:kew.org:wcs:family:4		synonym	Arecales	Iriarteaceae	O.F.Cook & Doyle	Family		16: 225	c7530bef-cf85-45be-a5dd-550bf87ca4f3
+urn:kew.org:wcs:family:149	urn:kew.org:wcs:family:4		synonym	Arecales	Lepidocaryaceae	Mart.	Family		3: 196	05c32493-8067-4fb6-8fe1-3f3d80b24024
+urn:kew.org:wcs:family:15		urn:kew.org:wcs:family:88	accepted	Dioscoreales	Dioscoreaceae	R.Br.	Family	nom. cons.	: 294	3bc6460c-8b7e-4839-aecb-e38b1d12b069
+urn:kew.org:wcs:family:150	urn:kew.org:wcs:family:4		synonym	Arecales	Malortieaceae	O.F.Cook	Family		16: 252	263cbe20-93a5-4210-81e3-681c86904f34
+urn:kew.org:wcs:family:151	urn:kew.org:wcs:family:4		synonym	Arecales	Manicariaceae	O.F.Cook	Family		13: 140	c837d324-facd-47dc-85fe-1f520ae043bc
+urn:kew.org:wcs:family:152	urn:kew.org:wcs:family:4		synonym	Arecales	Moreniaceae	O.F.Cook	Family		12: 24	5fffbe64-f1e3-458b-81c8-28e06e7d200a
+urn:kew.org:wcs:family:153	urn:kew.org:wcs:family:4		synonym	Arecales	Nypaceae	Brongn. ex LeMaout & Decne.	Family		: 624	6170848f-f8be-4437-ae37-82c820bf7e03
+urn:kew.org:wcs:family:154	urn:kew.org:wcs:family:4		synonym	Arecales	Palmae	Juss.	Family	nom. cons.	: 37	e0e6e32b-5064-4fee-826d-80f5891dc045
+urn:kew.org:wcs:family:155	urn:kew.org:wcs:family:4		synonym	Arecales	Phoenicaceae	Burnett	Family		": 395, 1155"	87cc9cef-1e55-413f-934b-dea2107e95d1
+urn:kew.org:wcs:family:156	urn:kew.org:wcs:family:4		synonym	Arecales	Phytelephantaceae	Mart. ex Perleb	Family		: 11	15156d1d-97ce-42ea-92af-f9b5329a434f
+urn:kew.org:wcs:family:157	urn:kew.org:wcs:family:4		synonym	Arecales	Pseudophoenicaceae	O.F.Cook	Family		16: 243	263cbe20-93a5-4210-81e3-681c86904f34
+urn:kew.org:wcs:family:158	urn:kew.org:wcs:family:4		synonym	Arecales	Rhapidaceae	Bercht. & J.Presl	Family		: 266	7e393fe5-6aec-4c45-864e-0449b97e2bb1
+urn:kew.org:wcs:family:159	urn:kew.org:wcs:family:4		synonym	Arecales	Sabalaceae	Schultz Sch.	Family		: 317	3426e604-cd7b-4c3b-bd2b-d827e68aa606
+urn:kew.org:wcs:family:16		urn:kew.org:wcs:family:92	accepted	Poales	Ecdeiocoleaceae	D.F.Cutler & Airy Shaw	Family		19: 495	5aec1358-9677-477a-9b8c-c8354ff5a1f3
+urn:kew.org:wcs:family:160	urn:kew.org:wcs:family:4		synonym	Arecales	Sagaceae	Schultz Sch.	Family		: 316	3426e604-cd7b-4c3b-bd2b-d827e68aa606
+urn:kew.org:wcs:family:161	urn:kew.org:wcs:family:4		synonym	Arecales	Synechanthaceae	O.F.Cook	Family		16: 252	263cbe20-93a5-4210-81e3-681c86904f34
+urn:kew.org:wcs:family:162	urn:kew.org:wcs:family:85		synonym		Cocosales	Nakai	Order		: 48	417d110d-97e5-492d-ad09-17204341fdc3
+urn:kew.org:wcs:family:163	urn:kew.org:wcs:family:81		synonym	Asparagales	Agapanthaceae	F.Voigt	Family		2: 440	88d19b65-ede0-43f3-a6a4-5e406048a5b8
+urn:kew.org:wcs:family:164	urn:kew.org:wcs:family:81		synonym	Asparagales	Alliaceae	Borkh.	Family	nom. cons.	1: 15	26273201-d1e9-4bb9-aae5-9fd767700ed7
+urn:kew.org:wcs:family:165	urn:kew.org:wcs:family:81		synonym	Asparagales	Brunsvigiaceae	Horan.	Family		: 51	14366d3d-84bc-472f-8bac-122325862533
+urn:kew.org:wcs:family:166	urn:kew.org:wcs:family:81		synonym	Asparagales	Cepaceae	Salisb.	Family		: 88	e388be8f-aa6f-4b83-8170-214b31cecb6e
+urn:kew.org:wcs:family:167	urn:kew.org:wcs:family:81		synonym	Asparagales	Crinaceae	Vest	Family		": 267, 283"	1d13e4c9-5b03-42ee-bce5-f990f71140e7
+urn:kew.org:wcs:family:168	urn:kew.org:wcs:family:81		synonym	Asparagales	Cyrtanthaceae	Salisb.	Family		: 138	e388be8f-aa6f-4b83-8170-214b31cecb6e
+urn:kew.org:wcs:family:169	urn:kew.org:wcs:family:81		synonym	Asparagales	Galanthaceae	G.Mey.	Family		": 510, 560"	e20d53fb-2adc-4062-b8e5-6134019f614f
+urn:kew.org:wcs:family:17		urn:kew.org:wcs:family:92	accepted	Poales	Eriocaulaceae	Martinov	Family	nom. cons.	: 237	3f1ff8b7-c17f-4bf8-ac01-4c9150d8ffa2
+urn:kew.org:wcs:family:170	urn:kew.org:wcs:family:81		synonym	Asparagales	Gethyllidaceae	Raf.	Family		4: 19	3aa87db5-1a51-4bb6-845c-c35728326344
+urn:kew.org:wcs:family:171	urn:kew.org:wcs:family:81		synonym	Asparagales	Gilliesiaceae	Lindl.	Family		12: ad t. 992	0b30d24a-3e6e-46d9-a897-93ad667af213
+urn:kew.org:wcs:family:172	urn:kew.org:wcs:family:81		synonym	Asparagales	Haemanthaceae	Salisb.	Family		: 129	e388be8f-aa6f-4b83-8170-214b31cecb6e
+urn:kew.org:wcs:family:173	urn:kew.org:wcs:family:81		synonym	Asparagales	Leucojaceae	Batsch ex Borkh.	Family		1: 372	4c327bd0-1e3f-46f6-ba95-a7b6d1e025f2
+urn:kew.org:wcs:family:174	urn:kew.org:wcs:family:81		synonym	Asparagales	Milulaceae	Traub	Family		28: 131	8e6973eb-c4c6-46bd-9a59-b0a9fa9e0b1f
+urn:kew.org:wcs:family:175	urn:kew.org:wcs:family:81		synonym	Asparagales	Narcissaceae	Juss.	Family		: 54	e0e6e32b-5064-4fee-826d-80f5891dc045
+urn:kew.org:wcs:family:176	urn:kew.org:wcs:family:81		synonym	Asparagales	Oporanthaceae	Salisb.	Family		: 97	e388be8f-aa6f-4b83-8170-214b31cecb6e
+urn:kew.org:wcs:family:177	urn:kew.org:wcs:family:81		synonym	Asparagales	Pancratiaceae	Horan.	Family		: 50	62178c5e-879b-4748-95fb-a567d5b99fa8
+urn:kew.org:wcs:family:178	urn:kew.org:wcs:family:81		synonym	Asparagales	Strumariaceae	Salisb.	Family		: 126	e388be8f-aa6f-4b83-8170-214b31cecb6e
+urn:kew.org:wcs:family:179	urn:kew.org:wcs:family:81		synonym	Asparagales	Tulbaghiaceae	Salisb.	Family		: 87	e388be8f-aa6f-4b83-8170-214b31cecb6e
+urn:kew.org:wcs:family:18		urn:kew.org:wcs:family:92	accepted	Poales	Flagellariaceae	Dumort.	Family	nom. cons.	": 59, 60"	3398abb9-4ae6-402c-b1b6-f98e19602f4c
+urn:kew.org:wcs:family:180	urn:kew.org:wcs:family:81		synonym	Asparagales	Zephyranthaceae	Salisb.	Family		: 133	e388be8f-aa6f-4b83-8170-214b31cecb6e
+urn:kew.org:wcs:family:181	urn:kew.org:wcs:family:5		synonym	Asparagales	Agavaceae	Dumort.	Family	nom. cons.	": 57, 58"	3398abb9-4ae6-402c-b1b6-f98e19602f4c
+urn:kew.org:wcs:family:182	urn:kew.org:wcs:family:5		synonym	Asparagales	Anemarrhenaceae	"Conran, M.W.Chase & Rudall"	Family		52: 995	27877a2e-a18d-43c1-bf65-884e1f40bc0b
+urn:kew.org:wcs:family:183	urn:kew.org:wcs:family:5		synonym	Asparagales	Anthericaceae	J.Agardh	Family		: 27	cf3fc9d4-cdfc-4cae-bbdd-0990910ca662
+urn:kew.org:wcs:family:184	urn:kew.org:wcs:family:5		synonym	Asparagales	Aphyllanthaceae	Burnett	Family		": 421, 1153"	87cc9cef-1e55-413f-934b-dea2107e95d1
+urn:kew.org:wcs:family:185	urn:kew.org:wcs:family:5		synonym	Asparagales	Aspidistraceae	Hassk.	Family		: 32	e6afefcc-f3b5-4aa4-926c-c34fb449dcbc
+urn:kew.org:wcs:family:186	urn:kew.org:wcs:family:5		synonym	Asparagales	Behniaceae	"Conran, M.W.Chase & Rudall"	Family		52: 996	27877a2e-a18d-43c1-bf65-884e1f40bc0b
+urn:kew.org:wcs:family:187	urn:kew.org:wcs:family:5		synonym	Asparagales	Chlorogalaceae	Doweld & Reveal	Family		71: 53	44bbc9c9-9c4d-4c59-9251-fe153311b2c0
+urn:kew.org:wcs:family:188	urn:kew.org:wcs:family:5		synonym	Asparagales	Convallariaceae	Horan.	Family		: 53	14366d3d-84bc-472f-8bac-122325862533
+urn:kew.org:wcs:family:189	urn:kew.org:wcs:family:5		synonym	Asparagales	Dracaenaceae	Salisb.	Family	nom. cons.	: 73	e388be8f-aa6f-4b83-8170-214b31cecb6e
+urn:kew.org:wcs:family:19		urn:kew.org:wcs:family:87	accepted	Commelinales	Haemodoraceae	R.Br.	Family	nom. cons.	: 299	9e12aefd-0755-4039-b6a1-326a29b6c2e8
+urn:kew.org:wcs:family:190	urn:kew.org:wcs:family:5		synonym	Asparagales	Eriospermaceae	Orb.	Family		5: 402	f30f0d62-732f-45e7-818c-f8b65bfbd775
+urn:kew.org:wcs:family:191	urn:kew.org:wcs:family:5		synonym	Asparagales	Eustrephaceae	Chupov	Family		79(3): 7	0728df13-ba2f-4aac-a85e-1e7da846cc0d
+urn:kew.org:wcs:family:192	urn:kew.org:wcs:family:5		synonym	Asparagales	Herreriaceae	Kunth	Family		5: 290	9b235e81-6bb4-4963-8cc2-f71a1811f68b
+urn:kew.org:wcs:family:193	urn:kew.org:wcs:family:5		synonym	Asparagales	Hesperocallidaceae	Traub	Family		28: 131	8e6973eb-c4c6-46bd-9a59-b0a9fa9e0b1f
+urn:kew.org:wcs:family:194	urn:kew.org:wcs:family:5		synonym	Asparagales	Hostaceae	B.Mathew	Family		43: 302	c0095928-cfee-4fef-8710-d1958f497369
+urn:kew.org:wcs:family:195	urn:kew.org:wcs:family:5		synonym	Asparagales	Hyacinthaceae	Batsch ex Borkh.	Family		1: 315	f91523ea-1491-494d-8975-683a14a3a14c
+urn:kew.org:wcs:family:196	urn:kew.org:wcs:family:5		synonym	Asparagales	Lachenaliaceae	Salisb.	Family		: 20	e388be8f-aa6f-4b83-8170-214b31cecb6e
+urn:kew.org:wcs:family:197	urn:kew.org:wcs:family:5		synonym	Asparagales	Laxmanniaceae	Bubani	Family		4: 111	96d3334c-a209-41a8-b99c-ddb05e0ca1b1
+urn:kew.org:wcs:family:198	urn:kew.org:wcs:family:5		synonym	Asparagales	Lomandraceae	Lotsy	Family		3: 761	74166536-4c49-4279-8c0a-34660e70a89e
+urn:kew.org:wcs:family:199	urn:kew.org:wcs:family:5		synonym	Asparagales	Nolinaceae	Nakai	Family		: 226	b66e296f-2f55-4920-abbe-66ecdc84e0f5
+urn:kew.org:wcs:family:2		urn:kew.org:wcs:family:92	accepted	Poales	Anarthriaceae	D.F.Cutler & Airy Shaw	Family		19: 489	5aec1358-9677-477a-9b8c-c8354ff5a1f3
+urn:kew.org:wcs:family:20		urn:kew.org:wcs:family:87	accepted	Commelinales	Hanguanaceae	Airy Shaw	Family		18: 260	ecd8093d-f59f-41e3-aff4-b11a82f67a8e
+urn:kew.org:wcs:family:200	urn:kew.org:wcs:family:5		synonym	Asparagales	Ophiopogonaceae	Meissn.	Family		"397, Comm. 308"	88d7b7b8-36ce-4a52-af96-78fb9b260057
+urn:kew.org:wcs:family:201	urn:kew.org:wcs:family:5		synonym	Asparagales	Ornithogalaceae	Salisb.	Family		: 33	e388be8f-aa6f-4b83-8170-214b31cecb6e
+urn:kew.org:wcs:family:202	urn:kew.org:wcs:family:5		synonym	Asparagales	Peliosanthaceae	Salisb.	Family		: 63	e388be8f-aa6f-4b83-8170-214b31cecb6e
+urn:kew.org:wcs:family:203	urn:kew.org:wcs:family:5		synonym	Asparagales	Polygonataceae	Salisb.	Family		: 63	e388be8f-aa6f-4b83-8170-214b31cecb6e
+urn:kew.org:wcs:family:204	urn:kew.org:wcs:family:5		synonym	Asparagales	Ruscaceae	M.Roem.	Family	nom. cons.	3: 446	c031ed32-32b0-4793-8fe8-9523745b6bae
+urn:kew.org:wcs:family:205	urn:kew.org:wcs:family:5		synonym	Asparagales	Sansevieriaceae	Nakai	Family		12: 779	4f45e7c2-2a58-42c3-bb14-367dc811cb57
+urn:kew.org:wcs:family:206	urn:kew.org:wcs:family:5		synonym	Asparagales	Scillaceae	Vest	Family		": 267, 284"	1d13e4c9-5b03-42ee-bce5-f990f71140e7
+urn:kew.org:wcs:family:207	urn:kew.org:wcs:family:5		synonym	Asparagales	Themidaceae	Salisb.	Family		: 84	e388be8f-aa6f-4b83-8170-214b31cecb6e
+urn:kew.org:wcs:family:208	urn:kew.org:wcs:family:5		synonym	Asparagales	Tupistraceae	Schnizl.	Family		1: 72	7f090290-2068-4ba6-89a0-14d8b89b73a4
+urn:kew.org:wcs:family:209	urn:kew.org:wcs:family:5		synonym	Asparagales	Yuccaceae	J.Agardh	Family		: 8	cf3fc9d4-cdfc-4cae-bbdd-0990910ca662
+urn:kew.org:wcs:family:21		urn:kew.org:wcs:family:93	accepted	Zingiberales	Heliconiaceae	Vines	Family		"2: 561, 562"	3f11f770-817e-4d2a-8225-ffeb8d24e03a
+urn:kew.org:wcs:family:210	urn:kew.org:wcs:family:86		synonym		Agavales	Hutch.	Order		"2: 14, 149"	dc021688-54c2-4cf2-b4a2-c586b66d74b2
+urn:kew.org:wcs:family:211	urn:kew.org:wcs:family:86		synonym		Alliales	Bercht. & J.Presl	Order		: 267	7e393fe5-6aec-4c45-864e-0449b97e2bb1
+urn:kew.org:wcs:family:212	urn:kew.org:wcs:family:86		synonym		Amaryllidales	Link	Order		1: 193	893d79b4-9051-440b-af50-522dd6ff9e0e
+urn:kew.org:wcs:family:213	urn:kew.org:wcs:family:86		synonym		Apostasiales	Mart.	Order		: 10	4075d1ee-b708-4edf-8034-60800af4cdc5
+urn:kew.org:wcs:family:214	urn:kew.org:wcs:family:86		synonym		Asphodelales	Doweld	Order		: lvii	d926df2e-dfa3-4f91-a4a7-973e048a5d34
+urn:kew.org:wcs:family:215	urn:kew.org:wcs:family:86		synonym		Asteliales	Dumort.	Order		: 59	3398abb9-4ae6-402c-b1b6-f98e19602f4c
+urn:kew.org:wcs:family:216	urn:kew.org:wcs:family:86		synonym		Gilliesiales	Mart.	Order		: 7	4075d1ee-b708-4edf-8034-60800af4cdc5
+urn:kew.org:wcs:family:217	urn:kew.org:wcs:family:86		synonym		Hypoxidales	Mart.	Order		: 9	4075d1ee-b708-4edf-8034-60800af4cdc5
+urn:kew.org:wcs:family:218	urn:kew.org:wcs:family:86		synonym		Iridales	Raf.	Order		: 197	ca267d8e-6a7b-46cb-b9f4-fba7bc6f305f
+urn:kew.org:wcs:family:219	urn:kew.org:wcs:family:86		synonym		Ixiales	Lindl.	Order		: 70	a939ef25-6cd9-4bd4-b242-bd5e0e6c85c5
+urn:kew.org:wcs:family:220	urn:kew.org:wcs:family:86		synonym		Narcissales	Dumort.	Order		: 57	3398abb9-4ae6-402c-b1b6-f98e19602f4c
+urn:kew.org:wcs:family:221	urn:kew.org:wcs:family:86		synonym		Orchidales	Raf.	Order		: 197	ca267d8e-6a7b-46cb-b9f4-fba7bc6f305f
+urn:kew.org:wcs:family:222	urn:kew.org:wcs:family:86		synonym		Tecophilaeales	Traub ex Reveal	Order		74: 176	1ee7a653-0cc6-4d8b-a63a-f66b0ed2ab7e
+urn:kew.org:wcs:family:223	urn:kew.org:wcs:family:86		synonym		Xanthorrhoeales	Takht. ex Reveal & Doweld	Order		9: 552	651832b5-b442-4e11-b9cf-86823c0acc0e
+urn:kew.org:wcs:family:224	urn:kew.org:wcs:family:24		synonym	Asparagales	Crocaceae	Vest	Family		": 266, 283"	1d13e4c9-5b03-42ee-bce5-f990f71140e7
+urn:kew.org:wcs:family:225	urn:kew.org:wcs:family:24		synonym	Asparagales	Galaxiaceae	Raf.	Family		1: 72	cfae873f-c96f-4bae-9231-5ef6e05c806a
+urn:kew.org:wcs:family:226	urn:kew.org:wcs:family:24		synonym	Asparagales	Geosiridaceae	Jonker	Family	nom. cons.	: 477. seors. Impr	599fd98d-1dfa-4a88-923f-7005c00a5282
+urn:kew.org:wcs:family:227	urn:kew.org:wcs:family:24		synonym	Asparagales	Gladiolaceae	Raf.	Family		4: 34	3aa87db5-1a51-4bb6-845c-c35728326344
+urn:kew.org:wcs:family:228	urn:kew.org:wcs:family:24		synonym	Asparagales	Isophysidaceae	F.A.Barkley	Family		8: 152	a6b1c6d6-0106-4a5f-8cab-9dfbee57181e
+urn:kew.org:wcs:family:229	urn:kew.org:wcs:family:24		synonym	Asparagales	Ixiaceae	Horan.	Family		: 51	14366d3d-84bc-472f-8bac-122325862533
+urn:kew.org:wcs:family:23		urn:kew.org:wcs:family:84	accepted	Alismatales	Hydrocharitaceae	Juss.	Family	nom. cons.	: 67	e0e6e32b-5064-4fee-826d-80f5891dc045
+urn:kew.org:wcs:family:230	urn:kew.org:wcs:family:32		synonym	Asparagales	Apostasiaceae	Lindl.	Family	nom. cons.	: 22	63ebb8fc-bb86-48a3-a48e-a8f2af567236
+urn:kew.org:wcs:family:231	urn:kew.org:wcs:family:32		synonym	Asparagales	Cypripediaceae	Lindl.	Family		: 22	63ebb8fc-bb86-48a3-a48e-a8f2af567236
+urn:kew.org:wcs:family:232	urn:kew.org:wcs:family:32		synonym	Asparagales	Limodoraceae	Horan.	Family		: 44	62178c5e-879b-4748-95fb-a567d5b99fa8
+urn:kew.org:wcs:family:233	urn:kew.org:wcs:family:32		synonym	Asparagales	Liparidaceae	Vines	Family		2: 567	3f11f770-817e-4d2a-8225-ffeb8d24e03a
+urn:kew.org:wcs:family:234	urn:kew.org:wcs:family:32		synonym	Asparagales	Neottiaceae	Horan.	Family		: 50	14366d3d-84bc-472f-8bac-122325862533
+urn:kew.org:wcs:family:235	urn:kew.org:wcs:family:32		synonym	Asparagales	Neuwiediaceae	R.Dahlgren ex Reveal & Hoogland	Family		13: 91	c326db66-fd13-4559-9189-3665f970a97d
+urn:kew.org:wcs:family:236	urn:kew.org:wcs:family:32		synonym	Asparagales	Ophrydaceae	Vines	Family		2: 566	3f11f770-817e-4d2a-8225-ffeb8d24e03a
+urn:kew.org:wcs:family:237	urn:kew.org:wcs:family:32		synonym	Asparagales	Vanillaceae	Lindl.	Family		: 73	a939ef25-6cd9-4bd4-b242-bd5e0e6c85c5
+urn:kew.org:wcs:family:238	urn:kew.org:wcs:family:73		synonym	Asparagales	Androsynaceae	Salisb.	Family		: 61	e388be8f-aa6f-4b83-8170-214b31cecb6e
+urn:kew.org:wcs:family:239	urn:kew.org:wcs:family:73		synonym	Asparagales	Conantheraceae	Pfeiff.	Family		1: 839	3f7ff28b-344f-43b2-88f4-3e638b6e23ca
+urn:kew.org:wcs:family:24		urn:kew.org:wcs:family:86	accepted	Asparagales	Iridaceae	Juss.	Family	nom. cons.	: 57	e0e6e32b-5064-4fee-826d-80f5891dc045
+urn:kew.org:wcs:family:240	urn:kew.org:wcs:family:73		synonym	Asparagales	Cyanastraceae	Engl.	Family	nom. cons.	28: 357	d2675271-5ce4-4235-ba7c-083827595807
+urn:kew.org:wcs:family:241	urn:kew.org:wcs:family:73		synonym	Asparagales	Cyanellaceae	Salisb.	Family		: 46	e388be8f-aa6f-4b83-8170-214b31cecb6e
+urn:kew.org:wcs:family:242	urn:kew.org:wcs:family:73		synonym	Asparagales	Walleriaceae	H.Huber ex Takht.	Family	nom. cons.	79(12): 65	043775ea-7cef-4f7f-85eb-7a4c4cb9e6c1
+urn:kew.org:wcs:family:243	urn:kew.org:wcs:family:77		synonym	Asparagales	Aloaceae	Batsch	Family		: 138	85476f99-d6da-4bae-8b2f-2d6bc26cd750
+urn:kew.org:wcs:family:244	urn:kew.org:wcs:family:77		synonym	Asparagales	Asphodelaceae	Juss.	Family		: 51	e0e6e32b-5064-4fee-826d-80f5891dc045
+urn:kew.org:wcs:family:245	urn:kew.org:wcs:family:77		synonym	Asparagales	Dianellaceae	Salisb.	Family		: 66	e388be8f-aa6f-4b83-8170-214b31cecb6e
+urn:kew.org:wcs:family:246	urn:kew.org:wcs:family:77		synonym	Asparagales	Geitonoplesiaceae	R.Dahlgren ex Conran	Family		6: 39	32d30097-0514-47fb-95a6-40bf7918c148
+urn:kew.org:wcs:family:247	urn:kew.org:wcs:family:77		synonym	Asparagales	Hemerocallidaceae	R.Br.	Family		: 295	3bc6460c-8b7e-4839-aecb-e38b1d12b069
+urn:kew.org:wcs:family:248	urn:kew.org:wcs:family:77		synonym	Asparagales	Johnsoniaceae	Lotsy	Family		3: 731	74166536-4c49-4279-8c0a-34660e70a89e
+urn:kew.org:wcs:family:249	urn:kew.org:wcs:family:77		synonym	Asparagales	Phormiaceae	J.Agardh	Family		: 7	cf3fc9d4-cdfc-4cae-bbdd-0990910ca662
+urn:kew.org:wcs:family:25		urn:kew.org:wcs:family:92	accepted	Poales	Joinvilleaceae	Toml. & A.C.Sm.	Family		19: 888	6c31704e-8e7d-4dd7-a35d-5afbdb17c972
+urn:kew.org:wcs:family:250	urn:kew.org:wcs:family:10		synonym	Commelinales	Cartonemataceae	Pichon	Family	nom. cons.	12: 219	05d87816-4758-498e-90c3-5b55a1e5dfd5
+urn:kew.org:wcs:family:251	urn:kew.org:wcs:family:10		synonym	Commelinales	Ephemeraceae	Batsch	Family	nom. rej.	: 125	85476f99-d6da-4bae-8b2f-2d6bc26cd750
+urn:kew.org:wcs:family:252	urn:kew.org:wcs:family:10		synonym	Commelinales	Tradescantiaceae	Salisb.	Family		8: 9	52beadd3-3fcc-4960-8147-20ef50fe40c8
+urn:kew.org:wcs:family:253	urn:kew.org:wcs:family:87		synonym		Haemodorales	Mart.	Order		: 9	4075d1ee-b708-4edf-8034-60800af4cdc5
+urn:kew.org:wcs:family:254	urn:kew.org:wcs:family:87		synonym		Hanguanales	R.Dahlgren ex Reveal	Order		2: 239	6e454bfd-4542-46ed-b22d-d34906761773
+urn:kew.org:wcs:family:255	urn:kew.org:wcs:family:87		synonym		Philydrales	Dumort.	Order		: 62	3398abb9-4ae6-402c-b1b6-f98e19602f4c
+urn:kew.org:wcs:family:256	urn:kew.org:wcs:family:87		synonym		Pontederiales	Mart.	Order		: 7	4075d1ee-b708-4edf-8034-60800af4cdc5
+urn:kew.org:wcs:family:257	urn:kew.org:wcs:family:19		synonym	Commelinales	Conostylidaceae	Takht.	Family		: 313	5c5ca97a-cb32-42a2-a516-b9ff8422051e
+urn:kew.org:wcs:family:258	urn:kew.org:wcs:family:19		synonym	Commelinales	Dilatridaceae	M.Roem.	Family		3: 476	c031ed32-32b0-4793-8fe8-9523745b6bae
+urn:kew.org:wcs:family:259	urn:kew.org:wcs:family:19		synonym	Commelinales	Wachendorfiaceae	Herb.	Family		: 48	0854cbf9-a87b-4ab3-bb8d-2915d5838f75
+urn:kew.org:wcs:family:26		urn:kew.org:wcs:family:92	accepted	Poales	Juncaceae	Juss.	Family	nom. cons.	: 43	e0e6e32b-5064-4fee-826d-80f5891dc045
+urn:kew.org:wcs:family:260	urn:kew.org:wcs:family:19		synonym	Commelinales	Xiphidiaceae	Dumort.	Family		": 59, 61"	3398abb9-4ae6-402c-b1b6-f98e19602f4c
+urn:kew.org:wcs:family:261	urn:kew.org:wcs:family:35		synonym	Commelinales	Heterantheraceae	J.Agardh	Family		: 36	cf3fc9d4-cdfc-4cae-bbdd-0990910ca662
+urn:kew.org:wcs:family:262	urn:kew.org:wcs:family:7		synonym	Dioscoreales	Thismiaceae	J.Agardh	Family	nom. cons.	: 99	cf3fc9d4-cdfc-4cae-bbdd-0990910ca662
+urn:kew.org:wcs:family:263	urn:kew.org:wcs:family:15		synonym	Dioscoreales	Avetraceae	Takht.	Family		: 524	6d9c354d-40d5-46de-bf59-88c25750f42c
+urn:kew.org:wcs:family:264	urn:kew.org:wcs:family:15		synonym	Dioscoreales	Stenomeridaceae	J.Agardh	Family		: 66	cf3fc9d4-cdfc-4cae-bbdd-0990910ca662
+urn:kew.org:wcs:family:265	urn:kew.org:wcs:family:15		synonym	Dioscoreales	Taccaceae	Dumort.	Family	nom. cons.	": 57, 58"	3398abb9-4ae6-402c-b1b6-f98e19602f4c
+urn:kew.org:wcs:family:266	urn:kew.org:wcs:family:15		synonym	Dioscoreales	Tamaceae	Bercht. & J.Presl	Family		: 267	7e393fe5-6aec-4c45-864e-0449b97e2bb1
+urn:kew.org:wcs:family:267	urn:kew.org:wcs:family:15		synonym	Dioscoreales	Tamnaceae	J.Kickx f.	Family		: 307	c5d22417-ea85-487b-b042-2c94fb29f5ee
+urn:kew.org:wcs:family:268	urn:kew.org:wcs:family:15		synonym	Dioscoreales	Trichopodaceae	Hutch.	Family	nom. cons.	2: 143	dc021688-54c2-4cf2-b4a2-c586b66d74b2
+urn:kew.org:wcs:family:269	urn:kew.org:wcs:family:88		synonym		Burmanniales	Mart.	Order		: 9	4075d1ee-b708-4edf-8034-60800af4cdc5
+urn:kew.org:wcs:family:27		urn:kew.org:wcs:family:86	accepted	Asparagales	Lanariaceae	H.Huber ex R.Dahlgren	Family		25: 71	6d1769f7-2671-48d7-8580-ef0fc2f350eb
+urn:kew.org:wcs:family:270	urn:kew.org:wcs:family:88		synonym		Nartheciales	Reveal & Zomlefer	Order		8: 176	34a8b7da-babe-4504-930c-d02b6b971a74
+urn:kew.org:wcs:family:271	urn:kew.org:wcs:family:88		synonym		Taccales	Dumort.	Order		: 57	3398abb9-4ae6-402c-b1b6-f98e19602f4c
+urn:kew.org:wcs:family:272	urn:kew.org:wcs:family:88		synonym		Tamales	Dumort.	Order		: 57	3398abb9-4ae6-402c-b1b6-f98e19602f4c
+urn:kew.org:wcs:family:273	urn:kew.org:wcs:family:46		synonym	Liliales	Luzuriagaceae	Lotsy	Family		3: 760	74166536-4c49-4279-8c0a-34660e70a89e
+urn:kew.org:wcs:family:274	urn:kew.org:wcs:family:53		synonym	Liliales	Bulbocodiaceae	Salisb.	Family		: 52	e388be8f-aa6f-4b83-8170-214b31cecb6e
+urn:kew.org:wcs:family:275	urn:kew.org:wcs:family:53		synonym	Liliales	Burchardiaceae	Takht.	Family		81(2): 85	c04db815-74ca-4e5f-954e-269f1ba91e37
+urn:kew.org:wcs:family:276	urn:kew.org:wcs:family:53		synonym	Liliales	Merenderaceae	Mirb.	Family		8: 211	66bc1362-0909-4b57-9344-f8873fd7cd26
+urn:kew.org:wcs:family:277	urn:kew.org:wcs:family:53		synonym	Liliales	Uvulariaceae	A.Gray ex Kunth	Family	nom. cons.	4: 199	25ad4f45-38dc-4bc7-ba81-cb02badd1449
+urn:kew.org:wcs:family:278	urn:kew.org:wcs:family:59		synonym	Liliales	Calochortaceae	Dumort.	Family		: 53	3398abb9-4ae6-402c-b1b6-f98e19602f4c
+urn:kew.org:wcs:family:279	urn:kew.org:wcs:family:59		synonym	Liliales	Compsoaceae	Horan.	Family		: 51	14366d3d-84bc-472f-8bac-122325862533
+urn:kew.org:wcs:family:28		urn:kew.org:wcs:family:93	accepted	Zingiberales	Lowiaceae	Ridl.	Family		4: 291	0987ecf3-1cd6-460f-ba7c-1ec6f6550521
+urn:kew.org:wcs:family:280	urn:kew.org:wcs:family:59		synonym	Liliales	Erythroniaceae	Martinov	Family		: 238	3f1ff8b7-c17f-4bf8-ac01-4c9150d8ffa2
+urn:kew.org:wcs:family:281	urn:kew.org:wcs:family:59		synonym	Liliales	Fritillariaceae	Salisb.	Family		: 56	e388be8f-aa6f-4b83-8170-214b31cecb6e
+urn:kew.org:wcs:family:282	urn:kew.org:wcs:family:59		synonym	Liliales	Liriaceae	Batsch ex Borkh.	Family		1: 374	f91523ea-1491-494d-8975-683a14a3a14c
+urn:kew.org:wcs:family:283	urn:kew.org:wcs:family:59		synonym	Liliales	Medeolaceae	Takht.	Family		: 291	5c5ca97a-cb32-42a2-a516-b9ff8422051e
+urn:kew.org:wcs:family:284	urn:kew.org:wcs:family:59		synonym	Liliales	Scoliopaceae	Takht.	Family		81(2): 86	c04db815-74ca-4e5f-954e-269f1ba91e37
+urn:kew.org:wcs:family:285	urn:kew.org:wcs:family:59		synonym	Liliales	Tricyrtidaceae	Takht.	Family	nom. cons.	: 482	6d9c354d-40d5-46de-bf59-88c25750f42c
+urn:kew.org:wcs:family:286	urn:kew.org:wcs:family:59		synonym	Liliales	Tulipaceae	Batsch ex Borkh.	Family		2: 391	f91523ea-1491-494d-8975-683a14a3a14c
+urn:kew.org:wcs:family:287	urn:kew.org:wcs:family:89		synonym		Alstroemeriales	Hutch.	Order		"2: 12, 111"	dc021688-54c2-4cf2-b4a2-c586b66d74b2
+urn:kew.org:wcs:family:288	urn:kew.org:wcs:family:89		synonym		Campynematales	Doweld	Order		: lvi	d926df2e-dfa3-4f91-a4a7-973e048a5d34
+urn:kew.org:wcs:family:289	urn:kew.org:wcs:family:89		synonym		Colchicales	Dumort.	Order		: 59	3398abb9-4ae6-402c-b1b6-f98e19602f4c
+urn:kew.org:wcs:family:29		urn:kew.org:wcs:family:93	accepted	Zingiberales	Marantaceae	R.Br.	Family	nom. cons.	2: 575	34f691ec-1796-4098-b733-8adaaa593c2a
+urn:kew.org:wcs:family:290	urn:kew.org:wcs:family:89		synonym		Liriales	K.Koch	Order		: 151	df86b5b7-f2fb-40a8-a415-fa36af01bad6
+urn:kew.org:wcs:family:291	urn:kew.org:wcs:family:89		synonym		Melanthiales	Link	Order		1: 145	893d79b4-9051-440b-af50-522dd6ff9e0e
+urn:kew.org:wcs:family:292	urn:kew.org:wcs:family:89		synonym		Paridales	Link	Order		1: 277	893d79b4-9051-440b-af50-522dd6ff9e0e
+urn:kew.org:wcs:family:293	urn:kew.org:wcs:family:89		synonym		Smilacales	Link	Order		1: 375	893d79b4-9051-440b-af50-522dd6ff9e0e
+urn:kew.org:wcs:family:294	urn:kew.org:wcs:family:89		synonym		Trilliales	Takht.	Order		: 485	6d9c354d-40d5-46de-bf59-88c25750f42c
+urn:kew.org:wcs:family:295	urn:kew.org:wcs:family:89		synonym		Veratrales	Dumort.	Order		: 59	3398abb9-4ae6-402c-b1b6-f98e19602f4c
+urn:kew.org:wcs:family:296	urn:kew.org:wcs:family:62		synonym	Liliales	Chionographidaceae	Takht.	Family		81(2): 85	c04db815-74ca-4e5f-954e-269f1ba91e37
+urn:kew.org:wcs:family:297	urn:kew.org:wcs:family:62		synonym	Liliales	Heloniadaceae	J.Agardh	Family		: 4	cf3fc9d4-cdfc-4cae-bbdd-0990910ca662
+urn:kew.org:wcs:family:298	urn:kew.org:wcs:family:62		synonym	Liliales	Paridaceae	Dumort.	Family		: 131	6cdc4766-56d8-40cb-87d5-641941ff5bce
+urn:kew.org:wcs:family:299	urn:kew.org:wcs:family:62		synonym	Liliales	Trilliaceae	Chevall.	Family	nom. cons.	2: 297	a2ca25da-eb0e-4c1e-a1e5-0ee917e8e8a2
+urn:kew.org:wcs:family:3		urn:kew.org:wcs:family:84	accepted	Alismatales	Araceae	Juss.	Family	nom. cons.	: 23. 4	e0e6e32b-5064-4fee-826d-80f5891dc045
+urn:kew.org:wcs:family:30		urn:kew.org:wcs:family:92	accepted	Poales	Mayacaceae	Kunth	Family	nom. cons.	1840: 93	23b2ee61-9006-4510-9526-fdfdd32d4c5c
+urn:kew.org:wcs:family:300	urn:kew.org:wcs:family:62		synonym	Liliales	Veratraceae	Salisb.	Family		8: 10	52beadd3-3fcc-4960-8147-20ef50fe40c8
+urn:kew.org:wcs:family:301	urn:kew.org:wcs:family:62		synonym	Liliales	Xerophyllaceae	Takht.	Family		81(2): 86	c04db815-74ca-4e5f-954e-269f1ba91e37
+urn:kew.org:wcs:family:302	urn:kew.org:wcs:family:65		synonym	Liliales	Lapageriaceae	Kunth	Family		5: 283	9b235e81-6bb4-4963-8cc2-f71a1811f68b
+urn:kew.org:wcs:family:303	urn:kew.org:wcs:family:64		synonym	Pandanales	Freycinetiaceae	Brongn. ex LeMaout & Decne.	Family		: 624	6170848f-f8be-4437-ae37-82c820bf7e03
+urn:kew.org:wcs:family:304	urn:kew.org:wcs:family:90		synonym		Cyclanthales	Mart.	Order		: 6	4075d1ee-b708-4edf-8034-60800af4cdc5
+urn:kew.org:wcs:family:305	urn:kew.org:wcs:family:90		synonym		Roxburghiales	Mart.	Order		: 8	4075d1ee-b708-4edf-8034-60800af4cdc5
+urn:kew.org:wcs:family:306	urn:kew.org:wcs:family:90		synonym		Stemonales	Takht. ex Doweld	Order		: lx	c5e1d21e-6b64-45e2-bb90-5f79c0fcc527
+urn:kew.org:wcs:family:307	urn:kew.org:wcs:family:90		synonym		Triuridales	Hook.f.	Order		: 1018	beb23e11-20f8-4a9e-8fab-200b9ae475bb
+urn:kew.org:wcs:family:308	urn:kew.org:wcs:family:90		synonym		Velloziales	R.Dahlgren ex Reveal	Order		2: 239	6e454bfd-4542-46ed-b22d-d34906761773
+urn:kew.org:wcs:family:309	urn:kew.org:wcs:family:72		synonym	Pandanales	Croomiaceae	Nakai	Family		2: 159	9bed5131-c280-4b0f-8020-b65e50fc9bf5
+urn:kew.org:wcs:family:31		urn:kew.org:wcs:family:93	accepted	Zingiberales	Musaceae	Juss.	Family	nom. cons.	: 61	e0e6e32b-5064-4fee-826d-80f5891dc045
+urn:kew.org:wcs:family:310	urn:kew.org:wcs:family:72		synonym	Pandanales	Roxburghiaceae	Wall.	Family		3: 50	198911dc-e3f9-4e17-ae83-63864f957d32
+urn:kew.org:wcs:family:311	urn:kew.org:wcs:family:72		synonym	Pandanales	Pentastemonaceae	Duyfjes	Family		36: 552	281e6570-3e7e-4ae9-9de7-e02fc2cf1099
+urn:kew.org:wcs:family:312	urn:kew.org:wcs:family:75		synonym	Pandanales	Lacandoniaceae	E.Martínes & Ramos	Family		76: 128	7a0f663e-715b-4a10-bf7e-87bc1e462cb9
+urn:kew.org:wcs:family:313	urn:kew.org:wcs:family:76		synonym	Pandanales	Acanthochlamydaceae	P.C.Kao	Family		2: 1	0c1bd247-8308-4cb7-b097-572f09c37210
+urn:kew.org:wcs:family:314	urn:kew.org:wcs:family:76		synonym	Pandanales	Barbaceniaceae	Arn.	Family		: 134	4cac4ead-926f-4533-8f28-5eaee21329e8
+urn:kew.org:wcs:family:315	urn:kew.org:wcs:family:33		synonym	Petrosaviales	Japonoliriaceae	Takht.	Family		81(2): 85	c04db815-74ca-4e5f-954e-269f1ba91e37
+urn:kew.org:wcs:family:316	urn:kew.org:wcs:family:33		synonym	Petrosaviales	Miyoshiaceae	Nakai	Family		17: 190	33e72a81-a16d-4f75-8537-d5c221bf5d2f
+urn:kew.org:wcs:family:317	urn:kew.org:wcs:family:91		synonym		Miyoshiales	Nakai	Order		17: 189	33e72a81-a16d-4f75-8537-d5c221bf5d2f
+urn:kew.org:wcs:family:318	urn:kew.org:wcs:family:2		synonym	Poales	Hopkinsiaceae	B.G.Briggs & L.A.S.Johnson	Family		8: 484	90fef461-72fb-4a30-9723-81410b6732b2
+urn:kew.org:wcs:family:319	urn:kew.org:wcs:family:2		synonym	Poales	Lyginiaceae	B.G.Briggs & L.A.S.Johnson	Family		8: 488	90fef461-72fb-4a30-9723-81410b6732b2
+urn:kew.org:wcs:family:32		urn:kew.org:wcs:family:86	accepted	Asparagales	Orchidaceae	Juss.	Family	nom. cons.	: 64	e0e6e32b-5064-4fee-826d-80f5891dc045
+urn:kew.org:wcs:family:320	urn:kew.org:wcs:family:6		synonym	Poales	Tillandsiaceae	Wilbr.	Family		: 44	315b6f6c-0823-4b28-a5cb-482bb37fa31e
+urn:kew.org:wcs:family:321	urn:kew.org:wcs:family:13		synonym	Poales	Kobresiaceae	Gilly	Family		26: 210	0c5c1eb1-c10f-4437-894e-ac4115568fcb
+urn:kew.org:wcs:family:322	urn:kew.org:wcs:family:13		synonym	Poales	Mapaniaceae	Shipunov	Family		64: 505	8bee9b01-0105-4139-add2-7cbe46ef14f4
+urn:kew.org:wcs:family:323	urn:kew.org:wcs:family:13		synonym	Poales	Papyraceae	Burnett	Family		": 761, 1129"	87cc9cef-1e55-413f-934b-dea2107e95d1
+urn:kew.org:wcs:family:324	urn:kew.org:wcs:family:13		synonym	Poales	Scirpaceae	Batsch ex Borkh.	Family		2: 340	f91523ea-1491-494d-8975-683a14a3a14c
+urn:kew.org:wcs:family:325	urn:kew.org:wcs:family:13		synonym	Poales	Scleriaceae	Bercht. & J.Presl	Family		: 263	7e393fe5-6aec-4c45-864e-0449b97e2bb1
+urn:kew.org:wcs:family:326	urn:kew.org:wcs:family:80		synonym	Poales	Aegilopaceae	Martinov	Family		: 221	3f1ff8b7-c17f-4bf8-ac01-4c9150d8ffa2
+urn:kew.org:wcs:family:327	urn:kew.org:wcs:family:80		synonym	Poales	Agrostidaceae	Bercht.	Family		: 264	d547e021-bbdd-4dc4-9144-19f085d16f26
+urn:kew.org:wcs:family:328	urn:kew.org:wcs:family:80		synonym	Poales	Alopecuraceae	Martinov	Family		: 19	3f1ff8b7-c17f-4bf8-ac01-4c9150d8ffa2
+urn:kew.org:wcs:family:329	urn:kew.org:wcs:family:80		synonym	Poales	Andropogonaceae	Martinov	Family		: 28	3f1ff8b7-c17f-4bf8-ac01-4c9150d8ffa2
+urn:kew.org:wcs:family:33		urn:kew.org:wcs:family:91	accepted	Petrosaviales	Petrosaviaceae	Hutch.	Family	nom. cons.	2: 36	dc021688-54c2-4cf2-b4a2-c586b66d74b2
+urn:kew.org:wcs:family:330	urn:kew.org:wcs:family:80		synonym	Poales	Anomochloaceae	Nakai	Family		: 222	b66e296f-2f55-4920-abbe-66ecdc84e0f5
+urn:kew.org:wcs:family:331	urn:kew.org:wcs:family:80		synonym	Poales	Anthoxanthaceae	Link	Family		1: 271	7e490c62-8be5-476a-a86d-8e9c264a7cef
+urn:kew.org:wcs:family:332	urn:kew.org:wcs:family:80		synonym	Poales	Arundinaceae	Döll	Family		: 60	867126e5-0e7f-48d1-91e6-420e77244b48
+urn:kew.org:wcs:family:333	urn:kew.org:wcs:family:80		synonym	Poales	Arundinellaceae	Herter	Family		6: 136	967e01f9-e80b-4c0a-aca4-3f3100867dec
+urn:kew.org:wcs:family:334	urn:kew.org:wcs:family:80		synonym	Poales	Asperellaceae	Link	Family		"1: 106, 270"	7e490c62-8be5-476a-a86d-8e9c264a7cef
+urn:kew.org:wcs:family:335	urn:kew.org:wcs:family:80		synonym	Poales	Avenaceae	Martinov	Family		: 60. 31	3f1ff8b7-c17f-4bf8-ac01-4c9150d8ffa2
+urn:kew.org:wcs:family:336	urn:kew.org:wcs:family:80		synonym	Poales	Bambusaceae	Bercht. & J.Presl	Family		: 265	7e393fe5-6aec-4c45-864e-0449b97e2bb1
+urn:kew.org:wcs:family:337	urn:kew.org:wcs:family:80		synonym	Poales	Bromaceae	Bercht. & J.Presl	Family		: 264	7e393fe5-6aec-4c45-864e-0449b97e2bb1
+urn:kew.org:wcs:family:338	urn:kew.org:wcs:family:80		synonym	Poales	Cenchraceae	Link	Family		"1: 9, 268"	7e490c62-8be5-476a-a86d-8e9c264a7cef
+urn:kew.org:wcs:family:339	urn:kew.org:wcs:family:80		synonym	Poales	Chaeturaceae	Link	Family		"1: 106, 269"	7e490c62-8be5-476a-a86d-8e9c264a7cef
+urn:kew.org:wcs:family:34		urn:kew.org:wcs:family:87	accepted	Commelinales	Philydraceae	Link	Family	nom. cons.	1: 5	bec66588-5378-4dc4-89a3-7b63ad691950
+urn:kew.org:wcs:family:340	urn:kew.org:wcs:family:80		synonym	Poales	Chloridaceae	Bercht. & J.Presl	Family		: 265	7e393fe5-6aec-4c45-864e-0449b97e2bb1
+urn:kew.org:wcs:family:341	urn:kew.org:wcs:family:80		synonym	Poales	Coleanthaceae	Pfeiff.	Family		1(2): 818	3f7ff28b-344f-43b2-88f4-3e638b6e23ca
+urn:kew.org:wcs:family:342	urn:kew.org:wcs:family:80		synonym	Poales	Cynodontaceae	Link	Family		"1: 51, 269"	7e490c62-8be5-476a-a86d-8e9c264a7cef
+urn:kew.org:wcs:family:343	urn:kew.org:wcs:family:80		synonym	Poales	Cynosuraceae	Link	Family		1: 271–272	7e490c62-8be5-476a-a86d-8e9c264a7cef
+urn:kew.org:wcs:family:344	urn:kew.org:wcs:family:80		synonym	Poales	Echinariaceae	Link	Family		1: 271	7e490c62-8be5-476a-a86d-8e9c264a7cef
+urn:kew.org:wcs:family:345	urn:kew.org:wcs:family:80		synonym	Poales	Ehrhartaceae	Link	Family		1: 271	7e490c62-8be5-476a-a86d-8e9c264a7cef
+urn:kew.org:wcs:family:346	urn:kew.org:wcs:family:80		synonym	Poales	Eragrostidaceae	Herter	Family		6: 145	967e01f9-e80b-4c0a-aca4-3f3100867dec
+urn:kew.org:wcs:family:347	urn:kew.org:wcs:family:80		synonym	Poales	Festucaceae	Spreng	Family		: 1: 28	064c5438-1973-4df3-aabd-67795f7fbaa4
+urn:kew.org:wcs:family:348	urn:kew.org:wcs:family:80		synonym	Poales	Glyceriaceae	Link	Family		1: 271	7e490c62-8be5-476a-a86d-8e9c264a7cef
+urn:kew.org:wcs:family:349	urn:kew.org:wcs:family:80		synonym	Poales	Gramineae	Juss.	Family	nom. cons.	: 28	e0e6e32b-5064-4fee-826d-80f5891dc045
+urn:kew.org:wcs:family:35		urn:kew.org:wcs:family:87	accepted	Commelinales	Pontederiaceae	Kunth	Family	nom. cons.	"1, ed. qu.: 265"	b7e7c24f-d497-4b94-81cd-b6daf3998f9e
+urn:kew.org:wcs:family:350	urn:kew.org:wcs:family:80		synonym	Poales	Holcaceae	Link	Family		2: 252	939725a9-3522-406b-ac63-9d7e2b49e838
+urn:kew.org:wcs:family:351	urn:kew.org:wcs:family:80		synonym	Poales	Hordeaceae	Bercht. & J.Presl	Family		: 265	7e393fe5-6aec-4c45-864e-0449b97e2bb1
+urn:kew.org:wcs:family:352	urn:kew.org:wcs:family:80		synonym	Poales	Laguraceae	Link	Family		2: 250	939725a9-3522-406b-ac63-9d7e2b49e838
+urn:kew.org:wcs:family:353	urn:kew.org:wcs:family:80		synonym	Poales	Lepturaceae	Herter	Family		6: 147	967e01f9-e80b-4c0a-aca4-3f3100867dec
+urn:kew.org:wcs:family:354	urn:kew.org:wcs:family:80		synonym	Poales	Loliaceae	Link	Family		"1: 6, 267"	7e490c62-8be5-476a-a86d-8e9c264a7cef
+urn:kew.org:wcs:family:355	urn:kew.org:wcs:family:80		synonym	Poales	Melicaceae	Martinov	Family		: 390	3f1ff8b7-c17f-4bf8-ac01-4c9150d8ffa2
+urn:kew.org:wcs:family:356	urn:kew.org:wcs:family:80		synonym	Poales	Miliaceae	Link	Family		"1: 91, 270"	7e490c62-8be5-476a-a86d-8e9c264a7cef
+urn:kew.org:wcs:family:357	urn:kew.org:wcs:family:80		synonym	Poales	Nardaceae	Martinov	Family		: 413	3f1ff8b7-c17f-4bf8-ac01-4c9150d8ffa2
+urn:kew.org:wcs:family:358	urn:kew.org:wcs:family:80		synonym	Poales	Olyraceae	Bercht. & J.Presl	Family		: 265	7e393fe5-6aec-4c45-864e-0449b97e2bb1
+urn:kew.org:wcs:family:359	urn:kew.org:wcs:family:80		synonym	Poales	Ophiuraceae	Link	Family		"1: 3, 268"	7e490c62-8be5-476a-a86d-8e9c264a7cef
+urn:kew.org:wcs:family:36		urn:kew.org:wcs:family:92	accepted	Poales	Rapateaceae	Dumort.	Family	nom. cons.	": 60, 62"	3398abb9-4ae6-402c-b1b6-f98e19602f4c
+urn:kew.org:wcs:family:360	urn:kew.org:wcs:family:80		synonym	Poales	Oryzaceae	Bercht. & J.Presl	Family		: 265	7e393fe5-6aec-4c45-864e-0449b97e2bb1
+urn:kew.org:wcs:family:361	urn:kew.org:wcs:family:80		synonym	Poales	Panicaceae	Bercht. & J.Presl	Family		: 264	7e393fe5-6aec-4c45-864e-0449b97e2bb1
+urn:kew.org:wcs:family:362	urn:kew.org:wcs:family:80		synonym	Poales	Pappophoraceae	Herter	Family		6: 145	967e01f9-e80b-4c0a-aca4-3f3100867dec
+urn:kew.org:wcs:family:363	urn:kew.org:wcs:family:80		synonym	Poales	Parianaceae	Nakai	Family		: 222	b66e296f-2f55-4920-abbe-66ecdc84e0f5
+urn:kew.org:wcs:family:364	urn:kew.org:wcs:family:80		synonym	Poales	Paspalaceae	Link	Family		"1: 47, 269"	7e490c62-8be5-476a-a86d-8e9c264a7cef
+urn:kew.org:wcs:family:365	urn:kew.org:wcs:family:80		synonym	Poales	Phalaridaceae	Link	Family		2: 250	939725a9-3522-406b-ac63-9d7e2b49e838
+urn:kew.org:wcs:family:366	urn:kew.org:wcs:family:80		synonym	Poales	Pharaceae	Herter	Family		6: 139	967e01f9-e80b-4c0a-aca4-3f3100867dec
+urn:kew.org:wcs:family:367	urn:kew.org:wcs:family:80		synonym	Poales	Phleaceae	Link	Family		1: 269	7e490c62-8be5-476a-a86d-8e9c264a7cef
+urn:kew.org:wcs:family:368	urn:kew.org:wcs:family:80		synonym	Poales	Saccharaceae	Bercht. & J.Presl	Family		: 265	7e393fe5-6aec-4c45-864e-0449b97e2bb1
+urn:kew.org:wcs:family:369	urn:kew.org:wcs:family:80		synonym	Poales	Sesleriaceae	Döll	Family		: 60	867126e5-0e7f-48d1-91e6-420e77244b48
+urn:kew.org:wcs:family:37		urn:kew.org:wcs:family:92	accepted	Poales	Restionaceae	R.Br.	Family	nom. cons.	: 243	3bc6460c-8b7e-4839-aecb-e38b1d12b069
+urn:kew.org:wcs:family:370	urn:kew.org:wcs:family:80		synonym	Poales	Spartinaceae	Link	Family		"1: 46, 268"	7e490c62-8be5-476a-a86d-8e9c264a7cef
+urn:kew.org:wcs:family:371	urn:kew.org:wcs:family:80		synonym	Poales	Stipaceae	Bercht. & J.Presl	Family		: 264	7e393fe5-6aec-4c45-864e-0449b97e2bb1
+urn:kew.org:wcs:family:372	urn:kew.org:wcs:family:80		synonym	Poales	Streptochaetaceae	Nakai	Family		: 222	b66e296f-2f55-4920-abbe-66ecdc84e0f5
+urn:kew.org:wcs:family:373	urn:kew.org:wcs:family:80		synonym	Poales	Triticaceae	Link	Family		"1: 22, 268"	7e490c62-8be5-476a-a86d-8e9c264a7cef
+urn:kew.org:wcs:family:374	urn:kew.org:wcs:family:80		synonym	Poales	Zeaceae	A.Kern.	Family		2: 651	12aaf70a-3b18-4d6e-8d3b-2b9a115c93bd
+urn:kew.org:wcs:family:375	urn:kew.org:wcs:family:80		synonym	Poales	Zoysiaceae	Link	Family		"1: 8, 268"	7e490c62-8be5-476a-a86d-8e9c264a7cef
+urn:kew.org:wcs:family:376	urn:kew.org:wcs:family:92		synonym		Avenales	Bromhead	Order		24: 417	1331c93c-aa33-4acc-89ab-dc4b118dfe85
+urn:kew.org:wcs:family:377	urn:kew.org:wcs:family:92		synonym		Bromeliales	Link	Order		1: 207	893d79b4-9051-440b-af50-522dd6ff9e0e
+urn:kew.org:wcs:family:378	urn:kew.org:wcs:family:92		synonym		Centrolepidales	R.Dahlgren ex Takht.	Order		: 553	3cf7c855-1bb5-495f-a417-b69a53ce8ec5
+urn:kew.org:wcs:family:379	urn:kew.org:wcs:family:92		synonym		Cyperales	Juss. ex Bercht. & J.Presl	Order		: 263	9be8269b-2eec-4d59-88f3-376564758030
+urn:kew.org:wcs:family:38		urn:kew.org:wcs:family:93	accepted	Zingiberales	Strelitziaceae	Hutch.	Family	nom. cons.	2: 72	dc021688-54c2-4cf2-b4a2-c586b66d74b2
+urn:kew.org:wcs:family:380	urn:kew.org:wcs:family:92		synonym		Eriocaulales	Nakai	Order		: 49	417d110d-97e5-492d-ad09-17204341fdc3
+urn:kew.org:wcs:family:381	urn:kew.org:wcs:family:92		synonym		Flagellariales	Takht. ex Reveal & Doweld	Order		9: 550	651832b5-b442-4e11-b9cf-86823c0acc0e
+urn:kew.org:wcs:family:382	urn:kew.org:wcs:family:92		synonym		Juncales	Bercht. & J.Presl	Order		: 266	7e393fe5-6aec-4c45-864e-0449b97e2bb1
+urn:kew.org:wcs:family:383	urn:kew.org:wcs:family:92		synonym		Mayacales	Nakai	Order		: 214	b66e296f-2f55-4920-abbe-66ecdc84e0f5
+urn:kew.org:wcs:family:384	urn:kew.org:wcs:family:92		synonym		Rapateales	Colella ex Reveal & Doweld	Order		9: 551	8e3b90e5-f4b8-4502-a4e8-ef8fced8e2bb
+urn:kew.org:wcs:family:385	urn:kew.org:wcs:family:92		synonym		Restionales	R.Br. ex Bercht. & J.Presl	Order		: 266	59d9a341-8702-41c3-86d3-0fa6d92696aa
+urn:kew.org:wcs:family:386	urn:kew.org:wcs:family:92		synonym		Typhales	Juss. ex Bercht. & J.Presl	Order		: 263	9be8269b-2eec-4d59-88f3-376564758030
+urn:kew.org:wcs:family:387	urn:kew.org:wcs:family:92		synonym		Xyridales	Lindl.	Order		": lvii, 185"	23aac0f4-08f3-4733-a995-62b3a81c2c5c
+urn:kew.org:wcs:family:388	urn:kew.org:wcs:family:37		synonym	Poales	Elegiaceae	Raf.	Family		"4: 32, 33"	3aa87db5-1a51-4bb6-845c-c35728326344
+urn:kew.org:wcs:family:389	urn:kew.org:wcs:family:39		synonym	Poales	Prioniaceae	S.L.Munro & H.P.Linder	Family		23: 51	f0e847cb-99f7-4633-a83b-18fb0c0c5e85
+urn:kew.org:wcs:family:39		urn:kew.org:wcs:family:92	accepted	Poales	Thurniaceae	Engl.	Family	nom. cons.	", ed. 5: 94"	c4146a2c-26f7-4035-90cb-e7562a623595
+urn:kew.org:wcs:family:390	urn:kew.org:wcs:family:40		synonym	Poales	Sparganiaceae	Hanin	Family	nom. cons.	: 400	34285f50-e5a4-4a5e-925c-e5f2e82a0c61
+urn:kew.org:wcs:family:391	urn:kew.org:wcs:family:41		synonym	Poales	Abolbodaceae	Nakai	Family		: 221	b66e296f-2f55-4920-abbe-66ecdc84e0f5
+urn:kew.org:wcs:family:392	urn:kew.org:wcs:family:42		synonym	Zingiberales	Alpiniaceae	Link	Family		1: 2	bec66588-5378-4dc4-89a3-7b63ad691950
+urn:kew.org:wcs:family:393	urn:kew.org:wcs:family:42		synonym	Zingiberales	Amomaceae	J.St.-Hil.	Family		1: 154	12faa31c-be1b-488c-b71f-6050f7fe800f
+urn:kew.org:wcs:family:394	urn:kew.org:wcs:family:42		synonym	Zingiberales	Curcumaceae	Dumort.	Family		: 56	3398abb9-4ae6-402c-b1b6-f98e19602f4c
+urn:kew.org:wcs:family:395	urn:kew.org:wcs:family:93		synonym		Amomales	Lindl.	Order		: 69	a939ef25-6cd9-4bd4-b242-bd5e0e6c85c5
+urn:kew.org:wcs:family:396	urn:kew.org:wcs:family:93		synonym		Cannales	R.Br. ex Bercht. & J.Presl	Order		: 269	59d9a341-8702-41c3-86d3-0fa6d92696aa
+urn:kew.org:wcs:family:397	urn:kew.org:wcs:family:93		synonym		Lowiales	Takht. ex Reveal & Doweld	Order		9: 551	651832b5-b442-4e11-b9cf-86823c0acc0e
+urn:kew.org:wcs:family:398	urn:kew.org:wcs:family:93		synonym		Marantales	Mart.	Order		: 10	4075d1ee-b708-4edf-8034-60800af4cdc5
+urn:kew.org:wcs:family:399	urn:kew.org:wcs:family:93		synonym		Musales	Juss. ex Bercht. & J.Presl	Order		: 269	9be8269b-2eec-4d59-88f3-376564758030
+urn:kew.org:wcs:family:4		urn:kew.org:wcs:family:85	accepted	Arecales	Arecaceae	Bercht. & J.Presl	Family	"nom. cons., nom. alt."	: 266	7e393fe5-6aec-4c45-864e-0449b97e2bb1
+urn:kew.org:wcs:family:40		urn:kew.org:wcs:family:92	accepted	Poales	Typhaceae	Juss.	Family	nom. cons.	: 25	e0e6e32b-5064-4fee-826d-80f5891dc045
+urn:kew.org:wcs:family:400	urn:kew.org:wcs:family:14		synonym	Dasypogonales	Baxteriaceae	Takht.	Family		81(2): 85	c04db815-74ca-4e5f-954e-269f1ba91e37
+urn:kew.org:wcs:family:401	urn:kew.org:wcs:family:14		synonym	Dasypogonales	Calectasiaceae	Schnizl.	Family		1: 51	7f090290-2068-4ba6-89a0-14d8b89b73a4
+urn:kew.org:wcs:family:402	urn:kew.org:wcs:family:14		synonym	Dasypogonales	Kingiaceae	Endl. ex Schnizl.	Family		1: 51	f8a8b6a0-97bc-4c7d-98b8-8dc4f86376de
+urn:kew.org:wcs:family:403			accepted		Dasypogonales	Doweld	Order		: lxi	d926df2e-dfa3-4f91-a4a7-973e048a5d34
+urn:kew.org:wcs:family:404	urn:kew.org:wcs:family:44		synonym	Alismatales	Damasoniaceae	Nakai	Family		: 213	b66e296f-2f55-4920-abbe-66ecdc84e0f5
+urn:kew.org:wcs:family:41		urn:kew.org:wcs:family:92	accepted	Poales	Xyridaceae	C.Agardh	Family	nom. cons.	: 158	2dfa4894-d660-4be3-a036-17e958c34202
+urn:kew.org:wcs:family:42		urn:kew.org:wcs:family:93	accepted	Zingiberales	Zingiberaceae	Martinov	Family	nom. cons.	: 682	3f1ff8b7-c17f-4bf8-ac01-4c9150d8ffa2
+urn:kew.org:wcs:family:43		urn:kew.org:wcs:family:84	accepted	Alismatales	Cymodoceaceae	Vines	Family	nom. cons.	2: 553	3f11f770-817e-4d2a-8225-ffeb8d24e03a
+urn:kew.org:wcs:family:44		urn:kew.org:wcs:family:84	accepted	Alismatales	Alismataceae	Vent.	Family		: 217	e535b41d-6e79-4d3a-a654-1c31ac1d846c
+urn:kew.org:wcs:family:45	urn:kew.org:wcs:family:81		synonym	Asparagales	Alliaceae	Borkh.	Family	nom. cons.	1: 15	26273201-d1e9-4bb9-aae5-9fd767700ed7
+urn:kew.org:wcs:family:46		urn:kew.org:wcs:family:89	accepted	Liliales	Alstroemeriaceae	Dumort.	Family		": 57, 58"	3398abb9-4ae6-402c-b1b6-f98e19602f4c
+urn:kew.org:wcs:family:47		urn:kew.org:wcs:family:84	accepted	Alismatales	Aponogetonaceae	Planch.	Family	nom. cons.	82: ad. t. 4894	78acc712-7f01-4f02-bcb3-b5cda55a72d0
+urn:kew.org:wcs:family:48		urn:kew.org:wcs:family:86	accepted	Asparagales	Asteliaceae	Dumort.	Family		": 59, 61"	3398abb9-4ae6-402c-b1b6-f98e19602f4c
+urn:kew.org:wcs:family:49		urn:kew.org:wcs:family:86	accepted	Asparagales	Blandfordiaceae	R.Dahlgren & Clifford	Family		: 155	0f3a7be3-4c59-4e40-9efe-79b1aa9ab29f
+urn:kew.org:wcs:family:5		urn:kew.org:wcs:family:86	accepted	Asparagales	Asparagaceae	Juss.	Family	nom. cons.	: 40	e0e6e32b-5064-4fee-826d-80f5891dc045
+urn:kew.org:wcs:family:50		urn:kew.org:wcs:family:86	accepted	Asparagales	Boryaceae	"M.W.Chase, Rudall & Conran"	Family		52: 416	dc5c3366-ad9b-4a75-b7a5-72025fc6b9d7
+urn:kew.org:wcs:family:51		urn:kew.org:wcs:family:84	accepted	Alismatales	Butomaceae	Mirb.	Family	nom. cons.	8: 194	66bc1362-0909-4b57-9344-f8873fd7cd26
+urn:kew.org:wcs:family:52		urn:kew.org:wcs:family:89	accepted	Liliales	Campynemataceae	Dumort.	Family		": 57, 58"	3398abb9-4ae6-402c-b1b6-f98e19602f4c
+urn:kew.org:wcs:family:53		urn:kew.org:wcs:family:89	accepted	Liliales	Colchicaceae	DC.	Family	nom. cons.	: 56	47baa6bf-2cf4-48f9-8d4f-1573473d1435
+urn:kew.org:wcs:family:54		urn:kew.org:wcs:family:89	accepted	Liliales	Corsiaceae	Becc.	Family	nom. cons.	1: 238	70b17967-fdbf-4101-b48f-441ae0e2d5f5
+urn:kew.org:wcs:family:55		urn:kew.org:wcs:family:86	accepted	Asparagales	Doryanthaceae	R.Dahlgren & Clifford	Family		: 175	0f3a7be3-4c59-4e40-9efe-79b1aa9ab29f
+urn:kew.org:wcs:family:56		urn:kew.org:wcs:family:86	accepted	Asparagales	Hypoxidaceae	R.Br.	Family	nom. cons.	2: 576	34f691ec-1796-4098-b733-8adaaa593c2a
+urn:kew.org:wcs:family:57		urn:kew.org:wcs:family:86	accepted	Asparagales	Ixiolirionaceae	Nakai	Family		: 234	b66e296f-2f55-4920-abbe-66ecdc84e0f5
+urn:kew.org:wcs:family:58		urn:kew.org:wcs:family:84	accepted	Alismatales	Juncaginaceae	Rich.	Family	nom. cons.	: ix	adc83024-079f-4cba-b90d-1bd3bbd8e7b6
+urn:kew.org:wcs:family:59		urn:kew.org:wcs:family:89	accepted	Liliales	Liliaceae	Juss.	Family	nom. cons.	: 48	e0e6e32b-5064-4fee-826d-80f5891dc045
+urn:kew.org:wcs:family:6		urn:kew.org:wcs:family:92	accepted	Poales	Bromeliaceae	Juss.	Family	nom. cons.	: 49	e0e6e32b-5064-4fee-826d-80f5891dc045
+urn:kew.org:wcs:family:60	urn:kew.org:wcs:family:44		synonym	Alismatales	Limnocharitaceae	Takht. ex Cronquist	Family		: 1048	eadf4e95-ff6a-4e12-a723-f8bfd2d5c95d
+urn:kew.org:wcs:family:61		urn:kew.org:wcs:family:46	synonym	Liliales	Luzuriagaceae	Lotsy	Family		3: 760	74166536-4c49-4279-8c0a-34660e70a89e
+urn:kew.org:wcs:family:62		urn:kew.org:wcs:family:89	accepted	Liliales	Melanthiaceae	Batsch ex Borkh.	Family	nom. cons.	2: 8	f91523ea-1491-494d-8975-683a14a3a14c
+urn:kew.org:wcs:family:63		urn:kew.org:wcs:family:88	accepted	Dioscoreales	Nartheciaceae	Fr. ex Bjurzon	Family		: 64	76c4661c-7db0-47a9-a2bb-87835fdcdab8
+urn:kew.org:wcs:family:64		urn:kew.org:wcs:family:90	accepted	Pandanales	Pandanaceae 	R.Br.	Family	nom. cons.	: 340	3bc6460c-8b7e-4839-aecb-e38b1d12b069
+urn:kew.org:wcs:family:65		urn:kew.org:wcs:family:89	accepted	Liliales	Philesiaceae	Dumort.	Family	nom. cons.	": 53, 54, 97"	3398abb9-4ae6-402c-b1b6-f98e19602f4c
+urn:kew.org:wcs:family:66		urn:kew.org:wcs:family:84	accepted	Alismatales	Posidoniaceae	Vines	Family	nom. cons.	2: 553	3f11f770-817e-4d2a-8225-ffeb8d24e03a
+urn:kew.org:wcs:family:67		urn:kew.org:wcs:family:84	accepted	Alismatales	Potamogetonaceae	Bercht. & J.Presl	Family	nom. cons.	": 1(7–13): 1, 3"	7e393fe5-6aec-4c45-864e-0449b97e2bb1
+urn:kew.org:wcs:family:68		urn:kew.org:wcs:family:89	accepted	Liliales	Rhipogonaceae	Conran & Clifford	Family		46: 230	5ac6b3c1-db42-48e9-add8-58aa2b76916d
+urn:kew.org:wcs:family:69		urn:kew.org:wcs:family:84	accepted	Alismatales	Ruppiaceae	Horan.	Family	nom. cons.	: 46	14366d3d-84bc-472f-8bac-122325862533
+urn:kew.org:wcs:family:7		urn:kew.org:wcs:family:88	accepted	Dioscoreales	Burmanniaceae	Blume	Family	nom. cons.	: 27	634500da-1723-4b5c-b51f-164f0473d7b1
+urn:kew.org:wcs:family:70		urn:kew.org:wcs:family:84	accepted	Alismatales	Scheuchzeriaceae	F.Rudolphi	Family	nom. cons.	: 28	66450410-4ee3-445c-8737-e3f68f1fcd36
+urn:kew.org:wcs:family:71		urn:kew.org:wcs:family:89	accepted	Liliales	Smilacaceae	Vent.	Family	nom. cons.	2: 146	73bae5bf-84f8-404d-8d76-c16f3066e1a4
+urn:kew.org:wcs:family:72		urn:kew.org:wcs:family:90	accepted	Pandanales	Stemonaceae	Caruel	Family	nom. cons.	10: 94	8fe2abb5-3f4b-4383-9dcf-92f46a41e8d1
+urn:kew.org:wcs:family:73		urn:kew.org:wcs:family:86	accepted	Asparagales	Tecophilaeaceae	Leyb.	Family	nom. cons.	10: 370	9cd33f1d-fdc7-454e-b055-3a0c11bdd9ea
+urn:kew.org:wcs:family:74		urn:kew.org:wcs:family:84	accepted	Alismatales	Tofieldiaceae	Takht.	Family		17(12): 65	66c26e59-c6b2-4007-819e-6b4c194b0322
+urn:kew.org:wcs:family:75		urn:kew.org:wcs:family:90	accepted	Pandanales	Triuridaceae	Gardner	Family	nom. cons.	19: 160	afdc31dc-1971-42fb-9923-17df49f1bd88
+urn:kew.org:wcs:family:76		urn:kew.org:wcs:family:90	accepted	Pandanales	Velloziaceae	J.Agardh	Family	nom. cons.	: 9	cf3fc9d4-cdfc-4cae-bbdd-0990910ca662
+urn:kew.org:wcs:family:77		urn:kew.org:wcs:family:86	accepted	Asparagales	Xanthorrhoeaceae	Dumort.	Family	nom. cons.	": 60, 62, 103"	3398abb9-4ae6-402c-b1b6-f98e19602f4c
+urn:kew.org:wcs:family:78		urn:kew.org:wcs:family:86	accepted	Asparagales	Xeronemataceae	"M.W.Chase, Rudall & M.F.Fay"	Family		55: 869	72366527-b898-4227-9dee-3c5eb55d3517
+urn:kew.org:wcs:family:79		urn:kew.org:wcs:family:84	accepted	Alismatales	Zosteraceae	Dumort.	Family	nom. cons.	": 65, 66"	3398abb9-4ae6-402c-b1b6-f98e19602f4c
+urn:kew.org:wcs:family:8		urn:kew.org:wcs:family:93	accepted	Zingiberales	Cannaceae	Juss.	Family	nom. cons.	: 62	e0e6e32b-5064-4fee-826d-80f5891dc045
+urn:kew.org:wcs:family:80		urn:kew.org:wcs:family:92	accepted	Poales	Poaceae	Barnhart	Family	"nom. cons., nom. alt."	22: 7	b6321e12-acdf-4539-94a7-5f664fe8e279
+urn:kew.org:wcs:family:81		urn:kew.org:wcs:family:86	accepted	Asparagales	Amaryllidaceae	J.St.-Hil.	Family	nom. cons.	1: 134	12faa31c-be1b-488c-b71f-6050f7fe800f
+urn:kew.org:wcs:family:82		urn:kew.org:wcs:family:89	accepted	Liliales	Petermanniaceae	Hutch.	Family	nom. cons.	2: 113	dc021688-54c2-4cf2-b4a2-c586b66d74b2
+urn:kew.org:wcs:family:83			accepted		Acorales	Mart.	Order		: 6	4075d1ee-b708-4edf-8034-60800af4cdc5
+urn:kew.org:wcs:family:84			accepted		Alismatales	R.Br. ex Bercht. & J.Presl	Order		: 271	59d9a341-8702-41c3-86d3-0fa6d92696aa
+urn:kew.org:wcs:family:85			accepted		Arecales	Bromhead	Order		", n.s., 4: 333"	d4cb737a-de96-4503-a6bf-7b6836765a83
+urn:kew.org:wcs:family:86			accepted		Asparagales	Link	Order		1: 272	893d79b4-9051-440b-af50-522dd6ff9e0e
+urn:kew.org:wcs:family:87			accepted		Commelinales	Mirb. ex Bercht. & J.Presl	Order		: 267	da7c7619-51c6-4e4f-b143-7ed2d3d5ae57
+urn:kew.org:wcs:family:88			accepted		Dioscoreales	Mart.	Order		: 9	4075d1ee-b708-4edf-8034-60800af4cdc5
+urn:kew.org:wcs:family:89			accepted		Liliales	Perleb	Order		: 129	d6c85ca7-64c8-4eb0-ab9a-f16e1e5f5e2e
+urn:kew.org:wcs:family:9		urn:kew.org:wcs:family:92	accepted	Poales	Centrolepidaceae	Endl.	Family	nom. cons.	: 119	146bf211-6301-4f07-84d2-9762c3910161
+urn:kew.org:wcs:family:90			accepted		Pandanales	R.Br. ex Bercht. & J.Presl	Order		: 262	59d9a341-8702-41c3-86d3-0fa6d92696aa
+urn:kew.org:wcs:family:91			accepted		Petrosaviales	Takht.	Order		: 577	6d9c354d-40d5-46de-bf59-88c25750f42c
+urn:kew.org:wcs:family:92			accepted		Poales	Small	Order		: 48	93c19fcc-da2b-43bd-83de-0b05d4b3cdb6
+urn:kew.org:wcs:family:93			accepted		Zingiberales	Griseb.	Order		: 167	a51b4fba-fe24-47d0-8ca7-fb062d8bf413
+urn:kew.org:wcs:family:94	urn:kew.org:wcs:family:84		synonym	Alismatales	Aponogetonales	Hutch.	Order		"2: 10, 43"	dc021688-54c2-4cf2-b4a2-c586b66d74b2
+urn:kew.org:wcs:family:95	urn:kew.org:wcs:family:84		synonym	Alismatales	Arales	Juss. ex Bercht. & J.Presl	Order		: 263	9be8269b-2eec-4d59-88f3-376564758030
+urn:kew.org:wcs:family:96	urn:kew.org:wcs:family:84		synonym	Alismatales	Butomales	Mart.	Order		: 8	4075d1ee-b708-4edf-8034-60800af4cdc5
+urn:kew.org:wcs:family:97	urn:kew.org:wcs:family:84		synonym	Alismatales	Cymodoceales	Nakai	Order		: 211	b66e296f-2f55-4920-abbe-66ecdc84e0f5
+urn:kew.org:wcs:family:98	urn:kew.org:wcs:family:84		synonym	Alismatales	Elodeales	Nakai	Order		25: 5	b7b35304-f2b7-461b-a92c-04cc45a4233c
+urn:kew.org:wcs:family:99	urn:kew.org:wcs:family:84		synonym	Alismatales	Hydrocharitales	Juss. ex Bercht. & J.Presl	Order		: 271	9be8269b-2eec-4d59-88f3-376564758030

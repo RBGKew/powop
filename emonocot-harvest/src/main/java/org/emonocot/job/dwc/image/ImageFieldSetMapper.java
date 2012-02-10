@@ -4,10 +4,10 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.emonocot.api.TaxonService;
 import org.emonocot.job.dwc.DarwinCoreFieldSetMapper;
 import org.emonocot.job.dwc.taxon.CannotFindRecordException;
 import org.emonocot.model.media.Image;
-import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Taxon;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
@@ -16,6 +16,7 @@ import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.core.ChunkListener;
 import org.springframework.format.Parser;
 import org.springframework.format.datetime.joda.DateTimeParser;
 import org.springframework.validation.BindException;
@@ -26,7 +27,7 @@ import org.springframework.validation.BindException;
  *
  */
 public class ImageFieldSetMapper extends
-        DarwinCoreFieldSetMapper<Image> {
+        DarwinCoreFieldSetMapper<Image> implements ChunkListener {
 
     /**
      *
@@ -41,7 +42,7 @@ public class ImageFieldSetMapper extends
     private Logger logger = LoggerFactory
             .getLogger(ImageFieldSetMapper.class);
 
-    /**
+   /**
     *
     */
    private Map<String, Taxon> boundTaxa = new HashMap<String, Taxon>();
@@ -51,6 +52,11 @@ public class ImageFieldSetMapper extends
     */
    private Parser<DateTime> dateTimeParser
        = new DateTimeParser(ISODateTimeFormat.dateOptionalTimeParser());
+
+   /**
+    *
+    */
+   private TaxonService taxonService;
 
     @Override
     public void mapField(final Image object, final String fieldName,
@@ -119,19 +125,17 @@ public class ImageFieldSetMapper extends
     }
 
     /**
-    *
-    */
-   @Override
-   public final void afterChunk() {
-       logger.info("After Chunk");
-   }
+     *
+     */
+    public final void afterChunk() {
+        logger.info("After Chunk");
+    }
 
-   /**
-    *
-    */
-   @Override
-   public final void beforeChunk() {
-       logger.info("Before Chunk");
-       boundTaxa = new HashMap<String, Taxon>();
-   }
+    /**
+     *
+     */
+    public final void beforeChunk() {
+        logger.info("Before Chunk");
+        boundTaxa = new HashMap<String, Taxon>();
+    }
 }

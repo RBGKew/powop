@@ -51,7 +51,7 @@
 		<batch:step id="checkCoreFile">
 			<batch:description>Process the core file containing the taxa but only check the taxa, don't modify or create taxa</batch:description>
 			<batch:tasklet>
-				<batch:chunk reader="taxonCheckingReader" processor="taxonCheckingProcessor"
+				<batch:chunk reader="taxonReader" processor="taxonCheckingProcessor"
 					writer="itemWriter" commit-interval="100" skip-limit="10000">
 					<batch:skippable-exception-classes>
                       <batch:include class="org.emonocot.job.dwc.DarwinCoreProcessingException"/>
@@ -62,12 +62,14 @@
 			<batch:next on="COMPLETED" to="processDescriptionDecision" />
 			<batch:listeners>
 			  <batch:listener ref="processingExceptionProcessListener"/>
+			  <batch:listener ref="taxonFieldSetMapper"/>
+			  <batch:listener ref="taxonRelationshipResolver"/>
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="importCoreFile">
 			<batch:description>Process the core file containing the taxa, creating and modifying where neccessary</batch:description>
 			<batch:tasklet>
-				<batch:chunk reader="taxonImportingReader" processor="taxonImportingProcessor"
+				<batch:chunk reader="taxonReader" processor="taxonImportingProcessor"
 					writer="itemWriter" commit-interval="100" skip-limit="10000">
 					<batch:skippable-exception-classes>
                       <batch:include class="org.emonocot.job.dwc.DarwinCoreProcessingException"/>
@@ -78,6 +80,8 @@
 			<batch:next on="COMPLETED" to="processDescriptionDecision" />
 			<batch:listeners>
 			  <batch:listener ref="processingExceptionProcessListener"/>
+			  <batch:listener ref="taxonFieldSetMapper"/>
+			  <batch:listener ref="taxonRelationshipResolver"/>
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="processDescriptionDecider" id="processDescriptionDecision">
@@ -241,6 +245,7 @@
 			<list>
 				<value>#{jobParameters['unpack.directory.name']}</value>
 				<value>#{jobParameters['authority.name']}</value>
+				<value>#{jobParameters['taxon.processing.mode']}</value>
 			</list>
 		</property>
 	</bean>
@@ -253,38 +258,22 @@
 	
 	<bean id="taxonProcessingModeDecider" class="org.emonocot.job.dwc.taxon.TaxonProcessingModeDecider"/>
 
-	<bean id="taxonCheckingReader" class="org.springframework.batch.item.file.FlatFileItemReader"
+	<bean id="taxonReader" class="org.springframework.batch.item.file.FlatFileItemReader"
 		scope="step">
-		<property name="encoding">
-			<value>#{jobExecutionContext['dwca.core.encoding']}</value>
-		</property>
-		<property name="linesToSkip">
-			<value>#{jobExecutionContext['dwca.core.ignoreHeaderLines']}</value>
-		</property>
+		<property name="encoding" value="#{jobExecutionContext['dwca.core.encoding']}"/>
+		<property name="linesToSkip" value="#{jobExecutionContext['dwca.core.ignoreHeaderLines']}"/>
 		<property name="resource">
 			<bean class="org.springframework.core.io.FileSystemResource"
 				scope="step">
 				<constructor-arg value="#{jobExecutionContext['dwca.core.file']}" />
 			</bean>
 		</property>
-		<property name="lineMapper" ref="taxonCheckingLineMapper" />
+		<property name="lineMapper" ref="taxonLineMapper" />
 	</bean>
 	
-	<bean id="taxonImportingReader" class="org.springframework.batch.item.file.FlatFileItemReader"
-		scope="step">
-		<property name="encoding">
-			<value>#{jobExecutionContext['dwca.core.encoding']}</value>
-		</property>
-		<property name="linesToSkip">
-			<value>#{jobExecutionContext['dwca.core.ignoreHeaderLines']}</value>
-		</property>
-		<property name="resource">
-			<bean class="org.springframework.core.io.FileSystemResource"
-				scope="step">
-				<constructor-arg value="#{jobExecutionContext['dwca.core.file']}" />
-			</bean>
-		</property>
-		<property name="lineMapper" ref="taxonImportingLineMapper" />
+	<bean id="taxonRelationshipResolver" class="org.emonocot.harvest.common.TaxonRelationshipResolverImpl" scope="step">
+	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
+	  <property name="taxonService" ref="taxonServiceImpl"/>
 	</bean>
 
 	<bean id="taxonCheckingProcessor" class="org.emonocot.job.dwc.taxon.TaxonCheckingValidator" scope="step">
@@ -294,51 +283,28 @@
 	<bean id="taxonImportingProcessor" class="org.emonocot.job.dwc.taxon.TaxonImportingValidator" scope="step">
 	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
 	</bean>
-
-	<bean id="taxonCheckingLineMapper"
-		class="org.springframework.batch.item.file.mapping.DefaultLineMapper"
-		scope="step">
-		<property name="lineTokenizer" ref="taxonLineTokenizer" />
-		<property name="fieldSetMapper" ref="taxonCheckingFieldSetMapper" />
-	</bean>
 	
-	<bean id="taxonImportingLineMapper"
+	<bean id="taxonLineMapper"
 		class="org.springframework.batch.item.file.mapping.DefaultLineMapper"
 		scope="step">
 		<property name="lineTokenizer" ref="taxonLineTokenizer" />
-		<property name="fieldSetMapper" ref="taxonImportingFieldSetMapper" />
+		<property name="fieldSetMapper" ref="taxonFieldSetMapper" />
 	</bean>
 
 	<bean id="taxonLineTokenizer"
 		class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer"
 		scope="step">
-		<property name="names">
-			<value>#{jobExecutionContext['dwca.core.fieldNames']}</value>
-		</property>
-		<property name="delimiter">
-			<value>#{jobExecutionContext['dwca.core.fieldsTerminatedBy']}</value>
-		</property>
+		<property name="names" value="#{jobExecutionContext['dwca.core.fieldNames']}"/>			
+		<property name="delimiter" value="#{jobExecutionContext['dwca.core.fieldsTerminatedBy']}"/>
 		<property name="strict" value="false"/>
-	</bean>
-
-	<bean id="taxonCheckingFieldSetMapper" class="org.emonocot.job.dwc.taxon.TaxonCheckingFieldSetMapper"  scope="step">
-	    <property name="fieldNames">
-			<value>#{jobExecutionContext['dwca.core.fieldNames']}</value>
-		</property>
-		<property name="defaultValues">
-			<value>#{jobExecutionContext['dwca.core.defaultValues']}</value>
-		</property>
-		<property name="taxonService" ref="taxonServiceImpl"/>
-	</bean>
+	</bean>	
 	
-	<bean id="taxonImportingFieldSetMapper" class="org.emonocot.job.dwc.taxon.TaxonImportingFieldSetMapper"  scope="step">
-	    <property name="fieldNames">
-			<value>#{jobExecutionContext['dwca.core.fieldNames']}</value>
-		</property>
-		<property name="defaultValues">
-			<value>#{jobExecutionContext['dwca.core.defaultValues']}</value>
-		</property>
+	<bean id="taxonFieldSetMapper" class="org.emonocot.job.dwc.taxon.TaxonFieldSetMapper"  scope="step">
+	    <property name="sourceName" value="#{jobParameters['authority.name']}"/>
+	    <property name="fieldNames" value="#{jobExecutionContext['dwca.core.fieldNames']}"/>
+		<property name="defaultValues" value="#{jobExecutionContext['dwca.core.defaultValues']}"/>
 		<property name="taxonService" ref="taxonServiceImpl"/>
+		<property name="sourceService" ref="sourceServiceImpl"/>
 	</bean>
 	
 	<!-- Descriptions -->
@@ -347,12 +313,8 @@
 	
 	<bean id="descriptionReader" class="org.springframework.batch.item.file.FlatFileItemReader"
 		scope="step">
-		<property name="encoding">
-			<value>#{jobExecutionContext['dwca.description.encoding']}</value>
-		</property>
-		<property name="linesToSkip">
-			<value>#{jobExecutionContext['dwca.description.ignoreHeaderLines']}</value>
-		</property>
+		<property name="encoding" value="#{jobExecutionContext['dwca.description.encoding']}"/>
+		<property name="linesToSkip" value="#{jobExecutionContext['dwca.description.ignoreHeaderLines']}"/>
 		<property name="resource">
 			<bean class="org.springframework.core.io.FileSystemResource"
 				scope="step">
@@ -376,22 +338,14 @@
 	<bean id="descriptionLineTokenizer"
 		class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer"
 		scope="step">
-		<property name="names">
-			<value>#{jobExecutionContext['dwca.description.fieldNames']}</value>
-		</property>
-		<property name="delimiter">
-			<value>#{jobExecutionContext['dwca.description.fieldsTerminatedBy']}</value>
-		</property>
+		<property name="names" value="#{jobExecutionContext['dwca.description.fieldNames']}"/>
+		<property name="delimiter" value="#{jobExecutionContext['dwca.description.fieldsTerminatedBy']}"/>
 		<property name="strict" value="false"/>
 	</bean>
 
 	<bean id="descriptionFieldSetMapper" class="org.emonocot.job.dwc.description.DescriptionFieldSetMapper"  scope="step">
-	    <property name="fieldNames">
-			<value>#{jobExecutionContext['dwca.description.fieldNames']}</value>
-		</property>
-		<property name="defaultValues">
-			<value>#{jobExecutionContext['dwca.description.defaultValues']}</value>
-		</property>
+	    <property name="fieldNames" value="#{jobExecutionContext['dwca.description.fieldNames']}"/>
+		<property name="defaultValues" value="#{jobExecutionContext['dwca.description.defaultValues']}"/>
 		<property name="taxonService" ref="taxonServiceImpl"/>
 		<property name="referenceService" ref="referenceServiceImpl"/>
 		<property name="sourceService" ref="sourceServiceImpl"/>
@@ -404,12 +358,8 @@
 	
 	<bean id="imageReader" class="org.springframework.batch.item.file.FlatFileItemReader"
 		scope="step">
-		<property name="encoding">
-			<value>#{jobExecutionContext['dwca.image.encoding']}</value>
-		</property>
-		<property name="linesToSkip">
-			<value>#{jobExecutionContext['dwca.image.ignoreHeaderLines']}</value>
-		</property>
+		<property name="encoding" value="#{jobExecutionContext['dwca.image.encoding']}"/>
+		<property name="linesToSkip" value="#{jobExecutionContext['dwca.image.ignoreHeaderLines']}"/>
 		<property name="resource">
 			<bean class="org.springframework.core.io.FileSystemResource"
 				scope="step">
@@ -433,22 +383,14 @@
 	<bean id="imageLineTokenizer"
 		class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer"
 		scope="step">
-		<property name="names">
-			<value>#{jobExecutionContext['dwca.image.fieldNames']}</value>
-		</property>
-		<property name="delimiter">
-			<value>#{jobExecutionContext['dwca.image.fieldsTerminatedBy']}</value>
-		</property>
+		<property name="names" value="#{jobExecutionContext['dwca.image.fieldNames']}"/>		
+		<property name="delimiter" value="#{jobExecutionContext['dwca.image.fieldsTerminatedBy']}"/>
 		<property name="strict" value="false"/>
 	</bean>
 
 	<bean id="imageFieldSetMapper" class="org.emonocot.job.dwc.image.ImageFieldSetMapper"  scope="step">
-	    <property name="fieldNames">
-			<value>#{jobExecutionContext['dwca.image.fieldNames']}</value>
-		</property>
-		<property name="defaultValues">
-			<value>#{jobExecutionContext['dwca.image.defaultValues']}</value>
-		</property>
+	    <property name="fieldNames" value="#{jobExecutionContext['dwca.image.fieldNames']}"/>			
+		<property name="defaultValues" value="#{jobExecutionContext['dwca.image.defaultValues']}"/>
 		<property name="taxonService" ref="taxonServiceImpl"/>
 	</bean>
 	
@@ -476,12 +418,8 @@
 	
 	<bean id="referenceReader" class="org.springframework.batch.item.file.FlatFileItemReader"
 		scope="step">
-		<property name="encoding">
-			<value>#{jobExecutionContext['dwca.reference.encoding']}</value>
-		</property>
-		<property name="linesToSkip">
-			<value>#{jobExecutionContext['dwca.reference.ignoreHeaderLines']}</value>
-		</property>
+		<property name="encoding" value="#{jobExecutionContext['dwca.reference.encoding']}"/>
+		<property name="linesToSkip" value="#{jobExecutionContext['dwca.reference.ignoreHeaderLines']}"/>
 		<property name="resource">
 			<bean class="org.springframework.core.io.FileSystemResource"
 				scope="step">
@@ -505,22 +443,14 @@
 	<bean id="referenceLineTokenizer"
 		class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer"
 		scope="step">
-		<property name="names">
-			<value>#{jobExecutionContext['dwca.reference.fieldNames']}</value>
-		</property>
-		<property name="delimiter">
-			<value>#{jobExecutionContext['dwca.reference.fieldsTerminatedBy']}</value>
-		</property>
+		<property name="names" value="#{jobExecutionContext['dwca.reference.fieldNames']}"/>			
+		<property name="delimiter" value="#{jobExecutionContext['dwca.reference.fieldsTerminatedBy']}"/>			
 		<property name="strict" value="false"/>
 	</bean>
 
 	<bean id="referenceFieldSetMapper" class="org.emonocot.job.dwc.reference.ReferenceFieldSetMapper"  scope="step">
-	    <property name="fieldNames">
-			<value>#{jobExecutionContext['dwca.reference.fieldNames']}</value>
-		</property>
-		<property name="defaultValues">
-			<value>#{jobExecutionContext['dwca.reference.defaultValues']}</value>
-		</property>
+	    <property name="fieldNames"  value="#{jobExecutionContext['dwca.reference.fieldNames']}"/>
+		<property name="defaultValues" value="#{jobExecutionContext['dwca.reference.defaultValues']}"/>
 		<property name="taxonService" ref="taxonServiceImpl"/>
 	</bean>
 	

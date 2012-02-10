@@ -32,6 +32,7 @@
 			<batch:listeners>
 				  <batch:listener ref="taxonItemProcessor" />
 				  <batch:listener ref="taxonItemValidator" />
+				  <batch:listener ref="taxonRelationshipResolver"/>
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="resumeHarvesting">
@@ -187,9 +188,15 @@
 	    </map>
 	  </property>
 	</bean>
+	
+	<bean id="taxonRelationshipResolver" class="org.emonocot.harvest.common.TaxonRelationshipResolverImpl" scope="step">
+	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
+	  <property name="taxonService" ref="taxonServiceImpl"/>
+	</bean>
 
     <bean id="taxonItemProcessor" class="org.emonocot.job.checklist.OaiPmhRecordProcessorImpl" scope="step">
       <property name="taxonService" ref="taxonServiceImpl"/>
+      <property name="taxonRelationshipResolver" ref="taxonRelationshipResolver"/>
       <property name="sourceService" ref="sourceServiceImpl"/>
       <property name="sourceName" value="#{jobParameters['authority.name']}"/>
       <property name="referenceService" ref="referenceServiceImpl"/>

@@ -30,8 +30,9 @@
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="checkNullRecords" />
 			<batch:listeners>
-				  <batch:listener ref="taxonItemProcessor" />
+				  <batch:listener ref="taxonItemProcessor" />				  
 				  <batch:listener ref="taxonItemValidator" />
+				  <batch:listener ref="taxonRelationshipResolver" />
 			</batch:listeners>
 		</batch:step>		
 	    <batch:step id="checkNullRecords">
@@ -61,6 +62,11 @@
 				<constructor-arg value="#{jobParameters['temporary.file.name']}" />
 			</bean>
 		</property>
+	</bean>
+	
+    <bean id="taxonRelationshipResolver" class="org.emonocot.harvest.common.TaxonRelationshipResolverImpl" scope="step">
+	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
+	  <property name="taxonService" ref="taxonServiceImpl"/>
 	</bean>
 
 	<bean id="oaiPmhGetRecordTasklet"

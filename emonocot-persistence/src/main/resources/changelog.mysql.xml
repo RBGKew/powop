@@ -1958,4 +1958,23 @@
         DELETE FROM Image WHERE id = 3961;  
       </sql>
     </changeSet>
+    <changeSet id="2012-02-07_01" author="ben">
+      <comment>Added nameIdentifier to taxon</comment>
+      <addColumn tableName="Taxon">
+        <column name="nameIdentifier" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2012-02-07_02" author="ben">
+      <comment>Added class to taxon</comment>
+      <addColumn tableName="Taxon">
+        <column name="class" type="varchar(128)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2012-02-08_01" author="ben">
+      <comment>Add eMonocot as an authority</comment>
+      <insert tableName="Source">
+        <column name="id" valueNumeric="5"/>
+        <column name="identifier" value="eMonocot"/>        
+      </insert>
+    </changeSet>
 </databaseChangeLog>

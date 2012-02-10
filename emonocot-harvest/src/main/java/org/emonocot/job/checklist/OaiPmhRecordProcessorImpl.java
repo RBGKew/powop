@@ -1,13 +1,14 @@
 package org.emonocot.job.checklist;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.emonocot.api.ReferenceService;
-import org.emonocot.harvest.common.TaxonRelationship;
+import org.emonocot.api.TaxonService;
+import org.emonocot.harvest.common.AuthorityAware;
 import org.emonocot.harvest.common.TaxonRelationshipResolver;
+import org.emonocot.harvest.common.TaxonRelationship;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.AnnotationType;
@@ -24,6 +25,7 @@ import org.openarchives.pmh.Record;
 import org.openarchives.pmh.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionException;
 import org.springframework.core.convert.ConversionService;
 import org.tdwg.voc.DefinedTermLinkType;
@@ -42,8 +44,8 @@ import org.tdwg.voc.TaxonRelationshipTerm;
  * @author ben
  *
  */
-public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
-    implements OaiPmhRecordProcessor {
+public class OaiPmhRecordProcessorImpl extends AuthorityAware implements
+        OaiPmhRecordProcessor {
 
    /**
     *
@@ -58,6 +60,11 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
     /**
      *
      */
+    private TaxonService taxonService;
+
+    /**
+     *
+     */
     private ReferenceService referenceService;
 
     /**
@@ -68,42 +75,46 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
 
     /**
      *
-     * @param referenceService Set the reference service
      */
-    public final void setReferenceService(ReferenceService referenceService) {
-        this.referenceService = referenceService;
+    private TaxonRelationshipResolver taxonRelationshipResolver;
+
+    /**
+     * @param resolver Set the taxon relationship resolver
+     */
+    @Autowired
+    public final void setTaxonRelationshipResolver(
+            final TaxonRelationshipResolver resolver) {
+        this.taxonRelationshipResolver = resolver;
+    }
+
+    /**
+     *
+     * @param service Set the taxon service
+     */
+    @Autowired
+    public final void setTaxonService(final TaxonService service) {
+        this.taxonService = service;
+    }
+
+    /**
+     *
+     * @param service Set the reference service
+     */
+    @Autowired
+    public final void setReferenceService(
+            final ReferenceService service) {
+        this.referenceService = service;
     }
 
     /**
     *
-    * @param conversionService Set the conversion service
+    * @param service Set the conversion service
     */
-   public final void setConversionService(ConversionService conversionService) {
-       this.conversionService = conversionService;
-   }
-
-   /**
-    *
-    * @param object Set the object type
-    * @param code Set the annotation code
-    * @param annotationType set the annotation type
-    * @param recordType set the record type
-    * @param value Set the value
-    * @return an Annotation
-    */
-    private Annotation addAnnotation(final Base object,
-            final AnnotationCode code, final AnnotationType annotationType,
-            final RecordType recordType, final String value) {
-       Annotation annotation = new Annotation();
-       annotation.setAnnotatedObj(object);
-       annotation.setRecordType(recordType);
-       annotation.setValue(value);
-       annotation.setJobId(getStepExecution().getJobExecutionId());
-       annotation.setCode(code);
-       annotation.setType(annotationType);
-       annotation.setSource(getSource());
-       return annotation;
-   }
+    @Autowired
+    public final void setConversionService(
+            final ConversionService service) {
+        this.conversionService = service;
+    }
 
     /**
      * @param record an OAI-PMH Record object
@@ -111,8 +122,9 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
      * @throws Exception if there is a problem processing this record
      */
     public final Taxon process(final Record record) throws Exception {
-        Taxon taxon = taxonService.find(record.getHeader().getIdentifier()
-                .toString(), "taxon-with-related");
+        String identifier = record.getHeader().getIdentifier().toString();
+
+        Taxon taxon = taxonService.find(identifier, "taxon-with-related");
 
         if (taxon == null) {
             // We don't have a record of this taxon yet
@@ -130,9 +142,8 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
                 taxon.setAuthority(getSource());
                 taxon.setIdentifier(taxonConcept.getIdentifier().toString());
                 taxon.getAnnotations().add(
-                        addAnnotation(taxon, AnnotationCode.Create,
-                                AnnotationType.Info, RecordType.Taxon,
-                                taxon.getIdentifier()));
+                        createAnnotation(taxon, RecordType.Taxon,
+                                AnnotationCode.Create, AnnotationType.Info));
                 processTaxon(taxon, taxonConcept);
             }
         } else {
@@ -146,9 +157,8 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
                 .getTaxonConcept();
 
                 taxon.getAnnotations().add(
-                        addAnnotation(taxon, AnnotationCode.Update,
-                                AnnotationType.Info, RecordType.Taxon,
-                                taxon.getIdentifier()));
+                        createAnnotation(taxon, RecordType.Taxon,
+                                AnnotationCode.Update, AnnotationType.Info));
                 /**
                  * Using java.util.Collection.contains() does not work on lazy
                  * collections.
@@ -186,7 +196,7 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
      */
     public final void processTaxon(
             final Taxon taxon, final TaxonConcept taxonConcept) {
-        super.bind(taxon);
+        taxonRelationshipResolver.bind(taxon);
         if (taxonConcept.getHasName() != null) {
             TaxonName taxonName = taxonConcept.getHasName();
             logger.info(taxonName.getNameComplete());
@@ -296,9 +306,8 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
             reference = new Reference();
             reference.setIdentifier(referenceIdentifier);
             reference.getAnnotations().add(
-                    addAnnotation(reference, AnnotationCode.Create,
-                            AnnotationType.Info, RecordType.Reference,
-                            referenceIdentifier));
+                    createAnnotation(reference, RecordType.Reference,
+                            AnnotationCode.Create, AnnotationType.Info));
             referencesWithinChunk.put(referenceIdentifier, reference);
         }
         // TODO Created / modified dates on publications? Bridge too far?
@@ -353,28 +362,26 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
     private Annotation addAnnotation(final Base object,
             final RecordType recordType, final String property,
             final ConversionException exception) {
-        Annotation a = addAnnotation(object, AnnotationCode.BadField,
-                AnnotationType.Warn, recordType, property);
+        Annotation a = createAnnotation(object, recordType,
+                AnnotationCode.BadField, AnnotationType.Warn);
+        a.setValue(property);
         a.setText(exception.getMessage());
         return a;
     }
 
-/**
+   /**
     *
     */
-    @Override
    public final void beforeChunk() {
         this.referencesWithinChunk = new HashMap<String, Reference>();
-        super.beforeChunk();
    }
 
-    /**
-     * @param items the items to be written
-     */
-    public final void beforeWrite(final List<? extends Taxon> items) {
-        super.beforeWrite(items);
-        this.referencesWithinChunk.clear();
-    }
+   /**
+    *
+    */
+   public final void afterChunk() {
+
+   }
 
     /**
      * Adds a relationship to a list of relationships which should be resolved
@@ -406,14 +413,15 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
             TaxonRelationship taxonRelationship = new TaxonRelationship(taxon,
                     term);
             taxonRelationship.setToIdentifier(identifier);
-            addTaxonRelationship(taxonRelationship, identifier);
+            taxonRelationshipResolver.addTaxonRelationship(taxonRelationship,
+                    identifier);
         } else {
-            Annotation annotation = addAnnotation(taxon,
-                    AnnotationCode.BadField, AnnotationType.Warn,
-                    RecordType.Taxon, "related");
+            Annotation annotation = createAnnotation(taxon, RecordType.Taxon,
+                    AnnotationCode.BadField, AnnotationType.Warn);
             annotation
                     .setText("Could not find identifier for relationship of taxon "
-                    + taxon.getIdentifier());
+                            + taxon.getIdentifier());
+            annotation.setValue("related");
             taxon.getAnnotations().add(annotation);
         }
     }
@@ -429,9 +437,9 @@ public class OaiPmhRecordProcessorImpl extends TaxonRelationshipResolver
         // TODO - what if there are no terms or multiple terms - throw an error?
         GeographicalRegion region = null;
         if (hasValueRelation == null || hasValueRelation.isEmpty()) {
-            Annotation annotation = addAnnotation(taxon,
-                    AnnotationCode.BadField, AnnotationType.Warn,
-                    RecordType.Taxon, "distribution");
+            Annotation annotation = createAnnotation(taxon, RecordType.Taxon,
+                    AnnotationCode.BadField, AnnotationType.Warn);
+            annotation.setValue("distribution");
             annotation.setText("No geographical term returned"
                     + taxon.getIdentifier());
             taxon.getAnnotations().add(annotation);

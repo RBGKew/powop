@@ -58,14 +58,13 @@ public class ReferenceValidator extends DarwinCoreValidator<Reference>
             throws Exception {
         logger.info("Validating " + reference);
 
-        Reference boundReference = boundReferences.get(reference.getSource());
+        Reference boundReference = lookupBoundReference(reference);
         if (boundReference == null) {
-            Reference persistedReference = referenceService
-                    .findBySource(reference.getSource());
+            Reference persistedReference = retrieveBoundReference(reference);
             if (persistedReference == null) {
                 // We've not seen this reference before
                 reference.setIdentifier(UUID.randomUUID().toString());
-                boundReferences.put(reference.getSource(), reference);
+                bindReference(reference);
                 for (Taxon t : reference.getTaxa()) {
                     t.getReferences().add(reference);
                 }
@@ -92,8 +91,7 @@ public class ReferenceValidator extends DarwinCoreValidator<Reference>
                         // do nothing
                     } else {
                         // Add the taxon to the list of taxa
-                        boundReferences.put(persistedReference.getSource(),
-                                persistedReference);
+                        bindReference(persistedReference);                        
                         logger.info("Updating reference " + reference.getSource());
                         persistedReference.getTaxa().add(taxon);
                         for (Taxon t : reference.getTaxa()) {
@@ -129,7 +127,7 @@ public class ReferenceValidator extends DarwinCoreValidator<Reference>
                             RecordType.Reference, AnnotationCode.Update,
                             AnnotationType.Info);
                     persistedReference.getAnnotations().add(annotation);
-                    boundReferences.put(reference.getSource(), persistedReference);
+                    bindReference(persistedReference);
                     logger.info("Overwriting reference " + persistedReference.getSource());
                     return persistedReference;
 
@@ -155,6 +153,46 @@ public class ReferenceValidator extends DarwinCoreValidator<Reference>
         }
     }
 
+    /**
+     *
+     * @param reference The reference to bind
+     */
+    private void bindReference(final Reference reference) {
+        if (reference.getIdentifier() != null) {
+            boundReferences.put(reference.getIdentifier(), reference);
+        }
+        if (reference.getSource() != null) {
+            boundReferences.put(reference.getSource(), reference);
+        }
+    }
+
+    /**
+     * Retrieve a bound reference, either by identifier or by source.
+     * @param reference The reference containing properties to look up
+     * @return a reference or NULL if none exist
+     */
+    private Reference retrieveBoundReference(final Reference reference) {
+        if (reference.getIdentifier() != null) {
+            return referenceService.find(reference.getIdentifier());
+        } else if (reference.getSource() != null) {
+            return referenceService.findBySource(reference.getSource());
+        }
+        return null;
+    }
+
+    /**
+     * Lookup a bound reference, first by identifier, then by source.
+     * @param reference The reference to look up
+     * @return a bound reference or null if none is bound
+     */
+    private Reference lookupBoundReference(final Reference reference) {
+        if (reference.getIdentifier() != null) {
+            return boundReferences.get(reference.getIdentifier());
+        } else if (reference.getSource() != null) {
+            return boundReferences.get(reference.getSource());
+        }
+        return null;
+    }
 
     /**
      * @param references the list of references written
@@ -188,7 +226,7 @@ public class ReferenceValidator extends DarwinCoreValidator<Reference>
     /**
      *
      */
-    public void beforeChunk() {
+    public final void beforeChunk() {
         boundReferences.clear();
     }
 }

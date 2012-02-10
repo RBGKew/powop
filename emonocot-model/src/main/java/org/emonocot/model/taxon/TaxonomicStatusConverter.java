@@ -37,10 +37,10 @@ public class TaxonomicStatusConverter implements
             } else if (identifier
                     .equals("http://e-monocot.org/TaxonomicStatus#invalid")) {
                 return TaxonomicStatus.invalid;
+            } else {
+                return TaxonomicStatus.valueOf(identifier);
             }
         }
-        throw new IllegalArgumentException(identifier
-                + " cannot be converted into a Taxonomic Status");
     }
 
 }

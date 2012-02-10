@@ -46,7 +46,7 @@ public class ClassificationController {
                     headers = "Accept=application/json")
     public final @ResponseBody
     List<Node> getTaxonTreeRoots() {
-        List<Taxon> results = taxonService.loadChildren(null, 10, 0, "taxon-with-children");
+        List<Taxon> results = taxonService.loadChildren(null, 20, 0, "taxon-with-children");
         List<Node> nodes = new ArrayList<Node>();
         for (Taxon result : results) {
             nodes.add(new Node(result));
