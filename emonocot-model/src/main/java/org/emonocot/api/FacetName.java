@@ -9,49 +9,69 @@ public enum FacetName {
     /**
      * The type (class) of object.
      */
-    CLASS,
+    CLASS(false),
     /**
      * Facet on the taxonomic family.
      */
-    FAMILY,
+    FAMILY(false),
     /**
      * Facet on the continent.
      */
-    CONTINENT,
+    CONTINENT(true),
     /**
-     * The region for a Taxon's distibution to include
+     * The region for a Taxon's distibution to include.
      */
-    REGION,
+    REGION(true),
     /**
      * Facet on the source system.
      */
-    AUTHORITY,
+    AUTHORITY(false),
     /**
      * The rank of a plant name.
      */
-    RANK,
+    RANK(false),
     /**
      * The taxonomic status of the taxon.
      */
-    TAXONOMIC_STATUS,
+    TAXONOMIC_STATUS(false),
     /**
      * The date the taxon was published.
      */
-    DATE_PUBLISHED,
+    DATE_PUBLISHED(false),
     /**
      * The type of object annotated.
      */
-    RECORD_TYPE,
+    RECORD_TYPE(false),
     /**
      * The type of issue.
      */
-    ISSUE_TYPE,
+    ISSUE_TYPE(false),
     /**
      * The error code.
      */
-    ERROR_CODE,
+    ERROR_CODE(false),
     /**
      * The job id.
      */
-    JOB_INSTANCE
+    JOB_INSTANCE(false);
+
+    /**
+     * @param multi is the facet multivalued
+     */
+    private FacetName(final boolean multi) {
+        this.multivalued = multi;
+    }
+
+    /**
+     * Is the facet multivalued?
+     */
+    private boolean multivalued;
+
+    /**
+     *
+     * @return true if the facet is multivalued
+     */
+    public boolean isMultivalued() {
+        return multivalued;
+    }
 }
