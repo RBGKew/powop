@@ -4,6 +4,7 @@
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu"
 	xmlns:spring="http://www.springframework.org/tags"
 	version="2.0">
 	<jsp:useBean id="result" scope="request" 
@@ -67,105 +68,14 @@
 		<div class="row">
 			<div class="span5">
 				<ul id="facets" class="no-bullet">
-					<c:forEach var="facetName" items="${result.facetNames}">
-						<li id="${facetName}">
-							<h3>
-								<spring:message code="${facetName}" />
-							</h3>
-							${fn:length(result.facets[facetName])}
-							
-							<ul class="facet">
-								<jsp:scriptlet>
-									String facetName = (String) pageContext.getAttribute("facetName");
-									pageContext.setAttribute("facetSelected", new Boolean(result.isFacetSelected(facetName)));
-								</jsp:scriptlet>
-								<c:choose>
-									<c:when test="${facetSelected}">
-										<li>
-											<jsp:element name="a">
-												<jsp:attribute name="href">
-													<c:url value="search">
-														<c:forEach var="p" items="${result.paramNames}">
-															<c:param name="${p}" value="${result.params[p]}"/>
-														</c:forEach>
-														<c:param name="limit" value="${result.pageSize}" />
-														<c:param name="start" value="0" />
-														<c:param name="sort">${result.sort}</c:param>
-														<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-															<c:if test="${selectedFacet != facetName}">
-																<c:param name="facet">
-																	<jsp:scriptlet>
-																		String selectedFacet = (String) pageContext.getAttribute("selectedFacet");
-																		out.println(selectedFacet + "." + result.getSelectedFacets().get(selectedFacet));
-																	</jsp:scriptlet>
-																</c:param>
-															</c:if>
-														</c:forEach>
-													</c:url>
-												</jsp:attribute>
-												<spring:message code="${facetName}.clearFacet" />
-											</jsp:element>
-										</li>
-										
-										<li>
-											<jsp:scriptlet>
-												try {
-													pageContext.setAttribute("selectedFacetName", result.getSelectedFacets().get(facetName));
-													}
-												catch (Exception e) {
-													pageContext.setAttribute("selectedFacetName", "Unable to display name of selected option");
-													}
-											</jsp:scriptlet>
-											<spring:message code="${selectedFacetName}" />
-										</li>
-									</c:when>
-									<c:otherwise>
-										<!--<c:forEach var="facet" begin="0" end="9" step="1" items="${result.facets[facetName]}">-->
-										<c:forEach var="facet" items="${result.facets[facetName]}">
-											<li>
-												<c:choose>
-													<c:when test="${facet.count == 0}">
-														<spring:message code="${facet.value}" />
-													</c:when>
-													<c:otherwise>
-														<jsp:element name="a">
-															<jsp:attribute name="href">
-																<c:url value="search">
-																	<c:forEach var="p" items="${result.paramNames}">
-																		<c:param name="${p}" value="${result.params[p]}"/>
-																	</c:forEach>
-																	<c:param name="limit" value="${result.pageSize}" />
-																	<c:param name="start" value="0" />
-																	<c:param name="sort">${result.sort}</c:param>
-																	<c:param name="facet" value="${facetName}.${facet.value}" />
-																	<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-																		<c:if test="${selectedFacet != facetName}">
-																			<c:param name="facet">
-																				<jsp:scriptlet>
-																					String selectedFacet = (String) pageContext.getAttribute("selectedFacet");
-																					out.println(selectedFacet + "." + result.getSelectedFacets().get(selectedFacet));
-																				</jsp:scriptlet>
-																			</c:param>
-																		</c:if>
-																	</c:forEach>
-																</c:url>
-															</jsp:attribute>
-															<spring:message code="${facet.value}" />
-														</jsp:element>
-														<p style="display:inline"> [${facet.count}]</p>
-													</c:otherwise>
-												</c:choose>
-											</li>
-										</c:forEach>
-									</c:otherwise>
-								</c:choose>
-							</ul>
-						</li>
-					</c:forEach>
+				  <c:forEach var="facetName" items="${result.facetNames}">
+					<menu:facet facetName="${facetName}" pager="${result}"/>
+				  </c:forEach>
 				</ul>
 			</div>
 			
 			<div class="span11">
+			
 				<div id="pages" class="span4 pull-right">
 						<tags:results pager="${result}"/>
 					</div>
@@ -181,6 +91,7 @@
 						}
 					</jsp:scriptlet>
 		  		<br/>
+		  		
 		  		<div class="row">	
 		  		
 		  			<div class="span3 btn-group">
@@ -227,6 +138,7 @@
 					</div><!-- /btn-group -->
 					
 					<div id="viewIcons" class="span3">
+					
 						<div class="btn-group">
 							<jsp:element name="a">
 								<jsp:attribute name="title">simpleList</jsp:attribute>

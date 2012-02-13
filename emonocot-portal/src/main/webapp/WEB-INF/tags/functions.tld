@@ -83,4 +83,14 @@
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>java.lang.String convert(java.lang.Object)</function-signature>
     </function>
+    <function>
+        <name>isFacetSelected</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.Boolean isFacetSelected(org.emonocot.model.pager.Page,java.lang.String)</function-signature>
+    </function>
+    <function>
+        <name>isMultiValued</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.Boolean isMultiValued(java.lang.String)</function-signature>
+    </function>
 </taglib>

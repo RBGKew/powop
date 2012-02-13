@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import org.emonocot.api.FacetName;
 import org.emonocot.api.Sorting;
 import org.emonocot.api.Sorting.SortDirection;
 import org.emonocot.api.convert.ClassToStringConverter;
@@ -20,6 +21,7 @@ import org.emonocot.model.geography.Country;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.GeographicalRegionComparator;
 import org.emonocot.model.geography.Region;
+import org.emonocot.model.pager.Page;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.AlphabeticalTaxonComparator;
 import org.emonocot.model.taxon.Taxon;
@@ -285,5 +287,25 @@ public final class Functions {
     public static String citekey(final Bibliography bibliography,
             final Reference reference) {
        return bibliography.getKey(reference);
+   }
+    
+    /**
+    *
+    * @param pager Set the pager
+    * @param facet Set the facet name
+    * @return true, if the facet is selected
+    */
+    public static Boolean isFacetSelected(final Page pager,
+            final String facet) {
+       return pager.isFacetSelected(facet);
+   }
+    
+    /**
+    *
+    * @param facet Set the facet name
+    * @return true, if the facet is multi-valued
+    */
+    public static Boolean isMultiValued(final String facet) {
+       return FacetName.valueOf(facet).isMultivalued();
    }
 }
