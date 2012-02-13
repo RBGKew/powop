@@ -1,4 +1,4 @@
-package org.emonocot.job.dwc;
+package org.emonocot.job.dwc.taxon;
 
 import static org.junit.Assert.assertNotNull;
 

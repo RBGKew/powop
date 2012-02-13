@@ -91,7 +91,7 @@ public class ReferenceValidator extends DarwinCoreValidator<Reference>
                         // do nothing
                     } else {
                         // Add the taxon to the list of taxa
-                        bindReference(persistedReference);                        
+                        bindReference(persistedReference);
                         logger.info("Updating reference " + reference.getSource());
                         persistedReference.getTaxa().add(taxon);
                         for (Taxon t : reference.getTaxa()) {

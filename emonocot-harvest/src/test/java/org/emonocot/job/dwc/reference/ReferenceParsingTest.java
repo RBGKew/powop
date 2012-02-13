@@ -1,11 +1,14 @@
-package org.emonocot.job.dwc;
+package org.emonocot.job.dwc.reference;
 
 import java.util.HashMap;
 
 import org.easymock.EasyMock;
-import org.emonocot.api.TaxonService;
-import org.emonocot.job.dwc.taxon.TaxonFieldSetMapper;
+import org.emonocot.job.dwc.description.DescriptionFieldSetMapper;
+import org.emonocot.model.description.TextContent;
+import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Taxon;
+import org.emonocot.api.ReferenceService;
+import org.emonocot.api.TaxonService;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.item.ExecutionContext;
@@ -20,13 +23,13 @@ import org.springframework.core.io.Resource;
  * @author ben
  *
  */
-public class TaxonParsingTest {
+public class ReferenceParsingTest {
 
    /**
     *
     */
    private Resource content = new ClassPathResource(
-           "/org/emonocot/job/dwc/test/taxa.txt");
+           "/org/emonocot/job/dwc/reference.txt");
 
    /**
     *
@@ -36,29 +39,29 @@ public class TaxonParsingTest {
    /**
     *
     */
-    private FlatFileItemReader<Taxon> flatFileItemReader = new FlatFileItemReader<Taxon>();
+    private FlatFileItemReader<Reference> flatFileItemReader = new FlatFileItemReader<Reference>();
 
    /**
-    *
+    * @throws Exception if there is a problem
     */
    @Before
    public final void setUp() throws Exception {
+
        String[] names = new String[] {
                "http://rs.tdwg.org/dwc/terms/taxonID",
-               "http://rs.tdwg.org/dwc/terms/scientificName",
-               "http://rs.tdwg.org/dwc/terms/scientificNameID",
-               "http://rs.tdwg.org/dwc/terms/scientificNameAuthorship",
-               "http://rs.tdwg.org/dwc/terms/taxonRank",
-               "http://rs.tdwg.org/dwc/terms/taxonomicStatus",
-               "http://rs.tdwg.org/dwc/terms/parentNameUsageID",
-               "http://rs.tdwg.org/dwc/terms/acceptedNameUsageID",
-               "http://rs.tdwg.org/dwc/terms/genus",
-               "http://rs.tdwg.org/dwc/terms/subgenus",
-               "http://rs.tdwg.org/dwc/terms/specificEpithet",
-               "http://rs.tdwg.org/dwc/terms/infraspecificEpithet",
-               "http://purl.org/dc/elements/1.1/identifier",
-               "http://purl.org/dc/elements/1.1/modified",
-               "http://purl.org/dc/elements/1.1/source"
+               "http://purl.org/dc/terms/modified",
+               "http://purl.org/dc/terms/created",
+               "http://purl.org/dc/terms/identifier",
+               "http://purl.org/dc/terms/bibliographicCitation",
+               "http://purl.org/dc/terms/type",
+               "http://purl.org/dc/terms/title",
+               "http://purl.org/ontology/bibo/volume",
+               "http://purl.org/ontology/bibo/number",
+               "http://purl.org/ontology/bibo/pages",
+               "http://purl.org/dc/terms/description",
+               "http://purl.org/dc/terms/date",
+               "http://purl.org/dc/terms/source",
+               "http://purl.org/dc/terms/creator"
        };
        DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
        tokenizer.setDelimiter('\t');
@@ -66,12 +69,12 @@ public class TaxonParsingTest {
 
        taxonService = EasyMock.createMock(TaxonService.class);
 
-        TaxonFieldSetMapper fieldSetMapper = new TaxonFieldSetMapper();
+        ReferenceFieldSetMapper fieldSetMapper = new ReferenceFieldSetMapper();
         fieldSetMapper.setFieldNames(names);
         fieldSetMapper.setDefaultValues(new HashMap<String, String>());
         fieldSetMapper.setTaxonService(taxonService);
-        DefaultLineMapper<Taxon> lineMapper
-            = new DefaultLineMapper<Taxon>();
+        DefaultLineMapper<Reference> lineMapper
+            = new DefaultLineMapper<Reference>();
         lineMapper.setFieldSetMapper(fieldSetMapper);
         lineMapper.setLineTokenizer(tokenizer);
 

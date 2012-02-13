@@ -1,4 +1,4 @@
-package org.emonocot.job.dwc;
+package org.emonocot.job.dwc.description;
 
 import java.util.HashMap;
 
