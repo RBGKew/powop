@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.emonocot.api.FacetName;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.Region;
@@ -18,7 +17,6 @@ import org.emonocot.model.taxon.TaxonomicStatus;
 import org.emonocot.persistence.dao.TaxonDao;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
-import org.hibernate.Hibernate;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -28,15 +26,12 @@ import org.hibernate.search.query.engine.spi.FacetManager;
 import org.hibernate.search.query.facet.Facet;
 import org.hibernate.search.query.facet.FacetSortOrder;
 import org.hibernate.search.query.facet.FacetingRequest;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Repository;
 
 import com.rc.retroweaver.runtime.Arrays;
 
 /**
- *
  * @author ben
- *
  */
 @Repository
 public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
@@ -48,16 +43,16 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
 
     static {
         FETCH_PROFILES = new HashMap<String, Fetch[]>();
-        FETCH_PROFILES.put("taxon-with-children", new Fetch[] {
-                new Fetch("children", FetchMode.SELECT) });
-        FETCH_PROFILES.put("taxon-with-annotations", new Fetch[] {
-                new Fetch("annotations", FetchMode.SELECT) });
+        FETCH_PROFILES.put("taxon-with-children", new Fetch[] {new Fetch(
+                "children", FetchMode.SELECT)});
+        FETCH_PROFILES.put("taxon-with-annotations", new Fetch[] {new Fetch(
+                "annotations", FetchMode.SELECT)});
         FETCH_PROFILES.put("taxon-with-related", new Fetch[] {
                 new Fetch("parent", FetchMode.JOIN),
                 new Fetch("accepted", FetchMode.JOIN),
                 new Fetch("children", FetchMode.SELECT),
                 new Fetch("synonyms", FetchMode.SELECT),
-                new Fetch("annotations", FetchMode.SELECT) });
+                new Fetch("annotations", FetchMode.SELECT)});
         FETCH_PROFILES.put("taxon-page", new Fetch[] {
                 new Fetch("parent", FetchMode.JOIN),
                 new Fetch("accepted", FetchMode.JOIN),
@@ -73,7 +68,7 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
                 new Fetch("authority", FetchMode.JOIN),
                 new Fetch("sources", FetchMode.SELECT)});
         FETCH_PROFILES.put("taxon-with-image", new Fetch[] {new Fetch("image",
-                FetchMode.SELECT) });
+                FetchMode.SELECT)});
     }
 
     /**
@@ -82,20 +77,20 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
     private Rank rootRank;
 
     /**
-     *
-     * @param rank Set the root rank
+     * @param rank
+     *            Set the root rank
      */
     public final void setRootRank(final String rank) {
         this.rootRank = Rank.valueOf(rank);
     }
 
     /**
-     *
      * @return the fields to search by default
      */
     @Override
     protected final String[] getDocumentFields() {
-        return new String[] {"title", "name", "authorship", "content.content" };
+        return new String[] {"title", "name", "synonyms.name", "authorship",
+                "content.content", "family", "order", "class", "phylum"};
     }
 
     /**
@@ -160,7 +155,6 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
     }
 
     /**
-     *
      * @param facetName
      *            Set the facet name
      * @param facetManager
@@ -186,27 +180,29 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
 
     @Override
     protected final void addFacet(final Page<Taxon> page,
-            final FacetName facetName, final FacetManager facetManager, Map<FacetName, String> selectedFacets) {
+            final FacetName facetName, final FacetManager facetManager,
+            Map<FacetName, String> selectedFacets) {
         switch (facetName) {
         case REGION:
-        	String selectedContinent = selectedFacets.get(FacetName.CONTINENT);
-        	if(selectedContinent != null) {
-        		Continent continent = Continent.valueOf(selectedContinent);
-        		List<Facet> facets = facetManager.getFacets(facetName.REGION.name());
-        		List<Facet> filteredFacets = new ArrayList<Facet>();
-        		for(Facet f : facets) {
-        			Region r = Region.valueOf(f.getValue());
-        			if (r.getContinent().equals(continent)){
-        				filteredFacets.add(f);
-        			}
-        		}
-        	    page.addFacets(facetName.name(), filteredFacets);
-         	} else {
-         		// should not really get here
-         		page.addFacets(facetName.name(),
+            String selectedContinent = selectedFacets.get(FacetName.CONTINENT);
+            if (selectedContinent != null) {
+                Continent continent = Continent.valueOf(selectedContinent);
+                List<Facet> facets = facetManager.getFacets(facetName.REGION
+                        .name());
+                List<Facet> filteredFacets = new ArrayList<Facet>();
+                for (Facet f : facets) {
+                    Region r = Region.valueOf(f.getValue());
+                    if (r.getContinent().equals(continent)) {
+                        filteredFacets.add(f);
+                    }
+                }
+                page.addFacets(facetName.name(), filteredFacets);
+            } else {
+                // should not really get here
+                page.addFacets(facetName.name(),
                         facetManager.getFacets(facetName.name()));
-         	}
-        	break;
+            }
+            break;
         case CLASS:
             List<Facet> facets = new ArrayList<Facet>();
             page.addFacets(facetName.name(), facets);
@@ -245,12 +241,13 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
     }
 
     /**
-     * @param t Set the taxon
-     * @param fetch Set the fetch profile
+     * @param t
+     *            Set the taxon
+     * @param fetch
+     *            Set the fetch profile
      */
     @Override
-    public final void enableProfilePostQuery(
-                final Taxon t, final String fetch) {
+    public final void enableProfilePostQuery(final Taxon t, final String fetch) {
         if (fetch != null && t != null) {
             for (Fetch f : getProfile(fetch)) {
                 if (f.getAssociation().equals("ancestors")) {
@@ -262,7 +259,8 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
                     if (association.indexOf(".") == -1) {
                         initializeProperty(t, f.getAssociation());
                     } else {
-                        List<String> associations = Arrays.asList(association.split("\\."));
+                        List<String> associations = Arrays.asList(association
+                                .split("\\."));
                         initializeProperties(t, associations);
                     }
                 }
@@ -271,9 +269,10 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
     }
 
     /**
-     *
-     * @param t Set the taxon
-     * @param ancestors Set the ancestors
+     * @param t
+     *            Set the taxon
+     * @param ancestors
+     *            Set the ancestors
      */
     private void getAncestors(final Taxon t, final List<Taxon> ancestors) {
         if (t.getParent() != null) {
@@ -286,7 +285,7 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
     /**
      * Returns the genera associated with this family. TODO Remove once families
      * are imported
-     *
+     * 
      * @param family
      *            the family
      * @return A list of genera
@@ -302,7 +301,7 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
     /**
      * Returns the number of genera in a family. TODO Remove once families are
      * imported
-     *
+     * 
      * @param family
      *            the family
      * @return the number of accepted genera
@@ -318,8 +317,9 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
 
     /**
      * Returns the child taxa of a given taxon.
-     * @param identifier set the identifier
-     *
+     * 
+     * @param identifier
+     *            set the identifier
      * @param pageSize
      *            The maximum number of results to return
      * @param pageNumber
@@ -327,7 +327,6 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
      *            the recordset
      * @param fetch
      *            Set the fetch profile
-     *
      * @return a Page from the resultset
      */
     public final List<Taxon> loadChildren(final String identifier,
@@ -359,6 +358,6 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
         for (Taxon t : results) {
             enableProfilePostQuery(t, fetch);
         }
-        return  results;
+        return results;
     }
 }

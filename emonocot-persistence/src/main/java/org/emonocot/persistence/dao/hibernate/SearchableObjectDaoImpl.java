@@ -28,21 +28,20 @@ import org.springframework.stereotype.Repository;
 
 /**
  * @author jk00kg
- *
  */
 @Repository
 public class SearchableObjectDaoImpl extends
         SearchableDaoImpl<SearchableObject> implements SearchableObjectDao {
 
-   /**
-    *
-    */
+    /**
+     *
+     */
     private static Map<String, Fetch[]> FETCH_PROFILES;
 
     static {
         FETCH_PROFILES = new HashMap<String, Fetch[]>();
         FETCH_PROFILES.put("taxon-with-image", new Fetch[] {new Fetch("image",
-                FetchMode.SELECT) });
+                FetchMode.SELECT)});
     }
 
     /**
@@ -105,7 +104,6 @@ public class SearchableObjectDaoImpl extends
     }
 
     /**
-     *
      * @param facetName
      *            Set the facet name
      * @param facetManager
@@ -130,27 +128,29 @@ public class SearchableObjectDaoImpl extends
 
     @Override
     protected final void addFacet(final Page<SearchableObject> page,
-            final FacetName facetName, final FacetManager facetManager, Map<FacetName, String> selectedFacets) {
+            final FacetName facetName, final FacetManager facetManager,
+            Map<FacetName, String> selectedFacets) {
         switch (facetName) {
         case REGION:
-        	String selectedContinent = selectedFacets.get(FacetName.CONTINENT);
-        	if(selectedContinent != null) {
-        		Continent continent = Continent.valueOf(selectedContinent);
-        		List<Facet> facets = facetManager.getFacets(facetName.REGION.name());
-        		List<Facet> filteredFacets = new ArrayList<Facet>();
-        		for(Facet f : facets) {
-        			Region r = Region.valueOf(f.getValue());
-        			if (r.getContinent().equals(continent)){
-        				filteredFacets.add(f);
-        			}
-        		}
-        	    page.addFacets(facetName.name(), filteredFacets);
-         	} else {
-         		// should not really get here
-         		page.addFacets(facetName.name(),
+            String selectedContinent = selectedFacets.get(FacetName.CONTINENT);
+            if (selectedContinent != null) {
+                Continent continent = Continent.valueOf(selectedContinent);
+                List<Facet> facets = facetManager.getFacets(facetName.REGION
+                        .name());
+                List<Facet> filteredFacets = new ArrayList<Facet>();
+                for (Facet f : facets) {
+                    Region r = Region.valueOf(f.getValue());
+                    if (r.getContinent().equals(continent)) {
+                        filteredFacets.add(f);
+                    }
+                }
+                page.addFacets(facetName.name(), filteredFacets);
+            } else {
+                // should not really get here
+                page.addFacets(facetName.name(),
                         facetManager.getFacets(facetName.name()));
-         	}
-        	break;
+            }
+            break;
         case CLASS:
         case CONTINENT:
         case AUTHORITY:
@@ -167,8 +167,9 @@ public class SearchableObjectDaoImpl extends
      */
     @Override
     protected final String[] getDocumentFields() {
-        return new String[] {"name", "caption", "title", "content.content",
-                "description", "creator", "keywords" };
+        return new String[] {"name", "synonyms.name", "caption", "title",
+                "content.content", "description", "creator", "keywords",
+                "family", "order", "class", "phylum"};
     }
 
     @Override

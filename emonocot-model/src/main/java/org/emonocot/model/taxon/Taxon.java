@@ -53,9 +53,7 @@ import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
 
 /**
- *
  * @author ben
- *
  */
 @Entity
 @Indexed(index = "org.emonocot.model.common.SearchableObject")
@@ -212,75 +210,69 @@ public class Taxon extends SearchableObject {
     private String protologueMicroReference;
 
     /**
-    *
-    */
-   private Long id;
-
-   /**
-    *
-    */
-   private Image image;
-
-   /**
-    *
-    */
-   private List<Taxon> ancestors = new ArrayList <Taxon>();
-
-   /**
-    *
-    */
-  private String nameIdentifier;
-
-
-   /**
-   *
-   * @param newId
-   *            Set the identifier of this object.
-   */
-  public void setId(Long newId) {
-      this.id = newId;
-  }
-
-  /**
-   *
-   * @return Get the identifier for this object.
-   */
-  @Id
-  @GeneratedValue(generator = "system-increment")
-  @DocumentId
-  public Long getId() {
-      return id;
-  }
+     *
+     */
+    private Long id;
 
     /**
      *
+     */
+    private Image image;
+
+    /**
+     *
+     */
+    private List<Taxon> ancestors = new ArrayList<Taxon>();
+
+    /**
+     *
+     */
+    private String nameIdentifier;
+
+    /**
+     * @param newId
+     *            Set the identifier of this object.
+     */
+    public void setId(Long newId) {
+        this.id = newId;
+    }
+
+    /**
+     * @return Get the identifier for this object.
+     */
+    @Id
+    @GeneratedValue(generator = "system-increment")
+    @DocumentId
+    public Long getId() {
+        return id;
+    }
+
+    /**
      * @return a list of images of the taxon
      */
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "Taxon_Image", joinColumns = { @JoinColumn(name = "Taxon_id") }, inverseJoinColumns = { @JoinColumn(name = "images_id") })
+    @JoinTable(name = "Taxon_Image", joinColumns = {@JoinColumn(name = "Taxon_id")}, inverseJoinColumns = {@JoinColumn(name = "images_id")})
     @JsonSerialize(contentUsing = ImageSerializer.class)
     public List<Image> getImages() {
         return images;
     }
 
     /**
-     *
      * @return a list of references about the taxon
      */
     @ManyToMany(fetch = FetchType.LAZY)
-    @Cascade({ CascadeType.SAVE_UPDATE })
-    @JoinTable(name = "Taxon_Reference", joinColumns = { @JoinColumn(name = "Taxon_id") }, inverseJoinColumns = { @JoinColumn(name = "references_id") })
+    @Cascade({CascadeType.SAVE_UPDATE})
+    @JoinTable(name = "Taxon_Reference", joinColumns = {@JoinColumn(name = "Taxon_id")}, inverseJoinColumns = {@JoinColumn(name = "references_id")})
     @JsonSerialize(contentUsing = ReferenceSerializer.class)
     public Set<Reference> getReferences() {
         return references;
     }
 
     /**
-     *
      * @return a map of content about the taxon, indexed by the subject
      */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon", orphanRemoval = true)
-    @Cascade({ CascadeType.ALL })
+    @Cascade({CascadeType.ALL})
     @MapKey(name = "feature")
     @JsonManagedReference("content-taxon")
     @IndexedEmbedded
@@ -289,7 +281,6 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @param newImages
      *            Set the images associated with this taxon
      */
@@ -299,7 +290,6 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @param newReferences
      *            Set the references associated with this taxon
      */
@@ -309,7 +299,6 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @param newContent
      *            Set the content associated with this taxon
      */
@@ -319,7 +308,6 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @param newDeleted
      *            Should this taxon be deleted?
      */
@@ -328,7 +316,6 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @return whether this taxon should be deleted or not
      */
     @Transient
@@ -338,18 +325,15 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @return the full taxonomic name of the taxon, including authority
      */
-    @Fields(value = { @Field,
-            @Field(name = "label", index = Index.UN_TOKENIZED) })
+    @Fields(value = {@Field, @Field(name = "label", index = Index.UN_TOKENIZED)})
     @Size(max = 128)
     public String getName() {
         return name;
     }
 
     /**
-     *
      * @param newName
      *            Set the taxonomic name of the taxon
      */
@@ -358,21 +342,18 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @return the immediate taxonomic parent
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @Cascade({ CascadeType.SAVE_UPDATE })
+    @Cascade({CascadeType.SAVE_UPDATE})
     @JsonSerialize(using = TaxonSerializer.class)
     public Taxon getParent() {
         return parent;
     }
 
     /**
-     *
      * @param newParent
      *            Set the taxonomic parent
-     *
      */
     @JsonDeserialize(using = TaxonDeserializer.class)
     public void setParent(Taxon newParent) {
@@ -380,18 +361,16 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @return Get the immediate taxonomic children
      */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
-    @Cascade({ CascadeType.SAVE_UPDATE })
+    @Cascade({CascadeType.SAVE_UPDATE})
     @JsonIgnore
     public Set<Taxon> getChildren() {
         return children;
     }
 
     /**
-     *
      * @param newChildren
      *            Set the taxonomic children
      */
@@ -400,18 +379,16 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @return get the accepted name of this synonym
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @Cascade({ CascadeType.SAVE_UPDATE })
+    @Cascade({CascadeType.SAVE_UPDATE})
     @JsonSerialize(using = TaxonSerializer.class)
     public Taxon getAccepted() {
         return accepted;
     }
 
     /**
-     *
      * @param newAccepted
      *            Set the accepted name
      */
@@ -421,18 +398,17 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @return the synonyms of this taxon
      */
+    @IndexedEmbedded(depth = 1)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "accepted")
-    @Cascade({ CascadeType.SAVE_UPDATE })
+    @Cascade({CascadeType.SAVE_UPDATE})
     @JsonIgnore
     public Set<Taxon> getSynonyms() {
         return synonyms;
     }
 
     /**
-     *
      * @param newSynonyms
      *            Set the synonyms of this taxon
      */
@@ -441,11 +417,10 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @return the distribution associated with this taxon
      */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon", orphanRemoval = true)
-    @Cascade({ CascadeType.ALL })
+    @Cascade({CascadeType.ALL})
     @MapKey(name = "region")
     @IndexedEmbedded
     @JsonManagedReference("distribution-taxon")
@@ -454,7 +429,6 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @param newDistribution
      *            Set the distribution associated with this taxon
      */
@@ -465,7 +439,6 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @param newAuthorship
      *            set the authorship
      */
@@ -474,7 +447,6 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @param newBasionymAuthorship
      *            set the basionymAuthorship
      */
@@ -483,7 +455,6 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @param newUninomial
      *            Set the uninomial
      */
@@ -492,7 +463,6 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @param newGenusPart
      *            Set the genus part of the name
      */
@@ -501,7 +471,6 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @param newSpecificEpithet
      *            set the specific epithet
      */
@@ -510,7 +479,6 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @param newInfraspecificEpithet
      *            Set the infraspecific epithet
      */
@@ -519,7 +487,6 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @param newRank
      *            set the rank of this taxon
      */
@@ -591,7 +558,6 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @param newStatus
      *            Set the taxonomic status
      */
@@ -606,7 +572,6 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @param newInfraGenericEpithet
      *            Set the infrageneric epithet
      */
@@ -624,7 +589,6 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @param newAccordingTo
      *            Set the according to
      */
@@ -642,7 +606,6 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @param newFamily
      *            set the family
      */
@@ -651,7 +614,6 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @param newKingdom
      *            set the kingdom
      */
@@ -660,7 +622,6 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @param newPhylum
      *            set the phylum
      */
@@ -669,7 +630,6 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @param newClass
      *            set the class
      */
@@ -678,7 +638,7 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     * @return the class of the taxon
+     * @return the taxonomic class the taxon classified in
      */
     @Field
     @Column(name = "class")
@@ -687,7 +647,6 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @param newOrder
      *            set the order
      */
@@ -696,7 +655,6 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @param newNomenclaturalCode
      */
     public void setNomenclaturalCode(NomenclaturalCode newNomenclaturalCode) {
@@ -714,8 +672,8 @@ public class Taxon extends SearchableObject {
     /**
      * @return the family
      */
-    @Field(analyzer = @Analyzer(
-            definition =  "facetAnalyzer"))
+    @Fields({@Field,
+            @Field(analyzer = @Analyzer(definition = "facetAnalyzer"))})
     @Size(max = 128)
     public String getFamily() {
         return family;
@@ -755,7 +713,7 @@ public class Taxon extends SearchableObject {
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "annotatedObjId")
     @Where(clause = "annotatedObjType = 'Taxon'")
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+    @Cascade({CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE})
     @JsonIgnore
     public Set<Annotation> getAnnotations() {
         return annotations;
@@ -770,7 +728,6 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @param reference
      *            set the protologue
      */
@@ -783,7 +740,7 @@ public class Taxon extends SearchableObject {
      * @return the protologue
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @Cascade({ CascadeType.SAVE_UPDATE })
+    @Cascade({CascadeType.SAVE_UPDATE})
     @JsonSerialize(using = ReferenceSerializer.class)
     @IndexedEmbedded
     public Reference getProtologue() {
@@ -799,14 +756,14 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     * @param protologueMicroReference the protologueMicroReference to set
+     * @param protologueMicroReference
+     *            the protologueMicroReference to set
      */
     public void setProtologueMicroReference(String protologueMicroReference) {
         this.protologueMicroReference = protologueMicroReference;
     }
 
     /**
-     *
      * @param feature
      *            set the feature
      * @return content or null if this taxon has no content
@@ -818,7 +775,6 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-     *
      * @return the class name
      */
     @Transient
@@ -828,25 +784,24 @@ public class Taxon extends SearchableObject {
     }
 
     /**
-    *
-    * @return the ancestors of the taxon
-    */
+     * @return the ancestors of the taxon
+     */
     @Transient
     public List<Taxon> getAncestors() {
         return ancestors;
     }
 
     /**
-     *
-     * @param ancestors Set the ancestors of the taxon
+     * @param ancestors
+     *            Set the ancestors of the taxon
      */
     public void setAncestors(List<Taxon> ancestors) {
         this.ancestors = ancestors;
     }
 
     /**
-     *
-     * @param newIdentifier Set the name identifier
+     * @param newIdentifier
+     *            Set the name identifier
      */
     public void setNameIdentifier(String newIdentifier) {
         this.nameIdentifier = newIdentifier;

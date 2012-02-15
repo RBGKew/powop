@@ -11,6 +11,7 @@ import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.dao.AnnotationDao;
 import org.emonocot.persistence.dao.ImageDao;
 import org.emonocot.persistence.dao.ReferenceDao;
+import org.emonocot.persistence.dao.SearchableObjectDao;
 import org.emonocot.persistence.dao.SourceDao;
 import org.emonocot.persistence.dao.TaxonDao;
 import org.emonocot.test.DataManagementSupport;
@@ -32,12 +33,10 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 /**
- *
  * @author ben
- *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath*:META-INF/spring/applicationContext*.xml" })
+@ContextConfiguration({"classpath*:META-INF/spring/applicationContext*.xml"})
 public abstract class AbstractPersistenceTest extends DataManagementSupport {
 
     /**
@@ -58,17 +57,17 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
     @Autowired
     private TaxonDao taxonDao;
 
-   /**
+    /**
     *
     */
-   @Autowired
-   private ReferenceDao referenceDao;
+    @Autowired
+    private ReferenceDao referenceDao;
 
     /**
      *
      */
-   @Autowired
-   private ImageDao imageDao;
+    @Autowired
+    private ImageDao imageDao;
 
     /**
      *
@@ -79,37 +78,40 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
     /**
     *
     */
-   @Autowired
-   private SourceDao sourceDao;
-
-   /**
-    *
-    */
-   @Autowired
-   private JobInstanceDao jobInstanceDao;
-
-   /**
-    *
-    */
-   @Autowired
-   private JobExecutionDao jobExecutionDao;
+    @Autowired
+    private SourceDao sourceDao;
 
     /**
-     *
+    *
+    */
+    @Autowired
+    private JobInstanceDao jobInstanceDao;
+
+    /**
+    *
+    */
+    @Autowired
+    private JobExecutionDao jobExecutionDao;
+
+    /**
+     * 
+     */
+    @Autowired
+    SearchableObjectDao searchableObjectDao;
+
+    /**
      * @param task
      *            Set the method to run in a transaction
      * @return the object returned by the callable method
      * @throws Exception
      *             if there is a problem running the method
      */
-    protected final Object doInTransaction(
-            final Callable task) throws Exception {
-        DefaultTransactionDefinition transactionDefinition
-            = new DefaultTransactionDefinition();
+    protected final Object doInTransaction(final Callable task)
+            throws Exception {
+        DefaultTransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
         transactionDefinition.setName("test");
         transactionDefinition
-            .setPropagationBehavior(
-                    TransactionDefinition.PROPAGATION_REQUIRED);
+                .setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
         TransactionStatus status = transactionManager
                 .getTransaction(transactionDefinition);
         Object value = null;
@@ -123,23 +125,22 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
         return value;
     }
 
-   /**
-     *
+    /**
      * @return the current sesssion
      */
-   protected final Session getSession() {
-       return sessionFactory.getCurrentSession();
-   }
+    protected final Session getSession() {
+        return sessionFactory.getCurrentSession();
+    }
 
-   /**
-     *
-     * @throws Exception if there is a problem setting up the test data
+    /**
+     * @throws Exception
+     *             if there is a problem setting up the test data
      */
     public final void doSetUp() throws Exception {
         doInTransaction(new Callable() {
             public Object call() throws Exception {
                 FullTextSession fullTextSession = Search
-                .getFullTextSession(getSession());
+                        .getFullTextSession(getSession());
                 fullTextSession.purgeAll(Taxon.class);
                 fullTextSession.purgeAll(Image.class);
                 setUpTestData();
@@ -160,6 +161,8 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
                         jobInstanceDao.createJobInstance(
                                 ((JobInstance) obj).getJobName(),
                                 ((JobInstance) obj).getJobParameters());
+                    } else {
+                        System.out.println("WHAT the **** is a " + obj.toString());
                     }
                 }
                 getSession().flush();
@@ -169,8 +172,8 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
     }
 
     /**
-     *
-     * @throws Exception if there is a problem tearing down the test
+     * @throws Exception
+     *             if there is a problem tearing down the test
      */
     public final void doTearDown() throws Exception {
         setSetUp(new ArrayList<Object>());
@@ -183,7 +186,8 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
                     } else if (obj.getClass().equals(Image.class)) {
                         imageDao.delete(((Image) obj).getIdentifier());
                     } else if (obj.getClass().equals(Annotation.class)) {
-                        annotationDao.delete(((Annotation) obj).getIdentifier());
+                        annotationDao
+                                .delete(((Annotation) obj).getIdentifier());
                     } else if (obj.getClass().equals(Source.class)) {
                         sourceDao.delete(((Source) obj).getIdentifier());
                     } else if (obj.getClass().equals(Reference.class)) {
