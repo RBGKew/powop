@@ -28,7 +28,7 @@
 	</dependency>
 	<dependency>
 		<groupId>org.springframework</groupId>
-		<artifactId>org.springframework.orm</artifactId>
+		<artifactId>spring-orm</artifactId>
 	</dependency>
 	<dependency>
 		<groupId>javassist</groupId>
@@ -36,7 +36,7 @@
 	</dependency>
 	<dependency>
 		<groupId>org.springframework</groupId>
-		<artifactId>org.springframework.test</artifactId>
+		<artifactId>spring-test</artifactId>
 	</dependency>
 	<dependency>
         <groupId>junit</groupId>
@@ -69,11 +69,11 @@
     </dependency>
     <dependency>
 		<groupId>org.springframework.batch</groupId>
-		<artifactId>org.springframework.batch.core</artifactId>
+		<artifactId>spring-batch-core</artifactId>
 	</dependency>
     <dependency>
         <groupId>org.springframework.security</groupId>
-        <artifactId>org.springframework.security.acls</artifactId>
+        <artifactId>spring-security-acl</artifactId>
     </dependency>
 	<dependency>
         <groupId>org.opengeo</groupId>

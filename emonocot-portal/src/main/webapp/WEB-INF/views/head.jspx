@@ -10,8 +10,6 @@
 <meta http-equiv="Content-Language" content="en" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>eMonocot</title>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js">/**/</script> 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js">/**/</script>
 <script type="text/javascript" src="${baseUrl}/js/header.js">/* */</script>
 <link type="images/x-icon" href="${baseUrl}/images/favicon.ico" rel="shortcut icon" />
 <link rel="stylesheet" type="text/css" media="screen" href="${baseUrl}/css/style.css"/>

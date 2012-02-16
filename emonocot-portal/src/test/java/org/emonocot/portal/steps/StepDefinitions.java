@@ -22,7 +22,6 @@ import org.emonocot.portal.driver.ProfilePage;
 import org.emonocot.portal.driver.RegistrationPage;
 import org.emonocot.portal.driver.RequiresLoginException;
 import org.emonocot.portal.driver.SearchResultsPage;
-import org.emonocot.portal.driver.SourceAdminPage;
 import org.emonocot.portal.driver.SourceJobPage;
 import org.emonocot.portal.driver.SourceFormPage;
 import org.emonocot.portal.driver.SourcePage;
@@ -82,6 +81,7 @@ public class StepDefinitions {
     public final void iExpand(final String nodeName) {
         ((ClassificationPage) currentPage).expandNode(nodeName);
     }
+
     /**
      *
      * @param query
@@ -176,14 +176,14 @@ public class StepDefinitions {
         currentPage = ((GroupPage) currentPage).selectLink(linkText,
                 GroupUpdatePage.class);
     }
-    
+
     /**
     *
     * @param linkText Set the link text
     */
    @When("^I select \"(Edit this source)\"$")
    public final void iSelectEditThisSource(final String linkText) {
-       currentPage = ((SourceAdminPage) currentPage).selectLink(linkText,
+       currentPage = ((SourcePage) currentPage).selectLink(linkText,
                SourceFormPage.class);
    }
 
@@ -202,7 +202,7 @@ public class StepDefinitions {
     public final void iSubmitTheGroupForm() {
          currentPage = ((GroupFormPage) currentPage).submit();
     }
-    
+
     /**
     *
     */
@@ -248,14 +248,14 @@ public class StepDefinitions {
         currentPage = ((SearchResultsPage) currentPage).selectFacet(facetName,
                 facetValue);
     }
-    
+
     /**
      * @param facetValue
      *            Set the facet value to select
      */
     @When("^I restrict the type of object by selecting \"([^\"]+)\"$")
     public final void facetOnType(final String facetValue) {
-        iSelect("Restrict your search",facetValue);
+        iSelect("Restrict your search", facetValue);
     }
 
     /**
@@ -305,7 +305,7 @@ public class StepDefinitions {
      */
     @When("^I select the (\\d+)\\w+ job$")
     public final void iSelectTheJob(final int job) {
-        currentPage = ((SourceAdminPage) currentPage).selectJob(job);
+        currentPage = ((SourcePage) currentPage).selectJob(job);
     }
 
     /**
@@ -365,7 +365,7 @@ public class StepDefinitions {
      */
     @Then("^there should be (\\d+) jobs listed$")
     public final void thereShouldBeJobsListed(final int jobs) {
-        assertEquals(jobs, ((SourceAdminPage) currentPage).getJobsListed()
+        assertEquals(jobs, ((SourcePage) currentPage).getJobsListed()
                 .intValue());
     }
 
@@ -375,7 +375,7 @@ public class StepDefinitions {
      */
     @Then("^the source uri should be \"([^\"]*)\"$")
     public final void theSourceUriShouldBe(final String uri) {
-        assertEquals(uri, ((SourceAdminPage) currentPage).getSourceUri());
+        assertEquals(uri, ((SourcePage) currentPage).getSourceUri());
     }
 
    /**
@@ -384,7 +384,7 @@ public class StepDefinitions {
     */
    @Then("^the source logo should be \"([^\"]*)\"$")
    public final void theSourceLogoShouldBe(final String logo) {
-       assertEquals(logo, ((SourceAdminPage) currentPage).getSourceLogo());
+       assertEquals(logo, ((SourcePage) currentPage).getSourceLogo());
    }
 
     /**
@@ -508,14 +508,6 @@ public class StepDefinitions {
             final String citations) {
         assertEquals(((TaxonPage) currentPage).getCitations(topic),
                 citations);
-    }
-    /**
-     *
-     * @param link Set the link
-     */
-    @Then("^there should be a link to \"([^\"]*)\"$")
-    public final void thereShouldBeALinkTo(final String link) {
-        assertEquals(link, ((SourcePage) currentPage).getLink());
     }
 
     /**
@@ -645,8 +637,25 @@ public class StepDefinitions {
      */
     @When("^I navigate to source page \"([^\"]*)\"$")
     public final void navigateToSourcePage(final String identifier) {
-        currentPage = portal.getSourcePage(identifier);
+        try {
+            currentPage = portal.getSourcePage(identifier);
+        } catch (RequiresLoginException rle) {
+            currentPage = rle.getLoginPage();
+        }
     }
+
+    /**
+    * @param job Set the job identifier
+    * @param source Set the source identifier
+    */
+   @When("^I navigate to the job page \"([^\"]*)\" for source \"([^\"]*)\"$")
+   public final void navigateToSourceJobPage(final String job, final String source) {
+       try {
+           currentPage = portal.getSourceJobPage(source, job);
+       } catch (RequiresLoginException rle) {
+           currentPage = rle.getLoginPage();
+       }
+   }
 
     /**
      *
@@ -804,20 +813,6 @@ public class StepDefinitions {
        ((LoginPage) currentPage).setUsername(data.get(0).username);
        ((LoginPage) currentPage).setPassword(data.get(0).password);
    }
-
-    /**
-     *
-     * @param source Set the source admin page
-     */
-    @When("^I navigate to source admin page for \"([^\"]*)\"$")
-    public final void navigateToSourceAdminPageFor(final String source) {
-        try {
-            currentPage = portal.getSourceAdminPage(source);
-        } catch (RequiresLoginException rle) {
-            currentPage = rle.getLoginPage();
-        }
-    }
-
     /**
      *
      */

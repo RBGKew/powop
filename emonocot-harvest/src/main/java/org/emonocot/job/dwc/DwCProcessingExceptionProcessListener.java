@@ -151,7 +151,7 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
             annotation.setType(dwcpe.getType());
             try {
                 transactionTemplate
-                        .execute(new TransactionCallback<Serializable>() {
+                        .execute(new TransactionCallback() {
 
                             public Serializable doInTransaction(
                                     final TransactionStatus status) {
@@ -265,7 +265,7 @@ public class DwCProcessingExceptionProcessListener extends HibernateDaoSupport
             annotation.setText(message.toString());
             try {
                 transactionTemplate
-                        .execute(new TransactionCallback<Serializable>() {
+                        .execute(new TransactionCallback() {
 
                             public Serializable doInTransaction(
                                     final TransactionStatus status) {

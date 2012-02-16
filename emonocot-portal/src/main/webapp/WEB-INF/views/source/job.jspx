@@ -5,24 +5,31 @@
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 
 	<div class="content">
-		<div class="page-header">
-			<h2 id="page-title">${source.identifier}</h2>
-		</div>
+	  <div class="page-header">
+	    <c:choose>
+	      <c:when test="${not empty source.logoUrl}">
+	        <img id="source-logo" src="${source.logoUrl}" title="${source.title}"/>
+	      </c:when>
+	      <c:otherwise>
+	        <h2 id="page-title">${source.title}</h2>
+	      </c:otherwise>
+	    </c:choose>
+      </div>
 		<div class="row">
-		    <h5><spring:message code="job.number" arguments="${job.jobId}"/></h5>
+		  <div class="span12">
+			<h5>
+				<spring:message code="job.number" arguments="${job.jobId}" />
+			</h5>
 			<table class="zebra-striped">
 				<thead>
 					<tr>
-						<th><spring:message code="jobExecution.startTime" />
-						</th>
-						<th><spring:message code="jobExecution.duration" />
-						</th>
-						<th><spring:message code="jobExecution.status" />
-						</th>
+						<th><spring:message code="jobExecution.startTime" /></th>
+						<th><spring:message code="jobExecution.duration" /></th>
+						<th><spring:message code="jobExecution.status" /></th>
 						<th><spring:message code="jobExecution.exitStatus.exitCode" />
 						</th>
-						<th><spring:message code="jobExecution.exitStatus.exitDescription" />
-						</th>
+						<th><spring:message
+								code="jobExecution.exitStatus.exitDescription" /></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -35,13 +42,19 @@
 					</tr>
 				</tbody>
 			</table>
+			</div>
 		</div>
 		<div class="row">
-		    <h5><spring:message code="content.harvested"/></h5>
+		  <div class="span12">
+			<h5>
+				<spring:message code="content.harvested" />
+			</h5>
 			<table class="zebra-striped">
 				<thead>
-					<th><spring:message code="record.type" /></th>
-					<th><spring:message code="records.harvested" /></th>
+					<th><spring:message code="record.type" />
+					</th>
+					<th><spring:message code="records.harvested" />
+					</th>
 				</thead>
 				<tbody id="results">
 					<c:forEach var="result" items="${results}">
@@ -51,7 +64,7 @@
 										<jsp:element name="a">
 											<jsp:attribute name="href">
 												<c:url
-													value="/admin/source/${source.identifier}/jobs/${job.jobId}">
+													value="/source/${source.identifier}/job/${job.jobId}">
 													<c:param name="recordType">${result.label}</c:param>
 												</c:url>
 											</jsp:attribute>
@@ -61,13 +74,13 @@
 									<c:otherwise>
 										<spring:message code="${result.label}" />
 									</c:otherwise>
-								</c:choose>
-							</td>
+								</c:choose></td>
 							<td>${result.value}</td>
 						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
+	      </div>
 		</div>
 	</div>
 </jsp:root>

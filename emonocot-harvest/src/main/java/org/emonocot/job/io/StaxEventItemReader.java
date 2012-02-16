@@ -39,6 +39,7 @@ import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
+import org.springframework.util.xml.StaxUtils;
 
 /**
  * Item reader for reading XML input based on StAX.
@@ -299,13 +300,9 @@ public class StaxEventItemReader<T> extends
         if (moveCursorToNextFragment(fragmentReader)) {
             fragmentReader.markStartFragment();
 
-            // CHANGE - needed to work with Spring core 3.0.1
             @SuppressWarnings("unchecked")
-            // T mappedFragment = (T) unmarshaller.unmarshal(new
-            // StaxSource(fragmentReader));
             T mappedFragment = (T) unmarshaller.unmarshal(StaxUtils
                     .createStaxSource(fragmentReader));
-            // END CHANGE
 
             item = mappedFragment;
             fragmentReader.markFragmentProcessed();

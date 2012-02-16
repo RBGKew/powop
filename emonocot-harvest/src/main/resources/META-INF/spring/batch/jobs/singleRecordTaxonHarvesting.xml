@@ -170,6 +170,7 @@
 
 	<bean id="itemWriter" class="org.emonocot.job.checklist.OaiPmhRecordItemWriter">
 		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="clearSession" value="false"/>
 	</bean>
 	
 	<bean id="nullItemProcessor" class="org.emonocot.job.checklist.NullTaxonProcessor" scope="step">

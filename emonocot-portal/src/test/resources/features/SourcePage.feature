@@ -17,5 +17,5 @@ Scenario: Check SourcePage
   and a link to the source (website)
   When I navigate to source page "test"  
   Then the source title should be "test"
-  And there should be a link to "http://example.com/"
+  And the source uri should be "http://example.com"
  

@@ -37,23 +37,23 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.web</artifactId>
+			<artifactId>spring-web</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.web.servlet</artifactId>
+			<artifactId>spring-webmvc</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.orm</artifactId>
+			<artifactId>spring-orm</artifactId>
 		</dependency>
 	    <dependency>
 		    <groupId>org.springframework</groupId>
-		    <artifactId>org.springframework.oxm</artifactId>
+		    <artifactId>spring-oxm</artifactId>
 	    </dependency>
 	    <dependency>
 		    <groupId>org.springframework</groupId>
-		    <artifactId>org.springframework.context</artifactId>
+		    <artifactId>spring-context</artifactId>
 	    </dependency>
 	    <dependency>
 			<groupId>org.hibernate</groupId>
@@ -85,7 +85,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.test</artifactId>
+			<artifactId>spring-test</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

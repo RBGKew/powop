@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
+	<jsp:output omit-xml-declaration="yes"/>
+	<jsp:directive.attribute name="modelAttribute" type="java.lang.String" required="true" rtexprvalue="true" description="The name of the model attribute for form binding"/>
+	<jsp:directive.attribute name="path" type="java.lang.String" required="true" rtexprvalue="true" description="Specify the relative URL path (wit leading /)" />
+	<spring:url value="" var="form_url" />
+	<form:form commandName="${modelAttribute}" action="${form_url}">
+	  <jsp:doBody />
+	  <div class="clearfix">
+	    <div class="input">
+	        <spring:message var="submitMessage" code="submit"/>
+			<input class="btn primary" type="submit" value="${submitMessage}"/>
+	    </div>
+      </div>
+	</form:form>
+</jsp:root>

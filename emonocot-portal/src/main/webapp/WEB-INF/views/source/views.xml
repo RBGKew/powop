@@ -3,5 +3,17 @@
 <tiles-definitions>  
   <definition name="source/show" extends="default">    
     <put-attribute name="body" value="/WEB-INF/views/source/show.jspx" />
-  </definition>   
+  </definition>
+  <definition name="source/update" extends="default">    
+    <put-attribute name="body" value="/WEB-INF/views/source/update.jspx" />
+  </definition>
+  <definition name="source/job" extends="default">    
+    <put-attribute name="body" value="/WEB-INF/views/source/job.jspx" />
+  </definition>
+  <definition name="source/jobDetails" extends="default">    
+    <put-attribute name="body" value="/WEB-INF/views/source/jobDetails.jspx" />
+  </definition>
+  <definition name="source/jobAnnotations" extends="default">    
+    <put-attribute name="body" value="/WEB-INF/views/source/jobAnnotations.jspx" />
+  </definition>  
 </tiles-definitions>

@@ -49,7 +49,7 @@ public class TestAuthentication implements Authentication {
     /**
      * @return the authorities
      */
-    public final Collection<GrantedAuthority> getAuthorities() {
+    public final Collection<? extends GrantedAuthority> getAuthorities() {
         return userDetails.getAuthorities();
     }
 

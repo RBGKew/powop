@@ -6,17 +6,27 @@
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
   <div class="content">
 	<div class="page-header">
-	  <h2 id="page-title">${source.identifier}</h2>
+	  <c:choose>
+	    <c:when test="${not empty source.logoUrl}">
+	      <img id="source-logo" src="${source.logoUrl}" title="${source.title}"/>
+	    </c:when>
+	    <c:otherwise>
+	      <h2 id="page-title">${source.title}</h2>
+	    </c:otherwise>
+	  </c:choose>
+    </div>
+	<div class="row">
+	  <div class="span12">
+	    <div id="pages">
+		  <tags:results pager="${result}" />
+	    </div>
+	    <div class="pagination">
+		  <tags:pagination pager="${result}" url="messages" />
+	    </div>
+	  </div>
 	</div>
 	<div class="row">
-	  <div id="pages" class="span8">
-		<tags:results pager="${result}" />
-	  </div>
-	  <div class="pagination">
-		<tags:pagination pager="${result}" url="messages" />
-	  </div>
-	</div>
-	<div class="row">
+	  <div class="span12">
 	  <h5><spring:message code="job.number" arguments="${job.jobId}" /></h5>
 	  <table class="zebra-striped">
 		<thead>
@@ -38,8 +48,10 @@
 		  </tr>
 		</tbody>
 	  </table>
+	  </div>
 	</div>
 	<div class="row">
+	  <div class="span12">
 	  <h5><spring:message code="issues" /></h5>
 	  <table class="zebra-striped">
 		<thead>
@@ -77,6 +89,7 @@
 		  </c:forEach>
 		</tbody>
 	  </table>
+	  </div>
 	</div>
 </div>
 </jsp:root>

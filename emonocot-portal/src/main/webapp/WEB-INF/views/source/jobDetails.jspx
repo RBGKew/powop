@@ -5,9 +5,17 @@
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 <div class="content">
   <div class="page-header">
-	<h2 id="page-title">${source.identifier}</h2>
-  </div>
+	  <c:choose>
+	    <c:when test="${not empty source.logoUrl}">
+	      <img id="source-logo" src="${source.logoUrl}" title="${source.title}"/>
+	    </c:when>
+	    <c:otherwise>
+	      <h2 id="page-title">${source.title}</h2>
+	    </c:otherwise>
+	  </c:choose>
+    </div>
   <div class="row">
+    <div class="span12">
 	<h5>
 	  <spring:message code="job.number" arguments="${job.jobId}" />
 	</h5>
@@ -31,8 +39,10 @@
 		</tr>
 	  </tbody>
 	</table>
+	</div>
   </div>
   <div class="row">
+    <div class="span12">
 	<h5><spring:message code="records.harvested" arguments="${recordType}" /></h5>
 	<table class="zebra-striped">
 	  <thead>
@@ -46,7 +56,7 @@
 			<td>
 			  <c:choose>
 				<c:when test="${not empty result.value}">
-				  <spring:url value="/admin/source/${source.identifier}/jobs/${job.jobId}/messages" var="url">
+				  <spring:url value="/source/${source.identifier}/jobs/${job.jobId}/messages" var="url">
 				     <spring:param name="facet" value="RECORD_TYPE.${recordType}" />
 				     <spring:param name="facet" value="ISSUE_TYPE.${result.label}" />
 				  </spring:url>
@@ -61,6 +71,7 @@
 		</c:forEach>
       </tbody>
 	</table>
+	</div>
   </div>
 </div>
 </jsp:root>

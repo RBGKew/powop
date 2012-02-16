@@ -90,16 +90,6 @@ public class Portal extends PageObject {
 
     /**
      *
-     * @param source the name of the source
-     * @return the source admin page
-     */
-    public final SourceAdminPage getSourceAdminPage(final String source) {
-        return openAs(getBaseUri() + "admin/source/" + source,
-                SourceAdminPage.class);
-    }
-
-    /**
-     *
      * @param identifier Set the identifier of the image page
      * @return an image page
      */
@@ -147,5 +137,17 @@ public class Portal extends PageObject {
      */
     public final PageObject getGroupPage(final String groupName) {
         return openAs(getBaseUri() + "group/" + groupName, GroupPage.class);
+    }
+
+    /**
+     *
+     * @param source Set the source
+     * @param job Set the job
+     * @return a source job page
+     */
+    public final SourceJobPage getSourceJobPage(final String source,
+            final String job) {
+        return openAs(getBaseUri() + "source/" + source + "/job/" + job,
+                SourceJobPage.class);
     }
 }

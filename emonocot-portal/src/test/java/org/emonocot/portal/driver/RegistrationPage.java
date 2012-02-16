@@ -66,14 +66,12 @@ public class RegistrationPage extends PageObject {
         if (getWebDriver().getCurrentUrl().equals(
                 this.getBaseUri() + "/register")) {
             username = null;
-            return super.openAs(getWebDriver().getCurrentUrl(),
-                    RegistrationPage.class);
+            return super.getPage(RegistrationPage.class);
         } else {
             User user = new User();
             user.setUsername(username);
             testDataManager.registerObject(user);
-            return super.openAs(getWebDriver().getCurrentUrl(),
-                    LoginPage.class);
+            return super.getPage(LoginPage.class);
        }
    }
 

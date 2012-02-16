@@ -46,11 +46,11 @@
 		</dependency>		
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.test</artifactId>
+			<artifactId>spring-test</artifactId>
 		</dependency>		
 		<dependency>
 			<groupId>org.apache.xbean</groupId>
-			<artifactId>com.springsource.org.apache.xbean.spring</artifactId>
+			<artifactId>xbean-spring</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.geronimo.specs</groupId>
@@ -58,15 +58,15 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.web</artifactId>
+			<artifactId>spring-web</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.web.servlet</artifactId>
+			<artifactId>spring-webmvc</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.context</artifactId>
+			<artifactId>spring-context</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -154,15 +154,15 @@
           </dependency>
           <dependency>
             <groupId>org.springframework.security</groupId>
-            <artifactId>org.springframework.security.web</artifactId>
+            <artifactId>spring-security-web</artifactId>
           </dependency>
           <dependency>
             <groupId>org.springframework.security</groupId>
-            <artifactId>org.springframework.security.config</artifactId>
+            <artifactId>spring-security-config</artifactId>
           </dependency>
           <dependency>
             <groupId>org.springframework.security</groupId>
-            <artifactId>org.springframework.security.taglibs</artifactId>
+            <artifactId>spring-security-taglibs</artifactId>
           </dependency>
           <dependency>
               <groupId>net.sf.ehcache</groupId>
@@ -180,6 +180,10 @@
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-spring</artifactId>
 		  </dependency>
+		  <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time-jsptags</artifactId>
+          </dependency>
 	</dependencies>
 	<build>
 		<finalName>emonocot-portal</finalName>
@@ -206,6 +210,7 @@
                       <nonFilteredFileExtension>jsp</nonFilteredFileExtension>
                       <nonFilteredFileExtensions>jspx</nonFilteredFileExtensions>
                       <nonFilteredFileExtensions>tag</nonFilteredFileExtensions>
+                      <nonFilteredFileExtensions>tagx</nonFilteredFileExtensions>
                     </nonFilteredFileExtensions>
 					<webResources>
 						<resource>
@@ -291,12 +296,15 @@
                   <aggregation>
                     <output>${project.build.directory}/static/js/header.js</output>
                     <includes>
+                      <include>${basedir}/src/main/js/jquery.min.js</include>
+                      <include>${basedir}/src/main/js/jquery-ui.min.js</include>
                       <include>${basedir}/src/main/js/OpenLayers/OpenLayers.js</include>
                       <include>${basedir}/src/main/js/ad-gallery/jquery.ad-gallery.js</include>
                       <include>${basedir}/src/main/js/functions.js</include>
                       <include>${basedir}/src/main/js/bootstrap-twipsy.js</include>
                       <include>${basedir}/src/main/js/bootstrap-dropdown.js</include>
                       <include>${basedir}/src/main/js/bootstrap-scrollspy.js</include>
+                      <include>${basedir}/src/main/js/bootstrap-alert.js</include>
                       <include>${basedir}/src/main/js/jsTree/jquery.jstree.js</include>
                     </includes>
                   </aggregation>              

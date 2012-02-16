@@ -27,8 +27,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.version>3.1.0.RELEASE</spring.version>
         <hibernate.version>3.6.2.Final</hibernate.version>
-        <spring.security.version>3.0.4.RELEASE</spring.security.version>
-        <spring.batch.version>2.1.6.RELEASE</spring.batch.version>
+        <spring.security.version>3.1.0.RELEASE</spring.security.version>
+        <spring.batch.version>2.1.8.RELEASE</spring.batch.version>
         <spring.batch.admin.version>1.2.0.RELEASE</spring.batch.admin.version>
         <spring.integration.version>2.0.3.RELEASE</spring.integration.version>
     </properties>
@@ -107,367 +107,154 @@
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
-                <artifactId>org.springframework.web</artifactId>
+                <artifactId>spring-web</artifactId>
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
-                <artifactId>org.springframework.web.servlet</artifactId>
+                <artifactId>spring-webmvc</artifactId>
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
-                <artifactId>org.springframework.orm</artifactId>
+                <artifactId>spring-orm</artifactId>
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
-                <artifactId>org.springframework.aop</artifactId>
+                <artifactId>spring-aop</artifactId>
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
-                <artifactId>org.springframework.beans</artifactId>
+                <artifactId>spring-beans</artifactId>
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
-                <artifactId>org.springframework.context</artifactId>
+                <artifactId>spring-context</artifactId>
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
-                <artifactId>org.springframework.context.support</artifactId>
+                <artifactId>spring-context-support</artifactId>
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
-                <artifactId>org.springframework.core</artifactId>
+                <artifactId>spring-core</artifactId>
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
-                <artifactId>org.springframework.transaction</artifactId>
+                <artifactId>spring-transaction</artifactId>
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
-                <artifactId>org.springframework.oxm</artifactId>
+                <artifactId>spring-oxm</artifactId>
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
-                <artifactId>org.springframework.jdbc</artifactId>
+                <artifactId>spring-jdbc</artifactId>
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
-                <artifactId>org.springframework.jms</artifactId>
+                <artifactId>spring-jms</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-tx</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-expression</artifactId>
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>
-                <artifactId>org.springframework.security.core</artifactId>
-                <version>${spring.security.version}</version>
-                <exclusions>
-                	<exclusion>
-                		<groupId>org.apache.commons</groupId>
-                		<artifactId>com.springsource.org.apache.commons.logging</artifactId>
-                	</exclusion>
-                </exclusions>
+                <artifactId>spring-security-core</artifactId>
+                <version>${spring.security.version}</version>                
             </dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>
-                <artifactId>org.springframework.security.config</artifactId>
+                <artifactId>spring-security-config</artifactId>
                 <version>${spring.security.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>
-                <artifactId>org.springframework.security.web</artifactId>
+                <artifactId>spring-security-web</artifactId>
                 <version>${spring.security.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>
-                <artifactId>org.springframework.security.taglibs</artifactId>
+                <artifactId>spring-security-taglibs</artifactId>
                 <version>${spring.security.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>
-                <artifactId>org.springframework.security.acls</artifactId>
-                <version>${spring.security.version}</version>
-                <exclusions>
-			        <exclusion>
-			        	<groupId>org.apache.commons</groupId>
-			        	<artifactId>com.springsource.org.apache.commons.logging</artifactId>
-			        </exclusion>
-		        </exclusions>
+                <artifactId>spring-security-acl</artifactId>
+                <version>${spring.security.version}</version>                
             </dependency>
             <dependency>
                 <groupId>org.springframework.batch</groupId>
-                <artifactId>org.springframework.batch.core</artifactId>
-                <version>${spring.batch.version}</version>
-                <exclusions>
-	                <exclusion>
-	          			<groupId>org.apache.commons</groupId>
-			        	<artifactId>com.springsource.org.apache.commons.lang</artifactId>
-			        </exclusion>
-			        <exclusion>
-			        	<groupId>org.apache.commons</groupId>
-			        	<artifactId>com.springsource.org.apache.commons.logging</artifactId>
-			        </exclusion>
-		        </exclusions>
+                <artifactId>spring-batch-core</artifactId>
+                <version>${spring.batch.version}</version>                
             </dependency>
             <dependency>
                 <groupId>org.springframework.batch</groupId>
-                <artifactId>org.springframework.batch.test</artifactId>
+                <artifactId>spring-batch-test</artifactId>
                 <version>${spring.batch.version}</version>
-                <scope>test</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.junit</groupId>
-                        <artifactId>com.springsource.org.junit</artifactId>
-                    </exclusion>
-                </exclusions>
+                <scope>test</scope>                
             </dependency>
             <dependency>
                 <groupId>org.springframework.batch</groupId>
-                <artifactId>org.springframework.batch.infrastructure</artifactId>
+                <artifactId>spring-batch-infrastructure</artifactId>
                 <version>${spring.batch.version}</version>
-            </dependency>
+            </dependency>            
             <dependency>
                 <groupId>org.springframework.batch</groupId>
                 <artifactId>spring-batch-admin-manager</artifactId>
-                <version>${spring.batch.admin.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-test</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-context</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework.batch</groupId>
-                        <artifactId>spring-batch-test</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework.batch</groupId>
-                        <artifactId>spring-batch-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-jdbc</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-aop</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-web</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-webmvc</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework.batch</groupId>
-                        <artifactId>spring-batch-integration</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework.integration</groupId>
-                        <artifactId>spring-integration-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework.integration</groupId>
-                        <artifactId>spring-integration-jmx</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework.integration</groupId>
-                        <artifactId>spring-integration-http</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework.integration</groupId>
-                        <artifactId>spring-integration-file</artifactId>
-                    </exclusion>
-                </exclusions>
+                <version>${spring.batch.admin.version}</version>                
             </dependency>
             <dependency>
                 <groupId>org.springframework.batch</groupId>
                 <artifactId>spring-batch-admin-resources</artifactId>
-                <version>${spring.batch.admin.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-test</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-aop</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-context-support</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.batch</groupId>
-                <artifactId>spring-batch-integration</artifactId>
-                <version>${spring.batch.admin.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.springframework.batch</groupId>
-                        <artifactId>spring-batch-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework.batch</groupId>
-                        <artifactId>spring-batch-test</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework.integration</groupId>
-                        <artifactId>spring-integration-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework.integration</groupId>
-                        <artifactId>spring-integration-jdbc</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework.integration</groupId>
-                        <artifactId>spring-integration-jms</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-context</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-aop</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-jms</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-tx</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-test</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <!-- Required because org.springframework.batch.item.xml.StaxEventItemReader requires org.springframework.xml.transform.StaxSource 
-                when presumably over time they will upgrade to org.springframework.util.xml.StaxSource -->
-            <dependency>
-                <groupId>org.springframework.ws</groupId>
-                <artifactId>org.springframework.oxm.java5</artifactId>
-                <version>1.5.9.A</version>
+                <version>${spring.batch.admin.version}</version>                
             </dependency>
             <dependency>
                 <groupId>org.springframework.integration</groupId>
                 <artifactId>spring-integration-core</artifactId>
-                <version>${spring.integration.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-context</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-aop</artifactId>
-                    </exclusion>
-                </exclusions>
+                <version>${spring.integration.version}</version>                
             </dependency>
             <dependency>
                 <groupId>org.springframework.integration</groupId>
                 <artifactId>spring-integration-jms</artifactId>
-                <version>${spring.integration.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-jms</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-tx</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-context</artifactId>
-                    </exclusion>
-                </exclusions>
+                <version>${spring.integration.version}</version>               
             </dependency>
             <dependency>
                 <groupId>org.springframework.integration</groupId>
                 <artifactId>spring-integration-jdbc</artifactId>
-                <version>${spring.integration.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-aop</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-context</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-jdbc</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-tx</artifactId>
-                    </exclusion>
-                </exclusions>
+                <version>${spring.integration.version}</version>                
             </dependency>
             <dependency>
                 <groupId>org.springframework.integration</groupId>
                 <artifactId>spring-integration-jmx</artifactId>
-                <version>${spring.integration.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-context</artifactId>
-                    </exclusion>
-                </exclusions>
+                <version>${spring.integration.version}</version>                
             </dependency>
             <dependency>
                 <groupId>org.springframework.integration</groupId>
                 <artifactId>spring-integration-http</artifactId>
-                <version>${spring.integration.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-context-support</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-web</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-webmvc</artifactId>
-                    </exclusion>
-                </exclusions>
+                <version>${spring.integration.version}</version>                
             </dependency>
             <dependency>
                 <groupId>org.springframework.integration</groupId>
                 <artifactId>spring-integration-file</artifactId>
-                <version>${spring.integration.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-context</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.ws</groupId>
-                <artifactId>org.springframework.xml</artifactId>
-                <version>2.0.0.RELEASE</version>
+                <version>${spring.integration.version}</version>                
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
@@ -505,10 +292,15 @@
 		      <version>1.1</version>
 		      <scope>test</scope>
 	        </dependency>
-            <dependency>
+	        <dependency>
                 <groupId>org.joda</groupId>
                 <artifactId>com.springsource.org.joda.time</artifactId>
                 <version>1.6.0</version>
+            </dependency>
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time-jsptags</artifactId>
+	            <version>1.1.1</version>
             </dependency>
             <dependency>
                 <groupId>commons-lang</groupId>
@@ -653,7 +445,7 @@
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
-                <artifactId>org.springframework.test</artifactId>
+                <artifactId>spring-test</artifactId>
                 <version>${spring.version}</version>
                 <scope>test</scope>
             </dependency>
@@ -771,9 +563,9 @@
                 </exclusions>
             </dependency>
             <dependency>
-                <groupId>org.apache.xbean</groupId>
-                <artifactId>com.springsource.org.apache.xbean.spring</artifactId>
-                <version>3.6.0</version>
+                	<groupId>org.apache.xbean</groupId>
+	                <artifactId>xbean-spring</artifactId>
+	                <version>3.6</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.geronimo.specs</groupId>

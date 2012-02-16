@@ -48,10 +48,12 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.Resource;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.oxm.Marshaller;
+import org.springframework.oxm.XmlMappingException;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.util.xml.StaxUtils;
 
 /**
  * An implementation of {@link ItemWriter} which uses StAX and
@@ -650,11 +652,14 @@ public class StaxEventItemWriter<T> extends ExecutionContextUserSupport
         for (Object object : items) {
             Assert.state(marshaller.supports(object.getClass()),
                 "Marshaller must support the class of the marshalled object");
-            // CHANGE - needed to work with Spring core 3.0.1 (incompatibility
-            // between spring core 3.0.1 and spring ws oxm 1.5.9)
-            // marshaller.marshal(object, new StaxResult(eventWriter));
-            marshaller.marshal(object, StaxUtils.createStaxResult(eventWriter));
-            // END CHANGE
+            try {
+                marshaller.marshal(object,
+                        StaxUtils.createStaxResult(eventWriter));
+            } catch (XmlMappingException e) {
+                throw new IOException(e.getMessage());
+            } catch (XMLStreamException e) {
+                throw new IOException(e.getMessage());
+            }
         }
         try {
             eventWriter.flush();

@@ -46,15 +46,15 @@
 	    </dependency>
 		<dependency>
 			<groupId>org.springframework.batch</groupId>
-			<artifactId>org.springframework.batch.core</artifactId>
+			<artifactId>spring-batch-core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.batch</groupId>
-			<artifactId>org.springframework.batch.infrastructure</artifactId>
+			<artifactId>spring-batch-infrastructure</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.batch</groupId>
-			<artifactId>org.springframework.batch.test</artifactId>
+			<artifactId>spring-batch-test</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.batch</groupId>
@@ -63,10 +63,6 @@
 		<dependency>
 			<groupId>org.springframework.batch</groupId>
 			<artifactId>spring-batch-admin-resources</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.batch</groupId>
-			<artifactId>spring-batch-integration</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.integration</groupId>
@@ -94,23 +90,23 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.orm</artifactId>
+			<artifactId>spring-orm</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.jdbc</artifactId>
+			<artifactId>spring-jdbc</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
-			<artifactId>org.springframework.security.core</artifactId>
+			<artifactId>spring-security-core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
-			<artifactId>org.springframework.security.config</artifactId>
+			<artifactId>spring-security-config</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
-			<artifactId>org.springframework.security.web</artifactId>
+			<artifactId>spring-security-web</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -121,24 +117,16 @@
 			<artifactId>com.springsource.org.joda.time</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.ws</groupId>
-			<artifactId>org.springframework.oxm.java5</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.ws</groupId>
-			<artifactId>org.springframework.xml</artifactId>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.test</artifactId>
+			<artifactId>spring-web</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.web.servlet</artifactId>
+			<artifactId>spring-webmvc</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -230,7 +218,7 @@
         </dependency>
         <dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.jms</artifactId>
+			<artifactId>spring-jms</artifactId>
 		</dependency>
         <dependency>
 			<groupId>org.apache.activemq</groupId>

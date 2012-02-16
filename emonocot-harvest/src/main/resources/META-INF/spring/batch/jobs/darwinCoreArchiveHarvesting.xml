@@ -464,5 +464,6 @@
 	<bean id="itemWriter"
 		class="org.springframework.batch.item.database.HibernateItemWriter">
 		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="clearSession" value="false"/>
 	</bean>
 </beans>

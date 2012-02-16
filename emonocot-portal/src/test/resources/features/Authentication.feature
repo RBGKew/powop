@@ -39,7 +39,7 @@ Scenario: Deny access to unauthenticated user
   check that they cannot access a restricted page - when accessing
   a restricted page they should be redirected to the login page
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=36
-  And I navigate to source admin page for "PalmWeb"  
+  And I navigate to the job page "1" for source "PalmWeb"
   Then the login page should be displayed
   
 Scenario: Add privileges to a group

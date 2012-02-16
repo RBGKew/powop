@@ -47,12 +47,12 @@ Background:
   | 4          | BadRecord | Error | Taxon      | 1     | test   |                                                                                  | urn:kew.org:wcs:taxon:2306 |
 
 Scenario: Check SourcePage
-  The source admin page should contain a list of jobs run on that source.
+  The source page should contain a list of jobs run on that source.
   Selecting a job should show the numbers of records harvested by that job broken down by data type
   of data. Selecting a type of data should show the number of records broken down by category of message. 
   Selecting a category of message should display the list of messages.
   Given I am logged in as "test@example.com" with the password "Poa annua"
-  When I navigate to source admin page for "test"  
+  When I navigate to source page "test"  
   Then there should be 1 jobs listed
   When I select the 1st job
   Then the summary results should be as follows:
@@ -69,13 +69,13 @@ Scenario: Edit SourceAdminPage
   In order to allow privileged users access to restricted areas, as an
   administrator, I want to be able to edit a source page
   Given I am logged in as "test@example.com" with the password "Poa annua"
-  When I navigate to source admin page for "test" 
+  When I navigate to source page "test" 
   And I select "Edit this source"
   And I enter the following data into the source form:
   | uri                | logoUrl                      |
   | http://example.com | http://example.com/logo.png |
   And I submit the source form
   Then an info message should say "test title was updated"
-  When I navigate to source admin page for "test" 
-  Then the source uri should be "http://example.com/"
+  When I navigate to source page "test" 
+  Then the source uri should be "http://example.com"
   And the source logo should be "http://example.com/logo.png"
