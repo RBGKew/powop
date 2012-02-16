@@ -1,9 +1,9 @@
 package org.emonocot.job.checklist;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import org.emonocot.model.taxon.Taxon;
 import org.springframework.batch.item.database.HibernateItemWriter;
@@ -17,56 +17,48 @@ public class OaiPmhRecordItemWriter extends HibernateItemWriter<Taxon> {
     @Override
     protected final void doWrite(final HibernateOperations hibernateTemplate,
             final List<? extends Taxon> items) {
-        List<Taxon> itemsToDelete = new ArrayList<Taxon>();
-        List<Taxon> itemsToSave = new ArrayList<Taxon>();
+        Map<String, Taxon> itemsToDelete = new HashMap<String, Taxon>();
+        Map<String, Taxon> itemsToSave = new HashMap<String, Taxon>();
         for (Taxon t : items) {
             if (t.isDeleted()) {
-                itemsToDelete.add(t);
+                itemsToDelete.put(t.getIdentifier(), t);
                 logger.debug(t.getIdentifier() + " added to delete list");
             } else {
-                itemsToSave.add(t);
+                itemsToSave.put(t.getIdentifier(), t);
                 logger.debug(t.getIdentifier() + " added to save list");
             }
         }
 
         // Until org.hibernate.annotations.@OnDelete includes a SET NULL option
-        Set<Taxon> childTaxa = new HashSet<Taxon>();
-        Set<Taxon> synonyms = new HashSet<Taxon>();
-        for (Taxon t : itemsToDelete) {
-            childTaxa.addAll(t.getChildren());
-            synonyms.addAll(t.getSynonyms());
-        }
-
-        // don't update one's we're deleting
-        for (Taxon t : itemsToDelete) {
-            childTaxa.remove(t);
-            synonyms.remove(t);
-        }
-
-        for (Taxon c : childTaxa) {
-            if (itemsToDelete.contains(c.getParent())) {
-                c.setParent(null);
+        for (Taxon t : itemsToDelete.values()) {
+            for (Taxon child : t.getChildren()) {
+                // See if it's being updated in-chunk
+                Taxon savable = itemsToSave.get(child.getIdentifier());
+                if (savable == null)
+                    savable = child;
+                // If it still thinks t is the parent
+                if (savable.getParent().getIdentifier()
+                        .equals(t.getIdentifier())) {
+                    savable.setParent(null);
+                    itemsToSave.put(savable.getIdentifier(), savable);
+                }
             }
-            // add it to itemsToSave if it's not there already
-            if (itemsToSave.indexOf(c) < 0) {
-                itemsToSave.add(c);
-            }
-        }
-
-        for (Taxon s : synonyms) {
-            if (itemsToDelete.contains(s.getAccepted())) { // if sysnonym's accepted name is about to be deleted 
-                s.setAccepted(null);
-            }
-            // add it to itemsToSave if it's not there already
-            if (itemsToSave.indexOf(s) < 0) {
-                itemsToSave.add(s);
+            for (Taxon synonym : t.getSynonyms()) {
+                // See if it's being updated in-chunk
+                Taxon savable = itemsToSave.get(synonym.getIdentifier());
+                if (savable == null)
+                    savable = synonym;
+                // If it still thinks t is the parent
+                if (savable.getAccepted().getIdentifier()
+                        .equals(t.getIdentifier())) {
+                    savable.setAccepted(null);
+                    itemsToSave.put(savable.getIdentifier(), savable);
+                }
             }
         }
+        List<Taxon> toSave = new ArrayList<Taxon>(itemsToSave.values());
+        super.doWrite(hibernateTemplate, toSave);
 
-        super.doWrite(hibernateTemplate, itemsToSave);
-
-        for (Taxon t : itemsToDelete) {
-            hibernateTemplate.deleteAll(itemsToDelete);
-        }
+        hibernateTemplate.deleteAll(itemsToDelete.values());
     }
 }
