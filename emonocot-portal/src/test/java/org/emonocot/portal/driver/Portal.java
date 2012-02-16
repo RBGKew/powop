@@ -150,4 +150,13 @@ public class Portal extends PageObject {
         return openAs(getBaseUri() + "source/" + source + "/job/" + job,
                 SourceJobPage.class);
     }
+
+    /**
+     *
+     * @return the source admin page
+     */
+    public final PageObject getSourceAdminPage() {
+        return openAs(getBaseUri() + "admin/source",
+                SourceAdminPage.class);
+    }
 }

@@ -222,7 +222,7 @@ public abstract class PageObject {
      *
      * @return the info message
      */
-    public final String getInfoMessage() {        
+    public final String getInfoMessage() {
         WebElement webElement = webDriver.findElement(By
                 .cssSelector(".alert-message.info p"));
         return webElement.getText();

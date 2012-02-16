@@ -7,11 +7,26 @@
 	xmlns:joda="http://www.joda.org/joda/time/tags" version="2.0">
   <div class="content">
 	<div class="page-header">
-	    <h2 id="page-title"><spring:message code="sources"/></h2>	    
+	    <h2 id="page-title"><spring:message code="sources.title"/></h2>	    
+    </div>
+    <div class="row">
+      <div class="span12">
+        <c:url var="createUrl" value="/admin/source">
+          <c:param name="form" value="true"/>
+        </c:url>
+        <a href="${createUrl}"><spring:message code="create.source"/></a>
+      </div>
     </div>
 	<div class="row">
 	  <div class="span12">
-	    
+	    <ul class="unstyled">
+	    <c:forEach var="item" items="${result.records}">
+		  <li>
+		    <spring:url var="sourceUrl" value="/source/${source.identifier}"/>
+		    <a href="${sourceUrl}">${item.title}</a>
+		  </li>
+	    </c:forEach>
+	    </ul>  
 	  </div>
 	</div>
   </div>

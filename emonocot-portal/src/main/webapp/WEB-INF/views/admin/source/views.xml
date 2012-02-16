@@ -3,5 +3,8 @@
 <tiles-definitions>  
   <definition name="admin/source/list" extends="default">    
     <put-attribute name="body" value="/WEB-INF/views/admin/source/list.jspx" />
-  </definition>  
+  </definition>
+  <definition name="admin/source/create" extends="default">    
+    <put-attribute name="body" value="/WEB-INF/views/admin/source/create.jspx" />
+  </definition>   
 </tiles-definitions>

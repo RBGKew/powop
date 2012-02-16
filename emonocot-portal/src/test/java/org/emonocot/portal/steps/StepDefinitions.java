@@ -95,10 +95,18 @@ public class StepDefinitions {
     /**
      *
      */
-    @When("^I am on the classification page$")
-    public final void iAmOnTheClassificationPage() {
-        currentPage = portal.getClassificationPage();
+    @When("^I am on the source admin page$")
+    public final void iAmOnTheSourceAdminPage() {
+        currentPage = portal.getSourceAdminPage();
     }
+
+    /**
+    *
+    */
+   @When("^I am on the classification page$")
+   public final void iAmOnTheClassificationPage() {
+       currentPage = portal.getClassificationPage();
+   }
 
    /**
     *
@@ -142,8 +150,13 @@ public class StepDefinitions {
     @When("^I enter the following data into the source form:$")
     public final void iEnterTheFollowingDataIntoTheSourceForm(
             final List<SourceRow> sourceRows) {
+        if (sourceRows.get(0).identifier != null
+                && sourceRows.get(0).identifier.trim().length() > 0) {
+            ((SourceFormPage) currentPage).setSourceIdentifier(sourceRows.get(0).identifier);
+        }
         ((SourceFormPage) currentPage).setSourceUri(sourceRows.get(0).uri);
         ((SourceFormPage) currentPage).setLogoUrl(sourceRows.get(0).logoUrl);
+        ((SourceFormPage) currentPage).setSourceTitle(sourceRows.get(0).title);
     }
 
     /**
@@ -166,6 +179,15 @@ public class StepDefinitions {
             final List<UserRow> userRows) {
         ((GroupUpdatePage) currentPage).setMember(userRows.get(0).identifier);
     }
+
+    /**
+    *
+    * @param linkText Set the link text
+    */
+   @When("^I select \"(Create a new source)\"$")
+   public final void iSelectCreateANewSource(final String linkText) {
+       currentPage = currentPage.selectLink(linkText, SourceFormPage.class);
+   }
 
     /**
      *
@@ -203,12 +225,20 @@ public class StepDefinitions {
          currentPage = ((GroupFormPage) currentPage).submit();
     }
 
-    /**
+   /**
     *
     */
-   @When("^I submit the source form$")
-   public final void iSubmitTheSourceForm() {
-        currentPage = ((SourceFormPage) currentPage).submit();
+   @When("^I submit the update source form$")
+   public final void iSubmitTheUpdateSourceForm() {
+        currentPage = ((SourceFormPage) currentPage).submit(false);
+   }
+
+   /**
+   *
+   */
+   @When("^I submit the create source form$")
+   public final void iSubmitTheCreateSourceForm() {
+       currentPage = ((SourceFormPage) currentPage).submit(true);
    }
 
     /**

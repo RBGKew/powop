@@ -7,9 +7,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
 /**
- * 
+ *
  * @author ben
- * 
+ *
  */
 public class SourceFormPage extends PageObject {
 
@@ -21,10 +21,24 @@ public class SourceFormPage extends PageObject {
 
     /**
      *
+     */
+    private String sourceName;
+
+    /**
+     *
+     * @param create true if the form creates a new object
      * @return the current page
      */
-    public final PageObject submit() {
+    public final PageObject submit(final boolean create) {
         createSourceForm.submit();
+        if (create) {
+            if (sourceName != null) {
+                Source source = new Source();
+                source.setIdentifier(sourceName);
+                testDataManager.registerObject(source);
+                this.sourceName = null;
+            }
+        }
         return getPage(SourceFormPage.class);
     }
 
@@ -44,6 +58,26 @@ public class SourceFormPage extends PageObject {
     public final void setLogoUrl(final String logoUrl) {
         createSourceForm.findElement(By.name("logoUrl")).clear();
         createSourceForm.findElement(By.name("logoUrl")).sendKeys(logoUrl);
+    }
+
+    /**
+     *
+     * @param title Set the title
+     */
+    public final void setSourceTitle(final String title) {
+        createSourceForm.findElement(By.name("title")).clear();
+        createSourceForm.findElement(By.name("title")).sendKeys(title);
+    }
+
+    /**
+     *
+     * @param identifier Set the identifier
+     */
+    public final void setSourceIdentifier(final String identifier) {
+        sourceName = identifier;
+        createSourceForm.findElement(By.name("identifier")).clear();
+        createSourceForm.findElement(By.name("identifier"))
+                .sendKeys(identifier);
     }
 
 }

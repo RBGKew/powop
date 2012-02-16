@@ -65,16 +65,33 @@ Scenario: Check SourcePage
   | Info  | 2     |
   | Warn  | 1     |
   
-Scenario: Edit SourceAdminPage
+
+Scenario: Create Source
+  As an administrator, in order to improve eMonocot, I want to be able
+  to register new source systems so that they can be harvested and their
+  content made available in the emonocot portal
+  http://build.e-monocot.org/bugzilla/show_bug.cgi?id=44
+  When I am on the source admin page
+  And I select "Create a new source"
+  And I enter the following data into the source form:
+  | identifier      | title       | uri                | logoUrl                      |
+  | test2           | test2 title | http://example.com | http://example.com/logo.png  |
+  And I submit the create source form
+  Then an info message should say "test2 title created"
+  When I navigate to source page "test2" 
+  Then the source uri should be "http://example.com"
+  And the source logo should be "http://example.com/logo.png"
+  
+Scenario: Edit Source
   In order to allow privileged users access to restricted areas, as an
   administrator, I want to be able to edit a source page
   Given I am logged in as "test@example.com" with the password "Poa annua"
   When I navigate to source page "test" 
   And I select "Edit this source"
   And I enter the following data into the source form:
-  | uri                | logoUrl                      |
-  | http://example.com | http://example.com/logo.png |
-  And I submit the source form
+  | uri                | logoUrl                     | title      |
+  | http://example.com | http://example.com/logo.png | test title |
+  And I submit the update source form
   Then an info message should say "test title was updated"
   When I navigate to source page "test" 
   Then the source uri should be "http://example.com"
