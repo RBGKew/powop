@@ -7,8 +7,6 @@
 	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
 
-	<context:property-placeholder location="classpath*:META-INF/spring/*.properties" />
-
 	<context:component-scan base-package="org.emonocot">
 		<context:exclude-filter type="assignable"
 			expression="org.emonocot.api.JobInstanceService" />
