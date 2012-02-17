@@ -10,9 +10,8 @@
 	<jsp:useBean id="result" scope="request" 
 	type="org.emonocot.model.pager.Page&lt;org.emonocot.model.taxon.Taxon&gt;" />
 	
-
 	<div class="content">
-		<div class="page-header">
+		<div class="page-header header-margin">
 			<div class="row">
 				<h2 id="page-title" class="span6"><spring:message code="search.emonocot"/></h2>
 				
@@ -25,9 +24,9 @@
 					});
 				</script>
 				
-				<form id="search.form" class="pull-right" accept-charset="UTF-8" method="GET" action="search">
+				<form id="search.form" class="pull-right form-search" accept-charset="UTF-8" method="GET" action="search">
 					<jsp:element name="input">
-						<jsp:attribute name="class">xxlarge</jsp:attribute>
+						<jsp:attribute name="class">search-query</jsp:attribute>
 						<jsp:attribute name="placeholder">Search</jsp:attribute>
 						<jsp:attribute name="value">${result.params['query']}</jsp:attribute>
 						<jsp:attribute name="type">text</jsp:attribute>
@@ -62,41 +61,25 @@
 					<jsp:attribute name="class">pull-right</jsp:attribute>
 					<spring:message code="reset"/>
 				</jsp:element>
-			</div><br/>
+			</div>
+			<br/>
 		</div>
 		
 		<div class="row">
-			<div class="span5">
+			<div class="span3">
 				<ul id="facets" class="no-bullet">
 				  <c:forEach var="facetName" items="${result.facetNames}">
+				  <p>${facetNames.count}</p>
 					<menu:facet facetName="${facetName}" pager="${result}"/>
 				  </c:forEach>
 				</ul>
 			</div>
 			
-			<div class="span11">
-			
-				<div id="pages" class="span4 pull-right">
-						<tags:results pager="${result}"/>
-					</div>
-					
-					<jsp:scriptlet>
-						String classFacet = result.getSelectedFacets().get("CLASS");
-						if(classFacet == null) {
-							pageContext.setAttribute("viewOption",Boolean.FALSE);
-						} else if(classFacet.equals("org.emonocot.model.media.Image")) {
-							pageContext.setAttribute("viewOption",Boolean.TRUE);
-						} else {
-							pageContext.setAttribute("viewOption",Boolean.FALSE);
-						}
-					</jsp:scriptlet>
-		  		<br/>
-		  		
-		  		<div class="row">	
-		  		
-		  			<div class="span3 btn-group">
-						<a class="btn btn-primary" href="#"><spring:message code="sortBy" /></a>
-						<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret">&#160;</span></a>
+			<div class="span9">
+				<div class="row">
+					<div class="span2 btn-group">
+						<a class="btn" href="#"><spring:message code="sortBy" /></a>
+						<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret">&#160;</span></a>
 						<ul id="sorting" class="dropdown-menu">
 							<c:forEach var="sortItem" items="${em:sortItems()}">
 								<li>
@@ -136,13 +119,28 @@
 							</c:forEach>
 						</ul>
 					</div><!-- /btn-group -->
-					
+					<div id="pages" class="pull-right">
+						<tags:results pager="${result}"/>
+					</div>
+						
+					<jsp:scriptlet>
+						String classFacet = result.getSelectedFacets().get("CLASS");
+						if(classFacet == null) {
+							pageContext.setAttribute("viewOption",Boolean.FALSE);
+						} else if(classFacet.equals("org.emonocot.model.media.Image")) {
+							pageContext.setAttribute("viewOption",Boolean.TRUE);
+						} else {
+							pageContext.setAttribute("viewOption",Boolean.FALSE);
+						}
+					</jsp:scriptlet>
+				</div>
+				<br/>
+				<div class="row">
 					<div id="viewIcons" class="span3">
-					
 						<div class="btn-group">
 							<jsp:element name="a">
 								<jsp:attribute name="title">simpleList</jsp:attribute>
-								
+								<jsp:attribute name="class">btn</jsp:attribute>
 								<jsp:attribute name="href">
 									<c:url value="search">
 										<c:param name="query" value="${result.params['query']}" />
@@ -171,6 +169,7 @@
 							&#160;
 							<jsp:element name="a">
 								<jsp:attribute name="title">list</jsp:attribute>
+								<jsp:attribute name="class">btn</jsp:attribute>
 								<jsp:attribute name="href">
 									<c:url value="search">
 										<c:param name="query" value="${result.params['query']}" />
@@ -198,6 +197,7 @@
 							&#160;
 							<jsp:element name="a">
 								<jsp:attribute name="title">grid</jsp:attribute>
+								<jsp:attribute name="class">btn</jsp:attribute>
 								<jsp:attribute name="href">
 									<c:url value="search">
 										<c:param name="query" value="${result.params['query']}" />
@@ -224,20 +224,17 @@
 							</jsp:element>
 						</div>
 					</div>
-					
-					<div class="pagination span5 pull-right">
+					<div class="pagination pull-right">
 						<tags:pagination pager="${result}" url="search"/>
-		  			</div>
-		  		
-					
+					</div>
 				</div>
 				<br/>
 
-				<div id="results" class="span11">
+				<div id="results" class="span9 pull-right">
 					<c:choose>
 						<c:when test="${result.params['view'] == 'grid'}">
 						<br/>
-							<ul class="media-grid"> 
+							<ul class="thumbnails"> 
 								<c:forEach var="item" items="${result.records}">
 									<li>
 										<c:choose>
@@ -287,13 +284,13 @@
 							</ul>
 						</c:when>
 						<c:when test="${result.params['view'] == 'list'}">
-							<table>
+							<table class="table">
 								<tbody>
 									<c:forEach var="item" items="${result.records}">
 										<tr>
 											<c:choose>
 												<c:when test="${item.className == 'Taxon'}">
-													<td class="icon-column">
+													<td>
 														<jsp:element name="img">
 															<jsp:attribute name="src">
 																<c:url value="/images/taxonPageIconWhite.jpg"/>
@@ -321,7 +318,7 @@
 														<spring:message code="resultRank" /> ${item.rank}<br/>
 													</td>
 													<td>	
-														<a class="thumb pull-right">
+														<a class="thumbnail pull-right">
 															<c:choose>
 																<c:when test="${not empty item.image}">
 																	<c:url var="thumbnail" value="/images/thumbnails/${item.image.identifier}.jpg"/>

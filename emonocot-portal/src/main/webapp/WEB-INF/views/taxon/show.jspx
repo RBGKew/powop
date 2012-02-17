@@ -7,7 +7,7 @@
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 
 	<c:set var="bibliography" value="${em:bibliography(taxon)}"/>
- <div class="anchorbar" data-scrollspy="scrollspy">
+ <div class="subnav">
 			<div class="fill">
 				<div class="container">
 					<ul>
@@ -45,7 +45,7 @@
 		
 		
 	<div class="content taxon-content">	
-<div class="page-header">
+<div class="page-header header-margin">
 		
 		<div class="row">
 			<jsp:element name="img">

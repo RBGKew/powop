@@ -5,8 +5,8 @@
 	xmlns:form="http://www.springframework.org/tags/form"
 	xmlns:security="http://www.springframework.org/security/tags"
 	version="2.0">		
-	<div class="topbar">
-		<div class="fill">
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
 			<div class="container">
 			    <jsp:element name="a">
 			      <jsp:attribute name="class">brand</jsp:attribute>
@@ -16,7 +16,7 @@
 				  eMonocot			    
 			    </jsp:element>
 			    <div>
-			    	<ul>
+			    	<ul class="nav">
 			    		<li>
 			    			<jsp:element  name="a">
 				    			<jsp:attribute name="href"><c:url value="/"/></jsp:attribute>

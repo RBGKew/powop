@@ -271,6 +271,7 @@
               <version>1.0-beta-2</version>
               <configuration>
                 <outputDirectory>${project.build.directory}/compiled-less/</outputDirectory>
+                <lessJS>${basedir}/src/main/js/less-1.2.2.js</lessJS>
                 <includes>
                   <include>bootstrap.less</include>
                 </includes>
@@ -301,14 +302,24 @@
                       <include>${basedir}/src/main/js/OpenLayers/OpenLayers.js</include>
                       <include>${basedir}/src/main/js/ad-gallery/jquery.ad-gallery.js</include>
                       <include>${basedir}/src/main/js/functions.js</include>
-                      <include>${basedir}/src/main/js/bootstrap-twipsy.js</include>
+                      <include>${basedir}/src/main/js/jsTree/jquery.jstree.js</include>
+                      <include>${basedir}/src/main/js/bootstrap-alert.js</include>
+                      <include>${basedir}/src/main/js/bootstrap-button.js</include>
+                      <include>${basedir}/src/main/js/bootstrap-carousel.js</include>
+                      <include>${basedir}/src/main/js/bootstrap-collapse.js</include>
                       <include>${basedir}/src/main/js/bootstrap-dropdown.js</include>
+                      <include>${basedir}/src/main/js/bootstrap-modal.js</include>
+                      <include>${basedir}/src/main/js/bootstrap-popover.js</include>
                       <include>${basedir}/src/main/js/bootstrap-scrollspy.js</include>
                       <include>${basedir}/src/main/js/bootstrap-alert.js</include>
-                      <include>${basedir}/src/main/js/jsTree/jquery.jstree.js</include>
+                      <include>${basedir}/src/main/js/bootstrap-tab.js</include>
+                      <include>${basedir}/src/main/js/bootstrap-tooltip.js</include>
+                      <include>${basedir}/src/main/js/bootstrap-transition.js</include>
+                      <include>${basedir}/src/main/js/bootstrap-typeahead.js</include>
+                      <include>${basedir}/src/main/js/bootstrap-twipsy.js</include>
                     </includes>
-                  </aggregation>              
-                </aggregations>
+                  </aggregation>
+                  </aggregations>
               </configuration>
 			</plugin>
 			<plugin>
