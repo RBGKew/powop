@@ -7,12 +7,16 @@
 	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
 
+	<context:property-placeholder location="classpath*:META-INF/spring/*.properties" />
+
 	<context:component-scan base-package="org.emonocot">
-	  <context:exclude-filter type="assignable" expression="org.emonocot.api.JobInstanceService"/>
-	  <context:exclude-filter type="assignable" expression="org.emonocot.api.JobExecutionService"/>
-	  <context:exclude-filter type="assignable"
+		<context:exclude-filter type="assignable"
+			expression="org.emonocot.api.JobInstanceService" />
+		<context:exclude-filter type="assignable"
+			expression="org.emonocot.api.JobExecutionService" />
+		<context:exclude-filter type="assignable"
 			expression="org.emonocot.persistence.dao.JobExecutionDao" />
-	  <context:exclude-filter type="assignable"
+		<context:exclude-filter type="assignable"
 			expression="org.emonocot.persistence.dao.JobInstanceDao" />
 	</context:component-scan>
 
@@ -34,9 +38,9 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="validator"
-      class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
 	<bean name="jobRepository"
 		class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean" />
@@ -53,17 +57,26 @@
 		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
 		<property name="jobRepository" ref="jobRepository" />
 	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+
 	<bean name="dataSource"
 		class="org.emonocot.persistence.spatial.GeoDBTestDataSourceFactory">
 		<property name="testDatabaseName" value="testdb" />
 		<property name="schemaLocations">
 			<list>
-				<value>classpath:/org/springframework/batch/core/schema-drop-h2.sql</value>
-				<value>classpath:/org/springframework/batch/core/schema-h2.sql</value>
+				<value>classpath:/org/springframework/batch/core/schema-drop-h2.sql
+				</value>
+				<value>classpath:/org/springframework/batch/core/schema-h2.sql
+				</value>
 				<value>classpath:/META-INF/database/H2_schema.ddl</value>
 			</list>
 		</property>
-		<property name="testDataLocation" value="classpath:/META-INF/database/test_data.sql"/>
+		<property name="testDataLocation" value="classpath:META-INF/database/test_data.sql" />
 	</bean>
 
 	<bean id="sessionFactory"
@@ -75,7 +88,7 @@
 				hibernate.hbm2ddl.auto=validate
 				hibernate.search.default.directory_provider=filesystem
 				hibernate.search.default.indexBase=./target/indexes
-            </value>
+			</value>
 		</property>
 		<property name="annotatedClasses">
 			<list>
@@ -92,10 +105,4 @@
 		</property>
 		<property name="annotatedPackages" value="org.emonocot.model.common" />
 	</bean>
-
-	<bean id="transactionManager"
-		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-
 </beans>

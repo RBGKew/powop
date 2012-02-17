@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.emonocot.model.taxon.Taxon;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.database.HibernateItemWriter;
 import org.springframework.orm.hibernate3.HibernateOperations;
 
@@ -13,6 +15,12 @@ import org.springframework.orm.hibernate3.HibernateOperations;
  * @author ben
  */
 public class OaiPmhRecordItemWriter extends HibernateItemWriter<Taxon> {
+	
+   /**
+    *
+    */
+    private Logger logger
+        = LoggerFactory.getLogger(OaiPmhRecordItemWriter.class);
 
     @Override
     protected final void doWrite(final HibernateOperations hibernateTemplate,
@@ -29,32 +37,27 @@ public class OaiPmhRecordItemWriter extends HibernateItemWriter<Taxon> {
             }
         }
 
-        // Until org.hibernate.annotations.@OnDelete includes a SET NULL option
         for (Taxon t : itemsToDelete.values()) {
-            for (Taxon child : t.getChildren()) {
-                // See if it's being updated in-chunk
-                Taxon savable = itemsToSave.get(child.getIdentifier());
-                if (savable == null)
-                    savable = child;
-                // If it still thinks t is the parent
-                if (savable.getParent().getIdentifier()
-                        .equals(t.getIdentifier())) {
-                    savable.setParent(null);
-                    itemsToSave.put(savable.getIdentifier(), savable);
-                }
-            }
-            for (Taxon synonym : t.getSynonyms()) {
-                // See if it's being updated in-chunk
-                Taxon savable = itemsToSave.get(synonym.getIdentifier());
-                if (savable == null)
-                    savable = synonym;
-                // If it still thinks t is the parent
-                if (savable.getAccepted().getIdentifier()
-                        .equals(t.getIdentifier())) {
-                    savable.setAccepted(null);
-                    itemsToSave.put(savable.getIdentifier(), savable);
-                }
-            }
+        	if(t.getParent() != null) {
+        	    t.getParent().getChildren().remove(t);
+                t.setParent(null);
+        	}
+        	if(t.getAccepted() != null) {
+                t.getAccepted().getSynonyms().remove(t);
+                t.setAccepted(null);
+        	}
+        	if(!t.getChildren().isEmpty()) {
+        		for(Taxon child : t.getChildren()) {
+        			child.setParent(null);
+        		}
+        		t.getChildren().clear();
+        	}
+        	if(!t.getSynonyms().isEmpty()) {
+        		for(Taxon synonym : t.getSynonyms()) {
+        			synonym.setAccepted(null);
+        		}
+        		t.getSynonyms().clear();
+        	}
         }
         List<Taxon> toSave = new ArrayList<Taxon>(itemsToSave.values());
         super.doWrite(hibernateTemplate, toSave);

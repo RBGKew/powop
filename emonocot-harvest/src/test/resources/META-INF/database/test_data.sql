@@ -1,4 +1,4 @@
-insert into Source (id, identifier, uri) values (1, 'test', 'http://example.com');
+insert into Source (id, identifier, uri) values (10, 'test', 'http://example.com');
 insert into Taxon (id, identifier, name, family) values (1, 'urn:lsid:cate-araceae.org:taxon:5cd5a6aa-6bfb-1014-a918-dc439151c9e5', 'Acontias conspurcatus','test');
 insert into Taxon (id, identifier, name, family) values (2, 'urn:lsid:cate-araceae.org:taxon:5cd5c756-6bfb-1014-a918-dc439151c9e5', 'Acontias cubensis','test');
 insert into Taxon (id, identifier, name, family) values (3, 'urn:lsid:cate-araceae.org:taxon:5cd5e85c-6bfb-1014-a918-dc439151c9e5', 'Acontias diversifolius','test');
@@ -20,3 +20,18 @@ insert into Taxon (id, identifier, name, family) values (18, 'urn:lsid:grassbase
 insert into Taxon (id, identifier, name, family) values (19, 'urn:kew.org:wcs:taxon:303017', 'Conanthera johowi','Tecophilaeaceae');
 insert into Taxon (id, accepted_id, identifier, name, family) values (20, 18, 'urn:lsid:grassbase.kew.org:taxa:387038', '× Elyhordeum macounii','test');
 insert into Taxon (id, accepted_id, identifier, name, family) values (21, 18, 'urn:lsid:grassbase.kew.org:taxa:387040', '× Elyhordeum pavlovii','test');
+insert into Taxon (id, identifier, name) values (22, 'urn:kew.org:wcs:family:32', 'Orchidaceae');
+insert into Taxon (id, identifier, name, family,parent_id) values (23, 'urn:kew.org:wcs:taxon:70052', '× Epilaeliopsis auct.','Orchidaceae',22);
+insert into Taxon (id, identifier, name, family, parent_id) values (24, 'urn:kew.org:wcs:taxon:70053', NULL,'Orchidaceae',23);
+insert into Taxon (id, identifier, name, family, parent_id) values (25, 'urn:kew.org:wcs:taxon:67664', 'Epidendrum','Orchidaceae',22);
+insert into Taxon (id, identifier, name, family, parent_id) values (26, 'urn:kew.org:wcs:taxon:68574', 'Epidendrum hemiscleria','Orchidaceae',25);
+insert into Taxon (id, identifier, name, family,parent_id) values (27, 'urn:kew.org:wcs:taxon:71680', NULL, NULL, NULL);
+insert into Taxon (id, identifier, name, family,parent_id) values (28, 'urn:kew.org:wcs:taxon:467051', 'Eriochilus dilatatus subsp. dilatatus','Orchidaceae',27);
+insert into Taxon (id, identifier, name, family,parent_id) values (29, 'urn:kew.org:wcs:taxon:345361', 'Eriochilus dilatatus subsp. dilatatus','Orchidaceae',27);
+insert into Taxon (id, identifier, name, family,parent_id) values (30, 'urn:kew.org:wcs:taxon:71685', NULL, NULL, NULL);
+insert into Taxon (id, identifier, name, family,parent_id) values (31, 'urn:kew.org:wcs:taxon:345362', 'Eriochilus scaber subsp. scaber','Orchidaceae',30);
+insert into Taxon (id, identifier, name, family,parent_id) values (32, 'urn:kew.org:wcs:taxon:346829', NULL, NULL, NULL);
+insert into Taxon (id, identifier, name, family,parent_id) values (33, 'urn:kew.org:wcs:taxon:345506', 'Erasanthe henrici var. henrici','Orchidaceae',32);
+insert into Taxon (id, identifier, name, family,parent_id) values (34, 'urn:kew.org:wcs:taxon:67580', NULL, NULL, 22);
+insert into Taxon (id, identifier, name, family,parent_id) values (35, 'urn:kew.org:wcs:taxon:67588', 'Epiblastus cuneatus', 'Orchidaceae', 34);
+insert into Taxon (id, identifier, name, family,parent_id) values (36, 'urn:kew.org:wcs:taxon:67589', 'Epiblastus cuneatus var. cuneatus', 'Orchidaceae', 35);

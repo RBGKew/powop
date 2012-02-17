@@ -25,7 +25,7 @@ public abstract class PageObject {
    /**
     *
     */
-   @FindBy(how = How.CLASS_NAME, using = "nav")
+   @FindBy(how = How.CLASS_NAME, using = "navbar")
    private WebElement nav;
 
     /**
