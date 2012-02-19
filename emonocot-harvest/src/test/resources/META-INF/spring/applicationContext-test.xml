@@ -61,46 +61,106 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
+	<beans profile="default">
+		<bean name="dataSource"
+			class="org.emonocot.persistence.spatial.GeoDBTestDataSourceFactory">
+			<property name="testDatabaseName" value="testdb" />
+			<property name="schemaLocations">
+				<list>
+					<value>classpath:/org/springframework/batch/core/schema-drop-h2.sql
+					</value>
+					<value>classpath:/org/springframework/batch/core/schema-h2.sql
+					</value>
+					<value>classpath:/META-INF/database/H2_schema.ddl</value>
+				</list>
+			</property>
+			<property name="testDataLocation" value="classpath:META-INF/database/test_data.sql" />
+		</bean>
 
-	<bean name="dataSource"
-		class="org.emonocot.persistence.spatial.GeoDBTestDataSourceFactory">
-		<property name="testDatabaseName" value="testdb" />
-		<property name="schemaLocations">
-			<list>
-				<value>classpath:/org/springframework/batch/core/schema-drop-h2.sql
+		<bean id="sessionFactory"
+			class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+			<property name="dataSource" ref="dataSource" />
+			<property name="hibernateProperties">
+				<value>
+					hibernate.dialect=org.hibernatespatial.geodb.GeoDBDialect
+					hibernate.hbm2ddl.auto=validate
+					hibernate.search.default.directory_provider=filesystem
+					hibernate.search.default.indexBase=./target/indexes
 				</value>
-				<value>classpath:/org/springframework/batch/core/schema-h2.sql
+			</property>
+			<property name="annotatedClasses">
+				<list>
+					<value>org.emonocot.model.source.Source</value>
+					<value>org.emonocot.model.common.Annotation</value>
+					<value>org.emonocot.model.description.Distribution</value>
+					<value>org.emonocot.model.description.TextContent</value>
+					<value>org.emonocot.model.media.Image</value>
+					<value>org.emonocot.model.reference.Reference</value>
+					<value>org.emonocot.model.taxon.Taxon</value>
+					<value>org.emonocot.model.user.User</value>
+					<value>org.emonocot.model.user.Group</value>
+				</list>
+			</property>
+			<property name="annotatedPackages" value="org.emonocot.model.common" />
+		</bean>
+	</beans>
+	<beans profile="mysql">
+		<context:property-placeholder
+			ignore-unresolvable="true" location="classpath*:META-INF/spring/*.properties" />
+		<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+			destroy-method="close">
+			<property name="driverClassName" value="${jdbc.driver.classname}" />
+			<property name="url" value="${jdbc.driver.url}" />
+			<property name="username" value="${jdbc.driver.username}" />
+			<property name="password" value="${jdbc.driver.password}" />
+			<property name="initialSize" value="8" />
+			<property name="maxActive" value="20" />
+			<property name="maxIdle" value="10" />
+			<property name="minIdle" value="1" />
+			<property name="maxWait" value="10000" />
+			<property name="removeAbandoned" value="true" />
+			<property name="removeAbandonedTimeout" value="300" />
+			<property name="logAbandoned" value="true" />
+			<property name="defaultAutoCommit" value="true" />
+			<property name="defaultReadOnly" value="false" />
+			<property name="validationQuery" value="SELECT 1" />
+			<property name="timeBetweenEvictionRunsMillis" value="60000" />
+			<property name="minEvictableIdleTimeMillis" value="30000" />
+			<property name="numTestsPerEvictionRun" value="3" />
+			<property name="testWhileIdle" value="true" />
+			<property name="testOnReturn" value="true" />
+			<property name="testOnBorrow" value="true" />
+			<property name="defaultTransactionIsolation" value="2" />
+		</bean>
+		<bean id="sessionFactory"
+			class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+			<property name="dataSource" ref="dataSource" />
+			<property name="hibernateProperties">
+				<value>
+					hibernate.dialect=org.hibernatespatial.mysql.MySQLSpatialDialect
+					hibernate.hbm2ddl.auto=validate
+					hibernate.search.default.directory_provider=filesystem
+					hibernate.search.default.indexBase=./target/indexes
 				</value>
-				<value>classpath:/META-INF/database/H2_schema.ddl</value>
-			</list>
-		</property>
-		<property name="testDataLocation" value="classpath:META-INF/database/test_data.sql" />
-	</bean>
-
-	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<property name="hibernateProperties">
-			<value>
-				hibernate.dialect=org.hibernatespatial.geodb.GeoDBDialect
-				hibernate.hbm2ddl.auto=validate
-				hibernate.search.default.directory_provider=filesystem
-				hibernate.search.default.indexBase=./target/indexes
-			</value>
-		</property>
-		<property name="annotatedClasses">
-			<list>
-				<value>org.emonocot.model.source.Source</value>
-				<value>org.emonocot.model.common.Annotation</value>
-				<value>org.emonocot.model.description.Distribution</value>
-				<value>org.emonocot.model.description.TextContent</value>
-				<value>org.emonocot.model.media.Image</value>
-				<value>org.emonocot.model.reference.Reference</value>
-				<value>org.emonocot.model.taxon.Taxon</value>
-				<value>org.emonocot.model.user.User</value>
-				<value>org.emonocot.model.user.Group</value>
-			</list>
-		</property>
-		<property name="annotatedPackages" value="org.emonocot.model.common" />
-	</bean>
+			</property>
+			<property name="annotatedClasses">
+				<list>
+					<value>org.emonocot.model.source.Source</value>
+					<value>org.emonocot.model.common.Annotation</value>
+					<value>org.emonocot.model.description.Distribution</value>
+					<value>org.emonocot.model.description.TextContent</value>
+					<value>org.emonocot.model.media.Image</value>
+					<value>org.emonocot.model.reference.Reference</value>
+					<value>org.emonocot.model.taxon.Taxon</value>
+					<value>org.emonocot.model.user.User</value>
+					<value>org.emonocot.model.user.Group</value>
+				</list>
+			</property>
+			<property name="annotatedPackages" value="org.emonocot.model.common" />
+		</bean>
+		<jdbc:initialize-database data-source="dataSource"
+			enabled="${jdbc.initialize.database}">
+			<jdbc:script location="classpath:META-INF/database/test_data.sql" />
+		</jdbc:initialize-database>
+	</beans>
 </beans>

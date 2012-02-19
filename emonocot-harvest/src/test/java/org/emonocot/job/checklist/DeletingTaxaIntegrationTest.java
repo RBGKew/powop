@@ -116,8 +116,8 @@ public class DeletingTaxaIntegrationTest {
             JobInstanceAlreadyCompleteException, JobParametersInvalidException {
     	assertNotNull("urn:kew.org:wcs:taxon:70053 should exist",taxonService.find("urn:kew.org:wcs:taxon:70053"));
         assertNotNull("urn:kew.org:wcs:taxon:70052 should exist",taxonService.find("urn:kew.org:wcs:taxon:70052"));
-        assertNotNull("urn:kew.org:wcs:taxon:467051 should exist",taxonService.find("urn:kew.org:wcs:taxon:467051"));
-        assertEquals("urn:kew.org:wcs:taxon:71680 should have two child taxa",2,taxonService.find("urn:kew.org:wcs:taxon:71680").getChildren().size());
+        assertNull("urn:kew.org:wcs:taxon:467051 should not exist",taxonService.find("urn:kew.org:wcs:taxon:467051"));
+        assertEquals("urn:kew.org:wcs:taxon:71680 should have one child taxon",1,taxonService.find("urn:kew.org:wcs:taxon:71680").getChildren().size());
 
         Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
         parameters.put("authority.name", new JobParameter("test"));
