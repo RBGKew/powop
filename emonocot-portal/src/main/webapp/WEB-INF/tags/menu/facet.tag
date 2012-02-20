@@ -46,8 +46,7 @@
 				</c:when>
 				<c:otherwise>
 				    <c:set var="values" value="${pager.facets[facetName]}"/>
-				    ${fn:length(values)}
-					<c:forEach var="facet" begin="0" end="9" step="1" items="${values}">
+				    <c:forEach var="facet" begin="0" end="9" step="1" items="${values}">
 						<li>
 							<c:choose>
 								<c:when test="${facet.count == 0}">
@@ -118,20 +117,13 @@
 						</div>
 						
 						<a data-toggle="collapse" data-target="#demo">
-							<spring:message code="image.creator"/>
+							<spring:message code="more"/>
 						</a>
-							
-							
-							
-					
-					
 					</c:if>
 				</c:otherwise>
 			</c:choose>
 		</ul>
 	</li>
-		<script>
-			$(".collapse").collapse()
-		</script>
+		
 				
 </jsp:root>

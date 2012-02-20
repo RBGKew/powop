@@ -9,15 +9,15 @@
     </style>
     <br/>
     <div class="row">
-        <div class="span-one-third">
+        <div class="span4">
           	<h2><spring:message code="identify.title"/></h2>
           	<p><spring:message code="identify.message"/></p>
         </div>
-        <div class="span-one-third">
+        <div class="span4">
           	<h2><spring:message code="classify.title"/></h2>
            	<p><spring:message code="classify.message"/></p>
        	</div>
-        <div class="span-one-third">
+        <div class="span4">
           	<h2><spring:message code="explore.title"/></h2>
           	<p><spring:message code="explore.message"/></p>
         </div>

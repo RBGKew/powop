@@ -308,14 +308,14 @@
 														</a><br/>
 														<c:choose>
 															<c:when test="${item.accepted != null}">
-																<spring:message code="resultIsSynonym" />${item.status}
+																<em><spring:message code="resultStatus" /></em> ${item.status}
 															</c:when>
 															<c:otherwise>
-																<spring:message code="resultIsAccepted" />${item.status}
+																<em><spring:message code="resultStatus" /></em> ${item.status}
 															</c:otherwise>
 														</c:choose>
 														<br/>
-														<spring:message code="resultRank" /> ${item.rank}<br/>
+														<em><spring:message code="resultRank" /></em> ${item.rank}<br/>
 													</td>
 													<td>	
 														<a class="thumbnail pull-right">
@@ -337,7 +337,7 @@
 													</td>
 												</c:when>
 												<c:when test="${item.className == 'Image'}">
-													<td class="icon-column">
+													<td>
 														<jsp:element name="img">
 															<jsp:attribute name="src">
 																<c:url value="/images/imagePageIconWhite.jpg"/>
@@ -348,12 +348,17 @@
 													</td>
 													<td>
 														<a class="result" href="image/${item.identifier}" title="${item.caption}"><h4 class="h4Results">${item.caption}</h4></a>
+														<br/>
 														<c:if test="${item.creator != null}">
-															<b><spring:message code="image.creator"/></b> ${item.creator}
+															<em><spring:message code="image.creator"/></em> ${item.creator}
+														</c:if>
+														<br/>
+														<c:if test="${item.locality != null}">
+															<em><spring:message code="image.locality"/></em> ${item.creator}
 														</c:if>
 													</td>
 													<td>
-														<a class="thumb pull-right">
+														<a class="thumbnail pull-right">
 															<c:url var="thumbnail" value="/images/thumbnails/${item.identifier}.jpg"/>
 															<img src="${thumbnail}" title="${item.caption}"/>
 														</a>

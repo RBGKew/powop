@@ -19,9 +19,9 @@
 		</script>
      	<form action="search" method="GET">
           <div class="clearfix">
-     		<div class="input">					
-			  <input id="query" name="query" class="xxlarge input-small" type="text" value="" placeholder="Search for..."/>
-			  <button type="submit" class="btn primary">
+     		<div class="input form-inline">					
+			  <input id="query" name="query" class="span4" type="text" value="" placeholder="Search for..."/>
+			  <button type="submit" class="btn btn-primary">
 					<span>SEARCH</span>
 			  </button>					
 			</div>
