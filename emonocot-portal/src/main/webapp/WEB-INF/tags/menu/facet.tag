@@ -8,10 +8,21 @@
 		type="java.lang.String" required="true" />
 	<jsp:directive.attribute name="pager" type="org.emonocot.model.pager.Page"
 		required="true" />
-		
+	<jsp:directive.attribute name="title" type="java.lang.String" required="false" />
+	
+	<jsp:directive.attribute name="showIcons" type="java.lang.Boolean" required="false" />
+	
+	
 	<li id="${facetName}">
 		<h3>
-			<spring:message code="${facetName}" />
+			<c:choose>
+				<c:when test="${not empty title}">
+					<spring:message code="${title}" />
+				</c:when>
+				<c:otherwise>
+					<spring:message code="${facetName}" />
+				</c:otherwise>
+			</c:choose>
 		</h3>
 		
 		<ul class="facet">
@@ -35,24 +46,32 @@
 									</c:forEach>
 								</c:url>
 							</jsp:attribute>
-							<spring:message code="${facetName}.clearFacet" />
+							<div class="no-small-icon"><spring:message code="${facetName}.clearFacet" /></div>
 						</jsp:element>
 					</li>
 						
 					<li>
 						<c:set var="selectedFacetName" value="${pager.selectedFacets[facetName]}"/>
+						<c:if test="${showIcons}">
+							<spring:url var="imageUrl" value="/images/${selectedFacetName}.jpg"/>
+							<img src="${imageUrl}"/>
+						</c:if>
 						<spring:message code="${selectedFacetName}" />
 					</li>
 				</c:when>
 				<c:otherwise>
-				    <c:set var="values" value="${pager.facets[facetName]}"/>
-				    <c:forEach var="facet" begin="0" end="9" step="1" items="${values}">
+					<c:set var="values" value="${pager.facets[facetName]}"/>
+					<c:forEach var="facet" begin="0" end="9" step="1" items="${values}">
 						<li>
 							<c:choose>
 								<c:when test="${facet.count == 0}">
 									<spring:message code="${facet.value}" />
 								</c:when>
 								<c:otherwise>
+									<c:if test="${showIcons}">
+										<spring:url var="imageUrl" value="/images/${facet.value}.jpg"/>
+										<img src="${imageUrl}"/>
+									</c:if>
 									<jsp:element name="a">
 										<jsp:attribute name="href">
 											<c:url value="search">
@@ -119,11 +138,15 @@
 						<a data-toggle="collapse" data-target="#demo">
 							<spring:message code="more"/>
 						</a>
+						
 					</c:if>
 				</c:otherwise>
 			</c:choose>
 		</ul>
 	</li>
+	<script>
+		$(".collapse").collapse()
+	</script>
 		
 				
 </jsp:root>

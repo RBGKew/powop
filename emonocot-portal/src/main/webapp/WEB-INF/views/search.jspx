@@ -69,8 +69,14 @@
 			<div class="span3">
 				<ul id="facets" class="no-bullet">
 				  <c:forEach var="facetName" items="${result.facetNames}">
-				  <p>${facetNames.count}</p>
-					<menu:facet facetName="${facetName}" pager="${result}"/>
+				    <c:choose>
+				      <c:when test="${facetName eq 'CLASS'}">
+				        <menu:facet facetName="${facetName}" pager="${result}" title="restrict.your.search" showIcons="true"/>
+				      </c:when>
+				      <c:otherwise>
+				        <menu:facet facetName="${facetName}" pager="${result}"/>
+				      </c:otherwise>
+				    </c:choose>
 				  </c:forEach>
 				</ul>
 			</div>
@@ -139,7 +145,35 @@
 					<div id="viewIcons" class="span3">
 						<div class="btn-group">
 							<jsp:element name="a">
-								<jsp:attribute name="title">simpleList</jsp:attribute>
+								<jsp:attribute name="title"><spring:message code="list" /></jsp:attribute>
+								<jsp:attribute name="class">btn</jsp:attribute>
+								<jsp:attribute name="href">
+									<c:url value="search">
+										<c:param name="query" value="${result.params['query']}" />
+										<c:param name="limit" value="${result.pageSize}" />
+										<c:param name="start" value="0" />
+										<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+											<c:param name="facet">
+												<jsp:scriptlet>
+													String selectedFacet = (String) pageContext.getAttribute("selectedFacet");
+													out.println(selectedFacet + "." + result.getSelectedFacets().get(selectedFacet));
+												</jsp:scriptlet>
+											</c:param>
+										</c:forEach>
+										<c:param name="sort">${sortItem}</c:param>
+										<c:param name="view">list</c:param>
+									</c:url>
+								</jsp:attribute>
+								<jsp:element name="img">
+									<jsp:attribute name="src">
+										<c:url value="/images/list_icon.jpg"/>
+									</jsp:attribute>
+									<jsp:attribute name="alt"><spring:message code="list" /></jsp:attribute>
+								</jsp:element>
+							</jsp:element>
+							&#160;
+							<jsp:element name="a">
+								<jsp:attribute name="title"><spring:message code="simpleList" /></jsp:attribute>
 								<jsp:attribute name="class">btn</jsp:attribute>
 								<jsp:attribute name="href">
 									<c:url value="search">
@@ -163,40 +197,12 @@
 										<c:url value="/images/simpleList_icon.jpg"/>
 									</jsp:attribute>
 									<jsp:attribute name="class">viewCss</jsp:attribute>
-									<jsp:attribute name="alt">Display as a simple list</jsp:attribute>
+									<jsp:attribute name="alt"><spring:message code="simpleList" /></jsp:attribute>
 								</jsp:element>
 							</jsp:element>
 							&#160;
 							<jsp:element name="a">
-								<jsp:attribute name="title">list</jsp:attribute>
-								<jsp:attribute name="class">btn</jsp:attribute>
-								<jsp:attribute name="href">
-									<c:url value="search">
-										<c:param name="query" value="${result.params['query']}" />
-										<c:param name="limit" value="${result.pageSize}" />
-										<c:param name="start" value="0" />
-										<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-											<c:param name="facet">
-												<jsp:scriptlet>
-													String selectedFacet = (String) pageContext.getAttribute("selectedFacet");
-													out.println(selectedFacet + "." + result.getSelectedFacets().get(selectedFacet));
-												</jsp:scriptlet>
-											</c:param>
-										</c:forEach>
-										<c:param name="sort">${sortItem}</c:param>
-										<c:param name="view">list</c:param>
-									</c:url>
-								</jsp:attribute>
-								<jsp:element name="img">
-									<jsp:attribute name="src">
-										<c:url value="/images/list_icon.jpg"/>
-									</jsp:attribute>
-									<jsp:attribute name="alt">Display as a list</jsp:attribute>
-								</jsp:element>
-							</jsp:element>
-							&#160;
-							<jsp:element name="a">
-								<jsp:attribute name="title">grid</jsp:attribute>
+								<jsp:attribute name="title"><spring:message code="grid" /></jsp:attribute>
 								<jsp:attribute name="class">btn</jsp:attribute>
 								<jsp:attribute name="href">
 									<c:url value="search">
@@ -219,7 +225,7 @@
 									<jsp:attribute name="src">
 										<c:url value="/images/grid_icon.jpg"/>
 									</jsp:attribute>
-									<jsp:attribute name="alt">Display as a grid</jsp:attribute>
+									<jsp:attribute name="alt"><spring:message code="grid" /></jsp:attribute>
 								</jsp:element>
 							</jsp:element>
 						</div>

@@ -140,7 +140,7 @@ Scenario: View Images in a grid
   When I restrict the type of object by selecting "Images"
   Then there should be 3 results
   And the view icons should be displayed
-  When I click on the "grid" icon 
+  When I click on the "Display in a grid" icon 
   Then the images should be displayed in a grid.
  
 Scenario: Search for images by their descriptions
