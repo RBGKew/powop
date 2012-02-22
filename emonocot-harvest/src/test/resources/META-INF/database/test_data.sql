@@ -42,4 +42,7 @@ insert into Taxon (id, identifier, name) values (40, 'urn:kew.org:wcs:taxon:1010
 insert into Taxon (id, identifier, name) values (41, 'urn:kew.org:wcs:taxon:37679','Chamaedorea verecunda Grayum & Hodel');
 insert into Taxon (id, identifier, name) values (42, 'urn:kew.org:wcs:taxon:37674','Chamaedorea undulatifolia Hodel & N.W.Uhl');
 insert into Taxon (id, identifier, name) values (43, 'urn:kew.org:wcs:taxon:170755','Ptychococcus Becc.');
+insert into Taxon (id, identifier,parent_id) values (44, 'urn:kew.org:wcs:taxon:170756',43);
+insert into Taxon (id, identifier,parent_id) values (45, 'urn:kew.org:wcs:taxon:170757',43);
+insert into Taxon (id, identifier,parent_id) values (46, 'urn:kew.org:wcs:taxon:170758',43);
 insert into Distribution (id, region, taxon_id) values (1,'DOM',23);

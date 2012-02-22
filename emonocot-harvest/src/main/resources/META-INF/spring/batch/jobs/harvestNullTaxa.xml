@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+    <context:property-placeholder location="classpath*:META-INF/spring/*.properties"/>
+	<context:annotation-config />
+
+	<batch:job id="NullTaxonHarvesting">
+	    <batch:description>Harvests records that exist in the repository but which are null</batch:description>		
+	    <batch:step id="checkNullRecords">
+	        <batch:description>Get the NULL records which haven't been harvested within this job</batch:description>
+	        <batch:tasklet>
+	          <batch:chunk reader="itemReader" processor="itemProcessor"
+					writer="itemWriter" commit-interval="10"/>
+	        </batch:tasklet>
+	        <batch:next on="COMPLETED" to="cleanupResources"/>
+	        <batch:listeners>
+	          <batch:listener ref="itemProcessor"/>
+	        </batch:listeners>
+	    </batch:step>
+		<batch:step id="cleanupResources">
+		    <batch:description>Cleanup the resources</batch:description>
+			<batch:tasklet ref="oaiPmhResourceDeletingTasklet" />
+			<batch:end on="COMPLETED"/>
+		</batch:step>
+	</batch:job>
+
+	<bean id="oaiPmhResourceDeletingTasklet"
+		class="org.emonocot.harvest.common.MultiResourceDeletingTasklet"
+		scope="step">
+		<property name="resources">
+			<bean class="org.springframework.core.io.FileSystemResource"
+				scope="step">
+				<constructor-arg value="#{jobParameters['temporary.file.name']}" />
+			</bean>
+		</property>
+	</bean>	
+
+	<bean id="oaiPmhClient" class="org.emonocot.ws.checklist.OaiPmhClient">
+		<property name="unmarshaller" ref="oaiPmhResponseUnmarshaller" />
+		<property name="proxyHost" value="${http.proxyHost}" />
+		<property name="proxyPort" value="${http.proxyPort}" />
+		<property name="socketTimeoutMillis" value="${webservice.client.socketTimeoutMillis}"/>
+        <property name="servicesClientIdentifier" value="${harvester.services.client.identifier}"/>
+	</bean>
+
+	<bean id="staxItemReader" class="org.emonocot.job.io.StaxEventItemReader"
+		scope="step">
+		<property name="fragmentRootElementName" value="{http://www.openarchives.org/OAI/2.0/}record" />
+		<property name="resource">
+			<bean class="org.springframework.core.io.FileSystemResource"
+				scope="step">
+				<constructor-arg value="#{jobParameters['temporary.file.name']}" />
+			</bean>
+		</property>
+		<property name="unmarshaller" ref="oaiPmhResponseUnmarshaller" />
+		<property name="encoding" value="UTF-8"/>
+	</bean>
+
+	<bean id="oaiPmhResponseUnmarshaller" class="org.emonocot.model.marshall.xml.XStreamMarshaller">
+		<property name="autodetectAnnotations" value="true" />
+		<property name="qNameMap" ref="oaiPmhQNameMap" />
+		<property name="reflectionProvider" ref="reflectionProvider" />
+		<property name="streamDriver" ref="oaiPmhResponseStreamDriver" />
+		<property name="converters">
+			<list>
+				<bean class="org.openarchives.pmh.marshall.xml.ResumptionTokenConverter" />
+				<bean class="org.emonocot.model.marshall.xml.UriConverter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="reflectionProvider" class="org.openarchives.pmh.marshall.xml.ReflectionProviderFactory" />
+
+	<bean id="oaiPmhResponseStreamDriver" class="org.emonocot.model.marshall.xml.StaxDriver">
+		<constructor-arg ref="oaiPmhQNameMap" />
+		<property name="repairingNamespace" value="false" />
+		<property name="xmlInputFactory">
+			<bean class="com.bea.xml.stream.MXParserFactory" />
+		</property>
+	</bean>
+
+	<bean id="oaiPmhQNameMap"
+		class="org.openarchives.pmh.marshall.xml.OpenArchivesQNameMapFactory" />	
+	
+	<bean id="itemReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
+	  <property name="useStatelessSession" value="false"/>
+	  <property name="sessionFactory" ref="sessionFactory" />
+	  <property name="queryString" value="#{jobParameters['query.string']}"/>	  
+	</bean>
+	
+	<bean id="taxonRelationshipResolver" class="org.emonocot.harvest.common.TaxonRelationshipResolverImpl" scope="step">
+	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
+	  <property name="taxonService" ref="taxonServiceImpl"/>
+	</bean>
+
+    <bean id="taxonItemProcessor" class="org.emonocot.job.checklist.OaiPmhRecordProcessorImpl" scope="step">
+      <property name="taxonService" ref="taxonServiceImpl"/>
+      <property name="taxonRelationshipResolver" ref="taxonRelationshipResolver"/>
+      <property name="sourceService" ref="sourceServiceImpl"/>
+      <property name="sourceName" value="#{jobParameters['authority.name']}"/>
+      <property name="referenceService" ref="referenceServiceImpl"/>
+      <property name="conversionService" ref="conversionService"/>
+    </bean>
+
+	<bean id="taxonItemValidator" class="org.emonocot.job.checklist.OaiPmhRecordValidator"
+		scope="step">
+		<property name="sourceName" value="#{jobParameters['authority.name']}" />
+		<property name="sourceService" ref="sourceServiceImpl" />
+		<property name="validator" ref="validator" />
+	</bean>
+
+	<bean id="itemWriter" class="org.emonocot.job.checklist.OaiPmhRecordItemWriter">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="clearSession" value="false"/>
+	</bean>
+	
+	<bean id="itemProcessor" class="org.emonocot.job.checklist.NullTaxonProcessor" scope="step">
+	  <property name="oaiPmhClient" ref="oaiPmhClient"/>
+	  <property name="oaiPmhRecordProcessor" ref="taxonItemProcessor"/>
+	  <property name="taxonService" ref="taxonServiceImpl"/>
+	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
+	  <property name="sourceUri" value="#{jobParameters['authority.uri']}"/>
+	  <property name="temporaryFileName" value="#{jobParameters['temporary.file.name']}"/>
+	</bean>
+</beans>

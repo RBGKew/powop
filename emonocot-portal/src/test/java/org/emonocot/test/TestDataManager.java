@@ -335,6 +335,7 @@ public class TestDataManager {
      *            Set the identifier
      * @param name
      *            Set the name
+     * @param authorship Set the authorship
      * @param family
      *            Set the family
      * @param genus
@@ -382,21 +383,22 @@ public class TestDataManager {
      *
      */
     public final void createTaxon(final String identifier, final String name,
-            final String family, final String genus,
+            final String authorship, final String family, final String genus,
             final String specificEpithet, final String rank,
             final String status, final String diagnostic,
             final String diagnosticReference1, final String habitat,
             final String general, final String protologue,
             final String microReference, final String protologLink,
-            final String image1, final String image2,
-            final String image3, final String distribution1,
-            final String distribution2, final String distribution3,
-            final String source, final String created, final String parent,
-            final String accepted, final String reference1, final String reference2) {
+            final String image1, final String image2, final String image3,
+            final String distribution1, final String distribution2,
+            final String distribution3, final String source,
+            final String created, final String parent, final String accepted,
+            final String reference1, final String reference2) {
         enableAuthentication();
         Taxon taxon = new Taxon();
         data.push(taxon);
         taxon.setName(name);
+        taxon.setAuthorship(authorship);
         taxon.setGenus(genus);
         taxon.setSpecificEpithet(specificEpithet);
         taxon.setFamily(family);

@@ -70,36 +70,36 @@ public class ChecklistWebserviceFunctionalTest {
                     "http.proxyScheme", "http");
         }
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:3", "Lorem",
-                "Lowiaceae", "Lorem",
-                null, "GENUS", "accepted", null, null, null,
-                null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+                null, "Lowiaceae",
+                "Lorem", null, "GENUS", "accepted", null, null,
+                null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:1", "Lorem ipsum",
-                "Lowiaceae", "Lorem", "ipsum", "SPECIES", "accepted",
-                null, null, null, null, null, null, null, null, null, null,
-                null, null, null, null, null, "urn:kew.org:wcs:taxon:3", null, null, null);
+                "(Archer) Pargetter", "Lowiaceae", "Lorem", "ipsum", "SPECIES",
+                "accepted", null, null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, "urn:kew.org:wcs:taxon:3", null, null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:2", "Lorem dolor",
-                "Lowiaceae", "Lorem", "dolor", "SPECIES", "accepted",
-                null, null, null, null, null, null, null, null, null, null,
-                null, null, null, null, null, "urn:kew.org:wcs:taxon:3", null, null, null);
+                null, "Lowiaceae", "Lorem", "dolor", "SPECIES",
+                "accepted", null, null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, "urn:kew.org:wcs:taxon:3", null, null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:4",
-                "Lorem consectetur", "Lowiaceae", "Lorem", "consectetur",
-                "SPECIES", "synonym", null, null, null, null, null, null, null,
+                "Lorem consectetur", null, "Lowiaceae", "Lorem",
+                "consectetur", "SPECIES", "synonym", null, null, null, null, null, null,
                 null, null, null, null, null, null, null,
-                null, null, "urn:kew.org:wcs:taxon:1", null, null);
+                null, null, null, "urn:kew.org:wcs:taxon:1", null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:5",
-                "Lorem adipiscing", "Lowiaceae", "Lorem", "adipiscing",
-                "SPECIES", "synonym", null, null, null, null, null, null, null,
+                "Lorem adipiscing", null, "Lowiaceae", "Lorem",
+                "adipiscing", "SPECIES", "synonym", null, null, null, null, null, null,
                 null, null, null, null, null, null, null,
-                null, null, "urn:kew.org:wcs:taxon:1", null, null);
+                null, null, null, "urn:kew.org:wcs:taxon:1", null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:6",
-                "Curabitur vehicula", "Curabituraceae", "Curabitur",
-                "vehicula", "SPECIES", "accepted", null, null, null, null,
+                "Curabitur vehicula", null, "Curabituraceae",
+                "Curabitur", "vehicula", "SPECIES", "accepted", null, null, null,
                 null, null, null, null, null, null, null, null, null, null,
-                null, null, null, null, null);
+                null, null, null, null, null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:7",
-                "Curabitur nulla", "Curabituraceae", "Curabitur", "nulla",
-                "SPECIES", "unplaced", null, null, null, null, null, null,
-                null, null, null, null, null, null, null, null, null, null, null, null, null);
+                "Curabitur nulla", null, "Curabituraceae", "Curabitur",
+                "nulla", "SPECIES", "unplaced", null, null, null, null, null,
+                null, null, null, null, null, null, null, null, null, null, null, null, null, null);
     }
 
     /**
@@ -145,7 +145,7 @@ public class ChecklistWebserviceFunctionalTest {
                 "Botanical",
                 with(xml)
                         .get("DataSet.TaxonNames.TaxonName.@nomenclaturalCode"));
-        assertEquals("Simple should equal 'Lorem ipsum'", "Lorem ipsum",
+        assertEquals("Simple should equal 'Lorem ipsum'", "Lorem ipsum (Archer) Pargetter",
                 with(xml).get("DataSet.TaxonNames.TaxonName.Simple"));
         assertEquals("Rank should equal 'Species'", "Species",
                 with(xml).get("DataSet.TaxonNames.TaxonName.Rank"));
