@@ -80,7 +80,7 @@ public class ChecklistWebserviceController {
      * Method which searches for taxon objects who's names match the search term
      * exactly.
      *
-     * @param search A taxon name to search the database for.
+     * @param searchTerm A taxon name to search the database for.
      * @return a list of taxon objects (stored under the key 'result')
      */
     @RequestMapping(method = RequestMethod.GET, params = { "function=search",
@@ -88,7 +88,8 @@ public class ChecklistWebserviceController {
     public final ModelAndView search(
             @RequestParam(value = "search", required = true)
             final String search) {
-        logger.debug("search");
+        //String searchTerm = new String("label:"+search);
+        logger.debug("search for " + search);
         if (search.endsWith("aceae")) {
             try {
                 Family family = Family.valueOf(search);
@@ -114,14 +115,15 @@ public class ChecklistWebserviceController {
                 // do nothing
             }
         }
+        String query = new String("label:"+search);
         ModelAndView modelAndView = new ModelAndView("rdfResponse");
-        Page<Taxon> taxa = taxonService.search(search, null, null, null, null,
-                null, null, "taxon-with-related");
+        Page<Taxon> taxa = taxonService.search(query, null, null, null, null,
+                null, null, "taxon-ws");
         modelAndView.addObject("result", taxa.getRecords());
         try {
             MDC.put(LoggingConstants.SEARCH_TYPE_KEY,
                     CHECKLIST_WEBSERVICE_SEARCH_TYPE);
-            MDC.put(LoggingConstants.QUERY_KEY, search);
+            MDC.put(LoggingConstants.QUERY_KEY, query);
             MDC.put(LoggingConstants.RESULT_COUNT_KEY,
                     Integer.toString(taxa.getSize()));
             queryLog.info("ChecklistWebserviceController.get");
@@ -168,7 +170,7 @@ public class ChecklistWebserviceController {
         } else {
             modelAndView.setViewName("tcsXmlResponse");
             modelAndView.addObject("id", id);
-            Taxon taxon = taxonService.load(ChecklistIdentifierFormatter.IDENTIFIER_PREFIX + id, "taxon-with-related");
+            Taxon taxon = taxonService.load(ChecklistIdentifierFormatter.IDENTIFIER_PREFIX + id, "taxon-ws");
             if(taxon.getStatus() != null && taxon.getStatus().equals(TaxonomicStatus.accepted)) {
                 // This taxon is accepted
                 // Due to the fact that family records are not present, a dummy reference to the parent taxon must

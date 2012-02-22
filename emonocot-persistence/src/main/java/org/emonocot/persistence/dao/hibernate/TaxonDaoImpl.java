@@ -70,6 +70,12 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
                 new Fetch("identifiers", FetchMode.SELECT)});
         FETCH_PROFILES.put("taxon-with-image", new Fetch[] {new Fetch("image",
                 FetchMode.SELECT)});
+        FETCH_PROFILES.put("taxon-ws", new Fetch[] {
+                new Fetch("parent", FetchMode.JOIN),
+                new Fetch("accepted", FetchMode.JOIN),
+                new Fetch("children", FetchMode.SELECT),
+                new Fetch("synonyms", FetchMode.SELECT),
+                new Fetch("protologue", FetchMode.JOIN)});
     }
 
     /**

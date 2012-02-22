@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import org.easymock.EasyMock;
-import org.emonocot.checklist.format.ChecklistIdentifierFormatter;
-import org.emonocot.model.taxon.Family;
-import org.emonocot.model.pager.DefaultPageImpl;
-import org.emonocot.model.taxon.Taxon;
 import org.emonocot.api.FacetName;
 import org.emonocot.api.Sorting;
 import org.emonocot.api.TaxonService;
+import org.emonocot.checklist.format.ChecklistIdentifierFormatter;
+import org.emonocot.model.pager.DefaultPageImpl;
+import org.emonocot.model.taxon.Family;
+import org.emonocot.model.taxon.Taxon;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.dao.DataRetrievalFailureException;
@@ -88,14 +88,14 @@ public class ChecklistWebserviceControllerTest {
     @Test
     public final void testSearch() {
         EasyMock.expect(
-                taxonService.search(EasyMock.eq("Poa annua"),
+                taxonService.search(EasyMock.eq("label:Poa annua"),
                         (String) EasyMock.isNull(),
                         (Integer) EasyMock.isNull(),
                         (Integer) EasyMock.isNull(),
                         (FacetName[]) EasyMock.isNull(),
                         (Map<FacetName, String>) EasyMock.isNull(),
                         (Sorting) EasyMock.isNull(),
-                        EasyMock.eq("taxon-with-related"))).andReturn(
+                        EasyMock.eq("taxon-ws"))).andReturn(
                 new DefaultPageImpl<Taxon>(0, 0, 1, new ArrayList<Taxon>()));
         EasyMock.replay(taxonService);
         ModelAndView modelAndView = checklistWebserviceController
@@ -132,7 +132,7 @@ public class ChecklistWebserviceControllerTest {
     public final void testGet() {
         EasyMock.expect(
                 taxonService.load(EasyMock.eq("urn:kew.org:wcs:taxon:123"),
-                        EasyMock.eq("taxon-with-related"))).andReturn(
+                        EasyMock.eq("taxon-ws"))).andReturn(
                 new Taxon());
         EasyMock.replay(taxonService);
         ModelAndView modelAndView

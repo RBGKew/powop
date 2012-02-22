@@ -7,13 +7,18 @@
   <DataSet xmlns='http://www.tdwg.org/schemas/tcs/1.01' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.tdwg.org/schemas/tcs/1.01 http://www.tdwg.org/standards/117/files/TCS101/v101.xsd">
 	<TaxonNames>
-	  <TaxonName id="urn:kew.org:wcs:name:${id}" nomenclaturalCode="Botanical">
-	    <Simple>${result.name}</Simple>
+	  <jsp:element name="TaxonName">
+	    <jsp:attribute name="id">urn:kew.org:wcs:name:${id}</jsp:attribute>
+	    <jsp:attribute name="nomenclaturalCode">Botanical</jsp:attribute>
+	    <!--<jsp:attribute name="itis_em_other_ref">
+	        ${em:escape(result.authorship)}<c:if test="${not empty result.protologue.author}"> in ${em:escape(result.protologue.author)}</c:if>,<jsp:text> ${result.protologue.title} ${result.protologueMicroReference} ${result.protologue.datePublished}</jsp:text>
+	    </jsp:attribute>-->
+	    <Simple>${result.name} ${em:escape(result.authorship)}</Simple>
 	    <Rank code="${result.rank.abbreviation}">${result.rank.label}</Rank>
 	    <CanonicalName>
-	     <Simple>${result.name}</Simple>
+	      <Simple>${result.name}</Simple>
 	    </CanonicalName>
-	  </TaxonName>
+	  </jsp:element>
 	</TaxonNames>
 	<TaxonConcepts>
 	  <TaxonConcept id="${result.identifier}">

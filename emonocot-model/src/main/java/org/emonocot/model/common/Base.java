@@ -3,7 +3,6 @@ package org.emonocot.model.common;
 import java.io.Serializable;
 
 import javax.persistence.MappedSuperclass;
-import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.solr.analysis.StandardTokenizerFactory;
