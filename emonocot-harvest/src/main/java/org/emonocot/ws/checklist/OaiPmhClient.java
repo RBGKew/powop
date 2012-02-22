@@ -27,7 +27,6 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.openarchives.pmh.OAIPMH;
-import org.openarchives.pmh.Record;
 import org.openarchives.pmh.ResumptionToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +37,6 @@ import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.oxm.Unmarshaller;
-import org.tdwg.voc.TaxonConcept;
 
 /**
  *
@@ -135,6 +133,14 @@ public class OaiPmhClient implements StepExecutionListener {
      *
      */
     private int socketTimeoutMillis = 360 * 1000;
+
+    /**
+     *
+     * @param newSocketTimeout Set the socket timeout
+     */
+    public final void setSocketTimeoutMillis(final Integer newSocketTimeout) {
+        this.socketTimeoutMillis = newSocketTimeout;
+    }
 
     /**
      *

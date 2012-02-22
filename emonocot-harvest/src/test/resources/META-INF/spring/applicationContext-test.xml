@@ -91,6 +91,7 @@
 			<property name="annotatedClasses">
 				<list>
 					<value>org.emonocot.model.source.Source</value>
+					<value>org.emonocot.model.identifier.Identifier</value>
 					<value>org.emonocot.model.common.Annotation</value>
 					<value>org.emonocot.model.description.Distribution</value>
 					<value>org.emonocot.model.description.TextContent</value>

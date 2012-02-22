@@ -25,5 +25,9 @@ public enum RecordType {
     /**
      * A distribution record.
      */
-    Distribution;
+    Distribution,
+    /**
+     * An identifier.
+     */
+    Identifier;
 }

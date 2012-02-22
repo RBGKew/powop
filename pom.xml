@@ -733,7 +733,12 @@
             <artifactId>delta-common</artifactId>
             <version>1.0-BETA-emonocot</version>
         </dependency>
-        </dependencies>
+        <dependency>
+	      <groupId>org.apache.tika</groupId>
+	      <artifactId>tika-parsers</artifactId>
+	      <version>1.0</version>
+        </dependency>
+      </dependencies>
     </dependencyManagement>
     <build>
         <plugins>

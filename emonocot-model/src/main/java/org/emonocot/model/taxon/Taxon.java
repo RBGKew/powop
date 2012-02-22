@@ -33,6 +33,7 @@ import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.geography.GeographicalRegion;
+import org.emonocot.model.identifier.Identifier;
 import org.emonocot.model.marshall.json.ImageDeserializer;
 import org.emonocot.model.marshall.json.ImageSerializer;
 import org.emonocot.model.marshall.json.ReferenceDeserializer;
@@ -230,6 +231,11 @@ public class Taxon extends SearchableObject {
     private String nameIdentifier;
 
     /**
+     *
+     */
+    private Set<Identifier> identifiers = new HashSet<Identifier>();
+
+    /**
      * @param newId
      *            Set the identifier of this object.
      */
@@ -272,7 +278,7 @@ public class Taxon extends SearchableObject {
      * @return a map of content about the taxon, indexed by the subject
      */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon", orphanRemoval = true)
-    @Cascade({CascadeType.ALL})
+    @Cascade({CascadeType.ALL })
     @MapKey(name = "feature")
     @JsonManagedReference("content-taxon")
     @IndexedEmbedded
@@ -807,7 +813,31 @@ public class Taxon extends SearchableObject {
         this.nameIdentifier = newIdentifier;
     }
 
+    /**
+     *
+     * @return the name identifier
+     */
     public String getNameIdentifier() {
         return nameIdentifier;
+    }
+
+    /**
+     * @return a list of identifiers the taxon
+     */
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon", orphanRemoval = true)
+    @Cascade({CascadeType.ALL })
+    @JsonManagedReference("identifier-taxon")
+    @IndexedEmbedded
+    public Set<Identifier> getIdentifiers() {
+        return identifiers;
+    }
+
+    /**
+     * @param newIdentifiers
+     *            Set the identifiers associated with this taxon
+     */
+    @JsonManagedReference("identifier-taxon")
+    public void setIdentifiers(Set<Identifier> newIdentifiers) {
+        this.identifiers = newIdentifiers;
     }
 }

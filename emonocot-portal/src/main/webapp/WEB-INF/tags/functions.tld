@@ -93,4 +93,9 @@
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>java.lang.Boolean isMultiValued(java.lang.String)</function-signature>
     </function>
+    <function>
+        <name>protologLink</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>org.emonocot.model.identifier.Identifier getProtologLink(org.emonocot.model.taxon.Taxon)</function-signature>
+    </function>
 </taglib>

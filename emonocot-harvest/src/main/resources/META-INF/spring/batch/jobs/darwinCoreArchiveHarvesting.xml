@@ -155,10 +155,33 @@
                     </batch:skippable-exception-classes>
 				</batch:chunk>			    
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="cleanupResources" />
+			<batch:next on="COMPLETED" to="processIdentifiersDecision" />
 			<batch:listeners>
+			  <batch:listener ref="referenceFieldSetMapper"/>
 			  <batch:listener ref="processingExceptionProcessListener"/>
 			  <batch:listener ref="referenceProcessor"/>
+			</batch:listeners>
+		</batch:step>
+		<batch:decision decider="processIdentifierDecider" id="processIdentifiersDecision">
+		  <batch:next on="IDENTIFIER_PRESENT" to="processIdentifierFile"/>
+		  <batch:next on="IDENTIFIER_ABSENT" to="cleanupResources"/>
+		</batch:decision>
+		<batch:step id="processIdentifierFile">
+			<batch:description>Process the extension file containing the identifiers</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="identifierReader" processor="identifierProcessor"
+					writer="itemWriter" commit-interval="100" skip-limit="10000">
+					<batch:skippable-exception-classes>
+                      <batch:include class="org.emonocot.job.dwc.DarwinCoreProcessingException"/>
+                      <batch:include class="org.springframework.batch.item.file.FlatFileParseException"/>
+                    </batch:skippable-exception-classes>
+				</batch:chunk>			    
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="cleanupResources" />
+			<batch:listeners>
+			  <batch:listener ref="identifierFieldSetMapper"/>
+			  <batch:listener ref="processingExceptionProcessListener"/>
+			  <batch:listener ref="identifierProcessor"/>
 			</batch:listeners>
 		</batch:step>
 	    <batch:step id="cleanupResources">
@@ -392,6 +415,8 @@
 	    <property name="fieldNames" value="#{jobExecutionContext['dwca.image.fieldNames']}"/>			
 		<property name="defaultValues" value="#{jobExecutionContext['dwca.image.defaultValues']}"/>
 		<property name="taxonService" ref="taxonServiceImpl"/>
+		<property name="sourceService" ref="sourceServiceImpl"/>
+		<property name="sourceName" value="#{jobParameters['authority.name']}"/>
 	</bean>
 	
 	<bean id="processImageFilesReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
@@ -452,6 +477,64 @@
 	    <property name="fieldNames"  value="#{jobExecutionContext['dwca.reference.fieldNames']}"/>
 		<property name="defaultValues" value="#{jobExecutionContext['dwca.reference.defaultValues']}"/>
 		<property name="taxonService" ref="taxonServiceImpl"/>
+		<property name="sourceService" ref="sourceServiceImpl"/>
+		<property name="sourceName" value="#{jobParameters['authority.name']}"/>
+	</bean>
+	
+	<!-- Identifiers -->
+	
+	<bean id="processIdentifierDecider" class="org.emonocot.job.dwc.identifier.ProcessIdentifierDecider"/>
+	
+	<bean id="identifierReader" class="org.springframework.batch.item.file.FlatFileItemReader"
+		scope="step">
+		<property name="encoding" value="#{jobExecutionContext['dwca.identifier.encoding']}"/>
+		<property name="linesToSkip" value="#{jobExecutionContext['dwca.identifier.ignoreHeaderLines']}"/>
+		<property name="resource">
+			<bean class="org.springframework.core.io.FileSystemResource"
+				scope="step">
+				<constructor-arg value="#{jobExecutionContext['dwca.identifier.file']}" />
+			</bean>
+		</property>
+		<property name="lineMapper" ref="identifierLineMapper" />
+	</bean>
+
+	<bean id="identifierProcessor" class="org.emonocot.job.dwc.identifier.IdentifierValidator" scope="step">
+	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
+	  <property name="pdfClient" ref="pdfClient"/>
+	  <property name="bhlClient" ref="bhlClient"/>
+	</bean>
+	
+	<bean id="pdfClient" class="org.emonocot.ws.PdfProtologClient">
+	    <property name="proxyHost" value="${http.proxyHost}" />
+		<property name="proxyPort" value="${http.proxyPort}" />
+	</bean>
+	
+	<bean id="bhlClient" class="org.emonocot.ws.BhlProtologClient">
+	    <property name="proxyHost" value="${http.proxyHost}" />
+		<property name="proxyPort" value="${http.proxyPort}" />
+	</bean>
+
+	<bean id="identifierLineMapper"
+		class="org.springframework.batch.item.file.mapping.DefaultLineMapper"
+		scope="step">
+		<property name="lineTokenizer" ref="identifierLineTokenizer" />
+		<property name="fieldSetMapper" ref="identifierFieldSetMapper" />
+	</bean>
+
+	<bean id="identifierLineTokenizer"
+		class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer"
+		scope="step">
+		<property name="names" value="#{jobExecutionContext['dwca.identifier.fieldNames']}"/>			
+		<property name="delimiter" value="#{jobExecutionContext['dwca.identifier.fieldsTerminatedBy']}"/>			
+		<property name="strict" value="false"/>
+	</bean>
+
+	<bean id="identifierFieldSetMapper" class="org.emonocot.job.dwc.identifier.IdentifierFieldSetMapper"  scope="step">
+	    <property name="fieldNames"  value="#{jobExecutionContext['dwca.identifier.fieldNames']}"/>
+		<property name="defaultValues" value="#{jobExecutionContext['dwca.identifier.defaultValues']}"/>
+		<property name="taxonService" ref="taxonServiceImpl"/>
+		<property name="sourceService" ref="sourceServiceImpl"/>
+		<property name="sourceName" value="#{jobParameters['authority.name']}"/>
 	</bean>
 	
 	<!-- Writing -->

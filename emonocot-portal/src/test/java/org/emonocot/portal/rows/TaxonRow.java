@@ -40,6 +40,11 @@ public class TaxonRow {
     /**
      *
      */
+    public String protologLink;
+
+    /**
+     *
+     */
    public String general;
 
     /**

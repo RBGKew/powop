@@ -243,4 +243,13 @@ public class TaxonPage extends PageObject implements IllustratedPage {
         return element.getText();
     }
 
+    /**
+     *
+     * @return the protolog link
+     */
+    public final String getProtologueLink() {
+        WebElement link = protologue.findElement(By.tagName("a"));
+        return link.getAttribute("href");
+    }
+
 }

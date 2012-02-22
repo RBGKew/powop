@@ -21,6 +21,7 @@ import org.emonocot.model.geography.Country;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.GeographicalRegionComparator;
 import org.emonocot.model.geography.Region;
+import org.emonocot.model.identifier.Identifier;
 import org.emonocot.model.pager.Page;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.AlphabeticalTaxonComparator;
@@ -58,6 +59,19 @@ public final class Functions {
      *
      */
     private Functions() {
+    }
+
+    /**
+     * @param taxon Set the taxon
+     * @return the protolog link of the taxon if it exists
+     */
+    public static Identifier getProtologLink(final Taxon taxon) {
+        for (Identifier identifier : taxon.getIdentifiers()) {
+            if (identifier.getSubject().equals("Protolog")) {
+                return identifier;
+            }
+        }
+        return null;
     }
 
     /**

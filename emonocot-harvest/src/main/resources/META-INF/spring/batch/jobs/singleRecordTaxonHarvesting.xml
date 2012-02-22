@@ -88,6 +88,7 @@
 		<property name="unmarshaller" ref="oaiPmhResponseUnmarshaller" />
 		<property name="proxyHost" value="${http.proxyHost}" />
 		<property name="proxyPort" value="${http.proxyPort}" />
+		<property name="socketTimeoutMillis" value="${webservice.client.socketTimeoutMillis}"/>
         <property name="servicesClientIdentifier" value="${harvester.services.client.identifier}"/>
 	</bean>
 

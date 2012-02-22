@@ -11,32 +11,25 @@
 		  <h2 id="page-title">${group.name}</h2>
         </div>
         <div class="row">
-          <tags:info/>
+          <div class="span12">
+            <tags:info/>
+          </div>
         </div>        
 		<div class="row">
-		  <div>	
+		  <div class="span12">	
 			<h2><spring:message code="group.members"/></h2>
 			<ul>
 			  <c:forEach var="member" items="${group.members}">
 			    <li>
-			      <jsp:element name="a">
-		          <jsp:attribute name="href">
-		            <c:url value="/user/${member.identifier}"/>
-		          </jsp:attribute>
-		          ${member.identifier}
-		        </jsp:element>
-		        <jsp:element name="a">
-		          <jsp:attribute name="href">
-		            <c:url value="/group/${group.identifier}">
-			          <c:param name="members">true</c:param>
-			          <c:param name="delete">true</c:param>
-			          <c:param name="user">${member.identifier}</c:param>
-			        </c:url>
-		          </jsp:attribute>
-		          <jsp:attribute name="class">btn danger</jsp:attribute>
-		          <jsp:attribute name="title"><spring:message code="remove.member"/></jsp:attribute>
-		          ×
-		        </jsp:element>
+			      <c:url value="/user/${member.identifier}" var="userUrl"/>
+			      <a href="${userUrl}">${member.identifier}</a>
+			      <c:url value="/group/${group.identifier}" var="deleteMemberUrl">
+			        <c:param name="members">true</c:param>
+			        <c:param name="delete">true</c:param>
+			        <c:param name="user">${member.identifier}</c:param>
+			      </c:url>
+			      <spring:message code="remove.member" var="removeMember"/>
+		         <a href="${deleteMemberUrl}" class="btn btn-danger" title="${removeMember}">×</a>
 		      </li>
 			  </c:forEach>
 			</ul>
@@ -59,18 +52,16 @@
 						<div class="input">
 							<form:input path="username" />
 							<span class="help-inline"><form:errors path="username" /></span>
-							<jsp:element name="input" class="btn primary">
-					          <jsp:attribute name="type">submit</jsp:attribute>
-					          <jsp:attribute name="value">
-            					<spring:message code="add.member" />
-			         		  </jsp:attribute>
-				           </jsp:element>
+							<spring:message code="add.member" var="addMember"/>
+							<input class="btn btn-primary" type="submit" value="${addMember}"/>
 						</div>
 					</jsp:element>
 				</spring:bind>
 			</form:form>
 	      </div>
-	      <div>	
+	    </div>
+	    <div class="row">
+	      <div class="span12">	
 			<h2><spring:message code="group.permissions"/></h2>
 			<ul>
 			  <c:forEach var="permission" items="${group.permissions}">
@@ -78,27 +69,24 @@
 			  </c:forEach>
 			</ul>
 	      </div>
-	      <div>	
+	    </div>
+	    <div class="row">
+	      <div class="span12">	
 			<h2><spring:message code="group.aces"/></h2>
 			<ul>
 			  <c:forEach var="row" items="${aces}">
 			    <c:set var="ace" value="${row[1]}"/>
 			    <c:set var="object" value="${row[0]}"/>
 			    <li>${object.identifier} <spring:message code="${em:convert(ace.permission)}"/>
-			    <jsp:element name="a">
-		          <jsp:attribute name="href">
-		            <c:url value="/group/${group.identifier}">
-			          <c:param name="aces">true</c:param>
-			          <c:param name="delete">true</c:param>
-			          <c:param name="object">${object.identifier}</c:param>
-			          <c:param name="clazz">${em:convert(object.class)}</c:param>
-			          <c:param name="permission">${em:convert(ace.permission)}</c:param>
-			        </c:url>
-		          </jsp:attribute>
-		          <jsp:attribute name="class">btn danger</jsp:attribute>
-		          <jsp:attribute name="title"><spring:message code="remove.ace"/></jsp:attribute>
-		          ×
-		        </jsp:element></li>
+			    <c:url value="/group/${group.identifier}" var="removeAceUrl">
+			        <c:param name="aces">true</c:param>
+			        <c:param name="delete">true</c:param>
+			        <c:param name="object">${object.identifier}</c:param>
+			        <c:param name="clazz">${em:convert(object.class)}</c:param>
+			        <c:param name="permission">${em:convert(ace.permission)}</c:param>
+			    </c:url>
+			    <spring:message code="remove.ace" var="removeAce"/>
+			    <a href="${removeAceUrl}" class='btn btn-danger' title="${removeAce}">×</a></li>
 			  </c:forEach>
 			</ul>
 			<c:url value="/group/${group.identifier}" var="actionUrl">
@@ -122,7 +110,7 @@
 						<div class="input">
 							<form:input path="object" />
 							<span class="help-inline"><form:errors path="object" /></span>
-							<jsp:element name="input" class="btn primary">
+							<jsp:element name="input" class="btn btn-primary">
 					          <jsp:attribute name="type">submit</jsp:attribute>
 					          <jsp:attribute name="value">
             					<spring:message code="add.ace" />

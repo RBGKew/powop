@@ -762,6 +762,16 @@ public class StepDefinitions {
     }
 
     /**
+    *
+    * @param protologLink
+    *            Set the protologue link
+    */
+   @Then("^the protolog link should be \"([^\"]*)\"$")
+   public final void theProtologueLinkShouldBe(final String protologLink) {
+       assertEquals(((TaxonPage) currentPage).getProtologueLink(), protologLink);
+   }
+
+    /**
      * @param property Set the property to find
      * @param value
      *            Set the expected value

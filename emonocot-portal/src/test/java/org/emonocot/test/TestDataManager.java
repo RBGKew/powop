@@ -29,6 +29,7 @@ import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.GeographyConverter;
+import org.emonocot.model.identifier.Identifier;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.model.source.Source;
@@ -346,7 +347,7 @@ public class TestDataManager {
      *            Set the status
      * @param diagnostic
      *            Set the diagnostic
-     * @param diagnosticReference1 TODO
+     * @param diagnosticReference1 Set the diagnostic reference
      * @param habitat
      *            Set the habitat
      * @param general
@@ -355,6 +356,7 @@ public class TestDataManager {
      *            Set the protologue
      * @param microReference
      *            Set the microReference
+     * @param protologLink Set the protolog link
      * @param image1
      *            Set the image1
      * @param image2
@@ -385,12 +387,12 @@ public class TestDataManager {
             final String status, final String diagnostic,
             final String diagnosticReference1, final String habitat,
             final String general, final String protologue,
-            final String microReference, final String image1,
-            final String image2, final String image3,
-            final String distribution1, final String distribution2,
-            final String distribution3, final String source,
-            final String created, final String parent, final String accepted,
-            final String reference1, final String reference2) {
+            final String microReference, final String protologLink,
+            final String image1, final String image2,
+            final String image3, final String distribution1,
+            final String distribution2, final String distribution3,
+            final String source, final String created, final String parent,
+            final String accepted, final String reference1, final String reference2) {
         enableAuthentication();
         Taxon taxon = new Taxon();
         data.push(taxon);
@@ -420,6 +422,9 @@ public class TestDataManager {
             Reference reference = new Reference();
             reference.setIdentifier(protologue);
             taxon.setProtologue(reference);
+        }
+        if (protologLink != null && protologLink.length() > 0) {
+            createIdentifier(taxon, protologLink, "Protolog");
         }
         if (image1 != null && image1.length() > 0) {
             Image image = new Image();
@@ -496,6 +501,21 @@ public class TestDataManager {
 
         disableAuthentication();
    }
+
+    /**
+     *
+     * @param taxon Set the taxon
+     * @param link Set the identifier
+     * @param subject Set the subject
+     */
+    private void createIdentifier(final Taxon taxon, final String link,
+            final String subject) {
+        Identifier identifier = new Identifier();
+        identifier.setIdentifier(link);
+        identifier.setSubject(subject);
+        identifier.setTaxon(taxon);
+        taxon.getIdentifiers().add(identifier);
+    }
 
     /**
      *

@@ -6,13 +6,13 @@
 	<jsp:output omit-xml-declaration="yes"/>
 	<jsp:directive.attribute name="modelAttribute" type="java.lang.String" required="true" rtexprvalue="true" description="The name of the model attribute for form binding"/>
 	<jsp:directive.attribute name="path" type="java.lang.String" required="true" rtexprvalue="true" description="Specify the relative URL path (wit leading /)" />
-	<spring:url value="" var="form_url" />
+	<spring:url value="${path}" var="form_url" />
 	<form:form commandName="${modelAttribute}" action="${form_url}">
 	  <jsp:doBody />
 	  <div class="clearfix">
 	    <div class="input">
 	        <spring:message var="submitMessage" code="submit"/>
-			<input class="btn primary" type="submit" value="${submitMessage}"/>
+			<input class="btn btn-primary" type="submit" value="${submitMessage}"/>
 	    </div>
       </div>
 	</form:form>

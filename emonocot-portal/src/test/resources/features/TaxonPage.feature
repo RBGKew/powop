@@ -20,10 +20,10 @@ Background:
   | 456        | http://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Illustration_Acorus_calamus0.jpg/376px-Illustration_Acorus_calamus0.jpg | Acorus calamus (Illustration) |
   | 789        | http://upload.wikimedia.org/wikipedia/commons/7/73/Acorus_calamus_illustration.jpg                                               | Sweet flag (drawing)          |
   And there are taxa with the following properties:
-  | identifier                 | name                        | parent                     | protologue                    | protologueMicroReference | distribution1 | diagnostic                                                          | habitat                                                                                   | image1 | image2 | image3 | diagnosticReference1          | reference1                    | reference2                    |
-  | urn:kew.org:wcs:taxon:2295 | Acorus                      |                            | urn:kew.org:wcs:publication:1 | : 324                    | MAU           | These grasslike evergreen plants are hemicryptophytes or geophytes. | Their natural habitat is at the waterside or close to marshes, often found with reedbeds. | 789    | 456    | 123    | urn:kew.org:wcs:publication:1 | urn:kew.org:wcs:publication:1 | urn:kew.org:wcs:publication:2 |
-  | urn:kew.org:wcs:taxon:2304 | Acorus calamus              | urn:kew.org:wcs:taxon:2295 |                               |                          |               |                                                                     |                                                                                           |        |        |        |                               |                               |                               |
-  | urn:kew.org:wcs:taxon:2309 | Acorus calamus var. calamus | urn:kew.org:wcs:taxon:2304 |                               |                          |               |                                                                     |                                                                                           |        |        |        |                               |                               |                               |
+  | identifier                 | name                        | parent                     | protologue                    | protologueMicroReference | protologLink                                                         | distribution1 | diagnostic                                                          | habitat                                                                                   | image1 | image2 | image3 | diagnosticReference1          | reference1                    | reference2                    |
+  | urn:kew.org:wcs:taxon:2295 | Acorus                      |                            | urn:kew.org:wcs:publication:1 | : 324                    | http://wp5.e-taxonomy.eu/media/palmae/protologe/palm_tc_100447_P.pdf | MAU           | These grasslike evergreen plants are hemicryptophytes or geophytes. | Their natural habitat is at the waterside or close to marshes, often found with reedbeds. | 789    | 456    | 123    | urn:kew.org:wcs:publication:1 | urn:kew.org:wcs:publication:1 | urn:kew.org:wcs:publication:2 |
+  | urn:kew.org:wcs:taxon:2304 | Acorus calamus              | urn:kew.org:wcs:taxon:2295 |                               |                          |                                                                      |               |                                                                     |                                                                                           |        |        |        |                               |                               |                               |
+  | urn:kew.org:wcs:taxon:2309 | Acorus calamus var. calamus | urn:kew.org:wcs:taxon:2304 |                               |                          |                                                                      |               |                                                                     |                                                                                           |        |        |        |                               |                               |                               |
   And I navigate to taxon page "urn:kew.org:wcs:taxon:2295" 
 
 Scenario: Taxon Title
@@ -44,7 +44,11 @@ Scenario: Display Protologue
   The protologue should be displayed prominently at the top
   of the taxon page in the correct format: Title, date published, volume, pages
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=35
+  If there is a link to the protolog available, the protolog should be a link to that
+  resource
+  http://build.e-monocot.org/bugzilla/show_bug.cgi?id=139
   Then the protologue should be "Sp. Pl. 1: 324 (1753)"
+  And the protolog link should be "http://wp5.e-taxonomy.eu/media/palmae/protologe/palm_tc_100447_P.pdf"
 
 Scenario: Display texual data in sections
   Textual data should be displayed on the taxon page where

@@ -156,14 +156,13 @@ public class SearchController {
         }
         FacetName[] responseFacets = new FacetName[]{};
         responseFacets = responseFacetList.toArray(responseFacets);
-        
-        
-        if(view == null || view.equals("list")) {
-        	limit = 10;
-        } else if(view.equals("grid")) {
-        	limit = 20;
+
+        if (view == null || view.equals("list")) {
+            limit = 10;
+        } else if (view.equals("grid")) {
+            limit = 20;
         } else {
-        	limit= 20;
+            limit = 20;
         }
         //Run the search
         Page<? extends SearchableObject> result = null;

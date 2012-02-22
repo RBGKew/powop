@@ -35,4 +35,11 @@ insert into Taxon (id, identifier, name, family,parent_id) values (33, 'urn:kew.
 insert into Taxon (id, identifier, name, family,parent_id) values (34, 'urn:kew.org:wcs:taxon:67580', NULL, NULL, 22);
 insert into Taxon (id, identifier, name, family,parent_id) values (35, 'urn:kew.org:wcs:taxon:67588', 'Epiblastus cuneatus', 'Orchidaceae', 34);
 insert into Taxon (id, identifier, name, family,parent_id) values (36, 'urn:kew.org:wcs:taxon:67589', 'Epiblastus cuneatus var. cuneatus', 'Orchidaceae', 35);
+insert into Taxon (id, identifier, name) values (37, 'urn:kew.org:wcs:taxon:100446','Howea Becc.');
+insert into Taxon (id, identifier, name) values (38, 'urn:kew.org:wcs:taxon:100447','Howea belmoreana (C.Moore & F.Muell.) Becc.');
+insert into Taxon (id, identifier, name) values (39, 'urn:kew.org:wcs:taxon:100448','Howea forsteriana (F.Muell.) Becc.');
+insert into Taxon (id, identifier, name) values (40, 'urn:kew.org:wcs:taxon:101020','Hydriastele affinis (Becc.) W.J.Baker & Loo');
+insert into Taxon (id, identifier, name) values (41, 'urn:kew.org:wcs:taxon:37679','Chamaedorea verecunda Grayum & Hodel');
+insert into Taxon (id, identifier, name) values (42, 'urn:kew.org:wcs:taxon:37674','Chamaedorea undulatifolia Hodel & N.W.Uhl');
+insert into Taxon (id, identifier, name) values (43, 'urn:kew.org:wcs:taxon:170755','Ptychococcus Becc.');
 insert into Distribution (id, region, taxon_id) values (1,'DOM',23);

@@ -173,10 +173,10 @@ public class DataSetup {
                     row.genus, row.specificEpithet, row.rank, row.status,
                     row.diagnostic, row.diagnosticReference1, row.habitat,
                     row.general, row.protologue, row.protologueMicroReference,
-                    row.image1, row.image2, row.image3, row.distribution1,
-                    row.distribution2, row.distribution3, row.source,
-                    row.created, row.parent, row.accepted, row.reference1,
-                    row.reference2);
+                    row.protologLink, row.image1, row.image2, row.image3,
+                    row.distribution1, row.distribution2, row.distribution3,
+                    row.source, row.created, row.parent, row.accepted,
+                    row.reference1, row.reference2);
         }
 
     }

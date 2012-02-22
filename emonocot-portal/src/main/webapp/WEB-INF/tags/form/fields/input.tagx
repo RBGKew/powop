@@ -7,6 +7,11 @@
 	<jsp:directive.attribute name="field" type="java.lang.String" required="true" rtexprvalue="true" description="The field exposed from the form backing object" />
 	<jsp:directive.attribute name="label" type="java.lang.String" required="false" rtexprvalue="true" description="The label used for this field, will default to a message bundle if not supplied" />
 	<jsp:directive.attribute name="fieldClass" type="java.lang.String" required="false" rtexprvalue="true" description="The class used to render the field" />
+	<jsp:directive.attribute name="type" type="java.lang.String" required="false" description="Set field type (default 'text', or 'password')" />
+	<c:if test="${empty type}">
+      <c:set value="text" var="type" />
+    </c:if>
+	
 	<spring:bind path="${field}">
  	  <c:choose>
  	    <c:when test="${not empty status.errorMessage}">
@@ -17,9 +22,16 @@
  	    </c:otherwise>
  	  </c:choose>
  	  <div class="${class}">
- 	    <label><spring:message code="${label}" /></label>
+ 	    <label for="_${field}_id"><spring:message code="${label}" /></label>
  	    <div class="input">
- 	      <form:input class="${fieldClass}" path="${field}" />
+ 	      <c:choose>
+            <c:when test="${type eq 'password'}">
+              <form:password id="_${field}_id" class="${fieldClass}" path="${field}" />
+            </c:when>
+            <c:otherwise>
+              <form:input id="_${field}_id" class="${fieldClass}" path="${field}" />
+            </c:otherwise>
+          </c:choose> 	      
  	      <span class="help-inline">
  	        <form:errors path="${field}" />
  	      </span>

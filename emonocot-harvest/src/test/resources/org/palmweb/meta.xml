@@ -115,4 +115,18 @@
 		<field index="11" term="http://purl.org/dc/terms/date" />
 		<field index="12" term="http://purl.org/dc/terms/creator" />
 	</extension>
+	<extension encoding="UTF-8" fieldsTerminatedBy="\t"
+		linesTerminatedBy="\n" ignoreHeaderLines="0"
+		rowType="http://rs.gbif.org/terms/1.0/Identifier">
+		<files>
+			<location>identifier.txt</location>
+		</files>
+		<coreid index="0" />
+		<field index="1" term="http://purl.org/dc/terms/modified" />
+		<field index="2" term="http://purl.org/dc/terms/created" />
+		<field index="3" term="http://purl.org/dc/terms/identifier" />
+		<field index="4" term="http://purl.org/dc/terms/subject" />
+		<field index="5" term="http://purl.org/dc/terms/format" />
+		<field index="6" term="http://purl.org/dc/terms/title" />
+	</extension>
 </archive>

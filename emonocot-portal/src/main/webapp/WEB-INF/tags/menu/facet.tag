@@ -12,7 +12,8 @@
 	
 	<jsp:directive.attribute name="showIcons" type="java.lang.Boolean" required="false" />
 	
-	
+	<spring:message var="more" code="more"/>
+	<spring:message var="less" code="less"/>
 	<li id="${facetName}">
 		<h3>
 			<c:choose>
@@ -99,7 +100,7 @@
 						</li>
 					</c:forEach>
 					<c:if test="${fn:length(values) gt 10}">
-						<div id="demo" class="accordion-body collapse in">
+						<div id="${facetName}-collapse" class="collapse">
 							<c:forEach var="facet" begin="10" items="${values}">
 								<li>
 									<c:choose>
@@ -133,19 +134,19 @@
 									</c:choose>
 								</li>
 							</c:forEach>
-						</div>
-						
-						<a data-toggle="collapse" data-target="#demo">
-							<spring:message code="more"/>
-						</a>
-						
+						</div>						
+						<a id="${facetName}-collapse-link" data-toggle="collapse" data-target="#${facetName}-collapse">${more}</a>
 					</c:if>
 				</c:otherwise>
 			</c:choose>
 		</ul>
 	</li>
 	<script>
-		$(".collapse").collapse()
+		$("#${facetName}-collapse").on('hidden', function () {
+			$("#${facetName}-collapse-link").html("${more}");
+		}).on('shown', function () {
+			$("#${facetName}-collapse-link").html("${less}");
+		});
 	</script>
 		
 				

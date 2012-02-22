@@ -1977,4 +1977,51 @@
         <column name="identifier" value="eMonocot"/>        
       </insert>
     </changeSet>
+    <changeSet id="2012-02-20_01" author="ben">
+      <comment>Added Identifier object as part of #139: Link to the PDF of the original description on a taxon page</comment>
+      <createTable tableName="Identifier">
+        <column name="id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>
+        <column name="created" type="datetime"/>
+        <column name="creator" type="varchar(255)"/>
+        <column name="identifier" type="varchar(255)"/>
+        <column name="license" type="varchar(255)"/>
+        <column name="modified" type="datetime"/>
+        <column name="source" type="varchar(255)"/>
+        <column name="content" type="longtext"/>
+        <column name="subject" type="varchar(255)"/>
+        <column name="format" type="varchar(255)"/>
+        <column name="title" type="varchar(255)"/>
+        <column name="authority_id" type="bigint"/>
+        <column name="taxon_id" type="bigint"/>
+      </createTable>
+    </changeSet>
+    <changeSet id="2012-02-20_02" author="ben">
+      <comment>Added Identifier object as part of #139: Link to the PDF of the original description on a taxon page</comment>
+      <createTable tableName="Identifier_Source">
+          <column name="Identifier_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+          </column>
+          <column name="sources_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+          </column>
+      </createTable>
+    </changeSet>
+    <changeSet id="2012-02-20_03" author="ben">
+      <comment>Added Identifier object as part of #139: Link to the PDF of the original description on a taxon page</comment>
+      <addForeignKeyConstraint constraintName="FK165A88C96B53D29C" referencedTableName="Source" baseColumnNames="authority_id" baseTableName="Identifier" referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-02-20_04" author="ben">
+      <comment>Added Identifier object as part of #139: Link to the PDF of the original description on a taxon page</comment>
+      <addForeignKeyConstraint constraintName="FK165A88C9351368A7" referencedTableName="Taxon" baseColumnNames="taxon_id" baseTableName="Identifier" referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-02-20_05" author="ben">
+      <comment>Added Identifier object as part of #139: Link to the PDF of the original description on a taxon page</comment>
+      <addForeignKeyConstraint constraintName="FK556E0471A0863E36" referencedTableName="Identifier" baseColumnNames="Identifier_id" baseTableName="Identifier_Source" referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-02-20_06" author="ben">
+      <comment>Added Identifier object as part of #139: Link to the PDF of the original description on a taxon page</comment>
+      <addForeignKeyConstraint constraintName="FK556E0471F247EE07" referencedTableName="Source" baseColumnNames="sources_id" baseTableName="Identifier_Source" referencedColumnNames="id"/>
+    </changeSet>
 </databaseChangeLog>

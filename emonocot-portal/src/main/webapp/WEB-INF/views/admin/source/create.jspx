@@ -14,18 +14,18 @@
 		<div class="row">
 		  <div class="span12">
 			<form:create path="/admin/source" modelAttribute="source">
-			  <field:input field="identifier" label="source.identifier" fieldClass="xxlarge"/>
-			  <field:input field="title" label="source.title" fieldClass="xxlarge"/>
-			  <field:input field="uri" label="source.uri" fieldClass="xxlarge"/>
-              <field:input field="logoUrl" label="source.logoUrl" fieldClass="xxlarge"/>
- 	          <field:input field="creator" label="source.creator" fieldClass="xxlarge"/>
- 	          <field:input field="creatorEmail" label="source.creatorEmail" fieldClass="xxlarge"/>
- 	          <field:input field="created" label="source.created" fieldClass="xxlarge"/>
- 	          <field:textarea field="description" label="source.description" fieldClass="xxlarge"/>
- 	          <field:input field="publisherName" label="source.publisherName" fieldClass="xxlarge"/>
- 	          <field:input field="publisherEmail" label="source.publisherEmail" fieldClass="xxlarge"/>
- 	          <field:input field="subject" label="source.subject" fieldClass="xxlarge"/>
- 	          <field:input field="source" label="source.source" fieldClass="xxlarge"/>
+			  <field:input field="identifier" label="source.identifier" fieldClass="span6"/>
+			  <field:input field="title" label="source.title" fieldClass="span6"/>
+			  <field:input field="uri" label="source.uri" fieldClass="span6"/>
+              <field:input field="logoUrl" label="source.logoUrl" fieldClass="span6"/>
+ 	          <field:input field="creator" label="source.creator" fieldClass="span6"/>
+ 	          <field:input field="creatorEmail" label="source.creatorEmail" fieldClass="span6"/>
+ 	          <field:input field="created" label="source.created" fieldClass="span6"/>
+ 	          <field:textarea field="description" label="source.description" fieldClass="span6"/>
+ 	          <field:input field="publisherName" label="source.publisherName" fieldClass="span6"/>
+ 	          <field:input field="publisherEmail" label="source.publisherEmail" fieldClass="span6"/>
+ 	          <field:input field="subject" label="source.subject" fieldClass="span6"/>
+ 	          <field:input field="source" label="source.source" fieldClass="span6"/>
 			</form:create>
 		  </div>
 		</div>

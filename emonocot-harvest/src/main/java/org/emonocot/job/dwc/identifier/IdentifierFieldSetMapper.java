@@ -1,13 +1,11 @@
-package org.emonocot.job.dwc.image;
+package org.emonocot.job.dwc.identifier;
 
 import java.text.ParseException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.emonocot.api.TaxonService;
 import org.emonocot.job.dwc.DarwinCoreFieldSetMapper;
 import org.emonocot.job.dwc.taxon.CannotFindRecordException;
-import org.emonocot.model.media.Image;
+import org.emonocot.model.identifier.Identifier;
 import org.emonocot.model.taxon.Taxon;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
@@ -16,7 +14,7 @@ import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.ChunkListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Parser;
 import org.springframework.format.datetime.joda.DateTimeParser;
 import org.springframework.validation.BindException;
@@ -26,53 +24,51 @@ import org.springframework.validation.BindException;
  * @author ben
  *
  */
-public class ImageFieldSetMapper extends
-        DarwinCoreFieldSetMapper<Image> implements ChunkListener {
+public class IdentifierFieldSetMapper extends
+        DarwinCoreFieldSetMapper<Identifier> {
 
     /**
      *
      */
-    public ImageFieldSetMapper() {
-        super(Image.class);
+    public IdentifierFieldSetMapper() {
+        super(Identifier.class);
     }
 
     /**
     *
     */
     private Logger logger = LoggerFactory
-            .getLogger(ImageFieldSetMapper.class);
-
-   /**
-    *
-    */
-   private Map<String, Taxon> boundTaxa = new HashMap<String, Taxon>();
-
+            .getLogger(IdentifierFieldSetMapper.class);
     /**
     *
     */
    private Parser<DateTime> dateTimeParser
        = new DateTimeParser(ISODateTimeFormat.dateOptionalTimeParser());
 
-   /**
-    *
-    * @param newTaxonService Set the taxon service
-    */
-   public final void setTaxonService(final TaxonService newTaxonService) {
-       this.taxonService = newTaxonService;
-   }
+    /**
+     *
+     */
+    private TaxonService taxonService;
 
-   /**
-    *
-    */
-   private TaxonService taxonService;
+    /**
+     *
+     * @param newTaxonService Set the taxon service
+     */
+    @Autowired
+    public final void setTaxonService(final TaxonService newTaxonService) {
+        this.taxonService = newTaxonService;
+    }
 
     @Override
-    public void mapField(final Image object, final String fieldName,
+    public final void mapField(final Identifier object, final String fieldName,
             final String value) throws BindException {
         ConceptTerm term = getTermFactory().findTerm(fieldName);
         if (term instanceof DcTerm) {
             DcTerm dcTerm = (DcTerm) term;
             switch (dcTerm) {
+            case creator:
+                object.setCreator(value);
+                break;
             case modified:
                 try {
                     object.setModified(dateTimeParser.parse(
@@ -97,13 +93,16 @@ public class ImageFieldSetMapper extends
                 object.setSource(value);
                 break;
             case title:
-                object.setCaption(value);
+                object.setTitle(value);
                 break;
-            case identifier:
-                object.setUrl(value);
+            case subject:
+                object.setSubject(value);
                 break;
             case format:
                 object.setFormat(value);
+                break;
+            case identifier:
+                object.setIdentifier(value);
                 break;
             default:
                 break;
@@ -114,40 +113,16 @@ public class ImageFieldSetMapper extends
             DwcTerm dwcTerm = (DwcTerm) term;
             switch (dwcTerm) {
             case taxonID:
-                Taxon taxon = null;
-                if (boundTaxa.containsKey(value)) {
-                    taxon = boundTaxa.get(value);
-                } else {
-                    taxon = taxonService.find(value);
-                    if (taxon != null) {
-                        boundTaxa.put(taxon.getIdentifier(), taxon);
-                    }
-                }
+                Taxon taxon = taxonService.find(value);
                 if (taxon == null) {
                     throw new CannotFindRecordException(value);
                 } else {
                     object.setTaxon(taxon);
-                    object.getTaxa().add(taxon);
                 }
                 break;
             default:
                 break;
             }
         }
-    }
-
-    /**
-     *
-     */
-    public final void afterChunk() {
-        logger.info("After Chunk");
-    }
-
-    /**
-     *
-     */
-    public final void beforeChunk() {
-        logger.info("Before Chunk");
-        boundTaxa = new HashMap<String, Taxon>();
     }
 }
