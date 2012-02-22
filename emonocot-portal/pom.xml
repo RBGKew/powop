@@ -303,6 +303,7 @@
                       <include>${basedir}/src/main/js/ad-gallery/jquery.ad-gallery.js</include>
                       <include>${basedir}/src/main/js/functions.js</include>
                       <include>${basedir}/src/main/js/jsTree/jquery.jstree.js</include>
+                      <include>${basedir}/src/main/js/application.js</include> 
                       <include>${basedir}/src/main/js/bootstrap-alert.js</include>
                       <include>${basedir}/src/main/js/bootstrap-button.js</include>
                       <include>${basedir}/src/main/js/bootstrap-carousel.js</include>
@@ -311,7 +312,6 @@
                       <include>${basedir}/src/main/js/bootstrap-modal.js</include>
                       <include>${basedir}/src/main/js/bootstrap-popover.js</include>
                       <include>${basedir}/src/main/js/bootstrap-scrollspy.js</include>
-                      <include>${basedir}/src/main/js/bootstrap-alert.js</include>
                       <include>${basedir}/src/main/js/bootstrap-tab.js</include>
                       <include>${basedir}/src/main/js/bootstrap-tooltip.js</include>
                       <include>${basedir}/src/main/js/bootstrap-transition.js</include>

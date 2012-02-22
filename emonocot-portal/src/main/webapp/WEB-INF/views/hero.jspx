@@ -17,7 +17,7 @@
 		        });
 		  });
 		</script>
-     	<form action="search" method="GET">
+		<form action="search" method="GET">
           <div class="clearfix">
      		<div class="input form-inline">					
 			  <input id="query" name="query" class="span4" type="text" value="" placeholder="Search for..."/>

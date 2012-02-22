@@ -312,16 +312,15 @@
 															</c:if>
 															<h4 class="h4Results ${cssClass}"><em>${item.name}</em> ${item.authorship}</h4>
 														</a><br/>
-														<c:choose>
-															<c:when test="${item.accepted != null}">
-																<em><spring:message code="resultStatus" /></em> ${item.status}
-															</c:when>
-															<c:otherwise>
-																<em><spring:message code="resultStatus" /></em> ${item.status}
-															</c:otherwise>
-														</c:choose>
+														
+														<em><spring:message code="resultStatus" /></em> ${item.status}
 														<br/>
-														<em><spring:message code="resultRank" /></em> ${item.rank}<br/>
+														<em><spring:message code="resultRank" /></em> ${item.rank}
+														<br/>
+														<em><spring:message code="resultFamily" /></em> ${item.family}
+														<br/>
+														<em><spring:message code="resultOrder" /></em> ${item.order}
+														<br/>
 													</td>
 													<td>	
 														<a class="thumbnail pull-right">
@@ -355,12 +354,14 @@
 													<td>
 														<a class="result" href="image/${item.identifier}" title="${item.caption}"><h4 class="h4Results">${item.caption}</h4></a>
 														<br/>
+														<em><spring:message code="imageOf"/></em> 
+														<br/>
 														<c:if test="${item.creator != null}">
 															<em><spring:message code="image.creator"/></em> ${item.creator}
 														</c:if>
 														<br/>
 														<c:if test="${item.locality != null}">
-															<em><spring:message code="image.locality"/></em> ${item.creator}
+															<em><spring:message code="image.locality"/></em> ${item.locality}
 														</c:if>
 													</td>
 													<td>

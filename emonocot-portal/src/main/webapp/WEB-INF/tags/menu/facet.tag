@@ -47,7 +47,10 @@
 									</c:forEach>
 								</c:url>
 							</jsp:attribute>
-							<div class="no-small-icon"><spring:message code="${facetName}.clearFacet" /></div>
+							<c:if test="${facetName eq 'CLASS'}">
+								<c:set value="no-small-icon" var="cssClass"></c:set>
+							</c:if>
+							<div class="${cssClass}"><spring:message code="${facetName}.clearFacet" /></div>
 						</jsp:element>
 					</li>
 						
@@ -66,7 +69,10 @@
 						<li>
 							<c:choose>
 								<c:when test="${facet.count == 0}">
-									<spring:message code="${facet.value}" />
+									<c:if test="${facetName eq 'CLASS'}">
+										<c:set value="no-small-icon" var="cssClass"></c:set>
+									</c:if>
+									<div class="${cssClass}"><spring:message code="${facet.value}" /></div>
 								</c:when>
 								<c:otherwise>
 									<c:if test="${showIcons}">
