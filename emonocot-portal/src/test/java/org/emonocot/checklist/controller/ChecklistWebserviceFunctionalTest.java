@@ -165,8 +165,8 @@ public class ChecklistWebserviceFunctionalTest {
                 "TaxonConcept.Name ref should equal 'urn:kew.org:wcs:name:1'",
                 "urn:kew.org:wcs:name:1",
                 with(xml).get("DataSet.TaxonConcepts.TaxonConcept.Name.@ref"));
-        assertEquals("TaxonConcept.Name should equal 'Lorem ipsum'",
-                "Lorem ipsum",
+        assertEquals("TaxonConcept.Name should equal 'Lorem ipsum (Archer) Pargetter'",
+                "Lorem ipsum (Archer) Pargetter",
                 with(xml).get("DataSet.TaxonConcepts.TaxonConcept.Name"));
         assertEquals("TaxonConcept.Rank should equal 'Species'", "Species",
                 with(xml).get("DataSet.TaxonConcepts.TaxonConcept.Rank"));

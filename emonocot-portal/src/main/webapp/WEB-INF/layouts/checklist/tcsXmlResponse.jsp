@@ -22,7 +22,7 @@
 	</TaxonNames>
 	<TaxonConcepts>
 	  <TaxonConcept id="${result.identifier}">
-	    <Name scientific="true" ref="urn:kew.org:wcs:name:${id}">${result.name}</Name>
+	    <Name scientific="true" ref="urn:kew.org:wcs:name:${id}">${result.name} ${em:escape(result.authorship)}</Name>
 	    <Rank code="${result.rank.abbreviation}">${result.rank.label}</Rank>
 	    <spring:message code="checklistWebserviceController.baseURL" var="baseUrl"/>
 	    <TaxonRelationships>
