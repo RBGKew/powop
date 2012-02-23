@@ -64,6 +64,7 @@
 			  <batch:listener ref="processingExceptionProcessListener"/>
 			  <batch:listener ref="taxonFieldSetMapper"/>
 			  <batch:listener ref="taxonRelationshipResolver"/>
+			  <batch:listener ref="hibernateSessionClearingChunkListener"/>
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="importCoreFile">
@@ -82,6 +83,7 @@
 			  <batch:listener ref="processingExceptionProcessListener"/>
 			  <batch:listener ref="taxonFieldSetMapper"/>
 			  <batch:listener ref="taxonRelationshipResolver"/>
+			  <batch:listener ref="hibernateSessionClearingChunkListener"/>
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="processDescriptionDecider" id="processDescriptionDecision">
@@ -103,6 +105,7 @@
 			<batch:listeners>
 			  <batch:listener ref="descriptionFieldSetMapper"/>
 			  <batch:listener ref="processingExceptionProcessListener"/>
+			  <batch:listener ref="hibernateSessionClearingChunkListener"/>
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="processImageDecider" id="processImagesDecision">
@@ -127,6 +130,7 @@
 			<batch:listeners>
 			  <batch:listener ref="processingExceptionProcessListener"/>
 			  <batch:listener ref="imageProcessor"/>
+			  <batch:listener ref="hibernateSessionClearingChunkListener"/>
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="handleBinaryImages">
@@ -160,6 +164,7 @@
 			  <batch:listener ref="referenceFieldSetMapper"/>
 			  <batch:listener ref="processingExceptionProcessListener"/>
 			  <batch:listener ref="referenceProcessor"/>
+			  <batch:listener ref="hibernateSessionClearingChunkListener"/>
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="processIdentifierDecider" id="processIdentifiersDecision">
@@ -182,6 +187,7 @@
 			  <batch:listener ref="identifierFieldSetMapper"/>
 			  <batch:listener ref="processingExceptionProcessListener"/>
 			  <batch:listener ref="identifierProcessor"/>
+			  <batch:listener ref="hibernateSessionClearingChunkListener"/>
 			</batch:listeners>
 		</batch:step>
 	    <batch:step id="cleanupResources">
@@ -549,4 +555,6 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 		<property name="clearSession" value="false"/>
 	</bean>
+	
+	<bean id="hibernateSessionClearingChunkListener" class="org.emonocot.harvest.common.HibernateSessionClearingChunkListener"/>
 </beans>

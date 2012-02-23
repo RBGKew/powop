@@ -250,9 +250,12 @@ public enum Rank {
      *
      */
     EMPIRE;
-    
+
+    /**
+     *
+     */
     private Rank() { }
-    
+
     /**
     *
     */

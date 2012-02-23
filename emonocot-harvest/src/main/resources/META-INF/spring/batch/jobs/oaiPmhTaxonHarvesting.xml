@@ -33,6 +33,7 @@
 				  <batch:listener ref="taxonItemProcessor" />
 				  <batch:listener ref="taxonItemValidator" />
 				  <batch:listener ref="taxonRelationshipResolver"/>
+				  <batch:listener ref="hibernateSessionClearingChunkListener"/>
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="resumeHarvesting">
@@ -58,6 +59,7 @@
 	        <batch:next on="COMPLETED" to="cleanupResources"/>
 	        <batch:listeners>
 	          <batch:listener ref="nullItemProcessor"/>
+	          <batch:listener ref="hibernateSessionClearingChunkListener"/>
 	        </batch:listeners>
 	    </batch:step>
 		<batch:step id="cleanupResources">
@@ -215,6 +217,8 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 		<property name="clearSession" value="false"/>
 	</bean>
+	
+	<bean id="hibernateSessionClearingChunkListener" class="org.emonocot.harvest.common.HibernateSessionClearingChunkListener"/>
 	
 	<bean id="nullItemProcessor" class="org.emonocot.job.checklist.NullTaxonProcessor" scope="step">
 	  <property name="oaiPmhClient" ref="oaiPmhClient"/>
