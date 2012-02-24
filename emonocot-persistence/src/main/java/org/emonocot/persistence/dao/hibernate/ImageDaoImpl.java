@@ -43,6 +43,9 @@ public class ImageDaoImpl extends SearchableDaoImpl<Image> implements ImageDao {
                 new Fetch("authority", FetchMode.JOIN),
                 new Fetch("sources", FetchMode.SELECT)
                 });
+        FETCH_PROFILES.put("image-taxon", new Fetch[] {
+                new Fetch("taxon", FetchMode.JOIN)
+                });
 
     }
 

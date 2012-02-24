@@ -7,7 +7,7 @@
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 	
 <div class="content">
-		<div class="page-header">
+		<div class="page-header header-margin">
 			<h2><spring:message code="login" /></h2>
 		</div>		
 		<div class="row">

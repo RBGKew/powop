@@ -6,7 +6,7 @@
 	xmlns:security="http://www.springframework.org/security/tags"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 	<div class="content">
-		<div class="page-header">
+		<div class="page-header header-margin">
 			<h2 id="page-title">
 				<spring:message code="groups" />
 			</h2>

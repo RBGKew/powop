@@ -73,7 +73,7 @@ public class SearchResultsPage extends PageObject {
      */
     public final Integer getFacetNumber(final String facetName) {
         return facets.findElements(
-                By.xpath("li[@id = '" + facetName + "']/ul/li")).size();
+                By.xpath("li[@class = '" + facetName + "']/a")).size();
     }
 
     /**
@@ -108,13 +108,13 @@ public class SearchResultsPage extends PageObject {
      */
     public final String[] getFacets(final String facetName) {
         List<WebElement> facetOptions = facets.findElements(By
-                .xpath("li[h3/text() = '" + facetName + "']/ul/li"));
+                .xpath("li[@class = '" + facetName + "']"));
         String[] result = new String[facetOptions.size()];
         for (int i = 0; i < result.length; i++) {
             WebElement classFacetOption = facetOptions.get(i);
 
             try {
-                result[i] = classFacetOption.findElement(By.tagName("a"))
+                result[i] = classFacetOption.findElement(By.className("facetValue"))
                         .getText();
             } catch (NoSuchElementException nsee) {
                 result[i] = classFacetOption.getText();
@@ -146,8 +146,7 @@ public class SearchResultsPage extends PageObject {
      */
     public final SearchResultsPage selectFacet(final String facetName,
             final String facetValue) {
-        WebElement classFacet = facets.findElement(By.xpath("li[h3/text() = '"
-                + facetName + "']/ul/li/a[text() = \'" + facetValue + "\']"));
+        WebElement classFacet = facets.findElement(By.xpath("li[@class = '" + facetName + "']/a[span/text() = \'" + facetValue + "\']"));
         return openAs(classFacet.getAttribute("href"), SearchResultsPage.class);
     }
 

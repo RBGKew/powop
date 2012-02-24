@@ -9,7 +9,7 @@
 		doctype-system="about:legacy-compat" />
 <html class="no-js" lang="en" dir="ltr">
 <tiles:insertAttribute name="head" />
-  <body>
+  <body data-spy="scroll" data-target=".subnav" data-offset="50" data-twttr-rendered="true">
 	<tiles:insertAttribute name="header" />
 	<div class="container">
 		<tiles:insertAttribute name="body" />

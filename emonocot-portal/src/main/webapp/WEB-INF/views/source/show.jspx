@@ -6,7 +6,7 @@
 	xmlns:security="http://www.springframework.org/security/tags"
 	xmlns:joda="http://www.joda.org/joda/time/tags" version="2.0">
   <div class="content">
-	<div class="page-header">
+	<div class="page-header header-margin">
 	  <c:choose>
 	    <c:when test="${not empty source.logoUrl}">
 	      <img id="source-logo" src="${source.logoUrl}" title="${source.title}"/>

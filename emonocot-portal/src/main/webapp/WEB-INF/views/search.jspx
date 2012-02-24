@@ -13,11 +13,13 @@
 	<div class="content">
 		<div class="page-header header-margin">
 			<div class="row">
+			
 				<h2 id="page-title" class="span6"><spring:message code="search.emonocot"/></h2>
 				
 				<script type="text/javascript">
 					$(document).ready(function() {
 						$("input#query").autocomplete({
+			
 							source: "autocomplete",
 							minLength: 2
 						});
@@ -52,7 +54,7 @@
 						<jsp:attribute name="name">sort</jsp:attribute>
 						<jsp:attribute name="value">${result.sort}</jsp:attribute>
 					</jsp:element>
-					<input type="submit" value="GO" name="submit" class="btn primary" />
+					<input type="submit" value="GO" name="submit" class="btn btn-primary" />
 				</form>
 			</div>
 			<div>
@@ -66,8 +68,8 @@
 		</div>
 		
 		<div class="row">
-			<div class="span3">
-				<ul id="facets" class="no-bullet">
+			<div class="span3 well">
+				<ul id="facets" class="nav nav-list">
 				  <c:forEach var="facetName" items="${result.facetNames}">
 				    <c:choose>
 				      <c:when test="${facetName eq 'CLASS'}">
@@ -77,11 +79,11 @@
 				        <menu:facet facetName="${facetName}" pager="${result}"/>
 				      </c:otherwise>
 				    </c:choose>
+				    <br/>
 				  </c:forEach>
 				</ul>
 			</div>
-			
-			<div class="span9">
+			<div class="span8">
 				<div class="row">
 					<div class="span2 btn-group">
 						<a class="btn" href="#"><spring:message code="sortBy" /></a>
@@ -236,7 +238,7 @@
 				</div>
 				<br/>
 
-				<div id="results" class="span9 pull-right">
+				<div id="results" class="span8 pull-right">
 					<c:choose>
 						<c:when test="${result.params['view'] == 'grid'}">
 						<br/>
@@ -315,7 +317,7 @@
 														
 														<em><spring:message code="resultStatus" /></em> ${item.status}
 														<br/>
-														<em><spring:message code="resultRank" /></em> ${item.rank}
+														<em><spring:message code="resultRank" /></em> <spring:message code="${item.rank}" />
 														<br/>
 														<em><spring:message code="resultFamily" /></em> ${item.family}
 														<br/>
@@ -354,14 +356,14 @@
 													<td>
 														<a class="result" href="image/${item.identifier}" title="${item.caption}"><h4 class="h4Results">${item.caption}</h4></a>
 														<br/>
-														<em><spring:message code="imageOf"/></em> 
+														<em><spring:message code="imageOf"/></em>  ${item.taxon.name}
 														<br/>
 														<c:if test="${item.creator != null}">
-															<em><spring:message code="image.creator"/></em> ${item.creator}
+															<em><spring:message code="image.creator"/></em>: ${item.creator}
 														</c:if>
 														<br/>
 														<c:if test="${item.locality != null}">
-															<em><spring:message code="image.locality"/></em> ${item.locality}
+															<em><spring:message code="image.locality"/></em>: ${item.locality}
 														</c:if>
 													</td>
 													<td>

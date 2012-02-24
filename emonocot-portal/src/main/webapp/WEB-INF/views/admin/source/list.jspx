@@ -6,7 +6,7 @@
 	xmlns:security="http://www.springframework.org/security/tags"
 	xmlns:joda="http://www.joda.org/joda/time/tags" version="2.0">
   <div class="content">
-	<div class="page-header">
+	<div class="page-header header-margin">
 	    <h2 id="page-title"><spring:message code="sources.title"/></h2>	    
     </div>
     <div class="row">

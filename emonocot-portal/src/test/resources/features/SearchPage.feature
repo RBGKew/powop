@@ -146,7 +146,7 @@ Scenario: View Images in a grid
 Scenario: Search for images by their descriptions
   As a botanist in the herbarium, in order to find an image of a particular character
   I want to be able to search for images by their metadata including their descriptions.
-  When I restrict the "Restrict your search" by selecting "Images"
+  When I restrict the type of object by selecting "Images"
   And I search for "Panicle"
   Then the following results should be displayed:
   | page | text      |

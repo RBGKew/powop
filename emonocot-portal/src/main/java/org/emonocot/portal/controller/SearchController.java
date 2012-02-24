@@ -177,7 +177,7 @@ public class SearchController {
                 logger.debug("Using the image service for " + query);
                 result = imageService.search(query, null, limit, start,
                         responseFacets,
-                        selectedFacets, sort, null);
+                        selectedFacets, sort, "image-taxon");
             } else if (selectedFacets.get(FacetName.CLASS).equals(
                     "org.emonocot.model.taxon.Taxon")) {
                 logger.debug("Using the taxon service for " + query);

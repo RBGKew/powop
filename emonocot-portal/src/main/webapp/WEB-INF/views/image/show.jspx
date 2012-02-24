@@ -6,7 +6,7 @@
 
 <div class="content">
 
-	<div class="page-header">
+	<div class="page-header header-margin">
 	<div class="row">
 			<jsp:element name="img">
 				<jsp:attribute name="src">
