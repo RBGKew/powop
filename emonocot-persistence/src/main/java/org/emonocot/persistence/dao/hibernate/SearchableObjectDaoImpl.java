@@ -40,8 +40,8 @@ public class SearchableObjectDaoImpl extends
 
     static {
         FETCH_PROFILES = new HashMap<String, Fetch[]>();
-        FETCH_PROFILES.put("taxon-with-image", new Fetch[] {new Fetch("image",
-                FetchMode.SELECT)});
+        FETCH_PROFILES.put("taxon-with-image", new Fetch[] {
+        		new Fetch("image", FetchMode.SELECT)});
     }
 
     /**

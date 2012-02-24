@@ -8,6 +8,7 @@
 			<h2><spring:message code="registration" /></h2>
 		</div>
 		<div class="row">
+		<div class="span12">
 			<form:form commandName="registrationForm">
 				<spring:bind path="registrationForm.username">
 					<c:choose>
@@ -84,6 +85,7 @@
 					</div>
 				</div>
 			</form:form>
+			</div>
 		</div>
 	</div>
 </jsp:root>

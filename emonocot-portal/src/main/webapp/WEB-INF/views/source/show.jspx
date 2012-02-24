@@ -29,7 +29,7 @@
     </security:authorize>
 	<div class="row">
 	  <div class="span12">
-	    <table>
+	    <table class="table">
 	      <tbody>
 	        <tr><th><spring:message code="availableAt" /></th><td><a href="${source.uri}" id="source-uri">${source.uri}</a></td></tr>
 	        <tr><th><spring:message code="source.creator" /></th><td>${source.creator}</td></tr>
@@ -55,11 +55,12 @@
 	    </table>
 	  </div>
 	</div>
+	<br/>
 	<security:authorize access="hasRole('PERMISSION_ADMINISTRATE') or hasPermission(#source, 'READ')">
     <div class="row">
       <div class="span12">
-				<h5><spring:message code="recent.jobs"/></h5>
-				<table class="zebra-striped">
+				<h3><spring:message code="recent.jobs"/></h3>
+				<table class="table table-striped span12">
 				  <thead>				    
 				    <tr>
 				      <th>
