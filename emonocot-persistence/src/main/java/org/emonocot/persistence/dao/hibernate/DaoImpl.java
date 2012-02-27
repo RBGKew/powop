@@ -11,7 +11,6 @@ import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.persistence.dao.Dao;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
-import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.hibernate.UnresolvableObjectException;
 import org.hibernate.collection.PersistentCollection;
@@ -129,8 +128,8 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
         try {
             object = PropertyUtils.getProperty(o, association);
         } catch (Exception e) {
-            throw new InvalidDataAccessApiUsageException("Cannot get proxy "
-                    + association + " for class " + o.getClass(), e);
+            logger.debug("Cannot get proxy " + association + " for class " + o.getClass());
+            return null;
         }
         if (object == null) {
             return null;

@@ -140,8 +140,8 @@ public class FacetingTest extends DataManagementSupport {
         Taxon taxon5 = createTaxon("Aus eus", "5", null, taxon3, "Ausaceae",
                 null, null, "(1935)", Rank.SPECIES, TaxonomicStatus.synonym,
                 source, new GeographicalRegion[] {});
-        Image img1 = createImage("Aus", "1", source);
-        Image img2 = createImage("Aus bus", "2", source);
+        Image img1 = createImage("Aus", "1", source, null);
+        Image img2 = createImage("Aus bus", "2", source, null);
 
     }
 

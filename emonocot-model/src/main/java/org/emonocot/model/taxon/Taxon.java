@@ -264,6 +264,21 @@ public class Taxon extends SearchableObject {
     }
 
     /**
+     * @return the image
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    public Image getImage() {
+        return image;
+    }
+
+    /**
+     * @param image the image to set
+     */
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    /**
      * @return a list of references about the taxon
      */
     @ManyToMany(fetch = FetchType.LAZY)

@@ -236,13 +236,15 @@ public abstract class DataManagementSupport {
      * @param identifier
      *            Set the identifier
      * @param source Set the source
+     * @param taxon Set the image
      * @return an image
      */
     public final Image createImage(final String caption,
-            final String identifier, final Source source) {
+            final String identifier, final Source source, final Taxon taxon) {
         Image image = new Image();
         image.setCaption(caption);
         image.setIdentifier(identifier);
+        image.setTaxon(taxon);
         image.setAuthority(source);
         if (source != null) {
             image.getSources().add(source);

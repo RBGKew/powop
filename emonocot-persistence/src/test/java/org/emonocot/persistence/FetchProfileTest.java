@@ -8,6 +8,7 @@ import org.emonocot.model.description.TextContent;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.Region;
+import org.emonocot.model.media.Image;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Taxon;
 import org.hibernate.Hibernate;
@@ -65,6 +66,7 @@ public class FetchProfileTest extends AbstractPersistenceTest {
         Taxon taxon5 = createTaxon("Aus eus", "urn:lsid:example.com:taxon:5",
                 null, taxon3, null, null, null, null, null, null,
                 null, new GeographicalRegion[] {});
+        Image image = createImage("Aus aus", "image1", null, taxon1);
     }
 
     /**
@@ -82,5 +84,18 @@ public class FetchProfileTest extends AbstractPersistenceTest {
         assertNotNull("TextContent should not be null", textContent);
         assertTrue("References should be initialized",
                 Hibernate.isInitialized(textContent.getReferences()));
+    }
+
+    /**
+     *
+     */
+    @Test
+    public final void testSearchableObjectFetchProfile() {
+        Image image = (Image) getSearchableObjectDao().load("image1",
+                "taxon-with-image");
+        assertTrue("Taxon should be initialized",
+                Hibernate.isInitialized(image.getTaxon()));
+        Taxon taxon = (Taxon) getSearchableObjectDao().load(
+                "urn:lsid:example.com:taxon:5", "taxon-with-image");
     }
 }

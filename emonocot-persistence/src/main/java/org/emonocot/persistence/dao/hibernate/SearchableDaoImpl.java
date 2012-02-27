@@ -41,14 +41,14 @@ import org.hibernate.search.query.facet.Facet;
  *
  * @param <T>
  */
-public abstract class SearchableDaoImpl<T extends Base> extends
-        DaoImpl<T> implements SearchableDao<T> {
+public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
+        implements SearchableDao<T> {
     /**
      * regex that matches queries with terms in them.
      */
     private Pattern pattern = Pattern.compile("\\w+:");
 
-   /**
+    /**
     *
     */
     protected static Class SEARCHABLE_CLASSES[] = new Class[] { Image.class,
@@ -73,9 +73,12 @@ public abstract class SearchableDaoImpl<T extends Base> extends
 
     /**
      *
-     * @param facetContext the facet context
-     * @param facetName the facet name
-     * @param facetManager set the facet manager
+     * @param facetContext
+     *            the facet context
+     * @param facetName
+     *            the facet name
+     * @param facetManager
+     *            set the facet manager
      */
     protected abstract void createFacetingRequest(
             final FacetContext facetContext, final FacetName facetName,
@@ -83,9 +86,12 @@ public abstract class SearchableDaoImpl<T extends Base> extends
 
     /**
      *
-     * @param facetName Set the facet name
-     * @param facetManager Set the facet manager
-     * @param selectedFacetName Set the selected facet
+     * @param facetName
+     *            Set the facet name
+     * @param facetManager
+     *            Set the facet manager
+     * @param selectedFacetName
+     *            Set the selected facet
      */
     protected void selectFacet(final FacetName facetName,
             final FacetManager facetManager, final String selectedFacetName) {
@@ -125,33 +131,39 @@ public abstract class SearchableDaoImpl<T extends Base> extends
 
     /**
      *
-     * @param page the page of results
-     * @param facetName the facet name
-     * @param facetManager the facet manager
-     * @param selectedFacets add the select facets
+     * @param page
+     *            the page of results
+     * @param facetName
+     *            the facet name
+     * @param facetManager
+     *            the facet manager
+     * @param selectedFacets
+     *            add the select facets
      */
     protected void addFacet(final Page<T> page, final FacetName facetName,
-            final FacetManager facetManager, Map<FacetName, String> selectedFacets) {
+            final FacetManager facetManager,
+            Map<FacetName, String> selectedFacets) {
         switch (facetName) {
         case REGION:
-        	String selectedContinent = selectedFacets.get(FacetName.CONTINENT);
-        	if(selectedContinent != null) {
-        		Continent continent = Continent.valueOf(selectedContinent);
-        		List<Facet> facets = facetManager.getFacets(facetName.REGION.name());
-        		List<Facet> filteredFacets = new ArrayList<Facet>();
-        		for(Facet f : facets) {
-        			Region r = Region.valueOf(f.getValue());
-        			if (r.getContinent().equals(continent)){
-        				filteredFacets.add(f);
-        			}
-        		}
-        	    page.addFacets(facetName.name(), filteredFacets);
-         	} else {
-         		// should not really get here
-         		page.addFacets(facetName.name(),
+            String selectedContinent = selectedFacets.get(FacetName.CONTINENT);
+            if (selectedContinent != null) {
+                Continent continent = Continent.valueOf(selectedContinent);
+                List<Facet> facets = facetManager.getFacets(facetName.REGION
+                        .name());
+                List<Facet> filteredFacets = new ArrayList<Facet>();
+                for (Facet f : facets) {
+                    Region r = Region.valueOf(f.getValue());
+                    if (r.getContinent().equals(continent)) {
+                        filteredFacets.add(f);
+                    }
+                }
+                page.addFacets(facetName.name(), filteredFacets);
+            } else {
+                // should not really get here
+                page.addFacets(facetName.name(),
                         facetManager.getFacets(facetName.name()));
-         	}
-        	break;
+            }
+            break;
         case CLASS:
             List<Facet> facets = new ArrayList<Facet>();
             page.addFacets(facetName.name(), facets);
@@ -196,7 +208,8 @@ public abstract class SearchableDaoImpl<T extends Base> extends
      *            A map of facets which you would like to restrict the search by
      * @param sort
      *            A representation for the order results should be returned in
-     * @param fetch Set the fetch profile
+     * @param fetch
+     *            Set the fetch profile
      * @return a Page from the resultset
      */
     public final Page<T> search(final String query, final String spatialQuery,
@@ -329,10 +342,10 @@ public abstract class SearchableDaoImpl<T extends Base> extends
     /**
      * Given https://hibernate.onjira.com/browse/HSEARCH-703, we need this
      * workaround, currently.
-     *
+     * 
      * This should be removed once the issue is resolved by the hibernate search
      * team
-     *
+     * 
      * @return a class to retrieve an analyzer for.
      */
     protected Class getAnalyzerType() {

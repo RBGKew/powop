@@ -36,7 +36,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
  * @author ben
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath*:META-INF/spring/applicationContext*.xml"})
+@ContextConfiguration({"classpath*:META-INF/spring/applicationContext*.xml" })
 public abstract class AbstractPersistenceTest extends DataManagementSupport {
 
     /**
@@ -94,7 +94,7 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
     private JobExecutionDao jobExecutionDao;
 
     /**
-     * 
+     *
      */
     @Autowired
     SearchableObjectDao searchableObjectDao;
@@ -214,4 +214,10 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
         return imageDao;
     }
 
+    /**
+     * @return the searchableObjectDao
+     */
+    public final SearchableObjectDao getSearchableObjectDao() {
+        return searchableObjectDao;
+    }
 }
