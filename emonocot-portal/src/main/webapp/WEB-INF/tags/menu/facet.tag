@@ -146,7 +146,7 @@
 						</li>
 					</c:forEach>
 				</div>						
-				<a id="${facetName}-collapse-link" data-toggle="collapse" data-target="#${facetName}-collapse">${more}</a>
+				<a id="${facetName}-collapse-link" data-toggle="collapse" data-target="#${facetName}-collapse" class="label">${fn:length(values)-10} ${more}</a>
 				<script>
 					$("#${facetName}-collapse").on('hidden', function () {
 						$("#${facetName}-collapse-link").html("${more}");

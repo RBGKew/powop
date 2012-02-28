@@ -41,33 +41,12 @@
 			
 			<div class="subnav">
 				<ul class="nav nav-pills">
-					<li><a href="#images"><spring:message code="images" /></a></li>
-					<li><a href="#textContent"><spring:message code="description" /></a></li>
-					<!--<c:forEach var="feature" items="${em:features()}">
-						<c:choose>
-							<c:when test="${feature == 'general'}">
-								<li><a href="#${feature}"><spring:message code="${feature}" /></a></li>
-							</c:when>
-							<c:when test="${feature == 'diagnostic'}">
-								<li><a href="#${feature}"><spring:message code="${feature}" /></a></li>
-							</c:when>
-						</c:choose>
-					</c:forEach>
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><spring:message code="more" /><b class="caret">&#160;</b></a>
-						<ul class="dropdown-menu">
-							<c:forEach var="feature" items="${em:features()}">
-								<c:set var="content" value="${em:content(taxon,feature)}" />
-								<c:if test="${(content != null) &amp;&amp; (feature != 'general') &amp;&amp; (feature != 'diagnostic')}">
-									<li><a href="#${feature}"><spring:message code="${feature}" /></a></li>
-								</c:if>
-							</c:forEach>
-						</ul>
-					</li>-->
-					<li><a href="#map"><spring:message code="distributionMap" /></a></li>
-					<li><a href="#children"><spring:message code="children" /></a></li>
-					<li><a href="#synonyms"><spring:message code="synonyms" /></a></li>
-					<li><a href="#bibliography"><spring:message code="bibliography" /></a></li>
+					<li><c:if test="${not empty taxon.images}"><a href="#images"><spring:message code="images" /></a></c:if></li>
+					<li><c:if test="${not empty taxon.content}"><a href="#textContent"><spring:message code="description" /></a></c:if></li>
+					<li><c:if test="${not empty em:regions(taxon)}"><a href="#map"><spring:message code="distributionMap" /></a></c:if></li>
+					<li><c:if test="${not empty taxon.children}"><a href="#children"><spring:message code="children" /></a></c:if></li>
+					<li><c:if test="${not empty taxon.synonyms}"><a href="#synonyms"><spring:message code="synonyms" /></a></c:if></li>
+					<li><c:if test="${not empty bibliography.references}"><a href="#bibliography"><spring:message code="bibliography" /></a></c:if></li>
 				</ul>
 			</div>
 		</header>	
@@ -99,7 +78,7 @@
 				
 				<section id="images">
 					<c:if test="${not empty taxon.images}">
-	<section id="gallery" class="ad-gallery">
+					<section id="gallery" class="ad-gallery">
 						<div class="ad-image-wrapper">&#160;</div>
 						<c:if test="${fn:length(taxon.images) == 1 }"> 
   							<c:set value="no-display" var="cssClass"></c:set>
@@ -213,6 +192,7 @@
 							
 							map.addLayers([ base_layer ]);
 							
+							
 							for (i in data.layers) {
 								var layerName = "topp:tdwg_level_" + data.layers[i].tdwg.substr(4, 1);
 								
@@ -289,7 +269,7 @@
 			
 			<c:if test="${not empty taxon.synonyms}">
 				<section id="synonyms">
-				  <div class="section-header">
+					<div class="section-header">
 					<h2>
 						<spring:message code="synonyms" />
 					</h2>
@@ -310,7 +290,7 @@
 			</c:if>
 			<c:if test="${not empty bibliography.references}">
 				<section id="bibliography">
-				  <div class="section-header">
+					<div class="section-header">
 					<h2>
 						<spring:message code="bibliography" />
 					</h2>

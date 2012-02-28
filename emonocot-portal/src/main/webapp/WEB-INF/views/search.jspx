@@ -255,11 +255,11 @@
 														<c:url var="thumbnail" value="/images/no_image_3.jpg"/>
 													</c:otherwise>
 												</c:choose>
-												<a class="result thumb" href="taxon/${item.identifier}" data-placement="below" rel="twipsy" title="${item.name}"><img class="thumbnail" src="${thumbnail}" /></a>
+												<a class="result thumb" href="taxon/${item.identifier}" rel="tooltip" title="${item.name}"><img class="thumbnail" src="${thumbnail}" /></a>
 											</c:when>
 											<c:when test="${item.className == 'Image'}">
 												<c:url var="thumbnail" value="/images/thumbnails/${item.identifier}.jpg"/>
-												<a class="result thumb" href="image/${item.identifier}" data-placement="below" rel="twipsy" title="${item.caption}"><img class="thumbnail" src="${thumbnail}" /></a>
+												<a class="result thumb" href="image/${item.identifier}" rel="tooltip" title="${item.caption}"><img class="thumbnail" src="${thumbnail}" /></a>
 											</c:when>
 										</c:choose>
 									</li>
@@ -387,7 +387,7 @@
 					
 					<script>
 						$(function () {
-							$("a[rel=twipsy]").twipsy({
+							$("a[rel=tooltip]").tooltip({
 								live: true
 							});
 						});
