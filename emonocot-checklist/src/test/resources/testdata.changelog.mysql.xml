@@ -209,4 +209,10 @@
             <column name="Place_of_publication_id" index="14" type="STRING"/>
     	</loadUpdateData>
     </changeSet>
+    <changeSet author="ben" id="2012-02-28_1">
+      <loadUpdateData tableName="authors" file="src/test/resources/org/emonocot/checklist/authors-2012.02.28.csv" primaryKey="Author_id">
+            <column name="Author_id" index="0" type="NUMERIC"/>
+            <column name="Author" index="0" type="STRING"/>
+      </loadUpdateData>
+    </changeSet>
 </databaseChangeLog>

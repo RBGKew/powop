@@ -256,12 +256,12 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
                 "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.identifier"));
         assertEquals(
                 "The authorship should be present",
-                "(Archer) Pargetter",
+                "(Archer & Archer) Pargetter",
                 with(xml).get(
                 "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.authorship"));
         assertEquals(
                 "The basionymAuthorship should be present",
-                "Archer",
+                "Archer & Archer",
                 with(xml).get(
                 "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.basionymAuthorship"));
         assertEquals(

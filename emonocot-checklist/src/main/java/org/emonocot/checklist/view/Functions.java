@@ -26,17 +26,17 @@ public final class Functions {
     public static String escape(final String string) {
         return string.replaceAll("&", "&amp;");
     }
-    
+
     /**
     *
-    * @param string Set the string to escape
+    * @param authors Set the authors
     * @return an escaped string
     */
    public static String authorship(final Map<AuthorType, Author> authors) {
        if (!Hibernate.isInitialized(authors)) {
            return null;
        }
-       
+
        StringBuffer stringBuffer = new StringBuffer();
 
        if (authors.containsKey(AuthorType.PAR)) {
@@ -52,6 +52,6 @@ public final class Functions {
        if (authors.containsKey(AuthorType.PRM)) {
            stringBuffer.append(authors.get(AuthorType.PRM).getName());
        }
-       return stringBuffer.toString();
+       return escape(stringBuffer.toString());
    }
 }
