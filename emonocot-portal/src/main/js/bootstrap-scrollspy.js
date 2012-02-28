@@ -62,7 +62,6 @@
           , activeTarget = this.activeTarget
           , i;
 
-        console.log("targets[1] " + targets[1] + " offsets[1] " + offsets[1] + " scrollElementScrollTop " + this.$scrollElement.scrollTop() + " options.offset " + this.options.offset + " scrollTop" + scrollTop);
         for (i = offsets.length; i--;) {
         	
           activeTarget != targets[i]

@@ -42,7 +42,8 @@
 			<div class="subnav">
 				<ul class="nav nav-pills">
 					<li><a href="#images"><spring:message code="images" /></a></li>
-					<c:forEach var="feature" items="${em:features()}">
+					<li><a href="#textContent"><spring:message code="description" /></a></li>
+					<!--<c:forEach var="feature" items="${em:features()}">
 						<c:choose>
 							<c:when test="${feature == 'general'}">
 								<li><a href="#${feature}"><spring:message code="${feature}" /></a></li>
@@ -62,7 +63,7 @@
 								</c:if>
 							</c:forEach>
 						</ul>
-					</li>
+					</li>-->
 					<li><a href="#map"><spring:message code="distributionMap" /></a></li>
 					<li><a href="#children"><spring:message code="children" /></a></li>
 					<li><a href="#synonyms"><spring:message code="synonyms" /></a></li>
@@ -98,7 +99,7 @@
 				
 				<section id="images">
 					<c:if test="${not empty taxon.images}">
-					<section id="gallery" class="ad-gallery">
+	<section id="gallery" class="ad-gallery">
 						<div class="ad-image-wrapper">&#160;</div>
 						<c:if test="${fn:length(taxon.images) == 1 }"> 
   							<c:set value="no-display" var="cssClass"></c:set>
@@ -128,10 +129,10 @@
 					<c:forEach var="feature" items="${em:features()}">
 						<c:set var="content" value="${em:content(taxon,feature)}" />
 						<c:if test="${content != null}">
-							<div>
-								<a id="${feature}">
-									<h5><spring:message code="${feature}"/></h5>
-								</a>
+							<div id="${feature}">
+								<div>
+									<h2><spring:message code="${feature}"/></h2>
+								</div>
 								<p class="justified">${content.content}</p>
 								<c:if test="${not empty content.references }">
 									<ul class="citations">
@@ -146,8 +147,8 @@
 				</section>
 				
 				<c:if test="${not empty em:regions(taxon)}">
-				<section id="distribution">
-					<h5><spring:message code="distribution" /></h5>
+				<section id="distribution.map">
+					<div class="section-header"><h2><spring:message code="distribution" /></h2></div>
 					<div id="map">
 						<jsp:element name="img">
 							<jsp:attribute name="id">alternative-map</jsp:attribute>
@@ -266,11 +267,11 @@
 			
 			<c:if test="${not empty taxon.children}">
 				<section id="children">
-					<a name="children">
-						<h5>
+					<div class="section-header">
+						<h2>
 							<spring:message code="children" />
-						</h5>
-					</a>
+						</h2>
+					</div>
 					<ul class="unstyled">
 						<c:forEach var="child" items="${em:sort(taxon.children)}">
 							<li>
@@ -288,9 +289,11 @@
 			
 			<c:if test="${not empty taxon.synonyms}">
 				<section id="synonyms">
-					<h5>
+				  <div class="section-header">
+					<h2>
 						<spring:message code="synonyms" />
-					</h5>
+					</h2>
+				  </div>
 					<ul class="unstyled">
 						<c:forEach var="synonym" items="${em:sort(taxon.synonyms)}">
 							<li>
@@ -307,9 +310,11 @@
 			</c:if>
 			<c:if test="${not empty bibliography.references}">
 				<section id="bibliography">
-					<h5>
+				  <div class="section-header">
+					<h2>
 						<spring:message code="bibliography" />
-					</h5>
+					</h2>
+			      </div>
 					<ul>
 						<c:forEach var="reference" items="${bibliography.references}">
 							<li>
