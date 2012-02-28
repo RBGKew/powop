@@ -18,8 +18,8 @@
     </div>
     <security:authorize access="hasRole('PERMISSION_ADMINISTRATE') or hasPermission(#source, 'READ')">
     <div class="row">
-      <div class="span12">    		
-	    <c:url value="/source/${source.identifier}" var="editUrl">
+      <div class="span12">
+      	<c:url value="/source/${source.identifier}" var="editUrl">
           <c:param name="form">true</c:param>
 		</c:url>
 		<spring:message code="edit.source" var="editMessage"/>
@@ -55,14 +55,14 @@
 	    </table>
 	  </div>
 	</div>
-	<br/>
+	
 	<security:authorize access="hasRole('PERMISSION_ADMINISTRATE') or hasPermission(#source, 'READ')">
     <div class="row">
       <div class="span12">
 				<h3><spring:message code="recent.jobs"/></h3>
-				<table class="table table-striped span12">
-				  <thead>				    
-				    <tr>
+				<table class="table table-striped">
+				  <thead>
+				  	<tr>
 				      <th>
 				        <spring:message code="jobExecution.jobId"/>
 				      </th>

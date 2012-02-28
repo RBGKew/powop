@@ -3,7 +3,7 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
 	<c:if test="${not empty info}">
-		<div class="alert-message info" data-dismiss="alert">
+		<div class="alert alert-success info" data-dismiss="alert">
 			<a class="close" href="#">×</a>
 			<p>
 				<strong><spring:message code="${info.code}"	arguments="${info.arguments}" />

@@ -19,7 +19,7 @@
 	<h5>
 	  <spring:message code="job.number" arguments="${job.jobId}" />
 	</h5>
-	<table class="zebra-striped">
+	<table class="table table-striped">
 	  <thead>
 		<tr>
 		  <th><spring:message code="jobExecution.startTime" /></th>
@@ -44,7 +44,7 @@
   <div class="row">
     <div class="span12">
 	<h5><spring:message code="records.harvested" arguments="${recordType}" /></h5>
-	<table class="zebra-striped">
+	<table class="table table-striped">
 	  <thead>
 		<td><spring:message code="category" /></td>
 		<td><spring:message code="records.harvested" /></td>

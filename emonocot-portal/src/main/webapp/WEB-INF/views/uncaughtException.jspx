@@ -11,7 +11,7 @@
 			</h2>
 		</div>
 		<div class="row">
-		  <div class="alert-message block-message error">
+		  <div class="alert block-message error">
 		    <h3><spring:message code="500" /></h3>
 			<p>
 				<spring:message code="500.message" />

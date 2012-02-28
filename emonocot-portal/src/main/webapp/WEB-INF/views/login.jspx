@@ -14,7 +14,7 @@
 		  <div class="span12">
 		    <tags:info/>
 			<c:if test="${param.error}">				
-				<div class="alert-message">
+				<div class="alert">
   					<a class="close" href="#">×</a>
 					<p><strong><spring:message code="${SPRING_SECURITY_LAST_EXCEPTION.class.name}"/></strong></p>
 					<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.cause}">

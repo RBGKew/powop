@@ -11,7 +11,7 @@
 		</div>
 
 		<div class="row">
-			<div class="alert-message">
+			<div class="alert">
 				<a class="close" href="#">×</a>
 				<p>
 					<strong><spring:message

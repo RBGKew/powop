@@ -28,7 +28,7 @@
 	<div class="row">
 	  <div class="span12">
 	  <h5><spring:message code="job.number" arguments="${job.jobId}" /></h5>
-	  <table class="zebra-striped">
+	  <table class="table table-striped">
 		<thead>
 		  <tr>
 			<th><spring:message code="jobExecution.startTime" /></th>
@@ -53,7 +53,7 @@
 	<div class="row">
 	  <div class="span12">
 	  <h5><spring:message code="issues" /></h5>
-	  <table class="zebra-striped">
+	  <table class="table table-striped">
 		<thead>
 		  <tr>
 			<th><spring:message code="category" /></th>

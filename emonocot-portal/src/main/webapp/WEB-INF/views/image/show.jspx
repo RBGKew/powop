@@ -30,11 +30,12 @@
 				<span class="taxonName">${image.taxon.name}</span> ${image.taxon.authorship}
 			</jsp:element>
 		</h5>	
-	
+		<br/>
 		<div class="centeredImage">
 		    <img id="main-img" src="${image.url}" title="${image.caption}" alt="${status.index}" />
 		</div>
-		<table id="image-properties">
+		<br/>
+		<table class="table" id="image-properties">
 		  <tbody>
 		    <tr>
 		      <td><spring:message code="image.creator"/></td>
@@ -77,7 +78,7 @@
 			<!-- <div class="ad-controls">&#160;</div> -->
 			<div class="ad-nav">
 				<div class="ad-thumbs">
-					<ul class="ad-thumb-list media-grid">
+					<ul class="thumbnails ad-thumb-list thumbnail-gallery-padding">
 						<c:forEach var="image" items="${taxon.images}" varStatus="status">
 						  <c:url var="thumbnail" value="/images/thumbnails/${image.identifier}.jpg"/>
 					      <li>

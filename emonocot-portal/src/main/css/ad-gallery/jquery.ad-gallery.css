@@ -3,7 +3,7 @@
 }
 .ad-gallery, .ad-gallery * {
   margin: 0;
-  padding: 0;
+  /*padding: 0;*/
 }
   .ad-gallery .ad-image-wrapper {
     width: 100%;
