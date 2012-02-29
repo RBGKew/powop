@@ -69,6 +69,7 @@ public class JobDaoTest extends AbstractPersistenceTest {
         parameters.put("authority.name", new JobParameter("WCS"));
         JobInstance jobInstance = createJobInstance(1L, parameters, "testJob");
         super.createJobExecution(jobInstance);
+        super.createJobExecution(jobInstance);
         Taxon taxon1 = createTaxon("Aus", "1", null, null, null, null, null,
                 null, null, null, null, new GeographicalRegion[] {});
         createTextContent(taxon1, Feature.habitat, "Lorem ipsum", null);
@@ -108,8 +109,10 @@ public class JobDaoTest extends AbstractPersistenceTest {
         List<JobExecution> jobExecutions = jobDao.getJobExecutions("WCS", 5,
                 null);
        assertFalse(jobExecutions.isEmpty());
-       assertEquals("Job identifier should match the expected value",
+       assertEquals("Job Execution Identifier should match the expected value",
                 jobExecutions.get(0).getId(), new Long(1));
+       assertEquals("Job Execution Identifier should match the expected value",
+               jobExecutions.get(1).getId(), new Long(2));
        CellSetFormatter formatter = new RectangularCellSetFormatter(false);
 
        List<OlapResult> results = jobDao.countObjects(1L);

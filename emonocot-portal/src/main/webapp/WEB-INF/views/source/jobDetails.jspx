@@ -56,7 +56,7 @@
 			<td>
 			  <c:choose>
 				<c:when test="${not empty result.value}">
-				  <spring:url value="/source/${source.identifier}/jobs/${job.jobId}/messages" var="url">
+				  <spring:url value="/source/${source.identifier}/job/${job.jobId}/messages" var="url">
 				     <spring:param name="facet" value="RECORD_TYPE.${recordType}" />
 				     <spring:param name="facet" value="ISSUE_TYPE.${result.label}" />
 				  </spring:url>
