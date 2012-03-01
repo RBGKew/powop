@@ -107,9 +107,17 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
      * @param taxon the taxon to add related taxa to.
      */
     protected final void inferRelatedTaxa(final Taxon taxon) {
-        if (taxon.getAcceptedName() != null
-                && taxon.getAcceptedName().getId().equals(taxon.getId())) {
-            taxon.setAcceptedName(null);
+        logger.debug("Inferring taxa related to " + taxon.getIdentifier());
+        if (taxon.getAcceptedName() != null) {
+            Integer acceptedId = taxon.getAcceptedName().getId();
+            if(acceptedId == null){
+                logger.warn("Attempted to load taxon not in dataset with pointer "
+                        + taxon.getAcceptedName().toString());
+                taxon.setAcceptedName(null);
+            }
+            else if(acceptedId.equals(taxon.getId())) {
+                    taxon.setAcceptedName(null);
+            }
         }
 
         if (taxon.getAcceptedName() != null) {

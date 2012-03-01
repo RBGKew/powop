@@ -1,6 +1,7 @@
 package org.emonocot.checklist.persistence;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.Set;
 
@@ -41,5 +42,13 @@ public class SynonymsTest extends AbstractPersistenceTestSupport {
         assertEquals("We should have 2 homotypic synonyms", 2,
                 homotypicSynonyms.size());
     }
+
+    @Test
+    public void testOrphanedSynonym() {
+        
+        Taxon synonym = taxonDao.get(7);
+        assertNull("The accepted taxon should be null",synonym.getAcceptedName());
+    }
+
 
 }
