@@ -18,7 +18,7 @@
 		<div class="row">
 		  <div class="span12">
 			<h5>
-				<spring:message code="job.number" arguments="${job.jobId}" />
+				<spring:message code="job.number" arguments="${job.id}" />
 			</h5>
 			<table class="table table-striped">
 				<thead>
@@ -64,7 +64,7 @@
 										<jsp:element name="a">
 											<jsp:attribute name="href">
 												<c:url
-													value="/source/${source.identifier}/job/${job.jobId}">
+													value="/source/${source.identifier}/job/${job.id}">
 													<c:param name="recordType">${result.label}</c:param>
 												</c:url>
 											</jsp:attribute>

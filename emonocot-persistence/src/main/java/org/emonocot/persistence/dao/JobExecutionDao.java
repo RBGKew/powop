@@ -47,7 +47,7 @@ public interface JobExecutionDao {
      *
      * @param id The id to delete
      */
-    void delete(long id);
+    void delete(Long id);
 
     /**
     *

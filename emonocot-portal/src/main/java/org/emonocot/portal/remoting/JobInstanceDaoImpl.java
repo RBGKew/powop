@@ -66,7 +66,7 @@ public class JobInstanceDaoImpl implements JobInstanceDao {
     /**
      * @param id the id of the job instance to delete
      */
-    public final void delete(final long id) {
+    public final void delete(final Long id) {
         restTemplate.delete(baseUri + resourceDir + "/" + id);
     }
 

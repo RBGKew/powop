@@ -149,7 +149,7 @@
 				<a id="${facetName}-collapse-link" data-toggle="collapse" data-target="#${facetName}-collapse" class="label">${fn:length(values)-10} ${more}</a>
 				<script>
 					$("#${facetName}-collapse").on('hidden', function () {
-						$("#${facetName}-collapse-link").html("${more}");
+						$("#${facetName}-collapse-link").html("${fn:length(values)-10} ${more}");
 					}).on('shown', function () {
 						$("#${facetName}-collapse-link").html("${less}");
 					});

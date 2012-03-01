@@ -1,6 +1,7 @@
 package org.emonocot.persistence;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 import org.emonocot.model.common.Annotation;
@@ -10,6 +11,8 @@ import org.emonocot.model.source.Source;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.dao.AnnotationDao;
 import org.emonocot.persistence.dao.ImageDao;
+import org.emonocot.persistence.dao.JobExecutionDao;
+import org.emonocot.persistence.dao.JobInstanceDao;
 import org.emonocot.persistence.dao.ReferenceDao;
 import org.emonocot.persistence.dao.SearchableObjectDao;
 import org.emonocot.persistence.dao.SourceDao;
@@ -22,8 +25,6 @@ import org.hibernate.search.Search;
 import org.junit.runner.RunWith;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
-import org.springframework.batch.core.repository.dao.JobExecutionDao;
-import org.springframework.batch.core.repository.dao.JobInstanceDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -156,11 +157,9 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
                     } else if (obj.getClass().equals(Reference.class)) {
                         referenceDao.saveOrUpdate((Reference) obj);
                     } else if (obj.getClass().equals(JobExecution.class)) {
-                        jobExecutionDao.saveJobExecution((JobExecution) obj);
+                        jobExecutionDao.save((JobExecution) obj);
                     } else if (obj.getClass().equals(JobInstance.class)) {
-                        jobInstanceDao.createJobInstance(
-                                ((JobInstance) obj).getJobName(),
-                                ((JobInstance) obj).getJobParameters());
+                        jobInstanceDao.save(((JobInstance) obj));
                     } else {
                         System.out.println("WHAT the **** is a " + obj.toString());
                     }
@@ -192,6 +191,17 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
                         sourceDao.delete(((Source) obj).getIdentifier());
                     } else if (obj.getClass().equals(Reference.class)) {
                         referenceDao.delete(((Reference) obj).getIdentifier());
+                    } else if (obj.getClass().equals(JobInstance.class)) {
+                        System.out.println("Deleting JobInstance "
+                                + ((JobInstance) obj).getId());
+                        String authorityName = ((JobInstance) obj)
+                                .getJobParameters().getString("authority.name");
+                        List<JobExecution> jobExecutions = jobExecutionDao
+                                .getJobExecutions(authorityName, null, null);
+                        for (JobExecution jobExecution : jobExecutions) {
+                            jobExecutionDao.delete(jobExecution.getId());
+                        }
+                        jobInstanceDao.delete(((JobInstance) obj).getId());
                     }
                 }
                 getSession().flush();

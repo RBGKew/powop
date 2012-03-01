@@ -64,7 +64,7 @@
 				  <thead>
 				  	<tr>
 				      <th>
-				        <spring:message code="jobExecution.jobId"/>
+				        <spring:message code="jobExecution.id"/>
 				      </th>
 				      <th>
 				        <spring:message code="jobExecution.startTime"/>
@@ -87,8 +87,8 @@
 						<c:forEach var="jobExecution" items="${jobExecutions}">
 							<tr>
 								<td>
-								  <spring:url var="jobUrl" value="/source/${source.identifier}/job/${jobExecution.jobId}"/>
-								  <a href="${jobUrl}">${jobExecution.jobId}</a>
+								  <spring:url var="jobUrl" value="/source/${source.identifier}/job/${jobExecution.id}"/>
+								  <a href="${jobUrl}">${jobExecution.id}</a>
 				                </td>
 								<td>${em:formatDate(jobExecution.startTime)}</td>
 								<td>${em:formatPeriod(jobExecution.startTime,jobExecution.endTime)}</td>

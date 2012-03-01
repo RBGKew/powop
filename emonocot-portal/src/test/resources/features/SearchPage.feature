@@ -122,7 +122,7 @@ Scenario: Sort taxa Alphabetically
   I want to sort the results returned alphabetically
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=74
   When I search for "Rhipogonum album"
-  And I sort "Alphabetically"
+  And I sort "A-Z"
   Then there should be 7 results
   And the following results should be displayed:
   | page                          | text                    |
@@ -160,7 +160,7 @@ Scenario: Sort taxa by Recency
   I want to sort the results returned in date order, newest first
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=74
   When I search for "Rhipogonum album"
-  And I sort "Recency"
+  And I sort "Most recent first"
   Then there should be 7 results
   And the following results should be displayed:
   | page                          | text                    |

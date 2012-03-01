@@ -27,7 +27,7 @@
 	</div>
 	<div class="row">
 	  <div class="span12">
-	  <h5><spring:message code="job.number" arguments="${job.jobId}" /></h5>
+	  <h5><spring:message code="job.number" arguments="${job.id}" /></h5>
 	  <table class="table table-striped">
 		<thead>
 		  <tr>

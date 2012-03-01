@@ -104,7 +104,7 @@ public class JobDaoTest extends AbstractPersistenceTest {
     *
     */
    @Test
-   public final void testJobDao() {
+   public final void testGetJobExecutions() {
        assertNotNull(jobDao);
         List<JobExecution> jobExecutions = jobDao.getJobExecutions("WCS", 5,
                 null);
@@ -120,6 +120,19 @@ public class JobDaoTest extends AbstractPersistenceTest {
        results = jobDao.countErrors(1L, "Taxon");
        format(results, System.out);
    }
+
+   /**
+    *
+    */
+   @Test
+   public final void testLoadJobExecution() {
+        JobExecution jobExecution = jobDao.load(3L);
+        assertEquals("JobExecution.jobId should equal the 3L", 3L, jobExecution
+                .getId().longValue());
+        jobExecution = jobDao.load(4L);
+        assertEquals("JobExecution.jobId should equal the 4L", 4L, jobExecution
+                .getId().longValue());
+    }
 
    /**
     *

@@ -75,36 +75,34 @@
 						</jsp:element>
 					</c:otherwise>
 				</c:choose>
-				
-				<section id="images">
-					<c:if test="${not empty taxon.images}">
-					<section id="gallery" class="ad-gallery">
+				<c:if test="${not empty taxon.images}">
+					<section id="images">
+					<div id="gallery" class="ad-gallery">
 						<div class="ad-image-wrapper">&#160;</div>
-						<c:if test="${fn:length(taxon.images) == 1 }"> 
-  							<c:set value="no-display" var="cssClass"></c:set>
+						<c:if test="${fn:length(taxon.images) == 1 }">
+							<c:set value="no-display" var="cssClass"></c:set>
 						</c:if>
 						<div class="ad-controls ${cssClass}">&#160;</div>
 						<div class="ad-nav ${cssClass}">
-						  <div class="ad-thumbs">
-						    <ul class="thumbnails ad-thumb-list thumbnail-gallery-padding">
-							  <c:forEach var="image" items="${taxon.images}" varStatus="status">
-							    <li>
-							      <a href="${image.url}">
-							        <c:url var="thumbnail" value="/images/thumbnails/${image.identifier}.jpg"/>
-								    <c:url var="url" value="/image/${image.identifier}"/>
-							        <img src="${thumbnail}" class="thumbnail ${status.index}" title="${image.caption}" ad-href="${url}"/>
-							      </a>
-							    </li>
-							  </c:forEach>
-						    </ul>
-						  </div>
-				    	</div>
-				   
-				</section>
+							<div class="ad-thumbs">
+								<ul class="thumbnails ad-thumb-list thumbnail-gallery-padding">
+									<c:forEach var="image" items="${taxon.images}"
+										varStatus="status">
+										<li><a href="${image.url}"> <c:url var="thumbnail"
+													value="/images/thumbnails/${image.identifier}.jpg" /> <c:url
+													var="url" value="/image/${image.identifier}" /> <img
+												src="${thumbnail}" class="thumbnail ${status.index}"
+												title="${image.caption}" ad-href="${url}" /> </a></li>
+									</c:forEach>
+								</ul>
+							</div>
+						</div>
+					</div>
+					</section>
 				</c:if>
-				</section>
-				
-				<section id="textContent">
+
+                <c:if test="${not empty em:allContent(taxon)}">
+				  <section id="textContent">
 					<c:forEach var="feature" items="${em:features()}">
 						<c:set var="content" value="${em:content(taxon,feature)}" />
 						<c:if test="${content != null}">
@@ -123,7 +121,8 @@
 							</div>
 						</c:if>
 					</c:forEach>
-				</section>
+				  </section>
+				</c:if>
 				
 				<c:if test="${not empty em:regions(taxon)}">
 				<section id="distribution.map">
@@ -332,7 +331,7 @@
 			</section>
 			
 			<h5><spring:message code="taxonomicTree" /></h5>
-			<ul id="taxonHierarchy" class="no-bullet">
+			<ul id="taxonHierarchy">
 				<c:if test="${not empty taxon.ancestors}">
 					<tags:tree taxon="${taxon}" ancestors="${taxon.ancestors}" />
 				</c:if>

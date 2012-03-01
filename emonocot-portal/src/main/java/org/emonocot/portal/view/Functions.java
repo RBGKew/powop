@@ -26,6 +26,7 @@ import org.emonocot.model.pager.Page;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.AlphabeticalTaxonComparator;
 import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.taxon.TaxonomicStatus;
 import org.emonocot.portal.view.bibliography.Bibliography;
 import org.emonocot.portal.view.bibliography.SimpleBibliographyImpl;
 import org.hibernate.proxy.HibernateProxy;
@@ -75,11 +76,31 @@ public final class Functions {
     }
 
     /**
+     * @param taxon Set the taxon
+     * @return true if the taxon is a synonym
+     */
+    public static Boolean isSynonym(final Taxon taxon) {
+        if (taxon.getStatus() == null) {
+            return false;
+        } else  {
+            return taxon.getStatus().equals(TaxonomicStatus.synonym);
+        }
+    }
+
+    /**
      *
      * @return the list of features
      */
     public static Feature[] features() {
         return Feature.values();
+    }
+
+    /**
+     * @param taxon Set the taxon
+     * @return the content in the taxon as a set
+     */
+    public static Collection<TextContent> content(final Taxon taxon) {
+        return taxon.getContent().values();
     }
 
     /**

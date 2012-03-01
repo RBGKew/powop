@@ -68,7 +68,7 @@ public class JobInstanceDaoImpl extends JdbcDaoSupport implements
      * @param id
      *            The id to delete
      */
-    public final void delete(final long id) {
+    public final void delete(final Long id) {
         getJdbcTemplate().update(
                 "DELETE from BATCH_JOB_PARAMS where JOB_INSTANCE_ID = ?", id);
         getJdbcTemplate().update(
