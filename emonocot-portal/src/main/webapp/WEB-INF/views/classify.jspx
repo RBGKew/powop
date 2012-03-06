@@ -10,6 +10,7 @@
 			</h2>
 		</div>
 		<div class="row">
+		  <div class="span12">
 			<div id="classification" class="jstree-default">tree</div>
 			<c:url var="webserviceUrl" value="/taxonTree" />
 			<script type="text/javascript">
@@ -29,6 +30,7 @@
 							});
 				});
 			</script>
+		  </div>
 		</div>
 	</div>
 </jsp:root>

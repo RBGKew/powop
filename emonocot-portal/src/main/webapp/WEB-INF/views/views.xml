@@ -8,6 +8,9 @@
   <definition name="classify" extends="default">
     <put-attribute name="body" value="/WEB-INF/views/classify.jspx" />
   </definition>
+  <definition name="identify" extends="default">
+    <put-attribute name="body" value="/WEB-INF/views/identify.jspx" />
+  </definition>
   <definition name="search" extends="default">    
     <put-attribute name="body" value="/WEB-INF/views/search.jspx" />
   </definition>  

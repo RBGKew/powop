@@ -50,6 +50,16 @@ public abstract class PageObject {
 
    /**
     *
+    * @return the registration page
+    */
+    public final IdentifyPage selectIdentifyLink() {
+         return openAs(
+                 nav.findElement(By.linkText("Identify")).getAttribute("href"),
+                 IdentifyPage.class);
+    }
+
+   /**
+    *
     */
    @FindBy(how = How.TAG_NAME, using = "a")
    private List<WebElement> links;

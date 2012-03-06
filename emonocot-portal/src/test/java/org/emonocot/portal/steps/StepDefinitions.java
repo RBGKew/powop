@@ -11,6 +11,7 @@ import java.util.List;
 import org.emonocot.portal.driver.ClassificationPage;
 import org.emonocot.portal.driver.GroupUpdatePage;
 import org.emonocot.portal.driver.HomePage;
+import org.emonocot.portal.driver.IdentifyPage;
 import org.emonocot.portal.driver.IllustratedPage;
 import org.emonocot.portal.driver.ImagePage;
 import org.emonocot.portal.driver.GroupFormPage;
@@ -556,6 +557,22 @@ public class StepDefinitions {
     @Then("^the search results page should display \"([^\"]*)\"$")
     public final void theSearchResultsPageShouldDisplay(final String message) {
         assertEquals(message, ((SearchResultsPage) currentPage).getMessage());
+    }
+
+    /**
+     *
+     */
+    @Then("^I select the identify link in the navigation bar$")
+    public final void iSelectTheIdentifyLinkInTheNavigationBar() {
+        currentPage = currentPage.selectIdentifyLink();
+    }
+
+    /**
+     *
+     */
+    @Then("^I should be on the identify page$")
+    public final void iShouldBeOnTheIdentifyPage() {
+        assertEquals(currentPage.getClass(), IdentifyPage.class);
     }
 
     /**

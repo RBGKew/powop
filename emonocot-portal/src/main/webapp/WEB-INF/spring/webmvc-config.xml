@@ -10,27 +10,6 @@
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 	
-	<mvc:view-controller path="/" view-name="index"/>
-	<mvc:view-controller path="/classify" view-name="classify"/>
-	<mvc:view-controller path="/accessDenied" view-name="accessDenied"/>
-    <mvc:view-controller path="/uncaughtException" view-name="uncaughtException"/>
-    <mvc:view-controller path="/resourceNotFound" view-name="resourceNotFound"/>
-    <mvc:view-controller path="/methodNotAllowed" view-name="methodNotAllowed"/>	
-
-	<bean id="conversionService" class="org.emonocot.portal.format.PortalFormatterFactory">
-		<property name="converters">
-			<set>
-				<ref bean="aceDtoConverter" />
-				<bean class="org.emonocot.api.convert.StringToPermissionConverter" />
-				<bean class="org.emonocot.api.convert.PermissionToStringConverter" />
-				<bean class="org.emonocot.api.convert.StringToClassConverter" />
-				<bean class="org.emonocot.api.convert.ClassToStringConverter" />
-			</set>
-		</property>
-	</bean>
-
-	<bean name="aceDtoConverter" class="org.emonocot.portal.convert.AceDtoConverter" />
-
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
 		<property name="order" value="0" />
@@ -55,15 +34,37 @@
 			</list>
 		</property>
 	</bean>
-
-	<bean id="validator"
-		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
-
+	
 	<bean id="jsonConverter"
 		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
 		<property name="supportedMediaTypes" value="application/json" />
 		<property name="objectMapper" ref="customObjectMapper" />
 	</bean>
+	
+	<mvc:view-controller path="/" view-name="index"/>
+	<mvc:view-controller path="/classify" view-name="classify"/>
+	<mvc:view-controller path="/identify" view-name="identify"/>
+	<mvc:view-controller path="/accessDenied" view-name="accessDenied"/>
+    <mvc:view-controller path="/uncaughtException" view-name="uncaughtException"/>
+    <mvc:view-controller path="/resourceNotFound" view-name="resourceNotFound"/>
+    <mvc:view-controller path="/methodNotAllowed" view-name="methodNotAllowed"/>	
+
+	<bean id="conversionService" class="org.emonocot.portal.format.PortalFormatterFactory">
+		<property name="converters">
+			<set>
+				<ref bean="aceDtoConverter" />
+				<bean class="org.emonocot.api.convert.StringToPermissionConverter" />
+				<bean class="org.emonocot.api.convert.PermissionToStringConverter" />
+				<bean class="org.emonocot.api.convert.StringToClassConverter" />
+				<bean class="org.emonocot.api.convert.ClassToStringConverter" />
+			</set>
+		</property>
+	</bean>
+
+	<bean name="aceDtoConverter" class="org.emonocot.portal.convert.AceDtoConverter" />	
+
+	<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
 	<bean name="customObjectMapper"
 		class="org.emonocot.model.marshall.json.CustomObjectMapperFactory">

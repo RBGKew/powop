@@ -22,7 +22,7 @@
      		<div class="input form-inline">					
 			  <input id="query" name="query" class="span4" type="text" value="" placeholder="Search for..."/>
 			  <button type="submit" class="btn btn-primary">
-					<span>SEARCH</span>
+				<span class="icon-search icon-white">&amp;nbsp;</span>
 			  </button>					
 			</div>
 		  </div>

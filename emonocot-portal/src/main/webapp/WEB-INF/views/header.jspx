@@ -19,7 +19,7 @@
 			    	<ul class="nav">
 			    		<li>
 			    			<jsp:element  name="a">
-				    			<jsp:attribute name="href"><c:url value="/"/></jsp:attribute>
+				    			<jsp:attribute name="href"><c:url value="/identify"/></jsp:attribute>
 				    			<spring:message code="identify.title"/>
 				    		</jsp:element>
 				    	</li>
