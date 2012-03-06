@@ -69,13 +69,23 @@ public class ChecklistWebserviceFunctionalTest {
             RestAssured.proxyScheme = properties.getProperty(
                     "http.proxyScheme", "http");
         }
+        testDataManager
+                .createReference(
+                        "reference1",
+                        "Integer elementum lorem ut nibh scelerisque at condimentum",
+                        "Pargetter",
+                        "1784",
+                        "2",
+                        "250pp",
+                        "Pargetter, Integer elementum lorem ut nibh scelerisque at condimentum 2: 250pp 1784",
+                        null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:3", "Lorem", null,
                 "Lowiaceae", "Lorem", null, "GENUS", "accepted", null, null,
                 null, null, null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:1", "Lorem ipsum",
                 "(Archer & Archer) Pargetter", "Lowiaceae", "Lorem", "ipsum",
-                "SPECIES", "accepted", null, null, null, null, null, null,
+                "SPECIES", "accepted", null, null, null, null, "reference1", "2: 34-56",
                 null, null, null, null, null, null, null, null, null,
                 "urn:kew.org:wcs:taxon:3", null, null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:2", "Lorem dolor",
@@ -197,6 +207,10 @@ public class ChecklistWebserviceFunctionalTest {
                 ((String) with(xml)
                         .get("DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship[0].ToTaxonConcept.@ref"))
                         .contains("&scratchpad=functional-test.e-monocot.org"));
+        assertEquals("TaxonName publication attribute should equal '(Archer & Archer) Pargetter in Pargetter, Integer elementum lorem ut nibh scelerisque at condimentum 2: 34-56 1784'",
+                "(Archer & Archer) Pargetter in Pargetter, Integer elementum lorem ut nibh scelerisque at condimentum 2: 34-56 1784",
+                with(xml).get(
+                        "DataSet.TaxonNames.TaxonName.@itis_em_other_ref"));
     }
 
     /**

@@ -10,9 +10,9 @@
 	  <jsp:element name="TaxonName">
 	    <jsp:attribute name="id">urn:kew.org:wcs:name:${id}</jsp:attribute>
 	    <jsp:attribute name="nomenclaturalCode">Botanical</jsp:attribute>
-	    <!--<jsp:attribute name="itis_em_other_ref">
+	    <jsp:attribute name="itis_em_other_ref">
 	        ${em:escape(result.authorship)}<c:if test="${not empty result.protologue.author}"> in ${em:escape(result.protologue.author)}</c:if>,<jsp:text> ${result.protologue.title} ${result.protologueMicroReference} ${result.protologue.datePublished}</jsp:text>
-	    </jsp:attribute>-->
+	    </jsp:attribute>
 	    <Simple>${result.name} ${em:escape(result.authorship)}</Simple>
 	    <Rank code="${result.rank.abbreviation}">${result.rank.label}</Rank>
 	    <CanonicalName>
