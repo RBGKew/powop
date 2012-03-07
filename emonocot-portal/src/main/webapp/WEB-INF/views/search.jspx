@@ -27,7 +27,7 @@
 				</script>
 				
 				<form id="search.form" class="pull-right form-search" accept-charset="UTF-8" method="GET" action="search">
-					<input class="search-query" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="query"/>						
+					<input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="query"/>						
 					<input type="hidden" name="limit" value="${result.pageSize}" />
 					<input type="hidden" name="start" value="0" />
 					<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">

@@ -2,23 +2,20 @@
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
-	<style type="text/css">
-      body {
-        background-color: #ffffff;
-      }
-    </style>
-    <br/>
     <div class="row">
-        <div class="span4">
-          	<h2><spring:message code="identify.title"/></h2>
+        <div class="span4 index-box">
+            <c:url var="identifyUrl" value="/identify"/>
+          	<a href="${identifyUrl}"><h2><spring:message code="identify.title"/></h2></a>
           	<p><spring:message code="identify.message"/></p>
         </div>
-        <div class="span4">
-          	<h2><spring:message code="classify.title"/></h2>
+        <div class="span4 index-box">
+            <c:url var="classifyUrl" value="/classify"/>
+          	<a href="${classifyUrl}"><h2><spring:message code="classify.title"/></h2></a>
            	<p><spring:message code="classify.message"/></p>
        	</div>
-        <div class="span4">
-          	<h2><spring:message code="explore.title"/></h2>
+        <div class="span4 index-box index-box-last">
+            <c:url var="exploreUrl" value="/search?query="/>
+          	<a href="${exploreUrl}"><h2><spring:message code="explore.title"/></h2></a>
           	<p><spring:message code="explore.message"/></p>
         </div>
       </div>

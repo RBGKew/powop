@@ -6,9 +6,13 @@
 	<header class="jumbotron masthead">
 	  <div class="inner">
 	    <div class="container">
-    	<h1><spring:message code="hero.title"/></h1>
-        <p class="lead"><spring:message code="hero.message"/></p>
-        <br/>
+	     <div class="row">
+    	  <h1 class="span12"><spring:message code="hero.title"/></h1>
+    	 </div>
+    	 <div class="row">
+           <p class="lead span12"><spring:message code="hero.message"/></p>
+         </div>
+         <div class="row">
         <script type="text/javascript">				
 		  $(document).ready(function() {
 			  $("input#query").autocomplete({
@@ -17,16 +21,18 @@
 		        });
 		  });
 		</script>
-		<form action="search" method="GET">
-          <div class="clearfix">
-     		<div class="input form-inline">					
-			  <input id="query" name="query" class="span4" type="text" value="" placeholder="Search for..."/>
+		<form class="form-search" action="search" method="GET">
+          <div class="offset3">
+     		<div class="input form-inline">
+     		  <spring:message code="search.for" var="placeholderText"/>	
+			  <input id="query" name="query" class="span6 search-query" type="text" value="" placeholder="${placeholderText}"/>
 			  <button type="submit" class="btn btn-primary">
 				<span class="icon-search icon-white">&amp;nbsp;</span>
 			  </button>					
 			</div>
 		  </div>
 		</form> 
+		</div>
 		</div>
       </div>       	
 	</header>
