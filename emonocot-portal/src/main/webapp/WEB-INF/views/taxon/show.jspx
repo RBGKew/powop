@@ -24,18 +24,18 @@
 						<span class="taxonName">${taxon.name}</span> ${taxon.authorship}
 					</h2>				
 					<c:if test="${taxon.protologue != null}">
-			  <c:set var="protologLink" value="${em:protologLink(taxon)}"/>
-			  <c:choose>
-			    <c:when test="${protologLink != null}">
-			      <small id="protologue">
-			        <a href="${protologLink.identifier}" title="${protologLink.title}">${taxon.protologue.title} ${taxon.protologue.volume}${taxon.protologueMicroReference} ${taxon.protologue.datePublished}</a>
-			      </small>
-			    </c:when>
-			    <c:otherwise>
-			      <small id="protologue">${taxon.protologue.title} ${taxon.protologue.volume}${taxon.protologueMicroReference} ${taxon.protologue.datePublished}</small>
-			    </c:otherwise>
-			  </c:choose>				
-			</c:if>
+						<c:set var="protologLink" value="${em:protologLink(taxon)}"/>
+						<c:choose>
+							<c:when test="${protologLink != null}">
+								<small id="protologue">
+									<a href="${protologLink.identifier}" title="${protologLink.title}">${taxon.protologue.title} ${taxon.protologue.volume}${taxon.protologueMicroReference} ${taxon.protologue.datePublished}</a>
+								</small>
+							</c:when>
+							<c:otherwise>
+								<small id="protologue">${taxon.protologue.title} ${taxon.protologue.volume}${taxon.protologueMicroReference} ${taxon.protologue.datePublished}</small>
+							</c:otherwise>
+						</c:choose>
+					</c:if>
 				</div>
 			</div>
 			
@@ -101,27 +101,27 @@
 					</section>
 				</c:if>
 
-                <c:if test="${not empty em:allContent(taxon)}">
-				  <section id="textContent">
-					<c:forEach var="feature" items="${em:features()}">
-						<c:set var="content" value="${em:content(taxon,feature)}" />
-						<c:if test="${content != null}">
-							<div id="${feature}">
-								<div>
-									<h2><spring:message code="${feature}"/></h2>
+				<c:if test="${not empty em:allContent(taxon)}">
+					<section id="textContent">
+						<c:forEach var="feature" items="${em:features()}">
+							<c:set var="content" value="${em:content(taxon,feature)}" />
+							<c:if test="${content != null}">
+								<div id="${feature}">
+									<div>
+										<h2><spring:message code="${feature}"/></h2>
+									</div>
+									<p class="justified">${content.content}</p>
+									<c:if test="${not empty content.references }">
+										<ul class="citations">
+											<c:forEach var="reference" items="${content.references}">
+												<li><a href="#${reference.identifier}">${em:citekey(bibliography, reference)}</a></li>
+											</c:forEach>
+										</ul>
+									</c:if>
 								</div>
-								<p class="justified">${content.content}</p>
-								<c:if test="${not empty content.references }">
-									<ul class="citations">
-										<c:forEach var="reference" items="${content.references}">
-											<li><a href="#${reference.identifier}">${em:citekey(bibliography, reference)}</a></li>
-										</c:forEach>
-									</ul>
-								</c:if>
-							</div>
-						</c:if>
-					</c:forEach>
-				  </section>
+							</c:if>
+						</c:forEach>
+					</section>
 				</c:if>
 				
 				<c:if test="${not empty em:regions(taxon)}">
@@ -162,14 +162,16 @@
 							<!-- Area Styling -->
 						</c:url>
 					</c:set>
-					
+					<c:url var="openlayersImageLocation" value="/images/OpenLayers/"/>
 					<script type="text/javascript">
 						var map;
+						
 						
 						function foo(data) {
 							if (!data) {
 						} else {
 							$('#alternative-map').hide();
+							OpenLayers.ImgPath = "${openlayersImageLocation}";
 							var base_layer = new OpenLayers.Layer.WMS(
 								"OpenLayers WMS",
 								"http://labs.metacarta.com/wms/vmap0",
@@ -181,20 +183,21 @@
 								isBaseLayer : true,
 								displayInLayerSwitcher : false
 								});
+							
 							map = new OpenLayers.Map('map',
 							{
+								controls: [new OpenLayers.Control.Navigation({zoomWheelEnabled: false}),
+								           new OpenLayers.Control.PanZoomBar()],
 								maxExtent : new OpenLayers.Bounds(-180, -90, 180, 90),
 								maxResolution : 0.72,
 								restrictedExtent : new OpenLayers.Bounds(-180, -90, 180, 90),
 								projection : new OpenLayers.Projection("EPSG:4326")
-							});
-							
+							}); 
 							map.addLayers([ base_layer ]);
-							
 							
 							for (i in data.layers) {
 								var layerName = "topp:tdwg_level_" + data.layers[i].tdwg.substr(4, 1);
-								
+							
 								var layer = new OpenLayers.Layer.WMS.Untiled(
 									"layer " + (i + 1),data.geoserver,
 									{
@@ -212,7 +215,8 @@
 								layer.params.SLD = data.layers[i].sld;
 								map.addLayers([ layer ]);
 								}
-	
+								map.addControl(new OpenLayers.Control.Navigation(
+					                {zoomWheelEnabled:false}));
 								var bbox = data.bbox.split(",");
 								map.zoomToExtent(new OpenLayers.Bounds(
 										parseInt(bbox[0]),
@@ -220,9 +224,11 @@
 										parseInt(bbox[2]),
 										parseInt(bbox[3])));
 								}
+								
 							}
 						
 						$(document).ready(function() {
+							
 							$.ajax({
 								url : "${mapUrl}",
 								dataType : "script",
