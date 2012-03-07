@@ -28,7 +28,14 @@
 			Monocots constitute approximately 20% (70,000 species) of all higher plants and include numerous groups of the highest conservation, 
 			ecological and economic importance, such as grasses, sedges, orchids, palms and aroids.</p>
 
-			<p><img src="/images/Dactylorhiza_thumb.JPG" width="188" height="250" style="float: right; padding-left: 6px;" />
+			<p>
+			<jsp:element name="img">
+				<jsp:attribute name="src">
+					<c:url value="/images/Dactylorhiza_thumb.JPG"/>
+				</jsp:attribute>
+				<jsp:attribute name="class">pull-right</jsp:attribute>
+				<jsp:attribute name="alt">Image</jsp:attribute>
+			</jsp:element>
 			The objective of this proposal is to produce a web-based treatment of monocot plants, targeted at biodiversity and environmental scientists, 
 			but available to all users including volunteer biologists, the general public and schools. 
 			This site will provide information such as nomenclature, taxonomic descriptions, images, identification guides, geographical, ecological, 
@@ -54,7 +61,14 @@
 			and will develop web-based metrics to quantify the contribution of taxonomists to biodiversity science. 
 			They will also ensure that the working model established for eMonocot can be extended readily to animal groups. </p>
 
-			<p><img src="/images/Ornithogalum%20umbellatum%20umbellatum%20%28Newdigate%20Brickworks%20Nature%20Reserve%2C%20Newdigate%2C%20Surrey%2C%2024.v.2008%29%202_crop_thumb.JPG" width="269" height="250" style="float: left; padding-right: 6px;" />
+			<p>
+			<jsp:element name="img">
+				<jsp:attribute name="src">
+					<c:url value="/images/Ornithogalum%20umbellatum%20umbellatum%20%28Newdigate%20Brickworks%20Nature%20Reserve%2C%20Newdigate%2C%20Surrey%2C%2024.v.2008%29%202_crop_thumb.JPG"/>
+				</jsp:attribute>
+				<jsp:attribute name="class">pull-left</jsp:attribute>
+				<jsp:attribute name="alt">Image</jsp:attribute>
+			</jsp:element>
 			eMonocot builds on the success of the NERC-funded Kew/NHM/Oxford <a href="http://www.cate-project.org/">CATE</a>project as well as ground-breaking developments in eTaxonomy facilitated by <a href="http://www.e-taxonomy.eu/">EDIT</a>. 
 			The project is closely linked with key international stakeholders in biodiversity informatics, such as the <a href="http://www.eol.org/">Encyclopedia of Life</a> (EoL), 
 			the <a href="http://www.barcodeoflife.org/">Consortium for the Barcode of Life</a> (CBOL) and the <a href="http://www.gbif.org/">Global Biodiversity Information Facility</a>. 
