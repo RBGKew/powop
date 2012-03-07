@@ -341,6 +341,15 @@ public class StepDefinitions {
 
     /**
      *
+     * @param keyword Set the keyword
+     */
+    @When("^I click on the keyword \"([^\"]*)\"$")
+    public final void iClickOnTheKeyword(final String keyword) {
+        currentPage = ((ImagePage) currentPage).selectKeyword(keyword);
+    }
+
+    /**
+     *
      * @param category Set the category
      */
     @When("^I select the job category \"([^\"]*)\"$")

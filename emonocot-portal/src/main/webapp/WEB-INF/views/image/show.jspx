@@ -50,20 +50,28 @@
 		      <td>${image.description}</td>
 		    </tr>
 		    <tr>
+		      <td><spring:message code="image.license"/></td>
+		      <td>${image.license}</td>
+		    </tr>
+		    <tr>
 		      <td><spring:message code="image.locality"/></td>
 		      <td>${image.locality}</td>
 		    </tr>
 		    <tr>
 		      <td><spring:message code="image.keywords"/></td>
-		      <td>
+		      <td id="keywords">
 		        <c:if test="${not empty image.keywords}">
 		          <c:forEach var="keyword" items="${em:split(image.keywords,',')}" varStatus="status">
+		            <c:url var="keywordUrl" value="/search">
+		              <c:param name="query" value="${keyword}"/>
+		              <c:param name="facet" value="CLASS.org.emonocot.model.media.Image"/>
+		            </c:url>
 		            <c:choose>
 		              <c:when test="${status.last}">
-		                <span class="label">${keyword}</span>
+		                <a href="${keywordUrl}" title="${keyword}"><span class="label">${keyword}</span></a>
 		              </c:when>
 		              <c:otherwise>
-		                <span class="label">${keyword}</span>,&#160;
+		                <a href="${keywordUrl}" title="${keyword}"><span class="label">${keyword}</span></a>,&#160;
 		              </c:otherwise>
 		            </c:choose>		          
 		          </c:forEach>

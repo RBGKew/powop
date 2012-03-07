@@ -42,7 +42,8 @@ public class DataSetup {
         for (ImageRow imageRow : imageRows) {
             testDataManager.createImage(imageRow.identifier, imageRow.caption,
                     imageRow.url, imageRow.source, imageRow.description,
-                    imageRow.locality, imageRow.creator);
+                    imageRow.locality, imageRow.creator, imageRow.license,
+                    imageRow.keywords);
         }
     }
 

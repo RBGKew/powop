@@ -6,9 +6,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
 /**
- * 
+ *
  * @author ben
- * 
+ *
  */
 public class ImagePage extends PageObject implements IllustratedPage {
 
@@ -24,11 +24,17 @@ public class ImagePage extends PageObject implements IllustratedPage {
     @FindBy(how = How.ID, using = "page-title")
     private WebElement caption;
 
-    /**
+   /**
     *
     */
     @FindBy(how = How.ID, using = "image-properties")
     private WebElement properties;
+
+   /**
+    *
+    */
+    @FindBy(how = How.ID, using = "keywords")
+    private WebElement keywords;
 
     /**
     *
@@ -59,5 +65,17 @@ public class ImagePage extends PageObject implements IllustratedPage {
      */
     public final int getThumbnails() {
         return thumbnailContainer.findElements(By.tagName("li")).size();
+    }
+
+    /**
+     *
+     * @param keyword Set the keyword
+     * @return the current page
+     */
+    public final SearchResultsPage selectKeyword(final String keyword) {
+        WebElement keywordElement = keywords.findElement(By.xpath("a[@title = '"
+                + keyword + "']"));
+        return this.openAs(keywordElement.getAttribute("href"),
+                SearchResultsPage.class);
     }
 }

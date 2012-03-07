@@ -41,4 +41,14 @@ public class ImageRow {
      *
      */
     public String locality;
+
+    /**
+     *
+     */
+    public String license;
+
+    /**
+     *
+     */
+    public String keywords;
 }

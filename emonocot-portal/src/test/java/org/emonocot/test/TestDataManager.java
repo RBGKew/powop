@@ -181,11 +181,13 @@ public class TestDataManager {
      * @param description Set the description
      * @param locality Set the locality
      * @param creator Set the creator
+     * @param license Set the license
+     * @param keywords Set the keywords
     */
     public final void createImage(final String identifier,
             final String caption, final String url, final String source,
             final String description, final String locality,
-            final String creator) {
+            final String creator, final String license, final String keywords) {
        enableAuthentication();
        Image image = new Image();
        image.setCaption(caption);
@@ -194,6 +196,8 @@ public class TestDataManager {
        image.setDescription(description);
        image.setLocality(locality);
        image.setCreator(creator);
+       image.setLicense(license);
+       image.setKeywords(keywords);
        if (source != null) {
            Source s = new Source();
            s.setIdentifier(source);
