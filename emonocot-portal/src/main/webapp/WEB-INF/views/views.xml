@@ -31,5 +31,11 @@
   </definition>
   <definition name="methodNotAllowed" extends="default">    
     <put-attribute name="body" value="/WEB-INF/views/methodNotAllowed.jspx" />
-  </definition>    
+  </definition> 
+  <definition name="about" extends="default">    
+    <put-attribute name="body" value="/WEB-INF/views/about.jspx" />
+  </definition>
+  <definition name="contact" extends="default">    
+    <put-attribute name="body" value="/WEB-INF/views/contact.jspx" />
+  </definition>   
 </tiles-definitions>

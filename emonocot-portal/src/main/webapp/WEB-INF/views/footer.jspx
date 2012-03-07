@@ -5,7 +5,22 @@
   version="2.0">  
   <footer class="footer">
     <div class="container">  
-      <p>eMonocot <spring:message code="application.version"/></p>
-    </div>
+      <p class="pull-right">eMonocot <spring:message code="application.version"/></p>
+     
+      	<ul class="unstyled">
+			    		<li>
+			    			<jsp:element  name="a">
+				    			<jsp:attribute name="href"><c:url value="/about"/></jsp:attribute>
+				    			<spring:message code="about.title"/>
+				    		</jsp:element>
+				    	</li>
+			    		<li>
+			    			<jsp:element  name="a">
+				    			<jsp:attribute name="href"><c:url value="/contact"/></jsp:attribute>
+				    			<spring:message code="contact.title"/>
+				    		</jsp:element>
+			    		</li>
+			    	</ul>
+			</div>
   </footer>      
 </jsp:root>

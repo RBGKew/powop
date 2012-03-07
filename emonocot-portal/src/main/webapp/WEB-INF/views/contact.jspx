@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<div class="content">
+		<div class="page-header header-margin">
+			<h2>
+				<spring:message code="contact.title" />
+			</h2>
+		</div>
+		<div class="row">
+		  <div class="span12">
+		  <form method="post" action="mailto:youremail@youremail.com" >
+			<input type="submit" value="Send Email" />
+		</form>
+		  </div>
+		</div>
+	</div>
+</jsp:root>

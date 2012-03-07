@@ -47,7 +47,9 @@
 	<mvc:view-controller path="/accessDenied" view-name="accessDenied"/>
     <mvc:view-controller path="/uncaughtException" view-name="uncaughtException"/>
     <mvc:view-controller path="/resourceNotFound" view-name="resourceNotFound"/>
-    <mvc:view-controller path="/methodNotAllowed" view-name="methodNotAllowed"/>	
+    <mvc:view-controller path="/methodNotAllowed" view-name="methodNotAllowed"/>
+    <mvc:view-controller path="/about" view-name="about"/>
+    <mvc:view-controller path="/contact" view-name="contact"/>	
 
 	<bean id="conversionService" class="org.emonocot.portal.format.PortalFormatterFactory">
 		<property name="converters">
