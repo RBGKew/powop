@@ -185,7 +185,7 @@ public class Taxon implements IdentifiableEntity<String> {
      * Due to https://hibernate.onjira.com/browse/HHH-4335 '@WhereJoinTable
      * doesn't work with @ManyToOne', we can't use the following code, so we're
      * forced to resort to the following.
-     * 
+     *
      * @ManyToOne(fetch = FetchType.LAZY)
      * @JoinTable(name = "Plant_author", joinColumns = {
      * @JoinColumn(name = "Plant_name_id") }, inverseJoinColumns = {

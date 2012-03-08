@@ -105,7 +105,7 @@ public class ImageFieldSetMapper extends
             case format:
                 object.setFormat(value);
                 break;
-            case rights:
+            case license:
                 object.setLicense(value);
                 break;
             default:

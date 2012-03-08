@@ -86,7 +86,7 @@ public class ChecklistWebserviceFunctionalTest {
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:1", "Lorem ipsum",
                 "(Archer & Archer) Pargetter", "Lowiaceae", "Lorem", "ipsum",
                 "SPECIES", "accepted", null, null, null, null, "reference1", "2: 34-56",
-                null, null, null, null, null, null, null, null, null,
+                null, null, null, null, "DEN", "FIN", "FOR", null, null,
                 "urn:kew.org:wcs:taxon:3", null, null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:2", "Lorem dolor",
                 null, "Lowiaceae", "Lorem", "dolor", "SPECIES", "accepted",
@@ -211,6 +211,14 @@ public class ChecklistWebserviceFunctionalTest {
                 "(Archer & Archer) Pargetter in Pargetter, Integer elementum lorem ut nibh scelerisque at condimentum 2: 34-56 1784",
                 with(xml).get(
                         "DataSet.TaxonNames.TaxonName.@itis_em_other_ref"));
+        /**
+         * ISSUE http://build.e-monocot.org/bugzilla/show_bug.cgi?id=180
+         *
+        assertEquals(
+                "Three distribution records should be present",
+                3,
+                with(xml)
+                        .get("DataSet.TaxonConcepts.TaxonConcept.ProviderSpecificData.Distribution.size()"));*/
     }
 
     /**

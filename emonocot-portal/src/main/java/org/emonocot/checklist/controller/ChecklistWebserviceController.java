@@ -80,7 +80,7 @@ public class ChecklistWebserviceController {
      * Method which searches for taxon objects who's names match the search term
      * exactly.
      *
-     * @param searchTerm A taxon name to search the database for.
+     * @param search A taxon name to search the database for.
      * @return a list of taxon objects (stored under the key 'result')
      */
     @RequestMapping(method = RequestMethod.GET, params = { "function=search",
@@ -115,7 +115,7 @@ public class ChecklistWebserviceController {
                 // do nothing
             }
         }
-        String query = new String("label:"+search);
+        String query = new String("label:" + search);
         ModelAndView modelAndView = new ModelAndView("rdfResponse");
         Page<Taxon> taxa = taxonService.search(query, null, null, null, null,
                 null, null, "taxon-ws");
@@ -170,12 +170,18 @@ public class ChecklistWebserviceController {
         } else {
             modelAndView.setViewName("tcsXmlResponse");
             modelAndView.addObject("id", id);
-            Taxon taxon = taxonService.load(ChecklistIdentifierFormatter.IDENTIFIER_PREFIX + id, "taxon-ws");
-            if(taxon.getStatus() != null && taxon.getStatus().equals(TaxonomicStatus.accepted)) {
+            Taxon taxon = taxonService.load(
+                    ChecklistIdentifierFormatter.IDENTIFIER_PREFIX + id,
+                    "taxon-ws");
+            if (taxon.getStatus() != null
+                    && taxon.getStatus().equals(TaxonomicStatus.accepted)) {
                 // This taxon is accepted
-                // Due to the fact that family records are not present, a dummy reference to the parent taxon must
+                // Due to the fact that family records are not present, a dummy
+                // reference to the parent taxon must
                 // be added for accepted genera
-                if(taxon.getParent() == null && (taxon.getRank() != null && taxon.getRank().equals(Rank.GENUS))) {
+                if (taxon.getParent() == null
+                        && (taxon.getRank() != null && taxon.getRank().equals(
+                                Rank.GENUS))) {
                     Taxon parent = new Taxon();
                     Family family = Family.valueOf(taxon.getFamily());
                     parent.setName(taxon.getFamily());

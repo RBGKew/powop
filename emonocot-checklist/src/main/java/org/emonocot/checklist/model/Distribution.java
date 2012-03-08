@@ -17,9 +17,9 @@ import org.emonocot.model.geography.Country;
 import org.emonocot.model.geography.Region;
 
 /**
- * 
+ *
  * @author ben
- * 
+ *
  */
 @Entity
 @Table(name = "Plant_Locality")
@@ -58,7 +58,7 @@ public class Distribution {
     private Integer id;
 
     /**
-     * 
+     *
      * @return the country of this distribution record or null if a country is
      *         not mentioned
      */
@@ -67,7 +67,7 @@ public class Distribution {
     }
 
     /**
-     * 
+     *
      * @return the region of this distribution record or null if a region is not
      *         mentioned
      */
@@ -82,7 +82,7 @@ public class Distribution {
     }
 
     /**
-     * 
+     *
      * @param newTaxon
      *            The taxon this distribution record refers to
      * @param newRegion

@@ -85,6 +85,10 @@ public class TaxonDaoImpl extends HibernateDaoSupport implements TaxonDao {
         criteria.setFetchMode("acceptedName", FetchMode.JOIN);
         criteria.setFetchMode("protologue", FetchMode.JOIN);
         criteria.setFetchMode("basionym", FetchMode.JOIN);
+        /**
+         * ISSUE http://build.e-monocot.org/bugzilla/show_bug.cgi?id=180
+         *
+        criteria.setFetchMode("distribution", FetchMode.SELECT);*/
 
         Taxon taxon = (Taxon) criteria.uniqueResult();
         if (taxon != null) {

@@ -25,6 +25,7 @@ import org.emonocot.model.identifier.Identifier;
 import org.emonocot.model.pager.Page;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.AlphabeticalTaxonComparator;
+import org.emonocot.model.taxon.Rank;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.model.taxon.TaxonomicStatus;
 import org.emonocot.portal.view.bibliography.Bibliography;
@@ -62,6 +63,21 @@ public final class Functions {
     private Functions() {
     }
 
+    /**
+     * @param rank Set the rank
+     * @return true if the rank is infraspecific
+     */
+    public static Boolean isInfraspecific(final Rank rank) {
+        if (rank == null) {
+            return Boolean.FALSE;
+        } else {
+            if (rank.compareTo(Rank.SPECIES) > 0) {
+                return Boolean.TRUE;
+            } else {
+                return Boolean.FALSE;
+            }
+        }
+    }
     /**
      * @param taxon Set the taxon
      * @return the protolog link of the taxon if it exists
@@ -101,6 +117,35 @@ public final class Functions {
      */
     public static Collection<TextContent> content(final Taxon taxon) {
         return taxon.getContent().values();
+    }
+
+    /**
+     * @param region
+     *            Set the region
+     * @return the country code or null if the distribution is at regional level
+     *         or above
+     */
+    public static String country(final GeographicalRegion region) {
+        if (region == null || region.getClass().equals(Region.class)
+                || region.getClass().equals(Continent.class)) {
+            return null;
+        } else {
+            return region.getCode().toString();
+        }
+    }
+
+    /**
+     * @param region Set the region
+     * @return the region code or null if the distribution is at continent level
+     */
+    public static String region(final GeographicalRegion region) {
+        if (region == null || region.getClass().equals(Continent.class)) {
+            return null;
+        } else if (region.getClass().equals(Region.class)) {
+            return region.getCode().toString();
+        } else {
+            return ((Country) region).getRegion().getCode().toString();
+        }
     }
 
     /**

@@ -276,7 +276,7 @@ public enum Rank {
        this.abbreviation = newAbbreviation;
        this.label = newLabel;
    }
-   
+
    /**
     * @return the abbreviation
     */

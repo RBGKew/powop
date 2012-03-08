@@ -6,6 +6,7 @@
   version="2.0">
   <DataSet xmlns='http://www.tdwg.org/schemas/tcs/1.01' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.tdwg.org/schemas/tcs/1.01 http://www.tdwg.org/standards/117/files/TCS101/v101.xsd">
+    <c:set var="name">${result.genus}<c:if test="${not empty result.specificEpithet}"> ${result.specificEpithet}</c:if><c:if test="${em:isInfraspecific(result.rank)}"> ${result.rank.label}</c:if><c:if test="${not empty result.infraSpecificEpithet}"> ${result.infraSpecificEpithet}</c:if></c:set>
 	<TaxonNames>
 	  <jsp:element name="TaxonName">
 	    <jsp:attribute name="id">urn:kew.org:wcs:name:${id}</jsp:attribute>
@@ -79,6 +80,14 @@
 	        </TaxonRelationship>
 	      </c:if>
 	    </TaxonRelationships>
+	    <!-- ISSUE http://build.e-monocot.org/bugzilla/show_bug.cgi?id=180 
+	    <c:if test="${not empty result.distribution}">
+	      <ProviderSpecificData>
+	        <c:forEach var="distribution" items="${em:regions(result)}">
+	          <Distribution country="${em:country(distribution)}" region="${em:region(distribution)}"/>
+	        </c:forEach>
+	      </ProviderSpecificData>
+	    </c:if>-->
 	  </TaxonConcept>
 	</TaxonConcepts>
   </DataSet>

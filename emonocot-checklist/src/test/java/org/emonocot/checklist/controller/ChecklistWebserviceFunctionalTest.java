@@ -166,6 +166,14 @@ public class ChecklistWebserviceFunctionalTest {
                "(Archer & Archer) Pargetter in Pargetter, Integer elementum lorem ut nibh scelerisque at condimentum 2: 34-56 1784",
                with(xml).get(
                        "DataSet.TaxonNames.TaxonName.@itis_em_other_ref"));
+       /**
+        * ISSUE http://build.e-monocot.org/bugzilla/show_bug.cgi?id=180
+        *
+       assertEquals(
+               "Three distribution records should be present",
+               3,
+               with(xml)
+                       .get("DataSet.TaxonConcepts.TaxonConcept.ProviderSpecificData.Distribution.size()"));*/
    }
 
    /**

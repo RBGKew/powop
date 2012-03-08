@@ -75,6 +75,10 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
                 new Fetch("accepted", FetchMode.JOIN),
                 new Fetch("children", FetchMode.SELECT),
                 new Fetch("synonyms", FetchMode.SELECT),
+                /**
+                 *  ISSUE http://build.e-monocot.org/bugzilla/show_bug.cgi?id=180
+                 *
+                new Fetch("distribution", FetchMode.SELECT),*/
                 new Fetch("protologue", FetchMode.JOIN)});
     }
 

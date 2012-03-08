@@ -19,6 +19,11 @@
         <function-signature>org.emonocot.model.description.TextContent content(org.emonocot.model.taxon.Taxon,org.emonocot.model.description.Feature)</function-signature>
     </function>
     <function>
+        <name>isInfraspecific</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.Boolean isInfraspecific(org.emonocot.model.taxon.Rank)</function-signature>
+    </function>
+    <function>
         <name>isSynonym</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>java.lang.Boolean isSynonym(org.emonocot.model.taxon.Taxon)</function-signature>
@@ -27,6 +32,16 @@
         <name>regions</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>java.util.List regions(org.emonocot.model.taxon.Taxon)</function-signature>
+    </function>
+    <function>
+        <name>region</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.String region(org.emonocot.model.geography.GeographicalRegion)</function-signature>
+    </function>
+    <function>
+        <name>country</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.String country(org.emonocot.model.geography.GeographicalRegion)</function-signature>
     </function>
     <function>
         <name>allContent</name>
