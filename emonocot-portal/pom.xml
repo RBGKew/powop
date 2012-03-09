@@ -293,7 +293,13 @@
                       <include>${basedir}/src/main/css/ad-gallery/jquery.ad-gallery.css</include>                 
                       <include>${basedir}/src/main/css/jsTree/jsTree.css</include>
                     </includes>
-                  </aggregation>    
+                  </aggregation>
+                  <aggregation>
+                    <output>${project.build.directory}/static/css/print.css</output>
+                    <includes>
+                  <include>${basedir}/src/main/css/print.css</include>
+                  </includes>
+                  </aggregation>
                   <aggregation>
                     <output>${project.build.directory}/static/js/header.js</output>
                     <includes>

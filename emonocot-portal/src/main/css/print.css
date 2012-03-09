@@ -1,0 +1,14 @@
+body {
+   background: white;
+   font-size: 12pt;
+   }
+   
+a:link, a:visited {
+   color: #520;
+   background: transparent;
+   font-weight: bold;
+   text-decoration: underline;
+   }
+   
+
+
