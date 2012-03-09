@@ -12,6 +12,8 @@ import org.emonocot.portal.driver.ClassificationPage;
 import org.emonocot.portal.driver.GroupUpdatePage;
 import org.emonocot.portal.driver.HomePage;
 import org.emonocot.portal.driver.IdentifyPage;
+import org.emonocot.portal.driver.AboutPage;
+import org.emonocot.portal.driver.ContactPage;
 import org.emonocot.portal.driver.IllustratedPage;
 import org.emonocot.portal.driver.ImagePage;
 import org.emonocot.portal.driver.GroupFormPage;
@@ -442,6 +444,8 @@ public class StepDefinitions {
    public final void selectLoginLink() {
        currentPage = currentPage.selectLoginLink();
    }
+   
+   
 
     /**
      *
@@ -583,7 +587,32 @@ public class StepDefinitions {
     public final void iShouldBeOnTheIdentifyPage() {
         assertEquals(currentPage.getClass(), IdentifyPage.class);
     }
-
+    /**
+    *
+    */
+   @Then("^I select the about link in the footer$")
+   public final void iSelectTheAboutLinkInTheFooter() {
+       currentPage = currentPage.selectAboutLink();
+   }
+    
+    @Then("^I should be on the about page$")
+    public void iShouldBeOnTheAboutPage() {
+    	assertEquals(currentPage.getClass(), AboutPage.class);
+    }
+    
+    /**
+    *
+    */
+   @When("^I select the contact link in the footer$")
+   public final void iSelectTheContactLinkInTheFooter() {
+       currentPage = currentPage.selectContactLink();
+   }
+    
+    @Then("^I should be on the contact page$")
+    public void iShouldBeOnTheContactPage() {
+    	assertEquals(currentPage.getClass(), ContactPage.class);
+    }
+    
     /**
      *
      * @param options

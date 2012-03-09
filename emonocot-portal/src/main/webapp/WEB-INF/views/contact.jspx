@@ -10,11 +10,19 @@
 			</h2>
 		</div>
 		<div class="row">
-		  <div class="span12">
-		  <form method="post" action="mailto:youremail@youremail.com" >
-			<input type="submit" value="Send Email" />
-		</form>
-		  </div>
+			<div class="span12">
+				<h4>Email</h4>
+				<p>You can email eMonocot here</p>
+				<form method="post" action="mailto:enquiries@e-monocot.org" >
+					<input type="submit" value="Send Email" />
+				</form>
+				
+				<div>&#160;</div>
+				<h4>Mailing lists / Forums</h4>
+				<p class="span10">The mailing lists are linked to the forums so that a permanent archive of communication is available. 
+				This is for general discussion of any issues relating to the project. You can find the Forum discussions here
+				<a href="http://e-monocot.org/forum" title="http://e-monocot.org/forum">http://e-monocot.org/forum</a>.</p>
+			</div>
 		</div>
 	</div>
 </jsp:root>

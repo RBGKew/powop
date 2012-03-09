@@ -113,6 +113,14 @@ public class Portal extends PageObject {
     public final LoginPage getLoginPage() {
         return openAs(getBaseUri() + "login", LoginPage.class);
     }
+    
+    /**
+    *
+    * @return the login page
+    */
+   public final AboutPage getAboutPage() {
+       return openAs(getBaseUri() + "about", AboutPage.class);
+   }
 
     /**
      *

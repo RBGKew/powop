@@ -25,9 +25,15 @@ public abstract class PageObject {
    /**
     *
     */
-   @FindBy(how = How.CLASS_NAME, using = "navbar")
-   private WebElement nav;
+   @FindBy(how = How.CLASS_NAME, using = "footer")
+   private WebElement foot;
 
+   
+   /**
+   *
+   */
+  @FindBy(how = How.CLASS_NAME, using = "navbar")
+  private WebElement nav;
     /**
      *
      */
@@ -249,4 +255,25 @@ public abstract class PageObject {
         return this.openAs(this.webDriver.findElement(By.linkText(text))
                 .getAttribute("href"), clazz);
     }
+
+    
+    
+    /**
+    *
+    * @return the about page
+    */
+	public final AboutPage selectAboutLink() {
+		return openAs(
+                foot.findElement(By.linkText("About us")).getAttribute("href"),
+                AboutPage.class);
+	}
+	/**
+    *
+    * @return the contact page
+    */
+	public final ContactPage selectContactLink() {
+		return openAs(
+                foot.findElement(By.linkText("Contact us")).getAttribute("href"),
+                ContactPage.class);
+	}
 }
