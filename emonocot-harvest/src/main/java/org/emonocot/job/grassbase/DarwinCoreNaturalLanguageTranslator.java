@@ -3,6 +3,9 @@ package org.emonocot.job.grassbase;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import au.org.ala.delta.DeltaContext;
 import au.org.ala.delta.model.Item;
 import au.org.ala.delta.model.format.AttributeFormatter;
@@ -19,10 +22,15 @@ import au.org.ala.delta.translation.naturallanguage.NaturalLanguageTranslator;
  */
 public class DarwinCoreNaturalLanguageTranslator extends
         NaturalLanguageTranslator {
+   /**
+    *
+    */
+    private Logger logger = LoggerFactory.getLogger(DarwinCoreNaturalLanguageTranslator.class);
+
     /**
      *
      */
-    private Map<Integer, Integer> identifiers = new HashMap<Integer, Integer>();
+    private Map<Integer, TaxonInfo> identifiers = new HashMap<Integer, TaxonInfo>();
 
     /**
      *
@@ -37,35 +45,41 @@ public class DarwinCoreNaturalLanguageTranslator extends
      * @param itemFormatter Set the item formatter
      * @param characterFormatter Set the character formatter
      * @param attributeFormatter Set the attribute formatter
-     * @param newIdentifiers Set the identifiers
+     * @param identifiers2 Set the identifiers
      */
     public DarwinCoreNaturalLanguageTranslator(final DeltaContext context,
             final ItemListTypeSetter typeSetter, final PrintFile printer,
             final ItemFormatter itemFormatter,
             final CharacterFormatter characterFormatter,
             final AttributeFormatter attributeFormatter,
-            final Map<Integer, Integer> newIdentifiers) {
+            final Map<Integer, TaxonInfo> identifiers2) {
         super(context, typeSetter, printer, itemFormatter,
                 characterFormatter, attributeFormatter);
-        this.identifiers = newIdentifiers;
+        this.identifiers = identifiers2;
     }
 
     @Override
     protected final void printItemHeading(final Item item) {
-        Integer checklistId = identifiers.get(item.getItemNumber()
-                + itemNumberOffset);
+        TaxonInfo taxonInfo = identifiers.get(item.getItemNumber() + itemNumberOffset - 1);
+        logger.debug("ITEM_NUMBER " + (item.getItemNumber() - 1) + " TAXON_NAME "  + taxonInfo.getName());
 
         String checklistIdentifier = null;
 
-        if (checklistId == null) {
+        if (taxonInfo.getChecklistId() == null) {
             checklistIdentifier = "";
         } else {
-            checklistIdentifier = "urn:kew.org:wcs:taxon:" + checklistId;
+            checklistIdentifier = "urn:kew.org:wcs:taxon:"
+                    + taxonInfo.getChecklistId();
         }
 
-        String itemLink = "http://www.kew.org/data/grasses-db/www/imp"
-                + String.format("%05d", itemNumberOffset + item.getItemNumber())
-                + ".htm";
+        String itemLink = null;
+        if (taxonInfo.getLink() != null) {
+            itemLink = "http://www.kew.org/data/grasses-db/www/"
+                    + taxonInfo.getLink() + ".htm";
+        } else {
+            itemLink = "";
+        }
+
         String heading = checklistIdentifier + "\t"
                 + itemLink + "\t";
         _typeSetter.beforeItemHeading();

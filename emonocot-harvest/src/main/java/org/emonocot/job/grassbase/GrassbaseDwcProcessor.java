@@ -8,6 +8,8 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +25,6 @@ import au.org.ala.delta.model.format.ItemFormatter;
 import au.org.ala.delta.translation.AbstractDataSetTranslator;
 import au.org.ala.delta.translation.DataSetFilter;
 import au.org.ala.delta.translation.ItemListTypeSetter;
-import au.org.ala.delta.translation.IterativeTranslator;
 import au.org.ala.delta.translation.PrintFile;
 import au.org.ala.delta.translation.naturallanguage.NaturalLanguageDataSetFilter;
 
@@ -43,26 +44,19 @@ public class GrassbaseDwcProcessor {
     private static final int BREAK_ON_ITEMS = 10;
 
     /**
-     *
+     *  "387328,'Aciachne acicularis','imp00000'".
      */
-    private static final int ITEM_ID_ENDS = 16;
+    private Pattern identifierPattern = Pattern.compile("(\\d+),'(imp\\d+)','([\\w-]+ [\\w-]+) .*?',+");
 
     /**
      *
      */
-    private static final int ITEM_ID_BEGINS = 11;
+    private Map<String, TaxonInfo> identifiers = new HashMap<String, TaxonInfo>();
+
     /**
      *
      */
-    private static final int CHECKLIST_ID_ENDS = 6;
-    /**
-     *
-     */
-    private static final int CHECKLIST_ID_BEGINS = 0;
-    /**
-     *
-     */
-    private Map<Integer, Integer> identifiers = new HashMap<Integer, Integer>();
+    private Map<Integer,TaxonInfo> taxonIdentifiers = new HashMap<Integer,TaxonInfo>();
 
     /**
      *
@@ -73,13 +67,22 @@ public class GrassbaseDwcProcessor {
         File identifierFile = new File(path);
         Scanner scanner = new Scanner(identifierFile);
         scanner.useDelimiter("\n");
+
         while (scanner.hasNext()) {
             String line = scanner.next();
-            Integer checklistId = Integer.parseInt(line.substring(
-                    CHECKLIST_ID_BEGINS, CHECKLIST_ID_ENDS));
-            Integer itemId = Integer.parseInt(line.substring(ITEM_ID_BEGINS,
-                    ITEM_ID_ENDS));
-            identifiers.put(itemId, checklistId);
+            line = line.substring(0, line.length() - 1);
+            Matcher identifierMatcher = identifierPattern.matcher(line);
+            if (identifierMatcher.matches()) {
+                Integer checklistId = Integer.parseInt(identifierMatcher
+                        .group(1));
+                String name = identifierMatcher.group(3);
+
+                String link = identifierMatcher.group(2);
+                TaxonInfo taxonInfo = new TaxonInfo(checklistId, name, link);
+                identifiers.put(name, taxonInfo);
+            } else {
+                System.out.println(line);
+            }
         }
         logger.debug(identifiers.keySet().size() + " identifiers parsed");
     }
@@ -134,46 +137,30 @@ public class GrassbaseDwcProcessor {
         Scanner scanner = new Scanner(orig);
         scanner.useDelimiter("#");
 
+        /**
+         * Skip the preamble at the top of the file
+         */
+        scanner.next();
+        /**
+         * Loop over the items
+         */
         while (scanner.hasNext()) {
+            logger.info("Item " + itemCounter);
             if ((itemCounter % breakOnItems) == 0) {
+                logger.debug("Writing Preamble");
                 out.write(preamble);
             }
-            if (itemCounter > 0) {
-                out.write("#" + scanner.next());
-            } else {
-                scanner.next();
-            }
+
+            String next = scanner.next();
+            String name = next.substring(0, next.indexOf("/")).trim();
+            logger.debug(name);
+            setItemId(itemCounter, name);
+            out.write("#" + next);
             itemCounter++;
+
             if ((itemCounter % breakOnItems) == 0) {
-                out.flush();
-                out.close();
-                PrintFile printer = new PrintFile(pout, 0);
-                ItemListTypeSetter typeSetter = new DarwinCoreTypeSetter(
-                        printer);
-                DeltaContext deltaContext = new DeltaContext();
-                ItemFormatter itemFormatter = new ItemFormatter(false,
-                        CommentStrippingMode.RETAIN,
-                        AngleBracketHandlingMode.RETAIN, true, false, false);
-                CharacterFormatter characterFormatter = new CharacterFormatter(
-                        false, CommentStrippingMode.STRIP_ALL,
-                        AngleBracketHandlingMode.RETAIN, true, false);
-                AttributeFormatter attributeFormatter = new AttributeFormatter(
-                        false, true, CommentStrippingMode.RETAIN);
-                DataSetFilter filter = new NaturalLanguageDataSetFilter(
-                        deltaContext);
-                DarwinCoreNaturalLanguageTranslator translator
-                    = new DarwinCoreNaturalLanguageTranslator(
-                        deltaContext, typeSetter, printer, itemFormatter,
-                        characterFormatter, attributeFormatter, identifiers);
-                AbstractDataSetTranslator dataSetTranslator = new AbstractDataSetTranslator(
-                        deltaContext, filter, translator);
 
-                initialiseContext(path + "/TONAT", deltaContext);
-                translator.setItemNumberOffset(itemCounter - breakOnItems - 1);
-                dataSetTranslator.translateItems();
-
-                pout.flush();
-
+                doProcess(out, path, pout, itemCounter - breakOnItems);
                 fileCounter++;
                 File output = new File(input.getCanonicalPath() + fileCounter);
                 input.renameTo(output);
@@ -182,10 +169,73 @@ public class GrassbaseDwcProcessor {
 
             }
         }
-        out.flush();
-        out.close();
+        /**
+         * There are any items remaining at the end of the processing.
+         * i.e. if # items does not divide evenly into breakOnItems
+         *
+         */
+        if ((itemCounter % breakOnItems) != 0) {
+            doProcess(out, path, pout, itemCounter
+                    - (itemCounter % breakOnItems));
+        }
         File output = new File(input.getCanonicalPath() + fileCounter);
         input.renameTo(output);
 
     }
+
+    /**
+     *
+     * @param out Set the output writer
+     * @param path Set the path
+     * @param pout Set the print stream
+     * @param itemOffset Set the item offset
+     * @throws Exception if there is a problem
+     */
+    private void doProcess(final Writer out, final String path,
+            final PrintStream pout, final Integer itemOffset) throws Exception {
+        out.flush();
+        out.close();
+        PrintFile printer = new PrintFile(pout, 0);
+        ItemListTypeSetter typeSetter = new DarwinCoreTypeSetter(printer);
+        DeltaContext deltaContext = new DeltaContext();
+        ItemFormatter itemFormatter = new ItemFormatter(false,
+                CommentStrippingMode.RETAIN, AngleBracketHandlingMode.RETAIN,
+                true, false, false);
+        CharacterFormatter characterFormatter = new CharacterFormatter(false,
+                CommentStrippingMode.STRIP_ALL,
+                AngleBracketHandlingMode.RETAIN, true, false);
+        AttributeFormatter attributeFormatter = new AttributeFormatter(false,
+                true, CommentStrippingMode.RETAIN);
+        DataSetFilter filter = new NaturalLanguageDataSetFilter(deltaContext);
+        DarwinCoreNaturalLanguageTranslator translator = new DarwinCoreNaturalLanguageTranslator(
+                deltaContext, typeSetter, printer, itemFormatter,
+                characterFormatter, attributeFormatter, taxonIdentifiers);
+        AbstractDataSetTranslator dataSetTranslator = new AbstractDataSetTranslator(
+                deltaContext, filter, translator);
+
+        initialiseContext(path + "/TONAT", deltaContext);
+        translator.setItemNumberOffset(itemOffset);
+        dataSetTranslator.translateItems();
+
+        pout.flush();
+    }
+
+    /**
+     *
+     * @param itemNumber Set the item number
+     * @param name Set the name
+     */
+    private void setItemId(final Integer itemNumber, final String name) {
+        TaxonInfo taxonInfo = this.identifiers.get(name);
+        if (taxonInfo == null) {
+            logger.warn("Could not find TaxonInfo for " + name);
+            taxonInfo = new TaxonInfo(null, name, null);
+            taxonIdentifiers.put(itemNumber, taxonInfo);
+        } else {
+            taxonInfo.setItemId(itemNumber);
+            taxonIdentifiers.put(itemNumber, taxonInfo);
+        }
+    }
+
+
 }
