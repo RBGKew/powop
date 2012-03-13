@@ -7,7 +7,7 @@
   version="2.0">
   <DataSet xmlns='http://www.tdwg.org/schemas/tcs/1.01' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.tdwg.org/schemas/tcs/1.01 http://www.tdwg.org/standards/117/files/TCS101/v101.xsd">
-    <c:set var="name"><c:if test="${not empty result.genusHybridMarker}">${result.genusHybridMarker} </c:if>${result.genus}<c:if test="${not empty result.speciesHybridMarker}"> ${result.speciesHybridMarker}</c:if><c:if test="${not empty result.species}"> ${result.species}</c:if><c:if test="${not empty result.infraspecificRank}"> ${result.infraspecificRank.label}</c:if><c:if test="${not empty result.infraspecificEpithet}"> ${result.infraspecificEpithet}</c:if></c:set>
+    <c:set var="name"><c:if test="${not empty result.genusHybridMarker}">${result.genusHybridMarker} </c:if>${result.genus}<c:if test="${not empty result.speciesHybridMarker}"> ${result.speciesHybridMarker}</c:if><c:if test="${not empty result.species}"> ${result.species}</c:if><c:if test="${not empty result.infraspecificRank}"> ${result.infraspecificRank}</c:if><c:if test="${not empty result.infraspecificEpithet}"> ${result.infraspecificEpithet}</c:if></c:set>
 	<TaxonNames>
 	  <jsp:element name="TaxonName">
 	   <jsp:attribute name="id">${result.nameId}</jsp:attribute>

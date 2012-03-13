@@ -146,8 +146,8 @@ public class ChecklistWebserviceFunctionalTest {
                "sp",
                with(xml).get(
                        "DataSet.TaxonConcepts.TaxonConcept.Rank.@code"));
-       assertEquals("Three synonyms should be present",
-               3,
+       assertEquals("Four synonyms should be present",
+               4,
                with(xml).get(
                        "DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship.findAll { it.@type == 'has synonym' }.size()"));
        assertEquals("One taxonomic parent should be present",
@@ -185,10 +185,19 @@ public class ChecklistWebserviceFunctionalTest {
    @Test
    public final void testSynonym() throws Exception {
        String xml = given().parameters("function", "details_tcs",
-               "id", "urn:kew.org:wcs:taxon:4",
+               "id", "urn:kew.org:wcs:taxon:9",
                "scratchpad", "functional-test.e-monocot.org")
                .get("/endpoint").andReturn().body().asString();
 
+       assertEquals("Simple should equal 'Lorem ipsum var. dolor (Archer & Archer) Pargetter'",
+               "Lorem ipsum var. dolor (Archer & Archer) Pargetter",
+               with(xml).get(
+                       "DataSet.TaxonNames.TaxonName.Simple"));
+       assertEquals("TaxonName publication attribute should equal '(Archer & Archer) Pargetter in Pargetter, Integer elementum lorem ut nibh scelerisque at condimentum 2: 34-56 1784'",
+               "(Archer & Archer) Pargetter in Pargetter, Integer elementum lorem ut nibh scelerisque at condimentum 2: 34-56 1784",
+               with(xml).get(
+                       "DataSet.TaxonNames.TaxonName.@itis_em_other_ref"));
+       
        assertEquals("One accepted name should be present",
                1,
                with(xml).get(

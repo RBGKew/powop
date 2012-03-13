@@ -1,0 +1,2 @@
+Plant_name_id,Full_epithet,Taxon_status_id,Accepted_plant_name_id,Basionym_id,Family,Genus,Species,Infraspecific_rank,Infraspecific_epithet,Date_of_entry,Publication_author,Volume_and_page,First_published,Place_of_publication_id
+9,Lorem ipsum var. dolor,S,1,-9998,Lowiaceae,Lorem,ipsum,var.,dolor,2011-06-01 09:00:01.0,Pargetter,2: 34-56,1784,1

@@ -17,26 +17,24 @@ import org.springframework.http.HttpStatus;
 import com.jayway.restassured.RestAssured;
 
 /**
- *
  * @author ben
- *
  */
 public class ChecklistOaiPmhWebserviceFunctionalTest {
 
     /**
      *
      */
-    private static final int TOTAL_NUMBER_OF_NODES = 10;
+    private static final int TOTAL_NUMBER_OF_NODES = 11;
 
-  /**
+    /**
    *
    */
-    private static final int NODES_IN_LOWIACEAE = 5;
+    private static final int NODES_IN_LOWIACEAE = 6;
 
     /**
     *
     */
-     private static final int NUMBER_OF_DISTRIBUTION_RECORDS = 3;
+    private static final int NUMBER_OF_DISTRIBUTION_RECORDS = 3;
 
     /**
     *
@@ -49,23 +47,19 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
      */
     @Before
     public final void setUp() throws Exception {
-        Resource propertiesFile
-        = new ClassPathResource("application.properties");
+        Resource propertiesFile = new ClassPathResource(
+                "application.properties");
         properties = new Properties();
         properties.load(propertiesFile.getInputStream());
-        RestAssured.baseURI = properties.getProperty(
-                "functional.test.baseUri",
+        RestAssured.baseURI = properties.getProperty("functional.test.baseUri",
                 "http://build.e-monocot.org");
-        RestAssured.port = Integer.parseInt(
-                properties.getProperty("functional.test.port",
-                "80"));
+        RestAssured.port = Integer.parseInt(properties.getProperty(
+                "functional.test.port", "80"));
         RestAssured.basePath = properties.getProperty(
-                "functional.test.basePath",
-                "/latest/checklist");
+                "functional.test.basePath", "/latest/checklist");
 
         if (properties.getProperty("http.proxyHost", null) != null
-                && properties
-                  .getProperty("http.proxyHost", null).length() > 0) {
+                && properties.getProperty("http.proxyHost", null).length() > 0) {
             RestAssured.proxyHost = properties.getProperty("http.proxyHost",
                     null);
             RestAssured.proxyPort = Integer.parseInt(properties.getProperty(
@@ -76,14 +70,13 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
     }
 
     /**
-     * Tests that any request which does not include the parameter
-     * "scratchpad" results in a "400 BAD REQUEST".
+     * Tests that any request which does not include the parameter "scratchpad"
+     * results in a "400 BAD REQUEST".
      */
     @Test
     public final void testRequestWithoutClientParameter() {
         given().parameters("verb", "Identify").expect()
-        .statusCode(HttpStatus.BAD_REQUEST.value())
-        .get("/oai");
+                .statusCode(HttpStatus.BAD_REQUEST.value()).get("/oai");
     }
 
     /**
@@ -94,12 +87,11 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
 
         String xml = given()
                 .parameters("verb", "ListIdentifiers", "metadataPrefix",
-                        "oai_dc",
-                        "scratchpad", "functional-test.e-monocot.org")
-                        .get("/oai").asString();
-        assertEquals("There should be 8 identifiers returned",
-                TOTAL_NUMBER_OF_NODES,
-                with(xml).get("OAI-PMH.ListIdentifiers.header.size()"));
+                        "oai_dc", "scratchpad", "functional-test.e-monocot.org")
+                .get("/oai").asString();
+        assertEquals("There should be " + TOTAL_NUMBER_OF_NODES
+                + " identifiers returned", TOTAL_NUMBER_OF_NODES, with(xml)
+                .get("OAI-PMH.ListIdentifiers.header.size()"));
     }
 
     /**
@@ -110,44 +102,41 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
 
         String xml = given()
                 .parameters("verb", "ListIdentifiers", "metadataPrefix",
-                        "oai_dc", "set", "Lowiaceae",
-                        "scratchpad", "functional-test.e-monocot.org")
-                        .get("/oai").asString();
-        assertEquals("There should be 5 identifiers returned",
+                        "oai_dc", "set", "Lowiaceae", "scratchpad",
+                        "functional-test.e-monocot.org").get("/oai").asString();
+        assertEquals("There should be " + NODES_IN_LOWIACEAE + " identifiers returned",
                 NODES_IN_LOWIACEAE,
                 with(xml).get("OAI-PMH.ListIdentifiers.header.size()"));
     }
 
     /**
-     * Tests ListIdentifiers in a hierachical set where the set / subset
-     * is encoded like "{set}:{subset}".
+     * Tests ListIdentifiers in a hierachical set where the set / subset is
+     * encoded like "{set}:{subset}".
      */
     @Test
     public final void testListIdentifiersInHierachicalSet() {
 
         String xml = given()
                 .parameters("verb", "ListIdentifiers", "metadataPrefix",
-                        "oai_dc", "set", "Lowiaceae:Lorem",
-                        "scratchpad", "functional-test.e-monocot.org")
-                        .get("/oai").asString();
-        assertEquals("There should be 5 identifiers returned",
+                        "oai_dc", "set", "Lowiaceae:Lorem", "scratchpad",
+                        "functional-test.e-monocot.org").get("/oai").asString();
+        assertEquals("There should be " + NODES_IN_LOWIACEAE + " identifiers returned",
                 NODES_IN_LOWIACEAE,
                 with(xml).get("OAI-PMH.ListIdentifiers.header.size()"));
     }
 
     /**
-     * Tests ListIdentifiers in a hierachical set where the set / subset
-     * is encoded like "{set}:{subset}*".
+     * Tests ListIdentifiers in a hierachical set where the set / subset is
+     * encoded like "{set}:{subset}*".
      */
     @Test
     public final void testListIdentifiersInHierachicalSetWithWildcard() {
 
         String xml = given()
                 .parameters("verb", "ListIdentifiers", "metadataPrefix",
-                        "oai_dc", "set", "Lowiaceae:Lo",
-                        "scratchpad", "functional-test.e-monocot.org")
-                        .get("/oai").asString();
-        assertEquals("There should be 5 identifiers returned",
+                        "oai_dc", "set", "Lowiaceae:Lo", "scratchpad",
+                        "functional-test.e-monocot.org").get("/oai").asString();
+        assertEquals("There should be " + NODES_IN_LOWIACEAE + " identifiers returned",
                 NODES_IN_LOWIACEAE,
                 with(xml).get("OAI-PMH.ListIdentifiers.header.size()"));
     }
@@ -157,18 +146,17 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
      */
     @Test
     public final void testListIdentifiersInEmptySet() {
-        expect().statusCode(HttpStatus.BAD_REQUEST.value()).given()
+        expect().statusCode(HttpStatus.BAD_REQUEST.value())
+                .given()
                 .parameters("verb", "ListIdentifiers", "metadataPrefix",
-                        "oai_dc", "set", "Orchidaceae",
-                        "scratchpad", "functional-test.e-monocot.org")
-                        .get("/oai");
+                        "oai_dc", "set", "Orchidaceae", "scratchpad",
+                        "functional-test.e-monocot.org").get("/oai");
     }
 
     /**
-     * Tests ListIdentifiers of object modified after a certain date.
-     *
-     * Ignored since this depends on when we inserted the data into the
-     * database, thanks to the trigger
+     * Tests ListIdentifiers of object modified after a certain date. Ignored
+     * since this depends on when we inserted the data into the database, thanks
+     * to the trigger
      */
     @Ignore
     @Test
@@ -176,17 +164,14 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
 
         String xml = given()
                 .parameters("verb", "ListIdentifiers", "metadataPrefix",
-                        "oai_dc", "from", "2011-09-01T01:00:00Z",
-                        "scratchpad", "functional-test.e-monocot.org")
-                        .get("/oai").asString();
-        assertEquals("There should be no identifiers returned",
-                0,
-                with(xml).get("OAI-PMH.ListIdentifiers.header.size()"));
+                        "oai_dc", "from", "2011-09-01T01:00:00Z", "scratchpad",
+                        "functional-test.e-monocot.org").get("/oai").asString();
+        assertEquals("There should be no identifiers returned", 0, with(xml)
+                .get("OAI-PMH.ListIdentifiers.header.size()"));
     }
 
     /**
      * In response to http://build.e-monocot.org/bugzilla/show_bug.cgi?id=67.
-     *
      * Ignored since this depends on when we inserted the data into the
      * database, thanks to the trigger
      */
@@ -196,19 +181,16 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
 
         String xml = given()
                 .parameters("verb", "ListIdentifiers", "metadataPrefix",
-                        "oai_dc", "from", "2011-09-01T21:00:00Z",
-                        "scratchpad", "functional-test.e-monocot.org")
-                        .get("/oai").asString();
-        assertEquals("There should be no identifiers returned",
-                0,
-                with(xml).get("OAI-PMH.ListIdentifiers.header.size()"));
+                        "oai_dc", "from", "2011-09-01T21:00:00Z", "scratchpad",
+                        "functional-test.e-monocot.org").get("/oai").asString();
+        assertEquals("There should be no identifiers returned", 0, with(xml)
+                .get("OAI-PMH.ListIdentifiers.header.size()"));
     }
 
     /**
-     * Tests ListIdentifiers of object modified before a certain date.
-     *
-     * Ignored since this depends on when we inserted the data into the
-     * database, thanks to the trigger
+     * Tests ListIdentifiers of object modified before a certain date. Ignored
+     * since this depends on when we inserted the data into the database, thanks
+     * to the trigger
      */
     @Ignore
     @Test
@@ -218,163 +200,161 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
                 .parameters("verb", "ListIdentifiers", "metadataPrefix",
                         "oai_dc", "until", "2011-09-01T01:00:00Z",
                         "scratchpad", "functional-test.e-monocot.org")
-                        .get("/oai").asString();
-        assertEquals("There should be no identifiers returned",
-                0,
-                with(xml).get("OAI-PMH.ListIdentifiers.header.size()"));
+                .get("/oai").asString();
+        assertEquals("There should be no identifiers returned", 0, with(xml)
+                .get("OAI-PMH.ListIdentifiers.header.size()"));
     }
 
     /**
-     * Tests a returned record to check that the
-     * metadata is being serialized properly.
+     * Tests a returned record to check that the metadata is being serialized
+     * properly.
      */
     @Test
     public final void testGetRecord() {
 
         String xml = given()
-                .parameters("verb", "GetRecord", "metadataPrefix",
-                        "rdf", "identifier", "urn:kew.org:wcs:taxon:1",
-                        "scratchpad", "functional-test.e-monocot.org")
-                        .get("/oai").asString();
+                .parameters("verb", "GetRecord", "metadataPrefix", "rdf",
+                        "identifier", "urn:kew.org:wcs:taxon:1", "scratchpad",
+                        "functional-test.e-monocot.org").get("/oai").asString();
         assertEquals(
                 "The response should include the identifier of the "
-                + "taxon concept",
+                        + "taxon concept",
                 "urn:kew.org:wcs:taxon:1",
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.identifier"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.identifier"));
         assertEquals(
                 "The response should include the status of the "
-                + "taxon concept",
+                        + "taxon concept",
                 "http://e-monocot.org/TaxonomicStatus#accepted",
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.status.@resource"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.status.@resource"));
         assertEquals(
                 "The response should include the identifier of the "
-                + "taxon name",
+                        + "taxon name",
                 "urn:kew.org:wcs:name:1",
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.identifier"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.identifier"));
         assertEquals(
                 "The authorship should be present",
                 "(Archer & Archer) Pargetter",
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.authorship"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.authorship"));
         assertEquals(
                 "The basionymAuthorship should be present",
                 "Archer & Archer",
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.basionymAuthorship"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.basionymAuthorship"));
         assertEquals(
                 "The combinationAuthorship should be present",
                 "Pargetter",
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.combinationAuthorship"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.combinationAuthorship"));
         assertEquals(
                 "The nameComplete should be present",
                 "Lorem ipsum",
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.nameComplete"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.nameComplete"));
         assertEquals(
                 "The genusPart should be present",
                 "Lorem",
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.genusPart"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.genusPart"));
         assertEquals(
                 "The specificEpithet should be present",
                 "ipsum",
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.specificEpithet"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.specificEpithet"));
         assertEquals(
                 "The rank should be present",
                 "http://rs.tdwg.org/ontology/voc/TaxonRank#Species",
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.rank.@resource"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.rank.@resource"));
         assertEquals(
                 "The protologue title should be present",
                 "Integer elementum lorem ut nibh scelerisque at condimentum",
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.publishedInCitation.PublicationCitation.title"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.publishedInCitation.PublicationCitation.title"));
         assertEquals(
                 "The protologue authorship should be present",
                 "Pargetter",
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.publishedInCitation.PublicationCitation.authorship"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.publishedInCitation.PublicationCitation.authorship"));
         assertEquals(
                 "The protologue type should be present",
                 "http://rs.tdwg.org/ontology/voc/PublicationCitation#Generic",
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.publishedInCitation.PublicationCitation.publicationType.@resource"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.publishedInCitation.PublicationCitation.publicationType.@resource"));
         assertEquals(
                 "The protologue volume and page should be present",
                 "2: 34-56",
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.microReference"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.microReference"));
         assertEquals(
                 "The protologue date published should be present",
                 "1784",
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.publishedInCitation.PublicationCitation.datePublished"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.publishedInCitation.PublicationCitation.datePublished"));
         assertEquals(
                 "The rankString should be present",
                 "Species",
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.rankString"));
-        //Currently a potential issue with groovy
-//        assertEquals(
-//                "The homotypic synonyms should be present",
-//                2,
-//                with(xml).get(
-//                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.relationshipCategory.findAll { it.@resource == 'http://e-monocot.org/volatile/tdwg/rs/ontology/voc/TaxonConcept#HasSynonymHomotypic' }.size()"));
-//        assertEquals(
-//                "The heterotypic synonym should be present",
-//                1,
-//                with(xml).get(
-//                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.relationshipCategory.findAll { it.@resource == 'http://e-monocot.org/volatile/tdwg/rs/ontology/voc/TaxonConcept#HasSynonymHeterotypic' }.size()"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasName.TaxonName.rankString"));
+        // Currently a potential issue with groovy
+        // assertEquals(
+        // "The homotypic synonyms should be present",
+        // 2,
+        // with(xml).get(
+        // "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.relationshipCategory.findAll { it.@resource == 'http://e-monocot.org/volatile/tdwg/rs/ontology/voc/TaxonConcept#HasSynonymHomotypic' }.size()"));
+        // assertEquals(
+        // "The heterotypic synonym should be present",
+        // 1,
+        // with(xml).get(
+        // "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.relationshipCategory.findAll { it.@resource == 'http://e-monocot.org/volatile/tdwg/rs/ontology/voc/TaxonConcept#HasSynonymHeterotypic' }.size()"));
         assertEquals(
                 "The parent should be present",
                 1,
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.relationshipCategory.findAll { it.@resource == 'http://rs.tdwg.org/ontology/voc/TaxonConcept#IsChildTaxonOf' }.size()"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.relationshipCategory.findAll { it.@resource == 'http://rs.tdwg.org/ontology/voc/TaxonConcept#IsChildTaxonOf' }.size()"));
         assertEquals(
                 "The distributional data should be present",
                 NUMBER_OF_DISTRIBUTION_RECORDS,
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.describedBy.SpeciesProfileModel.hasInformation.Distribution.size()"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.describedBy.SpeciesProfileModel.hasInformation.Distribution.size()"));
         assertEquals(
                 "The citation title should be present",
                 "Vestibulum erat massa dapibus sit amet dictum vel",
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.publishedInCitation.PublicationCitation.title"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.publishedInCitation.PublicationCitation.title"));
         assertEquals(
                 "The citation authorship should be present",
                 "Pargetter",
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.publishedInCitation.PublicationCitation.authorship"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.publishedInCitation.PublicationCitation.authorship"));
         assertEquals(
                 "The citation type should be present",
                 "http://rs.tdwg.org/ontology/voc/PublicationCitation#BookSection",
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.publishedInCitation.PublicationCitation.publicationType.@resource"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.publishedInCitation.PublicationCitation.publicationType.@resource"));
         assertEquals(
                 "The publication title should be present",
                 "Lorem ipsum dolor sit amet consectetur adipiscing elit",
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.publishedInCitation.PublicationCitation.parentPublication.PublicationCitation.title"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.publishedInCitation.PublicationCitation.parentPublication.PublicationCitation.title"));
         assertEquals(
                 "The publication authorship should be present",
                 "Archer",
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.publishedInCitation.PublicationCitation.parentPublication.PublicationCitation.authorship"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.publishedInCitation.PublicationCitation.parentPublication.PublicationCitation.authorship"));
         assertEquals(
                 "The publication publisher should be present",
                 "Lorem",
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.publishedInCitation.PublicationCitation.parentPublication.PublicationCitation.publisher"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.publishedInCitation.PublicationCitation.parentPublication.PublicationCitation.publisher"));
         assertEquals(
                 "The publication type should be present",
                 "http://rs.tdwg.org/ontology/voc/PublicationCitation#Book",
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.publishedInCitation.PublicationCitation.parentPublication.PublicationCitation.publicationType.@resource"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.publishedInCitation.PublicationCitation.parentPublication.PublicationCitation.publicationType.@resource"));
 
     }
 
@@ -386,70 +366,68 @@ public class ChecklistOaiPmhWebserviceFunctionalTest {
     public final void testGetSynonymRecord() {
 
         String xml = given()
-                .parameters("verb", "GetRecord", "metadataPrefix",
-                        "rdf", "identifier", "urn:kew.org:wcs:taxon:4",
-                        "scratchpad", "functional-test.e-monocot.org")
-                        .get("/oai").asString();
+                .parameters("verb", "GetRecord", "metadataPrefix", "rdf",
+                        "identifier", "urn:kew.org:wcs:taxon:4", "scratchpad",
+                        "functional-test.e-monocot.org").get("/oai").asString();
 
         assertEquals(
                 "The accepted name should be present",
                 1,
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.relationshipCategory.findAll { it.@resource == 'http://rs.tdwg.org/ontology/voc/TaxonConcept#IsSynonymFor' }.size()"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.relationshipCategory.findAll { it.@resource == 'http://rs.tdwg.org/ontology/voc/TaxonConcept#IsSynonymFor' }.size()"));
         assertEquals(
                 "The accepted name should be serialized as a link",
                 1,
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.toTaxon.findAll { it.@resource == 'urn:kew.org:wcs:taxon:1' }.size()"));
-        }
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.toTaxon.findAll { it.@resource == 'urn:kew.org:wcs:taxon:1' }.size()"));
+    }
 
     /**
-     * Test that the genera include links to the parent family
-     * In response to http://build.e-monocot.org/bugzilla/show_bug.cgi?id=181.
+     * Test that the genera include links to the parent family In response to
+     * http://build.e-monocot.org/bugzilla/show_bug.cgi?id=181.
      */
     @Test
     public final void testGetGenusRecord() {
 
         String xml = given()
-                .parameters("verb", "GetRecord", "metadataPrefix",
-                        "rdf", "identifier", "urn:kew.org:wcs:taxon:3",
-                        "scratchpad", "functional-test.e-monocot.org")
-                        .get("/oai").asString();
+                .parameters("verb", "GetRecord", "metadataPrefix", "rdf",
+                        "identifier", "urn:kew.org:wcs:taxon:3", "scratchpad",
+                        "functional-test.e-monocot.org").get("/oai").asString();
 
         assertEquals(
                 "The parent should be present",
                 1,
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.relationshipCategory.findAll { it.@resource == 'http://rs.tdwg.org/ontology/voc/TaxonConcept#IsChildTaxonOf' }.size()"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.relationshipCategory.findAll { it.@resource == 'http://rs.tdwg.org/ontology/voc/TaxonConcept#IsChildTaxonOf' }.size()"));
         assertEquals(
                 "The parent should be serialized as a link",
                 1,
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.toTaxon.findAll { it.@resource == 'urn:kew.org:wcs:family:28' }.size()"));
-        }
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.toTaxon.findAll { it.@resource == 'urn:kew.org:wcs:family:28' }.size()"));
+    }
 
     /**
-     * Test that the family include links to the children
-     * In response to http://build.e-monocot.org/bugzilla/show_bug.cgi?id=181.
+     * Test that the family include links to the children In response to
+     * http://build.e-monocot.org/bugzilla/show_bug.cgi?id=181.
      */
     @Test
     public final void testGetFamilyRecord() {
 
         String xml = given()
-                .parameters("verb", "GetRecord", "metadataPrefix",
-                        "rdf", "identifier", "urn:kew.org:wcs:family:28",
+                .parameters("verb", "GetRecord", "metadataPrefix", "rdf",
+                        "identifier", "urn:kew.org:wcs:family:28",
                         "scratchpad", "functional-test.e-monocot.org")
-                        .get("/oai").asString();
+                .get("/oai").asString();
 
         assertEquals(
                 "The parent should be present",
                 1,
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.relationshipCategory.findAll { it.@resource == 'http://rs.tdwg.org/ontology/voc/TaxonConcept#IsParentTaxonOf' }.size()"));
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.relationshipCategory.findAll { it.@resource == 'http://rs.tdwg.org/ontology/voc/TaxonConcept#IsParentTaxonOf' }.size()"));
         assertEquals(
                 "The parent should be serialized as a link",
                 1,
-                with(xml).get(
-                "OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.toTaxon.findAll { it.@resource == 'urn:kew.org:wcs:taxon:3' }.size()"));
-        }
+                with(xml)
+                        .get("OAI-PMH.GetRecord.record.metadata.TaxonConcept.hasRelationship.Relationship.toTaxon.findAll { it.@resource == 'urn:kew.org:wcs:taxon:3' }.size()"));
+    }
 }
