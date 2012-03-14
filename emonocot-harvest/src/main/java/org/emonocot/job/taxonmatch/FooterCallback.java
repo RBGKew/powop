@@ -13,11 +13,22 @@ import org.springframework.batch.item.file.FlatFileFooterCallback;
  */
 public class FooterCallback implements ItemProcessListener<TaxonDTO, Result>,
         FlatFileFooterCallback {
+    
+    /**
+     * 
+     */
+    private int cannotParse = 0;
 
     /**
      *
      */
     private int noExactMatches = 0;
+    
+    /**
+     * 
+     */
+    private int multipleMatches = 0;
+    
     /**
      *
      */
@@ -49,6 +60,10 @@ public class FooterCallback implements ItemProcessListener<TaxonDTO, Result>,
         case NO_EXACT_MATCH:
             noExactMatches++;
             break;
+        case MULTIPLE_MATCHES:
+            multipleMatches++;
+        case CANNOT_PARSE:
+            cannotParse++;
         default:
             break;
         }
@@ -68,9 +83,21 @@ public class FooterCallback implements ItemProcessListener<TaxonDTO, Result>,
      */
     public final void writeFooter(final Writer writer) throws IOException {
         writer.write("\nSummary,\n");
-        writer.write("Exact Match," + singleMatches + ",\n");
-        writer.write("Multiple Matches," + noExactMatches + ",\n");
-        writer.write("No Match," + noMatches + ",\n");
+        if(singleMatches > 0) {
+            writer.write("Exact Match," + singleMatches + ",\n");
+        }
+        if(multipleMatches > 0) {
+            writer.write("Multipe Exact Matches," + multipleMatches + ",\n");
+        }
+        if(noExactMatches > 0) {
+            writer.write("Only Partial Matches," + noExactMatches + ",\n");
+        }
+        if(noMatches > 0) {
+            writer.write("No Match," + noMatches + ",\n");
+        }
+        if(cannotParse > 0) {
+            writer.write("Could not understand," + cannotParse + ",\n");
+        }
     }
 
 }

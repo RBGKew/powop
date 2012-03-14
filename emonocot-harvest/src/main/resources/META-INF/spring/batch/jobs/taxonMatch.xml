@@ -15,7 +15,7 @@
 	    <batch:step id="processFile">
 	      <batch:description>Process the specified file and check for matches</batch:description>
 			<batch:tasklet>
-				<batch:chunk reader="fileReader" processor="fileProcessor"
+				<batch:chunk reader="fileReader" processor="taxonMatchingProcessor"
 					writer="outputWriter" commit-interval="100">
 				</batch:chunk>			    
 			</batch:tasklet>			
@@ -48,10 +48,11 @@
 	   <bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
 	     <property name="names">
 	       <array>
-	         <value>originalIdentifier</value>
-	         <value>name</value>
+	         <value>external.identifier</value>
+	         <value>external.name</value>
 	         <value>status</value>
-	         <value>identifier</value>
+	         <value>internal.identifier</value>
+             <value>internal.name</value>
 	       </array>
 	     </property>
 	   </bean>
@@ -64,7 +65,7 @@
 			<value>UTF-8</value>
 		</property>
 		<property name="linesToSkip">
-			<value>0</value>
+			<value>1</value>
 		</property>
 		<property name="resource">
 			<bean class="org.springframework.core.io.FileSystemResource"
@@ -75,8 +76,9 @@
 		<property name="lineMapper" ref="lineMapper" />
 	</bean>
 
-	<bean id="fileProcessor" class="org.emonocot.job.taxonmatch.Processor">
+	<bean id="taxonMatchingProcessor" class="org.emonocot.job.taxonmatch.Processor">
 	  <property name="taxonService" ref="taxonServiceImpl"/>
+	  <property name="nameParser" ref="nameParser"></property>
 	</bean>
 
 	<bean id="lineMapper"
@@ -105,4 +107,5 @@
 			<value>org.emonocot.job.taxonmatch.TaxonDTO</value>
 		</property>		
 	</bean>
+	
 </beans>

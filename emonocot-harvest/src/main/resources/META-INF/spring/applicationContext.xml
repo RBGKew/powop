@@ -154,4 +154,6 @@
 		<jms:listener destination="${amq.queue.physical_name}"
 			ref="messageDrivenSearchController" />
 	</jms:listener-container>
+	
+	<bean id="nameParser" class="org.gbif.ecat.parser.NameParser"></bean>
 </beans>

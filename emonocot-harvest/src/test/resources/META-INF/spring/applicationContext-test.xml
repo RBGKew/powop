@@ -61,6 +61,8 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
+    <bean id="nameParser" class="org.gbif.ecat.parser.NameParser"></bean>
+        
 	<beans profile="default">
 		<bean name="dataSource"
 			class="org.emonocot.persistence.spatial.GeoDBTestDataSourceFactory">
@@ -163,5 +165,6 @@
 			enabled="${jdbc.initialize.database}">
 			<jdbc:script location="classpath:META-INF/database/test_data.sql" />
 		</jdbc:initialize-database>
+		
 	</beans>
 </beans>

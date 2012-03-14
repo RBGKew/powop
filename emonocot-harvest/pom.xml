@@ -29,7 +29,7 @@
           <groupId>org.emonocot</groupId>
           <artifactId>emonocot-persistence</artifactId>
           <type>test-jar</type>
-          <version>${project.version}</version>
+          <version>${project.version}</version><!--$NO-MVN-MAN-VER$-->
           <scope>test</scope>
         </dependency>
 		<dependency>
@@ -240,6 +240,10 @@
 	      <groupId>org.apache.tika</groupId>
 	      <artifactId>tika-parsers</artifactId>
 	    </dependency>
+        <dependency>
+          <groupId>org.kew</groupId>
+          <artifactId>ECAT-name-parser</artifactId>
+        </dependency>
 	</dependencies>
 	<build>
 		<finalName>emonocot-harvest</finalName>

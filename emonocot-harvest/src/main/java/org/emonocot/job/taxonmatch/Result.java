@@ -1,7 +1,6 @@
 package org.emonocot.job.taxonmatch;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.emonocot.model.taxon.Taxon;
 
@@ -14,7 +13,7 @@ public class Result {
     /**
      *
      */
-    private String originalIdentifier;
+    private TaxonDTO originalTaxonDto;
 
     /**
      *
@@ -29,42 +28,7 @@ public class Result {
     /**
      *
      */
-    private String identifier;
-
-    /**
-     * @return the originalIdentifier
-     */
-    public final String getOriginalIdentifier() {
-        return originalIdentifier;
-    }
-
-    /**
-     * @return the name
-     */
-    public final String getName() {
-        return name;
-    }
-
-    /**
-     * @return the status
-     */
-    public final TaxonMatchStatus getStatus() {
-        return status;
-    }
-
-    /**
-     * @return the identifier
-     */
-    public final String getIdentifier() {
-        return identifier;
-    }
-
-    /**
-     * @return the partialMatches
-     */
-    public final Collection<Taxon> getPartialMatches() {
-        return partialMatches;
-    }
+    private TaxonDTO internalTaxonDto;
 
     /**
      *
@@ -72,11 +36,25 @@ public class Result {
     private Collection<Taxon> partialMatches;
 
     /**
-     *
-     * @param newIdentifier Set the original identifier
+     * @return the originalIdentifier
      */
-    public final void setOriginalIdentifier(final String newIdentifier) {
-        this.originalIdentifier = newIdentifier;
+    public final TaxonDTO getExternal() {
+        return originalTaxonDto;
+    }
+
+    /**
+     *
+     * @param newTaxonDTO Set the original internalTaxonDto
+     */
+    public final void setExternal(final TaxonDTO newTaxonDto) {
+        this.originalTaxonDto = newTaxonDto;
+    }
+
+    /**
+     * @return the name
+     */
+    public final String getName() {
+        return name;
     }
 
     /**
@@ -88,6 +66,13 @@ public class Result {
     }
 
     /**
+     * @return the status
+     */
+    public final TaxonMatchStatus getStatus() {
+        return status;
+    }
+
+    /**
      *
      * @param newStatus Set the status
      */
@@ -96,11 +81,25 @@ public class Result {
     }
 
     /**
-     *
-     * @param newIdentifier Set the matching identifier
+     * @return the internalTaxonDto
      */
-    public final void setIdentifier(final String newIdentifier) {
-        this.identifier = newIdentifier;
+    public final TaxonDTO getInternal() {
+        return internalTaxonDto;
+    }
+
+    /**
+     *
+     * @param newInternalTaxonDto Set the matching internalTaxonDto
+     */
+    public final void setInternal(final TaxonDTO newInternalTaxonDto) {
+        this.internalTaxonDto = newInternalTaxonDto;
+    }
+
+    /**
+     * @return the partialMatches
+     */
+    public final Collection<Taxon> getPartialMatches() {
+        return partialMatches;
     }
 
     /**

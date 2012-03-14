@@ -9,6 +9,6 @@ public enum TaxonMatchStatus {
     /**
      *
      */
-    NO_MATCH, SINGLE_MATCH, NO_EXACT_MATCH
+    NO_MATCH, SINGLE_MATCH, NO_EXACT_MATCH, CANNOT_PARSE, MULTIPLE_MATCHES
 
 }
