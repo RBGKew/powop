@@ -16,6 +16,7 @@ import org.emonocot.api.ImageService;
 import org.emonocot.api.ReferenceService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.UserService;
+import org.emonocot.api.job.JobExecutionInfo;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.RecordType;
@@ -33,6 +34,7 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.security.acls.domain.BasePermission;
+import org.springframework.batch.core.JobExecutionException;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
@@ -403,10 +405,10 @@ public class JsonConversionTest {
         ace.setObject("testIdentifier");
         ace.setPrincipal("userIdentifier");
         try {
-            System.out.println(objectMapper.writeValueAsString(ace));
-          } catch (Exception e) {
-              fail();
-          }
+            objectMapper.writeValueAsString(ace);
+         } catch (Exception e) {
+              fail("No exception expected here");
+         }
     }
 
     /**
@@ -422,5 +424,25 @@ public class JsonConversionTest {
         assertEquals("testIdentifier", aceDto.getObject());
         assertEquals("userIdentifier", aceDto.getPrincipal());
         assertEquals(BasePermission.CREATE, aceDto.getPermission());
+    }
+
+    /**
+    *
+    * @throws Exception
+    *             if there is a problem serializing the object
+    */
+    @Test
+    public final void testJobExecutionInfo() throws Exception {
+        JobExecutionInfo jobExecutionInfo = objectMapper.readValue("{\"jobExecution\" : {\"resource\" : \"http://localhost/emonocot-harvester/emonocot-harvester/jobs/executions/546.json;jsessionid=25785ED947E586BD40D06413AA04C82F\",\"id\" : \"546\",\"status\" : \"STARTED\", \"startTime\" : \"13:29:50\", \"duration\" : \"00:00:00\", \"exitCode\" : \"UNKNOWN\", \"exitDescription\" : \"\", \"jobInstance\" : { \"resource\" : \"http://localhost/emonocot-harvester/emonocot-harvester/jobs/ReIndex/538.json;jsessionid=25785ED947E586BD40D06413AA04C82F\" }, \"stepExecutions\" : { \"reIndex\" : { \"resource\" : \"http://localhost/emonocot-harvester/emonocot-harvester/jobs/executions/546/steps/11448.json;jsessionid=25785ED947E586BD40D06413AA04C82F\", \"status\" : \"STARTED\", \"exitCode\" : \"EXECUTING\" } } } }", JobExecutionInfo.class);
+    }
+
+    /**
+    *
+    * @throws Exception
+    *             if there is a problem serializing the object
+    */
+    @Test
+    public final void testJobExecutionException() throws Exception {
+        JobExecutionException jobExecutionException = objectMapper.readValue("{\"errors\" : { \"spring.integration.http.handler.error\" : \"A Spring Integration handler raised an exception while handling an HTTP request.  The exception is of type class org.springframework.integration.MessageHandlingException and it has a message: (org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException: A job instance already exists and is complete for parameters={query.string=from Source, attempt=9}.  If you want to run this job again, change the parameters.)\" } }", JobExecutionException.class);
     }
 }

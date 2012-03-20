@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:integration="http://www.springframework.org/schema/integration"
+	xmlns:http="http://www.springframework.org/schema/integration/http"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	                    http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
+		                http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
+
+    <integration:channel id="outgoingJobChannel" />
+	<integration:channel id="outgoingJobTransformedChannel" />
+	<integration:channel id="incomingJobChannel" />
+	<integration:channel id="incomingJobTransformedChannel" />
+
+	<integration:gateway id="jobLauncher"
+		service-interface="org.emonocot.portal.integration.JobLauncher"
+		default-request-channel="outgoingJobChannel" default-reply-channel="incomingJobTransformedChannel">
+	  <integration:method name="launch"/>	
+    </integration:gateway>
+    
+    <integration:transformer input-channel="incomingJobChannel" ref="jobLaunchResponseTransformer"
+             method="transform" output-channel="incomingJobTransformedChannel"/>
+             
+    <bean id="jobLaunchResponseTransformer" class="org.emonocot.portal.integration.JobLaunchResponseTransformer">
+      <property name="objectMapper" ref="customObjectMapper"/>
+    </bean>
+
+    <integration:transformer id="outgoingConverter"
+    	input-channel="outgoingJobChannel"
+    	output-channel="outgoingJobTransformedChannel"
+    	ref="jobLaunchRequestToStringAdapter" method="adapt" />
+
+    <bean id="jobLaunchRequestToStringAdapter" class="org.emonocot.portal.integration.JobLaunchRequestToStringAdapter"/>
+
+
+    <http:outbound-gateway id="launchJobGateway"
+		request-channel="outgoingJobTransformedChannel" reply-channel="incomingJobChannel"
+		expected-response-type="java.lang.String"
+		url="${harvester.jobRequests.url}" http-method="POST"
+		mapped-response-headers="X-*, HTTP_RESPONSE_HEADERS"
+		charset="UTF-8" request-factory="clientHttpRequestFactory" request-timeout="5000"/>
+</beans>

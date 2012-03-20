@@ -21,7 +21,12 @@
   <root level="${logging.level}" additivity="true">
     <appender-ref ref="${logging.method}"/>
   </root>
-   <logger name="org.emonocot.harvest.common.index.MessageDrivenSearchController" level="DEBUG" additivity="false">
+  <!-- uncomment to see spring integration messages -->
+  <!-- <logger name="org.springframework.integration" level="DEBUG" additivity="false">
     <appender-ref ref="stdout"/>
-  </logger>
+  </logger>-->
+  <!-- uncomment to see activemq messages -->
+   <!-- <logger name="org.emonocot.harvest.common.index.MessageDrivenSearchController" level="DEBUG" additivity="false">
+    <appender-ref ref="stdout"/>
+  </logger>-->
 </configuration>

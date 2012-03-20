@@ -106,7 +106,7 @@ public class TestDataManager {
     public TestDataManager() throws IOException {
         logger.debug("Initializing TestDataManager");
         Resource propertiesFile = new ClassPathResource(
-                "application.properties");
+                "META-INF/spring/application.properties");
         Properties properties = new Properties();
         properties.load(propertiesFile.getInputStream());
         username = properties.getProperty("functional.test.username", null);

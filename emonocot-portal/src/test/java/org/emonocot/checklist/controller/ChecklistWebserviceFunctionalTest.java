@@ -29,7 +29,7 @@ import com.jayway.restassured.RestAssured;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/applicationContext-test.xml")
+@ContextConfiguration("classpath:META-INF/spring/applicationContext-test.xml")
 public class ChecklistWebserviceFunctionalTest {
 
     /**

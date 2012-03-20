@@ -24,7 +24,6 @@ import org.springframework.web.client.RestTemplate;
  *
  * @param <T>
  */
-
 public abstract class DaoImpl<T extends Base> implements Dao<T> {
 
     /**

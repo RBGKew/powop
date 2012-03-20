@@ -66,18 +66,7 @@
 	<bean name="aceDtoConverter" class="org.emonocot.portal.convert.AceDtoConverter" />	
 
 	<bean id="validator"
-		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
-
-	<bean name="customObjectMapper"
-		class="org.emonocot.model.marshall.json.CustomObjectMapperFactory">
-		<property name="referenceService" ref="referenceServiceImpl" />
-		<property name="taxonService" ref="taxonServiceImpl" />
-		<property name="imageService" ref="imageServiceImpl" />
-		<property name="groupService" ref="groupServiceImpl" />
-		<property name="userService" ref="userServiceImpl" />
-		<property name="sourceService" ref="sourceServiceImpl" />
-		<property name="jobInstanceService" ref="jobInstanceServiceImpl" />
-	</bean>
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />	
 
 	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver"
 		id="tilesViewResolver">

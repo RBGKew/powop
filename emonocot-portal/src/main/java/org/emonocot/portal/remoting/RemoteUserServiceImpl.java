@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.security.acls.model.Permission;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -20,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
  * @author ben
  *
  */
+@Service
 public class RemoteUserServiceImpl extends UserServiceImpl {
    /**
     *

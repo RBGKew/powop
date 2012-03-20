@@ -6,8 +6,10 @@ import org.codehaus.jackson.map.module.SimpleDeserializers;
 import org.codehaus.jackson.map.module.SimpleKeyDeserializers;
 import org.codehaus.jackson.map.module.SimpleSerializers;
 import org.emonocot.api.JobInstanceService;
+import org.emonocot.api.job.JobExecutionInfo;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobExecutionException;
 import org.springframework.batch.core.JobInstance;
 
 /**
@@ -51,6 +53,10 @@ public class CustomModule extends Module {
                 new JobInstanceDeserializer());
         simpleDeserializers.addDeserializer(JobExecution.class,
                 new JobExecutionDeserializer(jobInstanceService));
+        simpleDeserializers.addDeserializer(JobExecutionInfo.class,
+                new JobExecutionInfoDeserializer());
+        simpleDeserializers.addDeserializer(JobExecutionException.class,
+                new JobExecutionExceptionDeserializer());
         setupContext.addDeserializers(simpleDeserializers);
     }
 

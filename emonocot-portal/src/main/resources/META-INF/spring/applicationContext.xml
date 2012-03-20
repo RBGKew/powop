@@ -11,9 +11,25 @@
 		<context:exclude-filter type="assignable" expression="org.emonocot.portal.remoting.DaoImpl"/>
 		<context:exclude-filter type="assignable" expression="org.emonocot.portal.remoting.JobExecutionDaoImpl"/>
 		<context:exclude-filter type="assignable" expression="org.emonocot.portal.remoting.JobInstanceDaoImpl"/>
+		<context:exclude-filter type="assignable" expression="org.emonocot.portal.remoting.RemoteUserServiceImpl"/>
+		<context:exclude-filter type="assignable" expression="org.emonocot.portal.remoting.RemoteGroupServiceImpl"/>
 	</context:component-scan>
 
 	<tx:annotation-driven />
+	
+	<bean name="customObjectMapper"
+		class="org.emonocot.model.marshall.json.CustomObjectMapperFactory">
+		<property name="referenceService" ref="referenceServiceImpl" />
+		<property name="taxonService" ref="taxonServiceImpl" />
+		<property name="imageService" ref="imageServiceImpl" />
+		<property name="groupService" ref="groupServiceImpl" />
+		<property name="userService" ref="userServiceImpl" />
+		<property name="sourceService" ref="sourceServiceImpl" />
+		<property name="jobInstanceService" ref="jobInstanceServiceImpl" />
+	</bean>
+	
+	<bean id="clientHttpRequestFactory"
+		class="org.emonocot.portal.http.AuthenticatingHttpClientFactory" />
 
 	<bean name="hibernateSearchIndexPurger"
 		class="org.emonocot.persistence.hibernate.HibernateSearchIndexPurger"

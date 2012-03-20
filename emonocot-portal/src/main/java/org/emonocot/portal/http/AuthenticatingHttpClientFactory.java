@@ -1,9 +1,9 @@
-package org.emonocot.portal.driver;
+package org.emonocot.portal.http;
 
 import java.io.IOException;
 import java.net.URI;
 
-import org.apache.catalina.util.Base64;
+import org.apache.commons.codec.binary.Base64;
 import org.emonocot.model.user.User;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.client.ClientHttpRequest;
@@ -41,7 +41,7 @@ public class AuthenticatingHttpClientFactory extends
                 User user = (User) authentication.getPrincipal();
                 String unencoded = user.getUsername() + ":"
                         + user.getPassword();
-                String encoded = new String(Base64.encode(unencoded.getBytes()));
+                String encoded = new String(Base64.encodeBase64(unencoded.getBytes()));
                 clientHttpRequest.getHeaders().add("Authorization",
                         "Basic " + encoded);
             }
