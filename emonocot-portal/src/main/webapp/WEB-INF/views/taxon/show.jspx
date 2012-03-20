@@ -16,7 +16,7 @@
 						<jsp:attribute name="src">
 							<c:url value="/images/taxonPageIcon.jpg"/>
 						</jsp:attribute>
-						<jsp:attribute name="class">pull-left</jsp:attribute>
+						<jsp:attribute name="class">pull-left noPrint</jsp:attribute>
 						<jsp:attribute name="alt">Taxon</jsp:attribute>
 					</jsp:element>
 					
@@ -39,7 +39,7 @@
 				</div>
 			</div>
 			
-			<div class="subnav">
+			<div class="subnav noPrint">
 				<ul class="nav nav-pills">
 					<li><c:if test="${not empty taxon.images}"><a href="#images"><spring:message code="images" /></a></c:if></li>
 					<li><c:if test="${not empty taxon.content}"><a href="#textContent"><spring:message code="description" /></a></c:if></li>
@@ -83,7 +83,7 @@
 							<c:set value="no-display" var="cssClass"></c:set>
 						</c:if>
 						<div class="ad-controls ${cssClass}">&#160;</div>
-						<div class="ad-nav ${cssClass}">
+						<div class="ad-nav ${cssClass} noPrint">
 							<div class="ad-thumbs">
 								<ul class="thumbnails ad-thumb-list thumbnail-gallery-padding">
 									<c:forEach var="image" items="${taxon.images}"
@@ -127,25 +127,20 @@
 				<c:if test="${not empty em:regions(taxon)}">
 				<section id="distribution.map">
 					<div class="section-header"><h2><spring:message code="distribution" /></h2></div>
-					<div id="map">
-						<jsp:element name="img">
-							<jsp:attribute name="id">alternative-map</jsp:attribute>
-							<jsp:attribute name="src">
-								<c:url value="http://edit.br.fgov.be/edit_wp5/v1/areas.php">
-									<c:param name="l" value="earth" />
-									<!-- Layer -->
-									<c:param name="ms" value="800" />
-									<!-- Map Size -->
-									<c:param name="bbox" value="-180,-90,180,90" />
-									<!-- Bounding Box -->
-									<c:param name="ad" value="${em:map(taxon)}" />
-									<!-- Areas -->
-									<c:param name="as" value="present:FF0000,,0.25" />
-									<!-- Area Styling -->
-								</c:url>
-							</jsp:attribute>
-						</jsp:element>
-					</div>
+					<c:url value="http://edit.br.fgov.be/edit_wp5/v1/areas.php" var="alternativeMapUrl">
+							<c:param name="l" value="earth" />
+							<!-- Layer -->
+							<c:param name="ms" value="800" />
+							<!-- Map Size -->
+							<c:param name="bbox" value="-180,-90,180,90" />
+							<!-- Bounding Box -->
+							<c:param name="ad" value="${em:map(taxon)}" />
+							<!-- Areas -->
+							<c:param name="as" value="present:FF0000,,0.25" />
+							<!-- Area Styling -->
+					</c:url>
+					<img id="alternative-map" src="${alternativeMapUrl}" class="no-display"/>
+					<div id="map" class="noPrint">&#160;</div>
 					<c:set var="mapUrl">
 						<c:url value="http://edit.br.fgov.be/edit_wp5/v1/areas.php">
 							<c:param name="callback" value="foo" />
@@ -166,78 +161,75 @@
 					<script type="text/javascript">
 						var map;
 						
-						
 						function foo(data) {
-							if (!data) {
-						} else {
-							$('#alternative-map').hide();
-							OpenLayers.ImgPath = "${openlayersImageLocation}";
-							var base_layer = new OpenLayers.Layer.WMS(
-								"OpenLayers WMS",
-								"http://labs.metacarta.com/wms/vmap0",
-								{
-								layers : 'basic'
-								},
-								{
-								maxExtent : new OpenLayers.Bounds(-180, -90, 180, 90),
-								isBaseLayer : true,
-								displayInLayerSwitcher : false
-								});
-							
-							map = new OpenLayers.Map('map',
-							{
-								controls: [new OpenLayers.Control.Navigation({zoomWheelEnabled: false}),
-								           new OpenLayers.Control.PanZoomBar()],
-								maxExtent : new OpenLayers.Bounds(-180, -90, 180, 90),
-								maxResolution : 0.72,
-								restrictedExtent : new OpenLayers.Bounds(-180, -90, 180, 90),
-								projection : new OpenLayers.Projection("EPSG:4326")
-							}); 
-							map.addLayers([ base_layer ]);
-							
-							for (i in data.layers) {
-								var layerName = "topp:tdwg_level_" + data.layers[i].tdwg.substr(4, 1);
-							
-								var layer = new OpenLayers.Layer.WMS.Untiled(
-									"layer " + (i + 1),data.geoserver,
+							if (!data) { 
+							} else  {
+								OpenLayers.ImgPath = "${openlayersImageLocation}";
+								var base_layer = new OpenLayers.Layer.WMS(
+									"OpenLayers WMS",
+									"http://labs.metacarta.com/wms/vmap0",
 									{
-										layers : layerName,
-										transparent : "true",
-										format : "image/png"
+									layers : 'basic'
 									},
-									
 									{
-										maxExtent : new OpenLayers.Bounds(-180, -90, 180, 90),
-										isBaseLayer : false,
-										displayInLayerSwitcher : false
+									maxExtent : new OpenLayers.Bounds(-180, -90, 180, 90),
+									isBaseLayer : true,
+									displayInLayerSwitcher : false
 									});
 								
-								layer.params.SLD = data.layers[i].sld;
-								map.addLayers([ layer ]);
-								}
-								map.addControl(new OpenLayers.Control.Navigation(
-					                {zoomWheelEnabled:false}));
-								var bbox = data.bbox.split(",");
-								map.zoomToExtent(new OpenLayers.Bounds(
-										parseInt(bbox[0]),
-										parseInt(bbox[1]),
-										parseInt(bbox[2]),
-										parseInt(bbox[3])));
-								}
+								map = new OpenLayers.Map('map',
+								{
+									controls: [new OpenLayers.Control.Navigation({zoomWheelEnabled: false}),
+									           new OpenLayers.Control.PanZoomBar()],
+									maxExtent : new OpenLayers.Bounds(-180, -90, 180, 90),
+									maxResolution : 0.72,
+									restrictedExtent : new OpenLayers.Bounds(-180, -90, 180, 90),
+									projection : new OpenLayers.Projection("EPSG:4326")
+								}); 
+								map.addLayers([ base_layer ]);
 								
-							}
+								for (i in data.layers) {
+									var layerName = "topp:tdwg_level_" + data.layers[i].tdwg.substr(4, 1);
+								
+									var layer = new OpenLayers.Layer.WMS.Untiled(
+										"layer " + (i + 1),data.geoserver,
+										{
+											layers : layerName,
+											transparent : "true",
+											format : "image/png"
+										},
+										
+										{
+											maxExtent : new OpenLayers.Bounds(-180, -90, 180, 90),
+											isBaseLayer : false,
+											displayInLayerSwitcher : false
+										});
+									
+									layer.params.SLD = data.layers[i].sld;
+									map.addLayers([ layer ]);
+									}
+									map.addControl(new OpenLayers.Control.Navigation(
+						                {zoomWheelEnabled:false}));
+									var bbox = data.bbox.split(",");
+									map.zoomToExtent(new OpenLayers.Bounds(
+											parseInt(bbox[0]),
+											parseInt(bbox[1]),
+											parseInt(bbox[2]),
+											parseInt(bbox[3])));
+								}
+							} 
 						
 						$(document).ready(function() {
-							
 							$.ajax({
-								url : "${mapUrl}",
-								dataType : "script",
-								type : "GET",
-								cache : true,
-								callback : foo,
-								data : null
-								});
+									url : "${mapUrl}",
+									dataType : "script",
+									type : "GET",
+									cache : true,
+									callback : foo,
+									data : null
+									});
 							});
+							
 					</script>
 					
 					<ul id="distribution-textual">
@@ -335,13 +327,14 @@
 					</c:forEach>
 				</ul>
 			</section>
-			
+			<section id="taxonomicTree">
 			<h5><spring:message code="taxonomicTree" /></h5>
 			<ul id="taxonHierarchy">
 				<c:if test="${not empty taxon.ancestors}">
 					<tags:tree taxon="${taxon}" ancestors="${taxon.ancestors}" />
 				</c:if>
 			</ul>
+			</section>
 		</div>
 	</div>
 </div>

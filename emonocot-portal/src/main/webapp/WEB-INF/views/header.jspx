@@ -15,7 +15,7 @@
 			      </jsp:attribute>
 				  eMonocot			    
 			    </jsp:element>
-			    <div>
+			    <div class="noPrint">
 			    	<ul class="nav">
 			    		<li>
 			    			<jsp:element  name="a">
@@ -37,7 +37,7 @@
 				    	</li>
 			    	</ul>
 			    </div>
-			    <div class="offset12 pull-right">
+			    <div class="offset12 pull-right noPrint">
 			    <ul class="nav">
 				<security:authorize access="!isAuthenticated()">
 				  <li><jsp:element  name="a">

@@ -5,9 +5,9 @@
   version="2.0">  
   <footer class="footer">
     <div class="container">  
-      <p class="footer-version pull-right">eMonocot <spring:message code="application.version"/></p>
+      <p class="footer-version pull-right noPrint">eMonocot <spring:message code="application.version"/></p>
      
-      	<ul class="foot unstyled">
+      	<ul class="foot unstyled noPrint">
 			    		<li>
 			    			<jsp:element  name="a">
 				    			<jsp:attribute name="href"><c:url value="/about"/></jsp:attribute>
