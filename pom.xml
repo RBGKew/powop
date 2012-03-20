@@ -1162,6 +1162,9 @@
         </profile>
         <profile>
             <id>integration</id>
+            <properties>
+              <harvester.jobRequests.url>http://build.e-monocot.org/test/job-requests.json</harvester.jobRequests.url>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
