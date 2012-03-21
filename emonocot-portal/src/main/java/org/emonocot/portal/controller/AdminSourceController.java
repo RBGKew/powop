@@ -12,6 +12,7 @@ import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -59,6 +60,21 @@ public class AdminSourceController {
         return "admin/source/list";
     }
 
+    /**
+     *
+     * @param identifier Set the identifier
+     * @param uiModel Set the model
+     * @return the view name
+     */
+    @RequestMapping(value = "/{identifier}", produces = "text/html")
+    public final String show(
+            @PathVariable("identifier") final String identifier,
+            final Model uiModel) {
+        uiModel.addAttribute("source",
+                service.load(identifier, "source-with-jobs"));
+        return "admin/source/show";
+    }
+
    /**
     *
     * @param model
@@ -66,14 +82,12 @@ public class AdminSourceController {
     * @return the name of the view
     */
    @RequestMapping(method = RequestMethod.GET, params = "form")
-   public final String update(final Model model) {
+   public final String create(final Model model) {
        model.addAttribute(new Source());
        return "admin/source/create";
    }
 
    /**
-    * @param identifier
-    *            Set the identifier
     * @param session
     *            Set the session
     * @param source
@@ -83,8 +97,8 @@ public class AdminSourceController {
     * @return a model and view
     */
    @RequestMapping(method = RequestMethod.POST, headers = "Accept=text/html")
-   public final String post(@Valid final Source source, final BindingResult result,
-           final HttpSession session) {
+    public final String post(@Valid final Source source,
+            final BindingResult result, final HttpSession session) {
        if (result.hasErrors()) {
            return "admin/source/create";
        }

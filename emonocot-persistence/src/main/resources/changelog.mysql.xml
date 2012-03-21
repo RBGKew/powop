@@ -2024,4 +2024,31 @@
       <comment>Added Identifier object as part of #139: Link to the PDF of the original description on a taxon page</comment>
       <addForeignKeyConstraint constraintName="FK556E0471F247EE07" referencedTableName="Source" baseColumnNames="sources_id" baseTableName="Identifier_Source" referencedColumnNames="id"/>
     </changeSet>
+    <changeSet id="2012-03-20_01" author="ben">
+      <comment>Added Job object as part of #240: As an administrative user, I would like to list and create harvesting jobs</comment>
+      <createTable tableName="Job">
+        <column name="id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>
+        <column name="identifier" type="varchar(255)"/>
+        <column name="duration" type="datetime"/>
+        <column name="exitDescription" type="longtext"/>
+        <column name="exitCode" type="varchar(255)"/>
+        <column name="content" type="longtext"/>
+        <column name="jobId" type="integer"/>
+        <column name="jobInstance" type="varchar(255)"/>
+        <column name="jobType" type="varchar(255)"/>
+        <column name="lastHarvested" type="datetime"/>
+        <column name="resource" type="varchar(255)"/>
+        <column name="set" type="varchar(255)"/>
+        <column name="startTime" type="datetime"/>
+        <column name="status" type="varchar(255)"/>
+        <column name="uri" type="varchar(255)"/>
+        <column name="source_id" type="bigint"/>
+      </createTable>
+    </changeSet>
+    <changeSet id="2012-03-20_02" author="ben">
+      <comment>Added Job object as part of #240: As an administrative user, I would like to list and create harvesting jobs</comment>
+      <addForeignKeyConstraint constraintName="FK1239DCF3DA2C4" referencedTableName="Source" baseColumnNames="source_id" baseTableName="Job" referencedColumnNames="id"/>
+    </changeSet>
 </databaseChangeLog>

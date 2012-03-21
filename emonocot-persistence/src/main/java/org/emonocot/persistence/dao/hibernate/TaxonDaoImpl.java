@@ -296,7 +296,7 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
     /**
      * Returns the genera associated with this family. TODO Remove once families
      * are imported
-     * 
+     *
      * @param family
      *            the family
      * @return A list of genera
@@ -312,7 +312,7 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
     /**
      * Returns the number of genera in a family. TODO Remove once families are
      * imported
-     * 
+     *
      * @param family
      *            the family
      * @return the number of accepted genera
@@ -328,7 +328,7 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
 
     /**
      * Returns the child taxa of a given taxon.
-     * 
+     *
      * @param identifier
      *            set the identifier
      * @param pageSize

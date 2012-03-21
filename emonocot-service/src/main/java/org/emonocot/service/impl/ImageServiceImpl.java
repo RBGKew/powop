@@ -13,12 +13,16 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @Service
-public class ImageServiceImpl extends SearchableServiceImpl<Image, ImageDao> implements
-        ImageService {
-    
+public class ImageServiceImpl extends SearchableServiceImpl<Image, ImageDao>
+        implements ImageService {
+
+    /**
+     *
+     * @param newImageDao Set the image dao
+     */
     @Autowired
-    public void setImageDao(ImageDao imageDao) {
-        super.dao = imageDao;
+    public final void setImageDao(final ImageDao newImageDao) {
+        super.dao = newImageDao;
     }
 
     /**

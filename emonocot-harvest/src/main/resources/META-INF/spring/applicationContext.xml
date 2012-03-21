@@ -86,6 +86,7 @@
 		</property>
 		<property name="annotatedClasses">
 			<list>
+			    <value>org.emonocot.model.job.Job</value>
 				<value>org.emonocot.model.source.Source</value>
 				<value>org.emonocot.model.identifier.Identifier</value>
 				<value>org.emonocot.model.common.Annotation</value>

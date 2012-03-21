@@ -385,7 +385,7 @@ public class Taxon extends SearchableObject {
      * @return Get the immediate taxonomic children
      */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
-    @Cascade({CascadeType.SAVE_UPDATE})
+    @Cascade({CascadeType.SAVE_UPDATE })
     @JsonIgnore
     public Set<Taxon> getChildren() {
         return children;

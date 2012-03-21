@@ -14,6 +14,8 @@ drop table if exists Image;
 create table Image (id bigint not null, identifier varchar(255), created timestamp, creator varchar(255), license varchar(255), modified timestamp, source varchar(255), caption varchar(255), description clob, format varchar(255), keywords varchar(255), location BLOB, locality varchar(255), url varchar(255), authority_id bigint, image_id bigint, taxon_id bigint, primary key (id), unique (identifier));
 drop table if exists Image_Source;
 create table Image_Source (Image_id bigint not null, sources_id bigint not null, primary key (Image_id, sources_id));
+drop table if exists Job;
+create table Job (id bigint not null, identifier varchar(255), duration timestamp, exitDescription clob, exitCode varchar(255), jobId integer, jobInstance varchar(255), jobType varchar(255), lastHarvested timestamp, resource varchar(255), set varchar(255), startTime timestamp, status varchar(255), uri varchar(255), source_id bigint, primary key (id), unique (identifier));
 drop table if exists Principal;
 create table Principal (DTYPE varchar(31) not null, id bigint not null, identifier varchar(255), created timestamp, modified timestamp, accountNonExpired boolean, accountNonLocked boolean, credentialsNonExpired boolean, enabled boolean, password varchar(255), primary key (id), unique (identifier));
 drop table if exists Reference;
@@ -57,6 +59,7 @@ alter table Image add constraint FK437B93B1EDCD08D foreign key (taxon_id) refere
 alter table Image add constraint FK437B93B6B53D29C foreign key (authority_id) references Source;
 alter table Image_Source add constraint FKFFA0CFBF544A087 foreign key (Image_id) references Image;
 alter table Image_Source add constraint FKFFA0CFBFF247EE07 foreign key (sources_id) references Source;
+alter table Job add constraint FK1239DCF3DA2C4 foreign key (source_id) references Source;
 alter table Reference add constraint FK404D5F2B6B53D29C foreign key (authority_id) references Source;
 alter table Reference_Source add constraint FK76F19BCF1914B32E foreign key (Reference_id) references Reference;
 alter table Reference_Source add constraint FK76F19BCFF247EE07 foreign key (sources_id) references Source;

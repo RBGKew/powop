@@ -6,6 +6,7 @@ import java.util.Map;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.model.source.Source;
 import org.emonocot.persistence.dao.SourceDao;
+import org.hibernate.FetchMode;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -23,6 +24,8 @@ public class SourceDaoImpl extends DaoImpl<Source> implements
 
     static {
         FETCH_PROFILES = new HashMap<String, Fetch[]>();
+        FETCH_PROFILES.put("source-with-jobs", new Fetch[] {new Fetch(
+                "jobs", FetchMode.SELECT)});
     }
 
     /**

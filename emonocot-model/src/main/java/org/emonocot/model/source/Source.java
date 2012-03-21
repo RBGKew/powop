@@ -1,13 +1,18 @@
 package org.emonocot.model.source;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.emonocot.model.common.BaseData;
+import org.emonocot.model.job.Job;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
@@ -70,10 +75,15 @@ public class Source extends BaseData {
     */
     private String subject;
 
-    /**
+   /**
     *
     */
     private String title;
+
+    /**
+     *
+     */
+    private Set<Job> jobs;
 
     /**
      *
@@ -104,11 +114,11 @@ public class Source extends BaseData {
     }
 
     /**
-     * @param uri
+     * @param newUri
      *            the uri to set
      */
-    public void setUri(String uri) {
-        this.uri = uri;
+    public void setUri(String newUri) {
+        this.uri = newUri;
     }
 
     /**
@@ -129,11 +139,11 @@ public class Source extends BaseData {
     }
 
     /**
-     * @param creatorEmail the creatorEmail to set
+     * @param newCreatorEmail the creatorEmail to set
      */
     @Email
-    public void setCreatorEmail(String creatorEmail) {
-        this.creatorEmail = creatorEmail;
+    public void setCreatorEmail(String newCreatorEmail) {
+        this.creatorEmail = newCreatorEmail;
     }
 
     /**
@@ -147,10 +157,10 @@ public class Source extends BaseData {
     }
 
     /**
-     * @param description the description to set
+     * @param newDescription the description to set
      */
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescription(String newDescription) {
+        this.description = newDescription;
     }
 
     /**
@@ -177,10 +187,10 @@ public class Source extends BaseData {
     }
 
     /**
-     * @param publisherName the publisherName to set
+     * @param newPublisherName the publisherName to set
      */
-    public void setPublisherName(String publisherName) {
-        this.publisherName = publisherName;
+    public void setPublisherName(String newPublisherName) {
+        this.publisherName = newPublisherName;
     }
 
     /**
@@ -191,10 +201,10 @@ public class Source extends BaseData {
     }
 
     /**
-     * @param publisherEmail the publisherEmail to set
+     * @param newPublisherEmail the publisherEmail to set
      */
-    public void setPublisherEmail(String publisherEmail) {
-        this.publisherEmail = publisherEmail;
+    public void setPublisherEmail(String newPublisherEmail) {
+        this.publisherEmail = newPublisherEmail;
     }
 
     /**
@@ -206,10 +216,10 @@ public class Source extends BaseData {
     }
 
     /**
-     * @param subject the subject to set
+     * @param newSubject the subject to set
      */
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setSubject(String newSubject) {
+        this.subject = newSubject;
     }
 
     /**
@@ -221,10 +231,24 @@ public class Source extends BaseData {
     }
 
     /**
-     * @param title the title to set
+     * @param newTitle the title to set
      */
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTitle(String newTitle) {
+        this.title = newTitle;
     }
 
+    /**
+     * @return the jobs
+     */
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "source")
+    public Set<Job> getJobs() {
+        return jobs;
+    }
+
+    /**
+     * @param jobs the jobs to set
+     */
+    public void setJobs(Set<Job> jobs) {
+        this.jobs = jobs;
+    }
 }
