@@ -35,7 +35,7 @@ public class WebDriverFacade implements FactoryBean<WebDriver> {
      */
     private WebDriver createWebDriver() throws IOException {
         Resource propertiesFile = new ClassPathResource(
-                "application.properties");
+                "META-INF/spring/application.properties");
         Properties properties = new Properties();
         properties.load(propertiesFile.getInputStream());
         String driverName = properties.getProperty("selenium.webdriver.impl",

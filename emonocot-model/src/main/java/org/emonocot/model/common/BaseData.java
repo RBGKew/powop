@@ -16,12 +16,15 @@ import org.emonocot.model.marshall.json.DateTimeSerializer;
 import org.emonocot.model.marshall.json.SourceDeserializer;
 import org.emonocot.model.marshall.json.SourceSerializer;
 import org.emonocot.model.source.Source;
+import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
+import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.FieldBridge;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.IndexedEmbedded;
 import org.hibernate.search.annotations.Parameter;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
 
 /**
@@ -72,6 +75,27 @@ public abstract class BaseData extends Base {
      *
      */
     private Source authority;
+
+    /**
+    *
+    * @return The unique identifier of the object
+    */
+   @Field(analyzer = @Analyzer(
+           definition =  "facetAnalyzer"), index = Index.UN_TOKENIZED)
+   @NaturalId
+   @NotEmpty
+   public String getIdentifier() {
+       return identifier;
+   }
+
+  /**
+   *
+   * @param identifier
+   *            Set the unique identifier of the object
+   */
+  public void setIdentifier(String identifier) {
+      this.identifier = identifier;
+  }
 
     /**
      *

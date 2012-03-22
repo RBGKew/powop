@@ -6,11 +6,7 @@ import javax.persistence.MappedSuperclass;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.solr.analysis.StandardTokenizerFactory;
-import org.hibernate.annotations.NaturalId;
-import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.AnalyzerDef;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.TokenizerDef;
 
 /**
@@ -21,7 +17,7 @@ import org.hibernate.search.annotations.TokenizerDef;
 @MappedSuperclass
 @AnalyzerDef(name = "facetAnalyzer",
         tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class))
-public abstract class Base implements Serializable, SecuredObject {
+public abstract class Base implements Serializable, Identifiable, SecuredObject {
 
     /**
      *
@@ -30,18 +26,7 @@ public abstract class Base implements Serializable, SecuredObject {
     /**
      *
      */
-    private String identifier;
-
-    /**
-     *
-     * @return The unique identifier of the object
-     */
-    @Field(analyzer = @Analyzer(
-            definition =  "facetAnalyzer"), index = Index.UN_TOKENIZED)
-    @NaturalId
-    public String getIdentifier() {
-        return identifier;
-    }
+    protected String identifier;
 
     @Override
     public boolean equals(Object other) {
@@ -59,15 +44,6 @@ public abstract class Base implements Serializable, SecuredObject {
     @Override
     public int hashCode() {
         return ObjectUtils.hashCode(this.identifier);
-    }
-
-    /**
-     *
-     * @param identifier
-     *            Set the unique identifier of the object
-     */
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
     }
 
 }

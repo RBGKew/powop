@@ -13,10 +13,11 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 /**
- * Test to verify that the OaiPmhProcessor recognised constraints on the objects and
- * tries to rectify where possible.
+ * Test to verify that the OaiPmhProcessor recognised constraints on the objects
+ * and tries to rectify where possible.
  *
  * http://build.e-monocot.org/bugzilla/show_bug.cgi?id=101
+ *
  * @author ben
  *
  */
@@ -43,6 +44,7 @@ public class ValidationConstraintsTest {
    @Before
    public final void setUp() throws Exception {
        taxon = new Taxon();
+       taxon.setIdentifier("identifier");
        LocalValidatorFactoryBean validatorFactoryBean = new LocalValidatorFactoryBean();
        validatorFactoryBean.afterPropertiesSet();
        processor = new OaiPmhRecordValidator();

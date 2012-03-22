@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.UUID;
 
 import org.emonocot.api.GroupService;
 import org.emonocot.model.common.Annotation;
@@ -135,7 +136,7 @@ public class RestApiFunctionalTest {
      */
     public RestApiFunctionalTest() throws IOException {
         Resource propertiesFile = new ClassPathResource(
-                "application.properties");
+                "META-INF/spring/application.properties");
         Properties properties = new Properties();
         properties.load(propertiesFile.getInputStream());
         username = properties.getProperty("functional.test.username", null);
@@ -194,6 +195,7 @@ public class RestApiFunctionalTest {
         taxon.setName("Acorus");
         taxon.setIdentifier("urn:kew.org:wcs:taxon:2295");
         TextContent textContent = new TextContent();
+        textContent.setIdentifier(UUID.randomUUID().toString());
         textContent.setContent("Lorem ipsum");
         textContent.setFeature(Feature.habitat);
         textContent.getReferences().add(reference);
@@ -201,6 +203,7 @@ public class RestApiFunctionalTest {
         taxon.getReferences().add(reference);
         taxon.getContent().put(Feature.habitat, textContent);
         Distribution distribution = new Distribution();
+        distribution.setIdentifier(UUID.randomUUID().toString());
         distribution.setTaxon(taxon);
         distribution.setRegion(Country.REU);
         taxon.getDistribution().put(Country.REU, distribution);

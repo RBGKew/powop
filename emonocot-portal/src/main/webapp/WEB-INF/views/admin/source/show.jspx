@@ -5,7 +5,8 @@
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:form="urn:jsptagdir:/WEB-INF/tags/form"
 	xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields"
-	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:joda="http://www.joda.org/joda/time/tags" version="2.0">
   <div class="content">
     <div class="page-header header-margin">
 	  <c:choose>
@@ -17,10 +18,9 @@
 	    </c:otherwise>
 	  </c:choose>
     </div>
-    <div>
-		<div class="row">
-		  <div class="span12">
-			<table class="table">
+    <div class="row">
+	  <div class="span12">
+		<table class="table">
 	      <tbody>
 	        <tr><th><spring:message code="availableAt" /></th><td><a href="${source.uri}" id="source-uri">${source.uri}</a></td></tr>
 	        <tr><th><spring:message code="source.creator" /></th><td>${source.creator}</td></tr>
@@ -44,8 +44,41 @@
 		        <tr><th><spring:message code="source.source" /></th><td>${source.source}</td></tr>        
 	      </tbody>
 	    </table>
-		  </div>
-		</div>
+	  </div>
+    </div>
+    <div class="row">
+      <div class="span12">
+        <h2><spring:message code="jobs.title"/></h2>
+        <c:url var="createUrl" value="/admin/source/${source.identifier}/job">
+          <c:param name="form" value="true"/>
+        </c:url>
+        <p><a href="${createUrl}"><spring:message code="create.job"/></a></p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th><spring:message code="job.identifier"/></th>
+              <th><spring:message code="job.jobType"/></th>
+              <th><spring:message code="job.status"/></th>
+              <th><spring:message code="job.startTime"/></th>
+              <th><spring:message code="job.exitCode"/></th>
+            </tr>
+          </thead>
+          <tbody>
+	      <c:forEach var="job" items="${jobs}">
+		    <tr>		      
+		      <td>
+		        <spring:url var="jobUrl" value="/admin/source/${source.identifier}/job/${job.identifier}"/>
+		        <a href="${jobUrl}">${job.identifier}</a>
+		      </td>	
+		      <td>${job.jobType}</td>
+		      <td>${job.status}</td>
+		      <td><joda:format value="${job.startTime}" style="MM" /></td>
+		      <td>${job.exitCode}</td>		    
+		    </tr>
+	      </c:forEach>
+	      </tbody>
+	    </table>
+      </div>
     </div>
   </div>
 </jsp:root>

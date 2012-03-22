@@ -49,7 +49,7 @@ public class Portal extends PageObject {
     public Portal() throws IOException {
         logger.debug("Portal() constructor");
         Resource propertiesFile = new ClassPathResource(
-                "application.properties");
+                "META-INF/spring/application.properties");
         Properties properties = new Properties();
         properties.load(propertiesFile.getInputStream());
         String baseUri = properties.getProperty("functional.test.baseUri",

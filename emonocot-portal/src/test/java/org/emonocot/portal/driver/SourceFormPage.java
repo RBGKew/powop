@@ -39,6 +39,7 @@ public class SourceFormPage extends PageObject {
                 this.sourceName = null;
             }
         }
+        System.out.println(this.getWebDriver().getCurrentUrl());
         return getPage(SourceFormPage.class);
     }
 

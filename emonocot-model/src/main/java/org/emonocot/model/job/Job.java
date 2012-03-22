@@ -9,10 +9,19 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.common.Base;
+import org.emonocot.model.marshall.json.SourceDeserializer;
+import org.emonocot.model.marshall.json.SourceSerializer;
 import org.emonocot.model.source.Source;
+import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 import org.joda.time.DateTime;
 import org.springframework.batch.core.BatchStatus;
@@ -48,7 +57,7 @@ public class Job extends Base {
     /**
      *
      */
-    private String set;
+    private String family;
 
    /**
     *
@@ -98,6 +107,27 @@ public class Job extends Base {
      *
      */
     private static long serialVersionUID = 5676965857186600965L;
+
+    /**
+    *
+    * @return The unique identifier of the object
+    */
+   @Field(analyzer = @Analyzer(
+           definition =  "facetAnalyzer"), index = Index.UN_TOKENIZED)
+   @NaturalId
+   @NotEmpty
+   public String getIdentifier() {
+       return identifier;
+   }
+
+  /**
+   *
+   * @param identifier
+   *            Set the unique identifier of the object
+   */
+  public void setIdentifier(String identifier) {
+      this.identifier = identifier;
+  }
 
     /**
      * @return the Id
@@ -154,17 +184,17 @@ public class Job extends Base {
     }
 
     /**
-     * @return the set
+     * @return the family
      */
-    public String getSet() {
-        return set;
+    public String getFamily() {
+        return family;
     }
 
     /**
-     * @param newSet Set the resource to harvest
+     * @param newFamily Set the resource to harvest
      */
-    public void setSet(String newSet) {
-        this.set = newSet;
+    public void setFamily(String newFamily) {
+        this.family = newFamily;
     }
 
     /**
@@ -288,6 +318,7 @@ public class Job extends Base {
     /**
      * @return the source
      */
+    @JsonSerialize(using = SourceSerializer.class)
     @ManyToOne(fetch = FetchType.LAZY)
     public Source getSource() {
         return source;
@@ -296,6 +327,7 @@ public class Job extends Base {
     /**
      * @param source the source to set
      */
+    @JsonDeserialize(using = SourceDeserializer.class)
     public void setSource(Source source) {
         this.source = source;
     }

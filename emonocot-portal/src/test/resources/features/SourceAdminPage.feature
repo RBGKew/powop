@@ -11,14 +11,16 @@ Background:
   | identifier | uri                 | title      |
   | test       | http://example.com  | test title |
   And there are groups with the following properties:
-  | identifier    | permission1            |
-  | test          | PERMISSION_VIEW_SOURCE |
+  | identifier    | permission1             |
+  | test          | PERMISSION_VIEW_SOURCE  |
+  | admins        | PERMISSION_ADMINISTRATE |
   And there are the following access controls:
   | principal | principalType | object | objectType | permission |
   | test      | group         | test   | Source     | READ       |
   And there are users with the following properties:
-  | identifier       | password  | group1 |
-  | test@example.com | Poa annua | test   |
+  | identifier          | password       | group1   |
+  | test@example.com    | Poa annua      | test     |
+  | admin@e-monocot.org | Nardus stricta | admins   |
   And there are job instances with the following properties:
   | jobId | jobName | authorityName | version |
   | 1     | testJob | test          | 1       |
@@ -83,8 +85,8 @@ Scenario: Create Source
   And the source logo should be "http://example.com/logo.png"
   
 Scenario: Edit Source
-  In order to allow privileged users access to restricted areas, as an
-  administrator, I want to be able to edit a source page
+  As a privileged source system owner, I want to be able to edit a source page
+  So that the eMonocot portal displays information about my system correctly
   Given I am logged in as "test@example.com" with the password "Poa annua"
   When I navigate to source page "test" 
   And I select "Edit this source"
@@ -96,3 +98,19 @@ Scenario: Edit Source
   When I navigate to source page "test" 
   Then the source uri should be "http://example.com"
   And the source logo should be "http://example.com/logo.png"
+  
+Scenario: Create Job
+  As an eMonocot Portal administrator, I would like to list and create harvesting
+  jobs for a given source, so that data from that source can be harvested.
+  http://build.e-monocot.org/bugzilla/show_bug.cgi?id=240
+  Given I am logged in as "admin@e-monocot.org" with the password "Nardus stricta"
+  And I am on the source admin page for "test"
+  And I select "Create a new job"
+  And I enter the following data in the job form:
+  | identifier | family    | uri                                  | type        |
+  | New Job    | Testaceae | http://www.testaceae.org/archive.zip | DwC_Archive |
+  And I submit the job form
+  Then an info message should say "New Job was created"
+  When I navigate to source page "test"
+  Then there should be 1 job
+  

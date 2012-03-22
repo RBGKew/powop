@@ -43,7 +43,7 @@
   </appender>
   <logger name="query" level="INFO" additivity="false">
     <appender-ref ref="database"/>
-  </logger>
+  </logger>  
   <root level="${logging.level}">
     <appender-ref ref="${logging.method}"/>
   </root>

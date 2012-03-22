@@ -293,4 +293,12 @@ public class Annotation extends Base {
         this.value = value;
     }
 
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String newIdentifier) {
+        this.identifier = newIdentifier;
+    }
+
 }

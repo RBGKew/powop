@@ -3,6 +3,7 @@ package org.emonocot.job.checklist;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import org.emonocot.api.ReferenceService;
 import org.emonocot.api.TaxonService;
@@ -457,6 +458,7 @@ public class OaiPmhRecordProcessorImpl extends AuthorityAware implements
         }
         org.emonocot.model.description.Distribution distribution
            = new org.emonocot.model.description.Distribution();
+        distribution.setIdentifier(UUID.randomUUID().toString());
         try {
             distribution.setRegion(conversionService.convert(id,
                     GeographicalRegion.class));

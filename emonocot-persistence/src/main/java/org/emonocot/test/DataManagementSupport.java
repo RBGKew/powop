@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
+import java.util.UUID;
 
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationCode;
@@ -138,6 +139,7 @@ public abstract class DataManagementSupport {
             final Feature feature, final String content,
             final Reference reference) {
        TextContent textContent = new TextContent();
+       textContent.setIdentifier(UUID.randomUUID().toString());
        textContent.setFeature(feature);
        textContent.setContent(content);
        textContent.setTaxon(taxon);
@@ -195,6 +197,7 @@ public abstract class DataManagementSupport {
             taxon.getSources().add(source);
         }
         Reference reference = new Reference();
+        reference.setIdentifier(UUID.randomUUID().toString());
         reference.setDatePublished(datePublished);
         taxon.setProtologue(reference);
         if (parent != null) {
@@ -209,6 +212,7 @@ public abstract class DataManagementSupport {
 
         for (GeographicalRegion region : distributions) {
             Distribution distribution = new Distribution();
+            distribution.setIdentifier(UUID.randomUUID().toString());
             distribution.setRegion(region);
             distribution.setTaxon(taxon);
             taxon.getDistribution().put(region, distribution);

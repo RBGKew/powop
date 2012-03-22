@@ -50,7 +50,7 @@ public class ChecklistWebserviceFunctionalTest {
     @Before
     public final void setUp() throws Exception {
         Resource propertiesFile = new ClassPathResource(
-                "application.properties");
+                "META-INF/spring/application.properties");
         properties = new Properties();
         properties.load(propertiesFile.getInputStream());
         RestAssured.baseURI = properties.getProperty("functional.test.baseUri",

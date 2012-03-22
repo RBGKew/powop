@@ -2,6 +2,7 @@ package org.emonocot.model.description;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -78,6 +79,13 @@ public class TextContent extends BaseData {
      *
      */
     private Set<Reference> references = new HashSet<Reference>();
+
+    /**
+     *
+     */
+    public TextContent() {
+        this.identifier = UUID.randomUUID().toString();
+    }
 
     /**
      *

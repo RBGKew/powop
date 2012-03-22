@@ -133,7 +133,7 @@ public class SourceController extends GenericController<Source, SourceService> {
      * @return a model and view
      */
     @RequestMapping(value = "/{identifier}", method = RequestMethod.POST, headers = "Accept=text/html")
-    public final String post(@PathVariable final String identifier,
+    public final String post(@PathVariable("identifier") final String identifier,
             @Valid final Source source, final BindingResult result,
             final HttpSession session) {
 

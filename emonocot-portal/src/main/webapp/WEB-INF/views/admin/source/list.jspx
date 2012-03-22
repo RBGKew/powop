@@ -22,7 +22,7 @@
 	    <ul class="unstyled">
 	    <c:forEach var="source" items="${result.records}">
 		  <li>
-		    <spring:url var="sourceUrl" value="/source/${source.identifier}"/>
+		    <spring:url var="sourceUrl" value="/admin/source/${source.identifier}"/>
 		    <a href="${sourceUrl}">${source.title}</a>
 		  </li>
 	    </c:forEach>

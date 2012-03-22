@@ -6,10 +6,15 @@ import javax.persistence.Id;
 
 import org.emonocot.model.common.Base;
 import org.emonocot.model.hibernate.DateTimeBridge;
+import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
+import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.DocumentId;
+import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.FieldBridge;
+import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Parameter;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
 
 /**
@@ -20,12 +25,12 @@ import org.joda.time.DateTime;
 @Entity
 public abstract class Principal extends Base {
 
-   /**
+    /**
     *
     */
     private DateTime created;
 
-   /**
+    /**
     *
     */
     private DateTime modified;
@@ -41,24 +46,44 @@ public abstract class Principal extends Base {
     private static final long serialVersionUID = -2461535344191283847L;
 
     /**
-    *
-    * @param newId
-    *            Set the identifier of this object.
-    */
-   public void setId(Long newId) {
-       this.id = newId;
-   }
+     *
+     * @return The unique identifier of the object
+     */
+    @Field(analyzer = @Analyzer(definition = "facetAnalyzer"), index = Index.UN_TOKENIZED)
+    @NaturalId
+    @NotEmpty
+    public String getIdentifier() {
+        return identifier;
+    }
 
-   /**
-    *
-    * @return Get the identifier for this object.
-    */
-   @Id
-   @GeneratedValue(generator = "system-increment")
-   @DocumentId
-   public Long getId() {
-       return id;
-   }
+    /**
+     *
+     * @param identifier
+     *            Set the unique identifier of the object
+     */
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    /**
+     *
+     * @param newId
+     *            Set the identifier of this object.
+     */
+    public void setId(Long newId) {
+        this.id = newId;
+    }
+
+    /**
+     *
+     * @return Get the identifier for this object.
+     */
+    @Id
+    @GeneratedValue(generator = "system-increment")
+    @DocumentId
+    public Long getId() {
+        return id;
+    }
 
     /**
      *
@@ -72,7 +97,8 @@ public abstract class Principal extends Base {
 
     /**
      *
-     * @param created Set the date this principal was created
+     * @param created
+     *            Set the date this principal was created
      */
     public void setCreated(DateTime created) {
         this.created = created;
@@ -90,7 +116,8 @@ public abstract class Principal extends Base {
 
     /**
      *
-     * @param modified Set the date this principal was modified
+     * @param modified
+     *            Set the date this principal was modified
      */
     public void setModified(DateTime modified) {
         this.modified = modified;

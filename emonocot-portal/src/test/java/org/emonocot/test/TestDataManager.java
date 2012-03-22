@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Stack;
+import java.util.UUID;
 
 import org.emonocot.api.AnnotationService;
 import org.emonocot.api.GroupService;
@@ -449,6 +450,7 @@ public class TestDataManager {
         }
         if (distribution1 != null && distribution1.length() > 0) {
             Distribution distribution = new Distribution();
+            distribution.setIdentifier(UUID.randomUUID().toString());
             GeographicalRegion geographicalRegion = geographyConverter
                     .convert(distribution1);
             distribution.setRegion(geographicalRegion);
@@ -457,6 +459,7 @@ public class TestDataManager {
         }
         if (distribution2 != null && distribution2.length() > 0) {
             Distribution distribution = new Distribution();
+            distribution.setIdentifier(UUID.randomUUID().toString());
             GeographicalRegion geographicalRegion = geographyConverter
                     .convert(distribution2);
             distribution.setRegion(geographicalRegion);
@@ -465,6 +468,7 @@ public class TestDataManager {
         }
         if (distribution3 != null && distribution3.length() > 0) {
             Distribution distribution = new Distribution();
+            distribution.setIdentifier(UUID.randomUUID().toString());
             GeographicalRegion geographicalRegion = geographyConverter
                     .convert(distribution3);
             distribution.setRegion(geographicalRegion);
@@ -722,6 +726,7 @@ public class TestDataManager {
   private void createTextualData(final Taxon taxon, final String text,
           final Feature feature, final String reference) {
       TextContent textContent = new TextContent();
+      textContent.setIdentifier(UUID.randomUUID().toString());
       textContent.setContent(text);
       textContent.setFeature(feature);
       textContent.setTaxon(taxon);

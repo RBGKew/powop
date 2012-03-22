@@ -12,5 +12,5 @@
   </definition>
   <definition name="admin/source/job/show" extends="default">    
     <put-attribute name="body" value="/WEB-INF/views/admin/source/job/show.jspx" />
-  </definition>  
+  </definition> 
 </tiles-definitions>
