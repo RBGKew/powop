@@ -1,11 +1,11 @@
 package org.emonocot.job.taxonmatch;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
-import org.emonocot.api.TaxonService;
-import org.emonocot.model.pager.Page;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.api.taxonmatch.Match;
+import org.emonocot.api.taxonmatch.MatchStatus;
+import org.emonocot.api.taxonmatch.TaxonDTO;
+import org.emonocot.api.taxonmatch.TaxonMatcher;
 import org.gbif.ecat.model.ParsedName;
 import org.gbif.ecat.parser.NameParser;
 import org.gbif.ecat.parser.UnparsableException;
@@ -19,34 +19,34 @@ import org.springframework.batch.item.ItemProcessor;
 public class Processor implements ItemProcessor<TaxonDTO, Result> {
 
     /**
-    *
-    */
-    private Logger logger = LoggerFactory.getLogger(Processor.class);
-
-    /**
-     * 
+     *
      */
-    private NameParser nameParser;
+    private Logger logger = LoggerFactory.getLogger(Processor.class);
 
     /**
      *
      */
-    private TaxonService taxonService;
+    private TaxonMatcher taxonMatcher;
 
     /**
-     * @param nameParser
-     *            the nameParser to set
+     *
      */
-    public void setNameParser(NameParser nameParser) {
-        this.nameParser = nameParser;
+    private NameParser nameParser;
+
+    /**
+     * @param newTaxonMatcher
+     *            the matcher to set
+     */
+    public void setTaxonMatcher(TaxonMatcher newTaxonMatcher) {
+        this.taxonMatcher = newTaxonMatcher;
     }
 
     /**
-     * @param taxonService
-     *            the taxonService to set
+     * @param newNameParser
+     *            the nameParser to set
      */
-    public final void setTaxonService(final TaxonService taxonService) {
-        this.taxonService = taxonService;
+    public void setNameParser(NameParser newNameParser) {
+        this.nameParser = newNameParser;
     }
 
     /**
@@ -57,7 +57,7 @@ public class Processor implements ItemProcessor<TaxonDTO, Result> {
      *             if there is a problem
      */
     public final Result process(final TaxonDTO taxon) throws Exception {
-        logger.warn("Attempting to match " + taxon.getName());
+        logger.debug("Attempting to match " + taxon.getName());
         Result result = new Result();
         TaxonDTO internal = new TaxonDTO();
         result.setExternal(taxon);
@@ -76,56 +76,40 @@ public class Processor implements ItemProcessor<TaxonDTO, Result> {
             return result;
         }
 
-        // List<Result> results = matcher.match(parsed);
+        List<Match> matches = taxonMatcher.match(parsed);
 
-        Page<org.emonocot.model.taxon.Taxon> page = taxonService.search(
-                "\"" + parsed.canonicalName() + "\" "/* + "\""
-                        + parsed.getBracketAuthorship() + " "
-                        + parsed.getAuthorship()*/, null, null, null, null, null,
-                null, null);
-
-        switch (page.getSize()) {
+        switch (matches.size()) {
         case 0:
-            logger.warn("No matches found for " + taxon.getName());
+            logger.debug("No matches found for " + taxon.getName());
             result.setStatus(TaxonMatchStatus.NO_MATCH);
             break;
         case 1:
-            logger.warn("A single match identified for " + taxon.getName());
-            result.setStatus(TaxonMatchStatus.SINGLE_MATCH);
-            internal.setIdentifier(page.getRecords().get(0).getIdentifier());
-            internal.setName(page.getRecords().get(0).getName());
-            // result.setInternal(internal);
+            logger.debug("A single match identified for " + taxon.getName());
+            Match single = matches.get(0);
+            if(single.getStatus().equals(MatchStatus.EXACT)){
+                result.setStatus(TaxonMatchStatus.SINGLE_MATCH);
+            } else {
+                result.setStatus(TaxonMatchStatus.NO_EXACT_MATCH);
+            }
+            result.setInternal(single.getInternal());
             break;
         default:
-            Set<org.emonocot.model.taxon.Taxon> matches = new HashSet<org.emonocot.model.taxon.Taxon>();
-            for (org.emonocot.model.taxon.Taxon t : page.getRecords()) {
-                // logger.warn(t.getName() + " " + t.getIdentifier());
-                if (taxon.getName().equals(t.getName())) {
-                    matches.add(t);
+            logger.debug(matches.size() + " matches for "
+                    + taxon.getName());
+            int exact = 0;
+            for(Match match : matches) {
+                if(match.getStatus().equals(MatchStatus.EXACT)) {
+                    exact++;
+                    result.setInternal(match.getInternal());
                 }
             }
-            result.setPartialMatches(page.getRecords());
-            switch (matches.size()) {
-            case 0:
-                logger.warn("Only partial matches for " + taxon.getName());
-                result.setStatus(TaxonMatchStatus.NO_EXACT_MATCH);
-                break;
-            case 1:
-                logger.warn(page.getSize() + " partial matches (1 exact) for "
-                        + taxon.getName());
-                result.setStatus(TaxonMatchStatus.SINGLE_MATCH);
-                Taxon t = matches.iterator().next();
-                internal = new TaxonDTO();
-                internal.setIdentifier(t.getIdentifier());
-                internal.setName(t.getName());
-                break;
-            default:
-                logger.warn(page.getSize() + " partial matches ("
-                        + matches.size() + " exact) for " + taxon.getName());
+            if(exact > 1) {
                 result.setStatus(TaxonMatchStatus.MULTIPLE_MATCHES);
-                result.setPartialMatches(matches);
-                break;
+                result.setInternal(internal);
+            } else {
+                result.setStatus(TaxonMatchStatus.NO_EXACT_MATCH);
             }
+            break;
         }
         return result;
     }

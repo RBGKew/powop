@@ -79,6 +79,7 @@ public class BhlProtologClient extends ProxyAwareWsClient {
             try {
                 input.close();
             } catch (IOException e) {
+            } catch (NullPointerException e) { // if there is no stream to close
             }
         }
 

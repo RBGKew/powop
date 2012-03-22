@@ -2,7 +2,9 @@ package org.emonocot.job.taxonmatch;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -101,5 +103,13 @@ public class TaxonMatchIntegrationTest {
         assertNotNull("TaxonMatching must not be null", taxonMatchingJob);
         JobExecution jobExecution = jobLauncher.run(taxonMatchingJob,
                 jobParameters);
+        
+        FileReader file = new FileReader(jobParameters.getParameters().get("output.file").getValue().toString());
+        BufferedReader reader = new BufferedReader(file);
+        assertNotNull("There should be an output file", reader);
+        String ln;
+        while ((ln = reader.readLine()) != null) {
+            System.out.println(ln);
+        }
     }
 }

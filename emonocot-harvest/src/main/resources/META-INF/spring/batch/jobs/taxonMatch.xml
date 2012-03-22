@@ -77,8 +77,8 @@
 	</bean>
 
 	<bean id="taxonMatchingProcessor" class="org.emonocot.job.taxonmatch.Processor">
-	  <property name="taxonService" ref="taxonServiceImpl"/>
-	  <property name="nameParser" ref="nameParser"></property>
+	  <property name="taxonMatcher" ref="taxonMatcher" />
+	  <property name="nameParser" ref="nameParser" />
 	</bean>
 
 	<bean id="lineMapper"
@@ -104,7 +104,7 @@
 
 	<bean id="fieldSetMapper" class="org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper">
 	    <property name="targetType">
-			<value>org.emonocot.job.taxonmatch.TaxonDTO</value>
+			<value>org.emonocot.api.taxonmatch.TaxonDTO</value>
 		</property>		
 	</bean>
 	

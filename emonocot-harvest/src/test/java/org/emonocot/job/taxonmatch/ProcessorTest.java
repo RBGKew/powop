@@ -3,26 +3,41 @@ package org.emonocot.job.taxonmatch;
 import static org.junit.Assert.assertTrue;
 
 import org.easymock.EasyMock;
+import org.emonocot.api.taxonmatch.TaxonDTO;
 import org.gbif.ecat.parser.NameParser;
 import org.gbif.ecat.parser.UnparsableException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * @author jk00kg
+ *
+ */
 public class ProcessorTest {
 
+    /**
+     * @throws Exception
+     */
     @Before
     public void setUp() throws Exception {
     }
 
+    /**
+     * @throws Exception
+     */
     @After
     public void tearDown() throws Exception {
     }
 
+    /**
+     * @throws Exception
+     */
     @Test
-    public void testUnparsable() throws Exception {
+    public final void testUnparsable() throws Exception {
         NameParser parser = EasyMock.createMock(NameParser.class);
-        EasyMock.expect(parser.parse("☺")).andThrow(new UnparsableException(null, "☺"));
+        EasyMock.expect(parser.parse("☺")).andThrow(
+                new UnparsableException(null, "☺"));
         EasyMock.replay(parser);
         Processor processor = new Processor();
         processor.setNameParser(parser);

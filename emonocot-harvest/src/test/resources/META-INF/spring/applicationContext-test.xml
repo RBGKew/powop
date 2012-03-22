@@ -61,7 +61,8 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
-    <bean id="nameParser" class="org.gbif.ecat.parser.NameParser"></bean>
+    <bean id="nameParser" class="org.gbif.ecat.parser.NameParser" />
+    <bean id="taxonMatcher" class="org.emonocot.job.taxonmatch.DefaultTaxonMatcher" />
         
 	<beans profile="default">
 		<bean name="dataSource"

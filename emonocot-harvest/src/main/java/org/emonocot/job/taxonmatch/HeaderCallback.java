@@ -17,7 +17,7 @@ public class HeaderCallback implements FlatFileHeaderCallback {
      * @throws IOException if there is a problem writing the header
      */
     public final void writeHeader(final Writer writer) throws IOException {
-        writer.write("Original Identifier,Name,Status,Matched Identifier,Matched Name\n");
+        writer.write("Original Identifier,Name,Status,Iterpreted As,Matched Identifier\n");
     }
 
 }

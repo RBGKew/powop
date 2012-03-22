@@ -3,6 +3,7 @@ package org.emonocot.job.taxonmatch;
 import java.io.IOException;
 import java.io.Writer;
 
+import org.emonocot.api.taxonmatch.TaxonDTO;
 import org.springframework.batch.core.ItemProcessListener;
 import org.springframework.batch.item.file.FlatFileFooterCallback;
 
@@ -13,9 +14,9 @@ import org.springframework.batch.item.file.FlatFileFooterCallback;
  */
 public class FooterCallback implements ItemProcessListener<TaxonDTO, Result>,
         FlatFileFooterCallback {
-    
+
     /**
-     * 
+     *
      */
     private int cannotParse = 0;
 
@@ -23,12 +24,12 @@ public class FooterCallback implements ItemProcessListener<TaxonDTO, Result>,
      *
      */
     private int noExactMatches = 0;
-    
+
     /**
-     * 
+     *
      */
     private int multipleMatches = 0;
-    
+
     /**
      *
      */
@@ -62,8 +63,10 @@ public class FooterCallback implements ItemProcessListener<TaxonDTO, Result>,
             break;
         case MULTIPLE_MATCHES:
             multipleMatches++;
+            break;
         case CANNOT_PARSE:
             cannotParse++;
+            break;
         default:
             break;
         }
@@ -83,19 +86,19 @@ public class FooterCallback implements ItemProcessListener<TaxonDTO, Result>,
      */
     public final void writeFooter(final Writer writer) throws IOException {
         writer.write("\nSummary,\n");
-        if(singleMatches > 0) {
+        if (singleMatches > 0) {
             writer.write("Exact Match," + singleMatches + ",\n");
         }
-        if(multipleMatches > 0) {
+        if (multipleMatches > 0) {
             writer.write("Multipe Exact Matches," + multipleMatches + ",\n");
         }
-        if(noExactMatches > 0) {
+        if (noExactMatches > 0) {
             writer.write("Only Partial Matches," + noExactMatches + ",\n");
         }
-        if(noMatches > 0) {
+        if (noMatches > 0) {
             writer.write("No Match," + noMatches + ",\n");
         }
-        if(cannotParse > 0) {
+        if (cannotParse > 0) {
             writer.write("Could not understand," + cannotParse + ",\n");
         }
     }

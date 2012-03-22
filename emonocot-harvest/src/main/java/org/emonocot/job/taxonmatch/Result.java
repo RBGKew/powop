@@ -2,7 +2,7 @@ package org.emonocot.job.taxonmatch;
 
 import java.util.Collection;
 
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.api.taxonmatch.TaxonDTO;
 
 /**
  *
@@ -33,7 +33,7 @@ public class Result {
     /**
      *
      */
-    private Collection<Taxon> partialMatches;
+    private Collection<TaxonDTO> partialMatches;
 
     /**
      * @return the originalIdentifier
@@ -98,7 +98,7 @@ public class Result {
     /**
      * @return the partialMatches
      */
-    public final Collection<Taxon> getPartialMatches() {
+    public final Collection<TaxonDTO> getPartialMatches() {
         return partialMatches;
     }
 
@@ -107,7 +107,7 @@ public class Result {
      * @param newPartialMatches Set the partial matched records
      */
     public final void setPartialMatches(
-            final Collection<org.emonocot.model.taxon.Taxon> newPartialMatches) {
+            final Collection<TaxonDTO> newPartialMatches) {
         this.partialMatches = newPartialMatches;
     }
 
