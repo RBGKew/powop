@@ -28,6 +28,7 @@
 		<div class="row">
 		  <div class="span12">
 			<form:create path="/source/${source.identifier}" modelAttribute="source">
+			  <field:hidden field="identifier"/>
 			  <field:input field="title" label="source.title" fieldClass="span6"/>
 			  <field:input field="uri" label="source.uri" fieldClass="span6"/>
               <field:input field="logoUrl" label="source.logoUrl" fieldClass="span6"/>

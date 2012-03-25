@@ -16,19 +16,19 @@ public class RequiresLoginException extends RuntimeException {
     /**
      *
      */
-    private LoginPage loginPage;
+    private Login loginPage;
     /**
      *
      * @param newLoginPage Set the login page
      */
-    public RequiresLoginException(final LoginPage newLoginPage) {
+    public RequiresLoginException(final Login newLoginPage) {
         this.loginPage = newLoginPage;
     }
 
     /**
      * @return the login page
      */
-    public final LoginPage getLoginPage() {
+    public final Login getLoginPage() {
         return loginPage;
     }
 }

@@ -48,20 +48,20 @@ public abstract class PageObject {
     *
     * @return the registration page
     */
-    public final RegistrationPage selectRegistrationLink() {
+    public final Register selectRegistrationLink() {
          return openAs(
                  nav.findElement(By.linkText("Register")).getAttribute("href"),
-                 RegistrationPage.class);
+                 Register.class);
     }
 
    /**
     *
     * @return the registration page
     */
-    public final IdentifyPage selectIdentifyLink() {
+    public final Identify selectIdentifyLink() {
          return openAs(
                  nav.findElement(By.linkText("Identify")).getAttribute("href"),
-                 IdentifyPage.class);
+                 Identify.class);
     }
 
    /**
@@ -112,8 +112,8 @@ public abstract class PageObject {
         open(address);
         Pattern loginPattern = Pattern.compile(".*/login.*");
         if (loginPattern.matcher(webDriver.getCurrentUrl()).matches()
-                && !pageClass.equals(LoginPage.class)) {
-            LoginPage loginPage = pageObjectInstance(LoginPage.class);
+                && !pageClass.equals(Login.class)) {
+            Login loginPage = pageObjectInstance(Login.class);
             loginPage.setBaseUri(baseUri);
             loginPage.testDataManager = this.testDataManager;
             loginPage.webDriver = this.webDriver;
@@ -207,10 +207,10 @@ public abstract class PageObject {
      *
      * @return the login page
      */
-    public final LoginPage selectLoginLink() {
+    public final Login selectLoginLink() {
         return this.openAs(
                 nav.findElement(By.linkText("Login")).getAttribute("href"),
-                LoginPage.class);
+                Login.class);
     }
 
     /**
@@ -228,7 +228,7 @@ public abstract class PageObject {
     public final void logOut() {
         try {
             openAs(nav.findElement(By.linkText("Logout")).getAttribute("href"),
-                    HomePage.class);
+                    Index.class);
         } catch (Exception e) {
             // Nothing
         }
@@ -262,18 +262,18 @@ public abstract class PageObject {
     *
     * @return the about page
     */
-	public final AboutPage selectAboutLink() {
+	public final About selectAboutLink() {
 		return openAs(
                 foot.findElement(By.linkText("About us")).getAttribute("href"),
-                AboutPage.class);
+                About.class);
 	}
 	/**
     *
     * @return the contact page
     */
-	public final ContactPage selectContactLink() {
+	public final Contact selectContactLink() {
 		return openAs(
                 foot.findElement(By.linkText("Contact us")).getAttribute("href"),
-                ContactPage.class);
+                Contact.class);
 	}
 }

@@ -3,6 +3,8 @@ package org.emonocot.portal.driver;
 import java.io.IOException;
 import java.util.Properties;
 
+
+import org.emonocot.portal.driver.source.JobDetails;
 import org.emonocot.test.TestDataManager;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
@@ -65,8 +67,8 @@ public class Portal extends PageObject {
      *
      * @return the home page
      */
-    public final HomePage getHomePage() {
-        return openAs(getBaseUri(), HomePage.class);
+    public final Index getHomePage() {
+        return openAs(getBaseUri(), Index.class);
     }
 
     /**
@@ -74,18 +76,19 @@ public class Portal extends PageObject {
      * @param identifier The identifier of the taxon
      * @return a taxon page
      */
-    public final TaxonPage getTaxonPage(final String identifier) {
-        return openAs(getBaseUri() + "taxon/" + identifier, TaxonPage.class);
-    }
+	public final PageObject getTaxonPage(final String identifier) {
+		return openAs(getBaseUri() + "taxon/" + identifier,
+				org.emonocot.portal.driver.taxon.Show.class);
+	}
 
     /**
      *
      * @param query the query to execute
      * @return a search results page
      */
-    public final SearchResultsPage search(final String query) {
+    public final Search search(final String query) {
         return openAs(getBaseUri() + "search?query=" + query,
-                SearchResultsPage.class);
+                Search.class);
     }
 
     /**
@@ -93,8 +96,9 @@ public class Portal extends PageObject {
      * @param identifier Set the identifier of the image page
      * @return an image page
      */
-    public final ImagePage getImagePage(final String identifier) {
-        return openAs(getBaseUri() + "image/" + identifier, ImagePage.class);
+    public final PageObject getImagePage(final String identifier) {
+        return openAs(getBaseUri() + "image/" + identifier, 
+        		org.emonocot.portal.driver.image.Show.class);
     }
 
     /**
@@ -102,40 +106,40 @@ public class Portal extends PageObject {
      * @param identifier Set the identifier of the source page
      * @return a source page
      */
-    public final SourcePage getSourcePage(final String identifier) {
-        return openAs(getBaseUri() + "source/" + identifier, SourcePage.class);
+    public final PageObject getSourcePage(final String identifier) {
+        return openAs(getBaseUri() + "source/" + identifier, org.emonocot.portal.driver.source.Show.class);
     }
 
     /**
      *
      * @return the login page
      */
-    public final LoginPage getLoginPage() {
-        return openAs(getBaseUri() + "login", LoginPage.class);
+    public final Login getLoginPage() {
+        return openAs(getBaseUri() + "login", Login.class);
     }
     
     /**
     *
     * @return the login page
     */
-   public final AboutPage getAboutPage() {
-       return openAs(getBaseUri() + "about", AboutPage.class);
+   public final About getAboutPage() {
+       return openAs(getBaseUri() + "about", About.class);
    }
 
     /**
      *
      * @return the classification page
      */
-    public final ClassificationPage getClassificationPage() {
-        return openAs(getBaseUri() + "classify", ClassificationPage.class);
+    public final Classify getClassificationPage() {
+        return openAs(getBaseUri() + "classify", Classify.class);
     }
 
     /**
      *
      * @return the group page
      */
-    public final PageObject getGroupPage() {
-        return openAs(getBaseUri() + "group", GroupPage.class);
+    public final PageObject getListGroupsPage() {
+        return openAs(getBaseUri() + "group", org.emonocot.portal.driver.group.List.class);
     }
 
     /**
@@ -144,7 +148,7 @@ public class Portal extends PageObject {
      * @return the current page
      */
     public final PageObject getGroupPage(final String groupName) {
-        return openAs(getBaseUri() + "group/" + groupName, GroupPage.class);
+        return openAs(getBaseUri() + "group/" + groupName, org.emonocot.portal.driver.group.Show.class);
     }
 
     /**
@@ -153,10 +157,10 @@ public class Portal extends PageObject {
      * @param job Set the job
      * @return a source job page
      */
-    public final SourceJobPage getSourceJobPage(final String source,
+    public final JobDetails getSourceJobPage(final String source,
             final String job) {
         return openAs(getBaseUri() + "source/" + source + "/job/" + job,
-                SourceJobPage.class);
+                JobDetails.class);
     }
 
     /**
@@ -165,6 +169,16 @@ public class Portal extends PageObject {
      */
     public final PageObject getSourceAdminPage() {
         return openAs(getBaseUri() + "admin/source",
-                SourceAdminPage.class);
+                org.emonocot.portal.driver.admin.source.List.class);
     }
+
+    /**
+     *
+     * @param source Set the source
+     * @return t
+     */
+	public final PageObject getSourceAdminPage(final String source) {
+		return openAs(getBaseUri() + "admin/source/" + source,
+				org.emonocot.portal.driver.admin.source.Show.class);
+	}
 }

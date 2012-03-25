@@ -1,5 +1,6 @@
-package org.emonocot.portal.driver;
+package org.emonocot.portal.driver.group;
 
+import org.emonocot.portal.driver.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,7 +11,7 @@ import org.openqa.selenium.support.How;
  * @author ben
  *
  */
-public class SourceUpdatePage extends PageObject {
+public class Update extends PageObject {
 
    /**
     *
@@ -38,7 +39,7 @@ public class SourceUpdatePage extends PageObject {
     */
    public final PageObject submitMemberForm() {
        userForm.submit();
-       return getPage(SourceUpdatePage.class);
+       return getPage(Update.class);
    }
 
    /**
@@ -55,6 +56,6 @@ public class SourceUpdatePage extends PageObject {
     */
    public final PageObject submitAceForm() {
        aceForm.submit();
-       return getPage(SourceUpdatePage.class);
+       return getPage(Update.class);
    }
 }

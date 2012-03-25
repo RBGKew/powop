@@ -5,6 +5,6 @@ package org.emonocot.portal.driver;
 * @author annapaola
 *
 */
-public class AboutPage extends PageObject {
+public class Contact extends PageObject {
 
 }

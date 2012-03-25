@@ -8,19 +8,18 @@ Feature: Source Admin Page
 
 Background:
   Given there are source systems with the following properties:
-  | identifier | uri                 | title      |
-  | test       | http://example.com  | test title |
+  | identifier | uri                 | title        |
+  | test       | http://example.com  | test title   |
   And there are groups with the following properties:
   | identifier    | permission1             |
   | test          | PERMISSION_VIEW_SOURCE  |
-  | admins        | PERMISSION_ADMINISTRATE |
   And there are the following access controls:
   | principal | principalType | object | objectType | permission |
   | test      | group         | test   | Source     | READ       |
   And there are users with the following properties:
   | identifier          | password       | group1   |
   | test@example.com    | Poa annua      | test     |
-  | admin@e-monocot.org | Nardus stricta | admins   |
+  | admin@e-monocot.org | Nardus stricta | test     |
   And there are job instances with the following properties:
   | jobId | jobName | authorityName | version |
   | 1     | testJob | test          | 1       |
@@ -48,6 +47,7 @@ Background:
   | 3          | Create    | Info  | Taxon      | 1     | test   |                                                                                  | urn:kew.org:wcs:taxon:2304 |
   | 4          | BadRecord | Error | Taxon      | 1     | test   |                                                                                  | urn:kew.org:wcs:taxon:2306 |
 
+
 Scenario: Check SourcePage
   The source page should contain a list of jobs run on that source.
   Selecting a job should show the numbers of records harvested by that job broken down by data type
@@ -66,7 +66,6 @@ Scenario: Check SourcePage
   | Error | 1     |
   | Info  | 2     |
   | Warn  | 1     |
-  
 
 Scenario: Create Source
   As an administrator, in order to improve eMonocot, I want to be able
@@ -75,22 +74,22 @@ Scenario: Create Source
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=44
   When I am on the source admin page
   And I select "Create a new source"
-  And I enter the following data into the source form:
-  | identifier      | title       | uri                | logoUrl                      |
-  | test2           | test2 title | http://example.com | http://example.com/logo.png  |
+  And I enter the following data into the create source form:
+  | identifier | title | uri | logoUrl |
+  | test2 | test2 title | http://example.com | http://example.com/logo.png |
   And I submit the create source form
   Then an info message should say "test2 title created"
-  When I navigate to source page "test2" 
+  When I navigate to source page "test2"
   Then the source uri should be "http://example.com"
   And the source logo should be "http://example.com/logo.png"
-  
+
 Scenario: Edit Source
   As a privileged source system owner, I want to be able to edit a source page
   So that the eMonocot portal displays information about my system correctly
   Given I am logged in as "test@example.com" with the password "Poa annua"
   When I navigate to source page "test" 
   And I select "Edit this source"
-  And I enter the following data into the source form:
+  And I enter the following data into the update source form:
   | uri                | logoUrl                     | title      |
   | http://example.com | http://example.com/logo.png | test title |
   And I submit the update source form
@@ -98,7 +97,8 @@ Scenario: Edit Source
   When I navigate to source page "test" 
   Then the source uri should be "http://example.com"
   And the source logo should be "http://example.com/logo.png"
-  
+
+ 
 Scenario: Create Job
   As an eMonocot Portal administrator, I would like to list and create harvesting
   jobs for a given source, so that data from that source can be harvested.
@@ -107,10 +107,10 @@ Scenario: Create Job
   And I am on the source admin page for "test"
   And I select "Create a new job"
   And I enter the following data in the job form:
-  | identifier | family    | uri                                  | type        |
+  | identifier | family    | uri                                  | jobType     |
   | New Job    | Testaceae | http://www.testaceae.org/archive.zip | DwC_Archive |
-  And I submit the job form
+  And I submit the create job form
   Then an info message should say "New Job was created"
-  When I navigate to source page "test"
+  When I am on the source admin page for "test"
   Then there should be 1 job
   

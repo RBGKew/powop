@@ -18,7 +18,7 @@ import org.openqa.selenium.support.How;
  * @author ben
  *
  */
-public class ClassificationPage extends PageObject {
+public class Classify extends PageObject {
     /**
      *
      */

@@ -1,6 +1,7 @@
-package org.emonocot.portal.driver;
+package org.emonocot.portal.driver.group;
 
 import org.emonocot.model.user.Group;
+import org.emonocot.portal.driver.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -11,7 +12,7 @@ import org.openqa.selenium.support.How;
  * @author ben
  *
  */
-public class GroupFormPage extends PageObject {
+public class Create extends PageObject {
 
    /**
     *
@@ -45,7 +46,7 @@ public class GroupFormPage extends PageObject {
            testDataManager.registerObject(group);
            this.groupName = null;
        }
-       return getPage(GroupPage.class);
+       return getPage(Show.class);
    }
 
 }

@@ -10,7 +10,7 @@ import org.openqa.selenium.support.How;
  * @author ben
  *
  */
-public class LoginPage extends PageObject {
+public class Login extends PageObject {
 
    /**
     *
@@ -42,6 +42,6 @@ public class LoginPage extends PageObject {
      */
     public final PageObject submit() {
         loginForm.submit();
-        return openAs(getWebDriver().getCurrentUrl(), ProfilePage.class);
+        return openAs(getWebDriver().getCurrentUrl(), Profile.class);
     }
 }

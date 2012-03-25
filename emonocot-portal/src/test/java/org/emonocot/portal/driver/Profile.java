@@ -5,6 +5,6 @@ package org.emonocot.portal.driver;
  * @author ben
  *
  */
-public class ProfilePage extends PageObject {
+public class Profile extends PageObject {
 
 }

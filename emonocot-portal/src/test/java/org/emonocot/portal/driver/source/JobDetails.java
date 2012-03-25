@@ -1,8 +1,9 @@
-package org.emonocot.portal.driver;
+package org.emonocot.portal.driver.source;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.emonocot.portal.driver.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -13,7 +14,7 @@ import org.openqa.selenium.support.How;
  * @author ben
  *
  */
-public class SourceJobPage extends PageObject {
+public class JobDetails extends PageObject {
 
     /**
      *
@@ -52,12 +53,12 @@ public class SourceJobPage extends PageObject {
      * @param category Set the category
      * @return the source job page
      */
-    public final SourceJobPage selectCategory(final String category) {
+    public final JobDetails selectCategory(final String category) {
         WebElement link = results.findElement(By.xpath("tr/td/a[text() = '"
                 + category + "']"));
         return openAs(
                 link.getAttribute("href"),
-                SourceJobPage.class);
+                JobDetails.class);
     }
 
 }

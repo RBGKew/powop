@@ -14,7 +14,7 @@ import org.openqa.selenium.support.How;
  * @author ben
  *
  */
-public class SearchResultsPage extends PageObject {
+public class Search extends PageObject {
     /**
      *
      */
@@ -82,11 +82,11 @@ public class SearchResultsPage extends PageObject {
      *            The string to sort by
      * @return a search results page
      */
-    public final SearchResultsPage sort(final String sort) {
+    public final Search sort(final String sort) {
         WebElement classFacet = sorting.findElement(By
                 .xpath("li/a[text() = \'" + sort
                         + "\']"));
-        return openAs(classFacet.getAttribute("href"), SearchResultsPage.class);
+        return openAs(classFacet.getAttribute("href"), Search.class);
     }
 
     /**
@@ -95,10 +95,10 @@ public class SearchResultsPage extends PageObject {
      *            Go to the grid view
      * @return a search results page
      */
-    public final SearchResultsPage view(final String grid) {
+    public final Search view(final String grid) {
         WebElement idViewIcon = viewIcons.findElement(By
                 .xpath("div/a[@title = \'" + grid + "\']"));
-        return openAs(idViewIcon.getAttribute("href"), SearchResultsPage.class);
+        return openAs(idViewIcon.getAttribute("href"), Search.class);
     }
 
     /**
@@ -144,10 +144,10 @@ public class SearchResultsPage extends PageObject {
      *            the name of the facet value to select
      * @return the corresponding search results page
      */
-    public final SearchResultsPage selectFacet(final String facetName,
+    public final Search selectFacet(final String facetName,
             final String facetValue) {
         WebElement classFacet = facets.findElement(By.xpath("li[@class = '" + facetName + "']/a[span/text() = \'" + facetValue + "\']"));
-        return openAs(classFacet.getAttribute("href"), SearchResultsPage.class);
+        return openAs(classFacet.getAttribute("href"), Search.class);
     }
 
     /**

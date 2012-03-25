@@ -1,5 +1,8 @@
-package org.emonocot.portal.driver;
+package org.emonocot.portal.driver.image;
 
+import org.emonocot.portal.driver.IllustratedPage;
+import org.emonocot.portal.driver.PageObject;
+import org.emonocot.portal.driver.Search;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,7 +13,7 @@ import org.openqa.selenium.support.How;
  * @author ben
  *
  */
-public class ImagePage extends PageObject implements IllustratedPage {
+public class Show extends PageObject implements IllustratedPage {
 
     /**
      *
@@ -72,10 +75,10 @@ public class ImagePage extends PageObject implements IllustratedPage {
      * @param keyword Set the keyword
      * @return the current page
      */
-    public final SearchResultsPage selectKeyword(final String keyword) {
+    public final Search selectKeyword(final String keyword) {
         WebElement keywordElement = keywords.findElement(By.xpath("a[@title = '"
                 + keyword + "']"));
         return this.openAs(keywordElement.getAttribute("href"),
-                SearchResultsPage.class);
+                Search.class);
     }
 }

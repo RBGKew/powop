@@ -1,7 +1,9 @@
-package org.emonocot.portal.driver;
+package org.emonocot.portal.driver.taxon;
 
 import java.util.List;
 
+import org.emonocot.portal.driver.IllustratedPage;
+import org.emonocot.portal.driver.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -13,7 +15,7 @@ import org.openqa.selenium.support.How;
  * @author ben
  *
  */
-public class TaxonPage extends PageObject implements IllustratedPage {
+public class Show extends PageObject implements IllustratedPage {
 
     /**
      *
@@ -168,10 +170,10 @@ public class TaxonPage extends PageObject implements IllustratedPage {
      *
      * @return the image page
      */
-    public final ImagePage selectMainImage() {
+    public final PageObject selectMainImage() {
         String link = mainImage.findElement(
                 By.xpath("div[@class='ad-image']/a")).getAttribute("href");
-        return openAs(link, ImagePage.class);
+        return openAs(link, org.emonocot.portal.driver.image.Show.class);
     }
 
     /**

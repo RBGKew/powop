@@ -11,7 +11,7 @@ import org.openqa.selenium.support.How;
  * @author ben
  *
  */
-public class RegistrationPage extends PageObject {
+public class Register extends PageObject {
 
     /**
      *
@@ -66,12 +66,12 @@ public class RegistrationPage extends PageObject {
         if (getWebDriver().getCurrentUrl().equals(
                 this.getBaseUri() + "/register")) {
             username = null;
-            return super.getPage(RegistrationPage.class);
+            return super.getPage(Register.class);
         } else {
             User user = new User();
             user.setUsername(username);
             testDataManager.registerObject(user);
-            return super.getPage(LoginPage.class);
+            return super.getPage(Login.class);
        }
    }
 
