@@ -47,4 +47,8 @@ public abstract class SearchableServiceImpl<T extends Base, DAO extends Searchab
         return dao.search(query, spatialQuery, pageSize, pageNumber, facets,
                 selectedFacets, sort, fetch);
     }
+
+    public Page<T> searchByExample(T example, boolean ignoreCase, boolean useLike) {
+        return dao.searchByExample(example, ignoreCase, useLike);
+    }
 }

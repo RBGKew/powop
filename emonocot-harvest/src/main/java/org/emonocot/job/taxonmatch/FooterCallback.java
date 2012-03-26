@@ -3,7 +3,7 @@ package org.emonocot.job.taxonmatch;
 import java.io.IOException;
 import java.io.Writer;
 
-import org.emonocot.api.taxonmatch.TaxonDTO;
+import org.emonocot.model.taxon.Taxon;
 import org.springframework.batch.core.ItemProcessListener;
 import org.springframework.batch.item.file.FlatFileFooterCallback;
 
@@ -12,7 +12,7 @@ import org.springframework.batch.item.file.FlatFileFooterCallback;
  * @author ben
  *
  */
-public class FooterCallback implements ItemProcessListener<TaxonDTO, Result>,
+public class FooterCallback implements ItemProcessListener<Taxon, Result>,
         FlatFileFooterCallback {
 
     /**
@@ -42,7 +42,7 @@ public class FooterCallback implements ItemProcessListener<TaxonDTO, Result>,
     /**
      * @param item the item being processed
      */
-    public void beforeProcess(final TaxonDTO item) {
+    public void beforeProcess(final Taxon item) {
 
     }
 
@@ -50,7 +50,7 @@ public class FooterCallback implements ItemProcessListener<TaxonDTO, Result>,
      * @param item the item being processed
      * @param result the result of the processing
      */
-    public final void afterProcess(final TaxonDTO item, final Result result) {
+    public final void afterProcess(final Taxon item, final Result result) {
         switch(result.getStatus()) {
         case SINGLE_MATCH:
             singleMatches++;
@@ -76,7 +76,7 @@ public class FooterCallback implements ItemProcessListener<TaxonDTO, Result>,
      * @param item the item being processed
      * @param e the exception thrown
      */
-    public void onProcessError(final TaxonDTO item, final Exception e) {
+    public void onProcessError(final Taxon item, final Exception e) {
 
     }
 

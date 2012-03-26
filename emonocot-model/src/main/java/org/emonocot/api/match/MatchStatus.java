@@ -1,4 +1,4 @@
-package org.emonocot.api.taxonmatch;
+package org.emonocot.api.match;
 
 public enum MatchStatus {
     

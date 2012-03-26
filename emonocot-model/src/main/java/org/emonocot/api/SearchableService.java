@@ -6,13 +6,10 @@ import org.emonocot.model.common.Base;
 import org.emonocot.model.pager.Page;
 
 /**
- *
  * @author ben
- *
  * @param <T>
  */
-public interface SearchableService<T extends Base> extends
-        Service<T> {
+public interface SearchableService<T extends Base> extends Service<T> {
     /**
      * @param query
      *            A lucene query
@@ -34,7 +31,19 @@ public interface SearchableService<T extends Base> extends
      * @return a Page from the resultset
      */
     Page<T> search(String query, String spatialQuery, Integer pageSize,
-         Integer pageNumber, FacetName[] facets,
-         Map<FacetName, String> selectedFacets,
-         Sorting sort, String fetch);
+            Integer pageNumber, FacetName[] facets,
+            Map<FacetName, String> selectedFacets, Sorting sort, String fetch);
+
+    /**
+     * @param example
+     *            an object with the properties to search by set and all others
+     *            null
+     * @param ignoreCase
+     *            whether to treat Uppercase/Lowercase letters the same
+     * @param useLike
+     *            whether to enable <i>LIKE</i> in query
+     * @return a single page of objects that have the same properties as the
+     *         example
+     */
+    Page<T> searchByExample(T example, boolean ignoreCase, boolean useLike);
 }

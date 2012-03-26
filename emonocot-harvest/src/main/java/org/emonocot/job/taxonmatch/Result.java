@@ -2,7 +2,7 @@ package org.emonocot.job.taxonmatch;
 
 import java.util.Collection;
 
-import org.emonocot.api.taxonmatch.TaxonDTO;
+import org.emonocot.model.taxon.Taxon;
 
 /**
  *
@@ -13,7 +13,7 @@ public class Result {
     /**
      *
      */
-    private TaxonDTO originalTaxonDto;
+    private Taxon originalTaxon;
 
     /**
      *
@@ -24,30 +24,35 @@ public class Result {
      *
      */
     private TaxonMatchStatus status;
+    
+    /**
+     * 
+     */
+    private int matchCount;
 
     /**
      *
      */
-    private TaxonDTO internalTaxonDto;
+    private Taxon internalTaxon;
 
     /**
      *
      */
-    private Collection<TaxonDTO> partialMatches;
+    private Collection<Taxon> partialMatches;
 
     /**
      * @return the originalIdentifier
      */
-    public final TaxonDTO getExternal() {
-        return originalTaxonDto;
+    public final Taxon getExternal() {
+        return originalTaxon;
     }
 
     /**
      *
      * @param newTaxonDTO Set the original internalTaxonDto
      */
-    public final void setExternal(final TaxonDTO newTaxonDto) {
-        this.originalTaxonDto = newTaxonDto;
+    public final void setExternal(final Taxon newTaxonDto) {
+        this.originalTaxon = newTaxonDto;
     }
 
     /**
@@ -81,24 +86,38 @@ public class Result {
     }
 
     /**
+     * @return the matchCount
+     */
+    public final int getMatchCount() {
+        return matchCount;
+    }
+
+    /**
+     * @param matchCount the matchCount to set
+     */
+    public final void setMatchCount(int matchCount) {
+        this.matchCount = matchCount;
+    }
+
+    /**
      * @return the internalTaxonDto
      */
-    public final TaxonDTO getInternal() {
-        return internalTaxonDto;
+    public final Taxon getInternal() {
+        return internalTaxon;
     }
 
     /**
      *
-     * @param newInternalTaxonDto Set the matching internalTaxonDto
+     * @param newTaxonDto Set the matching internalTaxonDto
      */
-    public final void setInternal(final TaxonDTO newInternalTaxonDto) {
-        this.internalTaxonDto = newInternalTaxonDto;
+    public final void setInternal(final Taxon newInternalTaxon) {
+        this.internalTaxon = newInternalTaxon;
     }
 
     /**
      * @return the partialMatches
      */
-    public final Collection<TaxonDTO> getPartialMatches() {
+    public final Collection<Taxon> getPartialMatches() {
         return partialMatches;
     }
 
@@ -107,7 +126,7 @@ public class Result {
      * @param newPartialMatches Set the partial matched records
      */
     public final void setPartialMatches(
-            final Collection<TaxonDTO> newPartialMatches) {
+            final Collection<Taxon> newPartialMatches) {
         this.partialMatches = newPartialMatches;
     }
 

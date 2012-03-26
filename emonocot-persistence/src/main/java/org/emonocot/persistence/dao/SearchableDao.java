@@ -8,9 +8,7 @@ import org.emonocot.model.common.Base;
 import org.emonocot.model.pager.Page;
 
 /**
- *
  * @author ben
- *
  * @param <T>
  */
 public interface SearchableDao<T extends Base> extends Dao<T> {
@@ -31,11 +29,30 @@ public interface SearchableDao<T extends Base> extends Dao<T> {
      *            A map of facets which you would like to restrict the search by
      * @param sort
      *            A representation for the order results should be returned in
-     * @param fetch Set the fetch profile
+     * @param fetch
+     *            Set the fetch profile
      * @return a Page from the resultset
      */
-  Page<T> search(String query, String spatialQuery, Integer pageSize,
-          Integer pageNumber, FacetName[] facets,
-          Map<FacetName, String> selectedFacets, Sorting sort, String fetch);
+    Page<T> search(String query, String spatialQuery, Integer pageSize,
+            Integer pageNumber, FacetName[] facets,
+            Map<FacetName, String> selectedFacets, Sorting sort, String fetch);
+
+    /**
+     * @param example
+     *            an object with fields set to the required values
+     * @return a page of all matching objects
+     */
+
+    /**
+     * @param example
+     *            an object with fields set to the required values
+     * @param ignoreCase
+     *            whether to treat Uppercase/Lowercase letters the same
+     * @param useLike
+     *            whether to enable <i>LIKE</i> in query
+     * @return a single page of objects that have the same properties as the
+     *         example
+     */
+    Page<T> searchByExample(T example, boolean ignoreCase, boolean useLike);
 
 }

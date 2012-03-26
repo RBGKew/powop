@@ -162,4 +162,19 @@ public class SearchTest extends AbstractPersistenceTest {
 
         assertEquals("There should be 2 results, the synonym and accepted name", 2, results.getSize().intValue());
     }
+
+    /**
+     * Test method for {@link org.emonocot.persistence.dao.hibernate.TaxonDaoImpl#findByExample(org.emonocot.model.taxon.Taxon)}.
+     */
+    @Test
+    public void testFindByExample() {
+        Taxon example = new Taxon();
+        example.setFamily("Aaceae");
+        Page<Taxon> results = getTaxonDao().searchByExample(example, false, false);
+        assertEquals("There should be 3 results", new Integer(3), results.getSize());
+        for(Taxon t : results.getRecords()) {
+            System.out.println(t.getName());
+        }
+        
+    }
 }

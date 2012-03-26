@@ -50,9 +50,10 @@
 	       <array>
 	         <value>external.identifier</value>
 	         <value>external.name</value>
-	         <value>status</value>
-	         <value>internal.identifier</value>
+             <value>status</value>
+             <value>matchCount</value>
              <value>internal.name</value>
+             <value>internal.identifier</value>
 	       </array>
 	     </property>
 	   </bean>
@@ -61,12 +62,8 @@
 	
 	<bean id="fileReader" class="org.springframework.batch.item.file.FlatFileItemReader"
 		scope="step">
-		<property name="encoding">
-			<value>UTF-8</value>
-		</property>
-		<property name="linesToSkip">
-			<value>1</value>
-		</property>
+		<property name="encoding" value="UTF-8" />
+		<property name="linesToSkip" value="0" />
 		<property name="resource">
 			<bean class="org.springframework.core.io.FileSystemResource"
 				scope="step">
@@ -104,7 +101,7 @@
 
 	<bean id="fieldSetMapper" class="org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper">
 	    <property name="targetType">
-			<value>org.emonocot.api.taxonmatch.TaxonDTO</value>
+			<value>org.emonocot.model.taxon.Taxon</value>
 		</property>		
 	</bean>
 	

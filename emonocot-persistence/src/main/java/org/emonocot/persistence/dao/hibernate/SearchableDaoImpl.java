@@ -25,6 +25,7 @@ import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.QuerySyntaxException;
 import org.emonocot.persistence.dao.SearchableDao;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Example;
 import org.hibernate.search.FullTextQuery;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.ProjectionConstants;
@@ -350,6 +351,21 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
      */
     protected Class getAnalyzerType() {
         return type;
+    }
+
+    public Page<T> searchByExample(T example, boolean ignoreCase, boolean useLike) {
+        Example criterion = Example.create(example);
+        if(ignoreCase) {
+            criterion.ignoreCase();
+        }
+        if(useLike) {
+            criterion.enableLike();
+        }
+        Criteria criteria = getSession().createCriteria(Taxon.class);
+        criteria.add(criterion);
+        List<T> results = (List<T>) criteria.list();
+        Page page = new DefaultPageImpl<T>(results.size(), null, null, results);
+        return page;
     }
 
 }

@@ -2,6 +2,7 @@ package org.emonocot.portal.remoting;
 
 import java.util.List;
 
+import org.emonocot.model.pager.Page;
 import org.emonocot.model.taxon.Family;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.persistence.dao.TaxonDao;
@@ -60,6 +61,11 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
      */
     public final List<Taxon> loadChildren(String identifier,
             final Integer pageSize, final Integer pageNumber, final String fetch) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public Page<Taxon> searchByExample(Taxon arg0, boolean arg1, boolean arg2) {
         // TODO Auto-generated method stub
         return null;
     }
