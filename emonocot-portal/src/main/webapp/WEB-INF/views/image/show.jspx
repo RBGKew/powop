@@ -7,115 +7,115 @@
 <div class="content">
 
 	<div class="page-header header-margin">
-	<div class="row">
+		<div class="row">
 			<jsp:element name="img">
 				<jsp:attribute name="src">
 					<c:url value="/images/ImagePageIcon.jpg"/>
 				</jsp:attribute>
-				<jsp:attribute name="class">pull-left</jsp:attribute>
+				<jsp:attribute name="class">pull-left noPrint</jsp:attribute>
 				<jsp:attribute name="alt">Image</jsp:attribute>
 			</jsp:element>
-		<h2 id="page-title">${image.caption}</h2>
+			<h2 id="page-title">${image.caption}</h2>
 		</div>
 	</div>
 	
 	<div class="row">
-	<div class="span9">
-		<h5>
-			<spring:message code="imageOf" />:
-			<jsp:element name="a">
-				<jsp:attribute name="href">
-					<c:url value="/taxon/${image.taxon.identifier}" />
-				</jsp:attribute>
-				<span class="taxonName">${image.taxon.name}</span> ${image.taxon.authorship}
-			</jsp:element>
-		</h5>	
-		<br/>
-		<div class="centeredImage">
-		    <img id="main-img" src="${image.url}" title="${image.caption}" alt="${status.index}" />
-		</div>
-		<br/>
-		<table class="table" id="image-properties">
-		  <tbody>
-		    <tr>
-		      <td><spring:message code="image.creator"/></td>
-		      <td>${image.creator}</td>
-		    </tr>
-		    <tr>
-		      <td><spring:message code="image.caption"/></td>
-		      <td>${image.caption}</td>
-		    </tr>
-		    <tr>
-		      <td><spring:message code="image.description"/></td>
-		      <td>${image.description}</td>
-		    </tr>
-		    <tr>
-		      <td><spring:message code="image.license"/></td>
-		      <td>${image.license}</td>
-		    </tr>
-		    <tr>
-		      <td><spring:message code="image.locality"/></td>
-		      <td>${image.locality}</td>
-		    </tr>
-		    <tr>
-		      <td><spring:message code="image.keywords"/></td>
-		      <td id="keywords">
-		        <c:if test="${not empty image.keywords}">
-		          <c:forEach var="keyword" items="${em:split(image.keywords,',')}" varStatus="status">
-		            <c:url var="keywordUrl" value="/search">
-		              <c:param name="query" value="${keyword}"/>
-		              <c:param name="facet" value="CLASS.org.emonocot.model.media.Image"/>
-		            </c:url>
-		            <c:choose>
-		              <c:when test="${status.last}">
-		                <a href="${keywordUrl}" title="${keyword}"><span class="label">${keyword}</span></a>
-		              </c:when>
-		              <c:otherwise>
-		                <a href="${keywordUrl}" title="${keyword}"><span class="label">${keyword}</span></a>,&#160;
-		              </c:otherwise>
-		            </c:choose>		          
-		          </c:forEach>
-		        </c:if>
-		      </td>
-		    </tr>
-		    </tbody>
-		</table>
-		<h2><spring:message code="related.images"/></h2>
-		<div id="gallery" class="ad-gallery">
-			<div class="ad-image-wrapper no-display">&#160;</div>
-			<!-- <div class="ad-controls">&#160;</div> -->
-			<div class="ad-nav">
-				<div class="ad-thumbs">
-					<ul class="thumbnails ad-thumb-list thumbnail-gallery-padding">
-						<c:forEach var="image" items="${taxon.images}" varStatus="status">
-						  <c:url var="thumbnail" value="/images/thumbnails/${image.identifier}.jpg"/>
-					      <li>
-						    <a href="${image.url}">
-							  <c:url var="url" value="/image/${image.identifier}"/> 
-							  <img src="${thumbnail}" class="${status.index} thumbnail" onclick="javascript:location.href='${url}';" />
-							</a>
-						  </li>
-						</c:forEach>
-					</ul>
+		<div class="span9">
+			<h5>
+				<spring:message code="imageOf" />:
+				<jsp:element name="a">
+					<jsp:attribute name="href">
+						<c:url value="/taxon/${image.taxon.identifier}" />
+					</jsp:attribute>
+					<span class="taxonName">${image.taxon.name}</span> ${image.taxon.authorship}
+				</jsp:element>
+			</h5>	
+			<br/>
+			<div class="centeredImage">
+				<img id="main-img" src="${image.url}" title="${image.caption}" alt="${status.index}" />
+			</div>
+			<br/>
+			<table class="table" id="image-properties">
+				<tbody>
+					<tr>
+						<td><spring:message code="image.creator"/></td>
+						<td>${image.creator}</td>
+					</tr>
+					<tr>
+						<td><spring:message code="image.caption"/></td>
+						<td>${image.caption}</td>
+					</tr>
+					<tr>
+						<td><spring:message code="image.description"/></td>
+						<td>${image.description}</td>
+					</tr>
+					<tr>
+						<td><spring:message code="image.license"/></td>
+						<td>${image.license}</td>
+					</tr>
+					<tr>
+						<td><spring:message code="image.locality"/></td>
+						<td>${image.locality}</td>
+					</tr>
+					<tr>
+						<td><spring:message code="image.keywords"/></td>
+						<td id="keywords">
+							<c:if test="${not empty image.keywords}">
+								<c:forEach var="keyword" items="${em:split(image.keywords,',')}" varStatus="status">
+									<c:url var="keywordUrl" value="/search">
+										<c:param name="query" value="${keyword}"/>
+										<c:param name="facet" value="CLASS.org.emonocot.model.media.Image"/>
+									</c:url>
+									<c:choose>
+										<c:when test="${status.last}">
+											<a href="${keywordUrl}" title="${keyword}"><span class="label">${keyword}</span></a>
+										</c:when>
+										<c:otherwise>
+											<a href="${keywordUrl}" title="${keyword}"><span class="label">${keyword}</span></a>,&#160;
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</c:if>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<h2 class="noPrint"><spring:message code="related.images"/></h2>
+			<div id="gallery" class="ad-gallery noPrint">
+				<div class="ad-image-wrapper no-display">&#160;</div>
+				<!-- <div class="ad-controls">&#160;</div> -->
+				<div class="ad-nav">
+					<div class="ad-thumbs">
+						<ul class="thumbnails ad-thumb-list thumbnail-gallery-padding">
+							<c:forEach var="image" items="${taxon.images}" varStatus="status">
+								<c:url var="thumbnail" value="/images/thumbnails/${image.identifier}.jpg"/>
+								<li>
+									<a href="${image.url}">
+										<c:url var="url" value="/image/${image.identifier}"/> 
+											<img src="${thumbnail}" class="${status.index} thumbnail" onclick="javascript:location.href='${url}';" />
+									</a>
+								</li>
+							</c:forEach>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="span3 info-right">
-		<div><spring:message code="sources" /></div>
+		<div class="span3 info-right">
+			<div><spring:message code="sources" /></div>
 			<ul>
 				<c:forEach var="source" items="${image.sources}">
 					<li>
 						<jsp:element name="a">
 							<jsp:attribute name="href">
-                        		<c:url value="/source/${source.identifier}" />
-                      		</jsp:attribute>
-                      	${source.title}
-                    	</jsp:element>
-                   	</li>
+								<c:url value="/source/${source.identifier}" />
+							</jsp:attribute>
+							${source.title}
+						</jsp:element>
+					</li>
 				</c:forEach>
 			</ul>
-	</div>
+		</div>
 	</div>
 </div>
 	

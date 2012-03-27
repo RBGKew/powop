@@ -62,3 +62,20 @@ section {
     padding-top: 20px;
     width: 100%;
 }
+
+th {
+	text-align: left;
+	}
+	
+.span8 {
+width: 620px;
+}
+
+.thumbnails {
+margin-left: -20px;
+list-style: none;
+}
+.thumbnails > li {
+float: left;
+margin: 0 0 18px 20px;
+}

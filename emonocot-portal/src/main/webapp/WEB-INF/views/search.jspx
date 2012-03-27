@@ -11,7 +11,7 @@
 	type="org.emonocot.model.pager.Page&lt;org.emonocot.model.taxon.Taxon&gt;" />
 	
 	<div class="content">
-		<div class="page-header header-margin">
+		<div class="page-header header-margin noPrint">
 			<div class="row">
 			
 				<h2 id="page-title" class="span6"><spring:message code="search.emonocot"/></h2>
@@ -44,7 +44,7 @@
 		</div>
 		
 		<div class="row">
-			<div class="span3 well">
+			<div class="span3 well noPrint">
 				<ul id="facets" class="nav nav-list">
 				  <c:forEach var="facetName" items="${result.facetNames}">
 				    <c:choose>
@@ -60,7 +60,7 @@
 				</ul>
 			</div>
 			<div class="span8">
-				<div class="row">
+				<div class="row noPrint">
 					<div class="span2 btn-group">
 						<a class="btn" href="#"><spring:message code="sortBy" /></a>
 						<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret">&#160;</span></a>
@@ -114,7 +114,7 @@
 					</jsp:scriptlet>
 				</div>
 				<br/>
-				<div class="row">
+				<div class="row noPrint">
 					<div id="viewIcons" class="span3">
 						<div class="btn-group">
 						    <spring:message code="list"  var="listTitle"/>
@@ -187,10 +187,12 @@
 													</c:otherwise>
 												</c:choose>
 												<a class="result thumb" href="taxon/${item.identifier}" rel="tooltip" title="${item.name}"><img class="thumbnail" src="${thumbnail}" /></a>
+												<p class="no-display">${item.name}</p>
 											</c:when>
 											<c:when test="${item.className == 'Image'}">
 												<c:url var="thumbnail" value="/images/thumbnails/${item.identifier}.jpg"/>
 												<a class="result thumb" href="image/${item.identifier}" rel="tooltip" title="${item.caption}"><img class="thumbnail" src="${thumbnail}" /></a>
+												<p class="no-display">${item.caption}</p>
 											</c:when>
 										</c:choose>
 									</li>
