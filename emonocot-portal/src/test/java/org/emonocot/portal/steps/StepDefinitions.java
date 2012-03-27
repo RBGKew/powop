@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.emonocot.portal.driver.About;
-import org.emonocot.portal.driver.Classify;
+import org.emonocot.portal.driver.Classification;
 import org.emonocot.portal.driver.Contact;
 import org.emonocot.portal.driver.Identify;
 import org.emonocot.portal.driver.IllustratedPage;
@@ -76,7 +76,7 @@ public class StepDefinitions {
      */
     @When("^I expand \"([^\"]*)\"$")
     public final void iExpand(final String nodeName) {
-        ((Classify) currentPage).expandNode(nodeName);
+        ((Classification) currentPage).expandNode(nodeName);
     }
 
     /**
@@ -383,10 +383,10 @@ public class StepDefinitions {
     @Then("^the following nodes should be displayed:$")
     public final void theTheFollowingNodesShouldBeDisplayed(
             final List<ResultRow> results) {
-        int actualNumberOfResults = (int) ((Classify) currentPage)
+        int actualNumberOfResults = (int) ((Classification) currentPage)
                 .getNodeNumber();
         assertEquals(results.size(), actualNumberOfResults);
-        List<String[]> actualResults = ((Classify) currentPage)
+        List<String[]> actualResults = ((Classification) currentPage)
                 .getNodes();
         for (int i = 0; i < actualNumberOfResults; i++) {
             assertArrayEquals(actualResults.get(i), results.get(i).toArray());

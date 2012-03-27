@@ -38,9 +38,6 @@
 		</property>
 	</bean>
 
-	<bean id="clientHttpRequestFactory"
-		class="org.emonocot.portal.http.AuthenticatingHttpClientFactory" />
-
 	<bean id="jsonConverter"
 		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
 		<property name="supportedMediaTypes" value="application/json" />
@@ -51,5 +48,25 @@
 		class="org.emonocot.model.marshall.json.CustomObjectMapperFactory">
 		<property name="jobInstanceService" ref="jobInstanceServiceImpl" />
 	</bean>
-	
+	<beans profile="default">
+        <bean id="clientHttpRequestFactory"
+         class="org.emonocot.portal.http.AuthenticatingHttpClientFactory" />
+    </beans>
+    <beans profile="proxy">
+      <bean id="clientHttpRequestFactory"
+        class="org.emonocot.portal.http.AuthenticatingHttpClientFactory">
+        <property name="proxy">
+          <bean class="java.net.Proxy">
+            <constructor-arg value="#{T(java.net.Proxy$Type).HTTP}" />
+            <constructor-arg>
+              <bean class="java.net.InetSocketAddress">
+                <constructor-arg value="${http.proxyHost}" />
+                <constructor-arg value="${http.proxyPort}" />
+              </bean>
+            </constructor-arg>
+          </bean>
+        </property>
+      </bean>
+    </beans>
+    
 </beans>

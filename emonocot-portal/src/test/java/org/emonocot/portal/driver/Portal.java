@@ -3,7 +3,6 @@ package org.emonocot.portal.driver;
 import java.io.IOException;
 import java.util.Properties;
 
-
 import org.emonocot.portal.driver.source.JobDetails;
 import org.emonocot.test.TestDataManager;
 import org.openqa.selenium.WebDriver;
@@ -130,8 +129,8 @@ public class Portal extends PageObject {
      *
      * @return the classification page
      */
-    public final Classify getClassificationPage() {
-        return openAs(getBaseUri() + "classify", Classify.class);
+    public final Classification getClassificationPage() {
+        return openAs(getBaseUri() + "classification", Classification.class);
     }
 
     /**

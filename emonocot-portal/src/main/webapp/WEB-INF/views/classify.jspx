@@ -1,36 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:form="http://www.springframework.org/tags/form"
-	xmlns:spring="http://www.springframework.org/tags" version="2.0">
-	<div class="content">
-		<div class="page-header header-margin">
-			<h2>
-				<spring:message code="classification" />
-			</h2>
-		</div>
-		<div class="row">
-		  <div class="span12">
-			<div id="classification" class="jstree-default">tree</div>
-			<c:url var="webserviceUrl" value="/taxonTree" />
-			<script type="text/javascript">
-				$(function() {
-					
-					$("#classification").jstree({
-								"json_data" : {
-									"ajax" : {
-										"url" : function(n) {
-											return n.attr ? "${webserviceUrl}/"
-													+ n.attr("id")
-													: "${webserviceUrl}";
-										}
-									}
-								},
-								"plugins" : [ "json_data" ]
-							});
-				});
-			</script>
-		  </div>
-		</div>
-	</div>
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:form="http://www.springframework.org/tags/form"
+    xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <div class="content">
+        <div class="page-header header-margin">
+            <h2>
+                <spring:message code="classify.header" />
+            </h2>
+        </div>
+        <div class="row">
+            <div class="span10 offset1">
+                <p class="justified">When launched this page with provide an overview of how you can use this site to work on your classification and the relationship to the <a title="Classification Page" href="/classification">eMonocot classification!</a></p>
+            </div>
+        </div>
+    </div>
 </jsp:root>

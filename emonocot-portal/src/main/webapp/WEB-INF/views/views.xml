@@ -10,6 +10,10 @@
     <put-attribute name="pageTitle" value="classifyTitle" cascade="true"/>
     <put-attribute name="body" value="/WEB-INF/views/classify.jspx" />
   </definition>
+  <definition name="classification" extends="default">
+    <put-attribute name="pageTitle" value="classifyTitle" cascade="true"/>
+    <put-attribute name="body" value="/WEB-INF/views/classification.jspx" />
+  </definition>
   <definition name="identify" extends="default">
     <put-attribute name="pageTitle" value="identifyTitle" cascade="true"/>
     <put-attribute name="body" value="/WEB-INF/views/identify.jspx" />
