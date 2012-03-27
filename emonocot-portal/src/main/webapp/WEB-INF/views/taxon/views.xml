@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
 <tiles-definitions>  
-  <definition name="taxon/show" extends="default">    
-    <put-attribute name="body" value="/WEB-INF/views/taxon/show.jspx" />
+  <definition name="taxon/show" extends="default">
+  <put-attribute name="pageTitle" value="${taxon.name}" cascade="true"/>
+  <put-attribute name="body" value="/WEB-INF/views/taxon/show.jspx" />
   </definition>   
 </tiles-definitions>

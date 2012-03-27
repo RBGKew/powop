@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
 <tiles-definitions>  
-  <definition name="admin/source/list" extends="default">    
+  <definition name="admin/source/list" extends="default">
+    <put-attribute name="pageTitle" value="sources.title" cascade="true"/>    
     <put-attribute name="body" value="/WEB-INF/views/admin/source/list.jspx" />
   </definition>
-  <definition name="admin/source/create" extends="default">    
+  <definition name="admin/source/create" extends="default">
+    <put-attribute name="pageTitle" value="create.source" cascade="true"/>    
     <put-attribute name="body" value="/WEB-INF/views/admin/source/create.jspx" />
   </definition>
-  <definition name="admin/source/show" extends="default">    
+  <definition name="admin/source/show" extends="default">
+    <put-attribute name="pageTitle" value="${source.title}" cascade="true"/>    
     <put-attribute name="body" value="/WEB-INF/views/admin/source/show.jspx" />
   </definition> 
 </tiles-definitions>

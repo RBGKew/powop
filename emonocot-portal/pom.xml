@@ -392,8 +392,8 @@
                 <configuration>
                     <configLocation>../src/main/resources/emonocot-checkstyle.xml</configLocation>
                 </configuration>
-            </plugin>			
-		</plugins>
+            </plugin>
+</plugins>
 	</build>
 	<reporting>
 	  <plugins>

@@ -2,18 +2,23 @@
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
 <tiles-definitions>  
   <definition name="source/show" extends="default">    
+    <put-attribute name="pageTitle" value="${source.title}" cascade="true"/>
     <put-attribute name="body" value="/WEB-INF/views/source/show.jspx" />
   </definition>
   <definition name="source/update" extends="default">    
+    <put-attribute name="pageTitle" value="${source.title}" cascade="true"/>
     <put-attribute name="body" value="/WEB-INF/views/source/update.jspx" />
   </definition>
   <definition name="source/job" extends="default">    
+    <put-attribute name="pageTitle" value="${source.title}" cascade="true"/>
     <put-attribute name="body" value="/WEB-INF/views/source/job.jspx" />
   </definition>
   <definition name="source/jobDetails" extends="default">    
+    <put-attribute name="pageTitle" value="${source.title}" cascade="true"/>
     <put-attribute name="body" value="/WEB-INF/views/source/jobDetails.jspx" />
   </definition>
   <definition name="source/jobAnnotations" extends="default">    
+    <put-attribute name="pageTitle" value="${source.title}" cascade="true"/>
     <put-attribute name="body" value="/WEB-INF/views/source/jobAnnotations.jspx" />
   </definition>  
 </tiles-definitions>
