@@ -16,24 +16,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
  * @author ben
- *
  */
-public abstract class PageObject {
+public class PageObject {
 
-   /**
+    /**
     *
     */
-   @FindBy(how = How.CLASS_NAME, using = "footer")
-   private WebElement foot;
+    @FindBy(how = How.CLASS_NAME, using = "footer")
+    private WebElement foot;
 
-   
-   /**
+    /**
    *
    */
-  @FindBy(how = How.CLASS_NAME, using = "navbar")
-  private WebElement nav;
+    @FindBy(how = How.CLASS_NAME, using = "navbar")
+    private WebElement nav;
     /**
      *
      */
@@ -45,49 +42,47 @@ public abstract class PageObject {
     private static Logger logger = LoggerFactory.getLogger(PageObject.class);
 
     /**
-    *
-    * @return the registration page
-    */
+     * @return the registration page
+     */
     public final Register selectRegistrationLink() {
-         return openAs(
-                 nav.findElement(By.linkText("Register")).getAttribute("href"),
-                 Register.class);
+        return openAs(
+                nav.findElement(By.linkText("Register")).getAttribute("href"),
+                Register.class);
     }
 
-   /**
-    *
-    * @return the registration page
-    */
+    /**
+     * @return the registration page
+     */
     public final Identify selectIdentifyLink() {
-         return openAs(
-                 nav.findElement(By.linkText("Identify")).getAttribute("href"),
-                 Identify.class);
+        return openAs(
+                nav.findElement(By.linkText("Identify")).getAttribute("href"),
+                Identify.class);
     }
 
-   /**
+    /**
     *
     */
-   @FindBy(how = How.TAG_NAME, using = "a")
-   private List<WebElement> links;
+    @FindBy(how = How.TAG_NAME, using = "a")
+    private List<WebElement> links;
 
     /**
      *
      */
     protected WebDriver webDriver;
 
-   /**
+    /**
     *
     */
-   private String baseUri;
-
-   /**
-    *
-    */
-   protected TestDataManager testDataManager;
+    private String baseUri;
 
     /**
-     *
-     * @param newBaseUri Set the base Uri
+    *
+    */
+    protected TestDataManager testDataManager;
+
+    /**
+     * @param newBaseUri
+     *            Set the base Uri
      */
     public final void setBaseUri(final String newBaseUri) {
         this.baseUri = newBaseUri;
@@ -101,14 +96,16 @@ public abstract class PageObject {
     }
 
     /**
-     *
-     * @param <T> The type of page
-     * @param address the url of the page
-     * @param pageClass the class of the page
+     * @param <T>
+     *            The type of page
+     * @param address
+     *            the url of the page
+     * @param pageClass
+     *            the class of the page
      * @return the page
      */
-    protected final <T extends PageObject> T openAs(
-            final String address, final Class<T> pageClass) {
+    protected final <T extends PageObject> T openAs(final String address,
+            final Class<T> pageClass) {
         open(address);
         Pattern loginPattern = Pattern.compile(".*/login.*");
         if (loginPattern.matcher(webDriver.getCurrentUrl()).matches()
@@ -122,12 +119,13 @@ public abstract class PageObject {
         return getPage(pageClass);
     }
 
-   /**
-    *
-    * @param <T> The type of page
-    * @param pageClass the class of the page
-    * @return the page
-    */
+    /**
+     * @param <T>
+     *            The type of page
+     * @param pageClass
+     *            the class of the page
+     * @return the page
+     */
     protected final <T extends PageObject> T getPage(final Class<T> pageClass) {
         T pageObject = pageObjectInstance(pageClass);
         pageObject.setBaseUri(baseUri);
@@ -137,7 +135,8 @@ public abstract class PageObject {
     }
 
     /**
-     * @param initialPause Set the initial wait time
+     * @param initialPause
+     *            Set the initial wait time
      */
     public final void waitForAjax(final Integer initialPause) {
         try {
@@ -156,26 +155,25 @@ public abstract class PageObject {
     }
 
     /**
-     *
-     * @param <T> The type of page
-     * @param pageClass Set the page class
+     * @param <T>
+     *            The type of page
+     * @param pageClass
+     *            Set the page class
      * @return an instance of class T
      */
-    private <T extends PageObject> T 
-        pageObjectInstance(final Class<T> pageClass) {
+    private <T extends PageObject> T pageObjectInstance(final Class<T> pageClass) {
         return PageFactory.initElements(webDriver, pageClass);
     }
 
     /**
-     *
-     * @param address Set hte address
+     * @param address
+     *            Set hte address
      */
     private void open(final String address) {
         webDriver.navigate().to(address);
     }
 
     /**
-     *
      * @return the web driver
      */
     public final WebDriver getWebDriver() {
@@ -183,8 +181,8 @@ public abstract class PageObject {
     }
 
     /**
-     * Assumption that we're handling authentication via
-     * tomcat and using Cookies.
+     * Assumption that we're handling authentication via tomcat and using
+     * Cookies.
      */
     public final void disableAuthentication() {
         Cookie cookie = webDriver.manage().getCookieNamed("jsessionid");
@@ -194,17 +192,20 @@ public abstract class PageObject {
     }
 
     /**
-     *
-     * @return the current (baseURI-relative) uri
+     * @return the current (baseURI-relative including preceding slash) uri or
+     *         null if the URI is malformed
      */
     public final String getUri() {
-        String url = webDriver.getCurrentUrl();
-        url = url.substring(baseUri.length());
-        return url;
+        try {
+            java.net.URI uri = new java.net.URI(webDriver.getCurrentUrl());
+            return uri.getPath();
+        } catch (java.net.URISyntaxException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
-     *
      * @return the login page
      */
     public final Login selectLoginLink() {
@@ -214,7 +215,6 @@ public abstract class PageObject {
     }
 
     /**
-     *
      * @return true, if the user is logged in
      */
     public final Boolean loggedIn() {
@@ -235,7 +235,6 @@ public abstract class PageObject {
     }
 
     /**
-     *
      * @return the info message
      */
     public final String getInfoMessage() {
@@ -245,9 +244,10 @@ public abstract class PageObject {
     }
 
     /**
-     *
-     * @param text Set the link text
-     * @param clazz Set the expected page
+     * @param text
+     *            Set the link text
+     * @param clazz
+     *            Set the expected page
      * @return the page object
      */
     public final PageObject selectLink(final String text,
@@ -256,24 +256,21 @@ public abstract class PageObject {
                 .getAttribute("href"), clazz);
     }
 
-    
-    
     /**
-    *
-    * @return the about page
-    */
-	public final About selectAboutLink() {
-		return openAs(
+     * @return the about page
+     */
+    public final About selectAboutLink() {
+        return openAs(
                 foot.findElement(By.linkText("About us")).getAttribute("href"),
                 About.class);
-	}
-	/**
-    *
-    * @return the contact page
-    */
-	public final Contact selectContactLink() {
-		return openAs(
-                foot.findElement(By.linkText("Contact us")).getAttribute("href"),
-                Contact.class);
-	}
+    }
+
+    /**
+     * @return the contact page
+     */
+    public final Contact selectContactLink() {
+        return openAs(
+                foot.findElement(By.linkText("Contact us"))
+                        .getAttribute("href"), Contact.class);
+    }
 }

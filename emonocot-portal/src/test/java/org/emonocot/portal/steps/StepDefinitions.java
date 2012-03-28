@@ -8,19 +8,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.Serializable;
 import java.util.List;
 
-import org.emonocot.portal.driver.About;
-import org.emonocot.portal.driver.Classification;
-import org.emonocot.portal.driver.Contact;
-import org.emonocot.portal.driver.Identify;
-import org.emonocot.portal.driver.IllustratedPage;
-import org.emonocot.portal.driver.Index;
-import org.emonocot.portal.driver.Login;
-import org.emonocot.portal.driver.PageObject;
-import org.emonocot.portal.driver.Portal;
-import org.emonocot.portal.driver.Profile;
-import org.emonocot.portal.driver.Register;
-import org.emonocot.portal.driver.RequiresLoginException;
-import org.emonocot.portal.driver.Search;
+import org.emonocot.portal.driver.*;
 import org.emonocot.portal.driver.source.JobDetails;
 import org.emonocot.portal.rows.AccessControlRow;
 import org.emonocot.portal.rows.GroupRow;
@@ -33,6 +21,7 @@ import org.emonocot.portal.rows.UserRow;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import cucumber.annotation.After;
+import cucumber.annotation.en.And;
 import cucumber.annotation.en.Then;
 import cucumber.annotation.en.When;
 
@@ -998,6 +987,22 @@ public class StepDefinitions {
     @When("^I am on the portal home page$")
     public final void openThePortalHomePage() {
         currentPage = portal.getHomePage();
+    }
+    
+    @When("^I select the \"([^\"]+)\" link in the navbar$")
+    @And("^I select the \"([^\"]+)\" link in the page$")
+    public final void iSelectLink(String text) {
+        currentPage = portal.selectLink(text);
+    }
+    
+    @When("^I am on the classify page")
+    public final void openTheClassifyPage(String text) {
+        currentPage = portal.getClassifyPage();
+    }
+    
+    @Then("^I should be on the classify page")
+    public final void iShouldBeOnTheClassifyPage() {
+        assertEquals("The URI should be \"/classify\".", "/classify", currentPage.getUri());
     }
 
     /**

@@ -180,4 +180,12 @@ public class Portal extends PageObject {
 		return openAs(getBaseUri() + "admin/source/" + source,
 				org.emonocot.portal.driver.admin.source.Show.class);
 	}
+
+    public PageObject selectLink(String text) {
+        return selectLink(text, PageObject.class);
+    }
+
+    public PageObject getClassifyPage() {
+        return openAs(getBaseUri() + "classify", Classify.class);
+    }
 }
