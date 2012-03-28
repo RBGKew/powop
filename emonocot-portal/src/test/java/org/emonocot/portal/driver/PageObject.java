@@ -198,7 +198,8 @@ public class PageObject {
     public final String getUri() {
         try {
             java.net.URI uri = new java.net.URI(webDriver.getCurrentUrl());
-            return uri.getPath();
+            String basePath = new java.net.URI(getBaseUri()).getPath();
+            return uri.getPath().replace(basePath, "");
         } catch (java.net.URISyntaxException e) {
             e.printStackTrace();
             return null;
