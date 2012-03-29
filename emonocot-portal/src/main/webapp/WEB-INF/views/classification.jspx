@@ -11,7 +11,7 @@
 		</div>
 		<div class="row">
 		  <div class="span12">
-			<div id="classification" class="jstree-default">tree</div>
+			<div id="classification" class="jstree-default">&#160;</div>
 			<c:url var="webserviceUrl" value="/taxonTree" />
 			<script type="text/javascript">
 				$(function() {
@@ -30,6 +30,13 @@
 							});
 				});
 			</script>
+			<noscript>
+				<ul>
+					<c:forEach var="item" items="${result}">
+						<li><c:url var="taxonUrl" value="/taxon/${item.identifier}" /><a href="${taxonUrl}">${item.name}</a></li>
+					</c:forEach>
+				</ul>
+			</noscript>
 		  </div>
 		</div>
 	</div>

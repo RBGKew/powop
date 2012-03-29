@@ -146,8 +146,9 @@
 						</li>
 					</c:forEach>
 				</div>						
-				<a id="${facetName}-collapse-link" data-toggle="collapse" data-target="#${facetName}-collapse" class="label">${fn:length(values)-10} ${more}</a>
+				<a id="${facetName}-collapse-link" data-toggle="collapse" data-target="#${facetName}-collapse" class="label" style="display: none">${fn:length(values)-10} ${more}</a>
 				<script>
+					document.getElementById ( "${facetName}-collapse-link" ).style.display = "inline";
 					$("#${facetName}-collapse").on('hidden', function () {
 						$("#${facetName}-collapse-link").html("${fn:length(values)-10} ${more}");
 					}).on('shown', function () {
@@ -155,6 +156,47 @@
 					});
 				</script>
 			</c:if>
+
+			<noscript>
+			<c:if test="${fn:length(values) gt 10}">
+				<c:forEach var="facet" begin="10" items="${values}">
+						<li class="${facetName}"> 
+							
+								<c:choose>
+									<c:when test="${facet.count == 0}">
+										<a href="#"><span class="facetValue"><spring:message code="${facet.value}" /></span></a>
+									</c:when>
+									<c:otherwise>
+										<jsp:element name="a">
+											<jsp:attribute name="href">
+												<c:url value="search">
+													<c:forEach var="p" items="${pager.paramNames}">
+														<c:param name="${p}" value="${pager.params[p]}"/>
+													</c:forEach>
+													<c:param name="limit" value="${pager.pageSize}" />
+													<c:param name="start" value="0" />
+													<c:param name="sort">${pager.sort}</c:param>
+													<c:param name="facet" value="${facetName}.${facet.value}" />
+													<c:forEach var="selectedFacet" items="${pager.selectedFacetNames}">
+														<c:if test="${selectedFacet != facetName}">
+															<c:param name="facet" value="${selectedFacet}.${pager.selectedFacets[selectedFacet]}"/>
+														</c:if>
+													</c:forEach>
+												</c:url>
+											</jsp:attribute>
+											<span class="facetValue"> <spring:message code="${facet.value}" /></span>
+										<c:if test="${!em:isMultiValued(facetName)}">
+											<span class="facetCount"> [${facet.count}]</span>
+										</c:if>
+										</jsp:element>
+									</c:otherwise>
+								</c:choose>
+							
+						</li>
+					</c:forEach>
+				</c:if>
+			</noscript>
+			
 		</c:otherwise>
 	</c:choose>
 		

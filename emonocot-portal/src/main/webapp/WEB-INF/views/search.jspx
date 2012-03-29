@@ -44,8 +44,8 @@
 		</div>
 		
 		<div class="row">
-			<div class="span3 well noPrint">
-				<ul id="facets" class="nav nav-list">
+			<div class="span3 noPrint">
+				<ul id="facets" class="well nav nav-list">
 				  <c:forEach var="facetName" items="${result.facetNames}">
 				    <c:choose>
 				      <c:when test="${facetName eq 'CLASS'}">
@@ -59,9 +59,9 @@
 				  </c:forEach>
 				</ul>
 			</div>
-			<div class="span8">
+			<div class="span9">
 				<div class="row noPrint">
-					<div class="span2 btn-group">
+					<div class="span2 btn-group sortNoJS">
 						<a class="btn" href="#"><spring:message code="sortBy" /></a>
 						<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret">&#160;</span></a>
 						<ul id="sorting" class="dropdown-menu">
@@ -73,7 +73,7 @@
 									</jsp:scriptlet>
 									<c:choose>
 										<c:when test="${equalsSortItem}">
-											<spring:message code="${sortItem}" />
+											<spring:message code="${sortItem}"/>
 										</c:when>
 										<c:otherwise>
 											<jsp:element name="a">
@@ -98,6 +98,45 @@
 							</c:forEach>
 						</ul>
 					</div><!-- /btn-group -->
+					<noscript>
+					
+						<div class="span2 ">
+						<h4>Sort by</h4>
+						<ul id="sorting" class="unstyled">
+							<c:forEach var="sortItem" items="${em:sortItems()}">
+								<li>
+									<jsp:scriptlet>
+										org.emonocot.api.Sorting sortItem = (org.emonocot.api.Sorting) pageContext.getAttribute("sortItem");
+										pageContext.setAttribute("equalsSortItem", new Boolean(sortItem.equals(result.getSort())));
+									</jsp:scriptlet>
+									<c:choose>
+										<c:when test="${equalsSortItem}">
+											<spring:message code="${sortItem}"/>
+										</c:when>
+										<c:otherwise>
+											<jsp:element name="a">
+												<jsp:attribute name="href">
+													<c:url value="search">
+														<c:forEach var="p" items="${result.paramNames}">
+															<c:param name="${p}" value="${result.params[p]}"/>
+														</c:forEach>
+														<c:param name="limit" value="${result.pageSize}" />
+														<c:param name="start" value="0" />
+														<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+															<c:param name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
+														</c:forEach>
+														<c:param name="sort">${sortItem}</c:param>
+													</c:url>
+												</jsp:attribute>
+												<spring:message code="${sortItem}" />
+											</jsp:element>
+										</c:otherwise>
+									</c:choose>
+								</li>
+							</c:forEach>
+						</ul>
+						</div>
+					</noscript>
 					<div id="pages" class="pull-right">
 						<tags:results pager="${result}"/>
 					</div>
@@ -169,7 +208,7 @@
 				</div>
 				<br/>
 
-				<div id="results" class="span8 pull-right">
+				<div id="results" class="row no-margin-left">
 					<c:choose>
 						<c:when test="${result.params['view'] == 'grid'}">
 						<br/>

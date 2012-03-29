@@ -10,6 +10,7 @@ import org.emonocot.model.taxon.AlphabeticalTaxonComparator;
 import org.emonocot.model.taxon.Taxon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,7 +24,6 @@ import com.rc.retroweaver.runtime.Collections;
  *
  */
 @Controller
-@RequestMapping("/taxonTree")
 public class ClassificationController {
 
     /**
@@ -38,11 +38,17 @@ public class ClassificationController {
     public final void setTaxonService(final TaxonService service) {
         this.taxonService = service;
     }
-
+    
+    @RequestMapping(value = "/classification" , method = RequestMethod.GET)
+    public final String classify(final Model model){
+    	List<Taxon> results = taxonService.loadChildren(null, 20, 0, "taxon-with-children");
+    	model.addAttribute("result", results);
+    	return "classification";
+    }
     /**
      * @return the list of nodes
      */
-    @RequestMapping(method = RequestMethod.GET,
+    @RequestMapping(value = "/taxonTree", method = RequestMethod.GET,
                     headers = "Accept=application/json")
     public final @ResponseBody
     List<Node> getTaxonTreeRoots() {
@@ -58,7 +64,7 @@ public class ClassificationController {
      * @param identifier set the identifier
      * @return the list of nodes
      */
-    @RequestMapping(value = "/{identifier}",
+    @RequestMapping(value = "/taxonTree/{identifier}",
                     method = RequestMethod.GET,
                     headers = "Accept=application/json")
     public final @ResponseBody

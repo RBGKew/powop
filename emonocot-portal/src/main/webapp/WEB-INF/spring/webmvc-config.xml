@@ -42,9 +42,8 @@
 	</bean>
 	
 	<mvc:view-controller path="/" view-name="index"/>
-	<mvc:view-controller path="/classify" view-name="classify"/>
-    <mvc:view-controller path="/classification" view-name="classification"/>
 	<mvc:view-controller path="/identify" view-name="identify"/>
+	<mvc:view-controller path="/classify" view-name="classify"/>
 	<mvc:view-controller path="/accessDenied" view-name="accessDenied"/>
     <mvc:view-controller path="/uncaughtException" view-name="uncaughtException"/>
     <mvc:view-controller path="/resourceNotFound" view-name="resourceNotFound"/>

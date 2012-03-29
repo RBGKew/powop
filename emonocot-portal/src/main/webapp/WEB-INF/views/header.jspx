@@ -4,7 +4,7 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:form="http://www.springframework.org/tags/form"
 	xmlns:security="http://www.springframework.org/security/tags"
-	version="2.0">		
+	version="2.0">	
 	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container">
