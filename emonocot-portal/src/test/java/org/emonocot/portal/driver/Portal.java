@@ -181,10 +181,9 @@ public class Portal extends PageObject {
 				org.emonocot.portal.driver.admin.source.Show.class);
 	}
 
-    public PageObject selectLink(String text) {
-        return selectLink(text, PageObject.class);
-    }
-
+    /**
+     * @return the classify page
+     */
     public PageObject getClassifyPage() {
         return openAs(getBaseUri() + "classify", Classify.class);
     }

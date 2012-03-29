@@ -390,7 +390,7 @@ public class StepDefinitions {
      *            Set the expected results
      */
     @Then("^the following nodes should be displayed:$")
-    public final void theTheFollowingNodesShouldBeDisplayed(
+    public final void theFollowingNodesShouldBeDisplayed(
             final List<ResultRow> results) {
         int actualNumberOfResults = (int) ((Classification) currentPage)
                 .getNodeNumber();
@@ -398,7 +398,7 @@ public class StepDefinitions {
         List<String[]> actualResults = ((Classification) currentPage)
                 .getNodes();
         for (int i = 0; i < actualNumberOfResults; i++) {
-            assertArrayEquals(actualResults.get(i), results.get(i).toArray());
+            assertArrayEquals(results.get(i).toArray(), actualResults.get(i));
         }
     }
 
@@ -1042,21 +1042,21 @@ public class StepDefinitions {
         currentPage = portal.selectLink(text);
     }
 
-    @When("^I am on the classify page")
-    public final void openTheClassifyPage(String text) {
+    @When("^I am on the classify page$")
+    public final void openTheClassifyPage() {
         currentPage = portal.getClassifyPage();
     }
 
-    @Then("^I should be on the classify page")
-    public final void iShouldBeOnTheClassifyPage() {
-        assertEquals("The URI should be \"classify\".", "classify", currentPage
-                .getUri().startsWith("/") ? currentPage.getUri().substring(1)
-                : currentPage.getUri());
+    @Then("^I should be on the \"([^\"]+)\" page$")
+    public final void iShouldBeOnThePageURL(String relativePath) {
+        assertEquals("The URI should be \"" + relativePath + "\".",
+                relativePath, currentPage.getUri());
     }
 
     @And("^there should be a \"([^\"]+)\" link on the page$")
     public final void thereShouldBeALink(String text) {
-        // assertNotNull(
+        assertTrue("There should have been a link with " + text,
+                currentPage.isLinkPresent(text));
     }
 
     /**

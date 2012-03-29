@@ -7,6 +7,7 @@ import org.emonocot.test.TestDataManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -199,7 +200,8 @@ public class PageObject {
         try {
             java.net.URI uri = new java.net.URI(webDriver.getCurrentUrl());
             String basePath = new java.net.URI(getBaseUri()).getPath();
-            return uri.getPath().replace(basePath, "");
+            String relPath = uri.getPath().replace(basePath, "");
+            return relPath.startsWith("/") ? relPath.substring(1) : relPath;
         } catch (java.net.URISyntaxException e) {
             e.printStackTrace();
             return null;
@@ -273,5 +275,24 @@ public class PageObject {
         return openAs(
                 foot.findElement(By.linkText("Contact us"))
                         .getAttribute("href"), Contact.class);
+    }
+
+    public final boolean isLinkPresent(String text) {
+        try {
+            webDriver.findElement(By.partialLinkText(text));
+            // if an element is found
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
+    /**
+     * @param text
+     *            the text of the link
+     * @return the target of the link if it is found on this page
+     */
+    public PageObject selectLink(String text) {
+        return selectLink(text, PageObject.class);
     }
 }
