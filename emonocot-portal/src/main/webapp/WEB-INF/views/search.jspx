@@ -38,7 +38,10 @@
 				</form>
 			</div>
 			<div>
-				<a href="/search?query=" class="pull-right"><spring:message code="reset"/></a>					
+			    <c:url var="resetUrl" value="/search">
+			      <c:param name="query" value=""/>
+			    </c:url>
+				<a href="${resetUrl}" class="pull-right"><spring:message code="reset"/></a>					
 			</div>
 			<br/>
 		</div>

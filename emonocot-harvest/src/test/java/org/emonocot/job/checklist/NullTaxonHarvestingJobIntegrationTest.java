@@ -109,8 +109,6 @@ public class NullTaxonHarvestingJobIntegrationTest {
             NullTaxonHarvestingJobIntegrationTest.PAST_DATETIME
             .getMillis()))));
         parameters.put("request.interval", new JobParameter("10000"));
-        parameters.put("temporary.file.name", new JobParameter(File
-                .createTempFile("test", ".xml").getAbsolutePath()));
         JobParameters jobParameters = new JobParameters(parameters);
 
         Job nullTaxonHarvestingJob = jobLocator

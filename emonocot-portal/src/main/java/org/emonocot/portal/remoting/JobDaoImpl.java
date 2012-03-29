@@ -25,7 +25,7 @@ public class JobDaoImpl extends DaoImpl<Job> implements JobDao {
      * @param sourceId Set the source identifier
      * @return the total number of jobs for a given source
      */
-    public Long count(String sourceId) {
+    public final Long count(final String sourceId) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -36,7 +36,17 @@ public class JobDaoImpl extends DaoImpl<Job> implements JobDao {
      * @param size Set the page size
      * @return A list of jobs
      */
-    public List<Job> list(String sourceId, Integer page, Integer size) {
+    public final List<Job> list(final String sourceId, final Integer page,
+            final Integer size) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * @param id Set the job id
+     * @return the job
+     */
+    public final Job findByJobId(final Long id) {
         // TODO Auto-generated method stub
         return null;
     }

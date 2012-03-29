@@ -17,6 +17,7 @@ import org.emonocot.api.ReferenceService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.UserService;
 import org.emonocot.api.job.JobExecutionInfo;
+import org.emonocot.api.job.JobLaunchResponse;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.RecordType;
@@ -433,7 +434,7 @@ public class JsonConversionTest {
     */
     @Test
     public final void testJobExecutionInfo() throws Exception {
-        JobExecutionInfo jobExecutionInfo = objectMapper.readValue("{\"jobExecution\" : {\"resource\" : \"http://localhost/emonocot-harvester/emonocot-harvester/jobs/executions/546.json;jsessionid=25785ED947E586BD40D06413AA04C82F\",\"id\" : \"546\",\"status\" : \"STARTED\", \"startTime\" : \"13:29:50\", \"duration\" : \"00:00:00\", \"exitCode\" : \"UNKNOWN\", \"exitDescription\" : \"\", \"jobInstance\" : { \"resource\" : \"http://localhost/emonocot-harvester/emonocot-harvester/jobs/ReIndex/538.json;jsessionid=25785ED947E586BD40D06413AA04C82F\" }, \"stepExecutions\" : { \"reIndex\" : { \"resource\" : \"http://localhost/emonocot-harvester/emonocot-harvester/jobs/executions/546/steps/11448.json;jsessionid=25785ED947E586BD40D06413AA04C82F\", \"status\" : \"STARTED\", \"exitCode\" : \"EXECUTING\" } } } }", JobExecutionInfo.class);
+        JobLaunchResponse jobLaunchResponse = objectMapper.readValue("{\"jobExecution\" : {\"resource\" : \"http://localhost/emonocot-harvester/emonocot-harvester/jobs/executions/546.json;jsessionid=25785ED947E586BD40D06413AA04C82F\",\"id\" : \"546\",\"status\" : \"STARTED\", \"startTime\" : \"13:29:50\", \"duration\" : \"00:00:00\", \"exitCode\" : \"UNKNOWN\", \"exitDescription\" : \"\", \"jobInstance\" : { \"resource\" : \"http://localhost/emonocot-harvester/emonocot-harvester/jobs/ReIndex/538.json;jsessionid=25785ED947E586BD40D06413AA04C82F\" }, \"stepExecutions\" : { \"reIndex\" : { \"resource\" : \"http://localhost/emonocot-harvester/emonocot-harvester/jobs/executions/546/steps/11448.json;jsessionid=25785ED947E586BD40D06413AA04C82F\", \"status\" : \"STARTED\", \"exitCode\" : \"EXECUTING\" } } } }", JobLaunchResponse.class);
     }
 
     /**

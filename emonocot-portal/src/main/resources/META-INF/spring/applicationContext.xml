@@ -29,7 +29,12 @@
 	</bean>
 	
 	<bean id="clientHttpRequestFactory"
-		class="org.emonocot.portal.http.AuthenticatingHttpClientFactory" />
+			class="org.emonocot.portal.http.StaticUsernameAndPasswordHttpClientFactory">
+			<property name="username" value="${portalWebservice.harvester.username}" />
+			<property name="password" value="${portalWebservice.harvester.password}" />
+			<property name="proxyHost" value="${http.proxyHost}" />
+		    <property name="proxyPort" value="${http.proxyPort}" />
+    </bean>
 
 	<bean name="hibernateSearchIndexPurger"
 		class="org.emonocot.persistence.hibernate.HibernateSearchIndexPurger"

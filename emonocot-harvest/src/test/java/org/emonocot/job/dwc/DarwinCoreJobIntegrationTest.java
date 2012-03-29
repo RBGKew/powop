@@ -40,6 +40,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
     "/META-INF/spring/batch/jobs/darwinCoreArchiveHarvesting.xml",
+    "/META-INF/spring/applicationContext-integration.xml",
     "/META-INF/spring/applicationContext-test.xml" })
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class DarwinCoreJobIntegrationTest {
@@ -112,11 +113,6 @@ public class DarwinCoreJobIntegrationTest {
                 new JobParameter(Long
                         .toString((DarwinCoreJobIntegrationTest.PAST_DATETIME
                                 .getMillis()))));
-        parameters.put("temporary.file.name", new JobParameter(File
-                .createTempFile("test", ".zip").getAbsolutePath()));
-        parameters.put("unpack.directory.name",
-                new JobParameter(System.getProperty("java.io.tmpdir")
-                        + "/archive"));
         JobParameters jobParameters = new JobParameters(parameters);
 
         Job darwinCoreArchiveHarvestingJob = jobLocator

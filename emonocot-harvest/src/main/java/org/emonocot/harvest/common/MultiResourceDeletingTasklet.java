@@ -55,6 +55,12 @@ public class MultiResourceDeletingTasklet implements Tasklet {
         }
     }
 
+    /**
+     * @param contribution Set the step contribution
+     * @param chunkContext Set the chunk context
+     * @return the repeat status
+     * @throws Exception if there is a problem deleting the resources
+     */
     public final RepeatStatus execute(final StepContribution contribution,
             final ChunkContext chunkContext) throws Exception {
         for (Resource lResource : resources) {

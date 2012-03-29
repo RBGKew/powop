@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:property-placeholder location="classpath*:META-INF/spring/application.properties" />
+	<context:property-placeholder
+		location="classpath*:META-INF/spring/application.properties" />
 
 	<context:property-override
-		ignore-unresolvable="true" location="classpath*:META-INF/spring/application.properties" />
+		ignore-unresolvable="true"
+		location="classpath*:META-INF/spring/application.properties" />
 
 	<bean name="testDataManager" class="org.emonocot.test.TestDataManager" />
 
@@ -24,7 +25,7 @@
 			expression="org.emonocot.service.impl.UserServiceImpl" />
 		<context:exclude-filter type="assignable"
 			expression="org.emonocot.service.impl.SearchableObjectServiceImpl" />
-	</context:component-scan>	
+	</context:component-scan>
 
 	<bean name="restTemplate" class="org.springframework.web.client.RestTemplate">
 		<constructor-arg ref="clientHttpRequestFactory" />
@@ -48,25 +49,25 @@
 		class="org.emonocot.model.marshall.json.CustomObjectMapperFactory">
 		<property name="jobInstanceService" ref="jobInstanceServiceImpl" />
 	</bean>
+
 	<beans profile="default">
-        <bean id="clientHttpRequestFactory"
-         class="org.emonocot.portal.http.AuthenticatingHttpClientFactory" />
-    </beans>
-    <beans profile="proxy">
-      <bean id="clientHttpRequestFactory"
-        class="org.emonocot.portal.http.AuthenticatingHttpClientFactory">
-        <property name="proxy">
-          <bean class="java.net.Proxy">
-            <constructor-arg value="#{T(java.net.Proxy$Type).HTTP}" />
-            <constructor-arg>
-              <bean class="java.net.InetSocketAddress">
-                <constructor-arg value="${http.proxyHost}" />
-                <constructor-arg value="${http.proxyPort}" />
-              </bean>
-            </constructor-arg>
-          </bean>
-        </property>
-      </bean>
-    </beans>
-    
+		<bean id="clientHttpRequestFactory"
+			class="org.emonocot.portal.http.AuthenticatingHttpClientFactory" />
+	</beans>
+	<beans profile="proxy">
+		<bean id="clientHttpRequestFactory"
+			class="org.emonocot.portal.http.AuthenticatingHttpClientFactory">
+			<property name="proxy">
+				<bean class="java.net.Proxy">
+					<constructor-arg value="#{T(java.net.Proxy$Type).HTTP}" />
+					<constructor-arg>
+						<bean class="java.net.InetSocketAddress">
+							<constructor-arg value="${http.proxyHost}" />
+							<constructor-arg value="${http.proxyPort}" />
+						</bean>
+					</constructor-arg>
+				</bean>
+			</property>
+		</bean>
+	</beans>
 </beans>

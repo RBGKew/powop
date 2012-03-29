@@ -15,7 +15,7 @@ create table Image (id bigint not null, identifier varchar(255), created timesta
 drop table if exists Image_Source;
 create table Image_Source (Image_id bigint not null, sources_id bigint not null, primary key (Image_id, sources_id));
 drop table if exists Job;
-create table Job (id bigint not null, identifier varchar(255), duration timestamp, exitDescription clob, exitCode varchar(255), jobId integer, jobInstance varchar(255), jobType varchar(255), lastHarvested timestamp, resource varchar(255), family varchar(255), startTime timestamp, status varchar(255), uri varchar(255), source_id bigint, primary key (id), unique (identifier));
+create table Job (id bigint not null, identifier varchar(255), duration timestamp, exitDescription clob, exitCode varchar(255), jobId bigint, jobInstance varchar(255), jobType varchar(255), lastHarvested timestamp, resource varchar(255), family varchar(255), startTime timestamp, status varchar(255), uri varchar(255), source_id bigint, primary key (id), unique (identifier));
 drop table if exists Principal;
 create table Principal (DTYPE varchar(31) not null, id bigint not null, identifier varchar(255), created timestamp, modified timestamp, accountNonExpired boolean, accountNonLocked boolean, credentialsNonExpired boolean, enabled boolean, password varchar(255), primary key (id), unique (identifier));
 drop table if exists Reference;

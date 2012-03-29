@@ -11,6 +11,11 @@
 
 	<batch:job id="SingleRecordTaxonHarvesting">
 	    <batch:description>Harvests a single record from an OAI-PMH Repository</batch:description>
+	    <batch:step id="setTemporaryFilename">
+			<batch:description>Set the temporary file name</batch:description>
+			<batch:tasklet ref="setTemporaryFilenameTasklet" />			
+			<batch:next on="COMPLETED" to="getRecord" />
+		</batch:step>
 		<batch:step id="getRecord">
 		    <batch:description>Call GetRecord on the resource</batch:description>
 			<batch:tasklet ref="oaiPmhGetRecordTasklet" />
@@ -52,6 +57,10 @@
 			<batch:end on="COMPLETED"/>
 		</batch:step>
 	</batch:job>
+	
+	<bean id="setTemporaryFilenameTasklet" class="org.emonocot.job.checklist.SetTemporaryFilenameTasklet">
+		<property name="harvesterSpoolDirectory" value="${harvester.spool.directory}"/>
+	</bean>
 
 	<bean id="oaiPmhResourceDeletingTasklet"
 		class="org.emonocot.harvest.common.MultiResourceDeletingTasklet"
@@ -59,7 +68,7 @@
 		<property name="resources">
 			<bean class="org.springframework.core.io.FileSystemResource"
 				scope="step">
-				<constructor-arg value="#{jobParameters['temporary.file.name']}" />
+				<constructor-arg value="#{jobExecutionContext['temporary.file.name']}" />
 			</bean>
 		</property>
 	</bean>
@@ -79,7 +88,7 @@
 			    <value>#{jobParameters['record.identifier']}</value>
 				<value>#{jobParameters['authority.name']}</value>
 				<value>#{jobParameters['authority.uri']}</value>
-				<value>#{jobParameters['temporary.file.name']}</value>
+				<value>#{jobExecutionContext['temporary.file.name']}</value>
 			</list>
 		</property>
 	</bean>
@@ -98,7 +107,7 @@
 		<property name="resource">
 			<bean class="org.springframework.core.io.FileSystemResource"
 				scope="step">
-				<constructor-arg value="#{jobParameters['temporary.file.name']}" />
+				<constructor-arg value="#{jobExecutionContext['temporary.file.name']}" />
 			</bean>
 		</property>
 		<property name="unmarshaller" ref="oaiPmhResponseUnmarshaller" />
@@ -180,6 +189,6 @@
 	  <property name="taxonService" ref="taxonServiceImpl"/>
 	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
 	  <property name="sourceUri" value="#{jobParameters['authority.uri']}"/>
-	  <property name="temporaryFileName" value="#{jobParameters['temporary.file.name']}"/>
+	  <property name="temporaryFileName" value="#{jobExecutionContext['temporary.file.name']}"/>
 	</bean>
 </beans>

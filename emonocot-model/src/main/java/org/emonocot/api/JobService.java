@@ -24,4 +24,10 @@ public interface JobService extends Service<Job> {
      */
     List<Job> list(String sourceId, Integer page, Integer size);
 
+    /**
+     *
+     * @param id Set the job id
+     * @return a matching job
+     */
+    Job findByJobId(Long id);
 }

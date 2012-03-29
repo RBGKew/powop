@@ -41,6 +41,12 @@
       <pattern>%d{ISO8601} | %X{req.remoteHost} | %X{req.requestURI} | %X{req.userAgent}  | %-5p | %t | %c | %m%n</pattern>
     </encoder>
   </appender>
+  <logger name="org.emonocot.portal.integration" level="DEBUG" additivity="false">
+    <appender-ref ref="stdout"/>
+  </logger>
+  <logger name="org.emonocot.service.impl" level="DEBUG" additivity="false">
+    <appender-ref ref="stdout"/>
+  </logger>
   <logger name="query" level="INFO" additivity="false">
     <appender-ref ref="database"/>
   </logger>  

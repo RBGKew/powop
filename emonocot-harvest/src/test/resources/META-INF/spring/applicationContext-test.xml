@@ -63,8 +63,22 @@
 
     <bean id="nameParser" class="org.gbif.ecat.parser.NameParser" />
     <bean id="taxonMatcher" class="org.emonocot.job.taxonmatch.DefaultTaxonMatcher" />
-        
+
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+	  <property name="requestFactory" ref="requestFactory"/>
+	  <property name="messageConverters">
+	    <list>
+	      <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+	        <property name="objectMapper" ref="objectMapper"/>
+	      </bean>
+	    </list>
+	  </property>
+	</bean>
+	
+	<bean name="objectMapper" class="org.emonocot.model.marshall.json.CustomObjectMapperFactory"/>
+	     
 	<beans profile="default">
+	    <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory"/>
 		<bean name="dataSource"
 			class="org.emonocot.persistence.spatial.GeoDBTestDataSourceFactory">
 			<property name="testDatabaseName" value="testdb" />
@@ -109,6 +123,21 @@
 			<property name="annotatedPackages" value="org.emonocot.model.common" />
 		</bean>
 	</beans>
+	<beans profile="proxy">
+      <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory">
+        <property name="proxy">
+          <bean class="java.net.Proxy">
+            <constructor-arg value="#{T(java.net.Proxy$Type).HTTP}"/>
+            <constructor-arg>
+              <bean class="java.net.InetSocketAddress">
+                <constructor-arg value="${http.proxyHost}"/>
+                <constructor-arg value="${http.proxyPort}"/>
+              </bean>
+            </constructor-arg>
+          </bean>
+        </property>
+      </bean>
+	</beans>   
 	<beans profile="mysql">
 		<context:property-placeholder
 			ignore-unresolvable="true" location="classpath*:META-INF/spring/*.properties" />

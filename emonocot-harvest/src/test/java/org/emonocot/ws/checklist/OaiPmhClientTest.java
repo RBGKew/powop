@@ -154,7 +154,7 @@ public class OaiPmhClientTest {
         expect(mockHttpClient.execute(HttpGetMatcher.eqHttpGet(get)))
                 .andReturn(response);
         replay(mockHttpClient);
-        
+
         StepExecution stepExecution
             = new StepExecution("test", new JobExecution(1L));
 

@@ -37,6 +37,7 @@ import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
+import org.springframework.batch.core.BatchStatus;
 import org.springframework.core.convert.support.DefaultConversionService;
 
 import com.rc.retroweaver.runtime.Arrays;
@@ -64,6 +65,29 @@ public final class Functions {
     }
 
     /**
+     * @param status Set the status
+     * @return true if the job is startable
+     */
+    public static Boolean isStartable(final BatchStatus status) {
+        if (status == null) {
+            return Boolean.TRUE;
+        } else {
+            switch (status) {
+            case STARTED:
+            case STARTING:
+            case STOPPING:
+            case UNKNOWN:
+                return Boolean.FALSE;
+            case COMPLETED:
+            case FAILED:
+            case STOPPED:
+            default:
+                return Boolean.TRUE;
+            }
+        }
+    }
+
+    /**
      * @param rank Set the rank
      * @return true if the rank is infraspecific
      */
@@ -78,6 +102,7 @@ public final class Functions {
             }
         }
     }
+
     /**
      * @param taxon Set the taxon
      * @return the protolog link of the taxon if it exists

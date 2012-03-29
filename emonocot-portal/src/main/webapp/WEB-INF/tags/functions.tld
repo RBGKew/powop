@@ -29,6 +29,11 @@
         <function-signature>java.lang.Boolean isSynonym(org.emonocot.model.taxon.Taxon)</function-signature>
     </function>
     <function>
+        <name>isStartable</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.Boolean isStartable(org.springframework.batch.core.BatchStatus)</function-signature>
+    </function>
+    <function>
         <name>regions</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>java.util.List regions(org.emonocot.model.taxon.Taxon)</function-signature>

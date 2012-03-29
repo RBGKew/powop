@@ -22,10 +22,32 @@
 	        </c:choose>
 	      </a> &#160; ${job.identifier}
 	    </h2>
-    </div>
+    </div>    
     <div class="row">
+	  <div class="span12">
+	    <c:url var="runUrl" value="/admin/source/${source.identifier}/job/${job.identifier}">
+	      <c:param name="run" value="true"/>
+	    </c:url>
+	    <form class="well" action="${runUrl}" method="POST">
+	      <c:choose>
+	        <c:when test="${em:isStartable(job.status)}">
+	          <button class="btn btn-primary" type="submit">
+	            <spring:message code="start.job"/>
+              </button>
+	        </c:when>
+	        <c:otherwise>
+	          <button class="btn btn-primary" type="submit" disabled="true">
+	            <spring:message code="start.job"/>
+              </button>
+	        </c:otherwise>
+	      </c:choose>	      
+	    </form>
+	  </div>
+	</div>
+	<div class="row">
       <div class="span12">
         <tags:info/>
+        <tags:error/>
         <c:url var="updateUrl" value="/admin/source/${source.identifier}/job/${job.identifier}">
           <c:param name="form" value="true"/>
         </c:url>

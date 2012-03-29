@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:integration="http://www.springframework.org/schema/integration"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:integration-http="http://www.springframework.org/schema/integration/http"
+	xsi:schemaLocation="http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+	xmlns:util="http://www.springframework.org/schema/util">
+
+	<context:property-placeholder location="classpath*:META-INF/spring/*.properties" />
+
+	<integration:gateway id="jobStatusNotifier"
+		service-interface="org.emonocot.api.job.JobStatusNotifier"
+		default-request-channel="jobStatusNotificationChannel">
+		<integration:method name="notify" />
+	</integration:gateway>
+
+	<integration:channel id="jobStatusNotificationChannel"
+		datatype="org.emonocot.api.job.JobExecutionInfo" />
+	<integration:channel id="transformedJobStatusNotificationChannel"/>
+
+	<integration:object-to-json-transformer
+		input-channel="jobStatusNotificationChannel" output-channel="transformedJobStatusNotificationChannel"
+		object-mapper="objectMapper" />
+
+	<integration-http:outbound-channel-adapter
+		id="jobStatusNotificationAdapter" url="${portal.job.notification.uri}"
+		extract-payload="true" http-method="POST"
+		channel="transformedJobStatusNotificationChannel" charset="UTF-8"
+		request-factory="requestFactory" />
+
+</beans>

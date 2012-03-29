@@ -75,9 +75,9 @@ public class AdminSourceController {
     @RequestMapping(method = RequestMethod.GET, params = "!form")
     public final String list(
             final Model model,
-            @RequestParam(value = "limit", required = false, defaultValue = "10") final Integer limit,
-            @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start) {
-        model.addAttribute("result", service.list(start, limit));
+            @RequestParam(value = "page", defaultValue = "0", required = false) final Integer page,
+            @RequestParam(value = "size", defaultValue = "10", required = false) final Integer size) {
+        model.addAttribute("result", service.list(page, size));
         return "admin/source/list";
     }
 

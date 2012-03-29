@@ -1,8 +1,11 @@
 package org.emonocot.api.job;
 
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.emonocot.model.marshall.json.HoursMinutesSecondsDateTimeDeserializer;
+import org.emonocot.model.marshall.json.HoursMinutesSecondsDateTimeSerializer;
 import org.joda.time.DateTime;
 import org.springframework.batch.core.BatchStatus;
-import org.springframework.batch.core.ExitStatus;
 
 /**
  *
@@ -18,7 +21,7 @@ public class JobExecutionInfo {
     /**
      *
      */
-    private Integer id;
+    private Long id;
     /**
      *
      */
@@ -30,7 +33,7 @@ public class JobExecutionInfo {
     /**
      *
      */
-    private ExitStatus exitStatus;
+    private String exitCode;
     /**
      *
      */
@@ -42,7 +45,7 @@ public class JobExecutionInfo {
     /**
      *
      */
-    private String jobInstance;
+    private JobInstanceInfo jobInstance;
 
     /**
      *
@@ -56,7 +59,7 @@ public class JobExecutionInfo {
      *
      * @param newId Set the id;
      */
-    public final void setId(final Integer newId) {
+    public final void setId(final Long newId) {
         this.id = newId;
     }
 
@@ -72,22 +75,24 @@ public class JobExecutionInfo {
      *
      * @param newStartTime Set the start time
      */
+    @JsonDeserialize(using = HoursMinutesSecondsDateTimeDeserializer.class)
     public final void setStartTime(final DateTime newStartTime) {
         this.startTime = newStartTime;
     }
 
     /**
      *
-     * @param newExitStatus Set the exit status
+     * @param newExitCode Set the exit code
      */
-    public final void setExitStatus(final ExitStatus newExitStatus) {
-        this.exitStatus = newExitStatus;
+    public final void setExitCode(final String newExitCode) {
+        this.exitCode = newExitCode;
     }
 
     /**
      *
      * @param newDuration Set the duration
      */
+    @JsonDeserialize(using = HoursMinutesSecondsDateTimeDeserializer.class)
     public final void setDuration(final DateTime newDuration) {
         this.duration = newDuration;
     }
@@ -104,7 +109,7 @@ public class JobExecutionInfo {
      *
      * @param newJobInstance Set the job instance
      */
-    public final void setJobInstance(final String newJobInstance) {
+    public final void setJobInstance(final JobInstanceInfo newJobInstance) {
         this.jobInstance = newJobInstance;
     }
 
@@ -118,7 +123,7 @@ public class JobExecutionInfo {
     /**
      * @return the id
      */
-    public final Integer getId() {
+    public final Long getId() {
         return id;
     }
 
@@ -132,20 +137,22 @@ public class JobExecutionInfo {
     /**
      * @return the startTime
      */
+    @JsonSerialize(using = HoursMinutesSecondsDateTimeSerializer.class)
     public final DateTime getStartTime() {
         return startTime;
     }
 
     /**
-     * @return the exitStatus
+     * @return the exitCode
      */
-    public final ExitStatus getExitStatus() {
-        return exitStatus;
+    public final String getExitCode() {
+        return exitCode;
     }
 
     /**
      * @return the duration
      */
+    @JsonSerialize(using = HoursMinutesSecondsDateTimeSerializer.class)
     public final DateTime getDuration() {
         return duration;
     }
@@ -160,7 +167,7 @@ public class JobExecutionInfo {
     /**
      * @return the jobInstance
      */
-    public final String getJobInstance() {
+    public final JobInstanceInfo getJobInstance() {
         return jobInstance;
     }
 }

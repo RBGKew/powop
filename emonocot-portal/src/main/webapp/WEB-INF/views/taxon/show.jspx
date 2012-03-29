@@ -140,7 +140,6 @@
 							<c:param name="as" value="present:FF0000,,0.25" />
 							<!-- Area Styling -->
 					</c:url>
-					<img id="alternative-map" src="${alternativeMapUrl}"/>
 					<noscript>
 					<img id="alternative-map" src="${alternativeMapUrl}"/>
 					</noscript>
@@ -163,56 +162,83 @@
 					</c:set>
 					<c:url var="openlayersImageLocation" value="/images/OpenLayers/"/>
 					<script type="text/javascript">
-					var map;
-					
-					function foo(data) {
-						if (!data) { 
-						} else  {
-							
-							OpenLayers.ImgPath = "${openlayersImageLocation}";
-							var base_layer = new OpenLayers.Layer.WMS(
-							"OpenLayers WMS",
-							"http://labs.metacarta.com/wms/vmap0",
-							{
-								layers : 'basic'
-							},
-							{
-								maxExtent : new OpenLayers.Bounds(-180, -90, 180, 90),
-								isBaseLayer : true,
-								displayInLayerSwitcher : false
-							});
-													
-							map = new OpenLayers.Map('map',
-							{
-								controls: [new OpenLayers.Control.Navigation({zoomWheelEnabled: false}),
-								new OpenLayers.Control.PanZoomBar()],
-								maxExtent : new OpenLayers.Bounds(-180, -90, 180, 90),
-								maxResolution : 0.72,
-								restrictedExtent : new OpenLayers.Bounds(-180, -90, 180, 90),
-								projection : new OpenLayers.Projection("EPSG:4326")
-							}); 
-							map.addLayers([ base_layer ]);
-													
-							for (i in data.layers) {
-								var layerName = "topp:tdwg_level_" + data.layers[i].tdwg.substr(4, 1);
-													
-								var layer = new OpenLayers.Layer.WMS.Untiled(
-										"layer " + (i + 1),data.geoserver,
-										{
-											layers : layerName,
-											transparent : "true",
-											format : "image/png"
-										},
-															
-										{
-											maxExtent : new OpenLayers.Bounds(-180, -90, 180, 90),
-											isBaseLayer : false,
-											displayInLayerSwitcher : false
-										});
-														
-										layer.params.SLD = data.layers[i].sld;
-										map.addLayers([ layer ]);
-								}
+						var map;
+						
+						function foo(data) {
+							if (!data) { 
+							} else  {
+								OpenLayers.ImgPath = "${openlayersImageLocation}";
+								<spring:message var="useDynamicBaseLayer" code="web.map.dynamic.base.layer"/>								
+								<c:choose>
+								  <c:when test="${useDynamicBaseLayer eq 'false'}">
+								  var options = {numZoomLevels: 3};
+							        var base_layer = new OpenLayers.Layer.Image(
+						                'City Lights',
+						                'http://earthtrends.wri.org/images/maps/4_m_citylights_lg.gif',
+						                new OpenLayers.Bounds(-180, -88.759, 180, 88.759),
+						                new OpenLayers.Size(580, 288),
+						                options
+						            );
+							        
+							        map = new OpenLayers.Map('map',
+											{
+												controls: [new OpenLayers.Control.Navigation({zoomWheelEnabled: false}),
+												           new OpenLayers.Control.PanZoomBar()],
+												maxExtent : new OpenLayers.Bounds(-180, -90, 180, 90),
+												maxResolution : 0.72,
+												restrictedExtent : new OpenLayers.Bounds(-180, -90, 180, 90),
+												projection : new OpenLayers.Projection("EPSG:4326")
+											}); 
+											map.addLayers([ base_layer ]);
+											
+											
+								  </c:when>
+								  <c:otherwise>
+								    var base_layer = new OpenLayers.Layer.WMS(
+										    "OpenLayers WMS",
+										    "http://labs.metacarta.com/wms/vmap0",
+										    {
+										    layers : 'basic'
+										    },
+										    {
+										    maxExtent : new OpenLayers.Bounds(-180, -90, 180, 90),
+										    isBaseLayer : true,
+										    displayInLayerSwitcher : false
+										    });
+								    map = new OpenLayers.Map('map',
+											{
+												controls: [new OpenLayers.Control.Navigation({zoomWheelEnabled: false}),
+												           new OpenLayers.Control.PanZoomBar()],
+												maxExtent : new OpenLayers.Bounds(-180, -90, 180, 90),
+												maxResolution : 0.72,
+												restrictedExtent : new OpenLayers.Bounds(-180, -90, 180, 90),
+												projection : new OpenLayers.Projection("EPSG:4326")
+											}); 
+											map.addLayers([ base_layer ]);
+											
+											for (i in data.layers) {
+												var layerName = "topp:tdwg_level_" + data.layers[i].tdwg.substr(4, 1);
+											
+												var layer = new OpenLayers.Layer.WMS.Untiled(
+													"layer " + (i + 1),data.geoserver,
+													{
+														layers : layerName,
+														transparent : "true",
+														format : "image/png"
+													},
+																		
+													{
+														maxExtent : new OpenLayers.Bounds(-180, -90, 180, 90),
+														isBaseLayer : false,
+														displayInLayerSwitcher : false
+													});
+																	
+													layer.params.SLD = data.layers[i].sld;
+													map.addLayers([ layer ]);
+											}
+								    </c:otherwise>
+								  </c:choose>
+								
 									map.addControl(new OpenLayers.Control.Navigation(
 										{zoomWheelEnabled:false}));
 										var bbox = data.bbox.split(",");

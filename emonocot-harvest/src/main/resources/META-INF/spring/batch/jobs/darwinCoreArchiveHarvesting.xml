@@ -12,6 +12,11 @@
 
 	<batch:job id="DarwinCoreArchiveHarvesting">
 	    <batch:description>Gets a Darwin Core Archive from a web-accessible URI, unpacks it in a local folder, reads the metadata, then imports the content</batch:description>
+	    <batch:step id="setTemporaryFilenames">
+			<batch:description>Set the temporary file names</batch:description>
+			<batch:tasklet ref="setTemporaryFilenamesTasklet" />			
+			<batch:next on="COMPLETED" to="getDWCArchive" />
+		</batch:step>
 		<batch:step id="getDWCArchive">
 			<batch:description>Get the darwin core archive</batch:description>
 			<batch:tasklet ref="getDWCArchiveTasklet" />
@@ -193,8 +198,20 @@
 	    <batch:step id="cleanupResources">
 			<batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="dwcArchiveResourceDeletingTasklet" />
-		</batch:step>	    
+		</batch:step>
+		<batch:listeners>
+		  <batch:listener ref="jobStatusListener"/>
+		</batch:listeners>	    
 	</batch:job>
+	
+	<bean id="jobStatusListener" class="org.emonocot.harvest.common.JobStatusListener">
+	  <property name="jobStatusNotifier" ref="jobStatusNotifier"/>
+	  <property name="baseUrl" value="${harvester.baseUrl}"/>
+	</bean>
+	
+	<bean id="setTemporaryFilenamesTasklet" class="org.emonocot.job.dwc.SetTemporaryFilenamesTasklet">
+		<property name="harvesterSpoolDirectory" value="${harvester.spool.directory}"/>
+	</bean>
 
 	<bean id="dwcArchiveResourceDeletingTasklet"
 		class="org.emonocot.harvest.common.MultiResourceDeletingTasklet"
@@ -203,11 +220,11 @@
 			<list>
 				<bean class="org.springframework.core.io.FileSystemResource"
 					scope="step">
-					<constructor-arg value="#{jobParameters['temporary.file.name']}" />
+					<constructor-arg value="#{jobExecutionContext['temporary.file.name']}" />
 				</bean>
 				<bean class="org.springframework.core.io.FileSystemResource"
 					scope="step">
-					<constructor-arg value="#{jobParameters['unpack.directory.name']}" />
+					<constructor-arg value="#{jobExecutionContext['unpack.directory.name']}" />
 				</bean>
 			</list>
 		</property>
@@ -240,7 +257,7 @@
 				<value>#{jobParameters['authority.name']}</value>
 				<value>#{jobParameters['authority.uri']}</value>
 				<value>#{jobParameters['authority.last.harvested']}</value>
-				<value>#{jobParameters['temporary.file.name']}</value>
+				<value>#{jobExecutionContext['temporary.file.name']}</value>
 			</list>
 		</property>
 	</bean>
@@ -257,8 +274,8 @@
 		<property name="targetMethod" value="unpackArchive" />
 		<property name="arguments">
 			<list>
-				<value>#{jobParameters['temporary.file.name']}</value>
-				<value>#{jobParameters['unpack.directory.name']}</value>
+				<value>#{jobExecutionContext['temporary.file.name']}</value>
+				<value>#{jobExecutionContext['unpack.directory.name']}</value>
 			</list>
 		</property>
 	</bean>
@@ -272,7 +289,7 @@
 		<property name="targetMethod" value="readMetadata" />
 		<property name="arguments">
 			<list>
-				<value>#{jobParameters['unpack.directory.name']}</value>
+				<value>#{jobExecutionContext['unpack.directory.name']}</value>
 				<value>#{jobParameters['authority.name']}</value>
 				<value>#{jobParameters['taxon.processing.mode']}</value>
 			</list>

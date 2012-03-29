@@ -6,6 +6,9 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.emonocot.api.job.JobExecutionInfo;
+import org.emonocot.api.job.JobLaunchResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.JobExecutionException;
 import org.springframework.http.HttpStatus;
 import org.springframework.integration.Message;
@@ -17,6 +20,12 @@ import org.springframework.integration.message.GenericMessage;
  *
  */
 public class JobLaunchResponseTransformer {
+
+    /**
+    *
+    */
+    private static Logger logger = LoggerFactory
+                .getLogger(JobLaunchResponseTransformer.class);
 
     /**
      *
@@ -39,12 +48,13 @@ public class JobLaunchResponseTransformer {
      */
     public final Message transform(final Message message)
             throws JobExecutionException {
+        logger.debug("In transform (" + message + ")");
         if (message.getPayload().getClass().equals(String.class)) {
-            System.out.println(message.getPayload());
+            logger.debug("Message payload is " + message.getPayload());
             try {
-                JobExecutionInfo response = objectMapper.readValue(
-                        (String) message.getPayload(), JobExecutionInfo.class);
-                return new GenericMessage<JobExecutionInfo>(response,
+                JobLaunchResponse response = objectMapper.readValue(
+                        (String) message.getPayload(), JobLaunchResponse.class);
+                return new GenericMessage<JobExecutionInfo>(response.getJobExecution(),
                         message.getHeaders());
             } catch (IllegalArgumentException e) {
                 try {
@@ -69,6 +79,7 @@ public class JobLaunchResponseTransformer {
                 throw new JobExecutionException("Could not parse response", e);
             }
         } else {
+            logger.debug("Message is not String.class : " + message.getPayload());
             HttpStatus httpStatus = (HttpStatus) message.getPayload();
             throw new JobExecutionException(httpStatus.value() + " "
                     + httpStatus.getReasonPhrase());

@@ -67,7 +67,7 @@ public class Job extends Base {
    /**
     *
     */
-   private Integer jobId;
+   private Long jobId;
    /**
     *
     */
@@ -215,14 +215,14 @@ public class Job extends Base {
     /**
      * @return the jobId
      */
-    public Integer getJobId() {
+    public Long getJobId() {
         return jobId;
     }
 
     /**
      * @param newJobId the jobId to set
      */
-    public void setJobId(Integer newJobId) {
+    public void setJobId(Long newJobId) {
         this.jobId = newJobId;
     }
 

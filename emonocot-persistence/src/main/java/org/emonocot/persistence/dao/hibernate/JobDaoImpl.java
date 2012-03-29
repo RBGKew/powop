@@ -81,4 +81,14 @@ public class JobDaoImpl extends DaoImpl<Job> implements JobDao {
         return (List<Job>) criteria.list();
     }
 
+    /**
+     * @param id Set the job id
+     * @return the job
+     */
+    public final Job findByJobId(final Long id) {
+        Criteria criteria = getSession().createCriteria(type);
+        criteria.add(Restrictions.eq("jobId", id));
+        return (Job) criteria.uniqueResult();
+    }
+
 }

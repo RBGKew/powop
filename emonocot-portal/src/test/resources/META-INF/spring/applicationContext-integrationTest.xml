@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:property-placeholder
+		location="classpath*:META-INF/spring/application.properties" />
+
+	<bean name="jobStatusNotifierImpl" class="org.emonocot.portal.integration.JobStatusNotifierImpl" />
+
+	<context:property-override
+		ignore-unresolvable="true"
+		location="classpath*:META-INF/spring/application.properties" />
+
+    <context:component-scan base-package="org.emonocot.portal.remoting" />
+
+	<context:component-scan base-package="org.emonocot.service.impl">
+		<context:exclude-filter type="assignable"
+			expression="org.emonocot.service.impl.GroupServiceImpl" />
+		<context:exclude-filter type="assignable"
+			expression="org.emonocot.service.impl.UserServiceImpl" />
+		<context:exclude-filter type="assignable"
+			expression="org.emonocot.service.impl.SearchableObjectServiceImpl" />
+	</context:component-scan>
+
+	<bean name="restTemplate" class="org.springframework.web.client.RestTemplate">
+		<constructor-arg ref="clientHttpRequestFactory" />
+		<property name="messageConverters">
+			<list>
+				<ref bean="jsonConverter" />
+			</list>
+		</property>
+		<property name="errorHandler">
+			<bean class="org.emonocot.portal.remoting.LoggingResponseErrorHandler" />
+		</property>
+	</bean>
+
+	<bean id="jsonConverter"
+		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		<property name="supportedMediaTypes" value="application/json" />
+		<property name="objectMapper" ref="customObjectMapper" />
+	</bean>
+
+	<bean name="customObjectMapper"
+		class="org.emonocot.model.marshall.json.CustomObjectMapperFactory">
+		<property name="jobInstanceService" ref="jobInstanceServiceImpl" />
+	</bean>
+
+	<bean id="clientHttpRequestFactory"
+		class="org.emonocot.portal.http.StaticUsernameAndPasswordHttpClientFactory">
+		<property name="username" value="${portalWebservice.harvester.username}" />
+		<property name="password" value="${portalWebservice.harvester.password}" />
+		<property name="proxyHost" value="${http.proxyHost}" />
+		<property name="proxyPort" value="${http.proxyPort}" />
+	</bean>
+</beans>

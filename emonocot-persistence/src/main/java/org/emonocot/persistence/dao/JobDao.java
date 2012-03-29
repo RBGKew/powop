@@ -24,4 +24,11 @@ public interface JobDao extends Dao<Job> {
      */
     List<Job> list(String sourceId, Integer page, Integer size);
 
+    /**
+     *
+     * @param id Set the job id
+     * @return the job
+     */
+    Job findByJobId(Long id);
+
 }

@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +38,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
         "/META-INF/spring/batch/jobs/oaiPmhTaxonHarvesting.xml",
+        "/META-INF/spring/applicationContext-integration.xml",
         "/META-INF/spring/applicationContext-test.xml" })
 public class ChecklistHarvestingJobIntegrationTest {
 
@@ -60,8 +60,11 @@ public class ChecklistHarvestingJobIntegrationTest {
     @Autowired
     private JobLauncher jobLauncher;
 
+    /**
+     *
+     */
     @Autowired
-    private TaxonService svc;
+    private TaxonService taxonService;
 
     /**
      * 1288569600 in unix time.
@@ -84,12 +87,14 @@ public class ChecklistHarvestingJobIntegrationTest {
      *             if the job is already running
      */
     @Test
-    public final void testOaiPmhHarvest() throws IOException, NoSuchJobException,
-            JobExecutionAlreadyRunningException, JobRestartException,
-            JobInstanceAlreadyCompleteException, JobParametersInvalidException {
+    public final void testOaiPmhHarvest() throws IOException,
+            NoSuchJobException, JobExecutionAlreadyRunningException,
+            JobRestartException, JobInstanceAlreadyCompleteException,
+            JobParametersInvalidException {
 
-        if (svc.load("urn:lsid:grassbase.kew.org:taxa:387039") == null)
+        if (taxonService.load("urn:lsid:grassbase.kew.org:taxa:387039") == null) {
             fail("The taxon we need to delete is not present");
+        }
 
         Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
         parameters.put("authority.name", new JobParameter("test"));
@@ -101,8 +106,6 @@ public class ChecklistHarvestingJobIntegrationTest {
                                 Long.toString((ChecklistHarvestingJobIntegrationTest.PAST_DATETIME
                                         .getMillis()))));
         parameters.put("request.interval", new JobParameter("10000"));
-        parameters.put("temporary.file.name", new JobParameter(File
-                .createTempFile("test", ".xml").getAbsolutePath()));
         JobParameters jobParameters = new JobParameters(parameters);
 
         Job oaiPmhTaxonHarvestingJob = jobLocator
@@ -122,9 +125,9 @@ public class ChecklistHarvestingJobIntegrationTest {
 //       }
 
         assertNull("We should have deleted this taxon",
-                svc.find("urn:lsid:grassbase.kew.org:taxa:387039"));
+                taxonService.find("urn:lsid:grassbase.kew.org:taxa:387039"));
         assertEquals("The specific epithet should have been updated",
-                "johowii", svc.find("urn:kew.org:wcs:taxon:303017")
+                "johowii", taxonService.find("urn:kew.org:wcs:taxon:303017")
                         .getSpecificEpithet());
     }
 }

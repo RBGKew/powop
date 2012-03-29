@@ -2049,5 +2049,9 @@
     <changeSet id="2012-03-20_02" author="ben">
       <comment>Added Job object as part of #240: As an administrative user, I would like to list and create harvesting jobs</comment>
       <addForeignKeyConstraint constraintName="FK1239DCF3DA2C4" referencedTableName="Source" baseColumnNames="source_id" baseTableName="Job" referencedColumnNames="id"/>
-    </changeSet>    
+    </changeSet>
+    <changeSet id="2012-03-27_01" author="ben">
+      <comment>Modified column to accommodate Long #241: As an administrative user, I would like to launch jobs from the portal</comment>
+      <modifyDataType tableName="Job" columnName="jobId" newDataType="bigint"/>
+    </changeSet>
 </databaseChangeLog>
