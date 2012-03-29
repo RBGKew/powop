@@ -433,8 +433,21 @@ public class JsonConversionTest {
     *             if there is a problem serializing the object
     */
     @Test
-    public final void testJobExecutionInfo() throws Exception {
-        JobLaunchResponse jobLaunchResponse = objectMapper.readValue("{\"jobExecution\" : {\"resource\" : \"http://localhost/emonocot-harvester/emonocot-harvester/jobs/executions/546.json;jsessionid=25785ED947E586BD40D06413AA04C82F\",\"id\" : \"546\",\"status\" : \"STARTED\", \"startTime\" : \"13:29:50\", \"duration\" : \"00:00:00\", \"exitCode\" : \"UNKNOWN\", \"exitDescription\" : \"\", \"jobInstance\" : { \"resource\" : \"http://localhost/emonocot-harvester/emonocot-harvester/jobs/ReIndex/538.json;jsessionid=25785ED947E586BD40D06413AA04C82F\" }, \"stepExecutions\" : { \"reIndex\" : { \"resource\" : \"http://localhost/emonocot-harvester/emonocot-harvester/jobs/executions/546/steps/11448.json;jsessionid=25785ED947E586BD40D06413AA04C82F\", \"status\" : \"STARTED\", \"exitCode\" : \"EXECUTING\" } } } }", JobLaunchResponse.class);
+    public final void testReadJobExecutionInfo() throws Exception {
+        JobLaunchResponse jobLaunchResponse = objectMapper.readValue("{\"jobExecution\" : {\"resource\" : \"http://localhost/emonocot-harvester/emonocot-harvester/jobs/executions/546.json;jsessionid=25785ED947E586BD40D06413AA04C82F\",\"id\" : \"546\",\"status\" : \"STARTED\", \"startTime\" : \"2012-03-29T13:29:50.000Z\", \"duration\" : \"1970-01-01T00:00:00.000Z\", \"exitCode\" : \"UNKNOWN\", \"exitDescription\" : \"\", \"jobInstance\" : { \"resource\" : \"http://localhost/emonocot-harvester/emonocot-harvester/jobs/ReIndex/538.json;jsessionid=25785ED947E586BD40D06413AA04C82F\" } } }", JobLaunchResponse.class);
+    }
+
+   /**
+    *
+    * @throws Exception
+    *             if there is a problem serializing the object
+    */
+    @Test
+    public final void testWriteJobExecutionInfo() throws Exception {
+        JobExecutionInfo jobExecutionInfo = new JobExecutionInfo();
+        jobExecutionInfo.setStartTime(new DateTime(2012,3,29,14,17,0,0));
+        String actual = objectMapper.writeValueAsString(jobExecutionInfo);
+        assertEquals("Actual JSON should match expected JSON","{\"jobInstance\":null,\"exitCode\":null,\"duration\":null,\"exitDescription\":null,\"resource\":null,\"id\":null,\"startTime\":\"2012-03-29T14:17:00.000+01:00\",\"status\":null}", actual);
     }
 
     /**

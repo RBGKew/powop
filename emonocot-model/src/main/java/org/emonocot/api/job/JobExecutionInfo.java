@@ -2,8 +2,8 @@ package org.emonocot.api.job;
 
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.emonocot.model.marshall.json.HoursMinutesSecondsDateTimeDeserializer;
-import org.emonocot.model.marshall.json.HoursMinutesSecondsDateTimeSerializer;
+import org.emonocot.model.marshall.json.DateTimeDeserializer;
+import org.emonocot.model.marshall.json.DateTimeSerializer;
 import org.joda.time.DateTime;
 import org.springframework.batch.core.BatchStatus;
 
@@ -75,7 +75,7 @@ public class JobExecutionInfo {
      *
      * @param newStartTime Set the start time
      */
-    @JsonDeserialize(using = HoursMinutesSecondsDateTimeDeserializer.class)
+    @JsonDeserialize(using = DateTimeDeserializer.class)
     public final void setStartTime(final DateTime newStartTime) {
         this.startTime = newStartTime;
     }
@@ -92,7 +92,7 @@ public class JobExecutionInfo {
      *
      * @param newDuration Set the duration
      */
-    @JsonDeserialize(using = HoursMinutesSecondsDateTimeDeserializer.class)
+    @JsonDeserialize(using = DateTimeDeserializer.class)
     public final void setDuration(final DateTime newDuration) {
         this.duration = newDuration;
     }
@@ -137,7 +137,7 @@ public class JobExecutionInfo {
     /**
      * @return the startTime
      */
-    @JsonSerialize(using = HoursMinutesSecondsDateTimeSerializer.class)
+    @JsonSerialize(using = DateTimeSerializer.class)
     public final DateTime getStartTime() {
         return startTime;
     }
@@ -152,7 +152,7 @@ public class JobExecutionInfo {
     /**
      * @return the duration
      */
-    @JsonSerialize(using = HoursMinutesSecondsDateTimeSerializer.class)
+    @JsonSerialize(using = DateTimeSerializer.class)
     public final DateTime getDuration() {
         return duration;
     }

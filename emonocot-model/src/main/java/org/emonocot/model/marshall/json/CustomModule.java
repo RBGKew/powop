@@ -53,8 +53,6 @@ public class CustomModule extends Module {
                 new JobInstanceDeserializer());
         simpleDeserializers.addDeserializer(JobExecution.class,
                 new JobExecutionDeserializer(jobInstanceService));
-        simpleDeserializers.addDeserializer(JobExecutionInfo.class,
-                new JobExecutionInfoDeserializer());
         simpleDeserializers.addDeserializer(JobExecutionException.class,
                 new JobExecutionExceptionDeserializer());
         setupContext.addDeserializers(simpleDeserializers);

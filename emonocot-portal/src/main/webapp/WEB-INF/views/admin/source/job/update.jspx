@@ -25,7 +25,8 @@
     </div>
     <div class="row">
 	  <div class="span12">
-		<form:create path="/admin/source/${source.identifier}/job/${job.identifier}" modelAttribute="job">			  
+		<form:create path="/admin/source/${source.identifier}/job/${job.identifier}" modelAttribute="job">
+		      <field:hidden field="identifier"/>		  
 			  <field:input field="family" label="job.family" fieldClass="span6"/>
 			  <field:input field="uri" label="job.uri" fieldClass="span6"/>
 			  <field:select field="jobType" label="job.jobType" fieldClass="span6" items="${jobTypes}"/>

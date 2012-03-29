@@ -14,24 +14,21 @@
 	</bean>
 
 	<integration:channel id="job-info" />
-
-	<integration:transformer input-channel="job-operator" output-channel="job-info">
-		<bean class="org.springframework.batch.admin.integration.JobExecutionToInfoAdapter" />
-	</integration:transformer>
-
-	<http:inbound-gateway name="/job-requests.json" request-channel="job-launches" reply-channel="job-info"
-		view-name="jobs/customExecution.json" reply-key="jobExecutionInfo" />
-   
-    <bean name="jobs/customExecution.json" parent="standard.json">
-		<property name="attributes">
-			<props merge="true">
-				<prop key="body">/manager/jobs/json/customExecution.ftl</prop>
-				<prop key="titleCode">job.execution.title</prop>
-				<prop key="titleText">Spring Batch Admin: Job Execution</prop>
-				<prop key="baseUrl">${harvester.baseUrl}</prop>
-			</props>
-		</property>
+	<integration:channel id="job-info-json" />
+	
+	<integration:transformer input-channel="job-operator" output-channel="job-info" ref="jobExecutionToInfoAdapter" method="adapt"/>
+	
+	<bean name="jobExecutionToInfoAdapter" class="org.emonocot.harvest.integration.JobExecutionToInfoAdapter" >
+	  <property name="baseUrl" value="${harvester.baseUrl}"/>
 	</bean>
+	
+	<integration:object-to-json-transformer
+		input-channel="job-info" output-channel="job-info-json"
+		object-mapper="objectMapper" />
+
+	<http:inbound-gateway name="/job-requests.json"
+	request-channel="job-launches" reply-channel="job-info-json" extract-reply-payload="true"
+	supported-methods="POST" />
 
 	<http:inbound-gateway name="/job-restarts.json" request-channel="job-restarts" reply-channel="job-info"
 		view-name="jobs/execution" reply-key="jobExecutionInfo" />
