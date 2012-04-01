@@ -98,7 +98,7 @@
 		class="org.openarchives.pmh.marshall.xml.OpenArchivesQNameMapFactory" />	
 	
 	<bean id="itemReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
-	  <property name="useStatelessSession" value="false"/>
+	  <property name="useStatelessSession" value="true"/>
 	  <property name="sessionFactory" ref="sessionFactory" />
 	  <property name="queryString" value="#{jobParameters['query.string']}"/>	  
 	</bean>
