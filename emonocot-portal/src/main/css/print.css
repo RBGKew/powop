@@ -1,5 +1,6 @@
 .body {
    background: white;
+   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
    font-size: 12pt;
    }
    
@@ -78,4 +79,8 @@ list-style: none;
 .thumbnails > li {
 float: left;
 margin: 0 0 18px 20px;
+}
+
+.taxonName {
+font-style: italic;
 }
