@@ -460,8 +460,11 @@ public class OaiPmhClient implements StepExecutionListener {
            if (e.getClass().equals(OaiPmhException.class)) {
                throw e;
            } else {
-               throw new Exception(e.getClass() + " reading document "
-                   + temporaryFileName + " " + e.getLocalizedMessage());
+                String message = e.getClass() + " reading document "
+                        + temporaryFileName + " " + e.getLocalizedMessage()
+                        + " for identifier " + recordIdentifier;
+               logger.error(message);
+                throw new OaiPmhException(message);
            }
     } finally {
            if (bufferedInputStream != null) {

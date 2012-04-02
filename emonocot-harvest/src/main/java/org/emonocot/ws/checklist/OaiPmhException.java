@@ -30,6 +30,14 @@ public class OaiPmhException extends Exception {
     }
 
     /**
+     *
+     * @param string Set the error
+     */
+    public OaiPmhException(final String string) {
+        super(string);
+    }
+
+    /**
      * @return the error code
      */
     public final ErrorCode getCode() {
