@@ -1,4 +1,4 @@
-package org.emonocot.job.checklist;
+package org.emonocot.harvest.common;
 
 import java.io.File;
 import java.util.UUID;

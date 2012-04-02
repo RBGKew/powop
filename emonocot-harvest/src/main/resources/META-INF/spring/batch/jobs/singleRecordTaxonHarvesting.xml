@@ -58,7 +58,7 @@
 		</batch:step>
 	</batch:job>
 	
-	<bean id="setTemporaryFilenameTasklet" class="org.emonocot.job.checklist.SetTemporaryFilenameTasklet">
+	<bean id="setTemporaryFilenameTasklet" class="org.emonocot.harvest.common.SetTemporaryFilenameTasklet">
 		<property name="harvesterSpoolDirectory" value="${harvester.spool.directory}"/>
 	</bean>
 

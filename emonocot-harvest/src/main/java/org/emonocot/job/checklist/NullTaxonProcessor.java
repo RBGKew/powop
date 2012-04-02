@@ -145,7 +145,7 @@ public class NullTaxonProcessor extends AuthorityAware implements ItemProcessor<
                 Record record = staxEventItemReader.read();
                 staxEventItemReader.close();
                 if (record.getHeader().getStatus() != null
-                        && record.getHeader().getSetSpec()
+                        && record.getHeader().getStatus()
                                 .equals(Status.deleted)) {
                     taxon.setDeleted(true);
                     return taxon;
