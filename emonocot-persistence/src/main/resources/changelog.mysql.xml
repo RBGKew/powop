@@ -2054,4 +2054,75 @@
       <comment>Modified column to accommodate Long #241: As an administrative user, I would like to launch jobs from the portal</comment>
       <modifyDataType tableName="Job" columnName="jobId" newDataType="bigint"/>
     </changeSet>
+    <changeSet id="2012-04-02_01" author="ben">
+      <comment>Created new data type IdentificationKey #257: As an administrator, I would like to harvest a multi-access key so that it can be displayed in the portal</comment>
+      <createTable tableName="IdentificationKey">
+        <column name="id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>
+        <column name="created" type="datetime"/>
+        <column name="creator" type="varchar(255)"/>
+        <column name="identifier" type="varchar(255)">
+          <constraints nullable="false"  unique="true"/>
+        </column>
+        <column name="license" type="varchar(255)"/>        
+        <column name="modified" type="datetime"/>
+        <column name="source" type="varchar(255)"/>
+        <column name="description" type="longtext"/>
+        <column name="title" type="varchar(255)"/>
+        <column name="authority_id" type="bigint"/>
+        <column name="taxon_id" type="bigint"/>        
+      </createTable>
+    </changeSet>
+    <changeSet id="2012-04-02_02" author="ben">
+      <comment>Created new data type IdentificationKey #257: As an administrator, I would like to harvest a multi-access key so that it can be displayed in the portal</comment>
+      <createTable tableName="IdentificationKey_Source">
+        <column name="IdentificationKey_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>
+        <column name="sources_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>             
+      </createTable>
+    </changeSet>
+    <changeSet id="2012-04-02_03" author="ben">
+      <comment>Created new data type IdentificationKey #257: As an administrator, I would like to harvest a multi-access key so that it can be displayed in the portal</comment>
+      <addForeignKeyConstraint constraintName="FKC35AE4F11EDCD08D" referencedTableName="Taxon" baseColumnNames="taxon_id" baseTableName="IdentificationKey" referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-04-02_04" author="ben">
+      <comment>Created new data type IdentificationKey #257: As an administrator, I would like to harvest a multi-access key so that it can be displayed in the portal</comment>
+      <addForeignKeyConstraint constraintName="FKC35AE4F16B53D29C" referencedTableName="Source" baseColumnNames="authority_id" baseTableName="IdentificationKey" referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-04-02_05" author="ben">
+      <comment>Created new data type IdentificationKey #257: As an administrator, I would like to harvest a multi-access key so that it can be displayed in the portal</comment>
+      <addForeignKeyConstraint constraintName="FK2FBD2B49F247EE07" referencedTableName="Source" baseColumnNames="sources_id" baseTableName="IdentificationKey_Source" referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-04-02_06" author="ben">
+      <comment>Created new data type IdentificationKey #257: As an administrator, I would like to harvest a multi-access key so that it can be displayed in the portal</comment>
+      <addForeignKeyConstraint constraintName="FK2FBD2B492774E4A2" referencedTableName="IdentificationKey" baseColumnNames="IdentificationKey_id" baseTableName="IdentificationKey_Source" referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet author="ben" id="2012-04-02_07">
+        <comment>Created new data type IdentificationKey #257: As an administrator, I would like to harvest a multi-access key so that it can be displayed in the portal</comment>
+        <createIndex indexName="IdentificationKey_Taxon_IDX" tableName="IdentificationKey" unique="false">
+            <column name="taxon_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2012-04-02_08">
+        <comment>Created new data type IdentificationKey #257: As an administrator, I would like to harvest a multi-access key so that it can be displayed in the portal</comment>
+        <createIndex indexName="IdentificationKey_Source_IDX" tableName="IdentificationKey" unique="false">
+            <column name="authority_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2012-04-02_09">
+        <comment>Created new data type IdentificationKey #257: As an administrator, I would like to harvest a multi-access key so that it can be displayed in the portal</comment>
+        <createIndex indexName="IdentificationKey_Source_IdentificationKey_IDX" tableName="IdentificationKey_Source" unique="false">
+            <column name="IdentificationKey_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2012-04-02_10">
+        <comment>Created new data type IdentificationKey #257: As an administrator, I would like to harvest a multi-access key so that it can be displayed in the portal</comment>
+        <createIndex indexName="IdentificationKey_Source_Source_IDX" tableName="IdentificationKey_Source" unique="false">
+            <column name="sources_id"/>
+        </createIndex>
+    </changeSet>
 </databaseChangeLog>

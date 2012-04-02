@@ -34,6 +34,7 @@ import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.identifier.Identifier;
+import org.emonocot.model.key.IdentificationKey;
 import org.emonocot.model.marshall.json.ImageDeserializer;
 import org.emonocot.model.marshall.json.ImageSerializer;
 import org.emonocot.model.marshall.json.ReferenceDeserializer;
@@ -99,6 +100,11 @@ public class Taxon extends SearchableObject {
      *
      */
     private List<Image> images = new ArrayList<Image>();
+
+    /**
+     *
+     */
+    private Set<IdentificationKey> keys = new HashSet<IdentificationKey>();
 
     /**
      *
@@ -854,5 +860,20 @@ public class Taxon extends SearchableObject {
     @JsonManagedReference("identifier-taxon")
     public void setIdentifiers(Set<Identifier> newIdentifiers) {
         this.identifiers = newIdentifiers;
+    }
+
+    /**
+     * @return the keys
+     */
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon")
+    public Set<IdentificationKey> getKeys() {
+        return keys;
+    }
+
+    /**
+     * @param keys the keys to set
+     */
+    public void setKeys(Set<IdentificationKey> keys) {
+        this.keys = keys;
     }
 }
