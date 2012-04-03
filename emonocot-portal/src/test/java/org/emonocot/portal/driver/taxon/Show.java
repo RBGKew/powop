@@ -34,6 +34,7 @@ public class Show extends PageObject implements IllustratedPage {
      */
     @FindBy(how = How.ID, using = "textContent")
     private WebElement textContent;
+    
 
     /**
      *
@@ -263,6 +264,13 @@ public class Show extends PageObject implements IllustratedPage {
 	public final String getTextualDistribution() {
 		return textualDistribution.getText();
 	}
+
+	public boolean doesClassificationExist(String classificationTree) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
 
 	
 

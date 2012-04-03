@@ -359,6 +359,7 @@
 					</c:forEach>
 				</ul>
 			</section>
+			<c:if test="${taxon.accepted == null}">
 			<section id="taxonomicTree">
 			<h5><spring:message code="taxonomicTree" /></h5>
 			<ul id="taxonHierarchy">
@@ -367,6 +368,7 @@
 				</c:if>
 			</ul>
 			</section>
+			</c:if>
 		</div>
 	</div>
 </div>

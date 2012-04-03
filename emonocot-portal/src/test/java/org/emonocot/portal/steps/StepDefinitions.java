@@ -523,6 +523,8 @@ public class StepDefinitions {
                 ((org.emonocot.portal.driver.taxon.Show) currentPage)
                         .getChildrenNumber());
     }
+    
+    
 
     /**
      * @param results
@@ -1083,6 +1085,7 @@ public class StepDefinitions {
     public final void theDistributionShouldList(final String distribution) {
     	assertEquals(((org.emonocot.portal.driver.taxon.Show)currentPage).getTextualDistribution(), distribution);
     }
+    
 
     /**
      * @author ben
