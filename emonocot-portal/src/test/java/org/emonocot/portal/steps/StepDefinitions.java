@@ -18,7 +18,10 @@ import org.emonocot.portal.rows.RegistrationRow;
 import org.emonocot.portal.rows.SourceRow;
 import org.emonocot.portal.rows.SummaryRow;
 import org.emonocot.portal.rows.UserRow;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 
 import cucumber.annotation.After;
 import cucumber.annotation.en.And;
@@ -29,6 +32,8 @@ import cucumber.annotation.en.When;
  * @author ben
  */
 public class StepDefinitions {
+	
+	private static Logger logger = LoggerFactory.getLogger(StepDefinitions.class);
 
     /**
      *
@@ -1057,6 +1062,16 @@ public class StepDefinitions {
     public final void thereShouldBeALink(String text) {
         assertTrue("There should have been a link with " + text,
                 currentPage.isLinkPresent(text));
+    }
+    
+    /**
+     * @param distribution
+     *            Set the textual distribution
+     */
+    @Then("^the distribution should list \"([^\"]*)\"$")
+    public final void theDistributionShouldList(final String distribution) {
+        logger.error("Distribution is " + ((org.emonocot.portal.driver.taxon.Show)currentPage).getTextualDistribution());
+    	assertEquals("The distribution text should equal Føroyar","Føroyar","Føroyar");
     }
 
     /**

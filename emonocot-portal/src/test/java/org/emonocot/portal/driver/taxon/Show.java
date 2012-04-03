@@ -22,6 +22,12 @@ public class Show extends PageObject implements IllustratedPage {
      */
     @FindBy(how = How.ID, using = "page-title")
     private WebElement title;
+    
+    /**
+    *
+    */
+    @FindBy(how = How.ID, using = "distribution-list")
+    private WebElement textualDistribution;
 
     /**
      *
@@ -34,7 +40,7 @@ public class Show extends PageObject implements IllustratedPage {
      */
     @FindBy(how = How.ID, using = "protologue")
     private WebElement protologue;
-
+    
     /**
      *
      */
@@ -253,5 +259,11 @@ public class Show extends PageObject implements IllustratedPage {
         WebElement link = protologue.findElement(By.tagName("a"));
         return link.getAttribute("href");
     }
+
+	public final String getTextualDistribution() {
+		return textualDistribution.getText();
+	}
+
+	
 
 }

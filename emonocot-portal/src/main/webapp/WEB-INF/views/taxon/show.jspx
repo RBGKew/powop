@@ -266,7 +266,7 @@
 					
 					<ul id="distribution-textual">
 						<c:forEach var="region" items="${em:regions(taxon)}">
-							<li>
+							<li id="distribution-list">
 								<spring:message code="${region}" />
 							</li>
 						</c:forEach>
