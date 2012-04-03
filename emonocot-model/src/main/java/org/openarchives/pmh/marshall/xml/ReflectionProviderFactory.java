@@ -1,5 +1,12 @@
 package org.openarchives.pmh.marshall.xml;
 
+import org.springframework.beans.factory.config.AbstractFactoryBean;
+
+import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
+import com.thoughtworks.xstream.converters.reflection.ReflectionProvider;
+import com.thoughtworks.xstream.converters.reflection.SortableFieldKeySorter;
+import com.thoughtworks.xstream.converters.reflection.Sun14ReflectionProvider;
+
 import org.emonocot.voc.Habitat;
 import org.emonocot.voc.Lifeform;
 import org.kew.grassbase.ontology.QuantitativeData;

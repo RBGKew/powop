@@ -20,7 +20,19 @@
 			<batch:description>Get the sdd file</batch:description>
 			<batch:tasklet ref="getIdentificationKeyTasklet" />
 			<batch:next on="NOT MODIFIED" to="cleanupResourcesNotModified" />
-			<batch:next on="COMPLETED" to="cleanupResources" />
+			<batch:next on="COMPLETED" to="processTaxonNames" />
+		</batch:step>
+		<batch:step id="processTaxonNames">
+		    <batch:description>Process the records</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="taxonNameReader" processor="taxonNameProcessor"
+					writer="itemWriter" commit-interval="10">
+			    </batch:chunk>
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="cleanupResources" />	
+			<batch:listeners>
+			  <batch:listener ref="hibernateSessionClearingChunkListener"/>
+			</batch:listeners>					
 		</batch:step>
 		<batch:step id="cleanupResourcesNotModified">
 			<batch:description>Cleanup the resources</batch:description>
@@ -63,6 +75,65 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="taxonNameReader" class="org.emonocot.job.io.StaxEventItemReader"
+		scope="step">
+		<property name="fragmentRootElementName" value="TaxonName" />
+		<property name="resource">
+			<bean class="org.springframework.core.io.FileSystemResource"
+				scope="step">
+				<constructor-arg value="#{jobExecutionContext['temporary.file.name']}" />
+			</bean>
+		</property>
+		<property name="unmarshaller" ref="keyUnmarshaller" />
+		<property name="encoding" value="UTF-8"/>
+	</bean>
+	
+	<bean id="taxonNameProcessor" class="org.emonocot.job.key.TaxonNameProcessor" scope="step">
+      <property name="nameParser" ref="nameParser"/>
+      <property name="taxonMatcher" ref="taxonMatcher"/>
+      <property name="sourceService" ref="sourceServiceImpl"/>
+      <property name="sourceName" value="#{jobParameters['authority.name']}"/>
+    </bean>
+	
+	
+	<bean id="itemWriter"
+		class="org.springframework.batch.item.database.HibernateItemWriter">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="clearSession" value="false"/>
+	</bean>
+	
+	<bean id="hibernateSessionClearingChunkListener" class="org.emonocot.harvest.common.HibernateSessionClearingChunkListener"/>
+	
+	<bean id="keyUnmarshaller" class="org.emonocot.model.marshall.xml.XStreamMarshaller">
+		<property name="autodetectAnnotations" value="true" />		
+		<property name="streamDriver" ref="streamDriver" />
+		<property name="converters">
+			<list>
+				<bean class="org.emonocot.model.marshall.xml.UriConverter" />
+			</list>
+		</property>
+		<property name="aliases">
+		  <map>
+		    <entry>
+		      <key>
+		        <value>TaxonName</value>
+		      </key>
+		      <value>org.tdwg.ubif.TaxonName</value>
+		    </entry>
+		  </map>
+		</property>
+	</bean>
+
+	<bean id="streamDriver" class="org.emonocot.model.marshall.xml.StaxDriver">
+		<constructor-arg ref="qNameMap" />
+		<property name="repairingNamespace" value="false" />
+		<property name="xmlInputFactory">
+			<bean class="com.bea.xml.stream.MXParserFactory" />
+		</property>
+	</bean>
+
+	<bean id="qNameMap" class="org.tdwg.ubif.marshall.xml.QNameMapFactory" />
 
 	<bean id="getResourceClient" class="org.emonocot.ws.GetResourceClient">
 		<property name="proxyHost" value="${http.proxyHost}" />

@@ -1041,19 +1041,30 @@ public class StepDefinitions {
         currentPage = portal.getHomePage();
     }
 
+    /**
+     *
+     * @param text Set the text
+     */
     @When("^I select the \"([^\"]+)\" link in the navbar$")
     @And("^I select the \"([^\"]+)\" link in the page$")
-    public final void iSelectLink(String text) {
+    public final void iSelectLink(final String text) {
         currentPage = portal.selectLink(text);
     }
 
+    /**
+     *
+     */
     @When("^I am on the classify page$")
     public final void openTheClassifyPage() {
         currentPage = portal.getClassifyPage();
     }
 
+    /**
+     *
+     * @param relativePath
+     */
     @Then("^I should be on the \"([^\"]+)\" page$")
-    public final void iShouldBeOnThePageURL(String relativePath) {
+    public final void iShouldBeOnThePageURL(final String relativePath) {
         assertEquals("The URI should be \"" + relativePath + "\".",
                 relativePath, currentPage.getUri());
     }
@@ -1063,15 +1074,14 @@ public class StepDefinitions {
         assertTrue("There should have been a link with " + text,
                 currentPage.isLinkPresent(text));
     }
-    
+
     /**
      * @param distribution
      *            Set the textual distribution
      */
     @Then("^the distribution should list \"([^\"]*)\"$")
     public final void theDistributionShouldList(final String distribution) {
-        logger.error("Distribution is " + ((org.emonocot.portal.driver.taxon.Show)currentPage).getTextualDistribution());
-    	assertEquals("The distribution text should equal Føroyar","Føroyar","Føroyar");
+    	assertEquals(((org.emonocot.portal.driver.taxon.Show)currentPage).getTextualDistribution(), distribution);
     }
 
     /**
