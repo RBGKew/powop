@@ -29,9 +29,9 @@ public class ImageDaoImpl extends DaoImpl<Image> implements ImageDao {
         return null;
     }
 
-    public Page<Image> searchByExample(Image arg0, boolean arg1, boolean arg2) {
-        // TODO Auto-generated method stub
-        return null;
+    public Page<Image> searchByExample(Image example, boolean ignoreCase,
+            boolean useLike) {
+        throw new UnsupportedOperationException("Remote searching by example is unimplemented");
     }
 
 }

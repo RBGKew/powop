@@ -40,7 +40,7 @@ public class ClassificationController {
     }
     
     @RequestMapping(value = "/classification" , method = RequestMethod.GET)
-    public final String classify(final Model model){
+    public final String classification(final Model model){
     	List<Taxon> results = taxonService.loadChildren(null, 20, 0, "taxon-with-children");
     	model.addAttribute("result", results);
     	return "classification";

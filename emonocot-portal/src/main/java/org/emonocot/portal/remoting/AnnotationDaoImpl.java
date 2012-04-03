@@ -21,10 +21,9 @@ public class AnnotationDaoImpl extends DaoImpl<Annotation> implements
         super(Annotation.class, "annotation");
     }
 
-    public Page<Annotation> searchByExample(Annotation arg0, boolean arg1,
-            boolean arg2) {
-        // TODO Auto-generated method stub
-        return null;
+    public Page<Annotation> searchByExample(Annotation example, boolean ignoreCase,
+            boolean useLike) {
+        throw new UnsupportedOperationException("Remote searching by example is unimplemented");
     }
 
 }

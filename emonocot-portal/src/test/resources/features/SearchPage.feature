@@ -32,6 +32,10 @@ Background:
   | 123        | http://upload.wikimedia.org/wikipedia/commons/7/7b/Poa_annua.jpeg  | Poa annua | Habit           | Rasbak           | Nederlands                        |
   | 456        | http://upload.wikimedia.org/wikipedia/commons/4/4f/Poa.annua.jpg   | Poa annua | Panicle         | James K. Lindsey | Commanster, Belgian High Ardennes |
   | 789        | http://upload.wikimedia.org/wikipedia/commons/7/78/Poa.annua.2.jpg | Poa annua | Panicle         | James K. Lindsey | Commanster, Belgian High Ardennes |
+#Unimplemented
+#  And there are identification keys with the following properties:
+#  | identifier   | title 
+#  | 987          | Key to the subtribes of Orchidaceae |
   And I am on the search page
 
 Scenario: Search for a single taxon
@@ -171,3 +175,17 @@ Scenario: Sort taxa by Recency
   | urn:kew.org:wcs:taxon:286806  | Rhipogonum fawcettianum |
   | urn:kew.org:wcs:taxon:286793  | Rhipogonum elseyanum    |
   | urn:kew.org:wcs:taxon:286768  | Rhipogonum              |
+
+  
+Scenario: Search for identification key
+  As a user of eMonocot I want to find an identification tool that can help
+  me identify a plant
+  http://build.e-monocot.org/bugzilla/show_bug.cgi?id=144
+#Unimplemented
+#  When I search for "Orchid key"
+#  Then I should be on the search results page
+# Then the following results should be displayed:
+# ...
+#  And "Keys" should be one of the facets
+#  And there should be a "Key to the subtribes of Orchidaceae" link on the page.
+  

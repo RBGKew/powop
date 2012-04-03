@@ -277,6 +277,11 @@ public class PageObject {
                         .getAttribute("href"), Contact.class);
     }
 
+    /**
+     * @param text partial text of link to search for
+     * @return false if there is a NoSuchElementException is thrown
+     *  true otherwise
+     */
     public final boolean isLinkPresent(String text) {
         try {
             webDriver.findElement(By.partialLinkText(text));

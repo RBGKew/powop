@@ -65,9 +65,9 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
         return null;
     }
 
-    public Page<Taxon> searchByExample(Taxon arg0, boolean arg1, boolean arg2) {
-        // TODO Auto-generated method stub
-        return null;
+    public Page<Taxon> searchByExample(Taxon example, boolean ignoreCase,
+            boolean useLike) {
+        throw new UnsupportedOperationException("Remote searching by example is unimplemented");
     }
 
 }
