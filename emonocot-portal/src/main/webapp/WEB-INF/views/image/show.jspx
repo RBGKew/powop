@@ -32,7 +32,7 @@
 			</h5>	
 			<br/>
 			<div class="centeredImage">
-				<img id="main-img" src="${image.url}" title="${image.caption}" alt="${status.index}" />
+				<img id="main-img" class=" imageSize" src="${image.url}" title="${image.caption}" alt="${status.index}" />
 			</div>
 			<br/>
 			<table class="table" id="image-properties">
