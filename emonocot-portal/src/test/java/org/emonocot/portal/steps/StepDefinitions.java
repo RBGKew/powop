@@ -853,6 +853,18 @@ public class StepDefinitions {
         assertFalse(((org.emonocot.portal.driver.taxon.Show) currentPage)
                 .doesParagraphExist(heading));
     }
+    
+    /**
+     * /**
+     * 
+     * @param heading
+     *            Set the classification heading
+     */
+    @Then("^there should not be a section with the heading \"([^\"]*)\"$")
+    public void thereShouldNotBeASectionWithTheHeading(String classification) {
+    	assertFalse(((org.emonocot.portal.driver.taxon.Show) currentPage)
+                .doesClassificationExist(classification));
+    }
 
     /**
      * @param protologue
