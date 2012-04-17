@@ -80,3 +80,7 @@ insert into Taxon (id, identifier,name,genus,specificEpithet,rank) values (78, '
 insert into Taxon (id, identifier,name,genus,specificEpithet,rank) values (79, 'urn:kew.org:wcs:taxon:16371','Arum rupicola','Arum','rupicola','SPECIES');
 insert into Taxon (id, identifier,name,genus,specificEpithet,rank) values (80, 'urn:kew.org:wcs:taxon:16386','Arum sintenisii','Arum','sintenisii','SPECIES');
 insert into Distribution (id, region, taxon_id) values (1,'DOM',23);
+insert into Annotation (id, annotatedObjId, annotatedObjType, code, type, jobId) values (1,1,'Taxon','Create','Info', 600);
+insert into Annotation (id, annotatedObjId, annotatedObjType, code, type, jobId) values (2,1,'Taxon','Present','Info', 601);
+insert into Annotation (id, annotatedObjId, annotatedObjType, code, type, jobId) values (3,1,'Taxon','Absent','Warn', 602);
+insert into Annotation (id, annotatedObjId, annotatedObjType, code, type, jobId) values (4,1,'Taxon','Absent','Warn', 603);

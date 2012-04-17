@@ -30,7 +30,7 @@ public class TaxonCheckingValidator extends DarwinCoreValidator<Taxon> {
         if (taxon.getIdentifier() == null) {
             throw new NoIdentifierException(taxon);
         }
-        Taxon persistedTaxon = getTaxonService().find(taxon.getIdentifier());
+        Taxon persistedTaxon = getTaxonService().find(taxon.getIdentifier(), "taxon-with-annotations");
         if (persistedTaxon == null) {
             throw new CannotFindRecordException(taxon.getIdentifier());
         }
