@@ -37,6 +37,7 @@ public class TaxonCheckingValidator extends DarwinCoreValidator<Taxon> {
 
         boolean anAnnotationPresent = false;
         for (Annotation annotation : persistedTaxon.getAnnotations()) {
+        	logger.info("Comparing " + annotation.getJobId() + " with " + getStepExecution().getJobExecutionId());
             if (annotation.getJobId().equals(
                     getStepExecution().getJobExecutionId())) {
                 if (annotation.getCode().equals(AnnotationCode.Present)) {
@@ -50,8 +51,10 @@ public class TaxonCheckingValidator extends DarwinCoreValidator<Taxon> {
         }
 
         if (!anAnnotationPresent) {
+        	logger.warn(taxon.getIdentifier() + " was not expected");
             throw new UnexpectedTaxonException(taxon);
         } else {
+        	logger.info(taxon.getIdentifier() + " was expected");
             /**
              * Using java.util.Collection.contains() does not work on lazy
              * collections.
