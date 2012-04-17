@@ -70,6 +70,7 @@ public class GrassbaseDwcProcessor {
 
         while (scanner.hasNext()) {
             String line = scanner.next();
+            logger.trace("LINE " + line); 
             line = line.substring(0, line.length() - 1);
             Matcher identifierMatcher = identifierPattern.matcher(line);
             if (identifierMatcher.matches()) {
@@ -81,7 +82,7 @@ public class GrassbaseDwcProcessor {
                 TaxonInfo taxonInfo = new TaxonInfo(checklistId, name, link);
                 identifiers.put(name, taxonInfo);
             } else {
-                System.out.println(line);
+                logger.warn("LINE DOESNT MATCH " + line);
             }
         }
         logger.debug(identifiers.keySet().size() + " identifiers parsed");
@@ -196,6 +197,7 @@ public class GrassbaseDwcProcessor {
         out.flush();
         out.close();
         PrintFile printer = new PrintFile(pout, 0);
+        printer.setTrimInput(false);
         ItemListTypeSetter typeSetter = new DarwinCoreTypeSetter(printer);
         DeltaContext deltaContext = new DeltaContext();
         ItemFormatter itemFormatter = new ItemFormatter(false,

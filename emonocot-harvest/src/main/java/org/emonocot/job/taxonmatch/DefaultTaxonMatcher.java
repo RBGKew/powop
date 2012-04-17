@@ -16,6 +16,7 @@ import org.emonocot.model.pager.Page;
 import org.emonocot.model.taxon.Taxon;
 import org.gbif.ecat.model.ParsedName;
 import org.gbif.ecat.parser.NameParser;
+import org.gbif.ecat.voc.Rank;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,11 +52,36 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
      * )
      */
     public final List<Match<Taxon>> match(final ParsedName<String> parsed) {
-        String searchTerm = parsed.canonicalName();// .buildName(true, true, false, false, false, false, true, false, false, false);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("genus:" + parsed.getGenusOrAbove());
+        if (parsed.getSpecificEpithet() != null) {
+            stringBuilder.append(" AND specificEpithet:"
+                    + parsed.getSpecificEpithet());
+        }
+        if (parsed.getInfraGeneric() != null) {
+            stringBuilder.append(" AND infraGenericEpithet:"
+                    + parsed.getInfraGeneric());
+        }
+        if (parsed.getInfraSpecificEpithet() != null) {
+            stringBuilder.append(" AND infraSpecificEpithet:"
+                    + parsed.getInfraSpecificEpithet());
+        }
+        if (parsed.getRank() != null) {
+            if (!parsed.getRank().isSpeciesOrBelow()) {
+
+            } else if (parsed.getRank().equals(Rank.SPECIES)) {
+                stringBuilder.append(" AND rank:species");
+            } else {
+
+            }
+
+        }
+        // String searchTerm = parsed.canonicalName();// .buildName(true, true,
+        // false, false, false, false, true, false, false, false);
+        String searchTerm = stringBuilder.toString();
         logger.debug("Attempting to match " + searchTerm);
         List<Match<Taxon>> matches = new ArrayList<Match<Taxon>>();
-        Page<Taxon> page = taxonService.search("\"" + searchTerm
-                + "\" ", null, null, null, null, null, null, null);
+        Page<Taxon> page = taxonService.search(searchTerm, null, null, null, null, null, null, null);
 
         switch (page.getRecords().size()) {
         case 0:

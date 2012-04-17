@@ -36,7 +36,6 @@ public class GrassbaseDwcTest {
 
         processor
                 .processIdentifiers("target/test-classes/org/grassbase/GrassChecklist.txt");
-        processor.process("target/test-classes/org/grassbase/",
-                "target/out.txt");
+        processor.process("target/test-classes/org/grassbase/", "target/out.txt");
     }
 }

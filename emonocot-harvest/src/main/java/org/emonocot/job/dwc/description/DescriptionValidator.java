@@ -57,6 +57,7 @@ public class DescriptionValidator extends DarwinCoreValidator<TextContent> {
                         RecordType.TextContent, AnnotationCode.Update,
                         AnnotationType.Info);
                 persistedContent.getAnnotations().add(annotation);
+                persistedContent.setContent(textContent.getIdentifier());
                 persistedContent.setContent(textContent.getContent());
                 persistedContent.setCreated(textContent.getCreated());
                 persistedContent.setModified(textContent.getModified());

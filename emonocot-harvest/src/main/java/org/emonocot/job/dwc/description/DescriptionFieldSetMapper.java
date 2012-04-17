@@ -35,9 +35,9 @@ import org.springframework.format.datetime.joda.DateTimeParser;
 import org.springframework.validation.BindException;
 
 /**
- * 
+ *
  * @author ben
- * 
+ *
  */
 public class DescriptionFieldSetMapper extends
         DarwinCoreFieldSetMapper<TextContent> implements ChunkListener,
@@ -135,6 +135,9 @@ public class DescriptionFieldSetMapper extends
                 break;
             case type:
                 object.setFeature(Feature.fromString(value));
+                break;
+            case identifier:
+                object.setIdentifier(value);
                 break;
             default:
                 break;

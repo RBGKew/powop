@@ -8,11 +8,12 @@ import org.emonocot.harvest.common.AuthorityAware;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.AnnotationType;
-import org.emonocot.model.common.Base;
 import org.emonocot.model.common.RecordType;
 import org.emonocot.model.taxon.Taxon;
 import org.gbif.ecat.model.ParsedName;
 import org.gbif.ecat.parser.NameParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
 import org.tdwg.ubif.TaxonName;
 
@@ -23,6 +24,10 @@ import org.tdwg.ubif.TaxonName;
  */
 public class TaxonNameProcessor extends AuthorityAware implements
         ItemProcessor<TaxonName, Annotation> {
+    /**
+     *
+     */
+    private Logger logger = LoggerFactory.getLogger(TaxonNameProcessor.class);
 
     /**
     *
@@ -90,6 +95,7 @@ public class TaxonNameProcessor extends AuthorityAware implements
                     RecordType.Taxon, code, annotationType);
             annotation.setValue(item.getId());
             annotation.setText(text);
+            logger.debug(text);
             return annotation;
         }
     }

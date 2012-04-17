@@ -5,8 +5,15 @@ import static org.junit.Assert.assertNotNull;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.emonocot.model.taxon.Taxon;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.search.FullTextSession;
+import org.hibernate.search.Search;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.junit.Before;
@@ -64,6 +71,12 @@ public class IdentificationKeyJobIntegrationTest {
     private JobLauncher jobLauncher;
 
     /**
+     *
+     */
+    @Autowired
+    private SessionFactory sessionFactory;
+
+    /**
      * 1288569600 in unix time.
      */
     private static final BaseDateTime PAST_DATETIME
@@ -90,6 +103,16 @@ public class IdentificationKeyJobIntegrationTest {
             NoSuchJobException, JobExecutionAlreadyRunningException,
             JobRestartException, JobInstanceAlreadyCompleteException,
             JobParametersInvalidException {
+        Session session = sessionFactory.openSession();
+        FullTextSession fullTextSession = Search.getFullTextSession(session);
+        Transaction tx = fullTextSession.beginTransaction();
+
+        List<Taxon> taxa = session.createQuery("from Taxon as taxon").list();
+        for (Taxon taxon : taxa) {
+            fullTextSession.index(taxon);
+        }
+        tx.commit();
+
         Map<String, JobParameter> parameters =
             new HashMap<String, JobParameter>();
         parameters.put("authority.name", new JobParameter(

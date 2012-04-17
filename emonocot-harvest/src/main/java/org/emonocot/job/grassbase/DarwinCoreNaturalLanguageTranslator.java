@@ -80,11 +80,11 @@ public class DarwinCoreNaturalLanguageTranslator extends
             itemLink = "";
         }
 
-        String heading = checklistIdentifier + "\t"
+        String heading = checklistIdentifier + "\t"+ itemLink + "\t"
                 + itemLink + "\t";
         _typeSetter.beforeItemHeading();
 
-        _printer.writeJustifiedText(heading, -1);
+        _printer.writeJustifiedText(heading,0);
 
         _typeSetter.afterItemHeading();
     }
