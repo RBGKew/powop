@@ -89,6 +89,22 @@ public class SearchController {
     public final void setImageService(final ImageService newImageService) {
         this.imageService = newImageService;
     }
+    
+    private Integer setLimit(String view, String className) {
+    	if( view == null){
+    		if(className == null){
+        		return 10;
+        	} else if (className.equals("org.emonocot.model.media.Image")) {
+        		return 20;
+        	} else {return 10;}
+    	} else if (view.equals("list")) {
+            return 10;
+        } else if (view.equals("grid")) {
+            return 20;
+        } else {
+            return 20;
+        }
+    }
 
     /**
      *
@@ -112,7 +128,7 @@ public class SearchController {
         @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
         @RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
         @RequestParam(value = "sort", required = false) @SortingFormat final Sorting sort,
-        @RequestParam(value = "view", required = false, defaultValue = "list") final String view,
+        @RequestParam(value = "view", required = false) String view,
         final Model model) {
 
         Map<FacetName, String> selectedFacets = null;
@@ -156,30 +172,25 @@ public class SearchController {
         FacetName[] responseFacets = new FacetName[]{};
         responseFacets = responseFacetList.toArray(responseFacets);
 
-        if (view == null || view.equals("list")) {
-            limit = 10;
-        } else if (view.equals("grid")) {
-            limit = 20;
-        } else {
-            limit = 20;
-        }
         //Run the search
         Page<? extends SearchableObject> result = null;
-        if (selectedFacets == null
-                || !selectedFacets.containsKey(FacetName.CLASS)) {
+        if (selectedFacets == null || !selectedFacets.containsKey(FacetName.CLASS)) {
+        	limit = setLimit(view, null);
+        	
             result = searchableObjectService.search(
                     query, null, limit, start, responseFacets,
                     selectedFacets, sort, "taxon-with-image");
         } else {
-            if (selectedFacets.get(FacetName.CLASS).equals(
-                    "org.emonocot.model.media.Image")) {
+            if (selectedFacets.get(FacetName.CLASS).equals("org.emonocot.model.media.Image")) {
                 logger.debug("Using the image service for " + query);
-                result = imageService.search(query, null, limit, start,
+                limit = setLimit(view,selectedFacets.get(FacetName.CLASS));
+                result = imageService.search(query, null , limit, start,
                         responseFacets,
                         selectedFacets, sort, "image-taxon");
             } else if (selectedFacets.get(FacetName.CLASS).equals(
                     "org.emonocot.model.taxon.Taxon")) {
                 logger.debug("Using the taxon service for " + query);
+                limit = setLimit(view,selectedFacets.get(FacetName.CLASS));
                 result = taxonService.search(query, null, limit, start,
                         responseFacets,
                         selectedFacets, sort, "taxon-with-image");
@@ -192,7 +203,7 @@ public class SearchController {
                 + "facet: [{}], {} results", new Object[] {query,
                 start, limit, selectedFacets, result.getSize() });
         result.putParam("query", query);
-
+        
         result.putParam("view", view);
 
         result.setSort(sort);

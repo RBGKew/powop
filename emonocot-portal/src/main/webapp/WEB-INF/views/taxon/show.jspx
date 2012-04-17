@@ -264,7 +264,7 @@
 							
 					</script>
 					
-					<ul id="distribution-textual">
+					<ul id="distribution-textual" class="paddingTop20">
 						<c:forEach var="region" items="${em:regions(taxon)}">
 							<li id="distribution-list">
 								<spring:message code="${region}" />
@@ -317,6 +317,21 @@
 					</ul>
 				</section>
 			</c:if>
+			<section id="sources">
+				<h2><spring:message code="sources" /></h2>
+				<ul>
+					<c:forEach var="source" items="${taxon.sources}">
+						<li>
+							<jsp:element name="a">
+								<jsp:attribute name="href">
+									<c:url value="/source/${source.identifier}" />
+								</jsp:attribute>
+								${source.title}
+							</jsp:element>
+						</li>
+					</c:forEach>
+				</ul>
+			</section>
 			<c:if test="${not empty bibliography.references}">
 				<section id="bibliography">
 					<div class="section-header">
@@ -344,21 +359,7 @@
 			</c:if>
 		</div>
 		<div class="span3 info-right">
-			<section id="sources">
-				<h5><spring:message code="sources" /></h5>
-				<ul>
-					<c:forEach var="source" items="${taxon.sources}">
-						<li>
-							<jsp:element name="a">
-								<jsp:attribute name="href">
-									<c:url value="/source/${source.identifier}" />
-								</jsp:attribute>
-								${source.title}
-							</jsp:element>
-						</li>
-					</c:forEach>
-				</ul>
-			</section>
+			
 			<c:if test="${taxon.accepted == null}">
 			<section id="taxonomicTree">
 			<h5><spring:message code="taxonomicTree" /></h5>

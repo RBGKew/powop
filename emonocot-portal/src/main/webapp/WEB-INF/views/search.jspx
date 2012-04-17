@@ -19,7 +19,6 @@
 				<script type="text/javascript">
 					$(document).ready(function() {
 						$("input#query").autocomplete({
-			
 							source: "autocomplete",
 							minLength: 2
 						});
@@ -27,21 +26,21 @@
 				</script>
 				
 				<form id="search.form" class="pull-right form-search" accept-charset="UTF-8" method="GET" action="search">
-					<input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="query"/>						
+					<input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="query"/>
 					<input type="hidden" name="limit" value="${result.pageSize}" />
 					<input type="hidden" name="start" value="0" />
 					<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-						<input type="hidden" name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>							
+						<input type="hidden" name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
 					</c:forEach>
-					<input type="hidden" name="sort" value="${result.sort}"/>						
+					<input type="hidden" name="sort" value="${result.sort}"/>
 					<button class="btn btn-primary"><span class="icon-search icon-white">&amp;nbsp;</span></button>
 				</form>
 			</div>
 			<div>
-			    <c:url var="resetUrl" value="/search">
-			      <c:param name="query" value=""/>
-			    </c:url>
-				<a href="${resetUrl}" class="pull-right"><spring:message code="reset"/></a>					
+				<c:url var="resetUrl" value="/search">
+					<c:param name="query" value=""/>
+				</c:url>
+				<a href="${resetUrl}" class="pull-right"><spring:message code="reset"/></a>
 			</div>
 			<br/>
 		</div>
@@ -49,17 +48,17 @@
 		<div class="row">
 			<div class="span3 noPrint">
 				<ul id="facets" class="well nav nav-list">
-				  <c:forEach var="facetName" items="${result.facetNames}">
-				    <c:choose>
-				      <c:when test="${facetName eq 'CLASS'}">
-				        <menu:facet facetName="${facetName}" pager="${result}" title="restrict.your.search" showIcons="true"/>
-				      </c:when>
-				      <c:otherwise>
-				        <menu:facet facetName="${facetName}" pager="${result}"/>
-				      </c:otherwise>
-				    </c:choose>
-				    <br/>
-				  </c:forEach>
+					<c:forEach var="facetName" items="${result.facetNames}">
+						<c:choose>
+							<c:when test="${facetName eq 'CLASS'}">
+								<menu:facet facetName="${facetName}" pager="${result}" title="restrict.your.search" showIcons="true"/>
+							</c:when>
+							<c:otherwise>
+								<menu:facet facetName="${facetName}" pager="${result}"/>
+							</c:otherwise>
+						</c:choose>
+						<br/>
+					</c:forEach>
 				</ul>
 			</div>
 			<div class="span9">
@@ -144,46 +143,37 @@
 						<tags:results pager="${result}"/>
 					</div>
 						
-					<jsp:scriptlet>
-						String classFacet = result.getSelectedFacets().get("CLASS");
-						if(classFacet == null) {
-							pageContext.setAttribute("viewOption",Boolean.FALSE);
-						} else if(classFacet.equals("org.emonocot.model.media.Image")) {
-							pageContext.setAttribute("viewOption",Boolean.TRUE);
-						} else {
-							pageContext.setAttribute("viewOption",Boolean.FALSE);
-						}
-					</jsp:scriptlet>
+					
 				</div>
 				<br/>
 				<div class="row noPrint">
 					<div id="viewIcons" class="span3">
 						<div class="btn-group">
-						    <spring:message code="list"  var="listTitle"/>
-						    <c:url var="listUrl" value="search">
-							  <c:param name="query" value="${result.params['query']}" />
-							  <c:param name="limit" value="${result.pageSize}" />
-							  <c:param name="start" value="0" />
-							  <c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-								<c:param name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>											
-							  </c:forEach>
-							  <c:param name="sort">${sortItem}</c:param>
-							  <c:param name="view">list</c:param>
-						    </c:url>
-							<a title="${listTitle}" class="btn" href="${listUrl}">								
+							<spring:message code="list"  var="listTitle"/>
+							<c:url var="listUrl" value="search">
+								<c:param name="query" value="${result.params['query']}" />
+								<c:param name="limit" value="${result.pageSize}" />
+								<c:param name="start" value="0" />
+								<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+									<c:param name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
+								</c:forEach>
+								<c:param name="sort">${sortItem}</c:param>
+								<c:param name="view">list</c:param>
+							</c:url>
+							<a title="${listTitle}" class="btn" href="${listUrl}">
 								<i class="icon-th-list">&amp;nbsp;</i>
 							</a>
 							&#160;
 							<spring:message code="simpleList" var="simpleListTitle" />
 							<c:url value="search" var="simpleListUrl">
-							  <c:param name="query" value="${result.params['query']}" />
-							  <c:param name="limit" value="${result.pageSize}" />
-							  <c:param name="start" value="0" />
-							  <c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-							    <c:param name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
-							  </c:forEach>
-							  <c:param name="sort">${sortItem}</c:param>
-							  <c:param name="view">simpleList</c:param>
+								<c:param name="query" value="${result.params['query']}" />
+								<c:param name="limit" value="${result.pageSize}" />
+								<c:param name="start" value="0" />
+								<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+									<c:param name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
+								</c:forEach>
+								<c:param name="sort">${sortItem}</c:param>
+								<c:param name="view">simpleList</c:param>
 							</c:url>
 							<a title="${simpleListTitle}" class="btn" href="${simpleListUrl}">
 								<i class="icon-align-justify">&amp;nbsp;</i>
@@ -191,14 +181,14 @@
 							&#160;
 							<spring:message code="grid" var="gridTitle"/>
 							<c:url value="search" var="gridUrl">
-							  <c:param name="query" value="${result.params['query']}" />
-							  <c:param name="limit" value="${result.pageSize}" />
-							  <c:param name="start" value="0" />
-							  <c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-								<c:param name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
-							  </c:forEach>
-							  <c:param name="sort">${sortItem}</c:param>
-							  <c:param name="view">grid</c:param>
+								<c:param name="query" value="${result.params['query']}" />
+								<c:param name="limit" value="${result.pageSize}" />
+								<c:param name="start" value="0" />
+								<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+									<c:param name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
+								</c:forEach>
+								<c:param name="sort">${sortItem}</c:param>
+								<c:param name="view">grid</c:param>
 							</c:url>
 							<a title="${gridTitle}" class="btn" href="${gridUrl}">
 								<i class="icon-th">&amp;nbsp;</i>
@@ -212,141 +202,40 @@
 				<br/>
 
 				<div id="results" class="row no-margin-left">
+					<jsp:scriptlet>
+								
+								String classFacet = result.getSelectedFacets().get("CLASS");
+								if(classFacet == null) {
+									pageContext.setAttribute("imageClass",Boolean.FALSE);
+								} else if (classFacet.equals("org.emonocot.model.media.Image")){
+									pageContext.setAttribute("imageClass",Boolean.TRUE);
+								} else {
+									pageContext.setAttribute("imageClass",Boolean.FALSE);
+								}
+							</jsp:scriptlet>
 					<c:choose>
+					
+						<c:when test="${empty result.params['view']}">
+							
+							<c:choose>
+								<c:when test="${imageClass}">
+									<tags:grid pager="${result}"/>
+								</c:when>
+								<c:otherwise>
+									<tags:list pager="${result}"/>
+								</c:otherwise>
+							</c:choose>
+						</c:when>
 						<c:when test="${result.params['view'] == 'grid'}">
-						<br/>
-							<ul class="thumbnails"> 
-								<c:forEach var="item" items="${result.records}">
-									<li>
-										<c:choose>
-											<c:when test="${item.className == 'Taxon'}">
-												<c:choose>
-													<c:when test="${not empty item.image}">
-														<c:url var="thumbnail" value="/images/thumbnails/${item.image.identifier}.jpg"/>
-													</c:when>
-													<c:otherwise>
-														<c:url var="thumbnail" value="/images/no_image_3.jpg"/>
-													</c:otherwise>
-												</c:choose>
-												<a class="result thumb" href="taxon/${item.identifier}" rel="tooltip" title="${item.name}"><img class="thumbnail" src="${thumbnail}" /></a>
-												<p class="no-display">${item.name}</p>
-											</c:when>
-											<c:when test="${item.className == 'Image'}">
-												<c:url var="thumbnail" value="/images/thumbnails/${item.identifier}.jpg"/>
-												<a class="result thumb" href="image/${item.identifier}" rel="tooltip" title="${item.caption}"><img class="thumbnail" src="${thumbnail}" /></a>
-												<p class="no-display">${item.caption}</p>
-											</c:when>
-										</c:choose>
-									</li>
-								</c:forEach>
-							</ul>
+							<br/>
+							<tags:grid pager="${result}"/>
 						</c:when>
 						<c:when test="${result.params['view'] == 'simpleList'}">
-						    <br/>
-							<ul class="unstyled"> 
-								<c:forEach var="item" items="${result.records}">
-									<li>
-							 			<c:choose>
-											<c:when test="${item.className == 'Taxon'}">
-												<a class="result" href="taxon/${item.identifier}" title="${item.name}">
-												  <c:choose>
-													<c:when test="${em:isSynonym(item)}">
-														<h4 class="h4Results title-no-bold"><em>${item.name}</em> ${item.authorship}</h4>
-													</c:when>
-													<c:otherwise>
-													    <h4 class="h4Results"><em>${item.name}</em> ${item.authorship}</h4>
-													</c:otherwise>
-											      </c:choose>
-												</a><br/>
-											</c:when>
-											<c:when test="${item.className == 'Image'}">
-												<a class="result" href="image/${item.identifier}" title="${item.caption}"><h4 class="h4Results">${item.caption}</h4></a>
-											</c:when>
-											<c:otherwise>
-												Unknown class ${item.className}
-											</c:otherwise>
-										</c:choose>
-									</li>
-								</c:forEach>
-							</ul>
+							<br/>
+							<tags:simpleList pager="${result}"/>
 						</c:when>
 						<c:when test="${result.params['view'] == 'list'}">
-							<table class="table">
-								<tbody>
-									<c:forEach var="item" items="${result.records}">
-										<tr>
-											<c:choose>
-												<c:when test="${item.className == 'Taxon'}">
-												    <spring:url var="itemUrl" value="/taxon/${item.identifier}"/>
-													<td>
-													    <spring:url var="iconUrl" value="/images/taxonPageIconWhite.jpg"/>
-														<img src="${iconUrl}" class="pull-left" alt="Taxon"/>															
-													</td>
-													<td>
-														<a class="result" href="${itemUrl}" title="${item.name}">
-															<c:choose>
-													          <c:when test="${em:isSynonym(item)}">
-																<h4 class="h4Results title-no-bold"><em>${item.name}</em> ${item.authorship}</h4>
-															  </c:when>
-															  <c:otherwise>
-															    <h4 class="h4Results"><em>${item.name}</em> ${item.authorship}</h4>
-															  </c:otherwise>
-															</c:choose>															
-														</a>
-														<br/>													
-														<div><em><spring:message code="resultStatus" /></em> <spring:message code="${item.status}" /></div>
-														<div><em><spring:message code="resultRank" /></em> <spring:message code="${item.rank}" /></div>
-														<div><em><spring:message code="resultFamily" /></em> ${item.family}</div>
-														<div><em><spring:message code="resultOrder" /></em> ${item.order}</div>
-													</td>
-													<td>													    
-														<a href="${itemUrl}" class="thumbnail pull-right">
-															<c:choose>
-																<c:when test="${not empty item.image}">
-																	<c:url var="thumbnail" value="/images/thumbnails/${item.image.identifier}.jpg"/>
-																	<img src="${thumbnail}" title="${item.image.caption}"/>
-																</c:when>
-																<c:otherwise>
-																    <c:url var="thumbnail" value="/images/no_image_3.jpg"/>
-																    <img src="${thumbnail}" title="No image available"/>
-																</c:otherwise>
-															</c:choose>
-														</a>
-													</td>
-												</c:when>
-												<c:when test="${item.className == 'Image'}">
-												    <spring:url var="itemUrl" value="/image/${item.identifier}"/>
-													<td>
-													    <spring:url var="iconUrl" value="/images/imagePageIconWhite.jpg"/>
-														<img src="${iconUrl}" class="pull-left" alt="Image"/>														
-													</td>
-													<td>
-														<a class="result" href="${itemUrl}" title="${item.caption}"><h4 class="h4Results">${item.caption}</h4></a>
-														<br/>
-														<div><spring:url var="taxonUrl" value="/taxon/${item.taxon.identifier}"/></div>
-														<div><em><spring:message code="imageOf"/></em>: <a href="${taxonUrl}">${item.taxon.name}</a></div>
-														<c:if test="${item.creator != null}">
-															<div><em><spring:message code="image.creator"/></em>: ${item.creator}</div>
-														</c:if>
-														<c:if test="${item.locality != null}">
-															<div><em><spring:message code="image.locality"/></em>: ${item.locality}</div>
-														</c:if>
-													</td>
-													<td>
-														<a href="${itemUrl}" class="thumbnail pull-right">
-															<c:url var="thumbnail" value="/images/thumbnails/${item.identifier}.jpg"/>
-															<img src="${thumbnail}" title="${item.caption}"/>
-														</a>
-													</td>
-												</c:when>
-												<c:otherwise>
-													Unknown class ${item.className}
-												</c:otherwise>
-											</c:choose>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
+							<tags:list pager="${result}"/>
 						</c:when>
 					</c:choose>
 					

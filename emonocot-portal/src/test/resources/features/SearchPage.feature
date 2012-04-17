@@ -146,6 +146,13 @@ Scenario: View Images in a grid
   And the view icons should be displayed
   When I click on the "Display in a grid" icon 
   Then the images should be displayed in a grid.
+  
+Scenario: Default Images View
+  As a botanist in the herbarium, in order to identify a monocot
+  I want to see the images displayed in a grid.
+  When I restrict the type of object by selecting "Images"
+  Then there should be 3 results
+  And the images should be displayed in a grid.
  
 Scenario: Search for images by their descriptions
   As a botanist in the herbarium, in order to find an image of a particular character
