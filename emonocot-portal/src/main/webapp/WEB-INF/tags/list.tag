@@ -51,6 +51,7 @@
 				</c:when>
 				<c:when test="${item.className == 'Image'}">
 					<spring:url var="itemUrl" value="/image/${item.identifier}"/>
+
 					<td>
 						<spring:url var="iconUrl" value="/images/imagePageIconWhite.jpg"/>
 						<img src="${iconUrl}" class="pull-left" alt="Image"/>
@@ -74,23 +75,23 @@
 						</a>
 					</td>
 				</c:when>
-        <c:when test="${item.className == 'IdentificationKey'}">
-          <td>
-            <spring:url var="iconUrl" value=""/>
-<!-- TODO icon -->
-            <img src="${iconUrl}" class="pull-left" alt="ID Key"/>
-          </td>
-          <td>
-            <spring:url var="itemUrl" value="/key/${item.identifier}"/>
-            <a class="result" href="${itemUrl}" title="${item.title}"><h4 class="h4Results">${item.title}</h4></a>
-          </td>
+				<c:when test="${item.className == 'IdentificationKey'}">
+					<td>
+						<spring:url var="iconUrl" value=""/>
+						<!-- TODO icon -->
+						<img src="${iconUrl}" class="pull-left" alt="ID Key"/>
+					</td>
+					<td>
+						<spring:url var="itemUrl" value="/key/${item.identifier}"/>
+						<a class="result" href="${itemUrl}" title="${item.title}"><h4 class="h4Results">${item.title}</h4></a>
+					</td>
 					<td>
 						<a href="${itemUrl}" class="thumbnail pull-right">
-              <c:url var="thumbnail" value="/images/no_image_3.jpg"/>
-              <img src="${thumbnail}" title="No image available"/>
-            </a>
+							<c:url var="thumbnail" value="/images/no_image_3.jpg"/>
+							<img src="${thumbnail}" title="No image available"/>
+						</a>
 					</td>
-        </c:when>
+				</c:when>
 				<c:otherwise>
 					Unknown class ${item.className}
 				</c:otherwise>

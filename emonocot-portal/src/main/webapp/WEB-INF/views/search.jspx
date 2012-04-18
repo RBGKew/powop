@@ -214,9 +214,7 @@
 								}
 							</jsp:scriptlet>
 					<c:choose>
-					
 						<c:when test="${empty result.params['view']}">
-							
 							<c:choose>
 								<c:when test="${imageClass}">
 									<tags:grid pager="${result}"/>

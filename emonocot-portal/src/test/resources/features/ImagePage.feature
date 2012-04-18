@@ -32,9 +32,9 @@ Scenario: Click on Image Keywords
   images that match the keyword
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=174
 #Commented due to failure
-#  When I navigate to image page "123"
-#  And I click on the keyword "Poaceae"
-#  And the following results should be displayed:
-#  | page | text             |
-#  | 123  | Poa annua        |
-#  | 456  | Poa annua        |
+  When I navigate to image page "123"
+  And I click on the keyword "Poaceae"
+  And the following results should be displayed:
+  | page | text             |
+  | 123  | Poa annua        |
+  | 456  | Poa annua        |

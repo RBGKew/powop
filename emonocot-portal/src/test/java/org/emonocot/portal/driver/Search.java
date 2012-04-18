@@ -155,13 +155,16 @@ public class Search extends PageObject {
      * @return an array of results
      */
     public final List<String[]> getResults() {
+    	
         List<WebElement> links = results.findElements(By.className("result"));
         List<String[]> linksList = new ArrayList<String[]>();
         for (WebElement webElement : links) {
             String[] link = new String[2];
             String href = webElement.getAttribute("href");
             link[0] = href.substring(href.lastIndexOf("/") + 1);
+            if (webElement.getAttribute("data-original-title") == null){
             link[1] = webElement.getAttribute("title");
+            } else {link[1] = webElement.getAttribute("data-original-title");}
             linksList.add(link);
         }
         return linksList;

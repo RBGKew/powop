@@ -19,19 +19,21 @@
 							<c:url var="thumbnail" value="/images/no_image_3.jpg"/>
 						</c:otherwise>
 					</c:choose>
-					<a class="result thumb" href="taxon/${item.identifier}" rel="tooltip" title="${item.name}"><img class="thumbnail" src="${thumbnail}" /></a>
+					<spring:url var="itemUrl" value="/taxon/${item.identifier}"/>
+					<a class="result thumb" href="${itemUrl}" rel="tooltip" title="${item.name}"><img class="thumbnail" src="${thumbnail}" /></a>
 					<p class="no-display">${item.name}</p>
 				</c:when>
 				<c:when test="${item.className == 'Image'}">
 					<c:url var="thumbnail" value="/images/thumbnails/${item.identifier}.jpg"/>
-					<a class="result thumb" href="image/${item.identifier}" rel="tooltip" title="${item.caption}"><img class="thumbnail" src="${thumbnail}" /></a>
+					<spring:url var="itemUrl" value="/image/${item.identifier}"/>
+					<a class="result thumb" href="${itemUrl}" rel="tooltip" title="${item.caption}"><img class="thumbnail" src="${thumbnail}" /></a>
 					<p class="no-display">${item.caption}</p>
 				</c:when>
-        <c:when test="${item.className == 'IdentificationKey'}">
-          <c:url var="thumbnail" value="/images/no_image_3.jpg"/>
-          <a class="result thumb" href="key/${item.identifier}" rel="tooltip" title="${item.title}"><img class="thumbnail" src="${thumbnail}" /></a>
-          <p class="no-display">${item.title}</p>
-        </c:when>
+				<c:when test="${item.className == 'IdentificationKey'}">
+					<c:url var="thumbnail" value="/images/no_image_3.jpg"/>
+					<a class="result thumb" href="key/${item.identifier}" rel="tooltip" title="${item.title}"><img class="thumbnail" src="${thumbnail}" /></a>
+					<p class="no-display">${item.title}</p>
+				</c:when>
 			</c:choose>
 		</li>
 	</c:forEach>
