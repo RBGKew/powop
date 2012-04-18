@@ -33,7 +33,10 @@ public class IdentificationKeyDaoImpl extends
         FETCH_PROFILES = new HashMap<String, Fetch[]>();
         FETCH_PROFILES.put("object-page", new Fetch[] {
                 new Fetch("taxon", FetchMode.SELECT),
-                new Fetch("source", FetchMode.SELECT)});
+                new Fetch("authority", FetchMode.SELECT),
+                new Fetch("sources", FetchMode.SELECT)});
+        FETCH_PROFILES.put("front-cover", new Fetch[] {
+                new Fetch("taxon", FetchMode.SELECT)});
     }
 
     /**

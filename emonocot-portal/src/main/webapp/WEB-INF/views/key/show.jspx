@@ -23,10 +23,10 @@
 		<div class="span9">
 			<div id="keyplayer-container" />
 			<br/>
-			<table class="table" id="key-properties">
+			<table id="key-properties" class="table">
 				<tbody>
 				  <tr>
-				    <td><spring:message code="key.to" />:</td>
+				    <td><spring:message code="key.to" /></td>
 				    <td>
 			        <jsp:element name="a">
 			          <jsp:attribute name="href">
@@ -36,28 +36,39 @@
 			        </jsp:element>
 		        </td>
 				  </tr>
-					<tr>
-						<td><spring:message code="key.description"/></td>
-						<td>${identificationKey.description}</td>
-					</tr>
+          <tr>
+            <td><spring:message code="key.description"/></td>
+            <td>${identificationKey.description}</td>
+          </tr>
+          <tr>
+            <td><spring:message code="key.source"/></td>
+            <td>
+	            <jsp:element name="a">
+	              <jsp:attribute name="href">
+	                <c:url value="/source/${authority.identifier}" />
+	              </jsp:attribute>
+	              ${authority.title}
+	            </jsp:element>
+            </td>
+          </tr>
 				</tbody>
 			</table>
 		</div>
-		<div class="span3 info-right">
-			<div><spring:message code="sources" /></div>
-			<ul>
-				<c:forEach var="source" items="${identificationKey.sources}">
-					<li>
-						<jsp:element name="a">
-							<jsp:attribute name="href">
-								<c:url value="/source/${source.identifier}" />
-							</jsp:attribute>
-							${source.title}
-						</jsp:element>
-					</li>
-				</c:forEach>
-			</ul>
-		</div>
+	</div>
+  <div class="span3 info-right">
+  <div><spring:message code="sources" /></div>
+    <ul>
+      <c:forEach var="source" items="${identificationKey.sources}">
+        <li>
+          <jsp:element name="a">
+            <jsp:attribute name="href">
+              <c:url value="/source/${source.identifier}" />
+            </jsp:attribute>
+            ${source.title}
+          </jsp:element>
+        </li>
+      </c:forEach>
+    </ul>
 	</div>
 </div>
 	

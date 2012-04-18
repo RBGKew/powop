@@ -192,6 +192,6 @@ Scenario: Search for identification key
   | option |
   | Keys   |
   | Taxa   |
-  Then the following results should be displayed:
+  And the following results should be displayed:
   | page | text                                |
   | 987  | Key to the subtribes of Orchidaceae |

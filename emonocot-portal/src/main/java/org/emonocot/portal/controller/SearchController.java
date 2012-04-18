@@ -11,11 +11,13 @@ import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.Sorting;
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.common.SearchableObject;
+import org.emonocot.model.key.IdentificationKey;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.pager.Page;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
 import org.emonocot.portal.format.annotation.SortingFormat;
+import org.emonocot.service.IdentificationKeyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +60,11 @@ public class SearchController {
      *
      */
     private ImageService imageService;
+    
+    /**
+     * 
+     */
+    private IdentificationKeyService keyService;
 
     /**
      *
@@ -90,6 +97,14 @@ public class SearchController {
         this.imageService = newImageService;
     }
     
+    /**
+     * @param keyService the keyService to set
+     */
+    @Autowired
+    public final void setKeyService(IdentificationKeyService keyService) {
+        this.keyService = keyService;
+    }
+
     private Integer setLimit(String view, String className) {
     	if( view == null){
     		if(className == null){
@@ -194,6 +209,13 @@ public class SearchController {
                 result = taxonService.search(query, null, limit, start,
                         responseFacets,
                         selectedFacets, sort, "taxon-with-image");
+            } else if (selectedFacets.get(FacetName.CLASS).equals(
+                    "org.emonocot.model.key.IdentificationKey")) {
+                logger.debug("Using the IdentificationKey service for " + query);
+                limit = setLimit(view, selectedFacets.get(FacetName.CLASS));
+                result = keyService.search(query, null, limit, start,
+                        responseFacets,
+                        selectedFacets, sort, "front-cover");
             } else {
                 logger.error("We can't search by an object of FacetName.CLASS idx="
                         + selectedFacets.get(FacetName.CLASS));
@@ -227,8 +249,12 @@ public class SearchController {
         for (SearchableObject object : result.getRecords()) {
             if (object.getClass().equals(Taxon.class)) {
                 matches.add(new Match(((Taxon) object).getName()));
-            } else {
+            } else if (object.getClass().equals(Image.class)) {
                 matches.add(new Match(((Image) object).getCaption()));
+            } else if (object.getClass().equals(IdentificationKey.class)) {
+                matches.add(new Match(((IdentificationKey) object).getTitle()));
+            } else {
+                logger.error("Unable to determine autocomplete label for " + object);
             }
         }
         return matches;
