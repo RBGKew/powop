@@ -43,7 +43,7 @@ public class SetTemporaryFilenamesTasklet implements Tasklet {
         UUID uuid = UUID.randomUUID();
         String xsltFileName = harvesterSpoolDirectory + File.separator
         + uuid.toString() +  "-transform.xslt";
-        String jsonFileName = harvesterSpoolDirectory + File.separator
+        String outputFileName = harvesterSpoolDirectory + File.separator
                 + uuid.toString() +  "-output.json";
         String inputFileName = harvesterSpoolDirectory + File.separator
                 + uuid.toString() + "-input.xml";
@@ -54,9 +54,9 @@ public class SetTemporaryFilenamesTasklet implements Tasklet {
         File inputFile = new File(inputFileName);
         executionContext.put("input.file.name",
                 inputFile.getAbsolutePath());
-        File jsonFile = new File(jsonFileName);
-        executionContext.put("json.file.name",
-                inputFile.getAbsolutePath());
+        File outputFile = new File(outputFileName);
+        executionContext.put("output.file.name",
+                outputFile.getAbsolutePath());
 
         return RepeatStatus.FINISHED;
     }

@@ -6,6 +6,7 @@ import javax.persistence.MappedSuperclass;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.solr.analysis.StandardTokenizerFactory;
+import org.hibernate.proxy.HibernateProxyHelper;
 import org.hibernate.search.annotations.AnalyzerDef;
 import org.hibernate.search.annotations.TokenizerDef;
 import org.slf4j.Logger;
@@ -17,10 +18,9 @@ import org.slf4j.LoggerFactory;
  *
  */
 @MappedSuperclass
-@AnalyzerDef(name = "facetAnalyzer",
-        tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class))
+@AnalyzerDef(name = "facetAnalyzer", tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class))
 public abstract class Base implements Serializable, Identifiable, SecuredObject {
-    
+
     /**
      *
      */
@@ -39,23 +39,39 @@ public abstract class Base implements Serializable, Identifiable, SecuredObject 
     public boolean equals(Object other) {
         // check for self-comparison
         if (this == other) {
-            //logger.info("this == other, returning true");
             return true;
         }
-        if (other == null || other.getClass() != this.getClass()) {
-            //logger.info("other == null || other.getClass() != this.getClass(), returning false");
+        if (other == null) {
             return false;
         }
-        Base base = (Base) other;
-        //logger.info("ObjectUtils.equals(this.identifier, base.identifier) |" + this.identifier + " | " + base.identifier + " returning " + ObjectUtils.equals(this.identifier, base.identifier));
-        if (this.identifier == null && base.identifier == null) {
-            if (this.getId() != null && base.getId() != null) {
-                return ObjectUtils.equals(this.getId(), base.getId());
+        // Only works when classes are instantiated
+        if ((other.getClass().equals(this.getClass()))) {
+
+            Base base = (Base) other;
+            if (this.getIdentifier() == null && base.getIdentifier() == null) {
+
+                if (this.getId() != null && base.getId() != null) {
+                    return ObjectUtils.equals(this.getId(), base.getId());
+                } else {
+                    return false;
+                }
             } else {
-                return false;
+                return ObjectUtils.equals(this.identifier, base.identifier);
             }
+        } else if (HibernateProxyHelper.getClassWithoutInitializingProxy(other)
+                .equals(this.getClass())) {
+            // Case to check when proxies are involved
+            Identifiable base = (Identifiable) other;
+
+            if (this.getIdentifier() == null && base.getIdentifier() == null) {
+                return false;
+            } else {
+                return ObjectUtils
+                        .equals(this.identifier, base.getIdentifier());
+            }
+        } else {
+            return false;
         }
-        return ObjectUtils.equals(this.identifier, base.identifier);
     }
 
     @Override

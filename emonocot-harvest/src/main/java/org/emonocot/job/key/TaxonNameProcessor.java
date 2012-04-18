@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.emonocot.api.match.Match;
 import org.emonocot.api.match.taxon.TaxonMatcher;
+import org.emonocot.harvest.common.AbstractRecordAnnotator;
 import org.emonocot.harvest.common.AuthorityAware;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationCode;
@@ -22,8 +23,8 @@ import org.tdwg.ubif.TaxonName;
  * @author ben
  *
  */
-public class TaxonNameProcessor extends AuthorityAware implements
-        ItemProcessor<TaxonName, Annotation> {
+public class TaxonNameProcessor extends AbstractRecordAnnotator implements
+        ItemProcessor<TaxonName, TaxonName> {
     /**
      *
      */
@@ -62,7 +63,7 @@ public class TaxonNameProcessor extends AuthorityAware implements
      * @throws Exception
      *             if there is a problem
      */
-    public final Annotation process(final TaxonName item) throws Exception {
+    public final TaxonName process(final TaxonName item) throws Exception {
 
         Taxon object = null;
         AnnotationType annotationType = null;
@@ -78,25 +79,31 @@ public class TaxonNameProcessor extends AuthorityAware implements
                 annotationType = AnnotationType.Error;
                 code = AnnotationCode.Absent;
                 text = "No matches found for taxonomic name " + taxonName;
+                item.setDebuglabel(null);
             } else if (matches.size() > 1) {
                 annotationType = AnnotationType.Error;
                 code = AnnotationCode.BadRecord;
                 text = matches.size() + " matches found for taxonomic name "
                         + taxonName;
+                item.setDebuglabel(null);
             } else {
                 annotationType = AnnotationType.Info;
                 code = AnnotationCode.Present;
                 object = matches.get(0).getInternal();
                 text = object.getIdentifier() + " matches taxonomic name "
                         + taxonName;
+                item.setDebuglabel(object.getIdentifier());
             }
 
-            Annotation annotation = super.createAnnotation(object,
-                    RecordType.Taxon, code, annotationType);
+            Annotation annotation = new Annotation();
+            annotation.setAnnotatedObj(object);
+            annotation.setRecordType(RecordType.Taxon);
+            annotation.setCode(code);
+            annotation.setType(annotationType);
             annotation.setValue(item.getId());
             annotation.setText(text);
-            logger.debug(text);
-            return annotation;
+            super.annotate(annotation);
+            return item;
         }
     }
 

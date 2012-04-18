@@ -61,13 +61,17 @@ public class TaxonCheckingValidator extends DarwinCoreValidator<Taxon> {
              */
             boolean contains = false;
             for (Source auth : persistedTaxon.getSources()) {
+                logger.debug("Comparing " + auth.getIdentifier() + " with " + getSource().getIdentifier());
                 if (auth.equals(getSource())) {
                     contains = true;
                     break;
                 }
             }
             if (!contains) {
+                logger.debug("Adding " + getSource());
                 persistedTaxon.getSources().add(getSource());
+            } else {
+                logger.debug(persistedTaxon + " already contains " + getSource());
             }
         }
         return persistedTaxon;

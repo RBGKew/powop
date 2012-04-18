@@ -15,6 +15,12 @@ public class TaxonName {
      */
     @XStreamAsAttribute
     private String id;
+    
+    /**
+     *
+     */
+   @XStreamAsAttribute
+   private String debuglabel;
 
     /**
      *
@@ -52,4 +58,19 @@ public class TaxonName {
     public final String getId() {
         return id;
     }
+
+    /**
+     * @return the debuglabel
+     */
+    public final String getDebuglabel() {
+        return debuglabel;
+    }
+
+    /**
+     * @param newDebugLabel the debuglabel to set
+     */
+    public final void setDebuglabel(final String newDebugLabel) {
+        this.debuglabel = newDebugLabel;
+    }
+
 }
