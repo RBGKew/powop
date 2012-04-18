@@ -10,7 +10,7 @@
     <appender-ref ref="stdout"/>
   </root>
   <!-- Uncomment to debug job output -->
-  <logger name="org.emonocot.job.dwc.taxon" level="DEBUG" additivity="false">
+  <!--<logger name="org.emonocot.job" level="DEBUG" additivity="false">
     <appender-ref ref="stdout"/>
-  </logger>  
+  </logger>-->
 </configuration>
