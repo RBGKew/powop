@@ -25,6 +25,10 @@
 				<c:when test="${item.className == 'Image'}">
 					<a class="result" href="image/${item.identifier}" title="${item.caption}"><h4 class="h4Results">${item.caption}</h4></a>
 				</c:when>
+        <c:when test="${item.className == 'IdentificationKey'}">
+          <spring:url var="itemUrl" value="/key/${item.identifier}"/>
+          <a class="result" href="${itemUrl}" title="${item.title}"><h4 class="h4Results">${item.title}</h4></a>
+        </c:when>
 				<c:otherwise>
 					Unknown class ${item.className}
 				</c:otherwise>

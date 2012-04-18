@@ -13,6 +13,7 @@ import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.Region;
 import org.emonocot.model.hibernate.Fetch;
+import org.emonocot.model.key.IdentificationKey;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.pager.Page;
 import org.emonocot.model.taxon.Taxon;
@@ -49,7 +50,7 @@ public class SearchableObjectDaoImpl extends
      *
      */
     public SearchableObjectDaoImpl() {
-        super(SearchableObject.class, Taxon.class, Image.class);
+        super(SearchableObject.class, Taxon.class, Image.class, IdentificationKey.class);
     }
 
     @Override

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:em="http://e-monocot.org/portal/functions"
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+
+<div class="content">
+
+	<div class="page-header header-margin">
+		<div class="row">
+			<jsp:element name="img">
+				<jsp:attribute name="src">
+					<c:url value="/images/KeyPageIcon.jpg"/>
+				</jsp:attribute>
+				<jsp:attribute name="class">pull-left noPrint</jsp:attribute>
+				<jsp:attribute name="alt">Key</jsp:attribute>
+			</jsp:element>
+			<h2 id="page-title">${identificationKey.title}</h2>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="span9">
+			<div id="keyplayer-container" />
+			<br/>
+			<table class="table" id="key-properties">
+				<tbody>
+				  <tr>
+				    <td><spring:message code="key.to" />:</td>
+				    <td>
+			        <jsp:element name="a">
+			          <jsp:attribute name="href">
+			            <c:url value="/taxon/${identificationKey.taxon.identifier}" />
+			          </jsp:attribute>
+			          <span class="taxonName">${identificationKey.taxon.name}</span> ${identificationKey.taxon.authorship}
+			        </jsp:element>
+		        </td>
+				  </tr>
+					<tr>
+						<td><spring:message code="key.description"/></td>
+						<td>${identificationKey.description}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="span3 info-right">
+			<div><spring:message code="sources" /></div>
+			<ul>
+				<c:forEach var="source" items="${identificationKey.sources}">
+					<li>
+						<jsp:element name="a">
+							<jsp:attribute name="href">
+								<c:url value="/source/${source.identifier}" />
+							</jsp:attribute>
+							${source.title}
+						</jsp:element>
+					</li>
+				</c:forEach>
+			</ul>
+		</div>
+	</div>
+</div>
+	
+</jsp:root>

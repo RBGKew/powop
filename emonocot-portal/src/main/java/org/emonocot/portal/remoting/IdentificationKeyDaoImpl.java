@@ -5,6 +5,7 @@ package org.emonocot.portal.remoting;
 
 import org.emonocot.model.key.IdentificationKey;
 import org.emonocot.model.pager.Page;
+import org.emonocot.persistence.dao.IdentificationKeyDao;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class IdentificationKeyDaoImpl extends DaoImpl<IdentificationKey> implements
-        org.emonocot.persistence.dao.IdentificationKeyDao {
+        IdentificationKeyDao {
     
     public IdentificationKeyDaoImpl(){
         super(IdentificationKey.class, "key");

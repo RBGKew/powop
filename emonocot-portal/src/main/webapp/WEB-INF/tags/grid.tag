@@ -27,6 +27,11 @@
 					<a class="result thumb" href="image/${item.identifier}" rel="tooltip" title="${item.caption}"><img class="thumbnail" src="${thumbnail}" /></a>
 					<p class="no-display">${item.caption}</p>
 				</c:when>
+        <c:when test="${item.className == 'IdentificationKey'}">
+          <c:url var="thumbnail" value="/images/no_image_3.jpg"/>
+          <a class="result thumb" href="key/${item.identifier}" rel="tooltip" title="${item.title}"><img class="thumbnail" src="${thumbnail}" /></a>
+          <p class="no-display">${item.title}</p>
+        </c:when>
 			</c:choose>
 		</li>
 	</c:forEach>

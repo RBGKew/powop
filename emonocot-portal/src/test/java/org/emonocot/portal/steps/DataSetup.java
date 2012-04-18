@@ -2,16 +2,7 @@ package org.emonocot.portal.steps;
 
 import java.util.List;
 
-import org.emonocot.portal.rows.AccessControlRow;
-import org.emonocot.portal.rows.AnnotationRow;
-import org.emonocot.portal.rows.GroupRow;
-import org.emonocot.portal.rows.ImageRow;
-import org.emonocot.portal.rows.JobExecutionRow;
-import org.emonocot.portal.rows.JobInstanceRow;
-import org.emonocot.portal.rows.ReferenceRow;
-import org.emonocot.portal.rows.SourceRow;
-import org.emonocot.portal.rows.TaxonRow;
-import org.emonocot.portal.rows.UserRow;
+import org.emonocot.portal.rows.*;
 import org.emonocot.test.TestDataManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -194,6 +185,17 @@ public class DataSetup {
             testDataManager.createReference(row.identifier, row.title,
                     row.authors, row.datePublished, row.volume, row.page,
                     row.citation, row.publisher);
+        }
+    }
+    
+    /**
+     * @param rows ID Key rows to set
+     */
+    @Given("^there are identification keys with the following properties:$")
+    public final void thereAreIdentificationKeysWithTheFollowingProperties(
+            final List<IdentificationKeyRow> rows) {
+        for(IdentificationKeyRow row : rows) {
+            testDataManager.createIdentificationKey(row.identifier, row.title, row.description);
         }
     }
 

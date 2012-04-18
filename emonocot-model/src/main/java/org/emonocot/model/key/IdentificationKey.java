@@ -8,10 +8,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 import org.emonocot.model.common.SearchableObject;
-import org.emonocot.model.hibernate.TaxonomyBridge;
 import org.emonocot.model.taxon.Taxon;
-import org.hibernate.search.annotations.Analyzer;
-import org.hibernate.search.annotations.ClassBridge;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Fields;
@@ -26,8 +23,7 @@ import org.hibernate.search.annotations.IndexedEmbedded;
  */
 @Entity
 @Indexed(index = "org.emonocot.model.common.SearchableObject")
-@ClassBridge(name = "taxon", impl = TaxonomyBridge.class, index = Index.UN_TOKENIZED,
-        analyzer = @Analyzer(definition = "facetAnalyzer"))
+//TODO Consider @ClassBridge(impl = org.emonocot.model.hibernate.TaxonomyBridge.class)
 public class IdentificationKey extends SearchableObject{
 
     /**
@@ -104,10 +100,11 @@ public class IdentificationKey extends SearchableObject{
     }
 
     /**
-     * @return the taxon
+     * @return the taxon covered by the key
+     * e.g. A key to grass genera should return Poaceae
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @IndexedEmbedded
+    @IndexedEmbedded(depth = 1)
     public Taxon getTaxon() {
         return taxon;
     }

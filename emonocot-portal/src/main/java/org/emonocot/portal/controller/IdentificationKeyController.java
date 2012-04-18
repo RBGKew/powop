@@ -15,36 +15,35 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * @author jk00kg
- *
  */
 @Controller
 @RequestMapping("/key")
-public class IdentificationKeyController extends GenericController<IdentificationKey, IdentificationKeyService> {
+public class IdentificationKeyController extends
+        GenericController<IdentificationKey, IdentificationKeyService> {
 
     /**
      *
      */
     public IdentificationKeyController() {
-       super("key");
+        super("key");
     }
-    
+
     /**
      *
      */
     private TaxonService taxonService;
 
     /**
-     *
      * @param newIdentificationKeyService
      *            Set the identification key service
      */
     @Autowired
-    public final void setImageService(final IdentificationKeyService newIdentificationKeyService) {
+    public final void setIdentificationKeyService(
+            final IdentificationKeyService newIdentificationKeyService) {
         super.setService(newIdentificationKeyService);
     }
 
     /**
-     *
      * @param newTaxonService
      *            Set the taxon service
      */
@@ -55,18 +54,19 @@ public class IdentificationKeyController extends GenericController<Identificatio
 
     /**
      * @param identifier
-     *            Set the identifier of the image
-     * @param model Set the model
-     * @return the name of the view
+     *            The identifier of the identification key
+     * @param model
+     *            The model
+     * @return The name of the view
      */
     @RequestMapping(value = "/{identifier}", method = RequestMethod.GET)
     public final String getPage(@PathVariable final String identifier,
             final Model model) {
-        IdentificationKey key = getService().load(identifier, "image-page");
+        IdentificationKey key = getService().load(identifier, "object-page");
         model.addAttribute(key);
         if (key.getTaxon() != null) {
-            model.addAttribute(taxonService.load(key.getTaxon()
-                    .getIdentifier(), null));
+            model.addAttribute(taxonService.load(
+                    key.getTaxon().getIdentifier(), null));
         }
         return "key/show";
     }
