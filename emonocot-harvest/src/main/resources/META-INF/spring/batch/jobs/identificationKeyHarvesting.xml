@@ -120,7 +120,7 @@
 		</property>
 		<property name="xsltFile">
 			<bean class="org.springframework.core.io.ClassPathResource">
-				<constructor-arg value="org/emonocot/job/key/sddToJson.xsl" />
+				<constructor-arg value="org/emonocot/job/key/sddToJSON.xsl" />
 			</bean>
 		</property>
 		<property name="parameters">

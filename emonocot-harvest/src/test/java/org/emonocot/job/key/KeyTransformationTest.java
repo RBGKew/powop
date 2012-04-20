@@ -28,7 +28,7 @@ public class KeyTransformationTest {
     *
     */
     private Resource xsltFile = new ClassPathResource(
-            "org/emonocot/job/key/sddToJson.xsl");
+            "org/emonocot/job/key/sddToJSON.xsl");
 
     /**
      *
