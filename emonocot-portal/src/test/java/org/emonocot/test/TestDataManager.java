@@ -36,7 +36,6 @@ import org.emonocot.model.user.Group;
 import org.emonocot.model.user.Permission;
 import org.emonocot.model.user.User;
 import org.emonocot.portal.model.AceDto;
-import org.emonocot.service.IdentificationKeyService;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;

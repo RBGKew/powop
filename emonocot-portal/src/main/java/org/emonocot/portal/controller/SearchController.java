@@ -17,7 +17,7 @@ import org.emonocot.model.pager.Page;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
 import org.emonocot.portal.format.annotation.SortingFormat;
-import org.emonocot.service.IdentificationKeyService;
+import org.emonocot.api.IdentificationKeyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

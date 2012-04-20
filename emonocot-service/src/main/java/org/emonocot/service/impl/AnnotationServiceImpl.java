@@ -21,7 +21,7 @@ public class AnnotationServiceImpl extends
      * @param annotationDao Set the annotation dao
      */
     @Autowired
-    public void setAnnotationDao(AnnotationDao annotationDao) {
+    public final void setAnnotationDao(final AnnotationDao annotationDao) {
         this.dao = annotationDao;
     }
 }

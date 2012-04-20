@@ -82,6 +82,17 @@ public class IdentificationKeyJobIntegrationTest {
     private static final BaseDateTime PAST_DATETIME
     = new DateTime(2010, 11, 1, 9, 0, 0, 0);
 
+    /**
+     *
+     */
+    @Before
+    public final void setUp() {
+        File imageDirectory = new File("./target/images");
+        imageDirectory.mkdir();
+        File thumbnailDirectory = new File("./target/thumbnails");
+        thumbnailDirectory.mkdir();
+    }
+
 
     /**
      *

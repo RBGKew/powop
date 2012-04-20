@@ -128,5 +128,4 @@ public abstract class AbstractRecordAnnotator extends HibernateDaoSupport {
             throw new RuntimeException(t);
         }
     }
-
 }

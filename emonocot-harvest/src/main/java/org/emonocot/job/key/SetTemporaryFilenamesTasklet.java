@@ -41,16 +41,21 @@ public class SetTemporaryFilenamesTasklet implements Tasklet {
         ExecutionContext executionContext = chunkContext.getStepContext()
         .getStepExecution().getJobExecution().getExecutionContext();
         UUID uuid = UUID.randomUUID();
-        String xsltFileName = harvesterSpoolDirectory + File.separator
-        + uuid.toString() +  "-transform.xslt";
+        String taxonFileName = harvesterSpoolDirectory + File.separator
+        + uuid.toString() +  "-taxon.xml";
+        String imageFileName = harvesterSpoolDirectory + File.separator
+        + uuid.toString() +  "-image.xml";
         String outputFileName = harvesterSpoolDirectory + File.separator
                 + uuid.toString() +  "-output.json";
         String inputFileName = harvesterSpoolDirectory + File.separator
                 + uuid.toString() + "-input.xml";
 
-        File xsltFile = new File(xsltFileName);
-        executionContext.put("transform.file.name",
-                xsltFile.getAbsolutePath());
+        File taxonFile = new File(taxonFileName);
+        executionContext.put("taxon.file.name",
+                taxonFile.getAbsolutePath());
+        File imageFile = new File(imageFileName);
+        executionContext.put("image.file.name",
+                imageFile.getAbsolutePath());
         File inputFile = new File(inputFileName);
         executionContext.put("input.file.name",
                 inputFile.getAbsolutePath());

@@ -2125,4 +2125,10 @@
             <column name="sources_id"/>
         </createIndex>
     </changeSet>
+    <changeSet author="ben" id="2012-04-19_01">
+        <comment>Added new column matrix to hold matrix data to IdentificationKey object #257: As an administrator, I would like to harvest a multi-access key so that it can be displayed in the portal</comment>
+        <addColumn tableName="IdentificationKey">
+          <column name="matrix" type="longtext"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

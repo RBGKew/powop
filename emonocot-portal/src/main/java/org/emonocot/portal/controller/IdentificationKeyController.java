@@ -1,11 +1,8 @@
-/**
- * 
- */
 package org.emonocot.portal.controller;
 
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.key.IdentificationKey;
-import org.emonocot.service.IdentificationKeyService;
+import org.emonocot.api.IdentificationKeyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -1,14 +1,9 @@
-package org.emonocot.job.dwc.image;
+package org.emonocot.harvest.media;
 
 import java.io.File;
 
 import org.apache.sanselan.ImageInfo;
 import org.apache.sanselan.Sanselan;
-import org.apache.sanselan.common.IImageMetadata;
-import org.apache.sanselan.common.ImageMetadata;
-import org.apache.sanselan.formats.jpeg.JpegImageMetadata;
-import org.apache.sanselan.formats.tiff.TiffImageMetadata;
-import org.apache.sanselan.formats.tiff.constants.TiffConstants;
 import org.emonocot.model.media.Image;
 import org.emonocot.ws.GetResourceClient;
 import org.im4java.core.ConvertCmd;
@@ -17,10 +12,6 @@ import org.im4java.core.MogrifyCmd;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
-
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.Point;
 
 /**
  *
@@ -62,16 +53,6 @@ public class ImageFileProcessor implements ItemProcessor<Image, Image> {
     /**
      *
      */
-    private GeometryFactory geometryFactory = new GeometryFactory();
-
-    /**
-     *
-     */
-    private String authorityName;
-
-    /**
-     *
-     */
     private GetResourceClient getResourceClient;
 
     /**
@@ -103,14 +84,6 @@ public class ImageFileProcessor implements ItemProcessor<Image, Image> {
 
     /**
      *
-     * @param newAuthorityName Set the authority name
-     */
-    public final void setAuthorityName(final String newAuthorityName) {
-        this.authorityName = newAuthorityName;
-    }
-
-    /**
-     *
      * @param newGetResourceClient set the get resource client
      */
     public final void setGetResourceClient(
@@ -135,7 +108,7 @@ public class ImageFileProcessor implements ItemProcessor<Image, Image> {
             return null;
         } else {
             try {
-                getResourceClient.getBinaryResource(authorityName,
+                getResourceClient.getBinaryResource("",
                         image.getUrl(), "1", imageFileName);
                 file = new File(imageFileName);
                 ImageInfo imageInfo = Sanselan.getImageInfo(file);
@@ -201,77 +174,10 @@ public class ImageFileProcessor implements ItemProcessor<Image, Image> {
                     crop.addImage(thumbnailFileName);
                     mogrify.run(crop);
                 }
-                IImageMetadata metadata = Sanselan.getMetadata(file);
-
-                if (metadata instanceof JpegImageMetadata) {
-                    JpegImageMetadata jpegMetadata = (JpegImageMetadata) metadata;
-                    StringBuffer keywords = null;
-                    StringBuffer spatial = null;
-
-                    for (Object o : jpegMetadata.getItems()) {
-                        if (o instanceof ImageMetadata.Item) {
-                            ImageMetadata.Item item = (ImageMetadata.Item) o;
-                            if (item.getKeyword().equals("Object Name")
-                                    && image.getCaption() == null) {
-                                image.setCaption(item.getText());
-                            }
-                            if (item.getKeyword().equals("Keywords")) {
-                                if (keywords == null) {
-                                    keywords = new StringBuffer();
-                                    keywords.append(item.getText());
-                                } else {
-                                    keywords.append(", " + item.getText());
-                                }
-                            } else if (item.getKeyword().equals("Sublocation")
-                                    || item.getKeyword().equals(
-                                            "Province/State")
-                                    || item.getKeyword().equals(
-                                            "Country/Primary Location Name")) {
-                                if (spatial == null) {
-                                    spatial = new StringBuffer();
-                                    spatial.append(item.getText());
-                                } else {
-                                    spatial.append(", " + item.getText());
-                                }
-                            }
-                        }
-                    }
-                    if (spatial != null && image.getLocality() == null) {
-                        image.setLocality(spatial.toString());
-                    }
-                    if (keywords != null && image.getKeywords() == null) {
-                        image.setKeywords(keywords.toString());
-                    }
-                    if (jpegMetadata
-                            .findEXIFValue(TiffConstants.TIFF_TAG_ARTIST) != null
-                            && image.getCreator() == null) {
-                        image.setCreator(jpegMetadata.findEXIFValue(
-                                TiffConstants.TIFF_TAG_ARTIST).getStringValue());
-                    }
-                    if (jpegMetadata
-                            .findEXIFValue(TiffConstants.TIFF_TAG_IMAGE_DESCRIPTION) != null
-                            && image.getDescription() == null) {
-                        image.setDescription(jpegMetadata.findEXIFValue(
-                                TiffConstants.TIFF_TAG_IMAGE_DESCRIPTION)
-                                .getStringValue());
-                    }
-                    TiffImageMetadata exifMetadata = jpegMetadata.getExif();
-                    if (exifMetadata != null) {
-                        TiffImageMetadata.GPSInfo gpsInfo = exifMetadata
-                                .getGPS();
-                        if (null != gpsInfo && image.getLocation() == null) {
-                            Point location = geometryFactory
-                                    .createPoint(new Coordinate(gpsInfo
-                                            .getLongitudeAsDegreesEast(),
-                                            gpsInfo.getLatitudeAsDegreesNorth()));
-                            image.setLocation(location);
-                        }
-                    }
-                }
             } catch (Exception e) {
-                System.out.println(e.toString());
+                logger.error(e.toString());
                 for (StackTraceElement ste : e.getStackTrace()) {
-                    System.out.println(ste);
+                    logger.error(ste.toString());
                 }
             }
         }

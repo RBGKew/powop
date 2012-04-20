@@ -7,7 +7,7 @@ create table Distribution_Source (Distribution_id bigint not null, sources_id bi
 drop table if exists Group_permissions;
 create table Group_permissions (Group_id bigint not null, permissions integer);
 drop table if exists IdentificationKey;
-create table IdentificationKey (id bigint not null, created timestamp, creator varchar(255), identifier varchar(255) not null, license varchar(255), modified timestamp, source varchar(255), description clob, title varchar(255), authority_id bigint, taxon_id bigint, primary key (id), unique (identifier));
+create table IdentificationKey (id bigint not null, created timestamp, creator varchar(255), identifier varchar(255) not null, license varchar(255), matrix clob, modified timestamp, source varchar(255), description clob, title varchar(255), authority_id bigint, taxon_id bigint, primary key (id), unique (identifier));
 drop table if exists IdentificationKey_Source;
 create table IdentificationKey_Source (IdentificationKey_id bigint not null, sources_id bigint not null, primary key (IdentificationKey_id, sources_id));
 drop table if exists Identifier;

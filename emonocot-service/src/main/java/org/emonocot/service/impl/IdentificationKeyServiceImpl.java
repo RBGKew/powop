@@ -1,11 +1,11 @@
 /**
- * 
+ *
  */
 package org.emonocot.service.impl;
 
+import org.emonocot.api.IdentificationKeyService;
 import org.emonocot.model.key.IdentificationKey;
 import org.emonocot.persistence.dao.IdentificationKeyDao;
-import org.emonocot.service.IdentificationKeyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +18,20 @@ public class IdentificationKeyServiceImpl extends
         implements IdentificationKeyService {
 
     /**
-     * @param newIdentificationKeyDao
+     * @param newIdentificationKeyDao Set the identification key dao
      */
     @Autowired
     public final void setIdentificationKeyDao(
             final IdentificationKeyDao newIdentificationKeyDao) {
         super.dao = newIdentificationKeyDao;
+    }
+
+   /**
+    *
+    * @param source Set the source of the identification key
+    * @return an identification key
+    */
+    public final IdentificationKey findBySource(final String source) {
+        return dao.findBySource(source);
     }
 }

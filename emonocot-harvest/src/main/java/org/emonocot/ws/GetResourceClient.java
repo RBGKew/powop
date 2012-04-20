@@ -16,6 +16,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URIUtils;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -232,7 +233,7 @@ public class GetResourceClient {
         BufferedInputStream bufferedInputStream = null;
         BufferedOutputStream bufferedOutputStream = null;
 
-        HttpGet httpGet = new HttpGet(authorityURI);
+        HttpGet httpGet = new HttpGet(authorityURI.replace(" ", "%20"));
         httpGet.addHeader(new BasicHeader("If-Modified-Since", DateUtils
                 .formatDate(new Date(Long.parseLong(dateLastHarvested)))));
         try {

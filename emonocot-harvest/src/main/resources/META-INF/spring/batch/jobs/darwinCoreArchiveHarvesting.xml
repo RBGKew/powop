@@ -262,11 +262,6 @@
 		</property>
 	</bean>
 
-	<bean id="getResourceClient" class="org.emonocot.ws.GetResourceClient">
-	    <property name="proxyHost" value="${http.proxyHost}" />
-		<property name="proxyPort" value="${http.proxyPort}" />
-	</bean>
-
 	<bean id="unpackDWCArchiveTasklet"
 		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
 		scope="step">
@@ -452,12 +447,13 @@
 	  </property>
 	</bean>
 	
-	<bean id="processImageFilesProcessor" class="org.emonocot.job.dwc.image.ImageFileProcessor" scope="step">
-	  <property name="getResourceClient" ref="getResourceClient" />
-	  <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-	  <property name="thumbnailDirectory" value="${harvester.thumbnail.directory}"/>
-	  <property name="imageMagickSearchPath" value="${harvester.imagemagick.path}"/>
-	  <property name="imageDirectory" value="${harvester.image.directory}"/>
+	<bean id="processImageFilesProcessor" class="org.springframework.batch.item.support.CompositeItemProcessor">
+	  <property name="delegates">
+	    <list>
+	      <ref bean="resizeImagesProcessor"/>
+	      <ref bean="imageMetadataProcessor"/>
+	    </list>
+	  </property>
 	</bean>
 	
 	<!-- References -->

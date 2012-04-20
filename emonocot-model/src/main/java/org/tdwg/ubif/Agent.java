@@ -8,7 +8,12 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @author ben
  *
  */
-public class TaxonName {
+public class Agent {
+    /**
+    *
+    */
+    @XStreamAsAttribute
+    private String ref;
 
     /**
      *
@@ -19,14 +24,44 @@ public class TaxonName {
     /**
      *
      */
-   @XStreamAsAttribute
-   private String debuglabel;
+    @XStreamAsAttribute
+    private String role;
 
     /**
      *
      */
     @XStreamAlias("Representation")
     private Representation representation;
+
+    /**
+     * @return the ref
+     */
+    public final String getRef() {
+        return ref;
+    }
+
+    /**
+     * @param newRef
+     *            the ref to set
+     */
+    public final void setRef(final String newRef) {
+        this.ref = newRef;
+    }
+
+    /**
+     * @return the role
+     */
+    public final String getRole() {
+        return role;
+    }
+
+    /**
+     * @param newRole
+     *            the role to set
+     */
+    public final void setRole(final String newRole) {
+        this.role = newRole;
+    }
 
     /**
      * @return the representation
@@ -58,19 +93,4 @@ public class TaxonName {
     public final String getId() {
         return id;
     }
-
-    /**
-     * @return the debuglabel
-     */
-    public final String getDebuglabel() {
-        return debuglabel;
-    }
-
-    /**
-     * @param newDebugLabel the debuglabel to set
-     */
-    public final void setDebuglabel(final String newDebugLabel) {
-        this.debuglabel = newDebugLabel;
-    }
-
 }

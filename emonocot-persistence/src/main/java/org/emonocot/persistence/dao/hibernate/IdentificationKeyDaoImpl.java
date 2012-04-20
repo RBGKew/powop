@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.emonocot.persistence.dao.hibernate;
 
 import java.util.HashMap;
@@ -11,6 +8,7 @@ import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.model.key.IdentificationKey;
 import org.emonocot.persistence.dao.IdentificationKeyDao;
 import org.hibernate.FetchMode;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.search.query.dsl.FacetContext;
 import org.hibernate.search.query.engine.spi.FacetManager;
 import org.hibernate.search.query.facet.FacetSortOrder;
@@ -25,7 +23,7 @@ public class IdentificationKeyDaoImpl extends
         SearchableDaoImpl<IdentificationKey> implements IdentificationKeyDao {
 
     /**
-     * 
+     *
      */
     private static Map<String, Fetch[]> FETCH_PROFILES;
 
@@ -40,14 +38,18 @@ public class IdentificationKeyDaoImpl extends
     }
 
     /**
-     * 
+     *
      */
     public IdentificationKeyDaoImpl() {
         super(IdentificationKey.class, IdentificationKey.class);
     }
 
-    /* (non-Javadoc)
-     * @see org.emonocot.persistence.dao.hibernate.SearchableDaoImpl#createFacetingRequest(org.hibernate.search.query.dsl.FacetContext, org.emonocot.api.FacetName, org.hibernate.search.query.engine.spi.FacetManager)
+    /**
+     *
+     * @see org.emonocot.persistence.dao.hibernate.SearchableDaoImpl#
+     * createFacetingRequest(org.hibernate.search.query.dsl.FacetContext,
+     * org.emonocot.api.FacetName,
+     * org.hibernate.search.query.engine.spi.FacetManager)
      */
     @Override
     protected void createFacetingRequest(FacetContext facetContext,
@@ -74,7 +76,8 @@ public class IdentificationKeyDaoImpl extends
         }
     }
 
-    /* (non-Javadoc)
+    /**
+     *
      * @see org.emonocot.persistence.dao.hibernate.SearchableDaoImpl#getDocumentFields()
      */
     @Override
@@ -82,7 +85,7 @@ public class IdentificationKeyDaoImpl extends
         return new String[] {"title", "description", "taxon.name"};
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.emonocot.persistence.dao.hibernate.SearchableDaoImpl#getDefaultField()
      */
     @Override
@@ -90,12 +93,23 @@ public class IdentificationKeyDaoImpl extends
         return "title";
     }
 
-    /* (non-Javadoc)
+    /**
+     *
      * @see org.emonocot.persistence.dao.hibernate.DaoImpl#getProfile(java.lang.String)
      */
     @Override
     protected Fetch[] getProfile(String profile) {
         return FETCH_PROFILES.get("object-page");
+    }
+
+   /**
+    *
+    * @param source Set the source of the identification key
+    * @return an identification key
+    */
+    public final IdentificationKey findBySource(final String source) {
+        return (IdentificationKey) getSession().createCriteria(type)
+                .add(Restrictions.eq("source", source)).uniqueResult();
     }
 
 }

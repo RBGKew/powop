@@ -1,15 +1,12 @@
 package org.tdwg;
 
 import java.net.URI;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.dublincore.Relation;
 import org.emonocot.model.marshall.xml.DateTimeConverter;
 import org.emonocot.model.marshall.xml.UriElementConverter;
 import org.joda.time.DateTime;
-import org.tdwg.voc.LinkType;
-import org.tdwg.voc.PublicationCitation;
 
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;

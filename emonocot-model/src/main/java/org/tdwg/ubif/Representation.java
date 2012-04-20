@@ -18,6 +18,12 @@ public class Representation {
     /**
      *
      */
+    @XStreamAlias("Detail")
+    private String detail;
+
+    /**
+     *
+     */
     @XStreamAlias("MediaObject")
     private MediaObjectRef mediaObject;
 
@@ -49,5 +55,19 @@ public class Representation {
      */
     public final void setMediaObject(final MediaObjectRef newMediaObject) {
         this.mediaObject = newMediaObject;
+    }
+
+    /**
+     * @return the detail
+     */
+    public final String getDetail() {
+        return detail;
+    }
+
+    /**
+     * @param newDetail the detail to set
+     */
+    public final void setDetail(final String newDetail) {
+        this.detail = newDetail;
     }
 }

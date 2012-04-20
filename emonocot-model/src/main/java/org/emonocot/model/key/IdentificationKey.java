@@ -58,6 +58,11 @@ public class IdentificationKey extends SearchableObject{
     /**
      *
      */
+    private String matrix;
+
+    /**
+     *
+     */
     @Id
     @GeneratedValue(generator = "system-increment")
     @DocumentId
@@ -118,5 +123,22 @@ public class IdentificationKey extends SearchableObject{
      */
     public void setTaxon(Taxon taxon) {
         this.taxon = taxon;
+    }
+
+    /**
+     *
+     * @param matrix Set the matrix
+     */
+    public void setMatrix(String matrix) {
+        this.matrix = matrix;
+    }
+
+    /**
+     *
+     * @return the matrix
+     */
+    @Lob
+    public String getMatrix() {
+        return matrix;
     }
 }
