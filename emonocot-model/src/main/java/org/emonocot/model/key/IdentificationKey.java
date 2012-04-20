@@ -8,7 +8,10 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 import org.emonocot.model.common.SearchableObject;
+import org.emonocot.model.hibernate.TaxonomyBridge;
 import org.emonocot.model.taxon.Taxon;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.ClassBridge;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Fields;
@@ -23,7 +26,8 @@ import org.hibernate.search.annotations.IndexedEmbedded;
  */
 @Entity
 @Indexed(index = "org.emonocot.model.common.SearchableObject")
-//TODO Consider @ClassBridge(impl = org.emonocot.model.hibernate.TaxonomyBridge.class)
+@ClassBridge(name = "taxon", impl = TaxonomyBridge.class, index = Index.UN_TOKENIZED,
+        analyzer = @Analyzer(definition = "facetAnalyzer"))
 public class IdentificationKey extends SearchableObject{
 
     /**
