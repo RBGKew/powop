@@ -77,7 +77,7 @@
 				</c:when>
 				<c:when test="${item.className == 'IdentificationKey'}">
 					<td>
-						<spring:url var="iconUrl" value=""/>
+						<spring:url var="iconUrl" value="/images/glyphicon-keys.png"/>
 						<!-- TODO icon -->
 						<img src="${iconUrl}" class="pull-left" alt="ID Key"/>
 					</td>
@@ -93,7 +93,7 @@
 					</td>
 				</c:when>
 				<c:otherwise>
-					Unknown class ${item.className}
+					<!-- Unknown class ${item.className} -->
 				</c:otherwise>
 			</c:choose>
 			</tr>

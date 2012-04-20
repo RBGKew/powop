@@ -23,11 +23,12 @@
 				<spring:message code="${facetName}" />
 			</c:otherwise>
 		</c:choose>
-	</li>		
-	
+	</li>
 	<c:set var="facetSelected" value="${em:isFacetSelected(pager,facetName)}"/>
 	<c:choose>
+    <!-- If we've made a selection for this facet -->
 		<c:when test="${facetSelected}">
+		  <!-- clear facet link -->
 			<li class="${facetName}">
 					<jsp:element name="a">
 						<jsp:attribute name="href">
@@ -48,16 +49,29 @@
 						<c:if test="${facetName eq 'CLASS'}">
 							<c:set value="no-small-icon" var="cssClass"></c:set>
 						</c:if>
-						<div class="${cssClass}"><spring:message code="${facetName}.clearFacet" /></div>
+						<div><spring:message code="${facetName}.clearFacet" /></div>
 					</jsp:element>
 			</li>
-						
+			<!-- Link to current selection -->
 			<li class="${facetName}">
 				<a href="#">
 					<c:set var="selectedFacetName" value="${pager.selectedFacets[facetName]}"/>
 					<c:if test="${showIcons}">
-						<spring:url var="imageUrl" value="/images/${selectedFacetName}.jpg"/>
-						<img src="${imageUrl}"/>
+					  <!-- Glyphicon -->
+	          <c:choose>
+	            <c:when test="${selectedFacetName eq 'org.emonocot.model.taxon.Taxon'}">
+	              <i class="icon-leaf"><!----></i>
+	            </c:when>
+	            <c:when test="${selectedFacetName eq 'org.emonocot.model.media.Image'}">
+	              <i class="icon-picture"><!----></i>
+	            </c:when>
+	            <c:when test="${selectedFacetName eq 'org.emonocot.model.key.IdentificationKey'}">
+	              <i class="icon-keys"><!----></i>
+	            </c:when>
+	            <c:otherwise>
+	              <i class="no-small-icon"><!----></i>
+	            </c:otherwise>
+	          </c:choose>
 					</c:if>
 					<span class="facetValue"><spring:message code="${selectedFacetName}" /></span>
 				</a>
@@ -93,10 +107,22 @@
 										</c:url>
 									</jsp:attribute>
 									<c:if test="${showIcons}">
-									  <spring:url var="imageUrl" value="/images/${facet.value}.jpg"/>
-									  <img src="${imageUrl}"/>
-								    </c:if>
-									
+				            <!-- Glyphicon -->
+				            <c:choose>
+				              <c:when test="${facet.value eq 'org.emonocot.model.taxon.Taxon'}">
+				                <i class="icon-leaf"><!----></i>
+				              </c:when>
+				              <c:when test="${facet.value eq 'org.emonocot.model.media.Image'}">
+				                <i class="icon-picture"><!----></i>
+				              </c:when>
+				              <c:when test="${facet.value eq 'org.emonocot.model.key.IdentificationKey'}">
+				                <i class="icon-keys"><!----></i>
+				              </c:when>
+				              <c:otherwise>
+				                <i class="no-small-icon"><!----></i>
+				              </c:otherwise>
+				            </c:choose>
+								  </c:if>
 									<span class="facetValue"><spring:message code="${facet.value}" /></span>
 									<c:if test="${!em:isMultiValued(facetName)}">
 									<span class="facetCount"> [${facet.count}]</span>

@@ -10,7 +10,7 @@
 		<div class="row">
 			<jsp:element name="img">
 				<jsp:attribute name="src">
-					<c:url value="/images/KeyPageIcon.jpg"/>
+					<c:url value="/images/glyphicon-keys.png"/>
 				</jsp:attribute>
 				<jsp:attribute name="class">pull-left noPrint</jsp:attribute>
 				<jsp:attribute name="alt">Key</jsp:attribute>
@@ -47,7 +47,7 @@
 	              <jsp:attribute name="href">
 	                <c:url value="/source/${authority.identifier}" />
 	              </jsp:attribute>
-	              ${authority.title}
+	              ${authority.identifier}
 	            </jsp:element>
             </td>
           </tr>
@@ -64,7 +64,7 @@
             <jsp:attribute name="href">
               <c:url value="/source/${source.identifier}" />
             </jsp:attribute>
-            ${source.title}
+            ${source.identifier}
           </jsp:element>
         </li>
       </c:forEach>
