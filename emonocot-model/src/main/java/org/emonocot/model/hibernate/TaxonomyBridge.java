@@ -50,7 +50,8 @@ public class TaxonomyBridge implements FieldBridge {
     /**
      * @param o
      *            A javabean with an accessible getTaxon method
-     * @return The return object of get
+     * @return The return object from the invocation or null if known exceptions
+     *         are thrown
      */
     public Taxon reflectiveGetTaxon(Object o) {
         Taxon taxon = null;

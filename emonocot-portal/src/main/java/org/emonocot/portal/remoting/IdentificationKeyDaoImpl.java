@@ -39,7 +39,7 @@ public class IdentificationKeyDaoImpl extends DaoImpl<IdentificationKey>
     * @return an identification key
     */
     public final IdentificationKey findBySource(final String source) {
-        throw new UnsupportedOperationException("not unimplemented");
+        throw new UnsupportedOperationException("not implemented");
     }
 
 }

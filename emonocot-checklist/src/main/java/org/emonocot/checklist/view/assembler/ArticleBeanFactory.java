@@ -2,7 +2,7 @@ package org.emonocot.checklist.view.assembler;
 
 import org.dozer.BeanFactory;
 import org.emonocot.checklist.model.Article;
-import org.hibernate.Hibernate;
+import org.emonocot.checklist.model.PublicationType;
 import org.tdwg.voc.PublicationCitation;
 import org.tdwg.voc.PublicationTypeTerm;
 
@@ -42,9 +42,12 @@ public class ArticleBeanFactory implements BeanFactory {
                         .setPages("- " + article.getPageTo());
             }
         }
-        if (Hibernate.isInitialized(article.getPublication())
-                && article.getPublication() != null) {
-            switch (article.getPublication().getType()) {
+        PublicationType publicationType = null;
+        try{
+            publicationType = article.getPublication().getType(); 
+        } catch (NullPointerException npe) {}//if hibernate is proxying a null
+        if (publicationType != null) {
+            switch (publicationType) {
             case BOOK:
                 publicationCitation.setPublicationType(
                         PublicationTypeTerm.BOOK_SECTION);
