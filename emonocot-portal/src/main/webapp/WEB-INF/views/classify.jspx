@@ -17,7 +17,5 @@
                 <p class="justified">When launched this page with provide an overview of how you can use this site to work on your classification and the relationship to the <a title="Classification Page" href="${classificationUrl}">eMonocot classification!</a></p>
             </div>
         </div>
-        
-        
 	</div>
 </jsp:root>

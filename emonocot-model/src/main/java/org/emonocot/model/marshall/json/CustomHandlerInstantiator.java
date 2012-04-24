@@ -11,6 +11,7 @@ import org.codehaus.jackson.map.introspect.Annotated;
 import org.codehaus.jackson.map.jsontype.TypeIdResolver;
 import org.codehaus.jackson.map.jsontype.TypeResolverBuilder;
 import org.emonocot.api.GroupService;
+import org.emonocot.api.IdentificationKeyService;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.ReferenceService;
 import org.emonocot.api.SourceService;
@@ -53,6 +54,11 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
     *
     */
    private SourceService sourceService;
+   
+   /**
+    *
+    */
+   private IdentificationKeyService identificationKeyService;
 
     /**
      * @param userService the userService to set
@@ -96,6 +102,13 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
     public final void setSourceService(final SourceService newSourceService) {
         this.sourceService = newSourceService;
     }
+    
+    /**
+     * @param newIdentificationKeyService the identification key service to set
+     */
+    public final void setIdentificationKeyService(final IdentificationKeyService newIdentificationKeyService) {
+        this.identificationKeyService = newIdentificationKeyService;
+    }
 
     @Override
     public final JsonDeserializer<?> deserializerInstance(
@@ -138,6 +151,12 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
                     = SourceDeserializer.class.newInstance();
                 sourceDeserializer.setService(sourceService);
                 return sourceDeserializer;
+            }   else if (jsonDeserializerClass
+                        .equals(IdentificationKeyDeserializer.class)) {
+                    IdentificationKeyDeserializer identificationKeyDeserializer
+                        = IdentificationKeyDeserializer.class.newInstance();
+                    identificationKeyDeserializer.setService(identificationKeyService);
+                    return identificationKeyDeserializer;
             } else if (jsonDeserializerClass
                         .equals(PrincipalDeserializer.class)) {
                     PrincipalDeserializer principalDeserializer

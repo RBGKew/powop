@@ -1,28 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
-  xmlns:c="http://java.sun.com/jsp/jstl/core"
-  xmlns:spring="http://www.springframework.org/tags"
-  version="2.0">  
-  <footer class="footer">
-    <div class="container">  
-      <p class="footer-version pull-right noPrint">eMonocot <spring:message code="application.version"/></p>
-     
-      	<ul class="foot unstyled noPrint">
-			    		<li>
-			    			<jsp:element  name="a">
-				    			<jsp:attribute name="href"><c:url value="/about"/></jsp:attribute>
-				    			<spring:message code="about.title"/>
-				    		</jsp:element>
-				    	</li>
-			    		<li>
-			    			<jsp:element  name="a">
-				    			<jsp:attribute name="href"><c:url value="/contact"/></jsp:attribute>
-				    			<spring:message code="contact.title"/>
-				    		</jsp:element>
-			    		</li>
-			    	</ul>
-			    	
-			  
-			</div>
-  </footer>      
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<footer class="footer">
+	<div class="container">
+		<p class="footer-version pull-right noPrint">
+			eMonocot
+			<spring:message code="application.version" />
+		</p>
+
+		<ul class="foot unstyled noPrint">
+			<li><c:url value="/about" var="aboutUrl" /> <a
+				href="${aboutUrl}"><spring:message code="about.title" />
+			</a></li>
+			<li><c:url value="/contact" var="contactUrl" /> <a
+				href="${contactUrl}"><spring:message code="contact.title" />
+			</a></li>
+			<li><a href="http://www.glyphicons.com"><spring:message
+						code="icons.by.glyphicons" />
+			</a></li>
+		</ul>
+	</div>
+	</footer>
 </jsp:root>

@@ -1,20 +1,28 @@
 package org.emonocot.job.key;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
+import org.emonocot.api.TaxonService;
 import org.emonocot.api.match.Match;
 import org.emonocot.api.match.taxon.TaxonMatcher;
 import org.emonocot.harvest.common.AbstractRecordAnnotator;
-import org.emonocot.harvest.common.AuthorityAware;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.common.RecordType;
+import org.emonocot.model.taxon.RankBasedTaxonComparator;
 import org.emonocot.model.taxon.Taxon;
 import org.gbif.ecat.model.ParsedName;
 import org.gbif.ecat.parser.NameParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.item.ItemProcessor;
 import org.tdwg.ubif.TaxonName;
 
@@ -24,7 +32,7 @@ import org.tdwg.ubif.TaxonName;
  *
  */
 public class TaxonNameProcessor extends AbstractRecordAnnotator implements
-        ItemProcessor<TaxonName, TaxonName> {
+        ItemProcessor<TaxonName, TaxonName>, StepExecutionListener {
     /**
      *
      */
@@ -41,10 +49,25 @@ public class TaxonNameProcessor extends AbstractRecordAnnotator implements
     private NameParser nameParser;
 
     /**
+     *
+     */
+    private TaxonService taxonService;
+
+    /**
+     *
+     */
+    private Set<String> higherTaxa;
+
+    /**
+     *
+     */
+    private boolean first = true;
+
+    /**
      * @param newTaxonMatcher
      *            the matcher to set
      */
-    public void setTaxonMatcher(TaxonMatcher newTaxonMatcher) {
+    public final void setTaxonMatcher(final TaxonMatcher newTaxonMatcher) {
         this.taxonMatcher = newTaxonMatcher;
     }
 
@@ -52,8 +75,16 @@ public class TaxonNameProcessor extends AbstractRecordAnnotator implements
      * @param newNameParser
      *            the nameParser to set
      */
-    public void setNameParser(NameParser newNameParser) {
+    public final void setNameParser(final NameParser newNameParser) {
         this.nameParser = newNameParser;
+    }
+
+    /**
+     * @param newTaxonService
+     *            Set the taxon service
+     */
+    public final void setTaxonService(final TaxonService newTaxonService) {
+        this.taxonService = newTaxonService;
     }
 
     /**
@@ -69,6 +100,7 @@ public class TaxonNameProcessor extends AbstractRecordAnnotator implements
         AnnotationType annotationType = null;
         AnnotationCode code = null;
         String text = null;
+
         if (item.getRepresentation() == null) {
             return null;
         } else {
@@ -79,19 +111,39 @@ public class TaxonNameProcessor extends AbstractRecordAnnotator implements
                 annotationType = AnnotationType.Error;
                 code = AnnotationCode.Absent;
                 text = "No matches found for taxonomic name " + taxonName;
+
                 item.setDebuglabel(null);
             } else if (matches.size() > 1) {
                 annotationType = AnnotationType.Error;
                 code = AnnotationCode.BadRecord;
                 text = matches.size() + " matches found for taxonomic name "
                         + taxonName;
+
                 item.setDebuglabel(null);
             } else {
                 annotationType = AnnotationType.Info;
                 code = AnnotationCode.Present;
                 object = matches.get(0).getInternal();
+                object = taxonService.load(object.getIdentifier(),
+                        "taxon-with-ancestors");
+                Set<String> ancestorIdentifiers = new HashSet<String>();
+                for (Taxon ancestor : object.getAncestors()) {
+                    ancestorIdentifiers.add(ancestor.getIdentifier());
+                }
+                if (first) {
+                    higherTaxa.addAll(ancestorIdentifiers);
+                    first = false;
+                    logger.debug("Ancestors " + object.getAncestors());
+                    logger.debug("There are " + higherTaxa.size());
+                } else {
+                    higherTaxa.retainAll(ancestorIdentifiers);
+                    logger.debug("Ancestors " + object.getAncestors());
+                    logger.debug("There are " + higherTaxa.size());
+                }
+
                 text = object.getIdentifier() + " matches taxonomic name "
                         + taxonName;
+
                 item.setDebuglabel(object.getIdentifier());
             }
 
@@ -105,6 +157,36 @@ public class TaxonNameProcessor extends AbstractRecordAnnotator implements
             super.annotate(annotation);
             return item;
         }
+    }
+
+    /**
+     * @param stepExecution
+     *            Set the step execution
+     * @return the exit status
+     */
+    public final ExitStatus afterStep(final StepExecution stepExecution) {
+        if (!higherTaxa.isEmpty()) {
+            SortedSet<Taxon> sortedHigherTaxa = new TreeSet<Taxon>(
+                    new RankBasedTaxonComparator());
+
+            for (String taxonIdentifier : higherTaxa) {
+                sortedHigherTaxa.add(taxonService.load(taxonIdentifier));
+            }
+            Taxon t = sortedHigherTaxa.iterator().next();
+            stepExecution.getJobExecution().getExecutionContext()
+                    .put("root.taxon.identifier", t.getIdentifier());
+            logger.debug("Root Taxon is " + t.getIdentifier());
+        }
+        return stepExecution.getExitStatus();
+    }
+
+    /**
+     * @param stepExecution
+     *            Set the step execution
+     */
+    public final void beforeStep(final StepExecution stepExecution) {
+        first = true;
+        higherTaxa = new HashSet<String>();
     }
 
 }

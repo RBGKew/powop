@@ -25,6 +25,7 @@
 		<property name="groupService" ref="groupServiceImpl" />
 		<property name="userService" ref="userServiceImpl" />
 		<property name="sourceService" ref="sourceServiceImpl" />
+		<property name="identificationKeyService" ref="identificationKeyServiceImpl" />
 		<property name="jobInstanceService" ref="jobInstanceServiceImpl" />
 	</bean>
 	

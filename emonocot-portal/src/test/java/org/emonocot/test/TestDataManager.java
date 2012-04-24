@@ -823,7 +823,8 @@ public class TestDataManager {
                 userService.deletePermission(taxon, ace.getPrincipal(),
                         ace.getPermission(), ace.getClazz());
             } else if (object instanceof IdentificationKey) {
-                identificationKeyService.delete(((IdentificationKey) object).getIdentifier());
+                identificationKeyService.delete(((IdentificationKey) object)
+                        .getIdentifier());
             }
         }
         disableAuthentication();
@@ -884,9 +885,10 @@ public class TestDataManager {
      *            The titile of the key to create
      * @param description
      *            The description of the key to create
+     * @param taxon The identifier of the root taxon associated with this key
      */
-    public void createIdentificationKey(String identifier, String title,
-            String description) {
+    public final void createIdentificationKey(final String identifier,
+            final String title, final String description, final String taxon) {
         enableAuthentication();
         IdentificationKey key = new IdentificationKey();
         data.push(key);
@@ -899,6 +901,11 @@ public class TestDataManager {
         if (description != null && description.length() > 0) {
             key.setDescription(description);
         }
-        IdentificationKey k = identificationKeyService.save(key);
+        if (taxon != null && taxon.length() > 0) {
+            Taxon t = new Taxon();
+            t.setIdentifier(taxon);
+            key.setTaxon(t);
+        }
+        identificationKeyService.save(key);
     }
 }

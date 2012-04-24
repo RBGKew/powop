@@ -1,5 +1,8 @@
 body{padding-top:40px;}
 .taxonName {font-style: italic}
+
+#page-title {line-height: 65px}
+
 #distribution-textual {list-style:none;margin:0px; padding-left:0; text-indent:0; clear: both}
 #distribution-textual li {float:left; padding-left:0.5em}
 #distribution-textual li:first-child:before {padding-left: 0em}
@@ -144,6 +147,8 @@ ul#taxonHierarchy, ul#taxonHierarchy ul {
 	margin-top:40px;
 }
 
+.header-icon { padding-left: 0.5em; padding-right: 0.5em; }
+
 .icon-column{
 	width:70px;
 	}
@@ -189,4 +194,44 @@ footer {
 
 .footer-version{
 	color: @grayLight;
+}
+/**
+ * Identification Key
+ */
+#unselectedCharacters ul.unstyled {
+  padding-left: 25px;
+}
+
+#selectedCharacters ul.unstyled {
+  padding-left: 25px;
+}
+#characterModal .modal-body li {
+	clear: both;
+	overflow: auto;
+}
+
+#matchedTaxa li {
+	clear: both;
+	overflow: auto;
+}
+
+li.character {
+  clear:both; 
+  overflow: auto;
+}
+
+li.descriptiveConcept div {
+  clear:both;
+}
+
+li.descriptiveConcept h4.pull-left {
+  width: 50%
+}
+
+li.character h4.pull-left {
+  width: 50%
+}
+
+label.checkbox input[type="checkbox"]{
+	margin-left: 0px
 }

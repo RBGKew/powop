@@ -29,10 +29,4 @@
    <!-- <logger name="org.emonocot.harvest.common.index.MessageDrivenSearchController" level="DEBUG" additivity="false">
     <appender-ref ref="stdout"/>
   </logger>-->  
-  <logger name="org.emonocot.job" level="DEBUG" additivity="false">
-    <appender-ref ref="stdout"/>
-  </logger>
-  <logger name="org.emonocot.model.common" level="DEBUG" additivity="false">
-    <appender-ref ref="stdout"/>
-  </logger>
 </configuration>

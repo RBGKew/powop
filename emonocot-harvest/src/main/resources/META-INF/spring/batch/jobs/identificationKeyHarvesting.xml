@@ -31,6 +31,7 @@
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="processImages" />
 			<batch:listeners>
+			    <batch:listener ref="taxonNameProcessor"/>
 				<batch:listener ref="hibernateSessionClearingChunkListener" />
 			</batch:listeners>
 		</batch:step>
@@ -129,6 +130,10 @@
 		      <key><value>taxonFileName</value></key>
 		      <value>#{jobExecutionContext['taxon.file.name']}</value>
 		    </entry>
+		    <entry>
+		      <key><value>imageFileName</value></key>
+		      <value>#{jobExecutionContext['image.file.name']}</value>
+		    </entry>
 		  </map>
 		</property>
 	</bean>
@@ -165,6 +170,7 @@
 		scope="step">
 		<property name="nameParser" ref="nameParser" />
 		<property name="taxonMatcher" ref="taxonMatcher" />
+		<property name="taxonService" ref="taxonServiceImpl" />
 		<property name="sessionFactory" ref="sessionFactory"/>
 		<property name="transactionManager" ref="transactionManager"/>
 		<property name="sourceName" value="#{jobParameters['authority.name']}" />
@@ -247,6 +253,8 @@
 
 	<bean id="datasetProcessor" class="org.emonocot.job.key.DatasetProcessor"
 		scope="step">
+		<property name="rootTaxonIdentifier" value="#{jobExecutionContext['root.taxon.identifier']}" />
+		<property name="taxonService" ref="taxonServiceImpl" />
 		<property name="authorityUri" value="#{jobParameters['authority.uri']}" />
 		<property name="sourceName" value="#{jobParameters['authority.name']}" />
 		<property name="matrixFile">

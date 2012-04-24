@@ -40,7 +40,7 @@
 				<c:url var="resetUrl" value="/search">
 					<c:param name="query" value=""/>
 				</c:url>
-				<a href="${resetUrl}" class="pull-right"><spring:message code="reset"/></a>
+				<button href="${resetUrl}" class="btn pull-right" id="reset"><i class="icon-refresh"><!--  --></i><spring:message code="reset"/></button>
 			</div>
 			<br/>
 		</div>

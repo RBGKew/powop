@@ -11,15 +11,9 @@
 		<header class="jumbotron subhead" id="overview">
 			<div class="page-header header-margin">
 				<div class="row">
-					<jsp:element name="img">
-						<jsp:attribute name="src">
-							<c:url value="/images/taxonPageIcon.jpg"/>
-						</jsp:attribute>
-						<jsp:attribute name="class">pull-left noPrint</jsp:attribute>
-						<jsp:attribute name="alt">Taxon</jsp:attribute>
-					</jsp:element>
-					
+				    <c:url value="/images/taxonPageIcon.png" var="taxonIconUrl"/>					
 					<h2 id="page-title">
+					    <img src="${taxonIconUrl}" class="pull-left noPrint header-icon" alt="Taxon"/>
 						<span class="taxonName">${taxon.name}</span> ${taxon.authorship}
 					</h2>				
 					<c:if test="${taxon.protologue != null}">
@@ -37,7 +31,7 @@
 					</c:if>
 				</div>
 			</div>
-			
+			<c:if test="not empty taxon.images or not empty taxon.content or not empty em:regions(taxon) or not empty taxon.children or not empty taxon.synonyms or not empty bibliography.references">
 			<div class="subnav noPrint">
 				<ul class="nav nav-pills">
 					<li><c:if test="${not empty taxon.images}"><a href="#images"><spring:message code="images" /></a></c:if></li>
@@ -48,6 +42,7 @@
 					<li><c:if test="${not empty bibliography.references}"><a href="#bibliography"><spring:message code="bibliography" /></a></c:if></li>
 				</ul>
 			</div>
+			</c:if>
 		</header>	
 		
 		<div class="row">

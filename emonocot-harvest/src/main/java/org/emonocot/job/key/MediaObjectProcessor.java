@@ -78,7 +78,7 @@ public class MediaObjectProcessor extends AuthorityAware implements
             Image persistedImage = imageService.findByUrl(item.getSource()
                     .getHref());
             if (persistedImage != null) {
-                item.setDebuglabel(persistedImage.getIdentifier());
+                item.setDebuglabel(persistedImage.getIdentifier() + "." + persistedImage.getFormat());
                 persistedImage.setCaption(item.getRepresentation().getLabel());
                 persistedImage.setDescription(item.getRepresentation()
                         .getDetail());
@@ -106,7 +106,7 @@ public class MediaObjectProcessor extends AuthorityAware implements
                 String format = item.getSource().getHref().substring(dotIndex + 1);
                 image.setFormat(format);
                 image.setIdentifier(UUID.randomUUID().toString());
-                item.setDebuglabel(image.getIdentifier());
+                item.setDebuglabel(image.getIdentifier() + "." + format);
                 image.setUrl(item.getSource().getHref());
                 image.setCaption(item.getRepresentation().getLabel());
                 image.setDescription(item.getRepresentation().getDetail());

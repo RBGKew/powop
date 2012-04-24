@@ -187,15 +187,17 @@ public class DataSetup {
                     row.citation, row.publisher);
         }
     }
-    
+
     /**
-     * @param rows ID Key rows to set
+     * @param rows
+     *            ID Key rows to set
      */
     @Given("^there are identification keys with the following properties:$")
     public final void thereAreIdentificationKeysWithTheFollowingProperties(
             final List<IdentificationKeyRow> rows) {
-        for(IdentificationKeyRow row : rows) {
-            testDataManager.createIdentificationKey(row.identifier, row.title, row.description);
+        for (IdentificationKeyRow row : rows) {
+            testDataManager.createIdentificationKey(row.identifier, row.title,
+                    row.description, row.taxon);
         }
     }
 

@@ -1,6 +1,7 @@
 package org.emonocot.portal.view;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -39,8 +40,6 @@ import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.core.convert.support.DefaultConversionService;
-
-import com.rc.retroweaver.runtime.Arrays;
 
 /**
  *

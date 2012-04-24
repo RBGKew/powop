@@ -844,6 +844,7 @@ public class Taxon extends SearchableObject {
      * @return the keys
      */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon")
+    @JsonSerialize(contentUsing = ReferenceSerializer.class)
     public Set<IdentificationKey> getKeys() {
         return keys;
     }
@@ -851,6 +852,7 @@ public class Taxon extends SearchableObject {
     /**
      * @param keys the keys to set
      */
+    @JsonDeserialize(contentUsing = ReferenceDeserializer.class)
     public void setKeys(Set<IdentificationKey> keys) {
         this.keys = keys;
     }

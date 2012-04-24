@@ -4,29 +4,29 @@ import java.io.IOException;
 
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.DeserializationContext;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.key.IdentificationKey;
 
 /**
  *
  * @author ben
  *
  */
-public class TaxonDeserializer extends BaseDeserializer<Taxon> {
+public class IdentificationKeyDeserializer extends BaseDeserializer<IdentificationKey> {
 
     /**
      *
      */
-    public TaxonDeserializer() {
-        super(Taxon.class);
+    public IdentificationKeyDeserializer() {
+        super(IdentificationKey.class);
     }
 
     @Override
-    public final Taxon deserialize(final JsonParser jsonParser,
+    public final IdentificationKey deserialize(final JsonParser jsonParser,
             final DeserializationContext deserializationContext)
             throws IOException {
         String identifier = jsonParser.getText();
         if (service != null) {
-            return service.load(identifier, "taxon-page");
+            return service.load(identifier);
         } else {
         	return null;
         }

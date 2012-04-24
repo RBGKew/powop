@@ -7,7 +7,7 @@ import java.util.Comparator;
  * @author ben
  *
  */
-public class AlphabeticalTaxonComparator implements Comparator<Taxon> {
+public class RankBasedTaxonComparator implements Comparator<Taxon> {
 
     /**
      * @param o1
@@ -22,32 +22,32 @@ public class AlphabeticalTaxonComparator implements Comparator<Taxon> {
         /**
          * Nulls last
          */
-        if (o1.getName() == null) {
-            if (o1.getName() != o2.getName()) {
+        if (o1.getRank() == null) {
+            if (o1.getRank() != o2.getRank()) {
                 return 1;
             } else {
                 return 0;
             }
-        } else if (o2.getName() == null) {
+        } else if (o2.getRank() == null) {
             return -1;
         } else {
-            o = o1.getName().compareTo(o2.getName());
+            o = o1.getRank().compareTo(o2.getRank());
         }
 
         /**
          * Homonyms
          */
         if (o == 0) {
-            if (o1.getAuthorship() == null) {
-                if (o1.getAuthorship() != o2.getAuthorship()) {
+            if (o1.getName() == null) {
+                if (o1.getName() != o2.getName()) {
                     return 1;
                 } else {
                     return 0;
                 }
-            } else if (o2.getAuthorship() == null) {
+            } else if (o2.getName() == null) {
                 return -1;
             } else {
-                return o1.getAuthorship().compareTo(o2.getAuthorship());
+                return o1.getName().compareTo(o2.getName());
             }
         } else {
             return o;

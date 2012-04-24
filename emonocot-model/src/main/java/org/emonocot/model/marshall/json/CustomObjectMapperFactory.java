@@ -2,6 +2,7 @@ package org.emonocot.model.marshall.json;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.emonocot.api.GroupService;
+import org.emonocot.api.IdentificationKeyService;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.JobInstanceService;
 import org.emonocot.api.ReferenceService;
@@ -53,9 +54,14 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
     private CustomObjectMapper objectMapper;
 
     /**
-   *
-   */
+     *
+     */
     private JobInstanceService jobInstanceService;
+
+    /**
+     *
+     */
+     private IdentificationKeyService identificationKeyService;
 
     /**
      * @param userService
@@ -116,6 +122,13 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
     }
 
     /**
+     * @param newIdentificationKeyService the identification key service to set
+     */
+    public final void setIdentificationKeyService(final IdentificationKeyService newIdentificationKeyService) {
+        this.identificationKeyService = newIdentificationKeyService;
+    }
+    
+    /**
      * @return the object created by this factory
      */
     public final ObjectMapper getObject() {
@@ -128,6 +141,7 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
             objectMapper.setGroupService(groupService);
             objectMapper.setSourceService(sourceService);
             objectMapper.setJobInstanceService(jobInstanceService);
+            objectMapper.setIdentificationKeyService(identificationKeyService);
             objectMapper.init();
         }
         return objectMapper;

@@ -1,14 +1,18 @@
 package org.emonocot.job.key;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.UUID;
 
 import org.emonocot.api.IdentificationKeyService;
+import org.emonocot.api.TaxonService;
 import org.emonocot.harvest.common.AuthorityAware;
 import org.emonocot.model.key.IdentificationKey;
+import org.emonocot.model.source.Source;
+import org.emonocot.model.taxon.Taxon;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -16,12 +20,17 @@ import org.tdwg.ubif.Agent;
 import org.tdwg.ubif.Dataset;
 
 /**
- * 
+ *
  * @author ben
- * 
+ *
  */
 public class DatasetProcessor extends AuthorityAware implements
         ItemProcessor<Dataset, IdentificationKey> {
+
+    /**
+    *
+    */
+   private Logger logger = LoggerFactory.getLogger(DatasetProcessor.class);
 
     /**
      *
@@ -37,6 +46,31 @@ public class DatasetProcessor extends AuthorityAware implements
      *
      */
     private Resource matrixFile;
+
+    /**
+     *
+     */
+    private String rootTaxonIdentifier;
+
+    /**
+     *
+     */
+    private TaxonService taxonService;
+
+    /**
+     * @param newRootTaxonIdentifier the rootTaxonIdentifier to set
+     */
+    public final void setRootTaxonIdentifier(
+            final String newRootTaxonIdentifier) {
+        this.rootTaxonIdentifier = newRootTaxonIdentifier;
+    }
+
+    /**
+     * @param newTaxonService the taxonService to set
+     */
+    public final void setTaxonService(final TaxonService newTaxonService) {
+        this.taxonService = newTaxonService;
+    }
 
     /**
      * @param newAuthorityUri
@@ -101,7 +135,16 @@ public class DatasetProcessor extends AuthorityAware implements
             IdentificationKey identificationKey = new IdentificationKey();
             identificationKey.setSource(authorityUri);
             identificationKey.setAuthority(getSource());
+            identificationKey.getSources().add(getSource());
             identificationKey.setIdentifier(UUID.randomUUID().toString());
+
+            if (rootTaxonIdentifier != null
+                    && rootTaxonIdentifier.trim().length() > 0) {
+                Taxon root = taxonService.find(rootTaxonIdentifier);
+                logger.debug("rootTaxonIdentifier is "  + rootTaxonIdentifier);
+                logger.debug("rootTaxon "  + root);
+                identificationKey.setTaxon(root);
+            }
 
             if (item.getRevisionData() != null) {
                 identificationKey.setCreated(item.getRevisionData()
@@ -109,7 +152,7 @@ public class DatasetProcessor extends AuthorityAware implements
                 identificationKey.setCreator(constructCreators(item));
             }
             identificationKey.setTitle(item.getRepresentation().getLabel());
-            identificationKey.setTitle(item.getRepresentation().getDetail());
+            identificationKey.setDescription(item.getRepresentation().getDetail());
             identificationKey.setMatrix(matrix);
             return identificationKey;
         } else {
@@ -124,11 +167,29 @@ public class DatasetProcessor extends AuthorityAware implements
                 }
                 persistedIdentificationKey.setCreator(constructCreators(item));
             }
+            if (rootTaxonIdentifier != null
+                    && rootTaxonIdentifier.trim().length() > 0) {
+                Taxon root = taxonService.find(rootTaxonIdentifier);
+                persistedIdentificationKey.setTaxon(root);
+                logger.debug("rootTaxonIdentifier is "  + rootTaxonIdentifier);
+                logger.debug("rootTaxon "  + root);
+            }
             persistedIdentificationKey.setTitle(item.getRepresentation()
                     .getLabel());
-            persistedIdentificationKey.setTitle(item.getRepresentation()
+            persistedIdentificationKey.setDescription(item.getRepresentation()
                     .getDetail());
             persistedIdentificationKey.setMatrix(matrix);
+            Source source = getSource();
+            boolean contains = false;
+            for (Source s : persistedIdentificationKey.getSources()) {
+                if (s.getIdentifier().equals(source.getIdentifier())) {
+                    contains = true;
+                    break;
+                }
+            }
+            if (!contains) {
+                persistedIdentificationKey.getSources().add(source);
+            }
             return persistedIdentificationKey;
         }
     }
