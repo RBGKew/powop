@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import java.lang.StringBuilder;
 
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.taxon.AlphabeticalTaxonComparator;
 import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.key.IdentificationKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,7 +45,7 @@ public class ClassificationController {
     
     @RequestMapping(value = "/classification" , method = RequestMethod.GET)
     public final String classification(final Model model){
-    	List<Taxon> results = taxonService.loadChildren(null, 20, 0, "taxon-with-children");
+    	List<Taxon> results = taxonService.loadChildren(null, 20, 0, "classification-tree");
     	model.addAttribute("result", results);
     	return "classification";
     }
@@ -52,7 +56,7 @@ public class ClassificationController {
                     headers = "Accept=application/json")
     public final @ResponseBody
     List<Node> getTaxonTreeRoots() {
-        List<Taxon> results = taxonService.loadChildren(null, 20, 0, "taxon-with-children");
+        List<Taxon> results = taxonService.loadChildren(null, 20, 0, "classification-tree");
         List<Node> nodes = new ArrayList<Node>();
         for (Taxon result : results) {
             nodes.add(new Node(result));
@@ -69,7 +73,7 @@ public class ClassificationController {
                     headers = "Accept=application/json")
     public final @ResponseBody
     List<Node> getTaxonTreeNode(@PathVariable final String identifier) {
-        List<Taxon> results = taxonService.loadChildren(identifier, null, null, "taxon-with-children");
+        List<Taxon> results = taxonService.loadChildren(identifier, null, null, "classification-tree");
         List<Node> nodes = new ArrayList<Node>();
         for (Taxon result : results) {
             nodes.add(new Node(result));
@@ -109,8 +113,26 @@ public class ClassificationController {
          */
         public Node(final Taxon taxon) {
             data.put("title", taxon.getName());
-            Map<String, String> dataAttr = new HashMap<String, String>();
+            Map<String, Object> dataAttr = new HashMap<String, Object>();
             dataAttr.put("href", "taxon/" + taxon.getIdentifier());
+            Set<IdentificationKey> keys = taxon.getKeys();
+            if (keys != null && keys.size() > 0) {
+            	data.put("class", "key");
+            	
+            	String prepender = "key/";
+            	
+            	StringBuilder keyInfo = new StringBuilder();
+            	int keyCount = 0;
+            	for(IdentificationKey key : keys) {
+            		keyInfo.append(key.getTitle()).append(":::");
+            		keyInfo.append(prepender + key.getId());
+            		if(keyCount <= keys.size()-1) {
+            			keyInfo.append(",");
+            		}
+            		keyCount++;
+            	}
+            	dataAttr.put("data-key-link", keyInfo.toString());
+            }
             data.put("attr", dataAttr);
             attr.put("id", taxon.getIdentifier());
             if (!taxon.getChildren().isEmpty()) {

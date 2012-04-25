@@ -12,28 +12,64 @@
 		<div class="row">
 		  <div class="span12">
 			<div id="classification" class="jstree-default">&#160;</div>
+			<c:url var="identificationKeyLink" value="/key/"/>
 			<c:url var="webserviceUrl" value="/taxonTree" />
-			<script type="text/javascript">
-				$(function() {
-					
-					$("#classification").jstree({
-								"json_data" : {
-									"ajax" : {
-										"url" : function(n) {
-											return n.attr ? "${webserviceUrl}/"
-													+ n.attr("id")
-													: "${webserviceUrl}";
-										}
-									}
-								},
-								"plugins" : [ "json_data" ]
-							});
-				});
-			</script>
+                <script type="text/javascript">
+                   function customMenu(node) {
+                        if (!$(node).children("a").hasClass("key")) {
+                            var items = {};
+                            return items;
+                        } else {
+                            // this value always comes back as a String. So instead of using objects to define the links
+                            // in the json, we have to use a String, separated by certain characters. Each key is separated by a comma,
+                            // and the title and url are separated by a :::
+                            // If we could figure out a way of getting the value of data-key-link as an array, it would be cleaner.
+                            var dataKeys = $(node).children("a").attr("data-key-link");
+
+                            // get the individual keys
+                            var keyArray = dataKeys.split(",");
+                            var items = {};
+
+
+                            for (key in keyArray) {
+                                // title and url separated by :::, e.g. myLink:::http://bbc.co.uk
+                                var titleAndURL = keyArray[key].split(":::");
+                                var title = titleAndURL[0];
+                                var url = titleAndURL[1];
+
+                                items[title] = {label:title, action:function () {
+                                    window.location = url;
+                               }}
+                            }
+                            return items;
+                        }
+
+                    }
+
+                    $(function () {
+
+                        $("#classification")
+                                .jstree(
+                                {
+                                    "json_data":{
+                                        "ajax":{
+                                            "url":function (n) {
+                                            	return n.attr ? "${webserviceUrl}/" + n.attr("id") : "${webserviceUrl}";
+                                            }
+                                        }
+                                    },
+                                    "contextmenu":{items:customMenu },
+                                    "plugins":[  "contextmenu", "json_data" ]
+                                });
+                    });
+                </script>
+			
 			<noscript>
 				<ul>
 					<c:forEach var="item" items="${result}">
-						<li><c:url var="taxonUrl" value="/taxon/${item.identifier}" /><a href="${taxonUrl}">${item.name}</a></li>
+						<li>
+							<c:url var="taxonUrl" value="/taxon/${item.identifier}" /><a href="${taxonUrl}">${item.name}</a>
+						</li>
 					</c:forEach>
 				</ul>
 			</noscript>

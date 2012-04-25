@@ -45,6 +45,9 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
         FETCH_PROFILES = new HashMap<String, Fetch[]>();
         FETCH_PROFILES.put("taxon-with-children", new Fetch[] {new Fetch(
                 "children", FetchMode.SELECT)});
+        FETCH_PROFILES.put("classification-tree", new Fetch[] {
+        		new Fetch("children", FetchMode.SELECT),
+        		new Fetch("keys", FetchMode.SELECT)});
         FETCH_PROFILES.put("taxon-with-ancestors", new Fetch[] { new Fetch(
                 "ancestors", FetchMode.SELECT) });
         FETCH_PROFILES.put("taxon-with-annotations", new Fetch[] {new Fetch(
