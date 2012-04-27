@@ -32,6 +32,7 @@
         <spring.batch.admin.version>1.2.0.RELEASE</spring.batch.admin.version>
         <spring.integration.version>2.1.0.RELEASE</spring.integration.version>
         <lucene.version>3.1.0</lucene.version>
+        <geotools.version>2.7.0</geotools.version>
     </properties>
     <issueManagement>
         <system>Bugzilla</system>
@@ -643,6 +644,16 @@
                         <artifactId>xercesImpl</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+              <groupId>org.geotools</groupId>
+              <artifactId>gt-main</artifactId>
+              <version>${geotools.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>org.geotools</groupId>
+              <artifactId>gt-epsg-hsql</artifactId>
+              <version>${geotools.version}</version>
             </dependency>
             <!-- Present in Java 6, not Java 5 -->
             <dependency>

@@ -30,7 +30,7 @@ public class GeographicalRegionComparatorTest {
         list.add(Continent.EUROPE);
         list.add(Continent.AFRICA);
         list.add(Region.CHINA);
-        list.add(Region.MACRONESIA);
+        list.add(Region.MACARONESIA);
         list.add(Region.EASTERN_CANADA);
         list.add(Country.FRA);
         list.add(Country.ABT);

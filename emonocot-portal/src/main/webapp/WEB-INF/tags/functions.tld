@@ -128,4 +128,39 @@
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>org.emonocot.model.identifier.Identifier getProtologLink(org.emonocot.model.taxon.Taxon)</function-signature>
     </function>
+    <function>
+        <name>boundingBox</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.String boundingBox(org.emonocot.model.taxon.Taxon)</function-signature>
+    </function>
+    <function>
+        <name>hasLevel1Features</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.Boolean hasLevel1Features(org.emonocot.model.taxon.Taxon)</function-signature>
+    </function>
+    <function>
+        <name>getLevel1Features</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.String getLevel1Features(org.emonocot.model.taxon.Taxon)</function-signature>
+    </function>
+    <function>
+        <name>hasLevel2Features</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.Boolean hasLevel2Features(org.emonocot.model.taxon.Taxon)</function-signature>
+    </function>
+    <function>
+        <name>getLevel2Features</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.String getLevel2Features(org.emonocot.model.taxon.Taxon)</function-signature>
+    </function>
+    <function>
+        <name>hasLevel3Features</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.Boolean hasLevel3Features(org.emonocot.model.taxon.Taxon)</function-signature>
+    </function>
+    <function>
+        <name>getLevel3Features</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.String getLevel3Features(org.emonocot.model.taxon.Taxon)</function-signature>
+    </function>
 </taglib>

@@ -41,6 +41,11 @@ import org.joda.time.format.PeriodFormatterBuilder;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.core.convert.support.DefaultConversionService;
 
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryCollection;
+import com.vividsolutions.jts.geom.GeometryFactory;
+
 /**
  *
  * @author ben
@@ -392,7 +397,7 @@ public final class Functions {
             final Reference reference) {
        return bibliography.getKey(reference);
    }
-    
+
     /**
     *
     * @param pager Set the pager
@@ -403,7 +408,7 @@ public final class Functions {
             final String facet) {
        return pager.isFacetSelected(facet);
    }
-    
+
     /**
     *
     * @param facet Set the facet name
@@ -412,4 +417,132 @@ public final class Functions {
     public static Boolean isMultiValued(final String facet) {
        return FacetName.valueOf(facet).isMultivalued();
    }
+
+    /**
+     *
+     * @param taxon Set the taxon
+     * @return the bounding box
+     */
+   public static String boundingBox(final Taxon taxon) {
+        List<Geometry> list = new ArrayList<Geometry>();
+        for (Distribution d : taxon.getDistribution().values()) {
+            list.add(d.getRegion().getEnvelope());
+        }
+        GeometryCollection geometryCollection = new GeometryCollection(
+                list.toArray(new Geometry[list.size()]), new GeometryFactory());
+
+        Coordinate[] envelope = geometryCollection.getEnvelope()
+                .getCoordinates();
+        StringBuffer boundingBox = new StringBuffer();
+        boundingBox.append(Math.round(envelope[0].x));
+        boundingBox.append(",");
+        boundingBox.append(Math.round(envelope[0].y));
+        boundingBox.append(",");
+        boundingBox.append(Math.round(envelope[2].x));
+        boundingBox.append(",");
+        boundingBox.append(Math.round(envelope[2].y));
+        return boundingBox.toString();
+   }
+
+   /**
+    *
+    * @param taxon Set the taxon
+    * @return true if the taxon has level 1 features, false otherwise
+    */
+    public static Boolean hasLevel1Features(final Taxon taxon) {
+        for (Distribution d : taxon.getDistribution().values()) {
+            if (d.getRegion() instanceof Continent) {
+                return Boolean.TRUE;
+            }
+        }
+        return Boolean.FALSE;
+    }
+
+    /**
+    *
+    * @param taxon Set the taxon
+    * @return the level 1 feature identifiers (FIDs)
+    */
+    public static String getLevel1Features(final Taxon taxon) {
+        boolean first = true;
+        StringBuffer features = new StringBuffer();
+        for (Distribution d : taxon.getDistribution().values()) {
+            if (d.getRegion() instanceof Continent) {
+                if (!first) {
+                    features.append(",");
+                }
+                features.append(d.getRegion().getFeatureId());
+                first = false;
+            }
+        }
+        return features.toString();
+    }
+
+    /**
+    *
+    * @param taxon Set the taxon
+    * @return true if the taxon has level 2 features, false otherwise
+    */
+    public static Boolean hasLevel2Features(final Taxon taxon) {
+        for (Distribution d : taxon.getDistribution().values()) {
+            if (d.getRegion() instanceof Region) {
+                return Boolean.TRUE;
+            }
+        }
+        return Boolean.FALSE;
+    }
+
+    /**
+    *
+    * @param taxon Set the taxon
+    * @return the level 2 feature identifiers (FIDs)
+    */
+    public static String getLevel2Features(final Taxon taxon) {
+        boolean first = true;
+        StringBuffer features = new StringBuffer();
+        for (Distribution d : taxon.getDistribution().values()) {
+            if (d.getRegion() instanceof Region) {
+                if (!first) {
+                    features.append(",");
+                }
+                features.append(d.getRegion().getFeatureId());
+                first = false;
+            }
+        }
+        return features.toString();
+    }
+
+    /**
+    *
+    * @param taxon Set the taxon
+    * @return true if the taxon has level 3 features, false otherwise
+    */
+    public static Boolean hasLevel3Features(final Taxon taxon) {
+        for (Distribution d : taxon.getDistribution().values()) {
+            if (d.getRegion() instanceof Country) {
+                return Boolean.TRUE;
+            }
+        }
+        return Boolean.FALSE;
+    }
+
+    /**
+    *
+    * @param taxon Set the taxon
+    * @return the level 3 feature identifiers (FIDs)
+    */
+    public static String getLevel3Features(final Taxon taxon) {
+        boolean first = true;
+        StringBuffer features = new StringBuffer();
+        for (Distribution d : taxon.getDistribution().values()) {
+            if (d.getRegion() instanceof Country) {
+                if (!first) {
+                    features.append(",");
+                }
+                features.append(d.getRegion().getFeatureId());
+                first = false;
+            }
+        }
+        return features.toString();
+    }
 }

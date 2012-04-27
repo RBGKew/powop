@@ -1,5 +1,7 @@
 package org.emonocot.model.geography;
 
+import com.vividsolutions.jts.geom.Polygon;
+
 /**
  *
  * @author ben
@@ -20,5 +22,17 @@ public interface GeographicalRegion<T extends GeographicalRegion> {
      *         other is equal to this
      */
     int compareNames(T other);
+
+    /**
+     *
+     * @return the feature id
+     */
+    Integer getFeatureId();
+
+    /**
+     *
+     * @return the envelope (MBR)
+     */
+    Polygon getEnvelope();
 
 }
