@@ -7,143 +7,98 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
 	<jsp:directive.attribute name="taxon"
 		type="org.emonocot.model.taxon.Taxon" required="true" />
-
-	<c:url value="http://edit.br.fgov.be/edit_wp5/v1/areas.php"
-		var="alternativeMapUrl">
-		<c:param name="l" value="earth" />
-		<!-- Layer -->
-		<c:param name="ms" value="800" />
-		<!-- Map Size -->
-		<c:param name="bbox" value="-180,-90,180,90" />
-		<!-- Bounding Box -->
-		<c:param name="ad" value="${em:map(taxon)}" />
-		<!-- Areas -->
-		<c:param name="as" value="present:FF0000,,0.25" />
-		<!-- Area Styling -->
-	</c:url>
-	<noscript>
-		<img id="alternative-map" src="${alternativeMapUrl}" />
-	</noscript>
+	
 	<div id="map" class="noPrint">&#160;</div>
-	<c:set var="mapUrl">
-		<c:url value="http://edit.br.fgov.be/edit_wp5/v1/areas.php">
-			<c:param name="callback" value="foo" />
-			<!-- callback -->
-			<c:param name="ms" value="1" />
-			<!-- Map Size -->
-			<c:param name="l" value="earth" />
-			<!-- Layer -->
-			<c:param name="img" value="false" />
-			<!-- Bounding Box -->
-			<c:param name="ad" value="${em:map(taxon)}" />
-			<!-- Areas -->
-			<c:param name="as" value="present:FF0000,,0.25" />
-			<!-- Area Styling -->
-		</c:url>
-	</c:set>
+	
 	<c:url var="openlayersImageLocation" value="/images/OpenLayers/" />
+	<spring:message code="web.map.server.url" var="wmsUrl"/>
 	<script type="text/javascript">
-		var map;
+	
+    $(document).ready(function() {
+	  var map;
+	  OpenLayers.ImgPath = "${openlayersImageLocation}";												
+						
+	  map = new OpenLayers.Map(
+	    'map',
+		{controls : [new OpenLayers.Control.Navigation({zoomWheelEnabled : false}),
+					 new OpenLayers.Control.PanZoomBar() ],
+		 units: "m",
+		 numZoomLevels: 8,
+		 zoomOffset:0,
+		 projection : new OpenLayers.Projection("EPSG:3857"),
+		 maxResolution: 156543.0339,
+		 maxExtent: new OpenLayers.Bounds(-20037500,
+										  -20037500,
+										   20037500,
+										   20037500)
+	  });
+	  var base_layer = new OpenLayers.Layer.TMS("MapBox Layer",
+		 [ "http://build.e-monocot.org/tiles/" ],
+		 { 'layername': 'eMonocot', 'type': 'png',isBaseLayer : true, }
+	  );
 
-		function foo(data) {
-			if (!data) {
-			} else {
-				OpenLayers.ImgPath = "${openlayersImageLocation}";
-				<spring:message var="useDynamicBaseLayer" code="web.map.dynamic.base.layer"/>
-				<c:choose>
-				<c:when test="${useDynamicBaseLayer eq 'false'}">
-				var options = {
-					numZoomLevels : 3
-				};
-				var base_layer = new OpenLayers.Layer.Image(
-						'City Lights',
-						'http://earthtrends.wri.org/images/maps/4_m_citylights_lg.gif',
-						new OpenLayers.Bounds(-180, -88.759, 180, 88.759),
-						new OpenLayers.Size(580, 288), options);
-
-				map = new OpenLayers.Map('map',
-						{
-							controls : [ new OpenLayers.Control.Navigation({
-								zoomWheelEnabled : false
-							}), new OpenLayers.Control.PanZoomBar() ],
-							maxExtent : new OpenLayers.Bounds(-180, -90, 180,
-									90),
-							maxResolution : 0.72,
-							restrictedExtent : new OpenLayers.Bounds(-180, -90,
-									180, 90),
-							projection : new OpenLayers.Projection("EPSG:4326")
-						});
-				map.addLayers([ base_layer ]);
-
-				</c:when>
-				<c:otherwise>
-				var base_layer = new OpenLayers.Layer.WMS("OpenLayers WMS",
-						"http://labs.metacarta.com/wms/vmap0", {
-							layers : 'basic'
-						}, {
-							maxExtent : new OpenLayers.Bounds(-180, -90, 180,
-									90),
-							isBaseLayer : true,
-							displayInLayerSwitcher : false
-						});
-				map = new OpenLayers.Map('map',
-						{
-							controls : [ new OpenLayers.Control.Navigation({
-								zoomWheelEnabled : false
-							}), new OpenLayers.Control.PanZoomBar() ],
-							maxExtent : new OpenLayers.Bounds(-180, -90, 180,
-									90),
-							maxResolution : 0.72,
-							restrictedExtent : new OpenLayers.Bounds(-180, -90,
-									180, 90),
-							projection : new OpenLayers.Projection("EPSG:4326")
-						});
-				map.addLayers([ base_layer ]);
-
-				for (i in data.layers) {
-					var layerName = "topp:tdwg_level_"
-							+ data.layers[i].tdwg.substr(4, 1);
-
-					var layer = new OpenLayers.Layer.WMS.Untiled("layer "
-							+ (i + 1), data.geoserver, {
-						layers : layerName,
-						transparent : "true",
-						format : "image/png"
-					},
-
-					{
-						maxExtent : new OpenLayers.Bounds(-180, -90, 180, 90),
-						isBaseLayer : false,
-						displayInLayerSwitcher : false
-					});
-
-					layer.params.SLD = data.layers[i].sld;
-					map.addLayers([ layer ]);
-				}
-				</c:otherwise>
-				</c:choose>
-
-				map.addControl(new OpenLayers.Control.Navigation({
-					zoomWheelEnabled : false
-				}));
-				var bbox = data.bbox.split(",");
-				map
-						.zoomToExtent(new OpenLayers.Bounds(parseInt(bbox[0]),
-								parseInt(bbox[1]), parseInt(bbox[2]),
-								parseInt(bbox[3])));
-			}
-		}
-
-		$(document).ready(function() {
-			$.ajax({
-				url : "${mapUrl}",
-				dataType : "script",
-				type : "GET",
-				cache : true,
-				callback : foo,
-				data : null
-			});
+	  map.addLayers([ base_layer ]);
+	  <c:if test="${em:hasLevel1Features(taxon)}">
+		var level1 = new OpenLayers.Layer.WMS(
+		"level1","${wmsUrl}",
+		{
+			layers : "tdwg:level1",
+			transparent : "true",
+			format : "image/png",
+			tiled: 'true'
+		},
+																			
+		{
+			isBaseLayer : false,
+			displayInLayerSwitcher : false
 		});
+																		
+		level1.params.STYLES = "eMonocot";
+		level1.params.FEATUREID = "${em:getLevel1Features(taxon)}";
+		map.addLayers([ level1 ]);
+	 </c:if>
+	 <c:if test="${em:hasLevel2Features(taxon)}">
+		var level2 = new OpenLayers.Layer.WMS(
+		"level1","${wmsUrl}",
+		{
+			layers : "tdwg:level2",
+			transparent : "true",
+			format : "image/png",
+			tiled: 'true'
+		},
+																			
+		{
+			isBaseLayer : false,
+			displayInLayerSwitcher : false
+		});
+																		
+		level2.params.STYLES = "eMonocot";
+		level2.params.FEATUREID = "${em:getLevel2Features(taxon)}";
+		map.addLayers([ level2 ]);
+	 </c:if>
+	 <c:if test="${em:hasLevel3Features(taxon)}">
+		var level3 = new OpenLayers.Layer.WMS(
+		"level3","${wmsUrl}",
+		{
+			layers : "tdwg:level3",
+			transparent : "true",
+			format : "image/png",
+			tiled: 'true'
+		},
+																			
+		{
+			isBaseLayer : false,
+			displayInLayerSwitcher : false
+		});
+																		
+		level3.params.STYLES = "eMonocot";
+		level3.params.FEATUREID = "${em:getLevel3Features(taxon)}";
+		map.addLayers([ level3 ]);
+	 </c:if>											
+												
+	  map.addControl(new OpenLayers.Control.Navigation({zoomWheelEnabled:false}));
+	  map.zoomToExtent(new OpenLayers.Bounds(${em:boundingBox(taxon)}));	
+	});
+		
 	</script>
-
 </jsp:root>
