@@ -4,11 +4,11 @@
 	<parent>
 		<artifactId>emonocot</artifactId>
 		<groupId>org.emonocot</groupId>
-		<version>0.0.16-SNAPSHOT</version>
+		<version>0.0.16</version>
 	</parent>
 	<groupId>org.emonocot</groupId>
 	<artifactId>emonocot-site</artifactId>
-	<version>0.0.16-SNAPSHOT</version>
+	<version>0.0.16</version>
 	<name>eMonocot Maven Site Theme</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

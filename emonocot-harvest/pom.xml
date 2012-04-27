@@ -4,11 +4,11 @@
 	<parent>
 		<artifactId>emonocot</artifactId>
 		<groupId>org.emonocot</groupId>
-		<version>0.0.16-SNAPSHOT</version>
+		<version>0.0.16</version>
 	</parent>
 	<groupId>org.emonocot</groupId>
 	<artifactId>emonocot-harvest</artifactId>
-	<version>0.0.16-SNAPSHOT</version>
+	<version>0.0.16</version>
 	<packaging>war</packaging>
 	<name>eMonocot Harvesting</name>
 	<description>Backend Harvesting Routines</description>
