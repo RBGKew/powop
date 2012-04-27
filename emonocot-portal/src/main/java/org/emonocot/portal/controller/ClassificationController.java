@@ -113,27 +113,29 @@ public class ClassificationController {
          */
         public Node(final Taxon taxon) {
             data.put("title", taxon.getName());
-            Map<String, Object> dataAttr = new HashMap<String, Object>();
-            dataAttr.put("href", "taxon/" + taxon.getIdentifier());
+            Map<String, Object> attr = new HashMap<String, Object>();
+            attr.put("href", "taxon/" + taxon.getIdentifier());
             Set<IdentificationKey> keys = taxon.getKeys();
             if (keys != null && keys.size() > 0) {
-            	data.put("class", "key");
+            	attr.put("class", "key");
             	
             	String prepender = "key/";
             	
             	StringBuilder keyInfo = new StringBuilder();
             	int keyCount = 0;
+            	boolean first = true;
             	for(IdentificationKey key : keys) {
-            		keyInfo.append(key.getTitle()).append(":::");
-            		keyInfo.append(prepender + key.getId());
-            		if(keyCount <= keys.size()-1) {
+            		if(!first) {
             			keyInfo.append(",");
             		}
+            		keyInfo.append(key.getTitle()).append(":::");
+            		keyInfo.append(prepender + key.getIdentifier());
+            		first = false;
             		keyCount++;
             	}
-            	dataAttr.put("data-key-link", keyInfo.toString());
+            	attr.put("data-key-link", keyInfo.toString());
             }
-            data.put("attr", dataAttr);
+            data.put("attr", attr);
             attr.put("id", taxon.getIdentifier());
             if (!taxon.getChildren().isEmpty()) {
                 List<Taxon> sortedChildren = new ArrayList<Taxon>(

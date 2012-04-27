@@ -43,6 +43,9 @@ public class IdentificationKey extends SearchableObject {
     *
     */
     private Long id;
+    
+   
+
 
     /**
      *
@@ -80,6 +83,7 @@ public class IdentificationKey extends SearchableObject {
     public void setId(Long id) {
         this.id = id;
     }
+
 
     /**
      * @return the title
