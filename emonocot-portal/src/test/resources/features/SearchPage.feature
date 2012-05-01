@@ -199,8 +199,6 @@ Scenario: Search for identification key
   Then the Type facet should have the following options:
   | option |
   | Keys   |
-  | Images |
-  | Taxa   |
   And the following results should be displayed:
   | page | text                                |
   | 987  | Key to the subtribes of Orchidaceae |

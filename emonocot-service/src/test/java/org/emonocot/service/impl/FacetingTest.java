@@ -237,8 +237,6 @@ public class FacetingTest extends DataManagementSupport {
 
         assertThat("org.emonocot.model.taxon.Taxon should be a facet in CLASS",
                 facetNames, hasItemInArray("org.emonocot.model.taxon.Taxon"));
-        assertThat("org.emonocot.model.media.Image should be a facet in CLASS",
-                facetNames, hasItemInArray("org.emonocot.model.media.Image"));
         assertEquals("There should be one value for the FAMILY facet", 1, pager
                 .getFacets().get("FAMILY").size());
 

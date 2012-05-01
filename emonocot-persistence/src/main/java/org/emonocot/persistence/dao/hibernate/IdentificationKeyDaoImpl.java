@@ -52,8 +52,8 @@ public class IdentificationKeyDaoImpl extends
      * org.hibernate.search.query.engine.spi.FacetManager)
      */
     @Override
-    protected void createFacetingRequest(FacetContext facetContext,
-            FacetName facetName, FacetManager facetManager) {
+    public final void createFacetingRequest(final FacetContext facetContext,
+            final FacetName facetName, final FacetManager facetManager) {
 
         FacetingRequest facetingRequest = null;
         switch (facetName) {
@@ -76,29 +76,18 @@ public class IdentificationKeyDaoImpl extends
         }
     }
 
-    /**
-     *
-     * @see org.emonocot.persistence.dao.hibernate.SearchableDaoImpl#getDocumentFields()
-     */
     @Override
-    protected String[] getDocumentFields() {
+    public final String[] getDocumentFields() {
         return new String[] {"title", "description", "taxon.name"};
     }
 
-    /**
-     * @see org.emonocot.persistence.dao.hibernate.SearchableDaoImpl#getDefaultField()
-     */
     @Override
-    public String getDefaultField() {
+    public final String getDefaultField() {
         return "title";
     }
 
-    /**
-     *
-     * @see org.emonocot.persistence.dao.hibernate.DaoImpl#getProfile(java.lang.String)
-     */
     @Override
-    protected Fetch[] getProfile(String profile) {
+    public final Fetch[] getProfile(final String profile) {
         return FETCH_PROFILES.get("object-page");
     }
 

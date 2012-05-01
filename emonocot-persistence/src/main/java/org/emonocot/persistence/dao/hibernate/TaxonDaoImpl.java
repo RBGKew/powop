@@ -227,10 +227,6 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
                     facets.add(new FakeFacet("CLASS",
                             ProjectionConstants.OBJECT_CLASS, clazz.getName(),
                             page.getSize()));
-                } else {
-                    facets.add(new FakeFacet("CLASS",
-                            ProjectionConstants.OBJECT_CLASS, clazz.getName(),
-                            0));
                 }
             }
             break;

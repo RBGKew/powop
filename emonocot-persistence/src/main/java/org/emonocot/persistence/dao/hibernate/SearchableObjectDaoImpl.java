@@ -50,7 +50,8 @@ public class SearchableObjectDaoImpl extends
      *
      */
     public SearchableObjectDaoImpl() {
-        super(SearchableObject.class, Taxon.class, Image.class, IdentificationKey.class);
+        super(SearchableObject.class, Taxon.class, Image.class,
+                IdentificationKey.class);
     }
 
     @Override
@@ -69,7 +70,7 @@ public class SearchableObjectDaoImpl extends
             facetingRequest = facetContext.name(facetName.name())
                     .onField(ProjectionConstants.OBJECT_CLASS).discrete()
                     .orderedBy(FacetSortOrder.FIELD_VALUE)
-                    .includeZeroCounts(true).createFacetingRequest();
+                    .includeZeroCounts(false).createFacetingRequest();
             facetManager.enableFaceting(facetingRequest);
             break;
         case CONTINENT:

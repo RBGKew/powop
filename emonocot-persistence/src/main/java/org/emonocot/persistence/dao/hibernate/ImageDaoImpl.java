@@ -129,27 +129,29 @@ public class ImageDaoImpl extends SearchableDaoImpl<Image> implements ImageDao {
 
     @Override
     protected final void addFacet(final Page<Image> page,
-            final FacetName facetName, final FacetManager facetManager, Map<FacetName, String> selectedFacets) {
+            final FacetName facetName, final FacetManager facetManager,
+            final Map<FacetName, String> selectedFacets) {
         switch (facetName) {
         case REGION:
-        	String selectedContinent = selectedFacets.get(FacetName.CONTINENT);
-        	if(selectedContinent != null) {
-        		Continent continent = Continent.valueOf(selectedContinent);
-        		List<Facet> facets = facetManager.getFacets(facetName.REGION.name());
-        		List<Facet> filteredFacets = new ArrayList<Facet>();
-        		for (Facet f : facets) {
-        			Region r = Region.valueOf(f.getValue());
-        			if (r.getContinent().equals(continent)){
-        				filteredFacets.add(f);
-        			}
-        		}
-        	    page.addFacets(facetName.name(), filteredFacets);
-         	} else {
-         		// should not really get here
-         		page.addFacets(facetName.name(),
+            String selectedContinent = selectedFacets.get(FacetName.CONTINENT);
+            if (selectedContinent != null) {
+                Continent continent = Continent.valueOf(selectedContinent);
+                List<Facet> facets = facetManager.getFacets(facetName.REGION
+                        .name());
+                List<Facet> filteredFacets = new ArrayList<Facet>();
+                for (Facet f : facets) {
+                    Region r = Region.valueOf(f.getValue());
+                    if (r.getContinent().equals(continent)) {
+                        filteredFacets.add(f);
+                    }
+                }
+                page.addFacets(facetName.name(), filteredFacets);
+            } else {
+                // should not really get here
+                page.addFacets(facetName.name(),
                         facetManager.getFacets(facetName.name()));
-         	}
-        	break;
+            }
+            break;
         case CLASS:
             List<Facet> facets = new ArrayList<Facet>();
             page.addFacets(facetName.name(), facets);
@@ -158,10 +160,6 @@ public class ImageDaoImpl extends SearchableDaoImpl<Image> implements ImageDao {
                     facets.add(new FakeFacet("CLASS",
                             ProjectionConstants.OBJECT_CLASS, clazz.getName(),
                             page.getSize()));
-                } else {
-                    facets.add(new FakeFacet("CLASS",
-                            ProjectionConstants.OBJECT_CLASS, clazz.getName(),
-                            0));
                 }
             }
             break;
