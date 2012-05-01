@@ -31,10 +31,20 @@ Scenario: Click on Image Keywords
   Users should be able to click on the keywords displayed below the image and search for 
   images that match the keyword
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=174
-#Commented due to failure
   When I navigate to image page "123"
   And I click on the keyword "Poaceae"
   And the following results should be displayed:
   | page | text             |
   | 123  | Poa annua        |
   | 456  | Poa annua        |
+
+Scenario: Search for images from a certain locality
+  As a person interested in biodiversity, I want to do a free text search
+  on all image metadata fields so I can find images from a certain location
+  http://build.e-monocot.org/bugzilla/show_bug.cgi?id=200
+  When I am on the search page
+  And I search for "Ardennes"
+  Then the following results should be displayed:
+  | page | text      |
+  | 456  | Poa annua |
+  | 789  | Poa annua |
