@@ -1,0 +1,9 @@
+CustomStatusNames=true
+StartStatus=NEW
+ClosedCustomStatus=RESOLVED
+<transitions>
+name :NEW:, can_change_to :ACCEPTED:
+name :ACCEPTED:, can_change_to :READY_TO_DEVELOP,RESOLVED:
+name :READY_TO_DEVELOP:, can_change_to :ACCEPTED,IN_DEVELOPMENT,RESOLVED:
+name :IN_DEVELOPMENT:, can_change_to :READY_TO_DEVELOP,READY_FOR_REVIEW,RESOLVED:
+name :READY_FOR_REVIEW:, can_change_to :READY_TO_DEVELOP,IN_DEVELOPMENT,RESOLVED:

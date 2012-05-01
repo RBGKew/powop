@@ -31,7 +31,7 @@
 					</c:if>
 				</div>
 			</div>
-			<c:if test="not empty taxon.images or not empty taxon.content or not empty em:regions(taxon) and not empty taxon.children and not empty taxon.synonyms and not empty bibliography.references">
+			<c:if test="${not empty taxon.images or not empty taxon.content or not empty em:regions(taxon) and not empty taxon.children and not empty taxon.synonyms and not empty bibliography.references}">
 			<div class="subnav noPrint">
 				<ul class="nav nav-pills">
 					<li><c:if test="${not empty taxon.images}"><a href="#images"><spring:message code="images" /></a></c:if></li>
