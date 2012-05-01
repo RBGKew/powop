@@ -53,28 +53,30 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
      */
     public final List<Match<Taxon>> match(final ParsedName<String> parsed) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("genus:" + parsed.getGenusOrAbove());
-        if (parsed.getSpecificEpithet() != null) {
-            stringBuilder.append(" AND specificEpithet:"
-                    + parsed.getSpecificEpithet());
-        }
-        if (parsed.getInfraGeneric() != null) {
-            stringBuilder.append(" AND infraGenericEpithet:"
-                    + parsed.getInfraGeneric());
-        }
-        if (parsed.getInfraSpecificEpithet() != null) {
-            stringBuilder.append(" AND infraSpecificEpithet:"
-                    + parsed.getInfraSpecificEpithet());
-        }
-        if (parsed.getRank() != null) {
-            if (!parsed.getRank().isSpeciesOrBelow()) {
+        if (parsed.getSpecificEpithet() == null) {
+            stringBuilder.append("label:" + parsed.getGenusOrAbove());
+        } else {
+            stringBuilder.append("genus:" + parsed.getGenusOrAbove());
+            if (parsed.getSpecificEpithet() != null) {
+                stringBuilder.append(" AND specificEpithet:"
+                        + parsed.getSpecificEpithet());
+            }
+            if (parsed.getInfraGeneric() != null) {
+                stringBuilder.append(" AND infraGenericEpithet:"
+                        + parsed.getInfraGeneric());
+            }
+            if (parsed.getInfraSpecificEpithet() != null) {
+                stringBuilder.append(" AND infraSpecificEpithet:"
+                        + parsed.getInfraSpecificEpithet());
+            }
+            if (parsed.getRank() != null) {
+                if (parsed.getRank().equals(Rank.SPECIES)) {
+                    stringBuilder.append(" AND rank:species");
+                } else {
 
-            } else if (parsed.getRank().equals(Rank.SPECIES)) {
-                stringBuilder.append(" AND rank:species");
-            } else {
+                }
 
             }
-
         }
         // String searchTerm = parsed.canonicalName();// .buildName(true, true,
         // false, false, false, false, true, false, false, false);
