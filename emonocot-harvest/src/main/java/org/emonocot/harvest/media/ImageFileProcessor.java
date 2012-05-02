@@ -111,6 +111,10 @@ public class ImageFileProcessor implements ItemProcessor<Image, Image> {
                 getResourceClient.getBinaryResource("",
                         image.getUrl(), "1", imageFileName);
                 file = new File(imageFileName);
+                if (!file.exists()) {
+                    logger.error("File does not exist in image directory, skipping");
+                    return null;
+                }
                 ImageInfo imageInfo = Sanselan.getImageInfo(file);
                 Double width = new Double(imageInfo.getWidth());
                 Double height = new Double(imageInfo.getHeight());

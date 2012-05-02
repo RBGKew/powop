@@ -388,6 +388,7 @@
 					<fromDir>${project.build.directory}/static</fromDir>
 					<includes>**</includes>
 					<excludes>uncompressed/*.js</excludes>
+					<serverId>${wagon.server.id}</serverId>
 					<url>${wagon.static.url}</url>
 				</configuration>
 			</plugin>

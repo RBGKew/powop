@@ -61,6 +61,10 @@ public class ImageMetadataExtractor implements ItemProcessor<Image, Image> {
                 + image.getIdentifier() + '.' + image.getFormat();
         File file = new File(imageFileName);
         logger.debug("Image File " + imageFileName);
+        if (!file.exists()) {
+            logger.error("File does not exist in image directory, skipping");
+            return null;
+        }
 
         IImageMetadata metadata = Sanselan.getMetadata(file);
 

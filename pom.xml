@@ -1311,5 +1311,51 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+          <id>portal.vagrant</id>
+          <properties>
+            <portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
+            <portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
+            <web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
+            <amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
+            <amq.broker.name>localhost</amq.broker.name>
+            <amq.connectionFactory.jndi_name>jms/ConnectionFactory</amq.connectionFactory.jndi_name>
+            <amq.queue.jndi_name>queue/eMonocotLuceneQueue</amq.queue.jndi_name>
+            <amq.queue.physical_name>eMonocotLuceneQueue</amq.queue.physical_name>
+            <portal.baseUrl>http://localhost:8080</portal.baseUrl>
+            <harvester.jobRequests.url>http://build.e-monocot.org/test/job-requests.json</harvester.jobRequests.url>
+            <google.analytics.id></google.analytics.id>
+            <webAppRootKey>emonocot-portal</webAppRootKey>
+            <cargo.containerId>tomcat7x</cargo.containerId>
+            <cargo.tomcat.manager.url>http://localhost:8080/manager/text</cargo.tomcat.manager.url>
+	        <cargo.remote.username>admin</cargo.remote.username>
+	        <cargo.remote.password>tomcat</cargo.remote.password>
+            <cargo.context.path>/</cargo.context.path>
+            <logging.level>WARN</logging.level>
+            <logging.method>file</logging.method>
+            <logging.location>/var/log/tomcat/emonocot-portal.log</logging.location>
+            <wagon.static.url>scp://localhost:2222/var/www/html/</wagon.static.url>
+            <wagon.server.id>vagrant</wagon.server.id>
+            <liquibase.drop.database.first>false</liquibase.drop.database.first>
+            <liquibase.changelog>../emonocot-persistence/src/main/resources/changelog.mysql.xml</liquibase.changelog>
+            <liquibase.url>jdbc:mysql://localhost:3336/emonocot</liquibase.url>
+            <hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
+            <hibernate.search.default.directory_provider>filesystem-slave</hibernate.search.default.directory_provider>
+            <hibernate.search.default.indexBase>/var/cache/tomcat/work/emonocot-portal/indexes</hibernate.search.default.indexBase>
+            <hibernate.search.default.sourceBase>/var/cache/tomcat/work/emonocot-harvester/master</hibernate.search.default.sourceBase>
+            <hibernate.search.worker.backend>jms</hibernate.search.worker.backend>
+            <hibernate.search.default.refresh>60</hibernate.search.default.refresh>
+            <hibernate.search.purge.indexes.on.init>false</hibernate.search.purge.indexes.on.init>
+            <mondrian.catalog.location>jndi:/localhost/uat/portal/WEB-INF/classes/META-INF/olap/olap.xml</mondrian.catalog.location>
+            <spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
+            <spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
+            <jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
+            <jdbc.driver.url>jdbc:mysql://localhost:3306/emonocot</jdbc.driver.url>
+            <jdbc.driver.username>emonocot-user</jdbc.driver.username>
+            <jdbc.driver.password>eM0n0c0t</jdbc.driver.password>
+            <http.proxyHost></http.proxyHost>
+            <http.proxyPort></http.proxyPort>           
+          </properties>
+        </profile>
     </profiles>
 </project>

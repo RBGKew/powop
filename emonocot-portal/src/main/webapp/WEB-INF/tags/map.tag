@@ -16,12 +16,16 @@
 	
     $(document).ready(function() {
 	  var map;
+	  var originalExtent = new OpenLayers.Bounds(${em:boundingBox(taxon)});
+	  OpenLayers.Map.prototype.zoomToMaxExtent = function() {
+      	this.zoomToExtent(originalExtent);
+      };
 	  OpenLayers.ImgPath = "${openlayersImageLocation}";												
 						
 	  map = new OpenLayers.Map(
 	    'map',
 		{controls : [new OpenLayers.Control.Navigation({zoomWheelEnabled : false}),
-					 new OpenLayers.Control.PanZoomBar() ],
+					 new OpenLayers.Control.PanZoomBar({zoomWorldIcon: true})],
 		 units: "m",
 		 numZoomLevels: 8,
 		 zoomOffset:0,
@@ -97,7 +101,7 @@
 	 </c:if>											
 												
 	  map.addControl(new OpenLayers.Control.Navigation({zoomWheelEnabled:false}));
-	  map.zoomToExtent(new OpenLayers.Bounds(${em:boundingBox(taxon)}));	
+	  map.zoomToExtent(originalExtent);	
 	});
 		
 	</script>

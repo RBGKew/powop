@@ -55,6 +55,10 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
         StringBuilder stringBuilder = new StringBuilder();
         if (parsed.getSpecificEpithet() == null) {
             stringBuilder.append("label:" + parsed.getGenusOrAbove());
+            if(parsed.getAuthorship() != null) {
+                stringBuilder.append(" AND authorship:"
+                        + parsed.getAuthorship());
+            }
         } else {
             stringBuilder.append("genus:" + parsed.getGenusOrAbove());
             if (parsed.getSpecificEpithet() != null) {
@@ -76,6 +80,10 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
 
                 }
 
+            }
+            if(parsed.getAuthorship() != null) {
+                stringBuilder.append(" AND authorship:"
+                        + parsed.getAuthorship());
             }
         }
         // String searchTerm = parsed.canonicalName();// .buildName(true, true,

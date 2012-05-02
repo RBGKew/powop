@@ -103,7 +103,7 @@ public class TaxonMatchIntegrationTest {
         assertNotNull("TaxonMatching must not be null", taxonMatchingJob);
         JobExecution jobExecution = jobLauncher.run(taxonMatchingJob,
                 jobParameters);
-        
+
         FileReader file = new FileReader(jobParameters.getParameters().get("output.file").getValue().toString());
         BufferedReader reader = new BufferedReader(file);
         assertNotNull("There should be an output file", reader);

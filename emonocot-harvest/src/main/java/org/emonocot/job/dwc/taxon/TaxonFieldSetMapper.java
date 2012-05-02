@@ -6,8 +6,8 @@ import java.util.Map;
 
 import org.emonocot.api.ReferenceService;
 import org.emonocot.api.TaxonService;
-import org.emonocot.harvest.common.TaxonRelationshipResolver;
 import org.emonocot.harvest.common.TaxonRelationship;
+import org.emonocot.harvest.common.TaxonRelationshipResolver;
 import org.emonocot.harvest.common.TaxonRelationshipResolverImpl;
 import org.emonocot.job.dwc.DarwinCoreFieldSetMapper;
 import org.emonocot.model.common.Annotation;
@@ -30,6 +30,7 @@ import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
+import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionException;
 import org.springframework.core.convert.converter.Converter;
@@ -51,6 +52,11 @@ public class TaxonFieldSetMapper extends
     */
     private Logger logger
         = LoggerFactory.getLogger(TaxonFieldSetMapper.class);
+    
+    /**
+     *
+     */
+    private boolean resolveRelationships = false;
 
     /**
      *
@@ -199,7 +205,7 @@ public class TaxonFieldSetMapper extends
                 taxon.setStatus(status);
                 break;
             case parentNameUsageID:
-                if (value != null && value.trim().length() != 0) {
+                if (resolveRelationships && value != null && value.trim().length() != 0) {
                     TaxonRelationship taxonRelationship = new TaxonRelationship(
                             taxon, TaxonRelationshipTerm.IS_CHILD_TAXON_OF);
                     taxonRelationshipResolver.addTaxonRelationship(
@@ -207,7 +213,7 @@ public class TaxonFieldSetMapper extends
                 }
                 break;
             case acceptedNameUsageID:
-                if (value != null && value.trim().length() != 0) {
+                if (resolveRelationships && value != null && value.trim().length() != 0) {
                     TaxonRelationship taxonRelationship = new TaxonRelationship(
                             taxon, TaxonRelationshipTerm.IS_SYNONYM_FOR);
                     taxonRelationshipResolver.addTaxonRelationship(
@@ -292,6 +298,17 @@ public class TaxonFieldSetMapper extends
     */
    public final void beforeChunk() {
        logger.info("Before Chunk");
+       JobExecution jobExecution = getStepExecution().getJobExecution();
+       if (jobExecution.getExecutionContext().containsKey("taxon.processing.mode")) {
+        String taxonProcessingMode = jobExecution.getExecutionContext()
+           .getString("taxon.processing.mode");
+         if(taxonProcessingMode.equals("IMPORT_TAXA")) {
+             resolveRelationships = true;
+         } else {
+             resolveRelationships = false;
+         }
+       }
+
        boundTaxa = new HashMap<String, Taxon>();
        boundReferences = new HashMap<String, Reference>();
    }

@@ -251,6 +251,7 @@ public class Taxon extends SearchableObject {
      */
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "Taxon_Image", joinColumns = {@JoinColumn(name = "Taxon_id")}, inverseJoinColumns = {@JoinColumn(name = "images_id")})
+    @Cascade({ CascadeType.SAVE_UPDATE })
     @JsonSerialize(contentUsing = ImageSerializer.class)
     public List<Image> getImages() {
         return images;

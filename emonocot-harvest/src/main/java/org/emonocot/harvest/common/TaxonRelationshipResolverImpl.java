@@ -215,7 +215,9 @@ public class TaxonRelationshipResolverImpl extends AuthorityAware
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if (term.equals(TaxonRelationshipTerm.IS_SYNONYM_FOR)) {
+            if(related == null) {
+                // TODO log error            
+            } else if (term.equals(TaxonRelationshipTerm.IS_SYNONYM_FOR)) {
                 if (!related.getSynonyms().contains(taxon)) {
                     taxon.setAccepted(related);
                     related.getSynonyms().add(taxon);

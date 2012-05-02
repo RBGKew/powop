@@ -101,6 +101,9 @@ public class ImageFieldSetMapper extends
                 break;
             case identifier:
                 object.setUrl(value);
+                if(value != null && value.indexOf(".") > -1) {
+                    object.setFormat(value.substring(value.lastIndexOf(".") + 1));
+                }
                 break;
             case format:
                 object.setFormat(value);
