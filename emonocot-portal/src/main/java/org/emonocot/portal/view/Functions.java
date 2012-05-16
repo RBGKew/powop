@@ -376,6 +376,17 @@ public final class Functions {
         return conversionService.convert(object, String.class);
     }
 
+   /**
+    * To cope with the fact that we can't use the reserved word 'class' in
+    * JSP Expression language and Tomcat 7 complains.
+    *
+    * @param object the object to convert
+    * @return the fully qualified class name
+    */
+   public static String convertClazz(final Object object) {
+       return conversionService.convert(object.getClass(), String.class);
+   }
+
     /**
      *
      * @param taxon Set the taxon

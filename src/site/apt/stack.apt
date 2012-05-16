@@ -19,3 +19,61 @@
  
  * Issue Tracker: {{{http://build.e-monocot.org/bugzilla/}Bugzilla}}.
  
+ * Virtualization: {{{https://www.virtualbox.org/}Oracle Virtualbox}} plus {{{http://vagrantup.com/}Vagrant}}.
+ 
+Building Vagrant Boxes for the Development Environment
+
+ * Checkout the latest emonocot-infrastructure package from the eMonocot {{{http://build.e-monocot.org/git/?p=emonocot-infrastructure.git/.git;a=summary}GIT repository}}
+ 
+ * Startup Vagrant using the command <<<vagrant up>>>
+ 
+ * Ensure that the Virtualbox kernel modules which are installed on the virtual machine match the current version of virtualbox you're running.
+   ** Logon to the virtual machine using ssh (port <<2222>>, username <<vagrant>>, password <<vagrant>>)
+   ** edit <<<.vbox_version>>> so that the version number matches the Virtualbox version
+   ** <<<sudo sh postinstall.sh>>> - you can safely ignore some of the errors which occur due to missing OpenGL libraries provided the shared library support is built successfully. Then restart the machine
+   ** <<<sudo /etc/init.d/vboxadd setup>>> - now restart the machine
+
+ * Export the virtual machine as a package
+   ** <<<vagrant package --vagrantfile vagrantfiles/vagrantfile.cfg>>> 
+ 
+Using Vagrant to run functional tests
+ 
+  * Add a blank standalone portal machine
+  <<<vagrant box add test http://build.e-monocot.org/boxes/emonocot-portal-STANDALONE-4.1.14.box>>>
+  
+  * Make a shared directory to hold the master indices
+  <<<mkdir master_index>>>
+  
+  * Init the box in the current directory
+  <<<vagrant init test>>>
+  
+  * Start the box
+  <<<vagrant up>>>
+
+ * Build and deploy the emonocot-portal
+   ** <<<BUILD_ROOT/$mvn clean install>>>
+   ** <<<BUILD_ROOT/emonocot-portal/$mvn clean package liquibase:update cargo:redeploy lesscss:compile yuicompressor:compress wagon:upload -Pportal.test.vagrant>>>
+ 
+ * Run the functional tests against it
+   <<<BUILD_ROOT/emonocot-portal/$mvn clean package integration-test -Pfunctional -Pfirefox -Pportal.test.vagrant -Pportal.vagrant.user>>>
+ 
+Using Vagrant to obtain a UAT portal instance
+
+   * Add a blank standalone portal machine
+  <<<vagrant box add uat http://build.e-monocot.org/boxes/emonocot-portal-STANDALONE-4.1.14.box>>>
+  
+  * Make a shared directory to hold the master indices
+  <<<mkdir master_index>>>
+  
+  * Init the box in the current directory
+  <<<vagrant init uat>>>
+  
+  * Start the box
+  <<<vagrant up>>>
+
+ * Restore the data from backup (by logging on to the box and executing the following)
+   ** <<<rsync -avr username@build.e-monocot.org:/.snapshots/daily.0/localhost/var/cache/tomcat5/work/uat_harvest/master_index /mnt/>>>
+   ** <<<rsync -avr username@build.e-monocot.org:/.snapshots/daily.0/localhost/var/www/html/uat/portal/images /var/www/html/>>>
+   ** <<<rsync -avr username@build.e-monocot.org:/.snapshots/daily.0/localhost/mysql/mysqldump.sql.gz .>>>
+   ** <<<gunzip mysqldump.sql.gz>>>
+   ** <<<mysql -uemonocot-user -peM0n0c0t emonocot < mysqldump.sql>>>

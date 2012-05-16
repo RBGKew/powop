@@ -8,13 +8,13 @@
   <spring:bind path="${field}">
  	  <c:choose>
  	    <c:when test="${not empty status.errorMessage}">
- 	      <c:set var="class">clearfix error</c:set>
+ 	      <c:set var="clazz">clearfix error</c:set>
  	    </c:when>
  	    <c:otherwise>
- 	      <c:set var="class">clearfix</c:set>
+ 	      <c:set var="clazz">clearfix</c:set>
  	    </c:otherwise>
  	  </c:choose>
- 	  <div class="${class}">
+ 	  <div class="${clazz}">
  	    <label for="_${field}_id"><spring:message code="${label}" /></label>
  	    <div class="input">
  	      <form:select id="_${field}_id" class="${fieldClass}" path="${field}" items="${items}"/>     

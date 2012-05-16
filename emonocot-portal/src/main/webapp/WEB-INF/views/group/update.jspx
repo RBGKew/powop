@@ -40,14 +40,14 @@
 				<spring:bind path="user.username">
 					<c:choose>
 						<c:when test="${not empty status.errorMessage}">
-							<c:set var="class">clearfix error</c:set>
+							<c:set var="clazz">clearfix error</c:set>
 						</c:when>
 						<c:otherwise>
-							<c:set var="class">clearfix</c:set>
+							<c:set var="clazz">clearfix</c:set>
 						</c:otherwise>
 					</c:choose>
 					<jsp:element name="div">
-						<jsp:attribute name="class">${class}</jsp:attribute>
+						<jsp:attribute name="class">${clazz}</jsp:attribute>
 						<form:label path="username"><spring:message code="user.username"/></form:label>
 						<div class="input">
 							<form:input path="username" />
@@ -82,7 +82,7 @@
 			        <c:param name="aces">true</c:param>
 			        <c:param name="delete">true</c:param>
 			        <c:param name="object">${object.identifier}</c:param>
-			        <c:param name="clazz">${em:convert(object.class)}</c:param>
+			        <c:param name="clazz">${em:convertClazz(object)}</c:param>
 			        <c:param name="permission">${em:convert(ace.permission)}</c:param>
 			    </c:url>
 			    <spring:message code="remove.ace" var="removeAce"/>
@@ -98,14 +98,14 @@
 				<spring:bind path="ace.object">
 					<c:choose>
 						<c:when test="${not empty status.errorMessage}">
-							<c:set var="class">clearfix error</c:set>
+							<c:set var="clazz">clearfix error</c:set>
 						</c:when>
 						<c:otherwise>
-							<c:set var="class">clearfix</c:set>
+							<c:set var="clazz">clearfix</c:set>
 						</c:otherwise>
 					</c:choose>
 					<jsp:element name="div">
-						<jsp:attribute name="class">${class}</jsp:attribute>
+						<jsp:attribute name="class">${clazz}</jsp:attribute>
 						<form:label path="object"><spring:message code="ace.object"/></form:label>
 						<div class="input">
 							<form:input path="object" />
@@ -121,7 +121,6 @@
 				</spring:bind>
 			</form:form>
 	      </div>
-		</div>
-		
+		</div>		
 	</div>
 </jsp:root>

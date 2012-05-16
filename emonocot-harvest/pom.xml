@@ -288,7 +288,7 @@
 				<configuration>
 					<changeLogFile>${liquibase.changelog}</changeLogFile>
 					<driver>${jdbc.driver.classname}</driver>
-					<url>${jdbc.driver.url}</url>
+					<url>${liquibase.url}</url>
 					<username>${jdbc.driver.username}</username>
 					<password>${jdbc.driver.password}</password>
 					<dropFirst>${liquibase.drop.database.first}</dropFirst>

@@ -16,9 +16,9 @@
 			<c:if test="${param.error}">				
 				<div class="alert">
   					<a class="close" href="#">×</a>
-					<p><strong><spring:message code="${SPRING_SECURITY_LAST_EXCEPTION.class.name}"/></strong></p>
+					<p><strong>${SPRING_SECURITY_LAST_EXCEPTION.message}</strong></p>
 					<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.cause}">
-					    <p><spring:message code="${SPRING_SECURITY_LAST_EXCEPTION.cause.class.name}"/></p>
+					    <p>${SPRING_SECURITY_LAST_EXCEPTION.cause.message}</p>
 					</c:if>				
 				</div>
 			</c:if>			
