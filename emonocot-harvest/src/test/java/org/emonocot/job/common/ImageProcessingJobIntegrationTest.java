@@ -33,15 +33,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
-        "/META-INF/spring/batch/jobs/reindex.xml",
+        "/META-INF/spring/batch/jobs/imageProcessing.xml",
+        "/META-INF/spring/applicationContext-integration.xml",
         "/META-INF/spring/applicationContext-test.xml" })
-public class ReIndexingJobIntegrationTest {
+public class ImageProcessingJobIntegrationTest {
 
     /**
      *
      */
     private Logger logger = LoggerFactory.getLogger(
-            ReIndexingJobIntegrationTest.class);
+            ImageProcessingJobIntegrationTest.class);
 
     /**
      *
@@ -77,14 +78,14 @@ public class ReIndexingJobIntegrationTest {
             JobParametersInvalidException {
         Map<String, JobParameter> parameters =
             new HashMap<String, JobParameter>();
-        parameters.put("query.string", new JobParameter(
-                "from Taxon"));
+        parameters.put("authority.name", new JobParameter(
+                "test"));
 
         JobParameters jobParameters = new JobParameters(parameters);
 
         Job job = jobLocator
-                .getJob("ReIndex");
-        assertNotNull("ReIndex must not be null",
+                .getJob("ImageProcessing");
+        assertNotNull("ImageProcessing must not be null",
                 job);
         JobExecution jobExecution = jobLauncher.run(
                 job, jobParameters);
