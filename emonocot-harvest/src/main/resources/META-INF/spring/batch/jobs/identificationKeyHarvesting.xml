@@ -299,6 +299,12 @@
 				</entry>
 				<entry>
 					<key>
+						<value>Representation</value>
+					</key>
+					<value>org.tdwg.ubif.Representation</value>					
+				</entry>
+				<entry>
+					<key>
 						<value>Agent</value>
 					</key>
 					<value>org.tdwg.ubif.Agent</value>					

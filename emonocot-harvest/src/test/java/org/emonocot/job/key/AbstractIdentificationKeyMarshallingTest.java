@@ -9,10 +9,13 @@ import org.emonocot.model.marshall.xml.UriConverter;
 import org.junit.Before;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.xstream.XStreamMarshaller;
+import org.tdwg.ubif.Agent;
 import org.tdwg.ubif.CategoricalCharacter;
+import org.tdwg.ubif.Dataset;
 import org.tdwg.ubif.Representation;
 import org.tdwg.ubif.StateDefinition;
 import org.tdwg.ubif.TaxonName;
+import org.tdwg.ubif.marshall.xml.IgnoreConverter;
 import org.tdwg.ubif.marshall.xml.QNameMapFactory;
 import org.tdwg.ubif.marshall.xml.ReflectionProviderFactory;
 
@@ -47,15 +50,17 @@ public abstract class AbstractIdentificationKeyMarshallingTest extends
         ((XStreamMarshaller) unmarshaller).setAutodetectAnnotations(true);
         Map<String, Class> aliases = new HashMap<String, Class>();
         aliases.put("Representation", Representation.class);
+        aliases.put("Agent", Agent.class);
         aliases.put("TaxonName", TaxonName.class);
         aliases.put("CategoricalCharacter", CategoricalCharacter.class);
         aliases.put("StateDefinition", StateDefinition.class);
+        aliases.put("Dataset", Dataset.class);
 
         ((XStreamMarshaller) unmarshaller).setAliases(aliases);
 
         ((XStreamMarshaller) unmarshaller).setStreamDriver(streamDriver);
         ((XStreamMarshaller) unmarshaller)
-                .setConverters(new ConverterMatcher[] { new UriConverter() });
+                .setConverters(new ConverterMatcher[] { new UriConverter(), new IgnoreConverter() });
         ((XStreamMarshaller) unmarshaller).afterPropertiesSet();
 
     }

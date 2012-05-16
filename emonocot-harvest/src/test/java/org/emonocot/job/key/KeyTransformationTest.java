@@ -35,7 +35,7 @@ public class KeyTransformationTest {
      */
     private Resource taxonNameFile = new ClassPathResource(
             "org/emonocot/job/sdd/taxon-file.xml");
-    
+
     /**
      *
      */

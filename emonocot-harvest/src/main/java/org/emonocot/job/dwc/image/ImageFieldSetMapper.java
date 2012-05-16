@@ -93,6 +93,9 @@ public class ImageFieldSetMapper extends
                     throw be;
                 }
                 break;
+            case creator:
+                object.setCreator(value);
+                break;
             case source:
                 object.setSource(value);
                 break;

@@ -104,51 +104,35 @@ public class ClassificationController {
 
         /**
          *
-         */
-        private List<Node> children = new ArrayList<Node>();
-
-        /**
-         *
          * @param taxon Set the taxon
          */
         public Node(final Taxon taxon) {
             data.put("title", taxon.getName());
-            Map<String, Object> attr = new HashMap<String, Object>();
-            attr.put("href", "taxon/" + taxon.getIdentifier());
+            Map<String, Object> dataAttr = new HashMap<String, Object>();
+            dataAttr.put("href", "taxon/" + taxon.getIdentifier());
             Set<IdentificationKey> keys = taxon.getKeys();
             if (keys != null && keys.size() > 0) {
-            	attr.put("class", "key");
-            	
+                dataAttr.put("class", "key");
+
             	String prepender = "key/";
-            	
+
             	StringBuilder keyInfo = new StringBuilder();
             	int keyCount = 0;
             	boolean first = true;
-            	for(IdentificationKey key : keys) {
-            		if(!first) {
-            			keyInfo.append(",");
-            		}
-            		keyInfo.append(key.getTitle()).append(":::");
-            		keyInfo.append(prepender + key.getIdentifier());
-            		first = false;
-            		keyCount++;
-            	}
-            	attr.put("data-key-link", keyInfo.toString());
-            }
-            data.put("attr", attr);
-            attr.put("id", taxon.getIdentifier());
-            if (!taxon.getChildren().isEmpty()) {
-                List<Taxon> sortedChildren = new ArrayList<Taxon>(
-                        taxon.getChildren());
-                Collections.sort(sortedChildren,
-                        new AlphabeticalTaxonComparator());
-                for (Taxon child : sortedChildren) {
-                    children.add(new Node(child.getName(), child
-                            .getIdentifier()));
+                for (IdentificationKey key : keys) {
+                    if (!first) {
+                        keyInfo.append(",");
+                    }
+                    keyInfo.append(key.getTitle()).append(":::");
+                    keyInfo.append(prepender + key.getIdentifier());
+                    first = false;
+                    keyCount++;
                 }
-            } else {
-                state = null;
+                dataAttr.put("data-key-link", keyInfo.toString());
             }
+            data.put("attr", dataAttr);
+            attr.put("id", taxon.getIdentifier());
+
         }
 
         /**
@@ -204,20 +188,6 @@ public class ClassificationController {
          */
         public final void setAttr(final Map<String, String> newAttr) {
             this.attr = newAttr;
-        }
-
-        /**
-         * @return the children
-         */
-        public final List<Node> getChildren() {
-            return children;
-        }
-
-        /**
-         * @param newChildren the children to set
-         */
-        public final void setChildren(final List<Node> newChildren) {
-            this.children = newChildren;
         }
     }
 }
