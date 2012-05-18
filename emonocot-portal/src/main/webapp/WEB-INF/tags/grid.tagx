@@ -13,7 +13,7 @@
 				<c:when test="${item.className == 'Taxon'}">
 					<c:choose>
 						<c:when test="${not empty item.image}">
-							<c:url var="thumbnail" value="/images/thumbnails/${item.image.identifier}.jpg"/>
+							<c:url var="thumbnail" value="/images/thumbnails/${item.image.identifier}.${item.image.format}"/>
 						</c:when>
 						<c:otherwise>
 							<c:url var="thumbnail" value="/images/no_image_3.jpg"/>
@@ -24,7 +24,7 @@
 					<p class="no-display">${item.name}</p>
 				</c:when>
 				<c:when test="${item.className == 'Image'}">
-					<c:url var="thumbnail" value="/images/thumbnails/${item.identifier}.jpg"/>
+					<c:url var="thumbnail" value="/images/thumbnails/${item.identifier}.${item.format}"/>
 					<spring:url var="itemUrl" value="/image/${item.identifier}"/>
 					<a class="result thumb" href="${itemUrl}" rel="tooltip" title="${item.caption}"><img class="thumbnail" src="${thumbnail}" /></a>
 					<p class="no-display">${item.caption}</p>

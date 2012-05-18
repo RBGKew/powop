@@ -115,6 +115,18 @@ public class ImageFileProcessor implements ItemProcessor<Image, Image> {
                     logger.error("File does not exist in image directory, skipping");
                     return null;
                 }
+            } catch (Exception e) {
+                logger.error(e.toString());
+                for (StackTraceElement ste : e.getStackTrace()) {
+                    logger.error(ste.toString());
+                }
+            }
+        }
+        File thumbnailFile = new File(thumbnailFileName);
+        if(file.exists()) {
+            
+        } else {
+            try {
                 ImageInfo imageInfo = Sanselan.getImageInfo(file);
                 Double width = new Double(imageInfo.getWidth());
                 Double height = new Double(imageInfo.getHeight());

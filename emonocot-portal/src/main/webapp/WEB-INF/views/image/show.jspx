@@ -82,7 +82,7 @@
 					<div class="ad-thumbs">
 						<ul class="thumbnails ad-thumb-list thumbnail-gallery-padding">
 							<c:forEach var="image" items="${taxon.images}" varStatus="status">
-								<c:url var="thumbnail" value="/images/thumbnails/${image.identifier}.jpg"/>
+								<c:url var="thumbnail" value="/images/thumbnails/${image.identifier}.${image.format}"/>
 								<li>
 									<a href="${image.url}">
 										<c:url var="url" value="/image/${image.identifier}"/> 

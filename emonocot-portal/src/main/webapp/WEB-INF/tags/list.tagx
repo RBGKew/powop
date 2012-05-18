@@ -38,7 +38,7 @@
 						<a href="${itemUrl}" class="thumbnail pull-right">
 							<c:choose>
 								<c:when test="${not empty item.image}">
-									<c:url var="thumbnail" value="/images/thumbnails/${item.image.identifier}.jpg"/>
+									<c:url var="thumbnail" value="/images/thumbnails/${item.image.identifier}.${item.image.format}"/>
 									<img src="${thumbnail}" title="${item.image.caption}"/>
 								</c:when>
 								<c:otherwise>
@@ -70,7 +70,7 @@
 					</td>
 					<td>
 						<a href="${itemUrl}" class="thumbnail pull-right">
-							<c:url var="thumbnail" value="/images/thumbnails/${item.identifier}.jpg"/>
+							<c:url var="thumbnail" value="/images/thumbnails/${item.identifier}.${item.format}"/>
 							<img src="${thumbnail}" title="${item.caption}"/>
 						</a>
 					</td>
