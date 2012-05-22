@@ -805,7 +805,7 @@
           <artifactId>ECAT-name-parser</artifactId>
           <version>x-j1.5</version>
         </dependency>
-        <dependency>
+        <!--  <dependency>
 		  <groupId>org.apache.lucene.spatial</groupId>
 		  <artifactId>org.emonocot.spatial-base</artifactId>
 		  <version>0.1</version>
@@ -819,7 +819,7 @@
 		  <groupId>org.apache.lucene.spatial</groupId>
 		  <artifactId>org.emonocot.spatial-lucene</artifactId>
 		  <version>0.1</version>
-		</dependency>
+		</dependency>-->
       </dependencies>
     </dependencyManagement>
     <build>

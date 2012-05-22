@@ -1,13 +1,17 @@
 package org.emonocot.model.hibernate;
 
+import java.io.IOException;
+
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.search.DocIdSet;
 import org.apache.lucene.search.Filter;
-import org.apache.lucene.spatial.base.context.SpatialContext;
+/*import org.apache.lucene.spatial.base.context.SpatialContext;
 import org.apache.lucene.spatial.base.context.SpatialContextProvider;
 import org.apache.lucene.spatial.base.prefix.GeohashSpatialPrefixGrid;
 import org.apache.lucene.spatial.base.query.SpatialArgsParser;
 import org.apache.lucene.spatial.strategy.SimpleSpatialFieldInfo;
 import org.apache.lucene.spatial.strategy.SpatialStrategy;
-import org.apache.lucene.spatial.strategy.prefix.DynamicPrefixStrategy;
+import org.apache.lucene.spatial.strategy.prefix.DynamicPrefixStrategy;*/
 import org.hibernate.search.annotations.Factory;
 import org.hibernate.search.annotations.Key;
 import org.hibernate.search.filter.FilterKey;
@@ -41,14 +45,24 @@ public class SpatialFilterFactory {
      */
     @Factory
     public final Filter getFilter() {
-        SpatialStrategy<SimpleSpatialFieldInfo> spatialStrategy
-            = new DynamicPrefixStrategy(
-                    new GeohashSpatialPrefixGrid(DistributionBridge.SPATIAL_CONTEXT, levels));
-        SpatialArgsParser spatialArgsParser = new SpatialArgsParser();
+        //SpatialStrategy<SimpleSpatialFieldInfo> spatialStrategy
+        //    = new DynamicPrefixStrategy(
+        //            new GeohashSpatialPrefixGrid(DistributionBridge.SPATIAL_CONTEXT, levels));
+        //SpatialArgsParser spatialArgsParser = new SpatialArgsParser();
 
-        return spatialStrategy.makeFilter(
-                spatialArgsParser.parse(query, DistributionBridge.SPATIAL_CONTEXT),
-                new SimpleSpatialFieldInfo(field));
+        //return spatialStrategy.makeFilter(
+        //        spatialArgsParser.parse(query, DistributionBridge.SPATIAL_CONTEXT),
+        //        new SimpleSpatialFieldInfo(field));
+        return new NullFilter();
+    }
+    
+    public class NullFilter extends Filter {
+
+        @Override
+        public DocIdSet getDocIdSet(IndexReader indexReader) throws IOException {
+            return DocIdSet.EMPTY_DOCIDSET;
+        }
+        
     }
 
     /**

@@ -33,8 +33,6 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-import com.googlecode.lucene.spatial.base.context.JtsSpatialContext;
-
 /**
  * @author ben
  */
