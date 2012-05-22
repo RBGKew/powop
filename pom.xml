@@ -19,7 +19,6 @@
         <module>emonocot-model</module>
         <module>emonocot-persistence</module>
         <module>emonocot-service</module>
-        <module>emonocot-checklist</module>
         <module>emonocot-harvest</module>
         <module>emonocot-portal</module>
     </modules>
@@ -106,6 +105,11 @@
                 <groupId>org.emonocot</groupId>
                 <artifactId>emonocot-service</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.kew.checklist</groupId>
+                <artifactId>webservice-model</artifactId>
+                <version>0.0.1</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>

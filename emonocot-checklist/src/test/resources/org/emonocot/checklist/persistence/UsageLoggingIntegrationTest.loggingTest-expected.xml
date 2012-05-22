@@ -1,4 +1,0 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<dataset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./dataset.xsd">
-   <web_log search_type="st" result_count="123" family="familyaceae" genus="genus" species="specificepithet" checklist="selected_families" req_host="e-monocot.org"/>
-</dataset>
