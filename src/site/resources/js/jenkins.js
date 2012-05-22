@@ -333,3 +333,204 @@ var kanbanColumn =  function(query, element, title) {
 	                               },
 	                        function(errMsg) {alert(errMsg)});
 	  }
+
+var monthNames = [ "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December" ];
+
+    function daysBetween(firstDate, secondDate) {
+      var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+      diffDays = Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay));
+      return diffDays;
+    }
+
+    function calcBusinessDays(dDate1, dDate2) { // input given as Date objects
+      var iWeeks, iDateDiff, iAdjust = 0;   
+      if (dDate2 < dDate1) return -1; // error code if dates transposed
+     
+      var iWeekday1 = dDate1.getDay(); // day of week
+      var iWeekday2 = dDate2.getDay();
+     
+      iWeekday1 = (iWeekday1 == 0) ? 7 : iWeekday1; // change Sunday from 0 to 7
+      iWeekday2 = (iWeekday2 == 0) ? 7 : iWeekday2;
+     
+      if ((iWeekday1 > 5) && (iWeekday2 > 5)) iAdjust = 1; // adjustment if both days on weekend
+     
+      iWeekday1 = (iWeekday1 > 5) ? 5 : iWeekday1; // only count weekdays
+      iWeekday2 = (iWeekday2 > 5) ? 5 : iWeekday2;
+     
+      // calculate differnece in weeks (1000mS * 60sec * 60min * 24hrs * 7 days = 604800000)
+      iWeeks = Math.floor((dDate2.getTime() - dDate1.getTime()) / 604800000)
+     
+      if (iWeekday1 <= iWeekday2) {
+        iDateDiff = (iWeeks * 5) + (iWeekday2 - iWeekday1)
+      } else {
+        iDateDiff = ((iWeeks + 1) * 5) - (iWeekday1 - iWeekday2)
+      }
+
+      iDateDiff -= iAdjust // take into account both days on weekend
+     
+      return (iDateDiff + 1); // add 1 because dates are inclusive 
+  }
+
+    function parseDate(d) {
+       var year = parseInt(d.substring(0,4));
+       var month = 0;
+       if(d.substring(5,6) == "0") {
+          month = parseInt(d.substring(6,7));
+       } else {
+           month = parseInt(d.substring(5,7));
+       }
+
+       var day = 0;
+       
+       if(d.substring(8,9) == "0") {
+          day = parseInt(d.substring(9,10));
+       } else {
+          day = parseInt(d.substring(8,10));
+       }
+       return new Date(year, month - 1 , day);
+       
+    }
+    
+    function month(now, months, i) {
+      var month = {};
+      month.date = now;
+      month.name = monthNames[now.getMonth()];
+      
+      var next = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+      month.days = daysBetween(now, next);
+      if(i == 0) {
+        month.offset = 0;
+      } else {
+        month.offset = months[i - 1].offset + months[i - 1].days;
+      }
+      months[i] = month;
+      return next;
+    }
+
+    function week(now, weeks, i) {
+    	var next = new Date(now.getTime() + (24 * 60 * 60 * 1000 *  (7 - now.getDay())));
+    	var week = {};
+    	
+    	week.days = daysBetween(now,next);
+    	if(i == 0) {
+    		week.offset = 0;
+    	} else {
+    		week.offset = weeks[i - 1].offset + weeks[i -1].days;
+    	}
+    	var onejan = new Date(next.getFullYear(),0,1);
+    	week.name =  Math.ceil((((next - onejan) / 86400000) + onejan.getDay()+1)/7);
+    	weeks[i] = week;
+    	return next;
+    }
+
+    function drawWeeksAndMonths(graph, scale, barHeight) {
+    var numberOfMonths = 12;
+        var numberOfWeeks = 52;
+        var months = new Array(numberOfMonths);
+        var weeks = new Array(numberOfWeeks);
+        var now = new Date();
+        for(var i = 0; i < numberOfMonths; i++) {          
+          now = month(now,months, i);
+        }
+
+        now = new Date();
+        for(var i = 0; i < numberOfWeeks; i++) {          
+          now = week(now,weeks, i);
+        }
+
+        
+        for(var i = 0; i < numberOfMonths; i++) {          
+          graph.append("svg:rect")
+                  .attr("width", months[i].days * scale)
+                  .attr("x", months[i].offset * scale)
+                  .attr("height",barHeight)
+                  .attr("y",barHeight)
+                  .attr("fill", "white")
+                  .attr("stroke","black");
+          graph.append("svg:text")                  
+                  .attr("x", (months[i].offset + (months[i].days / 2)) * scale)
+                  .attr("y",barHeight * 1.5)
+                  .attr("text-anchor","middle")
+                  .attr("stroke","black")
+                  .text(months[i].name);
+
+        }
+
+        for(var i = 0; i < numberOfWeeks; i++) {          
+          graph.append("svg:rect")
+                  .attr("width", weeks[i].days * scale)
+                  .attr("x", weeks[i].offset * scale)
+                  .attr("height",barHeight)
+                  .attr("y",0)
+                  .attr("fill", "white")
+                  .attr("stroke","black");
+        }
+    }
+
+    function release(query, release, element, title, y, graph, scale, barHeight, width, velocity, people) {
+        graph.append("svg:rect")
+                  .attr("width", width)
+                  .attr("height",barHeight)
+                  .attr("y",y)
+                  .attr("fill", "white")
+                  .attr("stroke","black");
+        var workRemaining = 0;
+        
+          bugzillaRPC.advancedSearch(query,
+	      function(bugs) {
+	        for (var i in bugs) {
+	          var bug = bugs[i];
+                 var r = parseInt(bug.internals.cf_release);
+                 if(r == release) {
+	            workRemaining += parseInt(bug.internals.estimated_time);	
+                 }
+               }
+               bugzillaRPC.getBug(release,
+                 function(bug) {
+                   var now = new Date();
+                   var date_started = parseDate(bug.internals.cf_scheduled_start);
+                   var offset = 0;
+                   
+                   if(now < date_started) {
+                      offset = date_started;
+                   } else {
+                      offset = now;
+                   }
+                   var deadline = parseDate(bug.internals.deadline);
+                   var businessDays = calcBusinessDays(offset, deadline);
+                   
+                   var daysLeft = daysBetween(offset, deadline);
+                   var offsetDays = daysBetween(now, offset);
+                   
+                   var lostDays = daysLeft - businessDays;
+                   graph.append("svg:rect")
+                     .attr("width", daysLeft * scale)
+                     .attr("y",y)
+                     .attr("x",offsetDays * scale)
+                     .attr("height",barHeight)
+                     .attr("fill-opacity",0.5)
+                     .attr("fill", "blue")
+                     .attr("stroke","blue");
+                   graph.append("svg:rect")
+                     .attr("width", (lostDays + (workRemaining /(people * velocity))) * scale)
+                     .attr("y",y)
+                     .attr("x",offsetDays * scale)
+                     .attr("height",barHeight)
+                     .attr("fill-opacity",0.5)
+                     .attr("fill", "red")
+                     .attr("stroke","red");
+                   graph.append("svg:text")                  
+                      .attr("x", (width / 2))
+                      .attr("y",y + (barHeight / 2))
+                      .attr("text-anchor","middle")
+                      .attr("stroke","black")
+                      .text(title);
+
+              },
+              function(errMsg) {alert(errMsg)}
+              )                         
+	    },
+	    function(errMsg) {alert(errMsg)}
+         );
+    }

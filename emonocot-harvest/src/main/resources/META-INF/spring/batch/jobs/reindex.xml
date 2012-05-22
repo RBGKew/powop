@@ -11,14 +11,38 @@
 	<context:annotation-config />
 
 	<batch:job id="ReIndex">
+	    <batch:step id="loadRegions">
+	      <batch:description>Load the Regions Shapefiles for indexing</batch:description>
+	      <batch:tasklet ref="loadRegionShapesTasklet" />			
+		  <batch:next on="COMPLETED" to="reIndex" />
+	    </batch:step>
 		<batch:step id="reIndex">
 			<batch:description>Re-index some or all of the eMonocot database</batch:description>
 			<batch:tasklet>
 				<batch:chunk reader="itemIndexer" writer="itemIndexer" commit-interval="10" />
 			</batch:tasklet>
-			<batch:end on="COMPLETED"/>
+			<batch:next on="COMPLETED" to="clearRegions" />			
 		</batch:step>
+		<batch:step id="clearRegions">
+	      <batch:description>Clear region shapefiles</batch:description>
+	      <batch:tasklet ref="clearRegionShapesTasklet" />			
+		  <batch:end on="COMPLETED"/>
+	    </batch:step>
 	</batch:job>
+	
+	<bean id="loadRegionShapesTasklet"
+		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter">
+		<property name="targetObject" ref="distributionBridge"/>
+		<property name="targetMethod" value="setupRegions" />		
+	</bean>
+	
+	<bean id="clearRegionShapesTasklet"
+		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter">
+		<property name="targetObject" ref="distributionBridge"/>
+		<property name="targetMethod" value="clearRegions" />		
+	</bean>
+    
+    <bean id="distributionBridge" class="org.emonocot.model.hibernate.DistributionBridge"/>
     
     <bean id="itemIndexer"
       class="org.emonocot.harvest.common.index.HibernateSearchIndexingWriter" scope="step">

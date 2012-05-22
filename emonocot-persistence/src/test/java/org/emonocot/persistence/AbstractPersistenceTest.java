@@ -33,6 +33,8 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import com.googlecode.lucene.spatial.base.context.JtsSpatialContext;
+
 /**
  * @author ben
  */
@@ -138,6 +140,7 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
      *             if there is a problem setting up the test data
      */
     public final void doSetUp() throws Exception {
+
         doInTransaction(new Callable() {
             public Object call() throws Exception {
                 FullTextSession fullTextSession = Search

@@ -1,0 +1,18 @@
+<div id="${element.id}" class="release-plan"></div>
+   <script type="text/javascript">
+    var height = 200;
+    var width = 800;
+    var barHeight = 50;
+    var scale = 3;
+    var velocity = 0.5;
+    var people = 3;
+    var graph = d3.select("#${element.id}")
+                              .append("svg:svg")
+                              .attr("width", width)
+                              .attr("height", height);
+    drawWeeksAndMonths(graph, scale, barHeight);
+    release({bug_status: '${bug.status}', component: '${component}', order:'priority'}, 273, "${element.id}", "Release 1", 100, graph, scale, barHeight, width, velocity, people);     
+    release({bug_status: '${bug.status}', component: '${component}', order:'priority'}, 274, "${element.id}", "Release 2", 150, graph, scale, barHeight, width, velocity, people);     
+
+        
+    </script>

@@ -1,5 +1,8 @@
 package org.emonocot.model.geography;
 
+import org.apache.lucene.spatial.base.context.SpatialContextProvider;
+import org.apache.lucene.spatial.base.shape.Shape;
+
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
@@ -89,20 +92,28 @@ public enum Region implements GeographicalRegion<Region> {
     private Polygon envelope;
 
     /**
+     * The geographic region as a Shape.
+     */
+    private Shape shape;
+
+    /**
      *
      * @param newCode Set the code of this region
      * @param newName Set the name of this region
      * @param newContinent Set the continent this region is in
+     * @param newFeatureId set the feature id
+     * @param newEnvelope set the envelope
      */
     private Region(final Integer newCode, final String newName,
-            final Continent newContinent, Integer featureId, String envelope) {
+            final Continent newContinent, final Integer newFeatureId,
+            final String newEnvelope) {
         this.code = newCode;
         this.name = newName;
         this.continent = newContinent;
-        this.featureId = featureId;
+        this.featureId = newFeatureId;
         WKTReader wktReader = new WKTReader();
         try {
-            this.envelope = (Polygon)wktReader.read(envelope);
+            this.envelope = (Polygon) wktReader.read(newEnvelope);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
@@ -171,7 +182,7 @@ public enum Region implements GeographicalRegion<Region> {
     }
 
     /**
-     * 
+     *
      * @param other
      *            the other region
      * @return 1 if other is after this, -1 if other is before this and 0 if
@@ -195,4 +206,17 @@ public enum Region implements GeographicalRegion<Region> {
         return envelope;
     }
 
+    /**
+     * @return the shape
+     */
+    public final Shape getShape() {
+        return shape;
+    }
+
+    /**
+     * @param newShape Set the shape
+     */
+    public final void setShape(final Shape newShape) {
+        this.shape = newShape;
+    }
 }

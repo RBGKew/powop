@@ -18,6 +18,7 @@ import org.emonocot.api.Sorting.SortDirection;
 import org.emonocot.model.common.Base;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.Region;
+import org.emonocot.model.hibernate.DistributionBridge;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.pager.DefaultPageImpl;
 import org.emonocot.model.pager.Page;
@@ -247,7 +248,10 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
             FullTextQuery fullTextQuery = fullTextSession.createFullTextQuery(
                     luceneQuery, searchableClasses);
             if (spatialQuery != null && spatialQuery.trim().length() != 0) {
-                // TODO Implement spatial filter
+                fullTextQuery.enableFullTextFilter("spatialFilter")
+                .setParameter("levels", DistributionBridge.LEVELS)
+                .setParameter("field", "area")
+                .setParameter("query", spatialQuery);
             }
 
             // Set additional result parameters

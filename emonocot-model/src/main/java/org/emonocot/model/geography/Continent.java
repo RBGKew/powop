@@ -1,5 +1,8 @@
 package org.emonocot.model.geography;
 
+import org.apache.lucene.spatial.base.context.SpatialContextProvider;
+import org.apache.lucene.spatial.base.shape.Shape;
+
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
@@ -56,7 +59,12 @@ public enum Continent implements GeographicalRegion<Continent> {
      * The human-readable name.
      */
     private String name;
-    
+
+    /**
+     * The geographic region as a Shape.
+     */
+    private Shape shape;
+
    /**
     *
     */
@@ -66,13 +74,15 @@ public enum Continent implements GeographicalRegion<Continent> {
      *
      * @param newCode Set the code of this continent
      * @param newName Set the name of this continent
+     * @param newEnvelope set the envelope of this continent
      */
-    private Continent(final int newCode, final String newName, String envelope) {
+    private Continent(final int newCode, final String newName,
+            final String newEnvelope) {
         this.code = newCode;
         this.name = newName;
         WKTReader wktReader = new WKTReader();
         try {
-            this.envelope = (Polygon)wktReader.read(envelope);
+            this.envelope = (Polygon) wktReader.read(newEnvelope);           
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
@@ -137,5 +147,19 @@ public enum Continent implements GeographicalRegion<Continent> {
      */
     public Polygon getEnvelope() {
         return envelope;
+    }
+
+    /**
+     * @return the shape
+     */
+    public final Shape getShape() {
+        return shape;
+    }
+
+    /**
+     * @param newShape Set the shape
+     */
+    public final void setShape(final Shape newShape) {
+        this.shape = newShape;
     }
 }

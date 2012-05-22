@@ -3,6 +3,7 @@ package org.emonocot.persistence;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,12 +13,13 @@ import org.emonocot.model.description.Feature;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.Region;
+import org.emonocot.model.hibernate.DistributionBridge;
 import org.emonocot.model.pager.Page;
 import org.emonocot.model.taxon.Taxon;
 import org.hibernate.search.query.facet.Facet;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -26,6 +28,15 @@ import org.junit.Test;
  *
  */
 public class SearchTest extends AbstractPersistenceTest {
+
+    /**
+     *
+     */
+    @BeforeClass
+    public static void doSetupRegions() throws IOException {
+       DistributionBridge distributionBridge = new DistributionBridge();
+       distributionBridge.setupRegions();
+    }
     /**
      * @throws java.lang.Exception
      *             if there is a problem
@@ -102,17 +113,15 @@ public class SearchTest extends AbstractPersistenceTest {
         for (Facet facet : page.getFacets().get(FacetName.REGION.name())) {
             System.out.println(facet.getValue() + " " + facet.getCount());
         }
-        
+
     }
 
     /**
-   *
-   */
+     *
+     */
     @Test
-    @Ignore //because it 'fails': both Aus bus & Aus ceus are returned
     public final void testSpatialSearch() {
-        System.out
-                .println("testSpatialSearch() should return Aus bus but not Aus ceus");
+        System.out.println("testSpatialSearch() should return Aus bus but not Aus ceus");
         Page<Taxon> page = getTaxonDao().search(
 
         "name:Aus", "Intersects(100.0 -40.0 155.0 -5.0)", null, null, null,

@@ -1,5 +1,8 @@
 package org.emonocot.model.geography;
 
+import org.apache.lucene.spatial.base.context.SpatialContextProvider;
+import org.apache.lucene.spatial.base.shape.Shape;
+
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
@@ -416,15 +419,23 @@ public enum Country implements GeographicalRegion<Country> {
     private Polygon envelope;
 
     /**
+     * The geographic region as a Shape.
+     */
+    private Shape shape;
+
+    /**
      *
      * @param newCode Set the code of this country
      * @param newName Set the name of this country
-     * @param newRegion Set the region this counry is in
+     * @param newRegion Set the region this country is in
      * @param newIsoCode Set the ISO code of this country
+     * @param newFeatureId set the feature id of this country
+     * @param newEnvelope set the envelope of this country
      */
     private Country(final String newCode, final String newName,
-            final Region newRegion, Integer featureId, String envelope, final String newIsoCode) {
-        this(newCode, newName, newRegion, featureId, envelope);
+            final Region newRegion, final Integer newFeatureId,
+            final String newEnvelope, final String newIsoCode) {
+        this(newCode, newName, newRegion, newFeatureId, newEnvelope);
         this.isoCode = newIsoCode;
     }
 
@@ -433,16 +444,19 @@ public enum Country implements GeographicalRegion<Country> {
     * @param newCode Set the code of this country
     * @param newName Set the name of this country
     * @param newRegion Set the region this counry is in
+    * @param newFeatureId set the feature id of this country
+    * @param newEnvelope set the envelope of this country
     */
     private Country(final String newCode, final String newName,
-            final Region newRegion, Integer featureId, String envelope) {
+            final Region newRegion, final Integer newFeatureId,
+            final String newEnvelope) {
         this.code = newCode;
         this.name = newName;
         this.region = newRegion;
-        this.featureId = featureId;
+        this.featureId = newFeatureId;
         WKTReader wktReader = new WKTReader();
         try {
-            this.envelope = (Polygon)wktReader.read(envelope);
+            this.envelope = (Polygon) wktReader.read(newEnvelope);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
@@ -525,4 +539,17 @@ public enum Country implements GeographicalRegion<Country> {
         return envelope;
     }
 
+    /**
+     * @return the shape
+     */
+    public final Shape getShape() {
+        return shape;
+    }
+
+    /**
+     * @param newShape Set the shape
+     */
+    public final void setShape(final Shape newShape) {
+        this.shape = newShape;
+    }
 }
