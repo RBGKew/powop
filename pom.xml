@@ -659,29 +659,6 @@
               <artifactId>gt-epsg-hsql</artifactId>
               <version>${geotools.version}</version>
             </dependency>
-            <!-- Present in Java 6, not Java 5 -->
-            <dependency>
-                <groupId>javax.xml</groupId>
-                <artifactId>jaxp-api</artifactId>
-                <version>1.4.2</version>
-            </dependency>
-            <dependency>
-                <groupId>javax</groupId>
-                <artifactId>javaee-api-no-jpa</artifactId>
-                <version>5.0</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.sun.xml.bind</groupId>
-                <artifactId>jaxb-impl</artifactId>
-                <version>2.2.2</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>javax.xml.stream</groupId>
-                        <artifactId>stax-api</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
             <!-- Required for ANT build / deploy -->
             <dependency>
               <groupId>tomcat</groupId>
@@ -833,8 +810,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
+                    <source>1.6</source>
+                    <target>1.6</target>
                 </configuration>
             </plugin>
             <plugin>

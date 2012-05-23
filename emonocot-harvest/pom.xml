@@ -45,10 +45,6 @@
 			<artifactId>wstx-asl</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>javax.xml</groupId>
-            <artifactId>jaxp-api</artifactId>
-	    </dependency>
-		<dependency>
 			<groupId>org.springframework.batch</groupId>
 			<artifactId>spring-batch-core</artifactId>
 		</dependency>
@@ -227,11 +223,7 @@
         <dependency>
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-spring</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-api-no-jpa</artifactId>
-		</dependency>
+		</dependency>		
 		<dependency>
 	       <groupId>org.apache.xbean</groupId>
 	       <artifactId>xbean-spring</artifactId>
