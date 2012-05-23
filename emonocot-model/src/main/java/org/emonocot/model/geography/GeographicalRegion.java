@@ -1,7 +1,7 @@
 package org.emonocot.model.geography;
 
 import com.vividsolutions.jts.geom.Polygon;
-//import org.apache.lucene.spatial.base.shape.Shape;
+import org.apache.lucene.spatial.base.shape.Shape;
 
 /**
  *
@@ -40,11 +40,11 @@ public interface GeographicalRegion<T extends GeographicalRegion> {
      *
      * @return the representation of this region as a shape
      */
-    //Shape getShape();
+    Shape getShape();
 
     /**
      *
      * @param shape Set the shape of this region
      */
-    //void setShape(Shape shape);
+    void setShape(Shape shape);
 }

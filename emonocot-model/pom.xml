@@ -148,14 +148,14 @@
 	      <groupId>org.kew</groupId>
           <artifactId>ECAT-name-parser</artifactId>
 	    </dependency>
-	    <!-- <dependency>
+	    <dependency>
 			<groupId>org.apache.lucene.spatial</groupId>
 			<artifactId>org.emonocot.spatial-lucene</artifactId>
 	    </dependency>
 	    <dependency>
 			  <groupId>org.apache.lucene.spatial</groupId>
 			  <artifactId>org.emonocot.spatial-extras-base</artifactId>
-	    </dependency>-->
+	    </dependency>
 	</dependencies>
 	<build>
 		<plugins>

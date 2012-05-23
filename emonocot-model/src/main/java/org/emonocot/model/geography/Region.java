@@ -1,6 +1,6 @@
 package org.emonocot.model.geography;
 
-//import org.apache.lucene.spatial.base.shape.Shape;
+import org.apache.lucene.spatial.base.shape.Shape;
 
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.ParseException;
@@ -93,7 +93,7 @@ public enum Region implements GeographicalRegion<Region> {
     /**
      * The geographic region as a Shape.
      */
-    //private Shape shape;
+    private Shape shape;
 
     /**
      *
@@ -208,14 +208,14 @@ public enum Region implements GeographicalRegion<Region> {
     /**
      * @return the shape
      */
-    //public final Shape getShape() {
-    //    return shape;
-    //}
+    public final Shape getShape() {
+        return shape;
+    }
 
     /**
      * @param newShape Set the shape
      */
-    //public final void setShape(final Shape newShape) {
-    //    this.shape = newShape;
-    //}
+    public final void setShape(final Shape newShape) {
+        this.shape = newShape;
+    }
 }
