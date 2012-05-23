@@ -26,6 +26,12 @@ public class PageObject {
     */
     @FindBy(how = How.CLASS_NAME, using = "footer")
     private WebElement foot;
+    
+    /**
+    *
+    */
+    @FindBy(how = How.CLASS_NAME, using = "identify-box")
+    private WebElement identifyBox;
 
     /**
    *
@@ -56,7 +62,7 @@ public class PageObject {
      */
     public final Identify selectIdentifyLink() {
         return openAs(
-                nav.findElement(By.linkText("Identify")).getAttribute("href"),
+        		identifyBox.findElement(By.linkText("Identify")).getAttribute("href"),
                 Identify.class);
     }
 

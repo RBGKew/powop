@@ -15,7 +15,7 @@
 					<spring:url var="itemUrl" value="/taxon/${item.identifier}"/>
 					<td>
 						<spring:url var="iconUrl" value="/images/taxonPageIcon.png"/>
-						<img src="${iconUrl}" class="pull-left" alt="Taxon"/>
+						<img src="${iconUrl}" class="pull-left resultTypeIcon" alt="Taxon"/>
 					</td>
 					<td>
 						<a class="result" href="${itemUrl}" title="${item.name}">
@@ -51,10 +51,9 @@
 				</c:when>
 				<c:when test="${item.className == 'Image'}">
 					<spring:url var="itemUrl" value="/image/${item.identifier}"/>
-
 					<td>
 						<spring:url var="iconUrl" value="/images/imagePageIcon.png"/>
-						<img src="${iconUrl}" class="pull-left" alt="Image"/>
+						<img src="${iconUrl}" class="pull-left resultTypeIcon" alt="Image"/>
 					</td>
 					<td>
 						<a class="result" href="${itemUrl}" title="${item.caption}"><h4 class="h4Results">${item.caption}</h4></a>
@@ -79,7 +78,7 @@
 					<td>
 						<spring:url var="iconUrl" value="/images/keyPageIcon.png"/>
 						<!-- TODO icon -->
-						<img src="${iconUrl}" class="pull-left" alt="ID Key"/>
+						<img src="${iconUrl}" class="pull-left resultTypeIcon" alt="ID Key"/>
 					</td>
 					<td>
 						<spring:url var="itemUrl" value="/key/${item.identifier}"/>

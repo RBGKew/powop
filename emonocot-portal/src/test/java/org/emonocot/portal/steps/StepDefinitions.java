@@ -621,16 +621,17 @@ public class StepDefinitions {
     /**
      *
      */
-    @Then("^I select the identify link in the navigation bar$")
-    public final void iSelectTheIdentifyLinkInTheNavigationBar() {
+    @Then("^I select the identify link on the home page$")
+    public final void iSelectTheIdentifyLinkOnTheHomePage() {
         currentPage = currentPage.selectIdentifyLink();
     }
+    
 
     /**
      *
      */
-    @Then("^I should be on the identify page$")
-    public final void iShouldBeOnTheIdentifyPage() {
+    @Then("^I should be on the emonocot features page$")
+    public final void iShouldBeOnTheEmonocotFeaturePage() {
         assertEquals(currentPage.getClass(), Identify.class);
     }
 

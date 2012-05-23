@@ -1,3 +1,17 @@
+Key.SimpleView = "Simple";
+Key.ListView = "List";
+
+Key.prototype.view = Key.SimpleView;
+
+Key.prototype.getView = function() {
+	return this.view;
+};
+
+Key.prototype.setView = function(view) {
+	this.view = view;
+};
+
+
 function writeNode(key, node) {
    var html = "";
    if(!Key.isUndefined(node.concept)) {
@@ -5,9 +19,9 @@ function writeNode(key, node) {
      if(!Key.isUndefined(node.images) && node.images.length > 0) {
          var image = node.images[0];
          html += "<a class='pull-left' href='#'><img class='thumbnail' src='" + key.getImagePath() +  image.href + "'/></a>";     
-         html += "<h4 class='pull-left'>" + node.concept + "</h4>";   
+         html += "<a class='pull-left'>" + node.concept + "</a>";   
      } else {
-         html += "<h4>" + node.concept + "</h4>";
+         html += "<a>" + node.concept + "</a>";
      }
      html += "</div>";
      html += "<div id='node" + node.id + "' class='collapse'><ul class='unstyled'>";
@@ -24,10 +38,13 @@ function writeNode(key, node) {
        html += "<li class='character'>";
        if(!Key.isUndefined(character.images) && character.images.length > 0) {
          var image = character.images[0];
-         html += "<a class='pull-left' href='#'><img class='thumbnail' src='" + key.getImagePath() +  image.href + "'/></a>";
-         html  += "<h4 class='pull-left' id='" + character.id + "'>" + character.name + "</h4>";
+         html  += "<a class='pull-left' id='" + character.id + "'>" + character.name + "</a>";
+         html += "<a href='#'><img class='thumbnail' src='" + key.getImagePath() +  image.href + "'/></a>";
+         
+         /*html += "<a id='" + character.id + "'>" + character.name + "<img class='thumbnail' src='" + key.getImagePath() +  image.href + "'/></a>";
+         html  += "<a id='" + character.id + "'>" + character.name + "</a>";*/
        } else {
-         html  += "<h4 id='" + character.id + "'>" + character.name + "</h4>";
+         html  += "<a id='" + character.id + "'>" + character.name + "</a>";
        }
        html += "</li>";
      }
@@ -45,20 +62,22 @@ function updateUI(key) {
       var matched = "";
       for(var i = 0; i < matchedTaxa.length; i++) {
         var taxon = matchedTaxa[i];
-        matched += "<tr>"
-        if(!Key.isUndefined(taxon.links) && taxon.links.length > 0) {
+        matched += "<tr>";
+        matched +="<td><img class='resultTypeIcon' src=\"http://build.e-monocot.org/uat/portal/images/taxonPageIcon.png\" alt=\"Taxon\"/></td>";
+          if(!Key.isUndefined(taxon.links) && taxon.links.length > 0) {
             var link = taxon.links[0];
             matched += "<td><a href='" + key.getTaxonPath() + link.href + "' title='" + link.title + "'><h4>" + taxon.name + "</h4></a></td>";
         } else {
             matched += "<td><h4>" + taxon.name + "</h4></td>";
         }
-        if(!Key.isUndefined(taxon.images) && taxon.images.length > 0) {
+        if(key.getView() == Key.ListView){
+          if (!Key.isUndefined(taxon.images) && taxon.images.length > 0) {
             var image = taxon.images[0];
-            matched += "<td><a class='pull-right' href='#'><img class='thumbnail' src='" + key.getImagePath() +  image.href + "'/></a></td>";
+            matched += "<td><a class='pull-right' href='#'><img class='thumbnail' src='" + key.getImagePath() + image.href + "'/><h4>" + taxon.name + "</h4></a></td>";
         } else {
-            matched += "<td></td>";
-        }        
-        matched += "</tr>"
+            matched += "<td><a class='pull-right' href='#'><img class='thumbnail' src=\"http://build.e-monocot.org/uat/portal/images/no_image_3.jpg\"/></a></td>";
+        } }       
+        matched += "</tr>";
       }
       $("#matchedTaxa table tbody").html(matched);
       $("#pages").html(matchedTaxa.length + " taxa remaining");
@@ -75,9 +94,9 @@ function updateUI(key) {
          unSelected += writeNode(key, characterTree[i]);
       }
       
-      $("#unselectedCharacters > ul").html(unSelected);
-      $("#unselectedCharacters > h3").html("Features Available: " + nonRedundant);
-      $("#unselectedCharacters li.character h4").click(function(event) {
+	  $("#unselectedCharacters").html("<li class='nav-header'>Features Available: " + nonRedundant + "</li>" + unSelected);	  
+      
+      $("#unselectedCharacters li.character a").click(function(event) {
          var character = key.getCharacter(event.target.id);
          $('#characterModal .modal-header h3').html(character.name);
          var body = "";
@@ -89,6 +108,7 @@ function updateUI(key) {
              var state = character.states[i];
              if(!Key.isUndefined(state.images) && state.images.length > 0) {
             	 var image = state.images[0];
+            	 /*thumb in the modal*/
             	 body += "<li><a class='pull-left' href='#'><img class='thumbnail' src='" + key.getImagePath() +  image.href + "'/></a>";
             	 body += "<label class='checkbox'><input type='checkbox'>" + state.name + "</label></li>";
              } else {
@@ -111,6 +131,7 @@ function updateUI(key) {
              var func = arguments.callee;
              $('#save').unbind("click",func);
              $('#characterModal').modal('hide');
+             return false;
            });
            $('#characterModal').modal({});
            break;
@@ -126,6 +147,7 @@ function updateUI(key) {
              var func = arguments.callee;
              $('#save').unbind("click",func);
              $('#characterModal').modal('hide');
+             return false;
            });
            $('#characterModal').modal({});
            break;
@@ -136,7 +158,7 @@ function updateUI(key) {
       for(var i = 0; i < selectedCharacters.length; i++) {
           var character = selectedCharacters[i];
     	  if(!Key.isUndefined(character)) {
-    		  selected += "<li><h4 id='" + character.id + "'>"  + character.name + "</h4>"
+    		  selected += "<li><a id='" + character.id + "'><i class='icon-remove'/>"  + character.name + "</a>"
                   switch(character.type) {
                     case Key.Categorical:
                       var values;
@@ -163,9 +185,8 @@ function updateUI(key) {
                   selected += "</li>";
     	  }
       }      
-      $("#selectedCharacters > ul").html(selected);
-      $("#selectedCharacters > h3").html("Features Chosen: " + selectedCharacters.length);
-      $("#selectedCharacters ul li h4").click(function(event) {
+      $("#selectedCharacters").html("<li class='nav-header'>Features Chosen: " + selectedCharacters.length + "</li>" + selected);
+      $("#selectedCharacters li a").click(function(event) {
           key.unselectCharacter(event.target.id);
           key.calculate();
       });

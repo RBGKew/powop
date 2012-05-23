@@ -6,13 +6,90 @@
 	<div class="content">
 		<div class="page-header header-margin">
 			<h2>
-				<spring:message code="identification.tools" />
+				<spring:message code="eMonocot.tools" />
 			</h2>
 		</div>
 		<div class="row">
-		  <div class="span12">
-		    <p>When complete, eMonocot will enable the identification of monocot plants anywhere in the world (monocots are 20% of all flowering plants)</p>
-		  </div>
-	    </div>
+			<div class="span12">
+				<h4><spring:message code="identification.tools" /></h4>
+				<p>When complete, eMonocot will enable the identification of monocot plants anywhere in the world (monocots are 20% of all flowering plants)</p>
+				<ul>
+					<li>
+						<jsp:element  name="a">
+							<jsp:attribute name="href"><c:url value="/key/5b4bf746-f1c5-4ff7-98ab-2525594a04f0"/></jsp:attribute>
+							Key to Monocot Familes
+						</jsp:element>
+					</li>
+					<li>
+						<jsp:element  name="a">
+							<jsp:attribute name="href">
+								<c:url value="/search">
+									<c:param name="facet" value="CLASS.org.emonocot.model.key.IdentificationKey"/>
+								</c:url>
+							</jsp:attribute>
+							Search for Keys
+						</jsp:element>
+					</li>
+					<li>
+						<jsp:element  name="a">
+							<jsp:attribute name="href">
+								<c:url value="/search">
+									<c:param name="facet" value="CLASS.org.emonocot.model.media.Image"/>
+								</c:url>
+							</jsp:attribute>
+							Browse Images
+						</jsp:element>
+					</li>
+				</ul>
+				<hr/>
+				
+				<h4><spring:message code="classify.header" /></h4>
+				<p class="justified">When launched this page with provide an overview of how you can use this site to work on your classification and the relationship to the <a title="Classification Page" href="${classificationUrl}">eMonocot classification!</a></p>
+				<ul>
+					<li>
+						<jsp:element  name="a">
+							<jsp:attribute name="href"><c:url value="/classify"/></jsp:attribute>
+							Monocot Classification
+						</jsp:element>
+					</li>
+					<li>
+						<jsp:element  name="a">
+							<jsp:attribute name="href"><c:url value=""/></jsp:attribute>
+							Phylogeny Browser
+						</jsp:element>
+					</li>
+					<li>
+						<jsp:element  name="a">
+							<jsp:attribute name="href"><c:url value=""/></jsp:attribute>
+							Checklist Validator
+						</jsp:element>
+					</li>
+				</ul>
+				<hr/>
+				
+				<h4><spring:message code="search.tools" /></h4>
+				<p>When complete, eMonocot will allow to search for monocot plants anywhere in the world (monocots are 20% of all flowering plants)</p>
+				<ul>
+					<li>
+						<jsp:element  name="a">
+							<jsp:attribute name="href"><c:url value="/search?query="/></jsp:attribute>
+							Search
+						</jsp:element>
+					</li>
+					<li>
+						<jsp:element  name="a">
+							<jsp:attribute name="href"><c:url value=""/></jsp:attribute>
+							Map search
+						</jsp:element>
+					</li>
+					<li>
+						<jsp:element  name="a">
+							<jsp:attribute name="href"><c:url value=""/></jsp:attribute>
+							Explore data
+						</jsp:element>
+					</li>
+				</ul>
+			</div>
+		</div>
 	</div>
 </jsp:root>

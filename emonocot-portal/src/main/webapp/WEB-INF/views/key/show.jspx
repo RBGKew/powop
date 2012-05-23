@@ -6,101 +6,137 @@
 
 	<div class="content">
 		<div class="page-header header-margin">
+			<table>
+				<tbody>
+					<tr>
+						<td>
+							<c:url value="/images/keyPageIcon.png" var="keyImageUrl" />
+							<img src="${keyImageUrl}" class="pull-left noPrint header-icon" alt="Key" />
+						</td>
+						<td>
+							<h2 id="page-title">${identificationKey.title}</h2>
+							<c:if test="${not empty identificationKey.creator}">
+								<small><spring:message code="key.creator" /> ${identificationKey.creator}</small>
+							</c:if>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 			<div class="row">
-				<c:url value="/images/keyPageIcon.png" var="keyImageUrl" />				
-				<h2 id="page-title"> <img src="${keyImageUrl}" class="pull-left noPrint header-icon" alt="Key" /> ${identificationKey.title}</h2>
-				<c:if test="${not empty identificationKey.creator}">
-				  <small><spring:message code="key.creator" /> ${identificationKey.creator}</small>
-				</c:if>				
-			</div>
-			<div class="row">
-			  <button class="btn pull-right" id="reset"><i class="icon-refresh"><!--  --></i><spring:message code="reset.key"/></button>
+				<button class="btn pull-right" id="reset"><i class="icon-refresh"><!--  --></i><spring:message code="reset.key"/></button>
 			</div>
 		</div>
-        <div class="row">
-          <div class="span4">
-            <div id="selectedCharacters">
-              <h3><spring:message code="features.chosen"/></h3>
-              <ul class="unstyled"><!--  --></ul>
-            </div> 
-            <div id="unselectedCharacters">
-              <h3><spring:message code="features.available"/></h3>
-              <ul class="unstyled"><!--  --></ul>
-            </div>
-          </div>
-          <div id="matchedTaxa" class="span8">
-            <div id="pages" class="span4 pull-right"><!--  --></div>
-            <table class="table">
-              <tbody><!--  --></tbody>
-            </table>
-          </div>
-      </div>
-      <c:url value="/taxon/" var="taxonPath"/>
-      <c:url value="/images/thumbnails/" var="imagePath"/>
-      <script language="javascript">
-				var data = ${identificationKey.matrix};
-				var key = new Key(data);
-				key.setTaxonPath("${taxonPath}");
-				key.setImagePath("${imagePath}");
-                $("#reset").click(function(event) { 
-                 key.reset();
-                 key.calculate();
-                });
-                key.setUpdateUI(updateUI);
-                key.calculate();
-     </script>
-     <div id="characterModal" class="modal hide fade">
-       <div class="modal-header">
-         <a class="close" data-dismiss="modal" ><i class="icon-remove"><!--  --></i></a>
-         <h3><!--  --></h3>
-       </div>
-       <div class="modal-body">
-         <!--  -->
-       </div>
-       <div class="modal-footer">
-         <a id="save" href="#" class="btn btn-primary">Save</a>
-         <a href="#" class="btn" data-dismiss="modal" >Cancel</a>
-       </div>
-     </div>
-     <div class="row">
-	   <div class="span9">
-	     <table id="key-properties" class="table">
-		   <tbody>
-		     <tr>
-			   <th><spring:message code="key.title" /></th>
-			   <td>
-			     <c:url	value="/taxon/${identificationKey.taxon.identifier}" var="taxonUrl" />
-			     <a href="${taxonUrl}"><span class="taxonName">${identificationKey.taxon.name}</span>
-				 ${identificationKey.taxon.authorship}</a>
-			   </td>
-			 </tr>
-			 <tr>
-			   <th><spring:message code="key.description" /></th>
-			   <td>${identificationKey.description}</td>
-			 </tr>
-			 <tr>
-			   <th><spring:message code="key.source" /></th>
-			   <td>
-			     <c:url value="/source/${identificationKey.authority.identifier}" var="keySourceUrl" />
-			     <a href="${keySourceUrl}">${identificationKey.authority.identifier}</a>
-			   </td>
-			 </tr>
-		   </tbody>
-		 </table>
-	   </div>
-	   <div class="span3 info-right">
-	     <div>
-			<spring:message code="sources" />
-		  </div>
-		  <ul>
-		    <c:forEach var="source" items="${identificationKey.sources}">
-			  <li>
-			    <c:url value="/source/${identificationKey.authority.identifier}" var="sourceUrl" />
-			    <a href="${sourceUrl}">${source.identifier}</a>
-			  </li>
-			</c:forEach>
-		  </ul>
-	   </div>
+		<div class="row">
+			<div class="span4">
+				<div id="plus">
+					<div class="btn-group">
+						<button class="btn" id="nextBest" title="Next best"><img class="small-icon" src="/images/glyphicons_009_magic.png" /> Next best</button>
+						<button class="btn" id="prune" title="Prune"><img class="small-icon" src="/images/glyphicons_288_scissors.png" /> Prune redundant</button>
+					</div>
+				</div>
+				<br/>
+				<ul id="selectedCharacters" class="well nav nav-list"><!--  -->
+				</ul>
+				<br/>
+				<ul id="unselectedCharacters" class="well nav nav-list"><!--  -->
+				</ul>
+				<br/>
+			</div>
+			
+			<div class="span3" id="viewIcons">
+				<div class="btn-group">
+					<button class="btn" id="simpleView" title="Display title only"><img src=""/><i class="icon-align-justify">&#160;</i></button>
+					&#160;
+					<button class="btn" id="listView" title="Display detailed list"><img src=""/><i class="icon-th-list">&#160;</i></button>
+					&#160;
+				</div>
+			</div>
+			<br/>
+			
+			<div id="matchedTaxa" class="span8">
+				<div id="pages" class="span4 pull-right"><!--  --></div>
+				<table class="table">
+					<tbody><!--  --></tbody>
+				</table>
+			</div>
+		</div>
+		
+		<table class="table table-bordered table-condensed" id="key-properties">
+			<tbody>
+				<tr>
+					<th><spring:message code="key.title" /></th>
+					<td>
+						<c:url	value="/taxon/${identificationKey.taxon.identifier}" var="taxonUrl" />
+						<a href="${taxonUrl}">
+							<span class="taxonName">${identificationKey.taxon.name}</span>
+							${identificationKey.taxon.authorship}
+						</a>
+					</td>
+				</tr>
+				<tr>
+					<th><spring:message code="key.description" /></th>
+					<td>${identificationKey.description}</td>
+				</tr>
+				<tr>
+					<th><spring:message code="key.source" /></th>
+					<td>
+						<c:url value="/source/${identificationKey.authority.identifier}" var="keySourceUrl" />
+						<a href="${keySourceUrl}">${identificationKey.authority.identifier}</a>
+					</td>
+				</tr>
+				<tr>
+					<th><spring:message code="sources" /></th>
+					<td>
+						<c:forEach var="source" items="${identificationKey.sources}">
+							<c:url value="/source/${identificationKey.authority.identifier}" var="sourceUrl" />
+							<a href="${sourceUrl}">${source.identifier}</a>
+						</c:forEach>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+				
+		<c:url value="/taxon/" var="taxonPath"/>
+		<c:url value="/images/thumbnails/" var="imagePath"/>
+		
+		<script language="javascript">
+			var data = ${identificationKey.matrix};
+			var key = new Key(data);
+			key.setTaxonPath("${taxonPath}");
+			key.setImagePath("${imagePath}");
+			$("#reset").click(function(event) {
+				key.reset();
+				key.calculate();
+			});
+			$("#prune").click(function(event) {
+				key.pruneRedundants();
+			});
+			$("#listView").click(function(event) {
+				key.setView(Key.ListView);
+				key.calculate();
+			});
+			$("#simpleView").click(function(event) {
+				key.setView(Key.SimpleView);
+				key.calculate();
+			});
+			key.setUpdateUI(updateUI);
+			key.calculate();
+		</script>
+		
+		<div id="characterModal" class="modal hide fade">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal" ><i class="icon-remove"><!--  --></i></a>
+				<h3><!--  --></h3>
+			</div>
+			<div class="modal-body">
+			<!--  -->
+			</div>
+			<div class="modal-footer">
+				<a id="save" href="#" class="btn btn-primary">Save</a>
+				<a href="#" class="btn" data-dismiss="modal" >Cancel</a>
+			</div>
+		</div>
+		
 	</div>
-</div>
+
 </jsp:root>

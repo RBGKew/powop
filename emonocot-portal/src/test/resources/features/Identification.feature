@@ -6,5 +6,5 @@ Scenario: Identify Page
   tools in the portal that can help me
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=87
   When I am on the portal home page
-  And I select the identify link in the navigation bar
-  Then I should be on the identify page
+  And I select the identify link on the home page
+  Then I should be on the emonocot features page
