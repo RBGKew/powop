@@ -14,9 +14,9 @@
     <put-attribute name="pageTitle" value="classifyTitle" cascade="true"/>
     <put-attribute name="body" value="/WEB-INF/views/classification.jspx" />
   </definition>
-  <definition name="identify" extends="default">
-    <put-attribute name="pageTitle" value="identifyTitle" cascade="true"/>
-    <put-attribute name="body" value="/WEB-INF/views/identify.jspx" />
+  <definition name="tour" extends="default">
+    <put-attribute name="pageTitle" value="tourTitle" cascade="true"/>
+    <put-attribute name="body" value="/WEB-INF/views/tour.jspx" />
   </definition>
   <definition name="search" extends="default">
   	<put-attribute name="pageTitle" value="searchTitle" cascade="true"/>

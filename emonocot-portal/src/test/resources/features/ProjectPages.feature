@@ -5,11 +5,11 @@ Feature: Classify page
 Scenario: View the Classify overview page
   Users should be able to access the Classify and Classification pages in eMonocot
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=187
-  When I select the "Classify" link in the navbar
-  Then I should be on the "classify" page
+  When I select the "Classify" link on the home page
+  Then I should be on the emonocot features page
   And there should be a "eMonocot classification" link on the page
 
 Scenario: View the classification page
-  When I am on the classify page
+  When I am on the emonocot features page
   And I select the "eMonocot classification!" link in the page
   Then I should be on the "classification" page
