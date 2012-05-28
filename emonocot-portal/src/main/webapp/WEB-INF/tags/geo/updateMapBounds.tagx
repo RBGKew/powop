@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:em="http://e-monocot.org/portal/functions"
+	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+    
+    var updateMapBounds = function(event) {
+      var currentExtent = map.getExtent();
+      var coord1 = new OpenLayers.LonLat(currentExtent.bottom,currentExtent.left).transform(google, wgs84);
+      var coord2 = new OpenLayers.LonLat(currentExtent.top, currentExtent.right).transform(google, wgs84);
+      $('#x1').val(coord1.lat);
+      $('#y1').val(coord1.lon);
+      $('#x2').val(coord2.lat);
+      $('#y2').val(coord2.lon);      
+    }
+	map.events.register('moveend', map, updateMapBounds);
+	map.events.register('zoomend', map, updateMapBounds);
+</jsp:root>

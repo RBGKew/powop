@@ -308,6 +308,7 @@
                       <include>${basedir}/src/main/css/jqueryui/jqueryui.css</include>
                       <include>${basedir}/src/main/css/ad-gallery/jquery.ad-gallery.css</include>                 
                       <include>${basedir}/src/main/css/jsTree/jsTree.css</include>
+                      <include>${basedir}/src/main/css/OpenLayers/style.css</include>
                     </includes>
                   </aggregation>
                   <aggregation>

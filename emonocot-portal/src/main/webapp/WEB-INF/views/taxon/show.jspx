@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+<div class="container" xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:geo="urn:jsptagdir:/WEB-INF/tags/geo"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 
 	<c:set var="bibliography" value="${em:bibliography(taxon)}"/>
@@ -123,7 +124,17 @@
 				<c:if test="${not empty em:regions(taxon)}">
 				<section id="distribution.map">
 					<div class="section-header"><h2><spring:message code="distribution" /></h2></div>
-					<tags:map taxon="${taxon}"/>
+					<geo:map bounds="${em:boundingBox(taxon)}" mapClass="taxon-page-map">
+					  <c:if test="${em:hasLevel1Features(taxon)}">
+					    <geo:layer name="level1" layer="tdwg:level1" style="eMonocot" featureId="${em:getLevel1Features(taxon)}"/>
+					  </c:if>
+					  <c:if test="${em:hasLevel2Features(taxon)}">
+					    <geo:layer name="level2" layer="tdwg:level2" style="eMonocot" featureId="${em:getLevel2Features(taxon)}"/>
+					  </c:if>
+					  <c:if test="${em:hasLevel3Features(taxon)}">
+					    <geo:layer name="level3" layer="tdwg:level3" style="eMonocot" featureId="${em:getLevel3Features(taxon)}"/>
+					  </c:if>
+					</geo:map>
 					
 					<ul id="distribution-textual" class="paddingTop20">
 						<c:forEach var="region" items="${em:regions(taxon)}">
@@ -234,4 +245,4 @@
 		</div>
 	</div>
 </div>
-</jsp:root>
+</div>

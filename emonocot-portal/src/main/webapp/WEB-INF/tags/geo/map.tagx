@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:em="http://e-monocot.org/portal/functions"
+	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+	<jsp:directive.attribute name="bounds" type="java.lang.String" />
+	<jsp:directive.attribute name="x1" type="java.lang.Double" />
+	<jsp:directive.attribute name="y1" type="java.lang.Double" />
+	<jsp:directive.attribute name="x2" type="java.lang.Double" />
+	<jsp:directive.attribute name="y2" type="java.lang.Double" />
+	<jsp:directive.attribute name="mapClass" type="java.lang.String"/>
+	
+	<div id="map" class="noPrint ${mapClass}">&#160;</div>
+	
+	<c:url var="openlayersImageLocation" value="/images/OpenLayers/" />
+	<spring:message code="web.map.server.url" var="wmsUrl"/>
+	<script type="text/javascript">
+	var google = new OpenLayers.Projection("EPSG:3857");
+    var wgs84 = new OpenLayers.Projection("EPSG:4326");
+	
+    $(document).ready(function() {
+	  var map;
+	  <c:choose>
+	    <c:when test="${not empty bounds}">
+	      var originalExtent = new OpenLayers.Bounds(${bounds});
+	    </c:when>
+	    <c:when test="${x1 ne null and y1 ne null and x2 ne null and y2 ne null and (x1 ne 0.0 and y1 ne 0.0 and x2 ne 0.0 and y2 ne 0.0)}">
+	      var bottomLeft = new OpenLayers.LonLat(${y1},${x1}).transform(wgs84, google);
+	      var topRight = new OpenLayers.LonLat(${y2}, ${x2}).transform(wgs84, google);
+	      var originalExtent = new OpenLayers.Bounds(bottomLeft.lat, bottomLeft.lon, topRight.lat, topRight.lon );
+	    </c:when>
+	    <c:otherwise>
+	      var originalExtent = new OpenLayers.Bounds(-20037500, -20037500,  20037500,  20037500 );
+	    </c:otherwise>
+	  </c:choose>
+	  
+	  OpenLayers.Map.prototype.zoomToMaxExtent = function() {
+      	this.zoomToExtent(originalExtent);
+      };
+	  OpenLayers.ImgPath = "${openlayersImageLocation}";												
+						
+	  map = new OpenLayers.Map(
+	    'map',
+		{controls : [new OpenLayers.Control.Navigation({zoomWheelEnabled : false}),
+					 new OpenLayers.Control.PanZoomBar({zoomWorldIcon: true})],
+		 units: "m",
+		 numZoomLevels: 7,
+		 projection : new OpenLayers.Projection("EPSG:3857"),
+		 maxResolution: 156543.0339,
+		 maxExtent: new OpenLayers.Bounds(-20037500,
+										  -20037500,
+										   20037500,
+										   20037500)
+	  });
+	  var base_layer = new OpenLayers.Layer.TMS("MapBox Layer",
+		 [ "http://build.e-monocot.org/tiles/" ],
+		 { 'layername': 'eMonocot', 'type': 'png',isBaseLayer : true }
+	  );
+
+	  map.addLayers([ base_layer ]);
+	  
+	  <jsp:doBody />										
+												
+	  map.addControl(new OpenLayers.Control.Navigation({zoomWheelEnabled:false}));
+	  map.zoomToExtent(originalExtent);	
+	});
+		
+	</script>
+</jsp:root>

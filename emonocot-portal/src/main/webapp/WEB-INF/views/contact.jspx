@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+<div class="container" xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:form="http://www.springframework.org/tags/form"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
@@ -14,7 +14,7 @@
 				<h4>Email</h4>
 				<p>You can email eMonocot here</p>
 				<form method="post" action="mailto:enquiries@e-monocot.org" >
-					<input type="submit" value="Send Email" />
+					<input class="btn btn-primary" type="submit" value="Send Email" />
 				</form>
 				
 				<div>&#160;</div>
@@ -25,4 +25,4 @@
 			</div>
 		</div>
 	</div>
-</jsp:root>
+</div>

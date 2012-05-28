@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+<div class="container" xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
@@ -17,20 +17,10 @@
 				<spring:message code="404.message" />
 		    </p>
 		    <div class="alert-actions">
-		      <jsp:element name="a">
-		          <jsp:attribute name="class">btn small</jsp:attribute>
-			      <jsp:attribute name="href">
-			        <c:url value="/search"/>
-			      </jsp:attribute>
-				  <spring:message code="search" /> 			    
-			  </jsp:element>
-			  <jsp:element name="a">
-		          <jsp:attribute name="class">btn small</jsp:attribute>
-			      <jsp:attribute name="href">
-			        <c:url value="http://build.e-monocot.org/bugzilla/enter_bug.cgi"/>
-			      </jsp:attribute>
-				  <spring:message code="submit.issue" /> 			    
-			  </jsp:element>
+		      <c:url value="/search" var="searchUrl"/>
+		      <a class="btn small" href="${searchUrl}"><spring:message code="search" /></a>
+		      <c:url value="http://build.e-monocot.org/bugzilla/enter_bug.cgi" var="submitIssueUrl"/>
+		      <a class="btn small" href="${submitIssueUrl}"><spring:message code="submit.issue" /></a>			  
             </div>
 		  </div>
 		</div>
@@ -43,4 +33,4 @@
 </pre>
 		</div>
 	</div>
-</jsp:root>
+</div>

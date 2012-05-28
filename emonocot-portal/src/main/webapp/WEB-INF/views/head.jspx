@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+<head xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:tiles="http://tiles.apache.org/tags-tiles"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 	<spring:message code="portal.baseUrl" var="baseUrl"/>
 	<spring:message code="google.analytics.id" var="googleAnalyticsId"/>
-	<head>
 		<meta charset="utf-8" />
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta http-equiv="Content-Language" content="en" />
@@ -40,5 +39,4 @@
 				}
 			</style>
 		</noscript>
-	</head>
-</jsp:root>
+</head>

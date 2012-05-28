@@ -8,6 +8,7 @@
 		type="java.lang.String" required="true" />
 	<jsp:directive.attribute name="pager" type="org.emonocot.model.pager.Page"
 		required="true" />
+    <jsp:directive.attribute name="url" type="java.lang.String" required="true" />
 	<jsp:directive.attribute name="title" type="java.lang.String" required="false" />
 	
 	<jsp:directive.attribute name="showIcons" type="java.lang.Boolean" required="false" />
@@ -32,7 +33,7 @@
 			<li class="${facetName}">
 					<jsp:element name="a">
 						<jsp:attribute name="href">
-							<c:url value="search">
+							<c:url value="${url}">
 								<c:forEach var="p" items="${pager.paramNames}">
 									<c:param name="${p}" value="${pager.params[p]}"/>
 								</c:forEach>
@@ -91,7 +92,7 @@
 							<c:otherwise>
 								<jsp:element name="a">
 									<jsp:attribute name="href">
-										<c:url value="search">
+										<c:url value="${url}">
 											<c:forEach var="p" items="${pager.paramNames}">
 												<c:param name="${p}" value="${pager.params[p]}"/>
 											</c:forEach>
@@ -146,7 +147,7 @@
 									<c:otherwise>
 										<jsp:element name="a">
 											<jsp:attribute name="href">
-												<c:url value="search">
+												<c:url value="${url}">
 													<c:forEach var="p" items="${pager.paramNames}">
 														<c:param name="${p}" value="${pager.params[p]}"/>
 													</c:forEach>
@@ -195,7 +196,7 @@
 									<c:otherwise>
 										<jsp:element name="a">
 											<jsp:attribute name="href">
-												<c:url value="search">
+												<c:url value="${url}">
 													<c:forEach var="p" items="${pager.paramNames}">
 														<c:param name="${p}" value="${pager.params[p]}"/>
 													</c:forEach>

@@ -57,6 +57,11 @@ public final class Functions {
      */
     private static DefaultConversionService conversionService = new DefaultConversionService();
 
+    /**
+     *
+     */
+    private static double MAX_DEGREES_LATITUDE = 180.0;
+
     static {
         conversionService.addConverter(new PermissionToStringConverter());
         conversionService.addConverter(new ClassToStringConverter());

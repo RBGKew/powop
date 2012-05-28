@@ -167,5 +167,5 @@
         <name>getLevel3Features</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>java.lang.String getLevel3Features(org.emonocot.model.taxon.Taxon)</function-signature>
-    </function>
+    </function>    
 </taglib>

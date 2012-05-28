@@ -21,7 +21,11 @@
   <definition name="search" extends="default">
   	<put-attribute name="pageTitle" value="searchTitle" cascade="true"/>
     <put-attribute name="body" value="/WEB-INF/views/search.jspx" />
-  </definition>  
+  </definition>
+  <definition name="spatial" extends="default">
+  	<put-attribute name="pageTitle" value="spatialTitle" cascade="true"/>
+    <put-attribute name="body" value="/WEB-INF/views/spatial.jspx" />
+  </definition> 
   <definition name="register" extends="default">
     <put-attribute name="pageTitle" value="registerTitle" cascade="true"/>
     <put-attribute name="body" value="/WEB-INF/views/register.jspx" />

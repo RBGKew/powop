@@ -32,7 +32,7 @@ import cucumber.annotation.en.When;
  * @author ben
  */
 public class StepDefinitions {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(StepDefinitions.class);
 
     /**

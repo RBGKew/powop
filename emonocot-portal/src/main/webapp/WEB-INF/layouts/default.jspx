@@ -11,9 +11,7 @@
 <tiles:insertAttribute name="head" />
   <body data-spy="scroll" data-target=".subnav" data-offset="500" data-twttr-rendered="true">
 	<tiles:insertAttribute name="header" />
-	<div class="container">
-		<tiles:insertAttribute name="body" />
-	</div>
+	<tiles:insertAttribute name="body" />
 	<tiles:insertAttribute name="footer" />
   </body>
 </html>
