@@ -44,6 +44,7 @@
 		<property name="indexedClasses">
 			<list>
 				<value>org.emonocot.model.description.Distribution</value>
+				<value>org.emonocot.model.geography.Place</value>
 				<value>org.emonocot.model.identifier.Identifier</value>
 				<value>org.emonocot.model.key.IdentificationKey</value>
 				<value>org.emonocot.model.description.TextContent</value>
@@ -81,18 +82,19 @@
 		</property>
 		<property name="annotatedClasses">
 			<list>
-			    <value>org.emonocot.model.job.Job</value>
-				<value>org.emonocot.model.source.Source</value>
-				<value>org.emonocot.model.identifier.Identifier</value>
-				<value>org.emonocot.model.key.IdentificationKey</value>
 				<value>org.emonocot.model.common.Annotation</value>
 				<value>org.emonocot.model.description.Distribution</value>
 				<value>org.emonocot.model.description.TextContent</value>
+				<value>org.emonocot.model.geography.Place</value>
+				<value>org.emonocot.model.identifier.Identifier</value>
+			    <value>org.emonocot.model.job.Job</value>
+				<value>org.emonocot.model.key.IdentificationKey</value>
 				<value>org.emonocot.model.media.Image</value>
 				<value>org.emonocot.model.reference.Reference</value>
+				<value>org.emonocot.model.source.Source</value>
 				<value>org.emonocot.model.taxon.Taxon</value>
-				<value>org.emonocot.model.user.User</value>
 				<value>org.emonocot.model.user.Group</value>
+				<value>org.emonocot.model.user.User</value>
 			</list>
 		</property>
 		<property name="annotatedPackages" value="org.emonocot.model.common"/>

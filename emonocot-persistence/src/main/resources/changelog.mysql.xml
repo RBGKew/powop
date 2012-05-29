@@ -2155,4 +2155,34 @@
       <comment>Migrating data #268: Changes to Region names but data incompatible</comment>
       <sql>update distribution set region = 'WEST_CENTRAL_TROPICAL_AFRICA' where region = 'WESTCENTRAL_TROPICAL_AFRICA';</sql>
     </changeSet>
+    <changeSet id="2012-05-25" author="jk00kg">
+      <createTable tableName="Place">
+        <column name="id" type="bigint" autoIncrement="true">
+          <constraints nullable="false" primaryKey="true"/>
+        </column>
+        <column name="identifier" type="varchar(255)">
+            <constraints nullable="false"  unique="true"/>
+        </column>
+      	<column name="name" type="varchar(255)" />
+      	<column name="fipsCode" type="varchar(5)" />
+      	<column name="shape" type="GEOMETRY" />
+      	<column name="point" type="GEOMETRY" />
+        <column name="license" type="varchar(255)" />
+        <column name="created" type="datetime" />
+        <column name="modified" type="datetime" />
+        <column name="source" type="varchar(255)" />
+        <column name="creator" type="varchar(255)" />
+        <column name="authority_id" type="bigint"/>
+      </createTable>
+    </changeSet>
+    <changeSet id="2012-05-28" author="jk00kg">
+      <createTable tableName="Place_Source">
+        <column name="Place_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>
+        <column name="sources_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>             
+      </createTable>
+    </changeSet>
 </databaseChangeLog>
