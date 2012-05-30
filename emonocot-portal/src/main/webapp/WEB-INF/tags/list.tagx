@@ -77,7 +77,6 @@
 				<c:when test="${item.className == 'IdentificationKey'}">
 					<td>
 						<spring:url var="iconUrl" value="/images/keyPageIcon.png"/>
-						<!-- TODO icon -->
 						<img src="${iconUrl}" class="pull-left resultTypeIcon" alt="ID Key"/>
 					</td>
 					<td>
@@ -90,6 +89,29 @@
 							<img src="${thumbnail}" title="No image available"/>
 						</a>
 					</td>
+				</c:when>
+				<c:when test="${item.className == 'Place'}">
+                        <spring:url var="iconUrl" value="/images/glyphicons_340_globe-big.png" />
+                        <c:choose>
+	                        <c:when test="${item.envelope.minX gt item.envelope.maxX}">
+	                            <spring:url var="itemUrl" value="/spatial?" />
+	                        </c:when>
+	                        <c:otherwise>
+	                            <spring:url var="itemUrl" value="/spatial?x1=${item.envelope.minX}&amp;x2=${item.envelope.maxX}&amp;y1=${item.envelope.minY}&amp;y2=${item.envelope.maxY}" />
+	                        </c:otherwise>
+                        </c:choose>
+				    <td>
+                        <img src="${iconUrl}" class="pull-left resultTypeIcon" alt="Place"/>
+                    </td>
+                    <td>
+                        <a class="result" href="${itemUrl}" title="${item.name}"><h4 class="h4Results">${item.name}</h4></a>
+                    </td>
+                    <td>
+                        <a href="${itemUrl}" class="thumbnail pull-right">
+                            <c:url var="thumbnail" value="/images/no_image_3.jpg"/>
+                            <img src="${thumbnail}" title="No image available"/>
+                        </a>
+                    </td>
 				</c:when>
 				<c:otherwise>
 					<!-- Unknown class ${item.className} -->

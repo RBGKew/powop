@@ -40,7 +40,6 @@
 					</c:when>
 					<c:when test="${item.className == 'IdentificationKey'}">
 						<spring:url var="iconUrl" value="/images/keyPageIcon.png"/>
-						<!-- TODO icon -->
 						<td>
 						<img src="${iconUrl}" class="pull-left resultTypeIcon" alt="ID Key"/>
 						</td>
@@ -49,6 +48,23 @@
 						<a class="result" href="${itemUrl}" title="${item.title}"><h4 class="h4Results">${item.title}</h4></a>
 						</td>
 					</c:when>
+                    <c:when test="${item.className == 'Place'}">
+                        <spring:url var="iconUrl" value="/images/glyphicons_340_globe-big.png" />
+                        <td>
+                        <img src="${iconUrl}" class="pull-left resultTypeIcon" alt="Place"/>
+                        </td>
+                        <td>
+                        <c:choose>
+                            <c:when test="${item.envelope.minX gt item.envelope.maxX}">
+                                <spring:url var="itemUrl" value="/spatial?" />
+                            </c:when>
+                            <c:otherwise>
+                                <spring:url var="itemUrl" value="/spatial?x1=${item.envelope.minX}&amp;x2=${item.envelope.maxX}&amp;y1=${item.envelope.minY}&amp;y2=${item.envelope.maxY}" />
+                            </c:otherwise>
+                        </c:choose>
+                        <a class="result" href="${itemUrl}" title="${item.name}"><h4 class="h4Results">${item.name}</h4></a>
+                        </td>
+                    </c:when>
 					<c:otherwise>
 						Unknown class ${item.className}
 					</c:otherwise>

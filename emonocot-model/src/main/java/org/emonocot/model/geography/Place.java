@@ -6,6 +6,7 @@ package org.emonocot.model.geography;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import org.emonocot.model.common.SearchableObject;
 import org.hibernate.annotations.Type;
@@ -17,6 +18,7 @@ import org.hibernate.search.annotations.Indexed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.MultiPolygon;
@@ -67,7 +69,6 @@ public class Place extends SearchableObject {
 	 * The smallest rectangle that bounds the place.
 	 * TODO: It is persisted to  optimise querying   
 	 */
-	//private Envelope envelope;
 
 	/* (non-Javadoc)
 	 * @see org.emonocot.model.common.SecuredObject#getId()
@@ -90,28 +91,28 @@ public class Place extends SearchableObject {
 	 * @return the name
 	 */
     @Fields(value={@Field, @Field(name="label", index=Index.UN_TOKENIZED)})
-	public final String getName() {
+	public String getName() {
 		return name;
 	}
 
 	/**
 	 * @param name the name to set
 	 */
-	public final void setName(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
 	 * @return the fipsCode
 	 */
-	public final String getFipsCode() {
+	public String getFipsCode() {
 		return fipsCode;
 	}
 
 	/**
 	 * @param fipsCode the fipsCode to set
 	 */
-	public final void setFipsCode(String fipsCode) {
+	public void setFipsCode(String fipsCode) {
 		this.fipsCode = fipsCode;
 	}
 
@@ -119,14 +120,14 @@ public class Place extends SearchableObject {
 	 * @return the shape
 	 */
 	@Type(type="spatialType")
-	public final MultiPolygon getShape() {
+	public MultiPolygon getShape() {
 		return shape;
 	}
 
 	/**
 	 * @param shape the shape to set
 	 */
-	public final void setShape(Geometry shape) {
+	public void setShape(Geometry shape) {
 		logger.debug("Setting a " + shape.toText() + " with " + shape.getNumGeometries() + " geometries");
 		try{
 			if(shape instanceof Polygon){
@@ -144,27 +145,36 @@ public class Place extends SearchableObject {
 	 * @return the point
 	 */
 	@Type(type="spatialType")
-	public final Point getPoint() {
+	public Point getPoint() {
 		return point;
 	}
 
 	/**
 	 * @param point the point to set
 	 */
-	public final void setPoint(Geometry point) {
-		logger.debug("Setting a " + point.toText() + " with " + point.getNumGeometries() + " geometries");
+	public void setPoint(Geometry point) {
 		try{
 			if (point instanceof Point){
 				this.point = (Point) point;
-			} else if (shape.getNumGeometries() == 1) {
-				logger.warn("Inferring a point from the centroid of " + point.toText() + " " + point);
-				this.point = point.getCentroid();
 			}
 		} catch (ClassCastException e) {
 			logger.error("Expected a point but got " + point.toText() + " " + point, e);
 		}
 	}
     
-    
+    /**
+     * @return an Envelope  
+     */
+	@Transient
+    public Envelope getEnvelope(){
+    	if(shape != null){
+			return shape.getEnvelopeInternal();
+    	} else if(point != null){
+			return point.getEnvelopeInternal();
+		} else {
+			//an empty Envelope
+			return new Envelope();
+		} 
+    }
 
 }
