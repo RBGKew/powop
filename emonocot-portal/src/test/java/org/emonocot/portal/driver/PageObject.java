@@ -1,6 +1,7 @@
 package org.emonocot.portal.driver;
 
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.emonocot.test.TestDataManager;
@@ -20,6 +21,8 @@ import org.slf4j.LoggerFactory;
  * @author ben
  */
 public class PageObject {
+	
+	private Pattern pattern = Pattern.compile("^(.*?);jsessionid=[A-Z0-9]+$");
 
     /**
     *
@@ -32,6 +35,12 @@ public class PageObject {
     */
     @FindBy(how = How.CLASS_NAME, using = "identify-box")
     private WebElement identifyBox;
+    
+    /**
+    *
+    */
+    @FindBy(how = How.CLASS_NAME, using = "classify-box")
+    private WebElement classifyBox;
 
     /**
    *
@@ -58,11 +67,20 @@ public class PageObject {
     }
 
     /**
-     * @return the registration page
+     * @return the identify link
      */
     public final Identify selectIdentifyLink() {
         return openAs(
         		identifyBox.findElement(By.linkText("Identify")).getAttribute("href"),
+                Identify.class);
+    }
+    
+    /**
+     * @return the identify link
+     */
+    public final Identify selectClassifyLink() {
+        return openAs(
+        		classifyBox.findElement(By.linkText("Classify")).getAttribute("href"),
                 Identify.class);
     }
 
@@ -207,7 +225,12 @@ public class PageObject {
             java.net.URI uri = new java.net.URI(webDriver.getCurrentUrl());
             String basePath = new java.net.URI(getBaseUri()).getPath();
             String relPath = uri.getPath().replace(basePath, "");
-            return relPath.startsWith("/") ? relPath.substring(1) : relPath;
+            relPath = relPath.startsWith("/") ? relPath.substring(1) : relPath;
+            Matcher matcher = pattern.matcher(relPath);
+            if(matcher.matches()) {
+            	relPath = matcher.group(1);
+            }
+            return relPath;
         } catch (java.net.URISyntaxException e) {
             e.printStackTrace();
             return null;

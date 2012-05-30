@@ -69,6 +69,14 @@ public class Portal extends PageObject {
     public final Index getHomePage() {
         return openAs(getBaseUri(), Index.class);
     }
+    
+    /**
+    *
+    * @return the feature page
+    */
+   public final Index getFeaturePage() {
+       return openAs(getBaseUri() + "tour", Index.class);
+   }
 
     /**
      *
@@ -119,7 +127,7 @@ public class Portal extends PageObject {
     
     /**
     *
-    * @return the login page
+    * @return the about page
     */
    public final About getAboutPage() {
        return openAs(getBaseUri() + "about", About.class);

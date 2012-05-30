@@ -48,8 +48,9 @@
 				<ul>
 					<li>
 						<jsp:element  name="a">
-							<jsp:attribute name="href"><c:url value="/classify"/></jsp:attribute>
-							Monocot Classification
+							<jsp:attribute name="class">classification-link</jsp:attribute>
+							<jsp:attribute name="href"><c:url value="/classification"/></jsp:attribute>
+							eMonocot Classification
 						</jsp:element>
 					</li>
 					<li>

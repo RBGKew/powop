@@ -8,7 +8,7 @@
           	<a href="${identifyUrl}"><h2><spring:message code="identify.title"/></h2></a>
           	<p><spring:message code="identify.message"/></p>
         </div>
-        <div class="span4 index-box">
+        <div class="span4 index-box classify-box">
             <c:url var="classifyUrl" value="/tour"/>
           	<a href="${classifyUrl}"><h2><spring:message code="classify.title"/></h2></a>
            	<p><spring:message code="classify.message"/></p>

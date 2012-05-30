@@ -626,6 +626,14 @@ public class StepDefinitions {
         currentPage = currentPage.selectIdentifyLink();
     }
     
+    /**
+    *
+    */
+   @Then("^I select the classify link on the home page$")
+   public final void iSelectTheClassifyLinkOnTheHomePage() {
+       currentPage = currentPage.selectClassifyLink();
+   }
+    
 
     /**
      *
@@ -1056,6 +1064,14 @@ public class StepDefinitions {
         currentPage = portal.getHomePage();
     }
 
+    /**
+    *
+    */
+    @When("^I am on the portal features page$")
+    public final void IAmOnThePortalFeaturesPage() {
+    	currentPage = portal.getFeaturePage();
+    }
+    
     /**
      *
      * @param text Set the text

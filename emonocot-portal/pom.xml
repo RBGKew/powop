@@ -305,8 +305,9 @@
                     <includes>
                       <include>${basedir}/src/main/css/before.css</include>
                       <include>${project.build.directory}/compiled-less/bootstrap.css</include>
+                      <include>${basedir}/src/main/css/bootstrap-image-gallery.css</include>
                       <include>${basedir}/src/main/css/jqueryui/jqueryui.css</include>
-                      <include>${basedir}/src/main/css/ad-gallery/jquery.ad-gallery.css</include>                 
+                      <include>${basedir}/src/main/css/ad-gallery/jquery.ad-gallery.css</include>
                       <include>${basedir}/src/main/css/jsTree/jsTree.css</include>
                       <include>${basedir}/src/main/css/OpenLayers/style.css</include>
                     </includes>
@@ -338,6 +339,8 @@
                       <include>${basedir}/src/main/js/bootstrap-collapse.js</include>
                       <include>${basedir}/src/main/js/bootstrap-carousel.js</include>
                       <include>${basedir}/src/main/js/bootstrap-typeahead.js</include>
+                      <include>${basedir}/src/main/js/load-image.js</include>
+                      <include>${basedir}/src/main/js/bootstrap-image-gallery.js</include>
                       <include>${basedir}/src/main/js/application.js</include>
                       <include>${basedir}/src/main/js/jsKey/keys.js</include>
                       <include>${basedir}/src/main/js/jsKey/key-ui-emonocot.js</include>
