@@ -14,6 +14,8 @@ import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Fields;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
@@ -28,6 +30,12 @@ import com.vividsolutions.jts.geom.Polygon;
 @Entity
 @Indexed(index = "org.emonocot.model.common.SearchableObject")
 public class Place extends SearchableObject {
+
+    /**
+     *
+     */
+    private static Logger logger = LoggerFactory
+            .getLogger(Place.class);
 
 	/**
 	 * 
@@ -119,23 +127,15 @@ public class Place extends SearchableObject {
 	 * @param shape the shape to set
 	 */
 	public final void setShape(Geometry shape) {
-
+		logger.debug("Setting a " + shape.toText() + " with " + shape.getNumGeometries() + " geometries");
 		try{
 			if(shape instanceof Polygon){
 				this.shape = new MultiPolygon(new Polygon[] {(Polygon)shape}, new GeometryFactory());
 			} else {
 				this.shape = (MultiPolygon) shape;
 			}
-//			System.out.println(shape.getNumGeometries());
-//			Geometry buffered = shape.buffer(0);
-//			System.out.println(buffered.getGeometryType() + " created from buffering." );
 		} catch (ClassCastException e) {
-			//TODO: slap self on wrists for...
-			System.out.println("/n/nUnable to cast to polygon from" + shape);
-			System.out.println(shape.toText());
-			System.out.println();
-			e.printStackTrace();
-			//Also see this.setPoint
+			logger.error("Unable to get multipolygon from" + shape.toText() + " " + shape, e);
 		}
 		
 	}
@@ -152,10 +152,16 @@ public class Place extends SearchableObject {
 	 * @param point the point to set
 	 */
 	public final void setPoint(Geometry point) {
+		logger.debug("Setting a " + point.toText() + " with " + point.getNumGeometries() + " geometries");
 		try{
-			this.point = (Point) point;
+			if (point instanceof Point){
+				this.point = (Point) point;
+			} else if (shape.getNumGeometries() == 1) {
+				logger.warn("Inferring a point from the centroid of " + point.toText() + " " + point);
+				this.point = point.getCentroid();
+			}
 		} catch (ClassCastException e) {
-			//TODO:
+			logger.error("Expected a point but got " + point.toText() + " " + point, e);
 		}
 	}
     

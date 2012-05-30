@@ -106,6 +106,60 @@ public class SearchController {
             final IdentificationKeyService newKeyService) {
         this.keyService = newKeyService;
     }
+    
+    /**
+     * @param query
+     * @param start
+     * @param limit
+     * @param spatial
+     * @param responseFacets
+     * @param sort
+     * @param selectedFacets
+     * @return
+     */
+    private Page<? extends SearchableObject> runQuery(String query, Integer start, Integer limit, String spatial, FacetName[] responseFacets, Sorting sort, Map<FacetName, String> selectedFacets){
+    	Page<? extends SearchableObject> result = null;
+        if (selectedFacets == null
+                || !selectedFacets.containsKey(FacetName.CLASS)) {
+
+            result = searchableObjectService.search(
+                    query, spatial, limit, start, responseFacets,
+                    selectedFacets, sort, "taxon-with-image");
+        } else {
+            if (selectedFacets.get(FacetName.CLASS)
+                    .equals("org.emonocot.model.media.Image")) {
+                logger.debug("Using the image service for " + query);
+                result = imageService.search(query, spatial , limit, start,
+                        responseFacets,
+                        selectedFacets, sort, "image-taxon");
+            } else if (selectedFacets.get(FacetName.CLASS).equals(
+                    "org.emonocot.model.taxon.Taxon")) {
+                logger.debug("Using the taxon service for " + query);
+                result = taxonService.search(query, spatial, limit, start,
+                        responseFacets,
+                        selectedFacets, sort, "taxon-with-image");
+            } else if (selectedFacets.get(FacetName.CLASS).equals(
+                    "org.emonocot.model.key.IdentificationKey")) {
+                logger.debug("Using the IdentificationKey service for " + query);
+                result = keyService.search(query, spatial, limit, start,
+                        responseFacets,
+                        selectedFacets, sort, "front-cover");
+            } else if (selectedFacets.get(FacetName.CLASS).equals("org.emonocot.model.geography.Place")) {
+        		result = searchableObjectService.search(
+                            query, spatial, limit, start, responseFacets,
+                            selectedFacets, sort, "taxon-with-image");
+        	} else {
+                logger.error("We can't search by an object of FacetName.CLASS idx="
+                        + selectedFacets.get(FacetName.CLASS));
+            }
+        }
+        queryLog.info("Query: \'{}\', start: {}, limit: {},"
+                + "facet: [{}], {} results", new Object[] {query,
+                start, limit, selectedFacets, result.getSize() });
+        result.putParam("query", query);
+        
+        return result;
+    }
 
     /**
      *
@@ -130,7 +184,7 @@ public class SearchController {
             return 20;
         }
     }
-
+    						
     /**
     *
     * @param query
@@ -141,33 +195,20 @@ public class SearchController {
     *            Set the offset
     * @param facets
     *            The facets to set
-    * @param x1 the first latitude
-    * @param x2 the second latitude
-    * @param y1 the first longitude
-    * @param y2 the second longitude
     * @param view Set the view
     * @param model Set the model
     *
     * @return a model and view
     */
-   @RequestMapping(value = "/spatial", method = RequestMethod.GET)
-   public final String spatial(
+   @RequestMapping(value = "/search", method = RequestMethod.GET)
+   public final String search(
        @RequestParam(value = "query", required = false) final String query,
-       @RequestParam(value = "x1", required = false) final Double x1,
-       @RequestParam(value = "y1", required = false) final Double y1,
-       @RequestParam(value = "x2", required = false) final Double x2,
-       @RequestParam(value = "y2", required = false) final Double y2,
        @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
        @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
        @RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
        @RequestParam(value = "sort", required = false) @SortingFormat final Sorting sort,
        @RequestParam(value = "view", required = false) String view,
        final Model model) {
-       String spatial = null;
-       DecimalFormat decimalFormat = new DecimalFormat("###0.0");
-       if (x1 != null && y1 != null && x2 != null && y2 != null && (x1 != 0.0 && y1 != 0.0 && x2 != 0.0 && x2 != 0.0 && y2 != 0.0)) {
-         spatial = "Intersects(" + decimalFormat.format(x1) + " " + decimalFormat.format(y1) + " " + decimalFormat.format(x2) + " " + decimalFormat.format(y2) + ")";
-       }
 
        Map<FacetName, String> selectedFacets = null;
        if (facets != null && !facets.isEmpty()) {
@@ -187,12 +228,15 @@ public class SearchController {
        List<FacetName> responseFacetList = new ArrayList<FacetName>();
        responseFacetList.add(FacetName.CLASS);
        responseFacetList.add(FacetName.FAMILY);
+       responseFacetList.add(FacetName.CONTINENT);
        responseFacetList.add(FacetName.AUTHORITY);
+       String className = null;
        if (selectedFacets == null) {
            logger.debug("No selected facets, setting default response facets");
        } else {
            if (selectedFacets.containsKey(FacetName.CLASS)) {
-               if (selectedFacets.get(FacetName.CLASS).equals(
+        	   className = selectedFacets.get(FacetName.CLASS);
+               if (className.equals(
                        "org.emonocot.model.taxon.Taxon")) {
                    logger.debug("Adding taxon specific facets");
                    responseFacetList.add(FacetName.RANK);
@@ -200,177 +244,116 @@ public class SearchController {
                }
            }
            if (selectedFacets.containsKey(FacetName.CONTINENT)) {
-               logger.debug("Removing continent facet");
-               responseFacetList.remove(FacetName.CONTINENT);
+               logger.debug("Adding region facet");
+               responseFacetList.add(FacetName.REGION);
+           } else {
+               selectedFacets.remove(FacetName.REGION);
            }
        }
        FacetName[] responseFacets = new FacetName[]{};
        responseFacets = responseFacetList.toArray(responseFacets);
+       limit = setLimit(view, className);
 
        //Run the search
-       Page<? extends SearchableObject> result = null;
-       if (selectedFacets == null
-               || !selectedFacets.containsKey(FacetName.CLASS)) {
-               limit = setLimit(view, null);
+       Page<? extends SearchableObject> result = runQuery(query, start, limit, null, responseFacets, sort, selectedFacets);
 
-           result = searchableObjectService.search(
-                   query, spatial, limit, start, responseFacets,
-                   selectedFacets, sort, "taxon-with-image");
-       } else {
-           if (selectedFacets.get(FacetName.CLASS)
-                   .equals("org.emonocot.model.media.Image")) {
-               logger.debug("Using the image service for " + query);
-               limit = setLimit(view, selectedFacets.get(FacetName.CLASS));
-               result = imageService.search(query, spatial , limit, start,
-                       responseFacets,
-                       selectedFacets, sort, "image-taxon");
-           } else if (selectedFacets.get(FacetName.CLASS).equals(
-                   "org.emonocot.model.taxon.Taxon")) {
-               logger.debug("Using the taxon service for " + query);
-               limit = setLimit(view, selectedFacets.get(FacetName.CLASS));
-               result = taxonService.search(query, spatial, limit, start,
-                       responseFacets,
-                       selectedFacets, sort, "taxon-with-image");
-           } else if (selectedFacets.get(FacetName.CLASS).equals(
-                   "org.emonocot.model.key.IdentificationKey")) {
-               logger.debug("Using the IdentificationKey service for " + query);
-               limit = setLimit(view, selectedFacets.get(FacetName.CLASS));
-               result = keyService.search(query, spatial, limit, start,
-                       responseFacets,
-                       selectedFacets, sort, "front-cover");
-           } else {
-               logger.error("We can't search by an object of FacetName.CLASS idx="
-                       + selectedFacets.get(FacetName.CLASS));
-           }
-       }
-       queryLog.info("Query: \'{}\', start: {}, limit: {},"
-               + "facet: [{}], {} results", new Object[] {query,
-               start, limit, selectedFacets, result.getSize() });
-       result.putParam("query", query);
-       if (spatial != null) {
-         result.putParam("x1", x1);
-         result.putParam("y1", y1);
-         result.putParam("x2", x2);
-         result.putParam("y2", y2);
-       }
        result.putParam("view", view);
-
        result.setSort(sort);
        model.addAttribute("result", result);
-       return "spatial";
+       return "search";
    }
 
-    /**
-     *
-     * @param query
-     *            Set the query
-     * @param limit
-     *            Limit the number of returned results
-     * @param start
-     *            Set the offset
-     * @param facets
-     *            The facets to set
-     * @param view Set the view
-     * @param model Set the model
-     *
-     * @return a model and view
-     */
-    @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public final String search(
-        @RequestParam(value = "query", required = false) final String query,
-        @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
-        @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
-        @RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
-        @RequestParam(value = "sort", required = false) @SortingFormat final Sorting sort,
-        @RequestParam(value = "view", required = false) String view,
-        final Model model) {
+   /**
+   *
+   * @param query
+   *            Set the query
+   * @param limit
+   *            Limit the number of returned results
+   * @param start
+   *            Set the offset
+   * @param facets
+   *            The facets to set
+   * @param x1 the first latitude
+   * @param x2 the second latitude
+   * @param y1 the first longitude
+   * @param y2 the second longitude
+   * @param view Set the view
+   * @param model Set the model
+   *
+   * @return a model and view
+   */
+  @RequestMapping(value = "/spatial", method = RequestMethod.GET)
+  public final String spatial(
+      @RequestParam(value = "query", required = false) final String query,
+      @RequestParam(value = "x1", required = false) final Double x1,
+      @RequestParam(value = "y1", required = false) final Double y1,
+      @RequestParam(value = "x2", required = false) final Double x2,
+      @RequestParam(value = "y2", required = false) final Double y2,
+      @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+      @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
+      @RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
+      @RequestParam(value = "sort", required = false) @SortingFormat final Sorting sort,
+      @RequestParam(value = "view", required = false) String view,
+      final Model model) {
+      String spatial = null;
+      DecimalFormat decimalFormat = new DecimalFormat("###0.0");
+      if (x1 != null && y1 != null && x2 != null && y2 != null && (x1 != 0.0 && y1 != 0.0 && x2 != 0.0 && x2 != 0.0 && y2 != 0.0)) {
+        spatial = "Intersects(" + decimalFormat.format(x1) + " " + decimalFormat.format(y1) + " " + decimalFormat.format(x2) + " " + decimalFormat.format(y2) + ")";
+      }
 
-        Map<FacetName, String> selectedFacets = null;
-        if (facets != null && !facets.isEmpty()) {
-            selectedFacets = new HashMap<FacetName, String>();
-            for (FacetRequest facetRequest : facets) {
-                selectedFacets.put(facetRequest.getFacet(),
-                        facetRequest.getSelected());
-            }
-            logger.debug(selectedFacets.size()
-                    + " facets have been selected from " + facets.size()
-                    + " available");
-        } else {
-            logger.debug("There were no facets available to select from");
-        }
+      Map<FacetName, String> selectedFacets = null;
+      if (facets != null && !facets.isEmpty()) {
+          selectedFacets = new HashMap<FacetName, String>();
+          for (FacetRequest facetRequest : facets) {
+              selectedFacets.put(facetRequest.getFacet(),
+                      facetRequest.getSelected());
+          }
+          logger.debug(selectedFacets.size()
+                  + " facets have been selected from " + facets.size()
+                  + " available");
+      } else {
+          logger.debug("There were no facets available to select from");
+      }
 
-        //Decide which facets to return
-        List<FacetName> responseFacetList = new ArrayList<FacetName>();
-        responseFacetList.add(FacetName.CLASS);
-        responseFacetList.add(FacetName.FAMILY);
-        responseFacetList.add(FacetName.CONTINENT);
-        responseFacetList.add(FacetName.AUTHORITY);
-        if (selectedFacets == null) {
-            logger.debug("No selected facets, setting default response facets");
-        } else {
-            if (selectedFacets.containsKey(FacetName.CLASS)) {
-                if (selectedFacets.get(FacetName.CLASS).equals(
-                        "org.emonocot.model.taxon.Taxon")) {
-                    logger.debug("Adding taxon specific facets");
-                    responseFacetList.add(FacetName.RANK);
-                    responseFacetList.add(FacetName.TAXONOMIC_STATUS);
-                }
-            }
-            if (selectedFacets.containsKey(FacetName.CONTINENT)) {
-                logger.debug("Adding region facet");
-                responseFacetList.add(FacetName.REGION);
-            } else {
-                selectedFacets.remove(FacetName.REGION);
-            }
-        }
-        FacetName[] responseFacets = new FacetName[]{};
-        responseFacets = responseFacetList.toArray(responseFacets);
+      //Decide which facets to return
+      List<FacetName> responseFacetList = new ArrayList<FacetName>();
+      responseFacetList.add(FacetName.CLASS);
+      responseFacetList.add(FacetName.FAMILY);
+      responseFacetList.add(FacetName.AUTHORITY);
+      if (selectedFacets == null) {
+          logger.debug("No selected facets, setting default response facets");
+      } else {
+          if (selectedFacets.containsKey(FacetName.CLASS)) {
+              if (selectedFacets.get(FacetName.CLASS).equals(
+                      "org.emonocot.model.taxon.Taxon")) {
+                  logger.debug("Adding taxon specific facets");
+                  responseFacetList.add(FacetName.RANK);
+                  responseFacetList.add(FacetName.TAXONOMIC_STATUS);
+              }
+          }
+          if (selectedFacets.containsKey(FacetName.CONTINENT)) {
+              logger.debug("Removing continent facet");
+              responseFacetList.remove(FacetName.CONTINENT);
+          }
+      }
+      FacetName[] responseFacets = new FacetName[]{};
+      responseFacets = responseFacetList.toArray(responseFacets);
+      limit = setLimit(view, null);
 
-        //Run the search
-        Page<? extends SearchableObject> result = null;
-        if (selectedFacets == null || !selectedFacets.containsKey(FacetName.CLASS)) {
-        	limit = setLimit(view, null);
-        	
-            result = searchableObjectService.search(
-                    query, null, limit, start, responseFacets,
-                    selectedFacets, sort, "taxon-with-image");
-        } else {
-            if (selectedFacets.get(FacetName.CLASS).equals("org.emonocot.model.media.Image")) {
-                logger.debug("Using the image service for " + query);
-                limit = setLimit(view,selectedFacets.get(FacetName.CLASS));
-                result = imageService.search(query, null , limit, start,
-                        responseFacets,
-                        selectedFacets, sort, "image-taxon");
-            } else if (selectedFacets.get(FacetName.CLASS).equals(
-                    "org.emonocot.model.taxon.Taxon")) {
-                logger.debug("Using the taxon service for " + query);
-                limit = setLimit(view,selectedFacets.get(FacetName.CLASS));
-                result = taxonService.search(query, null, limit, start,
-                        responseFacets,
-                        selectedFacets, sort, "taxon-with-image");
-            } else if (selectedFacets.get(FacetName.CLASS).equals(
-                    "org.emonocot.model.key.IdentificationKey")) {
-                logger.debug("Using the IdentificationKey service for " + query);
-                limit = setLimit(view, selectedFacets.get(FacetName.CLASS));
-                result = keyService.search(query, null, limit, start,
-                        responseFacets,
-                        selectedFacets, sort, "front-cover");
-            } else {
-                logger.error("We can't search by an object of FacetName.CLASS idx="
-                        + selectedFacets.get(FacetName.CLASS));
-            }
-        }
-        queryLog.info("Query: \'{}\', start: {}, limit: {},"
-                + "facet: [{}], {} results", new Object[] {query,
-                start, limit, selectedFacets, result.getSize() });
-        result.putParam("query", query);
-        
-        result.putParam("view", view);
-
-        result.setSort(sort);
-        model.addAttribute("result", result);
-        return "search";
-    }
+      //Run the search
+      Page<? extends SearchableObject> result = runQuery(query, start, limit, spatial, responseFacets, sort, selectedFacets);
+      
+      if (spatial != null) {
+        result.putParam("x1", x1);
+        result.putParam("y1", y1);
+        result.putParam("x2", x2);
+        result.putParam("y2", y2);
+      }
+      result.putParam("view", view);
+      result.setSort(sort);
+      model.addAttribute("result", result);
+      return "spatial";
+  }
 
     /**
      * @param term

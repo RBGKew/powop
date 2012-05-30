@@ -11,6 +11,7 @@ import java.util.Map;
 import org.emonocot.api.FacetName;
 import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.geography.Continent;
+import org.emonocot.model.geography.Place;
 import org.emonocot.model.geography.Region;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.model.key.IdentificationKey;
@@ -51,7 +52,7 @@ public class SearchableObjectDaoImpl extends
      */
     public SearchableObjectDaoImpl() {
         super(SearchableObject.class, Taxon.class, Image.class,
-                IdentificationKey.class);
+                IdentificationKey.class, Place.class);
     }
 
     @Override
