@@ -8,7 +8,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.common.SearchableObject;
+import org.emonocot.model.marshall.json.ShapeDeserializer;
+import org.emonocot.model.marshall.json.ShapeSerializer;
 import org.hibernate.annotations.Type;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
@@ -120,6 +125,7 @@ public class Place extends SearchableObject {
 	 * @return the shape
 	 */
 	@Type(type="spatialType")
+	@JsonSerialize(using=ShapeSerializer.class)
 	public MultiPolygon getShape() {
 		return shape;
 	}
@@ -127,8 +133,8 @@ public class Place extends SearchableObject {
 	/**
 	 * @param shape the shape to set
 	 */
+	@JsonDeserialize(using=ShapeDeserializer.class)
 	public void setShape(Geometry shape) {
-		logger.debug("Setting a " + shape.toText() + " with " + shape.getNumGeometries() + " geometries");
 		try{
 			if(shape instanceof Polygon){
 				this.shape = new MultiPolygon(new Polygon[] {(Polygon)shape}, new GeometryFactory());
@@ -166,6 +172,7 @@ public class Place extends SearchableObject {
      * @return an Envelope  
      */
 	@Transient
+	@JsonIgnore
     public Envelope getEnvelope(){
     	if(shape != null){
 			return shape.getEnvelopeInternal();

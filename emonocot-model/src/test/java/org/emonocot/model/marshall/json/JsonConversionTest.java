@@ -25,6 +25,7 @@ import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.geography.Country;
+import org.emonocot.model.geography.Place;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Taxon;
@@ -40,6 +41,15 @@ import org.springframework.batch.core.JobExecutionException;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
+
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.CoordinateSequence;
+import com.vividsolutions.jts.geom.DefaultCoordinateSequenceFactory;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.LinearRing;
+import com.vividsolutions.jts.geom.MultiPolygon;
+import com.vividsolutions.jts.geom.Polygon;
+import com.vividsolutions.jts.geom.PrecisionModel;
 
 /**
  *
@@ -78,6 +88,11 @@ public class JsonConversionTest {
      */
     private GroupService groupService;
 
+	/**
+	 * 
+	 */
+	private Place place;
+
     /**
      *
      */
@@ -95,6 +110,14 @@ public class JsonConversionTest {
         objectMapperFactory.setGroupService(groupService);
         objectMapperFactory.setUserService(userService);
         objectMapper = objectMapperFactory.getObject();
+        
+    	place = new Place();
+    	place.setName("testName");
+    	place.setIdentifier("test.jk.triangle");
+    	Coordinate[] coords = {new Coordinate(57,26), new Coordinate(0,0), new Coordinate(25,25), new Coordinate(57,26)};
+    	LinearRing shell = new LinearRing(new DefaultCoordinateSequenceFactory().create(coords), new GeometryFactory());
+    	Polygon shape = new Polygon(shell, null, new GeometryFactory());
+    	place.setShape(shape);
     }
 
     /**
@@ -460,5 +483,24 @@ public class JsonConversionTest {
     @Test
     public final void testJobExecutionException() throws Exception {
         JobExecutionException jobExecutionException = objectMapper.readValue("{\"errors\" : { \"spring.integration.http.handler.error\" : \"A Spring Integration handler raised an exception while handling an HTTP request.  The exception is of type class org.springframework.integration.MessageHandlingException and it has a message: (org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException: A job instance already exists and is complete for parameters={query.string=from Source, attempt=9}.  If you want to run this job again, change the parameters.)\" } }", JobExecutionException.class);
+    }
+    
+    @Test
+    public final void testWriteMultiPolygon() throws Exception {
+    	String serialized = objectMapper.writeValueAsString(place);
+    	System.out.println(serialized);
+    	assertTrue("Expected JSON to contain the identifier", serialized.contains("\"identifier\":\"test.jk.triangle\""));
+    	assertTrue("Expected JSON to contain the name", serialized.contains("\"name\":\"testName\""));
+    	assertTrue("Expected JSON to contain the shape", serialized.contains("\"shape\":\"MULTIPOLYGON (((57 26, 0 0, 25 25, 57 26)))\""));
+    }
+    
+    @Test
+    public final void testReadMultiPolygon() throws Exception {
+    	String placeJson = "{\"name\":\"testName\",\"id\":null,\"shape\":\"MULTIPOLYGON (((57 26, 0 0, 25 25, 57 26)))\",\"point\":null,\"fipsCode\":null,\"authority\":null,\"identifier\":\"test.jk.triangle\",\"sources\":[],\"license\":null,\"created\":null,\"modified\":null,\"source\":null,\"creator\":null}";
+    	Place desrialized = objectMapper.readValue(placeJson, Place.class);
+    	
+    	assertEquals("Expected identifier to be " + place.getIdentifier(), place.getIdentifier(), desrialized.getIdentifier());
+    	assertEquals("Expected name to be " + place.getName(), place.getName(), desrialized.getName());
+    	assertEquals("Expected shape to be " + place.getShape().toText(),place.getShape().toText(),desrialized.getShape().toText());
     }
 }

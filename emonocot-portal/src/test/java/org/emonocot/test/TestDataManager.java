@@ -22,6 +22,7 @@ import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.GeographyConverter;
+import org.emonocot.model.geography.Place;
 import org.emonocot.model.identifier.Identifier;
 import org.emonocot.model.job.Job;
 import org.emonocot.model.job.JobType;
@@ -55,6 +56,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import com.vividsolutions.jts.io.ParseException;
+import com.vividsolutions.jts.io.WKTReader;
 
 /**
  * @author ben
@@ -176,6 +180,12 @@ public class TestDataManager {
      */
     @Autowired
     private IdentificationKeyService identificationKeyService;
+    
+    /**
+     * 
+     */
+    @Autowired
+    private PlaceService placeService;
 
     /**
      * @param identifier
@@ -810,13 +820,13 @@ public class TestDataManager {
                 sourceService.delete(((Source) object).getIdentifier());
             } else if (object instanceof Annotation) {
                 annotationService.delete(((Annotation) object).getIdentifier());
-            } else if (object instanceof JobInstance) {
+            } else if (object instanceof JobInstance) {/* */
                 jobInstanceService.delete(((JobInstance) object).getId());
-            } else if (object instanceof JobExecution) {
+            } else if (object instanceof JobExecution) {/* */
                 jobExecutionService.delete(((JobExecution) object).getId());
             } else if (object instanceof Job) {
                 jobService.delete(((Job) object).getIdentifier());
-            } else if (object instanceof AceDto) {
+            } else if (object instanceof AceDto) {/* */
                 AceDto ace = (AceDto) object;
                 Taxon taxon = new Taxon();
                 taxon.setIdentifier(ace.getObject());
@@ -825,6 +835,10 @@ public class TestDataManager {
             } else if (object instanceof IdentificationKey) {
                 identificationKeyService.delete(((IdentificationKey) object)
                         .getIdentifier());
+            } else if (object instanceof Place) {
+            	placeService.delete(((Place) object).getIdentifier());
+            } else {
+            	logger.error("Wanted to delete " +  object + "but didn't know how");
             }
         }
         disableAuthentication();
@@ -908,4 +922,20 @@ public class TestDataManager {
         }
         identificationKeyService.save(key);
     }
+
+	public void createPlace(String identifier, String name, String shape) {
+		enableAuthentication();
+		Place p = new Place();
+		p.setIdentifier(identifier);
+		p.setName(name);
+		WKTReader r = new WKTReader();
+		try {
+			p.setShape(r.read(shape));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		data.push(p);
+		placeService.save(p);
+		disableAuthentication();
+	}
 }

@@ -200,6 +200,13 @@ public class DataSetup {
                     row.description, row.taxon);
         }
     }
+    
+    @Given("^there are places with the following properties:$")
+    public final void thereArePlaces(final List<PlaceRow> rows) {
+    	for (PlaceRow row : rows) {
+    		testDataManager.createPlace(row.identifier, row.name, row.shape);
+    	}
+    }
 
     /**
     *

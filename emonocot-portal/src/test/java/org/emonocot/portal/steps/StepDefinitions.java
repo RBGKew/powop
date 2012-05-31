@@ -538,7 +538,7 @@ public class StepDefinitions {
         assertEquals(results.size(), actualNumberOfResults);
         List<String[]> actualResults = ((Search) currentPage).getResults();
         for (int i = 0; i < actualNumberOfResults; i++) {
-            assertArrayEquals(actualResults.get(i), results.get(i).toArray());
+            assertArrayEquals(results.get(i).toArray(), actualResults.get(i));
         }
     }
 
@@ -1081,6 +1081,11 @@ public class StepDefinitions {
     public final void iSelectLink(final String text) {
         currentPage = portal.selectLink(text);
     }
+
+    /*@When("^I select the \"([^\"]+)\" link in the page$")
+    public final void iSelectPageLink(final String text) {
+        currentPage = portal.selectLink(text);
+    }*/
 
     /**
      *

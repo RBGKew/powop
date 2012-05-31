@@ -37,6 +37,11 @@ Background:
   | identifier   | title                               | taxon                        |
   | 987          | Key to the subtribes of Orchidaceae | urn:kew.org:wcs:family:32    |
   | 999          | Key to the genus Rhipogonum         | urn:kew.org:wcs:taxon:286768 |
+  And there are places with the following properties:
+  | identifier     | name      | shape                                                                                               |
+  | test:place:468 | Narnia    | MULTIPOLYGON (((38.3235 2.9734, 24.2348 90.2389, 23.0492 23.9047, 38.3235 2.9734)))                 |
+  | test:place:123 | Bartledan | MULTIPOLYGON (((48.7545 92.9734, 17.4929 98.3473, 83.0492 73.9047, 48.7545 92.9734)))               |
+  | test:place:753 | Klatch    | MULTIPOLYGON (((-38.3235 2.9734, -72.5483 -92.4733, 3.0492 2.9047, -38.3235 2.9734)))               |
   And I am on the search page
 
 Scenario: Search for a single taxon
@@ -207,3 +212,15 @@ Scenario: Search for identification key
   Then the following results should be displayed:
   | page | text                                |  
   | 999  | Key to the genus Rhipogonum         |
+  
+  
+Scenario: Search for place
+  As a user of eMonocot 
+  http://build.e-monocot.org/bugzilla/show_bug.cgi?id=116
+  When I search for "Bartledan"
+  Then the following results should be displayed:
+  | page      | text                                |
+  | spatial?  | Bartledan                           |
+  When I select the "Bartledan" link in the page
+  Then I should be on the "spatial" page 
+  

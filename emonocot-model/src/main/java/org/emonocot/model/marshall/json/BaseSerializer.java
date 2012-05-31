@@ -13,7 +13,7 @@ import org.emonocot.model.common.Base;
  *
  * @param <T>
  */
-public abstract class BaseSerializer<T extends Base> extends JsonSerializer<T> {
+public class BaseSerializer<T extends Base> extends JsonSerializer<T> {
 
     @Override
     public final void serialize(final T t, final JsonGenerator jsonGenerator,

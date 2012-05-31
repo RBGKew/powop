@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.emonocot.api.FacetName;
 import org.emonocot.api.ImageService;
+import org.emonocot.api.PlaceService;
 import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.Sorting;
 import org.emonocot.api.TaxonService;
@@ -66,6 +67,11 @@ public class SearchController {
      *
      */
     private IdentificationKeyService keyService;
+    
+    /**
+     * 
+     */
+    private PlaceService placeService;
 
     /**
      *
@@ -108,6 +114,13 @@ public class SearchController {
     }
     
     /**
+	 * @param placeService the placeService to set
+	 */
+	public final void setPlaceService(PlaceService placeService) {
+		this.placeService = placeService;
+	}
+
+	/**
      * @param query
      * @param start
      * @param limit
@@ -145,7 +158,7 @@ public class SearchController {
                         responseFacets,
                         selectedFacets, sort, "front-cover");
             } else if (selectedFacets.get(FacetName.CLASS).equals("org.emonocot.model.geography.Place")) {
-        		result = searchableObjectService.search(
+        		result = placeService.search(
                             query, spatial, limit, start, responseFacets,
                             selectedFacets, sort, "taxon-with-image");
         	} else {
@@ -236,8 +249,7 @@ public class SearchController {
        } else {
            if (selectedFacets.containsKey(FacetName.CLASS)) {
         	   className = selectedFacets.get(FacetName.CLASS);
-               if (className.equals(
-                       "org.emonocot.model.taxon.Taxon")) {
+               if (className.equals("org.emonocot.model.taxon.Taxon")) {
                    logger.debug("Adding taxon specific facets");
                    responseFacetList.add(FacetName.RANK);
                    responseFacetList.add(FacetName.TAXONOMIC_STATUS);
