@@ -37,8 +37,9 @@ function writeNode(key, node) {
        html += "<li class='character'>";
        if(!Key.isUndefined(character.images) && character.images.length > 0) {
          var image = character.images[0];
-         html += "<a class='pull-left' href='#'><img class='thumbnail' src='" + key.getImagePath() +  image.href + "'/></a>";
-         html  += "<a class='pull-left' id='" + character.id + "'>" + character.name + "</a>";
+         html  += "<a class='pull-left' id='" + character.id + "'>" + character.name + "</a></br>";
+         html  += "<img class='thumbnail' src='" + key.getImagePath() +  image.href + "'/>";
+         
        } else {
          html  += "<a id='" + character.id + "'>" + character.name + "</a>";
        }
@@ -108,10 +109,10 @@ function updateUI(key) {
              var state = character.states[i];
              if(!Key.isUndefined(state.images) && state.images.length > 0) {
             	 var image = state.images[0];
-            	 body += "<li><a class='pull-left' href='#'><img class='thumbnail' src='" + key.getImagePath() +  image.href + "'/></a>";
-            	 body += "<label class='checkbox'><input type='checkbox'>" + state.name + "</label></li>";
+            	 body += "<li><label class='checkbox'><input type='checkbox'>" + state.name + "</label>";
+            	 body += "<a href='#'><img class='thumbnail' src='" + key.getImagePath() +  image.href + "'/></a></li><br/>";
              } else {
-                 body += "<li class='noimage'><label class='checkbox'><input type='checkbox'>" + state.name + "</label></li>";
+                 body += "<li class='noimage'><label class='checkbox'><input type='checkbox'>" + state.name + "</label></li><br/>";
              }
            }
            body += "</ul>";
