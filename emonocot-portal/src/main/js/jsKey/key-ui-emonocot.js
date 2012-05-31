@@ -20,7 +20,7 @@ function writeNode(key, node) {
          html += "<a class='pull-left' href='#'><img class='thumbnail' src='" + key.getImagePath() +  image.href + "'/></a>";     
          html += "<a class='pull-left'>" + node.concept + "</a>";   
      } else {
-         html += "<a>" + node.concept + "</a>";
+         html += "<a >" + node.concept + "</a>";
      }
      html += "</div>";
      html += "<div id='node" + node.id + "' class='collapse'><ul class='unstyled'>";
@@ -61,19 +61,23 @@ function updateUI(key) {
         var taxon = matchedTaxa[i];
         matched += "<tr>";
         matched +="<td><img src=\"http://build.e-monocot.org/uat/portal/images/taxonPageIcon.png\" alt=\"Taxon\" style=\"width:20px ; height:20px\"/></td>";
-          if(!Key.isUndefined(taxon.links) && taxon.links.length > 0) {
+        if(!Key.isUndefined(taxon.links) && taxon.links.length > 0) {
             var link = taxon.links[0];
             matched += "<td><a href='" + key.getTaxonPath() + link.href + "' title='" + link.title + "'><h4>" + taxon.name + "</h4></a></td>";
         } else {
             matched += "<td><h4>" + taxon.name + "</h4></td>";
         }
-        if(key.getView() == Key.ListView && !Key.isUndefined(taxon.images) && taxon.images.length > 0) {
+        if(key.getView() == Key.ListView ) {
+        	if (!Key.isUndefined(taxon.images) && taxon.images.length > 0){
             var image = taxon.images[0];
             matched += "<td><a class='pull-right' href='#'><img class='thumbnail' src='" + key.getImagePath() +  image.href + "'/></a></td>";
+        	} else{
+        		matched += "<td><img class='thumbnail pull-right' src='http://build.e-monocot.org/uat/portal/images/no_image_3.jpg'/></td>";
+        	}
         } else {
             matched += "<td></td>";
         }        
-        matched += "</tr>"
+        matched += "</tr>";
       }
       $("#matchedTaxa table tbody").html(matched);
       $("#pages").html(matchedTaxa.length + " taxa remaining");
@@ -153,7 +157,7 @@ function updateUI(key) {
       for(var i = 0; i < selectedCharacters.length; i++) {
           var character = selectedCharacters[i];
     	  if(!Key.isUndefined(character)) {
-    		  selected += "<li><h4 id='" + character.id + "'>"  + character.name + "</h4>"
+    		  selected += "<li class='selectedCharacter'><h4 id='" + character.id + "'>"  + character.name + "</h4>";
                   switch(character.type) {
                     case Key.Categorical:
                       var values;

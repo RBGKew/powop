@@ -63,5 +63,23 @@
 	  <a title="${gridTitle}" class="btn" href="${gridUrl}">
 		<i class="icon-th">&amp;nbsp;</i>
 	  </a>
+	  &#160;
+							<spring:message code="slideshow" var="slideshowTitle"/>
+							<c:url value="${url}" var="slideshowUrl">
+								<c:forEach var="p" items="${result.paramNames}">
+	      <c:if test="${p ne 'view'}">
+	        <c:param name="${p}" value="${result.params[p]}"/>
+	      </c:if>	      
+		</c:forEach>
+								<c:param name="limit" value="${result.pageSize}" />
+								<c:param name="start" value="0" />
+								<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+									<c:param name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
+								</c:forEach>
+								<c:param name="sort">${sortItem}</c:param>
+								<c:param name="view">slideshow</c:param>
+							</c:url>
+							<button href="${slideshowUrl}" id="start-slideshow" class="btn" data-slideshow="5000" data-target="#modal-gallery" data-selector="#gallery a[rel=gallery]"><img src="images/glyphicons_086_display.png" style="width:auto; height:13px"/></button>
+	  
 	</div>		
 </jsp:root>

@@ -114,11 +114,11 @@
 				key.pruneRedundants();
 			});
 			$("#listView").click(function(event) {
-				key.setView(Key.ListView);
+				Key.prototype.setView(Key.ListView);
 				key.calculate();
 			});
 			$("#simpleView").click(function(event) {
-				key.setView(Key.SimpleView);
+				Key.prototype.setView(Key.SimpleView);
 				key.calculate();
 			});
 			key.setUpdateUI(updateUI);
