@@ -73,11 +73,11 @@ public class ChecklistWebserviceFunctionalTest {
                 .createReference(
                         "reference1",
                         "Integer elementum lorem ut nibh scelerisque at condimentum",
-                        "Pargetter",
+                        "Pargetter & Archer",
                         "1784",
                         "2",
                         "250pp",
-                        "Pargetter, Integer elementum lorem ut nibh scelerisque at condimentum 2: 250pp 1784",
+                        "Pargetter & Archer, Integer elementum lorem ut nibh scelerisque at condimentum 2: 250pp 1784",
                         null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:3", "Lorem", null,
                 "Lowiaceae", "Lorem", null, "GENUS", "accepted", null, null,
@@ -207,8 +207,8 @@ public class ChecklistWebserviceFunctionalTest {
                 ((String) with(xml)
                         .get("DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship[0].ToTaxonConcept.@ref"))
                         .contains("&scratchpad=functional-test.e-monocot.org"));
-        assertEquals("TaxonName publication attribute should equal '(Archer & Archer) Pargetter in Pargetter, Integer elementum lorem ut nibh scelerisque at condimentum 2: 34-56 1784'",
-                "(Archer & Archer) Pargetter in Pargetter, Integer elementum lorem ut nibh scelerisque at condimentum 2: 34-56 1784",
+        assertEquals("TaxonName publication attribute should equal '(Archer & Archer) Pargetter in Pargetter & Archer, Integer elementum lorem ut nibh scelerisque at condimentum 2: 34-56 1784'",
+                "(Archer & Archer) Pargetter in Pargetter & Archer, Integer elementum lorem ut nibh scelerisque at condimentum 2: 34-56 1784",
                 with(xml).get(
                         "DataSet.TaxonNames.TaxonName.@itis_em_other_ref"));
         /**

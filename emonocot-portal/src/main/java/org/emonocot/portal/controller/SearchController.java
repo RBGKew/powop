@@ -116,6 +116,7 @@ public class SearchController {
     /**
 	 * @param placeService the placeService to set
 	 */
+    @Autowired
 	public final void setPlaceService(PlaceService placeService) {
 		this.placeService = placeService;
 	}

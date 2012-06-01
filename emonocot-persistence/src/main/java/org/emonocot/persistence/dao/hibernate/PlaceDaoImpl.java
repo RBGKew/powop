@@ -61,7 +61,7 @@ public class PlaceDaoImpl extends SearchableDaoImpl<Place> implements PlaceDao {
      */
     @Override
     protected final Fetch[] getProfile(final String profile) {
-        return PlaceDaoImpl.FETCH_PROFILES.get(profile);
+        return new Fetch[]{};
     }
 
     @Override
@@ -84,9 +84,7 @@ public class PlaceDaoImpl extends SearchableDaoImpl<Place> implements PlaceDao {
     protected final void selectFacet(final FacetName facetName,
             final FacetManager facetManager, final String selectedFacet) {
         switch (facetName) {
-        case CONTINENT:
-        case AUTHORITY:
-        case FAMILY:
+        case CLASS:
             doSelectFacet(facetName, facetManager, selectedFacet);
         default:
             break;
@@ -97,7 +95,13 @@ public class PlaceDaoImpl extends SearchableDaoImpl<Place> implements PlaceDao {
     protected final void addFacet(final Page<Place> page,
             final FacetName facetName, final FacetManager facetManager,
             final Map<FacetName, String> selectedFacets) {
-        //TODO:
+    	switch (facetName) {
+    	case CLASS:
+            page.addFacets(facetName.name(),
+                    facetManager.getFacets(facetName.name()));
+        default:
+            break;
+        }
     }
 
     @Override
