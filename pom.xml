@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.emonocot</groupId>
     <artifactId>emonocot</artifactId>
-    <version>0.0.17-SNAPSHOT</version>
+    <version>0.0.17</version>
     <description>eMonocot aims to create a global online resource for monocot plants. It will
         provide a focus for taxonomists working on monocots and will help people discover
         information about monocots by providing tools for identification, up-to-date checklists,
@@ -87,6 +87,7 @@
         <connection>scm:cvs:pserver:anonymous:@build.e-monocot.org:/var/cvs:emonocot</connection>
         <developerConnection>scm:cvs:ext:${developer.username}@build.e-monocot.org:/var/cvs:emonocot</developerConnection>
         <url>http://build.e-monocot.org/viewvc/cvsroot/emonocot/</url>
+    <tag>emonocot-0_0_17</tag>
   </scm>
     <dependencyManagement>
         <dependencies>
@@ -1320,7 +1321,7 @@
             <amq.queue.physical_name>eMonocotLuceneQueue</amq.queue.physical_name>
             <portal.baseUrl>http://localhost:8080</portal.baseUrl>
             <harvester.jobRequests.url>http://build.e-monocot.org/test/job-requests.json</harvester.jobRequests.url>
-            <google.analytics.id></google.analytics.id>
+            <google.analytics.id />
             <webAppRootKey>emonocot-portal</webAppRootKey>
             <cargo.containerId>tomcat7x</cargo.containerId>
             <cargo.tomcat.manager.url>http://localhost:8080/manager/text</cargo.tomcat.manager.url>
@@ -1349,8 +1350,8 @@
             <jdbc.driver.url>jdbc:mysql://localhost:3306/emonocot</jdbc.driver.url>
             <jdbc.driver.username>emonocot-user</jdbc.driver.username>
             <jdbc.driver.password>eM0n0c0t</jdbc.driver.password>
-            <http.proxyHost></http.proxyHost>
-            <http.proxyPort></http.proxyPort>                               
+            <http.proxyHost />
+            <http.proxyPort />                               
           </properties>
         </profile>
         <profile>
@@ -1366,7 +1367,7 @@
             <amq.queue.physical_name>eMonocotLuceneQueue</amq.queue.physical_name>
             <portal.baseUrl>http://localhost:8080</portal.baseUrl>
             <harvester.jobRequests.url>http://build.e-monocot.org/test/job-requests.json</harvester.jobRequests.url>
-            <google.analytics.id></google.analytics.id>
+            <google.analytics.id />
             <webAppRootKey>emonocot-portal</webAppRootKey>
             <cargo.containerId>tomcat7x</cargo.containerId>
             <cargo.tomcat.manager.url>http://localhost:8080/manager/text</cargo.tomcat.manager.url>
@@ -1396,10 +1397,10 @@
             <jdbc.driver.username>emonocot-user</jdbc.driver.username>
             <jdbc.driver.password>eM0n0c0t</jdbc.driver.password>
             <functional.test.baseUri>http://localhost</functional.test.baseUri>
-		    <functional.test.basePath></functional.test.basePath>
+		    <functional.test.basePath />
             <functional.test.port>8080</functional.test.port>
-            <http.proxyHost></http.proxyHost>
-            <http.proxyPort></http.proxyPort>                               
+            <http.proxyHost />
+            <http.proxyPort />                               
           </properties>
         </profile>
     </profiles>
