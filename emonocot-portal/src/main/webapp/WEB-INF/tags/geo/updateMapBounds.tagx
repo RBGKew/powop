@@ -8,12 +8,12 @@
     
     var updateMapBounds = function(event) {
       var currentExtent = map.getExtent();
-      var coord1 = new OpenLayers.LonLat(currentExtent.bottom,currentExtent.left).transform(google, wgs84);
-      var coord2 = new OpenLayers.LonLat(currentExtent.top, currentExtent.right).transform(google, wgs84);
-      $('#x1').val(coord1.lat);
-      $('#y1').val(coord1.lon);
-      $('#x2').val(coord2.lat);
-      $('#y2').val(coord2.lon);      
+      var coord1 = new OpenLayers.LonLat(currentExtent.left,currentExtent.bottom).transform(google, wgs84);
+      var coord2 = new OpenLayers.LonLat(currentExtent.right,currentExtent.top).transform(google, wgs84);
+      $('#x1').val(coord1.lon);
+      $('#y1').val(coord1.lat);
+      $('#x2').val(coord2.lon);
+      $('#y2').val(coord2.lat);      
     }
 	map.events.register('moveend', map, updateMapBounds);
 	map.events.register('zoomend', map, updateMapBounds);
