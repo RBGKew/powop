@@ -97,6 +97,25 @@ public class Portal extends PageObject {
         return openAs(getBaseUri() + "search?query=" + query,
                 Search.class);
     }
+    
+   /**
+    *
+    * @param x1 the first latitude
+    * @param y1 the first longitude
+    * @param x2 the second latitude
+    * @param y2 the second longitude
+    * @return a spatial search results page
+    */
+   public final SpatialSearch spatialSearch(final Float x1, final Float y1, final Float x2, final Float y2) {
+	   if(x1 == null || y1 == null || x2 == null || y2 == null) {
+		   return openAs(getBaseUri() + "spatial",
+	               SpatialSearch.class);
+	   } else {
+		   return openAs(getBaseUri() + "spatial?x1=" + x1 + "&y1=" + y1 + "&x2=" + x2 + "&y2=" + y2,
+	               SpatialSearch.class);
+	   }
+       
+   }
 
     /**
      *

@@ -11,6 +11,7 @@ import org.emonocot.api.FacetName;
 import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.geography.Continent;
+import org.emonocot.model.geography.Country;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.Region;
 import org.emonocot.model.hibernate.DistributionBridge;
@@ -74,6 +75,8 @@ public class SearchTest extends AbstractPersistenceTest {
                 null, null, null, new GeographicalRegion[] {});
         createTaxon("Aus eus", "5", null, taxon3, null, null, null, null, null,
                 null, null, new GeographicalRegion[] {});
+        createTaxon("Alania", "urn:kew.org:wcs:taxon:294463", null, null, null, null, null, null, null,
+                null, null, new GeographicalRegion[] {Country.NSW});
     }
 
     /**
@@ -123,8 +126,7 @@ public class SearchTest extends AbstractPersistenceTest {
     public final void testSpatialSearch() {
         System.out.println("testSpatialSearch() should return Aus bus but not Aus ceus");
         Page<Taxon> page = getTaxonDao().search(
-
-        "name:Aus", "Intersects(100.0 -40.0 155.0 -5.0)", null, null, null,
+        null, "Intersects(150.00 -40.0 160.0 -20.0)", null, null, null,
                 null, null, null);
         for (Taxon t : page.getRecords()) {
             System.out.println(t.getName());
@@ -138,9 +140,9 @@ public class SearchTest extends AbstractPersistenceTest {
     public final void testSearchEmbeddedContent() {
         Page<Taxon> page = getTaxonDao().search("Lorem", null, null, null,
                 null, null, null, null);
-        for (Taxon t : page.getRecords()) {
-            System.out.println(t.getName());
-        }
+//        for (Taxon t : page.getRecords()) {
+//            System.out.println(t.getName());
+//        }
         assertFalse(page.getSize() == 0);
     }
     
@@ -181,9 +183,9 @@ public class SearchTest extends AbstractPersistenceTest {
         example.setFamily("Aaceae");
         Page<Taxon> results = getTaxonDao().searchByExample(example, false, false);
         assertEquals("There should be 3 results", new Integer(3), results.getSize());
-        for(Taxon t : results.getRecords()) {
-            System.out.println(t.getName());
-        }
+//        for(Taxon t : results.getRecords()) {
+//            System.out.println(t.getName());
+//        }
         
     }
 }
