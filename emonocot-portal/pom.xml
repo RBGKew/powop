@@ -299,11 +299,10 @@
               <version>1.1</version>
               <configuration>
                 <nosuffix>true</nosuffix>
-                <aggregations>                 
+                <aggregations>
                    <aggregation>
                     <output>${project.build.directory}/static/css/style.css</output>
                     <includes>
-                      <include>${basedir}/src/main/css/before.css</include>
                       <include>${project.build.directory}/compiled-less/bootstrap.css</include>
                       <include>${basedir}/src/main/css/bootstrap-image-gallery.css</include>
                       <include>${basedir}/src/main/css/jqueryui/jqueryui.css</include>

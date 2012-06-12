@@ -204,12 +204,12 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-acl</artifactId>
-                <version>${spring.security.version}</version>                
+                <version>${spring.security.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.batch</groupId>
                 <artifactId>spring-batch-core</artifactId>
-                <version>${spring.batch.version}</version>                
+                <version>${spring.batch.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.batch</groupId>
@@ -225,42 +225,42 @@
             <dependency>
                 <groupId>org.springframework.batch</groupId>
                 <artifactId>spring-batch-admin-manager</artifactId>
-                <version>${spring.batch.admin.version}</version>                
+                <version>${spring.batch.admin.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.batch</groupId>
                 <artifactId>spring-batch-admin-resources</artifactId>
-                <version>${spring.batch.admin.version}</version>                
+                <version>${spring.batch.admin.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.integration</groupId>
                 <artifactId>spring-integration-core</artifactId>
-                <version>${spring.integration.version}</version>                
+                <version>${spring.integration.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.integration</groupId>
                 <artifactId>spring-integration-jms</artifactId>
-                <version>${spring.integration.version}</version>               
+                <version>${spring.integration.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.integration</groupId>
                 <artifactId>spring-integration-jdbc</artifactId>
-                <version>${spring.integration.version}</version>                
+                <version>${spring.integration.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.integration</groupId>
                 <artifactId>spring-integration-jmx</artifactId>
-                <version>${spring.integration.version}</version>                
+                <version>${spring.integration.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.integration</groupId>
                 <artifactId>spring-integration-http</artifactId>
-                <version>${spring.integration.version}</version>                
+                <version>${spring.integration.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.integration</groupId>
                 <artifactId>spring-integration-file</artifactId>
-                <version>${spring.integration.version}</version>                
+                <version>${spring.integration.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
@@ -1350,7 +1350,7 @@
             <jdbc.driver.username>emonocot-user</jdbc.driver.username>
             <jdbc.driver.password>eM0n0c0t</jdbc.driver.password>
             <http.proxyHost />
-            <http.proxyPort />                               
+            <http.proxyPort />
           </properties>
         </profile>
         <profile>
@@ -1399,7 +1399,7 @@
 		    <functional.test.basePath />
             <functional.test.port>8080</functional.test.port>
             <http.proxyHost />
-            <http.proxyPort />                               
+            <http.proxyPort />
           </properties>
         </profile>
     </profiles>
