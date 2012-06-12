@@ -116,6 +116,26 @@ public class StepDefinitions {
     public final void iAmOnTheSearchPage() {
         currentPage = portal.search("");
     }
+    
+   /**
+    *
+    */
+    @When("^I am on the spatial search page$")
+    public void iAmOnTheSpatialSearchPage() {
+    	currentPage = portal.spatialSearch(null, null, null, null);
+    }
+    
+    /**
+     *
+     * @param x1 the first latitude
+     * @param y1 the first longitude
+     * @param x2 the second latitude
+     * @param y2 the second longitude
+     */
+    @When("^I search within ([+-]?\\d+\\.\\d+) ([+-]?\\d+\\.\\d+), ([+-]?\\d+\\.\\d+) ([+-]?\\d+\\.\\d+)$")
+    public void iSearchWithin(Float x1, Float y1, Float x2, Float y2) {
+    	currentPage = portal.spatialSearch(x1, y1, x2, y2);
+    }
 
     /**
      * @param text

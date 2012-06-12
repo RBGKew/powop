@@ -1,326 +1,271 @@
 /**
  * eMonocot customization
  */
+body{padding-top:40px;}
 
-/**
- * General
- */
- 
-	body{
-		padding-top:40px;
-	}
+.taxonName {font-style: italic}
 
-	.taxonName {
-		font-style: italic;
-	}
+#page-title {line-height: 65px}
 
-	#page-title {
-		line-height: 65px;
-	}
+#distribution-textual {list-style:none;margin:0px; padding-left:0; text-indent:0; clear: both}
+#distribution-textual li {float:left; padding-left:0.5em}
+#distribution-textual li:first-child:before {padding-left: 0em}
+#distribution-textual li:after {content: ","}
+#distribution-textual li:last-child:after {content: ""}
+section {width: 100%; clear: both; padding-top: 60px}
+.section-header {margin: 18px 0}
+#textContent {padding-top: 78px}
 
-	.title-no-bold{
-		font-weight:normal;
-	}
+ul.citations {
+    list-style: none;
+}
 
-	.no-display{
-		display: none;
-	}
+ul.citations {
+    list-style: none;
+    margin: 0px;
+    float: right;
+}
 
-	.no-margin{
-		//margin:0 0 0 0;
+ul.citations:before {
+    content: "[";
+}
+
+ul.citations:after {
+    content: "]";
+}
+
+ul.citations li {
+  display: inline;
+}
+
+ul.citations li:last-child:after {
+    content: "";
+}
+ul.citations li:after {
+    content: ",";
+}
+ul.citations li:before {
+    content: "";
+}
+section#bibliography li a:before {
+    content: "[";
+}
+section#bibliography li a:after {
+    content: "]";
+}
+section#bibliography ul {
+    list-style: none;
+}
+
+.masthead {
+    background-color: @baseColor;
+    background-image: -moz-linear-gradient(darken(@baseColor, 15), @baseColor);
+    background-repeat: no-repeat;
+}
+
+.jumbotron {
+    min-width: 940px;
+    /*padding-top: 40px;*/
+}
+
+.jumbotron .inner {
+    background: url("../img/grid-18px.png") repeat scroll center top transparent;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) inset;
+    padding: 45px 0;
+}
+
+.jumbotron h1, .jumbotron p {
+    color: #FFFFFF;
+    margin-bottom: 9px;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.jumbotron h1 {
+    font-size: 48px;
+    line-height: 1;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+ul#taxonHierarchy, ul#taxonHierarchy ul {
+     list-style-type: none;
+}
+
+.title-no-bold{
+	font-weight:normal;
+}
+
+.title-bold{
+	font-weight:bold;
+}
+
+.content-wrapper{
+	padding-left: 20px;
+}
+
+.centeredImage{
+    text-align:center;
+    display:block;
+}
+
+.no-display{
+	display: none;
+}
+
+.right{
+	float:right;
+}
+
+.no-margin{
+	//margin:0 0 0 0;
+}
+
+.header-margin{
+	margin:-20px -20px 20px -20px;
+}
+
+.thumbnail-gallery-padding li{
+	margin:0 0 0 0;
+}
+
+.no-margin-left{
+	margin-left:0px;
+}
+
+.justified{
+	text-align:justify;
+}
+
+.taxon-page-map{
+	height: 470px;
+	width: 700px
+}
+
+
+#gallery{
+	padding: 10px;
+}
+
+
+.taxon-content{
+	margin-top:40px;
+}
+
+.header-icon { padding-left: 0.5em; padding-right: 0.5em; }
+
+.icon-column{
+	width:70px;
 	}
 	
-	.no-margin-left{
-		margin-left:0px;
-	}
-
-	.header-margin{
-		margin:-20px -20px 20px -20px;
-	}
-
-	.header-icon {
-		padding-left: 0.5em;
-		padding-right: 0.5em;
-	}
-
-	.icon-keys{
-		background-image:url(../images/glyphicon-keys-scaled.png);
-		background-position: 0 0;
-	}
-
-	.icon-globe{
-		background-image:url(../images/glyphicons_340_globe.png);
-		background-position: 0 0;
-	}
-
-	.justified{
-		text-align:justify;
-	}
-
-	#gallery{
-		padding: 10px;
-	}
-
-
-
-/**
- * Hero
- */
-	.masthead {
-		background-color: @baseColor;
-		background-image: -moz-linear-gradient(darken(@baseColor, 15), @baseColor);
-		background-repeat: no-repeat;
-	}
-
-/**
- * Hero and Taxon page
- */
-
-	.jumbotron {
-		min-width: 940px;
-		/*padding-top: 40px;*/
-	}
-	.jumbotron .inner {
-		background: url("../img/grid-18px.png") repeat scroll center top transparent;
-		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) inset;
-		padding: 45px 0;
-	}
-	.jumbotron h1, .jumbotron p {
-		color: @white;
-		margin-bottom: 9px;
-		text-align: center;
-		text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-	}
-	.jumbotron h1 {
-		font-size: 48px;
-		line-height: 1;
-		text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-	}
+.icon-keys{
+  background-image:url(../images/glyphicon-keys-scaled.png);
+  background-position: 0 0;
+  }
 	
+.tabbable-bordered {
+-webkit-border-radius: 4px;
+-moz-border-radius: 4px;
+border-radius: 4px;
+}
 
-/**
- * Taxon page
- */
+.no-small-icon{
+	padding-left:20px;
+}
 
-	/* Textual distribution */
-	#distribution-textual {
-		list-style:none;
-		.no-margin;
-		padding-left:0;
-		text-indent:0;
-		clear: both;
-	}
-	#distribution-textual li {
-		float:left;
-		padding-left:0.5em;
-	}
-	#distribution-textual li:first-child:before {
-		padding-left: 0em;
-	}
-	#distribution-textual li:after {
-		content: ",";
-	}
-	#distribution-textual li:last-child:after {
-		content: "";
+footer {
+	background-color:#252525;
+	margin-top:20px;
+	padding :10px;
 	}
 
-	/* Section */
-	section {
-		width: 100%;
-		clear: both;
-		padding-top: 60px;
-	}
-	.section-header {
-		margin: 18px 0;
-	}
+.index-box {
+    border-right: thin solid;
+    margin-right: -11px;
+    padding-right: 10px;
+}
+.index-box-last {
+    border-right: thin none;
+}
 
-	#textContent {
-		padding-top: 78px;
-	}
+.imageSize{
+	width:auto;
+	height:500px;
+}
 
-	/* Citations */
-	ul.citations {
-		list-style: none;
-	}
-	ul.citations {
-		list-style: none;
-		.no-margin;
-		float: right;
-	}
-	ul.citations:before {
-		content: "[";
-	}
-	ul.citations:after {
-		content: "]";
-	}
-	ul.citations li {
-		display: inline;
-	}
-	ul.citations li:last-child:after {
-		content: "";
-	}
-	ul.citations li:after {
-		content: ",";
-	}
-	ul.citations li:before {
-		content: "";
-	}
+.paddingTop20{
+	padding-top:20px;
+}
+
+.footer-version{
+	color: @grayLight;
+}
+
+
+.key {
+	font-weight: bold;
+	background: url(../images/glyphicon-keys.png) 2px 5px no-repeat;
+	background-size: 11px 10px;
 	
-	/* Bibliography */
-	section#bibliography li a:before {
-	    content: "[";
 	}
-	section#bibliography li a:after {
-	    content: "]";
-	}
-	section#bibliography ul {
-	    list-style: none;
-	}
+.jstree .key {padding-left: 18px;}
 
-	/* Taxon Hierarchy */
-	ul#taxonHierarchy, ul#taxonHierarchy ul {
-		list-style-type: none;
-	}
-	
-	.taxon-page-map{
-		height: 470px;
-		width: 700px
-	}
-
-	.paddingTop20{
-		padding-top:20px;
-	}
-
-
-/**
- * Image page
- */
-
-	.centeredImage{
-		text-align:center;
-		display:block;
-	}
-
-	.imageSize{
-		width:auto;
-		height:500px;
-	}
-
-	.thumbnail-gallery-padding li{
-		.no-margin;
-	}
-
-/**
- * Search page - Facet
- */
-
-	.no-small-icon{
-		padding-left:20px;
-	}
-
-/**
- * Map Search
- */
-
-	.full-width-map {
-		display: block;
-		margin-left: auto;
-		margin-right: auto;
-		margin-top:-35px;
-		height: 470px;
-		width:100%;
-	}
-
-/**
- * Index
- */
-
-	.index-box {
-		border-right: thin solid;
-		margin-right: -11px;
-		padding-right: 10px;
-	}
-
-	.index-box-last {
-		border-right: thin none;
-	}
 
 /**
  * Identification Key
  */
+#unselectedCharacters ul.unstyled {
+  padding-left: 25px;
+}
 
-	.key {
-		font-weight: bold;
-		background: url(../images/glyphicon-keys.png) 2px 5px no-repeat;
-		background-size: 11px 10px;
-	}
+#selectedCharacters ul.unstyled {
+  padding-left: 25px;
+}
+#characterModal .modal-body li {
+	clear: both;
+	overflow: auto;
+}
 
-	.jstree .key {padding-left: 18px;}
-		#unselectedCharacters ul.unstyled {
-		padding-left: 25px;
-	}
+#matchedTaxa li {
+	clear: both;
+	overflow: auto;
+}
 
-	#selectedCharacters ul.unstyled {
-		padding-left: 25px;
-	}
+/*li.character {
+  clear:both; 
+  overflow: auto;
+}*/
 
-	#characterModal .modal-body li {
-		clear: both;
-		overflow: auto;
-	}
+li.descriptiveConcept div {
+  clear:both;
+}
 
-	#matchedTaxa li {
-		clear: both;
-		overflow: auto;
-	}
+li.descriptiveConcept h4.pull-left {
+  width: 50%
+}
 
-	/*li.character {
-		clear:both; 
-		overflow: auto;
-	}*/
+li.character h4.pull-left {
+  width: 50%
+}
 
-	li.descriptiveConcept div {
-		clear:both;
-	}
+.resultTypeIcon {
+	width: 20px;
+	height: 20px;
+}
 
-	li.descriptiveConcept h4.pull-left {
-		width: 50%
-	}
+.small-icon {
+	width:13px;
+	height:13px; 
+}
 
-	li.character h4.pull-left {
-		width: 50%
-	}
+label.checkbox input[type="checkbox"]{
+	margin-left: 0px
+}
 
-	.resultTypeIcon {
-		width: 20px;
-		height: 20px;
-	}
-
-	.small-icon {
-		width:13px;
-		height:13px; 
-	}
-
-	label.checkbox input[type="checkbox"]{
-		margin-left: 0px
-	}
-
-	.selectedCharacter, .character, .descriptiveCharacter, .descriptiveConcept{
-		cursor:pointer;
-	}
-
+.selectedCharacter, .character, .descriptiveCharacter, .descriptiveConcept{
+	cursor:pointer;
+}
 
 /**
- * Footer
+ * Map Search
  */
-
-	footer {
-		background-color: #252525;
-		margin-top:20px;
-		padding :10px;
-		}
-
-	.footer-version{
-		color: @grayLight;
-	}
-
+.full-width-map { display: block; margin-left: auto; margin-right: auto; margin-top:-35px; height: 470px; width:100%}

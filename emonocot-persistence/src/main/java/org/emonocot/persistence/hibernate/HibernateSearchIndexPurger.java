@@ -1,9 +1,11 @@
 package org.emonocot.persistence.hibernate;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.emonocot.model.common.Base;
+import org.emonocot.model.hibernate.DistributionBridge;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.search.FullTextSession;
@@ -65,6 +67,14 @@ public class HibernateSearchIndexPurger extends HibernateDaoSupport {
     */
    public final void purgeIndices() {
         if (purgeOnInit) {
+        	logger.debug("Loading regions");
+        	DistributionBridge distributionBridge = new DistributionBridge();
+        	
+        	try {
+				distributionBridge.setupRegions();
+			} catch (IOException e) {
+				logger.error(e.getLocalizedMessage());
+			}
             logger.debug("Purging Indices");
             FullTextSession fullTextSession = Search
                     .getFullTextSession(getSession());
