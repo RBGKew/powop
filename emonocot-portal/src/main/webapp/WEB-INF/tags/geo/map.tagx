@@ -27,9 +27,9 @@
 	      var originalExtent = new OpenLayers.Bounds(${bounds});
 	    </c:when>
 	    <c:when test="${x1 ne null and y1 ne null and x2 ne null and y2 ne null and (x1 ne 0.0 and y1 ne 0.0 and x2 ne 0.0 and y2 ne 0.0)}">
-	      var bottomLeft = new OpenLayers.LonLat(${y1},${x1}).transform(wgs84, google);
-	      var topRight = new OpenLayers.LonLat(${y2}, ${x2}).transform(wgs84, google);
-	      var originalExtent = new OpenLayers.Bounds(bottomLeft.lat, bottomLeft.lon, topRight.lat, topRight.lon );
+	      var bottomLeft = new OpenLayers.LonLat(${x1},${y1}).transform(wgs84, google);
+	      var topRight = new OpenLayers.LonLat(${x2},${y2}).transform(wgs84, google);
+	      var originalExtent = new OpenLayers.Bounds(bottomLeft.lon, bottomLeft.lat, topRight.lon, topRight.lat );
 	    </c:when>
 	    <c:otherwise>
 	      var originalExtent = new OpenLayers.Bounds(-20037500, -20037500,  20037500,  20037500 );

@@ -70,7 +70,7 @@
 	              <i class="icon-keys"><!----></i>
 	            </c:when>
 	            <c:when test="${selectedFacetName eq 'org.emonocot.model.geography.Place'}">
-	              <i class="icon-globe"><!----></i>
+	              <i class="icon-map-marker"><!----></i>
 	            </c:when>
 	            <c:otherwise>
 	              <i class="no-small-icon"><!----></i>
@@ -123,7 +123,7 @@
 							                <i class="icon-keys"><!----></i>
 							              </c:when>
 						                  <c:when test="${facet.value eq 'org.emonocot.model.geography.Place'}">
-						                    <i class="icon-globe"><!----></i>
+						                    <i class="icon-map-marker"><!----></i>
 						                  </c:when>
 							              <c:otherwise>
 							                <i class="no-small-icon"><!----></i>
