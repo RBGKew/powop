@@ -4,12 +4,13 @@
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:results="urn:jsptagdir:/WEB-INF/tags/results"
 	xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu"
 	xmlns:geo="urn:jsptagdir:/WEB-INF/tags/geo"
 	xmlns:spring="http://www.springframework.org/tags"
 	version="2.0">
 	<jsp:useBean id="result" scope="request" type="org.emonocot.model.pager.Page&lt;org.emonocot.model.common.SearchableObject&gt;" />
-	<c:url var="mapSearchImageBig" value="/images/glyphicons_340_globe-big.png"/>
+	<c:url var="mapSearchImageBig" value="/css/images/glyphicons/fullsize/glyphicons_340_globe.png"/>
 	<spring:message code="map.search" var="mapSearchTitle"/>
 	<div class="container">
 	<div class="header-content">
@@ -121,23 +122,23 @@
 						<c:when test="${empty result.params['view']}">
 							<c:choose>
 								<c:when test="${imageClass}">
-									<tags:grid pager="${result}"/>
+									<results:grid pager="${result}"/>
 								</c:when>
 								<c:otherwise>
-									<tags:list pager="${result}"/>
+									<results:list pager="${result}"/>
 								</c:otherwise>
 							</c:choose>
 						</c:when>
 						<c:when test="${result.params['view'] == 'grid'}">
 							<br/>
-							<tags:grid pager="${result}"/>
+							<results:grid pager="${result}"/>
 						</c:when>
 						<c:when test="${result.params['view'] == 'simpleList'}">
 							<br/>
-							<tags:simpleList pager="${result}"/>
+							<results:simpleList pager="${result}"/>
 						</c:when>
 						<c:when test="${result.params['view'] == 'list'}">
-							<tags:list pager="${result}"/>
+							<results:list pager="${result}"/>
 						</c:when>
 					</c:choose>
 					

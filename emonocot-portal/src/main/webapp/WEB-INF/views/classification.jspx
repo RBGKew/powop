@@ -11,7 +11,7 @@
 		</div>
 		<div class="row">
 			<div class="span12">
-				<c:url value="/images/glyphicon-keys-scaled.png" var="keyIconUrl"/>
+				<c:url value="/css/images/glyphicons/halfsize/glyphicons_044_keys.png" var="keyIconUrl"/>
 				<div class="row pull-right">
 					<img src="${keyIconUrl}" class="noPrint" alt="KeyLegend"/>
 					<div class="span4 pull-right"><spring:message code="keyLegend" /></div>

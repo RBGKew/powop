@@ -268,11 +268,11 @@
                         <tasks>
                             <delete dir="${project.build.directory}/static/js/" />
                             <mkdir dir="${project.build.directory}/static/js/" />
-                            <copy todir="${project.build.directory}/static/images">
-                              <fileset dir="${basedir}/src/main/images" includes="**/*" />
-                            </copy>
                             <delete dir="${project.build.directory}/static/css/" />
                             <mkdir dir="${project.build.directory}/static/css/" />
+                            <copy todir="${project.build.directory}/static/css/images">
+                              <fileset dir="${basedir}/src/main/images" includes="**/*" />
+                            </copy>
                         </tasks>
                     </configuration>
                     <goals>

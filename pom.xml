@@ -1400,7 +1400,6 @@
             <functional.test.port>8080</functional.test.port>
             <http.proxyHost />
             <http.proxyPort />
-<<<<<<< HEAD
           </properties>
         </profile>
         <profile>
@@ -1540,8 +1539,6 @@
             <jdbc.driver.password>eM0n0c0t</jdbc.driver.password>
             <http.proxyHost />
             <http.proxyPort />
-=======
->>>>>>> branch 'master' of ben@build.e-monocot.org:/var/lib/git/emonocot.git
           </properties>
         </profile>
     </profiles>

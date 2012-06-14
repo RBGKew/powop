@@ -41,10 +41,10 @@
     }
     .ad-gallery .ad-image-wrapper .ad-prev, .ad-gallery .ad-image-wrapper .ad-next {
       /* Or else IE will hide it */
-      background: url('../images/non-existing.jpg')\9
+      background: url('./images/non-existing.jpg')\9
     }
       .ad-gallery .ad-image-wrapper .ad-prev .ad-prev-image, .ad-gallery .ad-image-wrapper .ad-next .ad-next-image {
-        background: url('../images/ad_prev.png');
+        background: url('./images/ad-gallery/ad_prev.png');
         width: 30px;
         height: 30px;
         /*display: none;*/
@@ -54,7 +54,7 @@
         z-index: 101;
       }
       .ad-gallery .ad-image-wrapper .ad-next .ad-next-image {
-        background: url('../images/ad_next.png');
+        background: url('./images/ad-gallery/ad_next.png');
         width: 30px;
         height: 30px;
         right: 0;
@@ -78,7 +78,7 @@
         text-align: left;
         width: 100%;
         z-index: 2;
-        background: url('../images/opa75.png');
+        background: url('../images/ad-gallery/opa75.png');
         color: #000;
       }
       
@@ -130,14 +130,14 @@
       left: -20px;
       width: 13px;
       display: block;
-      background: url('../images/ad_scroll_back.png') 0px 22px no-repeat;
+      background: url('./images/ad-gallery/ad_scroll_back.png') 0px 22px no-repeat;
     }
     .ad-gallery .ad-forward {
       cursor: pointer;
       display: block;
       right: -20px;
       width: 13px;
-      background: url('../images/ad_scroll_forward.png') 0px 22px no-repeat;
+      background: url('./images/ad-gallery/ad_scroll_forward.png') 0px 22px no-repeat;
     }
 	.ad-gallery .ad-nav .ad-thumbs {
       overflow: hidden;

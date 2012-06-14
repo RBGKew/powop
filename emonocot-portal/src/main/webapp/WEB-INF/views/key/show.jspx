@@ -10,7 +10,7 @@
 				<tbody>
 					<tr>
 						<td>
-							<c:url value="/images/keyPageIcon.png" var="keyImageUrl" />
+							<c:url value="/css/images/glyphicons/fullsize/glyphicons_044_keys.png" var="keyImageUrl" />
 							<img src="${keyImageUrl}" class="pull-left noPrint header-icon" alt="Key" />
 						</td>
 						<td>
@@ -30,9 +30,9 @@
 			<div class="span4">
 				<div id="plus">
 					<div class="btn-group">
-					    <c:url var="nextBestImage" value="/images/glyphicons_009_magic.png"/>
+					    <c:url var="nextBestImage" value="/css/images/glyphicons/halfsize/glyphicons_009_magic.png"/>
 						<button class="btn" id="nextBest" title="Next best"><img class="small-icon" src="${nextBestImage}" /> <spring:message code="next.best"/></button>
-						<c:url var="pruneRedundantImage" value="/images/glyphicons_288_scissors.png"/>
+						<c:url var="pruneRedundantImage" value="/css/images/glyphicons/halfsize/glyphicons_288_scissors.png"/>
 						<button class="btn" id="prune" title="Prune"><img class="small-icon" src="${pruneRedundantImage}" /> <spring:message code="prune.redundant"/></button>
 					</div>
 				</div>

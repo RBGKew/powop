@@ -14,7 +14,7 @@
 	
 	<div id="map" class="noPrint ${mapClass}">&#160;</div>
 	
-	<c:url var="openlayersImageLocation" value="/images/OpenLayers/" />
+	<c:url var="openlayersImageLocation" value="/css/images/OpenLayers/" />
 	<spring:message code="web.map.server.url" var="wmsUrl"/>
 	<script type="text/javascript">
 	var google = new OpenLayers.Projection("EPSG:3857");

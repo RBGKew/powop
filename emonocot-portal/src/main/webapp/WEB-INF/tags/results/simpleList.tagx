@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+  xmlns:spring="http://www.springframework.org/tags"
+  xmlns:em="http://e-monocot.org/portal/functions"
+  xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+  xmlns:results="urn:jsptagdir:/WEB-INF/tags/results"
+  xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
+  <jsp:directive.attribute name="pager" type="org.emonocot.model.pager.Page"
+		required="true" />
+<table class="table">
+	<tbody>
+		<c:forEach var="item" items="${result.records}">
+			<c:choose>
+				<c:when test="${item.className == 'Taxon'}">
+					<results:simpleListEntry 
+					itemName="${item.name}" 
+					icon="/css/images/glyphicons/halfsize/glyphicons_001_leaf.png"
+					iconAlt="Taxon"
+					url="/taxon/${item.identifier}">
+						<c:choose>
+							<c:when test="${em:isSynonym(item)}">
+								<h4 class="h4Results title-no-bold"><em>${item.name}</em> ${item.authorship}</h4>
+							</c:when>
+							<c:otherwise>
+								<h4 class="h4Results"><em>${item.name}</em> ${item.authorship}</h4>
+							</c:otherwise>
+						</c:choose>
+					</results:simpleListEntry>
+					</c:when>
+					<c:when test="${item.className == 'Image'}">
+					<results:simpleListEntry 
+						itemName="${item.caption}" 
+						icon="/css/images/glyphicons/halfsize/glyphicons_159_picture.png"
+						iconAlt="Image"
+						url="/image/${item.identifier}">
+						<h4 class="h4Results">${item.caption}</h4>
+					</results:simpleListEntry>
+					</c:when>
+					<c:when test="${item.className == 'IdentificationKey'}">
+						<results:simpleListEntry 
+							itemName="${item.title}" 
+							icon="/css/images/glyphicons/halfsize/glyphicons_044_keys.png"
+							iconAlt="Identification Key"
+							url="/key/${item.identifier}">
+							<h4 class="h4Results">${item.title}</h4>
+						</results:simpleListEntry>
+					</c:when>
+                    <c:when test="${item.className == 'Place'}">
+                    	<c:choose>
+	                		<c:when test="${item.envelope.minX gt item.envelope.maxX}">
+	                  			<c:set var="url" value="/spatial?" />
+	                		</c:when>
+	                		<c:otherwise>
+	                  			<c:set var="url" value="/spatial?x1=${item.envelope.minX}&amp;x2=${item.envelope.maxX}&amp;y1=${item.envelope.minY}&amp;y2=${item.envelope.maxY}" />
+	                		</c:otherwise>
+						</c:choose>
+				  		<results:simpleListEntry itemName="${item.name}" 
+				  			icon="/css/images/glyphicons/halfsize/glyphicons_242_google_maps.png"
+				  			iconAlt="Place"
+				  			url="${url}">
+							<h4 class="h4Results">${item.name}</h4>
+						</results:simpleListEntry>
+					</c:when>
+				<c:otherwise>
+					Unknown class ${item.className}
+				</c:otherwise>
+			</c:choose>
+		</c:forEach>
+	</tbody>
+</table>
+</jsp:root>

@@ -8,7 +8,7 @@
 
 	<div class="page-header header-margin">
 		<div class="row">
-		    <c:url value="/images/imagePageIcon.png" var="imageIconUrl"/>			
+		    <c:url value="/css/images/glyphicons/fullsize/glyphicons_159_picture.png" var="imageIconUrl"/>			
 			<h2 id="page-title"> <img src="${imageIconUrl}" class="pull-left noPrint header-icon" alt="Image"/> ${image.caption}</h2>
 		</div>
 	</div>

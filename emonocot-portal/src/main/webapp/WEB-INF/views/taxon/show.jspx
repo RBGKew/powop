@@ -12,7 +12,7 @@
 		<header class="jumbotron subhead" id="overview">
 			<div class="page-header header-margin">
 				<div class="row">
-				    <c:url value="/images/taxonPageIcon.png" var="taxonIconUrl"/>					
+				    <c:url value="/css/images/glyphicons/fullsize/glyphicons_001_leaf.png" var="taxonIconUrl"/>					
 					<h2 id="page-title">
 					    <img src="${taxonIconUrl}" class="pull-left noPrint header-icon" alt="Taxon"/>
 						<span class="taxonName">${taxon.name}</span> ${taxon.authorship}
