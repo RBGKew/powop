@@ -204,12 +204,12 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-acl</artifactId>
-                <version>${spring.security.version}</version>                
+                <version>${spring.security.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.batch</groupId>
                 <artifactId>spring-batch-core</artifactId>
-                <version>${spring.batch.version}</version>                
+                <version>${spring.batch.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.batch</groupId>
@@ -225,42 +225,42 @@
             <dependency>
                 <groupId>org.springframework.batch</groupId>
                 <artifactId>spring-batch-admin-manager</artifactId>
-                <version>${spring.batch.admin.version}</version>                
+                <version>${spring.batch.admin.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.batch</groupId>
                 <artifactId>spring-batch-admin-resources</artifactId>
-                <version>${spring.batch.admin.version}</version>                
+                <version>${spring.batch.admin.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.integration</groupId>
                 <artifactId>spring-integration-core</artifactId>
-                <version>${spring.integration.version}</version>                
+                <version>${spring.integration.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.integration</groupId>
                 <artifactId>spring-integration-jms</artifactId>
-                <version>${spring.integration.version}</version>               
+                <version>${spring.integration.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.integration</groupId>
                 <artifactId>spring-integration-jdbc</artifactId>
-                <version>${spring.integration.version}</version>                
+                <version>${spring.integration.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.integration</groupId>
                 <artifactId>spring-integration-jmx</artifactId>
-                <version>${spring.integration.version}</version>                
+                <version>${spring.integration.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.integration</groupId>
                 <artifactId>spring-integration-http</artifactId>
-                <version>${spring.integration.version}</version>                
+                <version>${spring.integration.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.integration</groupId>
                 <artifactId>spring-integration-file</artifactId>
-                <version>${spring.integration.version}</version>                
+                <version>${spring.integration.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
@@ -1350,7 +1350,7 @@
             <jdbc.driver.username>emonocot-user</jdbc.driver.username>
             <jdbc.driver.password>eM0n0c0t</jdbc.driver.password>
             <http.proxyHost />
-            <http.proxyPort />                               
+            <http.proxyPort />
           </properties>
         </profile>
         <profile>
@@ -1398,6 +1398,145 @@
             <functional.test.baseUri>http://localhost</functional.test.baseUri>
 		    <functional.test.basePath />
             <functional.test.port>8080</functional.test.port>
+            <http.proxyHost />
+            <http.proxyPort />
+          </properties>
+        </profile>
+        <profile>
+          <id>harvest.uat.master.vagrant</id>
+          <properties>
+            <webAppRootKey>harvester</webAppRootKey>
+            <portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
+            <portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
+            <portal.job.notification.uri>http://localhost/emonocot-portal/job-notifications</portal.job.notification.uri>
+            <amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
+            <amq.broker.name>localhost</amq.broker.name>
+            <amq.connectionFactory.jndi_name>jms/ConnectionFactory</amq.connectionFactory.jndi_name>
+            <amq.queue.jndi_name>queue/eMonocotLuceneQueue</amq.queue.jndi_name>
+            <amq.queue.physical_name>eMonocotLuceneQueue</amq.queue.physical_name>
+            <harvester.baseUrl>http://portal.e-monocot.org:8888/emonocot-harvester</harvester.baseUrl>  
+            <harvester.services.client.identifier>zoo.ox.ac.uk</harvester.services.client.identifier>
+            <harvester.admin.password>adm1n</harvester.admin.password>
+            <harvester.image.directory>/var/lib/emonocot/images/fullsize</harvester.image.directory>
+            <harvester.thumbnail.directory>/var/lib/emonocot/images/thumbnails</harvester.thumbnail.directory>
+            <harvester.imagemagick.path>/usr/bin</harvester.imagemagick.path>
+            <harvester.spool.directory>/var/spool/emonocot</harvester.spool.directory>
+            <batch.job.configuration.file.dir>file:/var/cache/tomcat/temp/emonocot/</batch.job.configuration.file.dir>
+            <cargo.containerId>tomcat7x</cargo.containerId>
+            <cargo.tomcat.manager.url>http://localhost:8888/manager/text</cargo.tomcat.manager.url>
+	        <cargo.remote.username>admin</cargo.remote.username>
+	        <cargo.remote.password>tomcat</cargo.remote.password>
+            <cargo.context.path>emonocot-harvester</cargo.context.path>
+            <cargo.context.docBase>emonocot-harvester</cargo.context.docBase>
+            <http.proxyHost></http.proxyHost>
+            <http.proxyPort></http.proxyPort>
+            <logging.level>WARN</logging.level>
+            <logging.method>file</logging.method>
+            <logging.location>/var/log/tomcat/emonocot-harvester.log</logging.location>
+            <liquibase.changelog>../emonocot-persistence/src/main/resources/changelog.mysql.xml</liquibase.changelog>
+            <liquibase.url>jdbc:mysql://localhost:3336/emonocot</liquibase.url>
+            <liquibase.drop.database.first>false</liquibase.drop.database.first>
+            <hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
+            <hibernate.search.default.indexBase>/var/cache/tomcat/work/emonocot-harvester</hibernate.search.default.indexBase>
+            <hibernate.search.default.sourceBase>/mnt/master_index</hibernate.search.default.sourceBase>
+            <hibernate.search.default.directory_provider>filesystem-master</hibernate.search.default.directory_provider>
+            <hibernate.search.default.refresh>60</hibernate.search.default.refresh>
+            <hibernate.search.worker.backend>jms</hibernate.search.worker.backend>
+            <hibernate.search.purge.indexes.on.init>false</hibernate.search.purge.indexes.on.init>
+            <jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
+            <jdbc.driver.url>jdbc:mysql://localhost:3306/emonocot</jdbc.driver.url>
+            <jdbc.driver.username>emonocot-user</jdbc.driver.username>
+            <jdbc.driver.password>eM0n0c0t</jdbc.driver.password>  
+          </properties>
+        </profile>
+        <profile>
+          <id>portal.uat.master.vagrant</id>
+          <properties>
+            <portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
+            <portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
+            <web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
+            <amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
+            <amq.broker.name>localhost</amq.broker.name>
+            <amq.connectionFactory.jndi_name>jms/ConnectionFactory</amq.connectionFactory.jndi_name>
+            <amq.queue.jndi_name>queue/eMonocotLuceneQueue</amq.queue.jndi_name>
+            <amq.queue.physical_name>eMonocotLuceneQueue</amq.queue.physical_name>
+            <portal.baseUrl>http://portal.e-monocot.org:8080</portal.baseUrl>
+            <harvester.jobRequests.url>http://build.e-monocot.org/test/job-requests.json</harvester.jobRequests.url>
+            <google.analytics.id />
+            <webAppRootKey>emonocot-portal</webAppRootKey>
+            <cargo.containerId>tomcat7x</cargo.containerId>
+            <cargo.tomcat.url>http://localhost:8888</cargo.tomcat.url>
+            <cargo.tomcat.manager.url>http://localhost:8888/manager/text</cargo.tomcat.manager.url>
+	        <cargo.remote.username>admin</cargo.remote.username>
+	        <cargo.remote.password>tomcat</cargo.remote.password>
+            <cargo.context.path>/</cargo.context.path>
+            <logging.level>WARN</logging.level>
+            <logging.method>file</logging.method>
+            <logging.location>/var/log/tomcat/emonocot-portal.log</logging.location>            
+            <liquibase.drop.database.first>false</liquibase.drop.database.first>
+            <liquibase.changelog>../emonocot-persistence/src/main/resources/changelog.mysql.xml</liquibase.changelog>
+            <liquibase.url>jdbc:mysql://localhost:3336/emonocot</liquibase.url>
+            <hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
+            <hibernate.search.default.directory_provider>filesystem-slave</hibernate.search.default.directory_provider>
+            <hibernate.search.default.indexBase>/var/cache/tomcat/work/emonocot-portal/indexes</hibernate.search.default.indexBase>
+            <hibernate.search.default.sourceBase>/mnt/master_index</hibernate.search.default.sourceBase>
+            <hibernate.search.worker.backend>jms</hibernate.search.worker.backend>
+            <hibernate.search.default.refresh>60</hibernate.search.default.refresh>
+            <hibernate.search.purge.indexes.on.init>false</hibernate.search.purge.indexes.on.init>
+            <mondrian.catalog.location>jndi:/localhost/WEB-INF/classes/META-INF/olap/olap.xml</mondrian.catalog.location>
+            <spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
+            <spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
+            <jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
+            <jdbc.driver.url>jdbc:mysql://localhost:3306/emonocot</jdbc.driver.url>
+            <jdbc.driver.username>emonocot-user</jdbc.driver.username>
+            <jdbc.driver.password>eM0n0c0t</jdbc.driver.password>
+            <functional.test.baseUri>http://localhost</functional.test.baseUri>
+		    <functional.test.basePath />
+            <functional.test.port>8080</functional.test.port>
+            <http.proxyHost />
+            <http.proxyPort />                               
+          </properties>
+        </profile>
+        <profile>
+          <id>portal.uat.slave.vagrant</id>
+          <properties>
+            <portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
+            <portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
+            <web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
+            <amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
+            <amq.broker.name>localhost</amq.broker.name>
+            <amq.connectionFactory.jndi_name>jms/ConnectionFactory</amq.connectionFactory.jndi_name>
+            <amq.queue.jndi_name>queue/eMonocotLuceneQueue</amq.queue.jndi_name>
+            <amq.queue.physical_name>eMonocotLuceneQueue</amq.queue.physical_name>
+            <portal.baseUrl>http://portal.e-monocot.org:8080</portal.baseUrl>
+            <harvester.jobRequests.url>http://build.e-monocot.org/test/job-requests.json</harvester.jobRequests.url>
+            <google.analytics.id />
+            <webAppRootKey>emonocot-portal</webAppRootKey>
+            <cargo.containerId>tomcat7x</cargo.containerId>
+            <cargo.tomcat.url>http://localhost:8889</cargo.tomcat.url>
+            <cargo.tomcat.manager.url>http://localhost:8889/manager/text</cargo.tomcat.manager.url>
+	        <cargo.remote.username>admin</cargo.remote.username>
+	        <cargo.remote.password>tomcat</cargo.remote.password>
+            <cargo.context.path>/</cargo.context.path>
+            <logging.level>WARN</logging.level>
+            <logging.method>file</logging.method>
+            <logging.location>/var/log/tomcat/emonocot-portal.log</logging.location>
+            <wagon.static.url>scp://localhost:2200/var/www/html/emonocot/</wagon.static.url>
+            <wagon.server.id>vagrant</wagon.server.id>            
+            <hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
+            <hibernate.search.default.directory_provider>filesystem-slave</hibernate.search.default.directory_provider>
+            <hibernate.search.default.indexBase>/var/cache/tomcat/work/emonocot-portal/indexes</hibernate.search.default.indexBase>
+            <hibernate.search.default.sourceBase>/mnt/master_index</hibernate.search.default.sourceBase>
+            <hibernate.search.worker.backend>jms</hibernate.search.worker.backend>
+            <hibernate.search.default.refresh>60</hibernate.search.default.refresh>
+            <hibernate.search.purge.indexes.on.init>false</hibernate.search.purge.indexes.on.init>
+            <mondrian.catalog.location>jndi:/localhost/WEB-INF/classes/META-INF/olap/olap.xml</mondrian.catalog.location>
+            <spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
+            <spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
+            <jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
+            <jdbc.driver.url>jdbc:mysql://192.168.2.10:3306/emonocot</jdbc.driver.url>
+            <jdbc.driver.username>emonocot-user</jdbc.driver.username>
+            <jdbc.driver.password>eM0n0c0t</jdbc.driver.password>
             <http.proxyHost />
             <http.proxyPort />                               
           </properties>

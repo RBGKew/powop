@@ -23,32 +23,6 @@ Development Stack
  
  []
  
-Building Vagrant Boxes for the Development Environment
-
- * Checkout the latest emonocot-infrastructure package from the eMonocot {{{http://build.e-monocot.org/git/?p=emonocot-infrastructure.git/.git;a=summary}GIT repository}}
- 
- * Startup Vagrant using the command <<<vagrant up>>>
- 
- * Ensure that the Virtualbox kernel modules which are installed on the virtual machine match the current version of virtualbox you're running.
- 
-   * Logon to the virtual machine using ssh (port <<2222>>, username <<vagrant>>, password <<vagrant>>)
-   
-   * edit <<<.vbox_version>>> so that the version number matches the Virtualbox version
-   
-   * <<<sudo sh postinstall.sh>>> - you can safely ignore some of the errors which occur due to missing OpenGL libraries provided the shared library support is built successfully. Then restart the machine
-   
-   * <<<sudo /etc/init.d/vboxadd setup>>> - now restart the machine
-   
-   []
-
- * Export the virtual machine as a package
- 
-   * <<<vagrant package --vagrantfile vagrantfiles/vagrantfile.cfg>>>
-   
-   []
-   
- [] 
- 
 Using Vagrant to run functional tests
  
   * Add a blank standalone portal machine
@@ -148,3 +122,59 @@ Using Vagrant to obtain a UAT portal instance
  * The portal should be found at {{{http://localhost:8080/}http://localhost:8080/}}
    
  []
+ 
+ Building Vagrant Boxes for the Development Environment
+ 
+ * Install Ruby (Ruby 1.9.3) and, under Windows
+ 
+   * DevKit (DevKit-tdm-32-4.5.2)
+   
+   * Copy zlib1.dll from RUBY_HOME/bin folder to the RUBY_HOME/lib folder
+   
+   * Download iconv.dll from {{{ftp://ftp.zlatkovic.com/libxml/}ftp://ftp.zlatkovic.com/libxml/}} and put it in RUBY_HOME/lib
+   
+   * Put iconv.h in RUBY_HOME/include/ruby-{RUBY_VERSION}/
+   
+   * Download libxml2.dll from {{{ftp://ftp.zlatkovic.com/libxml/}ftp://ftp.zlatkovic.com/libxml/}} and put it in RUBY_HOME/lib
+   
+   * Put include/libxml in RUBY_HOME/include/ruby-{RUBY_VERSION}/
+   
+ []
+ 
+ * Install an up-to-date version of veewee
+ 
+   * <<<$ git clone https://github.com/jedi4ever/veewee.git>>>
+ 
+   * <<<$ gem install bundler>>>
+   
+   * <<<$ bundle install>>>
+   
+   * <<<$ gem build veewee.gemspec>>>
+   
+   * <<<$ gem install veewee-${VERSION}.gem>>>
+   
+ []
+
+ * Checkout the latest emonocot-infrastructure package from the eMonocot {{{http://build.e-monocot.org/git/?p=emonocot-infrastructure.git/.git;a=summary}GIT repository}}
+ 
+ * Startup Vagrant using the command <<<vagrant up>>>
+ 
+ * Ensure that the Virtualbox kernel modules which are installed on the virtual machine match the current version of virtualbox you're running.
+ 
+   * Logon to the virtual machine using ssh (port <<2222>>, username <<vagrant>>, password <<vagrant>>)
+   
+   * edit <<<.vbox_version>>> so that the version number matches the Virtualbox version
+   
+   * <<<sudo sh postinstall.sh>>> - you can safely ignore some of the errors which occur due to missing OpenGL libraries provided the shared library support is built successfully. Then restart the machine
+   
+   * <<<sudo /etc/init.d/vboxadd setup>>> - now restart the machine
+   
+   []
+
+ * Export the virtual machine as a package
+ 
+   * <<<vagrant package --vagrantfile vagrantfiles/vagrantfile.cfg>>>
+   
+   []
+   
+ [] 

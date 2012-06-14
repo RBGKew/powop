@@ -2,7 +2,6 @@ package org.emonocot.service.impl;
 
 import java.util.List;
 
-import org.emonocot.api.JobExecutionService;
 import org.emonocot.persistence.dao.JobExecutionDao;
 import org.emonocot.persistence.dao.OlapResult;
 import org.emonocot.service.JobDataService;
