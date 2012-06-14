@@ -91,7 +91,7 @@
 					</td>
 				</c:when>
 				<c:when test="${item.className == 'Place'}">
-                        <spring:url var="iconUrl" value="/images/glyphicons_340_globe-big.png" />
+                        <spring:url var="iconUrl" value="/images/glyphicons_242_google_maps.png" />
                         <c:choose>
 	                        <c:when test="${item.envelope.minX gt item.envelope.maxX}">
 	                            <spring:url var="itemUrl" value="/spatial?" />

@@ -1,0 +1,90 @@
+/**
+ * Printable version
+ */
+
+.body {
+	background: @white;
+	font-family: @baseFontFamily;
+	font-size: 12pt;
+	}
+
+.a:link, .a:visited {
+	color: #520;
+	background: transparent;
+	font-weight: bold;
+	text-decoration: underline;
+	}
+
+.noPrint{
+	.no-display;
+}
+
+.ad-preloads{
+	.no-display;
+}
+
+.justified{
+	text-align:justify;
+}
+
+.unstyled {
+	margin-left: 0;
+	list-style: none;
+}
+
+#sources h5{
+	font-size: 24px;
+	line-height: 36px;
+}
+#taxonomicTree h5{
+	font-size: 24px;
+	line-height: 36px;
+}
+
+#distribution-textual {
+	clear: both;
+	list-style: none outside none;
+	margin: 0;
+	padding-left: 0;
+	text-indent: 0;
+}
+
+#distribution-textual li:after {
+	content: ",";
+}
+#distribution-textual li:first-child:before {
+	padding-left: 0;
+}
+#distribution-textual li {
+	float: left;
+	padding-left: 0.5em;
+}
+li {
+	line-height: 18px;
+}
+section {
+	clear: both;
+	padding-top: 20px;
+	width: 100%;
+}
+
+th {
+	text-align: left;
+}
+
+.span8 {
+	width: 620px;
+}
+
+.thumbnails {
+	margin-left: -20px;
+	list-style: none;
+}
+.thumbnails > li {
+	float: left;
+	margin: 0 0 18px 20px;
+}
+
+.taxonName {
+	font-style: italic;
+}
