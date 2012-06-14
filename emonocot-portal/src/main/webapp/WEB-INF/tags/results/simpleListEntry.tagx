@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<tr xmlns:jsp="http://java.sun.com/JSP/Page"
+  xmlns:spring="http://www.springframework.org/tags"
+  xmlns:em="http://e-monocot.org/portal/functions"
+  xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+  xmlns:c="http://java.sun.com/jsp/jstl/core">
+  <jsp:directive.attribute name="icon" type="java.lang.String" required="true" />
+  <jsp:directive.attribute name="iconAlt" type="java.lang.String" required="true" />
+  <jsp:directive.attribute name="url" type="java.lang.String" required="true" />
+  <jsp:directive.attribute name="itemName" type="java.lang.String" required="true" />
+<spring:url var="itemUrl" value="${url}"/>
+<spring:url var="iconUrl" value="${icon}"/>
+ 	<td>
+		<img src="${iconUrl}" class="pull-left resultTypeIcon" alt="${iconAlt}"/>
+	</td>
+	<td>
+		<a class="result" href="${itemUrl}" title="${itemName}">
+			<jsp:doBody/>
+		</a>
+	</td>
+</tr>

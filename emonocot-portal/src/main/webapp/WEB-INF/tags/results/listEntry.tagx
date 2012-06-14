@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<tr xmlns:jsp="http://java.sun.com/JSP/Page"
+  xmlns:spring="http://www.springframework.org/tags"
+  xmlns:em="http://e-monocot.org/portal/functions"
+  xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+  xmlns:c="http://java.sun.com/jsp/jstl/core">
+  <jsp:directive.attribute name="icon" type="java.lang.String" required="true" />
+  <jsp:directive.attribute name="iconAlt" type="java.lang.String" required="true" />
+  <jsp:directive.attribute name="url" type="java.lang.String" required="true" />
+  <jsp:directive.attribute name="itemName" type="java.lang.String" required="true" />
+  <jsp:directive.attribute name="image" type="org.emonocot.model.media.Image" required="false"/>
+<spring:url var="itemUrl" value="${url}"/>
+<spring:url var="iconUrl" value="${icon}"/>
+  <td>
+	<img src="${iconUrl}" class="pull-left resultTypeIcon" alt="${iconAlt}"/>
+  </td>
+  <td>
+	<jsp:doBody/>
+  </td>
+  <td>
+	<a href="${itemUrl}" class="thumbnail pull-right">
+		<c:choose>
+			<c:when test="${not empty image}">
+				<c:url var="thumbnail" value="/images/thumbnails/${image.identifier}.${image.format}"/>
+					<img src="${thumbnail}" title="${image.caption}"/>
+				</c:when>
+				<c:otherwise>
+					<spring:message code="no.image.available" var="noImageAvailable"/>
+					<c:url var="thumbnail" value="/css/images/no_image.jpg"/>
+					<img src="${thumbnail}" title="${noImageAvailable}"/>
+				</c:otherwise>
+		</c:choose>
+	</a>
+	</td>
+</tr>

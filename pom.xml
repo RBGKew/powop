@@ -1323,6 +1323,7 @@
             <google.analytics.id />
             <webAppRootKey>emonocot-portal</webAppRootKey>
             <cargo.containerId>tomcat7x</cargo.containerId>
+            <cargo.tomcat.url>http://localhost:8080</cargo.tomcat.url>
             <cargo.tomcat.manager.url>http://localhost:8080/manager/text</cargo.tomcat.manager.url>
 	        <cargo.remote.username>admin</cargo.remote.username>
 	        <cargo.remote.password>tomcat</cargo.remote.password>
@@ -1369,6 +1370,7 @@
             <google.analytics.id />
             <webAppRootKey>emonocot-portal</webAppRootKey>
             <cargo.containerId>tomcat7x</cargo.containerId>
+            <cargo.tomcat.url>http://localhost:8080</cargo.tomcat.url>
             <cargo.tomcat.manager.url>http://localhost:8080/manager/text</cargo.tomcat.manager.url>
 	        <cargo.remote.username>admin</cargo.remote.username>
 	        <cargo.remote.password>tomcat</cargo.remote.password>
