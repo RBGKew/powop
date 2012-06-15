@@ -23,6 +23,11 @@ public class Match<T> {
      *
      */
     private MatchStatus status;
+    
+    /**
+     * 
+     */
+    private String notes;
 
     /**
      * @return the providers taxon
@@ -71,5 +76,19 @@ public class Match<T> {
     public final void setStatus(MatchStatus newStatus) {
         this.status = newStatus;
     }
+
+	/**
+	 * @return the notes
+	 */
+	public final String getNotes() {
+		return notes;
+	}
+
+	/**
+	 * @param notes the notes to set
+	 */
+	public final void setNotes(String notes) {
+		this.notes = notes;
+	}
 
 }

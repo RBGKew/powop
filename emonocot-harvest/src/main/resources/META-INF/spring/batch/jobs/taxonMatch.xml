@@ -49,11 +49,13 @@
 	     <property name="names">
 	       <array>
 	         <value>external.identifier</value>
-	         <value>external.name</value>
+             <value>internal.identifier</value>
              <value>status</value>
              <value>matchCount</value>
+	         <value>external.name</value>
              <value>internal.name</value>
-             <value>internal.identifier</value>
+             <value>internal.basionymAuthorship</value>
+             <value>internal.authorship</value>
 	       </array>
 	     </property>
 	   </bean>

@@ -53,12 +53,13 @@ public class ExampleTaxonMatcher implements TaxonMatcher {
     public final List<Match<Taxon>> match(final ParsedName<String> parsed) {
         List<Match<Taxon>> matches = new ArrayList<Match<Taxon>>();
         Taxon emonocotTaxon = new Taxon();
-        emonocotTaxon.setName(parsed.canonicalName());
+        emonocotTaxon.setName(parsed.buildName(true, true, false, false, false,
+                false, true, false, false, false));
         if (parsed.getAuthorship() != null) {
-            emonocotTaxon.setAuthorship(parsed.getAuthorship());
+        	emonocotTaxon.setAuthorship(parsed.getAuthorship());
         }
         if (parsed.getBracketAuthorship() != null) {
-            emonocotTaxon.setBasionymAuthorship(parsed.getBracketAuthorship());
+        	emonocotTaxon.setBasionymAuthorship(parsed.getBracketAuthorship());
         }
         logger.debug("Attempting to match " + emonocotTaxon.getName());
 
@@ -66,6 +67,16 @@ public class ExampleTaxonMatcher implements TaxonMatcher {
 
         switch (page.getRecords().size()) {
         case 0:
+        	if(parsed.getBracketAuthorship() != null){
+        		parsed.setBracketAuthorship(null);
+        		matches = match(parsed);
+        	} else if (parsed.getAuthorship() != null) {
+        		parsed.setAuthorship(null);
+        		matches = match(parsed);
+        	}
+        	for (Match<Taxon> match : matches) {
+				match.setStatus(MatchStatus.PARTIAL);
+			}
             break;
         case 1:
             Match<Taxon> single = new Match<Taxon>();

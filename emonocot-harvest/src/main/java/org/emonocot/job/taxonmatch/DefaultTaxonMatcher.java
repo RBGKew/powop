@@ -95,6 +95,17 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
 
         switch (page.getRecords().size()) {
         case 0:
+        	if(parsed.getBracketAuthorship() != null){
+        		logger.info("removing bracket authorship " + parsed.getAuthorship());
+        		parsed.setBracketAuthorship(null);
+        		logger.info("'null' bracket authorship is " + parsed.getAuthorship());
+        		matches = match(parsed);
+        	} else if (parsed.getAuthorship() != null) {
+        		logger.info("removing authorship " + parsed.getAuthorship());
+        		parsed.setAuthorship(null);
+        		logger.info("'null' authorship is " + parsed.getAuthorship());
+        		matches = match(parsed);
+        	}
             break;
         case 1:
             Match<Taxon> single = new Match<Taxon>();
