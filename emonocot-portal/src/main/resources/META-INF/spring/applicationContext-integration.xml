@@ -2,60 +2,69 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:integration="http://www.springframework.org/schema/integration"
-	xmlns:http="http://www.springframework.org/schema/integration/http"
+	xmlns:jms="http://www.springframework.org/schema/integration/jms"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-	                    http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
+	                    http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd
 		                http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
 
-	<integration:channel id="outgoingJobChannel" />
-	<integration:channel id="outgoingJobTransformedChannel" />
-	<integration:channel id="incomingJobChannel" />
-	<integration:channel id="incomingJobTransformedChannel" />
-	<integration:channel id="jobStatusNotificationChannel" />
-	<integration:channel id="jobStatusNotificationTransformedChannel" />
 
 	<integration:gateway id="jobLauncher"
-		service-interface="org.emonocot.portal.integration.JobLauncher"
-		default-request-channel="outgoingJobChannel" default-reply-channel="incomingJobTransformedChannel">
+		service-interface="org.emonocot.api.job.JobLauncher"
+		default-request-channel="jobLaunchRequests" 
+		default-reply-channel="jobLaunchResponses">
 		<integration:method name="launch" />
 	</integration:gateway>
 
-	<integration:transformer input-channel="incomingJobChannel"
-		ref="jobLaunchResponseTransformer" method="transform"
-		output-channel="incomingJobTransformedChannel" />
+	<integration:channel id="jobLaunchRequests" />
+	
+	<integration:channel id="jobLaunchResponses" />
 
-	<bean id="jobLaunchResponseTransformer"
-		class="org.emonocot.portal.integration.JobLaunchResponseTransformer">
-		<property name="objectMapper" ref="customObjectMapper" />
+	<jms:outbound-gateway id="jobLaunchGateway"
+		request-channel="jobLaunchRequests"
+		request-destination="jobLaunchRequestsQueue"
+		reply-channel="jobLaunchResponses"
+		reply-destination="jobLaunchResponsesQueue"
+		connection-factory="connectionFactory" 
+		message-converter="mappingMessageConverter"/>
+		
+    <bean id="mappingMessageConverter"
+		class="org.springframework.jms.support.converter.MappingJacksonMessageConverter">
+		<property name="objectMapper" ref="customObjectMapper"/>
 	</bean>
 
-	<integration:json-to-object-transformer
-		input-channel="jobStatusNotificationChannel" output-channel="jobStatusNotificationTransformedChannel"
-		object-mapper="customObjectMapper" type="org.emonocot.api.job.JobExecutionInfo" />
+	<bean id="jobLaunchRequestsQueue" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg value="job.launch.requests" />
+	</bean>
 
+	<bean id="jobLaunchResponsesQueue" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg value="job.launch.responses" />
+	</bean>
 
-	<integration:transformer id="outgoingConverter"
-		input-channel="outgoingJobChannel" output-channel="outgoingJobTransformedChannel"
-		ref="jobLaunchRequestToStringAdapter" method="adapt" />
+	<bean id="jobLaunchMessageConverter"
+		class="org.emonocot.portal.integration.JobLaunchMessageConverter" >
+		<property name="objectMapper" ref="customObjectMapper"/>
+	</bean>
 
-	<bean id="jobLaunchRequestToStringAdapter"
-		class="org.emonocot.portal.integration.JobLaunchRequestToStringAdapter" />
+   <jms:inbound-channel-adapter id="jobStatusNotificationAdapter"
+    connection-factory="connectionFactory"
+    destination="jobStatusQueue"
+    channel="rawJobStatusNotifications">
+     <integration:poller fixed-rate="30000"/>
+   </jms:inbound-channel-adapter>
+   
+   <bean id="jobStatusQueue" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg value="job.status.notifications" />
+	</bean>
+	
+	<integration:channel id="rawJobStatusNotifications" />	
+	
+	<integration:json-to-object-transformer 
+	  input-channel="rawJobStatusNotifications" 
+	  output-channel="jobStatusNotifications"
+	  type="org.emonocot.api.job.JobExecutionInfo"
+	  object-mapper="customObjectMapper"/>
 
-	<http:outbound-gateway id="launchJobGateway"
-		request-channel="outgoingJobTransformedChannel" reply-channel="incomingJobChannel"
-		expected-response-type="java.lang.String" url="${harvester.jobRequests.url}"
-		http-method="POST" mapped-response-headers="X-*, HTTP_RESPONSE_HEADERS"
-		charset="UTF-8" request-factory="clientHttpRequestFactory" />
-
-	<http:inbound-channel-adapter id="jobStatusNotificationAdapter"
-		path="/job-notifications" channel="jobStatusNotificationChannel"
-		request-payload-type="java.lang.String" supported-methods="POST" />
-
-	<bean
-		class="org.springframework.integration.http.inbound.UriPathHandlerMapping" />
-
-
-	<integration:service-activator
-		input-channel="jobStatusNotificationTransformedChannel" ref="jobStatusNotifierImpl"
-		method="notify" />
+    <integration:channel id="jobStatusNotifications" />
+	
+	<integration:service-activator input-channel="jobStatusNotifications" ref="jobStatusNotifierImpl" method="notify" />
 </beans>

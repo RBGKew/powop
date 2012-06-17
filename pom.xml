@@ -1412,7 +1412,7 @@
             <portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
             <portal.job.notification.uri>http://localhost/emonocot-portal/job-notifications</portal.job.notification.uri>
             <amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
-            <amq.broker.name>localhost</amq.broker.name>
+            <amq.broker.name>messageBroker</amq.broker.name>
             <amq.connectionFactory.jndi_name>jms/ConnectionFactory</amq.connectionFactory.jndi_name>
             <amq.queue.jndi_name>queue/eMonocotLuceneQueue</amq.queue.jndi_name>
             <amq.queue.physical_name>eMonocotLuceneQueue</amq.queue.physical_name>
@@ -1458,7 +1458,7 @@
             <portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
             <web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
             <amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
-            <amq.broker.name>localhost</amq.broker.name>
+            <amq.broker.name>messageBroker</amq.broker.name>
             <amq.connectionFactory.jndi_name>jms/ConnectionFactory</amq.connectionFactory.jndi_name>
             <amq.queue.jndi_name>queue/eMonocotLuceneQueue</amq.queue.jndi_name>
             <amq.queue.physical_name>eMonocotLuceneQueue</amq.queue.physical_name>
@@ -1505,8 +1505,8 @@
             <portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
             <portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
             <web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
-            <amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
-            <amq.broker.name>localhost</amq.broker.name>
+            <amq.broker.uri>tcp://192.168.2.10:61616</amq.broker.uri>
+            <amq.broker.name>messageBroker</amq.broker.name>
             <amq.connectionFactory.jndi_name>jms/ConnectionFactory</amq.connectionFactory.jndi_name>
             <amq.queue.jndi_name>queue/eMonocotLuceneQueue</amq.queue.jndi_name>
             <amq.queue.physical_name>eMonocotLuceneQueue</amq.queue.physical_name>

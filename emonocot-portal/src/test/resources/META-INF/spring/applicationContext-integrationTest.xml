@@ -1,16 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:integration="http://www.springframework.org/schema/integration"
+	xmlns:jms="http://www.springframework.org/schema/integration/jms"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
 
 	<context:property-placeholder
 		location="classpath*:META-INF/spring/application.properties" />
 
 	<bean name="jobStatusNotifierImpl" class="org.emonocot.portal.integration.JobStatusNotifierImpl" />
+	
+	<jms:inbound-gateway id="mockJobLaunchGateway"
+		request-channel="mockJobLaunchRequests"
+		request-destination="jobLaunchRequestsQueue"
+		message-converter="mappingMessageConverter"
+		connection-factory="connectionFactory" />
+	
+	<integration:channel id="mockJobLaunchRequests"/>
+	
+	<integration:service-activator 
+	  input-channel="mockJobLaunchRequests"
+	  ref="mockJobLauncher" 
+	  method="launch"/>
+	
+	<bean id="mockJobLauncher" class="org.emonocot.portal.integration.MockJobLauncher"/>
 
 	<context:property-override
 		ignore-unresolvable="true"
@@ -50,6 +70,17 @@
 		<property name="jobInstanceService" ref="jobInstanceServiceImpl" />
 	</bean>
 
+	<bean id="connectionFactory"
+		class="org.springframework.jms.connection.CachingConnectionFactory">
+		<property name="targetConnectionFactory">
+			<bean class="org.apache.activemq.ActiveMQConnectionFactory">
+				<property name="brokerURL" value="vm://localhost" />
+			</bean>
+		</property>
+		<property name="sessionCacheSize" value="10" />
+		<property name="cacheProducers" value="false" />
+	</bean>
+	
 	<bean id="clientHttpRequestFactory"
 		class="org.emonocot.portal.http.StaticUsernameAndPasswordHttpClientFactory">
 		<property name="username" value="${portalWebservice.harvester.username}" />

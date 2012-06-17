@@ -1,12 +1,14 @@
 package org.emonocot.api.job;
 
+import java.io.Serializable;
+
 
 /**
  *
  * @author ben
  *
  */
-public class JobLaunchResponse {
+public class JobLaunchResponse implements Serializable {
 
     /**
      *

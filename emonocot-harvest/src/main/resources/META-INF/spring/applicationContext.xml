@@ -131,34 +131,17 @@
 		<property name="testOnBorrow" value="true" />
 		<property name="defaultTransactionIsolation" value="2" />
 	</bean>
-
-	<amq:broker id="broker" brokerName="${amq.broker.name}"
-		useJmx="false" persistent="false">
-		<amq:transportConnectors>
-			<amq:transportConnector uri="${amq.broker.uri}" />
-		</amq:transportConnectors>
-	</amq:broker>
-
-	<jee:jndi-lookup id="connectionFactory"
-		jndi-name="java:comp/env/${amq.connectionFactory.jndi_name}" />
-	<jee:jndi-lookup id="eMonocotLuceneQueue"
-		jndi-name="java:comp/env/${amq.queue.jndi_name}" />
-
-
-	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
-		<constructor-arg ref="connectionFactory" />
+	
+	<bean id="connectionFactory"
+		class="org.springframework.jms.connection.CachingConnectionFactory">
+		<property name="targetConnectionFactory">
+			<bean class="org.apache.activemq.ActiveMQConnectionFactory">
+				<property name="brokerURL" value="${amq.broker.uri}" />
+			</bean>
+		</property>
+		<property name="sessionCacheSize" value="10" />
+		<property name="cacheProducers" value="false" />
 	</bean>
-
-	<bean id="messageDrivenSearchController"
-		class="org.emonocot.harvest.common.index.MessageDrivenSearchController">
-		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-
-	<jms:listener-container connection-factory="connectionFactory"
-		concurrency="10" transaction-manager="transactionManager">
-		<jms:listener destination="${amq.queue.physical_name}"
-			ref="messageDrivenSearchController" />
-	</jms:listener-container>
 	
 	<bean id="resizeImagesProcessor" class="org.emonocot.harvest.media.ImageFileProcessor">
 	  <property name="getResourceClient" ref="getResourceClient" />

@@ -1,5 +1,7 @@
 package org.emonocot.api.job;
 
+import java.io.Serializable;
+
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.marshall.json.DateTimeDeserializer;
@@ -12,7 +14,7 @@ import org.springframework.batch.core.BatchStatus;
  * @author ben
  *
  */
-public class JobExecutionInfo {
+public class JobExecutionInfo implements Serializable {
 
     /**
      *

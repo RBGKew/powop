@@ -35,7 +35,7 @@ public class JobExecutionToInfoAdapter {
      */
     public final Message<JobLaunchResponse> adapt(
             final Message<JobExecution> incomingMessage) {
-        JobExecutionInfo jobExecutionInfo = new JobExecutionInfo();
+    	JobExecutionInfo jobExecutionInfo = new JobExecutionInfo();
         JobLaunchResponse jobLaunchResponse = new JobLaunchResponse();
         jobLaunchResponse.setJobExecution(jobExecutionInfo);
         JobExecution jobExecution = incomingMessage.getPayload();

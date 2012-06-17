@@ -10,19 +10,16 @@ import javax.validation.Valid;
 import org.emonocot.api.JobService;
 import org.emonocot.api.SourceService;
 import org.emonocot.api.job.JobExecutionInfo;
+import org.emonocot.api.job.JobLaunchRequest;
+import org.emonocot.api.job.JobLauncher;
 import org.emonocot.model.job.Job;
 import org.emonocot.model.job.JobType;
 import org.emonocot.model.source.Source;
-import org.emonocot.portal.integration.JobLauncher;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.BatchStatus;
-import org.springframework.batch.core.JobExecutionException;
-import org.springframework.batch.core.JobParameter;
-import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.integration.launch.JobLaunchRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
@@ -265,44 +262,36 @@ public class AdminSourceJobController {
                 break;
             }
         }
-        Map<String, JobParameter> jobParametersMap = new HashMap<String, JobParameter>();
-        jobParametersMap.put("authority.name", new JobParameter(job.getSource()
-                .getIdentifier()));
-        jobParametersMap.put("authority.uri", new JobParameter(job.getUri()));
+        Map<String, String> jobParametersMap = new HashMap<String, String>();
+        jobParametersMap.put("authority.name", job.getSource().getIdentifier());
+        jobParametersMap.put("authority.uri", job.getUri());
 
         if (job.getStatus() == null) {
-            jobParametersMap.put("authority.last.harvested", new JobParameter(
-                    Long.toString((PAST_DATETIME.getMillis()))));
+            jobParametersMap.put("authority.last.harvested", Long.toString((PAST_DATETIME.getMillis())));
         } else {
-            jobParametersMap.put("authority.last.harvested", new JobParameter(
-                    Long.toString((job.getStartTime().getMillis()))));
+            jobParametersMap.put("authority.last.harvested", Long.toString((job.getStartTime().getMillis())));
         }
 
-        org.springframework.batch.core.Job batchJob = null;
+        JobLaunchRequest jobLaunchRequest = new JobLaunchRequest();
         switch (job.getJobType()) {
         case OAI_PMH:
-            jobParametersMap.put("request.interval", new JobParameter("4000"));
+            jobParametersMap.put("request.interval", "4000");
             if (job.getFamily() != null) {
-                jobParametersMap.put("request.subset.name", new JobParameter(
-                        job.getFamily()));
+                jobParametersMap.put("request.subset.name", job.getFamily());
             }
-            batchJob = new org.springframework.batch.core.job.SimpleJob(
-                    "OaiPmhTaxonHarvesting");
+            jobLaunchRequest.setJob("OaiPmhTaxonHarvesting");
             break;
         case DwC_Archive:
         default:
-            jobParametersMap.put("family", new JobParameter(job.getFamily()));
-            jobParametersMap.put("authority.uri",
-                    new JobParameter(job.getUri()));
-            batchJob = new org.springframework.batch.core.job.SimpleJob(
-                    "DarwinCoreArchiveHarvesting");
+            jobParametersMap.put("family", job.getFamily());
+            jobParametersMap.put("authority.uri",job.getUri());
+            jobLaunchRequest.setJob("DarwinCoreArchiveHarvesting");
             break;
         }
-        JobParameters jobParameters = new JobParameters(jobParametersMap);
-        JobLaunchRequest jobLaunchRequest = new JobLaunchRequest(batchJob,
-                jobParameters);
+        jobLaunchRequest.setParameters(jobParametersMap);
+        
         try {
-            JobExecutionInfo jobExecutionInfo = jobLauncher
+        	JobExecutionInfo jobExecutionInfo = jobLauncher
                     .launch(jobLaunchRequest);
             job.setStartTime(jobExecutionInfo.getStartTime());
             job.setDuration(jobExecutionInfo.getDuration());
@@ -322,7 +311,7 @@ public class AdminSourceJobController {
             DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
                     codes, args);
             session.setAttribute("info", message);
-        } catch (JobExecutionException e) {
+        } catch (Exception e) {
             String[] codes = new String[] {"job.failed" };
             Object[] args = new Object[] {e.getMessage() };
             DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(

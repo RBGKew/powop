@@ -47,7 +47,7 @@ public class JobStatusListener extends JobExecutionListenerSupport {
      */
     @Override
     public final void afterJob(final JobExecution jobExecution) {
-        JobExecutionInfo jobExecutionInfo = new JobExecutionInfo();
+    	JobExecutionInfo jobExecutionInfo = new JobExecutionInfo();
         DateTime startTime = new DateTime(jobExecution.getStartTime());
         DateTime endTime = new DateTime(jobExecution.getEndTime());
         jobExecutionInfo.setDuration(endTime.minus(startTime.getMillis()));

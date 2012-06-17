@@ -44,17 +44,20 @@ public class JobStatusNotifierImpl implements JobStatusNotifier {
         logger.debug("In notify " + jobExecutionInfo.getId());
 
         Job job = service.findByJobId(jobExecutionInfo.getId());
-        job.setDuration(jobExecutionInfo.getDuration());
-        job.setExitCode(jobExecutionInfo.getExitCode());
-        job.setExitDescription(jobExecutionInfo.getExitDescription());
-        if (jobExecutionInfo.getJobInstance() != null) {
-            job.setJobInstance(jobExecutionInfo.getJobInstance().getResource());
-        }
-        job.setResource(jobExecutionInfo.getResource());
-        job.setStartTime(jobExecutionInfo.getStartTime());
-        job.setStatus(jobExecutionInfo.getStatus());
+		if (job != null) {
+			job.setDuration(jobExecutionInfo.getDuration());
+			job.setExitCode(jobExecutionInfo.getExitCode());
+			job.setExitDescription(jobExecutionInfo.getExitDescription());
+			if (jobExecutionInfo.getJobInstance() != null) {
+				job.setJobInstance(jobExecutionInfo.getJobInstance()
+						.getResource());
+			}
+			job.setResource(jobExecutionInfo.getResource());
+			job.setStartTime(jobExecutionInfo.getStartTime());
+			job.setStatus(jobExecutionInfo.getStatus());
 
-        service.saveOrUpdate(job);
+			service.saveOrUpdate(job);
+		}
         logger.debug("Returning");
     }
 
