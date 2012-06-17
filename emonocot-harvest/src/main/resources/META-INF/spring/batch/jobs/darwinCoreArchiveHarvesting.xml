@@ -322,7 +322,7 @@
 	<bean id="taxonImportingProcessor" class="org.emonocot.job.dwc.taxon.TaxonImportingValidator" scope="step">
 	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
 	</bean>
-	
+
 	<bean id="taxonLineMapper"
 		class="org.springframework.batch.item.file.mapping.DefaultLineMapper"
 		scope="step">

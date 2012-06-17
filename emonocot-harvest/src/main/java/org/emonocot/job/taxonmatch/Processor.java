@@ -107,7 +107,9 @@ public class Processor implements ItemProcessor<Taxon, Result> {
                     result.setInternal(match.getInternal());
                 }
             }
-            if (exact > 1) {
+            if (exact == 1){
+            	result.setStatus(TaxonMatchStatus.SINGLE_MATCH);
+            } else if (exact > 1) {
                 result.setStatus(TaxonMatchStatus.MULTIPLE_MATCHES);
                 result.setInternal(internal);
             } else {
