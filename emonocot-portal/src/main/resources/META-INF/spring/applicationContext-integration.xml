@@ -30,6 +30,17 @@
     <bean id="mappingMessageConverter"
 		class="org.springframework.jms.support.converter.MappingJacksonMessageConverter">
 		<property name="objectMapper" ref="customObjectMapper"/>
+		<property name="typeIdPropertyName" value="javaType"/>
+		<property name="typeIdMappings">
+		  <map>
+		    <entry>
+		      <key>
+		        <value>JobLaunchRequest</value>
+		      </key>
+		      <value>org.emonocot.api.job.JobLaunchRequest</value>
+		    </entry>
+		  </map>
+		</property>
 	</bean>
 
 	<bean id="jobLaunchRequestsQueue" class="org.apache.activemq.command.ActiveMQQueue">
@@ -38,11 +49,6 @@
 
 	<bean id="jobLaunchResponsesQueue" class="org.apache.activemq.command.ActiveMQQueue">
 		<constructor-arg value="job.launch.responses" />
-	</bean>
-
-	<bean id="jobLaunchMessageConverter"
-		class="org.emonocot.portal.integration.JobLaunchMessageConverter" >
-		<property name="objectMapper" ref="customObjectMapper"/>
 	</bean>
 
    <jms:inbound-channel-adapter id="jobStatusNotificationAdapter"

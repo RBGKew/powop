@@ -17,7 +17,6 @@ import org.emonocot.api.ReferenceService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.UserService;
 import org.emonocot.api.job.JobExecutionInfo;
-import org.emonocot.api.job.JobLaunchResponse;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.RecordType;
@@ -449,16 +448,6 @@ public class JsonConversionTest {
         assertEquals("testIdentifier", aceDto.getObject());
         assertEquals("userIdentifier", aceDto.getPrincipal());
         assertEquals(BasePermission.CREATE, aceDto.getPermission());
-    }
-
-    /**
-    *
-    * @throws Exception
-    *             if there is a problem serializing the object
-    */
-    @Test
-    public final void testReadJobExecutionInfo() throws Exception {
-        JobLaunchResponse jobLaunchResponse = objectMapper.readValue("{\"jobExecution\" : {\"resource\" : \"http://localhost/emonocot-harvester/emonocot-harvester/jobs/executions/546.json;jsessionid=25785ED947E586BD40D06413AA04C82F\",\"id\" : \"546\",\"status\" : \"STARTED\", \"startTime\" : \"2012-03-29T13:29:50.000Z\", \"duration\" : \"1970-01-01T00:00:00.000Z\", \"exitCode\" : \"UNKNOWN\", \"exitDescription\" : \"\", \"jobInstance\" : { \"resource\" : \"http://localhost/emonocot-harvester/emonocot-harvester/jobs/ReIndex/538.json;jsessionid=25785ED947E586BD40D06413AA04C82F\" } } }", JobLaunchResponse.class);
     }
 
    /**

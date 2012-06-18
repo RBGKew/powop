@@ -1,16 +1,17 @@
 package org.emonocot.portal.integration;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import org.emonocot.api.job.JobExecutionException;
 import org.emonocot.api.job.JobLaunchRequest;
 import org.emonocot.api.job.JobLauncher;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.batch.core.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -57,7 +58,7 @@ public class PortalHarvesterIntegrationTest {
                     .launch(jobLaunchRequest);
             assertNotNull("jobExecutionInfo should not be null",
                     jobExecutionInfo);
-        } catch (Exception jobExecutionException) {
+        } catch (JobExecutionException jobExecutionException) {
             System.out.println(jobExecutionException.getMessage());
             fail("No exception expected here");
         }
@@ -68,24 +69,18 @@ public class PortalHarvesterIntegrationTest {
      *             if there is a problem launching the job
      *
      */
-    /*@Test
+    @Test
     public final void testLaunchJobUnsuccessfully()
             throws JobExecutionException {
         assertNotNull("jobLaunchRequestHandler should not be null", jobLauncher);
-        Job job = new SimpleJob("UnsuccessfulJob");
-        mockJobLauncher.setResponse(new JobExecutionException("Exception"));
-        JobLaunchRequest jobLaunchRequest = new JobLaunchRequest(job,
-                jobParameters);
-        boolean exceptionThrown = false;
+        JobLaunchRequest jobLaunchRequest = new JobLaunchRequest();
+        jobLaunchRequest.setJob("UnsuccessfulJob");
+        mockJobLauncher.setException(new JobExecutionException("Exception"));
+        mockJobLauncher.setExecution(null);
 
-        try {
-            Object jobExecutionInfo = jobLauncher
-                    .launch(jobLaunchRequest);
-            fail("Exception should have been thrown");
-        } catch (JobExecutionException jobExecutionException) {
-            System.out.println(jobExecutionException.getMessage());
-            exceptionThrown = true;
-        }
-        assertTrue("Expected an exception to be thrown", exceptionThrown);
-    }*/
+        jobLaunchRequest = jobLauncher.launch(jobLaunchRequest);
+            
+        assertNull("There should be no job execution", jobLaunchRequest.getExecution());
+        assertNotNull("Expected an exception to be thrown", jobLaunchRequest.getException());
+    }
 }

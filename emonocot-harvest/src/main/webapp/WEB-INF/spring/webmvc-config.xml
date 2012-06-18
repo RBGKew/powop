@@ -35,7 +35,6 @@
 
 	<bean id="cacheInterceptor" class="org.springframework.batch.admin.util.SimpleEhCacheInterceptor" />
     
-    <import resource="classpath*:/META-INF/spring/batch/bootstrap/manager/execution-context.xml" />
     <import resource="classpath*:/META-INF/spring/batch/servlet/manager/controller-context.xml"/>
     <!-- 
       Copied from spring-batch-admin-manager.jar/META-INF/spring/batch/servlet/manager/integration-context.xml

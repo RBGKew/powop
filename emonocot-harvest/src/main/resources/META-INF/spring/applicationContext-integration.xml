@@ -13,23 +13,56 @@
 	xmlns:util="http://www.springframework.org/schema/util">
 
 	<context:property-placeholder location="classpath*:META-INF/spring/*.properties" />
-	
-	<jms:message-driven-channel-adapter id="jobStatusNotificationAdapter"
-    connection-factory="connectionFactory"
-    destination="jmsBackendQueue"
-    extract-payload="false"
-    channel="jmsBackendChannel"/>
-	
+
+	<jms:inbound-gateway id="jobLaunchGateway"
+		request-channel="jobLaunchRequests" request-destination="jobLaunchRequestsQueue"
+		message-converter="mappingMessageConverter" connection-factory="connectionFactory" />
+
+	<bean id="mappingMessageConverter"
+		class="org.springframework.jms.support.converter.MappingJacksonMessageConverter">
+		<property name="objectMapper" ref="objectMapper" />
+		<property name="typeIdPropertyName" value="javaType" />
+		<property name="typeIdMappings">
+			<map>
+				<entry>
+					<key>
+						<value>JobLaunchRequest</value>
+					</key>
+					<value>org.emonocot.api.job.JobLaunchRequest</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="jobLaunchRequestsQueue" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg value="job.launch.requests" />
+	</bean>
+
+	<integration:channel id="jobLaunchRequests" />
+
+	<integration:service-activator
+		input-channel="jobLaunchRequests" ref="jobLauncherImpl" method="launch" />
+
+	<bean id="jobLauncherImpl" class="org.emonocot.harvest.integration.JobLauncherImpl">
+		<property name="jobLauncher" ref="jobLauncher" />
+		<property name="jobLocator" ref="jobRegistry" />
+		<property name="baseUrl" value="${harvester.baseUrl}" />
+	</bean>
+
+	<jms:message-driven-channel-adapter
+		id="jobStatusNotificationAdapter" connection-factory="connectionFactory"
+		destination="jmsBackendQueue" extract-payload="false" channel="jmsBackendChannel" />
+
 	<bean id="jmsBackendQueue" class="org.apache.activemq.command.ActiveMQQueue">
 		<constructor-arg value="${amq.queue.physical_name}" />
 	</bean>
-	
+
 	<integration:channel id="jmsBackendChannel" />
-	
+
 	<integration:service-activator
 		input-channel="jmsBackendChannel" ref="messageDrivenSearchController"
 		method="onMessage" />
-	
+
 	<bean id="messageDrivenSearchController"
 		class="org.emonocot.harvest.common.index.MessageDrivenSearchController">
 		<property name="sessionFactory" ref="sessionFactory" />
@@ -41,23 +74,20 @@
 		<integration:method name="notify" />
 	</integration:gateway>
 
-	<integration:channel id="jobStatusNotificationChannel" datatype="org.emonocot.api.job.JobExecutionInfo" />
-	
-	<integration:object-to-json-transformer
-		input-channel="jobStatusNotificationChannel"
-		output-channel="transformedJobStatusNotificationChannel"
-		object-mapper="objectMapper" />
-		
-   <integration:channel id="transformedJobStatusNotificationChannel"/>
+	<integration:channel id="jobStatusNotificationChannel"
+		datatype="org.emonocot.api.job.JobExecutionInfo" />
 
-	<jms:outbound-channel-adapter
-		id="jobStatusNotificationAdapter" 
-		extract-payload="true" 
-		channel="transformedJobStatusNotificationChannel"
-		connection-factory="connectionFactory"
-        destination="jobStatusQueue" />
-        
-    <bean id="jobStatusQueue" class="org.apache.activemq.command.ActiveMQQueue">
+	<integration:object-to-json-transformer
+		input-channel="jobStatusNotificationChannel" output-channel="transformedJobStatusNotificationChannel"
+		object-mapper="objectMapper" />
+
+	<integration:channel id="transformedJobStatusNotificationChannel" />
+
+	<jms:outbound-channel-adapter id="jobStatusNotificationAdapter"
+		extract-payload="true" channel="transformedJobStatusNotificationChannel"
+		connection-factory="connectionFactory" destination="jobStatusQueue" />
+
+	<bean id="jobStatusQueue" class="org.apache.activemq.command.ActiveMQQueue">
 		<constructor-arg value="job.status.notifications" />
 	</bean>
 

@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.emonocot.api.JobService;
 import org.emonocot.api.SourceService;
+import org.emonocot.api.job.JobExecutionException;
 import org.emonocot.api.job.JobExecutionInfo;
 import org.emonocot.api.job.JobLaunchRequest;
 import org.emonocot.api.job.JobLauncher;
@@ -19,7 +20,6 @@ import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.BatchStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
@@ -291,8 +291,12 @@ public class AdminSourceJobController {
         jobLaunchRequest.setParameters(jobParametersMap);
         
         try {
-        	JobExecutionInfo jobExecutionInfo = jobLauncher
+        	jobLaunchRequest = jobLauncher
                     .launch(jobLaunchRequest);
+        	JobExecutionInfo jobExecutionInfo = jobLaunchRequest.getExecution();
+        	if(jobExecutionInfo == null) {
+        		throw jobLaunchRequest.getException();
+        	}
             job.setStartTime(jobExecutionInfo.getStartTime());
             job.setDuration(jobExecutionInfo.getDuration());
             job.setExitCode(jobExecutionInfo.getExitCode());
@@ -311,13 +315,13 @@ public class AdminSourceJobController {
             DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
                     codes, args);
             session.setAttribute("info", message);
-        } catch (Exception e) {
-            String[] codes = new String[] {"job.failed" };
+        } catch (JobExecutionException e) {
+        	String[] codes = new String[] {"job.failed" };
             Object[] args = new Object[] {e.getMessage() };
             DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
                     codes, args);
             session.setAttribute("error", message);
-        }
+		}
         return "redirect:/admin/source/" + identifier + "/job/"
                 + job.getIdentifier();
     }

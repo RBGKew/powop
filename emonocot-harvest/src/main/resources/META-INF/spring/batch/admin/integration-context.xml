@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:integration="http://www.springframework.org/schema/integration"
-	xmlns:http="http://www.springframework.org/schema/integration/http"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:integration="http://www.springframework.org/schema/integration" xmlns:http="http://www.springframework.org/schema/integration/http"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-	                    http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
-	                    http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd">
-<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+                                 http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
+                                 http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
+
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 
 	<bean id="reload-job-executions" class="org.springframework.web.servlet.view.RedirectView">
 		<property name="url" value="#{resourceService.servletPath}/jobs/executions" />
@@ -14,21 +13,12 @@
 	</bean>
 
 	<integration:channel id="job-info" />
-	<integration:channel id="job-info-json" />
-	
-	<integration:transformer input-channel="job-operator" output-channel="job-info" ref="jobExecutionToInfoAdapter" method="adapt"/>
-	
-	<bean name="jobExecutionToInfoAdapter" class="org.emonocot.harvest.integration.JobExecutionToInfoAdapter" >
-	  <property name="baseUrl" value="${harvester.baseUrl}"/>
-	</bean>
-	
-	<integration:object-to-json-transformer
-		input-channel="job-info" output-channel="job-info-json"
-		object-mapper="objectMapper" />
 
-	<http:inbound-gateway name="/job-requests.json"
-	request-channel="job-launches" reply-channel="job-info-json" extract-reply-payload="true"
-	supported-methods="POST" />
+	<integration:transformer input-channel="job-operator" output-channel="job-info">
+		<bean class="org.springframework.batch.admin.integration.JobExecutionToInfoAdapter" />
+	</integration:transformer>
+
+	<http:inbound-gateway name="/job-requests.json" request-channel="job-launches" reply-channel="job-info" />
 
 	<http:inbound-gateway name="/job-restarts.json" request-channel="job-restarts" reply-channel="job-info"
 		view-name="jobs/execution" reply-key="jobExecutionInfo" />

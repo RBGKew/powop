@@ -1308,6 +1308,53 @@
             </build>
         </profile>
         <profile>
+          <id>harvest.uat.vagrant</id>
+          <properties>
+            <webAppRootKey>harvester</webAppRootKey>
+            <portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
+            <portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
+            <portal.job.notification.uri>http://localhost/emonocot-portal/job-notifications</portal.job.notification.uri>
+            <amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
+            <amq.broker.name>messageBroker</amq.broker.name>
+            <amq.connectionFactory.jndi_name>jms/ConnectionFactory</amq.connectionFactory.jndi_name>
+            <amq.queue.jndi_name>queue/eMonocotLuceneQueue</amq.queue.jndi_name>
+            <amq.queue.physical_name>eMonocotLuceneQueue</amq.queue.physical_name>
+            <harvester.baseUrl>http://localhost:8888/emonocot-harvester</harvester.baseUrl>  
+            <harvester.services.client.identifier>zoo.ox.ac.uk</harvester.services.client.identifier>
+            <harvester.admin.password>adm1n</harvester.admin.password>
+            <harvester.image.directory>/var/lib/emonocot/images/fullsize</harvester.image.directory>
+            <harvester.thumbnail.directory>/var/lib/emonocot/images/thumbnails</harvester.thumbnail.directory>
+            <harvester.imagemagick.path>/usr/bin</harvester.imagemagick.path>
+            <harvester.spool.directory>/var/spool/emonocot</harvester.spool.directory>
+            <batch.job.configuration.file.dir>file:/var/cache/tomcat/temp/emonocot/</batch.job.configuration.file.dir>
+            <cargo.containerId>tomcat7x</cargo.containerId>
+            <cargo.tomcat.manager.url>http://localhost:8888/manager/text</cargo.tomcat.manager.url>
+	        <cargo.remote.username>admin</cargo.remote.username>
+	        <cargo.remote.password>tomcat</cargo.remote.password>
+            <cargo.context.path>emonocot-harvester</cargo.context.path>
+            <cargo.context.docBase>emonocot-harvester</cargo.context.docBase>
+            <http.proxyHost></http.proxyHost>
+            <http.proxyPort></http.proxyPort>
+            <logging.level>WARN</logging.level>
+            <logging.method>file</logging.method>
+            <logging.location>/var/log/tomcat/emonocot-harvester.log</logging.location>
+            <liquibase.changelog>../emonocot-persistence/src/main/resources/changelog.mysql.xml</liquibase.changelog>
+            <liquibase.url>jdbc:mysql://localhost:3336/emonocot</liquibase.url>
+            <liquibase.drop.database.first>false</liquibase.drop.database.first>
+            <hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
+            <hibernate.search.default.indexBase>/var/cache/tomcat/work/emonocot-harvester</hibernate.search.default.indexBase>
+            <hibernate.search.default.sourceBase>/mnt/master_index</hibernate.search.default.sourceBase>
+            <hibernate.search.default.directory_provider>filesystem-master</hibernate.search.default.directory_provider>
+            <hibernate.search.default.refresh>60</hibernate.search.default.refresh>
+            <hibernate.search.worker.backend>jms</hibernate.search.worker.backend>
+            <hibernate.search.purge.indexes.on.init>false</hibernate.search.purge.indexes.on.init>
+            <jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
+            <jdbc.driver.url>jdbc:mysql://localhost:3306/emonocot</jdbc.driver.url>
+            <jdbc.driver.username>emonocot-user</jdbc.driver.username>
+            <jdbc.driver.password>eM0n0c0t</jdbc.driver.password>  
+          </properties>
+        </profile>
+        <profile>
           <id>portal.uat.vagrant</id>
           <properties>
             <portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
