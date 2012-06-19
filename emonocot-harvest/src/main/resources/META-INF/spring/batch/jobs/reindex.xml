@@ -42,8 +42,6 @@
 		<property name="targetMethod" value="clearRegions" />		
 	</bean>
     
-    <bean id="distributionBridge" class="org.emonocot.model.hibernate.DistributionBridge"/>
-    
     <bean id="itemIndexer"
       class="org.emonocot.harvest.common.index.HibernateSearchIndexingWriter" scope="step">
       <property name="queryString" value="#{jobParameters['query.string']}" />

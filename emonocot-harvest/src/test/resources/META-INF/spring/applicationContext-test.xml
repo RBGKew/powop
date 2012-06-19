@@ -98,6 +98,10 @@
 	<bean id="imageMetadataProcessor" class="org.emonocot.harvest.media.ImageMetadataExtractor">
 	  <property name="imageDirectory" value="${harvester.image.directory}"/>
 	</bean>	
+	
+	<bean id="distributionBridge" class="org.emonocot.model.hibernate.DistributionBridge">
+	  <property name="skipInit" value="true"/>
+	</bean>
 	     
 	<beans profile="default">
 	    <bean id="getResourceClient" class="org.emonocot.ws.GetResourceClient"/>

@@ -267,6 +267,4 @@
 		<property name="targetObject" ref="distributionBridge"/>
 		<property name="targetMethod" value="clearRegions" />		
 	</bean>
-    
-    <bean id="distributionBridge" class="org.emonocot.model.hibernate.DistributionBridge"/>
 </beans>

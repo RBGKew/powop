@@ -159,6 +159,8 @@
 		
 	<bean name="objectMapper" class="org.emonocot.model.marshall.json.CustomObjectMapperFactory"/>
 	
+	<bean id="distributionBridge" class="org.emonocot.model.hibernate.DistributionBridge"/>
+	
 	<beans profile="default">
 	  <bean id="getResourceClient" class="org.emonocot.ws.GetResourceClient"/>
 	  <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory"/>

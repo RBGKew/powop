@@ -33,11 +33,21 @@ public class DistributionBridge implements FieldBridge {
      *
      */
     public static SpatialContext SPATIAL_CONTEXT = new JtsSpatialContext();
+    
+    private boolean skipInit = false;
 
     /**
      *
      */
     public static int LEVELS = 8;
+    
+    /**
+     *
+     * @param skipInit Skip initialisation
+     */
+    public void setSkipInit(boolean skipInit) {
+    	this.skipInit = skipInit;
+    }
 
     /**
      *
@@ -60,37 +70,45 @@ public class DistributionBridge implements FieldBridge {
      *
      * @throws IOException
      */
-    public final void setupRegions() throws IOException {
-        InputStream level1Stream = DistributionBridge.class.getClassLoader()
-        .getResourceAsStream("org/emonocot/model/level1.txt");
-        SimplifyingDataReader level1DataReader = new SimplifyingDataReader(level1Stream);
-        while (level1DataReader.hasNext()) {
-            SimplifiedData data = level1DataReader.next();
-            Continent continent = Continent.fromString(data.getId());
-            continent.setShape(data.getShape());
-        }
-        level1Stream.close();
+	public final void setupRegions() throws IOException {
+		if (!skipInit) {
+			InputStream level1Stream = DistributionBridge.class
+					.getClassLoader().getResourceAsStream(
+							"org/emonocot/model/level1.txt");
+			SimplifyingDataReader level1DataReader = new SimplifyingDataReader(
+					level1Stream);
+			while (level1DataReader.hasNext()) {
+				SimplifiedData data = level1DataReader.next();
+				Continent continent = Continent.fromString(data.getId());
+				continent.setShape(data.getShape());
+			}
+			level1Stream.close();
 
-        InputStream level2Stream = DistributionBridge.class.getClassLoader()
-            .getResourceAsStream("org/emonocot/model/level2.txt");
-        SimplifyingDataReader  level2DataReader = new SimplifyingDataReader (level2Stream);
-        while (level2DataReader.hasNext()) {
-            SimplifiedData data = level2DataReader.next();
-            Region region = Region.fromString(data.getId());
-            region.setShape(data.getShape());
-        }
-        level2Stream.close();
+			InputStream level2Stream = DistributionBridge.class
+					.getClassLoader().getResourceAsStream(
+							"org/emonocot/model/level2.txt");
+			SimplifyingDataReader level2DataReader = new SimplifyingDataReader(
+					level2Stream);
+			while (level2DataReader.hasNext()) {
+				SimplifiedData data = level2DataReader.next();
+				Region region = Region.fromString(data.getId());
+				region.setShape(data.getShape());
+			}
+			level2Stream.close();
 
-        InputStream level3Stream = DistributionBridge.class.getClassLoader()
-            .getResourceAsStream("org/emonocot/model/level3.txt");
-        SimplifyingDataReader  level3DataReader = new SimplifyingDataReader (level3Stream);
-        while (level3DataReader.hasNext()) {
-            SimplifiedData data = level3DataReader.next();
-            Country country = Country.fromString(data.getId());
-            country.setShape(data.getShape());
-        }
-        level3Stream.close();
-    }
+			InputStream level3Stream = DistributionBridge.class
+					.getClassLoader().getResourceAsStream(
+							"org/emonocot/model/level3.txt");
+			SimplifyingDataReader level3DataReader = new SimplifyingDataReader(
+					level3Stream);
+			while (level3DataReader.hasNext()) {
+				SimplifiedData data = level3DataReader.next();
+				Country country = Country.fromString(data.getId());
+				country.setShape(data.getShape());
+			}
+			level3Stream.close();
+		}
+	}
 
     /**
     *
