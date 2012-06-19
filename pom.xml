@@ -1240,6 +1240,7 @@
                                     <goal>test</goal>
                                 </goals>
                                 <configuration>
+                                    <argLine>-Xmx1024m</argLine>
                                     <skip>false</skip>
                                     <includes>
                                         <include>**/*IntegrationTest.java</include>
