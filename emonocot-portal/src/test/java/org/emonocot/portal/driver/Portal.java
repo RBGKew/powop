@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 import org.emonocot.portal.driver.source.JobDetails;
+import org.emonocot.portal.driver.source.JobList;
 import org.emonocot.test.TestDataManager;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
@@ -176,6 +177,16 @@ public class Portal extends PageObject {
     public final PageObject getGroupPage(final String groupName) {
         return openAs(getBaseUri() + "group/" + groupName, org.emonocot.portal.driver.group.Show.class);
     }
+    
+    /**
+    *
+    * @param source Set the source
+    * @param job Set the job
+    * @return a source job page
+    */
+   public final JobList getSourceJobsPage(final String source) {
+       return openAs(getBaseUri() + "source/" + source + "/job", JobList.class);
+   }
 
     /**
      *

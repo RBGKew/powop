@@ -152,7 +152,7 @@
 			access="hasRole('PERMISSION_CREATE_SOURCE')" />
 		<sec:intercept-url pattern="/source/*" method="DELETE"
 			access="hasRole('PERMISSION_DELETE_SOURCE')" />
-		<sec:intercept-url pattern="/admin/source/*"
+		<sec:intercept-url pattern="/source/*/job*"
 			access="hasRole('PERMISSION_VIEW_SOURCE')" />
 		<sec:intercept-url pattern="/jobExecution" method="POST"
 			access="hasRole('PERMISSION_CREATE_JOBEXECUTION')" />

@@ -790,6 +790,19 @@ public class StepDefinitions {
             currentPage = rle.getLoginPage();
         }
     }
+    
+    /**
+     * @param source
+     *            Set the source identifier
+     */
+    @When("^I navigate to the job list page for source \"([^\"]*)\"$")
+    public final void navigateToSourceJobListPage(final String source) {
+        try {
+            currentPage = portal.getSourceJobsPage(source);
+        } catch (RequiresLoginException rle) {
+            currentPage = rle.getLoginPage();
+        }
+    }
 
     /**
      * @param job
