@@ -5,6 +5,7 @@ import org.emonocot.api.job.JobInstanceInfo;
 import org.emonocot.api.job.JobStatusNotifier;
 import org.joda.time.DateTime;
 import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.listener.JobExecutionListenerSupport;
 
 /**
@@ -65,6 +66,23 @@ public class JobStatusListener extends JobExecutionListenerSupport {
         jobExecutionInfo.setResource(baseUrl + "/jobs/executions/"
                 + jobExecution.getJobInstance().getId() + ".json");
         jobExecutionInfo.setStatus(jobExecution.getStatus());
+        Integer read = 0;
+        Integer readSkip = 0;
+        Integer processSkip = 0;
+        Integer write = 0;
+        Integer writeSkip = 0;
+        for(StepExecution stepExecution : jobExecution.getStepExecutions()) {
+        	read += stepExecution.getReadCount();
+        	readSkip += stepExecution.getReadSkipCount();
+        	processSkip += stepExecution.getProcessSkipCount();
+        	write += stepExecution.getWriteCount();
+        	writeSkip += stepExecution.getWriteSkipCount();
+        }
+        jobExecutionInfo.setRecordsRead(read);
+        jobExecutionInfo.setReadSkip(readSkip);
+        jobExecutionInfo.setProcessSkip(processSkip);
+        jobExecutionInfo.setWriteSkip(writeSkip);
+        jobExecutionInfo.setWritten(write);
         jobStatusNotifier.notify(jobExecutionInfo);
     }
 

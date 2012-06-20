@@ -30,82 +30,97 @@
 		</security:authorize>
 		<div class="row">
 			<div class="span12">
-				<table class="table">
-					<tbody>
-						<tr><th><spring:message code="availableAt" /></th><td><a href="${source.uri}" id="source-uri">${source.uri}</a></td></tr>
-						<tr><th><spring:message code="source.creator" /></th><td>${source.creator}</td></tr>
-						<tr><th><spring:message code="source.creatorEmail" /></th><td><a href="mailto:${source.creatorEmail}">${source.creatorEmail}</a></td></tr>
-						<tr><th><spring:message code="source.created" /></th><td><joda:format value="${source.created}" style="SS" /></td></tr>
-						<tr><th><spring:message code="source.description" /></th><td>${source.description}</td></tr>
-						<tr><th><spring:message code="source.publisherName" /></th><td>${source.publisherName}</td></tr>
-						<tr><th><spring:message code="source.publisherEmail" /></th><td><a href="mailto:${source.publisherEmail}">${source.publisherEmail}</a></td></tr>
-						<tr><th><spring:message code="source.subject" /></th>
-							<td>
-								<c:if test="${not empty source.subject}">
-									<c:forEach var="subject" items="${em:split(source.subject,';')}" varStatus="status">
-										<c:choose>
-											<c:when test="${status.last}">
-												<span class="label">${subject}</span>
-											</c:when>
-											<c:otherwise>
-												<span class="label">${subject}</span>&#160;
-											</c:otherwise>
-										</c:choose>
-									</c:forEach>
-								</c:if>
-							</td>
-						</tr>
-						<tr><th><spring:message code="source.source" /></th><td>${source.source}</td></tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-
-		<security:authorize access="hasRole('PERMISSION_ADMINISTRATE') or hasPermission(#source, 'READ')">
-			<div class="row">
-				<div class="span12">
-					<h3><spring:message code="recent.jobs"/></h3>
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th>
-									<spring:message code="jobExecution.id"/>
-								</th>
-								<th>
-									<spring:message code="jobExecution.startTime"/>
-								</th>
-								<th>
-									<spring:message code="jobExecution.duration"/>
-								</th>
-								<th>
-									<spring:message code="jobExecution.status"/>
-								</th>
-								<th>
-									<spring:message code="jobExecution.exitStatus.exitCode"/>
-								</th>
-								<th>
-									<spring:message code="jobExecution.exitStatus.exitDescription"/>
-								</th>
-							</tr>
-						</thead>
-						<tbody id="jobs">
-							<c:forEach var="jobExecution" items="${jobExecutions}">
-								<tr>
-									<td>
-										<spring:url var="jobUrl" value="/source/${source.identifier}/job/${jobExecution.id}"/>
-										<a href="${jobUrl}">${jobExecution.id}</a>
-									</td>
-									<td>${em:formatDate(jobExecution.startTime)}</td>
-									<td>${em:formatPeriod(jobExecution.startTime,jobExecution.endTime)}</td>
-									<td>${jobExecution.status}</td>
-									<td>${jobExecution.exitStatus.exitCode}</td>
-									<td>${jobExecution.exitStatus.exitDescription}</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</security:authorize>
+		<table class="table">
+	      <tbody>
+	        <tr><th><spring:message code="availableAt" /></th><td><a href="${source.uri}" id="source-uri">${source.uri}</a></td></tr>
+	        <tr><th><spring:message code="source.creator" /></th><td>${source.creator}</td></tr>
+	        <tr><th><spring:message code="source.creatorEmail" /></th><td><a href="mailto:${source.creatorEmail}">${source.creatorEmail}</a></td></tr>
+	        <tr><th><spring:message code="source.created" /></th><td><joda:format value="${source.created}" style="SS" /></td></tr>
+	        <tr><th><spring:message code="source.description" /></th><td>${source.description}</td></tr>
+	        <tr><th><spring:message code="source.publisherName" /></th><td>${source.publisherName}</td></tr>
+	        <tr><th><spring:message code="source.publisherEmail" /></th><td><a href="mailto:${source.publisherEmail}">${source.publisherEmail}</a></td></tr>
+	        <tr><th><spring:message code="source.subject" /></th><td><c:if test="${not empty source.subject}">
+		          <c:forEach var="subject" items="${em:split(source.subject,';')}" varStatus="status">
+		            <c:choose>
+		              <c:when test="${status.last}">
+		                <span class="label">${subject}</span>
+		              </c:when>
+		              <c:otherwise>
+		                <span class="label">${subject}</span>&#160;
+		              </c:otherwise>
+		            </c:choose>		          
+		          </c:forEach>
+		        </c:if></td></tr>
+		        <tr><th><spring:message code="source.source" /></th><td>${source.source}</td></tr>        
+	      </tbody>
+	    </table>
+	  </div>
+	</div>
+	<security:authorize access="hasRole('PERMISSION_ADMINISTRATE') or hasPermission(#source, 'READ')">
+	<div class="row">
+      <div class="span12">
+        <h2><spring:message code="jobs.title"/></h2>
+        <security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">
+        	<c:url var="createUrl" value="/source/${source.identifier}/job">
+          		<c:param name="form" value="true"/>
+        	</c:url>
+        	<p><a href="${createUrl}"><spring:message code="create.job"/></a></p>
+        </security:authorize>
+        <table class="table">
+          <thead>
+            <tr>
+              <th><spring:message code="job.identifier"/></th>
+              <th><spring:message code="job.jobType"/></th>
+              <th><spring:message code="job.status"/></th>
+              <th><spring:message code="job.startTime"/></th>
+              <th><spring:message code="job.exitCode"/></th>
+              <th><spring:message code="job.totalRecords"/></th>
+              <th><spring:message code="job.recordsRead"/></th>
+              <th><spring:message code="job.processed"/></th>
+              <th><spring:message code="job.written"/></th>
+              <th><spring:message code="job.output"/></th>
+            </tr>
+          </thead>
+          <tbody id="jobs">
+	      <c:forEach var="job" items="${jobs}">
+		    <tr>		      
+		      <td>
+		        <spring:url var="jobUrl" value="/source/${source.identifier}/job/${job.identifier}"/>
+		        <a href="${jobUrl}">${job.identifier}</a>
+		      </td>	
+		      <td>${job.jobType}</td>
+		      <td>${job.status}</td>
+		      <td><joda:format value="${job.startTime}" style="MM" /></td>
+		      <td>${job.exitCode}</td>
+		      <c:choose>
+		        <c:when test="${job.jobId ne null}">
+		          <td>${job.recordsRead + job.readSkip}</td>
+		          <td>${job.recordsRead}</td>
+		          <td>${job.recordsRead - job.processSkip}</td>
+		          <td>${job.written}</td>
+		          <td>
+		            <c:if test="${job.written gt 0}">
+					  <spring:url var="jobUrl" value="/source/${source.identifier}/job/${job.jobId}">
+					    <spring:param name="output" value="true"/>
+					  </spring:url>
+					  <a href="${jobUrl}"><spring:message code="see.report"/></a>
+					</c:if>
+				  </td>
+		        </c:when>
+		        <c:otherwise>
+		          <td></td>
+		          <td></td>
+		          <td></td>
+		          <td></td>
+		          <td></td>
+		        </c:otherwise>
+		      </c:choose>	    
+		    </tr>
+	      </c:forEach>
+	      </tbody>
+	    </table>
+      </div>
+    </div>
+    </security:authorize>
 	</div>
 </div>

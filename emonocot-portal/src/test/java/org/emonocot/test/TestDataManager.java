@@ -853,9 +853,17 @@ public class TestDataManager {
      *            Set the type
      * @param source
      *            Set the source
+     * @param read Set the records read
+     * @param readSkips Set the read skips
+     * @param processSkips Set the process skips
+     * @param writeSkips Set the write skips
+     * @param written Set the records written
+     * @param jobId Set the jobId
      */
-    public final void createJob(final String identifier, final String family,
-            final String type, final String source) {
+	public final void createJob(final String identifier, final String family,
+			final String type, final String source, final String read,
+			final String readSkips, final String processSkips,
+			final String writeSkips, final String written, String jobId) {
         enableAuthentication();
         Job job = new Job();
         data.push(job);
@@ -869,6 +877,26 @@ public class TestDataManager {
             s.setIdentifier(source);
             job.setSource(s);
         }
+        if(read != null && read.trim().length() > 0) {
+            job.setRecordsRead(Integer.parseInt(read));
+        }
+        if(readSkips != null && readSkips.trim().length() > 0) {
+            job.setReadSkip(Integer.parseInt(readSkips));
+        }
+        if(processSkips != null && processSkips.trim().length() > 0) {
+            job.setProcessSkip(Integer.parseInt(processSkips));
+        }
+        if(writeSkips != null && writeSkips.trim().length() > 0) {
+            job.setWriteSkip(Integer.parseInt(writeSkips));
+        }
+        if(written != null && written.trim().length() > 0) {
+            job.setWritten(Integer.parseInt(written));
+        }
+        
+        if(jobId != null && jobId.trim().length() > 0) {
+            job.setJobId(Long.parseLong(jobId));
+        }
+
 
         jobService.save(job);
         disableAuthentication();

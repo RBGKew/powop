@@ -55,6 +55,11 @@ public class JobStatusNotifierImpl implements JobStatusNotifier {
 			job.setResource(jobExecutionInfo.getResource());
 			job.setStartTime(jobExecutionInfo.getStartTime());
 			job.setStatus(jobExecutionInfo.getStatus());
+			job.setProcessSkip(jobExecutionInfo.getProcessSkip());
+			job.setRecordsRead(jobExecutionInfo.getRecordsRead());
+			job.setReadSkip(jobExecutionInfo.getReadSkip());
+			job.setWriteSkip(jobExecutionInfo.getWriteSkip());
+			job.setWritten(jobExecutionInfo.getWritten());
 
 			service.saveOrUpdate(job);
 		}

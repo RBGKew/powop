@@ -17,9 +17,12 @@ Background:
   | principal | principalType | object | objectType | permission |
   | test      | group         | test   | Source     | READ       |
   And there are users with the following properties:
-  | identifier          | password       | group1   |
-  | test@example.com    | Poa annua      | test     |
-  | admin@e-monocot.org | Nardus stricta | test     |
+  | identifier          | password       | group1         |
+  | test@example.com    | Poa annua      | test           |
+  | admin@e-monocot.org | Nardus stricta | administrators |
+  And there are jobs with the following properties:
+  | identifier | family    | jobType | source | recordsRead | readSkip | processSkip | writeSkip | written | jobId |
+  | Test Job   | Testaceae | OAI_PMH | test   | 4           | 2        | 0           | 0         | 2       | 1     |
   And there are job instances with the following properties:
   | jobId | jobName | authorityName | version |
   | 1     | testJob | test          | 1       |
@@ -72,7 +75,8 @@ Scenario: Create Source
   to register new source systems so that they can be harvested and their
   content made available in the emonocot portal
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=44
-  When I am on the source admin page
+  Given I am logged in as "admin@e-monocot.org" with the password "Nardus stricta"
+  When I am on the source list page
   And I select "Create a new source"
   And I enter the following data into the create source form:
   | identifier | title | uri | logoUrl |
@@ -104,13 +108,13 @@ Scenario: Create Job
   jobs for a given source, so that data from that source can be harvested.
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=240
   Given I am logged in as "admin@e-monocot.org" with the password "Nardus stricta"
-  And I am on the source admin page for "test"
+  And I navigate to source page "test"
   And I select "Create a new job"
   And I enter the following data in the job form:
   | identifier | family    | uri                                  | jobType     |
   | New Job    | Testaceae | http://www.testaceae.org/archive.zip | DwC_Archive |
   And I submit the create job form
   Then an info message should say "New Job was created"
-  When I am on the source admin page for "test"
-  Then there should be 1 job
+  When I navigate to source page "test"
+  Then there should be 2 jobs listed
   

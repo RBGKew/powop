@@ -9,16 +9,12 @@
     <put-attribute name="pageTitle" value="${source.title}" cascade="true"/>
     <put-attribute name="body" value="/WEB-INF/views/source/update.jspx" />
   </definition>
-  <definition name="source/job" extends="default">    
-    <put-attribute name="pageTitle" value="${source.title}" cascade="true"/>
-    <put-attribute name="body" value="/WEB-INF/views/source/job.jspx" />
+  <definition name="source/list" extends="default">
+    <put-attribute name="pageTitle" value="sources.title" cascade="true"/>    
+    <put-attribute name="body" value="/WEB-INF/views/source/list.jspx" />
   </definition>
-  <definition name="source/jobDetails" extends="default">    
-    <put-attribute name="pageTitle" value="${source.title}" cascade="true"/>
-    <put-attribute name="body" value="/WEB-INF/views/source/jobDetails.jspx" />
+  <definition name="source/create" extends="default">
+    <put-attribute name="pageTitle" value="create.source" cascade="true"/>    
+    <put-attribute name="body" value="/WEB-INF/views/source/create.jspx" />
   </definition>
-  <definition name="source/jobAnnotations" extends="default">    
-    <put-attribute name="pageTitle" value="${source.title}" cascade="true"/>
-    <put-attribute name="body" value="/WEB-INF/views/source/jobAnnotations.jspx" />
-  </definition>  
 </tiles-definitions>

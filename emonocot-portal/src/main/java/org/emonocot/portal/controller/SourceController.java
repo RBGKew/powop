@@ -1,5 +1,6 @@
 package org.emonocot.portal.controller;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,13 +10,21 @@ import javax.validation.Valid;
 
 import org.emonocot.api.AnnotationService;
 import org.emonocot.api.FacetName;
+import org.emonocot.api.JobService;
 import org.emonocot.api.SourceService;
+import org.emonocot.api.job.JobExecutionException;
+import org.emonocot.api.job.JobExecutionInfo;
+import org.emonocot.api.job.JobLaunchRequest;
+import org.emonocot.api.job.JobLauncher;
 import org.emonocot.model.common.Annotation;
+import org.emonocot.model.job.Job;
+import org.emonocot.model.job.JobType;
 import org.emonocot.model.pager.Page;
 import org.emonocot.model.source.Source;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
 import org.emonocot.service.JobDataService;
-import org.springframework.batch.core.JobExecution;
+import org.joda.time.DateTime;
+import org.joda.time.base.BaseDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
@@ -27,212 +36,588 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- *
+ * 
  * @author ben
- *
+ * 
  */
 @Controller
 @RequestMapping("/source")
 public class SourceController extends GenericController<Source, SourceService> {
 
-    /**
+	/**
+	 * 1288569600 in unix time.
+	 */
+	private static final BaseDateTime PAST_DATETIME = new DateTime(2010, 11, 1,
+			9, 0, 0, 0);
+
+	/**
      *
      */
-    public SourceController() {
-        super("source");
-    }
+	public SourceController() {
+		super("source");
+	}
 
-    /**
-     *
-     */
-    private JobDataService jobDataService;
-
-    /**
+	/**
     *
     */
-    private AnnotationService annotationService;
+	private JobService jobService;
 
-    /**
-     *
-     * @param sourceService
-     *            Set the source service
-     */
-    @Autowired
-    public final void setSourceService(final SourceService sourceService) {
-        super.setService(sourceService);
-    }
+	/**
+    *
+    */
+	private JobLauncher jobLauncher;
 
-    /**
-     * @param newAnnotationService
-     *            Set the annotation service
-     */
-    @Autowired
-    public final void setAnnotationService(
-            final AnnotationService newAnnotationService) {
-        this.annotationService = newAnnotationService;
-    }
+	/**
+    *
+    */
+	private JobDataService jobDataService;
 
-    /**
-     *
-     * @param newJobDataService
-     *            Set the job service
-     */
-    @Autowired
-    public final void setJobDataService(final JobDataService newJobDataService) {
-        this.jobDataService = newJobDataService;
-    }
+	/**
+   *
+   */
+	private AnnotationService annotationService;
 
-    /**
-     * @param identifier
-     *            Set the identifier of the source
-     * @param limit
-     *            Set the maximum number of results
-     * @param start
-     *            Set the offset
-     * @param model
-     *            Set the model
-     * @return the view name
-     */
-    @RequestMapping(value = "/{identifier}", method = RequestMethod.GET, params = "!form")
-    public final String show(
-            @PathVariable final String identifier,
-            @RequestParam(value = "limit", required = false, defaultValue = "10") final Integer limit,
-            @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
-            final Model model) {
-        model.addAttribute(getService().find(identifier));
-        List<JobExecution> jobExecutions = jobDataService.listJobExecutions(
-                identifier, limit, start);
-        model.addAttribute("jobExecutions", jobExecutions);
-        return "source/show";
-    }
+	/**
+	 * 
+	 * @param newJobService
+	 *            Set the source service
+	 */
+	@Autowired
+	public final void setJobService(final JobService newJobService) {
+		this.jobService = newJobService;
+	}
 
-    /**
-     *
-     * @param model
-     *            Set the model
-     * @param identifier
-     *            Set the identifier
-     * @return the name of the view
-     */
-    @RequestMapping(value = "/{identifier}", method = RequestMethod.GET, params = "form")
-    public final String update(@PathVariable final String identifier,
-            final Model model) {
-        model.addAttribute(getService().load(identifier));
-        return "source/update";
-    }
+	/**
+	 * 
+	 * @param sourceService
+	 *            Set the source service
+	 */
+	@Autowired
+	public final void setSourceService(final SourceService sourceService) {
+		super.setService(sourceService);
+	}
+	
+	/**
+    *
+    * @param newJobLauncher
+    *            Set the job launcher
+    */
+   @Autowired
+   public final void setJobLauncher(final JobLauncher newJobLauncher) {
+       this.jobLauncher = newJobLauncher;
+   }
+   
+   /**
+    * @param newAnnotationService
+    *            Set the annotation service
+    */
+   @Autowired
+   public final void setAnnotationService(
+           final AnnotationService newAnnotationService) {
+       this.annotationService = newAnnotationService;
+   }
 
-    /**
-     * @param identifier
-     *            Set the identifier
-     * @param session
-     *            Set the session
-     * @param source
-     *            Set the source
-     * @param result
-     *            Set the binding results
-     * @return the model name
-     */
-    @RequestMapping(value = "/{identifier}", method = RequestMethod.POST, headers = "Accept=text/html")
-    public final String post(@PathVariable("identifier") final String identifier,
-            @Valid final Source source, final BindingResult result,
-            final HttpSession session) {
-        if (result.hasErrors()) {
-            return "source/update";
-        }
-        Source persistedSource = getService().load(identifier);
-        persistedSource.setTitle(source.getTitle());
-        persistedSource.setUri(source.getUri());
-        persistedSource.setCreator(source.getCreator());
-        persistedSource.setCreatorEmail(source.getCreatorEmail());
-        persistedSource.setCreated(source.getCreated());
-        persistedSource.setDescription(source.getDescription());
-        persistedSource.setPublisherName(source.getPublisherName());
-        persistedSource.setPublisherEmail(source.getPublisherEmail());
-        persistedSource.setSubject(source.getSubject());
-        persistedSource.setSource(source.getSource());
-        persistedSource.setLogoUrl(source.getLogoUrl());
-        getService().saveOrUpdate(persistedSource);
-        String[] codes = new String[] {"source.updated" };
-        Object[] args = new Object[] {source.getTitle() };
-        DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
-                codes, args);
-        session.setAttribute("info", message);
-        return "redirect:/source/" + identifier + "?form=true";
-    }
+   /**
+    *
+    * @param newJobDataService
+    *            Set the job service
+    */
+   @Autowired
+   public final void setJobDataService(final JobDataService newJobDataService) {
+       this.jobDataService = newJobDataService;
+   }
 
-    /**
-     * @param identifier
-     *            Set the identifier of the source
-     * @param jobId
-     *            set the job Id
-     * @param model
-     *            Set the model
-     * @return the view name
-     */
-    @RequestMapping(value = "/{identifier}/job/{jobId}", method = RequestMethod.GET)
-    public final String getSourceJobPage(
-            @PathVariable final String identifier,
-            @PathVariable final Long jobId,
-            @RequestParam(value = "recordType", required = false) final String recordType,
-            final Model model) {
-        model.addAttribute(getService().load(identifier));
-        model.addAttribute("job", jobDataService.find(jobId));
+	/**
+	 * 
+	 * @param model
+	 *            Set the model
+	 * @param limit
+	 *            Set the maximum number of objects to return
+	 * @param start
+	 *            Set the offset
+	 * @return the name of the view
+	 */
+	@RequestMapping(method = RequestMethod.GET, params = "!form")
+	public final String list(
+			final Model model,
+			@RequestParam(value = "page", defaultValue = "0", required = false) final Integer page,
+			@RequestParam(value = "size", defaultValue = "10", required = false) final Integer size) {
+		model.addAttribute("result", getService().list(page, size));
+		return "source/list";
+	}
 
-        if (recordType == null) {
-            model.addAttribute("results", jobDataService.countObjects(jobId));
-            return "source/job";
-        } else {
-            model.addAttribute("recordType", recordType);
-            model.addAttribute("results",
-                    jobDataService.countErrors(jobId, recordType));
-            return "source/jobDetails";
-        }
-    }
+	/**
+	 * 
+	 * @param model
+	 *            Set the model
+	 * @return the name of the view
+	 */
+	@RequestMapping(method = RequestMethod.GET, params = "form")
+	public final String create(final Model model) {
+		model.addAttribute(new Source());
+		return "source/create";
+	}
 
-    /**
-     * @param identifier
-     *            Set the identifier of the source
-     * @param query
-     *            Set the query
-     * @param jobId
-     *            Set the job Id
-     * @param facets
-     *            Set the facets
-     * @param limit
-     *            Set the page size
-     * @param start
-     *            Set the page offset
-     * @param model
-     *            Set the model
-     * @return A model and view containing a source
-     */
-    @RequestMapping(value = "/{identifier}/job/{jobId}/messages", method = RequestMethod.GET)
-    public final String getSourceJobMessages(
-            @PathVariable final String identifier,
-            @PathVariable final Long jobId,
-            @RequestParam(value = "query", required = false) final String query,
-            @RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
-            @RequestParam(value = "limit", required = false, defaultValue = "10") final Integer limit,
-            @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
-            final Model model) {
-        model.addAttribute(getService().load(identifier));
-        model.addAttribute("job", jobDataService.find(jobId));
-        Map<FacetName, String> selectedFacets = new HashMap<FacetName, String>();
-        if (facets != null && !facets.isEmpty()) {
-            for (FacetRequest facetRequest : facets) {
-                selectedFacets.put(facetRequest.getFacet(),
-                        facetRequest.getSelected());
-            }
-        }
-        selectedFacets.put(FacetName.JOB_INSTANCE, jobId.toString());
-        Page<Annotation> result = annotationService.search(query, null, limit,
-                start, new FacetName[] {FacetName.ERROR_CODE,
-                        FacetName.ISSUE_TYPE, FacetName.RECORD_TYPE,
-                        FacetName.JOB_INSTANCE }, selectedFacets, null,
-                "annotated-obj");
-        result.putParam("query", query);
-        model.addAttribute("result", result);
+	/**
+	 * @param session
+	 *            Set the session
+	 * @param source
+	 *            Set the source
+	 * @param result
+	 *            Set the binding results
+	 * @return a model and view
+	 */
+	@RequestMapping(method = RequestMethod.POST, headers = "Accept=text/html")
+	public final String post(@Valid final Source source,
+			final BindingResult result, final HttpSession session) {
+		if (result.hasErrors()) {
+			return "source/create";
+		}
 
-        return "source/jobAnnotations";
-    }
+		getService().saveOrUpdate(source);
+		String[] codes = new String[] { "source.was.created" };
+		Object[] args = new Object[] { source.getTitle() };
+		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
+				codes, args);
+		session.setAttribute("info", message);
+		return "redirect:/source/" + source.getIdentifier() + "?form=true";
+	}
+
+	/**
+	 * @param identifier
+	 *            Set the identifier of the source
+	 * @param limit
+	 *            Set the maximum number of results
+	 * @param start
+	 *            Set the offset
+	 * @param uiModel
+	 *            Set the model
+	 * @return the view name
+	 */
+	@RequestMapping(value = "/{identifier}", produces = "text/html")
+	public final String show(@PathVariable final String identifier,
+			final Model uiModel) {
+		uiModel.addAttribute(getService().find(identifier));
+		uiModel.addAttribute("jobs", jobService.list(identifier, 0, 10));
+		return "source/show";
+	}
+
+	/**
+	 * 
+	 * @param model
+	 *            Set the model
+	 * @param identifier
+	 *            Set the identifier
+	 * @return the name of the view
+	 */
+	@RequestMapping(value = "/{identifier}", method = RequestMethod.GET, params = "form")
+	public final String update(@PathVariable final String identifier,
+			final Model model) {
+		model.addAttribute(getService().load(identifier));
+		return "source/update";
+	}
+
+	/**
+	 * @param identifier
+	 *            Set the identifier
+	 * @param session
+	 *            Set the session
+	 * @param source
+	 *            Set the source
+	 * @param result
+	 *            Set the binding results
+	 * @return the model name
+	 */
+	@RequestMapping(value = "/{identifier}", method = RequestMethod.POST, headers = "Accept=text/html")
+	public final String post(
+			@PathVariable("identifier") final String identifier,
+			@Valid final Source source, final BindingResult result,
+			final HttpSession session) {
+		if (result.hasErrors()) {
+			return "source/update";
+		}
+		Source persistedSource = getService().load(identifier);
+		persistedSource.setTitle(source.getTitle());
+		persistedSource.setUri(source.getUri());
+		persistedSource.setCreator(source.getCreator());
+		persistedSource.setCreatorEmail(source.getCreatorEmail());
+		persistedSource.setCreated(source.getCreated());
+		persistedSource.setDescription(source.getDescription());
+		persistedSource.setPublisherName(source.getPublisherName());
+		persistedSource.setPublisherEmail(source.getPublisherEmail());
+		persistedSource.setSubject(source.getSubject());
+		persistedSource.setSource(source.getSource());
+		persistedSource.setLogoUrl(source.getLogoUrl());
+		getService().saveOrUpdate(persistedSource);
+		String[] codes = new String[] { "source.updated" };
+		Object[] args = new Object[] { source.getTitle() };
+		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
+				codes, args);
+		session.setAttribute("info", message);
+		return "redirect:/source/" + identifier + "?form=true";
+	}
+
+	/**
+	 * 
+	 * @param model
+	 *            Set the model
+	 * @param identifier
+	 *            Set the source identifier,
+	 * @param limit
+	 *            Set the maximum number of objects to return
+	 * @param start
+	 *            Set the offset
+	 * @return the name of the view
+	 */
+	@RequestMapping(value = "/{identifier}/job", method = RequestMethod.GET, params = "!form")
+	public final String list(
+			final Model model,
+			@PathVariable("identifier") final String identifier,
+			@RequestParam(value = "limit", required = false, defaultValue = "10") final Integer limit,
+			@RequestParam(value = "start", required = false, defaultValue = "0") final Integer start) {
+		model.addAttribute("source", getService().load(identifier));
+		model.addAttribute("jobs", jobService.list(identifier, start, limit));
+		return "source/job/list";
+	}
+
+	/**
+	 * @param identifier
+	 *            Set the source id
+	 * @param model
+	 *            Set the model
+	 * @return the name of the view
+	 */
+	@RequestMapping(value = "/{identifier}/job", method = RequestMethod.GET, params = "form")
+	public final String create(
+			@PathVariable("identifier") final String identifier,
+			final Model model) {
+		populateForm(model, new Job());
+		model.addAttribute("source", getService().load(identifier));
+		return "source/job/create";
+	}
+
+	/**
+	 * 
+	 * @param model
+	 *            Set the model
+	 * @param job
+	 *            Seth the job
+	 */
+	private void populateForm(final Model model, final Job job) {
+		model.addAttribute("job", job);
+		model.addAttribute("jobTypes", Arrays.asList(JobType.values()));
+	}
+
+	/**
+	 * @param identifier
+	 *            Set the sourceId
+	 * @param model
+	 *            Set the model
+	 * @param session
+	 *            Set the session
+	 * @param job
+	 *            Set the job
+	 * @param result
+	 *            Set the binding results
+	 * @return a model and view
+	 */
+	@RequestMapping(value = "/{identifier}/job", method = RequestMethod.POST, headers = "Accept=text/html")
+	public final String post(
+			@PathVariable("identifier") final String identifier,
+			final Model model, @Valid final Job job,
+			final BindingResult result, final HttpSession session) {
+		Source source = getService().find(identifier, "source-with-jobs");
+		if (result.hasErrors()) {
+			model.addAttribute("source", source);
+			populateForm(model, job);
+			return "source/job/create";
+		}
+
+		source.getJobs().add(job);
+		job.setSource(source);
+		jobService.saveOrUpdate(job);
+		String[] codes = new String[] { "job.was.created" };
+		Object[] args = new Object[] { job.getIdentifier() };
+		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
+				codes, args);
+		session.setAttribute("info", message);
+		return "redirect:/source/" + identifier + "/job";
+	}
+
+	/**
+	 * @param identifier
+	 *            Set the source identifier
+	 * @param jobId
+	 *            Set the job identifier
+	 * @param uiModel
+	 *            Set the model
+	 * @return the view name
+	 */
+	@RequestMapping(value = "/{identifier}/job/{jobId}", method = RequestMethod.GET, 
+			produces = "text/html",
+			params = {"!output", "!details", "!form" })
+	public final String show(
+			@PathVariable("identifier") final String identifier,
+			@PathVariable("jobId") final String jobId, final Model uiModel) {
+		Job job = jobService.load(jobId, "job-with-source");
+		assert job.getSource().getIdentifier().equals(identifier);
+		uiModel.addAttribute("job", job);
+		uiModel.addAttribute("source", job.getSource());
+		return "source/job/show";
+	}
+
+	/**
+	 * @param identifier
+	 *            Set the source identifier
+	 * @param model
+	 *            Set the model
+	 * @param jobId
+	 *            Set the job identifier
+	 * @return the name of the view
+	 */
+	@RequestMapping(value = "/{identifier}/job/{jobId}", method = RequestMethod.GET, params = "form")
+	public final String update(
+			@PathVariable("identifier") final String identifier,
+			@PathVariable("jobId") final String jobId, final Model model) {
+		Job job = jobService.load(jobId, "job-with-source");
+		assert job.getSource().getIdentifier().equals(identifier);
+		populateForm(model, job);
+		model.addAttribute("source", job.getSource());
+		return "source/job/update";
+	}
+
+	/**
+	 * @param identifier
+	 *            Set the source identifier
+	 * @param jobId
+	 *            Set the job identifier
+	 * @param model
+	 *            Set the model
+	 * @param session
+	 *            Set the session
+	 * 
+	 * @return the view name
+	 */
+	@RequestMapping(value = "/{identifier}/job/{jobId}", method = RequestMethod.POST, headers = "Accept=text/html", params = "run")
+	public final String run(
+			@PathVariable("identifier") final String identifier,
+			@PathVariable("jobId") final String jobId, final Model model,
+			final HttpSession session) {
+
+		Job job = jobService.load(jobId, "job-with-source");
+		assert job.getSource().getIdentifier().equals(identifier);
+		if (job.getStatus() != null) {
+			switch (job.getStatus()) {
+			case STARTED:
+			case STARTING:
+			case STOPPING:
+			case UNKNOWN:
+				String[] codes = new String[] { "job.running" };
+				Object[] args = new Object[] {};
+				DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
+						codes, args);
+				session.setAttribute("error", message);
+				return "redirect:/source/" + identifier + "/job/"
+						+ job.getIdentifier();
+			case COMPLETED:
+			case FAILED:
+			case STOPPED:
+			default:
+				break;
+			}
+		}
+		Map<String, String> jobParametersMap = new HashMap<String, String>();
+		jobParametersMap.put("authority.name", job.getSource().getIdentifier());
+		jobParametersMap.put("authority.uri", job.getUri());
+
+		if (job.getStatus() == null) {
+			jobParametersMap.put("authority.last.harvested",
+					Long.toString((PAST_DATETIME.getMillis())));
+		} else {
+			jobParametersMap.put("authority.last.harvested",
+					Long.toString((job.getStartTime().getMillis())));
+		}
+
+		JobLaunchRequest jobLaunchRequest = new JobLaunchRequest();
+		switch (job.getJobType()) {
+		case OAI_PMH:
+			jobParametersMap.put("request.interval", "4000");
+			if (job.getFamily() != null) {
+				jobParametersMap.put("request.subset.name", job.getFamily());
+			}
+			jobLaunchRequest.setJob("OaiPmhTaxonHarvesting");
+			break;
+		case DwC_Archive:
+		default:
+			jobParametersMap.put("family", job.getFamily());
+			jobParametersMap.put("authority.uri", job.getUri());
+			jobLaunchRequest.setJob("DarwinCoreArchiveHarvesting");
+			break;
+		}
+		jobLaunchRequest.setParameters(jobParametersMap);
+
+		try {
+			jobLaunchRequest = jobLauncher.launch(jobLaunchRequest);
+			JobExecutionInfo jobExecutionInfo = jobLaunchRequest.getExecution();
+			if (jobExecutionInfo == null) {
+				throw jobLaunchRequest.getException();
+			}
+			job.setStartTime(jobExecutionInfo.getStartTime());
+			job.setDuration(jobExecutionInfo.getDuration());
+			job.setExitCode(jobExecutionInfo.getExitCode());
+			job.setExitDescription(jobExecutionInfo.getExitDescription());
+			job.setJobId(jobExecutionInfo.getId());
+			if (jobExecutionInfo.getJobInstance() != null) {
+				job.setJobInstance(jobExecutionInfo.getJobInstance()
+						.getResource());
+			}
+			job.setLastHarvested(new DateTime());
+			job.setResource(jobExecutionInfo.getResource());
+			job.setStatus(jobExecutionInfo.getStatus());
+			jobService.saveOrUpdate(job);
+			String[] codes = new String[] { "job.started" };
+			Object[] args = new Object[] {};
+			DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
+					codes, args);
+			session.setAttribute("info", message);
+		} catch (JobExecutionException e) {
+			String[] codes = new String[] { "job.failed" };
+			Object[] args = new Object[] { e.getMessage() };
+			DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
+					codes, args);
+			session.setAttribute("error", message);
+		}
+		return "redirect:/source/" + identifier + "/job/" + job.getIdentifier();
+	}
+
+	/**
+	 * @param identifier
+	 *            Set the source identifier
+	 * @param jobId
+	 *            Set the job identifier
+	 * @param model
+	 *            Set the model
+	 * @param session
+	 *            Set the session
+	 * @param job
+	 *            Set the job
+	 * @param result
+	 *            Set the binding results
+	 * @return the view name
+	 */
+	@RequestMapping(value = "/{identifier}/job/{jobId}", method = RequestMethod.POST, headers = "Accept=text/html", params = "!run")
+	public final String post(
+			@PathVariable("identifier") final String identifier,
+			@PathVariable("jobId") final String jobId, final Model model,
+			@Valid final Job job, final BindingResult result,
+			final HttpSession session) {
+		Job persistedJob = jobService.load(jobId, "job-with-source");
+
+		if (result.hasErrors()) {
+			populateForm(model, job);
+			model.addAttribute("source", persistedJob.getSource());
+			return "source/job/update";
+		}
+
+		assert persistedJob.getSource().getIdentifier().equals(identifier);
+		persistedJob.setFamily(job.getFamily());
+		persistedJob.setUri(job.getUri());
+		persistedJob.setJobType(job.getJobType());
+		persistedJob.setLastHarvested(job.getLastHarvested());
+		persistedJob.setJobId(job.getJobId());
+		persistedJob.setStatus(job.getStatus());
+		persistedJob.setStartTime(job.getStartTime());
+		persistedJob.setDuration(job.getDuration());
+		persistedJob.setExitCode(job.getExitCode());
+		persistedJob.setExitDescription(job.getExitDescription());
+		persistedJob.setRecordsRead(job.getRecordsRead());
+		persistedJob.setReadSkip(job.getReadSkip());
+		persistedJob.setProcessSkip(job.getProcessSkip());
+		persistedJob.setWriteSkip(job.getWriteSkip());
+		persistedJob.setWritten(job.getWritten());
+
+		jobService.saveOrUpdate(persistedJob);
+		String[] codes = new String[] { "job.was.updated" };
+		Object[] args = new Object[] { job.getIdentifier() };
+		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
+				codes, args);
+		session.setAttribute("info", message);
+		return "redirect:/source/" + identifier + "/job/" + jobId;
+	}
+
+	/**
+	 * @param identifier
+	 *            Set the identifier of the source
+	 * @param jobId
+	 *            set the job Id
+	 * @param model
+	 *            Set the model
+	 * @return the view name
+	 */
+	@RequestMapping(value = "/{identifier}/job/{jobId}", method = RequestMethod.GET, params = "output")
+	public final String output(
+			@PathVariable final String identifier,
+			@PathVariable final Long jobId,
+			@RequestParam(value = "recordType", required = false) final String recordType,
+			final Model model) {
+		model.addAttribute(getService().load(identifier));
+		model.addAttribute("job", jobDataService.find(jobId));
+
+		if (recordType == null) {
+			model.addAttribute("results", jobDataService.countObjects(jobId));
+			return "source/job/output";
+		} else {
+			model.addAttribute("recordType", recordType);
+			model.addAttribute("results",
+					jobDataService.countErrors(jobId, recordType));
+			return "source/job/outputDetails";
+		}
+	}
+
+	/**
+	 * @param identifier
+	 *            Set the identifier of the source
+	 * @param query
+	 *            Set the query
+	 * @param jobId
+	 *            Set the job Id
+	 * @param facets
+	 *            Set the facets
+	 * @param limit
+	 *            Set the page size
+	 * @param start
+	 *            Set the page offset
+	 * @param model
+	 *            Set the model
+	 * @return A model and view containing a source
+	 */
+	@RequestMapping(value = "/{identifier}/job/{jobId}", method = RequestMethod.GET, params = "details")
+	public final String details(
+			@PathVariable final String identifier,
+			@PathVariable final Long jobId,
+			@RequestParam(value = "query", required = false) final String query,
+			@RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
+			@RequestParam(value = "limit", required = false, defaultValue = "10") final Integer limit,
+			@RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
+			final Model model) {
+		model.addAttribute(getService().load(identifier));
+		model.addAttribute("job", jobDataService.find(jobId));
+		Map<FacetName, String> selectedFacets = new HashMap<FacetName, String>();
+		if (facets != null && !facets.isEmpty()) {
+			for (FacetRequest facetRequest : facets) {
+				selectedFacets.put(facetRequest.getFacet(),
+						facetRequest.getSelected());
+			}
+		}
+		selectedFacets.put(FacetName.JOB_INSTANCE, jobId.toString());
+		Page<Annotation> result = annotationService.search(query, null, limit,
+				start, new FacetName[] { FacetName.ERROR_CODE,
+						FacetName.ISSUE_TYPE, FacetName.RECORD_TYPE,
+						FacetName.JOB_INSTANCE }, selectedFacets, null,
+				"annotated-obj");
+		result.putParam("query", query);
+		model.addAttribute("result", result);
+
+		return "source/job/details";
+	}
 }

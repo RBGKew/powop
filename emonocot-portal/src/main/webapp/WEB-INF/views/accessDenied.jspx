@@ -15,11 +15,11 @@
 				<a class="close" href="#">×</a>
 				<p>
 					<strong><spring:message
-							code="${SPRING_SECURITY_403_EXCEPTION.class.name}" />
+							code="SPRING_SECURITY_403_EXCEPTION" text="SPRING_SECURITY_403_EXCEPTION"/>
 					</strong>
 				</p>
 				<p>
-					<spring:message code="${SPRING_SECURITY_403_EXCEPTION.message}" />
+					<spring:message code="${SPRING_SECURITY_403_EXCEPTION.message}" text="${SPRING_SECURITY_403_EXCEPTION.message}"/>
 				</p>
 			</div>
 		</div>

@@ -30,6 +30,12 @@
 					</key>
 					<value>org.emonocot.api.job.JobLaunchRequest</value>
 				</entry>
+				<entry>
+					<key>
+						<value>JobExecutionInfo</value>
+					</key>
+					<value>org.emonocot.api.job.JobExecutionInfo</value>
+				</entry>
 			</map>
 		</property>
 	</bean>
@@ -50,7 +56,7 @@
 	</bean>
 
 	<jms:message-driven-channel-adapter
-		id="jobStatusNotificationAdapter" connection-factory="connectionFactory"
+		id="jmsBackendChannelAdapter" connection-factory="connectionFactory"
 		destination="jmsBackendQueue" extract-payload="false" channel="jmsBackendChannel" />
 
 	<bean id="jmsBackendQueue" class="org.apache.activemq.command.ActiveMQQueue">
@@ -74,18 +80,14 @@
 		<integration:method name="notify" />
 	</integration:gateway>
 
-	<integration:channel id="jobStatusNotificationChannel"
-		datatype="org.emonocot.api.job.JobExecutionInfo" />
+	<integration:channel id="jobStatusNotificationChannel"	datatype="org.emonocot.api.job.JobExecutionInfo" />
 
-	<integration:object-to-json-transformer
-		input-channel="jobStatusNotificationChannel" output-channel="transformedJobStatusNotificationChannel"
-		object-mapper="objectMapper" />
-
-	<integration:channel id="transformedJobStatusNotificationChannel" />
 
 	<jms:outbound-channel-adapter id="jobStatusNotificationAdapter"
-		extract-payload="true" channel="transformedJobStatusNotificationChannel"
-		connection-factory="connectionFactory" destination="jobStatusQueue" />
+		channel="jobStatusNotificationChannel"
+		message-converter="mappingMessageConverter"
+		connection-factory="connectionFactory"
+		destination="jobStatusQueue" />
 
 	<bean id="jobStatusQueue" class="org.apache.activemq.command.ActiveMQQueue">
 		<constructor-arg value="job.status.notifications" />

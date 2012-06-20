@@ -51,6 +51,31 @@ public class JobExecutionInfo implements Serializable {
 
     /**
      *
+     */
+    private Integer recordsRead = 0;
+    
+    /**
+     *
+     */
+    private Integer readSkip = 0;
+
+    /**
+     *
+     */
+    private Integer processSkip = 0;
+
+    /**
+     *
+     */
+    private Integer writeSkip = 0;
+
+    /**
+     *
+     */
+    private Integer written = 0;
+
+    /**
+     *
      * @param newResource Set the resource
      */
     public final void setResource(final String newResource) {
@@ -172,4 +197,74 @@ public class JobExecutionInfo implements Serializable {
     public final JobInstanceInfo getJobInstance() {
         return jobInstance;
     }
+
+	/**
+	 * @return the read
+	 */
+	public Integer getRecordsRead() {
+		return recordsRead;
+	}
+
+	/**
+	 * @param read the read to set
+	 */
+	public void setRecordsRead(Integer read) {
+		this.recordsRead = read;
+	}
+
+	/**
+	 * @return the processed
+	 */
+	public Integer getProcessSkip() {
+		return processSkip;
+	}
+
+	/**
+	 * @param processed the processed to set
+	 */
+	public void setProcessSkip(Integer processSkip) {
+		this.processSkip = processSkip;
+	}
+
+	/**
+	 * @return the written
+	 */
+	public Integer getWritten() {
+		return written;
+	}
+
+	/**
+	 * @param written the written to set
+	 */
+	public void setWritten(Integer written) {
+		this.written = written;
+	}
+
+	/**
+	 * @return the readSkip
+	 */
+	public Integer getReadSkip() {
+		return readSkip;
+	}
+
+	/**
+	 * @param readSkip the readSkip to set
+	 */
+	public void setReadSkip(Integer readSkip) {
+		this.readSkip = readSkip;
+	}
+
+	/**
+	 * @return the writeSkip
+	 */
+	public Integer getWriteSkip() {
+		return writeSkip;
+	}
+
+	/**
+	 * @param writeSkip the writeSkip to set
+	 */
+	public void setWriteSkip(Integer writeSkip) {
+		this.writeSkip = writeSkip;
+	}
 }

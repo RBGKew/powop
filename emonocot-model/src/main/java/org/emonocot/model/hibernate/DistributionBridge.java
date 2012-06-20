@@ -53,7 +53,7 @@ public class DistributionBridge implements FieldBridge {
      *
      */
     public final void clearRegions() {
-        for (Continent continent : Continent.values()) {
+        for (Continent continent : Continent.values()) {	
             continent.setShape(null);
         }
 

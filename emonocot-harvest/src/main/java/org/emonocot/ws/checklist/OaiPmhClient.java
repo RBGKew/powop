@@ -178,9 +178,7 @@ public class OaiPmhClient implements StepExecutionListener {
      */
     public final ExitStatus listRecords(final String authorityName,
             final String authorityUri, final String authorityLastHarvested,
-            final String temporaryFileName, final String requestSubsetName) {
-        System.out.println(authorityName +  " | " + authorityUri+  " | " + temporaryFileName
-                +  " | " + authorityLastHarvested+  " | " + requestSubsetName);
+            final String temporaryFileName, final String requestSubsetName) {        
         logger.info("ProxyHost " + proxyHost + " ProxyPort " + proxyPort);
         if (proxyHost != null && proxyPort != null) {
             logger.info("Setting Proxy");

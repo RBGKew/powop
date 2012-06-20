@@ -25,5 +25,34 @@ public class JobRow {
 	 *
 	 */
 	public String uri;
+	
+	/**
+	 *
+	 */
+	public String recordsRead;
+	
+	/**
+	 *
+	 */
+	public String readSkip;
 
+	/**
+	 *
+	 */
+	public String processSkip;
+
+	/**
+	 *
+	 */
+	public String writeSkip;
+
+	/**
+	 *
+	 */
+	public String written;
+	
+	/**
+	 *
+	 */
+	public String jobId;
 }

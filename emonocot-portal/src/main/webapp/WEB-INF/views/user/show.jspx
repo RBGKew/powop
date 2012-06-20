@@ -8,6 +8,8 @@
 		<div class="page-header header-margin">
 		  <h2 id="page-title">${user.username}</h2>
         </div>
-		<div class="row">${user.username}</div>
+		<div class="row">
+		  <div class="span12">${user.username}</div>		  
+		</div>
 	</div>
 </div>

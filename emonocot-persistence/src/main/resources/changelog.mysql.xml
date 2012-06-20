@@ -2185,4 +2185,34 @@
         </column>             
       </createTable>
     </changeSet>
+    <changeSet id="2012-06-19_01" author="ben">
+      <comment>Adding columns to Job table</comment>
+      <addColumn tableName="Job">
+          <column name="recordsRead" type="INTEGER"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2012-06-19_02" author="ben">
+      <comment>Adding columns to Job table</comment>
+      <addColumn tableName="Job">
+          <column name="processSkip" type="INTEGER"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2012-06-19_03" author="ben">
+      <comment>Adding columns to Job table</comment>
+      <addColumn tableName="Job">
+          <column name="written" type="INTEGER"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2012-06-19_04" author="ben">
+      <comment>Adding columns to Job table</comment>
+      <addColumn tableName="Job">
+          <column name="readSkip" type="INTEGER"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2012-06-19_05" author="ben">
+      <comment>Adding columns to Job table</comment>
+      <addColumn tableName="Job">
+          <column name="writeSkip" type="INTEGER"/>
+      </addColumn>
+    </changeSet>
 </databaseChangeLog>

@@ -70,7 +70,7 @@ public class Show extends PageObject {
      */
     public final JobDetails selectJob(final int job) {
         WebElement jobs = getWebDriver().findElement(By.id("jobs"));
-        List<WebElement> list = jobs.findElements(By.xpath("tr/td[1]/a"));
+        List<WebElement> list = jobs.findElements(By.xpath("tr/td[10]/a"));
         return openAs(list.get(job - 1).getAttribute("href"),
                 JobDetails.class);
     }

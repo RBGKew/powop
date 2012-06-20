@@ -193,20 +193,10 @@ public class Portal extends PageObject {
      *
      * @return the source admin page
      */
-    public final PageObject getSourceAdminPage() {
-        return openAs(getBaseUri() + "admin/source",
-                org.emonocot.portal.driver.admin.source.List.class);
+    public final PageObject getSourceListPage() {
+        return openAs(getBaseUri() + "source",
+                org.emonocot.portal.driver.source.List.class);
     }
-
-    /**
-     *
-     * @param source Set the source
-     * @return t
-     */
-	public final PageObject getSourceAdminPage(final String source) {
-		return openAs(getBaseUri() + "admin/source/" + source,
-				org.emonocot.portal.driver.admin.source.Show.class);
-	}
 
     /**
      * @return the classify page

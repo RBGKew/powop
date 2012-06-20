@@ -83,14 +83,9 @@ public class StepDefinitions {
     /**
      *
      */
-    @When("^I am on the source admin page$")
-    public final void iAmOnTheSourceAdminPage() {
-        currentPage = portal.getSourceAdminPage();
-    }
-
-    @When("^I am on the source admin page for \"([^\"]*)\"$")
-    public void iAmOnTheSourceAdminPageFor(String source) {
-        currentPage = portal.getSourceAdminPage(source);
+    @When("^I am on the source list page$")
+    public final void iAmOnTheSourceListPage() {
+        currentPage = portal.getSourceListPage();
     }
 
     /**
@@ -176,13 +171,13 @@ public class StepDefinitions {
     public final void iEnterTheFollowingDataIntoTheCreateSourceForm(
             final List<SourceRow> sourceRows) {
 
-        ((org.emonocot.portal.driver.admin.source.Create) currentPage)
+        ((org.emonocot.portal.driver.source.Create) currentPage)
                 .setObjectIdentifier(sourceRows.get(0).identifier, "identifier");
-        ((org.emonocot.portal.driver.admin.source.Create) currentPage)
+        ((org.emonocot.portal.driver.source.Create) currentPage)
                 .setFormField("uri", sourceRows.get(0).uri);
-        ((org.emonocot.portal.driver.admin.source.Create) currentPage)
+        ((org.emonocot.portal.driver.source.Create) currentPage)
                 .setFormField("logoUrl", sourceRows.get(0).logoUrl);
-        ((org.emonocot.portal.driver.admin.source.Create) currentPage)
+        ((org.emonocot.portal.driver.source.Create) currentPage)
                 .setFormField("title", sourceRows.get(0).title);
     }
 
@@ -230,7 +225,7 @@ public class StepDefinitions {
     @When("^I select \"(Create a new source)\"$")
     public final void iSelectCreateANewSource(final String linkText) {
         currentPage = currentPage.selectLink(linkText,
-                org.emonocot.portal.driver.admin.source.Create.class);
+                org.emonocot.portal.driver.source.Create.class);
     }
 
     /**
@@ -287,7 +282,7 @@ public class StepDefinitions {
    */
     @When("^I submit the create source form$")
     public final void iSubmitTheCreateSourceForm() {
-        currentPage = ((org.emonocot.portal.driver.admin.source.Create) currentPage)
+        currentPage = ((org.emonocot.portal.driver.source.Create) currentPage)
                 .submit();
     }
 
@@ -1059,13 +1054,6 @@ public class StepDefinitions {
     @Then("^the login page should be displayed$")
     public final void theLoginPageShouldBeDisplayed() {
         assertEquals(Login.class, currentPage.getClass());
-    }
-
-    @Then("^there should be (\\d+) job$")
-    public void thereShouldBeJobs(Integer numberOfJobs) {
-        assertEquals(numberOfJobs,
-                ((org.emonocot.portal.driver.admin.source.Show) currentPage)
-                        .getNumberOfJobs());
     }
 
     /**

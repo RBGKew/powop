@@ -52,6 +52,18 @@ public class DataSetup {
                     jobInstanceRow.version);
         }
     }
+    
+    @Given("^there are jobs with the following properties:$")
+    public final void thereAreJobsWithTheFollowingProperties(
+            final List<JobRow> jobRows) {
+    	
+    	for(JobRow jobRow : jobRows) {
+			testDataManager.createJob(jobRow.identifier, jobRow.family,
+					jobRow.jobType, jobRow.source, jobRow.recordsRead,
+					jobRow.readSkip, jobRow.processSkip, jobRow.writeSkip,
+					jobRow.written, jobRow.jobId);
+    	}
+    }
 
     /**
      *

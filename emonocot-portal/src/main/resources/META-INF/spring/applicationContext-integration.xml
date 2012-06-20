@@ -39,6 +39,12 @@
 		      </key>
 		      <value>org.emonocot.api.job.JobLaunchRequest</value>
 		    </entry>
+		    <entry>
+				<key>
+					<value>JobExecutionInfo</value>
+				</key>
+				<value>org.emonocot.api.job.JobExecutionInfo</value>
+			</entry>
 		  </map>
 		</property>
 	</bean>
@@ -54,21 +60,14 @@
    <jms:inbound-channel-adapter id="jobStatusNotificationAdapter"
     connection-factory="connectionFactory"
     destination="jobStatusQueue"
-    channel="rawJobStatusNotifications">
+    message-converter="mappingMessageConverter"
+    channel="jobStatusNotifications">
      <integration:poller fixed-rate="30000"/>
    </jms:inbound-channel-adapter>
    
    <bean id="jobStatusQueue" class="org.apache.activemq.command.ActiveMQQueue">
 		<constructor-arg value="job.status.notifications" />
 	</bean>
-	
-	<integration:channel id="rawJobStatusNotifications" />	
-	
-	<integration:json-to-object-transformer 
-	  input-channel="rawJobStatusNotifications" 
-	  output-channel="jobStatusNotifications"
-	  type="org.emonocot.api.job.JobExecutionInfo"
-	  object-mapper="customObjectMapper"/>
 
     <integration:channel id="jobStatusNotifications" />
 	
