@@ -155,7 +155,14 @@
 	</bean>	
 	
 	<bean id="nameParser" class="org.gbif.ecat.parser.NameParser" />
-    <bean id="taxonMatcher" class="org.emonocot.job.taxonmatch.DefaultTaxonMatcher" />
+    <bean id="taxonMatcher" class="org.emonocot.job.taxonmatch.CompositeTaxonMatcher">
+        <property name="matchers">
+            <list>
+                <bean class="org.emonocot.job.taxonmatch.ExampleTaxonMatcher"/>
+                <bean class="org.emonocot.job.taxonmatch.DefaultTaxonMatcher"/>
+            </list>
+        </property>
+    </bean>
 		
 	<bean name="objectMapper" class="org.emonocot.model.marshall.json.CustomObjectMapperFactory"/>
 	
