@@ -27,7 +27,7 @@
      <security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">
     <div class="row">
 	  <div class="span12">
-	    <c:url var="runUrl" value="/${source.identifier}/job/${job.identifier}">
+	    <c:url var="runUrl" value="/source/${source.identifier}/job/${job.identifier}">
 	      <c:param name="run" value="true"/>
 	    </c:url>
 	    <form class="well" action="${runUrl}" method="POST">
