@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet author="jk00kg" id="2012-06-22">
+        <comment>Create taxon file</comment>
+        <sql>
+           SELECT CONCAT('urn:kew.org:efloras:taxon:', n.name_id) AS taxonID,
+               (CASE
+                   WHEN ifnull(rank, infrarank) = 'family'
+                      THEN family
+                   WHEN ifnull(rank, infrarank) ='subfamily'
+                       THEN concat(family, ' subfam. ', ifnull(infraepi,''))
+                   WHEN ifnull(rank, infrarank) = 'genus'
+                       THEN genus
+                   WHEN ifnull(rank, infrarank) IN('series', 'subgen.', 'sect.')
+                       THEN concat(genus, ' ', ifnull(rank, infrarank), ' ', infraepi)
+                   WHEN ifnull(rank, infrarank) = 'species'
+                       THEN concat(genus, ' ', species)
+                   WHEN ifnull(rank, infrarank) IN('subspecies', 'subsp.', 'var.', 'forma')
+                       THEN concat(genus, ' ', species, ' ', ifnull(rank, infrarank), ' ', infraepi)
+                   ELSE
+                       (CASE
+                           WHEN ifnull(species,'') &lt;&gt; ''
+                               THEN concat(genus, ' ', species, if(length(infraepi)>0, ' agg. ' + infraepi,''))
+                           WHEN ifnull(genus,'') &lt;&gt; ''
+                               THEN concat(genus, if(length(infraepi)>0, ' infragen. ' + infraepi,''))
+                           WHEN ifnull(family,'') &lt;&gt; ''
+                               THEN concat(family, if(length(infraepi)>0, ' supragen. ' + infraepi,''))
+                       END)
+                       <!-- if(ifnull(species,'') &lt;&gt; '', concat(genus, ' ', species, if(len(infraepi)>0, ' agg. ', infraepi,'')),
+                       if(ifnull(genus,'') &lt;&gt; '', concat(genus, ' infragen.', infraEpi) --> 
+               END) AS name,
+           ifnull(family,''), ifnull(genus,''), ifnull(species,'') AS specificEpithet, ifnull(infraepi, ''), ifnull(rank, ifnull(infrarank,'')) AS verbatimTaxonRak,  concat(IF(length(par)>0, concat('(',par,') '),''), ifnull(author,'')) AS scientificNameAuthorship
+           INTO OUTFILE '/tmp/taxa.txt'
+           FIELDS TERMINATED BY '\t'
+           LINES TERMINATED BY '\n'
+           FROM name n
+           WHERE family = 'Iridaceae';
+        </sql>
+        <rollback></rollback>
+    </changeSet>
+    <changeSet author="jk00kg" id="2012-06-22-1">
+        <comment>Create description file</comment>
+        <sql>
+           SELECT CONCAT('urn:kew.org:efloras:name:', n.name_id) AS taxonID, ifnull(family,''), ifnull(genus,''), ifnull(species,'') AS specificEpithet, ifnull(infraepi,''), concat(ifnull(rank,''), ifnull(infrarank,'')) AS verbatimTaxonRak,  IF((par IS NULL AND author IS NULL),'', concat('(',par,') ', author)) AS scientificNameAuthorship
+           INTO OUTFILE '/tmp/distribution.txt'
+               FIELDS TERMINATED BY '\t'
+               LINES TERMINATED BY '\n'
+           FROM name n INNER JOIN taxon t ON n.taxonNo = t.taxonNo;
+        </sql>
+        <rollback></rollback>
+    </changeSet>
+</databaseChangeLog>
