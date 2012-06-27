@@ -28,8 +28,6 @@
                            WHEN ifnull(family,'') &lt;&gt; ''
                                THEN concat(family, if(length(infraepi)>0, ' supragen. ' + infraepi,''))
                        END)
-                       <!-- if(ifnull(species,'') &lt;&gt; '', concat(genus, ' ', species, if(len(infraepi)>0, ' agg. ', infraepi,'')),
-                       if(ifnull(genus,'') &lt;&gt; '', concat(genus, ' infragen.', infraEpi) --> 
                END) AS name,
            ifnull(family,''), ifnull(genus,''), ifnull(species,'') AS specificEpithet, ifnull(infraepi, ''), ifnull(rank, ifnull(infrarank,'')) AS verbatimTaxonRak,  concat(IF(length(par)>0, concat('(',par,') '),''), ifnull(author,'')) AS scientificNameAuthorship
            INTO OUTFILE '/tmp/taxa.txt'
@@ -38,17 +36,54 @@
            FROM name n
            WHERE family = 'Iridaceae';
         </sql>
-        <rollback></rollback>
+        <rollback />
     </changeSet>
-    <changeSet author="jk00kg" id="2012-06-22-1">
+    <changeSet author="jk00kg" id="2012-06-26_0">
+        <comment>Create description table</comment>
+        <sql>
+            CREATE TEMPORARY TABLE dwc_description(taxonID VARCHAR(50), description BLOB, description_type VARCHAR(20), source_table VARCHAR(20)) AS
+            SELECT CONCAT('urn:kew.org:efloras:taxon:', c.name_id) AS taxonID, GROUP_CONCAT(c.countries SEPARATOR ' ') AS description, 'distribution' AS description_type, 'distributions' AS source_table 
+            FROM
+            
+            (SELECT l.name_id, CONCAT(l.country, ' ', GROUP_CONCAT(l.districts SEPARATOR ' ')) AS countries
+            FROM
+            
+            (SELECT n.name_id, ifnull(d.country, '') AS country, CONCAT(ifnull(d.district, ''), ': ', GROUP_CONCAT(ifnull(d.locref, '') SEPARATOR ' ')) AS districts
+            FROM name n INNER JOIN distribution d ON n.taxonNo = d.taxonNo
+            WHERE n.family = 'Iridaceae'
+              AND n.status = 'A'
+            GROUP BY n.name_id, d.country, d.district
+            ORDER BY n.name_id, d.country, d.district) AS l
+            
+            GROUP BY l.name_id, l.country
+            ORDER BY l.name_id, l.country) AS c
+            
+            GROUP BY c.name_id;
+        </sql>
+        <rollback />
+    </changeSet>
+    <changeSet author="jk00kg" id="2012-06-26_1">
+        <comment>Add 'excountry' (presented online as "Range") to description table</comment>
+        <sql>
+            INSERT INTO dwc_description
+            SELECT CONCAT('urn:kew.org:efloras:taxon:', name_id) AS taxonID, CONCAT(' RANGE: ', GROUP_CONCAT(country SEPARATOR '; ')) AS description, 'distribution' AS description_type, 'excountries' AS source_table
+            FROM name n INNER JOIN excountry e ON n.taxonNo = e.taxonNo
+            WHERE n.family = 'Iridaceae'
+              AND n.status = 'A'
+            GROUP BY name_id;
+        </sql>
+        <rollback />
+    </changeSet>
+    <changeSet author="jk00kg" id="2012-06-26_2">
         <comment>Create description file</comment>
         <sql>
-           SELECT CONCAT('urn:kew.org:efloras:name:', n.name_id) AS taxonID, ifnull(family,''), ifnull(genus,''), ifnull(species,'') AS specificEpithet, ifnull(infraepi,''), concat(ifnull(rank,''), ifnull(infrarank,'')) AS verbatimTaxonRak,  IF((par IS NULL AND author IS NULL),'', concat('(',par,') ', author)) AS scientificNameAuthorship
-           INTO OUTFILE '/tmp/distribution.txt'
-               FIELDS TERMINATED BY '\t'
-               LINES TERMINATED BY '\n'
-           FROM name n INNER JOIN taxon t ON n.taxonNo = t.taxonNo;
+           SELECT taxonID, GROUP_CONCAT(description SEPARATOR ' '), description_type AS type
+           INTO OUTFILE '/tmp/distribution-description.txt'
+           FIELDS TERMINATED BY '\t'
+           LINES TERMINATED BY '\n'
+           FROM dwc_description
+           GROUP BY taxonID, description_type;
         </sql>
-        <rollback></rollback>
+        <rollback />
     </changeSet>
 </databaseChangeLog>
