@@ -20,11 +20,6 @@
 
 	<context:annotation-config />
 
-	<bean name="jobLauncherTestUtils" class="org.springframework.batch.test.JobLauncherTestUtils">
-		<property name="jobRepository" ref="jobRepository" />
-		<property name="jobLauncher" ref="jobLauncher" />
-	</bean>
-
 	<bean id="conversionService"
 		class="org.springframework.context.support.ConversionServiceFactoryBean">
 		<property name="converters">
@@ -207,6 +202,7 @@
 					hibernate.hbm2ddl.auto=validate
 					hibernate.search.default.directory_provider=filesystem
 					hibernate.search.default.indexBase=./target/indexes
+					hibernate.search.default.exclusive_index_use=true
 				</value>
 			</property>
 			<property name="annotatedClasses">

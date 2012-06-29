@@ -1,4 +1,4 @@
-package org.emonocot.job.checklist;
+package org.emonocot.job.oaipmh;
 
 import org.emonocot.model.source.Source;
 import org.emonocot.model.taxon.Taxon;
@@ -13,7 +13,7 @@ import org.tdwg.voc.TaxonConcept;
  * @author ben
  *
  */
-public interface OaiPmhRecordProcessor extends ItemProcessor<Record, Taxon>,
+public interface Processor extends ItemProcessor<Record, Taxon>,
         ChunkListener, StepExecutionListener {
 
     /**

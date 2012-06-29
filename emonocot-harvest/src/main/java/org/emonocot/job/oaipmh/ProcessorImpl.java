@@ -1,4 +1,4 @@
-package org.emonocot.job.checklist;
+package org.emonocot.job.oaipmh;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,14 +45,14 @@ import org.tdwg.voc.TaxonRelationshipTerm;
  * @author ben
  *
  */
-public class OaiPmhRecordProcessorImpl extends AuthorityAware implements
-        OaiPmhRecordProcessor {
+public class ProcessorImpl extends AuthorityAware implements
+        Processor {
 
    /**
     *
     */
     private Logger logger
-        = LoggerFactory.getLogger(OaiPmhRecordProcessorImpl.class);
+        = LoggerFactory.getLogger(ProcessorImpl.class);
     /**
      *
      */
@@ -148,8 +148,11 @@ public class OaiPmhRecordProcessorImpl extends AuthorityAware implements
                 processTaxon(taxon, taxonConcept);
             }
         } else {
-            // We do have a record of this taxon already persisted
-            if (record.getHeader().getStatus() != null
+        	// We do have a record of this taxon already persisted
+        	if(!taxon.getAuthority().getIdentifier().equals(this.getSource().getIdentifier())) {
+        		// Skip taxa which do not belong to this authority
+        		return null;
+        	} else if (record.getHeader().getStatus() != null
                     && record.getHeader().getStatus().equals(Status.deleted)) {
                 // We have a record of it and now we need to delete it
                 taxon.setDeleted(true);
@@ -182,6 +185,9 @@ public class OaiPmhRecordProcessorImpl extends AuthorityAware implements
                 }
 
                 taxon.setAuthority(getSource());
+                // Allow the relationships to either be re-asserted or dropped
+                taxon.setAccepted(null);
+                taxon.setParent(null);
                 processTaxon(taxon, taxonConcept);
             }
         }
@@ -253,7 +259,7 @@ public class OaiPmhRecordProcessorImpl extends AuthorityAware implements
                         logger.info("hasInformation " + infoItem);
                         if (infoItem instanceof Distribution) {
                             logger.info("hasInformation = Distribution");
-                            Distribution distribution = (Distribution) infoItem;
+                            Distribution distribution = (Distribution) infoItem;                            
                             org.emonocot.model.description.Distribution dist
                                 = resolveDistribution(distribution
                                     .getHasValueRelation(), taxon);
@@ -408,23 +414,26 @@ public class OaiPmhRecordProcessorImpl extends AuthorityAware implements
                     .toString();
         }
 
-        if (identifier != null) {
-            TaxonRelationshipTerm term = resolveRelationshipTerm(relationship
-                .getRelationshipCategoryRelation());
-            TaxonRelationship taxonRelationship = new TaxonRelationship(taxon,
-                    term);
-            taxonRelationship.setToIdentifier(identifier);
-            taxonRelationshipResolver.addTaxonRelationship(taxonRelationship,
-                    identifier);
-        } else {
-            Annotation annotation = createAnnotation(taxon, RecordType.Taxon,
-                    AnnotationCode.BadField, AnnotationType.Warn);
-            annotation
-                    .setText("Could not find identifier for relationship of taxon "
-                            + taxon.getIdentifier());
-            annotation.setValue("related");
-            taxon.getAnnotations().add(annotation);
-        }
+		if (identifier != null) {
+			TaxonRelationshipTerm term = resolveRelationshipTerm(relationship
+					.getRelationshipCategoryRelation());
+			if (term.equals(TaxonRelationshipTerm.IS_CHILD_TAXON_OF)
+					|| term.equals(TaxonRelationshipTerm.IS_SYNONYM_FOR)) {
+				TaxonRelationship taxonRelationship = new TaxonRelationship(
+						taxon, term);
+				taxonRelationship.setToIdentifier(identifier);
+				taxonRelationshipResolver.addTaxonRelationship(
+						taxonRelationship, identifier);
+			}
+		} else {
+			Annotation annotation = createAnnotation(taxon, RecordType.Taxon,
+					AnnotationCode.BadField, AnnotationType.Warn);
+			annotation
+					.setText("Could not find identifier for relationship of taxon "
+							+ taxon.getIdentifier());
+			annotation.setValue("related");
+			taxon.getAnnotations().add(annotation);
+		}
     }
 
     /**

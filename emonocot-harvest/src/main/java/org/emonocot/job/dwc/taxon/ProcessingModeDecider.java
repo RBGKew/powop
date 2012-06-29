@@ -10,7 +10,7 @@ import org.springframework.batch.core.job.flow.JobExecutionDecider;
  * @author ben
  *
  */
-public class TaxonProcessingModeDecider implements JobExecutionDecider {
+public class ProcessingModeDecider implements JobExecutionDecider {
 
     /**
      * @param jobExecution Set the job execution

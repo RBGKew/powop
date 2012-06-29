@@ -44,14 +44,14 @@ import org.tdwg.voc.TaxonRelationshipTerm;
  * @author ben
  *
  */
-public class TaxonFieldSetMapper extends
+public class FieldSetMapper extends
         DarwinCoreFieldSetMapper<Taxon> implements ChunkListener {
 
    /**
     *
     */
     private Logger logger
-        = LoggerFactory.getLogger(TaxonFieldSetMapper.class);
+        = LoggerFactory.getLogger(FieldSetMapper.class);
     
     /**
      *
@@ -103,7 +103,7 @@ public class TaxonFieldSetMapper extends
     /**
      *
      */
-    public TaxonFieldSetMapper() {
+    public FieldSetMapper() {
         super(Taxon.class);
     }
 
@@ -146,6 +146,8 @@ public class TaxonFieldSetMapper extends
     public final void mapField(final Taxon taxon, final String fieldName,
             final String value) throws BindException {
         ConceptTerm term = getTermFactory().findTerm(fieldName);
+        logger.info("Mapping " + fieldName + " " + " " + value + " to "
+                + taxon);
         if (term instanceof DcTerm) {
             DcTerm dcTerm = (DcTerm) term;
             switch (dcTerm) {
@@ -283,6 +285,18 @@ public class TaxonFieldSetMapper extends
             if (unknownTerm.qualifiedName().equals(
                     "http://emonocot.org/protologueMicroReference")) {
                 taxon.setProtologueMicroReference(value);
+            } else if (unknownTerm.qualifiedName().equals(
+                    "http://emonocot.org/subfamily")) {
+                taxon.setSubfamily(value);
+            } else if (unknownTerm.qualifiedName().equals(
+                    "http://emonocot.org/tribe")) {
+                taxon.setTribe(value);
+            } else if (unknownTerm.qualifiedName().equals(
+                    "http://emonocot.org/subtribe")) {
+                taxon.setSubtribe(value);
+            } else if (unknownTerm.qualifiedName().equals(
+                    "http://emonocot.org/originalNameAuthorship")) {
+                taxon.setBasionymAuthorship(value);
             }
         }
     }

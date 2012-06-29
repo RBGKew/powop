@@ -1,4 +1,4 @@
-package org.emonocot.job.checklist;
+package org.emonocot.job.oaipmh;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

@@ -198,6 +198,21 @@ public class Taxon extends SearchableObject {
      *
      */
     private String order;
+    
+    /**
+     *
+     */
+    private String subfamily;
+    
+    /**
+     *
+     */
+    private String tribe;
+    
+    /**
+     *
+     */
+    private String subtribe;
 
     /**
      *
@@ -395,7 +410,7 @@ public class Taxon extends SearchableObject {
      * @return Get the immediate taxonomic children
      */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
-    @Cascade({CascadeType.SAVE_UPDATE })
+    //@Cascade({CascadeType.SAVE_UPDATE })
     @JsonIgnore
     public Set<Taxon> getChildren() {
         return children;
@@ -433,7 +448,7 @@ public class Taxon extends SearchableObject {
      */
     @IndexedEmbedded(depth = 1)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "accepted")
-    @Cascade({CascadeType.SAVE_UPDATE})
+    //@Cascade({CascadeType.SAVE_UPDATE})
     @JsonIgnore
     public Set<Taxon> getSynonyms() {
         return synonyms;
@@ -843,7 +858,6 @@ public class Taxon extends SearchableObject {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon", orphanRemoval = true)
     @Cascade({CascadeType.ALL })
     @JsonManagedReference("identifier-taxon")
-    @IndexedEmbedded
     public Set<Identifier> getIdentifiers() {
         return identifiers;
     }
@@ -873,4 +887,50 @@ public class Taxon extends SearchableObject {
     public void setKeys(Set<IdentificationKey> keys) {
         this.keys = keys;
     }
+
+	/**
+	 * @return the subfamily
+	 */
+    @Field
+	public String getSubfamily() {
+		return subfamily;
+	}
+
+	/**
+	 * @param subfamily the subfamily to set
+	 */
+	public void setSubfamily(String subfamily) {
+		this.subfamily = subfamily;
+	}
+
+	/**
+	 * @return the tribe
+	 */
+    @Field
+	public String getTribe() {
+		return tribe;
+	}
+
+	/**
+	 * @param tribe the tribe to set
+	 */
+	public void setTribe(String tribe) {
+		this.tribe = tribe;
+	}
+
+	/**
+	 * @return the subtribe
+	 */
+    @Field
+	public String getSubtribe() {
+		return subtribe;
+	}
+
+	/**
+	 * @param subtribe the subtribe to set
+	 */
+	public void setSubtribe(String subtribe) {
+		this.subtribe = subtribe;
+	}
+    
 }

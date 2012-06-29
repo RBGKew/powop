@@ -1,4 +1,4 @@
-package org.emonocot.ws.checklist;
+package org.emonocot.ws.oaipmh;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -43,7 +43,7 @@ import org.springframework.oxm.Unmarshaller;
  * @author ben
  *
  */
-public class OaiPmhClient implements StepExecutionListener {
+public class Client implements StepExecutionListener {
     /**
     *
     */
@@ -63,7 +63,7 @@ public class OaiPmhClient implements StepExecutionListener {
     /**
     *
     */
-    private Logger logger = LoggerFactory.getLogger(OaiPmhClient.class);
+    private Logger logger = LoggerFactory.getLogger(Client.class);
 
     /**
     *

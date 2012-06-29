@@ -24,6 +24,8 @@ import org.emonocot.easymock.matcher.HttpGetMatcher;
 import org.emonocot.model.marshall.xml.StaxDriver;
 import org.emonocot.model.marshall.xml.UriConverter;
 import org.emonocot.model.marshall.xml.XStreamMarshaller;
+import org.emonocot.ws.oaipmh.Client;
+import org.emonocot.ws.oaipmh.OaiPmhException;
 import org.junit.Before;
 import org.junit.Test;
 import org.openarchives.pmh.marshall.xml.OpenArchivesQNameMapFactory;
@@ -158,7 +160,7 @@ public class OaiPmhClientTest {
         StepExecution stepExecution
             = new StepExecution("test", new JobExecution(1L));
 
-        OaiPmhClient underTest = new OaiPmhClient();
+        Client underTest = new Client();
         underTest.setHttpClient(mockHttpClient);
         underTest.beforeStep(stepExecution);
         underTest.setServicesClientIdentifier(servicesClientIdentifier);
@@ -193,7 +195,7 @@ public class OaiPmhClientTest {
                 .andReturn(response);
         replay(mockHttpClient);
 
-        OaiPmhClient underTest = new OaiPmhClient();
+        Client underTest = new Client();
         underTest.setHttpClient(mockHttpClient);
         underTest.beforeStep(stepExecution);
         underTest.setServicesClientIdentifier(servicesClientIdentifier);
@@ -230,7 +232,7 @@ public class OaiPmhClientTest {
         StepExecution stepExecution
             = new StepExecution("test", new JobExecution(1L));
 
-        OaiPmhClient underTest = new OaiPmhClient();
+        Client underTest = new Client();
         underTest.setUnmarshaller(unmarshaller);
 
         underTest.setHttpClient(mockHttpClient);

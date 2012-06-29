@@ -1,4 +1,4 @@
-package org.emonocot.job.checklist;
+package org.emonocot.job.oaipmh;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -13,6 +13,7 @@ import org.emonocot.api.SourceService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.harvest.common.TaxonRelationshipResolver;
 import org.emonocot.harvest.common.TaxonRelationshipResolverImpl;
+import org.emonocot.job.oaipmh.ProcessorImpl;
 import org.emonocot.model.geography.GeographyConverter;
 import org.emonocot.model.reference.ReferenceTypeConverter;
 import org.emonocot.model.source.Source;
@@ -44,7 +45,7 @@ public class OaiPmhRecordProcessorTest {
     /**
      *
      */
-    private OaiPmhRecordProcessorImpl processor;
+    private ProcessorImpl processor;
 
     /**
      *
@@ -67,7 +68,7 @@ public class OaiPmhRecordProcessorTest {
     @Before
     public final void setUp() throws Exception {
         URI identifier = new URI("urn:lsid:example.com:test:123");
-        processor = new OaiPmhRecordProcessorImpl();
+        processor = new ProcessorImpl();
         record = new Record();
         Metadata metadata = new Metadata();
         TaxonConcept taxonConcept = new TaxonConcept();

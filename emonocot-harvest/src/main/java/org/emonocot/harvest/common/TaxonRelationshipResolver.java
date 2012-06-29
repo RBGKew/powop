@@ -14,12 +14,6 @@ public interface TaxonRelationshipResolver {
 
     /**
      *
-     * @return the inverse relationships
-     */
-    Map<String, Set<TaxonRelationship>> getInverseRelationships();
-
-    /**
-     *
      * @param taxon
      *            The taxon itself
      */

@@ -1,11 +1,10 @@
-package org.emonocot.job.checklist;
+package org.emonocot.job.oaipmh;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Path;
-import javax.validation.Validator;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -30,19 +29,19 @@ import org.springframework.batch.item.ItemProcessor;
  * @author ben
  * 
  */
-public class OaiPmhRecordValidator implements ItemProcessor<Taxon, Taxon>,
+public class Validator implements ItemProcessor<Taxon, Taxon>,
 		StepExecutionListener {
 
 	/**
      *
      */
-	private Validator validator;
+	private javax.validation.Validator validator;
 
 	/**
     *
     */
 	private Logger logger = LoggerFactory
-			.getLogger(OaiPmhRecordValidator.class);
+			.getLogger(Validator.class);
 
 	/**
      *
@@ -97,7 +96,7 @@ public class OaiPmhRecordValidator implements ItemProcessor<Taxon, Taxon>,
 	 * @param validator
 	 *            Set the validator
 	 */
-	public final void setValidator(Validator validator) {
+	public final void setValidator(javax.validation.Validator validator) {
 		this.validator = validator;
 	}
 

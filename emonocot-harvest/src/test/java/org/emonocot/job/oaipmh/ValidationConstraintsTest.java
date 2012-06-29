@@ -1,9 +1,10 @@
-package org.emonocot.job.checklist;
+package org.emonocot.job.oaipmh;
 
 import static org.junit.Assert.assertEquals;
 
 import org.easymock.EasyMock;
 import org.emonocot.api.SourceService;
+import org.emonocot.job.oaipmh.Validator;
 import org.emonocot.model.source.Source;
 import org.emonocot.model.taxon.Taxon;
 import org.junit.Before;
@@ -26,7 +27,7 @@ public class ValidationConstraintsTest {
     /**
     *
     */
-   private OaiPmhRecordValidator processor;
+   private Validator processor;
 
    /**
     *
@@ -47,7 +48,7 @@ public class ValidationConstraintsTest {
        taxon.setIdentifier("identifier");
        LocalValidatorFactoryBean validatorFactoryBean = new LocalValidatorFactoryBean();
        validatorFactoryBean.afterPropertiesSet();
-       processor = new OaiPmhRecordValidator();
+       processor = new Validator();
 
        sourceService = EasyMock.createMock(SourceService.class);
        processor.setSourceService(sourceService);

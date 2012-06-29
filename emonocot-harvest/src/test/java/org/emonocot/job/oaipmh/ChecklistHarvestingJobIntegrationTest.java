@@ -1,13 +1,15 @@
-package org.emonocot.job.checklist;
+package org.emonocot.job.oaipmh;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.emonocot.api.TaxonService;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.junit.Test;
@@ -32,21 +34,20 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
- *
  * @author ben
- *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
-        "/META-INF/spring/batch/jobs/singleRecordTaxonHarvesting.xml",
+        "/META-INF/spring/batch/jobs/oaiPmhTaxonHarvesting.xml",
+        "/META-INF/spring/applicationContext-integration.xml",
         "/META-INF/spring/applicationContext-test.xml" })
-public class SingleTaxonHarvestingJobIntegrationTest {
+public class ChecklistHarvestingJobIntegrationTest {
 
     /**
      *
      */
     private Logger logger = LoggerFactory
-            .getLogger(SingleTaxonHarvestingJobIntegrationTest.class);
+            .getLogger(ChecklistHarvestingJobIntegrationTest.class);
 
     /**
      *
@@ -61,13 +62,18 @@ public class SingleTaxonHarvestingJobIntegrationTest {
     private JobLauncher jobLauncher;
 
     /**
-     * 1288569600 in unix time.
+     *
      */
-    static final BaseDateTime PAST_DATETIME = new DateTime(2010, 11, 1,
-            9, 0, 0, 0);
+    @Autowired
+    private TaxonService taxonService;
 
     /**
-     *
+     * 1288569600 in unix time.
+     */
+    static final BaseDateTime PAST_DATETIME = new DateTime(2010, 11, 1, 9, 0,
+            0, 0);
+
+    /**
      * @throws IOException
      *             if a temporary file cannot be created.
      * @throws NoSuchJobException
@@ -82,30 +88,32 @@ public class SingleTaxonHarvestingJobIntegrationTest {
      *             if the job is already running
      */
     @Test
-    public final void testNotModifiedResponse() throws IOException,
+    public final void testOaiPmhHarvest() throws IOException,
             NoSuchJobException, JobExecutionAlreadyRunningException,
             JobRestartException, JobInstanceAlreadyCompleteException,
             JobParametersInvalidException {
-        Map<String, JobParameter> parameters
-            = new HashMap<String, JobParameter>();
-        parameters.put("authority.name", new JobParameter(
-                "test"));
-        parameters.put("record.identifier", new JobParameter(
-        "urn:example.com:test:identifier"));
+
+        if (taxonService.load("urn:lsid:grassbase.kew.org:taxa:387039") == null) {
+            fail("The taxon we need to delete is not present");
+        }
+
+        Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
+        parameters.put("authority.name", new JobParameter("test"));
         parameters.put("authority.uri", new JobParameter(
                 "http://build.e-monocot.org/test/oai.xml"));
-        parameters.put("authority.last.harvested",
-          new JobParameter(Long.toString((
-            SingleTaxonHarvestingJobIntegrationTest.PAST_DATETIME
-            .getMillis()))));
+        parameters
+                .put("authority.last.harvested",
+                        new JobParameter(
+                                Long.toString((ChecklistHarvestingJobIntegrationTest.PAST_DATETIME
+                                        .getMillis()))));
         parameters.put("request.interval", new JobParameter("10000"));
         JobParameters jobParameters = new JobParameters(parameters);
 
-        Job singleRecordTaxonHarvestingJob = jobLocator
-                .getJob("SingleRecordTaxonHarvesting");
-        assertNotNull("SingleRecordTaxonHarvesting must not be null",
-                singleRecordTaxonHarvestingJob);
-        JobExecution jobExecution = jobLauncher.run(singleRecordTaxonHarvestingJob,
+        Job oaiPmhTaxonHarvestingJob = jobLocator
+                .getJob("OaiPmhTaxonHarvesting");
+        assertNotNull("OaiPmhTaxonHarvestingJob must not be null",
+                oaiPmhTaxonHarvestingJob);
+        JobExecution jobExecution = jobLauncher.run(oaiPmhTaxonHarvestingJob,
                 jobParameters);
         assertEquals("Job should complete normally",
                 jobExecution.getExitStatus(), ExitStatus.COMPLETED);
@@ -115,6 +123,12 @@ public class SingleTaxonHarvestingJobIntegrationTest {
                     + stepExecution.getReadCount() + " "
                     + stepExecution.getFilterCount() + " "
                     + stepExecution.getWriteCount());
-        }
+       }
+
+        assertNull("We should have deleted this taxon",
+                taxonService.find("urn:lsid:grassbase.kew.org:taxa:387039"));
+        assertEquals("The specific epithet should have been updated",
+                "johowii", taxonService.find("urn:kew.org:wcs:taxon:303017")
+                        .getSpecificEpithet());
     }
 }

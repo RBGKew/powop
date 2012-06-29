@@ -14,11 +14,11 @@ import org.slf4j.LoggerFactory;
  * @author ben
  *
  */
-public class TaxonCheckingValidator extends DarwinCoreValidator<Taxon> {
+public class CheckingValidator extends DarwinCoreValidator<Taxon> {
     /**
      *
      */
-    private Logger logger = LoggerFactory.getLogger(TaxonCheckingValidator.class);
+    private Logger logger = LoggerFactory.getLogger(CheckingValidator.class);
 
     /**
      * @param taxon a taxon object

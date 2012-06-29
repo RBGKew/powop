@@ -1,4 +1,4 @@
-package org.emonocot.ws.checklist;
+package org.emonocot.ws.oaipmh;
 
 import org.openarchives.pmh.Error;
 import org.openarchives.pmh.ErrorCode;

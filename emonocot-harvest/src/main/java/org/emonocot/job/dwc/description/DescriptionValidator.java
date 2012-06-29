@@ -7,7 +7,6 @@ import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.common.RecordType;
 import org.emonocot.model.description.TextContent;
-import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Taxon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

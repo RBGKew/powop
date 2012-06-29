@@ -1,31 +1,28 @@
-package org.emonocot.job.checklist;
+package org.emonocot.job.oaipmh;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.emonocot.harvest.common.TaxonRelationshipResolver;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Taxon;
-import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.item.database.HibernateItemWriter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateOperations;
 
 /**
  * @author ben
  */
-public class OaiPmhRecordItemWriter extends HibernateItemWriter<Taxon> {
+public class Writer extends HibernateItemWriter<Taxon> {
 
     /**
     *
     */
-    private Logger logger = LoggerFactory
-            .getLogger(OaiPmhRecordItemWriter.class);
+    private Logger logger = LoggerFactory.getLogger(Writer.class);
 
     @Override
     protected final void doWrite(final HibernateOperations hibernateTemplate,

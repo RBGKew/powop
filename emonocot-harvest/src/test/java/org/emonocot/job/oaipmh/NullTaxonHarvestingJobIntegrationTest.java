@@ -1,10 +1,9 @@
-package org.emonocot.job.checklist;
+package org.emonocot.job.oaipmh;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;

@@ -149,7 +149,7 @@
 		</property>
 	</bean>
 
-	<bean id="oaiPmhClient" class="org.emonocot.ws.checklist.OaiPmhClient">
+	<bean id="oaiPmhClient" class="org.emonocot.ws.oaipmh.Client">
 		<property name="unmarshaller" ref="oaiPmhResponseUnmarshaller" />
 		<property name="proxyHost" value="${http.proxyHost}" />
 		<property name="proxyPort" value="${http.proxyPort}" />
@@ -224,7 +224,7 @@
 	  <property name="taxonService" ref="taxonServiceImpl"/>
 	</bean>
 
-    <bean id="taxonItemProcessor" class="org.emonocot.job.checklist.OaiPmhRecordProcessorImpl" scope="step">
+    <bean id="taxonItemProcessor" class="org.emonocot.job.oaipmh.ProcessorImpl" scope="step">
       <property name="taxonService" ref="taxonServiceImpl"/>
       <property name="taxonRelationshipResolver" ref="taxonRelationshipResolver"/>
       <property name="sourceService" ref="sourceServiceImpl"/>
@@ -233,21 +233,21 @@
       <property name="conversionService" ref="conversionService"/>
     </bean>
 
-	<bean id="taxonItemValidator" class="org.emonocot.job.checklist.OaiPmhRecordValidator"
+	<bean id="taxonItemValidator" class="org.emonocot.job.oaipmh.Validator"
 		scope="step">
 		<property name="sourceName" value="#{jobParameters['authority.name']}" />
 		<property name="sourceService" ref="sourceServiceImpl" />
 		<property name="validator" ref="validator" />
 	</bean>
 
-	<bean id="itemWriter" class="org.emonocot.job.checklist.OaiPmhRecordItemWriter">
+	<bean id="itemWriter" class="org.emonocot.job.oaipmh.Writer">
 		<property name="sessionFactory" ref="sessionFactory" />
 		<property name="clearSession" value="false"/>
 	</bean>
 	
 	<bean id="hibernateSessionClearingChunkListener" class="org.emonocot.harvest.common.HibernateSessionClearingChunkListener"/>
 	
-	<bean id="nullItemProcessor" class="org.emonocot.job.checklist.NullTaxonProcessor" scope="step">
+	<bean id="nullItemProcessor" class="org.emonocot.job.oaipmh.NullTaxonProcessor" scope="step">
 	  <property name="oaiPmhClient" ref="oaiPmhClient"/>
 	  <property name="oaiPmhRecordProcessor" ref="taxonItemProcessor"/>
 	  <property name="taxonService" ref="taxonServiceImpl"/>

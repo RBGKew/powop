@@ -1,4 +1,4 @@
-package org.emonocot.job.checklist;
+package org.emonocot.job.oaipmh;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -18,19 +18,21 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersInvalidException;
-import org.springframework.batch.core.configuration.JobLocator;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.NoSuchJobException;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
+import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -61,8 +63,15 @@ public class DeletingTaxaIntegrationTest {
     /**
      *
      */
+    @Qualifier("OaiPmhTaxonHarvesting")
     @Autowired
-    private JobLocator jobLocator;
+    private Job job;
+    
+    /**
+     *
+     */
+    @Autowired
+    private JobRepository jobRepository;
 
     /**
      *
@@ -73,7 +82,6 @@ public class DeletingTaxaIntegrationTest {
     /**
      *
      */
-    @Autowired
     private JobLauncherTestUtils jobLauncherTestUtils;
 
     /**
@@ -88,15 +96,19 @@ public class DeletingTaxaIntegrationTest {
     private File tempFile;
 
     /**
-     * @throws IOException
+     * @throws Exception
      *             if there is a problem opening the temporary file
      *
      */
     @Before
-    public final void setUp() throws IOException {
+    public final void setUp() throws Exception {
         ClassPathResource tempFileResource = new ClassPathResource(
                 "org/emonocot/job/oai/DeletedTaxa.xml");
         tempFile = tempFileResource.getFile();
+        jobLauncherTestUtils = new JobLauncherTestUtils();
+        jobLauncherTestUtils.setJobLauncher(jobLauncher);
+        jobLauncherTestUtils.setJobRepository(jobRepository);
+        jobLauncherTestUtils.setJob(job);
     }
 
     /**

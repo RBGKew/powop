@@ -1,4 +1,4 @@
-package org.emonocot.job.checklist;
+package org.emonocot.job.oaipmh;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,8 +13,8 @@ import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.common.RecordType;
 import org.emonocot.model.taxon.Taxon;
-import org.emonocot.ws.checklist.OaiPmhClient;
-import org.emonocot.ws.checklist.OaiPmhException;
+import org.emonocot.ws.oaipmh.Client;
+import org.emonocot.ws.oaipmh.OaiPmhException;
 import org.openarchives.pmh.Record;
 import org.openarchives.pmh.Status;
 import org.slf4j.Logger;
@@ -45,12 +45,12 @@ public class NullTaxonProcessor extends AuthorityAware implements ItemProcessor<
     /**
     *
     */
-    private OaiPmhClient oaiPmhClient;
+    private Client oaiPmhClient;
 
     /**
     *
     */
-    private OaiPmhRecordProcessor oaiPmhRecordProcessor;
+    private Processor oaiPmhRecordProcessor;
 
     /**
     *
@@ -154,7 +154,7 @@ public class NullTaxonProcessor extends AuthorityAware implements ItemProcessor<
                         TaxonConcept taxonConcept = record.getMetadata()
                                 .getTaxonConcept();
                         if (taxonConcept != null) {
-                            Set<TaxonRelationship> inverseRelationships
+                            /*Set<TaxonRelationship> inverseRelationships
                                 = new HashSet<TaxonRelationship>();
                             if (taxon.getParent() != null) {
                                 TaxonRelationship parentRelationship
@@ -194,7 +194,7 @@ public class NullTaxonProcessor extends AuthorityAware implements ItemProcessor<
                             }
                             taxonRelationshipResolver.getInverseRelationships()
                                     .put(taxon.getIdentifier(),
-                                            inverseRelationships);
+                                            inverseRelationships);*/
                             oaiPmhRecordProcessor.processTaxon(taxon,
                                     taxonConcept);
                             return taxon;
@@ -253,7 +253,7 @@ public class NullTaxonProcessor extends AuthorityAware implements ItemProcessor<
      * @param newOaiPmhClient
      *            the oaiPmhClient to set
      */
-    public final void setOaiPmhClient(final OaiPmhClient newOaiPmhClient) {
+    public final void setOaiPmhClient(final Client newOaiPmhClient) {
         this.oaiPmhClient = newOaiPmhClient;
     }
 
@@ -262,7 +262,7 @@ public class NullTaxonProcessor extends AuthorityAware implements ItemProcessor<
      *            the oaiPmhRecordProcessor to set
      */
     public final void setOaiPmhRecordProcessor(
-            final OaiPmhRecordProcessor newOaiPmhRecordProcessor) {
+            final Processor newOaiPmhRecordProcessor) {
         this.oaiPmhRecordProcessor = newOaiPmhRecordProcessor;
     }
 
