@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='utf-8'?>
+<archive xmlns="http://rs.tdwg.org/dwc/text/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://rs.tdwg.org/dwc/text/   http://rs.tdwg.org/dwc/text/tdwg_dwc_text.xsd"
+	metadata="eml.xml">
+	<core encoding="UTF-8" fieldsTerminatedBy="\t" linesTerminatedBy="\n"
+		ignoreHeaderLines="0" rowType="http://rs.tdwg.org/dwc/terms/Taxon">
+		<files>
+			<location>taxa.txt</location>
+		</files>
+		<id index="0" />
+		<field index="0" term="http://rs.tdwg.org/dwc/terms/taxonID" />
+		<field index="1" term="http://rs.tdwg.org/dwc/terms/scientificName" />
+		<field index="2" term="http://rs.tdwg.org/dwc/terms/family"/>
+		<field index="3" term="http://rs.tdwg.org/dwc/terms/genus"/>
+		<field index="4" term="http://rs.tdwg.org/dwc/terms/specificEpithet" />
+		<field index="5" term="http://rs.tdwg.org/dwc/terms/infraspecificEpithet" />
+		<field index="6" term="http://rs.tdwg.org/dwc/terms/verbatimTaxonRank" />
+		<field index="7" term="http://rs.tdwg.org/dwc/terms/scientificNameAuthorship" />
+		<field index="8" term="http://rs.tdwg.org/dwc/terms/taxonomicStatus" />
+		<field index="9" term="http://rs.tdwg.org/dwc/terms/acceptedNameUsageID" />
+		<field index="10" term="http://rs.tdwg.org/dwc/terms/parentNameUsageID" />
+		<field
+			default="Royal Botanic Gardens, Kew, 2004. eFloras: Iridaceae. [online] Available at: http://kew.org/efloras/ [Accessed 2012-06-22]"
+			term="http://purl.org/dc/terms/bibliographicCitation" />
+        <field
+            default="© Copyright The Board of Trustees, Royal Botanic Gardens, Kew."
+            term="http://purl.org/dc/terms/license" />
+		<field default="Plantae" term="http://rs.tdwg.org/dwc/terms/kingdom" />
+		<field default="Asparagales" term="http://rs.tdwg.org/dwc/terms/order" />
+		<field default="ICBN" term="http://rs.tdwg.org/dwc/terms/nomenclaturalCode" />
+		<field default="Taxon" term="http://rs.tdwg.org/dwc/terms/type" />
+		<field default="eFloras-Iridaceae" term="http://rs.tdwg.org/dwc/terms/datasetName" />
+	</core>
+	<extension encoding="UTF-8" fieldsTerminatedBy="\t"
+		linesTerminatedBy="\n" ignoreHeaderLines="0"
+		rowType="http://rs.gbif.org/terms/1.0/Description">
+		<files>
+			<location>description.txt</location>
+		</files>
+		<coreid index="0" />
+		<field index="1" term="http://purl.org/dc/terms/description" />
+		<field index="2" term="http://purl.org/dc/terms/type" />
+		<field default="EN" term="http://purl.org/dc/terms/language" />
+		<field
+            default="Royal Botanic Gardens, Kew, 2004. eFloras: Iridaceae. [online] Available at: http://kew.org/efloras/ [Accessed 2012-06-22]"
+            term="http://purl.org/dc/terms/bibliographicCitation" />
+        <field
+            default="© Copyright The Board of Trustees, Royal Botanic Gardens, Kew."
+            term="http://purl.org/dc/terms/license" />
+	</extension>
+	<extension encoding="UTF-8" fieldsTerminatedBy="\t"
+		linesTerminatedBy="\n" ignoreHeaderLines="0"
+		rowType="http://rs.gbif.org/terms/1.0/Reference">
+		<files>
+			<location>reference.txt</location>
+		</files>
+		<coreid index="0" />
+		<field index="1" term="http://purl.org/dc/terms/identifier" />
+		<field index="2" term="http://purl.org/dc/terms/bibliographicCitation" />
+		<field index="3" term="http://purl.org/dc/terms/title" />
+		<field index="4" term="http://purl.org/dc/terms/creator" />
+		<field index="5" term="http://purl.org/dc/terms/date" />
+		<field index="6" term="http://purl.org/ontology/bibo/volume" />
+		<field index="7" term="http://purl.org/ontology/bibo/number" />
+		<field index="8" term="http://purl.org/dc/terms/description" />
+		<!-- All books? <field default="Book" term="http://purl.org/dc/terms/type" /> -->
+	</extension>
+	<extension encoding="UTF-8" fieldsTerminatedBy="\t"
+		linesTerminatedBy="\n" ignoreHeaderLines="0"
+		rowType="http://rs.gbif.org/terms/1.0/Identifier">
+		<files>
+			<location>identifier.txt</location>
+		</files>
+		<coreid index="0" />
+		<field index="1" term="http://purl.org/dc/terms/identifier" />
+	</extension>
+</archive>
