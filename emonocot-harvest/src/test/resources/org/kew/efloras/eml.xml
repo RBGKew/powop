@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eml:eml xmlns:eml="eml://ecoinformatics.org/eml-2.1.0"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:res="eml://ecoinformatics.org/resource-2.1.0"
+	xmlns:acc="eml://ecoinformatics.org/access-2.1.0" xmlns:doc="eml://ecoinformatics.org/documentation-2.1.0"
+	xmlns:prot="eml://ecoinformatics.org/protocol-2.1.0" xmlns:ds="eml://ecoinformatics.org/dataset-2.1.0"
+	xmlns:cit="eml://ecoinformatics.org/literature-2.1.0" xmlns:sw="eml://ecoinformatics.org/software-2.1.0"
+	xmlns:physical="eml://ecoinformatics.org/physical-2.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dc="http://purl.org/dc/terms/"
+	xsi:schemaLocation="eml://ecoinformatics.org/eml-2.1.0 https://code.ecoinformatics.org/code/eml/tags/RELEASE_EML_2_1_0/eml.xsd"
+	packageId="http://www.kew.org/data/grasses-db/eml.xml"	system="eFloras" scope="system">
+	<dataset>
+		<!-- <alternateIdentifier>f9b15d90-2aea-11e1-9314-0800200c9a66</alternateIdentifier> -->
+		<title>eFloras: Iridaceae</title>		
+		<creator>
+            <organizationName>Royal Botanic Gardens, Kew</organizationName>
+			<onlineUrl>http://kew.org/efloras/</onlineUrl>
+			<electronicMailAddress>fzweb@kew.org</electronicMailAddress>
+		</creator>
+		<metadataProvider>
+			<individualName>
+				<surName>Science Applications Support</surName>
+			</individualName>			
+			<electronicMailAddress>apps-support@kew.org</electronicMailAddress>
+		</metadataProvider>		
+		<pubDate>2012-06-29</pubDate>		
+		<language>English</language>
+		<abstract>
+			<para>This project intends to provide not only an easy way of searching the information within Flora Zambesiaca but also an identification tool. This web site allows you to search for a plant name across the whole Flora, which would otherwise entail looking up separate indexes. It also allows the creation of lists of: endemics, species from a particular division or country, species that match a particular habit and of species that occur at a specific altitude. As far as possible no changes have been made to the information existing in the original text and the information is presented in the same way as in the original. Likewise, no taxonomic changes or new information has been added. Kew Index to Taxonomic Literature provides a bibliography of more recent taxonomic accounts where they exist.</para>
+		</abstract>		
+		<keywordSet>
+			<keyword>e-Taxonomy</keyword>
+			<keyword>eFloras</keyword>
+			<keyword>Royal Botanic Gardens Kew</keyword>
+			<keyword>Iridaceae</keyword>	
+		</keywordSet>
+		<intellectualRights>
+			<para>© Copyright The Board of Trustees, Royal Botanic Gardens, Kew.</para>
+		</intellectualRights>
+		<coverage>
+			<geographicCoverage>
+				<geographicDescription>Africa</geographicDescription>
+			</geographicCoverage>
+			<taxonomicCoverage>
+				<generalTaxonomicCoverage>Iridaceae</generalTaxonomicCoverage>
+			</taxonomicCoverage>
+		</coverage>
+		<contact>
+			<organizationName>Royal Botanic Gardens, Kew</organizationName>
+            <electronicMailAddress>fzweb@kew.org</electronicMailAddress>
+		</contact>
+		<project>
+			<title>eFloras</title>
+			<organizationName>Royal Botanic Gardens, Kew</organizationName>
+			<organizationName>Royal Botanic Gardens, Kew</organizationName>
+			<organizationName>Royal Botanic Gardens, Kew</organizationName>
+			<organizationName>Royal Botanic Gardens, Kew</organizationName>
+			<abstract>This project intends to provide not only an easy way of searching the information within Flora Zambesiaca but also an identification tool. This web site allows you to search for a plant name across the whole Flora, which would otherwise entail looking up separate indexes. It also allows the creation of lists of: endemics, species from a particular division or country, species that match a particular habit and of species that occur at a specific altitude. As far as possible no changes have been made to the information existing in the original text and the information is presented in the same way as in the original. Likewise, no taxonomic changes or new information has been added. Kew Index to Taxonomic Literature provides a bibliography of more recent taxonomic accounts where they exist.</abstract>
+		</project>
+	</dataset>
+	<additionalMetadata>
+	  <metadata>
+	    <gbif>
+	      <citation>Royal Botanic Gardens, Kew, 2004. eFloras: Iridaceae. [online] Available at: http://kew.org/efloras/ [Accessed 2012-06-22]</citation>
+	    </gbif>
+	  </metadata>	  
+	</additionalMetadata>
+</eml:eml>
