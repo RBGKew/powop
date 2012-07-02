@@ -84,8 +84,8 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:git://build.e-monocot.org:/var/lib/git/emonocot.git</connection>
-        <developerConnection>scm:git:git://${developer.username}@build.e-monocot.org:/var/lib/git/emonocot.git</developerConnection>
+        <connection>scm:git:ssh://build.e-monocot.org:/var/lib/git/emonocot.git</connection>
+        <developerConnection>scm:git:ssh://${developer.username}@build.e-monocot.org:/var/lib/git/emonocot.git</developerConnection>
         <url>http://build.e-monocot.org/git/?p=emonocot.git/.git;a=summary</url>
   </scm>
     <dependencyManagement>
