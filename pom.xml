@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.emonocot</groupId>
     <artifactId>emonocot</artifactId>
-    <version>0.0.18-SNAPSHOT</version>
+    <version>0.0.18</version>
     <description>eMonocot aims to create a global online resource for monocot plants. It will
         provide a focus for taxonomists working on monocots and will help people discover
         information about monocots by providing tools for identification, up-to-date checklists,
@@ -1334,8 +1334,8 @@
 	        <cargo.remote.password>tomcat</cargo.remote.password>
             <cargo.context.path>emonocot-harvester</cargo.context.path>
             <cargo.context.docBase>emonocot-harvester</cargo.context.docBase>
-            <http.proxyHost></http.proxyHost>
-            <http.proxyPort></http.proxyPort>
+            <http.proxyHost />
+            <http.proxyPort />
             <logging.level>WARN</logging.level>
             <logging.method>file</logging.method>
             <logging.location>/var/log/tomcat/emonocot-harvester.log</logging.location>
@@ -1478,8 +1478,8 @@
 	        <cargo.remote.password>tomcat</cargo.remote.password>
             <cargo.context.path>emonocot-harvester</cargo.context.path>
             <cargo.context.docBase>emonocot-harvester</cargo.context.docBase>
-            <http.proxyHost></http.proxyHost>
-            <http.proxyPort></http.proxyPort>
+            <http.proxyHost />
+            <http.proxyPort />
             <logging.level>WARN</logging.level>
             <logging.method>file</logging.method>
             <logging.location>/var/log/tomcat/emonocot-harvester.log</logging.location>
