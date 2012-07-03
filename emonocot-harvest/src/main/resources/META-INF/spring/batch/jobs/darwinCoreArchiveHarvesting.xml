@@ -304,6 +304,7 @@
 		scope="step">
 		<property name="encoding" value="#{jobExecutionContext['dwca.core.encoding']}"/>
 		<property name="linesToSkip" value="#{jobExecutionContext['dwca.core.ignoreHeaderLines']}"/>
+		<property name="bufferedReaderFactory" ref="bufferedReaderFactory"/>
 		<property name="resource">
 			<bean class="org.springframework.core.io.FileSystemResource"
 				scope="step">
@@ -357,6 +358,7 @@
 		scope="step">
 		<property name="encoding" value="#{jobExecutionContext['dwca.description.encoding']}"/>
 		<property name="linesToSkip" value="#{jobExecutionContext['dwca.description.ignoreHeaderLines']}"/>
+		<property name="bufferedReaderFactory" ref="bufferedReaderFactory"/>
 		<property name="resource">
 			<bean class="org.springframework.core.io.FileSystemResource"
 				scope="step">
@@ -402,6 +404,7 @@
 		scope="step">
 		<property name="encoding" value="#{jobExecutionContext['dwca.image.encoding']}"/>
 		<property name="linesToSkip" value="#{jobExecutionContext['dwca.image.ignoreHeaderLines']}"/>
+		<property name="bufferedReaderFactory" ref="bufferedReaderFactory"/>
 		<property name="resource">
 			<bean class="org.springframework.core.io.FileSystemResource"
 				scope="step">
@@ -465,6 +468,7 @@
 		scope="step">
 		<property name="encoding" value="#{jobExecutionContext['dwca.reference.encoding']}"/>
 		<property name="linesToSkip" value="#{jobExecutionContext['dwca.reference.ignoreHeaderLines']}"/>
+		<property name="bufferedReaderFactory" ref="bufferedReaderFactory"/>
 		<property name="resource">
 			<bean class="org.springframework.core.io.FileSystemResource"
 				scope="step">
@@ -509,6 +513,7 @@
 		scope="step">
 		<property name="encoding" value="#{jobExecutionContext['dwca.identifier.encoding']}"/>
 		<property name="linesToSkip" value="#{jobExecutionContext['dwca.identifier.ignoreHeaderLines']}"/>
+		<property name="bufferedReaderFactory" ref="bufferedReaderFactory"/>
 		<property name="resource">
 			<bean class="org.springframework.core.io.FileSystemResource"
 				scope="step">
