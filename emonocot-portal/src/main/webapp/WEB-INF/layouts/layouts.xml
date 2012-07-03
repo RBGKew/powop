@@ -14,8 +14,6 @@
     <put-attribute name="footer" value="/WEB-INF/views/footer.jspx" />
   </definition>
   <definition name="exception" template="/WEB-INF/layouts/checklist/exception.jsp"/>
-  <definition name="rdfFamilyResponse" template="/WEB-INF/layouts/checklist/rdfFamilyResponse.jsp"/>
   <definition name="rdfResponse" template="/WEB-INF/layouts/checklist/rdfResponse.jsp"/>
-  <definition name="tcsXmlFamilyResponse" template="/WEB-INF/layouts/checklist/tcsXmlFamilyResponse.jsp"/>
   <definition name="tcsXmlResponse" template="/WEB-INF/layouts/checklist/tcsXmlResponse.jsp"/>
 </tiles-definitions>

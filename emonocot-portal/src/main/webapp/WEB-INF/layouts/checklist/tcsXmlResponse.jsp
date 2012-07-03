@@ -9,7 +9,7 @@
     <c:set var="name">${result.genus}<c:if test="${not empty result.specificEpithet}"> ${result.specificEpithet}</c:if><c:if test="${em:isInfraspecific(result.rank)}"> ${result.rank.label}</c:if><c:if test="${not empty result.infraSpecificEpithet}"> ${result.infraSpecificEpithet}</c:if></c:set>
 	<TaxonNames>
 	  <jsp:element name="TaxonName">
-	    <jsp:attribute name="id">urn:kew.org:wcs:name:${id}</jsp:attribute>
+	    <jsp:attribute name="id">urn:kew.org:wcs:name:${result.id}</jsp:attribute>
 	    <jsp:attribute name="nomenclaturalCode">Botanical</jsp:attribute>
 	    <jsp:attribute name="itis_em_other_ref">
 	        ${em:escape(result.authorship)}<c:if test="${not empty result.protologue.author}"> in ${em:escape(result.protologue.author)}</c:if>,<jsp:text> ${em:escape(result.protologue.title)} ${em:escape(result.protologueMicroReference)} ${em:escape(result.protologue.datePublished)}</jsp:text>
@@ -23,7 +23,7 @@
 	</TaxonNames>
 	<TaxonConcepts>
 	  <TaxonConcept id="${result.identifier}">
-	    <Name scientific="true" ref="urn:kew.org:wcs:name:${id}">${result.name} ${em:escape(result.authorship)}</Name>
+	    <Name scientific="true" ref="urn:kew.org:wcs:name:${result.id}">${result.name} ${em:escape(result.authorship)}</Name>
 	    <Rank code="${result.rank.abbreviation}">${result.rank.label}</Rank>
 	    <spring:message code="checklistWebserviceController.baseURL" var="baseUrl"/>
 	    <TaxonRelationships>
