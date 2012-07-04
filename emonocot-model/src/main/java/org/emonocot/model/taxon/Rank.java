@@ -137,11 +137,11 @@ public enum Rank {
     /**
      *
      */
-    SUBTRIBE,
+    SUBTRIBE("subtrib", "Subtribe"),
     /**
      *
      */
-    TRIBE,
+    TRIBE("trib", "Tribe"),
     /**
      *
      */
@@ -153,7 +153,7 @@ public enum Rank {
     /**
      *
      */
-    SUBFAMILY,
+    SUBFAMILY("subfam", "Subfamily"),
     /**
      *
      */
