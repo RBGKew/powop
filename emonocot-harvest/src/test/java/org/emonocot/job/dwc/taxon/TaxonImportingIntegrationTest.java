@@ -94,7 +94,7 @@ public class TaxonImportingIntegrationTest {
         parameters.put("taxon.processing.mode", new JobParameter(
         "IMPORT_TAXA"));
         parameters.put("authority.uri", new JobParameter(
-                "http://build.e-monocot.org/protected/emonocot_new.zip"));
+                "http://build.e-monocot.org/test/test.zip"));
         parameters.put(
                 "authority.last.harvested",
                 new JobParameter(Long

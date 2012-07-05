@@ -8,9 +8,8 @@
 		xsi:schemaLocation="http://www.tdwg.org/schemas/tcs/1.01 http://www.tdwg.org/standards/117/files/TCS101/v101.xsd">
     <c:set var="name">${result.genus}<c:if test="${not empty result.specificEpithet}"> ${result.specificEpithet}</c:if><c:if test="${em:isInfraspecific(result.rank)}"> ${result.rank.label}</c:if><c:if test="${not empty result.infraSpecificEpithet}"> ${result.infraSpecificEpithet}</c:if></c:set>
 	<TaxonNames>
-	  <c:set var="nameIdentifier" value="${em:nameIdentifier(result)}"/>
 	  <c:set var="reference">${em:escape(result.authorship)}<c:if test="${not empty result.protologue.author}"> in ${em:escape(result.protologue.author)}</c:if>,<jsp:text> ${em:escape(result.protologue.title)} ${em:escape(result.protologueMicroReference)} ${em:escape(result.protologue.datePublished)}</jsp:text></c:set>
-	  <TaxonName id="${nameIdentifier}" nomenclaturalCode="Botanical" itis_em_other_ref="${reference}">
+	  <TaxonName id="${result.identifier}" nomenclaturalCode="Botanical" itis_em_other_ref="${reference}">
 	    <Simple>${result.name} ${em:escape(result.authorship)}</Simple>
 	    <Rank code="${result.rank.abbreviation}">${result.rank.label}</Rank>
 	    <CanonicalName>
@@ -20,7 +19,7 @@
 	</TaxonNames>
 	<TaxonConcepts>
 	  <TaxonConcept id="${result.identifier}">
-	    <Name scientific="true" ref="${em:nameIdentifier(result)}">${result.name} ${em:escape(result.authorship)}</Name>
+	    <Name scientific="true" ref="${result.identifier}">${result.name} ${em:escape(result.authorship)}</Name>
 	    <Rank code="${result.rank.abbreviation}">${result.rank.label}</Rank>
 	    <spring:message code="checklistWebserviceController.baseURL" var="baseUrl"/>
 	    <TaxonRelationships>

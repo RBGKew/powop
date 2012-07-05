@@ -177,7 +177,10 @@ public class ReferenceFieldSetMapper extends
             } else if (unknownTerm.qualifiedName().equals(
                     "http://purl.org/ontology/bibo/pages")) {
                 object.setPages(value);
-            }
+            } else if (unknownTerm.qualifiedName().equals(
+                    "http://emonocot.org/publishedInAuthor")) {
+                object.setPublishedInAuthor(value);
+            } 
         }
     }
 }

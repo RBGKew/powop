@@ -1,5 +1,8 @@
 package org.emonocot.api.job;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class JobExecutionException extends Throwable {
 	
 	/**

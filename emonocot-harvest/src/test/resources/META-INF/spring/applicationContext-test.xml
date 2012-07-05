@@ -97,6 +97,8 @@
 	<bean id="distributionBridge" class="org.emonocot.model.hibernate.DistributionBridge">
 	  <property name="skipInit" value="true"/>
 	</bean>
+	
+	<bean id="bufferedReaderFactory" class="org.emonocot.harvest.common.BOMIgnoringBufferedReaderFactory"/>
 	     
 	<beans profile="default">
 	    <bean id="getResourceClient" class="org.emonocot.ws.GetResourceClient"/>
@@ -106,8 +108,7 @@
 			<property name="testDatabaseName" value="testdb" />
 			<property name="schemaLocations">
 				<list>
-					<value>classpath:/org/springframework/batch/core/schema-drop-h2.sql
-					</value>
+					<value>classpath:/org/springframework/batch/core/schema-drop-h2.sql</value>
 					<value>classpath:/org/springframework/batch/core/schema-h2.sql
 					</value>
 					<value>classpath:/META-INF/database/H2_schema.ddl</value>
