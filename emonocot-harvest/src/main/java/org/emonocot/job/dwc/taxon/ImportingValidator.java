@@ -101,6 +101,9 @@ public class ImportingValidator extends DarwinCoreValidator<Taxon> {
 					persistedTaxon.setProtologue(taxon.getProtologue());
 					persistedTaxon.setProtologueMicroReference(taxon
 							.getProtologueMicroReference());
+					// Allow the relationships to either be re-asserted or dropped
+					persistedTaxon.setAccepted(null);
+					persistedTaxon.setParent(null);
 				}
 				Annotation annotation = createAnnotation(persistedTaxon,
 						RecordType.Taxon, AnnotationCode.Update,
