@@ -38,8 +38,8 @@ public class CheckingValidator extends DarwinCoreValidator<Taxon> {
         boolean anAnnotationPresent = false;
         for (Annotation annotation : persistedTaxon.getAnnotations()) {
         	logger.info("Comparing " + annotation.getJobId() + " with " + getStepExecution().getJobExecutionId());
-            if (annotation.getJobId().equals(
-                    getStepExecution().getJobExecutionId())) {
+            if (getStepExecution().getJobExecutionId().equals(
+            		annotation.getJobId())) {
                 if (annotation.getCode().equals(AnnotationCode.Present)) {
                     throw new TaxonAlreadyProcessedException(taxon);
                 }

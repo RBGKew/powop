@@ -55,11 +55,6 @@ public class ArchiveMetadataReader implements StepExecutionListener {
     /**
      *
      */
-    private ArchiveFactory archiveFactory;
-
-    /**
-     *
-     */
     private String sourceName;
 
     /**
@@ -71,15 +66,6 @@ public class ArchiveMetadataReader implements StepExecutionListener {
      *
      */
     private Validator validator;
-
-    /**
-     *
-     * @param newArchiveFactory
-     *            Set the Archive Factory
-     */
-    public final void setArchiveFactory(final ArchiveFactory newArchiveFactory) {
-        this.archiveFactory = newArchiveFactory;
-    }
 
     /**
      * @param sourceService the sourceService to set
@@ -110,7 +96,7 @@ public class ArchiveMetadataReader implements StepExecutionListener {
             final String sourceName, final String taxonProcessingMode) {
         this.sourceName = sourceName;
         try {
-            Archive archive = archiveFactory.openArchive(new File(
+            Archive archive = ArchiveFactory.openArchive(new File(
                     archiveDirectory));
 
             ArchiveFile core = archive.getCore();
