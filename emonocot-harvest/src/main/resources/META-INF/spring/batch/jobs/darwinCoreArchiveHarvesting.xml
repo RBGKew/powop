@@ -273,11 +273,7 @@
 		</property>
 	</bean>
 
-	<bean id="dwcArchiveMetadataReader" class="org.emonocot.job.dwc.ArchiveMetadataReader">
-		<property name="archiveFactory" ref="archiveFactory" />
-	</bean>
-
-	<bean id="archiveFactory" class="org.gbif.dwc.text.ArchiveFactory" />
+	<bean id="dwcArchiveMetadataReader" class="org.emonocot.job.dwc.ArchiveMetadataReader" />
 	
 	<!-- Taxa  -->
 	

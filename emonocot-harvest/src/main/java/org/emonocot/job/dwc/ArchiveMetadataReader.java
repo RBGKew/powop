@@ -55,11 +55,6 @@ public class ArchiveMetadataReader implements StepExecutionListener {
     /**
      *
      */
-    private ArchiveFactory archiveFactory;
-
-    /**
-     *
-     */
     private String sourceName;
 
     /**
@@ -110,7 +105,7 @@ public class ArchiveMetadataReader implements StepExecutionListener {
             final String sourceName, final String taxonProcessingMode) {
         this.sourceName = sourceName;
         try {
-            Archive archive = archiveFactory.openArchive(new File(
+            Archive archive = ArchiveFactory.openArchive(new File(
                     archiveDirectory));
 
             ArchiveFile core = archive.getCore();
