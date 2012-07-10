@@ -68,15 +68,6 @@ public class ArchiveMetadataReader implements StepExecutionListener {
     private Validator validator;
 
     /**
-     *
-     * @param newArchiveFactory
-     *            Set the Archive Factory
-     */
-    public final void setArchiveFactory(final ArchiveFactory newArchiveFactory) {
-        this.archiveFactory = newArchiveFactory;
-    }
-
-    /**
      * @param sourceService the sourceService to set
      */
     @Autowired
