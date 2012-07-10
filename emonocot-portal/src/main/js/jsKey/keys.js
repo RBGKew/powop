@@ -375,7 +375,3 @@ Key.prototype.findTaxonAttribute = function(taxon, character) {
 
 Key.Categorical = "UM";
 Key.Quantitative = "RN";
-
-define("jskey", function() {
-	  return Key;
-});
