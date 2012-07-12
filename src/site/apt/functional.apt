@@ -7,10 +7,11 @@
  
 Functional Testing using Selenium Grid
 
-  Functional tests can be configured to run locally against Internet Explorer, Chrome or Firefox by supplying an appropriate
-  parameters as part of the functional test and (in the case of Chrome or IE) installing the appropriate driver binaries. The
+  Functional tests can be configured to run locally against Internet Explorer, Chrome, Safari or Firefox by supplying an appropriate
+  parameters as part of the functional test and (in the case of Safari, Chrome or IE) installing the appropriate driver binaries. The
   documentation for the Internet Explorer Driver is {{{http://code.google.com/p/selenium/wiki/InternetExplorerDriver}here}} and
-  the documentation for the ChromeDriver is {{{http://code.google.com/p/selenium/wiki/ChromeDriver}here}}.
+  the documentation for the ChromeDriver is {{{http://code.google.com/p/selenium/wiki/ChromeDriver}here}}. The instructions for building
+  and installing the Safari driver are {{{http://code.google.com/p/selenium/wiki/SafariDriver}here}}.
   
   The Internet Explorer driver needs to be placed in you PATH. Also, you need to make sure that your security settings for each 
   internet zone are the same level in Internet Explorer. I set them all to "medium high" as "high" disabled javascript and broke
@@ -38,6 +39,13 @@ Functional Testing using Selenium Grid
       <id>ie</id>
       <properties>
         <selenium.webdriver.impl>org.openqa.selenium.ie.InternetExplorerDriver</selenium.webdriver.impl>
+        <selenium.webdriver.mode>local</selenium.webdriver.mode>
+      </properties>
+    </profile>
+    <profile>
+      <id>safari</id>
+      <properties>
+        <selenium.webdriver.impl>org.openqa.selenium.safari.SafariDriver</selenium.webdriver.impl>
         <selenium.webdriver.mode>local</selenium.webdriver.mode>
       </properties>
     </profile>
@@ -70,6 +78,15 @@ Functional Testing using Selenium Grid
         <selenium.webdriver.mode>remote</selenium.webdriver.mode>
       </properties>
     </profile>
+    <profile>
+      <id>windows.safari</id>
+      <properties>
+        <selenium.webdriver.impl>org.openqa.selenium.safari.SafariDriver</selenium.webdriver.impl>
+        <selenium.webdriver.platformName>WINDOWS</selenium.webdriver.platformName>
+        <selenium.webdriver.mode>remote</selenium.webdriver.mode>
+      </properties>
+    </profile>
+    
 -----------------------------------------------
 
 Registering your PC as a Selenium Grid Node

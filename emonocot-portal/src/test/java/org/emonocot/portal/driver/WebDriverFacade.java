@@ -3,6 +3,8 @@ package org.emonocot.portal.driver;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.annotation.PreDestroy;
@@ -17,6 +19,7 @@ import org.openqa.selenium.firefox.internal.ProfilesIni;
 import org.openqa.selenium.ie.InternetExplorerDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.safari.SafariDriver;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -44,17 +47,22 @@ public class WebDriverFacade implements FactoryBean<WebDriver> {
         String webdriverMode = properties.getProperty("selenium.webdriver.mode", "local");
         String driverName = properties.getProperty("selenium.webdriver.impl", "org.openqa.selenium.firefox.FirefoxDriver");
         WebDriverBrowserType browser = WebDriverBrowserType.fromString(driverName);
+        String display = properties.getProperty("selenium.display.port", ":0");
 		if (webdriverMode.equals("local")) {
 			switch (browser) {
 			case CHROME:
 				String chromeLocation = properties
 						.getProperty("selenium.webdriver.chromedriver.location");
+				Map<String,String> environment = new HashMap<String,String>();
+				environment.put("DISPLAY", display);
 				ChromeDriverService chromeService = new ChromeDriverService.Builder()
-						.usingChromeDriverExecutable(new File(chromeLocation))
-						.usingAnyFreePort().build();
+						.usingDriverExecutable(new File(chromeLocation))
+						.usingAnyFreePort().withEnvironment(environment).build();
 				chromeService.start();
 				return new RemoteWebDriver(chromeService.getUrl(),
 						DesiredCapabilities.chrome());
+			case SAFARI:
+				return new SafariDriver();
 			case INTERNET_EXPLORER:
 				String 	internetExplorerLocation = properties
 						.getProperty("selenium.webdriver.ie.location");
@@ -65,8 +73,6 @@ public class WebDriverFacade implements FactoryBean<WebDriver> {
 			case FIREFOX:
 			default:
 				FirefoxBinary firefoxBinary = new FirefoxBinary();
-				String display = properties.getProperty(
-						"selenium.display.port", ":0");
 				firefoxBinary.setEnvironmentProperty("DISPLAY", display);
 				ProfilesIni allProfiles = new ProfilesIni();
 				FirefoxProfile profile = allProfiles.getProfile("default");
@@ -81,6 +87,9 @@ public class WebDriverFacade implements FactoryBean<WebDriver> {
 				break;
 			case INTERNET_EXPLORER:
 				capabilities = DesiredCapabilities.internetExplorer();
+				break;
+			case SAFARI:
+				capabilities = DesiredCapabilities.safari();
 				break;
 			case FIREFOX:
 			default:

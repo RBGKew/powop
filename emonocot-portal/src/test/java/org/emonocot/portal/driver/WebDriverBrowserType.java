@@ -9,8 +9,9 @@ public enum WebDriverBrowserType {
     /**
      *
      */
+	CHROME("org.openqa.selenium.chrome.ChromeDriver"), 
     FIREFOX("org.openqa.selenium.firefox.FirefoxDriver"),
-    CHROME("org.openqa.selenium.chrome.ChromeDriver"), 
+    SAFARI("org.openqa.selenium.safari.SafariDriver"), 
     INTERNET_EXPLORER("org.openqa.selenium.ie.InternetExplorerDriver");
 
     /**
