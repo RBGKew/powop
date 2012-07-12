@@ -13,8 +13,8 @@ Functional Testing using Selenium Grid
   the documentation for the ChromeDriver is {{{http://code.google.com/p/selenium/wiki/ChromeDriver}here}}.
   
   The Internet Explorer driver needs to be placed in you PATH. Also, you need to make sure that your security settings for each 
-  internet zone are the same. I set them all to "medium high" as "high" disabled javascript and broke most normal web functionality.
-  The following profiles are suitable for functional testing in local browsers
+  internet zone are the same level in Internet Explorer. I set them all to "medium high" as "high" disabled javascript and broke
+  most normal web functionality. The following profiles are suitable for functional testing in local browsers
 
 -----------------------------------------------
     <profile>
@@ -22,7 +22,7 @@ Functional Testing using Selenium Grid
       <properties>
         <selenium.webdriver.impl>org.openqa.selenium.firefox.FirefoxDriver</selenium.webdriver.impl>
         <selenium.webdriver.mode>local</selenium.webdriver.mode>
-        <selenium.display.port>:0</selenium.display.port>
+        <selenium.display.port>:${xvfb.port.only.matters.on.unix}</selenium.display.port>
       </properties>
     </profile>
     <profile>
@@ -30,7 +30,8 @@ Functional Testing using Selenium Grid
       <properties>
         <selenium.webdriver.impl>org.openqa.selenium.chrome.ChromeDriver</selenium.webdriver.impl>
         <selenium.webdriver.mode>local</selenium.webdriver.mode>
-        <selenium.webdriver.chromedriver.location>C:\Program Files\chromedriver.exe</selenium.webdriver.chromedriver.location>
+        <selenium.webdriver.chromedriver.location>${path.to.chromedriver.binary}</selenium.webdriver.chromedriver.location>
+        <selenium.display.port>:${xvfb.port.only.matters.on.unix}</selenium.display.port>
       </properties>
     </profile>
     <profile>
@@ -45,7 +46,7 @@ Functional Testing using Selenium Grid
   For remote testing, you need to use the following settings (substitute MAC or LINUX to test on other platforms):
 
 -----------------------------------------------
-<profile>
+    <profile>
       <id>windows.firefox</id>
       <properties>
         <selenium.webdriver.impl>org.openqa.selenium.firefox.FirefoxDriver</selenium.webdriver.impl>
