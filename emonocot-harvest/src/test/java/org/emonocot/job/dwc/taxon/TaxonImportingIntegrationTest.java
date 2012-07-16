@@ -93,10 +93,8 @@ public class TaxonImportingIntegrationTest {
                 "test"));
         parameters.put("taxon.processing.mode", new JobParameter(
         "IMPORT_TAXA"));
-        parameters.put("family", new JobParameter(
-        "test"));
         parameters.put("authority.uri", new JobParameter(
-                "http://build.e-monocot.org/test/import.zip"));
+                "http://build.e-monocot.org/test/test.zip"));
         parameters.put(
                 "authority.last.harvested",
                 new JobParameter(Long

@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import org.easymock.EasyMock;
 import org.emonocot.api.TaxonService;
-import org.emonocot.job.dwc.taxon.TaxonFieldSetMapper;
+import org.emonocot.job.dwc.taxon.FieldSetMapper;
 import org.emonocot.model.taxon.Taxon;
 import org.junit.Before;
 import org.junit.Test;
@@ -66,7 +66,7 @@ public class TaxonParsingTest {
 
        taxonService = EasyMock.createMock(TaxonService.class);
 
-        TaxonFieldSetMapper fieldSetMapper = new TaxonFieldSetMapper();
+        FieldSetMapper fieldSetMapper = new FieldSetMapper();
         fieldSetMapper.setFieldNames(names);
         fieldSetMapper.setDefaultValues(new HashMap<String, String>());
         fieldSetMapper.setTaxonService(taxonService);

@@ -97,7 +97,7 @@ Key.prototype.pruneRedundants = function() {
     }    
 		
     this.updateUI(this);	
-}
+};
 
 Key.prototype.calculateRedundant = function() {
     //console.log("Key.doPruneRedundant");
@@ -168,23 +168,34 @@ Key.prototype.getTaxon = function(taxonId) {
 	
 Key.prototype.selectCharacter = function(characterId, value) {
 	var character = this.data.characters[characterId];
-        switch (character.type) {
-	    case Key.Categorical:
-            if(value.length == 0) {
-                return;
-            }
-            character.selectedValues = value;
+    switch (character.type) {
+    case Key.Categorical:
+        if(value.length == 0) {
+            return;
+        }
+        character.selectedValues = value;
             
-            break;
-            // Quantitative
-            default:
-              if(value == "") {
-                  return;
-              }
-              character.selectedValues = value;
-            break;
-            }
-        this.selectedCharacters.push(character);	
+        break;
+        // Quantitative
+        default:
+        if(value == "") {
+              return;
+        }
+        character.selectedValues = value;
+        break;
+        }
+    
+        var selected = false;
+        for(var i = 0; i < this.selectedCharacters.length; i++) {
+        	if(this.selectedCharacters[i].id == character.id) {
+        		this.selectedCharacters[i] = character;
+        		selected = true;
+        		break;
+        	}
+        }
+        if(!selected) {
+            this.selectedCharacters.push(character);
+        }
         
      	
 };

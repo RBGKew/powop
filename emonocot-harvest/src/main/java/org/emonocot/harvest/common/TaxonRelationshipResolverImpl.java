@@ -49,11 +49,6 @@ public class TaxonRelationshipResolverImpl extends AuthorityAware
    /**
     *
     */
-    private Map<String, Set<TaxonRelationship>> inverseRelationships = new HashMap<String, Set<TaxonRelationship>>();
-
-   /**
-    *
-    */
     protected TaxonService taxonService;
 
     /**
@@ -63,13 +58,6 @@ public class TaxonRelationshipResolverImpl extends AuthorityAware
      */
     public final void setTaxonService(final TaxonService newTaxonService) {
         this.taxonService = newTaxonService;
-    }
-
-    /* (non-Javadoc)
-     * @see org.emonocot.harvest.common.ITaxonRelationshipResolver#getInverseRelationships()
-     */
-    public final Map<String, Set<TaxonRelationship>> getInverseRelationships() {
-        return inverseRelationships;
     }
 
     /**
@@ -113,7 +101,7 @@ public class TaxonRelationshipResolverImpl extends AuthorityAware
                                 + " from service returning taxon with id "
                                 + taxon.getId());
                         taxaWithinChunk.put(taxon.getIdentifier(), taxon);
-                        if (taxon.getParent() != null
+                        /*if (taxon.getParent() != null
                                 && !taxaWithinChunk.containsKey(taxon
                                         .getParent().getIdentifier())) {
                             logger.info("Binding " + taxon.getParent()
@@ -152,7 +140,7 @@ public class TaxonRelationshipResolverImpl extends AuthorityAware
                                 taxaWithinChunk.put(synonym.getIdentifier(),
                                         synonym);
                             }
-                        }
+                        }*/
                     }
                     return taxon;
                 }
@@ -174,27 +162,10 @@ public class TaxonRelationshipResolverImpl extends AuthorityAware
      * @param identifier Set the identifier of the taxon owning the relationship
      */
     public final void addTaxonRelationship(
-            final TaxonRelationship taxonRelationship, final String identifier) {
-        boolean containsInverse = false;
-        if (inverseRelationships.containsKey(identifier)) {
-            for (TaxonRelationship relationship : inverseRelationships
-                    .get(identifier)) {
-                if (relationship.getToIdentifier().equals(
-                        taxonRelationship.getFrom().getIdentifier())) {
-                    containsInverse = true;
-                    break;
-                }
-            }
-        }
-        if (!containsInverse) {
-            taxonRelationship.setTo(resolve(identifier));
-            taxonRelationship.setToIdentifier(identifier);
-            this.taxonRelationships.add(taxonRelationship);
-        } else {
-            logger.info("Resolver is aware of inverse relationship between "
-                    + taxonRelationship.getFrom().getIdentifier() + " and "
-                    + identifier + "ignoring");
-        }
+            final TaxonRelationship taxonRelationship, final String identifier) {  
+        taxonRelationship.setTo(resolve(identifier));
+        taxonRelationship.setToIdentifier(identifier);
+        this.taxonRelationships.add(taxonRelationship);
     }
 
     /**
@@ -222,27 +193,16 @@ public class TaxonRelationshipResolverImpl extends AuthorityAware
                     taxon.setAccepted(related);
                     related.getSynonyms().add(taxon);
                 }
-            } else if (term.equals(TaxonRelationshipTerm.HAS_SYNONYM)) {
-                if (!taxon.getSynonyms().contains(related)) {
-                    related.setAccepted(taxon);
-                    taxon.getSynonyms().add(related);
-                }
             } else if (term.equals(TaxonRelationshipTerm.IS_CHILD_TAXON_OF)) {
                 if (!related.getChildren().contains(taxon)) {
                     taxon.setParent(related);
                     related.getChildren().add(taxon);
-                }
-            } else if (term.equals(TaxonRelationshipTerm.IS_PARENT_TAXON_OF)) {
-                if (!taxon.getChildren().contains(related)) {
-                    related.setParent(taxon);
-                    taxon.getChildren().add(related);
                 }
             }
         }
 
         taxaWithinChunk.clear();
         taxonRelationships.clear();
-        inverseRelationships.clear();
     }
 
     /**
@@ -270,7 +230,6 @@ public class TaxonRelationshipResolverImpl extends AuthorityAware
     public final void beforeChunk() {
         logger.info("Before Chunk");
         this.taxonRelationships = new HashSet<TaxonRelationship>();
-        this.inverseRelationships = new HashMap<String, Set<TaxonRelationship>>();
         this.taxaWithinChunk = new HashMap<String, Taxon>();
     }
 

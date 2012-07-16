@@ -4,11 +4,11 @@
   <parent>
     <artifactId>emonocot</artifactId>
     <groupId>org.emonocot</groupId>
-    <version>0.0.18-SNAPSHOT</version>
+    <version>0.0.19-SNAPSHOT</version>
   </parent>
   <groupId>org.emonocot</groupId>
   <artifactId>emonocot-service</artifactId>
-  <version>0.0.18-SNAPSHOT</version>
+  <version>0.0.19-SNAPSHOT</version>
   <name>eMonocot Service Layer</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -71,18 +71,6 @@
        <artifactId>org.emonocot.hatbox</artifactId>
     </dependency>
   </dependencies>
-  <reporting>
-	  <plugins>
-	    <plugin>
-		  <groupId>de.smartics.maven.plugin</groupId>
-		  <artifactId>org.emonocot.maven-issues-plugin</artifactId>
-		  <version>0.4.0</version>
-		  <configuration>
-		    <component>emonocot-service</component>
-		  </configuration>
-		</plugin>
-	  </plugins>
-  </reporting>
   <build>
     <plugins>
       <plugin>

@@ -1,6 +1,5 @@
 package org.emonocot.portal.format;
 
-import org.emonocot.checklist.format.ChecklistIdentifierAnnotationFormatterFactory;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.support.FormattingConversionServiceFactoryBean;
 
@@ -19,8 +18,6 @@ public class PortalFormatterFactory extends
         registry.addFormatterForFieldAnnotation(new FacetRequestAnnotationFormatterFactory());
         registry.addFormatterForFieldAnnotation(new SortingAnnotationFormatterFactory());
         registry.addFormatterForFieldAnnotation(new PermissionAnnotationFormatterFactory());
-        // Required for checklist
-        registry.addFormatterForFieldAnnotation(new ChecklistIdentifierAnnotationFormatterFactory());
     }
 
 }

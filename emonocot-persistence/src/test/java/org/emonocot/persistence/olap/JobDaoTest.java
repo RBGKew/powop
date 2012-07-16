@@ -30,12 +30,15 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 
 /**
  *
  * @author ben
  *
  */
+@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class JobDaoTest extends AbstractPersistenceTest {
 
     /**
@@ -126,11 +129,11 @@ public class JobDaoTest extends AbstractPersistenceTest {
     */
    @Test
    public final void testLoadJobExecution() {
-        JobExecution jobExecution = jobDao.load(3L);
-        assertEquals("JobExecution.jobId should equal the 3L", 3L, jobExecution
+        JobExecution jobExecution = jobDao.load(1L);
+        assertEquals("JobExecution.jobId should equal the 1L", 1L, jobExecution
                 .getId().longValue());
-        jobExecution = jobDao.load(4L);
-        assertEquals("JobExecution.jobId should equal the 4L", 4L, jobExecution
+        jobExecution = jobDao.load(1L);
+        assertEquals("JobExecution.jobId should equal the 1L", 1L, jobExecution
                 .getId().longValue());
     }
 

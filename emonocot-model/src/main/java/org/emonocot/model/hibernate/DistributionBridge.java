@@ -130,17 +130,8 @@ public class DistributionBridge implements FieldBridge {
         GeographicalRegion geographicalRegion = distribution.getRegion();
 
         if (geographicalRegion != null) {  // WARN this should not be null!
-            SpatialFieldInfo fieldInfo = new SimpleSpatialFieldInfo("area");
-            if (geographicalRegion.getShape() != null) {
+        	geographicalRegion.addFields(document, spatialStrategy);
 
-                for (Fieldable f : spatialStrategy.createFields(fieldInfo,
-                        geographicalRegion.getShape(), true, true)) {
-                    if (f != null) {
-                        // null if incompatibleGeometry && ignore
-                        document.add(f);
-                    }
-                }
-            }
             if (geographicalRegion.getClass() == Country.class) {
                 Country country = (Country) geographicalRegion;
                 Field countryField = new Field("country",

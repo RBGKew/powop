@@ -10,8 +10,8 @@
     <name>${taxon.name}</name>
     <canonical_form>${taxon.name}</canonical_form>
     <id>${taxon.identifier}</id>
-    <ancestry>${taxon.family}|${taxon.genus}<c:if test="${taxon.specificEpithet}">|${taxon.specificEpithet}</c:if><c:if test="${taxon.infraSpecificEpithet}">|${taxon.infraSpecificEpithet}</c:if></ancestry>
-    <ranked_ancestry>${taxon.family}|${taxon.genus}</ranked_ancestry>
+    <ancestry><c:if test="${not empty taxon.family}">${taxon.family}<c:if test="${not empty taxon.genus}">|${taxon.genus}</c:if><c:if test="${not empty taxon.specificEpithet}">|${taxon.specificEpithet}<c:if test="${not empty taxon.infraSpecificEpithet}">|${taxon.infraSpecificEpithet}</c:if></c:if></c:if></ancestry>
+    <ranked_ancestry><c:if test="${not empty taxon.family}">${taxon.family}<c:if test="${not empty taxon.genus}">|${taxon.genus}</c:if></c:if></ranked_ancestry>
     <rank>${taxon.rank.label}</rank>
     <number_of_children>${fn:length(taxon.children)}</number_of_children>
     <number_of_children_synonyms>${fn:length(taxon.synonyms)}</number_of_children_synonyms>

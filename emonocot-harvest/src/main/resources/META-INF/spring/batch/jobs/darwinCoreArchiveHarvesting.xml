@@ -57,7 +57,7 @@
 			<batch:description>Process the core file containing the taxa but only check the taxa, don't modify or create taxa</batch:description>
 			<batch:tasklet>
 				<batch:chunk reader="taxonReader" processor="taxonCheckingProcessor"
-					writer="itemWriter" commit-interval="100" skip-limit="10000">
+					writer="itemWriter" commit-interval="10" skip-limit="10000">
 					<batch:skippable-exception-classes>
                       <batch:include class="org.emonocot.job.dwc.DarwinCoreProcessingException"/>
                       <batch:include class="org.springframework.batch.item.file.FlatFileParseException"/>
@@ -76,7 +76,7 @@
 			<batch:description>Process the core file containing the taxa, creating and modifying where neccessary</batch:description>
 			<batch:tasklet>
 				<batch:chunk reader="taxonReader" processor="taxonImportingProcessor"
-					writer="itemWriter" commit-interval="100" skip-limit="10000">
+					writer="itemWriter" commit-interval="10" skip-limit="10000">
 					<batch:skippable-exception-classes>
                       <batch:include class="org.emonocot.job.dwc.DarwinCoreProcessingException"/>
                       <batch:include class="org.springframework.batch.item.file.FlatFileParseException"/>
@@ -88,8 +88,9 @@
 			  <batch:listener ref="processingExceptionProcessListener"/>
 			  <batch:listener ref="taxonFieldSetMapper"/>
 			  <batch:listener ref="taxonRelationshipResolver"/>
+			  <batch:listener ref="taxonRelationshipResolver"/>
 			  <batch:listener ref="hibernateSessionClearingChunkListener"/>
-			</batch:listeners>
+			</batch:listeners>		
 		</batch:step>
 		<batch:decision decider="processDescriptionDecider" id="processDescriptionDecision">
 		  <batch:next on="DESCRIPTION_PRESENT" to="processDescriptionFile"/>
@@ -227,23 +228,6 @@
 			</list>
 		</property>
 	</bean>
-	
-	<bean id="markTaxonRecordsTasklet"
-          class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
-          scope="step">
-        <property name="targetObject" ref="recordAnnotator" />
-        <property name="targetMethod" value="annotateRecords" />
-     	<property name="arguments">
-         <list>
-          <value>#{jobParameters['family']}</value>
-          <value>#{jobParameters['authority.name']}</value>
-         </list>
-        </property>
-    </bean>
-
-    <bean id="recordAnnotator" class="org.emonocot.job.dwc.RecordAnnotator">
-       <property name="dataSource" ref="dataSource"/>
-	</bean>
 
 	<bean id="getDWCArchiveTasklet"
 		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
@@ -289,18 +273,34 @@
 		</property>
 	</bean>
 
-	<bean id="dwcArchiveMetadataReader" class="org.emonocot.job.dwc.ArchiveMetadataReader">
-		<property name="archiveFactory" ref="archiveFactory" />
-	</bean>
-
-	<bean id="archiveFactory" class="org.gbif.dwc.text.ArchiveFactory" />
+	<bean id="dwcArchiveMetadataReader" class="org.emonocot.job.dwc.ArchiveMetadataReader" />
 	
-	<bean id="taxonProcessingModeDecider" class="org.emonocot.job.dwc.taxon.TaxonProcessingModeDecider"/>
-
+	<!-- Taxa  -->
+	
+	<bean id="taxonProcessingModeDecider" class="org.emonocot.job.dwc.taxon.ProcessingModeDecider"/>
+	
+	<bean id="markTaxonRecordsTasklet"
+          class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+          scope="step">
+        <property name="targetObject" ref="recordAnnotator" />
+        <property name="targetMethod" value="annotateRecords" />
+     	<property name="arguments">
+         <list>
+          <value>#{jobParameters['family']}</value>
+          <value>#{jobParameters['authority.name']}</value>
+         </list>
+        </property>
+    </bean>
+    
+    <bean id="recordAnnotator" class="org.emonocot.job.dwc.RecordAnnotator">
+       <property name="dataSource" ref="dataSource"/>
+	</bean>
+	
 	<bean id="taxonReader" class="org.springframework.batch.item.file.FlatFileItemReader"
 		scope="step">
 		<property name="encoding" value="#{jobExecutionContext['dwca.core.encoding']}"/>
 		<property name="linesToSkip" value="#{jobExecutionContext['dwca.core.ignoreHeaderLines']}"/>
+		<property name="bufferedReaderFactory" ref="bufferedReaderFactory"/>
 		<property name="resource">
 			<bean class="org.springframework.core.io.FileSystemResource"
 				scope="step">
@@ -314,12 +314,12 @@
 	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
 	  <property name="taxonService" ref="taxonServiceImpl"/>
 	</bean>
-
-	<bean id="taxonCheckingProcessor" class="org.emonocot.job.dwc.taxon.TaxonCheckingValidator" scope="step">
+	
+	<bean id="taxonImportingProcessor" class="org.emonocot.job.dwc.taxon.ImportingValidator" scope="step">
 	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
 	</bean>
 	
-	<bean id="taxonImportingProcessor" class="org.emonocot.job.dwc.taxon.TaxonImportingValidator" scope="step">
+	<bean id="taxonCheckingProcessor" class="org.emonocot.job.dwc.taxon.CheckingValidator" scope="step">
 	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
 	</bean>
 
@@ -338,7 +338,7 @@
 		<property name="strict" value="false"/>
 	</bean>	
 	
-	<bean id="taxonFieldSetMapper" class="org.emonocot.job.dwc.taxon.TaxonFieldSetMapper"  scope="step">
+	<bean id="taxonFieldSetMapper" class="org.emonocot.job.dwc.taxon.FieldSetMapper"  scope="step">
 	    <property name="sourceName" value="#{jobParameters['authority.name']}"/>
 	    <property name="fieldNames" value="#{jobExecutionContext['dwca.core.fieldNames']}"/>
 		<property name="defaultValues" value="#{jobExecutionContext['dwca.core.defaultValues']}"/>
@@ -354,6 +354,7 @@
 		scope="step">
 		<property name="encoding" value="#{jobExecutionContext['dwca.description.encoding']}"/>
 		<property name="linesToSkip" value="#{jobExecutionContext['dwca.description.ignoreHeaderLines']}"/>
+		<property name="bufferedReaderFactory" ref="bufferedReaderFactory"/>
 		<property name="resource">
 			<bean class="org.springframework.core.io.FileSystemResource"
 				scope="step">
@@ -399,6 +400,7 @@
 		scope="step">
 		<property name="encoding" value="#{jobExecutionContext['dwca.image.encoding']}"/>
 		<property name="linesToSkip" value="#{jobExecutionContext['dwca.image.ignoreHeaderLines']}"/>
+		<property name="bufferedReaderFactory" ref="bufferedReaderFactory"/>
 		<property name="resource">
 			<bean class="org.springframework.core.io.FileSystemResource"
 				scope="step">
@@ -462,6 +464,7 @@
 		scope="step">
 		<property name="encoding" value="#{jobExecutionContext['dwca.reference.encoding']}"/>
 		<property name="linesToSkip" value="#{jobExecutionContext['dwca.reference.ignoreHeaderLines']}"/>
+		<property name="bufferedReaderFactory" ref="bufferedReaderFactory"/>
 		<property name="resource">
 			<bean class="org.springframework.core.io.FileSystemResource"
 				scope="step">
@@ -506,6 +509,7 @@
 		scope="step">
 		<property name="encoding" value="#{jobExecutionContext['dwca.identifier.encoding']}"/>
 		<property name="linesToSkip" value="#{jobExecutionContext['dwca.identifier.ignoreHeaderLines']}"/>
+		<property name="bufferedReaderFactory" ref="bufferedReaderFactory"/>
 		<property name="resource">
 			<bean class="org.springframework.core.io.FileSystemResource"
 				scope="step">

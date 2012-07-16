@@ -4,11 +4,11 @@
 	<parent>
 		<artifactId>emonocot</artifactId>
 		<groupId>org.emonocot</groupId>
-		<version>0.0.18-SNAPSHOT</version>
+		<version>0.0.19-SNAPSHOT</version>
 	</parent>
 	<groupId>org.emonocot</groupId>
 	<artifactId>emonocot-harvest</artifactId>
-	<version>0.0.18-SNAPSHOT</version>
+	<version>0.0.19-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>eMonocot Harvesting</name>
 	<description>Backend Harvesting Routines</description>
@@ -240,6 +240,10 @@
           <groupId>org.kew</groupId>
           <artifactId>ECAT-name-parser</artifactId>
         </dependency>
+        <dependency>
+          <groupId>commons-io</groupId>
+          <artifactId>commons-io</artifactId>
+        </dependency>
 	</dependencies>
 	<build>
 		<finalName>emonocot-harvest</finalName>
@@ -342,16 +346,4 @@
             </plugin>			
 		</plugins>
 	</build>
-	<reporting>
-	  <plugins>
-	    <plugin>
-		  <groupId>de.smartics.maven.plugin</groupId>
-		  <artifactId>org.emonocot.maven-issues-plugin</artifactId>
-		  <version>0.4.0</version>
-		  <configuration>
-		    <component>emonocot-harvest</component>
-		  </configuration>
-		</plugin>
-	  </plugins>
-	</reporting>
 </project>

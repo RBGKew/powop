@@ -2215,4 +2215,30 @@
           <column name="writeSkip" type="INTEGER"/>
       </addColumn>
     </changeSet>
+    <changeSet id="2012-06-27_01" author="ben">
+      <comment>Adding columns to Taxon as part of adding infrafamilial ranks to the portal</comment>
+      <addColumn tableName="Taxon">
+          <column name="subfamily" type="VARCHAR(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2012-06-27_02" author="ben">
+      <comment>Adding columns to Taxon as part of adding infrafamilial ranks to the portal</comment>
+      <addColumn tableName="Taxon">
+          <column name="tribe" type="VARCHAR(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2012-06-27_03" author="ben">
+      <comment>Adding columns to Taxon as part of adding infrafamilial ranks to the portal</comment>
+      <addColumn tableName="Taxon">
+          <column name="subtribe" type="VARCHAR(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2012-06-29_01" author="ben">
+      <comment>Changing ownership of accepted asparagaceae genera to eMonocot</comment>
+      <sql>update taxon set authority_id = 5 where family = 'Asparagaceae' and status = 'accepted' and rank = 'GENUS';</sql>
+    </changeSet>
+    <changeSet id="2012-06-29_02" author="ben">
+      <comment>Changing ownership of accepted orchid genera to eMonocot</comment>
+      <sql>update taxon set authority_id = 5 where family = 'Orchidaceae' and status = 'accepted' and rank = 'GENUS';</sql>
+    </changeSet>
 </databaseChangeLog>

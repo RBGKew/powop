@@ -1,0 +1,104 @@
+ ------
+ Functional Testing using Selenium Grid
+ ------
+ Ben Clark
+ ------
+ Date
+ 
+Functional Testing using Selenium Grid
+
+  Functional tests can be configured to run locally against Internet Explorer, Chrome, Safari or Firefox by supplying an appropriate
+  parameters as part of the functional test and (in the case of Safari, Chrome or IE) installing the appropriate driver binaries. The
+  documentation for the Internet Explorer Driver is {{{http://code.google.com/p/selenium/wiki/InternetExplorerDriver}here}} and
+  the documentation for the ChromeDriver is {{{http://code.google.com/p/selenium/wiki/ChromeDriver}here}}. The instructions for building
+  and installing the Safari driver are {{{http://code.google.com/p/selenium/wiki/SafariDriver}here}}.
+  
+  The Internet Explorer driver needs to be placed in you PATH. Also, you need to make sure that your security settings for each 
+  internet zone are the same level in Internet Explorer. I set them all to "medium high" as "high" disabled javascript and broke
+  most normal web functionality. The following profiles are suitable for functional testing in local browsers
+
+-----------------------------------------------
+    <profile>
+      <id>firefox</id>
+      <properties>
+        <selenium.webdriver.impl>org.openqa.selenium.firefox.FirefoxDriver</selenium.webdriver.impl>
+        <selenium.webdriver.mode>local</selenium.webdriver.mode>
+        <selenium.display.port>:${xvfb.port.only.matters.on.unix}</selenium.display.port>
+      </properties>
+    </profile>
+    <profile>
+      <id>chrome</id>
+      <properties>
+        <selenium.webdriver.impl>org.openqa.selenium.chrome.ChromeDriver</selenium.webdriver.impl>
+        <selenium.webdriver.mode>local</selenium.webdriver.mode>
+        <selenium.webdriver.chromedriver.location>${path.to.chromedriver.binary}</selenium.webdriver.chromedriver.location>
+        <selenium.display.port>:${xvfb.port.only.matters.on.unix}</selenium.display.port>
+      </properties>
+    </profile>
+    <profile>
+      <id>ie</id>
+      <properties>
+        <selenium.webdriver.impl>org.openqa.selenium.ie.InternetExplorerDriver</selenium.webdriver.impl>
+        <selenium.webdriver.mode>local</selenium.webdriver.mode>
+      </properties>
+    </profile>
+    <profile>
+      <id>safari</id>
+      <properties>
+        <selenium.webdriver.impl>org.openqa.selenium.safari.SafariDriver</selenium.webdriver.impl>
+        <selenium.webdriver.mode>local</selenium.webdriver.mode>
+      </properties>
+    </profile>
+-----------------------------------------------
+
+  For remote testing, you need to use the following settings (substitute MAC or LINUX to test on other platforms):
+
+-----------------------------------------------
+    <profile>
+      <id>windows.firefox</id>
+      <properties>
+        <selenium.webdriver.impl>org.openqa.selenium.firefox.FirefoxDriver</selenium.webdriver.impl>
+        <selenium.webdriver.platformName>WINDOWS</selenium.webdriver.platformName>
+        <selenium.webdriver.mode>remote</selenium.webdriver.mode>
+      </properties>
+    </profile>
+    <profile>
+      <id>windows.ie</id>
+      <properties>
+        <selenium.webdriver.impl>org.openqa.selenium.ie.InternetExplorerDriver</selenium.webdriver.impl>
+        <selenium.webdriver.platformName>WINDOWS</selenium.webdriver.platformName>
+        <selenium.webdriver.mode>remote</selenium.webdriver.mode>
+      </properties>
+    </profile>
+    <profile>
+      <id>windows.chrome</id>
+      <properties>
+        <selenium.webdriver.impl>org.openqa.selenium.chrome.ChromeDriver</selenium.webdriver.impl>
+        <selenium.webdriver.platformName>WINDOWS</selenium.webdriver.platformName>
+        <selenium.webdriver.mode>remote</selenium.webdriver.mode>
+      </properties>
+    </profile>
+    <profile>
+      <id>windows.safari</id>
+      <properties>
+        <selenium.webdriver.impl>org.openqa.selenium.safari.SafariDriver</selenium.webdriver.impl>
+        <selenium.webdriver.platformName>WINDOWS</selenium.webdriver.platformName>
+        <selenium.webdriver.mode>remote</selenium.webdriver.mode>
+      </properties>
+    </profile>
+    
+-----------------------------------------------
+
+Registering your PC as a Selenium Grid Node
+
+  To see which nodes are currently registered with the eMonocot selenium hub and their capabilities, you can 
+  visit {{{http://build.e-monocot.org:4444/grid/console}here}}. To register your PC as an additional remote node,
+  download the selenium grid server (standalone version) from {{{http://code.google.com/p/selenium/downloads/list}here}}. 
+  You can run it as a node with the following command:
+  
+-----------------------------------------------
+java -jar selenium-server-standalone-2.24.1.jar -role node -Dwebdriver.chrome.driver=${path.to.chromedriver.binary} -hub http://build.e-monocot.org:4444/grid/register
+-----------------------------------------------
+  
+
+  

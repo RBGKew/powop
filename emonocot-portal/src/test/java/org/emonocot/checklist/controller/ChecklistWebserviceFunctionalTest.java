@@ -79,10 +79,14 @@ public class ChecklistWebserviceFunctionalTest {
                         "250pp",
                         "Pargetter & Archer, Integer elementum lorem ut nibh scelerisque at condimentum 2: 250pp 1784",
                         null);
+        testDataManager.createTaxon("urn:kew.org:wcs:family:28", "Lowiaceae", "Archer",
+                null, null, null, "FAMILY", "accepted", null, null,
+                null, null, null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:3", "Lorem", null,
                 "Lowiaceae", "Lorem", null, "GENUS", "accepted", null, null,
                 null, null, null, null, null, null, null, null, null, null,
-                null, null, null, null, null, null, null);
+                null, null, null, "urn:kew.org:wcs:family:28", null, null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:1", "Lorem ipsum",
                 "(Archer & Archer) Pargetter", "Lowiaceae", "Lorem", "ipsum",
                 "SPECIES", "accepted", null, null, null, null, "reference1", "2: 34-56",
@@ -151,8 +155,8 @@ public class ChecklistWebserviceFunctionalTest {
                         "urn:kew.org:wcs:taxon:1", "scratchpad",
                         "functional-test.e-monocot.org").get("/endpoint")
                 .andReturn().body().asString();
-        assertEquals("TaxonName id should equal 'urn:kew.org:wcs:name:1'",
-                "urn:kew.org:wcs:name:1",
+        assertEquals("TaxonName id should equal TaxonConcept.Name ref",
+        		with(xml).get("DataSet.TaxonConcepts.TaxonConcept.Name.@ref"),
                 with(xml).get("DataSet.TaxonNames.TaxonName.@id"));
         assertEquals("Nomenclatural code should equal 'Botanical'",
                 "Botanical",
@@ -174,10 +178,6 @@ public class ChecklistWebserviceFunctionalTest {
                 "true",
                 with(xml).get(
                         "DataSet.TaxonConcepts.TaxonConcept.Name.@scientific"));
-        assertEquals(
-                "TaxonConcept.Name ref should equal 'urn:kew.org:wcs:name:1'",
-                "urn:kew.org:wcs:name:1",
-                with(xml).get("DataSet.TaxonConcepts.TaxonConcept.Name.@ref"));
         assertEquals("TaxonConcept.Name should equal 'Lorem ipsum (Archer & Archer) Pargetter'",
                 "Lorem ipsum (Archer & Archer) Pargetter",
                 with(xml).get("DataSet.TaxonConcepts.TaxonConcept.Name"));
@@ -279,14 +279,14 @@ public class ChecklistWebserviceFunctionalTest {
                         "functional-test.e-monocot.org").get("/endpoint")
                 .andReturn().body().asString();
         assertEquals(
-                "TaxonName id should equal 'urn:kew.org:wcs:familyName:28'",
-                "urn:kew.org:wcs:familyName:28",
+                "TaxonName id should equal TaxonConcept.Name ref",
+                with(xml).get("DataSet.TaxonConcepts.TaxonConcept.Name.@ref"),
                 with(xml).get("DataSet.TaxonNames.TaxonName.@id"));
         assertEquals("Nomenclatural code should equal 'Botanical'",
                 "Botanical",
                 with(xml)
                         .get("DataSet.TaxonNames.TaxonName.@nomenclaturalCode"));
-        assertEquals("Simple should equal 'Lowiaceae'", "Lowiaceae", with(xml)
+        assertEquals("Simple should equal 'Lowiaceae Archer'", "Lowiaceae Archer", with(xml)
                 .get("DataSet.TaxonNames.TaxonName.Simple"));
         assertEquals("Rank should equal 'Family'", "Family",
                 with(xml).get("DataSet.TaxonNames.TaxonName.Rank"));
@@ -302,11 +302,7 @@ public class ChecklistWebserviceFunctionalTest {
                 "true",
                 with(xml).get(
                         "DataSet.TaxonConcepts.TaxonConcept.Name.@scientific"));
-        assertEquals(
-                "TaxonConcept.Name ref should equal 'urn:kew.org:wcs:familyName:28'",
-                "urn:kew.org:wcs:familyName:28",
-                with(xml).get("DataSet.TaxonConcepts.TaxonConcept.Name.@ref"));
-        assertEquals("TaxonConcept.Name should equal 'Lowiaceae'", "Lowiaceae",
+        assertEquals("TaxonConcept.Name should equal 'Lowiaceae Archer'", "Lowiaceae Archer",
                 with(xml).get("DataSet.TaxonConcepts.TaxonConcept.Name"));
         assertEquals("TaxonConcept.Rank should equal 'Family'", "Family",
                 with(xml).get("DataSet.TaxonConcepts.TaxonConcept.Rank"));
@@ -421,10 +417,6 @@ public class ChecklistWebserviceFunctionalTest {
                 "Lowiaceae", with(xml).get("results.value.canonical_form"));
         assertEquals("The id of the taxon should be included",
                 "urn:kew.org:wcs:family:28", with(xml).get("results.value.id"));
-        assertEquals("The ancestry of the taxon should be included",
-                "Lowiaceae", with(xml).get("results.value.ancestry"));
-        assertEquals("The ranked ancestry of the taxon should be included",
-                "Lowiaceae", with(xml).get("results.value.ranked_ancestry"));
         assertEquals("The rank of the taxon should be included", "Family",
                 with(xml).get("results.value.rank"));
         assertEquals("The number of children should be included", "1",

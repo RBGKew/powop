@@ -1,5 +1,6 @@
 package org.emonocot.job.dwc;
 
+import java.util.Arrays;
 import java.util.Map;
 
 import org.emonocot.harvest.common.AuthorityAware;
@@ -99,7 +100,7 @@ public abstract class DarwinCoreFieldSetMapper<T extends Base> extends Authority
             be.reject("could not instantiate", e.getMessage());
             throw be;
         }
-        logger.debug("Mapping object " + t);
+        logger.debug("Mapping object " + t + " with fieldNames " + Arrays.toString(fieldNames) + " and fieldSet " + fieldSet);
         try {
           for (int i = 0; i < fieldNames.length; i++) {
               mapField(t, fieldNames[i], fieldSet.readString(i));

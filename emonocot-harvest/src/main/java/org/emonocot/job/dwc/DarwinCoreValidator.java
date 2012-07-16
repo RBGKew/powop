@@ -2,12 +2,7 @@ package org.emonocot.job.dwc;
 
 import org.emonocot.api.TaxonService;
 import org.emonocot.harvest.common.AuthorityAware;
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.AnnotationCode;
-import org.emonocot.model.common.AnnotationType;
-import org.emonocot.model.common.Base;
 import org.emonocot.model.common.BaseData;
-import org.emonocot.model.common.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.StepExecutionListener;

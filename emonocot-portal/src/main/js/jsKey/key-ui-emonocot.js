@@ -17,7 +17,9 @@ function writeNode(key, node) {
       html += "<li class='descriptiveConcept'><div data-toggle='collapse' data-target='#node" + node.id +"'>";
       if(!Key.isUndefined(node.images) && node.images.length > 0) {
          var image = node.images[0];
+
          html += "<a class='pull-left' href='#'><img id='descriptiveConcept" + node.id + "' class='thumbnail' src='" + key.getImagePath() +  image.href + "' title='" + node.concept + "'/></a>";     
+
          html += "<a class='pull-left'>" + node.concept + "</a>";   
      } else {
          html += "<a >" + node.concept + "</a>";
@@ -31,6 +33,7 @@ function writeNode(key, node) {
      }
      html += "</ul></div></li>";
    } else {
+
       var character = key.getCharacter(node.character);
       if(!character.selectedValues || character.selectedValues.length == 0) {
          html += "<li class='character'>";
@@ -43,6 +46,7 @@ function writeNode(key, node) {
          }
          html += "</li>";
       }
+
    }
    return html;
 }
@@ -105,9 +109,11 @@ function updateUI(key) {
            for(var i = 0; i < character.states.length; i++) {
              var state = character.states[i];
              if(!Key.isUndefined(state.images) && state.images.length > 0) {
+
                  var image = state.images[0];
                  body += "<li><label class='checkbox'><input type='checkbox'>" + state.name + "</label>";
                  body += "<a href='#'><img id='character" + character.id + "-" + i + "' class='thumbnail' src='" + key.getImagePath() +  image.href + "'title='" + state.name + "'/></a></li><br/>";
+
              } else {
                  body += "<li class='noimage'><label class='checkbox'><input type='checkbox'>" + state.name + "</label></li><br/>";
              }
@@ -130,6 +136,7 @@ function updateUI(key) {
              $('#characterModal').modal('hide');
              return false;
            });
+
 
            $("#characterModal .thumbnail").click(function(event) {
               var id = event.target.id;
@@ -155,6 +162,7 @@ function updateUI(key) {
               });
               $('#modal-gallery').modal({});
               return false;
+
             });
            $('#characterModal').modal({});
            break;
@@ -178,6 +186,7 @@ function updateUI(key) {
        });
       
       $(".thumbnail").click(function(event) {
+
     	  
          if(event.target.id.indexOf("character") == 0){
            var title = event.target.title;
@@ -198,6 +207,7 @@ function updateUI(key) {
          $('#modal-gallery').unbind('hidden');
          $('#modal-gallery').modal({});
          return false;
+
       });
 
       var selected = "";

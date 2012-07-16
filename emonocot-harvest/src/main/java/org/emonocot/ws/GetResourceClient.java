@@ -111,7 +111,7 @@ public class GetResourceClient {
             final String authorityURI, final String dateLastHarvested,
             final String temporaryFileName) {
 
-        logger.error(authorityName + " " + authorityURI);
+        logger.debug(authorityName + " " + authorityURI);
         if (proxyHost != null && proxyPort != null) {
             HttpHost proxy = new HttpHost(proxyHost, proxyPort);
             httpClient.getParams()

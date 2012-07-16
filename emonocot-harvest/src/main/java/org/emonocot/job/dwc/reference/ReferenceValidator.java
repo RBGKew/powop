@@ -115,6 +115,7 @@ public class ReferenceValidator extends DarwinCoreValidator<Reference>
                     persistedReference.setTitle(reference.getTitle());
                     persistedReference.setType(reference.getType());
                     persistedReference.setVolume(reference.getVolume());
+                    persistedReference.setPublishedInAuthor(reference.getPublishedInAuthor());
 
                     persistedReference.getTaxa().clear();
                     for (Taxon t : reference.getTaxa()) {

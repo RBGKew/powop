@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet author="jk00kg" id="2012-06-22">
+        <comment>Create taxon file</comment>
+        <sql>
+            SELECT CONCAT('urn:kew.org:efloras:taxon:', n.name_id) AS taxonID,
+                (CASE
+                    WHEN ifnull(n.rank, n.infrarank) = 'family'
+                       THEN n.family
+                    WHEN ifnull(n.rank, n.infrarank) ='subfamily'
+                        THEN concat(n.family, ' subfam. ', ifnull(n.infraepi,''))
+                    WHEN ifnull(n.rank, n.infrarank) = 'genus'
+                        THEN n.genus
+                    WHEN ifnull(n.rank, n.infrarank) IN('series', 'subgen.', 'sect.')
+                        THEN concat(n.genus, ' ', ifnull(n.rank, n.infrarank), ' ', n.infraepi)
+                    WHEN ifnull(n.rank, n.infrarank) = 'species'
+                        THEN concat(n.genus, ' ', n.species)
+                    WHEN ifnull(n.rank, n.infrarank) IN('subspecies', 'subsp.', 'var.', 'forma')
+                        THEN concat(n.genus, ' ', n.species, ' ', ifnull(n.rank, n.infrarank), ' ', n.infraepi)
+                    ELSE
+                        (CASE
+                            WHEN ifnull(n.species,'') &lt;&gt; ''
+                                THEN CONCAT(n.genus, ' ', n.species, IF(length(n.infraepi)>0, ' agg. ' + n.infraepi,''))
+                            WHEN ifnull(n.genus,'') &lt;&gt; ''
+                                THEN CONCAT(n.genus, if(length(n.infraepi)>0, CONCAT(' infragen. ', n.infraepi),''))
+                            WHEN ifnull(n.family,'') &lt;&gt; ''
+                                THEN CONCAT(n.family, IF(length(n.infraepi)>0, CONCAT(' supragen. ', n.infraepi),''))
+                        END)
+                END) AS name,
+                ifnull(n.family,''), ifnull(n.genus,''), ifnull(n.species,'') AS specificEpithet, IF(ifnull(n.rank, n.infrarank) IN('subspecies', 'subsp.', 'var.', 'forma'), n.infraepi, '') AS infraspecificEpithet, ifnull(n.rank, ifnull(n.infrarank,'')) AS verbatimTaxonRak,  concat(IF(length(n.par)>0, concat('(',n.par,') '),''), ifnull(n.author,'')) AS scientificNameAuthorship,
+                (CASE n.status WHEN 'A' THEN 'accepted' WHEN 'S' THEN 'synonym' END) AS taxonomicStatus, IF(n.name_id &lt;&gt; a.name_id, CONCAT('urn:kew.org:efloras:taxon:', a.name_id), '') AS acceptedNameUsageID, IF(p.name_id IS NULL, '', CONCAT('urn:kew.org:efloras:taxon:', p.name_id)) AS parentNameUsageID
+            FROM name n LEFT JOIN name a ON n.taxonNo = a.taxonNo
+              LEFT JOIN name p ON n.parentTaxon = p.taxonNo
+            WHERE n.family = 'Iridaceae'
+              ##MORE JOIN CONSTRAINTS##
+              AND (a.status = 'A' OR a.status IS NULL)
+              AND (p.status = 'A' OR p.status IS NULL)
+            ORDER BY taxonID
+            INTO OUTFILE '/tmp/taxa.txt'
+            FIELDS TERMINATED BY '\t'
+            LINES TERMINATED BY '\n';
+        </sql>
+        <rollback />
+    </changeSet>
+    <changeSet author="jk00kg" id="2012-06-26_0">
+        <comment>Create description table with distribution data</comment>
+        <sql>
+            CREATE TEMPORARY TABLE dwc_description(taxonID VARCHAR(50), description BLOB, description_type VARCHAR(20), source_table VARCHAR(20)) AS
+            SELECT CONCAT('urn:kew.org:efloras:taxon:', c.name_id) AS taxonID, GROUP_CONCAT(c.countries SEPARATOR ' ') AS description, 'distribution' AS description_type, 'distributions' AS source_table 
+            FROM
+            
+            (SELECT l.name_id, CONCAT(l.country, ' ', GROUP_CONCAT(l.districts SEPARATOR ' ')) AS countries
+            FROM
+            
+            (SELECT n.name_id, ifnull(d.country, '') AS country, CONCAT(ifnull(d.district, ''), ': ', GROUP_CONCAT(ifnull(d.locref, '') SEPARATOR ' ')) AS districts
+            FROM name n INNER JOIN distribution d ON n.taxonNo = d.taxonNo
+            WHERE n.family = 'Iridaceae'
+              AND n.status = 'A'
+            GROUP BY n.name_id, d.country, d.district
+            ORDER BY n.name_id, d.country, d.district) AS l
+            
+            GROUP BY l.name_id, l.country
+            ORDER BY l.name_id, l.country) AS c
+            
+            GROUP BY c.name_id
+            ORDER BY c.name_id;
+        </sql>
+        <rollback />
+    </changeSet>
+    <changeSet author="jk00kg" id="2012-06-26_1">
+        <comment>Add 'excountry' (presented online as "Range") to description table</comment>
+        <sql>
+            INSERT INTO dwc_description
+            SELECT CONCAT('urn:kew.org:efloras:taxon:', name_id) AS taxonID, CONCAT(' RANGE: ', GROUP_CONCAT(country SEPARATOR '; ')) AS description, 'distribution' AS description_type, 'excountries' AS source_table
+            FROM name n INNER JOIN excountry e ON n.taxonNo = e.taxonNo
+            WHERE n.family = 'Iridaceae'
+              AND n.status = 'A'
+            GROUP BY name_id
+            ORDER BY taxonID;
+        </sql>
+        <rollback />
+    </changeSet>
+    <changeSet author="jk00kg" id="2012-06-28">
+        <comment>Add `taxon`.`georange` to description table</comment>
+        <sql>
+            INSERT INTO dwc_description
+            SELECT CONCAT('urn:kew.org:efloras:taxon:', name_id) AS taxonID, ifnull(georange, '') AS description, 'distribution' AS description_type, 'taxon' AS source_table
+            FROM name n INNER JOIN taxon t ON n.taxonNo = t.taxonNo
+            WHERE n.family = 'Iridaceae'
+              AND n.status = 'A'
+            GROUP BY n.name_id
+            ORDER BY taxonID;
+        </sql>
+        <rollback />
+    </changeSet>
+    <changeSet author="jk00kg" id="2012-06-27_0">
+        <comment>Add general description to description table</comment>
+        <sql>
+            INSERT INTO dwc_description
+            SELECT CONCAT('urn:kew.org:efloras:taxon:', name_id) AS taxonID,
+                CONCAT_WS(' ', description, notes, habitat, altitude, flora_area)  AS description,
+                'general' AS description_type, 'taxon' AS source_table
+            FROM name n INNER JOIN taxon t ON n.taxonNo = t.taxonNo
+            WHERE n.family = 'Iridaceae'
+            GROUP BY n.name_id
+            ORDER BY taxonID;
+        </sql>
+        <rollback />
+    </changeSet>
+    <!-- <changeSet author="jk00kg" id="">
+        <comment>Add habitat to description table</comment>
+        <sql>
+            INSERT INTO dwc_description
+            SELECT CONCAT('urn:kew.org:efloras:taxon:', name_id) AS taxonID,
+                CONCAT(ifnull(habitat_type, ''), ': ', ifnull(value, ''), '. ', ifnull(major_vegetation, ''), ' ', ifnull(basic_MU, ''), ' ', ifnull(FW_search_term, '')) AS description,
+                'habitat' AS description_type, 'habitat' AS source_table
+            FROM name n INNER JOIN habitat h ON n.taxonNo = h.taxonNo
+            WHERE n.family = 'Iridaceae'
+              AND n.status = 'A'
+            GROUP BY n.name_id
+            ORDER BY taxonID;
+        </sql>
+        <rollback />
+    </changeSet> -->
+    <changeSet author="jk00kg" id="2012-06-28_0">
+        <comment>Add habit to description table</comment>
+        <sql>
+            INSERT INTO dwc_description
+            SELECT CONCAT('urn:kew.org:efloras:taxon:', name_id) AS taxonID,
+                CONCAT('habit: ', ifnull(value, ''), ' ', ifnull(search_term, '')) AS description, 'habit' AS description_type,
+                'morphology' AS source_table
+            FROM name n INNER JOIN morphology m ON n.taxonNo = m.taxonNo
+            WHERE n.family = 'Iridaceae'
+              AND n.status = 'A'
+              AND m.character_name = 'habit'
+            GROUP BY n.name_id
+            ORDER BY taxonID;
+        </sql>
+        <rollback />
+    </changeSet>
+    <changeSet author="jk00kg" id="2012-06-28_1">
+        <comment>Add other morphology to description table</comment>
+        <sql>
+            INSERT INTO dwc_description
+            SELECT CONCAT('urn:kew.org:efloras:taxon:', name_id) AS taxonID,
+                CONCAT(ifnull(character_name, ''), ': ', ifnull(value, ''), ' ', ifnull(search_term, '')) AS description, 'morphology' AS description_type,
+                'morphology' AS source_table
+            FROM name n INNER JOIN morphology m ON n.taxonNo = m.taxonNo
+            WHERE n.family = 'Iridaceae'
+              AND n.status = 'A'
+              AND m.character_name &lt;&gt; 'habit'
+            GROUP BY n.name_id
+            ORDER BY taxonID;
+        </sql>
+        <rollback />
+    </changeSet>
+    <changeSet author="jk00kg" id="2012-06-28_2">
+        <comment>Create description file</comment>
+        <sql>
+            SELECT taxonID, GROUP_CONCAT(description SEPARATOR ' '), description_type AS type
+            FROM dwc_description
+            GROUP BY taxonID, description_type
+            ORDER BY taxonID
+            INTO OUTFILE '/tmp/description.txt'
+            FIELDS TERMINATED BY '\t'
+            LINES TERMINATED BY '\n';
+        </sql>
+        <rollback />
+    </changeSet>
+    <changeSet author="jk00kg" id="2012-06-28_3">
+        <comment>Create references file</comment>
+        <sql>
+            SELECT CONCAT('urn:kew.org:efloras:taxon:', n.name_id) AS taxonID, CONCAT('urn:kew.org:efloras:reference:eflora:', e.eflora_id) AS identifier, 
+            CONCAT(ifnull(f.flora_title, ''), IF(e.vol > 0, CONCAT(' volume:', e.vol), ''), IF(e.part > 0, CONCAT(' part:', e.part), ''), IF(e.year > 0, CONCAT(' (', e.year, ') '), ' '), ifnull(e.family, ''), ' by ', ifnull(e.author, '')) AS bibliographicCitation,
+            f.flora_title AS title, e.author AS creator, year AS date, IF(e.vol > 0, e.vol, '') AS volume, IF(e.part > 0, e.part, '') AS number,
+            ifnull(e.info, '') AS description
+            FROM name n INNER JOIN eflora e ON n.eflora_id = e.eflora_id
+              LEFT JOIN flora_details f ON e.flora_name = f.flora_code
+            WHERE n.family = 'Iridaceae'
+            ORDER BY taxonID
+            INTO OUTFILE '/tmp/reference.txt'
+            FIELDS TERMINATED BY '\t'
+            LINES TERMINATED BY '\n';
+        </sql>
+        <rollback />
+    </changeSet>
+</databaseChangeLog>

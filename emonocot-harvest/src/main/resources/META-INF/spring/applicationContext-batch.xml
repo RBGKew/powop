@@ -17,6 +17,8 @@
 	<context:annotation-config />
 
 	<bean class="org.springframework.batch.core.scope.StepScope" />
+	
+	<bean id="bufferedReaderFactory" class="org.emonocot.harvest.common.BOMIgnoringBufferedReaderFactory"/>
 
 	<bean id="jobLauncher"
 		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
@@ -66,4 +68,5 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
+    <bean id="distributionBridge" class="org.emonocot.model.hibernate.DistributionBridge"/>
 </beans>

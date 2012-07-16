@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.emonocot</groupId>
     <artifactId>emonocot</artifactId>
-    <version>0.0.18-SNAPSHOT</version>
+    <version>0.0.19-SNAPSHOT</version>
     <description>eMonocot aims to create a global online resource for monocot plants. It will
         provide a focus for taxonomists working on monocots and will help people discover
         information about monocots by providing tools for identification, up-to-date checklists,
@@ -84,8 +84,8 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:git://build.e-monocot.org:/var/lib/git/emonocot.git</connection>
-        <developerConnection>scm:git:git://${developer.username}@build.e-monocot.org:/var/lib/git/emonocot.git</developerConnection>
+        <connection>scm:git:ssh://build.e-monocot.org:/var/lib/git/emonocot.git</connection>
+        <developerConnection>scm:git:ssh://${developer.username}@build.e-monocot.org:/var/lib/git/emonocot.git</developerConnection>
         <url>http://build.e-monocot.org/git/?p=emonocot.git/.git;a=summary</url>
   </scm>
     <dependencyManagement>
@@ -406,6 +406,11 @@
                 </exclusions>
             </dependency>
             <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.0.1</version>
+            </dependency>
+            <dependency>
                 <groupId>com.thoughtworks.xstream</groupId>
                 <artifactId>xstream</artifactId>
                 <version>1.4</version>
@@ -568,7 +573,7 @@
             <dependency>
               <groupId>org.seleniumhq.selenium</groupId>
               <artifactId>selenium-java</artifactId>
-              <version>2.20.0</version>
+              <version>2.24.1</version>
               <scope>test</scope>
             </dependency>
             <dependency>
@@ -949,34 +954,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>de.smartics.maven.plugin</groupId>
-                <artifactId>org.emonocot.maven-issues-plugin</artifactId>
-                <version>0.4.0</version>
-                <configuration>
-                    <issueManagementUser>${bugzillaUser}</issueManagementUser>
-                    <issueManagementPassword>${bugzillaPassword}</issueManagementPassword>
-                    <product>emonocot</product>
-                    <proxyHostname>${proxyHostname}</proxyHostname>
-                    <proxyPort>${proxyPort}</proxyPort>
-                    <status>RESOLVED</status>
-                </configuration>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>bugzilla-issues-report</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-            <!-- <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-changelog-plugin</artifactId>
-                <version>2.2</version>
-                <configuration>
-                    <connectionType>developerConnection</connectionType>
-                </configuration>
-            </plugin>-->
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.7</version>
@@ -1066,16 +1043,6 @@
           </snapshots>
         </repository>
         <repository>
-            <id>smartics</id>
-            <url>http://www.smartics.de/nexus/content/groups/public-group</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
             <id>opengeo</id>
             <name>OpenGeo Maven Repository</name>
             <url>http://repo.opengeo.org/</url>
@@ -1124,16 +1091,6 @@
             <snapshots>
                 <enabled>true</enabled>
                 <updatePolicy>never</updatePolicy>
-            </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-            <id>smartics</id>
-            <url>http://www.smartics.de/nexus/content/groups/public-group</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
             </snapshots>
         </pluginRepository>
         <pluginRepository>
@@ -1334,8 +1291,8 @@
 	        <cargo.remote.password>tomcat</cargo.remote.password>
             <cargo.context.path>emonocot-harvester</cargo.context.path>
             <cargo.context.docBase>emonocot-harvester</cargo.context.docBase>
-            <http.proxyHost></http.proxyHost>
-            <http.proxyPort></http.proxyPort>
+            <http.proxyHost />
+            <http.proxyPort />
             <logging.level>WARN</logging.level>
             <logging.method>file</logging.method>
             <logging.location>/var/log/tomcat/emonocot-harvester.log</logging.location>
@@ -1478,8 +1435,8 @@
 	        <cargo.remote.password>tomcat</cargo.remote.password>
             <cargo.context.path>emonocot-harvester</cargo.context.path>
             <cargo.context.docBase>emonocot-harvester</cargo.context.docBase>
-            <http.proxyHost></http.proxyHost>
-            <http.proxyPort></http.proxyPort>
+            <http.proxyHost />
+            <http.proxyPort />
             <logging.level>WARN</logging.level>
             <logging.method>file</logging.method>
             <logging.location>/var/log/tomcat/emonocot-harvester.log</logging.location>

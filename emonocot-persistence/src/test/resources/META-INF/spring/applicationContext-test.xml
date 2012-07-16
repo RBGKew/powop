@@ -18,8 +18,8 @@
 		<property name="testDatabaseName" value="testdb" />
 		<property name="schemaLocations">
 			<list>
-				<value>classpath:/org/springframework/batch/core/schema-h2.sql
-				</value>
+			    <value>classpath:/org/springframework/batch/core/schema-drop-h2.sql</value>
+				<value>classpath:/org/springframework/batch/core/schema-h2.sql</value>
 				<value>classpath:/META-INF/database/H2_schema.ddl</value>
 				<value>classpath:/META-INF/database/acl.ddl</value>
 			</list>

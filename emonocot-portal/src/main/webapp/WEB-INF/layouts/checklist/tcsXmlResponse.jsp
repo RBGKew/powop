@@ -8,22 +8,18 @@
 		xsi:schemaLocation="http://www.tdwg.org/schemas/tcs/1.01 http://www.tdwg.org/standards/117/files/TCS101/v101.xsd">
     <c:set var="name">${result.genus}<c:if test="${not empty result.specificEpithet}"> ${result.specificEpithet}</c:if><c:if test="${em:isInfraspecific(result.rank)}"> ${result.rank.label}</c:if><c:if test="${not empty result.infraSpecificEpithet}"> ${result.infraSpecificEpithet}</c:if></c:set>
 	<TaxonNames>
-	  <jsp:element name="TaxonName">
-	    <jsp:attribute name="id">urn:kew.org:wcs:name:${id}</jsp:attribute>
-	    <jsp:attribute name="nomenclaturalCode">Botanical</jsp:attribute>
-	    <jsp:attribute name="itis_em_other_ref">
-	        ${em:escape(result.authorship)}<c:if test="${not empty result.protologue.author}"> in ${em:escape(result.protologue.author)}</c:if>,<jsp:text> ${em:escape(result.protologue.title)} ${em:escape(result.protologueMicroReference)} ${em:escape(result.protologue.datePublished)}</jsp:text>
-	    </jsp:attribute>
+	  <c:set var="reference">${em:escape(result.authorship)}<c:if test="${not empty result.protologue.author}"> in ${em:escape(result.protologue.author)}</c:if>,<jsp:text> ${em:escape(result.protologue.title)} ${em:escape(result.protologueMicroReference)} ${em:escape(result.protologue.datePublished)}</jsp:text></c:set>
+	  <TaxonName id="${result.identifier}" nomenclaturalCode="Botanical" itis_em_other_ref="${reference}">
 	    <Simple>${result.name} ${em:escape(result.authorship)}</Simple>
 	    <Rank code="${result.rank.abbreviation}">${result.rank.label}</Rank>
 	    <CanonicalName>
 	      <Simple>${result.name}</Simple>
 	    </CanonicalName>
-	  </jsp:element>
+	  </TaxonName>
 	</TaxonNames>
 	<TaxonConcepts>
 	  <TaxonConcept id="${result.identifier}">
-	    <Name scientific="true" ref="urn:kew.org:wcs:name:${id}">${result.name} ${em:escape(result.authorship)}</Name>
+	    <Name scientific="true" ref="${result.identifier}">${result.name} ${em:escape(result.authorship)}</Name>
 	    <Rank code="${result.rank.abbreviation}">${result.rank.label}</Rank>
 	    <spring:message code="checklistWebserviceController.baseURL" var="baseUrl"/>
 	    <TaxonRelationships>
@@ -34,10 +30,7 @@
 	            <c:param name="scratchpad" value="${param.scratchpad}"/>
 	        </c:url>
 	        <TaxonRelationship type="is parent taxon of">
-	          <jsp:element name="ToTaxonConcept">
-	            <jsp:attribute name="ref">${em:escape(url)}</jsp:attribute>
-	            <jsp:attribute name="linkType">external</jsp:attribute>
-	          </jsp:element>
+	          <ToTaxonConcept ref="${em:escape(url)}" linkType="external"/>
 	        </TaxonRelationship>
 	      </c:forEach>
 	      <c:if test="${not empty result.parent}">
@@ -47,10 +40,7 @@
 	            <c:param name="scratchpad" value="${param.scratchpad}"/>
 	        </c:url>
 	        <TaxonRelationship type="is child taxon of">
-	          <jsp:element name="ToTaxonConcept">
-	            <jsp:attribute name="ref">${em:escape(url)}</jsp:attribute>
-	            <jsp:attribute name="linkType">external</jsp:attribute>
-	          </jsp:element>
+	            <ToTaxonConcept ref="${em:escape(url)}" linkType="external"/>
 	        </TaxonRelationship>
 	      </c:if>
 	      <c:forEach var="synonym" items="${result.synonyms}">
@@ -60,10 +50,7 @@
 	            <c:param name="scratchpad" value="${param.scratchpad}"/>
 	        </c:url>
 	        <TaxonRelationship type="has synonym">
-	          <jsp:element name="ToTaxonConcept">
-	            <jsp:attribute name="ref">${em:escape(url)}</jsp:attribute>
-	            <jsp:attribute name="linkType">external</jsp:attribute>
-	          </jsp:element>
+	          <ToTaxonConcept ref="${em:escape(url)}" linkType="external"/>
 	        </TaxonRelationship>
 	      </c:forEach>
 	      <c:if test="${not empty result.accepted}">
@@ -73,10 +60,7 @@
 	            <c:param name="scratchpad" value="${param.scratchpad}"/>
 	        </c:url>
 	        <TaxonRelationship type="is synonym for">
-	          <jsp:element name="ToTaxonConcept">
-	            <jsp:attribute name="ref">${em:escape(url)}</jsp:attribute>
-	            <jsp:attribute name="linkType">external</jsp:attribute>
-	          </jsp:element>
+	          <ToTaxonConcept ref="${em:escape(url)}" linkType="external"/>
 	        </TaxonRelationship>
 	      </c:if>
 	    </TaxonRelationships>
