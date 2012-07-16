@@ -136,6 +136,17 @@ public final class Functions {
             return taxon.getStatus().equals(TaxonomicStatus.synonym);
         }
     }
+    /**
+     * @param taxon Set the taxon
+     * @return true if the taxon is accepted
+     */
+    public static Boolean isAccepted(final Taxon taxon) {
+        if (taxon.getStatus() == null) {
+            return false;
+        } else  {
+            return taxon.getStatus().equals(TaxonomicStatus.accepted);
+        }
+    }
 
     /**
      *

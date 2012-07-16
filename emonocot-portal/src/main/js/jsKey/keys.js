@@ -35,6 +35,10 @@ Key.prototype.getImagePath = function() {
     return this.imagePath;
 };
 
+Key.prototype.getFullsizeImagePath = function() {
+    return this.imagePath;
+};
+
 Key.prototype.getTaxonPath = function() {
     return this.taxonPath;
 };
@@ -122,7 +126,7 @@ Key.prototype.calculateRedundant = function() {
           character.isRedundant = false;
         }
     }
-}
+};
 
 Key.prototype.getUnselectedCharacters = function() {
     var selectedCharacterHash = [];
@@ -141,7 +145,7 @@ Key.prototype.getUnselectedCharacters = function() {
 	unselectedCharacters.push(character);
     }
     return unselectedCharacters;
-}
+};
 	
 Key.prototype.setUpdateUI = function(updateFunction) {
 	this.updateUI = updateFunction;

@@ -14,37 +14,35 @@ Key.prototype.setView = function(view) {
 function writeNode(key, node) {
    var html = "";
    if(!Key.isUndefined(node.concept)) {
-     html += "<li class='descriptiveConcept'><div data-toggle='collapse' data-target='#node" + node.id +"'>";
-     if(!Key.isUndefined(node.images) && node.images.length > 0) {
+      html += "<li class='descriptiveConcept'><div data-toggle='collapse' data-target='#node" + node.id +"'>";
+      if(!Key.isUndefined(node.images) && node.images.length > 0) {
          var image = node.images[0];
-         html += "<a class='pull-left' href='#'><img class='thumbnail' src='" + key.getImagePath() +  image.href + "'/></a>";     
+         html += "<a class='pull-left' href='#'><img id='descriptiveConcept" + node.id + "' class='thumbnail' src='" + key.getImagePath() +  image.href + "' title='" + node.concept + "'/></a>";     
          html += "<a class='pull-left'>" + node.concept + "</a>";   
      } else {
          html += "<a >" + node.concept + "</a>";
      }
      html += "</div>";
      html += "<div id='node" + node.id + "' class='collapse'><ul class='unstyled'>";
-        
+     
      for(var i = 0; i < node.children.length; i++) {
-       var child = node.children[i];
-       html += writeNode(key, child); 
+         var child = node.children[i];
+         html += writeNode(key, child); 
      }
      html += "</ul></div></li>";
    } else {
-     
-     var character = key.getCharacter(node.character);
-     if(!character.selectedValues || character.selectedValues.length == 0) {
-       html += "<li class='character'>";
-       if(!Key.isUndefined(character.images) && character.images.length > 0) {
-         var image = character.images[0];
-         html  += "<a class='pull-left' id='" + character.id + "'>" + character.name + "</a></br>";
-         html  += "<img class='thumbnail' src='" + key.getImagePath() +  image.href + "'/>";
-         
-       } else {
-         html  += "<a id='" + character.id + "'>" + character.name + "</a>";
-       }
-       html += "</li>";
-     }
+      var character = key.getCharacter(node.character);
+      if(!character.selectedValues || character.selectedValues.length == 0) {
+         html += "<li class='character'>";
+         if(!Key.isUndefined(character.images) && character.images.length > 0) {
+            var image = character.images[0];
+            html  += "<a class='pull-left' id='" + character.id + "'>" + character.name + "</a></br>";
+            html  += "<img id='character" + character.id + "' class='thumbnail' src='" + key.getImagePath() +  image.href + "'title='" + character.name + "'/>";
+         } else {
+            html  += "<a id='" + character.id + "'>" + character.name + "</a>";
+         }
+         html += "</li>";
+      }
    }
    return html;
 }
@@ -69,7 +67,7 @@ function updateUI(key) {
             matched += "<td><h4>" + taxon.name + "</h4></td>";
         }
         if(key.getView() == Key.ListView ) {
-        	if (!Key.isUndefined(taxon.images) && taxon.images.length > 0){
+            if (!Key.isUndefined(taxon.images) && taxon.images.length > 0){
             var image = taxon.images[0];
             matched += "<td><a class='pull-right' href='#'><img class='thumbnail' src='" + key.getImagePath() +  image.href + "'/></a></td>";
         	} else{
@@ -102,15 +100,14 @@ function updateUI(key) {
          $('#characterModal .modal-header h3').html(character.name);
          var body = "";
          switch(character.type) {
-           case Key.Categorical:           
+           case Key.Categorical:
            body += "<ul class='unstyled'>";
            for(var i = 0; i < character.states.length; i++) {
-             
              var state = character.states[i];
              if(!Key.isUndefined(state.images) && state.images.length > 0) {
-            	 var image = state.images[0];
-            	 body += "<li><label class='checkbox'><input type='checkbox'>" + state.name + "</label>";
-            	 body += "<a href='#'><img class='thumbnail' src='" + key.getImagePath() +  image.href + "'/></a></li><br/>";
+                 var image = state.images[0];
+                 body += "<li><label class='checkbox'><input type='checkbox'>" + state.name + "</label>";
+                 body += "<a href='#'><img id='character" + character.id + "-" + i + "' class='thumbnail' src='" + key.getImagePath() +  image.href + "'title='" + state.name + "'/></a></li><br/>";
              } else {
                  body += "<li class='noimage'><label class='checkbox'><input type='checkbox'>" + state.name + "</label></li><br/>";
              }
@@ -133,6 +130,32 @@ function updateUI(key) {
              $('#characterModal').modal('hide');
              return false;
            });
+
+           $("#characterModal .thumbnail").click(function(event) {
+              var id = event.target.id;
+              // <image id="characterX-Y" dsfkjsdfsdf/>
+              // var characterId = 
+              // var stateIndex = 
+              var temp = new Array();
+              temp = id.split('-');
+              var characterId = temp[0].substring(9);
+              var stateIndex = temp[1];
+              var character = key.getCharacter(characterId);
+              var state = character.states[stateIndex];
+              $('#characterModal').modal('hide');
+              /*for (var i=0; i< character.states.lenght; i++){
+                  var body = "<img src='" + key.getImagePath() +  character.states[i].images[0].href + "'/>";
+              };*/
+              var body = "<img src='" + key.getImagePath() +  state.images[0].href + "'/>";
+              var title = event.target.title;
+              $('#modal-gallery .modal-body .modal-image').html(body);
+              $('#modal-gallery .modal-body .carousel-caption .modal-title').html(title);
+              $('#modal-gallery').on('hidden', function () {
+                  $('#characterModal').modal({});
+              });
+              $('#modal-gallery').modal({});
+              return false;
+            });
            $('#characterModal').modal({});
            break;
            default:
@@ -153,11 +176,34 @@ function updateUI(key) {
            break;
          }
        });
+      
+      $(".thumbnail").click(function(event) {
+    	  
+         if(event.target.id.indexOf("character") == 0){
+           var title = event.target.title;
+           var character = key.getCharacter(event.target.id.substring(9));
+           var body = "<img src='" + key.getFullsizeImagePath() +  character.images[0].href + "'/>"
+           $('#modal-gallery .modal-body .modal-image').html(body);
+           $('#modal-gallery .modal-body .carousel-caption .modal-title').html(title);
+           /*alert(character.images[0].href);*/
+         } else {
+           var title = event.target.title;
+           
+           var descriptiveConcept = key.getDescriptiveConcept(event.target.id.substring(18));
+           var body = "<img src='" + key.getFullsizeImagePath() +  descriptiveConcept.images[0].href + "'/>";
+           
+           $('#modal-gallery .modal-body .modal-image').html(body);
+           $('#modal-gallery .modal-body .carousel-caption .modal-title').html(title);
+         }
+         $('#modal-gallery').unbind('hidden');
+         $('#modal-gallery').modal({});
+         return false;
+      });
 
       var selected = "";
       for(var i = 0; i < selectedCharacters.length; i++) {
           var character = selectedCharacters[i];
-    	  if(!Key.isUndefined(character)) {
+          if(!Key.isUndefined(character)) {
     		  selected += "<li class='selectedCharacter'><h4 id='" + character.id + "'>"  + character.name + "</h4>";
                   switch(character.type) {
                     case Key.Categorical:
