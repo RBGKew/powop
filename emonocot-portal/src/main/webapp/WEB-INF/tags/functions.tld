@@ -29,6 +29,11 @@
         <function-signature>java.lang.Boolean isSynonym(org.emonocot.model.taxon.Taxon)</function-signature>
     </function>
     <function>
+        <name>isAccepted</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.Boolean isAccepted(org.emonocot.model.taxon.Taxon)</function-signature>
+    </function>
+    <function>
         <name>isStartable</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>java.lang.Boolean isStartable(org.springframework.batch.core.BatchStatus)</function-signature>

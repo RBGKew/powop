@@ -118,7 +118,7 @@ public final class Functions {
      */
     public static Identifier getProtologLink(final Taxon taxon) {
         for (Identifier identifier : taxon.getIdentifiers()) {
-            if ("Protolog".equals(identifier.getSubject())) {
+            if (identifier.getSubject().equals("Protolog")) {
                 return identifier;
             }
         }
@@ -134,6 +134,17 @@ public final class Functions {
             return false;
         } else  {
             return taxon.getStatus().equals(TaxonomicStatus.synonym);
+        }
+    }
+    /**
+     * @param taxon Set the taxon
+     * @return true if the taxon is accepted
+     */
+    public static Boolean isAccepted(final Taxon taxon) {
+        if (taxon.getStatus() == null) {
+            return false;
+        } else  {
+            return taxon.getStatus().equals(TaxonomicStatus.accepted);
         }
     }
 
