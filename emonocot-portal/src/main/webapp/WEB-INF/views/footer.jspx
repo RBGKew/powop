@@ -4,7 +4,8 @@
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 	<div class="container">
 		<ul class="foot unstyled noPrint pull-right">
-		<li class="pull-right"><a href="http://www.nerc.ac.uk/"><img src="/css/images/nercLogo1000.png" style="height:40px; width:auto;"/></a></li>
+		<c:url var="nercLogo" value="/css/images/nercLogo1000.png"/>
+		<li class="pull-right"><a href="http://www.nerc.ac.uk/"><img src="${nercLogo}" alt="NERC" class="nercLogo"/></a></li>
 		<li class="footer-version">
 			eMonocot
 			<spring:message code="application.version" />
