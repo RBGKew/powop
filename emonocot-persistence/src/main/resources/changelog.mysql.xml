@@ -2133,27 +2133,27 @@
     </changeSet>
     <changeSet id="2012-05-04_01" author="ben">
       <comment>Migrating data #268: Changes to Region names but data incompatible</comment>
-      <sql>update distribution set region = 'AUSTRALA' where region = 'AUSTRALASIA';</sql>
+      <sql>update Distribution set region = 'AUSTRALA' where region = 'AUSTRALASIA';</sql>
     </changeSet>
     <changeSet id="2012-05-04_02" author="ben">
       <comment>Migrating data #268: Changes to Region names but data incompatible</comment>
-      <sql>update distribution set region = 'INDO_CHINA' where region = 'INDOCHINA';</sql>
+      <sql>update Distribution set region = 'INDO_CHINA' where region = 'INDOCHINA';</sql>
     </changeSet>
     <changeSet id="2012-05-04_03" author="ben">
       <comment>Migrating data #268: Changes to Region names but data incompatible</comment>
-      <sql>update distribution set region = 'MACARONESIA' where region = 'MACRONESIA';</sql>
+      <sql>update Distribution set region = 'MACARONESIA' where region = 'MACRONESIA';</sql>
     </changeSet>
     <changeSet id="2012-05-04_04" author="ben">
       <comment>Migrating data #268: Changes to Region names but data incompatible</comment>
-      <sql>update distribution set region = 'NORTH_CENTRAL_PACIFIC' where region = 'NORTHCENTRAL_PACIFIC';</sql>
+      <sql>update Distribution set region = 'NORTH_CENTRAL_PACIFIC' where region = 'NORTHCENTRAL_PACIFIC';</sql>
     </changeSet>
     <changeSet id="2012-05-04_05" author="ben">
       <comment>Migrating data #268: Changes to Region names but data incompatible</comment>
-      <sql>update distribution set region = 'RUSSIAN_FAR_EAST' where region = 'RUSSIA_FAR_EAST';</sql>
+      <sql>update Distribution set region = 'RUSSIAN_FAR_EAST' where region = 'RUSSIA_FAR_EAST';</sql>
     </changeSet>
     <changeSet id="2012-05-04_06" author="ben">
       <comment>Migrating data #268: Changes to Region names but data incompatible</comment>
-      <sql>update distribution set region = 'WEST_CENTRAL_TROPICAL_AFRICA' where region = 'WESTCENTRAL_TROPICAL_AFRICA';</sql>
+      <sql>update Distribution set region = 'WEST_CENTRAL_TROPICAL_AFRICA' where region = 'WESTCENTRAL_TROPICAL_AFRICA';</sql>
     </changeSet>
     <changeSet id="2012-05-25" author="jk00kg">
       <createTable tableName="Place">
@@ -2235,10 +2235,10 @@
     </changeSet>
     <changeSet id="2012-06-29_01" author="ben">
       <comment>Changing ownership of accepted asparagaceae genera to eMonocot</comment>
-      <sql>update taxon set authority_id = 5 where family = 'Asparagaceae' and status = 'accepted' and rank = 'GENUS';</sql>
+      <sql>update Taxon set authority_id = 5 where family = 'Asparagaceae' and status = 'accepted' and rank = 'GENUS';</sql>
     </changeSet>
     <changeSet id="2012-06-29_02" author="ben">
       <comment>Changing ownership of accepted orchid genera to eMonocot</comment>
-      <sql>update taxon set authority_id = 5 where family = 'Orchidaceae' and status = 'accepted' and rank = 'GENUS';</sql>
+      <sql>update Taxon set authority_id = 5 where family = 'Orchidaceae' and status = 'accepted' and rank = 'GENUS';</sql>
     </changeSet>
 </databaseChangeLog>
