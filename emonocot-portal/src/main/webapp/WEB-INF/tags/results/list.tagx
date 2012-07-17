@@ -21,11 +21,11 @@
 				    <spring:url var="itemUrl" value="/taxon/${item.identifier}"/>
 				    <a class="result" href="${itemUrl}" title="${item.name}">
 							<c:choose>
-								<c:when test="${em:isAccepted(item)}">
-									<h4 class="h4Results"><em>${item.name}</em> ${item.authorship}</h4>
+								<c:when test="${em:isSynonym(item)}">
+									<h4 class="h4Results title-no-bold"><em>${item.name}</em> ${item.authorship}</h4>
 								</c:when>
 								<c:otherwise>
-									<h4 class="h4Results title-no-bold"><em>${item.name}</em> ${item.authorship}</h4>
+									<h4 class="h4Results"><em>${item.name}</em> ${item.authorship}</h4>
 								</c:otherwise>
 							</c:choose>
 						</a>

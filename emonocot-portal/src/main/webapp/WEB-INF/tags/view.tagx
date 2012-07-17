@@ -6,83 +6,81 @@
 	<jsp:directive.attribute name="url" type="java.lang.String" required="true" />
 	<jsp:directive.attribute name="result" type="org.emonocot.model.pager.Page" required="true" />
 	<jsp:directive.attribute name="spanClass" type="java.lang.String" required="false"/>
-	
-	<div class="btn-group">
-		<spring:message code="list"  var="listTitle"/>
-		<c:url var="listUrl" value="${url}">
-			<c:forEach var="p" items="${result.paramNames}">
-				<c:if test="${p ne 'view'}">
-					<c:param name="${p}" value="${result.params[p]}"/>
-				</c:if>
-			</c:forEach>
-			<c:param name="limit" value="${result.pageSize}" />
-			<c:param name="start" value="0" />
-			<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-				<c:param name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
-			</c:forEach>
-			<c:param name="sort">${sortItem}</c:param>
-			<c:param name="view">list</c:param>
-		</c:url>
-		<a title="${listTitle}" class="btn" href="${listUrl}">
-			<i class="icon-th-list">&amp;nbsp;</i>
-		</a>
-		&#160;
-		<spring:message code="simpleList" var="simpleListTitle" />
-		<c:url value="${url}" var="simpleListUrl">
-			<c:forEach var="p" items="${result.paramNames}">
-				<c:if test="${p ne 'view'}">
-					<c:param name="${p}" value="${result.params[p]}"/>
-				</c:if>
-			</c:forEach>
-			<c:param name="limit" value="${result.pageSize}" />
-			<c:param name="start" value="0" />
-			<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-				<c:param name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
-			</c:forEach>
-			<c:param name="sort">${sortItem}</c:param>
-			<c:param name="view">simpleList</c:param>
-		</c:url>
-		<a title="${simpleListTitle}" class="btn" href="${simpleListUrl}">
-			<i class="icon-align-justify">&amp;nbsp;</i>
-		</a>
-		&#160;
-		<spring:message code="grid" var="gridTitle"/>
-		<c:url value="${url}" var="gridUrl">
-			<c:forEach var="p" items="${result.paramNames}">
-				<c:if test="${p ne 'view'}">
-					<c:param name="${p}" value="${result.params[p]}"/>
-				</c:if>
-			</c:forEach>
-			<c:param name="limit" value="${result.pageSize}" />
-			<c:param name="start" value="0" />
-			<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-				<c:param name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
-			</c:forEach>
-			<c:param name="sort">${sortItem}</c:param>
-			<c:param name="view">grid</c:param>
-		</c:url>
-		<a title="${gridTitle}" class="btn" href="${gridUrl}">
-			<i class="icon-th">&amp;nbsp;</i>
-		</a>
-		&#160;
-		<spring:message code="slideshow" var="slideshowTitle"/>
-		<c:url value="${url}" var="slideshowUrl">
-			<c:forEach var="p" items="${result.paramNames}">
-				<c:if test="${p ne 'view'}">
-					<c:param name="${p}" value="${result.params[p]}"/>
-				</c:if>
-			</c:forEach>
-			<c:param name="limit" value="${result.pageSize}" />
-			<c:param name="start" value="0" />
-			<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-				<c:param name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
-			</c:forEach>
-			<c:param name="sort">${sortItem}</c:param>
-			<c:param name="view">slideshow</c:param>
-		</c:url>
-		<c:url var="displayIconUrl" value="/css/images/glyphicons/halfsize/glyphicons_086_display.png"/>
-		<button href="${slideshowUrl}" id="start-slideshow" class="btn" data-slideshow="5000" data-target="#modal-gallery" data-selector="#gallery a[rel=gallery]">
-			<img src="${displayIconUrl}" style="width:auto; height:13px"/>
-		</button>
-	</div>
+    <div class="btn-group">
+	  <spring:message code="list"  var="listTitle"/>
+	  <c:url var="listUrl" value="${url}">
+	    <c:forEach var="p" items="${result.paramNames}">
+	      <c:if test="${p ne 'view'}">
+	        <c:param name="${p}" value="${result.params[p]}"/>
+	      </c:if>	      
+		</c:forEach>
+		<c:param name="limit" value="${result.pageSize}" />
+		<c:param name="start" value="0" />
+		<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+		  <c:param name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
+		</c:forEach>
+		<c:param name="sort">${sortItem}</c:param>
+		<c:param name="view">list</c:param>
+	  </c:url>
+	  <a title="${listTitle}" class="btn" href="${listUrl}">
+	    <i class="icon-th-list">&amp;nbsp;</i>
+	  </a>
+	  &#160;
+	  <spring:message code="simpleList" var="simpleListTitle" />
+	  <c:url value="${url}" var="simpleListUrl">
+		<c:forEach var="p" items="${result.paramNames}">
+	      <c:if test="${p ne 'view'}">
+	        <c:param name="${p}" value="${result.params[p]}"/>
+	      </c:if>	      
+		</c:forEach>
+		<c:param name="limit" value="${result.pageSize}" />
+		<c:param name="start" value="0" />
+		<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+		  <c:param name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
+		</c:forEach>
+		<c:param name="sort">${sortItem}</c:param>
+		<c:param name="view">simpleList</c:param>
+	  </c:url>
+	  <a title="${simpleListTitle}" class="btn" href="${simpleListUrl}">
+		<i class="icon-align-justify">&amp;nbsp;</i>
+	  </a>
+	  &#160;
+	  <spring:message code="grid" var="gridTitle"/>
+	  <c:url value="${url}" var="gridUrl">
+		<c:forEach var="p" items="${result.paramNames}">
+	      <c:if test="${p ne 'view'}">
+	        <c:param name="${p}" value="${result.params[p]}"/>
+	      </c:if>	      
+		</c:forEach>
+		<c:param name="limit" value="${result.pageSize}" />
+		<c:param name="start" value="0" />
+		<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+		  <c:param name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
+		</c:forEach>
+		<c:param name="sort">${sortItem}</c:param>
+		<c:param name="view">grid</c:param>
+	  </c:url>
+	  <a title="${gridTitle}" class="btn" href="${gridUrl}">
+		<i class="icon-th">&amp;nbsp;</i>
+	  </a>
+	  &#160;
+							<spring:message code="slideshow" var="slideshowTitle"/>
+							<c:url value="${url}" var="slideshowUrl">
+								<c:forEach var="p" items="${result.paramNames}">
+	      <c:if test="${p ne 'view'}">
+	        <c:param name="${p}" value="${result.params[p]}"/>
+	      </c:if>	      
+		</c:forEach>
+								<c:param name="limit" value="${result.pageSize}" />
+								<c:param name="start" value="0" />
+								<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+									<c:param name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
+								</c:forEach>
+								<c:param name="sort">${sortItem}</c:param>
+								<c:param name="view">slideshow</c:param>
+							</c:url>
+							<c:url var="displayIconUrl" value="/css/images/glyphicons/halfsize/glyphicons_086_display.png"/>
+							<button href="${slideshowUrl}" id="start-slideshow" class="btn" data-slideshow="5000" data-target="#modal-gallery" data-selector="#gallery a[rel=gallery]"><img src="${displayIconUrl}" style="width:auto; height:13px"/></button>
+	  
+	</div>		
 </jsp:root>

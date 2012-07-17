@@ -35,10 +35,6 @@ Key.prototype.getImagePath = function() {
     return this.imagePath;
 };
 
-Key.prototype.getFullsizeImagePath = function() {
-    return this.imagePath;
-};
-
 Key.prototype.getTaxonPath = function() {
     return this.taxonPath;
 };

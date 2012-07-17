@@ -23,7 +23,7 @@
 	    </c:if>			
 	    <form:create modelAttribute="loginForm" path="/process_login">
 		  <field:input field="j_username" label="username" fieldClass="span4"/>
-		  <field:input field="j_password" label="password" fieldClass="span4" type="password"/>
+		  <field:input field="j_password" label="username" fieldClass="span4" type="password"/>
 		  <field:checkbox field="_spring_security_remember_me" label="remember.me" disableFormBinding="true"/>
 	    </form:create>
 	  </div>
