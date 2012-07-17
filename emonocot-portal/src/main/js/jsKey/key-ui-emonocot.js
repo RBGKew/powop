@@ -17,7 +17,7 @@ function writeNode(key, node) {
      html += "<li class='descriptiveConcept'><div data-toggle='collapse' data-target='#node" + node.id +"'>";
      if(!Key.isUndefined(node.images) && node.images.length > 0) {
          var image = node.images[0];
-         html += "<a class='pull-left' href='#'><img id='descriptiveConcept" + node.id + "' class='thumbnail' src='" + key.getImagePath() +  image.href + "'/></a>";     
+         html += "<a class='pull-left' href='#'><img id='descriptiveConcept" + node.id + "' class='thumbnail' src='" + key.getImagePath() +  image.href + "' title='" + node.concept + "'/></a>";     
          html += "<a class='pull-left'>" + node.concept + "</a>";   
      } else {
          html += "<a >" + node.concept + "</a>";
@@ -38,7 +38,7 @@ function writeNode(key, node) {
        if(!Key.isUndefined(character.images) && character.images.length > 0) {
          var image = character.images[0];
          html  += "<a class='pull-left' id='" + character.id + "'>" + character.name + "</a></br>";
-         html  += "<img id='character" + character.id + "' class='thumbnail' src='" + key.getImagePath() +  image.href + "'/>";
+         html  += "<img id='character" + character.id + "' class='thumbnail' src='" + key.getImagePath() +  image.href + "' title='" + character.name + "'/>";
          
        } else {
          html  += "<a id='" + character.id + "'>" + character.name + "</a>";
@@ -133,8 +133,29 @@ function updateUI(key) {
              $('#characterModal').modal('hide');
              return false;
            });
-           $(".thumbnail").click(function(event) {
-          	  var character = key.getCharacter(event.target.id.substring(9));
+           
+           $("#characterModal .thumbnail").click(function(event) {
+        	   var id = event.target.id;
+        	   // <image id="characterX-Y" dsfkjsdfsdf/>
+        	   // var characterId = 
+        	   // var stateIndex =
+        	   var temp = new Array();
+        	   temp = id.split('-');
+        	   var characterId = temp[0].substring(9);
+        	   var stateIndex = temp[1];
+          	   var character = key.getCharacter(characterIndex);
+          	   var state = character.states[stateIndex];
+          	   $('#characterModal').modal('hide');
+          	   /*for (var i=0; i<character.states.lenght; i++){
+          	       var body = "<img src='" + key.getImagePath() + characterStates[i].images[0].href + "'>";
+          	     };*/
+          	   var body = "<img src='" + key.getImagePath() + state.images[0].href + "'>";
+          	   var title = event.target.title;
+          	   $('#modal-gallery .modal-body .modal-image').html(body);
+          	   $('#modal-gallery .modal-body .carousel-captiuon .modal-title').html(title);
+          	   $('#modal-gallery').on('hidden', function () {
+          		 $('#characterModal').modal({});
+          	   });
           	  return false;
             });
            $('#characterModal').modal({});
@@ -161,12 +182,24 @@ function updateUI(key) {
       $(".thumbnail").click(function(event) {
     	 
     	 if(event.target.id.indexOf("character") == 0){
+    		  var title = event.target.title;
     		  var character = key.getCharacter(event.target.id.substring(9));
+    		  var body = "<img src='" + key.getFullsizeImagePath() + state.images[0].href + "'>";
+    		  $('#modal-gallery .modal-body .modal-image').html(body);
+         	  $('#modal-gallery .modal-body .carousel-captiuon .modal-title').html(title);
+         	  /*alert(character.images[0].href);*/
     	  } else {
+    		  var title= event.target.title;
+    		  
     		  var descriptiveConcept = key.getDescriptiveConcept(event.target.id.substring(18));
+    		  var body = "<img src='" + key.getFullsizeImagePath() + descriptiveConcept.images[0].href + "'>";
+    		  
+    		  $('#modal-gallery .modal-body .modal-image').html(body);
+         	  $('#modal-gallery .modal-body .carousel-captiuon .modal-title').html(title);
     	  }
-    	  
-    	  return false;
+    	 $('#modal-gallery').unbind('hidden');
+    	 $('#modal-gallery').modal({});
+    	 return false;
       });
 
       var selected = "";

@@ -3,11 +3,13 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 	<div class="container">
-		<p class="footer-version pull-right noPrint">
+		<ul class="foot unstyled noPrint pull-right">
+		<li class="pull-right"><a href="http://www.nerc.ac.uk/"><img src="/css/images/nercLogo1000.png" style="height:40px; width:auto;"/></a></li>
+		<li class="footer-version">
 			eMonocot
 			<spring:message code="application.version" />
-		</p>
-
+		</li>
+		</ul>
 		<ul class="foot unstyled noPrint">
 			<li><c:url value="/about" var="aboutUrl" /> <a
 				href="${aboutUrl}"><spring:message code="about.title" />
