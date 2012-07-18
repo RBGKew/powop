@@ -12,6 +12,7 @@ import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.util.Version;
+import org.apache.solr.search.MissingStringLastComparatorSource;
 import org.emonocot.api.FacetName;
 import org.emonocot.api.Sorting;
 import org.emonocot.api.Sorting.SortDirection;
@@ -282,8 +283,8 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
                 // otherwise figure out what type we are actually searching by
                 // TODO cope with different datatypes, not just the string value
                 // of the field
-                fullTextQuery.setSort(new Sort(new SortField(sort
-                        .getFieldName(), SortField.STRING_VAL, sort
+                fullTextQuery.setSort(new Sort(
+                		new SortField(sort.getFieldName(), new MissingStringLastComparatorSource(), sort
                         .getDirection() == SortDirection.REVERSE)));
             }
 

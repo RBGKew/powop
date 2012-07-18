@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.emonocot.api.FacetName;
+import org.emonocot.api.Sorting;
+import org.emonocot.api.Sorting.SortDirection;
 import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.geography.Continent;
@@ -77,6 +79,8 @@ public class SearchTest extends AbstractPersistenceTest {
                 null, null, new GeographicalRegion[] {});
         createTaxon("Alania", "urn:kew.org:wcs:taxon:294463", null, null, null, null, null, null, null,
                 null, null, new GeographicalRegion[] {Country.NSW});
+        createTaxon(null, "6", null, null, null, null, null, null, null,
+                null, null, new GeographicalRegion[] {});
     }
 
     /**
@@ -86,13 +90,6 @@ public class SearchTest extends AbstractPersistenceTest {
     public final void testSearch() {
         Page<Taxon> page = getTaxonDao().search("name:Aus", null, null, null,
                 new FacetName[] {FacetName.CONTINENT }, null, null, null);
-        for (Taxon t : page.getRecords()) {
-            System.out.println(t.getName());
-        }
-
-        for (Facet facet : page.getFacets().get(FacetName.CONTINENT.name())) {
-            System.out.println(facet.getValue() + " " + facet.getCount());
-        }
     }
 
     /**
@@ -106,17 +103,6 @@ public class SearchTest extends AbstractPersistenceTest {
 
         Page<Taxon> page = getTaxonDao().search("name:Aus", null, null, null,
                 new FacetName[] {FacetName.CONTINENT , FacetName.REGION}, selectedFacets, null, null);
-        for (Taxon t : page.getRecords()) {
-            System.out.println(t.getName());
-        }
-
-        for (Facet facet : page.getFacets().get(FacetName.CONTINENT.name())) {
-            System.out.println(facet.getValue() + " " + facet.getCount());
-        }
-        for (Facet facet : page.getFacets().get(FacetName.REGION.name())) {
-            System.out.println(facet.getValue() + " " + facet.getCount());
-        }
-
     }
 
     /**
@@ -124,7 +110,7 @@ public class SearchTest extends AbstractPersistenceTest {
      */
     @Test
     public final void testSpatialSearch() {
-        System.out.println("testSpatialSearch() should return Aus bus but not Aus ceus");
+        //testSpatialSearch() should return Aus bus but not Aus ceus
         Page<Taxon> page = getTaxonDao().search(
         null, "Intersects(150.00 -40.0 160.0 -20.0)", null, null, null,
                 null, null, null);
@@ -140,22 +126,13 @@ public class SearchTest extends AbstractPersistenceTest {
     public final void testSearchEmbeddedContent() {
         Page<Taxon> page = getTaxonDao().search("Lorem", null, null, null,
                 null, null, null, null);
-//        for (Taxon t : page.getRecords()) {
-//            System.out.println(t.getName());
-//        }
+
         assertFalse(page.getSize() == 0);
     }
     
     @Test
     public final void testSearchByHigherName() {
         Page<SearchableObject> results = searchableObjectDao.search("Aaceae", null, null, null, null, null, null, null);
-//        System.out.println(results.getSize()+ " results");
-//        for (SearchableObject so : results.getRecords()) {
-//            if (so instanceof Taxon)
-//                System.out.println(((Taxon) so).getName());
-//            if (so instanceof Image)
-//                System.out.println(((Image) so).getCaption());
-//        }
 
         assertEquals("There should be 3 results", 3, results.getSize().intValue());
     }
@@ -163,13 +140,7 @@ public class SearchTest extends AbstractPersistenceTest {
     @Test
     public final void testSearchBySynonym() {
         Page<SearchableObject> results = searchableObjectDao.search("deus", null, null, null, null, null, null, null);
-//        System.out.println(results.getSize()+ " results");
-//        for (SearchableObject so : results.getRecords()) {
-//            if (so instanceof Taxon)
-//                System.out.println(((Taxon) so).getName());
-//            if (so instanceof Image)
-//                System.out.println(((Image) so).getCaption());
-//        }
+
 
         assertEquals("There should be 2 results, the synonym and accepted name", 2, results.getSize().intValue());
     }
@@ -183,9 +154,22 @@ public class SearchTest extends AbstractPersistenceTest {
         example.setFamily("Aaceae");
         Page<Taxon> results = getTaxonDao().searchByExample(example, false, false);
         assertEquals("There should be 3 results", new Integer(3), results.getSize());
-//        for(Taxon t : results.getRecords()) {
-//            System.out.println(t.getName());
-//        }
+        
+    }
+
+	/**
+	 * BUG #308 As an eMonocot user when I search results by A to Z I do not
+	 * understand the order of the results page.
+	 */
+    @Test
+    public final void testSearchWithNulls() {
+        Page<SearchableObject> results = searchableObjectDao.search("", null, null, null, null, null, new Sorting("label", SortDirection.FORWARD), null);
+
+        assertEquals("There should be 7 results", 7, results.getSize().intValue());
+        for(SearchableObject s : results.getRecords()) {
+        	System.out.println(s.getIdentifier());
+        }
+        assertEquals("The first results should be urn:kew.org:wcs:taxon:294463", "urn:kew.org:wcs:taxon:294463", results.getRecords().get(0).getIdentifier());
         
     }
 }
