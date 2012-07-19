@@ -212,7 +212,8 @@ Key.prototype.unselectCharacter = function(characterId) {
       if(character.id != characterId) {
         newSelectedCharacters.push(character);
       } else {
-  	character.selectedValues = null;
+    	  delete character.selectedValues;
+      	  delete character.isRedundant;
       }
     }
     this.selectedCharacters = newSelectedCharacters;

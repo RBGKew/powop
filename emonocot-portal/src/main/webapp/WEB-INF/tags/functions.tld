@@ -19,6 +19,11 @@
         <function-signature>org.emonocot.model.description.TextContent content(org.emonocot.model.taxon.Taxon,org.emonocot.model.description.Feature)</function-signature>
     </function>
     <function>
+        <name>evaluate</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.String evaluate(java.lang.String,javax.servlet.jsp.PageContext)</function-signature>
+    </function>
+    <function>
         <name>isInfraspecific</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>java.lang.Boolean isInfraspecific(org.emonocot.model.taxon.Rank)</function-signature>

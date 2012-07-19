@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.apache.commons.collections.comparators.NullComparator;
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Taxon;
@@ -58,7 +59,17 @@ public class SimpleBibliographyImpl implements Bibliography {
      * @author ben
      *
      */
-    class ReferenceComparator implements Comparator<Reference> {
+	class ReferenceComparator implements Comparator<Reference> {
+
+		private NullComparator nullSafeStringComparator = new NullComparator(
+				new Comparator<String>() {
+
+					@Override
+					public int compare(String o1, String o2) {
+						return o1.compareTo(o2);
+					}
+
+				});
 
         /**
          * @param o1
@@ -69,29 +80,27 @@ public class SimpleBibliographyImpl implements Bibliography {
          *         otherwise
          */
         public final int compare(final Reference o1, final Reference o2) {
-            if (o1.getDatePublished() == null) {
-                if (o2.getDatePublished() == null) {
-                    return 0;
-                } else {
-                    return -1;
-                }
-            } else {
-                if (o2.getDatePublished() == null) {
-                    return 1;
-                } else {
-                    int compareDate = o1.getDatePublished().compareTo(
-                            o2.getDatePublished());
-                    if (compareDate == 0) {
-                        /**
-                         * TODO Could implement more sophisticated sorting but
-                         * probably not worth it right now
-                         */
-                        return 0;
-                    } else {
-                        return compareDate;
-                    }
-                }
-            }
+        	int compareDate = nullSafeStringComparator.compare(o1.getDatePublished(), o2.getDatePublished());
+        	if(compareDate == 0) {
+        		int compareAuthor = nullSafeStringComparator.compare(o1.getAuthor(), o2.getAuthor());
+        		if(compareAuthor == 0) {
+        			int compareTitle = nullSafeStringComparator.compare(o1.getTitle(), o2.getTitle());
+        			if(compareTitle == 0) {
+        				int compareCitation = nullSafeStringComparator.compare(o1.getCitation(), o2.getCitation());
+        				if(compareCitation == 0) {
+        					return o1.getIdentifier().compareTo(o2.getIdentifier());
+        				} else {
+        					return compareCitation;
+        				}
+        			} else {
+        				return compareTitle;
+        			}
+        		} else {
+        			return compareAuthor;
+        		}
+        	} else {
+        		return compareDate;
+        	}
         }
     }
 }

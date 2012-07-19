@@ -32,8 +32,12 @@
 						<br/>
 						<div><em><spring:message code="resultStatus" /></em> <spring:message code="${item.status}" /></div>
 						<div><em><spring:message code="resultRank" /></em> <spring:message code="${item.rank}" /></div>
-						<div><em><spring:message code="resultFamily" /></em> ${item.family}</div>
-						<div><em><spring:message code="resultOrder" /></em> ${item.order}</div>
+						<c:if test="${item.family != null}">
+						    <div><em><spring:message code="resultFamily" /></em> ${item.family}</div>
+						</c:if>
+						<c:if test="${item.order != null}">
+						    <div><em><spring:message code="resultOrder" /></em> ${item.order}</div>
+						</c:if>
 				  </results:listEntry>
 				</c:when>
 				<c:when test="${item.className == 'Image'}">

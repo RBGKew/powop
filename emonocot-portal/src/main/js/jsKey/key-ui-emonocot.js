@@ -31,18 +31,19 @@ function writeNode(key, node) {
      }
      html += "</ul></div></li>";
    } else {
-      var character = key.getCharacter(node.character);
-      if(!character.selectedValues || character.selectedValues.length == 0) {
-         html += "<li class='character'>";
-         if(!Key.isUndefined(character.images) && character.images.length > 0) {
-            var image = character.images[0];
-            html  += "<a class='pull-left' id='" + character.id + "'>" + character.name + "</a></br>";
-            html  += "<img id='character" + character.id + "' class='thumbnail' src='" + key.getImagePath() +  image.href + "'title='" + character.name + "'/>";
-         } else {
-            html  += "<a id='" + character.id + "'>" + character.name + "</a>";
-         }
-         html += "</li>";
-      }
+     var character = key.getCharacter(node.character);
+     if((!character.selectedValues || character.selectedValues.length == 0) && !character.isRedundant) {
+       html += "<li class='character'>";
+       if(!Key.isUndefined(character.images) && character.images.length > 0) {
+         var image = character.images[0];
+         html  += "<a class='pull-left' id='" + character.id + "'>" + character.name + "</a></br>";
+         html  += "<img id='character" + character.id + "' class='thumbnail' src='" + key.getImagePath() +  image.href + "'/>";
+         
+       } else {
+         html  += "<a id='" + character.id + "'>" + character.name + "</a>";
+       }
+       html += "</li>";
+     }
    }
    return html;
 }
@@ -114,6 +115,7 @@ function updateUI(key) {
            }
            body += "</ul>";
            $('#characterModal .modal-body').html(body);
+           
            $('#save').click(function() {
              var s = 1;
              var selectedValues = [];
@@ -133,9 +135,7 @@ function updateUI(key) {
 
            $("#characterModal .thumbnail").click(function(event) {
               var id = event.target.id;
-              // <image id="characterX-Y" dsfkjsdfsdf/>
-              // var characterId = 
-              // var stateIndex = 
+
               var temp = new Array();
               temp = id.split('-');
               var characterId = temp[0].substring(9);
@@ -143,9 +143,7 @@ function updateUI(key) {
               var character = key.getCharacter(characterId);
               var state = character.states[stateIndex];
               $('#characterModal').modal('hide');
-              /*for (var i=0; i< character.states.lenght; i++){
-                  var body = "<img src='" + key.getImagePath() +  character.states[i].images[0].href + "'/>";
-              };*/
+
               var body = "<img src='" + key.getImagePath() +  state.images[0].href + "'/>";
               var title = event.target.title;
               $('#modal-gallery .modal-body .modal-image').html(body);
@@ -156,6 +154,9 @@ function updateUI(key) {
               $('#modal-gallery').modal({});
               return false;
             });
+           $('#characterModal').on('hide', function () {
+        	   $('#save').unbind("click");
+           })
            $('#characterModal').modal({});
            break;
            default:
@@ -182,15 +183,15 @@ function updateUI(key) {
          if(event.target.id.indexOf("character") == 0){
            var title = event.target.title;
            var character = key.getCharacter(event.target.id.substring(9));
-           var body = "<img src='" + key.getImagePath() +  character.images[0].href + "'/>";
+           var body = "<img src='" + key.getFullsizeImagePath() +  character.images[0].href + "'/>"
            $('#modal-gallery .modal-body .modal-image').html(body);
            $('#modal-gallery .modal-body .carousel-caption .modal-title').html(title);
-           /*alert(character.images[0].href);*/
+
          } else {
            var title = event.target.title;
            
            var descriptiveConcept = key.getDescriptiveConcept(event.target.id.substring(18));
-           var body = "<img src='" + key.getImagePath() +  descriptiveConcept.images[0].href + "'/>";
+           var body = "<img src='" + key.getFullsizeImagePath() +  descriptiveConcept.images[0].href + "'/>";
            
            $('#modal-gallery .modal-body .modal-image').html(body);
            $('#modal-gallery .modal-body .carousel-caption .modal-title').html(title);
