@@ -63,13 +63,13 @@
 				</table>
 			</div>
 		</div>
-		<div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery"></div>
-      <div id="modal-gallery" class="modal modal-gallery hide fade modal-fullscreen">
+		<div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery"><!--  --></div>
+		<div id="modal-gallery" class="modal modal-gallery hide fade modal-fullscreen">
 						<div class="modal-header">
 							<a class="close" data-dismiss="modal">&#215;</a>
 						</div>
 						<div class="modal-body">
-							<div class="modal-image"><!--  --></div>
+							 <div class="modal-image"><!--  --></div>
 							<div class="carousel-caption">
 								<a class="modal-title"><!--  --></a>
 							</div>
