@@ -17,6 +17,11 @@ Key.prototype.reset = function() {
     this.selectedCharacters = [];
     this.matchedTaxa = this.data.taxa;
     this.unmatchedTaxa = [];
+    for(var i = 0; i < this.data.characters.length; i++) {
+    	var character = this.data.characters[i];
+    	delete character.selectedValues;
+    	delete character.isRedundant;
+    }
 };
 
 Key.prototype.getCharacterTree = function() {
@@ -38,6 +43,7 @@ Key.prototype.getImagePath = function() {
 Key.prototype.getFullsizeImagePath = function() {
     return this.imagePath;
 };
+
 Key.prototype.getTaxonPath = function() {
     return this.taxonPath;
 };
