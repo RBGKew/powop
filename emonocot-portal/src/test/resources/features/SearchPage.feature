@@ -186,6 +186,7 @@ Scenario: Sort taxa by Recency
   Then there should be 8 results
   And the following results should be displayed:
   | page                         | text                        |
+  | 999                          | Key to the genus Rhipogonum |
   | urn:kew.org:wcs:taxon:286796 | Rhipogonum scandens         |
   | urn:kew.org:wcs:taxon:286791 | Rhipogonum discolor         |
   | urn:kew.org:wcs:taxon:286789 | Rhipogonum album            |
@@ -193,7 +194,6 @@ Scenario: Sort taxa by Recency
   | urn:kew.org:wcs:taxon:286806 | Rhipogonum fawcettianum     |
   | urn:kew.org:wcs:taxon:286793 | Rhipogonum elseyanum        |
   | urn:kew.org:wcs:taxon:286768 | Rhipogonum                  |
-  | 999                          | Key to the genus Rhipogonum |
 
   
 Scenario: Search for identification key
