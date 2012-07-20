@@ -88,7 +88,7 @@ public class SimpleBibliographyImpl implements Bibliography {
         			if(compareTitle == 0) {
         				int compareCitation = nullSafeStringComparator.compare(o1.getCitation(), o2.getCitation());
         				if(compareCitation == 0) {
-        					return o1.getIdentifier().compareTo(o2.getIdentifier());
+        					return nullSafeStringComparator.compare(o1.getIdentifier(), o2.getIdentifier());
         				} else {
         					return compareCitation;
         				}
