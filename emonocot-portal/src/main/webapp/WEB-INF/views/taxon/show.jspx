@@ -48,28 +48,28 @@
 		
 		<div class="row">
 			<div class="span9">
-				<c:choose>
-				  	<c:when test="${taxon.accepted != null}">
-						<section id="accepted">
-							<spring:message code="isSynonym" />
-							<jsp:element name="a">
-								<jsp:attribute name="href">
-									<c:url value="/taxon/${taxon.accepted.identifier}" />
-								</jsp:attribute>
-								${taxon.accepted.name} ${taxon.accepted.authorship}
-							</jsp:element>
-						</section>
+			    <section id="status">
+				  <c:choose>
+				  	<c:when test="${taxon.status == 'synonym' and taxon.accepted != null}">
+					  <spring:message code="isSynonym"/>
+					  <c:url var="acceptedUrl" value="/taxon/${taxon.accepted.identifier}"/>
+					  <a href="${acceptedUrl}">${taxon.accepted.name} ${taxon.accepted.authorship}</a>						
 					</c:when>
-					<c:otherwise>
+					<c:when test="${taxon.status == 'illegitimate' and taxon.accepted != null}">
+						<spring:message code="isSynonym"/>
+					    <c:url var="acceptedUrl" value="/taxon/${taxon.accepted.identifier}"/>
+					    <a href="${acceptedUrl}">${taxon.accepted.name} ${taxon.accepted.authorship}</a>
+					</c:when>
+					<c:when test="${taxon.status == 'unplaced'}">
+					  <spring:message code="isUnplaced" />
+					</c:when>
+					<c:when test="${taxon.status == 'accepted'}">
 						<spring:message code="isAccepted" />
-						<jsp:element name="a">
-							<jsp:attribute name="href">
-								<c:url value="/source/${taxon.authority.identifier}" />
-							</jsp:attribute>
-							${taxon.authority.title}
-						</jsp:element>
-					</c:otherwise>
-				</c:choose>
+					    <c:url var="sourceUrl" value="/source/${taxon.authority.identifier}"/>
+					    <a href="${acceptedUrl}">${taxon.authority.title}</a>
+					</c:when>
+				  </c:choose>
+				</section>
 				<c:if test="${not empty taxon.images}">
 				
 					<section id="images">
