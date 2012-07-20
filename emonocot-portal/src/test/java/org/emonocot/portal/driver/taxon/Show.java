@@ -35,6 +35,11 @@ public class Show extends PageObject implements IllustratedPage {
     @FindBy(how = How.ID, using = "textContent")
     private WebElement textContent;
     
+    /**
+     *
+     */
+    @FindBy(how = How.ID, using = "status")
+    private WebElement taxonomicStatus;
 
     /**
      *
@@ -274,7 +279,7 @@ public class Show extends PageObject implements IllustratedPage {
 	       return true;
 	}
 
-
-	
-
+	public String getTaxonomicStatus() {
+		return taxonomicStatus.getText();
+	}
 }

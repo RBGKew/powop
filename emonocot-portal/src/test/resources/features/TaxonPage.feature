@@ -105,7 +105,7 @@ Scenario: Taxa Relationship Not Present For Synonyms
   
 Scenario: Accepted name show for synonyms
   Taxa should show their status at the top of the page
-  Then the taxon status should be 'This taxon is accepted by'
+  Then the taxon status should be 'This taxon is accepted by '
   When I navigate to taxon page "urn:kew.org:wcs:taxon:29332"
   Then the taxon status should be 'This taxon is a synonym of Acorus'
   When I navigate to taxon page "urn:kew.org:wcs:taxon:65181"

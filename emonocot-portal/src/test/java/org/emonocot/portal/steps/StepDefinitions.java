@@ -515,6 +515,17 @@ public class StepDefinitions {
                 ((org.emonocot.portal.driver.taxon.Show) currentPage)
                         .getAncestorsNumber());
     }
+    
+    /**
+     *
+     * @param taxonStatus Set the taxonomic status
+     */
+    @Then("^the taxon status should be '([^\"]*)'$")
+    public void theTaxonStatusShouldBe(final String taxonStatus) {
+    	assertEquals(taxonStatus,
+                ((org.emonocot.portal.driver.taxon.Show) currentPage)
+                        .getTaxonomicStatus());
+    }
 
     /**
      * @param subordinate
