@@ -290,12 +290,12 @@
               </executions>
             </plugin>
             <plugin>
-              <groupId>org.codehaus.mojo</groupId>
+              <groupId>org.lesscss</groupId>
               <artifactId>lesscss-maven-plugin</artifactId>
-              <version>1.0-beta-2</version>
+              <version>1.3.0</version>
               <configuration>
                 <outputDirectory>${project.build.directory}/compiled-less/</outputDirectory>
-                <lessJS>${basedir}/src/main/js/less-1.2.2.js</lessJS>
+                <lessJS>${basedir}/src/main/js/less-1.3.0.min.js</lessJS>
                 <includes>
                   <include>bootstrap.less</include>
                 </includes>
