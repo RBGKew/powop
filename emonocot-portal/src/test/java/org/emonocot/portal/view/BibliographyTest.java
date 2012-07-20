@@ -28,13 +28,13 @@ public class BibliographyTest {
 	public void setUp() {
 		Taxon taxon = new Taxon();
 		taxon.setContent(new HashMap<Feature,TextContent>());
-		reference1 = createReference("1753", null);
+		reference1 = createReference("1753", null, "1");
 		taxon.getReferences().add(reference1);
 		
-		reference2 = createReference(null, "Zebras are wonderful creatures");
+		reference2 = createReference(null, "Zebras are wonderful creatures", "2");
 		taxon.getReferences().add(reference2);
 		
-		reference3 = createReference(null, "A");
+		reference3 = createReference(null, "A", "3");
 		taxon.getReferences().add(reference3);
 		
 		bibliography = new SimpleBibliographyImpl();
@@ -42,10 +42,11 @@ public class BibliographyTest {
 		
 	}
 
-	private Reference createReference(String datePublished, String title) {
+	private Reference createReference(String datePublished, String title, String identifier) {
 		Reference reference = new Reference();
 		reference.setDatePublished(datePublished);
 		reference.setTitle(title);
+		reference.setIdentifier(identifier);
 		return reference;
 	}
 
