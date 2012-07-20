@@ -1371,10 +1371,8 @@
                 <hibernate.search.default.refresh>60</hibernate.search.default.refresh>
                 <hibernate.search.purge.indexes.on.init>false</hibernate.search.purge.indexes.on.init>
                 <mondrian.catalog.location>jndi:/localhost/WEB-INF/classes/META-INF/olap/olap.xml</mondrian.catalog.location>
-                <spring.security.sid.identity.query>SELECT
-                    LAST_INSERT_ID()</spring.security.sid.identity.query>
-                <spring.security.class.identity.query>SELECT
-                    LAST_INSERT_ID()</spring.security.class.identity.query>
+                <spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
+                <spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
                 <jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
                 <jdbc.driver.url>jdbc:mysql://localhost:3306/emonocot</jdbc.driver.url>
                 <jdbc.driver.username>emonocot-user</jdbc.driver.username>
@@ -1420,10 +1418,8 @@
                 <hibernate.search.default.refresh>60</hibernate.search.default.refresh>
                 <hibernate.search.purge.indexes.on.init>true</hibernate.search.purge.indexes.on.init>
                 <mondrian.catalog.location>jndi:/localhost/WEB-INF/classes/META-INF/olap/olap.xml</mondrian.catalog.location>
-                <spring.security.sid.identity.query>SELECT
-                    LAST_INSERT_ID()</spring.security.sid.identity.query>
-                <spring.security.class.identity.query>SELECT
-                    LAST_INSERT_ID()</spring.security.class.identity.query>
+                <spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
+                <spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
                 <jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
                 <jdbc.driver.url>jdbc:mysql://localhost:3306/emonocot</jdbc.driver.url>
                 <jdbc.driver.username>emonocot-user</jdbc.driver.username>
@@ -1517,10 +1513,8 @@
                 <hibernate.search.default.refresh>60</hibernate.search.default.refresh>
                 <hibernate.search.purge.indexes.on.init>false</hibernate.search.purge.indexes.on.init>
                 <mondrian.catalog.location>jndi:/localhost/WEB-INF/classes/META-INF/olap/olap.xml</mondrian.catalog.location>
-                <spring.security.sid.identity.query>SELECT
-                    LAST_INSERT_ID()</spring.security.sid.identity.query>
-                <spring.security.class.identity.query>SELECT
-                    LAST_INSERT_ID()</spring.security.class.identity.query>
+                <spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
+                <spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
                 <jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
                 <jdbc.driver.url>jdbc:mysql://localhost:3306/emonocot</jdbc.driver.url>
                 <jdbc.driver.username>emonocot-user</jdbc.driver.username>
@@ -1566,10 +1560,8 @@
                 <hibernate.search.default.refresh>60</hibernate.search.default.refresh>
                 <hibernate.search.purge.indexes.on.init>false</hibernate.search.purge.indexes.on.init>
                 <mondrian.catalog.location>jndi:/localhost/WEB-INF/classes/META-INF/olap/olap.xml</mondrian.catalog.location>
-                <spring.security.sid.identity.query>SELECT
-                    LAST_INSERT_ID()</spring.security.sid.identity.query>
-                <spring.security.class.identity.query>SELECT
-                    LAST_INSERT_ID()</spring.security.class.identity.query>
+                <spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
+                <spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
                 <jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
                 <jdbc.driver.url>jdbc:mysql://192.168.2.10:3306/emonocot</jdbc.driver.url>
                 <jdbc.driver.username>emonocot-user</jdbc.driver.username>
