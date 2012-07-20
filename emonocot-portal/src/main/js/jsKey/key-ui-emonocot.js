@@ -60,7 +60,7 @@ function updateUI(key) {
       for(var i = 0; i < matchedTaxa.length; i++) {
         var taxon = matchedTaxa[i];
         matched += "<tr>";
-        matched +="<td><img src=\"http://build.e-monocot.org/uat/portal/css/images/glyphicons/halfsize/glyphicons_001_leaf.png\" alt=\"Taxon\" style=\"width:20px ; height:20px\"/></td>";
+        matched +="<td><img src=\"/css/images/glyphicons/halfsize/glyphicons_001_leaf.png\" alt=\"Taxon\" style=\"width:20px ; height:20px\"/></td>";
         if(!Key.isUndefined(taxon.links) && taxon.links.length > 0) {
             var link = taxon.links[0];
             matched += "<td><a href='" + key.getTaxonPath() + link.href + "' title='" + link.title + "'><h4>" + taxon.name + "</h4></a></td>";
@@ -72,7 +72,7 @@ function updateUI(key) {
             var image = taxon.images[0];
             matched += "<td><a class='pull-right' href='#'><img class='thumbnail' src='" + key.getImagePath() +  image.href + "'/></a></td>";
         	} else{
-        		matched += "<td><img class='thumbnail pull-right' src='http://build.e-monocot.org/uat/portal/css/images/no_image.jpg></td>";
+        		matched += "<td><img class='thumbnail pull-right' src='/css/images/no_image.jpg></td>";
         	}
         } else {
             matched += "<td></td>";
@@ -143,7 +143,9 @@ function updateUI(key) {
               var character = key.getCharacter(characterId);
               var state = character.states[stateIndex];
               $('#characterModal').modal('hide');
-
+              /*for (var i=0; i< character.states.lenght; i++){
+                  var body = "<img src='" + key.getImagePath() +  character.states[i].images[0].href + "'/>";
+              };*/
               var body = "<img src='" + key.getImagePath() +  state.images[0].href + "'/>";
               var title = event.target.title;
               $('#modal-gallery .modal-body .modal-image').html(body);
@@ -156,7 +158,7 @@ function updateUI(key) {
             });
            $('#characterModal').on('hide', function () {
         	   $('#save').unbind("click");
-           })
+           });
            $('#characterModal').modal({});
            break;
            default:
@@ -181,17 +183,16 @@ function updateUI(key) {
       $(".thumbnail").click(function(event) {
     	  
          if(event.target.id.indexOf("character") == 0){
-           var title = event.target.title;
+          var title = event.target.title;
            var character = key.getCharacter(event.target.id.substring(9));
-           var body = "<img src='" + key.getFullsizeImagePath() +  character.images[0].href + "'/>"
+           var body = "<img src='" + key.getImagePath() +  character.images[0].href + "'/>";
            $('#modal-gallery .modal-body .modal-image').html(body);
            $('#modal-gallery .modal-body .carousel-caption .modal-title').html(title);
-
          } else {
            var title = event.target.title;
            
            var descriptiveConcept = key.getDescriptiveConcept(event.target.id.substring(18));
-           var body = "<img src='" + key.getFullsizeImagePath() +  descriptiveConcept.images[0].href + "'/>";
+           var body = "<img src='" + key.getImagePath() +  descriptiveConcept.images[0].href + "'/>";
            
            $('#modal-gallery .modal-body .modal-image').html(body);
            $('#modal-gallery .modal-body .carousel-caption .modal-title').html(title);

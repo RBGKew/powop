@@ -55,7 +55,7 @@
 				    	</li>				    	
 			    	</ul>
 			    </div>
-			    <div class="offset12 pull-right noPrint">
+			    <div class="pull-right noPrint">
 			    <ul class="nav">
 				<security:authorize access="!isAuthenticated()">
 				  <li><jsp:element  name="a">
