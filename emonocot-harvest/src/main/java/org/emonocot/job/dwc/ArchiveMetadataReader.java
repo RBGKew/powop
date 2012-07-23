@@ -100,9 +100,9 @@ public class ArchiveMetadataReader implements StepExecutionListener {
                     archiveDirectory));
 
             ArchiveFile core = archive.getCore();
-            String metadataFileName = archiveDirectory + File.separator
-                    + archive.getMetadataLocation();
-            if (metadataFileName != null) {
+            
+            if (archive.getMetadataLocation() != null) {
+            	String metadataFileName = archiveDirectory + File.separator  + archive.getMetadataLocation();
                 try {
                     Eml eml = EmlFactory.build(new FileInputStream(metadataFileName));
                     updateSourceMetadata(eml);
@@ -271,6 +271,11 @@ public class ArchiveMetadataReader implements StepExecutionListener {
                 .getLocationFile().getAbsolutePath());
         executionContext.put("dwca." + prefix + ".fieldsTerminatedBy",
                 archiveFile.getFieldsTerminatedBy());
+        if(archiveFile.getFieldsEnclosedBy() != null) {
+            executionContext.put("dwca." + prefix + ".fieldsEnclosedBy", archiveFile.getFieldsEnclosedBy());
+        } else { 
+        	executionContext.put("dwca." + prefix + ".fieldsEnclosedBy", '\u0000');
+        }
         executionContext.put("dwca." + prefix + ".encoding",
                 archiveFile.getEncoding());
 
