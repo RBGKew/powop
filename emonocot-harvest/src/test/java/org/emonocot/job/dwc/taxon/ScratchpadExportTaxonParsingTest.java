@@ -26,7 +26,7 @@ public class ScratchpadExportTaxonParsingTest {
     *
     */
    private Resource content = new ClassPathResource(
-           "/org/emonocot/zingiberaceae/classification.txt");
+           "/org/emonocot/zingiberaceae/zingiberaceae/classification.txt");
 
    /**
     *

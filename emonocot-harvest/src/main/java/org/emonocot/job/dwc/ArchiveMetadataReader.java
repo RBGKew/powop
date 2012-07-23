@@ -85,24 +85,30 @@ public class ArchiveMetadataReader implements StepExecutionListener {
 
     /**
      *
-     * @param archiveDirectory
+     * @param archiveDirectoryName
      *            The directory where the DwC Archive has been unpacked to
      * @param sourceName Set the name of the source
      * @param taxonProcessingMode Set the taxon processing mode
      * @return An exit status indicating whether the step has been completed or
      *         failed
      */
-    public final ExitStatus readMetadata(final String archiveDirectory,
+    public final ExitStatus readMetadata(final String archiveDirectoryName,
             final String sourceName, final String taxonProcessingMode) {
         this.sourceName = sourceName;
         try {
-            Archive archive = ArchiveFactory.openArchive(new File(
-                    archiveDirectory));
+        	File archiveDirectory = new File(archiveDirectoryName);
+        	File metaDir = getMetaDirectory(archiveDirectory);
+        	if(metaDir == null) {
+        		logger.error("Could not find metadata directory in " +  archiveDirectoryName);
+                return ExitStatus.FAILED;
+        	}
+        	
+            Archive archive = ArchiveFactory.openArchive(metaDir);
 
             ArchiveFile core = archive.getCore();
             
             if (archive.getMetadataLocation() != null) {
-            	String metadataFileName = archiveDirectory + File.separator  + archive.getMetadataLocation();
+            	String metadataFileName = archiveDirectoryName + File.separator  + archive.getMetadataLocation();
                 try {
                     Eml eml = EmlFactory.build(new FileInputStream(metadataFileName));
                     updateSourceMetadata(eml);
@@ -137,10 +143,10 @@ public class ArchiveMetadataReader implements StepExecutionListener {
             }
         } catch (UnsupportedArchiveException uae) {
             logger.error("Unsupported Archive Exception reading "
-                    + archiveDirectory + " " + uae.getLocalizedMessage());
+                    + archiveDirectoryName + " " + uae.getLocalizedMessage());
             return ExitStatus.FAILED;
         } catch (IOException ioe) {
-            logger.error("Input Output Exception reading " + archiveDirectory
+            logger.error("Input Output Exception reading " + archiveDirectoryName
                     + " " + ioe.getLocalizedMessage());
             return ExitStatus.FAILED;
         }
@@ -151,6 +157,29 @@ public class ArchiveMetadataReader implements StepExecutionListener {
         }
 
         return ExitStatus.COMPLETED;
+    }
+
+	/**
+	 * Recurses over a directory system and returns the first enclosing
+	 * directory which contains a file with the suffix *.xml
+	 * 
+	 * @param archiveDirectory
+	 * @return a file or null if no meta.xml file can be found
+	 */
+    private File getMetaDirectory(File archiveDirectory) {
+    	for(File f : archiveDirectory.listFiles()) {
+    		if(f.getName().endsWith(".xml")) {
+    			return archiveDirectory;
+    		} else {
+    			if(f.isDirectory()) {
+    				File dir = getMetaDirectory(f);
+    				if(dir != null) {
+    					return dir;
+    				}
+    			}
+    		}
+    	}
+    	return null;
     }
 
     /**

@@ -52,6 +52,14 @@ public class ArchiveUnpacker {
             Enumeration entries = zipfile.entries();
             while (entries.hasMoreElements()) {
                 entry = (ZipEntry) entries.nextElement();
+                if(entry.getName().indexOf("/") != -1) {
+                	// entry is in a subdir
+                	String subDirectoryName = entry.getName().substring(0, entry.getName().indexOf("/"));
+                	File subDirectory = new File(directory,subDirectoryName);
+                	if(!subDirectory.exists()) {
+                		subDirectory.mkdirs();
+                	}
+                }
                 logger.debug("Extracting: " + entry + " from " + archiveName);
                 bufferedInputStream = new BufferedInputStream(
                         zipfile.getInputStream(entry));

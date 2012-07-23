@@ -3,17 +3,11 @@ package org.emonocot.job.dwc;
 import static org.hamcrest.collection.IsArrayContaining.hasItemInArray;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
-import java.util.HashSet;
-
-import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
-import org.easymock.EasyMock;
 import org.emonocot.api.SourceService;
-import org.emonocot.model.source.Source;
 import org.junit.Test;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
