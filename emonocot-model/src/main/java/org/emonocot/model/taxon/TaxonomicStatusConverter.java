@@ -16,7 +16,7 @@ public class TaxonomicStatusConverter implements
      * @return a TaxonomicStatus object or null if the taxon status term is null
      */
     public final TaxonomicStatus convert(final String identifier) {
-        if (identifier == null) {
+        if (identifier == null || identifier.trim().isEmpty()) {
             return null;
         } else {
             if (identifier

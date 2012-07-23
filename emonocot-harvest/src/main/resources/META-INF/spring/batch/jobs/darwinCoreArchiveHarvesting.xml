@@ -335,6 +335,7 @@
 		scope="step">
 		<property name="names" value="#{jobExecutionContext['dwca.core.fieldNames']}"/>			
 		<property name="delimiter" value="#{jobExecutionContext['dwca.core.fieldsTerminatedBy']}"/>
+		<property name="quoteCharacter" value="#{jobExecutionContext['dwca.core.fieldsEnclosedBy']}"/>
 		<property name="strict" value="false"/>
 	</bean>	
 	
@@ -380,6 +381,7 @@
 		scope="step">
 		<property name="names" value="#{jobExecutionContext['dwca.description.fieldNames']}"/>
 		<property name="delimiter" value="#{jobExecutionContext['dwca.description.fieldsTerminatedBy']}"/>
+		<property name="quoteCharacter" value="#{jobExecutionContext['dwca.description.fieldsEnclosedBy']}"/>
 		<property name="strict" value="false"/>
 	</bean>
 
@@ -424,7 +426,8 @@
 	<bean id="imageLineTokenizer"
 		class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer"
 		scope="step">
-		<property name="names" value="#{jobExecutionContext['dwca.image.fieldNames']}"/>		
+		<property name="names" value="#{jobExecutionContext['dwca.image.fieldNames']}"/>
+		<property name="quoteCharacter" value="#{jobExecutionContext['dwca.core.fieldsEnclosedBy']}"/>	
 		<property name="delimiter" value="#{jobExecutionContext['dwca.image.fieldsTerminatedBy']}"/>
 		<property name="strict" value="false"/>
 	</bean>
@@ -489,7 +492,8 @@
 		class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer"
 		scope="step">
 		<property name="names" value="#{jobExecutionContext['dwca.reference.fieldNames']}"/>			
-		<property name="delimiter" value="#{jobExecutionContext['dwca.reference.fieldsTerminatedBy']}"/>			
+		<property name="delimiter" value="#{jobExecutionContext['dwca.reference.fieldsTerminatedBy']}"/>
+		<property name="quoteCharacter" value="#{jobExecutionContext['dwca.reference.fieldsEnclosedBy']}"/>		
 		<property name="strict" value="false"/>
 	</bean>
 
@@ -546,7 +550,8 @@
 		class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer"
 		scope="step">
 		<property name="names" value="#{jobExecutionContext['dwca.identifier.fieldNames']}"/>			
-		<property name="delimiter" value="#{jobExecutionContext['dwca.identifier.fieldsTerminatedBy']}"/>			
+		<property name="delimiter" value="#{jobExecutionContext['dwca.identifier.fieldsTerminatedBy']}"/>
+		<property name="quoteCharacter" value="#{jobExecutionContext['dwca.identifier.fieldsEnclosedBy']}"/>		
 		<property name="strict" value="false"/>
 	</bean>
 

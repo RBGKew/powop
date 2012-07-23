@@ -1311,7 +1311,7 @@
                 <harvester.thumbnail.directory>/var/lib/emonocot/images/thumbnails</harvester.thumbnail.directory>
                 <harvester.imagemagick.path>/usr/bin</harvester.imagemagick.path>
                 <harvester.spool.directory>/var/spool/emonocot</harvester.spool.directory>
-                <batch.job.configuration.file.dir>file:/var/cache/tomcat/temp/emonocot/</batch.job.configuration.file.dir>
+                <batch.job.configuration.file.dir>file:/var/cache/tomcat7/temp/emonocot/</batch.job.configuration.file.dir>
                 <cargo.containerId>tomcat7x</cargo.containerId>
                 <cargo.tomcat.manager.url>http://localhost:8888/manager/text</cargo.tomcat.manager.url>
                 <cargo.remote.username>admin</cargo.remote.username>
@@ -1322,17 +1322,18 @@
                 <http.proxyPort />
                 <logging.level>WARN</logging.level>
                 <logging.method>file</logging.method>
-                <logging.location>/var/log/tomcat/emonocot-harvester.log</logging.location>
+                <logging.location>/var/log/tomcat7/emonocot-harvester.log</logging.location>
                 <liquibase.changelog>../emonocot-persistence/src/main/resources/changelog.mysql.xml</liquibase.changelog>
                 <liquibase.url>jdbc:mysql://localhost:3336/emonocot</liquibase.url>
                 <liquibase.drop.database.first>false</liquibase.drop.database.first>
                 <hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
-                <hibernate.search.default.indexBase>/var/cache/tomcat/work/emonocot-harvester</hibernate.search.default.indexBase>
+                <hibernate.search.default.indexBase>/var/cache/tomcat7/work/emonocot-harvester</hibernate.search.default.indexBase>
                 <hibernate.search.default.sourceBase>/mnt/master_index</hibernate.search.default.sourceBase>
                 <hibernate.search.default.directory_provider>filesystem-master</hibernate.search.default.directory_provider>
                 <hibernate.search.default.refresh>60</hibernate.search.default.refresh>
                 <hibernate.search.worker.backend>jms</hibernate.search.worker.backend>
                 <hibernate.search.purge.indexes.on.init>false</hibernate.search.purge.indexes.on.init>
+                <ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-harvester/cache</ehcache.diskstore.path>
                 <jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
                 <jdbc.driver.url>jdbc:mysql://localhost:3306/emonocot</jdbc.driver.url>
                 <jdbc.driver.username>emonocot-user</jdbc.driver.username>
@@ -1362,7 +1363,7 @@
                 <cargo.context.path>/</cargo.context.path>
                 <logging.level>WARN</logging.level>
                 <logging.method>file</logging.method>
-                <logging.location>/var/log/tomcat/emonocot-portal.log</logging.location>
+                <logging.location>/var/log/tomcat7/emonocot-portal.log</logging.location>
                 <wagon.static.url>scp://localhost:2222/var/www/html/</wagon.static.url>
                 <wagon.server.id>vagrant</wagon.server.id>
                 <liquibase.drop.database.first>false</liquibase.drop.database.first>
@@ -1370,11 +1371,12 @@
                 <liquibase.url>jdbc:mysql://localhost:3336/emonocot</liquibase.url>
                 <hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
                 <hibernate.search.default.directory_provider>filesystem-slave</hibernate.search.default.directory_provider>
-                <hibernate.search.default.indexBase>/var/cache/tomcat/work/emonocot-portal/indexes</hibernate.search.default.indexBase>
+                <hibernate.search.default.indexBase>/var/cache/tomcat7/work/emonocot-portal/indexes</hibernate.search.default.indexBase>
                 <hibernate.search.default.sourceBase>/mnt/master_index</hibernate.search.default.sourceBase>
                 <hibernate.search.worker.backend>jms</hibernate.search.worker.backend>
                 <hibernate.search.default.refresh>60</hibernate.search.default.refresh>
                 <hibernate.search.purge.indexes.on.init>false</hibernate.search.purge.indexes.on.init>
+                <ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
                 <mondrian.catalog.location>jndi:/localhost/WEB-INF/classes/META-INF/olap/olap.xml</mondrian.catalog.location>
                 <spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
                 <spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
@@ -1409,7 +1411,7 @@
                 <cargo.context.path>/</cargo.context.path>
                 <logging.level>WARN</logging.level>
                 <logging.method>file</logging.method>
-                <logging.location>/var/log/tomcat/emonocot-portal.log</logging.location>
+                <logging.location>/var/log/tomcat7/emonocot-portal.log</logging.location>
                 <wagon.static.url>scp://localhost:2222/var/www/html/</wagon.static.url>
                 <wagon.server.id>vagrant</wagon.server.id>
                 <liquibase.drop.database.first>true</liquibase.drop.database.first>
@@ -1417,11 +1419,12 @@
                 <liquibase.url>jdbc:mysql://localhost:3336/emonocot</liquibase.url>
                 <hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
                 <hibernate.search.default.directory_provider>filesystem</hibernate.search.default.directory_provider>
-                <hibernate.search.default.indexBase>/var/cache/tomcat/work/emonocot-portal/indexes</hibernate.search.default.indexBase>
+                <hibernate.search.default.indexBase>/var/cache/tomcat7/work/emonocot-portal/indexes</hibernate.search.default.indexBase>
                 <hibernate.search.default.sourceBase>/mnt/master_index</hibernate.search.default.sourceBase>
                 <hibernate.search.worker.backend>lucene</hibernate.search.worker.backend>
                 <hibernate.search.default.refresh>60</hibernate.search.default.refresh>
                 <hibernate.search.purge.indexes.on.init>true</hibernate.search.purge.indexes.on.init>
+                <ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
                 <mondrian.catalog.location>jndi:/localhost/WEB-INF/classes/META-INF/olap/olap.xml</mondrian.catalog.location>
                 <spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
                 <spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
@@ -1455,7 +1458,7 @@
                 <harvester.thumbnail.directory>/var/lib/emonocot/images/thumbnails</harvester.thumbnail.directory>
                 <harvester.imagemagick.path>/usr/bin</harvester.imagemagick.path>
                 <harvester.spool.directory>/var/spool/emonocot</harvester.spool.directory>
-                <batch.job.configuration.file.dir>file:/var/cache/tomcat/temp/emonocot/</batch.job.configuration.file.dir>
+                <batch.job.configuration.file.dir>file:/var/cache/tomcat7/temp/emonocot/</batch.job.configuration.file.dir>
                 <cargo.containerId>tomcat7x</cargo.containerId>
                 <cargo.tomcat.manager.url>http://localhost:8888/manager/text</cargo.tomcat.manager.url>
                 <cargo.remote.username>admin</cargo.remote.username>
@@ -1466,17 +1469,18 @@
                 <http.proxyPort />
                 <logging.level>WARN</logging.level>
                 <logging.method>file</logging.method>
-                <logging.location>/var/log/tomcat/emonocot-harvester.log</logging.location>
+                <logging.location>/var/log/tomcat7/emonocot-harvester.log</logging.location>
                 <liquibase.changelog>../emonocot-persistence/src/main/resources/changelog.mysql.xml</liquibase.changelog>
                 <liquibase.url>jdbc:mysql://localhost:3336/emonocot</liquibase.url>
                 <liquibase.drop.database.first>false</liquibase.drop.database.first>
                 <hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
-                <hibernate.search.default.indexBase>/var/cache/tomcat/work/emonocot-harvester</hibernate.search.default.indexBase>
+                <hibernate.search.default.indexBase>/var/cache/tomcat7/work/emonocot-harvester</hibernate.search.default.indexBase>
                 <hibernate.search.default.sourceBase>/mnt/master_index</hibernate.search.default.sourceBase>
                 <hibernate.search.default.directory_provider>filesystem-master</hibernate.search.default.directory_provider>
                 <hibernate.search.default.refresh>60</hibernate.search.default.refresh>
                 <hibernate.search.worker.backend>jms</hibernate.search.worker.backend>
                 <hibernate.search.purge.indexes.on.init>false</hibernate.search.purge.indexes.on.init>
+                <ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-harvester/cache</ehcache.diskstore.path>
                 <jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
                 <jdbc.driver.url>jdbc:mysql://localhost:3306/emonocot</jdbc.driver.url>
                 <jdbc.driver.username>emonocot-user</jdbc.driver.username>
@@ -1506,17 +1510,18 @@
                 <cargo.context.path>/</cargo.context.path>
                 <logging.level>WARN</logging.level>
                 <logging.method>file</logging.method>
-                <logging.location>/var/log/tomcat/emonocot-portal.log</logging.location>
+                <logging.location>/var/log/tomcat7/emonocot-portal.log</logging.location>
                 <liquibase.drop.database.first>false</liquibase.drop.database.first>
                 <liquibase.changelog>../emonocot-persistence/src/main/resources/changelog.mysql.xml</liquibase.changelog>
                 <liquibase.url>jdbc:mysql://localhost:3336/emonocot</liquibase.url>
                 <hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
                 <hibernate.search.default.directory_provider>filesystem-slave</hibernate.search.default.directory_provider>
-                <hibernate.search.default.indexBase>/var/cache/tomcat/work/emonocot-portal/indexes</hibernate.search.default.indexBase>
+                <hibernate.search.default.indexBase>/var/cache/tomcat7/work/emonocot-portal/indexes</hibernate.search.default.indexBase>
                 <hibernate.search.default.sourceBase>/mnt/master_index</hibernate.search.default.sourceBase>
                 <hibernate.search.worker.backend>jms</hibernate.search.worker.backend>
                 <hibernate.search.default.refresh>60</hibernate.search.default.refresh>
                 <hibernate.search.purge.indexes.on.init>false</hibernate.search.purge.indexes.on.init>
+                <ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
                 <mondrian.catalog.location>jndi:/localhost/WEB-INF/classes/META-INF/olap/olap.xml</mondrian.catalog.location>
                 <spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
                 <spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
@@ -1554,17 +1559,18 @@
                 <cargo.context.path>/</cargo.context.path>
                 <logging.level>WARN</logging.level>
                 <logging.method>file</logging.method>
-                <logging.location>/var/log/tomcat/emonocot-portal.log</logging.location>
+                <logging.location>/var/log/tomcat7/emonocot-portal.log</logging.location>
                 <wagon.static.url>scp://localhost:2200/var/www/html/emonocot/</wagon.static.url>
                 <wagon.server.id>vagrant</wagon.server.id>
                 <hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
                 <hibernate.search.default.directory_provider>filesystem-slave</hibernate.search.default.directory_provider>
-                <hibernate.search.default.indexBase>/var/cache/tomcat/work/emonocot-portal/indexes</hibernate.search.default.indexBase>
+                <hibernate.search.default.indexBase>/var/cache/tomcat7/work/emonocot-portal/indexes</hibernate.search.default.indexBase>
                 <hibernate.search.default.sourceBase>/mnt/master_index</hibernate.search.default.sourceBase>
                 <hibernate.search.worker.backend>jms</hibernate.search.worker.backend>
                 <hibernate.search.default.refresh>60</hibernate.search.default.refresh>
                 <hibernate.search.purge.indexes.on.init>false</hibernate.search.purge.indexes.on.init>
                 <mondrian.catalog.location>jndi:/localhost/WEB-INF/classes/META-INF/olap/olap.xml</mondrian.catalog.location>
+                <ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
                 <spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
                 <spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
                 <jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
