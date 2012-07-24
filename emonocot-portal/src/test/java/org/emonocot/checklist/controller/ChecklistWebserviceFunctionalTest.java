@@ -60,7 +60,7 @@ public class ChecklistWebserviceFunctionalTest {
         RestAssured.basePath = properties.getProperty(
                 "functional.test.basePath", "/latest/checklist");
 
-        if (properties.getProperty("http.proxyHost", null) != null
+        /*if (properties.getProperty("http.proxyHost", null) != null
                 && properties.getProperty("http.proxyHost", null).length() > 0) {
             RestAssured.proxyHost = properties.getProperty("http.proxyHost",
                     null);
@@ -68,7 +68,7 @@ public class ChecklistWebserviceFunctionalTest {
                     "http.proxyPort", "8080"));
             RestAssured.proxyScheme = properties.getProperty(
                     "http.proxyScheme", "http");
-        }
+        }*/
         testDataManager
                 .createReference(
                         "reference1",

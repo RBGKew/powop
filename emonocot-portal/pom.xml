@@ -26,8 +26,12 @@
 		</dependency>
 		<dependency>
 		    <groupId>com.jayway.restassured</groupId>
-			<artifactId>org.emonocot.rest-assured</artifactId>
+			<artifactId>rest-assured</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy</artifactId>
+        </dependency>
 		<dependency>
             <groupId>org.codehaus.groovy.modules.http-builder</groupId>
             <artifactId>http-builder</artifactId>

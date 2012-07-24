@@ -576,9 +576,14 @@
             </dependency>
             <dependency>
                 <groupId>com.jayway.restassured</groupId>
-                <artifactId>org.emonocot.rest-assured</artifactId>
-                <version>1.2.3</version>
+                <artifactId>rest-assured</artifactId>
+                <version>1.6.2</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy</artifactId>
+                <version>1.8.5</version>
             </dependency>
             <dependency>
                 <groupId>org.codehaus.groovy.modules.http-builder</groupId>
