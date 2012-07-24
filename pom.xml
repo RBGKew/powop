@@ -575,20 +575,21 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>com.jayway.restassured</groupId>
-                <artifactId>rest-assured</artifactId>
-                <version>1.6.2</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
                 <groupId>org.codehaus.groovy</groupId>
                 <artifactId>groovy</artifactId>
                 <version>1.8.5</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.codehaus.groovy.modules.http-builder</groupId>
                 <artifactId>http-builder</artifactId>
                 <version>0.5.1</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.jayway.restassured</groupId>
+                <artifactId>rest-assured</artifactId>
+                <version>1.6.2</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
