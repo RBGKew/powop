@@ -119,12 +119,14 @@
 				
 		<c:url value="/taxon/" var="taxonPath"/>
 		<c:url value="/images/thumbnails/" var="imagePath"/>
+		<c:url value="http://build.e-monocot.org/uat/portal/images/fullsize/" var="fullsizeImagePath"/>
 		
 		<script language="javascript">
 			var data = ${identificationKey.matrix};
 			var key = new Key(data);
 			key.setTaxonPath("${taxonPath}");
 			key.setImagePath("${imagePath}");
+			key.setFullsizeImagePath("${fullsizeImagePath}");
 			$("#reset").click(function(event) {
 				key.reset();
 				key.calculate();
