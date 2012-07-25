@@ -7,6 +7,9 @@
 	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
 
+    <context:property-placeholder
+        ignore-unresolvable="true" location="classpath*:META-INF/spring/*.properties" />
+
 	<context:component-scan base-package="org.emonocot">
 		<context:exclude-filter type="assignable"
 			expression="org.emonocot.api.JobInstanceService" />
@@ -99,10 +102,33 @@
 	</bean>
 	
 	<bean id="bufferedReaderFactory" class="org.emonocot.harvest.common.BOMIgnoringBufferedReaderFactory"/>
-	     
+
+    <bean id="bhlProtologClient" class="org.emonocot.ws.BhlProtologClient">
+        <property name="proxyHost" value="${http.proxyHost}" />
+        <property name="proxyPort" value="${http.proxyPort}" />
+        <property name="webServiceUrl" value="http://build.e-monocot.org/test/bhlResponse.json?page=" />
+    </bean>
+
+    <bean id="getResourceClient" class="org.emonocot.ws.GetResourceClient">
+        <property name="proxyHost" value="${http.proxyHost}" />
+        <property name="proxyPort" value="${http.proxyPort}"/>
+    </bean>
+    <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory">
+        <property name="proxy">
+            <bean class="java.net.Proxy">
+                <constructor-arg value="#{T(java.net.Proxy$Type).HTTP}"/>
+                <constructor-arg>
+                    <bean class="java.net.InetSocketAddress">
+                        <constructor-arg value="${http.proxyHost}" type="String" />
+                        <constructor-arg value="${http.proxyPort}" type="int" />
+                    </bean>
+                </constructor-arg>
+            </bean>
+        </property>
+    </bean>
+
 	<beans profile="default">
-	    <bean id="getResourceClient" class="org.emonocot.ws.GetResourceClient"/>
-	    <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory"/>
+
 		<bean name="dataSource"
 			class="org.emonocot.persistence.spatial.GeoDBTestDataSourceFactory">
 			<property name="testDatabaseName" value="testdb" />
@@ -147,25 +173,7 @@
 			<property name="annotatedPackages" value="org.emonocot.model.common" />
 		</bean>
 	</beans>
-	<beans profile="proxy">
-	  <bean id="getResourceClient" class="org.emonocot.ws.GetResourceClient">
-	    <constructor-arg value="${http.proxyHost}"/>
-        <constructor-arg value="${http.proxyPort}"/>
-	  </bean>
-      <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory">
-        <property name="proxy">
-          <bean class="java.net.Proxy">
-            <constructor-arg value="#{T(java.net.Proxy$Type).HTTP}"/>
-            <constructor-arg>
-              <bean class="java.net.InetSocketAddress">
-                <constructor-arg value="${http.proxyHost}"/>
-                <constructor-arg value="${http.proxyPort}"/>
-              </bean>
-            </constructor-arg>
-          </bean>
-        </property>
-      </bean>
-	</beans>   
+
 	<beans profile="mysql">
 		<context:property-placeholder
 			ignore-unresolvable="true" location="classpath*:META-INF/spring/*.properties" />
@@ -225,6 +233,6 @@
 			enabled="${jdbc.initialize.database}">
 			<jdbc:script location="classpath:META-INF/database/test_data.sql" />
 		</jdbc:initialize-database>
-		
+
 	</beans>
 </beans>
