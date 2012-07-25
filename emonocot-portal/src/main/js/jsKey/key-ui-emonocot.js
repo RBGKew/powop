@@ -37,7 +37,7 @@ function writeNode(key, node) {
        if(!Key.isUndefined(character.images) && character.images.length > 0) {
          var image = character.images[0];
          html  += "<a class='pull-left' id='" + character.id + "'>" + character.name + "</a></br>";
-         html  += "<img id='character" + character.id + "' class='thumbnail' src='" + key.getImagePath() +  image.href + "'/>";
+         html  += "<img id='character" + character.id + "' class='thumbnail' src='" + key.getImagePath() +  image.href + "' title='" + character.name + "'/>";
          
        } else {
          html  += "<a id='" + character.id + "'>" + character.name + "</a>";
@@ -103,12 +103,16 @@ function updateUI(key) {
          switch(character.type) {
            case Key.Categorical:
            body += "<ul class='unstyled'>";
+           var imageIndex = 0;
            for(var i = 0; i < character.states.length; i++) {
              var state = character.states[i];
              if(!Key.isUndefined(state.images) && state.images.length > 0) {
                  var image = state.images[0];
                  body += "<li><label class='checkbox'><input type='checkbox'>" + state.name + "</label>";
-                 body += "<a href='#'><img id='character" + character.id + "-" + i + "' class='thumbnail' src='" + key.getImagePath() +  image.href + "'title='" + state.name + "'/></a></li><br/>";
+                 body += "<a href='#'><img id='character" + character.id + "-" + i + "-" + imageIndex + "' class='thumbnail' src='" + key.getImagePath() +  image.href + "'title='" + state.name + "'/></a></li><br/>";
+                 for(var j =0; j < state.images.length; j++) {
+                	 imageIndex++;
+                 }
              } else {
                  body += "<li class='noimage'><label class='checkbox'><input type='checkbox'>" + state.name + "</label></li><br/>";
              }
@@ -140,20 +144,34 @@ function updateUI(key) {
               temp = id.split('-');
               var characterId = temp[0].substring(9);
               var stateIndex = temp[1];
+              var imageIndex = temp[2];
               var character = key.getCharacter(characterId);
               var state = character.states[stateIndex];
+              
               $('#characterModal').modal('hide');
-              /*for (var i=0; i< character.states.lenght; i++){
-                  var body = "<img src='" + key.getImagePath() +  character.states[i].images[0].href + "'/>";
-              };*/
-              var body = "<img src='" + key.getImagePath() +  state.images[0].href + "'/>";
-              var title = event.target.title;
-              $('#modal-gallery .modal-body .modal-image').html(body);
-              $('#modal-gallery .modal-body .carousel-caption .modal-title').html(title);
+              var body = "";
+              for (var i=0; i< character.states.length; i++){
+            	  if(!Key.isUndefined(state.images) && state.images.length > 0) {
+            		  
+            		  for(var j = 0; j < state.images.length; j++) {
+                          //body = "<img src='" + key.getImagePath() +  character.states[i].images[j].href + "'/>";
+                          body += "<a href='" + key.getFullsizeImagePath() +  character.states[i].images[j].href + "' rel='gallery' title='" + character.states[i].name + "'>" + character.states[i].name + "</a>";
+            		  }
+            	  }
+              }
+              //var title = event.target.title;
+              $('#gallery').html(body);
+              
               $('#modal-gallery').on('hidden', function () {
                   $('#characterModal').modal({});
               });
-              $('#modal-gallery').modal({});
+              var options = {target:"#modal-gallery", slideshow:"5000", selector:"#gallery a[rel=gallery]", index: imageIndex};
+              var modal = $('#modal-gallery');
+  			
+              options = jQuery.extend(modal.data(), options);
+  			  //modal.find('.modal-slideshow').find('i').removeClass('icon-play').addClass('icon-pause');
+  			  modal.modal(options);
+  			  
               return false;
             });
            $('#characterModal').on('hide', function () {
@@ -185,20 +203,35 @@ function updateUI(key) {
          if(event.target.id.indexOf("character") == 0){
           var title = event.target.title;
            var character = key.getCharacter(event.target.id.substring(9));
-           var body = "<img src='" + key.getImagePath() +  character.images[0].href + "'/>";
-           $('#modal-gallery .modal-body .modal-image').html(body);
-           $('#modal-gallery .modal-body .carousel-caption .modal-title').html(title);
+           //var body = "<img src='" + key.getImagePath() +  character.images[0].href + "'/>";
+           var body = "";
+           for(var i=0; i< character.images.length; i++){
+           body += "<a href='" + key.getFullsizeImagePath() +  character.images[i].href + "' rel='gallery' title='" + title +"'>" + title +"</a>";
+           }
+         
+           $('#gallery').html(body);
+           //$('#modal-gallery .modal-body .carousel-caption .modal-title').html(title);
          } else {
            var title = event.target.title;
            
            var descriptiveConcept = key.getDescriptiveConcept(event.target.id.substring(18));
-           var body = "<img src='" + key.getImagePath() +  descriptiveConcept.images[0].href + "'/>";
-           
-           $('#modal-gallery .modal-body .modal-image').html(body);
-           $('#modal-gallery .modal-body .carousel-caption .modal-title').html(title);
+           //var body = "<img src='" + key.getImagePath() +  descriptiveConcept.images[0].href + "'/>";
+           var body = "";
+           for(var i=0; i< descriptiveConcept.images.length; i++){
+           body += "<a href='" + key.getFullsizeImagePath() +  descriptiveConcept.images[i].href + "' rel='gallery' title='" + title + "'>" + title +"</a>";
+           }
+           $('#gallery').html(body);
+           //$('#modal-gallery .modal-body .carousel-caption .modal-title').html(title);
          }
          $('#modal-gallery').unbind('hidden');
-         $('#modal-gallery').modal({});
+         
+         var options = {target:"#modal-gallery", slideshow:"5000", selector:"#gallery a[rel=gallery]", index: 0};
+         var modal = $('#modal-gallery');
+			
+         options = jQuery.extend(modal.data(), options);
+	     modal.find('.modal-slideshow').find('i').removeClass('icon-play').addClass('icon-pause');
+		 modal.modal(options);
+
          return false;
       });
 
