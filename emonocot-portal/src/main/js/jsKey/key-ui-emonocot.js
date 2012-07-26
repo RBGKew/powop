@@ -60,7 +60,7 @@ function updateUI(key) {
       for(var i = 0; i < matchedTaxa.length; i++) {
         var taxon = matchedTaxa[i];
         matched += "<tr>";
-        matched +="<td><img src=\"/css/images/glyphicons/halfsize/glyphicons_001_leaf.png\" alt=\"Taxon\" style=\"width:20px ; height:20px\"/></td>";
+        matched +="<td><img src=\"../css/images/glyphicons/halfsize/glyphicons_001_leaf.png\" alt=\"Taxon\" style=\"width:20px ; height:20px\"/></td>";
         if(!Key.isUndefined(taxon.links) && taxon.links.length > 0) {
             var link = taxon.links[0];
             matched += "<td><a href='" + key.getTaxonPath() + link.href + "' title='" + link.title + "'><h4>" + taxon.name + "</h4></a></td>";
@@ -69,13 +69,13 @@ function updateUI(key) {
         }
         if(key.getView() == Key.ListView ) {
             if (!Key.isUndefined(taxon.images) && taxon.images.length > 0){
-            var image = taxon.images[0];
-            matched += "<td><a class='pull-right' href='#'><img class='thumbnail' src='" + key.getImagePath() +  image.href + "'/></a></td>";
+               var image = taxon.images[0];
+               matched += "<td><a class='pull-right' href='#'><img class='thumbnail' src='" + key.getImagePath() +  image.href + "'/></a></td>";
         	} else{
-        		matched += "<td><img class='thumbnail pull-right' src='/css/images/no_image.jpg></td>";
+        		matched += "<td><img class='thumbnail pull-right' src=\"../css/images/no_image.jpg\"/></td>";
         	}
         } else {
-            matched += "<td></td>";
+        	matched += "<td></td>";
         }        
         matched += "</tr>";
       }

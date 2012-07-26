@@ -122,7 +122,7 @@
 					</c:choose>
 					
 					<!-- modal-gallery is the modal dialog used for the image gallery -->
-					<div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery" style="display:none">
+					<div id="gallery" class="no-display" data-toggle="modal-gallery" data-target="#modal-gallery">
 						<c:forEach var="item" items="${result.records}">
 							<c:choose>
 								<c:when test="${item.className == 'Taxon'}">

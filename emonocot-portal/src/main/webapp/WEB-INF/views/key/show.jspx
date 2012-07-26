@@ -63,7 +63,7 @@
 				</table>
 			</div>
 		</div>
-		<div id="gallery" class="hidden" data-toggle="modal-gallery" data-target="#modal-gallery"><!--  --></div>
+		<div id="gallery" class="no-display" data-toggle="modal-gallery" data-target="#modal-gallery"><!--  --></div>
 			
 		<table class="table table-bordered table-condensed" id="key-properties">
 			<tbody>
