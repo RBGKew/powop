@@ -179,7 +179,7 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
      *            Set the selected facet
      */
     @Override
-    protected final void selectFacet(final FacetName facetName,
+    protected final boolean selectFacet(final FacetName facetName,
             final FacetManager facetManager, final String selectedFacet) {
         switch (facetName) {
         case CONTINENT:
@@ -188,9 +188,11 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
         case FAMILY:
         case RANK:
         case TAXONOMIC_STATUS:
-            doSelectFacet(facetName, facetManager, selectedFacet);
+            return doSelectFacet(facetName, facetManager, selectedFacet);
+        case CLASS:
+        	return true;
         default:
-            break;
+        	return false;
         }
     }
 

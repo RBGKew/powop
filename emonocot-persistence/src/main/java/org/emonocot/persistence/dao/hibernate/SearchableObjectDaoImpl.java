@@ -116,7 +116,7 @@ public class SearchableObjectDaoImpl extends
      *            Set the selected facet
      */
     @Override
-    protected final void selectFacet(final FacetName facetName,
+    protected final boolean selectFacet(final FacetName facetName,
             final FacetManager facetManager, final String selectedFacet) {
         switch (facetName) {
         case CLASS:
@@ -124,9 +124,9 @@ public class SearchableObjectDaoImpl extends
         case REGION:
         case AUTHORITY:
         case FAMILY:
-            doSelectFacet(facetName, facetManager, selectedFacet);
+            return doSelectFacet(facetName, facetManager, selectedFacet);
         default:
-            break;
+        	return false;
         }
     }
 

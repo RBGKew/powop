@@ -66,28 +66,28 @@ public class OlapConnectionFactoryTest extends AbstractPersistenceTest {
     public final void setUpTestData() {
         Taxon taxon1 = createTaxon("Aus", "urn:lsid:example.com:taxon:1", null,
                 null, "Ausidae", "Aus", null, null, null, null,
-                null, new GeographicalRegion[] {});
+                null, new GeographicalRegion[] {}, null);
         Annotation annotation1 = createAnnotation(taxon1);
         taxon1.getAnnotations().add(annotation1);
         Taxon taxon2 = createTaxon("Aus bus", "urn:lsid:example.com:taxon:2",
                 taxon1, null, "Ausidae", "Aus", "bus", null, null, null,
                 null, new GeographicalRegion[] {Continent.AUSTRALASIA,
-                        Region.BRAZIL, Region.CARIBBEAN });
+                        Region.BRAZIL, Region.CARIBBEAN }, null);
         Annotation annotation2 = createAnnotation(taxon2);
         taxon2.getAnnotations().add(annotation2);
         Taxon taxon3 = createTaxon("Aus ceus", "urn:lsid:example.com:taxon:3",
                 taxon1, null, "Ausidae", "Aus", "ceus", null, null, null,
-                null, new GeographicalRegion[] {Region.NEW_ZEALAND });
+                null, new GeographicalRegion[] {Region.NEW_ZEALAND }, null);
         Annotation annotation3 = createAnnotation(taxon3);
         taxon3.getAnnotations().add(annotation3);
         Taxon taxon4 = createTaxon("Aus deus", "urn:lsid:example.com:taxon:4",
                 null, taxon2, "Ausidae", "Aus", "deus", null, null, null,
-                null, new GeographicalRegion[] {});
+                null, new GeographicalRegion[] {}, null);
         Annotation annotation4 = createAnnotation(taxon4);
         taxon4.getAnnotations().add(annotation4);
         Taxon taxon5 = createTaxon("Aus eus", "urn:lsid:example.com:taxon:5",
                 null, taxon3, "Ausidae", "Aus", "eus", null, null, null,
-                null, new GeographicalRegion[] {});
+                null, new GeographicalRegion[] {}, null);
         Annotation annotation5 = createAnnotation(taxon5);
         taxon5.getAnnotations().add(annotation5);
     }

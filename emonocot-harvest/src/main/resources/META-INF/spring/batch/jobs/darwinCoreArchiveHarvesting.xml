@@ -50,7 +50,7 @@
 	        <batch:tasklet ref="markTaxonRecordsTasklet" />
 			<batch:next on="COMPLETED" to="checkCoreFile" />
 			<batch:listeners>
-			  <batch:listener ref="recordAnnotator"/>
+			  <batch:listener ref="taxonRecordAnnotator"/>
 			</batch:listeners>
 	    </batch:step>
 		<batch:step id="checkCoreFile">
@@ -64,7 +64,7 @@
                     </batch:skippable-exception-classes>
 				</batch:chunk>			    
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="processDescriptionDecision" />
+			<batch:next on="COMPLETED" to="markDescriptionRecords" />
 			<batch:listeners>
 			  <batch:listener ref="processingExceptionProcessListener"/>
 			  <batch:listener ref="taxonFieldSetMapper"/>
@@ -83,7 +83,7 @@
                     </batch:skippable-exception-classes>
 				</batch:chunk>			    
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="processDescriptionDecision" />
+			<batch:next on="COMPLETED" to="markDescriptionRecords" />
 			<batch:listeners>
 			  <batch:listener ref="processingExceptionProcessListener"/>
 			  <batch:listener ref="taxonFieldSetMapper"/>
@@ -92,10 +92,18 @@
 			  <batch:listener ref="hibernateSessionClearingChunkListener"/>
 			</batch:listeners>		
 		</batch:step>
+		<batch:step id="markDescriptionRecords">
+	        <batch:description>Mark the description records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
+	        <batch:tasklet ref="markDescriptionRecordsTasklet" />
+			<batch:next on="COMPLETED" to="processDescriptionDecision" />
+			<batch:listeners>
+			  <batch:listener ref="descriptionRecordAnnotator"/>
+			</batch:listeners>
+	    </batch:step>
 		<batch:decision decider="processDescriptionDecider" id="processDescriptionDecision">
 		  <batch:next on="DESCRIPTION_PRESENT" to="processDescriptionFile"/>
 		  <batch:next on="DESCRIPTION_ABSENT" to="processImagesDecision"/>
-		</batch:decision>
+		</batch:decision>		
 		<batch:step id="processDescriptionFile">
 			<batch:description>Process the extension file containing the descriptions</batch:description>
 			<batch:tasklet>
@@ -107,9 +115,20 @@
                     </batch:skippable-exception-classes>
 				</batch:chunk>			    
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="processImagesDecision" />
+			<batch:next on="COMPLETED" to="deleteAbsentDescriptions" />
 			<batch:listeners>
 			  <batch:listener ref="descriptionFieldSetMapper"/>
+			  <batch:listener ref="processingExceptionProcessListener"/>
+			  <batch:listener ref="hibernateSessionClearingChunkListener"/>
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="deleteAbsentDescriptions">
+		  <batch:description>Process the extension file containing the descriptions</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="deleteDescriptionsReader"	writer="deletingWriter" commit-interval="100"/>				    
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="processImagesDecision" />
+			<batch:listeners>
 			  <batch:listener ref="processingExceptionProcessListener"/>
 			  <batch:listener ref="hibernateSessionClearingChunkListener"/>
 			</batch:listeners>
@@ -282,7 +301,7 @@
 	<bean id="markTaxonRecordsTasklet"
           class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
           scope="step">
-        <property name="targetObject" ref="recordAnnotator" />
+        <property name="targetObject" ref="taxonRecordAnnotator" />
         <property name="targetMethod" value="annotateRecords" />
      	<property name="arguments">
          <list>
@@ -292,7 +311,7 @@
         </property>
     </bean>
     
-    <bean id="recordAnnotator" class="org.emonocot.job.dwc.RecordAnnotator">
+    <bean id="taxonRecordAnnotator" class="org.emonocot.job.dwc.taxon.RecordAnnotator">
        <property name="dataSource" ref="dataSource"/>
 	</bean>
 	
@@ -349,7 +368,23 @@
 	
 	<!-- Descriptions -->
 	
-	<bean id="processDescriptionDecider" class="org.emonocot.job.dwc.description.ProcessDescriptionDecider"/>
+	<bean id="processDescriptionDecider" class="org.emonocot.job.dwc.description.ProcessingDecider"/>
+	
+	<bean id="markDescriptionRecordsTasklet"
+          class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+          scope="step">
+        <property name="targetObject" ref="descriptionRecordAnnotator" />
+        <property name="targetMethod" value="annotateRecords" />
+     	<property name="arguments">
+         <list>
+          <value>#{jobParameters['authority.name']}</value>
+         </list>
+        </property>
+    </bean>
+    
+    <bean id="descriptionRecordAnnotator" class="org.emonocot.job.dwc.description.RecordAnnotator">
+       <property name="dataSource" ref="dataSource"/>
+	</bean>
 	
 	<bean id="descriptionReader" class="org.springframework.batch.item.file.FlatFileItemReader"
 		scope="step">
@@ -365,8 +400,9 @@
 		<property name="lineMapper" ref="descriptionLineMapper" />
 	</bean>
 
-	<bean id="descriptionProcessor" class="org.emonocot.job.dwc.description.DescriptionValidator" scope="step">
+	<bean id="descriptionProcessor" class="org.emonocot.job.dwc.description.Validator" scope="step">
 	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
+	  <property name="family" value="#{jobParameters['family']}"/>
 	</bean>
 
 	<bean id="descriptionLineMapper"
@@ -385,7 +421,7 @@
 		<property name="strict" value="false"/>
 	</bean>
 
-	<bean id="descriptionFieldSetMapper" class="org.emonocot.job.dwc.description.DescriptionFieldSetMapper"  scope="step">
+	<bean id="descriptionFieldSetMapper" class="org.emonocot.job.dwc.description.FieldSetMapper"  scope="step">
 	    <property name="fieldNames" value="#{jobExecutionContext['dwca.description.fieldNames']}"/>
 		<property name="defaultValues" value="#{jobExecutionContext['dwca.description.defaultValues']}"/>
 		<property name="taxonService" ref="taxonServiceImpl"/>
@@ -394,9 +430,20 @@
 		<property name="sourceName" value="#{jobParameters['authority.name']}"/>
 	</bean>
 	
+	<bean id="deleteDescriptionsReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
+	  <property name="sessionFactory" ref="sessionFactory" />	  
+	  <property name="queryString" value="select d from TextContent d join d.annotations a where a.jobId = :jobId and a.code = :code"/>
+	  <property name="parameterValues">
+	    <map>
+	     <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}"/>
+	     <entry key="code" value="#{T(org.emonocot.model.common.AnnotationCode).Absent}"/>
+	    </map>
+	  </property>
+	</bean>
+	
 	<!-- Images -->
 	
-	<bean id="processImageDecider" class="org.emonocot.job.dwc.image.ProcessImageDecider"/>
+	<bean id="processImageDecider" class="org.emonocot.job.dwc.image.ProcessingDecider"/>
 	
 	<bean id="imageReader" class="org.springframework.batch.item.file.FlatFileItemReader"
 		scope="step">
@@ -412,8 +459,9 @@
 		<property name="lineMapper" ref="imageLineMapper" />
 	</bean>
 
-	<bean id="imageProcessor" class="org.emonocot.job.dwc.image.ImageValidator" scope="step">
+	<bean id="imageProcessor" class="org.emonocot.job.dwc.image.Validator" scope="step">
 	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
+	  <property name="family" value="#{jobParameters['family']}"/>
 	</bean>
 
 	<bean id="imageLineMapper"
@@ -432,7 +480,7 @@
 		<property name="strict" value="false"/>
 	</bean>
 
-	<bean id="imageFieldSetMapper" class="org.emonocot.job.dwc.image.ImageFieldSetMapper"  scope="step">
+	<bean id="imageFieldSetMapper" class="org.emonocot.job.dwc.image.FieldSetMapper"  scope="step">
 	    <property name="fieldNames" value="#{jobExecutionContext['dwca.image.fieldNames']}"/>			
 		<property name="defaultValues" value="#{jobExecutionContext['dwca.image.defaultValues']}"/>
 		<property name="taxonService" ref="taxonServiceImpl"/>
@@ -461,7 +509,7 @@
 	
 	<!-- References -->
 	
-	<bean id="processReferenceDecider" class="org.emonocot.job.dwc.reference.ProcessReferenceDecider"/>
+	<bean id="processReferenceDecider" class="org.emonocot.job.dwc.reference.ProcessingDecider"/>
 	
 	<bean id="referenceReader" class="org.springframework.batch.item.file.FlatFileItemReader"
 		scope="step">
@@ -477,8 +525,9 @@
 		<property name="lineMapper" ref="referenceLineMapper" />
 	</bean>
 
-	<bean id="referenceProcessor" class="org.emonocot.job.dwc.reference.ReferenceValidator" scope="step">
+	<bean id="referenceProcessor" class="org.emonocot.job.dwc.reference.Validator" scope="step">
 	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
+	  <property name="family" value="#{jobParameters['family']}"/>
 	</bean>
 
 	<bean id="referenceLineMapper"
@@ -497,7 +546,7 @@
 		<property name="strict" value="false"/>
 	</bean>
 
-	<bean id="referenceFieldSetMapper" class="org.emonocot.job.dwc.reference.ReferenceFieldSetMapper"  scope="step">
+	<bean id="referenceFieldSetMapper" class="org.emonocot.job.dwc.reference.FieldSetMapper"  scope="step">
 	    <property name="fieldNames"  value="#{jobExecutionContext['dwca.reference.fieldNames']}"/>
 		<property name="defaultValues" value="#{jobExecutionContext['dwca.reference.defaultValues']}"/>
 		<property name="taxonService" ref="taxonServiceImpl"/>
@@ -507,7 +556,7 @@
 	
 	<!-- Identifiers -->
 	
-	<bean id="processIdentifierDecider" class="org.emonocot.job.dwc.identifier.ProcessIdentifierDecider"/>
+	<bean id="processIdentifierDecider" class="org.emonocot.job.dwc.identifier.ProcessingDecider"/>
 	
 	<bean id="identifierReader" class="org.springframework.batch.item.file.FlatFileItemReader"
 		scope="step">
@@ -523,8 +572,9 @@
 		<property name="lineMapper" ref="identifierLineMapper" />
 	</bean>
 
-	<bean id="identifierProcessor" class="org.emonocot.job.dwc.identifier.IdentifierValidator" scope="step">
+	<bean id="identifierProcessor" class="org.emonocot.job.dwc.identifier.Validator" scope="step">
 	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
+	  <property name="family" value="#{jobParameters['family']}"/>
 	  <property name="pdfClient" ref="pdfClient"/>
 	  <property name="bhlClient" ref="bhlClient"/>
 	</bean>
@@ -555,7 +605,7 @@
 		<property name="strict" value="false"/>
 	</bean>
 
-	<bean id="identifierFieldSetMapper" class="org.emonocot.job.dwc.identifier.IdentifierFieldSetMapper"  scope="step">
+	<bean id="identifierFieldSetMapper" class="org.emonocot.job.dwc.identifier.FieldSetMapper"  scope="step">
 	    <property name="fieldNames"  value="#{jobExecutionContext['dwca.identifier.fieldNames']}"/>
 		<property name="defaultValues" value="#{jobExecutionContext['dwca.identifier.defaultValues']}"/>
 		<property name="taxonService" ref="taxonServiceImpl"/>
@@ -574,6 +624,10 @@
 		class="org.springframework.batch.item.database.HibernateItemWriter">
 		<property name="sessionFactory" ref="sessionFactory" />
 		<property name="clearSession" value="false"/>
+	</bean>
+	
+    <bean id="deletingWriter" class="org.emonocot.harvest.common.HibernateDeletingWriter">
+	  <property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 	
 	<bean id="hibernateSessionClearingChunkListener" class="org.emonocot.harvest.common.HibernateSessionClearingChunkListener"/>

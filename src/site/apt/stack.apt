@@ -27,7 +27,7 @@ Using Vagrant to run functional tests
  
   * Add a blank standalone portal machine
   
-    *  <<<vagrant box add test http://build.e-monocot.org/boxes/emonocot-portal-STANDALONE-4.1.14.box>>>
+    *  <<<vagrant box add test http://build.e-monocot.org/boxes/standalone.box>>>
     
     []
   
@@ -73,7 +73,7 @@ Using Vagrant to obtain a UAT portal instance
 
    * Add a blank standalone portal machine
    
-     * <<<vagrant box add uat http://build.e-monocot.org/boxes/emonocot-portal-STANDALONE-4.1.14.box>>>
+     * <<<vagrant box add uat http://build.e-monocot.org/boxes/standalone.box>>>
   
      []
 
@@ -97,7 +97,9 @@ Using Vagrant to obtain a UAT portal instance
  
  * Restore the data from backup (by logging on to the box (<<<ssh -l vagrant -p 2222 localhost>>>, password: "vagrant") and executing the following)
  
-   * <<<rsync -avr username@build.e-monocot.org:/.snapshots/daily.0/localhost/var/cache/tomcat5/work/uat_harvest/master_index /mnt/>>>
+   * <<<rsync -avr username@build.e-monocot.org:/.snapshots/daily.0/localhost/var/cache/emonocot/uat_harvest/master_index /mnt/>>>
+   
+   * <<<rsync -avr username@build.e-monocot.org:/.snapshots/daily.0/localhost/var/cache/emonocot/uat_harvest/index/ /var/cache/tomcat7/work/emonocot-harvester/>>>
  
    * <<<rsync -avr username@build.e-monocot.org:/.snapshots/daily.0/localhost/var/www/html/uat/harvest/images /var/www/html/>>>
    

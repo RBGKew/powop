@@ -175,6 +175,7 @@ public abstract class DataManagementSupport {
      * @param source  set the source
      * @param distributions
      *            the distribution of the taxon
+     * @param sources TODO
      * @return a new taxon
      */
     public final Taxon createTaxon(final String name,
@@ -183,7 +184,7 @@ public abstract class DataManagementSupport {
             final String genus, final String specificEpithet,
             final String datePublished, final Rank rank,
             final TaxonomicStatus status, final Source source,
-            final GeographicalRegion[] distributions) {
+            final GeographicalRegion[] distributions, Source[] sources) {
         Taxon taxon = new Taxon();
         taxon.setName(name);
         taxon.setFamily(family);
@@ -195,6 +196,11 @@ public abstract class DataManagementSupport {
         taxon.setAuthority(source);
         if (source != null) {
             taxon.getSources().add(source);
+        }
+        if(sources != null) {
+        	for(Source s : sources) {
+        		taxon.getSources().add(s);
+        	}
         }
         Reference reference = new Reference();
         reference.setIdentifier(UUID.randomUUID().toString());
@@ -241,10 +247,11 @@ public abstract class DataManagementSupport {
      *            Set the identifier
      * @param source Set the source
      * @param taxon Set the image
+     * @param sources TODO
      * @return an image
      */
     public final Image createImage(final String caption,
-            final String identifier, final Source source, final Taxon taxon) {
+            final String identifier, final Source source, final Taxon taxon, Source[] sources) {
         Image image = new Image();
         image.setCaption(caption);
         image.setIdentifier(identifier);
@@ -252,6 +259,11 @@ public abstract class DataManagementSupport {
         image.setAuthority(source);
         if (source != null) {
             image.getSources().add(source);
+        }
+        if(sources != null) {
+        	for(Source s : sources) {
+        		image.getSources().add(s);
+        	}
         }
         setUp.add(image);
         tearDown.push(image);

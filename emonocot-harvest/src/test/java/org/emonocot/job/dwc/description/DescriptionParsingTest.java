@@ -3,7 +3,7 @@ package org.emonocot.job.dwc.description;
 import java.util.HashMap;
 
 import org.easymock.EasyMock;
-import org.emonocot.job.dwc.description.DescriptionFieldSetMapper;
+import org.emonocot.job.dwc.description.FieldSetMapper;
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Taxon;
@@ -69,7 +69,7 @@ public class DescriptionParsingTest {
        taxonService = EasyMock.createMock(TaxonService.class);
        referenceService = EasyMock.createMock(ReferenceService.class);
 
-        DescriptionFieldSetMapper fieldSetMapper = new DescriptionFieldSetMapper();
+        FieldSetMapper fieldSetMapper = new FieldSetMapper();
         fieldSetMapper.setFieldNames(names);
         fieldSetMapper.setDefaultValues(new HashMap<String, String>());
         fieldSetMapper.setTaxonService(taxonService);

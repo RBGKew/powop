@@ -93,7 +93,7 @@ public class AnnotationDaoImpl extends SearchableDaoImpl<Annotation> implements
     * @param selectedFacet Set the selected facet
     */
    @Override
-   protected final void selectFacet(final FacetName facetName,
+   protected final boolean selectFacet(final FacetName facetName,
            final FacetManager facetManager,
            final String selectedFacet) {
        switch (facetName) {
@@ -101,9 +101,9 @@ public class AnnotationDaoImpl extends SearchableDaoImpl<Annotation> implements
        case ISSUE_TYPE:
        case ERROR_CODE:
        case JOB_INSTANCE:
-           doSelectFacet(facetName, facetManager, selectedFacet);
+           return doSelectFacet(facetName, facetManager, selectedFacet);
        default:
-           break;
+           return false;
        }
    }
 

@@ -1,9 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.emonocot</groupId>
     <artifactId>emonocot</artifactId>
-    <version>0.0.19-SNAPSHOT</version>
+    <version>0.0.20-SNAPSHOT</version>
     <description>eMonocot aims to create a global online resource for monocot plants. It will
         provide a focus for taxonomists working on monocots and will help people discover
         information about monocots by providing tools for identification, up-to-date checklists,
@@ -33,6 +32,7 @@
         <spring.integration.version>2.1.0.RELEASE</spring.integration.version>
         <lucene.version>3.1.0</lucene.version>
         <geotools.version>2.7.0</geotools.version>
+        <skip.global.tests>true</skip.global.tests>
     </properties>
     <issueManagement>
         <system>Bugzilla</system>
@@ -841,7 +841,11 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.8.1</version>
                 <configuration>
-                    <skip>true</skip>
+                    <skip>${skip.global.tests}</skip>
+                    <excludes>
+                      <exclude>**/*IntegrationTest.java</exclude>
+                      <exclude>**/*FunctionalTest.java</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
             <plugin>
@@ -1153,21 +1157,9 @@
     <profiles>
         <profile>
             <id>metrics</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>cobertura-maven-plugin</artifactId>
-                        <version>2.4</version>
-                        <configuration>
-                            <formats>
-                                <format>html</format>
-                                <format>xml</format>
-                            </formats>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
+            <properties>
+              <skip.global.tests>false</skip.global.tests>
+            </properties>
         </profile>
         <profile>
             <id>unit</id>
@@ -1176,6 +1168,7 @@
                 <jdbc.driver.username>sa</jdbc.driver.username>
                 <jdbc.driver.password>org.h2.Driver</jdbc.driver.password>
                 <jdbc.driver.url>jdbc:h2:mem:</jdbc.driver.url>
+                <skip.global.tests>true</skip.global.tests>
             </properties>
             <build>
                 <plugins>
@@ -1198,7 +1191,6 @@
                                     <excludes>
                                         <exclude>**/*IntegrationTest.java</exclude>
                                         <exclude>**/*FunctionalTest.java</exclude>
-                                        <exclude>**/*AcceptanceTest.java</exclude>
                                     </excludes>
                                 </configuration>
                             </execution>
@@ -1210,7 +1202,7 @@
         <profile>
             <id>integration</id>
             <properties>
-                <harvester.jobRequests.url>http://build.e-monocot.org/test/job-requests.json</harvester.jobRequests.url>
+                <skip.global.tests>true</skip.global.tests>
             </properties>
             <build>
                 <plugins>
@@ -1231,6 +1223,9 @@
                                     <includes>
                                         <include>**/*IntegrationTest.java</include>
                                     </includes>
+                                    <excludes>
+                                      <exclude>**/*FunctionalTest.jav</exclude>
+                                    </excludes>
                                     <argLine>-Dhttp.proxyHost=${http.proxyHost} -Dhttp.proxyPort=${http.proxyPort}</argLine>
                                 </configuration>
                             </execution>
@@ -1241,6 +1236,9 @@
         </profile>
         <profile>
             <id>functional</id>
+            <properties>
+              <skip.global.tests>true</skip.global.tests>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -1259,40 +1257,16 @@
                                     <includes>
                                         <include>**/*FunctionalTest.java</include>
                                     </includes>
+                                    <excludes>
+                                      <exclude>**/*IntegrationTest.java</exclude>
+                                    </excludes>
                                 </configuration>
                             </execution>
                         </executions>
                     </plugin>
                 </plugins>
             </build>
-        </profile>
-        <profile>
-            <id>acceptance</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.8.1</version>
-                        <executions>
-                            <execution>
-                                <id>acceptance-tests</id>
-                                <phase>integration-test</phase>
-                                <goals>
-                                    <goal>test</goal>
-                                </goals>
-                                <configuration>
-                                    <skip>false</skip>
-                                    <includes>
-                                        <include>**/*AcceptanceTest.java</include>
-                                    </includes>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
+        </profile>        
         <profile>
             <id>harvest.uat.vagrant</id>
             <properties>

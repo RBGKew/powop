@@ -4,11 +4,11 @@
 	<parent>
 		<artifactId>emonocot</artifactId>
 		<groupId>org.emonocot</groupId>
-		<version>0.0.19-SNAPSHOT</version>
+		<version>0.0.20-SNAPSHOT</version>
 	</parent>
 	<groupId>org.emonocot</groupId>
 	<artifactId>emonocot-harvest</artifactId>
-	<version>0.0.19-SNAPSHOT</version>
+	<version>0.0.20-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>eMonocot Harvesting</name>
 	<description>Backend Harvesting Routines</description>
@@ -127,10 +127,6 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

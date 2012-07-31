@@ -1,8 +1,5 @@
 package org.emonocot.job.dwc.reference;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 import org.easymock.EasyMock;
 import org.emonocot.api.ReferenceService;
 import org.emonocot.api.SourceService;
@@ -49,7 +46,7 @@ public class ReferenceProcessingTest {
     /**
      *
      */
-    private ReferenceValidator referenceValidator;
+    private Validator referenceValidator;
 
     /**
      *
@@ -58,16 +55,18 @@ public class ReferenceProcessingTest {
     public final void setUp() {
         reference = new Reference();
         taxon = new Taxon();
+        taxon.setFamily("Araceae");
         reference.getTaxa().add(taxon);
         reference.setType(ReferenceType.Book);
         reference.setIdentifier("http://build.e-monocot.org/test/test.pdf");
         referenceService = EasyMock.createMock(ReferenceService.class);
         sourceService = EasyMock.createMock(SourceService.class);
 
-        referenceValidator = new ReferenceValidator();
+        referenceValidator = new Validator();
         referenceValidator.setReferenceService(referenceService);
         referenceValidator.setSourceService(sourceService);
         referenceValidator.setSourceName("test source");
+        referenceValidator.setFamily("Araceae");
         referenceValidator.beforeStep(new StepExecution("teststep",
                 new JobExecution(1L)));
     }

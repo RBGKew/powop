@@ -3,12 +3,9 @@ package org.emonocot.job.dwc.reference;
 import java.util.HashMap;
 
 import org.easymock.EasyMock;
-import org.emonocot.job.dwc.description.DescriptionFieldSetMapper;
-import org.emonocot.model.description.TextContent;
+import org.emonocot.api.TaxonService;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Taxon;
-import org.emonocot.api.ReferenceService;
-import org.emonocot.api.TaxonService;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.item.ExecutionContext;
@@ -69,7 +66,7 @@ public class ReferenceParsingTest {
 
        taxonService = EasyMock.createMock(TaxonService.class);
 
-        ReferenceFieldSetMapper fieldSetMapper = new ReferenceFieldSetMapper();
+        FieldSetMapper fieldSetMapper = new FieldSetMapper();
         fieldSetMapper.setFieldNames(names);
         fieldSetMapper.setDefaultValues(new HashMap<String, String>());
         fieldSetMapper.setTaxonService(taxonService);

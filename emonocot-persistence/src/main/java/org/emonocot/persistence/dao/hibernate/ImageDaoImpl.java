@@ -115,15 +115,17 @@ public class ImageDaoImpl extends SearchableDaoImpl<Image> implements ImageDao {
      *            Set the selected facet
      */
     @Override
-    protected final void selectFacet(final FacetName facetName,
+    protected final boolean selectFacet(final FacetName facetName,
             final FacetManager facetManager, final String selectedFacet) {
         switch (facetName) {
         case CONTINENT:
         case AUTHORITY:
         case FAMILY:
-            doSelectFacet(facetName, facetManager, selectedFacet);
+            return doSelectFacet(facetName, facetManager, selectedFacet);
+        case CLASS:
+        	return true;
         default:
-            break;
+            return false;
         }
     }
 

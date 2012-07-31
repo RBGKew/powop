@@ -95,15 +95,15 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
      *            Set the facet manager
      * @param selectedFacetName
      *            Set the selected facet
+     * @return true if the facet has been selected, false otherwise (i.e. there are no records which contain that facet)
      */
-    protected void selectFacet(final FacetName facetName,
+    protected boolean selectFacet(final FacetName facetName,
             final FacetManager facetManager, final String selectedFacetName) {
         switch (facetName) {
         case CLASS:
-            break;
+            return true;
         default:
-            doSelectFacet(facetName, facetManager, selectedFacetName);
-            break;
+            return doSelectFacet(facetName, facetManager, selectedFacetName);
         }
     }
 
@@ -115,8 +115,9 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
      *            Set the facet manager
      * @param selectedFacetName
      *            Set the selected facet name
+     * @return true if the facet has been selected, false otherwise (i.e. there are no records which contain that facet)
      */
-    protected final void doSelectFacet(final FacetName facetName,
+    protected final boolean doSelectFacet(final FacetName facetName,
             final FacetManager facetManager, final String selectedFacetName) {
         List<Facet> facetResults = facetManager.getFacets(facetName.name());
         Facet selectedFacet = null;
@@ -129,6 +130,9 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
         if (selectedFacet != null) {
             facetManager.getFacetGroup(facetName.name()).selectFacets(
                     selectedFacet);
+            return true;
+        } else {
+        	return false;
         }
     }
 
@@ -303,11 +307,21 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
                 FacetManager facetManager = fullTextQuery.getFacetManager();
 
                 for (FacetName facetName : selectedFacets.keySet()) {
-                    selectFacet(facetName, facetManager,
-                            selectedFacets.get(facetName));
+                	
+                    boolean selected = selectFacet(facetName, facetManager, selectedFacets.get(facetName));
+					if (!selected) {
+						// If we were not able to select a facet because there are no results matching that value,
+						// return no results
+						Page<T> page = new DefaultPageImpl<T>(0, pageNumber,
+								pageSize, new ArrayList<T>());
+						for (FacetName f : facets) {
+							page.addFacets(f.name(), new ArrayList<Facet>());
+						}
+						return page;
+					}
+                    
                 }
-                Criteria criteria = fullTextSession
-                        .createCriteria(getAnalyzerType());
+                Criteria criteria = fullTextSession.createCriteria(getAnalyzerType());
                 boolean setCriteria = enableProfilePreQuery(criteria, fetch);
                 if (setCriteria) {
                     fullTextQuery.setCriteriaQuery(criteria);

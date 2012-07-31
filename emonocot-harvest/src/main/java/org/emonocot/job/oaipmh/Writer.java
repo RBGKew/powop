@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.emonocot.harvest.common.TaxonRelationshipResolver;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.model.taxon.Taxon;

@@ -81,13 +81,13 @@ public class PlaceDaoImpl extends SearchableDaoImpl<Place> implements PlaceDao {
      *            Set the selected facet
      */
     @Override
-    protected final void selectFacet(final FacetName facetName,
+    protected final boolean selectFacet(final FacetName facetName,
             final FacetManager facetManager, final String selectedFacet) {
         switch (facetName) {
         case CLASS:
-            doSelectFacet(facetName, facetManager, selectedFacet);
+            return doSelectFacet(facetName, facetManager, selectedFacet);
         default:
-            break;
+            return false;
         }
     }
 

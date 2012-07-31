@@ -50,23 +50,23 @@ public class FetchProfileTest extends AbstractPersistenceTest {
 
         Taxon taxon1 = createTaxon("Aus", "urn:lsid:example.com:taxon:1", null,
                 null, null, null, null, null, null, null,
-                null, new GeographicalRegion[] {});
+                null, new GeographicalRegion[] {}, null);
         createTextContent(taxon1, Feature.associations, "Lorem ipsum",
                 reference);
         Taxon taxon2 = createTaxon("Aus bus", "urn:lsid:example.com:taxon:2",
                 taxon1, null, null, null, null, null, null, null,
                 null, new GeographicalRegion[] {Continent.AUSTRALASIA,
-                        Region.BRAZIL, Region.CARIBBEAN });
+                        Region.BRAZIL, Region.CARIBBEAN }, null);
         Taxon taxon3 = createTaxon("Aus ceus", "urn:lsid:example.com:taxon:3",
                 taxon1, null, null, null, null, null, null, null,
-                null, new GeographicalRegion[] {Region.NEW_ZEALAND });
+                null, new GeographicalRegion[] {Region.NEW_ZEALAND }, null);
         Taxon taxon4 = createTaxon("Aus deus", "urn:lsid:example.com:taxon:4",
                 null, taxon2, null, null, null, null, null, null,
-                null, new GeographicalRegion[] {});
+                null, new GeographicalRegion[] {}, null);
         Taxon taxon5 = createTaxon("Aus eus", "urn:lsid:example.com:taxon:5",
                 null, taxon3, null, null, null, null, null, null,
-                null, new GeographicalRegion[] {});
-        Image image = createImage("Aus aus", "image1", null, taxon1);
+                null, new GeographicalRegion[] {}, null);
+        Image image = createImage("Aus aus", "image1", null, taxon1, null);
     }
 
     /**

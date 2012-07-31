@@ -131,7 +131,7 @@ public final class Functions {
      */
     public static Identifier getProtologLink(final Taxon taxon) {
         for (Identifier identifier : taxon.getIdentifiers()) {
-            if (identifier.getSubject().equals("Protolog")) {
+            if (identifier.getSubject() != null && identifier.getSubject().equals("Protolog")) {
                 return identifier;
             }
         }

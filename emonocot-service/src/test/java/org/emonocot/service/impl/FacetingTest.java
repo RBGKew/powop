@@ -123,25 +123,26 @@ public class FacetingTest extends DataManagementSupport {
      */
     @Override
     public final void setUpTestData() {
-        Source source = createSource("test", "http://example.com");
+        Source source1 = createSource("test", "http://example.com");
+        Source source2 = createSource("source2", "http://source2.com");
         Taxon taxon1 = createTaxon("Aus", "1", null, null, "Ausaceae", null,
                 null, "(1753)", Rank.GENUS, TaxonomicStatus.accepted,
-                source, new GeographicalRegion[] {});
+                source1, new GeographicalRegion[] {}, new Source[] {source1});
         Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null, "Ausaceae",
                 null, null, "(1775)", Rank.SPECIES, TaxonomicStatus.accepted,
-                source, new GeographicalRegion[] {Continent.AUSTRALASIA,
-                        Region.BRAZIL, Region.CARIBBEAN });
+                source1, new GeographicalRegion[] {Continent.AUSTRALASIA,
+                        Region.BRAZIL, Region.CARIBBEAN }, new Source[] {source1,source2});
         Taxon taxon3 = createTaxon("Aus ceus", "3", taxon1, null, "Ausaceae",
                 null, null, "(1805)", Rank.SPECIES, TaxonomicStatus.accepted,
-                source, new GeographicalRegion[] {Region.NEW_ZEALAND });
+                source1, new GeographicalRegion[] {Region.NEW_ZEALAND }, new Source[] {source1,source2});
         Taxon taxon4 = createTaxon("Aus deus", "4", null, taxon2, "Ausaceae",
                 null, null, "(1895)", Rank.SPECIES, TaxonomicStatus.synonym,
-                source, new GeographicalRegion[] {});
+                source1, new GeographicalRegion[] {}, new Source[] {source1});
         Taxon taxon5 = createTaxon("Aus eus", "5", null, taxon3, "Ausaceae",
                 null, null, "(1935)", Rank.SPECIES, TaxonomicStatus.synonym,
-                source, new GeographicalRegion[] {});
-        Image img1 = createImage("Aus", "1", source, null);
-        Image img2 = createImage("Aus bus", "2", source, null);
+                source1, new GeographicalRegion[] {}, new Source[] {source1});
+        Image img1 = createImage("Aus", "1", source2,taxon2, new Source[] {source2,source1});
+        Image img2 = createImage("Aus bus", "2", source2,taxon2, new Source[] {source2,source1});
 
     }
 
@@ -269,7 +270,7 @@ public class FacetingTest extends DataManagementSupport {
                 null, sort, null);
         String[] actual = new String[results.getSize()];
         for (int i = 0; i < results.getSize(); i++) {
-            if (results.getRecords().get(i).getClass().equals(Taxon.class)) {
+            if (results.getRecords().get(i).getClassName().equals("Taxon")) {
                 actual[i] = ((Taxon) results.getRecords().get(i)).getName();
             } else {
                 actual[i] = ((Image) results.getRecords().get(i)).getCaption();
@@ -280,5 +281,66 @@ public class FacetingTest extends DataManagementSupport {
                 "Aus ceus", "Aus deus", "Aus eus" };
 
         assertArrayEquals(expected, actual);
+    }
+    
+    @Test
+    public final void testFacetOnSource() {
+    	Map<FacetName, String> selectedFacets = new HashMap<FacetName, String>();
+    	Page<?> results = searchableObjectService.search(null,
+                null, null, null, 
+                new FacetName[] {FacetName.CLASS, FacetName.FAMILY, FacetName.CONTINENT,FacetName.AUTHORITY },
+                null, null, null);
+    	System.out.println("No Query");
+		for (String facetName : results.getFacetNames()) {
+			System.out.println(facetName);
+			for (Facet facet : results.getFacets().get(facetName)) {
+				System.out.println("\t" +facet.getValue() + " " + facet.getCount());
+			}
+		}
+		selectedFacets.clear();
+		selectedFacets.put(FacetName.FAMILY, "Ausaceae");
+    	 results = searchableObjectService.search(null,
+                null, null, null, 
+                new FacetName[] {FacetName.CLASS, FacetName.FAMILY, FacetName.CONTINENT,FacetName.AUTHORITY },
+                selectedFacets, null, null);
+    	System.out.println("Searchable {FAMILY:Ausaceae}");
+		for (String facetName : results.getFacetNames()) {
+			System.out.println(facetName);
+			for (Facet facet : results.getFacets().get(facetName)) {
+				System.out.println("\t" +facet.getValue() + " " + facet.getCount());
+			}
+		}
+		selectedFacets.clear();
+		selectedFacets.put(FacetName.FAMILY, "Ausaceae");
+		selectedFacets.put(FacetName.CLASS, "org.emonocot.model.taxon.Taxon");
+		selectedFacets.put(FacetName.AUTHORITY, "source2");
+
+		
+    	 results = searchableObjectService.search(null,
+                null, null, null, 
+                new FacetName[] {FacetName.CLASS,FacetName.FAMILY, FacetName.CONTINENT,FacetName.AUTHORITY},
+                selectedFacets, null, null);
+    	System.out.println("Searchable {FAMILY:Ausaceae,CLASS:org.emonocot.model.taxon.Taxon, AUTHORITY:source2}");
+		for (String facetName : results.getFacetNames()) {
+			System.out.println(facetName);
+			for (Facet facet : results.getFacets().get(facetName)) {
+				System.out.println("\t" + facet.getValue() + " " + facet.getCount());
+			}
+		}
+		selectedFacets.clear();
+		selectedFacets.put(FacetName.AUTHORITY, "source2");
+
+		
+    	 results = searchableObjectService.search(null,
+                null, null, null, 
+                new FacetName[] {FacetName.CLASS,FacetName.FAMILY, FacetName.CONTINENT,FacetName.AUTHORITY},
+                selectedFacets, null, null);
+    	System.out.println("Searchable {AUTHORITY:source2}");
+		for (String facetName : results.getFacetNames()) {
+			System.out.println(facetName);
+			for (Facet facet : results.getFacets().get(facetName)) {
+				System.out.println("\t" + facet.getValue() + " " + facet.getCount());
+			}
+		}
     }
 }

@@ -105,7 +105,7 @@ public class DarwinCoreJobIntegrationTest {
         parameters.put("authority.name", new JobParameter(
                 "test"));
         parameters.put("family", new JobParameter(
-        "test"));
+        "Arecaceae"));
         parameters.put("authority.uri", new JobParameter(
                 "http://build.e-monocot.org/test/test.zip"));
         parameters.put(
