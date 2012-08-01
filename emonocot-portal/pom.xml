@@ -415,6 +415,6 @@
                     <configLocation>../src/main/resources/emonocot-checkstyle.xml</configLocation>
                 </configuration>
             </plugin>
-</plugins>
+        </plugins>
 	</build>
 </project>
