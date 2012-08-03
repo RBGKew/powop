@@ -1,7 +1,5 @@
 package org.emonocot.job.dwc.description;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
