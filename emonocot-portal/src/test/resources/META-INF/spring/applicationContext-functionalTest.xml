@@ -54,14 +54,9 @@
 		<bean id="clientHttpRequestFactory"
 			class="org.emonocot.portal.http.AuthenticatingHttpClientFactory">
 			<property name="proxy">
-				<bean class="java.net.Proxy">
-					<constructor-arg value="#{T(java.net.Proxy$Type).HTTP}" />
-					<constructor-arg>
-						<bean class="java.net.InetSocketAddress">
-							<constructor-arg value="${http.proxyHost}" />
-							<constructor-arg value="${http.proxyPort}" />
-						</bean>
-					</constructor-arg>
+				<bean class="org.apache.http.HttpHost">
+					<constructor-arg value="${http.proxyHost}" />
+					<constructor-arg value="${http.proxyPort}" />
 				</bean>
 			</property>
 		</bean>
