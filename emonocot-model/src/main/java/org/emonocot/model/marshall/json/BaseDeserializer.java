@@ -8,6 +8,8 @@ import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
 import org.emonocot.api.Service;
 import org.emonocot.model.common.Base;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -17,6 +19,8 @@ import org.emonocot.model.common.Base;
  */
 public abstract class BaseDeserializer<T extends Base> extends
         JsonDeserializer<T> {
+	
+	private static Logger logger = LoggerFactory.getLogger(BaseDeserializer.class);
 
     /**
      *
@@ -55,9 +59,11 @@ public abstract class BaseDeserializer<T extends Base> extends
          * set "return lazy initialized proxy objs"
          */
         if (service != null) {
+        	logger.debug("service is not null, returning object");
             return service.load(identifier);
         } else {
             try {
+            	logger.debug("service is null, returning new object");
                 T t = type.newInstance();
                 t.setIdentifier(identifier);
                 return t;

@@ -18,9 +18,6 @@
 			<li><c:url value="/contact" var="contactUrl" /> <a
 				href="${contactUrl}"><spring:message code="contact.title" />
 			</a></li>
-			<li><a href="http://www.glyphicons.com"><spring:message
-						code="icons.by.glyphicons" />
-			</a></li>
 		</ul>
 	</div>
 </footer>

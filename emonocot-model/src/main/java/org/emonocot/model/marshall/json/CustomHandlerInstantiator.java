@@ -17,6 +17,9 @@ import org.emonocot.api.ReferenceService;
 import org.emonocot.api.SourceService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  *
@@ -24,6 +27,8 @@ import org.emonocot.api.UserService;
  *
  */
 public class CustomHandlerInstantiator extends HandlerInstantiator {
+	
+	Logger logger = LoggerFactory.getLogger(CustomHandlerInstantiator.class);
 
     /**
      *
@@ -109,12 +114,17 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
     public final void setIdentificationKeyService(final IdentificationKeyService newIdentificationKeyService) {
         this.identificationKeyService = newIdentificationKeyService;
     }
+    
+    public CustomHandlerInstantiator() {
+    	
+    }
 
     @Override
     public final JsonDeserializer<?> deserializerInstance(
             final DeserializationConfig deserializerConfig,
             final Annotated annotated,
             final Class<? extends JsonDeserializer<?>> jsonDeserializerClass) {
+    	logger.debug("deserializerInstance " +  deserializerConfig + " " + jsonDeserializerClass);
         try {
             if (jsonDeserializerClass.equals(TaxonDeserializer.class)) {
                 TaxonDeserializer taxonDeserializer = TaxonDeserializer.class
@@ -195,6 +205,7 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
             final SerializationConfig serializationConfig,
             final Annotated annotated,
             final Class<? extends JsonSerializer<?>> jsonSerializerClass) {
+        logger.debug("serializerInstance " +  serializationConfig + " " + annotated + " " + jsonSerializerClass);
         return null;
     }
 

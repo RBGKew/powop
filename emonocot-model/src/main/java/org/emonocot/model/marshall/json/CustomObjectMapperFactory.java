@@ -9,6 +9,8 @@ import org.emonocot.api.ReferenceService;
 import org.emonocot.api.SourceService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.FactoryBean;
 
 /**
@@ -17,6 +19,7 @@ import org.springframework.beans.factory.FactoryBean;
  *
  */
 public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
+	Logger logger = LoggerFactory.getLogger(CustomObjectMapperFactory.class);
 
     /**
      *
@@ -38,7 +41,7 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
     */
     private UserService userService;
 
-    /**
+   /**
     *
     */
     private GroupService groupService;
@@ -132,7 +135,9 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
      * @return the object created by this factory
      */
     public final ObjectMapper getObject() {
+    	logger.debug("getObject called");
         if (objectMapper == null) {
+        	logger.debug("creating new CustomObjectMapper");
             objectMapper = new CustomObjectMapper();
             objectMapper.setTaxonService(taxonService);
             objectMapper.setReferenceService(referenceService);
@@ -144,6 +149,7 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
             objectMapper.setIdentificationKeyService(identificationKeyService);
             objectMapper.init();
         }
+        logger.debug("Returning objectMapper " + objectMapper);
         return objectMapper;
     }
 

@@ -2241,4 +2241,24 @@
       <comment>Changing ownership of accepted orchid genera to eMonocot</comment>
       <sql>update Taxon set authority_id = 5 where family = 'Orchidaceae' and status = 'accepted' and rank = 'GENUS';</sql>
     </changeSet>
+    <changeSet id="2012-08-01_01" author="ben">
+      <comment>Faceting on embedded objects is screwed up when identifiers are in Uppercase</comment>
+      <sql>update Source set identifier = 'palmweb.org' where id = 2;</sql>
+    </changeSet>
+    <changeSet id="2012-08-01_02" author="ben">
+      <comment>Faceting on embedded objects is screwed up when identifiers are in Uppercase</comment>
+      <sql>update Source set identifier = 'cate-araceae.org' where id = 3;</sql>
+    </changeSet>
+    <changeSet id="2012-08-01_03" author="ben">
+      <comment>Faceting on embedded objects is screwed up when identifiers are in Uppercase</comment>
+      <sql>update Source set identifier = 'grassbase.kew.org' where id = 4;</sql>
+    </changeSet>
+    <changeSet id="2012-08-01_04" author="ben">
+      <comment>Faceting on embedded objects is screwed up when identifiers are in Uppercase</comment>
+      <sql>update Source set identifier = 'e-monocot.org' where id = 5;</sql>
+    </changeSet>
+    <changeSet id="2012-08-01_05" author="ben">
+      <comment>Faceting on embedded objects is screwed up when identifiers are in Uppercase</comment>
+      <sql>update Source set identifier = 'efloras.kew.org' where id = 7;</sql>
+    </changeSet>
 </databaseChangeLog>

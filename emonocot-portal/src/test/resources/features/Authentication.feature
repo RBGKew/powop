@@ -10,10 +10,10 @@ Feature: Authentication
 Background:
   Given there are groups with the following properties:
   | identifier       | permission1            |
-  | PalmWeb          | PERMISSION_VIEW_SOURCE |
+  | palmweb.org          | PERMISSION_VIEW_SOURCE |
   And there are users with the following properties:
   | identifier        | password  | group1         |
-  | test@example.com  | Poa annua | PalmWeb        |
+  | test@example.com  | Poa annua | palmweb.org    |
   | admin@example.com | Poa annua | administrators |
   And I am not authenticated
   And I am on the portal home page
@@ -39,7 +39,7 @@ Scenario: Deny access to unauthenticated user
   check that they cannot access a restricted page - when accessing
   a restricted page they should be redirected to the login page
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=36
-  And I navigate to the job list page for source "PalmWeb"
+  And I navigate to the job list page for source "palmweb.org"
   Then the login page should be displayed
   
 Scenario: Add privileges to a group
@@ -62,7 +62,7 @@ Scenario: Add privileges to a group
   And I submit the members form
   Then an info message should say "admin@example.com was added to the group"
   When I enter the following data into the access controls form:
-  | object  |
-  | PalmWeb |
+  | object      |
+  | palmweb.org |
   And I submit the access controls form
-  Then an info message should say "READ access to Source PalmWeb was added to the group"
+  Then an info message should say "READ access to Source palmweb.org was added to the group"

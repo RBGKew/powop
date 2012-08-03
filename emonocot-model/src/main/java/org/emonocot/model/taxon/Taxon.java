@@ -280,10 +280,8 @@ public class Taxon extends SearchableObject {
     /**
      * @return a list of images of the taxon
      */
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "Taxon_Image", joinColumns = {@JoinColumn(name = "Taxon_id")}, inverseJoinColumns = {@JoinColumn(name = "images_id")})
-    @Cascade({ CascadeType.SAVE_UPDATE })
-    @JsonSerialize(contentUsing = ImageSerializer.class)
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "taxa")
+    @JsonIgnore
     public List<Image> getImages() {
         return images;
     }
@@ -330,7 +328,7 @@ public class Taxon extends SearchableObject {
      * @param newImages
      *            Set the images associated with this taxon
      */
-    @JsonDeserialize(contentUsing = ImageDeserializer.class)
+    @JsonIgnore
     public void setImages(List<Image> newImages) {
         this.images = newImages;
     }
@@ -448,7 +446,6 @@ public class Taxon extends SearchableObject {
      */
     @IndexedEmbedded(depth = 1)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "accepted")
-    //@Cascade({CascadeType.SAVE_UPDATE})
     @JsonIgnore
     public Set<Taxon> getSynonyms() {
         return synonyms;
@@ -823,6 +820,7 @@ public class Taxon extends SearchableObject {
     /**
      * @return the ancestors of the taxon
      */
+    @JsonIgnore
     @Transient
     public List<Taxon> getAncestors() {
         return ancestors;
@@ -832,6 +830,7 @@ public class Taxon extends SearchableObject {
      * @param ancestors
      *            Set the ancestors of the taxon
      */
+    @JsonIgnore
     public void setAncestors(List<Taxon> ancestors) {
         this.ancestors = ancestors;
     }

@@ -51,4 +51,14 @@ public class ImageRow {
      *
      */
     public String keywords;
+    
+    /**
+     *
+     */
+    public String taxon;
+
+    /**
+     *
+     */
+	public String taxa1;
 }

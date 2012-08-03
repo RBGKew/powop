@@ -35,20 +35,17 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.batch.core.JobExecutionException;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
+import org.springframework.security.acls.domain.BasePermission;
 
 import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.CoordinateSequence;
 import com.vividsolutions.jts.geom.DefaultCoordinateSequenceFactory;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LinearRing;
-import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Polygon;
-import com.vividsolutions.jts.geom.PrecisionModel;
 
 /**
  *
@@ -126,25 +123,14 @@ public class JsonConversionTest {
      */
     @Test
     public final void testReadTaxon() throws Exception {
-        Reference reference = new Reference();
-        Image image1 = new Image();
-        image1.setIdentifier("urn:identifier:image:0");
-        Image image2 = new Image();
-        image1.setIdentifier("urn:identifier:image:1");
-        Image image3 = new Image();
-        image1.setIdentifier("urn:identifier:image:2");
+        Reference reference = new Reference();        
         EasyMock.expect(
                 referenceService.load(EasyMock
                         .eq("urn:kew.org:wcs:publication:1"))).andReturn(
                 reference).anyTimes();
-        EasyMock.expect(imageService.load("urn:identifier:image:0")).andReturn(
-                image1);
-        EasyMock.expect(imageService.load("urn:identifier:image:1")).andReturn(
-                image2);
-        EasyMock.expect(imageService.load("urn:identifier:image:2")).andReturn(
-                image3);
+        
         EasyMock.replay(referenceService, imageService);
-        String content = "{\"identifier\":\"urn:kew.org:wcs:taxon:2295\",\"name\":\"Acorus\",\"protologue\":\"urn:kew.org:wcs:publication:1\", \"content\": {\"habitat\":{\"feature\":\"habitat\",\"content\":\"Lorem ipsum\", \"references\":[\"urn:kew.org:wcs:publication:1\"]}}, \"images\":[\"urn:identifier:image:0\",\"urn:identifier:image:1\",\"urn:identifier:image:2\"],\"distribution\":{\"REU\":{\"region\":\"REU\"}}}";
+        String content = "{\"identifier\":\"urn:kew.org:wcs:taxon:2295\",\"name\":\"Acorus\",\"protologue\":\"urn:kew.org:wcs:publication:1\", \"content\": {\"habitat\":{\"feature\":\"habitat\",\"content\":\"Lorem ipsum\", \"references\":[\"urn:kew.org:wcs:publication:1\"]}}, \"distribution\":{\"REU\":{\"region\":\"REU\"}}}";
         Taxon taxon = (Taxon) objectMapper.readValue(content, Taxon.class);
         EasyMock.verify(referenceService, imageService);
 
@@ -166,12 +152,6 @@ public class JsonConversionTest {
                         .contains(reference));
         assertEquals("The protologue should be set", reference,
                 taxon.getProtologue());
-        assertTrue("The taxon should contain the image1 in position 0", taxon
-                .getImages().get(0).equals(image1));
-        assertTrue("The taxon should contain the image2 in position 1", taxon
-                .getImages().get(1).equals(image2));
-        assertTrue("The taxon should contain the image3 in position 2", taxon
-                .getImages().get(2).equals(image3));
         assertFalse("The taxon should contain a distribution", taxon
                 .getDistribution().isEmpty());
         assertTrue("The taxon should occur in Reunion", taxon.getDistribution()
@@ -235,7 +215,9 @@ public class JsonConversionTest {
         image.getTaxa().add(taxon);
 
         try {
-            objectMapper.writeValueAsString(image);
+           String output = objectMapper.writeValueAsString(image);
+           System.out.println(output);
+           
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -251,10 +233,10 @@ public class JsonConversionTest {
         Taxon taxon = new Taxon();
         EasyMock.expect(
                 taxonService.load(EasyMock.eq("urn:kew.org:wcs:taxon:2295"),
-                        EasyMock.eq("taxon-page"))).andReturn(taxon);
+                        EasyMock.eq("taxon-page"))).andReturn(taxon).times(1);
         EasyMock.replay(referenceService, taxonService);
 
-        String content = "{\"identifier\":\"urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg\",\"caption\":\"Acorus\",\"taxa\":[\"urn:kew.org:wcs:taxon:2295\"]}";
+        String content = "{\"location\":null,\"id\":null,\"description\":null,\"taxon\":null,\"taxa\":[\"urn:kew.org:wcs:taxon:2295\"],\"caption\":\"Acorus\",\"format\":null,\"keywords\":null,\"locality\":null,\"url\":null,\"authority\":null,\"sources\":[],\"license\":null,\"created\":null,\"modified\":null,\"source\":null,\"creator\":null,\"identifier\":\"urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg\"}";
         Image image = (Image) objectMapper.readValue(content, Image.class);
         EasyMock.verify(referenceService, taxonService);
 

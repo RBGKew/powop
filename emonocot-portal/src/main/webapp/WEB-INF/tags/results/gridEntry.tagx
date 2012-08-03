@@ -3,7 +3,7 @@
   xmlns:spring="http://www.springframework.org/tags"
   xmlns:em="http://e-monocot.org/portal/functions"
   xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-  xmlns:c="http://java.sun.com/jsp/jstl/core" class="span2">
+  xmlns:c="http://java.sun.com/jsp/jstl/core">
   <jsp:directive.attribute name="url" type="java.lang.String" required="true" />
   <jsp:directive.attribute name="itemName" type="java.lang.String" required="true" />
   <jsp:directive.attribute name="image" type="org.emonocot.model.media.Image" required="false"/>
@@ -16,6 +16,6 @@
 			<c:url var="thumbnail" value="/css/images/no_image.jpg"/>
 		</c:otherwise>
 	</c:choose>
-	<a class="result thumb" href="${itemUrl}" rel="tooltip" title="${itemName}"><img class="thumbnail" src="${thumbnail}" /></a>
+	<a class="result thumbnail" href="${itemUrl}" rel="tooltip" title="${itemName}"><img src="${thumbnail}" /></a>
 	<p class="no-display">${itemName}</p>
 </li>

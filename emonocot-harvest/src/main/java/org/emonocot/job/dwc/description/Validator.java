@@ -1,7 +1,9 @@
 package org.emonocot.job.dwc.description;
 
+import java.util.UUID;
+
+import org.emonocot.api.TextContentService;
 import org.emonocot.job.dwc.DarwinCoreValidator;
-import org.emonocot.job.dwc.NoTaxonException;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.AnnotationType;
@@ -17,6 +19,12 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class Validator extends DarwinCoreValidator<TextContent> {
+	
+	private TextContentService textContentService;
+	
+	public void setTextContentService(TextContentService newTextContentService) {
+		this.textContentService = newTextContentService;
+	}
     /**
      *
      */
@@ -30,6 +38,9 @@ public class Validator extends DarwinCoreValidator<TextContent> {
     public final TextContent process(final TextContent textContent)
             throws Exception {
         logger.info("Validating " + textContent);
+        if(textContent.getTaxon() != null) {
+        	textContent.setTaxon(super.getTaxonService().find(textContent.getTaxon().getIdentifier(), "taxon-with-content"));
+        }
 
         super.checkTaxon(RecordType.TextContent, textContent, textContent.getTaxon());
 
@@ -40,12 +51,16 @@ public class Validator extends DarwinCoreValidator<TextContent> {
         if (textContent.getContent() == null || textContent.getContent().length() == 0) {
             throw new NoContentException(textContent + " has no Content set");
         }
-
-        Taxon taxon = textContent.getTaxon();
         
-        if (taxon.getContent().containsKey(textContent.getFeature())) {
-            TextContent persistedContent = (TextContent) taxon.getContent()
-                    .get(textContent.getFeature());
+        /**
+         * If there is no identifier assign a random one on the assumption that we'll rewrite this one.
+         */
+        if(textContent.getIdentifier() == null) {
+        	textContent.setIdentifier(UUID.randomUUID().toString());
+        }
+        
+        TextContent persistedContent = textContentService.find(textContent.getIdentifier(), "text-content-with-related");
+        if(persistedContent != null) {
             if ((persistedContent.getModified() != null && textContent
                     .getModified() != null)
                     && !persistedContent.getModified().isBefore(
@@ -54,17 +69,26 @@ public class Validator extends DarwinCoreValidator<TextContent> {
                 logger.info("Skipping " + textContent);
                 return null;
             } else {
-                Annotation annotation = createAnnotation(persistedContent,
-                        RecordType.TextContent, AnnotationCode.Update,
-                        AnnotationType.Info);
-                persistedContent.getAnnotations().add(annotation);
-                persistedContent.setContent(textContent.getIdentifier());
+                 for (Annotation annotation : persistedContent.getAnnotations()) {
+                	 if(logger.isInfoEnabled()) {
+                 	   logger.info("Comparing " + annotation.getJobId() + " with " + getStepExecution().getJobExecutionId());
+                	 }
+                     if (getStepExecution().getJobExecutionId().equals(
+                     		annotation.getJobId())) {                         
+                         annotation.setType(AnnotationType.Info);
+                         annotation.setCode(AnnotationCode.Update);
+                         break;
+                     }
+                 }
+                
+                persistedContent.setFeature(textContent.getFeature());
                 persistedContent.setContent(textContent.getContent());
                 persistedContent.setCreated(textContent.getCreated());
                 persistedContent.setModified(textContent.getModified());
                 persistedContent.setCreator(textContent.getCreator());
                 persistedContent.setLicense(textContent.getLicense());
                 persistedContent.setSource(textContent.getSource());
+                persistedContent.setTaxon(textContent.getTaxon());
                 persistedContent.getReferences().clear();
                 persistedContent.getReferences().addAll(textContent.getReferences());
                 logger.info("Updating " + textContent);

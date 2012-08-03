@@ -1,7 +1,6 @@
 package org.emonocot.job.dwc.identifier;
 
 import org.emonocot.job.dwc.DarwinCoreValidator;
-import org.emonocot.job.dwc.NoTaxonException;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.AnnotationType;

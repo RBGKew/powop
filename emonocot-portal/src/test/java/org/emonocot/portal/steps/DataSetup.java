@@ -34,7 +34,7 @@ public class DataSetup {
             testDataManager.createImage(imageRow.identifier, imageRow.caption,
                     imageRow.url, imageRow.source, imageRow.description,
                     imageRow.locality, imageRow.creator, imageRow.license,
-                    imageRow.keywords);
+                    imageRow.keywords, imageRow.taxon, imageRow.taxa1);
         }
     }
 
@@ -177,8 +177,8 @@ public class DataSetup {
                     row.family, row.genus, row.specificEpithet, row.rank,
                     row.status, row.diagnostic, row.diagnosticReference1,
                     row.habitat, row.general, row.protologue,
-                    row.protologueMicroReference, row.protologLink, row.image1, row.image2,
-                    row.image3, row.distribution1, row.distribution2,
+                    row.protologueMicroReference, row.protologLink,
+                    row.distribution1, row.distribution2,
                     row.distribution3, row.source, row.created, row.parent,
                     row.accepted, row.reference1, row.reference2);
         }

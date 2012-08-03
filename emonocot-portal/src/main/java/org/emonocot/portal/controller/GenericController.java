@@ -27,8 +27,7 @@ public abstract class GenericController<T extends Base,
     /**
     *
     */
-    private static Logger logger = LoggerFactory
-                .getLogger(ImageController.class);
+    private static Logger logger = LoggerFactory.getLogger(GenericController.class);
    /**
     *
     */
@@ -83,10 +82,12 @@ public abstract class GenericController<T extends Base,
      * @param object
      *            the object to save
      * @return A response entity containing a newly created image
+     * @throws Exception 
      */
     @RequestMapping(method = RequestMethod.POST,
                     headers = "Content-Type=application/json")
-    public final ResponseEntity<T> create(@RequestBody final T object) {
+    public final ResponseEntity<T> create(@RequestBody final T object) throws Exception {
+    	logger.error("POST " + object);
         HttpHeaders httpHeaders = new HttpHeaders();
         try {
             httpHeaders.setLocation(new URI(baseUrl + getDirectory() + "/"
@@ -94,7 +95,15 @@ public abstract class GenericController<T extends Base,
         } catch (URISyntaxException e) {
             logger.error(e.getMessage());
         }
-        service.merge(object);
+        try {
+            service.merge(object);
+        } catch(Exception e) {
+        	logger.error(e.getLocalizedMessage());
+        	for(StackTraceElement ste : e.getStackTrace()) {
+        		logger.error(ste.toString());
+        	}
+        	throw e;
+        }
         ResponseEntity<T> response = new ResponseEntity<T>(object, httpHeaders,
                 HttpStatus.CREATED);
         return response;

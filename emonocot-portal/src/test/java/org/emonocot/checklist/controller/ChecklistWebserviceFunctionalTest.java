@@ -60,15 +60,6 @@ public class ChecklistWebserviceFunctionalTest {
         RestAssured.basePath = properties.getProperty(
                 "functional.test.basePath", "/latest/checklist");
 
-        /*if (properties.getProperty("http.proxyHost", null) != null
-                && properties.getProperty("http.proxyHost", null).length() > 0) {
-            RestAssured.proxyHost = properties.getProperty("http.proxyHost",
-                    null);
-            RestAssured.proxyPort = Integer.parseInt(properties.getProperty(
-                    "http.proxyPort", "8080"));
-            RestAssured.proxyScheme = properties.getProperty(
-                    "http.proxyScheme", "http");
-        }*/
         testDataManager
                 .createReference(
                         "reference1",
@@ -81,40 +72,40 @@ public class ChecklistWebserviceFunctionalTest {
                         null);
         testDataManager.createTaxon("urn:kew.org:wcs:family:28", "Lowiaceae", "Archer",
                 null, null, null, "FAMILY", "accepted", null, null,
-                null, null, null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:3", "Lorem", null,
                 "Lowiaceae", "Lorem", null, "GENUS", "accepted", null, null,
-                null, null, null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null,
                 null, null, null, "urn:kew.org:wcs:family:28", null, null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:1", "Lorem ipsum",
                 "(Archer & Archer) Pargetter", "Lowiaceae", "Lorem", "ipsum",
                 "SPECIES", "accepted", null, null, null, null, "reference1", "2: 34-56",
-                null, null, null, null, "DEN", "FIN", "FOR", null, null,
+                null, "DEN", "FIN", "FOR", null, null,
                 "urn:kew.org:wcs:taxon:3", null, null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:2", "Lorem dolor",
                 null, "Lowiaceae", "Lorem", "dolor", "SPECIES", "accepted",
-                null, null, null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null,
                 null, null, null, null, null, "urn:kew.org:wcs:taxon:3", null,
                 null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:4",
                 "Lorem consectetur", null, "Lowiaceae", "Lorem", "consectetur",
-                "SPECIES", "synonym", null, null, null, null, null, null, null,
+                "SPECIES", "synonym", null, null, null, null,
                 null, null, null, null, null, null, null, null, null,
                 "urn:kew.org:wcs:taxon:1", null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:5",
                 "Lorem adipiscing", null, "Lowiaceae", "Lorem", "adipiscing",
-                "SPECIES", "synonym", null, null, null, null, null, null, null,
+                "SPECIES", "synonym", null, null, null, null,
                 null, null, null, null, null, null, null, null, null,
                 "urn:kew.org:wcs:taxon:1", null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:6",
                 "Curabitur vehicula", null, "Curabituraceae", "Curabitur",
-                "vehicula", "SPECIES", "accepted", null, null, null, null,
+                "vehicula", "SPECIES", "accepted", null,
                 null, null, null, null, null, null, null, null, null, null,
                 null, null, null, null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:7",
                 "Curabitur nulla", null, "Curabituraceae", "Curabitur",
-                "nulla", "SPECIES", "unplaced", null, null, null, null, null,
+                "nulla", "SPECIES", "unplaced", null, null,
                 null, null, null, null, null, null, null, null, null, null,
                 null, null, null, null);
     }

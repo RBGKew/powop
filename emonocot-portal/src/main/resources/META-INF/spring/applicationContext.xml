@@ -17,8 +17,7 @@
 
 	<tx:annotation-driven />
 	
-	<bean name="customObjectMapper"
-		class="org.emonocot.model.marshall.json.CustomObjectMapperFactory">
+	<bean name="customObjectMapper"	class="org.emonocot.model.marshall.json.CustomObjectMapperFactory">
 		<property name="referenceService" ref="referenceServiceImpl" />
 		<property name="taxonService" ref="taxonServiceImpl" />
 		<property name="imageService" ref="imageServiceImpl" />

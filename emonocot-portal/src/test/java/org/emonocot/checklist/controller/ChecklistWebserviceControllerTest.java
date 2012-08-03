@@ -8,7 +8,6 @@ import org.emonocot.api.FacetName;
 import org.emonocot.api.Sorting;
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.pager.DefaultPageImpl;
-import org.emonocot.model.taxon.Family;
 import org.emonocot.model.taxon.Taxon;
 import org.emonocot.model.taxon.TaxonomicStatus;
 import org.junit.Before;

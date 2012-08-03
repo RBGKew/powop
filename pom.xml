@@ -152,6 +152,12 @@
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-core</artifactId>
 				<version>${spring.version}</version>
+				<exclusions>
+				  <exclusion>
+				    <groupId>commons-logging</groupId>
+				    <artifactId>commons-logging</artifactId>
+				  </exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
@@ -374,11 +380,23 @@
 				<groupId>commons-beanutils</groupId>
 				<artifactId>commons-beanutils</artifactId>
 				<version>1.7.0</version>
+				<exclusions>
+				  <exclusion>
+				    <groupId>commons-logging</groupId>
+				    <artifactId>commons-logging</artifactId>
+				  </exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>commons-digester</groupId>
 				<artifactId>commons-digester</artifactId>
 				<version>2.0</version>
+				<exclusions>
+					<exclusion>
+				      <groupId>commons-logging</groupId>
+				      <artifactId>commons-logging</artifactId>
+				    </exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>javassist</groupId>
@@ -436,6 +454,35 @@
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpclient</artifactId>
 				<version>4.1.1</version>
+				<exclusions>
+				  <exclusion>
+				    <groupId>commons-logging</groupId>
+				    <artifactId>commons-logging</artifactId>
+				  </exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpmime</artifactId>
+				<version>4.1.3</version>
+				<exclusions>
+				  <exclusion>
+				    <groupId>commons-logging</groupId>
+				    <artifactId>commons-logging</artifactId>
+				  </exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.json-lib</groupId>
+				<artifactId>json-lib</artifactId>
+				<classifier>jdk15</classifier>
+				<version>2.3</version>
+				<exclusions>
+				  <exclusion>
+				    <groupId>commons-logging</groupId>
+				    <artifactId>commons-logging</artifactId>
+				  </exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
@@ -451,13 +498,7 @@
 				<groupId>org.slf4j</groupId>
 				<artifactId>jcl-over-slf4j</artifactId>
 				<version>1.6.1</version>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-simple</artifactId>
-				<version>1.6.1</version>
-				<scope>test</scope>
-			</dependency>
+			</dependency>			
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-log4j12</artifactId>
@@ -614,6 +655,10 @@
 				<artifactId>activemq-spring</artifactId>
 				<version>5.4.2</version>
 				<exclusions>
+				    <exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging-api</artifactId>
+					</exclusion>
 					<exclusion>
 						<groupId>org.springframework</groupId>
 						<artifactId>spring-context</artifactId>
@@ -629,9 +674,26 @@
 				</exclusions>
 			</dependency>
 			<dependency>
+			  <groupId>commons-modeler</groupId>
+			  <artifactId>commons-modeler</artifactId>
+			  <version>2.0</version>
+			  <exclusions>
+				  <exclusion>
+				    <groupId>commons-logging</groupId>
+				    <artifactId>commons-logging-api</artifactId>
+				  </exclusion>
+				</exclusions>
+			</dependency>			
+			<dependency>
 				<groupId>org.apache.xbean</groupId>
 				<artifactId>xbean-spring</artifactId>
 				<version>3.6</version>
+				<exclusions>
+				  <exclusion>
+				    <groupId>commons-logging</groupId>
+				    <artifactId>commons-logging</artifactId>
+				  </exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.geronimo.specs</groupId>
@@ -712,6 +774,28 @@
 				<version>0.0.1</version>
 				<scope>test</scope>
 			</dependency>
+			<dependency>
+			    <groupId>com.googlecode.lesscss4j</groupId>
+				<artifactId>lesscss4j</artifactId>
+				<version>1.0.0</version>
+				<exclusions>
+				  <exclusion>
+				    <groupId>commons-logging</groupId>
+				    <artifactId>commons-logging</artifactId>
+				  </exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+			    <groupId>net.sourceforge.htmlunit</groupId>
+				<artifactId>htmlunit</artifactId>
+				<version>2.9</version>
+				<exclusions>
+				  <exclusion>
+				    <groupId>commons-logging</groupId>
+				    <artifactId>commons-logging</artifactId>
+				  </exclusion>
+				</exclusions>
+			</dependency>
 			<!-- Above are required for ANT build / deploy -->
 			<dependency>
 				<groupId>info.cukes</groupId>
@@ -759,6 +843,32 @@
 						<groupId>log4j</groupId>
 						<artifactId>log4j</artifactId>
 					</exclusion>
+				    <exclusion>
+				      <groupId>commons-logging</groupId>
+				      <artifactId>commons-logging</artifactId>
+				    </exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.activemq</groupId>
+				<artifactId>activeio-core</artifactId>
+				<version>3.1.2</version>
+				<exclusions>
+					<exclusion>
+				      <groupId>commons-logging</groupId>
+				      <artifactId>commons-logging</artifactId>
+				    </exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.activemq</groupId>
+				<artifactId>kahadb</artifactId>
+				<version>5.4.2</version>
+				<exclusions>
+					<exclusion>
+				      <groupId>commons-logging</groupId>
+				      <artifactId>commons-logging</artifactId>
+				    </exclusion>
 				</exclusions>
 			</dependency>
 			<dependency>

@@ -7,7 +7,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.emonocot.model.user.User;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.client.ClientHttpRequest;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,8 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
  * @author ben
  *
  */
-public class AuthenticatingHttpClientFactory extends
-        SimpleClientHttpRequestFactory {
+public class AuthenticatingHttpClientFactory extends HttpComponentsClientHttpRequestFactory {
 
     /**
      * @param uri Set the uri

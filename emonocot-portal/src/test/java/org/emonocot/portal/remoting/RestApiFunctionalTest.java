@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.emonocot.api.GroupService;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationCode;
@@ -118,7 +120,7 @@ public class RestApiFunctionalTest {
      */
     @Autowired
     private GroupService groupService;
-
+   
     /**
     *
     */
@@ -164,16 +166,28 @@ public class RestApiFunctionalTest {
     }
 
     /**
+     * @throws IOException 
+     * @throws JsonMappingException 
+     * @throws JsonGenerationException 
    *
    */
     @Test
-    public final void testImage() {
+    public final void testImage() throws JsonGenerationException, JsonMappingException, IOException {
+    	Taxon taxon = new Taxon();
+        taxon.setName("Acorus");
+        taxon.setIdentifier("urn:kew.org:wcs:taxon:2295");
+        taxonDao.save(taxon);       
+        
         Image image = new Image();
         image.setCaption("Acorus");
         image.setIdentifier("urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg");
         image.setUrl("http://upload.wikimedia.org/wikipedia/commons/2/25/Illustration_Acorus_calamus0.jpg");
-        imageDao.save(image);
+        image.getTaxa().add(taxon);
+        imageDao.save(image);            
+        
         imageDao.delete("urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg");
+        
+        taxonDao.delete("urn:kew.org:wcs:taxon:2295");
     }
 
     /**
@@ -257,6 +271,7 @@ public class RestApiFunctionalTest {
     /**
     *
     */
+    @Test
     public final void testAnnotation() {
         Annotation annotation = new Annotation();
         annotation.setCode(AnnotationCode.BadField);

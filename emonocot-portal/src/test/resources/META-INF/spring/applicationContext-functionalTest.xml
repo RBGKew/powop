@@ -30,7 +30,7 @@
 	<bean name="restTemplate" class="org.springframework.web.client.RestTemplate">
 		<constructor-arg ref="clientHttpRequestFactory" />
 		<property name="messageConverters">
-			<list>
+			<list>	
 				<ref bean="jsonConverter" />
 			</list>
 		</property>
@@ -39,20 +39,16 @@
 		</property>
 	</bean>
 
-	<bean id="jsonConverter"
-		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
-		<property name="supportedMediaTypes" value="application/json" />
+	<bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
 		<property name="objectMapper" ref="customObjectMapper" />
 	</bean>
 
-	<bean name="customObjectMapper"
-		class="org.emonocot.model.marshall.json.CustomObjectMapperFactory">
+	<bean name="customObjectMapper"	class="org.emonocot.model.marshall.json.CustomObjectMapperFactory">
 		<property name="jobInstanceService" ref="jobInstanceServiceImpl" />
 	</bean>
 
 	<beans profile="default">
-		<bean id="clientHttpRequestFactory"
-			class="org.emonocot.portal.http.AuthenticatingHttpClientFactory" />
+		<bean id="clientHttpRequestFactory"	class="org.emonocot.portal.http.AuthenticatingHttpClientFactory" />
 	</beans>
 	<beans profile="proxy">
 		<bean id="clientHttpRequestFactory"

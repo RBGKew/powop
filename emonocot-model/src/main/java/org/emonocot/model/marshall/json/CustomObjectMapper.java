@@ -9,11 +9,15 @@ import org.emonocot.api.ReferenceService;
 import org.emonocot.api.SourceService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
 *
 */
 public class CustomObjectMapper extends ObjectMapper {
+	
+	Logger logger = LoggerFactory.getLogger(CustomObjectMapper.class);
     /**
     *
     */
@@ -131,6 +135,7 @@ public class CustomObjectMapper extends ObjectMapper {
     *
     */
     protected final void init() {
+    	logger.debug("init() called"); 
         CustomHandlerInstantiator handlerInstantiator = new CustomHandlerInstantiator();
         handlerInstantiator.setReferenceService(referenceService);
         handlerInstantiator.setTaxonService(taxonService);

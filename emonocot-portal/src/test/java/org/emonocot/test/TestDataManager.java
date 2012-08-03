@@ -206,11 +206,13 @@ public class TestDataManager {
      *            Set the license
      * @param keywords
      *            Set the keywords
+     * @param taxa1 TODO
      */
-    public final void createImage(final String identifier,
-            final String caption, final String url, final String source,
-            final String description, final String locality,
-            final String creator, final String license, final String keywords) {
+	public final void createImage(final String identifier,
+			final String caption, final String url, final String source,
+			final String description, final String locality,
+			final String creator, final String license, final String keywords,
+			final String taxon, final String taxa1) {
         enableAuthentication();
         Image image = new Image();
         image.setCaption(caption);
@@ -226,6 +228,16 @@ public class TestDataManager {
             s.setIdentifier(source);
             image.setAuthority(s);
             image.getSources().add(s);
+        }
+        if(taxon != null) {
+        	Taxon t = new Taxon();
+        	t.setIdentifier(taxon);        	
+        	image.getTaxa().add(t);
+        }
+        if(taxa1 != null) {
+        	Taxon t = new Taxon();
+        	t.setIdentifier(taxa1);        	
+        	image.getTaxa().add(t);
         }
         imageService.save(image);
         data.push(image);
@@ -423,7 +435,6 @@ public class TestDataManager {
             final String diagnosticReference1, final String habitat,
             final String general, final String protologue,
             final String microReference, final String protologLink,
-            final String image1, final String image2, final String image3,
             final String distribution1, final String distribution2,
             final String distribution3, final String source,
             final String created, final String parent, final String accepted,
@@ -461,21 +472,6 @@ public class TestDataManager {
         }
         if (protologLink != null && protologLink.length() > 0) {
             createIdentifier(taxon, protologLink, "Protolog");
-        }
-        if (image1 != null && image1.length() > 0) {
-            Image image = new Image();
-            image.setIdentifier(image1);
-            taxon.getImages().add(0, image);
-        }
-        if (image2 != null && image2.length() > 0) {
-            Image image = new Image();
-            image.setIdentifier(image2);
-            taxon.getImages().add(1, image);
-        }
-        if (image3 != null && image3.length() > 0) {
-            Image image = new Image();
-            image.setIdentifier(image3);
-            taxon.getImages().add(2, image);
         }
         if (distribution1 != null && distribution1.length() > 0) {
             Distribution distribution = new Distribution();

@@ -181,6 +181,18 @@
             <artifactId>httpclient</artifactId>
           </dependency>
           <dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+		  </dependency>
+		  <dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+		  </dependency>
+          <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+         </dependency>	  
+          <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
           </dependency>
@@ -415,6 +427,6 @@
                     <configLocation>../src/main/resources/emonocot-checkstyle.xml</configLocation>
                 </configuration>
             </plugin>
-</plugins>
+        </plugins>
 	</build>
 </project>

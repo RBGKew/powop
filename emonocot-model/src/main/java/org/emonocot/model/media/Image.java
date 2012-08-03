@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -279,8 +280,9 @@ public class Image extends SearchableObject {
      *
      * @return a list of taxa
      */
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "images")
-    @Cascade({ CascadeType.SAVE_UPDATE })
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "Taxon_Image", joinColumns = {@JoinColumn(name = "images_id")}, inverseJoinColumns = {@JoinColumn(name = "Taxon_id")})
+    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE })
     @JsonSerialize(contentUsing = TaxonSerializer.class)
     public List<Taxon> getTaxa() {
         return taxa;

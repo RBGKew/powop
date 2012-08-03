@@ -11,14 +11,14 @@ import java.nio.channels.FileChannel;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.xml.stream.XMLEventFactory;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.Result;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemStreamException;
 import org.springframework.batch.item.WriteFailedException;
@@ -59,7 +59,7 @@ public class StaxEventItemWriter<T> extends ExecutionContextUserSupport
     /**
      *
      */
-    private static final Log log = LogFactory.getLog(StaxEventItemWriter.class);
+    private static final Logger log = LoggerFactory.getLogger(StaxEventItemWriter.class);
 
     /**
      * default encoding.
@@ -537,7 +537,7 @@ public class StaxEventItemWriter<T> extends ExecutionContextUserSupport
         try {
             delegateEventWriter.add(factory.createCharacters(""));
         } catch (XMLStreamException e) {
-            log.error(e);
+            log.error(e.getLocalizedMessage());
         }
 
         try {

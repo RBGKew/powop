@@ -115,6 +115,17 @@ public class Validator extends DarwinCoreValidator<Image> implements
                     // Assume that this is the first of several times this image
                     // appears in the result set, and we'll use this version to
                     // overwrite the existing image
+                	for (Annotation annotation : persistedImage.getAnnotations()) {
+                   	 if(logger.isInfoEnabled()) {
+                    	   logger.info("Comparing " + annotation.getJobId() + " with " + getStepExecution().getJobExecutionId());
+                   	 }
+                        if (getStepExecution().getJobExecutionId().equals(
+                        		annotation.getJobId())) {                         
+                            annotation.setType(AnnotationType.Info);
+                            annotation.setCode(AnnotationCode.Update);
+                            break;
+                        }
+                    }
 
                     persistedImage.setCaption(image.getCaption());
                     persistedImage.setCreated(image.getCreated());
@@ -127,11 +138,7 @@ public class Validator extends DarwinCoreValidator<Image> implements
                     persistedImage.getTaxa().add(image.getTaxon());
                     if (!image.getTaxon().getImages().contains(persistedImage)) {
                         image.getTaxon().getImages().add(persistedImage);
-                    }
-                    Annotation annotation = createAnnotation(persistedImage,
-                            RecordType.Image, AnnotationCode.Update,
-                            AnnotationType.Info);
-                    persistedImage.getAnnotations().add(annotation);
+                    }                    
                     boundImages.put(image.getUrl(), persistedImage);
                     logger.info("Overwriting image " + image.getUrl());
                     return persistedImage;

@@ -5,14 +5,15 @@ Feature: Image Page
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=75
 
 Background:
-  Given there are images with the following properties:
-  | identifier | url                                                                | caption   | description     | creator          | locality                          | keywords                     | license                                                                                        |
-  | 123        | http://upload.wikimedia.org/wikipedia/commons/7/7b/Poa_annua.jpeg  | Poa annua | Habit           | Rasbak           | Nederlands                        | Poaceae, Habit               | This file is licensed under the Creative Commons Attribution-Share Alike 3.0 Unported license. |
-  | 456        | http://upload.wikimedia.org/wikipedia/commons/4/4f/Poa.annua.jpg   | Poa annua | Panicle         | James K. Lindsey | Commanster, Belgian High Ardennes | Poaceae, Panicle, Commanster |                                                                                                |
-  | 789        | http://upload.wikimedia.org/wikipedia/commons/7/78/Poa.annua.2.jpg | Poa annua | Panicle         | James K. Lindsey | Commanster, Belgian High Ardennes | Commanster                   |                                                                                                |
-  And there are taxa with the following properties:
-  | identifier                 | name      | image1 | image2 | image3 |
-  | urn:kew.org:wcs:taxon:1234 | Poa annua | 123    | 456    | 789    |
+  Given there are taxa with the following properties:
+  | identifier                 | name      | 
+  | urn:kew.org:wcs:taxon:1234 | Poa annua |
+  And there are images with the following properties:
+  | identifier | url                                                                | caption   | description     | creator          | locality                          | keywords                     | license                                                                                        | taxa1                      |
+  | 123        | http://upload.wikimedia.org/wikipedia/commons/7/7b/Poa_annua.jpeg  | Poa annua | Habit           | Rasbak           | Nederlands                        | Poaceae, Habit               | This file is licensed under the Creative Commons Attribution-Share Alike 3.0 Unported license. | urn:kew.org:wcs:taxon:1234 |
+  | 456        | http://upload.wikimedia.org/wikipedia/commons/4/4f/Poa.annua.jpg   | Poa annua | Panicle         | James K. Lindsey | Commanster, Belgian High Ardennes | Poaceae, Panicle, Commanster |                                                                                                | urn:kew.org:wcs:taxon:1234 |
+  | 789        | http://upload.wikimedia.org/wikipedia/commons/7/78/Poa.annua.2.jpg | Poa annua | Panicle         | James K. Lindsey | Commanster, Belgian High Ardennes | Commanster                   |                                                                                                | urn:kew.org:wcs:taxon:1234 |
+
 
 Scenario: Check ImagePage
   The image page should display the image with the caption of the image displayed
