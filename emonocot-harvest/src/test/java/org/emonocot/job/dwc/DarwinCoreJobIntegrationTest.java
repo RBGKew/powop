@@ -107,7 +107,7 @@ public class DarwinCoreJobIntegrationTest {
         parameters.put("family", new JobParameter(
         "Arecaceae"));
         parameters.put("authority.uri", new JobParameter(
-                "http://dioscoreaceae.e-monocot.org/dwca.zip"));
+                "http://build.e-monocot.org/test/test.zip"));
         parameters.put(
                 "authority.last.harvested",
                 new JobParameter(Long
