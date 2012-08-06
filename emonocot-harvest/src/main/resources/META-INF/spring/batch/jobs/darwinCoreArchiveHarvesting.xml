@@ -544,7 +544,7 @@
 		class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer"
 		scope="step">
 		<property name="names" value="#{jobExecutionContext['dwca.image.fieldNames']}"/>
-		<property name="quoteCharacter" value="#{jobExecutionContext['dwca.core.fieldsEnclosedBy']}"/>	
+		<property name="quoteCharacter" value="#{jobExecutionContext['dwca.image.fieldsEnclosedBy']}"/>	
 		<property name="delimiter" value="#{jobExecutionContext['dwca.image.fieldsTerminatedBy']}"/>
 		<property name="strict" value="false"/>
 	</bean>
@@ -610,8 +610,7 @@
 		<property name="linesToSkip" value="#{jobExecutionContext['dwca.reference.ignoreHeaderLines']}"/>
 		<property name="bufferedReaderFactory" ref="bufferedReaderFactory"/>
 		<property name="resource">
-			<bean class="org.springframework.core.io.FileSystemResource"
-				scope="step">
+			<bean class="org.springframework.core.io.FileSystemResource" scope="step">
 				<constructor-arg value="#{jobExecutionContext['dwca.reference.file']}" />
 			</bean>
 		</property>

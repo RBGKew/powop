@@ -146,7 +146,7 @@ public class FieldSetMapper extends
             DwcTerm dwcTerm = (DwcTerm) term;
             switch (dwcTerm) {
             case taxonID:
-				if (value == null || value.trim().length() == 0) {
+				if (value != null || value.trim().length() > 0) {
 					Taxon taxon = taxonService.find(value);
 					if (taxon == null) {
 						logger.error("Cannot find record " + value);
