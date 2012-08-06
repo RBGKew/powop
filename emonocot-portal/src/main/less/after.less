@@ -16,6 +16,16 @@ section {width: 100%; clear: both; padding-top: 60px}
 .section-header {margin: 18px 0}
 #textContent {padding-top: 78px}
 
+/**
+ * BUG # 301: As a user of eMonocot I do not expect there to be gaps where it looks like there are missing images when looking at the images in a grid
+ * Explicitly set the width and height of thumbnails to avoid the odd 
+ * divide-by-zero error when a thumbnail has been resized to 101px or 99px
+ */
+.thumbnail > img {    
+    height: 100px;
+    width: 100px;
+}
+
 ul.citations {
     list-style: none;
 }

@@ -105,16 +105,6 @@ public class TaxonRow {
   /**
    *
    */
-  public String reference1;
-
-  /**
-   *
-   */
-  public String reference2;
-
-  /**
-   *
-   */
   public String specificEpithet;
 
   /**

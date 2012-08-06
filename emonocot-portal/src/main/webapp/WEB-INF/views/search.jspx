@@ -128,15 +128,15 @@
 								<c:when test="${item.className == 'Taxon'}">
 									<c:if test="${not empty item.image}">
 										<c:url var="thumbnail" value="/images/fullsize/${item.image.identifier}.${item.image.format}"/>
-										<a href="${thumbnail}" rel="gallery" title="${item.name}">${item.name}</a>
+										<a href="${thumbnail}" rel="gallery" title="${fn:escapeXml(item.name)}">${item.name}</a>
 									</c:if>
 								</c:when>
 								<c:when test="${item.className == 'Image'}">
 									<c:url var="thumbnail" value="/images/fullsize/${item.identifier}.${item.format}"/>
-									<a href="${thumbnail}" rel="gallery" title="${item.caption}">${item.caption}</a>
+									<a href="${thumbnail}" rel="gallery" title="${fn:escapeXml(item.caption)}">${item.caption}</a>
 								</c:when>
 								<c:otherwise>
-									<a href="http://wp5.e-taxonomy.eu/media/palmae/photos/palm_tc_100447_1.jpg" title="${item.className}" rel="gallery">${item.className}</a>
+									<a href="http://wp5.e-taxonomy.eu/media/palmae/photos/palm_tc_100447_1.jpg" title="${fn:escapeXml(item.className)}" rel="gallery">${item.className}</a>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>

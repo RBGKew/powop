@@ -22,7 +22,7 @@
 						<c:choose>
 							<c:when test="${protologLink != null}">
 								<small id="protologue">
-									<a href="${protologLink.identifier}" title="${protologLink.title}">${taxon.protologue.title} ${taxon.protologue.volume}${taxon.protologueMicroReference} ${taxon.protologue.datePublished}</a>
+									<a href="${protologLink.identifier}" title="${fn:escapeXml(protologLink.title)}">${taxon.protologue.title} ${taxon.protologue.volume}${taxon.protologueMicroReference} ${taxon.protologue.datePublished}</a>
 								</small>
 							</c:when>
 							<c:otherwise>
@@ -88,14 +88,14 @@
 													value="/images/thumbnails/${image.identifier}.${image.format}" /> <c:url
 													var="url" value="/image/${image.identifier}" /> <img
 												src="${thumbnail}" class="thumbnail ${status.index}"
-												title="${image.caption}" ad-href="${url}" /> </a></li>
+												title="${fn:escapeXml(image.caption)}" ad-href="${url}" /> </a></li>
 									</c:forEach>
 								</ul>
 							</div>
 						</div>
 					</div>
 					</section>
-					<noscript><img src="${thumbnail}" class="thumbnail ${status.index}" title="${image.caption}" ad-href="${url}" /></noscript>
+					<noscript><img src="${thumbnail}" class="thumbnail ${status.index}" title="${fn:escapeXml(image.caption)}" ad-href="${url}" /></noscript>
 				</c:if>
 
 				<c:if test="${not empty em:allContent(taxon)}">

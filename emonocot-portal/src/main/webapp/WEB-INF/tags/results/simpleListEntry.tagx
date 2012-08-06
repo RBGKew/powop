@@ -14,7 +14,7 @@
 		<img src="${iconUrl}" class="pull-left resultTypeIcon" alt="${iconAlt}"/>
 	</td>
 	<td>
-		<a class="result" href="${itemUrl}" title="${itemName}">
+		<a class="result" href="${itemUrl}" title="${fn:escapeXml(itemName)}">
 			<jsp:doBody/>
 		</a>
 	</td>

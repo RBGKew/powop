@@ -2,6 +2,7 @@
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:em="http://e-monocot.org/portal/functions"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
 	<jsp:directive.attribute name="url" type="java.lang.String" required="true" />
 	<jsp:directive.attribute name="result" type="org.emonocot.model.pager.Page" required="true" />
@@ -23,7 +24,7 @@
 			<c:param name="sort">${sortItem}</c:param>
 			<c:param name="view">list</c:param>
 		</c:url>
-		<a title="${listTitle}" class="btn" href="${listUrl}">
+		<a title="${fn:escapeXml(listTitle)}" class="btn" href="${listUrl}">
 			<i class="icon-th-list">&amp;nbsp;</i>
 		</a>
 		&#160;
@@ -42,7 +43,7 @@
 			<c:param name="sort">${sortItem}</c:param>
 			<c:param name="view">simpleList</c:param>
 		</c:url>
-		<a title="${simpleListTitle}" class="btn" href="${simpleListUrl}">
+		<a title="${fn:escapeXml(simpleListTitle)}" class="btn" href="${simpleListUrl}">
 			<i class="icon-align-justify">&amp;nbsp;</i>
 		</a>
 		&#160;
@@ -61,7 +62,7 @@
 			<c:param name="sort">${sortItem}</c:param>
 			<c:param name="view">grid</c:param>
 		</c:url>
-		<a title="${gridTitle}" class="btn" href="${gridUrl}">
+		<a title="${fn:escapeXml(gridTitle)}" class="btn" href="${gridUrl}">
 			<i class="icon-th">&amp;nbsp;</i>
 		</a>
 		&#160;

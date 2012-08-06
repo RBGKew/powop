@@ -403,12 +403,6 @@ public class TestDataManager {
      *            Set the microReference
      * @param protologLink
      *            Set the protolog link
-     * @param image1
-     *            Set the image1
-     * @param image2
-     *            Set the image2
-     * @param image3
-     *            Set the image3
      * @param distribution1
      *            Set the distribution1
      * @param distribution2
@@ -423,10 +417,12 @@ public class TestDataManager {
      *            Set the parent taxon
      * @param accepted
      *            Set the accepted taxon
-     * @param reference1
-     *            Set the first reference
-     * @param reference2
-     *            Set the second reference
+     * @param image1
+     *            Set the image1
+     * @param image2
+     *            Set the image2
+     * @param image3
+     *            Set the image3
      */
     public final void createTaxon(final String identifier, final String name,
             final String authorship, final String family, final String genus,
@@ -437,8 +433,7 @@ public class TestDataManager {
             final String microReference, final String protologLink,
             final String distribution1, final String distribution2,
             final String distribution3, final String source,
-            final String created, final String parent, final String accepted,
-            final String reference1, final String reference2) {
+            final String created, final String parent, final String accepted) {
         enableAuthentication();
         Taxon taxon = new Taxon();
         data.push(taxon);
@@ -520,18 +515,6 @@ public class TestDataManager {
             a.setIdentifier(accepted);
             taxon.setAccepted(a);
         }
-
-        if (reference1 != null && reference1.length() > 0) {
-            Reference r = new Reference();
-            r.setIdentifier(reference1);
-            taxon.getReferences().add(r);
-        }
-
-        if (reference2 != null && reference2.length() > 0) {
-            Reference r = new Reference();
-            r.setIdentifier(reference2);
-            taxon.getReferences().add(r);
-        }
         taxonService.save(taxon);
 
         disableAuthentication();
@@ -579,11 +562,12 @@ public class TestDataManager {
      *            Set the citation
      * @param publisher
      *            Set the publisher
+     * @param taxa1 TODO
      */
     public final void createReference(final String identifier,
             final String title, final String authors,
             final String datePublished, final String volume, final String page,
-            final String citation, final String publisher) {
+            final String citation, final String publisher, String taxa1) {
         enableAuthentication();
         Reference r = new Reference();
         data.push(r);
@@ -595,6 +579,11 @@ public class TestDataManager {
         r.setVolume(volume);
         r.setPages(page);
         r.setCitation(citation);
+        if(taxa1 != null && taxa1.trim().length() > 0) {
+        	Taxon t = new Taxon();
+        	t.setIdentifier(taxa1);
+        	r.getTaxa().add(t);
+        }
         referenceService.save(r);
     }
 

@@ -69,6 +69,11 @@
         <function-signature>java.lang.String map(org.emonocot.model.taxon.Taxon)</function-signature>
     </function>
     <function>
+        <name>stripXml</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.String stripXml(java.lang.String)</function-signature>
+    </function>
+    <function>
         <name>sortItems</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>java.util.List sortItems()</function-signature>

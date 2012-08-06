@@ -80,10 +80,17 @@ public class Validator extends DarwinCoreValidator<Identifier> {
                 logger.info("Skipping " + identifier);
                 return null;
             } else {
-                Annotation annotation = createAnnotation(persistedIdentifier,
-                        RecordType.Identifier, AnnotationCode.Update,
-                        AnnotationType.Info);
-                persistedIdentifier.getAnnotations().add(annotation);
+            	for (Annotation annotation : persistedIdentifier.getAnnotations()) {
+                 	 if(logger.isInfoEnabled()) {
+                  	   logger.info("Comparing " + annotation.getJobId() + " with " + getStepExecution().getJobExecutionId());
+                 	 }
+                      if (getStepExecution().getJobExecutionId().equals(
+                      		annotation.getJobId())) {                         
+                          annotation.setType(AnnotationType.Info);
+                          annotation.setCode(AnnotationCode.Update);
+                          break;
+                      }
+               }
                 persistedIdentifier.setCreator(identifier.getCreator());
                 persistedIdentifier.setCreated(identifier.getCreated());
                 persistedIdentifier.setModified(identifier.getModified());

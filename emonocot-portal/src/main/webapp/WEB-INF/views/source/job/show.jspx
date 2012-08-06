@@ -4,6 +4,7 @@
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:form="urn:jsptagdir:/WEB-INF/tags/form"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:security="http://www.springframework.org/security/tags"
@@ -15,7 +16,7 @@
 	     <a href="${sourceUrl}">
 	        <c:choose>
 	          <c:when test="${not empty source.logoUrl}">
-	            <img id="source-logo" src="${source.logoUrl}" title="${source.title}"/>
+	            <img id="source-logo" src="${source.logoUrl}" title="${fn:escapeXml(source.title)}"/>
 	          </c:when>
 	          <c:otherwise>
 	            ${source.title}

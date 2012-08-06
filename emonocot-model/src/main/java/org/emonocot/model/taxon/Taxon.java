@@ -14,8 +14,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKey;
@@ -36,8 +36,6 @@ import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.hibernate.SpatialFilterFactory;
 import org.emonocot.model.identifier.Identifier;
 import org.emonocot.model.key.IdentificationKey;
-import org.emonocot.model.marshall.json.ImageDeserializer;
-import org.emonocot.model.marshall.json.ImageSerializer;
 import org.emonocot.model.marshall.json.ReferenceDeserializer;
 import org.emonocot.model.marshall.json.ReferenceSerializer;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
@@ -304,10 +302,8 @@ public class Taxon extends SearchableObject {
     /**
      * @return a list of references about the taxon
      */
-    @ManyToMany(fetch = FetchType.LAZY)
-    @Cascade({CascadeType.SAVE_UPDATE})
-    @JoinTable(name = "Taxon_Reference", joinColumns = {@JoinColumn(name = "Taxon_id")}, inverseJoinColumns = {@JoinColumn(name = "references_id")})
-    @JsonSerialize(contentUsing = ReferenceSerializer.class)
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "taxa")
+    @JsonIgnore
     public Set<Reference> getReferences() {
         return references;
     }
@@ -337,7 +333,7 @@ public class Taxon extends SearchableObject {
      * @param newReferences
      *            Set the references associated with this taxon
      */
-    @JsonDeserialize(contentUsing = ReferenceDeserializer.class)
+    @JsonIgnore
     public void setReferences(Set<Reference> newReferences) {
         this.references = newReferences;
     }

@@ -8,15 +8,20 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.BaseData;
 import org.emonocot.model.hibernate.DatePublishedBridge;
+import org.emonocot.model.marshall.json.TaxonDeserializer;
+import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.emonocot.model.taxon.Taxon;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -291,8 +296,10 @@ public class Reference extends BaseData {
      *
      * @return a set of taxa
      */
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "references")
-    @Cascade({ CascadeType.SAVE_UPDATE })
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "Taxon_Reference", joinColumns = {@JoinColumn(name = "references_id")}, inverseJoinColumns = {@JoinColumn(name = "Taxon_id")})
+    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE })
+    @JsonSerialize(contentUsing = TaxonSerializer.class)
     public Set<Taxon> getTaxa() {
         return taxa;
     }
@@ -302,6 +309,7 @@ public class Reference extends BaseData {
      * @param taxa
      *            Set the taxa associated with this reference
      */
+    @JsonDeserialize(contentUsing = TaxonDeserializer.class)
     public void setTaxa(Set<Taxon> taxa) {
         this.taxa = taxa;
     }

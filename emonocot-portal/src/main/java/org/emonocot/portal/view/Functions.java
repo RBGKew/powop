@@ -81,6 +81,15 @@ public final class Functions {
      */
     private Functions() {
     }
+    
+    /**
+    *
+    * @param string Set the string to strip xml from
+    * @return an stripped string
+    */
+   public static String stripXml(final String string) {
+       return string.replaceAll("\\<.*?>","");
+   }
 
     /**
      * @param status Set the status

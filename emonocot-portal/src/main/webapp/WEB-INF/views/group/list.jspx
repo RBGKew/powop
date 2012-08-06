@@ -3,6 +3,7 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:em="http://e-monocot.org/portal/functions"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:security="http://www.springframework.org/security/tags"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 	<div class="content">
@@ -26,7 +27,7 @@
 			<div class="span12" id="results">
 				<c:forEach var="item" items="${result.records}">					
 					  <c:url value="/group/${item.identifier}" var="groupUrl" />
-					  <a class="result pull-left" title="${item.name}" href="${groupUrl}">
+					  <a class="result pull-left" title="${fn:escapeXml(item.name)}" href="${groupUrl}">
 					    <h4 class="h4Results">${item.name}</h4>
 					  </a>
 				</c:forEach>

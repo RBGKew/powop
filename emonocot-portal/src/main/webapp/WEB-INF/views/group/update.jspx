@@ -3,6 +3,7 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:form="http://www.springframework.org/tags/form"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 
@@ -29,7 +30,7 @@
 			        <c:param name="user">${member.identifier}</c:param>
 			      </c:url>
 			      <spring:message code="remove.member" var="removeMember"/>
-		         <a href="${deleteMemberUrl}" class="btn btn-danger" title="${removeMember}">×</a>
+		         <a href="${deleteMemberUrl}" class="btn btn-danger" title="${fn:escapeXml(removeMember)}">×</a>
 		      </li>
 			  </c:forEach>
 			</ul>
@@ -85,7 +86,7 @@
 			        <c:param name="permission">${em:convert(ace.permission)}</c:param>
 			    </c:url>
 			    <spring:message code="remove.ace" var="removeAce"/>
-			    <a href="${removeAceUrl}" class='btn btn-danger' title="${removeAce}">×</a></li>
+			    <a href="${removeAceUrl}" class='btn btn-danger' title="${fn:escapeXml(removeAce)}">×</a></li>
 			  </c:forEach>
 			</ul>
 			<c:url value="/group/${group.identifier}" var="actionUrl">

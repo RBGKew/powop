@@ -21,13 +21,11 @@ import org.emonocot.model.taxon.Taxon;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
-import org.hibernate.search.annotations.ContainedIn;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Fields;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.IndexedEmbedded;
 
 /**
  *
@@ -172,7 +170,6 @@ public class Identifier extends BaseData {
      * @return the taxon this image is of
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @ContainedIn
     @JsonBackReference("identifier-taxon")
     public Taxon getTaxon() {
         return taxon;

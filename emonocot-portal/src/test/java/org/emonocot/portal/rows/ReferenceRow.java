@@ -46,4 +46,9 @@ public class ReferenceRow {
      *
      */
     public String publisher;
+    
+    /**
+     *
+     */
+    public String taxa1;
 }

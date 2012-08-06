@@ -105,6 +105,17 @@ public class Validator extends DarwinCoreValidator<Reference>
                     // Assume that this is the first of several times this
                     // reference appears in the result set, and we'll use this
                     // version to overwrite the existing reference
+                	for (Annotation annotation : persistedReference.getAnnotations()) {
+                      	 if(logger.isInfoEnabled()) {
+                       	   logger.info("Comparing " + annotation.getJobId() + " with " + getStepExecution().getJobExecutionId());
+                      	 }
+                           if (getStepExecution().getJobExecutionId().equals(
+                           		annotation.getJobId())) {                         
+                               annotation.setType(AnnotationType.Info);
+                               annotation.setCode(AnnotationCode.Update);
+                               break;
+                           }
+                    }
                     persistedReference.setNumber(reference.getNumber());
                     persistedReference.setAuthor(reference.getAuthor());
                     persistedReference.setCitation(reference.getCitation());
@@ -126,10 +137,6 @@ public class Validator extends DarwinCoreValidator<Reference>
                             t.getReferences().add(persistedReference);
                         }
                     }
-                    Annotation annotation = createAnnotation(persistedReference,
-                            RecordType.Reference, AnnotationCode.Update,
-                            AnnotationType.Info);
-                    persistedReference.getAnnotations().add(annotation);
                     bindReference(persistedReference);
                     logger.info("Overwriting reference " + persistedReference.getSource());
                     return persistedReference;

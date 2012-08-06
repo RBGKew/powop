@@ -86,8 +86,8 @@ insert into Taxon (id, identifier,name,genus,specificEpithet,rank,parent_id, fam
 insert into Distribution (id, region, taxon_id) values (1,'DOM',23);
 insert into TextContent (id, identifier, content, feature, taxon_id, authority_id) values (1,'description1','lorem ipsum', 'general', 76,10);
 insert into TextContent (id, identifier, content, feature, taxon_id, authority_id) values (2,'description2','lorem ipsum', 'diagnostic', 76,10);
-insert into Image (id, identifier, url, taxon_id, authority_id) values (1,'image1','http://build.e-monocot.org/images/rss.png', 76,10);
-insert into Image (id, identifier, url, taxon_id, authority_id) values (2,'image2','http://build.e-monocot.org/images/logos/maven-feather.png', 76,10);
+insert into Image (id, identifier, url, format, taxon_id, authority_id) values (1,'image1','http://build.e-monocot.org/images/rss.png','png', 76,10);
+insert into Image (id, identifier, url, format, taxon_id, authority_id) values (2,'image2','http://build.e-monocot.org/images/logos/maven-feather.png','png', 76,10);
 insert into Taxon_Image (Taxon_id, images_id) values (76,1);
 insert into Taxon_Image (Taxon_id, images_id) values (81,1);
 insert into Taxon_Image (Taxon_id, images_id) values (76,2);

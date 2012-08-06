@@ -2,6 +2,7 @@
 <div class="container" xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:em="http://e-monocot.org/portal/functions"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 
 <div class="content">
@@ -26,7 +27,7 @@
 			</h5>	
 			<br/>
 			<div class="centeredImage">
-				<img id="main-img" class=" imageSize" src="${image.url}" title="${image.caption}" alt="${status.index}" />
+				<img id="main-img" class=" imageSize" src="${image.url}" title="${fn:escapeXml(image.caption)}" alt="${status.index}" />
 			</div>
 			<br/>
 			<table class="table" id="image-properties">
@@ -62,10 +63,10 @@
 									</c:url>
 									<c:choose>
 										<c:when test="${status.last}">
-											<a href="${keywordUrl}" title="${keyword}"><span class="label">${keyword}</span></a>
+											<a href="${keywordUrl}" title="${fn:escapeXml(keyword)}"><span class="label">${keyword}</span></a>
 										</c:when>
 										<c:otherwise>
-											<a href="${keywordUrl}" title="${keyword}"><span class="label">${keyword}</span></a>,&#160;
+											<a href="${keywordUrl}" title="${fn:escapeXml(keyword)}"><span class="label">${keyword}</span></a>,&#160;
 										</c:otherwise>
 									</c:choose>
 								</c:forEach>
