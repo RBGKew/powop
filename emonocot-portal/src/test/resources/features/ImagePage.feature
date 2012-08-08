@@ -18,7 +18,7 @@ Background:
 Scenario: Check ImagePage
   The image page should display the image with the caption of the image displayed
   prominently as the title of the page. Metadata about the image should be displayed below
-  the image including the license of the image if available
+  the image including the licence of the image if available
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=174
   When I navigate to image page "123"  
   Then the main image should be "http://upload.wikimedia.org/wikipedia/commons/7/7b/Poa_annua.jpeg"
@@ -26,7 +26,7 @@ Scenario: Check ImagePage
   And the main image Description should be "Habit"
   And the main image Artist should be "Rasbak"
   And the main image Locality should be "Nederlands"
-  And the main image License should be "This file is licensed under the Creative Commons Attribution-Share Alike 3.0 Unported license."
+  And the main image Licence should be "This file is licensed under the Creative Commons Attribution-Share Alike 3.0 Unported license."
 
 Scenario: Click on Image Keywords
   Users should be able to click on the keywords displayed below the image and search for 
