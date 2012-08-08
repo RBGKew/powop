@@ -30,7 +30,7 @@
 					});
 				</script>
 				<c:url var="spatialSearchUrl" value="/spatial"/>
-				<form id="search.form" class="form-horizontal pull-right form-search" accept-charset="UTF-8" method="GET" action="${spatialSearchUrl}">
+				<form id="search-form" class="form-horizontal pull-right form-search" accept-charset="UTF-8" method="GET" action="${spatialSearchUrl}">
 					<input type="hidden" name="limit" value="${result.pageSize}" />
 					<input type="hidden" name="start" value="0" />
 					<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
@@ -42,13 +42,13 @@
 					  <button class="btn btn-primary"><span class="icon-search icon-white"><!--  --></span></button>
 					</div>
 					<div class="control-group">
-					  <label><spring:message code="from" />:</label>
+					  <label class="control-label"><spring:message code="from" />:</label>
 					  <div class="controls">
 					    <input type="text" id="x1" name="x1" class="span1" value="${result.params['x1']}"/><span class="help-inline">&#176; W</span>&#160;<input type="text" id="y1" name="y1" class="span1" value="${result.params['y1']}"/> <span class="help-inline">&#176; N</span>
 					  </div>
 					</div>
 					<div class="control-group">
-					  <label><spring:message code="to" />:</label>
+					  <label class="control-label"><spring:message code="to" />:</label>
 					  <div class="controls">
 					    <input type="text" id="x2" name="x2" class="span1" value="${result.params['x2']}"/><span class="help-inline">&#176; W</span>&#160; <input type="text" id="y2" name="y2" class="span1" value="${result.params['y2']}"/> <span class="help-inline">&#176; N</span>
 					  </div>
@@ -66,10 +66,7 @@
 		</div>
 	</div>
     </div>
-	<geo:map x1="${result.params['x1']}" y1="${result.params['y1']}" x2="${result.params['x2']}" y2="${result.params['y2']}" mapClass="full-width-map">
-	  <geo:updateMapBounds/>
-	  <geo:zoombox/>
-	</geo:map>
+	<geo:map x1="${result.params['x1']}" y1="${result.params['y1']}" x2="${result.params['x2']}" y2="${result.params['y2']}" mapClass="full-width-map" zoomBoxSearch="true"/>
 	<div class="container">
 	<div class="content">
 		<div class="row">

@@ -182,7 +182,7 @@ public class SearchController {
      * @return the default limit
      */
     private Integer setLimit(final String view, final String className) {
-        if (view == null) {
+        if (view == null || view == "") {
             if (className == null) {
                 return 10;
             } else if (className.equals("org.emonocot.model.media.Image")) {
@@ -333,10 +333,12 @@ public class SearchController {
       responseFacetList.add(FacetName.CLASS);
       responseFacetList.add(FacetName.FAMILY);
       responseFacetList.add(FacetName.AUTHORITY);
+      String className = null;
       if (selectedFacets == null) {
           logger.debug("No selected facets, setting default response facets");
       } else {
           if (selectedFacets.containsKey(FacetName.CLASS)) {
+        	  className = selectedFacets.get(FacetName.CLASS);
               if (selectedFacets.get(FacetName.CLASS).equals(
                       "org.emonocot.model.taxon.Taxon")) {
                   logger.debug("Adding taxon specific facets");
@@ -351,7 +353,7 @@ public class SearchController {
       }
       FacetName[] responseFacets = new FacetName[]{};
       responseFacets = responseFacetList.toArray(responseFacets);
-      limit = setLimit(view, null);
+      limit = setLimit(view, className);
 
       //Run the search
       Page<? extends SearchableObject> result = runQuery(query, start, limit, spatial, responseFacets, sort, selectedFacets);

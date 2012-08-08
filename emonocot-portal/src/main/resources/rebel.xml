@@ -2,15 +2,15 @@
 <application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.zeroturnaround.com" xsi:schemaLocation="http://www.zeroturnaround.com http://www.zeroturnaround.com/alderaan/rebel-2_0.xsd">
 
 	<classpath>
-		<dir name="C:/Users/zool0748/Documents/workspace-sts-2.6.0.RELEASE/emonocot/emonocot-portal/target/classes">
+		<dir name="C:/Users/zool0748/Documents/workspace/emonocot/emonocot-portal/target/classes">
 		</dir>
-		<dir name="C:/Users/zool0748/Documents/workspace-sts-2.6.0.RELEASE/emonocot/emonocot-portal/target/test-classes">
+		<dir name="C:/Users/zool0748/Documents/workspace/emonocot/emonocot-portal/target/test-classes">
 		</dir>
 	</classpath>
 
 	<web>
 		<link target="/">
-			<dir name="C:/Users/zool0748/Documents/workspace-sts-2.6.0.RELEASE/emonocot/emonocot-portal/src/main/webapp">
+			<dir name="C:/Users/zool0748/Documents/workspace/emonocot/emonocot-portal/src/main/webapp">
 			</dir>
 		</link>
 	</web>
