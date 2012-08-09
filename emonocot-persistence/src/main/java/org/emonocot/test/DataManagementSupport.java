@@ -15,6 +15,7 @@ import org.emonocot.model.description.Distribution;
 import org.emonocot.model.description.Feature;
 import org.emonocot.model.description.TextContent;
 import org.emonocot.model.geography.GeographicalRegion;
+import org.emonocot.model.geography.Place;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.model.source.Source;
@@ -72,6 +73,21 @@ public abstract class DataManagementSupport {
      */
     public final void setTearDown(Stack<Object> tearDown) {
         this.tearDown = tearDown;
+    }
+    
+    /**
+     *
+     * @param identifier Set the identifier of the place
+     * @param name Set the name of the place
+     * @return a new place
+     */
+    public final Place createPlace(String identifier, String name) {
+    	Place place = new Place();
+    	place.setIdentifier(identifier);
+    	place.setName(name);
+    	setUp.add(place);
+        tearDown.push(place);
+    	return place;
     }
 
     /**

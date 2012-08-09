@@ -118,5 +118,21 @@ public class SearchControllerTest {
 		assertEquals("View should equal 'search'","search",view);
 		assertEquals("The view attribute should be 'grid'", searchablePage.getParams().get("view"),"grid");
 	}
+	
+	/**
+	 * BUG #333 eMonocot map search not displaying results 11-20
+	 */
+	@Test
+	public void testPagination() {
+        EasyMock.expect(searchableObjectService.search(EasyMock.eq(""), (String)EasyMock.isNull(), EasyMock.eq(10), EasyMock.eq(1), EasyMock.aryEq(facetNames),  (Map)EasyMock.isNull(), (Sorting)EasyMock.isNull(), EasyMock.eq("taxon-with-image"))).andReturn(searchablePage);
+		
+		EasyMock.replay(searchableObjectService,imageService);
+		
+		String view = searchController.search("", 10, 1, facets, null, "", model);
+		
+		EasyMock.verify(searchableObjectService,imageService);
+		assertEquals("View should equal 'search'","search",view);
+		assertEquals("The view attribute should be ''", searchablePage.getParams().get("view"),"");
+	}
 
 }

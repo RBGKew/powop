@@ -1,13 +1,6 @@
 package org.emonocot.model.geography;
 
-import java.util.Set;
-
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Fieldable;
 import org.apache.lucene.spatial.base.shape.Shape;
-import org.apache.lucene.spatial.strategy.SimpleSpatialFieldInfo;
-import org.apache.lucene.spatial.strategy.SpatialFieldInfo;
-import org.apache.lucene.spatial.strategy.SpatialStrategy;
 
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.ParseException;
@@ -70,11 +63,6 @@ public enum Continent implements GeographicalRegion<Continent> {
      * The geographic region as a Shape.
      */
    private Shape shape;
-   
-   /**
-    *
-    */
-   private Fieldable[] fields;
 
    /**
     *
@@ -172,22 +160,5 @@ public enum Continent implements GeographicalRegion<Continent> {
      */
     public final void setShape(final Shape newShape) {
         this.shape = newShape;
-        this.fields = null;
-    }
-
-	@Override
-	public void addFields(Document document, SpatialStrategy spatialStrategy) {
-		if (shape != null) {
-			if (fields == null) {
-				SpatialFieldInfo fieldInfo = new SimpleSpatialFieldInfo("area");
-				fields = spatialStrategy.createFields(fieldInfo, shape, true, true);
-			}
-
-			for (Fieldable f : fields) {
-				if (f != null) {
-					document.add(f);
-				}
-			}
-		}
-	}
+    }	
 }

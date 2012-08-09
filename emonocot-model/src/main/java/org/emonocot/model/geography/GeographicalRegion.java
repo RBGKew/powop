@@ -44,12 +44,6 @@ public interface GeographicalRegion<T extends GeographicalRegion> {
      * @return the representation of this region as a shape
      */
     Shape getShape();
-    
-   /**
-    *
-    * @param document Set the document
-    */
-   void addFields(Document document, SpatialStrategy spatialStrategy);
 
     /**
      *

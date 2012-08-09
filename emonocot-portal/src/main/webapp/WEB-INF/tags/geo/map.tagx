@@ -140,7 +140,7 @@
 	  });
 	  var base_layer = new OpenLayers.Layer.TMS("MapBox Layer",
 		 [ "http://build.e-monocot.org/tiles/" ],
-		 { 'layername': 'eMonocot', 'type': 'png',isBaseLayer : true }
+		 { 'layername': 'eMonocot', 'type': 'png',isBaseLayer : true, wrapDateLine: true }
 	  );
 
 	  map.addLayers([ base_layer ]);

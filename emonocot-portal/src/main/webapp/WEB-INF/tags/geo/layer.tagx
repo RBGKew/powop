@@ -19,7 +19,8 @@
 		      },															
 		      {
 			     isBaseLayer : false,
-			     displayInLayerSwitcher : false
+			     displayInLayerSwitcher : false,
+			     wrapDateLine: true
 		       }
 	         );
 																		

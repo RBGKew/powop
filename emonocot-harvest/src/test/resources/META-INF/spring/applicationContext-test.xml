@@ -98,7 +98,7 @@
 	</bean>	
 	
 	<bean id="distributionBridge" class="org.emonocot.model.hibernate.DistributionBridge">
-	  <property name="skipInit" value="true"/>
+	  <property name="skipInit" value="false"/>
 	</bean>
 	
 	<bean id="bufferedReaderFactory" class="org.emonocot.harvest.common.BOMIgnoringBufferedReaderFactory"/>

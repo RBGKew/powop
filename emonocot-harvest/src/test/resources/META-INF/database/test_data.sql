@@ -84,6 +84,8 @@ insert into Taxon (id, identifier,name,genus,specificEpithet,rank,parent_id, fam
 insert into Taxon (id, identifier,name,genus,specificEpithet,rank,parent_id, family, authority_id) values (79, 'urn:kew.org:wcs:taxon:16371','Arum rupicola','Arum','rupicola','SPECIES',81,'Araceae',10);
 insert into Taxon (id, identifier,name,genus,specificEpithet,rank,parent_id, family, authority_id) values (80, 'urn:kew.org:wcs:taxon:16386','Arum sintenisii','Arum','sintenisii','SPECIES',81,'Araceae',10);
 insert into Distribution (id, region, taxon_id) values (1,'DOM',23);
+insert into Distribution (id, region, taxon_id) values (2,'NOR',23);
+insert into Distribution (id, region, taxon_id) values (3,'SVA',23);
 insert into TextContent (id, identifier, content, feature, taxon_id, authority_id) values (1,'description1','lorem ipsum', 'general', 76,10);
 insert into TextContent (id, identifier, content, feature, taxon_id, authority_id) values (2,'description2','lorem ipsum', 'diagnostic', 76,10);
 insert into Image (id, identifier, url, format, taxon_id, authority_id) values (1,'image1','http://build.e-monocot.org/images/rss.png','png', 76,10);

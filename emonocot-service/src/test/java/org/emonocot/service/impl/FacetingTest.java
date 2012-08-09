@@ -14,6 +14,7 @@ import java.util.Map;
 import org.emonocot.api.AnnotationService;
 import org.emonocot.api.FacetName;
 import org.emonocot.api.ImageService;
+import org.emonocot.api.PlaceService;
 import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.Sorting;
 import org.emonocot.api.SourceService;
@@ -22,6 +23,7 @@ import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.SearchableObject;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.GeographicalRegion;
+import org.emonocot.model.geography.Place;
 import org.emonocot.model.geography.Region;
 import org.emonocot.model.media.Image;
 import org.emonocot.model.pager.Page;
@@ -71,6 +73,12 @@ public class FacetingTest extends DataManagementSupport {
     */
    @Autowired
    private SourceService sourceService;
+   
+   /**
+    *
+    */
+   @Autowired
+   private PlaceService placeService;
 
     /**
      *
@@ -94,6 +102,8 @@ public class FacetingTest extends DataManagementSupport {
                 annotationService.saveOrUpdate((Annotation) obj);
             } else if (obj.getClass().equals(Source.class)) {
                 sourceService.saveOrUpdate((Source) obj);
+            } else if (obj.getClass().equals(Place.class)) {
+                placeService.saveOrUpdate((Place) obj);
             }
         }
     }
@@ -114,6 +124,8 @@ public class FacetingTest extends DataManagementSupport {
                 annotationService.delete(((Annotation) obj).getIdentifier());
             } else if (obj.getClass().equals(Source.class)) {
                 sourceService.delete(((Source) obj).getIdentifier());
+            } else if (obj.getClass().equals(Place.class)) {
+                placeService.delete(((Place) obj).getIdentifier());
             }
         }
     }
@@ -143,6 +155,8 @@ public class FacetingTest extends DataManagementSupport {
                 source1, new GeographicalRegion[] {}, new Source[] {source1});
         Image img1 = createImage("Aus", "1", source2,taxon2, new Source[] {source2,source1});
         Image img2 = createImage("Aus bus", "2", source2,taxon2, new Source[] {source2,source1});
+        
+        Place place1 = createPlace("gb", "Great Britain");
 
     }
 
@@ -290,26 +304,26 @@ public class FacetingTest extends DataManagementSupport {
                 null, null, null, 
                 new FacetName[] {FacetName.CLASS, FacetName.FAMILY, FacetName.CONTINENT,FacetName.AUTHORITY },
                 null, null, null);
-    	System.out.println("No Query");
-		for (String facetName : results.getFacetNames()) {
-			System.out.println(facetName);
-			for (Facet facet : results.getFacets().get(facetName)) {
-				System.out.println("\t" +facet.getValue() + " " + facet.getCount());
-			}
-		}
+//    	System.out.println("No Query");
+//		for (String facetName : results.getFacetNames()) {
+//			System.out.println(facetName);
+//			for (Facet facet : results.getFacets().get(facetName)) {
+//				System.out.println("\t" +facet.getValue() + " " + facet.getCount());
+//			}
+//		}
 		selectedFacets.clear();
 		selectedFacets.put(FacetName.FAMILY, "Ausaceae");
     	 results = searchableObjectService.search(null,
                 null, null, null, 
                 new FacetName[] {FacetName.CLASS, FacetName.FAMILY, FacetName.CONTINENT,FacetName.AUTHORITY },
                 selectedFacets, null, null);
-    	System.out.println("Searchable {FAMILY:Ausaceae}");
-		for (String facetName : results.getFacetNames()) {
-			System.out.println(facetName);
-			for (Facet facet : results.getFacets().get(facetName)) {
-				System.out.println("\t" +facet.getValue() + " " + facet.getCount());
-			}
-		}
+//    	System.out.println("Searchable {FAMILY:Ausaceae}");
+//		for (String facetName : results.getFacetNames()) {
+//			System.out.println(facetName);
+//			for (Facet facet : results.getFacets().get(facetName)) {
+//				System.out.println("\t" +facet.getValue() + " " + facet.getCount());
+//			}
+//		}
 		selectedFacets.clear();
 		selectedFacets.put(FacetName.FAMILY, "Ausaceae");
 		selectedFacets.put(FacetName.CLASS, "org.emonocot.model.taxon.Taxon");
@@ -320,13 +334,13 @@ public class FacetingTest extends DataManagementSupport {
                 null, null, null, 
                 new FacetName[] {FacetName.CLASS,FacetName.FAMILY, FacetName.CONTINENT,FacetName.AUTHORITY},
                 selectedFacets, null, null);
-    	System.out.println("Searchable {FAMILY:Ausaceae,CLASS:org.emonocot.model.taxon.Taxon, AUTHORITY:source2}");
-		for (String facetName : results.getFacetNames()) {
-			System.out.println(facetName);
-			for (Facet facet : results.getFacets().get(facetName)) {
-				System.out.println("\t" + facet.getValue() + " " + facet.getCount());
-			}
-		}
+//    	System.out.println("Searchable {FAMILY:Ausaceae,CLASS:org.emonocot.model.taxon.Taxon, AUTHORITY:source2}");
+//		for (String facetName : results.getFacetNames()) {
+//			System.out.println(facetName);
+//			for (Facet facet : results.getFacets().get(facetName)) {
+//				System.out.println("\t" + facet.getValue() + " " + facet.getCount());
+//			}
+//		}
 		selectedFacets.clear();
 		selectedFacets.put(FacetName.AUTHORITY, "source2");
 
@@ -335,12 +349,21 @@ public class FacetingTest extends DataManagementSupport {
                 null, null, null, 
                 new FacetName[] {FacetName.CLASS,FacetName.FAMILY, FacetName.CONTINENT,FacetName.AUTHORITY},
                 selectedFacets, null, null);
-    	System.out.println("Searchable {AUTHORITY:source2}");
-		for (String facetName : results.getFacetNames()) {
-			System.out.println(facetName);
-			for (Facet facet : results.getFacets().get(facetName)) {
-				System.out.println("\t" + facet.getValue() + " " + facet.getCount());
-			}
-		}
+//    	System.out.println("Searchable {AUTHORITY:source2}");
+//		for (String facetName : results.getFacetNames()) {
+//			System.out.println(facetName);
+//			for (Facet facet : results.getFacets().get(facetName)) {
+//				System.out.println("\t" + facet.getValue() + " " + facet.getCount());
+//			}
+//		}
+    }
+    
+    /**
+     * BUG # 334  As a user of eMonocot I want to be able to perform a faceted search by place
+     */
+    @Test
+    public final void testFacetOnPlace() {
+    	Page<Place> places = placeService.search(null, null, 10, 0, new FacetName[] {}, null, null, null);
+    	assertEquals("There should be one place in the result list",(Integer)places.getSize(),(Integer)1);
     }
 }

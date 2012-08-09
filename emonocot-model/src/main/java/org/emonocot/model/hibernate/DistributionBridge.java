@@ -19,6 +19,8 @@ import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.Region;
 import org.hibernate.search.bridge.FieldBridge;
 import org.hibernate.search.bridge.LuceneOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.googlecode.lucene.spatial.base.context.JtsSpatialContext;
 
@@ -28,6 +30,8 @@ import com.googlecode.lucene.spatial.base.context.JtsSpatialContext;
  *
  */
 public class DistributionBridge implements FieldBridge {
+	
+	Logger logger = LoggerFactory.getLogger(DistributionBridge.class);
 
     /**
      *
@@ -71,7 +75,9 @@ public class DistributionBridge implements FieldBridge {
      * @throws IOException
      */
 	public final void setupRegions() throws IOException {
+		logger.debug("setupRegions");
 		if (!skipInit) {
+			logger.debug("Initializing regions");
 			InputStream level1Stream = DistributionBridge.class
 					.getClassLoader().getResourceAsStream(
 							"org/emonocot/model/level1.txt");
@@ -79,7 +85,7 @@ public class DistributionBridge implements FieldBridge {
 					level1Stream);
 			while (level1DataReader.hasNext()) {
 				SimplifiedData data = level1DataReader.next();
-				Continent continent = Continent.fromString(data.getId());
+				Continent continent = Continent.fromString(data.getId());				
 				continent.setShape(data.getShape());
 			}
 			level1Stream.close();
@@ -91,7 +97,7 @@ public class DistributionBridge implements FieldBridge {
 					level2Stream);
 			while (level2DataReader.hasNext()) {
 				SimplifiedData data = level2DataReader.next();
-				Region region = Region.fromString(data.getId());
+				Region region = Region.fromString(data.getId());				
 				region.setShape(data.getShape());
 			}
 			level2Stream.close();
@@ -130,7 +136,18 @@ public class DistributionBridge implements FieldBridge {
         GeographicalRegion geographicalRegion = distribution.getRegion();
 
         if (geographicalRegion != null) {  // WARN this should not be null!
-        	geographicalRegion.addFields(document, spatialStrategy);
+        	
+			SpatialFieldInfo fieldInfo = new SimpleSpatialFieldInfo("area");
+			if (geographicalRegion.getShape() != null) {
+
+				for (Fieldable f : spatialStrategy.createFields(fieldInfo,
+						geographicalRegion.getShape(), true, true)) {
+					if (f != null) {
+						// null if incompatibleGeometry && ignore
+						document.add(f);
+					}
+				}
+			}
 
             if (geographicalRegion.getClass() == Country.class) {
                 Country country = (Country) geographicalRegion;
