@@ -8,6 +8,8 @@ import org.emonocot.api.TaxonService;
 import org.emonocot.job.dwc.DarwinCoreFieldSetMapper;
 import org.emonocot.job.dwc.taxon.CannotFindRecordException;
 import org.emonocot.model.media.Image;
+import org.emonocot.model.media.ImageFormat;
+import org.emonocot.model.media.ImageFormatConverter;
 import org.emonocot.model.taxon.Taxon;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
@@ -47,11 +49,16 @@ public class FieldSetMapper extends
     */
    private Map<String, Taxon> boundTaxa = new HashMap<String, Taxon>();
 
-    /**
+   /**
     *
     */
    private Parser<DateTime> dateTimeParser
        = new DateTimeParser(ISODateTimeFormat.dateOptionalTimeParser());
+   
+   /**
+    *
+    */
+   private ImageFormatConverter imageFormatConverter = new ImageFormatConverter();
 
    /**
     *
@@ -105,11 +112,18 @@ public class FieldSetMapper extends
             case identifier:
                 object.setUrl(value);
                 if(value != null && value.indexOf(".") > -1) {
-                    object.setFormat(value.substring(value.lastIndexOf(".") + 1));
+                	ImageFormat format = ImageFormat.valueOf(value.substring(value.lastIndexOf(".") + 1));
+                    object.setFormat(format);
                 }
                 break;
             case format:
-                object.setFormat(value);
+            	try {
+                    object.setFormat(imageFormatConverter.convert(value));
+                } catch (IllegalArgumentException iae) {
+                    BindException be = new BindException(object, "target");
+                    be.rejectValue("modified", "not.valid", iae.getMessage());
+                    throw be;
+                }
                 break;
             case license:
                 object.setLicense(value);

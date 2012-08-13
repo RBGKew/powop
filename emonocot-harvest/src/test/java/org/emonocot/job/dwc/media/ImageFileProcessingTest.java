@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.emonocot.harvest.media.ImageFileProcessor;
 import org.emonocot.harvest.media.ImageMetadataExtractor;
 import org.emonocot.model.media.Image;
+import org.emonocot.model.media.ImageFormat;
 import org.emonocot.ws.GetResourceClient;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,7 +46,7 @@ public class ImageFileProcessingTest {
     public final void setUp() throws Exception {
         image.setUrl("http://build.e-monocot.org/test/test.jpg");
         image.setIdentifier(UUID.randomUUID().toString());
-        image.setFormat("jpg");
+        image.setFormat(ImageFormat.jpg);
         GetResourceClient getResourceClient = new GetResourceClient();
         imageFileProcessor.setGetResourceClient(getResourceClient);
         String imagesDirectoryName = System.getProperty("java.io.tmpdir")

@@ -100,47 +100,7 @@ public class TaxonRelationshipResolverImpl extends AuthorityAware
                         logger.info("Found taxon with identifier " + identifier
                                 + " from service returning taxon with id "
                                 + taxon.getId());
-                        taxaWithinChunk.put(taxon.getIdentifier(), taxon);
-                        /*if (taxon.getParent() != null
-                                && !taxaWithinChunk.containsKey(taxon
-                                        .getParent().getIdentifier())) {
-                            logger.info("Binding " + taxon.getParent()
-                                    + " with id " + taxon.getParent().getId()
-                                    + " and identifier "
-                                    + taxon.getParent().getIdentifier());
-                            taxaWithinChunk.put(taxon.getParent()
-                                    .getIdentifier(), taxon.getParent());
-                        }
-                        if (taxon.getAccepted() != null
-                                && !taxaWithinChunk.containsKey(taxon
-                                        .getAccepted().getIdentifier())) {
-                            logger.info("Binding " + taxon.getAccepted()
-                                    + " with id " + taxon.getAccepted().getId()
-                                    + " and identifier "
-                                    + taxon.getAccepted().getIdentifier());
-                            taxaWithinChunk.put(taxon.getAccepted()
-                                    .getIdentifier(), taxon.getAccepted());
-                        }
-                        for (Taxon child : taxon.getChildren()) {
-                            if (!taxaWithinChunk.containsKey(child
-                                    .getIdentifier())) {
-                                logger.info("Binding " + child + " with id "
-                                        + child.getId() + " and identifier "
-                                        + child.getIdentifier());
-                                taxaWithinChunk.put(child.getIdentifier(),
-                                        child);
-                            }
-                        }
-                        for (Taxon synonym : taxon.getSynonyms()) {
-                            if (!taxaWithinChunk.containsKey(synonym
-                                    .getIdentifier())) {
-                                logger.info("Binding " + synonym + " with id "
-                                        + synonym.getId() + " and identifier "
-                                        + synonym.getIdentifier());
-                                taxaWithinChunk.put(synonym.getIdentifier(),
-                                        synonym);
-                            }
-                        }*/
+                        taxaWithinChunk.put(taxon.getIdentifier(), taxon);                        
                     }
                     return taxon;
                 }

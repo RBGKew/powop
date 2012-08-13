@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -80,7 +82,7 @@ public class Image extends SearchableObject {
     /**
      *
      */
-    private String format;
+    private ImageFormat format;
 
     /**
      *
@@ -151,7 +153,8 @@ public class Image extends SearchableObject {
     *
     * @return the format of the image
     */
-   public String getFormat() {
+   @Enumerated(EnumType.STRING)
+   public ImageFormat getFormat() {
        return format;
    }
 
@@ -159,7 +162,7 @@ public class Image extends SearchableObject {
     *
     * @param format Set the format of the image
     */
-   public void setFormat(String format) {
+   public void setFormat(ImageFormat format) {
        this.format = format;
    }
 

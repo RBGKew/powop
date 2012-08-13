@@ -11,6 +11,7 @@ import org.emonocot.model.common.AnnotationCode;
 import org.emonocot.model.common.AnnotationType;
 import org.emonocot.model.common.RecordType;
 import org.emonocot.model.media.Image;
+import org.emonocot.model.media.ImageFormat;
 import org.emonocot.model.source.Source;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,7 +105,7 @@ public class MediaObjectProcessor extends AuthorityAware implements
                 Image image = new Image();
                 int dotIndex = item.getSource().getHref().lastIndexOf(".");
                 String format = item.getSource().getHref().substring(dotIndex + 1);
-                image.setFormat(format);
+                image.setFormat(ImageFormat.valueOf(format));
                 image.setIdentifier(UUID.randomUUID().toString());
                 item.setDebuglabel(image.getIdentifier() + "." + format);
                 image.setUrl(item.getSource().getHref());

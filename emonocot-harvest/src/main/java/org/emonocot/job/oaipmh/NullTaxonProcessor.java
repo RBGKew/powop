@@ -1,12 +1,8 @@
 package org.emonocot.job.oaipmh;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.emonocot.api.TaxonService;
 import org.emonocot.harvest.common.AuthorityAware;
 import org.emonocot.harvest.common.TaxonRelationshipResolver;
-import org.emonocot.harvest.common.TaxonRelationship;
 import org.emonocot.job.io.StaxEventItemReader;
 import org.emonocot.model.common.Annotation;
 import org.emonocot.model.common.AnnotationCode;
@@ -27,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.oxm.Unmarshaller;
 import org.tdwg.voc.TaxonConcept;
-import org.tdwg.voc.TaxonRelationshipTerm;
 
 /**
  *
@@ -153,48 +148,7 @@ public class NullTaxonProcessor extends AuthorityAware implements ItemProcessor<
                     if (record.getMetadata() != null) {
                         TaxonConcept taxonConcept = record.getMetadata()
                                 .getTaxonConcept();
-                        if (taxonConcept != null) {
-                            /*Set<TaxonRelationship> inverseRelationships
-                                = new HashSet<TaxonRelationship>();
-                            if (taxon.getParent() != null) {
-                                TaxonRelationship parentRelationship
-                                    = new TaxonRelationship(
-                                        taxon.getParent(),
-                                        TaxonRelationshipTerm.IS_PARENT_TAXON_OF);
-                                parentRelationship.setToIdentifier(taxon
-                                        .getParent().getIdentifier());
-                                inverseRelationships.add(parentRelationship);
-                            }
-                            if (taxon.getAccepted() != null) {
-                                TaxonRelationship acceptedRelationship
-                                    = new TaxonRelationship(
-                                        taxon.getAccepted(),
-                                        TaxonRelationshipTerm.HAS_SYNONYM);
-                                acceptedRelationship.setToIdentifier(taxon
-                                        .getAccepted().getIdentifier());
-                                inverseRelationships.add(acceptedRelationship);
-                            }
-                            for (Taxon child : taxon.getChildren()) {
-                                TaxonRelationship childRelationship
-                                    = new TaxonRelationship(
-                                        child,
-                                        TaxonRelationshipTerm.IS_CHILD_TAXON_OF);
-                                childRelationship.setToIdentifier(child
-                                        .getIdentifier());
-                                inverseRelationships.add(childRelationship);
-                            }
-                            for (Taxon synonym : taxon.getSynonyms()) {
-                                TaxonRelationship synonymRelationship
-                                    = new TaxonRelationship(
-                                        synonym,
-                                        TaxonRelationshipTerm.IS_SYNONYM_FOR);
-                                synonymRelationship.setToIdentifier(synonym
-                                        .getIdentifier());
-                                inverseRelationships.add(synonymRelationship);
-                            }
-                            taxonRelationshipResolver.getInverseRelationships()
-                                    .put(taxon.getIdentifier(),
-                                            inverseRelationships);*/
+                        if (taxonConcept != null) {                            
                             oaiPmhRecordProcessor.processTaxon(taxon,
                                     taxonConcept);
                             return taxon;
@@ -238,7 +192,7 @@ public class NullTaxonProcessor extends AuthorityAware implements ItemProcessor<
     /**
     *
     */
-    public final void beforeChunk() {
+    public final void beforeChunk() {    	
         oaiPmhRecordProcessor.beforeChunk();
     }
 

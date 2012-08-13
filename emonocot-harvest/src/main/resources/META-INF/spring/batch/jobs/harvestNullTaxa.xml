@@ -19,12 +19,12 @@
 	    <batch:step id="checkNullRecords">
 	        <batch:description>Get the NULL records which haven't been harvested within this job</batch:description>
 	        <batch:tasklet>
-	          <batch:chunk reader="itemReader" processor="itemProcessor"
-					writer="itemWriter" commit-interval="10"/>
+	          <batch:chunk reader="itemReader" processor="itemProcessor" writer="itemWriter" commit-interval="10"/>
 	        </batch:tasklet>
 	        <batch:next on="COMPLETED" to="cleanupResources"/>
 	        <batch:listeners>
 	          <batch:listener ref="itemProcessor"/>
+	          <batch:listener ref="taxonRelationshipResolver" />
 	          <batch:listener ref="hibernateSessionClearingChunkListener"/>
 	        </batch:listeners>
 	    </batch:step>
