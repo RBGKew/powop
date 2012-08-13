@@ -945,8 +945,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.7</source>
+					<target>1.7</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -1355,6 +1355,7 @@
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<portal.job.notification.uri>http://localhost/emonocot-portal/job-notifications</portal.job.notification.uri>
+				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
 				<amq.broker.name>messageBroker</amq.broker.name>
 				<amq.connectionFactory.jndi_name>jms/ConnectionFactory</amq.connectionFactory.jndi_name>
@@ -1502,6 +1503,7 @@
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<portal.job.notification.uri>http://localhost/emonocot-portal/job-notifications</portal.job.notification.uri>
+				<portal.baseUrl>http://portal.e-monocot.org:8080</portal.baseUrl>
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
 				<amq.broker.name>messageBroker</amq.broker.name>
 				<amq.connectionFactory.jndi_name>jms/ConnectionFactory</amq.connectionFactory.jndi_name>

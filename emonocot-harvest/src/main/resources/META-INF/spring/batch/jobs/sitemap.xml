@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder ignore-unresolvable="true" location="classpath*:META-INF/spring/*.properties"/>
+    <context:annotation-config />
+
+    <batch:job id="sitemapGeneration">
+        <batch:step id="writeTaxa">
+            <batch:tasklet>
+                <batch:chunk reader="hibernateCursorReader" processor="urlMapper" writer="staxWriter" commit-interval="100"/>
+            </batch:tasklet>
+        </batch:step>
+    </batch:job>
+
+    <bean id="hibernateCursorReader" class="org.springframework.batch.item.database.HibernateCursorItemReader">
+        <property name="useStatelessSession" value="true" />
+        <property name="queryString" value="from Taxon" />
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    
+    <bean id="staxWriter" class="org.springframework.batch.item.xml.StaxEventItemWriter">
+        <property name="resource" value="file:target/test-outputs/20120806.testStream.xmlFileStep.output.xml" />
+        <property name="marshaller" ref="urlMarshaller" />
+        <property name="rootTagName" value="urlset" />
+        <property name="rootElementAttributes">
+            <map>
+                <entry key="xmlns" value="http://www.sitemaps.org/schemas/sitemap"/>
+                </map>
+        </property>
+        <property name="overwriteOutput" value="true" />
+    </bean>
+    
+    <bean id="urlMarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller">
+        <property name="aliases">
+            <map>
+                <entry key="url" value="org.emonocot.portal.model.Url"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="urlMapper" class="org.emonocot.portal.model.PortalUrlMapper">
+        <property name="portalBaseUrl" value="${portal.baseUrl}"/>
+    </bean>
+
+</beans>
