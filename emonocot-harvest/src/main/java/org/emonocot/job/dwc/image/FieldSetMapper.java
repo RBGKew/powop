@@ -110,11 +110,7 @@ public class FieldSetMapper extends
                 object.setCaption(value);
                 break;
             case identifier:
-                object.setUrl(value);
-                if(value != null && value.indexOf(".") > -1) {
-                	ImageFormat format = ImageFormat.valueOf(value.substring(value.lastIndexOf(".") + 1));
-                    object.setFormat(format);
-                }
+                object.setUrl(value);                
                 break;
             case format:
             	try {

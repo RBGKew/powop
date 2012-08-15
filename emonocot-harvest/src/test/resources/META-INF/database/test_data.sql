@@ -83,6 +83,7 @@ insert into Taxon (id, identifier,name,genus,specificEpithet,rank,parent_id, fam
 insert into Taxon (id, identifier,name,genus,specificEpithet,rank,parent_id, family, authority_id) values (78, 'urn:kew.org:wcs:taxon:16358','Arum purpureospathum','Arum','purpeospathum','SPECIES',81,'Araceae',10);
 insert into Taxon (id, identifier,name,genus,specificEpithet,rank,parent_id, family, authority_id) values (79, 'urn:kew.org:wcs:taxon:16371','Arum rupicola','Arum','rupicola','SPECIES',81,'Araceae',10);
 insert into Taxon (id, identifier,name,genus,specificEpithet,rank,parent_id, family, authority_id) values (80, 'urn:kew.org:wcs:taxon:16386','Arum sintenisii','Arum','sintenisii','SPECIES',81,'Araceae',10);
+insert into Taxon (id, identifier,name,genus,specificEpithet,rank, family, authority_id) values (85, 'urn:kew.org:wcs:taxon:219530','Amomum uliginosum','Amomum','uliginosum','SPECIES','Zingiberaceae',10);
 insert into Distribution (id, region, taxon_id) values (1,'DOM',23);
 insert into Distribution (id, region, taxon_id) values (2,'NOR',23);
 insert into Distribution (id, region, taxon_id) values (3,'SVA',23);

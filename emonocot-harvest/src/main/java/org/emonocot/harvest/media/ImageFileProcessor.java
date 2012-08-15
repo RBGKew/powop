@@ -105,7 +105,6 @@ public class ImageFileProcessor implements ItemProcessor<Image, Image> {
         logger.debug("Image File " + imageFileName);
         if (file.exists()) {
             logger.info("File exists in image directory, skipping");
-            return null;
         } else {
             try {
                 getResourceClient.getBinaryResource("",
@@ -123,8 +122,8 @@ public class ImageFileProcessor implements ItemProcessor<Image, Image> {
             }
         }
         File thumbnailFile = new File(thumbnailFileName);
-        if(file.exists()) {
-            
+        if(thumbnailFile.exists()) {
+        	logger.info("Thumbnail File exists in image directory, skipping");
         } else {
             try {
                 ImageInfo imageInfo = Sanselan.getImageInfo(file);
