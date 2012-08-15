@@ -14,6 +14,16 @@ public enum JobType {
     /**
      *
      */
-    DwC_Archive;
+    DwC_Archive,
+    
+    /**
+     *
+     */
+    Reindex,
+    
+    /**
+     * 
+     */
+    Sitemap;
 
 }

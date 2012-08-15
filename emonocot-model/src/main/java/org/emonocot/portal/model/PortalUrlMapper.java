@@ -46,8 +46,11 @@ public class PortalUrlMapper implements ItemProcessor<SearchableObject, Url>, Co
 	 */
 	@Override
 	public Url process(SearchableObject item) throws Exception {
+		logger.debug("Trying to create portal URL for " + item.getClassName() + " with identifier: " + item.getIdentifier());
 		Url url = new Url();
-		url.setLastmod(dateTimeFormatter.print(item.getModified()));
+		if(item.getModified() != null){
+			url.setLastmod(dateTimeFormatter.print(item.getModified()));
+		}
 		
 		switch (item.getClassName()) {
 		case "Taxon":
@@ -60,7 +63,8 @@ public class PortalUrlMapper implements ItemProcessor<SearchableObject, Url>, Co
 			url.setLoc(new URL(portalBaseUrl + "/key/" + item.getIdentifier()));
 			break;
 		default:
-			throw new Exception("Unable to process object of type " + item.getClassName() + " and identifier:" + item.getIdentifier());
+			logger.info("Not writing url for object", new IllegalArgumentException("Unable to process object of type " + item.getClassName() + " and identifier:" + item.getIdentifier()));
+			url = null;
 		}
 		
 		return url;

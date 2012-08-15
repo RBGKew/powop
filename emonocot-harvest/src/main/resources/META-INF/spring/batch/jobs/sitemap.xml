@@ -10,28 +10,28 @@
     <context:property-placeholder ignore-unresolvable="true" location="classpath*:META-INF/spring/*.properties"/>
     <context:annotation-config />
 
-    <batch:job id="sitemapGeneration">
+    <batch:job id="SitemapGeneration">
         <batch:step id="writeTaxa">
             <batch:tasklet>
-                <batch:chunk reader="hibernateCursorReader" processor="urlMapper" writer="staxWriter" commit-interval="100"/>
+                <batch:chunk reader="hibernateCursorReader" processor="urlMapper" writer="staxWriter" commit-interval="10"/>
             </batch:tasklet>
         </batch:step>
     </batch:job>
 
-    <bean id="hibernateCursorReader" class="org.springframework.batch.item.database.HibernateCursorItemReader">
+    <bean id="hibernateCursorReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
         <property name="useStatelessSession" value="true" />
-        <property name="queryString" value="from Taxon" />
+        <property name="queryString" value="#{jobParameters['hql']}" />
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
     
     <bean id="staxWriter" class="org.springframework.batch.item.xml.StaxEventItemWriter">
-        <property name="resource" value="file:target/test-outputs/20120806.testStream.xmlFileStep.output.xml" />
+        <property name="resource" value="file:${harvester.spool.directory}/sitemap/temp.xml" />
         <property name="marshaller" ref="urlMarshaller" />
         <property name="rootTagName" value="urlset" />
         <property name="rootElementAttributes">
             <map>
                 <entry key="xmlns" value="http://www.sitemaps.org/schemas/sitemap"/>
-                </map>
+            </map>
         </property>
         <property name="overwriteOutput" value="true" />
     </bean>

@@ -2261,4 +2261,12 @@
       <comment>Faceting on embedded objects is screwed up when identifiers are in Uppercase</comment>
       <sql>update Source set identifier = 'efloras.kew.org' where id = 7;</sql>
     </changeSet>
+    <changeSet id="2012-08-13" author="jk00kg">
+        <insert tableName="Job">
+            <column name="id" valueNumeric="10" />
+            <column name="identifier" value="SitemapGeneration" />
+            <column name="source_id" valueNumeric="5" />
+        </insert>
+        <rollback><delete tableName="Job"><where>id=10</where></delete></rollback>
+    </changeSet>
 </databaseChangeLog>

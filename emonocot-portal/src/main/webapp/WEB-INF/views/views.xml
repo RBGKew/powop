@@ -2,60 +2,64 @@
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
 <tiles-definitions>
   <definition name="index" extends="frontPage">
-  	<put-attribute name="pageTitle" value="indexTitle" cascade="true"/>
+  	<put-attribute name="pageTitle" value="indexTitle" cascade="true" />
     <put-attribute name="hero" value="/WEB-INF/views/hero.jspx" />
     <put-attribute name="body" value="/WEB-INF/views/index.jspx" />
   </definition>
   <definition name="classify" extends="default">
-    <put-attribute name="pageTitle" value="classifyTitle" cascade="true"/>
+    <put-attribute name="pageTitle" value="classifyTitle" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/classify.jspx" />
   </definition>
   <definition name="classification" extends="default">
-    <put-attribute name="pageTitle" value="classifyTitle" cascade="true"/>
+    <put-attribute name="pageTitle" value="classifyTitle" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/classification.jspx" />
   </definition>
   <definition name="tour" extends="default">
-    <put-attribute name="pageTitle" value="tourTitle" cascade="true"/>
+    <put-attribute name="pageTitle" value="tourTitle" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/tour.jspx" />
   </definition>
   <definition name="search" extends="default">
-  	<put-attribute name="pageTitle" value="searchTitle" cascade="true"/>
+  	<put-attribute name="pageTitle" value="searchTitle" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/search.jspx" />
   </definition>
   <definition name="spatial" extends="default">
-  	<put-attribute name="pageTitle" value="spatialTitle" cascade="true"/>
+  	<put-attribute name="pageTitle" value="spatialTitle" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/spatial.jspx" />
   </definition> 
   <definition name="register" extends="default">
-    <put-attribute name="pageTitle" value="registerTitle" cascade="true"/>
+    <put-attribute name="pageTitle" value="registerTitle" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/register.jspx" />
   </definition>
   <definition name="login" extends="default">
-    <put-attribute name="pageTitle" value="loginTitle" cascade="true"/>
+    <put-attribute name="pageTitle" value="loginTitle" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/login.jspx" />
   </definition>
   <definition name="accessDenied" extends="default">
-    <put-attribute name="pageTitle" value="accessDeniedTitle" cascade="true"/>
+    <put-attribute name="pageTitle" value="accessDeniedTitle" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/accessDenied.jspx" />
   </definition>
   <definition name="resourceNotFound" extends="default">
-    <put-attribute name="pageTitle" value="resourceNotFoundTitle" cascade="true"/>
+    <put-attribute name="pageTitle" value="resourceNotFoundTitle" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/resourceNotFound.jspx" />
   </definition>
   <definition name="uncaughtException" extends="default">
-    <put-attribute name="pageTitle" value="uncaughtExceptionTitle" cascade="true"/>
+    <put-attribute name="pageTitle" value="uncaughtExceptionTitle" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/uncaughtException.jspx" />
   </definition>
   <definition name="methodNotAllowed" extends="default">
-    <put-attribute name="pageTitle" value="methodNotAllowedTitle" cascade="true"/>
+    <put-attribute name="pageTitle" value="methodNotAllowedTitle" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/methodNotAllowed.jspx" />
   </definition> 
   <definition name="about" extends="default">
-    <put-attribute name="pageTitle" value="aboutTitle" cascade="true"/>
+    <put-attribute name="pageTitle" value="aboutTitle" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/about.jspx" />
   </definition>
   <definition name="contact" extends="default">
-    <put-attribute name="pageTitle" value="contactTitle" cascade="true"/>
+    <put-attribute name="pageTitle" value="contactTitle" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/contact.jspx" />
-  </definition>   
+  </definition>
+  <definition name="admin" extends="default">
+    <put-attribute name="pageTitle" value="admin.title" cascade="true" />
+    <put-attribute name="body" value="/WEB-INF/views/admin.jspx" />
+  </definition>
 </tiles-definitions>
