@@ -17,11 +17,14 @@ import org.springframework.util.Assert;
 /**
  *
  * @author Adrian Gonzalez
+ * 
+ * @author jk00kg
+ * Adding support for URL Resources
  */
 public class MultiResourceDeletingTasklet implements Tasklet {
 
     /** Commons-logging Logger. */
-    private final Log logger = LogFactory
+    private static final Log logger = LogFactory
             .getLog(MultiResourceDeletingTasklet.class);
 
     /**
@@ -65,7 +68,7 @@ public class MultiResourceDeletingTasklet implements Tasklet {
             final ChunkContext chunkContext) throws Exception {
         for (Resource lResource : resources) {
             FileSystemResource lFileSystemResource
-                  = (FileSystemResource) lResource;
+                  = new FileSystemResource(lResource.getFile().getAbsolutePath());
             if (!lFileSystemResource.exists()) {
                 if (logger.isDebugEnabled()) {
                     logger.debug("Resource "

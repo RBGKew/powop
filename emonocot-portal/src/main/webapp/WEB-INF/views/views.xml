@@ -58,8 +58,4 @@
     <put-attribute name="pageTitle" value="contactTitle" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/contact.jspx" />
   </definition>
-  <definition name="admin" extends="default">
-    <put-attribute name="pageTitle" value="admin.title" cascade="true" />
-    <put-attribute name="body" value="/WEB-INF/views/admin.jspx" />
-  </definition>
 </tiles-definitions>

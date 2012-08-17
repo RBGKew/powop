@@ -22,7 +22,7 @@ public class PortalUrlMapper implements ItemProcessor<SearchableObject, Url>, Co
 	/**
     *
     */
-   private Logger logger = LoggerFactory.getLogger(PortalUrlMapper.class);
+   private static final Logger logger = LoggerFactory.getLogger(PortalUrlMapper.class);
 
 	/**
 	 * 
@@ -50,6 +50,8 @@ public class PortalUrlMapper implements ItemProcessor<SearchableObject, Url>, Co
 		Url url = new Url();
 		if(item.getModified() != null){
 			url.setLastmod(dateTimeFormatter.print(item.getModified()));
+		} else if (item.getCreated() != null) {
+			url.setLastmod(dateTimeFormatter.print(item.getCreated()));
 		}
 		
 		switch (item.getClassName()) {

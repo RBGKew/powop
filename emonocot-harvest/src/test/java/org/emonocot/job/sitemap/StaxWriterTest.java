@@ -8,14 +8,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.emonocot.model.marshall.xml.StaxEventItemWriter;
 import org.emonocot.portal.model.Url;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.item.ExecutionContext;
-import org.springframework.batch.item.xml.StaxEventItemWriter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.oxm.xstream.XStreamMarshaller;
 
@@ -24,8 +23,8 @@ public class StaxWriterTest {
 	/**
 	 * 
 	 */
-	private StaxEventItemWriter<Url> writer;
-	
+	private StaxEventItemWriter writer;
+
 	/**
 	 * 
 	 */
@@ -34,7 +33,7 @@ public class StaxWriterTest {
 	/**
 	 * @param writer the writer to set
 	 */
-	public final void setWriter(StaxEventItemWriter<Url> writer) {
+	public final void setWriter(StaxEventItemWriter writer) {
 		this.writer = writer;
 	}
 
@@ -43,7 +42,7 @@ public class StaxWriterTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		writer = new StaxEventItemWriter<>();
+		writer = new StaxEventItemWriter();
 		writer.setResource(new FileSystemResource("target/test-outputs/StaxWriterTest.xml"));
 		writer.setRootTagName("urlset");
 		XStreamMarshaller marshaller = new XStreamMarshaller();
@@ -63,7 +62,7 @@ public class StaxWriterTest {
 	 */
 	@Test
 	public void testWriteUrlToFile() throws Exception {
-		String expectedXml = "<?xml version='1.0' encoding='UTF-8'?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap\"><url><loc>http://build.e-monocot.org/test/identifier</loc><lastmod>1986-07-11T22:15:00.000+01:00</lastmod></url></urlset></urlset>";
+		String expectedXml = "<?xml version='1.0' encoding='UTF-8'?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap\"><url><loc>http://build.e-monocot.org/test/identifier</loc><lastmod>1986-07-11T22:15:00.000+01:00</lastmod></url></urlset>";
 		ExecutionContext executionContext = new ExecutionContext();
 		executionContext.put("query.string", "from Taxon");
 		writer.open(executionContext);

@@ -24,6 +24,6 @@ public enum JobType {
     /**
      * 
      */
-    Sitemap;
+    SitemapGeneration;
 
 }

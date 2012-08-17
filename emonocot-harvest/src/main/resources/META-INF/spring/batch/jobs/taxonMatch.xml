@@ -17,15 +17,15 @@
 			<batch:tasklet>
 				<batch:chunk reader="fileReader" processor="taxonMatchingProcessor"
 					writer="outputWriter" commit-interval="100">
-				</batch:chunk>			    
-			</batch:tasklet>			
+				</batch:chunk>
+			</batch:tasklet>
 			<batch:end on="COMPLETED" />
 			<batch:listeners>
 			  <batch:listener ref="footerCallback"/>
-			</batch:listeners>	      
+			</batch:listeners>
 	    </batch:step>
 	</batch:job>
-	
+
 	<bean id="outputWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
 	  <property name="resource">
 			<bean class="org.springframework.core.io.FileSystemResource"
