@@ -260,16 +260,11 @@ public class PageObject {
     public final void logOut() {
         try {
         	System.out.println("Logout: " + getBaseUri() + "/logout");
-            openAs(getBaseUri() + "/logout", Index.class);
+            openAs(getBaseUri() + "logout", Index.class);
         } catch (Exception e) {
            System.out.println(e.getMessage());
         }
-        System.out.println("Current URL "  + getWebDriver().getCurrentUrl());
-        Cookie cookie = webDriver.manage().getCookieNamed("jsessionid");
-        if (cookie != null) {
-        	System.out.println(cookie);
-            //webDriver.manage().deleteCookie(cookie);
-        }
+        
     }
 
     /**
