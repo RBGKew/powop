@@ -250,8 +250,8 @@ public class PageObject {
      * @return true, if the user is logged in
      */
     public final Boolean loggedIn() {
-        WebElement logout = nav.findElement(By.linkText("Logout"));
-        return (logout != null);
+    	WebElement userMenu = nav.findElement(By.cssSelector("#menuUser"));        
+        return (userMenu != null);
     }
 
     /**
@@ -259,10 +259,9 @@ public class PageObject {
      */
     public final void logOut() {
         try {
-            openAs(nav.findElement(By.linkText("Logout")).getAttribute("href"),
-                    Index.class);
+            openAs(getBaseUri() + "/logout", Index.class);
         } catch (Exception e) {
-            // Nothing
+           System.out.println(e.getMessage());
         }
     }
 
