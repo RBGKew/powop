@@ -265,6 +265,11 @@ public class PageObject {
            System.out.println(e.getMessage());
         }
         System.out.println("Current URL "  + getWebDriver().getCurrentUrl());
+        Cookie cookie = webDriver.manage().getCookieNamed("jsessionid");
+        if (cookie != null) {
+        	System.out.println(cookie);
+            //webDriver.manage().deleteCookie(cookie);
+        }
     }
 
     /**
