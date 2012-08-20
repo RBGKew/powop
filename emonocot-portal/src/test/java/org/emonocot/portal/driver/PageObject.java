@@ -259,10 +259,12 @@ public class PageObject {
      */
     public final void logOut() {
         try {
+        	System.out.println("Logout: " + getBaseUri() + "/logout");
             openAs(getBaseUri() + "/logout", Index.class);
         } catch (Exception e) {
            System.out.println(e.getMessage());
         }
+        System.out.println("Current URL "  + getWebDriver().getCurrentUrl());
     }
 
     /**
