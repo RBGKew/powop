@@ -30,6 +30,9 @@
       <item name="Liquibase" href="liquibase.html"/>
       <item name="Spatial Data" href="spatial.html"/>
     </menu>
+    <menu name="Infrastructure">
+      <item name="Infrastructure" href="infrastructure.html"/>
+    </menu>
     <menu ref="modules"/>
     <menu ref="reports"/>
   </body>

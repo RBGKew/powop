@@ -1,0 +1,16 @@
+ ------
+ Infrastructure
+ ------
+ Ben Clark
+ ------
+ Date
+ 
+Infrastructure
+
+ The current eMonocot infrastructure consists of
+
+ * {{{http://build.e-monocot.org}build.e-monocot.org}} - the SCM / CI / UAT server
+ 
+ * {{{http://zoo-bclark01.e-monocot.org} Web server and frontend load balancer for the two application servers
+ 
+ * 

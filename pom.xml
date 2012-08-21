@@ -1501,9 +1501,6 @@
 			<id>harvest.uat.master.vagrant</id>
 			<properties>
 				<webAppRootKey>harvester</webAppRootKey>
-				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
-				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
-				<portal.job.notification.uri>http://localhost/emonocot-portal/job-notifications</portal.job.notification.uri>
 				<portal.baseUrl>http://portal.e-monocot.org:8080</portal.baseUrl>
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
 				<amq.broker.name>messageBroker</amq.broker.name>

@@ -272,6 +272,7 @@
 					<username>${jdbc.driver.username}</username>
 					<password>${jdbc.driver.password}</password>
 					<dropFirst>${liquibase.drop.database.first}</dropFirst>
+					<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
 				</configuration>
 				<dependencies>
 					<dependency>
