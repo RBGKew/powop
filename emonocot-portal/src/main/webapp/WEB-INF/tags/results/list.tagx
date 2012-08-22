@@ -19,7 +19,7 @@
 				  url="/taxon/${item.identifier}"
 				  image="${item.image}">
 				    <spring:url var="itemUrl" value="/taxon/${item.identifier}"/>
-				    <a class="result" href="${itemUrl}" title="${fn:escapeXml(item.name)}">
+				    <a class="result" href="${itemUrl}" title="${em:stripXml(item.name)}">
 							<c:choose>
 								<c:when test="${em:isAccepted(item)}">
 									<h4 class="h4Results"><em>${item.name}</em> ${item.authorship}</h4>
@@ -48,7 +48,7 @@
 				  url="/image/${item.identifier}"
 				  image="${item}">
 					<spring:url var="itemUrl" value="/image/${item.identifier}"/>
-					<a class="result" href="${itemUrl}" title="${fn:escapeXml(item.caption)}"><h4 class="h4Results">${item.caption}</h4></a>
+					<a class="result" href="${itemUrl}" title="${em:stripXml(item.caption)}"><h4 class="h4Results">${item.caption}</h4></a>
 					<br/>
 					<div><spring:url var="taxonUrl" value="/taxon/${item.taxon.identifier}"/></div>
 					<div><em><spring:message code="imageOf"/></em>: <a href="${taxonUrl}">${item.taxon.name}</a></div>
@@ -67,7 +67,7 @@
 				  iconAlt="Identification Key"
 				  url="/key/${item.identifier}">
 				    <spring:url var="itemUrl" value="/key/${item.identifier}"/>
-					<a class="result" href="${itemUrl}" title="${fn:escapeXml(item.title)}"><h4 class="h4Results">${item.title}</h4></a>
+					<a class="result" href="${itemUrl}" title="${em:stripXml(item.title)}"><h4 class="h4Results">${item.title}</h4></a>
 				  </results:listEntry>
 				</c:when>
 				<c:when test="${item.className == 'Place'}">
@@ -84,7 +84,7 @@
 				  iconAlt="Place"
 				  url="${url}">
 				    <spring:url var="itemUrl" value="${url}"/>
-                    <a class="result" href="${itemUrl}" title="${fn:escapeXml(item.name)}"><h4 class="h4Results">${item.name}</h4></a>
+                    <a class="result" href="${itemUrl}" title="${em:stripXml(item.name)}"><h4 class="h4Results">${item.name}</h4></a>
                   </results:listEntry>
 				</c:when>
 				<c:otherwise>

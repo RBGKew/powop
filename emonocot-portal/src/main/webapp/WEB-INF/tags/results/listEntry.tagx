@@ -22,12 +22,12 @@
 		<c:choose>
 			<c:when test="${not empty image}">
 				<c:url var="thumbnail" value="/images/thumbnails/${image.identifier}.${image.format}"/>
-					<img src="${thumbnail}" title="${fn:escapeXml(image.caption)}"/>
+					<img src="${thumbnail}" title="${em:stripXml(image.caption)}"/>
 				</c:when>
 				<c:otherwise>
 					<spring:message code="no.image.available" var="noImageAvailable"/>
 					<c:url var="thumbnail" value="/css/images/no_image.jpg"/>
-					<img src="${thumbnail}" title="${fn:escapeXml(noImageAvailable)}"/>
+					<img src="${thumbnail}" title="${em:stripXml(noImageAvailable)}"/>
 				</c:otherwise>
 		</c:choose>
 	</a>
