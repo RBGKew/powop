@@ -45,7 +45,7 @@ public class SingleRecordQueryTasklet extends HibernateDaoSupport implements
 		if(results.size() == 0) {
 			contribution.setExitStatus(new ExitStatus("NO_MORE_RESULTS"));
 		} else {
-			chunkContext.getStepContext().getJobExecutionContext().put("record.identifier", results.get(0));
+			chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext().put("record.identifier", results.get(0));
 			contribution.setExitStatus(new ExitStatus("MORE_RESULTS"));
 		}
 		
