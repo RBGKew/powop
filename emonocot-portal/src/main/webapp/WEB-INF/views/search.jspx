@@ -135,9 +135,6 @@
 									<c:url var="thumbnail" value="/images/fullsize/${item.identifier}.${item.format}"/>
 									<a href="${thumbnail}" rel="gallery" title="${fn:escapeXml(item.caption)}">${item.caption}</a>
 								</c:when>
-								<c:otherwise>
-									<a href="http://wp5.e-taxonomy.eu/media/palmae/photos/palm_tc_100447_1.jpg" title="${fn:escapeXml(item.className)}" rel="gallery">${item.className}</a>
-								</c:otherwise>
 							</c:choose>
 						</c:forEach>
 					</div>
