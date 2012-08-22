@@ -11,6 +11,58 @@ Infrastructure
 
  * {{{http://build.e-monocot.org}build.e-monocot.org}} - the SCM / CI / UAT server
  
- * {{{http://zoo-bclark01.e-monocot.org} Web server and frontend load balancer for the two application servers
+ * {{{http://zoo-bclark01.zoo.ox.ac.uk}zoo-bclark01.zoo.ox.ac.uk}} Web server and frontend load balancer for the two application servers
  
- * 
+ * {{{http://zoo-bclark02.zoo.ox.ac.uk}zoo-bclark02.zoo.ox.ac.uk}} Master application server
+ 
+ * {{{http://zoo-bclark03.zoo.ox.ac.uk}zoo-bclark03.zoo.ox.ac.uk}} Slave application server and message broker
+ 
+ * {{{http://zoo-bclark04.zoo.ox.ac.uk}zoo-bclark04.zoo.ox.ac.uk}} Database server
+
+[]
+ 
+Bare Metal install using KickStart
+
+ * Mount the installation image found {{{http://mirror.ox.ac.uk/sites/mirror.centos.org/6/isos/x86_64/CentOS-6.3-x86_64-netinstall.iso}here}} on the server
+ 
+ * On first boot, select to boot from the cdrom and at the prompt press <<<TAB>>> to edit the boot configuration and append <<< ks=http://build.e-monocot.org/ks/name-of-server.cfg>>> to 
+   the command to use the kickstart file to configure the server 
+ 
+ * Once the operating system has been installed and the server has restarted, on the puppetmaster ({{{http://build.e-monocot.org/}build.e-monocot.org}}) check for the
+   certificate signing request from the newly installed server <<<sudo puppet cert --list>>>
+   
+ * The puppet certificate authority should list the names of servers which have made new certificate requests
+ 
+ * Now  sign the certificate <<<sudo puppet cert sign nameofserver>>>
+ 
+ * Either wait for the puppet changes to propagate or run <<<sudo puppet agent --test>>> on the server to see the changes applied instantly.
+
+ []
+ 
+Restoring data from backup
+
+ * Restore the database from backup by executing the following on the database server {{{http://zoo-bclark04.zoo.ox.ac.uk}zoo-bclark04.zoo.ox.ac.uk}}
+
+   * <<<rsync -avr username@build.e-monocot.org:/.snapshots/daily.0/localhost/mysql/mysqldump.sql.gz .>>>
+   
+   * <<<gunzip mysqldump.sql.gz>>>
+   
+   * <<<mysql -uemonocot-user -peM0n0c0t emonocot < mysqldump.sql>>>
+   
+   * <<<rsync -avr username@build.e-monocot.org:/.snapshots/daily.0/localhost/mysql/gis.sql.gz .>>>
+   
+   * <<<gunzip gis.sql.gz>>>
+   
+   * <<<mysql -ugeoserver -pG3053rv3r gis < gis.sql>>>
+
+   []
+
+ * Restore the data from backup by executing the following on the master application server {{{http://zoo-bclark02.zoo.ox.ac.uk}zoo-bclark02.zoo.ox.ac.uk}} as the user <tomcat>
+   
+    * <<<rsync -avr username@build.e-monocot.org:/.indexes/daily.0/localhost/var/cache/emonocot/uat_harvest/index/ /var/cache/tomcat7/work/emonocot-harvester/>>>
+ 
+    * <<<rsync -avr username@build.e-monocot.org:/.snapshots/daily.0/localhost/var/www/html/uat/harvest/images /var/lib/emonocot/>>>  
+ 
+    []
+ [] 
+ 
