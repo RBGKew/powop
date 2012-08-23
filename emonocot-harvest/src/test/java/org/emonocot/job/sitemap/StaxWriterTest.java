@@ -47,11 +47,11 @@ public class StaxWriterTest {
 		writer.setRootTagName("urlset");
 		XStreamMarshaller marshaller = new XStreamMarshaller();
 		
-		Map<String, Object> aliases = new HashMap<>();
+		Map<String, Object> aliases = new HashMap<String, Object>();
 		aliases.put("url", Url.class);
 		marshaller.setAliases(aliases);
 		writer.setMarshaller(marshaller);
-		Map<String, String> attributes = new HashMap<>();
+		Map<String, String> attributes = new HashMap<String, String>();
 		attributes.put("xmlns", "http://www.sitemaps.org/schemas/sitemap");
 		writer.setRootElementAttributes(attributes);
 		

@@ -19,11 +19,11 @@ public enum JobType {
     /**
      *
      */
-    Reindex,
+    REINDEX,
     
     /**
      * 
      */
-    SitemapGeneration;
+    SITEMAP;
 
 }

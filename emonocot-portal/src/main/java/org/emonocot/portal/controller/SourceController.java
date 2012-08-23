@@ -25,6 +25,8 @@ import org.emonocot.portal.format.annotation.FacetRequestFormat;
 import org.emonocot.service.JobDataService;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
@@ -49,6 +51,8 @@ public class SourceController extends GenericController<Source, SourceService> {
 	 */
 	private static final BaseDateTime PAST_DATETIME = new DateTime(2010, 11, 1,
 			9, 0, 0, 0);
+	
+	private static final Logger logger = LoggerFactory.getLogger(SourceController.class);
 
 	/**
      *
@@ -440,6 +444,12 @@ public class SourceController extends GenericController<Source, SourceService> {
 
 		JobLaunchRequest jobLaunchRequest = new JobLaunchRequest();
 		switch (job.getJobType()) {
+		case REINDEX:
+			jobLaunchRequest.setJob("ReIndex");
+			break;
+		case SITEMAP:
+			jobLaunchRequest.setJob("SitemapGeneration");
+			break;
 		case OAI_PMH:
 			jobParametersMap.put("request.interval", "4000");
 			if (job.getFamily() != null) {
@@ -448,10 +458,14 @@ public class SourceController extends GenericController<Source, SourceService> {
 			jobLaunchRequest.setJob("OaiPmhTaxonHarvesting");
 			break;
 		case DwC_Archive:
-		default:
 			jobParametersMap.put("family", job.getFamily());
 			jobParametersMap.put("authority.uri", job.getUri());
 			jobLaunchRequest.setJob("DarwinCoreArchiveHarvesting");
+			break;
+		default:
+			logger.error("Attempted to launch a job of unknown type, assuming it's a DwC job",
+					new IllegalArgumentException("The jobType " + job.getJobType() + " is not configured"));
+			// TODO Return to some appropriate page with an error?
 			break;
 		}
 		jobLaunchRequest.setParameters(jobParametersMap);

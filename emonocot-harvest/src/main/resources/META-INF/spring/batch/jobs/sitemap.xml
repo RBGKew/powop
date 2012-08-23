@@ -43,15 +43,17 @@
                 <batch:listener ref="sitemapFilesListener"/>
             </batch:listeners>
         </batch:step>
-<!--         <batch:step id="writeSitemapIndex">
-TODO
-        </batch:step> -->
+        <!-- listener afterJob writes the sitemapindex file -->
+        <batch:listeners>
+            <batch:listener ref="sitemapFilesListener"/>
+        </batch:listeners>
     </batch:job>
 
-    <bean id="sitemapFilesListener" class="org.emonocot.harvest.job.sitemap.SitemapFilesListener">
+    <bean id="sitemapFilesListener" class="org.emonocot.job.sitemap.SitemapFilesListener">
         <property name="portalBaseUrl" value="${portal.baseUrl}" />
         <property name="sitemapSpoolDir" value="${harvester.spool.directory}/sitemap/" />
         <property name="staxWriter" ref="staxWriter" />
+        <property name="marshaller" ref="urlMarshaller" />
     </bean>
 
 
