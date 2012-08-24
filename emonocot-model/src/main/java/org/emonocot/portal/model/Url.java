@@ -3,6 +3,7 @@
  */
 package org.emonocot.portal.model;
 
+import java.io.Serializable;
 import java.net.URL;
 
 import org.joda.time.DateTime;
@@ -11,7 +12,7 @@ import org.joda.time.DateTime;
  * @author jk00kg
  * A URL object found in a sitemap.xml document
  */
-public class Url {
+public class Url implements Serializable {
 
 		/**
 		 * 

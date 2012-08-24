@@ -27,6 +27,7 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
+import org.springframework.batch.item.ExecutionContext;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.oxm.XmlMappingException;
@@ -36,7 +37,7 @@ import org.springframework.oxm.xstream.XStreamMarshaller;
  * @author jk00kg
  *
  */
-public class SitemapFilesListener implements JobExecutionListener, StepExecutionListener, ChunkListener {
+public class SitemapFilesListener implements StepExecutionListener, ChunkListener {
 	
 	/**
 	 * 
@@ -97,11 +98,11 @@ public class SitemapFilesListener implements JobExecutionListener, StepExecution
 	 * 
 	 */
 	private int commitSize = 1000;
-	
+
 	/**
-	 * 
+	 * Used to hold a set of URLs written as the last step of the job
 	 */
-	private XStreamMarshaller marshaller;
+	private ExecutionContext jobExContext;
 
 	/**
 	 * @param portalBaseUrl the portalBaseUrl to set
@@ -131,21 +132,18 @@ public class SitemapFilesListener implements JobExecutionListener, StepExecution
 		this.staxWriter = staxWriter;
 	}
 
-	/**
-	 * @param marshaller the marshaller to set
-	 */
-	public final void setMarshaller(XStreamMarshaller marshaller) {
-		this.marshaller = marshaller;
-	}
-
 	/* (non-Javadoc)
 	 * @see org.springframework.batch.core.StepExecutionListener#beforeStep(org.springframework.batch.core.StepExecution)
 	 */
 	public void beforeStep(StepExecution stepExecution) {
 		currentStep = stepExecution;
+		logger.debug("currentStep set to: " + currentStep.getStepName());
+		if (jobExContext == null){
+			jobExContext = currentStep.getJobExecution().getExecutionContext();
+			jobExContext.put("sitemaps.url", sitemapNames);
+		}
 		fileCount = 0;
 		currentFile = new FileSystemResource(sitemapSpoolDir + "/"+ currentStep.getStepName()  + fileCount + ".xml");
-		logger.debug("currentStep set to: " + currentStep.getStepName());
 		
 		//Set here because it can change at the end of a chunk
 		staxWriter.setResource((Resource) currentFile);
@@ -156,12 +154,22 @@ public class SitemapFilesListener implements JobExecutionListener, StepExecution
 	 */
 	public ExitStatus afterStep(StepExecution stepExecution) {
 		logger.debug("After Step " + currentStep.getStepName());
+
+		try {
+			Url u = new Url();
+			u.setLastmod(ISODateTimeFormat.dateTime().print((ReadableInstant) null));
+			u.setLoc(new URL(portalBaseUrl + "/" + currentFile.getFilename()));
+			sitemapNames.add(u);
+		} catch (MalformedURLException e) {
+			logger.error("Unable create Url for sitemap", e);
+		}
 		
+		//reset counts to nulls to support beforeStep()
 		currentStep = null;
 		currentFile = null;
 		chunkOfFile = 0;
 		commitSize = 0;
-		//reset counts to nulls to support beforeStep()?
+
 		return stepExecution.getExitStatus();
 	}
 
@@ -169,7 +177,14 @@ public class SitemapFilesListener implements JobExecutionListener, StepExecution
 		//Check sizes (MB & count) & if over limit
 		if (FileUtils.sizeOf(currentFile.getFile()) >= MAX_SITEMAP_LENGTH || (chunkOfFile * commitSize) >= MAX_URL_COUNT){
 			logger.debug("Creating a new file");
-			
+			try {
+				Url u = new Url();
+				u.setLastmod(ISODateTimeFormat.dateTime().print((ReadableInstant) null));
+				u.setLoc(new URL(portalBaseUrl + "/" + currentFile.getFilename()));
+				sitemapNames.add(u);
+			} catch (MalformedURLException e) {
+				logger.error("Unable create Url for sitemap", e);
+			}
 			//close & open writer with new name
 			staxWriter.close();
 			currentFile = new FileSystemResource(sitemapSpoolDir + "/"+ currentStep.getStepName()  + ++fileCount + ".xml");
@@ -191,54 +206,4 @@ public class SitemapFilesListener implements JobExecutionListener, StepExecution
 			logger.debug("Set commitSize to " + commitSize);
 		}
 	}
-
-	@Override
-	public void beforeJob(JobExecution jobExecution) {
-		// Nothing to do here
-	}
-
-	@Override
-	public void afterJob(JobExecution jobExecution) {
-		//This should be configured as a separate MethodInvokingTasklet
-		// Get sitemap file/URL list
-		logger.debug("After Job");
-		Collection<File> files = FileUtils.listFiles(new File(sitemapSpoolDir), null, false);
-		logger.debug(files.toString());
-		
-		// Make URLs
-		List<Url> urls = new ArrayList<Url>();
-		DateTimeFormatter dateTimeFormatter = ISODateTimeFormat.dateTime();
-			for (File file : files) {
-				try {
-					Url u = new Url();
-					u.setLastmod(dateTimeFormatter.print((ReadableInstant) null));
-					u.setLoc(new URL(portalBaseUrl + "/" + file.getPath()));
-					urls.add(u);
-				} catch (MalformedURLException e) {
-					logger.error("Unable create Url for sitemap", e);
-				}
-			}
-			logger.debug(urls.size() + " urls in " + urls.toString());
-			
-		// init staxWriter
-		staxWriter.setMarshaller(marshaller);
-		Map<String, Class> aliases = new HashMap<String, Class>();
-		aliases.put("sitemap", Url.class);
-		try {
-			marshaller.setAliases(aliases);
-		} catch (ClassNotFoundException e) {
-			logger.error("Error configuring the XML marchaller",e);
-		}
-		staxWriter.setRootTagName("sitemapindex");
-		staxWriter.setResource((Resource) new FileSystemResource(sitemapSpoolDir + "/sitemapindex.xml"));
-		staxWriter.open(jobExecution.getExecutionContext());
-		
-		//write
-		try {
-			staxWriter.write(urls);
-		} catch (Exception e) {
-			logger.error("Error configuring the XML marchaller",e);
-		}
-	}
-
 }
