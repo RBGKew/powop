@@ -18,6 +18,7 @@ Background:
   And I am not authenticated
   And I am on the portal home page
 
+
 Scenario: Registration
   Users should be able to register an account in eMonocot.
   When I select the registration link
