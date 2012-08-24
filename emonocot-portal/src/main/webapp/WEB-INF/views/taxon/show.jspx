@@ -123,7 +123,7 @@
 				
 				<c:if test="${not empty em:regions(taxon)}">
 				<section id="distribution.map">
-					<div class="section-header"><h2><spring:message code="distribution" /></h2></div>
+					<div class="section-header"><h2><spring:message code="distribution.map" /></h2></div>
 					<geo:map bounds="${em:boundingBox(taxon)}" mapClass="taxon-page-map">
 					  <c:if test="${em:hasLevel1Features(taxon)}">
 					    <geo:layer name="level1" layer="tdwg:level1" style="eMonocot" featureId="${em:getLevel1Features(taxon)}"/>
