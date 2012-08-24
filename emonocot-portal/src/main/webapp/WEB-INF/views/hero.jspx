@@ -2,16 +2,40 @@
 <header class="jumbotron masthead" xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
-	  <div class="inner">
-	    <div class="container">
-	     <div class="row">
-    	  <h1 class="span12"><spring:message code="hero.title"/></h1>
-    	 </div>
-    	 <div class="row">
-           <p class="lead span12"><spring:message code="hero.message"/></p>
-         </div>
-         <div class="row">
-        <script type="text/javascript">				
+	
+	   	<div class="bamboo-left">&amp;nbsp;></div>
+	   	<div class="bamboo-right">&amp;nbsp;</div>
+
+		<div class="grass1">&amp;nbsp;</div>
+		<div class="grass2"><&amp;nbsp;</div>
+		<div class="grass3">&amp;nbsp;</div>
+		<div class="grass4">&amp;nbsp;</div>
+		<div class="grass5">&amp;nbsp;</div>
+		
+		<div class="plant-single">&amp;nbsp;</div>
+		
+		<div class="bg-plants">&amp;nbsp;</div>
+		
+		<div class="trees-left">&amp;nbsp;</div>
+		<div class="trees-right">&amp;nbsp;</div>
+		
+		<div class="plant-decoration">&amp;nbsp;</div>
+		<div class="pond">&amp;nbsp;</div>
+		
+		<div class="bg-banner">&amp;nbsp;</div>
+		
+		<div class="overlay-banner">&amp;nbsp;</div>
+	
+		<div class="inner">
+		<div class="container">
+		 <div class="row">
+		  <h1 class="span12"><spring:message code="hero.title"/></h1>
+		 </div>
+		 <div class="row">
+		   <p class="lead span12"><spring:message code="hero.message"/></p>
+		 </div>
+		 <div class="row">
+		<script type="text/javascript">				
 		  $(document).ready(function() {
 			  $("input#query").autocomplete({
 		            source: "autocomplete",
@@ -20,17 +44,17 @@
 		  });
 		</script>
 		<form class="form-search" action="search" method="GET">
-          <div class="offset3">
-     		<div class="input form-inline">
-     		  <spring:message code="search.for" var="placeholderText"/>	
+		  <div class="offset3">
+				<div class="input form-inline">
+				  <spring:message code="search.for" var="placeholderText"/>	
 			  <input id="query" name="query" class="span6 search-query" type="text" value="" placeholder="${placeholderText}"/>
 			  <button type="submit" class="btn btn-primary">
-				<span class="icon-search icon-white">&amp;nbsp;</span>
+				Search
 			  </button>					
 			</div>
 		  </div>
 		</form> 
 		</div>
 		</div>
-      </div>
+		</div>
 </header>
