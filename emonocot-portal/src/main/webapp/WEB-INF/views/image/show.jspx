@@ -16,18 +16,32 @@
 	
 	<div class="row">
 		<div class="span9">
-			<h5>
-				<spring:message code="imageOf" />:
-				<jsp:element name="a">
-					<jsp:attribute name="href">
-						<c:url value="/taxon/${image.taxon.identifier}" />
-					</jsp:attribute>
-					<span class="taxonName">${image.taxon.name}</span> ${image.taxon.authorship}
-				</jsp:element>
-			</h5>	
+			<c:if test="${not empty image.taxon.name}">
+				<h5>
+					<spring:message code="imageOf" />:
+					<jsp:element name="a">
+						<jsp:attribute name="href">
+							<c:url value="/taxon/${image.taxon.identifier}" />
+						</jsp:attribute>
+						<span class="taxonName">${image.taxon.name}</span> ${image.taxon.authorship}
+					</jsp:element>
+				</h5>
+			</c:if>
 			<br/>
 			<div class="centeredImage">
-				<img id="main-img" class=" imageSize" src="${image.url}" title="${fn:escapeXml(image.caption)}" alt="${status.index}" />
+				<c:forEach var="source" items="${image.sources}">
+					<c:choose>
+						<c:when test="${source.title eq 'eMonocot' || source.title eq 'Dioscoreaceae'}">
+							<img id="main-img" class=" imageSize" src="/images/fullsize/${image.identifier}.${image.format}" title="${fn:escapeXml(image.caption)}" alt="${status.index}" />
+						</c:when>
+						<c:otherwise>
+							<img id="main-img" class=" imageSize" src="${image.url}" title="${fn:escapeXml(image.caption)}" alt="${status.index}" />
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+				<c:if test="${empty image.sources}">
+					<img id="main-img" class=" imageSize" src="${image.url}" title="${fn:escapeXml(image.caption)}" alt="${status.index}" />
+				</c:if>
 			</div>
 			<br/>
 			<table class="table" id="image-properties">
@@ -75,26 +89,29 @@
 					</tr>
 				</tbody>
 			</table>
-			<h2 class="noPrint"><spring:message code="related.images"/></h2>
-			<div id="gallery" class="ad-gallery noPrint">
-				<div class="ad-image-wrapper no-display">&#160;</div>
-				<!-- <div class="ad-controls">&#160;</div> -->
-				<div class="ad-nav">
-					<div class="ad-thumbs">
-						<ul class="thumbnails ad-thumb-list thumbnail-gallery-padding">
-							<c:forEach var="image" items="${taxon.images}" varStatus="status">
-								<c:url var="thumbnail" value="/images/thumbnails/${image.identifier}.${image.format}"/>
-								<li>
-									<a href="${image.url}">
-										<c:url var="url" value="/image/${image.identifier}"/> 
-											<img src="${thumbnail}" class="${status.index} thumbnail" onclick="javascript:location.href='${url}';" />
-									</a>
-								</li>
-							</c:forEach>
-						</ul>
+			
+			<c:if test="${not empty taxon.images }">
+				<h2 class="noPrint"><spring:message code="related.images"/></h2>
+				<div id="gallery" class="ad-gallery noPrint">
+					<div class="ad-image-wrapper no-display">&#160;</div>
+					<!-- <div class="ad-controls">&#160;</div> -->
+					<div class="ad-nav">
+						<div class="ad-thumbs">
+							<ul class="thumbnails ad-thumb-list thumbnail-gallery-padding">
+								<c:forEach var="image" items="${taxon.images}" varStatus="status">
+									<c:url var="thumbnail" value="/images/thumbnails/${image.identifier}.${image.format}"/>
+									<li>
+										<a href="${image.url}">
+											<c:url var="url" value="/image/${image.identifier}"/> 
+												<img src="${thumbnail}" class="${status.index} thumbnail" onclick="javascript:location.href='${url}';" />
+										</a>
+									</li>
+								</c:forEach>
+							</ul>
+						</div>
 					</div>
 				</div>
-			</div>
+			</c:if>
 		</div>
 		<div class="span3 info-right">
 			<div><spring:message code="sources" /></div>
