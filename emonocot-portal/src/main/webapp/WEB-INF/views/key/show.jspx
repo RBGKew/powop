@@ -31,7 +31,7 @@
 				<div id="plus">
 					<div class="btn-group">
 					    <c:url var="nextBestImage" value="/css/images/glyphicons/halfsize/glyphicons_009_magic.png"/>
-						<button class="btn" id="nextBest" title="Next best"><img class="small-icon" src="${nextBestImage}" /> <spring:message code="next.best"/></button>
+						<button class="btn disabled" id="nextBest" title="Next best"><img class="small-icon" src="${nextBestImage}" /> <spring:message code="next.best"/></button>
 						<c:url var="pruneRedundantImage" value="/css/images/glyphicons/halfsize/glyphicons_288_scissors.png"/>
 						<button class="btn" id="prune" title="Prune"><img class="small-icon" src="${pruneRedundantImage}" /> <spring:message code="prune.redundant"/></button>
 					</div>
