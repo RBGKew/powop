@@ -8,14 +8,17 @@
 		<div class="navbar-inner">
 			<div class="container">
 			    <c:url value="/" var="brandUrl"/>
-			    <a href="${brandUrl}" class="brand"><img src="/uat/portal/css/images/logo.png" height="48" width="172" alt="eMonocot"/></a>
+			    <c:url value="/css/images/logo.png" var="brandImg"/>
+			    <a href="${brandUrl}" class="brand"><img src="${brandImg}" height="48" width="172" alt="eMonocot"/></a>
 			    
 			    <div class="noPrint">
 			    	<div class="pull-right noPrint">
 					    <ul class="nav">
 						<security:authorize access="!isAuthenticated()">
-						  <a href="/uat/portal/register" class="btn btn-success btn-large">Register</a>
-						  <a href="/uat/portal/login" class="btn btn-primary btn-large">Login</a>
+                          <c:url value="/register" var="registerUrl" />
+						  <a href="${registerUrl}" class="btn btn-success btn-large"><spring:message code="register"/></a>
+                          <c:url value="/login" var="loginUrl" />
+						  <a href="${loginUrl}" class="btn btn-primary btn-large"><spring:message code="login"/></a>
 					    </security:authorize>
 					    <security:authorize access="isAuthenticated()">
 		                    <li class="dropdown" id="menuUser">
