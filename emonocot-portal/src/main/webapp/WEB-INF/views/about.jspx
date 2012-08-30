@@ -1,72 +1,109 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<div class="container" xmlns:jsp="http://java.sun.com/JSP/Page"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:form="http://www.springframework.org/tags/form"
-	xmlns:spring="http://www.springframework.org/tags" version="2.0">
-	<div class="content">
-		<div class="page-header header-margin">
+<div class="page-header header-margin noPrint">
+	<div class="container">
+		<div class="row">
+			<h2 id="page-title" class="span5">
+			  <spring:message code="search.emonocot"/>
+			</h2>
+			
+			<script type="text/javascript">
+				$(document).ready(function() {
+					$("input#query").autocomplete({
+						source: "autocomplete",
+						minLength: 2
+					});
+				});
+			</script>
+			<c:url var="searchUrl" value="/search"/>
+			<form id="search.form" class="pull-right form-search" accept-charset="UTF-8" method="GET" action="${searchUrl}">
+				<input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="query"/>
+				<input type="hidden" name="limit" value="${result.pageSize}" />
+				<input type="hidden" name="start" value="0" />
+				<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+					<input type="hidden" name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
+				</c:forEach>
+				<input type="hidden" name="sort" value="${result.sort}"/>
+				<button class="btn btn-primary"><span class="icon-search icon-white">&amp;nbsp;</span></button>
+				<c:url var="resetUrl" value="/search">
+					<c:param name="query" value=""/>
+				</c:url>
+				<a href="${resetUrl}" class="btn" id="reset"><i class="icon-refresh"><!--  --></i><spring:message code="reset"/></a>
+			</form>
+		</div>
+		<br/>
+	</div>
+</div>
+
+<div class="container">
+	<div class="row">
+		<div class="span8 offset2">
 			<h2>
 				<spring:message code="about.emonocot" />
 			</h2>
 		</div>
-		<div class="row">
-			<div class="span10 offset1">
-				<p class="justified">A collaborative team from <a title="Kew Gardens" href="http://www.kew.org/">Kew</a>, 
-				the <a title="Natural History Museum" href="http://www.nhm.ac.uk/">Natural History Museum</a> (NHM) 
-				and <a title="Oxford University" href="http://www.ox.ac.uk/">Oxford University</a> 
-				has secured a £1.96m consortium grant from the <a title="NERC" href="http://www.nerc.ac.uk/">Natural Environment Research Council</a> (NERC). 
-				The project is led by <a title="Paul Wilkin" href="http://www.kew.org/science/directory/people/Wilkin_Paul.html">Paul Wilkin</a>
-				assisted by <a title="Bill Baker" href="http://www.kew.org/science/directory/people/Baker_William.html">Bill Baker</a>, Abigail Barker, Ben Clark, 
-				<a title="Mark Jackson" href="http://www.kew.org/science/directory/people/Jackson_Mark.html">Mark Jackson</a>, 
-				<a title="Simon Mayo" href="http://www.kew.org/science/directory/people/Mayo_Simon.html">Simon Mayo</a> and 
-				<a href="http://www.kew.org/science/directory/people/Simpson_David.html">Dave Simpson</a> at Kew, 
-				<a title="Vince Smith" href="http://vsmith.info/">Vince Smith</a>, 
-				<a title="Ian Kitching" href="http://www.nhm.ac.uk/research-curation/staff-directory/entomology/i-kitching/index.html">Ian Kitching</a> and 
-				<a title="Malcolm Scoble" href="http://www.nhm.ac.uk/research-curation/staff-directory/entomology/cv-3613.html">Malcolm Scoble</a> at NHM, 
-				and <a href="http://www.zoo.ox.ac.uk/staff/academics/godfray_hcj.htm">Charles Godfray</a> at Oxford. 
-				The 3-year grant will enable the team to build eMonocot, a novel biodiversity web-resource for monocot plants. 
-				Monocots constitute approximately 20% (70,000 species) of all higher plants and include numerous groups of the highest conservation, 
-				ecological and economic importance, such as grasses, sedges, orchids, palms and aroids.</p>
+	</div>
+</div>
 
-				<div class="row">
-				    <c:url value="/css/images/about/Dactylorhiza_thumb.jpg" var="img1Url"/>
-					<img src="${img1Url}" class="pull-right span3" alt="Dactylorhiza"/>					
-					<p class="span7 justified">The objective of this proposal is to produce a web-based treatment of monocot plants, targeted at biodiversity and environmental scientists, 
-					but available to all users including volunteer biologists, the general public and schools. 
-					This site will provide information such as nomenclature, taxonomic descriptions, images, identification guides, geographical, ecological, 
-					DNA sequence and conservation data structured around a taxonomy derived from the <a href="http://apps.kew.org/wcsp/home.do">World Checklist of Monocotyledons</a>, 
-					from which 70,000 outline species pages will be generated. 
-					Within the lifetime of the project, comprehensive species pages will be built for European monocots, 
-					"Sampled Red List Index" monocots and slipper orchids. 
-					Software will be developed to allow taxonomic research to be conducted on the web and to encourage the participation of the global community of monocot taxonomists in eMonocot. 
-					Interactive keys and pages for monocot families and over 2000 genera in selected families will also be created.</p>
+<div class="container" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<div class="row">
+		<div class="span6">
+			<div class="inner">
+				<div class="box">
+					<img src="/uat/portal/css/images/about.png" height="420" width="420" alt="eMonocot Portal"/>
+					<p class="justified">A collaborative team from <a href="http://www.kew.org/" title="Kew Gardens">Kew</a>, 
+					the <a href="http://www.nhm.ac.uk/" title="Natural History Museum">Natural History Museum</a> (NHM) 
+					and <a href="http://www.ox.ac.uk/" title="Oxford University">Oxford University</a> 
+					has secured a £1.96m consortium grant from the <a href="http://www.nerc.ac.uk/" title="NERC">Natural Environment Research Council</a> (NERC). 
+					The project is led by <a href="http://www.kew.org/science/directory/people/Wilkin_Paul.html" title="Paul Wilkin">Paul Wilkin</a>
+					assisted by <a href="http://www.kew.org/science/directory/people/Baker_William.html" title="Bill Baker">Bill Baker</a>, Abigail Barker, Ben Clark, 
+					<a href="http://www.kew.org/science/directory/people/Jackson_Mark.html" title="Mark Jackson">Mark Jackson</a>, 
+					<a href="http://www.kew.org/science/directory/people/Mayo_Simon.html" title="Simon Mayo">Simon Mayo</a> and 
+					<a href="http://www.kew.org/science/directory/people/Simpson_David.html">Dave Simpson</a> at Kew, 
+					<a href="http://vsmith.info/" title="Vince Smith">Vince Smith</a>, 
+					<a href="http://www.nhm.ac.uk/research-curation/staff-directory/entomology/i-kitching/index.html" title="Ian Kitching">Ian Kitching</a> and 
+					<a href="http://www.nhm.ac.uk/research-curation/staff-directory/entomology/cv-3613.html" title="Malcolm Scoble">Malcolm Scoble</a> at NHM, 
+					and <a href="http://www.zoo.ox.ac.uk/staff/academics/godfray_hcj.htm">Charles Godfray</a> at Oxford. 
+					The 3-year grant will enable the team to build eMonocot, a novel biodiversity web-resource for monocot plants. 
+					Monocots constitute approximately 20% (70,000 species) of all higher plants and include numerous groups of the highest conservation, 
+					ecological and economic importance, such as grasses, sedges, orchids, palms and aroids.</p>
 					
-					<p class="span7 justified">RBG Kew is the lead organisation for eMonocot. In addition to coordinating the project, the Kew team will be tasked with generating content for the site, 
+					<p class="justified">The objective of this proposal is to produce a web-based treatment of monocot plants, targeted at biodiversity and environmental scientists, 
+						but available to all users including volunteer biologists, the general public and schools. </p>
+				</div>
+			</div>
+		</div>
+		<div class="span6">
+			<div class="inner">
+				<div class="box">
+					<p class="justified">
+						This site will provide information such as nomenclature, taxonomic descriptions, images, identification guides, geographical, ecological, 
+						DNA sequence and conservation data structured around a taxonomy derived from the <a href="http://apps.kew.org/wcsp/home.do">World Checklist of Monocotyledons</a>, 
+						from which 70,000 outline species pages will be generated. 
+						Within the lifetime of the project, comprehensive species pages will be built for European monocots, 
+						"Sampled Red List Index" monocots and slipper orchids. 
+						Software will be developed to allow taxonomic research to be conducted on the web and to encourage the participation of the global community of monocot taxonomists in eMonocot. 
+						Interactive keys and pages for monocot families and over 2000 genera in selected families will also be created.</p>
+					<p class="justified">RBG Kew is the lead organisation for eMonocot. In addition to coordinating the project, the Kew team will be tasked with generating content for the site, 
 					exploiting existing sources, creating new content from scratch and encouraging the global monocot community to contribute data. 
-					eMonocot will be closely integrated with Kew’s IT and Digital Media Strategy Programme 
+					eMonocot will be closely integrated with Kew?s IT and Digital Media Strategy Programme 
 					and existing RBG Kew web resources such as <a href="http://www.cate-araceae.org/">CATE-Araceae</a>, 
 					<a href="http://www.palmweb.org/">Palmweb</a>and
-					<span class="x_578072110-17092010">
-						<span class="x_578072110-17092010">
-							<a href="http://www.kew.org/data/grasses-db.html" target="_blank"> GrassBase</a>
-						</span>
-					</span>, which represent important building blocks of the eMonocot system.  
+					<span class="x_578072110-17092010"><span class="x_578072110-17092010"><a target="_blank" href="http://www.kew.org/data/grasses-db.html"> GrassBase</a></span></span>, which represent important building blocks of the eMonocot system.  
 					In Oxford, a team of software developers will work closely with developers in Kew to devise the software platform upon which eMonocot will be constructed. 
 					The NHM team will focus on creating social structures and working practices that will facilitate the global interactions envisaged for eMonocot  
 					and will develop web-based metrics to quantify the contribution of taxonomists to biodiversity science. 
 					They will also ensure that the working model established for eMonocot can be extended readily to animal groups. </p>
-				</div>
-
-				<div class="row">
-				    <c:url value="/css/images/about/Ornithogalum_umbellatum_umbellatum.jpg" var="img2Url"/>
-					<img src="${img2Url}" class="pull-left span3" alt="Ornithogalum umbellatum umbellatum"/>
-					<p class="span7 justified">eMonocot builds on the success of the NERC-funded Kew/NHM/Oxford <a href="http://www.cate-project.org/">CATE</a>project as well as ground-breaking developments in eTaxonomy facilitated by <a href="http://www.e-taxonomy.eu/">EDIT</a>. 
+				
+				<p class="justified">eMonocot builds on the success of the NERC-funded Kew/NHM/Oxford <a href="http://www.cate-project.org/">CATE</a>project as well as ground-breaking developments in eTaxonomy facilitated by <a href="http://www.e-taxonomy.eu/">EDIT</a>. 
 					The project is closely linked with key international stakeholders in biodiversity informatics, such as the <a href="http://www.eol.org/">Encyclopedia of Life</a> (EoL), 
 					the <a href="http://www.barcodeoflife.org/">Consortium for the Barcode of Life</a> (CBOL) and the <a href="http://www.gbif.org/">Global Biodiversity Information Facility</a>. 
 					Though focused on a specific plant group, eMonocot is among the most ambitious eTaxonomy projects yet attempted 
 					and has the potential to revolutionise the way taxonomic data are organised and accessed by both the practitioners and users of taxonomy.</p>
 				</div>
-			</div>
+			</div>	
 		</div>
 	</div>
 </div>
