@@ -33,13 +33,13 @@ public class PageObject {
     /**
     *
     */
-    @FindBy(how = How.CLASS_NAME, using = "identify-box")
+    @FindBy(how = How.ID_OR_NAME, using = "identify-box")
     private WebElement identifyBox;
     
     /**
     *
     */
-    @FindBy(how = How.CLASS_NAME, using = "classify-box")
+    @FindBy(how = How.ID_OR_NAME, using = "classify-box")
     private WebElement classifyBox;
 
     /**
