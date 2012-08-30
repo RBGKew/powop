@@ -48,7 +48,7 @@
 				<div class="input form-inline">
 				  <spring:message code="search.for" var="placeholderText"/>	
 			  <input id="query" name="query" class="span6 search-query" type="text" value="" placeholder="${placeholderText}"/>
-			  <button type="submit" class="btn btn-primary">
+			  <button type="submit" class="btn btn-primary btn-large">
 				Search
 			  </button>					
 			</div>

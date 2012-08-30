@@ -20,7 +20,7 @@
 				href="${contactUrl}"><spring:message code="contact.title" />
 			</a></li>
 		</ul>
-		<ul class="foot unstyled noPrint pull-right">
+		<ul class="foot unstyled noPrint">
 		<li class="footer-version">
 			eMonocot
 			<spring:message code="application.version" />
