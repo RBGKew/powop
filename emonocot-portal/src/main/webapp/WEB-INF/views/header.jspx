@@ -8,10 +8,70 @@
 		<div class="navbar-inner">
 			<div class="container">
 			    <c:url value="/" var="brandUrl"/>
-			    <a href="${brandUrl}" class="brand">eMonocot</a>
+			    <a href="${brandUrl}" class="brand"><img src="/uat/portal/css/images/logo.png" height="48" width="172" alt="eMonocot"/></a>
 			    
 			    <div class="noPrint">
-			    	<ul class="nav">			    		
+			    	<div class="pull-right noPrint">
+					    <ul class="nav">
+						<security:authorize access="!isAuthenticated()">
+						  <a href="/uat/portal/register" class="btn btn-success btn-large">Register</a>
+						  <a href="/uat/portal/login" class="btn btn-primary btn-large">Login</a>
+					    </security:authorize>
+					    <security:authorize access="isAuthenticated()">
+		                    <li class="dropdown" id="menuUser">
+		                        <a class="dropdown-toggle" data-toggle="dropdown" href="#menuUser">
+		                              <security:authentication property="principal.username" />
+		                              <b class="caret"><!--  --></b>
+		                        </a>
+		                        <ul class="dropdown-menu">
+					                    <li><jsp:element  name="a">
+					                        <jsp:attribute name="href">
+					                            <c:url value="/logout"/> 
+					                        </jsp:attribute>
+					                            <spring:message code="logout"/>
+					                        </jsp:element>
+					                    </li>
+		                                <li>
+		                                    <jsp:element  name="a">
+		                                        <jsp:attribute name="href">
+		                                        <c:url value="/home"/> 
+		                                        </jsp:attribute>
+		                                        <spring:message code="user.title"/>
+		                                    </jsp:element>
+		                                </li>
+		                                <security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">
+		                                <li>
+		                                    <jsp:element  name="a">
+		                                        <jsp:attribute name="href">
+		                                            <c:url value="/source/e-monocot.org"/> 
+		                                        </jsp:attribute>
+		                                        <spring:message code="admin.title"/>
+		                                    </jsp:element>
+		                                </li>
+		                                <li>
+		                                    <jsp:element  name="a">
+		                                        <jsp:attribute name="href">
+		                                            <c:url value="/source"/> 
+		                                        </jsp:attribute>
+		                                        <spring:message code="sources.title"/>
+		                                    </jsp:element>
+		                                </li>
+		                                <li>
+		                                    <jsp:element  name="a">
+		                                        <jsp:attribute name="href">
+		                                            <c:url value="/group"/> 
+		                                        </jsp:attribute>
+		                                        <spring:message code="group.title"/>
+		                                    </jsp:element>
+		                                </li>
+		                                </security:authorize>
+		                        </ul>
+		                    </li>
+					    </security:authorize>
+					    </ul>
+					    
+					</div>
+			    	<ul class="nav pull-right">			    		
 						<li class="dropdown" id="menuIdentify">
 						    <a href="#menuIdentifiy" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="identify.title"/>
 								<b class="caret"><!--  --></b>
@@ -32,7 +92,6 @@
 										<c:param name="facet" value="CLASS.org.emonocot.model.media.Image"/>
 									</c:url>
 									<a href="${imageSearchUrl}"><spring:message code="browse.images"/></a>
-									
 								</li>								
 							</ul>
 						</li>
@@ -55,78 +114,7 @@
 				    	</li>				    	
 			    	</ul>
 			    </div>
-			    <div class="pull-right noPrint">
-			    <ul class="nav">
-				<security:authorize access="!isAuthenticated()">
-				  <li><jsp:element  name="a">
-				    <jsp:attribute name="href">
-					  <c:url value="/register"/> 
-			        </jsp:attribute>
-			        <spring:message code="register"/>
-			      </jsp:element>
-			      </li>
-			      <li><jsp:element  name="a">
-				    <jsp:attribute name="href">
-					  <c:url value="/login"/> 
-			        </jsp:attribute>
-			        <spring:message code="login"/>
-			      </jsp:element>
-			      </li>
-			    </security:authorize>
-			    <security:authorize access="isAuthenticated()">
-                    <li class="dropdown" id="menuUser">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#menuUser">
-                              <security:authentication property="principal.username" />
-                              <b class="caret"><!--  --></b>
-                        </a>
-                        <ul class="dropdown-menu">
-			                    <li><jsp:element  name="a">
-			                        <jsp:attribute name="href">
-			                            <c:url value="/logout"/> 
-			                        </jsp:attribute>
-			                            <spring:message code="logout"/>
-			                        </jsp:element>
-			                    </li>
-                                <li>
-                                    <jsp:element  name="a">
-                                        <jsp:attribute name="href">
-                                        <c:url value="/home"/> 
-                                        </jsp:attribute>
-                                        <spring:message code="user.title"/>
-                                    </jsp:element>
-                                </li>
-                                <security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">
-                                <li>
-                                    <jsp:element  name="a">
-                                        <jsp:attribute name="href">
-                                            <c:url value="/source/e-monocot.org"/> 
-                                        </jsp:attribute>
-                                        <spring:message code="admin.title"/>
-                                    </jsp:element>
-                                </li>
-                                <li>
-                                    <jsp:element  name="a">
-                                        <jsp:attribute name="href">
-                                            <c:url value="/source"/> 
-                                        </jsp:attribute>
-                                        <spring:message code="sources.title"/>
-                                    </jsp:element>
-                                </li>
-                                <li>
-                                    <jsp:element  name="a">
-                                        <jsp:attribute name="href">
-                                            <c:url value="/group"/> 
-                                        </jsp:attribute>
-                                        <spring:message code="group.title"/>
-                                    </jsp:element>
-                                </li>
-                                </security:authorize>
-                        </ul>
-                    </li>
-			    </security:authorize>
-			    </ul>
 			    
-			</div>
 		</div>
 	</div>
 </div>
