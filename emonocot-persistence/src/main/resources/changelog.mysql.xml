@@ -2269,4 +2269,13 @@
         </insert>
         <rollback><delete tableName="Job"><where>id=10</where></delete></rollback>
     </changeSet>
+    <changeSet id="2012-08-28" author="jk00kg">
+        <addColumn tableName="Place">
+            <column name="mapFeatureId" type="bigint" />
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-08-29" author="jk00kg">
+    <comment>N.B. http://geocommons.com/overlays/33578 data must be loaded into `gis`.`place` table</comment>
+        <sql>UPDATE gis.place g INNER JOIN Place p ON g.fipsCode = p.fipsCode SET p.mapFeatureId = g.OGR_FID</sql>
+    </changeSet>
 </databaseChangeLog>

@@ -66,8 +66,12 @@
 		</div>
 	</div>
     </div>
-	<geo:map x1="${result.params['x1']}" y1="${result.params['y1']}" x2="${result.params['x2']}" y2="${result.params['y2']}" mapClass="full-width-map" zoomBoxSearch="true"/>
-	<div class="container">
+    <geo:map x1="${result.params['x1']}" y1="${result.params['y1']}" x2="${result.params['x2']}" y2="${result.params['y2']}" mapClass="full-width-map" zoomBoxSearch="true">
+        <c:if test="${not empty result.params['featureId']}">
+            <geo:layer name="places" layer="emonocot:place" style="eMonocot" featureId="${result.params['featureId']}" />
+        </c:if>
+    </geo:map>
+    <div class="container">
 	<div class="content">
 		<div class="row">
 			<div class="span3 noPrint">

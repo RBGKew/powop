@@ -51,7 +51,7 @@
 	                  			<c:set var="url" value="/spatial?" />
 	                		</c:when>
 	                		<c:otherwise>
-	                  			<c:set var="url" value="/spatial?x1=${item.envelope.minX}&amp;x2=${item.envelope.maxX}&amp;y1=${item.envelope.minY}&amp;y2=${item.envelope.maxY}" />
+	                  			<c:set var="url" value="/spatial?x1=${item.envelope.minX}&amp;x2=${item.envelope.maxX}&amp;y1=${item.envelope.minY}&amp;y2=${item.envelope.maxY}&amp;featureId=${item.mapFeatureId}" />
 	                		</c:otherwise>
 						</c:choose>
 				  		<results:simpleListEntry itemName="${item.name}" 

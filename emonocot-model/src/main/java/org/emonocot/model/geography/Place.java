@@ -58,6 +58,11 @@ public class Place extends SearchableObject {
 	 * 
 	 */
 	private String fipsCode;
+	
+	/**
+	 * A featureId (OGR_FID) referenced by the map server
+	 */
+	private Long mapFeatureId;
 
 	/**
 	 * A JTS Polygon for this place
@@ -66,7 +71,8 @@ public class Place extends SearchableObject {
 	private MultiPolygon shape;
 
 	/**
-	 * Used for places only known as a single point
+	 * Used for a single point reference of a place.
+	 * Usually in place of a shape, but possibly 
 	 */
 	private Point point;
 
@@ -119,6 +125,20 @@ public class Place extends SearchableObject {
 	 */
 	public void setFipsCode(String fipsCode) {
 		this.fipsCode = fipsCode;
+	}
+
+	/**
+	 * @return the mapFeatureId
+	 */
+	public final Long getMapFeatureId() {
+		return mapFeatureId;
+	}
+
+	/**
+	 * @param mapFeatureId the mapFeatureId to set
+	 */
+	public final void setMapFeatureId(Long mapFeatureId) {
+		this.mapFeatureId = mapFeatureId;
 	}
 
 	/**

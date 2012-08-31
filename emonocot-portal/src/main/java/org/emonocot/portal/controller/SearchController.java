@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.emonocot.api.FacetName;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.PlaceService;
@@ -302,6 +303,7 @@ public class SearchController {
       @RequestParam(value = "y1", required = false) final Double y1,
       @RequestParam(value = "x2", required = false) final Double x2,
       @RequestParam(value = "y2", required = false) final Double y2,
+      @RequestParam(value = "featureId", required = false) final String featureId,
       @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
       @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
       @RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
@@ -363,6 +365,9 @@ public class SearchController {
         result.putParam("y1", y1);
         result.putParam("x2", x2);
         result.putParam("y2", y2);
+      }
+      if(!StringUtils.isEmpty(featureId)){
+          result.putParam("featureId", featureId);
       }
       result.putParam("view", view);
       result.setSort(sort);
