@@ -1,40 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<div class="page-header header-margin noPrint">
-	<div class="container">
-		<div class="row">
-			<h2 id="page-title" class="span5">
-			  <spring:message code="search.emonocot"/>
-			</h2>
-			
-			<script type="text/javascript">
-				$(document).ready(function() {
-					$("input#query").autocomplete({
-						source: "autocomplete",
-						minLength: 2
-					});
-				});
-			</script>
-			<c:url var="searchUrl" value="/search"/>
-			<form id="search.form" class="pull-right form-search" accept-charset="UTF-8" method="GET" action="${searchUrl}">
-				<input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="query"/>
-				<input type="hidden" name="limit" value="${result.pageSize}" />
-				<input type="hidden" name="start" value="0" />
-				<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-					<input type="hidden" name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
-				</c:forEach>
-				<input type="hidden" name="sort" value="${result.sort}"/>
-				<button class="btn btn-primary"><span class="icon-search icon-white">&amp;nbsp;</span></button>
-				<c:url var="resetUrl" value="/search">
-					<c:param name="query" value=""/>
-				</c:url>
-				<a href="${resetUrl}" class="btn" id="reset"><i class="icon-refresh"><!--  --></i><spring:message code="reset"/></a>
-			</form>
-		</div>
-		<br/>
-	</div>
-</div>
-
-
 <div class="container" xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:em="http://e-monocot.org/portal/functions"
@@ -44,9 +8,42 @@
 	xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu"
 	xmlns:spring="http://www.springframework.org/tags"
 	version="2.0">
+	
+	<div class="page-header header-margin noPrint">
+	    <div class="row">
+	        <h2 id="page-title" class="span5">
+	          <spring:message code="search.emonocot"/>
+	        </h2>
+	        
+	        <script type="text/javascript">
+	            $(document).ready(function() {
+	                $("input#query").autocomplete({
+	                    source: "autocomplete",
+	                    minLength: 2
+	                });
+	            });
+	        </script>
+	        <c:url var="searchUrl" value="/search"/>
+	        <form id="search.form" class="pull-right form-search" accept-charset="UTF-8" method="GET" action="${searchUrl}">
+	            <input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="query"/>
+	            <input type="hidden" name="limit" value="${result.pageSize}" />
+	            <input type="hidden" name="start" value="0" />
+	            <c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+	                <input type="hidden" name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
+	            </c:forEach>
+	            <input type="hidden" name="sort" value="${result.sort}"/>
+	            <button class="btn btn-primary"><span class="icon-search icon-white">&amp;nbsp;</span></button>
+	            <c:url var="resetUrl" value="/search">
+	                <c:param name="query" value=""/>
+	            </c:url>
+	            <a href="${resetUrl}" class="btn" id="reset"><i class="icon-refresh"><!--  --></i><spring:message code="reset"/></a>
+	        </form>
+	    </div>
+	    <br/>
+	</div>
+	
 	<jsp:useBean id="result" scope="request" 
 	type="org.emonocot.model.pager.Page&lt;org.emonocot.model.taxon.Taxon&gt;" />
-	
 	<div class="row">
 		<div class="span3 noPrint">
 			<c:forEach var="facetName" items="${result.facetNames}">
