@@ -75,7 +75,6 @@
 				
 				<c:if test="${not empty taxon.images}">
 					<div id="gallery" class="ad-gallery clearfix">
-						<div class="ad-image-wrapper">&#160;</div>
 						<c:if test="${fn:length(taxon.images) == 1 }">
 							<c:set value="no-display" var="cssClass"></c:set>
 						</c:if>
