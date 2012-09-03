@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<div class="container" xmlns:jsp="http://java.sun.com/JSP/Page"
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
@@ -9,188 +9,194 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	version="2.0">
 	
-	<div class="page-header header-margin noPrint">
-	    <div class="row">
-	        <h2 id="page-title" class="span5">
-	          <spring:message code="search.emonocot"/>
-	        </h2>
-	        
-	        <script type="text/javascript">
-	            $(document).ready(function() {
-	                $("input#query").autocomplete({
-	                    source: "autocomplete",
-	                    minLength: 2
-	                });
-	            });
-	        </script>
-	        <c:url var="searchUrl" value="/search"/>
-	        <form id="search.form" class="pull-right form-search" accept-charset="UTF-8" method="GET" action="${searchUrl}">
-	            <input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="query"/>
-	            <input type="hidden" name="limit" value="${result.pageSize}" />
-	            <input type="hidden" name="start" value="0" />
-	            <c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-	                <input type="hidden" name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
-	            </c:forEach>
-	            <input type="hidden" name="sort" value="${result.sort}"/>
-	            <button class="btn btn-primary"><span class="icon-search icon-white">&amp;nbsp;</span></button>
-	            <c:url var="resetUrl" value="/search">
-	                <c:param name="query" value=""/>
-	            </c:url>
-	            <a href="${resetUrl}" class="btn" id="reset"><i class="icon-refresh"><!--  --></i><spring:message code="reset"/></a>
-	        </form>
+	<div class="page-header noPrint">
+		<div class="container">
+		    <div class="row">
+		        <h2 id="page-title" class="span5">
+		          <spring:message code="search.emonocot"/>
+		        </h2>
+		        
+		        <script type="text/javascript">
+		            $(document).ready(function() {
+		                $("input#query").autocomplete({
+		                    source: "autocomplete",
+		                    minLength: 2
+		                });
+		            });
+		        </script>
+		        <c:url var="searchUrl" value="/search"/>
+		        <form id="search.form" class="pull-right form-search" accept-charset="UTF-8" method="GET" action="${searchUrl}">
+		            <input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="query"/>
+		            <input type="hidden" name="limit" value="${result.pageSize}" />
+		            <input type="hidden" name="start" value="0" />
+		            <c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+		                <input type="hidden" name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
+		            </c:forEach>
+		            <input type="hidden" name="sort" value="${result.sort}"/>
+		            <button class="btn btn-primary"><span class="icon-search icon-white">&amp;nbsp;</span></button>
+		            <c:url var="resetUrl" value="/search">
+		                <c:param name="query" value=""/>
+		            </c:url>
+		            <a href="${resetUrl}" class="btn" id="reset"><i class="icon-refresh"><!--  --></i><spring:message code="reset"/></a>
+		        </form>
+		    </div>
 	    </div>
-	    <br/>
+	    <img src="/uat/portal/css/images/banner/bamboo-left.png" class="left-bamboo" alt="Left Bamboo Decoration" width="230" height="470"/>
+		<img src="/uat/portal/css/images/banner/bamboo-right.png" class="right-bamboo" alt="Right Bamboo Decoration" width="170" height="470"/>
 	</div>
 	
-	<jsp:useBean id="result" scope="request" 
-	type="org.emonocot.model.pager.Page&lt;org.emonocot.model.taxon.Taxon&gt;" />
-	<div class="row">
-		<div class="span3 noPrint">
-			<c:forEach var="facetName" items="${result.facetNames}">
-				<div class="row">
-					<div class="span3">
-						<div class="inner">
-							<ul class="box nav nav-list" id="facets">
-				<c:choose>
-					<c:when test="${facetName eq 'CLASS'}">
-						<menu:facet url="/search" facetName="${facetName}" pager="${result}" title="restrict.your.search" showIcons="true"/>
-					</c:when>
-					<c:otherwise>
-						<menu:facet url="/search" facetName="${facetName}" pager="${result}"/>
-					</c:otherwise>
-				</c:choose>
-							</ul>
+	
+	<div class="container">
+		<jsp:useBean id="result" scope="request" 
+		type="org.emonocot.model.pager.Page&lt;org.emonocot.model.taxon.Taxon&gt;" />
+		<div class="row">
+			<div class="span3 noPrint">
+				<c:forEach var="facetName" items="${result.facetNames}">
+					<div class="row">
+						<div class="span3">
+							<div class="inner">
+								<ul class="box nav nav-list" id="facets">
+					<c:choose>
+						<c:when test="${facetName eq 'CLASS'}">
+							<menu:facet url="/search" facetName="${facetName}" pager="${result}" title="restrict.your.search" showIcons="true"/>
+						</c:when>
+						<c:otherwise>
+							<menu:facet url="/search" facetName="${facetName}" pager="${result}"/>
+						</c:otherwise>
+					</c:choose>
+								</ul>
+							</div>
 						</div>
 					</div>
-				</div>
-			</c:forEach>
-		</div>
-		<div class="span9">
-			<div class="inner">
-				<div class="box">
-					<div class="row noPrint">
-						<tags:sort url="/search" result="${result}" spanClass="pull-right"/>
-						<div id="pages" class="pull-left">
-							<tags:results pager="${result}"/>
-						</div>
-					</div>
-					<br/>
-					
-					<div id="results" class="row no-margin-left">
-					
-						<jsp:scriptlet>
-							String classFacet = result.getSelectedFacets().get("CLASS");
-							if(classFacet == null) {
-								pageContext.setAttribute("imageClass",Boolean.FALSE);
-							} else if (classFacet.equals("org.emonocot.model.media.Image")){
-								pageContext.setAttribute("imageClass",Boolean.TRUE);
-							} else {
-								pageContext.setAttribute("imageClass",Boolean.FALSE);
-							}
-						</jsp:scriptlet>
-						
-						<c:choose>
-							<c:when test="${empty result.params['view']}">
-								<c:choose>
-									<c:when test="${imageClass}">
-										<results:grid pager="${result}"/>
-									</c:when>
-									<c:otherwise>
-										<results:list pager="${result}"/>
-									</c:otherwise>
-								</c:choose>
-							</c:when>
-							<c:when test="${result.params['view'] == 'grid'}">
-								<br/>
-								<results:grid pager="${result}"/>
-							</c:when>
-							<c:when test="${result.params['view'] == 'simpleList'}">
-								<br/>
-								<results:simpleList pager="${result}"/>
-							</c:when>
-							<c:when test="${result.params['view'] == 'list'}">
-								<results:list pager="${result}"/>
-							</c:when>
-						</c:choose>
-						
-						<!-- modal-gallery is the modal dialog used for the image gallery -->
-						<div id="gallery" class="no-display" data-toggle="modal-gallery" data-target="#modal-gallery">
-							<c:forEach var="item" items="${result.records}">
-								<c:choose>
-									<c:when test="${item.className == 'Taxon'}">
-										<c:if test="${not empty item.image}">
-											<c:url var="thumbnail" value="/images/fullsize/${item.image.identifier}.${item.image.format}"/>
-											<a href="${thumbnail}" rel="gallery" title="${em:stripXml(item.name)}">${item.name}</a>
-										</c:if>
-									</c:when>
-									<c:when test="${item.className == 'Image'}">
-										<c:url var="thumbnail" value="/images/fullsize/${item.identifier}.${item.format}"/>
-										<a href="${thumbnail}" rel="gallery" title="${em:stripXml(item.caption)}">${item.caption}</a>
-									</c:when>
-								</c:choose>
-							</c:forEach>
-						</div>
-						
-						<div id="modal-gallery" class="modal modal-gallery hide fade modal-fullscreen">
-							<div class="modal-header">
-								<a class="close" data-dismiss="modal">&#215;</a>
+				</c:forEach>
+			</div>
+			<div class="span9">
+				<div class="inner">
+					<div class="box">
+						<div class="row noPrint">
+							<tags:sort url="/search" result="${result}" spanClass="pull-right"/>
+							<div id="pages" class="pull-left">
+								<tags:results pager="${result}"/>
 							</div>
-							<div class="modal-body">
-								<div class="modal-image"><!--  --></div>
-								<div class="carousel-caption">
-									<a class="modal-title"><!--  --></a>
-								</div>
-							</div>
-							<!--<div class="modal-footer">
-								<a class="btn btn-primary modal-next">Next <i class="icon-arrow-right icon-white"></i></a>
-								<a class="btn btn-info modal-prev"><i class="icon-arrow-left icon-white"></i> Previous</a>
-								<a class="btn btn-success modal-play modal-slideshow" data-slideshow="2000"><i class="icon-play icon-white"></i> Slideshow</a>
-								//<a class="btn modal-download" target="_blank"><i class="icon-download"></i> Download</a>
-							</div>-->
 						</div>
+						<br/>
 						
-						<script>
-							/*jslint unparam: true */
-							/*global window, document, $ */
-							$(function () {
-								'use strict';
-								
-								// Start slideshow button:
-								$('#start-slideshow').button().click(function () {
-									var options = $(this).data(),
-									modal = $(options.target),
-									data = modal.data('modal');
-									if (data) {
-										jQuery.extend(data.options, options);
-									} else {
-										options = jQuery.extend(modal.data(), options);
-									}
-									modal.find('.modal-slideshow').find('i').removeClass('icon-play').addClass('icon-pause');
-									modal.modal(options);
-								});
+						<div id="results" class="row no-margin-left">
+						
+							<jsp:scriptlet>
+								String classFacet = result.getSelectedFacets().get("CLASS");
+								if(classFacet == null) {
+									pageContext.setAttribute("imageClass",Boolean.FALSE);
+								} else if (classFacet.equals("org.emonocot.model.media.Image")){
+									pageContext.setAttribute("imageClass",Boolean.TRUE);
+								} else {
+									pageContext.setAttribute("imageClass",Boolean.FALSE);
+								}
+							</jsp:scriptlet>
 							
-							});
-						</script>
-						
-						<script>
-							$(function () {
-								$("a[rel=tooltip]").tooltip({
-									live: true
+							<c:choose>
+								<c:when test="${empty result.params['view']}">
+									<c:choose>
+										<c:when test="${imageClass}">
+											<results:grid pager="${result}"/>
+										</c:when>
+										<c:otherwise>
+											<results:list pager="${result}"/>
+										</c:otherwise>
+									</c:choose>
+								</c:when>
+								<c:when test="${result.params['view'] == 'grid'}">
+									<br/>
+									<results:grid pager="${result}"/>
+								</c:when>
+								<c:when test="${result.params['view'] == 'simpleList'}">
+									<br/>
+									<results:simpleList pager="${result}"/>
+								</c:when>
+								<c:when test="${result.params['view'] == 'list'}">
+									<results:list pager="${result}"/>
+								</c:when>
+							</c:choose>
+							
+							<!-- modal-gallery is the modal dialog used for the image gallery -->
+							<div id="gallery" class="no-display" data-toggle="modal-gallery" data-target="#modal-gallery">
+								<c:forEach var="item" items="${result.records}">
+									<c:choose>
+										<c:when test="${item.className == 'Taxon'}">
+											<c:if test="${not empty item.image}">
+												<c:url var="thumbnail" value="/images/fullsize/${item.image.identifier}.${item.image.format}"/>
+												<a href="${thumbnail}" rel="gallery" title="${em:stripXml(item.name)}">${item.name}</a>
+											</c:if>
+										</c:when>
+										<c:when test="${item.className == 'Image'}">
+											<c:url var="thumbnail" value="/images/fullsize/${item.identifier}.${item.format}"/>
+											<a href="${thumbnail}" rel="gallery" title="${em:stripXml(item.caption)}">${item.caption}</a>
+										</c:when>
+									</c:choose>
+								</c:forEach>
+							</div>
+							
+							<div id="modal-gallery" class="modal modal-gallery hide fade modal-fullscreen">
+								<div class="modal-header">
+									<a class="close" data-dismiss="modal">&#215;</a>
+								</div>
+								<div class="modal-body">
+									<div class="modal-image"><!--  --></div>
+									<div class="carousel-caption">
+										<a class="modal-title"><!--  --></a>
+									</div>
+								</div>
+								<!--<div class="modal-footer">
+									<a class="btn btn-primary modal-next">Next <i class="icon-arrow-right icon-white"></i></a>
+									<a class="btn btn-info modal-prev"><i class="icon-arrow-left icon-white"></i> Previous</a>
+									<a class="btn btn-success modal-play modal-slideshow" data-slideshow="2000"><i class="icon-play icon-white"></i> Slideshow</a>
+									//<a class="btn modal-download" target="_blank"><i class="icon-download"></i> Download</a>
+								</div>-->
+							</div>
+							
+							<script>
+								/*jslint unparam: true */
+								/*global window, document, $ */
+								$(function () {
+									'use strict';
+									
+									// Start slideshow button:
+									$('#start-slideshow').button().click(function () {
+										var options = $(this).data(),
+										modal = $(options.target),
+										data = modal.data('modal');
+										if (data) {
+											jQuery.extend(data.options, options);
+										} else {
+											options = jQuery.extend(modal.data(), options);
+										}
+										modal.find('.modal-slideshow').find('i').removeClass('icon-play').addClass('icon-pause');
+										modal.modal(options);
+									});
+								
 								});
-							});
-						</script>
-					</div>
-					<div class="row noPrint">
-						<div id="viewIcons" class="span3">
-							<tags:view url="/search" result="${result}"/>
+							</script>
+							
+							<script>
+								$(function () {
+									$("a[rel=tooltip]").tooltip({
+										live: true
+									});
+								});
+							</script>
 						</div>
-						<div class="pagination pull-right">
-							<tags:pagination pager="${result}" url="search"/>
+						<div class="row noPrint">
+							<div id="viewIcons" class="span3">
+								<tags:view url="/search" result="${result}"/>
+							</div>
+							<div class="pagination pull-right">
+								<tags:pagination pager="${result}" url="search"/>
+							</div>
 						</div>
+						<br/>
 					</div>
-					<br/>
 				</div>
 			</div>
 		</div>
-	</div>
+	</div>		
 </div>

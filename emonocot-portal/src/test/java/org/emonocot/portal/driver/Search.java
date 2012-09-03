@@ -144,8 +144,7 @@ public class Search extends PageObject {
      *            the name of the facet value to select
      * @return the corresponding search results page
      */
-    public final Search selectFacet(final String facetName,
-            final String facetValue) {
+    public final Search selectFacet(final String facetName, final String facetValue) {
         WebElement classFacet = facets.findElement(By.xpath("li[@class = '" + facetName + "']/a[span/text() = \'" + facetValue + "\']"));
         return openAs(classFacet.getAttribute("href"), Search.class);
     }
