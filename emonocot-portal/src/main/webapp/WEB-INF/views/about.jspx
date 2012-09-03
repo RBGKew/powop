@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 <div class="page-header noPrint">
 	<div class="container">
 	    <div class="row">
@@ -23,7 +27,7 @@
 	                <input type="hidden" name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
 	            </c:forEach>
 	            <input type="hidden" name="sort" value="${result.sort}"/>
-	            <button class="btn btn-primary"><span class="icon-search icon-white">&amp;nbsp;</span></button>
+	            <button class="btn btn-primary"><span class="icon-search icon-white">&#160;</span></button>
 	            <c:url var="resetUrl" value="/search">
 	                <c:param name="query" value=""/>
 	            </c:url>
@@ -31,8 +35,8 @@
 	        </form>
 	    </div>
     </div>
-    <img src="/uat/portal/css/images/banner/bamboo-left.png" class="left-bamboo" alt="Left Bamboo Decoration" width="230" height="470"/>
-	<img src="/uat/portal/css/images/banner/bamboo-right.png" class="right-bamboo" alt="Right Bamboo Decoration" width="170" height="470"/>
+    <img src="/css/images/banner/bamboo-left.png" class="left-bamboo" alt="Left Bamboo Decoration" width="230" height="470"/>
+	<img src="/css/images/banner/bamboo-right.png" class="right-bamboo" alt="Right Bamboo Decoration" width="170" height="470"/>
 </div>
 
 <div class="container">
@@ -53,7 +57,7 @@
 		<div class="span6">
 			<div class="inner">
 				<div class="box">
-					<img src="/uat/portal/css/images/about.png" height="420" width="420" alt="eMonocot Portal"/>
+					<img src="/css/images/about.png" height="420" width="420" alt="eMonocot Portal"/>
 					<p class="justified">A collaborative team from <a href="http://www.kew.org/" title="Kew Gardens">Kew</a>, 
 					the <a href="http://www.nhm.ac.uk/" title="Natural History Museum">Natural History Museum</a> (NHM) 
 					and <a href="http://www.ox.ac.uk/" title="Oxford University">Oxford University</a> 
@@ -107,4 +111,5 @@
 			</div>	
 		</div>
 	</div>
+</div>
 </div>

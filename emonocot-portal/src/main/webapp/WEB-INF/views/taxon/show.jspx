@@ -31,7 +31,7 @@
 		                <input type="hidden" name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
 		            </c:forEach>
 		            <input type="hidden" name="sort" value="${result.sort}"/>
-		            <button class="btn btn-primary"><span class="icon-search icon-white">&amp;nbsp;</span></button>
+		            <button class="btn btn-primary"><span class="icon-search icon-white">&#160;</span></button>
 		            <c:url var="resetUrl" value="/search">
 		                <c:param name="query" value=""/>
 		            </c:url>
@@ -39,8 +39,8 @@
 		        </form>
 		    </div>
 	    </div>
-	    <img src="/uat/portal/css/images/banner/bamboo-left.png" class="left-bamboo" alt="Left Bamboo Decoration" width="230" height="470"/>
-		<img src="/uat/portal/css/images/banner/bamboo-right.png" class="right-bamboo" alt="Right Bamboo Decoration" width="170" height="470"/>
+	    <img src="/css/images/banner/bamboo-left.png" class="left-bamboo" alt="Left Bamboo Decoration" width="230" height="470"/>
+		<img src="/css/images/banner/bamboo-right.png" class="right-bamboo" alt="Right Bamboo Decoration" width="170" height="470"/>
 	</div>
 
 
@@ -65,16 +65,7 @@
 					</c:choose>
 				</c:if>
 				
-				<c:if test="${taxon.accepted == null}">
-					<div id="taxonomicTree">
-					<h5><spring:message code="taxonomicTree" /></h5>
-					<ul id="taxonHierarchy">
-						<c:if test="${not empty taxon.ancestors}">
-							<tags:tree taxon="${taxon}" ancestors="${taxon.ancestors}" />
-						</c:if>
-					</ul>
-					</div>
-				</c:if>
+				
 				
 				<c:if test="${not empty taxon.images}">
 					<div id="gallery" class="ad-gallery clearfix">
@@ -266,19 +257,27 @@
 			</div>
 			<div id="sidebar" class="span4 sidebar">
 				<div class="inner">
-		     		<div class="box">
-		     			<h2>Example sidebar box</h2>
-		     			<p>Example sidebar text.</p>
-		     		</div>
+					<div class="box">
+						<c:if test="${taxon.accepted == null}">
+							<div id="taxonomicTree">
+								<h5><spring:message code="taxonomicTree" /></h5>
+								<ul id="taxonHierarchy">
+									<c:if test="${not empty taxon.ancestors}">
+										<tags:tree taxon="${taxon}" ancestors="${taxon.ancestors}" />
+									</c:if>
+								</ul>
+							</div>
+						</c:if>
+					</div>
 				</div>
 				
 				<div class="inner">
-		     		<div class="box">
-		     			<h2>Another Example sidebar box</h2>
-		     			<p>Example sidebar text.</p>
-		     		</div>
+					<div class="box">
+						<h2>Another Example sidebar box</h2>
+						<p>Example sidebar text.</p>
+					</div>
 				</div>
-	     	</div>
+			</div>
 		</div>
 	</div>
 </div>

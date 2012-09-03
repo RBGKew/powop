@@ -33,7 +33,7 @@
 		                <input type="hidden" name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
 		            </c:forEach>
 		            <input type="hidden" name="sort" value="${result.sort}"/>
-		            <button class="btn btn-primary"><span class="icon-search icon-white">&amp;nbsp;</span></button>
+		            <button class="btn btn-primary"><span class="icon-search icon-white">&#160;</span></button>
 		            <c:url var="resetUrl" value="/search">
 		                <c:param name="query" value=""/>
 		            </c:url>
@@ -41,8 +41,8 @@
 		        </form>
 		    </div>
 	    </div>
-	    <img src="/uat/portal/css/images/banner/bamboo-left.png" class="left-bamboo" alt="Left Bamboo Decoration" width="230" height="470"/>
-		<img src="/uat/portal/css/images/banner/bamboo-right.png" class="right-bamboo" alt="Right Bamboo Decoration" width="170" height="470"/>
+	    <img src="/css/images/banner/bamboo-left.png" class="left-bamboo" alt="Left Bamboo Decoration" width="230" height="470"/>
+		<img src="/css/images/banner/bamboo-right.png" class="right-bamboo" alt="Right Bamboo Decoration" width="170" height="470"/>
 	</div>
 	
 	
@@ -74,11 +74,15 @@
 				<div class="inner">
 					<div class="box">
 						<div class="row noPrint">
+						<div id="viewIcons" class="span3">
+								<tags:view url="/search" result="${result}"/>
+							</div>
 							<tags:sort url="/search" result="${result}" spanClass="pull-right"/>
-							<div id="pages" class="pull-left">
+							
+						</div>
+						<div id="pages" class="pull-left">
 								<tags:results pager="${result}"/>
 							</div>
-						</div>
 						<br/>
 						
 						<div id="results" class="row no-margin-left">
@@ -186,9 +190,7 @@
 							</script>
 						</div>
 						<div class="row noPrint">
-							<div id="viewIcons" class="span3">
-								<tags:view url="/search" result="${result}"/>
-							</div>
+							
 							<div class="pagination pull-right">
 								<tags:pagination pager="${result}" url="search"/>
 							</div>
