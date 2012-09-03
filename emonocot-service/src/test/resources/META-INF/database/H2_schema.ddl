@@ -21,7 +21,7 @@ create table Image_Source (Image_id bigint not null, sources_id bigint not null,
 drop table if exists Job;
 create table Job (id bigint not null, identifier varchar(255), duration timestamp, exitDescription clob, exitCode varchar(255), jobId bigint, jobInstance varchar(255), jobType varchar(255), lastHarvested timestamp, processSkip integer, recordsRead integer, readSkip integer, resource varchar(255), family varchar(255), startTime timestamp, status varchar(255), uri varchar(255), writeSkip integer, written integer, source_id bigint, primary key (id), unique (identifier));
 drop table if exists Place;
-create table Place (id bigint not null, identifier varchar(255), created timestamp, modified timestamp, name varchar(255), fipsCode varchar(5), shape blob, point blob, license varchar(255), source varchar(255), creator varchar(255), authority_id bigint, primary key (id), unique (identifier));
+create table Place (id bigint not null, identifier varchar(255), created timestamp, modified timestamp, name varchar(255), fipsCode varchar(5), shape blob, point blob, license varchar(255), source varchar(255), creator varchar(255), authority_id bigint, mapFeatureId bigint, primary key (id), unique (identifier));
 drop table if exists Place_Source;
 create table Place_Source (Place_id bigint not null, sources_id bigint not null, primary key (Place_id, sources_id));
 drop table if exists Principal;
