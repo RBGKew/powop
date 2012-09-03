@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<div class="container" xmlns:jsp="http://java.sun.com/JSP/Page"
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
@@ -7,74 +7,77 @@
 	xmlns:geo="urn:jsptagdir:/WEB-INF/tags/geo"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 
-	<c:set var="bibliography" value="${em:bibliography(taxon)}"/>
-	<div class="content">	
-		<header class="jumbotron subhead" id="overview">
-			<div class="page-header header-margin">
-				<div class="row">
-				    <c:url value="/css/images/glyphicons/fullsize/glyphicons_001_leaf.png" var="taxonIconUrl"/>					
-					<h2 id="page-title">
-					    <img src="${taxonIconUrl}" class="pull-left noPrint header-icon" alt="Taxon"/>
-						<span class="taxonName">${taxon.name}</span> ${taxon.authorship}
-					</h2>				
-					<c:if test="${taxon.protologue != null}">
-						<c:set var="protologLink" value="${em:protologLink(taxon)}"/>
-						<c:choose>
-							<c:when test="${protologLink != null}">
-								<small id="protologue">
-									<a href="${protologLink.identifier}" title="${fn:escapeXml(protologLink.title)}">${taxon.protologue.title} ${taxon.protologue.volume}${taxon.protologueMicroReference} ${taxon.protologue.datePublished}</a>
-								</small>
-							</c:when>
-							<c:otherwise>
-								<small id="protologue">${taxon.protologue.title} ${taxon.protologue.volume}${taxon.protologueMicroReference} ${taxon.protologue.datePublished}</small>
-							</c:otherwise>
-						</c:choose>
-					</c:if>
-				</div>
-			</div>
-			<c:if test="${not empty taxon.images or not empty taxon.content or not empty em:regions(taxon) or not empty taxon.children or not empty taxon.synonyms or not empty bibliography.references}">
-			<div class="subnav noPrint">
-				<ul class="nav nav-pills">
-					<li><c:if test="${not empty taxon.images}"><a href="#images"><spring:message code="images" /></a></c:if></li>
-					<li><c:if test="${not empty taxon.content}"><a href="#textContent"><spring:message code="description" /></a></c:if></li>
-					<li><c:if test="${not empty em:regions(taxon)}"><a href="#map"><spring:message code="distributionMap" /></a></c:if></li>
-					<li><c:if test="${not empty taxon.children}"><a href="#children"><spring:message code="children" /></a></c:if></li>
-					<li><c:if test="${not empty taxon.synonyms}"><a href="#synonyms"><spring:message code="synonyms" /></a></c:if></li>
-					<li><c:if test="${not empty bibliography.references}"><a href="#bibliography"><spring:message code="bibliography" /></a></c:if></li>
-				</ul>
-			</div>
-			</c:if>
-		</header>	
-		
-		<div class="row">
-			<div class="span9">
-			    <section id="status">
-				  <c:choose>
-				  	<c:when test="${taxon.status == 'synonym' and taxon.accepted != null}">
-					  <spring:message code="isSynonym"/>
-					  <c:url var="acceptedUrl" value="/taxon/${taxon.accepted.identifier}"/>
-					  <a href="${acceptedUrl}">${taxon.accepted.name} ${taxon.accepted.authorship}</a>						
-					</c:when>
-					<c:when test="${taxon.status == 'illegitimate' and taxon.accepted != null}">
-						<spring:message code="isSynonym"/>
-					    <c:url var="acceptedUrl" value="/taxon/${taxon.accepted.identifier}"/>
-					    <a href="${acceptedUrl}">${taxon.accepted.name} ${taxon.accepted.authorship}</a>
-					</c:when>
-					<c:when test="${taxon.status == 'unplaced'}">
-					  <spring:message code="isUnplaced" />
-					</c:when>
-					<c:when test="${taxon.status == 'accepted'}">
-						<spring:message code="isAccepted" />
-					    <c:url var="sourceUrl" value="/source/${taxon.authority.identifier}"/>
-					    <a href="${acceptedUrl}">${taxon.authority.title}</a>
-					</c:when>
-				  </c:choose>
-				</section>
-				<c:if test="${not empty taxon.images}">
+	<div class="page-header noPrint">
+		<div class="container">
+		    <div class="row">
+		        <h2 id="page-title" class="span5">
+		          <spring:message code="search.emonocot"/>
+		        </h2>
+		        
+		        <script type="text/javascript">
+		            $(document).ready(function() {
+		                $("input#query").autocomplete({
+		                    source: "autocomplete",
+		                    minLength: 2
+		                });
+		            });
+		        </script>
+		        <c:url var="searchUrl" value="/search"/>
+		        <form id="search.form" class="pull-right form-search" accept-charset="UTF-8" method="GET" action="${searchUrl}">
+		            <input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="query"/>
+		            <input type="hidden" name="limit" value="${result.pageSize}" />
+		            <input type="hidden" name="start" value="0" />
+		            <c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+		                <input type="hidden" name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
+		            </c:forEach>
+		            <input type="hidden" name="sort" value="${result.sort}"/>
+		            <button class="btn btn-primary"><span class="icon-search icon-white">&amp;nbsp;</span></button>
+		            <c:url var="resetUrl" value="/search">
+		                <c:param name="query" value=""/>
+		            </c:url>
+		            <a href="${resetUrl}" class="btn" id="reset"><i class="icon-refresh"><!--  --></i><spring:message code="reset"/></a>
+		        </form>
+		    </div>
+	    </div>
+	    <img src="/uat/portal/css/images/banner/bamboo-left.png" class="left-bamboo" alt="Left Bamboo Decoration" width="230" height="470"/>
+		<img src="/uat/portal/css/images/banner/bamboo-right.png" class="right-bamboo" alt="Right Bamboo Decoration" width="170" height="470"/>
+	</div>
+
+
+	<div class="container">
+		<c:set var="bibliography" value="${em:bibliography(taxon)}"/>
+			<header class="subhead clearfix" id="overview">
+			    <c:url value="/css/images/glyphicons/fullsize/glyphicons_001_leaf.png" var="taxonIconUrl"/>					
+				<h2 id="page-title">
+					<span class="taxonName">${taxon.name}</span> ${taxon.authorship}
+				</h2>				
+				<c:if test="${taxon.protologue != null}">
+					<c:set var="protologLink" value="${em:protologLink(taxon)}"/>
+					<c:choose>
+						<c:when test="${protologLink != null}">
+							<small id="protologue">
+								<a href="${protologLink.identifier}" title="${fn:escapeXml(protologLink.title)}">${taxon.protologue.title} ${taxon.protologue.volume}${taxon.protologueMicroReference} ${taxon.protologue.datePublished}</a>
+							</small>
+						</c:when>
+						<c:otherwise>
+							<small id="protologue">${taxon.protologue.title} ${taxon.protologue.volume}${taxon.protologueMicroReference} ${taxon.protologue.datePublished}</small>
+						</c:otherwise>
+					</c:choose>
+				</c:if>
 				
-					<section id="images">
-					<div id="gallery" class="ad-gallery">
-						<div class="ad-image-wrapper">&#160;</div>
+				<c:if test="${taxon.accepted == null}">
+					<div id="taxonomicTree">
+					<h5><spring:message code="taxonomicTree" /></h5>
+					<ul id="taxonHierarchy">
+						<c:if test="${not empty taxon.ancestors}">
+							<tags:tree taxon="${taxon}" ancestors="${taxon.ancestors}" />
+						</c:if>
+					</ul>
+					</div>
+				</c:if>
+				
+				<c:if test="${not empty taxon.images}">
+					<div id="gallery" class="ad-gallery clearfix">
 						<c:if test="${fn:length(taxon.images) == 1 }">
 							<c:set value="no-display" var="cssClass"></c:set>
 						</c:if>
@@ -94,155 +97,188 @@
 							</div>
 						</div>
 					</div>
-					</section>
 					<noscript><img src="${thumbnail}" class="thumbnail ${status.index}" title="${fn:escapeXml(image.caption)}" ad-href="${url}" /></noscript>
 				</c:if>
-
-				<c:if test="${not empty em:allContent(taxon)}">
-					<section id="textContent">
-						<c:forEach var="feature" items="${em:features()}">
-							<c:set var="content" value="${em:content(taxon,feature)}" />
-							<c:if test="${content != null}">
-								<div id="${feature}">
-									<div>
-										<h2><spring:message code="${feature}"/></h2>
+				
+				<c:if test="${not empty taxon.images or not empty taxon.content or not empty em:regions(taxon) or not empty taxon.children or not empty taxon.synonyms or not empty bibliography.references}">
+					<div class="subnav noPrint">
+						<ul class="nav nav-pills">
+							<li><c:if test="${not empty taxon.images}"><a href="#images"><spring:message code="images" /></a></c:if></li>
+							<li><c:if test="${not empty taxon.content}"><a href="#textContent"><spring:message code="description" /></a></c:if></li>
+							<li><c:if test="${not empty em:regions(taxon)}"><a href="#map"><spring:message code="distributionMap" /></a></c:if></li>
+							<li><c:if test="${not empty taxon.children}"><a href="#children"><spring:message code="children" /></a></c:if></li>
+							<li><c:if test="${not empty taxon.synonyms}"><a href="#synonyms"><spring:message code="synonyms" /></a></c:if></li>
+							<li><c:if test="${not empty bibliography.references}"><a href="#bibliography"><spring:message code="bibliography" /></a></c:if></li>
+						</ul>
+					</div>
+				</c:if>
+			</header>	
+			
+			<div class="row">
+				<div class="span8">
+					<c:if test="${not empty em:allContent(taxon)}">
+						<section id="textContent" class="section-box">
+							<c:forEach var="feature" items="${em:features()}">
+								<c:set var="content" value="${em:content(taxon,feature)}" />
+								<c:if test="${content != null}">
+									<div class="inner">
+										<div id="${feature}" class="box clearfix">
+											<div>
+												<h2><spring:message code="${feature}"/></h2>
+											</div>
+											<p class="justified">${content.content}</p>
+											<c:if test="${not empty content.references }">
+												<ul class="citations">
+													<c:forEach var="reference" items="${content.references}">
+														<li><a href="#${reference.identifier}">${em:citekey(bibliography, reference)}</a></li>
+													</c:forEach>
+												</ul>
+											</c:if>
+										</div>
 									</div>
-									<p class="justified">${content.content}</p>
-									<c:if test="${not empty content.references }">
-										<ul class="citations">
-											<c:forEach var="reference" items="${content.references}">
-												<li><a href="#${reference.identifier}">${em:citekey(bibliography, reference)}</a></li>
-											</c:forEach>
-										</ul>
-									</c:if>
-								</div>
-							</c:if>
-						</c:forEach>
+								</c:if>
+							</c:forEach>
+						</section>
+					</c:if>
+					
+					<c:if test="${not empty em:regions(taxon)}">
+					<section id="distribution.map" class="section-box">
+						<div class="inner">
+							<div class="box clearfix">
+								<h2><spring:message code="distribution.map" /></h2>
+								<geo:map bounds="${em:boundingBox(taxon)}" mapClass="taxon-page-map">
+								  <c:if test="${em:hasLevel1Features(taxon)}">
+								    <geo:layer name="level1" layer="tdwg:level1" style="eMonocot" featureId="${em:getLevel1Features(taxon)}"/>
+								  </c:if>
+								  <c:if test="${em:hasLevel2Features(taxon)}">
+								    <geo:layer name="level2" layer="tdwg:level2" style="eMonocot" featureId="${em:getLevel2Features(taxon)}"/>
+								  </c:if>
+								  <c:if test="${em:hasLevel3Features(taxon)}">
+								    <geo:layer name="level3" layer="tdwg:level3" style="eMonocot" featureId="${em:getLevel3Features(taxon)}"/>
+								  </c:if>
+								</geo:map>
+								
+								<ul id="distribution-textual" class="paddingTop20">
+									<c:forEach var="region" items="${em:regions(taxon)}">
+										<li id="distribution-list">
+											<spring:message code="${region}" />
+										</li>
+									</c:forEach>
+								</ul>
+							</div>
+						</div>
 					</section>
 				</c:if>
 				
-				<c:if test="${not empty em:regions(taxon)}">
-				<section id="distribution.map">
-					<div class="section-header"><h2><spring:message code="distribution.map" /></h2></div>
-					<geo:map bounds="${em:boundingBox(taxon)}" mapClass="taxon-page-map">
-					  <c:if test="${em:hasLevel1Features(taxon)}">
-					    <geo:layer name="level1" layer="tdwg:level1" style="eMonocot" featureId="${em:getLevel1Features(taxon)}"/>
-					  </c:if>
-					  <c:if test="${em:hasLevel2Features(taxon)}">
-					    <geo:layer name="level2" layer="tdwg:level2" style="eMonocot" featureId="${em:getLevel2Features(taxon)}"/>
-					  </c:if>
-					  <c:if test="${em:hasLevel3Features(taxon)}">
-					    <geo:layer name="level3" layer="tdwg:level3" style="eMonocot" featureId="${em:getLevel3Features(taxon)}"/>
-					  </c:if>
-					</geo:map>
-					
-					<ul id="distribution-textual" class="paddingTop20">
-						<c:forEach var="region" items="${em:regions(taxon)}">
-							<li id="distribution-list">
-								<spring:message code="${region}" />
-							</li>
-						</c:forEach>
-					</ul>
-				</section>
-			</c:if>
-			
-			<c:if test="${not empty taxon.children}">
-				<section id="children">
-					<div class="section-header">
-						<h2>
-							<spring:message code="children" />
-						</h2>
-					</div>
-					<ul class="unstyled">
-						<c:forEach var="child" items="${em:sort(taxon.children)}">
-							<li>
-								<jsp:element name="a">
-									<jsp:attribute name="href">
-										<c:url value="/taxon/${child.identifier}" />
-									</jsp:attribute>
-									${child.name} ${child.authorship}
-								</jsp:element>
-							</li>
-						</c:forEach>
-					</ul>
-				</section>
-			</c:if>
-			
-			<c:if test="${not empty taxon.synonyms}">
-				<section id="synonyms">
-					<div class="section-header">
-					<h2>
-						<spring:message code="synonyms" />
-					</h2>
-				  </div>
-					<ul class="unstyled">
-						<c:forEach var="synonym" items="${em:sort(taxon.synonyms)}">
-							<li>
-								<jsp:element name="a">
-									<jsp:attribute name="href">
-										<c:url value="/taxon/${synonym.identifier}" />
-									</jsp:attribute>
-									${synonym.name} ${synonym.authorship}
-								</jsp:element>
-							</li>
-						</c:forEach>
-					</ul>
-				</section>
-			</c:if>
-			<section id="sources">
-				<h2><spring:message code="sources" /></h2>
-				<ul>
-					<c:forEach var="source" items="${taxon.sources}">
-						<li>
-							<jsp:element name="a">
-								<jsp:attribute name="href">
-									<c:url value="/source/${source.identifier}" />
-								</jsp:attribute>
-								${source.title}
-							</jsp:element>
-						</li>
-					</c:forEach>
-				</ul>
-			</section>
-			<c:if test="${not empty bibliography.references}">
-				<section id="bibliography">
-					<div class="section-header">
-					<h2>
-						<spring:message code="bibliography" />
-					</h2>
-			      </div>
-					<ul>
-						<c:forEach var="reference" items="${bibliography.references}">
-							<li>
-								<a id="${reference.identifier}">${em:citekey(bibliography,reference)}</a>
-								<c:choose>
-									<c:when test="${not empty reference.citation}">
-										${reference.citation}
-									</c:when>
-									<c:otherwise>
-										<!-- Construct reference ourselves -->
-										${reference.author}<c:if test="${not empty reference.datePublished}"> (${reference.datePublished})</c:if>. ${reference.title}<c:if test="${not empty reference.publishedInAuthor}"> ${reference.publishedInAuthor}</c:if><c:if test="${not empty reference.publishedIn}"> ${reference.publishedIn}</c:if><c:if test="${not empty reference.volume}"> ${reference.volume}</c:if><c:if test="${not empty reference.pages}">: ${reference.pages}</c:if>. <c:if test="${not empty reference.publisher}">${reference.publisher}.</c:if>
-									</c:otherwise>
-								</c:choose>
-							</li>
-						</c:forEach>
-					</ul>
-				</section>
-			</c:if>
-		</div>
-		<div class="span3 info-right">
-			
-			<c:if test="${taxon.accepted == null}">
-			<section id="taxonomicTree">
-			<h5><spring:message code="taxonomicTree" /></h5>
-			<ul id="taxonHierarchy">
-				<c:if test="${not empty taxon.ancestors}">
-					<tags:tree taxon="${taxon}" ancestors="${taxon.ancestors}" />
+				<c:if test="${not empty taxon.children}">
+					<section id="children" class="section-box">
+						<div class="inner">
+							<div class="box clearfix">
+								<h2>
+									<spring:message code="children" />
+								</h2>
+								<ul class="unstyled">
+									<c:forEach var="child" items="${em:sort(taxon.children)}">
+										<li>
+											<jsp:element name="a">
+												<jsp:attribute name="href">
+													<c:url value="/taxon/${child.identifier}" />
+												</jsp:attribute>
+												${child.name} ${child.authorship}
+											</jsp:element>
+										</li>
+									</c:forEach>
+								</ul>
+							</div>
+						</div>
+					</section>
 				</c:if>
-			</ul>
-			</section>
-			</c:if>
+				
+				<c:if test="${not empty taxon.synonyms}">
+					<section id="synonyms" class="section-box">
+						<div class="inner">
+							<div class="box clearfix">
+								<h2>
+									<spring:message code="synonyms" />
+								</h2>
+								<ul class="unstyled">
+									<c:forEach var="synonym" items="${em:sort(taxon.synonyms)}">
+										<li>
+											<jsp:element name="a">
+												<jsp:attribute name="href">
+													<c:url value="/taxon/${synonym.identifier}" />
+												</jsp:attribute>
+												${synonym.name} ${synonym.authorship}
+											</jsp:element>
+										</li>
+									</c:forEach>
+								</ul>
+							</div>
+						</div>
+					</section>
+				</c:if>
+				<section id="sources" class="section-box">
+					<div class="inner">
+						<div class="box clearfix">
+							<h2><spring:message code="sources" /></h2>
+							<ul>
+								<c:forEach var="source" items="${taxon.sources}">
+									<li>
+										<jsp:element name="a">
+											<jsp:attribute name="href">
+												<c:url value="/source/${source.identifier}" />
+											</jsp:attribute>
+											${source.title}
+										</jsp:element>
+									</li>
+								</c:forEach>
+							</ul>
+						</div>
+					</div>
+				</section>
+				<c:if test="${not empty bibliography.references}">
+					<section id="bibliography" class="section-box">
+						<div class="inner">
+							<div class="box clearfix">
+								<h2>
+									<spring:message code="bibliography" />
+								</h2>
+								<ul>
+									<c:forEach var="reference" items="${bibliography.references}">
+										<li>
+											<a id="${reference.identifier}">${em:citekey(bibliography,reference)}</a>
+											<c:choose>
+												<c:when test="${not empty reference.citation}">
+													${reference.citation}
+												</c:when>
+												<c:otherwise>
+													<!-- Construct reference ourselves -->
+													${reference.author}<c:if test="${not empty reference.datePublished}"> (${reference.datePublished})</c:if>. ${reference.title}<c:if test="${not empty reference.publishedInAuthor}"> ${reference.publishedInAuthor}</c:if><c:if test="${not empty reference.publishedIn}"> ${reference.publishedIn}</c:if><c:if test="${not empty reference.volume}"> ${reference.volume}</c:if><c:if test="${not empty reference.pages}">: ${reference.pages}</c:if>. <c:if test="${not empty reference.publisher}">${reference.publisher}.</c:if>
+												</c:otherwise>
+											</c:choose>
+										</li>
+									</c:forEach>
+								</ul>
+							</div>
+						</div>
+					</section>
+				</c:if>
+			</div>
+			<div id="sidebar" class="span4 sidebar">
+				<div class="inner">
+		     		<div class="box">
+		     			<h2>Example sidebar box</h2>
+		     			<p>Example sidebar text.</p>
+		     		</div>
+				</div>
+				
+				<div class="inner">
+		     		<div class="box">
+		     			<h2>Another Example sidebar box</h2>
+		     			<p>Example sidebar text.</p>
+		     		</div>
+				</div>
+	     	</div>
 		</div>
 	</div>
-</div>
 </div>
