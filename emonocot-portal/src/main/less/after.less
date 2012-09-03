@@ -286,7 +286,14 @@ h1, h2, h3, h4, h5, h6 {
 /*header*/
 
 .jumbotron {position: relative; height: 470px;  margin: 28px 0 20px;}
-.jumbotron.masthead {background-color: #CFFFF2;}
+.jumbotron.masthead {background: #b9f0e5; /* Old browsers */
+background: -moz-linear-gradient(top, #b9f0e5 0%, #cffff2 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b9f0e5), color-stop(100%,#cffff2)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #b9f0e5 0%,#cffff2 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #b9f0e5 0%,#cffff2 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, #b9f0e5 0%,#cffff2 100%); /* IE10+ */
+background: linear-gradient(to bottom, #b9f0e5 0%,#cffff2 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b9f0e5', endColorstr='#cffff2',GradientType=0 ); /* IE6-9 */}
 .jumbotron .inner {box-shadow: none;padding: 45px 0; position: relative; z-index: 300;}
 .jumbotron h1 { font-size: 36px; line-height: 42px; color: #333; text-shadow: 0 1px 0 #fff; margin: 0 0 10px; }
 .jumbotron p { text-align: center; color: #333; text-shadow: 0 1px 0 #fff; font-family: 'ms500', Helvetica, Arial, sans-serif; font-size: 24px; line-height: 30px; }
@@ -301,8 +308,8 @@ h1, h2, h3, h4, h5, h6 {
 .grass4 { height: 47px; width: 100%; position: absolute; bottom: 74px; left: 0; background: url('@{imagePath}/banner/grass-4.png') repeat-x; z-index: 185; }
 .grass5 { height: 15px; width: 100%; position: absolute; bottom: 105px; left: 0; background: url('@{imagePath}/banner/grass-5.png') repeat-x; z-index: 180; }
 
-.trees-right { height: 358px; width: 309px; position: absolute; bottom: 70px; right: -30px; background: url('@{imagePath}/banner/trees-right.png') no-repeat; z-index: 187; }
-.trees-left { height: 350px; width: 274px; position: absolute; bottom: 70px; left: -30px; background: url('@{imagePath}/banner/trees-left.png') no-repeat; z-index: 187; }
+.trees-right { height: 358px; width: 309px; position: absolute; bottom: 46px; right: -30px; background: url('@{imagePath}/banner/trees-right.png') no-repeat; z-index: 187; }
+.trees-left { height: 350px; width: 274px; position: absolute; bottom: 70px; left: 0; background: url('@{imagePath}/banner/trees-left.png') no-repeat; z-index: 187; }
 
 .bamboo-right { height: 470px; width: 170px; position: absolute; bottom: 0; right: 0; background: url('@{imagePath}/banner/bamboo-right.png') no-repeat; z-index: 205; }
 .bamboo-left { height: 470px; width: 230px; position: absolute; bottom: 0; left: 0; background: url('@{imagePath}/banner/bamboo-left.png') no-repeat; z-index: 205; }
@@ -367,7 +374,14 @@ footer { background: #616668; padding: 30px 0; }
 
 /* search page */
 
-.page-header { margin-top: 26px; padding: 20px 20px 0px !important; position: relative; overflow: hidden; }
+.page-header { margin-top: 26px; padding: 20px 20px 0px !important; position: relative; overflow: hidden; background: #b9f0e5; /* Old browsers */
+background: -moz-linear-gradient(top, #b9f0e5 0%, #cffff2 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b9f0e5), color-stop(100%,#cffff2)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #b9f0e5 0%,#cffff2 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #b9f0e5 0%,#cffff2 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, #b9f0e5 0%,#cffff2 100%); /* IE10+ */
+background: linear-gradient(to bottom, #b9f0e5 0%,#cffff2 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b9f0e5', endColorstr='#cffff2',GradientType=0 ); /* IE6-9 */ }
 .page-header form { margin: 4px 0 0; }
 .page-header h2 { line-height: 36px !important; }
 .page-header .left-bamboo { position: absolute; top: 0; left: 0; }
