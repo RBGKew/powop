@@ -50,9 +50,7 @@
 								<c:forEach var="child" items="${em:sort(taxon.children)}">
 									<li>
 										<jsp:element name="a">
-											<jsp:attribute name="class">
-												childrenList
-											</jsp:attribute>
+											<jsp:attribute name="class">childrenList</jsp:attribute>
 											<jsp:attribute name="href">
 												<c:url value="/taxon/${child.identifier}" />
 											</jsp:attribute>

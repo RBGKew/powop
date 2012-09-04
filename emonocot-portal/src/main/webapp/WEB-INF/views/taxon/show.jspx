@@ -9,45 +9,15 @@
 
 	<div class="page-header noPrint">
 		<div class="container">
-		    <div class="row">
-		        <h2 id="page-title" class="span5">
-		          <spring:message code="search.emonocot"/>
-		        </h2>
-		        
-		        <script type="text/javascript">
-		            $(document).ready(function() {
-		                $("input#query").autocomplete({
-		                    source: "autocomplete",
-		                    minLength: 2
-		                });
-		            });
-		        </script>
-		        <c:url var="searchUrl" value="/search"/>
-		        <form id="search.form" class="pull-right form-search" accept-charset="UTF-8" method="GET" action="${searchUrl}">
-		            <input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="query"/>
-		            <input type="hidden" name="limit" value="${result.pageSize}" />
-		            <input type="hidden" name="start" value="0" />
-		            <c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-		                <input type="hidden" name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
-		            </c:forEach>
-		            <input type="hidden" name="sort" value="${result.sort}"/>
-		            <button class="btn btn-primary"><span class="icon-search icon-white">&#160;</span></button>
-		            <c:url var="resetUrl" value="/search">
-		                <c:param name="query" value=""/>
-		            </c:url>
-		            <a href="${resetUrl}" class="btn" id="reset"><i class="icon-refresh"><!--  --></i><spring:message code="reset"/></a>
-		        </form>
-		    </div>
-	    </div>
-	    <img src="/css/images/banner/bamboo-left.png" class="left-bamboo" alt="Left Bamboo Decoration" width="230" height="470"/>
-		<img src="/css/images/banner/bamboo-right.png" class="right-bamboo" alt="Right Bamboo Decoration" width="170" height="470"/>
-	</div>
-
-
-	<div class="container">
-		<c:set var="bibliography" value="${em:bibliography(taxon)}"/>
-			<header class="subhead clearfix" id="overview">
-			    <c:url value="/css/images/glyphicons/fullsize/glyphicons_001_leaf.png" var="taxonIconUrl"/>					
+			<div class="row">
+				<jsp:element name="img">
+					<jsp:attribute name="src">
+						<c:url value="/images/taxonPageIcon.jpg"/>
+					</jsp:attribute>
+					<jsp:attribute name="class">pull-left</jsp:attribute>
+					<jsp:attribute name="alt">Taxon</jsp:attribute>
+				</jsp:element>
+				<c:url value="/css/images/glyphicons/fullsize/glyphicons_001_leaf.png" var="taxonIconUrl"/>
 				<h2 id="page-title">
 					<span class="taxonName">${taxon.name}</span> ${taxon.authorship}
 				</h2>				
@@ -64,9 +34,63 @@
 						</c:otherwise>
 					</c:choose>
 				</c:if>
+				<section id="status">
+					<c:choose>
+						<c:when test="${taxon.status == 'synonym' and taxon.accepted != null}">
+							<spring:message code="isSynonym"/>
+							<c:url var="acceptedUrl" value="/taxon/${taxon.accepted.identifier}"/>
+							<a href="${acceptedUrl}">${taxon.accepted.name} ${taxon.accepted.authorship}</a>
+						</c:when>
+						<c:when test="${taxon.status == 'illegitimate' and taxon.accepted != null}">
+							<spring:message code="isSynonym"/>
+							<c:url var="acceptedUrl" value="/taxon/${taxon.accepted.identifier}"/>
+							<a href="${acceptedUrl}">${taxon.accepted.name} ${taxon.accepted.authorship}</a>
+						</c:when>
+						<c:when test="${taxon.status == 'unplaced'}">
+							<spring:message code="isUnplaced" />
+						</c:when>
+						<c:when test="${taxon.status == 'accepted'}">
+							<spring:message code="isAccepted" />
+							<c:url var="sourceUrl" value="/source/${taxon.authority.identifier}"/>
+							<a href="${acceptedUrl}">${taxon.authority.title}</a>
+						</c:when>
+					</c:choose>
+				</section>
 				
+				<script type="text/javascript">
+					$(document).ready(function() {
+						$("input#query").autocomplete({
+							source: "autocomplete",
+							minLength: 2
+						});
+					});
+				</script>
 				
-				
+				<c:url var="searchUrl" value="/search"/>
+				<form id="search.form" class="pull-right form-search" accept-charset="UTF-8" method="GET" action="${searchUrl}">
+					<input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="query"/>
+					<input type="hidden" name="limit" value="${result.pageSize}" />
+					<input type="hidden" name="start" value="0" />
+					<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+						<input type="hidden" name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
+					</c:forEach>
+					<input type="hidden" name="sort" value="${result.sort}"/>
+					<button class="btn btn-primary"><span class="icon-search icon-white">&#160;</span></button>
+					<c:url var="resetUrl" value="/search">
+						<c:param name="query" value=""/>
+					</c:url>
+					<a href="${resetUrl}" class="btn" id="reset"><i class="icon-refresh"><!--  --></i><spring:message code="reset"/></a>
+				</form>
+			</div>
+		</div>
+		<img src="/css/images/banner/bamboo-left.png" class="left-bamboo" alt="Left Bamboo Decoration" width="230" height="470"/>
+		<img src="/css/images/banner/bamboo-right.png" class="right-bamboo" alt="Right Bamboo Decoration" width="170" height="470"/>
+	</div>
+
+
+	<div class="container">
+		<c:set var="bibliography" value="${em:bibliography(taxon)}"/>
+			<header class="subhead clearfix" id="overview">
 				<c:if test="${not empty taxon.images}">
 					<div id="gallery" class="ad-gallery clearfix">
 						<c:if test="${fn:length(taxon.images) == 1 }">
@@ -76,13 +100,14 @@
 						<div class="ad-nav ${cssClass} noPrint">
 							<div class="ad-thumbs">
 								<ul class="thumbnails ad-thumb-list thumbnail-gallery-padding">
-									<c:forEach var="image" items="${taxon.images}"
-										varStatus="status">
-										<li><a href="${image.url}"> <c:url var="thumbnail"
-													value="/images/thumbnails/${image.identifier}.${image.format}" /> <c:url
-													var="url" value="/image/${image.identifier}" /> <img
-												src="${thumbnail}" class="thumbnail ${status.index}"
-												title="${fn:escapeXml(image.caption)}" ad-href="${url}" /> </a></li>
+									<c:forEach var="image" items="${taxon.images}" varStatus="status">
+										<li>
+											<a href="${image.url}">
+												<c:url var="thumbnail" value="/images/thumbnails/${image.identifier}.${image.format}" />
+												<c:url var="url" value="/image/${image.identifier}" />
+												<img src="${thumbnail}" class="thumbnail ${status.index}" title="${fn:escapeXml(image.caption)}" ad-href="${url}" />
+											</a>
+										</li>
 									</c:forEach>
 								</ul>
 							</div>
@@ -138,15 +163,15 @@
 							<div class="box clearfix">
 								<h2><spring:message code="distribution.map" /></h2>
 								<geo:map bounds="${em:boundingBox(taxon)}" mapClass="taxon-page-map">
-								  <c:if test="${em:hasLevel1Features(taxon)}">
-								    <geo:layer name="level1" layer="tdwg:level1" style="eMonocot" featureId="${em:getLevel1Features(taxon)}"/>
-								  </c:if>
-								  <c:if test="${em:hasLevel2Features(taxon)}">
-								    <geo:layer name="level2" layer="tdwg:level2" style="eMonocot" featureId="${em:getLevel2Features(taxon)}"/>
-								  </c:if>
-								  <c:if test="${em:hasLevel3Features(taxon)}">
-								    <geo:layer name="level3" layer="tdwg:level3" style="eMonocot" featureId="${em:getLevel3Features(taxon)}"/>
-								  </c:if>
+									<c:if test="${em:hasLevel1Features(taxon)}">
+										<geo:layer name="level1" layer="tdwg:level1" style="eMonocot" featureId="${em:getLevel1Features(taxon)}"/>
+									</c:if>
+									<c:if test="${em:hasLevel2Features(taxon)}">
+										<geo:layer name="level2" layer="tdwg:level2" style="eMonocot" featureId="${em:getLevel2Features(taxon)}"/>
+									</c:if>
+									<c:if test="${em:hasLevel3Features(taxon)}">
+										<geo:layer name="level3" layer="tdwg:level3" style="eMonocot" featureId="${em:getLevel3Features(taxon)}"/>
+									</c:if>
 								</geo:map>
 								
 								<ul id="distribution-textual" class="paddingTop20">
@@ -259,14 +284,14 @@
 				<div class="inner">
 					<div class="box">
 						<c:if test="${taxon.accepted == null}">
-							<div id="taxonomicTree">
-								<h5><spring:message code="taxonomicTree" /></h5>
+							<section id="taxonomicTree">
+								<h2><spring:message code="taxonomicTree" /></h2>
 								<ul id="taxonHierarchy">
 									<c:if test="${not empty taxon.ancestors}">
 										<tags:tree taxon="${taxon}" ancestors="${taxon.ancestors}" />
 									</c:if>
 								</ul>
-							</div>
+							</section>
 						</c:if>
 					</div>
 				</div>

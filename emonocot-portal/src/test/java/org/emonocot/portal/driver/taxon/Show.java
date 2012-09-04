@@ -107,7 +107,7 @@ public class Show extends PageObject implements IllustratedPage {
      */
     public final String getParagraph(final String heading) {
         WebElement element = textContent.findElement(By
-                .xpath("div[div/h2 = '" + heading + "']/p"));
+                .xpath("div/div[div/h2 = '" + heading + "']/p"));
         return element.getText();
     }
 
@@ -242,7 +242,7 @@ public class Show extends PageObject implements IllustratedPage {
     public final String getBibliographyEntry(final String citeKey) {
         WebElement bibliography = webDriver.findElement(By.id("bibliography"));
         WebElement element = bibliography.findElement(By
-                .xpath("ul/li[a = '" + citeKey + "']"));
+                .xpath("div/div/ul/li[a = '" + citeKey + "']"));
         return element.getText();
     }
 
@@ -253,7 +253,7 @@ public class Show extends PageObject implements IllustratedPage {
      */
     public final String getCitations(final String topic) {
         WebElement element = textContent.findElement(By
-                .xpath("div[div/h2 = '" + topic + "']/ul[@class='citations']"));
+                .xpath("div/div[div/h2 = '" + topic + "']/ul[@class='citations']"));
         return element.getText();
     }
 
