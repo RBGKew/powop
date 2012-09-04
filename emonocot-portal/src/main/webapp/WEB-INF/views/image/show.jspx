@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<div class="container" xmlns:jsp="http://java.sun.com/JSP/Page"
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 
-<div class="content">
 
-	<div class="page-header header-margin">
+
+	<div class="page-header noPrint">
+	<div class="container">
 		<div class="row">
-		    <c:url value="/css/images/glyphicons/fullsize/glyphicons_159_picture.png" var="imageIconUrl"/>			
+			<c:url value="/css/images/glyphicons/fullsize/glyphicons_159_picture.png" var="imageIconUrl"/>			
 			<h2 id="page-title"> <img src="${imageIconUrl}" class="pull-left noPrint header-icon" alt="Image"/> ${image.caption}</h2>
+			<br/>
 		</div>
 	</div>
-	
+	<img src="/css/images/banner/bamboo-left.png" class="left-bamboo" alt="Left Bamboo Decoration" width="230" height="470"/>
+		<img src="/css/images/banner/bamboo-right.png" class="right-bamboo" alt="Right Bamboo Decoration" width="170" height="470"/>
+	</div>
+
+	<div class="container">
 	<div class="row">
 		<div class="span9">
 			<c:if test="${not empty image.taxon.name}">
@@ -28,7 +34,9 @@
 				</h5>
 			</c:if>
 			<br/>
-			<div class="centeredImage">
+			<div class="centeredImage section-box">
+			<div class="inner">
+							<div class="box clearfix">
 				<c:forEach var="source" items="${image.sources}">
 					<c:choose>
 						<c:when test="${source.title eq 'eMonocot' || source.title eq 'Dioscoreaceae'}">
@@ -42,8 +50,13 @@
 				<c:if test="${empty image.sources}">
 					<img id="main-img" class=" imageSize" src="${image.url}" title="${fn:escapeXml(image.caption)}" alt="${status.index}" />
 				</c:if>
+				</div>
+				</div>
 			</div>
 			<br/>
+			<section class="section-box">
+			<div class="inner">
+							<div class="box clearfix">
 			<table class="table" id="image-properties">
 				<tbody>
 					<tr>
@@ -89,7 +102,9 @@
 					</tr>
 				</tbody>
 			</table>
-			
+			</div>
+			</div>
+			</section>
 			<c:if test="${not empty taxon.images }">
 				<h2 class="noPrint"><spring:message code="related.images"/></h2>
 				<div id="gallery" class="ad-gallery noPrint">
@@ -113,7 +128,9 @@
 				</div>
 			</c:if>
 		</div>
-		<div class="span3 info-right">
+		<div id="sidebar" class="span3 sidebar">
+		<div class="inner">
+							<div class="box">
 			<div><spring:message code="sources" /></div>
 			<ul>
 				<c:forEach var="source" items="${image.sources}">
@@ -127,8 +144,9 @@
 					</li>
 				</c:forEach>
 			</ul>
+			</div>
+			</div>
 		</div>
 	</div>
-</div>
-	
+	</div>
 </div>

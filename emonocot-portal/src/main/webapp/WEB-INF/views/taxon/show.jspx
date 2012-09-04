@@ -10,17 +10,11 @@
 	<div class="page-header noPrint">
 		<div class="container">
 			<div class="row">
-				<jsp:element name="img">
-					<jsp:attribute name="src">
-						<c:url value="/images/taxonPageIcon.jpg"/>
-					</jsp:attribute>
-					<jsp:attribute name="class">pull-left</jsp:attribute>
-					<jsp:attribute name="alt">Taxon</jsp:attribute>
-				</jsp:element>
 				<c:url value="/css/images/glyphicons/fullsize/glyphicons_001_leaf.png" var="taxonIconUrl"/>
 				<h2 id="page-title">
+					<img src="${taxonIconUrl}" class="pull-left noPrint header-icon" alt="Taxon"/>
 					<span class="taxonName">${taxon.name}</span> ${taxon.authorship}
-				</h2>				
+				</h2>
 				<c:if test="${taxon.protologue != null}">
 					<c:set var="protologLink" value="${em:protologLink(taxon)}"/>
 					<c:choose>
@@ -34,130 +28,106 @@
 						</c:otherwise>
 					</c:choose>
 				</c:if>
-				<section id="status">
-					<c:choose>
-						<c:when test="${taxon.status == 'synonym' and taxon.accepted != null}">
-							<spring:message code="isSynonym"/>
-							<c:url var="acceptedUrl" value="/taxon/${taxon.accepted.identifier}"/>
-							<a href="${acceptedUrl}">${taxon.accepted.name} ${taxon.accepted.authorship}</a>
-						</c:when>
-						<c:when test="${taxon.status == 'illegitimate' and taxon.accepted != null}">
-							<spring:message code="isSynonym"/>
-							<c:url var="acceptedUrl" value="/taxon/${taxon.accepted.identifier}"/>
-							<a href="${acceptedUrl}">${taxon.accepted.name} ${taxon.accepted.authorship}</a>
-						</c:when>
-						<c:when test="${taxon.status == 'unplaced'}">
-							<spring:message code="isUnplaced" />
-						</c:when>
-						<c:when test="${taxon.status == 'accepted'}">
-							<spring:message code="isAccepted" />
-							<c:url var="sourceUrl" value="/source/${taxon.authority.identifier}"/>
-							<a href="${acceptedUrl}">${taxon.authority.title}</a>
-						</c:when>
-					</c:choose>
-				</section>
-				
-				<script type="text/javascript">
-					$(document).ready(function() {
-						$("input#query").autocomplete({
-							source: "autocomplete",
-							minLength: 2
-						});
-					});
-				</script>
-				
-				<c:url var="searchUrl" value="/search"/>
-				<form id="search.form" class="pull-right form-search" accept-charset="UTF-8" method="GET" action="${searchUrl}">
-					<input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="query"/>
-					<input type="hidden" name="limit" value="${result.pageSize}" />
-					<input type="hidden" name="start" value="0" />
-					<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-						<input type="hidden" name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
-					</c:forEach>
-					<input type="hidden" name="sort" value="${result.sort}"/>
-					<button class="btn btn-primary"><span class="icon-search icon-white">&#160;</span></button>
-					<c:url var="resetUrl" value="/search">
-						<c:param name="query" value=""/>
-					</c:url>
-					<a href="${resetUrl}" class="btn" id="reset"><i class="icon-refresh"><!--  --></i><spring:message code="reset"/></a>
-				</form>
 			</div>
+			<br/>
 		</div>
 		<img src="/css/images/banner/bamboo-left.png" class="left-bamboo" alt="Left Bamboo Decoration" width="230" height="470"/>
 		<img src="/css/images/banner/bamboo-right.png" class="right-bamboo" alt="Right Bamboo Decoration" width="170" height="470"/>
 	</div>
 
-
 	<div class="container">
-		<c:set var="bibliography" value="${em:bibliography(taxon)}"/>
-			<header class="subhead clearfix" id="overview">
-				<c:if test="${not empty taxon.images}">
-					<div id="gallery" class="ad-gallery clearfix">
-						<c:if test="${fn:length(taxon.images) == 1 }">
-							<c:set value="no-display" var="cssClass"></c:set>
-						</c:if>
-						<div class="ad-controls ${cssClass}">&#160;</div>
-						<div class="ad-nav ${cssClass} noPrint">
-							<div class="ad-thumbs">
-								<ul class="thumbnails ad-thumb-list thumbnail-gallery-padding">
-									<c:forEach var="image" items="${taxon.images}" varStatus="status">
-										<li>
-											<a href="${image.url}">
-												<c:url var="thumbnail" value="/images/thumbnails/${image.identifier}.${image.format}" />
-												<c:url var="url" value="/image/${image.identifier}" />
-												<img src="${thumbnail}" class="thumbnail ${status.index}" title="${fn:escapeXml(image.caption)}" ad-href="${url}" />
-											</a>
-										</li>
-									</c:forEach>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<noscript><img src="${thumbnail}" class="thumbnail ${status.index}" title="${fn:escapeXml(image.caption)}" ad-href="${url}" /></noscript>
+		<header class="subhead clearfix" id="overview">
+			<c:if test="${not empty taxon.images or not empty taxon.content or not empty em:regions(taxon) or not empty taxon.children or not empty taxon.synonyms or not empty bibliography.references}">
+				<div class="subnav noPrint">
+					<ul class="nav nav-pills">
+						<li><c:if test="${not empty taxon.images}"><a href="#images"><spring:message code="images" /></a></c:if></li>
+						<li><c:if test="${not empty taxon.content}"><a href="#textContent"><spring:message code="description" /></a></c:if></li>
+						<li><c:if test="${not empty em:regions(taxon)}"><a href="#map"><spring:message code="distributionMap" /></a></c:if></li>
+						<li><c:if test="${not empty taxon.children}"><a href="#children"><spring:message code="children" /></a></c:if></li>
+						<li><c:if test="${not empty taxon.synonyms}"><a href="#synonyms"><spring:message code="synonyms" /></a></c:if></li>
+						<li><c:if test="${not empty bibliography.references}"><a href="#bibliography"><spring:message code="bibliography" /></a></c:if></li>
+					</ul>
+				</div>
+			</c:if>
+		</header>	
+		
+		
+		<c:if test="${not empty taxon.images}">
+			<div id="images" class="ad-gallery clearfix">
+				<c:if test="${fn:length(taxon.images) == 1 }">
+					<c:set value="no-display" var="cssClass"></c:set>
 				</c:if>
-				
-				<c:if test="${not empty taxon.images or not empty taxon.content or not empty em:regions(taxon) or not empty taxon.children or not empty taxon.synonyms or not empty bibliography.references}">
-					<div class="subnav noPrint">
-						<ul class="nav nav-pills">
-							<li><c:if test="${not empty taxon.images}"><a href="#images"><spring:message code="images" /></a></c:if></li>
-							<li><c:if test="${not empty taxon.content}"><a href="#textContent"><spring:message code="description" /></a></c:if></li>
-							<li><c:if test="${not empty em:regions(taxon)}"><a href="#map"><spring:message code="distributionMap" /></a></c:if></li>
-							<li><c:if test="${not empty taxon.children}"><a href="#children"><spring:message code="children" /></a></c:if></li>
-							<li><c:if test="${not empty taxon.synonyms}"><a href="#synonyms"><spring:message code="synonyms" /></a></c:if></li>
-							<li><c:if test="${not empty bibliography.references}"><a href="#bibliography"><spring:message code="bibliography" /></a></c:if></li>
+				<div class="ad-controls ${cssClass}">&#160;</div>
+				<div class="ad-nav ${cssClass} noPrint">
+					<div class="ad-thumbs">
+						<ul class="thumbnails ad-thumb-list thumbnail-gallery-padding">
+							<c:forEach var="image" items="${taxon.images}" varStatus="status">
+								<li>
+									<a href="${image.url}">
+										<c:url var="thumbnail" value="/images/thumbnails/${image.identifier}.${image.format}" />
+										<c:url var="url" value="/image/${image.identifier}" />
+										<img src="${thumbnail}" class="thumbnail ${status.index}" title="${fn:escapeXml(image.caption)}" ad-href="${url}" />
+									</a>
+								</li>
+							</c:forEach>
 						</ul>
 					</div>
-				</c:if>
-			</header>	
+				</div>
+			</div>
+			<noscript><img src="${thumbnail}" class="thumbnail ${status.index}" title="${fn:escapeXml(image.caption)}" ad-href="${url}" /></noscript>
+		</c:if>	
+		<br/>
+		<div id="status">
+			<c:choose>
+				<c:when test="${taxon.status == 'synonym' and taxon.accepted != null}">
+					<spring:message code="isSynonym"/>
+					<c:url var="acceptedUrl" value="/taxon/${taxon.accepted.identifier}"/>
+					<a href="${acceptedUrl}">${taxon.accepted.name} ${taxon.accepted.authorship}</a>
+				</c:when>
+				<c:when test="${taxon.status == 'illegitimate' and taxon.accepted != null}">
+					<spring:message code="isSynonym"/>
+					<c:url var="acceptedUrl" value="/taxon/${taxon.accepted.identifier}"/>
+					<a href="${acceptedUrl}">${taxon.accepted.name} ${taxon.accepted.authorship}</a>
+				</c:when>
+				<c:when test="${taxon.status == 'unplaced'}">
+					<spring:message code="isUnplaced" />
+				</c:when>
+				<c:when test="${taxon.status == 'accepted'}">
+					<spring:message code="isAccepted" />
+					<c:url var="sourceUrl" value="/source/${taxon.authority.identifier}"/>
+					<a href="${acceptedUrl}">${taxon.authority.title}</a>
+				</c:when>
+			</c:choose>
+		</div>
 			
-			<div class="row">
-				<div class="span8">
-					<c:if test="${not empty em:allContent(taxon)}">
-						<section id="textContent" class="section-box">
-							<c:forEach var="feature" items="${em:features()}">
-								<c:set var="content" value="${em:content(taxon,feature)}" />
-								<c:if test="${content != null}">
-									<div class="inner">
-										<div id="${feature}" class="box clearfix">
-											<div>
-												<h2><spring:message code="${feature}"/></h2>
-											</div>
-											<p class="justified">${content.content}</p>
-											<c:if test="${not empty content.references }">
-												<ul class="citations">
-													<c:forEach var="reference" items="${content.references}">
-														<li><a href="#${reference.identifier}">${em:citekey(bibliography, reference)}</a></li>
-													</c:forEach>
-												</ul>
-											</c:if>
+		<div class="row">
+			<div class="span8">
+				<c:if test="${not empty em:allContent(taxon)}">
+					<section id="textContent" class="section-box">
+						<c:forEach var="feature" items="${em:features()}">
+							<c:set var="content" value="${em:content(taxon,feature)}" />
+							<c:if test="${content != null}">
+								<div class="inner">
+									<div id="${feature}" class="box clearfix">
+										<div>
+											<h2><spring:message code="${feature}"/></h2>
 										</div>
+										<p class="justified">${content.content}</p>
+										<c:if test="${not empty content.references }">
+											<ul class="citations">
+												<c:forEach var="reference" items="${content.references}">
+													<li><a href="#${reference.identifier}">${em:citekey(bibliography, reference)}</a></li>
+												</c:forEach>
+											</ul>
+										</c:if>
 									</div>
-								</c:if>
-							</c:forEach>
-						</section>
-					</c:if>
+								</div>
+							</c:if>
+						</c:forEach>
+					</section>
+				</c:if>
 					
-					<c:if test="${not empty em:regions(taxon)}">
+				<c:if test="${not empty em:regions(taxon)}">
 					<section id="distribution.map" class="section-box">
 						<div class="inner">
 							<div class="box clearfix">
@@ -280,6 +250,7 @@
 					</section>
 				</c:if>
 			</div>
+			
 			<div id="sidebar" class="span4 sidebar">
 				<div class="inner">
 					<div class="box">
