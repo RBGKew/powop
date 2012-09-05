@@ -3,8 +3,9 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:form="http://www.springframework.org/tags/form"
-	xmlns:security="http://www.springframework.org/security/tags"
-	version="2.0">	
+	xmlns:security="http://www.springframework.org/security/tags">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+    <jsp:output omit-xml-declaration="yes" />
 		<div class="navbar-inner">
 			<div class="container">
 				<c:url value="/" var="brandUrl"/>

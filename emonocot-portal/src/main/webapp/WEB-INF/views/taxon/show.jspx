@@ -10,7 +10,7 @@
 	<div class="page-header noPrint">
 		<div class="container">
 			<div class="row">
-				<c:url value="/css/images/glyphicons/fullsize/glyphicons_001_leaf.png" var="taxonIconUrl"/>
+			    <c:url value="/css/images/glyphicons/fullsize/glyphicons_001_leaf.png" var="taxonIconUrl"/>				
 				<h2 id="page-title">
 					<img src="${taxonIconUrl}" class="pull-left noPrint header-icon" alt="Taxon"/>
 					<span class="taxonName">${taxon.name}</span> ${taxon.authorship}
@@ -31,8 +31,10 @@
 			</div>
 			<br/>
 		</div>
-		<img src="/css/images/banner/bamboo-left.png" class="left-bamboo" alt="Left Bamboo Decoration" width="230" height="470"/>
-		<img src="/css/images/banner/bamboo-right.png" class="right-bamboo" alt="Right Bamboo Decoration" width="170" height="470"/>
+		<c:url value="/css/images/banner/bamboo-left.png" var="leftBambooUrl"/>
+		<img src="${leftBambooUrl}" class="left-bamboo" alt="Left Bamboo Decoration" width="230" height="470"/>
+		<c:url value="/css/images/banner/bamboo-right.png" var="rightBambooUrl"/>
+		<img src="${rightBambooUrl}" class="right-bamboo" alt="Right Bamboo Decoration" width="170" height="470"/>
 	</div>
 
 	<div class="container">

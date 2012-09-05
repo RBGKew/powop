@@ -6,8 +6,9 @@
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:results="urn:jsptagdir:/WEB-INF/tags/results"
 	xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu"
-	xmlns:spring="http://www.springframework.org/tags"
-	version="2.0">
+	xmlns:spring="http://www.springframework.org/tags">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+    <jsp:output omit-xml-declaration="yes" />
 	
 	<div class="page-header noPrint">
 		<div class="container">
@@ -50,12 +51,12 @@
 		<jsp:useBean id="result" scope="request" 
 		type="org.emonocot.model.pager.Page&lt;org.emonocot.model.taxon.Taxon&gt;" />
 		<div class="row">
-			<div class="span3 noPrint">
+			<div id="facets" class="span3 noPrint">
 				<c:forEach var="facetName" items="${result.facetNames}">
 					<div class="row">
 						<div class="span3">
 							<div class="inner">
-								<ul class="box nav nav-list" id="facets">
+								<ul class="box nav nav-list">
 					<c:choose>
 						<c:when test="${facetName eq 'CLASS'}">
 							<menu:facet url="/search" facetName="${facetName}" pager="${result}" title="restrict.your.search" showIcons="true"/>

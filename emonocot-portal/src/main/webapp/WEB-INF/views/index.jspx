@@ -25,7 +25,7 @@
 	        	</div>
         	</div>
        	</div>
-        <div class="span4 index-box index-box-last">
+        <div class="span4">
         	<div class="inner">
 		    	<div id="explore-box" class="box">
                     <c:url value="/css/images/explore.png" var="exploreImg"/>

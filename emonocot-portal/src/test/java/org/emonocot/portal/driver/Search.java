@@ -108,7 +108,7 @@ public class Search extends PageObject {
      */
     public final String[] getFacets(final String facetName) {
         List<WebElement> facetOptions = facets.findElements(By
-                .xpath("li[@class = '" + facetName + "']"));
+                .xpath("div/div/div/ul/li[@class = '" + facetName + "']"));
         String[] result = new String[facetOptions.size()];
         for (int i = 0; i < result.length; i++) {
             WebElement classFacetOption = facetOptions.get(i);
@@ -145,7 +145,7 @@ public class Search extends PageObject {
      * @return the corresponding search results page
      */
     public final Search selectFacet(final String facetName, final String facetValue) {
-        WebElement classFacet = facets.findElement(By.xpath("li[@class = '" + facetName + "']/a[span/text() = \'" + facetValue + "\']"));
+        WebElement classFacet = facets.findElement(By.xpath("div/div/div/ul/li[@class = '" + facetName + "']/a[span/text() = \'" + facetValue + "\']"));
         return openAs(classFacet.getAttribute("href"), Search.class);
     }
 
