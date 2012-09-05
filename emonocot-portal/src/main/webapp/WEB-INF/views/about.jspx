@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <div xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:form="http://www.springframework.org/tags/form"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
-<div class="page-header noPrint">
-	<div class="container">
-	    <div class="row">
+<tags:pageheader>
 	        <h2 id="page-title" class="span5">
 	          <spring:message code="search.emonocot"/>
 	        </h2>
@@ -33,11 +32,7 @@
 	            </c:url>
 	            <a href="${resetUrl}" class="btn" id="reset"><i class="icon-refresh"><!--  --></i><spring:message code="reset"/></a>
 	        </form>
-	    </div>
-    </div>
-    <img src="/css/images/banner/bamboo-left.png" class="left-bamboo" alt="Left Bamboo Decoration" width="230" height="470"/>
-	<img src="/css/images/banner/bamboo-right.png" class="right-bamboo" alt="Right Bamboo Decoration" width="170" height="470"/>
-</div>
+</tags:pageheader>
 
 <div class="container">
 	<div class="row">

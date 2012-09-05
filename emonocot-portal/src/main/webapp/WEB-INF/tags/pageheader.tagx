@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<div class="page-header noPrint"
+ xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:em="http://e-monocot.org/portal/functions"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<div class="container">
+		<div class="row">
+			<jsp:doBody/>
+		</div>
+		<br />
+	</div>
+	<c:url value="/css/images/banner/bamboo-left.png" var="leftBambooUrl" />
+	<img src="${leftBambooUrl}" class="left-bamboo" alt="Left Bamboo Decoration" width="230" height="470" />
+	<c:url value="/css/images/banner/bamboo-right.png" var="rightBambooUrl" />	
+	<img src="${rightBambooUrl}" class="right-bamboo" alt="Right Bamboo Decoration" width="170" height="470" />
+</div>

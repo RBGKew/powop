@@ -1,47 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<div class="container" xmlns:jsp="http://java.sun.com/JSP/Page"
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:security="http://www.springframework.org/security/tags"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
-	<div class="content">
-		<div class="page-header header-margin">
-			<h2 id="page-title"><spring:message code="groups" /></h2>
+	<tags:pageheader>
+		<h2 id="page-title">
+			<spring:message code="groups" />
+		</h2>
+	</tags:pageheader>
+	<div class="row">
+		<div class="span12">
+			<tags:info />
 		</div>
-		<div class="row">
-			<div class="span12"><tags:info /></div>
+	</div>
+	<div class="container">
+	<div class="row">
+		<div class="span12 pagination">
+			<tags:pagination pager="${result}" url="group" />
 		</div>
+	</div>
+	<div class="row">
+		<div id="pages" class="span12">
+			<tags:results pager="${result}" />
+		</div>
+	</div>
+	<div class="row">
+		<div class="span12" id="results">
+			<c:forEach var="item" items="${result.records}">
+				<c:url value="/group/${item.identifier}" var="groupUrl" />
+				<a class="result pull-left" title="${fn:escapeXml(item.name)}"
+					href="${groupUrl}">
+					<h4 class="h4Results">${item.name}</h4>
+				</a>
+			</c:forEach>
+		</div>
+	</div>
+	<security:authorize url="hasRole('PERMISSION_CREATE_GROUP')">
 		<div class="row">
-			<div class="span12 pagination">
-				<tags:pagination pager="${result}" url="group" />
+			<div class="span12">
+				<c:url var="createGroup" value="group">
+					<c:param name="form">true</c:param>
+				</c:url>
+				<a href="${createGroup}"><spring:message code="create.group" /></a>
 			</div>
 		</div>
-		<div class="row">
-			<div id="pages" class="span12">
-				<tags:results pager="${result}" />
-			</div>
-		</div>
-		<div class="row">
-			<div class="span12" id="results">
-				<c:forEach var="item" items="${result.records}">					
-					  <c:url value="/group/${item.identifier}" var="groupUrl" />
-					  <a class="result pull-left" title="${fn:escapeXml(item.name)}" href="${groupUrl}">
-					    <h4 class="h4Results">${item.name}</h4>
-					  </a>
-				</c:forEach>
-			</div>
-		</div>
-		<security:authorize url="hasRole('PERMISSION_CREATE_GROUP')">
-			<div class="row">
-			  <div class="span12">
-				 <c:url var="createGroup" value="group">
-		            <c:param name="form">true</c:param>
-		         </c:url>
-				 <a href="${createGroup}"><spring:message code="create.group" /></a> 
-			  </div>
-			</div>
-		</security:authorize>
+	</security:authorize>
 	</div>
 </div>
