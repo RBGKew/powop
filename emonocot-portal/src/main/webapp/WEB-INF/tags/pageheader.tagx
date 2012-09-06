@@ -7,7 +7,7 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 	<div class="bamboo-left">&#160;</div>
 	<div class="bamboo-right">&#160;</div>
-	<div class="inner">
+	<div class="page-header-inner">
 		<div class="container">
 			<div class="row">
 				<jsp:doBody/>
@@ -15,8 +15,4 @@
 			<br />
 		</div>
 	</div>
-	<!-- <c:url value="/css/images/banner/bamboo-left.png" var="leftBambooUrl" />
-	<img src="${leftBambooUrl}" class="left-bamboo" alt="Left Bamboo Decoration" width="230" height="470" />
-	<c:url value="/css/images/banner/bamboo-right.png" var="rightBambooUrl" />	
-	<img src="${rightBambooUrl}" class="right-bamboo" alt="Right Bamboo Decoration" width="170" height="470" />-->
 </div>

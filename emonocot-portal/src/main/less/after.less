@@ -71,13 +71,11 @@ section#bibliography ul {
     min-width: 940px;
 }
 
-.jumbotron .inner {
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) inset;
+.jumbotron-inner {
+    position: relative;
+    z-index: 300;
+    box-shadow: none;
     padding: 45px 0;
-}
-
-.jumbotron .inner:before,.inner:after{
-	display:none;
 }
 
 .jumbotron h1, .jumbotron p {
@@ -296,7 +294,6 @@ background: -o-linear-gradient(top, #b9f0e5 0%,#cffff2 100%); /* Opera 11.10+ */
 background: -ms-linear-gradient(top, #b9f0e5 0%,#cffff2 100%); /* IE10+ */
 background: linear-gradient(to bottom, #b9f0e5 0%,#cffff2 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b9f0e5', endColorstr='#cffff2',GradientType=0 ); /* IE6-9 */}
-.jumbotron .inner {box-shadow: none;padding: 45px 0; position: relative; z-index: 300;}
 .jumbotron h1 { font-size: 36px; line-height: 42px; color: #333; text-shadow: 0 1px 0 #fff; margin: 0 0 10px; }
 .jumbotron p { text-align: center; color: #333; text-shadow: 0 1px 0 #fff; font-family: 'ms500', Helvetica, Arial, sans-serif; font-size: 24px; line-height: 30px; }
 .jumbotron input[type='text'] { padding: 9px; margin-right: 10px;}
@@ -393,6 +390,10 @@ background: linear-gradient(to bottom, #b9f0e5 0%,#cffff2 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b9f0e5', endColorstr='#cffff2',GradientType=0 ); /* IE6-9 */ }
 .page-header form { margin: 4px 0 0; }
 .page-header h2 { line-height: 36px !important; }
+.page-header-inner {
+    position: relative;
+    z-index: 300;
+}
 .page-header .left-bamboo { position: absolute; top: 0; left: 0; }
 .page-header .right-bamboo { position: absolute; top: 0; right: 0; }
 
