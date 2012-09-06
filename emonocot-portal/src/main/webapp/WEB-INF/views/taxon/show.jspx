@@ -34,6 +34,7 @@
 		</c:if>
 	</tags:pageheader>
 	<div class="container">
+		<c:set var="bibliography" value="${em:bibliography(taxon)}"/>
 		<header class="subhead clearfix" id="overview">
 			<c:if test="${not empty taxon.images or not empty taxon.content or not empty em:regions(taxon) or not empty taxon.children or not empty taxon.synonyms or not empty bibliography.references}">
 				<div class="subnav noPrint">

@@ -1,48 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<div class="container" xmlns:jsp="http://java.sun.com/JSP/Page"
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:em="http://e-monocot.org/portal/functions"
+	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 
-	<div class="content">
-		<div class="page-header header-margin">
-			<h2>
-				<spring:message code="an.error.has.occurred" />
-			</h2>
-		</div>
+	<tags:pageheader>
+		<h2>
+			<spring:message code="an.error.has.occurred" />
+		</h2>
+	</tags:pageheader>
+	<div class="container">
 		<div class="row">
-		  <div class="alert block-message error">
-		    <h3><spring:message code="500" /></h3>
-			<p>
-				<spring:message code="500.message" />
-		    </p>
-		    <div class="alert-actions">
-		      <jsp:element name="a">
+			<div class="alert block-message error">
+				<h3>
+					<spring:message code="500" />
+				</h3>
+				<p>
+					<spring:message code="500.message" />
+				</p>
+				<div class="alert-actions">
+					<jsp:element name="a">
 		          <jsp:attribute name="class">btn small</jsp:attribute>
 			      <jsp:attribute name="href">
-			        <c:url value="mailto:ict-team@e-monocot.org"/>
+			        <c:url value="mailto:ict-team@e-monocot.org" />
 			      </jsp:attribute>
 				  <spring:message code="send.an.email" /> 			    
 			  </jsp:element>
-			  <jsp:element name="a">
+					<jsp:element name="a">
 		          <jsp:attribute name="class">btn small</jsp:attribute>
 			      <jsp:attribute name="href">
-			        <c:url value="http://build.e-monocot.org/bugzilla/enter_bug.cgi"/>
+			        <c:url
+								value="http://build.e-monocot.org/bugzilla/enter_bug.cgi" />
 			      </jsp:attribute>
 				  <spring:message code="submit.issue" /> 			    
 			  </jsp:element>
-            </div>
-		  </div>
+				</div>
+			</div>
 		</div>
 		<div class="row">
 			<h3>${exception.message}</h3>
 			<c:if test="${not empty exception.stackTrace}">
-<pre>
+				<pre>
 <c:forEach var="stackTraceElement" items="${exception.stackTrace}">
   ${stackTraceElement}
 </c:forEach>
 </pre>
-</c:if>
+			</c:if>
 		</div>
 	</div>
 </div>
