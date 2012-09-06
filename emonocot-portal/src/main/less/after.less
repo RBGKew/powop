@@ -338,7 +338,20 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b9f0e5', end
 
 /* boxes */
 
-.box { background: #fff; border: 1px solid #e8e8e8; min-height: 20px; padding: 19px; margin-bottom: 20px; -webkit-box-shadow: inset 1px 1px 30px 1px #f9f9f9; -moz-box-shadow: inset 1px 1px 30px 1px #f9f9f9; box-shadow: inset 1px 1px 30px 1px #f9f9f9; }
+.box { background: #fff; border: 1px solid #e8e8e8; min-height: 20px; padding: 19px; margin-bottom: 20px;  position: relative; -webkit-box-shadow: inset 1px 1px 30px 1px #f9f9f9; -moz-box-shadow: inset 1px 1px 30px 1px #f9f9f9; box-shadow: inset 1px 1px 30px 1px #f9f9f9; }
+
+.inner { position: relative; z-index: 1;}
+
+.inner:before, .inner:after { position: absolute; width: 50%; height: 4px; content: ' '; left: 12px;background: transparent; -webkit-transform: skew(-5deg) rotate(-3deg); -moz-transform: skew(-5deg) rotate(-3deg); -ms-transform: skew(-5deg) rotate(-3deg); -o-transform: skew(-5deg) rotate(-3deg); transform: skew(-5deg) rotate(-3deg); -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7); -moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7); box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7); z-index: -1; 
+} 
+.inner:after  { left: auto; right: 12px; -webkit-transform: skew(5deg) rotate(3deg); -moz-transform: skew(5deg) rotate(3deg); -ms-transform: skew(5deg) rotate(3deg); -o-transform: skew(5deg) rotate(3deg); transform: skew(5deg) rotate(3deg); } 
+    
+.span12 .inner:before, .span12 .inner:after, .span11 .inner:before, .span11 .inner:after { bottom: 13px; }
+.span10 .inner:before, .span10 .inner:after, .span9 .inner:before, .span9 .inner:after { bottom: 12px; }
+.span8 .inner:before, .span8 .inner:after, .span7 .inner:before, .span7 .inner:after { bottom: 11px; }
+.span6 .inner:before, .span6 .inner:after, .span5 .inner:before, .span5 .inner:after { bottom: 10px; }
+.span4 .inner:before, .span4 .inner:after, .span3 .inner:before, .span3 .inner:after { bottom: 9px; }
+.span2 .inner:before, .span2 .inner:after, .span1 .inner:before, .span1 .inner:after { bottom: 8px; }
 
 .box h1, .box h2, .box h3, .box h4, .box h5, .box h6 { color: #5b5b5b; }
 
@@ -347,12 +360,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b9f0e5', end
 .box a:hover h2 { text-decoration: none !important  }
 
 .box p { color: #888; }
-
-.span9 .inner { background: url('@{imagePath}/shadows/span9.png') center bottom no-repeat; height: 100%; }
-.span8 .inner { background: url('@{imagePath}/shadows/span8.png') center bottom no-repeat; height: 100%; }
-.span6 .inner { background: url('@{imagePath}/shadows/span6.png') center bottom no-repeat; height: 100%; }
-.span4 .inner { background: url('@{imagePath}/shadows/span4.png') center bottom no-repeat; height: 100%; }
-.span3 .inner { background: url('@{imagePath}/shadows/span3.png') center bottom no-repeat; height: 100%; }
 
 /* footer */
 
