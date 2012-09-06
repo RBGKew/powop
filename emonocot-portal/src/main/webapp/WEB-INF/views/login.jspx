@@ -1,32 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<div class="container" xmlns:jsp="http://java.sun.com/JSP/Page"
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:form="urn:jsptagdir:/WEB-INF/tags/form"
 	xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
-  <div class="content">
-	<div class="page-header header-margin">
-		<h2><spring:message code="login" /></h2>
-	</div>		
+	<tags:pageheader>
+		<h2>
+			<spring:message code="login" />
+		</h2>
+	</tags:pageheader>
+	<div class="container">
 	<div class="row">
-	  <div class="span12">
-	    <tags:info/>
-		<c:if test="${param.error}">
-	      <div class="alert">
-  			<a class="close" href="#">×</a>
-			<p><strong>${SPRING_SECURITY_LAST_EXCEPTION.message}</strong></p>
-			<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.cause}">
-				<p>${SPRING_SECURITY_LAST_EXCEPTION.cause.message}</p>
-			</c:if>				
-		  </div>
-	    </c:if>			
-	    <form:create modelAttribute="loginForm" path="/process_login">
-		  <field:input field="j_username" label="username" fieldClass="span4"/>
-		  <field:input field="j_password" label="password" fieldClass="span4" type="password"/>
-		  <field:checkbox field="_spring_security_remember_me" label="remember.me" disableFormBinding="true"/>
-	    </form:create>
-	  </div>
+		<div class="span12">
+			<tags:info />
+			<c:if test="${param.error}">
+				<div class="alert">
+					<a class="close" href="#">×</a>
+					<p>
+						<strong>${SPRING_SECURITY_LAST_EXCEPTION.message}</strong>
+					</p>
+					<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.cause}">
+						<p>${SPRING_SECURITY_LAST_EXCEPTION.cause.message}</p>
+					</c:if>
+				</div>
+			</c:if>
+			<form:create modelAttribute="loginForm" path="/process_login">
+				<field:input field="j_username" label="username" fieldClass="span4" />
+				<field:input field="j_password" label="password" fieldClass="span4"
+					type="password" />
+				<field:checkbox field="_spring_security_remember_me"
+					label="remember.me" disableFormBinding="true" />
+			</form:create>
+		</div>
 	</div>
-  </div>
+	</div>
 </div>

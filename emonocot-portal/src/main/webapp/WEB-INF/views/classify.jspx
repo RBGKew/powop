@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<div class="container" xmlns:jsp="http://java.sun.com/JSP/Page"
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:form="http://www.springframework.org/tags/form"
     xmlns:spring="http://www.springframework.org/tags" version="2.0">
     <!-- vars -->
     <c:url var="classificationUrl" value="/classification"/>
 	<!-- tile -->
-    <div class="content">
-        <div class="page-header header-margin">
+    <tags:pageheader>
             <h2>
                 <spring:message code="classify.header" />
             </h2>
-        </div>
+       </tags:pageheader>
+       <div class="container">
         <div class="row">
             <div class="span10 offset1">
+            <div class="inner">
+							<div class="box clearfix">
                 <p class="justified">When launched this page with provide an overview of how you can use this site to work on your classification and the relationship to the <a title="Classification Page" href="${classificationUrl}">eMonocot classification!</a></p>
+            </div>
+            </div>
             </div>
         </div>
 	</div>

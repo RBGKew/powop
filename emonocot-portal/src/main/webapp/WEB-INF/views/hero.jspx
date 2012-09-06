@@ -1,60 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<header class="jumbotron masthead" xmlns:jsp="http://java.sun.com/JSP/Page"
+<header class="jumbotron masthead"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
-	
-	   	<div class="bamboo-left">&#160;</div>
-	   	<div class="bamboo-right">&#160;</div>
 
-		<div class="grass1">&#160;</div>
-		<div class="grass2">&#160;</div>
-		<div class="grass3">&#160;</div>
-		<div class="grass4">&#160;</div>
-		<div class="grass5">&#160;</div>
-		
-		<div class="plant-single">&#160;</div>
-		
-		<div class="bg-plants">&#160;</div>
-		
-		<div class="trees-left">&#160;</div>
-		<div class="trees-right">&#160;</div>
-		
-		<div class="plant-decoration">&#160;</div>
-		<div class="pond">&#160;</div>
-		
-		<div class="bg-banner">&#160;</div>
-		
-		<div class="overlay-banner">&#160;</div>
-	
-		<div class="inner">
+	<div class="bamboo-left">&#160;</div>
+	<div class="bamboo-right">&#160;</div>
+
+	<div class="grass1">&#160;</div>
+	<div class="grass2">&#160;</div>
+	<div class="grass3">&#160;</div>
+	<div class="grass4">&#160;</div>
+	<div class="grass5">&#160;</div>
+
+	<div class="plant-single">&#160;</div>
+
+	<div class="bg-plants">&#160;</div>
+
+	<div class="trees-left">&#160;</div>
+	<div class="trees-right">&#160;</div>
+
+	<div class="plant-decoration">&#160;</div>
+	<div class="pond">&#160;</div>
+
+	<div class="bg-banner">&#160;</div>
+
+	<div class="overlay-banner">&#160;</div>
+
+	<div class="inner">
 		<div class="container">
-		 <div class="row">
-		  <h1 class="span12"><spring:message code="hero.title"/></h1>
-		 </div>
-		 <div class="row">
-		   <p class="lead span12"><spring:message code="hero.message"/></p>
-		 </div>
-		 <div class="row">
-		<script type="text/javascript">				
-		  $(document).ready(function() {
-			  $("input#query").autocomplete({
-		            source: "autocomplete",
-		            minLength: 2
-		        });
-		  });
-		</script>
-		<form class="form-search" action="search" method="GET">
-		  <div class="offset3">
-				<div class="input form-inline">
-				  <spring:message code="search.for" var="placeholderText"/>	
-			  <input id="query" name="query" class="span6 search-query" type="text" value="" placeholder="${placeholderText}"/>
-			  <button type="submit" class="btn btn-primary btn-large">
-				Search
-			  </button>					
+			<div class="row">
+				<h1 class="span12">
+					<spring:message code="hero.title" />
+				</h1>
 			</div>
-		  </div>
-		</form> 
+			<div class="row">
+				<p class="lead span12">
+					<spring:message code="hero.message" />
+				</p>
+			</div>
+			<div class="row">
+				<script type="text/javascript">
+					$(document).ready(function() {
+						$("input#query").autocomplete({
+							source : "autocomplete",
+							minLength : 2
+						});
+					});
+				</script>
+				<form class="form-search" action="search" method="GET">
+					<div class="offset3">
+						<div class="input form-inline">
+							<spring:message code="search.for" var="placeholderText" />
+							<input id="query" name="query" class="span6 search-query"
+								type="text" value="" placeholder="${placeholderText}" />
+							<button type="submit" class="btn btn-primary  btn-large">
+								<span class="icon-search icon-white">&#160;</span> Search
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
 		</div>
-		</div>
-		</div>
+	</div>
 </header>

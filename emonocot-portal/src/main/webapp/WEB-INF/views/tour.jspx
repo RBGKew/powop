@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<div class="container" xmlns:jsp="http://java.sun.com/JSP/Page"
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
-	<div class="content">
-		<div class="page-header header-margin">
+	<tags:pageheader>
 			<h2>
 				<spring:message code="eMonocot.tools" />
 			</h2>
-		</div>
+		</tags:pageheader>
+		<div class="container">
 		<div class="row">
 			<div class="span12">
+			<div class="inner">
+							<div class="box clearfix">
 				<h4><spring:message code="identification.tools" /></h4>
 				<p>When complete, eMonocot will enable the identification of monocot plants anywhere in the world (monocots are 20% of all flowering plants)</p>
 				<ul>
@@ -41,8 +44,11 @@
 						</jsp:element>
 					</li>
 				</ul>
+				</div>
+				</div>
 				<hr/>
-				
+				<div class="inner">
+							<div class="box clearfix">
 				<h4><spring:message code="classify.header" /></h4>
 				<p class="justified">When launched this page with provide an overview of how you can use this site to work on your classification and the relationship to the <a title="Classification Page" href="${classificationUrl}">eMonocot classification!</a></p>
 				<ul>
@@ -66,8 +72,11 @@
 						</jsp:element>
 					</li>
 				</ul>
+				</div>
+				</div>
 				<hr/>
-				
+				<div class="inner">
+							<div class="box clearfix">
 				<h4><spring:message code="search.tools" /></h4>
 				<p>When complete, eMonocot will allow to search for monocot plants anywhere in the world (monocots are 20% of all flowering plants)</p>
 				<ul>
@@ -90,6 +99,8 @@
 						</jsp:element>
 					</li>
 				</ul>
+				</div>
+				</div>
 			</div>
 		</div>
 	</div>
