@@ -6,8 +6,6 @@
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 
-
-
 	<tags:pageheader>
 			<c:url value="/css/images/glyphicons/fullsize/glyphicons_159_picture.png" var="imageIconUrl"/>			
 			<h2 id="page-title"> <img src="${imageIconUrl}" class="pull-left noPrint header-icon" alt="Image"/> ${image.caption}</h2>
@@ -30,22 +28,11 @@
 			</c:if>
 			<br/>
 			<div class="centeredImage section-box">
-			<div class="inner">
-							<div class="box clearfix">
-				<c:forEach var="source" items="${image.sources}">
-					<c:choose>
-						<c:when test="${source.title eq 'eMonocot' || source.title eq 'Dioscoreaceae'}">
-							<img id="main-img" class=" imageSize" src="/images/fullsize/${image.identifier}.${image.format}" title="${fn:escapeXml(image.caption)}" alt="${status.index}" />
-						</c:when>
-						<c:otherwise>
-							<img id="main-img" class=" imageSize" src="${image.url}" title="${fn:escapeXml(image.caption)}" alt="${status.index}" />
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-				<c:if test="${empty image.sources}">
-					<img id="main-img" class=" imageSize" src="${image.url}" title="${fn:escapeXml(image.caption)}" alt="${status.index}" />
-				</c:if>
-				</div>
+				<div class="inner">
+					<div class="box clearfix">
+						<c:url value="/images/fullsize/${image.identifier}.${image.format}" var="imageUrl"/>
+						<img id="main-img" class=" imageSize" src="${imageUrl}" title="${fn:escapeXml(image.caption)}" alt="${status.index}" />
+					</div>
 				</div>
 			</div>
 			<br/>
