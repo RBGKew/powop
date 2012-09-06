@@ -166,25 +166,6 @@ public class TextContent extends BaseData {
         return content;
     }
 
-    @Override
-    public boolean equals(Object other) {
-        if (!super.equals(other)) {
-            return false;
-        }
-
-        TextContent otherContent = (TextContent) other;
-        return ObjectUtils.equals(this.feature, otherContent.feature)
-                && ObjectUtils.equals(this.taxon, otherContent.taxon)
-                && ObjectUtils.equals(this.content, otherContent.content);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode() + ObjectUtils.hashCode(this.taxon)
-                + ObjectUtils.hashCode(this.feature)
-                + (this.content == null ? 0 : this.content.hashCode());
-    }
-
     @Transient
     @JsonIgnore
     public final String getClassName() {

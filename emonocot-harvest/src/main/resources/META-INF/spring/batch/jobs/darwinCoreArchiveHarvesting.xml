@@ -88,7 +88,6 @@
 			  <batch:listener ref="processingExceptionProcessListener"/>
 			  <batch:listener ref="taxonFieldSetMapper"/>
 			  <batch:listener ref="taxonRelationshipResolver"/>
-			  <batch:listener ref="taxonRelationshipResolver"/>
 			  <batch:listener ref="hibernateSessionClearingChunkListener"/>
 			</batch:listeners>		
 		</batch:step>

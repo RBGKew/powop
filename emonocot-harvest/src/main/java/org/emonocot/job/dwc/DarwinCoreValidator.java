@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @param <T> the type of object validated
  */
 public abstract class DarwinCoreValidator<T extends BaseData> extends AuthorityAware implements
-        ItemProcessor<T, T>, StepExecutionListener {
+        ItemProcessor<T, T> {
     /**
      *
      */

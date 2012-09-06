@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.emonocot.api.AnnotationService;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.junit.Before;
@@ -105,7 +106,7 @@ public class DarwinCoreJobIntegrationTest {
         parameters.put("authority.name", new JobParameter(
                 "test"));
         parameters.put("family", new JobParameter(
-        "Araceae"));
+        "test"));
         parameters.put("authority.uri", new JobParameter(
                 "http://build.e-monocot.org/test/test.zip"));
         parameters.put(
@@ -121,10 +122,11 @@ public class DarwinCoreJobIntegrationTest {
                 darwinCoreArchiveHarvestingJob);
         JobExecution jobExecution = jobLauncher.run(darwinCoreArchiveHarvestingJob, jobParameters);
         for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
-            logger.info(stepExecution.getStepName() + " "
+        	logger.info(stepExecution.getStepName() + " "
                     + stepExecution.getReadCount() + " "
                     + stepExecution.getFilterCount() + " "
                     + stepExecution.getWriteCount() + " " + stepExecution.getCommitCount());
         }
+        
     }
 }
