@@ -630,6 +630,8 @@ public class SourceController extends GenericController<Source, SourceService> {
 						FacetName.JOB_INSTANCE }, selectedFacets, null,
 				"annotated-obj");
 		result.putParam("query", query);
+		result.putParam("details",true);
+		model.addAttribute("jobId",jobId);
 		model.addAttribute("result", result);
 
 		return "source/job/details";

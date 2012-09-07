@@ -59,17 +59,23 @@
 					&#160;
 				</div>
 			</div>
-			<br/>
 			
-			<div id="matchedTaxa" class="span8">
-				<div id="pages" class="span4 pull-right"><!--  --></div>
-				<table class="table">
+			<div class="span8">
+			  <div class="inner">
+			    <div id="matchedTaxa" class="box">
+				  <div id="pages" class="span4 pull-right"><!--  --></div>
+				  <table class="table">
 					<tbody><!--  --></tbody>
-				</table>
+				  </table>
+			    </div>
+			  </div>
 			</div>
 		</div>
 		<div id="gallery" class="no-display" data-toggle="modal-gallery" data-target="#modal-gallery"><!--  --></div>
-			
+		<div class="row">
+		  <div class="span12">
+		    <div class="inner">
+		      <div class="box">	
 		<table class="table table-bordered table-condensed" id="key-properties">
 			<tbody>
 				<tr>
@@ -92,19 +98,13 @@
 						<c:url value="/source/${identificationKey.authority.identifier}" var="keySourceUrl" />
 						<a href="${keySourceUrl}">${identificationKey.authority.identifier}</a>
 					</td>
-				</tr>
-				<tr>
-					<th><spring:message code="sources" /></th>
-					<td>
-						<c:forEach var="source" items="${identificationKey.sources}">
-							<c:url value="/source/${identificationKey.authority.identifier}" var="sourceUrl" />
-							<a href="${sourceUrl}">${source.identifier}</a>
-						</c:forEach>
-					</td>
-				</tr>
+				</tr>			
 			</tbody>
 		</table>
-				
+			  </div>
+			</div>
+		  </div>
+		</div>
 		<c:url value="/taxon/" var="taxonPath"/>
 		<c:url value="/images/thumbnails/" var="imagePath"/>
 		<c:url value="http://build.e-monocot.org/uat/portal/images/fullsize/" var="fullsizeImagePath"/>

@@ -1,5 +1,7 @@
 package org.emonocot.portal.driver.taxon;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import org.emonocot.portal.driver.IllustratedPage;
@@ -148,7 +150,13 @@ public class Show extends PageObject implements IllustratedPage {
      * @return the url of the main image
      */
     public final String getMainImage() {
-        return mainImage.findElement(By.tagName("img")).getAttribute("src");
+    	String src = mainImage.findElement(By.tagName("img")).getAttribute("src");
+    	try {
+			URL url = new URL(src);
+			return url.getPath();
+		} catch (MalformedURLException e) { 
+			return "MalformedURLException : " + e.getLocalizedMessage();
+		}
     }
 
     /**

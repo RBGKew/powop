@@ -1,34 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<div class="container" xmlns:jsp="http://java.sun.com/JSP/Page"
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
-  <div class="content">
-	<div class="page-header header-margin">
-	  <c:choose>
-	    <c:when test="${not empty source.logoUrl}">
-	      <img id="source-logo" src="${source.logoUrl}" title="${fn:escapeXml(source.title)}"/>
-	    </c:when>
-	    <c:otherwise>
-	      <h2 id="page-title">${source.title}</h2>
-	    </c:otherwise>
-	  </c:choose>
-    </div>
+	<tags:pageheader>
+	    <h2 id="page-title">${source.title}<br/> <spring:message code="issues" /></h2>	    
+    </tags:pageheader>
+  <div class="container">
 	<div class="row">
 	  <div class="span12">
-	    <div id="pages">
-		  <tags:results pager="${result}" />
-	    </div>
-	    <div class="pagination">
-		  <tags:pagination pager="${result}" url="messages" />
-	    </div>
-	  </div>
-	</div>
-	<div class="row">
+	    <div class="inner">
+	      <div class="box">
+	        <div class="row">
+	          <div id="pages" class="span12">
+		        <tags:results pager="${result}" />
+	          </div>
+	        </div>
+	        <div class="row">
 	  <div class="span12">
-	  <h5><spring:message code="issues" /></h5>
 	  <table class="table table-striped">
 		<thead>
 		  <tr>
@@ -67,5 +58,17 @@
 	  </table>
 	  </div>
 	</div>
+	      
+	    <div class="row">
+	      <div class="pagination pull-right">
+		  <tags:pagination pager="${result}" url="${jobId}" />
+	    </div>
+	    </div>
+
+	  </div>
+	</div>
+  </div>
+  </div>
+	
 </div>
 </div>

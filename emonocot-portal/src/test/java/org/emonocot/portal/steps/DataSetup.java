@@ -34,7 +34,7 @@ public class DataSetup {
             testDataManager.createImage(imageRow.identifier, imageRow.caption,
                     imageRow.url, imageRow.source, imageRow.description,
                     imageRow.locality, imageRow.creator, imageRow.license,
-                    imageRow.keywords, imageRow.taxon, imageRow.taxa1);
+                    imageRow.keywords, imageRow.taxon, imageRow.format, imageRow.taxa1);
         }
     }
 

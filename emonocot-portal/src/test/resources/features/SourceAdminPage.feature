@@ -85,7 +85,7 @@ Scenario: Create Source
   Then an info message should say "test2 title created"
   When I navigate to source page "test2"
   Then the source uri should be "http://example.com"
-  And the source logo should be "http://example.com/logo.png"
+  # And the source logo should be "http://example.com/logo.png"
 
 Scenario: Edit Source
   As a privileged source system owner, I want to be able to edit a source page
@@ -100,7 +100,7 @@ Scenario: Edit Source
   Then an info message should say "test title was updated"
   When I navigate to source page "test" 
   Then the source uri should be "http://example.com"
-  And the source logo should be "http://example.com/logo.png"
+  # And the source logo should be "http://example.com/logo.png"
 
  
 Scenario: Create Job

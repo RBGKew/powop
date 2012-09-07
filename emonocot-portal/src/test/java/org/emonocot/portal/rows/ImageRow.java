@@ -61,4 +61,9 @@ public class ImageRow {
      *
      */
 	public String taxa1;
+	
+	/**
+	 *
+	 */
+	public String format;
 }

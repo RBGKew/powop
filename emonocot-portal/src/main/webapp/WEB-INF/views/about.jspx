@@ -4,50 +4,11 @@
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:form="http://www.springframework.org/tags/form"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
-<tags:pageheader>
-	        <h2 id="page-title" class="span5">
-	          <spring:message code="search.emonocot"/>
-	        </h2>
-	        
-	        <script type="text/javascript">
-	            $(document).ready(function() {
-	                $("input#query").autocomplete({
-	                    source: "autocomplete",
-	                    minLength: 2
-	                });
-	            });
-	        </script>
-	        <c:url var="searchUrl" value="/search"/>
-	        <form id="search.form" class="pull-right form-search" accept-charset="UTF-8" method="GET" action="${searchUrl}">
-	            <input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="query"/>
-	            <input type="hidden" name="limit" value="${result.pageSize}" />
-	            <input type="hidden" name="start" value="0" />
-	            <c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-	                <input type="hidden" name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
-	            </c:forEach>
-	            <input type="hidden" name="sort" value="${result.sort}"/>
-	            <button class="btn btn-primary"><span class="icon-search icon-white">&#160;</span></button>
-	            <c:url var="resetUrl" value="/search">
-	                <c:param name="query" value=""/>
-	            </c:url>
-	            <a href="${resetUrl}" class="btn" id="reset"><i class="icon-refresh"><!--  --></i><spring:message code="reset"/></a>
-	        </form>
-</tags:pageheader>
+    <tags:pageheader>
+	        <h2 id="page-title"><spring:message code="about.emonocot" /></h2>
+    </tags:pageheader>
 
 <div class="container">
-	<div class="row">
-		<div class="span8 offset2">
-			<h2>
-				<spring:message code="about.emonocot" />
-			</h2>
-		</div>
-	</div>
-</div>
-
-<div class="container" xmlns:jsp="http://java.sun.com/JSP/Page"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:form="http://www.springframework.org/tags/form"
-	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 	<div class="row">
 		<div class="span6">
 			<div class="inner">

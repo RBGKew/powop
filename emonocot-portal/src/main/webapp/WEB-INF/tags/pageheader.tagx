@@ -10,7 +10,9 @@
 	<div class="page-header-inner">
 		<div class="container">
 			<div class="row">
+			  <div class="span12">
 				<jsp:doBody/>
+		      </div>
 			</div>
 			<br />
 		</div>

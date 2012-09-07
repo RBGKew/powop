@@ -2,13 +2,18 @@
 <div class="container" xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<div class="row">
+	  <div class="span12">
+	    <h4 class="index-message"><spring:message code="index.message"/></h4>
+	  </div>
+	</div>
     <div class="row">
         <div class="span4">
         	<div class="inner">
 	        	<div id="identify-box" class="box">
+	        	    <c:url var="identifyUrl" value="/tour#identify"/>
                     <c:url value="/css/images/identify.png" var="identifyImg"/>
-	        		<img src="${identifyImg}" height="160" width="260" alt="Identify"/>
-		            <c:url var="identifyUrl" value="/tour"/>
+	        		<a href="${identifyUrl}"><img src="${identifyImg}" height="160" width="260" alt="Identify"/></a>		            
 		          	<a href="${identifyUrl}"><h2><spring:message code="identify.title"/></h2></a>
 		          	<p><spring:message code="identify.message"/></p>
 	        	</div>
@@ -18,8 +23,8 @@
         	<div class="inner">
 	        	<div id="classify-box" class="box">
                     <c:url value="/css/images/classify.png" var="classifyImg"/>
-	        		<img src="${classifyImg}" height="160" width="260" alt="Classify"/>
-	            	<c:url var="classifyUrl" value="/tour"/>
+                    <c:url var="classifyUrl" value="/tour#classify"/>
+	        		<a href="${classifyUrl}"><img src="${classifyImg}" height="160" width="260" alt="Classify"/></a>	            	
 	            	<a href="${classifyUrl}"><h2><spring:message code="classify.title"/></h2></a>
 	            	<p><spring:message code="classify.message"/></p>
 	        	</div>
@@ -29,8 +34,8 @@
         	<div class="inner">
 		    	<div id="explore-box" class="box">
                     <c:url value="/css/images/explore.png" var="exploreImg"/>
-		    		<img src="${exploreImg}" height="160" width="260" alt="Explore"/>
-		        	<c:url var="exploreUrl" value="/tour"/>
+                    <c:url var="exploreUrl" value="/tour#explore"/>
+		    		<a href="${exploreUrl}"><img src="${exploreImg}" height="160" width="260" alt="Explore"/></a>
 		      		<a href="${exploreUrl}"><h2><spring:message code="explore.title"/></h2></a>
 		      		<p><spring:message code="explore.message"/></p>
 		    	</div>

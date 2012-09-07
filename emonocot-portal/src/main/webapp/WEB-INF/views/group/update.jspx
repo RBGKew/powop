@@ -12,15 +12,12 @@
 	</tags:pageheader>
 	<div class="container">
 		<div class="row">
-			<div class="span9">
-
+			<div class="span12">
 				<tags:info />
-
 			</div>
 		</div>
 		<div class="row">
-			<div class="span9">
-				<div class="section-box">
+			<div class="span12">
 					<div class="inner">
 						<div class="box clearfix">
 							<h2>
@@ -68,13 +65,11 @@
 								</spring:bind>
 							</form:form>
 						</div>
-					</div>
 				</div>
 			</div>
 		</div>
 		<div class="row">
-			<div class="span9">
-				<div class="section-box">
+			<div class="span12">
 					<div class="inner">
 						<div class="box clearfix">
 							<h2>
@@ -87,12 +82,10 @@
 							</ul>
 						</div>
 					</div>
-				</div>
 			</div>
 		</div>
 		<div class="row">
-			<div class="span9">
-				<div class="section-box">
+			<div class="span12">
 					<div class="inner">
 						<div class="box clearfix">
 							<h2>
@@ -146,7 +139,6 @@
 								</spring:bind>
 							</form:form>
 						</div>
-					</div>
 				</div>
 			</div>
 

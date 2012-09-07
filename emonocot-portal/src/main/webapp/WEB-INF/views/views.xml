@@ -6,16 +6,12 @@
     <put-attribute name="hero" value="/WEB-INF/views/hero.jspx" />
     <put-attribute name="body" value="/WEB-INF/views/index.jspx" />
   </definition>
-  <definition name="classify" extends="default">
-    <put-attribute name="pageTitle" value="classifyTitle" cascade="true" />
-    <put-attribute name="body" value="/WEB-INF/views/classify.jspx" />
-  </definition>
   <definition name="classification" extends="default">
     <put-attribute name="pageTitle" value="classifyTitle" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/classification.jspx" />
   </definition>
   <definition name="tour" extends="default">
-    <put-attribute name="pageTitle" value="tourTitle" cascade="true" />
+    <put-attribute name="pageTitle" value="eMonocot.tools" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/tour.jspx" />
   </definition>
   <definition name="search" extends="default">

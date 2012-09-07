@@ -1,5 +1,8 @@
 package org.emonocot.portal.driver.image;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.emonocot.portal.driver.IllustratedPage;
 import org.emonocot.portal.driver.PageObject;
 import org.emonocot.portal.driver.Search;
@@ -60,7 +63,13 @@ public class Show extends PageObject implements IllustratedPage {
      * @return the url of the main image
      */
     public final String getMainImage() {
-        return mainImage.getAttribute("src");
+    	String src = mainImage.getAttribute("src");
+    	try {
+			URL url = new URL(src);
+			return url.getPath();
+		} catch (MalformedURLException e) { 
+			return "MalformedURLException : " + e.getLocalizedMessage();
+		}        
     }
 
     /**

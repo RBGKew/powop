@@ -1,36 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<div class="container" xmlns:jsp="http://java.sun.com/JSP/Page"
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:security="http://www.springframework.org/security/tags"
+	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:joda="http://www.joda.org/joda/time/tags" version="2.0">
-
-	<div class="content">
-		<div class="page-header header-margin">
-			<c:choose>
-				<c:when test="${not empty source.logoUrl}">
-					<img id="source-logo" src="${source.logoUrl}" title="${fn:escapeXml(source.title)}"/>
-				</c:when>
-				<c:otherwise>
-					<h2 id="page-title">${source.title}</h2>
-				</c:otherwise>
-			</c:choose>
-		</div>
+    <tags:pageheader>
+      <h2 id="page-title">${source.title}</h2>
+    </tags:pageheader>
+	<div class="container">		
 		<security:authorize access="hasRole('PERMISSION_ADMINISTRATE') or hasPermission(#source, 'READ')">
 			<div class="row">
+			  
 				<div class="span12">
 					<c:url value="/source/${source.identifier}" var="editUrl">
 						<c:param name="form">true</c:param>
 					</c:url>
 					<spring:message code="edit.source" var="editMessage"/>
 					<a href="${editUrl}" class="pull-right">${editMessage}</a>
+		
 				</div>
 			</div>
 		</security:authorize>
-		<div class="row">
+		<div class="row">		    
 			<div class="span12">
+			  <div class="inner">
+			    <div class="box">
 		<table class="table">
 	      <tbody>
 	        <tr><th><spring:message code="availableAt" /></th><td><a href="${source.uri}" id="source-uri">${source.uri}</a></td></tr>
@@ -55,11 +52,15 @@
 		        <tr><th><spring:message code="source.source" /></th><td>${source.source}</td></tr>        
 	      </tbody>
 	    </table>
+	    </div>
+	    </div>
 	  </div>
 	</div>
 	<security:authorize access="hasRole('PERMISSION_ADMINISTRATE') or hasPermission(#source, 'READ')">
-	<div class="row">
+	<div class="row">	  
       <div class="span12">
+        <div class="inner">
+			    <div class="box">
         <h2><spring:message code="jobs.title"/></h2>
         <security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">
         	<c:url var="createUrl" value="/source/${source.identifier}/job">
@@ -120,6 +121,8 @@
 	      </c:forEach>
 	      </tbody>
 	    </table>
+      </div>
+      </div>
       </div>
     </div>
     </security:authorize>

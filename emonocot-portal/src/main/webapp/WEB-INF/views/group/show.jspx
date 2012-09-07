@@ -4,15 +4,24 @@
 	xmlns:security="http://www.springframework.org/security/tags"
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
-	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	xmlns:spring="http://www.springframework.org/tags">
 
 	<tags:pageheader>
 		<h2 id="page-title">${group.name}</h2>
 	</tags:pageheader>
 	<div class="container">
+	    <security:authorize url="hasRole('PERMISSION_WRITE_GROUP')">
+			<div class="row">
+				<div class="span12">
+				  <c:url var="editGroupUrl" value="/group/${group.identifier}">
+					<c:param name="form">true</c:param>
+				  </c:url>
+				  <a href="${editGroupUrl}"><spring:message code="edit.group" /></a>
+				</div>
+			</div>
+		</security:authorize>
 		<div class="row">
-			<div class="span9">
-
+			<div class="span12">
 				<div class="inner">
 					<div class="box clearfix">
 						<h2>
@@ -30,8 +39,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="span9">
-				<div class="section-box">
+			<div class="span12">
 					<div class="inner">
 						<div class="box clearfix">
 							<h2>
@@ -44,12 +52,10 @@
 							</ul>
 						</div>
 					</div>
-				</div>
 			</div>
 		</div>
 		<div class="row">
-			<div class="span9">
-				<div class="section-box">
+			<div class="span12">
 					<div class="inner">
 						<div class="box clearfix">
 							<h2>
@@ -64,26 +70,8 @@
 								</c:forEach>
 							</ul>
 						</div>
-					</div>
 				</div>
 			</div>
 		</div>
-		<security:authorize url="hasRole('PERMISSION_WRITE_GROUP')">
-			<div class="row">
-				<div class="span9">
-					<div class="section-box">
-						<div class="inner">
-							<div class="box clearfix">
-								<c:url var="editGroupUrl" value="/group/${group.identifier}">
-									<c:param name="form">true</c:param>
-								</c:url>
-								<a href="${editGroupUrl}"><spring:message code="edit.group" /></a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</security:authorize>
-
 	</div>
 </div>

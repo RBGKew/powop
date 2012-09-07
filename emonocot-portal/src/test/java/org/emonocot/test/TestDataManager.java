@@ -28,6 +28,7 @@ import org.emonocot.model.job.Job;
 import org.emonocot.model.job.JobType;
 import org.emonocot.model.key.IdentificationKey;
 import org.emonocot.model.media.Image;
+import org.emonocot.model.media.ImageFormat;
 import org.emonocot.model.reference.Reference;
 import org.emonocot.model.source.Source;
 import org.emonocot.model.taxon.Rank;
@@ -206,13 +207,14 @@ public class TestDataManager {
      *            Set the license
      * @param keywords
      *            Set the keywords
+     * @param format TODO
      * @param taxa1 TODO
      */
 	public final void createImage(final String identifier,
 			final String caption, final String url, final String source,
 			final String description, final String locality,
 			final String creator, final String license, final String keywords,
-			final String taxon, final String taxa1) {
+			final String taxon, String format, final String taxa1) {
         enableAuthentication();
         Image image = new Image();
         image.setCaption(caption);
@@ -223,6 +225,9 @@ public class TestDataManager {
         image.setCreator(creator);
         image.setLicense(license);
         image.setKeywords(keywords);
+        if(format != null) {
+        	image.setFormat(ImageFormat.valueOf(format));
+        }
         if (source != null) {
             Source s = new Source();
             s.setIdentifier(source);

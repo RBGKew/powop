@@ -94,7 +94,7 @@
 				<c:when test="${taxon.status == 'accepted'}">
 					<spring:message code="isAccepted" />
 					<c:url var="sourceUrl" value="/source/${taxon.authority.identifier}"/>
-					<a href="${acceptedUrl}">${taxon.authority.title}</a>
+					<a href="${sourceUrl}">${taxon.authority.title}</a>
 				</c:when>
 			</c:choose>
 		</div>
@@ -263,13 +263,6 @@
 								</ul>
 							</section>
 						</c:if>
-					</div>
-				</div>
-				
-				<div class="inner">
-					<div class="box">
-						<h2>Another Example sidebar box</h2>
-						<p>Example sidebar text.</p>
 					</div>
 				</div>
 			</div>

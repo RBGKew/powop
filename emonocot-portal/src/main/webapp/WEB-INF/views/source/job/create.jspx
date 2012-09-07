@@ -6,27 +6,17 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:form="urn:jsptagdir:/WEB-INF/tags/form"
 	xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields"
-	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	xmlns:spring="http://www.springframework.org/tags">
 
 	<tags:pageheader>
-	    <h2 id="page-title">
-	      <c:url var="sourceUrl" value="/source/${source.identifier}"/>
-	      <a href="${sourceUrl}">
-	        <c:choose>
-	          <c:when test="${not empty source.logoUrl}">
-	            <img id="source-logo" src="${source.logoUrl}" title="${fn:escapeXml(source.title)}"/>
-	          </c:when>
-	          <c:otherwise>
-	            ${source.title}
-	          </c:otherwise>
-	        </c:choose>
-	      </a>
+	    <h2 id="page-title">${source.title}	     
 	      <br/><spring:message code="create.job"/>
-	  </h2>	    
+	    </h2>	    
     </tags:pageheader>
     <div class="container">
 		<div class="row">
 		  <div class="span12">
+		    <div class="inner"><div class="box">
 			<form:create path="/source/${source.identifier}/job" modelAttribute="job">
 			  <field:input field="identifier" label="job.identifier" fieldClass="span6"/>
 			  <field:input field="family" label="job.family" fieldClass="span6"/>
@@ -45,6 +35,8 @@
 			  <field:input field="written" label="job.written" fieldClass="span6"/>
 			  <field:select field="jobType" label="job.jobType" fieldClass="span6" items="${jobTypes}"/>
 			</form:create>
+			</div>
+			</div>
 		  </div>
 		</div>
     </div>

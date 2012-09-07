@@ -12,9 +12,7 @@
 	<jsp:useBean id="result" scope="request" type="org.emonocot.model.pager.Page&lt;org.emonocot.model.common.SearchableObject&gt;" />
 	<c:url var="mapSearchImageBig" value="/css/images/glyphicons/fullsize/glyphicons_340_globe.png"/>
 	<spring:message code="map.search" var="mapSearchTitle"/>
-	<div class="container">
-	<div class="header-content">
-		<div class="page-header header-margin noPrint">
+	<tags:pageheader>
 			<div class="row">
 				<h2 id="page-title" class="span6">
 				  <img class="pull-left noPrint" alt="Search" src="${mapSearchImageBig}"/>
@@ -63,51 +61,56 @@
 				<a href="${resetUrl}" class="btn pull-right" id="reset"><i class="icon-refresh"><!--  --></i><spring:message code="reset"/></a>
 			</div>
 			<br/>
-		</div>
-	</div>
-    </div>
+    </tags:pageheader>
     <geo:map x1="${result.params['x1']}" y1="${result.params['y1']}" x2="${result.params['x2']}" y2="${result.params['y2']}" mapClass="full-width-map" zoomBoxSearch="true">
         <c:if test="${not empty result.params['featureId']}">
             <geo:layer name="places" layer="emonocot:place" style="eMonocot" featureId="${result.params['featureId']}" />
         </c:if>
     </geo:map>
     <div class="container">
-	<div class="content">
 		<div class="row">
-			<div class="span3 noPrint">
-				<ul id="facets" class="well nav nav-list">
-					<c:forEach var="facetName" items="${result.facetNames}">
-						<c:choose>
+			<div id="facets" class="span3 noPrint">
+				<c:forEach var="facetName" items="${result.facetNames}">
+				  <div class="row">
+					<div class="span3">
+					  <div class="inner">
+						<ul class="box nav nav-list">	
+						  <c:choose>
 							<c:when test="${facetName eq 'CLASS'}">
 								<menu:facet url="/spatial" facetName="${facetName}" pager="${result}" title="restrict.your.search" showIcons="true"/>
 							</c:when>
 							<c:otherwise>
 								<menu:facet url="/spatial" facetName="${facetName}" pager="${result}"/>
 							</c:otherwise>
-						</c:choose>
-						<br/>
-					</c:forEach>
-				</ul>
+						  </c:choose>
+						</ul>
+				      </div>
+					</div>
+				  </div>
+				  <br/>
+				</c:forEach>
 			</div>
 			<div class="span9">
-				<div class="row noPrint">
+			  <div class="inner">
+			    <div class="box">
+				  <div class="row noPrint">
                     <tags:sort url="/spatial" result="${result}" spanClass="span2"/>
 					<div id="pages" class="pull-right">
 						<tags:results pager="${result}"/>
 					</div>
-				</div>
-				<br/>
-				<div class="row noPrint">
+				  </div>
+				  <br/>
+				  <div class="row noPrint">
 					<div id="viewIcons" class="span3">
 					  <tags:view url="/spatial" result="${result}"/>
 					</div>
 					<div class="pagination pull-right">
 						<tags:pagination pager="${result}" url="/spatial"/>
 					</div>
-				</div>
-				<br/>
+				  </div>
+				  <br/>
 
-				<div id="results" class="row no-margin-left">
+				  <div id="results" class="row no-margin-left">
 					<jsp:scriptlet>
 								
 								String classFacet = result.getSelectedFacets().get("CLASS");
@@ -150,9 +153,10 @@
 							});
 						});
 					</script>
+				  </div>
 				</div>
+			  </div>
 			</div>
 		</div>
-	</div>
 	</div>
 </jsp:root>

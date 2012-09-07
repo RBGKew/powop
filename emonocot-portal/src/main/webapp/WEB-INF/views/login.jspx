@@ -12,8 +12,14 @@
 	</tags:pageheader>
 	<div class="container">
 	<div class="row">
+	  <div class="span12">
+	    <tags:info />
+	  </div>
+	</div>
+	<div class="row">
 		<div class="span12">
-			<tags:info />
+		  <div class="inner">
+		    <div class="box">
 			<c:if test="${param.error}">
 				<div class="alert">
 					<a class="close" href="#">×</a>
@@ -32,6 +38,8 @@
 				<field:checkbox field="_spring_security_remember_me"
 					label="remember.me" disableFormBinding="true" />
 			</form:create>
+			</div>
+	      </div>
 		</div>
 	</div>
 	</div>

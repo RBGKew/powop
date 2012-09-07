@@ -9,10 +9,10 @@ Background:
   | identifier                 | name      | 
   | urn:kew.org:wcs:taxon:1234 | Poa annua |
   And there are images with the following properties:
-  | identifier | url                                                                | caption   | description     | creator          | locality                          | keywords                     | license                                                                                        | taxa1                      |
-  | 123        | http://upload.wikimedia.org/wikipedia/commons/7/7b/Poa_annua.jpeg  | Poa annua | Habit           | Rasbak           | Nederlands                        | Poaceae, Habit               | This file is licensed under the Creative Commons Attribution-Share Alike 3.0 Unported license. | urn:kew.org:wcs:taxon:1234 |
-  | 456        | http://upload.wikimedia.org/wikipedia/commons/4/4f/Poa.annua.jpg   | Poa annua | Panicle         | James K. Lindsey | Commanster, Belgian High Ardennes | Poaceae, Panicle, Commanster |                                                                                                | urn:kew.org:wcs:taxon:1234 |
-  | 789        | http://upload.wikimedia.org/wikipedia/commons/7/78/Poa.annua.2.jpg | Poa annua | Panicle         | James K. Lindsey | Commanster, Belgian High Ardennes | Commanster                   |                                                                                                | urn:kew.org:wcs:taxon:1234 |
+  | identifier | url                                                                | caption   | description     | creator          | locality                          | keywords                     | license                                                                                        | taxa1                      | format |
+  | 123        | http://upload.wikimedia.org/wikipedia/commons/7/7b/Poa_annua.jpeg  | Poa annua | Habit           | Rasbak           | Nederlands                        | Poaceae, Habit               | This file is licensed under the Creative Commons Attribution-Share Alike 3.0 Unported license. | urn:kew.org:wcs:taxon:1234 | jpg    |
+  | 456        | http://upload.wikimedia.org/wikipedia/commons/4/4f/Poa.annua.jpg   | Poa annua | Panicle         | James K. Lindsey | Commanster, Belgian High Ardennes | Poaceae, Panicle, Commanster |                                                                                                | urn:kew.org:wcs:taxon:1234 | jpg    |
+  | 789        | http://upload.wikimedia.org/wikipedia/commons/7/78/Poa.annua.2.jpg | Poa annua | Panicle         | James K. Lindsey | Commanster, Belgian High Ardennes | Commanster                   |                                                                                                | urn:kew.org:wcs:taxon:1234 | jpg    |
 
 
 Scenario: Check ImagePage
@@ -21,7 +21,7 @@ Scenario: Check ImagePage
   the image including the licence of the image if available
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=174
   When I navigate to image page "123"  
-  Then the main image should be "http://upload.wikimedia.org/wikipedia/commons/7/7b/Poa_annua.jpeg"
+  Then the main image should be "/images/fullsize/123.jpg"
   And the main image Caption should be "Poa annua"
   And the main image Description should be "Habit"
   And the main image Artist should be "Rasbak"
