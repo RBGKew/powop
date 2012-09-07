@@ -4,11 +4,11 @@
   <parent>
     <artifactId>emonocot</artifactId>
     <groupId>org.emonocot</groupId>
-    <version>0.0.20</version>
+    <version>0.0.21-SNAPSHOT</version>
   </parent>
   <groupId>org.emonocot</groupId>
   <artifactId>emonocot-persistence</artifactId>
-  <version>0.0.20</version>
+  <version>0.0.21-SNAPSHOT</version>
   <name>eMonocot Persistence Layer</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
