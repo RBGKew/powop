@@ -21,7 +21,7 @@ Scenario: Check ImagePage
   the image including the licence of the image if available
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=174
   When I navigate to image page "123"  
-  Then the main image should be "/images/fullsize/123.jpg"
+  Then the main image should be "123.jpg"
   And the main image Caption should be "Poa annua"
   And the main image Description should be "Habit"
   And the main image Artist should be "Rasbak"

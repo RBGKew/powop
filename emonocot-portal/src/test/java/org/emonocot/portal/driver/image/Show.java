@@ -64,12 +64,7 @@ public class Show extends PageObject implements IllustratedPage {
      */
     public final String getMainImage() {
     	String src = mainImage.getAttribute("src");
-    	try {
-			URL url = new URL(src);
-			return url.getPath();
-		} catch (MalformedURLException e) { 
-			return "MalformedURLException : " + e.getLocalizedMessage();
-		}        
+    	return src.substring(src.lastIndexOf("/") + 1);      
     }
 
     /**

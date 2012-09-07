@@ -151,12 +151,7 @@ public class Show extends PageObject implements IllustratedPage {
      */
     public final String getMainImage() {
     	String src = mainImage.findElement(By.tagName("img")).getAttribute("src");
-    	try {
-			URL url = new URL(src);
-			return url.getPath();
-		} catch (MalformedURLException e) { 
-			return "MalformedURLException : " + e.getLocalizedMessage();
-		}
+    	return src.substring(src.lastIndexOf("/") + 1); 
     }
 
     /**
@@ -164,8 +159,7 @@ public class Show extends PageObject implements IllustratedPage {
      * @return the number of thumbnails
      */
     public final int getThumbnails() {
-        return thumbnailContainer.findElements(
-                By.tagName("li")).size();
+        return thumbnailContainer.findElements(By.tagName("li")).size();
     }
 
     /**
