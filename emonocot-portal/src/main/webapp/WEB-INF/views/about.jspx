@@ -13,7 +13,8 @@
 		<div class="span6">
 			<div class="inner">
 				<div class="box">
-					<img src="/css/images/about.png" height="420" width="420" alt="eMonocot Portal"/>
+					<c:url var="aboutUs" value="/css/images/about.png"/>
+					<img src="${aboutUs}" height="420" width="420" alt="eMonocot Portal"/>
 					<p class="justified">A collaborative team from <a href="http://www.kew.org/" title="Kew Gardens">Kew</a>, 
 					the <a href="http://www.nhm.ac.uk/" title="Natural History Museum">Natural History Museum</a> (NHM) 
 					and <a href="http://www.ox.ac.uk/" title="Oxford University">Oxford University</a> 
