@@ -1,6 +1,9 @@
 package org.tdwg.ubif;
 
+import java.util.Set;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
 /**
  *
@@ -24,8 +27,8 @@ public class Representation {
     /**
      *
      */
-    @XStreamAlias("MediaObject")
-    private MediaObjectRef mediaObject;
+    @XStreamImplicit(itemFieldName="MediaObject")
+    private Set<MediaObjectRef> mediaObjects;
 
     /**
      *
@@ -44,17 +47,17 @@ public class Representation {
     }
 
     /**
-     * @return the mediaObject
+     * @return the mediaObjects
      */
-    public final MediaObjectRef getMediaObject() {
-        return mediaObject;
+    public final Set<MediaObjectRef> getMediaObjects() {
+        return mediaObjects;
     }
 
     /**
-     * @param newMediaObject the mediaObject to set
+     * @param newMediaObjects the mediaObject to set
      */
-    public final void setMediaObject(final MediaObjectRef newMediaObject) {
-        this.mediaObject = newMediaObject;
+    public final void setMediaObjects(final Set<MediaObjectRef> newMediaObjects) {
+        this.mediaObjects = newMediaObjects;
     }
 
     /**
