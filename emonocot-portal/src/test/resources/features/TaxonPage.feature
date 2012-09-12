@@ -104,7 +104,7 @@ Scenario: Taxa Relationship Not Present For Synonyms
   The taxon relationships should not be displayed for synonyms. 
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=223
   When I navigate to taxon page "urn:kew.org:wcs:taxon:29332"
-  Then there should not be a section with the heading "Classification"
+  Then there should not be a "classificationBox" visible
   
 Scenario: Accepted name show for synonyms
   Taxa should show their status at the top of the page

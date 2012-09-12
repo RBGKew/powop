@@ -329,4 +329,17 @@ public class PageObject {
     public PageObject selectLink(String text) {
         return selectLink(text, PageObject.class);
     }
+
+	/**
+	 * @param elementId
+	 * @return Whether an element with this id is visible
+	 */
+	public boolean isElementVisible(String elementId) {
+		try {
+			 WebElement element = webDriver.findElement(By.id(elementId));
+			return element.isDisplayed();
+		} catch (NoSuchElementException e) {
+			return false;
+		}
+	}
 }
