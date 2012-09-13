@@ -22,6 +22,8 @@ public class ImageFormatConverter implements
                 return ImageFormat.jpg;
             } else if (value.equals("image/png")) {
                 return ImageFormat.png;
+            } else if (value.equals("image/gif")) {
+                return ImageFormat.png;
             } else {
                 return ImageFormat.valueOf(value);
             }

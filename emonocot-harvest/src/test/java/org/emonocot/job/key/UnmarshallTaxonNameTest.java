@@ -8,12 +8,6 @@ import javax.xml.transform.stax.StAXSource;
 import org.junit.Test;
 import org.tdwg.ubif.TaxonName;
 
-
-
-
-
-
-
 /**
  *
  * @author ben
@@ -40,6 +34,6 @@ public class UnmarshallTaxonNameTest extends
         assertNotNull("taxonName should not be null", taxonName);
         assertEquals("taxonName.id should equal t2", "t2", taxonName.getId());
         assertEquals("taxonName.representation.label should be Arum alpinariae", "Arum alpinariae", taxonName.getRepresentation().getLabel());
-        assertEquals("taxonName.representation.mediaObject.ref should be m2", "m2", taxonName.getRepresentation().getMediaObject().getRef());
+        assertEquals("size(taxonName.representation.mediaObject) should be 2", 2, taxonName.getRepresentation().getMediaObjects().size());
     }
 }

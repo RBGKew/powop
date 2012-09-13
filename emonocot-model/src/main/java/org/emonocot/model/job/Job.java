@@ -78,7 +78,7 @@ public class Job extends Base {
     */
 	private DateTime startTime;
 
-	/**
+   /**
     *
     */
 	private String exitCode;

@@ -903,15 +903,14 @@ public class StepDefinitions {
     }
     
     /**
-     * /**
      * 
-     * @param heading
-     *            Set the classification heading
+     * 
+     * @param elementId The element of the id you are checking for
      */
-    @Then("^there should not be a section with the heading \"([^\"]*)\"$")
-    public void thereShouldNotBeASectionWithTheHeading(String classification) {
-    	assertFalse(((org.emonocot.portal.driver.taxon.Show) currentPage)
-                .doesClassificationExist(classification));
+    @Then("^there should not be a \"([^\"]*)\" visible$")
+    public void thereShouldNotBeASectionWithTheHeading(String elementId) {
+    	assertFalse((currentPage)
+                .isElementVisible(elementId));
     }
 
     /**

@@ -272,15 +272,6 @@ public class Show extends PageObject implements IllustratedPage {
 		return textualDistribution.getText();
 	}
 
-	public boolean doesClassificationExist(String classification) {
-		try {
-			WebElement element = textContent.findElement(By.id("taxonomicTree"));
-	       } catch (NoSuchElementException e) {
-	           return false;
-	       }
-	       return true;
-	}
-
 	public String getTaxonomicStatus() {
 		return taxonomicStatus.getText();
 	}

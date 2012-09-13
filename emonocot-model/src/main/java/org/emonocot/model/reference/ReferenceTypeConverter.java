@@ -25,7 +25,7 @@ public class ReferenceTypeConverter implements
      * @return a geographical region
      */
     public final ReferenceType convert(final String identifier) {
-        if (identifier == null) {
+        if (identifier == null || identifier.trim().isEmpty()) {
             return null;
         }
         if (identifier
