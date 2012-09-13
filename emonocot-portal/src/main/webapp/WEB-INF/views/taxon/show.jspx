@@ -252,8 +252,8 @@
 			
 			<div id="sidebar" class="span4 sidebar">
 				<div class="inner">
-					<div class="box">
-						<c:if test="${taxon.accepted == null}">
+                    <c:if test="${taxon.accepted == null}">
+						<div id="classificationBox" class="box">
 							<section id="taxonomicTree">
 								<h2><spring:message code="taxonomicTree" /></h2>
 								<ul id="taxonHierarchy">
@@ -262,8 +262,8 @@
 									</c:if>
 								</ul>
 							</section>
-						</c:if>
-					</div>
+						</div>
+                    </c:if>
 				</div>
 			</div>
 		</div>
