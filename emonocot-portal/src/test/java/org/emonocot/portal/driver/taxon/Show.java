@@ -58,7 +58,7 @@ public class Show extends PageObject implements IllustratedPage {
     /**
      *
      */
-    @FindBy(how = How.CLASS_NAME, using = "ad-thumb-list")
+    @FindBy(how = How.CLASS_NAME, using = "thumbnails")
     private WebElement thumbnailContainer;
 
     /**

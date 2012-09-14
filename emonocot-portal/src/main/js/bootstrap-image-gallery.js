@@ -80,6 +80,9 @@
         getUrl: function (element) {
             return element.href || $(element).data('href');
         },
+        getLink: function (element) {
+            return $(element).data('link');
+        },
         startSlideShow: function () {
             var $this = this;
             if (this.options.slideshow) {
@@ -122,6 +125,7 @@
                 modal = this.$element,
                 index = this.options.index,
                 url = this.getUrl(this.$links[index]),
+                link = this.getLink(this.$links[index]),
                 oldImg;
             this.abortLoad();
             this.stopSlideShow();
@@ -137,10 +141,7 @@
                 oldImg.remove();
             }, 3000);
             modal.find('.modal-title').text(this.$links[index].title);
-            modal.find('.modal-download').prop(
-                'href',
-                url
-            );
+            modal.find('.modal-download').prop('href',link);
             this._loadingImage = loadImage(
                 url,
                 function (img) {

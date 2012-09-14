@@ -187,16 +187,16 @@ public class SearchController {
             if (className == null) {
                 return 10;
             } else if (className.equals("org.emonocot.model.media.Image")) {
-                return 20;
+                return 24;
             } else {
                 return 10;
             }
         } else if (view.equals("list")) {
             return 10;
         } else if (view.equals("grid")) {
-            return 20;
+            return 24;
         } else {
-            return 20;
+            return 24;
         }
     }
     						
