@@ -137,7 +137,7 @@ public class Place extends SearchableObject {
 	/**
 	 * @param mapFeatureId the mapFeatureId to set
 	 */
-	public final void setMapFeatureId(Long mapFeatureId) {
+	public void setMapFeatureId(Long mapFeatureId) {
 		this.mapFeatureId = mapFeatureId;
 	}
 
