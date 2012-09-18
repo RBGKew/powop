@@ -40,15 +40,15 @@
 					<button class="btn btn-primary">
 						<span class="icon-search icon-white">&#160;</span>
 					</button>
-					<c:url var="resetUrl" value="/search">
-						<c:param name="query" value="" />
-					</c:url>
-					<a href="${resetUrl}" class="btn" id="reset"><i
-						class="icon-refresh">
-							<!--  -->
-					</i>
-					<spring:message code="reset" /></a>
 				</form>
+			</div>
+			<div>
+                <c:url var="resetUrl" value="/search">
+	                <c:param name="query" value="" />
+	            </c:url>
+	            <a id="reset" class="btn pull-right" data-toggle="tab" href="${resetUrl}">
+	                <i class="icon-refresh"><!--  --></i>
+	            <spring:message code="reset" /></a>
 			</div>
 		</tags:pageheader>
 
@@ -89,15 +89,15 @@
 							</div>
 							<tags:sort url="/search" result="${result}"
 								spanClass="pull-right" />
-
 						</div>
-						<div id="pages" class="pull-left">
-							<tags:results pager="${result}" />
+						<br/>
+						<div class="row">
+							<div id="pages" class="pull-left">
+							    <tags:results pager="${result}" />
+							</div>
 						</div>
-						<br />
 
 						<div id="results" class="row no-margin-left">
-
 							<jsp:scriptlet>
 								String classFacet = result.getSelectedFacets().get("CLASS");
 								if(classFacet == null) {
@@ -108,7 +108,6 @@
 									pageContext.setAttribute("imageClass",Boolean.FALSE);
 								}
 							</jsp:scriptlet>
-
 							<c:choose>
 								<c:when test="${empty result.params['view']}">
 									<c:choose>
@@ -132,10 +131,8 @@
 									<results:list pager="${result}" />
 								</c:when>
 							</c:choose>
-							
 						</div>
 						<div class="row noPrint">
-
 							<div class="pagination pull-right">
 								<tags:pagination pager="${result}" url="search" />
 							</div>
