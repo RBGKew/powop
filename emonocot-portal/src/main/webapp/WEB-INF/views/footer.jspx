@@ -5,10 +5,10 @@
 	<div class="container">
 		<div id="footer-icons">
 			<ul>
-			    <c:url var="oxfordImageUrl" value="/css/images/footer/uni-oxford.png"/>
-				<li><a href="http://www.ox.ac.uk/"><img src="${oxfordImageUrl}" width="150" height="60" alt="University of Oxford" target="_blank" /></a></li>
 				<c:url var="kewImageUrl" value="/css/images/footer/kew.png"/>
 				<li><a href="http://www.kew.org/"><img src="${kewImageUrl}" width="100" height="60" alt="Kew" target="_blank" /></a></li>
+				<c:url var="oxfordImageUrl" value="/css/images/footer/uni-oxford.png"/>
+				<li><a href="http://www.ox.ac.uk/"><img src="${oxfordImageUrl}" width="150" height="60" alt="University of Oxford" target="_blank" /></a></li>
 				<c:url var="nhmImageUrl" value="/css/images/footer/nhm.png"/>
 				<li><a href="http://www.nhm.ac.uk/"><img src="${nhmImageUrl}" width="110" height="60" alt="Natural History Museum" target="_blank" /></a></li>
 				<c:url var="nercImageUrl" value="/css/images/footer/nerc.png"/>
