@@ -55,10 +55,12 @@
 			</div>
 			<div>
 			    <span class="pull-left"><spring:message code="map.instructions"/></span>
-				<c:url var="resetUrl" value="/spatial">
-					<c:param name="query" value=""/>
-				</c:url>
-				<a href="${resetUrl}" class="btn pull-right" id="reset"><i class="icon-refresh"><!--  --></i><spring:message code="reset"/></a>
+			</div>
+			<div>
+                <c:url var="resetUrl" value="/spatial">
+                    <c:param name="query" value=""/>
+                </c:url>
+                <a id="reset" class="btn pull-right" href="${resetUrl}" ><i class="icon-refresh"><!--  --></i><spring:message code="reset"/></a>
 			</div>
 			<br/>
     </tags:pageheader>
@@ -93,35 +95,31 @@
 			<div class="span9">
 			  <div class="inner">
 			    <div class="box">
-				  <div class="row noPrint">
-                    <tags:sort url="/spatial" result="${result}" spanClass="span2"/>
-					<div id="pages" class="pull-right">
-						<tags:results pager="${result}"/>
-					</div>
-				  </div>
+                  <br/>
+                  <div class="row noPrint">
+                    <div id="viewIcons" class="span3">
+                      <tags:view url="/spatial" result="${result}"/>
+                    </div>
+                    <tags:sort url="/spatial" result="${result}" spanClass="pull-right"/>
+                  </div>
 				  <br/>
-				  <div class="row noPrint">
-					<div id="viewIcons" class="span3">
-					  <tags:view url="/spatial" result="${result}"/>
-					</div>
-					<div class="pagination pull-right">
-						<tags:pagination pager="${result}" url="/spatial"/>
-					</div>
-				  </div>
-				  <br/>
+                  <div class="row">
+                    <div id="pages" class="pull-left">
+                        <tags:results pager="${result}"/>
+                    </div>
+                  </div>
 
 				  <div id="results" class="row no-margin-left">
 					<jsp:scriptlet>
-								
-								String classFacet = result.getSelectedFacets().get("CLASS");
-								if(classFacet == null) {
-									pageContext.setAttribute("imageClass",Boolean.FALSE);
-								} else if (classFacet.equals("org.emonocot.model.media.Image")){
-									pageContext.setAttribute("imageClass",Boolean.TRUE);
-								} else {
-									pageContext.setAttribute("imageClass",Boolean.FALSE);
-								}
-							</jsp:scriptlet>
+						String classFacet = result.getSelectedFacets().get("CLASS");
+						if(classFacet == null) {
+							pageContext.setAttribute("imageClass",Boolean.FALSE);
+						} else if (classFacet.equals("org.emonocot.model.media.Image")){
+							pageContext.setAttribute("imageClass",Boolean.TRUE);
+						} else {
+							pageContext.setAttribute("imageClass",Boolean.FALSE);
+						}
+					</jsp:scriptlet>
 					<c:choose>
 						<c:when test="${empty result.params['view']}">
 							<c:choose>
@@ -154,6 +152,11 @@
 						});
 					</script>
 				  </div>
+				  <div class="row noPrint">
+                    <div class="pagination pull-right">
+                        <tags:pagination pager="${result}" url="/spatial"/>
+                    </div>
+                  </div>
 				</div>
 			  </div>
 			</div>

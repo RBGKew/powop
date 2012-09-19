@@ -87,28 +87,64 @@
 			</div>
 			</div>
 			</section>
-			<c:if test="${not empty taxon.images }">
-				<h2 class="noPrint"><spring:message code="related.images"/></h2>
-				<div id="gallery" class="ad-gallery noPrint">
-					<div class="ad-image-wrapper no-display">&#160;</div>
-					<!-- <div class="ad-controls">&#160;</div> -->
-					<div class="ad-nav">
-						<div class="ad-thumbs">
-							<ul class="thumbnails ad-thumb-list thumbnail-gallery-padding">
-								<c:forEach var="image" items="${taxon.images}" varStatus="status">
-									<c:url var="thumbnail" value="/images/thumbnails/${image.identifier}.${image.format}"/>
-									<li>
-										<a href="${image.url}">
-											<c:url var="url" value="/image/${image.identifier}"/> 
-												<img src="${thumbnail}" class="${status.index} thumbnail" onclick="javascript:location.href='${url}';" />
-										</a>
-									</li>
+	<c:if test="${not empty taxon.images}">
+			<div class="container">
+			<h2 class="noPrint"><spring:message code="related.images"/></h2>
+			<div id="images" data-toggle="modal-gallery" data-target="#modal-gallery">
+				<div class="row">
+					<div class="carousel slide span12" id="carousel">
+							<div class="carousel-inner">
+							  <c:forEach var="i" items="${taxon.images}" step="6" varStatus="status">
+							    <c:choose>
+							      <c:when test="${status.index == 0}">
+							        <c:set var="active" value="active"/>
+							      </c:when>
+							      <c:otherwise>
+							        <c:set var="active" value=""/>
+							      </c:otherwise>
+							    </c:choose>
+								<div class="item ${active}">
+									<ul class="thumbnails">	
+									  <c:forEach var="image" items="${taxon.images}" begin="${status.index}" end="${status.index + 5}">									
+											<li>
+											  <c:url var="fullsize" value="/images/fullsize/${image.identifier}.${image.format}" />
+											  <c:url var="url" value="/image/${image.identifier}" />
+											  <a class="thumbnail" href="${image.url}" rel="gallery" title="${em:stripXml(image.caption)}" data-link="${url}">
+														<c:url var="thumbnail" value="/images/thumbnails/${image.identifier}.${image.format}" />
+														<c:url var="url" value="/image/${image.identifier}" />
+														<img src="${thumbnail}" title="${em:stripXml(image.caption)}" />
+											  </a>
+											</li>
+									  </c:forEach>
+									</ul>
+								</div>
 								</c:forEach>
-							</ul>
-						</div>
+							</div>	
+							<c:if test="${fn:length(taxon.images) > 6 }">
+							  <a data-slide="prev" href="#carousel" class="left carousel-control">‹</a>
+							  <a data-slide="next" href="#carousel" class="right carousel-control">›</a>
+					        </c:if>
+						</div>						
 					</div>
 				</div>
-			</c:if>
+			</div>
+		</c:if>
+		<div id="modal-gallery" class="modal modal-gallery hide fade modal-fullscreen">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal">&#215;</a>
+			</div>
+			<div class="modal-body">
+				<div class="modal-image">
+					<!--  -->
+				</div>
+				<div class="carousel-caption">
+					<a class="modal-title modal-download">
+						<!--  -->
+					</a>
+				</div>
+			</div>			
+		</div>		
+		<br />
 		</div>
 		<div id="sidebar" class="span3 sidebar">
 		<div class="inner">

@@ -69,7 +69,7 @@
 				<div class="row">
 					<div class="carousel slide span12" id="carousel">
 							<div class="carousel-inner">
-							  <c:forEach var="i" items="${taxon.images}" varStatus="status">
+							  <c:forEach var="i" items="${taxon.images}" step="6" varStatus="status">
 							    <c:choose>
 							      <c:when test="${status.index == 0}">
 							        <c:set var="active" value="active"/>
