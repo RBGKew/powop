@@ -191,16 +191,24 @@ public class ScratchpadArchiveMetadataReaderTest {
 
 		String[] expectedReferenceFieldNames = new String[] {
 				"http://rs.tdwg.org/dwc/terms/taxonID",
-				"http://purl.org/dc/terms/identifier",
-				"http://purl.org/dc/terms/bibliographicCitation",
-				"http://purl.org/dc/terms/title",
-				"http://purl.org/dc/terms/creator",
-				"http://purl.org/dc/terms/source",
-				"http://purl.org/dc/terms/description",
-				"http://purl.org/dc/terms/subject",
-				"http://purl.org/dc/terms/language",
-				"http://purl.org/dc/terms/type",
-				"http://purl.org/dc/terms/date" };
+	            "http://purl.org/dc/terms/identifier",
+	            "",
+	            "http://purl.org/ontology/bibo/doi",
+	            "http://purl.org/ontology/bibo/isbn",
+	            "http://purl.org/ontology/bibo/issn",
+	            "",
+	            "",
+	            "http://purl.org/dc/terms/bibliographicCitation",
+	            "http://purl.org/dc/terms/title",
+	            "http://purl.org/dc/terms/creator",
+	            "http://purl.org/dc/terms/source",
+	            "http://purl.org/dc/terms/description",
+	            "http://purl.org/dc/terms/subject",
+	            "http://purl.org/dc/terms/language",
+	            "http://purl.org/dc/terms/type",
+	            "http://purl.org/dc/terms/date",
+	            "http://purl.org/dc/terms/created",
+	            "http://purl.org/dc/terms/modified" };
 
         String[] actualReferenceFieldNames = (String[])
         executionContext.get("dwca.reference.fieldNames");

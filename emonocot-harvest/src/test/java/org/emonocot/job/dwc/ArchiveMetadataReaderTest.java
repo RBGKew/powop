@@ -186,8 +186,7 @@ public class ArchiveMetadataReaderTest {
                 "http://purl.org/dc/terms/created",
                 "http://purl.org/dc/terms/modified",
                 "http://rs.tdwg.org/dwc/terms/occurrenceStatus",
-                "http://rs.tdwg.org/dwc/terms/locationID",
-                "http://purl.org/dc/terms/source"
+                "http://rs.tdwg.org/dwc/terms/locationID"
         };
 
         String[] actualDistributionFieldNames = (String[])

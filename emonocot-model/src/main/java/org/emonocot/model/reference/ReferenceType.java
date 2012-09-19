@@ -45,5 +45,45 @@ public enum ReferenceType {
     /**
      *
      */
-    WebPage;
+    WebPage,
+    /**
+     *
+     */
+    publication,
+    /**
+     *
+     */
+    original,
+    /**
+     *
+     */
+    combination,
+    /**
+     *
+     */
+    monograph,
+    /**
+     *
+     */
+    florafauna,
+    /**
+     *
+     */
+    checklist,
+    /**
+     *
+     */
+    legal,
+    /**
+     *
+     */
+    website,
+    /**
+     *
+     */
+    expert,
+    /**
+     *
+     */
+    other;
 }

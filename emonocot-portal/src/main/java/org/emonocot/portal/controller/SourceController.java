@@ -507,15 +507,10 @@ public class SourceController extends GenericController<Source, SourceService> {
 			jobLaunchRequest.setJob("IdentificationKeyHarvesting");
 			break;
 		case OAI_PMH:
-//			jobParametersMap.put("request.interval", "4000");
-//			if (job.getFamily() != null) {
-//				jobParametersMap.put("request.subset.name", job.getFamily());
-//			}
+
 			jobLaunchRequest.setJob("OaiPmhTaxonHarvesting");
 			break;
 		case DwC_Archive:
-//			jobParametersMap.put("family", job.getFamily());
-//			jobParametersMap.put("authority.uri", job.getUri());
 			jobLaunchRequest.setJob("DarwinCoreArchiveHarvesting");
 			break;
 		default:
@@ -544,6 +539,11 @@ public class SourceController extends GenericController<Source, SourceService> {
 			job.setLastHarvested(new DateTime());
 			job.setResource(jobExecutionInfo.getResource());
 			job.setStatus(jobExecutionInfo.getStatus());
+			job.setRecordsRead(0);
+			job.setReadSkip(0);
+			job.setProcessSkip(0);
+			job.setWriteSkip(0);
+			job.setWritten(0);
 			jobService.saveOrUpdate(job);
 			String[] codes = new String[] { "job.started" };
 			Object[] args = new Object[] {};

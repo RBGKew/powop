@@ -3,6 +3,9 @@ package org.emonocot.job.dwc;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.LineNumberReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -291,11 +294,14 @@ public class ArchiveMetadataReader implements StepExecutionListener {
      *            the prefix to append to the properties
      * @param identifierTerm
      *            the name of the identifier property
+     * @throws IOException 
      */
     private void getMetadata(final ArchiveFile archiveFile,
-            final String prefix, final ConceptTerm identifierTerm) {
+            final String prefix, final ConceptTerm identifierTerm) throws IOException {
+    	logger.info("Processing " + archiveFile.getRowType());
         ExecutionContext executionContext = this.stepExecution
                 .getJobExecution().getExecutionContext();
+        
         executionContext.put("dwca." + prefix + ".file", archiveFile
                 .getLocationFile().getAbsolutePath());
         executionContext.put("dwca." + prefix + ".fieldsTerminatedBy",
@@ -308,15 +314,16 @@ public class ArchiveMetadataReader implements StepExecutionListener {
         executionContext.put("dwca." + prefix + ".encoding",
                 archiveFile.getEncoding());
 
+        Integer headerLinesToSkip = 0;
         if (archiveFile.getIgnoreHeaderLines() != null) {
-            executionContext.put("dwca." + prefix + ".ignoreHeaderLines",
-                    archiveFile.getIgnoreHeaderLines());
-        } else {
-            executionContext.put("dwca." + prefix + ".ignoreHeaderLines", 0);
+            headerLinesToSkip = archiveFile.getIgnoreHeaderLines();
         }
+        
+        executionContext.put("dwca." + prefix + ".ignoreHeaderLines", headerLinesToSkip);
         ArchiveField idField = archiveFile.getId();
         idField.setTerm(identifierTerm);
 
+        
         List<ArchiveField> fields = archiveFile.getFieldsSorted();
         /**
          * Its not clear if you should include the id field twice but if it is
@@ -333,11 +340,44 @@ public class ArchiveMetadataReader implements StepExecutionListener {
         if (!idListed) {
             fields.add(idField.getIndex(), idField);
         }
-        executionContext.put("dwca." + prefix + ".fieldNames",
-                toFieldNames(fields));
+        
+        File file = archiveFile.getLocationFile();
+        FileInputStream fileInputStream = new FileInputStream(file);
+        LineNumberReader lineNumberReader = new LineNumberReader(new InputStreamReader(
+        		fileInputStream,Charset.forName(archiveFile.getEncoding())));
+        
+        String firstDataLine = null;
+        String line = null;
+        while((line = lineNumberReader.readLine()) != null) {
+        	if(lineNumberReader.getLineNumber() == (headerLinesToSkip + 1)) {
+        		firstDataLine = line;
+        	}
+        }       
+        
+        Integer totalColumns = 0;
+        Integer maxIndex = 0;
+        for(ArchiveField field : fields) {
+    		if(field.getIndex() != null && field.getIndex() + 1 > totalColumns) {
+    			maxIndex = field.getIndex() +1;
+    		}
+    	}
+        if(firstDataLine != null) {
+            totalColumns = firstDataLine.split(archiveFile.getFieldsTerminatedBy()).length;
+        } else {
+        	totalColumns = maxIndex;        	
+        }
+        
+        if(maxIndex > totalColumns) {
+        	throw new RuntimeException("Metadata for " + archiveFile.getRowType() + " indicates that there should be at least " + maxIndex + " columns but the first data line in the file has only " + totalColumns + " values");
+        }
 
-        executionContext.put("dwca." + prefix + ".defaultValues",
-                getDefaultValues(fields));
+        executionContext.put("dwca." + prefix + ".totalColumns", totalColumns);
+        
+        executionContext.put("dwca." + prefix + ".totalRecords", lineNumberReader.getLineNumber() - headerLinesToSkip);
+        
+        executionContext.put("dwca." + prefix + ".fieldNames", toFieldNames(fields, totalColumns));
+
+        executionContext.put("dwca." + prefix + ".defaultValues",  getDefaultValues(fields));
     }
 
     /**
@@ -365,15 +405,21 @@ public class ArchiveMetadataReader implements StepExecutionListener {
      *
      * @param fields
      *            the DwC/A fields
+     * @param totalColumns TODO
      * @return an array of string names
      */
-    private String[] toFieldNames(final List<ArchiveField> fields) {
+    private String[] toFieldNames(final List<ArchiveField> fields, Integer totalColumns) {
 
-        List<String> names = new ArrayList<String>();
+        List<String> names = new ArrayList<String>(totalColumns);
+        for(int i = 0; i < totalColumns; i++) {
+        	names.add("");
+        }
+            
         for (ArchiveField field : fields) {
-            if (field.getIndex() != null) {
-                names.add(field.getTerm().qualifiedName());
-            }
+        	logger.info("Archive contains field " + field.getTerm().qualifiedName());    
+        	if(field.getIndex() != null) {
+                names.set(field.getIndex(), field.getTerm().qualifiedName());
+        	}
         }
         logger.info("Archive contains field names " + names);
         return names.toArray(new String[names.size()]);
