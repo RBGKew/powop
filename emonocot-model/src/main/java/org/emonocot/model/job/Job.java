@@ -1,5 +1,9 @@
 package org.emonocot.model.job;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -33,6 +37,11 @@ import org.springframework.batch.core.BatchStatus;
  */
 @Entity
 public class Job extends Base {
+	
+   /**
+    *
+    */
+	private static long serialVersionUID = 5676965857186600965L;
 
 	/**
      *
@@ -123,15 +132,15 @@ public class Job extends Base {
     */
 	private Integer writeSkip = 0;
 
-	/**
+   /**
     *
     */
 	private Integer written = 0;
-
+	
 	/**
-     *
-     */
-	private static long serialVersionUID = 5676965857186600965L;
+	 *
+	 */
+	private Map<String,String> parameters = new HashMap<String,String>();
 	
 	/**
 	 * @return the readSkip
@@ -450,5 +459,20 @@ public class Job extends Base {
 	 */
 	public void setWritten(Integer written) {
 		this.written = written;
+	}
+
+	/**
+	 * @return the parameters
+	 */
+	@ElementCollection
+	public Map<String, String> getParameters() {
+		return parameters;
+	}
+
+	/**
+	 * @param parameters the parameters to set
+	 */
+	public void setParameters(Map<String, String> parameters) {
+		this.parameters = parameters;
 	}
 }

@@ -13,6 +13,8 @@
 			<div class="inner">
 			  <div class="box">
 				<h4 id="identify"><spring:message code="identification.tools" /></h4>
+				<c:url value="/css/images/identify.png" var="identifyImg"/>
+				<img src="${identifyImg}" height="160" width="260" alt="Identify"/>
 				<p>When complete, eMonocot will enable the identification of monocot plants anywhere in the world (monocots are 20% of all flowering plants)</p>
 				<ul class="unstyled">
 					<li>
@@ -37,6 +39,8 @@
 				<div class="inner">
 				  <div class="box clearfix">
 				  <h4 id="classify"><spring:message code="classify.header" /></h4>
+				  <c:url value="/css/images/classify.png" var="classifyImg"/>
+				  <img src="${classifyImg}" height="160" width="260" alt="Classify"/>
 				  <p class="justified">When launched this page with provide an overview of how you can use this site to work on your classification and the relationship to the <a title="Classification Page" href="${classificationUrl}">eMonocot classification!</a></p>
 				<ul class="unstyled">
 					<li>
@@ -55,6 +59,8 @@
 				<div class="inner">
 							<div class="box">
 				<h4 id="explore"><spring:message code="search.tools" /></h4>
+				<c:url value="/css/images/explore.png" var="exploreImg"/>
+				<img src="${exploreImg}" height="160" width="260" alt="Explore"/>
 				<p>When complete, eMonocot will allow to search for monocot plants anywhere in the world (monocots are 20% of all flowering plants)</p>
 				<ul class="unstyled">
 					<li>

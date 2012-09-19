@@ -130,7 +130,7 @@ public class Place extends SearchableObject {
 	/**
 	 * @return the mapFeatureId
 	 */
-	public final Long getMapFeatureId() {
+	public Long getMapFeatureId() {
 		return mapFeatureId;
 	}
 

@@ -24,6 +24,11 @@ public enum JobType {
     /**
      * 
      */
-    SITEMAP;
+    SITEMAP,
+    
+    /**
+     *
+     */
+    IDENTIFICATION_KEY;
 
 }

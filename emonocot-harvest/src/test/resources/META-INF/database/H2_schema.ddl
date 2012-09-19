@@ -20,6 +20,8 @@ drop table if exists Image_Source;
 create table Image_Source (Image_id bigint not null, sources_id bigint not null, primary key (Image_id, sources_id));
 drop table if exists Job;
 create table Job (id bigint not null, identifier varchar(255), duration timestamp, exitDescription clob, exitCode varchar(255), jobId bigint, jobInstance varchar(255), jobType varchar(255), lastHarvested timestamp, processSkip integer, recordsRead integer, readSkip integer, resource varchar(255), family varchar(255), startTime timestamp, status varchar(255), uri varchar(255), writeSkip integer, written integer, source_id bigint, primary key (id), unique (identifier));
+drop table if exists Job_parameters;
+create table Job_parameters (Job_id bigint not null,  parameters_KEY varchar(255) not null, parameters varchar(255), primary key (Job_id, parameters_KEY));
 drop table if exists Principal;
 create table Principal (DTYPE varchar(31) not null, id bigint not null, identifier varchar(255), created timestamp, modified timestamp, accountNonExpired boolean, accountNonLocked boolean, credentialsNonExpired boolean, enabled boolean, password varchar(255), primary key (id), unique (identifier));
 drop table if exists Reference;
@@ -68,6 +70,7 @@ alter table Image add constraint FK437B93B6B53D29C foreign key (authority_id) re
 alter table Image_Source add constraint FKFFA0CFBF544A087 foreign key (Image_id) references Image;
 alter table Image_Source add constraint FKFFA0CFBFF247EE07 foreign key (sources_id) references Source;
 alter table Job add constraint FK1239DCF3DA2C4 foreign key (source_id) references Source;
+alter table Job_parameters add constraint FKB4682A309E0AAB54 foreign key (Job_id) references Job;
 alter table Reference add constraint FK404D5F2B6B53D29C foreign key (authority_id) references Source;
 alter table Reference_Source add constraint FK76F19BCF1914B32E foreign key (Reference_id) references Reference;
 alter table Reference_Source add constraint FK76F19BCFF247EE07 foreign key (sources_id) references Source;

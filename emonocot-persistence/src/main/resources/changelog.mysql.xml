@@ -2274,6 +2274,22 @@
             <column name="mapFeatureId" type="bigint" />
         </addColumn>
     </changeSet>
+    <changeSet author="ben" id="2012-09-17_01">
+       <comment>Refactored Job so that an arbitrary number of parameters can be associated with it</comment>
+       <createTable tableName="Job_parameters">
+            <column name="Job_id" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="parameters_KEY" type="varchar(255)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="parameters" type="varchar(255)"/>            
+        </createTable>
+    </changeSet>
+    <changeSet id="2012-09-17_02" author="ben">
+      <comment>Refactored Job so that an arbitrary number of parameters can be associated with it</comment>
+      <addForeignKeyConstraint constraintName="FKB4682A309E0AAB54" referencedTableName="Job" baseColumnNames="Job_id" baseTableName="Job_parameters" referencedColumnNames="id"/>
+    </changeSet>
     <!-- Until we know it's ok to grant SELECT to test & uat users this is commented out 
     <changeSet id="2012-08-29" author="jk00kg">
         <comment>N.B. http://geocommons.com/overlays/33578 data must be loaded into `gis`.`place` table</comment>

@@ -32,6 +32,7 @@ import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -295,7 +296,7 @@ public class SourceController extends GenericController<Source, SourceService> {
 	public final String create(
 			@PathVariable("identifier") final String identifier,
 			final Model model) {
-		populateForm(model, new Job());
+		populateForm(model, new Job(), new JobParameterDto());
 		model.addAttribute("source", getService().load(identifier));
 		return "source/job/create";
 	}
@@ -307,8 +308,9 @@ public class SourceController extends GenericController<Source, SourceService> {
 	 * @param job
 	 *            Seth the job
 	 */
-	private void populateForm(final Model model, final Job job) {
+	private void populateForm(final Model model, final Job job, final JobParameterDto parameter) {
 		model.addAttribute("job", job);
+		model.addAttribute("parameter", parameter);
 		model.addAttribute("jobTypes", Arrays.asList(JobType.values()));
 	}
 
@@ -333,7 +335,7 @@ public class SourceController extends GenericController<Source, SourceService> {
 		Source source = getService().find(identifier, "source-with-jobs");
 		if (result.hasErrors()) {
 			model.addAttribute("source", source);
-			populateForm(model, job);
+			populateForm(model, job, new JobParameterDto());
 			return "source/job/create";
 		}
 
@@ -359,7 +361,7 @@ public class SourceController extends GenericController<Source, SourceService> {
 	 */
 	@RequestMapping(value = "/{identifier}/job/{jobId}", method = RequestMethod.GET, 
 			produces = "text/html",
-			params = {"!output", "!details", "!form" })
+			params = {"!output", "!details", "!form", "!parameters"})
 	public final String show(
 			@PathVariable("identifier") final String identifier,
 			@PathVariable("jobId") final String jobId, final Model uiModel) {
@@ -382,13 +384,62 @@ public class SourceController extends GenericController<Source, SourceService> {
 	@RequestMapping(value = "/{identifier}/job/{jobId}", method = RequestMethod.GET, params = "form")
 	public final String update(
 			@PathVariable("identifier") final String identifier,
-			@PathVariable("jobId") final String jobId, final Model model) {
+			@PathVariable("jobId") final String jobId,
+			final Model model) {
 		Job job = jobService.load(jobId, "job-with-source");
 		assert job.getSource().getIdentifier().equals(identifier);
-		populateForm(model, job);
+		populateForm(model, job, new JobParameterDto());
 		model.addAttribute("source", job.getSource());
 		return "source/job/update";
 	}
+	
+	/**
+     * @param identifier
+     *            Set the identifier of the source
+     * @param jobId the identifier of the job
+     * @param name the name of the parameter to add
+     * @param session Set the session
+     * @return the view name
+     */
+    @RequestMapping(value = "/{identifier}/job/{jobId}", params = { "parameters", "!delete" }, method = RequestMethod.POST)
+    public final String addParameter(@PathVariable final String identifier,
+    		@PathVariable final String jobId,
+    		@ModelAttribute("parameter") final JobParameterDto parameter,
+            final HttpSession session) {
+        Job job = jobService.load(jobId, "job-with-source");
+        job.getParameters().put(parameter.getName(), "");
+        jobService.saveOrUpdate(job);
+        String[] codes = new String[] {"parameter.added.to.job" };
+        Object[] args = new Object[] { parameter.getName() };
+        DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
+                codes, args);
+        session.setAttribute("info", message);
+        return "redirect:/source/" + identifier + "/job/" + jobId + "?form";
+    }
+
+    /**
+     * @param identifier
+     *            Set the identifier of the source
+     * @param jobId Set the job identifier
+     * @param name the name of the parameter to delete
+     * @param session Set the session
+     * @return the view name
+     */
+    @RequestMapping(value = "/{identifier}/job/{jobId}", params = { "parameters",
+            "delete" }, method = RequestMethod.GET)
+    public final String removeMember(@PathVariable final String identifier,
+    		@PathVariable final String jobId,
+    		@RequestParam("name") final String name, final HttpSession session) {
+        Job job = jobService.load(jobId, "job-with-source");
+        job.getParameters().remove(name);
+        jobService.saveOrUpdate(job);
+        String[] codes = new String[] {"parameter.removed.from.job" };
+        Object[] args = new Object[] { name };
+        DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
+                codes, args);
+        session.setAttribute("info", message);
+        return "redirect:/source/" + identifier + "/job/" + jobId + "?form";
+    }
 
 	/**
 	 * @param identifier
@@ -441,6 +492,8 @@ public class SourceController extends GenericController<Source, SourceService> {
 			jobParametersMap.put("authority.last.harvested",
 					Long.toString((job.getStartTime().getMillis())));
 		}
+		
+		jobParametersMap.putAll(job.getParameters());
 
 		JobLaunchRequest jobLaunchRequest = new JobLaunchRequest();
 		switch (job.getJobType()) {
@@ -450,16 +503,19 @@ public class SourceController extends GenericController<Source, SourceService> {
 		case SITEMAP:
 			jobLaunchRequest.setJob("SitemapGeneration");
 			break;
+		case IDENTIFICATION_KEY:
+			jobLaunchRequest.setJob("IdentificationKeyHarvesting");
+			break;
 		case OAI_PMH:
-			jobParametersMap.put("request.interval", "4000");
-			if (job.getFamily() != null) {
-				jobParametersMap.put("request.subset.name", job.getFamily());
-			}
+//			jobParametersMap.put("request.interval", "4000");
+//			if (job.getFamily() != null) {
+//				jobParametersMap.put("request.subset.name", job.getFamily());
+//			}
 			jobLaunchRequest.setJob("OaiPmhTaxonHarvesting");
 			break;
 		case DwC_Archive:
-			jobParametersMap.put("family", job.getFamily());
-			jobParametersMap.put("authority.uri", job.getUri());
+//			jobParametersMap.put("family", job.getFamily());
+//			jobParametersMap.put("authority.uri", job.getUri());
 			jobLaunchRequest.setJob("DarwinCoreArchiveHarvesting");
 			break;
 		default:
@@ -519,7 +575,7 @@ public class SourceController extends GenericController<Source, SourceService> {
 	 *            Set the binding results
 	 * @return the view name
 	 */
-	@RequestMapping(value = "/{identifier}/job/{jobId}", method = RequestMethod.POST, headers = "Accept=text/html", params = "!run")
+	@RequestMapping(value = "/{identifier}/job/{jobId}", method = RequestMethod.POST, headers = "Accept=text/html", params = {"!run","!parameters"})
 	public final String post(
 			@PathVariable("identifier") final String identifier,
 			@PathVariable("jobId") final String jobId, final Model model,
@@ -528,7 +584,7 @@ public class SourceController extends GenericController<Source, SourceService> {
 		Job persistedJob = jobService.load(jobId, "job-with-source");
 
 		if (result.hasErrors()) {
-			populateForm(model, job);
+			populateForm(model, job, new JobParameterDto());
 			model.addAttribute("source", persistedJob.getSource());
 			return "source/job/update";
 		}
@@ -549,6 +605,7 @@ public class SourceController extends GenericController<Source, SourceService> {
 		persistedJob.setProcessSkip(job.getProcessSkip());
 		persistedJob.setWriteSkip(job.getWriteSkip());
 		persistedJob.setWritten(job.getWritten());
+		persistedJob.setParameters(job.getParameters());
 
 		jobService.saveOrUpdate(persistedJob);
 		String[] codes = new String[] { "job.was.updated" };

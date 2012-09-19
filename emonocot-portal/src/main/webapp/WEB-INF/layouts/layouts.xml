@@ -6,7 +6,6 @@
   <definition name="default" template="/WEB-INF/layouts/default.jspx">
     <put-attribute name="head" value="/WEB-INF/views/head.jspx" />
     <put-attribute name="header" value="/WEB-INF/views/header.jspx" />
-    <put-attribute name="searchBox" value="/WEB-INF/views/smallSearch.jspx" cascade="true"/>
     <put-attribute name="footer" value="/WEB-INF/views/footer.jspx" />
   </definition>
   <definition name="frontPage" template="/WEB-INF/layouts/frontPage.jspx">

@@ -28,8 +28,11 @@ public class JobDaoImpl extends DaoImpl<Job> implements JobDao {
 
    static {
        FETCH_PROFILES = new HashMap<String, Fetch[]>();
-       FETCH_PROFILES.put("job-with-source", new Fetch[] {new Fetch(
-               "source", FetchMode.JOIN)});
+       FETCH_PROFILES.put("job-with-source", 
+    		   new Fetch[] {
+    		   new Fetch("source", FetchMode.JOIN),
+               new Fetch("parameters", FetchMode.SELECT)
+    		   });
    }
 
     /**

@@ -56,6 +56,14 @@
 	        <tr><th><spring:message code="job.jobType" /></th><td>${job.jobType}</td></tr>
 	        <tr><th><spring:message code="job.uri" /></th><td>${job.uri}</td></tr>
 	        <tr><th><spring:message code="job.family" /></th><td>${job.family}</td></tr>
+	        <tr><th><spring:message code="job.parameters" /></th>
+	        <td>
+	          <ul class="unstyled">
+	            <c:forEach  var="parameter"  items="${job.parameters}">	            
+                 <li>${parameter.key}=${parameter.value}</li>    
+                </c:forEach>
+              </ul>
+           </td></tr>
 	        <tr><th><spring:message code="job.lastHarvested" /></th><td><joda:format value="${job.lastHarvested}" style="MM" /></td></tr>
 	        <tr><th><spring:message code="job.resource" /></th><td><c:if test="${job.resource ne null}"><a href="${job.resource}">${job.resource}</a></c:if></td></tr>
 	        <tr><th><spring:message code="job.status" /></th><td>${job.status}</td></tr>
