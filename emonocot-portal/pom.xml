@@ -334,7 +334,6 @@
                       <include>${project.build.directory}/compiled-less/bootstrap.css</include>
                       <include>${basedir}/src/main/css/bootstrap-image-gallery.css</include>
                       <include>${basedir}/src/main/css/jqueryui/jqueryui.css</include>
-                      <include>${basedir}/src/main/css/ad-gallery/jquery.ad-gallery.css</include>
                       <include>${basedir}/src/main/css/jsTree/jsTree.css</include>
                       <include>${basedir}/src/main/css/OpenLayers/style.css</include>
                     </includes>
@@ -351,8 +350,6 @@
                       <include>${basedir}/src/main/js/jquery.min.js</include>
                       <include>${basedir}/src/main/js/jquery-ui.min.js</include>
                       <include>${basedir}/src/main/js/OpenLayers/OpenLayers.js</include>
-                      <include>${basedir}/src/main/js/ad-gallery/jquery.ad-gallery.js</include>
-                      <include>${basedir}/src/main/js/functions.js</include>
                       <include>${basedir}/src/main/js/jsTree/jquery.jstree.js</include>
                       <include>${basedir}/src/main/js/bootstrap-transition.js</include>
                       <include>${basedir}/src/main/js/bootstrap-alert.js</include>
