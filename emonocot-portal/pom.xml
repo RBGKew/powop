@@ -366,6 +366,7 @@
                       <include>${basedir}/src/main/js/load-image.js</include>
                       <include>${basedir}/src/main/js/bootstrap-image-gallery.js</include>
                       <include>${basedir}/src/main/js/application.js</include>
+                      <include>${basedir}/src/main/js/html5shiv.js</include>
                       <include>${basedir}/src/main/js/jsKey/keys.js</include>
                       <include>${basedir}/src/main/js/jsKey/key-ui-emonocot.js</include>
                     </includes>

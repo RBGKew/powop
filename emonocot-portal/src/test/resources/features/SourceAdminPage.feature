@@ -111,8 +111,8 @@ Scenario: Create Job
   And I navigate to source page "test"
   And I select "Create a new job"
   And I enter the following data in the job form:
-  | identifier | family    | uri                                  | jobType     |
-  | New Job    | Testaceae | http://www.testaceae.org/archive.zip | DwC_Archive |
+  | identifier | uri                                  | jobType     |
+  | New Job    | http://www.testaceae.org/archive.zip | DwC_Archive |
   And I submit the create job form
   Then an info message should say "New Job was created"
   When I navigate to source page "test"

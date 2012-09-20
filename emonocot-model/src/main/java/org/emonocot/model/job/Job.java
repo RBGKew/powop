@@ -64,11 +64,6 @@ public class Job extends Base {
 	private DateTime lastHarvested;
 
 	/**
-     *
-     */
-	private String family;
-
-	/**
     *
     */
 	private String resource;
@@ -247,21 +242,6 @@ public class Job extends Base {
 	 */
 	public void setLastHarvested(DateTime newLastHarvested) {
 		this.lastHarvested = newLastHarvested;
-	}
-
-	/**
-	 * @return the family
-	 */
-	public String getFamily() {
-		return family;
-	}
-
-	/**
-	 * @param newFamily
-	 *            Set the resource to harvest
-	 */
-	public void setFamily(String newFamily) {
-		this.family = newFamily;
 	}
 
 	/**

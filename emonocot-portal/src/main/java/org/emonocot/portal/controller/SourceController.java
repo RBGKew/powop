@@ -590,7 +590,6 @@ public class SourceController extends GenericController<Source, SourceService> {
 		}
 
 		assert persistedJob.getSource().getIdentifier().equals(identifier);
-		persistedJob.setFamily(job.getFamily());
 		persistedJob.setUri(job.getUri());
 		persistedJob.setJobType(job.getJobType());
 		persistedJob.setLastHarvested(job.getLastHarvested());

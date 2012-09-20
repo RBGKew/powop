@@ -1029,8 +1029,6 @@ public class StepDefinitions {
                 .setFormField("uri", rows.get(0).uri);
         ((org.emonocot.portal.driver.admin.source.job.Create) currentPage)
                 .setFormSelection("jobType", rows.get(0).jobType);
-        ((org.emonocot.portal.driver.admin.source.job.Create) currentPage)
-                .setFormField("family", rows.get(0).family);
     }
 
     @When("^I submit the create job form$")

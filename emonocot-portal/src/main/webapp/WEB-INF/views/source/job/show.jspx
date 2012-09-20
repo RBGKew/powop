@@ -55,7 +55,6 @@
 	      <tbody>
 	        <tr><th><spring:message code="job.jobType" /></th><td>${job.jobType}</td></tr>
 	        <tr><th><spring:message code="job.uri" /></th><td>${job.uri}</td></tr>
-	        <tr><th><spring:message code="job.family" /></th><td>${job.family}</td></tr>
 	        <tr><th><spring:message code="job.parameters" /></th>
 	        <td>
 	          <ul class="unstyled">

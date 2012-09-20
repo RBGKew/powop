@@ -19,7 +19,7 @@ create table Image (id bigint not null, identifier varchar(255), created timesta
 drop table if exists Image_Source;
 create table Image_Source (Image_id bigint not null, sources_id bigint not null, primary key (Image_id, sources_id));
 drop table if exists Job;
-create table Job (id bigint not null, identifier varchar(255), duration timestamp, exitDescription clob, exitCode varchar(255), jobId bigint, jobInstance varchar(255), jobType varchar(255), lastHarvested timestamp, processSkip integer, recordsRead integer, readSkip integer, resource varchar(255), family varchar(255), startTime timestamp, status varchar(255), uri varchar(255), writeSkip integer, written integer, source_id bigint, primary key (id), unique (identifier));
+create table Job (id bigint not null, identifier varchar(255), duration timestamp, exitDescription clob, exitCode varchar(255), jobId bigint, jobInstance varchar(255), jobType varchar(255), lastHarvested timestamp, processSkip integer, recordsRead integer, readSkip integer, resource varchar(255), startTime timestamp, status varchar(255), uri varchar(255), writeSkip integer, written integer, source_id bigint, primary key (id), unique (identifier));
 drop table if exists Job_parameters;
 create table Job_parameters (Job_id bigint not null,  parameters_KEY varchar(255) not null, parameters varchar(255), primary key (Job_id, parameters_KEY));
 drop table if exists Principal;

@@ -19,11 +19,11 @@
 		  <c:otherwise>
 		    <title>${em:evaluate(pageTitle,pageContext)}</title>
 		  </c:otherwise>
-		</c:choose>
-		<script type="text/javascript" src="${baseUrl}/js/header.js">/* */</script>
+		</c:choose>		
 		<link type="images/x-icon" href="${baseUrl}/css/images/favicon.ico" rel="shortcut icon" />
 		<link rel="stylesheet" type="text/css" media="screen" href="${baseUrl}/css/style.css"/>
 		<link rel="stylesheet" type="text/css" media="print" href="${baseUrl}/css/print.css"/>
+		<script type="text/javascript" src="${baseUrl}/js/header.js">/* */</script>
 		<c:if test="${not empty googleAnalyticsId}">
 			<script type="text/javascript">
 			

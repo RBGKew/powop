@@ -858,7 +858,9 @@ public class TestDataManager {
         Job job = new Job();
         data.push(job);
         job.setIdentifier(identifier);
-        job.setFamily(family);
+        if(family != null) {
+            job.getParameters().put("family", family);
+        }
         if (type != null && type.trim().length() > 0) {
             job.setJobType(JobType.valueOf(type));
         }

@@ -2290,6 +2290,10 @@
       <comment>Refactored Job so that an arbitrary number of parameters can be associated with it</comment>
       <addForeignKeyConstraint constraintName="FKB4682A309E0AAB54" referencedTableName="Job" baseColumnNames="Job_id" baseTableName="Job_parameters" referencedColumnNames="id"/>
     </changeSet>
+    <changeSet id="2012-09-20_01" author="ben">
+      <comment>Refactored Job so that an arbitrary number of parameters can be associated with it</comment>
+      <dropColumn  tableName="Job" columnName="family"/>
+    </changeSet>
     <!-- Until we know it's ok to grant SELECT to test & uat users this is commented out 
     <changeSet id="2012-08-29" author="jk00kg">
         <comment>N.B. http://geocommons.com/overlays/33578 data must be loaded into `gis`.`place` table</comment>

@@ -16,7 +16,6 @@
 	    <div class="inner"><div class="box">
 		<form:create path="/source/${source.identifier}/job/${job.identifier}" modelAttribute="job">
 		      <field:hidden field="identifier"/>		  
-			  <field:input field="family" label="job.family" fieldClass="span6"/>
 			  <field:input field="uri" label="job.uri" fieldClass="span6"/>
 			  <field:input field="lastHarvested" label="job.lastHarvested" fieldClass="span6"/>
 			  <field:input field="jobId" label="job.jobId" fieldClass="span6"/>
