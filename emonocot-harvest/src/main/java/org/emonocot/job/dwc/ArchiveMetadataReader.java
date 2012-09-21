@@ -357,17 +357,17 @@ public class ArchiveMetadataReader implements StepExecutionListener {
         Integer totalColumns = 0;
         Integer maxIndex = 0;
         for(ArchiveField field : fields) {
-    		if(field.getIndex() != null && field.getIndex() + 1 > totalColumns) {
-    			maxIndex = field.getIndex() +1;
+    		if(field.getIndex() != null && field.getIndex() > maxIndex) {
+    			maxIndex = field.getIndex();
     		}
     	}
         if(firstDataLine != null) {
             totalColumns = firstDataLine.split(archiveFile.getFieldsTerminatedBy()).length;
         } else {
-        	totalColumns = maxIndex;        	
+        	totalColumns = maxIndex + 1;        	
         }
         
-        if(maxIndex > totalColumns) {
+        if((maxIndex + 1) > totalColumns) {
         	throw new RuntimeException("Metadata for " + archiveFile.getRowType() + " indicates that there should be at least " + maxIndex + " columns but the first data line in the file has only " + totalColumns + " values");
         }
 

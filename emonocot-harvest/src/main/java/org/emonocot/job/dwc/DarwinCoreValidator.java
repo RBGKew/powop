@@ -9,7 +9,6 @@ import org.emonocot.model.common.RecordType;
 import org.emonocot.model.taxon.Taxon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -32,6 +31,12 @@ public abstract class DarwinCoreValidator<T extends BaseData> extends AuthorityA
     
     private String family;
     
+    private String subfamily;
+    
+    private String tribe;
+    
+    private String subtribe;
+    
     /**
      *
      * @param family Set the family
@@ -40,7 +45,32 @@ public abstract class DarwinCoreValidator<T extends BaseData> extends AuthorityA
     	this.family = family;
     }
     
+    
     /**
+	 * @param subfamily the subfamily to set
+	 */
+	public void setSubfamily(String subfamily) {
+		this.subfamily = subfamily;
+	}
+
+
+	/**
+	 * @param tribe the tribe to set
+	 */
+	public void setTribe(String tribe) {
+		this.tribe = tribe;
+	}
+
+
+	/**
+	 * @param subtribe the subtribe to set
+	 */
+	public void setSubtribe(String subtribe) {
+		this.subtribe = subtribe;
+	}
+
+
+	/**
      *
      * @param recordType Set the record type
      * @param taxon Set the 
@@ -49,7 +79,16 @@ public abstract class DarwinCoreValidator<T extends BaseData> extends AuthorityA
     protected void checkTaxon(final RecordType recordType, final Base record, final Taxon taxon) throws DarwinCoreProcessingException {
     	if(taxon == null) {
     		throw new NoTaxonException(record + " has no Taxon set", recordType, getStepExecution().getReadCount());
-    	} else if(taxon.getFamily() == null || !taxon.getFamily().equals(family)) {
+    	} else if(subtribe != null && (taxon.getSubtribe() == null || !taxon.getSubtribe().equals(subtribe))) {
+    		throw new OutOfScopeTaxonException("Expected content to be related to " + subtribe + " but found content related to " + taxon + " which is in " + taxon.getSubtribe(),
+                    recordType, getStepExecution().getReadCount());
+    	} else if(tribe != null && (taxon.getTribe() == null || !taxon.getTribe().equals(tribe))) {
+    		throw new OutOfScopeTaxonException("Expected content to be related to " + tribe + " but found content related to " + taxon + " which is in " + taxon.getTribe(),
+                    recordType, getStepExecution().getReadCount());
+    	} else if(subfamily != null && (taxon.getSubfamily() == null || !taxon.getSubfamily().equals(subfamily))) {
+    		throw new OutOfScopeTaxonException("Expected content to be related to " + subfamily + " but found content related to " + taxon + " which is in " + taxon.getSubfamily(),
+                    recordType, getStepExecution().getReadCount());
+    	} else if(family != null && (taxon.getFamily() == null || !taxon.getFamily().equals(family))) {
     		throw new OutOfScopeTaxonException("Expected content to be related to " + family + " but found content related to " + taxon + " which is in " + taxon.getFamily(),
                     recordType, getStepExecution().getReadCount());
     	}

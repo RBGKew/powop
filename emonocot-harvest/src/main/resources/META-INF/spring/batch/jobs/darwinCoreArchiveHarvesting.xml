@@ -44,6 +44,7 @@
 		<batch:decision decider="taxonProcessingModeDecider" id="checkTaxonProcessingMode">
 		  <batch:next on="CHECK_TAXA" to="markTaxonRecords"/>
 		  <batch:next on="IMPORT_TAXA" to="importCoreFile"/>
+		  <batch:next on="SKIP_TAXA" to="markDescriptionRecords"/>
 		</batch:decision>
 		<batch:step id="markTaxonRecords">
 	        <batch:description>Mark the taxon records we expect to be present in this archive</batch:description>
@@ -362,8 +363,11 @@
         <property name="targetMethod" value="annotateRecords" />
      	<property name="arguments">
          <list>
-          <value>#{jobParameters['family']}</value>
           <value>#{jobParameters['authority.name']}</value>
+          <value>#{jobParameters['family']}</value>
+          <value>#{jobParameters['subfamily']}</value>
+          <value>#{jobParameters['tribe']}</value>
+          <value>#{jobParameters['subtribe']}</value>
          </list>
         </property>
     </bean>
@@ -457,6 +461,9 @@
 	<bean id="descriptionProcessor" class="org.emonocot.job.dwc.description.Validator" scope="step">
 	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
 	  <property name="family" value="#{jobParameters['family']}"/>
+	  <property name="subfamily" value="#{jobParameters['subfamily']}"/>
+	  <property name="tribe" value="#{jobParameters['tribe']}"/>
+	  <property name="subtribe" value="#{jobParameters['subtribe']}"/>
 	  <property name="textContentService" ref="textContentServiceImpl"/>
 	</bean>
 
@@ -530,6 +537,9 @@
 	<bean id="imageProcessor" class="org.emonocot.job.dwc.image.Validator" scope="step">
 	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
 	  <property name="family" value="#{jobParameters['family']}"/>
+	  <property name="subfamily" value="#{jobParameters['subfamily']}"/>
+	  <property name="tribe" value="#{jobParameters['tribe']}"/>
+	  <property name="subtribe" value="#{jobParameters['subtribe']}"/>
 	</bean>
 
 	<bean id="imageLineMapper"
@@ -619,6 +629,9 @@
 	<bean id="referenceProcessor" class="org.emonocot.job.dwc.reference.Validator" scope="step">
 	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
 	  <property name="family" value="#{jobParameters['family']}"/>
+	  <property name="subfamily" value="#{jobParameters['subfamily']}"/>
+	  <property name="tribe" value="#{jobParameters['tribe']}"/>
+	  <property name="subtribe" value="#{jobParameters['subtribe']}"/>
 	</bean>
 
 	<bean id="referenceLineMapper"
@@ -690,6 +703,9 @@
 	<bean id="identifierProcessor" class="org.emonocot.job.dwc.identifier.Validator" scope="step">
 	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
 	  <property name="family" value="#{jobParameters['family']}"/>
+	  <property name="subfamily" value="#{jobParameters['subfamily']}"/>
+	  <property name="tribe" value="#{jobParameters['tribe']}"/>
+	  <property name="subtribe" value="#{jobParameters['subtribe']}"/>
 	  <property name="pdfClient" ref="pdfClient"/>
 	  <property name="bhlClient" ref="bhlClient"/>
 	</bean>

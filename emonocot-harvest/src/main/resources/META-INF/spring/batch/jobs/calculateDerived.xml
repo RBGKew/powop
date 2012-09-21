@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+	                    
+    <context:property-placeholder ignore-unresolvable="true" location="classpath*:META-INF/spring/*.properties"/>
+	<context:annotation-config />
+
+	<batch:job id="CalculateDerivedProperties">
+	    <batch:description>Calculate Derived Properties</batch:description>
+	    <batch:step id="loadRegions">
+	      <batch:description>Load the Regions Shapefiles for indexing</batch:description>
+	      <batch:tasklet ref="loadRegionShapesTasklet" />			
+		  <batch:next on="COMPLETED" to="calculateDerived" />
+	    </batch:step>
+		<batch:step id="calculateDerived">
+			<batch:description>Re-index some or all of the eMonocot database</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="itemReader" processor="itemProcessor" writer="itemWriter" commit-interval="10" />
+			</batch:tasklet>			
+			<batch:next on="COMPLETED" to="clearRegions" />
+			<batch:listeners>
+			  <batch:listener ref="hibernateSessionClearingChunkListener"/>
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="clearRegions">
+	      <batch:description>Clear region shapefiles</batch:description>
+	      <batch:tasklet ref="clearRegionShapesTasklet" />			
+		  <batch:end on="COMPLETED"/>
+	    </batch:step>
+	</batch:job>
+	
+	<bean id="loadRegionShapesTasklet"
+		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter">
+		<property name="targetObject" ref="distributionBridge"/>
+		<property name="targetMethod" value="setupRegions" />		
+	</bean>
+	
+	<bean id="clearRegionShapesTasklet"
+		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter">
+		<property name="targetObject" ref="distributionBridge"/>
+		<property name="targetMethod" value="clearRegions" />		
+	</bean>
+	
+	<bean id="itemReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="useStatelessSession" value="false"/>
+		<property name="queryString" value="#{jobParameters['query.string']}"/>
+	</bean>
+	
+	<bean id="itemProcessor" class="org.emonocot.job.dwc.taxon.CalculateDerivedPropertiesProcessor">
+	  <property name="taxonService" ref="taxonServiceImpl"/>
+	</bean>
+    
+    <bean id="itemWriter" class="org.springframework.batch.item.database.HibernateItemWriter">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="clearSession" value="false"/>
+	</bean>
+	
+	<bean id="hibernateSessionClearingChunkListener" class="org.emonocot.harvest.common.HibernateSessionClearingChunkListener"/>
+</beans>

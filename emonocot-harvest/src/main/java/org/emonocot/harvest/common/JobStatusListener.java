@@ -61,10 +61,10 @@ public class JobStatusListener extends JobExecutionListenerSupport {
         JobInstanceInfo jobInstanceInfo = new JobInstanceInfo();
         jobInstanceInfo.setResource(baseUrl + "/jobs/"
                 + jobExecution.getJobInstance().getJobName() + "/"
-                + jobExecution.getJobId() + ".json");
+                + jobExecution.getJobInstance().getId() + ".json");
         jobExecutionInfo.setJobInstance(jobInstanceInfo);
         jobExecutionInfo.setResource(baseUrl + "/jobs/executions/"
-                + jobExecution.getJobInstance().getId() + ".json");
+                + jobExecution.getId() + ".json");
         jobExecutionInfo.setStatus(jobExecution.getStatus());
         Integer read = 0;
         Integer readSkip = 0;

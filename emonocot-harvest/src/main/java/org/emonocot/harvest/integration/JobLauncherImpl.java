@@ -92,7 +92,7 @@ public class JobLauncherImpl implements JobLauncher {
 				  + jobExecution.getJobId() + ".json");
 				jobExecutionInfo.setJobInstance(jobInstanceInfo);
 				jobExecutionInfo.setResource(baseUrl + "/jobs/executions/"
-				 + jobExecution.getJobInstance().getId() + ".json");
+				 + jobExecution.getId() + ".json");
 				jobExecutionInfo.setStatus(jobExecution.getStatus());
 				request.setExecution(jobExecutionInfo);
 			} catch (JobExecutionAlreadyRunningException jeare) {
