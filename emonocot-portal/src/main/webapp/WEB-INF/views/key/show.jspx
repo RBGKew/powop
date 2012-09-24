@@ -51,7 +51,9 @@
 			</div>
 			
 			
-			<div class="span3" id="viewIcons">
+			
+			<div class="span8">
+			<div id="viewIcons">
 				<div class="btn-group">
 					<button class="btn" id="simpleView" title="Display title only"><img src=""/><i class="icon-align-justify">&#160;</i></button>
 					&#160;
@@ -59,8 +61,7 @@
 					&#160;
 				</div>
 			</div>
-			
-			<div class="span8">
+			<br/>
 			  <div class="inner">
 			    <div id="matchedTaxa" class="box">
 				  <div id="pages" class="span4 pull-right"><!--  --></div>

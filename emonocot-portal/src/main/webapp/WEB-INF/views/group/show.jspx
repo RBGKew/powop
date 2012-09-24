@@ -9,24 +9,23 @@
 	<tags:pageheader>
 		<h2 id="page-title">${group.name}</h2>
 	</tags:pageheader>
+	
 	<div class="container">
-	    <security:authorize url="hasRole('PERMISSION_WRITE_GROUP')">
-			<div class="row">
-				<div class="span12">
-				  <c:url var="editGroupUrl" value="/group/${group.identifier}">
-					<c:param name="form">true</c:param>
-				  </c:url>
-				  <a href="${editGroupUrl}"><spring:message code="edit.group" /></a>
-				</div>
-			</div>
-		</security:authorize>
 		<div class="row">
 			<div class="span12">
 				<div class="inner">
 					<div class="box clearfix">
+						<security:authorize url="hasRole('PERMISSION_WRITE_GROUP')">
+							<c:url var="editGroupUrl" value="/group/${group.identifier}">
+								<c:param name="form">true</c:param>
+							</c:url>
+							<a href="${editGroupUrl}" class="btn pull-right"><spring:message code="edit.group" /></a>
+						</security:authorize>
+					
 						<h2>
 							<spring:message code="group.members" />
 						</h2>
+						
 						<ul>
 							<c:forEach var="member" items="${group.members}">
 								<c:url value="/user/${member.identifier}" var="memberUrl" />
@@ -34,7 +33,6 @@
 							</c:forEach>
 						</ul>
 					</div>
-
 				</div>
 			</div>
 		</div>

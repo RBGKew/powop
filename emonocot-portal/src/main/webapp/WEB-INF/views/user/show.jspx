@@ -4,15 +4,41 @@
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
-    <tags:pageheader><h2 id="page-title">${user.username}</h2></tags:pageheader>
+	<tags:pageheader><h2 id="page-title">${user.username}</h2></tags:pageheader>
 	<div class="container">
 		<div class="row">
-		  <div class="span12">
-		    <div class="inner"><div class="box">
-		      ${user.username}
-		     </div>
-		     </div>
-		  </div>		  
+			<div class="span12">
+				<div class="inner">
+					<div class="box">
+						<ul class="nav nav-pills nav-stacked">
+							<li class="span3">
+								<jsp:element  name="a">
+									<jsp:attribute name="href">
+										<c:url value="/source/e-monocot.org"/>
+									</jsp:attribute>
+									<spring:message code="admin.title"/>
+								</jsp:element>
+							</li>
+							<li class="span3">
+								<jsp:element  name="a">
+									<jsp:attribute name="href">
+										<c:url value="/source"/> 
+									</jsp:attribute>
+									<spring:message code="sources.title"/>
+								</jsp:element>
+							</li>
+							<li class="span3">
+								<jsp:element  name="a">
+									<jsp:attribute name="href">
+										<c:url value="/group"/>
+									</jsp:attribute>
+									<spring:message code="group.title"/>
+								</jsp:element>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
