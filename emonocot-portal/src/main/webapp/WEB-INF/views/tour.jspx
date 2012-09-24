@@ -5,84 +5,132 @@
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:spring="http://www.springframework.org/tags">
 	<tags:pageheader>
-	  <h2><spring:message code="eMonocot.tools" /></h2>
+		<h2>
+			<spring:message code="eMonocot.tools" />
+		</h2>
 	</tags:pageheader>
+
 	<div class="container">
 		<div class="row">
 			<div class="span12">
-			<div class="inner">
-			  <div class="box">
-				<h4 id="identify"><spring:message code="identification.tools" /></h4>
-				<c:url value="/css/images/identify.png" var="identifyImg"/>
-				<img src="${identifyImg}" height="160" width="260" alt="Identify"/>
-				<p>When complete, eMonocot will enable the identification of monocot plants anywhere in the world (monocots are 20% of all flowering plants)</p>
-				<ul class="unstyled">
-					<li>
-					  <c:url value="/key/5b4bf746-f1c5-4ff7-98ab-2525594a04f0" var="familyKeyUrl"/>
-					  <a href="${familyKeyUrl}">Key to Monocot Familes</a>
-					</li>
-					<li>
-					    <c:url var="keySearchUrl" value="/search">
-					      <c:param name="facet" value="CLASS.org.emonocot.model.key.IdentificationKey"/>
-					    </c:url>
-					    <a href="${keySearchUrl}">Search for Keys</a>						
-					</li>
-					<li>
-					  <c:url var="imageSearchUrl" value="/search">
-					    <c:param name="facet" value="CLASS.org.emonocot.model.media.Image"/>
-					  </c:url>
-					  <a href="${imageSearchUrl}">Browse Images</a>
-					</li>
-				</ul>
-				</div>
+				<div class="inner">
+					<div class="box">
+						<div class="pull-right">
+							<c:url value="/css/images/identify.png" var="identifyImg" />
+							<img src="${identifyImg}" height="160" width="260" alt="Identify" />
+						</div>
+						<h4 id="identify">
+							<spring:message code="identification.tools" />
+						</h4>
+						<p class="justified">Use the illustrated, multi-access
+							identification keys to identify species. You can select
+							characters in any order (unlike traditional identification keys).
+							Browse for images and view them in a grid or an image gallery.</p>
+						<ul class="unstyled">
+							<li>
+							    <c:url value="/key/5b4bf746-f1c5-4ff7-98ab-2525594a04f0" var="familyKeyUrl" />
+                                <span class="label label-info">
+									 <spring:message code="tool.implemented" />
+								</span>
+								<a href="${familyKeyUrl}"> Key to Monocot Familes</a>
+                            </li>
+							<li>
+							    <c:url var="keySearchUrl" value="/search">
+									<c:param name="facet" value="CLASS.org.emonocot.model.key.IdentificationKey" />
+								</c:url>
+                                <span class="label label-info">
+                                     <spring:message code="tool.implemented" />
+								</span>
+								<a href="${keySearchUrl}"> Search for Keys</a>
+							</li>
+							<li>
+							    <c:url var="imageSearchUrl" value="/search">
+									<c:param name="facet" value="CLASS.org.emonocot.model.media.Image" />
+								</c:url>
+                                <span class="label label-info">
+								     <spring:message code="tool.implemented" />
+								</span>
+								<a href="${imageSearchUrl}"> Browse Images</a>
+							</li>
+						</ul>
+					</div>
 				</div>
 				<div class="inner">
-				  <div class="box clearfix">
-				  <h4 id="classify"><spring:message code="classify.header" /></h4>
-				  <c:url value="/css/images/classify.png" var="classifyImg"/>
-				  <img src="${classifyImg}" height="160" width="260" alt="Classify"/>
-				  <p class="justified">When launched this page with provide an overview of how you can use this site to work on your classification and the relationship to the <a title="Classification Page" href="${classificationUrl}">eMonocot classification!</a></p>
-				<ul class="unstyled">
-					<li>
-					  <c:url value="/classification" var="classificationUrl"/>
-					  <a class="classification-link" href="${classificationUrl}">eMonocot Classification</a>						
-					</li>
-					<li>
-						<a>Phylogeny Browser</a>
-					</li>
-					<li>
-						<a>Checklist Validator</a>
-					</li>
-				</ul>
-				</div>
+					<div class="box">
+						<div class="pull-right">
+							<c:url value="/css/images/classify.png" var="classifyImg" />
+							<img src="${classifyImg}" height="160" width="260" alt="Classify" />
+						</div>
+						<h4 id="classify">
+							<spring:message code="classify.header" />
+						</h4>
+						<p class="justified">The taxa presented in eMonocot are
+							organised according to a dynamic, consensus classification. This
+							classification is based on the opinions of the taxonomic
+							communities contributing to eMonocot and is updated regularly as
+							new information becomes available.</p>
+						<ul class="unstyled">
+							<li>
+                                <c:url value="/classification" var="classificationUrl" />
+								<a class="classification-link" href="${classificationUrl}">Dynamic, Consensus Taxonomic Classification </a>
+								<span class="label label-info">
+								     <spring:message code="tool.implemented" />
+							    </span>
+							</li>
+							<li>
+                                <a href="http://build.e-monocot.org/mocks/phylogeny.html">Phylogeny Browser </a>
+								<span class="label label-warning">
+									 <spring:message code="tool.mocked" />
+								</span>
+							</li>
+							<li>
+                                <a href="http://build.e-monocot.org/mocks/match.html">Checklist Validator </a>
+								<span class="label label-warning">
+									 <spring:message code="tool.mocked" />
+								</span>
+							</li>
+						</ul>
+					</div>
 				</div>
 				<div class="inner">
-							<div class="box">
-				<h4 id="explore"><spring:message code="search.tools" /></h4>
-				<c:url value="/css/images/explore.png" var="exploreImg"/>
-				<img src="${exploreImg}" height="160" width="260" alt="Explore"/>
-				<p>When complete, eMonocot will allow to search for monocot plants anywhere in the world (monocots are 20% of all flowering plants)</p>
-				<ul class="unstyled">
-					<li>
-					  <c:url value="/search?query=" var="searchUrl"/>
-					  <a href="${searchUrl}">Powerful Search and Faceting</a>
-					  <p>Search across all taxon pages, images and keys using keywords including wildcards and fuzzy queries. Restrict results by taxonomic group, status, rank, geographical area, conservation status and other properties.
-                      </p>
-					</li>
-					<li>
-					    <c:url value="/spatial?query=" var="spatialUrl"/>
-						<a href="spatialUrl">Map search</a>
-					</li>
-					<li>
-						<a>Explore data</a>
-					</li>
-					<li>
-					   <a>Ad-hoc analysis and visualization</a>
-					   <p>Perform aggregate queries across the whole database to identify the number of species in a particular family or found in a particular area, or to display the different life-form or habitat types of your chosen taxa.
-                       </p>
-					</li>
-				</ul>
-				</div>
+					<div class="box">
+						<div class="pull-right">
+							<c:url value="/css/images/explore.png" var="exploreImg" />
+							<img src="${exploreImg}" height="160" width="260" alt="Explore" />
+						</div>
+						<h4 id="explore">
+							<spring:message code="search.tools" />
+						</h4>
+						<p class="justified">Search across all taxon pages, images and
+							keys using keywords including wildcards and fuzzy queries.
+							Restrict results by taxonomic group, status, rank, geographical
+							area, conservation status and other properties.</p>
+						<p class="justified">Perform aggregate queries across the
+							whole database to identify the number of species in a particular
+							family or found in a particular area, or to display the different
+							life-form or habitat types of your chosen taxa.</p>
+						<ul class="unstyled">
+							<li><c:url value="/search?query=" var="searchUrl" />
+							    <span class="badge badge-info">
+							        <i class="icon-ok"><!--  --></i> 
+								</span>
+								<a href="${searchUrl}">Powerful Search and Faceting</a>
+							</li>
+							<li>
+							    <c:url value="/spatial?query=" var="spatialUrl" />
+                                <span class="badge badge-info">
+								    <i class="icon-ok"><!--  --></i> 
+								</span>
+								<a href="${spatialUrl}">Map-Based Searching</a></li>
+							<li>
+							    <span class="badge badge-warning">
+							        <i class="icon-wrench"><!--  --></i> 
+							    </span>
+								<a href="http://build.e-monocot.org/mocks/explore.html">Ad-hoc
+									analysis and visualization</a>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
