@@ -65,7 +65,9 @@
 				<ul class="unstyled">
 					<li>
 					  <c:url value="/search?query=" var="searchUrl"/>
-					  <a href="${searchUrl}">Search</a>
+					  <a href="${searchUrl}">Powerful Search and Faceting</a>
+					  <p>Search across all taxon pages, images and keys using keywords including wildcards and fuzzy queries. Restrict results by taxonomic group, status, rank, geographical area, conservation status and other properties.
+                      </p>
 					</li>
 					<li>
 					    <c:url value="/spatial?query=" var="spatialUrl"/>
@@ -73,6 +75,11 @@
 					</li>
 					<li>
 						<a>Explore data</a>
+					</li>
+					<li>
+					   <a>Ad-hoc analysis and visualization</a>
+					   <p>Perform aggregate queries across the whole database to identify the number of species in a particular family or found in a particular area, or to display the different life-form or habitat types of your chosen taxa.
+                       </p>
 					</li>
 				</ul>
 				</div>
