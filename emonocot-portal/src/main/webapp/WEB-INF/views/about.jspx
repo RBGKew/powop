@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <div xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:form="http://www.springframework.org/tags/form"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
     <tags:pageheader>
@@ -10,63 +11,77 @@
 
 <div class="container">
 	<div class="row">
-		<div class="span6">
-			<div class="inner">
-				<div class="box">
-					<c:url var="aboutUs" value="/css/images/about.png"/>
-					<img src="${aboutUs}" height="420" width="420" alt="eMonocot Portal"/>
-					<p class="justified">A collaborative team from <a href="http://www.kew.org/" title="Kew Gardens">Kew</a>, 
-					the <a href="http://www.nhm.ac.uk/" title="Natural History Museum">Natural History Museum</a> (NHM) 
-					and <a href="http://www.ox.ac.uk/" title="Oxford University">Oxford University</a> 
-					has secured a £1.96m consortium grant from the <a href="http://www.nerc.ac.uk/" title="NERC">Natural Environment Research Council</a> (NERC). 
-					The project is led by <a href="http://www.kew.org/science/directory/people/Wilkin_Paul.html" title="Paul Wilkin">Paul Wilkin</a>
-					assisted by <a href="http://www.kew.org/science/directory/people/Baker_William.html" title="Bill Baker">Bill Baker</a>, Abigail Barker, Ben Clark, 
-					<a href="http://www.kew.org/science/directory/people/Jackson_Mark.html" title="Mark Jackson">Mark Jackson</a>, 
-					<a href="http://www.kew.org/science/directory/people/Mayo_Simon.html" title="Simon Mayo">Simon Mayo</a> and 
-					<a href="http://www.kew.org/science/directory/people/Simpson_David.html">Dave Simpson</a> at Kew, 
-					<a href="http://vsmith.info/" title="Vince Smith">Vince Smith</a>, 
-					<a href="http://www.nhm.ac.uk/research-curation/staff-directory/entomology/i-kitching/index.html" title="Ian Kitching">Ian Kitching</a> and 
-					<a href="http://www.nhm.ac.uk/research-curation/staff-directory/entomology/cv-3613.html" title="Malcolm Scoble">Malcolm Scoble</a> at NHM, 
-					and <a href="http://www.zoo.ox.ac.uk/staff/academics/godfray_hcj.htm">Charles Godfray</a> at Oxford. 
-					The 3-year grant will enable the team to build eMonocot, a novel biodiversity web-resource for monocot plants. 
-					Monocots constitute approximately 20% (70,000 species) of all higher plants and include numerous groups of the highest conservation, 
-					ecological and economic importance, such as grasses, sedges, orchids, palms and aroids.</p>
-					
-					<p class="justified">The objective of this proposal is to produce a web-based treatment of monocot plants, targeted at biodiversity and environmental scientists, 
-						but available to all users including volunteer biologists, the general public and schools. </p>
-				</div>
-			</div>
-		</div>
-		<div class="span6">
-			<div class="inner">
-				<div class="box">
-					<p class="justified">
-						This site will provide information such as nomenclature, taxonomic descriptions, images, identification guides, geographical, ecological, 
-						DNA sequence and conservation data structured around a taxonomy derived from the <a href="http://apps.kew.org/wcsp/home.do">World Checklist of Monocotyledons</a>, 
-						from which 70,000 outline species pages will be generated. 
-						Within the lifetime of the project, comprehensive species pages will be built for European monocots, 
-						"Sampled Red List Index" monocots and slipper orchids. 
-						Software will be developed to allow taxonomic research to be conducted on the web and to encourage the participation of the global community of monocot taxonomists in eMonocot. 
-						Interactive keys and pages for monocot families and over 2000 genera in selected families will also be created.</p>
-					<p class="justified">RBG Kew is the lead organisation for eMonocot. In addition to coordinating the project, the Kew team will be tasked with generating content for the site, 
-					exploiting existing sources, creating new content from scratch and encouraging the global monocot community to contribute data. 
-					eMonocot will be closely integrated with Kew?s IT and Digital Media Strategy Programme 
-					and existing RBG Kew web resources such as <a href="http://www.cate-araceae.org/">CATE-Araceae</a>, 
-					<a href="http://www.palmweb.org/">Palmweb</a>and
-					<span class="x_578072110-17092010"><span class="x_578072110-17092010"><a target="_blank" href="http://www.kew.org/data/grasses-db.html"> GrassBase</a></span></span>, which represent important building blocks of the eMonocot system.  
-					In Oxford, a team of software developers will work closely with developers in Kew to devise the software platform upon which eMonocot will be constructed. 
-					The NHM team will focus on creating social structures and working practices that will facilitate the global interactions envisaged for eMonocot  
-					and will develop web-based metrics to quantify the contribution of taxonomists to biodiversity science. 
-					They will also ensure that the working model established for eMonocot can be extended readily to animal groups. </p>
-				
-				<p class="justified">eMonocot builds on the success of the NERC-funded Kew/NHM/Oxford <a href="http://www.cate-project.org/">CATE</a>project as well as ground-breaking developments in eTaxonomy facilitated by <a href="http://www.e-taxonomy.eu/">EDIT</a>. 
-					The project is closely linked with key international stakeholders in biodiversity informatics, such as the <a href="http://www.eol.org/">Encyclopedia of Life</a> (EoL), 
-					the <a href="http://www.barcodeoflife.org/">Consortium for the Barcode of Life</a> (CBOL) and the <a href="http://www.gbif.org/">Global Biodiversity Information Facility</a>. 
-					Though focused on a specific plant group, eMonocot is among the most ambitious eTaxonomy projects yet attempted 
-					and has the potential to revolutionise the way taxonomic data are organised and accessed by both the practitioners and users of taxonomy.</p>
-				</div>
-			</div>	
-		</div>
-	</div>
+	   <div class="span6">
+            <div class="inner">
+                <div class="box">
+                    <c:url var="aboutUs" value="/css/images/about.png"/>
+                    <img src="${aboutUs}" height="420" width="420" alt="eMonocot Portal"/>
+                    <p class="justified">eMonocot is a global online biodiversity information resource for monocotyledons, which include grasses, orchids, sedges, palms, lilies and yams and are 20% of flowering plants.  When complete, you will be able to use eMonocot to identify Monocot plants anywhere in the world, understand their diversity and evolutionary relationships, and explore a wealth of information including descriptions, images, conservation, geographical and ecological data. 
+                    </p>
+                    <p class="justified">The project is being funded by the <a href="http://www.nerc.ac.uk/" title="NERC">Natural Environment Research Council</a> (NERC) via a consortium grant to the <a href="http://www.kew.org/" title="Royal Botanic Gardens, Kew">Royal Botanic Garndens, Kew</a>, <a href="http://www.ox.ac.uk/" title="Oxford University">Oxford University</a> and the <a href="http://www.nhm.ac.uk/" title="Natural History Museum">Natural History Museum</a> (NHM).
+                    </p>
+                    <p class="justified">The content in eMonocot is being compiled by monocot plant systematists from many different institutions both within the UK and globally. Their data is being contributed through community focussed online taxonomic information resources, including new websites created as part of this project.  Compiling taxonomic information about plants is a huge task that relies on specialist knowledge. Global participation is essential in developing and sustaining both the data and the expert taxonomic communities that generate and enhance it. Therefore, in addition to project staff dedicated to compiling content, eMonocot is linking together monocot taxonomists by providing support and tools to enable communities to manage their taxonomic data online and in doing so contribute to eMonocot.
+                    </p>
+                    <p class="justified">All of the information is brought together in this site, the eMonocot portal.  The information presented here will be especially useful for anyone studying the ecology or evolution of the monocot plants, or who wants to understand monocot biodiversity and conservation.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="span6">
+            <div class="inner">
+                <div class="box">
+                    <h3>Content</h3>
+                    <p class="justified">Assembling content for ~90k accepted taxa is a significant challenge.
+                    </p>
+                    <p class="justified">The initial taxonomic classification of monocot plants presented in eMonocot.org is that in the <a href="http://apps.kew.org/wcsp" title="World Checklist of Selected Plant Families">World Checklist of Selected Plant Families</a>. This classification provides the taxonomic and geographic information for  ca. 90,000 accepted taxa (ca. 70,000 species).
+                    </p>
+                    <p class="justified">In addition to the World Checklist, we are aggregating content from ${fn:length(sources)} systems, which cover particular taxonomic groups in greater depth or which provide additional types of data. This includes content from<br/>
+						<c:forEach var="source" items="${sources}">
+                            <strong>${source.title}</strong>: ${source.description}<br/>
+						</c:forEach>
+                    </p>
+                    <p class="justified">Content is being gathered using eMonocot <a href="http://scratchpads.eu" title="Scratchpads project">Scratchpads</a> – websites that enable communities of researchers to manage, share and publish taxonomic data online. The eMonocot Scratchpad sites are available to groups interested in contributing to eMonocot, and are being supported by dedicated eMonocot project staff. You can see a list of current eMonocot scratchpads <a href="http://about.e-monocot.org/list-emonocot-scratchpads" title="eMonocot scratchpads">here</a>.
+                    </p>
+                    <p class="justified">If you would like to get involved with the eMonocot Project either by providing feedback on the site or perhaps contributing content by joining or forming a scratchpad community, then please <a href="mailto:enquires@e-monocot.org?subject=eMonocot Portal enquiry" title="contact e-mail">contact us</a>. You can also find out more information about the project, including the latest events and news at the <a href="http://about.e-monocot.org" title="Project Scratchpad">eMonocot project scratchpad</a>.
+                    </p>
+                    <!-- <h2>eMonocot - Identify | Classify | Explore</h2>
+                    <h3>Attractive, Authoritative Taxon Pages</h3>
+                    <p class="justified">eMonocot provides taxon pages for over a quarter of a million monocot names. Each page contains taxonomic, nomenclatural and geographical information, plus maps, descriptions, images and other data where available.
+                    </p>
+                    <h3>Interactive Identification Tools</h3>
+                    <p class="justified">Use the illustrated, multi-access identification keys to identify species. You can select characters in any order (unlike traditional identification keys).  Browse for images and view them in a grid or an image gallery.
+                    </p>
+                    <h3>Dynamic, Consensus Taxonomic Classification</h3>
+					<p class="justified">The taxa presented in eMonocot are organised according to a dynamic, consensus classification. This classification is based on the opinions of the taxonomic communities contributing to eMonocot and is updated regularly as new information becomes available.
+					</p>
+					<h3>Powerful Search and Faceting</h3>
+                    <p class="justified">Search across all taxon pages, images and keys using keywords including wildcards and fuzzy queries. Restrict results by taxonomic group, status, rank, geographical area, conservation status and other properties.
+					</p>
+					<h3>Ad-hoc analysis and visualization</h3>
+                    <p class="justified">Perform aggregate queries across the whole database to identify the number of species in a particular family or found in a particular area, or to display the different life-form or habitat types of your chosen taxa.
+                    </p> -->
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </div>
+<!--
+eMonocot - Identify | Classify | Explore
+
+Attractive, Authoritative Taxon Pages
+eMonocot provides taxon pages for over a quarter of a million monocot names. Each page contains taxonomic, nomenclatural and geographical information, plus maps, descriptions, images and other data where available.
+
+Interactive Identification Tools
+Use the illustrated, multi-access identification keys to identify species. You can select characters in any order (unlike traditional identification keys), and choose …...
+
+Dynamic, Consensus Taxonomic Classification
+The taxa presented in eMonocot are organised according to a dynamic, consensus classification. This classification is based on the opinions of the taxonomic communities contributing to eMonocot and is updated regularly as new information becomes available.
+
+Powerful Search and Faceting
+Search across all taxon pages, images and keys using keywords including wildcards and fuzzy queries. Restrict results by taxonomic group, status, rank, geographical area, conservation status and other properties.
+
+Ad-hoc analysis and visualization
+Perform aggregate queries across the whole database to identify the number of species in a particular family or found in a particular area, or to display the different life-form or habitat types of your chosen taxa.
+
+ -->

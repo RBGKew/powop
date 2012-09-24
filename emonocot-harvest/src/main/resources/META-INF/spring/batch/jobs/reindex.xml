@@ -28,7 +28,15 @@
 	      <batch:tasklet ref="clearRegionShapesTasklet" />			
 		  <batch:end on="COMPLETED"/>
 	    </batch:step>
+	    <batch:listeners>
+		  <batch:listener ref="jobStatusListener"/>
+		</batch:listeners>
 	</batch:job>
+	
+	<bean id="jobStatusListener" class="org.emonocot.harvest.common.JobStatusListener">
+	  <property name="jobStatusNotifier" ref="jobStatusNotifier"/>
+	  <property name="baseUrl" value="${harvester.baseUrl}"/>
+	</bean>
 	
 	<bean id="loadRegionShapesTasklet"
 		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter">
