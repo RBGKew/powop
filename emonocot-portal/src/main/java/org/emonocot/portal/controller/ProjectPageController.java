@@ -3,7 +3,10 @@
  */
 package org.emonocot.portal.controller;
 
+import java.util.List;
+
 import org.emonocot.api.SourceService;
+import org.emonocot.model.source.Source;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +19,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class ProjectPageController {
+	
+	/**
+	 * A list of identifiers for 'sources' not to be listed on the page
+	 */
+	private String[] excludeIdentifiers = {"WCS", "e-monocot.org"};
 
     /**
      *
@@ -36,7 +44,19 @@ public class ProjectPageController {
      */
     @RequestMapping(value = "/about")
     public final String show(final Model model) {
-        model.addAttribute("sources", sourceService.list(null, null).getRecords());
+    	List<Source> sources = sourceService.list(null, null).getRecords();
+    	
+    	//Page specific remove
+    	for (String identifier : excludeIdentifiers) {
+			for (Source source : sources) {
+				if(identifier.equals(source.getIdentifier())){
+					sources.remove(source);
+					break;
+				}
+			}
+		}
+        
+    	model.addAttribute("sources", sources);
         return "about";
     }
 

@@ -2,56 +2,109 @@
 <div xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-    xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:form="http://www.springframework.org/tags/form"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
-    <tags:pageheader>
-	        <h2 id="page-title"><spring:message code="about.emonocot" /></h2>
-    </tags:pageheader>
+	<tags:pageheader>
+		<h2 id="page-title">
+			<spring:message code="about.emonocot" />
+		</h2>
+	</tags:pageheader>
 
-<div class="container">
-	<div class="row">
-	   <div class="span6">
-            <div class="inner">
-                <div class="box">
-                    <c:url var="aboutUs" value="/css/images/about.png"/>
-                    <img src="${aboutUs}" height="420" width="420" alt="eMonocot Portal"/>
-                    <p class="justified">eMonocot is a global online biodiversity information resource for monocotyledons, which include grasses, orchids, sedges, palms, lilies and yams and are 20% of flowering plants.  When complete, you will be able to use eMonocot to identify Monocot plants anywhere in the world, understand their diversity and evolutionary relationships, and explore a wealth of information including descriptions, images, conservation, geographical and ecological data. 
-                    </p>
-                    <p class="justified">The project is being funded by the <a href="http://www.nerc.ac.uk/" title="NERC">Natural Environment Research Council</a> (NERC) via a consortium grant to the <a href="http://www.kew.org/" title="Royal Botanic Gardens, Kew">Royal Botanic Garndens, Kew</a>, <a href="http://www.ox.ac.uk/" title="Oxford University">Oxford University</a> and the <a href="http://www.nhm.ac.uk/" title="Natural History Museum">Natural History Museum</a> (NHM).
-                    </p>
-                    <p class="justified">The content in eMonocot is being compiled by monocot plant systematists from many different institutions both within the UK and globally. Their data is being contributed through community focussed online taxonomic information resources, including new websites created as part of this project.  Compiling taxonomic information about plants is a huge task that relies on specialist knowledge. Global participation is essential in developing and sustaining both the data and the expert taxonomic communities that generate and enhance it. Therefore, in addition to project staff dedicated to compiling content, eMonocot is linking together monocot taxonomists by providing support and tools to enable communities to manage their taxonomic data online and in doing so contribute to eMonocot.
-                    </p>
-                    <p class="justified">All of the information is brought together in this site, the eMonocot portal.  The information presented here will be especially useful for anyone studying the ecology or evolution of the monocot plants, or who wants to understand monocot biodiversity and conservation.
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="span6">
-            <div class="inner">
-                <div class="box">
-                    <h3>Content</h3>
-                    <p class="justified">Assembling content for ~90k accepted taxa is a significant challenge.
-                    </p>
-                    <p class="justified">The initial taxonomic classification of monocot plants presented in eMonocot.org is that in the <a href="http://apps.kew.org/wcsp" title="World Checklist of Selected Plant Families">World Checklist of Selected Plant Families</a>. This classification provides the taxonomic and geographic information for  ca. 90,000 accepted taxa (ca. 70,000 species).
-                    </p>
-                    <p class="justified">In addition to the World Checklist, we are aggregating content from ${fn:length(sources)} systems, which cover particular taxonomic groups in greater depth or which provide additional types of data. This includes content from<br/>
-						<dl class="dl-horizontal">
-						<c:forEach var="source" items="${sources}">
-                            <dt>${source.title}</dt>
-                            <dd>${source.description}</dd>
-						</c:forEach>
-						</dl>
-                    </p>
-                    <p class="justified">Content is being gathered using eMonocot <a href="http://scratchpads.eu" title="Scratchpads project">Scratchpads</a> – websites that enable communities of researchers to manage, share and publish taxonomic data online. The eMonocot Scratchpad sites are available to groups interested in contributing to eMonocot, and are being supported by dedicated eMonocot project staff. You can see a list of current eMonocot scratchpads <a href="http://about.e-monocot.org/list-emonocot-scratchpads" title="eMonocot scratchpads">here</a>.
-                    </p>
-                    <p class="justified">If you would like to get involved with the eMonocot Project either by providing feedback on the site or perhaps contributing content by joining or forming a scratchpad community, then please <a href="mailto:enquires@e-monocot.org?subject=eMonocot Portal enquiry" title="contact e-mail">contact us</a>. You can also find out more information about the project, including the latest events and news at the <a href="http://about.e-monocot.org" title="Project Scratchpad">eMonocot project scratchpad</a>.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+	<div class="container">
+		<div class="row">
+			<div class="span6">
+				<div class="inner">
+					<div class="box">
+						<c:url var="aboutUs" value="/css/images/about.png" />
+						<img src="${aboutUs}" height="420" width="420" alt="eMonocot Portal" />
+						<p class="justified">eMonocot is a global online biodiversity
+							information resource for monocotyledons, which include grasses,
+							orchids, sedges, palms, lilies and yams and are 20% of flowering
+							plants. When complete, you will be able to use eMonocot to
+							identify Monocot plants anywhere in the world, understand their
+							diversity and evolutionary relationships, and explore a wealth of
+							information including descriptions, images, conservation,
+							geographical and ecological data.
+						</p>
+						<p class="justified">
+							The project is being funded by the <a href="http://www.nerc.ac.uk/" title="NERC">
+							Natural Environment Research Council</a> (NERC) via a consortium grant to
+							the <a href="http://www.kew.org/" title="Royal Botanic Gardens, Kew">Royal Botanic Garndens, Kew</a>, 
+							<a href="http://www.ox.ac.uk/" title="Oxford University">Oxford University</a>
+							and the <a href="http://www.nhm.ac.uk/" title="Natural History Museum">Natural History Museum</a> (NHM).
+						</p>
+						<p class="justified">The content in eMonocot is being compiled
+							by monocot plant systematists from many different institutions
+							both within the UK and globally. Their data is being contributed
+							through community focussed online taxonomic information
+							resources, including new websites created as part of this
+							project. Compiling taxonomic information about plants is a huge
+							task that relies on specialist knowledge. Global participation is
+							essential in developing and sustaining both the data and the
+							expert taxonomic communities that generate and enhance it.
+							Therefore, in addition to project staff dedicated to compiling
+							content, eMonocot is linking together monocot taxonomists by
+							providing support and tools to enable communities to manage their
+							taxonomic data online and in doing so contribute to eMonocot.
+						</p>
+						<p class="justified">All of the information is brought
+							together in this site, the eMonocot portal. The information
+							presented here will be especially useful for anyone studying the
+							ecology or evolution of the monocot plants, or who wants to
+							understand monocot biodiversity and conservation.
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="span6">
+				<div class="inner">
+					<div class="box">
+						<h3>Content</h3>
+						<p class="justified">Assembling content for ~90k accepted taxa
+							is a significant challenge.
+						</p>
+						<p class="justified">
+							The initial taxonomic classification of monocot plants presented
+							in eMonocot.org is that in the <a href="http://apps.kew.org/wcsp" title="World Checklist of Selected Plant Families">World
+								Checklist of Selected Plant Families</a>. This classification
+							provides the taxonomic and geographic information for ca. 90,000
+							accepted taxa (ca. 70,000 species).
+						</p>
+						<p class="justified">
+							In addition to the World Checklist, we are aggregating content
+							from ${fn:length(sources)} systems, which cover particular
+							taxonomic groups in greater depth or which provide additional
+							types of data. This includes content from:<br />
+						</p>
+						<p>
+							<c:forEach var="source" items="${sources}">
+								<c:url var="sourcePageUrl" value="/source/${source.identifier}" />
+								<a href="${sourcePageUrl}">${source.title}</a>
+								<br />
+							</c:forEach>
+						</p>
+						<p class="justified">
+							Content is being gathered using eMonocot <a href="http://scratchpads.eu" title="Scratchpads project">Scratchpads</a>
+							– websites that enable communities of researchers to manage,
+							share and publish taxonomic data online. The eMonocot Scratchpad
+							sites are available to groups interested in contributing to
+							eMonocot, and are being supported by dedicated eMonocot project
+							staff. You can see a list of current eMonocot scratchpads
+                                <a href="http://about.e-monocot.org/list-emonocot-scratchpads" title="eMonocot scratchpads">here</a>.
+						</p>
+						<p class="justified">
+							If you would like to get involved with the eMonocot Project either by providing feedback on the site or perhaps
+							contributing content by joining or forming a scratchpad community, then please
+							<a href="mailto:enquires@e-monocot.org?subject=eMonocot Portal enquiry" title="contact e-mail">contact us</a>.
+                            You can also find out more information about the project, including the latest events and news at the
+							<a href="http://about.e-monocot.org" title="Project Scratchpad">eMonocot project scratchpad</a>.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 <!--
 eMonocot - Identify | Classify | Explore
