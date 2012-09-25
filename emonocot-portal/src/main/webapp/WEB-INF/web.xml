@@ -15,6 +15,7 @@
 		<param-name>logbackConfigLocation</param-name>
 		<param-value>/WEB-INF/classes/logback.xml</param-value>
 	</context-param>
+	<distributable/>
 	<jsp-config>
 	  <taglib>
         <taglib-uri>http://e-monocot.org/portal/functions</taglib-uri>

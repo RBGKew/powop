@@ -11,7 +11,7 @@ Scenario: View the Classify overview page
 
 Scenario: View the classification page
   When I am on the portal features page
-  And I select the "eMonocot Classification" link in the page
+  And I select the "Dynamic, Consensus Taxonomic Classification" link in the page
   Then I should be on the "classification" page
   
   Scenario: Identify Page
