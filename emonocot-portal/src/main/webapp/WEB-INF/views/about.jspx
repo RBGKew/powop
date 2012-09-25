@@ -36,30 +36,17 @@
                     <p class="justified">The initial taxonomic classification of monocot plants presented in eMonocot.org is that in the <a href="http://apps.kew.org/wcsp" title="World Checklist of Selected Plant Families">World Checklist of Selected Plant Families</a>. This classification provides the taxonomic and geographic information for  ca. 90,000 accepted taxa (ca. 70,000 species).
                     </p>
                     <p class="justified">In addition to the World Checklist, we are aggregating content from ${fn:length(sources)} systems, which cover particular taxonomic groups in greater depth or which provide additional types of data. This includes content from<br/>
+						<dl class="dl-horizontal">
 						<c:forEach var="source" items="${sources}">
-                            <strong>${source.title}</strong>: ${source.description}<br/>
+                            <dt>${source.title}</dt>
+                            <dd>${source.description}</dd>
 						</c:forEach>
+						</dl>
                     </p>
                     <p class="justified">Content is being gathered using eMonocot <a href="http://scratchpads.eu" title="Scratchpads project">Scratchpads</a> – websites that enable communities of researchers to manage, share and publish taxonomic data online. The eMonocot Scratchpad sites are available to groups interested in contributing to eMonocot, and are being supported by dedicated eMonocot project staff. You can see a list of current eMonocot scratchpads <a href="http://about.e-monocot.org/list-emonocot-scratchpads" title="eMonocot scratchpads">here</a>.
                     </p>
                     <p class="justified">If you would like to get involved with the eMonocot Project either by providing feedback on the site or perhaps contributing content by joining or forming a scratchpad community, then please <a href="mailto:enquires@e-monocot.org?subject=eMonocot Portal enquiry" title="contact e-mail">contact us</a>. You can also find out more information about the project, including the latest events and news at the <a href="http://about.e-monocot.org" title="Project Scratchpad">eMonocot project scratchpad</a>.
                     </p>
-                    <!-- <h2>eMonocot - Identify | Classify | Explore</h2>
-                    <h3>Attractive, Authoritative Taxon Pages</h3>
-                    <p class="justified">eMonocot provides taxon pages for over a quarter of a million monocot names. Each page contains taxonomic, nomenclatural and geographical information, plus maps, descriptions, images and other data where available.
-                    </p>
-                    <h3>Interactive Identification Tools</h3>
-                    <p class="justified">Use the illustrated, multi-access identification keys to identify species. You can select characters in any order (unlike traditional identification keys).  Browse for images and view them in a grid or an image gallery.
-                    </p>
-                    <h3>Dynamic, Consensus Taxonomic Classification</h3>
-					<p class="justified">The taxa presented in eMonocot are organised according to a dynamic, consensus classification. This classification is based on the opinions of the taxonomic communities contributing to eMonocot and is updated regularly as new information becomes available.
-					</p>
-					<h3>Powerful Search and Faceting</h3>
-                    <p class="justified">Search across all taxon pages, images and keys using keywords including wildcards and fuzzy queries. Restrict results by taxonomic group, status, rank, geographical area, conservation status and other properties.
-					</p>
-					<h3>Ad-hoc analysis and visualization</h3>
-                    <p class="justified">Perform aggregate queries across the whole database to identify the number of species in a particular family or found in a particular area, or to display the different life-form or habitat types of your chosen taxa.
-                    </p> -->
                 </div>
             </div>
         </div>

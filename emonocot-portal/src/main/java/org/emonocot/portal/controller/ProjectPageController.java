@@ -36,7 +36,7 @@ public class ProjectPageController {
      */
     @RequestMapping(value = "/about")
     public final String show(final Model model) {
-        model.addAttribute(sourceService.list(null, null));
+        model.addAttribute("sources", sourceService.list(null, null).getRecords());
         return "about";
     }
 
