@@ -5,42 +5,50 @@
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:spring="http://www.springframework.org/tags">
-    <tags:pageheader><h2 id="page-title">${source.title} <br/> <spring:message code="content.harvested" /></h2></tags:pageheader>
+	
+	<tags:pageheader>
+		<h2 id="page-title">
+			${source.title} <br/> <spring:message code="content.harvested" />
+		</h2>
+	</tags:pageheader>
+	
 	<div class="container">
 		<div class="row">
-		  <div class="span12">
-		    <div class="inner">
-		      <div class="box">
-			<table class="table table-striped">
-				<thead>
-					<th><spring:message code="record.type" />
-					</th>
-					<th><spring:message code="records.harvested" />
-					</th>
-				</thead>
-				<tbody id="results">
-					<c:forEach var="result" items="${results}">
-						<tr>
-							<td><c:choose>
-									<c:when test="${not empty result.value}">
-									    <c:url value="/source/${source.identifier}/job/${job.id}" var="outputUrl">
-													<c:param name="output" value="true"/>
-													<c:param name="recordType">${result.label}</c:param>
-												</c:url>
-										<a href="${outputUrl}"><spring:message code="${result.label}" /></a>
-									</c:when>
-									<c:otherwise>
-										<spring:message code="${result.label}" />
-									</c:otherwise>
-								</c:choose></td>
-							<td>${result.value}</td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
+			<div class="span12">
+				<div class="inner">
+					<div class="box">
+						<table class="table table-striped">
+							<thead>
+								<th><spring:message code="record.type" />
+								</th>
+								<th><spring:message code="records.harvested" />
+								</th>
+							</thead>
+							<tbody id="results">
+								<c:forEach var="result" items="${results}">
+									<tr>
+										<td>
+											<c:choose>
+												<c:when test="${not empty result.value}">
+													<c:url value="/source/${source.identifier}/job/${job.id}" var="outputUrl">
+														<c:param name="output" value="true"/>
+														<c:param name="recordType">${result.label}</c:param>
+													</c:url>
+													<a href="${outputUrl}"><spring:message code="${result.label}" /></a>
+												</c:when>
+												<c:otherwise>
+													<spring:message code="${result.label}" />
+												</c:otherwise>
+											</c:choose>
+										</td>
+										<td>${result.value}</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
+				</div>
 			</div>
-			</div>
-	      </div>
 		</div>
 	</div>
 </div>

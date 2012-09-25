@@ -17,13 +17,16 @@
 			<div class="span12">
 				<div class="inner">
 					<div class="box">
-						<security:authorize access="hasRole('PERMISSION_ADMINISTRATE') or hasPermission(#source, 'READ')">
-							<c:url value="/source/${source.identifier}" var="editUrl">
-								<c:param name="form">true</c:param>
-							</c:url>
-							<spring:message code="edit.source" var="editMessage"/>
-							<p><a href="${editUrl}" class="btn">${editMessage}</a></p>
-						</security:authorize>
+						<div class="row">
+							<security:authorize access="hasRole('PERMISSION_ADMINISTRATE') or hasPermission(#source, 'READ')">
+								<c:url value="/source/${source.identifier}" var="editUrl">
+									<c:param name="form">true</c:param>
+								</c:url>
+								<spring:message code="edit.source" var="editMessage"/>
+								<p><a href="${editUrl}" class="btn pull-right">${editMessage}</a></p>
+							</security:authorize>
+						</div>
+						<br/>
 						<table class="table">
 							<tbody>
 								<tr><th><spring:message code="availableAt" /></th><td><a href="${source.uri}" id="source-uri">${source.uri}</a></td></tr>
@@ -62,12 +65,14 @@
 					<div class="inner">
 						<div class="box">
 							<h2><spring:message code="jobs.title"/></h2>
-							<security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">
-								<c:url var="createUrl" value="/source/${source.identifier}/job">
-									<c:param name="form" value="true"/>
-								</c:url>
-								<p><a href="${createUrl}" class="btn"><spring:message code="create.job"/></a></p>
-							</security:authorize>
+							<div class="row">
+								<security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">
+									<c:url var="createUrl" value="/source/${source.identifier}/job">
+										<c:param name="form" value="true"/>
+									</c:url>
+									<p><a href="${createUrl}" class="btn pull-right"><spring:message code="create.job"/></a></p>
+								</security:authorize>
+							</div>
 							<table class="table">
 								<thead>
 									<tr>

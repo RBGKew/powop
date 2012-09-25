@@ -65,46 +65,51 @@
 		</header>
 		<c:if test="${not empty taxon.images}">
 			<div class="container">
-			<div id="images" data-toggle="modal-gallery" data-target="#modal-gallery">
-				<div class="row">
-					<div class="carousel slide span12" id="carousel">
+				<div id="images" data-toggle="modal-gallery"
+					data-target="#modal-gallery">
+					<div class="row">
+						<div class="carousel slide span12" id="carousel">
 							<div class="carousel-inner">
-							  <c:forEach var="i" items="${taxon.images}" step="6" varStatus="status">
-							    <c:choose>
-							      <c:when test="${status.index == 0}">
-							        <c:set var="active" value="active"/>
-							      </c:when>
-							      <c:otherwise>
-							        <c:set var="active" value=""/>
-							      </c:otherwise>
-							    </c:choose>
-								<div class="item ${active}">
-									<ul class="thumbnails">	
-									  <c:forEach var="image" items="${taxon.images}" begin="${status.index}" end="${status.index + 5}">									
-											<li>
-											  <c:url var="fullsize" value="/images/fullsize/${image.identifier}.${image.format}" />
-											  <c:url var="url" value="/image/${image.identifier}" />
-											  <a class="thumbnail" href="${image.url}" rel="gallery" title="${em:stripXml(image.caption)}" data-link="${url}">
+								<c:forEach var="i" items="${taxon.images}" step="6"
+									varStatus="status">
+									<c:choose>
+										<c:when test="${status.index == 0}">
+											<c:set var="active" value="active" />
+										</c:when>
+										<c:otherwise>
+											<c:set var="active" value="" />
+										</c:otherwise>
+									</c:choose>
+									<div class="item ${active}">
+										<ul class="thumbnails">
+											<c:forEach var="image" items="${taxon.images}"
+												begin="${status.index}" end="${status.index + 5}">
+												<li>
+													<c:url var="fullsize" value="/images/fullsize/${image.identifier}.${image.format}" />
+													<c:url var="url" value="/image/${image.identifier}" /> 
+													<a class="thumbnail" href="${image.url}" rel="gallery"
+														title="${em:stripXml(image.caption)}" data-link="${url}">
 														<c:url var="thumbnail" value="/images/thumbnails/${image.identifier}.${image.format}" />
-														<c:url var="url" value="/image/${image.identifier}" />
+														<c:url var="url" value="/image/${image.identifier}" /> 
 														<img src="${thumbnail}" title="${em:stripXml(image.caption)}" />
-											  </a>
-											</li>		
-									  </c:forEach>								
-									</ul>
-								</div>
+													</a>
+												</li>
+											</c:forEach>
+										</ul>
+									</div>
 								</c:forEach>
-							</div>	
+							</div>
 							<c:if test="${fn:length(taxon.images) > 6 }">
-							  <a data-slide="prev" href="#carousel" class="left carousel-control">‹</a>
-							  <a data-slide="next" href="#carousel" class="right carousel-control">›</a>
-					        </c:if>
-						</div>						
+								<a data-slide="prev" href="#carousel" class="left carousel-control">‹</a>
+								<a data-slide="next" href="#carousel" class="right carousel-control">›</a>
+							</c:if>
+						</div>
 					</div>
 				</div>
 			</div>
 		</c:if>
-		<div id="modal-gallery" class="modal modal-gallery hide fade modal-fullscreen">
+		<div id="modal-gallery"
+			class="modal modal-gallery hide fade modal-fullscreen">
 			<div class="modal-header">
 				<a class="close" data-dismiss="modal">&#215;</a>
 			</div>
@@ -113,24 +118,29 @@
 					<!--  -->
 				</div>
 				<div class="carousel-caption">
-					<a class="modal-title modal-download">
-						<!--  -->
+					<a class="modal-title modal-download"> <!--  -->
 					</a>
 				</div>
-			</div>			
-		</div>		
+			</div>
+		</div>
 		<br />
 		<div id="status">
 			<c:choose>
-				<c:when test="${taxon.status == 'synonym' and taxon.accepted != null}">
+				<c:when
+					test="${taxon.status == 'synonym' and taxon.accepted != null}">
 					<spring:message code="isSynonym" />
-					<c:url var="acceptedUrl" value="/taxon/${taxon.accepted.identifier}" />
-					<a href="${acceptedUrl}">${taxon.accepted.name} ${taxon.accepted.authorship}</a>
+					<c:url var="acceptedUrl"
+						value="/taxon/${taxon.accepted.identifier}" />
+					<a href="${acceptedUrl}">${taxon.accepted.name}
+						${taxon.accepted.authorship}</a>
 				</c:when>
-				<c:when test="${taxon.status == 'illegitimate' and taxon.accepted != null}">
+				<c:when
+					test="${taxon.status == 'illegitimate' and taxon.accepted != null}">
 					<spring:message code="isSynonym" />
-					<c:url var="acceptedUrl" value="/taxon/${taxon.accepted.identifier}" />
-					<a href="${acceptedUrl}">${taxon.accepted.name} ${taxon.accepted.authorship}</a>
+					<c:url var="acceptedUrl"
+						value="/taxon/${taxon.accepted.identifier}" />
+					<a href="${acceptedUrl}">${taxon.accepted.name}
+						${taxon.accepted.authorship}</a>
 				</c:when>
 				<c:when test="${taxon.status == 'unplaced'}">
 					<spring:message code="isUnplaced" />
@@ -199,9 +209,8 @@
 
 								<ul id="distribution-textual" class="paddingTop20">
 									<c:forEach var="region" items="${em:regions(taxon)}">
-										<li id="distribution-list">
-											<spring:message code="${region}" />
-										</li>
+										<li id="distribution-list"><spring:message
+												code="${region}" /></li>
 									</c:forEach>
 								</ul>
 							</div>
@@ -240,14 +249,12 @@
 								</h2>
 								<ul class="unstyled">
 									<c:forEach var="synonym" items="${em:sort(taxon.synonyms)}">
-										<li>
-											<jsp:element name="a">
+										<li><jsp:element name="a">
 												<jsp:attribute name="href">
 													<c:url value="/taxon/${synonym.identifier}" />
 												</jsp:attribute>
 												${synonym.name} ${synonym.authorship}
-											</jsp:element>
-										</li>
+											</jsp:element></li>
 									</c:forEach>
 								</ul>
 							</div>
@@ -262,14 +269,12 @@
 							</h2>
 							<ul>
 								<c:forEach var="source" items="${taxon.sources}">
-									<li>
-										<jsp:element name="a">
+									<li><jsp:element name="a">
 											<jsp:attribute name="href">
 												<c:url value="/source/${source.identifier}" />
 											</jsp:attribute>
 											${source.title}
-										</jsp:element>
-									</li>
+										</jsp:element></li>
 								</c:forEach>
 							</ul>
 						</div>
@@ -284,8 +289,7 @@
 								</h2>
 								<ul>
 									<c:forEach var="reference" items="${bibliography.references}">
-										<li>
-											<a id="${reference.identifier}">${em:citekey(bibliography,reference)}</a>
+										<li><a id="${reference.identifier}">${em:citekey(bibliography,reference)}</a>
 											<c:choose>
 												<c:when test="${not empty reference.citation}">
 													${reference.citation}
@@ -300,8 +304,7 @@
 													<c:if test="${not empty reference.pages}">: ${reference.pages}</c:if>. <c:if
 														test="${not empty reference.publisher}">${reference.publisher}.</c:if>
 												</c:otherwise>
-											</c:choose>
-										</li>
+											</c:choose></li>
 									</c:forEach>
 								</ul>
 							</div>
@@ -311,9 +314,9 @@
 			</div>
 
 			<div id="sidebar" class="span4 sidebar">
-			  <c:if test="${taxon.accepted == null}">
-				<div class="inner">
-					<div id="classificationBox" class="box">
+				<c:if test="${taxon.accepted == null}">
+					<div class="inner">
+						<div id="classificationBox" class="box">
 							<section id="taxonomicTree">
 								<h2>
 									<spring:message code="taxonomicTree" />
@@ -325,7 +328,7 @@
 								</ul>
 							</section>
 						</div>
-				    </div>
+					</div>
 				</c:if>
 			</div>
 		</div>

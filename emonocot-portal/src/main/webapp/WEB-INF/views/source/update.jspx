@@ -8,42 +8,41 @@
 	xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields"
 	xmlns:spring="http://www.springframework.org/tags">
 	<tags:pageheader>
-      <h2 id="page-title">${source.title}</h2>
-    </tags:pageheader>
-	<div class="container">	
+		<h2 id="page-title">${source.title}</h2>
+	</tags:pageheader>
+	<div class="container">
 		<div class="row">
-		  <div class="span12">
-            <tags:info/>            
-		  </div>
-        </div>
-        <div class="row">
-          <div class="span12">
-            <spring:url var="sourceUrl" value="/source/${source.identifier}"/>
-            <a href="${sourceUrl}" class="pull-right"><spring:message code="goToAdminPage"/></a>
-          </div>
-        </div>
-		<div class="row">
-		  <div class="span12">
-		    <div class="inner"><div class="box">
-			<form:create path="/source/${source.identifier}" modelAttribute="source">
-			  <field:hidden field="identifier"/>
-			  <field:input field="title" label="source.title" fieldClass="span6"/>
-			  <field:input field="uri" label="source.uri" fieldClass="span6"/>
-              <field:input field="logoUrl" label="source.logoUrl" fieldClass="span6"/>
- 	          <field:input field="creator" label="source.creator" fieldClass="span6"/>
- 	          <field:input field="creatorEmail" label="source.creatorEmail" fieldClass="span6"/>
- 	          <field:input field="created" label="source.created" fieldClass="span6"/>
- 	          <field:textarea field="description" label="source.description" fieldClass="span6"/>
- 	          <field:input field="publisherName" label="source.publisherName" fieldClass="span6"/>
- 	          <field:input field="publisherEmail" label="source.publisherEmail" fieldClass="span6"/>
- 	          <field:input field="subject" label="source.subject" fieldClass="span6"/>
- 	          <field:input field="source" label="source.source" fieldClass="span6"/>
-			</form:create>
-		  </div>
-		  </div>
-		  </div>
+			<div class="span12">
+				<tags:info/>
+			</div>
 		</div>
-    </div>
-
-	
+		<div class="row">
+			<div class="span12">
+				<spring:url var="sourceUrl" value="/source/${source.identifier}"/>
+				<a href="${sourceUrl}" class="pull-right"><spring:message code="goToAdminPage"/></a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span12">
+				<div class="inner">
+					<div class="box">
+						<form:create path="/source/${source.identifier}" modelAttribute="source">
+							<field:hidden field="identifier"/>
+							<field:input field="title" label="source.title" fieldClass="span6"/>
+							<field:input field="uri" label="source.uri" fieldClass="span6"/>
+							<field:input field="logoUrl" label="source.logoUrl" fieldClass="span6"/>
+							<field:input field="creator" label="source.creator" fieldClass="span6"/>
+							<field:input field="creatorEmail" label="source.creatorEmail" fieldClass="span6"/>
+							<field:input field="created" label="source.created" fieldClass="span6"/>
+							<field:textarea field="description" label="source.description" fieldClass="span6"/>
+							<field:input field="publisherName" label="source.publisherName" fieldClass="span6"/>
+							<field:input field="publisherEmail" label="source.publisherEmail" fieldClass="span6"/>
+							<field:input field="subject" label="source.subject" fieldClass="span6"/>
+							<field:input field="source" label="source.source" fieldClass="span6"/>
+						</form:create>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

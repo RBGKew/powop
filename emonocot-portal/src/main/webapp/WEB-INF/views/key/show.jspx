@@ -6,32 +6,32 @@
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 
 	<tags:pageheader>
-			<table>
-				<tbody>
-					<tr>
-						<td>
-							<c:url value="/css/images/glyphicons/fullsize/glyphicons_044_keys.png" var="keyImageUrl" />
-							<img src="${keyImageUrl}" class="pull-left noPrint header-icon" alt="Key" />
-						</td>
-						<td>
-							<h2 id="page-title">${identificationKey.title}</h2>
-							<c:if test="${not empty identificationKey.creator}">
-								<small><spring:message code="key.creator" /> ${identificationKey.creator}</small>
-							</c:if>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			<div class="row">
-				<button class="btn pull-right" id="reset"><i class="icon-refresh"><!--  --></i><spring:message code="reset.key"/></button>
-			</div>
-		</tags:pageheader>
-		<div class="container">
+		<table>
+			<tbody>
+				<tr>
+					<td>
+						<c:url value="/css/images/glyphicons/fullsize/glyphicons_044_keys.png" var="keyImageUrl" />
+						<img src="${keyImageUrl}" class="pull-left noPrint header-icon" alt="Key" />
+					</td>
+					<td>
+						<h2 id="page-title">${identificationKey.title}</h2>
+						<c:if test="${not empty identificationKey.creator}">
+							<small><spring:message code="key.creator" /> ${identificationKey.creator}</small>
+						</c:if>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="row">
+			<button class="btn pull-right" id="reset"><i class="icon-refresh"><!--  --></i><spring:message code="reset.key"/></button>
+		</div>
+	</tags:pageheader>
+	<div class="container">
 		<div class="row">
 			<div class="span4">
 				<div id="plus">
 					<div class="btn-group">
-					    <c:url var="nextBestImage" value="/css/images/glyphicons/halfsize/glyphicons_009_magic.png"/>
+						<c:url var="nextBestImage" value="/css/images/glyphicons/halfsize/glyphicons_009_magic.png"/>
 						<button class="btn disabled" id="nextBest" title="Next best"><img class="small-icon" src="${nextBestImage}" /> <spring:message code="next.best"/></button>
 						<c:url var="pruneRedundantImage" value="/css/images/glyphicons/halfsize/glyphicons_288_scissors.png"/>
 						<button class="btn" id="prune" title="Prune"><img class="small-icon" src="${pruneRedundantImage}" /> <spring:message code="prune.redundant"/></button>
@@ -39,116 +39,110 @@
 				</div>
 				<br/>
 				<div class="inner">
-				<ul id="selectedCharacters" class="box nav nav-list"><!--  -->
-				</ul>
+					<ul id="selectedCharacters" class="box nav nav-list"><!--  --></ul>
 				</div>
 				<br/>
 				<div class="inner">
-				<ul id="unselectedCharacters" class="box nav nav-list"><!--  -->
-				</ul>
+					<ul id="unselectedCharacters" class="box nav nav-list"><!--  --></ul>
 				</div>
 				<br/>
 			</div>
 			
-			
-			
 			<div class="span8">
-			<div id="viewIcons">
-				<div class="btn-group">
-					<button class="btn" id="simpleView" title="Display title only"><img src=""/><i class="icon-align-justify">&#160;</i></button>
-					&#160;
-					<button class="btn" id="listView" title="Display detailed list"><img src=""/><i class="icon-th-list">&#160;</i></button>
-					&#160;
+				<div id="viewIcons">
+					<div class="btn-group">
+						<button class="btn" id="simpleView" title="Display title only"><img src=""/><i class="icon-align-justify">&#160;</i></button>
+						&#160;
+						<button class="btn" id="listView" title="Display detailed list"><img src=""/><i class="icon-th-list">&#160;</i></button>
+						&#160;
+					</div>
+				</div>
+				<br/>
+				<div class="inner">
+					<div id="matchedTaxa" class="box">
+						<div id="pages" class="span4 pull-right"><!--  --></div>
+							<table class="table">
+								<tbody><!--  --></tbody>
+							</table>
+						</div>
+					</div>
 				</div>
 			</div>
-			<br/>
-			  <div class="inner">
-			    <div id="matchedTaxa" class="box">
-				  <div id="pages" class="span4 pull-right"><!--  --></div>
-				  <table class="table">
-					<tbody><!--  --></tbody>
-				  </table>
-			    </div>
-			  </div>
+			<div id="gallery" class="no-display" data-toggle="modal-gallery" data-target="#modal-gallery"><!--  --></div>
+			<div class="row">
+				<div class="span12">
+					<div class="inner">
+						<div class="box">	
+							<table class="table table-bordered table-condensed" id="key-properties">
+								<tbody>
+									<tr>
+										<th><spring:message code="key.title" /></th>
+										<td>
+											<c:url	value="/taxon/${identificationKey.taxon.identifier}" var="taxonUrl" />
+											<a href="${taxonUrl}">
+												<span class="taxonName">${identificationKey.taxon.name}</span>
+												${identificationKey.taxon.authorship}
+											</a>
+										</td>
+									</tr>
+									<tr>
+										<th><spring:message code="key.description" /></th>
+										<td>${identificationKey.description}</td>
+									</tr>
+									<tr>
+										<th><spring:message code="key.source" /></th>
+										<td>
+											<c:url value="/source/${identificationKey.authority.identifier}" var="keySourceUrl" />
+											<a href="${keySourceUrl}">${identificationKey.authority.identifier}</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<c:url value="/taxon/" var="taxonPath"/>
+			<c:url value="/images/thumbnails/" var="imagePath"/>
+			<c:url value="http://build.e-monocot.org/uat/portal/images/fullsize/" var="fullsizeImagePath"/>
+		
+			<script language="javascript">
+				var data = ${identificationKey.matrix};
+				var key = new Key(data);
+				key.setTaxonPath("${taxonPath}");
+				key.setImagePath("${imagePath}");
+				key.setFullsizeImagePath("${fullsizeImagePath}");
+				$("#reset").click(function(event) {
+					key.reset();
+					key.calculate();
+				});
+				$("#prune").click(function(event) {
+					key.pruneRedundants();
+				});
+				$("#listView").click(function(event) {
+					Key.prototype.setView(Key.ListView);
+					key.calculate();
+				});
+				$("#simpleView").click(function(event) {
+					Key.prototype.setView(Key.SimpleView);
+					key.calculate();
+				});
+				key.setUpdateUI(updateUI);
+				key.calculate();
+			</script>
+		
+			<div id="characterModal" class="modal hide fade">
+				<div class="modal-header">
+					<a class="close" data-dismiss="modal" ><i class="icon-remove"><!--  --></i></a>
+					<h3><!--  --></h3>
+				</div>
+				<div class="modal-body">
+				<!--  -->
+				</div>
+				<div class="modal-footer">
+					<a id="save" href="#" class="btn btn-primary">Save</a>
+					<a href="#" class="btn" data-dismiss="modal" >Cancel</a>
+				</div>
 			</div>
 		</div>
-		<div id="gallery" class="no-display" data-toggle="modal-gallery" data-target="#modal-gallery"><!--  --></div>
-		<div class="row">
-		  <div class="span12">
-		    <div class="inner">
-		      <div class="box">	
-		<table class="table table-bordered table-condensed" id="key-properties">
-			<tbody>
-				<tr>
-					<th><spring:message code="key.title" /></th>
-					<td>
-						<c:url	value="/taxon/${identificationKey.taxon.identifier}" var="taxonUrl" />
-						<a href="${taxonUrl}">
-							<span class="taxonName">${identificationKey.taxon.name}</span>
-							${identificationKey.taxon.authorship}
-						</a>
-					</td>
-				</tr>
-				<tr>
-					<th><spring:message code="key.description" /></th>
-					<td>${identificationKey.description}</td>
-				</tr>
-				<tr>
-					<th><spring:message code="key.source" /></th>
-					<td>
-						<c:url value="/source/${identificationKey.authority.identifier}" var="keySourceUrl" />
-						<a href="${keySourceUrl}">${identificationKey.authority.identifier}</a>
-					</td>
-				</tr>			
-			</tbody>
-		</table>
-			  </div>
-			</div>
-		  </div>
-		</div>
-		<c:url value="/taxon/" var="taxonPath"/>
-		<c:url value="/images/thumbnails/" var="imagePath"/>
-		<c:url value="http://build.e-monocot.org/uat/portal/images/fullsize/" var="fullsizeImagePath"/>
-		
-		<script language="javascript">
-			var data = ${identificationKey.matrix};
-			var key = new Key(data);
-			key.setTaxonPath("${taxonPath}");
-			key.setImagePath("${imagePath}");
-			key.setFullsizeImagePath("${fullsizeImagePath}");
-			$("#reset").click(function(event) {
-				key.reset();
-				key.calculate();
-			});
-			$("#prune").click(function(event) {
-				key.pruneRedundants();
-			});
-			$("#listView").click(function(event) {
-				Key.prototype.setView(Key.ListView);
-				key.calculate();
-			});
-			$("#simpleView").click(function(event) {
-				Key.prototype.setView(Key.SimpleView);
-				key.calculate();
-			});
-			key.setUpdateUI(updateUI);
-			key.calculate();
-		</script>
-		
-		<div id="characterModal" class="modal hide fade">
-			<div class="modal-header">
-				<a class="close" data-dismiss="modal" ><i class="icon-remove"><!--  --></i></a>
-				<h3><!--  --></h3>
-			</div>
-			<div class="modal-body">
-			<!--  -->
-			</div>
-			<div class="modal-footer">
-				<a id="save" href="#" class="btn btn-primary">Save</a>
-				<a href="#" class="btn" data-dismiss="modal" >Cancel</a>
-			</div>
-		</div>
-		
 	</div>
-
-</div>

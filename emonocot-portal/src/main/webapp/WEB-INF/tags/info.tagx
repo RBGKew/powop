@@ -9,8 +9,9 @@
 					<div class="alert alert-success info" data-dismiss="alert">
 						<a class="close" href="#">×</a>
 						<p>
-							<strong><spring:message code="${info.code}"
-									arguments="${info.arguments}" /> </strong>
+							<strong>
+								<spring:message code="${info.code}" arguments="${info.arguments}" />
+							</strong>
 						</p>
 						<jsp:scriptlet>session.removeAttribute("info");</jsp:scriptlet>
 					</div>

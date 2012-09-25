@@ -11,17 +11,19 @@
 	</tags:pageheader>
 	
 	<div class="container">
+		<security:authorize url="hasRole('PERMISSION_WRITE_GROUP')">
+			<div class="row">
+				<c:url var="editGroupUrl" value="/group/${group.identifier}">
+					<c:param name="form">true</c:param>
+				</c:url>
+				<p><a href="${editGroupUrl}" class="btn pull-right"><spring:message code="edit.group" /></a></p>
+			</div>
+		</security:authorize>
+		<br/>
 		<div class="row">
 			<div class="span12">
 				<div class="inner">
 					<div class="box clearfix">
-						<security:authorize url="hasRole('PERMISSION_WRITE_GROUP')">
-							<c:url var="editGroupUrl" value="/group/${group.identifier}">
-								<c:param name="form">true</c:param>
-							</c:url>
-							<a href="${editGroupUrl}" class="btn pull-right"><spring:message code="edit.group" /></a>
-						</security:authorize>
-					
 						<h2>
 							<spring:message code="group.members" />
 						</h2>
@@ -38,36 +40,35 @@
 		</div>
 		<div class="row">
 			<div class="span12">
-					<div class="inner">
-						<div class="box clearfix">
-							<h2>
-								<spring:message code="group.permissions" />
-							</h2>
-							<ul>
-								<c:forEach var="permission" items="${group.permissions}">
-									<li><spring:message code="${permission}" /></li>
-								</c:forEach>
-							</ul>
-						</div>
+				<div class="inner">
+					<div class="box clearfix">
+						<h2>
+							<spring:message code="group.permissions" />
+						</h2>
+						<ul>
+							<c:forEach var="permission" items="${group.permissions}">
+								<li><spring:message code="${permission}" /></li>
+							</c:forEach>
+						</ul>
 					</div>
+				</div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="span12">
-					<div class="inner">
-						<div class="box clearfix">
-							<h2>
-								<spring:message code="group.aces" />
-							</h2>
-							<ul>
-								<c:forEach var="row" items="${aces}">
-									<c:set var="ace" value="${row[1]}" />
-									<c:set var="object" value="${row[0]}" />
-									<li>${object.identifier} <spring:message
-											code="${em:convert(ace.permission)}" /></li>
-								</c:forEach>
-							</ul>
-						</div>
+				<div class="inner">
+					<div class="box clearfix">
+						<h2>
+							<spring:message code="group.aces" />
+						</h2>
+						<ul>
+							<c:forEach var="row" items="${aces}">
+								<c:set var="ace" value="${row[1]}" />
+								<c:set var="object" value="${row[0]}" />
+								<li>${object.identifier} <spring:message code="${em:convert(ace.permission)}" /></li>
+							</c:forEach>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>

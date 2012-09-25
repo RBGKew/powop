@@ -9,34 +9,35 @@
 	xmlns:spring="http://www.springframework.org/tags">
 
 	<tags:pageheader>
-	    <h2 id="page-title">${source.title}	     
-	      <br/><spring:message code="create.job"/>
-	    </h2>	    
-    </tags:pageheader>
-    <div class="container">
+		<h2 id="page-title">${source.title}
+			<br/><spring:message code="create.job"/>
+		</h2>
+	</tags:pageheader>
+	<div class="container">
 		<div class="row">
-		  <div class="span12">
-		    <div class="inner"><div class="box">
-			<form:create path="/source/${source.identifier}/job" modelAttribute="job">
-			  <field:input field="identifier" label="job.identifier" fieldClass="span6"/>			  
-			  <field:input field="uri" label="job.uri" fieldClass="span6"/>
-			  <field:input field="lastHarvested" label="job.lastHarvested" fieldClass="span6"/>
-			  <field:input field="jobId" label="job.jobId" fieldClass="span6"/>
-			  <field:input field="status" label="job.status" fieldClass="span6"/>
-			  <field:input field="startTime" label="job.startTime" fieldClass="span6"/>
-			  <field:input field="duration" label="job.duration" fieldClass="span6"/>	
-			  <field:input field="exitCode" label="job.exitCode" fieldClass="span6"/>	
-			  <field:input field="exitDescription" label="job.exitDescription" fieldClass="span6"/>				  
-			  <field:input field="recordsRead" label="job.recordsRead" fieldClass="span6"/>
-			  <field:input field="readSkip" label="job.readSkip" fieldClass="span6"/>
-			  <field:input field="processSkip" label="job.processSkip" fieldClass="span6"/>
-			  <field:input field="writeSkip" label="job.writeSkip" fieldClass="span6"/>
-			  <field:input field="written" label="job.written" fieldClass="span6"/>
-			  <field:select field="jobType" label="job.jobType" fieldClass="span6" items="${jobTypes}"/>
-			</form:create>
+			<div class="span12">
+				<div class="inner">
+					<div class="box">
+						<form:create path="/source/${source.identifier}/job" modelAttribute="job">
+							<field:input field="identifier" label="job.identifier" fieldClass="span6"/>
+							<field:input field="uri" label="job.uri" fieldClass="span6"/>
+							<field:input field="lastHarvested" label="job.lastHarvested" fieldClass="span6"/>
+							<field:input field="jobId" label="job.jobId" fieldClass="span6"/>
+							<field:input field="status" label="job.status" fieldClass="span6"/>
+							<field:input field="startTime" label="job.startTime" fieldClass="span6"/>
+							<field:input field="duration" label="job.duration" fieldClass="span6"/>	
+							<field:input field="exitCode" label="job.exitCode" fieldClass="span6"/>	
+							<field:input field="exitDescription" label="job.exitDescription" fieldClass="span6"/>
+							<field:input field="recordsRead" label="job.recordsRead" fieldClass="span6"/>
+							<field:input field="readSkip" label="job.readSkip" fieldClass="span6"/>
+							<field:input field="processSkip" label="job.processSkip" fieldClass="span6"/>
+							<field:input field="writeSkip" label="job.writeSkip" fieldClass="span6"/>
+							<field:input field="written" label="job.written" fieldClass="span6"/>
+							<field:select field="jobType" label="job.jobType" fieldClass="span6" items="${jobTypes}"/>
+						</form:create>
+					</div>
+				</div>
 			</div>
-			</div>
-		  </div>
 		</div>
-    </div>
-  </div>
+	</div>
+</div>

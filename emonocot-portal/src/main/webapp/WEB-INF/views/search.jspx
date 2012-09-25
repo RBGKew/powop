@@ -11,46 +11,43 @@
 	<jsp:output omit-xml-declaration="yes" />
 
 	<tags:pageheader>
-			<div class="row">
-				<h2 id="page-title" class="span5">
-					<spring:message code="search.emonocot" />
-				</h2>
+		<div class="row">
+			<h2 id="page-title" class="span5">
+				<spring:message code="search.emonocot" />
+			</h2>
 
-				<script type="text/javascript">
-					$(document).ready(function() {
-						$("input#query").autocomplete({
-							source : "autocomplete",
-							minLength : 2
-						});
+			<script type="text/javascript">
+				$(document).ready(function() {
+					$("input#query").autocomplete({
+						source : "autocomplete",
+						minLength : 2
 					});
-				</script>
-				<c:url var="searchUrl" value="/search" />
-				<form id="search.form" class="pull-right form-search"
-					accept-charset="UTF-8" method="GET" action="${searchUrl}">
-					<input class="search-query span4" placeholder="Search"
-						value="${result.params['query']}" type="text" name="query"
-						id="query" /> <input type="hidden" name="limit"
-						value="${result.pageSize}" /> <input type="hidden" name="start"
-						value="0" />
-					<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-						<input type="hidden" name="facet"
-							value="${selectedFacet}.${result.selectedFacets[selectedFacet]}" />
-					</c:forEach>
-					<input type="hidden" name="sort" value="${result.sort}" />
-					<button class="btn btn-primary">
-						<span class="icon-search icon-white">&#160;</span>
-					</button>
-				</form>
-			</div>
-			<div>
-                <c:url var="resetUrl" value="/search">
-	                <c:param name="query" value="" />
-	            </c:url>
-	            <a id="reset" class="btn pull-right" data-toggle="tab" href="${resetUrl}">
-	                <i class="icon-refresh"><!--  --></i>
-	            <spring:message code="reset" /></a>
-			</div>
-		</tags:pageheader>
+				});
+			</script>
+			<c:url var="searchUrl" value="/search" />
+			<form id="search.form" class="pull-right form-search" accept-charset="UTF-8" method="GET" action="${searchUrl}">
+				<input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="query" />
+				<input type="hidden" name="limit" value="${result.pageSize}" />
+				<input type="hidden" name="start" value="0" />
+				<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+					<input type="hidden" name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}" />
+				</c:forEach>
+				<input type="hidden" name="sort" value="${result.sort}" />
+				<button class="btn btn-primary">
+					<span class="icon-search icon-white">&#160;</span>
+				</button>
+			</form>
+		</div>
+		<div>
+			<c:url var="resetUrl" value="/search">
+				<c:param name="query" value="" />
+			</c:url>
+			<a id="reset" class="btn pull-right" data-toggle="tab" href="${resetUrl}">
+				<i class="icon-refresh"><!--  --></i>
+				<spring:message code="reset" />
+			</a>
+		</div>
+	</tags:pageheader>
 
 
 	<div class="container">
@@ -142,93 +139,95 @@
 				</div>
 			</div>
 			<!-- modal-gallery is the modal dialog used for the image gallery -->
-							<div id="gallery" class="no-display" data-toggle="modal-gallery"
-								data-target="#modal-gallery">
-								<c:forEach var="item" items="${result.records}">
-									<c:choose>
-										<c:when test="${item.className == 'Taxon'}">
-											<c:if test="${not empty item.image}">
-												<c:url var="thumbnail"
-													value="/images/fullsize/${item.image.identifier}.${item.image.format}" />
-												<a href="${thumbnail}" rel="gallery"
-													title="${em:stripXml(item.name)}">${item.name}</a>
-											</c:if>
-										</c:when>
-										<c:when test="${item.className == 'Image'}">
-											<c:url var="thumbnail"
-												value="/images/fullsize/${item.identifier}.${item.format}" />
-											<a href="${thumbnail}" rel="gallery"
-												title="${em:stripXml(item.caption)}">${item.caption}</a>
-										</c:when>
-									</c:choose>
-								</c:forEach>
-							</div>
+			<div id="gallery" class="no-display" data-toggle="modal-gallery" data-target="#modal-gallery">
+				<c:forEach var="item" items="${result.records}">
+					<c:choose>
+						<c:when test="${item.className == 'Taxon'}">
+							<c:if test="${not empty item.image}">
+								<c:url var="fullsize" value="/images/fullsize/${item.image.identifier}.${item.image.format}" />
+								<c:url var="url" value="/taxon/${item.identifier}" /> 
+								<a class="thumbnail" href="${item.image.url}" rel="gallery"
+									title="${em:stripXml(item.name)}" data-link="${url}">
+									<c:url var="thumbnail" value="/images/thumbnails/${item.image.identifier}.${item.image.format}" />
+									<c:url var="url" value="/taxon/${item.identifier}" /> 
+									<img src="${thumbnail}" title="${em:stripXml(item.name)}" />
+								</a>
+							
+							</c:if>
+						</c:when>
+						<c:when test="${item.className == 'Image'}">
+							<c:url var="fullsize" value="/images/fullsize/${item.identifier}.${item.format}" />
+							<c:url var="url" value="/image/${item.identifier}" /> 
+							<a class="thumbnail" href="${item.url}" rel="gallery"
+								title="${em:stripXml(item.caption)}" data-link="${url}">
+								<c:url var="thumbnail" value="/images/thumbnails/${item.identifier}.${item.format}" />
+								<c:url var="url" value="/image/${item.identifier}" /> 
+								<img src="${thumbnail}" title="${em:stripXml(item.caption)}" />
+							</a>
+						</c:when>
+					</c:choose>
+				</c:forEach>
+			</div>
 
-							<div id="modal-gallery"
-								class="modal modal-gallery hide fade modal-fullscreen">
-								<div class="modal-header">
-									<a class="close" data-dismiss="modal">&#215;</a>
-								</div>
-								<div class="modal-body">
-									<div class="modal-image">
-										<!--  -->
-									</div>
-									<div class="carousel-caption">
-										<a class="modal-title">
-											<!--  -->
-										</a>
-									</div>
-								</div>
-								
-							</div>
+			<div id="modal-gallery" class="modal modal-gallery hide fade modal-fullscreen">
+				<div class="modal-header">
+					<a class="close" data-dismiss="modal">&#215;</a>
+				</div>
+				<div class="modal-body">
+					<div class="modal-image">
+						<!--  -->
+					</div>
+					<div class="carousel-caption">
+						<a class="modal-title modal-download">
+						<!--  -->
+						</a>
+					</div>
+				</div>
+			</div>
 
-							<script>
-								/*jslint unparam: true */
-								/*global window, document, $ */
-								$(function() {
-									'use strict';
+			<script>
+				/*jslint unparam: true */
+				/*global window, document, $ */
+				$(function() {
+					'use strict';
 
-									// Start slideshow button:
-									$('#start-slideshow')
-											.button()
-											.click(
-													function() {
-														var options = $(this)
-																.data(), modal = $(options.target), data = modal
-																.data('modal');
-														if (data) {
-															jQuery
-																	.extend(
-																			data.options,
-																			options);
-														} else {
-															options = jQuery
-																	.extend(
-																			modal
-																					.data(),
-																			options);
-														}
-														modal
-																.find(
-																		'.modal-slideshow')
-																.find('i')
-																.removeClass(
-																		'icon-play')
-																.addClass(
-																		'icon-pause');
-														modal.modal(options);
-													});
+					// Start slideshow button:
+					$('#start-slideshow')
+						.button()
+						.click(
+							function() {
+								var options = $(this)
+								.data(), modal = $(options.target), data = modal
+								.data('modal');
+								if (data) {
+									jQuery
+									.extend(
+										data.options,
+									options);
+								} else {
+									options = jQuery
+									.extend(
+										modal
+										.data(),
+										options);
+								}
+								modal
+								.find('.modal-slideshow')
+								.find('i')
+								.removeClass('icon-play')
+								.addClass('icon-pause');
+								modal.modal(options);
+							});
+					});
+					</script>
 
-								});
-							</script>
-
-							<script>
-								$(function() {
-									$("a[rel=tooltip]").tooltip({
-										live : true
-									});
-								});
-							</script>
+					<script>
+						$(function() {
+							$("a[rel=tooltip]").tooltip({
+								live : true
+							});
+						});
+					</script>
 		</div>
 	</div>
 </div>
