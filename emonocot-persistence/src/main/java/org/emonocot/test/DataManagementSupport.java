@@ -129,17 +129,19 @@ public abstract class DataManagementSupport {
      * @param type Set the annotation type
      * @param recordType Set the record type
      * @param code Set the annotation code
+     * @param source TODO
      * @return an annotation
     */
     public final Annotation createAnnotation(final Long jobId,
             final Base object, final AnnotationType type,
-            final RecordType recordType, final AnnotationCode code) {
+            final RecordType recordType, final AnnotationCode code, Source source) {
        Annotation annotation = new Annotation();
        annotation.setAnnotatedObj(object);
        annotation.setJobId(jobId);
        annotation.setType(type);
        annotation.setRecordType(recordType);
        annotation.setCode(code);
+       annotation.setAuthority(source);
        return annotation;
    }
 

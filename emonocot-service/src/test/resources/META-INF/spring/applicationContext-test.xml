@@ -23,18 +23,7 @@
 			</list>
 		</property>
 		<property name="testDataLocation" value="classpath:/META-INF/database/test_data.sql"/>
-	</bean>
-
-	<bean name="connection" class="org.emonocot.persistence.olap.OlapConnectionFactory"
-		depends-on="dataSource">
-		<property name="dataSource">
-			<bean class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
-				<property name="driverClass" value="mondrian.olap4j.MondrianOlap4jDriver" />
-				<property name="url"
-					value="jdbc:mondrian:Jdbc=jdbc:h2:mem:testdb;Catalog=target/test-classes/META-INF/olap/olap.xml" />
-			</bean>
-		</property>
-	</bean>
+	</bean>	
 
 	<bean name="jdbcTemplate"
 		class="org.springframework.jdbc.core.simple.SimpleJdbcTemplate">

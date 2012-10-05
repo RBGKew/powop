@@ -21,21 +21,6 @@ public interface JobExecutionDao {
     List<JobExecution> getJobExecutions(String authorityName, Integer pageSize,
             Integer pageNumber);
 
-    /**
-     *
-     * @param jobExecutionId Set the job execution identifier
-     * @return a result object
-     */
-    List<OlapResult> countObjects(Long jobExecutionId);
-
-    /**
-     *
-     * @param jobExecutionId Set the job execution identifier
-     * @param objectType set the object type
-     * @return a result object
-     */
-    List<OlapResult> countErrors(Long jobExecutionId, String objectType);
-
    /**
     *
     * @param identifier the identifier of the job

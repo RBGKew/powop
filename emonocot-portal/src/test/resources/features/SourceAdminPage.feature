@@ -61,14 +61,15 @@ Scenario: Check SourcePage
   Then there should be 1 jobs listed
   When I select the 1st job
   Then the summary results should be as follows:
-  | label | value |
-  | Taxa  | 3     |
-  When I select the job category "Taxa"
+  | category | subcategory | details                                                                          | record                         |
+  | Warn     | BadField    | Could not find identifier for relationship of taxon urn:kew.org:wcs:taxon:224934 |                                |
+  | Info     | Update      |                                                                                  | Acorus                         |
+  | Info     | Create      |                                                                                  | Acorus calamus                 |
+  | Error    | BadRecord   |                                                                                  | Acorus calamus var. angustatus |
+  When I restrict the job "ISSUE_TYPE" by selecting "Error"
   Then the summary results should be as follows:
-  | label | value |
-  | Error | 1     |
-  | Info  | 2     |
-  | Warn  | 1     |
+  | category | subcategory | details | record                         |
+  | Error    | BadRecord   |         | Acorus calamus var. angustatus |
 
 Scenario: Create Source
   As an administrator, in order to improve eMonocot, I want to be able

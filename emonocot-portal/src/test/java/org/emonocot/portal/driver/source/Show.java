@@ -68,10 +68,10 @@ public class Show extends PageObject {
      *            Set the job
      * @return the source job page
      */
-    public final JobDetails selectJob(final int job) {
+    public final JobOutput selectJob(final int job) {
         WebElement jobs = getWebDriver().findElement(By.id("jobs"));
         List<WebElement> list = jobs.findElements(By.xpath("tr/td[10]/a"));
         return openAs(list.get(job - 1).getAttribute("href"),
-                JobDetails.class);
+                JobOutput.class);
     }
 }

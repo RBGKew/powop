@@ -173,7 +173,7 @@ public class Validator implements ItemProcessor<Taxon, Taxon>,
 		annotation.setRecordType(recordType);
 		annotation.setValue(path);
 		annotation.setType(AnnotationType.Warn);
-		annotation.setSource(getSource());
+		annotation.setAuthority(getSource());
 		annotation.setText(violation.getMessage());
 
 		if (violation.getConstraintDescriptor().getAnnotation()

@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import org.emonocot.api.AnnotationService;
 import org.emonocot.api.FacetName;
 import org.emonocot.api.JobService;
+import org.emonocot.api.Sorting;
 import org.emonocot.api.SourceService;
 import org.emonocot.api.job.JobExecutionException;
 import org.emonocot.api.job.JobExecutionInfo;
@@ -22,7 +23,7 @@ import org.emonocot.model.job.JobType;
 import org.emonocot.model.pager.Page;
 import org.emonocot.model.source.Source;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
-import org.emonocot.service.JobDataService;
+import org.emonocot.portal.format.annotation.SortingFormat;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.slf4j.Logger;
@@ -73,13 +74,8 @@ public class SourceController extends GenericController<Source, SourceService> {
 	private JobLauncher jobLauncher;
 
 	/**
-    *
-    */
-	private JobDataService jobDataService;
-
-	/**
-   *
-   */
+     *
+     */
 	private AnnotationService annotationService;
 
 	/**
@@ -120,16 +116,6 @@ public class SourceController extends GenericController<Source, SourceService> {
    public final void setAnnotationService(
            final AnnotationService newAnnotationService) {
        this.annotationService = newAnnotationService;
-   }
-
-   /**
-    *
-    * @param newJobDataService
-    *            Set the job service
-    */
-   @Autowired
-   public final void setJobDataService(final JobDataService newJobDataService) {
-       this.jobDataService = newJobDataService;
    }
 
 	/**
@@ -618,35 +604,6 @@ public class SourceController extends GenericController<Source, SourceService> {
 	/**
 	 * @param identifier
 	 *            Set the identifier of the source
-	 * @param jobId
-	 *            set the job Id
-	 * @param model
-	 *            Set the model
-	 * @return the view name
-	 */
-	@RequestMapping(value = "/{identifier}/job/{jobId}", method = RequestMethod.GET, params = "output")
-	public final String output(
-			@PathVariable final String identifier,
-			@PathVariable final Long jobId,
-			@RequestParam(value = "recordType", required = false) final String recordType,
-			final Model model) {
-		model.addAttribute(getService().load(identifier));
-		model.addAttribute("job", jobDataService.find(jobId));
-
-		if (recordType == null) {
-			model.addAttribute("results", jobDataService.countObjects(jobId));
-			return "source/job/output";
-		} else {
-			model.addAttribute("recordType", recordType);
-			model.addAttribute("results",
-					jobDataService.countErrors(jobId, recordType));
-			return "source/job/outputDetails";
-		}
-	}
-
-	/**
-	 * @param identifier
-	 *            Set the identifier of the source
 	 * @param query
 	 *            Set the query
 	 * @param jobId
@@ -661,17 +618,18 @@ public class SourceController extends GenericController<Source, SourceService> {
 	 *            Set the model
 	 * @return A model and view containing a source
 	 */
-	@RequestMapping(value = "/{identifier}/job/{jobId}", method = RequestMethod.GET, params = "details")
-	public final String details(
+	@RequestMapping(value = "/{identifier}/job/{jobId}/output", method = RequestMethod.GET)
+	public final String search(
 			@PathVariable final String identifier,
 			@PathVariable final Long jobId,
 			@RequestParam(value = "query", required = false) final String query,
-			@RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
-			@RequestParam(value = "limit", required = false, defaultValue = "10") final Integer limit,
-			@RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
-			final Model model) {
+		    @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+		    @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
+		    @RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
+		    @RequestParam(value = "sort", required = false) @SortingFormat final Sorting sort,
+		    @RequestParam(value = "view", required = false) String view,
+		    final Model model) {
 		model.addAttribute(getService().load(identifier));
-		model.addAttribute("job", jobDataService.find(jobId));
 		Map<FacetName, String> selectedFacets = new HashMap<FacetName, String>();
 		if (facets != null && !facets.isEmpty()) {
 			for (FacetRequest facetRequest : facets) {
@@ -686,10 +644,9 @@ public class SourceController extends GenericController<Source, SourceService> {
 						FacetName.JOB_INSTANCE }, selectedFacets, null,
 				"annotated-obj");
 		result.putParam("query", query);
-		result.putParam("details",true);
 		model.addAttribute("jobId",jobId);
 		model.addAttribute("result", result);
 
-		return "source/job/details";
+		return "source/job/output";
 	}
 }

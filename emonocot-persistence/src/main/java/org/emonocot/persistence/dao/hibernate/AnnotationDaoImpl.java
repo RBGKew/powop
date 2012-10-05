@@ -81,6 +81,13 @@ public class AnnotationDaoImpl extends SearchableDaoImpl<Annotation> implements
                     .includeZeroCounts(true).createFacetingRequest();
             facetManager.enableFaceting(facetingRequest);
             break;
+        case AUTHORITY:
+            facetingRequest = facetContext.name(facetName.name())
+                    .onField("authority.identifier").discrete()
+                    .orderedBy(FacetSortOrder.FIELD_VALUE)
+                    .includeZeroCounts(false).createFacetingRequest();
+            facetManager.enableFaceting(facetingRequest);
+            break;
         default:
             break;
         }
@@ -101,6 +108,7 @@ public class AnnotationDaoImpl extends SearchableDaoImpl<Annotation> implements
        case ISSUE_TYPE:
        case ERROR_CODE:
        case JOB_INSTANCE:
+       case AUTHORITY:
            return doSelectFacet(facetName, facetManager, selectedFacet);
        default:
            return false;

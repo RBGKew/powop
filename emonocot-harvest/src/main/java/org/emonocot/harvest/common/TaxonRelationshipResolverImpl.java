@@ -87,7 +87,7 @@ public class TaxonRelationshipResolverImpl extends AuthorityAware
                         annotation.setCode(AnnotationCode.Create);
                         annotation.setRecordType(RecordType.Taxon);
                         annotation.setType(AnnotationType.Info);
-                        annotation.setSource(getSource());
+                        annotation.setAuthority(getSource());
                         taxon.getAnnotations().add(annotation);
                         taxon.getSources().add(getSource());
                         taxon.setAuthority(getSource());

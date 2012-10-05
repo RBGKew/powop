@@ -10,18 +10,28 @@ public class SummaryRow {
     /**
      *
      */
-    public String label;
+    public String category;
 
     /**
      *
      */
-    public String value;
+    public String subcategory;
+    
+    /**
+     *
+     */
+    public String details;
+    
+    /**
+     *
+     */
+    public String record;
 
     /**
      *
      * @return the object as an array
      */
     public final Object[] toArray() {
-        return new String[] {this.label, this.value};
+        return new String[] {this.category, this.subcategory, this.details, this.record};
     }
 }

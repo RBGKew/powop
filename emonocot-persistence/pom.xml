@@ -53,16 +53,7 @@
 	<dependency>
       <groupId>commons-beanutils</groupId>
 	  <artifactId>commons-beanutils</artifactId>
-	</dependency>
-    <dependency>
-      <groupId>pentaho</groupId>
-      <artifactId>mondrian</artifactId>
-    </dependency>
-    <!-- Mondrian references log4j directly -->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>log4j-over-slf4j</artifactId>
-    </dependency>
+	</dependency>    
     <dependency>
       <groupId>org.olap4j</groupId>
       <artifactId>olap4j</artifactId>

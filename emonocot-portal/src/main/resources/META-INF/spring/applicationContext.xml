@@ -102,15 +102,6 @@
 		<property name="annotatedPackages" value="org.emonocot.model.common"/>
 	</bean>
 
-	<bean name="connection" class="org.emonocot.persistence.olap.OlapConnectionFactory">
-		<property name="dataSource">
-			<bean class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
-				<property name="driverClass" value="mondrian.olap4j.MondrianOlap4jDriver" />
-				<property name="url" value="${mondrian.url}" />
-			</bean>
-		</property>
-	</bean>
-
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="${jdbc.driver.classname}" />

@@ -36,6 +36,7 @@ import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.FieldBridge;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
 import org.hibernate.search.annotations.Parameter;
 import org.joda.time.DateTime;
 
@@ -76,7 +77,7 @@ public class Annotation extends Base {
     /**
      *
      */
-    private Source source;
+    private Source authority;
 
     /**
      *
@@ -135,16 +136,17 @@ public class Annotation extends Base {
      */
     @JsonSerialize(using = SourceSerializer.class)
     @ManyToOne(fetch = FetchType.LAZY)
-    public Source getSource() {
-        return source;
+    @IndexedEmbedded
+    public Source getAuthority() {
+        return authority;
     }
 
     /**
      * @param source the source to set
      */
     @JsonDeserialize(using = SourceDeserializer.class)
-    public void setSource(Source source) {
-        this.source = source;
+    public void setAuthority(Source source) {
+        this.authority = source;
     }
 
     /**

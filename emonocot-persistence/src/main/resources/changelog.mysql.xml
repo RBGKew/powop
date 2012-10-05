@@ -2299,4 +2299,8 @@
         <comment>N.B. http://geocommons.com/overlays/33578 data must be loaded into `gis`.`place` table</comment>
         <sql>UPDATE gis.place g INNER JOIN Place p ON g.fipsCode = p.fipsCode SET p.mapFeatureId = g.OGR_FID</sql>
     </changeSet> -->
+    <changeSet id="2012-10-05_01" author="ben">
+      <comment>Refactored Job so that an arbitrary number of parameters can be associated with it</comment>
+      <renameColumn tableName="Annotation" oldColumnName="source_id" newColumnName="authority_id" columnDataType="bigint"/>
+    </changeSet>
 </databaseChangeLog>

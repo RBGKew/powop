@@ -103,7 +103,7 @@ public class AuthorityAware implements StepExecutionListener {
        annotation.setJobId(getStepExecution().getJobExecutionId());
        annotation.setCode(code);
        annotation.setRecordType(recordType);
-       annotation.setSource(getSource());
+       annotation.setAuthority(getSource());
        return annotation;
    }
 }

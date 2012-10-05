@@ -36,6 +36,10 @@
           <version>${project.version}</version><!--$NO-MVN-MAN-VER$-->
           <scope>test</scope>
         </dependency>
+        <dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>

@@ -3,7 +3,7 @@ package org.emonocot.portal.driver;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.emonocot.portal.driver.source.JobDetails;
+import org.emonocot.portal.driver.source.JobOutput;
 import org.emonocot.portal.driver.source.JobList;
 import org.emonocot.test.TestDataManager;
 import org.openqa.selenium.WebDriver;
@@ -194,10 +194,10 @@ public class Portal extends PageObject {
      * @param job Set the job
      * @return a source job page
      */
-    public final JobDetails getSourceJobPage(final String source,
+    public final JobOutput getSourceJobPage(final String source,
             final String job) {
         return openAs(getBaseUri() + "source/" + source + "/job/" + job,
-                JobDetails.class);
+                JobOutput.class);
     }
 
     /**

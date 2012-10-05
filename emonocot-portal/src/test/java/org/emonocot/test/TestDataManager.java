@@ -752,7 +752,7 @@ public class TestDataManager {
         if (source != null && source.length() > 0) {
             Source s = new Source();
             s.setIdentifier(source);
-            annotation.setSource(s);
+            annotation.setAuthority(s);
         }
         if (object != null && object.length() > 0) {
             Taxon t = new Taxon();

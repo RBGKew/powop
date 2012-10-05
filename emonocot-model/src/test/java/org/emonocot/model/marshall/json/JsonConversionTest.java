@@ -390,7 +390,7 @@ public class JsonConversionTest {
         EasyMock.expect(taxonService.find(EasyMock.eq("testIdentifier")))
                 .andReturn(taxon);
         EasyMock.replay(taxonService);
-        Annotation annotation = objectMapper.readValue("{\"value\":\"wibble\",\"id\":null,\"type\":null,\"source\":null,\"code\":\"Absent\",\"text\":\"wibble\",\"jobId\":null,\"annotatedObj\":\"testIdentifier\",\"recordType\":\"Taxon\",\"dateTime\":1321973454966,\"identifier\":\"1\"}", Annotation.class);
+        Annotation annotation = objectMapper.readValue("{\"value\":\"wibble\",\"id\":null,\"type\":null,\"authority\":null,\"code\":\"Absent\",\"text\":\"wibble\",\"jobId\":null,\"annotatedObj\":\"testIdentifier\",\"recordType\":\"Taxon\",\"dateTime\":1321973454966,\"identifier\":\"1\"}", Annotation.class);
         EasyMock.verify(taxonService);
 
         assertNotNull(annotation.getAnnotatedObj());

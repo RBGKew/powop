@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.emonocot.portal.driver.*;
-import org.emonocot.portal.driver.source.JobDetails;
+import org.emonocot.portal.driver.source.JobOutput;
 import org.emonocot.portal.rows.AccessControlRow;
 import org.emonocot.portal.rows.GroupRow;
 import org.emonocot.portal.rows.JobRow;
@@ -399,10 +399,10 @@ public class StepDefinitions {
      * @param category
      *            Set the category
      */
-    @When("^I select the job category \"([^\"]*)\"$")
-    public final void iSelectTheJobCategory(final String category) {
-        currentPage = ((org.emonocot.portal.driver.source.JobDetails) currentPage)
-                .selectCategory(category);
+    @When("^I restrict the job \"([^\"]*)\" by selecting \"([^\"]*)\"$")
+    public final void iSelectTheJobCategory(final String facetName, final String facetValue) {
+        currentPage = ((org.emonocot.portal.driver.source.JobOutput) currentPage)
+                .selectFacet(facetName, facetValue);
     }
 
     /**
@@ -438,10 +438,10 @@ public class StepDefinitions {
     @Then("^the summary results should be as follows:$")
     public final void theSummaryResultsShouldBeAsFollows(
             final List<SummaryRow> results) {
-        int actualNumberOfResults = (int) ((JobDetails) currentPage)
+        int actualNumberOfResults = (int) ((JobOutput) currentPage)
                 .getResultNumber();
         assertEquals(results.size(), actualNumberOfResults);
-        List<String[]> actualResults = ((JobDetails) currentPage).getResults();
+        List<String[]> actualResults = ((JobOutput) currentPage).getResults();
         for (int i = 0; i < actualNumberOfResults; i++) {
             assertArrayEquals(actualResults.get(i), results.get(i).toArray());
         }
