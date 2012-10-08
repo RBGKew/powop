@@ -79,6 +79,11 @@
         <function-signature>java.util.List sortItems()</function-signature>
     </function>
     <function>
+        <name>annotationSortItems</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.util.List annotationSortItems()</function-signature>
+    </function>
+    <function>
         <name>sort</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>java.util.List sort(java.util.Collection)</function-signature>

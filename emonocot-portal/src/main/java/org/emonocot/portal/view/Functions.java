@@ -333,6 +333,20 @@ public final class Functions {
         sortItems.add(new Sorting(null));
         return sortItems;
     }
+    
+    /**
+    *
+    * @return a list of sorting items
+    */
+   public static List<Sorting> annotationSortItems() {
+       List<Sorting> sortItems = new ArrayList<Sorting>();
+       sortItems.add(new Sorting("type"));
+       sortItems.add(new Sorting("code"));
+       sortItems.add(new Sorting("recordType"));
+       sortItems.add(new Sorting("created", SortDirection.REVERSE));
+       sortItems.add(new Sorting(null));
+       return sortItems;
+   }
 
     /**
      *
