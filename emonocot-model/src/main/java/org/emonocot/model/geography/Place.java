@@ -94,7 +94,7 @@ public class Place extends SearchableObject {
     /**
      * @param id the id to set
      */
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -109,7 +109,7 @@ public class Place extends SearchableObject {
 	/**
 	 * @param name the name to set
 	 */
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -123,7 +123,7 @@ public class Place extends SearchableObject {
 	/**
 	 * @param fipsCode the fipsCode to set
 	 */
-	public void setFipsCode(String fipsCode) {
+	public void setFipsCode(final String fipsCode) {
 		this.fipsCode = fipsCode;
 	}
 
@@ -137,7 +137,7 @@ public class Place extends SearchableObject {
 	/**
 	 * @param mapFeatureId the mapFeatureId to set
 	 */
-	public void setMapFeatureId(Long mapFeatureId) {
+	public void setMapFeatureId(final Long mapFeatureId) {
 		this.mapFeatureId = mapFeatureId;
 	}
 
