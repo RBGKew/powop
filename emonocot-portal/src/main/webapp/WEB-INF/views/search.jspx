@@ -52,7 +52,7 @@
 
 	<div class="container">
 		<jsp:useBean id="result" scope="request"
-			type="org.emonocot.model.pager.Page&lt;org.emonocot.model.taxon.Taxon&gt;" />
+			type="org.emonocot.pager.Page<org.emonocot.model.Taxon>" />
 		<div class="row">
 			<div id="facets" class="span3 noPrint">
 				<c:forEach var="facetName" items="${result.facetNames}">

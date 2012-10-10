@@ -1,6 +1,6 @@
 package org.emonocot.portal.remoting;
 
-import org.emonocot.model.user.User;
+import org.emonocot.model.auth.User;
 import org.emonocot.persistence.dao.UserDao;
 import org.springframework.stereotype.Repository;
 

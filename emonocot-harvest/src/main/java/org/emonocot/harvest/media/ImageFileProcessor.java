@@ -4,7 +4,7 @@ import java.io.File;
 
 import org.apache.sanselan.ImageInfo;
 import org.apache.sanselan.Sanselan;
-import org.emonocot.model.media.Image;
+import org.emonocot.model.Image;
 import org.emonocot.ws.GetResourceClient;
 import org.im4java.core.ConvertCmd;
 import org.im4java.core.IMOperation;
@@ -98,9 +98,9 @@ public class ImageFileProcessor implements ItemProcessor<Image, Image> {
      */
     public final Image process(final Image image) throws Exception {
         String imageFileName = imageDirectory + File.separatorChar
-                + image.getIdentifier() + '.' + image.getFormat();
+                + image.getId() + '.' + image.getFormat();
         String thumbnailFileName = thumbnailDirectory + File.separatorChar
-                + image.getIdentifier() + '.' + image.getFormat();
+                + image.getId() + '.' + image.getFormat();
         File file = new File(imageFileName);
         logger.debug("Image File " + imageFileName);
         if (file.exists()) {
@@ -108,7 +108,7 @@ public class ImageFileProcessor implements ItemProcessor<Image, Image> {
         } else {
             try {
                 getResourceClient.getBinaryResource("",
-                        image.getUrl(), "1", imageFileName);
+                        image.getIdentifier(), "1", imageFileName);
                 file = new File(imageFileName);
                 if (!file.exists()) {
                     logger.error("File does not exist in image directory, skipping");

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.emonocot.model.common.Base;
+import org.emonocot.model.Base;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.persistence.dao.Dao;
 import org.hibernate.Criteria;

@@ -143,7 +143,7 @@ public class DeletingTaxaIntegrationTest {
                 taxonService.find("urn:kew.org:wcs:taxon:467051"));
         assertEquals("urn:kew.org:wcs:taxon:71680 should have one child taxon",
                 1, taxonService.find("urn:kew.org:wcs:taxon:71680")
-                        .getChildren().size());
+                        .getChildNameUsages().size());
 
         Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
         parameters.put("authority.name", new JobParameter("test"));
@@ -182,7 +182,7 @@ public class DeletingTaxaIntegrationTest {
                 taxonService.find("urn:kew.org:wcs:taxon:67589"));
         assertEquals("urn:kew.org:wcs:taxon:71680 should have one child taxon",
                 1, taxonService.find("urn:kew.org:wcs:taxon:71680")
-                        .getChildren().size());
+                        .getChildNameUsages().size());
 
     }
 }

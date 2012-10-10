@@ -1,6 +1,6 @@
 package org.emonocot.persistence.dao;
 
-import org.emonocot.model.media.Image;
+import org.emonocot.model.Image;
 
 /**
  *

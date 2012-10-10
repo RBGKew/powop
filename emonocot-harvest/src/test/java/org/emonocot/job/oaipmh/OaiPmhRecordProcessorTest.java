@@ -14,13 +14,10 @@ import org.emonocot.api.TaxonService;
 import org.emonocot.harvest.common.TaxonRelationshipResolver;
 import org.emonocot.harvest.common.TaxonRelationshipResolverImpl;
 import org.emonocot.job.oaipmh.ProcessorImpl;
+import org.emonocot.model.Source;
+import org.emonocot.model.Taxon;
 import org.emonocot.model.geography.GeographyConverter;
-import org.emonocot.model.reference.ReferenceTypeConverter;
-import org.emonocot.model.source.Source;
-import org.emonocot.model.taxon.RankConverter;
-import org.emonocot.model.taxon.Taxon;
-import org.emonocot.model.taxon.TaxonomicStatus;
-import org.emonocot.model.taxon.TaxonomicStatusConverter;
+import org.gbif.ecat.voc.TaxonomicStatus;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -90,8 +87,6 @@ public class OaiPmhRecordProcessorTest {
         Set<Converter> converters = new HashSet<Converter>();
         converters.add(new TaxonomicStatusConverter());
         converters.add(new GeographyConverter());
-        converters.add(new ReferenceTypeConverter());
-        converters.add(new RankConverter());
         ConversionServiceFactoryBean factoryBean = new ConversionServiceFactoryBean();
         factoryBean.setConverters(converters);
         factoryBean.afterPropertiesSet();
@@ -136,7 +131,7 @@ public class OaiPmhRecordProcessorTest {
         EasyMock.replay(taxonService, sourceService);
         Taxon t = processor.process(record);
         assertNotNull("Taxon should not be null", t);
-        assertEquals("Taxonomic Status should be set correctly", t.getStatus(), TaxonomicStatus.synonym);
+        assertEquals("Taxonomic Status should be set correctly", t.getTaxonomicStatus(), TaxonomicStatus.Synonym);
     }
 
 }

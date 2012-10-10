@@ -2,7 +2,7 @@ package org.emonocot.api;
 
 import java.util.List;
 
-import org.emonocot.model.job.Job;
+import org.emonocot.model.Job;
 
 /**
  *

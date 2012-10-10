@@ -7,12 +7,12 @@ import java.util.UUID;
 
 import org.emonocot.api.ReferenceService;
 import org.emonocot.job.dwc.DarwinCoreValidator;
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.AnnotationCode;
-import org.emonocot.model.common.AnnotationType;
-import org.emonocot.model.common.RecordType;
-import org.emonocot.model.reference.Reference;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Annotation;
+import org.emonocot.model.Reference;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.AnnotationType;
+import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
@@ -76,7 +76,7 @@ public class Validator extends DarwinCoreValidator<Reference>
                         RecordType.Reference, AnnotationCode.Create,
                         AnnotationType.Info);
                 reference.getAnnotations().add(annotation);
-                logger.info("Adding reference " + reference.getSource());
+                logger.info("Adding reference " + reference.getBibliographicCitation());
                 return reference;
             } else {
                 // We've seen this reference before, but not in this chunk
@@ -94,7 +94,7 @@ public class Validator extends DarwinCoreValidator<Reference>
                     } else {
                         // Add the taxon to the list of taxa
                         bindReference(persistedReference);
-                        logger.info("Updating reference " + reference.getSource());
+                        logger.info("Updating reference " + reference.getBibliographicCitation());
                         persistedReference.getTaxa().add(taxon);
                         for (Taxon t : reference.getTaxa()) {
                             t.getReferences().add(persistedReference);
@@ -116,19 +116,15 @@ public class Validator extends DarwinCoreValidator<Reference>
                                break;
                            }
                     }
-                    persistedReference.setNumber(reference.getNumber());
-                    persistedReference.setAuthor(reference.getAuthor());
-                    persistedReference.setCitation(reference.getCitation());
+                    persistedReference.setCreator(reference.getCreator());
+                    persistedReference.setBibliographicCitation(reference.getBibliographicCitation());
                     persistedReference.setCreated(reference.getCreated());
-                    persistedReference.setDate(reference.getDatePublished());
-                    persistedReference.setKeywords(reference.getKeywords());
-                    persistedReference.setPages(reference.getPages());
-                    persistedReference.setPublishedIn(reference.getPublishedIn());
-                    persistedReference.setReferenceAbstract(reference.getReferenceAbstract());
+                    persistedReference.setDate(reference.getDate());
+                    persistedReference.setSubject(reference.getSubject());
+                    persistedReference.setSource(reference.getSource());
+                    persistedReference.setDescription(reference.getDescription());
                     persistedReference.setTitle(reference.getTitle());
                     persistedReference.setType(reference.getType());
-                    persistedReference.setVolume(reference.getVolume());
-                    persistedReference.setPublishedInAuthor(reference.getPublishedInAuthor());
 
                     persistedReference.getTaxa().clear();
                     for (Taxon t : reference.getTaxa()) {
@@ -138,7 +134,7 @@ public class Validator extends DarwinCoreValidator<Reference>
                         }
                     }
                     bindReference(persistedReference);
-                    logger.info("Overwriting reference " + persistedReference.getSource());
+                    logger.info("Overwriting reference " + persistedReference.getBibliographicCitation());
                     return persistedReference;
 
                 }
@@ -158,7 +154,7 @@ public class Validator extends DarwinCoreValidator<Reference>
                 boundReference.getTaxa().add(taxon);
             }
             // We've already returned this object once
-            logger.info("Skipping reference " + reference.getSource());
+            logger.info("Skipping reference " + reference.getBibliographicCitation());
             return null;
         }
     }
@@ -171,8 +167,8 @@ public class Validator extends DarwinCoreValidator<Reference>
         if (reference.getIdentifier() != null) {
             boundReferences.put(reference.getIdentifier(), reference);
         }
-        if (reference.getSource() != null) {
-            boundReferences.put(reference.getSource(), reference);
+        if (reference.getBibliographicCitation() != null) {
+            boundReferences.put(reference.getBibliographicCitation(), reference);
         }
     }
 
@@ -184,8 +180,8 @@ public class Validator extends DarwinCoreValidator<Reference>
     private Reference retrieveBoundReference(final Reference reference) {
         if (reference.getIdentifier() != null) {
             return referenceService.find(reference.getIdentifier());
-        } else if (reference.getSource() != null) {
-            return referenceService.findBySource(reference.getSource());
+        } else if (reference.getBibliographicCitation() != null) {
+            return referenceService.findBySource(reference.getBibliographicCitation());
         }
         return null;
     }
@@ -198,8 +194,8 @@ public class Validator extends DarwinCoreValidator<Reference>
     private Reference lookupBoundReference(final Reference reference) {
         if (reference.getIdentifier() != null) {
             return boundReferences.get(reference.getIdentifier());
-        } else if (reference.getSource() != null) {
-            return boundReferences.get(reference.getSource());
+        } else if (reference.getBibliographicCitation() != null) {
+            return boundReferences.get(reference.getBibliographicCitation());
         }
         return null;
     }

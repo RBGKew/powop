@@ -16,7 +16,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import org.emonocot.api.SourceService;
-import org.emonocot.model.source.Source;
+import org.emonocot.model.Source;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
@@ -193,9 +193,9 @@ public class ArchiveMetadataReader implements StepExecutionListener {
     private void updateSourceMetadata(final BasicMetadata basicMetadata) {
         boolean update = false;
         Source source = sourceService.find(sourceName);
-        if (!nullSafeEquals(source.getSource(),
+        if (!nullSafeEquals(source.getBibliographicCitation(),
                 basicMetadata.getCitationString())) {
-            source.setSource(basicMetadata.getCitationString());
+            source.setBibliographicCitation(basicMetadata.getCitationString());
             update = true;
         }
         if (!nullSafeEquals(source.getCreatorEmail(),

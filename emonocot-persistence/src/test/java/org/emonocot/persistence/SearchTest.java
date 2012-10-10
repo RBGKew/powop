@@ -10,15 +10,15 @@ import java.util.Map;
 import org.emonocot.api.FacetName;
 import org.emonocot.api.Sorting;
 import org.emonocot.api.Sorting.SortDirection;
-import org.emonocot.model.common.SearchableObject;
-import org.emonocot.model.description.Feature;
+import org.emonocot.model.SearchableObject;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.Country;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.Region;
 import org.emonocot.model.hibernate.DistributionBridge;
-import org.emonocot.model.pager.Page;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.pager.Page;
 import org.hibernate.search.query.facet.Facet;
 import org.junit.After;
 import org.junit.Before;
@@ -65,7 +65,7 @@ public class SearchTest extends AbstractPersistenceTest {
     public final void setUpTestData() {
         Taxon taxon1 = createTaxon("Aus", "1", null, null, "Aaceae", null, null,
                 null, null, null, null, new GeographicalRegion[] {}, null);
-        createTextContent(taxon1, Feature.habitat, "Lorem ipsum", null);
+        createTextContent(taxon1, DescriptionType.habitat, "Lorem ipsum", null);
         Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null, "Aaceae", null,
                 null, null, null, null, null,
                 new GeographicalRegion[] {Continent.AUSTRALASIA,
@@ -115,7 +115,7 @@ public class SearchTest extends AbstractPersistenceTest {
         null, "Intersects(150.00 -40.0 160.0 -20.0)", null, null, null,
                 null, null, null);
         for (Taxon t : page.getRecords()) {
-            System.out.println(t.getName());
+            System.out.println(t.getScientificName());
         }
     }
 
@@ -146,7 +146,7 @@ public class SearchTest extends AbstractPersistenceTest {
     }
 
     /**
-     * Test method for {@link org.emonocot.persistence.dao.hibernate.TaxonDaoImpl#findByExample(org.emonocot.model.taxon.Taxon)}.
+     * Test method for {@link org.emonocot.persistence.dao.hibernate.TaxonDaoImpl#findByExample(org.emonocot.model.Taxon)}.
      */
     @Test
     public void testFindByExample() {

@@ -1,6 +1,6 @@
 package org.emonocot.portal.driver;
 
-import org.emonocot.model.common.Base;
+import org.emonocot.model.Base;
 
 public abstract class AbstractCreateForm extends
 		AbstractUpdateForm {

@@ -883,9 +883,9 @@
 				<version>1.0</version>
 			</dependency>
 			<dependency>
-				<groupId>org.kew</groupId>
-				<artifactId>ECAT-name-parser</artifactId>
-				<version>x-j1.5</version>
+				<groupId>org.gbif</groupId>
+				<artifactId>ecat-common</artifactId>
+				<version>1.6</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.lucene.spatial</groupId>

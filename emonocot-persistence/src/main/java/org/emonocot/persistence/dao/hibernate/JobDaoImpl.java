@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.emonocot.model.Job;
 import org.emonocot.model.hibernate.Fetch;
-import org.emonocot.model.job.Job;
 import org.emonocot.persistence.dao.JobDao;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;

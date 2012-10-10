@@ -1,6 +1,6 @@
 package org.emonocot.portal.remoting;
 
-import org.emonocot.model.reference.Reference;
+import org.emonocot.model.Reference;
 import org.emonocot.persistence.dao.ReferenceDao;
 import org.springframework.stereotype.Repository;
 

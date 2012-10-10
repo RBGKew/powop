@@ -7,9 +7,8 @@ import org.easymock.EasyMock;
 import org.emonocot.api.FacetName;
 import org.emonocot.api.Sorting;
 import org.emonocot.api.TaxonService;
-import org.emonocot.model.pager.DefaultPageImpl;
-import org.emonocot.model.taxon.Taxon;
-import org.emonocot.model.taxon.TaxonomicStatus;
+import org.emonocot.model.Taxon;
+import org.emonocot.pager.DefaultPageImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.dao.DataRetrievalFailureException;
@@ -106,44 +105,6 @@ public class ChecklistWebserviceControllerTest {
        ModelAndViewAssert.assertViewName(modelAndView, "rdfResponse");
        ModelAndViewAssert
                .assertModelAttributeAvailable(modelAndView, "result");      
-       EasyMock.verify(taxonService);
-   }
-
-    /**
-     *
-     */
-    @Test
-    public final void testGet() {
-    	Taxon taxon = new Taxon();
-    	taxon.setStatus(TaxonomicStatus.accepted);
-        EasyMock.expect(
-                taxonService.load(EasyMock.eq("urn:kew.org:wcs:taxon:123"),
-                        EasyMock.eq("taxon-ws"))).andReturn(taxon);
-        EasyMock.replay(taxonService);
-        ModelAndView modelAndView
-            = checklistWebserviceController.get(TAXON_IDENTIFIER);
-        ModelAndViewAssert.assertViewName(modelAndView, "tcsXmlResponse");
-        ModelAndViewAssert
-                .assertModelAttributeAvailable(modelAndView, "result");
-        EasyMock.verify(taxonService);
-    }
-
-    /**
-    *
-    */
-   @Test
-   public final void testGetFamily() {
-   	    Taxon taxon = new Taxon();
-	    taxon.setStatus(TaxonomicStatus.accepted);
-        EasyMock.expect(
-            taxonService.load(EasyMock.eq("urn:kew.org:wcs:family:80"),
-                    EasyMock.eq("taxon-ws"))).andReturn(taxon);
-       EasyMock.replay(taxonService);
-       ModelAndView modelAndView
-           = checklistWebserviceController.get(FAMILY_IDENTIFIER);
-       ModelAndViewAssert.assertViewName(modelAndView, "tcsXmlResponse");
-       ModelAndViewAssert
-               .assertModelAttributeAvailable(modelAndView, "result");
        EasyMock.verify(taxonService);
    }
 

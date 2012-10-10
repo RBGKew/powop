@@ -2,7 +2,7 @@ package org.emonocot.persistence.dao;
 
 import java.util.List;
 
-import org.emonocot.model.common.Base;
+import org.emonocot.model.Base;
 
 /**
  *

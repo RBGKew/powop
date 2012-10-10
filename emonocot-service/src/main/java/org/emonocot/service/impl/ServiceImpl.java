@@ -3,9 +3,9 @@ package org.emonocot.service.impl;
 import java.util.ArrayList;
 
 import org.emonocot.api.Service;
-import org.emonocot.model.common.Base;
-import org.emonocot.model.pager.DefaultPageImpl;
-import org.emonocot.model.pager.Page;
+import org.emonocot.model.Base;
+import org.emonocot.pager.DefaultPageImpl;
+import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.Dao;
 import org.springframework.transaction.annotation.Transactional;
 

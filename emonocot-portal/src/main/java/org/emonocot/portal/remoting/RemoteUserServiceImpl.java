@@ -3,8 +3,8 @@ package org.emonocot.portal.remoting;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.emonocot.model.common.BaseData;
-import org.emonocot.model.common.SecuredObject;
+import org.emonocot.model.BaseData;
+import org.emonocot.model.SecuredObject;
 import org.emonocot.portal.model.AceDto;
 import org.emonocot.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

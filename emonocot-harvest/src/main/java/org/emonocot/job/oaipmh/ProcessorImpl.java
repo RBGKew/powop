@@ -10,18 +10,18 @@ import org.emonocot.api.TaxonService;
 import org.emonocot.harvest.common.AuthorityAware;
 import org.emonocot.harvest.common.TaxonRelationshipResolver;
 import org.emonocot.harvest.common.TaxonRelationship;
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.AnnotationCode;
-import org.emonocot.model.common.AnnotationType;
-import org.emonocot.model.common.Base;
-import org.emonocot.model.common.RecordType;
+import org.emonocot.model.Annotation;
+import org.emonocot.model.Base;
+import org.emonocot.model.Reference;
+import org.emonocot.model.Source;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.AnnotationType;
+import org.emonocot.model.constants.RecordType;
+import org.emonocot.model.constants.ReferenceType;
 import org.emonocot.model.geography.GeographicalRegion;
-import org.emonocot.model.reference.Reference;
-import org.emonocot.model.reference.ReferenceType;
-import org.emonocot.model.source.Source;
-import org.emonocot.model.taxon.Rank;
-import org.emonocot.model.taxon.Taxon;
-import org.emonocot.model.taxon.TaxonomicStatus;
+import org.gbif.ecat.voc.Rank;
+import org.gbif.ecat.voc.TaxonomicStatus;
 import org.openarchives.pmh.Record;
 import org.openarchives.pmh.Status;
 import org.slf4j.Logger;
@@ -176,18 +176,18 @@ public class ProcessorImpl extends AuthorityAware implements
                     }
                 }
                 if (!contains) {
-                    logger.debug(taxon.getName() + " does not contain "
+                    logger.debug(taxon.getScientificName() + " does not contain "
                             + getSource().getIdentifier() + " adding");
                     taxon.getSources().add(getSource());
                 } else {
-                    logger.debug(taxon.getName() + " does contain "
+                    logger.debug(taxon.getScientificName() + " does contain "
                             + getSource().getIdentifier() + " skipping");
                 }
 
                 taxon.setAuthority(getSource());
                 // Allow the relationships to either be re-asserted or dropped
-                taxon.setAccepted(null);
-                taxon.setParent(null);
+                taxon.setAcceptedNameUsage(null);
+                taxon.setParentNameUsage(null);
                 processTaxon(taxon, taxonConcept);
             }
         }
@@ -207,36 +207,33 @@ public class ProcessorImpl extends AuthorityAware implements
         if (taxonConcept.getHasName() != null) {
             TaxonName taxonName = taxonConcept.getHasName();
             logger.info(taxonName.getNameComplete());
-            taxon.setName(taxonName.getNameComplete());
-            taxon.setAuthorship(taxonName.getAuthorship());
-            taxon.setBasionymAuthorship(taxonName.getBasionymAuthorship());
+            taxon.setScientificName(taxonName.getNameComplete());
+            taxon.setScientificNameAuthorship(taxonName.getAuthorship());
             taxon.setFamily(taxonName.getFamily());
-            taxon.setUninomial(taxonName.getUninomial());
             taxon.setGenus(taxonName.getGenusPart());
             taxon.setSpecificEpithet(taxonName.getSpecificEpithet());
-            taxon.setInfraSpecificEpithet(taxonName.getInfraSpecificEpithet());
-            taxon.setProtologueMicroReference(taxonName.getMicroReference());
+            taxon.setInfraspecificEpithet(taxonName.getInfraSpecificEpithet());
             if (taxonName.getPublishedInCitations() != null
                     && !taxonName.getPublishedInCitations().isEmpty()) {
                 PublicationCitation protologuePublicationCitation = taxonName
                         .getPublishedInCitations().iterator().next();
                 Reference protologue = processPublicationCitation(protologuePublicationCitation);
-                taxon.setProtologue(protologue);
+                taxon.setNamePublishedIn(protologue);
 
             }
             try {
-                taxon.setRank(conversionService.convert(
+                taxon.setTaxonRank(conversionService.convert(
                         taxonName.getRankString(), Rank.class));
             } catch (ConversionException ce) {
                 taxon.getAnnotations().add(
                         addAnnotation(taxon, RecordType.Taxon, "rank", ce));
             }
         } else {
-            taxon.setName(taxonConcept.getTitle());
+            taxon.setScientificName(taxonConcept.getTitle());
         }
         if (taxonConcept.getStatus() != null) {
             try {
-                taxon.setStatus(conversionService.convert(taxonConcept
+                taxon.setTaxonomicStatus(conversionService.convert(taxonConcept
                         .getStatus().getIdentifier().toString(),
                         TaxonomicStatus.class));
             } catch (ConversionException ce) {
@@ -260,15 +257,12 @@ public class ProcessorImpl extends AuthorityAware implements
                         if (infoItem instanceof Distribution) {
                             logger.info("hasInformation = Distribution");
                             Distribution distribution = (Distribution) infoItem;                            
-                            org.emonocot.model.description.Distribution dist
+                            org.emonocot.model.Distribution dist
                                 = resolveDistribution(distribution
                                     .getHasValueRelation(), taxon);
-                            if (dist.getRegion() != null
-                                    && !taxon.getDistribution().keySet()
-                                            .contains(dist.getRegion())) {
+                            if (dist.getRegion() != null) {
                                 dist.setTaxon(taxon);
-                                taxon.getDistribution().put(dist.getRegion(),
-                                        dist);
+                                taxon.getDistribution().add(dist);
                             } else {
                                 // TODO replace / update distribution if
                                 // neccessary
@@ -312,6 +306,7 @@ public class ProcessorImpl extends AuthorityAware implements
             // We've not seen this before
             reference = new Reference();
             reference.setIdentifier(referenceIdentifier);
+            reference.setAuthority(getSource());
             reference.getAnnotations().add(
                     createAnnotation(reference, RecordType.Reference,
                             AnnotationCode.Create, AnnotationType.Info));
@@ -319,30 +314,47 @@ public class ProcessorImpl extends AuthorityAware implements
         }
         // TODO Created / modified dates on publications? Bridge too far?
         reference.setTitle(publicationCitation.getTpubTitle());
-        reference.setVolume(publicationCitation.getVolume());
-        reference.setPages(publicationCitation.getPages());
+        StringBuffer bibliographicCitation = new StringBuffer();
+        bibliographicCitation.append(publicationCitation.getAuthorship());
+        if(publicationCitation.getDatePublished() != null) {
+        	bibliographicCitation.append(" " + publicationCitation.getDatePublished());
+        }
+        bibliographicCitation.append(". " + publicationCitation.getTpubTitle());
+        
         reference.setDate(publicationCitation.getDatePublished());
-        reference.setAuthor(publicationCitation.getAuthorship());
+        reference.setCreator(publicationCitation.getAuthorship());
         if (publicationCitation.getParentPublication() != null) {
+        	if (publicationCitation.getAuthorship() != null
+                    && publicationCitation.getAuthorship().length() > 0) {
+        		bibliographicCitation.append(" " + publicationCitation
+                        .getParentPublication().getAuthorship());
+            } else {
+                reference.setCreator(publicationCitation.getParentPublication()
+                        .getAuthorship());
+            }
             if (publicationCitation.getTpubTitle() != null
                     && publicationCitation.getTpubTitle().length() > 0) {
-                reference.setPublishedIn(publicationCitation
+            	bibliographicCitation.append(" " + publicationCitation
                         .getParentPublication().getTpubTitle());
             } else {
                 reference.setTitle(publicationCitation.getParentPublication()
                         .getTpubTitle());
             }
-            if (publicationCitation.getAuthorship() != null
-                    && publicationCitation.getAuthorship().length() > 0) {
-                reference.setPublishedInAuthor(publicationCitation
-                        .getParentPublication().getAuthorship());
-            } else {
-                reference.setAuthor(publicationCitation.getParentPublication()
-                        .getAuthorship());
-            }
-            reference.setPublisher(publicationCitation.getParentPublication()
-                    .getPublisher());
         }
+        if(publicationCitation.getVolume() != null) {
+        	bibliographicCitation.append(" " + publicationCitation.getVolume());
+        }
+        if(publicationCitation.getPages() != null) {
+        	bibliographicCitation.append(": " + publicationCitation.getPages());
+        }
+        bibliographicCitation.append(". ");
+
+        
+        if (publicationCitation.getParentPublication() != null) {
+        	bibliographicCitation.append(publicationCitation.getParentPublication()
+                    .getPublisher() + ".");
+        }
+        reference.setBibliographicCitation(bibliographicCitation.toString());
         if (publicationCitation.getPublicationType() != null
                 && publicationCitation.getPublicationType().getIdentifier() != null) {
             try {
@@ -442,7 +454,7 @@ public class ProcessorImpl extends AuthorityAware implements
      * @param taxon Set the taxon
      * @return a valid Distribution
      */
-    private org.emonocot.model.description.Distribution resolveDistribution(
+    private org.emonocot.model.Distribution resolveDistribution(
             final Set<DefinedTermLinkType> hasValueRelation, final Taxon taxon) {
         // TODO - what if there are no terms or multiple terms - throw an error?
         GeographicalRegion region = null;
@@ -465,8 +477,8 @@ public class ProcessorImpl extends AuthorityAware implements
             id = definedTermLinkType
                     .getResource().toString();
         }
-        org.emonocot.model.description.Distribution distribution
-           = new org.emonocot.model.description.Distribution();
+        org.emonocot.model.Distribution distribution
+           = new org.emonocot.model.Distribution();
         distribution.setIdentifier(UUID.randomUUID().toString());
         try {
             distribution.setRegion(conversionService.convert(id,

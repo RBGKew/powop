@@ -3,7 +3,7 @@ package org.emonocot.service.impl;
 import java.util.List;
 
 import org.emonocot.api.JobService;
-import org.emonocot.model.job.Job;
+import org.emonocot.model.Job;
 import org.emonocot.persistence.dao.JobDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

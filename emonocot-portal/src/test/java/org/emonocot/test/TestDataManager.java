@@ -9,34 +9,35 @@ import java.util.Properties;
 import java.util.Stack;
 import java.util.UUID;
 
+import org.gbif.ecat.voc.Rank;
+import org.gbif.ecat.voc.TaxonomicStatus;
+
 import org.emonocot.api.*;
 import org.emonocot.api.convert.StringToPermissionConverter;
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.AnnotationCode;
-import org.emonocot.model.common.AnnotationType;
-import org.emonocot.model.common.Base;
-import org.emonocot.model.common.RecordType;
-import org.emonocot.model.common.SecuredObject;
-import org.emonocot.model.description.Distribution;
-import org.emonocot.model.description.Feature;
-import org.emonocot.model.description.TextContent;
+import org.emonocot.model.Annotation;
+import org.emonocot.model.Base;
+import org.emonocot.model.Distribution;
+import org.emonocot.model.IdentificationKey;
+import org.emonocot.model.Identifier;
+import org.emonocot.model.Image;
+import org.emonocot.model.Job;
+import org.emonocot.model.Reference;
+import org.emonocot.model.SecuredObject;
+import org.emonocot.model.Source;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.Description;
+import org.emonocot.model.auth.Group;
+import org.emonocot.model.auth.Permission;
+import org.emonocot.model.auth.User;
+import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.AnnotationType;
+import org.emonocot.model.constants.DescriptionType;
+import org.emonocot.model.constants.ImageFormat;
+import org.emonocot.model.constants.JobType;
+import org.emonocot.model.constants.RecordType;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.GeographyConverter;
 import org.emonocot.model.geography.Place;
-import org.emonocot.model.identifier.Identifier;
-import org.emonocot.model.job.Job;
-import org.emonocot.model.job.JobType;
-import org.emonocot.model.key.IdentificationKey;
-import org.emonocot.model.media.Image;
-import org.emonocot.model.media.ImageFormat;
-import org.emonocot.model.reference.Reference;
-import org.emonocot.model.source.Source;
-import org.emonocot.model.taxon.Rank;
-import org.emonocot.model.taxon.Taxon;
-import org.emonocot.model.taxon.TaxonomicStatus;
-import org.emonocot.model.user.Group;
-import org.emonocot.model.user.Permission;
-import org.emonocot.model.user.User;
 import org.emonocot.portal.model.AceDto;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
@@ -218,7 +219,6 @@ public class TestDataManager {
         enableAuthentication();
         Image image = new Image();
         image.setCaption(caption);
-        image.setUrl(url);
         image.setIdentifier(identifier);
         image.setDescription(description);
         image.setLocality(locality);
@@ -370,7 +370,7 @@ public class TestDataManager {
             Object o = data.get(i);
             if (o.getClass().equals(Taxon.class)) {
                 Taxon t = (Taxon) o;
-                if (name.equals(t.getName())) {
+                if (name.equals(t.getScientificName())) {
                     fail();
                 }
             }
@@ -442,33 +442,32 @@ public class TestDataManager {
         enableAuthentication();
         Taxon taxon = new Taxon();
         data.push(taxon);
-        taxon.setName(name);
-        taxon.setAuthorship(authorship);
+        taxon.setScientificName(name);
+        taxon.setScientificNameAuthorship(authorship);
         taxon.setGenus(genus);
         taxon.setSpecificEpithet(specificEpithet);
         taxon.setFamily(family);
         taxon.setIdentifier(identifier);
-        taxon.setProtologueMicroReference(microReference);
         if (rank != null && rank.length() > 0) {
-            taxon.setRank(Rank.valueOf(rank));
+            taxon.setTaxonRank(Rank.valueOf(rank));
         }
         if (status != null && status.length() > 0) {
-            taxon.setStatus(TaxonomicStatus.valueOf(status));
+            taxon.setTaxonomicStatus(TaxonomicStatus.valueOf(status));
         }
         if (diagnostic != null && diagnostic.length() > 0) {
-            createTextualData(taxon, diagnostic, Feature.diagnostic,
+            createTextualData(taxon, diagnostic, DescriptionType.diagnostic,
                     diagnosticReference1);
         }
         if (habitat != null && habitat.length() > 0) {
-            createTextualData(taxon, habitat, Feature.habitat, null);
+            createTextualData(taxon, habitat, DescriptionType.habitat, null);
         }
         if (general != null && general.length() > 0) {
-            createTextualData(taxon, general, Feature.general, null);
+            createTextualData(taxon, general, DescriptionType.general, null);
         }
         if (protologue != null && protologue.length() > 0) {
             Reference reference = new Reference();
             reference.setIdentifier(protologue);
-            taxon.setProtologue(reference);
+            taxon.setNamePublishedIn(reference);
         }
         if (protologLink != null && protologLink.length() > 0) {
             createIdentifier(taxon, protologLink, "Protolog");
@@ -480,7 +479,7 @@ public class TestDataManager {
                     .convert(distribution1);
             distribution.setRegion(geographicalRegion);
             distribution.setTaxon(taxon);
-            taxon.getDistribution().put(geographicalRegion, distribution);
+            taxon.getDistribution().add(distribution);
         }
         if (distribution2 != null && distribution2.length() > 0) {
             Distribution distribution = new Distribution();
@@ -489,7 +488,7 @@ public class TestDataManager {
                     .convert(distribution2);
             distribution.setRegion(geographicalRegion);
             distribution.setTaxon(taxon);
-            taxon.getDistribution().put(geographicalRegion, distribution);
+            taxon.getDistribution().add(distribution);
         }
         if (distribution3 != null && distribution3.length() > 0) {
             Distribution distribution = new Distribution();
@@ -498,7 +497,7 @@ public class TestDataManager {
                     .convert(distribution3);
             distribution.setRegion(geographicalRegion);
             distribution.setTaxon(taxon);
-            taxon.getDistribution().put(geographicalRegion, distribution);
+            taxon.getDistribution().add(distribution);
         }
         if (source != null && source.length() > 0) {
             Source s = new Source();
@@ -513,12 +512,12 @@ public class TestDataManager {
         if (parent != null && parent.length() > 0) {
             Taxon p = new Taxon();
             p.setIdentifier(parent);
-            taxon.setParent(p);
+            taxon.setParentNameUsage(p);
         }
         if (accepted != null && accepted.length() > 0) {
             Taxon a = new Taxon();
             a.setIdentifier(accepted);
-            taxon.setAccepted(a);
+            taxon.setAcceptedNameUsage(a);
         }
         taxonService.save(taxon);
 
@@ -577,13 +576,10 @@ public class TestDataManager {
         Reference r = new Reference();
         data.push(r);
         r.setIdentifier(identifier);
-        r.setAuthor(authors);
+        r.setCreator(authors);
         r.setTitle(title);
-        r.setDatePublished(datePublished);
-        r.setPublisher(publisher);
-        r.setVolume(volume);
-        r.setPages(page);
-        r.setCitation(citation);
+        r.setDate(datePublished);        
+        r.setBibliographicCitation(citation);
         if(taxa1 != null && taxa1.trim().length() > 0) {
         	Taxon t = new Taxon();
         	t.setIdentifier(taxa1);
@@ -775,13 +771,13 @@ public class TestDataManager {
      *            Set the reference
      */
     private void createTextualData(final Taxon taxon, final String text,
-            final Feature feature, final String reference) {
-        TextContent textContent = new TextContent();
+            final DescriptionType feature, final String reference) {
+        Description textContent = new Description();
         textContent.setIdentifier(UUID.randomUUID().toString());
-        textContent.setContent(text);
-        textContent.setFeature(feature);
+        textContent.setDescription(text);
+        textContent.setType(feature);
         textContent.setTaxon(taxon);
-        taxon.getContent().put(feature, textContent);
+        taxon.getDescriptions().add(textContent);
         if (reference != null && reference.length() > 0) {
             Reference ref = new Reference();
             ref.setIdentifier(reference);

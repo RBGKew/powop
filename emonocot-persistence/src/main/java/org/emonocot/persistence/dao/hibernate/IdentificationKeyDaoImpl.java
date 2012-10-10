@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.emonocot.api.FacetName;
+import org.emonocot.model.IdentificationKey;
 import org.emonocot.model.hibernate.Fetch;
-import org.emonocot.model.key.IdentificationKey;
 import org.emonocot.persistence.dao.IdentificationKeyDao;
 import org.hibernate.FetchMode;
 import org.hibernate.criterion.Restrictions;

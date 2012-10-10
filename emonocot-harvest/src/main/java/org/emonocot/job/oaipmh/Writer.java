@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.emonocot.model.media.Image;
-import org.emonocot.model.reference.Reference;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Image;
+import org.emonocot.model.Reference;
+import org.emonocot.model.Taxon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.database.HibernateItemWriter;
@@ -39,13 +39,13 @@ public class Writer extends HibernateItemWriter<Taxon> {
         }
 
         for (Taxon t : itemsToDelete.values()) {
-            if (t.getProtologue() != null) {
-                for (Taxon t1 : t.getProtologue().getTaxa()) {
+            if (t.getNamePublishedIn() != null) {
+                for (Taxon t1 : t.getNamePublishedIn().getTaxa()) {
                     if (t1.getIdentifier().equals(t.getIdentifier())) {
-                        t.getProtologue().getTaxa().remove(t1);
+                        t.getNamePublishedIn().getTaxa().remove(t1);
                     }
                 }
-                t.setProtologue(null);
+                t.setNamePublishedIn(null);
             }
             if (!t.getReferences().isEmpty()) {
                 for (Reference r : t.getReferences()) {
@@ -81,40 +81,40 @@ public class Writer extends HibernateItemWriter<Taxon> {
                     }
                 }
             }
-            if (t.getParent() != null) {
-                for (Taxon child : t.getParent().getChildren()) {
+            if (t.getParentNameUsage() != null) {
+                for (Taxon child : t.getParentNameUsage().getChildNameUsages()) {
                     if (child.getIdentifier().equals(t.getIdentifier())) {
                         logger.debug(t.getIdentifier()
                                 + " removed successfully from parent? "
-                                + t.getParent().getChildren().remove(child));
+                                + t.getParentNameUsage().getChildNameUsages().remove(child));
                         break;
                     }
                 }
 
-                t.setParent(null);
+                t.setParentNameUsage(null);
             }
-            if (t.getAccepted() != null) {
-                for (Taxon synonym : t.getAccepted().getSynonyms()) {
+            if (t.getAcceptedNameUsage() != null) {
+                for (Taxon synonym : t.getAcceptedNameUsage().getSynonymNameUsages()) {
                     if (synonym.getIdentifier().equals(t.getIdentifier())) {
                         logger.debug(t.getIdentifier()
                                 + " removed successfully from accepted name? "
-                                + t.getAccepted().getSynonyms().remove(synonym));
+                                + t.getAcceptedNameUsage().getSynonymNameUsages().remove(synonym));
                         break;
                     }
                 }
-                t.setAccepted(null);
+                t.setAcceptedNameUsage(null);
             }
-            if (!t.getChildren().isEmpty()) {
-                for (Taxon child : t.getChildren()) {
-                    child.setParent(null);
+            if (!t.getChildNameUsages().isEmpty()) {
+                for (Taxon child : t.getChildNameUsages()) {
+                    child.setParentNameUsage(null);
                 }
-                t.getChildren().clear();
+                t.getChildNameUsages().clear();
             }
-            if (!t.getSynonyms().isEmpty()) {
-                for (Taxon synonym : t.getSynonyms()) {
-                    synonym.setAccepted(null);
+            if (!t.getSynonymNameUsages().isEmpty()) {
+                for (Taxon synonym : t.getSynonymNameUsages()) {
+                    synonym.setAcceptedNameUsage(null);
                 }
-                t.getSynonyms().clear();
+                t.getSynonymNameUsages().clear();
             }
         }
         List<Taxon> toSave = new ArrayList<Taxon>(itemsToSave.values());

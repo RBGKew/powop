@@ -10,12 +10,12 @@ import org.emonocot.api.TaxonService;
 import org.emonocot.api.match.Match;
 import org.emonocot.api.match.taxon.TaxonMatcher;
 import org.emonocot.harvest.common.AbstractRecordAnnotator;
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.AnnotationCode;
-import org.emonocot.model.common.AnnotationType;
-import org.emonocot.model.common.RecordType;
-import org.emonocot.model.taxon.RankBasedTaxonComparator;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Annotation;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.AnnotationType;
+import org.emonocot.model.constants.RecordType;
+import org.emonocot.model.util.RankBasedTaxonComparator;
 import org.gbif.ecat.model.ParsedName;
 import org.gbif.ecat.parser.NameParser;
 import org.slf4j.Logger;
@@ -127,17 +127,17 @@ public class TaxonNameProcessor extends AbstractRecordAnnotator implements
                 object = taxonService.load(object.getIdentifier(),
                         "taxon-with-ancestors");
                 Set<String> ancestorIdentifiers = new HashSet<String>();
-                for (Taxon ancestor : object.getAncestors()) {
+                for (Taxon ancestor : object.getHigherClassification()) {
                     ancestorIdentifiers.add(ancestor.getIdentifier());
                 }
                 if (first) {
                     higherTaxa.addAll(ancestorIdentifiers);
                     first = false;
-                    logger.debug("Ancestors " + object.getAncestors());
+                    logger.debug("Ancestors " + object.getHigherClassification());
                     logger.debug("There are " + higherTaxa.size());
                 } else {
                     higherTaxa.retainAll(ancestorIdentifiers);
-                    logger.debug("Ancestors " + object.getAncestors());
+                    logger.debug("Ancestors " + object.getHigherClassification());
                     logger.debug("There are " + higherTaxa.size());
                 }
 

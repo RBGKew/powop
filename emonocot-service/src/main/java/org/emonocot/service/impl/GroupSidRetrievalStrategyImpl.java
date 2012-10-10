@@ -2,8 +2,8 @@ package org.emonocot.service.impl;
 
 import java.util.List;
 
-import org.emonocot.model.user.Group;
-import org.emonocot.model.user.User;
+import org.emonocot.model.auth.Group;
+import org.emonocot.model.auth.User;
 import org.springframework.security.acls.model.Sid;
 import org.springframework.security.acls.domain.PrincipalSid;
 import org.springframework.security.acls.domain.SidRetrievalStrategyImpl;

@@ -7,10 +7,10 @@ import java.util.Map;
 import org.emonocot.api.TaxonService;
 import org.emonocot.job.dwc.DarwinCoreFieldSetMapper;
 import org.emonocot.job.dwc.taxon.CannotFindRecordException;
-import org.emonocot.model.media.Image;
-import org.emonocot.model.media.ImageFormat;
-import org.emonocot.model.media.ImageFormatConverter;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Image;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.constants.ImageFormat;
+import org.emonocot.model.convert.ImageFormatConverter;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
@@ -103,14 +103,14 @@ public class FieldSetMapper extends
             case creator:
                 object.setCreator(value);
                 break;
-            case source:
-                object.setSource(value);
+            case references:
+                object.setReferences(value);
                 break;
             case title:
                 object.setCaption(value);
                 break;
             case identifier:
-                object.setUrl(value);                
+                object.setIdentifier(value);                
                 break;
             case format:
             	try {

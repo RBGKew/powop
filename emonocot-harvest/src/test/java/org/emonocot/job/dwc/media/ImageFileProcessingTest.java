@@ -8,8 +8,8 @@ import java.util.UUID;
 
 import org.emonocot.harvest.media.ImageFileProcessor;
 import org.emonocot.harvest.media.ImageMetadataExtractor;
-import org.emonocot.model.media.Image;
-import org.emonocot.model.media.ImageFormat;
+import org.emonocot.model.Image;
+import org.emonocot.model.constants.ImageFormat;
 import org.emonocot.ws.GetResourceClient;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,8 +44,7 @@ public class ImageFileProcessingTest {
      */
     @Before
     public final void setUp() throws Exception {
-        image.setUrl("http://build.e-monocot.org/test/test.jpg");
-        image.setIdentifier(UUID.randomUUID().toString());
+        image.setIdentifier("http://build.e-monocot.org/test/test.jpg");
         image.setFormat(ImageFormat.jpg);
         GetResourceClient getResourceClient = new GetResourceClient();
         imageFileProcessor.setGetResourceClient(getResourceClient);

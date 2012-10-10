@@ -4,11 +4,11 @@ import java.util.UUID;
 
 import org.emonocot.api.TextContentService;
 import org.emonocot.job.dwc.DarwinCoreValidator;
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.AnnotationCode;
-import org.emonocot.model.common.AnnotationType;
-import org.emonocot.model.common.RecordType;
-import org.emonocot.model.description.TextContent;
+import org.emonocot.model.Annotation;
+import org.emonocot.model.Description;
+import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.AnnotationType;
+import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  * @author ben
  *
  */
-public class Validator extends DarwinCoreValidator<TextContent> {
+public class Validator extends DarwinCoreValidator<Description> {
 	
 	private TextContentService textContentService;
 	
@@ -34,7 +34,7 @@ public class Validator extends DarwinCoreValidator<TextContent> {
      * @throws Exception if something goes wrong
      * @return TextContent a text content object
      */
-    public final TextContent process(final TextContent textContent)
+    public final Description process(final Description textContent)
             throws Exception {
         logger.info("Validating " + textContent);
         if(textContent.getTaxon() != null) {
@@ -43,11 +43,11 @@ public class Validator extends DarwinCoreValidator<TextContent> {
 
         super.checkTaxon(RecordType.TextContent, textContent, textContent.getTaxon());
 
-        if (textContent.getFeature() == null) {
+        if (textContent.getType() == null) {
             throw new NoFeatureException(textContent + " has no Feature set");
         }
         
-        if (textContent.getContent() == null || textContent.getContent().length() == 0) {
+        if (textContent.getDescription() == null || textContent.getDescription().length() == 0) {
             throw new NoContentException(textContent + " has no Content set");
         }
         
@@ -58,7 +58,7 @@ public class Validator extends DarwinCoreValidator<TextContent> {
         	textContent.setIdentifier(UUID.randomUUID().toString());
         }
         
-        TextContent persistedContent = textContentService.find(textContent.getIdentifier(), "text-content-with-related");
+        Description persistedContent = textContentService.find(textContent.getIdentifier(), "text-content-with-related");
         if(persistedContent != null) {
             if ((persistedContent.getModified() != null && textContent
                     .getModified() != null)
@@ -80,8 +80,8 @@ public class Validator extends DarwinCoreValidator<TextContent> {
                      }
                  }
                 
-                persistedContent.setFeature(textContent.getFeature());
-                persistedContent.setContent(textContent.getContent());
+                persistedContent.setType(textContent.getType());
+                persistedContent.setDescription(textContent.getDescription());
                 persistedContent.setCreated(textContent.getCreated());
                 persistedContent.setModified(textContent.getModified());
                 persistedContent.setCreator(textContent.getCreator());

@@ -8,7 +8,7 @@ import java.util.Map;
 import org.emonocot.api.FacetName;
 import org.emonocot.model.geography.Place;
 import org.emonocot.model.hibernate.Fetch;
-import org.emonocot.model.pager.Page;
+import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.PlaceDao;
 import org.hibernate.search.ProjectionConstants;
 import org.hibernate.search.query.dsl.FacetContext;

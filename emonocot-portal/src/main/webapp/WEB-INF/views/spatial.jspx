@@ -9,7 +9,7 @@
 	xmlns:geo="urn:jsptagdir:/WEB-INF/tags/geo"
 	xmlns:spring="http://www.springframework.org/tags"
 	version="2.0">
-	<jsp:useBean id="result" scope="request" type="org.emonocot.model.pager.Page&lt;org.emonocot.model.common.SearchableObject&gt;" />
+	<jsp:useBean id="result" scope="request" type="org.emonocot.pager.Page<org.emonocot.model.SearchableObject>" />
 	<c:url var="mapSearchImageBig" value="/css/images/glyphicons/fullsize/glyphicons_340_globe.png"/>
 	<spring:message code="map.search" var="mapSearchTitle"/>
 	<tags:pageheader>

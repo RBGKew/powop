@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.emonocot.api.UserService;
-import org.emonocot.model.common.SecuredObject;
-import org.emonocot.model.user.Group;
-import org.emonocot.model.user.User;
+import org.emonocot.model.SecuredObject;
+import org.emonocot.model.auth.Group;
+import org.emonocot.model.auth.User;
 import org.emonocot.persistence.dao.AclService;
 import org.emonocot.persistence.dao.GroupDao;
 import org.emonocot.persistence.dao.UserDao;

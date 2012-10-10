@@ -1,12 +1,12 @@
 package org.emonocot.harvest.common;
 
 import org.emonocot.api.SourceService;
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.AnnotationCode;
-import org.emonocot.model.common.AnnotationType;
-import org.emonocot.model.common.Base;
-import org.emonocot.model.common.RecordType;
-import org.emonocot.model.source.Source;
+import org.emonocot.model.Annotation;
+import org.emonocot.model.Base;
+import org.emonocot.model.Source;
+import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.AnnotationType;
+import org.emonocot.model.constants.RecordType;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;

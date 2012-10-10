@@ -1,18 +1,16 @@
 package org.emonocot.job.key;
 
-import java.util.UUID;
-
 import org.emonocot.api.ImageService;
 import org.emonocot.harvest.common.AuthorityAware;
 import org.emonocot.harvest.media.ImageFileProcessor;
 import org.emonocot.harvest.media.ImageMetadataExtractor;
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.AnnotationCode;
-import org.emonocot.model.common.AnnotationType;
-import org.emonocot.model.common.RecordType;
-import org.emonocot.model.media.Image;
-import org.emonocot.model.media.ImageFormat;
-import org.emonocot.model.source.Source;
+import org.emonocot.model.Annotation;
+import org.emonocot.model.Image;
+import org.emonocot.model.Source;
+import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.AnnotationType;
+import org.emonocot.model.constants.ImageFormat;
+import org.emonocot.model.constants.RecordType;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.tdwg.ubif.MediaObject;
@@ -79,7 +77,7 @@ public class MediaObjectProcessor extends AuthorityAware implements
             Image persistedImage = imageService.findByUrl(item.getSource()
                     .getHref());
             if (persistedImage != null) {
-                item.setDebuglabel(persistedImage.getIdentifier() + "." + persistedImage.getFormat());
+                item.setDebuglabel(persistedImage.getId() + "." + persistedImage.getFormat());
                 persistedImage.setCaption(item.getRepresentation().getLabel());
                 persistedImage.setDescription(item.getRepresentation()
                         .getDetail());
@@ -106,9 +104,8 @@ public class MediaObjectProcessor extends AuthorityAware implements
                 int dotIndex = item.getSource().getHref().lastIndexOf(".");
                 String format = item.getSource().getHref().substring(dotIndex + 1);
                 image.setFormat(ImageFormat.valueOf(format));
-                image.setIdentifier(UUID.randomUUID().toString());
-                item.setDebuglabel(image.getIdentifier() + "." + format);
-                image.setUrl(item.getSource().getHref());
+                image.setIdentifier(item.getSource().getHref());
+                
                 image.setCaption(item.getRepresentation().getLabel());
                 image.setDescription(item.getRepresentation().getDetail());
                 image.setAuthority(getSource());
@@ -120,6 +117,7 @@ public class MediaObjectProcessor extends AuthorityAware implements
                         AnnotationType.Info);
                 image.getAnnotations().add(annotation);
                 imageService.saveOrUpdate(image);
+                item.setDebuglabel(image.getId() + "." + format);
             }
             return item;
         } else {

@@ -13,11 +13,11 @@ import org.emonocot.api.PlaceService;
 import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.Sorting;
 import org.emonocot.api.TaxonService;
-import org.emonocot.model.common.SearchableObject;
-import org.emonocot.model.key.IdentificationKey;
-import org.emonocot.model.media.Image;
-import org.emonocot.model.pager.Page;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.IdentificationKey;
+import org.emonocot.model.Image;
+import org.emonocot.model.SearchableObject;
+import org.emonocot.model.Taxon;
+import org.emonocot.pager.Page;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
 import org.emonocot.portal.format.annotation.SortingFormat;
 import org.emonocot.api.IdentificationKeyService;
@@ -390,7 +390,7 @@ public class SearchController {
         List<Match> matches = new ArrayList<Match>();
         for (SearchableObject object : result.getRecords()) {
             if (object.getClass().equals(Taxon.class)) {
-                matches.add(new Match(((Taxon) object).getName()));
+                matches.add(new Match(((Taxon) object).getScientificName()));
             } else if (object.getClass().equals(Image.class)) {
                 matches.add(new Match(((Image) object).getCaption()));
             } else if (object.getClass().equals(IdentificationKey.class)) {

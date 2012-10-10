@@ -2,7 +2,7 @@ package org.emonocot.portal.driver;
 
 import java.util.List;
 
-import org.emonocot.model.common.Base;
+import org.emonocot.model.Base;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

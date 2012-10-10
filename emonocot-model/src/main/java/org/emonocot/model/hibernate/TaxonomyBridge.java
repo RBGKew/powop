@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Taxon;
 import org.hibernate.search.bridge.FieldBridge;
 import org.hibernate.search.bridge.LuceneOptions;
 import org.slf4j.Logger;

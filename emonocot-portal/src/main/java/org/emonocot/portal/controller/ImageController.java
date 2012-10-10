@@ -3,7 +3,7 @@ package org.emonocot.portal.controller;
 
 import org.emonocot.api.ImageService;
 import org.emonocot.api.TaxonService;
-import org.emonocot.model.media.Image;
+import org.emonocot.model.Image;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

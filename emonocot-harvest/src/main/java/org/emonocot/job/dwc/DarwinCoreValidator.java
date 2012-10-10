@@ -3,10 +3,10 @@ package org.emonocot.job.dwc;
 
 import org.emonocot.api.TaxonService;
 import org.emonocot.harvest.common.AuthorityAware;
-import org.emonocot.model.common.Base;
-import org.emonocot.model.common.BaseData;
-import org.emonocot.model.common.RecordType;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Base;
+import org.emonocot.model.BaseData;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;

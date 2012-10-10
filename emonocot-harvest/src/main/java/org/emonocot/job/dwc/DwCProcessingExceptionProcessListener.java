@@ -2,11 +2,11 @@ package org.emonocot.job.dwc;
 
 import org.emonocot.harvest.common.AbstractRecordAnnotator;
 import org.emonocot.job.dwc.taxon.CannotFindRecordException;
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.AnnotationCode;
-import org.emonocot.model.common.AnnotationType;
-import org.emonocot.model.common.Base;
-import org.emonocot.model.common.RecordType;
+import org.emonocot.model.Annotation;
+import org.emonocot.model.Base;
+import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.AnnotationType;
+import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;

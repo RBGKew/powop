@@ -1,7 +1,7 @@
 package org.emonocot.portal.remoting;
 
-import org.emonocot.model.key.IdentificationKey;
-import org.emonocot.model.pager.Page;
+import org.emonocot.model.IdentificationKey;
+import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.IdentificationKeyDao;
 import org.springframework.stereotype.Repository;
 

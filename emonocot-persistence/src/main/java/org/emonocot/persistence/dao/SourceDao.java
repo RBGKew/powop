@@ -1,6 +1,6 @@
 package org.emonocot.persistence.dao;
 
-import org.emonocot.model.source.Source;
+import org.emonocot.model.Source;
 
 /**
  *

@@ -8,7 +8,7 @@ import org.apache.sanselan.common.ImageMetadata;
 import org.apache.sanselan.formats.jpeg.JpegImageMetadata;
 import org.apache.sanselan.formats.tiff.TiffImageMetadata;
 import org.apache.sanselan.formats.tiff.constants.TiffConstants;
-import org.emonocot.model.media.Image;
+import org.emonocot.model.Image;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
@@ -58,7 +58,7 @@ public class ImageMetadataExtractor implements ItemProcessor<Image, Image> {
      */
     public final Image process(final Image image) throws Exception {
         String imageFileName = imageDirectory + File.separatorChar
-                + image.getIdentifier() + '.' + image.getFormat();
+                + image.getId() + '.' + image.getFormat();
         File file = new File(imageFileName);
         logger.debug("Image File " + imageFileName);
         if (!file.exists()) {

@@ -3,8 +3,8 @@ package org.emonocot.persistence.dao.hibernate;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.emonocot.model.Reference;
 import org.emonocot.model.hibernate.Fetch;
-import org.emonocot.model.reference.Reference;
 import org.emonocot.persistence.dao.ReferenceDao;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;

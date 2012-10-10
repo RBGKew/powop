@@ -2,11 +2,11 @@ package org.emonocot.job.dwc.taxon;
 
 import org.emonocot.harvest.common.TaxonRelationshipResolver;
 import org.emonocot.job.dwc.DarwinCoreValidator;
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.AnnotationCode;
-import org.emonocot.model.common.AnnotationType;
-import org.emonocot.model.common.RecordType;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Annotation;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.AnnotationType;
+import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,19 +75,16 @@ public class ImportingValidator extends DarwinCoreValidator<Taxon> {
 					persistedTaxon.setModified(taxon.getModified());
 					persistedTaxon.setCreated(taxon.getCreated());
 					persistedTaxon.setSource(taxon.getSource());
-					persistedTaxon.setNameIdentifier(taxon.getNameIdentifier());
-					persistedTaxon.setName(taxon.getName());
-					persistedTaxon.setAuthorship(taxon.getAuthorship());
-					persistedTaxon.setRank(taxon.getRank());
+					persistedTaxon.setScientificNameID(taxon.getScientificNameID());
+					persistedTaxon.setScientificName(taxon.getScientificName());
+					persistedTaxon.setScientificNameAuthorship(taxon.getScientificNameAuthorship());
+					persistedTaxon.setTaxonRank(taxon.getTaxonRank());
 					persistedTaxon.setGenus(taxon.getGenus());
-					persistedTaxon.setInfraGenericEpithet(taxon
-							.getInfraGenericEpithet());
-					persistedTaxon.setSpecificEpithet(taxon
-							.getSpecificEpithet());
-					persistedTaxon.setInfraSpecificEpithet(taxon
-							.getInfraSpecificEpithet());
-					persistedTaxon.setStatus(taxon.getStatus());
-					persistedTaxon.setAccordingTo(taxon.getAccordingTo());
+					persistedTaxon.setSubgenus(taxon.getSubgenus());
+					persistedTaxon.setSpecificEpithet(taxon.getSpecificEpithet());
+					persistedTaxon.setInfraspecificEpithet(taxon.getInfraspecificEpithet());
+					persistedTaxon.setTaxonomicStatus(taxon.getTaxonomicStatus());
+					persistedTaxon.setNameAccordingTo(taxon.getNameAccordingTo());
 					persistedTaxon.setKingdom(taxon.getKingdom());
 					persistedTaxon.setPhylum(taxon.getPhylum());
 					persistedTaxon.setClazz(taxon.getClazz());
@@ -98,12 +95,11 @@ public class ImportingValidator extends DarwinCoreValidator<Taxon> {
 					persistedTaxon.setSubtribe(taxon.getSubtribe());
 					persistedTaxon.setNomenclaturalCode(taxon
 							.getNomenclaturalCode());
-					persistedTaxon.setProtologue(taxon.getProtologue());
-					persistedTaxon.setProtologueMicroReference(taxon
-							.getProtologueMicroReference());
+					persistedTaxon.setNamePublishedIn(taxon.getNamePublishedIn());
+					
 					// Allow the relationships to either be re-asserted or dropped
-					persistedTaxon.setAccepted(null);
-					persistedTaxon.setParent(null);
+					persistedTaxon.setAcceptedNameUsage(null);
+					persistedTaxon.setParentNameUsage(null);
 				}
 				Annotation annotation = createAnnotation(persistedTaxon,
 						RecordType.Taxon, AnnotationCode.Update,

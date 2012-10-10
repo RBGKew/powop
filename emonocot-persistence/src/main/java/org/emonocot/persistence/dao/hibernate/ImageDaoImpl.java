@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.emonocot.api.FacetName;
+import org.emonocot.model.Image;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.Region;
 import org.emonocot.model.hibernate.Fetch;
-import org.emonocot.model.media.Image;
-import org.emonocot.model.pager.Page;
+import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.ImageDao;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;

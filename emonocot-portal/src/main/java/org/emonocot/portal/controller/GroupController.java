@@ -5,10 +5,10 @@ import javax.validation.Valid;
 
 import org.emonocot.api.GroupService;
 import org.emonocot.api.UserService;
-import org.emonocot.model.common.SecuredObject;
-import org.emonocot.model.source.Source;
-import org.emonocot.model.user.Group;
-import org.emonocot.model.user.User;
+import org.emonocot.model.SecuredObject;
+import org.emonocot.model.Source;
+import org.emonocot.model.auth.Group;
+import org.emonocot.model.auth.User;
 import org.emonocot.portal.format.annotation.PermissionFormat;
 import org.emonocot.portal.model.AceDto;
 import org.slf4j.Logger;

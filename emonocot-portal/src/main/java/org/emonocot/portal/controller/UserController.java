@@ -1,8 +1,8 @@
 package org.emonocot.portal.controller;
 
 import org.emonocot.api.UserService;
-import org.emonocot.model.common.SecuredObject;
-import org.emonocot.model.user.User;
+import org.emonocot.model.SecuredObject;
+import org.emonocot.model.auth.User;
 import org.emonocot.portal.model.AceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;

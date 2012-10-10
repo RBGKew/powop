@@ -12,8 +12,8 @@ import org.emonocot.api.TaxonService;
 import org.emonocot.api.match.Match;
 import org.emonocot.api.match.MatchStatus;
 import org.emonocot.api.match.taxon.TaxonMatcher;
-import org.emonocot.model.pager.Page;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Taxon;
+import org.emonocot.pager.Page;
 import org.gbif.ecat.model.ParsedName;
 import org.gbif.ecat.parser.NameParser;
 import org.gbif.ecat.voc.Rank;
@@ -110,7 +110,7 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
         case 1:
             Match<Taxon> single = new Match<Taxon>();
             single.setInternal(page.getRecords().get(0));
-            String internalName = (new NameParser().parseToCanonical(single.getInternal().getName()));
+            String internalName = (new NameParser().parseToCanonical(single.getInternal().getScientificName()));
             if (searchTerm.equals(internalName)) {
                 single.setStatus(MatchStatus.EXACT);
             } else {
@@ -121,11 +121,11 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
         default:
             Set<Match<Taxon>> exactMatches = new HashSet<Match<Taxon>>();
             for (Taxon eTaxon : page.getRecords()) {
-                logger.debug(eTaxon.getName() + " " + eTaxon.getIdentifier());
+                logger.debug(eTaxon.getScientificName() + " " + eTaxon.getIdentifier());
                 Match<Taxon> m = new Match<Taxon>();
                 m.setInternal(eTaxon);
                 matches.add(m);
-                String name = (new NameParser().parseToCanonical(eTaxon.getName()));
+                String name = (new NameParser().parseToCanonical(eTaxon.getScientificName()));
                 if (searchTerm.equals(name)) {
                     m.setStatus(MatchStatus.EXACT);
                     exactMatches.add(m);

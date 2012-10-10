@@ -3,14 +3,14 @@ package org.emonocot.persistence;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import org.emonocot.model.description.Feature;
-import org.emonocot.model.description.TextContent;
+import org.emonocot.model.Image;
+import org.emonocot.model.Reference;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.Description;
+import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.Region;
-import org.emonocot.model.media.Image;
-import org.emonocot.model.reference.Reference;
-import org.emonocot.model.taxon.Taxon;
 import org.hibernate.Hibernate;
 import org.junit.After;
 import org.junit.Before;
@@ -51,7 +51,7 @@ public class FetchProfileTest extends AbstractPersistenceTest {
         Taxon taxon1 = createTaxon("Aus", "urn:lsid:example.com:taxon:1", null,
                 null, null, null, null, null, null, null,
                 null, new GeographicalRegion[] {}, null);
-        createTextContent(taxon1, Feature.associations, "Lorem ipsum",
+        createTextContent(taxon1, DescriptionType.associations, "Lorem ipsum",
                 reference);
         Taxon taxon2 = createTaxon("Aus bus", "urn:lsid:example.com:taxon:2",
                 taxon1, null, null, null, null, null, null, null,
@@ -79,8 +79,15 @@ public class FetchProfileTest extends AbstractPersistenceTest {
         assertTrue("Images should be initialized",
                 Hibernate.isInitialized(taxon.getImages()));
         assertTrue("Content should be initialized",
-                Hibernate.isInitialized(taxon.getContent()));
-        TextContent textContent = taxon.getContent(Feature.associations);
+                Hibernate.isInitialized(taxon.getDescriptions()));
+        Description textContent = null;
+        for(Description d : taxon.getDescriptions()) {
+        	if(d.getType().equals(DescriptionType.associations)) {
+        		textContent =  d;
+        		break;
+        	}
+        }
+        
         assertNotNull("TextContent should not be null", textContent);
         assertTrue("References should be initialized",
                 Hibernate.isInitialized(textContent.getReferences()));

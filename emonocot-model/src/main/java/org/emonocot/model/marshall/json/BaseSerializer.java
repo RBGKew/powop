@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.SerializerProvider;
-import org.emonocot.model.common.Base;
+import org.emonocot.model.Base;
 
 /**
  *

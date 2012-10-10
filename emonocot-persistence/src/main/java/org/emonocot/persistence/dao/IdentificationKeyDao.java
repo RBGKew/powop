@@ -1,6 +1,6 @@
 package org.emonocot.persistence.dao;
 
-import org.emonocot.model.key.IdentificationKey;
+import org.emonocot.model.IdentificationKey;
 
 /**
  *

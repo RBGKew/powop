@@ -2,7 +2,7 @@ package org.emonocot.harvest.common;
 
 import java.util.List;
 
-import org.emonocot.model.common.Base;
+import org.emonocot.model.Base;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 

@@ -6,8 +6,8 @@ package org.emonocot.model.hibernate;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import org.emonocot.model.media.Image;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Image;
+import org.emonocot.model.Taxon;
 import org.junit.Test;
 
 /**

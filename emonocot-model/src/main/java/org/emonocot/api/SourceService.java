@@ -1,6 +1,6 @@
 package org.emonocot.api;
 
-import org.emonocot.model.source.Source;
+import org.emonocot.model.Source;
 
 
 /**

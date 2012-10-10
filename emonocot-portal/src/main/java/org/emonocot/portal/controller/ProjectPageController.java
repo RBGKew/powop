@@ -6,7 +6,7 @@ package org.emonocot.portal.controller;
 import java.util.List;
 
 import org.emonocot.api.SourceService;
-import org.emonocot.model.source.Source;
+import org.emonocot.model.Source;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

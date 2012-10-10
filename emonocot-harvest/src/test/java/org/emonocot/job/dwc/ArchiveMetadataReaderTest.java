@@ -13,7 +13,7 @@ import javax.validation.Validator;
 
 import org.easymock.EasyMock;
 import org.emonocot.api.SourceService;
-import org.emonocot.model.source.Source;
+import org.emonocot.model.Source;
 import org.junit.Test;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
@@ -235,7 +235,7 @@ public class ArchiveMetadataReaderTest {
         assertEquals(source.getLogoUrl(), "https://www.cate-araceae.org/css/images/cate-logo.png");
         assertEquals(source.getPublisherEmail(), "admin@cate-araceae.org");
         assertEquals(source.getPublisherName(), "Ben Clark");
-        assertEquals(source.getSource(), "Haigh, A., Clark, B., Reynolds, L., Mayo, S.J., Croat, T.B., Lay, L., Boyce, P.C., Mora, M., Bogner, J., Sellaro, M., Wong, S.Y., Kostelac, C., Grayum, M.H., Keating, R.C., Ruckert, G., Naylor, M.F. and Hay, A., CATE Araceae, 14 Dec 2011 . 17 Dec 2011.");
+        assertEquals(source.getBibliographicCitation(), "Haigh, A., Clark, B., Reynolds, L., Mayo, S.J., Croat, T.B., Lay, L., Boyce, P.C., Mora, M., Bogner, J., Sellaro, M., Wong, S.Y., Kostelac, C., Grayum, M.H., Keating, R.C., Ruckert, G., Naylor, M.F. and Hay, A., CATE Araceae, 14 Dec 2011 . 17 Dec 2011.");
         assertEquals(source.getTitle(), "CATE Araceae");
         assertEquals(source.getUri(), "http://www.cate-araceae.org");
         assertEquals(source.getCreated().toString(), "2011-04-27T00:00:00.000+01:00");

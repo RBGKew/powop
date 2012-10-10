@@ -1,7 +1,7 @@
 package org.emonocot.portal.remoting;
 
-import org.emonocot.model.media.Image;
-import org.emonocot.model.pager.Page;
+import org.emonocot.model.Image;
+import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.ImageDao;
 import org.springframework.stereotype.Repository;
 

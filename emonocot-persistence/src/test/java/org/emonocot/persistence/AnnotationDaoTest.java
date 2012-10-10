@@ -9,17 +9,17 @@ import java.util.List;
 import java.util.Map;
 
 import org.emonocot.api.FacetName;
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.AnnotationCode;
-import org.emonocot.model.common.AnnotationType;
-import org.emonocot.model.common.RecordType;
-import org.emonocot.model.description.Feature;
+import org.emonocot.model.Annotation;
+import org.emonocot.model.Source;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.AnnotationType;
+import org.emonocot.model.constants.DescriptionType;
+import org.emonocot.model.constants.RecordType;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.Region;
-import org.emonocot.model.pager.Page;
-import org.emonocot.model.source.Source;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.AnnotationDao;
 import org.hibernate.search.query.facet.Facet;
 import org.junit.After;
@@ -70,7 +70,7 @@ public class AnnotationDaoTest extends AbstractPersistenceTest {
        
         Taxon taxon1 = createTaxon("Aus", "1", null, null, null, null, null,
                 null, null, null, wcs, new GeographicalRegion[] {}, null);
-        createTextContent(taxon1, Feature.habitat, "Lorem ipsum", null);
+        createTextContent(taxon1, DescriptionType.habitat, "Lorem ipsum", null);
         Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null, null, null,
                 null, null, null, null, wcs,
                 new GeographicalRegion[] {Continent.AUSTRALASIA,

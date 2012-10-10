@@ -2,7 +2,7 @@ package org.emonocot.portal.remoting;
 
 import java.util.List;
 
-import org.emonocot.model.user.Group;
+import org.emonocot.model.auth.Group;
 import org.emonocot.persistence.dao.GroupDao;
 import org.springframework.stereotype.Repository;
 

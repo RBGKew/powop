@@ -9,14 +9,14 @@ import org.emonocot.api.ReferenceService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.job.dwc.DarwinCoreFieldSetMapper;
 import org.emonocot.job.dwc.taxon.CannotFindRecordException;
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.AnnotationCode;
-import org.emonocot.model.common.AnnotationType;
-import org.emonocot.model.common.RecordType;
-import org.emonocot.model.description.Feature;
-import org.emonocot.model.description.TextContent;
-import org.emonocot.model.reference.Reference;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Annotation;
+import org.emonocot.model.Reference;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.Description;
+import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.AnnotationType;
+import org.emonocot.model.constants.DescriptionType;
+import org.emonocot.model.constants.RecordType;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
@@ -38,14 +38,14 @@ import org.springframework.validation.BindException;
  *
  */
 public class FieldSetMapper extends
-        DarwinCoreFieldSetMapper<TextContent> implements ChunkListener,
+        DarwinCoreFieldSetMapper<Description> implements ChunkListener,
         StepExecutionListener {
 
     /**
      *
      */
     public FieldSetMapper() {
-        super(TextContent.class);
+        super(Description.class);
     }
 
     /**
@@ -97,7 +97,7 @@ public class FieldSetMapper extends
     }
 
     @Override
-    public final void mapField(final TextContent object,
+    public final void mapField(final Description object,
             final String fieldName, final String value) throws BindException {
         ConceptTerm term = getTermFactory().findTerm(fieldName);
         logger.info("Mapping " + fieldName + " " + " " + value + " to "
@@ -129,10 +129,10 @@ public class FieldSetMapper extends
                 object.setSource(value);
                 break;
             case description:
-                object.setContent(value);
+                object.setDescription(value);
                 break;
             case type:
-                object.setFeature(Feature.fromString(value));
+                object.setType(DescriptionType.fromString(value));
                 break;
             case identifier:
                 object.setIdentifier(value);
@@ -187,7 +187,7 @@ public class FieldSetMapper extends
      * @param value
      *            the source of the reference to resolve
      */
-    private void resolveReference(final TextContent object, final String value) {
+    private void resolveReference(final Description object, final String value) {
         if (value == null || value.trim().length() == 0) {
             // there is not citation identifier
             return;
@@ -195,17 +195,16 @@ public class FieldSetMapper extends
             if (boundReferences.containsKey(value)) {
                 object.getReferences().add(boundReferences.get(value));
             } else {
-                Reference r = referenceService.findBySource(value);
+                Reference r = referenceService.find(value);
                 if (r == null) {
                     r = new Reference();
-                    r.setIdentifier(UUID.randomUUID().toString());
+                    r.setIdentifier(value);
                     Annotation annotation = super.createAnnotation(r,
                             RecordType.Reference, AnnotationCode.Create,
                             AnnotationType.Info);
                     r.getAnnotations().add(annotation);
                     r.getSources().add(getSource());
                     r.setAuthority(getSource());
-                    r.setSource(value);
                 }
                 boundReferences.put(value, r);
                 object.getReferences().add(r);

@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.media.Image;
-import org.emonocot.model.reference.Reference;
-import org.emonocot.model.source.Source;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Annotation;
+import org.emonocot.model.Image;
+import org.emonocot.model.Reference;
+import org.emonocot.model.Source;
+import org.emonocot.model.Taxon;
 import org.emonocot.persistence.dao.AnnotationDao;
 import org.emonocot.persistence.dao.ImageDao;
 import org.emonocot.persistence.dao.JobExecutionDao;

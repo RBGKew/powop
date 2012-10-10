@@ -1,6 +1,6 @@
 package org.emonocot.model.marshall.json;
 
-import org.emonocot.model.user.User;
+import org.emonocot.model.auth.User;
 
 /**
  *

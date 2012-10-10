@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.emonocot.api.TaxonService;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Taxon;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.junit.Test;
@@ -128,10 +128,10 @@ public class NullTaxonHarvestingJobIntegrationTest {
         Taxon parent = taxonService.find("urn:kew.org:wcs:taxon:170755",
                 "taxon-with-related");
         assertNotNull("Parent should not be null", parent);
-        assertFalse("Parent should have children", parent.getChildren()
+        assertFalse("Parent should have children", parent.getChildNameUsages()
                 .isEmpty());
-        for (Taxon child : parent.getChildren()) {
-            assertNotNull("Child name should not be null", child.getName());
+        for (Taxon child : parent.getChildNameUsages()) {
+            assertNotNull("Child name should not be null", child.getScientificName());
         }
     }
 }

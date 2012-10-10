@@ -8,9 +8,9 @@ import java.util.UUID;
 import org.emonocot.api.IdentificationKeyService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.harvest.common.AuthorityAware;
-import org.emonocot.model.key.IdentificationKey;
-import org.emonocot.model.source.Source;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.IdentificationKey;
+import org.emonocot.model.Source;
+import org.emonocot.model.Taxon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
@@ -128,15 +128,13 @@ public class DatasetProcessor extends AuthorityAware implements
      */
     public final IdentificationKey process(final Dataset item)
         throws Exception {
-        IdentificationKey persistedIdentificationKey = identificationKeyService
-                .findBySource(authorityUri);
+        IdentificationKey persistedIdentificationKey = identificationKeyService.find(authorityUri);
         String matrix = readFileAsString(matrixFile);
         if (persistedIdentificationKey == null) {
             IdentificationKey identificationKey = new IdentificationKey();
-            identificationKey.setSource(authorityUri);
+            identificationKey.setIdentifier(authorityUri);
             identificationKey.setAuthority(getSource());
             identificationKey.getSources().add(getSource());
-            identificationKey.setIdentifier(UUID.randomUUID().toString());
 
             if (rootTaxonIdentifier != null
                     && rootTaxonIdentifier.trim().length() > 0) {

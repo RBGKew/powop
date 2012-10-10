@@ -12,7 +12,7 @@ import org.apache.lucene.spatial.strategy.SimpleSpatialFieldInfo;
 import org.apache.lucene.spatial.strategy.SpatialFieldInfo;
 import org.apache.lucene.spatial.strategy.SpatialStrategy;
 import org.apache.lucene.spatial.strategy.prefix.DynamicPrefixStrategy;
-import org.emonocot.model.description.Distribution;
+import org.emonocot.model.Distribution;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.Country;
 import org.emonocot.model.geography.GeographicalRegion;

@@ -5,10 +5,9 @@ import java.text.ParseException;
 import org.emonocot.api.TaxonService;
 import org.emonocot.job.dwc.DarwinCoreFieldSetMapper;
 import org.emonocot.job.dwc.taxon.CannotFindRecordException;
-import org.emonocot.model.reference.Reference;
-import org.emonocot.model.reference.ReferenceType;
-import org.emonocot.model.reference.ReferenceTypeConverter;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Reference;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.constants.ReferenceType;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
@@ -49,11 +48,6 @@ public class FieldSetMapper extends
    private Parser<DateTime> dateTimeParser
        = new DateTimeParser(ISODateTimeFormat.dateOptionalTimeParser());
 
-   /**
-    *
-    */
-    private Parser<ReferenceType> referenceTypeParser
-        = new ReferenceTypeConverter();
     /**
      *
      */
@@ -76,10 +70,10 @@ public class FieldSetMapper extends
             DcTerm dcTerm = (DcTerm) term;
             switch (dcTerm) {
             case creator:
-                object.setAuthor(value);
+                object.setCreator(value);
                 break;
             case date:
-                object.setDatePublished(value);
+                object.setDate(value);
                 break;
             case modified:
                 try {
@@ -102,12 +96,12 @@ public class FieldSetMapper extends
                 }
                 break;
             case source:
-                object.setPublishedIn(value);
+                object.setSource(value);
                 break;
             case type:
                 try {
-                    object.setType(referenceTypeParser.parse(value, null));
-                } catch (ParseException pe) {
+                    object.setType(ReferenceType.valueOf(value));
+                } catch (IllegalArgumentException pe) {
                     BindException be = new BindException(object, "target");
                     be.rejectValue("type", "not.valid", pe.getMessage());
                     throw be;
@@ -117,22 +111,16 @@ public class FieldSetMapper extends
                 object.setTitle(value);
                 break;
             case description:
-                object.setReferenceAbstract(value);
+                object.setDescription(value);
                 break;
             case subject:
-                object.setKeywords(value);
+                object.setSubject(value);
                 break;
             case bibliographicCitation:
-                object.setCitation(value);
+                object.setBibliographicCitation(value);
                 break;
-            case identifier:
-                if (value != null && value.trim().length() > 0) {
-                   if (value.startsWith("http://")) {
-                       object.setSource(value);
-                   } else {
-                       object.setIdentifier(value);
-                   }
-                }
+            case identifier:                
+                object.setIdentifier(value);
                 break;
             default:
                 break;
@@ -165,22 +153,5 @@ public class FieldSetMapper extends
             }
         }
 
-     // Unknown
-        if (term instanceof UnknownTerm) {
-            UnknownTerm unknownTerm = (UnknownTerm) term;
-            if (unknownTerm.qualifiedName().equals(
-                    "http://purl.org/ontology/bibo/volume")) {
-                object.setVolume(value);
-            } else if (unknownTerm.qualifiedName().equals(
-                    "http://purl.org/ontology/bibo/number")) {
-                object.setNumber(value);
-            } else if (unknownTerm.qualifiedName().equals(
-                    "http://purl.org/ontology/bibo/pages")) {
-                object.setPages(value);
-            } else if (unknownTerm.qualifiedName().equals(
-                    "http://emonocot.org/publishedInAuthor")) {
-                object.setPublishedInAuthor(value);
-            } 
-        }
     }
 }

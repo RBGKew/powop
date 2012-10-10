@@ -6,7 +6,7 @@ import java.net.URI;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpHost;
 import org.apache.http.conn.params.ConnRoutePNames;
-import org.emonocot.model.user.User;
+import org.emonocot.model.auth.User;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;

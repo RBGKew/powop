@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.emonocot.api.FacetName;
-import org.emonocot.model.common.Annotation;
+import org.emonocot.model.Annotation;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.persistence.dao.AnnotationDao;
 import org.hibernate.FetchMode;

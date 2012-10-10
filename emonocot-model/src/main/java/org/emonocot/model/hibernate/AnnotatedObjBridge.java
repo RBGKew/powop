@@ -2,7 +2,7 @@ package org.emonocot.model.hibernate;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.emonocot.model.common.Base;
+import org.emonocot.model.Base;
 import org.hibernate.search.bridge.FieldBridge;
 import org.hibernate.search.bridge.LuceneOptions;
 

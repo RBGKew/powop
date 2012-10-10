@@ -1,6 +1,6 @@
 package org.emonocot.api;
 
-import org.emonocot.model.common.SearchableObject;
+import org.emonocot.model.SearchableObject;
 
 /**
  * @author jk00kg

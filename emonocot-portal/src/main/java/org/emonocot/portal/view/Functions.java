@@ -16,24 +16,24 @@ import org.emonocot.api.Sorting;
 import org.emonocot.api.Sorting.SortDirection;
 import org.emonocot.api.convert.ClassToStringConverter;
 import org.emonocot.api.convert.PermissionToStringConverter;
-import org.emonocot.model.description.Distribution;
-import org.emonocot.model.description.Feature;
-import org.emonocot.model.description.Status;
-import org.emonocot.model.description.TextContent;
+import org.emonocot.model.Distribution;
+import org.emonocot.model.Identifier;
+import org.emonocot.model.Reference;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.Description;
+import org.emonocot.model.constants.DescriptionType;
+import org.emonocot.model.constants.Status;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.Country;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.GeographicalRegionComparator;
 import org.emonocot.model.geography.Region;
-import org.emonocot.model.identifier.Identifier;
-import org.emonocot.model.pager.Page;
-import org.emonocot.model.reference.Reference;
-import org.emonocot.model.taxon.AlphabeticalTaxonComparator;
-import org.emonocot.model.taxon.Rank;
-import org.emonocot.model.taxon.Taxon;
-import org.emonocot.model.taxon.TaxonomicStatus;
+import org.emonocot.model.util.AlphabeticalTaxonComparator;
+import org.emonocot.pager.Page;
 import org.emonocot.portal.view.bibliography.Bibliography;
 import org.emonocot.portal.view.bibliography.SimpleBibliographyImpl;
+import org.gbif.ecat.voc.Rank;
+import org.gbif.ecat.voc.TaxonomicStatus;
 import org.hibernate.proxy.HibernateProxy;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
@@ -146,10 +146,10 @@ public final class Functions {
      * @return true if the taxon is a synonym
      */
     public static Boolean isSynonym(final Taxon taxon) {
-        if (taxon.getStatus() == null) {
+        if (taxon.getTaxonomicStatus() == null) {
             return false;
         } else  {
-            return taxon.getStatus().equals(TaxonomicStatus.synonym);
+            return taxon.getTaxonomicStatus().equals(TaxonomicStatus.Synonym);
         }
     }
     /**
@@ -157,10 +157,10 @@ public final class Functions {
      * @return true if the taxon is accepted
      */
     public static Boolean isAccepted(final Taxon taxon) {
-        if (taxon.getStatus() == null) {
+        if (taxon.getTaxonomicStatus() == null) {
             return false;
         } else  {
-            return taxon.getStatus().equals(TaxonomicStatus.accepted);
+            return taxon.getTaxonomicStatus().equals(TaxonomicStatus.Accepted);
         }
     }
 
@@ -168,16 +168,8 @@ public final class Functions {
      *
      * @return the list of features
      */
-    public static Feature[] features() {
-        return Feature.values();
-    }
-
-    /**
-     * @param taxon Set the taxon
-     * @return the content in the taxon as a set
-     */
-    public static Collection<TextContent> content(final Taxon taxon) {
-        return taxon.getContent().values();
+    public static DescriptionType[] features() {
+        return DescriptionType.values();
     }
 
     /**
@@ -217,9 +209,16 @@ public final class Functions {
      *            Set the feature
      * @return a Content object, or null
      */
-    public static TextContent content(
-            final Taxon taxon, final Feature feature) {
-        return (TextContent) taxon.getContent().get(feature);
+    public static Description content(
+            final Taxon taxon, final DescriptionType feature) {
+    	Description description = null;
+    	for(Description d : taxon.getDescriptions()) {
+    		if(d.getType().equals(feature)) {
+    			description = d;
+    			break;
+    		}
+    	}
+        return description;
     }
 
     /**
@@ -230,7 +229,9 @@ public final class Functions {
      */
     public static List<GeographicalRegion> regions(final Taxon taxon) {
         List<GeographicalRegion> regions = new ArrayList<GeographicalRegion>();
-        regions.addAll(taxon.getDistribution().keySet());
+        for(Distribution d : taxon.getDistribution()) {
+        	regions.add(d.getRegion());
+        }
         GeographicalRegionComparator comparator = new GeographicalRegionComparator();
         Collections.sort(regions, comparator);
         return regions;
@@ -267,7 +268,7 @@ public final class Functions {
         List<Region> regions = new ArrayList<Region>();
         List<Country> countries = new ArrayList<Country>();
 
-        for (Distribution distribution : taxon.getDistribution().values()) {
+        for (Distribution distribution : taxon.getDistribution()) {
             if (distribution.getRegion().getClass().equals(Continent.class)) {
                 continents.add((Continent) distribution.getRegion());
             } else if (distribution.getRegion().getClass()
@@ -482,7 +483,7 @@ public final class Functions {
      */
    public static String boundingBox(final Taxon taxon) {
         List<Geometry> list = new ArrayList<Geometry>();
-        for (Distribution d : taxon.getDistribution().values()) {
+        for (Distribution d : taxon.getDistribution()) {
             list.add(d.getRegion().getEnvelope());
         }
         GeometryCollection geometryCollection = new GeometryCollection(
@@ -507,7 +508,7 @@ public final class Functions {
     * @return true if the taxon has level 1 features, false otherwise
     */
     public static Boolean hasLevel1Features(final Taxon taxon) {
-        for (Distribution d : taxon.getDistribution().values()) {
+        for (Distribution d : taxon.getDistribution()) {
             if (d.getRegion() instanceof Continent) {
                 return Boolean.TRUE;
             }
@@ -523,7 +524,7 @@ public final class Functions {
     public static String getLevel1Features(final Taxon taxon) {
         boolean first = true;
         StringBuffer features = new StringBuffer();
-        for (Distribution d : taxon.getDistribution().values()) {
+        for (Distribution d : taxon.getDistribution()) {
             if (d.getRegion() instanceof Continent) {
                 if (!first) {
                     features.append(",");
@@ -541,7 +542,7 @@ public final class Functions {
     * @return true if the taxon has level 2 features, false otherwise
     */
     public static Boolean hasLevel2Features(final Taxon taxon) {
-        for (Distribution d : taxon.getDistribution().values()) {
+        for (Distribution d : taxon.getDistribution()) {
             if (d.getRegion() instanceof Region) {
                 return Boolean.TRUE;
             }
@@ -557,7 +558,7 @@ public final class Functions {
     public static String getLevel2Features(final Taxon taxon) {
         boolean first = true;
         StringBuffer features = new StringBuffer();
-        for (Distribution d : taxon.getDistribution().values()) {
+        for (Distribution d : taxon.getDistribution()) {
             if (d.getRegion() instanceof Region) {
                 if (!first) {
                     features.append(",");
@@ -575,7 +576,7 @@ public final class Functions {
     * @return true if the taxon has level 3 features, false otherwise
     */
     public static Boolean hasLevel3Features(final Taxon taxon) {
-        for (Distribution d : taxon.getDistribution().values()) {
+        for (Distribution d : taxon.getDistribution()) {
             if (d.getRegion() instanceof Country) {
                 return Boolean.TRUE;
             }
@@ -591,7 +592,7 @@ public final class Functions {
     public static String getLevel3Features(final Taxon taxon) {
         boolean first = true;
         StringBuffer features = new StringBuffer();
-        for (Distribution d : taxon.getDistribution().values()) {
+        for (Distribution d : taxon.getDistribution()) {
             if (d.getRegion() instanceof Country) {
                 if (!first) {
                     features.append(",");

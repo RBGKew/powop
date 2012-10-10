@@ -237,8 +237,8 @@
 	      <artifactId>tika-parsers</artifactId>
 	    </dependency>
         <dependency>
-          <groupId>org.kew</groupId>
-          <artifactId>ECAT-name-parser</artifactId>
+          <groupId>org.gbif</groupId>
+          <artifactId>ecat-common</artifactId>
         </dependency>
         <dependency>
           <groupId>commons-io</groupId>

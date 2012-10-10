@@ -5,8 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.easymock.EasyMock;
 import org.emonocot.api.SourceService;
 import org.emonocot.job.oaipmh.Validator;
-import org.emonocot.model.source.Source;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Source;
+import org.emonocot.model.Taxon;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.core.JobExecution;
@@ -63,11 +63,11 @@ public class ValidationConstraintsTest {
    @Test
    public final void testValidObject() throws Exception {
        String validAuthorship = "                                        ";
-       taxon.setAuthorship(validAuthorship);
+       taxon.setScientificNameAuthorship(validAuthorship);
        EasyMock.replay(sourceService);
 
        Taxon t = processor.process(taxon);
-       assertEquals("Authorship not be changed", t.getAuthorship(), validAuthorship);
+       assertEquals("Authorship not be changed", t.getScientificNameAuthorship(), validAuthorship);
        EasyMock.verify(sourceService);
    }
 
@@ -76,13 +76,13 @@ public class ValidationConstraintsTest {
     */
    @Test
    public final void testInvalidRootObject() throws Exception {
-       taxon.setAuthorship("                                                                                                                                                                                                                                                                                                                                                                                                                                                        ");
+       taxon.setScientificNameAuthorship("                                                                                                                                                                                                                                                                                                                                                                                                                                                        ");
        EasyMock.expect(
                sourceService.load(EasyMock.eq("test"))).andReturn(new Source());
        EasyMock.replay(sourceService);
 
        Taxon t = processor.process(taxon);
-       assertEquals("Authorship be truncated", t.getAuthorship().length(), 128);
+       assertEquals("Authorship be truncated", t.getScientificNameAuthorship().length(), 128);
        EasyMock.verify(sourceService);
    }
 }

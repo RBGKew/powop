@@ -5,8 +5,8 @@ import static org.junit.Assert.assertEquals;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.emonocot.model.taxon.TaxonomicStatus;
-import org.emonocot.model.taxon.TaxonomicStatusConverter;
+import org.emonocot.job.oaipmh.TaxonomicStatusConverter;
+import org.gbif.ecat.voc.TaxonomicStatus;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,7 +49,7 @@ public class ConversionServiceTest {
     public final void convertValidString() {
         assertEquals("Conversion Service should convert valid strings properly",
                 conversionService.convert("http://e-monocot.org/TaxonomicStatus#synonym",
-                        TaxonomicStatus.class), TaxonomicStatus.synonym);
+                        TaxonomicStatus.class), TaxonomicStatus.Synonym);
     }
 
 }

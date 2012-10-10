@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.emonocot.model.common.Base;
+import org.emonocot.model.Base;
 import org.emonocot.model.hibernate.DistributionBridge;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;

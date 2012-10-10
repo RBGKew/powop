@@ -4,7 +4,7 @@
 package org.emonocot.service.impl;
 
 import org.emonocot.api.IdentificationKeyService;
-import org.emonocot.model.key.IdentificationKey;
+import org.emonocot.model.IdentificationKey;
 import org.emonocot.persistence.dao.IdentificationKeyDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

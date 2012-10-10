@@ -1,7 +1,7 @@
 package org.emonocot.service.impl;
 
 import org.emonocot.api.AnnotationService;
-import org.emonocot.model.common.Annotation;
+import org.emonocot.model.Annotation;
 import org.emonocot.persistence.dao.AnnotationDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

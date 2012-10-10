@@ -1,6 +1,6 @@
 package org.emonocot.job.dwc.description;
 
-import org.emonocot.model.common.AnnotationCode;
+import org.emonocot.model.constants.AnnotationCode;
 
 /**
  *

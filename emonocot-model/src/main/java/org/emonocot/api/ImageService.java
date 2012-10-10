@@ -1,6 +1,6 @@
 package org.emonocot.api;
 
-import org.emonocot.model.media.Image;
+import org.emonocot.model.Image;
 
 /**
  *

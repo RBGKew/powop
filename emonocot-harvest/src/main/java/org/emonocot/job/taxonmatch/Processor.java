@@ -5,7 +5,7 @@ import java.util.List;
 import org.emonocot.api.match.Match;
 import org.emonocot.api.match.MatchStatus;
 import org.emonocot.api.match.taxon.TaxonMatcher;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Taxon;
 import org.gbif.ecat.model.ParsedName;
 import org.gbif.ecat.parser.NameParser;
 import org.gbif.ecat.parser.UnparsableException;
@@ -57,22 +57,22 @@ public class Processor implements ItemProcessor<Taxon, Result> {
      *             if there is a problem
      */
     public final Result process(final Taxon taxon) throws Exception {
-        logger.debug("Attempting to match " + taxon.getName());
+        logger.debug("Attempting to match " + taxon.getScientificName());
         Result result = new Result();
         Taxon internal = new Taxon();
         result.setExternal(taxon);
         result.setInternal(internal);
-        result.setName(taxon.getName());
+        result.setName(taxon.getScientificName());
 
         ParsedName<String> parsed = null;
 
         try {
-            parsed = nameParser.parse(taxon.getName());
+            parsed = nameParser.parse(taxon.getScientificName());
             if (parsed == null) {
-                throw new UnparsableException(null, taxon.getName());
+                throw new UnparsableException(null, taxon.getScientificName());
             }
-            internal.setName(parsed.buildName(true, true, false, false, false,
-                    false, true, false, false, false));
+            internal.setScientificName(parsed.buildName(true, true, false, false, false,
+                    false, true, false, false, false, false));
         } catch (UnparsableException e) {
             result.setStatus(TaxonMatchStatus.CANNOT_PARSE);
             return result;
@@ -82,12 +82,12 @@ public class Processor implements ItemProcessor<Taxon, Result> {
 
         switch (matches.size()) {
         case 0:
-            logger.debug("No matches found for " + taxon.getName());
+            logger.debug("No matches found for " + taxon.getScientificName());
             result.setStatus(TaxonMatchStatus.NO_MATCH);
             result.setMatchCount(0);
             break;
         case 1:
-            logger.debug("A single match identified for " + taxon.getName());
+            logger.debug("A single match identified for " + taxon.getScientificName());
             Match<Taxon> single = matches.get(0);
             if (single.getStatus().equals(MatchStatus.EXACT)) {
                 result.setStatus(TaxonMatchStatus.SINGLE_MATCH);
@@ -98,7 +98,7 @@ public class Processor implements ItemProcessor<Taxon, Result> {
             result.setMatchCount(1);
             break;
         default:
-            logger.debug(matches.size() + " matches for " + taxon.getName());
+            logger.debug(matches.size() + " matches for " + taxon.getScientificName());
             result.setMatchCount(matches.size());
             int exact = 0;
             for (Match<Taxon> match : matches) {

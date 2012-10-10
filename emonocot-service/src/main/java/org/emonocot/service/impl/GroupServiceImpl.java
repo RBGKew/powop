@@ -3,8 +3,8 @@ package org.emonocot.service.impl;
 import java.util.List;
 
 import org.emonocot.api.GroupService;
-import org.emonocot.model.common.SecuredObject;
-import org.emonocot.model.user.Group;
+import org.emonocot.model.SecuredObject;
+import org.emonocot.model.auth.Group;
 import org.emonocot.persistence.dao.AclService;
 import org.emonocot.persistence.dao.GroupDao;
 import org.slf4j.Logger;

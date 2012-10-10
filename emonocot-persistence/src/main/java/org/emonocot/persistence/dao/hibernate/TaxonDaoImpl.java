@@ -6,19 +6,17 @@ import java.util.List;
 import java.util.Map;
 
 import org.emonocot.api.FacetName;
+import org.emonocot.model.Taxon;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.Region;
 import org.emonocot.model.hibernate.Fetch;
-import org.emonocot.model.pager.Page;
-import org.emonocot.model.taxon.Family;
-import org.emonocot.model.taxon.Rank;
-import org.emonocot.model.taxon.Taxon;
-import org.emonocot.model.taxon.TaxonomicStatus;
+import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.TaxonDao;
+import org.gbif.ecat.voc.Rank;
+import org.gbif.ecat.voc.TaxonomicStatus;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.search.ProjectionConstants;
 import org.hibernate.search.query.dsl.FacetContext;
@@ -270,7 +268,7 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
                 if (f.getAssociation().equals("ancestors")) {
                     List<Taxon> ancestors = new ArrayList<Taxon>();
                     getAncestors(t, ancestors);
-                    t.setAncestors(ancestors);
+                    t.setHigherClassification(ancestors);
                 } else if (f.getMode().equals(FetchMode.SELECT)) {
                     String association = f.getAssociation();
                     if (association.indexOf(".") == -1) {
@@ -292,44 +290,11 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
      *            Set the ancestors
      */
     private void getAncestors(final Taxon t, final List<Taxon> ancestors) {
-        if (t.getParent() != null) {
-            getAncestors(t.getParent(), ancestors);
+        if (t.getParentNameUsage() != null) {
+            getAncestors(t.getParentNameUsage(), ancestors);
         }
         ancestors.add(t);
 
-    }
-
-    /**
-     * Returns the genera associated with this family. TODO Remove once families
-     * are imported
-     *
-     * @param family
-     *            the family
-     * @return A list of genera
-     */
-    public final List<Taxon> getGenera(final Family family) {
-        Criteria criteria = getSession().createCriteria(Taxon.class);
-        criteria.add(Restrictions.eq("family", family.toString()));
-        criteria.add(Restrictions.eq("rank", Rank.GENUS));
-        criteria.add(Restrictions.eq("status", TaxonomicStatus.accepted));
-        return (List<Taxon>) criteria.list();
-    }
-
-    /**
-     * Returns the number of genera in a family. TODO Remove once families are
-     * imported
-     *
-     * @param family
-     *            the family
-     * @return the number of accepted genera
-     */
-    public final Integer countGenera(final Family family) {
-        Criteria criteria = getSession().createCriteria(Taxon.class);
-        criteria.add(Restrictions.eq("family", family.toString()));
-        criteria.add(Restrictions.eq("rank", Rank.GENUS));
-        criteria.add(Restrictions.eq("status", TaxonomicStatus.accepted));
-        criteria.setProjection(Projections.rowCount());
-        return ((Long) criteria.uniqueResult()).intValue();
     }
 
     /**
@@ -353,7 +318,7 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
             // return the root taxa
             criteria.add(Restrictions.isNull("parent"));
             criteria.add(Restrictions.isNotNull("name"));
-            criteria.add(Restrictions.eq("status", TaxonomicStatus.accepted));
+            criteria.add(Restrictions.eq("status", TaxonomicStatus.Accepted));
             if (rootRank != null) {
                 criteria.add(Restrictions.eq("rank", rootRank));
             }

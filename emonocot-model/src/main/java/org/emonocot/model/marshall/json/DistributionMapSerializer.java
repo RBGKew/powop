@@ -6,7 +6,7 @@ import java.util.Map;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.SerializerProvider;
-import org.emonocot.model.description.Distribution;
+import org.emonocot.model.Distribution;
 import org.emonocot.model.geography.GeographicalRegion;
 
 /**

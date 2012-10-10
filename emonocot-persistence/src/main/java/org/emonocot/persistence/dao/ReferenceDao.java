@@ -1,6 +1,6 @@
 package org.emonocot.persistence.dao;
 
-import org.emonocot.model.reference.Reference;
+import org.emonocot.model.Reference;
 
 /**
  *

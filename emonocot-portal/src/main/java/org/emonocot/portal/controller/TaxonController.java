@@ -1,7 +1,7 @@
 package org.emonocot.portal.controller;
 
 import org.emonocot.api.TaxonService;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Taxon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

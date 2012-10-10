@@ -3,9 +3,9 @@ package org.emonocot.persistence.dao.hibernate;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.emonocot.model.auth.Group;
+import org.emonocot.model.auth.User;
 import org.emonocot.model.hibernate.Fetch;
-import org.emonocot.model.user.Group;
-import org.emonocot.model.user.User;
 import org.emonocot.persistence.dao.UserDao;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;

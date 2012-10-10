@@ -1,12 +1,12 @@
 package org.emonocot.job.dwc.identifier;
 
 import org.emonocot.job.dwc.DarwinCoreValidator;
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.AnnotationCode;
-import org.emonocot.model.common.AnnotationType;
-import org.emonocot.model.common.RecordType;
-import org.emonocot.model.identifier.Identifier;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Annotation;
+import org.emonocot.model.Identifier;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.AnnotationType;
+import org.emonocot.model.constants.RecordType;
 import org.emonocot.ws.BhlProtologClient;
 import org.emonocot.ws.PdfProtologClient;
 import org.slf4j.Logger;
@@ -90,11 +90,9 @@ public class Validator extends DarwinCoreValidator<Identifier> {
                           annotation.setCode(AnnotationCode.Update);
                           break;
                       }
-               }
-                persistedIdentifier.setCreator(identifier.getCreator());
+               }               
                 persistedIdentifier.setCreated(identifier.getCreated());
                 persistedIdentifier.setModified(identifier.getModified());
-                persistedIdentifier.setSource(identifier.getSource());
                 persistedIdentifier.setTitle(identifier.getTitle());
                 persistedIdentifier.setSubject(identifier.getSubject());
                 persistedIdentifier.setFormat(identifier.getFormat());

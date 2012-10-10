@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.emonocot.model.auth.Group;
 import org.emonocot.model.hibernate.Fetch;
-import org.emonocot.model.user.Group;
 import org.emonocot.persistence.dao.GroupDao;
 import org.hibernate.FetchMode;
 import org.hibernate.Query;

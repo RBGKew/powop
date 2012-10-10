@@ -8,7 +8,7 @@ import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonToken;
 import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
-import org.emonocot.model.description.Distribution;
+import org.emonocot.model.Distribution;
 import org.emonocot.model.geography.GeographicalRegion;
 
 /**

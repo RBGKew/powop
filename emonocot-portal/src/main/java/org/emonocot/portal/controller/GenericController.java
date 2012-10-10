@@ -4,7 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.emonocot.api.Service;
-import org.emonocot.model.common.Base;
+import org.emonocot.model.Base;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;

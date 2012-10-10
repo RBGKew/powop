@@ -5,7 +5,7 @@ package org.emonocot.portal.model;
 
 import java.net.URL;
 
-import org.emonocot.model.common.SearchableObject;
+import org.emonocot.model.SearchableObject;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;

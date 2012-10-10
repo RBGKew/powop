@@ -1,6 +1,6 @@
 package org.emonocot.api;
 
-import org.emonocot.model.key.IdentificationKey;
+import org.emonocot.model.IdentificationKey;
 
 /**
  * @author jk00kg

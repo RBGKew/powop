@@ -4,10 +4,8 @@ import java.text.ParseException;
 
 import org.emonocot.api.TaxonService;
 import org.emonocot.checklist.logging.LoggingConstants;
-import org.emonocot.model.pager.Page;
-import org.emonocot.model.taxon.Family;
-import org.emonocot.model.taxon.Taxon;
-import org.emonocot.model.taxon.TaxonomicStatus;
+import org.emonocot.model.Taxon;
+import org.emonocot.pager.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;

@@ -10,12 +10,12 @@ import java.util.UUID;
 
 import org.emonocot.api.ImageService;
 import org.emonocot.job.dwc.DarwinCoreValidator;
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.AnnotationCode;
-import org.emonocot.model.common.AnnotationType;
-import org.emonocot.model.common.RecordType;
-import org.emonocot.model.media.Image;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Annotation;
+import org.emonocot.model.Image;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.AnnotationType;
+import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
@@ -72,17 +72,15 @@ public class Validator extends DarwinCoreValidator<Image> implements
      */
     public final Image process(final Image image)
             throws Exception {
-        logger.info("Validating " + image.getUrl());
+        logger.info("Validating " + image.getIdentifier());
         
         super.checkTaxon(RecordType.Image, image, image.getTaxon());
 
-        Image boundImage = boundImages.get(image.getUrl());
+        Image boundImage = boundImages.get(image.getIdentifier());
         if (boundImage == null) {
-            Image persistedImage = imageService.findByUrl(image.getUrl());
+            Image persistedImage = imageService.find(image.getIdentifier());
             if (persistedImage == null) {
-                // We've not seen this image before
-                image.setIdentifier(UUID.randomUUID().toString());
-                boundImages.put(image.getUrl(), image);
+                boundImages.put(image.getIdentifier(), image);
                 image.getTaxon().getImages().add(image);
                 image.setAuthority(getSource());
                 image.getSources().add(getSource());
@@ -90,7 +88,7 @@ public class Validator extends DarwinCoreValidator<Image> implements
                         RecordType.Image, AnnotationCode.Create,
                         AnnotationType.Info);
                 image.getAnnotations().add(annotation);
-                logger.info("Adding image " + image.getUrl());
+                logger.info("Adding image " + image.getIdentifier());
                 return image;
             } else {
                 // We've seen this image before, but not in this chunk
@@ -105,8 +103,8 @@ public class Validator extends DarwinCoreValidator<Image> implements
                         return null;
                     } else {
                         // Add the taxon to the list of taxa
-                        boundImages.put(persistedImage.getUrl(), persistedImage);
-                        logger.info("Updating image " + image.getUrl());
+                        boundImages.put(persistedImage.getIdentifier(), persistedImage);
+                        logger.info("Updating image " + image.getIdentifier());
                         persistedImage.getTaxa().add(image.getTaxon());
                         image.getTaxon().getImages().add(persistedImage);
                         return persistedImage;
@@ -132,15 +130,15 @@ public class Validator extends DarwinCoreValidator<Image> implements
                     persistedImage.setCreator(image.getCreator());
                     persistedImage.setLicense(image.getLicense());
                     persistedImage.setModified(image.getModified());
-                    persistedImage.setSource(image.getSource());
+                    persistedImage.setReferences(image.getReferences());
                     persistedImage.setTaxon(image.getTaxon());
                     persistedImage.getTaxa().clear();
                     persistedImage.getTaxa().add(image.getTaxon());
                     if (!image.getTaxon().getImages().contains(persistedImage)) {
                         image.getTaxon().getImages().add(persistedImage);
                     }                    
-                    boundImages.put(image.getUrl(), persistedImage);
-                    logger.info("Overwriting image " + image.getUrl());
+                    boundImages.put(image.getIdentifier(), persistedImage);
+                    logger.info("Overwriting image " + image.getIdentifier());
                     return persistedImage;
                 }
             }
@@ -156,7 +154,7 @@ public class Validator extends DarwinCoreValidator<Image> implements
                 boundImage.getTaxa().add(image.getTaxon());
             }
             // We've already returned this object once
-            logger.info("Skipping image " + image.getUrl());
+            logger.info("Skipping image " + image.getIdentifier());
             return null;
         }
     }
@@ -238,14 +236,14 @@ public class Validator extends DarwinCoreValidator<Image> implements
             if (o1 == o2) {
                 return 0;
             }
-            if (o1.getRank() == null) {
-                if (o2.getRank() == null) {
+            if (o1.getTaxonRank() == null) {
+                if (o2.getTaxonRank() == null) {
                     return 0;
                 }  else {
                     return 1;
                 }
             } else {
-              return o1.getRank().compareTo(o2.getRank());
+              return o1.getTaxonRank().compareTo(o2.getTaxonRank());
             }
         }
     }

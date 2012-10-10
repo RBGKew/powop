@@ -1,7 +1,7 @@
 package org.emonocot.service.impl;
 
 import org.emonocot.api.SourceService;
-import org.emonocot.model.source.Source;
+import org.emonocot.model.Source;
 import org.emonocot.persistence.dao.SourceDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;

@@ -1,6 +1,6 @@
 package org.emonocot.portal.driver.admin.source.job;
 
-import org.emonocot.model.job.Job;
+import org.emonocot.model.Job;
 import org.emonocot.portal.driver.AbstractCreateForm;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

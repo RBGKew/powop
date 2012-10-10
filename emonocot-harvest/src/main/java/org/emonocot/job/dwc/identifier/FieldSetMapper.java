@@ -5,8 +5,8 @@ import java.text.ParseException;
 import org.emonocot.api.TaxonService;
 import org.emonocot.job.dwc.DarwinCoreFieldSetMapper;
 import org.emonocot.job.dwc.taxon.CannotFindRecordException;
-import org.emonocot.model.identifier.Identifier;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Identifier;
+import org.emonocot.model.Taxon;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
@@ -65,10 +65,7 @@ public class FieldSetMapper extends
         ConceptTerm term = getTermFactory().findTerm(fieldName);
         if (term instanceof DcTerm) {
             DcTerm dcTerm = (DcTerm) term;
-            switch (dcTerm) {
-            case creator:
-                object.setCreator(value);
-                break;
+            switch (dcTerm) {            
             case modified:
                 try {
                     object.setModified(dateTimeParser.parse(
@@ -88,9 +85,6 @@ public class FieldSetMapper extends
                     be.rejectValue("created", "not.valid", pe.getMessage());
                     throw be;
                 }
-                break;
-            case source:
-                object.setSource(value);
                 break;
             case title:
                 object.setTitle(value);

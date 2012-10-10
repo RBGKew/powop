@@ -2,7 +2,7 @@ package org.emonocot.job.taxonmatch;
 
 import java.util.Collection;
 
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Taxon;
 
 /**
  *

@@ -10,21 +10,19 @@ import org.emonocot.harvest.common.TaxonRelationship;
 import org.emonocot.harvest.common.TaxonRelationshipResolver;
 import org.emonocot.harvest.common.TaxonRelationshipResolverImpl;
 import org.emonocot.job.dwc.DarwinCoreFieldSetMapper;
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.AnnotationCode;
-import org.emonocot.model.common.AnnotationType;
-import org.emonocot.model.common.RecordType;
-import org.emonocot.model.reference.Reference;
-import org.emonocot.model.taxon.NomenclaturalCode;
-import org.emonocot.model.taxon.Rank;
-import org.emonocot.model.taxon.RankConverter;
-import org.emonocot.model.taxon.Taxon;
-import org.emonocot.model.taxon.TaxonomicStatus;
-import org.emonocot.model.taxon.TaxonomicStatusConverter;
+import org.emonocot.model.Annotation;
+import org.emonocot.model.Reference;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.AnnotationType;
+import org.emonocot.model.constants.RecordType;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.UnknownTerm;
+import org.gbif.ecat.voc.NomenclaturalCode;
+import org.gbif.ecat.voc.Rank;
+import org.gbif.ecat.voc.TaxonomicStatus;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
@@ -32,8 +30,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.ConversionException;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.Parser;
 import org.springframework.format.datetime.joda.DateTimeParser;
 import org.springframework.validation.BindException;
@@ -57,17 +53,6 @@ public class FieldSetMapper extends
      *
      */
     private boolean resolveRelationships = false;
-
-    /**
-     *
-     */
-    private Converter<String, Rank> rankConverter = new RankConverter();
-
-    /**
-     *
-     */
-    private Converter<String, TaxonomicStatus> taxonomicStatusConverter
-        = new TaxonomicStatusConverter();
 
     /**
      *
@@ -184,27 +169,27 @@ public class FieldSetMapper extends
                 taxon.setIdentifier(value);
                 break;
             case scientificNameID:
-                taxon.setNameIdentifier(value);
+                taxon.setScientificNameID(value);
                 break;
             case scientificName:
-                taxon.setName(value);
+                taxon.setScientificName(value);
                 break;
             case scientificNameAuthorship:
-                taxon.setAuthorship(value);
+                taxon.setScientificNameAuthorship(value);
                 break;
             case taxonRank:
-                try {
-                    Rank rank = rankConverter.convert(value
-                            .toUpperCase().replaceAll(" ", "_"));
-                    taxon.setRank(rank);
-                } catch (ConversionException ce) {
-                    logger.error(ce.getMessage());
+                try {                    
+                    taxon.setTaxonRank(Rank.valueOf(value));
+                } catch (IllegalArgumentException iae) {
+                    logger.error(iae.getMessage());
                 }
                 break;
             case taxonomicStatus:
-                TaxonomicStatus status = taxonomicStatusConverter
-                        .convert(value);
-                taxon.setStatus(status);
+                try {
+                    taxon.setTaxonomicStatus(TaxonomicStatus.valueOf(value));
+                } catch (IllegalArgumentException iae) {
+                    logger.error(iae.getMessage());
+                }
                 break;
             case parentNameUsageID:
                 if (resolveRelationships && value != null && value.trim().length() != 0) {
@@ -226,16 +211,34 @@ public class FieldSetMapper extends
                 taxon.setGenus(value);
                 break;
             case subgenus:
-                taxon.setInfraGenericEpithet(value);
+                taxon.setSubgenus(value);
                 break;
             case specificEpithet:
                 taxon.setSpecificEpithet(value);
                 break;
             case infraspecificEpithet:
-                taxon.setInfraSpecificEpithet(value);
+                taxon.setInfraspecificEpithet(value);
                 break;
-            case nameAccordingTo:
-                taxon.setAccordingTo(value);
+            case nameAccordingToID:
+            	if (value != null && value.trim().length() > 0) {
+                    Reference accordingTo = null;
+                    if (boundReferences.containsKey(value)) {
+                    	accordingTo = boundReferences.get(value);
+                    } else {
+                    	accordingTo = referenceService.find(value);
+                        if (accordingTo == null) {
+                        	accordingTo = new Reference();
+                        	accordingTo.setIdentifier(value);
+                            Annotation annotation = createAnnotation(
+                            		accordingTo, RecordType.Reference,
+                                    AnnotationCode.Create, AnnotationType.Info);
+                            accordingTo.getAnnotations().add(annotation);
+                        }
+                        boundReferences.put(accordingTo.getIdentifier(),
+                        		accordingTo);
+                    }
+                    taxon.setNameAccordingTo(accordingTo);
+                }
                 break;
             case kingdom:
                 taxon.setKingdom(value);
@@ -273,7 +276,7 @@ public class FieldSetMapper extends
                         boundReferences.put(protologue.getIdentifier(),
                                 protologue);
                     }
-                    taxon.setProtologue(protologue);
+                    taxon.setNamePublishedIn(protologue);
                 }
             default:
                 break;
@@ -283,9 +286,6 @@ public class FieldSetMapper extends
         if (term instanceof UnknownTerm) {
             UnknownTerm unknownTerm = (UnknownTerm) term;
             if (unknownTerm.qualifiedName().equals(
-                    "http://emonocot.org/protologueMicroReference")) {
-                taxon.setProtologueMicroReference(value);
-            } else if (unknownTerm.qualifiedName().equals(
                     "http://emonocot.org/subfamily")) {
                 taxon.setSubfamily(value);
             } else if (unknownTerm.qualifiedName().equals(
@@ -294,10 +294,7 @@ public class FieldSetMapper extends
             } else if (unknownTerm.qualifiedName().equals(
                     "http://emonocot.org/subtribe")) {
                 taxon.setSubtribe(value);
-            } else if (unknownTerm.qualifiedName().equals(
-                    "http://emonocot.org/originalNameAuthorship")) {
-                taxon.setBasionymAuthorship(value);
-            }
+            } 
         }
     }
     /**

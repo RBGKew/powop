@@ -1,7 +1,7 @@
 package org.emonocot.persistence.dao;
 
-import org.emonocot.model.description.TextContent;
+import org.emonocot.model.Description;
 
-public interface TextContentDao extends Dao<TextContent> {
+public interface TextContentDao extends Dao<Description> {
 
 }
