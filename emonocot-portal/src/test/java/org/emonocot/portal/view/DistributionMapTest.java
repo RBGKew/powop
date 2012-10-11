@@ -39,7 +39,7 @@ public class DistributionMapTest {
                                     final GeographicalRegion region) {
         Distribution distribution = new Distribution();
         distribution.setTaxon(taxon);
-        distribution.setRegion(region);
+        distribution.setLocation(region);
         taxon.getDistribution().add(distribution);
     }
 

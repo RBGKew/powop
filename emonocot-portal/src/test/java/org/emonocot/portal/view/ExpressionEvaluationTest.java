@@ -28,7 +28,7 @@ public class ExpressionEvaluationTest {
 	
 	@Test
 	public void testEvaluatePageTitleExpression() throws ELException {
-		assertEquals("Evaluate should return 'Aus aus Clark.'", Functions.evaluate("${taxon.name} ${taxon.authorship}", pageContext), "Aus aus Clark.");
+		assertEquals("Evaluate should return 'Aus aus Clark.'", Functions.evaluate("${taxon.scientificName} ${taxon.scientificNameAuthorship}", pageContext), "Aus aus Clark.");
 	}
 
 }

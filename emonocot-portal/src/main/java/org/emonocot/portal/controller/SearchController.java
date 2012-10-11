@@ -392,7 +392,7 @@ public class SearchController {
             if (object.getClass().equals(Taxon.class)) {
                 matches.add(new Match(((Taxon) object).getScientificName()));
             } else if (object.getClass().equals(Image.class)) {
-                matches.add(new Match(((Image) object).getCaption()));
+                matches.add(new Match(((Image) object).getTitle()));
             } else if (object.getClass().equals(IdentificationKey.class)) {
                 matches.add(new Match(((IdentificationKey) object).getTitle()));
             } else {

@@ -100,7 +100,7 @@ public class NullTaxonHarvestingJobIntegrationTest {
         parameters
                 .put("query.string",
                         new JobParameter(
-                                "select t.identifier from Taxon t join t.parent as parent where t.name is null and parent.identifier = 'urn:kew.org:wcs:taxon:170755'"));
+                                "select t.identifier from Taxon t join t.parentNameUsage as parent where t.scientificName is null and parent.identifier = 'urn:kew.org:wcs:taxon:170755'"));
         parameters.put("authority.uri", new JobParameter(
                 "http://build.e-monocot.org/test/oai.xml"));
         parameters.put("authority.last.harvested",

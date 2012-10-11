@@ -42,50 +42,51 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
     static {
         FETCH_PROFILES = new HashMap<String, Fetch[]>();
         FETCH_PROFILES.put("taxon-with-children", new Fetch[] {new Fetch(
-                "children", FetchMode.SELECT)});
+                "childNameUsages", FetchMode.SELECT)});
         FETCH_PROFILES.put("classification-tree", new Fetch[] {
-        		new Fetch("children", FetchMode.SELECT),
+        		new Fetch("childNameUsages", FetchMode.SELECT),
         		new Fetch("keys", FetchMode.SELECT)});
         FETCH_PROFILES.put("taxon-with-ancestors", new Fetch[] { new Fetch(
-                "ancestors", FetchMode.SELECT) });
+                "higherClassification", FetchMode.SELECT) });
         FETCH_PROFILES.put("taxon-with-annotations", new Fetch[] {new Fetch(
                 "annotations", FetchMode.SELECT)});
         FETCH_PROFILES.put("taxon-with-related", new Fetch[] {
-                new Fetch("parent", FetchMode.JOIN),
-                new Fetch("accepted", FetchMode.JOIN),
-                new Fetch("children", FetchMode.SELECT),
-                new Fetch("synonyms", FetchMode.SELECT),
+                new Fetch("parentNameUsage", FetchMode.JOIN),
+                new Fetch("acceptedNameUsage", FetchMode.JOIN),
+                new Fetch("childNameUsages", FetchMode.SELECT),
+                new Fetch("synonymNameUsages", FetchMode.SELECT),
                 new Fetch("annotations", FetchMode.SELECT)});
         FETCH_PROFILES.put("taxon-page", new Fetch[] {
-                new Fetch("parent", FetchMode.JOIN),
-                new Fetch("accepted", FetchMode.JOIN),
-                new Fetch("children", FetchMode.SELECT),
-                new Fetch("synonyms", FetchMode.SELECT),
+                new Fetch("parentNameUsage", FetchMode.JOIN),
+                new Fetch("acceptedNameUsage", FetchMode.JOIN),
+                new Fetch("childNameUsages", FetchMode.SELECT),
+                new Fetch("synonymNameUsages", FetchMode.SELECT),
                 new Fetch("distribution", FetchMode.SELECT),
-                new Fetch("content", FetchMode.SELECT),
-                new Fetch("content.references", FetchMode.SELECT),
+                new Fetch("descriptions.references", FetchMode.SELECT),
+                new Fetch("descriptions", FetchMode.SELECT),
+                new Fetch("descriptions.references", FetchMode.SELECT),
                 new Fetch("images", FetchMode.SELECT),
-                new Fetch("protologue", FetchMode.JOIN),
+                new Fetch("namePublishedIn", FetchMode.JOIN),
                 new Fetch("references", FetchMode.SELECT),
-                new Fetch("ancestors", FetchMode.SELECT),
+                new Fetch("higherClassification", FetchMode.SELECT),
                 new Fetch("authority", FetchMode.JOIN),
                 new Fetch("sources", FetchMode.SELECT),
                 new Fetch("identifiers", FetchMode.SELECT)});
         FETCH_PROFILES.put("taxon-with-image", new Fetch[] {new Fetch("image",
                 FetchMode.SELECT)});
         FETCH_PROFILES.put("taxon-with-content", new Fetch[] {
-        		new Fetch("content", FetchMode.SELECT),
+        		new Fetch("descriptions", FetchMode.SELECT),
         		new Fetch("sources", FetchMode.SELECT)});
         FETCH_PROFILES.put("taxon-ws", new Fetch[] {
-                new Fetch("parent", FetchMode.JOIN),
-                new Fetch("accepted", FetchMode.JOIN),
-                new Fetch("children", FetchMode.SELECT),
-                new Fetch("synonyms", FetchMode.SELECT),
+                new Fetch("parentNameUsage", FetchMode.JOIN),
+                new Fetch("acceptedNameUsage", FetchMode.JOIN),
+                new Fetch("childNameUsages", FetchMode.SELECT),
+                new Fetch("synonymNameUsages", FetchMode.SELECT),
                 /**
                  *  ISSUE http://build.e-monocot.org/bugzilla/show_bug.cgi?id=180
                  *
                 new Fetch("distribution", FetchMode.SELECT),*/
-                new Fetch("protologue", FetchMode.JOIN)});
+                new Fetch("namePublishedIn", FetchMode.JOIN)});
     }
 
     /**
@@ -106,8 +107,8 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
      */
     @Override
     protected final String[] getDocumentFields() {
-        return new String[] {"title", "name", "synonyms.name", "authorship",
-                "content.content", "family", "order", "class", "phylum"};
+        return new String[] {"title", "scientificName", "synonymNameUsages.scientificName", "scientificNameAuthorship",
+                "descriptions.description", "family", "order", "class", "phylum"};
     }
 
     /**
@@ -154,14 +155,14 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
             break;
         case RANK:
             facetingRequest = facetContext.name(facetName.name())
-                    .onField("rank").discrete()
+                    .onField("taxonRank").discrete()
                     .orderedBy(FacetSortOrder.FIELD_VALUE)
                     .includeZeroCounts(false).createFacetingRequest();
             facetManager.enableFaceting(facetingRequest);
             break;
         case TAXONOMIC_STATUS:
             facetingRequest = facetContext.name(facetName.name())
-                    .onField("status").discrete()
+                    .onField("taxonomicStatus").discrete()
                     .orderedBy(FacetSortOrder.FIELD_VALUE)
                     .includeZeroCounts(false).createFacetingRequest();
             facetManager.enableFaceting(facetingRequest);
@@ -247,7 +248,7 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
 
     @Override
     public final String getDefaultField() {
-        return "name";
+        return "scientificName";
     }
 
     @Override
@@ -316,14 +317,14 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
         Criteria criteria = getSession().createCriteria(Taxon.class);
         if (identifier == null) {
             // return the root taxa
-            criteria.add(Restrictions.isNull("parent"));
-            criteria.add(Restrictions.isNotNull("name"));
-            criteria.add(Restrictions.eq("status", TaxonomicStatus.Accepted));
+            criteria.add(Restrictions.isNull("parentNameUsage"));
+            criteria.add(Restrictions.isNotNull("scientificName"));
+            criteria.add(Restrictions.eq("taxonomicStatus", TaxonomicStatus.Accepted));
             if (rootRank != null) {
-                criteria.add(Restrictions.eq("rank", rootRank));
+                criteria.add(Restrictions.eq("taxonRank", rootRank));
             }
         } else {
-            criteria.createAlias("parent", "p");
+            criteria.createAlias("parentNameUsage", "p");
             criteria.add(Restrictions.eq("p.identifier", identifier));
         }
 

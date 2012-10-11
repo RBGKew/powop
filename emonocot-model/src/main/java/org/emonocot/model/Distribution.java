@@ -4,10 +4,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
@@ -15,9 +19,14 @@ import javax.persistence.Transient;
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.hibernate.DistributionBridge;
 import org.emonocot.model.marshall.json.GeographicalRegionDeserializer;
+import org.emonocot.model.marshall.json.ReferenceDeserializer;
+import org.emonocot.model.marshall.json.ReferenceSerializer;
+import org.gbif.ecat.voc.EstablishmentMeans;
+import org.gbif.ecat.voc.OccurrenceStatus;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
@@ -51,12 +60,38 @@ public class Distribution extends BaseData {
     /**
      *
      */
-    private GeographicalRegion region;
+    private GeographicalRegion location;
+    
+    /**
+     *
+     */
+    private String locality;
+    
+    /**
+     *
+     */
+    private String occurrenceRemarks;
+    
+    /**
+     *
+     */
+    private OccurrenceStatus occurrenceStatus;
+    
+    /**
+     *
+     */
+    private EstablishmentMeans establishmentMeans;
+    
 
     /**
     *
     */
     private Set<Annotation> annotations = new HashSet<Annotation>();
+    
+    /**
+    *
+    */
+   private Set<Reference> references = new HashSet<Reference>();
 
     /**
    *
@@ -90,8 +125,8 @@ public class Distribution extends BaseData {
      *            the geographical region this distribution is concerned with
      */
     @JsonDeserialize(using = GeographicalRegionDeserializer.class)
-    public void setRegion(GeographicalRegion geoRegion) {
-        this.region = geoRegion;
+    public void setLocation(GeographicalRegion geoRegion) {
+        this.location = geoRegion;
     }
 
     /**
@@ -99,8 +134,8 @@ public class Distribution extends BaseData {
      * @return the lowest level geo region this distribution is concerned with
      */
     @Type(type = "tdwgRegionUserType")
-    public GeographicalRegion getRegion() {
-        return region;
+    public GeographicalRegion getLocation() {
+        return location;
     }
 
     /**
@@ -144,7 +179,86 @@ public class Distribution extends BaseData {
         return taxon;
     }
 
-    @Transient
+    
+    
+    /**
+	 * @return the locality
+	 */
+	public String getLocality() {
+		return locality;
+	}
+
+	/**
+	 * @param locality the locality to set
+	 */
+	public void setLocality(String locality) {
+		this.locality = locality;
+	}
+
+	/**
+	 * @return the occurrenceRemarks
+	 */
+	public String getOccurrenceRemarks() {
+		return occurrenceRemarks;
+	}
+
+	/**
+	 * @param occurrenceRemarks the occurrenceRemarks to set
+	 */
+	public void setOccurrenceRemarks(String occurrenceRemarks) {
+		this.occurrenceRemarks = occurrenceRemarks;
+	}
+
+	/**
+	 * @return the occurrenceStatus
+	 */
+	@Enumerated(value = EnumType.STRING)
+	public OccurrenceStatus getOccurrenceStatus() {
+		return occurrenceStatus;
+	}
+
+	/**
+	 * @param occurrenceStatus the occurrenceStatus to set
+	 */
+	public void setOccurrenceStatus(OccurrenceStatus occurrenceStatus) {
+		this.occurrenceStatus = occurrenceStatus;
+	}
+
+	/**
+	 * @return the establishmentMeans
+	 */
+	@Enumerated(value = EnumType.STRING)
+	public EstablishmentMeans getEstablishmentMeans() {
+		return establishmentMeans;
+	}
+
+	/**
+	 * @param establishmentMeans the establishmentMeans to set
+	 */
+	public void setEstablishmentMeans(EstablishmentMeans establishmentMeans) {
+		this.establishmentMeans = establishmentMeans;
+	}
+
+	/**
+	 * @return the references
+	 */
+	@ManyToMany(fetch = FetchType.LAZY)
+    @Cascade({ CascadeType.SAVE_UPDATE })
+    @JoinTable(name = "Distribution_Reference", joinColumns = { @JoinColumn(name = "Distribution_id") }, inverseJoinColumns = { @JoinColumn(name = "references_id") })
+    @JsonSerialize(contentUsing = ReferenceSerializer.class)
+	public Set<Reference> getReferences() {
+		return references;
+	}
+
+	/**
+	 * @param references the references to set
+	 */
+	@JsonDeserialize(contentUsing = ReferenceDeserializer.class)
+	public void setReferences(Set<Reference> references) {
+		this.references = references;
+	}
+
+	@Transient
     @JsonIgnore
     public final String getClassName() {
         return "Distribution";

@@ -7,8 +7,6 @@ import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
-import org.emonocot.ws.BhlProtologClient;
-import org.emonocot.ws.PdfProtologClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,29 +17,6 @@ import org.slf4j.LoggerFactory;
  */
 public class Validator extends DarwinCoreValidator<Identifier> {
 
-    /**
-     *
-     */
-    private BhlProtologClient bhlClient;
-
-    /**
-     *
-     */
-    private PdfProtologClient pdfClient;
-
-    /**
-     * @param newClient the bhlClient to set
-     */
-    public final void setBhlClient(final BhlProtologClient newClient) {
-        this.bhlClient = newClient;
-    }
-
-    /**
-     * @param newClient the pdfClient to set
-     */
-    public final void setPdfClient(final PdfProtologClient newClient) {
-        this.pdfClient = newClient;
-    }
 
     /**
      *
@@ -106,19 +81,7 @@ public class Validator extends DarwinCoreValidator<Identifier> {
                     AnnotationType.Info);
             identifier.getAnnotations().add(annotation);
             identifier.getSources().add(getSource());
-            identifier.setAuthority(getSource());
-            if (identifier.getFormat() != null) {
-                if (identifier.getFormat().equals("application/pdf")
-                        && identifier.getIdentifier().startsWith("http://")) {
-                    String content = pdfClient.getProtolog(identifier.getIdentifier());
-                    identifier.setContent(content);
-                } else if (identifier.getFormat().equals("text/html")
-                        && identifier.getIdentifier().startsWith(
-                                "http://biodiversitylibrary.org/page/")) {
-                    String content = bhlClient.getProtolog(identifier.getIdentifier());
-                    identifier.setContent(content);
-                }
-            }
+            identifier.setAuthority(getSource());            
             return identifier;
         }
     }

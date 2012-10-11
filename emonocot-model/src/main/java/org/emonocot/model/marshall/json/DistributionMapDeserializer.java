@@ -29,7 +29,7 @@ public class DistributionMapDeserializer extends
         while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
             Distribution distribution = jsonParser
                     .readValueAs(Distribution.class);
-            distributions.put(distribution.getRegion(), distribution);
+            distributions.put(distribution.getLocation(), distribution);
         }
         return distributions;
     }

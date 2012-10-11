@@ -125,7 +125,7 @@ public class Validator extends DarwinCoreValidator<Image> implements
                         }
                     }
 
-                    persistedImage.setCaption(image.getCaption());
+                    persistedImage.setTitle(image.getTitle());
                     persistedImage.setCreated(image.getCreated());
                     persistedImage.setCreator(image.getCreator());
                     persistedImage.setLicense(image.getLicense());

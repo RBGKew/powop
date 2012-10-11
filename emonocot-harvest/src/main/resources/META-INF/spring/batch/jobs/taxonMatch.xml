@@ -103,7 +103,7 @@
 
 	<bean id="fieldSetMapper" class="org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper">
 	    <property name="targetType">
-			<value>org.emonocot.model.taxon.Taxon</value>
+			<value>org.emonocot.model.Taxon</value>
 		</property>		
 	</bean>
 	

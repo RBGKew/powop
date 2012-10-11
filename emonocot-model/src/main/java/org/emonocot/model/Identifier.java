@@ -55,11 +55,6 @@ public class Identifier extends BaseData {
     /**
      *
      */
-    private String content;
-
-    /**
-     *
-     */
     private Taxon taxon;
 
     /**
@@ -71,24 +66,6 @@ public class Identifier extends BaseData {
      *
      */
     private Long id;
-
-    /**
-    *
-    * @return the content
-    */
-   @Lob
-   @Field
-   public String getContent() {
-       return content;
-   }
-
-   /**
-    *
-    * @param content Set the content
-    */
-   public void setContent(String content) {
-       this.content = content;
-   }
 
    /**
     *

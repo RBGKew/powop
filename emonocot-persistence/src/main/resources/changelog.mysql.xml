@@ -2740,4 +2740,98 @@
             <column name="audience" columnDataType="varchar(255)"/>
        </addColumn>
     </changeSet>
+    <changeSet id="2012-10-09_93" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Distribution">
+            <column name="locality" columnDataType="varchar(255)"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_94" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Distribution">
+            <column name="occurrenceRemarks" columnDataType="varchar(255)"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_95" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Distribution">
+            <column name="occurrenceStatus" columnDataType="varchar(255)"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_96" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Distribution">
+            <column name="establishmentMeans" columnDataType="varchar(255)"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_88" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <renameColumn tableName="Distribution" oldColumnName="region" newColumnName="location"/>
+    </changeSet>
+    <changeSet author="ben" id="2012-10-09_89">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <createTable tableName="Distribution_Reference">
+            <column name="Distribution_id" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="references_id" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="ben" id="2012-10-09_90">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addForeignKeyConstraint constraintName="Distribution_Reference_Distribution_fk" baseColumnNames="Distribution_id" baseTableName="Distribution_Reference" referencedColumnNames="id" referencedTableName="Distribution"/>
+    </changeSet>
+    <changeSet author="ben" id="2012-10-09_91">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addForeignKeyConstraint constraintName="Distribution_Reference_Reference_fk" baseColumnNames="references_id" baseTableName="Distribution_Reference" referencedColumnNames="id" referencedTableName="Distribution"/>
+    </changeSet>
+    <changeSet id="2012-10-09_92" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <dropColumn tableName="Identifier" columnName="content"/>
+    </changeSet>
+    <changeSet id="2012-10-09_93" author="ben">
+        <renameColumn tableName="Image" oldColumnName="caption" newColumnName="title"/>
+    </changeSet>
+    <changeSet id="2012-10-09_94" author="ben">
+        <renameColumn tableName="Image" oldColumnName="keywords" newColumnName="subject"/>
+    </changeSet>
+    <changeSet id="2012-10-09_95" author="ben">
+        <renameColumn tableName="Image" oldColumnName="locality" newColumnName="spatial"/>
+    </changeSet>
+    <changeSet id="2012-10-09_96" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Image">
+            <column name="contributor" columnDataType="varchar(255)"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_97" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Image">
+            <column name="publisher" columnDataType="varchar(255)"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_98" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Image">
+            <column name="audience" columnDataType="varchar(255)"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_99" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <sql>update IdentificationKey set identifier = source;</sql>
+    </changeSet>
+    <changeSet id="2012-10-09_100" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <dropColumn tableName="IdentificationKey" columnName="source"/>
+    </changeSet>
+    <changeSet id="2012-10-09_101" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <sql>update Image set identifier = url;</sql>
+    </changeSet>
+    <changeSet id="2012-10-09_102" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <dropColumn tableName="Image" columnName="url"/>
+    </changeSet>
 </databaseChangeLog>

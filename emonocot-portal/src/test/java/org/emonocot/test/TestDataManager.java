@@ -218,13 +218,13 @@ public class TestDataManager {
 			final String taxon, String format, final String taxa1) {
         enableAuthentication();
         Image image = new Image();
-        image.setCaption(caption);
+        image.setTitle(caption);
         image.setIdentifier(identifier);
         image.setDescription(description);
-        image.setLocality(locality);
+        image.setSpatial(locality);
         image.setCreator(creator);
         image.setLicense(license);
-        image.setKeywords(keywords);
+        image.setSubject(keywords);
         if(format != null) {
         	image.setFormat(ImageFormat.valueOf(format));
         }
@@ -477,7 +477,7 @@ public class TestDataManager {
             distribution.setIdentifier(UUID.randomUUID().toString());
             GeographicalRegion geographicalRegion = geographyConverter
                     .convert(distribution1);
-            distribution.setRegion(geographicalRegion);
+            distribution.setLocation(geographicalRegion);
             distribution.setTaxon(taxon);
             taxon.getDistribution().add(distribution);
         }
@@ -486,7 +486,7 @@ public class TestDataManager {
             distribution.setIdentifier(UUID.randomUUID().toString());
             GeographicalRegion geographicalRegion = geographyConverter
                     .convert(distribution2);
-            distribution.setRegion(geographicalRegion);
+            distribution.setLocation(geographicalRegion);
             distribution.setTaxon(taxon);
             taxon.getDistribution().add(distribution);
         }
@@ -495,7 +495,7 @@ public class TestDataManager {
             distribution.setIdentifier(UUID.randomUUID().toString());
             GeographicalRegion geographicalRegion = geographyConverter
                     .convert(distribution3);
-            distribution.setRegion(geographicalRegion);
+            distribution.setLocation(geographicalRegion);
             distribution.setTaxon(taxon);
             taxon.getDistribution().add(distribution);
         }

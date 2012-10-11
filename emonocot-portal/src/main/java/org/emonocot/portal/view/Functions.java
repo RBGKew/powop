@@ -230,7 +230,7 @@ public final class Functions {
     public static List<GeographicalRegion> regions(final Taxon taxon) {
         List<GeographicalRegion> regions = new ArrayList<GeographicalRegion>();
         for(Distribution d : taxon.getDistribution()) {
-        	regions.add(d.getRegion());
+        	regions.add(d.getLocation());
         }
         GeographicalRegionComparator comparator = new GeographicalRegionComparator();
         Collections.sort(regions, comparator);
@@ -269,13 +269,13 @@ public final class Functions {
         List<Country> countries = new ArrayList<Country>();
 
         for (Distribution distribution : taxon.getDistribution()) {
-            if (distribution.getRegion().getClass().equals(Continent.class)) {
-                continents.add((Continent) distribution.getRegion());
-            } else if (distribution.getRegion().getClass()
+            if (distribution.getLocation().getClass().equals(Continent.class)) {
+                continents.add((Continent) distribution.getLocation());
+            } else if (distribution.getLocation().getClass()
                     .equals(Region.class)) {
-                regions.add((Region) distribution.getRegion());
+                regions.add((Region) distribution.getLocation());
             } else {
-                countries.add((Country) distribution.getRegion());
+                countries.add((Country) distribution.getLocation());
             }
         }
         boolean hasLevel1 = !continents.isEmpty();
@@ -484,7 +484,7 @@ public final class Functions {
    public static String boundingBox(final Taxon taxon) {
         List<Geometry> list = new ArrayList<Geometry>();
         for (Distribution d : taxon.getDistribution()) {
-            list.add(d.getRegion().getEnvelope());
+            list.add(d.getLocation().getEnvelope());
         }
         GeometryCollection geometryCollection = new GeometryCollection(
                 list.toArray(new Geometry[list.size()]), new GeometryFactory());
@@ -509,7 +509,7 @@ public final class Functions {
     */
     public static Boolean hasLevel1Features(final Taxon taxon) {
         for (Distribution d : taxon.getDistribution()) {
-            if (d.getRegion() instanceof Continent) {
+            if (d.getLocation() instanceof Continent) {
                 return Boolean.TRUE;
             }
         }
@@ -525,11 +525,11 @@ public final class Functions {
         boolean first = true;
         StringBuffer features = new StringBuffer();
         for (Distribution d : taxon.getDistribution()) {
-            if (d.getRegion() instanceof Continent) {
+            if (d.getLocation() instanceof Continent) {
                 if (!first) {
                     features.append(",");
                 }
-                features.append(d.getRegion().getFeatureId());
+                features.append(d.getLocation().getFeatureId());
                 first = false;
             }
         }
@@ -543,7 +543,7 @@ public final class Functions {
     */
     public static Boolean hasLevel2Features(final Taxon taxon) {
         for (Distribution d : taxon.getDistribution()) {
-            if (d.getRegion() instanceof Region) {
+            if (d.getLocation() instanceof Region) {
                 return Boolean.TRUE;
             }
         }
@@ -559,11 +559,11 @@ public final class Functions {
         boolean first = true;
         StringBuffer features = new StringBuffer();
         for (Distribution d : taxon.getDistribution()) {
-            if (d.getRegion() instanceof Region) {
+            if (d.getLocation() instanceof Region) {
                 if (!first) {
                     features.append(",");
                 }
-                features.append(d.getRegion().getFeatureId());
+                features.append(d.getLocation().getFeatureId());
                 first = false;
             }
         }
@@ -577,7 +577,7 @@ public final class Functions {
     */
     public static Boolean hasLevel3Features(final Taxon taxon) {
         for (Distribution d : taxon.getDistribution()) {
-            if (d.getRegion() instanceof Country) {
+            if (d.getLocation() instanceof Country) {
                 return Boolean.TRUE;
             }
         }
@@ -593,11 +593,11 @@ public final class Functions {
         boolean first = true;
         StringBuffer features = new StringBuffer();
         for (Distribution d : taxon.getDistribution()) {
-            if (d.getRegion() instanceof Country) {
+            if (d.getLocation() instanceof Country) {
                 if (!first) {
                     features.append(",");
                 }
-                features.append(d.getRegion().getFeatureId());
+                features.append(d.getLocation().getFeatureId());
                 first = false;
             }
         }

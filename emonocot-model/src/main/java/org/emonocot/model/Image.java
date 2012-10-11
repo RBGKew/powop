@@ -60,7 +60,7 @@ public class Image extends SearchableObject {
     /**
      *
      */
-    private String caption;
+    private String title;
 
     /**
      *
@@ -70,7 +70,7 @@ public class Image extends SearchableObject {
     /**
      *
      */
-    private String locality;
+    private String spatial;
 
     /**
      *
@@ -80,7 +80,7 @@ public class Image extends SearchableObject {
     /**
      *
      */
-    private String keywords;
+    private String subject;
 
     /**
      *
@@ -107,9 +107,30 @@ public class Image extends SearchableObject {
      */
     private Long id;
     
+    /**
+     *
+     */
     private String creator;
     
+    /**
+     *
+     */
     private String references;
+    
+    /**
+     *
+     */
+    private String contributor;
+    
+    /**
+     *
+     */
+    private String publisher;
+    
+    /**
+     *
+     */
+    private String audience;
 
     /**
 	 * @return the creator
@@ -162,16 +183,16 @@ public class Image extends SearchableObject {
     * @return the location as a string
     */
    @Field
-   public String getLocality() {
-       return locality;
+   public String getSpatial() {
+       return spatial;
    }
 
    /**
     *
     * @param locality Set the location as a string
     */
-   public void setLocality(final String locality) {
-       this.locality = locality;
+   public void setSpatial(final String locality) {
+       this.spatial = locality;
    }
 
    /**
@@ -196,16 +217,16 @@ public class Image extends SearchableObject {
     * @return the keywords as a string, comma separated
     */
    @Field
-   public String getKeywords() {
-       return keywords;
+   public String getSubject() {
+       return subject;
    }
 
    /**
     *
     * @param keywords Set the keywords as a string, comma separated
     */
-   public void setKeywords(String keywords) {
-       this.keywords = keywords;
+   public void setSubject(String keywords) {
+       this.subject = keywords;
    }
 
    /**
@@ -250,8 +271,8 @@ public class Image extends SearchableObject {
      * @return the caption
      */
     @Fields({ @Field, @Field(name = "label", index = Index.UN_TOKENIZED) })
-    public String getCaption() {
-        return caption;
+    public String getTitle() {
+        return title;
     }
 
     /**
@@ -259,11 +280,53 @@ public class Image extends SearchableObject {
      * @param caption
      *            Set the caption
      */
-    public void setCaption(String caption) {
-        this.caption = caption;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     /**
+	 * @return the contributor
+	 */
+	public String getContributor() {
+		return contributor;
+	}
+
+	/**
+	 * @param contributor the contributor to set
+	 */
+	public void setContributor(String contributor) {
+		this.contributor = contributor;
+	}
+
+	/**
+	 * @return the publisher
+	 */
+	public String getPublisher() {
+		return publisher;
+	}
+
+	/**
+	 * @param publisher the publisher to set
+	 */
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
+	}
+
+	/**
+	 * @return the audience
+	 */
+	public String getAudience() {
+		return audience;
+	}
+
+	/**
+	 * @param audience the audience to set
+	 */
+	public void setAudience(String audience) {
+		this.audience = audience;
+	}
+
+	/**
      * The taxon (page) this image should link to - should be the lowest rank
      * taxon in taxa?
      *

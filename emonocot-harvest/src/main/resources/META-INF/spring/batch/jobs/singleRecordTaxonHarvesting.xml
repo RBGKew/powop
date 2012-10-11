@@ -154,11 +154,11 @@
 	<bean id="nullItemReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
 	  <property name="useStatelessSession" value="false"/>
 	  <property name="sessionFactory" ref="sessionFactory" />
-	  <property name="queryString" value="select t.identifier from Taxon t left join t.annotations a where a.jobId = :jobId and a.code = :code and t.name is null"/>
+	  <property name="queryString" value="select t.identifier from Taxon t left join t.annotations a where a.jobId = :jobId and a.code = :code and t.scientificName is null"/>
 	  <property name="parameterValues">
 	    <map>
 	     <entry key="jobId" value="#{stepExecution.jobExecutionId}"/>
-	     <entry key="code" value="#{T(org.emonocot.model.common.AnnotationCode).Create}"/>
+	     <entry key="code" value="#{T(org.emonocot.model.constants.AnnotationCode).Create}"/>
 	    </map>
 	  </property>
 	</bean>

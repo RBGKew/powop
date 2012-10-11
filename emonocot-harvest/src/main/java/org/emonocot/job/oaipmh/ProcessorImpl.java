@@ -260,7 +260,7 @@ public class ProcessorImpl extends AuthorityAware implements
                             org.emonocot.model.Distribution dist
                                 = resolveDistribution(distribution
                                     .getHasValueRelation(), taxon);
-                            if (dist.getRegion() != null) {
+                            if (dist.getLocation() != null) {
                                 dist.setTaxon(taxon);
                                 taxon.getDistribution().add(dist);
                             } else {
@@ -481,7 +481,7 @@ public class ProcessorImpl extends AuthorityAware implements
            = new org.emonocot.model.Distribution();
         distribution.setIdentifier(UUID.randomUUID().toString());
         try {
-            distribution.setRegion(conversionService.convert(id,
+            distribution.setLocation(conversionService.convert(id,
                     GeographicalRegion.class));
         } catch (ConversionException ce) {
             distribution.getAnnotations().add(

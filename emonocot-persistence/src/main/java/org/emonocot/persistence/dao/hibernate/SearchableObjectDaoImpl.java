@@ -171,8 +171,8 @@ public class SearchableObjectDaoImpl extends
      */
     @Override
     protected final String[] getDocumentFields() {
-        return new String[] {"name", "synonyms.name", "caption", "title",
-                "content.content", "description", "creator", "keywords", "locality",
+        return new String[] {"scientificName", "synonymNameUsages.scientificName", "title",
+                "descriptions.description", "description", "creator", "subject", "locality",
                 "family", "order", "class", "phylum"};
     }
 

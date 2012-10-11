@@ -30,6 +30,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionException;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.format.Parser;
 import org.springframework.format.datetime.joda.DateTimeParser;
 import org.springframework.validation.BindException;
@@ -53,6 +55,8 @@ public class FieldSetMapper extends
      *
      */
     private boolean resolveRelationships = false;
+    
+    private ConversionService conversionService = null;
 
     /**
      *
@@ -118,6 +122,11 @@ public class FieldSetMapper extends
             final TaxonRelationshipResolver resolver) {
         this.taxonRelationshipResolver = resolver;
     }
+    
+    @Autowired
+    public final void setConversionService(ConversionService conversionService) {
+    	this.conversionService = conversionService;
+    }
 
     /**
      *
@@ -179,14 +188,14 @@ public class FieldSetMapper extends
                 break;
             case taxonRank:
                 try {                    
-                    taxon.setTaxonRank(Rank.valueOf(value));
-                } catch (IllegalArgumentException iae) {
-                    logger.error(iae.getMessage());
+                    taxon.setTaxonRank(conversionService.convert(value, Rank.class));
+                } catch (ConversionException ce) {
+                    logger.error(ce.getMessage());
                 }
                 break;
             case taxonomicStatus:
                 try {
-                    taxon.setTaxonomicStatus(TaxonomicStatus.valueOf(value));
+                    taxon.setTaxonomicStatus(TaxonomicStatus.fromString(value));
                 } catch (IllegalArgumentException iae) {
                     logger.error(iae.getMessage());
                 }
@@ -256,7 +265,7 @@ public class FieldSetMapper extends
                 taxon.setFamily(value);
                 break;
             case nomenclaturalCode:
-                taxon.setNomenclaturalCode(NomenclaturalCode.valueOf(value));
+                taxon.setNomenclaturalCode(NomenclaturalCode.fromString(value));
                 break;
             case namePublishedInID:
                 if (value != null && value.trim().length() > 0) {

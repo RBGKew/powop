@@ -179,7 +179,7 @@ public class RestApiFunctionalTest {
         taxonDao.save(taxon);       
         
         Image image = new Image();
-        image.setCaption("Acorus");        
+        image.setTitle("Acorus");        
         image.setIdentifier("http://upload.wikimedia.org/wikipedia/commons/2/25/Illustration_Acorus_calamus0.jpg");
         image.getTaxa().add(taxon);
         imageDao.save(image);            
@@ -195,7 +195,7 @@ public class RestApiFunctionalTest {
     @Test
     public final void testTaxon() {
         Image image = new Image();
-        image.setCaption("Acorus");
+        image.setTitle("Acorus");
         image.setIdentifier("http://upload.wikimedia.org/wikipedia/commons/2/25/Illustration_Acorus_calamus0.jpg");
         imageDao.save(image);
 
@@ -217,7 +217,7 @@ public class RestApiFunctionalTest {
         Distribution distribution = new Distribution();
         distribution.setIdentifier(UUID.randomUUID().toString());
         distribution.setTaxon(taxon);
-        distribution.setRegion(Country.REU);
+        distribution.setLocation(Country.REU);
         taxon.getDistribution().add(distribution);
         taxon.getImages().add(image);
         taxonDao.save(taxon);

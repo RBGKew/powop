@@ -67,22 +67,22 @@
 		</property>
 		<property name="annotatedClasses">
 			<list>
-    			<value>org.emonocot.model.job.Job</value>
-				<value>org.emonocot.model.source.Source</value>
-				<value>org.emonocot.model.identifier.Identifier</value>
-				<value>org.emonocot.model.key.IdentificationKey</value>
-				<value>org.emonocot.model.common.Annotation</value>
-				<value>org.emonocot.model.description.Distribution</value>
-				<value>org.emonocot.model.description.TextContent</value>
+    			<value>org.emonocot.model.Job</value>
+				<value>org.emonocot.model.Source</value>
+				<value>org.emonocot.model.Identifier</value>
+				<value>org.emonocot.model.IdentificationKey</value>
+				<value>org.emonocot.model.Annotation</value>
+				<value>org.emonocot.model.Distribution</value>
+				<value>org.emonocot.model.Description</value>
 				<value>org.emonocot.model.geography.Place</value>
-				<value>org.emonocot.model.media.Image</value>
-				<value>org.emonocot.model.reference.Reference</value>
-				<value>org.emonocot.model.taxon.Taxon</value>
-				<value>org.emonocot.model.user.User</value>
-				<value>org.emonocot.model.user.Group</value>
+				<value>org.emonocot.model.Image</value>
+				<value>org.emonocot.model.Reference</value>
+				<value>org.emonocot.model.Taxon</value>
+				<value>org.emonocot.model.auth.User</value>
+				<value>org.emonocot.model.auth.Group</value>
 			</list>
 		</property>
-		<property name="annotatedPackages" value="org.emonocot.model.common" />
+		<property name="annotatedPackages" value="org.emonocot.model" />
 	</bean>
 
 	<bean id="transactionManager"

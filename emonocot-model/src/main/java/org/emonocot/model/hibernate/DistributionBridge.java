@@ -133,7 +133,7 @@ public class DistributionBridge implements FieldBridge {
             final Document document, final LuceneOptions luceneOptions) {
         Distribution distribution = (Distribution) value;
 
-        GeographicalRegion geographicalRegion = distribution.getRegion();
+        GeographicalRegion geographicalRegion = distribution.getLocation();
 
         if (geographicalRegion != null) {  // WARN this should not be null!
         	

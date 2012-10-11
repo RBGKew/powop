@@ -107,7 +107,7 @@ public class FieldSetMapper extends
                 object.setReferences(value);
                 break;
             case title:
-                object.setCaption(value);
+                object.setTitle(value);
                 break;
             case identifier:
                 object.setIdentifier(value);                

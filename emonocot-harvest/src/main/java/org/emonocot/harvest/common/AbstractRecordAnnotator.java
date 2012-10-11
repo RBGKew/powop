@@ -101,12 +101,13 @@ public abstract class AbstractRecordAnnotator extends HibernateDaoSupport {
             final String annotationValue, final AnnotationType annotationType,
             final String message) {
         final Annotation annotation = new Annotation();
-        annotation.setRecordType(recordType);
-        annotation.setJobId(jobExecutionId);
-        annotation.setCode(annotationCode);
-        annotation.setValue(annotationValue);
-        annotation.setText(message);
-        annotation.setType(annotationType);
+        annotation.setId(1000L);
+        //annotation.setRecordType(recordType);
+        //annotation.setJobId(jobExecutionId);
+        //annotation.setCode(annotationCode);
+        //annotation.setValue(annotationValue);
+        //annotation.setText(message);
+        //annotation.setType(annotationType);
         annotate(annotation);
     }
 
@@ -115,17 +116,27 @@ public abstract class AbstractRecordAnnotator extends HibernateDaoSupport {
      * @param annotation Set the annotation
      */
     public final void annotate(final Annotation annotation) {
-        annotation.setAuthority(getSource());
+        //annotation.setAuthority(getSource());
         try {
             transactionTemplate.execute(new TransactionCallback() {
-                public Serializable doInTransaction(
+               public Serializable doInTransaction(
                         final TransactionStatus status) {
                     return getSession().save(annotation);
                 }
             });
         } catch (Throwable t) {
             logger.error(t.getMessage());
-            throw new RuntimeException(t);
+        //    for(StackTraceElement ste : t.getStackTrace()) {
+         //   	logger.error(ste.toString());
+         //   }
+         //   if(t.getCause() != null) {
+         //   	Throwable t2 = t.getCause();
+         //   	logger.error("Caused by " + t2.getMessage());
+         //   	for(StackTraceElement ste : t2.getStackTrace()) {
+         //       	logger.error(ste.toString());
+         //       }
+         //   }
+           throw new RuntimeException(t);
         }
     }
 }

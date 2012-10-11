@@ -23,7 +23,7 @@ public class RecordAnnotator extends AbstractRecordAnnotator {
 	 * @return the exit status
      */
 	public final ExitStatus annotateRecords(String sourceName, String family, String subfamily, String tribe, String subtribe) {
-      Integer sourceId = jdbcTemplate.queryForInt("Select id from source where identifier = '" + sourceName + "'");
+      Integer authorityId = jdbcTemplate.queryForInt("Select id from source where identifier = '" + sourceName + "'");
       String subsetRank = null;
       String subsetValue = null;
       
@@ -40,9 +40,9 @@ public class RecordAnnotator extends AbstractRecordAnnotator {
     	  subsetRank = "family";
     	  subsetValue = family;
       }
-      String queryString = "insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, source_id, type, code, recordType) select t.id, 'Taxon', ':jobId', :dateTime, :sourceId, 'Warn', 'Absent', 'Taxon' from Taxon t left join Taxon a on (t.accepted_id = a.id) where t.:subsetRank = ':subsetValue' or a.:subsetRank = ':subsetValue'";
+      String queryString = "insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select t.id, 'Taxon', ':jobId', :dateTime, :authorityId, 'Warn', 'Absent', 'Taxon' from Taxon t left join Taxon a on (t.acceptedNameUsage_id = a.id) where t.:subsetRank = ':subsetValue' or a.:subsetRank = ':subsetValue'";
       
-      queryString = queryString.replaceAll(":sourceId", sourceId.toString());
+      queryString = queryString.replaceAll(":authorityId", authorityId.toString());
       queryString = queryString.replaceAll(":jobId", stepExecution.getJobExecutionId().toString());
       queryString = queryString.replaceAll(":dateTime", OlapDateTimeUserType.convert(new DateTime()).toString());
       queryString = queryString.replaceAll(":subsetRank", subsetRank);

@@ -130,7 +130,7 @@ public class JsonConversionTest {
                 reference).anyTimes();
         
         EasyMock.replay(referenceService, imageService);
-        String content = "{\"identifier\":\"urn:kew.org:wcs:taxon:2295\",\"scientificName\":\"Acorus\",\"namePublishedIn\":\"urn:kew.org:wcs:publication:1\", \"descriptions\": [{\"feature\":\"habitat\",\"content\":\"Lorem ipsum\", \"references\":[\"urn:kew.org:wcs:publication:1\"]}], \"distribution\":[{\"region\":\"REU\"}]}";
+        String content = "{\"identifier\":\"urn:kew.org:wcs:taxon:2295\",\"scientificName\":\"Acorus\",\"namePublishedIn\":\"urn:kew.org:wcs:publication:1\", \"descriptions\": [{\"type\":\"habitat\",\"description\":\"Lorem ipsum\", \"references\":[\"urn:kew.org:wcs:publication:1\"]}], \"distribution\":[{\"location\":\"REU\"}]}";
         Taxon taxon = (Taxon) objectMapper.readValue(content, Taxon.class);
         EasyMock.verify(referenceService, imageService);
 
@@ -158,7 +158,7 @@ public class JsonConversionTest {
                 .getDistribution().isEmpty());
         Distribution reunion = null;
         for(Distribution d : taxon.getDistribution()) {
-        	if(d.getRegion().equals(Country.REU)) {
+        	if(d.getLocation().equals(Country.REU)) {
         		reunion = d;
         		break;
         	}
@@ -189,7 +189,7 @@ public class JsonConversionTest {
         taxon.getDescriptions().add(textContent);
         Distribution distribution = new Distribution();
         distribution.setTaxon(taxon);
-        distribution.setRegion(Country.REU);
+        distribution.setLocation(Country.REU);
         taxon.getDistribution().add(distribution);
         taxon.getReferences().add(reference);
         taxon.setNamePublishedIn(reference);
@@ -219,7 +219,7 @@ public class JsonConversionTest {
         String content = "{\"identifier\":\"urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg\",\"caption\":\"Acorus\",\"taxa\":[\"urn:kew.org:wcs:taxon:2295\"]}";
         Image image = new Image();
         image.setIdentifier("urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg");
-        image.setCaption("Acorus");
+        image.setTitle("Acorus");
         image.getTaxa().add(taxon);
 
         try {
@@ -244,7 +244,7 @@ public class JsonConversionTest {
                         EasyMock.eq("taxon-page"))).andReturn(taxon).times(1);
         EasyMock.replay(referenceService, taxonService);
 
-        String content = "{\"location\":null,\"id\":null,\"description\":null,\"taxon\":null,\"taxa\":[\"urn:kew.org:wcs:taxon:2295\"],\"caption\":\"Acorus\",\"format\":null,\"keywords\":null,\"locality\":null,\"url\":null,\"authority\":null,\"sources\":[],\"license\":null,\"created\":null,\"modified\":null,\"creator\":null,\"identifier\":\"urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg\"}";
+        String content = "{\"location\":null,\"id\":null,\"description\":null,\"taxon\":null,\"taxa\":[\"urn:kew.org:wcs:taxon:2295\"],\"title\":\"Acorus\",\"format\":null,\"subject\":null,\"spatial\":null,\"authority\":null,\"sources\":[],\"license\":null,\"created\":null,\"modified\":null,\"creator\":null,\"identifier\":\"urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg\"}";
         Image image = (Image) objectMapper.readValue(content, Image.class);
         EasyMock.verify(referenceService, taxonService);
 
@@ -254,7 +254,7 @@ public class JsonConversionTest {
                 "urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg",
                 image.getIdentifier());
         assertEquals("The caption should be \"Acorus\"", "Acorus",
-                image.getCaption());
+                image.getTitle());
         assertTrue("The taxon should be set on the image", image.getTaxa()
                 .contains(taxon));
     }

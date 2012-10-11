@@ -236,7 +236,7 @@ public abstract class DataManagementSupport {
         for (GeographicalRegion region : distributions) {
             Distribution distribution = new Distribution();
             distribution.setIdentifier(UUID.randomUUID().toString());
-            distribution.setRegion(region);
+            distribution.setLocation(region);
             distribution.setTaxon(taxon);
             taxon.getDistribution().add(distribution);
         }
@@ -270,7 +270,7 @@ public abstract class DataManagementSupport {
     public final Image createImage(final String caption,
             final String identifier, final Source source, final Taxon taxon, Source[] sources) {
         Image image = new Image();
-        image.setCaption(caption);
+        image.setTitle(caption);
         image.setIdentifier(identifier);
         image.setTaxon(taxon);
         image.setAuthority(source);

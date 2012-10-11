@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.util.Properties;
-import java.util.UUID;
 
 import org.emonocot.harvest.media.ImageFileProcessor;
 import org.emonocot.harvest.media.ImageMetadataExtractor;
@@ -75,27 +74,6 @@ public class ImageFileProcessingTest {
                 null));
     }
 
-    /**
-     *
-     */
-    // @After
-    public final void tearDown() {
-        String imagesDirectoryName = System.getProperty("java.io.tmpdir")
-                + File.separatorChar + "images";
-        File imagesDirectory = new File(imagesDirectoryName);
-        for (File file : imagesDirectory.listFiles()) {
-            file.delete();
-        }
-        imagesDirectory.delete();
-
-        String thumbnailDirectoryName = System.getProperty("java.io.tmpdir")
-                + File.separatorChar + "thumbnails";
-        File thumbnailDirectory = new File(thumbnailDirectoryName);
-        for (File file : thumbnailDirectory.listFiles()) {
-            file.delete();
-        }
-        imagesDirectory.delete();
-    }
 
     /**
      * @throws Exception
@@ -105,14 +83,14 @@ public class ImageFileProcessingTest {
     public final void testProcess() throws Exception {
         Image i = imageFileProcessor.process(image);
         imageMetadataExtractor.process(i);
-        assertEquals("Arecaceae; Howea forsteriana", i.getCaption());
+        assertEquals("Arecaceae; Howea forsteriana", i.getTitle());
         // assertEquals("Male inflorescences", i.getDescription());
         // assertEquals("William J. Baker", i.getCreator());
         assertEquals(
                 "ARECOIDEAE, Arecaceae, Areceae, Howea, Linospadicinae, Palmae, Palms, flowers, inflorescences",
-                i.getKeywords());
+                i.getSubject());
         assertEquals("Path to Little island, Lord Howe Island, Australia",
-                i.getLocality());
+                i.getSpatial());
     }
 
 }

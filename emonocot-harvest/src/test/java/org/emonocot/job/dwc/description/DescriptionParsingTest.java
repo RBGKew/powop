@@ -93,7 +93,7 @@ public class DescriptionParsingTest {
     public final void testRead() throws Exception {
     	EasyMock.expect(taxonService.find(EasyMock.isA(String.class))).andReturn(new Taxon()).anyTimes();
         EasyMock.expect(taxonService.find(EasyMock.isA(String.class), EasyMock.eq("taxon-with-content"))).andReturn(new Taxon()).anyTimes();
-        EasyMock.expect(referenceService.findBySource(EasyMock.isA(String.class))).andReturn(new Reference()).anyTimes();
+        EasyMock.expect(referenceService.find(EasyMock.isA(String.class))).andReturn(new Reference()).anyTimes();
         EasyMock.replay(taxonService, referenceService);
         flatFileItemReader.open(new ExecutionContext());
         flatFileItemReader.read();

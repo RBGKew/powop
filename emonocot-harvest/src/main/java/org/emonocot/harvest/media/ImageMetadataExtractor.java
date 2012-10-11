@@ -77,8 +77,8 @@ public class ImageMetadataExtractor implements ItemProcessor<Image, Image> {
                 if (o instanceof ImageMetadata.Item) {
                     ImageMetadata.Item item = (ImageMetadata.Item) o;
                     if (item.getKeyword().equals("Object Name")
-                            && image.getCaption() == null) {
-                        image.setCaption(item.getText());
+                            && image.getTitle() == null) {
+                        image.setTitle(item.getText());
                     }
                     if (item.getKeyword().equals("Keywords")) {
                         if (keywords == null) {
@@ -100,11 +100,11 @@ public class ImageMetadataExtractor implements ItemProcessor<Image, Image> {
                     }
                 }
             }
-            if (spatial != null && image.getLocality() == null) {
-                image.setLocality(spatial.toString());
+            if (spatial != null && image.getSpatial() == null) {
+                image.setSpatial(spatial.toString());
             }
-            if (keywords != null && image.getKeywords() == null) {
-                image.setKeywords(keywords.toString());
+            if (keywords != null && image.getSubject() == null) {
+                image.setSubject(keywords.toString());
             }
             if (jpegMetadata.findEXIFValue(TiffConstants.TIFF_TAG_ARTIST) != null
                     && image.getCreator() == null) {
