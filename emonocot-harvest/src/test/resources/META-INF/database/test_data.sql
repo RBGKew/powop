@@ -84,6 +84,8 @@ insert into Taxon (id, identifier,scientificName,genus,specificEpithet,taxonRank
 insert into Taxon (id, identifier,scientificName,genus,specificEpithet,taxonRank,parentNameUsage_id, family, authority_id) values (79, 'urn:kew.org:wcs:taxon:16371','Arum rupicola','Arum','rupicola','SPECIES',81,'Araceae',10);
 insert into Taxon (id, identifier,scientificName,genus,specificEpithet,taxonRank,parentNameUsage_id, family, authority_id) values (80, 'urn:kew.org:wcs:taxon:16386','Arum sintenisii','Arum','sintenisii','SPECIES',81,'Araceae',10);
 insert into Taxon (id, identifier,scientificName,genus,specificEpithet,taxonRank, family, authority_id) values (85, 'urn:kew.org:wcs:taxon:219530','Amomum uliginosum','Amomum','uliginosum','SPECIES','Zingiberaceae',10);
+insert into Taxon (id, identifier, scientificName, family, authority_id) values (86, 'urn:lsid:cate-araceae.org:taxon:5c747472-6bfb-1014-a918-dc439151c9e5', 'Aus aus','Arecaceae',10);
+insert into Taxon (id, identifier, scientificName, family, authority_id) values (87, 'urn:lsid:cate-project.org:taxon:188abb9f-211a-478d-a1f4-ad3c3e2d6a72', 'Aus aus','Arecaceae',10);
 insert into Distribution (id, location, taxon_id) values (1,'DOM',23);
 insert into Distribution (id, location, taxon_id) values (2,'NOR',23);
 insert into Distribution (id, location, taxon_id) values (3,'SVA',23);

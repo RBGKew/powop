@@ -86,12 +86,16 @@ public class IdentificationKeyJobIntegrationTest {
      *
      */
     @Before
-    public final void setUp() {
-        File imageDirectory = new File("./target/images");
-        imageDirectory.mkdir();
-        File thumbnailDirectory = new File("./target/thumbnails");
-        thumbnailDirectory.mkdir();
-    }
+	public final void setUp() {
+		String fullSizeImagesDirectoryName = "./target/images/fullsize";
+		File fullSizeImagesDirectory = new File(fullSizeImagesDirectoryName);
+		fullSizeImagesDirectory.mkdirs();
+		fullSizeImagesDirectory.deleteOnExit();
+		String thumbnailImagesDirectoryName = "./target/images/thumbnails";
+		File thumbnailImagesDirectory = new File(thumbnailImagesDirectoryName);
+		thumbnailImagesDirectory.mkdirs();
+		thumbnailImagesDirectory.deleteOnExit();
+	}
 
 
     /**

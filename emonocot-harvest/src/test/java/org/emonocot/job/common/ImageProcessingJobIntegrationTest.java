@@ -62,11 +62,11 @@ public class ImageProcessingJobIntegrationTest {
 		String fullSizeImagesDirectoryName =  "./target/images/fullsize";
 		File fullSizeImagesDirectory = new File(fullSizeImagesDirectoryName);
 		fullSizeImagesDirectory.mkdirs();
-		//fullSizeImagesDirectory.deleteOnExit();
+		fullSizeImagesDirectory.deleteOnExit();
 		String thumbnailImagesDirectoryName =  "./target/images/thumbnails";
 		File thumbnailImagesDirectory = new File(thumbnailImagesDirectoryName);
 		thumbnailImagesDirectory.mkdirs();
-		//thumbnailImagesDirectory.deleteOnExit();
+		thumbnailImagesDirectory.deleteOnExit();
 	}
 
 	/**

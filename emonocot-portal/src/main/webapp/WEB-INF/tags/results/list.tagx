@@ -5,33 +5,32 @@
   xmlns:fn="http://java.sun.com/jsp/jstl/functions"
   xmlns:results="urn:jsptagdir:/WEB-INF/tags/results"
   xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
-<jsp:directive.attribute name="pager" type="org.emonocot.model.pager.Page"
-		required="true" />
+<jsp:directive.attribute name="pager" type="org.emonocot.pager.Page" required="true" />
 <table class="table">
 	<tbody>
 		<c:forEach var="item" items="${result.records}">
 			<c:choose>
 				<c:when test="${item.className == 'Taxon'}">
 				<results:listEntry 
-				  itemName="${item.name}" 
+				  itemName="${item.scientificName}" 
 				  icon="/css/images/glyphicons/halfsize/glyphicons_001_leaf.png"
 				  iconAlt="Taxon"
 				  url="/taxon/${item.identifier}"
 				  image="${item.image}">
 				    <spring:url var="itemUrl" value="/taxon/${item.identifier}"/>
-				    <a class="result" href="${itemUrl}" title="${em:stripXml(item.name)}">
+				    <a class="result" href="${itemUrl}" title="${em:stripXml(item.scientificName)}">
 							<c:choose>
 								<c:when test="${em:isAccepted(item)}">
-									<h4 class="h4Results"><em>${item.name}</em> ${item.authorship}</h4>
+									<h4 class="h4Results"><em>${item.scientificName}</em> ${item.scientificNameAuthorship}</h4>
 								</c:when>
 								<c:otherwise>
-									<h4 class="h4Results title-no-bold"><em>${item.name}</em> ${item.authorship}</h4>
+									<h4 class="h4Results title-no-bold"><em>${item.scientificName}</em> ${item.scientificNameAuthorship}</h4>
 								</c:otherwise>
 							</c:choose>
 						</a>
 						<br/>
-						<div><em><spring:message code="resultStatus" /></em> <spring:message code="${item.status}" /></div>
-						<div><em><spring:message code="resultRank" /></em> <spring:message code="${item.rank}" /></div>
+						<div><em><spring:message code="resultStatus" /></em> <spring:message code="${item.taxonomicStatus}" /></div>
+						<div><em><spring:message code="resultRank" /></em> <spring:message code="${item.taxonRank}" /></div>
 						<c:if test="${item.family != null}">
 						    <div><em><spring:message code="resultFamily" /></em> ${item.family}</div>
 						</c:if>
@@ -42,21 +41,21 @@
 				</c:when>
 				<c:when test="${item.className == 'Image'}">
 				  <results:listEntry 
-				  itemName="${item.caption}" 
+				  itemName="${item.title}" 
 				  icon="/css/images/glyphicons/halfsize/glyphicons_159_picture.png"
 				  iconAlt="Image"
-				  url="/image/${item.identifier}"
+				  url="/image/${item.id}"
 				  image="${item}">
-					<spring:url var="itemUrl" value="/image/${item.identifier}"/>
-					<a class="result" href="${itemUrl}" title="${em:stripXml(item.caption)}"><h4 class="h4Results">${item.caption}</h4></a>
+					<spring:url var="itemUrl" value="/image/${item.id}"/>
+					<a class="result" href="${itemUrl}" title="${em:stripXml(item.title)}"><h4 class="h4Results">${item.title}</h4></a>
 					<br/>
 					<div><spring:url var="taxonUrl" value="/taxon/${item.taxon.identifier}"/></div>
-					<c:if test="${not empty item.taxon.name}"><div><em><spring:message code="imageOf"/></em>: <a href="${taxonUrl}">${item.taxon.name}</a></div></c:if>
+					<c:if test="${not empty item.taxon.scientificName}"><div><em><spring:message code="imageOf"/></em>: <a href="${taxonUrl}">${item.taxon.scientificName}</a></div></c:if>
 					<c:if test="${item.creator != null}">
 						<div><em><spring:message code="image.creator"/></em>: ${item.creator}</div>
 					</c:if>
-					<c:if test="${item.locality != null}">
-						<div><em><spring:message code="image.locality"/></em>: ${item.locality}</div>
+					<c:if test="${item.spatial != null}">
+						<div><em><spring:message code="image.locality"/></em>: ${item.spatial}</div>
 					</c:if>
 				  </results:listEntry>					
 				</c:when>
@@ -65,8 +64,8 @@
 				  itemName="${item.title}" 
 				  icon="/css/images/glyphicons/halfsize/glyphicons_044_keys.png"
 				  iconAlt="Identification Key"
-				  url="/key/${item.identifier}">
-				    <spring:url var="itemUrl" value="/key/${item.identifier}"/>
+				  url="/key/${item.id}">
+				    <spring:url var="itemUrl" value="/key/${item.id}"/>
 					<a class="result" href="${itemUrl}" title="${em:stripXml(item.title)}"><h4 class="h4Results">${item.title}</h4></a>
 				  </results:listEntry>
 				</c:when>

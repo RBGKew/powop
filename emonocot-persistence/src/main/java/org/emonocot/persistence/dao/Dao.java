@@ -19,6 +19,14 @@ public interface Dao<T extends Base> {
      * @return the object or throw and exception if that object does not exist
      */
     T load(String identifier);
+    
+    /**
+    *
+    * @param id
+    *            the primary key of the object you would like to retrieve
+    * @return the object or throw and exception if that object does not exist
+    */
+   T load(Long id);
 
    /**
     *
@@ -34,6 +42,14 @@ public interface Dao<T extends Base> {
     * @return the object or null if that object does not exist
     */
     T find(String identifier);
+    
+    /**
+    *
+    * @param id
+    *            the primary key of the object you would like to retrieve
+    * @return the object or null if that object does not exist
+    */
+    T find(Long id);
 
    /**
     *
@@ -52,6 +68,22 @@ public interface Dao<T extends Base> {
    * @return the object or null if that object does not exist
    */
    T find(String identifier, String fetch);
+   
+   /**
+   *
+   * @param id the primary key of the object you would like to retrieve
+   * @param fetch Set the fetch profile to use
+   * @return the object or throw and exception if that object does not exist
+   */
+  T load(Long id, String fetch);
+
+ /**
+  *
+  * @param id the primery key of the object you would like to retrieve
+  * @param fetch Set the fetch profile to use
+  * @return the object or null if that object does not exist
+  */
+  T find(Long id, String fetch);
 
   /**
    *

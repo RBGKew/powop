@@ -37,6 +37,18 @@ public abstract class ServiceImpl<T extends Base, DAO extends Dao<T>>
     public T load(String identifier, String fetch) {
         return dao.load(identifier, fetch);
     }
+    
+    /**
+     * @param id
+     *            the primary key of the object
+     * @param fetch
+     *            the fetch profile to use
+     * @return the object
+     */
+    @Transactional(readOnly = true)
+    public T load(Long id, String fetch) {
+        return dao.load(id, fetch);
+    }
 
     /**
      *
@@ -59,6 +71,18 @@ public abstract class ServiceImpl<T extends Base, DAO extends Dao<T>>
     public T find(final String identifier, final String fetch) {
         return dao.find(identifier, fetch);
     }
+    
+    /**
+     * @param id
+     *            the primary key of the object
+     * @param the
+     *            fetch profile to use
+     * @return the object
+     */
+    @Transactional(readOnly = true)
+    public T find(final Long id, final String fetch) {
+        return dao.find(id, fetch);
+    }
 
     /**
      * @param identifier
@@ -69,6 +93,16 @@ public abstract class ServiceImpl<T extends Base, DAO extends Dao<T>>
     public T load(final String identifier) {
         return dao.load(identifier);
     }
+    
+    /**
+     * @param id
+     *            the primary key of the object
+     * @return the object loaded using the default fetch profile
+     */
+    @Transactional(readOnly = true)
+    public T load(final Long id) {
+        return dao.load(id);
+    }
 
     /**
      * @param identifier
@@ -78,6 +112,16 @@ public abstract class ServiceImpl<T extends Base, DAO extends Dao<T>>
     @Transactional(readOnly = true)
     public T find(String identifier) {
         return dao.find(identifier);
+    }
+    
+    /**
+     * @param id
+     *            the primary key of the object
+     * @return the object, or null if the object does not exist
+     */
+    @Transactional(readOnly = true)
+    public T find(Long id) {
+        return dao.find(id);
     }
 
     /**

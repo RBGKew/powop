@@ -24,14 +24,4 @@ public class ImageServiceImpl extends SearchableServiceImpl<Image, ImageDao>
     public final void setImageDao(final ImageDao newImageDao) {
         super.dao = newImageDao;
     }
-
-    /**
-     * @param url Set the url
-     * @return an image or null if one doesn't exist
-     */
-    @Transactional(readOnly = true)
-    public final Image findByUrl(final String url) {
-        return dao.findByUrl(url);
-    }
-
 }

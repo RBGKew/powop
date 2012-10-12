@@ -55,7 +55,7 @@
 							<tr>
 								<td class="span6">
 								    <c:url var="imageSearchUrl" value="/search">
-										<c:param name="facet" value="CLASS.org.emonocot.model.media.Image" />
+										<c:param name="facet" value="CLASS.org.emonocot.model.Image"/>
 									</c:url>
 								    <a href="${imageSearchUrl}">Browse Images</a>
                                 </td>

@@ -266,7 +266,7 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
     public final void enableProfilePostQuery(final Taxon t, final String fetch) {
         if (fetch != null && t != null) {
             for (Fetch f : getProfile(fetch)) {
-                if (f.getAssociation().equals("ancestors")) {
+                if (f.getAssociation().equals("higherClassification")) {
                     List<Taxon> ancestors = new ArrayList<Taxon>();
                     getAncestors(t, ancestors);
                     t.setHigherClassification(ancestors);
@@ -334,7 +334,7 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
                 criteria.setFirstResult(pageSize * pageNumber);
             }
         }
-        criteria.addOrder(Order.asc("name"));
+        criteria.addOrder(Order.asc("scientificName"));
         enableProfilePreQuery(criteria, fetch);
         List<Taxon> results = (List<Taxon>) criteria.list();
 

@@ -481,8 +481,8 @@ public class ProcessorImpl extends AuthorityAware implements
            = new org.emonocot.model.Distribution();
         distribution.setIdentifier(UUID.randomUUID().toString());
         try {
-            distribution.setLocation(conversionService.convert(id,
-                    GeographicalRegion.class));
+        	region = conversionService.convert(id, GeographicalRegion.class);
+            distribution.setLocation(region);
         } catch (ConversionException ce) {
             distribution.getAnnotations().add(
                     addAnnotation(distribution, RecordType.Distribution,

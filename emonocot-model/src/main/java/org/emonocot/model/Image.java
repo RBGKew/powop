@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -147,8 +148,10 @@ public class Image extends SearchableObject {
 	}
 
 	/**
+	 * REMEMBER: references is a reserved word in mysql
 	 * @return the references
 	 */
+	@Column(name = "source")
 	public String getReferences() {
 		return references;
 	}
@@ -179,10 +182,11 @@ public class Image extends SearchableObject {
    }
 
    /**
-    *
+    * REMEMBER: spatial is a reserved word in mysql!
     * @return the location as a string
     */
    @Field
+   @Column(name = "locality")
    public String getSpatial() {
        return spatial;
    }

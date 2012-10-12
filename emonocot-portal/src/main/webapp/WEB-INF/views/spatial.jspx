@@ -9,7 +9,7 @@
 	xmlns:geo="urn:jsptagdir:/WEB-INF/tags/geo"
 	xmlns:spring="http://www.springframework.org/tags"
 	version="2.0">
-	<jsp:useBean id="result" scope="request" type="org.emonocot.pager.Page<org.emonocot.model.SearchableObject>" />
+	<jsp:useBean id="result" scope="request" type="org.emonocot.pager.Page" />
 	<c:url var="mapSearchImageBig" value="/css/images/glyphicons/fullsize/glyphicons_340_globe.png"/>
 	<spring:message code="map.search" var="mapSearchTitle"/>
 	<tags:pageheader>
@@ -111,10 +111,10 @@
 
 				  <div id="results" class="row no-margin-left">
 					<jsp:scriptlet>
-						String classFacet = result.getSelectedFacets().get("CLASS");
+						String classFacet = (String)result.getSelectedFacets().get("CLASS");
 						if(classFacet == null) {
 							pageContext.setAttribute("imageClass",Boolean.FALSE);
-						} else if (classFacet.equals("org.emonocot.model.media.Image")){
+						} else if (classFacet.equals("org.emonocot.model.Image")) {
 							pageContext.setAttribute("imageClass",Boolean.TRUE);
 						} else {
 							pageContext.setAttribute("imageClass",Boolean.FALSE);

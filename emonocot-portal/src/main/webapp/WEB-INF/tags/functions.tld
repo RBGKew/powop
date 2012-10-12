@@ -11,12 +11,12 @@
     <function>
         <name>features</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>org.emonocot.model.description.Feature[] features()</function-signature>
+        <function-signature>org.emonocot.model.constants.DescriptionType[] features()</function-signature>
     </function>
     <function>
         <name>content</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>org.emonocot.model.description.TextContent content(org.emonocot.model.taxon.Taxon,org.emonocot.model.description.Feature)</function-signature>
+        <function-signature>org.emonocot.model.Description content(org.emonocot.model.Taxon,org.emonocot.model.constants.DescriptionType)</function-signature>
     </function>
     <function>
         <name>evaluate</name>
@@ -26,17 +26,17 @@
     <function>
         <name>isInfraspecific</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.Boolean isInfraspecific(org.emonocot.model.taxon.Rank)</function-signature>
+        <function-signature>java.lang.Boolean isInfraspecific(org.gbif.ecat.voc.Rank)</function-signature>
     </function>
     <function>
         <name>isSynonym</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.Boolean isSynonym(org.emonocot.model.taxon.Taxon)</function-signature>
+        <function-signature>java.lang.Boolean isSynonym(org.emonocot.model.Taxon)</function-signature>
     </function>
     <function>
         <name>isAccepted</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.Boolean isAccepted(org.emonocot.model.taxon.Taxon)</function-signature>
+        <function-signature>java.lang.Boolean isAccepted(org.emonocot.model.Taxon)</function-signature>
     </function>
     <function>
         <name>isStartable</name>
@@ -46,7 +46,7 @@
     <function>
         <name>regions</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.util.List regions(org.emonocot.model.taxon.Taxon)</function-signature>
+        <function-signature>java.util.List regions(org.emonocot.model.Taxon)</function-signature>
     </function>
     <function>
         <name>region</name>
@@ -57,16 +57,11 @@
         <name>country</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>java.lang.String country(org.emonocot.model.geography.GeographicalRegion)</function-signature>
-    </function>
-    <function>
-        <name>allContent</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.util.Collection content(org.emonocot.model.taxon.Taxon)</function-signature>
-    </function>
+    </function>    
     <function>
         <name>map</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String map(org.emonocot.model.taxon.Taxon)</function-signature>
+        <function-signature>java.lang.String map(org.emonocot.model.Taxon)</function-signature>
     </function>
     <function>
         <name>stripXml</name>
@@ -116,12 +111,12 @@
     <function>
         <name>bibliography</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>org.emonocot.portal.view.bibliography.Bibliography bibliography(org.emonocot.model.taxon.Taxon)</function-signature>
+        <function-signature>org.emonocot.portal.view.bibliography.Bibliography bibliography(org.emonocot.model.Taxon)</function-signature>
     </function>
     <function>
         <name>citekey</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String citekey(org.emonocot.portal.view.bibliography.Bibliography, org.emonocot.model.reference.Reference)</function-signature>
+        <function-signature>java.lang.String citekey(org.emonocot.portal.view.bibliography.Bibliography, org.emonocot.model.Reference)</function-signature>
     </function>
     <function>
         <name>escape</name>
@@ -141,7 +136,7 @@
     <function>
         <name>isFacetSelected</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.Boolean isFacetSelected(org.emonocot.model.pager.Page,java.lang.String)</function-signature>
+        <function-signature>java.lang.Boolean isFacetSelected(org.emonocot.pager.Page,java.lang.String)</function-signature>
     </function>
     <function>
         <name>isMultiValued</name>
@@ -151,41 +146,41 @@
     <function>
         <name>protologLink</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>org.emonocot.model.identifier.Identifier getProtologLink(org.emonocot.model.taxon.Taxon)</function-signature>
+        <function-signature>org.emonocot.model.Identifier getProtologLink(org.emonocot.model.Taxon)</function-signature>
     </function>
     <function>
         <name>boundingBox</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String boundingBox(org.emonocot.model.taxon.Taxon)</function-signature>
+        <function-signature>java.lang.String boundingBox(org.emonocot.model.Taxon)</function-signature>
     </function>
     <function>
         <name>hasLevel1Features</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.Boolean hasLevel1Features(org.emonocot.model.taxon.Taxon)</function-signature>
+        <function-signature>java.lang.Boolean hasLevel1Features(org.emonocot.model.Taxon)</function-signature>
     </function>
     <function>
         <name>getLevel1Features</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String getLevel1Features(org.emonocot.model.taxon.Taxon)</function-signature>
+        <function-signature>java.lang.String getLevel1Features(org.emonocot.model.Taxon)</function-signature>
     </function>
     <function>
         <name>hasLevel2Features</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.Boolean hasLevel2Features(org.emonocot.model.taxon.Taxon)</function-signature>
+        <function-signature>java.lang.Boolean hasLevel2Features(org.emonocot.model.Taxon)</function-signature>
     </function>
     <function>
         <name>getLevel2Features</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String getLevel2Features(org.emonocot.model.taxon.Taxon)</function-signature>
+        <function-signature>java.lang.String getLevel2Features(org.emonocot.model.Taxon)</function-signature>
     </function>
     <function>
         <name>hasLevel3Features</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.Boolean hasLevel3Features(org.emonocot.model.taxon.Taxon)</function-signature>
+        <function-signature>java.lang.Boolean hasLevel3Features(org.emonocot.model.Taxon)</function-signature>
     </function>
     <function>
         <name>getLevel3Features</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String getLevel3Features(org.emonocot.model.taxon.Taxon)</function-signature>
+        <function-signature>java.lang.String getLevel3Features(org.emonocot.model.Taxon)</function-signature>
     </function>    
 </taglib>

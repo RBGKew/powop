@@ -23,7 +23,7 @@ create table Identifier (id bigint not null, identifier varchar(255), accessRigh
 drop table if exists Identifier_Source;
 create table Identifier_Source (Identifier_id bigint not null, sources_id bigint not null, primary key (Identifier_id, sources_id));
 drop table if exists Image;
-create table Image (id bigint not null, identifier varchar(255), accessRights varchar(255), created timestamp, creator varchar(255), license varchar(255), modified timestamp, rights varchar(255), rightsHolder varchar(255), references varchar(255), title varchar(255), description clob, format varchar(255), subject varchar(255), contributor varchar(255), publisher varchar(255), audience varchar(255), location BLOB, spatial varchar(255), authority_id bigint, image_id bigint, taxon_id bigint, primary key (id), unique (identifier));
+create table Image (id bigint not null, identifier varchar(255), accessRights varchar(255), created timestamp, creator varchar(255), license varchar(255), modified timestamp, rights varchar(255), rightsHolder varchar(255), source varchar(255), title varchar(255), description clob, format varchar(255), subject varchar(255), contributor varchar(255), publisher varchar(255), audience varchar(255), location BLOB, locality varchar(255), authority_id bigint, image_id bigint, taxon_id bigint, primary key (id), unique (identifier));
 drop table if exists Image_Source;
 create table Image_Source (Image_id bigint not null, sources_id bigint not null, primary key (Image_id, sources_id));
 drop table if exists Job;
@@ -37,7 +37,7 @@ create table Place_Source (Place_id bigint not null, sources_id bigint not null,
 drop table if exists Principal;
 create table Principal (DTYPE varchar(31) not null, id bigint not null, identifier varchar(255), created timestamp, modified timestamp, accountNonExpired boolean, accountNonLocked boolean, credentialsNonExpired boolean, enabled boolean, password varchar(255), primary key (id), unique (identifier));
 drop table if exists Reference;
-create table Reference (id bigint not null, identifier varchar(255), accessRights varchar(255), created timestamp, creator varchar(255), license varchar(255), language varchar(32), modified timestamp, rights varchar(255), rightsHolder varchar(255), source varchar(255), bibliographicCitation varchar(255), date varchar(255), subject varchar(255), description clob, taxonRemarks varchar(255), title varchar(255), type integer, authority_id bigint, primary key (id), unique (identifier));
+create table Reference (id bigint not null, identifier varchar(255), accessRights varchar(255), created timestamp, creator varchar(255), license varchar(255), language varchar(32), modified timestamp, rights varchar(255), rightsHolder varchar(255), source varchar(255), bibliographicCitation clob, date varchar(255), subject varchar(255), description clob, taxonRemarks varchar(255), title varchar(255), type integer, authority_id bigint, primary key (id), unique (identifier));
 drop table if exists Reference_Source;
 create table Reference_Source (Reference_id bigint not null, sources_id bigint not null, primary key (Reference_id, sources_id));
 drop table if exists Source;

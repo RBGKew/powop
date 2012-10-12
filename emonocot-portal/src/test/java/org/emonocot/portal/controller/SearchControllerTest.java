@@ -62,7 +62,7 @@ public class SearchControllerTest {
 		EasyMock.replay(searchableObjectService,imageService);
 		FacetRequest classFacet = new FacetRequest();
 		classFacet.setFacet(FacetName.CLASS);
-		classFacet.setSelected("org.emonocot.model.media.Image");
+		classFacet.setSelected("org.emonocot.model.Image");
 		facets.add(classFacet);
 		String view = searchController.search("", 10, 0, facets, null, null, model);
 		

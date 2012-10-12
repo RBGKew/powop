@@ -74,7 +74,7 @@ public class MediaObjectProcessor extends AuthorityAware implements
      */
     public final MediaObject process(final MediaObject item) throws Exception {
         if (item.getType() != null && item.getType().equals("Image")) {
-            Image persistedImage = imageService.findByUrl(item.getSource()
+            Image persistedImage = imageService.find(item.getSource()
                     .getHref());
             if (persistedImage != null) {
                 item.setDebuglabel(persistedImage.getId() + "." + persistedImage.getFormat());
@@ -110,14 +110,20 @@ public class MediaObjectProcessor extends AuthorityAware implements
                 image.setDescription(item.getRepresentation().getDetail());
                 image.setAuthority(getSource());
                 image.getSources().add(getSource());
-                imageFileProcessor.process(image);
-                imageMetadataExtractor.process(image);
+                
                 Annotation annotation = createAnnotation(image,
                         RecordType.Image, AnnotationCode.Create,
                         AnnotationType.Info);
                 image.getAnnotations().add(annotation);
                 imageService.saveOrUpdate(image);
                 item.setDebuglabel(image.getId() + "." + format);
+                image = imageFileProcessor.process(image);
+                if(image != null) {
+                   image = imageMetadataExtractor.process(image);
+                   if(image != null) {
+                       imageService.saveOrUpdate(image);                       
+                   }
+                }
             }
             return item;
         } else {

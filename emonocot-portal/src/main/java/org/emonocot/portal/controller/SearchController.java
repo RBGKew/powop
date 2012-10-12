@@ -142,19 +142,19 @@ public class SearchController {
                     selectedFacets, sort, "taxon-with-image");
         } else {
             if (selectedFacets.get(FacetName.CLASS)
-                    .equals("org.emonocot.model.media.Image")) {
+                    .equals("org.emonocot.model.Image")) {
                 logger.debug("Using the image service for " + query);
                 result = imageService.search(query, spatial , limit, start,
                         responseFacets,
                         selectedFacets, sort, "image-taxon");
             } else if (selectedFacets.get(FacetName.CLASS).equals(
-                    "org.emonocot.model.taxon.Taxon")) {
+                    "org.emonocot.model.Taxon")) {
                 logger.debug("Using the taxon service for " + query);
                 result = taxonService.search(query, spatial, limit, start,
                         responseFacets,
                         selectedFacets, sort, "taxon-with-image");
             } else if (selectedFacets.get(FacetName.CLASS).equals(
-                    "org.emonocot.model.key.IdentificationKey")) {
+                    "org.emonocot.model.IdentificationKey")) {
                 logger.debug("Using the IdentificationKey service for " + query);
                 result = keyService.search(query, spatial, limit, start,
                         responseFacets,
@@ -186,7 +186,7 @@ public class SearchController {
         if (view == null || view == "") {
             if (className == null) {
                 return 10;
-            } else if (className.equals("org.emonocot.model.media.Image")) {
+            } else if (className.equals("org.emonocot.model.Image")) {
                 return 24;
             } else {
                 return 10;
@@ -251,7 +251,7 @@ public class SearchController {
        } else {
            if (selectedFacets.containsKey(FacetName.CLASS)) {
         	   className = selectedFacets.get(FacetName.CLASS);
-               if (className.equals("org.emonocot.model.taxon.Taxon")) {
+               if (className.equals("org.emonocot.model.Taxon")) {
                    logger.debug("Adding taxon specific facets");
                    responseFacetList.add(FacetName.RANK);
                    responseFacetList.add(FacetName.TAXONOMIC_STATUS);

@@ -180,12 +180,29 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
     }
 
     /**
+     * @param id the primary key
+     * @return the loaded object
+     */
+    public final T load(final Long id) {
+        return load(id, null);
+    }
+    
+    /**
      * @param identifier
      *            set the identifier
      * @return the loaded object
      */
     public final T load(final String identifier) {
         return load(identifier, null);
+    }
+    
+    /**
+     * @param id
+     *            Set the primary key
+     * @return the object, or null if the object cannot be found
+     */
+    public final T find(final Long id) {
+        return find(id, null);
     }
 
     /**
@@ -195,6 +212,31 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
      */
     public final T find(final String identifier) {
         return find(identifier, null);
+    }
+    
+    /**
+     * @param id
+     *            Set the id
+     * @param fetch
+     *            Set the fetch profile (can be null)
+     * @return the loaded object
+     */
+    public T load(final Long id, final String fetch) {
+    	
+        Criteria criteria = getSession().createCriteria(type).add(
+                Restrictions.idEq(id));
+
+        enableProfilePreQuery(criteria, fetch);
+
+        T t = (T) criteria.uniqueResult();
+
+        if (t == null) {
+            throw new HibernateObjectRetrievalFailureException(
+                    new UnresolvableObjectException(id,
+                            "Object could not be resolved"));
+        }
+        enableProfilePostQuery(t, fetch);
+        return t;
     }
 
     /**
@@ -232,6 +274,23 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
     public T find(final String identifier, final String fetch) {
         Criteria criteria = getSession().createCriteria(type).add(
                 Restrictions.eq("identifier", identifier));
+        enableProfilePreQuery(criteria, fetch);
+        T t = (T) criteria.uniqueResult();
+        enableProfilePostQuery(t, fetch);
+
+        return t;
+    }
+    
+    /**
+     * @param id
+     *            Set the id
+     * @param fetch
+     *            Set the fetch profile
+     * @return the object or null if it cannot be found
+     */
+    public T find(final Long id, final String fetch) {
+        Criteria criteria = getSession().createCriteria(type).add(
+                Restrictions.idEq(id));
         enableProfilePreQuery(criteria, fetch);
         T t = (T) criteria.uniqueResult();
         enableProfilePostQuery(t, fetch);

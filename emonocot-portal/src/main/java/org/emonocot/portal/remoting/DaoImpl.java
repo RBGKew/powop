@@ -101,6 +101,42 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
                 requestEntity, type);
         return responseEntity.getBody();
     }
+    
+    /**
+     * @param identifier set the identifier
+     * @return an object
+     */
+    public final T load(final Long id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    /**
+     * @param identifier set the identifier
+     * @return an object
+     */
+    public final T find(final Long id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    /**
+     * @param identifier set the identifier
+     * @return an object
+     */
+    public final T load(final Long id, final String fetch) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    /**
+     * @param identifier set the identifier
+     * @return an object
+     */
+    public final T find(final Long id, final String fetch) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
     /**
      * @param identifier the identifier of the object to delete

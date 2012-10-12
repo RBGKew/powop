@@ -5,18 +5,17 @@
   xmlns:results="urn:jsptagdir:/WEB-INF/tags/results"
   xmlns:fn="http://java.sun.com/jsp/jstl/functions"
   xmlns:c="http://java.sun.com/jsp/jstl/core">
-  <jsp:directive.attribute name="pager" type="org.emonocot.model.pager.Page"
-		required="true" />
+  <jsp:directive.attribute name="pager" type="org.emonocot.pager.Page" required="true" />
 	<c:forEach var="item" items="${result.records}">
 		<c:choose>
 			<c:when test="${item.className == 'Taxon'}">
-				<results:gridEntry itemName="${item.name}"	url="/taxon/${item.identifier}"	image="${item.image}"/>
+				<results:gridEntry itemName="${item.scientificName}"	url="/taxon/${item.identifier}"	image="${item.image}"/>
 			</c:when>
 			<c:when test="${item.className == 'Image'}">
-				<results:gridEntry itemName="${item.caption}"	url="/image/${item.identifier}"	image="${item}"/>
+				<results:gridEntry itemName="${item.title}"	url="/image/${item.id}"	image="${item}"/>
 			</c:when>
 			<c:when test="${item.className == 'IdentificationKey'}">
-				<results:gridEntry itemName="${item.title}"	url="/key/${item.identifier}"/>
+				<results:gridEntry itemName="${item.title}"	url="/key/${item.id}"/>
 			</c:when>
 			<c:when test="${item.className == 'Place'}">
 				<c:choose>

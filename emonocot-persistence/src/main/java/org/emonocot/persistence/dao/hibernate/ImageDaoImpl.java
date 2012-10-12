@@ -184,14 +184,4 @@ public class ImageDaoImpl extends SearchableDaoImpl<Image> implements ImageDao {
     public final String getDefaultField() {
         return "caption";
     }
-
-    /**
-     * @param url Set the url
-     * @return an image or null if one doesn't exist
-     */
-    public final Image findByUrl(final String url) {
-        Criteria criteria = getSession().createCriteria(type)
-        .add(Restrictions.eq("url", url));
-        return (Image) criteria.uniqueResult();
-    }
 }

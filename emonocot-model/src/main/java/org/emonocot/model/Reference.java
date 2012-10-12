@@ -170,6 +170,7 @@ public class Reference extends BaseData {
      * @return the full citation
      */
     @Field
+    @Lob
     public String getBibliographicCitation() {
         return bibliographicCitation;
     }

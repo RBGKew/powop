@@ -84,18 +84,18 @@
 						</a>
 						<ul class="dropdown-menu">
 							<li>
-								<c:url value="/key/5b4bf746-f1c5-4ff7-98ab-2525594a04f0" var="familyKeyUrl"/>
+								<c:url value="/key/2" var="familyKeyUrl"/>
 								<a href="${familyKeyUrl}"><spring:message code="family.key.title"/></a>
 							</li>
 							<li>
 								<c:url value="/search" var="keySearchUrl">
-									<c:param name="facet" value="CLASS.org.emonocot.model.key.IdentificationKey"/>
+									<c:param name="facet" value="CLASS.org.emonocot.model.IdentificationKey"/>
 								</c:url>
 								<a href="${keySearchUrl}"><spring:message code="search.for.keys"/></a>
 							</li>
 							<li>
 								<c:url value="/search" var="imageSearchUrl">
-									<c:param name="facet" value="CLASS.org.emonocot.model.media.Image"/>
+									<c:param name="facet" value="CLASS.org.emonocot.model.Image"/>
 								</c:url>
 								<a href="${imageSearchUrl}"><spring:message code="browse.images"/></a>
 							</li>

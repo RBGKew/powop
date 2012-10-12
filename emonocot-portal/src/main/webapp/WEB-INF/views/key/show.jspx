@@ -80,8 +80,8 @@
 										<td>
 											<c:url	value="/taxon/${identificationKey.taxon.identifier}" var="taxonUrl" />
 											<a href="${taxonUrl}">
-												<span class="taxonName">${identificationKey.taxon.name}</span>
-												${identificationKey.taxon.authorship}
+												<span class="taxonName">${identificationKey.taxon.scientificName}</span>
+												${identificationKey.taxon.scientificNameAuthorship}
 											</a>
 										</td>
 									</tr>

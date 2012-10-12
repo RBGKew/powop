@@ -19,6 +19,15 @@ public interface Service<T extends Base> {
      *         object is not found
      */
     T load(String identifer);
+    
+    /**
+     *
+     * @param id The primary key of the object required.
+     * @return The object, or throw a
+     *         HibernateObjectRetrievalFailureException if the
+     *         object is not found
+     */
+   T load(Long id);
 
    /**
     *
@@ -33,6 +42,14 @@ public interface Service<T extends Base> {
      * @return The object, or null if the object is not found
      */
     T find(String identifier);
+    
+    /**
+    *
+    * @param id The primary key of the object required.
+    * @return The object, or null if the object is not found
+    */
+   T find(Long id);
+
 
     /**
     *
@@ -51,6 +68,24 @@ public interface Service<T extends Base> {
    * @return the object or null if that object does not exist
    */
    T find(String identifier, String fetch);
+   
+   /**
+   *
+   * @param id
+   *            the primary key of the object you would like to retrieve
+   * @param fetch Set the fetch profile to use
+   * @return the object or throw and exception if that object does not exist
+   */
+  T load(Long id, String fetch);
+
+ /**
+  *
+  * @param id
+  *            primary key of the object you would like to retrieve
+  * @param fetch Set the fetch profile to use
+  * @return the object or null if that object does not exist
+  */
+  T find(Long id, String fetch);
 
    /**
     *

@@ -2,7 +2,7 @@
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
 <tiles-definitions>  
   <definition name="image/show" extends="default">
-  <put-attribute name="pageTitle" value="${image.caption}" cascade="true"/>    
+  <put-attribute name="pageTitle" value="${image.title}" cascade="true"/>    
     <put-attribute name="body" value="/WEB-INF/views/image/show.jspx" />
   </definition>   
 </tiles-definitions>

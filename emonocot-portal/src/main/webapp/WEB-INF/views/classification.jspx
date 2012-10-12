@@ -88,7 +88,7 @@
 							<ul>
 								<c:forEach var="item" items="${result}">
 									<li><c:url var="taxonUrl"
-											value="/taxon/${item.identifier}" /><a href="${taxonUrl}">${item.name}</a>
+											value="/taxon/${item.identifier}" /><a href="${taxonUrl}">${item.scientificName}</a>
 									</li>
 								</c:forEach>
 							</ul>
