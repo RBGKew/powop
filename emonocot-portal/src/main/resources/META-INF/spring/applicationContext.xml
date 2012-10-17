@@ -45,6 +45,7 @@
 		<property name="purgeOnInit" value="${hibernate.search.purge.indexes.on.init}" />
 		<property name="indexedClasses">
 			<list>
+			    <value>org.emonocot.model.Annotation</value>
 				<value>org.emonocot.model.Distribution</value>
 				<value>org.emonocot.model.geography.Place</value>
 				<value>org.emonocot.model.Identifier</value>
