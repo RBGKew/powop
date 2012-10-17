@@ -16,8 +16,8 @@ public class FunctionsTest {
 
 	@Test
 	public void testAbbreviateRank() {
-		assertEquals("FAMILY should be formatted as Family",Functions.abbreviateRank(Rank.FAMILY),"Family");
-		assertEquals("GENUS should be formatted as Genus",Functions.abbreviateRank(Rank.GENUS),"Genus");
-		assertEquals("SPECIES should be formatted as Species",Functions.abbreviateRank(Rank.SPECIES),"Species");
+		assertEquals("FAMILY should be formatted as Family",Functions.abbreviateRank(Rank.FAMILY),"fam");
+		assertEquals("GENUS should be formatted as Genus",Functions.abbreviateRank(Rank.GENUS),"gen");
+		assertEquals("SPECIES should be formatted as Species",Functions.abbreviateRank(Rank.SPECIES),"sp");
 	}
 }

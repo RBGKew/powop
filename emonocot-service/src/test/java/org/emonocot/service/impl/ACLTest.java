@@ -148,7 +148,7 @@ public class ACLTest extends DataManagementSupport {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         userService.deletePermission(source, "test", BasePermission.READ,
                 Source.class);
-        SecurityContextHolder.clearContext();
+        
         while (!getTearDown().isEmpty()) {
             Object obj = getTearDown().pop();
             if (obj.getClass().equals(Taxon.class)) {
@@ -165,6 +165,7 @@ public class ACLTest extends DataManagementSupport {
                 userService.deleteGroup(((Group) obj).getIdentifier());
             }
         }
+        SecurityContextHolder.clearContext();
     }
 
     /**
