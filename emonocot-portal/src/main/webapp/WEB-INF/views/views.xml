@@ -16,6 +16,7 @@
   </definition>
   <definition name="search" extends="default">
   	<put-attribute name="pageTitle" value="searchTitle" cascade="true" />
+    <put-attribute name="searchBox" value="null" type="object" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/search.jspx" />
   </definition>
   <definition name="spatial" extends="default">
