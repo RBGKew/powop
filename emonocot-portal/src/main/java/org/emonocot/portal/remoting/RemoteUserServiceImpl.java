@@ -84,7 +84,7 @@ public class RemoteUserServiceImpl extends UserServiceImpl {
         aceDto.setObject(((BaseData) object).getIdentifier());
         HttpEntity<AceDto> requestEntity = new HttpEntity<AceDto>(aceDto,
                 httpHeaders);
-        restTemplate.exchange(baseUri + "user/" + recipient + "/permission",
+        restTemplate.exchange(baseUri + "/user/" + recipient + "/permission",
                 HttpMethod.POST, requestEntity, AceDto.class);
     }
 
@@ -110,7 +110,7 @@ public class RemoteUserServiceImpl extends UserServiceImpl {
         aceDto.setObject(((BaseData) object).getIdentifier());
         HttpEntity<AceDto> requestEntity = new HttpEntity<AceDto>(aceDto,
                 httpHeaders);
-        restTemplate.exchange(baseUri + "user/" + recipient
+        restTemplate.exchange(baseUri + "/user/" + recipient
                 + "/permission?delete=true", HttpMethod.POST, requestEntity,
                 AceDto.class);
     }

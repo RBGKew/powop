@@ -59,7 +59,7 @@ public class JobInstanceDaoImpl implements JobInstanceDao {
      * @return a job instance
      */
     public final JobInstance load(final Long identifier) {
-        return restTemplate.getForObject(baseUri + resourceDir + "/"
+        return restTemplate.getForObject(baseUri  + resourceDir + "/"
                 + identifier, JobInstance.class);
     }
 
@@ -67,15 +67,15 @@ public class JobInstanceDaoImpl implements JobInstanceDao {
      * @param id the id of the job instance to delete
      */
     public final void delete(final Long id) {
-        restTemplate.delete(baseUri + resourceDir + "/" + id);
+        restTemplate.delete(baseUri + "/" + resourceDir + "/" + id);
     }
 
     /**
      * @param jobInstance the job execution to save
      */
     public final void save(final JobInstance jobInstance) {
-        logger.debug("POST: " + baseUri + resourceDir);
-        restTemplate.postForObject(baseUri + resourceDir, jobInstance,
+        logger.debug("POST: " + baseUri + "/"+ resourceDir);
+        restTemplate.postForObject(baseUri+ "/" + resourceDir, jobInstance,
                 JobInstance.class);
     }
 

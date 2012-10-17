@@ -85,7 +85,7 @@ public class RemoteGroupServiceImpl extends GroupServiceImpl {
         aceDto.setObject(((BaseData) object).getIdentifier());
         HttpEntity<AceDto> requestEntity = new HttpEntity<AceDto>(aceDto,
                 httpHeaders);
-        restTemplate.exchange(baseUri + "group/" + recipient
+        restTemplate.exchange(baseUri + "/group/" + recipient
                 + "/permission", HttpMethod.POST, requestEntity, AceDto.class);
     }
 
@@ -111,7 +111,7 @@ public class RemoteGroupServiceImpl extends GroupServiceImpl {
         aceDto.setClazz(clazz);
         HttpEntity<AceDto> requestEntity = new HttpEntity<AceDto>(aceDto,
                 httpHeaders);
-        restTemplate.exchange(baseUri + "group/" + recipient
+        restTemplate.exchange(baseUri + "/group/" + recipient
                 + "/permission?delete=true", HttpMethod.POST, requestEntity,
                 AceDto.class);
     }
