@@ -64,7 +64,7 @@ public class JobExecutionController {
      *            Set the identifier of the job execution
      * @return A model and view containing a job execution
      */
-    @RequestMapping(value = "/jobExecution/{identifier}", method = RequestMethod.GET, headers = "Accept=application/json")
+    @RequestMapping(value = "/jobExecution/{identifier}", method = RequestMethod.GET, produces = "application/json")
     public final ResponseEntity<JobExecution> get(
             @PathVariable final Long identifier) {
         return new ResponseEntity<JobExecution>(service.find(identifier),

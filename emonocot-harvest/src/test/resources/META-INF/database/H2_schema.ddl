@@ -31,7 +31,7 @@ create table Job (id bigint not null, identifier varchar(255), duration timestam
 drop table if exists Job_parameters;
 create table Job_parameters (Job_id bigint not null,  parameters_KEY varchar(255) not null, parameters varchar(255), primary key (Job_id, parameters_KEY));
 drop table if exists Place;
-create table Place (id bigint not null, identifier varchar(255), accessRights varchar(255), created timestamp, modified timestamp, name varchar(255), fipsCode varchar(5), shape blob, point blob, license varchar(255), rights varchar(255), rightsHolder varchar(255), source varchar(255), creator varchar(255), authority_id bigint, mapFeatureId bigint, primary key (id), unique (identifier));
+create table Place (id bigint not null, identifier varchar(255), accessRights varchar(255), created timestamp, modified timestamp, title varchar(255), fipsCode varchar(5), shape blob, point blob, license varchar(255), rights varchar(255), rightsHolder varchar(255), source varchar(255), creator varchar(255), authority_id bigint, mapFeatureId bigint, primary key (id), unique (identifier));
 drop table if exists Place_Source;
 create table Place_Source (Place_id bigint not null, sources_id bigint not null, primary key (Place_id, sources_id));
 drop table if exists Principal;

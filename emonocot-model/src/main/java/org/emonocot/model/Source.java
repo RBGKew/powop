@@ -276,6 +276,7 @@ public class Source extends BaseData {
 	/**
      * @return the jobs
      */
+	@JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "source")
     public Set<Job> getJobs() {
         return jobs;
@@ -284,6 +285,7 @@ public class Source extends BaseData {
     /**
      * @param jobs the jobs to set
      */
+	@JsonIgnore
     public void setJobs(Set<Job> jobs) {
         this.jobs = jobs;
     }

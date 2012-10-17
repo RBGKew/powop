@@ -12,6 +12,8 @@ import org.emonocot.api.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.module.hibernate.HibernateModule;
+
 /**
 *
 */
@@ -147,5 +149,6 @@ public class CustomObjectMapper extends ObjectMapper {
         setHandlerInstantiator(handlerInstantiator);
         CustomModule module = new CustomModule(jobInstanceService);
         registerModule(module);
+        registerModule(new HibernateModule());
     }
 }

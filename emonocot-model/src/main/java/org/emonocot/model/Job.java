@@ -102,8 +102,8 @@ public class Job extends Base {
 	private String jobInstance;
 
 	/**
-    *
-    */
+     *
+     */
 	private Source source;
 
 	/**

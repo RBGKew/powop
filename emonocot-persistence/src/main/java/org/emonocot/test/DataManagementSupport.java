@@ -83,7 +83,7 @@ public abstract class DataManagementSupport {
     public final Place createPlace(String identifier, String name) {
     	Place place = new Place();
     	place.setIdentifier(identifier);
-    	place.setName(name);
+    	place.setTitle(name);
     	setUp.add(place);
         tearDown.push(place);
     	return place;

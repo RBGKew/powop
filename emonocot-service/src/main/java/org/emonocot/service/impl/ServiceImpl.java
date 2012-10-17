@@ -56,9 +56,19 @@ public abstract class ServiceImpl<T extends Base, DAO extends Dao<T>>
      *            Set the identifier of the object you would like to delete
      */
     @Transactional
-    public void delete(final String identifier) {
-        dao.delete(identifier);
+    public void deleteById(final Long id) {
+        dao.deleteById(id);
     }
+    
+    /**
+    *
+    * @param identifier
+    *            Set the identifier of the object you would like to delete
+    */
+   @Transactional
+   public void delete(final String identifier) {
+       dao.delete(identifier);
+   }
 
     /**
      * @param identifier

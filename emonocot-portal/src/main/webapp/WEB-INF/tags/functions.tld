@@ -14,6 +14,16 @@
         <function-signature>org.emonocot.model.constants.DescriptionType[] features()</function-signature>
     </function>
     <function>
+        <name>abbreviateRank</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.String abbreviateRank(org.gbif.ecat.voc.Rank)</function-signature>
+    </function>
+    <function>
+        <name>formatRank</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.String formatRank(org.gbif.ecat.voc.Rank)</function-signature>
+    </function>
+    <function>
         <name>content</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>org.emonocot.model.Description content(org.emonocot.model.Taxon,org.emonocot.model.constants.DescriptionType)</function-signature>

@@ -447,6 +447,7 @@ public class TestDataManager {
         taxon.setGenus(genus);
         taxon.setSpecificEpithet(specificEpithet);
         taxon.setFamily(family);
+        taxon.setNamePublishedInString(protologue);
         taxon.setIdentifier(identifier);
         if (rank != null && rank.length() > 0) {
             taxon.setTaxonRank(Rank.valueOf(rank));
@@ -463,12 +464,7 @@ public class TestDataManager {
         }
         if (general != null && general.length() > 0) {
             createTextualData(taxon, general, DescriptionType.general, null);
-        }
-        if (protologue != null && protologue.length() > 0) {
-            Reference reference = new Reference();
-            reference.setIdentifier(protologue);
-            taxon.setNamePublishedIn(reference);
-        }
+        }        
         if (protologLink != null && protologLink.length() > 0) {
             createIdentifier(taxon, protologLink, "Protolog");
         }
@@ -943,7 +939,7 @@ public class TestDataManager {
 		enableAuthentication();
 		Place p = new Place();
 		p.setIdentifier(identifier);
-		p.setName(name);
+		p.setTitle(name);
 		WKTReader r = new WKTReader();
 		try {
 			p.setShape(r.read(shape));

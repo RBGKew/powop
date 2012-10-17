@@ -71,40 +71,40 @@ public class ChecklistWebserviceFunctionalTest {
                         "Pargetter & Archer, Integer elementum lorem ut nibh scelerisque at condimentum 2: 250pp 1784",
                         null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:family:28", "Lowiaceae", "Archer",
-                null, null, null, "FAMILY", "accepted", null, null,
+                null, null, null, "FAMILY", "Accepted", null, null,
                 null, null, null, null, null, null, null,
                 null, null, null, null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:3", "Lorem", null,
-                "Lowiaceae", "Lorem", null, "GENUS", "accepted", null, null,
+                "Lowiaceae", "Lorem", null, "GENUS", "Accepted", null, null,
                 null, null, null, null, null, null, null,
                 null, null, null, "urn:kew.org:wcs:family:28", null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:1", "Lorem ipsum",
                 "(Archer & Archer) Pargetter", "Lowiaceae", "Lorem", "ipsum",
-                "SPECIES", "accepted", null, null, null, null, "reference1", "2: 34-56",
+                "SPECIES", "Accepted", null, null, null, null, "(Archer & Archer) Pargetter in Pargetter & Archer, Integer elementum lorem ut nibh scelerisque at condimentum 2: 34-56 1784", "2: 34-56",
                 null, "DEN", "FIN", "FOR", null, null,
                 "urn:kew.org:wcs:taxon:3", null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:2", "Lorem dolor",
-                null, "Lowiaceae", "Lorem", "dolor", "SPECIES", "accepted",
+                null, "Lowiaceae", "Lorem", "dolor", "SPECIES", "Accepted",
                 null, null, null, null, null, null, null,
                 null, null, null, null, null, "urn:kew.org:wcs:taxon:3", null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:4",
                 "Lorem consectetur", null, "Lowiaceae", "Lorem", "consectetur",
-                "SPECIES", "synonym", null, null, null, null,
+                "SPECIES", "Synonym", null, null, null, null,
                 null, null, null, null, null, null, null, null, null,
                 "urn:kew.org:wcs:taxon:1");
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:5",
                 "Lorem adipiscing", null, "Lowiaceae", "Lorem", "adipiscing",
-                "SPECIES", "synonym", null, null, null, null,
+                "SPECIES", "Synonym", null, null, null, null,
                 null, null, null, null, null, null, null, null, null,
                 "urn:kew.org:wcs:taxon:1");
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:6",
                 "Curabitur vehicula", null, "Curabituraceae", "Curabitur",
-                "vehicula", "SPECIES", "accepted", null,
+                "vehicula", "SPECIES", "Accepted", null,
                 null, null, null, null, null, null, null, null, null, null,
                 null, null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:7",
                 "Curabitur nulla", null, "Curabituraceae", "Curabitur",
-                "nulla", "SPECIES", "unplaced", null, null,
+                "nulla", "SPECIES", "Doubtful", null, null,
                 null, null, null, null, null, null, null, null, null, null,
                 null, null);
     }

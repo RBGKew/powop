@@ -1,6 +1,7 @@
 	package org.emonocot.portal.remoting;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,12 +26,47 @@ import org.springframework.web.client.RestTemplate;
  * @param <T>
  */
 public abstract class DaoImpl<T extends Base> implements Dao<T> {
+	
+	protected Map<String, String> createdObjects = new HashMap<String,String>();
 
     /**
      * Logger.
      */
     private static Logger logger
         = LoggerFactory.getLogger(DaoImpl.class);
+    
+    /**
+     *
+     * @param identifier
+     * @return
+     */
+	public String getPageLocation(String identifier) {
+		return createdObjects.get(identifier);
+	}
+	
+	/**
+    *
+    * @param identifier
+    * @return
+    */
+	public String getIdentifier(String location) {
+		for(String identifier : createdObjects.keySet()) {
+		    if(createdObjects.get(identifier).equals(location)) {
+		    	return identifier;
+		    }
+		}
+		return null;
+	}
+	
+	/**
+	 *
+	 * @param identifier
+	 * @return
+	 */
+	public boolean containsPageLocation(String location) {
+		return createdObjects.containsValue(location);
+	}
+
 
     /**
      *
@@ -137,14 +173,27 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
         // TODO Auto-generated method stub
         return null;
     }
+    
+    public final void deleteById(final Long id) {
+    	
+    }
 
     /**
      * @param identifier the identifier of the object to delete
      */
     public final void delete(final String identifier) {
         HttpEntity<T> requestEntity = new HttpEntity<T>(httpHeaders);
-        restTemplate.exchange(baseUri + resourceDir + "/" + identifier,
+        logger.debug("DELETE: " + createdObjects.get(identifier));
+        if(createdObjects.containsKey(identifier)) {
+            restTemplate.exchange(createdObjects.get(identifier),
                 HttpMethod.DELETE, requestEntity, type);
+            createdObjects.remove(identifier);
+        } else {
+        	T t = find(identifier);
+        	restTemplate.exchange(baseUri + "/" + resourceDir + "/" + t.getId(),
+                    HttpMethod.DELETE, requestEntity, type);
+        }
+        
     }
 
     /**
@@ -153,7 +202,7 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
      */
     public final T find(final String identifier) {
         HttpEntity<T> requestEntity = new HttpEntity<T>(httpHeaders);
-        HttpEntity<T> responseEntity = restTemplate.exchange(baseUri
+        HttpEntity<T> responseEntity = restTemplate.exchange(baseUri + "/"
                 + resourceDir + "/" + identifier, HttpMethod.GET,
                 requestEntity, type);
         return responseEntity.getBody();
@@ -184,11 +233,12 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
      * @return the saved object
      */
     public final T save(final T t) {
-        logger.debug("POST: " + baseUri + resourceDir);
+    	logger.debug("POST: " + baseUri + resourceDir);
         HttpEntity<T> requestEntity = new HttpEntity<T>(t, httpHeaders);
-        HttpEntity<T> responseEntity = restTemplate.exchange(baseUri
+        HttpEntity<T> responseEntity = restTemplate.exchange(baseUri + "/"
                 + resourceDir, HttpMethod.POST,
-                requestEntity, type);
+                requestEntity, type);        
+        createdObjects.put(t.getIdentifier(), responseEntity.getHeaders().getLocation().toString());
         return responseEntity.getBody();
     }
     /**

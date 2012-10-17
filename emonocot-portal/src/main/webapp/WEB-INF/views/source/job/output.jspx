@@ -90,11 +90,11 @@
 													<c:choose>
 														<c:when test="${annotatedObj.className eq 'Taxon'}">
 															<spring:url value="/taxon/${annotatedObj.identifier}" var="url"/>
-															<a href="${url}">${annotatedObj.name}</a>
+															<a href="${url}">${annotatedObj.scientificName}</a>
 														</c:when>
 														<c:when test="${annotatedObj.className eq 'Image'}">
-															<spring:url value="/image/${annotatedObj.identifier}" var="url"/>
-															<a href="${url}">${annotatedObj.caption}</a>
+															<spring:url value="/image/${annotatedObj.id}" var="url"/>
+															<a href="${url}">${annotatedObj.title}</a>
 														</c:when>
 														<c:when test="${not empty annotatedObj}">
 															${annotatedObj.className} : ${annotatedObj.identifier}

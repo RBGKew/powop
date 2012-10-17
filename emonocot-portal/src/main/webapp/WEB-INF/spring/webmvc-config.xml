@@ -9,18 +9,13 @@
 	<context:component-scan base-package="org.emonocot" use-default-filters="false">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
-	
-	<bean
-		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
-		<property name="order" value="0" />
-		<property name="useDefaultSuffixPattern" value="false" />
+
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+		<property name="useSuffixPatternMatch" value="false" />
 	</bean>
 
-	<!-- Due to https://jira.springsource.org/browse/SPR-6164 we need to include 
-		this to prevent uri's with dots being truncated -->
-
 	<bean
-		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
 		<property name="webBindingInitializer">
 			<bean
 				class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
@@ -47,7 +42,6 @@
     <mvc:view-controller path="/uncaughtException" view-name="uncaughtException"/>
     <mvc:view-controller path="/resourceNotFound" view-name="resourceNotFound"/>
     <mvc:view-controller path="/methodNotAllowed" view-name="methodNotAllowed"/>
-    <!-- <mvc:view-controller path="/about" view-name="about"/> -->
     <mvc:view-controller path="/contact" view-name="contact"/>
 
 	<bean id="conversionService" class="org.emonocot.portal.format.PortalFormatterFactory">

@@ -53,7 +53,7 @@ public class ClassificationController {
      * @return the list of nodes
      */
     @RequestMapping(value = "/taxonTree", method = RequestMethod.GET,
-                    headers = "Accept=application/json")
+                    produces = "application/json")
     public final @ResponseBody
     List<Node> getTaxonTreeRoots() {
         List<Taxon> results = taxonService.loadChildren(null, 20, 0, "classification-tree");
@@ -70,7 +70,7 @@ public class ClassificationController {
      */
     @RequestMapping(value = "/taxonTree/{identifier}",
                     method = RequestMethod.GET,
-                    headers = "Accept=application/json")
+                    produces = "application/json")
     public final @ResponseBody
     List<Node> getTaxonTreeNode(@PathVariable final String identifier) {
         List<Taxon> results = taxonService.loadChildren(identifier, null, null, "classification-tree");

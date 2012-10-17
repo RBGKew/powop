@@ -52,7 +52,7 @@
 										</c:if>
 									</td>
 								</tr>
-								<tr><th><spring:message code="source.source" /></th><td>${source.source}</td></tr>
+								<tr><th><spring:message code="source.source" /></th><td>${source.bibliographicCitation}</td></tr>
 							</tbody>
 						</table>
 					</div>

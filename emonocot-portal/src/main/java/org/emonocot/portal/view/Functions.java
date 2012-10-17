@@ -113,6 +113,55 @@ public final class Functions {
     }
 
     /**
+     *
+     * @param rank Set the rank
+     * @return the abbreviated rank
+     */
+    public static String abbreviateRank(final Rank rank) {
+    	if(rank == null) {
+    		return null;
+    	} else {
+    		switch(rank) {
+    		case VARIETY:
+    			return "var";
+    		case InfraspecificName:
+    			return "infrasp";
+    		case SUBSPECIES:
+    			return "ssp";
+    		case SPECIES:
+    			return "sp";
+    		case GENUS:
+    			return "gen";
+    		case Subtribe:
+    			return "subtrib";
+    		case Tribe:
+    			return "trib";
+    		case Subfamily:
+    			return "subfam";
+    		case FAMILY:
+    			return "fam";
+    		default:
+    			return Rank.toAbbreviation(rank);
+    	
+    		}
+    	}
+    }
+      
+    /**
+    *
+    * @param rank Set the rank
+    * @return the formatted rank
+    */
+   public static String formatRank(final Rank rank) {
+   	if(rank == null) {
+   		return null;
+   	} else {
+   		String r = rank.name();
+   		return r.substring(0,1).toUpperCase() + r.substring(1).toLowerCase();
+   	}
+   }
+
+    /**
      * @param rank Set the rank
      * @return true if the rank is infraspecific
      */

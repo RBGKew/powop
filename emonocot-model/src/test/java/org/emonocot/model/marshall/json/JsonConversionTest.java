@@ -108,7 +108,7 @@ public class JsonConversionTest {
         objectMapper = objectMapperFactory.getObject();
         
     	place = new Place();
-    	place.setName("testName");
+    	place.setTitle("testName");
     	place.setIdentifier("test.jk.triangle");
     	Coordinate[] coords = {new Coordinate(57,26), new Coordinate(0,0), new Coordinate(25,25), new Coordinate(57,26)};
     	LinearRing shell = new LinearRing(new DefaultCoordinateSequenceFactory().create(coords), new GeometryFactory());
@@ -469,17 +469,17 @@ public class JsonConversionTest {
     	String serialized = objectMapper.writeValueAsString(place);
     	System.out.println(serialized);
     	assertTrue("Expected JSON to contain the identifier", serialized.contains("\"identifier\":\"test.jk.triangle\""));
-    	assertTrue("Expected JSON to contain the name", serialized.contains("\"name\":\"testName\""));
+    	assertTrue("Expected JSON to contain the name", serialized.contains("\"title\":\"testName\""));
     	assertTrue("Expected JSON to contain the shape", serialized.contains("\"shape\":\"MULTIPOLYGON (((57 26, 0 0, 25 25, 57 26)))\""));
     }
     
     @Test
     public final void testReadMultiPolygon() throws Exception {
-    	String placeJson = "{\"name\":\"testName\",\"id\":null,\"shape\":\"MULTIPOLYGON (((57 26, 0 0, 25 25, 57 26)))\",\"point\":null,\"fipsCode\":null,\"authority\":null,\"identifier\":\"test.jk.triangle\",\"sources\":[],\"license\":null,\"created\":null,\"modified\":null}";
+    	String placeJson = "{\"title\":\"testName\",\"id\":null,\"shape\":\"MULTIPOLYGON (((57 26, 0 0, 25 25, 57 26)))\",\"point\":null,\"fipsCode\":null,\"authority\":null,\"identifier\":\"test.jk.triangle\",\"sources\":[],\"license\":null,\"created\":null,\"modified\":null}";
     	Place desrialized = objectMapper.readValue(placeJson, Place.class);
     	
     	assertEquals("Expected identifier to be " + place.getIdentifier(), place.getIdentifier(), desrialized.getIdentifier());
-    	assertEquals("Expected name to be " + place.getName(), place.getName(), desrialized.getName());
+    	assertEquals("Expected name to be " + place.getTitle(), place.getTitle(), desrialized.getTitle());
     	assertEquals("Expected shape to be " + place.getShape().toText(),place.getShape().toText(),desrialized.getShape().toText());
     }
 }

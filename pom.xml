@@ -820,6 +820,11 @@
 				<version>1.8.5</version>
 			</dependency>
 			<dependency>
+	          <groupId>com.fasterxml</groupId>
+	          <artifactId>jackson-module-hibernate</artifactId>
+	          <version>1.9.1</version>
+            </dependency>
+			<dependency>
 				<groupId>org.codehaus.jackson</groupId>
 				<artifactId>jackson-mapper-lgpl</artifactId>
 				<version>1.8.5</version>

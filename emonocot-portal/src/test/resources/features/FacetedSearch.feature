@@ -12,20 +12,20 @@ Background:
   | test       | http://example.com  |
 And there are taxa with the following properties:
   | identifier                   | name                           | family    | rank    | status   | distribution1 | distribution2 | source |
-  | urn:kew.org:wcs:taxon:2295   | Acorus                         | Acoraceae | GENUS   | accepted |               |               | test   |
-  | urn:kew.org:wcs:taxon:2304   | Acorus calamus                 | Acoraceae | SPECIES | accepted |               |               | test   |
-  | urn:kew.org:wcs:taxon:2305   | Acorus calamus var. americanus | Acoraceae | VARIETY | accepted |               |               | test   |
-  | urn:kew.org:wcs:taxon:2306   | Acorus calamus var. angustatus | Acoraceae | VARIETY | accepted |               |               | test   |
-  | urn:kew.org:wcs:taxon:2296   | Acorus adulterinus             | Acoraceae | SPECIES | synonym  |               |               | test   |
-  | urn:kew.org:wcs:taxon:456456 | Arum alpinariae                | Araceae   | SPECIES | accepted | TUR           |               | test   |
-  | urn:kew.org:wcs:taxon:16041  | Arum apulum                    | Araceae   | SPECIES | accepted | ITA           |               | test   |
-  | urn:kew.org:wcs:taxon:16050  | Arum balansanum                | Araceae   | SPECIES | accepted | TUR           |               | test   |
-  | urn:kew.org:wcs:taxon:16052  | Arum besserianum               | Araceae   | SPECIES | accepted | POL           | UKR           | test   |
-  | urn:kew.org:wcs:taxon:16060  | Arum byzantinum                | Araceae   | SPECIES | accepted | TUE           | TUR           | test   |
-  | urn:kew.org:wcs:taxon:16074  | Arum concinnatum               | Araceae   | SPECIES | accepted | GRC           | KRI           | test   |
-  | urn:kew.org:wcs:taxon:16088  | Arum creticum                  | Araceae   | SPECIES | accepted | KRI           | EAI           | test   |
-  | urn:kew.org:wcs:taxon:16095  | Arum cylindraceum              | Araceae   | SPECIES | accepted | DEN           | SWE           | test   |
-  | urn:kew.org:wcs:taxon:16240  | Arum maculatum                 | Araceae   | SPECIES | accepted |               |               | test   |
+  | urn:kew.org:wcs:taxon:2295   | Acorus                         | Acoraceae | GENUS   | Accepted |               |               | test   |
+  | urn:kew.org:wcs:taxon:2304   | Acorus calamus                 | Acoraceae | SPECIES | Accepted |               |               | test   |
+  | urn:kew.org:wcs:taxon:2305   | Acorus calamus var. americanus | Acoraceae | VARIETY | Accepted |               |               | test   |
+  | urn:kew.org:wcs:taxon:2306   | Acorus calamus var. angustatus | Acoraceae | VARIETY | Accepted |               |               | test   |
+  | urn:kew.org:wcs:taxon:2296   | Acorus adulterinus             | Acoraceae | SPECIES | Synonym  |               |               | test   |
+  | urn:kew.org:wcs:taxon:456456 | Arum alpinariae                | Araceae   | SPECIES | Accepted | TUR           |               | test   |
+  | urn:kew.org:wcs:taxon:16041  | Arum apulum                    | Araceae   | SPECIES | Accepted | ITA           |               | test   |
+  | urn:kew.org:wcs:taxon:16050  | Arum balansanum                | Araceae   | SPECIES | Accepted | TUR           |               | test   |
+  | urn:kew.org:wcs:taxon:16052  | Arum besserianum               | Araceae   | SPECIES | Accepted | POL           | UKR           | test   |
+  | urn:kew.org:wcs:taxon:16060  | Arum byzantinum                | Araceae   | SPECIES | Accepted | TUE           | TUR           | test   |
+  | urn:kew.org:wcs:taxon:16074  | Arum concinnatum               | Araceae   | SPECIES | Accepted | GRC           | KRI           | test   |
+  | urn:kew.org:wcs:taxon:16088  | Arum creticum                  | Araceae   | SPECIES | Accepted | KRI           | EAI           | test   |
+  | urn:kew.org:wcs:taxon:16095  | Arum cylindraceum              | Araceae   | SPECIES | Accepted | DEN           | SWE           | test   |
+  | urn:kew.org:wcs:taxon:16240  | Arum maculatum                 | Araceae   | SPECIES | Accepted |               |               | test   |
   And there are images with the following properties:
   | identifier                                                                            | caption | source |
   | urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg | Acorus  | test   |

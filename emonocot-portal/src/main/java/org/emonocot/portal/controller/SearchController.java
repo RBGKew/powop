@@ -382,7 +382,7 @@ public class SearchController {
      */
     @RequestMapping(value = "/autocomplete",
                     method = RequestMethod.GET,
-                    headers = "Accept=application/json")
+                    produces = "application/json")
     public final @ResponseBody List<Match> get(
             @RequestParam(required = true) final String term) {
         Page<SearchableObject> result = searchableObjectService.search(term

@@ -80,8 +80,8 @@ Scenario: Create Source
   When I am on the source list page
   And I select "Create a new source"
   And I enter the following data into the create source form:
-  | identifier | title | uri | logoUrl |
-  | test2 | test2 title | http://example.com | http://example.com/logo.png |
+  | identifier | title       | uri                | logoUrl |
+  | test2      | test2 title | http://example.com | http://example.com/logo.png |
   And I submit the create source form
   Then an info message should say "test2 title created"
   When I navigate to source page "test2"

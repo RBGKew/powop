@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.orm.ObjectRetrievalFailureException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.domain.PrincipalSid;
 import org.springframework.security.acls.model.AccessControlEntry;
@@ -222,6 +223,7 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
      * @param username Set the username
      * @param newPassword Set the new password
      */
+    @PreAuthorize("hasRole('PERMISSION_ADMINISTRATE')")
     @Transactional(readOnly = false)
     public final void changePasswordForUser(final String username,
             final String newPassword) {
@@ -267,6 +269,7 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
     /**
      * @param username The username of the user to delete
      */
+    @PreAuthorize("hasRole('PERMISSION_ADMINISTRATE')")
     @Transactional(readOnly = false)
     public final void deleteUser(final String username) {
         Assert.hasLength(username);
@@ -335,6 +338,7 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
      * @param authority
      *            Set the granted authority
      */
+    @PreAuthorize("hasRole('PERMISSION_ADMINISTRATE')")
     @Transactional(readOnly = false)
     public final void addGroupAuthority(final String groupName,
             final GrantedAuthority authority) {
@@ -351,6 +355,7 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
      * @param username Set the username
      * @param groupName Set the group name
      */
+    @PreAuthorize("hasRole('PERMISSION_ADMINISTRATE')")
     @Transactional(readOnly = false)
     public final void addUserToGroup(final String username,
             final String groupName) {
@@ -370,6 +375,7 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
      * @param groupName Set the group name
      * @param authorities Set the authorities granted to the group
      */
+    @PreAuthorize("hasRole('PERMISSION_ADMINISTRATE')")
     @Transactional(readOnly = false)
     public final void createGroup(final String groupName,
             final List<GrantedAuthority> authorities) {
@@ -389,6 +395,7 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
     /**
      * @param groupName The name of the group to delete
      */
+    @PreAuthorize("hasRole('PERMISSION_ADMINISTRATE')")
     @Transactional(readOnly = false)
     public final void deleteGroup(final String groupName) {
         Assert.hasText(groupName);
@@ -440,6 +447,7 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
      * @param authority
      *            The authority to remove
      */
+    @PreAuthorize("hasRole('PERMISSION_ADMINISTRATE')")
     @Transactional(readOnly = false)
     public final void removeGroupAuthority(final String groupName,
             final GrantedAuthority authority) {
@@ -460,6 +468,7 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
      *            Set the name of the group from which the user should be
      *            removed
      */
+    @PreAuthorize("hasRole('PERMISSION_ADMINISTRATE')")
     @Transactional(readOnly = false)
     public final void removeUserFromGroup(final String username,
             final String groupName) {
@@ -479,6 +488,7 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
      * @param oldName Set the old name of the group
      * @param newName Set the new name of the group
      */
+    @PreAuthorize("hasRole('PERMISSION_ADMINISTRATE')")
     @Transactional(readOnly = false)
     public final void renameGroup(final String oldName, final String newName) {
         Assert.hasText(oldName);
@@ -502,6 +512,7 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
      *
      * @param group Set the group to save
      */
+    @PreAuthorize("hasRole('PERMISSION_ADMINISTRATE')")
     @Transactional(readOnly = false)
     public final void saveGroup(final Group group) {
         groupDao.save(group);
@@ -576,6 +587,7 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
      * @param clazz Set the class of object
      *
      */
+    @PreAuthorize("hasRole('PERMISSION_ADMINISTRATE')")
     @Transactional(readOnly = false)
     public void addPermission(final SecuredObject object,
             final String recipient, final Permission permission,
@@ -607,6 +619,7 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
      * @param clazz Set the class of object
      *
      */
+    @PreAuthorize("hasRole('PERMISSION_ADMINISTRATE')")
     @Transactional(readOnly = false)
     public void deletePermission(final SecuredObject object,
             final String recipient, final Permission permission,

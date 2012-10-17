@@ -34,7 +34,14 @@ public interface Service<T extends Base> {
     * @param identifier
     *            Set the identifier of the object you would like to delete
     */
-   void delete(String identifier);
+   void deleteById(Long id);
+   
+   /**
+   *
+   * @param identifier
+   *            Set the identifier of the object you would like to delete
+   */
+  void delete(String identifier);
 
     /**
      *

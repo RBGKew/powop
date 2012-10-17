@@ -2833,4 +2833,7 @@
             <column name="rightsHolder" type="varchar(255)"/>
         </addColumn>
     </changeSet>
+    <changeSet id="2012-10-17_01" author="ben">
+        <renameColumn tableName="Place" oldColumnName="name" newColumnName="title"  columnDataType="varchar(255)"/>
+    </changeSet>
 </databaseChangeLog>

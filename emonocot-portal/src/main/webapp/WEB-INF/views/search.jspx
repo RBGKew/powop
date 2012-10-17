@@ -147,7 +147,7 @@
 								<c:url var="fullsize" value="/images/fullsize/${item.image.identifier}.${item.image.format}" />
 								<c:url var="url" value="/taxon/${item.identifier}" /> 
 								<a class="thumbnail" href="${item.image.identifier}" rel="gallery"
-									title="${em:stripXml(item.name)}" data-link="${identifier}">
+									title="${em:stripXml(item.scientificName)}" data-link="${identifier}">
 									<c:url var="thumbnail" value="/images/thumbnails/${item.image.id}.${item.image.format}" />
 									<c:url var="url" value="/taxon/${item.identifier}" /> 
 									<img src="${thumbnail}" title="${em:stripXml(item.scientificName)}" />

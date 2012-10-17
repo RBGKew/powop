@@ -53,11 +53,11 @@
 								<c:set var="url" value="/spatial?x1=${item.envelope.minX}&amp;x2=${item.envelope.maxX}&amp;y1=${item.envelope.minY}&amp;y2=${item.envelope.maxY}&amp;featureId=${item.mapFeatureId}" />
 							</c:otherwise>
 						</c:choose>
-						<results:simpleListEntry itemName="${item.name}" 
+						<results:simpleListEntry itemName="${item.title}" 
 							icon="/css/images/glyphicons/halfsize/glyphicons_242_google_maps.png"
 							iconAlt="Place"
 							url="${url}">
-							<h4 class="h4Results">${item.name}</h4>
+							<h4 class="h4Results">${item.title}</h4>
 						</results:simpleListEntry>
 					</c:when>
 					<c:otherwise>

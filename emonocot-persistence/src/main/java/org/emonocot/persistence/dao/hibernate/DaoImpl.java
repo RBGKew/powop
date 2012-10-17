@@ -174,6 +174,15 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
      * @param identifier
      *            Set the identifier
      */
+    public final void deleteById(final Long id) {
+        T t = (T)getSession().load(type, id);
+        getSession().delete(t);
+    }
+    
+    /**
+     * @param identifier
+     *            Set the identifier
+     */
     public final void delete(final String identifier) {
         T t = load(identifier);
         getSession().delete(t);

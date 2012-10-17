@@ -78,12 +78,12 @@
 	                  <c:set var="url" value="/spatial?x1=${item.envelope.minX}&amp;x2=${item.envelope.maxX}&amp;y1=${item.envelope.minY}&amp;y2=${item.envelope.maxY}&amp;featureId=${item.mapFeatureId}" />
 	                </c:otherwise>
                   </c:choose>
-				  <results:listEntry itemName="${item.name}" 
+				  <results:listEntry itemName="${item.title}" 
 				  icon="/css/images/glyphicons/halfsize/glyphicons_242_google_maps.png"
 				  iconAlt="Place"
 				  url="${url}">
 				    <spring:url var="itemUrl" value="${url}"/>
-                    <a class="result" href="${itemUrl}" title="${em:stripXml(item.name)}"><h4 class="h4Results">${item.name}</h4></a>
+                    <a class="result" href="${itemUrl}" title="${em:stripXml(item.title)}"><h4 class="h4Results">${item.title}</h4></a>
                   </results:listEntry>
 				</c:when>
 				<c:otherwise>

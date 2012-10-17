@@ -182,9 +182,9 @@ public class RestApiFunctionalTest {
         image.setTitle("Acorus");        
         image.setIdentifier("http://upload.wikimedia.org/wikipedia/commons/2/25/Illustration_Acorus_calamus0.jpg");
         image.getTaxa().add(taxon);
-        imageDao.save(image);            
-        
-        imageDao.delete("urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg");
+        image = imageDao.save(image);            
+
+        imageDao.delete("http://upload.wikimedia.org/wikipedia/commons/2/25/Illustration_Acorus_calamus0.jpg");
         
         taxonDao.delete("urn:kew.org:wcs:taxon:2295");
     }
@@ -224,7 +224,7 @@ public class RestApiFunctionalTest {
 
         taxonDao.delete("urn:kew.org:wcs:taxon:2295");
         referenceDao.delete("referenceIdentifier");
-        imageDao.delete("urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg");
+        imageDao.delete("http://upload.wikimedia.org/wikipedia/commons/2/25/Illustration_Acorus_calamus0.jpg");
     }
 
     /**

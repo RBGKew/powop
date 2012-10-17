@@ -5,6 +5,8 @@ import java.util.Properties;
 
 import org.emonocot.portal.driver.source.JobOutput;
 import org.emonocot.portal.driver.source.JobList;
+import org.emonocot.portal.remoting.IdentificationKeyDaoImpl;
+import org.emonocot.portal.remoting.ImageDaoImpl;
 import org.emonocot.test.TestDataManager;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
@@ -27,6 +29,24 @@ public class Portal extends PageObject {
     */
    private Logger logger = LoggerFactory
            .getLogger(Portal.class);
+   
+   /**
+    *
+    * @param imageDao set the image dao
+    */
+   @Autowired
+   public final void setImageDaoImpl(ImageDaoImpl imageDao) {
+	   this.imageDao = imageDao;
+   }
+   
+   /**
+   *
+   * @param imageDao set the image dao
+   */
+  @Autowired
+  public final void setIdentificationKeyDaoImpl(IdentificationKeyDaoImpl keyDao) {
+	   this.keyDao = keyDao;
+  }
 
    /**
     * @param testDataManager Set the test data manager
@@ -124,7 +144,7 @@ public class Portal extends PageObject {
      * @return an image page
      */
     public final PageObject getImagePage(final String identifier) {
-        return openAs(getBaseUri() + "image/" + identifier, 
+        return openAs(imageDao.getPageLocation(identifier), 
         		org.emonocot.portal.driver.image.Show.class);
     }
 

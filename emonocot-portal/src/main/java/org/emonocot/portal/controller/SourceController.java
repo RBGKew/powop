@@ -128,7 +128,7 @@ public class SourceController extends GenericController<Source, SourceService> {
 	 *            Set the offset
 	 * @return the name of the view
 	 */
-	@RequestMapping(method = RequestMethod.GET, params = "!form")
+	@RequestMapping(method = RequestMethod.GET, params = "!form", produces = "text/html")
 	public final String list(
 			final Model model,
 			@RequestParam(value = "page", defaultValue = "0", required = false) final Integer page,
@@ -143,7 +143,7 @@ public class SourceController extends GenericController<Source, SourceService> {
 	 *            Set the model
 	 * @return the name of the view
 	 */
-	@RequestMapping(method = RequestMethod.GET, params = "form")
+	@RequestMapping(method = RequestMethod.GET, params = "form", produces = "text/html")
 	public final String create(final Model model) {
 		model.addAttribute(new Source());
 		return "source/create";
@@ -158,7 +158,7 @@ public class SourceController extends GenericController<Source, SourceService> {
 	 *            Set the binding results
 	 * @return a model and view
 	 */
-	@RequestMapping(method = RequestMethod.POST, headers = "Accept=text/html")
+	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
 	public final String post(@Valid final Source source,
 			final BindingResult result, final HttpSession session) {
 		if (result.hasErrors()) {
@@ -201,7 +201,7 @@ public class SourceController extends GenericController<Source, SourceService> {
 	 *            Set the identifier
 	 * @return the name of the view
 	 */
-	@RequestMapping(value = "/{identifier}", method = RequestMethod.GET, params = "form")
+	@RequestMapping(value = "/{identifier}", method = RequestMethod.GET, params = "form", produces = "text/html")
 	public final String update(@PathVariable final String identifier,
 			final Model model) {
 		model.addAttribute(getService().load(identifier));
@@ -219,7 +219,7 @@ public class SourceController extends GenericController<Source, SourceService> {
 	 *            Set the binding results
 	 * @return the model name
 	 */
-	@RequestMapping(value = "/{identifier}", method = RequestMethod.POST, headers = "Accept=text/html")
+	@RequestMapping(value = "/{identifier}", method = RequestMethod.POST, produces = "text/html")
 	public final String post(
 			@PathVariable("identifier") final String identifier,
 			@Valid final Source source, final BindingResult result,
@@ -313,12 +313,12 @@ public class SourceController extends GenericController<Source, SourceService> {
 	 *            Set the binding results
 	 * @return a model and view
 	 */
-	@RequestMapping(value = "/{identifier}/job", method = RequestMethod.POST, headers = "Accept=text/html")
+	@RequestMapping(value = "/{sourceIdentifier}/job", method = RequestMethod.POST, produces = "text/html")
 	public final String post(
-			@PathVariable("identifier") final String identifier,
+			@PathVariable("sourceIdentifier") final String sourceIdentifier,
 			final Model model, @Valid final Job job,
 			final BindingResult result, final HttpSession session) {
-		Source source = getService().find(identifier, "source-with-jobs");
+		Source source = getService().find(sourceIdentifier, "source-with-jobs");
 		if (result.hasErrors()) {
 			model.addAttribute("source", source);
 			populateForm(model, job, new JobParameterDto());
@@ -333,7 +333,7 @@ public class SourceController extends GenericController<Source, SourceService> {
 		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
 				codes, args);
 		session.setAttribute("info", message);
-		return "redirect:/source/" + identifier + "/job";
+		return "redirect:/source/" + sourceIdentifier + "/job";
 	}
 
 	/**
@@ -439,7 +439,7 @@ public class SourceController extends GenericController<Source, SourceService> {
 	 * 
 	 * @return the view name
 	 */
-	@RequestMapping(value = "/{identifier}/job/{jobId}", method = RequestMethod.POST, headers = "Accept=text/html", params = "run")
+	@RequestMapping(value = "/{identifier}/job/{jobId}", method = RequestMethod.POST, produces = "text/html", params = "run")
 	public final String run(
 			@PathVariable("identifier") final String identifier,
 			@PathVariable("jobId") final String jobId, final Model model,
@@ -561,7 +561,7 @@ public class SourceController extends GenericController<Source, SourceService> {
 	 *            Set the binding results
 	 * @return the view name
 	 */
-	@RequestMapping(value = "/{identifier}/job/{jobId}", method = RequestMethod.POST, headers = "Accept=text/html", params = {"!run","!parameters"})
+	@RequestMapping(value = "/{identifier}/job/{jobId}", method = RequestMethod.POST, produces = "text/html", params = {"!run","!parameters"})
 	public final String post(
 			@PathVariable("identifier") final String identifier,
 			@PathVariable("jobId") final String jobId, final Model model,

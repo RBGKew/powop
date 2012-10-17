@@ -14,20 +14,7 @@
 				alt="Taxon" /> <span class="taxonName">${taxon.scientificName}</span>
 			${taxon.scientificNameAuthorship}
 		</h2>
-		<c:if test="${taxon.namePublishedIn != null}">
-			<c:set var="protologLink" value="${em:protologLink(taxon)}" />
-			<c:choose>
-				<c:when test="${protologLink != null}">
-					<small id="protologue"> <a
-						href="${protologLink.identifier}"
-						title="${fn:escapeXml(protologLink.title)}">${taxon.namePublishedInString}</a>
-					</small>
-				</c:when>
-				<c:otherwise>
-					<small id="protologue">${taxon.namePublishedInString}</small>
-				</c:otherwise>
-			</c:choose>
-		</c:if>
+		<small id="protologue">${taxon.namePublishedInString}</small>		
 	</tags:pageheader>
 
 	<div class="container">
@@ -313,6 +300,18 @@
 						</div>
 					</div>
 				</c:if>
+				<c:if test="${not empty taxon.identifiers}">
+			      <div class="inner">
+					<div class="box">
+						<section id="identifiers">
+							<h2><spring:message code="identifiers" /></h2>
+							<c:forEach var="identifier" items="${taxon.identifiers}">
+							  <a href="${identifier.identifier}" title="${fn:escapeXml(identifier.title)}">${identifier.title}</a>
+							</c:forEach>
+						</section>
+					</div>
+				</div>
+		       </c:if>
 			</div>
 		</div>
 	</div>

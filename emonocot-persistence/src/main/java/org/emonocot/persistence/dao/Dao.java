@@ -27,13 +27,20 @@ public interface Dao<T extends Base> {
     * @return the object or throw and exception if that object does not exist
     */
    T load(Long id);
+   
+   /**
+   *
+   * @param identifier
+   *            Set the identifier of the object you would like to delete
+   */
+  void delete(String identifier);
 
    /**
     *
     * @param identifier
     *            Set the identifier of the object you would like to delete
     */
-   void delete(String identifier);
+   void deleteById(Long id);
 
     /**
     *

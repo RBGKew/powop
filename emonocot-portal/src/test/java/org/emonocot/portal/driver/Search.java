@@ -3,11 +3,13 @@ package org.emonocot.portal.driver;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.emonocot.portal.remoting.ImageDaoImpl;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -15,6 +17,7 @@ import org.openqa.selenium.support.How;
  *
  */
 public class Search extends PageObject {
+	
     /**
      *
      */
@@ -160,10 +163,18 @@ public class Search extends PageObject {
         for (WebElement webElement : links) {
             String[] link = new String[2];
             String href = webElement.getAttribute("href");
+            if(this.imageDao.containsPageLocation(href)) {
+            	href = this.imageDao.getIdentifier(href);
+            }
+            if(this.keyDao.containsPageLocation(href)) {
+            	href = this.keyDao.getIdentifier(href);
+            }
             link[0] = href.substring(href.lastIndexOf("/") + 1);
             if (webElement.getAttribute("data-original-title") == null){
-            link[1] = webElement.getAttribute("title");
-            } else {link[1] = webElement.getAttribute("data-original-title");}
+                link[1] = webElement.getAttribute("title");
+            } else {
+            	link[1] = webElement.getAttribute("data-original-title");
+            }
             linksList.add(link);
         }
         return linksList;

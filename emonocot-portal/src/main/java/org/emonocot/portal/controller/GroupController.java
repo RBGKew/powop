@@ -95,7 +95,7 @@ public class GroupController extends GenericController<Group, GroupService> {
      *            Set the identifier of the group
      * @return A response entity containing the status
      */
-    @RequestMapping(value = "/{identifier}/permission", params = "!delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/{identifier}/permission", params = "!delete", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public final ResponseEntity<AceDto> addPermission(
             @PathVariable final String identifier, @RequestBody final AceDto ace) {
         SecuredObject object = conversionService.convert(ace,
@@ -112,7 +112,7 @@ public class GroupController extends GenericController<Group, GroupService> {
      *            Set the identifier of the group
      * @return A response entity containing the status
      */
-    @RequestMapping(value = "/{identifier}/permission", params = "delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/{identifier}/permission", params = "delete", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public final ResponseEntity<AceDto> deletePermission(
             @PathVariable final String identifier, @RequestBody final AceDto ace) {
         SecuredObject object = conversionService.convert(ace,
@@ -129,17 +129,17 @@ public class GroupController extends GenericController<Group, GroupService> {
      * @param session Set the session
      * @return the view name
      */
-    @RequestMapping(value = "/{identifier}", params = { "members", "!delete" }, method = RequestMethod.POST)
-    public final String addMember(@PathVariable final String identifier,
+    @RequestMapping(value = "/{groupIdentifier}", params = { "members", "!delete" }, method = RequestMethod.POST, produces = "text/html")
+    public final String addMember(@PathVariable final String groupIdentifier,
             @ModelAttribute("user") final User user,
             final HttpSession session) {
-        userService.addUserToGroup(user.getUsername(), identifier);
+        userService.addUserToGroup(user.getUsername(), groupIdentifier);
         String[] codes = new String[] {"user.added.to.group" };
         Object[] args = new Object[] {user.getUsername() };
         DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
                 codes, args);
         session.setAttribute("info", message);
-        return "redirect:/group/" + identifier + "?form";
+        return "redirect:/group/" + groupIdentifier + "?form";
     }
 
     /**
@@ -149,17 +149,17 @@ public class GroupController extends GenericController<Group, GroupService> {
      * @param session Set the session
      * @return the view name
      */
-    @RequestMapping(value = "/{identifier}", params = { "members",
-            "delete" }, method = RequestMethod.GET)
-    public final String removeMember(@PathVariable final String identifier,
+    @RequestMapping(value = "/{groupIdentifier}", params = { "members",
+            "delete" }, method = RequestMethod.GET, produces = "text/html")
+    public final String removeMember(@PathVariable final String groupIdentifier,
             @RequestParam final String user, final HttpSession session) {
-        userService.removeUserFromGroup(user, identifier);
+        userService.removeUserFromGroup(user, groupIdentifier);
         String[] codes = new String[] {"user.removed.from.group" };
         Object[] args = new Object[] {user };
         DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
                 codes, args);
         session.setAttribute("info", message);
-        return "redirect:/group/" + identifier + "?form";
+        return "redirect:/group/" + groupIdentifier + "?form";
     }
 
     /**
@@ -172,7 +172,7 @@ public class GroupController extends GenericController<Group, GroupService> {
      *            Set the model
      * @return the view name
      */
-    @RequestMapping(params = "!form", method = RequestMethod.GET)
+    @RequestMapping(params = "!form", method = RequestMethod.GET, produces = "text/html")
     public final String list(
             @RequestParam(value = "page", defaultValue = "0", required = false) final Integer page,
             @RequestParam(value = "size", defaultValue = "10", required = false) final Integer size,
@@ -187,7 +187,7 @@ public class GroupController extends GenericController<Group, GroupService> {
      *            Set the model map
      * @return the name of the view
      */
-    @RequestMapping(params = "form", method = RequestMethod.GET)
+    @RequestMapping(params = "form", method = RequestMethod.GET, produces = "text/html")
     public final String create(final Model model) {
         model.addAttribute(new Group());
         return "group/create";
@@ -206,7 +206,7 @@ public class GroupController extends GenericController<Group, GroupService> {
      * @param session Set the session
      * @return the name of the view
      */
-    @RequestMapping(method = RequestMethod.POST, headers = "Accept=text/html")
+    @RequestMapping(method = RequestMethod.POST, produces = "text/html")
     public final String create(@Valid final Group group,
             final BindingResult result,
             @RequestParam(value = "page", defaultValue = "0", required = false) final Integer page,
@@ -233,7 +233,7 @@ public class GroupController extends GenericController<Group, GroupService> {
      *            Set the model map
      * @return the view name
      */
-    @RequestMapping(value = "/{identifier}", params = "!form", method = RequestMethod.GET)
+    @RequestMapping(value = "/{identifier}", params = "!form", method = RequestMethod.GET, produces = "text/html")
     public final String show(
             @PathVariable("identifier") final String identifier,
             final Model model) {
@@ -250,7 +250,7 @@ public class GroupController extends GenericController<Group, GroupService> {
      *            Set the model map
      * @return the view name
      */
-    @RequestMapping(value = "/{identifier}", params = "form", method = RequestMethod.GET)
+    @RequestMapping(value = "/{identifier}", params = "form", method = RequestMethod.GET, produces = "text/html")
     public final String updateForm(
             @PathVariable("identifier") final String identifier,
             final Model model) {
@@ -271,7 +271,7 @@ public class GroupController extends GenericController<Group, GroupService> {
      * @param session Set the session
      * @return the view name
      */
-    @RequestMapping(value = "/{identifier}", params = { "aces", "!delete" }, method = RequestMethod.POST)
+    @RequestMapping(value = "/{identifier}", params = { "aces", "!delete" }, method = RequestMethod.POST, produces = "text/html")
     public final String addAce(@PathVariable final String identifier,
             @ModelAttribute("ace") final AceDto ace,
             final HttpSession session) {
@@ -300,7 +300,7 @@ public class GroupController extends GenericController<Group, GroupService> {
      * @return the view name
      */
     @RequestMapping(value = "/{identifier}", params = { "aces",
-            "delete" }, method = RequestMethod.GET)
+            "delete" }, method = RequestMethod.GET, produces = "text/html")
     public final String removeAce(@PathVariable final String identifier,
             @RequestParam final String object,
             @RequestParam final Class clazz,

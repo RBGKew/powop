@@ -52,7 +52,7 @@ public class Place extends SearchableObject {
 	/**
 	 * 
 	 */
-	private String name;
+	private String title;
 	
 	/**
 	 * 
@@ -102,15 +102,15 @@ public class Place extends SearchableObject {
 	 * @return the name
 	 */
     @Fields(value={@Field, @Field(name="label", index=Index.UN_TOKENIZED)})
-	public String getName() {
-		return name;
+	public String getTitle() {
+		return title;
 	}
 
 	/**
 	 * @param name the name to set
 	 */
-	public void setName(final String name) {
-		this.name = name;
+	public void setTitle(final String name) {
+		this.title = name;
 	}
 
 	/**

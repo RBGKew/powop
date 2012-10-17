@@ -58,9 +58,8 @@ public class ImageController extends GenericController<Image, ImageService> {
      * @param model Set the model
      * @return the name of the view
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public final String getPage(@PathVariable final Long id,
-            final Model model) {
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "text/html")
+    public final String show(@PathVariable final Long id, final Model model) {
         Image image = getService().load(id, "image-page");
         model.addAttribute(image);
         // TODO add opensession in view filter and remove this code

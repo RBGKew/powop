@@ -106,11 +106,11 @@ public class PlaceDaoImpl extends SearchableDaoImpl<Place> implements PlaceDao {
 
     @Override
     protected final String[] getDocumentFields() {
-        return new String[] {"name","fipsCode"};
+        return new String[] {"title","fipsCode"};
     }
 
     @Override
     public final String getDefaultField() {
-        return "name";
+        return "title";
     }
 }

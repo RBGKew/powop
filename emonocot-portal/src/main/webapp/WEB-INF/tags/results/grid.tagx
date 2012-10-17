@@ -26,7 +26,7 @@
 						<c:set var="itemUrl" value="/spatial?x1=${item.envelope.minX}&amp;x2=${item.envelope.maxX}&amp;y1=${item.envelope.minY}&amp;y2=${item.envelope.maxY}&amp;featureId=${item.mapFeatureId}" />
 					</c:otherwise>
 				</c:choose>
-				<results:gridEntry itemName="${item.name}"	url="${itemUrl}"/>
+				<results:gridEntry itemName="${item.title}"	url="${itemUrl}"/>
 			</c:when>
 		</c:choose>
 	</c:forEach>
