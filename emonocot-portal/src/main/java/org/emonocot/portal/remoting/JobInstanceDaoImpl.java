@@ -59,7 +59,7 @@ public class JobInstanceDaoImpl implements JobInstanceDao {
      * @return a job instance
      */
     public final JobInstance load(final Long identifier) {
-        return restTemplate.getForObject(baseUri  + resourceDir + "/"
+        return restTemplate.getForObject(baseUri + "/"  + resourceDir + "/"
                 + identifier, JobInstance.class);
     }
 
