@@ -267,7 +267,25 @@ public class Taxon extends SearchableObject {
      *
      */
     private Set<Identifier> identifiers = new HashSet<Identifier>();
+    
+    /**
+     *
+     */
+    private Set<TypeAndSpecimen> typesAndSpecimens = new HashSet<TypeAndSpecimen>();
+    
+    /**
+     *
+     */
+    private Set<VernacularName> vernacularNames = new HashSet<VernacularName>();
+    
+    /**
+     *
+     */
+    private Set<MeasurementOrFact> measurementsOrFacts = new HashSet<MeasurementOrFact>();
 
+    /**
+     * TODO Delete once we don't need it anymore
+     */
 	private boolean deleted;
 
     /**
@@ -975,10 +993,69 @@ public class Taxon extends SearchableObject {
 	/**
      * @param keys the keys to set
      */
-    @JsonDeserialize(contentUsing = ReferenceDeserializer.class)
+    @JsonIgnore
     public void setKeys(Set<IdentificationKey> keys) {
         this.keys = keys;
     }
+    
+    /**
+     * @return a list of types and specimens
+     */
+//    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "taxa")
+//    @JsonIgnore
+//    public Set<TypeAndSpecimen> getTypesAndSpecimens() {
+//        return typesAndSpecimens;
+//    }
+    
+    /**
+     *
+     * @param typesAndSpecimens
+     */
+//    @JsonIgnore
+//    public void setTypesAndSpecimens(Set<TypeAndSpecimen> typesAndSpecimens) {
+//    	this.typesAndSpecimens = typesAndSpecimens;
+//    }
+    
+    
+    /**
+     * @return a map of vernacularNames for the taxon
+     */
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon", orphanRemoval = true)
+//    @Cascade({CascadeType.ALL })
+//    @JsonManagedReference("vernacularNames-taxon")
+//    @IndexedEmbedded
+//    public Set<VernacularName> getVernacularNames() {
+//        return vernacularNames;
+//    }
+    
+    /**
+     * @param newVernacularNames
+     *            Set the vernacular names for this taxon
+     */
+//    @JsonManagedReference("vernacularNames-taxon")
+//    public void setVernacularNames(Set<VernacularName> newVernacularNames) {
+//        this.vernacularNames = newVernacularNames;
+//    }
+    
+    /**
+     * @return a set of measurements or facts about the taxon
+     */
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon", orphanRemoval = true)
+//    @Cascade({CascadeType.ALL })
+//    @JsonManagedReference("measurementsOrFacts-taxon")
+//    @IndexedEmbedded
+//    public Set<MeasurementOrFact> getMeasurementsOrFacts() {
+//        return measurementsOrFacts;
+//    }
+    
+    /**
+     * @param newMeasurementsOrFacts
+     *            Set the measurements or facts about this taxon
+     */
+//    @JsonManagedReference("measurementsOrFacts-taxon")
+//    public void setMeasurementsOrFacts(Set<MeasurementOrFact> newMeasurementsOrFacts) {
+//        this.measurementsOrFacts = newMeasurementsOrFacts;
+//    }
     
     /**
      * TODO REMOVE once refactoring complete
