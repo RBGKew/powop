@@ -16,6 +16,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.gbif.ecat.voc.LifeStage;
 import org.gbif.ecat.voc.Sex;
+import org.hibernate.annotations.Type;
 import org.hibernate.search.annotations.ContainedIn;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Indexed;
@@ -153,7 +154,7 @@ public class VernacularName extends BaseData {
 		this.language = language;
 	}
 
-	@Enumerated(value = EnumType.STRING)
+	@Type(type = "tdwgRegionUserType")
 	public GeographicalRegion getLocation() {
 		return location;
 	}
@@ -187,6 +188,7 @@ public class VernacularName extends BaseData {
 		this.sex = sex;
 	}
 
+	@Enumerated(value = EnumType.STRING)
 	public LifeStage getLifeStage() {
 		return lifeStage;
 	}

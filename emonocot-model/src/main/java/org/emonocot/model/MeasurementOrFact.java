@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.emonocot.model.constants.MeasurementType;
 import org.emonocot.model.constants.MeasurementUnit;
+import org.hibernate.annotations.Type;
 import org.hibernate.search.annotations.ContainedIn;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Indexed;
@@ -87,6 +88,7 @@ public class MeasurementOrFact extends BaseData {
 		this.measurementUnit = measurementUnit;
 	}
 
+	@Type(type="dateTimeUserType")
 	public DateTime getMeasurementDeterminedDate() {
 		return measurementDeterminedDate;
 	}

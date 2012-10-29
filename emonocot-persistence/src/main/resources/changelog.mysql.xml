@@ -2836,4 +2836,240 @@
     <changeSet id="2012-10-17_01" author="ben">
         <renameColumn tableName="Place" oldColumnName="name" newColumnName="title"  columnDataType="varchar(255)"/>
     </changeSet>
+    <changeSet id="2012-10-29_01" author="ben">
+      <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+      <createTable tableName="MeasurementOrFact">
+        <column name="id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>
+        <column name="identifier" type="varchar(255)">
+            <constraints unique="true"/>
+        </column>
+        <column name="accessRights" type="varchar(255)"/>
+        <column name="created" type="datetime"/>
+        <column name="creator" type="varchar(255)"/>        
+        <column name="license" type="varchar(255)"/>
+        <column name="modified" type="datetime"/>
+        <column name="rights" type="varchar(255)"/>
+        <column name="rightsHolder" type="varchar(255)"/>
+        <column name="measurementAccuracy" type="varchar(255)"/>
+        <column name="measurementDeterminedBy" type="varchar(255)"/>
+        <column name="measurementDeterminedDate" type="datetime"/>
+        <column name="measurementMethod" type="varchar(255)"/>
+        <column name="measurementRemarks" type="varchar(255)"/>
+        <column name="measurementType" type="varchar(255)"/>
+        <column name="measurementValue" type="varchar(255)"/>
+        <column name="measurementUnit" type="varchar(255)"/>
+        <column name="authority_id" type="bigint"/>
+        <column name="taxon_id" type="bigint"/>
+      </createTable>
+    </changeSet>
+    <changeSet id="2012-10-29_02" author="ben">
+      <addForeignKeyConstraint constraintName="MeasurementOrFact_taxon_FK" 
+                               referencedTableName="Taxon"
+                               baseColumnNames="taxon_id"
+                               baseTableName="MeasurementOrFact"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-10-29_03" author="ben">
+      <addForeignKeyConstraint constraintName="MeasurementOrFact_authority_FK" 
+                               referencedTableName="Source"
+                               baseColumnNames="authority_id"
+                               baseTableName="MeasurementOrFact"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-10-29_04" author="ben">
+      <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+      <createTable tableName="MeasurementOrFact_Source">
+        <column name="MeasurementOrFact_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>
+        <column name="sources_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>             
+      </createTable>
+    </changeSet>
+    <changeSet id="2012-10-29_05" author="ben">
+      <addForeignKeyConstraint constraintName="MeasurementOrFact_Source_MeasurementOrFact_id_FK" 
+                               referencedTableName="MeasurementOrFact"
+                               baseColumnNames="MeasurementOrFact_id"
+                               baseTableName="MeasurementOrFact_Source"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-10-29_06" author="ben">
+      <addForeignKeyConstraint constraintName="MeasurementOrFact_Source_sources_id_FK" 
+                               referencedTableName="Source"
+                               baseColumnNames="sources_id"
+                               baseTableName="MeasurementOrFact_Source"
+                               referencedColumnNames="id"/>
+    </changeSet>    
+    <changeSet id="2012-10-29_07" author="ben">
+      <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+      <createTable tableName="TypeAndSpecimen">
+        <column name="id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>
+        <column name="identifier" type="varchar(255)">
+            <constraints unique="true"/>
+        </column>
+        <column name="accessRights" type="varchar(255)"/>
+        <column name="created" type="datetime"/>
+        <column name="creator" type="varchar(255)"/>        
+        <column name="license" type="varchar(255)"/>
+        <column name="modified" type="datetime"/>
+        <column name="rights" type="varchar(255)"/>
+        <column name="rightsHolder" type="varchar(255)"/>
+        <column name="bibliographicCitation" type="varchar(255)"/>
+        <column name="catalogNumber" type="varchar(255)"/>
+        <column name="collectionCode" type="varchar(255)"/>
+        <column name="institutionCode" type="varchar(255)"/>
+        <column name="locality" type="varchar(255)"/>
+        <column name="recordedBy" type="varchar(255)"/>
+        <column name="scientificName" type="varchar(255)"/>
+        <column name="sex" type="varchar(255)"/>
+        <column name="source" type="varchar(255)"/>
+        <column name="taxonRank" type="varchar(255)"/>
+        <column name="typeDesignatedBy" type="varchar(255)"/>
+        <column name="typeDesignationType" type="varchar(255)"/>
+        <column name="typeStatus" type="varchar(255)"/>
+        <column name="verbatimEventDate" type="varchar(255)"/>
+        <column name="verbatimLabel" type="varchar(255)"/>
+        <column name="verbatimLattitude" type="varchar(255)"/>
+        <column name="verbatimLongitude" type="varchar(255)"/>
+        <column name="authority_id" type="bigint"/>
+      </createTable>
+    </changeSet>
+    <changeSet id="2012-10-29_08" author="ben">
+      <addForeignKeyConstraint constraintName="TypeAndSpecimen_authority_FK" 
+                               referencedTableName="Source"
+                               baseColumnNames="authority_id"
+                               baseTableName="TypeAndSpecimen"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-10-29_09" author="ben">
+      <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+      <createTable tableName="Taxon_TypeAndSpecimen">
+        <column name="Taxon_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>
+        <column name="typesAndSpecimens_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>             
+      </createTable>
+    </changeSet>
+    <changeSet id="2012-10-29_10" author="ben">
+      <addForeignKeyConstraint constraintName="Taxon_TypeAndSpecimen_Taxon_id_FK" 
+                               referencedTableName="Taxon"
+                               baseColumnNames="Taxon_id"
+                               baseTableName="Taxon_TypeAndSpecimen"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-10-29_11" author="ben">
+      <addForeignKeyConstraint constraintName="Taxon_TypeAndSpecimen_typesAndSpecimens_id_FK" 
+                               referencedTableName="TypeAndSpecimen"
+                               baseColumnNames="typesAndSpecimens_id"
+                               baseTableName="Taxon_TypeAndSpecimen"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-10-29_12" author="ben">
+      <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+      <createTable tableName="TypeAndSpecimen_Source">
+        <column name="TypeAndSpecimen_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>
+        <column name="sources_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>             
+      </createTable>
+    </changeSet>
+    <changeSet id="2012-10-29_13" author="ben">
+      <addForeignKeyConstraint constraintName="TypeAndSpecimen_Source_TypeAndSpecimen_id_FK" 
+                               referencedTableName="TypeAndSpecimen"
+                               baseColumnNames="TypeAndSpecimen_id"
+                               baseTableName="TypeAndSpecimen_Source"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-10-29_14" author="ben">
+      <addForeignKeyConstraint constraintName="TypeAndSpecimen_Source_sources_id_FK" 
+                               referencedTableName="Source"
+                               baseColumnNames="sources_id"
+                               baseTableName="TypeAndSpecimen_Source"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-10-29_15" author="ben">
+      <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+      <createTable tableName="VernacularName">
+        <column name="id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>
+        <column name="identifier" type="varchar(255)">
+            <constraints unique="true"/>
+        </column>
+        <column name="accessRights" type="varchar(255)"/>
+        <column name="created" type="datetime"/>
+        <column name="creator" type="varchar(255)"/>        
+        <column name="license" type="varchar(255)"/>
+        <column name="modified" type="datetime"/>
+        <column name="rights" type="varchar(255)"/>
+        <column name="rightsHolder" type="varchar(255)"/>
+        <column name="countryCode" type="varchar(255)"/>
+        <column name="language" type="varchar(255)"/>
+        <column name="lifeStage" type="varchar(255)"/>
+        <column name="locality" type="varchar(255)"/>
+        <column name="location" type="varchar(255)"/>
+        <column name="organismPart" type="varchar(255)"/>
+        <column name="plural" type="boolean" defaultValueBoolean="false">
+            <constraints nullable="false"/>
+        </column>
+        <column name="preferredName" type="boolean" defaultValueBoolean="false">
+            <constraints nullable="false"/>
+        </column>
+        <column name="sex" type="varchar(255)"/>
+        <column name="source" type="varchar(255)"/>
+        <column name="taxonRemarks" type="varchar(255)"/>
+        <column name="temporal" type="varchar(255)"/>
+        <column name="vernacularName" type="varchar(255)"/>
+        <column name="authority_id" type="bigint"/>
+        <column name="taxon_id" type="bigint"/>
+      </createTable>
+    </changeSet>
+    <changeSet id="2012-10-29_16" author="ben">
+      <addForeignKeyConstraint constraintName="VernacularName_taxon_FK" 
+                               referencedTableName="Taxon"
+                               baseColumnNames="taxon_id"
+                               baseTableName="VernacularName"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-10-29_17" author="ben">
+      <addForeignKeyConstraint constraintName="VernacularName_authority_FK" 
+                               referencedTableName="Source"
+                               baseColumnNames="authority_id"
+                               baseTableName="VernacularName"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-10-29_18" author="ben">
+      <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+      <createTable tableName="VernacularName_Source">
+        <column name="VernacularName_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>
+        <column name="sources_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>             
+      </createTable>
+    </changeSet>
+    <changeSet id="2012-10-29_19" author="ben">
+      <addForeignKeyConstraint constraintName="VernacularName_Source_VernacularName_id_FK" 
+                               referencedTableName="VernacularName"
+                               baseColumnNames="VernacularName_id"
+                               baseTableName="VernacularName_Source"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-10-29_20" author="ben">
+      <addForeignKeyConstraint constraintName="VernacularName_Source_sources_id_FK" 
+                               referencedTableName="Source"
+                               baseColumnNames="sources_id"
+                               baseTableName="VernacularName_Source"
+                               referencedColumnNames="id"/>
+    </changeSet>
 </databaseChangeLog>

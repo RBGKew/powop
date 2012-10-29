@@ -76,8 +76,11 @@
 				<value>org.emonocot.model.Distribution</value>
 				<value>org.emonocot.model.Description</value>
 				<value>org.emonocot.model.Image</value>
+				<value>org.emonocot.model.MeasurementOrFact</value>
 				<value>org.emonocot.model.Reference</value>
 				<value>org.emonocot.model.Taxon</value>
+				<value>org.emonocot.model.TypeAndSpecimen</value>
+				<value>org.emonocot.model.VernacularName</value>
 				<value>org.emonocot.model.auth.User</value>
 				<value>org.emonocot.model.auth.Group</value>
 			</list>

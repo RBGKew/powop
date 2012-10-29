@@ -141,6 +141,9 @@ public class TypeAndSpecimen extends SearchableObject {
    
 
 	@Override
+	@Id
+    @GeneratedValue(generator = "system-increment")
+    @DocumentId
 	public Long getId() {
 		return id;
 	}
@@ -149,10 +152,7 @@ public class TypeAndSpecimen extends SearchableObject {
 	 *
 	 * @param id Set the id
 	 */
-	@Id
-    @GeneratedValue(generator = "system-increment")
-    @DocumentId
-	private void setId(Long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	
