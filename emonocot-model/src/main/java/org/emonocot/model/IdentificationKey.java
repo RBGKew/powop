@@ -1,17 +1,26 @@
 package org.emonocot.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.hibernate.TaxonomyBridge;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Where;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.ClassBridge;
 import org.hibernate.search.annotations.DocumentId;
@@ -62,6 +71,8 @@ public class IdentificationKey extends SearchableObject {
      *
      */
     private String creator;
+    
+    private Set<Annotation> annotations = new HashSet<Annotation>();
 
 	/**
 	 * @return the creator
@@ -165,5 +176,22 @@ public class IdentificationKey extends SearchableObject {
     @Lob
     public String getMatrix() {
         return matrix;
+    }
+    
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "annotatedObjId")
+    @Where(clause = "annotatedObjType = 'IdentificationKey'")
+    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+    @JsonIgnore
+    public Set<Annotation> getAnnotations() {
+        return annotations;
+    }
+
+    /**
+     * @param annotations
+     *            the annotations to set
+     */
+    public void setAnnotations(Set<Annotation> annotations) {
+        this.annotations = annotations;
     }
 }

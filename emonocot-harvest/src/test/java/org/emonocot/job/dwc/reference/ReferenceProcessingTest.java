@@ -3,6 +3,7 @@ package org.emonocot.job.dwc.reference;
 import org.easymock.EasyMock;
 import org.emonocot.api.ReferenceService;
 import org.emonocot.api.SourceService;
+import org.emonocot.api.TaxonService;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Source;
 import org.emonocot.model.Taxon;
@@ -27,6 +28,8 @@ public class ReferenceProcessingTest {
      *
      */
     private ReferenceService referenceService;
+    
+    private TaxonService taxonService;
 
     /**
      *
@@ -46,7 +49,7 @@ public class ReferenceProcessingTest {
     /**
      *
      */
-    private Validator referenceValidator;
+    private Processor referenceValidator;
 
     /**
      *
@@ -55,16 +58,20 @@ public class ReferenceProcessingTest {
     public final void setUp() {
         reference = new Reference();
         taxon = new Taxon();
+        taxon.setId(0L);
+        taxon.setIdentifier("identifier");
         taxon.setFamily("Araceae");
         reference.getTaxa().add(taxon);
         reference.setType(ReferenceType.publication);
         reference.setIdentifier("http://build.e-monocot.org/test/test.pdf");
         referenceService = EasyMock.createMock(ReferenceService.class);
+        taxonService = EasyMock.createMock(TaxonService.class);
         sourceService = EasyMock.createMock(SourceService.class);
 
-        referenceValidator = new Validator();
+        referenceValidator = new Processor();
         referenceValidator.setReferenceService(referenceService);
         referenceValidator.setSourceService(sourceService);
+        referenceValidator.setTaxonService(taxonService);
         referenceValidator.setSourceName("test source");
         referenceValidator.setFamily("Araceae");
         referenceValidator.beforeStep(new StepExecution("teststep",
@@ -77,11 +84,12 @@ public class ReferenceProcessingTest {
     public final void testProcessReference() throws Exception {
         EasyMock.expect(referenceService.find(EasyMock.isA(String.class)))
                 .andReturn(null).anyTimes();
+        EasyMock.expect(taxonService.find(EasyMock.eq(0L))).andReturn(taxon).anyTimes();
         EasyMock.expect(sourceService.load(EasyMock.eq("test source")))
                 .andReturn(source);
-        EasyMock.replay(referenceService, sourceService);
+        EasyMock.replay(referenceService, sourceService,taxonService);
         Reference ref = referenceValidator.process(reference);
-        EasyMock.verify(referenceService, sourceService);        
+        EasyMock.verify(referenceService, sourceService,taxonService);        
     }
 
 }

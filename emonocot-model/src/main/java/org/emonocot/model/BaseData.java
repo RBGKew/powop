@@ -32,7 +32,7 @@ import org.joda.time.DateTime;
  *
  */
 @MappedSuperclass
-public abstract class BaseData extends Base {
+public abstract class BaseData extends Base implements Annotated {
 
     /**
      *
@@ -123,7 +123,7 @@ public abstract class BaseData extends Base {
      * @return the authorities, including the primary authority
      */
     @ManyToMany(fetch = FetchType.LAZY)
-    @IndexedEmbedded(depth = 1)
+    //@IndexedEmbedded(depth = 1)
     @JsonSerialize(contentUsing = SourceSerializer.class)
     public Set<Source> getSources() {
         return sources;

@@ -8,7 +8,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
@@ -31,7 +30,7 @@ import org.hibernate.search.annotations.Indexed;
  */
 @Entity
 @Indexed
-public class Identifier extends BaseData {
+public class Identifier extends OwnedEntity {
     /**
      *
      */

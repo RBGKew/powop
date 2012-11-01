@@ -1,16 +1,21 @@
 package org.emonocot.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Where;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
@@ -92,6 +97,8 @@ public class Source extends BaseData {
      *
      */
     private Set<Job> jobs;
+    
+    private Set<Annotation> annotations = new HashSet<Annotation>();
 
     /**
      *
@@ -288,5 +295,22 @@ public class Source extends BaseData {
 	@JsonIgnore
     public void setJobs(Set<Job> jobs) {
         this.jobs = jobs;
+    }
+	
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "annotatedObjId")
+    @Where(clause = "annotatedObjType = 'Source'")
+    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+    @JsonIgnore
+    public Set<Annotation> getAnnotations() {
+        return annotations;
+    }
+
+    /**
+     * @param annotations
+     *            the annotations to set
+     */
+    public void setAnnotations(Set<Annotation> annotations) {
+        this.annotations = annotations;
     }
 }

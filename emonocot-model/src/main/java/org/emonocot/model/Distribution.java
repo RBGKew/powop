@@ -45,7 +45,7 @@ import org.hibernate.search.annotations.Indexed;
 @Entity
 @Indexed
 @ClassBridge(name = "geographicalRegion", impl = DistributionBridge.class, index = Index.UN_TOKENIZED)
-public class Distribution extends BaseData {
+public class Distribution extends OwnedEntity {
 
     /**
      *

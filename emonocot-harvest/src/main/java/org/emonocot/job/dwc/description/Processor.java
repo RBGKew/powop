@@ -1,0 +1,53 @@
+package org.emonocot.job.dwc.description;
+
+import org.emonocot.api.DescriptionService;
+import org.emonocot.job.dwc.OwnedEntityProcessor;
+import org.emonocot.model.Description;
+import org.emonocot.model.constants.RecordType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+/**
+ *
+ * @author ben
+ *
+ */
+public class Processor extends OwnedEntityProcessor<Description, DescriptionService> {
+		
+	
+	@Autowired
+	public void setDescriptionService(DescriptionService service) {
+		super.service = service;
+	}
+    /**
+     *
+     */
+    private Logger logger = LoggerFactory.getLogger(Processor.class);
+ 
+    @Override
+    protected void doValidate(Description t) {
+    	if (t.getType() == null) {
+            throw new NoFeatureException(t + " has no Feature set");
+        }
+        
+        if (t.getDescription() == null || t.getDescription().length() == 0) {
+            throw new NoContentException(t + " has no Content set");
+        }
+    }
+
+    @Override
+    protected void doUpdate(Description persisted, Description t) {
+    	persisted.setType(t.getType());
+        persisted.setDescription(t.getDescription());       
+        persisted.setCreator(t.getCreator());
+        persisted.setSource(t.getSource());
+        persisted.getReferences().clear();
+        persisted.getReferences().addAll(t.getReferences());
+    }
+
+    @Override
+    protected RecordType getRecordType() {
+	    return RecordType.TextContent;
+    }
+}

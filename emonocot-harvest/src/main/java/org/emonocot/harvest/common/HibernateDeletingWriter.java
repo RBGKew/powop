@@ -6,11 +6,11 @@ import org.emonocot.model.Base;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-public class HibernateDeletingWriter extends HibernateDaoSupport implements
-		ItemWriter<Base> {
+public class HibernateDeletingWriter<T extends Base> extends HibernateDaoSupport implements
+		ItemWriter<T> {
 
 	@Override
-	public void write(List<? extends Base> items) throws Exception {
+	public void write(List<? extends T> items) throws Exception {
 		getHibernateTemplate().deleteAll(items);
 		getHibernateTemplate().flush();		
 	}

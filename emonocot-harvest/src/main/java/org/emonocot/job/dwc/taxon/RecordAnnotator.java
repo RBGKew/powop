@@ -41,7 +41,7 @@ public class RecordAnnotator extends AbstractRecordAnnotator {
     	  subsetValue = family;
       }
       String queryString = "insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select t.id, 'Taxon', ':jobId', :dateTime, :authorityId, 'Warn', 'Absent', 'Taxon' from Taxon t left join Taxon a on (t.acceptedNameUsage_id = a.id) where t.:subsetRank = ':subsetValue' or a.:subsetRank = ':subsetValue'";
-      
+      stepExecution.getJobExecution().getExecutionContext().putLong("job.execution.id", stepExecution.getJobExecutionId());
       queryString = queryString.replaceAll(":authorityId", authorityId.toString());
       queryString = queryString.replaceAll(":jobId", stepExecution.getJobExecutionId().toString());
       queryString = queryString.replaceAll(":dateTime", OlapDateTimeUserType.convert(new DateTime()).toString());

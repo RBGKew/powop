@@ -5,13 +5,13 @@ import java.util.Map;
 
 import org.emonocot.model.Description;
 import org.emonocot.model.hibernate.Fetch;
-import org.emonocot.persistence.dao.TextContentDao;
+import org.emonocot.persistence.dao.DescriptionDao;
 import org.hibernate.FetchMode;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class TextContentDaoImpl extends DaoImpl<Description> implements
-		TextContentDao {
+public class DescriptionDaoImpl extends DaoImpl<Description> implements
+		DescriptionDao {
 	
   /**
    *
@@ -26,13 +26,13 @@ public class TextContentDaoImpl extends DaoImpl<Description> implements
        		new Fetch("references", FetchMode.SELECT)});
    }
 
-	public TextContentDaoImpl() {
+	public DescriptionDaoImpl() {
 		super(Description.class);
 	}
 
 	@Override
 	protected Fetch[] getProfile(String profile) {
-		return TextContentDaoImpl.FETCH_PROFILES.get(profile);
+		return DescriptionDaoImpl.FETCH_PROFILES.get(profile);
 	}
 
 

@@ -2,12 +2,14 @@ package org.emonocot.job.dwc.taxon;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -66,6 +68,16 @@ public class TaxonImportingIntegrationTest {
      */
     private static final BaseDateTime PAST_DATETIME
     = new DateTime(2010, 11, 1, 9, 0, 0, 0);
+    
+    @Before
+    public final void setUp() {
+        File imageDirectory = new File("./target/images/fullsize");
+        imageDirectory.mkdirs();
+        imageDirectory.deleteOnExit();
+        File thumbnailDirectory = new File("./target/images/thumbnails");
+        thumbnailDirectory.mkdirs();
+        thumbnailDirectory.deleteOnExit();
+    }
 
     /**
      *
@@ -91,6 +103,8 @@ public class TaxonImportingIntegrationTest {
             new HashMap<String, JobParameter>();
         parameters.put("authority.name", new JobParameter(
                 "test"));
+        parameters.put("family", new JobParameter(
+        "Araceae"));
         parameters.put("taxon.processing.mode", new JobParameter(
         "IMPORT_TAXA"));
         parameters.put("authority.uri", new JobParameter(

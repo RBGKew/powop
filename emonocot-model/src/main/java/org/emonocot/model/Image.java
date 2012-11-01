@@ -1,8 +1,6 @@
 package org.emonocot.model;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -18,8 +16,6 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
-
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
@@ -52,7 +48,7 @@ import com.vividsolutions.jts.geom.Point;
 @Indexed(index = "org.emonocot.model.common.SearchableObject")
 @ClassBridge(name = "taxon", impl = TaxonomyBridge.class, index = Index.UN_TOKENIZED,
         analyzer = @Analyzer(definition = "facetAnalyzer"))
-public class Image extends SearchableObject {
+public class Image extends SearchableObject implements NonOwned {
     /**
      *
      */
@@ -96,7 +92,7 @@ public class Image extends SearchableObject {
     /**
      *
      */
-    private List<Taxon> taxa = new ArrayList<Taxon>();
+    private Set<Taxon> taxa = new HashSet<Taxon>();
 
     /**
      *
@@ -361,7 +357,7 @@ public class Image extends SearchableObject {
     @JoinTable(name = "Taxon_Image", joinColumns = {@JoinColumn(name = "images_id")}, inverseJoinColumns = {@JoinColumn(name = "Taxon_id")})
     @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE })
     @JsonSerialize(contentUsing = TaxonSerializer.class)
-    public List<Taxon> getTaxa() {
+    public Set<Taxon> getTaxa() {
         return taxa;
     }
 
@@ -371,7 +367,7 @@ public class Image extends SearchableObject {
      *            Set the taxa associated with this image
      */
     @JsonDeserialize(contentUsing = TaxonDeserializer.class)
-    public void setTaxa(List<Taxon> taxa) {
+    public void setTaxa(Set<Taxon> taxa) {
         this.taxa = taxa;
     }
 

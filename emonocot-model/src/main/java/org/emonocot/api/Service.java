@@ -100,6 +100,13 @@ public interface Service<T extends Base> {
     * @return the object
     */
    T save(T t);
+   
+   /**
+    *
+    * @param t The object to save.
+    * @return the object
+    */
+   void update(T t);
 
    /**
     *

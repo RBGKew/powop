@@ -1,6 +1,6 @@
 package org.emonocot.job.dwc.taxon;
 
-import org.emonocot.job.dwc.DarwinCoreValidator;
+import org.emonocot.job.dwc.DarwinCoreProcessor;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Source;
 import org.emonocot.model.Taxon;
@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
  * @author ben
  *
  */
-public class Validator extends DarwinCoreValidator<Taxon> {
+public class Validator extends DarwinCoreProcessor<Taxon> {
     /**
      *
      */

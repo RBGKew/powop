@@ -41,7 +41,7 @@ import org.hibernate.search.annotations.Indexed;
  */
 @Entity
 @Indexed
-public class Description extends BaseData {
+public class Description extends OwnedEntity {
 
     /**
      *
@@ -133,7 +133,7 @@ public class Description extends BaseData {
      *
      * @param newTaxon
      *            Set the taxon that this content is about.
-     */
+     */   
     @JsonBackReference("descriptions-taxon")
     public void setTaxon(Taxon newTaxon) {
         this.taxon = newTaxon;

@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -26,6 +27,7 @@ import org.gbif.ecat.voc.TypeStatus;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Where;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Indexed;
 
@@ -35,8 +37,8 @@ import org.hibernate.search.annotations.Indexed;
  *
  */
 @Entity
-@Indexed(index = "org.emonocot.model.common.SearchableObject")
-public class TypeAndSpecimen extends SearchableObject {
+@Indexed
+public class TypeAndSpecimen extends BaseData implements NonOwned {
 	
    /**
 	 * 
@@ -138,6 +140,8 @@ public class TypeAndSpecimen extends SearchableObject {
      * @return
      */
     private Set<Taxon> taxa = new HashSet<Taxon>();
+    
+    private Set<Annotation> annotations = new HashSet<Annotation>();
    
 
 	@Override
@@ -313,5 +317,22 @@ public class TypeAndSpecimen extends SearchableObject {
     @JsonIgnore
     public final String getClassName() {
         return "TypeAndSpecimen";
+    }
+	
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "annotatedObjId")
+    @Where(clause = "annotatedObjType = 'TypeAndSpecimen'")
+    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+    @JsonIgnore
+    public Set<Annotation> getAnnotations() {
+        return annotations;
+    }
+
+    /**
+     * @param annotations
+     *            the annotations to set
+     */
+    public void setAnnotations(Set<Annotation> annotations) {
+        this.annotations = annotations;
     }
 }

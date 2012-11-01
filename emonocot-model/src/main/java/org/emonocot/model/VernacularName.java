@@ -1,6 +1,8 @@
 package org.emonocot.model;
 
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -8,7 +10,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
@@ -16,14 +20,17 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.gbif.ecat.voc.LifeStage;
 import org.gbif.ecat.voc.Sex;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.Where;
 import org.hibernate.search.annotations.ContainedIn;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Indexed;
 
 @Entity
 @Indexed
-public class VernacularName extends BaseData {
+public class VernacularName extends OwnedEntity {
 	
 	private static final long serialVersionUID = 5439026066792559240L;
 	
@@ -96,6 +103,8 @@ public class VernacularName extends BaseData {
 	 * 
 	 */
 	private String taxonRemarks;
+	
+	private Set<Annotation> annotations = new HashSet<Annotation>();
 	
 	/**
 	 *
@@ -237,5 +246,22 @@ public class VernacularName extends BaseData {
     @JsonIgnore
     public final String getClassName() {
         return "VernacularName";
+    }
+	
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "annotatedObjId")
+    @Where(clause = "annotatedObjType = 'VernacularName'")
+    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+    @JsonIgnore
+    public Set<Annotation> getAnnotations() {
+        return annotations;
+    }
+
+    /**
+     * @param annotations
+     *            the annotations to set
+     */
+    public void setAnnotations(Set<Annotation> annotations) {
+        this.annotations = annotations;
     }
 }

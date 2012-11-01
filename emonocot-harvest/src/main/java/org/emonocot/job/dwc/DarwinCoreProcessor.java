@@ -17,12 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author ben
  * @param <T> the type of object validated
  */
-public abstract class DarwinCoreValidator<T extends BaseData> extends AuthorityAware implements
+public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityAware implements
         ItemProcessor<T, T> {
     /**
      *
      */
-    private Logger logger = LoggerFactory.getLogger(DarwinCoreValidator.class);
+    private Logger logger = LoggerFactory.getLogger(DarwinCoreProcessor.class);
 
     /**
      *

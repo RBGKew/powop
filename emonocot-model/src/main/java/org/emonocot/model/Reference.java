@@ -37,7 +37,7 @@ import org.hibernate.search.annotations.Indexed;
  */
 @Entity
 @Indexed
-public class Reference extends BaseData {
+public class Reference extends BaseData implements NonOwned {
 
     /**
      *

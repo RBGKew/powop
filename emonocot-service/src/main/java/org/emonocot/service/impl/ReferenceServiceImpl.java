@@ -30,8 +30,8 @@ public class ReferenceServiceImpl extends ServiceImpl<Reference, ReferenceDao>
      * @return a reference or null if it does not exist
      */
     @Transactional(readOnly = true)
-    public final Reference findBySource(final String source) {
-        return dao.findBySource(source);
+    public final Reference findByBibliographicCitation(final String source) {
+        return dao.findByBibliographicCitation(source);
     }
 
 }
