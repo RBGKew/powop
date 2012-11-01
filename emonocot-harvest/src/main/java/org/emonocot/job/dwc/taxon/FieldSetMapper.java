@@ -1,6 +1,5 @@
 package org.emonocot.job.dwc.taxon;
 
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +9,6 @@ import org.emonocot.harvest.common.TaxonRelationship;
 import org.emonocot.harvest.common.TaxonRelationshipResolver;
 import org.emonocot.harvest.common.TaxonRelationshipResolverImpl;
 import org.emonocot.job.dwc.BaseDataFieldSetMapper;
-import org.emonocot.job.dwc.DarwinCoreFieldSetMapper;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
@@ -24,8 +22,6 @@ import org.gbif.dwc.terms.UnknownTerm;
 import org.gbif.ecat.voc.NomenclaturalCode;
 import org.gbif.ecat.voc.Rank;
 import org.gbif.ecat.voc.TaxonomicStatus;
-import org.joda.time.DateTime;
-import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
@@ -33,8 +29,6 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionException;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.format.Parser;
-import org.springframework.format.datetime.joda.DateTimeParser;
 import org.springframework.validation.BindException;
 import org.tdwg.voc.TaxonRelationshipTerm;
 
