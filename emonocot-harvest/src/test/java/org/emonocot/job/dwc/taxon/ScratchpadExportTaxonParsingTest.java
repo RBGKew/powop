@@ -79,7 +79,6 @@ public class ScratchpadExportTaxonParsingTest {
         fieldSetMapper.setConversionService(conversionService);
         fieldSetMapper.setFieldNames(names);
         fieldSetMapper.setDefaultValues(new HashMap<String, String>());
-        fieldSetMapper.setTaxonService(taxonService);
         DefaultLineMapper<Taxon> lineMapper
             = new DefaultLineMapper<Taxon>();
         lineMapper.setFieldSetMapper(fieldSetMapper);

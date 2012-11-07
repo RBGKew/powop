@@ -124,10 +124,17 @@ public class Processor extends NonOwnedProcessor<Image, ImageService> implements
 
 	@Override
 	protected void doUpdate(Image persisted, Image t) {
+		persisted.setAudience(t.getAudience());
+		persisted.setContributor(t.getContributor());
+		persisted.setCreator(t.getCreator());
+		persisted.setDescription(t.getDescription());
+		persisted.setFormat(t.getFormat());
+		persisted.setLatitude(t.getLatitude());
+		persisted.setLongitude(t.getLongitude());
+		persisted.setReferences(t.getReferences());
+		persisted.setSpatial(t.getSubject());
+		persisted.setTaxon(t.getTaxon());
 		persisted.setTitle(t.getTitle());
-        persisted.setCreator(t.getCreator());
-        persisted.setReferences(t.getReferences());
-        persisted.setTaxon(t.getTaxon());
 	}
 
 	@Override

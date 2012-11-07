@@ -24,12 +24,14 @@ public class Processor extends NonOwnedProcessor<Reference, ReferenceService> {
 
 	@Override
 	protected void doUpdate(Reference persisted, Reference t) {
-		persisted.setCreator(t.getCreator());
-        persisted.setBibliographicCitation(t.getBibliographicCitation());
+		persisted.setBibliographicCitation(t.getBibliographicCitation());
+		persisted.setCreator(t.getCreator());        
         persisted.setDate(t.getDate());
-        persisted.setSubject(t.getSubject());
-        persisted.setSource(t.getSource());
         persisted.setDescription(t.getDescription());
+        persisted.setLanguage(t.getLanguage());
+        persisted.setSource(t.getSource());
+        persisted.setSubject(t.getSubject());
+        persisted.setTaxonRemarks(t.getTaxonRemarks());
         persisted.setTitle(t.getTitle());
         persisted.setType(t.getType());
 	}

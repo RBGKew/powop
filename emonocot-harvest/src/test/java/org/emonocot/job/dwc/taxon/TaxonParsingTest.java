@@ -84,7 +84,6 @@ public class TaxonParsingTest {
         FieldSetMapper fieldSetMapper = new FieldSetMapper();
         fieldSetMapper.setFieldNames(names);
         fieldSetMapper.setDefaultValues(new HashMap<String, String>());
-        fieldSetMapper.setTaxonService(taxonService);
         fieldSetMapper.setConversionService(conversionService);
         DefaultLineMapper<Taxon> lineMapper
             = new DefaultLineMapper<Taxon>();

@@ -32,9 +32,9 @@ public class Processor extends OwnedEntityProcessor<Identifier, IdentifierServic
 
 	@Override
 	protected void doUpdate(Identifier persisted, Identifier t) {
+		persisted.setFormat(t.getFormat());
+		persisted.setSubject(t.getSubject());
 		persisted.setTitle(t.getTitle());
-        persisted.setSubject(t.getSubject());
-        persisted.setFormat(t.getFormat());
 	}
 
 	@Override

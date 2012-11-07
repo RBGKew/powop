@@ -69,7 +69,7 @@
 					</batch:skippable-exception-classes>
 				</batch:chunk>
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="markDescriptionRecords" />
+			<batch:next on="COMPLETED" to="checkDescriptionProcessingMode" />
 			<batch:listeners>
 				<batch:listener ref="processingExceptionProcessListener" />
 				<batch:listener ref="taxonFieldSetMapper" />
@@ -91,10 +91,8 @@
 				<batch:chunk reader="taxonReader" processor="taxonImportingProcessor"
 					writer="itemWriter" commit-interval="10" skip-limit="10000">
 					<batch:skippable-exception-classes>
-						<batch:include
-							class="org.emonocot.job.dwc.DarwinCoreProcessingException" />
-						<batch:include
-							class="org.springframework.batch.item.file.FlatFileParseException" />
+						<batch:include class="org.emonocot.job.dwc.DarwinCoreProcessingException" />
+						<batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
 					</batch:skippable-exception-classes>
 				</batch:chunk>
 			</batch:tasklet>
@@ -111,11 +109,15 @@
 			<batch:tasklet>
 				<batch:chunk reader="deleteTaxaReader"	writer="taxonDeletingWriter" commit-interval="100"/>				    
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="markDescriptionRecords" />
+			<batch:next on="COMPLETED" to="checkDescriptionProcessingMode" />
 			<batch:listeners>
 			  <batch:listener ref="hibernateSessionClearingChunkListener"/>
 			</batch:listeners>
 		</batch:step>
+		<batch:decision decider="descriptionProcessingModeDecider"	id="checkDescriptionProcessingMode">
+			<batch:next on="IMPORT_DESCRIPTIONS" to="markDescriptionRecords" />
+			<batch:next on="SKIP_DESCRIPTIONS" to="checkImageProcessingMode" />
+		</batch:decision>
 		<batch:step id="markDescriptionRecords">
 			<batch:description>Mark the description records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
 			<batch:tasklet ref="markDescriptionRecordsTasklet" />
@@ -155,12 +157,16 @@
 				<batch:chunk reader="deleteDescriptionsReader" writer="deletingWriter"
 					commit-interval="100" />
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="markImageRecords" />
+			<batch:next on="COMPLETED" to="checkImageProcessingMode" />
 			<batch:listeners>
 				<batch:listener ref="processingExceptionProcessListener" />
 				<batch:listener ref="hibernateSessionClearingChunkListener" />
 			</batch:listeners>
 		</batch:step>
+		<batch:decision decider="imageProcessingModeDecider"	id="checkImageProcessingMode">
+			<batch:next on="IMPORT_IMAGES" to="markImageRecords" />
+			<batch:next on="SKIP_IMAGES" to="checkReferenceProcessingMode" />
+		</batch:decision>
 		<batch:step id="markImageRecords">
 			<batch:description>Mark the image records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
 			<batch:tasklet ref="markImageRecordsTasklet" />
@@ -170,8 +176,8 @@
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="processImageDecider" id="processImagesDecision">
-			<batch:next on="IMAGE_PRESENT" to="processImageFile" />
-			<batch:next on="IMAGE_ABSENT" to="deleteAbsentImages" />
+			<batch:next on="true" to="processImageFile" />
+			<batch:next on="false" to="deleteAbsentImages" />
 		</batch:decision>
 		<batch:step id="processImageFile">
 			<batch:description>Process the extension file containing the images</batch:description>
@@ -211,12 +217,16 @@
 				<batch:chunk reader="deleteImagesReader" writer="deletingWriter"
 					commit-interval="100" />
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="markReferenceRecords" />
+			<batch:next on="COMPLETED" to="checkReferenceProcessingMode" />
 			<batch:listeners>
 				<batch:listener ref="processingExceptionProcessListener" />
 				<batch:listener ref="hibernateSessionClearingChunkListener" />
 			</batch:listeners>
 		</batch:step>
+		<batch:decision decider="referenceProcessingModeDecider"	id="checkReferenceProcessingMode">
+			<batch:next on="IMPORT_REFERENCES" to="markReferenceRecords" />
+			<batch:next on="SKIP_REFERENCES" to="checkIdentifierProcessingMode" />
+		</batch:decision>
 		<batch:step id="markReferenceRecords">
 			<batch:description>Mark the reference records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
 			<batch:tasklet ref="markReferenceRecordsTasklet" />
@@ -226,8 +236,8 @@
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="processReferenceDecider" id="processReferencesDecision">
-			<batch:next on="REFERENCE_PRESENT" to="processReferenceFile" />
-			<batch:next on="REFERENCE_ABSENT" to="deleteAbsentReferences" />
+			<batch:next on="true" to="processReferenceFile" />
+			<batch:next on="false" to="deleteAbsentReferences" />
 		</batch:decision>
 		<batch:step id="processReferenceFile">
 			<batch:description>Process the extension file containing the references</batch:description>
@@ -262,6 +272,10 @@
 				<batch:listener ref="hibernateSessionClearingChunkListener" />
 			</batch:listeners>
 		</batch:step>
+		<batch:decision decider="identifierProcessingModeDecider"	id="checkIdentifierProcessingMode">
+			<batch:next on="IMPORT_IDENTIFIERS" to="markIdentifierRecords" />
+			<batch:next on="SKIP_IDENTIFIERS" to="cleanupResources" />
+		</batch:decision>
 		<batch:step id="markIdentifierRecords">
 			<batch:description>Mark the identifier records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
 			<batch:tasklet ref="markIdentifierRecordsTasklet" />
@@ -271,8 +285,8 @@
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="processIdentifierDecider" id="processIdentifiersDecision">
-			<batch:next on="IDENTIFIER_PRESENT" to="processIdentifierFile" />
-			<batch:next on="IDENTIFIER_ABSENT" to="deleteAbsentIdentifiers" />
+			<batch:next on="true" to="processIdentifierFile" />
+			<batch:next on="false" to="deleteAbsentIdentifiers" />
 		</batch:decision>
 		<batch:step id="processIdentifierFile">
 			<batch:description>Process the extension file containing the identifiers</batch:description>
@@ -437,7 +451,7 @@
 		<property name="taxonService" ref="taxonServiceImpl" />
 	</bean>
 
-	<bean id="taxonImportingProcessor" class="org.emonocot.job.dwc.taxon.ImportingValidator"
+	<bean id="taxonImportingProcessor" class="org.emonocot.job.dwc.taxon.Processor"
 		scope="step">
 		<property name="sourceName" value="#{jobParameters['authority.name']}" />
 	</bean>
@@ -472,8 +486,7 @@
 		<property name="fieldNames"
 			value="#{jobExecutionContext['dwca.core.fieldNames']}" />
 		<property name="defaultValues"
-			value="#{jobExecutionContext['dwca.core.defaultValues']}" />
-		<property name="taxonService" ref="taxonServiceImpl" />
+			value="#{jobExecutionContext['dwca.core.defaultValues']}" />		
 		<property name="sourceService" ref="sourceServiceImpl" />
 	</bean>
 	
@@ -493,6 +506,11 @@
 	</bean>
 
 	<!-- Descriptions -->
+	
+	<bean id="descriptionProcessingModeDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
+		<property name="processingModeKey" value="description.processing.mode" />
+		<property name="defaultProcessingMode" value="IMPORT_DESCRIPTIONS" />
+	</bean>
 
 	<bean id="processDescriptionDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
 		<property name="processingModeKey" value="dwca.description.file" />
@@ -584,8 +602,15 @@
 	</bean>
 
 	<!-- Images -->
-
-	<bean id="processImageDecider" class="org.emonocot.job.dwc.image.ProcessingDecider" />
+	
+	<bean id="imageProcessingModeDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
+		<property name="processingModeKey" value="image.processing.mode" />
+		<property name="defaultProcessingMode" value="IMPORT_IMAGES" />
+	</bean>
+	
+	<bean id="processImageDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
+		<property name="processingModeKey" value="dwca.image.file" />
+	</bean>
 
 	<bean id="markImageRecordsTasklet"
 		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
@@ -672,7 +697,8 @@
 		class="org.springframework.batch.item.support.CompositeItemProcessor">
 		<property name="delegates">
 			<list>
-				<ref bean="resizeImagesProcessor" />
+				<ref bean="imageFileProcessor" />
+				<ref bean="imageThumbnailProcessor"/>
 				<ref bean="imageMetadataProcessor" />
 			</list>
 		</property>
@@ -707,8 +733,15 @@
 			</list>
 		</property>
 	</bean>
-
-	<bean id="processReferenceDecider" class="org.emonocot.job.dwc.reference.ProcessingDecider" />
+	
+	<bean id="referenceProcessingModeDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
+		<property name="processingModeKey" value="reference.processing.mode" />
+		<property name="defaultProcessingMode" value="IMPORT_REFERENCES" />
+	</bean>
+	
+	<bean id="processReferenceDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
+		<property name="processingModeKey" value="dwca.reference.file" />
+	</bean>
 
 	<bean id="referenceReader" class="org.springframework.batch.item.file.FlatFileItemReader"
 		scope="step">
@@ -794,8 +827,15 @@
 			</list>
 		</property>
 	</bean>
-
-	<bean id="processIdentifierDecider" class="org.emonocot.job.dwc.identifier.ProcessingDecider" />
+	
+	<bean id="identifierProcessingModeDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
+		<property name="processingModeKey" value="identifier.processing.mode" />
+		<property name="defaultProcessingMode" value="IMPORT_IDENTIFIERS" />
+	</bean>
+	
+	<bean id="processIdentifierDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
+		<property name="processingModeKey" value="dwca.identifier.file" />
+	</bean>
 
 	<bean id="identifierReader" class="org.springframework.batch.item.file.FlatFileItemReader"
 		scope="step">

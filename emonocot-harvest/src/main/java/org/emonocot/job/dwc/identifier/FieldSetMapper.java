@@ -36,18 +36,18 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<Identifier> {
         if (term instanceof DcTerm) {
             DcTerm dcTerm = (DcTerm) term;
             switch (dcTerm) {
-            case title:
-                object.setTitle(value);
-                break;
-            case subject:
-                object.setSubject(value);
-                break;
             case format:
                 object.setFormat(value);
                 break;
             case identifier:
                 object.setIdentifier(value);
                 break;
+            case subject:
+                object.setSubject(value);
+                break;
+            case title:
+                object.setTitle(value);
+                break;            
             default:
                 break;
             }

@@ -1,6 +1,7 @@
 package org.emonocot.job.dwc.description;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import org.emonocot.api.ReferenceService;
@@ -75,19 +76,31 @@ public class FieldSetMapper extends
                 + object);
         if (term instanceof DcTerm) {
             DcTerm dcTerm = (DcTerm) term;
-            switch (dcTerm) {            
-            case source:
-                object.setSource(value);
+            switch (dcTerm) {
+            case audience:
+                object.setAudience(value);
+                break;
+            case creator:
+                object.setCreator(value);
+                break;
+            case contributor:
+                object.setContributor(value);
                 break;
             case description:
                 object.setDescription(value);
                 break;
-            case type:
-                object.setType(DescriptionType.fromString(value));
-                break;
             case identifier:
                 object.setIdentifier(value);
                 break;
+            case language:
+                object.setLanguage(new Locale(value));
+                break;
+            case source:
+                object.setSource(value);
+                break;
+            case type:
+                object.setType(DescriptionType.fromString(value));
+                break;            
             default:
                 break;
             }

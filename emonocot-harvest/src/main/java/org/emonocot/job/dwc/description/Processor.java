@@ -38,10 +38,14 @@ public class Processor extends OwnedEntityProcessor<Description, DescriptionServ
 
     @Override
     protected void doUpdate(Description persisted, Description t) {
+    	persisted.setAudience(t.getAudience());
+    	persisted.setContributor(t.getContributor());
+    	persisted.setCreator(t.getCreator());
+    	persisted.setDescription(t.getDescription());
+    	persisted.setLanguage(t.getLanguage());
+    	persisted.setSource(t.getSource());
     	persisted.setType(t.getType());
-        persisted.setDescription(t.getDescription());       
-        persisted.setCreator(t.getCreator());
-        persisted.setSource(t.getSource());
+        
         persisted.getReferences().clear();
         persisted.getReferences().addAll(t.getReferences());
     }

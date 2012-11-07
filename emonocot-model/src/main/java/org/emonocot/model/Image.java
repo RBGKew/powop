@@ -24,6 +24,7 @@ import org.emonocot.model.constants.ImageFormat;
 import org.emonocot.model.hibernate.TaxonomyBridge;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
+import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
@@ -37,6 +38,8 @@ import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
 
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 
 /**
@@ -83,6 +86,16 @@ public class Image extends SearchableObject implements NonOwned {
      *
      */
     private Point location;
+    
+    /**
+     *
+     */
+    private Double latitude;
+    
+    /**
+     *
+     */
+    private Double longitude;
 
     /**
      *
@@ -292,6 +305,36 @@ public class Image extends SearchableObject implements NonOwned {
 	}
 
 	/**
+	 * @return the latitude
+	 */
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	/**
+	 * @param latitude the latitude to set
+	 */
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+		updateLocation();
+	}
+
+	/**
+	 * @return the longitude
+	 */
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	/**
+	 * @param longitude the longitude to set
+	 */
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+		updateLocation();
+	}
+
+	/**
 	 * @param contributor the contributor to set
 	 */
 	public void setContributor(String contributor) {
@@ -382,6 +425,13 @@ public class Image extends SearchableObject implements NonOwned {
     public Set<Annotation> getAnnotations() {
         return annotations;
     }
+    
+    private void updateLocation() {
+    	if(this.latitude != null && this.longitude != null) {
+    	    GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory(null);
+    	    this.location = geometryFactory.createPoint(new Coordinate(this.longitude, this.latitude));
+    	}
+	}
 
     /**
      * @param annotations

@@ -1,6 +1,7 @@
     package org.emonocot.job.dwc.taxon;
 
-import org.emonocot.job.dwc.DarwinCoreProcessor;
+import org.emonocot.api.TaxonService;
+import org.emonocot.harvest.common.AuthorityAware;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Source;
 import org.emonocot.model.Taxon;
@@ -8,17 +9,26 @@ import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.item.ItemProcessor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
  * @author ben
  *
  */
-public class CheckingValidator extends DarwinCoreProcessor<Taxon> {
+public class CheckingValidator extends AuthorityAware implements ItemProcessor<Taxon,Taxon> {
     /**
      *
      */
     private Logger logger = LoggerFactory.getLogger(CheckingValidator.class);
+    
+    private TaxonService taxonService;
+    
+    @Autowired
+    public void setTaxonService(TaxonService taxonService) {
+    	this.taxonService = taxonService;
+    }
 
     /**
      * @param taxon a taxon object
@@ -30,7 +40,7 @@ public class CheckingValidator extends DarwinCoreProcessor<Taxon> {
         if (taxon.getIdentifier() == null) {
             throw new NoIdentifierException(taxon);
         }
-        Taxon persistedTaxon = getTaxonService().find(taxon.getIdentifier(), "taxon-with-annotations");
+        Taxon persistedTaxon = taxonService.find(taxon.getIdentifier(), "taxon-with-annotations");
         if (persistedTaxon == null) {
             throw new CannotFindRecordException(taxon.getIdentifier());
         }

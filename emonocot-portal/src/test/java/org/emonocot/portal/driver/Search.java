@@ -53,6 +53,9 @@ public class Search extends PageObject {
     */
    @FindBy(how = How.ID, using = "sorting")
    private WebElement sorting;
+   
+   @FindBy(how = How.CLASS_NAME, using = "pagination")
+   private WebElement pagination;
 
 
     /**
@@ -223,5 +226,15 @@ public class Search extends PageObject {
         return true;
 
     }
+
+	public String getPaginationLabel() {
+		WebElement paginationLabel = pagination.findElement(By.xpath("ul/li[@class='active']"));
+		return paginationLabel.getText();
+	}
+
+	public PageObject selectNextPage() {
+		WebElement nextLink = pagination.findElement(By.xpath("ul/li[@class='next']/a"));
+		return openAs(nextLink.getAttribute("href"), Search.class);
+	}
 
 }

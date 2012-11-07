@@ -46,7 +46,8 @@
 	<bean id="processImageFilesProcessor" class="org.springframework.batch.item.support.CompositeItemProcessor">
 	  <property name="delegates">
 	    <list>
-	      <ref bean="resizeImagesProcessor"/>
+	      <ref bean="imageFileProcessor"/>
+	      <ref bean="imageThumbnailProcessor"/>
 	      <ref bean="imageMetadataProcessor"/>
 	    </list>
 	  </property>

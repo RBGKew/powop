@@ -39,7 +39,10 @@
 					<spring:message code="previous" /> </a>
 				</li>
 			</c:otherwise>
-		</c:choose>		
+		</c:choose>
+		<c:if test="${not empty pager.currentPageNumber}">
+		    <li class="active"><a href="#">${pager.currentPageNumber}</a></li>		
+		</c:if>
 		<c:choose>
 			<c:when test="${pager.nextIndex != null}">
 				<li class="next">

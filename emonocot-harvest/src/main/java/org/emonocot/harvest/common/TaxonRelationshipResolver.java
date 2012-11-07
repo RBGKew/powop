@@ -1,8 +1,5 @@
 package org.emonocot.harvest.common;
 
-import java.util.Map;
-import java.util.Set;
-
 import org.emonocot.model.Taxon;
 
 /**

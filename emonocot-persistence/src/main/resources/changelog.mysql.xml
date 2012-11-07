@@ -3072,4 +3072,16 @@
                                baseTableName="VernacularName_Source"
                                referencedColumnNames="id"/>
     </changeSet>
+    <changeSet id="2012-11-07_01" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Image">
+            <column name="latitude" type="double"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-11-07_02" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Image">
+            <column name="longitude" type="double"/>
+       </addColumn>
+    </changeSet>
 </databaseChangeLog>

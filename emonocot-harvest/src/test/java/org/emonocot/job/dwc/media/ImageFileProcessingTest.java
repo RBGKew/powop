@@ -7,6 +7,7 @@ import java.util.Properties;
 
 import org.emonocot.harvest.media.ImageFileProcessor;
 import org.emonocot.harvest.media.ImageMetadataExtractor;
+import org.emonocot.harvest.media.ImageThumbnailGenerator;
 import org.emonocot.model.Image;
 import org.emonocot.model.constants.ImageFormat;
 import org.emonocot.ws.GetResourceClient;
@@ -26,6 +27,11 @@ public class ImageFileProcessingTest {
     *
     */
     private ImageFileProcessor imageFileProcessor = new ImageFileProcessor();
+    
+    /**
+    *
+    */
+    private ImageThumbnailGenerator imageThumbnailGenerator = new ImageThumbnailGenerator();
 
     /**
      *
@@ -59,15 +65,16 @@ public class ImageFileProcessingTest {
         File thumbnailDirectory = new File(thumbnailDirectoryName);
         thumbnailDirectory.mkdir();
         thumbnailDirectory.deleteOnExit();
-        imageFileProcessor.setThumbnailDirectory(thumbnailDirectoryName);
 
         Resource propertiesFile = new ClassPathResource(
                 "/META-INF/spring/application.properties");
         Properties properties = new Properties();
         properties.load(propertiesFile.getInputStream());
-        imageFileProcessor.setImageMagickSearchPath(properties.getProperty(
-                "harvester.imagemagick.path", "/Program Files/ImageMagick"));
 
+        imageThumbnailGenerator.setImageDirectory(imagesDirectoryName);
+        imageThumbnailGenerator.setThumbnailDirectory(thumbnailDirectoryName);
+        imageThumbnailGenerator.setImageMagickSearchPath(properties.getProperty(
+                "harvester.imagemagick.path", "/Program Files/ImageMagick"));
         getResourceClient.setProxyHost(properties.getProperty("http.proxyHost",
                 null));
         getResourceClient.setProxyPort(properties.getProperty("http.proxyPort",

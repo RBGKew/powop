@@ -42,7 +42,7 @@
 							<tr>
                                 <td class="span6">
 								    <c:url var="keySearchUrl" value="/search">
-										<c:param name="facet" value="CLASS.org.emonocot.model.key.IdentificationKey" />
+										<c:param name="facet" value="CLASS.org.emonocot.model.IdentificationKey" />
 									</c:url>
                                     <a href="${keySearchUrl}">Search for Keys</a>
                                 </td>

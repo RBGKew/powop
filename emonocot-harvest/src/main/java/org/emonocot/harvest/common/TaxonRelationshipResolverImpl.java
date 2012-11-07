@@ -158,6 +158,8 @@ public class TaxonRelationshipResolverImpl extends AuthorityAware
                     taxon.setParentNameUsage(related);
                     related.getChildNameUsages().add(taxon);
                 }
+            } else if (term.equals(TaxonRelationshipTerm.HAS_BASIONYM)) {
+                taxon.setOriginalNameUsage(taxon);
             }
         }
 

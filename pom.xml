@@ -702,7 +702,17 @@
 			<dependency>
 				<groupId>org.gbif</groupId>
 				<artifactId>dwca-reader</artifactId>
-				<version>1.7.6</version>
+				<version>1.12</version>
+			</dependency>
+			<dependency>
+				<groupId>org.gbif</groupId>
+				<artifactId>dwc-api</artifactId>
+				<version>1.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.gbif</groupId>
+				<artifactId>gbif-common</artifactId>
+				<version>0.8</version>
 			</dependency>
 			<dependency>
 				<groupId>joda-time</groupId>

@@ -28,17 +28,7 @@ public class ImageFileProcessor implements ItemProcessor<Image, Image> {
     /**
      *
      */
-    private final Double THUMBNAIL_DIMENSION = 100D;
-
-    /**
-     *
-     */
     private final Integer IMAGE_DIMENSION = 1000;
-
-    /**
-     *
-     */
-    private String searchPath;
 
     /**
      *
@@ -48,30 +38,7 @@ public class ImageFileProcessor implements ItemProcessor<Image, Image> {
     /**
      *
      */
-    private String thumbnailDirectory;
-
-    /**
-     *
-     */
     private GetResourceClient getResourceClient;
-
-    /**
-     *
-     * @param newThumbnailDirectory set the thumbnail directory
-     */
-    public final void setThumbnailDirectory(
-            final String newThumbnailDirectory) {
-        this.thumbnailDirectory = newThumbnailDirectory;
-    }
-
-    /**
-     *
-     * @param imageMagickSearchPath set the image magick search path directory
-     */
-   public final void setImageMagickSearchPath(
-           final String imageMagickSearchPath) {
-       this.searchPath = imageMagickSearchPath;
-   }
 
     /**
      *
@@ -97,10 +64,7 @@ public class ImageFileProcessor implements ItemProcessor<Image, Image> {
      * @throws Exception if there is a problem processing the image
      */
     public final Image process(final Image image) throws Exception {
-        String imageFileName = imageDirectory + File.separatorChar
-                + image.getId() + '.' + image.getFormat();
-        String thumbnailFileName = thumbnailDirectory + File.separatorChar
-                + image.getId() + '.' + image.getFormat();
+        String imageFileName = imageDirectory + File.separatorChar  + image.getId() + '.' + image.getFormat();
         File file = new File(imageFileName);
         logger.debug("Image File " + imageFileName);
         if (file.exists()) {
@@ -120,82 +84,7 @@ public class ImageFileProcessor implements ItemProcessor<Image, Image> {
                     logger.error(ste.toString());
                 }
             }
-        }
-        File thumbnailFile = new File(thumbnailFileName);
-        if(thumbnailFile.exists()) {
-        	logger.info("Thumbnail File exists in image directory, skipping");
-        } else {
-            try {
-                ImageInfo imageInfo = Sanselan.getImageInfo(file);
-                Double width = new Double(imageInfo.getWidth());
-                Double height = new Double(imageInfo.getHeight());
-                logger.debug("Image " + imageFileName + " dimensions: " + width + " x " + height);
-
-                if (width > height) {
-                    Double newWidth = (width / height) * THUMBNAIL_DIMENSION;
-                    Double xOffset = (newWidth - THUMBNAIL_DIMENSION) / 2.0D;
-                    // shrink to 100px high then crop
-                    ConvertCmd convert = new ConvertCmd();
-                    if (searchPath != null) {
-                        convert.setSearchPath(searchPath);
-                    }
-                    IMOperation resize = new IMOperation();
-                    resize.addImage(imageFileName);
-                    logger.debug("Resizing to " + newWidth.intValue()
-                            + " * " + THUMBNAIL_DIMENSION.intValue());
-                    resize.resize(newWidth.intValue(),
-                            THUMBNAIL_DIMENSION.intValue());
-                    resize.addImage(thumbnailFileName);
-                    convert.run(resize);
-
-                    MogrifyCmd mogrify = new MogrifyCmd();
-                    if (searchPath != null) {
-                        mogrify.setSearchPath(searchPath);
-                    }
-                    IMOperation crop = new IMOperation();
-                    crop = new IMOperation();
-                    logger.debug("Cropping to " + xOffset.intValue() + " * 0");
-                    crop.crop(THUMBNAIL_DIMENSION.intValue(),
-                            THUMBNAIL_DIMENSION.intValue(), xOffset.intValue());
-                    crop.addImage(thumbnailFileName);
-                    mogrify.run(crop);
-
-                } else {
-                    Double newHeight = (height / width) * THUMBNAIL_DIMENSION;
-                    Double yOffset = (newHeight - THUMBNAIL_DIMENSION) / 2.0D;
-                    // shrink to 100px high then crop
-                    ConvertCmd convert = new ConvertCmd();
-                    if (searchPath != null) {
-                        convert.setSearchPath(searchPath);
-                    }
-                    IMOperation resize = new IMOperation();
-                    resize.addImage(imageFileName);
-                    logger.debug("Resizing to " + THUMBNAIL_DIMENSION.intValue()
-                            + " * " + newHeight.intValue());
-                    resize.resize(THUMBNAIL_DIMENSION.intValue(),
-                            newHeight.intValue());
-                    resize.addImage(thumbnailFileName);
-                    convert.run(resize);
-
-                    MogrifyCmd mogrify = new MogrifyCmd();
-                    if (searchPath != null) {
-                        mogrify.setSearchPath(searchPath);
-                    }
-                    IMOperation crop = new IMOperation();
-                    crop = new IMOperation();
-                    logger.debug("Cropping to 0 * " + yOffset.intValue());
-                    crop.crop(THUMBNAIL_DIMENSION.intValue(),
-                            THUMBNAIL_DIMENSION.intValue(), 0, yOffset.intValue());
-                    crop.addImage(thumbnailFileName);
-                    mogrify.run(crop);
-                }
-            } catch (Exception e) {
-                logger.error(e.toString());
-                for (StackTraceElement ste : e.getStackTrace()) {
-                    logger.error(ste.toString());
-                }
-            }
-        }
+        }        
         return image;
     }
 

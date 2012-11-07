@@ -124,7 +124,7 @@ public class ClassificationController {
                         keyInfo.append(",");
                     }
                     keyInfo.append(key.getTitle()).append(":::");
-                    keyInfo.append(prepender + key.getIdentifier());
+                    keyInfo.append(prepender + key.getId());
                     first = false;
                     keyCount++;
                 }

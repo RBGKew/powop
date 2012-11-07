@@ -1,10 +1,8 @@
 package org.emonocot.job.dwc.taxon;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import org.emonocot.api.ReferenceService;
-import org.emonocot.api.TaxonService;
 import org.emonocot.harvest.common.TaxonRelationship;
 import org.emonocot.harvest.common.TaxonRelationshipResolver;
 import org.emonocot.harvest.common.TaxonRelationshipResolverImpl;
@@ -20,6 +18,7 @@ import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.UnknownTerm;
 import org.gbif.ecat.voc.NomenclaturalCode;
+import org.gbif.ecat.voc.NomenclaturalStatus;
 import org.gbif.ecat.voc.Rank;
 import org.gbif.ecat.voc.TaxonomicStatus;
 import org.slf4j.Logger;
@@ -58,15 +57,7 @@ public class FieldSetMapper extends
      */
     private TaxonRelationshipResolver taxonRelationshipResolver = new TaxonRelationshipResolverImpl();
 
-    /**
-     *
-     */
-    private Map<String, Taxon> boundTaxa = new HashMap<String, Taxon>();
 
-    /**
-     *
-     */
-    private TaxonService taxonService;
 
     /**
      *
@@ -83,15 +74,6 @@ public class FieldSetMapper extends
      */
     public FieldSetMapper() {
         super(Taxon.class);
-    }
-
-    /**
-     *
-     * @param newTaxonService Set the taxon service
-     */
-    @Autowired
-    public final void setTaxonService(final TaxonService newTaxonService) {
-        this.taxonService = newTaxonService;
     }
 
     /**
@@ -135,6 +117,9 @@ public class FieldSetMapper extends
         if (term instanceof DcTerm) {
             DcTerm dcTerm = (DcTerm) term;
             switch (dcTerm) {
+            case bibliographicCitation:
+            	object.setBibliographicCitation(value);
+            	break;
             case source:
                 object.setSource(value);
             default:
@@ -145,40 +130,6 @@ public class FieldSetMapper extends
         if (term instanceof DwcTerm) {
             DwcTerm dwcTerm = (DwcTerm) term;
             switch (dwcTerm) {
-            case taxonID:
-                object.setIdentifier(value);
-                break;
-            case scientificNameID:
-                object.setScientificNameID(value);
-                break;
-            case scientificName:
-                object.setScientificName(value);
-                break;
-            case scientificNameAuthorship:
-                object.setScientificNameAuthorship(value);
-                break;
-            case taxonRank:
-                try {                    
-                    object.setTaxonRank(conversionService.convert(value, Rank.class));
-                } catch (ConversionException ce) {
-                    logger.error(ce.getMessage());
-                }
-                break;
-            case taxonomicStatus:
-                try {
-                    object.setTaxonomicStatus(TaxonomicStatus.fromString(value));
-                } catch (IllegalArgumentException iae) {
-                    logger.error(iae.getMessage());
-                }
-                break;
-            case parentNameUsageID:
-                if (resolveRelationships && value != null && value.trim().length() != 0) {
-                    TaxonRelationship taxonRelationship = new TaxonRelationship(
-                            object, TaxonRelationshipTerm.IS_CHILD_TAXON_OF);
-                    taxonRelationshipResolver.addTaxonRelationship(
-                            taxonRelationship, value);
-                }
-                break;
             case acceptedNameUsageID:
                 if (resolveRelationships && value != null && value.trim().length() != 0) {
                     TaxonRelationship taxonRelationship = new TaxonRelationship(
@@ -187,77 +138,99 @@ public class FieldSetMapper extends
                             taxonRelationship, value);
                 }
                 break;
-            case genus:
-                object.setGenus(value);
-                break;
-            case subgenus:
-                object.setSubgenus(value);
-                break;
-            case specificEpithet:
-                object.setSpecificEpithet(value);
-                break;
-            case infraspecificEpithet:
-                object.setInfraspecificEpithet(value);
-                break;
-            case nameAccordingToID:
-            	if (value != null && value.trim().length() > 0) {
-                    Reference accordingTo = null;
-                    if (boundReferences.containsKey(value)) {
-                    	accordingTo = boundReferences.get(value);
-                    } else {
-                    	accordingTo = referenceService.find(value);
-                        if (accordingTo == null) {
-                        	accordingTo = new Reference();
-                        	accordingTo.setIdentifier(value);
-                            Annotation annotation = createAnnotation(
-                            		accordingTo, RecordType.Reference,
-                                    AnnotationCode.Create, AnnotationType.Info);
-                            accordingTo.getAnnotations().add(annotation);
-                        }
-                        boundReferences.put(accordingTo.getIdentifier(),
-                        		accordingTo);
-                    }
-                    object.setNameAccordingTo(accordingTo);
-                }
-                break;
-            case kingdom:
-                object.setKingdom(value);
-                break;
-            case phylum:
-                object.setPhylum(value);
-                break;
             case classs:
                 object.setClazz(value);
-                break;
-            case order:
-                object.setOrder(value);
                 break;
             case family:
                 object.setFamily(value);
                 break;
+            case genus:
+                object.setGenus(value);
+                break;
+            case infraspecificEpithet:
+                object.setInfraspecificEpithet(value);
+                break;
+            case kingdom:
+                object.setKingdom(value);
+                break; 
+            case nameAccordingToID:
+                object.setNameAccordingTo(handleReference(value));
+                break;  
+            case namePublishedInID:
+            	object.setNamePublishedIn(handleReference(value));
+                break;
+            case namePublishedIn:
+            	object.setNamePublishedInString(value);
+            	break;
+            case namePublishedInYear:
+            	object.setNamePublishedInYear(Integer.parseInt(value));
+            	break;
             case nomenclaturalCode:
                 object.setNomenclaturalCode(NomenclaturalCode.fromString(value));
                 break;
-            case namePublishedInID:
-                if (value != null && value.trim().length() > 0) {
-                    Reference protologue = null;
-                    if (boundReferences.containsKey(value)) {
-                        protologue = boundReferences.get(value);
-                    } else {
-                        protologue = referenceService.find(value);
-                        if (protologue == null) {
-                            protologue = new Reference();
-                            protologue.setIdentifier(value);
-                            Annotation annotation = createAnnotation(
-                                    protologue, RecordType.Reference,
-                                    AnnotationCode.Create, AnnotationType.Info);
-                            protologue.getAnnotations().add(annotation);
-                        }
-                        boundReferences.put(protologue.getIdentifier(),
-                                protologue);
-                    }
-                    object.setNamePublishedIn(protologue);
+            case nomenclaturalStatus:
+                object.setNomenclaturalStatus(NomenclaturalStatus.valueOf(value));
+                break;
+            case order:
+                object.setOrder(value);
+                break;
+            case originalNameUsageID:
+            	if (resolveRelationships && value != null && value.trim().length() != 0) {
+                    TaxonRelationship taxonRelationship = new TaxonRelationship(
+                            object, TaxonRelationshipTerm.HAS_BASIONYM);
+                    taxonRelationshipResolver.addTaxonRelationship(
+                            taxonRelationship, value);
                 }
+            	break;
+            case parentNameUsageID:
+                if (resolveRelationships && value != null && value.trim().length() != 0) {
+                    TaxonRelationship taxonRelationship = new TaxonRelationship(
+                            object, TaxonRelationshipTerm.IS_CHILD_TAXON_OF);
+                    taxonRelationshipResolver.addTaxonRelationship(
+                            taxonRelationship, value);
+                }
+                break;
+            case phylum:
+                object.setPhylum(value);
+                break;
+            case scientificName:
+                object.setScientificName(value);
+                break;
+            case scientificNameAuthorship:
+                object.setScientificNameAuthorship(value);
+                break;
+            case scientificNameID:
+                object.setScientificNameID(value);
+                break;
+            case specificEpithet:
+                object.setSpecificEpithet(value);
+                break;
+            case subgenus:
+                object.setSubgenus(value);
+                break;
+            case taxonID:
+                object.setIdentifier(value);
+                break;
+            case taxonomicStatus:
+                try {
+                    object.setTaxonomicStatus(TaxonomicStatus.fromString(value));
+                } catch (IllegalArgumentException iae) {
+                    logger.error(iae.getMessage());
+                }
+                break;
+            case taxonRank:
+                try {                    
+                    object.setTaxonRank(conversionService.convert(value, Rank.class));
+                } catch (ConversionException ce) {
+                    logger.error(ce.getMessage());
+                }
+                break;
+            case taxonRemarks:
+            	object.setTaxonRemarks(value);
+            	break;
+            case verbatimTaxonRank:
+            	object.setVerbatimTaxonRank(value);
+            	break;
             default:
                 break;
             }
@@ -269,15 +242,39 @@ public class FieldSetMapper extends
                     "http://emonocot.org/subfamily")) {
                 object.setSubfamily(value);
             } else if (unknownTerm.qualifiedName().equals(
-                    "http://emonocot.org/tribe")) {
-                object.setTribe(value);
-            } else if (unknownTerm.qualifiedName().equals(
                     "http://emonocot.org/subtribe")) {
                 object.setSubtribe(value);
-            } 
+            } else if (unknownTerm.qualifiedName().equals(
+                    "http://emonocot.org/tribe")) {
+                object.setTribe(value);
+            }  
         }
     }
-    /**
+
+    private Reference handleReference(String value) {
+		if (value != null && value.trim().length() > 0) {
+			Reference reference = null;
+			if (boundReferences.containsKey(value)) {
+				return boundReferences.get(value);
+			} else {
+				reference = referenceService.find(value);
+				if (reference == null) {
+					reference = new Reference();
+					reference.setIdentifier(value);
+					Annotation annotation = createAnnotation(reference,
+							RecordType.Reference, AnnotationCode.Create,
+							AnnotationType.Info);
+					reference.getAnnotations().add(annotation);
+				}
+				boundReferences.put(reference.getIdentifier(), reference);
+				return reference;
+			}
+		} else {
+			return null;
+		}
+	}
+
+	/**
     *
     */
    public final void afterChunk() {
@@ -300,7 +297,6 @@ public class FieldSetMapper extends
          }
        }
 
-       boundTaxa = new HashMap<String, Taxon>();
        boundReferences = new HashMap<String, Reference>();
    }
 }

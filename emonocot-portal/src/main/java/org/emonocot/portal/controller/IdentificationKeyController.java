@@ -56,11 +56,11 @@ public class IdentificationKeyController extends
      *            The model
      * @return The name of the view
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "text/html")
     public final String getPage(@PathVariable final Long id,
             final Model model) {
         IdentificationKey key = getService().load(id, "object-page");
-        model.addAttribute(key);
+        model.addAttribute(key); 
      // TODO add opensession in view filter and remove this code
         if (key.getTaxon() != null) {
             model.addAttribute(taxonService.load(

@@ -75,7 +75,7 @@ public class StepDefinitions {
      * @param query
      *            Set the search query
      */
-    @When("^I search for \"([^\"]+)\"$")
+    @When("^I search for \"([^\"]*)\"$")
     public final void whenISearchFor(final String query) {
         currentPage = portal.search(query);
     }
@@ -394,6 +394,11 @@ public class StepDefinitions {
         currentPage = ((org.emonocot.portal.driver.image.Show) currentPage)
                 .selectKeyword(keyword);
     }
+    
+    @When("^I select the next page$")
+    public void iSelectTheNextPage() {
+    	currentPage = ((org.emonocot.portal.driver.Search) currentPage).selectNextPage();
+    }
 
     /**
      * @param category
@@ -500,9 +505,15 @@ public class StepDefinitions {
      * @param results
      *            Set the number of results
      */
-    @Then("^there should be (\\d) result[s]?$")
+    @Then("^there should be (\\d+) result[s]?$")
     public final void thereShouldBeResults(final Integer results) {
         assertEquals(results, ((Search) currentPage).getResultNumber());
+    }
+    
+    @Then("^the pagination should show that results (\\d+) - (\\d+) are displayed$")
+    public void thePaginationShouldShowThatResultsAreDisplayed(Integer from, Integer to) {
+    	String label = from + " - " + to;
+    	assertEquals(label, ((Search) currentPage).getPaginationLabel());
     }
 
     /**

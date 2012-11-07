@@ -145,8 +145,12 @@
 		<property name="cacheProducers" value="false" />
 	</bean>
 	
-	<bean id="resizeImagesProcessor" class="org.emonocot.harvest.media.ImageFileProcessor">
+	<bean id="imageFileProcessor" class="org.emonocot.harvest.media.ImageFileProcessor">
 	  <property name="getResourceClient" ref="getResourceClient" />
+	  <property name="imageDirectory" value="${harvester.image.directory}"/>
+	</bean>
+	
+	<bean id="imageThumbnailProcessor" class="org.emonocot.harvest.media.ImageThumbnailGenerator">
 	  <property name="thumbnailDirectory" value="${harvester.thumbnail.directory}"/>
 	  <property name="imageMagickSearchPath" value="${harvester.imagemagick.path}"/>
 	  <property name="imageDirectory" value="${harvester.image.directory}"/>

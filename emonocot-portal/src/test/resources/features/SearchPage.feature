@@ -44,6 +44,21 @@ Background:
   | test:place:753 | Klatch    | MULTIPOLYGON (((-38.3235 2.9734, -72.5483 -92.4733, 3.0492 2.9047, -38.3235 2.9734)))               |
   And I am on the search page
 
+Scenario: Display all results with pagination
+  Searching without specifying any criteria, the search results page should display all
+  of the results up to a limit (which varies depending on how much information is being
+  displayed on the page). There should be a pagination control which allows users to move
+  forwards and backwards through the result set and display the indices of the current
+  page's results (i.e. 1 - 10, 11 - 20).
+  When I search for ""
+  Then there should be 10 results
+  And the search results page should display "Showing 1 to 10 of 23 results"
+  And the pagination should show that results 1 - 10 are displayed
+  When I select the next page
+  Then there should be 10 results
+  And the search results page should display "Showing 11 to 20 of 23 results"
+  And the pagination should show that results 11 - 20 are displayed
+
 Scenario: Search for a single taxon
   Search for a taxon by typing its taxonomic name in to the search box
   The taxon should appear near to the top of the list of results

@@ -23,7 +23,7 @@ create table Identifier (id bigint not null, identifier varchar(255), accessRigh
 drop table if exists Identifier_Source;
 create table Identifier_Source (Identifier_id bigint not null, sources_id bigint not null, primary key (Identifier_id, sources_id));
 drop table if exists Image;
-create table Image (id bigint not null, identifier varchar(255), accessRights varchar(255), created timestamp, creator varchar(255), license varchar(255), modified timestamp, rights varchar(255), rightsHolder varchar(255), source varchar(255), title varchar(255), description clob, format varchar(255), subject varchar(255), contributor varchar(255), publisher varchar(255), audience varchar(255), location BLOB, locality varchar(255), authority_id bigint, image_id bigint, taxon_id bigint, primary key (id), unique (identifier));
+create table Image (id bigint not null, identifier varchar(255), accessRights varchar(255), created timestamp, creator varchar(255), license varchar(255), modified timestamp, rights varchar(255), rightsHolder varchar(255), source varchar(255), title varchar(255), description clob, format varchar(255), subject varchar(255), contributor varchar(255), publisher varchar(255), audience varchar(255), latitude double, longitude double, location BLOB, locality varchar(255), authority_id bigint, image_id bigint, taxon_id bigint, primary key (id), unique (identifier));
 drop table if exists Image_Source;
 create table Image_Source (Image_id bigint not null, sources_id bigint not null, primary key (Image_id, sources_id));
 drop table if exists Job;

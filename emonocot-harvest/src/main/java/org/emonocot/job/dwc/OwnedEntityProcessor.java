@@ -19,7 +19,7 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
 
 	@Override
 	public T process(T t) throws Exception {
-		logger.info("Validating " + t);
+		logger.info("Processing " + t);
 		
 		if(t.getTaxon() != null) {
         	t.setTaxon(super.getTaxonService().find(t.getTaxon().getIdentifier()));
