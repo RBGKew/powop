@@ -3084,4 +3084,26 @@
             <column name="longitude" type="double"/>
        </addColumn>
     </changeSet>
+    <changeSet id="2012-11-08_01" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <renameColumn tableName="TypeAndSpecimen" oldColumnName="verbatimLattitude" newColumnName="verbatimLatitude" columnDataType="varchar(255)"/>
+    </changeSet>
+    <changeSet id="2012-11-08_02" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="TypeAndSpecimen">
+            <column name="decimalLongitude" type="double"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-11-08_03" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="TypeAndSpecimen">
+            <column name="decimalLatitude" type="double"/>
+       </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2012-11-08_04">
+      <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+      <addColumn tableName="TypeAndSpecimen">
+        <column name="location" type="GEOMETRY"/>
+      </addColumn>
+    </changeSet>
 </databaseChangeLog>

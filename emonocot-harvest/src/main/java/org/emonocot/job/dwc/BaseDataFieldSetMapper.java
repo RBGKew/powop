@@ -9,6 +9,8 @@ import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.format.Parser;
 import org.springframework.format.datetime.joda.DateTimeParser;
 import org.springframework.validation.BindException;
@@ -17,11 +19,18 @@ public class BaseDataFieldSetMapper<T extends BaseData> extends DarwinCoreFieldS
 	
 	private Logger logger = LoggerFactory.getLogger(BaseDataFieldSetMapper.class);
 
-	private Parser<DateTime> dateTimeParser = new DateTimeParser(ISODateTimeFormat.dateOptionalTimeParser());
+	protected Parser<DateTime> dateTimeParser = new DateTimeParser(ISODateTimeFormat.dateOptionalTimeParser());
+	
+	protected ConversionService conversionService;
 	
 	public BaseDataFieldSetMapper(Class<T> newType) {
 		super(newType);		
 	}
+	
+    @Autowired
+    public final void setConversionService(ConversionService conversionService) {
+    	this.conversionService = conversionService;
+    }
 
 	@Override
 	public void mapField(T object, String fieldName, String value)

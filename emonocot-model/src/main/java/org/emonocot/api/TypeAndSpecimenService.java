@@ -4,4 +4,6 @@ import org.emonocot.model.TypeAndSpecimen;
 
 public interface TypeAndSpecimenService extends Service<TypeAndSpecimen> {
 
+	TypeAndSpecimen findByCatalogNumber(String catalogNumber);
+
 }

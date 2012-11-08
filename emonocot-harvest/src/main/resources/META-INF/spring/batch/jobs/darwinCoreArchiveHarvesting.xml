@@ -266,7 +266,7 @@
 				<batch:chunk reader="deleteReferencesReader" writer="deletingWriter"
 					commit-interval="100" />
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="markIdentifierRecords" />
+			<batch:next on="COMPLETED" to="checkIdentifierProcessingMode" />
 			<batch:listeners>
 				<batch:listener ref="processingExceptionProcessListener" />
 				<batch:listener ref="hibernateSessionClearingChunkListener" />
@@ -274,7 +274,7 @@
 		</batch:step>
 		<batch:decision decider="identifierProcessingModeDecider"	id="checkIdentifierProcessingMode">
 			<batch:next on="IMPORT_IDENTIFIERS" to="markIdentifierRecords" />
-			<batch:next on="SKIP_IDENTIFIERS" to="cleanupResources" />
+			<batch:next on="SKIP_IDENTIFIERS" to="checkDistributionProcessingMode" />
 		</batch:decision>
 		<batch:step id="markIdentifierRecords">
 			<batch:description>Mark the identifier records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
@@ -313,6 +313,202 @@
 			<batch:description>Delete the identifiers which we expected to be present in the archive but which were absent</batch:description>
 			<batch:tasklet>
 				<batch:chunk reader="deleteIdentifiersReader" writer="deletingWriter"
+					commit-interval="100" />
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="checkDistributionProcessingMode" />
+			<batch:listeners>
+				<batch:listener ref="processingExceptionProcessListener" />
+				<batch:listener ref="hibernateSessionClearingChunkListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:decision decider="distributionProcessingModeDecider"	id="checkDistributionProcessingMode">
+			<batch:next on="IMPORT_DISTRIBUTION" to="markDistributionRecords" />
+			<batch:next on="SKIP_DISTRIBUTION" to="checkMeasurementOrFactProcessingMode" />
+		</batch:decision>
+		<batch:step id="markDistributionRecords">
+			<batch:description>Mark the distribution records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
+			<batch:tasklet ref="markDistributionRecordsTasklet" />
+			<batch:next on="COMPLETED" to="processDistributionDecision" />
+			<batch:listeners>
+				<batch:listener ref="recordAnnotator" />
+			</batch:listeners>
+		</batch:step>
+		<batch:decision decider="processDistributionDecider" id="processDistributionDecision">
+			<batch:next on="true" to="processDistributionFile" />
+			<batch:next on="false" to="deleteAbsentDistribution" />
+		</batch:decision>
+		<batch:step id="processDistributionFile">
+			<batch:description>Process the extension file containing the distribution</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="distributionReader" processor="distributionProcessor"
+					writer="itemWriter" commit-interval="100" skip-limit="10000">
+					<batch:skippable-exception-classes>
+						<batch:include
+							class="org.emonocot.job.dwc.DarwinCoreProcessingException" />
+						<batch:include
+							class="org.springframework.batch.item.file.FlatFileParseException" />
+					</batch:skippable-exception-classes>
+				</batch:chunk>
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="deleteAbsentDistribution" />
+			<batch:listeners>
+				<batch:listener ref="distributionFieldSetMapper" />
+				<batch:listener ref="processingExceptionProcessListener" />
+				<batch:listener ref="distributionProcessor" />
+				<batch:listener ref="hibernateSessionClearingChunkListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="deleteAbsentDistribution">
+			<batch:description>Delete the distribution which we expected to be present in the archive but which were absent</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="deleteDistributionReader" writer="deletingWriter"
+					commit-interval="100" />
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="checkMeasurementOrFactProcessingMode" />
+			<batch:listeners>
+				<batch:listener ref="processingExceptionProcessListener" />
+				<batch:listener ref="hibernateSessionClearingChunkListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:decision decider="measurementOrFactProcessingModeDecider"	id="checkMeasurementOrFactProcessingMode">
+			<batch:next on="IMPORT_MEASUREMENT_OR_FACT" to="markMeasurementOrFactRecords" />
+			<batch:next on="SKIP_MEASUREMENT_OR_FACT" to="checkVernacularNameProcessingMode" />
+		</batch:decision>
+		<batch:step id="markMeasurementOrFactRecords">
+			<batch:description>Mark the measurement or fact records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
+			<batch:tasklet ref="markMeasurementOrFactRecordsTasklet" />
+			<batch:next on="COMPLETED" to="processMeasurementOrFactDecision" />
+			<batch:listeners>
+				<batch:listener ref="recordAnnotator" />
+			</batch:listeners>
+		</batch:step>
+		<batch:decision decider="processMeasurementOrFactDecider" id="processMeasurementOrFactDecision">
+			<batch:next on="true" to="processMeasurementOrFactFile" />
+			<batch:next on="false" to="deleteAbsentMeasurementOrFacts" />
+		</batch:decision>
+		<batch:step id="processMeasurementOrFactFile">
+			<batch:description>Process the extension file containing the distribution</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="measurementOrFactReader" processor="measurementOrFactProcessor"
+					writer="itemWriter" commit-interval="100" skip-limit="10000">
+					<batch:skippable-exception-classes>
+						<batch:include
+							class="org.emonocot.job.dwc.DarwinCoreProcessingException" />
+						<batch:include
+							class="org.springframework.batch.item.file.FlatFileParseException" />
+					</batch:skippable-exception-classes>
+				</batch:chunk>
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="deleteAbsentMeasurementOrFacts" />
+			<batch:listeners>
+				<batch:listener ref="measurementOrFactFieldSetMapper" />
+				<batch:listener ref="processingExceptionProcessListener" />
+				<batch:listener ref="measurementOrFactProcessor" />
+				<batch:listener ref="hibernateSessionClearingChunkListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="deleteAbsentMeasurementOrFacts">
+			<batch:description>Delete the measurement or facts which we expected to be present in the archive but which were absent</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="deleteMeasurementOrFactReader" writer="deletingWriter"
+					commit-interval="100" />
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="checkVernacularNameProcessingMode" />
+			<batch:listeners>
+				<batch:listener ref="processingExceptionProcessListener" />
+				<batch:listener ref="hibernateSessionClearingChunkListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:decision decider="vernacularNameProcessingModeDecider"	id="checkVernacularNameProcessingMode">
+			<batch:next on="IMPORT_VERNACULAR_NAME" to="markVernacularNameRecords" />
+			<batch:next on="SKIP_VERNACULAR_NAME" to="checkTypeAndSpecimenProcessingMode" />
+		</batch:decision>
+		<batch:step id="markVernacularNameRecords">
+			<batch:description>Mark the vernacular name records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
+			<batch:tasklet ref="markVernacularNameRecordsTasklet" />
+			<batch:next on="COMPLETED" to="processVernacularNameDecision" />
+			<batch:listeners>
+				<batch:listener ref="recordAnnotator" />
+			</batch:listeners>
+		</batch:step>
+		<batch:decision decider="processVernacularNameDecider" id="processVernacularNameDecision">
+			<batch:next on="true" to="processVernacularNameFile" />
+			<batch:next on="false" to="deleteAbsentVernacularNames" />
+		</batch:decision>
+		<batch:step id="processVernacularNameFile">
+			<batch:description>Process the extension file containing the vernacular names</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="vernacularNameReader" processor="vernacularNameProcessor"
+					writer="itemWriter" commit-interval="100" skip-limit="10000">
+					<batch:skippable-exception-classes>
+						<batch:include
+							class="org.emonocot.job.dwc.DarwinCoreProcessingException" />
+						<batch:include
+							class="org.springframework.batch.item.file.FlatFileParseException" />
+					</batch:skippable-exception-classes>
+				</batch:chunk>
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="deleteAbsentVernacularNames" />
+			<batch:listeners>
+				<batch:listener ref="vernacularNameFieldSetMapper" />
+				<batch:listener ref="processingExceptionProcessListener" />
+				<batch:listener ref="vernacularNameProcessor" />
+				<batch:listener ref="hibernateSessionClearingChunkListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="deleteAbsentVernacularNames">
+			<batch:description>Delete the vernacular names which we expected to be present in the archive but which were absent</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="deleteVernacularNameReader" writer="deletingWriter"
+					commit-interval="100" />
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="checkTypeAndSpecimenProcessingMode" />
+			<batch:listeners>
+				<batch:listener ref="processingExceptionProcessListener" />
+				<batch:listener ref="hibernateSessionClearingChunkListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:decision decider="typeAndSpecimenProcessingModeDecider"	id="checkTypeAndSpecimenProcessingMode">
+			<batch:next on="IMPORT_TYPE_AND_SPECIMEN" to="markTypeAndSpecimenRecords" />
+			<batch:next on="SKIP_TYPE_AND_SPECIMEN" to="cleanupResources" />
+		</batch:decision>
+		<batch:step id="markTypeAndSpecimenRecords">
+			<batch:description>Mark the type and specimen records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
+			<batch:tasklet ref="markTypeAndSpecimenRecordsTasklet" />
+			<batch:next on="COMPLETED" to="processTypeAndSpecimenDecision" />
+			<batch:listeners>
+				<batch:listener ref="recordAnnotator" />
+			</batch:listeners>
+		</batch:step>
+		<batch:decision decider="processTypeAndSpecimenDecider" id="processTypeAndSpecimenDecision">
+			<batch:next on="true" to="processTypeAndSpecimenFile" />
+			<batch:next on="false" to="deleteAbsentTypeAndSpecimens" />
+		</batch:decision>
+		<batch:step id="processTypeAndSpecimenFile">
+			<batch:description>Process the extension file containing types and specimens</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="typeAndSpecimenReader" processor="typeAndSpecimenProcessor"
+					writer="itemWriter" commit-interval="100" skip-limit="10000">
+					<batch:skippable-exception-classes>
+						<batch:include
+							class="org.emonocot.job.dwc.DarwinCoreProcessingException" />
+						<batch:include
+							class="org.springframework.batch.item.file.FlatFileParseException" />
+					</batch:skippable-exception-classes>
+				</batch:chunk>
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="deleteAbsentTypeAndSpecimens" />
+			<batch:listeners>
+				<batch:listener ref="typeAndSpecimenFieldSetMapper" />
+				<batch:listener ref="processingExceptionProcessListener" />
+				<batch:listener ref="typeAndSpecimenProcessor" />
+				<batch:listener ref="hibernateSessionClearingChunkListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="deleteAbsentTypeAndSpecimens">
+			<batch:description>Delete the types and specimens which we expected to be present in the archive but which were absent</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="deleteTypeAndSpecimenReader" writer="deletingWriter"
 					commit-interval="100" />
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="cleanupResources" />
@@ -907,8 +1103,388 @@
 			</map>
 		</property>
 	</bean>
+	
+	<!-- Distribution -->
+
+	<bean id="markDistributionRecordsTasklet"
+		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+		scope="step">
+		<property name="targetObject" ref="recordAnnotator" />
+		<property name="targetMethod" value="annotateRecords" />
+		<property name="arguments">
+			<list>
+				<value>#{jobParameters['authority.name']}</value>
+				<value>Distribution</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="distributionProcessingModeDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
+		<property name="processingModeKey" value="distribution.processing.mode" />
+		<property name="defaultProcessingMode" value="IMPORT_DISTRIBUTION" />
+	</bean>
+	
+	<bean id="processDistributionDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
+		<property name="processingModeKey" value="dwca.distribution.file" />
+	</bean>
+
+	<bean id="distributionReader" class="org.springframework.batch.item.file.FlatFileItemReader"
+		scope="step">
+		<property name="encoding"
+			value="#{jobExecutionContext['dwca.distribution.encoding']}" />
+		<property name="linesToSkip"
+			value="#{jobExecutionContext['dwca.distribution.ignoreHeaderLines']}" />
+		<property name="bufferedReaderFactory" ref="bufferedReaderFactory" />
+		<property name="resource">
+			<bean class="org.springframework.core.io.FileSystemResource"
+				scope="step">
+				<constructor-arg value="#{jobExecutionContext['dwca.distribution.file']}" />
+			</bean>
+		</property>
+		<property name="lineMapper" ref="distributionLineMapper" />
+	</bean>
+
+	<bean id="distributionProcessor" class="org.emonocot.job.dwc.distribution.Processor"
+		scope="step">
+		<property name="distributionService" ref="distributionServiceImpl" />
+		<property name="sourceName" value="#{jobParameters['authority.name']}" />
+		<property name="family" value="#{jobParameters['family']}" />
+		<property name="subfamily" value="#{jobParameters['subfamily']}" />
+		<property name="tribe" value="#{jobParameters['tribe']}" />
+		<property name="subtribe" value="#{jobParameters['subtribe']}" />
+	</bean>
+
+	<bean id="distributionLineMapper"
+		class="org.springframework.batch.item.file.mapping.DefaultLineMapper"
+		scope="step">
+		<property name="lineTokenizer" ref="distributionLineTokenizer" />
+		<property name="fieldSetMapper" ref="distributionFieldSetMapper" />
+	</bean>
+
+	<bean id="distributionLineTokenizer"
+		class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer"
+		scope="step">
+		<property name="names"
+			value="#{jobExecutionContext['dwca.distribution.fieldNames']}" />
+		<property name="delimiter"
+			value="#{jobExecutionContext['dwca.distribution.fieldsTerminatedBy']}" />
+		<property name="quoteCharacter"
+			value="#{jobExecutionContext['dwca.distribution.fieldsEnclosedBy']}" />
+		<property name="strict" value="false" />
+	</bean>
+
+	<bean id="distributionFieldSetMapper" class="org.emonocot.job.dwc.distribution.FieldSetMapper"
+		scope="step">
+		<property name="fieldNames"
+			value="#{jobExecutionContext['dwca.distribution.fieldNames']}" />
+		<property name="defaultValues"
+			value="#{jobExecutionContext['dwca.distribution.defaultValues']}" />
+		<property name="taxonService" ref="taxonServiceImpl" />
+		<property name="sourceService" ref="sourceServiceImpl" />
+		<property name="sourceName" value="#{jobParameters['authority.name']}" />
+	</bean>
+
+	<bean id="deleteDistributionReader"
+		class="org.springframework.batch.item.database.HibernateCursorItemReader"
+		scope="step">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="queryString"
+			value="select d from Distribution d join d.annotations a where a.jobId = :jobId and a.code = :code" />
+		<property name="parameterValues">
+			<map>
+				<entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
+				<entry key="code"
+					value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
+			</map>
+		</property>
+	</bean>
+	
+	<!-- MeasurementOrFact -->
+
+	<bean id="markMeasurementOrFactRecordsTasklet"
+		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+		scope="step">
+		<property name="targetObject" ref="recordAnnotator" />
+		<property name="targetMethod" value="annotateRecords" />
+		<property name="arguments">
+			<list>
+				<value>#{jobParameters['authority.name']}</value>
+				<value>MeasurementOrFact</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="measurementOrFactProcessingModeDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
+		<property name="processingModeKey" value="measurementOrFact.processing.mode" />
+		<property name="defaultProcessingMode" value="IMPORT_MEASUREMENT_OR_FACT" />
+	</bean>
+	
+	<bean id="processMeasurementOrFactDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
+		<property name="processingModeKey" value="dwca.measurementOrFact.file" />
+	</bean>
+
+	<bean id="measurementOrFactReader" class="org.springframework.batch.item.file.FlatFileItemReader"
+		scope="step">
+		<property name="encoding"
+			value="#{jobExecutionContext['dwca.measurementOrFact.encoding']}" />
+		<property name="linesToSkip"
+			value="#{jobExecutionContext['dwca.measurementOrFact.ignoreHeaderLines']}" />
+		<property name="bufferedReaderFactory" ref="bufferedReaderFactory" />
+		<property name="resource">
+			<bean class="org.springframework.core.io.FileSystemResource"
+				scope="step">
+				<constructor-arg value="#{jobExecutionContext['dwca.measurementOrFact.file']}" />
+			</bean>
+		</property>
+		<property name="lineMapper" ref="measurementOrFactLineMapper" />
+	</bean>
+
+	<bean id="measurementOrFactProcessor" class="org.emonocot.job.dwc.measurementorfact.Processor"
+		scope="step">
+		<property name="measurementOrFactService" ref="measurementOrFactServiceImpl" />
+		<property name="sourceName" value="#{jobParameters['authority.name']}" />
+		<property name="family" value="#{jobParameters['family']}" />
+		<property name="subfamily" value="#{jobParameters['subfamily']}" />
+		<property name="tribe" value="#{jobParameters['tribe']}" />
+		<property name="subtribe" value="#{jobParameters['subtribe']}" />
+	</bean>
+
+	<bean id="measurementOrFactLineMapper"
+		class="org.springframework.batch.item.file.mapping.DefaultLineMapper"
+		scope="step">
+		<property name="lineTokenizer" ref="measurementOrFactLineTokenizer" />
+		<property name="fieldSetMapper" ref="measurementOrFactFieldSetMapper" />
+	</bean>
+
+	<bean id="measurementOrFactLineTokenizer"
+		class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer"
+		scope="step">
+		<property name="names"
+			value="#{jobExecutionContext['dwca.measurementOrFact.fieldNames']}" />
+		<property name="delimiter"
+			value="#{jobExecutionContext['dwca.measurementOrFact.fieldsTerminatedBy']}" />
+		<property name="quoteCharacter"
+			value="#{jobExecutionContext['dwca.measurementOrFact.fieldsEnclosedBy']}" />
+		<property name="strict" value="false" />
+	</bean>
+
+	<bean id="measurementOrFactFieldSetMapper" class="org.emonocot.job.dwc.measurementorfact.FieldSetMapper"
+		scope="step">
+		<property name="fieldNames"
+			value="#{jobExecutionContext['dwca.measurementOrFact.fieldNames']}" />
+		<property name="defaultValues"
+			value="#{jobExecutionContext['dwca.measurementOrFact.defaultValues']}" />
+		<property name="taxonService" ref="taxonServiceImpl" />
+		<property name="sourceService" ref="sourceServiceImpl" />
+		<property name="sourceName" value="#{jobParameters['authority.name']}" />
+	</bean>
+
+	<bean id="deleteMeasurementOrFactReader"
+		class="org.springframework.batch.item.database.HibernateCursorItemReader"
+		scope="step">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="queryString"
+			value="select m from MeasurementOrFact m join m.annotations a where a.jobId = :jobId and a.code = :code" />
+		<property name="parameterValues">
+			<map>
+				<entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
+				<entry key="code"
+					value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
+			</map>
+		</property>
+	</bean>
+	
+	<!-- VernacularName -->
+
+	<bean id="markVernacularNameRecordsTasklet"
+		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+		scope="step">
+		<property name="targetObject" ref="recordAnnotator" />
+		<property name="targetMethod" value="annotateRecords" />
+		<property name="arguments">
+			<list>
+				<value>#{jobParameters['authority.name']}</value>
+				<value>VernacularName</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="vernacularNameProcessingModeDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
+		<property name="processingModeKey" value="vernacularName.processing.mode" />
+		<property name="defaultProcessingMode" value="IMPORT_VERNACULAR_NAME" />
+	</bean>
+	
+	<bean id="processVernacularNameDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
+		<property name="processingModeKey" value="dwca.vernacularName.file" />
+	</bean>
+
+	<bean id="vernacularNameReader" class="org.springframework.batch.item.file.FlatFileItemReader"
+		scope="step">
+		<property name="encoding"
+			value="#{jobExecutionContext['dwca.vernacularName.encoding']}" />
+		<property name="linesToSkip"
+			value="#{jobExecutionContext['dwca.vernacularName.ignoreHeaderLines']}" />
+		<property name="bufferedReaderFactory" ref="bufferedReaderFactory" />
+		<property name="resource">
+			<bean class="org.springframework.core.io.FileSystemResource"
+				scope="step">
+				<constructor-arg value="#{jobExecutionContext['dwca.vernacularName.file']}" />
+			</bean>
+		</property>
+		<property name="lineMapper" ref="vernacularNameLineMapper" />
+	</bean>
+
+	<bean id="vernacularNameProcessor" class="org.emonocot.job.dwc.vernacularname.Processor"
+		scope="step">
+		<property name="vernacularNameService" ref="vernacularNameServiceImpl" />
+		<property name="sourceName" value="#{jobParameters['authority.name']}" />
+		<property name="family" value="#{jobParameters['family']}" />
+		<property name="subfamily" value="#{jobParameters['subfamily']}" />
+		<property name="tribe" value="#{jobParameters['tribe']}" />
+		<property name="subtribe" value="#{jobParameters['subtribe']}" />
+	</bean>
+
+	<bean id="vernacularNameLineMapper"
+		class="org.springframework.batch.item.file.mapping.DefaultLineMapper"
+		scope="step">
+		<property name="lineTokenizer" ref="vernacularNameLineTokenizer" />
+		<property name="fieldSetMapper" ref="vernacularNameFieldSetMapper" />
+	</bean>
+
+	<bean id="vernacularNameLineTokenizer"
+		class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer"
+		scope="step">
+		<property name="names"
+			value="#{jobExecutionContext['dwca.vernacularName.fieldNames']}" />
+		<property name="delimiter"
+			value="#{jobExecutionContext['dwca.vernacularName.fieldsTerminatedBy']}" />
+		<property name="quoteCharacter"
+			value="#{jobExecutionContext['dwca.vernacularName.fieldsEnclosedBy']}" />
+		<property name="strict" value="false" />
+	</bean>
+
+	<bean id="vernacularNameFieldSetMapper" class="org.emonocot.job.dwc.vernacularname.FieldSetMapper"
+		scope="step">
+		<property name="fieldNames"
+			value="#{jobExecutionContext['dwca.vernacularName.fieldNames']}" />
+		<property name="defaultValues"
+			value="#{jobExecutionContext['dwca.vernacularName.defaultValues']}" />
+		<property name="taxonService" ref="taxonServiceImpl" />
+		<property name="sourceService" ref="sourceServiceImpl" />
+		<property name="sourceName" value="#{jobParameters['authority.name']}" />
+	</bean>
+
+	<bean id="deleteVernacularNameReader"
+		class="org.springframework.batch.item.database.HibernateCursorItemReader"
+		scope="step">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="queryString"
+			value="select v from VernacularName v join v.annotations a where a.jobId = :jobId and a.code = :code" />
+		<property name="parameterValues">
+			<map>
+				<entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
+				<entry key="code"
+					value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
+			</map>
+		</property>
+	</bean>
+	
+	<!-- TypeAndSpecimen -->
+
+	<bean id="markTypeAndSpecimenRecordsTasklet"
+		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+		scope="step">
+		<property name="targetObject" ref="recordAnnotator" />
+		<property name="targetMethod" value="annotateRecords" />
+		<property name="arguments">
+			<list>
+				<value>#{jobParameters['authority.name']}</value>
+				<value>TypeAndSpecimen</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="typeAndSpecimenProcessingModeDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
+		<property name="processingModeKey" value="typeAndSpecimen.processing.mode" />
+		<property name="defaultProcessingMode" value="IMPORT_TYPE_AND_SPECIMEN" />
+	</bean>
+	
+	<bean id="processTypeAndSpecimenDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
+		<property name="processingModeKey" value="dwca.typeAndSpecimen.file" />
+	</bean>
+
+	<bean id="typeAndSpecimenReader" class="org.springframework.batch.item.file.FlatFileItemReader"
+		scope="step">
+		<property name="encoding"
+			value="#{jobExecutionContext['dwca.typeAndSpecimen.encoding']}" />
+		<property name="linesToSkip"
+			value="#{jobExecutionContext['dwca.typeAndSpecimen.ignoreHeaderLines']}" />
+		<property name="bufferedReaderFactory" ref="bufferedReaderFactory" />
+		<property name="resource">
+			<bean class="org.springframework.core.io.FileSystemResource"
+				scope="step">
+				<constructor-arg value="#{jobExecutionContext['dwca.typeAndSpecimen.file']}" />
+			</bean>
+		</property>
+		<property name="lineMapper" ref="typeAndSpecimenLineMapper" />
+	</bean>
+
+	<bean id="typeAndSpecimenProcessor" class="org.emonocot.job.dwc.typeandspecimen.Processor"
+		scope="step">
+		<property name="sourceName" value="#{jobParameters['authority.name']}" />
+		<property name="family" value="#{jobParameters['family']}" />
+		<property name="subfamily" value="#{jobParameters['subfamily']}" />
+		<property name="tribe" value="#{jobParameters['tribe']}" />
+		<property name="subtribe" value="#{jobParameters['subtribe']}" />
+	</bean>
+
+	<bean id="typeAndSpecimenLineMapper"
+		class="org.springframework.batch.item.file.mapping.DefaultLineMapper"
+		scope="step">
+		<property name="lineTokenizer" ref="typeAndSpecimenLineTokenizer" />
+		<property name="fieldSetMapper" ref="typeAndSpecimenFieldSetMapper" />
+	</bean>
+
+	<bean id="typeAndSpecimenLineTokenizer"
+		class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer"
+		scope="step">
+		<property name="names"
+			value="#{jobExecutionContext['dwca.typeAndSpecimen.fieldNames']}" />
+		<property name="delimiter"
+			value="#{jobExecutionContext['dwca.typeAndSpecimen.fieldsTerminatedBy']}" />
+		<property name="quoteCharacter"
+			value="#{jobExecutionContext['dwca.typeAndSpecimen.fieldsEnclosedBy']}" />
+		<property name="strict" value="false" />
+	</bean>
+
+	<bean id="typeAndSpecimenFieldSetMapper" class="org.emonocot.job.dwc.typeandspecimen.FieldSetMapper"
+		scope="step">
+		<property name="fieldNames"
+			value="#{jobExecutionContext['dwca.typeAndSpecimen.fieldNames']}" />
+		<property name="defaultValues"
+			value="#{jobExecutionContext['dwca.typeAndSpecimen.defaultValues']}" />
+		<property name="taxonService" ref="taxonServiceImpl" />
+		<property name="sourceService" ref="sourceServiceImpl" />
+		<property name="sourceName" value="#{jobParameters['authority.name']}" />
+	</bean>
+
+	<bean id="deleteTypeAndSpecimenReader"
+		class="org.springframework.batch.item.database.HibernateCursorItemReader"
+		scope="step">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="queryString"
+			value="select t from TypeAndSpecimen t join t.annotations a where a.jobId = :jobId and a.code = :code" />
+		<property name="parameterValues">
+			<map>
+				<entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
+				<entry key="code"
+					value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
+			</map>
+		</property>
+	</bean>
 
 	<!-- Writing -->
+	
 	<bean id="recordAnnotator" class="org.emonocot.job.dwc.RecordAnnotator">
 		<property name="dataSource" ref="dataSource" />
 	</bean>

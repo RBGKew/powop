@@ -2,6 +2,7 @@ package org.emonocot.job.dwc.reference;
 
 import org.emonocot.api.ReferenceService;
 import org.emonocot.job.dwc.NonOwnedProcessor;
+import org.emonocot.job.dwc.RequiredFieldException;
 import org.emonocot.model.Reference;
 import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
@@ -74,5 +75,12 @@ public class Processor extends NonOwnedProcessor<Reference, ReferenceService> {
             return boundObjects.get(t.getBibliographicCitation());
         }
         return null;
+	}
+
+	@Override
+	protected void doValidate(Reference t) throws Exception {
+		if (t.getBibliographicCitation() == null) {
+            throw new RequiredFieldException(t + " has no bibliographicCitation set", RecordType.Reference, getStepExecution().getReadCount());
+        }
 	}
 }

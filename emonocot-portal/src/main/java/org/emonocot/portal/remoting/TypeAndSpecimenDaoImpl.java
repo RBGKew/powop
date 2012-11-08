@@ -12,6 +12,12 @@ public class TypeAndSpecimenDaoImpl extends DaoImpl<TypeAndSpecimen> implements
 		super(TypeAndSpecimen.class,"typeAndSpecimen");
 	}
 
+	@Override
+	public TypeAndSpecimen findByCatalogNumber(String catalogNumber) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 
 }

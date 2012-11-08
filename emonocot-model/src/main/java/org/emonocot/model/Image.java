@@ -430,6 +430,8 @@ public class Image extends SearchableObject implements NonOwned {
     	if(this.latitude != null && this.longitude != null) {
     	    GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory(null);
     	    this.location = geometryFactory.createPoint(new Coordinate(this.longitude, this.latitude));
+    	} else {
+    		this.location = null;
     	}
 	}
 

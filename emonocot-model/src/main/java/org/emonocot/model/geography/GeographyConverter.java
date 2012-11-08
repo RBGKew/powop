@@ -15,6 +15,8 @@ public class GeographyConverter implements
      */
     private static final String TDWG_VOCABULARY_PREFIX
         = "http://rs.tdwg.org/ontology/voc/GeographicRegion.rdf#";
+    
+    private static final String DWC_VOCABULARY_PREFIX = "TDWG:";
 
 
     /**
@@ -26,9 +28,16 @@ public class GeographyConverter implements
             return null;
         }
         if (identifier.startsWith(GeographyConverter.TDWG_VOCABULARY_PREFIX)) {
-            String code = identifier
-                    .substring(GeographyConverter.TDWG_VOCABULARY_PREFIX
-                            .length());
+            String code = identifier.substring(GeographyConverter.TDWG_VOCABULARY_PREFIX.length());
+            if (code.length() == 1) {
+                return Continent.fromString(code);
+            } else if (code.length() == 2) {
+                return Region.fromString(code);
+            } else if (code.length() == 3) {
+                return Country.fromString(code);
+            }
+        } else if(identifier.startsWith(GeographyConverter.DWC_VOCABULARY_PREFIX)) {
+        	String code = identifier.substring(GeographyConverter.DWC_VOCABULARY_PREFIX.length());
             if (code.length() == 1) {
                 return Continent.fromString(code);
             } else if (code.length() == 2) {

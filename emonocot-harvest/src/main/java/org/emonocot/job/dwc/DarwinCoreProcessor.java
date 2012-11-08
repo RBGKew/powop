@@ -78,7 +78,7 @@ public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityA
      */
     protected void checkTaxon(final RecordType recordType, final Base record, final Taxon taxon) throws DarwinCoreProcessingException {
     	if(taxon == null) {
-    		throw new NoTaxonException(record + " has no Taxon set", recordType, getStepExecution().getReadCount());
+    		throw new RequiredFieldException(record + " has no Taxon set", recordType, getStepExecution().getReadCount());
     	} else if(subtribe != null && (taxon.getSubtribe() == null || !taxon.getSubtribe().equals(subtribe))) {
     		throw new OutOfScopeTaxonException("Expected content to be related to " + subtribe + " but found content related to " + taxon + " which is in " + taxon.getSubtribe(),
                     recordType, getStepExecution().getReadCount());

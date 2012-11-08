@@ -29,5 +29,17 @@ public enum RecordType {
     /**
      * An identifier.
      */
-    Identifier;
+    Identifier,
+    /**
+     * A measurement or a fact
+     */
+    MeasurementOrFact,
+    /**
+     * a common name
+     */
+    VernacularName,
+    /**
+     * a type and specimen
+     */
+    TypeAndSpecimen;
 }

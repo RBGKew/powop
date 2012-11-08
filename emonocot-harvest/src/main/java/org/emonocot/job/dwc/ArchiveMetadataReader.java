@@ -144,6 +144,18 @@ public class ArchiveMetadataReader implements StepExecutionListener {
                 getMetadata(archive.getExtension(GbifTerm.Identifier),
                         "identifier", DwcTerm.taxonID);
             }
+            if (archive.getExtension(DwcTerm.MeasurementOrFact) != null) {
+            	getMetadata(archive.getExtension(DwcTerm.MeasurementOrFact),
+                        "measurementOrFact", DwcTerm.taxonID);
+            }
+            if (archive.getExtension(GbifTerm.VernacularName) != null) {
+            	getMetadata(archive.getExtension(GbifTerm.VernacularName),
+                        "vernacularName", DwcTerm.taxonID);
+            }
+            if (archive.getExtension(GbifTerm.TypesAndSpecimen) != null) {
+            	getMetadata(archive.getExtension(GbifTerm.TypesAndSpecimen),
+                        "typeAndSpecimen", DwcTerm.taxonID);
+            }
         } catch (UnsupportedArchiveException uae) {
             logger.error("Unsupported Archive Exception reading "
                     + archiveDirectoryName + " " + uae.getLocalizedMessage());

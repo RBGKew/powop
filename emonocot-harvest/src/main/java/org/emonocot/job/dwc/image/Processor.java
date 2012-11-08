@@ -164,4 +164,9 @@ public class Processor extends NonOwnedProcessor<Image, ImageService> implements
 		return boundObjects.get(t.getIdentifier());
 	}
 
+	@Override
+	protected void doValidate(Image t) throws Exception {
+		
+	}
+
 }

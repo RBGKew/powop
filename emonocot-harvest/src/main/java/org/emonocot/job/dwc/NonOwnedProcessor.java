@@ -148,6 +148,8 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 	protected abstract T retrieveBound(T t);
 
 	protected abstract T lookupBound(T t);
+	
+	protected abstract void doValidate(T t) throws Exception;
 
 	public final void afterChunk() {
         logger.info("After Chunk");

@@ -24,12 +24,18 @@ import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.gbif.ecat.voc.Rank;
 import org.gbif.ecat.voc.Sex;
 import org.gbif.ecat.voc.TypeStatus;
+import org.geotools.geometry.jts.JTSFactoryFinder;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Indexed;
+
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.Point;
 
 /**
  *
@@ -133,10 +139,24 @@ public class TypeAndSpecimen extends BaseData implements NonOwned {
     /**
      *
      */
-    private String verbatimLattitude;
+    private String verbatimLatitude;
     
     /**
      *
+     */
+    private Double decimalLatitude;
+   
+   /**
+    *
+    */
+   private Double decimalLongitude;
+   
+   /**
+    *
+    */
+   private Point location;
+    
+    /**
      * @return
      */
     private Set<Taxon> taxa = new HashSet<Taxon>();
@@ -152,6 +172,51 @@ public class TypeAndSpecimen extends BaseData implements NonOwned {
 		return id;
 	}
 	
+	/**
+	 * @return the decimalLatitude
+	 */
+	public Double getDecimalLatitude() {
+		return decimalLatitude;
+	}
+
+	/**
+	 * @param decimalLatitude the decimalLatitude to set
+	 */
+	public void setDecimalLatitude(Double decimalLatitude) {
+		this.decimalLatitude = decimalLatitude;
+		updateLocation();
+	}
+
+	/**
+	 * @return the location
+	 */
+	@Type(type = "spatialType")
+	public Point getLocation() {
+		return location;
+	}
+
+	/**
+	 * @param location the location to set
+	 */
+	public void setLocation(Point location) {
+		this.location = location;
+	}
+
+	/**
+	 * @return the decimalLongitude
+	 */
+	public Double getDecimalLongitude() {
+		return decimalLongitude;
+	}
+
+	/**
+	 * @param decimalLongitude the decimalLongitude to set
+	 */
+	public void setDecimalLongitude(Double decimalLongitude) {
+		this.decimalLongitude = decimalLongitude;
+		updateLocation();
+	}
+
 	/**
 	 *
 	 * @param id Set the id
@@ -292,12 +357,12 @@ public class TypeAndSpecimen extends BaseData implements NonOwned {
 		this.verbatimLongitude = verbatimLongitude;
 	}
 
-	public String getVerbatimLattitude() {
-		return verbatimLattitude;
+	public String getVerbatimLatitude() {
+		return verbatimLatitude;
 	}
 
-	public void setVerbatimLattitude(String verbatimLattitude) {
-		this.verbatimLattitude = verbatimLattitude;
+	public void setVerbatimLatitude(String verbatimLatitude) {
+		this.verbatimLatitude = verbatimLatitude;
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -335,4 +400,13 @@ public class TypeAndSpecimen extends BaseData implements NonOwned {
     public void setAnnotations(Set<Annotation> annotations) {
         this.annotations = annotations;
     }
+    
+    private void updateLocation() {
+    	if(this.decimalLatitude != null && this.decimalLongitude != null) {
+    	    GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory(null);
+    	    this.location = geometryFactory.createPoint(new Coordinate(this.decimalLongitude, this.decimalLatitude));
+    	} else {
+    		this.location = null;
+    	}
+	}
 }

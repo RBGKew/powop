@@ -2,6 +2,7 @@ package org.emonocot.job.dwc.description;
 
 import org.emonocot.api.DescriptionService;
 import org.emonocot.job.dwc.OwnedEntityProcessor;
+import org.emonocot.job.dwc.RequiredFieldException;
 import org.emonocot.model.Description;
 import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
@@ -28,11 +29,11 @@ public class Processor extends OwnedEntityProcessor<Description, DescriptionServ
     @Override
     protected void doValidate(Description t) {
     	if (t.getType() == null) {
-            throw new NoFeatureException(t + " has no Feature set");
+            throw new RequiredFieldException(t + " has no Feature set", RecordType.TextContent, getStepExecution().getReadCount());
         }
         
         if (t.getDescription() == null || t.getDescription().length() == 0) {
-            throw new NoContentException(t + " has no Content set");
+            throw new RequiredFieldException(t + " has no Content set", RecordType.TextContent, getStepExecution().getReadCount());
         }
     }
 

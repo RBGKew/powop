@@ -218,6 +218,19 @@ public class ProcessorImpl extends AuthorityAware implements
                 PublicationCitation protologuePublicationCitation = taxonName
                         .getPublishedInCitations().iterator().next();
                 Reference protologue = processPublicationCitation(protologuePublicationCitation);
+                // concat(Reference.title,IFNULL(Reference.volume,''),IFNULL(Taxon.protologueMicroReference,''),IFNULL(Reference.datePublished,''))
+                StringBuffer namePublishedInString = new StringBuffer();
+                namePublishedInString.append(protologuePublicationCitation.getTpubTitle());
+                if(protologuePublicationCitation.getVolume() != null) {
+                	namePublishedInString.append(" " + protologuePublicationCitation.getVolume());
+                }
+                if(taxonName.getMicroReference() != null) {
+                	namePublishedInString.append(" " + taxonName.getMicroReference());
+                }
+                if(protologuePublicationCitation.getDatePublished() != null) {
+                	namePublishedInString.append(" " + protologuePublicationCitation.getDatePublished());
+                }
+                taxon.setNamePublishedInString(namePublishedInString.toString());
                 taxon.setNamePublishedIn(protologue);
 
             }

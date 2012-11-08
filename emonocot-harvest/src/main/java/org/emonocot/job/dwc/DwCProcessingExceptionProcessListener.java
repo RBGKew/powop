@@ -25,36 +25,26 @@ import org.springframework.validation.BindException;
 public class DwCProcessingExceptionProcessListener extends
         AbstractRecordAnnotator implements ItemProcessListener<Base, Base>,
         ItemReadListener<Base>, StepExecutionListener {
-    /**
-    *
-    */
-    private Logger logger = LoggerFactory
-            .getLogger(DwCProcessingExceptionProcessListener.class);
+	
+    private Logger logger = LoggerFactory.getLogger(DwCProcessingExceptionProcessListener.class);
 
-    /**
-    *
-    */
     private StepExecution stepExecution;
 
-    /**
-    *
-    */
     private static final String PROCESS_CORE_FILE = "processCoreFile";
 
-    /**
-    *
-    */
     private static final String PROCESS_DESCRIPTION_FILE = "processDescriptionFile";
 
-    /**
-     *
-     */
     private static final String PROCESS_IMAGE_FILE = "processImageFile";
 
-    /**
-    *
-    */
     private static final String PROCESS_REFERENCE_FILE = "processReferenceFile";
+    
+    private static final String PROCESS_DISTRIBUTION_FILE = "processDistributionFile";
+    
+    private static final String PROCESS_MEASUREMENT_OR_FACT_FILE = "processMeasurementOrFactFile";
+    
+    private static final String PROCESS_VERNACULAR_NAME_FILE = "processVernacularNameFile";
+    
+    private static final String PROCESS_TYPE_AND_SPECIMEN_FILE = "processTypeAndSpecimenFile";
 
     /**
      * @param item
@@ -105,6 +95,14 @@ public class DwCProcessingExceptionProcessListener extends
             return RecordType.TextContent;
         } else if (stepName.equals(PROCESS_REFERENCE_FILE)) {
             return RecordType.Reference;
+        } else if (stepName.equals(PROCESS_DISTRIBUTION_FILE)) {
+            return RecordType.Distribution;
+        } else if (stepName.equals(PROCESS_MEASUREMENT_OR_FACT_FILE)) {
+            return RecordType.MeasurementOrFact;
+        } else if (stepName.equals(PROCESS_VERNACULAR_NAME_FILE)) {
+            return RecordType.VernacularName;
+        } else if (stepName.equals(PROCESS_TYPE_AND_SPECIMEN_FILE)) {
+            return RecordType.TypeAndSpecimen;
         }
         return null;
     }

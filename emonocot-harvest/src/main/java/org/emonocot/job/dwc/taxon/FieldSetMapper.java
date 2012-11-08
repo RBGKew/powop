@@ -27,7 +27,6 @@ import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionException;
-import org.springframework.core.convert.ConversionService;
 import org.springframework.validation.BindException;
 import org.tdwg.voc.TaxonRelationshipTerm;
 
@@ -48,9 +47,7 @@ public class FieldSetMapper extends
     /**
      *
      */
-    private boolean resolveRelationships = false;
-    
-    private ConversionService conversionService = null;
+    private boolean resolveRelationships = false;  
 
     /**
      *
@@ -91,11 +88,6 @@ public class FieldSetMapper extends
     public final void setTaxonRelationshipResolver(
             final TaxonRelationshipResolver resolver) {
         this.taxonRelationshipResolver = resolver;
-    }
-    
-    @Autowired
-    public final void setConversionService(ConversionService conversionService) {
-    	this.conversionService = conversionService;
     }
 
     /**
