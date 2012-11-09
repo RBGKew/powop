@@ -8,12 +8,6 @@ import org.emonocot.model.Base;
 import org.emonocot.model.hibernate.DateTimeBridge;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
-import org.hibernate.search.annotations.Analyzer;
-import org.hibernate.search.annotations.DocumentId;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.FieldBridge;
-import org.hibernate.search.annotations.Index;
-import org.hibernate.search.annotations.Parameter;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
 
@@ -49,7 +43,6 @@ public abstract class Principal extends Base {
      *
      * @return The unique identifier of the object
      */
-    @Field(analyzer = @Analyzer(definition = "facetAnalyzer"), index = Index.UN_TOKENIZED)
     @NaturalId
     @NotEmpty
     public String getIdentifier() {
@@ -80,7 +73,6 @@ public abstract class Principal extends Base {
      */
     @Id
     @GeneratedValue(generator = "system-increment")
-    @DocumentId
     public Long getId() {
         return id;
     }
@@ -90,7 +82,6 @@ public abstract class Principal extends Base {
      * @return the date this principal was created
      */
     @Type(type = "dateTimeUserType")
-    @FieldBridge(impl = DateTimeBridge.class, params = { @Parameter(name = "resolution", value = "MILLISECOND") })
     public DateTime getCreated() {
         return created;
     }
@@ -109,7 +100,6 @@ public abstract class Principal extends Base {
      * @return the date this princpal was modified
      */
     @Type(type = "dateTimeUserType")
-    @FieldBridge(impl = DateTimeBridge.class, params = { @Parameter(name = "resolution", value = "MILLISECOND") })
     public DateTime getModified() {
         return modified;
     }

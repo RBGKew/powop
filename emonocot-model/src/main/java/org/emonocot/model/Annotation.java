@@ -18,8 +18,6 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
-import org.emonocot.model.hibernate.AnnotatedObjBridge;
-import org.emonocot.model.hibernate.DateTimeBridge;
 import org.emonocot.model.marshall.json.AnnotatableObjectDeserializer;
 import org.emonocot.model.marshall.json.AnnotatableObjectSerializer;
 import org.emonocot.model.marshall.json.SourceDeserializer;
@@ -28,13 +26,6 @@ import org.hibernate.annotations.Any;
 import org.hibernate.annotations.AnyMetaDef;
 import org.hibernate.annotations.MetaValue;
 import org.hibernate.annotations.Type;
-import org.hibernate.search.annotations.Analyzer;
-import org.hibernate.search.annotations.DocumentId;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.FieldBridge;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.IndexedEmbedded;
-import org.hibernate.search.annotations.Parameter;
 import org.joda.time.DateTime;
 
 /**
@@ -43,7 +34,6 @@ import org.joda.time.DateTime;
  *
  */
 @Entity
-@Indexed
 public class Annotation extends Base {
 
    /**
@@ -113,7 +103,6 @@ public class Annotation extends Base {
      * @return the id
      */
     @Id
-    @DocumentId
     @GeneratedValue(generator = "annotation-sequence")
     public Long getId() {
         return id;
@@ -133,7 +122,6 @@ public class Annotation extends Base {
      */
     @JsonSerialize(using = SourceSerializer.class)
     @ManyToOne(fetch = FetchType.LAZY)
-    @IndexedEmbedded
     public Source getAuthority() {
         return authority;
     }
@@ -149,8 +137,6 @@ public class Annotation extends Base {
     /**
      * @return the type
      */
-    @Field(analyzer = @Analyzer(
-            definition =  "facetAnalyzer"))
     @Enumerated(value = EnumType.STRING)
     public AnnotationType getType() {
         return type;
@@ -177,7 +163,6 @@ public class Annotation extends Base {
             @MetaValue(targetEntity = Reference.class, value = "Reference")
             })
     @JoinColumn(name = "annotatedObjId", nullable = true)
-    @FieldBridge(impl = AnnotatedObjBridge.class)
     @JsonSerialize(using = AnnotatableObjectSerializer.class)
     public Base getAnnotatedObj() {
         return annotatedObj;
@@ -195,7 +180,6 @@ public class Annotation extends Base {
     /**
      * @return the jobId
      */
-    @Field
     public Long getJobId() {
         return jobId;
     }
@@ -219,7 +203,6 @@ public class Annotation extends Base {
     /**
      * @return the text
      */
-    @Field
     @Lob
     public String getText() {
         return text;
@@ -235,8 +218,6 @@ public class Annotation extends Base {
     /**
      * @return the code
      */
-    @Field(analyzer = @Analyzer(
-            definition =  "facetAnalyzer"))
     @Enumerated(value = EnumType.STRING)
     public AnnotationCode getCode() {
         return code;
@@ -245,8 +226,6 @@ public class Annotation extends Base {
     /**
      * @return the record type
      */
-    @Field(analyzer = @Analyzer(
-            definition =  "facetAnalyzer"))
     @Enumerated(value = EnumType.STRING)
     public RecordType getRecordType() {
         return recordType;
@@ -262,9 +241,6 @@ public class Annotation extends Base {
     /**
      * @return the dateTime
      */
-    @FieldBridge(impl = DateTimeBridge.class, params = {
-        @Parameter(name = "resolution", value = "MILLISECOND")
-    })
     @Type(type = "olapDateTime")
     public DateTime getDateTime() {
         return dateTime;
@@ -280,7 +256,6 @@ public class Annotation extends Base {
     /**
      * @return the value
      */
-    @Field
     public String getValue() {
         return value;
     }

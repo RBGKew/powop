@@ -1,14 +1,13 @@
 package org.emonocot.persistence;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.emonocot.api.FacetName;
+import org.apache.solr.client.solrj.response.FacetField;
+import org.apache.solr.client.solrj.response.FacetField.Count;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Source;
 import org.emonocot.model.Taxon;
@@ -21,12 +20,9 @@ import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.Region;
 import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.AnnotationDao;
-import org.hibernate.search.query.facet.Facet;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.batch.core.JobInstance;
-import org.springframework.batch.core.JobParameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
@@ -105,42 +101,45 @@ public class AnnotationDaoTest extends AbstractPersistenceTest {
    @Test
    public final void testGetJobExecutions() {
        assertNotNull(annotationDao);
-       FacetName[] facets = new FacetName[] {
-    		   FacetName.AUTHORITY,
-    		   FacetName.JOB_INSTANCE,
-    		   FacetName.ERROR_CODE,
-    		   FacetName.RECORD_TYPE
+       String[] facets = new String[] {
+    		   "base.authority_s",
+    		   "annotation.job_id_l",
+    		   "annotation.type_t",
+    		   "annotation.record_type_t"
        };
-       Map<FacetName,String> selectedFacets = new HashMap<FacetName, String>();
-       selectedFacets.put(FacetName.AUTHORITY, "WCS");
-       selectedFacets.put(FacetName.JOB_INSTANCE, "1");
+       Map<String,String> selectedFacets = new HashMap<String, String>();
+       selectedFacets.put("base.authority_s", "WCS");
+       selectedFacets.put("annotation.job_id_l", "1");
        Page<Annotation> results = annotationDao.search(null, null, null, null, facets, selectedFacets, null, null);
        for(String facetName : results.getFacetNames()) {
     	   System.out.println(facetName);
-    	   for(Facet facet : results.getFacets().get(facetName)) {
-    		   System.out.println("\t" + facet.getValue() + " " + facet.getCount());
+    	   FacetField facet = results.getFacetField(facetName);
+    	   for(Count count : facet.getValues()) {
+    		   System.out.println("\t" + count.getName() + " " + count.getCount());
     	   }
        }
        assertFalse(results.getRecords().isEmpty());
        
        selectedFacets.clear();
-       selectedFacets.put(FacetName.JOB_INSTANCE, "1");
+       selectedFacets.put("annotation.job_id_l", "1");
        results = annotationDao.search(null, null, null, null, facets, selectedFacets, null, null);
        for(String facetName : results.getFacetNames()) {
     	   System.out.println(facetName);
-    	   for(Facet facet : results.getFacets().get(facetName)) {
-    		   System.out.println("\t" + facet.getValue() + " " + facet.getCount());
+    	   FacetField facet = results.getFacetField(facetName);
+    	   for(Count count : facet.getValues()) {
+    		   System.out.println("\t" + count.getName() + " " + count.getCount());
     	   }
        }
        selectedFacets.clear();
-       selectedFacets.put(FacetName.JOB_INSTANCE, "1");
-       selectedFacets.put(FacetName.RECORD_TYPE, "Taxon");
-       selectedFacets.put(FacetName.ERROR_CODE, "Create");
+       selectedFacets.put("annotation.job_id_l", "1");
+       selectedFacets.put("annotation.record_type_t", "Taxon");
+       selectedFacets.put("annotation.type_t", "Create");
        results = annotationDao.search(null, null, null, null, facets, selectedFacets, null, null);
        for(String facetName : results.getFacetNames()) {
     	   System.out.println(facetName);
-    	   for(Facet facet : results.getFacets().get(facetName)) {
-    		   System.out.println("\t" + facet.getValue() + " " + facet.getCount());
+    	   FacetField facet = results.getFacetField(facetName);
+    	   for(Count count : facet.getValues()) {
+    		   System.out.println("\t" + count.getName() + " " + count.getCount());
     	   }
        }
 

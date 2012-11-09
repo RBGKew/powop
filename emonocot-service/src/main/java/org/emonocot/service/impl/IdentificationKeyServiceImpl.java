@@ -25,13 +25,4 @@ public class IdentificationKeyServiceImpl extends
             final IdentificationKeyDao newIdentificationKeyDao) {
         super.dao = newIdentificationKeyDao;
     }
-
-   /**
-    *
-    * @param source Set the source of the identification key
-    * @return an identification key
-    */
-    public final IdentificationKey findBySource(final String source) {
-        return dao.findBySource(source);
-    }
 }

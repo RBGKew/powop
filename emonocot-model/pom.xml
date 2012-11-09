@@ -37,6 +37,10 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+		</dependency>		
+		<dependency>
+			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
 		</dependency>
 		<dependency>
@@ -68,10 +72,10 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-search</artifactId>
-		</dependency>
+	    <dependency>
+	      <groupId>org.apache.solr</groupId>
+	      <artifactId>solr-solrj</artifactId>
+        </dependency>
 		<dependency>
 			<groupId>com.vividsolutions</groupId>
 			<artifactId>jts</artifactId>
@@ -79,6 +83,14 @@
 		<dependency>
            <groupId>org.geotools</groupId>
            <artifactId>gt-main</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.geotools</groupId>
+          <artifactId>gt-shapefile</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.geotools</groupId>
+          <artifactId>gt-epsg-hsql</artifactId>
         </dependency>
 		<dependency>
 			<groupId>joda-time</groupId>
@@ -151,14 +163,6 @@
 	    <dependency>
 	      <groupId>org.gbif</groupId>
           <artifactId>ecat-common</artifactId>
-	    </dependency>
-	    <dependency>
-			<groupId>org.apache.lucene.spatial</groupId>
-			<artifactId>org.emonocot.spatial-lucene</artifactId>
-	    </dependency>
-	    <dependency>
-			  <groupId>org.apache.lucene.spatial</groupId>
-			  <artifactId>org.emonocot.spatial-extras-base</artifactId>
 	    </dependency>
 	</dependencies>
 	<build>

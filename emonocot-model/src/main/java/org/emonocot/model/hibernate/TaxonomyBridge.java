@@ -3,11 +3,11 @@ package org.emonocot.model.hibernate;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
+//import org.apache.lucene.document.Document;
+//import org.apache.lucene.document.Field;
 import org.emonocot.model.Taxon;
-import org.hibernate.search.bridge.FieldBridge;
-import org.hibernate.search.bridge.LuceneOptions;
+//import org.hibernate.search.bridge.FieldBridge;
+//import org.hibernate.search.bridge.LuceneOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,34 +18,36 @@ import org.slf4j.LoggerFactory;
  * 
  * @author ben
  */
-public class TaxonomyBridge implements FieldBridge {
+public class TaxonomyBridge
+//implements FieldBridge 
+{
 
     private static Logger logger = LoggerFactory
             .getLogger(TaxonomyBridge.class);
 
-    /**
-     * @param name
-     *            Set the name of the field
-     * @param value
-     *            Set the value to be indexed
-     * @param document
-     *            Set the lucene document
-     * @param luceneOptions
-     *            Set the options for indexing
-     */
-    public final void set(final String name, final Object value,
-            final Document document, final LuceneOptions luceneOptions) {
-
-        Taxon taxon = reflectiveGetTaxon(value);
-        if (taxon != null && taxon.getFamily() != null
-                && taxon.getFamily().trim().length() > 0) {
-            Field familyField = new Field("family", taxon.getFamily(),
-                    luceneOptions.getStore(), luceneOptions.getIndex(),
-                    luceneOptions.getTermVector());
-            familyField.setBoost(luceneOptions.getBoost());
-            document.add(familyField);
-        }
-    }
+//    /**
+//     * @param name
+//     *            Set the name of the field
+//     * @param value
+//     *            Set the value to be indexed
+//     * @param document
+//     *            Set the lucene document
+//     * @param luceneOptions
+//     *            Set the options for indexing
+//     */
+//    public final void set(final String name, final Object value,
+//            final Document document, final LuceneOptions luceneOptions) {
+//
+//        Taxon taxon = reflectiveGetTaxon(value);
+//        if (taxon != null && taxon.getFamily() != null
+//                && taxon.getFamily().trim().length() > 0) {
+//            Field familyField = new Field("family", taxon.getFamily(),
+//                    luceneOptions.getStore(), luceneOptions.getIndex(),
+//                    luceneOptions.getTermVector());
+//            familyField.setBoost(luceneOptions.getBoost());
+//            document.add(familyField);
+//        }
+//    }
 
     /**
      * @param o

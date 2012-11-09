@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocumentList;
+import org.apache.solr.common.params.ModifiableSolrParams;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Image;
 import org.emonocot.model.Reference;
@@ -20,8 +24,6 @@ import org.emonocot.persistence.dao.TaxonDao;
 import org.emonocot.test.DataManagementSupport;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.search.FullTextSession;
-import org.hibernate.search.Search;
 import org.junit.runner.RunWith;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
@@ -99,6 +101,9 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
      */
     @Autowired
     SearchableObjectDao searchableObjectDao;
+    
+    @Autowired
+    SolrServer solrServer;
 
     /**
      * @param task
@@ -141,10 +146,19 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
 
         doInTransaction(new Callable() {
             public Object call() throws Exception {
-                FullTextSession fullTextSession = Search
-                        .getFullTextSession(getSession());
-                fullTextSession.purgeAll(Taxon.class);
-                fullTextSession.purgeAll(Image.class);
+            	ModifiableSolrParams params = new ModifiableSolrParams();
+            	params.add("q","*:*");
+            	params.add("df", "id");
+            	QueryResponse queryResponse = solrServer.query(params);
+            	SolrDocumentList solrDocumentList = queryResponse.getResults();
+            	List<String> documentsToDelete = new ArrayList<String>();
+            	for(int i = 0; i < solrDocumentList.size(); i++) {
+            		documentsToDelete.add(solrDocumentList.get(i).getFirstValue("id").toString());
+            	}
+            	if(!documentsToDelete.isEmpty()) {
+            	    solrServer.deleteById(documentsToDelete);
+            	    solrServer.commit();
+            	}
                 setUpTestData();
                 for (Object obj : getSetUp()) {
                     if (obj.getClass().equals(Taxon.class)) {

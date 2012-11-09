@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.emonocot.api.Sorting;
-import org.hibernate.search.query.facet.Facet;
+import org.apache.solr.client.solrj.response.FacetField;
+import org.apache.solr.client.solrj.response.QueryResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -95,8 +95,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
     /**
      *
      */
-    private Map<String, List<Facet>> facets
-        = new HashMap<String, List<Facet>>();
+    private QueryResponse queryResponse = null;
 
     /**
      *
@@ -117,7 +116,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
     /**
      *
      */
-    private Sorting sort;
+    private String sort;
 
     /**
      * Constructor.
@@ -134,13 +133,14 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      *            results)
      */
     public AbstractPageImpl(final Integer count, final Integer newCurrentIndex,
-            final Integer newPageSize, final List<T> newRecords) {
+            final Integer newPageSize, final List<T> newRecords, QueryResponse queryResponse) {
         if (newCurrentIndex != null) {
             this.currentIndex = newCurrentIndex;
         } else {
             this.currentIndex = 0;
         }
-
+        
+        this.queryResponse = queryResponse;
         this.pageSize = newPageSize;
         this.pageNumbers = new HashMap<Integer, String>();
         indices = new ArrayList<Integer>();
@@ -317,19 +317,10 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
     }
 
     /**
-     * @param facetName Set the facet name
-     * @param newFacets set the calculated facets
-     */
-    public final void addFacets(
-            final String facetName, final List<Facet> newFacets) {
-        this.facets.put(facetName, newFacets);
-    }
-
-    /**
      * @return a map of the calculated facets
      */
-    public final Map<String, List<Facet>> getFacets() {
-        return facets;
+    public final FacetField getFacetField(String facetName) {
+        return queryResponse.getFacetField(facetName);
     }
 
     /**
@@ -337,7 +328,9 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      */
     public final List<String> getFacetNames() {
         List<String> facetNames = new ArrayList<String>();
-        facetNames.addAll(facets.keySet());
+        for(FacetField facetField : queryResponse.getFacetFields()) {
+        	facetNames.add(facetField.getName());
+        }
         Collections.sort(facetNames, new FacetNameComparator());
         return facetNames;
     }
@@ -431,22 +424,21 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      * @param selected
      *            Set the index of the selected facet
      */
-    public final void setSelectedFacet(final String facetName,
-            final String selected) {
-        selectedFacets.put(facetName, selected);
+    public final void setSelectedFacets(Map<String,String> selectedFacets) {
+        this.selectedFacets = selectedFacets;
     }
 
     /**
      * @return the sort
      */
-    public final Sorting getSort() {
+    public final String getSort() {
         return sort;
     }
 
     /**
      * @param newSort set the sorting
      */
-    public final void setSort(final Sorting newSort) {
+    public final void setSort(final String newSort) {
         this.sort = newSort;
     }
 }

@@ -17,12 +17,6 @@ import org.emonocot.model.marshall.json.SourceDeserializer;
 import org.emonocot.model.marshall.json.SourceSerializer;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
-import org.hibernate.search.annotations.Analyzer;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.FieldBridge;
-import org.hibernate.search.annotations.Index;
-import org.hibernate.search.annotations.IndexedEmbedded;
-import org.hibernate.search.annotations.Parameter;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
 
@@ -84,8 +78,6 @@ public abstract class BaseData extends Base implements Annotated {
     *
     * @return The unique identifier of the object
     */
-   @Field(analyzer = @Analyzer(
-           definition =  "facetAnalyzer"), index = Index.UN_TOKENIZED)
    @NaturalId
    @NotEmpty
    public String getIdentifier() {
@@ -141,7 +133,6 @@ public abstract class BaseData extends Base implements Annotated {
      *
      * @return Get the license of this object.
      */
-    @Field
     public String getLicense() {
         return license;
     }
@@ -151,10 +142,6 @@ public abstract class BaseData extends Base implements Annotated {
      * @return Get the time this object was created.
      */
     @Type(type="dateTimeUserType")
-    @Field(index = Index.UN_TOKENIZED)
-    @FieldBridge(impl = DateTimeBridge.class, params = {
-        @Parameter(name = "resolution", value = "MILLISECOND")
-    })
     @JsonSerialize(using = DateTimeSerializer.class)
     public DateTime getCreated() {
         return created;
@@ -165,10 +152,6 @@ public abstract class BaseData extends Base implements Annotated {
      * @return Get the time this object was last modified.
      */
     @Type(type="dateTimeUserType")
-    @Field(index = Index.UN_TOKENIZED)
-    @FieldBridge(impl = DateTimeBridge.class, params = {
-        @Parameter(name = "resolution", value = "MILLISECOND")
-    })
     @JsonSerialize(using = DateTimeSerializer.class)
     public DateTime getModified() {
         return modified;

@@ -182,10 +182,10 @@ public abstract class ServiceImpl<T extends Base, DAO extends Dao<T>>
         Long numberOfResults = dao.count();
         if (numberOfResults == 0) {
             return new DefaultPageImpl<T>(numberOfResults.intValue(), page,
-                    size, new ArrayList<T>());
+                    size, new ArrayList<T>(), null);
         } else {
             return new DefaultPageImpl<T>(numberOfResults.intValue(), page,
-                    size, dao.list(page, size));
+                    size, dao.list(page, size), null);
         }
     }
 }

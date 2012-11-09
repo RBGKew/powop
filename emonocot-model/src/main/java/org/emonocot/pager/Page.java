@@ -4,8 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.emonocot.api.Sorting;
-import org.hibernate.search.query.facet.Facet;
+import org.apache.solr.client.solrj.response.FacetField;
 
 /**
  * Abstract class that represents a single page in a set of objects returned
@@ -88,18 +87,10 @@ public interface Page<T> {
     List<T> getRecords();
 
     /**
-     * Add a list of facets under a particular name.
-     *
-     * @param facetName the name of the facet
-     * @param facets Set the facets
-     */
-    void addFacets(String facetName, List<Facet> facets);
-
-    /**
      *
      * @return a map of facet lists organised by the name of the facet
      */
-    Map<String, List<Facet>> getFacets();
+    FacetField getFacetField(String facetName);
 
    /**
     *
@@ -173,16 +164,16 @@ public interface Page<T> {
    * @param facetName Set the facet name
    * @param selected Set the selected facet
    */
-  void setSelectedFacet(String facetName, String selected);
+  void setSelectedFacets(Map<String,String> selectedFacets);
 
   /**
    *
    * @return the sorting
    */
-  Sorting getSort();
+  String getSort();
 
   /**
    * @param newSort set the sorting
    */
-  void setSort(Sorting newSort);
+  void setSort(String newSort);
 }

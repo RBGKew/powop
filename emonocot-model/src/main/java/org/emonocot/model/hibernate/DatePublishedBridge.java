@@ -1,13 +1,15 @@
 package org.emonocot.model.hibernate;
 
-import org.hibernate.search.bridge.StringBridge;
+//import org.hibernate.search.bridge.StringBridge;
 
 /**
  *
  * @author ben
  *
  */
-public class DatePublishedBridge implements StringBridge {
+public class DatePublishedBridge
+//implements StringBridge 
+{
 
     /**
      * @param o set the object

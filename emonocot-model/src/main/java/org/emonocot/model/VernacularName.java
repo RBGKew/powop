@@ -24,12 +24,8 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
-import org.hibernate.search.annotations.ContainedIn;
-import org.hibernate.search.annotations.DocumentId;
-import org.hibernate.search.annotations.Indexed;
 
 @Entity
-@Indexed
 public class VernacularName extends OwnedEntity {
 	
 	private static final long serialVersionUID = 5439026066792559240L;
@@ -128,7 +124,6 @@ public class VernacularName extends OwnedEntity {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-    @ContainedIn
     @JsonBackReference("vernacularNames-taxon")
 	public Taxon getTaxon() {
 		return taxon;
@@ -142,7 +137,6 @@ public class VernacularName extends OwnedEntity {
 	@Override
 	@Id
     @GeneratedValue(generator = "system-increment")
-    @DocumentId
 	public Long getId() {
 		return id;
 	}

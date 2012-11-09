@@ -17,11 +17,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.constants.ImageFormat;
-import org.emonocot.model.hibernate.TaxonomyBridge;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.geotools.geometry.jts.JTSFactoryFinder;
@@ -29,14 +29,6 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
-import org.hibernate.search.annotations.Analyzer;
-import org.hibernate.search.annotations.ClassBridge;
-import org.hibernate.search.annotations.DocumentId;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Fields;
-import org.hibernate.search.annotations.Index;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.IndexedEmbedded;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
@@ -48,9 +40,6 @@ import com.vividsolutions.jts.geom.Point;
  *
  */
 @Entity
-@Indexed(index = "org.emonocot.model.common.SearchableObject")
-@ClassBridge(name = "taxon", impl = TaxonomyBridge.class, index = Index.UN_TOKENIZED,
-        analyzer = @Analyzer(definition = "facetAnalyzer"))
 public class Image extends SearchableObject implements NonOwned {
     /**
      *
@@ -177,7 +166,6 @@ public class Image extends SearchableObject implements NonOwned {
     * @return the description
     */
    @Lob
-   @Field
    public String getDescription() {
        return description;
    }
@@ -194,7 +182,6 @@ public class Image extends SearchableObject implements NonOwned {
     * REMEMBER: spatial is a reserved word in mysql!
     * @return the location as a string
     */
-   @Field
    @Column(name = "locality")
    public String getSpatial() {
        return spatial;
@@ -229,7 +216,6 @@ public class Image extends SearchableObject implements NonOwned {
     *
     * @return the keywords as a string, comma separated
     */
-   @Field
    public String getSubject() {
        return subject;
    }
@@ -274,7 +260,6 @@ public class Image extends SearchableObject implements NonOwned {
      */
     @Id
     @GeneratedValue(generator = "system-increment")
-    @DocumentId
     public Long getId() {
         return id;
     }
@@ -283,7 +268,6 @@ public class Image extends SearchableObject implements NonOwned {
      *
      * @return the caption
      */
-    @Fields({ @Field, @Field(name = "label", index = Index.UN_TOKENIZED) })
     public String getTitle() {
         return title;
     }
@@ -376,7 +360,6 @@ public class Image extends SearchableObject implements NonOwned {
      * @return the taxon this image is of
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @IndexedEmbedded
     public Taxon getTaxon() {
         return taxon;
     }
@@ -441,5 +424,14 @@ public class Image extends SearchableObject implements NonOwned {
      */
     public void setAnnotations(Set<Annotation> annotations) {
         this.annotations = annotations;
+    }
+    
+    @Override
+    public SolrInputDocument toSolrInputDocument() {
+    	SolrInputDocument sid = super.toSolrInputDocument();
+        sid.addField("id", "image_" + getId());
+    	sid.addField("base.id_l", getId());
+    	sid.addField("base.class_s", "org.emonocot.model.Image");
+    	return sid;
     }
 }

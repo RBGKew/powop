@@ -2,8 +2,6 @@ package org.emonocot.persistence.dao;
 
 import java.util.Map;
 
-import org.emonocot.api.FacetName;
-import org.emonocot.api.Sorting;
 import org.emonocot.model.Base;
 import org.emonocot.pager.Page;
 
@@ -34,8 +32,8 @@ public interface SearchableDao<T extends Base> extends Dao<T> {
      * @return a Page from the resultset
      */
     Page<T> search(String query, String spatialQuery, Integer pageSize,
-            Integer pageNumber, FacetName[] facets,
-            Map<FacetName, String> selectedFacets, Sorting sort, String fetch);
+            Integer pageNumber, String[] facets,
+            Map<String, String> selectedFacets, String sort, String fetch);
 
     /**
      * @param example

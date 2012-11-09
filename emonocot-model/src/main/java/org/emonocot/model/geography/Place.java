@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.emonocot.model.geography;
 
 import java.util.HashSet;
@@ -14,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -25,11 +23,6 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
-import org.hibernate.search.annotations.DocumentId;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Fields;
-import org.hibernate.search.annotations.Index;
-import org.hibernate.search.annotations.Indexed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +38,6 @@ import com.vividsolutions.jts.geom.Polygon;
  *
  */
 @Entity
-@Indexed(index = "org.emonocot.model.common.SearchableObject")
 public class Place extends SearchableObject {
 
     /**
@@ -88,17 +80,9 @@ public class Place extends SearchableObject {
 	
 	private Set<Annotation> annotations = new HashSet<Annotation>();
 
-	/**
-	 * The smallest rectangle that bounds the place.
-	 * TODO: It is persisted to  optimise querying   
-	 */
 
-	/* (non-Javadoc)
-	 * @see org.emonocot.model.common.SecuredObject#getId()
-	 */
     @Id
     @GeneratedValue(generator = "system-increment")
-    @DocumentId
 	public Long getId() {
 		return id;
 	}
@@ -113,7 +97,6 @@ public class Place extends SearchableObject {
 	/**
 	 * @return the name
 	 */
-    @Fields(value={@Field, @Field(name="label", index=Index.UN_TOKENIZED)})
 	public String getTitle() {
 		return title;
 	}
@@ -233,4 +216,12 @@ public class Place extends SearchableObject {
         this.annotations = annotations;
     }
 
+    @Override
+    public SolrInputDocument toSolrInputDocument() {
+    	SolrInputDocument sid = super.toSolrInputDocument();
+        sid.addField("id", "place_" + getId());
+    	sid.addField("base.id_l", getId());
+    	sid.addField("base.class_s", "org.emonocot.model.geography.Place");
+    	return sid;
+    }
 }

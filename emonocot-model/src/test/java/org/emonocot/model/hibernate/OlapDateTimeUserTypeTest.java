@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 import org.easymock.EasyMock;
-import org.hibernate.type.StandardBasicTypes;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;

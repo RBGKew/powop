@@ -24,14 +24,16 @@
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.7</java.version>
 		<spring.version>3.1.0.RELEASE</spring.version>
-		<hibernate.version>3.6.2.Final</hibernate.version>
+		<hibernate.version>3.6.7.Final</hibernate.version>
 		<spring.security.version>3.1.0.RELEASE</spring.security.version>
 		<spring.batch.version>2.1.8.RELEASE</spring.batch.version>
 		<spring.batch.admin.version>1.2.0.RELEASE</spring.batch.admin.version>
 		<spring.integration.version>2.1.0.RELEASE</spring.integration.version>
-		<lucene.version>3.1.0</lucene.version>
+		<lucene.version>4.0.0</lucene.version>
 		<geotools.version>2.7.0</geotools.version>
+		<aspectj.version>1.6.12</aspectj.version>
 		<skip.global.tests>true</skip.global.tests>
 	</properties>
 	<issueManagement>
@@ -127,6 +129,11 @@
 				<artifactId>spring-orm</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
+		    <dependency>
+			  <groupId>org.springframework</groupId>
+			  <artifactId>spring-aspects</artifactId>
+			  <version>${spring.version}</version>
+		    </dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-aop</artifactId>
@@ -275,6 +282,11 @@
 				<version>${hibernate.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>org.hibernate.javax.persistence</groupId>
 				<artifactId>hibernate-jpa-2.0-api</artifactId>
 				<version>1.0.0.Final</version>
@@ -283,11 +295,6 @@
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-validator</artifactId>
 				<version>4.2.0.Final</version>
-			</dependency>
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-search</artifactId>
-				<version>3.4.1.Final</version>
 			</dependency>
 			<dependency>
 				<groupId>org.hibernatespatial</groupId>
@@ -304,57 +311,32 @@
 				<artifactId>hibernate-spatial-h2-geodb</artifactId>
 				<version>1.1</version>
 				<scope>test</scope>
-			</dependency>
+			</dependency>			
 			<dependency>
-				<groupId>org.apache.lucene</groupId>
-				<artifactId>lucene-core</artifactId>
-				<version>${lucene.version}</version>
-			</dependency>
+			    <groupId>org.aspectj</groupId>
+			    <artifactId>aspectjrt</artifactId>
+			    <version>${aspectj.version}</version>
+		    </dependency>
+		    <dependency>
+			    <groupId>org.aspectj</groupId>
+			    <artifactId>aspectjweaver</artifactId>
+			    <version>${aspectj.version}</version>
+		    </dependency>
 			<dependency>
-				<groupId>org.apache.lucene</groupId>
-				<artifactId>lucene-queries</artifactId>
-				<version>${lucene.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.lucene</groupId>
-				<artifactId>lucene-analyzers</artifactId>
-				<version>${lucene.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.lucene</groupId>
-				<artifactId>lucene-highlighter</artifactId>
-				<version>${lucene.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.lucene</groupId>
-				<artifactId>lucene-memory</artifactId>
-				<version>${lucene.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.lucene</groupId>
-				<artifactId>lucene-misc</artifactId>
-				<version>${lucene.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.lucene</groupId>
-				<artifactId>lucene-spatial</artifactId>
-				<version>${lucene.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.lucene</groupId>
-				<artifactId>lucene-spellchecker</artifactId>
-				<version>${lucene.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.lucene</groupId>
-				<artifactId>lucene-smartcn</artifactId>
-				<version>${lucene.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.lucene</groupId>
-				<artifactId>lucene-stempel</artifactId>
-				<version>${lucene.version}</version>
-			</dependency>
+	          <groupId>org.apache.solr</groupId>
+	          <artifactId>solr-solrj</artifactId>
+	          <version>${lucene.version}</version>
+            </dependency>
+            <dependency>
+	          <groupId>org.apache.solr</groupId>
+	          <artifactId>solr-core</artifactId>
+	          <version>${lucene.version}</version>
+            </dependency>
+            <dependency>
+	          <groupId>org.apache.lucene</groupId>
+	          <artifactId>lucene-core</artifactId>
+	          <version>${lucene.version}</version>
+            </dependency>            
 			<dependency>
 				<groupId>org.joda</groupId>
 				<artifactId>com.springsource.org.joda.time</artifactId>
@@ -736,29 +718,15 @@
 				<version>${geotools.version}</version>
 			</dependency>
 			<dependency>
+              <groupId>org.geotools</groupId>
+              <artifactId>gt-shapefile</artifactId>
+              <version>${geotools.version}</version>
+            </dependency>
+			<dependency>
 				<groupId>org.geotools</groupId>
 				<artifactId>gt-epsg-hsql</artifactId>
 				<version>${geotools.version}</version>
-			</dependency>
-			<!-- Required for ANT build / deploy -->
-			<dependency>
-				<groupId>tomcat</groupId>
-				<artifactId>catalina-ant</artifactId>
-				<version>5.5.23</version>
-				<scope>test</scope>
-				<exclusions>
-					<exclusion>
-						<groupId>ant</groupId>
-						<artifactId>ant</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.ant</groupId>
-				<artifactId>ant-junit</artifactId>
-				<version>1.8.2</version>
-				<scope>test</scope>
-			</dependency>
+			</dependency>			
 			<dependency>
 				<groupId>org.liquibase</groupId>
 				<artifactId>liquibase-core</artifactId>
@@ -901,22 +869,13 @@
 				<groupId>org.gbif</groupId>
 				<artifactId>ecat-common</artifactId>
 				<version>1.6</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.lucene.spatial</groupId>
-				<artifactId>org.emonocot.spatial-base</artifactId>
-				<version>0.1</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.lucene.spatial</groupId>
-				<artifactId>org.emonocot.spatial-extras-base</artifactId>
-				<version>0.1</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.lucene.spatial</groupId>
-				<artifactId>org.emonocot.spatial-lucene</artifactId>
-				<version>0.1</version>
-			</dependency>
+				<exclusions>
+				  <exclusion>
+				    <artifactId>lucene-analyzers</artifactId>
+				    <groupId>org.apache.lucene</groupId>
+				  </exclusion>
+				</exclusions>
+			</dependency>			
 		</dependencies>
 	</dependencyManagement>
 	<build>
@@ -1120,7 +1079,7 @@
 			<name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
 			<url>http://repository.springsource.com/maven/bundles/external/</url>
 		</repository>
-		<repository>
+		<!-- <repository>
 			<id>jboss-public-repository-group</id>
 			<name>JBoss Public Maven Repository Group</name>
 			<url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
@@ -1133,7 +1092,7 @@
 				<enabled>true</enabled>
 				<updatePolicy>never</updatePolicy>
 			</snapshots>
-		</repository>
+		</repository>-->
 		<repository>
 			<id>openqa</id>
 			<name>OpenQA Repository</name>

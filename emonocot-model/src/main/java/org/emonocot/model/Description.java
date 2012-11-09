@@ -29,10 +29,6 @@ import org.emonocot.model.marshall.json.ReferenceSerializer;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
-import org.hibernate.search.annotations.ContainedIn;
-import org.hibernate.search.annotations.DocumentId;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
 
 /**
  *
@@ -40,7 +36,6 @@ import org.hibernate.search.annotations.Indexed;
  *
  */
 @Entity
-@Indexed
 public class Description extends OwnedEntity {
 
     /**
@@ -124,7 +119,6 @@ public class Description extends OwnedEntity {
      */
     @Id
     @GeneratedValue(generator = "system-increment")
-    @DocumentId
     public Long getId() {
         return id;
     }
@@ -144,7 +138,6 @@ public class Description extends OwnedEntity {
      * @return Return the subject that this content is about.
      */
     @Enumerated(value = EnumType.STRING)
-    @Field
     public DescriptionType getType() {
         return type;
     }
@@ -163,7 +156,6 @@ public class Description extends OwnedEntity {
      * @return Get the taxon that this content is about.
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @ContainedIn
     @JsonBackReference("descriptions-taxon")
     public Taxon getTaxon() {
         return taxon;
@@ -211,7 +203,6 @@ public class Description extends OwnedEntity {
      * @return the content as a string
      */
     @Lob
-    @Field
     public String getDescription() {
         return description;
     }

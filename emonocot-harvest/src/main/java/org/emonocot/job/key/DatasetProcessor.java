@@ -3,7 +3,6 @@ package org.emonocot.job.key;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.UUID;
 
 import org.emonocot.api.IdentificationKeyService;
 import org.emonocot.api.TaxonService;

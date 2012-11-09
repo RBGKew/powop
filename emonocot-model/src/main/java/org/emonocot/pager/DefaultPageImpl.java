@@ -2,6 +2,8 @@ package org.emonocot.pager;
 
 import java.util.List;
 
+import org.apache.solr.client.solrj.response.QueryResponse;
+
 /**
  *
  * @author ben
@@ -33,8 +35,8 @@ public class DefaultPageImpl<T> extends AbstractPageImpl<T> {
      *            results)
      */
     public DefaultPageImpl(final Integer count, final Integer newCurrentIndex,
-            final Integer newPageSize, final List<T> newRecords) {
-        super(count, newCurrentIndex, newPageSize, newRecords);
+            final Integer newPageSize, final List<T> newRecords, QueryResponse queryResponse) {
+        super(count, newCurrentIndex, newPageSize, newRecords, queryResponse);
     }
 
     @Override

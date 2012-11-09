@@ -30,8 +30,6 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
-import org.hibernate.search.annotations.DocumentId;
-import org.hibernate.search.annotations.Indexed;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
@@ -43,7 +41,6 @@ import com.vividsolutions.jts.geom.Point;
  *
  */
 @Entity
-@Indexed
 public class TypeAndSpecimen extends BaseData implements NonOwned {
 	
    /**
@@ -167,7 +164,6 @@ public class TypeAndSpecimen extends BaseData implements NonOwned {
 	@Override
 	@Id
     @GeneratedValue(generator = "system-increment")
-    @DocumentId
 	public Long getId() {
 		return id;
 	}

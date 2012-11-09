@@ -1,15 +1,15 @@
 package org.emonocot.model.hibernate;
 
-import org.apache.lucene.search.Filter;
-import org.apache.lucene.spatial.base.prefix.GeohashSpatialPrefixGrid;
-import org.apache.lucene.spatial.base.query.SpatialArgsParser;
-import org.apache.lucene.spatial.strategy.SimpleSpatialFieldInfo;
-import org.apache.lucene.spatial.strategy.SpatialStrategy;
-import org.apache.lucene.spatial.strategy.prefix.DynamicPrefixStrategy;
-import org.hibernate.search.annotations.Factory;
-import org.hibernate.search.annotations.Key;
-import org.hibernate.search.filter.FilterKey;
-import org.hibernate.search.filter.StandardFilterKey;
+//import org.apache.lucene.search.Filter;
+//import org.apache.lucene.spatial.base.prefix.GeohashSpatialPrefixGrid;
+//import org.apache.lucene.spatial.base.query.SpatialArgsParser;
+//import org.apache.lucene.spatial.strategy.SimpleSpatialFieldInfo;
+//import org.apache.lucene.spatial.strategy.SpatialStrategy;
+//import org.apache.lucene.spatial.strategy.prefix.DynamicPrefixStrategy;
+//import org.hibernate.search.annotations.Factory;
+//import org.hibernate.search.annotations.Key;
+//import org.hibernate.search.filter.FilterKey;
+//import org.hibernate.search.filter.StandardFilterKey;
 
 /**
  *
@@ -33,21 +33,21 @@ public class SpatialFilterFactory {
      */
     private String query;
 
-    /**
-     *
-     * @return a lucene filter
-     */
-    @Factory
-    public final Filter getFilter() {
-        SpatialStrategy<SimpleSpatialFieldInfo> spatialStrategy
-            = new DynamicPrefixStrategy(
-                    new GeohashSpatialPrefixGrid(DistributionBridge.SPATIAL_CONTEXT, levels));
-        SpatialArgsParser spatialArgsParser = new SpatialArgsParser();
-
-        return spatialStrategy.makeFilter(
-                spatialArgsParser.parse(query, DistributionBridge.SPATIAL_CONTEXT),
-                new SimpleSpatialFieldInfo(field));
-    }
+//    /**
+//     *
+//     * @return a lucene filter
+//     */
+//    @Factory
+//    public final Filter getFilter() {
+//        SpatialStrategy<SimpleSpatialFieldInfo> spatialStrategy
+//            = new DynamicPrefixStrategy(
+//                    new GeohashSpatialPrefixGrid(DistributionBridge.SPATIAL_CONTEXT, levels));
+//        SpatialArgsParser spatialArgsParser = new SpatialArgsParser();
+//
+//        return spatialStrategy.makeFilter(
+//                spatialArgsParser.parse(query, DistributionBridge.SPATIAL_CONTEXT),
+//                new SimpleSpatialFieldInfo(field));
+//    }
 
     /**
      *
@@ -73,16 +73,16 @@ public class SpatialFilterFactory {
         this.query = spatialQuery;
     }
 
-    /**
-     *
-     * @return A filter key for use in caching
-     */
-    @Key
-    public final FilterKey getKey() {
-        StandardFilterKey key = new StandardFilterKey();
-        key.addParameter(levels);
-        key.addParameter(field);
-        key.addParameter(query);
-        return key;
-    }
+//    /**
+//     *
+//     * @return A filter key for use in caching
+//     */
+//    @Key
+//    public final FilterKey getKey() {
+//        StandardFilterKey key = new StandardFilterKey();
+//        key.addParameter(levels);
+//        key.addParameter(field);
+//        key.addParameter(query);
+//        return key;
+//    }
 }

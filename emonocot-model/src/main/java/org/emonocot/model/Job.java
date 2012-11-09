@@ -20,9 +20,6 @@ import org.emonocot.model.marshall.json.SourceDeserializer;
 import org.emonocot.model.marshall.json.SourceSerializer;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
-import org.hibernate.search.annotations.Analyzer;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Index;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
@@ -170,7 +167,6 @@ public class Job extends Base {
 	 * 
 	 * @return The unique identifier of the object
 	 */
-	@Field(analyzer = @Analyzer(definition = "facetAnalyzer"), index = Index.UN_TOKENIZED)
 	@NaturalId
 	@NotEmpty
 	public String getIdentifier() {

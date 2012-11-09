@@ -21,13 +21,9 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
-import org.hibernate.search.annotations.ContainedIn;
-import org.hibernate.search.annotations.DocumentId;
-import org.hibernate.search.annotations.Indexed;
 import org.joda.time.DateTime;
 
 @Entity
-@Indexed
 public class MeasurementOrFact extends OwnedEntity {
 	
 	private static final long serialVersionUID = -1400551717852313792L;
@@ -59,7 +55,6 @@ public class MeasurementOrFact extends OwnedEntity {
 
 	@Id
     @GeneratedValue(generator = "system-increment")
-    @DocumentId
 	@Override
 	public Long getId() {
 		return id;
@@ -133,7 +128,6 @@ public class MeasurementOrFact extends OwnedEntity {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-    @ContainedIn
     @JsonBackReference("measurementsOrFacts-taxon")
 	public Taxon getTaxon() {
 		return taxon;

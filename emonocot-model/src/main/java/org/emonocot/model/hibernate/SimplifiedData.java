@@ -1,8 +1,8 @@
 package org.emonocot.model.hibernate;
 
-import org.apache.lucene.spatial.base.shape.Shape;
-
-import com.googlecode.lucene.spatial.base.shape.JtsGeometry;
+//import org.apache.lucene.spatial.base.shape.Shape;
+//
+//import com.googlecode.lucene.spatial.base.shape.JtsGeometry;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
@@ -25,7 +25,7 @@ public class SimplifiedData {
     /**
      *
      */
-    private Shape shape;
+//    private Shape shape;
 
     /**
      *
@@ -33,18 +33,18 @@ public class SimplifiedData {
      * @param reader Set the WKTReader
      */
     public SimplifiedData(final String line, final WKTReader reader) {
-        String[] vals = line.split("\t");
-        id = vals[0];
-        name = vals[1];
-        Geometry geo;
-        try {
-            geo = reader.read(vals[2]);
-            Geometry simpler = TopologyPreservingSimplifier
-                    .simplify(geo, 0.01d);
-            shape = new JtsGeometry(simpler);
-        } catch (ParseException e) {
-            throw new RuntimeException("Exception parsing " + name);
-        }
+//        String[] vals = line.split("\t");
+//        id = vals[0];
+//        name = vals[1];
+//        Geometry geo;
+//        try {
+//            geo = reader.read(vals[2]);
+//            Geometry simpler = TopologyPreservingSimplifier
+//                    .simplify(geo, 0.01d);
+//            shape = new JtsGeometry(simpler);
+//        } catch (ParseException e) {
+//            throw new RuntimeException("Exception parsing " + name);
+//        }
     }
 
     /**
@@ -64,8 +64,8 @@ public class SimplifiedData {
     /**
      * @return the shape
      */
-    public Shape getShape() {
-        return shape;
-    }
+//    public Shape getShape() {
+//        return shape;
+//    }
 
 }

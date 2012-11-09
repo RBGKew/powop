@@ -1,7 +1,5 @@
 package org.emonocot.model.geography;
 
-import org.apache.lucene.spatial.base.shape.Shape;
-
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
@@ -89,11 +87,6 @@ public enum Region implements GeographicalRegion<Region> {
     *
     */
     private Polygon envelope;
-
-    /**
-     * The geographic region as a Shape.
-     */
-    private Shape shape;
 
     /**
      *
@@ -205,17 +198,18 @@ public enum Region implements GeographicalRegion<Region> {
         return envelope;
     }
 
-    /**
-     * @return the shape
-     */
-    public final Shape getShape() {
-        return shape;
-    }
+	@Override
+	public Integer getLevel() {
+		return 1;
+	}
 
-    /**
-     * @param newShape Set the shape
-     */
-    public final void setShape(final Shape newShape) {
-        this.shape = newShape;
-    }
+	@Override
+	public String getPrefix() {
+		return "TDWG";
+	}
+
+	@Override
+	public GeographicalRegion getParent() {
+		return continent;
+	}
 }

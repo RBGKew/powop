@@ -12,23 +12,15 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.emonocot.model.hibernate.TaxonomyBridge;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
-import org.hibernate.search.annotations.Analyzer;
-import org.hibernate.search.annotations.ClassBridge;
-import org.hibernate.search.annotations.DocumentId;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Fields;
-import org.hibernate.search.annotations.Index;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.IndexedEmbedded;
 
 /**
  *
@@ -36,9 +28,6 @@ import org.hibernate.search.annotations.IndexedEmbedded;
  *
  */
 @Entity
-@Indexed(index = "org.emonocot.model.common.SearchableObject")
-@ClassBridge(name = "taxon", impl = TaxonomyBridge.class, index = Index.UN_TOKENIZED,
-        analyzer = @Analyzer(definition = "facetAnalyzer"))
 public class IdentificationKey extends SearchableObject {
 
     /**
@@ -98,7 +87,6 @@ public class IdentificationKey extends SearchableObject {
      */
     @Id
     @GeneratedValue(generator = "system-increment")
-    @DocumentId
     public Long getId() {
         return id;
     }
@@ -114,7 +102,6 @@ public class IdentificationKey extends SearchableObject {
     /**
      * @return the title
      */
-    @Fields({ @Field, @Field(name = "label", index = Index.UN_TOKENIZED) })
     public String getTitle() {
         return title;
     }
@@ -130,7 +117,6 @@ public class IdentificationKey extends SearchableObject {
      * @return the description
      */
     @Lob
-    @Field
     public String getDescription() {
         return description;
     }
@@ -147,7 +133,6 @@ public class IdentificationKey extends SearchableObject {
      * e.g. A key to grass genera should return Poaceae
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @IndexedEmbedded(depth = 1)
     @JsonSerialize(using = TaxonSerializer.class)
     public Taxon getTaxon() {
         return taxon;
@@ -193,5 +178,14 @@ public class IdentificationKey extends SearchableObject {
      */
     public void setAnnotations(Set<Annotation> annotations) {
         this.annotations = annotations;
+    }
+    
+    @Override
+    public SolrInputDocument toSolrInputDocument() {
+    	SolrInputDocument sid = super.toSolrInputDocument();
+        sid.addField("id", "key_" + getId());
+    	sid.addField("base.id_l", getId());
+    	sid.addField("base.class_s", "org.emonocot.model.IdentificationKey");
+    	return sid;
     }
 }

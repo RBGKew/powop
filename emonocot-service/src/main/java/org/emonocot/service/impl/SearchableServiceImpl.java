@@ -2,9 +2,7 @@ package org.emonocot.service.impl;
 
 import java.util.Map;
 
-import org.emonocot.api.FacetName;
 import org.emonocot.api.SearchableService;
-import org.emonocot.api.Sorting;
 import org.emonocot.model.Base;
 import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.SearchableDao;
@@ -41,8 +39,8 @@ public abstract class SearchableServiceImpl<T extends Base, DAO extends Searchab
     @Transactional(readOnly = true)
     public final Page<T> search(final String query, final String spatialQuery,
             final Integer pageSize, final Integer pageNumber,
-            final FacetName[] facets,
-            final Map<FacetName, String> selectedFacets, final Sorting sort,
+            final String[] facets,
+            final Map<String, String> selectedFacets, final String sort,
             final String fetch) {
         return dao.search(query, spatialQuery, pageSize, pageNumber, facets,
                 selectedFacets, sort, fetch);

@@ -19,16 +19,11 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.constants.ReferenceType;
-import org.emonocot.model.hibernate.DatePublishedBridge;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
-import org.hibernate.search.annotations.DocumentId;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.FieldBridge;
-import org.hibernate.search.annotations.Indexed;
 
 /**
  *
@@ -36,7 +31,6 @@ import org.hibernate.search.annotations.Indexed;
  *
  */
 @Entity
-@Indexed
 public class Reference extends BaseData implements NonOwned {
 
     /**
@@ -124,7 +118,6 @@ public class Reference extends BaseData implements NonOwned {
      */
     @Id
     @GeneratedValue(generator = "system-increment")
-    @DocumentId
     public Long getId() {
         return id;
     }
@@ -133,7 +126,6 @@ public class Reference extends BaseData implements NonOwned {
      *
      * @return the author
      */
-    @Field
     public String getCreator() {
         return creator;
     }
@@ -151,7 +143,6 @@ public class Reference extends BaseData implements NonOwned {
      *
      * @return the publication this reference was published in
      */
-    @Field
     public String getSource() {
         return source;
     }
@@ -169,7 +160,6 @@ public class Reference extends BaseData implements NonOwned {
      *
      * @return the full citation
      */
-    @Field
     @Lob
     public String getBibliographicCitation() {
         return bibliographicCitation;
@@ -205,7 +195,6 @@ public class Reference extends BaseData implements NonOwned {
     /**
      * @return the datePublished
      */
-    @Field(bridge = @FieldBridge(impl = DatePublishedBridge.class))
     public String getDate() {
         return date;
     }
@@ -221,7 +210,6 @@ public class Reference extends BaseData implements NonOwned {
     /**
      * @return the title
      */
-    @Field
     public String getTitle() {
         return title;
     }
@@ -280,7 +268,6 @@ public class Reference extends BaseData implements NonOwned {
      * @return the abstract
      */
     @Lob
-    @Field
     public String getDescription() {
         return description;
     }
@@ -295,7 +282,6 @@ public class Reference extends BaseData implements NonOwned {
     /**
      * @return the keywords
      */
-    @Field
     public String getSubject() {
         return subject;
     }

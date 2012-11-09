@@ -16,9 +16,6 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
-import org.hibernate.search.annotations.DocumentId;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.URL;
@@ -30,7 +27,6 @@ import org.hibernate.validator.constraints.URL;
  *
  */
 @Entity
-@Indexed
 public class Source extends BaseData {
 
     /**
@@ -115,7 +111,6 @@ public class Source extends BaseData {
      */
     @Id
     @GeneratedValue(generator = "system-increment")
-    @DocumentId
     public Long getId() {
         return id;
     }
@@ -165,7 +160,6 @@ public class Source extends BaseData {
      * @return the description
      */
     @Lob
-    @Field
     @Length(max = 1431655761)
     public String getDescription() {
         return description;
@@ -196,7 +190,6 @@ public class Source extends BaseData {
     /**
      * @return the publisherName
      */
-    @Field
     public String getPublisherName() {
         return publisherName;
     }
@@ -225,7 +218,6 @@ public class Source extends BaseData {
     /**
      * @return the subject
      */
-    @Field
     public String getSubject() {
         return subject;
     }
@@ -240,7 +232,6 @@ public class Source extends BaseData {
     /**
      * @return the title
      */
-    @Field
     public String getTitle() {
         return title;
     }

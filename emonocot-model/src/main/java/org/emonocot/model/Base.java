@@ -5,10 +5,7 @@ import java.io.Serializable;
 import javax.persistence.MappedSuperclass;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.apache.solr.analysis.StandardTokenizerFactory;
 import org.hibernate.proxy.HibernateProxyHelper;
-import org.hibernate.search.annotations.AnalyzerDef;
-import org.hibernate.search.annotations.TokenizerDef;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +15,6 @@ import org.slf4j.LoggerFactory;
  *
  */
 @MappedSuperclass
-@AnalyzerDef(name = "facetAnalyzer", tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class))
 public abstract class Base implements Serializable, Identifiable, SecuredObject {
 
     /**

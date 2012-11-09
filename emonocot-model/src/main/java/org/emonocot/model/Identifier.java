@@ -17,11 +17,6 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
-import org.hibernate.search.annotations.DocumentId;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Fields;
-import org.hibernate.search.annotations.Index;
-import org.hibernate.search.annotations.Indexed;
 
 /**
  *
@@ -29,7 +24,6 @@ import org.hibernate.search.annotations.Indexed;
  *
  */
 @Entity
-@Indexed
 public class Identifier extends OwnedEntity {
     /**
      *
@@ -86,7 +80,6 @@ public class Identifier extends OwnedEntity {
     *
     * @return the subject of this identifier
     */
-   @Field
    public String getSubject() {
        return subject;
    }
@@ -114,7 +107,6 @@ public class Identifier extends OwnedEntity {
      */
     @Id
     @GeneratedValue(generator = "system-increment")
-    @DocumentId
     public Long getId() {
         return id;
     }
@@ -123,7 +115,6 @@ public class Identifier extends OwnedEntity {
      *
      * @return the title
      */
-    @Fields({ @Field, @Field(name = "label", index = Index.UN_TOKENIZED) })
     public String getTitle() {
         return title;
     }

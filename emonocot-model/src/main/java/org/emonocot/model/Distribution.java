@@ -31,11 +31,6 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
-import org.hibernate.search.annotations.ClassBridge;
-import org.hibernate.search.annotations.ContainedIn;
-import org.hibernate.search.annotations.DocumentId;
-import org.hibernate.search.annotations.Index;
-import org.hibernate.search.annotations.Indexed;
 
 /**
  *
@@ -43,8 +38,6 @@ import org.hibernate.search.annotations.Indexed;
  *
  */
 @Entity
-@Indexed
-@ClassBridge(name = "geographicalRegion", impl = DistributionBridge.class, index = Index.UN_TOKENIZED)
 public class Distribution extends OwnedEntity {
 
     /**
@@ -113,7 +106,6 @@ public class Distribution extends OwnedEntity {
      */
     @Id
     @GeneratedValue(generator = "system-increment")
-    @DocumentId
     public Long getId() {
         return id;
     }
@@ -173,7 +165,6 @@ public class Distribution extends OwnedEntity {
      * @return Get the taxon that this distribution is about.
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @ContainedIn
     @JsonBackReference("distribution-taxon")
     public Taxon getTaxon() {
         return taxon;

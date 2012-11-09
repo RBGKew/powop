@@ -1,42 +1,27 @@
 package org.emonocot.model.hibernate;
 
 import java.io.IOException;
-import java.io.InputStream;
 
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.Fieldable;
-import org.apache.lucene.spatial.base.context.SpatialContext;
-import org.apache.lucene.spatial.base.prefix.GeohashSpatialPrefixGrid;
-import org.apache.lucene.spatial.strategy.SimpleSpatialFieldInfo;
-import org.apache.lucene.spatial.strategy.SpatialFieldInfo;
-import org.apache.lucene.spatial.strategy.SpatialStrategy;
-import org.apache.lucene.spatial.strategy.prefix.DynamicPrefixStrategy;
-import org.emonocot.model.Distribution;
-import org.emonocot.model.geography.Continent;
-import org.emonocot.model.geography.Country;
-import org.emonocot.model.geography.GeographicalRegion;
-import org.emonocot.model.geography.Region;
-import org.hibernate.search.bridge.FieldBridge;
-import org.hibernate.search.bridge.LuceneOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.googlecode.lucene.spatial.base.context.JtsSpatialContext;
+//import com.googlecode.lucene.spatial.base.context.JtsSpatialContext;
 
 /**
  *
  * @author ben
  *
  */
-public class DistributionBridge implements FieldBridge {
+public class DistributionBridge 
+//implements FieldBridge 
+{
 	
 	Logger logger = LoggerFactory.getLogger(DistributionBridge.class);
 
     /**
      *
      */
-    public static SpatialContext SPATIAL_CONTEXT = new JtsSpatialContext();
+//    public static SpatialContext SPATIAL_CONTEXT = new JtsSpatialContext();
     
     private boolean skipInit = false;
 
@@ -57,17 +42,17 @@ public class DistributionBridge implements FieldBridge {
      *
      */
     public final void clearRegions() {
-        for (Continent continent : Continent.values()) {	
-            continent.setShape(null);
-        }
-
-        for (Region region : Region.values()) {
-            region.setShape(null);
-        }
-
-        for (Country country : Country.values()) {
-            country.setShape(null);
-        }
+//        for (Continent continent : Continent.values()) {	
+//            continent.setShape(null);
+//        }
+//
+//        for (Region region : Region.values()) {
+//            region.setShape(null);
+//        }
+//
+//        for (Country country : Country.values()) {
+//            country.setShape(null);
+//        }
     }
 
     /**
@@ -75,53 +60,53 @@ public class DistributionBridge implements FieldBridge {
      * @throws IOException
      */
 	public final void setupRegions() throws IOException {
-		logger.debug("setupRegions");
-		if (!skipInit) {
-			logger.debug("Initializing regions");
-			InputStream level1Stream = DistributionBridge.class
-					.getClassLoader().getResourceAsStream(
-							"org/emonocot/model/level1.txt");
-			SimplifyingDataReader level1DataReader = new SimplifyingDataReader(
-					level1Stream);
-			while (level1DataReader.hasNext()) {
-				SimplifiedData data = level1DataReader.next();
-				Continent continent = Continent.fromString(data.getId());				
-				continent.setShape(data.getShape());
-			}
-			level1Stream.close();
-
-			InputStream level2Stream = DistributionBridge.class
-					.getClassLoader().getResourceAsStream(
-							"org/emonocot/model/level2.txt");
-			SimplifyingDataReader level2DataReader = new SimplifyingDataReader(
-					level2Stream);
-			while (level2DataReader.hasNext()) {
-				SimplifiedData data = level2DataReader.next();
-				Region region = Region.fromString(data.getId());				
-				region.setShape(data.getShape());
-			}
-			level2Stream.close();
-
-			InputStream level3Stream = DistributionBridge.class
-					.getClassLoader().getResourceAsStream(
-							"org/emonocot/model/level3.txt");
-			SimplifyingDataReader level3DataReader = new SimplifyingDataReader(
-					level3Stream);
-			while (level3DataReader.hasNext()) {
-				SimplifiedData data = level3DataReader.next();
-				Country country = Country.fromString(data.getId());
-				country.setShape(data.getShape());
-			}
-			level3Stream.close();
-		}
+//		logger.debug("setupRegions");
+//		if (!skipInit) {
+//			logger.debug("Initializing regions");
+//			InputStream level1Stream = DistributionBridge.class
+//					.getClassLoader().getResourceAsStream(
+//							"org/emonocot/model/level1.txt");
+//			SimplifyingDataReader level1DataReader = new SimplifyingDataReader(
+//					level1Stream);
+//			while (level1DataReader.hasNext()) {
+//				SimplifiedData data = level1DataReader.next();
+//				Continent continent = Continent.fromString(data.getId());				
+//				continent.setShape(data.getShape());
+//			}
+//			level1Stream.close();
+//
+//			InputStream level2Stream = DistributionBridge.class
+//					.getClassLoader().getResourceAsStream(
+//							"org/emonocot/model/level2.txt");
+//			SimplifyingDataReader level2DataReader = new SimplifyingDataReader(
+//					level2Stream);
+//			while (level2DataReader.hasNext()) {
+//				SimplifiedData data = level2DataReader.next();
+//				Region region = Region.fromString(data.getId());				
+//				region.setShape(data.getShape());
+//			}
+//			level2Stream.close();
+//
+//			InputStream level3Stream = DistributionBridge.class
+//					.getClassLoader().getResourceAsStream(
+//							"org/emonocot/model/level3.txt");
+//			SimplifyingDataReader level3DataReader = new SimplifyingDataReader(
+//					level3Stream);
+//			while (level3DataReader.hasNext()) {
+//				SimplifiedData data = level3DataReader.next();
+//				Country country = Country.fromString(data.getId());
+//				country.setShape(data.getShape());
+//			}
+//			level3Stream.close();
+//		}
 	}
 
     /**
     *
     */
-   private SpatialStrategy spatialStrategy
-   = new DynamicPrefixStrategy(new GeohashSpatialPrefixGrid(
-           DistributionBridge.SPATIAL_CONTEXT, DistributionBridge.LEVELS ));
+//   private SpatialStrategy spatialStrategy
+//   = new DynamicPrefixStrategy(new GeohashSpatialPrefixGrid(
+//           DistributionBridge.SPATIAL_CONTEXT, DistributionBridge.LEVELS ));
 
     /**
      * @param name Set the name of the field
@@ -129,7 +114,7 @@ public class DistributionBridge implements FieldBridge {
      * @param document Set the lucene document
      * @param luceneOptions Set the options for indexing
      */
-    public final void set(final String name, final Object value,
+/*    public final void set(final String name, final Object value,
             final Document document, final LuceneOptions luceneOptions) {
         Distribution distribution = (Distribution) value;
 
@@ -199,6 +184,6 @@ public class DistributionBridge implements FieldBridge {
                 document.add(continentField);
             }
         }
-    }
+    }*/
 
 }
