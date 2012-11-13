@@ -72,6 +72,9 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
                 new Fetch("authority", FetchMode.JOIN),
                 new Fetch("sources", FetchMode.SELECT),
                 new Fetch("identifiers", FetchMode.SELECT)});
+        /* */
+        FETCH_PROFILES.put("object-page", FETCH_PROFILES.get("taxon-page"));
+        /* */
         FETCH_PROFILES.put("taxon-with-image", new Fetch[] {new Fetch("image",
                 FetchMode.SELECT)});
         FETCH_PROFILES.put("taxon-with-content", new Fetch[] {

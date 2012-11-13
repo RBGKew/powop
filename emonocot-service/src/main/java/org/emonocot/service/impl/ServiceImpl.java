@@ -178,14 +178,14 @@ public abstract class ServiceImpl<T extends Base, DAO extends Dao<T>>
      * @return A page of results
      */
     @Transactional
-    public final Page<T> list(final Integer page, final Integer size) {
+    public final Page<T> list(final Integer page, final Integer size, final String fetch) {
         Long numberOfResults = dao.count();
         if (numberOfResults == 0) {
             return new DefaultPageImpl<T>(numberOfResults.intValue(), page,
                     size, new ArrayList<T>());
         } else {
             return new DefaultPageImpl<T>(numberOfResults.intValue(), page,
-                    size, dao.list(page, size));
+                    size, dao.list(page, size, fetch));
         }
     }
 }

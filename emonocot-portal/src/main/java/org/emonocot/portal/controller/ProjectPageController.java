@@ -44,7 +44,7 @@ public class ProjectPageController {
      */
     @RequestMapping(value = "/about")
     public final String show(final Model model) {
-    	List<Source> sources = sourceService.list(null, null).getRecords();
+    	List<Source> sources = sourceService.list(null, null, null).getRecords();
     	
     	//Page specific remove
     	for (String identifier : excludeIdentifiers) {

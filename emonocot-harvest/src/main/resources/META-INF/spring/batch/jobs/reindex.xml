@@ -19,7 +19,7 @@
 		<batch:step id="reIndex">
 			<batch:description>Re-index some or all of the eMonocot database</batch:description>
 			<batch:tasklet>
-				<batch:chunk reader="itemIndexer" writer="itemIndexer" commit-interval="10" />
+				<batch:chunk reader="itemIndexer" writer="itemIndexer" commit-interval="1000" />
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="clearRegions" />			
 		</batch:step>

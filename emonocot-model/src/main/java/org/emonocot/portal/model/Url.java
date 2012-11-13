@@ -14,41 +14,41 @@ import org.joda.time.DateTime;
  */
 public class Url implements Serializable {
 
-		/**
-		 * 
-		 */
-		private URL loc;
-		
-		/**
-		 * 
-		 */
-		private String lastmod;
+	/**
+	 * 
+	 */
+	private URL loc;
+	
+	/**
+	 * 
+	 */
+	private String lastmod;
 
-		/**
-		 * @return the loc
-		 */
-		public final URL getLoc() {
-			return loc;
-		}
+	/**
+	 * @return the loc
+	 */
+	public final URL getLoc() {
+		return loc;
+	}
 
-		/**
-		 * @param loc the loc to set
-		 */
-		public final void setLoc(URL loc) {
-			this.loc = loc;
-		}
+	/**
+	 * @param loc the loc to set
+	 */
+	public final void setLoc(URL loc) {
+		this.loc = loc;
+	}
 
-		/**
-		 * @return the lastmod
-		 */
-		public final String getLastmod() {
-			return lastmod;
-		}
+	/**
+	 * @return the lastmod
+	 */
+	public final String getLastmod() {
+		return lastmod;
+	}
 
-		/**
-		 * @param lastmod the lastmod to set
-		 */
-		public final void setLastmod(String lastmod) {
-			this.lastmod = lastmod;
-		}
+	/**
+	 * @param lastmod the lastmod to set
+	 */
+	public final void setLastmod(String lastmod) {
+		this.lastmod = lastmod;
+	}
 }
