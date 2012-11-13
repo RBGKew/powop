@@ -4,12 +4,12 @@
 	<parent>
 		<artifactId>emonocot</artifactId>
 		<groupId>org.emonocot</groupId>
-		<version>0.0.22-SNAPSHOT</version>
+		<version>0.0.22</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>org.emonocot</groupId>
 	<artifactId>emonocot-model</artifactId>
-	<version>0.0.22-SNAPSHOT</version>
+	<version>0.0.22</version>
 	<name>eMonocot Data Model</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
