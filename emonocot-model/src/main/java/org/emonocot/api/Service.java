@@ -119,7 +119,7 @@ public interface Service<T extends Base> {
    * @param size Set the page size
    * @return A page of results
    */
-  Page<T> list(Integer page, Integer size);
+  Page<T> list(Integer page, Integer size, String fetch);
 
   /**
    * @param t

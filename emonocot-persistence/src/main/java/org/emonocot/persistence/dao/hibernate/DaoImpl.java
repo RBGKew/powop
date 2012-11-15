@@ -360,7 +360,7 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
      * @param size Set the page size
      * @return A list of results
      */
-    public final List<T> list(final Integer page, final Integer size) {
+    public final List<T> list(final Integer page, final Integer size, String fetch) {
         Criteria criteria = getSession().createCriteria(type);
 
         if (size != null) {

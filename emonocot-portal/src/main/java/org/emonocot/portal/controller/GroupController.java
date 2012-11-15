@@ -177,7 +177,7 @@ public class GroupController extends GenericController<Group, GroupService> {
             @RequestParam(value = "page", defaultValue = "0", required = false) final Integer page,
             @RequestParam(value = "size", defaultValue = "10", required = false) final Integer size,
             final Model model) {
-        model.addAttribute("result", getService().list(page, size));
+        model.addAttribute("result", getService().list(page, size, null));
         return "group/list";
     }
 

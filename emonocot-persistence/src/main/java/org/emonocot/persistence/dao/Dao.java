@@ -128,5 +128,5 @@ public interface Dao<T extends Base> {
    * @param size Set the page size
    * @return A list of results
    */
-  List<T> list(Integer page, Integer size);
+  List<T> list(Integer page, Integer size, String fetch);
 }
