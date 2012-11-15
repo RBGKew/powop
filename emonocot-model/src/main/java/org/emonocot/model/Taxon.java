@@ -25,6 +25,7 @@ import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.geography.GeographicalRegion;
+import org.emonocot.model.geography.GeographicalRegionFactory;
 import org.emonocot.model.marshall.json.ReferenceDeserializer;
 import org.emonocot.model.marshall.json.ReferenceSerializer;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
@@ -36,12 +37,16 @@ import org.gbif.ecat.voc.TaxonomicStatus;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author ben
  */
 @Entity
 public class Taxon extends SearchableObject {
+	
+	private Logger logger = LoggerFactory.getLogger(Taxon.class);
 
 	/**
      *
@@ -1055,11 +1060,8 @@ public class Taxon extends SearchableObject {
 	}
 
 	@Override
-	public SolrInputDocument toSolrInputDocument() {
-		SolrInputDocument sid = super.toSolrInputDocument();
-		sid.addField("id", "taxon_" + getId());
-		sid.addField("base.id_l", getId());
-		sid.addField("base.class_s", "org.emonocot.model.Taxon");
+	public SolrInputDocument toSolrInputDocument(GeographicalRegionFactory geographicalRegionFactory) {
+		SolrInputDocument sid = super.toSolrInputDocument(geographicalRegionFactory);
 		sid.addField("searchable.label_sort", getScientificName());
 		sid.addField("taxon.bibliographic_citation_t",
 				getBibliographicCitation());
@@ -1086,7 +1088,12 @@ public class Taxon extends SearchableObject {
 		sid.addField("taxon.taxon_remarks_t", getTaxonRemarks());
 		sid.addField("taxon.tribe_s", getTribe());
 		sid.addField("taxon.verbatim_taxon_rank_s", getVerbatimTaxonRank());
-		for(Distribution d : getDistribution()) {
+		try {
+			geographicalRegionFactory.indexSpatial(this, sid);
+		} catch (Exception e) {
+			logger.error(e.getLocalizedMessage());
+		}
+		for(Distribution d : getDistribution()) {			
 			indexLocality(d.getLocation(),sid);
 		}
 		
@@ -1119,5 +1126,4 @@ public class Taxon extends SearchableObject {
 			indexLocality(g.getParent(), sid);
 		}
 	}
-
 }

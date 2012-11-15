@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.util.Locale;
 
 import org.emonocot.portal.controller.FacetRequest;
-import org.emonocot.api.FacetName;
 import org.springframework.format.Formatter;
 
 /**
@@ -22,8 +21,7 @@ public class FacetRequestFormatter
      */
     public final String print(
             final FacetRequest facetRequest, final Locale locale) {
-        return facetRequest.getFacet().name()
-            + "." + facetRequest.getSelected();
+        return facetRequest.getFacet() + "." + facetRequest.getSelected();
     }
 
     /**
@@ -44,7 +42,7 @@ public class FacetRequestFormatter
             String selectedFacet
                 = facetRequest.substring(facetRequest.indexOf(".") + 1);
             FacetRequest result = new FacetRequest();
-            result.setFacet(FacetName.valueOf(facetName));
+            result.setFacet(facetName);
             result.setSelected(selectedFacet);
             return result;
         }

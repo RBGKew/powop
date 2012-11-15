@@ -5,6 +5,7 @@ import javax.persistence.Transient;
 
 import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.emonocot.model.geography.GeographicalRegionFactory;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
@@ -14,7 +15,7 @@ import org.joda.time.format.ISODateTimeFormat;
  *
  */
 @MappedSuperclass
-public abstract class SearchableObject extends BaseData {
+public abstract class SearchableObject extends BaseData implements Searchable {
 
     /**
      *
@@ -30,9 +31,19 @@ public abstract class SearchableObject extends BaseData {
     public String getClassName() {
         return getClass().getSimpleName();
     }
+    
+    @Override
+    @Transient
+    @JsonIgnore
+	public String getDocumentId() {
+		return getClassName() + "_" + getId();
+	}
 
-	public SolrInputDocument toSolrInputDocument() {
+	public SolrInputDocument toSolrInputDocument(GeographicalRegionFactory geographicalRegionFactory) {
 		SolrInputDocument sid = new SolrInputDocument();
+		sid.addField("id", getDocumentId());
+    	sid.addField("base.id_l", getId());
+    	sid.addField("base.class_s", getClass().getName());
 		sid.addField("base.access_rights_s", getAccessRights());
 		DateTimeFormatter dateTimeFormatter = ISODateTimeFormat.basicDateTimeNoMillis();
 		if(getCreated() != null) {

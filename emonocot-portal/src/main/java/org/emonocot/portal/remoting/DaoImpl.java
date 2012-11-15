@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.emonocot.api.FacetName;
-import org.emonocot.api.Sorting;
 import org.emonocot.model.Base;
 import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.Dao;
@@ -282,9 +281,9 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
      */
     public final Page<T> search(final String query, final String spatialQuery,
             final Integer pageSize, final Integer pageNumber,
-            final FacetName[] facets,
-            final Map<FacetName, String> selectedFacets,
-            final Sorting sort, String fetch) {
+            final String[] facets,
+            final Map<String, String> selectedFacets,
+            final String sort, String fetch) {
         // TODO Auto-generated method stub
         // TODO move persistence to persistence package?
         return null;

@@ -55,25 +55,6 @@
 		<property name="baseUrl" value="${harvester.baseUrl}" />
 	</bean>
 
-	<jms:message-driven-channel-adapter
-		id="jmsBackendChannelAdapter" connection-factory="connectionFactory"
-		destination="jmsBackendQueue" extract-payload="false" channel="jmsBackendChannel" />
-
-	<bean id="jmsBackendQueue" class="org.apache.activemq.command.ActiveMQQueue">
-		<constructor-arg value="${amq.queue.physical_name}" />
-	</bean>
-
-	<integration:channel id="jmsBackendChannel" />
-
-	<integration:service-activator
-		input-channel="jmsBackendChannel" ref="messageDrivenSearchController"
-		method="onMessage" />
-
-	<bean id="messageDrivenSearchController"
-		class="org.emonocot.harvest.common.index.MessageDrivenSearchController">
-		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-
 	<integration:gateway id="jobStatusNotifier"
 		service-interface="org.emonocot.api.job.JobStatusNotifier"
 		default-request-channel="jobStatusNotificationChannel">

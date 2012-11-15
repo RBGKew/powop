@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import org.easymock.EasyMock;
-import org.emonocot.api.FacetName;
-import org.emonocot.api.Sorting;
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.Taxon;
 import org.emonocot.pager.DefaultPageImpl;
@@ -67,15 +65,15 @@ public class ChecklistWebserviceControllerTest {
     @Test
     public final void testSearch() {
         EasyMock.expect(
-                taxonService.search(EasyMock.eq("label:Poa annua"),
+                taxonService.search(EasyMock.eq("searchable.label_sort:Poa annua"),
                         (String) EasyMock.isNull(),
                         (Integer) EasyMock.isNull(),
                         (Integer) EasyMock.isNull(),
-                        (FacetName[]) EasyMock.isNull(),
-                        (Map<FacetName, String>) EasyMock.isNull(),
-                        (Sorting) EasyMock.isNull(),
+                        (String[]) EasyMock.isNull(),
+                        (Map<String, String>) EasyMock.isA(Map.class),
+                        (String) EasyMock.isNull(),
                         EasyMock.eq("taxon-ws"))).andReturn(
-                new DefaultPageImpl<Taxon>(0, 0, 1, new ArrayList<Taxon>()));
+                new DefaultPageImpl<Taxon>(0, 0, 1, new ArrayList<Taxon>(),null));
         EasyMock.replay(taxonService);
         ModelAndView modelAndView = checklistWebserviceController
                 .search("Poa annua");
@@ -90,15 +88,15 @@ public class ChecklistWebserviceControllerTest {
     */
    @Test
    public final void testSearchForFamily() {
-       EasyMock.expect(taxonService.search(EasyMock.eq("label:Poaceae"),
+       EasyMock.expect(taxonService.search(EasyMock.eq("searchable.label_sort:Poaceae"),
                (String) EasyMock.isNull(),
                (Integer) EasyMock.isNull(),
                (Integer) EasyMock.isNull(),
-               (FacetName[]) EasyMock.isNull(),
-               (Map<FacetName, String>) EasyMock.isNull(),
-               (Sorting) EasyMock.isNull(),
+               (String[]) EasyMock.isNull(),
+               (Map<String, String>) EasyMock.isA(Map.class),
+               (String) EasyMock.isNull(),
                EasyMock.eq("taxon-ws"))).andReturn(
-       new DefaultPageImpl<Taxon>(0, 0, 1, new ArrayList<Taxon>()));
+       new DefaultPageImpl<Taxon>(0, 0, 1, new ArrayList<Taxon>(),null));
        EasyMock.replay(taxonService);
        ModelAndView modelAndView = checklistWebserviceController
                .search("Poaceae");

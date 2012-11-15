@@ -10,12 +10,7 @@
 	<context:annotation-config />
 
 	<batch:job id="OaiPmhTaxonHarvesting">
-	    <batch:description>Harvests records from an OAI-PMH repository</batch:description>
-	    <batch:step id="loadRegions">
-	      <batch:description>Load the Regions Shapefiles for indexing</batch:description>
-	      <batch:tasklet ref="loadRegionShapesTasklet" />			
-		  <batch:next on="COMPLETED" to="setTemporaryFilename" />
-	    </batch:step>
+	    <batch:description>Harvests records from an OAI-PMH repository</batch:description>	    
 	    <batch:step id="setTemporaryFilename">
 			<batch:description>Set the temporary file name</batch:description>
 			<batch:tasklet ref="setTemporaryFilenameTasklet" />			
@@ -76,12 +71,7 @@
 		    <batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="oaiPmhResourceDeletingTasklet" />
 			<batch:next on="COMPLETED" to="clearRegions"/>
-		</batch:step>
-		<batch:step id="clearRegions">
-	      <batch:description>Clear region shapefiles</batch:description>
-	      <batch:tasklet ref="clearRegionShapesTasklet" />			
-		  <batch:end on="COMPLETED"/>
-	    </batch:step>
+		</batch:step>		
 		<batch:listeners>
 		  <batch:listener ref="jobStatusListener"/>
 		</batch:listeners>	
@@ -256,15 +246,4 @@
 	  <property name="temporaryFileName" value="#{jobExecutionContext['temporary.file.name']}"/>
 	</bean>
 	
-	<bean id="loadRegionShapesTasklet"
-		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter">
-		<property name="targetObject" ref="distributionBridge"/>
-		<property name="targetMethod" value="setupRegions" />		
-	</bean>
-	
-	<bean id="clearRegionShapesTasklet"
-		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter">
-		<property name="targetObject" ref="distributionBridge"/>
-		<property name="targetMethod" value="clearRegions" />		
-	</bean>
 </beans>

@@ -16,6 +16,7 @@ import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.emonocot.model.geography.GeographicalRegionFactory;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.hibernate.annotations.Cascade;
@@ -181,11 +182,39 @@ public class IdentificationKey extends SearchableObject {
     }
     
     @Override
-    public SolrInputDocument toSolrInputDocument() {
-    	SolrInputDocument sid = super.toSolrInputDocument();
-        sid.addField("id", "key_" + getId());
-    	sid.addField("base.id_l", getId());
-    	sid.addField("base.class_s", "org.emonocot.model.IdentificationKey");
+    public SolrInputDocument toSolrInputDocument(GeographicalRegionFactory geographicalRegionFactory) {
+    	SolrInputDocument sid = super.toSolrInputDocument(geographicalRegionFactory);
+    	sid.addField("searchable.label_sort", getTitle());
+    	sid.addField("key.title_t", getTitle());
+    	sid.addField("key.creator_t", getCreator());
+    	sid.addField("key.description_t", getDescription());
+    	StringBuilder summary = new StringBuilder().append(getTitle()).append(" ")
+    	.append(getCreator()).append(" ").append(getDescription());
+    	if(getTaxon() != null) {
+    		sid.addField("taxon.class_s", getTaxon().getClazz());
+    	    sid.addField("taxon.family_s", getTaxon().getFamily());
+    	    sid.addField("taxon.genus_s", getTaxon().getGenus());
+    	    sid.addField("taxon.kingdom_s", getTaxon().getKingdom());
+    	    sid.addField("taxon.order_s", getTaxon().getOrder());
+    	    sid.addField("taxon.phylum_s", getTaxon().getPhylum());
+    	    sid.addField("taxon.subfamily_s", getTaxon().getSubfamily());
+    	    sid.addField("taxon.subgenus_s", getTaxon().getSubgenus());
+    	    sid.addField("taxon.subtribe_s", getTaxon().getSubtribe());
+    	    sid.addField("taxon.tribe_s", getTaxon().getTribe());
+    	    summary.append(" ").append(getTaxon().getClazz())
+    	    .append(" ").append(getTaxon().getClazz())
+    	    .append(" ").append(getTaxon().getFamily())
+    	    .append(" ").append(getTaxon().getGenus())
+    	    .append(" ").append(getTaxon().getKingdom())
+    	    .append(" ").append(getTaxon().getOrder())
+    	    .append(" ").append(getTaxon().getPhylum())
+    	    .append(" ").append(getTaxon().getSubfamily())
+    	    .append(" ").append(getTaxon().getSubgenus())
+    	    .append(" ").append(getTaxon().getSubtribe())
+    	    .append(" ").append(getTaxon().getTribe());
+    	}
+    	sid.addField("searchable.solrsummary_t", summary);
+    	
     	return sid;
     }
 }

@@ -12,12 +12,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
+import org.apache.solr.common.SolrInputDocument;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
+import org.emonocot.model.geography.GeographicalRegionFactory;
 import org.emonocot.model.marshall.json.AnnotatableObjectDeserializer;
 import org.emonocot.model.marshall.json.AnnotatableObjectSerializer;
 import org.emonocot.model.marshall.json.SourceDeserializer;
@@ -34,7 +38,7 @@ import org.joda.time.DateTime;
  *
  */
 @Entity
-public class Annotation extends Base {
+public class Annotation extends Base implements Searchable {
 
    /**
     *
@@ -274,5 +278,36 @@ public class Annotation extends Base {
     public void setIdentifier(String newIdentifier) {
         this.identifier = newIdentifier;
     }
+
+	@Override
+	public SolrInputDocument toSolrInputDocument(
+			GeographicalRegionFactory geographicalRegionFactory) {
+		SolrInputDocument sid = new SolrInputDocument();
+		sid.addField("id", getClassName() + "_" + getId());
+    	sid.addField("base.id_l", getId());
+    	sid.addField("base.class_s", getClass().getName());
+    	if(getAuthority() != null) {
+			sid.addField("base.authority_s", getAuthority().getIdentifier());
+		}
+    	sid.addField("annotation.job_id_l",getJobId());
+    	sid.addField("annotation.type_s",getType());
+    	sid.addField("annotation.record_type_s",getRecordType());
+    	sid.addField("annotation.code_s",getCode());
+    	sid.addField("annotation.text_t",getText());
+		return sid;
+	}
+
+	@Transient
+	@JsonIgnore
+	public String getClassName() {
+		return "Annotation";
+	}
+	
+	@Override
+	@Transient
+    @JsonIgnore
+	public String getDocumentId() {
+		return getClassName() + "_" + getId();
+	}
 
 }

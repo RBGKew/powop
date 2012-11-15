@@ -7,7 +7,9 @@ import java.util.List;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrInputDocument;
+import org.emonocot.model.Searchable;
 import org.emonocot.model.SearchableObject;
+import org.emonocot.model.geography.GeographicalRegionFactory;
 import org.hibernate.event.PostDeleteEvent;
 import org.hibernate.event.PostDeleteEventListener;
 import org.hibernate.event.PostInsertEvent;
@@ -29,14 +31,23 @@ public class SolrIndexingListener implements PostInsertEventListener,
 	
 	private SolrServer solrServer = null;
 	
+	private GeographicalRegionFactory geographicalRegionFactory;
+	
 	public void setSolrServer(SolrServer solrServer) {
 		this.solrServer = solrServer;
-	}
+	}	
 	
-	public void indexObjects(Collection<SearchableObject> searchableObjects) {
+	public void setGeographicalRegionFactory(
+			GeographicalRegionFactory geographicalRegionFactory) {
+		this.geographicalRegionFactory = geographicalRegionFactory;
+	}
+
+
+
+	public void indexObjects(Collection<? extends Searchable> searchableObjects) {
 		List<SolrInputDocument> documents = new ArrayList<SolrInputDocument>();
-		for (SearchableObject searchableObject : searchableObjects) {
-			documents.add(searchableObject.toSolrInputDocument());
+		for (Searchable searchable : searchableObjects) {
+			documents.add(searchable.toSolrInputDocument(geographicalRegionFactory));
 		}
 		try {
 			UpdateResponse updateResponse = solrServer.add(documents);
@@ -48,15 +59,15 @@ public class SolrIndexingListener implements PostInsertEventListener,
 		}
 	}
 	
-	public void indexObject(SearchableObject searchableObject) {
-		List<SearchableObject> searchableObjects = new ArrayList<SearchableObject>();
+	public void indexObject(Searchable searchableObject) {
+		List<Searchable> searchableObjects = new ArrayList<Searchable>();
 		searchableObjects.add(searchableObject);
 		indexObjects(searchableObjects);
 	}
 	
-	public void deleteObject(SearchableObject searchableObject) {
+	public void deleteObject(Searchable searchableObject) {
         try {
-            solrServer.deleteById("taxon." + searchableObject.getId());
+            solrServer.deleteById(searchableObject.getDocumentId());
             solrServer.commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -72,15 +83,15 @@ public class SolrIndexingListener implements PostInsertEventListener,
 
 	@Override
 	public void onPostUpdate(PostUpdateEvent event) {		
-		if(SearchableObject.class.isAssignableFrom(event.getEntity().getClass())) {
-		    indexObject((SearchableObject) event.getEntity());
+		if(Searchable.class.isAssignableFrom(event.getEntity().getClass())) {
+		    indexObject((Searchable) event.getEntity());
 		}
 	}
 
 	@Override
 	public void onPostInsert(PostInsertEvent event) {		
-		if(SearchableObject.class.isAssignableFrom(event.getEntity().getClass())) {
-		    indexObject((SearchableObject) event.getEntity());
+		if(Searchable.class.isAssignableFrom(event.getEntity().getClass())) {
+		    indexObject((Searchable) event.getEntity());
 		}
 	}
 

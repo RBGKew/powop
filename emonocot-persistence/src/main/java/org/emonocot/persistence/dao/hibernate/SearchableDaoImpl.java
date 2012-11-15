@@ -136,6 +136,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
 				Class clazz = Class.forName((String)solrDocument.getFieldValue("base.class_s"));
 	        	Long id = (Long)solrDocument.getFieldValue("base.id_l");
 	        	T t = (T)getSession().load(clazz, id);
+	        	t.getIdentifier();
 	        	results.add(t);
 			} catch (ClassNotFoundException cnfe) {
 				throw new RuntimeException("Could not instantiate search result", cnfe);

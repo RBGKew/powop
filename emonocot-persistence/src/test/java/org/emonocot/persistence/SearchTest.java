@@ -3,7 +3,6 @@ package org.emonocot.persistence;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,11 +15,9 @@ import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.Country;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.Region;
-import org.emonocot.model.hibernate.DistributionBridge;
 import org.emonocot.pager.Page;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -29,15 +26,7 @@ import org.junit.Test;
  *
  */
 public class SearchTest extends AbstractPersistenceTest {
-
-    /**
-     *
-     */
-    @BeforeClass
-    public static void doSetupRegions() throws IOException {
-       DistributionBridge distributionBridge = new DistributionBridge();
-       distributionBridge.setupRegions();
-    }
+	
     /**
      * @throws java.lang.Exception
      *             if there is a problem
@@ -111,20 +100,6 @@ public class SearchTest extends AbstractPersistenceTest {
       		   System.out.println("\t" + count.getName() + " " + count.getCount());
       	   }
          }
-    }
-
-    /**
-     *
-     */
-    @Test
-    public final void testSpatialSearch() {
-        //testSpatialSearch() should return Aus bus but not Aus ceus
-        Page<Taxon> page = getTaxonDao().search(
-        null, "Intersects(150.00 -40.0 160.0 -20.0)", null, null, null,
-                null, null, null);
-        for (Taxon t : page.getRecords()) {
-            System.out.println(t.getScientificName());
-        }
     }
 
     /**

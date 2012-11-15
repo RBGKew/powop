@@ -1,7 +1,7 @@
 package org.emonocot.service.impl;
 
 import static org.hamcrest.collection.IsArrayContaining.hasItemInArray;
-import static org.hamcrest.collection.IsCollectionContaining.hasItems;
+import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -182,7 +182,9 @@ public class FacetingTest extends DataManagementSupport {
                         "base.authority_s" },
                 selectedFacets, null, null);
         assertThat("There should be two facets returned",
-                pager.getFacetNames(), hasItems("CLASS", "FAMILY"));
+                pager.getFacetNames(), containsInAnyOrder("base.class_s",
+                        "taxon.family_s", "taxon.distribution_TDWG_0_ss",
+                        "base.authority_s"));
 
         FacetField classFacet = pager.getFacetField("base.class_s");
         String[] Strings = new String[classFacet.getValueCount()];
@@ -210,7 +212,9 @@ public class FacetingTest extends DataManagementSupport {
                         "taxon.distribution_TDWG_1_ss", "base.authority_s" },
                 selectedFacets, null, null);
         assertThat("There should be two facets returned",
-                pager.getFacetNames(), hasItems("CLASS", "FAMILY"));
+                pager.getFacetNames(), containsInAnyOrder("base.class_s",
+                        "taxon.family_s", "taxon.distribution_TDWG_0_ss",
+                        "taxon.distribution_TDWG_1_ss", "base.authority_s"));
 
         FacetField classFacet = pager.getFacetField("base.class_s");
         String[] Strings = new String[classFacet.getValueCount()];
@@ -240,7 +244,9 @@ public class FacetingTest extends DataManagementSupport {
         assertEquals("There should be five taxa returned", (Integer) 5,
                 pager.getSize());
         assertThat("There should be two facets returned",
-                pager.getFacetNames(), hasItems("base.class_s", "taxon.family_s"));
+                pager.getFacetNames(), containsInAnyOrder("base.class_s", "taxon.family_s",
+                        "taxon.distribution_TDWG_0_ss", "base.authority_s",
+                        "taxon.taxon_rank_s", "taxon.taxonomic_status_s"));
 
         FacetField classFacet = pager.getFacetField("base.class_s");
         String[] Strings = new String[classFacet.getValueCount()];
@@ -253,7 +259,7 @@ public class FacetingTest extends DataManagementSupport {
         assertEquals("There should be one value for the FAMILY facet", 1, pager
                 .getFacetField("taxon.family_s").getValueCount());
 
-        selectedFacets.put("taxon.taxon_rank_s", "species");
+        selectedFacets.put("taxon.taxon_rank_s", "SPECIES");
         pager = taxonService.search("Aus", null, null, null,
                 new String[] {"base.class_s", "taxon.family_s",
                         "taxon.distribution_TDWG_0_ss", "base.authority_s",
@@ -347,13 +353,6 @@ public class FacetingTest extends DataManagementSupport {
                 null, null, null, 
                 new String[] {"base.class_s","taxon.family_s", "taxon.distribution_TDWG_0_ss","base.authority_s"},
                 selectedFacets, null, null);
-//    	System.out.println("Searchable {AUTHORITY:source2}");
-//		for (String String : results.getStrings()) {
-//			System.out.println(String);
-//			for (Facet facet : results.getFacets().get(String)) {
-//				System.out.println("\t" + facet.getValue() + " " + facet.getCount());
-//			}
-//		}
     }
     
     /**
@@ -361,7 +360,9 @@ public class FacetingTest extends DataManagementSupport {
      */
     @Test
     public final void testFacetOnPlace() {
-    	Page<Place> places = placeService.search(null, null, 10, 0, new String[] {}, null, null, null);
+    	Map<String, String> selectedFacets = new HashMap<String, String>();
+    	selectedFacets.put("base.class_s", "org.emonocot.model.geography.Place");
+    	Page<Place> places = placeService.search(null, null, 10, 0, new String[] {}, selectedFacets, null, null);
     	assertEquals("There should be one place in the result list",(Integer)places.getSize(),(Integer)1);
     }
 }

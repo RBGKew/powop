@@ -11,12 +11,7 @@
 	<context:annotation-config />
 
 	<batch:job id="CalculateDerivedProperties">
-	    <batch:description>Calculate Derived Properties</batch:description>
-	    <batch:step id="loadRegions">
-	      <batch:description>Load the Regions Shapefiles for indexing</batch:description>
-	      <batch:tasklet ref="loadRegionShapesTasklet" />			
-		  <batch:next on="COMPLETED" to="calculateDerived" />
-	    </batch:step>
+	    <batch:description>Calculate Derived Properties</batch:description>	    
 		<batch:step id="calculateDerived">
 			<batch:description>Calculate derived properties</batch:description>
 			<batch:tasklet>
@@ -26,25 +21,8 @@
 			<batch:listeners>
 			  <batch:listener ref="hibernateSessionClearingChunkListener"/>
 			</batch:listeners>
-		</batch:step>
-		<batch:step id="clearRegions">
-	      <batch:description>Clear region shapefiles</batch:description>
-	      <batch:tasklet ref="clearRegionShapesTasklet" />			
-		  <batch:end on="COMPLETED"/>
-	    </batch:step>
-	</batch:job>
-	
-	<bean id="loadRegionShapesTasklet"
-		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter">
-		<property name="targetObject" ref="distributionBridge"/>
-		<property name="targetMethod" value="setupRegions" />		
-	</bean>
-	
-	<bean id="clearRegionShapesTasklet"
-		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter">
-		<property name="targetObject" ref="distributionBridge"/>
-		<property name="targetMethod" value="clearRegions" />		
-	</bean>
+		</batch:step>		
+	</batch:job>	
 	
 	<bean id="itemReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
 		<property name="sessionFactory" ref="sessionFactory" />

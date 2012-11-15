@@ -21,7 +21,6 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.geography.GeographicalRegion;
-import org.emonocot.model.hibernate.DistributionBridge;
 import org.emonocot.model.marshall.json.GeographicalRegionDeserializer;
 import org.emonocot.model.marshall.json.ReferenceDeserializer;
 import org.emonocot.model.marshall.json.ReferenceSerializer;

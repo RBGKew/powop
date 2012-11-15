@@ -11,7 +11,6 @@ import org.emonocot.api.FacetName;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.PlaceService;
 import org.emonocot.api.SearchableObjectService;
-import org.emonocot.api.Sorting;
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.IdentificationKey;
 import org.emonocot.model.Image;
@@ -19,7 +18,6 @@ import org.emonocot.model.SearchableObject;
 import org.emonocot.model.Taxon;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
-import org.emonocot.portal.format.annotation.SortingFormat;
 import org.emonocot.api.IdentificationKeyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -132,7 +130,7 @@ public class SearchController {
      * @param selectedFacets
      * @return
      */
-    private Page<? extends SearchableObject> runQuery(String query, Integer start, Integer limit, String spatial, FacetName[] responseFacets, Sorting sort, Map<FacetName, String> selectedFacets){
+    private Page<? extends SearchableObject> runQuery(String query, Integer start, Integer limit, String spatial, String[] responseFacets, String sort, Map<String, String> selectedFacets){
     	Page<? extends SearchableObject> result = null;
         if (selectedFacets == null
                 || !selectedFacets.containsKey(FacetName.CLASS)) {
@@ -221,13 +219,13 @@ public class SearchController {
        @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
        @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
        @RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
-       @RequestParam(value = "sort", required = false) @SortingFormat final Sorting sort,
+       @RequestParam(value = "sort", required = false) String sort,
        @RequestParam(value = "view", required = false) String view,
        final Model model) {
 
-       Map<FacetName, String> selectedFacets = null;
+       Map<String, String> selectedFacets = null;
        if (facets != null && !facets.isEmpty()) {
-           selectedFacets = new HashMap<FacetName, String>();
+           selectedFacets = new HashMap<String, String>();
            for (FacetRequest facetRequest : facets) {
                selectedFacets.put(facetRequest.getFacet(),
                        facetRequest.getSelected());
@@ -264,7 +262,7 @@ public class SearchController {
                selectedFacets.remove(FacetName.REGION);
            }
        }
-       FacetName[] responseFacets = new FacetName[]{};
+       String[] responseFacets = new String[]{};
        responseFacets = responseFacetList.toArray(responseFacets);
        limit = setLimit(view, className);
 
@@ -307,7 +305,7 @@ public class SearchController {
       @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
       @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
       @RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
-      @RequestParam(value = "sort", required = false) @SortingFormat final Sorting sort,
+      @RequestParam(value = "sort", required = false) final String sort,
       @RequestParam(value = "view", required = false) String view,
       final Model model) {
       String spatial = null;
@@ -316,9 +314,9 @@ public class SearchController {
         spatial = "Intersects(" + decimalFormat.format(x1) + " " + decimalFormat.format(y1) + " " + decimalFormat.format(x2) + " " + decimalFormat.format(y2) + ")";
       }
 
-      Map<FacetName, String> selectedFacets = null;
+      Map<String, String> selectedFacets = null;
       if (facets != null && !facets.isEmpty()) {
-          selectedFacets = new HashMap<FacetName, String>();
+          selectedFacets = new HashMap<String, String>();
           for (FacetRequest facetRequest : facets) {
               selectedFacets.put(facetRequest.getFacet(),
                       facetRequest.getSelected());
@@ -331,29 +329,29 @@ public class SearchController {
       }
 
       //Decide which facets to return
-      List<FacetName> responseFacetList = new ArrayList<FacetName>();
-      responseFacetList.add(FacetName.CLASS);
-      responseFacetList.add(FacetName.FAMILY);
-      responseFacetList.add(FacetName.AUTHORITY);
+      List<String> responseFacetList = new ArrayList<String>();
+      responseFacetList.add("base.class_s");
+      responseFacetList.add("taxon.family_s");
+      responseFacetList.add("base.authority_s");
       String className = null;
       if (selectedFacets == null) {
           logger.debug("No selected facets, setting default response facets");
       } else {
-          if (selectedFacets.containsKey(FacetName.CLASS)) {
-        	  className = selectedFacets.get(FacetName.CLASS);
-              if (selectedFacets.get(FacetName.CLASS).equals(
-                      "org.emonocot.model.taxon.Taxon")) {
+          if (selectedFacets.containsKey("base.class_s")) {
+        	  className = selectedFacets.get("base.class_s");
+              if (selectedFacets.get("base.class_s").equals(
+                      "org.emonocot.model.Taxon")) {
                   logger.debug("Adding taxon specific facets");
-                  responseFacetList.add(FacetName.RANK);
-                  responseFacetList.add(FacetName.TAXONOMIC_STATUS);
+                  responseFacetList.add("taxon.taxon_rank_s");
+                  responseFacetList.add("taxon.taxonomic_status_s");
               }
           }
-          if (selectedFacets.containsKey(FacetName.CONTINENT)) {
+          if (selectedFacets.containsKey("taxon.distribution_TDWG_0_ss")) {
               logger.debug("Removing continent facet");
-              responseFacetList.remove(FacetName.CONTINENT);
+              responseFacetList.remove("taxon.distribution_TDWG_0_ss");
           }
       }
-      FacetName[] responseFacets = new FacetName[]{};
+      String[] responseFacets = new String[]{};
       responseFacets = responseFacetList.toArray(responseFacets);
       limit = setLimit(view, className);
 

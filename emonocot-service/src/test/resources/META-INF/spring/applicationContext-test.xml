@@ -85,6 +85,13 @@
 				<value>org.emonocot.model.geography.Place</value>
 			</list>
 		</property>
+		<property name="eventListeners">
+      	  <map>
+        	<entry key="post-insert" value-ref="solrIndexingListener" />
+            <entry key="post-update" value-ref="solrIndexingListener" />
+            <entry key="post-delete" value-ref="solrIndexingListener" />
+      	  </map>
+    	</property>
 		<property name="annotatedPackages" value="org.emonocot.model" />
 	</bean>
 
@@ -92,5 +99,20 @@
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>	
+	
+	<bean id="solrIndexingListener" class="org.emonocot.persistence.hibernate.SolrIndexingListener">
+	  <property name="solrServer" ref="solrServer"/>
+	  <property name="geographicalRegionFactory" ref="geographicalRegionFactory"/>
+	</bean>
+	
+	<bean id="geographicalRegionFactory" class="org.emonocot.model.geography.GeographicalRegionFactoryImpl"
+	    init-method="afterPropertiesSet" destroy-method="destroy">
+	    <property name="baseDirectory" value="classpath:/META-INF/org/tdwg/geography/"/>
+	</bean>
+
+	<bean id="solrServer" class="org.emonocot.test.EmbeddedSolrServerFactoryBean"
+	  destroy-method="shutdown">
+		<property name="solrHome" value="classpath:/META-INF/solr/"/>
+	</bean>
 
 </beans>

@@ -9,9 +9,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.emonocot.api.AnnotationService;
-import org.emonocot.api.FacetName;
 import org.emonocot.api.JobService;
-import org.emonocot.api.Sorting;
 import org.emonocot.api.SourceService;
 import org.emonocot.api.job.JobExecutionException;
 import org.emonocot.api.job.JobExecutionInfo;
@@ -23,7 +21,6 @@ import org.emonocot.model.Source;
 import org.emonocot.model.constants.JobType;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
-import org.emonocot.portal.format.annotation.SortingFormat;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.slf4j.Logger;
@@ -626,22 +623,22 @@ public class SourceController extends GenericController<Source, SourceService> {
 		    @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
 		    @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
 		    @RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
-		    @RequestParam(value = "sort", required = false) @SortingFormat final Sorting sort,
+		    @RequestParam(value = "sort", required = false) String sort,
 		    @RequestParam(value = "view", required = false) String view,
 		    final Model model) {
 		model.addAttribute(getService().load(identifier));
-		Map<FacetName, String> selectedFacets = new HashMap<FacetName, String>();
+		Map<String, String> selectedFacets = new HashMap<String, String>();
 		if (facets != null && !facets.isEmpty()) {
 			for (FacetRequest facetRequest : facets) {
 				selectedFacets.put(facetRequest.getFacet(),
 						facetRequest.getSelected());
 			}
 		}
-		selectedFacets.put(FacetName.JOB_INSTANCE, jobId.toString());
+		selectedFacets.put("annotation.job_id_l", jobId.toString());
 		Page<Annotation> result = annotationService.search(query, null, limit,
-				start, new FacetName[] { FacetName.ERROR_CODE,
-						FacetName.ISSUE_TYPE, FacetName.RECORD_TYPE,
-						FacetName.JOB_INSTANCE }, selectedFacets, null,
+				start, new String[] { "annotation.code_s",
+				"annotation.type_s", "annotation.record_type_s",
+				"annotation.job_id_l" }, selectedFacets, null,
 				"annotated-obj");
 		result.putParam("query", query);
 		model.addAttribute("jobId",jobId);

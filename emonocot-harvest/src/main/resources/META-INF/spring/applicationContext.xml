@@ -47,25 +47,6 @@
 		</property>
 	</bean>
 
-	<bean name="hibernateSearchIndexPurger"
-		class="org.emonocot.persistence.hibernate.HibernateSearchIndexPurger"
-		init-method="purgeIndices" depends-on="transactionManager">
-		<property name="purgeOnInit" value="${hibernate.search.purge.indexes.on.init}" />
-		<property name="indexedClasses">
-			<list>
-				<value>org.emonocot.model.Distribution</value>
-				<value>org.emonocot.model.geography.Place</value>
-				<value>org.emonocot.model.Identifier</value>
-				<value>org.emonocot.model.IdentificationKey</value>
-				<value>org.emonocot.model.Description</value>
-				<value>org.emonocot.model.Image</value>
-				<value>org.emonocot.model.Reference</value>
-				<value>org.emonocot.model.Source</value>
-				<value>org.emonocot.model.Taxon</value>
-			</list>
-		</property>
-	</bean>
-
 	<bean name="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />

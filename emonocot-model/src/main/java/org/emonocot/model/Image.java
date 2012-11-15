@@ -22,6 +22,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.constants.ImageFormat;
+import org.emonocot.model.geography.GeographicalRegionFactory;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.geotools.geometry.jts.JTSFactoryFinder;
@@ -29,6 +30,8 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
@@ -41,6 +44,9 @@ import com.vividsolutions.jts.geom.Point;
  */
 @Entity
 public class Image extends SearchableObject implements NonOwned {
+	
+	private static Logger logger = LoggerFactory.getLogger(Image.class);
+	
     /**
      *
      */
@@ -427,11 +433,54 @@ public class Image extends SearchableObject implements NonOwned {
     }
     
     @Override
-    public SolrInputDocument toSolrInputDocument() {
-    	SolrInputDocument sid = super.toSolrInputDocument();
-        sid.addField("id", "image_" + getId());
-    	sid.addField("base.id_l", getId());
-    	sid.addField("base.class_s", "org.emonocot.model.Image");
+    public SolrInputDocument toSolrInputDocument(GeographicalRegionFactory geographicalRegionFactory) {
+    	SolrInputDocument sid = super.toSolrInputDocument(geographicalRegionFactory);
+    	sid.addField("searchable.label_sort", getTitle());
+    	sid.addField("image.audience_t", getAudience());
+    	
+    	sid.addField("image.creator_t", getCreator());
+    	sid.addField("image.description_t", getDescription());
+    	sid.addField("image.publisher_t", getPublisher());
+    	sid.addField("image.references_t", getReferences());
+    	sid.addField("image.spatial_t", getSpatial());
+    	sid.addField("image.subject_t", getSubject());
+    	sid.addField("image.title_t", getTitle());    	
+    	
+		StringBuilder summary = new StringBuilder().append(getAudience())
+				.append(" ").append(getCreator()).append(" ")
+				.append(getDescription()).append(getPublisher()).append(" ")
+				.append(getReferences()).append(" ").append(getSpatial())
+				.append(" ").append(getSubject()).append(" ")
+				.append(getTitle()).append(" ");
+    	if(getTaxon() != null) {
+    		sid.addField("taxon.class_s", getTaxon().getClazz());
+    	    sid.addField("taxon.family_s", getTaxon().getFamily());
+    	    sid.addField("taxon.genus_s", getTaxon().getGenus());
+    	    sid.addField("taxon.kingdom_s", getTaxon().getKingdom());
+    	    sid.addField("taxon.order_s", getTaxon().getOrder());
+    	    sid.addField("taxon.phylum_s", getTaxon().getPhylum());
+    	    sid.addField("taxon.subfamily_s", getTaxon().getSubfamily());
+    	    sid.addField("taxon.subgenus_s", getTaxon().getSubgenus());
+    	    sid.addField("taxon.subtribe_s", getTaxon().getSubtribe());
+    	    sid.addField("taxon.tribe_s", getTaxon().getTribe());
+    	    summary.append(" ").append(getTaxon().getClazz())
+    	    .append(" ").append(getTaxon().getClazz())
+    	    .append(" ").append(getTaxon().getFamily())
+    	    .append(" ").append(getTaxon().getGenus())
+    	    .append(" ").append(getTaxon().getKingdom())
+    	    .append(" ").append(getTaxon().getOrder())
+    	    .append(" ").append(getTaxon().getPhylum())
+    	    .append(" ").append(getTaxon().getSubfamily())
+    	    .append(" ").append(getTaxon().getSubgenus())
+    	    .append(" ").append(getTaxon().getSubtribe())
+    	    .append(" ").append(getTaxon().getTribe());
+    	}
+    	sid.addField("searchable.solrsummary_t", summary);
+    	try {
+			geographicalRegionFactory.indexSpatial(getLocation(), sid);
+		} catch (Exception e) {
+			logger.error(e.getLocalizedMessage());
+		}
     	return sid;
     }
 }

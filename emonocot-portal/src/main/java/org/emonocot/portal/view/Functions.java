@@ -12,8 +12,6 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.el.ELException;
 
 import org.emonocot.api.FacetName;
-import org.emonocot.api.Sorting;
-import org.emonocot.api.Sorting.SortDirection;
 import org.emonocot.api.convert.ClassToStringConverter;
 import org.emonocot.api.convert.PermissionToStringConverter;
 import org.emonocot.model.Distribution;
@@ -376,11 +374,11 @@ public final class Functions {
      *
      * @return a list of sorting items
      */
-    public static List<Sorting> sortItems() {
-        List<Sorting> sortItems = new ArrayList<Sorting>();
-        sortItems.add(new Sorting("label"));
-        sortItems.add(new Sorting("created", SortDirection.REVERSE));
-        sortItems.add(new Sorting(null));
+    public static List<String> sortItems() {
+        List<String> sortItems = new ArrayList<String>();
+        sortItems.add("searchable.label_sort");
+        sortItems.add("base.created_dt_desc");
+        sortItems.add("_asc");
         return sortItems;
     }
     
@@ -388,13 +386,13 @@ public final class Functions {
     *
     * @return a list of sorting items
     */
-   public static List<Sorting> annotationSortItems() {
-       List<Sorting> sortItems = new ArrayList<Sorting>();
-       sortItems.add(new Sorting("type"));
-       sortItems.add(new Sorting("code"));
-       sortItems.add(new Sorting("recordType"));
-       sortItems.add(new Sorting("created", SortDirection.REVERSE));
-       sortItems.add(new Sorting(null));
+   public static List<String> annotationSortItems() {
+       List<String> sortItems = new ArrayList<String>();
+       sortItems.add("annotation.type_s");
+       sortItems.add("annotation.code_s");
+       sortItems.add("annotation.record_type_s");
+       sortItems.add("base.created_dt_desc");
+       sortItems.add("_asc");
        return sortItems;
    }
 

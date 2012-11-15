@@ -43,8 +43,7 @@ public class Place extends SearchableObject {
     /**
      *
      */
-    private static Logger logger = LoggerFactory
-            .getLogger(Place.class);
+    private static Logger logger = LoggerFactory.getLogger(Place.class);
 
 	/**
 	 * 
@@ -217,11 +216,17 @@ public class Place extends SearchableObject {
     }
 
     @Override
-    public SolrInputDocument toSolrInputDocument() {
-    	SolrInputDocument sid = super.toSolrInputDocument();
-        sid.addField("id", "place_" + getId());
-    	sid.addField("base.id_l", getId());
-    	sid.addField("base.class_s", "org.emonocot.model.geography.Place");
+    public SolrInputDocument toSolrInputDocument(GeographicalRegionFactory geographicalRegionFactory) {
+    	SolrInputDocument sid = super.toSolrInputDocument(geographicalRegionFactory);
+    	sid.addField("searchable.label_sort", getTitle());
+    	sid.addField("image.fips_code_t", getFipsCode());
+    	StringBuilder summary = new StringBuilder().append(getTitle()).append(" ").append(getFipsCode());
+    	sid.addField("searchable.solrsummary_t", summary);
+    	try {
+			geographicalRegionFactory.indexSpatial(this, sid);
+		} catch (Exception e) {
+			logger.error(e.getLocalizedMessage());
+		}
     	return sid;
     }
 }
