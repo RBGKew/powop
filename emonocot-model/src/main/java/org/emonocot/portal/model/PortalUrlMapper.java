@@ -19,14 +19,14 @@ import org.springframework.core.convert.converter.Converter;
  */
 public class PortalUrlMapper implements ItemProcessor<SearchableObject, Url>, Converter<SearchableObject, Url> {
 	
-	/**
-    *
-    */
-   private static final Logger logger = LoggerFactory.getLogger(PortalUrlMapper.class);
+    /**
+     *
+     */
+    private static final Logger logger = LoggerFactory.getLogger(PortalUrlMapper.class);
 
-	/**
-	 * 
-	 */
+    /**
+	  * 
+	  */
 	String portalBaseUrl;
 
     /**

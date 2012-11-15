@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+	                    
+    <context:property-placeholder ignore-unresolvable="true" location="classpath*:META-INF/spring/*.properties"/>
+	
+    <context:annotation-config />
+    
+    <batch:job id="DarwinCoreArchiveCreation">
+        <batch:step id="createWorkspace">
+            <batch:description>Set the temporary file names</batch:description>
+            <batch:tasklet ref="setTemporaryFilenamesTasklet" />
+            <batch:next on="COMPLETED" to="writeFiles" />
+        </batch:step>
+        <batch:step id="writeFiles">
+            <batch:tasklet>
+                <batch:chunk reader="taxonReader" processor="taxonToGbifStarConverter"
+                    writer="dwcaWriter" commit-interval="100" />
+            </batch:tasklet>
+            <batch:next on="COMPLETED" to="createZip" />
+            <batch:listeners>
+                <batch:listener ref="dwcaWriter" />
+            </batch:listeners>
+        </batch:step>
+        <batch:step id="createZip">
+            <batch:tasklet ref="packDwcArchiveTasklet" />
+            <batch:next on="COMPLETED" to="cleanUp" />
+        </batch:step>
+        <batch:step id="cleanUp">
+            <batch:tasklet ref="dwcArchiveResourceDeletingTasklet" />
+        </batch:step>
+        <batch:listeners>
+            <batch:listener ref="jobStatusListener" />
+        </batch:listeners>
+    </batch:job>
+    
+    <bean id="dummy" class="java.lang.String" scope="step">
+        <constructor-arg value="someWord" />
+    </bean>
+    
+    <bean id="taxonReader" class="org.emonocot.harvest.common.SearchtermPagingItemReader" scope="step">
+        <property name="queryString" value="#{jobParameters[query]}" />
+        <property name="service">
+            <bean class="org.emonocot.service.impl.TaxonServiceImpl" />
+        </property>
+    </bean>
+
+    <bean id="taxonToGbifStarConverter" class="org.emonocot.job.dwc.TaxonToStarRecordConverter" />
+    
+    <bean id="setTemporaryFilenamesTasklet" class="org.emonocot.job.dwc.SetTemporaryFilenamesTasklet">
+        <property name="harvesterSpoolDirectory" value="${harvester.spool.directory}"/>
+    </bean>
+
+    <bean id="jobStatusListener" class="org.emonocot.harvest.common.JobStatusListener">
+      <property name="jobStatusNotifier" ref="jobStatusNotifier"/>
+      <property name="baseUrl" value="${harvester.baseUrl}"/>
+    </bean>
+
+    <bean id="dwcArchiveResourceDeletingTasklet"
+        class="org.emonocot.harvest.common.MultiResourceDeletingTasklet"
+        scope="step">
+        <property name="resources">
+            <list>
+                <bean class="org.springframework.core.io.FileSystemResource" scope="step">
+                    <constructor-arg value="#{jobExecutionContext['temporary.file.name']}" />
+                </bean>
+                <bean class="org.springframework.core.io.FileSystemResource" scope="step">
+                    <constructor-arg value="#{jobExecutionContext['unpack.directory.name']}" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="dwcaWriter" class="org.emonocot.job.dwc.StarRecordWriter" scope="step">
+        <property name="writer">
+            <bean class="org.gbif.dwc.text.DwcaWriter">
+                <constructor-arg value="#{T(org.gbif.dwc.terms.DwcTerm).Taxon}" />
+                <constructor-arg value="#{jobExecutionContext['temporary.file.name']}" />
+                <property name="eml">
+                <!-- Defined here unless it will be used outside of this step/I've slept on it -->
+                    <bean class="org.gbif.metadata.eml.Eml">
+                        <property name="title" value="eMonocot download for #{jobParameters['query']}" />
+                        <property name="description" value="see http://e-monocot.org/about" />
+                    </bean>
+                </property>
+            </bean>
+        </property>
+        <property name="termFactory">
+            <bean class="org.gbif.dwc.terms.TermFactory" />
+        </property>
+    </bean>
+
+    <bean id="packDwcArchiveTasklet" scope="step"
+        class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter">
+        <property name="targetObject">
+            <bean class="org.emonocot.harvest.common.FileResourceZipper" />
+        </property>
+        <property name="targetMethod" value="packArchive" />
+        <property name="arguments">
+            <list>
+                <value>#{jobExecutionContext['temporary.file.name']}</value>
+                <value>#{jobParameters['output.file']}</value>
+            </list>
+        </property>
+    </bean>
+</beans>

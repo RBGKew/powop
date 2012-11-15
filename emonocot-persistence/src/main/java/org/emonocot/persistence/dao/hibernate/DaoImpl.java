@@ -358,9 +358,10 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
     /**
      * @param page Set the offset (in size chunks, 0-based), optional
      * @param size Set the page size
+     * @param fetch Set the fetch profile to which relations are fetched
      * @return A list of results
      */
-    public final List<T> list(final Integer page, final Integer size, String fetch) {
+    public final List<T> list(final Integer page, final Integer size, final String fetch) {
         Criteria criteria = getSession().createCriteria(type);
 
         if (size != null) {
