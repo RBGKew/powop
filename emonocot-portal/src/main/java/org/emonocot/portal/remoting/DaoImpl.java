@@ -299,9 +299,10 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
     /**
      * @param page Set the offset (in size chunks, 0-based), optional
      * @param size Set the page size
+     * @param fetch The profile describing which objects to hydrate/retrieve
      * @return A list of results
      */
-    public final List<T> list(final Integer page, final Integer size) {
+    public final List<T> list(final Integer page, final Integer size, final String fetch) {
         return null;
     }
 

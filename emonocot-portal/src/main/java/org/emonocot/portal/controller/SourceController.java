@@ -130,7 +130,7 @@ public class SourceController extends GenericController<Source, SourceService> {
 			final Model model,
 			@RequestParam(value = "page", defaultValue = "0", required = false) final Integer page,
 			@RequestParam(value = "size", defaultValue = "10", required = false) final Integer size) {
-		model.addAttribute("result", getService().list(page, size));
+		model.addAttribute("result", getService().list(page, size, null));
 		return "source/list";
 	}
 
