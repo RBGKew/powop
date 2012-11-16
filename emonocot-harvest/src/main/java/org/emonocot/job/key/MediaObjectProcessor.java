@@ -62,17 +62,7 @@ public class MediaObjectProcessor extends AuthorityAware implements
                 persistedImage.setTitle(item.getRepresentation().getLabel());
                 persistedImage.setDescription(item.getRepresentation()
                         .getDetail());
-                Source source = getSource();
-                boolean contains = false;
-                for (Source s : persistedImage.getSources()) {
-                    if (s.getIdentifier().equals(source.getIdentifier())) {
-                        contains = true;
-                        break;
-                    }
-                }
-                if (!contains) {
-                    persistedImage.getSources().add(source);
-                }
+                
                 imageFileProcessor.process(persistedImage);
                 imageMetadataExtractor.process(persistedImage);
                 Annotation annotation = createAnnotation(persistedImage,
@@ -90,7 +80,6 @@ public class MediaObjectProcessor extends AuthorityAware implements
                 image.setTitle(item.getRepresentation().getLabel());
                 image.setDescription(item.getRepresentation().getDetail());
                 image.setAuthority(getSource());
-                image.getSources().add(getSource());
                 
                 Annotation annotation = createAnnotation(image,
                         RecordType.Image, AnnotationCode.Create,

@@ -211,14 +211,7 @@ public abstract class DataManagementSupport {
         taxon.setTaxonomicStatus(status);
         taxon.setTaxonRank(rank);
         taxon.setAuthority(source);
-        if (source != null) {
-            taxon.getSources().add(source);
-        }
-        if(sources != null) {
-        	for(Source s : sources) {
-        		taxon.getSources().add(s);
-        	}
-        }
+        
         Reference reference = new Reference();
         reference.setIdentifier(UUID.randomUUID().toString());
         reference.setDate(datePublished);
@@ -274,14 +267,6 @@ public abstract class DataManagementSupport {
         image.setIdentifier(identifier);
         image.setTaxon(taxon);
         image.setAuthority(source);
-        if (source != null) {
-            image.getSources().add(source);
-        }
-        if(sources != null) {
-        	for(Source s : sources) {
-        		image.getSources().add(s);
-        	}
-        }
         setUp.add(image);
         tearDown.push(image);
         return image;

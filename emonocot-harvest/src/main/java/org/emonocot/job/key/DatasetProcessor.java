@@ -133,7 +133,6 @@ public class DatasetProcessor extends AuthorityAware implements
             IdentificationKey identificationKey = new IdentificationKey();
             identificationKey.setIdentifier(authorityUri);
             identificationKey.setAuthority(getSource());
-            identificationKey.getSources().add(getSource());
 
             if (rootTaxonIdentifier != null
                     && rootTaxonIdentifier.trim().length() > 0) {
@@ -176,17 +175,7 @@ public class DatasetProcessor extends AuthorityAware implements
             persistedIdentificationKey.setDescription(item.getRepresentation()
                     .getDetail());
             persistedIdentificationKey.setMatrix(matrix);
-            Source source = getSource();
-            boolean contains = false;
-            for (Source s : persistedIdentificationKey.getSources()) {
-                if (s.getIdentifier().equals(source.getIdentifier())) {
-                    contains = true;
-                    break;
-                }
-            }
-            if (!contains) {
-                persistedIdentificationKey.getSources().add(source);
-            }
+            
             return persistedIdentificationKey;
         }
     }

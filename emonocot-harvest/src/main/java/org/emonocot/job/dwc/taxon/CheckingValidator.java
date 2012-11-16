@@ -65,24 +65,6 @@ public class CheckingValidator extends AuthorityAware implements ItemProcessor<T
             throw new UnexpectedTaxonException(taxon);
         } else {
         	logger.info(taxon.getIdentifier() + " was expected");
-            /**
-             * Using java.util.Collection.contains() does not work on lazy
-             * collections.
-             */
-            boolean contains = false;
-            for (Source auth : persistedTaxon.getSources()) {
-                logger.debug("Comparing " + auth.getIdentifier() + " with " + getSource().getIdentifier());
-                if (auth.equals(getSource())) {
-                    contains = true;
-                    break;
-                }
-            }
-            if (!contains) {
-                logger.debug("Adding " + getSource());
-                persistedTaxon.getSources().add(getSource());
-            } else {
-                logger.debug(persistedTaxon + " already contains " + getSource());
-            }
         }
         return persistedTaxon;
     }

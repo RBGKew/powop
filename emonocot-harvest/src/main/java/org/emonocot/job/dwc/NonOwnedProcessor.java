@@ -69,7 +69,6 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
                 bind(t);
                 doPersist(t);
                 t.setAuthority(getSource());
-                t.getSources().add(getSource());
                 Annotation annotation = createAnnotation(t, getRecordType(), AnnotationCode.Create, AnnotationType.Info);
                 t.getAnnotations().add(annotation);
                 logger.info("Adding object " + t.getIdentifier());

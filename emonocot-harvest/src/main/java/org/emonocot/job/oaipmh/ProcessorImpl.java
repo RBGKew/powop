@@ -138,8 +138,7 @@ public class ProcessorImpl extends AuthorityAware implements
                 // Create a new taxon
                 taxon = new Taxon();
                 TaxonConcept taxonConcept = record.getMetadata()
-                        .getTaxonConcept();
-                taxon.getSources().add(getSource());
+                        .getTaxonConcept();                
                 taxon.setAuthority(getSource());
                 taxon.setIdentifier(taxonConcept.getIdentifier().toString());
                 taxon.getAnnotations().add(
@@ -162,27 +161,7 @@ public class ProcessorImpl extends AuthorityAware implements
 
                 taxon.getAnnotations().add(
                         createAnnotation(taxon, RecordType.Taxon,
-                                AnnotationCode.Update, AnnotationType.Info));
-                /**
-                 * Using java.util.Collection.contains() does not work on lazy
-                 * collections.
-                 */
-                boolean contains = false;
-                for (Source auth : taxon.getSources()) {
-                    if (auth.getIdentifier()
-                            .equals(getSource().getIdentifier())) {
-                        contains = true;
-                        break;
-                    }
-                }
-                if (!contains) {
-                    logger.debug(taxon.getScientificName() + " does not contain "
-                            + getSource().getIdentifier() + " adding");
-                    taxon.getSources().add(getSource());
-                } else {
-                    logger.debug(taxon.getScientificName() + " does contain "
-                            + getSource().getIdentifier() + " skipping");
-                }
+                                AnnotationCode.Update, AnnotationType.Info));                
 
                 taxon.setAuthority(getSource());
                 // Allow the relationships to either be re-asserted or dropped

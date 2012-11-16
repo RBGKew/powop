@@ -146,7 +146,6 @@ public class FieldSetMapper extends
                             RecordType.Reference, AnnotationCode.Create,
                             AnnotationType.Info);
                     r.getAnnotations().add(annotation);
-                    r.getSources().add(getSource());
                     r.setAuthority(getSource());
                 }
                 boundReferences.put(value, r);

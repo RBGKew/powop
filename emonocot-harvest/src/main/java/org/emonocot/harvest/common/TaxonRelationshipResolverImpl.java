@@ -89,7 +89,6 @@ public class TaxonRelationshipResolverImpl extends AuthorityAware
                         annotation.setType(AnnotationType.Info);
                         annotation.setAuthority(getSource());
                         taxon.getAnnotations().add(annotation);
-                        taxon.getSources().add(getSource());
                         taxon.setAuthority(getSource());
                         taxon.setIdentifier(identifier);
                         logger.info("Didn't find taxon with identifier "

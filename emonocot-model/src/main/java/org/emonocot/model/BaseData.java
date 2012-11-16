@@ -63,12 +63,6 @@ public abstract class BaseData extends Base implements Annotated {
     private String accessRights;
 
     /**
-     * As Jo pointed out, having a map of AuthorityType -> Authority
-     * didn't allow for more than one secondary authority.
-     */
-    private Set<Source> sources = new HashSet<Source>();
-
-    /**
      *
      */
     private Source authority;
@@ -108,24 +102,6 @@ public abstract class BaseData extends Base implements Annotated {
     @JsonDeserialize(using = SourceDeserializer.class)
     public void setAuthority(Source authority) {
         this.authority = authority;
-    }
-
-    /**
-     * @return the authorities, including the primary authority
-     */
-    @ManyToMany(fetch = FetchType.LAZY)
-    //@IndexedEmbedded(depth = 1)
-    @JsonSerialize(contentUsing = SourceSerializer.class)
-    public Set<Source> getSources() {
-        return sources;
-    }
-
-    /**
-     * @param sources the authorities to set
-     */
-    @JsonDeserialize(contentUsing = SourceDeserializer.class)
-    public void setSources(Set<Source> sources) {
-        this.sources = sources;
     }
 
     /**

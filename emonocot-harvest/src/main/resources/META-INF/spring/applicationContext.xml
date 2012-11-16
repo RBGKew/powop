@@ -81,7 +81,12 @@
 				<value>org.emonocot.model.auth.Group</value>
 				<value>org.emonocot.model.geography.Place</value>
 			</list>
-		</property>		
+		</property>
+		<property name="eventListeners">
+      	  <map>        	
+            <entry key="post-delete" value-ref="solrIndexingListener" />
+      	  </map>
+    	</property>	
 		<property name="annotatedPackages" value="org.emonocot.model" />
 	</bean>
 	
@@ -92,7 +97,8 @@
 	
 	<bean id="geographicalRegionFactory" class="org.emonocot.model.geography.GeographicalRegionFactoryImpl"
 	    init-method="afterPropertiesSet" destroy-method="destroy">
-	    <property name="baseDirectory" value="classpath:/META-INF/org/tdwg/geography/"/>
+	    <property name="spatialIndexingEnabled" value="false"/>
+	    <property name="baseDirectory" value="${tdwg.shapefiles.location}/org/tdwg/geography/"/>
 	</bean>
 
 	<bean id="solrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer"  destroy-method="shutdown">

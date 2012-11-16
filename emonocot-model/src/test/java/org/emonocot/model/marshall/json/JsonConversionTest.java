@@ -244,7 +244,7 @@ public class JsonConversionTest {
                         EasyMock.eq("taxon-page"))).andReturn(taxon).times(1);
         EasyMock.replay(referenceService, taxonService);
 
-        String content = "{\"location\":null,\"id\":null,\"description\":null,\"taxon\":null,\"taxa\":[\"urn:kew.org:wcs:taxon:2295\"],\"title\":\"Acorus\",\"format\":null,\"subject\":null,\"spatial\":null,\"authority\":null,\"sources\":[],\"license\":null,\"created\":null,\"modified\":null,\"creator\":null,\"identifier\":\"urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg\"}";
+        String content = "{\"location\":null,\"id\":null,\"description\":null,\"taxon\":null,\"taxa\":[\"urn:kew.org:wcs:taxon:2295\"],\"title\":\"Acorus\",\"format\":null,\"subject\":null,\"spatial\":null,\"authority\":null,\"license\":null,\"created\":null,\"modified\":null,\"creator\":null,\"identifier\":\"urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg\"}";
         Image image = (Image) objectMapper.readValue(content, Image.class);
         EasyMock.verify(referenceService, taxonService);
 
@@ -475,7 +475,7 @@ public class JsonConversionTest {
     
     @Test
     public final void testReadMultiPolygon() throws Exception {
-    	String placeJson = "{\"title\":\"testName\",\"id\":null,\"shape\":\"MULTIPOLYGON (((57 26, 0 0, 25 25, 57 26)))\",\"point\":null,\"fipsCode\":null,\"authority\":null,\"identifier\":\"test.jk.triangle\",\"sources\":[],\"license\":null,\"created\":null,\"modified\":null}";
+    	String placeJson = "{\"title\":\"testName\",\"id\":null,\"shape\":\"MULTIPOLYGON (((57 26, 0 0, 25 25, 57 26)))\",\"point\":null,\"fipsCode\":null,\"authority\":null,\"identifier\":\"test.jk.triangle\",\"license\":null,\"created\":null,\"modified\":null}";
     	Place desrialized = objectMapper.readValue(placeJson, Place.class);
     	
     	assertEquals("Expected identifier to be " + place.getIdentifier(), place.getIdentifier(), desrialized.getIdentifier());

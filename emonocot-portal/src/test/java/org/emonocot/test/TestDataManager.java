@@ -232,7 +232,6 @@ public class TestDataManager {
             Source s = new Source();
             s.setIdentifier(source);
             image.setAuthority(s);
-            image.getSources().add(s);
         }
         if(taxon != null) {
         	Taxon t = new Taxon();
@@ -499,7 +498,6 @@ public class TestDataManager {
             Source s = new Source();
             s.setIdentifier(source);
             taxon.setAuthority(s);
-            taxon.getSources().add(s);
         }
         if (created != null && created.length() > 0) {
             DateTime dateTime = dateTimeFormatter.parseDateTime(created);

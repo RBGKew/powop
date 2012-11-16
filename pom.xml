@@ -1339,16 +1339,12 @@
 		<profile>
 			<id>harvest.uat.vagrant</id>
 			<properties>
+			    <tdwg.shapefiles.location>/var/lib/emonocot</tdwg.shapefiles.location>
 				<webAppRootKey>harvester</webAppRootKey>
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
-				<portal.job.notification.uri>http://localhost/emonocot-portal/job-notifications</portal.job.notification.uri>
 				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
-				<amq.broker.name>messageBroker</amq.broker.name>
-				<amq.connectionFactory.jndi_name>jms/ConnectionFactory</amq.connectionFactory.jndi_name>
-				<amq.queue.jndi_name>queue/eMonocotLuceneQueue</amq.queue.jndi_name>
-				<amq.queue.physical_name>eMonocotLuceneQueue</amq.queue.physical_name>
 				<harvester.baseUrl>http://localhost:8888/emonocot-harvester</harvester.baseUrl>
 				<harvester.services.client.identifier>zoo.ox.ac.uk</harvester.services.client.identifier>
 				<harvester.admin.password>adm1n</harvester.admin.password>
@@ -1372,12 +1368,7 @@
 				<liquibase.url>jdbc:mysql://localhost:3336/emonocot</liquibase.url>
 				<liquibase.drop.database.first>false</liquibase.drop.database.first>
 				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
-				<hibernate.search.default.indexBase>/var/cache/tomcat7/work/emonocot-harvester</hibernate.search.default.indexBase>
-				<hibernate.search.default.sourceBase>/mnt/master_index</hibernate.search.default.sourceBase>
-				<hibernate.search.default.directory_provider>filesystem-master</hibernate.search.default.directory_provider>
-				<hibernate.search.default.refresh>60</hibernate.search.default.refresh>
-				<hibernate.search.worker.backend>jms</hibernate.search.worker.backend>
-				<hibernate.search.purge.indexes.on.init>false</hibernate.search.purge.indexes.on.init>
+				<solr.url>http://localhost:8983/solr</solr.url>
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-harvester/cache</ehcache.diskstore.path>
 				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
 				<jdbc.driver.url>jdbc:mysql://localhost:3306/emonocot</jdbc.driver.url>
@@ -1388,16 +1379,12 @@
 		<profile>
 			<id>portal.uat.vagrant</id>
 			<properties>
+			    <tdwg.shapefiles.location>/var/lib/emonocot</tdwg.shapefiles.location>
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
-				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
-				<amq.broker.name>localhost</amq.broker.name>
-				<amq.connectionFactory.jndi_name>jms/ConnectionFactory</amq.connectionFactory.jndi_name>
-				<amq.queue.jndi_name>queue/eMonocotLuceneQueue</amq.queue.jndi_name>
-				<amq.queue.physical_name>eMonocotLuceneQueue</amq.queue.physical_name>
-				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
-				<harvester.jobRequests.url>http://build.e-monocot.org/test/job-requests.json</harvester.jobRequests.url>
+				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>				
+				<portal.baseUrl>http://localhost:8080</portal.baseUrl>				
 				<google.analytics.id />
 				<webAppRootKey>emonocot-portal</webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>
@@ -1415,12 +1402,7 @@
 				<liquibase.changelog>../emonocot-persistence/src/main/resources/changelog.mysql.xml</liquibase.changelog>
 				<liquibase.url>jdbc:mysql://localhost:3336/emonocot</liquibase.url>
 				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
-				<hibernate.search.default.directory_provider>filesystem-slave</hibernate.search.default.directory_provider>
-				<hibernate.search.default.indexBase>/var/cache/tomcat7/work/emonocot-portal/indexes</hibernate.search.default.indexBase>
-				<hibernate.search.default.sourceBase>/mnt/master_index</hibernate.search.default.sourceBase>
-				<hibernate.search.worker.backend>jms</hibernate.search.worker.backend>
-				<hibernate.search.default.refresh>60</hibernate.search.default.refresh>
-				<hibernate.search.purge.indexes.on.init>false</hibernate.search.purge.indexes.on.init>
+				<solr.url>http://localhost:8983/solr</solr.url>
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
 				<mondrian.catalog.location>jndi:/localhost/WEB-INF/classes/META-INF/olap/olap.xml</mondrian.catalog.location>
 				<spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
@@ -1436,6 +1418,7 @@
 		<profile>
 			<id>portal.test.vagrant</id>
 			<properties>
+			    <tdwg.shapefiles.location>/var/lib/emonocot</tdwg.shapefiles.location>
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
