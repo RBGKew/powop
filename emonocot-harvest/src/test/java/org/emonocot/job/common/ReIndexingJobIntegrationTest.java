@@ -79,7 +79,9 @@ public class ReIndexingJobIntegrationTest {
         Map<String, JobParameter> parameters =
             new HashMap<String, JobParameter>();
         parameters.put("query.string", new JobParameter(
-                "from Taxon"));
+                "select t.id from Taxon t"));
+        parameters.put("query.type", new JobParameter(
+        "org.emonocot.model.Taxon"));
 
         JobParameters jobParameters = new JobParameters(parameters);
 

@@ -3,23 +3,16 @@
  */
 package org.emonocot.harvest.common;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
-import org.apache.commons.compress.compressors.CompressorException;
-import org.apache.commons.compress.compressors.CompressorOutputStream;
-import org.apache.commons.compress.compressors.CompressorStreamFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
@@ -95,7 +88,7 @@ public class FileResourceZipper {
         } finally {
             try {
                 zipOutputStream.close();
-            } catch (Exception e) {
+            } catch (IOException e) {
                 logger.error("Unable to close ZipOutputStream " + zipOutputStream, e);
                 throw e;
             }

@@ -61,8 +61,7 @@
 			<value>
 				hibernate.dialect=org.hibernatespatial.geodb.GeoDBDialect
 				hibernate.hbm2ddl.auto=validate
-				hibernate.search.default.directory_provider=filesystem
-				hibernate.search.default.indexBase=./target/indexes
+				hibernate.validator.autoregister_listeners=false
 			</value>
 		</property>
 		<property name="annotatedClasses">

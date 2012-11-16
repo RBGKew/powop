@@ -32,12 +32,12 @@
 		class="org.springframework.batch.item.database.HibernateCursorItemReader"
 		scope="step">
 		<property name="sessionFactory" ref="sessionFactory" />
-		<property name="queryString" value="#{jobParameters['query']}" />		
+		<property name="queryString" value="#{jobParameters['query.string']}" />		
 	</bean>
     
     <bean id="itemIndexer"
       class="org.emonocot.harvest.common.HibernateSearchIndexingWriter" scope="step">
-      <property name="type" value="#{jobParameters['type']}" />
+      <property name="type" value="#{jobParameters['query.type']}" />
       <property name="sessionFactory" ref="sessionFactory" />
       <property name="solrIndexingListener" ref="solrIndexingListener" />
     </bean>

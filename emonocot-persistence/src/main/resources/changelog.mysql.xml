@@ -3106,4 +3106,52 @@
         <column name="location" type="GEOMETRY"/>
       </addColumn>
     </changeSet>
+    <changeSet author="ben" id="2012-11-16_01">
+      <comment>Drop multiple sources</comment>
+      <dropTable tableName="Description_Source"/>
+    </changeSet>
+    <changeSet author="ben" id="2012-11-16_02">
+      <comment>Drop multiple sources</comment>
+      <dropTable tableName="Distribution_Source"/>
+    </changeSet>
+    <changeSet author="ben" id="2012-11-16_03">
+      <comment>Drop multiple sources</comment>
+      <dropTable tableName="IdentificationKey_Source"/>
+    </changeSet>
+    <changeSet author="ben" id="2012-11-16_04">
+      <comment>Drop multiple sources</comment>
+      <dropTable tableName="Identifier_Source"/>
+    </changeSet>
+    <changeSet author="ben" id="2012-11-16_05">
+      <comment>Drop multiple sources</comment>
+      <dropTable tableName="Image_Source"/>
+    </changeSet>
+    <changeSet author="ben" id="2012-11-16_06">
+      <comment>Drop multiple sources</comment>
+      <dropTable tableName="MeasurementOrFact_Source"/>
+    </changeSet>
+    <changeSet author="ben" id="2012-11-16_07">
+      <comment>Drop multiple sources</comment>
+      <dropTable tableName="Place_Source"/>
+    </changeSet>
+    <changeSet author="ben" id="2012-11-16_08">
+      <comment>Drop multiple sources</comment>
+      <dropTable tableName="Reference_Source"/>
+    </changeSet>
+    <changeSet author="ben" id="2012-11-16_09">
+      <comment>Drop multiple sources</comment>
+      <dropTable tableName="Source_Source"/>
+    </changeSet>
+    <changeSet author="ben" id="2012-11-16_10">
+      <comment>Drop multiple sources</comment>
+      <dropTable tableName="Taxon_Source"/>
+    </changeSet>
+    <changeSet author="ben" id="2012-11-16_11">
+      <comment>Drop multiple sources</comment>
+      <dropTable tableName="TypeAndSpecimen_Source"/>
+    </changeSet>
+    <changeSet author="ben" id="2012-11-16_12">
+      <comment>Drop multiple sources</comment>
+      <dropTable tableName="VernacularName_Source"/>
+    </changeSet>
 </databaseChangeLog>

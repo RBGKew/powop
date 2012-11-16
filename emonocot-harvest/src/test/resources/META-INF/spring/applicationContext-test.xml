@@ -113,8 +113,7 @@
             <property name="schemaLocations">
                 <list>
                     <value>classpath:/org/springframework/batch/core/schema-drop-h2.sql</value>
-                    <value>classpath:/org/springframework/batch/core/schema-h2.sql
-                    </value>
+                    <value>classpath:/org/springframework/batch/core/schema-h2.sql</value>
                     <value>classpath:/META-INF/database/H2_schema.ddl</value>
                 </list>
             </property>
@@ -128,6 +127,7 @@
                 <value>
                     hibernate.dialect=org.hibernatespatial.geodb.GeoDBDialect
                     hibernate.hbm2ddl.auto=validate
+                    hibernate.validator.autoregister_listeners=false
                 </value>
             </property>
             <property name="annotatedClasses">
@@ -149,14 +149,7 @@
 				<value>org.emonocot.model.auth.Group</value>
 				<value>org.emonocot.model.geography.Place</value>
               </list>
-            </property>
-            <property name="eventListeners">
-      	      <map>
-        	    <entry key="post-insert" value-ref="solrIndexingListener" />
-                <entry key="post-update" value-ref="solrIndexingListener" />
-                <entry key="post-delete" value-ref="solrIndexingListener" />
-      	      </map>
-    	    </property>
+            </property>            
             <property name="annotatedPackages" value="org.emonocot.model" />
         </bean>
         
