@@ -17,16 +17,12 @@
 			<batch:tasklet>
 				<batch:chunk reader="itemReader" processor="itemProcessor" writer="itemWriter" commit-interval="10" />
 			</batch:tasklet>			
-			<batch:next on="COMPLETED" to="clearRegions" />
-			<batch:listeners>
-			  <batch:listener ref="hibernateSessionClearingChunkListener"/>
-			</batch:listeners>
+			<batch:end on="COMPLETED" />
 		</batch:step>		
 	</batch:job>	
 	
 	<bean id="itemReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
 		<property name="sessionFactory" ref="sessionFactory" />
-		<property name="useStatelessSession" value="false"/>
 		<property name="queryString" value="#{jobParameters['query.string']}"/>
 	</bean>
 	
@@ -36,8 +32,6 @@
     
     <bean id="itemWriter" class="org.springframework.batch.item.database.HibernateItemWriter">
 		<property name="sessionFactory" ref="sessionFactory" />
-		<property name="clearSession" value="false"/>
 	</bean>
 	
-	<bean id="hibernateSessionClearingChunkListener" class="org.emonocot.harvest.common.HibernateSessionClearingChunkListener"/>
 </beans>

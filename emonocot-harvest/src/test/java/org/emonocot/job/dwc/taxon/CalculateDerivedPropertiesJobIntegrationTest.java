@@ -78,7 +78,7 @@ public class CalculateDerivedPropertiesJobIntegrationTest {
         Map<String, JobParameter> parameters =
             new HashMap<String, JobParameter>();
         parameters.put("query.string", new JobParameter(
-                "select t.identifier from Taxon t join t.parentNameUsage"));
+                "select t.id from Taxon t join t.parentNameUsage"));
 
         JobParameters jobParameters = new JobParameters(parameters);
 

@@ -74,7 +74,6 @@
 				<batch:listener ref="processingExceptionProcessListener" />
 				<batch:listener ref="taxonFieldSetMapper" />
 				<batch:listener ref="taxonRelationshipResolver" />
-				<batch:listener ref="hibernateSessionClearingChunkListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="markTaxonRecordsForImport">
@@ -101,7 +100,6 @@
 				<batch:listener ref="processingExceptionProcessListener" />
 				<batch:listener ref="taxonFieldSetMapper" />
 				<batch:listener ref="taxonRelationshipResolver" />
-				<batch:listener ref="hibernateSessionClearingChunkListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="deleteAbsentTaxa">
@@ -111,7 +109,6 @@
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="checkDescriptionProcessingMode" />
 			<batch:listeners>
-			  <batch:listener ref="hibernateSessionClearingChunkListener"/>
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="descriptionProcessingModeDecider"	id="checkDescriptionProcessingMode">
@@ -148,7 +145,6 @@
 				<batch:listener ref="descriptionFieldSetMapper" />
 				<batch:listener ref="descriptionProcessor" />
 				<batch:listener ref="processingExceptionProcessListener" />
-				<batch:listener ref="hibernateSessionClearingChunkListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="deleteAbsentDescriptions">
@@ -160,7 +156,6 @@
 			<batch:next on="COMPLETED" to="checkImageProcessingMode" />
 			<batch:listeners>
 				<batch:listener ref="processingExceptionProcessListener" />
-				<batch:listener ref="hibernateSessionClearingChunkListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="imageProcessingModeDecider"	id="checkImageProcessingMode">
@@ -197,7 +192,6 @@
 				<batch:listener ref="processingExceptionProcessListener" />
 				<batch:listener ref="imageFieldSetMapper" />
 				<batch:listener ref="imageProcessor" />
-				<batch:listener ref="hibernateSessionClearingChunkListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="handleBinaryImages">
@@ -214,14 +208,19 @@
 		<batch:step id="deleteAbsentImages">
 			<batch:description>Delete the images which we expected to be present in the archive but which were absent</batch:description>
 			<batch:tasklet>
-				<batch:chunk reader="deleteImagesReader" writer="deletingWriter"
-					commit-interval="100" />
+				<batch:chunk reader="deleteImagesReader" writer="deletingWriter" commit-interval="10" />
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="checkReferenceProcessingMode" />
+			<batch:next on="COMPLETED" to="indexImages" />
 			<batch:listeners>
 				<batch:listener ref="processingExceptionProcessListener" />
-				<batch:listener ref="hibernateSessionClearingChunkListener" />
 			</batch:listeners>
+		</batch:step>
+		<batch:step id="indexImages">
+		  <batch:description>Index the images associated with this job</batch:description>
+		  <batch:tasklet>
+				<batch:chunk reader="indexImagesReader" writer="indexImagesWriter" commit-interval="10" />
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="checkReferenceProcessingMode" />			
 		</batch:step>
 		<batch:decision decider="referenceProcessingModeDecider"	id="checkReferenceProcessingMode">
 			<batch:next on="IMPORT_REFERENCES" to="markReferenceRecords" />
@@ -257,7 +256,6 @@
 				<batch:listener ref="referenceFieldSetMapper" />
 				<batch:listener ref="processingExceptionProcessListener" />
 				<batch:listener ref="referenceProcessor" />
-				<batch:listener ref="hibernateSessionClearingChunkListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="deleteAbsentReferences">
@@ -269,7 +267,6 @@
 			<batch:next on="COMPLETED" to="checkIdentifierProcessingMode" />
 			<batch:listeners>
 				<batch:listener ref="processingExceptionProcessListener" />
-				<batch:listener ref="hibernateSessionClearingChunkListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="identifierProcessingModeDecider"	id="checkIdentifierProcessingMode">
@@ -306,7 +303,6 @@
 				<batch:listener ref="identifierFieldSetMapper" />
 				<batch:listener ref="processingExceptionProcessListener" />
 				<batch:listener ref="identifierProcessor" />
-				<batch:listener ref="hibernateSessionClearingChunkListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="deleteAbsentIdentifiers">
@@ -318,7 +314,6 @@
 			<batch:next on="COMPLETED" to="checkDistributionProcessingMode" />
 			<batch:listeners>
 				<batch:listener ref="processingExceptionProcessListener" />
-				<batch:listener ref="hibernateSessionClearingChunkListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="distributionProcessingModeDecider"	id="checkDistributionProcessingMode">
@@ -355,7 +350,6 @@
 				<batch:listener ref="distributionFieldSetMapper" />
 				<batch:listener ref="processingExceptionProcessListener" />
 				<batch:listener ref="distributionProcessor" />
-				<batch:listener ref="hibernateSessionClearingChunkListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="deleteAbsentDistribution">
@@ -367,7 +361,6 @@
 			<batch:next on="COMPLETED" to="checkMeasurementOrFactProcessingMode" />
 			<batch:listeners>
 				<batch:listener ref="processingExceptionProcessListener" />
-				<batch:listener ref="hibernateSessionClearingChunkListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="measurementOrFactProcessingModeDecider"	id="checkMeasurementOrFactProcessingMode">
@@ -404,7 +397,6 @@
 				<batch:listener ref="measurementOrFactFieldSetMapper" />
 				<batch:listener ref="processingExceptionProcessListener" />
 				<batch:listener ref="measurementOrFactProcessor" />
-				<batch:listener ref="hibernateSessionClearingChunkListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="deleteAbsentMeasurementOrFacts">
@@ -416,7 +408,6 @@
 			<batch:next on="COMPLETED" to="checkVernacularNameProcessingMode" />
 			<batch:listeners>
 				<batch:listener ref="processingExceptionProcessListener" />
-				<batch:listener ref="hibernateSessionClearingChunkListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="vernacularNameProcessingModeDecider"	id="checkVernacularNameProcessingMode">
@@ -453,7 +444,6 @@
 				<batch:listener ref="vernacularNameFieldSetMapper" />
 				<batch:listener ref="processingExceptionProcessListener" />
 				<batch:listener ref="vernacularNameProcessor" />
-				<batch:listener ref="hibernateSessionClearingChunkListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="deleteAbsentVernacularNames">
@@ -465,12 +455,11 @@
 			<batch:next on="COMPLETED" to="checkTypeAndSpecimenProcessingMode" />
 			<batch:listeners>
 				<batch:listener ref="processingExceptionProcessListener" />
-				<batch:listener ref="hibernateSessionClearingChunkListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="typeAndSpecimenProcessingModeDecider"	id="checkTypeAndSpecimenProcessingMode">
 			<batch:next on="IMPORT_TYPE_AND_SPECIMEN" to="markTypeAndSpecimenRecords" />
-			<batch:next on="SKIP_TYPE_AND_SPECIMEN" to="cleanupResources" />
+			<batch:next on="SKIP_TYPE_AND_SPECIMEN" to="calculateDerivedProperties" />
 		</batch:decision>
 		<batch:step id="markTypeAndSpecimenRecords">
 			<batch:description>Mark the type and specimen records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
@@ -502,7 +491,6 @@
 				<batch:listener ref="typeAndSpecimenFieldSetMapper" />
 				<batch:listener ref="processingExceptionProcessListener" />
 				<batch:listener ref="typeAndSpecimenProcessor" />
-				<batch:listener ref="hibernateSessionClearingChunkListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="deleteAbsentTypeAndSpecimens">
@@ -511,11 +499,24 @@
 				<batch:chunk reader="deleteTypeAndSpecimenReader" writer="deletingWriter"
 					commit-interval="100" />
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="cleanupResources" />
+			<batch:next on="COMPLETED" to="calculateDerivedProperties" />
 			<batch:listeners>
 				<batch:listener ref="processingExceptionProcessListener" />
-				<batch:listener ref="hibernateSessionClearingChunkListener" />
 			</batch:listeners>
+		</batch:step>
+		<batch:step id="calculateDerivedProperties">
+			<batch:description>Calculate derived properties</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="indexTaxaReader" processor="calculateDerivedPropertiesProcessor" writer="itemWriter" commit-interval="10" />
+			</batch:tasklet>			
+			<batch:next on="COMPLETED" to="indexTaxa"/>
+		</batch:step>
+		<batch:step id="indexTaxa">
+		  <batch:description>Index the images associated with this job</batch:description>
+		  <batch:tasklet>
+				<batch:chunk reader="indexTaxaReader" writer="indexTaxaWriter" commit-interval="10" />
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="cleanupResources" />			
 		</batch:step>
 		<batch:step id="cleanupResources">
 			<batch:description>Cleanup the resources</batch:description>
@@ -700,6 +701,28 @@
 			</map>
 		</property>
 	</bean>
+	
+	<bean id="calculateDerivedPropertiesProcessor" class="org.emonocot.job.dwc.taxon.CalculateDerivedPropertiesProcessor">
+	  <property name="taxonService" ref="taxonServiceImpl"/>
+	</bean>
+	
+	<bean id="indexTaxaReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
+		scope="step">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="queryString"
+			value="select t.id from Taxon t join t.annotations a where a.jobId = :jobId" />
+		<property name="parameterValues">
+			<map>
+				<entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="indexTaxaWriter"  class="org.emonocot.harvest.common.HibernateSearchIndexingWriter" scope="step">
+      <property name="type" value="org.emonocot.model.Taxon" />
+      <property name="sessionFactory" ref="sessionFactory" />
+      <property name="solrIndexingListener" ref="solrIndexingListener" />
+    </bean>
 
 	<!-- Descriptions -->
 	
@@ -914,6 +937,24 @@
 			</map>
 		</property>
 	</bean>
+	
+	<bean id="indexImagesReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
+		scope="step">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="queryString"
+			value="select i.id from Image i join i.annotations a where a.jobId = :jobId" />
+		<property name="parameterValues">
+			<map>
+				<entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="indexImagesWriter"  class="org.emonocot.harvest.common.HibernateSearchIndexingWriter" scope="step">
+      <property name="type" value="org.emonocot.model.Image" />
+      <property name="sessionFactory" ref="sessionFactory" />
+      <property name="solrIndexingListener" ref="solrIndexingListener" />
+    </bean>
 
 	<!-- References -->
 
@@ -1500,7 +1541,6 @@
 	<bean id="itemWriter"
 		class="org.springframework.batch.item.database.HibernateItemWriter">
 		<property name="sessionFactory" ref="sessionFactory" />
-		<property name="clearSession" value="false" />
 	</bean>
 
 	<bean id="deletingWriter" class="org.emonocot.harvest.common.HibernateDeletingWriter">
@@ -1511,6 +1551,4 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
-	<bean id="hibernateSessionClearingChunkListener"
-		class="org.emonocot.harvest.common.HibernateSessionClearingChunkListener" />
 </beans>

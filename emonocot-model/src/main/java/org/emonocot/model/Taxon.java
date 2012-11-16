@@ -1068,6 +1068,7 @@ public class Taxon extends SearchableObject {
 		sid.addField("taxon.clazz_s", getClazz());
 		sid.addField("taxon.family_s", getFamily());
 		sid.addField("taxon.genus_s", getGenus());
+		sid.addField("taxon.infraspecific_epithet_s", getInfraspecificEpithet());
 		sid.addField("taxon.kingdom_s", getKingdom());
 		sid.addField("taxon.name_published_in_t", getNamePublishedInString());
 		sid.addField("taxon.name_published_in_year_i", getNamePublishedInYear());

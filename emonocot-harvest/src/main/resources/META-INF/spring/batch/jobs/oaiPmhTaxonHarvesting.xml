@@ -38,7 +38,6 @@
 				  <batch:listener ref="taxonItemProcessor" />
 				  <batch:listener ref="taxonItemValidator" />
 				  <batch:listener ref="taxonRelationshipResolver"/>
-				  <batch:listener ref="hibernateSessionClearingChunkListener"/>
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="resumeHarvesting">
@@ -64,13 +63,12 @@
 	        <batch:next on="COMPLETED" to="cleanupResources"/>
 	        <batch:listeners>
 	          <batch:listener ref="nullItemProcessor"/>
-	          <batch:listener ref="hibernateSessionClearingChunkListener"/>
 	        </batch:listeners>
 	    </batch:step>
 		<batch:step id="cleanupResources">
 		    <batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="oaiPmhResourceDeletingTasklet" />
-			<batch:next on="COMPLETED" to="clearRegions"/>
+			<batch:end on="COMPLETED"/>
 		</batch:step>		
 		<batch:listeners>
 		  <batch:listener ref="jobStatusListener"/>
@@ -198,7 +196,6 @@
 	</bean>
 	
 	<bean id="nullItemReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
-	  <property name="useStatelessSession" value="false"/>
 	  <property name="sessionFactory" ref="sessionFactory" />
 	  <property name="queryString" value="select t.identifier from Taxon t left join t.annotations a where a.jobId = :jobId and a.code = :code and t.scientificName is null"/>
 	  <property name="parameterValues">
@@ -232,10 +229,8 @@
 
 	<bean id="itemWriter" class="org.emonocot.job.oaipmh.Writer">
 		<property name="sessionFactory" ref="sessionFactory" />
-		<property name="clearSession" value="false"/>
 	</bean>
 	
-	<bean id="hibernateSessionClearingChunkListener" class="org.emonocot.harvest.common.HibernateSessionClearingChunkListener"/>
 	
 	<bean id="nullItemProcessor" class="org.emonocot.job.oaipmh.NullTaxonProcessor" scope="step">
 	  <property name="oaiPmhClient" ref="oaiPmhClient"/>

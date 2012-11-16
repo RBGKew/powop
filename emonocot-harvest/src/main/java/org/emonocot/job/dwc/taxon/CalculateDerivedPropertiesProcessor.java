@@ -7,7 +7,7 @@ import org.springframework.batch.item.ItemProcessor;
 
 
 public class CalculateDerivedPropertiesProcessor implements
-		ItemProcessor<String, Taxon> {
+		ItemProcessor<Long, Taxon> {
 	
 	private TaxonService taxonService;
 	
@@ -16,8 +16,8 @@ public class CalculateDerivedPropertiesProcessor implements
 	}
 
 	@Override
-	public Taxon process(String item) throws Exception {
-		Taxon taxon = taxonService.load(item, "taxon-page");
+	public Taxon process(Long id) throws Exception {
+		Taxon taxon = taxonService.load(id, "taxon-page");
 		
 		if(taxon.getTaxonRank() == null) {
 			return null;

@@ -152,7 +152,6 @@
 	</bean>
 	
 	<bean id="nullItemReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
-	  <property name="useStatelessSession" value="false"/>
 	  <property name="sessionFactory" ref="sessionFactory" />
 	  <property name="queryString" value="select t.identifier from Taxon t left join t.annotations a where a.jobId = :jobId and a.code = :code and t.scientificName is null"/>
 	  <property name="parameterValues">
@@ -180,7 +179,6 @@
 
 	<bean id="itemWriter" class="org.emonocot.job.oaipmh.Writer">
 		<property name="sessionFactory" ref="sessionFactory" />
-		<property name="clearSession" value="false"/>
 	</bean>
 	
 	<bean id="nullItemProcessor" class="org.emonocot.job.oaipmh.NullTaxonProcessor" scope="step">

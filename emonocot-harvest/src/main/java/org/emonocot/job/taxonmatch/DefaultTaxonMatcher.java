@@ -54,35 +54,35 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
     public final List<Match<Taxon>> match(final ParsedName<String> parsed) {
         StringBuilder stringBuilder = new StringBuilder();
         if (parsed.getSpecificEpithet() == null) {
-            stringBuilder.append("label:" + parsed.getGenusOrAbove());
+            stringBuilder.append("taxon.genus_s:" + parsed.getGenusOrAbove());
             if(parsed.getAuthorship() != null) {
-                stringBuilder.append(" AND authorship:"
+                stringBuilder.append(" AND taxon.scientific_name_authorship_s:"
                         + parsed.getAuthorship());
             }
         } else {
-            stringBuilder.append("genus:" + parsed.getGenusOrAbove());
+            stringBuilder.append("taxon.genus_s:" + parsed.getGenusOrAbove());
             if (parsed.getSpecificEpithet() != null) {
-                stringBuilder.append(" AND specificEpithet:"
+                stringBuilder.append(" AND taxon.specific_epithet_s:"
                         + parsed.getSpecificEpithet());
             }
             if (parsed.getInfraGeneric() != null) {
-                stringBuilder.append(" AND infraGenericEpithet:"
+                stringBuilder.append(" AND taxon.subgenus_s:"
                         + parsed.getInfraGeneric());
             }
             if (parsed.getInfraSpecificEpithet() != null) {
-                stringBuilder.append(" AND infraSpecificEpithet:"
+                stringBuilder.append(" AND taxon.infraspecific_epithet_s:"
                         + parsed.getInfraSpecificEpithet());
             }
             if (parsed.getRank() != null) {
                 if (parsed.getRank().equals(Rank.SPECIES)) {
-                    stringBuilder.append(" AND rank:species");
+                    stringBuilder.append(" AND taxon.taxon_rank_s:SPECIES");
                 } else {
 
                 }
 
             }
             if(parsed.getAuthorship() != null) {
-                stringBuilder.append(" AND authorship:"
+                stringBuilder.append(" AND taxon.scientific_name_authorship_s:"
                         + parsed.getAuthorship());
             }
         }
