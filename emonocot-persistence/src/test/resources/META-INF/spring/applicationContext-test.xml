@@ -62,6 +62,7 @@
 			<value>
 				hibernate.dialect=org.hibernatespatial.geodb.GeoDBDialect
 				hibernate.hbm2ddl.auto=validate
+				hibernate.validator.autoregister_listeners=false
             </value>
 		</property>
 		<property name="annotatedClasses">

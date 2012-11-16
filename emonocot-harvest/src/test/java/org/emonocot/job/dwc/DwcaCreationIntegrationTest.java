@@ -17,6 +17,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.emonocot.model.Taxon;
+import org.emonocot.persistence.hibernate.SolrIndexingListener;
 import org.gbif.dwc.record.Record;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
@@ -35,8 +36,6 @@ import org.gbif.utils.file.FileUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.search.FullTextSession;
-import org.hibernate.search.Search;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.junit.After;
@@ -86,6 +85,8 @@ public class DwcaCreationIntegrationTest {
      */
     @Autowired
     private SessionFactory sessionFactory;
+    
+    @Autowired SolrIndexingListener solrIndexingListener;
 
 	/**
 	 * @throws java.lang.Exception
@@ -93,13 +94,11 @@ public class DwcaCreationIntegrationTest {
 	@Before
 	public void setUp() throws Exception {
         Session session = sessionFactory.openSession();
-        FullTextSession fullTextSession = Search.getFullTextSession(session);
-        Transaction tx = fullTextSession.beginTransaction();
+        
+        Transaction tx = session.beginTransaction();
 
         List<Taxon> taxa = session.createQuery("from Taxon as taxon").list();
-        for (Taxon taxon : taxa) {
-            fullTextSession.index(taxon);
-        }
+        solrIndexingListener.indexObjects(taxa);
         tx.commit();
 	}
 

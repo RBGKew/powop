@@ -27,6 +27,10 @@
 	  <artifactId>hibernate-entitymanager</artifactId>
 	</dependency>
 	<dependency>
+	  <artifactId>cglib-nodep</artifactId>
+	  <groupId>cglib</groupId>
+    </dependency>
+	<dependency>
 	    <groupId>org.apache.solr</groupId>
 	    <artifactId>solr-solrj</artifactId>
     </dependency>

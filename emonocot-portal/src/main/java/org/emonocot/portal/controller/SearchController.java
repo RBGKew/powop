@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.emonocot.api.FacetName;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.PlaceService;
 import org.emonocot.api.SearchableObjectService;
@@ -133,37 +132,37 @@ public class SearchController {
     private Page<? extends SearchableObject> runQuery(String query, Integer start, Integer limit, String spatial, String[] responseFacets, String sort, Map<String, String> selectedFacets){
     	Page<? extends SearchableObject> result = null;
         if (selectedFacets == null
-                || !selectedFacets.containsKey(FacetName.CLASS)) {
+                || !selectedFacets.containsKey("base.class_s")) {
 
             result = searchableObjectService.search(
                     query, spatial, limit, start, responseFacets,
                     selectedFacets, sort, "taxon-with-image");
         } else {
-            if (selectedFacets.get(FacetName.CLASS)
+            if (selectedFacets.get("base.class_s")
                     .equals("org.emonocot.model.Image")) {
                 logger.debug("Using the image service for " + query);
                 result = imageService.search(query, spatial , limit, start,
                         responseFacets,
                         selectedFacets, sort, "image-taxon");
-            } else if (selectedFacets.get(FacetName.CLASS).equals(
+            } else if (selectedFacets.get("base.class_s").equals(
                     "org.emonocot.model.Taxon")) {
                 logger.debug("Using the taxon service for " + query);
                 result = taxonService.search(query, spatial, limit, start,
                         responseFacets,
                         selectedFacets, sort, "taxon-with-image");
-            } else if (selectedFacets.get(FacetName.CLASS).equals(
+            } else if (selectedFacets.get("base.class_s").equals(
                     "org.emonocot.model.IdentificationKey")) {
                 logger.debug("Using the IdentificationKey service for " + query);
                 result = keyService.search(query, spatial, limit, start,
                         responseFacets,
                         selectedFacets, sort, "front-cover");
-            } else if (selectedFacets.get(FacetName.CLASS).equals("org.emonocot.model.geography.Place")) {
+            } else if (selectedFacets.get("base.class_s").equals("org.emonocot.model.geography.Place")) {
         		result = placeService.search(
                             query, spatial, limit, start, responseFacets,
                             selectedFacets, sort, "taxon-with-image");
         	} else {
-                logger.error("We can't search by an object of FacetName.CLASS idx="
-                        + selectedFacets.get(FacetName.CLASS));
+                logger.error("We can't search by an object of \"base.class_s\" idx="
+                        + selectedFacets.get("base.class_s"));
             }
         }
         queryLog.info("Query: \'{}\', start: {}, limit: {},"
@@ -238,28 +237,28 @@ public class SearchController {
        }
 
        //Decide which facets to return
-       List<FacetName> responseFacetList = new ArrayList<FacetName>();
-       responseFacetList.add(FacetName.CLASS);
-       responseFacetList.add(FacetName.FAMILY);
-       responseFacetList.add(FacetName.CONTINENT);
-       responseFacetList.add(FacetName.AUTHORITY);
+       List<String> responseFacetList = new ArrayList<String>();
+       responseFacetList.add("base.class_s");
+       responseFacetList.add("taxon.family_s");
+       responseFacetList.add("taxon.distribution_TDWG_0_ss");
+       responseFacetList.add("base.authority_s");
        String className = null;
        if (selectedFacets == null) {
            logger.debug("No selected facets, setting default response facets");
        } else {
-           if (selectedFacets.containsKey(FacetName.CLASS)) {
-        	   className = selectedFacets.get(FacetName.CLASS);
+           if (selectedFacets.containsKey("base.class_s")) {
+        	   className = selectedFacets.get("base.class_s");
                if (className.equals("org.emonocot.model.Taxon")) {
                    logger.debug("Adding taxon specific facets");
-                   responseFacetList.add(FacetName.RANK);
-                   responseFacetList.add(FacetName.TAXONOMIC_STATUS);
+                   responseFacetList.add("taxon.taxon_rank_s");
+                   responseFacetList.add("taxon.taxonomic_status_s");
                }
            }
-           if (selectedFacets.containsKey(FacetName.CONTINENT)) {
+           if (selectedFacets.containsKey("taxon.distribution_TDWG_0_ss")) {
                logger.debug("Adding region facet");
-               responseFacetList.add(FacetName.REGION);
+               responseFacetList.add("taxon.distribution_TDWG_1_ss");
            } else {
-               selectedFacets.remove(FacetName.REGION);
+               selectedFacets.remove("taxon.distribution_TDWG_1_ss");
            }
        }
        String[] responseFacets = new String[]{};

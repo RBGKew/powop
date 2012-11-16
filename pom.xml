@@ -285,6 +285,17 @@
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-entitymanager</artifactId>
 				<version>${hibernate.version}</version>
+				<exclusions>
+				  <exclusion>
+				    <groupId>cglib</groupId>
+				    <artifactId>cglib</artifactId>
+				  </exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+			  <artifactId>cglib-nodep</artifactId>
+			  <groupId>cglib</groupId>
+			  <version>2.2</version>
 			</dependency>
 			<dependency>
 				<groupId>org.hibernate.javax.persistence</groupId>
@@ -525,7 +536,7 @@
 				<groupId>org.easymock</groupId>
 				<artifactId>easymock</artifactId>
 				<version>3.0</version>
-				<scope>test</scope>
+				<scope>test</scope>				
 			</dependency>
 			<dependency>
 				<groupId>org.dbunit</groupId>
