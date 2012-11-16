@@ -58,12 +58,7 @@
 		<property name="hibernateProperties">
 			<value>
 				hibernate.dialect=${hibernate.dialect}
-				hibernate.hbm2ddl.auto=validate
-				hibernate.search.default.directory_provider=filesystem-master
-				hibernate.search.default.refresh=${hibernate.search.default.refresh}
-				hibernate.search.default.sourceBase=${hibernate.search.default.sourceBase}
-				hibernate.search.default.indexBase=${hibernate.search.default.indexBase}
-				hibernate.search.default.exclusive_index_use=true
+				hibernate.hbm2ddl.auto=validate				
 			</value>
 		</property>
 		<property name="annotatedClasses">
@@ -86,7 +81,28 @@
 				<value>org.emonocot.model.geography.Place</value>
 			</list>
 		</property>
+		<property name="eventListeners">
+      	  <map>
+        	<entry key="post-insert" value-ref="solrIndexingListener" />
+            <entry key="post-update" value-ref="solrIndexingListener" />
+            <entry key="post-delete" value-ref="solrIndexingListener" />
+      	  </map>
+    	</property>
 		<property name="annotatedPackages" value="org.emonocot.model" />
+	</bean>
+	
+	<bean id="solrIndexingListener" class="org.emonocot.persistence.hibernate.SolrIndexingListener">
+	  <property name="solrServer" ref="solrServer"/>
+	  <property name="geographicalRegionFactory" ref="geographicalRegionFactory"/>
+	</bean>
+	
+	<bean id="geographicalRegionFactory" class="org.emonocot.model.geography.GeographicalRegionFactoryImpl"
+	    init-method="afterPropertiesSet" destroy-method="destroy">
+	    <property name="baseDirectory" value="classpath:/META-INF/org/tdwg/geography/"/>
+	</bean>
+
+	<bean id="solrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer"  destroy-method="shutdown">
+		<constructor-arg value="${solr.url}"/>
 	</bean>
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"

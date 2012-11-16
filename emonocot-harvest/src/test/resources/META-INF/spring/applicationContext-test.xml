@@ -97,10 +97,6 @@
 	
 	<bean id="imageMetadataProcessor" class="org.emonocot.harvest.media.ImageMetadataExtractor">
 	  <property name="imageDirectory" value="${harvester.image.directory}"/>
-	</bean>	
-	
-	<bean id="distributionBridge" class="org.emonocot.model.hibernate.DistributionBridge">
-	  <property name="skipInit" value="false"/>
 	</bean>
 	
 	<bean id="bufferedReaderFactory" class="org.emonocot.harvest.common.BOMIgnoringBufferedReaderFactory"/>
@@ -132,8 +128,6 @@
                 <value>
                     hibernate.dialect=org.hibernatespatial.geodb.GeoDBDialect
                     hibernate.hbm2ddl.auto=validate
-                    hibernate.search.default.directory_provider=filesystem
-                    hibernate.search.default.indexBase=./target/indexes
                 </value>
             </property>
             <property name="annotatedClasses">
@@ -156,9 +150,30 @@
 				<value>org.emonocot.model.geography.Place</value>
               </list>
             </property>
+            <property name="eventListeners">
+      	      <map>
+        	    <entry key="post-insert" value-ref="solrIndexingListener" />
+                <entry key="post-update" value-ref="solrIndexingListener" />
+                <entry key="post-delete" value-ref="solrIndexingListener" />
+      	      </map>
+    	    </property>
             <property name="annotatedPackages" value="org.emonocot.model" />
         </bean>
-    <!-- default beans -->
+        
+    <bean id="solrIndexingListener" class="org.emonocot.persistence.hibernate.SolrIndexingListener">
+	  <property name="solrServer" ref="solrServer"/>
+	  <property name="geographicalRegionFactory" ref="geographicalRegionFactory"/>
+	</bean>
+	
+	<bean id="geographicalRegionFactory" class="org.emonocot.model.geography.GeographicalRegionFactoryImpl"
+	    init-method="afterPropertiesSet" destroy-method="destroy">
+	    <property name="baseDirectory" value="target/test-classes/META-INF/org/tdwg/geography/"/>
+	</bean>
+
+	<bean id="solrServer" class="org.emonocot.test.EmbeddedSolrServerFactoryBean"
+	  destroy-method="shutdown">
+		<property name="solrHome" value="classpath:/META-INF/solr/"/>
+	</bean>
     
     <beans profile="proxy">
         <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory">
