@@ -39,10 +39,6 @@
         </batch:listeners>
     </batch:job>
     
-    <bean id="dummy" class="java.lang.String" scope="step">
-        <constructor-arg value="someWord" />
-    </bean>
-    
     <bean id="taxonReader" class="org.emonocot.harvest.common.SearchtermPagingItemReader" scope="step">
         <property name="queryString" value="#{jobParameters[query]}" />
         <property name="service">

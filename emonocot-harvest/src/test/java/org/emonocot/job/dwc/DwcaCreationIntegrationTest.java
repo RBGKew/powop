@@ -110,6 +110,9 @@ public class DwcaCreationIntegrationTest {
 	public void tearDown() throws Exception {
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	@Test
 	public void testWriteSubsetArchive() throws Exception {
 		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
@@ -138,6 +141,10 @@ public class DwcaCreationIntegrationTest {
         }
         assertEquals("There should be 4 files", 4, entries.size());
 	}
+	
+	/**
+	 * @throws Exception
+	 */
 	@Test
 	public void testWriteAllArchive() throws Exception {
 		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();

@@ -79,16 +79,14 @@ public class StarRecordWriterTest {
     	dwcaWriter.addCoreColumn(DwcTerm.scientificName, "Dudus novitatis");
     	dwcaWriter.addExtensionRecord(DcTerm.description, expectedExtensionRecords);
     	EasyMock.replay(dwcaWriter);
+    	
     	StarRecordWriter writer = new StarRecordWriter();
 		writer.setWriter(dwcaWriter);
     	List<StarRecord> items = new ArrayList<StarRecord>();
     	items.add(star);
 		writer.write(items);
+		
 		EasyMock.verify(dwcaWriter);
-//    	TODO write assertions 
-        for (int i = 0; i < 20; i++) {
-            System.err.println("Write the test and stop the pain!!! " + this.toString());
-        }
     }
 
 }

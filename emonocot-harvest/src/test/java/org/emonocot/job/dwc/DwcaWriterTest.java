@@ -83,7 +83,7 @@ public class DwcaWriterTest {
 	}
 
 	@Test
-	public void testWriteKArchive() {
+	public void testWriteCoreFile() {
 		try {
 			File compileDir = FileUtils.createTempDir();
 			DwcaWriter writer = new DwcaWriter(DwcTerm.Taxon, compileDir);
