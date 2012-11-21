@@ -6,19 +6,25 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.el.ELException;
 
-import org.emonocot.api.FacetName;
 import org.emonocot.api.convert.ClassToStringConverter;
 import org.emonocot.api.convert.PermissionToStringConverter;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.Identifier;
+import org.emonocot.model.Image;
+import org.emonocot.model.MeasurementOrFact;
 import org.emonocot.model.Reference;
+import org.emonocot.model.Source;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.Description;
+import org.emonocot.model.TypeAndSpecimen;
+import org.emonocot.model.VernacularName;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.Status;
 import org.emonocot.model.geography.Continent;
@@ -27,6 +33,7 @@ import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.GeographicalRegionComparator;
 import org.emonocot.model.geography.Region;
 import org.emonocot.model.util.AlphabeticalTaxonComparator;
+import org.emonocot.pager.FacetName;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.view.bibliography.Bibliography;
 import org.emonocot.portal.view.bibliography.SimpleBibliographyImpl;
@@ -376,7 +383,7 @@ public final class Functions {
      */
     public static List<String> sortItems() {
         List<String> sortItems = new ArrayList<String>();
-        sortItems.add("searchable.label_sort");
+        sortItems.add("searchable.label_sort_asc");
         sortItems.add("base.created_dt_desc");
         sortItems.add("_asc");
         return sortItems;
@@ -388,9 +395,9 @@ public final class Functions {
     */
    public static List<String> annotationSortItems() {
        List<String> sortItems = new ArrayList<String>();
-       sortItems.add("annotation.type_s");
-       sortItems.add("annotation.code_s");
-       sortItems.add("annotation.record_type_s");
+       sortItems.add("annotation.type_s_asc");
+       sortItems.add("annotation.code_s_asc");
+       sortItems.add("annotation.record_type_s_asc");
        sortItems.add("base.created_dt_desc");
        sortItems.add("_asc");
        return sortItems;
@@ -513,14 +520,47 @@ public final class Functions {
             final String facet) {
        return pager.isFacetSelected(facet);
    }
-
-    /**
-    *
-    * @param facet Set the facet name
-    * @return true, if the facet is multi-valued
-    */
-    public static Boolean isMultiValued(final String facet) {
-       return FacetName.valueOf(facet).isMultivalued();
+    
+   public static String escapeHtmlIdentifier(String identifier) {
+	   return identifier.replaceAll("\\.", "").replaceAll("_", "");
+   }
+    
+   public static Set<Source> sources(Taxon taxon) {
+	   Set<Source> sources = new HashSet<Source>();
+	   sources.add(taxon.getAuthority());
+	   for(Description d : taxon.getDescriptions()) {
+		   sources.add(d.getAuthority());
+	   }
+	   
+	   for(Distribution d : taxon.getDistribution()) {
+		   sources.add(d.getAuthority());
+	   }
+	   
+	   for(Image i : taxon.getImages()) {
+		   sources.add(i.getAuthority());
+	   }
+	   
+	   for(Reference r : taxon.getReferences()) {
+		   sources.add(r.getAuthority());
+	   }
+	   
+	   for(Identifier i : taxon.getIdentifiers()) {
+		   sources.add(i.getAuthority());
+	   }
+	   
+	   for(TypeAndSpecimen s : taxon.getTypesAndSpecimens()) {
+		   sources.add(s.getAuthority());
+	   }
+	   
+	   for(MeasurementOrFact f : taxon.getMeasurementsOrFacts()) {
+		   sources.add(f.getAuthority());
+	   }
+	   
+	   for(VernacularName n : taxon.getVernacularNames()) {
+		   sources.add(n.getAuthority());
+	   }
+	   
+	   return sources;
    }
 
     /**

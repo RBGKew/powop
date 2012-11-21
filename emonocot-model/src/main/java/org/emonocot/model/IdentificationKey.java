@@ -186,21 +186,21 @@ public class IdentificationKey extends SearchableObject {
     	SolrInputDocument sid = super.toSolrInputDocument(geographicalRegionFactory);
     	sid.addField("searchable.label_sort", getTitle());
     	sid.addField("key.title_t", getTitle());
-    	sid.addField("key.creator_t", getCreator());
-    	sid.addField("key.description_t", getDescription());
+    	addField(sid,"key.creator_t", getCreator());
+    	addField(sid,"key.description_t", getDescription());
     	StringBuilder summary = new StringBuilder().append(getTitle()).append(" ")
     	.append(getCreator()).append(" ").append(getDescription());
-    	if(getTaxon() != null) {
-    		sid.addField("taxon.class_s", getTaxon().getClazz());
-    	    sid.addField("taxon.family_s", getTaxon().getFamily());
-    	    sid.addField("taxon.genus_s", getTaxon().getGenus());
-    	    sid.addField("taxon.kingdom_s", getTaxon().getKingdom());
-    	    sid.addField("taxon.order_s", getTaxon().getOrder());
-    	    sid.addField("taxon.phylum_s", getTaxon().getPhylum());
-    	    sid.addField("taxon.subfamily_s", getTaxon().getSubfamily());
-    	    sid.addField("taxon.subgenus_s", getTaxon().getSubgenus());
-    	    sid.addField("taxon.subtribe_s", getTaxon().getSubtribe());
-    	    sid.addField("taxon.tribe_s", getTaxon().getTribe());
+    	if(getTaxon() != null) {    		
+    		addField(sid,"taxon.class_s", getTaxon().getClazz());
+    	    addField(sid,"taxon.family_s", getTaxon().getFamily());
+    	    addField(sid,"taxon.genus_s", getTaxon().getGenus());
+    	    addField(sid,"taxon.kingdom_s", getTaxon().getKingdom());
+    	    addField(sid,"taxon.order_s", getTaxon().getOrder());
+    	    addField(sid,"taxon.phylum_s", getTaxon().getPhylum());
+    	    addField(sid,"taxon.subfamily_s", getTaxon().getSubfamily());
+    	    addField(sid,"taxon.subgenus_s", getTaxon().getSubgenus());
+    	    addField(sid,"taxon.subtribe_s", getTaxon().getSubtribe());
+    	    addField(sid,"taxon.tribe_s", getTaxon().getTribe());
     	    summary.append(" ").append(getTaxon().getClazz())
     	    .append(" ").append(getTaxon().getClazz())
     	    .append(" ").append(getTaxon().getFamily())

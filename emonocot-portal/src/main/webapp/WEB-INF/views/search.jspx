@@ -61,7 +61,7 @@
 							<div class="inner">
 								<ul class="box nav nav-list">
 									<c:choose>
-										<c:when test="${facetName eq 'CLASS'}">
+										<c:when test="${facetName eq 'base.class_s'}">
 											<menu:facet url="/search" facetName="${facetName}"
 												pager="${result}" title="restrict.your.search"
 												showIcons="true" />

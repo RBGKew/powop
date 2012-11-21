@@ -20,4 +20,9 @@ public class FunctionsTest {
 		assertEquals("GENUS should be formatted as Genus",Functions.abbreviateRank(Rank.GENUS),"gen");
 		assertEquals("SPECIES should be formatted as Species",Functions.abbreviateRank(Rank.SPECIES),"sp");
 	}
+	
+	@Test
+	public void testEscapeHtmlIdentifier() {
+		assertEquals("'base.class_s' should be escaped as 'baseclasss'",Functions.escapeHtmlIdentifier("base.class_s"),"baseclasss");
+	}
 }

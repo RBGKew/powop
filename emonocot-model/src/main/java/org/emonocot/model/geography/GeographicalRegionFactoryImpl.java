@@ -23,6 +23,8 @@ import org.opengis.feature.GeometryAttribute;
 import org.opengis.filter.Filter;
 import org.opengis.filter.FilterFactory2;
 import org.opengis.filter.identity.FeatureId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
@@ -30,10 +32,13 @@ import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.WKTWriter;
+import com.vividsolutions.jts.operation.union.CascadedPolygonUnion;
 
 public class GeographicalRegionFactoryImpl implements GeographicalRegionFactory {
 	
 	private boolean spatialIndexingEnabled = false;
+	
+	private static Logger logger = LoggerFactory.getLogger(GeographicalRegionFactoryImpl.class);
 	
 	private File baseDirectory;
 	
@@ -59,13 +64,13 @@ public class GeographicalRegionFactoryImpl implements GeographicalRegionFactory 
 	
 	public void afterPropertiesSet() throws Exception {
 		ShapefileDataStoreFactory dataStoreFactory = new ShapefileDataStoreFactory();
-		level3DataStore = createDataStore(dataStoreFactory, baseDirectory, "level3");
+		level3DataStore = createDataStore(dataStoreFactory, baseDirectory, "level3/level3.shp");
 		level3FeatureSource = level3DataStore.getFeatureSource("level3");
 		
-		level2DataStore = createDataStore(dataStoreFactory, baseDirectory, "level2");
+		level2DataStore = createDataStore(dataStoreFactory, baseDirectory, "level2/level2.shp");
 		level2FeatureSource = level2DataStore.getFeatureSource("level2");
 		
-		level1DataStore = createDataStore(dataStoreFactory, baseDirectory, "level1");
+		level1DataStore = createDataStore(dataStoreFactory, baseDirectory, "level1/level1.shp");
 		level1FeatureSource = level1DataStore.getFeatureSource("level1");
 		
 		filterFactory = CommonFactoryFinder.getFilterFactory2(GeoTools.getDefaultHints());
@@ -91,28 +96,31 @@ public class GeographicalRegionFactoryImpl implements GeographicalRegionFactory 
 		if (spatialIndexingEnabled && taxon.getDistribution().size() > 1) {
 			// for the moment assume non-contiguous
 			List<Polygon> polygons = new ArrayList<Polygon>();
-			GeometryFactory geometryFactory = null;
+			
 			for (Distribution d : taxon.getDistribution()) {
 				Geometry g = getGeometry(d.getLocation());
-				geometryFactory = g.getFactory();
-				String geometryType = g.getGeometryType();
-				if (geometryType == "Polygon") {
-					polygons.add((Polygon) g);
-				} else if (geometryType == "MultiPolygon") {
-					for (int i = 0; i < g.getNumGeometries(); i++) {
-						polygons.add((Polygon) g.getGeometryN(i));
+				if(g.getClass().equals(Polygon.class)) {
+				    polygons.add((Polygon)g);				
+				} else if(g.getClass().equals(MultiPolygon.class)) {
+					MultiPolygon multiPolygon = (MultiPolygon)g;
+					for(int i = 0; i < multiPolygon.getNumGeometries(); i++) {
+						Geometry g1 = multiPolygon.getGeometryN(i);
+						if(g1.getClass().equals(Polygon.class)) {
+						    polygons.add((Polygon)g1);
+						} else {
+							logger.warn("Geometry is " + g1.getClass());
+						}
 					}
-
 				}
 			}
-			geometry = new MultiPolygon(polygons.toArray(new Polygon[polygons.size()]),	geometryFactory);
-			sid.addField("geo", wktWriter.write(geometry));
+			geometry = CascadedPolygonUnion.union(polygons);
+			logger.warn("Indexing " + geometry.getClass() + " for taxon " + taxon.getScientificName());
+			sid.addField("geo", wktWriter.write(geometry.getBoundary()));
 		} else if (spatialIndexingEnabled && taxon.getDistribution().size() == 1) {
 			geometry = getGeometry(taxon.getDistribution().iterator().next().getLocation());
-			sid.addField("geo", wktWriter.write(geometry));
-		} else {
-			
-		}
+			logger.warn("Indexing " + geometry.getClass() + " for taxon " + taxon.getScientificName());
+			sid.addField("geo", wktWriter.write(geometry.getBoundary()));
+		} 
 	}
 	
 	/**
@@ -129,7 +137,8 @@ public class GeographicalRegionFactoryImpl implements GeographicalRegionFactory 
 		this.spatialIndexingEnabled = spatialIndexingEnabled;
 	}
 
-	private Geometry getGeometry(GeographicalRegion geographicalRegion) throws Exception {
+	@Override
+	public Geometry getGeometry(GeographicalRegion geographicalRegion) throws Exception {
 		if(geographicalRegion == null) {
 			return null;
 		} else {
@@ -151,14 +160,14 @@ public class GeographicalRegionFactoryImpl implements GeographicalRegionFactory 
 			}
 			Feature feature = featureCollection.features().next();
 			GeometryAttribute geometryAttribute = feature.getDefaultGeometryProperty();
-			return (Geometry)feature.getDefaultGeometryProperty().getValue();
+			return ((Geometry)feature.getDefaultGeometryProperty().getValue());
 		}
 	}
 
 	@Override
 	public void indexSpatial(Place p, SolrInputDocument sid) throws Exception {
 		if (spatialIndexingEnabled && p.getShape() != null) {
-			sid.addField("geo", wktWriter.write(p.getShape()));
+			sid.addField("geo", wktWriter.write(p.getShape().getBoundary()));
 		}
 	}
 

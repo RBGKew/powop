@@ -149,11 +149,6 @@
         <function-signature>java.lang.Boolean isFacetSelected(org.emonocot.pager.Page,java.lang.String)</function-signature>
     </function>
     <function>
-        <name>isMultiValued</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.Boolean isMultiValued(java.lang.String)</function-signature>
-    </function>
-    <function>
         <name>protologLink</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>org.emonocot.model.Identifier getProtologLink(org.emonocot.model.Taxon)</function-signature>
@@ -162,6 +157,16 @@
         <name>boundingBox</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>java.lang.String boundingBox(org.emonocot.model.Taxon)</function-signature>
+    </function>
+    <function>
+        <name>escapeHtmlIdentifier</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.String escapeHtmlIdentifier(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <name>sources</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.util.Set sources(org.emonocot.model.Taxon)</function-signature>
     </function>
     <function>
         <name>hasLevel1Features</name>

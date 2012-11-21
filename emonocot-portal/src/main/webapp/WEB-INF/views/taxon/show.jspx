@@ -251,7 +251,7 @@
 								<spring:message code="sources" />
 							</h2>
 							<ul>
-								<c:forEach var="source" items="${taxon.sources}">
+								<c:forEach var="source" items="${em:sources(taxon)}">
 									<li><jsp:element name="a">
 											<jsp:attribute name="href">
 												<c:url value="/source/${source.identifier}" />

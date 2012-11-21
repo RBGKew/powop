@@ -97,7 +97,7 @@
 	
 	<bean id="geographicalRegionFactory" class="org.emonocot.model.geography.GeographicalRegionFactoryImpl"
 	    init-method="afterPropertiesSet" destroy-method="destroy">
-	    <property name="spatialIndexingEnabled" value="false"/>
+	    <property name="spatialIndexingEnabled" value="true"/>
 	    <property name="baseDirectory" value="${tdwg.shapefiles.location}/org/tdwg/geography/"/>
 	</bean>
 

@@ -219,7 +219,7 @@ public class Place extends SearchableObject {
     public SolrInputDocument toSolrInputDocument(GeographicalRegionFactory geographicalRegionFactory) {
     	SolrInputDocument sid = super.toSolrInputDocument(geographicalRegionFactory);
     	sid.addField("searchable.label_sort", getTitle());
-    	sid.addField("image.fips_code_t", getFipsCode());
+    	addField(sid,"place.fips_code_t", getFipsCode());
     	StringBuilder summary = new StringBuilder().append(getTitle()).append(" ").append(getFipsCode());
     	sid.addField("searchable.solrsummary_t", summary);
     	try {

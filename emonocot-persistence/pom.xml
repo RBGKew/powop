@@ -68,11 +68,15 @@
 	</dependency>
 	<dependency>
         <groupId>junit</groupId>
-		<artifactId>junit</artifactId>
+		<artifactId>junit-dep</artifactId>
     </dependency>
 	<dependency>
 		<groupId>org.hamcrest</groupId>
 		<artifactId>hamcrest-library</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.hamcrest</groupId>
+		<artifactId>hamcrest-core</artifactId>
 	</dependency>
     <dependency>
 		<groupId>com.h2database</groupId>
@@ -109,6 +113,10 @@
 	<dependency>
 	   <groupId>org.slf4j</groupId>
 	   <artifactId>jul-to-slf4j</artifactId>
+	</dependency>
+	<dependency>
+	  <groupId>org.gbif</groupId>
+      <artifactId>ecat-common</artifactId>
 	</dependency>
   </dependencies>
   <build>

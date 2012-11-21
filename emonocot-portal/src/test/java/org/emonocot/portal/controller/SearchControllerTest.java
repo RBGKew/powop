@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.easymock.EasyMock;
-import org.emonocot.api.FacetName;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.SearchableObjectService;
 import org.emonocot.model.Image;
 import org.emonocot.model.SearchableObject;
 import org.emonocot.pager.DefaultPageImpl;
+import org.emonocot.pager.FacetName;
 import org.emonocot.pager.Page;
 import org.junit.Before;
 import org.junit.Test;

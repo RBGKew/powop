@@ -1063,32 +1063,30 @@ public class Taxon extends SearchableObject {
 	public SolrInputDocument toSolrInputDocument(GeographicalRegionFactory geographicalRegionFactory) {
 		SolrInputDocument sid = super.toSolrInputDocument(geographicalRegionFactory);
 		sid.addField("searchable.label_sort", getScientificName());
-		sid.addField("taxon.bibliographic_citation_t",
-				getBibliographicCitation());
-		sid.addField("taxon.clazz_s", getClazz());
-		sid.addField("taxon.family_s", getFamily());
-		sid.addField("taxon.genus_s", getGenus());
-		sid.addField("taxon.infraspecific_epithet_s", getInfraspecificEpithet());
-		sid.addField("taxon.kingdom_s", getKingdom());
-		sid.addField("taxon.name_published_in_t", getNamePublishedInString());
-		sid.addField("taxon.name_published_in_year_i", getNamePublishedInYear());
-		sid.addField("taxon.nomenclatural_code_s", getNomenclaturalCode());
-		sid.addField("taxon.nomenclatural_status_s", getNomenclaturalStatus());
-		sid.addField("taxon.order_s", getOrder());
-		sid.addField("taxon.phylum_s", getPhylum());
-		sid.addField("taxon.scientific_name_t", getScientificName());
-		sid.addField("taxon.scientific_name_authorship_t",
-				getScientificNameAuthorship());
-		sid.addField("taxon.source_t", getSource());
-		sid.addField("taxon.specific_epithet_s", getSpecificEpithet());
-		sid.addField("taxon.subfamily_s", getSubfamily());
-		sid.addField("taxon.subgenus_s", getSubgenus());
-		sid.addField("taxon.subtribe_s", getSubtribe());
-		sid.addField("taxon.taxonomic_status_s", getTaxonomicStatus());
-		sid.addField("taxon.taxon_rank_s", getTaxonRank());
-		sid.addField("taxon.taxon_remarks_t", getTaxonRemarks());
-		sid.addField("taxon.tribe_s", getTribe());
-		sid.addField("taxon.verbatim_taxon_rank_s", getVerbatimTaxonRank());
+		addField(sid,"taxon.bibliographic_citation_t", getBibliographicCitation());
+		addField(sid,"taxon.clazz_s", getClazz());
+		addField(sid,"taxon.family_s", getFamily());
+		addField(sid,"taxon.genus_s", getGenus());
+		addField(sid,"taxon.infraspecific_epithet_s", getInfraspecificEpithet());
+		addField(sid,"taxon.kingdom_s", getKingdom());
+		addField(sid,"taxon.name_published_in_t", getNamePublishedInString());
+		addField(sid,"taxon.name_published_in_year_i", getNamePublishedInYear());
+		addField(sid,"taxon.nomenclatural_code_s", getNomenclaturalCode());
+		addField(sid,"taxon.nomenclatural_status_s", getNomenclaturalStatus());
+		addField(sid,"taxon.order_s", getOrder());
+		addField(sid,"taxon.phylum_s", getPhylum());
+		addField(sid,"taxon.scientific_name_t", getScientificName());
+		addField(sid,"taxon.scientific_name_authorship_t", getScientificNameAuthorship());
+		addField(sid,"taxon.source_t", getSource());
+		addField(sid,"taxon.specific_epithet_s", getSpecificEpithet());
+		addField(sid,"taxon.subfamily_s", getSubfamily());
+		addField(sid,"taxon.subgenus_s", getSubgenus());
+		addField(sid,"taxon.subtribe_s", getSubtribe());
+		addField(sid,"taxon.taxonomic_status_s", getTaxonomicStatus());
+		addField(sid,"taxon.taxon_rank_s", getTaxonRank());
+		addField(sid,"taxon.taxon_remarks_t", getTaxonRemarks());
+		addField(sid,"taxon.tribe_s", getTribe());
+		addField(sid,"taxon.verbatim_taxon_rank_s", getVerbatimTaxonRank());
 		try {
 			geographicalRegionFactory.indexSpatial(this, sid);
 		} catch (Exception e) {

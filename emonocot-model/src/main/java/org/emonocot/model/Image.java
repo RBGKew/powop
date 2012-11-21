@@ -436,14 +436,14 @@ public class Image extends SearchableObject implements NonOwned {
     public SolrInputDocument toSolrInputDocument(GeographicalRegionFactory geographicalRegionFactory) {
     	SolrInputDocument sid = super.toSolrInputDocument(geographicalRegionFactory);
     	sid.addField("searchable.label_sort", getTitle());
-    	sid.addField("image.audience_t", getAudience());
+    	addField(sid,"image.audience_t", getAudience());
     	
-    	sid.addField("image.creator_t", getCreator());
-    	sid.addField("image.description_t", getDescription());
-    	sid.addField("image.publisher_t", getPublisher());
-    	sid.addField("image.references_t", getReferences());
-    	sid.addField("image.spatial_t", getSpatial());
-    	sid.addField("image.subject_t", getSubject());
+    	addField(sid,"image.creator_t", getCreator());
+    	addField(sid,"image.description_t", getDescription());
+    	addField(sid,"image.publisher_t", getPublisher());
+    	addField(sid,"image.references_t", getReferences());
+    	addField(sid,"image.spatial_t", getSpatial());
+    	addField(sid,"image.subject_t", getSubject());
     	sid.addField("image.title_t", getTitle());    	
     	
 		StringBuilder summary = new StringBuilder().append(getAudience())
@@ -453,16 +453,16 @@ public class Image extends SearchableObject implements NonOwned {
 				.append(" ").append(getSubject()).append(" ")
 				.append(getTitle()).append(" ");
     	if(getTaxon() != null) {
-    		sid.addField("taxon.class_s", getTaxon().getClazz());
-    	    sid.addField("taxon.family_s", getTaxon().getFamily());
-    	    sid.addField("taxon.genus_s", getTaxon().getGenus());
-    	    sid.addField("taxon.kingdom_s", getTaxon().getKingdom());
-    	    sid.addField("taxon.order_s", getTaxon().getOrder());
-    	    sid.addField("taxon.phylum_s", getTaxon().getPhylum());
-    	    sid.addField("taxon.subfamily_s", getTaxon().getSubfamily());
-    	    sid.addField("taxon.subgenus_s", getTaxon().getSubgenus());
-    	    sid.addField("taxon.subtribe_s", getTaxon().getSubtribe());
-    	    sid.addField("taxon.tribe_s", getTaxon().getTribe());
+    		addField(sid,"taxon.class_s", getTaxon().getClazz());
+    	    addField(sid,"taxon.family_s", getTaxon().getFamily());
+    	    addField(sid,"taxon.genus_s", getTaxon().getGenus());
+    	    addField(sid,"taxon.kingdom_s", getTaxon().getKingdom());
+    	    addField(sid,"taxon.order_s", getTaxon().getOrder());
+    	    addField(sid,"taxon.phylum_s", getTaxon().getPhylum());
+    	    addField(sid,"taxon.subfamily_s", getTaxon().getSubfamily());
+    	    addField(sid,"taxon.subgenus_s", getTaxon().getSubgenus());
+    	    addField(sid,"taxon.subtribe_s", getTaxon().getSubtribe());
+    	    addField(sid,"taxon.tribe_s", getTaxon().getTribe());
     	    summary.append(" ").append(getTaxon().getClazz())
     	    .append(" ").append(getTaxon().getClazz())
     	    .append(" ").append(getTaxon().getFamily())

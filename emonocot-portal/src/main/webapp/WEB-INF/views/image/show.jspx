@@ -151,16 +151,10 @@
 							<div class="box">
 			<div><spring:message code="sources" /></div>
 			<ul>
-				<c:forEach var="source" items="${image.sources}">
-					<li>
-						<jsp:element name="a">
-							<jsp:attribute name="href">
-								<c:url value="/source/${source.identifier}" />
-							</jsp:attribute>
-							${source.title}
-						</jsp:element>
-					</li>
-				</c:forEach>
+				<li>
+				    <c:url value="/source/${image.authority.identifier}" var="authorityUrl"/>
+					<a href="${authorityUrl}">${image.authority.title}</a>
+				</li>
 			</ul>
 			</div>
 			</div>

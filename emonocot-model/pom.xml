@@ -98,7 +98,7 @@
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
+			<artifactId>junit-dep</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>xmlunit</groupId>
@@ -164,6 +164,10 @@
 	      <groupId>org.gbif</groupId>
           <artifactId>ecat-common</artifactId>
 	    </dependency>
+	    <dependency>
+		    <groupId>com.spatial4j</groupId>
+			<artifactId>spatial4j</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

@@ -1,10 +1,12 @@
 package org.emonocot.persistence.hibernate;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrInputDocument;
 import org.emonocot.model.Searchable;
@@ -51,11 +53,22 @@ public class SolrIndexingListener implements PostInsertEventListener,
 		}
 		try {
 			UpdateResponse updateResponse = solrServer.add(documents);
-			logger.trace(updateResponse.toString());
-			updateResponse = solrServer.commit();
-			logger.trace(updateResponse.toString());
-		} catch (Exception e) {
-			e.printStackTrace();
+			if (updateResponse.getStatus() != 0) {
+		        logger.error("Exception adding solr documents " + updateResponse.toString());
+		        updateResponse = solrServer.rollback();
+		    } else {
+			    updateResponse = solrServer.commit();
+		    }			
+		} catch (SolrServerException sse) {
+			logger.error(sse.getLocalizedMessage());
+			for(StackTraceElement ste : sse.getStackTrace()) {
+				logger.error(ste.toString());
+			}
+		} catch(IOException ioe) {
+			logger.error(ioe.getLocalizedMessage());
+			for(StackTraceElement ste : ioe.getStackTrace()) {
+				logger.error(ste.toString());
+			}
 		}
 	}
 	
