@@ -128,9 +128,9 @@ public class SourceController extends GenericController<Source, SourceService> {
 	@RequestMapping(method = RequestMethod.GET, params = "!form", produces = "text/html")
 	public final String list(
 			final Model model,
-			@RequestParam(value = "page", defaultValue = "0", required = false) final Integer page,
+			@RequestParam(value = "start", defaultValue = "0", required = false) final Integer start,
 			@RequestParam(value = "size", defaultValue = "10", required = false) final Integer size) {
-		model.addAttribute("result", getService().list(page, size, null));
+		model.addAttribute("result", getService().list(start, size, null));
 		return "source/list";
 	}
 

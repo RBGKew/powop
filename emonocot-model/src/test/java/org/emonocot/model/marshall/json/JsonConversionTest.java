@@ -470,12 +470,12 @@ public class JsonConversionTest {
     	System.out.println(serialized);
     	assertTrue("Expected JSON to contain the identifier", serialized.contains("\"identifier\":\"test.jk.triangle\""));
     	assertTrue("Expected JSON to contain the name", serialized.contains("\"title\":\"testName\""));
-    	assertTrue("Expected JSON to contain the shape", serialized.contains("\"shape\":\"MULTIPOLYGON (((57 26, 0 0, 25 25, 57 26)))\""));
+    	assertTrue("Expected JSON to contain the shape", serialized.contains("\"shape\":\"POLYGON ((57 26, 0 0, 25 25, 57 26))\""));
     }
     
     @Test
     public final void testReadMultiPolygon() throws Exception {
-    	String placeJson = "{\"title\":\"testName\",\"id\":null,\"shape\":\"MULTIPOLYGON (((57 26, 0 0, 25 25, 57 26)))\",\"point\":null,\"fipsCode\":null,\"authority\":null,\"identifier\":\"test.jk.triangle\",\"license\":null,\"created\":null,\"modified\":null}";
+    	String placeJson = "{\"title\":\"testName\",\"id\":null,\"shape\":\"POLYGON ((57 26, 0 0, 25 25, 57 26))\",\"point\":null,\"fipsCode\":null,\"authority\":null,\"identifier\":\"test.jk.triangle\",\"license\":null,\"created\":null,\"modified\":null}";
     	Place desrialized = objectMapper.readValue(placeJson, Place.class);
     	
     	assertEquals("Expected identifier to be " + place.getIdentifier(), place.getIdentifier(), desrialized.getIdentifier());

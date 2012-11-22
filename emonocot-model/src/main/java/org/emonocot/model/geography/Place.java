@@ -69,7 +69,7 @@ public class Place extends SearchableObject {
 	 * A JTS Polygon for this place
 	 * @see com.vividsolutions.jts.geom.Polygon
 	 */
-	private MultiPolygon shape;
+	private Geometry shape;
 
 	/**
 	 * Used for a single point reference of a place.
@@ -140,7 +140,7 @@ public class Place extends SearchableObject {
 	 */
 	@Type(type="spatialType")
 	@JsonSerialize(using=ShapeSerializer.class)
-	public MultiPolygon getShape() {
+	public Geometry getShape() {
 		return shape;
 	}
 
@@ -149,15 +149,7 @@ public class Place extends SearchableObject {
 	 */
 	@JsonDeserialize(using=ShapeDeserializer.class)
 	public void setShape(Geometry shape) {
-		try{
-			if(shape instanceof Polygon){
-				this.shape = new MultiPolygon(new Polygon[] {(Polygon)shape}, new GeometryFactory());
-			} else {
-				this.shape = (MultiPolygon) shape;
-			}
-		} catch (ClassCastException e) {
-			logger.error("Unable to get multipolygon from" + shape.toText() + " " + shape, e);
-		}
+		this.shape = shape;
 		
 	}
 

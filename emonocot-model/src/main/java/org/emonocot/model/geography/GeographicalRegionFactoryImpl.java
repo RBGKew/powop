@@ -33,6 +33,7 @@ import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.WKTWriter;
 import com.vividsolutions.jts.operation.union.CascadedPolygonUnion;
+import com.vividsolutions.jts.simplify.TopologyPreservingSimplifier;
 
 public class GeographicalRegionFactoryImpl implements GeographicalRegionFactory {
 	
@@ -92,34 +93,18 @@ public class GeographicalRegionFactoryImpl implements GeographicalRegionFactory 
 
 	@Override
 	public void indexSpatial(Taxon taxon, SolrInputDocument sid) throws Exception {
-		Geometry geometry = null;
+
 		if (spatialIndexingEnabled && taxon.getDistribution().size() > 1) {
-			// for the moment assume non-contiguous
-			List<Polygon> polygons = new ArrayList<Polygon>();
 			
-			for (Distribution d : taxon.getDistribution()) {
-				Geometry g = getGeometry(d.getLocation());
-				if(g.getClass().equals(Polygon.class)) {
-				    polygons.add((Polygon)g);				
-				} else if(g.getClass().equals(MultiPolygon.class)) {
-					MultiPolygon multiPolygon = (MultiPolygon)g;
-					for(int i = 0; i < multiPolygon.getNumGeometries(); i++) {
-						Geometry g1 = multiPolygon.getGeometryN(i);
-						if(g1.getClass().equals(Polygon.class)) {
-						    polygons.add((Polygon)g1);
-						} else {
-							logger.warn("Geometry is " + g1.getClass());
-						}
-					}
-				}
-			}
-			geometry = CascadedPolygonUnion.union(polygons);
-			logger.warn("Indexing " + geometry.getClass() + " for taxon " + taxon.getScientificName());
-			sid.addField("geo", wktWriter.write(geometry.getBoundary()));
+		    for (Distribution d : taxon.getDistribution()) {
+				Geometry geometry = getGeometry(d.getLocation());
+				logger.warn("Indexing " + geometry.getClass() + " for taxon " + taxon.getScientificName());
+				sid.addField("geo", wktWriter.write(geometry));
+			}			
 		} else if (spatialIndexingEnabled && taxon.getDistribution().size() == 1) {
-			geometry = getGeometry(taxon.getDistribution().iterator().next().getLocation());
+			Geometry geometry = getGeometry(taxon.getDistribution().iterator().next().getLocation());
 			logger.warn("Indexing " + geometry.getClass() + " for taxon " + taxon.getScientificName());
-			sid.addField("geo", wktWriter.write(geometry.getBoundary()));
+			sid.addField("geo", wktWriter.write(geometry));
 		} 
 	}
 	
@@ -160,7 +145,8 @@ public class GeographicalRegionFactoryImpl implements GeographicalRegionFactory 
 			}
 			Feature feature = featureCollection.features().next();
 			GeometryAttribute geometryAttribute = feature.getDefaultGeometryProperty();
-			return ((Geometry)feature.getDefaultGeometryProperty().getValue());
+			Geometry geometry = ((Geometry)feature.getDefaultGeometryProperty().getValue());
+			return TopologyPreservingSimplifier.simplify(geometry,0.01);
 		}
 	}
 

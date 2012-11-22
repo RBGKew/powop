@@ -39,7 +39,7 @@
 		    <div id="facets" class="span3 noPrint">
 				<c:forEach var="facetName" items="${result.facetNames}">
   				  <c:choose>
-					<c:when test="${facetName eq 'JOB_INSTANCE'}">
+					<c:when test="${facetName eq 'annotation.job_id_l'}">
 					  <!-- We don't let people facet on job instance  -->
 				    </c:when>
 				    <c:otherwise>
@@ -110,7 +110,7 @@
 						</div>
 						<div class="row">
 							<div class="pagination pull-right">
-								<tags:pagination pager="${result}" url="${jobId}" />
+								<tags:pagination pager="${result}" url="/source/${source.identifier}/job/${jobId}/output" />
 							</div>
 						</div>
 					</div>

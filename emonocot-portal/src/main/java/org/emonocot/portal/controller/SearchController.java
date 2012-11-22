@@ -386,11 +386,11 @@ public class SearchController {
                 + "*", null, 10, 0, null, null, null, null);
         List<Match> matches = new ArrayList<Match>();
         for (SearchableObject object : result.getRecords()) {
-            if (object.getClass().equals(Taxon.class)) {
+            if (object.getClassName().equals("Taxon")) {
                 matches.add(new Match(((Taxon) object).getScientificName()));
-            } else if (object.getClass().equals(Image.class)) {
+            } else if (object.getClassName().equals("Image")) {
                 matches.add(new Match(((Image) object).getTitle()));
-            } else if (object.getClass().equals(IdentificationKey.class)) {
+            } else if (object.getClassName().equals("IdentificationKey")) {
                 matches.add(new Match(((IdentificationKey) object).getTitle()));
             } else {
                 logger.error("Unable to determine autocomplete label for " + object);
