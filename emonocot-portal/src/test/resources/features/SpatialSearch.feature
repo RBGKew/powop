@@ -5,7 +5,8 @@ Feature: Spatial Search
   in a certain region so that I can assess the threatened taxa in that region
 
 Background:
-  Given there are source systems with the following properties:
+  Given that the indexes are clean
+  And there are source systems with the following properties:
   | identifier | uri                 |
   | test       | http://example.com  |
   And there are taxa with the following properties:

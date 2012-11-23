@@ -7,7 +7,8 @@ Feature: Source Admin Page
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=76
 
 Background:
-  Given there are source systems with the following properties:
+  Given that the indexes are clean
+  And there are source systems with the following properties:
   | identifier | uri                 | title        |
   | test       | http://example.com  | test title   |
   And there are groups with the following properties:

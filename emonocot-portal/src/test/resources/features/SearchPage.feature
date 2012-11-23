@@ -7,7 +7,8 @@ Feature: Search Page
   about that taxon
 
 Background:
-  Given there are source systems with the following properties:
+  Given that the indexes are clean
+  And there are source systems with the following properties:
   | identifier | uri                 |
   | test       | http://example.com  |
   And there are taxa with the following properties:
@@ -66,14 +67,14 @@ Scenario: Search for a single taxon
   When I search for "Rhipogonum album"
   Then the following results should be displayed:
   | page                         | text                        |
-  | urn:kew.org:wcs:taxon:286789 | Rhipogonum album            |
   | 999                          | Key to the genus Rhipogonum |
-  | urn:kew.org:wcs:taxon:286768 | Rhipogonum                  |
-  | urn:kew.org:wcs:taxon:286793 | Rhipogonum elseyanum        |
+  | urn:kew.org:wcs:taxon:286789 | Rhipogonum album            |
   | urn:kew.org:wcs:taxon:286806 | Rhipogonum fawcettianum     |
   | urn:kew.org:wcs:taxon:286937 | Rhipogonum brevifolium      |
+  | urn:kew.org:wcs:taxon:286793 | Rhipogonum elseyanum        |
   | urn:kew.org:wcs:taxon:286791 | Rhipogonum discolor         |
   | urn:kew.org:wcs:taxon:286796 | Rhipogonum scandens         |
+  | urn:kew.org:wcs:taxon:286768 | Rhipogonum                  |
 
 Scenario: Search for multiple taxa with the same epithet
   If multiple taxa have the same epithet, then they should all be returned
@@ -101,13 +102,13 @@ Scenario: Search for multiple taxa within the same genus
   Then the following results should be displayed:
   | page                         | text                        |
   | 999                          | Key to the genus Rhipogonum |
-  | urn:kew.org:wcs:taxon:286768 | Rhipogonum                  |
-  | urn:kew.org:wcs:taxon:286793 | Rhipogonum elseyanum        |
+  | urn:kew.org:wcs:taxon:286789 | Rhipogonum album            |
   | urn:kew.org:wcs:taxon:286806 | Rhipogonum fawcettianum     |
   | urn:kew.org:wcs:taxon:286937 | Rhipogonum brevifolium      |
-  | urn:kew.org:wcs:taxon:286789 | Rhipogonum album            |
+  | urn:kew.org:wcs:taxon:286793 | Rhipogonum elseyanum        |
   | urn:kew.org:wcs:taxon:286791 | Rhipogonum discolor         |
   | urn:kew.org:wcs:taxon:286796 | Rhipogonum scandens         |
+  | urn:kew.org:wcs:taxon:286768 | Rhipogonum                  |
 
 Scenario: Negative search
   Searching using a term which is not in the database should not
@@ -200,8 +201,7 @@ Scenario: Sort taxa by Recency
   And I sort "Most recent first"
   Then there should be 8 results
   And the following results should be displayed:
-  | page                         | text                        |
-  | 999                          | Key to the genus Rhipogonum |
+  | page                         | text                        |  
   | urn:kew.org:wcs:taxon:286796 | Rhipogonum scandens         |
   | urn:kew.org:wcs:taxon:286791 | Rhipogonum discolor         |
   | urn:kew.org:wcs:taxon:286789 | Rhipogonum album            |
@@ -209,6 +209,7 @@ Scenario: Sort taxa by Recency
   | urn:kew.org:wcs:taxon:286806 | Rhipogonum fawcettianum     |
   | urn:kew.org:wcs:taxon:286793 | Rhipogonum elseyanum        |
   | urn:kew.org:wcs:taxon:286768 | Rhipogonum                  |
+  | 999                          | Key to the genus Rhipogonum |
 
   
 Scenario: Search for identification key
@@ -223,7 +224,7 @@ Scenario: Search for identification key
   | page | text                                |
   | 987  | Key to the subtribes of Orchidaceae |
   | 999  | Key to the genus Rhipogonum         |
-  When I restrict the "FAMILY" by selecting "Rhipogonaceae"
+  When I restrict the "taxon.family_s" by selecting "Rhipogonaceae"
   Then the following results should be displayed:
   | page | text                                |  
   | 999  | Key to the genus Rhipogonum         |
@@ -234,8 +235,8 @@ Scenario: Search for place
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=116
   When I search for "Bartledan"
   Then the following results should be displayed:
-  | page      | text                                |
-  | spatial?  | Bartledan                           |
+  | page                                                            | text                                |
+  | spatial?x1=17.4929&x2=83.0492&y1=73.9047&y2=98.3473&featureId=  | Bartledan                           |
   When I select the "Bartledan" link in the page
   Then I should be on the "spatial" page 
   

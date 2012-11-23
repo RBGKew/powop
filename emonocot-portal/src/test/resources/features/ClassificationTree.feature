@@ -5,10 +5,11 @@ Feature: Classification Tree
   by following the links to taxon pages
 
 Background:
-  Given there are source systems with the following properties:
+  Given that the indexes are clean
+  And there are source systems with the following properties:
   | identifier | uri                 |
   | test       | http://example.com  |
-And there are taxa with the following properties:
+  And there are taxa with the following properties:
   | identifier                   | name                           | family    | rank    | status   | source | parent                     |
   | urn:kew.org:wcs:family:2     | Acorales                       |           | ORDER   | Accepted | test   |                            |
   | urn:kew.org:wcs:family:1     | Acoraceae                      | Acoraceae | FAMILY  | Accepted | test   | urn:kew.org:wcs:family:2   |

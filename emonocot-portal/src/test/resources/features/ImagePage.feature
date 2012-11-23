@@ -5,7 +5,8 @@ Feature: Image Page
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=75
 
 Background:
-  Given there are taxa with the following properties:
+  Given that the indexes are clean
+  And there are taxa with the following properties:
   | identifier                 | name      | 
   | urn:kew.org:wcs:taxon:1234 | Poa annua |
   And there are images with the following properties:

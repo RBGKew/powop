@@ -96,7 +96,7 @@
 
 						<div id="results" class="row no-margin-left">
 							<jsp:scriptlet>
-								String classFacet = (String)result.getSelectedFacets().get("CLASS");
+								String classFacet = (String)result.getSelectedFacets().get("base.class_s");
 								if(classFacet == null) {
 									pageContext.setAttribute("imageClass",Boolean.FALSE);
 								} else if (classFacet.equals("org.emonocot.model.Image")){

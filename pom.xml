@@ -231,6 +231,12 @@
 				<artifactId>spring-batch-test</artifactId>
 				<version>${spring.batch.version}</version>
 				<scope>test</scope>
+				<exclusions>
+				  <exclusion>
+				    <artifactId>junit</artifactId>
+				    <groupId>junit</groupId>
+				  </exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.batch</groupId>
@@ -1433,13 +1439,8 @@
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
-				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
-				<amq.broker.name>localhost</amq.broker.name>
-				<amq.connectionFactory.jndi_name>jms/ConnectionFactory</amq.connectionFactory.jndi_name>
-				<amq.queue.jndi_name>queue/eMonocotLuceneQueue</amq.queue.jndi_name>
-				<amq.queue.physical_name>eMonocotLuceneQueue</amq.queue.physical_name>
-				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
-				<harvester.jobRequests.url>http://build.e-monocot.org/test/job-requests.json</harvester.jobRequests.url>
+				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>				
+				<portal.baseUrl>http://localhost:8080</portal.baseUrl>				
 				<google.analytics.id />
 				<webAppRootKey>emonocot-portal</webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>
@@ -1456,13 +1457,7 @@
 				<liquibase.drop.database.first>true</liquibase.drop.database.first>
 				<liquibase.changelog>../emonocot-persistence/src/main/resources/changelog.mysql.xml</liquibase.changelog>
 				<liquibase.url>jdbc:mysql://localhost:3336/emonocot</liquibase.url>
-				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
-				<hibernate.search.default.directory_provider>filesystem</hibernate.search.default.directory_provider>
-				<hibernate.search.default.indexBase>/var/cache/tomcat7/work/emonocot-portal/indexes</hibernate.search.default.indexBase>
-				<hibernate.search.default.sourceBase>/mnt/master_index</hibernate.search.default.sourceBase>
-				<hibernate.search.worker.backend>lucene</hibernate.search.worker.backend>
-				<hibernate.search.default.refresh>60</hibernate.search.default.refresh>
-				<hibernate.search.purge.indexes.on.init>true</hibernate.search.purge.indexes.on.init>
+				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>				
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
 				<mondrian.catalog.location>jndi:/localhost/WEB-INF/classes/META-INF/olap/olap.xml</mondrian.catalog.location>
 				<spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
@@ -1474,6 +1469,8 @@
 				<functional.test.baseUri>http://localhost</functional.test.baseUri>
 				<functional.test.basePath />
 				<functional.test.port>8080</functional.test.port>
+				<functional.test.solr.url>http://localhost:8999/solr</functional.test.solr.url>
+				<solr.url>http://localhost:8983/solr</solr.url>
 				<http.proxyHost />
 				<http.proxyPort />
 			</properties>

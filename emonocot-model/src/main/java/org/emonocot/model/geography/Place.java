@@ -32,6 +32,7 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
+import com.vividsolutions.jts.io.WKTWriter;
 
 /**
  * @author jk00kg
@@ -208,14 +209,15 @@ public class Place extends SearchableObject {
     }
 
     @Override
-    public SolrInputDocument toSolrInputDocument(GeographicalRegionFactory geographicalRegionFactory) {
-    	SolrInputDocument sid = super.toSolrInputDocument(geographicalRegionFactory);
+    public SolrInputDocument toSolrInputDocument() {
+    	SolrInputDocument sid = super.toSolrInputDocument();
     	sid.addField("searchable.label_sort", getTitle());
     	addField(sid,"place.fips_code_t", getFipsCode());
     	StringBuilder summary = new StringBuilder().append(getTitle()).append(" ").append(getFipsCode());
     	sid.addField("searchable.solrsummary_t", summary);
     	try {
-			geographicalRegionFactory.indexSpatial(this, sid);
+    		WKTWriter wktWriter = new WKTWriter();
+    		sid.addField("geo", wktWriter.write(getShape()));
 		} catch (Exception e) {
 			logger.error(e.getLocalizedMessage());
 		}

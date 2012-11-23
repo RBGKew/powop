@@ -22,6 +22,11 @@ public class DataSetup {
     @Autowired
     private TestDataManager testDataManager;
 
+    @Given("that the indexes are clean")
+    public void theIndexesAreClean() throws Exception {
+    	testDataManager.cleanIndices();
+    }
+    
     /**
      *
      * @param imageRows

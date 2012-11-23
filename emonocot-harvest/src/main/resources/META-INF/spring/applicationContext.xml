@@ -92,13 +92,6 @@
 	
 	<bean id="solrIndexingListener" class="org.emonocot.persistence.hibernate.SolrIndexingListener">
 	  <property name="solrServer" ref="solrServer"/>
-	  <property name="geographicalRegionFactory" ref="geographicalRegionFactory"/>
-	</bean>
-	
-	<bean id="geographicalRegionFactory" class="org.emonocot.model.geography.GeographicalRegionFactoryImpl"
-	    init-method="afterPropertiesSet" destroy-method="destroy">
-	    <property name="spatialIndexingEnabled" value="true"/>
-	    <property name="baseDirectory" value="${tdwg.shapefiles.location}/org/tdwg/geography/"/>
 	</bean>
 
 	<bean id="solrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer"  destroy-method="shutdown">

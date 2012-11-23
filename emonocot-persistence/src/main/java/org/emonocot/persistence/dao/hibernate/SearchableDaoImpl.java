@@ -35,6 +35,14 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
 	public void setSolrServer(SolrServer solrServer) {
 		this.solrServer = solrServer;
 	}
+	
+	/**
+	 * Does this DAO search for SearchableObjects?
+	 * @return
+	 */
+	protected boolean isSearchableObject() {
+		return true;
+	}
 
     /**
      *
@@ -79,15 +87,17 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
             if (query.indexOf(":") != -1) {
                 searchString = query;
             } else {
-                searchString = "searchable.solrsummary_t:" + query;
+            	// replace spaces with '+' so that we search on terms
+                searchString = "searchable.solrsummary_t:" + query.replace(" ", "+");
             }
             solrQuery.setQuery(searchString);
+
         } else {
             solrQuery.setQuery("*:*");
         }
-            
+        
         if (spatialQuery != null && spatialQuery.trim().length() != 0) {
-                solrQuery.addFilterQuery("geo:\"" + spatialQuery + "\"");
+                solrQuery.addFilterQuery("{!join to=taxon.distribution_ss from=location.tdwg_code_s}geo:\"" + spatialQuery + "\"");
         }
 
         // Set additional result parameters

@@ -5,9 +5,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.not;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.solr.common.SolrInputDocument;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.geography.Continent;
@@ -19,6 +21,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.vividsolutions.jts.io.WKTWriter;
+
 /**
  *
  * @author ben
@@ -26,14 +30,33 @@ import org.junit.Test;
  */
 public class SpatialSearchTest extends AbstractPersistenceTest {
 	
+	WKTWriter wktWriter = new WKTWriter();
+	
     /**
      * @throws java.lang.Exception
      *             if there is a problem
      */
     @Before
     public final void setUp() throws Exception {
-    	geographicalRegionFactory.setSpatialIndexingEnabled(true);
         super.doSetUp();
+        Collection<SolrInputDocument> geographicalRegions = new HashSet<SolrInputDocument>();
+        
+        geographicalRegions.add(addRegion(Continent.AUSTRALASIA));
+        geographicalRegions.add(addRegion(Region.BRAZIL));
+        geographicalRegions.add(addRegion(Region.CARIBBEAN));
+        geographicalRegions.add(addRegion(Region.NEW_ZEALAND));
+        geographicalRegions.add(addRegion(Country.NSW));
+        solrServer.add(geographicalRegions);
+        solrServer.commit();
+    }
+    
+    private SolrInputDocument addRegion(GeographicalRegion region) {
+    	SolrInputDocument sid = new SolrInputDocument();
+    	sid.addField("id", "Location_" + region.getCode());
+        sid.addField("location.tdwg_code_s", region.getCode());
+        sid.addField("location.name_s", region.name());
+        sid.addField("geo", wktWriter.write(region.getEnvelope()));
+        return sid;
     }
 
     /**
@@ -43,7 +66,6 @@ public class SpatialSearchTest extends AbstractPersistenceTest {
     @After
     public final void tearDown() throws Exception {
         super.doTearDown();
-        geographicalRegionFactory.setSpatialIndexingEnabled(false);
     }
 
     /**

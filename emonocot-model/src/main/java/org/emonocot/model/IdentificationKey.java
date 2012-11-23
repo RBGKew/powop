@@ -16,7 +16,6 @@ import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.emonocot.model.geography.GeographicalRegionFactory;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.hibernate.annotations.Cascade;
@@ -182,8 +181,8 @@ public class IdentificationKey extends SearchableObject {
     }
     
     @Override
-    public SolrInputDocument toSolrInputDocument(GeographicalRegionFactory geographicalRegionFactory) {
-    	SolrInputDocument sid = super.toSolrInputDocument(geographicalRegionFactory);
+    public SolrInputDocument toSolrInputDocument() {
+    	SolrInputDocument sid = super.toSolrInputDocument();
     	sid.addField("searchable.label_sort", getTitle());
     	sid.addField("key.title_t", getTitle());
     	addField(sid,"key.creator_t", getCreator());
@@ -213,7 +212,7 @@ public class IdentificationKey extends SearchableObject {
     	    .append(" ").append(getTaxon().getSubtribe())
     	    .append(" ").append(getTaxon().getTribe());
     	}
-    	sid.addField("searchable.solrsummary_t", summary);
+    	sid.addField("searchable.solrsummary_t", summary.toString());
     	
     	return sid;
     }

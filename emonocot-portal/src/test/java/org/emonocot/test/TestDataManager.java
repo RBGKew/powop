@@ -3,7 +3,9 @@ package org.emonocot.test;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Stack;
@@ -12,6 +14,11 @@ import java.util.UUID;
 import org.gbif.ecat.voc.Rank;
 import org.gbif.ecat.voc.TaxonomicStatus;
 
+import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocumentList;
+import org.apache.solr.common.params.ModifiableSolrParams;
 import org.emonocot.api.*;
 import org.emonocot.api.convert.StringToPermissionConverter;
 import org.emonocot.model.Annotation;
@@ -68,34 +75,16 @@ import com.vividsolutions.jts.io.WKTReader;
 @Component
 public class TestDataManager {
 
-    /**
-     *
-     */
     private Logger logger = LoggerFactory.getLogger(TestDataManager.class);
 
-    /**
-     *
-     */
     private GeographyConverter geographyConverter = new GeographyConverter();
-
-    /**
-     *
-     */
+    
     private DateTimeFormatter dateTimeFormatter = ISODateTimeFormat.dateTime();
 
-    /**
-     *
-     */
     private Stack<Object> data = new Stack<Object>();
 
-    /**
-     *
-     */
     private String username;
 
-    /**
-     *
-     */
     private String password;
 
     /**
@@ -112,82 +101,46 @@ public class TestDataManager {
         password = properties.getProperty("functional.test.password", null);
     }
 
-    /**
-    *
-    */
     @Autowired
     private ImageService imageService;
 
-    /**
-     *
-     */
     @Autowired
     private TaxonService taxonService;
 
-    /**
-     *
-     */
     @Autowired
     private ReferenceService referenceService;
 
-    /**
-    *
-    */
     @Autowired
     private SourceService sourceService;
 
-    /**
-    *
-    */
     @Autowired
     private UserService userService;
 
-    /**
-   *
-   */
     @Autowired
     private GroupService groupService;
 
-    /**
-   *
-   */
     @Autowired
     private AnnotationService annotationService;
 
-    /**
-   *
-   */
     @Autowired
     private JobExecutionService jobExecutionService;
 
-    /**
-   *
-   */
     @Autowired
     private JobInstanceService jobInstanceService;
 
-    /**
-   *
-   */
     @Autowired
     private JobService jobService;
 
-    /**
-     *
-     */
     private Authentication previousAuthentication = null;
 
-    /**
-     * 
-     */
     @Autowired
     private IdentificationKeyService identificationKeyService;
-    
-    /**
-     * 
-     */
+
     @Autowired
     private PlaceService placeService;
+    
+    @Autowired
+    private SolrServer solrServer;
 
     /**
      * @param identifier
@@ -947,5 +900,21 @@ public class TestDataManager {
 		data.push(p);
 		placeService.save(p);
 		disableAuthentication();
+	}
+
+	public void cleanIndices() throws Exception {
+		ModifiableSolrParams params = new ModifiableSolrParams();
+    	params.add("q","*:*");
+    	params.add("df", "id");
+    	QueryResponse queryResponse = solrServer.query(params);
+    	SolrDocumentList solrDocumentList = queryResponse.getResults();
+    	List<String> documentsToDelete = new ArrayList<String>();
+    	for(int i = 0; i < solrDocumentList.size(); i++) {
+    		documentsToDelete.add(solrDocumentList.get(i).getFirstValue("id").toString());
+    	}
+    	if(!documentsToDelete.isEmpty()) {
+    	    solrServer.deleteById(documentsToDelete);
+    	    solrServer.commit();
+    	}
 	}
 }

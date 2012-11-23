@@ -7,7 +7,6 @@ import javax.persistence.Transient;
 
 import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.emonocot.model.geography.GeographicalRegionFactory;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -43,10 +42,11 @@ public abstract class SearchableObject extends BaseData implements Searchable {
 		return getClassName() + "_" + getId();
 	}
 
-	public SolrInputDocument toSolrInputDocument(GeographicalRegionFactory geographicalRegionFactory) {
+	public SolrInputDocument toSolrInputDocument() {
 		SolrInputDocument sid = new SolrInputDocument();
 		sid.addField("id", getDocumentId());
     	sid.addField("base.id_l", getId());
+    	sid.addField("base.class_searchable_b", true);
     	sid.addField("base.class_s", getClass().getName());
 		addField(sid,"base.access_rights_s", getAccessRights());
 		

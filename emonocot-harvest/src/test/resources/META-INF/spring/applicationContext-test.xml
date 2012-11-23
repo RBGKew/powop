@@ -160,12 +160,6 @@
         
     <bean id="solrIndexingListener" class="org.emonocot.persistence.hibernate.SolrIndexingListener">
 	  <property name="solrServer" ref="solrServer"/>
-	  <property name="geographicalRegionFactory" ref="geographicalRegionFactory"/>
-	</bean>
-	
-	<bean id="geographicalRegionFactory" class="org.emonocot.model.geography.GeographicalRegionFactoryImpl"
-	    init-method="afterPropertiesSet" destroy-method="destroy">
-	    <property name="baseDirectory" value="target/test-classes/META-INF/org/tdwg/geography/"/>
 	</bean>
 
 	<bean id="solrServer" class="org.emonocot.test.EmbeddedSolrServerFactoryBean"

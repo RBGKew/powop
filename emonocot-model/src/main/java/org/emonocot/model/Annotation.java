@@ -21,7 +21,6 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
-import org.emonocot.model.geography.GeographicalRegionFactory;
 import org.emonocot.model.marshall.json.AnnotatableObjectDeserializer;
 import org.emonocot.model.marshall.json.AnnotatableObjectSerializer;
 import org.emonocot.model.marshall.json.SourceDeserializer;
@@ -280,11 +279,11 @@ public class Annotation extends Base implements Searchable {
     }
 
 	@Override
-	public SolrInputDocument toSolrInputDocument(
-			GeographicalRegionFactory geographicalRegionFactory) {
+	public SolrInputDocument toSolrInputDocument() {
 		SolrInputDocument sid = new SolrInputDocument();
 		sid.addField("id", getClassName() + "_" + getId());
     	sid.addField("base.id_l", getId());
+    	sid.addField("base.class_searchable_b", false);
     	sid.addField("base.class_s", getClass().getName());
     	if(getAuthority() != null) {
 			sid.addField("base.authority_s", getAuthority().getIdentifier());

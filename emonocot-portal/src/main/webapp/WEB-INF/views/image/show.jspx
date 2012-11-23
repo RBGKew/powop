@@ -68,7 +68,7 @@
 								<c:forEach var="keyword" items="${em:split(image.subject,',')}" varStatus="status">
 									<c:url var="keywordUrl" value="/search">
 										<c:param name="query" value="${keyword}"/>
-										<c:param name="facet" value="CLASS.org.emonocot.model.Image"/>
+										<c:param name="facet" value="base.class_s:org.emonocot.model.Image"/>
 									    </c:url>
 									<c:choose>
 										<c:when test="${status.last}">

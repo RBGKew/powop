@@ -11,7 +11,6 @@ import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrInputDocument;
 import org.emonocot.model.Searchable;
 import org.emonocot.model.SearchableObject;
-import org.emonocot.model.geography.GeographicalRegionFactory;
 import org.hibernate.event.PostDeleteEvent;
 import org.hibernate.event.PostDeleteEventListener;
 import org.hibernate.event.PostInsertEvent;
@@ -31,17 +30,10 @@ public class SolrIndexingListener implements PostInsertEventListener,
 	 */
 	private static final long serialVersionUID = 961123073889114601L;
 	
-	private SolrServer solrServer = null;
-	
-	private GeographicalRegionFactory geographicalRegionFactory;
+	private SolrServer solrServer = null;	
 	
 	public void setSolrServer(SolrServer solrServer) {
 		this.solrServer = solrServer;
-	}	
-	
-	public void setGeographicalRegionFactory(
-			GeographicalRegionFactory geographicalRegionFactory) {
-		this.geographicalRegionFactory = geographicalRegionFactory;
 	}
 
 
@@ -49,7 +41,7 @@ public class SolrIndexingListener implements PostInsertEventListener,
 	public void indexObjects(Collection<? extends Searchable> searchableObjects) {
 		List<SolrInputDocument> documents = new ArrayList<SolrInputDocument>();
 		for (Searchable searchable : searchableObjects) {
-			documents.add(searchable.toSolrInputDocument(geographicalRegionFactory));
+			documents.add(searchable.toSolrInputDocument());
 		}
 		try {
 			UpdateResponse updateResponse = solrServer.add(documents);

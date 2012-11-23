@@ -8,7 +8,8 @@ Feature: Authentication
   displays about my system
 
 Background:
-  Given there are groups with the following properties:
+  Given that the indexes are clean
+  And there are groups with the following properties:
   | identifier       | permission1            |
   | palmweb.org          | PERMISSION_VIEW_SOURCE |
   And there are users with the following properties:

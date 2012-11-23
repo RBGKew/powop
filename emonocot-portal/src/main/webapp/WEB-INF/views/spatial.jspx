@@ -32,7 +32,7 @@
 					<input type="hidden" name="limit" value="${result.pageSize}" />
 					<input type="hidden" name="start" value="0" />
 					<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-						<input type="hidden" name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
+						<input type="hidden" name="facet" value="${selectedFacet}:${result.selectedFacets[selectedFacet]}"/>
 					</c:forEach>
 					<input type="hidden" name="sort" value="${result.sort}"/>
 					<div class="control-group">
@@ -111,7 +111,7 @@
 
 				  <div id="results" class="row no-margin-left">
 					<jsp:scriptlet>
-						String classFacet = (String)result.getSelectedFacets().get("CLASS");
+						String classFacet = (String)result.getSelectedFacets().get("base.class_s");
 						if(classFacet == null) {
 							pageContext.setAttribute("imageClass",Boolean.FALSE);
 						} else if (classFacet.equals("org.emonocot.model.Image")) {

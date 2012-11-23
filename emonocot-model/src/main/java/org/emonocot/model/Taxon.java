@@ -25,7 +25,6 @@ import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.geography.GeographicalRegion;
-import org.emonocot.model.geography.GeographicalRegionFactory;
 import org.emonocot.model.marshall.json.ReferenceDeserializer;
 import org.emonocot.model.marshall.json.ReferenceSerializer;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
@@ -1061,8 +1060,8 @@ public class Taxon extends SearchableObject {
 	}
 
 	@Override
-	public SolrInputDocument toSolrInputDocument(GeographicalRegionFactory geographicalRegionFactory) {
-		SolrInputDocument sid = super.toSolrInputDocument(geographicalRegionFactory);
+	public SolrInputDocument toSolrInputDocument() {
+		SolrInputDocument sid = super.toSolrInputDocument();
 		sid.addField("searchable.label_sort", getScientificName());
 		addField(sid,"taxon.bibliographic_citation_t", getBibliographicCitation());
 		addField(sid,"taxon.clazz_s", getClazz());
@@ -1088,12 +1087,9 @@ public class Taxon extends SearchableObject {
 		addField(sid,"taxon.taxon_remarks_t", getTaxonRemarks());
 		addField(sid,"taxon.tribe_s", getTribe());
 		addField(sid,"taxon.verbatim_taxon_rank_s", getVerbatimTaxonRank());
-		try {
-			geographicalRegionFactory.indexSpatial(this, sid);
-		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage());
-		}
-		for(Distribution d : getDistribution()) {			
+		
+		for(Distribution d : getDistribution()) {
+			sid.addField("taxon.distribution_ss", d.getLocation().getCode());
 			indexLocality(d.getLocation(),sid);
 		}
 		

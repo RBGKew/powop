@@ -7,10 +7,11 @@ Feature: Faceted Search
   matches across different types of data, for example, Images, Taxon Pages, and Keys
 
 Background:
-  Given there are source systems with the following properties:
+  Given that the indexes are clean
+  And there are source systems with the following properties:
   | identifier | uri                 |
   | test       | http://example.com  |
-And there are taxa with the following properties:
+  And there are taxa with the following properties:
   | identifier                   | name                           | family    | rank    | status   | distribution1 | distribution2 | source |
   | urn:kew.org:wcs:taxon:2295   | Acorus                         | Acoraceae | GENUS   | Accepted |               |               | test   |
   | urn:kew.org:wcs:taxon:2304   | Acorus calamus                 | Acoraceae | SPECIES | Accepted |               |               | test   |
@@ -56,9 +57,9 @@ Scenario: Search for Only Taxa
   And the Family facet should have the following options:
   | option    |
   | Acoraceae |
-  When I restrict the "RANK" by selecting "Species"
+  When I restrict the "taxon.taxon_rank_s" by selecting "Species"
   Then there should be 2 results
-  When I restrict the "TAXONOMIC_STATUS" by selecting "Accepted Name"
+  When I restrict the "taxon.taxonomic_status_s" by selecting "Accepted Name"
   Then there should be 1 result
 
 Scenario: Search for Only Images
@@ -75,15 +76,15 @@ Scenario: Search for Only Images
 Scenario: Facet on Family
   As a taxonomist specializing in the Araceae
   I would like to be able to search within on family of plants
-  When I restrict the "FAMILY" by selecting "Araceae"
+  When I restrict the "taxon.family_s" by selecting "Araceae"
   Then there should be 9 results
   And the following results should be displayed:
   | page                         | text              |
-  | urn:kew.org:wcs:taxon:456456 | Arum alpinariae   |
-  | urn:kew.org:wcs:taxon:16041  | Arum apulum       |
-  | urn:kew.org:wcs:taxon:16050  | Arum balansanum   |
-  | urn:kew.org:wcs:taxon:16052  | Arum besserianum  |
   | urn:kew.org:wcs:taxon:16060  | Arum byzantinum   |
+  | urn:kew.org:wcs:taxon:16052  | Arum besserianum  |
+  | urn:kew.org:wcs:taxon:456456 | Arum alpinariae   |
+  | urn:kew.org:wcs:taxon:16050  | Arum balansanum   |
+  | urn:kew.org:wcs:taxon:16041  | Arum apulum       |
   | urn:kew.org:wcs:taxon:16074  | Arum concinnatum  |
   | urn:kew.org:wcs:taxon:16088  | Arum creticum     |
   | urn:kew.org:wcs:taxon:16095  | Arum cylindraceum |
@@ -93,12 +94,12 @@ Scenario: Facet on continent and region
   We should also be able to facet on the continent and region where a taxon occurs.
   The region facet is only displayed once a continent has been selected
   When I search for "Arum"
-  And I restrict the "CONTINENT" by selecting "Europe"
+  And I restrict the "taxon.distribution_TDWG_0_ss" by selecting "Europe"
   Then there should be 6 results
-  When I restrict the "REGION" by selecting "Southeastern Europe"
+  When I restrict the "taxon.distribution_TDWG_1_ss" by selecting "Southeastern Europe"
   Then the following results should be displayed:
   | page                        | text             |
-  | urn:kew.org:wcs:taxon:16041 | Arum apulum      |
   | urn:kew.org:wcs:taxon:16060 | Arum byzantinum  |
+  | urn:kew.org:wcs:taxon:16041 | Arum apulum      |
   | urn:kew.org:wcs:taxon:16074 | Arum concinnatum |
   | urn:kew.org:wcs:taxon:16088 | Arum creticum    |

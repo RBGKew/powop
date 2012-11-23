@@ -330,7 +330,7 @@ public class StepDefinitions {
      */
     @When("^I restrict the type of object by selecting \"([^\"]+)\"$")
     public final void facetOnType(final String facetValue) {
-        iSelect("CLASS", facetValue);
+        iSelect("base.class_s", facetValue);
     }
 
     /**
@@ -712,7 +712,7 @@ public class StepDefinitions {
      */
     @Then("^the Type facet should have the following options:$")
     public final void thereShouldBeOptionsForClassFacet(final List<Row> options) {
-        assertFacets("CLASS", options);
+        assertFacets("base.class_s", options);
     }
 
     /**
@@ -721,7 +721,7 @@ public class StepDefinitions {
      */
     @Then("^the Family facet should have the following options:$")
     public final void thereShouldBeOptionsForFamilyFacet(final List<Row> options) {
-        assertFacets("FAMILY", options);
+        assertFacets("taxon.family_s", options);
     }
 
     /**
@@ -730,7 +730,7 @@ public class StepDefinitions {
      */
     @Then("^the Rank facet should have the following options:$")
     public final void thereShouldBeOptionsForRankFacet(final List<Row> options) {
-        assertFacets("RANK", options);
+        assertFacets("taxon.taxon_rank_s", options);
     }
 
     /**
@@ -739,7 +739,7 @@ public class StepDefinitions {
      */
     @Then("^the Status facet should have the following options:$")
     public final void thereShouldBeOptionsForStatusFacet(final List<Row> options) {
-        assertFacets("STATUS", options);
+        assertFacets("taxon.taxonomic_status_s", options);
     }
 
     /**

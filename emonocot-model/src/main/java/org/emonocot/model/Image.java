@@ -22,7 +22,6 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.constants.ImageFormat;
-import org.emonocot.model.geography.GeographicalRegionFactory;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.geotools.geometry.jts.JTSFactoryFinder;
@@ -36,6 +35,7 @@ import org.slf4j.LoggerFactory;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.io.WKTWriter;
 
 /**
  *
@@ -433,8 +433,8 @@ public class Image extends SearchableObject implements NonOwned {
     }
     
     @Override
-    public SolrInputDocument toSolrInputDocument(GeographicalRegionFactory geographicalRegionFactory) {
-    	SolrInputDocument sid = super.toSolrInputDocument(geographicalRegionFactory);
+    public SolrInputDocument toSolrInputDocument() {
+    	SolrInputDocument sid = super.toSolrInputDocument();
     	sid.addField("searchable.label_sort", getTitle());
     	addField(sid,"image.audience_t", getAudience());
     	
@@ -477,7 +477,8 @@ public class Image extends SearchableObject implements NonOwned {
     	}
     	sid.addField("searchable.solrsummary_t", summary);
     	try {
-			geographicalRegionFactory.indexSpatial(getLocation(), sid);
+    		WKTWriter wktWriter = new WKTWriter();
+    		sid.addField("geo",wktWriter.write(getLocation()));
 		} catch (Exception e) {
 			logger.error(e.getLocalizedMessage());
 		}

@@ -13,7 +13,6 @@ import org.emonocot.model.Image;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Source;
 import org.emonocot.model.Taxon;
-import org.emonocot.model.geography.GeographicalRegionFactory;
 import org.emonocot.persistence.dao.AnnotationDao;
 import org.emonocot.persistence.dao.ImageDao;
 import org.emonocot.persistence.dao.JobExecutionDao;
@@ -45,9 +44,6 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
 
     @Autowired
     private SessionFactory sessionFactory;
-    
-    @Autowired
-    protected GeographicalRegionFactory geographicalRegionFactory;
 
     @Autowired
     private PlatformTransactionManager transactionManager;
