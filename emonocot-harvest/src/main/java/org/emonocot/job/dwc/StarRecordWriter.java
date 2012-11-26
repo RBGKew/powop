@@ -30,7 +30,7 @@ public class StarRecordWriter implements ItemWriter<StarRecord>, StepExecutionLi
     /**
      * 
      */
-    private static final Logger logger = LoggerFactory.getLogger(TaxonToStarRecordConverter.class);
+    private static final Logger logger = LoggerFactory.getLogger(StarRecordWriter.class);
 
     /**
      * Used to map strings to ConceptTerm objects
@@ -69,8 +69,6 @@ public class StarRecordWriter implements ItemWriter<StarRecord>, StepExecutionLi
             }
 
             Archive arch = new Archive();
-            ArchiveFile file = new ArchiveFile();
-            ArchiveField field = new ArchiveField();
 
             // extensions
             for (String rt : star.extensions().keySet()) {
