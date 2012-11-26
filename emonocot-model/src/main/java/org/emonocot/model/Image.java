@@ -448,10 +448,10 @@ public class Image extends SearchableObject implements NonOwned {
     	
 		StringBuilder summary = new StringBuilder().append(getAudience())
 				.append(" ").append(getCreator()).append(" ")
-				.append(getDescription()).append(getPublisher()).append(" ")
-				.append(getReferences()).append(" ").append(getSpatial())
-				.append(" ").append(getSubject()).append(" ")
-				.append(getTitle()).append(" ");
+				.append(getDescription()).append(" ").append(getPublisher())
+				.append(" ").append(getReferences()).append(" ")
+				.append(getSpatial()).append(" ").append(getSubject())
+				.append(" ").append(getTitle()).append(" ");
     	if(getTaxon() != null) {
     		addField(sid,"taxon.class_s", getTaxon().getClazz());
     	    addField(sid,"taxon.family_s", getTaxon().getFamily());

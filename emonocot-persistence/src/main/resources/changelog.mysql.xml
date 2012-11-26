@@ -2613,7 +2613,7 @@
     </changeSet>
     <changeSet id="2012-10-09_62b" author="ben">
        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
-       <modifyDataType tableName="reference" columnName="bibliographicCitation" newDataType="longtext"/>
+       <modifyDataType tableName="Reference" columnName="bibliographicCitation" newDataType="longtext"/>
     </changeSet>
     <changeSet id="2012-10-09_63" author="ben">
        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>

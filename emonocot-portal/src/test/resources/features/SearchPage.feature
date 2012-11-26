@@ -67,8 +67,8 @@ Scenario: Search for a single taxon
   When I search for "Rhipogonum album"
   Then the following results should be displayed:
   | page                         | text                        |
-  | 999                          | Key to the genus Rhipogonum |
   | urn:kew.org:wcs:taxon:286789 | Rhipogonum album            |
+  | 999                          | Key to the genus Rhipogonum |
   | urn:kew.org:wcs:taxon:286806 | Rhipogonum fawcettianum     |
   | urn:kew.org:wcs:taxon:286937 | Rhipogonum brevifolium      |
   | urn:kew.org:wcs:taxon:286793 | Rhipogonum elseyanum        |

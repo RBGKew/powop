@@ -67,7 +67,7 @@ Scenario: Check SourcePage
   | Info     | Update      |                                                                                  | Acorus                         |
   | Info     | Create      |                                                                                  | Acorus calamus                 |
   | Error    | BadRecord   |                                                                                  | Acorus calamus var. angustatus |
-  When I restrict the job "ISSUE_TYPE" by selecting "Error"
+  When I restrict the job "annotation.type_s" by selecting "Error"
   Then the summary results should be as follows:
   | category | subcategory | details | record                         |
   | Error    | BadRecord   |         | Acorus calamus var. angustatus |
