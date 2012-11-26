@@ -54,7 +54,7 @@ public class AnnotationDaoTest extends AbstractPersistenceTest {
      */
     @After
     public final void tearDown() throws Exception {
-        //super.doTearDown();
+        super.doTearDown();
     }
 
     /**

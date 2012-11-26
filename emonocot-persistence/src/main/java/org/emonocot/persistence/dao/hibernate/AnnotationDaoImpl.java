@@ -36,6 +36,11 @@ public class AnnotationDaoImpl extends SearchableDaoImpl<Annotation> implements
     public AnnotationDaoImpl() {
         super(Annotation.class);
     }
+    
+    @Override
+    protected boolean isSearchableObject() {
+		return false;
+	}
 
     @Override
     protected final Fetch[] getProfile(final String profile) {

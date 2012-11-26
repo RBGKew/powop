@@ -25,6 +25,10 @@ public enum FacetName {
     /**
      * Facet on the source system.
      */
+    SOURCE("searchable.sources_ss"),
+    /**
+     *
+     */
     AUTHORITY("base.authority_s"),
     /**
      * The rank of a plant name.

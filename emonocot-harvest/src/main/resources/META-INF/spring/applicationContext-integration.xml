@@ -14,9 +14,24 @@
 
 	<context:property-placeholder location="classpath*:META-INF/spring/*.properties" />
 
+    <bean id="jobLaunchRequestsQueue" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg value="job.launch.requests" />
+	</bean>
+	
 	<jms:inbound-gateway id="jobLaunchGateway"
 		request-channel="jobLaunchRequests" request-destination="jobLaunchRequestsQueue"
 		message-converter="mappingMessageConverter" connection-factory="connectionFactory" />
+	
+	<integration:channel id="jobLaunchRequests" />
+
+	<integration:service-activator
+		input-channel="jobLaunchRequests" ref="jobLauncherImpl" method="launch" />
+
+	<bean id="jobLauncherImpl" class="org.emonocot.harvest.integration.JobLauncherImpl">
+		<property name="jobLauncher" ref="jobLauncher" />
+		<property name="jobLocator" ref="jobRegistry" />
+		<property name="baseUrl" value="${harvester.baseUrl}" />
+	</bean>	
 
 	<bean id="mappingMessageConverter"
 		class="org.springframework.jms.support.converter.MappingJacksonMessageConverter">
@@ -38,21 +53,6 @@
 				</entry>
 			</map>
 		</property>
-	</bean>
-
-	<bean id="jobLaunchRequestsQueue" class="org.apache.activemq.command.ActiveMQQueue">
-		<constructor-arg value="job.launch.requests" />
-	</bean>
-
-	<integration:channel id="jobLaunchRequests" />
-
-	<integration:service-activator
-		input-channel="jobLaunchRequests" ref="jobLauncherImpl" method="launch" />
-
-	<bean id="jobLauncherImpl" class="org.emonocot.harvest.integration.JobLauncherImpl">
-		<property name="jobLauncher" ref="jobLauncher" />
-		<property name="jobLocator" ref="jobRegistry" />
-		<property name="baseUrl" value="${harvester.baseUrl}" />
 	</bean>
 
 	<integration:gateway id="jobStatusNotifier"

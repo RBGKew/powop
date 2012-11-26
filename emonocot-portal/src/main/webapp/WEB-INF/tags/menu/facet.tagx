@@ -175,7 +175,7 @@
 						</li>
 					</c:forEach>
 				</div>						
-				<a id="${em:escapeHtmlIdentifier(facetName)}-collapse-link" data-toggle="collapse" data-target="#${facetName}-collapse" class="label" style="display: none">${facetField.valueCount-10} ${more}</a>
+				<a id="${em:escapeHtmlIdentifier(facetName)}-collapse-link" data-toggle="collapse" data-target="#${em:escapeHtmlIdentifier(facetName)}-collapse" class="label" style="display: none">${facetField.valueCount-10} ${more}</a>
 				<script>
 					document.getElementById ( "${em:escapeHtmlIdentifier(facetName)}-collapse-link" ).style.display = "inline";
 					$("#${em:escapeHtmlIdentifier(facetName)}-collapse").on('hidden', function () {

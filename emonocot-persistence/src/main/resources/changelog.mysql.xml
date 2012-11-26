@@ -3154,4 +3154,10 @@
       <comment>Drop multiple sources</comment>
       <dropTable tableName="VernacularName_Source"/>
     </changeSet>
+    <changeSet id="2012-11-26_01" author="ben">
+      <comment>OAI-PMH webservice did not set the authority for distributions</comment>
+      <sql>
+        update distribution set authority_id = 1 where authority_id = NULL;
+      </sql>
+    </changeSet>
 </databaseChangeLog>

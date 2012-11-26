@@ -1088,11 +1088,6 @@ public class Taxon extends SearchableObject {
 		addField(sid,"taxon.tribe_s", getTribe());
 		addField(sid,"taxon.verbatim_taxon_rank_s", getVerbatimTaxonRank());
 		
-		for(Distribution d : getDistribution()) {
-			sid.addField("taxon.distribution_ss", d.getLocation().getCode());
-			indexLocality(d.getLocation(),sid);
-		}
-		
 		StringBuilder summary = new StringBuilder().append(getBibliographicCitation()).append(" ")
 		.append(getClazz()).append(" ").append(getFamily()).append(" ")
 		.append(getGenus()).append(" ").append(getKingdom()).append(" ")
@@ -1108,7 +1103,55 @@ public class Taxon extends SearchableObject {
 		.append(getTribe()).append(" ").append(getVerbatimTaxonRank());
 		for(Description d : getDescriptions()) {
 			summary.append(" ").append(d.getDescription());
+			if(d.getAuthority() != null) {
+				sid.addField("searchable.sources_ss", d.getAuthority().getIdentifier());
+			}
 		}
+		
+		for(Distribution d : getDistribution()) {
+			sid.addField("taxon.distribution_ss", d.getLocation().getCode());
+			indexLocality(d.getLocation(),sid);
+			if(d.getAuthority() != null) {
+				sid.addField("searchable.sources_ss", d.getAuthority().getIdentifier());
+			}
+		}
+		
+		for(Image i : getImages()) {			
+			if(i.getAuthority() != null) {
+				sid.addField("searchable.sources_ss", i.getAuthority().getIdentifier());
+			}
+		}
+		
+		for(Reference r : getReferences()) {			
+			if(r.getAuthority() != null) {
+				sid.addField("searchable.sources_ss", r.getAuthority().getIdentifier());
+			}
+		}
+		
+		for(TypeAndSpecimen t : getTypesAndSpecimens()) {			
+			if(t.getAuthority() != null) {
+				sid.addField("searchable.sources_ss", t.getAuthority().getIdentifier());
+			}
+		}
+		
+		for(Identifier i : getIdentifiers()) {			
+			if(i.getAuthority() != null) {
+				sid.addField("searchable.sources_ss", i.getAuthority().getIdentifier());
+			}
+		}
+		
+		for(MeasurementOrFact m : getMeasurementsOrFacts()) {			
+			if(m.getAuthority() != null) {
+				sid.addField("searchable.sources_ss", m.getAuthority().getIdentifier());
+			}
+		}
+		
+		for(VernacularName v : getVernacularNames()) {			
+			if(v.getAuthority() != null) {
+				sid.addField("searchable.sources_ss", v.getAuthority().getIdentifier());
+			}
+		}
+		
 		for(Taxon synonym : getSynonymNameUsages()) {
 			summary.append(" ").append(synonym.getScientificName());
 		}

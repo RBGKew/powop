@@ -241,7 +241,7 @@ public class SearchController {
        responseFacetList.add("base.class_s");
        responseFacetList.add("taxon.family_s");
        responseFacetList.add("taxon.distribution_TDWG_0_ss");
-       responseFacetList.add("base.authority_s");
+       responseFacetList.add("searchable.sources_ss");
        String className = null;
        if (selectedFacets == null) {
            logger.debug("No selected facets, setting default response facets");
@@ -331,7 +331,7 @@ public class SearchController {
       List<String> responseFacetList = new ArrayList<String>();
       responseFacetList.add("base.class_s");
       responseFacetList.add("taxon.family_s");
-      responseFacetList.add("base.authority_s");
+      responseFacetList.add("searchable.sources_ss");
       String className = null;
       if (selectedFacets == null) {
           logger.debug("No selected facets, setting default response facets");

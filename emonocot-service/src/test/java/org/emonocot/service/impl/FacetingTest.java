@@ -179,12 +179,12 @@ public class FacetingTest extends DataManagementSupport {
         Page<SearchableObject> pager = searchableObjectService.search("Aus",
                 null, null, null, new String[] {"base.class_s",
                         "taxon.family_s", "taxon.distribution_TDWG_0_ss",
-                        "base.authority_s" },
+                        "searchable.sources_ss" },
                 selectedFacets, null, null);
         assertThat("There should be two facets returned",
                 pager.getFacetNames(), containsInAnyOrder("base.class_s",
                         "taxon.family_s", "taxon.distribution_TDWG_0_ss",
-                        "base.authority_s"));
+                        "searchable.sources_ss"));
 
         FacetField classFacet = pager.getFacetField("base.class_s");
         String[] Strings = new String[classFacet.getValueCount()];
@@ -209,12 +209,12 @@ public class FacetingTest extends DataManagementSupport {
         Page<SearchableObject> pager = searchableObjectService.search("Aus",
                 null, null, null, new String[] {"base.class_s",
                         "taxon.family_s", "taxon.distribution_TDWG_0_ss",
-                        "taxon.distribution_TDWG_1_ss", "base.authority_s" },
+                        "taxon.distribution_TDWG_1_ss", "searchable.sources_ss" },
                 selectedFacets, null, null);
         assertThat("There should be two facets returned",
                 pager.getFacetNames(), containsInAnyOrder("base.class_s",
                         "taxon.family_s", "taxon.distribution_TDWG_0_ss",
-                        "taxon.distribution_TDWG_1_ss", "base.authority_s"));
+                        "taxon.distribution_TDWG_1_ss", "searchable.sources_ss"));
 
         FacetField classFacet = pager.getFacetField("base.class_s");
         String[] Strings = new String[classFacet.getValueCount()];
@@ -238,14 +238,14 @@ public class FacetingTest extends DataManagementSupport {
         selectedFacets.put("base.class_s", "org.emonocot.model.Taxon");
         Page<Taxon> pager = taxonService.search("Aus", null, null, null,
                 new String[] { "base.class_s", "taxon.family_s",
-                        "taxon.distribution_TDWG_0_ss", "base.authority_s",
+                        "taxon.distribution_TDWG_0_ss", "searchable.sources_ss",
                         "taxon.taxon_rank_s", "taxon.taxonomic_status_s" },
                 selectedFacets, null, null);
         assertEquals("There should be five taxa returned", (Integer) 5,
                 pager.getSize());
         assertThat("There should be two facets returned",
                 pager.getFacetNames(), containsInAnyOrder("base.class_s", "taxon.family_s",
-                        "taxon.distribution_TDWG_0_ss", "base.authority_s",
+                        "taxon.distribution_TDWG_0_ss", "searchable.sources_ss",
                         "taxon.taxon_rank_s", "taxon.taxonomic_status_s"));
 
         FacetField classFacet = pager.getFacetField("base.class_s");
@@ -262,7 +262,7 @@ public class FacetingTest extends DataManagementSupport {
         selectedFacets.put("taxon.taxon_rank_s", "SPECIES");
         pager = taxonService.search("Aus", null, null, null,
                 new String[] {"base.class_s", "taxon.family_s",
-                        "taxon.distribution_TDWG_0_ss", "base.authority_s",
+                        "taxon.distribution_TDWG_0_ss", "searchable.sources_ss",
                         "taxon.taxon_rank_s", "taxon.taxonomic_status_s" },
                 selectedFacets, null, null);
 //        for (String String : pager.getStrings()) {
@@ -306,7 +306,7 @@ public class FacetingTest extends DataManagementSupport {
     	Map<String, String> selectedFacets = new HashMap<String, String>();
     	Page<?> results = searchableObjectService.search(null,
                 null, null, null, 
-                new String[] {"base.class_s", "taxon.family_s", "taxon.distribution_TDWG_0_ss","base.authority_s" },
+                new String[] {"base.class_s", "taxon.family_s", "taxon.distribution_TDWG_0_ss","searchable.sources_ss" },
                 null, null, null);
 //    	System.out.println("No Query");
 //		for (String String : results.getStrings()) {
@@ -319,7 +319,7 @@ public class FacetingTest extends DataManagementSupport {
 		selectedFacets.put("taxon.family_s", "Ausaceae");
     	 results = searchableObjectService.search(null,
                 null, null, null, 
-                new String[] {"base.class_s", "taxon.family_s", "taxon.distribution_TDWG_0_ss","base.authority_s" },
+                new String[] {"base.class_s", "taxon.family_s", "taxon.distribution_TDWG_0_ss","searchable.sources_ss" },
                 selectedFacets, null, null);
 //    	System.out.println("Searchable {FAMILY:Ausaceae}");
 //		for (String String : results.getStrings()) {
@@ -331,12 +331,12 @@ public class FacetingTest extends DataManagementSupport {
 		selectedFacets.clear();
 		selectedFacets.put("taxon.family_s", "Ausaceae");
 		selectedFacets.put("base.class_s", "org.emonocot.model.taxon.Taxon");
-		selectedFacets.put("base.authority_s", "source2");
+		selectedFacets.put("searchable.sources_ss", "source2");
 
 		
     	 results = searchableObjectService.search(null,
                 null, null, null, 
-                new String[] {"base.class_s","taxon.family_s", "taxon.distribution_TDWG_0_ss","base.authority_s"},
+                new String[] {"base.class_s","taxon.family_s", "taxon.distribution_TDWG_0_ss","searchable.sources_ss"},
                 selectedFacets, null, null);
 //    	System.out.println("Searchable {FAMILY:Ausaceae,CLASS:org.emonocot.model.taxon.Taxon, AUTHORITY:source2}");
 //		for (String String : results.getStrings()) {
@@ -346,12 +346,12 @@ public class FacetingTest extends DataManagementSupport {
 //			}
 //		}
 		selectedFacets.clear();
-		selectedFacets.put("base.authority_s", "source2");
+		selectedFacets.put("searchable.sources_ss", "source2");
 
 		
     	 results = searchableObjectService.search(null,
                 null, null, null, 
-                new String[] {"base.class_s","taxon.family_s", "taxon.distribution_TDWG_0_ss","base.authority_s"},
+                new String[] {"base.class_s","taxon.family_s", "taxon.distribution_TDWG_0_ss","searchable.sources_ss"},
                 selectedFacets, null, null);
     }
     
