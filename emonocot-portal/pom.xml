@@ -4,11 +4,11 @@
 	<parent>
 		<artifactId>emonocot</artifactId>
 		<groupId>org.emonocot</groupId>
-		<version>0.0.21-SNAPSHOT</version>
+		<version>0.0.23-SNAPSHOT</version>
 	</parent>
 	<groupId>org.emonocot</groupId>
 	<artifactId>emonocot-portal</artifactId>
-	<version>0.0.21-SNAPSHOT</version>
+	<version>0.0.23-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>eMonocot Portal</name>
 	<dependencies>
@@ -40,9 +40,13 @@
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-library</artifactId>
         </dependency>
+         <dependency>
+	      <groupId>org.gbif</groupId>
+          <artifactId>ecat-common</artifactId>
+	    </dependency>
 		<dependency>
 			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
+			<artifactId>junit-dep</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
@@ -127,15 +131,7 @@
 	      <dependency>
 		      <groupId>com.yahoo.platform.yui</groupId>
 		      <artifactId>YUIAnt</artifactId>
-	      </dependency>
-	      <dependency>
-             <groupId>tomcat</groupId>
-             <artifactId>catalina-ant</artifactId>
-          </dependency>
-          <dependency>
-             <groupId>org.apache.ant</groupId>
-             <artifactId>ant-junit</artifactId>
-          </dependency>
+	      </dependency>	      
           <dependency>
              <groupId>org.emonocot</groupId>
              <artifactId>emonocot-task</artifactId>
