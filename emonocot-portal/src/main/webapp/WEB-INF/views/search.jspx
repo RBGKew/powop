@@ -30,7 +30,7 @@
 				<input type="hidden" name="limit" value="${result.pageSize}" />
 				<input type="hidden" name="start" value="0" />
 				<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-					<input type="hidden" name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}" />
+					<input type="hidden" name="facet" value="${selectedFacet}:${result.selectedFacets[selectedFacet]}" />
 				</c:forEach>
 				<input type="hidden" name="sort" value="${result.sort}" />
 				<button class="btn btn-primary">
