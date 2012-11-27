@@ -69,13 +69,13 @@
 							</li>
 							<li>
 								<c:url value="/search" var="keySearchUrl">
-									<c:param name="facet" value="CLASS.org.emonocot.model.IdentificationKey"/>
+									<c:param name="facet" value="base.class_s:org.emonocot.model.IdentificationKey"/>
 								</c:url>
 								<a href="${keySearchUrl}"><spring:message code="search.for.keys"/></a>
 							</li>
 							<li>
 								<c:url value="/search" var="imageSearchUrl">
-									<c:param name="facet" value="CLASS.org.emonocot.model.Image"/>
+									<c:param name="facet" value="base.class_s:org.emonocot.model.Image"/>
 								</c:url>
 								<a href="${imageSearchUrl}"><spring:message code="browse.images"/></a>
 							</li>

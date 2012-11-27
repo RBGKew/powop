@@ -33,6 +33,7 @@ import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.WKTWriter;
+import com.vividsolutions.jts.simplify.TopologyPreservingSimplifier;
 
 /**
  * @author jk00kg
@@ -217,7 +218,7 @@ public class Place extends SearchableObject {
     	sid.addField("searchable.solrsummary_t", summary);
     	try {
     		WKTWriter wktWriter = new WKTWriter();
-    		sid.addField("geo", wktWriter.write(getShape()));
+    		sid.addField("geo", wktWriter.write(TopologyPreservingSimplifier.simplify(getShape(),0.01)));
 		} catch (Exception e) {
 			logger.error(e.getLocalizedMessage());
 		}

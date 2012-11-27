@@ -3,15 +3,9 @@
  */
 package org.emonocot.harvest.common;
 
-import javax.jms.IllegalStateException;
-
-import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.SearchableService;
-import org.emonocot.api.Service;
-import org.emonocot.model.Base;
 import org.emonocot.model.SearchableObject;
 import org.springframework.batch.item.database.AbstractPagingItemReader;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author jk

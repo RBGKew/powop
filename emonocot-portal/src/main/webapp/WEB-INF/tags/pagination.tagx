@@ -24,7 +24,7 @@
 										<jsp:scriptlet>
 											String selectedFacet = (String) jspContext.getAttribute("selectedFacet");
 											org.emonocot.pager.Page pager = (org.emonocot.pager.Page) jspContext.getAttribute("pager");
-											out.println(selectedFacet + "." + pager.getSelectedFacets().get(selectedFacet));
+											out.println(selectedFacet + ":" + pager.getSelectedFacets().get(selectedFacet));
 										</jsp:scriptlet>
 									</c:param>
 								</c:forEach>
@@ -60,7 +60,7 @@
 										<jsp:scriptlet>
 											String selectedFacet = (String) jspContext.getAttribute("selectedFacet");
 											org.emonocot.pager.Page pager = (org.emonocot.pager.Page) jspContext.getAttribute("pager");
-											out.println(selectedFacet + "." + pager.getSelectedFacets().get(selectedFacet));
+											out.println(selectedFacet + ":" + pager.getSelectedFacets().get(selectedFacet));
 										</jsp:scriptlet>
 									</c:param>
 								</c:forEach>

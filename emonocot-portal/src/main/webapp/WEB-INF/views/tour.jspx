@@ -42,7 +42,7 @@
 							<tr>
                                 <td class="span6">
 								    <c:url var="keySearchUrl" value="/search">
-										<c:param name="facet" value="CLASS.org.emonocot.model.IdentificationKey" />
+										<c:param name="facet" value="base.class_s:org.emonocot.model.IdentificationKey" />
 									</c:url>
                                     <a href="${keySearchUrl}">Search for Keys</a>
                                 </td>
@@ -55,7 +55,7 @@
 							<tr>
 								<td class="span6">
 								    <c:url var="imageSearchUrl" value="/search">
-										<c:param name="facet" value="CLASS.org.emonocot.model.Image"/>
+										<c:param name="facet" value="base.class_s:org.emonocot.model.Image"/>
 									</c:url>
 								    <a href="${imageSearchUrl}">Browse Images</a>
                                 </td>

@@ -75,7 +75,7 @@ public class JobLauncherImpl implements JobLauncher {
 				jobParameterMap.put(parameterName, new JobParameter(request.getParameters().get(parameterName)));
 			}
 			JobParameters jobParameters = new JobParameters(jobParameterMap);
-			try {
+			try {				
 				JobExecution jobExecution = jobLauncher.run(job, jobParameters);
 				JobExecutionInfo jobExecutionInfo = new JobExecutionInfo();
 				DateTime startTime = new DateTime(jobExecution.getStartTime());
