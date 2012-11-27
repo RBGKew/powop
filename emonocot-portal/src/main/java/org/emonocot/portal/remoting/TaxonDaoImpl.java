@@ -2,9 +2,8 @@ package org.emonocot.portal.remoting;
 
 import java.util.List;
 
-import org.emonocot.model.pager.Page;
-import org.emonocot.model.taxon.Family;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Taxon;
+import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.TaxonDao;
 import org.springframework.stereotype.Repository;
 
@@ -21,29 +20,6 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
      */
     public TaxonDaoImpl() {
         super(Taxon.class, "taxon");
-    }
-
-    /**
-     * Returns the genera associated with this family.
-     * TODO Remove once families are imported
-     *
-     * @param family
-     *            the family
-     * @return A list of genera
-     */
-    public final List<Taxon> getGenera(final Family family) {
-        return null;
-    }
-
-    /**
-     * Returns the number of genera in a family.
-     * TODO Remove once families are imported
-     *
-     * @param family the family
-     * @return the number of accepted genera
-     */
-    public final Integer countGenera(final Family family) {
-        return null;
     }
 
     /**

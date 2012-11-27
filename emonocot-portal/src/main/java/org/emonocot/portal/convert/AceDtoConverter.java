@@ -1,8 +1,8 @@
 package org.emonocot.portal.convert;
 
 import org.emonocot.api.SourceService;
-import org.emonocot.model.common.SecuredObject;
-import org.emonocot.model.source.Source;
+import org.emonocot.model.SecuredObject;
+import org.emonocot.model.Source;
 import org.emonocot.portal.model.AceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;

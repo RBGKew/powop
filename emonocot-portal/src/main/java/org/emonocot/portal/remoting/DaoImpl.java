@@ -1,13 +1,13 @@
 	package org.emonocot.portal.remoting;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.emonocot.api.FacetName;
-import org.emonocot.api.Sorting;
-import org.emonocot.model.common.Base;
-import org.emonocot.model.pager.Page;
+import org.emonocot.model.Base;
+import org.emonocot.pager.FacetName;
+import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.Dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,12 +25,47 @@ import org.springframework.web.client.RestTemplate;
  * @param <T>
  */
 public abstract class DaoImpl<T extends Base> implements Dao<T> {
+	
+	protected Map<String, String> createdObjects = new HashMap<String,String>();
 
     /**
      * Logger.
      */
     private static Logger logger
         = LoggerFactory.getLogger(DaoImpl.class);
+    
+    /**
+     *
+     * @param identifier
+     * @return
+     */
+	public String getPageLocation(String identifier) {
+		return createdObjects.get(identifier);
+	}
+	
+	/**
+    *
+    * @param identifier
+    * @return
+    */
+	public String getIdentifier(String location) {
+		for(String identifier : createdObjects.keySet()) {
+		    if(createdObjects.get(identifier).equals(location)) {
+		    	return identifier;
+		    }
+		}
+		return null;
+	}
+	
+	/**
+	 *
+	 * @param identifier
+	 * @return
+	 */
+	public boolean containsPageLocation(String location) {
+		return createdObjects.containsValue(location);
+	}
+
 
     /**
      *
@@ -101,14 +136,63 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
                 requestEntity, type);
         return responseEntity.getBody();
     }
+    
+    /**
+     * @param identifier set the identifier
+     * @return an object
+     */
+    public final T load(final Long id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    /**
+     * @param identifier set the identifier
+     * @return an object
+     */
+    public final T find(final Long id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    /**
+     * @param identifier set the identifier
+     * @return an object
+     */
+    public final T load(final Long id, final String fetch) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    /**
+     * @param identifier set the identifier
+     * @return an object
+     */
+    public final T find(final Long id, final String fetch) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    public final void deleteById(final Long id) {
+    	
+    }
 
     /**
      * @param identifier the identifier of the object to delete
      */
     public final void delete(final String identifier) {
         HttpEntity<T> requestEntity = new HttpEntity<T>(httpHeaders);
-        restTemplate.exchange(baseUri + resourceDir + "/" + identifier,
+        logger.debug("DELETE: " + createdObjects.get(identifier));
+        if(createdObjects.containsKey(identifier)) {
+            restTemplate.exchange(createdObjects.get(identifier),
                 HttpMethod.DELETE, requestEntity, type);
+            createdObjects.remove(identifier);
+        } else {
+        	T t = find(identifier);
+        	restTemplate.exchange(baseUri + "/" + resourceDir + "/" + t.getId(),
+                    HttpMethod.DELETE, requestEntity, type);
+        }
+        
     }
 
     /**
@@ -117,7 +201,7 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
      */
     public final T find(final String identifier) {
         HttpEntity<T> requestEntity = new HttpEntity<T>(httpHeaders);
-        HttpEntity<T> responseEntity = restTemplate.exchange(baseUri
+        HttpEntity<T> responseEntity = restTemplate.exchange(baseUri + "/"
                 + resourceDir + "/" + identifier, HttpMethod.GET,
                 requestEntity, type);
         return responseEntity.getBody();
@@ -148,11 +232,12 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
      * @return the saved object
      */
     public final T save(final T t) {
-        logger.debug("POST: " + baseUri + resourceDir);
+    	logger.debug("POST: " + baseUri + resourceDir);
         HttpEntity<T> requestEntity = new HttpEntity<T>(t, httpHeaders);
-        HttpEntity<T> responseEntity = restTemplate.exchange(baseUri
+        HttpEntity<T> responseEntity = restTemplate.exchange(baseUri + "/"
                 + resourceDir, HttpMethod.POST,
-                requestEntity, type);
+                requestEntity, type);        
+        createdObjects.put(t.getIdentifier(), responseEntity.getHeaders().getLocation().toString());
         return responseEntity.getBody();
     }
     /**
@@ -196,9 +281,9 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
      */
     public final Page<T> search(final String query, final String spatialQuery,
             final Integer pageSize, final Integer pageNumber,
-            final FacetName[] facets,
-            final Map<FacetName, String> selectedFacets,
-            final Sorting sort, String fetch) {
+            final String[] facets,
+            final Map<String, String> selectedFacets,
+            final String sort, String fetch) {
         // TODO Auto-generated method stub
         // TODO move persistence to persistence package?
         return null;
@@ -214,9 +299,10 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
     /**
      * @param page Set the offset (in size chunks, 0-based), optional
      * @param size Set the page size
+     * @param fetch The profile describing which objects to hydrate/retrieve
      * @return A list of results
      */
-    public final List<T> list(final Integer page, final Integer size) {
+    public final List<T> list(final Integer page, final Integer size, final String fetch) {
         return null;
     }
 

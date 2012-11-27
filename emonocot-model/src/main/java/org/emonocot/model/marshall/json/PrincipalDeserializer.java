@@ -6,9 +6,9 @@ import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
 import org.emonocot.api.Service;
-import org.emonocot.model.user.Group;
-import org.emonocot.model.user.Principal;
-import org.emonocot.model.user.User;
+import org.emonocot.model.auth.Group;
+import org.emonocot.model.auth.Principal;
+import org.emonocot.model.auth.User;
 
 /**
  *

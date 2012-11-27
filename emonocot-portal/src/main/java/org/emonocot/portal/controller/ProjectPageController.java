@@ -6,7 +6,7 @@ package org.emonocot.portal.controller;
 import java.util.List;
 
 import org.emonocot.api.SourceService;
-import org.emonocot.model.source.Source;
+import org.emonocot.model.Source;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,7 +44,7 @@ public class ProjectPageController {
      */
     @RequestMapping(value = "/about")
     public final String show(final Model model) {
-    	List<Source> sources = sourceService.list(null, null).getRecords();
+    	List<Source> sources = sourceService.list(null, null, null).getRecords();
     	
     	//Page specific remove
     	for (String identifier : excludeIdentifiers) {

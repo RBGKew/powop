@@ -1,6 +1,6 @@
 package org.emonocot.api;
 
-import org.emonocot.model.key.IdentificationKey;
+import org.emonocot.model.IdentificationKey;
 
 /**
  * @author jk00kg
@@ -8,12 +8,5 @@ import org.emonocot.model.key.IdentificationKey;
  */
 public interface IdentificationKeyService extends
         SearchableService<IdentificationKey> {
-
-    /**
-     *
-     * @param source Set the source of the identification key
-     * @return an identification key
-     */
-    IdentificationKey findBySource(String source);
 
 }

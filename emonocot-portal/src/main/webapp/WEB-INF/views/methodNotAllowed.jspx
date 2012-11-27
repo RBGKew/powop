@@ -9,7 +9,7 @@
 			<h2>
 				<spring:message code="an.error.has.occurred" />
 			</h2>
-		<tags:pageheader>
+	</tags:pageheader>
 		<div class="container">
 		<div class="row">
 		  <div class="alert block-message error">

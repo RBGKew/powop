@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.DeserializationContext;
-import org.emonocot.model.key.IdentificationKey;
+import org.emonocot.model.IdentificationKey;
 
 /**
  *

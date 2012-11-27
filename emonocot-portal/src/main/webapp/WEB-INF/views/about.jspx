@@ -30,7 +30,7 @@
 						<p class="justified">
 							The project is being funded by the <a href="http://www.nerc.ac.uk/" title="NERC">
 							Natural Environment Research Council</a> (NERC) via a consortium grant to
-							the <a href="http://www.kew.org/" title="Royal Botanic Gardens, Kew">Royal Botanic Garndens, Kew</a>, 
+							the <a href="http://www.kew.org/" title="Royal Botanic Gardens, Kew">Royal Botanic Gardens, Kew</a>, 
 							<a href="http://www.ox.ac.uk/" title="Oxford University">Oxford University</a>
 							and the <a href="http://www.nhm.ac.uk/" title="Natural History Museum">Natural History Museum</a> (NHM).
 						</p>
@@ -48,6 +48,9 @@
 							providing support and tools to enable communities to manage their
 							taxonomic data online and in doing so contribute to eMonocot.
 						</p>
+                        <p class="justified">You can find out how the eMonocot portal can help you explore this data on the
+                            <c:url var="tourUrl" value="/tour" /><a href="${tourUrl}" title="eMonocot portal features">tour page</a>.
+                        </p>
 						<p class="justified">All of the information is brought
 							together in this site, the eMonocot portal. The information
 							presented here will be especially useful for anyone studying the
@@ -66,8 +69,8 @@
 						</p>
 						<p class="justified">
 							The initial taxonomic classification of monocot plants presented
-							in eMonocot.org is that in the <a href="http://apps.kew.org/wcsp" title="World Checklist of Selected Plant Families">World
-								Checklist of Selected Plant Families</a>. This classification
+							in eMonocot.org is that in the <a href="http://apps.kew.org/wcsp" title="World Checklist of Selected Plant Families">
+							World Checklist of Selected Plant Families</a>. This classification
 							provides the taxonomic and geographic information for ca. 90,000
 							accepted taxa (ca. 70,000 species).
 						</p>
@@ -83,8 +86,8 @@
 								<a href="${sourcePageUrl}">${source.title}</a>
 								<br />
 							</c:forEach>
-						</p>
-						<p class="justified">
+                        </p>
+                        <p class="justified">
 							Content is being gathered using eMonocot <a href="http://scratchpads.eu" title="Scratchpads project">Scratchpads</a>
 							– websites that enable communities of researchers to manage,
 							share and publish taxonomic data online. The eMonocot Scratchpad
@@ -96,7 +99,7 @@
 						<p class="justified">
 							If you would like to get involved with the eMonocot Project either by providing feedback on the site or perhaps
 							contributing content by joining or forming a scratchpad community, then please
-							<a href="mailto:enquires@e-monocot.org?subject=eMonocot Portal enquiry" title="contact e-mail">contact us</a>.
+							<a href="mailto:enquiries@e-monocot.org?subject=eMonocot Portal enquiry" title="contact e-mail">contact us</a>.
                             You can also find out more information about the project, including the latest events and news at the
 							<a href="http://about.e-monocot.org" title="Project Scratchpad">eMonocot project scratchpad</a>.
 						</p>

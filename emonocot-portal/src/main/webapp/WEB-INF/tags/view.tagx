@@ -5,7 +5,7 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
 	<jsp:directive.attribute name="url" type="java.lang.String" required="true" />
-	<jsp:directive.attribute name="result" type="org.emonocot.model.pager.Page" required="true" />
+	<jsp:directive.attribute name="result" type="org.emonocot.pager.Page" required="true" />
 	<jsp:directive.attribute name="spanClass" type="java.lang.String" required="false"/>
 	
 	<div class="btn-group">
@@ -19,7 +19,7 @@
 			<c:param name="limit" value="${result.pageSize}" />
 			<c:param name="start" value="0" />
 			<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-				<c:param name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
+				<c:param name="facet" value="${selectedFacet}:${result.selectedFacets[selectedFacet]}"/>
 			</c:forEach>
 			<c:param name="sort">${sortItem}</c:param>
 			<c:param name="view">list</c:param>
@@ -38,7 +38,7 @@
 			<c:param name="limit" value="${result.pageSize}" />
 			<c:param name="start" value="0" />
 			<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-				<c:param name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
+				<c:param name="facet" value="${selectedFacet}:${result.selectedFacets[selectedFacet]}"/>
 			</c:forEach>
 			<c:param name="sort">${sortItem}</c:param>
 			<c:param name="view">simpleList</c:param>
@@ -57,7 +57,7 @@
 			<c:param name="limit" value="${result.pageSize}" />
 			<c:param name="start" value="0" />
 			<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-				<c:param name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
+				<c:param name="facet" value="${selectedFacet}:${result.selectedFacets[selectedFacet]}"/>
 			</c:forEach>
 			<c:param name="sort">${sortItem}</c:param>
 			<c:param name="view">grid</c:param>
@@ -76,7 +76,7 @@
 			<c:param name="limit" value="${result.pageSize}" />
 			<c:param name="start" value="0" />
 			<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-				<c:param name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}"/>
+				<c:param name="facet" value="${selectedFacet}:${result.selectedFacets[selectedFacet]}"/>
 			</c:forEach>
 			<c:param name="sort">${sortItem}</c:param>
 			<c:param name="view">slideshow</c:param>

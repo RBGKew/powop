@@ -2299,4 +2299,865 @@
         <comment>N.B. http://geocommons.com/overlays/33578 data must be loaded into `gis`.`place` table</comment>
         <sql>UPDATE gis.place g INNER JOIN Place p ON g.fipsCode = p.fipsCode SET p.mapFeatureId = g.OGR_FID</sql>
     </changeSet> -->
+    <changeSet id="2012-10-05_01" author="ben">
+      <comment>Refactored Job so that an arbitrary number of parameters can be associated with it</comment>
+      <renameColumn tableName="Annotation" oldColumnName="source_id" newColumnName="authority_id" columnDataType="bigint"/>
+    </changeSet>
+    <changeSet id="2012-10-09_01" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <renameTable oldTableName="TextContent" newTableName="Description"/>
+    </changeSet>
+    <changeSet id="2012-10-09_02" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <renameTable oldTableName="TextContent_Reference" newTableName="Description_Reference"/>
+    </changeSet>
+    <changeSet id="2012-10-09_03" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <renameTable oldTableName="TextContent_Source" newTableName="Description_Source"/>
+    </changeSet>
+    <changeSet id="2012-10-09_04" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <renameColumn tableName="Description_Reference" oldColumnName="TextContent_id" newColumnName="Description_id" columnDataType="bigint"/>
+    </changeSet>
+    <changeSet id="2012-10-09_05" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <renameColumn tableName="Description_Source" oldColumnName="TextContent_id" newColumnName="Description_id" columnDataType="bigint"/>
+    </changeSet>
+    <changeSet id="2012-10-09_06" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addColumn tableName="Description">
+            <column name="accessRights" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_07" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addColumn tableName="Description">
+            <column name="rights" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_08" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addColumn tableName="Description">
+            <column name="rightsHolder" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_09" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addColumn tableName="Distribution">
+            <column name="accessRights" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_10" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addColumn tableName="Distribution">
+            <column name="rights" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_11" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addColumn tableName="Distribution">
+            <column name="rightsHolder" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_12" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addColumn tableName="IdentificationKey">
+            <column name="accessRights" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_13" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addColumn tableName="IdentificationKey">
+            <column name="rights" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_14" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addColumn tableName="IdentificationKey">
+            <column name="rightsHolder" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_15" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addColumn tableName="Identifier">
+            <column name="accessRights" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_16" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addColumn tableName="Identifier">
+            <column name="rights" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_17" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addColumn tableName="Identifier">
+            <column name="rightsHolder" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_18" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addColumn tableName="Image">
+            <column name="accessRights" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_19" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addColumn tableName="Image">
+            <column name="rights" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_20" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addColumn tableName="Image">
+            <column name="rightsHolder" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_21" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addColumn tableName="Reference">
+            <column name="accessRights" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_22" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addColumn tableName="Reference">
+            <column name="rights" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_23" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addColumn tableName="Reference">
+            <column name="rightsHolder" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_24" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addColumn tableName="Source">
+            <column name="accessRights" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_25" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addColumn tableName="Source">
+            <column name="rights" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_26" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addColumn tableName="Source">
+            <column name="rightsHolder" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_27" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addColumn tableName="Taxon">
+            <column name="accessRights" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_28" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addColumn tableName="Taxon">
+            <column name="rights" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_29" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addColumn tableName="Taxon">
+            <column name="rightsHolder" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_30" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <sql>update IdentificationKey set identifier = source;</sql>
+    </changeSet>
+    <changeSet id="2012-10-09_31" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <dropColumn tableName="IdentificationKey" columnName="source"/>
+    </changeSet>
+    <changeSet id="2012-10-09_32" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <sql>update Image set identifier = url;</sql>
+    </changeSet>
+    <changeSet id="2012-10-09_33" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <dropColumn tableName="Image" columnName="url"/>
+    </changeSet>
+    <changeSet id="2012-10-09_35" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <renameColumn tableName="Reference" oldColumnName="citation" newColumnName="bibliographicCitation" columnDataType="varchar(255)"/>
+    </changeSet>
+    <changeSet id="2012-10-09_36" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <renameColumn tableName="Source" oldColumnName="source" newColumnName="bibliographicCitation" columnDataType="varchar(255)"/>
+    </changeSet>
+    <changeSet id="2012-10-09_37" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Taxon">
+            <column name="bibliographicCitation" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_38" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Taxon">
+            <column name="namePublishedInString" type="varchar(255)"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_39" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <dropColumn tableName="Taxon" columnName="accordingTo"/>
+    </changeSet>
+    <changeSet id="2012-10-09_40" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Taxon">
+            <column name="nameAccordingTo_id" type="bigint"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_41" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addForeignKeyConstraint baseColumnNames="nameAccordingTo_id" baseTableName="Taxon" constraintName="Taxon_Reference_nameAccordingTo_FK" referencedColumnNames="id" referencedTableName="Reference"/>
+    </changeSet>
+    <changeSet id="2012-10-09_42" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Taxon">
+            <column name="namePublishedInYear" type="integer"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_43" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Taxon">
+            <column name="nomenclaturalStatus" type="varchar(255)"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_44" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <sql>update Taxon set nomenclaturalStatus = 'Illegitimate' where status = 'illegitimate';</sql>
+    </changeSet>
+    <changeSet id="2012-10-09_45" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <renameColumn tableName="Taxon" oldColumnName="status" newColumnName="taxonomicStatus" columnDataType="varchar(255)"/>
+    </changeSet>
+    <changeSet id="2012-10-09_46" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <sql>update Taxon set nomenclaturalStatus = 'Illegitimate' where taxonomicStatus = 'illegitimate';</sql>
+    </changeSet>
+    <changeSet id="2012-10-09_47" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Taxon">
+            <column name="originalNameUsage_id" type="bigint"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_48" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addForeignKeyConstraint baseColumnNames="originalNameUsage_id" baseTableName="Taxon" constraintName="Taxon_Taxon_originalNameUsage_FK" referencedColumnNames="id" referencedTableName="Taxon"/>
+    </changeSet>
+    <changeSet id="2012-10-09_49" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <renameColumn tableName="Taxon" oldColumnName="name" newColumnName="scientificName" columnDataType="varchar(255)"/>
+    </changeSet>
+    <changeSet id="2012-10-09_50" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <renameColumn tableName="Taxon" oldColumnName="authorship" newColumnName="scientificNameAuthorship" columnDataType="varchar(255)"/>
+    </changeSet>
+     <changeSet id="2012-10-09_51" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <dropColumn tableName="Taxon" columnName="basionymAuthorship"/>
+    </changeSet>
+    <changeSet id="2012-10-09_52" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <renameColumn tableName="Taxon" oldColumnName="nameIdentifier" newColumnName="scientificNameID" columnDataType="varchar(255)"/>
+    </changeSet>
+    <changeSet id="2012-10-09_53" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <renameColumn tableName="Taxon" oldColumnName="infraGenericEpithet" newColumnName="subgenus" columnDataType="varchar(255)"/>
+    </changeSet>
+    <changeSet id="2012-10-09_54" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <renameColumn tableName="Taxon" oldColumnName="rank" newColumnName="taxonRank" columnDataType="varchar(255)"/>
+    </changeSet>
+    <changeSet id="2012-10-09_55" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Taxon">
+            <column name="taxonRemarks" type="varchar(255)"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_56" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Taxon">
+            <column name="verbatimTaxonRank" type="varchar(255)"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_57" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <dropColumn tableName="Taxon" columnName="uninomial"/>
+    </changeSet>
+    <changeSet id="2012-10-09_58" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <renameColumn tableName="Taxon" oldColumnName="parent_id" newColumnName="parentNameUsage_id" columnDataType="bigint"/>
+    </changeSet>
+    <changeSet id="2012-10-09_59" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <renameColumn tableName="Taxon" oldColumnName="accepted_id" newColumnName="acceptedNameUsage_id" columnDataType="bigint"/>
+    </changeSet>
+    <changeSet id="2012-10-09_60" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <renameColumn tableName="Taxon" oldColumnName="protologue_id" newColumnName="namePublishedIn_id" columnDataType="bigint"/>
+    </changeSet>
+    <changeSet id="2012-10-09_61" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <sql>update Taxon join Reference on (Taxon.namePublishedIn_id = Reference.id) set namePublishedInString = concat(Reference.title,IFNULL(Reference.volume,''),IFNULL(Taxon.protologueMicroReference,''),IFNULL(Reference.datePublished,''));</sql>
+    </changeSet>
+    <changeSet id="2012-10-09_62" author="ben">
+       <comment>Noticed that the OAI-PMH processor wasn't adding authority to the reference</comment>
+       <sql>update Reference set authority_id = 1 where authority_id is NULL;</sql>
+    </changeSet>
+    <changeSet id="2012-10-09_62b" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <modifyDataType tableName="Reference" columnName="bibliographicCitation" newDataType="longtext"/>
+    </changeSet>
+    <changeSet id="2012-10-09_63" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <sql>update Reference set bibliographicCitation = concat(ifnull(Reference.author,''), if(datePublished is not NULL, datePublished,''),  '. ', ifnull(title,''), if(publishedInAuthor is not NULL,concat(' ',publishedInAuthor),''), if(publishedIn is not NULL,concat(' ',publishedIn),''), if(volume is not NULL,concat(' ',volume),''), if(pages is not NULL,concat(': ',pages),''), ' ', if(publisher is not NULL,concat(publisher,'.'),'')) where authority_id = 1</sql>
+    </changeSet>
+    <changeSet id="2012-10-09_64" author="ben">
+        <renameColumn tableName="Reference" oldColumnName="datePublished" newColumnName="date" columnDataType="varchar(255)"/>
+    </changeSet>
+    <changeSet id="2012-10-09_65" author="ben">
+        <renameColumn tableName="Reference" oldColumnName="keywords" newColumnName="subject"  columnDataType="varchar(255)"/>
+    </changeSet>
+    <changeSet id="2012-10-09_66" author="ben">
+        <renameColumn tableName="Reference" oldColumnName="referenceAbstract" newColumnName="description"  columnDataType="longtext"/>
+    </changeSet>
+    <changeSet id="2012-10-09_67" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Reference">
+            <column name="language" type="varchar(32)"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_68" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Reference">
+            <column name="taxonRemarks" type="varchar(255)"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_69" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <sql>update Reference set creator = author;</sql>
+    </changeSet>
+    <changeSet id="2012-10-09_70" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <dropColumn tableName="Reference" columnName="author"/>
+    </changeSet>
+    <changeSet id="2012-10-09_71" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <dropColumn tableName="Reference" columnName="number"/>
+    </changeSet>
+    <changeSet id="2012-10-09_72" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <dropColumn tableName="Reference" columnName="pages"/>
+    </changeSet>
+    <changeSet id="2012-10-09_73" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <dropColumn tableName="Reference" columnName="publishedInAuthor"/>
+    </changeSet>
+    <changeSet id="2012-10-09_74" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <dropColumn tableName="Reference" columnName="publisher"/>
+    </changeSet>
+    <changeSet id="2012-10-09_75" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <dropColumn tableName="Reference" columnName="volume"/>
+    </changeSet>
+    <changeSet id="2012-10-09_76" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <sql>update Reference set source = publishedIn;</sql>
+    </changeSet>
+    <changeSet id="2012-10-09_77" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <dropColumn tableName="Reference" columnName="publishedIn"/>
+    </changeSet>
+    <changeSet id="2012-10-09_78" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <sql>update Taxon set taxonRank = 'InfraspecificName' where taxonRank = 'INFRASPECIES';</sql>
+    </changeSet>
+    <changeSet id="2012-10-09_78a" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <sql>update Taxon set taxonRank = 'Subfamily' where taxonRank = 'SUBFAMILY';</sql>
+    </changeSet>
+    <changeSet id="2012-10-09_79" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <sql>update Taxon set taxonRank = 'Subtribe' where taxonRank = 'SUBTRIBE';</sql>
+    </changeSet>
+    <changeSet id="2012-10-09_80" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <sql>update Taxon set taxonRank = 'Tribe' where taxonRank = 'Tribe';</sql>
+    </changeSet>
+    <changeSet id="2012-10-09_81" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <sql>update Taxon set nomenclaturalCode = 'Botanical' where nomenclaturalCode = 'ICBN';</sql>
+    </changeSet>
+    <changeSet id="2012-10-09_83" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <sql>update Taxon set taxonomicStatus = 'Synonym' where taxonomicStatus = 'illegitimate';</sql>
+    </changeSet>
+    <changeSet id="2012-10-09_84" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <sql>update Taxon set taxonomicStatus = 'Synonym' where taxonomicStatus = 'synonym';</sql>
+    </changeSet>
+    <changeSet id="2012-10-09_85" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <sql>update Taxon set taxonomicStatus = 'Doubtful' where taxonomicStatus = 'unplaced';</sql>
+    </changeSet>
+    <changeSet id="2012-10-09_86" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <sql>update Taxon set taxonomicStatus = 'Accepted' where taxonomicStatus = 'accepted';</sql>
+    </changeSet>
+    <changeSet id="2012-10-09_87" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <sql>update Reference set type = 0;</sql>
+    </changeSet>
+    <changeSet id="2012-10-09_88" author="ben">
+        <renameColumn tableName="Description" oldColumnName="content" newColumnName="description"  columnDataType="longtext"/>
+    </changeSet>
+     <changeSet id="2012-10-09_89" author="ben">
+        <renameColumn tableName="Description" oldColumnName="feature" newColumnName="type"  columnDataType="varchar(255)"/>
+    </changeSet>
+    <changeSet id="2012-10-09_90" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Description">
+            <column name="language" type="varchar(32)"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_91" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Description">
+            <column name="contributor" type="varchar(255)"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_92" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Description">
+            <column name="audience" type="varchar(255)"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_93" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Distribution">
+            <column name="locality" type="varchar(255)"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_94" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Distribution">
+            <column name="occurrenceRemarks" type="varchar(255)"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_95" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Distribution">
+            <column name="occurrenceStatus" type="varchar(255)"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_96" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Distribution">
+            <column name="establishmentMeans" type="varchar(255)"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_97" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <renameColumn tableName="Distribution" oldColumnName="region" newColumnName="location"  columnDataType="varchar(255)"/>
+    </changeSet>
+    <changeSet author="ben" id="2012-10-09_98">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <createTable tableName="Distribution_Reference">
+            <column name="Distribution_id" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="references_id" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="ben" id="2012-10-09_99">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addForeignKeyConstraint constraintName="Distribution_Reference_Distribution_fk" baseColumnNames="Distribution_id" baseTableName="Distribution_Reference" referencedColumnNames="id" referencedTableName="Distribution"/>
+    </changeSet>
+    <changeSet author="ben" id="2012-10-09_100">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addForeignKeyConstraint constraintName="Distribution_Reference_Reference_fk" baseColumnNames="references_id" baseTableName="Distribution_Reference" referencedColumnNames="id" referencedTableName="Distribution"/>
+    </changeSet>
+    <changeSet id="2012-10-09_101" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <dropColumn tableName="Identifier" columnName="content"/>
+    </changeSet>
+    <changeSet id="2012-10-09_102" author="ben">
+        <renameColumn tableName="Image" oldColumnName="caption" newColumnName="title"  columnDataType="varchar(255)"/>
+    </changeSet>
+    <changeSet id="2012-10-09_103" author="ben">
+        <renameColumn tableName="Image" oldColumnName="keywords" newColumnName="subject"  columnDataType="varchar(255)"/>
+    </changeSet>
+    <changeSet id="2012-10-09_105" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Image">
+            <column name="contributor" type="varchar(255)"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_106" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Image">
+            <column name="publisher" type="varchar(255)"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_107" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Image">
+            <column name="audience" type="varchar(255)"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_108" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addColumn tableName="Place">
+            <column name="accessRights" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_109" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addColumn tableName="Place">
+            <column name="rights" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-09_110" author="ben">
+        <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+        <addColumn tableName="Place">
+            <column name="rightsHolder" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2012-10-17_01" author="ben">
+        <renameColumn tableName="Place" oldColumnName="name" newColumnName="title"  columnDataType="varchar(255)"/>
+    </changeSet>
+    <changeSet id="2012-10-29_01" author="ben">
+      <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+      <createTable tableName="MeasurementOrFact">
+        <column name="id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>
+        <column name="identifier" type="varchar(255)">
+            <constraints unique="true"/>
+        </column>
+        <column name="accessRights" type="varchar(255)"/>
+        <column name="created" type="datetime"/>
+        <column name="creator" type="varchar(255)"/>        
+        <column name="license" type="varchar(255)"/>
+        <column name="modified" type="datetime"/>
+        <column name="rights" type="varchar(255)"/>
+        <column name="rightsHolder" type="varchar(255)"/>
+        <column name="measurementAccuracy" type="varchar(255)"/>
+        <column name="measurementDeterminedBy" type="varchar(255)"/>
+        <column name="measurementDeterminedDate" type="datetime"/>
+        <column name="measurementMethod" type="varchar(255)"/>
+        <column name="measurementRemarks" type="varchar(255)"/>
+        <column name="measurementType" type="varchar(255)"/>
+        <column name="measurementValue" type="varchar(255)"/>
+        <column name="measurementUnit" type="varchar(255)"/>
+        <column name="authority_id" type="bigint"/>
+        <column name="taxon_id" type="bigint"/>
+      </createTable>
+    </changeSet>
+    <changeSet id="2012-10-29_02" author="ben">
+      <addForeignKeyConstraint constraintName="MeasurementOrFact_taxon_FK" 
+                               referencedTableName="Taxon"
+                               baseColumnNames="taxon_id"
+                               baseTableName="MeasurementOrFact"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-10-29_03" author="ben">
+      <addForeignKeyConstraint constraintName="MeasurementOrFact_authority_FK" 
+                               referencedTableName="Source"
+                               baseColumnNames="authority_id"
+                               baseTableName="MeasurementOrFact"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-10-29_04" author="ben">
+      <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+      <createTable tableName="MeasurementOrFact_Source">
+        <column name="MeasurementOrFact_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>
+        <column name="sources_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>             
+      </createTable>
+    </changeSet>
+    <changeSet id="2012-10-29_05" author="ben">
+      <addForeignKeyConstraint constraintName="MeasurementOrFact_Source_MeasurementOrFact_id_FK" 
+                               referencedTableName="MeasurementOrFact"
+                               baseColumnNames="MeasurementOrFact_id"
+                               baseTableName="MeasurementOrFact_Source"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-10-29_06" author="ben">
+      <addForeignKeyConstraint constraintName="MeasurementOrFact_Source_sources_id_FK" 
+                               referencedTableName="Source"
+                               baseColumnNames="sources_id"
+                               baseTableName="MeasurementOrFact_Source"
+                               referencedColumnNames="id"/>
+    </changeSet>    
+    <changeSet id="2012-10-29_07" author="ben">
+      <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+      <createTable tableName="TypeAndSpecimen">
+        <column name="id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>
+        <column name="identifier" type="varchar(255)">
+            <constraints unique="true"/>
+        </column>
+        <column name="accessRights" type="varchar(255)"/>
+        <column name="created" type="datetime"/>
+        <column name="creator" type="varchar(255)"/>        
+        <column name="license" type="varchar(255)"/>
+        <column name="modified" type="datetime"/>
+        <column name="rights" type="varchar(255)"/>
+        <column name="rightsHolder" type="varchar(255)"/>
+        <column name="bibliographicCitation" type="varchar(255)"/>
+        <column name="catalogNumber" type="varchar(255)"/>
+        <column name="collectionCode" type="varchar(255)"/>
+        <column name="institutionCode" type="varchar(255)"/>
+        <column name="locality" type="varchar(255)"/>
+        <column name="recordedBy" type="varchar(255)"/>
+        <column name="scientificName" type="varchar(255)"/>
+        <column name="sex" type="varchar(255)"/>
+        <column name="source" type="varchar(255)"/>
+        <column name="taxonRank" type="varchar(255)"/>
+        <column name="typeDesignatedBy" type="varchar(255)"/>
+        <column name="typeDesignationType" type="varchar(255)"/>
+        <column name="typeStatus" type="varchar(255)"/>
+        <column name="verbatimEventDate" type="varchar(255)"/>
+        <column name="verbatimLabel" type="varchar(255)"/>
+        <column name="verbatimLattitude" type="varchar(255)"/>
+        <column name="verbatimLongitude" type="varchar(255)"/>
+        <column name="authority_id" type="bigint"/>
+      </createTable>
+    </changeSet>
+    <changeSet id="2012-10-29_08" author="ben">
+      <addForeignKeyConstraint constraintName="TypeAndSpecimen_authority_FK" 
+                               referencedTableName="Source"
+                               baseColumnNames="authority_id"
+                               baseTableName="TypeAndSpecimen"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-10-29_09" author="ben">
+      <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+      <createTable tableName="Taxon_TypeAndSpecimen">
+        <column name="Taxon_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>
+        <column name="typesAndSpecimens_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>             
+      </createTable>
+    </changeSet>
+    <changeSet id="2012-10-29_10" author="ben">
+      <addForeignKeyConstraint constraintName="Taxon_TypeAndSpecimen_Taxon_id_FK" 
+                               referencedTableName="Taxon"
+                               baseColumnNames="Taxon_id"
+                               baseTableName="Taxon_TypeAndSpecimen"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-10-29_11" author="ben">
+      <addForeignKeyConstraint constraintName="Taxon_TypeAndSpecimen_typesAndSpecimens_id_FK" 
+                               referencedTableName="TypeAndSpecimen"
+                               baseColumnNames="typesAndSpecimens_id"
+                               baseTableName="Taxon_TypeAndSpecimen"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-10-29_12" author="ben">
+      <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+      <createTable tableName="TypeAndSpecimen_Source">
+        <column name="TypeAndSpecimen_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>
+        <column name="sources_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>             
+      </createTable>
+    </changeSet>
+    <changeSet id="2012-10-29_13" author="ben">
+      <addForeignKeyConstraint constraintName="TypeAndSpecimen_Source_TypeAndSpecimen_id_FK" 
+                               referencedTableName="TypeAndSpecimen"
+                               baseColumnNames="TypeAndSpecimen_id"
+                               baseTableName="TypeAndSpecimen_Source"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-10-29_14" author="ben">
+      <addForeignKeyConstraint constraintName="TypeAndSpecimen_Source_sources_id_FK" 
+                               referencedTableName="Source"
+                               baseColumnNames="sources_id"
+                               baseTableName="TypeAndSpecimen_Source"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-10-29_15" author="ben">
+      <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+      <createTable tableName="VernacularName">
+        <column name="id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>
+        <column name="identifier" type="varchar(255)">
+            <constraints unique="true"/>
+        </column>
+        <column name="accessRights" type="varchar(255)"/>
+        <column name="created" type="datetime"/>
+        <column name="creator" type="varchar(255)"/>        
+        <column name="license" type="varchar(255)"/>
+        <column name="modified" type="datetime"/>
+        <column name="rights" type="varchar(255)"/>
+        <column name="rightsHolder" type="varchar(255)"/>
+        <column name="countryCode" type="varchar(255)"/>
+        <column name="language" type="varchar(255)"/>
+        <column name="lifeStage" type="varchar(255)"/>
+        <column name="locality" type="varchar(255)"/>
+        <column name="location" type="varchar(255)"/>
+        <column name="organismPart" type="varchar(255)"/>
+        <column name="plural" type="boolean" defaultValueBoolean="false">
+            <constraints nullable="false"/>
+        </column>
+        <column name="preferredName" type="boolean" defaultValueBoolean="false">
+            <constraints nullable="false"/>
+        </column>
+        <column name="sex" type="varchar(255)"/>
+        <column name="source" type="varchar(255)"/>
+        <column name="taxonRemarks" type="varchar(255)"/>
+        <column name="temporal" type="varchar(255)"/>
+        <column name="vernacularName" type="varchar(255)"/>
+        <column name="authority_id" type="bigint"/>
+        <column name="taxon_id" type="bigint"/>
+      </createTable>
+    </changeSet>
+    <changeSet id="2012-10-29_16" author="ben">
+      <addForeignKeyConstraint constraintName="VernacularName_taxon_FK" 
+                               referencedTableName="Taxon"
+                               baseColumnNames="taxon_id"
+                               baseTableName="VernacularName"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-10-29_17" author="ben">
+      <addForeignKeyConstraint constraintName="VernacularName_authority_FK" 
+                               referencedTableName="Source"
+                               baseColumnNames="authority_id"
+                               baseTableName="VernacularName"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-10-29_18" author="ben">
+      <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+      <createTable tableName="VernacularName_Source">
+        <column name="VernacularName_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>
+        <column name="sources_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>             
+      </createTable>
+    </changeSet>
+    <changeSet id="2012-10-29_19" author="ben">
+      <addForeignKeyConstraint constraintName="VernacularName_Source_VernacularName_id_FK" 
+                               referencedTableName="VernacularName"
+                               baseColumnNames="VernacularName_id"
+                               baseTableName="VernacularName_Source"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-10-29_20" author="ben">
+      <addForeignKeyConstraint constraintName="VernacularName_Source_sources_id_FK" 
+                               referencedTableName="Source"
+                               baseColumnNames="sources_id"
+                               baseTableName="VernacularName_Source"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2012-11-07_01" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Image">
+            <column name="latitude" type="double"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-11-07_02" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="Image">
+            <column name="longitude" type="double"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-11-08_01" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <renameColumn tableName="TypeAndSpecimen" oldColumnName="verbatimLattitude" newColumnName="verbatimLatitude" columnDataType="varchar(255)"/>
+    </changeSet>
+    <changeSet id="2012-11-08_02" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="TypeAndSpecimen">
+            <column name="decimalLongitude" type="double"/>
+       </addColumn>
+    </changeSet>
+    <changeSet id="2012-11-08_03" author="ben">
+       <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+       <addColumn tableName="TypeAndSpecimen">
+            <column name="decimalLatitude" type="double"/>
+       </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2012-11-08_04">
+      <comment>BUG #368: Align the e-monocot model with the DwC standard</comment>
+      <addColumn tableName="TypeAndSpecimen">
+        <column name="location" type="GEOMETRY"/>
+      </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2012-11-16_01">
+      <comment>Drop multiple sources</comment>
+      <dropTable tableName="Description_Source"/>
+    </changeSet>
+    <changeSet author="ben" id="2012-11-16_02">
+      <comment>Drop multiple sources</comment>
+      <dropTable tableName="Distribution_Source"/>
+    </changeSet>
+    <changeSet author="ben" id="2012-11-16_03">
+      <comment>Drop multiple sources</comment>
+      <dropTable tableName="IdentificationKey_Source"/>
+    </changeSet>
+    <changeSet author="ben" id="2012-11-16_04">
+      <comment>Drop multiple sources</comment>
+      <dropTable tableName="Identifier_Source"/>
+    </changeSet>
+    <changeSet author="ben" id="2012-11-16_05">
+      <comment>Drop multiple sources</comment>
+      <dropTable tableName="Image_Source"/>
+    </changeSet>
+    <changeSet author="ben" id="2012-11-16_06">
+      <comment>Drop multiple sources</comment>
+      <dropTable tableName="MeasurementOrFact_Source"/>
+    </changeSet>
+    <changeSet author="ben" id="2012-11-16_07">
+      <comment>Drop multiple sources</comment>
+      <dropTable tableName="Place_Source"/>
+    </changeSet>
+    <changeSet author="ben" id="2012-11-16_08">
+      <comment>Drop multiple sources</comment>
+      <dropTable tableName="Reference_Source"/>
+    </changeSet>
+    <changeSet author="ben" id="2012-11-16_09">
+      <comment>Drop multiple sources</comment>
+      <dropTable tableName="Source_Source"/>
+    </changeSet>
+    <changeSet author="ben" id="2012-11-16_10">
+      <comment>Drop multiple sources</comment>
+      <dropTable tableName="Taxon_Source"/>
+    </changeSet>
+    <changeSet author="ben" id="2012-11-16_11">
+      <comment>Drop multiple sources</comment>
+      <dropTable tableName="TypeAndSpecimen_Source"/>
+    </changeSet>
+    <changeSet author="ben" id="2012-11-16_12">
+      <comment>Drop multiple sources</comment>
+      <dropTable tableName="VernacularName_Source"/>
+    </changeSet>
+    <changeSet id="2012-11-26_01" author="ben">
+      <comment>OAI-PMH webservice did not set the authority for distributions</comment>
+      <sql>
+        update distribution set authority_id = 1 where authority_id is NULL;
+      </sql>
+    </changeSet>
 </databaseChangeLog>

@@ -1,7 +1,7 @@
 package org.emonocot.portal.controller;
 
 import org.emonocot.api.UserService;
-import org.emonocot.model.user.User;
+import org.emonocot.model.auth.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

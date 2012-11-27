@@ -1,7 +1,7 @@
 package org.emonocot.portal.controller;
 
 import org.emonocot.api.TaxonService;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Taxon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,7 +41,7 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
      * @param model Set the model
      * @return A model and view containing a taxon
      */
-    @RequestMapping(value = "/{identifier}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{identifier}", method = RequestMethod.GET, produces = "text/html")
     public final String show(@PathVariable final String identifier, final Model model) {
         model.addAttribute(getService().load(identifier, "taxon-page"));
         return "taxon/show";

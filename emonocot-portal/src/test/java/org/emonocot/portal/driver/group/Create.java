@@ -1,6 +1,6 @@
 package org.emonocot.portal.driver.group;
 
-import org.emonocot.model.user.Group;
+import org.emonocot.model.auth.Group;
 import org.emonocot.portal.driver.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;

@@ -4,9 +4,9 @@ import java.util.HashMap;
 
 import org.easymock.EasyMock;
 import org.emonocot.job.dwc.description.FieldSetMapper;
-import org.emonocot.model.description.TextContent;
-import org.emonocot.model.reference.Reference;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Reference;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.Description;
 import org.emonocot.api.ReferenceService;
 import org.emonocot.api.TaxonService;
 import org.junit.Before;
@@ -44,7 +44,7 @@ public class DescriptionParsingTest {
    /**
     *
     */
-    private FlatFileItemReader<TextContent> flatFileItemReader = new FlatFileItemReader<TextContent>();
+    private FlatFileItemReader<Description> flatFileItemReader = new FlatFileItemReader<Description>();
 
    /**
     *
@@ -74,8 +74,8 @@ public class DescriptionParsingTest {
         fieldSetMapper.setDefaultValues(new HashMap<String, String>());
         fieldSetMapper.setTaxonService(taxonService);
         fieldSetMapper.setReferenceService(referenceService);
-        DefaultLineMapper<TextContent> lineMapper
-            = new DefaultLineMapper<TextContent>();
+        DefaultLineMapper<Description> lineMapper
+            = new DefaultLineMapper<Description>();
         lineMapper.setFieldSetMapper(fieldSetMapper);
         lineMapper.setLineTokenizer(tokenizer);
 
@@ -93,7 +93,7 @@ public class DescriptionParsingTest {
     public final void testRead() throws Exception {
     	EasyMock.expect(taxonService.find(EasyMock.isA(String.class))).andReturn(new Taxon()).anyTimes();
         EasyMock.expect(taxonService.find(EasyMock.isA(String.class), EasyMock.eq("taxon-with-content"))).andReturn(new Taxon()).anyTimes();
-        EasyMock.expect(referenceService.findBySource(EasyMock.isA(String.class))).andReturn(new Reference()).anyTimes();
+        EasyMock.expect(referenceService.find(EasyMock.isA(String.class))).andReturn(new Reference()).anyTimes();
         EasyMock.replay(taxonService, referenceService);
         flatFileItemReader.open(new ExecutionContext());
         flatFileItemReader.read();

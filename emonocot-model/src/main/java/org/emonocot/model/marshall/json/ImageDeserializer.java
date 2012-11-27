@@ -1,6 +1,6 @@
 package org.emonocot.model.marshall.json;
 
-import org.emonocot.model.media.Image;
+import org.emonocot.model.Image;
 
 /**
  *

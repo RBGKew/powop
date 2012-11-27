@@ -3,7 +3,6 @@ package org.emonocot.portal.remoting;
 import java.util.List;
 
 import org.emonocot.persistence.dao.JobExecutionDao;
-import org.emonocot.persistence.dao.OlapResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.JobExecution;
@@ -63,22 +62,13 @@ public class JobExecutionDaoImpl implements JobExecutionDao {
         return null;
     }
 
-    public List<OlapResult> countObjects(Long jobExecutionId) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public List<OlapResult> countErrors(Long jobExecutionId, String objectType) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     /**
      * @param identifier the identifier of the job execution to load
      * @return a job execution
      */
     public final JobExecution load(final Long identifier) {
-        return restTemplate.getForObject(baseUri + resourceDir + "/"
+        return restTemplate.getForObject(baseUri + "/" + resourceDir + "/"
                 + identifier, JobExecution.class);
     }
 
@@ -86,15 +76,15 @@ public class JobExecutionDaoImpl implements JobExecutionDao {
      * @param id the id of the job execution to delete
      */
     public final void delete(final Long id) {
-        restTemplate.delete(baseUri + resourceDir + "/" + id);
+        restTemplate.delete(baseUri + "/" + resourceDir + "/" + id);
     }
 
     /**
      * @param jobExecution the job execution to save
      */
     public final void save(final JobExecution jobExecution) {
-        logger.debug("POST: " + baseUri + resourceDir);
-        restTemplate.postForObject(baseUri + resourceDir, jobExecution,
+        logger.debug("POST: "+ "/" + baseUri + resourceDir);
+        restTemplate.postForObject(baseUri+ "/" + resourceDir, jobExecution,
                 JobExecution.class);
     }
 

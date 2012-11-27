@@ -6,7 +6,7 @@
   xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
 	<jsp:directive.attribute name="facetName"
 		type="java.lang.String" required="true" />
-	<jsp:directive.attribute name="pager" type="org.emonocot.model.pager.Page"
+	<jsp:directive.attribute name="pager" type="org.emonocot.pager.Page"
 		required="true" />
     <jsp:directive.attribute name="url" type="java.lang.String" required="true" />
 	<jsp:directive.attribute name="title" type="java.lang.String" required="false" />
@@ -42,12 +42,12 @@
 								<c:param name="sort">${pager.sort}</c:param>
 								<c:forEach var="selectedFacet" items="${pager.selectedFacetNames}">
 									<c:if test="${selectedFacet != facetName}">
-										<c:param name="facet" value="${selectedFacet}.${pager.selectedFacets[selectedFacet]}"/>
+										<c:param name="facet" value="${selectedFacet}:${pager.selectedFacets[selectedFacet]}"/>
 									</c:if>
 								</c:forEach>
 							</c:url>
 						</jsp:attribute>
-						<c:if test="${facetName eq 'CLASS'}">
+						<c:if test="${facetName eq 'base.class_s'}">
 							<c:set value="no-small-icon" var="cssClass"></c:set>
 						</c:if>
 						<div><spring:message code="${facetName}.clearFacet" /></div>
@@ -56,17 +56,17 @@
 			<!-- Link to current selection -->
 			<li class="${facetName}">
 				<a href="#">
-					<c:set var="selectedFacetName" value="${pager.selectedFacets[facetName]}"/>
+					<c:set var="selectedFacetName" value="${pager.selectedFacets[facetName]}"/>					
 					<c:if test="${showIcons}">
 					  <!-- Glyphicon -->
 	          <c:choose>
-	            <c:when test="${selectedFacetName eq 'org.emonocot.model.taxon.Taxon'}">
+	            <c:when test="${selectedFacetName eq 'org.emonocot.model.Taxon'}">
 	              <i class="icon-leaf"><!----></i>
 	            </c:when>
-	            <c:when test="${selectedFacetName eq 'org.emonocot.model.media.Image'}">
+	            <c:when test="${selectedFacetName eq 'org.emonocot.model.Image'}">
 	              <i class="icon-picture"><!----></i>
 	            </c:when>
-	            <c:when test="${selectedFacetName eq 'org.emonocot.model.key.IdentificationKey'}">
+	            <c:when test="${selectedFacetName eq 'org.emonocot.model.IdentificationKey'}">
 	              <i class="icon-keys"><!----></i>
 	            </c:when>
 	            <c:when test="${selectedFacetName eq 'org.emonocot.model.geography.Place'}">
@@ -82,15 +82,15 @@
 			</li>
 		</c:when>
 		<c:otherwise>
-			<c:set var="values" value="${pager.facets[facetName]}"/>
-			<c:forEach var="facet" begin="0" end="9" step="1" items="${values}">
+			<c:set var="facetField" value="${pager.getFacetField(facetName)}"/>
+			<c:forEach var="facet" begin="0" end="9" step="1" items="${facetField.values}">
 				<li class="${facetName}">
 						<c:choose>
 							<c:when test="${facet.count == 0}">
-								<c:if test="${facetName eq 'CLASS'}">
+								<c:if test="${facetName eq 'base.class_s'}">
 									<c:set value="no-small-icon" var="cssClass"></c:set>
 								</c:if>
-								<div class="${cssClass}"><spring:message code="${facet.value}" /></div>
+								<div class="${cssClass}"><spring:message code="${facet.name}" /></div>
 							</c:when>
 							<c:otherwise>
 								<jsp:element name="a">
@@ -102,10 +102,10 @@
 											<c:param name="limit" value="${pager.pageSize}" />
 											<c:param name="start" value="0" />
 											<c:param name="sort">${pager.sort}</c:param>
-											<c:param name="facet" value="${facetName}.${facet.value}" />
+											<c:param name="facet" value="${facetName}:${facet.name}" />
 											<c:forEach var="selectedFacet" items="${pager.selectedFacetNames}">
 												<c:if test="${selectedFacet != facetName}">
-													<c:param name="facet" value="${selectedFacet}.${pager.selectedFacets[selectedFacet]}"/>
+													<c:param name="facet" value="${selectedFacet}:${pager.selectedFacets[selectedFacet]}"/>
 												</c:if>
 											</c:forEach>
 										</c:url>
@@ -113,16 +113,16 @@
 									<c:if test="${showIcons}">
 							            <!-- Glyphicon -->
 							            <c:choose>
-							              <c:when test="${facet.value eq 'org.emonocot.model.taxon.Taxon'}">
+							              <c:when test="${facet.name eq 'org.emonocot.model.Taxon'}">
 							                <i class="icon-leaf"><!----></i>
 							              </c:when>
-							              <c:when test="${facet.value eq 'org.emonocot.model.media.Image'}">
+							              <c:when test="${facet.name eq 'org.emonocot.model.Image'}">
 							                <i class="icon-picture"><!----></i>
 							              </c:when>
-							              <c:when test="${facet.value eq 'org.emonocot.model.key.IdentificationKey'}">
+							              <c:when test="${facet.name eq 'org.emonocot.model.IdentificationKey'}">
 							                <i class="icon-keys"><!----></i>
 							              </c:when>
-						                  <c:when test="${facet.value eq 'org.emonocot.model.geography.Place'}">
+						                  <c:when test="${facet.name eq 'org.emonocot.model.geography.Place'}">
 						                    <i class="icon-map-marker"><!----></i>
 						                  </c:when>
 							              <c:otherwise>
@@ -130,10 +130,8 @@
 							              </c:otherwise>
 							            </c:choose>
 								    </c:if>
-								    <span class="facetValue"><spring:message code="${facet.value}" /></span>
-								    <c:if test="${!em:isMultiValued(facetName)}">
-									   <span class="facetCount"> [${facet.count}]</span>
-								    </c:if>
+								    <span class="facetValue"><spring:message code="${facet.name}" /></span>
+									<span class="facetCount"> [${facet.count}]</span>
 								</jsp:element>
 								
 							</c:otherwise>
@@ -141,14 +139,14 @@
 					
 				</li>
 			</c:forEach>
-			<c:if test="${fn:length(values) gt 10}">
-				<div id="${facetName}-collapse" class="collapse">
-					<c:forEach var="facet" begin="10" items="${values}">
+			<c:if test="${facetField.valueCount gt 10}">
+				<div id="${em:escapeHtmlIdentifier(facetName)}-collapse" class="collapse">
+					<c:forEach var="facet" begin="10" items="${facetField.values}">
 						<li class="${facetName}"> 
 							
 								<c:choose>
 									<c:when test="${facet.count == 0}">
-										<a href="#"><span class="facetValue"><spring:message code="${facet.value}" /></span></a>
+										<a href="#"><span class="facetValue"><spring:message code="${facet.name}" /></span></a>
 									</c:when>
 									<c:otherwise>
 										<jsp:element name="a">
@@ -160,18 +158,16 @@
 													<c:param name="limit" value="${pager.pageSize}" />
 													<c:param name="start" value="0" />
 													<c:param name="sort">${pager.sort}</c:param>
-													<c:param name="facet" value="${facetName}.${facet.value}" />
+													<c:param name="facet" value="${facetName}:${facet.name}" />
 													<c:forEach var="selectedFacet" items="${pager.selectedFacetNames}">
 														<c:if test="${selectedFacet != facetName}">
-															<c:param name="facet" value="${selectedFacet}.${pager.selectedFacets[selectedFacet]}"/>
+															<c:param name="facet" value="${selectedFacet}:${pager.selectedFacets[selectedFacet]}"/>
 														</c:if>
 													</c:forEach>
 												</c:url>
 											</jsp:attribute>
-											<span class="facetValue"> <spring:message code="${facet.value}" /></span>
-										<c:if test="${!em:isMultiValued(facetName)}">
+											<span class="facetValue"> <spring:message code="${facet.name}" /></span>
 											<span class="facetCount"> [${facet.count}]</span>
-										</c:if>
 										</jsp:element>
 									</c:otherwise>
 								</c:choose>
@@ -179,25 +175,25 @@
 						</li>
 					</c:forEach>
 				</div>						
-				<a id="${facetName}-collapse-link" data-toggle="collapse" data-target="#${facetName}-collapse" class="label" style="display: none">${fn:length(values)-10} ${more}</a>
+				<a id="${em:escapeHtmlIdentifier(facetName)}-collapse-link" data-toggle="collapse" data-target="#${em:escapeHtmlIdentifier(facetName)}-collapse" class="label" style="display: none">${facetField.valueCount-10} ${more}</a>
 				<script>
-					document.getElementById ( "${facetName}-collapse-link" ).style.display = "inline";
-					$("#${facetName}-collapse").on('hidden', function () {
-						$("#${facetName}-collapse-link").html("${fn:length(values)-10} ${more}");
+					document.getElementById ( "${em:escapeHtmlIdentifier(facetName)}-collapse-link" ).style.display = "inline";
+					$("#${em:escapeHtmlIdentifier(facetName)}-collapse").on('hidden', function () {
+						$("#${em:escapeHtmlIdentifier(facetName)}-collapse-link").html("${facetField.valueCount-10} ${more}");
 					}).on('shown', function () {
-						$("#${facetName}-collapse-link").html("${less}");
+						$("#${em:escapeHtmlIdentifier(facetName)}-collapse-link").html("${less}");
 					});
 				</script>
 			</c:if>
 
 			<noscript>
-			<c:if test="${fn:length(values) gt 10}">
-				<c:forEach var="facet" begin="10" items="${values}">
+			<c:if test="${facetField.valueCount gt 10}">
+				<c:forEach var="facet" begin="10" items="${facetField.values}">
 						<li class="${facetName}"> 
 							
 								<c:choose>
 									<c:when test="${facet.count == 0}">
-										<a href="#"><span class="facetValue"><spring:message code="${facet.value}" /></span></a>
+										<a href="#"><span class="facetValue"><spring:message code="${facet.name}" /></span></a>
 									</c:when>
 									<c:otherwise>
 										<jsp:element name="a">
@@ -209,18 +205,16 @@
 													<c:param name="limit" value="${pager.pageSize}" />
 													<c:param name="start" value="0" />
 													<c:param name="sort">${pager.sort}</c:param>
-													<c:param name="facet" value="${facetName}.${facet.value}" />
+													<c:param name="facet" value="${facetName}:${facet.name}" />
 													<c:forEach var="selectedFacet" items="${pager.selectedFacetNames}">
 														<c:if test="${selectedFacet != facetName}">
-															<c:param name="facet" value="${selectedFacet}.${pager.selectedFacets[selectedFacet]}"/>
+															<c:param name="facet" value="${selectedFacet}:${pager.selectedFacets[selectedFacet]}"/>
 														</c:if>
 													</c:forEach>
 												</c:url>
 											</jsp:attribute>
-											<span class="facetValue"> <spring:message code="${facet.value}" /></span>
-										<c:if test="${!em:isMultiValued(facetName)}">
+											<span class="facetValue"> <spring:message code="${facet.name}" /></span>
 											<span class="facetCount"> [${facet.count}]</span>
-										</c:if>
 										</jsp:element>
 									</c:otherwise>
 								</c:choose>

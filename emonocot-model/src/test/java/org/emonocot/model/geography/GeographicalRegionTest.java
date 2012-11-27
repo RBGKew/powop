@@ -3,11 +3,7 @@ package org.emonocot.model.geography;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geotools.geometry.jts.JTS;
-import org.geotools.referencing.CRS;
 import org.junit.Test;
-import org.opengis.referencing.crs.CoordinateReferenceSystem;
-import org.opengis.referencing.operation.MathTransform;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;

@@ -30,7 +30,7 @@
 				<input type="hidden" name="limit" value="${result.pageSize}" />
 				<input type="hidden" name="start" value="0" />
 				<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-					<input type="hidden" name="facet" value="${selectedFacet}.${result.selectedFacets[selectedFacet]}" />
+					<input type="hidden" name="facet" value="${selectedFacet}:${result.selectedFacets[selectedFacet]}" />
 				</c:forEach>
 				<input type="hidden" name="sort" value="${result.sort}" />
 				<button class="btn btn-primary">
@@ -42,7 +42,7 @@
 			<c:url var="resetUrl" value="/search">
 				<c:param name="query" value="" />
 			</c:url>
-			<a id="reset" class="btn pull-right" data-toggle="tab" href="${resetUrl}">
+			<a id="reset" class="btn pull-right" href="${resetUrl}">
 				<i class="icon-refresh"><!--  --></i>
 				<spring:message code="reset" />
 			</a>
@@ -52,7 +52,7 @@
 
 	<div class="container">
 		<jsp:useBean id="result" scope="request"
-			type="org.emonocot.model.pager.Page&lt;org.emonocot.model.taxon.Taxon&gt;" />
+			type="org.emonocot.pager.Page" />
 		<div class="row">
 			<div id="facets" class="span3 noPrint">
 				<c:forEach var="facetName" items="${result.facetNames}">
@@ -61,7 +61,7 @@
 							<div class="inner">
 								<ul class="box nav nav-list">
 									<c:choose>
-										<c:when test="${facetName eq 'CLASS'}">
+										<c:when test="${facetName eq 'base.class_s'}">
 											<menu:facet url="/search" facetName="${facetName}"
 												pager="${result}" title="restrict.your.search"
 												showIcons="true" />
@@ -96,10 +96,10 @@
 
 						<div id="results" class="row no-margin-left">
 							<jsp:scriptlet>
-								String classFacet = result.getSelectedFacets().get("CLASS");
+								String classFacet = (String)result.getSelectedFacets().get("base.class_s");
 								if(classFacet == null) {
 									pageContext.setAttribute("imageClass",Boolean.FALSE);
-								} else if (classFacet.equals("org.emonocot.model.media.Image")){
+								} else if (classFacet.equals("org.emonocot.model.Image")){
 									pageContext.setAttribute("imageClass",Boolean.TRUE);
 								} else {
 									pageContext.setAttribute("imageClass",Boolean.FALSE);
@@ -146,23 +146,23 @@
 							<c:if test="${not empty item.image}">
 								<c:url var="fullsize" value="/images/fullsize/${item.image.identifier}.${item.image.format}" />
 								<c:url var="url" value="/taxon/${item.identifier}" /> 
-								<a class="thumbnail" href="${item.image.url}" rel="gallery"
-									title="${em:stripXml(item.name)}" data-link="${url}">
-									<c:url var="thumbnail" value="/images/thumbnails/${item.image.identifier}.${item.image.format}" />
+								<a class="thumbnail" href="${item.image.identifier}" rel="gallery"
+									title="${em:stripXml(item.scientificName)}" data-link="${identifier}">
+									<c:url var="thumbnail" value="/images/thumbnails/${item.image.id}.${item.image.format}" />
 									<c:url var="url" value="/taxon/${item.identifier}" /> 
-									<img src="${thumbnail}" title="${em:stripXml(item.name)}" />
+									<img src="${thumbnail}" title="${em:stripXml(item.scientificName)}" />
 								</a>
 							
 							</c:if>
 						</c:when>
 						<c:when test="${item.className == 'Image'}">
-							<c:url var="fullsize" value="/images/fullsize/${item.identifier}.${item.format}" />
-							<c:url var="url" value="/image/${item.identifier}" /> 
-							<a class="thumbnail" href="${item.url}" rel="gallery"
-								title="${em:stripXml(item.caption)}" data-link="${url}">
-								<c:url var="thumbnail" value="/images/thumbnails/${item.identifier}.${item.format}" />
-								<c:url var="url" value="/image/${item.identifier}" /> 
-								<img src="${thumbnail}" title="${em:stripXml(item.caption)}" />
+							<c:url var="fullsize" value="/images/fullsize/${item.id}.${item.format}" />
+							<c:url var="url" value="/image/${item.id}" /> 
+							<a class="thumbnail" href="${item.identifier}" rel="gallery"
+								title="${em:stripXml(item.title)}" data-link="${url}">
+								<c:url var="thumbnail" value="/images/thumbnails/${item.id}.${item.format}" />
+								<c:url var="url" value="/image/${item.id}" /> 
+								<img src="${thumbnail}" title="${em:stripXml(item.title)}" />
 							</a>
 						</c:when>
 					</c:choose>

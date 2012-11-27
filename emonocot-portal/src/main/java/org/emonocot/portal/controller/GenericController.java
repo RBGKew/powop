@@ -1,10 +1,7 @@
 package org.emonocot.portal.controller;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import org.emonocot.api.Service;
-import org.emonocot.model.common.Base;
+import org.emonocot.model.Base;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -14,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  *
@@ -32,10 +30,6 @@ public abstract class GenericController<T extends Base,
     *
     */
     private SERVICE service;
-    /**
-    *
-    */
-    private String baseUrl;
 
     /**
      *
@@ -58,22 +52,13 @@ public abstract class GenericController<T extends Base,
     }
 
     /**
-     *
-     * @param newBaseUrl
-     *            Set the base url
-     */
-    public final void setBaseUrl(final String newBaseUrl) {
-        this.baseUrl = newBaseUrl;
-    }
-
-    /**
      * @param identifier
      *            Set the identifier of the image
      * @return A model and view containing a image
      */
     @RequestMapping(value = "/{identifier}",
                     method = RequestMethod.GET,
-                    headers = "Accept=application/json")
+                    produces = "application/json")
     public final ResponseEntity<T> get(@PathVariable final String identifier) {
         return new ResponseEntity<T>(service.find(identifier), HttpStatus.OK);
     }
@@ -85,16 +70,11 @@ public abstract class GenericController<T extends Base,
      * @throws Exception 
      */
     @RequestMapping(method = RequestMethod.POST,
-                    headers = "Content-Type=application/json")
-    public final ResponseEntity<T> create(@RequestBody final T object) throws Exception {
-    	logger.error("POST " + object);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        try {
-            httpHeaders.setLocation(new URI(baseUrl + getDirectory() + "/"
-                    + object.getIdentifier()));
-        } catch (URISyntaxException e) {
-            logger.error(e.getMessage());
-        }
+    		        produces = "application/json",
+                    consumes = "application/json")
+    public final ResponseEntity<T> create(@RequestBody final T object, UriComponentsBuilder builder) throws Exception {
+    	logger.error("POST " + object);       
+        
         try {
             service.merge(object);
         } catch(Exception e) {
@@ -104,9 +84,12 @@ public abstract class GenericController<T extends Base,
         	}
         	throw e;
         }
-        ResponseEntity<T> response = new ResponseEntity<T>(object, httpHeaders,
-                HttpStatus.CREATED);
-        return response;
+        
+        T persistedObject = service.find(object.getIdentifier());
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(builder.path("/" + getDirectory() + "/{id}").buildAndExpand(persistedObject.getId()).toUri());
+
+        return new ResponseEntity<T>(object, headers, HttpStatus.CREATED);
     }
 
     /**
@@ -114,12 +97,12 @@ public abstract class GenericController<T extends Base,
      *            Set the identifier of the image
      * @return A response entity containing the status
      */
-    @RequestMapping(value = "/{identifier}",
+    @RequestMapping(value = "/{id}",
                     method = RequestMethod.DELETE,
-                    headers = "Accept=application/json")
-    public final ResponseEntity<T> delete(
-            @PathVariable final String identifier) {
-        service.delete(identifier);
+                    consumes = "application/json",
+                    produces = "application/json")
+    public final ResponseEntity<T> delete(@PathVariable final Long id) {
+        service.deleteById(id);
         return new ResponseEntity<T>(HttpStatus.OK);
     }
 

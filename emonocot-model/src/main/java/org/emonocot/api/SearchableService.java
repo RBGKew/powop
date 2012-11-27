@@ -2,8 +2,8 @@ package org.emonocot.api;
 
 import java.util.Map;
 
-import org.emonocot.model.common.Base;
-import org.emonocot.model.pager.Page;
+import org.emonocot.model.Base;
+import org.emonocot.pager.Page;
 
 /**
  * @author ben
@@ -31,8 +31,8 @@ public interface SearchableService<T extends Base> extends Service<T> {
      * @return a Page from the resultset
      */
     Page<T> search(String query, String spatialQuery, Integer pageSize,
-            Integer pageNumber, FacetName[] facets,
-            Map<FacetName, String> selectedFacets, Sorting sort, String fetch);
+            Integer pageNumber, String[] facets,
+            Map<String, String> selectedFacets, String sort, String fetch);
 
     /**
      * @param example

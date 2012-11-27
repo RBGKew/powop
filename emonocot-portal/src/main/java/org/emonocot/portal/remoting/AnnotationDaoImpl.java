@@ -1,7 +1,7 @@
 package org.emonocot.portal.remoting;
 
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.pager.Page;
+import org.emonocot.model.Annotation;
+import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.AnnotationDao;
 import org.springframework.stereotype.Repository;
 

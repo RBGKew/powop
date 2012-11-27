@@ -17,19 +17,19 @@ import org.emonocot.api.ReferenceService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.UserService;
 import org.emonocot.api.job.JobExecutionInfo;
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.AnnotationCode;
-import org.emonocot.model.common.RecordType;
-import org.emonocot.model.description.Distribution;
-import org.emonocot.model.description.Feature;
-import org.emonocot.model.description.TextContent;
+import org.emonocot.model.Annotation;
+import org.emonocot.model.Distribution;
+import org.emonocot.model.Image;
+import org.emonocot.model.Reference;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.Description;
+import org.emonocot.model.auth.Group;
+import org.emonocot.model.auth.User;
+import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.DescriptionType;
+import org.emonocot.model.constants.RecordType;
 import org.emonocot.model.geography.Country;
 import org.emonocot.model.geography.Place;
-import org.emonocot.model.media.Image;
-import org.emonocot.model.reference.Reference;
-import org.emonocot.model.taxon.Taxon;
-import org.emonocot.model.user.Group;
-import org.emonocot.model.user.User;
 import org.emonocot.portal.model.AceDto;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -108,7 +108,7 @@ public class JsonConversionTest {
         objectMapper = objectMapperFactory.getObject();
         
     	place = new Place();
-    	place.setName("testName");
+    	place.setTitle("testName");
     	place.setIdentifier("test.jk.triangle");
     	Coordinate[] coords = {new Coordinate(57,26), new Coordinate(0,0), new Coordinate(25,25), new Coordinate(57,26)};
     	LinearRing shell = new LinearRing(new DefaultCoordinateSequenceFactory().create(coords), new GeometryFactory());
@@ -130,32 +130,40 @@ public class JsonConversionTest {
                 reference).anyTimes();
         
         EasyMock.replay(referenceService, imageService);
-        String content = "{\"identifier\":\"urn:kew.org:wcs:taxon:2295\",\"name\":\"Acorus\",\"protologue\":\"urn:kew.org:wcs:publication:1\", \"content\": {\"habitat\":{\"feature\":\"habitat\",\"content\":\"Lorem ipsum\", \"references\":[\"urn:kew.org:wcs:publication:1\"]}}, \"distribution\":{\"REU\":{\"region\":\"REU\"}}}";
+        String content = "{\"identifier\":\"urn:kew.org:wcs:taxon:2295\",\"scientificName\":\"Acorus\",\"namePublishedIn\":\"urn:kew.org:wcs:publication:1\", \"descriptions\": [{\"type\":\"habitat\",\"description\":\"Lorem ipsum\", \"references\":[\"urn:kew.org:wcs:publication:1\"]}], \"distribution\":[{\"location\":\"REU\"}]}";
         Taxon taxon = (Taxon) objectMapper.readValue(content, Taxon.class);
         EasyMock.verify(referenceService, imageService);
 
         assertNotNull("Returned object should not be null", taxon);
         assertEquals("The identifier should be \"urn:kew.org:wcs:taxon:2295\"",
                 "urn:kew.org:wcs:taxon:2295", taxon.getIdentifier());
-        assertEquals("The name should be \"Acorus\"", "Acorus", taxon.getName());
-        assertFalse("There should be some content", taxon.getContent()
+        assertEquals("The name should be \"Acorus\"", "Acorus", taxon.getScientificName());
+        assertFalse("There should be some content", taxon.getDescriptions()
                 .isEmpty());
-        assertTrue("There should information on habitat", taxon.getContent()
-                .containsKey(Feature.habitat));
-        assertEquals("The habitat should be 'Lorem ipsum'",
-                ((TextContent) taxon.getContent().get(Feature.habitat))
-                        .getContent(), "Lorem ipsum");
-        assertEquals("The taxon should be set on the content", taxon
-                .getContent().get(Feature.habitat).getTaxon(), taxon);
-        assertTrue("The reference should be set on the content",
-                taxon.getContent().get(Feature.habitat).getReferences()
+        Description habitat = null;
+        for(Description d : taxon.getDescriptions()) {
+        	if(d.getType().equals(DescriptionType.habitat)) {
+        		habitat = d;
+        		break;
+        	}
+        } 
+        assertNotNull("There should information on habitat", habitat);
+        assertEquals("The habitat should be 'Lorem ipsum'",habitat.getDescription(), "Lorem ipsum");
+        assertEquals("The taxon should be set on the content", habitat.getTaxon(), taxon);
+        assertTrue("The reference should be set on the content",habitat.getReferences()
                         .contains(reference));
         assertEquals("The protologue should be set", reference,
-                taxon.getProtologue());
+                taxon.getNamePublishedIn());
         assertFalse("The taxon should contain a distribution", taxon
                 .getDistribution().isEmpty());
-        assertTrue("The taxon should occur in Reunion", taxon.getDistribution()
-                .containsKey(Country.REU));
+        Distribution reunion = null;
+        for(Distribution d : taxon.getDistribution()) {
+        	if(d.getLocation().equals(Country.REU)) {
+        		reunion = d;
+        		break;
+        	}
+        } 
+        assertNotNull("The taxon should occur in Reunion", reunion);
 
     }
 
@@ -172,19 +180,19 @@ public class JsonConversionTest {
         Taxon taxon = new Taxon();
         taxon.setIdentifier("urn:kew.org:wcs:taxon:2295");
         taxon.setCreated(new DateTime());
-        taxon.setName("Acorus");
-        TextContent textContent = new TextContent();
-        textContent.setContent("Lorem ipsum");
-        textContent.setFeature(Feature.habitat);
+        taxon.setScientificName("Acorus");
+        Description textContent = new Description();
+        textContent.setDescription("Lorem ipsum");
+        textContent.setType(DescriptionType.habitat);
         textContent.getReferences().add(reference);
         textContent.setTaxon(taxon);
-        taxon.getContent().put(Feature.habitat, textContent);
+        taxon.getDescriptions().add(textContent);
         Distribution distribution = new Distribution();
         distribution.setTaxon(taxon);
-        distribution.setRegion(Country.REU);
-        taxon.getDistribution().put(Country.REU, distribution);
+        distribution.setLocation(Country.REU);
+        taxon.getDistribution().add(distribution);
         taxon.getReferences().add(reference);
-        taxon.setProtologue(reference);
+        taxon.setNamePublishedIn(reference);
         for (int i = 0; i < 3; i++) {
             Image image = new Image();
             image.setIdentifier("urn:identifier:image:" + i);
@@ -211,7 +219,7 @@ public class JsonConversionTest {
         String content = "{\"identifier\":\"urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg\",\"caption\":\"Acorus\",\"taxa\":[\"urn:kew.org:wcs:taxon:2295\"]}";
         Image image = new Image();
         image.setIdentifier("urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg");
-        image.setCaption("Acorus");
+        image.setTitle("Acorus");
         image.getTaxa().add(taxon);
 
         try {
@@ -236,7 +244,7 @@ public class JsonConversionTest {
                         EasyMock.eq("taxon-page"))).andReturn(taxon).times(1);
         EasyMock.replay(referenceService, taxonService);
 
-        String content = "{\"location\":null,\"id\":null,\"description\":null,\"taxon\":null,\"taxa\":[\"urn:kew.org:wcs:taxon:2295\"],\"caption\":\"Acorus\",\"format\":null,\"keywords\":null,\"locality\":null,\"url\":null,\"authority\":null,\"sources\":[],\"license\":null,\"created\":null,\"modified\":null,\"source\":null,\"creator\":null,\"identifier\":\"urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg\"}";
+        String content = "{\"location\":null,\"id\":null,\"description\":null,\"taxon\":null,\"taxa\":[\"urn:kew.org:wcs:taxon:2295\"],\"title\":\"Acorus\",\"format\":null,\"subject\":null,\"spatial\":null,\"authority\":null,\"license\":null,\"created\":null,\"modified\":null,\"creator\":null,\"identifier\":\"urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg\"}";
         Image image = (Image) objectMapper.readValue(content, Image.class);
         EasyMock.verify(referenceService, taxonService);
 
@@ -246,7 +254,7 @@ public class JsonConversionTest {
                 "urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg",
                 image.getIdentifier());
         assertEquals("The caption should be \"Acorus\"", "Acorus",
-                image.getCaption());
+                image.getTitle());
         assertTrue("The taxon should be set on the image", image.getTaxa()
                 .contains(taxon));
     }
@@ -390,7 +398,7 @@ public class JsonConversionTest {
         EasyMock.expect(taxonService.find(EasyMock.eq("testIdentifier")))
                 .andReturn(taxon);
         EasyMock.replay(taxonService);
-        Annotation annotation = objectMapper.readValue("{\"value\":\"wibble\",\"id\":null,\"type\":null,\"source\":null,\"code\":\"Absent\",\"text\":\"wibble\",\"jobId\":null,\"annotatedObj\":\"testIdentifier\",\"recordType\":\"Taxon\",\"dateTime\":1321973454966,\"identifier\":\"1\"}", Annotation.class);
+        Annotation annotation = objectMapper.readValue("{\"value\":\"wibble\",\"id\":null,\"type\":null,\"authority\":null,\"code\":\"Absent\",\"text\":\"wibble\",\"jobId\":null,\"annotatedObj\":\"testIdentifier\",\"recordType\":\"Taxon\",\"dateTime\":1321973454966,\"identifier\":\"1\"}", Annotation.class);
         EasyMock.verify(taxonService);
 
         assertNotNull(annotation.getAnnotatedObj());
@@ -461,17 +469,17 @@ public class JsonConversionTest {
     	String serialized = objectMapper.writeValueAsString(place);
     	System.out.println(serialized);
     	assertTrue("Expected JSON to contain the identifier", serialized.contains("\"identifier\":\"test.jk.triangle\""));
-    	assertTrue("Expected JSON to contain the name", serialized.contains("\"name\":\"testName\""));
-    	assertTrue("Expected JSON to contain the shape", serialized.contains("\"shape\":\"MULTIPOLYGON (((57 26, 0 0, 25 25, 57 26)))\""));
+    	assertTrue("Expected JSON to contain the name", serialized.contains("\"title\":\"testName\""));
+    	assertTrue("Expected JSON to contain the shape", serialized.contains("\"shape\":\"POLYGON ((57 26, 0 0, 25 25, 57 26))\""));
     }
     
     @Test
     public final void testReadMultiPolygon() throws Exception {
-    	String placeJson = "{\"name\":\"testName\",\"id\":null,\"shape\":\"MULTIPOLYGON (((57 26, 0 0, 25 25, 57 26)))\",\"point\":null,\"fipsCode\":null,\"authority\":null,\"identifier\":\"test.jk.triangle\",\"sources\":[],\"license\":null,\"created\":null,\"modified\":null,\"source\":null,\"creator\":null}";
+    	String placeJson = "{\"title\":\"testName\",\"id\":null,\"shape\":\"POLYGON ((57 26, 0 0, 25 25, 57 26))\",\"point\":null,\"fipsCode\":null,\"authority\":null,\"identifier\":\"test.jk.triangle\",\"license\":null,\"created\":null,\"modified\":null}";
     	Place desrialized = objectMapper.readValue(placeJson, Place.class);
     	
     	assertEquals("Expected identifier to be " + place.getIdentifier(), place.getIdentifier(), desrialized.getIdentifier());
-    	assertEquals("Expected name to be " + place.getName(), place.getName(), desrialized.getName());
+    	assertEquals("Expected name to be " + place.getTitle(), place.getTitle(), desrialized.getTitle());
     	assertEquals("Expected shape to be " + place.getShape().toText(),place.getShape().toText(),desrialized.getShape().toText());
     }
 }

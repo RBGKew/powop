@@ -3,8 +3,8 @@ package org.emonocot.portal.remoting;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.emonocot.model.common.BaseData;
-import org.emonocot.model.common.SecuredObject;
+import org.emonocot.model.BaseData;
+import org.emonocot.model.SecuredObject;
 import org.emonocot.portal.model.AceDto;
 import org.emonocot.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,7 +84,7 @@ public class RemoteUserServiceImpl extends UserServiceImpl {
         aceDto.setObject(((BaseData) object).getIdentifier());
         HttpEntity<AceDto> requestEntity = new HttpEntity<AceDto>(aceDto,
                 httpHeaders);
-        restTemplate.exchange(baseUri + "user/" + recipient + "/permission",
+        restTemplate.exchange(baseUri + "/user/" + recipient + "/permission",
                 HttpMethod.POST, requestEntity, AceDto.class);
     }
 
@@ -110,7 +110,7 @@ public class RemoteUserServiceImpl extends UserServiceImpl {
         aceDto.setObject(((BaseData) object).getIdentifier());
         HttpEntity<AceDto> requestEntity = new HttpEntity<AceDto>(aceDto,
                 httpHeaders);
-        restTemplate.exchange(baseUri + "user/" + recipient
+        restTemplate.exchange(baseUri + "/user/" + recipient
                 + "/permission?delete=true", HttpMethod.POST, requestEntity,
                 AceDto.class);
     }

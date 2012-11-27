@@ -7,19 +7,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.emonocot.api.FacetName;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.PlaceService;
 import org.emonocot.api.SearchableObjectService;
-import org.emonocot.api.Sorting;
 import org.emonocot.api.TaxonService;
-import org.emonocot.model.common.SearchableObject;
-import org.emonocot.model.key.IdentificationKey;
-import org.emonocot.model.media.Image;
-import org.emonocot.model.pager.Page;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.IdentificationKey;
+import org.emonocot.model.Image;
+import org.emonocot.model.SearchableObject;
+import org.emonocot.model.Taxon;
+import org.emonocot.pager.Page;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
-import org.emonocot.portal.format.annotation.SortingFormat;
 import org.emonocot.api.IdentificationKeyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -132,40 +129,40 @@ public class SearchController {
      * @param selectedFacets
      * @return
      */
-    private Page<? extends SearchableObject> runQuery(String query, Integer start, Integer limit, String spatial, FacetName[] responseFacets, Sorting sort, Map<FacetName, String> selectedFacets){
+    private Page<? extends SearchableObject> runQuery(String query, Integer start, Integer limit, String spatial, String[] responseFacets, String sort, Map<String, String> selectedFacets){
     	Page<? extends SearchableObject> result = null;
         if (selectedFacets == null
-                || !selectedFacets.containsKey(FacetName.CLASS)) {
+                || !selectedFacets.containsKey("base.class_s")) {
 
             result = searchableObjectService.search(
                     query, spatial, limit, start, responseFacets,
                     selectedFacets, sort, "taxon-with-image");
         } else {
-            if (selectedFacets.get(FacetName.CLASS)
-                    .equals("org.emonocot.model.media.Image")) {
+            if (selectedFacets.get("base.class_s")
+                    .equals("org.emonocot.model.Image")) {
                 logger.debug("Using the image service for " + query);
                 result = imageService.search(query, spatial , limit, start,
                         responseFacets,
                         selectedFacets, sort, "image-taxon");
-            } else if (selectedFacets.get(FacetName.CLASS).equals(
-                    "org.emonocot.model.taxon.Taxon")) {
+            } else if (selectedFacets.get("base.class_s").equals(
+                    "org.emonocot.model.Taxon")) {
                 logger.debug("Using the taxon service for " + query);
                 result = taxonService.search(query, spatial, limit, start,
                         responseFacets,
                         selectedFacets, sort, "taxon-with-image");
-            } else if (selectedFacets.get(FacetName.CLASS).equals(
-                    "org.emonocot.model.key.IdentificationKey")) {
+            } else if (selectedFacets.get("base.class_s").equals(
+                    "org.emonocot.model.IdentificationKey")) {
                 logger.debug("Using the IdentificationKey service for " + query);
                 result = keyService.search(query, spatial, limit, start,
                         responseFacets,
                         selectedFacets, sort, "front-cover");
-            } else if (selectedFacets.get(FacetName.CLASS).equals("org.emonocot.model.geography.Place")) {
+            } else if (selectedFacets.get("base.class_s").equals("org.emonocot.model.geography.Place")) {
         		result = placeService.search(
                             query, spatial, limit, start, responseFacets,
                             selectedFacets, sort, "taxon-with-image");
         	} else {
-                logger.error("We can't search by an object of FacetName.CLASS idx="
-                        + selectedFacets.get(FacetName.CLASS));
+                logger.error("We can't search by an object of \"base.class_s\" idx="
+                        + selectedFacets.get("base.class_s"));
             }
         }
         queryLog.info("Query: \'{}\', start: {}, limit: {},"
@@ -186,7 +183,7 @@ public class SearchController {
         if (view == null || view == "") {
             if (className == null) {
                 return 10;
-            } else if (className.equals("org.emonocot.model.media.Image")) {
+            } else if (className.equals("org.emonocot.model.Image")) {
                 return 24;
             } else {
                 return 10;
@@ -221,13 +218,13 @@ public class SearchController {
        @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
        @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
        @RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
-       @RequestParam(value = "sort", required = false) @SortingFormat final Sorting sort,
+       @RequestParam(value = "sort", required = false) String sort,
        @RequestParam(value = "view", required = false) String view,
        final Model model) {
 
-       Map<FacetName, String> selectedFacets = null;
+       Map<String, String> selectedFacets = null;
        if (facets != null && !facets.isEmpty()) {
-           selectedFacets = new HashMap<FacetName, String>();
+           selectedFacets = new HashMap<String, String>();
            for (FacetRequest facetRequest : facets) {
                selectedFacets.put(facetRequest.getFacet(),
                        facetRequest.getSelected());
@@ -240,31 +237,31 @@ public class SearchController {
        }
 
        //Decide which facets to return
-       List<FacetName> responseFacetList = new ArrayList<FacetName>();
-       responseFacetList.add(FacetName.CLASS);
-       responseFacetList.add(FacetName.FAMILY);
-       responseFacetList.add(FacetName.CONTINENT);
-       responseFacetList.add(FacetName.AUTHORITY);
+       List<String> responseFacetList = new ArrayList<String>();
+       responseFacetList.add("base.class_s");
+       responseFacetList.add("taxon.family_s");
+       responseFacetList.add("taxon.distribution_TDWG_0_ss");
+       responseFacetList.add("searchable.sources_ss");
        String className = null;
        if (selectedFacets == null) {
            logger.debug("No selected facets, setting default response facets");
        } else {
-           if (selectedFacets.containsKey(FacetName.CLASS)) {
-        	   className = selectedFacets.get(FacetName.CLASS);
-               if (className.equals("org.emonocot.model.taxon.Taxon")) {
+           if (selectedFacets.containsKey("base.class_s")) {
+        	   className = selectedFacets.get("base.class_s");
+               if (className.equals("org.emonocot.model.Taxon")) {
                    logger.debug("Adding taxon specific facets");
-                   responseFacetList.add(FacetName.RANK);
-                   responseFacetList.add(FacetName.TAXONOMIC_STATUS);
+                   responseFacetList.add("taxon.taxon_rank_s");
+                   responseFacetList.add("taxon.taxonomic_status_s");
                }
            }
-           if (selectedFacets.containsKey(FacetName.CONTINENT)) {
+           if (selectedFacets.containsKey("taxon.distribution_TDWG_0_ss")) {
                logger.debug("Adding region facet");
-               responseFacetList.add(FacetName.REGION);
+               responseFacetList.add("taxon.distribution_TDWG_1_ss");
            } else {
-               selectedFacets.remove(FacetName.REGION);
+               selectedFacets.remove("taxon.distribution_TDWG_1_ss");
            }
        }
-       FacetName[] responseFacets = new FacetName[]{};
+       String[] responseFacets = new String[]{};
        responseFacets = responseFacetList.toArray(responseFacets);
        limit = setLimit(view, className);
 
@@ -307,7 +304,7 @@ public class SearchController {
       @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
       @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
       @RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
-      @RequestParam(value = "sort", required = false) @SortingFormat final Sorting sort,
+      @RequestParam(value = "sort", required = false) final String sort,
       @RequestParam(value = "view", required = false) String view,
       final Model model) {
       String spatial = null;
@@ -316,9 +313,9 @@ public class SearchController {
         spatial = "Intersects(" + decimalFormat.format(x1) + " " + decimalFormat.format(y1) + " " + decimalFormat.format(x2) + " " + decimalFormat.format(y2) + ")";
       }
 
-      Map<FacetName, String> selectedFacets = null;
+      Map<String, String> selectedFacets = null;
       if (facets != null && !facets.isEmpty()) {
-          selectedFacets = new HashMap<FacetName, String>();
+          selectedFacets = new HashMap<String, String>();
           for (FacetRequest facetRequest : facets) {
               selectedFacets.put(facetRequest.getFacet(),
                       facetRequest.getSelected());
@@ -331,29 +328,29 @@ public class SearchController {
       }
 
       //Decide which facets to return
-      List<FacetName> responseFacetList = new ArrayList<FacetName>();
-      responseFacetList.add(FacetName.CLASS);
-      responseFacetList.add(FacetName.FAMILY);
-      responseFacetList.add(FacetName.AUTHORITY);
+      List<String> responseFacetList = new ArrayList<String>();
+      responseFacetList.add("base.class_s");
+      responseFacetList.add("taxon.family_s");
+      responseFacetList.add("searchable.sources_ss");
       String className = null;
       if (selectedFacets == null) {
           logger.debug("No selected facets, setting default response facets");
       } else {
-          if (selectedFacets.containsKey(FacetName.CLASS)) {
-        	  className = selectedFacets.get(FacetName.CLASS);
-              if (selectedFacets.get(FacetName.CLASS).equals(
-                      "org.emonocot.model.taxon.Taxon")) {
+          if (selectedFacets.containsKey("base.class_s")) {
+        	  className = selectedFacets.get("base.class_s");
+              if (selectedFacets.get("base.class_s").equals(
+                      "org.emonocot.model.Taxon")) {
                   logger.debug("Adding taxon specific facets");
-                  responseFacetList.add(FacetName.RANK);
-                  responseFacetList.add(FacetName.TAXONOMIC_STATUS);
+                  responseFacetList.add("taxon.taxon_rank_s");
+                  responseFacetList.add("taxon.taxonomic_status_s");
               }
           }
-          if (selectedFacets.containsKey(FacetName.CONTINENT)) {
+          if (selectedFacets.containsKey("taxon.distribution_TDWG_0_ss")) {
               logger.debug("Removing continent facet");
-              responseFacetList.remove(FacetName.CONTINENT);
+              responseFacetList.remove("taxon.distribution_TDWG_0_ss");
           }
       }
-      FacetName[] responseFacets = new FacetName[]{};
+      String[] responseFacets = new String[]{};
       responseFacets = responseFacetList.toArray(responseFacets);
       limit = setLimit(view, className);
 
@@ -382,18 +379,18 @@ public class SearchController {
      */
     @RequestMapping(value = "/autocomplete",
                     method = RequestMethod.GET,
-                    headers = "Accept=application/json")
+                    produces = "application/json")
     public final @ResponseBody List<Match> get(
             @RequestParam(required = true) final String term) {
         Page<SearchableObject> result = searchableObjectService.search(term
                 + "*", null, 10, 0, null, null, null, null);
         List<Match> matches = new ArrayList<Match>();
         for (SearchableObject object : result.getRecords()) {
-            if (object.getClass().equals(Taxon.class)) {
-                matches.add(new Match(((Taxon) object).getName()));
-            } else if (object.getClass().equals(Image.class)) {
-                matches.add(new Match(((Image) object).getCaption()));
-            } else if (object.getClass().equals(IdentificationKey.class)) {
+            if (object.getClassName().equals("Taxon")) {
+                matches.add(new Match(((Taxon) object).getScientificName()));
+            } else if (object.getClassName().equals("Image")) {
+                matches.add(new Match(((Image) object).getTitle()));
+            } else if (object.getClassName().equals("IdentificationKey")) {
                 matches.add(new Match(((IdentificationKey) object).getTitle()));
             } else {
                 logger.error("Unable to determine autocomplete label for " + object);

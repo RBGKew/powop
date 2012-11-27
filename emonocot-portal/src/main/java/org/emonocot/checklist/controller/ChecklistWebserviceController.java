@@ -1,13 +1,13 @@
 package org.emonocot.checklist.controller;
 
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.emonocot.api.TaxonService;
 import org.emonocot.checklist.logging.LoggingConstants;
-import org.emonocot.model.pager.Page;
-import org.emonocot.model.taxon.Family;
-import org.emonocot.model.taxon.Taxon;
-import org.emonocot.model.taxon.TaxonomicStatus;
+import org.emonocot.model.Taxon;
+import org.emonocot.pager.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -86,10 +86,12 @@ public class ChecklistWebserviceController {
 	public final ModelAndView search(
 			@RequestParam(value = "search", required = true) final String search) {
 		logger.debug("search for " + search);
-		String query = new String("label:" + search);
+		String query = new String("searchable.label_sort:" + search);
+		Map<String,String> selectedFacets = new HashMap<String,String>();
+		selectedFacets.put("base.class_s","org.emonocot.model.Taxon");
 		ModelAndView modelAndView = new ModelAndView("rdfResponse");
 		Page<Taxon> taxa = taxonService.search(query, null, null, null, null,
-				null, null, "taxon-ws");
+				selectedFacets, null, "taxon-ws");
 		modelAndView.addObject("result", taxa.getRecords());
 		try {
 			MDC.put(LoggingConstants.SEARCH_TYPE_KEY,

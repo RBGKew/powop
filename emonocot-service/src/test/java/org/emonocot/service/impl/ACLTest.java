@@ -10,12 +10,12 @@ import org.emonocot.api.ImageService;
 import org.emonocot.api.SourceService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.UserService;
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.media.Image;
-import org.emonocot.model.source.Source;
-import org.emonocot.model.taxon.Taxon;
-import org.emonocot.model.user.Group;
-import org.emonocot.model.user.User;
+import org.emonocot.model.Annotation;
+import org.emonocot.model.Image;
+import org.emonocot.model.Source;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.auth.Group;
+import org.emonocot.model.auth.User;
 import org.emonocot.test.DataManagementSupport;
 import org.junit.After;
 import org.junit.Before;
@@ -148,7 +148,7 @@ public class ACLTest extends DataManagementSupport {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         userService.deletePermission(source, "test", BasePermission.READ,
                 Source.class);
-        SecurityContextHolder.clearContext();
+        
         while (!getTearDown().isEmpty()) {
             Object obj = getTearDown().pop();
             if (obj.getClass().equals(Taxon.class)) {
@@ -165,6 +165,7 @@ public class ACLTest extends DataManagementSupport {
                 userService.deleteGroup(((Group) obj).getIdentifier());
             }
         }
+        SecurityContextHolder.clearContext();
     }
 
     /**

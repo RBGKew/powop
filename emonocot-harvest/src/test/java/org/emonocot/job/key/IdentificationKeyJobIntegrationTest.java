@@ -8,12 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Taxon;
+import org.emonocot.persistence.hibernate.SolrIndexingListener;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.search.FullTextSession;
-import org.hibernate.search.Search;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.junit.Before;
@@ -75,6 +74,9 @@ public class IdentificationKeyJobIntegrationTest {
      */
     @Autowired
     private SessionFactory sessionFactory;
+    
+    @Autowired
+    private SolrIndexingListener solrIndexingListener;
 
     /**
      * 1288569600 in unix time.
@@ -86,12 +88,16 @@ public class IdentificationKeyJobIntegrationTest {
      *
      */
     @Before
-    public final void setUp() {
-        File imageDirectory = new File("./target/images");
-        imageDirectory.mkdir();
-        File thumbnailDirectory = new File("./target/thumbnails");
-        thumbnailDirectory.mkdir();
-    }
+	public final void setUp() {
+		String fullSizeImagesDirectoryName = "./target/images/fullsize";
+		File fullSizeImagesDirectory = new File(fullSizeImagesDirectoryName);
+		fullSizeImagesDirectory.mkdirs();
+		fullSizeImagesDirectory.deleteOnExit();
+		String thumbnailImagesDirectoryName = "./target/images/thumbnails";
+		File thumbnailImagesDirectory = new File(thumbnailImagesDirectoryName);
+		thumbnailImagesDirectory.mkdirs();
+		thumbnailImagesDirectory.deleteOnExit();
+	}
 
 
     /**
@@ -114,14 +120,11 @@ public class IdentificationKeyJobIntegrationTest {
             NoSuchJobException, JobExecutionAlreadyRunningException,
             JobRestartException, JobInstanceAlreadyCompleteException,
             JobParametersInvalidException {
-        Session session = sessionFactory.openSession();
-        FullTextSession fullTextSession = Search.getFullTextSession(session);
-        Transaction tx = fullTextSession.beginTransaction();
+        Session session = sessionFactory.openSession();        
+        Transaction tx = session.beginTransaction();
 
         List<Taxon> taxa = session.createQuery("from Taxon as taxon").list();
-        for (Taxon taxon : taxa) {
-            fullTextSession.index(taxon);
-        }
+        solrIndexingListener.indexObjects(taxa);
         tx.commit();
 
         Map<String, JobParameter> parameters =

@@ -1,7 +1,7 @@
 package org.emonocot.job.oaipmh;
 
-import org.emonocot.model.source.Source;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Source;
+import org.emonocot.model.Taxon;
 import org.openarchives.pmh.Record;
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.StepExecutionListener;

@@ -2,7 +2,7 @@ package org.emonocot.harvest.common;
 
 import java.util.concurrent.Callable;
 
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Taxon;
 import org.tdwg.voc.TaxonRelationshipTerm;
 
 /**

@@ -4,11 +4,11 @@
 	<parent>
 		<artifactId>emonocot</artifactId>
 		<groupId>org.emonocot</groupId>
-		<version>0.0.21-SNAPSHOT</version>
+		<version>0.0.23-SNAPSHOT</version>
 	</parent>
 	<groupId>org.emonocot</groupId>
 	<artifactId>emonocot-harvest</artifactId>
-	<version>0.0.21-SNAPSHOT</version>
+	<version>0.0.23-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>eMonocot Harvesting</name>
 	<description>Backend Harvesting Routines</description>
@@ -36,6 +36,10 @@
           <version>${project.version}</version><!--$NO-MVN-MAN-VER$-->
           <scope>test</scope>
         </dependency>
+        <dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
@@ -130,7 +134,7 @@
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
+			<artifactId>junit-dep</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.easymock</groupId>
@@ -193,14 +197,6 @@
             <artifactId>hibernate-validator</artifactId>
         </dependency>
         <dependency>
-           <groupId>tomcat</groupId>
-           <artifactId>catalina-ant</artifactId>
-        </dependency>
-        <dependency>
-           <groupId>org.apache.ant</groupId>
-           <artifactId>ant-junit</artifactId>
-        </dependency>
-        <dependency>
 			<groupId>org.apache.sanselan</groupId>
 			<artifactId>sanselan</artifactId>
 		</dependency>
@@ -233,13 +229,17 @@
 	      <artifactId>tika-parsers</artifactId>
 	    </dependency>
         <dependency>
-          <groupId>org.kew</groupId>
-          <artifactId>ECAT-name-parser</artifactId>
+          <groupId>org.gbif</groupId>
+          <artifactId>ecat-common</artifactId>
         </dependency>
         <dependency>
           <groupId>commons-io</groupId>
           <artifactId>commons-io</artifactId>
         </dependency>
+        <dependency>
+	       <groupId>org.slf4j</groupId>
+	       <artifactId>jul-to-slf4j</artifactId>
+	    </dependency>
 	</dependencies>
 	<build>
 		<finalName>emonocot-harvest</finalName>

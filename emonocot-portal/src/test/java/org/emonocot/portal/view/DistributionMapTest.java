@@ -2,10 +2,10 @@ package org.emonocot.portal.view;
 
 import static org.junit.Assert.assertEquals;
 
-import org.emonocot.model.description.Distribution;
+import org.emonocot.model.Distribution;
+import org.emonocot.model.Taxon;
 import org.emonocot.model.geography.Country;
 import org.emonocot.model.geography.GeographicalRegion;
-import org.emonocot.model.taxon.Taxon;
 import org.junit.Test;
 
 /**
@@ -39,8 +39,8 @@ public class DistributionMapTest {
                                     final GeographicalRegion region) {
         Distribution distribution = new Distribution();
         distribution.setTaxon(taxon);
-        distribution.setRegion(region);
-        taxon.getDistribution().put(region, distribution);
+        distribution.setLocation(region);
+        taxon.getDistribution().add(distribution);
     }
 
 }

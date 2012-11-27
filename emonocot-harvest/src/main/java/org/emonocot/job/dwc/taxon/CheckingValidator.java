@@ -1,24 +1,34 @@
     package org.emonocot.job.dwc.taxon;
 
-import org.emonocot.job.dwc.DarwinCoreValidator;
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.AnnotationCode;
-import org.emonocot.model.common.AnnotationType;
-import org.emonocot.model.source.Source;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.api.TaxonService;
+import org.emonocot.harvest.common.AuthorityAware;
+import org.emonocot.model.Annotation;
+import org.emonocot.model.Source;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.AnnotationType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.item.ItemProcessor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
  * @author ben
  *
  */
-public class CheckingValidator extends DarwinCoreValidator<Taxon> {
+public class CheckingValidator extends AuthorityAware implements ItemProcessor<Taxon,Taxon> {
     /**
      *
      */
     private Logger logger = LoggerFactory.getLogger(CheckingValidator.class);
+    
+    private TaxonService taxonService;
+    
+    @Autowired
+    public void setTaxonService(TaxonService taxonService) {
+    	this.taxonService = taxonService;
+    }
 
     /**
      * @param taxon a taxon object
@@ -30,7 +40,7 @@ public class CheckingValidator extends DarwinCoreValidator<Taxon> {
         if (taxon.getIdentifier() == null) {
             throw new NoIdentifierException(taxon);
         }
-        Taxon persistedTaxon = getTaxonService().find(taxon.getIdentifier(), "taxon-with-annotations");
+        Taxon persistedTaxon = taxonService.find(taxon.getIdentifier(), "taxon-with-annotations");
         if (persistedTaxon == null) {
             throw new CannotFindRecordException(taxon.getIdentifier());
         }
@@ -55,24 +65,6 @@ public class CheckingValidator extends DarwinCoreValidator<Taxon> {
             throw new UnexpectedTaxonException(taxon);
         } else {
         	logger.info(taxon.getIdentifier() + " was expected");
-            /**
-             * Using java.util.Collection.contains() does not work on lazy
-             * collections.
-             */
-            boolean contains = false;
-            for (Source auth : persistedTaxon.getSources()) {
-                logger.debug("Comparing " + auth.getIdentifier() + " with " + getSource().getIdentifier());
-                if (auth.equals(getSource())) {
-                    contains = true;
-                    break;
-                }
-            }
-            if (!contains) {
-                logger.debug("Adding " + getSource());
-                persistedTaxon.getSources().add(getSource());
-            } else {
-                logger.debug(persistedTaxon + " already contains " + getSource());
-            }
         }
         return persistedTaxon;
     }

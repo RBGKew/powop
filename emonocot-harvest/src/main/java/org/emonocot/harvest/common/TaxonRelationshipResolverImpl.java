@@ -8,11 +8,11 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 
 import org.emonocot.api.TaxonService;
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.AnnotationCode;
-import org.emonocot.model.common.AnnotationType;
-import org.emonocot.model.common.RecordType;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Annotation;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.AnnotationType;
+import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
@@ -87,9 +87,8 @@ public class TaxonRelationshipResolverImpl extends AuthorityAware
                         annotation.setCode(AnnotationCode.Create);
                         annotation.setRecordType(RecordType.Taxon);
                         annotation.setType(AnnotationType.Info);
-                        annotation.setSource(getSource());
+                        annotation.setAuthority(getSource());
                         taxon.getAnnotations().add(annotation);
-                        taxon.getSources().add(getSource());
                         taxon.setAuthority(getSource());
                         taxon.setIdentifier(identifier);
                         logger.info("Didn't find taxon with identifier "
@@ -149,15 +148,17 @@ public class TaxonRelationshipResolverImpl extends AuthorityAware
             if(related == null) {
                 // TODO log error            
             } else if (term.equals(TaxonRelationshipTerm.IS_SYNONYM_FOR)) {
-                if (!related.getSynonyms().contains(taxon)) {
-                    taxon.setAccepted(related);
-                    related.getSynonyms().add(taxon);
+                if (!related.getSynonymNameUsages().contains(taxon)) {
+                    taxon.setAcceptedNameUsage(related);
+                    related.getSynonymNameUsages().add(taxon);
                 }
             } else if (term.equals(TaxonRelationshipTerm.IS_CHILD_TAXON_OF)) {
-                if (!related.getChildren().contains(taxon)) {
-                    taxon.setParent(related);
-                    related.getChildren().add(taxon);
+                if (!related.getChildNameUsages().contains(taxon)) {
+                    taxon.setParentNameUsage(related);
+                    related.getChildNameUsages().add(taxon);
                 }
+            } else if (term.equals(TaxonRelationshipTerm.HAS_BASIONYM)) {
+                taxon.setOriginalNameUsage(taxon);
             }
         }
 

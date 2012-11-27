@@ -1,6 +1,6 @@
 package org.emonocot.portal.driver.source;
 
-import org.emonocot.model.source.Source;
+import org.emonocot.model.Source;
 import org.emonocot.portal.driver.AbstractUpdateForm;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

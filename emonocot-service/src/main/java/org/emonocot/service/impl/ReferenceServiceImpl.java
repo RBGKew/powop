@@ -1,7 +1,7 @@
 package org.emonocot.service.impl;
 
 import org.emonocot.api.ReferenceService;
-import org.emonocot.model.reference.Reference;
+import org.emonocot.model.Reference;
 import org.emonocot.persistence.dao.ReferenceDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,8 +30,8 @@ public class ReferenceServiceImpl extends ServiceImpl<Reference, ReferenceDao>
      * @return a reference or null if it does not exist
      */
     @Transactional(readOnly = true)
-    public final Reference findBySource(final String source) {
-        return dao.findBySource(source);
+    public final Reference findByBibliographicCitation(final String source) {
+        return dao.findByBibliographicCitation(source);
     }
 
 }

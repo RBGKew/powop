@@ -8,21 +8,21 @@
 
 	<tags:pageheader>
 			<c:url value="/css/images/glyphicons/fullsize/glyphicons_159_picture.png" var="imageIconUrl"/>			
-			<h2 id="page-title"> <img src="${imageIconUrl}" class="pull-left noPrint header-icon" alt="Image"/> ${image.caption}</h2>
+			<h2 id="page-title"> <img src="${imageIconUrl}" class="pull-left noPrint header-icon" alt="Image"/> ${image.title}</h2>
 			<br/>
 	</tags:pageheader>
 
 	<div class="container">
 	<div class="row">
 		<div class="span9">
-			<c:if test="${not empty image.taxon.name}">
+			<c:if test="${not empty image.taxon.scientificName}">
 				<h5>
 					<spring:message code="imageOf" />:
 					<jsp:element name="a">
 						<jsp:attribute name="href">
 							<c:url value="/taxon/${image.taxon.identifier}" />
 						</jsp:attribute>
-						<span class="taxonName">${image.taxon.name}</span> ${image.taxon.authorship}
+						<span class="taxonName">${image.taxon.scientificName}</span> ${image.taxon.scientificNameAuthorship}
 					</jsp:element>
 				</h5>
 			</c:if>
@@ -30,8 +30,8 @@
 			<div class="centeredImage section-box">
 				<div class="inner">
 					<div class="box clearfix">
-						<c:url value="/images/fullsize/${image.identifier}.${image.format}" var="imageUrl"/>
-						<img id="main-img" class=" imageSize" src="${imageUrl}" title="${fn:escapeXml(image.caption)}" alt="${status.index}" />
+						<c:url value="/images/fullsize/${image.id}.${image.format}" var="imageUrl"/>
+						<img id="main-img" class=" imageSize" src="${imageUrl}" title="${fn:escapeXml(image.title)}" alt="${status.index}" />
 					</div>
 				</div>
 			</div>
@@ -47,7 +47,7 @@
 					</tr>
 					<tr>
 						<td><spring:message code="image.caption"/></td>
-						<td>${image.caption}</td>
+						<td>${image.title}</td>
 					</tr>
 					<tr>
 						<td><spring:message code="image.description"/></td>
@@ -59,17 +59,17 @@
 					</tr>
 					<tr>
 						<td><spring:message code="image.locality"/></td>
-						<td>${image.locality}</td>
+						<td>${image.spatial}</td>
 					</tr>
 					<tr>
 						<td><spring:message code="image.keywords"/></td>
 						<td id="keywords">
-							<c:if test="${not empty image.keywords}">
-								<c:forEach var="keyword" items="${em:split(image.keywords,',')}" varStatus="status">
+							<c:if test="${not empty image.subject}">
+								<c:forEach var="keyword" items="${em:split(image.subject,',')}" varStatus="status">
 									<c:url var="keywordUrl" value="/search">
 										<c:param name="query" value="${keyword}"/>
-										<c:param name="facet" value="CLASS.org.emonocot.model.media.Image"/>
-									</c:url>
+										<c:param name="facet" value="base.class_s:org.emonocot.model.Image"/>
+									    </c:url>
 									<c:choose>
 										<c:when test="${status.last}">
 											<a href="${keywordUrl}" title="${fn:escapeXml(keyword)}"><span class="label">${keyword}</span></a>
@@ -107,12 +107,12 @@
 									<ul class="thumbnails">	
 									  <c:forEach var="image" items="${taxon.images}" begin="${status.index}" end="${status.index + 5}">									
 											<li>
-											  <c:url var="fullsize" value="/images/fullsize/${image.identifier}.${image.format}" />
+											  <c:url var="fullsize" value="/images/fullsize/${image.id}.${image.format}" />
 											  <c:url var="url" value="/image/${image.identifier}" />
-											  <a class="thumbnail" href="${image.url}" rel="gallery" title="${em:stripXml(image.caption)}" data-link="${url}">
-														<c:url var="thumbnail" value="/images/thumbnails/${image.identifier}.${image.format}" />
-														<c:url var="url" value="/image/${image.identifier}" />
-														<img src="${thumbnail}" title="${em:stripXml(image.caption)}" />
+											  <a class="thumbnail" href="${image.identifier}" rel="gallery" title="${em:stripXml(image.title)}" data-link="${url}">
+														<c:url var="thumbnail" value="/images/thumbnails/${image.id}.${image.format}" />
+														<c:url var="url" value="/image/${image.id}" />
+														<img src="${thumbnail}" title="${em:stripXml(image.title)}" />
 											  </a>
 											</li>
 									  </c:forEach>
@@ -151,16 +151,10 @@
 							<div class="box">
 			<div><spring:message code="sources" /></div>
 			<ul>
-				<c:forEach var="source" items="${image.sources}">
-					<li>
-						<jsp:element name="a">
-							<jsp:attribute name="href">
-								<c:url value="/source/${source.identifier}" />
-							</jsp:attribute>
-							${source.title}
-						</jsp:element>
-					</li>
-				</c:forEach>
+				<li>
+				    <c:url value="/source/${image.authority.identifier}" var="authorityUrl"/>
+					<a href="${authorityUrl}">${image.authority.title}</a>
+				</li>
 			</ul>
 			</div>
 			</div>

@@ -1,6 +1,6 @@
 package org.emonocot.persistence.dao;
 
-import org.emonocot.model.media.Image;
+import org.emonocot.model.Image;
 
 /**
  *
@@ -8,11 +8,5 @@ import org.emonocot.model.media.Image;
  *
  */
 public interface ImageDao extends SearchableDao<Image> {
-
-    /**
-     * @param url Set the url
-     * @return an image or null if one doesn't exist
-     */
-    Image findByUrl(String url);
 
 }

@@ -74,10 +74,12 @@ public class DarwinCoreJobIntegrationTest {
      */
     @Before
     public final void setUp() {
-        File imageDirectory = new File("./target/images");
-        imageDirectory.mkdir();
-        File thumbnailDirectory = new File("./target/thumbnails");
-        thumbnailDirectory.mkdir();
+        File imageDirectory = new File("./target/images/fullsize");
+        imageDirectory.mkdirs();
+        imageDirectory.deleteOnExit();
+        File thumbnailDirectory = new File("./target/images/thumbnails");
+        thumbnailDirectory.mkdirs();
+        thumbnailDirectory.deleteOnExit();
     }
 
     /**
@@ -105,7 +107,7 @@ public class DarwinCoreJobIntegrationTest {
         parameters.put("authority.name", new JobParameter(
                 "test"));
         parameters.put("family", new JobParameter(
-        "test"));
+        "Arecaceae"));
         parameters.put("authority.uri", new JobParameter(
                 "http://build.e-monocot.org/test/test.zip"));
         parameters.put(

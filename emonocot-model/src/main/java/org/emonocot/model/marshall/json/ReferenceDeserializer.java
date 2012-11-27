@@ -1,7 +1,7 @@
 package org.emonocot.model.marshall.json;
 
 
-import org.emonocot.model.reference.Reference;
+import org.emonocot.model.Reference;
 
 /**
  *

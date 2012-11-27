@@ -4,11 +4,13 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
-import org.emonocot.model.description.Feature;
-import org.emonocot.model.description.TextContent;
-import org.emonocot.model.reference.Reference;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Reference;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.Description;
+import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.portal.view.bibliography.Bibliography;
 import org.emonocot.portal.view.bibliography.SimpleBibliographyImpl;
 import org.junit.Before;
@@ -27,7 +29,7 @@ public class BibliographyTest {
 	@Before
 	public void setUp() {
 		Taxon taxon = new Taxon();
-		taxon.setContent(new HashMap<Feature,TextContent>());
+		taxon.setDescriptions(new HashSet<Description>());
 		reference1 = createReference("1753", null, "1");
 		taxon.getReferences().add(reference1);
 		
@@ -44,7 +46,7 @@ public class BibliographyTest {
 
 	private Reference createReference(String datePublished, String title, String identifier) {
 		Reference reference = new Reference();
-		reference.setDatePublished(datePublished);
+		reference.setDate(datePublished);
 		reference.setTitle(title);
 		reference.setIdentifier(identifier);
 		return reference;

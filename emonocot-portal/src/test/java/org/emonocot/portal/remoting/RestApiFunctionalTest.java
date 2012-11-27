@@ -10,20 +10,20 @@ import java.util.UUID;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.emonocot.api.GroupService;
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.AnnotationCode;
-import org.emonocot.model.common.AnnotationType;
-import org.emonocot.model.common.RecordType;
-import org.emonocot.model.description.Distribution;
-import org.emonocot.model.description.Feature;
-import org.emonocot.model.description.TextContent;
+import org.emonocot.model.Annotation;
+import org.emonocot.model.Distribution;
+import org.emonocot.model.Image;
+import org.emonocot.model.Reference;
+import org.emonocot.model.Source;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.Description;
+import org.emonocot.model.auth.Group;
+import org.emonocot.model.auth.User;
+import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.AnnotationType;
+import org.emonocot.model.constants.DescriptionType;
+import org.emonocot.model.constants.RecordType;
 import org.emonocot.model.geography.Country;
-import org.emonocot.model.media.Image;
-import org.emonocot.model.reference.Reference;
-import org.emonocot.model.source.Source;
-import org.emonocot.model.taxon.Taxon;
-import org.emonocot.model.user.Group;
-import org.emonocot.model.user.User;
 import org.emonocot.persistence.dao.AnnotationDao;
 import org.emonocot.persistence.dao.GroupDao;
 import org.emonocot.persistence.dao.ImageDao;
@@ -174,18 +174,17 @@ public class RestApiFunctionalTest {
     @Test
     public final void testImage() throws JsonGenerationException, JsonMappingException, IOException {
     	Taxon taxon = new Taxon();
-        taxon.setName("Acorus");
+        taxon.setScientificName("Acorus");
         taxon.setIdentifier("urn:kew.org:wcs:taxon:2295");
         taxonDao.save(taxon);       
         
         Image image = new Image();
-        image.setCaption("Acorus");
-        image.setIdentifier("urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg");
-        image.setUrl("http://upload.wikimedia.org/wikipedia/commons/2/25/Illustration_Acorus_calamus0.jpg");
+        image.setTitle("Acorus");        
+        image.setIdentifier("http://upload.wikimedia.org/wikipedia/commons/2/25/Illustration_Acorus_calamus0.jpg");
         image.getTaxa().add(taxon);
-        imageDao.save(image);            
-        
-        imageDao.delete("urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg");
+        image = imageDao.save(image);            
+
+        imageDao.delete("http://upload.wikimedia.org/wikipedia/commons/2/25/Illustration_Acorus_calamus0.jpg");
         
         taxonDao.delete("urn:kew.org:wcs:taxon:2295");
     }
@@ -196,9 +195,8 @@ public class RestApiFunctionalTest {
     @Test
     public final void testTaxon() {
         Image image = new Image();
-        image.setCaption("Acorus");
-        image.setIdentifier("urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg");
-        image.setUrl("http://upload.wikimedia.org/wikipedia/commons/2/25/Illustration_Acorus_calamus0.jpg");
+        image.setTitle("Acorus");
+        image.setIdentifier("http://upload.wikimedia.org/wikipedia/commons/2/25/Illustration_Acorus_calamus0.jpg");
         imageDao.save(image);
 
         Reference reference = new Reference();
@@ -206,27 +204,27 @@ public class RestApiFunctionalTest {
         referenceDao.save(reference);
 
         Taxon taxon = new Taxon();
-        taxon.setName("Acorus");
+        taxon.setScientificName("Acorus");
         taxon.setIdentifier("urn:kew.org:wcs:taxon:2295");
-        TextContent textContent = new TextContent();
+        Description textContent = new Description();
         textContent.setIdentifier(UUID.randomUUID().toString());
-        textContent.setContent("Lorem ipsum");
-        textContent.setFeature(Feature.habitat);
+        textContent.setDescription("Lorem ipsum");
+        textContent.setType(DescriptionType.habitat);
         textContent.getReferences().add(reference);
         textContent.setTaxon(taxon);
         taxon.getReferences().add(reference);
-        taxon.getContent().put(Feature.habitat, textContent);
+        taxon.getDescriptions().add(textContent);
         Distribution distribution = new Distribution();
         distribution.setIdentifier(UUID.randomUUID().toString());
         distribution.setTaxon(taxon);
-        distribution.setRegion(Country.REU);
-        taxon.getDistribution().put(Country.REU, distribution);
+        distribution.setLocation(Country.REU);
+        taxon.getDistribution().add(distribution);
         taxon.getImages().add(image);
         taxonDao.save(taxon);
 
         taxonDao.delete("urn:kew.org:wcs:taxon:2295");
         referenceDao.delete("referenceIdentifier");
-        imageDao.delete("urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg");
+        imageDao.delete("http://upload.wikimedia.org/wikipedia/commons/2/25/Illustration_Acorus_calamus0.jpg");
     }
 
     /**

@@ -1,6 +1,6 @@
 package org.emonocot.api;
 
-import org.emonocot.model.common.Annotation;
+import org.emonocot.model.Annotation;
 
 /**
  *

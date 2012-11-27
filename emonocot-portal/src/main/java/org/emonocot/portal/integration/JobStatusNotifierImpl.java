@@ -3,7 +3,7 @@ package org.emonocot.portal.integration;
 import org.emonocot.api.JobService;
 import org.emonocot.api.job.JobExecutionInfo;
 import org.emonocot.api.job.JobStatusNotifier;
-import org.emonocot.model.job.Job;
+import org.emonocot.model.Job;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

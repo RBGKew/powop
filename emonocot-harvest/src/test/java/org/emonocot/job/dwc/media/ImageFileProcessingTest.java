@@ -4,12 +4,12 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.util.Properties;
-import java.util.UUID;
 
 import org.emonocot.harvest.media.ImageFileProcessor;
 import org.emonocot.harvest.media.ImageMetadataExtractor;
-import org.emonocot.model.media.Image;
-import org.emonocot.model.media.ImageFormat;
+import org.emonocot.harvest.media.ImageThumbnailGenerator;
+import org.emonocot.model.Image;
+import org.emonocot.model.constants.ImageFormat;
 import org.emonocot.ws.GetResourceClient;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,6 +27,11 @@ public class ImageFileProcessingTest {
     *
     */
     private ImageFileProcessor imageFileProcessor = new ImageFileProcessor();
+    
+    /**
+    *
+    */
+    private ImageThumbnailGenerator imageThumbnailGenerator = new ImageThumbnailGenerator();
 
     /**
      *
@@ -44,8 +49,7 @@ public class ImageFileProcessingTest {
      */
     @Before
     public final void setUp() throws Exception {
-        image.setUrl("http://build.e-monocot.org/test/test.jpg");
-        image.setIdentifier(UUID.randomUUID().toString());
+        image.setIdentifier("http://build.e-monocot.org/test/test.jpg");
         image.setFormat(ImageFormat.jpg);
         GetResourceClient getResourceClient = new GetResourceClient();
         imageFileProcessor.setGetResourceClient(getResourceClient);
@@ -61,42 +65,22 @@ public class ImageFileProcessingTest {
         File thumbnailDirectory = new File(thumbnailDirectoryName);
         thumbnailDirectory.mkdir();
         thumbnailDirectory.deleteOnExit();
-        imageFileProcessor.setThumbnailDirectory(thumbnailDirectoryName);
 
         Resource propertiesFile = new ClassPathResource(
                 "/META-INF/spring/application.properties");
         Properties properties = new Properties();
         properties.load(propertiesFile.getInputStream());
-        imageFileProcessor.setImageMagickSearchPath(properties.getProperty(
-                "harvester.imagemagick.path", "/Program Files/ImageMagick"));
 
+        imageThumbnailGenerator.setImageDirectory(imagesDirectoryName);
+        imageThumbnailGenerator.setThumbnailDirectory(thumbnailDirectoryName);
+        imageThumbnailGenerator.setImageMagickSearchPath(properties.getProperty(
+                "harvester.imagemagick.path", "/Program Files/ImageMagick"));
         getResourceClient.setProxyHost(properties.getProperty("http.proxyHost",
                 null));
         getResourceClient.setProxyPort(properties.getProperty("http.proxyPort",
                 null));
     }
 
-    /**
-     *
-     */
-    // @After
-    public final void tearDown() {
-        String imagesDirectoryName = System.getProperty("java.io.tmpdir")
-                + File.separatorChar + "images";
-        File imagesDirectory = new File(imagesDirectoryName);
-        for (File file : imagesDirectory.listFiles()) {
-            file.delete();
-        }
-        imagesDirectory.delete();
-
-        String thumbnailDirectoryName = System.getProperty("java.io.tmpdir")
-                + File.separatorChar + "thumbnails";
-        File thumbnailDirectory = new File(thumbnailDirectoryName);
-        for (File file : thumbnailDirectory.listFiles()) {
-            file.delete();
-        }
-        imagesDirectory.delete();
-    }
 
     /**
      * @throws Exception
@@ -106,14 +90,14 @@ public class ImageFileProcessingTest {
     public final void testProcess() throws Exception {
         Image i = imageFileProcessor.process(image);
         imageMetadataExtractor.process(i);
-        assertEquals("Arecaceae; Howea forsteriana", i.getCaption());
+        assertEquals("Arecaceae; Howea forsteriana", i.getTitle());
         // assertEquals("Male inflorescences", i.getDescription());
         // assertEquals("William J. Baker", i.getCreator());
         assertEquals(
                 "ARECOIDEAE, Arecaceae, Areceae, Howea, Linospadicinae, Palmae, Palms, flowers, inflorescences",
-                i.getKeywords());
+                i.getSubject());
         assertEquals("Path to Little island, Lord Howe Island, Australia",
-                i.getLocality());
+                i.getSpatial());
     }
 
 }

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.emonocot.model.common.Base;
+import org.emonocot.model.Base;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.persistence.dao.Dao;
 import org.hibernate.Criteria;
@@ -174,11 +174,28 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
      * @param identifier
      *            Set the identifier
      */
+    public final void deleteById(final Long id) {
+        T t = (T)getSession().load(type, id);
+        getSession().delete(t);
+    }
+    
+    /**
+     * @param identifier
+     *            Set the identifier
+     */
     public final void delete(final String identifier) {
         T t = load(identifier);
         getSession().delete(t);
     }
 
+    /**
+     * @param id the primary key
+     * @return the loaded object
+     */
+    public final T load(final Long id) {
+        return load(id, null);
+    }
+    
     /**
      * @param identifier
      *            set the identifier
@@ -186,6 +203,15 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
      */
     public final T load(final String identifier) {
         return load(identifier, null);
+    }
+    
+    /**
+     * @param id
+     *            Set the primary key
+     * @return the object, or null if the object cannot be found
+     */
+    public final T find(final Long id) {
+        return find(id, null);
     }
 
     /**
@@ -195,6 +221,31 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
      */
     public final T find(final String identifier) {
         return find(identifier, null);
+    }
+    
+    /**
+     * @param id
+     *            Set the id
+     * @param fetch
+     *            Set the fetch profile (can be null)
+     * @return the loaded object
+     */
+    public T load(final Long id, final String fetch) {
+    	
+        Criteria criteria = getSession().createCriteria(type).add(
+                Restrictions.idEq(id));
+
+        enableProfilePreQuery(criteria, fetch);
+
+        T t = (T) criteria.uniqueResult();
+
+        if (t == null) {
+            throw new HibernateObjectRetrievalFailureException(
+                    new UnresolvableObjectException(id,
+                            "Object could not be resolved"));
+        }
+        enableProfilePostQuery(t, fetch);
+        return t;
     }
 
     /**
@@ -232,6 +283,23 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
     public T find(final String identifier, final String fetch) {
         Criteria criteria = getSession().createCriteria(type).add(
                 Restrictions.eq("identifier", identifier));
+        enableProfilePreQuery(criteria, fetch);
+        T t = (T) criteria.uniqueResult();
+        enableProfilePostQuery(t, fetch);
+
+        return t;
+    }
+    
+    /**
+     * @param id
+     *            Set the id
+     * @param fetch
+     *            Set the fetch profile
+     * @return the object or null if it cannot be found
+     */
+    public T find(final Long id, final String fetch) {
+        Criteria criteria = getSession().createCriteria(type).add(
+                Restrictions.idEq(id));
         enableProfilePreQuery(criteria, fetch);
         T t = (T) criteria.uniqueResult();
         enableProfilePostQuery(t, fetch);
@@ -290,9 +358,10 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
     /**
      * @param page Set the offset (in size chunks, 0-based), optional
      * @param size Set the page size
+     * @param fetch Set the fetch profile to which relations are fetched
      * @return A list of results
      */
-    public final List<T> list(final Integer page, final Integer size) {
+    public final List<T> list(final Integer page, final Integer size, final String fetch) {
         Criteria criteria = getSession().createCriteria(type);
 
         if (size != null) {

@@ -9,20 +9,18 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.emonocot.api.AnnotationService;
-import org.emonocot.api.FacetName;
 import org.emonocot.api.JobService;
 import org.emonocot.api.SourceService;
 import org.emonocot.api.job.JobExecutionException;
 import org.emonocot.api.job.JobExecutionInfo;
 import org.emonocot.api.job.JobLaunchRequest;
 import org.emonocot.api.job.JobLauncher;
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.job.Job;
-import org.emonocot.model.job.JobType;
-import org.emonocot.model.pager.Page;
-import org.emonocot.model.source.Source;
+import org.emonocot.model.Annotation;
+import org.emonocot.model.Job;
+import org.emonocot.model.Source;
+import org.emonocot.model.constants.JobType;
+import org.emonocot.pager.Page;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
-import org.emonocot.service.JobDataService;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.slf4j.Logger;
@@ -73,13 +71,8 @@ public class SourceController extends GenericController<Source, SourceService> {
 	private JobLauncher jobLauncher;
 
 	/**
-    *
-    */
-	private JobDataService jobDataService;
-
-	/**
-   *
-   */
+     *
+     */
 	private AnnotationService annotationService;
 
 	/**
@@ -122,16 +115,6 @@ public class SourceController extends GenericController<Source, SourceService> {
        this.annotationService = newAnnotationService;
    }
 
-   /**
-    *
-    * @param newJobDataService
-    *            Set the job service
-    */
-   @Autowired
-   public final void setJobDataService(final JobDataService newJobDataService) {
-       this.jobDataService = newJobDataService;
-   }
-
 	/**
 	 * 
 	 * @param model
@@ -142,12 +125,12 @@ public class SourceController extends GenericController<Source, SourceService> {
 	 *            Set the offset
 	 * @return the name of the view
 	 */
-	@RequestMapping(method = RequestMethod.GET, params = "!form")
+	@RequestMapping(method = RequestMethod.GET, params = "!form", produces = "text/html")
 	public final String list(
 			final Model model,
-			@RequestParam(value = "page", defaultValue = "0", required = false) final Integer page,
+			@RequestParam(value = "start", defaultValue = "0", required = false) final Integer start,
 			@RequestParam(value = "size", defaultValue = "10", required = false) final Integer size) {
-		model.addAttribute("result", getService().list(page, size));
+		model.addAttribute("result", getService().list(start, size, null));
 		return "source/list";
 	}
 
@@ -157,7 +140,7 @@ public class SourceController extends GenericController<Source, SourceService> {
 	 *            Set the model
 	 * @return the name of the view
 	 */
-	@RequestMapping(method = RequestMethod.GET, params = "form")
+	@RequestMapping(method = RequestMethod.GET, params = "form", produces = "text/html")
 	public final String create(final Model model) {
 		model.addAttribute(new Source());
 		return "source/create";
@@ -172,7 +155,7 @@ public class SourceController extends GenericController<Source, SourceService> {
 	 *            Set the binding results
 	 * @return a model and view
 	 */
-	@RequestMapping(method = RequestMethod.POST, headers = "Accept=text/html")
+	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
 	public final String post(@Valid final Source source,
 			final BindingResult result, final HttpSession session) {
 		if (result.hasErrors()) {
@@ -215,7 +198,7 @@ public class SourceController extends GenericController<Source, SourceService> {
 	 *            Set the identifier
 	 * @return the name of the view
 	 */
-	@RequestMapping(value = "/{identifier}", method = RequestMethod.GET, params = "form")
+	@RequestMapping(value = "/{identifier}", method = RequestMethod.GET, params = "form", produces = "text/html")
 	public final String update(@PathVariable final String identifier,
 			final Model model) {
 		model.addAttribute(getService().load(identifier));
@@ -233,7 +216,7 @@ public class SourceController extends GenericController<Source, SourceService> {
 	 *            Set the binding results
 	 * @return the model name
 	 */
-	@RequestMapping(value = "/{identifier}", method = RequestMethod.POST, headers = "Accept=text/html")
+	@RequestMapping(value = "/{identifier}", method = RequestMethod.POST, produces = "text/html")
 	public final String post(
 			@PathVariable("identifier") final String identifier,
 			@Valid final Source source, final BindingResult result,
@@ -251,7 +234,7 @@ public class SourceController extends GenericController<Source, SourceService> {
 		persistedSource.setPublisherName(source.getPublisherName());
 		persistedSource.setPublisherEmail(source.getPublisherEmail());
 		persistedSource.setSubject(source.getSubject());
-		persistedSource.setSource(source.getSource());
+		persistedSource.setBibliographicCitation(source.getBibliographicCitation());
 		persistedSource.setLogoUrl(source.getLogoUrl());
 		getService().saveOrUpdate(persistedSource);
 		String[] codes = new String[] { "source.updated" };
@@ -327,12 +310,12 @@ public class SourceController extends GenericController<Source, SourceService> {
 	 *            Set the binding results
 	 * @return a model and view
 	 */
-	@RequestMapping(value = "/{identifier}/job", method = RequestMethod.POST, headers = "Accept=text/html")
+	@RequestMapping(value = "/{sourceIdentifier}/job", method = RequestMethod.POST, produces = "text/html")
 	public final String post(
-			@PathVariable("identifier") final String identifier,
+			@PathVariable("sourceIdentifier") final String sourceIdentifier,
 			final Model model, @Valid final Job job,
 			final BindingResult result, final HttpSession session) {
-		Source source = getService().find(identifier, "source-with-jobs");
+		Source source = getService().find(sourceIdentifier, "source-with-jobs");
 		if (result.hasErrors()) {
 			model.addAttribute("source", source);
 			populateForm(model, job, new JobParameterDto());
@@ -347,7 +330,7 @@ public class SourceController extends GenericController<Source, SourceService> {
 		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
 				codes, args);
 		session.setAttribute("info", message);
-		return "redirect:/source/" + identifier + "/job";
+		return "redirect:/source/" + sourceIdentifier + "/job";
 	}
 
 	/**
@@ -453,7 +436,7 @@ public class SourceController extends GenericController<Source, SourceService> {
 	 * 
 	 * @return the view name
 	 */
-	@RequestMapping(value = "/{identifier}/job/{jobId}", method = RequestMethod.POST, headers = "Accept=text/html", params = "run")
+	@RequestMapping(value = "/{identifier}/job/{jobId}", method = RequestMethod.POST, produces = "text/html", params = "run")
 	public final String run(
 			@PathVariable("identifier") final String identifier,
 			@PathVariable("jobId") final String jobId, final Model model,
@@ -575,7 +558,7 @@ public class SourceController extends GenericController<Source, SourceService> {
 	 *            Set the binding results
 	 * @return the view name
 	 */
-	@RequestMapping(value = "/{identifier}/job/{jobId}", method = RequestMethod.POST, headers = "Accept=text/html", params = {"!run","!parameters"})
+	@RequestMapping(value = "/{identifier}/job/{jobId}", method = RequestMethod.POST, produces = "text/html", params = {"!run","!parameters"})
 	public final String post(
 			@PathVariable("identifier") final String identifier,
 			@PathVariable("jobId") final String jobId, final Model model,
@@ -618,35 +601,6 @@ public class SourceController extends GenericController<Source, SourceService> {
 	/**
 	 * @param identifier
 	 *            Set the identifier of the source
-	 * @param jobId
-	 *            set the job Id
-	 * @param model
-	 *            Set the model
-	 * @return the view name
-	 */
-	@RequestMapping(value = "/{identifier}/job/{jobId}", method = RequestMethod.GET, params = "output")
-	public final String output(
-			@PathVariable final String identifier,
-			@PathVariable final Long jobId,
-			@RequestParam(value = "recordType", required = false) final String recordType,
-			final Model model) {
-		model.addAttribute(getService().load(identifier));
-		model.addAttribute("job", jobDataService.find(jobId));
-
-		if (recordType == null) {
-			model.addAttribute("results", jobDataService.countObjects(jobId));
-			return "source/job/output";
-		} else {
-			model.addAttribute("recordType", recordType);
-			model.addAttribute("results",
-					jobDataService.countErrors(jobId, recordType));
-			return "source/job/outputDetails";
-		}
-	}
-
-	/**
-	 * @param identifier
-	 *            Set the identifier of the source
 	 * @param query
 	 *            Set the query
 	 * @param jobId
@@ -661,35 +615,35 @@ public class SourceController extends GenericController<Source, SourceService> {
 	 *            Set the model
 	 * @return A model and view containing a source
 	 */
-	@RequestMapping(value = "/{identifier}/job/{jobId}", method = RequestMethod.GET, params = "details")
-	public final String details(
+	@RequestMapping(value = "/{identifier}/job/{jobId}/output", method = RequestMethod.GET)
+	public final String search(
 			@PathVariable final String identifier,
 			@PathVariable final Long jobId,
 			@RequestParam(value = "query", required = false) final String query,
-			@RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
-			@RequestParam(value = "limit", required = false, defaultValue = "10") final Integer limit,
-			@RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
-			final Model model) {
+		    @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+		    @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
+		    @RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
+		    @RequestParam(value = "sort", required = false) String sort,
+		    @RequestParam(value = "view", required = false) String view,
+		    final Model model) {
 		model.addAttribute(getService().load(identifier));
-		model.addAttribute("job", jobDataService.find(jobId));
-		Map<FacetName, String> selectedFacets = new HashMap<FacetName, String>();
+		Map<String, String> selectedFacets = new HashMap<String, String>();
 		if (facets != null && !facets.isEmpty()) {
 			for (FacetRequest facetRequest : facets) {
 				selectedFacets.put(facetRequest.getFacet(),
 						facetRequest.getSelected());
 			}
 		}
-		selectedFacets.put(FacetName.JOB_INSTANCE, jobId.toString());
+		selectedFacets.put("annotation.job_id_l", jobId.toString());
 		Page<Annotation> result = annotationService.search(query, null, limit,
-				start, new FacetName[] { FacetName.ERROR_CODE,
-						FacetName.ISSUE_TYPE, FacetName.RECORD_TYPE,
-						FacetName.JOB_INSTANCE }, selectedFacets, null,
+				start, new String[] { "annotation.code_s",
+				"annotation.type_s", "annotation.record_type_s",
+				"annotation.job_id_l" }, selectedFacets, null,
 				"annotated-obj");
 		result.putParam("query", query);
-		result.putParam("details",true);
 		model.addAttribute("jobId",jobId);
 		model.addAttribute("result", result);
 
-		return "source/job/details";
+		return "source/job/output";
 	}
 }

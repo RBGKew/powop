@@ -14,22 +14,6 @@
 		<div class="row">
 			<div class="span12">
 				<div class="inner">
-				    <!-- <div class="row">
-				        <table class="unstyled">
-                            <tr>
-                                <span class="badge badge-warning">
-                                    <i class="icon-wrench"></i> 
-                                </span> This indicates features that we are currently working on/ will
-                                be available later in the project.
-                            </tr>
-                            <tr>
-                                <span class="badge badge-info">
-                                    <i class="icon-ok"></i> 
-                                </span> This indicates features that we have developed and relased for
-                                use. 
-                            </tr>
-				        </table>
-				    </div> -->
 					<div class="box">
 						<div class="pull-right">
 							<c:url value="/css/images/identify.png" var="identifyImg" />
@@ -41,41 +25,42 @@
 						<p class="justified">Use the illustrated, multi-access
 							identification keys to identify species. You can select
 							characters in any order (unlike traditional identification keys).
-							Browse for images and view them in a grid or an image gallery.</p>
+							Browse for images and view them in a grid or an image gallery.
+						</p>
 						<table class="table">
 							<tr>
-							    <c:url value="/key/5b4bf746-f1c5-4ff7-98ab-2525594a04f0" var="familyKeyUrl" />
-                                <td>
-                                    <a href="${familyKeyUrl}"> Key to Monocot Familes</a>
+                                <td class="span6">
+                                    <c:url value="/key/5b4bf746-f1c5-4ff7-98ab-2525594a04f0" var="familyKeyUrl" />
+                                    <a href="${familyKeyUrl}">Key to Monocot Familes</a>
                                 </td>
-                                <td>
-                                    <span class="label label-info">
+                                <td class="span4">
+                                    <span class="label label-success">
 									    <spring:message code="tool.implemented" />
 								    </span>
                                 </td>
                             </tr>
 							<tr>
-                                <td>
+                                <td class="span6">
 								    <c:url var="keySearchUrl" value="/search">
-										<c:param name="facet" value="CLASS.org.emonocot.model.key.IdentificationKey" />
+										<c:param name="facet" value="base.class_s:org.emonocot.model.IdentificationKey" />
 									</c:url>
-                                    <a href="${keySearchUrl}"> Search for Keys</a>
+                                    <a href="${keySearchUrl}">Search for Keys</a>
                                 </td>
-                                <td>
-	                                <span class="label label-info">
+                                <td class="span4">
+	                                <span class="label label-success">
 	                                    <spring:message code="tool.implemented" />
 									</span>
 								</td>
 							</tr>
 							<tr>
-								<td>
+								<td class="span6">
 								    <c:url var="imageSearchUrl" value="/search">
-										<c:param name="facet" value="CLASS.org.emonocot.model.media.Image" />
+										<c:param name="facet" value="base.class_s:org.emonocot.model.Image"/>
 									</c:url>
-								    <a href="${imageSearchUrl}"> Browse Images</a>
+								    <a href="${imageSearchUrl}">Browse Images</a>
                                 </td>
-                                <td>
-                                    <span class="label label-info">
+                                <td class="span4">
+                                    <span class="label label-success">
                                         <spring:message code="tool.implemented" />
                                     </span>
                                 </td>
@@ -96,24 +81,25 @@
 							organised according to a dynamic, consensus classification. This
 							classification is based on the opinions of the taxonomic
 							communities contributing to eMonocot and is updated regularly as
-							new information becomes available.</p>
+							new information becomes available.
+						</p>
 						<table class="table">
 							<tr>
-                                <c:url value="/classification" var="classificationUrl" />
-                                <td>
-								    <a class="classification-link" href="${classificationUrl}">Dynamic, Consensus Taxonomic Classification </a>
+                                <td class="span6">
+                                    <c:url value="/classification" var="classificationUrl" />
+								    <a class="classification-link" href="${classificationUrl}">Dynamic, Consensus Taxonomic Classification</a>
                                 </td>
-                                <td>
-                                    <span class="label label-info">
+                                <td class="span4">
+                                    <span class="label label-success">
                                         <spring:message code="tool.implemented" />
                                     </span>
                                 </td>
 							</tr>
 							<tr>
-								<td>
-                                    <a href="http://build.e-monocot.org/mocks/phylogeny.html">Phylogeny Browser </a>
+								<td class="span6">
+                                    <a href="http://build.e-monocot.org/mocks/phylogeny.html">Phylogeny Browser</a>
                                 </td>
-                                <td>
+                                <td class="span4">
 									<span class="label label-warning">
 										<spring:message code="tool.mocked" />
 									</span>
@@ -121,7 +107,7 @@
 							</tr>
 							<tr>
 								<td>
-                                    <a href="http://build.e-monocot.org/mocks/match.html">Checklist Validator </a>
+                                    <a href="http://build.e-monocot.org/mocks/match.html">Checklist Validator</a>
                                 </td>
                                 <td>
                                     <span class="label label-warning">
@@ -151,33 +137,32 @@
 							life-form or habitat types of your chosen taxa.</p>
 						<table class="table">
 							<tr>
-							    <td>
+							    <td class="span6">
                                     <c:url value="/search?query=" var="searchUrl" />
 								    <a href="${searchUrl}">Powerful Search and Faceting</a>
                                 </td>
-                                <td>
-                                    <span class="label label-info">
+                                <td class="span4">
+                                    <span class="label label-success">
                                         <spring:message code="tool.implemented" />
                                     </span>
                                 </td>
 							</tr>
 							<tr>
-                                <td>
+                                <td class="span6">
     							    <c:url value="/spatial?query=" var="spatialUrl" />
                                     <a href="${spatialUrl}">Map-Based Searching</a>
                                 </td>
-                                <td>
-                                    <span class="label label-info">
+                                <td class="span4">
+                                    <span class="label label-success">
                                         <spring:message code="tool.implemented" />
                                     </span>
                                 </td>
 							</tr>
 							<tr>
-								<td>
-									<a href="http://build.e-monocot.org/mocks/explore.html">Ad-hoc
-										analysis and visualization</a>
+								<td class="span6">
+									<a href="http://build.e-monocot.org/mocks/explore.html">Ad-hoc analysis and visualization</a>
                                 </td>
-                                <td>
+                                <td class="span4">
                                     <span class="label label-warning">
                                         <spring:message code="tool.mocked" />
                                     </span>

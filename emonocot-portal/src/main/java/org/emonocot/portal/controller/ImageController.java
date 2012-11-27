@@ -3,7 +3,7 @@ package org.emonocot.portal.controller;
 
 import org.emonocot.api.ImageService;
 import org.emonocot.api.TaxonService;
-import org.emonocot.model.media.Image;
+import org.emonocot.model.Image;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,11 +58,11 @@ public class ImageController extends GenericController<Image, ImageService> {
      * @param model Set the model
      * @return the name of the view
      */
-    @RequestMapping(value = "/{identifier}", method = RequestMethod.GET)
-    public final String getPage(@PathVariable final String identifier,
-            final Model model) {
-        Image image = getService().load(identifier, "image-page");
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "text/html")
+    public final String show(@PathVariable final Long id, final Model model) {
+        Image image = getService().load(id, "image-page");
         model.addAttribute(image);
+        // TODO add opensession in view filter and remove this code
         if (image.getTaxon() != null) {
             model.addAttribute(taxonService.load(image.getTaxon()
                     .getIdentifier(), "taxon-page"));

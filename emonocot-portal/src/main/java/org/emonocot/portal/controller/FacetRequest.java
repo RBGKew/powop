@@ -1,6 +1,6 @@
 package org.emonocot.portal.controller;
 
-import org.emonocot.api.FacetName;
+import org.emonocot.pager.FacetName;
 
 /**
  *
@@ -8,39 +8,23 @@ import org.emonocot.api.FacetName;
  *
  */
 public class FacetRequest {
-    /**
-     * The name of the facet.
-     */
-    private FacetName facet;
-    /**
-     * The selected facet.
-     */
+
+    private String facet;
+
     private String selected;
 
-    /**
-     * @return the facet
-     */
-    public final FacetName getFacet() {
+    public final String getFacet() {
         return facet;
     }
 
-    /**
-     * @param newFacet the facet to set
-     */
-    public final void setFacet(final FacetName newFacet) {
+    public final void setFacet(final String newFacet) {
         this.facet = newFacet;
     }
 
-    /**
-     * @return the selected
-     */
     public final String getSelected() {
         return selected;
     }
 
-    /**
-     * @param newSelected the selected to set
-     */
     public final void setSelected(final String newSelected) {
         this.selected = newSelected;
     }

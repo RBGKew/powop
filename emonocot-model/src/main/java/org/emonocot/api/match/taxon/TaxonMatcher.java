@@ -6,7 +6,7 @@ package org.emonocot.api.match.taxon;
 import java.util.List;
 
 import org.emonocot.api.match.Match;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Taxon;
 import org.gbif.ecat.model.ParsedName;
 
 /**

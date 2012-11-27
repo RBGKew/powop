@@ -1,8 +1,8 @@
 package org.emonocot.job.dwc.taxon;
 
 import org.emonocot.job.dwc.DarwinCoreProcessingException;
-import org.emonocot.model.common.AnnotationCode;
-import org.emonocot.model.common.RecordType;
+import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.RecordType;
 
 /**
  *

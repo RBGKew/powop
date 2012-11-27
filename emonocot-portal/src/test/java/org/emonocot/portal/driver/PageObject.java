@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.emonocot.portal.remoting.IdentificationKeyDaoImpl;
+import org.emonocot.portal.remoting.ImageDaoImpl;
 import org.emonocot.test.TestDataManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
@@ -94,6 +96,16 @@ public class PageObject {
      *
      */
     protected WebDriver webDriver;
+    
+    /**
+    *
+    */
+    protected ImageDaoImpl imageDao;
+    
+    /**
+    *
+    */
+    protected IdentificationKeyDaoImpl keyDao;
 
     /**
     *
@@ -139,6 +151,8 @@ public class PageObject {
             loginPage.setBaseUri(baseUri);
             loginPage.testDataManager = this.testDataManager;
             loginPage.webDriver = this.webDriver;
+            loginPage.imageDao = this.imageDao;
+            loginPage.keyDao = this.keyDao;
             throw new RequiresLoginException(loginPage);
         }
         return getPage(pageClass);
@@ -156,6 +170,8 @@ public class PageObject {
         pageObject.setBaseUri(baseUri);
         pageObject.testDataManager = this.testDataManager;
         pageObject.webDriver = this.webDriver;
+        pageObject.imageDao = this.imageDao;
+        pageObject.keyDao = this.keyDao;
         return pageObject;
     }
 

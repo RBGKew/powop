@@ -10,12 +10,7 @@
 	<context:annotation-config />
 
 	<batch:job id="OaiPmhTaxonHarvesting">
-	    <batch:description>Harvests records from an OAI-PMH repository</batch:description>
-	    <batch:step id="loadRegions">
-	      <batch:description>Load the Regions Shapefiles for indexing</batch:description>
-	      <batch:tasklet ref="loadRegionShapesTasklet" />			
-		  <batch:next on="COMPLETED" to="setTemporaryFilename" />
-	    </batch:step>
+	    <batch:description>Harvests records from an OAI-PMH repository</batch:description>	    
 	    <batch:step id="setTemporaryFilename">
 			<batch:description>Set the temporary file name</batch:description>
 			<batch:tasklet ref="setTemporaryFilenameTasklet" />			
@@ -43,7 +38,6 @@
 				  <batch:listener ref="taxonItemProcessor" />
 				  <batch:listener ref="taxonItemValidator" />
 				  <batch:listener ref="taxonRelationshipResolver"/>
-				  <batch:listener ref="hibernateSessionClearingChunkListener"/>
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="resumeHarvesting">
@@ -69,19 +63,13 @@
 	        <batch:next on="COMPLETED" to="cleanupResources"/>
 	        <batch:listeners>
 	          <batch:listener ref="nullItemProcessor"/>
-	          <batch:listener ref="hibernateSessionClearingChunkListener"/>
 	        </batch:listeners>
 	    </batch:step>
 		<batch:step id="cleanupResources">
 		    <batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="oaiPmhResourceDeletingTasklet" />
-			<batch:next on="COMPLETED" to="clearRegions"/>
-		</batch:step>
-		<batch:step id="clearRegions">
-	      <batch:description>Clear region shapefiles</batch:description>
-	      <batch:tasklet ref="clearRegionShapesTasklet" />			
-		  <batch:end on="COMPLETED"/>
-	    </batch:step>
+			<batch:end on="COMPLETED"/>
+		</batch:step>		
 		<batch:listeners>
 		  <batch:listener ref="jobStatusListener"/>
 		</batch:listeners>	
@@ -208,13 +196,12 @@
 	</bean>
 	
 	<bean id="nullItemReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
-	  <property name="useStatelessSession" value="false"/>
 	  <property name="sessionFactory" ref="sessionFactory" />
-	  <property name="queryString" value="select t.identifier from Taxon t left join t.annotations a where a.jobId = :jobId and a.code = :code and t.name is null"/>
+	  <property name="queryString" value="select t.identifier from Taxon t left join t.annotations a where a.jobId = :jobId and a.code = :code and t.scientificName is null"/>
 	  <property name="parameterValues">
 	    <map>
 	     <entry key="jobId" value="#{stepExecution.jobExecutionId}"/>
-	     <entry key="code" value="#{T(org.emonocot.model.common.AnnotationCode).Create}"/>
+	     <entry key="code" value="#{T(org.emonocot.model.constants.AnnotationCode).Create}"/>
 	    </map>
 	  </property>
 	</bean>
@@ -242,10 +229,8 @@
 
 	<bean id="itemWriter" class="org.emonocot.job.oaipmh.Writer">
 		<property name="sessionFactory" ref="sessionFactory" />
-		<property name="clearSession" value="false"/>
 	</bean>
 	
-	<bean id="hibernateSessionClearingChunkListener" class="org.emonocot.harvest.common.HibernateSessionClearingChunkListener"/>
 	
 	<bean id="nullItemProcessor" class="org.emonocot.job.oaipmh.NullTaxonProcessor" scope="step">
 	  <property name="oaiPmhClient" ref="oaiPmhClient"/>
@@ -256,15 +241,4 @@
 	  <property name="temporaryFileName" value="#{jobExecutionContext['temporary.file.name']}"/>
 	</bean>
 	
-	<bean id="loadRegionShapesTasklet"
-		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter">
-		<property name="targetObject" ref="distributionBridge"/>
-		<property name="targetMethod" value="setupRegions" />		
-	</bean>
-	
-	<bean id="clearRegionShapesTasklet"
-		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter">
-		<property name="targetObject" ref="distributionBridge"/>
-		<property name="targetMethod" value="clearRegions" />		
-	</bean>
 </beans>

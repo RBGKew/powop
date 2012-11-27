@@ -2,8 +2,8 @@ package org.emonocot.portal.view.bibliography;
 
 import java.util.List;
 
-import org.emonocot.model.reference.Reference;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Reference;
+import org.emonocot.model.Taxon;
 
 /**
  *

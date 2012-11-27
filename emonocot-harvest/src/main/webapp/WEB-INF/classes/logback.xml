@@ -30,6 +30,6 @@
     <appender-ref ref="stdout"/>
   </logger>-->
   <logger name="org.emonocot.job" level="DEBUG" additivity="false">
-    <appender-ref ref="stdout"/>
+    <appender-ref ref="file"/>
   </logger>
 </configuration>

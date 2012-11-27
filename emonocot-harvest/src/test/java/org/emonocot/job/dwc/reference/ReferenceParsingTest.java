@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 import org.easymock.EasyMock;
 import org.emonocot.api.TaxonService;
-import org.emonocot.model.reference.Reference;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Reference;
+import org.emonocot.model.Taxon;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.item.ExecutionContext;

@@ -52,7 +52,7 @@
 										</c:if>
 									</td>
 								</tr>
-								<tr><th><spring:message code="source.source" /></th><td>${source.source}</td></tr>
+								<tr><th><spring:message code="source.source" /></th><td>${source.bibliographicCitation}</td></tr>
 							</tbody>
 						</table>
 					</div>
@@ -107,9 +107,7 @@
 													<td>${job.written}</td>
 													<td>
 														<c:if test="${job.written gt 0}">
-															<spring:url var="jobUrl" value="/source/${source.identifier}/job/${job.jobId}">
-																<spring:param name="output" value="true"/>
-															</spring:url>
+															<spring:url var="jobUrl" value="/source/${source.identifier}/job/${job.jobId}/output"/>
 															<a href="${jobUrl}"><spring:message code="see.report"/></a>
 														</c:if>
 													</td>

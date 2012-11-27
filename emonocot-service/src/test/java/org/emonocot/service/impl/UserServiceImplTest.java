@@ -4,7 +4,7 @@ import static org.junit.Assert.assertFalse;
 
 import org.easymock.Capture;
 import org.easymock.EasyMock;
-import org.emonocot.model.user.User;
+import org.emonocot.model.auth.User;
 import org.emonocot.persistence.dao.UserDao;
 import org.junit.Before;
 import org.junit.Test;

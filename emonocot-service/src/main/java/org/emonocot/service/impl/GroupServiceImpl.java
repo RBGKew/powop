@@ -3,13 +3,15 @@ package org.emonocot.service.impl;
 import java.util.List;
 
 import org.emonocot.api.GroupService;
-import org.emonocot.model.common.SecuredObject;
-import org.emonocot.model.user.Group;
+import org.emonocot.model.SecuredObject;
+import org.emonocot.model.auth.Group;
 import org.emonocot.persistence.dao.AclService;
 import org.emonocot.persistence.dao.GroupDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.domain.PrincipalSid;
 import org.springframework.security.acls.model.AccessControlEntry;
@@ -69,6 +71,7 @@ public class GroupServiceImpl extends ServiceImpl<Group, GroupDao> implements
      * @param clazz
      *            Set the class of object
      */
+    @PreAuthorize("hasRole('PERMISSION_ADMINISTRATE')")
     @Transactional(readOnly = false)
     public void addPermission(final SecuredObject object,
             final String recipient, final Permission permission,
@@ -104,6 +107,7 @@ public class GroupServiceImpl extends ServiceImpl<Group, GroupDao> implements
      * @param clazz
      *            Set the class of object
      */
+    @PreAuthorize("hasRole('PERMISSION_ADMINISTRATE')")
     @Transactional(readOnly = false)
     public void deletePermission(final SecuredObject object,
             final String recipient, final Permission permission,

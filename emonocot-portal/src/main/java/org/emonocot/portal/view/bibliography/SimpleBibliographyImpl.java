@@ -7,9 +7,9 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.apache.commons.collections.comparators.NullComparator;
-import org.emonocot.model.description.TextContent;
-import org.emonocot.model.reference.Reference;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Reference;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.Description;
 
 /**
  *
@@ -30,7 +30,7 @@ public class SimpleBibliographyImpl implements Bibliography {
         SortedSet<Reference> refs = new TreeSet<Reference>(
                 new ReferenceComparator());
         refs.addAll(taxon.getReferences());
-        for (TextContent t : taxon.getContent().values()) {
+        for (Description t : taxon.getDescriptions()) {
             refs.addAll(t.getReferences());
         }
         references.addAll(refs);
@@ -80,13 +80,13 @@ public class SimpleBibliographyImpl implements Bibliography {
          *         otherwise
          */
         public final int compare(final Reference o1, final Reference o2) {
-        	int compareDate = nullSafeStringComparator.compare(o1.getDatePublished(), o2.getDatePublished());
+        	int compareDate = nullSafeStringComparator.compare(o1.getDate(), o2.getDate());
         	if(compareDate == 0) {
-        		int compareAuthor = nullSafeStringComparator.compare(o1.getAuthor(), o2.getAuthor());
+        		int compareAuthor = nullSafeStringComparator.compare(o1.getCreator(), o2.getCreator());
         		if(compareAuthor == 0) {
         			int compareTitle = nullSafeStringComparator.compare(o1.getTitle(), o2.getTitle());
         			if(compareTitle == 0) {
-        				int compareCitation = nullSafeStringComparator.compare(o1.getCitation(), o2.getCitation());
+        				int compareCitation = nullSafeStringComparator.compare(o1.getBibliographicCitation(), o2.getBibliographicCitation());
         				if(compareCitation == 0) {
         					return nullSafeStringComparator.compare(o1.getIdentifier(), o2.getIdentifier());
         				} else {

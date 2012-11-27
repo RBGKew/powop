@@ -3,13 +3,8 @@
  */
 package org.emonocot.portal.remoting;
 
-import java.util.List;
-import java.util.Map;
-
-import org.emonocot.api.FacetName;
-import org.emonocot.api.Sorting;
 import org.emonocot.model.geography.Place;
-import org.emonocot.model.pager.Page;
+import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.PlaceDao;
 import org.springframework.stereotype.Repository;
 

@@ -1,25 +1,28 @@
-/**
- * 
- */
 package org.emonocot.model.geography;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.emonocot.model.common.SearchableObject;
+import org.emonocot.model.Annotation;
+import org.emonocot.model.SearchableObject;
 import org.emonocot.model.marshall.json.ShapeDeserializer;
 import org.emonocot.model.marshall.json.ShapeSerializer;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
-import org.hibernate.search.annotations.DocumentId;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Fields;
-import org.hibernate.search.annotations.Index;
-import org.hibernate.search.annotations.Indexed;
+import org.hibernate.annotations.Where;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,20 +32,20 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
+import com.vividsolutions.jts.io.WKTWriter;
+import com.vividsolutions.jts.simplify.TopologyPreservingSimplifier;
 
 /**
  * @author jk00kg
  *
  */
 @Entity
-@Indexed(index = "org.emonocot.model.common.SearchableObject")
 public class Place extends SearchableObject {
 
     /**
      *
      */
-    private static Logger logger = LoggerFactory
-            .getLogger(Place.class);
+    private static Logger logger = LoggerFactory.getLogger(Place.class);
 
 	/**
 	 * 
@@ -52,7 +55,7 @@ public class Place extends SearchableObject {
 	/**
 	 * 
 	 */
-	private String name;
+	private String title;
 	
 	/**
 	 * 
@@ -68,25 +71,19 @@ public class Place extends SearchableObject {
 	 * A JTS Polygon for this place
 	 * @see com.vividsolutions.jts.geom.Polygon
 	 */
-	private MultiPolygon shape;
+	private Geometry shape;
 
 	/**
 	 * Used for a single point reference of a place.
 	 * Usually in place of a shape, but possibly 
 	 */
 	private Point point;
+	
+	private Set<Annotation> annotations = new HashSet<Annotation>();
 
-	/**
-	 * The smallest rectangle that bounds the place.
-	 * TODO: It is persisted to  optimise querying   
-	 */
 
-	/* (non-Javadoc)
-	 * @see org.emonocot.model.common.SecuredObject#getId()
-	 */
     @Id
     @GeneratedValue(generator = "system-increment")
-    @DocumentId
 	public Long getId() {
 		return id;
 	}
@@ -94,23 +91,22 @@ public class Place extends SearchableObject {
     /**
      * @param id the id to set
      */
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
 	/**
 	 * @return the name
 	 */
-    @Fields(value={@Field, @Field(name="label", index=Index.UN_TOKENIZED)})
-	public String getName() {
-		return name;
+	public String getTitle() {
+		return title;
 	}
 
 	/**
 	 * @param name the name to set
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setTitle(final String name) {
+		this.title = name;
 	}
 
 	/**
@@ -123,7 +119,7 @@ public class Place extends SearchableObject {
 	/**
 	 * @param fipsCode the fipsCode to set
 	 */
-	public void setFipsCode(String fipsCode) {
+	public void setFipsCode(final String fipsCode) {
 		this.fipsCode = fipsCode;
 	}
 
@@ -137,7 +133,7 @@ public class Place extends SearchableObject {
 	/**
 	 * @param mapFeatureId the mapFeatureId to set
 	 */
-	public void setMapFeatureId(Long mapFeatureId) {
+	public void setMapFeatureId(final Long mapFeatureId) {
 		this.mapFeatureId = mapFeatureId;
 	}
 
@@ -146,7 +142,7 @@ public class Place extends SearchableObject {
 	 */
 	@Type(type="spatialType")
 	@JsonSerialize(using=ShapeSerializer.class)
-	public MultiPolygon getShape() {
+	public Geometry getShape() {
 		return shape;
 	}
 
@@ -155,15 +151,7 @@ public class Place extends SearchableObject {
 	 */
 	@JsonDeserialize(using=ShapeDeserializer.class)
 	public void setShape(Geometry shape) {
-		try{
-			if(shape instanceof Polygon){
-				this.shape = new MultiPolygon(new Polygon[] {(Polygon)shape}, new GeometryFactory());
-			} else {
-				this.shape = (MultiPolygon) shape;
-			}
-		} catch (ClassCastException e) {
-			logger.error("Unable to get multipolygon from" + shape.toText() + " " + shape, e);
-		}
+		this.shape = shape;
 		
 	}
 
@@ -203,5 +191,37 @@ public class Place extends SearchableObject {
 			return new Envelope();
 		} 
     }
+	
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "annotatedObjId")
+    @Where(clause = "annotatedObjType = 'Place'")
+    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+    @JsonIgnore
+    public Set<Annotation> getAnnotations() {
+        return annotations;
+    }
 
+    /**
+     * @param annotations
+     *            the annotations to set
+     */
+    public void setAnnotations(Set<Annotation> annotations) {
+        this.annotations = annotations;
+    }
+
+    @Override
+    public SolrInputDocument toSolrInputDocument() {
+    	SolrInputDocument sid = super.toSolrInputDocument();
+    	sid.addField("searchable.label_sort", getTitle());
+    	addField(sid,"place.fips_code_t", getFipsCode());
+    	StringBuilder summary = new StringBuilder().append(getTitle()).append(" ").append(getFipsCode());
+    	sid.addField("searchable.solrsummary_t", summary);
+    	try {
+    		WKTWriter wktWriter = new WKTWriter();
+    		sid.addField("geo", wktWriter.write(TopologyPreservingSimplifier.simplify(getShape(),0.01)));
+		} catch (Exception e) {
+			logger.error(e.getLocalizedMessage());
+		}
+    	return sid;
+    }
 }

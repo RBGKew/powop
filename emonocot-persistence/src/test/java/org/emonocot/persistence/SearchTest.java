@@ -3,26 +3,21 @@ package org.emonocot.persistence;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.emonocot.api.FacetName;
-import org.emonocot.api.Sorting;
-import org.emonocot.api.Sorting.SortDirection;
-import org.emonocot.model.common.SearchableObject;
-import org.emonocot.model.description.Feature;
+import org.apache.solr.client.solrj.response.FacetField;
+import org.apache.solr.client.solrj.response.FacetField.Count;
+import org.emonocot.model.SearchableObject;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.Country;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.Region;
-import org.emonocot.model.hibernate.DistributionBridge;
-import org.emonocot.model.pager.Page;
-import org.emonocot.model.taxon.Taxon;
-import org.hibernate.search.query.facet.Facet;
+import org.emonocot.pager.Page;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -31,15 +26,7 @@ import org.junit.Test;
  *
  */
 public class SearchTest extends AbstractPersistenceTest {
-
-    /**
-     *
-     */
-    @BeforeClass
-    public static void doSetupRegions() throws IOException {
-       DistributionBridge distributionBridge = new DistributionBridge();
-       distributionBridge.setupRegions();
-    }
+	
     /**
      * @throws java.lang.Exception
      *             if there is a problem
@@ -65,7 +52,7 @@ public class SearchTest extends AbstractPersistenceTest {
     public final void setUpTestData() {
         Taxon taxon1 = createTaxon("Aus", "1", null, null, "Aaceae", null, null,
                 null, null, null, null, new GeographicalRegion[] {}, null);
-        createTextContent(taxon1, Feature.habitat, "Lorem ipsum", null);
+        createTextContent(taxon1, DescriptionType.habitat, "Lorem ipsum", null);
         Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null, "Aaceae", null,
                 null, null, null, null, null,
                 new GeographicalRegion[] {Continent.AUSTRALASIA,
@@ -88,8 +75,10 @@ public class SearchTest extends AbstractPersistenceTest {
      */
     @Test
     public final void testSearch() {
-        Page<Taxon> page = getTaxonDao().search("name:Aus", null, null, null,
-                new FacetName[] {FacetName.CONTINENT }, null, null, null);
+        Page<Taxon> results = getTaxonDao().search("taxon.scientific_name_t:Aus", null, null, null,
+                new String[] {"taxon.distribution_TDWG_0_ss" }, null, null, null);
+        assertEquals("There should be 5 taxa matching Aus", new Integer(5), (Integer)results.getSize());
+        
     }
 
     /**
@@ -97,26 +86,20 @@ public class SearchTest extends AbstractPersistenceTest {
     */
     @Test
     public final void testRestrictedSearch() {
-        Map<FacetName, String> selectedFacets = new HashMap<FacetName, String>();
+        Map<String, String> selectedFacets = new HashMap<String, String>();
 
-        selectedFacets.put(FacetName.CONTINENT, "AUSTRALASIA");
+        selectedFacets.put("taxon.distribution_TDWG_0_ss", "AUSTRALASIA");
 
-        Page<Taxon> page = getTaxonDao().search("name:Aus", null, null, null,
-                new FacetName[] {FacetName.CONTINENT , FacetName.REGION}, selectedFacets, null, null);
-    }
-
-    /**
-     *
-     */
-    @Test
-    public final void testSpatialSearch() {
-        //testSpatialSearch() should return Aus bus but not Aus ceus
-        Page<Taxon> page = getTaxonDao().search(
-        null, "Intersects(150.00 -40.0 160.0 -20.0)", null, null, null,
-                null, null, null);
-        for (Taxon t : page.getRecords()) {
-            System.out.println(t.getName());
-        }
+        Page<Taxon> results = getTaxonDao().search("taxon.scientific_name_t:Aus", null, null, null,
+                new String[] {"taxon.distribution_TDWG_0_ss" , "taxon.distribution_TDWG_1_ss"}, selectedFacets, null, null);
+        assertEquals("There should be 2 taxa matching Aus found in AUSTRALASIA", new Integer(2), (Integer)results.getSize());
+        for(String facetName : results.getFacetNames()) {
+      	   System.out.println(facetName);
+      	   FacetField facet = results.getFacetField(facetName);
+      	   for(Count count : facet.getValues()) {
+      		   System.out.println("\t" + count.getName() + " " + count.getCount());
+      	   }
+         }
     }
 
     /**
@@ -146,7 +129,7 @@ public class SearchTest extends AbstractPersistenceTest {
     }
 
     /**
-     * Test method for {@link org.emonocot.persistence.dao.hibernate.TaxonDaoImpl#findByExample(org.emonocot.model.taxon.Taxon)}.
+     * Test method for {@link org.emonocot.persistence.dao.hibernate.TaxonDaoImpl#findByExample(org.emonocot.model.Taxon)}.
      */
     @Test
     public void testFindByExample() {
@@ -163,12 +146,10 @@ public class SearchTest extends AbstractPersistenceTest {
 	 */
     @Test
     public final void testSearchWithNulls() {
-        Page<SearchableObject> results = searchableObjectDao.search("", null, null, null, null, null, new Sorting("label", SortDirection.FORWARD), null);
+        Page<SearchableObject> results = searchableObjectDao.search("", null, null, null, null, null, "searchable.label_sort_asc", null);
 
         assertEquals("There should be 7 results", 7, results.getSize().intValue());
-        for(SearchableObject s : results.getRecords()) {
-        	System.out.println(s.getIdentifier());
-        }
+        
         assertEquals("The first results should be urn:kew.org:wcs:taxon:294463", "urn:kew.org:wcs:taxon:294463", results.getRecords().get(0).getIdentifier());
         
     }

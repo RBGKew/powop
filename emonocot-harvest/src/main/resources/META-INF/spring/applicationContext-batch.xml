@@ -67,8 +67,4 @@
 		<property name="jobLocator" ref="jobRegistry" />
 		<property name="dataSource" ref="dataSource" />
 	</bean>
-
-    <bean id="distributionBridge" class="org.emonocot.model.hibernate.DistributionBridge">
-      <property name="skipInit" value="false"/>
-    </bean>
 </beans>

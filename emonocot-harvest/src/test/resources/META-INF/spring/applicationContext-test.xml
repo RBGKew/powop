@@ -27,10 +27,8 @@
 		class="org.springframework.context.support.ConversionServiceFactoryBean">
 		<property name="converters">
 			<list>
+			    <bean class="org.emonocot.model.convert.RankConverter" />
 				<bean class="org.emonocot.model.geography.GeographyConverter" />
-				<bean class="org.emonocot.model.reference.ReferenceTypeConverter" />
-				<bean class="org.emonocot.model.taxon.TaxonomicStatusConverter" />
-				<bean class="org.emonocot.model.taxon.RankConverter" />
 			</list>
 		</property>
 	</bean>
@@ -86,8 +84,12 @@
 
 	<bean name="objectMapper" class="org.emonocot.model.marshall.json.CustomObjectMapperFactory"/>
 	
-	<bean id="resizeImagesProcessor" class="org.emonocot.harvest.media.ImageFileProcessor">
+	<bean id="imageFileProcessor" class="org.emonocot.harvest.media.ImageFileProcessor">
 	  <property name="getResourceClient" ref="getResourceClient" />
+	  <property name="imageDirectory" value="${harvester.image.directory}"/>
+	</bean>
+	
+	<bean id="imageThumbnailProcessor" class="org.emonocot.harvest.media.ImageThumbnailGenerator">
 	  <property name="thumbnailDirectory" value="${harvester.thumbnail.directory}"/>
 	  <property name="imageMagickSearchPath" value="${harvester.imagemagick.path}"/>
 	  <property name="imageDirectory" value="${harvester.image.directory}"/>
@@ -95,19 +97,9 @@
 	
 	<bean id="imageMetadataProcessor" class="org.emonocot.harvest.media.ImageMetadataExtractor">
 	  <property name="imageDirectory" value="${harvester.image.directory}"/>
-	</bean>	
-	
-	<bean id="distributionBridge" class="org.emonocot.model.hibernate.DistributionBridge">
-	  <property name="skipInit" value="false"/>
 	</bean>
 	
 	<bean id="bufferedReaderFactory" class="org.emonocot.harvest.common.BOMIgnoringBufferedReaderFactory"/>
-
-    <bean id="bhlProtologClient" class="org.emonocot.ws.BhlProtologClient">
-        <property name="proxyHost" value="${http.proxyHost}" />
-        <property name="proxyPort" value="${http.proxyPort}" />
-        <property name="webServiceUrl" value="http://build.e-monocot.org/test/bhlResponse.json?page=" />
-    </bean>
 
     <bean id="getResourceClient" class="org.emonocot.ws.GetResourceClient">
         <property name="proxyHost" value="${http.proxyHost}" />
@@ -121,8 +113,7 @@
             <property name="schemaLocations">
                 <list>
                     <value>classpath:/org/springframework/batch/core/schema-drop-h2.sql</value>
-                    <value>classpath:/org/springframework/batch/core/schema-h2.sql
-                    </value>
+                    <value>classpath:/org/springframework/batch/core/schema-h2.sql</value>
                     <value>classpath:/META-INF/database/H2_schema.ddl</value>
                 </list>
             </property>
@@ -136,29 +127,45 @@
                 <value>
                     hibernate.dialect=org.hibernatespatial.geodb.GeoDBDialect
                     hibernate.hbm2ddl.auto=validate
-                    hibernate.search.default.directory_provider=filesystem
-                    hibernate.search.default.indexBase=./target/indexes
+                    hibernate.validator.autoregister_listeners=false
                 </value>
             </property>
             <property name="annotatedClasses">
-                <list>
-                    <value>org.emonocot.model.job.Job</value>
-                    <value>org.emonocot.model.source.Source</value>
-                    <value>org.emonocot.model.identifier.Identifier</value>
-                    <value>org.emonocot.model.key.IdentificationKey</value>
-                    <value>org.emonocot.model.common.Annotation</value>
-                    <value>org.emonocot.model.description.Distribution</value>
-                    <value>org.emonocot.model.description.TextContent</value>
-                    <value>org.emonocot.model.media.Image</value>
-                    <value>org.emonocot.model.reference.Reference</value>
-                    <value>org.emonocot.model.taxon.Taxon</value>
-                    <value>org.emonocot.model.user.User</value>
-                    <value>org.emonocot.model.user.Group</value>
-                </list>
+              <list>
+			    <value>org.emonocot.model.Job</value>
+				<value>org.emonocot.model.Source</value>
+				<value>org.emonocot.model.Identifier</value>
+				<value>org.emonocot.model.IdentificationKey</value>
+				<value>org.emonocot.model.Annotation</value>
+				<value>org.emonocot.model.Distribution</value>
+				<value>org.emonocot.model.Description</value>
+				<value>org.emonocot.model.Image</value>
+				<value>org.emonocot.model.MeasurementOrFact</value>
+				<value>org.emonocot.model.Reference</value>
+				<value>org.emonocot.model.Taxon</value>
+				<value>org.emonocot.model.TypeAndSpecimen</value>
+				<value>org.emonocot.model.VernacularName</value>
+				<value>org.emonocot.model.auth.User</value>
+				<value>org.emonocot.model.auth.Group</value>
+				<value>org.emonocot.model.geography.Place</value>
+              </list>
             </property>
-            <property name="annotatedPackages" value="org.emonocot.model.common" />
+            <property name="eventListeners">
+      	      <map>        	
+                <entry key="post-delete" value-ref="solrIndexingListener" />
+      	      </map>
+    	    </property>       
+            <property name="annotatedPackages" value="org.emonocot.model" />
         </bean>
-    <!-- default beans -->
+        
+    <bean id="solrIndexingListener" class="org.emonocot.persistence.hibernate.SolrIndexingListener">
+	  <property name="solrServer" ref="solrServer"/>
+	</bean>
+
+	<bean id="solrServer" class="org.emonocot.test.EmbeddedSolrServerFactoryBean"
+	  destroy-method="shutdown">
+		<property name="solrHome" value="classpath:/META-INF/solr/"/>
+	</bean>
     
     <beans profile="proxy">
         <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory">
@@ -175,66 +182,4 @@
             </property>
         </bean>
     </beans>
-
-	<beans profile="mysql">
-		<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-			destroy-method="close">
-			<property name="driverClassName" value="${jdbc.driver.classname}" />
-			<property name="url" value="${jdbc.driver.url}" />
-			<property name="username" value="${jdbc.driver.username}" />
-			<property name="password" value="${jdbc.driver.password}" />
-			<property name="initialSize" value="8" />
-			<property name="maxActive" value="20" />
-			<property name="maxIdle" value="10" />
-			<property name="minIdle" value="1" />
-			<property name="maxWait" value="10000" />
-			<property name="removeAbandoned" value="true" />
-			<property name="removeAbandonedTimeout" value="300" />
-			<property name="logAbandoned" value="true" />
-			<property name="defaultAutoCommit" value="true" />
-			<property name="defaultReadOnly" value="false" />
-			<property name="validationQuery" value="SELECT 1" />
-			<property name="timeBetweenEvictionRunsMillis" value="60000" />
-			<property name="minEvictableIdleTimeMillis" value="30000" />
-			<property name="numTestsPerEvictionRun" value="3" />
-			<property name="testWhileIdle" value="true" />
-			<property name="testOnReturn" value="true" />
-			<property name="testOnBorrow" value="true" />
-			<property name="defaultTransactionIsolation" value="2" />
-		</bean>
-		<bean id="sessionFactory"
-			class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-			<property name="dataSource" ref="dataSource" />
-			<property name="hibernateProperties">
-				<value>
-					hibernate.dialect=org.hibernatespatial.mysql.MySQLSpatialDialect
-					hibernate.hbm2ddl.auto=validate
-					hibernate.search.default.directory_provider=filesystem
-					hibernate.search.default.indexBase=./target/indexes
-					hibernate.search.default.exclusive_index_use=true
-				</value>
-			</property>
-			<property name="annotatedClasses">
-                <list>
-                    <value>org.emonocot.model.job.Job</value>
-                    <value>org.emonocot.model.source.Source</value>
-                    <value>org.emonocot.model.identifier.Identifier</value>
-                    <value>org.emonocot.model.key.IdentificationKey</value>
-                    <value>org.emonocot.model.common.Annotation</value>
-                    <value>org.emonocot.model.description.Distribution</value>
-                    <value>org.emonocot.model.description.TextContent</value>
-                    <value>org.emonocot.model.media.Image</value>
-                    <value>org.emonocot.model.reference.Reference</value>
-                    <value>org.emonocot.model.taxon.Taxon</value>
-                    <value>org.emonocot.model.user.User</value>
-                    <value>org.emonocot.model.user.Group</value>
-                </list>
-			</property>
-			<property name="annotatedPackages" value="org.emonocot.model.common" />
-		</bean>
-		<jdbc:initialize-database data-source="dataSource"
-			enabled="${jdbc.initialize.database}">
-			<jdbc:script location="classpath:META-INF/database/test_data.sql" />
-		</jdbc:initialize-database>
-	</beans>
 </beans>

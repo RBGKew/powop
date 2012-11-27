@@ -1,12 +1,13 @@
 package org.emonocot.job.dwc.taxon;
 
 import org.emonocot.api.TaxonService;
-import org.emonocot.model.taxon.Rank;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Taxon;
+import org.gbif.ecat.voc.Rank;
 import org.springframework.batch.item.ItemProcessor;
 
+
 public class CalculateDerivedPropertiesProcessor implements
-		ItemProcessor<String, Taxon> {
+		ItemProcessor<Long, Taxon> {
 	
 	private TaxonService taxonService;
 	
@@ -15,60 +16,60 @@ public class CalculateDerivedPropertiesProcessor implements
 	}
 
 	@Override
-	public Taxon process(String item) throws Exception {
-		Taxon taxon = taxonService.load(item, "taxon-page");
+	public Taxon process(Long id) throws Exception {
+		Taxon taxon = taxonService.load(id, "taxon-page");
 		
-		if(taxon.getRank() == null) {
+		if(taxon.getTaxonRank() == null) {
 			return null;
 		}
 		
-		if(taxon.getRank().ordinal() >= Rank.ORDER.ordinal()) {
+		if(taxon.getTaxonRank().ordinal() >= Rank.ORDER.ordinal()) {
 			
-		} else if(taxon.getParent() != null) {
-			if(taxon.getParent().getRank().equals(Rank.ORDER)) {
-				taxon.setOrder(taxon.getParent().getName());
+		} else if(taxon.getParentNameUsage() != null) {
+			if(taxon.getParentNameUsage().getTaxonRank().equals(Rank.ORDER)) {
+				taxon.setOrder(taxon.getParentNameUsage().getScientificName());
 			} else {
-				taxon.setOrder(taxon.getParent().getOrder());
+				taxon.setOrder(taxon.getParentNameUsage().getOrder());
 			}	
 		}
 		
-        if(taxon.getRank().ordinal() >= Rank.FAMILY.ordinal()) {
+        if(taxon.getTaxonRank().ordinal() >= Rank.FAMILY.ordinal()) {
 			
-		} else if(taxon.getParent() != null) {
-			if(taxon.getParent().getRank().equals(Rank.FAMILY)) {
-				taxon.setFamily(taxon.getParent().getName());
+		} else if(taxon.getParentNameUsage() != null) {
+			if(taxon.getParentNameUsage().getTaxonRank().equals(Rank.FAMILY)) {
+				taxon.setFamily(taxon.getParentNameUsage().getScientificName());
 			} else {
-				taxon.setFamily(taxon.getParent().getFamily());
+				taxon.setFamily(taxon.getParentNameUsage().getFamily());
 			}	
 		}
         
-        if(taxon.getRank().ordinal() >= Rank.SUBFAMILY.ordinal()) {
+        if(taxon.getTaxonRank().ordinal() >= Rank.Subfamily.ordinal()) {
 			
-		} else if(taxon.getParent() != null) {
-			if(taxon.getParent().getRank().equals(Rank.SUBFAMILY)) {
-				taxon.setSubfamily(taxon.getParent().getName());
+		} else if(taxon.getParentNameUsage() != null) {
+			if(taxon.getParentNameUsage().getTaxonRank().equals(Rank.Subfamily)) {
+				taxon.setSubfamily(taxon.getParentNameUsage().getScientificName());
 			} else {
-				taxon.setSubfamily(taxon.getParent().getSubfamily());
+				taxon.setSubfamily(taxon.getParentNameUsage().getSubfamily());
 			}	
 		}
         
-        if(taxon.getRank().ordinal() >= Rank.TRIBE.ordinal()) {
+        if(taxon.getTaxonRank().ordinal() >= Rank.Tribe.ordinal()) {
 			
-		} else if(taxon.getParent() != null) {
-			if(taxon.getParent().getRank().equals(Rank.TRIBE)) {
-				taxon.setTribe(taxon.getParent().getName());
+		} else if(taxon.getParentNameUsage() != null) {
+			if(taxon.getParentNameUsage().getTaxonRank().equals(Rank.Tribe)) {
+				taxon.setTribe(taxon.getParentNameUsage().getScientificName());
 			} else {
-				taxon.setTribe(taxon.getParent().getTribe());
+				taxon.setTribe(taxon.getParentNameUsage().getTribe());
 			}	
 		}
         
-        if(taxon.getRank().ordinal() >= Rank.SUBTRIBE.ordinal()) {
+        if(taxon.getTaxonRank().ordinal() >= Rank.Subtribe.ordinal()) {
 			
-		} else if(taxon.getParent() != null) {
-			if(taxon.getParent().getRank().equals(Rank.SUBTRIBE)) {
-				taxon.setSubtribe(taxon.getParent().getName());
+		} else if(taxon.getParentNameUsage() != null) {
+			if(taxon.getParentNameUsage().getTaxonRank().equals(Rank.Subtribe)) {
+				taxon.setSubtribe(taxon.getParentNameUsage().getScientificName());
 			} else {
-				taxon.setSubtribe(taxon.getParent().getSubtribe());
+				taxon.setSubtribe(taxon.getParentNameUsage().getSubtribe());
 			}	
 		}
 		return taxon;

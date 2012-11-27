@@ -5,7 +5,8 @@ Feature: Image Page
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=75
 
 Background:
-  Given there are taxa with the following properties:
+  Given that the indexes are clean
+  And there are taxa with the following properties:
   | identifier                 | name      | 
   | urn:kew.org:wcs:taxon:1234 | Poa annua |
   And there are images with the following properties:
@@ -21,8 +22,7 @@ Scenario: Check ImagePage
   the image including the licence of the image if available
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=174
   When I navigate to image page "123"  
-  Then the main image should be "123.jpg"
-  And the main image Caption should be "Poa annua"
+  Then the main image Caption should be "Poa annua"
   And the main image Description should be "Habit"
   And the main image Artist should be "Rasbak"
   And the main image Locality should be "Nederlands"

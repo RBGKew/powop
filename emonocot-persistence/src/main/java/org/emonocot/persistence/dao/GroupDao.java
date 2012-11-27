@@ -2,7 +2,7 @@ package org.emonocot.persistence.dao;
 
 import java.util.List;
 
-import org.emonocot.model.user.Group;
+import org.emonocot.model.auth.Group;
 
 /**
  *

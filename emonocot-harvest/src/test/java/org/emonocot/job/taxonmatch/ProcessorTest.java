@@ -3,7 +3,7 @@ package org.emonocot.job.taxonmatch;
 import static org.junit.Assert.assertTrue;
 
 import org.easymock.EasyMock;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Taxon;
 import org.gbif.ecat.parser.NameParser;
 import org.gbif.ecat.parser.UnparsableException;
 import org.junit.After;
@@ -43,7 +43,7 @@ public class ProcessorTest {
         processor.setNameParser(parser);
 
         Taxon taxon = new Taxon();
-        taxon.setName("☺");
+        taxon.setScientificName("☺");
         Result result = processor.process(taxon);
         EasyMock.verify(parser);
         assertTrue("Reult status should be " + TaxonMatchStatus.CANNOT_PARSE,

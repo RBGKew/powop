@@ -39,25 +39,6 @@
 		<property name="cacheProducers" value="false" />
 	</bean>
 
-	<bean name="hibernateSearchIndexPurger"
-		class="org.emonocot.persistence.hibernate.HibernateSearchIndexPurger"
-		init-method="purgeIndices" depends-on="transactionManager">
-		<property name="purgeOnInit" value="${hibernate.search.purge.indexes.on.init}" />
-		<property name="indexedClasses">
-			<list>
-				<value>org.emonocot.model.description.Distribution</value>
-				<value>org.emonocot.model.geography.Place</value>
-				<value>org.emonocot.model.identifier.Identifier</value>
-				<value>org.emonocot.model.key.IdentificationKey</value>
-				<value>org.emonocot.model.description.TextContent</value>
-				<value>org.emonocot.model.media.Image</value>
-				<value>org.emonocot.model.reference.Reference</value>
-				<value>org.emonocot.model.source.Source</value>
-				<value>org.emonocot.model.taxon.Taxon</value>
-			</list>
-		</property>
-	</bean>
-
 	<bean name="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
@@ -70,45 +51,45 @@
 			<value>
 				hibernate.dialect=${hibernate.dialect}
 				hibernate.hbm2ddl.auto=validate
-				hibernate.search.default.directory_provider=${hibernate.search.default.directory_provider}
-				hibernate.search.default.sourceBase=${hibernate.search.default.sourceBase}
-				hibernate.search.default.indexBase=${hibernate.search.default.indexBase}
-				hibernate.search.default.refresh=${hibernate.search.default.refresh}
-				hibernate.search.worker.backend=${hibernate.search.worker.backend}
-				hibernate.search.worker.jms.connection_factory=java:comp/env/${amq.connectionFactory.jndi_name}
-				hibernate.search.worker.jms.queue=java:comp/env/${amq.queue.jndi_name}
-				hibernate.search.worker.jndi.java.naming.factory.initial=org.apache.activemq.jndi.ActiveMQInitialContextFactory
-				hibernate.search.worker.jndi.java.naming.provider.url=${amq.broker.uri}
-				hibernate.search.worker.jndi.queue.${amq.queue.physical_name}=${amq.queue.jndi_name}
+                hibernate.validator.autoregister_listeners=false				
 			</value>
 		</property>
 		<property name="annotatedClasses">
 			<list>
-				<value>org.emonocot.model.common.Annotation</value>
-				<value>org.emonocot.model.description.Distribution</value>
-				<value>org.emonocot.model.description.TextContent</value>
+				<value>org.emonocot.model.Job</value>
+				<value>org.emonocot.model.Source</value>
+				<value>org.emonocot.model.Identifier</value>
+				<value>org.emonocot.model.IdentificationKey</value>
+				<value>org.emonocot.model.Annotation</value>
+				<value>org.emonocot.model.Distribution</value>
+				<value>org.emonocot.model.Description</value>
+				<value>org.emonocot.model.Image</value>
+				<value>org.emonocot.model.MeasurementOrFact</value>
+				<value>org.emonocot.model.Reference</value>
+				<value>org.emonocot.model.Taxon</value>
+				<value>org.emonocot.model.TypeAndSpecimen</value>
+				<value>org.emonocot.model.VernacularName</value>
+				<value>org.emonocot.model.auth.User</value>
+				<value>org.emonocot.model.auth.Group</value>
 				<value>org.emonocot.model.geography.Place</value>
-				<value>org.emonocot.model.identifier.Identifier</value>
-			    <value>org.emonocot.model.job.Job</value>
-				<value>org.emonocot.model.key.IdentificationKey</value>
-				<value>org.emonocot.model.media.Image</value>
-				<value>org.emonocot.model.reference.Reference</value>
-				<value>org.emonocot.model.source.Source</value>
-				<value>org.emonocot.model.taxon.Taxon</value>
-				<value>org.emonocot.model.user.Group</value>
-				<value>org.emonocot.model.user.User</value>
 			</list>
 		</property>
-		<property name="annotatedPackages" value="org.emonocot.model.common"/>
+		<property name="eventListeners">
+      	  <map>        	
+      	    <entry key="post-insert" value-ref="solrIndexingListener" />
+      	    <entry key="post-update" value-ref="solrIndexingListener" />
+            <entry key="post-delete" value-ref="solrIndexingListener" />
+      	  </map>
+    	</property>	
+		<property name="annotatedPackages" value="org.emonocot.model"/>
+	</bean>
+	
+	<bean id="solrIndexingListener" class="org.emonocot.persistence.hibernate.SolrIndexingListener">
+	  <property name="solrServer" ref="solrServer"/>
 	</bean>
 
-	<bean name="connection" class="org.emonocot.persistence.olap.OlapConnectionFactory">
-		<property name="dataSource">
-			<bean class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
-				<property name="driverClass" value="mondrian.olap4j.MondrianOlap4jDriver" />
-				<property name="url" value="${mondrian.url}" />
-			</bean>
-		</property>
+	<bean id="solrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer"  destroy-method="shutdown">
+		<constructor-arg value="${solr.url}"/>
 	</bean>
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"

@@ -20,13 +20,5 @@
   <definition name="source/job/output" extends="default">    
     <put-attribute name="pageTitle" value="${source.title}" cascade="true"/>
     <put-attribute name="body" value="/WEB-INF/views/source/job/output.jspx" />
-  </definition>
-  <definition name="source/job/outputDetails" extends="default">    
-    <put-attribute name="pageTitle" value="${source.title}" cascade="true"/>
-    <put-attribute name="body" value="/WEB-INF/views/source/job/outputDetails.jspx" />
-  </definition>
-  <definition name="source/job/details" extends="default">    
-    <put-attribute name="pageTitle" value="${source.title}" cascade="true"/>
-    <put-attribute name="body" value="/WEB-INF/views/source/job/details.jspx" />
-  </definition> 
+  </definition>  
 </tiles-definitions>

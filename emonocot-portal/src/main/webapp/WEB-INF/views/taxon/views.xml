@@ -2,7 +2,7 @@
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
 <tiles-definitions>  
   <definition name="taxon/show" extends="default">
-  <put-attribute name="pageTitle" value="${taxon.name} ${taxon.authorship}" cascade="true"/>
+  <put-attribute name="pageTitle" value="${taxon.scientificName} ${taxon.scientificNameAuthorship}" cascade="true"/>
   <put-attribute name="body" value="/WEB-INF/views/taxon/show.jspx" />
   </definition>   
 </tiles-definitions>

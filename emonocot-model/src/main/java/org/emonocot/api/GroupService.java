@@ -2,8 +2,8 @@ package org.emonocot.api;
 
 import java.util.List;
 
-import org.emonocot.model.common.SecuredObject;
-import org.emonocot.model.user.Group;
+import org.emonocot.model.SecuredObject;
+import org.emonocot.model.auth.Group;
 import org.springframework.security.acls.model.Permission;
 
 /**

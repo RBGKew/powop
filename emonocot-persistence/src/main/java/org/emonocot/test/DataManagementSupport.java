@@ -6,24 +6,23 @@ import java.util.Map;
 import java.util.Stack;
 import java.util.UUID;
 
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.AnnotationCode;
-import org.emonocot.model.common.AnnotationType;
-import org.emonocot.model.common.Base;
-import org.emonocot.model.common.RecordType;
-import org.emonocot.model.description.Distribution;
-import org.emonocot.model.description.Feature;
-import org.emonocot.model.description.TextContent;
+import org.emonocot.model.Annotation;
+import org.emonocot.model.Base;
+import org.emonocot.model.Distribution;
+import org.emonocot.model.Image;
+import org.emonocot.model.Reference;
+import org.emonocot.model.Source;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.Description;
+import org.emonocot.model.auth.Group;
+import org.emonocot.model.auth.User;
+import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.AnnotationType;
+import org.emonocot.model.constants.DescriptionType;
+import org.emonocot.model.constants.RecordType;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.Place;
-import org.emonocot.model.media.Image;
-import org.emonocot.model.reference.Reference;
-import org.emonocot.model.source.Source;
-import org.emonocot.model.taxon.Rank;
-import org.emonocot.model.taxon.Taxon;
-import org.emonocot.model.taxon.TaxonomicStatus;
-import org.emonocot.model.user.Group;
-import org.emonocot.model.user.User;
+import org.gbif.ecat.voc.Rank;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameter;
@@ -84,7 +83,7 @@ public abstract class DataManagementSupport {
     public final Place createPlace(String identifier, String name) {
     	Place place = new Place();
     	place.setIdentifier(identifier);
-    	place.setName(name);
+    	place.setTitle(name);
     	setUp.add(place);
         tearDown.push(place);
     	return place;
@@ -129,17 +128,19 @@ public abstract class DataManagementSupport {
      * @param type Set the annotation type
      * @param recordType Set the record type
      * @param code Set the annotation code
+     * @param source TODO
      * @return an annotation
     */
     public final Annotation createAnnotation(final Long jobId,
             final Base object, final AnnotationType type,
-            final RecordType recordType, final AnnotationCode code) {
+            final RecordType recordType, final AnnotationCode code, Source source) {
        Annotation annotation = new Annotation();
        annotation.setAnnotatedObj(object);
        annotation.setJobId(jobId);
        annotation.setType(type);
        annotation.setRecordType(recordType);
        annotation.setCode(code);
+       annotation.setAuthority(source);
        return annotation;
    }
 
@@ -151,18 +152,18 @@ public abstract class DataManagementSupport {
  * @param reference Set the reference
     * @return a text content object
     */
-    public final TextContent createTextContent(final Taxon taxon,
-            final Feature feature, final String content,
+    public final Description createTextContent(final Taxon taxon,
+            final DescriptionType feature, final String content,
             final Reference reference) {
-       TextContent textContent = new TextContent();
+       Description textContent = new Description();
        textContent.setIdentifier(UUID.randomUUID().toString());
-       textContent.setFeature(feature);
-       textContent.setContent(content);
+       textContent.setType(feature);
+       textContent.setDescription(content);
        textContent.setTaxon(taxon);
        if (reference != null) {
            textContent.getReferences().add(reference);
        }
-       taxon.getContent().put(feature, textContent);
+       taxon.getDescriptions().add(textContent);
        return textContent;
    }
 
@@ -199,45 +200,38 @@ public abstract class DataManagementSupport {
             final Taxon parent, final Taxon accepted, final String family,
             final String genus, final String specificEpithet,
             final String datePublished, final Rank rank,
-            final TaxonomicStatus status, final Source source,
+            final org.gbif.ecat.voc.TaxonomicStatus status, final Source source,
             final GeographicalRegion[] distributions, Source[] sources) {
         Taxon taxon = new Taxon();
-        taxon.setName(name);
+        taxon.setScientificName(name);
         taxon.setFamily(family);
         taxon.setGenus(genus);
         taxon.setSpecificEpithet(specificEpithet);
         taxon.setIdentifier(identifier);
-        taxon.setStatus(status);
-        taxon.setRank(rank);
+        taxon.setTaxonomicStatus(status);
+        taxon.setTaxonRank(rank);
         taxon.setAuthority(source);
-        if (source != null) {
-            taxon.getSources().add(source);
-        }
-        if(sources != null) {
-        	for(Source s : sources) {
-        		taxon.getSources().add(s);
-        	}
-        }
+        
         Reference reference = new Reference();
         reference.setIdentifier(UUID.randomUUID().toString());
-        reference.setDatePublished(datePublished);
-        taxon.setProtologue(reference);
+        reference.setDate(datePublished);
+        taxon.setNamePublishedIn(reference);
         if (parent != null) {
-            taxon.setParent(parent);
-            parent.getChildren().add(taxon);
+            taxon.setParentNameUsage(parent);
+            parent.getChildNameUsages().add(taxon);
         }
 
         if (accepted != null) {
-            taxon.setAccepted(accepted);
-            accepted.getSynonyms().add(taxon);
+            taxon.setAcceptedNameUsage(accepted);
+            accepted.getSynonymNameUsages().add(taxon);
         }
 
         for (GeographicalRegion region : distributions) {
             Distribution distribution = new Distribution();
             distribution.setIdentifier(UUID.randomUUID().toString());
-            distribution.setRegion(region);
+            distribution.setLocation(region);
             distribution.setTaxon(taxon);
-            taxon.getDistribution().put(region, distribution);
+            taxon.getDistribution().add(distribution);
         }
         setUp.add(taxon);
         tearDown.push(taxon);
@@ -269,18 +263,10 @@ public abstract class DataManagementSupport {
     public final Image createImage(final String caption,
             final String identifier, final Source source, final Taxon taxon, Source[] sources) {
         Image image = new Image();
-        image.setCaption(caption);
+        image.setTitle(caption);
         image.setIdentifier(identifier);
         image.setTaxon(taxon);
         image.setAuthority(source);
-        if (source != null) {
-            image.getSources().add(source);
-        }
-        if(sources != null) {
-        	for(Source s : sources) {
-        		image.getSources().add(s);
-        	}
-        }
         setUp.add(image);
         tearDown.push(image);
         return image;
@@ -298,7 +284,7 @@ public abstract class DataManagementSupport {
         Reference reference = new Reference();
         reference.setIdentifier(identifier);
         reference.setTitle(title);
-        reference.setAuthor(author);
+        reference.setCreator(author);
         setUp.add(reference);
         tearDown.push(reference);
         return reference;

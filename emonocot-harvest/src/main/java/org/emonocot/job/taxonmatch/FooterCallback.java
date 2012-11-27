@@ -3,7 +3,7 @@ package org.emonocot.job.taxonmatch;
 import java.io.IOException;
 import java.io.Writer;
 
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Taxon;
 import org.springframework.batch.core.ItemProcessListener;
 import org.springframework.batch.item.file.FlatFileFooterCallback;
 

@@ -5,7 +5,7 @@ package org.emonocot.portal.model;
 
 import java.net.URL;
 
-import org.emonocot.model.common.SearchableObject;
+import org.emonocot.model.SearchableObject;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
@@ -19,14 +19,14 @@ import org.springframework.core.convert.converter.Converter;
  */
 public class PortalUrlMapper implements ItemProcessor<SearchableObject, Url>, Converter<SearchableObject, Url> {
 	
-	/**
-    *
-    */
-   private static final Logger logger = LoggerFactory.getLogger(PortalUrlMapper.class);
+    /**
+     *
+     */
+    private static final Logger logger = LoggerFactory.getLogger(PortalUrlMapper.class);
 
-	/**
-	 * 
-	 */
+    /**
+	  * 
+	  */
 	String portalBaseUrl;
 
     /**

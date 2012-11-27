@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import org.emonocot.harvest.common.AuthorityAware;
-import org.emonocot.model.common.Base;
+import org.emonocot.model.Base;
 import org.gbif.dwc.terms.TermFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

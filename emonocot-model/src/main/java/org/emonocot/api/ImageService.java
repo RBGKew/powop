@@ -1,6 +1,6 @@
 package org.emonocot.api;
 
-import org.emonocot.model.media.Image;
+import org.emonocot.model.Image;
 
 /**
  *
@@ -8,12 +8,5 @@ import org.emonocot.model.media.Image;
  *
  */
 public interface ImageService extends SearchableService<Image> {
-
-    /**
-     *
-     * @param url Set the Url
-     * @return an image or null if one doesn't exist
-     */
-    Image findByUrl(String url);
 
 }

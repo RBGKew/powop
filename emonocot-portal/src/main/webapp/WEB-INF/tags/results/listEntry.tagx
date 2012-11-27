@@ -8,7 +8,7 @@
   <jsp:directive.attribute name="iconAlt" type="java.lang.String" required="true" />
   <jsp:directive.attribute name="url" type="java.lang.String" required="true" />
   <jsp:directive.attribute name="itemName" type="java.lang.String" required="true" />
-  <jsp:directive.attribute name="image" type="org.emonocot.model.media.Image" required="false"/>
+  <jsp:directive.attribute name="image" type="org.emonocot.model.Image" required="false"/>
 <spring:url var="itemUrl" value="${url}"/>
 <spring:url var="iconUrl" value="${icon}"/>
   <td>
@@ -21,8 +21,8 @@
 	<a href="${itemUrl}" class="thumbnail pull-right">
 		<c:choose>
 			<c:when test="${not empty image}">
-				<c:url var="thumbnail" value="/images/thumbnails/${image.identifier}.${image.format}"/>
-					<img src="${thumbnail}" title="${em:stripXml(image.caption)}"/>
+				<c:url var="thumbnail" value="/images/thumbnails/${image.id}.${image.format}"/>
+					<img src="${thumbnail}" title="${em:stripXml(image.title)}"/>
 				</c:when>
 				<c:otherwise>
 					<spring:message code="no.image.available" var="noImageAvailable"/>

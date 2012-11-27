@@ -1,8 +1,8 @@
 package org.emonocot.portal.controller;
 
 import org.emonocot.api.UserService;
-import org.emonocot.model.common.SecuredObject;
-import org.emonocot.model.user.User;
+import org.emonocot.model.SecuredObject;
+import org.emonocot.model.auth.User;
 import org.emonocot.portal.model.AceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
@@ -58,7 +58,7 @@ public class UserController extends GenericController<User, UserService> {
      *            Set the identifier of the user
      * @return A response entity containing the status
      */
-    @RequestMapping(value = "/{identifier}/permission", params = "!delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/{identifier}/permission", params = "!delete", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public final ResponseEntity<AceDto> addPermission(
             @PathVariable final String identifier, @RequestBody final AceDto ace) {
         SecuredObject object = conversionService.convert(ace,
@@ -74,7 +74,7 @@ public class UserController extends GenericController<User, UserService> {
      *            Set the identifier of the user
      * @return A response entity containing the status
      */
-    @RequestMapping(value = "/{identifier}/permission", params = "delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/{identifier}/permission", params = "delete", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public final ResponseEntity<AceDto> deletePermission(
             @PathVariable final String identifier, @RequestBody final AceDto ace) {
         SecuredObject object = conversionService.convert(ace,

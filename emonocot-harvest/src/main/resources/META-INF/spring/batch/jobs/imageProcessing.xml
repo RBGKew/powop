@@ -46,7 +46,8 @@
 	<bean id="processImageFilesProcessor" class="org.springframework.batch.item.support.CompositeItemProcessor">
 	  <property name="delegates">
 	    <list>
-	      <ref bean="resizeImagesProcessor"/>
+	      <ref bean="imageFileProcessor"/>
+	      <ref bean="imageThumbnailProcessor"/>
 	      <ref bean="imageMetadataProcessor"/>
 	    </list>
 	  </property>
@@ -62,8 +63,6 @@
 	<bean id="itemWriter"
 		class="org.springframework.batch.item.database.HibernateItemWriter">
 		<property name="sessionFactory" ref="sessionFactory" />
-		<property name="clearSession" value="false"/>
 	</bean>
-	
-	<bean id="hibernateSessionClearingChunkListener" class="org.emonocot.harvest.common.HibernateSessionClearingChunkListener"/>
+
 </beans>

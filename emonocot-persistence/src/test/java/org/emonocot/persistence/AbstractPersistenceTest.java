@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.media.Image;
-import org.emonocot.model.reference.Reference;
-import org.emonocot.model.source.Source;
-import org.emonocot.model.taxon.Taxon;
+import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocumentList;
+import org.apache.solr.common.params.ModifiableSolrParams;
+import org.emonocot.model.Annotation;
+import org.emonocot.model.Image;
+import org.emonocot.model.Reference;
+import org.emonocot.model.Source;
+import org.emonocot.model.Taxon;
 import org.emonocot.persistence.dao.AnnotationDao;
 import org.emonocot.persistence.dao.ImageDao;
 import org.emonocot.persistence.dao.JobExecutionDao;
@@ -20,8 +24,6 @@ import org.emonocot.persistence.dao.TaxonDao;
 import org.emonocot.test.DataManagementSupport;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.search.FullTextSession;
-import org.hibernate.search.Search;
 import org.junit.runner.RunWith;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
@@ -40,65 +42,38 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 @ContextConfiguration({"classpath*:META-INF/spring/applicationContext*.xml" })
 public abstract class AbstractPersistenceTest extends DataManagementSupport {
 
-    /**
-    *
-    */
     @Autowired
     private SessionFactory sessionFactory;
 
-    /**
-     *
-     */
     @Autowired
     private PlatformTransactionManager transactionManager;
 
-    /**
-     *
-     */
     @Autowired
     private TaxonDao taxonDao;
 
-    /**
-    *
-    */
     @Autowired
     private ReferenceDao referenceDao;
 
-    /**
-     *
-     */
     @Autowired
     private ImageDao imageDao;
 
-    /**
-     *
-     */
     @Autowired
     private AnnotationDao annotationDao;
 
-    /**
-    *
-    */
     @Autowired
     private SourceDao sourceDao;
 
-    /**
-    *
-    */
     @Autowired
     private JobInstanceDao jobInstanceDao;
 
-    /**
-    *
-    */
     @Autowired
     private JobExecutionDao jobExecutionDao;
 
-    /**
-     *
-     */
     @Autowired
     SearchableObjectDao searchableObjectDao;
+    
+    @Autowired
+    SolrServer solrServer;
 
     /**
      * @param task
@@ -141,10 +116,19 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
 
         doInTransaction(new Callable() {
             public Object call() throws Exception {
-                FullTextSession fullTextSession = Search
-                        .getFullTextSession(getSession());
-                fullTextSession.purgeAll(Taxon.class);
-                fullTextSession.purgeAll(Image.class);
+            	ModifiableSolrParams params = new ModifiableSolrParams();
+            	params.add("q","*:*");
+            	params.add("df", "id");
+            	QueryResponse queryResponse = solrServer.query(params);
+            	SolrDocumentList solrDocumentList = queryResponse.getResults();
+            	List<String> documentsToDelete = new ArrayList<String>();
+            	for(int i = 0; i < solrDocumentList.size(); i++) {
+            		documentsToDelete.add(solrDocumentList.get(i).getFirstValue("id").toString());
+            	}
+            	if(!documentsToDelete.isEmpty()) {
+            	    solrServer.deleteById(documentsToDelete);
+            	    solrServer.commit();
+            	}
                 setUpTestData();
                 for (Object obj : getSetUp()) {
                     if (obj.getClass().equals(Taxon.class)) {

@@ -14,7 +14,7 @@ import org.easymock.EasyMock;
 import org.emonocot.api.match.Match;
 import org.emonocot.api.match.MatchStatus;
 import org.emonocot.api.match.taxon.TaxonMatcher;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Taxon;
 import org.gbif.ecat.model.ParsedName;
 import org.gbif.ecat.parser.NameParser;
 import org.gbif.ecat.parser.UnparsableException;
@@ -57,7 +57,7 @@ public class CompositeTaxonMatcherTest {
 	 */
 	@Test
 	public void testPrimaryMatch() throws Exception {
-		ParsedName<String> input = new NameParser().parse(singleExact.get(0).getInternal().getName());
+		ParsedName<String> input = new NameParser().parse(singleExact.get(0).getInternal().getScientificName());
 		expect(mock1.match(input)).andReturn(singleExact);
 		
 		replay(mock1, mock2);
@@ -74,7 +74,7 @@ public class CompositeTaxonMatcherTest {
 	 */
 	@Test
 	public void testSecondaryMatch() throws Exception {
-		ParsedName<String> input = new NameParser().parse(singleExact.get(0).getInternal().getName());
+		ParsedName<String> input = new NameParser().parse(singleExact.get(0).getInternal().getScientificName());
 		expect(mock1.match(input)).andReturn(partials);
 		expect(mock2.match(input)).andReturn(singleExact);
 				
@@ -91,7 +91,7 @@ public class CompositeTaxonMatcherTest {
 	public void setUp() throws Exception{
 		singleExact = new ArrayList<Match<Taxon>>();
 		Taxon t = new Taxon();
-		t.setName("Test name Arch.");
+		t.setScientificName("Test name Arch.");
 		t.setIdentifier("exact1");
 		Match<Taxon> m = new Match<Taxon>();
 		m.setInternal(t);
@@ -101,7 +101,7 @@ public class CompositeTaxonMatcherTest {
 		partials = new ArrayList<Match<Taxon>>();
 		for (int i = 0; i < 2; i++) {
 			t = new Taxon();
-			t.setName("Test part Arch.");
+			t.setScientificName("Test part Arch.");
 			t.setIdentifier("partial" + i);
 			m = new Match<Taxon>();
 			m.setInternal(t);

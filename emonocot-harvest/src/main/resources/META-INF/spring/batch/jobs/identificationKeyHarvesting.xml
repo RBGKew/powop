@@ -32,7 +32,6 @@
 			<batch:next on="COMPLETED" to="processImages" />
 			<batch:listeners>
 			    <batch:listener ref="taxonNameProcessor"/>
-				<batch:listener ref="hibernateSessionClearingChunkListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="processImages">
@@ -43,9 +42,6 @@
 				</batch:chunk>
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="transformFileToJson" />
-			<batch:listeners>
-				<batch:listener ref="hibernateSessionClearingChunkListener" />
-			</batch:listeners>
 		</batch:step>
 		<batch:step id="transformFileToJson">
 		    <batch:description>Transform the SDD file to json</batch:description>
@@ -60,9 +56,6 @@
 				</batch:chunk>
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="cleanupResources" />
-			<batch:listeners>
-				<batch:listener ref="hibernateSessionClearingChunkListener" />
-			</batch:listeners>
 		</batch:step>
 		<batch:step id="cleanupResourcesNotModified">
 			<batch:description>Cleanup the resources</batch:description>
@@ -276,7 +269,6 @@
 	<bean id="datasetWriter"
 		class="org.springframework.batch.item.database.HibernateItemWriter">
 		<property name="sessionFactory" ref="sessionFactory" />
-		<property name="clearSession" value="false"/>
 	</bean>
 
 	<bean id="hibernateSessionClearingChunkListener"

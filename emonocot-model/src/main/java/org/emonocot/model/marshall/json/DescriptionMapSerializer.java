@@ -6,8 +6,8 @@ import java.util.Map;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.SerializerProvider;
-import org.emonocot.model.description.Feature;
-import org.emonocot.model.description.TextContent;
+import org.emonocot.model.Description;
+import org.emonocot.model.constants.DescriptionType;
 
 /**
  *
@@ -15,14 +15,14 @@ import org.emonocot.model.description.TextContent;
  *
  */
 public class DescriptionMapSerializer extends
-        JsonSerializer<Map<Feature, TextContent>> {
+        JsonSerializer<Map<DescriptionType, Description>> {
 
     @Override
-    public final void serialize(final Map<Feature, TextContent> map,
+    public final void serialize(final Map<DescriptionType, Description> map,
             final JsonGenerator jsonGenerator,
             final SerializerProvider serializationProvider) throws IOException {
         jsonGenerator.writeStartArray();
-        for (TextContent content : map.values()) {
+        for (Description content : map.values()) {
             jsonGenerator.writeObject(content);
         }
         jsonGenerator.writeEndArray();

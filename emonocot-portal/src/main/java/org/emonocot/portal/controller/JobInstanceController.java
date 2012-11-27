@@ -64,7 +64,7 @@ public class JobInstanceController {
        */
       @RequestMapping(value = "/jobInstance/{identifier}",
                       method = RequestMethod.GET,
-                      headers = "Accept=application/json")
+                      produces = "application/json")
     public final ResponseEntity<JobInstance> get(
             @PathVariable final Long identifier) {
         return new ResponseEntity<JobInstance>(service.find(identifier),

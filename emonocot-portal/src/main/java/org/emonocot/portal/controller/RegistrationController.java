@@ -4,7 +4,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.emonocot.api.UserService;
-import org.emonocot.model.user.User;
+import org.emonocot.model.auth.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;

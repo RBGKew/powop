@@ -1,7 +1,7 @@
 package org.emonocot.portal.controller;
 
 import org.emonocot.api.TaxonService;
-import org.emonocot.model.key.IdentificationKey;
+import org.emonocot.model.IdentificationKey;
 import org.emonocot.api.IdentificationKeyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,11 +56,12 @@ public class IdentificationKeyController extends
      *            The model
      * @return The name of the view
      */
-    @RequestMapping(value = "/{identifier}", method = RequestMethod.GET)
-    public final String getPage(@PathVariable final String identifier,
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "text/html")
+    public final String getPage(@PathVariable final Long id,
             final Model model) {
-        IdentificationKey key = getService().load(identifier, "object-page");
-        model.addAttribute(key);
+        IdentificationKey key = getService().load(id, "object-page");
+        model.addAttribute(key); 
+     // TODO add opensession in view filter and remove this code
         if (key.getTaxon() != null) {
             model.addAttribute(taxonService.load(
                     key.getTaxon().getIdentifier(), null));

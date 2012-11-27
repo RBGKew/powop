@@ -1,7 +1,7 @@
 package org.emonocot.service.impl;
 
 import static org.hamcrest.collection.IsArrayContaining.hasItemInArray;
-import static org.hamcrest.collection.IsCollectionContaining.hasItems;
+import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -11,28 +11,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.solr.client.solrj.response.FacetField;
 import org.emonocot.api.AnnotationService;
-import org.emonocot.api.FacetName;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.PlaceService;
 import org.emonocot.api.SearchableObjectService;
-import org.emonocot.api.Sorting;
 import org.emonocot.api.SourceService;
 import org.emonocot.api.TaxonService;
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.SearchableObject;
+import org.emonocot.model.Annotation;
+import org.emonocot.model.Image;
+import org.emonocot.model.SearchableObject;
+import org.emonocot.model.Source;
+import org.emonocot.model.Taxon;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.GeographicalRegion;
 import org.emonocot.model.geography.Place;
 import org.emonocot.model.geography.Region;
-import org.emonocot.model.media.Image;
-import org.emonocot.model.pager.Page;
-import org.emonocot.model.source.Source;
-import org.emonocot.model.taxon.Rank;
-import org.emonocot.model.taxon.Taxon;
-import org.emonocot.model.taxon.TaxonomicStatus;
+import org.emonocot.pager.Page;
 import org.emonocot.test.DataManagementSupport;
-import org.hibernate.search.query.facet.Facet;
+import org.gbif.ecat.voc.Rank;
+import org.gbif.ecat.voc.TaxonomicStatus;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -138,20 +136,20 @@ public class FacetingTest extends DataManagementSupport {
         Source source1 = createSource("test", "http://example.com");
         Source source2 = createSource("source2", "http://source2.com");
         Taxon taxon1 = createTaxon("Aus", "1", null, null, "Ausaceae", null,
-                null, "(1753)", Rank.GENUS, TaxonomicStatus.accepted,
+                null, "(1753)", Rank.GENUS, TaxonomicStatus.Accepted,
                 source1, new GeographicalRegion[] {}, new Source[] {source1});
         Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null, "Ausaceae",
-                null, null, "(1775)", Rank.SPECIES, TaxonomicStatus.accepted,
+                null, null, "(1775)", Rank.SPECIES, TaxonomicStatus.Accepted,
                 source1, new GeographicalRegion[] {Continent.AUSTRALASIA,
                         Region.BRAZIL, Region.CARIBBEAN }, new Source[] {source1,source2});
         Taxon taxon3 = createTaxon("Aus ceus", "3", taxon1, null, "Ausaceae",
-                null, null, "(1805)", Rank.SPECIES, TaxonomicStatus.accepted,
+                null, null, "(1805)", Rank.SPECIES, TaxonomicStatus.Accepted,
                 source1, new GeographicalRegion[] {Region.NEW_ZEALAND }, new Source[] {source1,source2});
         Taxon taxon4 = createTaxon("Aus deus", "4", null, taxon2, "Ausaceae",
-                null, null, "(1895)", Rank.SPECIES, TaxonomicStatus.synonym,
+                null, null, "(1895)", Rank.SPECIES, TaxonomicStatus.Synonym,
                 source1, new GeographicalRegion[] {}, new Source[] {source1});
         Taxon taxon5 = createTaxon("Aus eus", "5", null, taxon3, "Ausaceae",
-                null, null, "(1935)", Rank.SPECIES, TaxonomicStatus.synonym,
+                null, null, "(1935)", Rank.SPECIES, TaxonomicStatus.Synonym,
                 source1, new GeographicalRegion[] {}, new Source[] {source1});
         Image img1 = createImage("Aus", "1", source2,taxon2, new Source[] {source2,source1});
         Image img2 = createImage("Aus bus", "2", source2,taxon2, new Source[] {source2,source1});
@@ -176,26 +174,28 @@ public class FacetingTest extends DataManagementSupport {
     */
     @Test
     public final void testSearchWithFacets() {
-        Map<FacetName, String> selectedFacets = new HashMap<FacetName, String>();
-        selectedFacets.put(FacetName.CLASS, "org.emonocot.model.taxon.Taxon");
+        Map<String, String> selectedFacets = new HashMap<String, String>();
+        selectedFacets.put("base.class_s", "org.emonocot.model.Taxon");
         Page<SearchableObject> pager = searchableObjectService.search("Aus",
-                null, null, null, new FacetName[] {FacetName.CLASS,
-                        FacetName.FAMILY, FacetName.CONTINENT,
-                        FacetName.AUTHORITY },
+                null, null, null, new String[] {"base.class_s",
+                        "taxon.family_s", "taxon.distribution_TDWG_0_ss",
+                        "searchable.sources_ss" },
                 selectedFacets, null, null);
         assertThat("There should be two facets returned",
-                pager.getFacetNames(), hasItems("CLASS", "FAMILY"));
+                pager.getFacetNames(), containsInAnyOrder("base.class_s",
+                        "taxon.family_s", "taxon.distribution_TDWG_0_ss",
+                        "searchable.sources_ss"));
 
-        List<Facet> classFacets = pager.getFacets().get("CLASS");
-        String[] facetNames = new String[classFacets.size()];
-        for (int i = 0; i < facetNames.length; i++) {
-            facetNames[i] = classFacets.get(i).getValue();
+        FacetField classFacet = pager.getFacetField("base.class_s");
+        String[] Strings = new String[classFacet.getValueCount()];
+        for (int i = 0; i < Strings.length; i++) {
+            Strings[i] = classFacet.getValues().get(i).getName();
         }
 
         assertThat("org.emonocot.model.taxon.Taxon should be a facet in CLASS",
-                facetNames, hasItemInArray("org.emonocot.model.taxon.Taxon"));
+                Strings, hasItemInArray("org.emonocot.model.Taxon"));
         assertEquals("There should be one value for the FAMILY facet", 1, pager
-                .getFacets().get("FAMILY").size());
+                .getFacetField("taxon.family_s").getValues().size());
     }
 
     /**
@@ -203,27 +203,29 @@ public class FacetingTest extends DataManagementSupport {
      */
     @Test
     public final void testSearchWithRegion() {
-        Map<FacetName, String> selectedFacets = new HashMap<FacetName, String>();
-        selectedFacets.put(FacetName.CLASS, "org.emonocot.model.taxon.Taxon");
-        selectedFacets.put(FacetName.REGION, "NEW_ZEALAND");
+        Map<String, String> selectedFacets = new HashMap<String, String>();
+        selectedFacets.put("base.class_s", "org.emonocot.model.Taxon");
+        selectedFacets.put("taxon.distribution_TDWG_1_ss", "NEW_ZEALAND");
         Page<SearchableObject> pager = searchableObjectService.search("Aus",
-                null, null, null, new FacetName[] {FacetName.CLASS,
-                        FacetName.FAMILY, FacetName.CONTINENT,
-                        FacetName.REGION, FacetName.AUTHORITY },
+                null, null, null, new String[] {"base.class_s",
+                        "taxon.family_s", "taxon.distribution_TDWG_0_ss",
+                        "taxon.distribution_TDWG_1_ss", "searchable.sources_ss" },
                 selectedFacets, null, null);
         assertThat("There should be two facets returned",
-                pager.getFacetNames(), hasItems("CLASS", "FAMILY"));
+                pager.getFacetNames(), containsInAnyOrder("base.class_s",
+                        "taxon.family_s", "taxon.distribution_TDWG_0_ss",
+                        "taxon.distribution_TDWG_1_ss", "searchable.sources_ss"));
 
-        List<Facet> classFacets = pager.getFacets().get("CLASS");
-        String[] facetNames = new String[classFacets.size()];
-        for (int i = 0; i < facetNames.length; i++) {
-            facetNames[i] = classFacets.get(i).getValue();
+        FacetField classFacet = pager.getFacetField("base.class_s");
+        String[] Strings = new String[classFacet.getValueCount()];
+        for (int i = 0; i < Strings.length; i++) {
+            Strings[i] = classFacet.getValues().get(i).getName();
         }
 
         assertThat("org.emonocot.model.taxon.Taxon should be a facet in CLASS",
-                facetNames, hasItemInArray("org.emonocot.model.taxon.Taxon"));
+                Strings, hasItemInArray("org.emonocot.model.Taxon"));
         assertEquals("There should be one value for the FAMILY facet", 1, pager
-                .getFacets().get("FAMILY").size());
+                .getFacetField("taxon.family_s").getValueCount());
     }
 
     /**
@@ -232,38 +234,40 @@ public class FacetingTest extends DataManagementSupport {
      */
     @Test
     public final void testSearchWithFacetsInTaxonDao() throws Exception {
-        Map<FacetName, String> selectedFacets = new HashMap<FacetName, String>();
-        selectedFacets.put(FacetName.CLASS, "org.emonocot.model.taxon.Taxon");
+        Map<String, String> selectedFacets = new HashMap<String, String>();
+        selectedFacets.put("base.class_s", "org.emonocot.model.Taxon");
         Page<Taxon> pager = taxonService.search("Aus", null, null, null,
-                new FacetName[] { FacetName.CLASS, FacetName.FAMILY,
-                        FacetName.CONTINENT, FacetName.AUTHORITY,
-                        FacetName.RANK, FacetName.TAXONOMIC_STATUS },
+                new String[] { "base.class_s", "taxon.family_s",
+                        "taxon.distribution_TDWG_0_ss", "searchable.sources_ss",
+                        "taxon.taxon_rank_s", "taxon.taxonomic_status_s" },
                 selectedFacets, null, null);
         assertEquals("There should be five taxa returned", (Integer) 5,
                 pager.getSize());
         assertThat("There should be two facets returned",
-                pager.getFacetNames(), hasItems("CLASS", "FAMILY"));
+                pager.getFacetNames(), containsInAnyOrder("base.class_s", "taxon.family_s",
+                        "taxon.distribution_TDWG_0_ss", "searchable.sources_ss",
+                        "taxon.taxon_rank_s", "taxon.taxonomic_status_s"));
 
-        List<Facet> classFacets = pager.getFacets().get("CLASS");
-        String[] facetNames = new String[classFacets.size()];
-        for (int i = 0; i < facetNames.length; i++) {
-            facetNames[i] = classFacets.get(i).getValue();
+        FacetField classFacet = pager.getFacetField("base.class_s");
+        String[] Strings = new String[classFacet.getValueCount()];
+        for (int i = 0; i < Strings.length; i++) {
+            Strings[i] = classFacet.getValues().get(i).getName();
         }
 
-        assertThat("org.emonocot.model.taxon.Taxon should be a facet in CLASS",
-                facetNames, hasItemInArray("org.emonocot.model.taxon.Taxon"));
+        assertThat("org.emonocot.model.Taxon should be a facet in CLASS",
+                Strings, hasItemInArray("org.emonocot.model.Taxon"));
         assertEquals("There should be one value for the FAMILY facet", 1, pager
-                .getFacets().get("FAMILY").size());
+                .getFacetField("taxon.family_s").getValueCount());
 
-        selectedFacets.put(FacetName.RANK, "species");
+        selectedFacets.put("taxon.taxon_rank_s", "SPECIES");
         pager = taxonService.search("Aus", null, null, null,
-                new FacetName[] {FacetName.CLASS, FacetName.FAMILY,
-                        FacetName.CONTINENT, FacetName.AUTHORITY,
-                        FacetName.RANK, FacetName.TAXONOMIC_STATUS },
+                new String[] {"base.class_s", "taxon.family_s",
+                        "taxon.distribution_TDWG_0_ss", "searchable.sources_ss",
+                        "taxon.taxon_rank_s", "taxon.taxonomic_status_s" },
                 selectedFacets, null, null);
-//        for (String facetName : pager.getFacetNames()) {
-//            System.out.println(facetName);
-//            for (Facet facet : pager.getFacets().get(facetName)) {
+//        for (String String : pager.getStrings()) {
+//            System.out.println(String);
+//            for (Facet facet : pager.getFacets().get(String)) {
 //                System.out.println(facet.getValue() + " " + facet.getCount());
 //            }
 //        }
@@ -279,15 +283,15 @@ public class FacetingTest extends DataManagementSupport {
         Page<SearchableObject> results = searchableObjectService.search("Au*",
                 null, null, null, null, null, null, null);
 
-        Sorting sort = new Sorting("label");
+        String sort = "searchable.label_sort_asc";
         results = searchableObjectService.search("Au*", null, null, null, null,
                 null, sort, null);
         String[] actual = new String[results.getSize()];
         for (int i = 0; i < results.getSize(); i++) {
             if (results.getRecords().get(i).getClassName().equals("Taxon")) {
-                actual[i] = ((Taxon) results.getRecords().get(i)).getName();
+                actual[i] = ((Taxon) results.getRecords().get(i)).getScientificName();
             } else {
-                actual[i] = ((Image) results.getRecords().get(i)).getCaption();
+                actual[i] = ((Image) results.getRecords().get(i)).getTitle();
             }
         }
 
@@ -299,63 +303,56 @@ public class FacetingTest extends DataManagementSupport {
     
     @Test
     public final void testFacetOnSource() {
-    	Map<FacetName, String> selectedFacets = new HashMap<FacetName, String>();
+    	Map<String, String> selectedFacets = new HashMap<String, String>();
     	Page<?> results = searchableObjectService.search(null,
                 null, null, null, 
-                new FacetName[] {FacetName.CLASS, FacetName.FAMILY, FacetName.CONTINENT,FacetName.AUTHORITY },
+                new String[] {"base.class_s", "taxon.family_s", "taxon.distribution_TDWG_0_ss","searchable.sources_ss" },
                 null, null, null);
 //    	System.out.println("No Query");
-//		for (String facetName : results.getFacetNames()) {
-//			System.out.println(facetName);
-//			for (Facet facet : results.getFacets().get(facetName)) {
+//		for (String String : results.getStrings()) {
+//			System.out.println(String);
+//			for (Facet facet : results.getFacets().get(String)) {
 //				System.out.println("\t" +facet.getValue() + " " + facet.getCount());
 //			}
 //		}
 		selectedFacets.clear();
-		selectedFacets.put(FacetName.FAMILY, "Ausaceae");
+		selectedFacets.put("taxon.family_s", "Ausaceae");
     	 results = searchableObjectService.search(null,
                 null, null, null, 
-                new FacetName[] {FacetName.CLASS, FacetName.FAMILY, FacetName.CONTINENT,FacetName.AUTHORITY },
+                new String[] {"base.class_s", "taxon.family_s", "taxon.distribution_TDWG_0_ss","searchable.sources_ss" },
                 selectedFacets, null, null);
 //    	System.out.println("Searchable {FAMILY:Ausaceae}");
-//		for (String facetName : results.getFacetNames()) {
-//			System.out.println(facetName);
-//			for (Facet facet : results.getFacets().get(facetName)) {
+//		for (String String : results.getStrings()) {
+//			System.out.println(String);
+//			for (Facet facet : results.getFacets().get(String)) {
 //				System.out.println("\t" +facet.getValue() + " " + facet.getCount());
 //			}
 //		}
 		selectedFacets.clear();
-		selectedFacets.put(FacetName.FAMILY, "Ausaceae");
-		selectedFacets.put(FacetName.CLASS, "org.emonocot.model.taxon.Taxon");
-		selectedFacets.put(FacetName.AUTHORITY, "source2");
+		selectedFacets.put("taxon.family_s", "Ausaceae");
+		selectedFacets.put("base.class_s", "org.emonocot.model.taxon.Taxon");
+		selectedFacets.put("searchable.sources_ss", "source2");
 
 		
     	 results = searchableObjectService.search(null,
                 null, null, null, 
-                new FacetName[] {FacetName.CLASS,FacetName.FAMILY, FacetName.CONTINENT,FacetName.AUTHORITY},
+                new String[] {"base.class_s","taxon.family_s", "taxon.distribution_TDWG_0_ss","searchable.sources_ss"},
                 selectedFacets, null, null);
 //    	System.out.println("Searchable {FAMILY:Ausaceae,CLASS:org.emonocot.model.taxon.Taxon, AUTHORITY:source2}");
-//		for (String facetName : results.getFacetNames()) {
-//			System.out.println(facetName);
-//			for (Facet facet : results.getFacets().get(facetName)) {
+//		for (String String : results.getStrings()) {
+//			System.out.println(String);
+//			for (Facet facet : results.getFacets().get(String)) {
 //				System.out.println("\t" + facet.getValue() + " " + facet.getCount());
 //			}
 //		}
 		selectedFacets.clear();
-		selectedFacets.put(FacetName.AUTHORITY, "source2");
+		selectedFacets.put("searchable.sources_ss", "source2");
 
 		
     	 results = searchableObjectService.search(null,
                 null, null, null, 
-                new FacetName[] {FacetName.CLASS,FacetName.FAMILY, FacetName.CONTINENT,FacetName.AUTHORITY},
+                new String[] {"base.class_s","taxon.family_s", "taxon.distribution_TDWG_0_ss","searchable.sources_ss"},
                 selectedFacets, null, null);
-//    	System.out.println("Searchable {AUTHORITY:source2}");
-//		for (String facetName : results.getFacetNames()) {
-//			System.out.println(facetName);
-//			for (Facet facet : results.getFacets().get(facetName)) {
-//				System.out.println("\t" + facet.getValue() + " " + facet.getCount());
-//			}
-//		}
     }
     
     /**
@@ -363,7 +360,9 @@ public class FacetingTest extends DataManagementSupport {
      */
     @Test
     public final void testFacetOnPlace() {
-    	Page<Place> places = placeService.search(null, null, 10, 0, new FacetName[] {}, null, null, null);
+    	Map<String, String> selectedFacets = new HashMap<String, String>();
+    	selectedFacets.put("base.class_s", "org.emonocot.model.geography.Place");
+    	Page<Place> places = placeService.search(null, null, 10, 0, new String[] {}, selectedFacets, null, null);
     	assertEquals("There should be one place in the result list",(Integer)places.getSize(),(Integer)1);
     }
 }

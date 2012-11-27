@@ -9,9 +9,9 @@ import java.util.Set;
 import java.lang.StringBuilder;
 
 import org.emonocot.api.TaxonService;
-import org.emonocot.model.taxon.AlphabeticalTaxonComparator;
-import org.emonocot.model.taxon.Taxon;
-import org.emonocot.model.key.IdentificationKey;
+import org.emonocot.model.IdentificationKey;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.util.AlphabeticalTaxonComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,7 +53,7 @@ public class ClassificationController {
      * @return the list of nodes
      */
     @RequestMapping(value = "/taxonTree", method = RequestMethod.GET,
-                    headers = "Accept=application/json")
+                    produces = "application/json")
     public final @ResponseBody
     List<Node> getTaxonTreeRoots() {
         List<Taxon> results = taxonService.loadChildren(null, 20, 0, "classification-tree");
@@ -70,7 +70,7 @@ public class ClassificationController {
      */
     @RequestMapping(value = "/taxonTree/{identifier}",
                     method = RequestMethod.GET,
-                    headers = "Accept=application/json")
+                    produces = "application/json")
     public final @ResponseBody
     List<Node> getTaxonTreeNode(@PathVariable final String identifier) {
         List<Taxon> results = taxonService.loadChildren(identifier, null, null, "classification-tree");
@@ -107,7 +107,7 @@ public class ClassificationController {
          * @param taxon Set the taxon
          */
         public Node(final Taxon taxon) {
-            data.put("title", taxon.getName());
+            data.put("title", taxon.getScientificName());
             Map<String, Object> dataAttr = new HashMap<String, Object>();
             dataAttr.put("href", "taxon/" + taxon.getIdentifier());
             Set<IdentificationKey> keys = taxon.getKeys();
@@ -124,7 +124,7 @@ public class ClassificationController {
                         keyInfo.append(",");
                     }
                     keyInfo.append(key.getTitle()).append(":::");
-                    keyInfo.append(prepender + key.getIdentifier());
+                    keyInfo.append(prepender + key.getId());
                     first = false;
                     keyCount++;
                 }

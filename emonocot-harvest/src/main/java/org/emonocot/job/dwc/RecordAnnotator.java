@@ -18,10 +18,10 @@ public class RecordAnnotator extends AbstractRecordAnnotator {
      * @return the exit status
      */
 	public final ExitStatus annotateRecords(String sourceName, String annotatedObjType) {
-      Integer sourceId = jdbcTemplate.queryForInt("Select id from source where identifier = '" + sourceName + "'");
-      String queryString = "insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, source_id, type, code, recordType) select o.id, ':annotatedObjType', ':jobId', :dateTime, :sourceId, 'Warn', 'Absent', ':annotatedObjType' from :annotatedObjType o where o.authority_id = :sourceId";
+      Integer authorityId = jdbcTemplate.queryForInt("Select id from source where identifier = '" + sourceName + "'");
+      String queryString = "insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select o.id, ':annotatedObjType', ':jobId', :dateTime, :authorityId, 'Warn', 'Absent', ':annotatedObjType' from :annotatedObjType o where o.authority_id = :authorityId";
       stepExecution.getJobExecution().getExecutionContext().putLong("job.execution.id", stepExecution.getJobExecutionId());
-      queryString = queryString.replaceAll(":sourceId", sourceId.toString());
+      queryString = queryString.replaceAll(":authorityId", authorityId.toString());
       queryString = queryString.replaceAll(":jobId", stepExecution.getJobExecutionId().toString());
       queryString = queryString.replaceAll(":dateTime", OlapDateTimeUserType.convert(new DateTime()).toString());
       queryString = queryString.replaceAll(":annotatedObjType", annotatedObjType);

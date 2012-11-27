@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.emonocot.portal.driver.*;
-import org.emonocot.portal.driver.source.JobDetails;
+import org.emonocot.portal.driver.source.JobOutput;
 import org.emonocot.portal.rows.AccessControlRow;
 import org.emonocot.portal.rows.GroupRow;
 import org.emonocot.portal.rows.JobRow;
@@ -75,7 +75,7 @@ public class StepDefinitions {
      * @param query
      *            Set the search query
      */
-    @When("^I search for \"([^\"]+)\"$")
+    @When("^I search for \"([^\"]*)\"$")
     public final void whenISearchFor(final String query) {
         currentPage = portal.search(query);
     }
@@ -330,7 +330,7 @@ public class StepDefinitions {
      */
     @When("^I restrict the type of object by selecting \"([^\"]+)\"$")
     public final void facetOnType(final String facetValue) {
-        iSelect("CLASS", facetValue);
+        iSelect("base.class_s", facetValue);
     }
 
     /**
@@ -394,15 +394,20 @@ public class StepDefinitions {
         currentPage = ((org.emonocot.portal.driver.image.Show) currentPage)
                 .selectKeyword(keyword);
     }
+    
+    @When("^I select the next page$")
+    public void iSelectTheNextPage() {
+    	currentPage = ((org.emonocot.portal.driver.Search) currentPage).selectNextPage();
+    }
 
     /**
      * @param category
      *            Set the category
      */
-    @When("^I select the job category \"([^\"]*)\"$")
-    public final void iSelectTheJobCategory(final String category) {
-        currentPage = ((org.emonocot.portal.driver.source.JobDetails) currentPage)
-                .selectCategory(category);
+    @When("^I restrict the job \"([^\"]*)\" by selecting \"([^\"]*)\"$")
+    public final void iSelectTheJobCategory(final String facetName, final String facetValue) {
+        currentPage = ((org.emonocot.portal.driver.source.JobOutput) currentPage)
+                .selectFacet(facetName, facetValue);
     }
 
     /**
@@ -438,10 +443,10 @@ public class StepDefinitions {
     @Then("^the summary results should be as follows:$")
     public final void theSummaryResultsShouldBeAsFollows(
             final List<SummaryRow> results) {
-        int actualNumberOfResults = (int) ((JobDetails) currentPage)
+        int actualNumberOfResults = (int) ((JobOutput) currentPage)
                 .getResultNumber();
         assertEquals(results.size(), actualNumberOfResults);
-        List<String[]> actualResults = ((JobDetails) currentPage).getResults();
+        List<String[]> actualResults = ((JobOutput) currentPage).getResults();
         for (int i = 0; i < actualNumberOfResults; i++) {
             assertArrayEquals(actualResults.get(i), results.get(i).toArray());
         }
@@ -500,9 +505,15 @@ public class StepDefinitions {
      * @param results
      *            Set the number of results
      */
-    @Then("^there should be (\\d) result[s]?$")
+    @Then("^there should be (\\d+) result[s]?$")
     public final void thereShouldBeResults(final Integer results) {
         assertEquals(results, ((Search) currentPage).getResultNumber());
+    }
+    
+    @Then("^the pagination should show that results (\\d+) - (\\d+) are displayed$")
+    public void thePaginationShouldShowThatResultsAreDisplayed(Integer from, Integer to) {
+    	String label = from + " - " + to;
+    	assertEquals(label, ((Search) currentPage).getPaginationLabel());
     }
 
     /**
@@ -701,7 +712,7 @@ public class StepDefinitions {
      */
     @Then("^the Type facet should have the following options:$")
     public final void thereShouldBeOptionsForClassFacet(final List<Row> options) {
-        assertFacets("CLASS", options);
+        assertFacets("base.class_s", options);
     }
 
     /**
@@ -710,7 +721,7 @@ public class StepDefinitions {
      */
     @Then("^the Family facet should have the following options:$")
     public final void thereShouldBeOptionsForFamilyFacet(final List<Row> options) {
-        assertFacets("FAMILY", options);
+        assertFacets("taxon.family_s", options);
     }
 
     /**
@@ -719,7 +730,7 @@ public class StepDefinitions {
      */
     @Then("^the Rank facet should have the following options:$")
     public final void thereShouldBeOptionsForRankFacet(final List<Row> options) {
-        assertFacets("RANK", options);
+        assertFacets("taxon.taxon_rank_s", options);
     }
 
     /**
@@ -728,7 +739,7 @@ public class StepDefinitions {
      */
     @Then("^the Status facet should have the following options:$")
     public final void thereShouldBeOptionsForStatusFacet(final List<Row> options) {
-        assertFacets("STATUS", options);
+        assertFacets("taxon.taxonomic_status_s", options);
     }
 
     /**

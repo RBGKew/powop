@@ -38,7 +38,7 @@
 								fieldClass="span6" />
 							<field:input field="subject" label="source.subject"
 								fieldClass="span6" />
-							<field:input field="source" label="source.source"
+							<field:input field="bibliographicCitation" label="source.source"
 								fieldClass="span6" />
 						</form:create>
 					</div>

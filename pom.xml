@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.emonocot</groupId>
 	<artifactId>emonocot</artifactId>
-	<version>0.0.21-SNAPSHOT</version>
+	<version>0.0.23-SNAPSHOT</version>
 	<description>eMonocot aims to create a global online resource for monocot plants. It will
         provide a focus for taxonomists working on monocots and will help people discover
         information about monocots by providing tools for identification, up-to-date checklists,
@@ -24,14 +24,17 @@
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.7</java.version>
 		<spring.version>3.1.0.RELEASE</spring.version>
-		<hibernate.version>3.6.2.Final</hibernate.version>
+		<hibernate.version>3.6.7.Final</hibernate.version>
 		<spring.security.version>3.1.0.RELEASE</spring.security.version>
 		<spring.batch.version>2.1.8.RELEASE</spring.batch.version>
 		<spring.batch.admin.version>1.2.0.RELEASE</spring.batch.admin.version>
 		<spring.integration.version>2.1.0.RELEASE</spring.integration.version>
-		<lucene.version>3.1.0</lucene.version>
+		<lucene.version>4.0.0</lucene.version>
 		<geotools.version>2.7.0</geotools.version>
+		<aspectj.version>1.6.12</aspectj.version>
+		<slf4j.version>1.6.1</slf4j.version>
 		<skip.global.tests>true</skip.global.tests>
 	</properties>
 	<issueManagement>
@@ -127,6 +130,11 @@
 				<artifactId>spring-orm</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
+		    <dependency>
+			  <groupId>org.springframework</groupId>
+			  <artifactId>spring-aspects</artifactId>
+			  <version>${spring.version}</version>
+		    </dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-aop</artifactId>
@@ -223,6 +231,12 @@
 				<artifactId>spring-batch-test</artifactId>
 				<version>${spring.batch.version}</version>
 				<scope>test</scope>
+				<exclusions>
+				  <exclusion>
+				    <artifactId>junit</artifactId>
+				    <groupId>junit</groupId>
+				  </exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.batch</groupId>
@@ -275,6 +289,22 @@
 				<version>${hibernate.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>${hibernate.version}</version>
+				<exclusions>
+				  <exclusion>
+				    <groupId>cglib</groupId>
+				    <artifactId>cglib</artifactId>
+				  </exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+			  <artifactId>cglib-nodep</artifactId>
+			  <groupId>cglib</groupId>
+			  <version>2.2</version>
+			</dependency>
+			<dependency>
 				<groupId>org.hibernate.javax.persistence</groupId>
 				<artifactId>hibernate-jpa-2.0-api</artifactId>
 				<version>1.0.0.Final</version>
@@ -283,11 +313,6 @@
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-validator</artifactId>
 				<version>4.2.0.Final</version>
-			</dependency>
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-search</artifactId>
-				<version>3.4.1.Final</version>
 			</dependency>
 			<dependency>
 				<groupId>org.hibernatespatial</groupId>
@@ -304,57 +329,43 @@
 				<artifactId>hibernate-spatial-h2-geodb</artifactId>
 				<version>1.1</version>
 				<scope>test</scope>
-			</dependency>
+			</dependency>			
 			<dependency>
-				<groupId>org.apache.lucene</groupId>
-				<artifactId>lucene-core</artifactId>
-				<version>${lucene.version}</version>
-			</dependency>
+			    <groupId>org.aspectj</groupId>
+			    <artifactId>aspectjrt</artifactId>
+			    <version>${aspectj.version}</version>
+		    </dependency>
+		    <dependency>
+			    <groupId>org.aspectj</groupId>
+			    <artifactId>aspectjweaver</artifactId>
+			    <version>${aspectj.version}</version>
+		    </dependency>
 			<dependency>
-				<groupId>org.apache.lucene</groupId>
-				<artifactId>lucene-queries</artifactId>
-				<version>${lucene.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.lucene</groupId>
-				<artifactId>lucene-analyzers</artifactId>
-				<version>${lucene.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.lucene</groupId>
-				<artifactId>lucene-highlighter</artifactId>
-				<version>${lucene.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.lucene</groupId>
-				<artifactId>lucene-memory</artifactId>
-				<version>${lucene.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.lucene</groupId>
-				<artifactId>lucene-misc</artifactId>
-				<version>${lucene.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.lucene</groupId>
-				<artifactId>lucene-spatial</artifactId>
-				<version>${lucene.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.lucene</groupId>
-				<artifactId>lucene-spellchecker</artifactId>
-				<version>${lucene.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.lucene</groupId>
-				<artifactId>lucene-smartcn</artifactId>
-				<version>${lucene.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.lucene</groupId>
-				<artifactId>lucene-stempel</artifactId>
-				<version>${lucene.version}</version>
-			</dependency>
+	          <groupId>org.apache.solr</groupId>
+	          <artifactId>solr-solrj</artifactId>
+	          <version>${lucene.version}</version>
+            </dependency>
+            <dependency>
+	          <groupId>org.apache.solr</groupId>
+	          <artifactId>solr-core</artifactId>
+	          <version>${lucene.version}</version>
+	          <exclusions>
+	            <exclusion>
+	              <artifactId>slf4j-jdk14</artifactId>
+	              <groupId>org.slf4j</groupId>
+	            </exclusion>
+	          </exclusions>
+            </dependency>
+            <dependency>
+	          <groupId>org.apache.lucene</groupId>
+	          <artifactId>lucene-core</artifactId>
+	          <version>${lucene.version}</version>
+            </dependency>            
+            <dependency>
+	          <groupId>org.apache.lucene</groupId>
+	          <artifactId>lucene-queries</artifactId>
+	          <version>${lucene.version}</version>
+            </dependency>
 			<dependency>
 				<groupId>org.joda</groupId>
 				<artifactId>com.springsource.org.joda.time</artifactId>
@@ -486,22 +497,27 @@
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
-				<version>1.6.1</version>
+				<version>${slf4j.version}</version>
 			</dependency>
+			<dependency>
+	           <groupId>org.slf4j</groupId>
+	           <artifactId>jul-to-slf4j</artifactId>
+	           <version>${slf4j.version}</version>
+            </dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>log4j-over-slf4j</artifactId>
-				<version>1.6.1</version>
+				<version>${slf4j.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>jcl-over-slf4j</artifactId>
-				<version>1.6.1</version>
+				<version>${slf4j.version}</version>
 			</dependency>			
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-log4j12</artifactId>
-				<version>1.6.1</version>
+				<version>${slf4j.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>log4j</groupId>
@@ -538,7 +554,7 @@
 				<groupId>org.easymock</groupId>
 				<artifactId>easymock</artifactId>
 				<version>3.0</version>
-				<scope>test</scope>
+				<scope>test</scope>				
 			</dependency>
 			<dependency>
 				<groupId>org.dbunit</groupId>
@@ -554,14 +570,14 @@
 			</dependency>
 			<dependency>
 				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
+				<artifactId>junit-dep</artifactId>
 				<version>4.8.1</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.h2database</groupId>
 				<artifactId>h2</artifactId>
-				<version>1.3.159</version>
+				<version>1.3.168</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -636,7 +652,13 @@
 			<dependency>
 				<groupId>org.hamcrest</groupId>
 				<artifactId>hamcrest-library</artifactId>
-				<version>1.1</version>
+				<version>1.3</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.hamcrest</groupId>
+				<artifactId>hamcrest-core</artifactId>
+				<version>1.3</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -702,7 +724,17 @@
 			<dependency>
 				<groupId>org.gbif</groupId>
 				<artifactId>dwca-reader</artifactId>
-				<version>1.7.6</version>
+				<version>1.12</version>
+			</dependency>
+			<dependency>
+				<groupId>org.gbif</groupId>
+				<artifactId>dwc-api</artifactId>
+				<version>1.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.gbif</groupId>
+				<artifactId>gbif-common</artifactId>
+				<version>0.8</version>
 			</dependency>
 			<dependency>
 				<groupId>joda-time</groupId>
@@ -726,29 +758,15 @@
 				<version>${geotools.version}</version>
 			</dependency>
 			<dependency>
+              <groupId>org.geotools</groupId>
+              <artifactId>gt-shapefile</artifactId>
+              <version>${geotools.version}</version>
+            </dependency>
+			<dependency>
 				<groupId>org.geotools</groupId>
 				<artifactId>gt-epsg-hsql</artifactId>
 				<version>${geotools.version}</version>
-			</dependency>
-			<!-- Required for ANT build / deploy -->
-			<dependency>
-				<groupId>tomcat</groupId>
-				<artifactId>catalina-ant</artifactId>
-				<version>5.5.23</version>
-				<scope>test</scope>
-				<exclusions>
-					<exclusion>
-						<groupId>ant</groupId>
-						<artifactId>ant</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.ant</groupId>
-				<artifactId>ant-junit</artifactId>
-				<version>1.8.2</version>
-				<scope>test</scope>
-			</dependency>
+			</dependency>			
 			<dependency>
 				<groupId>org.liquibase</groupId>
 				<artifactId>liquibase-core</artifactId>
@@ -820,6 +838,11 @@
 				<version>1.8.5</version>
 			</dependency>
 			<dependency>
+	          <groupId>com.fasterxml</groupId>
+	          <artifactId>jackson-module-hibernate</artifactId>
+	          <version>1.9.1</version>
+            </dependency>
+			<dependency>
 				<groupId>org.codehaus.jackson</groupId>
 				<artifactId>jackson-mapper-lgpl</artifactId>
 				<version>1.8.5</version>
@@ -828,25 +851,6 @@
 				<groupId>org.apache.tiles</groupId>
 				<artifactId>tiles-jsp</artifactId>
 				<version>2.2.2</version>
-			</dependency>
-			<dependency>
-				<groupId>pentaho</groupId>
-				<artifactId>mondrian</artifactId>
-				<version>3.2.1.14022</version>
-				<exclusions>
-					<exclusion>
-						<groupId>javax.servlet</groupId>
-						<artifactId>jsp-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>log4j</groupId>
-						<artifactId>log4j</artifactId>
-					</exclusion>
-				    <exclusion>
-				      <groupId>commons-logging</groupId>
-				      <artifactId>commons-logging</artifactId>
-				    </exclusion>
-				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.activemq</groupId>
@@ -902,25 +906,21 @@
 				<version>1.0</version>
 			</dependency>
 			<dependency>
-				<groupId>org.kew</groupId>
-				<artifactId>ECAT-name-parser</artifactId>
-				<version>x-j1.5</version>
+				<groupId>org.gbif</groupId>
+				<artifactId>ecat-common</artifactId>
+				<version>1.6</version>
+				<exclusions>
+				  <exclusion>
+				    <artifactId>lucene-analyzers</artifactId>
+				    <groupId>org.apache.lucene</groupId>
+				  </exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
-				<groupId>org.apache.lucene.spatial</groupId>
-				<artifactId>org.emonocot.spatial-base</artifactId>
-				<version>0.1</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.lucene.spatial</groupId>
-				<artifactId>org.emonocot.spatial-extras-base</artifactId>
-				<version>0.1</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.lucene.spatial</groupId>
-				<artifactId>org.emonocot.spatial-lucene</artifactId>
-				<version>0.1</version>
-			</dependency>
+			  <groupId>com.spatial4j</groupId>
+			  <artifactId>spatial4j</artifactId>
+			  <version>0.3</version>
+			</dependency>	
 		</dependencies>
 	</dependencyManagement>
 	<build>
@@ -1124,7 +1124,7 @@
 			<name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
 			<url>http://repository.springsource.com/maven/bundles/external/</url>
 		</repository>
-		<repository>
+		<!-- <repository>
 			<id>jboss-public-repository-group</id>
 			<name>JBoss Public Maven Repository Group</name>
 			<url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
@@ -1137,7 +1137,7 @@
 				<enabled>true</enabled>
 				<updatePolicy>never</updatePolicy>
 			</snapshots>
-		</repository>
+		</repository>-->
 		<repository>
 			<id>openqa</id>
 			<name>OpenQA Repository</name>
@@ -1356,16 +1356,12 @@
 		<profile>
 			<id>harvest.uat.vagrant</id>
 			<properties>
+			    <tdwg.shapefiles.location>/var/lib/emonocot</tdwg.shapefiles.location>
 				<webAppRootKey>harvester</webAppRootKey>
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
-				<portal.job.notification.uri>http://localhost/emonocot-portal/job-notifications</portal.job.notification.uri>
 				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
-				<amq.broker.name>messageBroker</amq.broker.name>
-				<amq.connectionFactory.jndi_name>jms/ConnectionFactory</amq.connectionFactory.jndi_name>
-				<amq.queue.jndi_name>queue/eMonocotLuceneQueue</amq.queue.jndi_name>
-				<amq.queue.physical_name>eMonocotLuceneQueue</amq.queue.physical_name>
 				<harvester.baseUrl>http://localhost:8888/emonocot-harvester</harvester.baseUrl>
 				<harvester.services.client.identifier>zoo.ox.ac.uk</harvester.services.client.identifier>
 				<harvester.admin.password>adm1n</harvester.admin.password>
@@ -1389,12 +1385,7 @@
 				<liquibase.url>jdbc:mysql://localhost:3336/emonocot</liquibase.url>
 				<liquibase.drop.database.first>false</liquibase.drop.database.first>
 				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
-				<hibernate.search.default.indexBase>/var/cache/tomcat7/work/emonocot-harvester</hibernate.search.default.indexBase>
-				<hibernate.search.default.sourceBase>/mnt/master_index</hibernate.search.default.sourceBase>
-				<hibernate.search.default.directory_provider>filesystem-master</hibernate.search.default.directory_provider>
-				<hibernate.search.default.refresh>60</hibernate.search.default.refresh>
-				<hibernate.search.worker.backend>jms</hibernate.search.worker.backend>
-				<hibernate.search.purge.indexes.on.init>false</hibernate.search.purge.indexes.on.init>
+				<solr.url>http://localhost:8983/solr</solr.url>
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-harvester/cache</ehcache.diskstore.path>
 				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
 				<jdbc.driver.url>jdbc:mysql://localhost:3306/emonocot</jdbc.driver.url>
@@ -1405,16 +1396,12 @@
 		<profile>
 			<id>portal.uat.vagrant</id>
 			<properties>
+			    <tdwg.shapefiles.location>/var/lib/emonocot</tdwg.shapefiles.location>
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
-				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
-				<amq.broker.name>localhost</amq.broker.name>
-				<amq.connectionFactory.jndi_name>jms/ConnectionFactory</amq.connectionFactory.jndi_name>
-				<amq.queue.jndi_name>queue/eMonocotLuceneQueue</amq.queue.jndi_name>
-				<amq.queue.physical_name>eMonocotLuceneQueue</amq.queue.physical_name>
-				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
-				<harvester.jobRequests.url>http://build.e-monocot.org/test/job-requests.json</harvester.jobRequests.url>
+				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>				
+				<portal.baseUrl>http://localhost:8080</portal.baseUrl>				
 				<google.analytics.id />
 				<webAppRootKey>emonocot-portal</webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>
@@ -1432,12 +1419,7 @@
 				<liquibase.changelog>../emonocot-persistence/src/main/resources/changelog.mysql.xml</liquibase.changelog>
 				<liquibase.url>jdbc:mysql://localhost:3336/emonocot</liquibase.url>
 				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
-				<hibernate.search.default.directory_provider>filesystem-slave</hibernate.search.default.directory_provider>
-				<hibernate.search.default.indexBase>/var/cache/tomcat7/work/emonocot-portal/indexes</hibernate.search.default.indexBase>
-				<hibernate.search.default.sourceBase>/mnt/master_index</hibernate.search.default.sourceBase>
-				<hibernate.search.worker.backend>jms</hibernate.search.worker.backend>
-				<hibernate.search.default.refresh>60</hibernate.search.default.refresh>
-				<hibernate.search.purge.indexes.on.init>false</hibernate.search.purge.indexes.on.init>
+				<solr.url>http://localhost:8983/solr</solr.url>
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
 				<mondrian.catalog.location>jndi:/localhost/WEB-INF/classes/META-INF/olap/olap.xml</mondrian.catalog.location>
 				<spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
@@ -1453,16 +1435,12 @@
 		<profile>
 			<id>portal.test.vagrant</id>
 			<properties>
+			    <tdwg.shapefiles.location>/var/lib/emonocot</tdwg.shapefiles.location>
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
-				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
-				<amq.broker.name>localhost</amq.broker.name>
-				<amq.connectionFactory.jndi_name>jms/ConnectionFactory</amq.connectionFactory.jndi_name>
-				<amq.queue.jndi_name>queue/eMonocotLuceneQueue</amq.queue.jndi_name>
-				<amq.queue.physical_name>eMonocotLuceneQueue</amq.queue.physical_name>
-				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
-				<harvester.jobRequests.url>http://build.e-monocot.org/test/job-requests.json</harvester.jobRequests.url>
+				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>				
+				<portal.baseUrl>http://localhost:8080</portal.baseUrl>				
 				<google.analytics.id />
 				<webAppRootKey>emonocot-portal</webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>
@@ -1479,13 +1457,7 @@
 				<liquibase.drop.database.first>true</liquibase.drop.database.first>
 				<liquibase.changelog>../emonocot-persistence/src/main/resources/changelog.mysql.xml</liquibase.changelog>
 				<liquibase.url>jdbc:mysql://localhost:3336/emonocot</liquibase.url>
-				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
-				<hibernate.search.default.directory_provider>filesystem</hibernate.search.default.directory_provider>
-				<hibernate.search.default.indexBase>/var/cache/tomcat7/work/emonocot-portal/indexes</hibernate.search.default.indexBase>
-				<hibernate.search.default.sourceBase>/mnt/master_index</hibernate.search.default.sourceBase>
-				<hibernate.search.worker.backend>lucene</hibernate.search.worker.backend>
-				<hibernate.search.default.refresh>60</hibernate.search.default.refresh>
-				<hibernate.search.purge.indexes.on.init>true</hibernate.search.purge.indexes.on.init>
+				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>				
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
 				<mondrian.catalog.location>jndi:/localhost/WEB-INF/classes/META-INF/olap/olap.xml</mondrian.catalog.location>
 				<spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
@@ -1497,6 +1469,8 @@
 				<functional.test.baseUri>http://localhost</functional.test.baseUri>
 				<functional.test.basePath />
 				<functional.test.port>8080</functional.test.port>
+				<functional.test.solr.url>http://localhost:8999/solr</functional.test.solr.url>
+				<solr.url>http://localhost:8983/solr</solr.url>
 				<http.proxyHost />
 				<http.proxyPort />
 			</properties>

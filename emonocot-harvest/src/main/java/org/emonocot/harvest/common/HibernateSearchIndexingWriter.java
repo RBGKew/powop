@@ -1,19 +1,12 @@
 package org.emonocot.harvest.common;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.CacheMode;
-import org.hibernate.FlushMode;
-import org.hibernate.search.FullTextSession;
-import org.hibernate.search.Search;
-import org.springframework.batch.core.ExitStatus;
-import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.core.StepExecutionListener;
+import org.emonocot.model.Searchable;
+import org.emonocot.persistence.hibernate.SolrIndexingListener;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 /**
  *
@@ -21,56 +14,32 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
  *
  */
 public class HibernateSearchIndexingWriter
-    extends HibernateDaoSupport implements ItemWriter<Object>,
-    StepExecutionListener {
+    extends HibernateDaoSupport implements ItemWriter<Long> {
+
+    private Class type;
+    
+    private SolrIndexingListener solrIndexingListener;
 
     /**
-     *
-     */
-    private PlatformTransactionManager transactionManager;
+	 * @param type the type to set
+	 */
+	public void setType(Class type) {
+		this.type = type;
+	}
 
-    /**
-     *
-     */
-    private DefaultTransactionDefinition transactionDefinition
-        = new DefaultTransactionDefinition();
+	/**
+	 * @param solrIndexingListener the solrIndexingListener to set
+	 */
+	public void setSolrIndexingListener(SolrIndexingListener solrIndexingListener) {
+		this.solrIndexingListener = solrIndexingListener;
+	}
 
-    /**
-     *
-     */
-    private TransactionStatus transactionStatus;
-
-    /**
-     *
-     * @param newTransactionManager Set the transaction manager
-     */
-    public final void setTransactionManager(
-            final PlatformTransactionManager newTransactionManager) {
-        this.transactionManager = newTransactionManager;
+	public final void write(final List<? extends Long> identifiers) throws Exception {
+		List<Searchable> searchables = new ArrayList<Searchable>();
+        for (Long l : identifiers) {
+        	searchables.add((Searchable)getSession().load(type, l));
+            
+        }   
+        solrIndexingListener.indexObjects(searchables); 
     }
-
-    public final void write(
-            final List<? extends Object> objects) throws Exception {
-        FullTextSession fullTextSession
-            = Search.createFullTextSession(getSession());
-        fullTextSession.setFlushMode(FlushMode.MANUAL);
-        fullTextSession.setCacheMode(CacheMode.IGNORE);
-
-        for (Object o : objects) {
-            fullTextSession.index(o); //index each element
-        }
-        fullTextSession.flushToIndexes(); //apply changes to indexes
-        fullTextSession.clear(); //free memory since the queue is processed
-    }
-
-    public final void beforeStep(final StepExecution stepExecution) {
-        transactionStatus
-            = transactionManager.getTransaction(transactionDefinition);
-    }
-
-    public final ExitStatus afterStep(final StepExecution stepExecution) {
-        transactionManager.commit(transactionStatus);
-        return null;
-    }
-
 }

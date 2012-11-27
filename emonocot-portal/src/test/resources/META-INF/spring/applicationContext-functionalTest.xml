@@ -46,6 +46,10 @@
 	<bean name="customObjectMapper"	class="org.emonocot.model.marshall.json.CustomObjectMapperFactory">
 		<property name="jobInstanceService" ref="jobInstanceServiceImpl" />
 	</bean>
+	
+	<bean id="solrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer"  destroy-method="shutdown">
+		<constructor-arg value="${functional.test.solr.url}"/>
+	</bean>
 
 	<beans profile="default">
 		<bean id="clientHttpRequestFactory"	class="org.emonocot.portal.http.AuthenticatingHttpClientFactory" />

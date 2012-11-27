@@ -4,11 +4,11 @@
   <parent>
     <artifactId>emonocot</artifactId>
     <groupId>org.emonocot</groupId>
-    <version>0.0.21-SNAPSHOT</version>
+    <version>0.0.23-SNAPSHOT</version>
   </parent>
   <groupId>org.emonocot</groupId>
   <artifactId>emonocot-service</artifactId>
-  <version>0.0.21-SNAPSHOT</version>
+  <version>0.0.23-SNAPSHOT</version>
   <name>eMonocot Service Layer</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -56,7 +56,7 @@
 	</dependency>
     <dependency>
 		<groupId>junit</groupId>
-		<artifactId>junit</artifactId>
+		<artifactId>junit-dep</artifactId>
 	</dependency>
 	<dependency>
 		<groupId>org.easymock</groupId>
@@ -69,6 +69,14 @@
     <dependency>
        <groupId>net.sourceforge.hatbox</groupId>
        <artifactId>org.emonocot.hatbox</artifactId>
+    </dependency>
+    <dependency>
+	    <groupId>javax.servlet</groupId>
+		<artifactId>servlet-api</artifactId>
+	</dependency>
+	<dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-web</artifactId>
     </dependency>
   </dependencies>
   <build>

@@ -1,8 +1,5 @@
 package org.emonocot.portal.driver.image;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import org.emonocot.portal.driver.IllustratedPage;
 import org.emonocot.portal.driver.PageObject;
 import org.emonocot.portal.driver.Search;

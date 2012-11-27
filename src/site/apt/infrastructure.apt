@@ -43,23 +43,23 @@ Restoring data from backup
 
  * Restore the database from backup by executing the following on the database server {{{http://zoo-bclark04.zoo.ox.ac.uk}zoo-bclark04.zoo.ox.ac.uk}}
 
-   * <<<rsync -avr username@build.e-monocot.org:/.snapshots/daily.0/localhost/mysql/mysqldump.sql.gz .>>>
+   * <<<rsync -avr username@build.e-monocot.org:/mnt/shared/snapshots/daily.0/zoo-bclark04/mysql/mysqldump.sql.gz .>>>
    
    * <<<gunzip mysqldump.sql.gz>>>
    
    * <<<mysql -uemonocot-user -peM0n0c0t emonocot < mysqldump.sql>>>
    
-   * <<<rsync -avr username@build.e-monocot.org:/.snapshots/daily.0/localhost/mysql/gis.sql.gz .>>>
+   * <<<rsync -avr username@build.e-monocot.org:/mnt/shared/snapshots/daily.0/zoo-bclark04/mysql/gis.sql.gz .>>>
    
    * <<<gunzip gis.sql.gz>>>
    
-   * <<<mysql -ugeoserver -pG3053rv3r gis < gis.sql>>>
+   * <<<mysql -ugeoserver-user -pg3053rv3r gis < gis.sql>>>
 
    []
 
  * Restore the data from backup by executing the following on the master application server {{{http://zoo-bclark02.zoo.ox.ac.uk}zoo-bclark02.zoo.ox.ac.uk}} as the user <tomcat>
    
-    * <<<rsync -avr username@build.e-monocot.org:/.indexes/daily.0/localhost/var/cache/emonocot/uat_harvest/index/ /var/cache/tomcat7/work/emonocot-harvester/>>>
+    * <<<rsync -avr username@build.e-monocot.org:/mnt/shared/indexes/daily.0/localhost/var/cache/emonocot/uat_harvest/index/ /var/cache/tomcat7/work/emonocot-harvester/>>>
  
     * <<<rsync -avr username@build.e-monocot.org:/.snapshots/daily.0/localhost/var/www/html/uat/harvest/images /var/lib/emonocot/>>>  
  

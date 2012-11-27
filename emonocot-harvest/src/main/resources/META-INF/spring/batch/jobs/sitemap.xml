@@ -73,20 +73,17 @@
 
 
     <bean id="taxonReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
-        <property name="useStatelessSession" value="true" />
         <property name="queryString" value="FROM Taxon" />
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
     <bean id="imageReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
-        <property name="useStatelessSession" value="true" />
         <property name="queryString" value="FROM Image" />
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
     <bean id="identKeyReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
-        <property name="useStatelessSession" value="true" />
-        <property name="queryString" value="FROM IdentificationKey" />
+         <property name="queryString" value="FROM IdentificationKey" />
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 

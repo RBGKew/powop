@@ -38,32 +38,11 @@
 		class="org.springframework.context.support.ConversionServiceFactoryBean">
 		<property name="converters">
 			<list>
+			    <bean class="org.emonocot.model.convert.RankConverter" />
 				<bean class="org.emonocot.model.geography.GeographyConverter" />
-				<bean class="org.emonocot.model.reference.ReferenceTypeConverter" />
-				<bean class="org.emonocot.model.taxon.TaxonomicStatusConverter" />
-				<bean class="org.emonocot.model.taxon.RankConverter" />
 				<!-- Required due to SPR-6564 Spring ConversionService breaks String-to-Resource 
 					resolution -->
 				<bean class="org.emonocot.harvest.common.FileConverter" />
-			</list>
-		</property>
-	</bean>
-
-	<bean name="hibernateSearchIndexPurger"
-		class="org.emonocot.persistence.hibernate.HibernateSearchIndexPurger"
-		init-method="purgeIndices" depends-on="transactionManager">
-		<property name="purgeOnInit" value="${hibernate.search.purge.indexes.on.init}" />
-		<property name="indexedClasses">
-			<list>
-				<value>org.emonocot.model.description.Distribution</value>
-				<value>org.emonocot.model.geography.Place</value>
-				<value>org.emonocot.model.identifier.Identifier</value>
-				<value>org.emonocot.model.key.IdentificationKey</value>
-				<value>org.emonocot.model.description.TextContent</value>
-				<value>org.emonocot.model.media.Image</value>
-				<value>org.emonocot.model.reference.Reference</value>
-				<value>org.emonocot.model.source.Source</value>
-				<value>org.emonocot.model.taxon.Taxon</value>
 			</list>
 		</property>
 	</bean>
@@ -80,31 +59,43 @@
 			<value>
 				hibernate.dialect=${hibernate.dialect}
 				hibernate.hbm2ddl.auto=validate
-				hibernate.search.default.directory_provider=filesystem-master
-				hibernate.search.default.refresh=${hibernate.search.default.refresh}
-				hibernate.search.default.sourceBase=${hibernate.search.default.sourceBase}
-				hibernate.search.default.indexBase=${hibernate.search.default.indexBase}
-				hibernate.search.default.exclusive_index_use=true
+				hibernate.validator.autoregister_listeners=false	
 			</value>
 		</property>
 		<property name="annotatedClasses">
 			<list>
-				<value>org.emonocot.model.common.Annotation</value>
-				<value>org.emonocot.model.description.Distribution</value>
-				<value>org.emonocot.model.description.TextContent</value>
+				<value>org.emonocot.model.Job</value>
+				<value>org.emonocot.model.Source</value>
+				<value>org.emonocot.model.Identifier</value>
+				<value>org.emonocot.model.IdentificationKey</value>
+				<value>org.emonocot.model.Annotation</value>
+				<value>org.emonocot.model.Distribution</value>
+				<value>org.emonocot.model.Description</value>
+				<value>org.emonocot.model.Image</value>
+				<value>org.emonocot.model.MeasurementOrFact</value>
+				<value>org.emonocot.model.Reference</value>
+				<value>org.emonocot.model.Taxon</value>
+				<value>org.emonocot.model.TypeAndSpecimen</value>
+				<value>org.emonocot.model.VernacularName</value>
+				<value>org.emonocot.model.auth.User</value>
+				<value>org.emonocot.model.auth.Group</value>
 				<value>org.emonocot.model.geography.Place</value>
-				<value>org.emonocot.model.identifier.Identifier</value>
-			    <value>org.emonocot.model.job.Job</value>
-				<value>org.emonocot.model.key.IdentificationKey</value>
-				<value>org.emonocot.model.media.Image</value>
-				<value>org.emonocot.model.reference.Reference</value>
-				<value>org.emonocot.model.source.Source</value>
-				<value>org.emonocot.model.taxon.Taxon</value>
-				<value>org.emonocot.model.user.Group</value>
-				<value>org.emonocot.model.user.User</value>
 			</list>
 		</property>
-		<property name="annotatedPackages" value="org.emonocot.model.common" />
+		<property name="eventListeners">
+      	  <map>        	
+            <entry key="post-delete" value-ref="solrIndexingListener" />
+      	  </map>
+    	</property>	
+		<property name="annotatedPackages" value="org.emonocot.model" />
+	</bean>
+	
+	<bean id="solrIndexingListener" class="org.emonocot.persistence.hibernate.SolrIndexingListener">
+	  <property name="solrServer" ref="solrServer"/>
+	</bean>
+
+	<bean id="solrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer"  destroy-method="shutdown">
+		<constructor-arg value="${solr.url}"/>
 	</bean>
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
@@ -144,8 +135,12 @@
 		<property name="cacheProducers" value="false" />
 	</bean>
 	
-	<bean id="resizeImagesProcessor" class="org.emonocot.harvest.media.ImageFileProcessor">
+	<bean id="imageFileProcessor" class="org.emonocot.harvest.media.ImageFileProcessor">
 	  <property name="getResourceClient" ref="getResourceClient" />
+	  <property name="imageDirectory" value="${harvester.image.directory}"/>
+	</bean>
+	
+	<bean id="imageThumbnailProcessor" class="org.emonocot.harvest.media.ImageThumbnailGenerator">
 	  <property name="thumbnailDirectory" value="${harvester.thumbnail.directory}"/>
 	  <property name="imageMagickSearchPath" value="${harvester.imagemagick.path}"/>
 	  <property name="imageDirectory" value="${harvester.image.directory}"/>

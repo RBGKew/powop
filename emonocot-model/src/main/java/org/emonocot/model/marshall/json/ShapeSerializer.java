@@ -6,22 +6,21 @@ import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.SerializerProvider;
-import org.emonocot.model.geography.Place;
 
-import com.vividsolutions.jts.geom.MultiPolygon;
+import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.io.WKTWriter;
 
 /**
  * @author jk00kg
  *
  */
-public class ShapeSerializer extends JsonSerializer<MultiPolygon> {
+public class ShapeSerializer extends JsonSerializer<Geometry> {
 
 	/* (non-Javadoc)
 	 * @see org.codehaus.jackson.map.JsonSerializer#serialize(java.lang.Object, org.codehaus.jackson.JsonGenerator, org.codehaus.jackson.map.SerializerProvider)
 	 */
 	@Override
-	public void serialize(MultiPolygon value, JsonGenerator jgen,
+	public void serialize(Geometry value, JsonGenerator jgen,
 			SerializerProvider provider) throws IOException,
 			JsonProcessingException {
 		

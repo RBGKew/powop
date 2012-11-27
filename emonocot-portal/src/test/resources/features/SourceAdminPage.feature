@@ -7,7 +7,8 @@ Feature: Source Admin Page
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=76
 
 Background:
-  Given there are source systems with the following properties:
+  Given that the indexes are clean
+  And there are source systems with the following properties:
   | identifier | uri                 | title        |
   | test       | http://example.com  | test title   |
   And there are groups with the following properties:
@@ -61,14 +62,15 @@ Scenario: Check SourcePage
   Then there should be 1 jobs listed
   When I select the 1st job
   Then the summary results should be as follows:
-  | label | value |
-  | Taxa  | 3     |
-  When I select the job category "Taxa"
+  | category | subcategory | details                                                                          | record                         |
+  | Warn     | BadField    | Could not find identifier for relationship of taxon urn:kew.org:wcs:taxon:224934 |                                |
+  | Info     | Update      |                                                                                  | Acorus                         |
+  | Info     | Create      |                                                                                  | Acorus calamus                 |
+  | Error    | BadRecord   |                                                                                  | Acorus calamus var. angustatus |
+  When I restrict the job "annotation.type_s" by selecting "Error"
   Then the summary results should be as follows:
-  | label | value |
-  | Error | 1     |
-  | Info  | 2     |
-  | Warn  | 1     |
+  | category | subcategory | details | record                         |
+  | Error    | BadRecord   |         | Acorus calamus var. angustatus |
 
 Scenario: Create Source
   As an administrator, in order to improve eMonocot, I want to be able
@@ -79,8 +81,8 @@ Scenario: Create Source
   When I am on the source list page
   And I select "Create a new source"
   And I enter the following data into the create source form:
-  | identifier | title | uri | logoUrl |
-  | test2 | test2 title | http://example.com | http://example.com/logo.png |
+  | identifier | title       | uri                | logoUrl |
+  | test2      | test2 title | http://example.com | http://example.com/logo.png |
   And I submit the create source form
   Then an info message should say "test2 title created"
   When I navigate to source page "test2"

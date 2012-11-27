@@ -1,17 +1,24 @@
 package org.emonocot.job.dwc.taxon;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.easymock.EasyMock;
 import org.emonocot.api.TaxonService;
 import org.emonocot.job.dwc.taxon.FieldSetMapper;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.job.oaipmh.TaxonomicStatusConverter;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.convert.RankConverter;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
+import org.springframework.context.support.ConversionServiceFactoryBean;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
@@ -57,13 +64,21 @@ public class ScratchpadExportTaxonParsingTest {
        tokenizer.setDelimiter(',');
        tokenizer.setQuoteCharacter('\"');
        tokenizer.setNames(names);
+       Set<Converter> converters = new HashSet<Converter>();
+       converters.add(new TaxonomicStatusConverter());
+       converters.add(new RankConverter());
+
+       ConversionServiceFactoryBean factoryBean = new ConversionServiceFactoryBean();
+       factoryBean.setConverters(converters);
+       factoryBean.afterPropertiesSet();
+       ConversionService conversionService = factoryBean.getObject();
 
        taxonService = EasyMock.createMock(TaxonService.class);
 
         FieldSetMapper fieldSetMapper = new FieldSetMapper();
+        fieldSetMapper.setConversionService(conversionService);
         fieldSetMapper.setFieldNames(names);
         fieldSetMapper.setDefaultValues(new HashMap<String, String>());
-        fieldSetMapper.setTaxonService(taxonService);
         DefaultLineMapper<Taxon> lineMapper
             = new DefaultLineMapper<Taxon>();
         lineMapper.setFieldSetMapper(fieldSetMapper);

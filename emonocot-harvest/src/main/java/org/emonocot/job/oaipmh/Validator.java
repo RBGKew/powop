@@ -9,14 +9,14 @@ import javax.validation.constraints.Size;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.emonocot.api.SourceService;
-import org.emonocot.model.common.Annotation;
-import org.emonocot.model.common.AnnotationCode;
-import org.emonocot.model.common.AnnotationType;
-import org.emonocot.model.common.Base;
-import org.emonocot.model.common.RecordType;
-import org.emonocot.model.reference.Reference;
-import org.emonocot.model.source.Source;
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Annotation;
+import org.emonocot.model.Base;
+import org.emonocot.model.Reference;
+import org.emonocot.model.Source;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.AnnotationType;
+import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
@@ -114,17 +114,17 @@ public class Validator implements ItemProcessor<Taxon, Taxon>,
 			Set<ConstraintViolation<Taxon>> violations = validator
 					.validate(taxon);
 			if (violations.isEmpty()) {
-				logger.debug(taxon.getName() + " is valid");
-				if (taxon.getAuthorship() != null) {
-					logger.debug(taxon.getAuthorship() + " ("
-							+ taxon.getAuthorship().length() + ") is valid");
+				logger.debug(taxon.getScientificName() + " is valid");
+				if (taxon.getScientificNameAuthorship() != null) {
+					logger.debug(taxon.getScientificNameAuthorship() + " ("
+							+ taxon.getScientificNameAuthorship().length() + ") is valid");
 				}
 				return taxon;
 			} else {
-				logger.debug(taxon.getName() + " is not valid");
-				if (taxon.getAuthorship() != null) {
-					logger.debug(taxon.getAuthorship() + " ("
-							+ taxon.getAuthorship().length() + ") is valid?");
+				logger.debug(taxon.getScientificName() + " is not valid");
+				if (taxon.getScientificNameAuthorship() != null) {
+					logger.debug(taxon.getScientificNameAuthorship() + " ("
+							+ taxon.getScientificNameAuthorship().length() + ") is valid?");
 				}
 				for (ConstraintViolation<Taxon> violation : violations) {
 					logger.debug(violation.getMessage());
@@ -173,7 +173,7 @@ public class Validator implements ItemProcessor<Taxon, Taxon>,
 		annotation.setRecordType(recordType);
 		annotation.setValue(path);
 		annotation.setType(AnnotationType.Warn);
-		annotation.setSource(getSource());
+		annotation.setAuthority(getSource());
 		annotation.setText(violation.getMessage());
 
 		if (violation.getConstraintDescriptor().getAnnotation()

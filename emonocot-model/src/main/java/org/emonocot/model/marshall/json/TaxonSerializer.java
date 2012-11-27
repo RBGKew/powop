@@ -1,6 +1,6 @@
 package org.emonocot.model.marshall.json;
 
-import org.emonocot.model.taxon.Taxon;
+import org.emonocot.model.Taxon;
 
 /**
  *

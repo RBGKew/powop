@@ -2,9 +2,9 @@ package org.emonocot.model.geography;
 
 import com.vividsolutions.jts.geom.Polygon;
 
-import org.apache.lucene.document.Document;
-import org.apache.lucene.spatial.base.shape.Shape;
-import org.apache.lucene.spatial.strategy.SpatialStrategy;
+//import org.apache.lucene.document.Document;
+//import org.apache.lucene.spatial.base.shape.Shape;
+//import org.apache.lucene.spatial.strategy.SpatialStrategy;
 
 /**
  *
@@ -39,15 +39,11 @@ public interface GeographicalRegion<T extends GeographicalRegion> {
      */
     Polygon getEnvelope();
 
-    /**
-     *
-     * @return the representation of this region as a shape
-     */
-    Shape getShape();
+	Integer getLevel();
 
-    /**
-     *
-     * @param shape Set the shape of this region
-     */
-    void setShape(Shape shape);
+	String getPrefix();
+
+	GeographicalRegion getParent();
+	
+	String name();
 }

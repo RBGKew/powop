@@ -5,18 +5,19 @@ Feature: Classification Tree
   by following the links to taxon pages
 
 Background:
-  Given there are source systems with the following properties:
+  Given that the indexes are clean
+  And there are source systems with the following properties:
   | identifier | uri                 |
   | test       | http://example.com  |
-And there are taxa with the following properties:
+  And there are taxa with the following properties:
   | identifier                   | name                           | family    | rank    | status   | source | parent                     |
-  | urn:kew.org:wcs:family:2     | Acorales                       |           | ORDER   | accepted | test   |                            |
-  | urn:kew.org:wcs:family:1     | Acoraceae                      | Acoraceae | FAMILY  | accepted | test   | urn:kew.org:wcs:family:2   |
-  | urn:kew.org:wcs:taxon:2295   | Acorus                         | Acoraceae | GENUS   | accepted | test   | urn:kew.org:wcs:family:1   |
-  | urn:kew.org:wcs:taxon:2304   | Acorus calamus                 | Acoraceae | SPECIES | accepted | test   | urn:kew.org:wcs:taxon:2295 |
-  | urn:kew.org:wcs:taxon:2305   | Acorus calamus var. americanus | Acoraceae | VARIETY | accepted | test   | urn:kew.org:wcs:taxon:2304 |
-  | urn:kew.org:wcs:taxon:2306   | Acorus calamus var. angustatus | Acoraceae | VARIETY | accepted | test   | urn:kew.org:wcs:taxon:2304 |
-  | urn:kew.org:wcs:taxon:2296   | Acorus adulterinus             | Acoraceae | SPECIES | synonym  | test   |                            |
+  | urn:kew.org:wcs:family:2     | Acorales                       |           | ORDER   | Accepted | test   |                            |
+  | urn:kew.org:wcs:family:1     | Acoraceae                      | Acoraceae | FAMILY  | Accepted | test   | urn:kew.org:wcs:family:2   |
+  | urn:kew.org:wcs:taxon:2295   | Acorus                         | Acoraceae | GENUS   | Accepted | test   | urn:kew.org:wcs:family:1   |
+  | urn:kew.org:wcs:taxon:2304   | Acorus calamus                 | Acoraceae | SPECIES | Accepted | test   | urn:kew.org:wcs:taxon:2295 |
+  | urn:kew.org:wcs:taxon:2305   | Acorus calamus var. americanus | Acoraceae | VARIETY | Accepted | test   | urn:kew.org:wcs:taxon:2304 |
+  | urn:kew.org:wcs:taxon:2306   | Acorus calamus var. angustatus | Acoraceae | VARIETY | Accepted | test   | urn:kew.org:wcs:taxon:2304 |
+  | urn:kew.org:wcs:taxon:2296   | Acorus adulterinus             | Acoraceae | SPECIES | Synonym  | test   |                            |
 
 Scenario: Browse taxonomic hierarchy
   As a taxonomist I would like to be able to browse the taxonomic hierarchy

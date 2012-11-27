@@ -2,9 +2,8 @@ package org.emonocot.service.impl;
 
 import java.util.List;
 
+import org.emonocot.api.JobExecutionService;
 import org.emonocot.persistence.dao.JobExecutionDao;
-import org.emonocot.persistence.dao.OlapResult;
-import org.emonocot.service.JobDataService;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @Service
-public class JobExecutionServiceImpl implements JobDataService {
+public class JobExecutionServiceImpl implements JobExecutionService {
 
     /**
      *
@@ -46,31 +45,6 @@ public class JobExecutionServiceImpl implements JobDataService {
     public List<JobExecution> listJobExecutions(final String identifier,
             final Integer pageSize, final Integer pageNumber) {
         return dao.getJobExecutions(identifier, pageSize, pageNumber);
-    }
-
-    /**
-     *
-     * @param jobExecutionId
-     *            Set the job execution identifier
-     * @return a result object
-     */
-    @Transactional(readOnly = true)
-    public List<OlapResult> countObjects(final Long jobExecutionId) {
-        return dao.countObjects(jobExecutionId);
-    }
-
-    /**
-     *
-     * @param jobExecutionId
-     *            Set the job execution identifier
-     * @param objectType
-     *            set the object type
-     * @return a result object
-     */
-    @Transactional(readOnly = true)
-    public List<OlapResult> countErrors(final Long jobExecutionId,
-            final String objectType) {
-        return dao.countErrors(jobExecutionId, objectType);
     }
 
     /**
