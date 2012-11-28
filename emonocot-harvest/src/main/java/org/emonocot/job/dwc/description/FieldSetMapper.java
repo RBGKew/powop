@@ -96,6 +96,16 @@ public class FieldSetMapper extends
                 object.setLanguage(new Locale(value));
                 break;
             case source:
+            	if (value.indexOf(",") != -1) {
+                    String[] values = value.split(",");
+                    for (String v : values) {
+                        resolveReference(object, v);
+                    }
+                } else {
+                    resolveReference(object, value);
+                }
+                break;
+            case references:
                 object.setSource(value);
                 break;
             case type:
@@ -109,17 +119,7 @@ public class FieldSetMapper extends
         // Unknown Terms
         if (term instanceof UnknownTerm) {
             UnknownTerm unknownTerm = (UnknownTerm) term;
-            if (unknownTerm.qualifiedName().equals(
-                    "http://purl.org/dc/terms/relationID")) {
-                if (value.indexOf(",") != -1) {
-                    String[] values = value.split(",");
-                    for (String v : values) {
-                        resolveReference(object, v);
-                    }
-                } else {
-                    resolveReference(object, value);
-                }
-            }
+            
         }
     }
 

@@ -102,12 +102,6 @@ public abstract class AbstractRecordAnnotator extends HibernateDaoSupport {
             final String message) {
         final Annotation annotation = new Annotation();
         annotation.setId(1000L);
-        //annotation.setRecordType(recordType);
-        //annotation.setJobId(jobExecutionId);
-        //annotation.setCode(annotationCode);
-        //annotation.setValue(annotationValue);
-        //annotation.setText(message);
-        //annotation.setType(annotationType);
         annotate(annotation);
     }
 
@@ -126,16 +120,6 @@ public abstract class AbstractRecordAnnotator extends HibernateDaoSupport {
             });
         } catch (Throwable t) {
             logger.error(t.getMessage());
-        //    for(StackTraceElement ste : t.getStackTrace()) {
-         //   	logger.error(ste.toString());
-         //   }
-         //   if(t.getCause() != null) {
-         //   	Throwable t2 = t.getCause();
-         //   	logger.error("Caused by " + t2.getMessage());
-         //   	for(StackTraceElement ste : t2.getStackTrace()) {
-         //       	logger.error(ste.toString());
-         //       }
-         //   }
            throw new RuntimeException(t);
         }
     }

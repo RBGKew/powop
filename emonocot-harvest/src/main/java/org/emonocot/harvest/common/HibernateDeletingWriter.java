@@ -12,7 +12,6 @@ public class HibernateDeletingWriter<T extends Base> extends HibernateDaoSupport
 	@Override
 	public void write(List<? extends T> items) throws Exception {
 		getHibernateTemplate().deleteAll(items);
-		getHibernateTemplate().flush();		
 	}
 
 }

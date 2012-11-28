@@ -374,7 +374,8 @@ public class ArchiveMetadataReader implements StepExecutionListener {
     		}
     	}
         if(firstDataLine != null) {
-            totalColumns = firstDataLine.split(archiveFile.getFieldsTerminatedBy()).length;
+        	// Note java.lang.String.split does not include trailing empty string
+            totalColumns = firstDataLine.split(archiveFile.getFieldsTerminatedBy(), -1).length;
         } else {
         	totalColumns = maxIndex + 1;        	
         }
