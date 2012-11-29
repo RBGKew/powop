@@ -3207,5 +3207,13 @@
     <changeSet id="2012-11-28_12" author="ben">
       <comment>BUG 410: Implement changes to harvester in response to scratchpad DwC/A changes</comment>
       <modifyDataType  tableName="VernacularName" columnName="rights" newDataType="longtext"/>
-    </changeSet> 
+    </changeSet>
+    <changeSet id="2012-11-29_01" author="ben">
+      <comment>BUG 410: Implement changes to harvester in response to scratchpad DwC/A changes</comment>
+      <sql>update Annotation set annotatedObjType = 'Description' where annotatedObjType = 'TextContent'</sql>
+    </changeSet>
+    <changeSet id="2012-11-29_02" author="ben">
+      <comment>BUG 410: Implement changes to harvester in response to scratchpad DwC/A changes</comment>
+      <sql>update Annotation set recordType = 'Description' where recordType = 'TextContent'</sql>
+    </changeSet>
 </databaseChangeLog>

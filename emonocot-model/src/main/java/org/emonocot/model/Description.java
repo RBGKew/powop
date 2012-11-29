@@ -210,7 +210,7 @@ public class Description extends OwnedEntity {
     @Transient
     @JsonIgnore
     public final String getClassName() {
-        return "TextContent";
+        return "Description";
     }
 
     /**
@@ -218,7 +218,7 @@ public class Description extends OwnedEntity {
      */
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "annotatedObjId")
-    @Where(clause = "annotatedObjType = 'TextContent'")
+    @Where(clause = "annotatedObjType = 'Description'")
     @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
     @JsonIgnore
     public Set<Annotation> getAnnotations() {

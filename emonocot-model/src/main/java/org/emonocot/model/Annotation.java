@@ -161,7 +161,7 @@ public class Annotation extends Base implements Searchable {
     @AnyMetaDef(idType = "long", metaType = "string", metaValues = {
             @MetaValue(targetEntity = Taxon.class, value = "Taxon"),
             @MetaValue(targetEntity = Distribution.class, value = "Distribution"),
-            @MetaValue(targetEntity = Description.class, value = "TextContent"),
+            @MetaValue(targetEntity = Description.class, value = "Description"),
             @MetaValue(targetEntity = Image.class, value = "Image"),
             @MetaValue(targetEntity = Reference.class, value = "Reference")
             })

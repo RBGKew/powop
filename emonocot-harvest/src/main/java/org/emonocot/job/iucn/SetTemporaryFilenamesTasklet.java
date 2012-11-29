@@ -1,4 +1,4 @@
-package org.emonocot.harvest.common;
+package org.emonocot.job.iucn;
 
 import java.io.File;
 import java.util.UUID;
@@ -14,23 +14,20 @@ import org.springframework.batch.repeat.RepeatStatus;
  * @author ben
  *
  */
-public class SetTemporaryFilenameTasklet implements Tasklet {
+public class SetTemporaryFilenamesTasklet implements Tasklet {
 
     /**
      *
      */
     private String harvesterSpoolDirectory;
-    
-    private String extension = "xml";
 
-    public void setHarvesterSpoolDirectory(String harvesterSpoolDirectory) {
-        this.harvesterSpoolDirectory = harvesterSpoolDirectory;
+    /**
+     * @param newHarvesterSpoolDirectory the harvesterSpoolDirectory to set
+     */
+    public final void setHarvesterSpoolDirectory(
+            final String newHarvesterSpoolDirectory) {
+        this.harvesterSpoolDirectory = newHarvesterSpoolDirectory;
     }
-    
-    public void setExtension(String extension) {
-    	 this.extension = extension;
-    }
-    
 
     /**
      * @param contribution Set the step contribution
@@ -38,17 +35,22 @@ public class SetTemporaryFilenameTasklet implements Tasklet {
      * @return the repeat status
      * @throws Exception if there is a problem deleting the resources
      */
-    public  RepeatStatus execute( StepContribution contribution, ChunkContext chunkContext)
+    public final RepeatStatus execute(final StepContribution contribution,
+            final ChunkContext chunkContext)
             throws Exception {
-        UUID uuid = UUID.randomUUID();
+        UUID uuid1 = UUID.randomUUID();
+        String splitFileName = harvesterSpoolDirectory + File.separator
+                + uuid1.toString() + ".json";
+        UUID uuid2 = UUID.randomUUID();
         String temporaryFileName = harvesterSpoolDirectory + File.separator
-                + uuid.toString() + "." + extension;
-
+                + uuid2.toString() + ".json";
+        
         File temporaryFile = new File(temporaryFileName);
+        File splitFile = new File(splitFileName);
         ExecutionContext executionContext = chunkContext.getStepContext()
                 .getStepExecution().getJobExecution().getExecutionContext();
-        executionContext.put("temporary.file.name",
-                temporaryFile.getAbsolutePath());
+        executionContext.put("temporary.file.name", temporaryFile.getAbsolutePath());
+        executionContext.put("split.file.name", splitFile.getAbsolutePath());
         return RepeatStatus.FINISHED;
     }
 }

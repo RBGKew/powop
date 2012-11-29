@@ -34,8 +34,8 @@ public class Show extends PageObject implements IllustratedPage {
     /**
      *
      */
-    @FindBy(how = How.ID, using = "textContent")
-    private WebElement textContent;
+    @FindBy(how = How.ID, using = "description")
+    private WebElement description;
     
     /**
      *
@@ -108,7 +108,7 @@ public class Show extends PageObject implements IllustratedPage {
      * @return a paragraph with that title
      */
     public final String getParagraph(final String heading) {
-        WebElement element = textContent.findElement(By
+        WebElement element = description.findElement(By
                 .xpath("div/div[div/h2 = '" + heading + "']/p"));
         return element.getText();
     }
@@ -120,7 +120,7 @@ public class Show extends PageObject implements IllustratedPage {
      */
     public final boolean doesParagraphExist(final String heading) {
         try {
-            WebElement element = textContent.findElement(By
+            WebElement element = description.findElement(By
                 .xpath("div[div/h2 = '" + heading + "']/p"));
         } catch (NoSuchElementException e) {
             return false;
@@ -254,7 +254,7 @@ public class Show extends PageObject implements IllustratedPage {
      * @return the citations for that topic
      */
     public final String getCitations(final String topic) {
-        WebElement element = textContent.findElement(By
+        WebElement element = description.findElement(By
                 .xpath("div/div[div/h2 = '" + topic + "']/ul[@class='citations']"));
         return element.getText();
     }

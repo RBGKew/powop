@@ -13,8 +13,8 @@ public class TypeAndSpecimenServiceImpl extends
 		TypeAndSpecimenService {
 
 	@Autowired
-    public final void setTypeAndSpecimenDao(final TypeAndSpecimenDao newTextContentDao) {
-        super.dao = newTextContentDao;
+    public final void setTypeAndSpecimenDao(final TypeAndSpecimenDao typeAndSpecimenDao) {
+        super.dao = typeAndSpecimenDao;
     }
 
 	@Override

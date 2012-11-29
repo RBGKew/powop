@@ -408,14 +408,14 @@ public class TestDataManager {
             taxon.setTaxonomicStatus(TaxonomicStatus.valueOf(status));
         }
         if (diagnostic != null && diagnostic.length() > 0) {
-            createTextualData(taxon, diagnostic, DescriptionType.diagnostic,
+            createDescription(taxon, diagnostic, DescriptionType.diagnostic,
                     diagnosticReference1);
         }
         if (habitat != null && habitat.length() > 0) {
-            createTextualData(taxon, habitat, DescriptionType.habitat, null);
+            createDescription(taxon, habitat, DescriptionType.habitat, null);
         }
         if (general != null && general.length() > 0) {
-            createTextualData(taxon, general, DescriptionType.general, null);
+            createDescription(taxon, general, DescriptionType.general, null);
         }        
         if (protologLink != null && protologLink.length() > 0) {
             createIdentifier(taxon, protologLink, "Protolog");
@@ -717,18 +717,18 @@ public class TestDataManager {
      * @param reference
      *            Set the reference
      */
-    private void createTextualData(final Taxon taxon, final String text,
+    private void createDescription(final Taxon taxon, final String text,
             final DescriptionType feature, final String reference) {
-        Description textContent = new Description();
-        textContent.setIdentifier(UUID.randomUUID().toString());
-        textContent.setDescription(text);
-        textContent.setType(feature);
-        textContent.setTaxon(taxon);
-        taxon.getDescriptions().add(textContent);
+        Description description = new Description();
+        description.setIdentifier(UUID.randomUUID().toString());
+        description.setDescription(text);
+        description.setType(feature);
+        description.setTaxon(taxon);
+        taxon.getDescriptions().add(description);
         if (reference != null && reference.length() > 0) {
             Reference ref = new Reference();
             ref.setIdentifier(reference);
-            textContent.getReferences().add(ref);
+            description.getReferences().add(ref);
         }
     }
 

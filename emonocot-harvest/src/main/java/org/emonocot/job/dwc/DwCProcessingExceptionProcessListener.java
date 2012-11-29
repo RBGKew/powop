@@ -90,9 +90,9 @@ public class DwCProcessingExceptionProcessListener extends
         if (stepName.equals(PROCESS_CORE_FILE)) {
             return RecordType.Taxon;
         } else if (stepName.equals(PROCESS_DESCRIPTION_FILE)) {
-            return RecordType.TextContent;
+            return RecordType.Description;
         } else if (stepName.equals(PROCESS_IMAGE_FILE)) {
-            return RecordType.TextContent;
+            return RecordType.Description;
         } else if (stepName.equals(PROCESS_REFERENCE_FILE)) {
             return RecordType.Reference;
         } else if (stepName.equals(PROCESS_DISTRIBUTION_FILE)) {

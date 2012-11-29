@@ -52,7 +52,7 @@ public class SearchTest extends AbstractPersistenceTest {
     public final void setUpTestData() {
         Taxon taxon1 = createTaxon("Aus", "1", null, null, "Aaceae", null, null,
                 null, null, null, null, new GeographicalRegion[] {}, null);
-        createTextContent(taxon1, DescriptionType.habitat, "Lorem ipsum", null);
+        createDescription(taxon1, DescriptionType.habitat, "Lorem ipsum", null);
         Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null, "Aaceae", null,
                 null, null, null, null, null,
                 new GeographicalRegion[] {Continent.AUSTRALASIA,

@@ -3,9 +3,13 @@ package org.emonocot.job.dwc;
 
 import org.emonocot.api.TaxonService;
 import org.emonocot.harvest.common.AuthorityAware;
+import org.emonocot.model.Annotated;
+import org.emonocot.model.Annotation;
 import org.emonocot.model.Base;
 import org.emonocot.model.BaseData;
 import org.emonocot.model.Taxon;
+import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -92,6 +96,20 @@ public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityA
     		throw new OutOfScopeTaxonException("Expected content to be related to " + family + " but found content related to " + taxon + " which is in " + taxon.getFamily(),
                     recordType, getStepExecution().getReadCount());
     	}
+    }
+    
+    protected void replaceAnnotation(Annotated annotated, AnnotationType type, AnnotationCode code) {
+    	boolean annotationPresent = false;
+
+    	for(Annotation a : annotated.getAnnotations()) {
+    		if(a.getJobId().equals(getStepExecution().getJobExecutionId())) {
+    			a.setType(type);
+    			a.setCode(code);
+    			annotationPresent = true;
+    			break;
+    		}
+    	}   	
+    	
     }
 
     /**

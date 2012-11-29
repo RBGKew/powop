@@ -28,7 +28,7 @@
 								<a href="#images"><spring:message code="images" /></a>
 							</c:if></li>
 						<li><c:if test="${not empty taxon.descriptions}">
-								<a href="#textContent"><spring:message code="description" /></a>
+								<a href="#description"><spring:message code="description" /></a>
 							</c:if></li>
 						<li><c:if test="${not empty em:regions(taxon)}">
 								<a href="#map"><spring:message code="distributionMap" /></a>
@@ -140,7 +140,7 @@
 		<div class="row">
 			<div class="span8">
 				<c:if test="${not empty taxon.descriptions}">
-					<section id="textContent" class="section-box">
+					<section id="description" class="section-box">
 						<c:forEach var="feature" items="${em:features()}">
 							<c:set var="content" value="${em:content(taxon,feature)}" />
 							<c:if test="${content != null}">

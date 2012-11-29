@@ -181,12 +181,12 @@ public class JsonConversionTest {
         taxon.setIdentifier("urn:kew.org:wcs:taxon:2295");
         taxon.setCreated(new DateTime());
         taxon.setScientificName("Acorus");
-        Description textContent = new Description();
-        textContent.setDescription("Lorem ipsum");
-        textContent.setType(DescriptionType.habitat);
-        textContent.getReferences().add(reference);
-        textContent.setTaxon(taxon);
-        taxon.getDescriptions().add(textContent);
+        Description description = new Description();
+        description.setDescription("Lorem ipsum");
+        description.setType(DescriptionType.habitat);
+        description.getReferences().add(reference);
+        description.setTaxon(taxon);
+        taxon.getDescriptions().add(description);
         Distribution distribution = new Distribution();
         distribution.setTaxon(taxon);
         distribution.setLocation(Country.REU);

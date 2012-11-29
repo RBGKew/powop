@@ -74,6 +74,7 @@ public class Processor extends DarwinCoreProcessor<Taxon> {
 						.getModified() != null)
 						&& !persisted.getModified().isBefore(
 								t.getModified())) {
+					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Skipped);
 				} else {
 					persisted.setAccessRights(t.getAccessRights());
 	                persisted.setCreated(t.getCreated());
@@ -112,12 +113,10 @@ public class Processor extends DarwinCoreProcessor<Taxon> {
 					persisted.setTaxonRemarks(t.getTaxonRemarks());
 					persisted.setTribe(t.getTribe());
 					persisted.setTaxonRank(t.getTaxonRank());
-					
+					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Update);					
 				}
-				Annotation annotation = createAnnotation(persisted,
-						RecordType.Taxon, AnnotationCode.Update,
-						AnnotationType.Info);
-				persisted.getAnnotations().add(annotation);
+				
+
 				logger.info("Overwriting taxon "
 						+ persisted.getIdentifier());
 				return persisted;

@@ -1,4 +1,4 @@
-package org.emonocot.job.key;
+package org.emonocot.job.iucn;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.emonocot.job.dwc.DarwinCoreJobIntegrationTest;
 import org.emonocot.model.Taxon;
 import org.emonocot.persistence.hibernate.SolrIndexingListener;
 import org.hibernate.Session;
@@ -37,6 +38,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 /**
  *
@@ -45,21 +48,23 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
-    "/META-INF/spring/batch/jobs/identificationKeyHarvesting.xml",
+    "/META-INF/spring/batch/jobs/iucnImport.xml",
     "/META-INF/spring/applicationContext-integration.xml",
     "/META-INF/spring/applicationContext-test.xml" })
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
-public class IdentificationKeyJobIntegrationTest {
+public class IUCNJobIntegrationTest {
 
     private Logger logger = LoggerFactory.getLogger(
-            IdentificationKeyJobIntegrationTest.class);
+            IUCNJobIntegrationTest.class);
+
+   private Resource inputFile = new ClassPathResource("/LILIOPSIDA.json");
 
     @Autowired
     private JobLocator jobLocator;
 
     @Autowired
     private JobLauncher jobLauncher;
-
+    
     @Autowired
     private SessionFactory sessionFactory;
     
@@ -71,22 +76,6 @@ public class IdentificationKeyJobIntegrationTest {
      */
     private static final BaseDateTime PAST_DATETIME
     = new DateTime(2010, 11, 1, 9, 0, 0, 0);
-
-    /**
-     *
-     */
-    @Before
-	public final void setUp() {
-		String fullSizeImagesDirectoryName = "./target/images/fullsize";
-		File fullSizeImagesDirectory = new File(fullSizeImagesDirectoryName);
-		fullSizeImagesDirectory.mkdirs();
-		fullSizeImagesDirectory.deleteOnExit();
-		String thumbnailImagesDirectoryName = "./target/images/thumbnails";
-		File thumbnailImagesDirectory = new File(thumbnailImagesDirectoryName);
-		thumbnailImagesDirectory.mkdirs();
-		thumbnailImagesDirectory.deleteOnExit();
-	}
-
 
     /**
      *
@@ -108,36 +97,32 @@ public class IdentificationKeyJobIntegrationTest {
             NoSuchJobException, JobExecutionAlreadyRunningException,
             JobRestartException, JobInstanceAlreadyCompleteException,
             JobParametersInvalidException {
-        Session session = sessionFactory.openSession();        
+    	Session session = sessionFactory.openSession();        
         Transaction tx = session.beginTransaction();
 
         List<Taxon> taxa = session.createQuery("from Taxon as taxon").list();
         solrIndexingListener.indexObjects(taxa);
         tx.commit();
-
+        
         Map<String, JobParameter> parameters =
             new HashMap<String, JobParameter>();
-        parameters.put("authority.name", new JobParameter(
-                "test"));
+        parameters.put("authority.name", new JobParameter("test"));
         parameters.put("authority.uri", new JobParameter(
-                "http://build.e-monocot.org/test/testKey.xml"));
-        parameters.put(
-                "authority.last.harvested",
-                new JobParameter(Long
-                        .toString((IdentificationKeyJobIntegrationTest.PAST_DATETIME
-                                .getMillis()))));
+        "http://build.e-monocot.org/test/test.json"));
+        parameters.put("authority.last.harvested",
+        new JobParameter(Long.toString((IUCNJobIntegrationTest.PAST_DATETIME.getMillis()))));
+
+       
         JobParameters jobParameters = new JobParameters(parameters);
 
-        Job identificationKeyHarvestingJob = jobLocator
-                .getJob("IdentificationKeyHarvesting");
-        assertNotNull("IdentificationKeyHarvesting must not be null",
-                identificationKeyHarvestingJob);
-        JobExecution jobExecution = jobLauncher.run(identificationKeyHarvestingJob, jobParameters);
+        Job job = jobLocator.getJob("IUCNImport");
+        assertNotNull("IUCNImport must not be null", job);
+        JobExecution jobExecution = jobLauncher.run(job, jobParameters);
         for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
             logger.info(stepExecution.getStepName() + " "
                     + stepExecution.getReadCount() + " "
                     + stepExecution.getFilterCount() + " "
-                    + stepExecution.getWriteCount());
+                    + stepExecution.getWriteCount() + " " + stepExecution.getCommitCount());
         }
     }
 }

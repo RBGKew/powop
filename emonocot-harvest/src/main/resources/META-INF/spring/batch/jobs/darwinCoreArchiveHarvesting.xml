@@ -1538,8 +1538,7 @@
 		<property name="transactionManager" ref="transactionManager" />
 	</bean>
 
-	<bean id="itemWriter"
-		class="org.springframework.batch.item.database.HibernateItemWriter">
+	<bean id="itemWriter" class="org.springframework.batch.item.database.HibernateItemWriter">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 

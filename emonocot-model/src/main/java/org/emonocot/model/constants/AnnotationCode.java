@@ -45,5 +45,9 @@ public enum AnnotationCode {
     /**
      * If there was a problem converting a (non-identifier) value of a field.
      */
-    BadField
+    BadField,
+    /**
+     * If the record has not changed, we skip it
+     */
+    Skipped
 }

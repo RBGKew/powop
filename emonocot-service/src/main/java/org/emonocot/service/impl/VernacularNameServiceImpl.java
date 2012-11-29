@@ -12,8 +12,8 @@ public class VernacularNameServiceImpl extends
 		VernacularNameService {
 	
 	@Autowired
-    public final void setVernacularNameDao(final VernacularNameDao newTextContentDao) {
-        super.dao = newTextContentDao;
+    public final void setVernacularNameDao(final VernacularNameDao vernacularNameDao) {
+        super.dao = vernacularNameDao;
     }
 
 }

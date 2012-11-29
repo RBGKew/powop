@@ -51,7 +51,7 @@ public class FetchProfileTest extends AbstractPersistenceTest {
         Taxon taxon1 = createTaxon("Aus", "urn:lsid:example.com:taxon:1", null,
                 null, null, null, null, null, null, null,
                 null, new GeographicalRegion[] {}, null);
-        createTextContent(taxon1, DescriptionType.associations, "Lorem ipsum",
+        createDescription(taxon1, DescriptionType.associations, "Lorem ipsum",
                 reference);
         Taxon taxon2 = createTaxon("Aus bus", "urn:lsid:example.com:taxon:2",
                 taxon1, null, null, null, null, null, null, null,
@@ -80,17 +80,17 @@ public class FetchProfileTest extends AbstractPersistenceTest {
                 Hibernate.isInitialized(taxon.getImages()));
         assertTrue("Content should be initialized",
                 Hibernate.isInitialized(taxon.getDescriptions()));
-        Description textContent = null;
+        Description description = null;
         for(Description d : taxon.getDescriptions()) {
         	if(d.getType().equals(DescriptionType.associations)) {
-        		textContent =  d;
+        		description =  d;
         		break;
         	}
         }
         
-        assertNotNull("TextContent should not be null", textContent);
+        assertNotNull("Description should not be null", description);
         assertTrue("References should be initialized",
-                Hibernate.isInitialized(textContent.getReferences()));
+                Hibernate.isInitialized(description.getReferences()));
     }
 
     /**

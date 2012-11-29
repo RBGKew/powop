@@ -66,7 +66,7 @@ public class AnnotationDaoTest extends AbstractPersistenceTest {
        
         Taxon taxon1 = createTaxon("Aus", "1", null, null, null, null, null,
                 null, null, null, wcs, new GeographicalRegion[] {}, null);
-        createTextContent(taxon1, DescriptionType.habitat, "Lorem ipsum", null);
+        createDescription(taxon1, DescriptionType.habitat, "Lorem ipsum", null);
         Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null, null, null,
                 null, null, null, null, wcs,
                 new GeographicalRegion[] {Continent.AUSTRALASIA,
