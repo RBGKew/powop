@@ -3,10 +3,20 @@ package org.emonocot.persistence.dao.hibernate;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.sql.DataSource;
+
 import org.emonocot.model.Annotation;
+import org.emonocot.model.constants.RecordType;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.persistence.dao.AnnotationDao;
+import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
+import org.hibernate.Query;
+import org.hibernate.criterion.Restrictions;
+import org.hsqldb.Types;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -17,6 +27,15 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class AnnotationDaoImpl extends SearchableDaoImpl<Annotation> implements
         AnnotationDao {
+	
+	protected JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	public final void setDataSource(final DataSource dataSource) {
+		this.jdbcTemplate = new JdbcTemplate();
+		jdbcTemplate.setDataSource(dataSource);
+		jdbcTemplate.afterPropertiesSet();
+	}
 
     /**
     *
@@ -46,4 +65,20 @@ public class AnnotationDaoImpl extends SearchableDaoImpl<Annotation> implements
     protected final Fetch[] getProfile(final String profile) {
         return AnnotationDaoImpl.FETCH_PROFILES.get(profile);
     }
+
+	@Override
+	public Annotation findAnnotation(RecordType recordType, Long id, Long jobId) {
+		try {
+		  Object[] args = new Object[] {id, "Taxon", jobId};
+		  int[] argTypes = new int[] {Types.BIGINT, Types.VARCHAR, Types.BIGINT};
+		  Long annotationId = jdbcTemplate.queryForLong("Select a.id from Annotation a where a.annotatedObjId = ? and a.annotatedObjType = ? and a.jobId = ?", args, argTypes);
+		  return (Annotation) getSession().load(Annotation.class, annotationId);
+		} catch(IncorrectResultSizeDataAccessException irsdae) {
+			if(irsdae.getActualSize() == 0) {
+				return null;
+			} else {
+				throw irsdae;
+			}
+		}
+	}
 }

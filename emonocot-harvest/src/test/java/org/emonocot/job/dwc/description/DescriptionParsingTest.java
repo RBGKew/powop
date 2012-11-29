@@ -59,8 +59,8 @@ public class DescriptionParsingTest {
                "http://purl.org/dc/terms/create",
                "http://purl.org/dc/terms/creator",
                "http://purl.org/dc/terms/description",
-               "http://purl.org/dc/terms/relation",
-               "http://purl.org/dc/terms/relationID"
+               "http://purl.org/dc/terms/references",
+               "http://purl.org/dc/terms/source"
        };
        DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
        tokenizer.setDelimiter('\t');

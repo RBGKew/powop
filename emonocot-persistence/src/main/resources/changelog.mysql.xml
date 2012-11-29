@@ -3160,4 +3160,52 @@
         update distribution set authority_id = 1 where authority_id is NULL;
       </sql>
     </changeSet>
+    <changeSet id="2012-11-28_01" author="ben">
+      <comment>BUG 410: Implement changes to harvester in response to scratchpad DwC/A changes</comment>
+      <modifyDataType  tableName="Description" columnName="rights" newDataType="longtext"/>
+    </changeSet> 
+    <changeSet id="2012-11-28_02" author="ben">
+      <comment>BUG 410: Implement changes to harvester in response to scratchpad DwC/A changes</comment>
+      <modifyDataType  tableName="Distribution" columnName="rights" newDataType="longtext"/>
+    </changeSet>
+    <changeSet id="2012-11-28_03" author="ben">
+      <comment>BUG 410: Implement changes to harvester in response to scratchpad DwC/A changes</comment>
+      <modifyDataType  tableName="IdentificationKey" columnName="rights" newDataType="longtext"/>
+    </changeSet>
+    <changeSet id="2012-11-28_04" author="ben">
+      <comment>BUG 410: Implement changes to harvester in response to scratchpad DwC/A changes</comment>
+      <modifyDataType  tableName="Identifier" columnName="rights" newDataType="longtext"/>
+    </changeSet> 
+    <changeSet id="2012-11-28_05" author="ben">
+      <comment>BUG 410: Implement changes to harvester in response to scratchpad DwC/A changes</comment>
+      <modifyDataType  tableName="Image" columnName="rights" newDataType="longtext"/>
+    </changeSet>
+    <changeSet id="2012-11-28_06" author="ben">
+      <comment>BUG 410: Implement changes to harvester in response to scratchpad DwC/A changes</comment>
+      <modifyDataType  tableName="MeasurementOrFact" columnName="rights" newDataType="longtext"/>
+    </changeSet>
+    <changeSet id="2012-11-28_07" author="ben">
+      <comment>BUG 410: Implement changes to harvester in response to scratchpad DwC/A changes</comment>
+      <modifyDataType  tableName="Place" columnName="rights" newDataType="longtext"/>
+    </changeSet>
+    <changeSet id="2012-11-28_08" author="ben">
+      <comment>BUG 410: Implement changes to harvester in response to scratchpad DwC/A changes</comment>
+      <modifyDataType  tableName="Reference" columnName="rights" newDataType="longtext"/>
+    </changeSet>
+    <changeSet id="2012-11-28_09" author="ben">
+      <comment>BUG 410: Implement changes to harvester in response to scratchpad DwC/A changes</comment>
+      <modifyDataType  tableName="Source" columnName="rights" newDataType="longtext"/>
+    </changeSet>
+    <changeSet id="2012-11-28_10" author="ben">
+      <comment>BUG 410: Implement changes to harvester in response to scratchpad DwC/A changes</comment>
+      <modifyDataType  tableName="Taxon" columnName="rights" newDataType="longtext"/>
+    </changeSet> 
+    <changeSet id="2012-11-28_11" author="ben">
+      <comment>BUG 410: Implement changes to harvester in response to scratchpad DwC/A changes</comment>
+      <modifyDataType  tableName="TypeAndSpecimen" columnName="rights" newDataType="longtext"/>
+    </changeSet>
+    <changeSet id="2012-11-28_12" author="ben">
+      <comment>BUG 410: Implement changes to harvester in response to scratchpad DwC/A changes</comment>
+      <modifyDataType  tableName="VernacularName" columnName="rights" newDataType="longtext"/>
+    </changeSet> 
 </databaseChangeLog>

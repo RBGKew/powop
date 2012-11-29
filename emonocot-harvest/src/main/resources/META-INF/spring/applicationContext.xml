@@ -39,6 +39,7 @@
 		<property name="converters">
 			<list>
 			    <bean class="org.emonocot.model.convert.RankConverter" />
+			    <bean class="org.emonocot.model.convert.NomenclaturalStatusConverter" />
 				<bean class="org.emonocot.model.geography.GeographyConverter" />
 				<!-- Required due to SPR-6564 Spring ConversionService breaks String-to-Resource 
 					resolution -->

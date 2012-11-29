@@ -161,7 +161,7 @@ public class FieldSetMapper extends
                 object.setNomenclaturalCode(NomenclaturalCode.fromString(value));
                 break;
             case nomenclaturalStatus:
-                object.setNomenclaturalStatus(NomenclaturalStatus.valueOf(value));
+            	object.setNomenclaturalStatus(conversionService.convert(value, NomenclaturalStatus.class));
                 break;
             case order:
                 object.setOrder(value);

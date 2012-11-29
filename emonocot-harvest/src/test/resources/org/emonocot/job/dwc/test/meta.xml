@@ -50,7 +50,7 @@
     <field index="2" term="http://purl.org/dc/terms/modified"/>
     <field index="3" term="http://purl.org/dc/terms/description"/> 
     <field index="4" term="http://purl.org/dc/terms/type"/> 
-    <field index="5" term="http://purl.org/dc/terms/source"/> 
+    <field index="5" term="http://purl.org/dc/terms/references"/> 
   </extension>
   <extension encoding="UTF-8" fieldsTerminatedBy="\t" linesTerminatedBy="\n" ignoreHeaderLines="0" rowType="http://rs.gbif.org/terms/1.0/Image">
     <files>

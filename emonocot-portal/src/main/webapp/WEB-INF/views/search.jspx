@@ -144,9 +144,9 @@
 					<c:choose>
 						<c:when test="${item.className == 'Taxon'}">
 							<c:if test="${not empty item.image}">
-								<c:url var="fullsize" value="/images/fullsize/${item.image.identifier}.${item.image.format}" />
+								<c:url var="fullsize" value="/images/fullsize/${item.image.id}.${item.image.format}" />
 								<c:url var="url" value="/taxon/${item.identifier}" /> 
-								<a class="thumbnail" href="${item.image.identifier}" rel="gallery"
+								<a class="thumbnail" href="${fullsize}" rel="gallery"
 									title="${em:stripXml(item.scientificName)}" data-link="${identifier}">
 									<c:url var="thumbnail" value="/images/thumbnails/${item.image.id}.${item.image.format}" />
 									<c:url var="url" value="/taxon/${item.identifier}" /> 
@@ -158,7 +158,7 @@
 						<c:when test="${item.className == 'Image'}">
 							<c:url var="fullsize" value="/images/fullsize/${item.id}.${item.format}" />
 							<c:url var="url" value="/image/${item.id}" /> 
-							<a class="thumbnail" href="${item.identifier}" rel="gallery"
+							<a class="thumbnail" href="${fullsize}" rel="gallery"
 								title="${em:stripXml(item.title)}" data-link="${url}">
 								<c:url var="thumbnail" value="/images/thumbnails/${item.id}.${item.format}" />
 								<c:url var="url" value="/image/${item.id}" /> 

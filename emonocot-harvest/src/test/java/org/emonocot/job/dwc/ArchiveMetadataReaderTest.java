@@ -128,7 +128,7 @@ public class ArchiveMetadataReaderTest {
                 "http://purl.org/dc/terms/modified",
                 "http://purl.org/dc/terms/description",
                 "http://purl.org/dc/terms/type",
-                "http://purl.org/dc/terms/source"
+                "http://purl.org/dc/terms/references"
         };
 
         String[] actualDescriptionFieldNames = (String[])
