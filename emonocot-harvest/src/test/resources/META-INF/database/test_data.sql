@@ -1,5 +1,6 @@
 insert into Source (id, identifier, uri) values (10, 'test', 'http://example.com');
 insert into Reference (id, identifier,title) values (1, 'urn:kew.org:wcs:placeOfPublication:899','Bull. Pacific Orchid Soc. Hawaii');
+insert into Reference (id, identifier,title) values (2, 'urn:kew.org:wcs:placeOfPublication:234','Diagn. Pl. Orient. 13: 8 (1846)');
 insert into Taxon (id, identifier, scientificName, family, authority_id) values (1, 'urn:lsid:cate-araceae.org:taxon:5cd5a6aa-6bfb-1014-a918-dc439151c9e5', 'Acontias conspurcatus','Arecaceae',10);
 insert into Taxon (id, identifier, scientificName, family, authority_id) values (2, 'urn:lsid:cate-araceae.org:taxon:5cd5c756-6bfb-1014-a918-dc439151c9e5', 'Acontias cubensis','Arecaceae',10);
 insert into Taxon (id, identifier, scientificName, family, authority_id) values (3, 'urn:lsid:cate-araceae.org:taxon:5cd5e85c-6bfb-1014-a918-dc439151c9e5', 'Acontias diversifolius','Arecaceae',10);
@@ -98,6 +99,7 @@ insert into Taxon_Image (Taxon_id, images_id) values (76,1);
 insert into Taxon_Image (Taxon_id, images_id) values (81,1);
 insert into Taxon_Image (Taxon_id, images_id) values (76,2);
 insert into Taxon_Image (Taxon_id, images_id) values (81,2);
+insert into Taxon_Reference (Taxon_id, references_id) values (61,2);
 insert into Annotation (id, annotatedObjId, annotatedObjType, code, type, jobId) values (1,1,'Taxon','Create','Info', 600);
 insert into Annotation (id, annotatedObjId, annotatedObjType, code, type, jobId) values (2,1,'Taxon','Present','Info', 601);
 insert into Annotation (id, annotatedObjId, annotatedObjType, code, type, jobId) values (3,1,'Taxon','Absent','Warn', 602);

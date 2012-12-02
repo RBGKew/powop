@@ -6,9 +6,7 @@
 		<groupId>org.emonocot</groupId>
 		<version>0.0.23-SNAPSHOT</version>
 	</parent>
-	<groupId>org.emonocot</groupId>
 	<artifactId>emonocot-harvest</artifactId>
-	<version>0.0.23-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>eMonocot Harvesting</name>
 	<description>Backend Harvesting Routines</description>
@@ -263,7 +261,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.1</version>
+				<version>2.3</version>
 				<configuration>
 					<webResources>
 						<resource>
@@ -275,6 +273,7 @@
 							</includes>
 						</resource>
 					</webResources>
+					<useCache>true</useCache>
 				</configuration>
 			</plugin>
 			<plugin>

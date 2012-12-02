@@ -718,7 +718,7 @@
 		</property>
 	</bean>
 	
-	<bean id="indexTaxaWriter"  class="org.emonocot.harvest.common.HibernateSearchIndexingWriter" scope="step">
+	<bean id="indexTaxaWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter" scope="step">
       <property name="type" value="org.emonocot.model.Taxon" />
       <property name="sessionFactory" ref="sessionFactory" />
       <property name="solrIndexingListener" ref="solrIndexingListener" />
@@ -950,7 +950,7 @@
 		</property>
 	</bean>
 	
-	<bean id="indexImagesWriter"  class="org.emonocot.harvest.common.HibernateSearchIndexingWriter" scope="step">
+	<bean id="indexImagesWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter" scope="step">
       <property name="type" value="org.emonocot.model.Image" />
       <property name="sessionFactory" ref="sessionFactory" />
       <property name="solrIndexingListener" ref="solrIndexingListener" />
