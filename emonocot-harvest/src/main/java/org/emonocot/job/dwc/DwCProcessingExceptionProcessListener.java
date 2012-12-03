@@ -1,7 +1,8 @@
 package org.emonocot.job.dwc;
 
 import org.emonocot.harvest.common.AbstractRecordAnnotator;
-import org.emonocot.job.dwc.taxon.CannotFindRecordException;
+import org.emonocot.job.dwc.exception.CannotFindRecordException;
+import org.emonocot.job.dwc.exception.DarwinCoreProcessingException;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Base;
 import org.emonocot.model.constants.AnnotationCode;

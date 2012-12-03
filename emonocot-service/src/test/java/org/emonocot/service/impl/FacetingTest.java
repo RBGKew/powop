@@ -16,17 +16,17 @@ import org.emonocot.api.AnnotationService;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.PlaceService;
 import org.emonocot.api.SearchableObjectService;
-import org.emonocot.api.SourceService;
+import org.emonocot.api.OrganisationService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Image;
 import org.emonocot.model.SearchableObject;
-import org.emonocot.model.Source;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.geography.Continent;
-import org.emonocot.model.geography.GeographicalRegion;
+import org.emonocot.model.geography.Location;
 import org.emonocot.model.geography.Place;
 import org.emonocot.model.geography.Region;
+import org.emonocot.model.registry.Organisation;
 import org.emonocot.pager.Page;
 import org.emonocot.test.DataManagementSupport;
 import org.gbif.ecat.voc.Rank;
@@ -70,7 +70,7 @@ public class FacetingTest extends DataManagementSupport {
     *
     */
    @Autowired
-   private SourceService sourceService;
+   private OrganisationService sourceService;
    
    /**
     *
@@ -98,8 +98,8 @@ public class FacetingTest extends DataManagementSupport {
                 imageService.saveOrUpdate((Image) obj);
             } else if (obj.getClass().equals(Annotation.class)) {
                 annotationService.saveOrUpdate((Annotation) obj);
-            } else if (obj.getClass().equals(Source.class)) {
-                sourceService.saveOrUpdate((Source) obj);
+            } else if (obj.getClass().equals(Organisation.class)) {
+                sourceService.saveOrUpdate((Organisation) obj);
             } else if (obj.getClass().equals(Place.class)) {
                 placeService.saveOrUpdate((Place) obj);
             }
@@ -120,8 +120,8 @@ public class FacetingTest extends DataManagementSupport {
                 imageService.delete(((Image) obj).getIdentifier());
             } else if (obj.getClass().equals(Annotation.class)) {
                 annotationService.delete(((Annotation) obj).getIdentifier());
-            } else if (obj.getClass().equals(Source.class)) {
-                sourceService.delete(((Source) obj).getIdentifier());
+            } else if (obj.getClass().equals(Organisation.class)) {
+                sourceService.delete(((Organisation) obj).getIdentifier());
             } else if (obj.getClass().equals(Place.class)) {
                 placeService.delete(((Place) obj).getIdentifier());
             }
@@ -133,26 +133,26 @@ public class FacetingTest extends DataManagementSupport {
      */
     @Override
     public final void setUpTestData() {
-        Source source1 = createSource("test", "http://example.com");
-        Source source2 = createSource("source2", "http://source2.com");
+        Organisation source1 = createSource("test", "http://example.com");
+        Organisation source2 = createSource("source2", "http://source2.com");
         Taxon taxon1 = createTaxon("Aus", "1", null, null, "Ausaceae", null,
                 null, "(1753)", Rank.GENUS, TaxonomicStatus.Accepted,
-                source1, new GeographicalRegion[] {}, new Source[] {source1});
+                source1, new Location[] {}, new Organisation[] {source1});
         Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null, "Ausaceae",
                 null, null, "(1775)", Rank.SPECIES, TaxonomicStatus.Accepted,
-                source1, new GeographicalRegion[] {Continent.AUSTRALASIA,
-                        Region.BRAZIL, Region.CARIBBEAN }, new Source[] {source1,source2});
+                source1, new Location[] {Continent.AUSTRALASIA,
+                        Region.BRAZIL, Region.CARIBBEAN }, new Organisation[] {source1,source2});
         Taxon taxon3 = createTaxon("Aus ceus", "3", taxon1, null, "Ausaceae",
                 null, null, "(1805)", Rank.SPECIES, TaxonomicStatus.Accepted,
-                source1, new GeographicalRegion[] {Region.NEW_ZEALAND }, new Source[] {source1,source2});
+                source1, new Location[] {Region.NEW_ZEALAND }, new Organisation[] {source1,source2});
         Taxon taxon4 = createTaxon("Aus deus", "4", null, taxon2, "Ausaceae",
                 null, null, "(1895)", Rank.SPECIES, TaxonomicStatus.Synonym,
-                source1, new GeographicalRegion[] {}, new Source[] {source1});
+                source1, new Location[] {}, new Organisation[] {source1});
         Taxon taxon5 = createTaxon("Aus eus", "5", null, taxon3, "Ausaceae",
                 null, null, "(1935)", Rank.SPECIES, TaxonomicStatus.Synonym,
-                source1, new GeographicalRegion[] {}, new Source[] {source1});
-        Image img1 = createImage("Aus", "1", source2,taxon2, new Source[] {source2,source1});
-        Image img2 = createImage("Aus bus", "2", source2,taxon2, new Source[] {source2,source1});
+                source1, new Location[] {}, new Organisation[] {source1});
+        Image img1 = createImage("Aus", "1", source2,taxon2, new Organisation[] {source2,source1});
+        Image img2 = createImage("Aus bus", "2", source2,taxon2, new Organisation[] {source2,source1});
         
         Place place1 = createPlace("gb", "Great Britain");
 

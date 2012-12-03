@@ -3,10 +3,10 @@ package org.emonocot.job.oaipmh;
 import static org.junit.Assert.assertEquals;
 
 import org.easymock.EasyMock;
-import org.emonocot.api.SourceService;
+import org.emonocot.api.OrganisationService;
 import org.emonocot.job.oaipmh.Validator;
-import org.emonocot.model.Source;
 import org.emonocot.model.Taxon;
+import org.emonocot.model.registry.Organisation;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.core.JobExecution;
@@ -37,7 +37,7 @@ public class ValidationConstraintsTest {
    /**
     *
     */
-   private SourceService sourceService;
+   private OrganisationService sourceService;
 
    /**
     * @throws Exception if something goes wrong
@@ -50,7 +50,7 @@ public class ValidationConstraintsTest {
        validatorFactoryBean.afterPropertiesSet();
        processor = new Validator();
 
-       sourceService = EasyMock.createMock(SourceService.class);
+       sourceService = EasyMock.createMock(OrganisationService.class);
        processor.setSourceService(sourceService);
        processor.setValidator(validatorFactoryBean);
        processor.setSourceName("test");
@@ -78,7 +78,7 @@ public class ValidationConstraintsTest {
    public final void testInvalidRootObject() throws Exception {
        taxon.setScientificNameAuthorship("                                                                                                                                                                                                                                                                                                                                                                                                                                                        ");
        EasyMock.expect(
-               sourceService.load(EasyMock.eq("test"))).andReturn(new Source());
+               sourceService.load(EasyMock.eq("test"))).andReturn(new Organisation());
        EasyMock.replay(sourceService);
 
        Taxon t = processor.process(taxon);

@@ -1,7 +1,7 @@
 package org.emonocot.job.oaipmh;
 
-import org.emonocot.model.Source;
 import org.emonocot.model.Taxon;
+import org.emonocot.model.registry.Organisation;
 import org.openarchives.pmh.Record;
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.StepExecutionListener;
@@ -33,6 +33,6 @@ public interface Processor extends ItemProcessor<Record, Taxon>,
      *
      * @return the current source
      */
-    Source getSource();
+    Organisation getSource();
 
 }

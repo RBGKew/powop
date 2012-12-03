@@ -9,15 +9,15 @@ import java.util.Map;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
 import org.emonocot.model.Annotation;
-import org.emonocot.model.Source;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.RecordType;
 import org.emonocot.model.geography.Continent;
-import org.emonocot.model.geography.GeographicalRegion;
+import org.emonocot.model.geography.Location;
 import org.emonocot.model.geography.Region;
+import org.emonocot.model.registry.Organisation;
 import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.AnnotationDao;
 import org.junit.After;
@@ -62,20 +62,20 @@ public class AnnotationDaoTest extends AbstractPersistenceTest {
     */
    @Override
     public final void setUpTestData() {
-        Source wcs = createSource("WCS", "http://apps.kew.org/wcsTaxonExtractor");
+        Organisation wcs = createSource("WCS", "http://apps.kew.org/wcsTaxonExtractor");
        
         Taxon taxon1 = createTaxon("Aus", "1", null, null, null, null, null,
-                null, null, null, wcs, new GeographicalRegion[] {}, null);
+                null, null, null, wcs, new Location[] {}, null);
         createDescription(taxon1, DescriptionType.habitat, "Lorem ipsum", null);
         Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null, null, null,
                 null, null, null, null, wcs,
-                new GeographicalRegion[] {Continent.AUSTRALASIA,
+                new Location[] {Continent.AUSTRALASIA,
                         Region.BRAZIL, Region.CARIBBEAN }, null);
         Taxon taxon3 = createTaxon("Aus ceus", "3", taxon1, null, null, null,
                 null, null, null, null, wcs,
-                new GeographicalRegion[] {Region.NEW_ZEALAND }, null);
+                new Location[] {Region.NEW_ZEALAND }, null);
         Taxon taxon4 = createTaxon("Aus deus", "4", null, taxon2, null, null,
-                null, null, null, null, wcs, new GeographicalRegion[] {}, null);
+                null, null, null, null, wcs, new Location[] {}, null);
 
         Annotation annotation1 = createAnnotation(1L, taxon1,
                 AnnotationType.Info, RecordType.Taxon, AnnotationCode.Create, wcs);

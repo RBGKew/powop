@@ -48,7 +48,7 @@
         </property>
     </bean>
 
-    <bean id="taxonToGbifStarConverter" class="org.emonocot.job.dwc.TaxonToStarRecordConverter" scope="step">
+    <bean id="taxonToGbifStarConverter" class="org.emonocot.job.dwc.write.TaxonToStarRecordConverter" scope="step">
       <property name="conversionService" ref="conversionService"/>
       <property name="taxonColumns" value="#{jobParameters['taxon.columns']}"/>
       <property name="descriptionColumns" value="#{jobParameters['description.columns']}"/>
@@ -86,7 +86,7 @@
         </property>
     </bean>
 
-    <bean id="dwcaWriter" class="org.emonocot.job.dwc.StarRecordWriter" scope="step">
+    <bean id="dwcaWriter" class="org.emonocot.job.dwc.write.StarRecordWriter" scope="step">
         <property name="writer">
             <bean class="org.gbif.dwc.text.DwcaWriter">
                 <constructor-arg value="#{T(org.gbif.dwc.terms.DwcTerm).Taxon}" />

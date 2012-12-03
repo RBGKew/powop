@@ -2,7 +2,7 @@ package org.emonocot.job.dwc.measurementorfact;
 
 import java.text.ParseException;
 
-import org.emonocot.job.dwc.OwnedEntityFieldSetMapper;
+import org.emonocot.job.dwc.read.OwnedEntityFieldSetMapper;
 import org.emonocot.model.MeasurementOrFact;
 import org.emonocot.model.constants.MeasurementType;
 import org.emonocot.model.constants.MeasurementUnit;

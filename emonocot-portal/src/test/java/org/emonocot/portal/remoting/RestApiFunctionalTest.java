@@ -14,7 +14,6 @@ import org.emonocot.model.Annotation;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.Image;
 import org.emonocot.model.Reference;
-import org.emonocot.model.Source;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.Description;
 import org.emonocot.model.auth.Group;
@@ -24,13 +23,14 @@ import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.RecordType;
 import org.emonocot.model.geography.Country;
+import org.emonocot.model.registry.Organisation;
 import org.emonocot.persistence.dao.AnnotationDao;
 import org.emonocot.persistence.dao.GroupDao;
 import org.emonocot.persistence.dao.ImageDao;
 import org.emonocot.persistence.dao.JobExecutionDao;
 import org.emonocot.persistence.dao.JobInstanceDao;
 import org.emonocot.persistence.dao.ReferenceDao;
-import org.emonocot.persistence.dao.SourceDao;
+import org.emonocot.persistence.dao.OrganisationDao;
 import org.emonocot.persistence.dao.TaxonDao;
 import org.emonocot.persistence.dao.UserDao;
 import org.emonocot.test.TestAuthentication;
@@ -113,7 +113,7 @@ public class RestApiFunctionalTest {
      *
      */
     @Autowired
-    private SourceDao sourceDao;
+    private OrganisationDao sourceDao;
 
     /**
      *
@@ -290,14 +290,14 @@ public class RestApiFunctionalTest {
     public final void testAce() {
         Group group = new Group();
         group.setIdentifier("PalmWeb");
-        Source source = new Source();
+        Organisation source = new Organisation();
         source.setIdentifier("testSource");
 
         groupDao.save(group);
         sourceDao.save(source);
-        groupService.addPermission(source, "PalmWeb", BasePermission.READ, Source.class);
+        groupService.addPermission(source, "PalmWeb", BasePermission.READ, Organisation.class);
 
-        groupService.deletePermission(source, "PalmWeb", BasePermission.READ, Source.class);
+        groupService.deletePermission(source, "PalmWeb", BasePermission.READ, Organisation.class);
         sourceDao.delete("testSource");
         groupDao.delete("PalmWeb");
     }

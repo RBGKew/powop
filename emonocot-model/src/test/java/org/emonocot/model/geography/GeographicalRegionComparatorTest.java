@@ -18,15 +18,15 @@ public class GeographicalRegionComparatorTest {
     /**
      *
      */
-    private GeographicalRegionComparator comparator
-        = new GeographicalRegionComparator();
+    private LocationComparator comparator
+        = new LocationComparator();
 
     /**
      *
      */
     @Test
     public final void testCompareGeography() {
-        List<GeographicalRegion> list = new ArrayList<GeographicalRegion>();
+        List<Location> list = new ArrayList<Location>();
         list.add(Continent.EUROPE);
         list.add(Continent.AFRICA);
         list.add(Region.CHINA);

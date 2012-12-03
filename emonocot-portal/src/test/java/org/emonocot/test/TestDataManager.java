@@ -20,17 +20,14 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.emonocot.api.*;
-import org.emonocot.api.convert.StringToPermissionConverter;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Base;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.IdentificationKey;
 import org.emonocot.model.Identifier;
 import org.emonocot.model.Image;
-import org.emonocot.model.Job;
 import org.emonocot.model.Reference;
 import org.emonocot.model.SecuredObject;
-import org.emonocot.model.Source;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.Description;
 import org.emonocot.model.auth.Group;
@@ -42,9 +39,12 @@ import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.ImageFormat;
 import org.emonocot.model.constants.JobType;
 import org.emonocot.model.constants.RecordType;
-import org.emonocot.model.geography.GeographicalRegion;
-import org.emonocot.model.geography.GeographyConverter;
+import org.emonocot.model.convert.StringToLocationConverter;
+import org.emonocot.model.convert.StringToPermissionConverter;
+import org.emonocot.model.geography.Location;
 import org.emonocot.model.geography.Place;
+import org.emonocot.model.registry.Resource;
+import org.emonocot.model.registry.Organisation;
 import org.emonocot.portal.model.AceDto;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
@@ -60,7 +60,6 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -77,7 +76,7 @@ public class TestDataManager {
 
     private Logger logger = LoggerFactory.getLogger(TestDataManager.class);
 
-    private GeographyConverter geographyConverter = new GeographyConverter();
+    private StringToLocationConverter geographyConverter = new StringToLocationConverter();
     
     private DateTimeFormatter dateTimeFormatter = ISODateTimeFormat.dateTime();
 
@@ -93,7 +92,7 @@ public class TestDataManager {
      */
     public TestDataManager() throws IOException {
         logger.debug("Initializing TestDataManager");
-        Resource propertiesFile = new ClassPathResource(
+        ClassPathResource propertiesFile = new ClassPathResource(
                 "META-INF/spring/application.properties");
         Properties properties = new Properties();
         properties.load(propertiesFile.getInputStream());
@@ -111,7 +110,7 @@ public class TestDataManager {
     private ReferenceService referenceService;
 
     @Autowired
-    private SourceService sourceService;
+    private OrganisationService sourceService;
 
     @Autowired
     private UserService userService;
@@ -129,7 +128,7 @@ public class TestDataManager {
     private JobInstanceService jobInstanceService;
 
     @Autowired
-    private JobService jobService;
+    private ResourceService jobService;
 
     private Authentication previousAuthentication = null;
 
@@ -182,7 +181,7 @@ public class TestDataManager {
         	image.setFormat(ImageFormat.valueOf(format));
         }
         if (source != null) {
-            Source s = new Source();
+            Organisation s = new Organisation();
             s.setIdentifier(source);
             image.setAuthority(s);
         }
@@ -224,7 +223,7 @@ public class TestDataManager {
         perm = converter.convert(permission);
         Class<? extends SecuredObject> clazz = null;
         if (objectType.equals("Source")) {
-            clazz = Source.class;
+            clazz = Organisation.class;
         } else {
             clazz = Taxon.class;
         }
@@ -283,7 +282,7 @@ public class TestDataManager {
     public final void createSourceSystem(final String identifier,
             final String uri, String title) {
         enableAuthentication();
-        Source source = new Source();
+        Organisation source = new Organisation();
         source.setIdentifier(identifier);
         source.setUri(uri);
         source.setTitle(title);
@@ -423,7 +422,7 @@ public class TestDataManager {
         if (distribution1 != null && distribution1.length() > 0) {
             Distribution distribution = new Distribution();
             distribution.setIdentifier(UUID.randomUUID().toString());
-            GeographicalRegion geographicalRegion = geographyConverter
+            Location geographicalRegion = geographyConverter
                     .convert(distribution1);
             distribution.setLocation(geographicalRegion);
             distribution.setTaxon(taxon);
@@ -432,7 +431,7 @@ public class TestDataManager {
         if (distribution2 != null && distribution2.length() > 0) {
             Distribution distribution = new Distribution();
             distribution.setIdentifier(UUID.randomUUID().toString());
-            GeographicalRegion geographicalRegion = geographyConverter
+            Location geographicalRegion = geographyConverter
                     .convert(distribution2);
             distribution.setLocation(geographicalRegion);
             distribution.setTaxon(taxon);
@@ -441,14 +440,14 @@ public class TestDataManager {
         if (distribution3 != null && distribution3.length() > 0) {
             Distribution distribution = new Distribution();
             distribution.setIdentifier(UUID.randomUUID().toString());
-            GeographicalRegion geographicalRegion = geographyConverter
+            Location geographicalRegion = geographyConverter
                     .convert(distribution3);
             distribution.setLocation(geographicalRegion);
             distribution.setTaxon(taxon);
             taxon.getDistribution().add(distribution);
         }
         if (source != null && source.length() > 0) {
-            Source s = new Source();
+            Organisation s = new Organisation();
             s.setIdentifier(source);
             taxon.setAuthority(s);
         }
@@ -693,7 +692,7 @@ public class TestDataManager {
             annotation.setDateTime(dateTimeFormatter.parseDateTime(dateTime));
         }
         if (source != null && source.length() > 0) {
-            Source s = new Source();
+            Organisation s = new Organisation();
             s.setIdentifier(source);
             annotation.setAuthority(s);
         }
@@ -749,16 +748,16 @@ public class TestDataManager {
                 userService.delete(((User) object).getIdentifier());
             } else if (object instanceof Group) {
                 groupService.delete(((Group) object).getIdentifier());
-            } else if (object instanceof Source) {
-                sourceService.delete(((Source) object).getIdentifier());
+            } else if (object instanceof Organisation) {
+                sourceService.delete(((Organisation) object).getIdentifier());
             } else if (object instanceof Annotation) {
                 annotationService.delete(((Annotation) object).getIdentifier());
             } else if (object instanceof JobInstance) {/* */
                 jobInstanceService.delete(((JobInstance) object).getId());
             } else if (object instanceof JobExecution) {/* */
                 jobExecutionService.delete(((JobExecution) object).getId());
-            } else if (object instanceof Job) {
-                jobService.delete(((Job) object).getIdentifier());
+            } else if (object instanceof Resource) {
+                jobService.delete(((Resource) object).getIdentifier());
             } else if (object instanceof AceDto) {/* */
                 AceDto ace = (AceDto) object;
                 Taxon taxon = new Taxon();
@@ -798,7 +797,7 @@ public class TestDataManager {
 			final String readSkips, final String processSkips,
 			final String writeSkips, final String written, String jobId) {
         enableAuthentication();
-        Job job = new Job();
+        Resource job = new Resource();
         data.push(job);
         job.setIdentifier(identifier);
         if(family != null) {
@@ -808,9 +807,9 @@ public class TestDataManager {
             job.setJobType(JobType.valueOf(type));
         }
         if (source != null && source.trim().length() > 0) {
-            Source s = new Source();
+            Organisation s = new Organisation();
             s.setIdentifier(source);
-            job.setSource(s);
+            job.setOrganisation(s);
         }
         if(read != null && read.trim().length() > 0) {
             job.setRecordsRead(Integer.parseInt(read));

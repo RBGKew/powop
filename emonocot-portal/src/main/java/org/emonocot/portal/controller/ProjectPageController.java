@@ -5,8 +5,8 @@ package org.emonocot.portal.controller;
 
 import java.util.List;
 
-import org.emonocot.api.SourceService;
-import org.emonocot.model.Source;
+import org.emonocot.api.OrganisationService;
+import org.emonocot.model.registry.Organisation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,13 +28,13 @@ public class ProjectPageController {
     /**
      *
      */
-    private SourceService sourceService;
+    private OrganisationService sourceService;
 
     /**
      * @param service Set the Source service
      */
     @Autowired
-    public void setUserService(final SourceService service) {
+    public void setUserService(final OrganisationService service) {
         sourceService = service;
     }
 
@@ -44,11 +44,11 @@ public class ProjectPageController {
      */
     @RequestMapping(value = "/about")
     public final String show(final Model model) {
-    	List<Source> sources = sourceService.list(null, null, null).getRecords();
+    	List<Organisation> sources = sourceService.list(null, null, null).getRecords();
     	
     	//Page specific remove
     	for (String identifier : excludeIdentifiers) {
-			for (Source source : sources) {
+			for (Organisation source : sources) {
 				if(identifier.equals(source.getIdentifier())){
 					sources.remove(source);
 					break;

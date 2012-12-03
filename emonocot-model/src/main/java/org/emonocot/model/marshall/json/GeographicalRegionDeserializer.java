@@ -5,8 +5,8 @@ import java.io.IOException;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.deser.StdDeserializer;
-import org.emonocot.model.geography.GeographicalRegion;
-import org.emonocot.model.geography.GeographyConverter;
+import org.emonocot.model.convert.StringToLocationConverter;
+import org.emonocot.model.geography.Location;
 
 /**
  *
@@ -14,21 +14,21 @@ import org.emonocot.model.geography.GeographyConverter;
  *
  */
 public class GeographicalRegionDeserializer extends
-        StdDeserializer<GeographicalRegion> {
+        StdDeserializer<Location> {
     /**
      *
      */
-    private GeographyConverter converter = new GeographyConverter();
+    private StringToLocationConverter converter = new StringToLocationConverter();
 
     /**
      *
      */
     public GeographicalRegionDeserializer() {
-        super(GeographicalRegion.class);
+        super(Location.class);
     }
 
     @Override
-    public final GeographicalRegion deserialize(final JsonParser jsonParser,
+    public final Location deserialize(final JsonParser jsonParser,
             final DeserializationContext deserializationContext)
             throws IOException {
         return converter.convert(jsonParser.getText());

@@ -138,10 +138,9 @@ public class TaxonRelationshipResolverImpl extends AuthorityAware
             Taxon taxon = taxonRelationship.getFrom();
             Taxon related = null;
             try {
-                logger.info("Resolving taxon with identifier "
-                        + taxonRelationship.getToIdentifier()
-                        + " related to taxon " + taxon);
+                
                 related = taxonRelationship.getTo().call();
+                logger.info("Resolving taxon with identifier " + taxonRelationship.getToIdentifier() + " which is taxon " + related  + " related to taxon " + taxon);
             } catch (Exception e) {
                 e.printStackTrace();
             }

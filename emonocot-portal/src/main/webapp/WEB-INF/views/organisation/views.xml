@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>  
+  <definition name="organisation/show" extends="default">    
+    <put-attribute name="pageTitle" value="${organisation.title}" cascade="true"/>
+    <put-attribute name="body" value="/WEB-INF/views/organisation/show.jspx" />
+  </definition>
+  <definition name="organisation/update" extends="default">    
+    <put-attribute name="pageTitle" value="${organisation.title}" cascade="true"/>
+    <put-attribute name="body" value="/WEB-INF/views/organisation/update.jspx" />
+  </definition>
+  <definition name="organisation/list" extends="default">
+    <put-attribute name="pageTitle" value="organisations.title" cascade="true"/>    
+    <put-attribute name="body" value="/WEB-INF/views/organisation/list.jspx" />
+  </definition>
+  <definition name="organisation/create" extends="default">
+    <put-attribute name="pageTitle" value="create.organisation" cascade="true"/>    
+    <put-attribute name="body" value="/WEB-INF/views/organisation/create.jspx" />
+  </definition>
+</tiles-definitions>

@@ -3216,4 +3216,24 @@
       <comment>BUG 410: Implement changes to harvester in response to scratchpad DwC/A changes</comment>
       <sql>update Annotation set recordType = 'Description' where recordType = 'TextContent'</sql>
     </changeSet>
+    <changeSet id="2012-12-03_01" author="ben">
+      <comment>Rename source to organisation and job to resource</comment>
+      <renameTable newTableName="Organisation" oldTableName="Source"/>
+    </changeSet>
+    <changeSet id="2012-12-03_02" author="ben">
+      <comment>Rename source to organisation and job to resource</comment>
+      <renameTable newTableName="Resource" oldTableName="Job"/>
+    </changeSet>
+    <changeSet id="2012-12-03_03" author="ben">
+      <comment>Rename source to organisation and job to resource</comment>
+      <renameTable newTableName="Resource_parameters" oldTableName="Job_parameters"/>
+    </changeSet>
+    <changeSet id="2012-12-03_04" author="ben">
+       <comment>Rename source to organisation and job to resource</comment>
+       <renameColumn tableName="Resource_parameters" oldColumnName="Job_id" newColumnName="Resource_id" columnDataType="bigint"/>
+    </changeSet>
+    <changeSet id="2012-12-03_05" author="ben">
+       <comment>Rename source to organisation and job to resource</comment>
+       <renameColumn tableName="Resource" oldColumnName="source_id" newColumnName="organisation_id" columnDataType="bigint"/>
+    </changeSet>
 </databaseChangeLog>

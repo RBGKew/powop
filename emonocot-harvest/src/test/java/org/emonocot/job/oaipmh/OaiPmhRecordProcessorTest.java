@@ -9,14 +9,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.easymock.EasyMock;
-import org.emonocot.api.SourceService;
+import org.emonocot.api.OrganisationService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.harvest.common.TaxonRelationshipResolver;
 import org.emonocot.harvest.common.TaxonRelationshipResolverImpl;
 import org.emonocot.job.oaipmh.ProcessorImpl;
-import org.emonocot.model.Source;
 import org.emonocot.model.Taxon;
-import org.emonocot.model.geography.GeographyConverter;
+import org.emonocot.model.convert.StringToLocationConverter;
+import org.emonocot.model.registry.Organisation;
 import org.gbif.ecat.voc.TaxonomicStatus;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -57,7 +57,7 @@ public class OaiPmhRecordProcessorTest {
    /**
     *
     */
-   private SourceService sourceService;
+   private OrganisationService sourceService;
 
     /**
      * @throws Exception if something goes wrong
@@ -86,14 +86,14 @@ public class OaiPmhRecordProcessorTest {
 
         Set<Converter> converters = new HashSet<Converter>();
         converters.add(new TaxonomicStatusConverter());
-        converters.add(new GeographyConverter());
+        converters.add(new StringToLocationConverter());
         ConversionServiceFactoryBean factoryBean = new ConversionServiceFactoryBean();
         factoryBean.setConverters(converters);
         factoryBean.afterPropertiesSet();
         processor.setConversionService(factoryBean.getObject());
 
         processor.setSourceName("WCS");
-        sourceService = EasyMock.createMock(SourceService.class);
+        sourceService = EasyMock.createMock(OrganisationService.class);
         processor.setSourceService(sourceService);
 
         TaxonRelationshipResolver resolver = new TaxonRelationshipResolverImpl();
@@ -127,7 +127,7 @@ public class OaiPmhRecordProcessorTest {
                 taxonService.find(EasyMock.eq("urn:lsid:example.com:test:123"),
                         EasyMock.isA(String.class))).andReturn(null);
         EasyMock.expect(sourceService.load(EasyMock.eq("WCS"))).andReturn(
-                new Source());
+                new Organisation());
         EasyMock.replay(taxonService, sourceService);
         Taxon t = processor.process(record);
         assertNotNull("Taxon should not be null", t);

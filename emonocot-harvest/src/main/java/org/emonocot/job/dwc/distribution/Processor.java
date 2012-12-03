@@ -1,8 +1,8 @@
 package org.emonocot.job.dwc.distribution;
 
 import org.emonocot.api.DistributionService;
-import org.emonocot.job.dwc.OwnedEntityProcessor;
-import org.emonocot.job.dwc.RequiredFieldException;
+import org.emonocot.job.dwc.exception.RequiredFieldException;
+import org.emonocot.job.dwc.read.OwnedEntityProcessor;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;

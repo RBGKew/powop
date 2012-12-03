@@ -2,12 +2,12 @@ package org.emonocot.job.dwc.reference;
 
 import org.easymock.EasyMock;
 import org.emonocot.api.ReferenceService;
-import org.emonocot.api.SourceService;
+import org.emonocot.api.OrganisationService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.Reference;
-import org.emonocot.model.Source;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.ReferenceType;
+import org.emonocot.model.registry.Organisation;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.core.JobExecution;
@@ -34,7 +34,7 @@ public class ReferenceProcessingTest {
     /**
      *
      */
-    private SourceService sourceService;
+    private OrganisationService sourceService;
 
     /**
      *
@@ -44,7 +44,7 @@ public class ReferenceProcessingTest {
     /**
      *
      */
-    private Source source = new Source();
+    private Organisation source = new Organisation();
 
     /**
      *
@@ -66,7 +66,7 @@ public class ReferenceProcessingTest {
         reference.setIdentifier("http://build.e-monocot.org/test/test.pdf");
         referenceService = EasyMock.createMock(ReferenceService.class);
         taxonService = EasyMock.createMock(TaxonService.class);
-        sourceService = EasyMock.createMock(SourceService.class);
+        sourceService = EasyMock.createMock(OrganisationService.class);
 
         referenceValidator = new Processor();
         referenceValidator.setReferenceService(referenceService);

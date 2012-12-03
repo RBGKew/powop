@@ -14,7 +14,7 @@ import org.emonocot.api.GroupService;
 import org.emonocot.api.IdentificationKeyService;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.ReferenceService;
-import org.emonocot.api.SourceService;
+import org.emonocot.api.OrganisationService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.UserService;
 import org.slf4j.Logger;
@@ -58,7 +58,7 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
     /**
     *
     */
-   private SourceService sourceService;
+   private OrganisationService organisationService;
    
    /**
     *
@@ -102,10 +102,10 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
     }
 
     /**
-     * @param newSourceService the sourceService to set
+     * @param organisationService the sourceService to set
      */
-    public final void setSourceService(final SourceService newSourceService) {
-        this.sourceService = newSourceService;
+    public final void setOrganisationService(final OrganisationService organisationService) {
+        this.organisationService = organisationService;
     }
     
     /**
@@ -156,10 +156,10 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
                 groupDeserializer.setService(groupService);
                 return groupDeserializer;
             } else if (jsonDeserializerClass
-                    .equals(SourceDeserializer.class)) {
-                SourceDeserializer sourceDeserializer
-                    = SourceDeserializer.class.newInstance();
-                sourceDeserializer.setService(sourceService);
+                    .equals(OrganisationDeserialiser.class)) {
+                OrganisationDeserialiser sourceDeserializer
+                    = OrganisationDeserialiser.class.newInstance();
+                sourceDeserializer.setService(organisationService);
                 return sourceDeserializer;
             }   else if (jsonDeserializerClass
                         .equals(IdentificationKeyDeserializer.class)) {
@@ -181,7 +181,7 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
                 annotatableObjectDeserializer.addService(taxonService);
                 annotatableObjectDeserializer.addService(imageService);
                 annotatableObjectDeserializer.addService(referenceService);
-                annotatableObjectDeserializer.addService(sourceService);
+                annotatableObjectDeserializer.addService(organisationService);
                 return annotatableObjectDeserializer;
             }
         } catch (IllegalAccessException iae) {

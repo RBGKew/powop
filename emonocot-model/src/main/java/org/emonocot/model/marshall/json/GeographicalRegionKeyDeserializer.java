@@ -2,8 +2,8 @@ package org.emonocot.model.marshall.json;
 
 import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.deser.StdKeyDeserializer;
-import org.emonocot.model.geography.GeographicalRegion;
-import org.emonocot.model.geography.GeographyConverter;
+import org.emonocot.model.convert.StringToLocationConverter;
+import org.emonocot.model.geography.Location;
 
 /**
  *
@@ -14,13 +14,13 @@ public class GeographicalRegionKeyDeserializer extends StdKeyDeserializer {
     /**
      *
      */
-    private GeographyConverter converter = new GeographyConverter();
+    private StringToLocationConverter converter = new StringToLocationConverter();
 
     /**
      *
      */
     public GeographicalRegionKeyDeserializer() {
-        super(GeographicalRegion.class);
+        super(Location.class);
     }
 
     /**

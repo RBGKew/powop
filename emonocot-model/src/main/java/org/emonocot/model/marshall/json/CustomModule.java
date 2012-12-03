@@ -6,7 +6,7 @@ import org.codehaus.jackson.map.module.SimpleDeserializers;
 import org.codehaus.jackson.map.module.SimpleKeyDeserializers;
 import org.codehaus.jackson.map.module.SimpleSerializers;
 import org.emonocot.api.JobInstanceService;
-import org.emonocot.model.geography.GeographicalRegion;
+import org.emonocot.model.geography.Location;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionException;
 import org.springframework.batch.core.JobInstance;
@@ -39,7 +39,7 @@ public class CustomModule extends Module {
     @Override
     public final void setupModule(final SetupContext setupContext) {
         SimpleKeyDeserializers keyDeserializers = new SimpleKeyDeserializers();
-        keyDeserializers.addDeserializer(GeographicalRegion.class,
+        keyDeserializers.addDeserializer(Location.class,
                 new GeographicalRegionKeyDeserializer());
         setupContext.addKeyDeserializers(keyDeserializers);
         SimpleSerializers simpleSerializers = new SimpleSerializers();

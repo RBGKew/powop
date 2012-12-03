@@ -6,7 +6,7 @@ import org.emonocot.api.IdentificationKeyService;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.JobInstanceService;
 import org.emonocot.api.ReferenceService;
-import org.emonocot.api.SourceService;
+import org.emonocot.api.OrganisationService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.UserService;
 import org.slf4j.Logger;
@@ -49,7 +49,7 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
     /**
     *
     */
-    private SourceService sourceService;
+    private OrganisationService organisationService;
 
     /**
     *
@@ -109,11 +109,11 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
     }
 
     /**
-     * @param sourceService
+     * @param organisationService
      *            the sourceService to set
      */
-    public final void setSourceService(final SourceService sourceService) {
-        this.sourceService = sourceService;
+    public final void setOrganisationService(final OrganisationService organisationService) {
+        this.organisationService = organisationService;
     }
 
     /**
@@ -144,7 +144,7 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
             objectMapper.setImageService(imageService);
             objectMapper.setUserService(userService);
             objectMapper.setGroupService(groupService);
-            objectMapper.setSourceService(sourceService);
+            objectMapper.setOrganisationService(organisationService);
             objectMapper.setJobInstanceService(jobInstanceService);
             objectMapper.setIdentificationKeyService(identificationKeyService);
             objectMapper.init();

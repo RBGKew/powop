@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:em="http://e-monocot.org/portal/functions"
+	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:security="http://www.springframework.org/security/tags"
+	xmlns:joda="http://www.joda.org/joda/time/tags">
+	
+	<tags:pageheader>
+		<h2 id="page-title">
+			${organisation.title} <br />
+			<spring:message code="resources.title" />
+		</h2>
+	</tags:pageheader>
+	<div class="container">
+		<div class="row">
+			<div class="span12">
+				<tags:info />
+			</div>
+		</div>
+		<div class="row">
+			<div class="span12">
+				<div class="inner">
+					<div class="box">
+						<table class="table">
+							<thead>
+								<tr>
+									<th><spring:message code="resource.identifier" /></th>
+									<th><spring:message code="resource.jobType" /></th>
+									<th><spring:message code="resource.status" /></th>
+									<th><spring:message code="resource.startTime" /></th>
+									<th><spring:message code="resource.exitCode" /></th>
+									<th><spring:message code="resource.totalRecords" /></th>
+									<th><spring:message code="resource.recordsRead" /></th>
+									<th><spring:message code="resource.processed" /></th>
+									<th><spring:message code="resource.written" /></th>
+									<th><spring:message code="resource.output" /></th>
+								</tr>
+							</thead>
+							<tbody id="resources">
+								<c:forEach var="resource" items="${resources}">
+									<tr>
+										<td>
+											<spring:url var="resourceUrl" value="/organisation/${organisation.identifier}/resource/${resource.identifier}" />
+											<a href="${resourceUrl}">${resource.identifier}</a>
+										</td>
+										<td>${resource.jobType}</td>
+										<td>${resource.status}</td>
+										<td><joda:format value="${resource.startTime}" style="MM" /></td>
+										<td>${resource.exitCode}</td>
+										<c:choose>
+											<c:when test="${resource.jobId ne null}">
+												<td>${resource.recordsRead + resource.readSkip}</td>
+												<td>${resource.recordsRead}</td>
+												<td>${resource.recordsRead - resource.processSkip}</td>
+												<td>${resource.written}</td>
+												<td>
+													<c:if test="${resource.written gt 0}">
+														<spring:url var="resourceUrl" value="/organisation/${organisation.identifier}/resource/${resource.jobId}/output"/>															
+														<a href="${resourceUrl}"><spring:message code="see.report" /></a>
+													</c:if>
+												</td>
+											</c:when>
+											<c:otherwise>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</c:otherwise>
+										</c:choose>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

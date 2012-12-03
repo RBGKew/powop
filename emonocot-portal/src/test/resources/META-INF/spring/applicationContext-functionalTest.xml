@@ -7,24 +7,18 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:property-placeholder
-		location="classpath*:META-INF/spring/application.properties" />
+	<context:property-placeholder location="classpath*:META-INF/spring/application.properties" />
 
-	<context:property-override
-		ignore-unresolvable="true"
-		location="classpath*:META-INF/spring/application.properties" />
+	<context:property-override ignore-unresolvable="true" location="classpath*:META-INF/spring/application.properties" />
 
 	<bean name="testDataManager" class="org.emonocot.test.TestDataManager" />
 
 	<context:component-scan base-package="org.emonocot.portal.remoting" />
 
 	<context:component-scan base-package="org.emonocot.service.impl">
-		<context:exclude-filter type="assignable"
-			expression="org.emonocot.service.impl.GroupServiceImpl" />
-		<context:exclude-filter type="assignable"
-			expression="org.emonocot.service.impl.UserServiceImpl" />
-		<context:exclude-filter type="assignable"
-			expression="org.emonocot.service.impl.SearchableObjectServiceImpl" />
+		<context:exclude-filter type="assignable" expression="org.emonocot.service.impl.GroupServiceImpl" />
+		<context:exclude-filter type="assignable" expression="org.emonocot.service.impl.UserServiceImpl" />
+		<context:exclude-filter type="assignable" expression="org.emonocot.service.impl.SearchableObjectServiceImpl" />
 	</context:component-scan>
 
 	<bean name="restTemplate" class="org.springframework.web.client.RestTemplate">

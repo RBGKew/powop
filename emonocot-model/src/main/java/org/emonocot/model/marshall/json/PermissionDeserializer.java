@@ -6,7 +6,7 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
-import org.emonocot.api.convert.StringToPermissionConverter;
+import org.emonocot.model.convert.StringToPermissionConverter;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.acls.model.Permission;
 

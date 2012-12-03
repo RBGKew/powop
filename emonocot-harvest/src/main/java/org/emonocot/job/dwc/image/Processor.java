@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.emonocot.api.ImageService;
-import org.emonocot.job.dwc.NonOwnedProcessor;
+import org.emonocot.job.dwc.read.NonOwnedProcessor;
 import org.emonocot.model.Image;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.RecordType;

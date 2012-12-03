@@ -10,7 +10,7 @@ import org.hibernate.type.StandardBasicTypes;
 import org.hibernate.usertype.UserType;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.Country;
-import org.emonocot.model.geography.GeographicalRegion;
+import org.emonocot.model.geography.Location;
 import org.emonocot.model.geography.Region;
 
 /**
@@ -29,7 +29,7 @@ public class GeographicRegionUserType implements UserType {
      * @return The class returned by nullSafeGet().
      */
     public final Class returnedClass() {
-        return GeographicalRegion.class;
+        return Location.class;
     }
 
     /**
@@ -53,8 +53,8 @@ public class GeographicRegionUserType implements UserType {
          } else if (x == null || y == null) {
                 return false;
          }
-         GeographicalRegion regionX = (GeographicalRegion) x;
-         GeographicalRegion regionY = (GeographicalRegion) y;
+         Location regionX = (Location) x;
+         Location regionY = (Location) y;
 
          return regionX.equals(regionY);
     }
@@ -122,7 +122,7 @@ public class GeographicRegionUserType implements UserType {
             StandardBasicTypes.STRING
              .nullSafeSet(preparedStatement, null, index);
         } else {
-            GeographicalRegion g = ((GeographicalRegion) value);
+            Location g = ((Location) value);
             StandardBasicTypes.STRING
               .nullSafeSet(preparedStatement, g.toString(), index);
         }
@@ -140,7 +140,7 @@ public class GeographicRegionUserType implements UserType {
             return null;
         }
 
-        return ((GeographicalRegion) value);
+        return ((Location) value);
     }
 
     /**

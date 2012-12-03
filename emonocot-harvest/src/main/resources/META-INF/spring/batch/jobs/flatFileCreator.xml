@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+	                    
+    <context:property-placeholder ignore-unresolvable="true" location="classpath*:META-INF/spring/*.properties"/>
+	
+    <context:annotation-config />
+    
+    <batch:job id="FlatFileCreation">        
+        <batch:step id="writeFile">
+            <batch:tasklet>
+                <batch:chunk reader="taxonReader" writer="dwcFlatFileWriter" commit-interval="100" />
+            </batch:tasklet>
+            <batch:end on="COMPLETED"/>
+        </batch:step>
+        <batch:listeners>
+            <batch:listener ref="jobStatusListener" />
+        </batch:listeners>
+    </batch:job>
+    
+    <bean id="taxonReader" class="org.emonocot.harvest.common.SolrItemReader" scope="step">
+        <property name="queryString" value="#{jobParameters['query']}" />
+        <property name="sort" value="#{jobParameters['sort']}" />
+        <property name="selectedFacets" value="#{jobParameters['selected.facets']}" />
+        <property name="service">
+            <bean class="org.emonocot.service.impl.TaxonServiceImpl" />
+        </property>
+    </bean>
+
+    <bean id="jobStatusListener" class="org.emonocot.harvest.common.JobStatusListener">
+      <property name="jobStatusNotifier" ref="jobStatusNotifier"/>
+      <property name="baseUrl" value="${harvester.baseUrl}"/>
+    </bean>
+
+    <bean id="dwcFlatFileWriter" class="org.emonocot.job.dwc.write.DwcFlatFileWriter" scope="step">
+        <property name="extension" value="#{jobParameters['extension']}"/>
+        <property name="resource">
+          <bean class="org.springframework.core.io.FileSystemResource" scope="step">
+            <constructor-arg value="#{jobParameters['output.file']}"/>
+          </bean>
+        </property>
+        <property name="lineAggregator" ref="lineAggregator"/>
+    </bean>
+    
+    <bean id="lineAggregator" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator" scope="step">
+      <property name="delimiter" value="&#9;"/>
+      <property name="fieldExtractor">
+        <bean class="org.emonocot.job.dwc.write.DwcFieldExtractor" scope="step">
+          <property name="names" value="#{jobParameters['columns']}"/>
+          <property name="extension" value="#{jobParameters['extension']}"/>
+          <property name="conversionService" ref="conversionService"/>
+        </bean>
+      </property>
+    </bean>
+
+    
+</beans>

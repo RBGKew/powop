@@ -13,7 +13,7 @@ import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.Country;
-import org.emonocot.model.geography.GeographicalRegion;
+import org.emonocot.model.geography.Location;
 import org.emonocot.model.geography.Region;
 import org.emonocot.pager.Page;
 import org.junit.After;
@@ -51,23 +51,23 @@ public class SearchTest extends AbstractPersistenceTest {
     @Override
     public final void setUpTestData() {
         Taxon taxon1 = createTaxon("Aus", "1", null, null, "Aaceae", null, null,
-                null, null, null, null, new GeographicalRegion[] {}, null);
+                null, null, null, null, new Location[] {}, null);
         createDescription(taxon1, DescriptionType.habitat, "Lorem ipsum", null);
         Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null, "Aaceae", null,
                 null, null, null, null, null,
-                new GeographicalRegion[] {Continent.AUSTRALASIA,
+                new Location[] {Continent.AUSTRALASIA,
                         Region.BRAZIL, Region.CARIBBEAN }, null);
         Taxon taxon3 = createTaxon("Aus ceus", "3", taxon1, null, null, null,
                 null, null, null, null, null,
-                new GeographicalRegion[] {Region.NEW_ZEALAND }, null);
+                new Location[] {Region.NEW_ZEALAND }, null);
         createTaxon("Aus deus", "4", null, taxon2, "Aaceae", null, null, null,
-                null, null, null, new GeographicalRegion[] {}, null);
+                null, null, null, new Location[] {}, null);
         createTaxon("Aus eus", "5", null, taxon3, null, null, null, null, null,
-                null, null, new GeographicalRegion[] {}, null);
+                null, null, new Location[] {}, null);
         createTaxon("Alania", "urn:kew.org:wcs:taxon:294463", null, null, null, null, null, null, null,
-                null, null, new GeographicalRegion[] {Country.NSW}, null);
+                null, null, new Location[] {Country.NSW}, null);
         createTaxon(null, "6", null, null, null, null, null, null, null,
-                null, null, new GeographicalRegion[] {}, null);
+                null, null, new Location[] {}, null);
     }
 
     /**

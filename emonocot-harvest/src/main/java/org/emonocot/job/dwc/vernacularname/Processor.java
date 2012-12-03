@@ -1,8 +1,8 @@
 package org.emonocot.job.dwc.vernacularname;
 
 import org.emonocot.api.VernacularNameService;
-import org.emonocot.job.dwc.OwnedEntityProcessor;
-import org.emonocot.job.dwc.RequiredFieldException;
+import org.emonocot.job.dwc.exception.RequiredFieldException;
+import org.emonocot.job.dwc.read.OwnedEntityProcessor;
 import org.emonocot.model.VernacularName;
 import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;

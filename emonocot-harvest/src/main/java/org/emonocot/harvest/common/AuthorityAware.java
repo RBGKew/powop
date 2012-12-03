@@ -1,12 +1,12 @@
 package org.emonocot.harvest.common;
 
-import org.emonocot.api.SourceService;
+import org.emonocot.api.OrganisationService;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Base;
-import org.emonocot.model.Source;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
+import org.emonocot.model.registry.Organisation;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
@@ -26,11 +26,11 @@ public class AuthorityAware implements StepExecutionListener {
     /**
         *
         */
-    private SourceService sourceService;
+    private OrganisationService sourceService;
     /**
        *
        */
-    private Source source;
+    private Organisation source;
     /**
        *
        */
@@ -48,7 +48,7 @@ public class AuthorityAware implements StepExecutionListener {
         *
         * @return the Source
         */
-    public final Source getSource() {
+    public final Organisation getSource() {
            if (source == null) {
                source = sourceService.load(sourceName);
            }
@@ -60,7 +60,7 @@ public class AuthorityAware implements StepExecutionListener {
        * @param newSourceService Set the source service
        */
     @Autowired
-    public final void setSourceService(final SourceService newSourceService) {
+    public final void setSourceService(final OrganisationService newSourceService) {
           this.sourceService = newSourceService;
       }
 

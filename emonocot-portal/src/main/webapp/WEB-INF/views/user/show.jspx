@@ -16,7 +16,7 @@
 							<li class="span3">
 								<jsp:element  name="a">
 									<jsp:attribute name="href">
-										<c:url value="/source/e-monocot.org"/>
+										<c:url value="/organisation/e-monocot.org"/>
 									</jsp:attribute>
 									<spring:message code="admin.title"/>
 								</jsp:element>
@@ -24,9 +24,9 @@
 							<li class="span3">
 								<jsp:element  name="a">
 									<jsp:attribute name="href">
-										<c:url value="/source"/> 
+										<c:url value="/organisations"/> 
 									</jsp:attribute>
-									<spring:message code="sources.title"/>
+									<spring:message code="organisations.title"/>
 								</jsp:element>
 							</li>
 							<li class="span3">

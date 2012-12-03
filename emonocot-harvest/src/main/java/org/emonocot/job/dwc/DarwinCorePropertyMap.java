@@ -31,13 +31,14 @@ public class DarwinCorePropertyMap {
    
    static {
 	   taxonTerms.put(DcTerm.accessRights,"accessRights");
-   	taxonTerms.put(DwcTerm.datasetID,"authority.identifier");
-   	taxonTerms.put(DwcTerm.datasetName,"authority.title");
+   	   taxonTerms.put(DwcTerm.datasetID,"authority.identifier");
+   	   taxonTerms.put(DwcTerm.datasetName,"authority.title");
    	taxonTerms.put(DcTerm.created,"created");
    	taxonTerms.put(DcTerm.license,"license");
    	taxonTerms.put(DcTerm.modified,"modified");
    	taxonTerms.put(DcTerm.rights,"rights");
    	taxonTerms.put(DcTerm.rightsHolder,"rightsHolder");
+   	taxonTerms.put(DwcTerm.taxonID, "identifier");
    	taxonTerms.put(DwcTerm.acceptedNameUsage,"acceptedNameUsage.scientificName");
    	taxonTerms.put(DwcTerm.acceptedNameUsageID,"acceptedNameUsage.identifier");
    	taxonTerms.put(DcTerm.bibliographicCitation,"bibliographicCitation");
@@ -239,5 +240,30 @@ public class DarwinCorePropertyMap {
 	typeAndSpecimenTerms.put(DwcTerm.verbatimLongitude, "verbatimLongitude");
    	
    }
+
+    public static Map<ConceptTerm, String> getPropertyMap(ConceptTerm conceptTerm) {
+	    switch(conceptTerm.simpleName()) {
+	    case "Taxon":
+	    	return taxonTerms;
+	    case "Description":
+	    	return descriptionTerms;
+	    case "Distribution":
+	    	return distributionTerms;
+	    case "Identifier":
+	    	return identifierTerms;
+	    case "MeasurementOrFact":
+	    	return measurementOrFactTerms;
+	    case "VernacularName":
+	    	return vernacularNameTerms;
+	    case "Image":
+	    	return imageTerms;
+	    case "TypeAndSpecimen":
+	    	return typeAndSpecimenTerms;
+	    case "Reference":
+	    	return referenceTerms;
+	    default:
+	    	return null;
+	    }
+    }
 
 }

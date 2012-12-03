@@ -20,7 +20,7 @@ import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.emonocot.model.geography.GeographicalRegion;
+import org.emonocot.model.geography.Location;
 import org.emonocot.model.marshall.json.GeographicalRegionDeserializer;
 import org.emonocot.model.marshall.json.ReferenceDeserializer;
 import org.emonocot.model.marshall.json.ReferenceSerializer;
@@ -52,7 +52,7 @@ public class Distribution extends OwnedEntity {
     /**
      *
      */
-    private GeographicalRegion location;
+    private Location location;
     
     /**
      *
@@ -116,7 +116,7 @@ public class Distribution extends OwnedEntity {
      *            the geographical region this distribution is concerned with
      */
     @JsonDeserialize(using = GeographicalRegionDeserializer.class)
-    public void setLocation(GeographicalRegion geoRegion) {
+    public void setLocation(Location geoRegion) {
         this.location = geoRegion;
     }
 
@@ -125,7 +125,7 @@ public class Distribution extends OwnedEntity {
      * @return the lowest level geo region this distribution is concerned with
      */
     @Type(type = "tdwgRegionUserType")
-    public GeographicalRegion getLocation() {
+    public Location getLocation() {
         return location;
     }
 

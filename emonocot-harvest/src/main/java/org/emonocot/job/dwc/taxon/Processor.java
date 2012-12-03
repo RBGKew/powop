@@ -1,7 +1,8 @@
 package org.emonocot.job.dwc.taxon;
 
 import org.emonocot.harvest.common.TaxonRelationshipResolver;
-import org.emonocot.job.dwc.DarwinCoreProcessor;
+import org.emonocot.job.dwc.exception.NoIdentifierException;
+import org.emonocot.job.dwc.read.DarwinCoreProcessor;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.AnnotationCode;

@@ -7,15 +7,15 @@ import java.util.ArrayList;
 import org.emonocot.api.AnnotationService;
 import org.emonocot.api.GroupService;
 import org.emonocot.api.ImageService;
-import org.emonocot.api.SourceService;
+import org.emonocot.api.OrganisationService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.UserService;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Image;
-import org.emonocot.model.Source;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.auth.Group;
 import org.emonocot.model.auth.User;
+import org.emonocot.model.registry.Organisation;
 import org.emonocot.test.DataManagementSupport;
 import org.junit.After;
 import org.junit.Before;
@@ -80,7 +80,7 @@ public class ACLTest extends DataManagementSupport {
     *
     */
     @Autowired
-    private SourceService sourceService;
+    private OrganisationService sourceService;
 
     /**
      *
@@ -95,7 +95,7 @@ public class ACLTest extends DataManagementSupport {
     /**
      *
      */
-    private Source source;
+    private Organisation source;
 
     /**
      *
@@ -117,8 +117,8 @@ public class ACLTest extends DataManagementSupport {
                 imageService.saveOrUpdate((Image) obj);
             } else if (obj.getClass().equals(Annotation.class)) {
                 annotationService.saveOrUpdate((Annotation) obj);
-            } else if (obj.getClass().equals(Source.class)) {
-                sourceService.saveOrUpdate((Source) obj);
+            } else if (obj.getClass().equals(Organisation.class)) {
+                sourceService.saveOrUpdate((Organisation) obj);
             } else if (obj.getClass().equals(User.class)) {
                 userService.createUser((User) obj);
             } else if (obj.getClass().equals(Group.class)) {
@@ -131,7 +131,7 @@ public class ACLTest extends DataManagementSupport {
                 .authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         userService.addPermission(source, "test", BasePermission.READ,
-                Source.class);
+                Organisation.class);
         SecurityContextHolder.clearContext();
     }
 
@@ -147,7 +147,7 @@ public class ACLTest extends DataManagementSupport {
         Authentication authentication = authenticationManager.authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         userService.deletePermission(source, "test", BasePermission.READ,
-                Source.class);
+                Organisation.class);
         
         while (!getTearDown().isEmpty()) {
             Object obj = getTearDown().pop();
@@ -157,8 +157,8 @@ public class ACLTest extends DataManagementSupport {
                 imageService.delete(((Image) obj).getIdentifier());
             } else if (obj.getClass().equals(Annotation.class)) {
                 annotationService.delete(((Annotation) obj).getIdentifier());
-            } else if (obj.getClass().equals(Source.class)) {
-                sourceService.delete(((Source) obj).getIdentifier());
+            } else if (obj.getClass().equals(Organisation.class)) {
+                sourceService.delete(((Organisation) obj).getIdentifier());
             } else if (obj.getClass().equals(User.class)) {
                 userService.deleteUser(((User) obj).getIdentifier());
             } else if (obj.getClass().equals(Group.class)) {

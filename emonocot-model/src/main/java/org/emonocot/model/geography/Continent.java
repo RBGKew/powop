@@ -9,7 +9,7 @@ import com.vividsolutions.jts.io.WKTReader;
  * @author ben
  *
  */
-public enum Continent implements GeographicalRegion<Continent> {
+public enum Continent implements Location<Continent> {
     /**
      *
      */
@@ -152,7 +152,7 @@ public enum Continent implements GeographicalRegion<Continent> {
 	}
 
 	@Override
-	public GeographicalRegion getParent() {
+	public Location getParent() {
 		return null;
 	}
 }

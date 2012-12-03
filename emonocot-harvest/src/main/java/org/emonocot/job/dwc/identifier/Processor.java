@@ -1,7 +1,7 @@
 package org.emonocot.job.dwc.identifier;
 
 import org.emonocot.api.IdentifierService;
-import org.emonocot.job.dwc.OwnedEntityProcessor;
+import org.emonocot.job.dwc.read.OwnedEntityProcessor;
 import org.emonocot.model.Identifier;
 import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;

@@ -101,7 +101,7 @@ public class Processor implements ItemProcessor<Map<String,Object>, MeasurementO
 			return measurementOrFact;
 	    } else if(results.getSize() > 1) {
 			logger.error(map.get("scientific_name")  + " " + authority + " multiple matches");
-		} else {			
+		} else {
 			logger.error(map.get("scientific_name") + " " + authority + " no matches");
 		}
         return null;

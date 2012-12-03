@@ -1,6 +1,6 @@
 package org.emonocot.job.dwc.typeandspecimen;
 
-import org.emonocot.job.dwc.NonOwnedFieldSetMapper;
+import org.emonocot.job.dwc.read.NonOwnedFieldSetMapper;
 import org.emonocot.model.TypeAndSpecimen;
 import org.emonocot.model.constants.TypeDesignationType;
 import org.gbif.dwc.terms.ConceptTerm;

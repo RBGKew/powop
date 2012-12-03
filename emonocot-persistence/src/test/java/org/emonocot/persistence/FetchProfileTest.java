@@ -9,7 +9,7 @@ import org.emonocot.model.Taxon;
 import org.emonocot.model.Description;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.geography.Continent;
-import org.emonocot.model.geography.GeographicalRegion;
+import org.emonocot.model.geography.Location;
 import org.emonocot.model.geography.Region;
 import org.hibernate.Hibernate;
 import org.junit.After;
@@ -50,22 +50,22 @@ public class FetchProfileTest extends AbstractPersistenceTest {
 
         Taxon taxon1 = createTaxon("Aus", "urn:lsid:example.com:taxon:1", null,
                 null, null, null, null, null, null, null,
-                null, new GeographicalRegion[] {}, null);
+                null, new Location[] {}, null);
         createDescription(taxon1, DescriptionType.associations, "Lorem ipsum",
                 reference);
         Taxon taxon2 = createTaxon("Aus bus", "urn:lsid:example.com:taxon:2",
                 taxon1, null, null, null, null, null, null, null,
-                null, new GeographicalRegion[] {Continent.AUSTRALASIA,
+                null, new Location[] {Continent.AUSTRALASIA,
                         Region.BRAZIL, Region.CARIBBEAN }, null);
         Taxon taxon3 = createTaxon("Aus ceus", "urn:lsid:example.com:taxon:3",
                 taxon1, null, null, null, null, null, null, null,
-                null, new GeographicalRegion[] {Region.NEW_ZEALAND }, null);
+                null, new Location[] {Region.NEW_ZEALAND }, null);
         Taxon taxon4 = createTaxon("Aus deus", "urn:lsid:example.com:taxon:4",
                 null, taxon2, null, null, null, null, null, null,
-                null, new GeographicalRegion[] {}, null);
+                null, new Location[] {}, null);
         Taxon taxon5 = createTaxon("Aus eus", "urn:lsid:example.com:taxon:5",
                 null, taxon3, null, null, null, null, null, null,
-                null, new GeographicalRegion[] {}, null);
+                null, new Location[] {}, null);
         Image image = createImage("Aus aus", "image1", null, taxon1, null);
     }
 

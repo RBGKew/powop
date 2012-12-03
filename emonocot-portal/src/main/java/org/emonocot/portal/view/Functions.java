@@ -13,25 +13,25 @@ import java.util.Set;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.el.ELException;
 
-import org.emonocot.api.convert.ClassToStringConverter;
-import org.emonocot.api.convert.PermissionToStringConverter;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.Identifier;
 import org.emonocot.model.Image;
 import org.emonocot.model.MeasurementOrFact;
 import org.emonocot.model.Reference;
-import org.emonocot.model.Source;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.Description;
 import org.emonocot.model.TypeAndSpecimen;
 import org.emonocot.model.VernacularName;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.Status;
+import org.emonocot.model.convert.ClassToStringConverter;
+import org.emonocot.model.convert.PermissionToStringConverter;
 import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.Country;
-import org.emonocot.model.geography.GeographicalRegion;
-import org.emonocot.model.geography.GeographicalRegionComparator;
+import org.emonocot.model.geography.Location;
+import org.emonocot.model.geography.LocationComparator;
 import org.emonocot.model.geography.Region;
+import org.emonocot.model.registry.Organisation;
 import org.emonocot.model.util.AlphabeticalTaxonComparator;
 import org.emonocot.pager.FacetName;
 import org.emonocot.pager.Page;
@@ -232,7 +232,7 @@ public final class Functions {
      * @return the country code or null if the distribution is at regional level
      *         or above
      */
-    public static String country(final GeographicalRegion region) {
+    public static String country(final Location region) {
         if (region == null || region.getClass().equals(Region.class)
                 || region.getClass().equals(Continent.class)) {
             return null;
@@ -245,7 +245,7 @@ public final class Functions {
      * @param region Set the region
      * @return the region code or null if the distribution is at continent level
      */
-    public static String region(final GeographicalRegion region) {
+    public static String region(final Location region) {
         if (region == null || region.getClass().equals(Continent.class)) {
             return null;
         } else if (region.getClass().equals(Region.class)) {
@@ -281,12 +281,12 @@ public final class Functions {
      *            Set the taxon
      * @return the list of regions we have distribution records for
      */
-    public static List<GeographicalRegion> regions(final Taxon taxon) {
-        List<GeographicalRegion> regions = new ArrayList<GeographicalRegion>();
+    public static List<Location> regions(final Taxon taxon) {
+        List<Location> regions = new ArrayList<Location>();
         for(Distribution d : taxon.getDistribution()) {
         	regions.add(d.getLocation());
         }
-        GeographicalRegionComparator comparator = new GeographicalRegionComparator();
+        LocationComparator comparator = new LocationComparator();
         Collections.sort(regions, comparator);
         return regions;
     }
@@ -368,7 +368,7 @@ public final class Functions {
      */
     private static void appendAreas(final StringBuffer stringBuffer,
             final Status status,
-            final List<? extends GeographicalRegion> areas) {
+            final List<? extends Location> areas) {
         stringBuffer.append(status.name() + ":");
         stringBuffer.append(areas.get(0).getCode());
 
@@ -525,8 +525,8 @@ public final class Functions {
 	   return identifier.replaceAll("\\.", "").replaceAll("_", "");
    }
     
-   public static Set<Source> sources(Taxon taxon) {
-	   Set<Source> sources = new HashSet<Source>();
+   public static Set<Organisation> sources(Taxon taxon) {
+	   Set<Organisation> sources = new HashSet<Organisation>();
 	   sources.add(taxon.getAuthority());
 	   for(Description d : taxon.getDescriptions()) {
 		   sources.add(d.getAuthority());

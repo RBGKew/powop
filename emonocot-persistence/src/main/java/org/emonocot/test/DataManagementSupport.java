@@ -11,7 +11,6 @@ import org.emonocot.model.Base;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.Image;
 import org.emonocot.model.Reference;
-import org.emonocot.model.Source;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.Description;
 import org.emonocot.model.auth.Group;
@@ -20,8 +19,9 @@ import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.RecordType;
-import org.emonocot.model.geography.GeographicalRegion;
+import org.emonocot.model.geography.Location;
 import org.emonocot.model.geography.Place;
+import org.emonocot.model.registry.Organisation;
 import org.gbif.ecat.voc.Rank;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
@@ -133,7 +133,7 @@ public abstract class DataManagementSupport {
     */
     public final Annotation createAnnotation(final Long jobId,
             final Base object, final AnnotationType type,
-            final RecordType recordType, final AnnotationCode code, Source source) {
+            final RecordType recordType, final AnnotationCode code, Organisation source) {
        Annotation annotation = new Annotation();
        annotation.setAnnotatedObj(object);
        annotation.setJobId(jobId);
@@ -200,8 +200,8 @@ public abstract class DataManagementSupport {
             final Taxon parent, final Taxon accepted, final String family,
             final String genus, final String specificEpithet,
             final String datePublished, final Rank rank,
-            final org.gbif.ecat.voc.TaxonomicStatus status, final Source source,
-            final GeographicalRegion[] distributions, Source[] sources) {
+            final org.gbif.ecat.voc.TaxonomicStatus status, final Organisation source,
+            final Location[] distributions, Organisation[] sources) {
         Taxon taxon = new Taxon();
         taxon.setScientificName(name);
         taxon.setFamily(family);
@@ -226,7 +226,7 @@ public abstract class DataManagementSupport {
             accepted.getSynonymNameUsages().add(taxon);
         }
 
-        for (GeographicalRegion region : distributions) {
+        for (Location region : distributions) {
             Distribution distribution = new Distribution();
             distribution.setIdentifier(UUID.randomUUID().toString());
             distribution.setLocation(region);
@@ -261,7 +261,7 @@ public abstract class DataManagementSupport {
      * @return an image
      */
     public final Image createImage(final String caption,
-            final String identifier, final Source source, final Taxon taxon, Source[] sources) {
+            final String identifier, final Organisation source, final Taxon taxon, Organisation[] sources) {
         Image image = new Image();
         image.setTitle(caption);
         image.setIdentifier(identifier);
@@ -339,8 +339,8 @@ public abstract class DataManagementSupport {
      * @param uri Set the uri
      * @return a source object
      */
-    public final Source createSource(final String identifier, final String uri) {
-        Source source = new Source();
+    public final Organisation createSource(final String identifier, final String uri) {
+        Organisation source = new Organisation();
         source.setIdentifier(identifier);
         source.setUri(uri);
         setUp.add(source);

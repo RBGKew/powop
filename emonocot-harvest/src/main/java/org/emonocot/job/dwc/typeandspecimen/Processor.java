@@ -1,7 +1,7 @@
 package org.emonocot.job.dwc.typeandspecimen;
 
 import org.emonocot.api.TypeAndSpecimenService;
-import org.emonocot.job.dwc.NonOwnedProcessor;
+import org.emonocot.job.dwc.read.NonOwnedProcessor;
 import org.emonocot.model.TypeAndSpecimen;
 import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;

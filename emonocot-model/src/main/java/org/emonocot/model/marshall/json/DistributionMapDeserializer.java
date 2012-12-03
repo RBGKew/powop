@@ -9,7 +9,7 @@ import org.codehaus.jackson.JsonToken;
 import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
 import org.emonocot.model.Distribution;
-import org.emonocot.model.geography.GeographicalRegion;
+import org.emonocot.model.geography.Location;
 
 /**
  *
@@ -17,15 +17,15 @@ import org.emonocot.model.geography.GeographicalRegion;
  *
  */
 public class DistributionMapDeserializer extends
-        JsonDeserializer<Map<GeographicalRegion, Distribution>> {
+        JsonDeserializer<Map<Location, Distribution>> {
 
     @Override
-    public final Map<GeographicalRegion, Distribution> deserialize(
+    public final Map<Location, Distribution> deserialize(
             final JsonParser jsonParser,
             final DeserializationContext deserializationContext)
             throws IOException {
-        Map<GeographicalRegion, Distribution> distributions
-                  = new HashMap<GeographicalRegion, Distribution>();
+        Map<Location, Distribution> distributions
+                  = new HashMap<Location, Distribution>();
         while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
             Distribution distribution = jsonParser
                     .readValueAs(Distribution.class);

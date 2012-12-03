@@ -6,7 +6,7 @@ import org.emonocot.api.IdentificationKeyService;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.JobInstanceService;
 import org.emonocot.api.ReferenceService;
-import org.emonocot.api.SourceService;
+import org.emonocot.api.OrganisationService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.UserService;
 import org.slf4j.Logger;
@@ -48,7 +48,7 @@ public class CustomObjectMapper extends ObjectMapper {
     /**
     *
     */
-    private SourceService sourceService;
+    private OrganisationService organisationService;
 
     /**
     *
@@ -120,11 +120,11 @@ public class CustomObjectMapper extends ObjectMapper {
     }
 
     /**
-     * @param newSourceService
+     * @param newOrganisationService
      *            the sourceService to set
      */
-    public final void setSourceService(final SourceService newSourceService) {
-        this.sourceService = newSourceService;
+    public final void setOrganisationService(final OrganisationService newOrganisationService) {
+        this.organisationService = newOrganisationService;
     }
 
     /**
@@ -144,7 +144,7 @@ public class CustomObjectMapper extends ObjectMapper {
         handlerInstantiator.setImageService(imageService);
         handlerInstantiator.setGroupService(groupService);
         handlerInstantiator.setUserService(userService);
-        handlerInstantiator.setSourceService(sourceService);
+        handlerInstantiator.setOrganisationService(organisationService);
         handlerInstantiator.setIdentificationKeyService(identificationKeyService);
         setHandlerInstantiator(handlerInstantiator);
         CustomModule module = new CustomModule(jobInstanceService);

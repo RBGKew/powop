@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.emonocot.portal.driver.*;
-import org.emonocot.portal.driver.source.JobOutput;
+import org.emonocot.portal.driver.organisation.ResourceOutput;
 import org.emonocot.portal.rows.AccessControlRow;
 import org.emonocot.portal.rows.GroupRow;
 import org.emonocot.portal.rows.JobRow;
@@ -171,13 +171,13 @@ public class StepDefinitions {
     public final void iEnterTheFollowingDataIntoTheCreateSourceForm(
             final List<SourceRow> sourceRows) {
 
-        ((org.emonocot.portal.driver.source.Create) currentPage)
+        ((org.emonocot.portal.driver.organisation.Create) currentPage)
                 .setObjectIdentifier(sourceRows.get(0).identifier, "identifier");
-        ((org.emonocot.portal.driver.source.Create) currentPage)
+        ((org.emonocot.portal.driver.organisation.Create) currentPage)
                 .setFormField("uri", sourceRows.get(0).uri);
-        ((org.emonocot.portal.driver.source.Create) currentPage)
+        ((org.emonocot.portal.driver.organisation.Create) currentPage)
                 .setFormField("logoUrl", sourceRows.get(0).logoUrl);
-        ((org.emonocot.portal.driver.source.Create) currentPage)
+        ((org.emonocot.portal.driver.organisation.Create) currentPage)
                 .setFormField("title", sourceRows.get(0).title);
     }
 
@@ -188,11 +188,11 @@ public class StepDefinitions {
     @When("^I enter the following data into the update source form:$")
     public final void iEnterTheFollowingDataIntoTheUpdateSourceForm(
             final List<SourceRow> sourceRows) {
-        ((org.emonocot.portal.driver.source.Update) currentPage).setFormField(
+        ((org.emonocot.portal.driver.organisation.Update) currentPage).setFormField(
                 "uri", sourceRows.get(0).uri);
-        ((org.emonocot.portal.driver.source.Update) currentPage).setFormField(
+        ((org.emonocot.portal.driver.organisation.Update) currentPage).setFormField(
                 "logoUrl", sourceRows.get(0).logoUrl);
-        ((org.emonocot.portal.driver.source.Update) currentPage).setFormField(
+        ((org.emonocot.portal.driver.organisation.Update) currentPage).setFormField(
                 "title", sourceRows.get(0).title);
     }
 
@@ -225,7 +225,7 @@ public class StepDefinitions {
     @When("^I select \"(Create a new source)\"$")
     public final void iSelectCreateANewSource(final String linkText) {
         currentPage = currentPage.selectLink(linkText,
-                org.emonocot.portal.driver.source.Create.class);
+                org.emonocot.portal.driver.organisation.Create.class);
     }
 
     /**
@@ -245,9 +245,9 @@ public class StepDefinitions {
      */
     @When("^I select \"(Edit this source)\"$")
     public final void iSelectEditThisSource(final String linkText) {
-        currentPage = ((org.emonocot.portal.driver.source.Show) currentPage)
+        currentPage = ((org.emonocot.portal.driver.organisation.Show) currentPage)
                 .selectLink(linkText,
-                        org.emonocot.portal.driver.source.Update.class);
+                        org.emonocot.portal.driver.organisation.Update.class);
     }
 
     /**
@@ -273,7 +273,7 @@ public class StepDefinitions {
     */
     @When("^I submit the update source form$")
     public final void iSubmitTheUpdateSourceForm() {
-        currentPage = ((org.emonocot.portal.driver.source.Update) currentPage)
+        currentPage = ((org.emonocot.portal.driver.organisation.Update) currentPage)
                 .submit();
     }
 
@@ -282,7 +282,7 @@ public class StepDefinitions {
    */
     @When("^I submit the create source form$")
     public final void iSubmitTheCreateSourceForm() {
-        currentPage = ((org.emonocot.portal.driver.source.Create) currentPage)
+        currentPage = ((org.emonocot.portal.driver.organisation.Create) currentPage)
                 .submit();
     }
 
@@ -381,8 +381,8 @@ public class StepDefinitions {
      */
     @When("^I select the (\\d+)\\w+ job$")
     public final void iSelectTheJob(final int job) {
-        currentPage = ((org.emonocot.portal.driver.source.Show) currentPage)
-                .selectJob(job);
+        currentPage = ((org.emonocot.portal.driver.organisation.Show) currentPage)
+                .selectResource(job);
     }
 
     /**
@@ -406,7 +406,7 @@ public class StepDefinitions {
      */
     @When("^I restrict the job \"([^\"]*)\" by selecting \"([^\"]*)\"$")
     public final void iSelectTheJobCategory(final String facetName, final String facetValue) {
-        currentPage = ((org.emonocot.portal.driver.source.JobOutput) currentPage)
+        currentPage = ((org.emonocot.portal.driver.organisation.ResourceOutput) currentPage)
                 .selectFacet(facetName, facetValue);
     }
 
@@ -443,10 +443,10 @@ public class StepDefinitions {
     @Then("^the summary results should be as follows:$")
     public final void theSummaryResultsShouldBeAsFollows(
             final List<SummaryRow> results) {
-        int actualNumberOfResults = (int) ((JobOutput) currentPage)
+        int actualNumberOfResults = (int) ((ResourceOutput) currentPage)
                 .getResultNumber();
         assertEquals(results.size(), actualNumberOfResults);
-        List<String[]> actualResults = ((JobOutput) currentPage).getResults();
+        List<String[]> actualResults = ((ResourceOutput) currentPage).getResults();
         for (int i = 0; i < actualNumberOfResults; i++) {
             assertArrayEquals(actualResults.get(i), results.get(i).toArray());
         }
@@ -459,8 +459,8 @@ public class StepDefinitions {
     @Then("^there should be (\\d+) jobs listed$")
     public final void thereShouldBeJobsListed(final int jobs) {
         assertEquals(jobs,
-                ((org.emonocot.portal.driver.source.Show) currentPage)
-                        .getJobsListed().intValue());
+                ((org.emonocot.portal.driver.organisation.Show) currentPage)
+                        .getResourcesListed().intValue());
     }
 
     /**
@@ -470,8 +470,8 @@ public class StepDefinitions {
     @Then("^the source uri should be \"([^\"]*)\"$")
     public final void theSourceUriShouldBe(final String uri) {
         assertEquals(uri,
-                ((org.emonocot.portal.driver.source.Show) currentPage)
-                        .getSourceUri());
+                ((org.emonocot.portal.driver.organisation.Show) currentPage)
+                        .getOrganisationUri());
     }
 
     /**
@@ -481,8 +481,8 @@ public class StepDefinitions {
     @Then("^the source logo should be \"([^\"]*)\"$")
     public final void theSourceLogoShouldBe(final String logo) {
         assertEquals(logo,
-                ((org.emonocot.portal.driver.source.Show) currentPage)
-                        .getSourceLogo());
+                ((org.emonocot.portal.driver.organisation.Show) currentPage)
+                        .getOrganisationLogo());
     }
 
     /**
@@ -642,7 +642,7 @@ public class StepDefinitions {
     @Then("^the source title should be \"([^\"]*)\"$")
     public final void theSourceTitleShouldBe(final String title) {
         assertEquals(title,
-                ((org.emonocot.portal.driver.source.Show) currentPage)
+                ((org.emonocot.portal.driver.organisation.Show) currentPage)
                         .getTitle());
     }
 

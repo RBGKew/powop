@@ -4,14 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.emonocot.api.ReferenceService;
-import org.emonocot.job.dwc.OwnedEntityFieldSetMapper;
+import org.emonocot.job.dwc.read.OwnedEntityFieldSetMapper;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.Reference;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
-import org.emonocot.model.geography.GeographicalRegion;
+import org.emonocot.model.geography.Location;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
@@ -93,7 +93,7 @@ public class FieldSetMapper extends
             	object.setLocality(value);
             	break;
             case locationID:
-            	object.setLocation(conversionService.convert(value, GeographicalRegion.class));
+            	object.setLocation(conversionService.convert(value, Location.class));
             	break;
             case occurrenceRemarks:
             	object.setOccurrenceRemarks(value);

@@ -3,8 +3,8 @@ package org.emonocot.portal.driver;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.emonocot.portal.driver.source.JobOutput;
-import org.emonocot.portal.driver.source.JobList;
+import org.emonocot.portal.driver.organisation.ResourceList;
+import org.emonocot.portal.driver.organisation.ResourceOutput;
 import org.emonocot.portal.remoting.IdentificationKeyDaoImpl;
 import org.emonocot.portal.remoting.ImageDaoImpl;
 import org.emonocot.test.TestDataManager;
@@ -154,7 +154,7 @@ public class Portal extends PageObject {
      * @return a source page
      */
     public final PageObject getSourcePage(final String identifier) {
-        return openAs(getBaseUri() + "source/" + identifier, org.emonocot.portal.driver.source.Show.class);
+        return openAs(getBaseUri() + "source/" + identifier, org.emonocot.portal.driver.organisation.Show.class);
     }
 
     /**
@@ -204,8 +204,8 @@ public class Portal extends PageObject {
     * @param job Set the job
     * @return a source job page
     */
-   public final JobList getSourceJobsPage(final String source) {
-       return openAs(getBaseUri() + "source/" + source + "/job", JobList.class);
+   public final ResourceList getSourceJobsPage(final String source) {
+       return openAs(getBaseUri() + "source/" + source + "/job", ResourceList.class);
    }
 
     /**
@@ -214,10 +214,10 @@ public class Portal extends PageObject {
      * @param job Set the job
      * @return a source job page
      */
-    public final JobOutput getSourceJobPage(final String source,
+    public final ResourceOutput getSourceJobPage(final String source,
             final String job) {
         return openAs(getBaseUri() + "source/" + source + "/job/" + job,
-                JobOutput.class);
+                ResourceOutput.class);
     }
 
     /**
@@ -226,7 +226,7 @@ public class Portal extends PageObject {
      */
     public final PageObject getSourceListPage() {
         return openAs(getBaseUri() + "source",
-                org.emonocot.portal.driver.source.List.class);
+                org.emonocot.portal.driver.organisation.List.class);
     }
 
     /**

@@ -7,7 +7,8 @@ import static org.junit.Assert.assertThat;
 
 import javax.validation.Validator;
 
-import org.emonocot.api.SourceService;
+import org.emonocot.api.OrganisationService;
+import org.emonocot.job.dwc.read.ArchiveMetadataReader;
 import org.junit.Test;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
@@ -36,7 +37,7 @@ public class ScratchpadArchiveMetadataReaderTest {
    /**
     *
     */
-   private SourceService sourceService;
+   private OrganisationService sourceService;
 
    /**
     *

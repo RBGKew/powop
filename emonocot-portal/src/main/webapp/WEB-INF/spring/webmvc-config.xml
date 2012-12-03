@@ -48,10 +48,10 @@
 		<property name="converters">
 			<set>
 				<ref bean="aceDtoConverter" />
-				<bean class="org.emonocot.api.convert.StringToPermissionConverter" />
-				<bean class="org.emonocot.api.convert.PermissionToStringConverter" />
-				<bean class="org.emonocot.api.convert.StringToClassConverter" />
-				<bean class="org.emonocot.api.convert.ClassToStringConverter" />
+				<bean class="org.emonocot.model.convert.StringToPermissionConverter" />
+				<bean class="org.emonocot.model.convert.PermissionToStringConverter" />
+				<bean class="org.emonocot.model.convert.StringToClassConverter" />
+				<bean class="org.emonocot.model.convert.ClassToStringConverter" />
 			</set>
 		</property>
 	</bean>

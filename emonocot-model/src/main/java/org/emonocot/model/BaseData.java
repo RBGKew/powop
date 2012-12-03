@@ -13,8 +13,9 @@ import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.marshall.json.DateTimeDeserializer;
 import org.emonocot.model.marshall.json.DateTimeSerializer;
-import org.emonocot.model.marshall.json.SourceDeserializer;
-import org.emonocot.model.marshall.json.SourceSerializer;
+import org.emonocot.model.marshall.json.OrganisationDeserialiser;
+import org.emonocot.model.marshall.json.OrganisationSerializer;
+import org.emonocot.model.registry.Organisation;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -66,7 +67,7 @@ public abstract class BaseData extends Base implements Annotated {
     /**
      *
      */
-    private Source authority;
+    private Organisation authority;
 
     /**
     *
@@ -91,8 +92,8 @@ public abstract class BaseData extends Base implements Annotated {
      * @return the primary authority
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonSerialize(using = SourceSerializer.class)
-    public Source getAuthority() {
+    @JsonSerialize(using = OrganisationSerializer.class)
+    public Organisation getAuthority() {
         return authority;
     }
 
@@ -100,8 +101,8 @@ public abstract class BaseData extends Base implements Annotated {
      *
      * @param authority Set the authority
      */
-    @JsonDeserialize(using = SourceDeserializer.class)
-    public void setAuthority(Source authority) {
+    @JsonDeserialize(using = OrganisationDeserialiser.class)
+    public void setAuthority(Organisation authority) {
         this.authority = authority;
     }
 

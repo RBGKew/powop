@@ -24,7 +24,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.emonocot.model.geography.GeographicalRegion;
+import org.emonocot.model.geography.Location;
 import org.emonocot.model.marshall.json.ReferenceDeserializer;
 import org.emonocot.model.marshall.json.ReferenceSerializer;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
@@ -1064,7 +1064,7 @@ public class Taxon extends SearchableObject {
 		return sid;
 	}
 	
-	private void indexLocality(GeographicalRegion g, SolrInputDocument sid) {
+	private void indexLocality(Location g, SolrInputDocument sid) {
 		sid.addField("taxon.distribution_" + g.getPrefix() + "_" + g.getLevel() + "_ss", g.name());
 		if(g.getParent() != null) {
 			indexLocality(g.getParent(), sid);

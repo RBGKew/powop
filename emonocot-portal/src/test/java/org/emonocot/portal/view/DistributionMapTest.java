@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.geography.Country;
-import org.emonocot.model.geography.GeographicalRegion;
+import org.emonocot.model.geography.Location;
 import org.junit.Test;
 
 /**
@@ -36,7 +36,7 @@ public class DistributionMapTest {
      *            Set the Geographical Region
      */
     private void createDistribution(final Taxon taxon,
-                                    final GeographicalRegion region) {
+                                    final Location region) {
         Distribution distribution = new Distribution();
         distribution.setTaxon(taxon);
         distribution.setLocation(region);

@@ -11,15 +11,15 @@ import org.apache.solr.common.params.ModifiableSolrParams;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Image;
 import org.emonocot.model.Reference;
-import org.emonocot.model.Source;
 import org.emonocot.model.Taxon;
+import org.emonocot.model.registry.Organisation;
 import org.emonocot.persistence.dao.AnnotationDao;
 import org.emonocot.persistence.dao.ImageDao;
 import org.emonocot.persistence.dao.JobExecutionDao;
 import org.emonocot.persistence.dao.JobInstanceDao;
 import org.emonocot.persistence.dao.ReferenceDao;
 import org.emonocot.persistence.dao.SearchableObjectDao;
-import org.emonocot.persistence.dao.SourceDao;
+import org.emonocot.persistence.dao.OrganisationDao;
 import org.emonocot.persistence.dao.TaxonDao;
 import org.emonocot.test.DataManagementSupport;
 import org.hibernate.Session;
@@ -61,7 +61,7 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
     private AnnotationDao annotationDao;
 
     @Autowired
-    private SourceDao sourceDao;
+    private OrganisationDao sourceDao;
 
     @Autowired
     private JobInstanceDao jobInstanceDao;
@@ -137,8 +137,8 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
                         imageDao.saveOrUpdate((Image) obj);
                     } else if (obj.getClass().equals(Annotation.class)) {
                         annotationDao.saveOrUpdate((Annotation) obj);
-                    } else if (obj.getClass().equals(Source.class)) {
-                        sourceDao.saveOrUpdate((Source) obj);
+                    } else if (obj.getClass().equals(Organisation.class)) {
+                        sourceDao.saveOrUpdate((Organisation) obj);
                     } else if (obj.getClass().equals(Reference.class)) {
                         referenceDao.saveOrUpdate((Reference) obj);
                     } else if (obj.getClass().equals(JobExecution.class)) {
@@ -172,8 +172,8 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
                     } else if (obj.getClass().equals(Annotation.class)) {
                         annotationDao
                                 .delete(((Annotation) obj).getIdentifier());
-                    } else if (obj.getClass().equals(Source.class)) {
-                        sourceDao.delete(((Source) obj).getIdentifier());
+                    } else if (obj.getClass().equals(Organisation.class)) {
+                        sourceDao.delete(((Organisation) obj).getIdentifier());
                     } else if (obj.getClass().equals(Reference.class)) {
                         referenceDao.delete(((Reference) obj).getIdentifier());
                     } else if (obj.getClass().equals(JobInstance.class)) {

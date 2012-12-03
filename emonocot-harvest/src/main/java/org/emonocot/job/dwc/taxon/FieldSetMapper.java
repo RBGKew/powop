@@ -6,7 +6,7 @@ import org.emonocot.api.ReferenceService;
 import org.emonocot.harvest.common.TaxonRelationship;
 import org.emonocot.harvest.common.TaxonRelationshipResolver;
 import org.emonocot.harvest.common.TaxonRelationshipResolverImpl;
-import org.emonocot.job.dwc.BaseDataFieldSetMapper;
+import org.emonocot.job.dwc.read.BaseDataFieldSetMapper;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;

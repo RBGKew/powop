@@ -3,10 +3,10 @@ package org.emonocot.harvest.common;
 import java.io.Serializable;
 
 import org.emonocot.model.Annotation;
-import org.emonocot.model.Source;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
+import org.emonocot.model.registry.Organisation;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -33,7 +33,7 @@ public abstract class AbstractRecordAnnotator extends HibernateDaoSupport {
     /**
      *
      */
-    private Source source = null;
+    private Organisation source = null;
 
     /**
      *
@@ -77,12 +77,12 @@ public abstract class AbstractRecordAnnotator extends HibernateDaoSupport {
      *
      * @return the source
      */
-    private Source getSource() {
+    private Organisation getSource() {
         if (source == null) {
-            Criteria criteria = getSession().createCriteria(Source.class).add(
+            Criteria criteria = getSession().createCriteria(Organisation.class).add(
                     Restrictions.eq("identifier", sourceName));
 
-            source = (Source) criteria.uniqueResult();
+            source = (Organisation) criteria.uniqueResult();
         }
         return source;
     }

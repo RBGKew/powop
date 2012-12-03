@@ -1,6 +1,6 @@
 package org.emonocot.job.dwc.image;
 
-import org.emonocot.job.dwc.NonOwnedFieldSetMapper;
+import org.emonocot.job.dwc.read.NonOwnedFieldSetMapper;
 import org.emonocot.model.Image;
 import org.emonocot.model.convert.ImageFormatConverter;
 import org.gbif.dwc.terms.ConceptTerm;

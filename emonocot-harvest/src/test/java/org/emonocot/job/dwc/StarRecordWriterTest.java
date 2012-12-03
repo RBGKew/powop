@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.easymock.EasyMock;
+import org.emonocot.job.dwc.write.SimpleRecord;
+import org.emonocot.job.dwc.write.StarRecordWriter;
 import org.gbif.dwc.record.Record;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
@@ -68,7 +70,7 @@ public class StarRecordWriterTest {
     }
 
     /**
-     * Test method for {@link org.emonocot.job.dwc.StarRecordWriter#write(java.util.List)}.
+     * Test method for {@link org.emonocot.job.dwc.write.StarRecordWriter#write(java.util.List)}.
      * @throws Exception 
      */
     @Test

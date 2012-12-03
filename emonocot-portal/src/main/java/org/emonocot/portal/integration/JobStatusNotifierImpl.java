@@ -1,9 +1,9 @@
 package org.emonocot.portal.integration;
 
-import org.emonocot.api.JobService;
+import org.emonocot.api.ResourceService;
 import org.emonocot.api.job.JobExecutionInfo;
 import org.emonocot.api.job.JobStatusNotifier;
-import org.emonocot.model.Job;
+import org.emonocot.model.registry.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +25,14 @@ public class JobStatusNotifierImpl implements JobStatusNotifier {
     /**
     *
     */
-    private JobService service;
+    private ResourceService service;
 
     /**
      * @param newJobService
      *            the jobService to set
      */
     @Autowired
-    public final void setJobService(final JobService newJobService) {
+    public final void setJobService(final ResourceService newJobService) {
         this.service = newJobService;
     }
 
@@ -43,7 +43,7 @@ public class JobStatusNotifierImpl implements JobStatusNotifier {
     public final void notify(final JobExecutionInfo jobExecutionInfo) {
         logger.debug("In notify " + jobExecutionInfo.getId());
 
-        Job job = service.findByJobId(jobExecutionInfo.getId());
+        Resource job = service.findByJobId(jobExecutionInfo.getId());
 		if (job != null) {
 			job.setDuration(jobExecutionInfo.getDuration());
 			job.setExitCode(jobExecutionInfo.getExitCode());

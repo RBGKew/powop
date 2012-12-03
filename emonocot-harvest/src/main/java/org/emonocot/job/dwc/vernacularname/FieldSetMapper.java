@@ -3,12 +3,12 @@ package org.emonocot.job.dwc.vernacularname;
 import java.text.ParseException;
 import java.util.Locale;
 
-import org.emonocot.job.dwc.OwnedEntityFieldSetMapper;
+import org.emonocot.job.dwc.read.OwnedEntityFieldSetMapper;
 import org.emonocot.model.MeasurementOrFact;
 import org.emonocot.model.VernacularName;
 import org.emonocot.model.constants.MeasurementType;
 import org.emonocot.model.constants.MeasurementUnit;
-import org.emonocot.model.geography.GeographicalRegion;
+import org.emonocot.model.geography.Location;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
@@ -84,7 +84,7 @@ public class FieldSetMapper extends
             	object.setLocality(value);
             	break;
             case locationID:
-            	object.setLocation(conversionService.convert(value, GeographicalRegion.class));
+            	object.setLocation(conversionService.convert(value, Location.class));
             	break;            
             case sex:
             	object.setSex(Sex.valueOf(value));

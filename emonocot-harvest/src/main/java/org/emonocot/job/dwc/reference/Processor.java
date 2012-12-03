@@ -1,8 +1,8 @@
 package org.emonocot.job.dwc.reference;
 
 import org.emonocot.api.ReferenceService;
-import org.emonocot.job.dwc.NonOwnedProcessor;
-import org.emonocot.job.dwc.RequiredFieldException;
+import org.emonocot.job.dwc.exception.RequiredFieldException;
+import org.emonocot.job.dwc.read.NonOwnedProcessor;
 import org.emonocot.model.Reference;
 import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;

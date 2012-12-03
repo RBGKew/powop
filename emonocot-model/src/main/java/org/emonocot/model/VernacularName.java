@@ -17,7 +17,7 @@ import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.emonocot.model.geography.GeographicalRegion;
+import org.emonocot.model.geography.Location;
 import org.gbif.ecat.voc.LifeStage;
 import org.gbif.ecat.voc.Sex;
 import org.hibernate.annotations.Cascade;
@@ -58,7 +58,7 @@ public class VernacularName extends OwnedEntity {
 	/**
 	 *
 	 */
-	private GeographicalRegion location;
+	private Location location;
 	
 	/**
 	 *
@@ -158,11 +158,11 @@ public class VernacularName extends OwnedEntity {
 	}
 
 	@Type(type = "tdwgRegionUserType")
-	public GeographicalRegion getLocation() {
+	public Location getLocation() {
 		return location;
 	}
 
-	public void setLocation(GeographicalRegion location) {
+	public void setLocation(Location location) {
 		this.location = location;
 	}
 

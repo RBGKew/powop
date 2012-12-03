@@ -13,13 +13,13 @@ import org.emonocot.harvest.common.TaxonRelationship;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Base;
 import org.emonocot.model.Reference;
-import org.emonocot.model.Source;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
 import org.emonocot.model.constants.ReferenceType;
-import org.emonocot.model.geography.GeographicalRegion;
+import org.emonocot.model.geography.Location;
+import org.emonocot.model.registry.Organisation;
 import org.gbif.ecat.voc.Rank;
 import org.gbif.ecat.voc.TaxonomicStatus;
 import org.openarchives.pmh.Record;
@@ -141,9 +141,7 @@ public class ProcessorImpl extends AuthorityAware implements
                         .getTaxonConcept();                
                 taxon.setAuthority(getSource());
                 taxon.setIdentifier(taxonConcept.getIdentifier().toString());
-                taxon.getAnnotations().add(
-                        createAnnotation(taxon, RecordType.Taxon,
-                                AnnotationCode.Create, AnnotationType.Info));
+                taxon.getAnnotations().add(createAnnotation(taxon, RecordType.Taxon, AnnotationCode.Create, AnnotationType.Info));
                 processTaxon(taxon, taxonConcept);
             }
         } else {
@@ -156,8 +154,7 @@ public class ProcessorImpl extends AuthorityAware implements
                 // We have a record of it and now we need to delete it
                 taxon.setDeleted(true);
             } else {
-                TaxonConcept taxonConcept = record.getMetadata()
-                .getTaxonConcept();
+                TaxonConcept taxonConcept = record.getMetadata().getTaxonConcept();
 
                 taxon.getAnnotations().add(
                         createAnnotation(taxon, RecordType.Taxon,
@@ -305,33 +302,47 @@ public class ProcessorImpl extends AuthorityAware implements
             referencesWithinChunk.put(referenceIdentifier, reference);
         }
         // TODO Created / modified dates on publications? Bridge too far?
-        reference.setTitle(publicationCitation.getTpubTitle());
-        StringBuffer bibliographicCitation = new StringBuffer();
-        bibliographicCitation.append(publicationCitation.getAuthorship());
-        if(publicationCitation.getDatePublished() != null) {
-        	bibliographicCitation.append(" " + publicationCitation.getDatePublished());
+        if(publicationCitation.getTpubTitle() != null
+                && publicationCitation.getTpubTitle().length() > 0) {
+            reference.setTitle(publicationCitation.getTpubTitle());
         }
-        bibliographicCitation.append(". " + publicationCitation.getTpubTitle());
+        
+        if(publicationCitation.getAuthorship() != null
+                && publicationCitation.getAuthorship().length() > 0) {
+            reference.setCreator(publicationCitation.getAuthorship());
+        }        
         
         reference.setDate(publicationCitation.getDatePublished());
         reference.setCreator(publicationCitation.getAuthorship());
+        String publishedInAuthor = null;
         if (publicationCitation.getParentPublication() != null) {
-        	if (publicationCitation.getAuthorship() != null
-                    && publicationCitation.getAuthorship().length() > 0) {
-        		bibliographicCitation.append(" " + publicationCitation
-                        .getParentPublication().getAuthorship());
+        	if (reference.getCreator() == null) {
+        		reference.setCreator(publicationCitation.getParentPublication().getAuthorship());
             } else {
-                reference.setCreator(publicationCitation.getParentPublication()
-                        .getAuthorship());
+            	publishedInAuthor = publicationCitation.getParentPublication().getAuthorship();
             }
-            if (publicationCitation.getTpubTitle() != null
-                    && publicationCitation.getTpubTitle().length() > 0) {
-            	bibliographicCitation.append(" " + publicationCitation
-                        .getParentPublication().getTpubTitle());
+        	
+            if (reference.getTitle() == null) {
+            	reference.setTitle(publicationCitation.getParentPublication().getTpubTitle());
             } else {
-                reference.setTitle(publicationCitation.getParentPublication()
-                        .getTpubTitle());
+                reference.setSource(publicationCitation.getParentPublication().getTpubTitle());
             }
+        }
+        
+        StringBuffer bibliographicCitation = new StringBuffer();
+        bibliographicCitation.append(reference.getCreator());        	
+        if(publicationCitation.getDatePublished() != null) {
+        	bibliographicCitation.append(" (" + publicationCitation.getDatePublished() + ")");
+        }
+        bibliographicCitation.append(". " + reference.getTitle());
+        if(publishedInAuthor != null) {
+        	bibliographicCitation.append(" " + publishedInAuthor);
+        }
+        if(reference.getSource() != null) {
+        	bibliographicCitation.append(" " + reference.getSource());
+        }
+        if(reference.getSource() != null) {
+        	bibliographicCitation.append(" " + reference.getSource());
         }
         if(publicationCitation.getVolume() != null) {
         	bibliographicCitation.append(" " + publicationCitation.getVolume());
@@ -339,13 +350,13 @@ public class ProcessorImpl extends AuthorityAware implements
         if(publicationCitation.getPages() != null) {
         	bibliographicCitation.append(": " + publicationCitation.getPages());
         }
-        bibliographicCitation.append(". ");
-
+        bibliographicCitation.append(". ");        
         
-        if (publicationCitation.getParentPublication() != null) {
-        	bibliographicCitation.append(publicationCitation.getParentPublication()
-                    .getPublisher() + ".");
+        if (publicationCitation.getParentPublication() != null && publicationCitation.getParentPublication()
+                .getPublisher() != null) {
+        	bibliographicCitation.append(publicationCitation.getParentPublication().getPublisher() + ".");
         }
+        
         reference.setBibliographicCitation(bibliographicCitation.toString());
         if (publicationCitation.getPublicationType() != null
                 && publicationCitation.getPublicationType().getIdentifier() != null) {
@@ -354,9 +365,7 @@ public class ProcessorImpl extends AuthorityAware implements
                         .getPublicationType().getIdentifier().toString(),
                         ReferenceType.class));
             } catch (ConversionException ce) {
-                reference.getAnnotations().add(
-                        addAnnotation(reference, RecordType.Reference, "type",
-                                ce));
+                reference.getAnnotations().add(addAnnotation(reference, RecordType.Reference, "type",ce));
             }
         }
         return reference;
@@ -419,22 +428,16 @@ public class ProcessorImpl extends AuthorityAware implements
         }
 
 		if (identifier != null) {
-			TaxonRelationshipTerm term = resolveRelationshipTerm(relationship
-					.getRelationshipCategoryRelation());
-			if (term.equals(TaxonRelationshipTerm.IS_CHILD_TAXON_OF)
-					|| term.equals(TaxonRelationshipTerm.IS_SYNONYM_FOR)) {
+			TaxonRelationshipTerm term = resolveRelationshipTerm(relationship.getRelationshipCategoryRelation());
+			if (term.equals(TaxonRelationshipTerm.IS_CHILD_TAXON_OF) || term.equals(TaxonRelationshipTerm.IS_SYNONYM_FOR)) {
 				TaxonRelationship taxonRelationship = new TaxonRelationship(
 						taxon, term);
 				taxonRelationship.setToIdentifier(identifier);
-				taxonRelationshipResolver.addTaxonRelationship(
-						taxonRelationship, identifier);
+				taxonRelationshipResolver.addTaxonRelationship(taxonRelationship, identifier);
 			}
 		} else {
-			Annotation annotation = createAnnotation(taxon, RecordType.Taxon,
-					AnnotationCode.BadField, AnnotationType.Warn);
-			annotation
-					.setText("Could not find identifier for relationship of taxon "
-							+ taxon.getIdentifier());
+			Annotation annotation = createAnnotation(taxon, RecordType.Taxon,AnnotationCode.BadField, AnnotationType.Warn);
+			annotation.setText("Could not find identifier for relationship of taxon " + taxon.getIdentifier());
 			annotation.setValue("related");
 			taxon.getAnnotations().add(annotation);
 		}
@@ -449,7 +452,7 @@ public class ProcessorImpl extends AuthorityAware implements
     private org.emonocot.model.Distribution resolveDistribution(
             final Set<DefinedTermLinkType> hasValueRelation, final Taxon taxon) {
         // TODO - what if there are no terms or multiple terms - throw an error?
-        GeographicalRegion region = null;
+        Location region = null;
         if (hasValueRelation == null || hasValueRelation.isEmpty()) {
             Annotation annotation = createAnnotation(taxon, RecordType.Taxon,
                     AnnotationCode.BadField, AnnotationType.Warn);
@@ -474,7 +477,7 @@ public class ProcessorImpl extends AuthorityAware implements
         distribution.setAuthority(getSource());
         distribution.setIdentifier(UUID.randomUUID().toString());
         try {
-        	region = conversionService.convert(id, GeographicalRegion.class);
+        	region = conversionService.convert(id, Location.class);
             distribution.setLocation(region);
         } catch (ConversionException ce) {
             distribution.getAnnotations().add(

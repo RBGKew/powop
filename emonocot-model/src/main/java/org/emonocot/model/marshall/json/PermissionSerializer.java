@@ -6,7 +6,7 @@ import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.SerializerProvider;
-import org.emonocot.api.convert.PermissionToStringConverter;
+import org.emonocot.model.convert.PermissionToStringConverter;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.acls.model.Permission;
 

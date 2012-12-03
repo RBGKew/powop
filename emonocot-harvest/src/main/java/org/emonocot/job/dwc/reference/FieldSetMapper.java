@@ -2,7 +2,7 @@ package org.emonocot.job.dwc.reference;
 
 import java.util.Locale;
 
-import org.emonocot.job.dwc.NonOwnedFieldSetMapper;
+import org.emonocot.job.dwc.read.NonOwnedFieldSetMapper;
 import org.emonocot.model.Reference;
 import org.emonocot.model.constants.ReferenceType;
 import org.gbif.dwc.terms.ConceptTerm;

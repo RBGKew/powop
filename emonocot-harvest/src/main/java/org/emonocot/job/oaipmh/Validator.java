@@ -8,15 +8,15 @@ import javax.validation.Path;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.emonocot.api.SourceService;
+import org.emonocot.api.OrganisationService;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Base;
 import org.emonocot.model.Reference;
-import org.emonocot.model.Source;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
+import org.emonocot.model.registry.Organisation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
@@ -51,12 +51,12 @@ public class Validator implements ItemProcessor<Taxon, Taxon>,
 	/**
      *
      */
-	private SourceService sourceService;
+	private OrganisationService sourceService;
 
 	/**
      *
      */
-	private Source source;
+	private Organisation source;
 
 	/**
      *
@@ -67,7 +67,7 @@ public class Validator implements ItemProcessor<Taxon, Taxon>,
 	 * 
 	 * @return the source
 	 */
-	private Source getSource() {
+	private Organisation getSource() {
 		if (source == null) {
 			source = sourceService.load(sourceName);
 		}
@@ -78,7 +78,7 @@ public class Validator implements ItemProcessor<Taxon, Taxon>,
 	 * @param sourceService
 	 *            Set the source service;
 	 */
-	public final void setSourceService(SourceService sourceService) {
+	public final void setSourceService(OrganisationService sourceService) {
 		this.sourceService = sourceService;
 	}
 

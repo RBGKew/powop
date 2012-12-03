@@ -1,6 +1,6 @@
 package org.emonocot.job.dwc.identifier;
 
-import org.emonocot.job.dwc.OwnedEntityFieldSetMapper;
+import org.emonocot.job.dwc.read.OwnedEntityFieldSetMapper;
 import org.emonocot.model.Identifier;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;

@@ -12,8 +12,9 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import org.easymock.EasyMock;
-import org.emonocot.api.SourceService;
-import org.emonocot.model.Source;
+import org.emonocot.api.OrganisationService;
+import org.emonocot.job.dwc.read.ArchiveMetadataReader;
+import org.emonocot.model.registry.Organisation;
 import org.junit.Test;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
@@ -42,7 +43,7 @@ public class ArchiveMetadataReaderTest {
    /**
     *
     */
-   private SourceService sourceService;
+   private OrganisationService sourceService;
 
    /**
     *
@@ -54,14 +55,14 @@ public class ArchiveMetadataReaderTest {
      */
     @Test
     public final void testReadMetadata() throws Exception {
-        Source source = new Source();
+        Organisation source = new Organisation();
         source.setIdentifier("CATE-Araceae");
-        sourceService = EasyMock.createMock(SourceService.class);
+        sourceService = EasyMock.createMock(OrganisationService.class);
         validator = EasyMock.createMock(Validator.class);
         EasyMock.expect(sourceService.find(EasyMock.eq("test"))).andReturn(
                 source);
         EasyMock.expect(validator.validate(EasyMock.eq(source))).andReturn(
-                new HashSet<ConstraintViolation<Source>>());
+                new HashSet<ConstraintViolation<Organisation>>());
         sourceService.saveOrUpdate(EasyMock.eq(source));
         EasyMock.replay(sourceService, validator);
         ExecutionContext executionContext = new ExecutionContext();

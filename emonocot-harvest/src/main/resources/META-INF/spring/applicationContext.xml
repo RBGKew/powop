@@ -19,14 +19,10 @@
 	<context:annotation-config />
 	
 	<context:component-scan base-package="org.emonocot">
-		<context:exclude-filter type="assignable"
-			expression="org.emonocot.api.JobInstanceService" />
-		<context:exclude-filter type="assignable"
-			expression="org.emonocot.api.JobExecutionService" />
-	   <context:exclude-filter type="assignable"
-			expression="org.emonocot.persistence.dao.JobExecutionDao" />
-		<context:exclude-filter type="assignable"
-			expression="org.emonocot.persistence.dao.JobInstanceDao" />
+		<context:exclude-filter type="assignable" expression="org.emonocot.api.JobInstanceService" />
+		<context:exclude-filter type="assignable" expression="org.emonocot.api.JobExecutionService" />
+	   <context:exclude-filter type="assignable" expression="org.emonocot.persistence.dao.JobExecutionDao" />
+		<context:exclude-filter type="assignable" expression="org.emonocot.persistence.dao.JobInstanceDao" />
 	</context:component-scan>
 
 	<tx:annotation-driven />
@@ -40,10 +36,12 @@
 			<list>
 			    <bean class="org.emonocot.model.convert.RankConverter" />
 			    <bean class="org.emonocot.model.convert.NomenclaturalStatusConverter" />
-				<bean class="org.emonocot.model.geography.GeographyConverter" />
+				<bean class="org.emonocot.model.convert.StringToLocationConverter" />
+				<bean class="org.emonocot.model.convert.LocationToStringConverter" />
+				<bean class="org.emonocot.model.convert.StringToLocationConverter" />
 				<!-- Required due to SPR-6564 Spring ConversionService breaks String-to-Resource 
 					resolution -->
-				<bean class="org.emonocot.harvest.common.FileConverter" />
+				<bean class="org.emonocot.model.convert.FileConverter" />
 			</list>
 		</property>
 	</bean>
@@ -65,8 +63,6 @@
 		</property>
 		<property name="annotatedClasses">
 			<list>
-				<value>org.emonocot.model.Job</value>
-				<value>org.emonocot.model.Source</value>
 				<value>org.emonocot.model.Identifier</value>
 				<value>org.emonocot.model.IdentificationKey</value>
 				<value>org.emonocot.model.Annotation</value>
@@ -78,6 +74,8 @@
 				<value>org.emonocot.model.Taxon</value>
 				<value>org.emonocot.model.TypeAndSpecimen</value>
 				<value>org.emonocot.model.VernacularName</value>
+				<value>org.emonocot.model.registry.Resource</value>
+				<value>org.emonocot.model.registry.Organisation</value>
 				<value>org.emonocot.model.auth.User</value>
 				<value>org.emonocot.model.auth.Group</value>
 				<value>org.emonocot.model.geography.Place</value>

@@ -67,8 +67,6 @@
 		</property>
 		<property name="annotatedClasses">
 			<list>
-			    <value>org.emonocot.model.Job</value>
-				<value>org.emonocot.model.Source</value>
 				<value>org.emonocot.model.Identifier</value>
 				<value>org.emonocot.model.IdentificationKey</value>
 				<value>org.emonocot.model.Annotation</value>
@@ -82,6 +80,8 @@
 				<value>org.emonocot.model.VernacularName</value>
 				<value>org.emonocot.model.auth.User</value>
 				<value>org.emonocot.model.auth.Group</value>
+				<value>org.emonocot.model.registry.Resource</value>
+				<value>org.emonocot.model.registry.Organisation</value>
 			</list>
 		</property>
 		<property name="eventListeners">

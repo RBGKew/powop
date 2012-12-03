@@ -62,10 +62,8 @@
 				<batch:chunk reader="taxonReader" processor="taxonCheckingProcessor"
 					writer="itemWriter" commit-interval="10" skip-limit="10000">
 					<batch:skippable-exception-classes>
-						<batch:include
-							class="org.emonocot.job.dwc.DarwinCoreProcessingException" />
-						<batch:include
-							class="org.springframework.batch.item.file.FlatFileParseException" />
+						<batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
+						<batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
 					</batch:skippable-exception-classes>
 				</batch:chunk>
 			</batch:tasklet>
@@ -90,7 +88,7 @@
 				<batch:chunk reader="taxonReader" processor="taxonImportingProcessor"
 					writer="itemWriter" commit-interval="10" skip-limit="10000">
 					<batch:skippable-exception-classes>
-						<batch:include class="org.emonocot.job.dwc.DarwinCoreProcessingException" />
+						<batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
 						<batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
 					</batch:skippable-exception-classes>
 				</batch:chunk>
@@ -134,7 +132,7 @@
 					writer="itemWriter" commit-interval="100" skip-limit="10000">
 					<batch:skippable-exception-classes>
 						<batch:include
-							class="org.emonocot.job.dwc.DarwinCoreProcessingException" />
+							class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
 						<batch:include
 							class="org.springframework.batch.item.file.FlatFileParseException" />
 					</batch:skippable-exception-classes>
@@ -181,7 +179,7 @@
 					writer="itemWriter" commit-interval="100" skip-limit="10000">
 					<batch:skippable-exception-classes>
 						<batch:include
-							class="org.emonocot.job.dwc.DarwinCoreProcessingException" />
+							class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
 						<batch:include
 							class="org.springframework.batch.item.file.FlatFileParseException" />
 					</batch:skippable-exception-classes>
@@ -245,7 +243,7 @@
 					writer="itemWriter" commit-interval="100" skip-limit="10000">
 					<batch:skippable-exception-classes>
 						<batch:include
-							class="org.emonocot.job.dwc.DarwinCoreProcessingException" />
+							class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
 						<batch:include
 							class="org.springframework.batch.item.file.FlatFileParseException" />
 					</batch:skippable-exception-classes>
@@ -292,7 +290,7 @@
 					writer="itemWriter" commit-interval="100" skip-limit="10000">
 					<batch:skippable-exception-classes>
 						<batch:include
-							class="org.emonocot.job.dwc.DarwinCoreProcessingException" />
+							class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
 						<batch:include
 							class="org.springframework.batch.item.file.FlatFileParseException" />
 					</batch:skippable-exception-classes>
@@ -339,7 +337,7 @@
 					writer="itemWriter" commit-interval="100" skip-limit="10000">
 					<batch:skippable-exception-classes>
 						<batch:include
-							class="org.emonocot.job.dwc.DarwinCoreProcessingException" />
+							class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
 						<batch:include
 							class="org.springframework.batch.item.file.FlatFileParseException" />
 					</batch:skippable-exception-classes>
@@ -386,7 +384,7 @@
 					writer="itemWriter" commit-interval="100" skip-limit="10000">
 					<batch:skippable-exception-classes>
 						<batch:include
-							class="org.emonocot.job.dwc.DarwinCoreProcessingException" />
+							class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
 						<batch:include
 							class="org.springframework.batch.item.file.FlatFileParseException" />
 					</batch:skippable-exception-classes>
@@ -433,7 +431,7 @@
 					writer="itemWriter" commit-interval="100" skip-limit="10000">
 					<batch:skippable-exception-classes>
 						<batch:include
-							class="org.emonocot.job.dwc.DarwinCoreProcessingException" />
+							class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
 						<batch:include
 							class="org.springframework.batch.item.file.FlatFileParseException" />
 					</batch:skippable-exception-classes>
@@ -480,7 +478,7 @@
 					writer="itemWriter" commit-interval="100" skip-limit="10000">
 					<batch:skippable-exception-classes>
 						<batch:include
-							class="org.emonocot.job.dwc.DarwinCoreProcessingException" />
+							class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
 						<batch:include
 							class="org.springframework.batch.item.file.FlatFileParseException" />
 					</batch:skippable-exception-classes>
@@ -581,7 +579,7 @@
 		</property>
 	</bean>
 
-	<bean id="dwcArchiveUnpacker" class="org.emonocot.job.dwc.ArchiveUnpacker" />
+	<bean id="dwcArchiveUnpacker" class="org.emonocot.job.dwc.read.ArchiveUnpacker" />
 
 	<bean id="readDWCArchiveMetadataTasklet"
 		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
@@ -597,7 +595,7 @@
 		</property>
 	</bean>
 
-	<bean id="dwcArchiveMetadataReader" class="org.emonocot.job.dwc.ArchiveMetadataReader" />
+	<bean id="dwcArchiveMetadataReader" class="org.emonocot.job.dwc.read.ArchiveMetadataReader" />
 
 	<!-- Taxa -->
 

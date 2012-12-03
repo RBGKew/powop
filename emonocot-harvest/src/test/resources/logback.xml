@@ -13,4 +13,7 @@
   <logger name="org.emonocot.job" level="DEBUG" additivity="false">
     <appender-ref ref="stdout"/>
   </logger>
+  <logger name="org.emonocot.harvest" level="DEBUG" additivity="false">
+    <appender-ref ref="stdout"/>
+  </logger>
 </configuration>

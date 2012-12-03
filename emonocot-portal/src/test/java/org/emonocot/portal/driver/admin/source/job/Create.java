@@ -1,6 +1,6 @@
 package org.emonocot.portal.driver.admin.source.job;
 
-import org.emonocot.model.Job;
+import org.emonocot.model.registry.Resource;
 import org.emonocot.portal.driver.AbstractCreateForm;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -17,7 +17,7 @@ public class Create extends AbstractCreateForm {
 	private WebElement form;
 	
 	public Create() {
-		objectClass = Job.class;
+		objectClass = Resource.class;
     	onSubmitPageClass = org.emonocot.portal.driver.admin.source.job.List.class;
 	}
 

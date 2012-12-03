@@ -5,7 +5,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.emonocot.api.ReferenceService;
-import org.emonocot.job.dwc.OwnedEntityFieldSetMapper;
+import org.emonocot.job.dwc.read.OwnedEntityFieldSetMapper;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Description;
 import org.emonocot.model.Reference;

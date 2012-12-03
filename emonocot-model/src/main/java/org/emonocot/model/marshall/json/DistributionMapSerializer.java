@@ -7,7 +7,7 @@ import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.SerializerProvider;
 import org.emonocot.model.Distribution;
-import org.emonocot.model.geography.GeographicalRegion;
+import org.emonocot.model.geography.Location;
 
 /**
  *
@@ -15,10 +15,10 @@ import org.emonocot.model.geography.GeographicalRegion;
  *
  */
 public class DistributionMapSerializer extends
-        JsonSerializer<Map<GeographicalRegion, Distribution>> {
+        JsonSerializer<Map<Location, Distribution>> {
 
     @Override
-    public final void serialize(final Map<GeographicalRegion, Distribution> map,
+    public final void serialize(final Map<Location, Distribution> map,
             final JsonGenerator jsonGenerator,
             final SerializerProvider serializationProvider) throws IOException {
         jsonGenerator.writeStartArray();

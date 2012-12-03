@@ -23,8 +23,9 @@ import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
 import org.emonocot.model.marshall.json.AnnotatableObjectDeserializer;
 import org.emonocot.model.marshall.json.AnnotatableObjectSerializer;
-import org.emonocot.model.marshall.json.SourceDeserializer;
-import org.emonocot.model.marshall.json.SourceSerializer;
+import org.emonocot.model.marshall.json.OrganisationDeserialiser;
+import org.emonocot.model.marshall.json.OrganisationSerializer;
+import org.emonocot.model.registry.Organisation;
 import org.hibernate.annotations.Any;
 import org.hibernate.annotations.AnyMetaDef;
 import org.hibernate.annotations.MetaValue;
@@ -67,7 +68,7 @@ public class Annotation extends Base implements Searchable {
     /**
      *
      */
-    private Source authority;
+    private Organisation authority;
 
     /**
      *
@@ -123,17 +124,17 @@ public class Annotation extends Base implements Searchable {
     /**
      * @return the authority
      */
-    @JsonSerialize(using = SourceSerializer.class)
+    @JsonSerialize(using = OrganisationSerializer.class)
     @ManyToOne(fetch = FetchType.LAZY)
-    public Source getAuthority() {
+    public Organisation getAuthority() {
         return authority;
     }
 
     /**
      * @param source the source to set
      */
-    @JsonDeserialize(using = SourceDeserializer.class)
-    public void setAuthority(Source source) {
+    @JsonDeserialize(using = OrganisationDeserialiser.class)
+    public void setAuthority(Organisation source) {
         this.authority = source;
     }
 
@@ -163,7 +164,8 @@ public class Annotation extends Base implements Searchable {
             @MetaValue(targetEntity = Distribution.class, value = "Distribution"),
             @MetaValue(targetEntity = Description.class, value = "Description"),
             @MetaValue(targetEntity = Image.class, value = "Image"),
-            @MetaValue(targetEntity = Reference.class, value = "Reference")
+            @MetaValue(targetEntity = Reference.class, value = "Reference"),
+            @MetaValue(targetEntity = Organisation.class, value = "Organisation")
             })
     @JoinColumn(name = "annotatedObjId", nullable = true)
     @JsonSerialize(using = AnnotatableObjectSerializer.class)

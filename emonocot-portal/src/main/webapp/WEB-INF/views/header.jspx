@@ -40,12 +40,12 @@
 									</li>
 									<security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">
 										<li>
-										    <c:url value="/source/e-monocot.org" var="adminUrl"/>
+										    <c:url value="/organisation/e-monocot.org" var="adminUrl"/>
 										    <a href="${adminUrl}"><spring:message code="admin.title"/></a>											
 										</li>
 										<li>
-										    <c:url value="/source" var="sourcesUrl"/> 
-										    <a href="${sourcesUrl}"><spring:message code="sources.title"/></a>											
+										    <c:url value="/organisation" var="organisationsUrl"/> 
+										    <a href="${organisationsUrl}"><spring:message code="organisations.title"/></a>											
 										</li>
 										<li>
 										    <c:url value="/group" var="groupsUrl"/>
