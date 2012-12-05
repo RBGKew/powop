@@ -47,234 +47,97 @@ public class Taxon extends SearchableObject {
 	
 	private Logger logger = LoggerFactory.getLogger(Taxon.class);
 
-	/**
-     *
-     */
 	private static final long serialVersionUID = -3511287213090466877L;
 
-	/**
-     *
-     */
 	private Long id;
 
-	/**
-     *
-     */
 	private String bibliographicCitation;
 
-	/**
-     *
-     */
 	private String scientificName;
 
-	/**
-    *
-    */
 	private String scientificNameAuthorship;
 
-	/**
-    *
-    */
 	private String genus;
 
-	/**
-    *
-    */
 	private String subgenus;
 
-	/**
-    *
-    */
 	private String specificEpithet;
 
-	/**
-    *
-    */
 	private String infraspecificEpithet;
 
-	/**
-    *
-    */
 	private Rank taxonRank;
 
-	/**
-    *
-    */
 	private TaxonomicStatus taxonomicStatus;
 
-	/**
-   *
-   */
 	private String kingdom;
 
-	/**
-   *
-   */
 	private String phylum;
 
-	/**
-   *
-   */
 	private String clazz;
 
-	/**
-   *
-   */
 	private String order;
 
-	/**
-    *
-    */
 	private String family;
 
-	/**
-    *
-    */
 	private String subfamily;
 
-	/**
-    *
-    */
 	private String tribe;
 
-	/**
-    *
-    */
 	private String subtribe;
 
-	/**
-    *
-    */
 	private String scientificNameID;
 
-	/**
-    *
-    */
 	private NomenclaturalCode nomenclaturalCode;
 
-	/**
-    *
-    */
 	private String source;
 
-	/**
-    *
-    */
 	private Integer namePublishedInYear;
 
-	/**
-    *
-    */
 	private String verbatimTaxonRank;
 
-	/**
-    *
-    */
 	private String taxonRemarks;
 
-	/**
-    *
-    */
 	private String namePublishedInString;
 
-	/**
-    *
-    */
 	private NomenclaturalStatus nomenclaturalStatus;
 
-	/**
-    *
-    */
 	private Set<Annotation> annotations = new HashSet<Annotation>();
 
-	/**
-    *
-    */
 	private Reference namePublishedIn;
 
-	/**
-    *
-    */
+
 	private Reference nameAccordingTo;
 
-	/**
-    *
-    */
 	private Image image;
 
-	/**
-    *
-    */
 	private List<Taxon> higherClassification = new ArrayList<Taxon>();
 
-	/**
-     *
-     */
 	private Taxon parentNameUsage;
 
-	/**
-     *
-     */
 	private Taxon originalNameUsage;
 
-	/**
-     *
-     */
 	private Set<Taxon> childNameUsages = new HashSet<Taxon>();
 
-	/**
-     *
-     */
 	private Taxon acceptedNameUsage;
 
-	/**
-     *
-     */
 	private Set<Taxon> synonymNameUsages = new HashSet<Taxon>();
 
-	/**
-     *
-     */
 	private List<Image> images = new ArrayList<Image>();
 
-	/**
-     *
-     */
 	private Set<IdentificationKey> keys = new HashSet<IdentificationKey>();
 
-	/**
-     *
-     */
 	private Set<Reference> references = new HashSet<Reference>();
 
-	/**
-     *
-     */
 	private Set<Description> descriptions = new HashSet<Description>();
 
-	/**
-     *
-     */
 	private Set<Distribution> distribution = new HashSet<Distribution>();
 
-	/**
-     *
-     */
 	private Set<Identifier> identifiers = new HashSet<Identifier>();
 
-	/**
-     *
-     */
 	private Set<TypeAndSpecimen> typesAndSpecimens = new HashSet<TypeAndSpecimen>();
 
-	/**
-     *
-     */
 	private Set<VernacularName> vernacularNames = new HashSet<VernacularName>();
 
-	/**
-     *
-     */
 	private Set<MeasurementOrFact> measurementsOrFacts = new HashSet<MeasurementOrFact>();
 
 	/**
@@ -1101,6 +964,13 @@ public class Taxon extends SearchableObject {
 		.append(getSubtribe()).append(" ").append(getTaxonomicStatus()).append(" ")
 		.append(getTaxonRank()).append(" ").append(getTaxonRemarks()).append(" ")
 		.append(getTribe()).append(" ").append(getVerbatimTaxonRank());
+		
+		if(getDescriptions().isEmpty()) {
+			sid.addField("taxon.descriptions_empty_b", true);
+		} else {
+			sid.addField("taxon.descriptions_empty_b", false);
+		}
+
 		for(Description d : getDescriptions()) {
 			summary.append(" ").append(d.getDescription());
 			if(d.getAuthority() != null) {
@@ -1108,6 +978,11 @@ public class Taxon extends SearchableObject {
 			}
 		}
 		
+		if(getDistribution().isEmpty()) {
+			sid.addField("taxon.distribution_empty_b", true);
+		} else {
+			sid.addField("taxon.distribution_empty_b", false);
+		}
 		for(Distribution d : getDistribution()) {
 			sid.addField("taxon.distribution_ss", d.getLocation().getCode());
 			indexLocality(d.getLocation(),sid);
@@ -1116,36 +991,66 @@ public class Taxon extends SearchableObject {
 			}
 		}
 		
+		if(getImages().isEmpty()) {
+			sid.addField("taxon.images_empty_b", true);
+		} else {
+			sid.addField("taxon.images_empty_b", false);
+		}
 		for(Image i : getImages()) {			
 			if(i.getAuthority() != null) {
 				sid.addField("searchable.sources_ss", i.getAuthority().getIdentifier());
 			}
 		}
 		
+		if(getReferences().isEmpty()) {
+			sid.addField("taxon.references_empty_b", true);
+		} else {
+			sid.addField("taxon.references_empty_b", false);
+		}
 		for(Reference r : getReferences()) {			
 			if(r.getAuthority() != null) {
 				sid.addField("searchable.sources_ss", r.getAuthority().getIdentifier());
 			}
 		}
 		
+		if(getTypesAndSpecimens().isEmpty()) {
+			sid.addField("taxon.types_and_specimens_empty_b", true);
+		} else {
+			sid.addField("taxon.types_and_specimens_empty_b", false);
+		}
 		for(TypeAndSpecimen t : getTypesAndSpecimens()) {			
 			if(t.getAuthority() != null) {
 				sid.addField("searchable.sources_ss", t.getAuthority().getIdentifier());
 			}
 		}
 		
+		if(getIdentifiers().isEmpty()) {
+			sid.addField("taxon.identifiers_empty_b", true);
+		} else {
+			sid.addField("taxon.identifiers_empty_b", false);
+		}
 		for(Identifier i : getIdentifiers()) {			
 			if(i.getAuthority() != null) {
 				sid.addField("searchable.sources_ss", i.getAuthority().getIdentifier());
 			}
 		}
 		
+		if(getMeasurementsOrFacts().isEmpty()) {
+			sid.addField("taxon.measurements_or_facts_empty_b", true);
+		} else {
+			sid.addField("taxon.measurements_or_facts_empty_b", false);
+		}
 		for(MeasurementOrFact m : getMeasurementsOrFacts()) {			
 			if(m.getAuthority() != null) {
 				sid.addField("searchable.sources_ss", m.getAuthority().getIdentifier());
 			}
 		}
 		
+		if(getVernacularNames().isEmpty()) {
+			sid.addField("taxon.vernacular_names_empty_b", true);
+		} else {
+			sid.addField("taxon.vernacular_names_empty_b", false);
+		}
 		for(VernacularName v : getVernacularNames()) {			
 			if(v.getAuthority() != null) {
 				sid.addField("searchable.sources_ss", v.getAuthority().getIdentifier());

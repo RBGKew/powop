@@ -51,27 +51,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class IdentificationKeyJobIntegrationTest {
 
-    /**
-     *
-     */
     private Logger logger = LoggerFactory.getLogger(
             IdentificationKeyJobIntegrationTest.class);
 
-    /**
-     *
-     */
     @Autowired
     private JobLocator jobLocator;
 
-    /**
-     *
-     */
     @Autowired
     private JobLauncher jobLauncher;
 
-    /**
-     *
-     */
     @Autowired
     private SessionFactory sessionFactory;
     

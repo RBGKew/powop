@@ -6,9 +6,7 @@
     <groupId>org.emonocot</groupId>
     <version>0.0.23-SNAPSHOT</version>
   </parent>
-  <groupId>org.emonocot</groupId>
   <artifactId>emonocot-persistence</artifactId>
-  <version>0.0.23-SNAPSHOT</version>
   <name>eMonocot Persistence Layer</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

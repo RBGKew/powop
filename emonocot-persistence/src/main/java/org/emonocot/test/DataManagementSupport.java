@@ -152,19 +152,19 @@ public abstract class DataManagementSupport {
  * @param reference Set the reference
     * @return a text content object
     */
-    public final Description createTextContent(final Taxon taxon,
+    public final Description createDescription(final Taxon taxon,
             final DescriptionType feature, final String content,
             final Reference reference) {
-       Description textContent = new Description();
-       textContent.setIdentifier(UUID.randomUUID().toString());
-       textContent.setType(feature);
-       textContent.setDescription(content);
-       textContent.setTaxon(taxon);
+       Description description = new Description();
+       description.setIdentifier(UUID.randomUUID().toString());
+       description.setType(feature);
+       description.setDescription(content);
+       description.setTaxon(taxon);
        if (reference != null) {
-           textContent.getReferences().add(reference);
+           description.getReferences().add(reference);
        }
-       taxon.getDescriptions().add(textContent);
-       return textContent;
+       taxon.getDescriptions().add(description);
+       return description;
    }
 
     /**

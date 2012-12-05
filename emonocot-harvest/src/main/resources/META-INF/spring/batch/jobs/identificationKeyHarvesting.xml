@@ -271,9 +271,6 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
-	<bean id="hibernateSessionClearingChunkListener"
-		class="org.emonocot.harvest.common.HibernateSessionClearingChunkListener" />
-
 	<bean id="keyUnmarshaller" class="org.emonocot.model.marshall.xml.XStreamMarshaller">
 		<property name="autodetectAnnotations" value="true" />
 		<property name="streamDriver" ref="streamDriver" />

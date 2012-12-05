@@ -11,8 +11,8 @@ public class DescriptionServiceImpl extends
 		ServiceImpl<Description, DescriptionDao> implements DescriptionService {
 	
     @Autowired
-    public final void setDescriptionDao(final DescriptionDao newTextContentDao) {
-        super.dao = newTextContentDao;
+    public final void setDescriptionDao(final DescriptionDao descriptionDao) {
+        super.dao = descriptionDao;
     }
 
 }

@@ -36,7 +36,7 @@
 	</bean>
     
     <bean id="itemIndexer"
-      class="org.emonocot.harvest.common.HibernateSearchIndexingWriter" scope="step">
+      class="org.emonocot.harvest.common.SolrIndexingWriter" scope="step">
       <property name="type" value="#{jobParameters['query.type']}" />
       <property name="sessionFactory" ref="sessionFactory" />
       <property name="solrIndexingListener" ref="solrIndexingListener" />

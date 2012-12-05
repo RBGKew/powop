@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+	                    
+    <context:property-placeholder ignore-unresolvable="true" location="classpath*:META-INF/spring/*.properties"/>
+	<context:annotation-config />
+
+	<batch:job id="IUCNImport">
+	    <batch:description>Imports the IUCN json file</batch:description>
+	    <batch:step id="setTemporaryFilenames">
+			<batch:description>Set the temporary file name</batch:description>
+			<batch:tasklet ref="setTemporaryFilenamesTasklet" />
+			<batch:next on="COMPLETED" to="getIUCNData" />
+		</batch:step>
+		<batch:step id="getIUCNData">
+			<batch:description>Get the IUCN json file</batch:description>
+			<batch:tasklet ref="getIUCNDataTasklet" />
+			<batch:next on="NOT MODIFIED" to="cleanupResourcesNotModified" />
+			<batch:next on="COMPLETED" to="markMeasurementOrFactRecords" />
+		</batch:step>
+		<batch:step id="cleanupResourcesNotModified">
+			<batch:description>Cleanup the resources</batch:description>
+			<batch:tasklet ref="iucnResourceDeletingTasklet" />
+			<batch:end on="COMPLETE" exit-code="NOT MODIFIED" />
+		</batch:step>
+		<batch:step id="markMeasurementOrFactRecords">
+			<batch:description>Mark the measurement or fact records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
+			<batch:tasklet ref="markMeasurementOrFactRecordsTasklet" />
+			<batch:next on="COMPLETED" to="splitJsonFile" />
+			<batch:listeners>
+				<batch:listener ref="recordAnnotator" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="splitJsonFile">
+			<batch:description>The JSON file from the IUCN</batch:description>
+			<batch:tasklet ref="splitOneLineJsonTasklet" />
+			<batch:next on="COMPLETED" to="processFile" />
+		</batch:step>
+	    <batch:step id="processFile">
+	      <batch:description>Process the specified file and check for matches</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="fileReader" processor="iucnProcessor"	writer="itemWriter" commit-interval="100">
+				</batch:chunk>
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="deleteAbsentMeasurementOrFacts"/>
+			<batch:listeners>
+			  <batch:listener ref="measurementOrFactProcessor"/>
+			</batch:listeners>
+	    </batch:step>
+	    <batch:step id="deleteAbsentMeasurementOrFacts">
+			<batch:description>Delete the measurement or facts which we expected to be present in the json file but which were absent</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="deleteMeasurementOrFactReader" writer="deletingWriter"	commit-interval="100" />
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="cleanupResources" />
+		</batch:step>
+	    <batch:step id="cleanupResources">
+			<batch:description>Cleanup the resources</batch:description>
+			<batch:tasklet ref="iucnResourceDeletingTasklet" />
+		</batch:step>
+	</batch:job>
+	
+	<bean id="setTemporaryFilenamesTasklet" class="org.emonocot.job.iucn.SetTemporaryFilenamesTasklet">
+		<property name="harvesterSpoolDirectory" value="${harvester.spool.directory}"/>
+	</bean>
+	
+	<bean id="markMeasurementOrFactRecordsTasklet"
+		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+		scope="step">
+		<property name="targetObject" ref="recordAnnotator" />
+		<property name="targetMethod" value="annotateRecords" />
+		<property name="arguments">
+			<list>
+				<value>#{jobParameters['authority.name']}</value>
+				<value>MeasurementOrFact</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="recordAnnotator" class="org.emonocot.job.dwc.RecordAnnotator">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="splitOneLineJsonTasklet" class="org.emonocot.job.iucn.SplitOneLineJsonFileTasklet">
+		<property name="inputFile">
+		  <bean class="org.springframework.core.io.FileSystemResource" scope="step">
+			<constructor-arg value="#{jobExecutionContext['temporary.file.name']}" />
+		  </bean>
+		</property>
+		<property name="outputFile">
+		  <bean class="org.springframework.core.io.FileSystemResource" scope="step">
+		    <constructor-arg value="#{jobExecutionContext['split.file.name']}" />
+		  </bean>
+		</property>
+	</bean>
+	
+	<bean id="getIUCNDataTasklet"
+		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+		scope="step">
+		<property name="targetObject" ref="getResourceClient" />
+		<property name="targetMethod" value="getBinaryResource" />
+		<property name="arguments">
+			<list>
+				<value>#{jobParameters['authority.name']}</value>
+				<value>#{jobParameters['authority.uri']}</value>
+				<value>#{jobParameters['authority.last.harvested']}</value>
+				<value>#{jobExecutionContext['temporary.file.name']}</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="fileReader" class="org.springframework.batch.item.file.FlatFileItemReader"
+		scope="step">
+		<property name="encoding" value="UTF-8" />
+		<property name="linesToSkip" value="0" />
+		<property name="recordSeparatorPolicy">
+			<bean class="org.springframework.batch.item.file.separator.JsonRecordSeparatorPolicy"/>
+		</property>
+		<property name="resource">
+			<bean class="org.springframework.core.io.FileSystemResource" scope="step">
+				<constructor-arg value="#{jobExecutionContext['split.file.name']}" />
+			</bean>
+		</property>
+		<property name="lineMapper">
+			<bean class="org.springframework.batch.item.file.mapping.JsonLineMapper"/>
+		</property>
+	</bean>
+
+	<bean id="itemWriter" class="org.springframework.batch.item.database.HibernateItemWriter">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="iucnMapToMeasurementOrFactProcessor" class="org.emonocot.job.iucn.Processor">
+	  <property name="taxonService" ref="taxonServiceImpl" />
+	</bean>
+	
+	<bean id="measurementOrFactProcessor" class="org.emonocot.job.dwc.measurementorfact.Processor"
+		scope="step">
+		<property name="measurementOrFactService" ref="measurementOrFactServiceImpl" />
+		<property name="sourceName" value="#{jobParameters['authority.name']}" />
+		<property name="family" value="#{jobParameters['family']}" />
+		<property name="subfamily" value="#{jobParameters['subfamily']}" />
+		<property name="tribe" value="#{jobParameters['tribe']}" />
+		<property name="subtribe" value="#{jobParameters['subtribe']}" />
+	</bean>
+	
+	<bean id="iucnProcessor" class="org.springframework.batch.item.support.CompositeItemProcessor">
+	  <property name="delegates">
+	    <list>
+	      <ref bean="iucnMapToMeasurementOrFactProcessor"/>
+	      <ref bean="measurementOrFactProcessor"/>
+	    </list>
+	  </property>
+	</bean>
+	
+	<bean id="deleteMeasurementOrFactReader"
+		class="org.springframework.batch.item.database.HibernateCursorItemReader"
+		scope="step">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="queryString"
+			value="select m from MeasurementOrFact m join m.annotations a where a.jobId = :jobId and a.code = :code" />
+		<property name="parameterValues">
+			<map>
+				<entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
+				<entry key="code"
+					value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="deletingWriter" class="org.emonocot.harvest.common.HibernateDeletingWriter">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+    <bean id="iucnResourceDeletingTasklet"
+		class="org.emonocot.harvest.common.MultiResourceDeletingTasklet"
+		scope="step">
+		<property name="resources">
+			<list>
+				<bean class="org.springframework.core.io.FileSystemResource"
+					scope="step">
+					<constructor-arg value="#{jobExecutionContext['temporary.file.name']}" />
+				</bean>
+				<bean class="org.springframework.core.io.FileSystemResource"
+					scope="step">
+					<constructor-arg value="#{jobExecutionContext['split.file.name']}" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+</beans>

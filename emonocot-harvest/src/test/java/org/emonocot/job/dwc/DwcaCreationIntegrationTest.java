@@ -3,12 +3,11 @@
  */
 package org.emonocot.job.dwc;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,26 +17,9 @@ import java.util.zip.ZipInputStream;
 
 import org.emonocot.model.Taxon;
 import org.emonocot.persistence.hibernate.SolrIndexingListener;
-import org.gbif.dwc.record.Record;
-import org.gbif.dwc.terms.ConceptTerm;
-import org.gbif.dwc.terms.DcTerm;
-import org.gbif.dwc.terms.DwcTerm;
-import org.gbif.dwc.terms.GbifTerm;
-import org.gbif.dwc.terms.TermFactory;
-
-//import org.gbif.dwc.text.ArchiveWriter; //from dwca-reader v1.7.6
-import org.gbif.dwc.text.Archive;
-import org.gbif.dwc.text.ArchiveField;
-import org.gbif.dwc.text.ArchiveFile;
-import org.gbif.dwc.text.DwcaWriter;
-import org.gbif.dwc.text.StarRecord;
-import org.gbif.metadata.eml.EmlFactory;
-import org.gbif.utils.file.FileUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.joda.time.DateTime;
-import org.joda.time.base.BaseDateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,7 +32,6 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.configuration.JobLocator;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
@@ -115,7 +96,13 @@ public class DwcaCreationIntegrationTest {
 	@Test
 	public void testWriteSubsetArchive() throws Exception {
 		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
-		parameters.put("query", new JobParameter("Orchidaceae"));
+		parameters.put("query", new JobParameter(""));
+		parameters.put("selected.facets", new JobParameter("taxon.family_s=Araceae"));
+		parameters.put("extensions", new JobParameter("Description,Distribution,Reference"));
+		parameters.put("taxon.columns", new JobParameter("scientificName,scientificNameAuthorship"));
+		parameters.put("description.columns", new JobParameter("taxonID,type,description"));
+		parameters.put("distribution.columns", new JobParameter("taxonID,locationID"));
+		parameters.put("reference.columns", new JobParameter("taxonID,bibliographicCitation"));
 		parameters.put("output.file",
 		        new JobParameter(File.createTempFile("output", ".zip").getAbsolutePath()));
 		
@@ -138,7 +125,7 @@ public class DwcaCreationIntegrationTest {
         while((e = zipStream.getNextEntry()) != null){
             entries.add(e);
         }
-        assertEquals("There should be 4 files", 4, entries.size());
+        assertEquals("There should be 5 files", 5, entries.size());
 	}
 	
 	/**
@@ -149,6 +136,13 @@ public class DwcaCreationIntegrationTest {
 		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
 		parameters.put("output.file",
 		        new JobParameter(File.createTempFile("output", ".zip").getAbsolutePath()));
+		
+		parameters.put("query", new JobParameter(""));
+		parameters.put("extensions", new JobParameter("Description,Distribution,Reference"));
+		parameters.put("taxon.columns", new JobParameter("scientificName,scientificNameAuthorship"));
+		parameters.put("description.columns", new JobParameter("taxonID,type,description"));
+		parameters.put("distribution.columns", new JobParameter("taxonID,locationID"));
+		parameters.put("reference.columns", new JobParameter("taxonID,bibliographicCitation"));
 		
 		JobParameters jobParameters = new JobParameters(parameters);
 		Job archiveCreatorJob = jobLocator.getJob("DarwinCoreArchiveCreation");
@@ -169,7 +163,7 @@ public class DwcaCreationIntegrationTest {
         while((e = zipStream.getNextEntry()) != null){
             entries.add(e);
         }
-        assertEquals("There should be 4 files", 4, entries.size());
+        assertEquals("There should be 6 files", 6, entries.size());
 	}
 
 }

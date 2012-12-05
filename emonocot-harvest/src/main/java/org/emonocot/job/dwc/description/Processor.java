@@ -29,11 +29,11 @@ public class Processor extends OwnedEntityProcessor<Description, DescriptionServ
     @Override
     protected void doValidate(Description t) {
     	if (t.getType() == null) {
-            throw new RequiredFieldException(t + " has no Feature set", RecordType.TextContent, getStepExecution().getReadCount());
+            throw new RequiredFieldException(t + " has no Feature set", RecordType.Description, getStepExecution().getReadCount());
         }
         
         if (t.getDescription() == null || t.getDescription().length() == 0) {
-            throw new RequiredFieldException(t + " has no Content set", RecordType.TextContent, getStepExecution().getReadCount());
+            throw new RequiredFieldException(t + " has no Content set", RecordType.Description, getStepExecution().getReadCount());
         }
     }
 
@@ -53,6 +53,6 @@ public class Processor extends OwnedEntityProcessor<Description, DescriptionServ
 
     @Override
     protected RecordType getRecordType() {
-	    return RecordType.TextContent;
+	    return RecordType.Description;
     }
 }

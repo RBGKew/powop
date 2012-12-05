@@ -25,8 +25,8 @@ public class DescriptionMapDeserializer extends
             throws IOException {
         Map<DescriptionType, Description> content = new HashMap<DescriptionType, Description>();
         while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
-            Description textContent = jsonParser.readValueAs(Description.class);
-            content.put(textContent.getType(), textContent);
+            Description description = jsonParser.readValueAs(Description.class);
+            content.put(description.getType(), description);
         }
         return content;
     }

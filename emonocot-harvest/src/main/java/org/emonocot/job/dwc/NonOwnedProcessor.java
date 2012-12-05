@@ -79,31 +79,21 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
                     && !persisted.getModified().isBefore(t.getModified())) {
                     // Assume the object hasn't changed, but maybe this taxon
                     // should be associated with it
+                	replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Skipped);
                     if (((NonOwned)persisted).getTaxa().contains(taxon)) {
-                        // do nothing
-                        return null;
+                        // do nothing                        
                     } else {
                         // Add the taxon to the list of taxa
                     	bind(persisted);
                         logger.info("Updating object " + t.getIdentifier());
                         ((NonOwned)persisted).getTaxa().add(taxon);
-                        return persisted;
                     }
+                    return persisted;
                 } else {
                     // Assume that this is the first of several times this object
                     // appears in the result set, and we'll use this version to
                     // overwrite the existing object
-                	for (Annotation annotation : persisted.getAnnotations()) {
-                   	 if(logger.isInfoEnabled()) {
-                    	   logger.info("Comparing " + annotation.getJobId() + " with " + getStepExecution().getJobExecutionId());
-                   	 }
-                        if (getStepExecution().getJobExecutionId().equals(
-                        		annotation.getJobId())) {                         
-                            annotation.setType(AnnotationType.Info);
-                            annotation.setCode(AnnotationCode.Update);
-                            break;
-                        }
-                    }
+                	
                 	persisted.setAccessRights(t.getAccessRights());
                     persisted.setCreated(t.getCreated());
                     persisted.setLicense(t.getLicense());
@@ -115,6 +105,7 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
                     ((NonOwned)persisted).getTaxa().clear();
                     ((NonOwned)persisted).getTaxa().add(taxon);                                      
                     bind(persisted);
+                    replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Update);
                     logger.info("Overwriting object " + t.getIdentifier());
                     return persisted;
                 }

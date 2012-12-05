@@ -20,14 +20,17 @@ public class SetTemporaryFilenameTasklet implements Tasklet {
      *
      */
     private String harvesterSpoolDirectory;
+    
+    private String extension = "xml";
 
-    /**
-     * @param newHarvesterSpoolDirectory the harvesterSpoolDirectory to set
-     */
-    public final void setHarvesterSpoolDirectory(
-            final String newHarvesterSpoolDirectory) {
-        this.harvesterSpoolDirectory = newHarvesterSpoolDirectory;
+    public void setHarvesterSpoolDirectory(String harvesterSpoolDirectory) {
+        this.harvesterSpoolDirectory = harvesterSpoolDirectory;
     }
+    
+    public void setExtension(String extension) {
+    	 this.extension = extension;
+    }
+    
 
     /**
      * @param contribution Set the step contribution
@@ -35,12 +38,11 @@ public class SetTemporaryFilenameTasklet implements Tasklet {
      * @return the repeat status
      * @throws Exception if there is a problem deleting the resources
      */
-    public final RepeatStatus execute(final StepContribution contribution,
-            final ChunkContext chunkContext)
+    public  RepeatStatus execute( StepContribution contribution, ChunkContext chunkContext)
             throws Exception {
         UUID uuid = UUID.randomUUID();
         String temporaryFileName = harvesterSpoolDirectory + File.separator
-                + uuid.toString() + ".xml";
+                + uuid.toString() + "." + extension;
 
         File temporaryFile = new File(temporaryFileName);
         ExecutionContext executionContext = chunkContext.getStepContext()

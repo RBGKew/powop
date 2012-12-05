@@ -41,19 +41,10 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
             if ((persisted.getModified() != null && t.getModified() != null) && !persisted.getModified().isBefore(t.getModified())) {
                 // The content hasn't changed, skip it
                 logger.info("Skipping " + t);
-                return null;
+                replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Skipped);
+                return persisted;
             } else {
-                 for (Annotation annotation : persisted.getAnnotations()) {
-                	 if(logger.isInfoEnabled()) {
-                 	   logger.info("Comparing " + annotation.getJobId() + " with " + getStepExecution().getJobExecutionId());
-                	 }
-                     if (getStepExecution().getJobExecutionId().equals(
-                     		annotation.getJobId())) {                         
-                         annotation.setType(AnnotationType.Info);
-                         annotation.setCode(AnnotationCode.Update);
-                         break;
-                     }
-                 }
+            	replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Update);
                 persisted.setTaxon(t.getTaxon());
                 persisted.setAccessRights(t.getAccessRights());
                 persisted.setCreated(t.getCreated());

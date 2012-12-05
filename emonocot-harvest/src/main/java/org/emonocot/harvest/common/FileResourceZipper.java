@@ -77,8 +77,9 @@ public class FileResourceZipper {
                     fileIn = new FileInputStream(source + "/" + filename);
                 }
                 zipOutputStream.putNextEntry(new ZipEntry(filename));
-                while (fileIn.read(buffer) != -1) {
-                    zipOutputStream.write(buffer);
+                int length;
+                while ((length = fileIn.read(buffer)) != -1) {
+                    zipOutputStream.write(buffer, 0, length);
                 }
                 fileIn.close();
             }

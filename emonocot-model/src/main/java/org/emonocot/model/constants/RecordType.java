@@ -13,7 +13,7 @@ public enum RecordType {
     /**
      * A description record.
      */
-    TextContent,
+    Description,
     /**
      * An image record.
      */

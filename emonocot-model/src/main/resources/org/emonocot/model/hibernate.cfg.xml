@@ -11,7 +11,7 @@
     <mapping class="org.emonocot.model.source.Source"/>
     <mapping class="org.emonocot.model.common.Annotation"/>
     <mapping class="org.emonocot.model.description.Distribution"/>
-    <mapping class="org.emonocot.model.description.TextContent"/>
+    <mapping class="org.emonocot.model.description.Description"/>
     <mapping class="org.emonocot.model.media.Image"/>
     <mapping class="org.emonocot.model.reference.Reference"/>
     <mapping class="org.emonocot.model.taxon.Taxon"/>

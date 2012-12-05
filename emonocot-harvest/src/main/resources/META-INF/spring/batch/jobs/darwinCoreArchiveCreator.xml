@@ -39,14 +39,28 @@
         </batch:listeners>
     </batch:job>
     
-    <bean id="taxonReader" class="org.emonocot.harvest.common.SearchtermPagingItemReader" scope="step">
-        <property name="queryString" value="#{jobParameters[query]}" />
+    <bean id="taxonReader" class="org.emonocot.harvest.common.SolrItemReader" scope="step">
+        <property name="queryString" value="#{jobParameters['query']}" />
+        <property name="sort" value="#{jobParameters['sort']}" />
+        <property name="selectedFacets" value="#{jobParameters['selected.facets']}" />
         <property name="service">
             <bean class="org.emonocot.service.impl.TaxonServiceImpl" />
         </property>
     </bean>
 
-    <bean id="taxonToGbifStarConverter" class="org.emonocot.job.dwc.TaxonToStarRecordConverter" />
+    <bean id="taxonToGbifStarConverter" class="org.emonocot.job.dwc.TaxonToStarRecordConverter" scope="step">
+      <property name="conversionService" ref="conversionService"/>
+      <property name="taxonColumns" value="#{jobParameters['taxon.columns']}"/>
+      <property name="descriptionColumns" value="#{jobParameters['description.columns']}"/>
+      <property name="distributionColumns" value="#{jobParameters['distribution.columns']}"/>
+      <property name="imageColumns" value="#{jobParameters['image.columns']}"/>
+      <property name="referenceColumns" value="#{jobParameters['reference.columns']}"/>
+      <property name="identifierColumns" value="#{jobParameters['identifier.columns']}"/>
+      <property name="measurementOrFactColumns" value="#{jobParameters['measurementOrFact.columns']}"/>
+      <property name="typeAndSpecimenColumns" value="#{jobParameters['typeAndSpecimen.columns']}"/>
+      <property name="vernacularNameColumns" value="#{jobParameters['verncularName.columns']}"/>
+      <property name="extensions" value="#{jobParameters['extensions']}"/>
+    </bean>
     
     <bean id="setTemporaryFilenamesTasklet" class="org.emonocot.job.dwc.SetTemporaryFilenamesTasklet">
         <property name="harvesterSpoolDirectory" value="${harvester.spool.directory}"/>
