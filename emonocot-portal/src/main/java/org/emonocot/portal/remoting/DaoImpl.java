@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.emonocot.model.Base;
-import org.emonocot.pager.FacetName;
 import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.Dao;
 import org.slf4j.Logger;

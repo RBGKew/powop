@@ -236,7 +236,10 @@ public class ProcessorImpl extends AuthorityAware implements
                 addRelationship(taxon, relationship);
             }
         }
-
+        
+        // Clear Distributions
+        taxon.getDistribution().clear();
+        
         if (taxonConcept.getDescribedBy() != null) {
             for (SpeciesProfileModel spm : taxonConcept.getDescribedBy()) {
                 if (spm.getHasInformation() != null) {
@@ -252,9 +255,6 @@ public class ProcessorImpl extends AuthorityAware implements
                             if (dist.getLocation() != null) {
                                 dist.setTaxon(taxon);
                                 taxon.getDistribution().add(dist);
-                            } else {
-                                // TODO replace / update distribution if
-                                // neccessary
                             }
                         }
                     }

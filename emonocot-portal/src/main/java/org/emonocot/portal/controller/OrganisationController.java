@@ -257,7 +257,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	 *            Set the offset
 	 * @return the name of the view
 	 */
-	@RequestMapping(value = "/{identifier}/job", method = RequestMethod.GET, params = "!form")
+	@RequestMapping(value = "/{identifier}/resource", method = RequestMethod.GET, params = "!form")
 	public final String list(
 			final Model model,
 			@PathVariable("identifier") final String identifier,
@@ -275,7 +275,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	 *            Set the model
 	 * @return the name of the view
 	 */
-	@RequestMapping(value = "/{identifier}/job", method = RequestMethod.GET, params = "form")
+	@RequestMapping(value = "/{identifier}/resource", method = RequestMethod.GET, params = "form")
 	public final String create(
 			@PathVariable("identifier") final String identifier,
 			final Model model) {

@@ -152,7 +152,7 @@
 			<div><spring:message code="sources" /></div>
 			<ul>
 				<li>
-				    <c:url value="/source/${image.authority.identifier}" var="authorityUrl"/>
+				    <c:url value="/organisation/${image.authority.identifier}" var="authorityUrl"/>
 					<a href="${authorityUrl}">${image.authority.title}</a>
 				</li>
 			</ul>

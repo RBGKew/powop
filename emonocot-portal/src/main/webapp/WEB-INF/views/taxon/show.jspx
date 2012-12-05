@@ -130,9 +130,9 @@
 				</c:when>
 				<c:when test="${taxon.taxonomicStatus == 'Accepted'}">
 					<spring:message code="isAccepted" />
-					<c:url var="sourceUrl"
-						value="/source/${taxon.authority.identifier}" />
-					<a href="${sourceUrl}">${taxon.authority.title}</a>
+					<c:url var="organisationUrl"
+						value="/organisation/${taxon.authority.identifier}" />
+					<a href="${organisationUrl}">${taxon.authority.title}</a>
 				</c:when>
 			</c:choose>
 		</div>
@@ -254,7 +254,7 @@
 								<c:forEach var="source" items="${em:sources(taxon)}">
 									<li><jsp:element name="a">
 											<jsp:attribute name="href">
-												<c:url value="/source/${source.identifier}" />
+												<c:url value="/organisation/${source.identifier}" />
 											</jsp:attribute>
 											${source.title}
 										</jsp:element></li>

@@ -139,7 +139,7 @@ public class StepDefinitions {
     @When("^I select \"(Create a new job)\"$")
     public final void iSelectCreateANewJob(final String text) {
         currentPage = currentPage.selectLink(text,
-                org.emonocot.portal.driver.admin.source.job.Create.class);
+                org.emonocot.portal.driver.organisation.resource.Create.class);
     }
 
     /**
@@ -1034,17 +1034,17 @@ public class StepDefinitions {
 
     @When("^I enter the following data in the job form:$")
     public void iEnterTheFollowingDataInTheJobForm(final List<JobRow> rows) {
-        ((org.emonocot.portal.driver.admin.source.job.Create) currentPage)
+        ((org.emonocot.portal.driver.organisation.resource.Create) currentPage)
                 .setObjectIdentifier(rows.get(0).identifier, "identifier");
-        ((org.emonocot.portal.driver.admin.source.job.Create) currentPage)
+        ((org.emonocot.portal.driver.organisation.resource.Create) currentPage)
                 .setFormField("uri", rows.get(0).uri);
-        ((org.emonocot.portal.driver.admin.source.job.Create) currentPage)
+        ((org.emonocot.portal.driver.organisation.resource.Create) currentPage)
                 .setFormSelection("jobType", rows.get(0).jobType);
     }
 
     @When("^I submit the create job form$")
     public void iSubmitTheCreateJobForm() {
-        currentPage = ((org.emonocot.portal.driver.admin.source.job.Create) currentPage)
+        currentPage = ((org.emonocot.portal.driver.organisation.resource.Create) currentPage)
                 .submit();
     }
 

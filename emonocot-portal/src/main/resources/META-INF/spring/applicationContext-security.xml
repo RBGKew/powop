@@ -148,11 +148,11 @@
 			access="hasRole('PERMISSION_CREATE_GROUP')" />
 		<sec:intercept-url pattern="/group/*" method="DELETE"
 			access="hasRole('PERMISSION_DELETE_GROUP')" />
-		<sec:intercept-url pattern="/source" method="POST"
+		<sec:intercept-url pattern="/organisation" method="POST"
 			access="hasRole('PERMISSION_CREATE_SOURCE')" />
-		<sec:intercept-url pattern="/source/*" method="DELETE"
+		<sec:intercept-url pattern="/organisation/*" method="DELETE"
 			access="hasRole('PERMISSION_DELETE_SOURCE')" />
-		<sec:intercept-url pattern="/source/*/job*"
+		<sec:intercept-url pattern="/organisation/*/resources*"
 			access="hasRole('PERMISSION_VIEW_SOURCE')" />
 		<sec:intercept-url pattern="/jobExecution" method="POST"
 			access="hasRole('PERMISSION_CREATE_JOBEXECUTION')" />

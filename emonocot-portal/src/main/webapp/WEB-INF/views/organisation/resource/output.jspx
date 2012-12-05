@@ -47,7 +47,7 @@
 						  <div class="span3">
 							  <div class="inner">
 								<ul class="box nav nav-list">
-								  <menu:facet url="/source/${organisation.identifier}/job/${jobId}/output" facetName="${facetName}"	pager="${result}" />	
+								  <menu:facet url="/organisation/${organisation.identifier}/resource/${jobId}/output" facetName="${facetName}"	pager="${result}" />	
 								</ul>
 							  </div>
 						  </div>
@@ -60,7 +60,7 @@
 				<div class="inner">
 					<div class="box">
 					    <div class="row noPrint">							
-							<tags:sort url="/source/${organisation.identifier}/job/${jobId}/output" result="${result}" sortItems="${em:annotationSortItems()}" spanClass="pull-right" />
+							<tags:sort url="/organisation/${organisation.identifier}/resource/${jobId}/output" result="${result}" sortItems="${em:annotationSortItems()}" spanClass="pull-right" />
 						</div>
 						<br/>
 						<div class="row">
@@ -110,7 +110,7 @@
 						</div>
 						<div class="row">
 							<div class="pagination pull-right">
-								<tags:pagination pager="${result}" url="/source/${organisation.identifier}/job/${jobId}/output" />
+								<tags:pagination pager="${result}" url="/organisation/${organisation.identifier}/resource/${jobId}/output" />
 							</div>
 						</div>
 					</div>

@@ -1,4 +1,4 @@
-package org.emonocot.portal.driver.admin.source.job;
+package org.emonocot.portal.driver.organisation.resource;
 
 import org.emonocot.model.registry.Resource;
 import org.emonocot.portal.driver.AbstractCreateForm;
@@ -13,12 +13,12 @@ import org.openqa.selenium.support.How;
  */
 public class Create extends AbstractCreateForm {
 	
-	@FindBy(how = How.ID, using = "job")
+	@FindBy(how = How.ID, using = "resource")
 	private WebElement form;
 	
 	public Create() {
 		objectClass = Resource.class;
-    	onSubmitPageClass = org.emonocot.portal.driver.admin.source.job.List.class;
+    	onSubmitPageClass = org.emonocot.portal.driver.organisation.resource.List.class;
 	}
 
 	@Override

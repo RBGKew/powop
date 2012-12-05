@@ -24,7 +24,7 @@
 							<li class="span3">
 								<jsp:element  name="a">
 									<jsp:attribute name="href">
-										<c:url value="/organisations"/> 
+										<c:url value="/organisation"/> 
 									</jsp:attribute>
 									<spring:message code="organisations.title"/>
 								</jsp:element>

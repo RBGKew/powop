@@ -23,11 +23,11 @@
 						<tags:info />
 						<tags:error />
 						<div class="row">
-							<c:url var="updateUrl" value="/source/${source.identifier}/job/${resource.identifier}">
+							<c:url var="updateUrl" value="/organisation/${organisation.identifier}/resource/${resource.identifier}">
 								<c:param name="form" value="true" />
 							</c:url>
-							<a href="${updateUrl}" class="btn pull-right"><spring:message code="update.job" /></a>
-							<c:url var="runUrl" value="/source/${source.identifier}/job/${resource.identifier}">
+							<a href="${updateUrl}" class="btn pull-right"><spring:message code="update.resource" /></a>
+							<c:url var="runUrl" value="/organisation/${organisation.identifier}/resource/${resource.identifier}">
 								<c:param name="run" value="true" />
 							</c:url>
 							<form action="${runUrl}" method="POST">
@@ -126,7 +126,7 @@
 									<th><spring:message code="resource.output" /></th>
 									<td>
 										<c:if test="${resource.written gt 0}">
-											<spring:url var="jobUrl" value="/source/${source.identifier}/job/${resource.jobId}/output"/>
+											<spring:url var="jobUrl" value="/organisation/${organisation.identifier}/resource/${resource.jobId}/output"/>
 											<a href="${jobUrl}"><spring:message code="see.report" /></a>
 										</c:if>
 									</td>

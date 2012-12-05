@@ -67,4 +67,4 @@ Scenario: Add privileges to a group
   | object      |
   | palmweb.org |
   And I submit the access controls form
-  Then an info message should say "READ access to Source palmweb.org was added to the group"
+  Then an info message should say "READ access to Organisation palmweb.org was added to the group"

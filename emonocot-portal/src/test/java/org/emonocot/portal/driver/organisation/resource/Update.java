@@ -1,4 +1,4 @@
-package org.emonocot.portal.driver.admin.source.job;
+package org.emonocot.portal.driver.organisation.resource;
 
 import org.emonocot.portal.driver.PageObject;
 

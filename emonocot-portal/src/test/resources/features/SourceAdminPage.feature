@@ -51,7 +51,6 @@ Background:
   | 3          | Create    | Info  | Taxon      | 1     | test   |                                                                                  | urn:kew.org:wcs:taxon:2304 |
   | 4          | BadRecord | Error | Taxon      | 1     | test   |                                                                                  | urn:kew.org:wcs:taxon:2306 |
 
-
 Scenario: Check SourcePage
   The source page should contain a list of jobs run on that source.
   Selecting a job should show the numbers of records harvested by that job broken down by data type
@@ -79,7 +78,7 @@ Scenario: Create Source
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=44
   Given I am logged in as "admin@e-monocot.org" with the password "Nardus stricta"
   When I am on the source list page
-  And I select "Create a new source"
+  And I select "Create a new organisation"
   And I enter the following data into the create source form:
   | identifier | title       | uri                | logoUrl |
   | test2      | test2 title | http://example.com | http://example.com/logo.png |
@@ -94,7 +93,7 @@ Scenario: Edit Source
   So that the eMonocot portal displays information about my system correctly
   Given I am logged in as "test@example.com" with the password "Poa annua"
   When I navigate to source page "test" 
-  And I select "Edit this source"
+  And I select "Edit this organisation"
   And I enter the following data into the update source form:
   | uri                | logoUrl                     | title      |
   | http://example.com | http://example.com/logo.png | test title |
@@ -111,12 +110,14 @@ Scenario: Create Job
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=240
   Given I am logged in as "admin@e-monocot.org" with the password "Nardus stricta"
   And I navigate to source page "test"
-  And I select "Create a new job"
+  And I select "Create a new resource"
   And I enter the following data in the job form:
   | identifier | uri                                  | jobType     |
   | New Job    | http://www.testaceae.org/archive.zip | DwC_Archive |
   And I submit the create job form
-  Then an info message should say "New Job was created"
+  Then an info message should say "New Resource was created"
   When I navigate to source page "test"
   Then there should be 2 jobs listed
   
+
+

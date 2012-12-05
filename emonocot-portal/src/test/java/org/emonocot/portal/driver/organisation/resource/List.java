@@ -1,4 +1,4 @@
-package org.emonocot.portal.driver.admin.source.job;
+package org.emonocot.portal.driver.organisation.resource;
 
 import org.emonocot.portal.driver.PageObject;
 import org.openqa.selenium.By;
@@ -8,7 +8,7 @@ import org.openqa.selenium.support.How;
 
 public class List extends PageObject {
 	
-	@FindBy(how = How.ID, using = "jobs")
+	@FindBy(how = How.ID, using = "resources")
 	private WebElement jobs;
 
 	/**

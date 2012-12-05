@@ -81,9 +81,9 @@
 							types of data. This includes content from:<br />
 						</p>
 						<p>
-							<c:forEach var="source" items="${sources}">
-								<c:url var="sourcePageUrl" value="/source/${source.identifier}" />
-								<a href="${sourcePageUrl}">${source.title}</a>
+							<c:forEach var="organisation" items="${sources}">
+								<c:url var="organisationPageUrl" value="/organisation/${organisation.identifier}" />
+								<a href="${organsiationPageUrl}">${organisation.title}</a>
 								<br />
 							</c:forEach>
                         </p>

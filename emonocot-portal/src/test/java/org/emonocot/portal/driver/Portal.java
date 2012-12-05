@@ -154,7 +154,7 @@ public class Portal extends PageObject {
      * @return a source page
      */
     public final PageObject getSourcePage(final String identifier) {
-        return openAs(getBaseUri() + "source/" + identifier, org.emonocot.portal.driver.organisation.Show.class);
+        return openAs(getBaseUri() + "organisation/" + identifier, org.emonocot.portal.driver.organisation.Show.class);
     }
 
     /**
@@ -205,7 +205,7 @@ public class Portal extends PageObject {
     * @return a source job page
     */
    public final ResourceList getSourceJobsPage(final String source) {
-       return openAs(getBaseUri() + "source/" + source + "/job", ResourceList.class);
+       return openAs(getBaseUri() + "organisation/" + source + "/resource", ResourceList.class);
    }
 
     /**
@@ -216,7 +216,7 @@ public class Portal extends PageObject {
      */
     public final ResourceOutput getSourceJobPage(final String source,
             final String job) {
-        return openAs(getBaseUri() + "source/" + source + "/job/" + job,
+        return openAs(getBaseUri() + "organisation/" + source + "/resource/" + job,
                 ResourceOutput.class);
     }
 
@@ -225,7 +225,7 @@ public class Portal extends PageObject {
      * @return the source admin page
      */
     public final PageObject getSourceListPage() {
-        return openAs(getBaseUri() + "source",
+        return openAs(getBaseUri() + "organisation",
                 org.emonocot.portal.driver.organisation.List.class);
     }
 
