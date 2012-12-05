@@ -348,6 +348,7 @@
                       <include>${basedir}/src/main/js/OpenLayers/OpenLayers.js</include>
                       <include>${basedir}/src/main/js/jsTree/jquery.jstree.js</include>
                       <include>${basedir}/src/main/js/bootstrap-transition.js</include>
+                      <include>${basedir}/src/main/js/bootstrap-affix.js</include>
                       <include>${basedir}/src/main/js/bootstrap-alert.js</include>
                       <include>${basedir}/src/main/js/bootstrap-modal.js</include>
                       <include>${basedir}/src/main/js/bootstrap-dropdown.js</include>

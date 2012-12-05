@@ -68,7 +68,7 @@
 										</c:when>
 										<c:otherwise>
 											<menu:facet url="/search" facetName="${facetName}"
-												pager="${result}" />
+												pager="${result}" showIcons="true"/>
 										</c:otherwise>
 									</c:choose>
 								</ul>

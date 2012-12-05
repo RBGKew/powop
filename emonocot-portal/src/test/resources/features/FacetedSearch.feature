@@ -52,7 +52,6 @@ Scenario: Search for Only Taxa
   Then there should be 5 results
   And the Type facet should have the following options:
   | option    |
-  | All Types |
   | Taxa      |
   And the Family facet should have the following options:
   | option    |
@@ -70,7 +69,6 @@ Scenario: Search for Only Images
   Then there should be 1 result
   And the Type facet should have the following options:
   | option    |
-  | All Types |
   | Images    |
   
 Scenario: Facet on Family
