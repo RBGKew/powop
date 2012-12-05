@@ -29,7 +29,7 @@
 		<batch:step id="processRecords">
 		    <batch:description>Process the records</batch:description>
 			<batch:tasklet>
-				<batch:chunk reader="itemReader" processor="itemProcessor" writer="itemWriter" commit-interval="10"/>
+				<batch:chunk reader="itemReader" processor="itemProcessor" writer="itemWriter" commit-interval="1"/>
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="resumeHarvesting" />
 			<batch:listeners>
@@ -212,7 +212,7 @@
     <bean id="taxonItemProcessor" class="org.emonocot.job.oaipmh.ProcessorImpl" scope="step">
       <property name="taxonService" ref="taxonServiceImpl"/>
       <property name="taxonRelationshipResolver" ref="taxonRelationshipResolver"/>
-      <property name="sourceService" ref="organisationServiceImpl"/>
+      <property name="organisationService" ref="organisationServiceImpl"/>
       <property name="sourceName" value="#{jobParameters['authority.name']}"/>
       <property name="referenceService" ref="referenceServiceImpl"/>
       <property name="conversionService" ref="conversionService"/>
@@ -221,7 +221,7 @@
 	<bean id="taxonItemValidator" class="org.emonocot.job.oaipmh.Validator"
 		scope="step">
 		<property name="sourceName" value="#{jobParameters['authority.name']}" />
-		<property name="sourceService" ref="organisationServiceImpl" />
+		<property name="organisationService" ref="organisationServiceImpl" />
 		<property name="validator" ref="validator" />
 	</bean>
 

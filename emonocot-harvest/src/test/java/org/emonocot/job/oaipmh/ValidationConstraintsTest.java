@@ -51,7 +51,7 @@ public class ValidationConstraintsTest {
        processor = new Validator();
 
        sourceService = EasyMock.createMock(OrganisationService.class);
-       processor.setSourceService(sourceService);
+       processor.setOrganisationService(sourceService);
        processor.setValidator(validatorFactoryBean);
        processor.setSourceName("test");
        processor.beforeStep(new StepExecution("test", new JobExecution(1L)));

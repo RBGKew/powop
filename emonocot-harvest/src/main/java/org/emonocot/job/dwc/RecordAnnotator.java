@@ -18,7 +18,7 @@ public class RecordAnnotator extends AbstractRecordAnnotator {
      * @return the exit status
      */
 	public final ExitStatus annotateRecords(String sourceName, String annotatedObjType) {
-      Integer authorityId = jdbcTemplate.queryForInt("Select id from source where identifier = '" + sourceName + "'");
+      Integer authorityId = jdbcTemplate.queryForInt("Select id from organisation where identifier = '" + sourceName + "'");
       String queryString = "insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select o.id, ':annotatedObjType', ':jobId', :dateTime, :authorityId, 'Warn', 'Absent', ':annotatedObjType' from :annotatedObjType o where o.authority_id = :authorityId";
       stepExecution.getJobExecution().getExecutionContext().putLong("job.execution.id", stepExecution.getJobExecutionId());
       queryString = queryString.replaceAll(":authorityId", authorityId.toString());

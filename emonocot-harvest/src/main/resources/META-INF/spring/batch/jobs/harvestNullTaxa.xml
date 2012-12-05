@@ -177,7 +177,7 @@
 
     <bean id="taxonItemProcessor" class="org.emonocot.job.oaipmh.ProcessorImpl" scope="step">
       <property name="taxonService" ref="taxonServiceImpl"/>
-      <property name="sourceService" ref="organisationServiceImpl"/>
+      <property name="organisationService" ref="organisationServiceImpl"/>
       <property name="sourceName" value="#{jobParameters['authority.name']}"/>
       <property name="referenceService" ref="referenceServiceImpl"/>
       <property name="conversionService" ref="conversionService"/>
@@ -186,7 +186,7 @@
 	<bean id="taxonItemValidator" class="org.emonocot.job.oaipmh.Validator"
 		scope="step">
 		<property name="sourceName" value="#{jobParameters['authority.name']}" />
-		<property name="sourceService" ref="organisationServiceImpl" />
+		<property name="organisationService" ref="organisationServiceImpl" />
 		<property name="validator" ref="validator" />
 	</bean>
 

@@ -1,6 +1,5 @@
 package org.emonocot.job.oaipmh;
 
-import org.gbif.ecat.voc.NomenclaturalStatus;
 import org.gbif.ecat.voc.TaxonomicStatus;
 import org.springframework.core.convert.converter.Converter;
 

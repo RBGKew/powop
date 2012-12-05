@@ -5,10 +5,7 @@ package org.emonocot.job.dwc.write;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import org.emonocot.job.dwc.DarwinCorePropertyMap;
 import org.emonocot.model.Description;
@@ -22,11 +19,9 @@ import org.emonocot.model.TypeAndSpecimen;
 import org.emonocot.model.VernacularName;
 import org.gbif.dwc.record.Record;
 import org.gbif.dwc.terms.ConceptTerm;
-import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
 import org.gbif.dwc.terms.TermFactory;
-import org.gbif.dwc.terms.UnknownTerm;
 import org.gbif.dwc.text.StarRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

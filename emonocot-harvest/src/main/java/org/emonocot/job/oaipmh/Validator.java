@@ -51,7 +51,7 @@ public class Validator implements ItemProcessor<Taxon, Taxon>,
 	/**
      *
      */
-	private OrganisationService sourceService;
+	private OrganisationService organisationService;
 
 	/**
      *
@@ -69,17 +69,17 @@ public class Validator implements ItemProcessor<Taxon, Taxon>,
 	 */
 	private Organisation getSource() {
 		if (source == null) {
-			source = sourceService.load(sourceName);
+			source = organisationService.load(sourceName);
 		}
 		return source;
 	}
 
 	/**
-	 * @param sourceService
+	 * @param organisationService
 	 *            Set the source service;
 	 */
-	public final void setSourceService(OrganisationService sourceService) {
-		this.sourceService = sourceService;
+	public final void setOrganisationService(OrganisationService organisationService) {
+		this.organisationService = organisationService;
 	}
 
 	/**

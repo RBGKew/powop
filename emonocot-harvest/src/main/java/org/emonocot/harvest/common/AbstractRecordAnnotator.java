@@ -110,7 +110,6 @@ public abstract class AbstractRecordAnnotator extends HibernateDaoSupport {
      * @param annotation Set the annotation
      */
     public final void annotate(final Annotation annotation) {
-        //annotation.setAuthority(getSource());
         try {
             transactionTemplate.execute(new TransactionCallback() {
                public Serializable doInTransaction(

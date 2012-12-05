@@ -26,7 +26,7 @@ public class AuthorityAware implements StepExecutionListener {
     /**
         *
         */
-    private OrganisationService sourceService;
+    private OrganisationService organisationService;
     /**
        *
        */
@@ -50,18 +50,18 @@ public class AuthorityAware implements StepExecutionListener {
         */
     public final Organisation getSource() {
            if (source == null) {
-               source = sourceService.load(sourceName);
+               source = organisationService.load(sourceName);
            }
            return source;
        }
 
     /**
        *
-       * @param newSourceService Set the source service
+       * @param newOrganisationService Set the source service
        */
     @Autowired
-    public final void setSourceService(final OrganisationService newSourceService) {
-          this.sourceService = newSourceService;
+    public final void setOrganisationService(final OrganisationService newOrganisationService) {
+          this.organisationService = newOrganisationService;
       }
 
     /**

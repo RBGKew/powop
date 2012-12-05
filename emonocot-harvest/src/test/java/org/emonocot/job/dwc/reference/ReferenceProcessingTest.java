@@ -70,7 +70,7 @@ public class ReferenceProcessingTest {
 
         referenceValidator = new Processor();
         referenceValidator.setReferenceService(referenceService);
-        referenceValidator.setSourceService(sourceService);
+        referenceValidator.setOrganisationService(sourceService);
         referenceValidator.setTaxonService(taxonService);
         referenceValidator.setSourceName("test source");
         referenceValidator.setFamily("Araceae");

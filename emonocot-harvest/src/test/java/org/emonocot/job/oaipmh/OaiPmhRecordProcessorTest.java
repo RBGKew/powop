@@ -94,7 +94,7 @@ public class OaiPmhRecordProcessorTest {
 
         processor.setSourceName("WCS");
         sourceService = EasyMock.createMock(OrganisationService.class);
-        processor.setSourceService(sourceService);
+        processor.setOrganisationService(sourceService);
 
         TaxonRelationshipResolver resolver = new TaxonRelationshipResolverImpl();
         processor.setTaxonRelationshipResolver(resolver);

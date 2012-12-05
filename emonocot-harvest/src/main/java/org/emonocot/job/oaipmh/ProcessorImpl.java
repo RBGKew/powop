@@ -315,6 +315,7 @@ public class ProcessorImpl extends AuthorityAware implements
         reference.setDate(publicationCitation.getDatePublished());
         reference.setCreator(publicationCitation.getAuthorship());
         String publishedInAuthor = null;
+        String publisher = null;
         if (publicationCitation.getParentPublication() != null) {
         	if (reference.getCreator() == null) {
         		reference.setCreator(publicationCitation.getParentPublication().getAuthorship());
@@ -326,6 +327,10 @@ public class ProcessorImpl extends AuthorityAware implements
             	reference.setTitle(publicationCitation.getParentPublication().getTpubTitle());
             } else {
                 reference.setSource(publicationCitation.getParentPublication().getTpubTitle());
+            }
+            
+            if (publicationCitation.getParentPublication().getPublisher() == null) {
+            	publisher = publicationCitation.getParentPublication().getPublisher();
             }
         }
         
@@ -341,9 +346,7 @@ public class ProcessorImpl extends AuthorityAware implements
         if(reference.getSource() != null) {
         	bibliographicCitation.append(" " + reference.getSource());
         }
-        if(reference.getSource() != null) {
-        	bibliographicCitation.append(" " + reference.getSource());
-        }
+        
         if(publicationCitation.getVolume() != null) {
         	bibliographicCitation.append(" " + publicationCitation.getVolume());
         }
@@ -352,9 +355,8 @@ public class ProcessorImpl extends AuthorityAware implements
         }
         bibliographicCitation.append(". ");        
         
-        if (publicationCitation.getParentPublication() != null && publicationCitation.getParentPublication()
-                .getPublisher() != null) {
-        	bibliographicCitation.append(publicationCitation.getParentPublication().getPublisher() + ".");
+        if (publisher  != null) {
+        	bibliographicCitation.append(publisher + ".");
         }
         
         reference.setBibliographicCitation(bibliographicCitation.toString());
