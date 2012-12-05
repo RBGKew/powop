@@ -115,7 +115,7 @@ Scenario: Create Job
   | identifier | uri                                  | jobType     |
   | New Job    | http://www.testaceae.org/archive.zip | DwC_Archive |
   And I submit the create job form
-  Then an info message should say "New Resource was created"
+  Then an info message should say "New Job was created"
   When I navigate to source page "test"
   Then there should be 2 jobs listed
   

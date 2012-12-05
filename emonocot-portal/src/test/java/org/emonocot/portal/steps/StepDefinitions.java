@@ -136,7 +136,7 @@ public class StepDefinitions {
      * @param text
      *            Set the link text
      */
-    @When("^I select \"(Create a new job)\"$")
+    @When("^I select \"(Create a new resource)\"$")
     public final void iSelectCreateANewJob(final String text) {
         currentPage = currentPage.selectLink(text,
                 org.emonocot.portal.driver.organisation.resource.Create.class);
@@ -222,7 +222,7 @@ public class StepDefinitions {
      * @param linkText
      *            Set the link text
      */
-    @When("^I select \"(Create a new source)\"$")
+    @When("^I select \"(Create a new organisation)\"$")
     public final void iSelectCreateANewSource(final String linkText) {
         currentPage = currentPage.selectLink(linkText,
                 org.emonocot.portal.driver.organisation.Create.class);
@@ -243,7 +243,7 @@ public class StepDefinitions {
      * @param linkText
      *            Set the link text
      */
-    @When("^I select \"(Edit this source)\"$")
+    @When("^I select \"(Edit this organisation)\"$")
     public final void iSelectEditThisSource(final String linkText) {
         currentPage = ((org.emonocot.portal.driver.organisation.Show) currentPage)
                 .selectLink(linkText,
