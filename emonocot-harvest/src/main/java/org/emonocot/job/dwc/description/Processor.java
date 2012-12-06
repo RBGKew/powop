@@ -1,12 +1,23 @@
 package org.emonocot.job.dwc.description;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import org.emonocot.api.DescriptionService;
+import org.emonocot.api.ReferenceService;
 import org.emonocot.job.dwc.exception.RequiredFieldException;
 import org.emonocot.job.dwc.read.OwnedEntityProcessor;
+import org.emonocot.model.Annotation;
 import org.emonocot.model.Description;
+import org.emonocot.model.Reference;
+import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.core.ChunkListener;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -14,17 +25,24 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author ben
  *
  */
-public class Processor extends OwnedEntityProcessor<Description, DescriptionService> {
-		
+public class Processor extends OwnedEntityProcessor<Description, DescriptionService> implements ChunkListener {
 	
-	@Autowired
+    private Map<String, Reference> boundReferences = new HashMap<String, Reference>();
+    
+    private Logger logger = LoggerFactory.getLogger(Processor.class);
+    
+    private ReferenceService referenceService;
+
+
+   @Autowired
+   public final void setReferenceService(ReferenceService referenceService) {
+       this.referenceService = referenceService;
+   }
+   
+    @Autowired
 	public void setDescriptionService(DescriptionService service) {
 		super.service = service;
 	}
-    /**
-     *
-     */
-    private Logger logger = LoggerFactory.getLogger(Processor.class);
  
     @Override
     protected void doValidate(Description t) {
@@ -48,11 +66,70 @@ public class Processor extends OwnedEntityProcessor<Description, DescriptionServ
     	persisted.setType(t.getType());
         
         persisted.getReferences().clear();
-        persisted.getReferences().addAll(t.getReferences());
+        for(Reference r : t.getReferences()) {
+            resolveReference(persisted,r.getIdentifier());
+        }
     }
+    
+    @Override
+	protected void doCreate(Description t) {
+    	Set<Reference> references = new HashSet<Reference>();
+    	references.addAll(t.getReferences());
+    	t.getReferences().clear();
+    	
+        for(Reference r : references) {
+            resolveReference(t,r.getIdentifier());
+        }
+	}
 
     @Override
     protected RecordType getRecordType() {
 	    return RecordType.Description;
+    }
+    
+    /**
+    *
+    */
+    public final void afterChunk() {
+        logger.info("After Chunk");
+    }
+    
+    /**
+    *
+    * @param object
+    *            Set the text content object
+    * @param value
+    *            the source of the reference to resolve
+    */
+   private void resolveReference(final Description object, final String value) {
+       if (value == null || value.trim().length() == 0) {
+           // there is not citation identifier
+           return;
+       } else {
+           if (boundReferences.containsKey(value)) {
+               object.getReferences().add(boundReferences.get(value));
+           } else {
+               Reference r = referenceService.find(value);
+               if (r == null) {
+                   r = new Reference();
+                   r.setIdentifier(value);
+                   Annotation annotation = super.createAnnotation(r,
+                           RecordType.Reference, AnnotationCode.Create,
+                           AnnotationType.Info);
+                   r.getAnnotations().add(annotation);
+                   r.setAuthority(getSource());
+               }
+               boundReferences.put(value, r);
+               object.getReferences().add(r);
+           }
+       }
+   }
+
+    /**
+    *
+    */
+    public final void beforeChunk() {
+        logger.info("Before Chunk");
+        boundReferences = new HashMap<String, Reference>();
     }
 }

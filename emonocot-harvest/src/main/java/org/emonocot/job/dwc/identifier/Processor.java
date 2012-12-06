@@ -41,4 +41,9 @@ public class Processor extends OwnedEntityProcessor<Identifier, IdentifierServic
 	protected RecordType getRecordType() {
 		return RecordType.Identifier;
 	}
+
+	@Override
+	protected void doCreate(Identifier t) {
+		
+	}
 }

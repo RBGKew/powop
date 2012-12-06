@@ -20,7 +20,7 @@ public class DescriptionDaoImpl extends DaoImpl<Description> implements
 
    static {
        FETCH_PROFILES = new HashMap<String, Fetch[]>();
-       FETCH_PROFILES.put("text-content-with-related", new Fetch[] {
+       FETCH_PROFILES.put("object-with-annotations", new Fetch[] {
     		new Fetch("taxon", FetchMode.JOIN),
        		new Fetch("annotations", FetchMode.SELECT),
        		new Fetch("references", FetchMode.SELECT)});
@@ -34,6 +34,4 @@ public class DescriptionDaoImpl extends DaoImpl<Description> implements
 	protected Fetch[] getProfile(String profile) {
 		return DescriptionDaoImpl.FETCH_PROFILES.get(profile);
 	}
-
-
 }

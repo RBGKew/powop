@@ -23,7 +23,7 @@ public class RecordAnnotator extends AbstractRecordAnnotator {
 	 * @return the exit status
      */
 	public final ExitStatus annotateRecords(String sourceName, String family, String subfamily, String tribe, String subtribe) {
-      Integer authorityId = jdbcTemplate.queryForInt("Select id from organisation where identifier = '" + sourceName + "'");
+      Integer authorityId = jdbcTemplate.queryForInt("Select id from Organisation where identifier = '" + sourceName + "'");
       String subsetRank = null;
       String subsetValue = null;
       

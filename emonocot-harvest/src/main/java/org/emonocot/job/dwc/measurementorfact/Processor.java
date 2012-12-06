@@ -57,4 +57,9 @@ public class Processor extends OwnedEntityProcessor<MeasurementOrFact, Measureme
     protected RecordType getRecordType() {
 	    return RecordType.MeasurementOrFact;
     }
+
+	@Override
+	protected void doCreate(MeasurementOrFact t) {
+		
+	}
 }

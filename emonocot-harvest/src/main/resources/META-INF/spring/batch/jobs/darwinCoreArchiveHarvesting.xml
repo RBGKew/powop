@@ -129,7 +129,7 @@
 			<batch:description>Process the extension file containing the descriptions</batch:description>
 			<batch:tasklet>
 				<batch:chunk reader="descriptionReader" processor="descriptionProcessor"
-					writer="itemWriter" commit-interval="100" skip-limit="10000">
+					writer="itemWriter" commit-interval="10" skip-limit="10000">
 					<batch:skippable-exception-classes>
 						<batch:include
 							class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
@@ -770,6 +770,7 @@
 		<property name="tribe" value="#{jobParameters['tribe']}" />
 		<property name="subtribe" value="#{jobParameters['subtribe']}" />
 		<property name="descriptionService" ref="descriptionServiceImpl" />
+		<property name="referenceService" ref="referenceServiceImpl" />
 	</bean>
 
 	<bean id="descriptionLineMapper"
@@ -798,7 +799,6 @@
 		<property name="defaultValues"
 			value="#{jobExecutionContext['dwca.description.defaultValues']}" />
 		<property name="taxonService" ref="taxonServiceImpl" />
-		<property name="referenceService" ref="referenceServiceImpl" />
 		<property name="organisationService" ref="organisationServiceImpl" />
 		<property name="sourceName" value="#{jobParameters['authority.name']}" />
 	</bean>
@@ -1191,6 +1191,7 @@
 		<property name="subfamily" value="#{jobParameters['subfamily']}" />
 		<property name="tribe" value="#{jobParameters['tribe']}" />
 		<property name="subtribe" value="#{jobParameters['subtribe']}" />
+		<property name="referenceService" ref="referenceServiceImpl"/>
 	</bean>
 
 	<bean id="distributionLineMapper"
