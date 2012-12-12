@@ -4,8 +4,10 @@
 package org.emonocot.job.taxonmatch;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.emonocot.api.TaxonService;
@@ -91,7 +93,9 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
         String searchTerm = stringBuilder.toString();
         logger.debug("Attempting to match " + searchTerm);
         List<Match<Taxon>> matches = new ArrayList<Match<Taxon>>();
-        Page<Taxon> page = taxonService.search(searchTerm, null, null, null, null, null, null, null);
+        Map<String,String> selectedFacets = new HashMap<String,String>();
+        selectedFacets.put("base.class_s", "org.emonocot.model.Taxon");
+        Page<Taxon> page = taxonService.search(searchTerm, null, null, null, null, selectedFacets, null, null);
 
         switch (page.getRecords().size()) {
         case 0:

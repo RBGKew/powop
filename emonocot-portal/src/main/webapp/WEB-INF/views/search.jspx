@@ -51,8 +51,7 @@
 
 
 	<div class="container">
-		<jsp:useBean id="result" scope="request"
-			type="org.emonocot.pager.Page" />
+		<jsp:useBean id="result" scope="request" type="org.emonocot.pager.Page" />
 		<div class="row">
 			<div id="facets" class="span3 noPrint">
 				<c:forEach var="facetName" items="${result.facetNames}">
@@ -62,13 +61,10 @@
 								<ul class="box nav nav-list">
 									<c:choose>
 										<c:when test="${facetName eq 'base.class_s'}">
-											<menu:facet url="/search" facetName="${facetName}"
-												pager="${result}" title="restrict.your.search"
-												showIcons="true" />
+											<menu:facet url="/search" facetName="${facetName}" pager="${result}" title="restrict.your.search" showIcons="true" />
 										</c:when>
 										<c:otherwise>
-											<menu:facet url="/search" facetName="${facetName}"
-												pager="${result}" showIcons="true"/>
+											<menu:facet url="/search" facetName="${facetName}" pager="${result}" showIcons="true"/>
 										</c:otherwise>
 									</c:choose>
 								</ul>
@@ -84,8 +80,7 @@
 							<div id="viewIcons" class="span3">
 								<tags:view url="/search" result="${result}" />
 							</div>
-							<tags:sort url="/search" result="${result}"
-								spanClass="pull-right" />
+							<tags:sort url="/search" result="${result}" spanClass="pull-right" />
 						</div>
 						<br/>
 						<div class="row">
@@ -143,12 +138,12 @@
 				<c:forEach var="item" items="${result.records}">
 					<c:choose>
 						<c:when test="${item.className == 'Taxon'}">
-							<c:if test="${not empty item.image}">
-								<c:url var="fullsize" value="/images/fullsize/${item.image.id}.${item.image.format}" />
+							<c:if test="${not empty item.images}">
+								<c:url var="fullsize" value="/images/fullsize/${item.images[0].id}.${item.images[0].format}" />
 								<c:url var="url" value="/taxon/${item.identifier}" /> 
 								<a class="thumbnail" href="${fullsize}" rel="gallery"
 									title="${em:stripXml(item.scientificName)}" data-link="${identifier}">
-									<c:url var="thumbnail" value="/images/thumbnails/${item.image.id}.${item.image.format}" />
+									<c:url var="thumbnail" value="/images/thumbnails/${item.images[0].id}.${item.images[0].format}" />
 									<c:url var="url" value="/taxon/${item.identifier}" /> 
 									<img src="${thumbnail}" title="${em:stripXml(item.scientificName)}" />
 								</a>

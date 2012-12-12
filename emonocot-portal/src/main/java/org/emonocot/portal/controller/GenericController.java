@@ -58,6 +58,7 @@ public abstract class GenericController<T extends Base,
      */
     @RequestMapping(value = "/{identifier}",
                     method = RequestMethod.GET,
+                    consumes = "application/json",
                     produces = "application/json")
     public final ResponseEntity<T> get(@PathVariable final String identifier) {
         return new ResponseEntity<T>(service.find(identifier), HttpStatus.OK);

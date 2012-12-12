@@ -11,14 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * @author jk00kg
  *
  */
 @Controller
-public class ProjectPageController {
+@RequestMapping(value = "/about")
+public class AboutController {
 	
 	/**
 	 * A list of identifiers for 'sources' not to be listed on the page
@@ -28,35 +28,35 @@ public class ProjectPageController {
     /**
      *
      */
-    private OrganisationService sourceService;
+    private OrganisationService organisationService;
 
     /**
      * @param service Set the Source service
      */
     @Autowired
-    public void setUserService(final OrganisationService service) {
-        sourceService = service;
+    public void setOrganisationService(final OrganisationService service) {
+        organisationService = service;
     }
 
     /**
      * @param model Set the model
      * @return A model and view containing a user
      */
-    @RequestMapping(value = "/about")
+    @RequestMapping
     public final String show(final Model model) {
-    	List<Organisation> sources = sourceService.list(null, null, null).getRecords();
+    	List<Organisation> organisations = organisationService.list(null, null, null).getRecords();
     	
     	//Page specific remove
     	for (String identifier : excludeIdentifiers) {
-			for (Organisation source : sources) {
+			for (Organisation source : organisations) {
 				if(identifier.equals(source.getIdentifier())){
-					sources.remove(source);
+					organisations.remove(source);
 					break;
 				}
 			}
 		}
         
-    	model.addAttribute("sources", sources);
+    	model.addAttribute("organisations", organisations);
         return "about";
     }
 

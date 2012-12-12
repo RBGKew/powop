@@ -57,11 +57,16 @@ Restoring data from backup
 
    []
 
- * Restore the data from backup by executing the following on the master application server {{{http://zoo-bclark02.zoo.ox.ac.uk}zoo-bclark02.zoo.ox.ac.uk}} as the user <tomcat>
-   
-    * <<<rsync -avr username@build.e-monocot.org:/mnt/shared/indexes/daily.0/localhost/var/cache/emonocot/uat_harvest/index/ /var/cache/tomcat7/work/emonocot-harvester/>>>
+ * Restore the images from backup by executing the following on the master application server {{{http://zoo-bclark02.zoo.ox.ac.uk}zoo-bclark02.zoo.ox.ac.uk}} as the user <tomcat>
  
-    * <<<rsync -avr username@build.e-monocot.org:/.snapshots/daily.0/localhost/var/www/html/uat/harvest/images /var/lib/emonocot/>>>  
+    * <<<rsync -avr username@build.e-monocot.org:/mnt/shared/snapshots/daily.0/zoo-bclark02/var/lib/emonocot/images /var/lib/emonocot/>>>  
+ 
+    []
+ [] 
+ 
+ * Restore the indexes from backup by executing the following on the master application server {{{http://zoo-bclark02.zoo.ox.ac.uk}zoo-bclark02.zoo.ox.ac.uk}} as the user <tomcat>
+   
+    * <<<rsync -avr username@build.e-monocot.org:/mnt/shared/indexes/daily.0/zoo-bclark03/usr/local/solr/solr/collection1/data /mnt/shared/indexes/daily.0/zoo-bclark03/usr/local/solr/solr/collection1/>>>
  
     []
  [] 

@@ -18,7 +18,7 @@
 			<div class="span12">
 				<div class="inner">
 					<div class="box">
-						<form:create path="/organisation/${resource.identifier}/resource/${resource.identifier}" modelAttribute="resource">
+						<form:create path="/organisation/${organisation.identifier}/resource/${resource.identifier}" modelAttribute="resource">
 							<field:hidden field="identifier"/>
 							<field:input field="uri" label="resource.uri" fieldClass="span6"/>
 							<field:input field="lastHarvested" label="resource.lastHarvested" fieldClass="span6"/>

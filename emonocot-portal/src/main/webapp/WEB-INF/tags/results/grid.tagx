@@ -9,7 +9,7 @@
 	<c:forEach var="item" items="${result.records}">
 		<c:choose>
 			<c:when test="${item.className == 'Taxon'}">
-				<results:gridEntry itemName="${item.scientificName}"	url="/taxon/${item.identifier}"	image="${item.image}"/>
+				<results:gridEntry itemName="${item.scientificName}"	url="/taxon/${item.identifier}"	image="${item.images[0]}"/>
 			</c:when>
 			<c:when test="${item.className == 'Image'}">
 				<results:gridEntry itemName="${item.title}"	url="/image/${item.id}"	image="${item}"/>

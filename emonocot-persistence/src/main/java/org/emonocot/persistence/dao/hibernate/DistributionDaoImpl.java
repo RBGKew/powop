@@ -6,6 +6,7 @@ import java.util.Map;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.persistence.dao.DistributionDao;
+import org.hibernate.FetchMode;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -16,6 +17,9 @@ public class DistributionDaoImpl extends DaoImpl<Distribution> implements
 	
 	static {
 	       FETCH_PROFILES = new HashMap<String, Fetch[]>();
+	       FETCH_PROFILES.put("object-with-annotations", new Fetch[] {
+		       		new Fetch("taxon", FetchMode.JOIN),
+		          	new Fetch("annotations", FetchMode.SELECT)});
 	}
 
 	public DistributionDaoImpl() {
