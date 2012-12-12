@@ -38,6 +38,7 @@
 	
 	<mvc:view-controller path="/" view-name="index"/>
 	<mvc:view-controller path="/tour" view-name="tour"/>
+	<mvc:view-controller path="/termsOfUse" view-name="termsOfUse"/>
 	<mvc:view-controller path="/accessDenied" view-name="accessDenied"/>
     <mvc:view-controller path="/uncaughtException" view-name="uncaughtException"/>
     <mvc:view-controller path="/resourceNotFound" view-name="resourceNotFound"/>

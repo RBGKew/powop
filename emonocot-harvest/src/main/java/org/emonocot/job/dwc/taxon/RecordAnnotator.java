@@ -1,7 +1,7 @@
 package org.emonocot.job.dwc.taxon;
 
 
-import org.emonocot.job.dwc.AbstractRecordAnnotator;
+import org.emonocot.job.dwc.read.AbstractRecordAnnotator;
 import org.emonocot.model.hibernate.OlapDateTimeUserType;
 import org.joda.time.DateTime;
 import org.springframework.batch.core.ExitStatus;

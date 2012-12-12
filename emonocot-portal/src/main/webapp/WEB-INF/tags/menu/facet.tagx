@@ -59,7 +59,7 @@
 						    <c:set var="classIcon" value="icon-picture"/>
 						</c:when>
 						<c:when test="${selectedFacetName eq 'org.emonocot.model.IdentificationKey'}">
-						    <c:set var="classIcon" value="icon-key"/>								
+						    <c:set var="classIcon" value="icon-keys"/>								
 						</c:when>
 						<c:when test="${selectedFacetName eq 'org.emonocot.model.geography.Place'}">
 						    <c:set var="classIcon" value="icon-map-marker"/>								
@@ -117,7 +117,7 @@
 						              <c:set var="classIcon" value="icon-picture"/>
 						            </c:when>
 						            <c:when test="${facet.name eq 'org.emonocot.model.IdentificationKey'}">
-						              <c:set var="classIcon" value="icon-key"/>								
+						              <c:set var="classIcon" value="icon-keys"/>								
 						            </c:when>
 						            <c:when test="${facet.name eq 'org.emonocot.model.geography.Place'}">
 						              <c:set var="classIcon" value="icon-map-marker"/>								
