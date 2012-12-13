@@ -15,21 +15,21 @@
 	<spring:bind path="${field}">
  	  <c:choose>
  	    <c:when test="${not empty status.errorMessage}">
- 	      <c:set var="clazz">clearfix error</c:set>
+ 	      <c:set var="controlgroup">control-group error</c:set>
  	    </c:when>
  	    <c:otherwise>
- 	      <c:set var="clazz">clearfix</c:set>
+ 	      <c:set var="controlgroup">control-group</c:set>
  	    </c:otherwise>
  	  </c:choose>
- 	  <div class="${clazz}">
- 	    <label for="_${field}_id"><spring:message code="${label}" /></label>
- 	    <div class="input">
+ 	  <div class="${controlgroup}">
+ 	    <label class="control-label" for="_${field}_id"><spring:message code="${label}" /></label>
+ 	    <div class="controls">
  	      <c:choose>
             <c:when test="${type eq 'password'}">
-              <form:password id="_${field}_id" class="${fieldClass}" path="${field}" />
+              <form:password id="_${field}_id" cssClass="${fieldClass}" path="${field}" />
             </c:when>
             <c:otherwise>
-              <form:input id="_${field}_id" class="${fieldClass}" path="${field}" />
+              <form:input id="_${field}_id" cssClass="${fieldClass}" path="${field}" />
             </c:otherwise>
           </c:choose> 	      
  	      <span class="help-inline">

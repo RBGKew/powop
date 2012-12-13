@@ -9,8 +9,8 @@
 	<spring:url value="${path}" var="form_url" />
 	<form:form commandName="${modelAttribute}" action="${form_url}">
 	  <jsp:doBody />
-	  <div class="clearfix">
-	    <div class="input">
+	  <div class="control-group">
+	    <div class="controls">
 	        <spring:message var="submitMessage" code="submit"/>
 			<input class="btn btn-primary" type="submit" value="${submitMessage}"/>
 	    </div>

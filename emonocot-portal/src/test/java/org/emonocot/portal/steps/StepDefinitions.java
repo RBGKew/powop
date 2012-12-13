@@ -493,12 +493,14 @@ public class StepDefinitions {
         assertTrue(((Search) currentPage).viewIconDisplay());
     }
 
-    /**
-    *
-    */
     @When("I select the login link in the header")
     public final void selectLoginLink() {
         currentPage = currentPage.selectLoginLink();
+    }
+    
+    @When("I select the terms of use link in the footer")
+    public final void selectTermsOfUseLink() {
+        currentPage = currentPage.selectTermsOfUseLink();
     }
 
     /**
@@ -671,18 +673,17 @@ public class StepDefinitions {
        currentPage = currentPage.selectClassifyLink();
    }
     
-
-    /**
-     *
-     */
     @Then("^I should be on the emonocot features page$")
     public final void iShouldBeOnTheEmonocotFeaturePage() {
         assertEquals(currentPage.getClass(), Identify.class);
     }
+    
+    @Then("^I should be on the eMonocot Terms of Use page$")
+    public final void iShouldBeOnTheTermsOfUsePage() {
+        assertEquals(currentPage.getClass(), TermsOfUse.class);
+    }
 
-    /**
-    *
-    */
+
     @Then("^I select the about link in the footer$")
     public final void iSelectTheAboutLinkInTheFooter() {
         currentPage = currentPage.selectAboutLink();

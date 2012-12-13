@@ -18,12 +18,18 @@
 		</div>
 		<div id="footer-logo"><!-- --></div>
 		<ul class="foot unstyled noPrint">
-			<li><c:url value="/about" var="aboutUrl" /> <a
-				href="${aboutUrl}"><spring:message code="about.title" />
-			</a></li>
-			<li><c:url value="/contact" var="contactUrl" /> <a
-				href="${contactUrl}"><spring:message code="contact.title" />
-			</a></li>
+			<li>
+			  <c:url value="/about" var="aboutUrl" />
+			  <a href="${aboutUrl}"><spring:message code="about.title" /></a>
+			</li>
+			<li>
+			  <c:url value="/contact" var="contactUrl" />
+			  <a href="${contactUrl}"><spring:message code="contact.title" /></a>
+			</li>
+			<li>
+			  <c:url value="/termsOfUse" var="termsOfUseUrl" />
+			  <a href="${termsOfUseUrl}"><spring:message code="termsOfUse.title" /></a>
+			</li>
 		</ul>
 		<ul class="foot unstyled noPrint">
 		  <li class="footer-version">

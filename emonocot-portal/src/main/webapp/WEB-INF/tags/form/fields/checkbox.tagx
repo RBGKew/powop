@@ -10,9 +10,9 @@
 	<jsp:directive.attribute name="disableFormBinding" type="java.lang.Boolean" required="false" description="Set to true to disable Spring form binding" />
 	<c:choose>
 		<c:when test="${disableFormBinding}">
-			<div class="clearfix">
-				<label><spring:message code="${label}" /> </label>
-				<div class="input">
+			<div class="control-group">
+				<label class="control-label" for="_${field}_id"><spring:message code="${label}" /> </label>
+				<div class="controls">
 					<input id="_${field}_id" name="${field}" type="checkbox"/>			
 				</div>
 			</div>
@@ -21,18 +21,17 @@
 			<spring:bind path="${field}">
 				<c:choose>
 					<c:when test="${not empty status.errorMessage}">
-						<c:set var="clazz">clearfix error</c:set>
+						<c:set var="controlgroup">control-group error</c:set>
 					</c:when>
 					<c:otherwise>
-						<c:set var="clazz">clearfix</c:set>
+						<c:set var="controlgroup">control-group</c:set>
 					</c:otherwise>
 				</c:choose>
-				<div class="${clazz}">
-					<label for="_${field}_id"><spring:message code="${label}" /> </label>
-					<div class="input">
-						<form:checkbox id="_${field}_id" class="${fieldClass}" path="${field}" />
-						<span class="help-inline"> <form:errors path="${field}" />
-						</span>
+				<div class="${controlgroup}">
+					<label class="control-label" for="_${field}_id"><spring:message code="${label}" /> </label>
+					<div class="controls">
+						<form:checkbox id="_${field}_id" cssClass="${fieldClass}" path="${field}" />
+						<span class="help-inline"> <form:errors path="${field}" /></span>
 					</div>
 				</div>
 			</spring:bind>

@@ -312,6 +312,12 @@ public class PageObject {
                 foot.findElement(By.linkText("About us")).getAttribute("href"),
                 About.class);
     }
+    
+    public final TermsOfUse selectTermsOfUseLink() {
+        return openAs(
+                foot.findElement(By.linkText("Terms of Use")).getAttribute("href"),
+                TermsOfUse.class);
+    }
 
     /**
      * @return the contact page
