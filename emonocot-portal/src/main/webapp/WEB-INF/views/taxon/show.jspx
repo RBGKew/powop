@@ -107,7 +107,7 @@
 			</div>
 		</div>
 		<br />
-		<div id="status">
+		<div id="taxonomicStatus">
 			<c:choose>
 				<c:when
 					test="${taxon.taxonomicStatus == 'Synonym' and taxon.acceptedNameUsage != null}">

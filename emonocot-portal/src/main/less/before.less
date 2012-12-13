@@ -48,3 +48,27 @@ html,body{
 	box-shadow:0 1px 2px rgba(0,0,0,.15);
 }
 
+#status {
+    width: 200px;
+    height: 30px;
+    text-align: center;
+    background-color: #D50C54;
+    position:absolute; 
+    left: -75px; 
+    top: 25px; 
+    color: white;  
+    -moz-transform:rotate(-45deg); 
+    -webkit-transform: rotate(-45deg); 
+    -ms-transform: rotate(-45deg); 
+    padding-top: 10px; 
+    border-style: solid; 
+    border-color: #FE3A7F; 
+    border-width: 2px; 
+    font-family: Helvetica,Arial,sans-serif; 
+    font-weight: bold; 
+    z-index: 1050
+}
+#status:after {
+    content: "BETA"
+}
+

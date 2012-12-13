@@ -40,7 +40,7 @@ public class Show extends PageObject implements IllustratedPage {
     /**
      *
      */
-    @FindBy(how = How.ID, using = "status")
+    @FindBy(how = How.ID, using = "taxonomicStatus")
     private WebElement taxonomicStatus;
 
     /**

@@ -337,8 +337,8 @@
                   <aggregation>
                     <output>${project.build.directory}/static/css/print.css</output>
                     <includes>
-                  <include>${basedir}/src/main/css/print.css</include>
-                  </includes>
+                      <include>${basedir}/src/main/css/print.css</include>
+                    </includes>
                   </aggregation>
                   <aggregation>
                     <output>${project.build.directory}/static/js/header.js</output>
