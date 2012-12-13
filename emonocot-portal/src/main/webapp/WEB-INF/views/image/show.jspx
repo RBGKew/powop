@@ -108,7 +108,7 @@
 									  <c:forEach var="image" items="${taxon.images}" begin="${status.index}" end="${status.index + 5}">									
 											<li>
 											  <c:url var="fullsize" value="/images/fullsize/${image.id}.${image.format}" />
-											  <c:url var="url" value="/image/${image.identifier}" />
+											  <c:url var="url" value="/image/${image.id}" />
 											  <a class="thumbnail" href="${image.identifier}" rel="gallery" title="${em:stripXml(image.title)}" data-link="${url}">
 														<c:url var="thumbnail" value="/images/thumbnails/${image.id}.${image.format}" />
 														<c:url var="url" value="/image/${image.id}" />
