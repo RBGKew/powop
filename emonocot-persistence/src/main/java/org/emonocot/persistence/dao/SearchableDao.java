@@ -1,7 +1,9 @@
 package org.emonocot.persistence.dao;
 
+import java.util.List;
 import java.util.Map;
 
+import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.Base;
 import org.emonocot.pager.Page;
 
@@ -34,6 +36,15 @@ public interface SearchableDao<T extends Base> extends Dao<T> {
     Page<T> search(String query, String spatialQuery, Integer pageSize,
             Integer pageNumber, String[] facets,
             Map<String, String> selectedFacets, String sort, String fetch);
+    
+    /**
+     * 
+     * @param query The query to autocomplete on
+     * @param pageSize The number of matches to return
+     * @param selectedFacets any restrictions on the search
+     * @return a list of match objects
+     */
+    List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets);
 
     /**
      * @param example

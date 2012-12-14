@@ -1,8 +1,10 @@
 package org.emonocot.service.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import org.emonocot.api.SearchableService;
+import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.Base;
 import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.SearchableDao;
@@ -46,7 +48,13 @@ public abstract class SearchableServiceImpl<T extends Base, DAO extends Searchab
                 selectedFacets, sort, fetch);
     }
 
+    @Transactional(readOnly = true)
     public Page<T> searchByExample(T example, boolean ignoreCase, boolean useLike) {
         return dao.searchByExample(example, ignoreCase, useLike);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets) {
+    	return dao.autocomplete(query, pageSize, selectedFacets);
     }
 }

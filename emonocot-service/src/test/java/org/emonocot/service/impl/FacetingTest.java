@@ -8,15 +8,14 @@ import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.solr.client.solrj.response.FacetField;
 import org.emonocot.api.AnnotationService;
 import org.emonocot.api.ImageService;
+import org.emonocot.api.OrganisationService;
 import org.emonocot.api.PlaceService;
 import org.emonocot.api.SearchableObjectService;
-import org.emonocot.api.OrganisationService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Image;

@@ -4,10 +4,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
+import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.SearchableObject;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.DescriptionType;
@@ -150,7 +152,28 @@ public class SearchTest extends AbstractPersistenceTest {
 
         assertEquals("There should be 7 results", 7, results.getSize().intValue());
         
-        assertEquals("The first results should be urn:kew.org:wcs:taxon:294463", "urn:kew.org:wcs:taxon:294463", results.getRecords().get(0).getIdentifier());
-        
+        assertEquals("The first results should be urn:kew.org:wcs:taxon:294463", "urn:kew.org:wcs:taxon:294463", results.getRecords().get(0).getIdentifier());   
+    }
+    
+    /**
+     * Leading whitespace should be trimmed
+     */
+    @Test
+    public final void testLeadingWhitespace() {
+    	boolean exceptionThrown = false;
+    	try {
+            Page<Taxon> results = getTaxonDao().search(" Aus bus", null, null, null, null, null, null, null);
+    	} catch(Exception e) {
+    		exceptionThrown = true;
+    	}
+        assertFalse("Leading whitespace should not cause an exception to be thrown", exceptionThrown);
+    }
+    
+    /**
+     * Autocomplete
+     */
+    @Test
+    public final void testAutocomplete() {
+    	List<Match> matched = getTaxonDao().autocomplete("Aus bu", 10, null);
     }
 }
