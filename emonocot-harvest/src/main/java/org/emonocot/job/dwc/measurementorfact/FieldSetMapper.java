@@ -46,10 +46,7 @@ public class FieldSetMapper extends
                 + object);
         if (term instanceof DcTerm) {
             DcTerm dcTerm = (DcTerm) term;
-            switch (dcTerm) {            
-            case identifier:
-                object.setIdentifier(value);
-                break;        
+            switch (dcTerm) {
             default:
                 break;
             }
@@ -89,6 +86,8 @@ public class FieldSetMapper extends
             case measurementValue:
             	object.setMeasurementValue(value);
             	break;
+            case measurementID:
+            	object.setIdentifier(value);
             default:
             	break;
             }

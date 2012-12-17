@@ -41,7 +41,7 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
      * @param model Set the model
      * @return A model and view containing a taxon
      */
-    @RequestMapping(value = "/{identifier}", method = RequestMethod.GET, produces = "text/html")
+    @RequestMapping(value = "/{identifier}", method = RequestMethod.GET, produces = {"text/html", "*/*"})
     public final String show(@PathVariable final String identifier, final Model model) {
         model.addAttribute(getService().load(identifier, "taxon-page"));
         return "taxon/show";

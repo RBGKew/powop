@@ -52,9 +52,8 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
         	
         	((NonOwned)t).getTaxa().clear();
         	((NonOwned)t).getTaxa().add(taxon);
+        	super.checkTaxon(getRecordType(), t, ((NonOwned)t).getTaxa().iterator().next());
         }
-
-        super.checkTaxon(getRecordType(), t, ((NonOwned)t).getTaxa().iterator().next());
         
         T bound = lookupBound(t);
         if (bound == null) {
@@ -80,14 +79,16 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
                     // Assume the object hasn't changed, but maybe this taxon
                     // should be associated with it
                 	replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Skipped);
-                    if (((NonOwned)persisted).getTaxa().contains(taxon)) {
-                        // do nothing                        
-                    } else {
-                        // Add the taxon to the list of taxa
-                    	bind(persisted);
-                        logger.info("Updating object " + t.getIdentifier());
-                        ((NonOwned)persisted).getTaxa().add(taxon);
-                    }
+                	if(taxon != null) {
+                        if (((NonOwned)persisted).getTaxa().contains(taxon)) {
+                            // do nothing                        
+                        } else {
+                            // Add the taxon to the list of taxa
+                    	    bind(persisted);
+                            logger.info("Updating object " + t.getIdentifier());
+                            ((NonOwned)persisted).getTaxa().add(taxon);
+                        }
+                	}
                     return persisted;
                 } else {
                     // Assume that this is the first of several times this object
@@ -103,7 +104,9 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
                     doUpdate(persisted, t);
                     
                     ((NonOwned)persisted).getTaxa().clear();
-                    ((NonOwned)persisted).getTaxa().add(taxon);                                      
+                    if(taxon != null) {
+                        ((NonOwned)persisted).getTaxa().add(taxon);
+                    }
                     bind(persisted);
                     replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Update);
                     logger.info("Overwriting object " + t.getIdentifier());
@@ -114,13 +117,15 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
             // We've already seen this object within this chunk and we'll
             // update it with this taxon but that's it, assuming that it
             // isn't a more up to date version
-            if (((NonOwned)bound).getTaxa().contains(taxon)) {
-                // do nothing
-            } else {
-                // Add the taxon to the list of taxa
+        	if(taxon != null) {
+                if (((NonOwned)bound).getTaxa().contains(taxon)) {
+                    // do nothing
+                } else {
+                    // Add the taxon to the list of taxa
                 
-            	((NonOwned)bound).getTaxa().add(taxon);
-            }
+            	    ((NonOwned)bound).getTaxa().add(taxon);
+                }
+        	}
             // We've already returned this object once
             logger.info("Skipping object " + t.getIdentifier());
             return null;

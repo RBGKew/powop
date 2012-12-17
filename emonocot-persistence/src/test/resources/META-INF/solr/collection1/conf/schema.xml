@@ -89,6 +89,15 @@
      default: a value that should be used if no value is specified
        when adding a document.
    -->
+   
+     <field name="searchable.label_sort" type="alphaOnlySort" indexed="true" stored="false"/>
+     <copyField source="searchable.label_sort" dest="autocomplete"/>
+     <field name="autocomplete" type="autocomplete" indexed="true" stored="true" omitNorms="true"/>
+     <copyField source="searchable.label_sort" dest="autocompletenge"/>
+     <field name="autocompletenge" type="autocomplete_edge" indexed="true" stored="false" />
+     <!-- A variant of autocomplete which matches from the left edge of all terms (implicit truncation) -->
+     <copyField source="searchable.label_sort" dest="autocompleteng"/>
+     <field name="autocompleteng" type="autocomplete_ngram" indexed="true" stored="false" omitNorms="true" omitTermFreqAndPositions="true" />
 
    <!-- field names should consist of alphanumeric or underscore characters only and
       not start with a digit.  This is not currently strictly enforced,
@@ -1093,6 +1102,85 @@
       </analyzer>
     </fieldType>
 
+    <!-- autocomplete : Matches whole terms in the suggest text  -->
+		<fieldType name="autocomplete" class="solr.TextField" positionIncrementGap="100">
+			<analyzer type="index">
+				<charFilter class="solr.MappingCharFilterFactory" mapping="mapping-ISOLatin1Accent.txt"/>
+				<tokenizer class="solr.StandardTokenizerFactory"/>
+				<filter class="solr.WordDelimiterFilterFactory" 
+					    generateWordParts="1" 
+					    generateNumberParts="1"
+					    catenateWords="1"
+					    catenateNumbers="1"
+					    catenateAll="1"
+					    splitOnCaseChange="1"
+					    splitOnNumerics="1"
+					    preserveOriginal="1"
+				/>
+				<filter class="solr.LowerCaseFilterFactory"/>
+				<filter class="solr.PatternReplaceFilterFactory" pattern="([^\w\d\*æøåÆØÅ ])" replacement=" " replace="all"/>
+			</analyzer>
+			<analyzer type="query">
+				<charFilter class="solr.MappingCharFilterFactory" mapping="mapping-ISOLatin1Accent.txt"/>
+				<tokenizer class="solr.StandardTokenizerFactory"/>
+				<filter class="solr.WordDelimiterFilterFactory" 
+					    generateWordParts="0" 
+					    generateNumberParts="0"
+					    catenateWords="0"
+					    catenateNumbers="0"
+					    catenateAll="0"
+					    splitOnCaseChange="0"
+					    splitOnNumerics="0"
+				/>
+				<filter class="solr.LowerCaseFilterFactory"/>
+				<filter class="solr.PatternReplaceFilterFactory" pattern="([^\w\d\*æøåÆØÅ ])" replacement=" " replace="all"/>
+			</analyzer>
+		</fieldType>
+		
+		<!-- autocomplete_edge : Will match from the left of the field, e.g. if the document field
+		     is "A brown fox" and the query is "A bro", it will match, but not "brown"
+		-->
+		<fieldType name="autocomplete_edge" class="solr.TextField">
+			<analyzer type="index">
+				<charFilter class="solr.MappingCharFilterFactory" mapping="mapping-ISOLatin1Accent.txt"/>
+				<tokenizer class="solr.KeywordTokenizerFactory"/>
+				<filter class="solr.LowerCaseFilterFactory"/>
+				<filter class="solr.PatternReplaceFilterFactory" pattern="([\.,;:-_])" replacement=" " replace="all"/>
+				<filter class="solr.EdgeNGramFilterFactory" maxGramSize="30" minGramSize="1"/>
+				<filter class="solr.PatternReplaceFilterFactory" pattern="([^\w\d\*æøåÆØÅ ])" replacement="" replace="all"/>
+			</analyzer>
+			<analyzer type="query">
+				<charFilter class="solr.MappingCharFilterFactory" mapping="mapping-ISOLatin1Accent.txt"/>
+				<tokenizer class="solr.KeywordTokenizerFactory"/>
+				<filter class="solr.LowerCaseFilterFactory"/>
+				<filter class="solr.PatternReplaceFilterFactory" pattern="([\.,;:-_])" replacement=" " replace="all"/>
+				<filter class="solr.PatternReplaceFilterFactory" pattern="([^\w\d\*æøåÆØÅ ])" replacement="" replace="all"/>
+				<filter class="solr.PatternReplaceFilterFactory" pattern="^(.{30})(.*)?" replacement="$1" replace="all"/>
+			</analyzer>
+		</fieldType>
+		
+		<!-- autocomplete_ngram : Matches any word in the input field, with implicit right truncation.
+		     This means that the field "A brown fox" will be matched by query "bro".
+		     We use this to get partial matches, but these whould be boosted lower than exact and left-anchored
+		-->
+		<fieldType name="autocomplete_ngram" class="solr.TextField">
+			<analyzer type="index">
+				<charFilter class="solr.MappingCharFilterFactory" mapping="mapping-ISOLatin1Accent.txt"/>
+				<tokenizer class="solr.StandardTokenizerFactory"/>
+				<filter class="solr.WordDelimiterFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="0" catenateNumbers="0" catenateAll="0" splitOnCaseChange="1"/>
+				<filter class="solr.LowerCaseFilterFactory"/>
+				<filter class="solr.EdgeNGramFilterFactory" maxGramSize="20" minGramSize="1"/>
+				<filter class="solr.PatternReplaceFilterFactory" pattern="([^\w\d\*æøåÆØÅ ])" replacement="" replace="all"/>
+			</analyzer>
+			<analyzer type="query">
+				<charFilter class="solr.MappingCharFilterFactory" mapping="mapping-ISOLatin1Accent.txt"/>
+				<tokenizer class="solr.StandardTokenizerFactory"/>
+				<filter class="solr.WordDelimiterFilterFactory" generateWordParts="0" generateNumberParts="0" catenateWords="0" catenateNumbers="0" catenateAll="0" splitOnCaseChange="0"/>
+				<filter class="solr.LowerCaseFilterFactory"/>
+				<filter class="solr.PatternReplaceFilterFactory" pattern="([^\w\d\*æøåÆØÅ ])" replacement="" replace="all"/>
+				<filter class="solr.PatternReplaceFilterFactory" pattern="^(.{20})(.*)?" replacement="$1" replace="all"/>
+			</analyzer>
+		</fieldType>
  </types>
   
   <!-- Similarity is the scoring routine for each document vs. a query.

@@ -46,6 +46,12 @@
 							source : "autocomplete",
 							minLength : 2
 						});
+						$["ui"]["autocomplete"].prototype["_renderItem"] = function( ul, item) {
+			                return $( "<li></li>" )
+			                .data( "item.autocomplete", item )
+			                .append( $( "<a></a>" ).html( item.label ) )
+			                .appendTo( ul );
+			            };
 					});
 				</script>
 				<form class="form-search" action="search" method="GET">

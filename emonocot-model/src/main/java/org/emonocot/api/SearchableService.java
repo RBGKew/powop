@@ -1,7 +1,9 @@
 package org.emonocot.api;
 
+import java.util.List;
 import java.util.Map;
 
+import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.Base;
 import org.emonocot.pager.Page;
 
@@ -46,4 +48,13 @@ public interface SearchableService<T extends Base> extends Service<T> {
      *         example
      */
     Page<T> searchByExample(T example, boolean ignoreCase, boolean useLike);
+    
+    /**
+     * 
+     * @param query The query to autocomplete on
+     * @param pageSize The number of matches to return
+     * @param selectedFacets any restrictions on the search
+     * @return a list of match objects
+     */
+    List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets);
 }

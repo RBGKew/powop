@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.Base;
 import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.Dao;
@@ -303,6 +304,10 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
      */
     public final List<T> list(final Integer page, final Integer size, final String fetch) {
         return null;
+    }
+    
+    public List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets) {
+    	return null;
     }
 
 }

@@ -1,6 +1,7 @@
 package org.emonocot.persistence.dao.hibernate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.params.FacetParams;
+import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.Base;
 import org.emonocot.model.Taxon;
 import org.emonocot.pager.DefaultPageImpl;
@@ -88,7 +90,10 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
                 searchString = query;
             } else {
             	// replace spaces with '+' so that we search on terms
-                searchString = "searchable.solrsummary_t:" + query.replace(" ", "+");
+                searchString = query.trim().replace(" ", "+");
+                solrQuery.set("defType","edismax");
+                solrQuery.set("qf", "searchable.solrsummary_t");
+                solrQuery.set("pf", "searchable.label_sort^100");
             }
             solrQuery.setQuery(searchString);
 
@@ -164,6 +169,66 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
         page.setSort(sort);
 
         return page;
+    }
+    
+    public List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets) {
+    	SolrQuery solrQuery = new SolrQuery();        
+
+        if (query != null && !query.trim().equals("")) {
+        	String searchString = query.trim().replace(" ", "+");            
+            solrQuery.setQuery(searchString);
+        } else {
+            return new ArrayList<Match>();
+        }
+        
+        // Filter the searchable objects out
+        solrQuery.addFilterQuery("base.class_searchable_b:" + isSearchableObject());
+
+        // Set additional result parameters
+        solrQuery.setRows(pageSize);
+        
+        if(selectedFacets != null && !selectedFacets.isEmpty()) {
+        	for(String facetName : selectedFacets.keySet()) {
+        		solrQuery.addFilterQuery(facetName + ":" + selectedFacets.get(facetName));
+        	}
+        }
+        
+        solrQuery.set("defType","edismax");
+        solrQuery.set("qf", "autocomplete^3 autocompleteng");
+        solrQuery.set("pf", "autocompletenge");
+        solrQuery.set("fl","autocomplete,id");
+        solrQuery.setHighlight(true);
+        solrQuery.set("hl.fl", "autocomplete");
+        solrQuery.set("hl.snippets",3);
+        solrQuery.setHighlightSimplePre("<b>");
+        solrQuery.setHighlightSimplePost("</b>");       
+        
+        QueryResponse queryResponse = null;
+		try {
+			queryResponse = solrServer.query(solrQuery);
+		} catch (SolrServerException sse) {
+			throw new RuntimeException("Exception querying solr server",sse);
+		}
+        
+        List<Match> results = new ArrayList<Match>();
+        Map<String,Match> matchMap = new HashMap<String,Match>();
+        for(SolrDocument solrDocument : queryResponse.getResults()) {
+        	Match match = new Match();
+        	match.setLabel((String)solrDocument.get("autocomplete"));
+        	match.setValue((String)solrDocument.get("autocomplete"));
+        	matchMap.put((String)solrDocument.get("id"), match);
+        	results.add(match);
+        }
+        for(String documentId : matchMap.keySet()) {
+        	if(queryResponse.getHighlighting().containsKey(documentId)) {
+        		Map<String, List<String>> highlightedTerms = queryResponse.getHighlighting().get(documentId);
+        		if(highlightedTerms.containsKey("autocomplete")) {
+        		    matchMap.get(documentId).setLabel(highlightedTerms.get("autocomplete").get(0));
+        		}
+        	} 
+        }
+
+        return results;
     }
 
 	/* (non-Javadoc)

@@ -32,7 +32,7 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
 		T persisted = null;
 		
         if(t.getIdentifier() != null) {
-            persisted = service.find(t.getIdentifier());
+            persisted = service.find(t.getIdentifier(), "object-with-annotations");
         } else {
         	t.setIdentifier(UUID.randomUUID().toString());
         }
@@ -61,11 +61,14 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
             Annotation annotation = createAnnotation(t, getRecordType(), AnnotationCode.Create, AnnotationType.Info);
             t.getAnnotations().add(annotation);
             t.setAuthority(getSource());
+            doCreate(t);
             return t;
         }
-	}
+	}	
 
 	protected abstract void doValidate(T t) throws Exception;
+	
+	protected abstract void doCreate(T t);
 	
 	protected abstract void doUpdate(T persisted, T t);
 

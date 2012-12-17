@@ -32,94 +32,49 @@
 		value="${em:isFacetSelected(pager,facetName)}" />
 	<c:choose>
 		<!-- If we've made a selection for this facet -->
-		<c:when test="${facetSelected}">
-			<!-- clear facet link 
+		<c:when test="${facetSelected}">			
 			<li class="${facetName}">
-				<jsp:element name="a">
-					<jsp:attribute name="href">
-						<c:url value="${url}">
-							<c:forEach var="p" items="${pager.paramNames}">
-								<c:param name="${p}" value="${pager.params[p]}" />
-							</c:forEach>
-							<c:param name="limit" value="${pager.pageSize}" />
-							<c:param name="start" value="0" />
-							<c:param name="sort">${pager.sort}</c:param>
-							<c:forEach var="selectedFacet"
-								items="${pager.selectedFacetNames}">
-								<c:if test="${selectedFacet != facetName}">
-									<c:param name="facet"
-										value="${selectedFacet}:${pager.selectedFacets[selectedFacet]}" />
-								</c:if>
-							</c:forEach>
-						</c:url>
-					</jsp:attribute>
-					<c:if test="${facetName eq 'base.class_s'}">
-						<c:set value="no-small-icon" var="cssClass"></c:set>
-					</c:if>
-					
-				</jsp:element>
-			</li>
-			-->
-			<!-- Link to current selection -->
-			<li class="${facetName}">
-				<jsp:element name="a">
-					<jsp:attribute name="href">
-						<c:url value="${url}">
-							<c:forEach var="p" items="${pager.paramNames}">
-								<c:param name="${p}" value="${pager.params[p]}" />
-							</c:forEach>
-							<c:param name="limit" value="${pager.pageSize}" />
-							<c:param name="start" value="0" />
-							<c:param name="sort">${pager.sort}</c:param>
-							<c:forEach var="selectedFacet"
-								items="${pager.selectedFacetNames}">
-								<c:if test="${selectedFacet != facetName}">
-									<c:param name="facet"
-										value="${selectedFacet}:${pager.selectedFacets[selectedFacet]}" />
-								</c:if>
-							</c:forEach>
-						</c:url>
-					</jsp:attribute>
-					<c:set var="selectedFacetName" value="${pager.selectedFacets[facetName]}" />
-					<c:if test="${showIcons}">
-						<!-- Glyphicon -->
-						<c:choose>
-							<c:when test="${selectedFacetName eq 'org.emonocot.model.Taxon'}">
-								<i class="icon-check">&#160;</i>
-								<i class="icon-leaf">
-									<!---->
-								</i>
-							</c:when>
-							<c:when test="${selectedFacetName eq 'org.emonocot.model.Image'}">
-								<i class="icon-check">&#160;</i>
-								<i class="icon-picture">
-									<!---->
-								</i>
-							</c:when>
-							<c:when test="${selectedFacetName eq 'org.emonocot.model.IdentificationKey'}">
-								<i class="icon-check">&#160;</i>
-								<i class="icon-keys">
-									<!---->
-								</i>
-							</c:when>
-							<c:when test="${selectedFacetName eq 'org.emonocot.model.geography.Place'}">
-								<i class="icon-check">&#160;</i>
-								<i class="icon-map-marker">
-									<!---->
-								</i>
-							</c:when>
-							<c:otherwise>
-								<i class="icon-check">&#160;</i>
-								<i class="no-small-icon">
-									<!---->
-								</i>
-							</c:otherwise>
-						</c:choose>
+			    <c:url value="${url}" var="facetUrl">
+				  <c:forEach var="p" items="${pager.paramNames}">
+					<c:param name="${p}" value="${pager.params[p]}" />
+				  </c:forEach>
+				  <c:param name="limit" value="${pager.pageSize}" />
+				  <c:param name="start" value="0" />
+					<c:param name="sort">${pager.sort}</c:param>
+					<c:forEach var="selectedFacet"
+						items="${pager.selectedFacetNames}">
+						<c:if test="${selectedFacet != facetName}">
+					      <c:param name="facet"	value="${selectedFacet}:${pager.selectedFacets[selectedFacet]}" />
+						</c:if>
+					</c:forEach>
+				</c:url>
+				<c:set var="selectedFacetName" value="${pager.selectedFacets[facetName]}" />
+				<c:if test="${showIcons}">
+					<!-- Glyphicon -->
+					<c:choose>
+						<c:when test="${selectedFacetName eq 'org.emonocot.model.Taxon'}">
+						    <c:set var="classIcon" value="icon-leaf"/>								
+						</c:when>
+						<c:when test="${selectedFacetName eq 'org.emonocot.model.Image'}">
+						    <c:set var="classIcon" value="icon-picture"/>
+						</c:when>
+						<c:when test="${selectedFacetName eq 'org.emonocot.model.IdentificationKey'}">
+						    <c:set var="classIcon" value="icon-keys"/>								
+						</c:when>
+						<c:when test="${selectedFacetName eq 'org.emonocot.model.geography.Place'}">
+						    <c:set var="classIcon" value="icon-map-marker"/>								
+						</c:when>							
+					</c:choose>
+				</c:if>
+				<a href="${facetUrl}">
+					<i class="icon-check">&#160;</i>
+					<c:if test="${not empty classIcon}">
+					  <i class="${classIcon}">&#160;</i>
 					</c:if>
 					<span class="facetValue">
 						<spring:message code="${selectedFacetName}" />
 					</span>
-				</jsp:element>
+				</a>
 			</li>
 		</c:when>
 		<c:otherwise>
@@ -137,61 +92,47 @@
 							</div>
 						</c:when>
 						<c:otherwise>
-							<jsp:element name="a">
-								<jsp:attribute name="href">
-									<c:url value="${url}">
-										<c:forEach var="p" items="${pager.paramNames}">
-											<c:param name="${p}" value="${pager.params[p]}" />
-										</c:forEach>
-										<c:param name="limit" value="${pager.pageSize}" />
-										<c:param name="start" value="0" />
-										<c:param name="sort">${pager.sort}</c:param>
-										<c:param name="facet" value="${facetName}:${facet.name}" />
-										<c:forEach var="selectedFacet" items="${pager.selectedFacetNames}">
-											<c:if test="${selectedFacet != facetName}">
-												<c:param name="facet" value="${selectedFacet}:${pager.selectedFacets[selectedFacet]}" />
-											</c:if>
-										</c:forEach>
-									</c:url>
-								</jsp:attribute>
-								<c:if test="${showIcons}">
-									<!-- Glyphicon -->
-									<c:choose>
-										<c:when test="${facet.name eq 'org.emonocot.model.Taxon'}">
-											<i class="halflings-icon unchecked">&#160;</i>
-											<i class="icon-leaf">
-												<!---->
-											</i>
-										</c:when>
-										<c:when test="${facet.name eq 'org.emonocot.model.Image'}">
-											<i class="halflings-icon unchecked">&#160;</i>
-											<i class="icon-picture">
-												<!---->
-											</i>
-										</c:when>
-										<c:when test="${facet.name eq 'org.emonocot.model.IdentificationKey'}">
-											<i class="halflings-icon unchecked">&#160;</i>
-											<i class="icon-keys">
-												<!---->
-											</i>
-										</c:when>
-										<c:when test="${facet.name eq 'org.emonocot.model.geography.Place'}">
-											<i class="halflings-icon unchecked">&#160;</i>
-											<i class="icon-map-marker">
-												<!---->
-											</i>
-										</c:when>
-										<c:otherwise>
-											<i class="halflings-icon unchecked">&#160;</i>
-											<!-- <i class="no-small-icon">&#160;</i> -->
-										</c:otherwise>
-									</c:choose>
+						    <c:url value="${url}" var="facetUrl">
+								<c:forEach var="p" items="${pager.paramNames}">
+									<c:param name="${p}" value="${pager.params[p]}" />
+								</c:forEach>
+								<c:param name="limit" value="${pager.pageSize}" />
+								<c:param name="start" value="0" />
+								<c:param name="sort">${pager.sort}</c:param>
+								<c:param name="facet" value="${facetName}:${facet.name}" />
+								<c:forEach var="selectedFacet" items="${pager.selectedFacetNames}">
+									<c:if test="${selectedFacet != facetName}">
+										<c:param name="facet" value="${selectedFacet}:${pager.selectedFacets[selectedFacet]}" />
+									</c:if>
+								</c:forEach>
+							</c:url>
+							<a href="${facetUrl}">
+							    <c:if test="${showIcons}">
+					              <!-- Glyphicon -->
+					              <c:choose> 
+						            <c:when test="${facet.name eq 'org.emonocot.model.Taxon'}">
+						              <c:set var="classIcon" value="icon-leaf"/>								
+						            </c:when>
+						            <c:when test="${facet.name eq 'org.emonocot.model.Image'}">
+						              <c:set var="classIcon" value="icon-picture"/>
+						            </c:when>
+						            <c:when test="${facet.name eq 'org.emonocot.model.IdentificationKey'}">
+						              <c:set var="classIcon" value="icon-keys"/>								
+						            </c:when>
+						            <c:when test="${facet.name eq 'org.emonocot.model.geography.Place'}">
+						              <c:set var="classIcon" value="icon-map-marker"/>								
+            						</c:when>							
+			                      </c:choose>
+				                </c:if>								
+								<i class="halflings-icon unchecked">&#160;</i>
+								<c:if test="${not empty classIcon}">
+									<i class="${classIcon}">&#160;</i>
 								</c:if>
 								<span class="facetValue">
 									<spring:message code="${facet.name}" />
 								</span>
 								<span class="facetCount"> [${facet.count}]</span>
-							</jsp:element>
+							</a>
 						</c:otherwise>
 					</c:choose>
 				</li>
@@ -209,29 +150,27 @@
 									</a>
 								</c:when>
 								<c:otherwise>
-									<jsp:element name="a">
-										<jsp:attribute name="href">
-											<c:url value="${url}">
-												<c:forEach var="p" items="${pager.paramNames}">
-													<c:param name="${p}" value="${pager.params[p]}" />
-												</c:forEach>
-												<c:param name="limit" value="${pager.pageSize}" />
-												<c:param name="start" value="0" />
-												<c:param name="sort">${pager.sort}</c:param>
-												<c:param name="facet" value="${facetName}:${facet.name}" />
-												<c:forEach var="selectedFacet" items="${pager.selectedFacetNames}">
-													<c:if test="${selectedFacet != facetName}">
-														<c:param name="facet" value="${selectedFacet}:${pager.selectedFacets[selectedFacet]}" />
-													</c:if>
-												</c:forEach>
-											</c:url>
-										</jsp:attribute>
+								    <c:url value="${url}" var="facetUrl">
+										<c:forEach var="p" items="${pager.paramNames}">
+											<c:param name="${p}" value="${pager.params[p]}" />
+										</c:forEach>
+										<c:param name="limit" value="${pager.pageSize}" />
+										<c:param name="start" value="0" />
+										<c:param name="sort">${pager.sort}</c:param>
+										<c:param name="facet" value="${facetName}:${facet.name}" />
+										<c:forEach var="selectedFacet" items="${pager.selectedFacetNames}">
+											<c:if test="${selectedFacet != facetName}">
+												<c:param name="facet" value="${selectedFacet}:${pager.selectedFacets[selectedFacet]}" />
+											</c:if>
+										</c:forEach>
+									</c:url>
+									<a href="${facetUrl}">
 										<i class="halflings-icon unchecked">&#160;</i>
 										<span class="facetValue">
 											<spring:message code="${facet.name}" />
 										</span>
 										<span class="facetCount"> [${facet.count}]</span>
-									</jsp:element>
+									</a>
 								</c:otherwise>
 							</c:choose>
 						</li>
@@ -261,29 +200,24 @@
 												code="${facet.name}" /></span></a>
 								</c:when>
 								<c:otherwise>
-									<jsp:element name="a">
-											<jsp:attribute name="href">
-												<c:url value="${url}">
-													<c:forEach var="p" items="${pager.paramNames}">
-														<c:param name="${p}" value="${pager.params[p]}" />
-													</c:forEach>
-													<c:param name="limit" value="${pager.pageSize}" />
-													<c:param name="start" value="0" />
-													<c:param name="sort">${pager.sort}</c:param>
-													<c:param name="facet" value="${facetName}:${facet.name}" />
-													<c:forEach var="selectedFacet"
-													items="${pager.selectedFacetNames}">
-														<c:if test="${selectedFacet != facetName}">
-															<c:param name="facet"
-															value="${selectedFacet}:${pager.selectedFacets[selectedFacet]}" />
-														</c:if>
-													</c:forEach>
-												</c:url>
-											</jsp:attribute>
-											<span class="facetValue"> <spring:message
-												code="${facet.name}" /></span>
-											<span class="facetCount"> [${facet.count}]</span>
-										</jsp:element>
+								    <c:url value="${url}">
+										<c:forEach var="p" items="${pager.paramNames}">
+											<c:param name="${p}" value="${pager.params[p]}" />
+										</c:forEach>
+										<c:param name="limit" value="${pager.pageSize}" />
+										<c:param name="start" value="0" />
+										<c:param name="sort">${pager.sort}</c:param>
+										<c:param name="facet" value="${facetName}:${facet.name}" />
+										<c:forEach var="selectedFacet"	items="${pager.selectedFacetNames}">
+											<c:if test="${selectedFacet != facetName}">
+												<c:param name="facet" value="${selectedFacet}:${pager.selectedFacets[selectedFacet]}" />
+											</c:if>
+										</c:forEach>
+									</c:url>
+									<a href="${facetUrl}">			
+										<span class="facetValue"><spring:message code="${facet.name}" /></span>
+										<span class="facetCount"> [${facet.count}]</span>
+									</a>
 								</c:otherwise>
 							</c:choose></li>
 					</c:forEach>

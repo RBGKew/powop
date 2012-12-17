@@ -16,7 +16,7 @@
 				  icon="/css/images/glyphicons/halfsize/glyphicons_001_leaf.png"
 				  iconAlt="Taxon"
 				  url="/taxon/${item.identifier}"
-				  image="${item.image}">
+				  image="${item.images[0]}">
 				    <spring:url var="itemUrl" value="/taxon/${item.identifier}"/>
 				    <a class="result" href="${itemUrl}" title="${em:stripXml(item.scientificName)}">
 							<c:choose>

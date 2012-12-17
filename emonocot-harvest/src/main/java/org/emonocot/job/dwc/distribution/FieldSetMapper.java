@@ -1,16 +1,8 @@
 package org.emonocot.job.dwc.distribution;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.emonocot.api.ReferenceService;
 import org.emonocot.job.dwc.read.OwnedEntityFieldSetMapper;
-import org.emonocot.model.Annotation;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.Reference;
-import org.emonocot.model.constants.AnnotationCode;
-import org.emonocot.model.constants.AnnotationType;
-import org.emonocot.model.constants.RecordType;
 import org.emonocot.model.geography.Location;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
@@ -20,9 +12,7 @@ import org.gbif.ecat.voc.EstablishmentMeans;
 import org.gbif.ecat.voc.OccurrenceStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.StepExecutionListener;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindException;
 
 /**
@@ -30,29 +20,13 @@ import org.springframework.validation.BindException;
  * @author ben
  *
  */
-public class FieldSetMapper extends
-        OwnedEntityFieldSetMapper<Distribution> implements ChunkListener, StepExecutionListener {
+public class FieldSetMapper extends OwnedEntityFieldSetMapper<Distribution> implements StepExecutionListener {
 
-	private Map<String, Reference> boundReferences = new HashMap<String, Reference>();
+	private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);
 	
-	private ReferenceService referenceService;
-	
-    /**
-     *
-     */
     public FieldSetMapper() {
         super(Distribution.class);
     }
-    
-    @Autowired
-    public final void setReferenceService(final ReferenceService newReferenceService) {
-        this.referenceService = newReferenceService;
-    }
-
-    /**
-    *
-    */
-    private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);
 
     @Override
     public final void mapField(final Distribution object,
@@ -72,10 +46,10 @@ public class FieldSetMapper extends
             	if (value.indexOf(",") != -1) {
                     String[] values = value.split(",");
                     for (String v : values) {
-                        resolveReference(object, v);
+                        addReference(object, v);
                     }
                 } else {
-                    resolveReference(object, value);
+                    addReference(object, value);
                 }
             default:
                 break;
@@ -113,49 +87,9 @@ public class FieldSetMapper extends
         }
     }
     
-    /**
-    *
-    * @param object
-    *            Set the text content object
-    * @param value
-    *            the source of the reference to resolve
-    */
-   private void resolveReference(final Distribution object, final String value) {
-       if (value == null || value.trim().length() == 0) {
-           // there is not citation identifier
-           return;
-       } else {
-           if (boundReferences.containsKey(value)) {
-               object.getReferences().add(boundReferences.get(value));
-           } else {
-               Reference r = referenceService.find(value);
-               if (r == null) {
-                   r = new Reference();
-                   r.setIdentifier(value);
-                   Annotation annotation = super.createAnnotation(r,
-                           RecordType.Reference, AnnotationCode.Create,
-                           AnnotationType.Info);
-                   r.getAnnotations().add(annotation);
-                   r.setAuthority(getSource());
-               }
-               boundReferences.put(value, r);
-               object.getReferences().add(r);
-           }
-       }
-   }
-
-   /**
-   *
-   */
-   public final void afterChunk() {
-       logger.info("After Chunk");
-   }
-
-   /**
-   *
-   */
-   public final void beforeChunk() {
-       logger.info("Before Chunk");
-       boundReferences = new HashMap<String, Reference>();
-   }
+	private void addReference(Distribution object, String value) {
+		Reference reference = new Reference();
+    	reference.setIdentifier(value);
+        object.getReferences().add(reference);
+	}
 }

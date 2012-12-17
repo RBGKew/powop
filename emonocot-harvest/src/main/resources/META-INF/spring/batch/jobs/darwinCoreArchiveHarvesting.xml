@@ -7,8 +7,7 @@
 	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
 
-	<context:property-placeholder
-		ignore-unresolvable="true" location="classpath*:META-INF/spring/*.properties" />
+	<context:property-placeholder ignore-unresolvable="true" location="classpath*:META-INF/spring/*.properties" />
 	<context:annotation-config />
 
 	<batch:job id="DarwinCoreArchiveHarvesting">
@@ -118,7 +117,7 @@
 			<batch:tasklet ref="markDescriptionRecordsTasklet" />
 			<batch:next on="COMPLETED" to="processDescriptionDecision" />
 			<batch:listeners>
-				<batch:listener ref="recordAnnotator" />
+				<batch:listener ref="ownedRecordAnnotator" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="processDescriptionDecider" id="processDescriptionDecision">
@@ -129,7 +128,7 @@
 			<batch:description>Process the extension file containing the descriptions</batch:description>
 			<batch:tasklet>
 				<batch:chunk reader="descriptionReader" processor="descriptionProcessor"
-					writer="itemWriter" commit-interval="100" skip-limit="10000">
+					writer="itemWriter" commit-interval="10" skip-limit="10000">
 					<batch:skippable-exception-classes>
 						<batch:include
 							class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
@@ -156,8 +155,9 @@
 				<batch:listener ref="processingExceptionProcessListener" />
 			</batch:listeners>
 		</batch:step>
-		<batch:decision decider="imageProcessingModeDecider"	id="checkImageProcessingMode">
+		<batch:decision decider="imageProcessingModeDecider" id="checkImageProcessingMode">
 			<batch:next on="IMPORT_IMAGES" to="markImageRecords" />
+			<batch:next on="IMPORT_IMAGES_DONT_DELETE_MISSING" to="processImagesDecision" />
 			<batch:next on="SKIP_IMAGES" to="checkReferenceProcessingMode" />
 		</batch:decision>
 		<batch:step id="markImageRecords">
@@ -165,7 +165,7 @@
 			<batch:tasklet ref="markImageRecordsTasklet" />
 			<batch:next on="COMPLETED" to="processImagesDecision" />
 			<batch:listeners>
-				<batch:listener ref="recordAnnotator" />
+				<batch:listener ref="nonOwnedRecordAnnotator" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="processImageDecider" id="processImagesDecision">
@@ -222,6 +222,7 @@
 		</batch:step>
 		<batch:decision decider="referenceProcessingModeDecider"	id="checkReferenceProcessingMode">
 			<batch:next on="IMPORT_REFERENCES" to="markReferenceRecords" />
+			<batch:next on="IMPORT_REFERENCES_DONT_DELETE_MISSING" to="processReferencesDecision" />
 			<batch:next on="SKIP_REFERENCES" to="checkIdentifierProcessingMode" />
 		</batch:decision>
 		<batch:step id="markReferenceRecords">
@@ -229,7 +230,7 @@
 			<batch:tasklet ref="markReferenceRecordsTasklet" />
 			<batch:next on="COMPLETED" to="processReferencesDecision" />
 			<batch:listeners>
-				<batch:listener ref="recordAnnotator" />
+				<batch:listener ref="nonOwnedRecordAnnotator" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="processReferenceDecider" id="processReferencesDecision">
@@ -242,10 +243,8 @@
 				<batch:chunk reader="referenceReader" processor="referenceProcessor"
 					writer="itemWriter" commit-interval="100" skip-limit="10000">
 					<batch:skippable-exception-classes>
-						<batch:include
-							class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
-						<batch:include
-							class="org.springframework.batch.item.file.FlatFileParseException" />
+						<batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
+						<batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
 					</batch:skippable-exception-classes>
 				</batch:chunk>
 			</batch:tasklet>
@@ -276,7 +275,7 @@
 			<batch:tasklet ref="markIdentifierRecordsTasklet" />
 			<batch:next on="COMPLETED" to="processIdentifiersDecision" />
 			<batch:listeners>
-				<batch:listener ref="recordAnnotator" />
+				<batch:listener ref="ownedRecordAnnotator" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="processIdentifierDecider" id="processIdentifiersDecision">
@@ -323,7 +322,7 @@
 			<batch:tasklet ref="markDistributionRecordsTasklet" />
 			<batch:next on="COMPLETED" to="processDistributionDecision" />
 			<batch:listeners>
-				<batch:listener ref="recordAnnotator" />
+				<batch:listener ref="ownedRecordAnnotator" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="processDistributionDecider" id="processDistributionDecision">
@@ -370,7 +369,7 @@
 			<batch:tasklet ref="markMeasurementOrFactRecordsTasklet" />
 			<batch:next on="COMPLETED" to="processMeasurementOrFactDecision" />
 			<batch:listeners>
-				<batch:listener ref="recordAnnotator" />
+				<batch:listener ref="ownedRecordAnnotator" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="processMeasurementOrFactDecider" id="processMeasurementOrFactDecision">
@@ -417,7 +416,7 @@
 			<batch:tasklet ref="markVernacularNameRecordsTasklet" />
 			<batch:next on="COMPLETED" to="processVernacularNameDecision" />
 			<batch:listeners>
-				<batch:listener ref="recordAnnotator" />
+				<batch:listener ref="ownedRecordAnnotator" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="processVernacularNameDecider" id="processVernacularNameDecision">
@@ -430,10 +429,8 @@
 				<batch:chunk reader="vernacularNameReader" processor="vernacularNameProcessor"
 					writer="itemWriter" commit-interval="100" skip-limit="10000">
 					<batch:skippable-exception-classes>
-						<batch:include
-							class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
-						<batch:include
-							class="org.springframework.batch.item.file.FlatFileParseException" />
+						<batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
+						<batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
 					</batch:skippable-exception-classes>
 				</batch:chunk>
 			</batch:tasklet>
@@ -447,8 +444,7 @@
 		<batch:step id="deleteAbsentVernacularNames">
 			<batch:description>Delete the vernacular names which we expected to be present in the archive but which were absent</batch:description>
 			<batch:tasklet>
-				<batch:chunk reader="deleteVernacularNameReader" writer="deletingWriter"
-					commit-interval="100" />
+				<batch:chunk reader="deleteVernacularNameReader" writer="deletingWriter" commit-interval="100" />
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="checkTypeAndSpecimenProcessingMode" />
 			<batch:listeners>
@@ -457,6 +453,7 @@
 		</batch:step>
 		<batch:decision decider="typeAndSpecimenProcessingModeDecider"	id="checkTypeAndSpecimenProcessingMode">
 			<batch:next on="IMPORT_TYPE_AND_SPECIMEN" to="markTypeAndSpecimenRecords" />
+			<batch:next on="IMPORT_TYPE_AND_SPECIMEN_DONT_DELETE_MISSING" to="processTypeAndSpecimenDecision" />
 			<batch:next on="SKIP_TYPE_AND_SPECIMEN" to="calculateDerivedProperties" />
 		</batch:decision>
 		<batch:step id="markTypeAndSpecimenRecords">
@@ -464,7 +461,7 @@
 			<batch:tasklet ref="markTypeAndSpecimenRecordsTasklet" />
 			<batch:next on="COMPLETED" to="processTypeAndSpecimenDecision" />
 			<batch:listeners>
-				<batch:listener ref="recordAnnotator" />
+				<batch:listener ref="nonOwnedRecordAnnotator" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="processTypeAndSpecimenDecider" id="processTypeAndSpecimenDecision">
@@ -513,6 +510,13 @@
 		  <batch:description>Index the images associated with this job</batch:description>
 		  <batch:tasklet>
 				<batch:chunk reader="indexTaxaReader" writer="indexTaxaWriter" commit-interval="10" />
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="indexAnnotations" />			
+		</batch:step>
+		<batch:step id="indexAnnotations">
+		  <batch:description>Index the annotations associated with this job</batch:description>
+		  <batch:tasklet>
+				<batch:chunk reader="indexAnnotationsReader" writer="indexAnnotationsWriter" commit-interval="10" />
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="cleanupResources" />			
 		</batch:step>
@@ -716,8 +720,25 @@
 		</property>
 	</bean>
 	
-	<bean id="indexTaxaWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter" scope="step">
+	<bean id="indexTaxaWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter">
       <property name="type" value="org.emonocot.model.Taxon" />
+      <property name="sessionFactory" ref="sessionFactory" />
+      <property name="solrIndexingListener" ref="solrIndexingListener" />
+    </bean>
+    
+    <bean id="indexAnnotationsReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
+		scope="step">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="queryString" value="select a.id from Annotation a where a.jobId = :jobId" />
+		<property name="parameterValues">
+			<map>
+				<entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
+			</map>
+		</property>
+	</bean>
+    
+    <bean id="indexAnnotationsWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter">
+      <property name="type" value="org.emonocot.model.Annotation" />
       <property name="sessionFactory" ref="sessionFactory" />
       <property name="solrIndexingListener" ref="solrIndexingListener" />
     </bean>
@@ -736,12 +757,16 @@
 	<bean id="markDescriptionRecordsTasklet"
 		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
 		scope="step">
-		<property name="targetObject" ref="recordAnnotator" />
+		<property name="targetObject" ref="ownedRecordAnnotator" />
 		<property name="targetMethod" value="annotateRecords" />
 		<property name="arguments">
 			<list>
 				<value>#{jobParameters['authority.name']}</value>
 				<value>Description</value>
+				<value>#{jobParameters['family']}</value>
+				<value>#{jobParameters['subfamily']}</value>
+				<value>#{jobParameters['tribe']}</value>
+				<value>#{jobParameters['subtribe']}</value>
 			</list>
 		</property>
 	</bean>
@@ -770,6 +795,7 @@
 		<property name="tribe" value="#{jobParameters['tribe']}" />
 		<property name="subtribe" value="#{jobParameters['subtribe']}" />
 		<property name="descriptionService" ref="descriptionServiceImpl" />
+		<property name="referenceService" ref="referenceServiceImpl" />
 	</bean>
 
 	<bean id="descriptionLineMapper"
@@ -798,7 +824,6 @@
 		<property name="defaultValues"
 			value="#{jobExecutionContext['dwca.description.defaultValues']}" />
 		<property name="taxonService" ref="taxonServiceImpl" />
-		<property name="referenceService" ref="referenceServiceImpl" />
 		<property name="organisationService" ref="organisationServiceImpl" />
 		<property name="sourceName" value="#{jobParameters['authority.name']}" />
 	</bean>
@@ -832,7 +857,7 @@
 	<bean id="markImageRecordsTasklet"
 		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
 		scope="step">
-		<property name="targetObject" ref="recordAnnotator" />
+		<property name="targetObject" ref="nonOwnedRecordAnnotator" />
 		<property name="targetMethod" value="annotateRecords" />
 		<property name="arguments">
 			<list>
@@ -959,7 +984,7 @@
 	<bean id="markReferenceRecordsTasklet"
 		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
 		scope="step">
-		<property name="targetObject" ref="recordAnnotator" />
+		<property name="targetObject" ref="nonOwnedRecordAnnotator" />
 		<property name="targetMethod" value="annotateRecords" />
 		<property name="arguments">
 			<list>
@@ -1053,12 +1078,16 @@
 	<bean id="markIdentifierRecordsTasklet"
 		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
 		scope="step">
-		<property name="targetObject" ref="recordAnnotator" />
+		<property name="targetObject" ref="ownedRecordAnnotator" />
 		<property name="targetMethod" value="annotateRecords" />
 		<property name="arguments">
 			<list>
 				<value>#{jobParameters['authority.name']}</value>
 				<value>Identifier</value>
+				<value>#{jobParameters['family']}</value>
+				<value>#{jobParameters['subfamily']}</value>
+				<value>#{jobParameters['tribe']}</value>
+				<value>#{jobParameters['subtribe']}</value>
 			</list>
 		</property>
 	</bean>
@@ -1148,12 +1177,16 @@
 	<bean id="markDistributionRecordsTasklet"
 		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
 		scope="step">
-		<property name="targetObject" ref="recordAnnotator" />
+		<property name="targetObject" ref="ownedRecordAnnotator" />
 		<property name="targetMethod" value="annotateRecords" />
 		<property name="arguments">
 			<list>
 				<value>#{jobParameters['authority.name']}</value>
 				<value>Distribution</value>
+				<value>#{jobParameters['family']}</value>
+				<value>#{jobParameters['subfamily']}</value>
+				<value>#{jobParameters['tribe']}</value>
+				<value>#{jobParameters['subtribe']}</value>
 			</list>
 		</property>
 	</bean>
@@ -1191,6 +1224,7 @@
 		<property name="subfamily" value="#{jobParameters['subfamily']}" />
 		<property name="tribe" value="#{jobParameters['tribe']}" />
 		<property name="subtribe" value="#{jobParameters['subtribe']}" />
+		<property name="referenceService" ref="referenceServiceImpl"/>
 	</bean>
 
 	<bean id="distributionLineMapper"
@@ -1243,12 +1277,16 @@
 	<bean id="markMeasurementOrFactRecordsTasklet"
 		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
 		scope="step">
-		<property name="targetObject" ref="recordAnnotator" />
+		<property name="targetObject" ref="ownedRecordAnnotator" />
 		<property name="targetMethod" value="annotateRecords" />
 		<property name="arguments">
 			<list>
 				<value>#{jobParameters['authority.name']}</value>
 				<value>MeasurementOrFact</value>
+				<value>#{jobParameters['family']}</value>
+				<value>#{jobParameters['subfamily']}</value>
+				<value>#{jobParameters['tribe']}</value>
+				<value>#{jobParameters['subtribe']}</value>
 			</list>
 		</property>
 	</bean>
@@ -1338,12 +1376,16 @@
 	<bean id="markVernacularNameRecordsTasklet"
 		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
 		scope="step">
-		<property name="targetObject" ref="recordAnnotator" />
+		<property name="targetObject" ref="ownedRecordAnnotator" />
 		<property name="targetMethod" value="annotateRecords" />
 		<property name="arguments">
 			<list>
 				<value>#{jobParameters['authority.name']}</value>
 				<value>VernacularName</value>
+				<value>#{jobParameters['family']}</value>
+				<value>#{jobParameters['subfamily']}</value>
+				<value>#{jobParameters['tribe']}</value>
+				<value>#{jobParameters['subtribe']}</value>
 			</list>
 		</property>
 	</bean>
@@ -1433,7 +1475,7 @@
 	<bean id="markTypeAndSpecimenRecordsTasklet"
 		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
 		scope="step">
-		<property name="targetObject" ref="recordAnnotator" />
+		<property name="targetObject" ref="nonOwnedRecordAnnotator" />
 		<property name="targetMethod" value="annotateRecords" />
 		<property name="arguments">
 			<list>
@@ -1524,7 +1566,11 @@
 
 	<!-- Writing -->
 	
-	<bean id="recordAnnotator" class="org.emonocot.job.dwc.RecordAnnotator">
+	<bean id="nonOwnedRecordAnnotator" class="org.emonocot.job.dwc.read.NonOwnedRecordAnnotator">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="ownedRecordAnnotator" class="org.emonocot.job.dwc.read.OwnedRecordAnnotator">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 

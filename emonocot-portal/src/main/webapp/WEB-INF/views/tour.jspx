@@ -30,7 +30,7 @@
 						<table class="table">
 							<tr>
                                 <td class="span6">
-                                    <c:url value="/key/5b4bf746-f1c5-4ff7-98ab-2525594a04f0" var="familyKeyUrl" />
+                                    <c:url value="/key/2" var="familyKeyUrl" />
                                     <a href="${familyKeyUrl}">Key to Monocot Familes</a>
                                 </td>
                                 <td class="span4">

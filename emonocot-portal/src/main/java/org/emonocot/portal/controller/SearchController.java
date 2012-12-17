@@ -7,17 +7,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.emonocot.api.IdentificationKeyService;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.PlaceService;
 import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.TaxonService;
-import org.emonocot.model.IdentificationKey;
-import org.emonocot.model.Image;
+import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.SearchableObject;
-import org.emonocot.model.Taxon;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
-import org.emonocot.api.IdentificationKeyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -377,61 +375,8 @@ public class SearchController {
      *            The term to search for
      * @return A list of terms to serialize
      */
-    @RequestMapping(value = "/autocomplete",
-                    method = RequestMethod.GET,
-                    produces = "application/json")
-    public final @ResponseBody List<Match> get(
-            @RequestParam(required = true) final String term) {
-        Page<SearchableObject> result = searchableObjectService.search(term
-                + "*", null, 10, 0, null, null, null, null);
-        List<Match> matches = new ArrayList<Match>();
-        for (SearchableObject object : result.getRecords()) {
-            if (object.getClassName().equals("Taxon")) {
-                matches.add(new Match(((Taxon) object).getScientificName()));
-            } else if (object.getClassName().equals("Image")) {
-                matches.add(new Match(((Image) object).getTitle()));
-            } else if (object.getClassName().equals("IdentificationKey")) {
-                matches.add(new Match(((IdentificationKey) object).getTitle()));
-            } else {
-                logger.error("Unable to determine autocomplete label for " + object);
-            }
-        }
-        return matches;
-    }
-
-    /**
-     * Used to return the autocomplete matches.
-     *
-     * @author ben
-     *
-     */
-    class Match {
-
-        /**
-         *
-         */
-        private String label;
-
-        /**
-         * @return the label
-         */
-        public final String getLabel() {
-            return label;
-        }
-
-        /**
-         * @param newLabel the label to set
-         */
-        public final void setLabel(final String newLabel) {
-            this.label = newLabel;
-        }
-
-        /**
-         *
-         * @param newLabel Set the label
-         */
-        public Match(final String newLabel) {
-            this.label = newLabel;
-        }
+    @RequestMapping(value = "/autocomplete", method = RequestMethod.GET, produces = "application/json")
+    public final @ResponseBody List<Match> autocomplete(@RequestParam(required = true) final String term) {    	
+        return searchableObjectService.autocomplete(term, 10, null);
     }
 }

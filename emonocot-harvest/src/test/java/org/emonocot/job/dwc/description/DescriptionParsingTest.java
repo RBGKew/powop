@@ -3,12 +3,9 @@ package org.emonocot.job.dwc.description;
 import java.util.HashMap;
 
 import org.easymock.EasyMock;
-import org.emonocot.job.dwc.description.FieldSetMapper;
-import org.emonocot.model.Reference;
-import org.emonocot.model.Taxon;
-import org.emonocot.model.Description;
-import org.emonocot.api.ReferenceService;
 import org.emonocot.api.TaxonService;
+import org.emonocot.model.Description;
+import org.emonocot.model.Taxon;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.item.ExecutionContext;
@@ -39,11 +36,6 @@ public class DescriptionParsingTest {
    /**
     *
     */
-   private ReferenceService referenceService = null;
-
-   /**
-    *
-    */
     private FlatFileItemReader<Description> flatFileItemReader = new FlatFileItemReader<Description>();
 
    /**
@@ -67,13 +59,11 @@ public class DescriptionParsingTest {
        tokenizer.setNames(names);
 
        taxonService = EasyMock.createMock(TaxonService.class);
-       referenceService = EasyMock.createMock(ReferenceService.class);
 
         FieldSetMapper fieldSetMapper = new FieldSetMapper();
         fieldSetMapper.setFieldNames(names);
         fieldSetMapper.setDefaultValues(new HashMap<String, String>());
         fieldSetMapper.setTaxonService(taxonService);
-        fieldSetMapper.setReferenceService(referenceService);
         DefaultLineMapper<Description> lineMapper
             = new DefaultLineMapper<Description>();
         lineMapper.setFieldSetMapper(fieldSetMapper);
@@ -93,8 +83,7 @@ public class DescriptionParsingTest {
     public final void testRead() throws Exception {
     	EasyMock.expect(taxonService.find(EasyMock.isA(String.class))).andReturn(new Taxon()).anyTimes();
         EasyMock.expect(taxonService.find(EasyMock.isA(String.class), EasyMock.eq("taxon-with-content"))).andReturn(new Taxon()).anyTimes();
-        EasyMock.expect(referenceService.find(EasyMock.isA(String.class))).andReturn(new Reference()).anyTimes();
-        EasyMock.replay(taxonService, referenceService);
+        EasyMock.replay(taxonService);
         flatFileItemReader.open(new ExecutionContext());
         flatFileItemReader.read();
 

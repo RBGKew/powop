@@ -1,4 +1,4 @@
-package org.emonocot.job.dwc;
+package org.emonocot.job.dwc.read;
 
 import javax.sql.DataSource;
 

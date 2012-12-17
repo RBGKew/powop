@@ -18,7 +18,7 @@
 			<div class="span12">
 				<div class="inner">
 					<div class="box">
-						<form:create path="/organisation/${resource.identifier}/resource/${resource.identifier}" modelAttribute="resource">
+						<form:create path="/organisation/${organisation.identifier}/resource/${resource.identifier}" modelAttribute="resource">
 							<field:hidden field="identifier"/>
 							<field:input field="uri" label="resource.uri" fieldClass="span6"/>
 							<field:input field="lastHarvested" label="resource.lastHarvested" fieldClass="span6"/>
@@ -55,15 +55,15 @@
 							<spring:bind path="name">
 								<c:choose>
 									<c:when test="${not empty status.errorMessage}">
-										<c:set var="clazz">clearfix error</c:set>
+										<c:set var="controlgroup">control-group error</c:set>
 									</c:when>
 									<c:otherwise>
-										<c:set var="clazz">clearfix</c:set>
+										<c:set var="controlgroup">control-group</c:set>
 									</c:otherwise>
 								</c:choose>
-								<div class="${clazz}">
-									<fm:label path="name"><spring:message code="parameter.name" /></fm:label>
-									<div class="input">
+								<div class="${controlgroup}">
+									<fm:label cssClass="control-label" path="name"><spring:message code="parameter.name" /></fm:label>
+									<div class="controls">
 										<fm:input id="_name_id" path="name" />
 										<span class="help-inline"><fm:errors path="name" /></span>
 										<spring:message code="add.parameter" var="addParameter" />

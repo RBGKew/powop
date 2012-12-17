@@ -52,4 +52,9 @@ public class Processor extends OwnedEntityProcessor<VernacularName, VernacularNa
     protected RecordType getRecordType() {
 	    return RecordType.VernacularName;
     }
+
+	@Override
+	protected void doCreate(VernacularName t) {
+		
+	}
 }

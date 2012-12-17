@@ -14,6 +14,10 @@
     <put-attribute name="pageTitle" value="eMonocot.tools" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/tour.jspx" />
   </definition>
+  <definition name="termsOfUse" extends="default">
+    <put-attribute name="pageTitle" value="terms.of.use" cascade="true" />
+    <put-attribute name="body" value="/WEB-INF/views/termsOfUse.jspx" />
+  </definition>
   <definition name="search" extends="default">
   	<put-attribute name="pageTitle" value="searchTitle" cascade="true" />
     <put-attribute name="searchBox" value="null" type="object" cascade="true" />

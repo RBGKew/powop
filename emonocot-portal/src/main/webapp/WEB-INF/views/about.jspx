@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <div xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:form="http://www.springframework.org/tags/form"
-	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	xmlns:spring="http://www.springframework.org/tags">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+    <jsp:output omit-xml-declaration="yes" />
 	<tags:pageheader>
 		<h2 id="page-title">
 			<spring:message code="about.emonocot" />
@@ -81,9 +82,9 @@
 							types of data. This includes content from:<br />
 						</p>
 						<p>
-							<c:forEach var="organisation" items="${sources}">
+							<c:forEach var="organisation" items="${organisations}">
 								<c:url var="organisationPageUrl" value="/organisation/${organisation.identifier}" />
-								<a href="${organsiationPageUrl}">${organisation.title}</a>
+								<a href="${organisationPageUrl}">${organisation.title}</a>
 								<br />
 							</c:forEach>
                         </p>
@@ -109,22 +110,3 @@
 		</div>
 	</div>
 </div>
-<!--
-eMonocot - Identify | Classify | Explore
-
-Attractive, Authoritative Taxon Pages
-eMonocot provides taxon pages for over a quarter of a million monocot names. Each page contains taxonomic, nomenclatural and geographical information, plus maps, descriptions, images and other data where available.
-
-Interactive Identification Tools
-Use the illustrated, multi-access identification keys to identify species. You can select characters in any order (unlike traditional identification keys), and choose …...
-
-Dynamic, Consensus Taxonomic Classification
-The taxa presented in eMonocot are organised according to a dynamic, consensus classification. This classification is based on the opinions of the taxonomic communities contributing to eMonocot and is updated regularly as new information becomes available.
-
-Powerful Search and Faceting
-Search across all taxon pages, images and keys using keywords including wildcards and fuzzy queries. Restrict results by taxonomic group, status, rank, geographical area, conservation status and other properties.
-
-Ad-hoc analysis and visualization
-Perform aggregate queries across the whole database to identify the number of species in a particular family or found in a particular area, or to display the different life-form or habitat types of your chosen taxa.
-
- -->

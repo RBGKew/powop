@@ -172,7 +172,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	}
 
 	/**
-	 * @param identifier
+	 * @param organisationId
 	 *            Set the identifier of the source
 	 * @param limit
 	 *            Set the maximum number of results
@@ -182,11 +182,11 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	 *            Set the model
 	 * @return the view name
 	 */
-	@RequestMapping(value = "/{identifier}", produces = "text/html")
-	public final String show(@PathVariable final String identifier,
+	@RequestMapping(value = "/{organisationId}", produces = "text/html")
+	public final String show(@PathVariable final String organisationId,
 			final Model uiModel) {
-		uiModel.addAttribute(getService().find(identifier));
-		uiModel.addAttribute("resources", resourceService.list(identifier, 0, 10));
+		uiModel.addAttribute(getService().find(organisationId));
+		uiModel.addAttribute("resources", resourceService.list(organisationId, 0, 10));
 		return "organisation/show";
 	}
 
@@ -194,19 +194,19 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	 * 
 	 * @param model
 	 *            Set the model
-	 * @param identifier
+	 * @param organisationId
 	 *            Set the identifier
 	 * @return the name of the view
 	 */
-	@RequestMapping(value = "/{identifier}", method = RequestMethod.GET, params = "form", produces = "text/html")
-	public final String update(@PathVariable final String identifier,
+	@RequestMapping(value = "/{organisationId}", method = RequestMethod.GET, params = "form", produces = "text/html")
+	public final String update(@PathVariable final String organisationId,
 			final Model model) {
-		model.addAttribute(getService().load(identifier));
+		model.addAttribute(getService().load(organisationId));
 		return "organisation/update";
 	}
 
 	/**
-	 * @param identifier
+	 * @param organisationId
 	 *            Set the identifier
 	 * @param session
 	 *            Set the session
@@ -216,15 +216,15 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	 *            Set the binding results
 	 * @return the model name
 	 */
-	@RequestMapping(value = "/{identifier}", method = RequestMethod.POST, produces = "text/html")
+	@RequestMapping(value = "/{organisationId}", method = RequestMethod.POST, produces = "text/html")
 	public final String post(
-			@PathVariable("identifier") final String identifier,
+			@PathVariable final String organisationId,
 			@Valid final Organisation organisation, final BindingResult result,
 			final HttpSession session) {
 		if (result.hasErrors()) {
 			return "organisation/update";
 		}
-		Organisation persistedSource = getService().load(identifier);
+		Organisation persistedSource = getService().load(organisationId);
 		persistedSource.setTitle(organisation.getTitle());
 		persistedSource.setUri(organisation.getUri());
 		persistedSource.setCreator(organisation.getCreator());
@@ -242,14 +242,14 @@ public class OrganisationController extends GenericController<Organisation, Orga
 		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
 				codes, args);
 		session.setAttribute("info", message);
-		return "redirect:/organisation/" + identifier + "?form=true";
+		return "redirect:/organisation/" + organisationId + "?form=true";
 	}
 
 	/**
 	 * 
 	 * @param model
 	 *            Set the model
-	 * @param identifier
+	 * @param organisationId
 	 *            Set the source identifier,
 	 * @param limit
 	 *            Set the maximum number of objects to return
@@ -257,30 +257,30 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	 *            Set the offset
 	 * @return the name of the view
 	 */
-	@RequestMapping(value = "/{identifier}/resource", method = RequestMethod.GET, params = "!form")
+	@RequestMapping(value = "/{organisationId}/resource", method = RequestMethod.GET, params = "!form")
 	public final String list(
 			final Model model,
-			@PathVariable("identifier") final String identifier,
+			@PathVariable final String organisationId,
 			@RequestParam(value = "limit", required = false, defaultValue = "10") final Integer limit,
 			@RequestParam(value = "start", required = false, defaultValue = "0") final Integer start) {
-		model.addAttribute("organisation", getService().load(identifier));
-		model.addAttribute("resources", resourceService.list(identifier, start, limit));
+		model.addAttribute("organisation", getService().load(organisationId));
+		model.addAttribute("resources", resourceService.list(organisationId, start, limit));
 		return "organisation/resource/list";
 	}
 
 	/**
-	 * @param identifier
+	 * @param organisationId
 	 *            Set the source id
 	 * @param model
 	 *            Set the model
 	 * @return the name of the view
 	 */
-	@RequestMapping(value = "/{identifier}/resource", method = RequestMethod.GET, params = "form")
+	@RequestMapping(value = "/{organisationId}/resource", method = RequestMethod.GET, params = "form")
 	public final String create(
-			@PathVariable("identifier") final String identifier,
+			@PathVariable final String organisationId,
 			final Model model) {
 		populateForm(model, new Resource(), new ResourceParameterDto());
-		model.addAttribute("organisation", getService().load(identifier));
+		model.addAttribute("organisation", getService().load(organisationId));
 		return "organisation/resource/create";
 	}
 
@@ -310,12 +310,12 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	 *            Set the binding results
 	 * @return a model and view
 	 */
-	@RequestMapping(value = "/{organisationIdentifier}/resource", method = RequestMethod.POST, produces = "text/html")
+	@RequestMapping(value = "/{organisationId}/resource", method = RequestMethod.POST, produces = "text/html")
 	public final String post(
-			@PathVariable("organisationIdentifier") final String sourceIdentifier,
+			@PathVariable final String organisationId,
 			final Model model, @Valid final Resource resource,
 			final BindingResult result, final HttpSession session) {
-		Organisation organisation = getService().find(sourceIdentifier, "source-with-jobs");
+		Organisation organisation = getService().find(organisationId, "source-with-jobs");
 		if (result.hasErrors()) {
 			model.addAttribute("source", organisation);
 			populateForm(model, resource, new ResourceParameterDto());
@@ -330,104 +330,104 @@ public class OrganisationController extends GenericController<Organisation, Orga
 		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
 				codes, args);
 		session.setAttribute("info", message);
-		return "redirect:/organisation/" + sourceIdentifier + "/resource";
+		return "redirect:/organisation/" + organisationId + "/resource";
 	}
 
 	/**
-	 * @param identifier
+	 * @param organisationId
 	 *            Set the source identifier
-	 * @param jobId
+	 * @param resourceId
 	 *            Set the job identifier
 	 * @param uiModel
 	 *            Set the model
 	 * @return the view name
 	 */
-	@RequestMapping(value = "/{identifier}/resource/{jobId}", method = RequestMethod.GET, 
+	@RequestMapping(value = "/{organisationId}/resource/{resourceId}", method = RequestMethod.GET, 
 			produces = "text/html",
 			params = {"!output", "!details", "!form", "!parameters"})
 	public final String show(
-			@PathVariable("identifier") final String identifier,
-			@PathVariable("jobId") final String jobId, final Model uiModel) {
-		Resource resource = resourceService.load(jobId, "job-with-source");
-		assert resource.getOrganisation().getIdentifier().equals(identifier);
+			@PathVariable final String organisationId,
+			@PathVariable final String resourceId, final Model uiModel) {
+		Resource resource = resourceService.load(resourceId, "job-with-source");
+		assert resource.getOrganisation().getIdentifier().equals(organisationId);
 		uiModel.addAttribute("resource", resource);
 		uiModel.addAttribute("organisation", resource.getOrganisation());
 		return "organisation/resource/show";
 	}
 
 	/**
-	 * @param identifier
+	 * @param organisationId
 	 *            Set the source identifier
 	 * @param model
 	 *            Set the model
-	 * @param jobId
+	 * @param resourceId
 	 *            Set the job identifier
 	 * @return the name of the view
 	 */
-	@RequestMapping(value = "/{identifier}/resource/{jobId}", method = RequestMethod.GET, params = "form")
+	@RequestMapping(value = "/{organisationId}/resource/{resourceId}", method = RequestMethod.GET, params = "form")
 	public final String update(
-			@PathVariable("identifier") final String identifier,
-			@PathVariable("jobId") final String jobId,
+			@PathVariable final String organisationId,
+			@PathVariable final String resourceId,
 			final Model model) {
-		Resource resource = resourceService.load(jobId, "job-with-source");
-		assert resource.getOrganisation().getIdentifier().equals(identifier);
+		Resource resource = resourceService.load(resourceId, "job-with-source");
+		assert resource.getOrganisation().getIdentifier().equals(organisationId);
 		populateForm(model, resource, new ResourceParameterDto());
 		model.addAttribute("organisation", resource.getOrganisation());
 		return "organisation/resource/update";
 	}
 	
 	/**
-     * @param identifier
+     * @param organisationId
      *            Set the identifier of the source
-     * @param jobId the identifier of the job
+     * @param resourceId the identifier of the job
      * @param name the name of the parameter to add
      * @param session Set the session
      * @return the view name
      */
-    @RequestMapping(value = "/{identifier}/resource/{jobId}", params = { "parameters", "!delete" }, method = RequestMethod.POST)
-    public final String addParameter(@PathVariable final String identifier,
-    		@PathVariable final String jobId,
+    @RequestMapping(value = "/{organisationId}/resource/{resourceId}", params = { "parameters", "!delete" }, method = RequestMethod.POST)
+    public final String addParameter(@PathVariable final String organisationId,
+    		@PathVariable final String resourceId,
     		@ModelAttribute("parameter") final ResourceParameterDto parameter,
             final HttpSession session) {
-        Resource resource = resourceService.load(jobId, "job-with-source");
+        Resource resource = resourceService.load(resourceId, "job-with-source");
         resource.getParameters().put(parameter.getName(), "");
         resourceService.saveOrUpdate(resource);
-        String[] codes = new String[] {"parameter.added.to.job" };
+        String[] codes = new String[] {"parameter.added.to.resource" };
         Object[] args = new Object[] { parameter.getName() };
         DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
                 codes, args);
         session.setAttribute("info", message);
-        return "redirect:/organisation/" + identifier + "/resource/" + jobId + "?form";
+        return "redirect:/organisation/" + organisationId + "/resource/" + resourceId + "?form";
     }
 
     /**
-     * @param identifier
+     * @param organisationId
      *            Set the identifier of the source
-     * @param jobId Set the job identifier
+     * @param resourceId Set the job identifier
      * @param name the name of the parameter to delete
      * @param session Set the session
      * @return the view name
      */
-    @RequestMapping(value = "/{identifier}/resource/{jobId}", params = { "parameters",
+    @RequestMapping(value = "/{organisationId}/resource/{resourceId}", params = { "parameters",
             "delete" }, method = RequestMethod.GET)
-    public final String removeMember(@PathVariable final String identifier,
-    		@PathVariable final String jobId,
+    public final String removeMember(@PathVariable final String organisationId,
+    		@PathVariable final String resourceId,
     		@RequestParam("name") final String name, final HttpSession session) {
-        Resource resource = resourceService.load(jobId, "job-with-source");
+        Resource resource = resourceService.load(resourceId, "job-with-source");
         resource.getParameters().remove(name);
         resourceService.saveOrUpdate(resource);
-        String[] codes = new String[] {"parameter.removed.from.job" };
+        String[] codes = new String[] {"parameter.removed.from.resource" };
         Object[] args = new Object[] { name };
         DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
                 codes, args);
         session.setAttribute("info", message);
-        return "redirect:/organisation/" + identifier + "/resource/" + jobId + "?form";
+        return "redirect:/organisation/" + organisationId + "/resource/" + resourceId + "?form";
     }
 
 	/**
-	 * @param identifier
+	 * @param organisationId
 	 *            Set the source identifier
-	 * @param jobId
+	 * @param resourceId
 	 *            Set the job identifier
 	 * @param model
 	 *            Set the model
@@ -436,14 +436,14 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	 * 
 	 * @return the view name
 	 */
-	@RequestMapping(value = "/{identifier}/resource/{jobId}", method = RequestMethod.POST, produces = "text/html", params = "run")
+	@RequestMapping(value = "/{organisationId}/resource/{resourceId}", method = RequestMethod.POST, produces = "text/html", params = "run")
 	public final String run(
-			@PathVariable("identifier") final String identifier,
-			@PathVariable("jobId") final String jobId, final Model model,
+			@PathVariable final String organisationId,
+			@PathVariable final String resourceId, final Model model,
 			final HttpSession session) {
 
-		Resource resource = resourceService.load(jobId, "job-with-source");
-		assert resource.getOrganisation().getIdentifier().equals(identifier);
+		Resource resource = resourceService.load(resourceId, "job-with-source");
+		assert resource.getOrganisation().getIdentifier().equals(organisationId);
 		if (resource.getStatus() != null) {
 			switch (resource.getStatus()) {
 			case STARTED:
@@ -455,7 +455,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 				DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
 						codes, args);
 				session.setAttribute("error", message);
-				return "redirect:/organisation/" + identifier + "/resource/"
+				return "redirect:/organisation/" + organisationId + "/resource/"
 						+ resource.getIdentifier();
 			case COMPLETED:
 			case FAILED:
@@ -540,13 +540,13 @@ public class OrganisationController extends GenericController<Organisation, Orga
 					codes, args);
 			session.setAttribute("error", message);
 		}
-		return "redirect:/organisation/" + identifier + "/resource/" + resource.getIdentifier();
+		return "redirect:/organisation/" + organisationId + "/resource/" + resource.getIdentifier();
 	}
 
 	/**
-	 * @param identifier
+	 * @param organisationId
 	 *            Set the source identifier
-	 * @param jobId
+	 * @param resourceId
 	 *            Set the job identifier
 	 * @param model
 	 *            Set the model
@@ -558,13 +558,13 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	 *            Set the binding results
 	 * @return the view name
 	 */
-	@RequestMapping(value = "/{identifier}/resource/{jobId}", method = RequestMethod.POST, produces = "text/html", params = {"!run","!parameters"})
+	@RequestMapping(value = "/{organisationId}/resource/{resourceId}", method = RequestMethod.POST, produces = "text/html", params = {"!run","!parameters"})
 	public final String post(
-			@PathVariable("identifier") final String identifier,
-			@PathVariable("jobId") final String jobId, final Model model,
+			@PathVariable final String organisationId,
+			@PathVariable final String resourceId, final Model model,
 			@Valid final Resource resource, final BindingResult result,
 			final HttpSession session) {
-		Resource persistedJob = resourceService.load(jobId, "job-with-source");
+		Resource persistedJob = resourceService.load(resourceId, "job-with-source");
 
 		if (result.hasErrors()) {
 			populateForm(model, resource, new ResourceParameterDto());
@@ -572,7 +572,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 			return "organisation/resource/update";
 		}
 
-		assert persistedJob.getOrganisation().getIdentifier().equals(identifier);
+		assert persistedJob.getOrganisation().getIdentifier().equals(organisationId);
 		persistedJob.setUri(resource.getUri());
 		persistedJob.setJobType(resource.getJobType());
 		persistedJob.setLastHarvested(resource.getLastHarvested());
@@ -595,15 +595,15 @@ public class OrganisationController extends GenericController<Organisation, Orga
 		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
 				codes, args);
 		session.setAttribute("info", message);
-		return "redirect:/organisation/" + identifier + "/resource/" + jobId;
+		return "redirect:/organisation/" + organisationId + "/resource/" + resourceId;
 	}
 
 	/**
-	 * @param identifier
+	 * @param organisationId
 	 *            Set the identifier of the source
 	 * @param query
 	 *            Set the query
-	 * @param jobId
+	 * @param resourceId
 	 *            Set the job Id
 	 * @param facets
 	 *            Set the facets
@@ -615,10 +615,10 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	 *            Set the model
 	 * @return A model and view containing a source
 	 */
-	@RequestMapping(value = "/{identifier}/resource/{jobId}/output", method = RequestMethod.GET)
+	@RequestMapping(value = "/{organisationId}/resource/{resourceId}/output", method = RequestMethod.GET)
 	public final String search(
-			@PathVariable final String identifier,
-			@PathVariable final Long jobId,
+			@PathVariable final String organisationId,
+			@PathVariable final Long resourceId,
 			@RequestParam(value = "query", required = false) final String query,
 		    @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
 		    @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
@@ -626,7 +626,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 		    @RequestParam(value = "sort", required = false) String sort,
 		    @RequestParam(value = "view", required = false) String view,
 		    final Model model) {
-		model.addAttribute(getService().load(identifier));
+		model.addAttribute(getService().load(organisationId));
 		Map<String, String> selectedFacets = new HashMap<String, String>();
 		if (facets != null && !facets.isEmpty()) {
 			for (FacetRequest facetRequest : facets) {
@@ -634,14 +634,14 @@ public class OrganisationController extends GenericController<Organisation, Orga
 						facetRequest.getSelected());
 			}
 		}
-		selectedFacets.put("annotation.job_id_l", jobId.toString());
+		selectedFacets.put("annotation.job_id_l", resourceId.toString());
 		Page<Annotation> result = annotationService.search(query, null, limit,
 				start, new String[] { "annotation.code_s",
 				"annotation.type_s", "annotation.record_type_s",
 				"annotation.job_id_l" }, selectedFacets, null,
 				"annotated-obj");
 		result.putParam("query", query);
-		model.addAttribute("jobId",jobId);
+		model.addAttribute("jobId",resourceId);
 		model.addAttribute("result", result);
 
 		return "organisation/resource/output";

@@ -78,11 +78,15 @@
 			<list>
 				<value>#{jobParameters['authority.name']}</value>
 				<value>MeasurementOrFact</value>
+				<value>#{jobParameters['family']}</value>
+				<value>#{jobParameters['subfamily']}</value>
+				<value>#{jobParameters['tribe']}</value>
+				<value>#{jobParameters['subtribe']}</value>
 			</list>
 		</property>
 	</bean>
 	
-	<bean id="recordAnnotator" class="org.emonocot.job.dwc.RecordAnnotator">
+	<bean id="recordAnnotator" class="org.emonocot.job.dwc.read.OwnedRecordAnnotator">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	

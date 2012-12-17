@@ -39,8 +39,14 @@ public class SplitOneLineJsonFileTasklet implements
 			
 			if (!string.isEmpty()) {
 				string = string.trim();
+				if (string.startsWith("[{")) {
+					string = string.substring(1);
+				}
 				if (!string.startsWith("{")) {
 					string = "{" + string;
+				}
+				if (string.endsWith("}]")) {
+					string = string.substring(0,string.length() - 1);
 				}
 				if (!string.endsWith("}")) {
 					string = string + "}";

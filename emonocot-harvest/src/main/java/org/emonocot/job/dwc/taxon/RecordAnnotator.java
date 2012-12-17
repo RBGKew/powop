@@ -1,7 +1,7 @@
 package org.emonocot.job.dwc.taxon;
 
 
-import org.emonocot.job.dwc.AbstractRecordAnnotator;
+import org.emonocot.job.dwc.read.AbstractRecordAnnotator;
 import org.emonocot.model.hibernate.OlapDateTimeUserType;
 import org.joda.time.DateTime;
 import org.springframework.batch.core.ExitStatus;
@@ -23,7 +23,7 @@ public class RecordAnnotator extends AbstractRecordAnnotator {
 	 * @return the exit status
      */
 	public final ExitStatus annotateRecords(String sourceName, String family, String subfamily, String tribe, String subtribe) {
-      Integer authorityId = jdbcTemplate.queryForInt("Select id from organisation where identifier = '" + sourceName + "'");
+      Integer authorityId = jdbcTemplate.queryForInt("Select id from Organisation where identifier = '" + sourceName + "'");
       String subsetRank = null;
       String subsetValue = null;
       
