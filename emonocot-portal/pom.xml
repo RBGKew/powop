@@ -4,11 +4,10 @@
 	<parent>
 		<artifactId>emonocot</artifactId>
 		<groupId>org.emonocot</groupId>
-		<version>0.0.23-SNAPSHOT</version>
+		<version>0.0.24-SNAPSHOT</version>
 	</parent>
-	<groupId>org.emonocot</groupId>
 	<artifactId>emonocot-portal</artifactId>
-	<version>0.0.23-SNAPSHOT</version>
+	<version>0.0.24-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>eMonocot Portal</name>
 	<dependencies>
@@ -278,7 +277,7 @@
 					</dependency>
 				</dependencies>
 			</plugin>
-			<plugin>
+			<!-- <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-antrun-plugin</artifactId>
               <executions>
@@ -304,7 +303,7 @@
                     </goals>
                 </execution>
               </executions>
-            </plugin>
+            </plugin>-->
             <plugin>
               <groupId>org.lesscss</groupId>
               <artifactId>lesscss-maven-plugin</artifactId>

@@ -393,6 +393,9 @@ public class TestDataManager {
         enableAuthentication();
         Taxon taxon = new Taxon();
         data.push(taxon);
+        Organisation s = new Organisation();
+        s.setIdentifier(source);
+        taxon.setAuthority(s);
         taxon.setScientificName(name);
         taxon.setScientificNameAuthorship(authorship);
         taxon.setGenus(genus);
@@ -408,48 +411,25 @@ public class TestDataManager {
         }
         if (diagnostic != null && diagnostic.length() > 0) {
             createDescription(taxon, diagnostic, DescriptionType.diagnostic,
-                    diagnosticReference1);
+                    diagnosticReference1,s);
         }
         if (habitat != null && habitat.length() > 0) {
-            createDescription(taxon, habitat, DescriptionType.habitat, null);
+            createDescription(taxon, habitat, DescriptionType.habitat, null,s);
         }
         if (general != null && general.length() > 0) {
-            createDescription(taxon, general, DescriptionType.general, null);
+            createDescription(taxon, general, DescriptionType.general, null,s);
         }        
         if (protologLink != null && protologLink.length() > 0) {
-            createIdentifier(taxon, protologLink, "Protolog");
+            createIdentifier(taxon, protologLink, "Protolog",s);
         }
         if (distribution1 != null && distribution1.length() > 0) {
-            Distribution distribution = new Distribution();
-            distribution.setIdentifier(UUID.randomUUID().toString());
-            Location geographicalRegion = geographyConverter
-                    .convert(distribution1);
-            distribution.setLocation(geographicalRegion);
-            distribution.setTaxon(taxon);
-            taxon.getDistribution().add(distribution);
+        	createDistribution(taxon, distribution1,s);
         }
         if (distribution2 != null && distribution2.length() > 0) {
-            Distribution distribution = new Distribution();
-            distribution.setIdentifier(UUID.randomUUID().toString());
-            Location geographicalRegion = geographyConverter
-                    .convert(distribution2);
-            distribution.setLocation(geographicalRegion);
-            distribution.setTaxon(taxon);
-            taxon.getDistribution().add(distribution);
+        	createDistribution(taxon, distribution2,s);
         }
         if (distribution3 != null && distribution3.length() > 0) {
-            Distribution distribution = new Distribution();
-            distribution.setIdentifier(UUID.randomUUID().toString());
-            Location geographicalRegion = geographyConverter
-                    .convert(distribution3);
-            distribution.setLocation(geographicalRegion);
-            distribution.setTaxon(taxon);
-            taxon.getDistribution().add(distribution);
-        }
-        if (source != null && source.length() > 0) {
-            Organisation s = new Organisation();
-            s.setIdentifier(source);
-            taxon.setAuthority(s);
+        	createDistribution(taxon, distribution3,s);
         }
         if (created != null && created.length() > 0) {
             DateTime dateTime = dateTimeFormatter.parseDateTime(created);
@@ -469,6 +449,16 @@ public class TestDataManager {
 
         disableAuthentication();
     }
+    
+    private void createDistribution(Taxon taxon, String region, Organisation source) {
+    	Distribution distribution = new Distribution();
+        distribution.setIdentifier(UUID.randomUUID().toString());
+        Location geographicalRegion = geographyConverter.convert(region);
+        distribution.setLocation(geographicalRegion);
+        distribution.setAuthority(source);
+        distribution.setTaxon(taxon);
+        taxon.getDistribution().add(distribution);
+    }
 
     /**
      * @param taxon
@@ -479,10 +469,11 @@ public class TestDataManager {
      *            Set the subject
      */
     private void createIdentifier(final Taxon taxon, final String link,
-            final String subject) {
+            final String subject, Organisation source) {
         Identifier identifier = new Identifier();
         identifier.setIdentifier(link);
         identifier.setSubject(subject);
+        identifier.setAuthority(source);
         identifier.setTaxon(taxon);
         taxon.getIdentifiers().add(identifier);
     }
@@ -717,11 +708,12 @@ public class TestDataManager {
      *            Set the reference
      */
     private void createDescription(final Taxon taxon, final String text,
-            final DescriptionType feature, final String reference) {
+            final DescriptionType feature, final String reference, Organisation source) {
         Description description = new Description();
         description.setIdentifier(UUID.randomUUID().toString());
         description.setDescription(text);
         description.setType(feature);
+        description.setAuthority(source);
         description.setTaxon(taxon);
         taxon.getDescriptions().add(description);
         if (reference != null && reference.length() > 0) {

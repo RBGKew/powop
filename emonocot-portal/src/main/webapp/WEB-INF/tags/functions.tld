@@ -129,6 +129,26 @@
         <function-signature>java.lang.String citekey(org.emonocot.portal.view.bibliography.Bibliography, org.emonocot.model.Reference)</function-signature>
     </function>
     <function>
+        <name>provenance</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>org.emonocot.portal.view.provenance.ProvenanceManager provenance(org.emonocot.model.Taxon)</function-signature>
+    </function>
+    <function>
+        <name>provenancekey</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.String provenancekey(org.emonocot.portal.view.provenance.ProvenanceManager, org.emonocot.model.BaseData)</function-signature>
+    </function>
+    <function>
+        <name>sources</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.util.SortedSet sources(org.emonocot.portal.view.provenance.ProvenanceManager)</function-signature>
+    </function>
+    <function>
+        <name>provenancedata</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.util.SortedSet provenancedata(org.emonocot.portal.view.provenance.ProvenanceManager,org.emonocot.model.registry.Organisation)</function-signature>
+    </function>
+    <function>
         <name>escape</name>
         <function-class>org.emonocot.checklist.view.Functions</function-class>
         <function-signature>java.lang.String escape(java.lang.String)</function-signature>
