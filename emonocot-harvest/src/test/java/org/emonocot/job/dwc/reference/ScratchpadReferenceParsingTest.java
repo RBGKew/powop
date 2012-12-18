@@ -1,17 +1,23 @@
 package org.emonocot.job.dwc.reference;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.easymock.EasyMock;
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
+import org.emonocot.model.convert.ReferenceTypeConverter;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
+import org.springframework.context.support.ConversionServiceFactoryBean;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
@@ -72,7 +78,15 @@ public class ScratchpadReferenceParsingTest {
 
        taxonService = EasyMock.createMock(TaxonService.class);
 
+        Set<Converter> converters = new HashSet<Converter>();
+        converters.add(new ReferenceTypeConverter());
+
+        ConversionServiceFactoryBean factoryBean = new ConversionServiceFactoryBean();
+        factoryBean.setConverters(converters);
+        factoryBean.afterPropertiesSet();
+        ConversionService conversionService = factoryBean.getObject();
         FieldSetMapper fieldSetMapper = new FieldSetMapper();
+        fieldSetMapper.setConversionService(conversionService);
         fieldSetMapper.setFieldNames(names);
         fieldSetMapper.setDefaultValues(new HashMap<String, String>());
         fieldSetMapper.setTaxonService(taxonService);
