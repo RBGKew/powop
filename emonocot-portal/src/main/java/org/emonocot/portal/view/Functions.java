@@ -536,7 +536,7 @@ public final class Functions {
        return provenance.getKey(data);
    }
     
-    public static SortedSet sources(final ProvenanceManager provenance) {
+    public static SortedSet provenancesources(final ProvenanceManager provenance) {
        return provenance.getSources();
    }
   

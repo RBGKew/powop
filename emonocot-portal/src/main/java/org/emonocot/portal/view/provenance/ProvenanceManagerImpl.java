@@ -67,9 +67,9 @@ public class ProvenanceManagerImpl implements ProvenanceManager {
 	
 	@Override
 	public SortedSet<Organisation> getSources() {
-		SortedSet<Organisation> sources = new TreeSet<Organisation>();
-		sources.addAll(provenance.keySet());
-		return sources;
+		SortedSet<Organisation> provenancesources = new TreeSet<Organisation>();
+		provenancesources.addAll(provenance.keySet());
+		return provenancesources;
 	}
 	
 	

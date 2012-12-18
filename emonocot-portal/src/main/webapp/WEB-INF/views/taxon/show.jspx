@@ -20,6 +20,8 @@
 	<div class="container">
 		<c:set var="bibliography" value="${em:bibliography(taxon)}" />
 		<c:set var="provenance" value="${em:provenance(taxon)}" />
+		<c:set var="provenancesource" value="${em:provenancesources(provenance)}" />
+		<c:set var="provenancedata" value="${em:provenancedata(provenance, provenancesources)}" />
 		<header class="subhead clearfix" id="overview">
 			<c:if test="${not empty taxon.images or not empty taxon.descriptions or not empty em:regions(taxon) or not empty taxon.childNameUsages or not empty taxon.synonymNameUsages or not empty bibliography.references}">
 				<div class="subnav noPrint">
@@ -221,7 +223,7 @@
 									<li>
 										<a href="#">${em:provenancekey(provenance, region)}</a>
 									</li>
-								</ul> -->
+								</ul>-->
 							</div>
 						</div>
 					</section>
@@ -288,28 +290,30 @@
 								</div>
 							</div>
 							<dl style="margin-left:25px">
-								<c:forEach var="source" items="${em:sources(provenance)}">
+								<c:forEach var="provenancesource" items="${em:provenancesources(provenance)}">
 									<dt>
 										<jsp:element name="a">
 											<jsp:attribute name="href">
-												<c:url value="/organisation/${source.identifier}" />
+												<c:url value="/organisation/${provenancesource.identifier}" />
 											</jsp:attribute>
-											${source.title}
+											${provenancesource.title}
 										</jsp:element>
 									</dt>
 									<dd>
 										<jsp:element name="a">
 											<jsp:attribute name="href">
-												<c:url value="${source.uri}" />
+												<c:url value="${provenancesource.uri}" />
 											</jsp:attribute>
-											${source.uri}
+											${provenancesource.uri}
 										</jsp:element>
 									</dd>
-									<ul class="unstyled">
-										<c:forEach var="data" items="${em:provenancedata(provenance,source)}">
-										  <li id="${data.key}">${data.key} <p>${data.rights} ${data.license}</p></li>
-										</c:forEach>
-									</ul>
+									<!-- <dd>
+										<ul class="unstyled">
+											<c:forEach var="data" items="${em:provenancedata(provenance,provenancesource)}">
+												<li><a id="${data.key}">${data.key}</a> ${provenancesource.rights} | ${provenancesource.license}</li>
+											</c:forEach>
+										</ul>
+									</dd> -->
 								</c:forEach>
 							</dl>
 						</div>

@@ -41,6 +41,10 @@ public class SourceTest {
 		description3.setAuthority(organisation2);
 		description3.setRights("these are my rights 2");
 		description3.setLicense(null);
+		Description description4 = new Description();
+		description4.setAuthority(organisation);
+		description4.setRights("these are my rights");
+		description4.setLicense("this is my license");
 		Taxon taxon = new Taxon();
 		taxon.setAuthority(organisation);
 		taxon.setRights("these are my rights");
@@ -51,6 +55,8 @@ public class SourceTest {
 		description2.setTaxon(taxon);
 		taxon.getDescriptions().add(description3);
 		description3.setTaxon(taxon);
+		taxon.getDescriptions().add(description4);
+		description4.setTaxon(taxon);
 		
 		ProvenanceManager provenanceManager = new ProvenanceManagerImpl();
 		
@@ -61,6 +67,8 @@ public class SourceTest {
 		assertEquals("The provenance key for description2 should be B",provenanceManager.getKey(description2),"B");
 		assertEquals("The provenance key for description3 should be C",provenanceManager.getKey(description3),"C");
 		assertEquals("The number of sources for taxon page should be 2",provenanceManager.getSources().size(), 2);
+		assertEquals("The number of license for organisation should be 2", provenanceManager.getProvenanceData(organisation).size(), 2 );
+		assertEquals("The provenance key for description1 and description4 should be the same",provenanceManager.getKey(description1),provenanceManager.getKey(description1));
 		
 	}
 	
