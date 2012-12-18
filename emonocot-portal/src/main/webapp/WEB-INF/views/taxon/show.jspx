@@ -19,37 +19,51 @@
 
 	<div class="container">
 		<c:set var="bibliography" value="${em:bibliography(taxon)}" />
+		<c:set var="provenance" value="${em:provenance(taxon)}" />
+		<c:set var="provenancesource" value="${em:provenancesources(provenance)}" />
+		<c:set var="provenancedata" value="${em:provenancedata(provenance, provenancesources)}" />
 		<header class="subhead clearfix" id="overview">
-			<c:if
-				test="${not empty taxon.images or not empty taxon.descriptions or not empty em:regions(taxon) or not empty taxon.childNameUsages or not empty taxon.synonymNameUsages or not empty bibliography.references}">
+			<c:if test="${not empty taxon.images or not empty taxon.descriptions or not empty em:regions(taxon) or not empty taxon.childNameUsages or not empty taxon.synonymNameUsages or not empty bibliography.references}">
 				<div class="subnav noPrint">
 					<ul class="nav nav-pills">
-						<li><c:if test="${not empty taxon.images}">
+						<li>
+							<c:if test="${not empty taxon.images}">
 								<a href="#images"><spring:message code="images" /></a>
-							</c:if></li>
-						<li><c:if test="${not empty taxon.descriptions}">
+							</c:if>
+						</li>
+						<li>
+							<c:if test="${not empty taxon.descriptions}">
 								<a href="#description"><spring:message code="description" /></a>
-							</c:if></li>
-						<li><c:if test="${not empty em:regions(taxon)}">
+							</c:if>
+						</li>
+						<li>
+							<c:if test="${not empty em:regions(taxon)}">
 								<a href="#map"><spring:message code="distributionMap" /></a>
-							</c:if></li>
-						<li><c:if test="${not empty taxon.childNameUsages}">
+							</c:if>
+						</li>
+						<li>
+							<c:if test="${not empty taxon.childNameUsages}">
 								<a href="#children"><spring:message code="children" /></a>
-							</c:if></li>
-						<li><c:if test="${not empty taxon.synonymNameUsages}">
+							</c:if>
+							
+						</li>
+						<li>
+							<c:if test="${not empty taxon.synonymNameUsages}">
 								<a href="#synonyms"><spring:message code="synonyms" /></a>
-							</c:if></li>
-						<li><c:if test="${not empty bibliography.references}">
+							</c:if>
+						</li>
+						<li>
+							<c:if test="${not empty bibliography.references}">
 								<a href="#bibliography"><spring:message code="bibliography" /></a>
-							</c:if></li>
+							</c:if>
+						</li>
 					</ul>
 				</div>
 			</c:if>
 		</header>
 		<c:if test="${not empty taxon.images}">
 			<div class="container">
-				<div id="images" data-toggle="modal-gallery"
-					data-target="#modal-gallery">
+				<div id="images" data-toggle="modal-gallery" data-target="#modal-gallery">
 					<div class="row">
 						<div class="carousel slide span12" id="carousel">
 							<div class="carousel-inner">
@@ -109,16 +123,14 @@
 		<br />
 		<div id="taxonomicStatus">
 			<c:choose>
-				<c:when
-					test="${taxon.taxonomicStatus == 'Synonym' and taxon.acceptedNameUsage != null}">
+				<c:when test="${taxon.taxonomicStatus == 'Synonym' and taxon.acceptedNameUsage != null}">
 					<spring:message code="isSynonym" />
 					<c:url var="acceptedUrl"
 						value="/taxon/${taxon.acceptedNameUsage.identifier}" />
 					<a href="${acceptedUrl}">${taxon.acceptedNameUsage.scientificName}
 						${taxon.acceptedNameUsage.scientificNameAuthorship}</a>
 				</c:when>
-				<c:when
-					test="${taxon.nomenclaturalStatus == 'Illegitimate' and taxon.acceptedNameUsage != null}">
+				<c:when test="${taxon.nomenclaturalStatus == 'Illegitimate' and taxon.acceptedNameUsage != null}">
 					<spring:message code="isSynonym" />
 					<c:url var="acceptedUrl"
 						value="/taxon/${taxon.acceptedNameUsage.identifier}" />
@@ -152,14 +164,19 @@
 											</h2>
 										</div>
 										<p class="justified">${content.description}</p>
-										<c:if test="${not empty content.references }">
-											<ul class="citations">
+										
+										<ul class="citations">
+											<li>
+												<a href="#">${em:provenancekey(provenance, content)}</a>
+											</li>
+											<c:if test="${not empty content.references }">
 												<c:forEach var="reference" items="${content.references}">
-													<li><a href="#${reference.identifier}">${em:citekey(bibliography,
-															reference)}</a></li>
+													<li>
+														<a href="#${reference.identifier}">${em:citekey(bibliography, reference)}</a>
+													</li>
 												</c:forEach>
-											</ul>
-										</c:if>
+											</c:if>
+										</ul>
 									</div>
 								</div>
 							</c:if>
@@ -192,10 +209,21 @@
 
 								<ul id="distribution-textual" class="paddingTop20">
 									<c:forEach var="region" items="${em:regions(taxon)}">
-										<li id="distribution-list"><spring:message
-												code="${region}" /></li>
+										<li id="distribution-list">
+											<spring:message code="${region}" />
+										</li>
+										<!-- <ul class="citations">
+											<li>
+												<a href="#">${em:provenancekey(provenance, region)}</a>
+											</li>
+										</ul> -->
 									</c:forEach>
 								</ul>
+								<!-- <ul class="citations">
+									<li>
+										<a href="#">${em:provenancekey(provenance, region)}</a>
+									</li>
+								</ul>-->
 							</div>
 						</div>
 					</section>
@@ -210,12 +238,14 @@
 								</h2>
 								<ul class="unstyled">
 									<c:forEach var="child" items="${em:sort(taxon.childNameUsages)}">
-										<li><jsp:element name="a">
+										<li>
+											<jsp:element name="a">
 												<jsp:attribute name="href">
 													<c:url value="/taxon/${child.identifier}" />
 												</jsp:attribute>
 												${child.scientificName} ${child.scientificNameAuthorship}
-											</jsp:element></li>
+											</jsp:element>
+										</li>
 									</c:forEach>
 								</ul>
 							</div>
@@ -232,12 +262,14 @@
 								</h2>
 								<ul class="unstyled">
 									<c:forEach var="synonym" items="${em:sort(taxon.synonymNameUsages)}">
-										<li><jsp:element name="a">
+										<li>
+											<jsp:element name="a">
 												<jsp:attribute name="href">
 													<c:url value="/taxon/${synonym.identifier}" />
 												</jsp:attribute>
 												${synonym.scientificName} ${synonym.scientificNameAuthorship}
-											</jsp:element></li>
+											</jsp:element>
+										</li>
 									</c:forEach>
 								</ul>
 							</div>
@@ -247,19 +279,43 @@
 				<section id="sources" class="section-box">
 					<div class="inner">
 						<div class="box clearfix">
-							<h2>
-								<spring:message code="sources" />
-							</h2>
-							<ul>
-								<c:forEach var="source" items="${em:sources(taxon)}">
-									<li><jsp:element name="a">
+							<div class="section-header">
+								<div class="media">
+									<a class="pull-left" href="#">
+										<i class="glyphicons-icon group">&#160;</i>
+									</a>
+									<div class="media-body">
+										<h2><spring:message code="sources" /></h2>
+									</div>
+								</div>
+							</div>
+							<dl style="margin-left:25px">
+								<c:forEach var="provenancesource" items="${em:provenancesources(provenance)}">
+									<dt>
+										<jsp:element name="a">
 											<jsp:attribute name="href">
-												<c:url value="/organisation/${source.identifier}" />
+												<c:url value="/organisation/${provenancesource.identifier}" />
 											</jsp:attribute>
-											${source.title}
-										</jsp:element></li>
+											${provenancesource.title}
+										</jsp:element>
+									</dt>
+									<dd>
+										<jsp:element name="a">
+											<jsp:attribute name="href">
+												<c:url value="${provenancesource.uri}" />
+											</jsp:attribute>
+											${provenancesource.uri}
+										</jsp:element>
+									</dd>
+									<!-- <dd>
+										<ul class="unstyled">
+											<c:forEach var="data" items="${em:provenancedata(provenance,provenancesource)}">
+												<li><a id="${data.key}">${data.key}</a> ${provenancesource.rights} | ${provenancesource.license}</li>
+											</c:forEach>
+										</ul>
+									</dd> -->
 								</c:forEach>
-							</ul>
+							</dl>
 						</div>
 					</div>
 				</section>
@@ -272,9 +328,10 @@
 								</h2>
 								<ul>
 									<c:forEach var="reference" items="${bibliography.references}">
-										<li><a id="${reference.identifier}">${em:citekey(bibliography,reference)}</a>
-										${reference.bibliographicCitation}
-									    </li>
+										<li>
+											<a id="${reference.identifier}">${em:citekey(bibliography,reference)}</a>
+											${reference.bibliographicCitation}
+										</li>
 									</c:forEach>
 								</ul>
 							</div>
@@ -301,17 +358,17 @@
 					</div>
 				</c:if>
 				<c:if test="${not empty taxon.identifiers}">
-			      <div class="inner">
-					<div class="box">
-						<section id="identifiers">
-							<h2><spring:message code="identifiers" /></h2>
-							<c:forEach var="identifier" items="${taxon.identifiers}">
-							  <a href="${identifier.identifier}" title="${fn:escapeXml(identifier.title)}">${identifier.title}</a>
-							</c:forEach>
-						</section>
+					<div class="inner">
+						<div class="box">
+							<section id="identifiers">
+								<h2><spring:message code="identifiers" /></h2>
+								<c:forEach var="identifier" items="${taxon.identifiers}">
+									<a href="${identifier.identifier}" title="${fn:escapeXml(identifier.title)}">${identifier.title}</a>
+								</c:forEach>
+							</section>
+						</div>
 					</div>
-				</div>
-		       </c:if>
+				</c:if>
 			</div>
 		</div>
 	</div>

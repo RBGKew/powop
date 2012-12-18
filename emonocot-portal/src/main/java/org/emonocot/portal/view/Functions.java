@@ -9,10 +9,12 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
 
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.el.ELException;
 
+import org.emonocot.model.BaseData;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.Identifier;
 import org.emonocot.model.Image;
@@ -37,6 +39,8 @@ import org.emonocot.pager.FacetName;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.view.bibliography.Bibliography;
 import org.emonocot.portal.view.bibliography.SimpleBibliographyImpl;
+import org.emonocot.portal.view.provenance.ProvenanceManager;
+import org.emonocot.portal.view.provenance.ProvenanceManagerImpl;
 import org.gbif.ecat.voc.Rank;
 import org.gbif.ecat.voc.TaxonomicStatus;
 import org.hibernate.proxy.HibernateProxy;
@@ -522,6 +526,36 @@ public final class Functions {
             final Reference reference) {
        return bibliography.getKey(reference);
    }
+    
+    /**
+    *
+    * @param taxon Set the taxon
+    * @return the provenance
+    */
+    public static ProvenanceManager provenance(final Taxon taxon) {
+    	ProvenanceManager provenance = new ProvenanceManagerImpl();
+        provenance.setProvenance(taxon);
+        return provenance;
+    }
+    
+    /**
+    *
+    * @param provenance Set the provenance
+    * @param data Set the data
+    * @return the provenance key
+    */
+    public static String provenancekey(final ProvenanceManager provenance,
+            final BaseData data) {
+       return provenance.getKey(data);
+   }
+    
+    public static SortedSet provenancesources(final ProvenanceManager provenance) {
+       return provenance.getSources();
+   }
+  
+    public static SortedSet provenancedata(final ProvenanceManager provenance, final Organisation organisation) {
+        return provenance.getProvenanceData(organisation);
+    }
 
     /**
     *

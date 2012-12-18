@@ -29,7 +29,7 @@ import org.hibernate.validator.constraints.URL;
  *
  */
 @Entity
-public class Organisation extends BaseData {
+public class Organisation extends BaseData implements Comparable<Organisation> {
 
     /**
      *
@@ -306,4 +306,23 @@ public class Organisation extends BaseData {
     public void setAnnotations(Set<Annotation> annotations) {
         this.annotations = annotations;
     }
+    
+    public static int nullSafeStringComparator(final String one, final String two) {
+        if (one == null ^ two == null) {
+            return (one == null) ? -1 : 1;
+        }
+
+        if (one == null && two == null) {
+            return 0;
+        }
+
+        return one.compareToIgnoreCase(two);
+    }
+
+
+	@Override
+	public int compareTo(Organisation o) {
+		
+		return nullSafeStringComparator(this.title, o.title);
+	}
 }
