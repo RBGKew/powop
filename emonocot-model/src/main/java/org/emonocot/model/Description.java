@@ -293,4 +293,20 @@ public class Description extends OwnedEntity {
 	public void setLanguage(Locale language) {
 		this.language = language;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuffer stringBuffer = new StringBuffer();
+		if(type != null) {
+			stringBuffer.append(type.toString());
+		}		
+		if(description != null) {
+			if(description.length() > 32) {
+				stringBuffer.append(": \"" + description.substring(0,32) +"...\"");
+			} else {
+				stringBuffer.append(": \"" + description +"\"");
+			}
+		}
+		return stringBuffer.toString();
+	}
 }

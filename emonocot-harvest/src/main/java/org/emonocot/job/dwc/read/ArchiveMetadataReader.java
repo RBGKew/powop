@@ -166,11 +166,6 @@ public class ArchiveMetadataReader implements StepExecutionListener {
             return ExitStatus.FAILED;
         }
 
-        if (taxonProcessingMode != null) {
-            stepExecution.getJobExecution().getExecutionContext()
-                    .put("taxon.processing.mode", taxonProcessingMode);
-        }
-
         return ExitStatus.COMPLETED;
     }
 

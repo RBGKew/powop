@@ -18,6 +18,9 @@ public class TaxonDeletingWriter extends HibernateDaoSupport implements ItemWrit
 		List<Taxon> taxa = new ArrayList<Taxon>();
 		for(Long id : items) {
 			Taxon t = getHibernateTemplate().load(Taxon.class, id);
+			t.setParentNameUsage(null);
+			t.setAcceptedNameUsage(null);
+			t.setOriginalNameUsage(null);
 			for(Reference r : t.getReferences()) {
 				r.getTaxa().remove(t);
 				getHibernateTemplate().update(r);

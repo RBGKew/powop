@@ -258,4 +258,14 @@ public class VernacularName extends OwnedEntity {
     public void setAnnotations(Set<Annotation> annotations) {
         this.annotations = annotations;
     }
+    
+    @Override
+    public String toString() {
+    	StringBuffer stringBuffer = new StringBuffer();
+    	stringBuffer.append(vernacularName);
+    	if(language != null) {
+    		stringBuffer.append(" (" + language.getDisplayLanguage() + ")");
+    	}
+    	return stringBuffer.toString();
+    }
 }

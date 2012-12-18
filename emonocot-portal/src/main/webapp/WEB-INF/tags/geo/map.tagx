@@ -12,6 +12,7 @@
 	<jsp:directive.attribute name="y2" type="java.lang.Double" />
 	<jsp:directive.attribute name="mapClass" type="java.lang.String"/>
 	<jsp:directive.attribute name="zoomBoxSearch" type="java.lang.Boolean"/>
+	<spring:message code="portal.baseUrl" var="baseUrl"/>
 	
 	<c:if test="${empty zoomBoxSearch}">
 	  <c:set var="zoomBoxSearch" value="false"/>
@@ -139,7 +140,7 @@
 										   20037500)
 	  });
 	  var base_layer = new OpenLayers.Layer.TMS("MapBox Layer",
-		 [ "http://build.e-monocot.org/tiles/" ],
+		 [ "${baseUrl}/tiles/" ],
 		 { 'layername': 'eMonocot', 'type': 'png',isBaseLayer : true, wrapDateLine: true }
 	  );
 

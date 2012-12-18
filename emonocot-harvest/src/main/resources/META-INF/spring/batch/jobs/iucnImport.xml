@@ -50,6 +50,7 @@
 			<batch:next on="COMPLETED" to="deleteAbsentMeasurementOrFacts"/>
 			<batch:listeners>
 			  <batch:listener ref="measurementOrFactProcessor"/>
+			  <batch:listener ref="iucnMapToMeasurementOrFactProcessor"/>
 			</batch:listeners>
 	    </batch:step>
 	    <batch:step id="deleteAbsentMeasurementOrFacts">
@@ -57,7 +58,14 @@
 			<batch:tasklet>
 				<batch:chunk reader="deleteMeasurementOrFactReader" writer="deletingWriter"	commit-interval="100" />
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="cleanupResources" />
+			<batch:next on="COMPLETED" to="indexAnnotations" />
+		</batch:step>
+		<batch:step id="indexAnnotations">
+		  <batch:description>Index the annotations associated with this job</batch:description>
+		  <batch:tasklet>
+				<batch:chunk reader="indexAnnotationsReader" writer="indexAnnotationsWriter" commit-interval="10" />
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="cleanupResources" />			
 		</batch:step>
 	    <batch:step id="cleanupResources">
 			<batch:description>Cleanup the resources</batch:description>
@@ -139,8 +147,16 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	
-	<bean id="iucnMapToMeasurementOrFactProcessor" class="org.emonocot.job.iucn.Processor">
+	<bean id="iucnMapToMeasurementOrFactProcessor" class="org.emonocot.job.iucn.Processor" scope="step">
 	  <property name="taxonService" ref="taxonServiceImpl" />
+	  <property name="sessionFactory" ref="sessionFactory"/>
+	  <property name="transactionManager" ref="transactionManager"/>
+	  <property name="sourceName" value="#{jobParameters['authority.name']}" />
+	  <property name="license" value="#{jobParameters['license']}" />
+	  <property name="rights" value="#{jobParameters['rights']}" />
+	  <property name="rightsHolder" value="#{jobParameters['rightsHolder']}" />
+	  <property name="accessRights" value="#{jobParameters['accessRights']}" />
+	  <property name="bibliographicCitation" value="#{jobParameters['bibliographicCitation']}" />
 	</bean>
 	
 	<bean id="measurementOrFactProcessor" class="org.emonocot.job.dwc.measurementorfact.Processor"
@@ -180,6 +196,23 @@
 	<bean id="deletingWriter" class="org.emonocot.harvest.common.HibernateDeletingWriter">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	
+	<bean id="indexAnnotationsReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
+		scope="step">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="queryString" value="select a.id from Annotation a where a.jobId = :jobId" />
+		<property name="parameterValues">
+			<map>
+				<entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
+			</map>
+		</property>
+	</bean>
+    
+    <bean id="indexAnnotationsWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter">
+      <property name="type" value="org.emonocot.model.Annotation" />
+      <property name="sessionFactory" ref="sessionFactory" />
+      <property name="solrIndexingListener" ref="solrIndexingListener" />
+    </bean>
 
     <bean id="iucnResourceDeletingTasklet"
 		class="org.emonocot.harvest.common.MultiResourceDeletingTasklet"

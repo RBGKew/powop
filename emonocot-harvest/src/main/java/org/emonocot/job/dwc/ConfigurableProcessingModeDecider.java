@@ -37,10 +37,11 @@ public class ConfigurableProcessingModeDecider implements JobExecutionDecider {
      */
     public final FlowExecutionStatus decide(final JobExecution jobExecution,
             final StepExecution stepExecution) {
-        if (jobExecution.getExecutionContext()
-                .containsKey(processingModeKey)) {
+        if (jobExecution.getExecutionContext().containsKey(processingModeKey)) {
             return new FlowExecutionStatus(jobExecution.getExecutionContext().getString(processingModeKey));
-        } else {
+        } else if(jobExecution.getJobInstance().getJobParameters().getParameters().containsKey(processingModeKey)) {
+        	return new FlowExecutionStatus(jobExecution.getJobInstance().getJobParameters().getString(processingModeKey));
+        }else {
             return new FlowExecutionStatus(defaultProcessingMode);
         }
     }

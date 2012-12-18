@@ -61,12 +61,7 @@ public class ImageController extends GenericController<Image, ImageService> {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = {"text/html", "*/*"})
     public final String show(@PathVariable final Long id, final Model model) {
         Image image = getService().load(id, "image-page");
-        model.addAttribute(image);
-        // TODO add opensession in view filter and remove this code
-        if (image.getTaxon() != null) {
-            model.addAttribute(taxonService.load(image.getTaxon()
-                    .getIdentifier(), "taxon-page"));
-        }
+        model.addAttribute(image);        
         return "image/show";
     }
 }

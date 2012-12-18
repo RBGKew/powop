@@ -9,7 +9,6 @@ import org.emonocot.api.TaxonService;
 import org.emonocot.harvest.common.AuthorityAware;
 import org.emonocot.model.IdentificationKey;
 import org.emonocot.model.Taxon;
-import org.emonocot.model.registry.Organisation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
@@ -139,7 +138,7 @@ public class DatasetProcessor extends AuthorityAware implements
                 Taxon root = taxonService.find(rootTaxonIdentifier);
                 logger.debug("rootTaxonIdentifier is "  + rootTaxonIdentifier);
                 logger.debug("rootTaxon "  + root);
-                identificationKey.setTaxon(root);
+                identificationKey.getTaxa().add(root);
             }
 
             if (item.getRevisionData() != null) {
@@ -166,14 +165,13 @@ public class DatasetProcessor extends AuthorityAware implements
             if (rootTaxonIdentifier != null
                     && rootTaxonIdentifier.trim().length() > 0) {
                 Taxon root = taxonService.find(rootTaxonIdentifier);
-                persistedIdentificationKey.setTaxon(root);
+                persistedIdentificationKey.getTaxa().clear();
+                persistedIdentificationKey.getTaxa().add(root);
                 logger.debug("rootTaxonIdentifier is "  + rootTaxonIdentifier);
                 logger.debug("rootTaxon "  + root);
             }
-            persistedIdentificationKey.setTitle(item.getRepresentation()
-                    .getLabel());
-            persistedIdentificationKey.setDescription(item.getRepresentation()
-                    .getDetail());
+            persistedIdentificationKey.setTitle(item.getRepresentation().getLabel());
+            persistedIdentificationKey.setDescription(item.getRepresentation().getDetail());
             persistedIdentificationKey.setMatrix(matrix);
             
             return persistedIdentificationKey;

@@ -86,19 +86,35 @@ public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityA
     protected void checkTaxon(final RecordType recordType, final Base record, final Taxon taxon) throws DarwinCoreProcessingException {
     	if(taxon == null) {
     		throw new RequiredFieldException(record + " has no Taxon set", recordType, getStepExecution().getReadCount());
-    	} else if(subtribe != null && (taxon.getSubtribe() == null || !taxon.getSubtribe().equals(subtribe))) {
+    	} else if(subtribe != null && (inSubtribe(taxon) && (taxon.getAcceptedNameUsage() != null && inSubtribe(taxon.getAcceptedNameUsage())))) {
     		throw new OutOfScopeTaxonException("Expected content to be related to " + subtribe + " but found content related to " + taxon + " which is in " + taxon.getSubtribe(),
                     recordType, getStepExecution().getReadCount());
-    	} else if(tribe != null && (taxon.getTribe() == null || !taxon.getTribe().equals(tribe))) {
+    	} else if(tribe != null && (inTribe(taxon) && (taxon.getAcceptedNameUsage() != null && inTribe(taxon.getAcceptedNameUsage())))) {
     		throw new OutOfScopeTaxonException("Expected content to be related to " + tribe + " but found content related to " + taxon + " which is in " + taxon.getTribe(),
                     recordType, getStepExecution().getReadCount());
-    	} else if(subfamily != null && (taxon.getSubfamily() == null || !taxon.getSubfamily().equals(subfamily))) {
+    	} else if(subfamily != null && (inSubfamily(taxon) && (taxon.getAcceptedNameUsage() != null && inSubfamily(taxon.getAcceptedNameUsage())))) {
     		throw new OutOfScopeTaxonException("Expected content to be related to " + subfamily + " but found content related to " + taxon + " which is in " + taxon.getSubfamily(),
                     recordType, getStepExecution().getReadCount());
-    	} else if(family != null && (taxon.getFamily() == null || !taxon.getFamily().equals(family))) {
+    	} else if(family != null && (inFamily(taxon) && (taxon.getAcceptedNameUsage() != null && inFamily(taxon.getAcceptedNameUsage())))) {
     		throw new OutOfScopeTaxonException("Expected content to be related to " + family + " but found content related to " + taxon + " which is in " + taxon.getFamily(),
                     recordType, getStepExecution().getReadCount());
     	}
+    }
+    
+    private boolean inSubtribe(Taxon taxon) {
+    	return taxon.getSubtribe() == null || !taxon.getSubtribe().equals(subtribe);
+    }
+    
+    private boolean inTribe(Taxon taxon) {
+    	return taxon.getTribe() == null || !taxon.getTribe().equals(tribe);
+    }
+    
+    private boolean inSubfamily(Taxon taxon) {
+    	return taxon.getSubfamily() == null || !taxon.getSubfamily().equals(subfamily);
+    }
+    
+    private boolean inFamily(Taxon taxon) {
+    	return taxon.getFamily() == null || !taxon.getFamily().equals(family);
     }
     
     protected void replaceAnnotation(Annotated annotated, AnnotationType type, AnnotationCode code) {

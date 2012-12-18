@@ -11,7 +11,6 @@ import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.ImageFormat;
 import org.emonocot.model.constants.RecordType;
-import org.emonocot.model.registry.Organisation;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.tdwg.ubif.MediaObject;

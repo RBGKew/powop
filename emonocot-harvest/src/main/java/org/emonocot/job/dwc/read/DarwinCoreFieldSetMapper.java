@@ -22,8 +22,7 @@ public abstract class DarwinCoreFieldSetMapper<T extends Base> extends Authority
     /**
      *
      */
-    private Logger logger = LoggerFactory
-            .getLogger(DarwinCoreFieldSetMapper.class);
+    private Logger logger = LoggerFactory.getLogger(DarwinCoreFieldSetMapper.class);
 
     /**
      *

@@ -24,11 +24,11 @@ public class IdentificationKeyDaoImpl extends
     static {
         FETCH_PROFILES = new HashMap<String, Fetch[]>();
         FETCH_PROFILES.put("object-page", new Fetch[] {
-                new Fetch("taxon", FetchMode.SELECT),
+                new Fetch("taxa", FetchMode.SELECT),
                 new Fetch("authority", FetchMode.SELECT),
                 new Fetch("sources", FetchMode.SELECT)});
         FETCH_PROFILES.put("front-cover", new Fetch[] {
-                new Fetch("taxon", FetchMode.SELECT)});
+                new Fetch("taxa", FetchMode.SELECT)});
     }
 
     /**

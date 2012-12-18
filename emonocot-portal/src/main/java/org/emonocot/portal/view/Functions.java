@@ -203,7 +203,20 @@ public final class Functions {
         if (taxon.getTaxonomicStatus() == null) {
             return false;
         } else  {
-            return taxon.getTaxonomicStatus().equals(TaxonomicStatus.Synonym);
+        	switch(taxon.getTaxonomicStatus()) {
+        	case Synonym:
+        	case Heterotypic_Synonym:
+        	case Homotypic_Synonym:
+        	case DeterminationSynonym:
+        	case IntermediateRankSynonym:
+        	case Proparte_Synonym:
+        	    return true;
+        	case Accepted:
+        	case Doubtful:
+        	case Misapplied:        		
+        	default:
+        		return false;
+        	}
         }
     }
     /**

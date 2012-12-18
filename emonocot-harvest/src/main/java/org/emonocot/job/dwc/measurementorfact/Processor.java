@@ -1,19 +1,13 @@
 package org.emonocot.job.dwc.measurementorfact;
 
-import org.emonocot.api.DescriptionService;
-import org.emonocot.api.DistributionService;
 import org.emonocot.api.MeasurementOrFactService;
 import org.emonocot.job.dwc.exception.RequiredFieldException;
 import org.emonocot.job.dwc.read.OwnedEntityProcessor;
-import org.emonocot.model.Description;
-import org.emonocot.model.Distribution;
 import org.emonocot.model.MeasurementOrFact;
 import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import ch.qos.logback.classic.db.names.TableName;
 
 /**
  *
@@ -35,7 +29,7 @@ public class Processor extends OwnedEntityProcessor<MeasurementOrFact, Measureme
     @Override
     protected void doValidate(MeasurementOrFact t) {
     	if (t.getMeasurementType() == null) {
-            throw new RequiredFieldException(t + " has no location set", RecordType.MeasurementOrFact, getStepExecution().getReadCount());
+            throw new RequiredFieldException(t + " has no measurement type set", RecordType.MeasurementOrFact, getStepExecution().getReadCount());
         }
         
         
@@ -51,6 +45,7 @@ public class Processor extends OwnedEntityProcessor<MeasurementOrFact, Measureme
     	persisted.setMeasurementType(t.getMeasurementType());
     	persisted.setMeasurementUnit(t.getMeasurementUnit());
     	persisted.setMeasurementValue(t.getMeasurementValue());
+    	persisted.setBibliographicCitation(t.getBibliographicCitation());
     }
 
     @Override

@@ -70,8 +70,7 @@ public class NomenclaturalStatusConverter implements Converter<String, Nomenclat
 			case "valid":
 				return NomenclaturalStatus.Valid;
 			default:
-				throw new IllegalArgumentException(source + " is not an allowed term for NomenclaturalStatus");
-			
+				return NomenclaturalStatus.valueOf(source);
 			}
 		}
 		return null;

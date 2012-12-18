@@ -1,6 +1,11 @@
 package org.emonocot.job.dwc.taxon;
 
-import org.emonocot.harvest.common.TaxonRelationshipResolver;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.emonocot.job.dwc.exception.NoIdentifierException;
 import org.emonocot.job.dwc.read.DarwinCoreProcessor;
 import org.emonocot.model.Annotation;
@@ -10,33 +15,23 @@ import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.batch.core.ChunkListener;
+import org.springframework.batch.core.ItemWriteListener;
 
 /**
  * 
  * @author ben
  * 
  */
-public class Processor extends DarwinCoreProcessor<Taxon> {
+public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListener, ItemWriteListener<Taxon> {
+	
+	private Set<TaxonRelationship> taxonRelationships = new HashSet<TaxonRelationship>();
+	
+	private Map<String, Taxon> boundTaxa = new HashMap<String,Taxon>();
 	/**
      *
      */
 	private Logger logger = LoggerFactory.getLogger(Processor.class);
-
-	/**
-     *
-     */
-	private TaxonRelationshipResolver taxonRelationshipResolver;
-
-	/**
-	 * @param resolver
-	 *            set the taxon relationship resolver
-	 */
-	@Autowired
-	public final void setTaxonRelationshipResolver(
-			final TaxonRelationshipResolver resolver) {
-		this.taxonRelationshipResolver = resolver;
-	}
 
 	/**
 	 * @param t
@@ -48,6 +43,7 @@ public class Processor extends DarwinCoreProcessor<Taxon> {
 	public final Taxon process(final Taxon t) throws Exception {
 		logger.info("Processing " + t.getIdentifier());
 		
+		
 		if (t.getIdentifier() == null) {
 			throw new NoIdentifierException(t);
 		}
@@ -55,36 +51,33 @@ public class Processor extends DarwinCoreProcessor<Taxon> {
 		Taxon persisted = getTaxonService().find(t.getIdentifier());
 		
 		if (persisted == null) {
-			taxonRelationshipResolver.bind(t);
+			bindRelationships(t,t);
 			Annotation annotation = createAnnotation(t, RecordType.Taxon,
 					AnnotationCode.Create, AnnotationType.Info);
 			t.getAnnotations().add(annotation);
 			t.setAuthority(getSource());
-			logger.info("Adding taxon " + t.getIdentifier());
+			logger.info("Adding taxon " + t);
 			return t;
 		} else {
-			if (!persisted.getAuthority().getIdentifier()
-					.equals(this.getSource().getIdentifier())) {
+			if (!persisted.getAuthority().getIdentifier().equals(this.getSource().getIdentifier())) {
 				// Skip taxa which do not belong to this authority
-				logger.info("Taxon " + persisted.getIdentifier() + " belongs to " + this.getSource().getIdentifier() +  ", skipping");
+				logger.info("Taxon " + persisted + " belongs to " + this.getSource().getIdentifier() +  ", skipping");
 				return null;
-			} else {
-				taxonRelationshipResolver.bind(persisted);
-				taxonRelationshipResolver.updateTaxon(persisted);
+			} else {				
 				if ((persisted.getModified() != null && t
 						.getModified() != null)
 						&& !persisted.getModified().isBefore(
 								t.getModified())) {
+					bindTaxon(persisted);
 					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Skipped);
 				} else {
+					bindRelationships(t,persisted);
 					persisted.setAccessRights(t.getAccessRights());
 	                persisted.setCreated(t.getCreated());
 	                persisted.setLicense(t.getLicense());
 	                persisted.setModified(t.getModified());
 	                persisted.setRights(t.getRights());
 	                persisted.setRightsHolder(t.getRightsHolder());
-	                
-	                persisted.setAcceptedNameUsage(null); // Re-established at end of chunk by taxonRelationshipResolver
 					persisted.setBibliographicCitation(t.getBibliographicCitation());
 					persisted.setClazz(t.getClazz());
 					persisted.setFamily(t.getFamily());
@@ -98,8 +91,6 @@ public class Processor extends DarwinCoreProcessor<Taxon> {
 					persisted.setNomenclaturalCode(t.getNomenclaturalCode());
 					persisted.setNomenclaturalStatus(t.getNomenclaturalStatus());
 					persisted.setOrder(t.getOrder());
-					persisted.setOriginalNameUsage(null); // Re-established at end of chunk by taxonRelationshipResolver
-					persisted.setParentNameUsage(null); // Re-established at end of chunk by taxonRelationshipResolver
 					persisted.setPhylum(t.getPhylum());
 					persisted.setScientificName(t.getScientificName());
 					persisted.setScientificNameAuthorship(t.getScientificNameAuthorship());
@@ -115,13 +106,98 @@ public class Processor extends DarwinCoreProcessor<Taxon> {
 					persisted.setTribe(t.getTribe());
 					persisted.setTaxonRank(t.getTaxonRank());
 					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Update);					
-				}
-				
+				}				
 
-				logger.info("Overwriting taxon "
-						+ persisted.getIdentifier());
+				logger.info("Overwriting taxon " + persisted);
 				return persisted;
 			}
 		}
+	}
+
+	private void bindTaxon(Taxon persisted) {
+		boundTaxa.put(persisted.getIdentifier(), persisted);
+	}
+
+	private void bindRelationships(Taxon t, Taxon u) {
+		bindTaxon(u);
+		if(t.getParentNameUsage() != null) {
+			this.taxonRelationships.add(new TaxonRelationship(u, TaxonRelationshipType.parent, t.getParentNameUsage().getIdentifier()));
+		}
+		if(t.getAcceptedNameUsage() != null) {
+			this.taxonRelationships.add(new TaxonRelationship(u, TaxonRelationshipType.accepted, t.getAcceptedNameUsage().getIdentifier()));
+		}
+		if(t.getOriginalNameUsage() != null) {
+			this.taxonRelationships.add(new TaxonRelationship(u, TaxonRelationshipType.original, t.getOriginalNameUsage().getIdentifier()));
+		}
+		
+		u.setParentNameUsage(null);
+		u.setAcceptedNameUsage(null);
+		u.setOriginalNameUsage(null);
+	}
+
+	@Override
+	public void beforeChunk() {
+		boundTaxa = new HashMap<String,Taxon>();
+		taxonRelationships = new HashSet<TaxonRelationship>();		
+	}
+
+	@Override
+	public void afterChunk() {
+		
+	}
+	
+	private Taxon resolveTaxon(String identifier) {
+        if (boundTaxa.containsKey(identifier)) {
+            logger.info("Found taxon with identifier " + identifier + " from cache returning taxon with id " + boundTaxa.get(identifier).getId());
+            return boundTaxa.get(identifier);
+        } else {
+            Taxon taxon = getTaxonService().find(identifier);
+
+            if (taxon == null) {
+                taxon = new Taxon();
+                Annotation annotation = createAnnotation(taxon, RecordType.Taxon,
+    					AnnotationCode.Create, AnnotationType.Info);
+    			taxon.getAnnotations().add(annotation);
+                taxon.setAuthority(getSource());
+                taxon.setIdentifier(identifier);
+                logger.info("Didn't find taxon with identifier " + identifier + " from service returning new taxon");
+                bindTaxon(taxon);
+              } else {
+                  logger.info("Found taxon with identifier " + identifier + " from service returning taxon with id " + taxon.getId());
+                  bindTaxon(taxon);                       
+              }
+              return taxon;
+        }
+    }
+
+	@Override
+	public void beforeWrite(List<? extends Taxon> items) {
+		logger.info("Before Write");
+        for (TaxonRelationship taxonRelationship : taxonRelationships) {
+        	Taxon to = resolveTaxon(taxonRelationship.getToIdentifier());
+        	Taxon from = taxonRelationship.getFrom();
+        	
+            switch(taxonRelationship.getTerm()) {
+            case original:
+            	from.setOriginalNameUsage(to);
+            	break;
+            case accepted:
+            	from.setAcceptedNameUsage(to);
+            	break;
+            case parent:
+            	from.setParentNameUsage(to);
+            	break;            
+            }
+        }
+	}
+
+	@Override
+	public void afterWrite(List<? extends Taxon> items) {
+		
+	}
+
+	@Override
+	public void onWriteError(Exception exception, List<? extends Taxon> items) {
+		
 	}
 }

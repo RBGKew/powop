@@ -2,6 +2,8 @@ package org.emonocot.job.dwc.read;
 
 import org.emonocot.model.hibernate.OlapDateTimeUserType;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
 
 /**
@@ -10,6 +12,8 @@ import org.springframework.batch.core.ExitStatus;
  *
  */
 public class OwnedRecordAnnotator extends AbstractRecordAnnotator { 
+	
+    private Logger logger = LoggerFactory.getLogger(OwnedRecordAnnotator.class);
 
 	/**
      *
@@ -40,7 +44,7 @@ public class OwnedRecordAnnotator extends AbstractRecordAnnotator {
       String queryString = null;
       
       if(subsetValue != null) {
-    	  queryString = "insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select o.id, ':annotatedObjType', ':jobId', :dateTime, :authorityId, 'Warn', 'Absent', ':annotatedObjType' from :annotatedObjType o join taxon t on (o.taxon_id = t.id) where o.authority_id = :authorityId and t.:subsetRank = ':subsetValue'";
+    	  queryString = "insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select o.id, ':annotatedObjType', ':jobId', :dateTime, :authorityId, 'Warn', 'Absent', ':annotatedObjType' from :annotatedObjType o join taxon t on (o.taxon_id = t.id) left join taxon a on (t.acceptedNameUsage_id = a.id) where o.authority_id = :authorityId and (t.:subsetRank = ':subsetValue' or a.:subsetRank = ':subsetValue')";
     	  queryString = queryString.replaceAll(":subsetRank", subsetRank);
           queryString = queryString.replaceAll(":subsetValue", subsetValue);
       } else {
@@ -51,6 +55,7 @@ public class OwnedRecordAnnotator extends AbstractRecordAnnotator {
       queryString = queryString.replaceAll(":jobId", stepExecution.getJobExecutionId().toString());
       queryString = queryString.replaceAll(":dateTime", OlapDateTimeUserType.convert(new DateTime()).toString());
       queryString = queryString.replaceAll(":annotatedObjType", annotatedObjType);
+      logger.info(queryString);
       jdbcTemplate.update(queryString);
       return ExitStatus.COMPLETED;
     }

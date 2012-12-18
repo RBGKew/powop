@@ -326,5 +326,9 @@ public class Reference extends BaseData implements NonOwned {
 	public void setTaxonRemarks(String taxonRemarks) {
 		this.taxonRemarks = taxonRemarks;
 	}
-
+	
+	@Override
+    public String toString() {
+    	return bibliographicCitation;
+    }
 }

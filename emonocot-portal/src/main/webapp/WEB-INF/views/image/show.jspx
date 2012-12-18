@@ -87,14 +87,14 @@
 			</div>
 			</div>
 			</section>
-	<c:if test="${not empty taxon.images}">
+	<c:if test="${not empty image.taxon.images}">
 			<div class="container">
 			<h2 class="noPrint"><spring:message code="related.images"/></h2>
 			<div id="images" data-toggle="modal-gallery" data-target="#modal-gallery">
 				<div class="row">
 					<div class="carousel slide span12" id="carousel">
 							<div class="carousel-inner">
-							  <c:forEach var="i" items="${taxon.images}" step="6" varStatus="status">
+							  <c:forEach var="i" items="${image.taxon.images}" step="6" varStatus="status">
 							    <c:choose>
 							      <c:when test="${status.index == 0}">
 							        <c:set var="active" value="active"/>
@@ -105,7 +105,7 @@
 							    </c:choose>
 								<div class="item ${active}">
 									<ul class="thumbnails">	
-									  <c:forEach var="image" items="${taxon.images}" begin="${status.index}" end="${status.index + 5}">									
+									  <c:forEach var="image" items="${image.taxon.images}" begin="${status.index}" end="${status.index + 5}">									
 											<li>
 											  <c:url var="fullsize" value="/images/fullsize/${image.id}.${image.format}" />
 											  <c:url var="url" value="/image/${image.id}" />
@@ -120,7 +120,7 @@
 								</div>
 								</c:forEach>
 							</div>	
-							<c:if test="${fn:length(taxon.images) > 6 }">
+							<c:if test="${fn:length(image.taxon.images) > 6 }">
 							  <a data-slide="prev" href="#carousel" class="left carousel-control">‹</a>
 							  <a data-slide="next" href="#carousel" class="right carousel-control">›</a>
 					        </c:if>

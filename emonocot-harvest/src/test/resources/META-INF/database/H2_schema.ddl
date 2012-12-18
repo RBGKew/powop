@@ -11,7 +11,7 @@ create table Distribution_Reference (Distribution_id bigint not null, references
 drop table if exists Group_permissions;
 create table Group_permissions (Group_id bigint not null, permissions integer);
 drop table if exists IdentificationKey;
-create table IdentificationKey (id bigint not null, accessRights varchar(255), created timestamp, creator varchar(255), identifier varchar(255) not null, license varchar(255), matrix clob, modified timestamp, rights clob, rightsHolder varchar(255), description clob, title varchar(255), authority_id bigint, taxon_id bigint, primary key (id), unique (identifier));
+create table IdentificationKey (id bigint not null, accessRights varchar(255), created timestamp, creator varchar(255), identifier varchar(255) not null, license varchar(255), matrix clob, modified timestamp, rights clob, rightsHolder varchar(255), description clob, title varchar(255), authority_id bigint, primary key (id), unique (identifier));
 drop table if exists Identifier;
 create table Identifier (id bigint not null, identifier varchar(255), accessRights varchar(255), created timestamp, creator varchar(255), license varchar(255), modified timestamp, rights clob, rightsHolder varchar(255), source varchar(255), format varchar(255), subject varchar(255), title varchar(255), authority_id bigint, taxon_id bigint, primary key (id), unique (identifier));
 drop table if exists Image;
@@ -21,7 +21,7 @@ create table Resource (id bigint not null, identifier varchar(255), duration tim
 drop table if exists Resource_parameters;
 create table Resource_parameters (Resource_id bigint not null,  parameters_KEY varchar(255) not null, parameters varchar(255), primary key (Resource_id, parameters_KEY));
 drop table if exists MeasurementOrFact;
-create table MeasurementOrFact (id bigint not null, identifier varchar(255), accessRights varchar(255), created timestamp, creator varchar(255), license varchar(255), modified timestamp, rights clob, rightsHolder varchar(255), measurementAccuracy varchar(255), measurementDeterminedBy varchar(255),  measurementDeterminedDate timestamp, measurementMethod varchar(255), measurementRemarks varchar(255), measurementType varchar(255), measurementUnit varchar(255), measurementValue varchar(255), authority_id bigint, taxon_id bigint, primary key (id), unique (identifier));
+create table MeasurementOrFact (id bigint not null, identifier varchar(255), accessRights varchar(255), bibliographicCitation varchar(255), created timestamp, creator varchar(255), license varchar(255), modified timestamp, rights clob, rightsHolder varchar(255), measurementAccuracy varchar(255), measurementDeterminedBy varchar(255),  measurementDeterminedDate timestamp, measurementMethod varchar(255), measurementRemarks varchar(255), measurementType varchar(255), measurementUnit varchar(255), measurementValue varchar(255), authority_id bigint, taxon_id bigint, primary key (id), unique (identifier));
 drop table if exists Place;
 create table Place (id bigint not null, identifier varchar(255), accessRights varchar(255), created timestamp, modified timestamp, title varchar(255), fipsCode varchar(5), shape blob, point blob, license varchar(255), rights clob, rightsHolder varchar(255), source varchar(255), creator varchar(255), authority_id bigint, mapFeatureId bigint, primary key (id), unique (identifier));
 drop table if exists Principal;
@@ -31,9 +31,11 @@ create table Reference (id bigint not null, identifier varchar(255), accessRight
 drop table if exists Organisation;
 create table Organisation (id bigint not null, identifier varchar(255), accessRights varchar(255), created timestamp, creator varchar(255), license varchar(255), modified timestamp, rights clob, rightsHolder varchar(255), bibliographicCitation varchar(255), creatorEmail varchar(255), description clob, logoUrl varchar(255), publisherEmail varchar(255), publisherName varchar(255), subject varchar(255), title varchar(255), uri varchar(255), authority_id bigint, primary key (id), unique (identifier));
 drop table if exists Taxon;
-create table Taxon (id bigint not null, identifier varchar(255), accessRights varchar(255), created timestamp, creator varchar(255), license varchar(255), modified timestamp, rights clob, rightsHolder varchar(255), source varchar(255), bibliographicCitation varchar(255), namePublishedInString varchar(255), namePublishedInYear integer, scientificNameAuthorship varchar(128), class varchar(128), family varchar(128), genus varchar(128), subgenus varchar(128), infraSpecificEpithet varchar(128), kingdom varchar(128), scientificName varchar(128), scientificNameID varchar(255), nomenclaturalCode varchar(255), ordr varchar(128), phylum varchar(128), taxonRank varchar(255), taxonRemarks varchar(255), specificEpithet varchar(128), nomenclaturalStatus varchar(255), taxonomicStatus varchar(255), subfamily varchar(255), subtribe varchar(255), tribe varchar(255), verbatimTaxonRank varchar(255), authority_id bigint, image_id bigint, acceptedNameUsage_id bigint, parentNameUsage_id bigint, originalNameUsage_id bigint, nameAccordingTo_id bigint, namePublishedIn_id bigint, primary key (id), unique (identifier));
+create table Taxon (id bigint not null, identifier varchar(255), accessRights varchar(255), created timestamp, creator varchar(255), license varchar(255), modified timestamp, rights clob, rightsHolder varchar(255), source varchar(255), bibliographicCitation varchar(255), namePublishedInString varchar(255), namePublishedInYear integer, scientificNameAuthorship varchar(128), class varchar(128), family varchar(128), genus varchar(128), subgenus varchar(128), infraSpecificEpithet varchar(128), kingdom varchar(128), scientificName varchar(128), scientificNameID varchar(255), nomenclaturalCode varchar(255), ordr varchar(128), phylum varchar(128), taxonRank varchar(255), taxonRemarks varchar(255), specificEpithet varchar(128), nomenclaturalStatus varchar(255), taxonomicStatus varchar(255), subfamily varchar(255), subtribe varchar(255), tribe varchar(255), verbatimTaxonRank varchar(255), authority_id bigint, acceptedNameUsage_id bigint, parentNameUsage_id bigint, originalNameUsage_id bigint, nameAccordingTo_id bigint, namePublishedIn_id bigint, primary key (id), unique (identifier));
 drop table if exists Taxon_Image;
 create table Taxon_Image (Taxon_id bigint not null, images_id bigint not null);
+drop table if exists Taxon_IdentificationKey;
+create table Taxon_IdentificationKey (Taxon_id bigint not null, keys_id bigint not null);
 drop table if exists Taxon_Reference;
 create table Taxon_Reference (Taxon_id bigint not null, references_id bigint not null, primary key (Taxon_id, references_id));
 drop table if exists Taxon_TypeAndSpecimen;
@@ -52,7 +54,6 @@ alter table Distribution add constraint FKAB93A2A46B53D29C foreign key (authorit
 alter table Distribution_Reference add constraint FKF3F2F783968322D2 foreign key (references_id) references Reference;
 alter table Distribution_Reference add constraint FKF3F2F7832D1A3055 foreign key (Distribution_id) references Distribution;
 alter table Group_permissions add constraint FK7A63C2A45090CB20 foreign key (Group_id) references Principal;
-alter table IdentificationKey add constraint FKC35AE4F11EDCD08D foreign key (taxon_id) references Taxon;
 alter table IdentificationKey add constraint FKC35AE4F16B53D29C foreign key (authority_id) references Organisation;
 alter table Identifier add constraint FK165A88C96B53D29C foreign key (authority_id) references Organisation;
 alter table Identifier add constraint FK165A88C9351368A7 foreign key (taxon_id) references Taxon;
@@ -66,12 +67,13 @@ alter table MeasurementOrFact add constraint FK414D5F2B6B53D29C foreign key (aut
 alter table Reference add constraint FK404D5F2B6B53D29C foreign key (authority_id) references Organisation;
 alter table Organisation add constraint FK93F5543B6B53D29C foreign key (authority_id) references Organisation;
 alter table Taxon add constraint FK4CD9EAA54493690 foreign key (acceptedNameUsage_id) references Taxon;
-alter table Taxon add constraint FK4CD9EAA544A087 foreign key (image_id) references Image;
 alter table Taxon add constraint FK4CD9EAA6B53D29C foreign key (authority_id) references Organisation;
 alter table Taxon add constraint FK5CD9EAACA0AED foreign key (nameAccordingTo_id) references Reference;
 alter table Taxon add constraint FK4CE9EAA54493690 foreign key (originalNameUsage_id) references Taxon;
 alter table Taxon add constraint FK4CD9EAACA0AED foreign key (namePublishedIn_id) references Reference;
 alter table Taxon add constraint FK4CD9EAAA9E98AAD foreign key (parentNameUsage_id) references Taxon;
+alter table Taxon_IdentificationKey add constraint FK56D693661EDCD08E foreign key (Taxon_id) references Taxon;
+alter table Taxon_IdentificationKey add constraint FK56D69466437564A foreign key (keys_id) references Image;
 alter table Taxon_Image add constraint FK56D693661EDCD08D foreign key (Taxon_id) references Taxon;
 alter table Taxon_Image add constraint FK56D69366437564A foreign key (images_id) references Image;
 alter table Taxon_Reference add constraint FK164D2BD6968322D1 foreign key (references_id) references Reference;

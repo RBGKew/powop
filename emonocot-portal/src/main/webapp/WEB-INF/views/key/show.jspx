@@ -77,13 +77,20 @@
 								<tbody>
 									<tr>
 										<th><spring:message code="key.title" /></th>
-										<td>
-											<c:url	value="/taxon/${identificationKey.taxon.identifier}" var="taxonUrl" />
-											<a href="${taxonUrl}">
-												<span class="taxonName">${identificationKey.taxon.scientificName}</span>
-												${identificationKey.taxon.scientificNameAuthorship}
-											</a>
-										</td>
+										<td>${identificationKey.title}</td>
+									</tr>
+									<tr>
+									  <th><spring:message code="key.taxa" /></th>
+									  <td>
+									    <ul class="unstyled">
+									      <c:forEach var="taxon" items="${identificationKey.taxa}">
+									        <li>
+									          <c:url var="taxonUrl" value="/taxon/${taxon.identifier}"/>
+									          <a href="${taxonUrl}"><em>${taxon.scientificName}</em> ${taxon.scientificNameAuthorship}</a>
+									        </li>
+									      </c:forEach>
+									    </ul>
+									  </td>
 									</tr>
 									<tr>
 										<th><spring:message code="key.description" /></th>

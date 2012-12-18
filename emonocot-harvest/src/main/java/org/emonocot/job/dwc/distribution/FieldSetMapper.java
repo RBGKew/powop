@@ -7,7 +7,6 @@ import org.emonocot.model.geography.Location;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
-import org.gbif.dwc.terms.UnknownTerm;
 import org.gbif.ecat.voc.EstablishmentMeans;
 import org.gbif.ecat.voc.OccurrenceStatus;
 import org.slf4j.Logger;
@@ -61,7 +60,7 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<Distribution> impl
             DwcTerm dwcTerm = (DwcTerm) term;
             switch (dwcTerm) {
             case establishmentMeans:
-            	object.setEstablishmentMeans(EstablishmentMeans.valueOf(value));
+            	object.setEstablishmentMeans(conversionService.convert(value, EstablishmentMeans.class));
             	break;
             case locality:
             	object.setLocality(value);
@@ -73,17 +72,11 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<Distribution> impl
             	object.setOccurrenceRemarks(value);
             	break;
             case occurrenceStatus:
-            	object.setOccurrenceStatus(OccurrenceStatus.valueOf(value));
+            	object.setOccurrenceStatus(conversionService.convert(value, OccurrenceStatus.class));
             	break;
             default:
             	break;
             }
-        }
-        
-        // Unknown Terms
-        if (term instanceof UnknownTerm) {
-            UnknownTerm unknownTerm = (UnknownTerm) term;
-
         }
     }
     

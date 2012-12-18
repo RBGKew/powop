@@ -3236,4 +3236,45 @@
        <comment>Rename source to organisation and job to resource</comment>
        <renameColumn tableName="Resource" oldColumnName="source_id" newColumnName="organisation_id" columnDataType="bigint"/>
     </changeSet>
+    <changeSet id="2012-12-17_01" author="ben" >
+       <comment>BUG 378 - As a user of eMonocot, I would like to have, in the family and genus pages, links to the related keys, where available</comment>
+       <createTable tableName="Taxon_IdentificationKey">
+            <column name="Taxon_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="keys_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2012-12-17_02" author="ben" >
+        <comment>BUG 378 - As a user of eMonocot, I would like to have, in the family and genus pages, links to the related keys, where available</comment>
+        <addForeignKeyConstraint constraintName="FK56D693661EDCD08E" baseTableName="Taxon_IdentificationKey" baseColumnNames="taxon_id"
+           referencedTableName="Taxon" referencedColumnNames="id"
+        />
+    </changeSet>
+    <changeSet id="2012-12-17_03" author="ben" >
+        <comment>BUG 378 - As a user of eMonocot, I would like to have, in the family and genus pages, links to the related keys, where available</comment>
+        <addForeignKeyConstraint constraintName="FK56D69466437564A" baseTableName="Taxon_IdentificationKey" baseColumnNames="keys_id"
+           referencedTableName="IdentificationKey" referencedColumnNames="id"
+        />
+    </changeSet>
+    <changeSet id="2012-12-17_04" author="ben" >
+        <comment>BUG 378 - As a user of eMonocot, I would like to have, in the family and genus pages, links to the related keys, where available</comment>
+        <sql>insert into Taxon_IdentificationKey (Taxon_id, keys_id) select taxon_id, id from IdentificationKey where taxon_id is not NULL</sql>
+    </changeSet>
+    <changeSet id="2012-12-17_05" author="ben" >
+        <comment>BUG 378 - As a user of eMonocot, I would like to have, in the family and genus pages, links to the related keys, where available</comment>
+        <dropColumn tableName="Taxon" columnName="image_id"/>
+    </changeSet>
+    <changeSet id="2012-12-17_06" author="ben" >
+        <comment>BUG 378 - As a user of eMonocot, I would like to have, in the family and genus pages, links to the related keys, where available</comment>
+        <dropColumn tableName="IdentificationKey" columnName="taxon_id"/>
+    </changeSet>
+    <changeSet id="2012-12-17_07" author="ben">
+      <comment>Adding Bibliographic citation to measurement or fact to accommodate the IUCN data</comment>
+      <addColumn tableName="MeasurementOrFact">        
+        <column name="bibliographicCitation" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
 </databaseChangeLog>

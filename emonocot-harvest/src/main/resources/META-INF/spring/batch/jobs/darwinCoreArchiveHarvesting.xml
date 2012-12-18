@@ -69,8 +69,7 @@
 			<batch:next on="COMPLETED" to="checkDescriptionProcessingMode" />
 			<batch:listeners>
 				<batch:listener ref="processingExceptionProcessListener" />
-				<batch:listener ref="taxonFieldSetMapper" />
-				<batch:listener ref="taxonRelationshipResolver" />
+				<batch:listener ref="taxonFieldSetMapper" />				
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="markTaxonRecordsForImport">
@@ -96,7 +95,7 @@
 			<batch:listeners>
 				<batch:listener ref="processingExceptionProcessListener" />
 				<batch:listener ref="taxonFieldSetMapper" />
-				<batch:listener ref="taxonRelationshipResolver" />
+				<batch:listener ref="taxonImportingProcessor" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="deleteAbsentTaxa">
@@ -157,12 +156,20 @@
 		</batch:step>
 		<batch:decision decider="imageProcessingModeDecider" id="checkImageProcessingMode">
 			<batch:next on="IMPORT_IMAGES" to="markImageRecords" />
-			<batch:next on="IMPORT_IMAGES_DONT_DELETE_MISSING" to="processImagesDecision" />
+			<batch:next on="IMPORT_IMAGES_DONT_DELETE_GLOBAL" to="markRelatedImageRecords" />
 			<batch:next on="SKIP_IMAGES" to="checkReferenceProcessingMode" />
 		</batch:decision>
 		<batch:step id="markImageRecords">
 			<batch:description>Mark the image records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
 			<batch:tasklet ref="markImageRecordsTasklet" />
+			<batch:next on="COMPLETED" to="processImagesDecision" />
+			<batch:listeners>
+				<batch:listener ref="nonOwnedRecordAnnotator" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="markRelatedImageRecords">
+			<batch:description>Mark the image records we expect to be present in this archive (based on what we have previously harvested) but don't delete images which are not associate with a taxon</batch:description>
+			<batch:tasklet ref="markRelatedImageRecordsTasklet" />
 			<batch:next on="COMPLETED" to="processImagesDecision" />
 			<batch:listeners>
 				<batch:listener ref="nonOwnedRecordAnnotator" />
@@ -220,14 +227,22 @@
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="checkReferenceProcessingMode" />			
 		</batch:step>
-		<batch:decision decider="referenceProcessingModeDecider"	id="checkReferenceProcessingMode">
+		<batch:decision decider="referenceProcessingModeDecider" id="checkReferenceProcessingMode">
 			<batch:next on="IMPORT_REFERENCES" to="markReferenceRecords" />
-			<batch:next on="IMPORT_REFERENCES_DONT_DELETE_MISSING" to="processReferencesDecision" />
+			<batch:next on="IMPORT_REFERENCES_DONT_DELETE_GLOBAL" to="markRelatedReferenceRecords" />
 			<batch:next on="SKIP_REFERENCES" to="checkIdentifierProcessingMode" />
 		</batch:decision>
 		<batch:step id="markReferenceRecords">
 			<batch:description>Mark the reference records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
 			<batch:tasklet ref="markReferenceRecordsTasklet" />
+			<batch:next on="COMPLETED" to="processReferencesDecision" />
+			<batch:listeners>
+				<batch:listener ref="nonOwnedRecordAnnotator" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="markRelatedReferenceRecords">
+			<batch:description>Mark the reference records we expect to be present in this archive (based on what we have previously harvested) but don't delete references which are not associate with a taxon</batch:description>
+			<batch:tasklet ref="markRelatedReferenceRecordsTasklet" />
 			<batch:next on="COMPLETED" to="processReferencesDecision" />
 			<batch:listeners>
 				<batch:listener ref="nonOwnedRecordAnnotator" />
@@ -453,12 +468,20 @@
 		</batch:step>
 		<batch:decision decider="typeAndSpecimenProcessingModeDecider"	id="checkTypeAndSpecimenProcessingMode">
 			<batch:next on="IMPORT_TYPE_AND_SPECIMEN" to="markTypeAndSpecimenRecords" />
-			<batch:next on="IMPORT_TYPE_AND_SPECIMEN_DONT_DELETE_MISSING" to="processTypeAndSpecimenDecision" />
+			<batch:next on="IMPORT_TYPE_AND_SPECIMEN_DONT_DELETE_GLOBAL" to="markRelatedTypeAndSpecimenRecords" />
 			<batch:next on="SKIP_TYPE_AND_SPECIMEN" to="calculateDerivedProperties" />
 		</batch:decision>
 		<batch:step id="markTypeAndSpecimenRecords">
 			<batch:description>Mark the type and specimen records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
 			<batch:tasklet ref="markTypeAndSpecimenRecordsTasklet" />
+			<batch:next on="COMPLETED" to="processTypeAndSpecimenDecision" />
+			<batch:listeners>
+				<batch:listener ref="nonOwnedRecordAnnotator" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="markRelatedTypeAndSpecimenRecords">
+			<batch:description>Mark the type and specimen records we expect to be present in this archive (based on what we have previously harvested) but don't delete specimens not related to a taxon</batch:description>
+			<batch:tasklet ref="markRelatedTypeAndSpecimenRecordsTasklet" />
 			<batch:next on="COMPLETED" to="processTypeAndSpecimenDecision" />
 			<batch:listeners>
 				<batch:listener ref="nonOwnedRecordAnnotator" />
@@ -641,13 +664,6 @@
 			</bean>
 		</property>
 		<property name="lineMapper" ref="taxonLineMapper" />
-	</bean>
-
-	<bean id="taxonRelationshipResolver"
-		class="org.emonocot.harvest.common.TaxonRelationshipResolverImpl"
-		scope="step">
-		<property name="sourceName" value="#{jobParameters['authority.name']}" />
-		<property name="taxonService" ref="taxonServiceImpl" />
 	</bean>
 
 	<bean id="taxonImportingProcessor" class="org.emonocot.job.dwc.taxon.Processor"
@@ -866,6 +882,24 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="markRelatedImageRecordsTasklet"
+		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+		scope="step">
+		<property name="targetObject" ref="nonOwnedRecordAnnotator" />
+		<property name="targetMethod" value="annotateRelatedRecords" />
+		<property name="arguments">
+			<list>
+				<value>#{jobParameters['authority.name']}</value>
+				<value>Image</value>
+				<value>insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select distinct o.id, ':annotatedObjType', ':jobId', :dateTime, :authorityId, 'Warn', 'Absent', ':annotatedObjType' from Image o join Taxon_Image o_t on (o.id = o_t.images_id) join Taxon t on (o_t.Taxon_id = t.id) left join Taxon a on (t.acceptedNameUsage_id = a.id) where o.authority_id = :authorityId and (t.:subsetRank = ':subsetValue' or a.:subsetRank = ':subsetValue')</value>
+		        <value>#{jobParameters['family']}</value>
+		        <value>#{jobParameters['subfamily']}</value>
+		        <value>#{jobParameters['tribe']}</value>
+		        <value>#{jobParameters['subtribe']}</value>		
+			</list>
+		</property>
+	</bean>
 
 	<bean id="imageReader" class="org.springframework.batch.item.file.FlatFileItemReader"
 		scope="step">
@@ -990,6 +1024,24 @@
 			<list>
 				<value>#{jobParameters['authority.name']}</value>
 				<value>Reference</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="markRelatedReferenceRecordsTasklet"
+		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+		scope="step">		
+		<property name="targetObject" ref="nonOwnedRecordAnnotator" />
+		<property name="targetMethod" value="annotateRelatedRecords" />
+		<property name="arguments">
+			<list>
+				<value>#{jobParameters['authority.name']}</value>
+				<value>Reference</value>
+				<value>insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select distinct o.id, ':annotatedObjType', ':jobId', :dateTime, :authorityId, 'Warn', 'Absent', ':annotatedObjType' from Reference o join Taxon_Reference o_t on (o.id = o_t.references_id) join Taxon t on (o_t.Taxon_id = t.id) left join Taxon a on (t.acceptedNameUsage_id = a.id) where o.authority_id = :authorityId and (t.:subsetRank = ':subsetValue' or a.:subsetRank = ':subsetValue')</value>
+		        <value>#{jobParameters['family']}</value>
+		        <value>#{jobParameters['subfamily']}</value>
+		        <value>#{jobParameters['tribe']}</value>
+		        <value>#{jobParameters['subtribe']}</value>			
 			</list>
 		</property>
 	</bean>
@@ -1166,8 +1218,7 @@
 		<property name="parameterValues">
 			<map>
 				<entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-				<entry key="code"
-					value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
+				<entry key="code" value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
 			</map>
 		</property>
 	</bean>
@@ -1202,14 +1253,11 @@
 
 	<bean id="distributionReader" class="org.springframework.batch.item.file.FlatFileItemReader"
 		scope="step">
-		<property name="encoding"
-			value="#{jobExecutionContext['dwca.distribution.encoding']}" />
-		<property name="linesToSkip"
-			value="#{jobExecutionContext['dwca.distribution.ignoreHeaderLines']}" />
+		<property name="encoding" value="#{jobExecutionContext['dwca.distribution.encoding']}" />
+		<property name="linesToSkip" value="#{jobExecutionContext['dwca.distribution.ignoreHeaderLines']}" />
 		<property name="bufferedReaderFactory" ref="bufferedReaderFactory" />
 		<property name="resource">
-			<bean class="org.springframework.core.io.FileSystemResource"
-				scope="step">
+			<bean class="org.springframework.core.io.FileSystemResource" scope="step">
 				<constructor-arg value="#{jobExecutionContext['dwca.distribution.file']}" />
 			</bean>
 		</property>
@@ -1261,13 +1309,11 @@
 		class="org.springframework.batch.item.database.HibernateCursorItemReader"
 		scope="step">
 		<property name="sessionFactory" ref="sessionFactory" />
-		<property name="queryString"
-			value="select d from Distribution d join d.annotations a where a.jobId = :jobId and a.code = :code" />
+		<property name="queryString" value="select d from Distribution d join d.annotations a where a.jobId = :jobId and a.code = :code" />
 		<property name="parameterValues">
 			<map>
 				<entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-				<entry key="code"
-					value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
+				<entry key="code" value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
 			</map>
 		</property>
 	</bean>
@@ -1485,6 +1531,24 @@
 		</property>
 	</bean>
 	
+	<bean id="markRelatedTypeAndSpecimenRecordsTasklet"
+		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+		scope="step">
+		<property name="targetObject" ref="nonOwnedRecordAnnotator" />
+		<property name="targetMethod" value="annotateRelatedRecords" />
+		<property name="arguments">
+			<list>
+				<value>#{jobParameters['authority.name']}</value>
+				<value>TypeAndSpecimen</value>
+				<value>insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select distinct o.id, ':annotatedObjType', ':jobId', :dateTime, :authorityId, 'Warn', 'Absent', ':annotatedObjType' from TypeAndSpecimen o join Taxon_TypeAndSpecimen o_t on (o.id = o_t.typesAndSpecimens_id) join Taxon t on (o_t.Taxon_id = t.id) left join Taxon a on (t.acceptedNameUsage_id = a.id) where o.authority_id = :authorityId and (t.:subsetRank = ':subsetValue' or a.:subsetRank = ':subsetValue')</value>
+				<value>#{jobParameters['family']}</value>
+		        <value>#{jobParameters['subfamily']}</value>
+		        <value>#{jobParameters['tribe']}</value>
+		        <value>#{jobParameters['subtribe']}</value>				
+			</list>
+		</property>
+	</bean>
+	
 	<bean id="typeAndSpecimenProcessingModeDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
 		<property name="processingModeKey" value="typeAndSpecimen.processing.mode" />
 		<property name="defaultProcessingMode" value="IMPORT_TYPE_AND_SPECIMEN" />
@@ -1578,7 +1642,7 @@
 		class="org.emonocot.job.dwc.DwCProcessingExceptionProcessListener"
 		scope="step">
 		<property name="sourceName" value="#{jobParameters['authority.name']}" />
-		<property name="hibernateSessionFactory" ref="sessionFactory" />
+		<property name="sessionFactory" ref="sessionFactory" />
 		<property name="transactionManager" ref="transactionManager" />
 	</bean>
 

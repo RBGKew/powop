@@ -3,9 +3,6 @@ package org.emonocot.job.dwc.taxon;
 import java.util.HashMap;
 
 import org.emonocot.api.ReferenceService;
-import org.emonocot.harvest.common.TaxonRelationship;
-import org.emonocot.harvest.common.TaxonRelationshipResolver;
-import org.emonocot.harvest.common.TaxonRelationshipResolverImpl;
 import org.emonocot.job.dwc.read.BaseDataFieldSetMapper;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Reference;
@@ -24,37 +21,22 @@ import org.gbif.ecat.voc.TaxonomicStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
-import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionException;
 import org.springframework.validation.BindException;
-import org.tdwg.voc.TaxonRelationshipTerm;
 
 /**
  *
  * @author ben
  *
  */
-public class FieldSetMapper extends
-        BaseDataFieldSetMapper<Taxon> implements ChunkListener {
+public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> implements ChunkListener {
 
    /**
     *
     */
     private Logger logger
         = LoggerFactory.getLogger(FieldSetMapper.class);
-    
-    /**
-     *
-     */
-    private boolean resolveRelationships = false;  
-
-    /**
-     *
-     */
-    private TaxonRelationshipResolver taxonRelationshipResolver = new TaxonRelationshipResolverImpl();
-
-
 
     /**
      *
@@ -79,15 +61,6 @@ public class FieldSetMapper extends
     @Autowired
     public final void setReferenceService(final ReferenceService newReferenceService) {
         this.referenceService = newReferenceService;
-    }
-
-    /**
-     * @param resolver Set the taxon relationship resolver
-     */
-    @Autowired
-    public final void setTaxonRelationshipResolver(
-            final TaxonRelationshipResolver resolver) {
-        this.taxonRelationshipResolver = resolver;
     }
 
     /**
@@ -123,11 +96,10 @@ public class FieldSetMapper extends
             DwcTerm dwcTerm = (DwcTerm) term;
             switch (dwcTerm) {
             case acceptedNameUsageID:
-                if (resolveRelationships && value != null && value.trim().length() != 0) {
-                    TaxonRelationship taxonRelationship = new TaxonRelationship(
-                            object, TaxonRelationshipTerm.IS_SYNONYM_FOR);
-                    taxonRelationshipResolver.addTaxonRelationship(
-                            taxonRelationship, value);
+                if (value != null && value.trim().length() != 0) {
+                    Taxon taxon = new Taxon();
+                    taxon.setIdentifier(value);
+                    object.setAcceptedNameUsage(taxon);
                 }
                 break;
             case classs:
@@ -155,10 +127,10 @@ public class FieldSetMapper extends
             	object.setNamePublishedInString(value);
             	break;
             case namePublishedInYear:
-            	object.setNamePublishedInYear(Integer.parseInt(value));
+            	object.setNamePublishedInYear(conversionService.convert(value, Integer.class));
             	break;
             case nomenclaturalCode:
-                object.setNomenclaturalCode(NomenclaturalCode.fromString(value));
+                object.setNomenclaturalCode(conversionService.convert(value, NomenclaturalCode.class));
                 break;
             case nomenclaturalStatus:
             	object.setNomenclaturalStatus(conversionService.convert(value, NomenclaturalStatus.class));
@@ -167,19 +139,17 @@ public class FieldSetMapper extends
                 object.setOrder(value);
                 break;
             case originalNameUsageID:
-            	if (resolveRelationships && value != null && value.trim().length() != 0) {
-                    TaxonRelationship taxonRelationship = new TaxonRelationship(
-                            object, TaxonRelationshipTerm.HAS_BASIONYM);
-                    taxonRelationshipResolver.addTaxonRelationship(
-                            taxonRelationship, value);
+            	if (value != null && value.trim().length() != 0) {
+            		Taxon taxon = new Taxon();
+                    taxon.setIdentifier(value);
+                    object.setOriginalNameUsage(taxon);
                 }
             	break;
             case parentNameUsageID:
-                if (resolveRelationships && value != null && value.trim().length() != 0) {
-                    TaxonRelationship taxonRelationship = new TaxonRelationship(
-                            object, TaxonRelationshipTerm.IS_CHILD_TAXON_OF);
-                    taxonRelationshipResolver.addTaxonRelationship(
-                            taxonRelationship, value);
+                if (value != null && value.trim().length() != 0) {
+                	Taxon taxon = new Taxon();
+                    taxon.setIdentifier(value);
+                    object.setParentNameUsage(taxon);
                 }
                 break;
             case phylum:
@@ -205,9 +175,9 @@ public class FieldSetMapper extends
                 break;
             case taxonomicStatus:
                 try {
-                    object.setTaxonomicStatus(TaxonomicStatus.fromString(value));
-                } catch (IllegalArgumentException iae) {
-                    logger.error(iae.getMessage());
+                    object.setTaxonomicStatus(conversionService.convert(value, TaxonomicStatus.class));
+                } catch (ConversionException ce) {
+                    logger.error(ce.getMessage());
                 }
                 break;
             case taxonRank:
@@ -277,17 +247,7 @@ public class FieldSetMapper extends
     *
     */
    public final void beforeChunk() {
-       logger.info("Before Chunk");
-       JobExecution jobExecution = getStepExecution().getJobExecution();
-       if (jobExecution.getExecutionContext().containsKey("taxon.processing.mode")) {
-        String taxonProcessingMode = jobExecution.getExecutionContext()
-           .getString("taxon.processing.mode");
-         if(taxonProcessingMode.equals("IMPORT_TAXA")) {
-             resolveRelationships = true;
-         } else {
-             resolveRelationships = false;
-         }
-       }
+       logger.info("Before Chunk");       
 
        boundReferences = new HashMap<String, Reference>();
    }

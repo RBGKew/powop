@@ -56,7 +56,7 @@
 	<!-- Writing -->
 	<bean id="processingExceptionProcessListener" class="org.emonocot.job.dwc.DwCProcessingExceptionProcessListener" scope="step">
 	  <property name="sourceName" value="#{jobParameters['authority.name']}"/>
-	  <property name="hibernateSessionFactory" ref="sessionFactory"/>
+	  <property name="sessionFactory" ref="sessionFactory"/>
 	  <property name="transactionManager" ref="transactionManager"/>
 	</bean>
 

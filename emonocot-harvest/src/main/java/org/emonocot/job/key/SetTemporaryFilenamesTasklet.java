@@ -62,6 +62,7 @@ public class SetTemporaryFilenamesTasklet implements Tasklet {
         File outputFile = new File(outputFileName);
         executionContext.put("output.file.name",
                 outputFile.getAbsolutePath());
+        executionContext.putLong("job.execution.id", chunkContext.getStepContext().getStepExecution().getJobExecutionId());
 
         return RepeatStatus.FINISHED;
     }

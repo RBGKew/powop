@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.emonocot.model.Annotation;
 import org.emonocot.model.Taxon;
 import org.emonocot.persistence.hibernate.SolrIndexingListener;
 import org.hibernate.Session;
@@ -115,29 +116,27 @@ public class IdentificationKeyJobIntegrationTest {
         solrIndexingListener.indexObjects(taxa);
         tx.commit();
 
-        Map<String, JobParameter> parameters =
-            new HashMap<String, JobParameter>();
-        parameters.put("authority.name", new JobParameter(
-                "test"));
-        parameters.put("authority.uri", new JobParameter(
-                "http://build.e-monocot.org/test/testKey.xml"));
-        parameters.put(
-                "authority.last.harvested",
-                new JobParameter(Long
-                        .toString((IdentificationKeyJobIntegrationTest.PAST_DATETIME
-                                .getMillis()))));
+        Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
+        parameters.put("authority.name", new JobParameter("test"));
+        parameters.put("root.taxon.identifier", new JobParameter("urn:kew.org:wcs:taxon:16026"));
+        parameters.put("authority.uri", new JobParameter("http://build.e-monocot.org/test/testKey.xml"));
+        parameters.put("authority.last.harvested", new JobParameter(Long.toString((IdentificationKeyJobIntegrationTest.PAST_DATETIME.getMillis()))));
         JobParameters jobParameters = new JobParameters(parameters);
 
-        Job identificationKeyHarvestingJob = jobLocator
-                .getJob("IdentificationKeyHarvesting");
-        assertNotNull("IdentificationKeyHarvesting must not be null",
-                identificationKeyHarvestingJob);
+        Job identificationKeyHarvestingJob = jobLocator.getJob("IdentificationKeyHarvesting");
+        assertNotNull("IdentificationKeyHarvesting must not be null", identificationKeyHarvestingJob);
         JobExecution jobExecution = jobLauncher.run(identificationKeyHarvestingJob, jobParameters);
         for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
             logger.info(stepExecution.getStepName() + " "
                     + stepExecution.getReadCount() + " "
                     + stepExecution.getFilterCount() + " "
                     + stepExecution.getWriteCount());
+        }
+        
+        
+        List<Annotation> annotations = session.createQuery("from Annotation a").list();
+        for(Annotation a : annotations) {
+        	logger.info(a.getJobId() + " " + a.getRecordType() + " " + a.getType() + " " + a.getCode() + " " + a.getText());
         }
     }
 }

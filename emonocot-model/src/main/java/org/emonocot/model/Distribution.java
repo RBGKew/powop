@@ -253,4 +253,19 @@ public class Distribution extends OwnedEntity {
     public final String getClassName() {
         return "Distribution";
     }
+	
+	@Override
+	public String toString() {
+		StringBuffer stringBuffer = new StringBuffer();
+		if(location != null) {
+		    stringBuffer.append(location.toString());
+		}
+		if(occurrenceStatus != null) {
+			stringBuffer.append(" " + occurrenceStatus.toString());
+		}
+		if(establishmentMeans != null) {
+			stringBuffer.append(" " + establishmentMeans.toString());
+		}
+		return stringBuffer.toString();
+	}
 }

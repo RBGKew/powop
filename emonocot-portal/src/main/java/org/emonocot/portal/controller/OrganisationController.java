@@ -490,11 +490,13 @@ public class OrganisationController extends GenericController<Organisation, Orga
 			jobLaunchRequest.setJob("IdentificationKeyHarvesting");
 			break;
 		case OAI_PMH:
-
 			jobLaunchRequest.setJob("OaiPmhTaxonHarvesting");
 			break;
 		case DwC_Archive:
 			jobLaunchRequest.setJob("DarwinCoreArchiveHarvesting");
+			break;
+		case IUCN:
+			jobLaunchRequest.setJob("IUCNImport");
 			break;
 		default:
 			logger.error("Attempted to launch a job of unknown type, assuming it's a DwC job",

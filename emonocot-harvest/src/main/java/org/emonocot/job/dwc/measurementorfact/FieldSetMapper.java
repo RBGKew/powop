@@ -47,6 +47,9 @@ public class FieldSetMapper extends
         if (term instanceof DcTerm) {
             DcTerm dcTerm = (DcTerm) term;
             switch (dcTerm) {
+            case bibliographicCitation:
+                object.setBibliographicCitation(value);
+                break;
             default:
                 break;
             }

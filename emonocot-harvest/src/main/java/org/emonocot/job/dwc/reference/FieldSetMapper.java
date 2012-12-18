@@ -69,13 +69,7 @@ public class FieldSetMapper extends  NonOwnedFieldSetMapper<Reference> {
                 object.setTitle(value);
                 break;
             case type:
-                try {
-                    object.setType(ReferenceType.valueOf(value));
-                } catch (IllegalArgumentException pe) {
-                    BindException be = new BindException(object, "target");
-                    be.rejectValue("type", "not.valid", pe.getMessage());
-                    throw be;
-                }
+                object.setType(conversionService.convert(value, ReferenceType.class));                
                 break;
             default:
                 break;

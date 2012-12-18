@@ -880,7 +880,7 @@ public class TestDataManager {
         if (taxon != null && taxon.length() > 0) {
             Taxon t = new Taxon();
             t.setIdentifier(taxon);
-            key.setTaxon(t);
+            key.getTaxa().add(t);
         }
         identificationKeyService.save(key);
     }

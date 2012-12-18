@@ -405,4 +405,19 @@ public class TypeAndSpecimen extends BaseData implements NonOwned {
     		this.location = null;
     	}
 	}
+    
+    @Override
+    public String toString() {
+    	StringBuffer stringBuffer = new StringBuffer();
+    	if(institutionCode != null) {
+    		stringBuffer.append(institutionCode);
+    	}
+    	if(catalogNumber != null) {
+    		stringBuffer.append(" " + catalogNumber);
+    	}
+    	if(collectionCode != null) {
+    		stringBuffer.append(" " + collectionCode);
+    	}
+    	return stringBuffer.toString();
+    }
 }

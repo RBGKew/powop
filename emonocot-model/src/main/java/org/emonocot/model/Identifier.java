@@ -178,4 +178,14 @@ public class Identifier extends OwnedEntity {
     public void setAnnotations(Set<Annotation> annotations) {
         this.annotations = annotations;
     }
+    
+    @Override
+    public String toString() {
+    	StringBuffer stringBuffer = new StringBuffer();
+    	stringBuffer.append(identifier);
+    	if(title != null) {
+    		stringBuffer.append(": \"" + title + "\"");
+    	}
+    	return stringBuffer.toString();
+    }
 }

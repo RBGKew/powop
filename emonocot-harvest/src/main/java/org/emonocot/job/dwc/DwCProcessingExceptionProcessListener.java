@@ -28,11 +28,9 @@ import org.springframework.validation.BindException;
  */
 public class DwCProcessingExceptionProcessListener extends
         AbstractRecordAnnotator implements ItemProcessListener<Base, Base>,
-        ItemReadListener<Base>, ItemWriteListener<Base>, StepExecutionListener {
+        ItemReadListener<Base>, ItemWriteListener<Base> {
 	
     private Logger logger = LoggerFactory.getLogger(DwCProcessingExceptionProcessListener.class);
-
-    private StepExecution stepExecution;
     
     public void beforeProcess(final Base item) {
 
@@ -47,9 +45,14 @@ public class DwCProcessingExceptionProcessListener extends
         if (e instanceof DarwinCoreProcessingException) {
             DarwinCoreProcessingException dwcpe = (DarwinCoreProcessingException) e;
             logger.debug(dwcpe.getCode() + " | " + dwcpe.getMessage());
-            super.annotate(dwcpe.getRecordType(),
-                    stepExecution.getJobExecutionId(), dwcpe.getCode(),
-                    dwcpe.getValue(), dwcpe.getType(), dwcpe.getMessage());
+            Annotation annotation = new Annotation();
+            annotation.setRecordType(dwcpe.getRecordType());
+            annotation.setJobId(stepExecution.getJobExecutionId());
+            annotation.setCode(dwcpe.getCode());
+            annotation.setValue(dwcpe.getValue());
+            annotation.setType(dwcpe.getType());
+            annotation.setText(dwcpe.getMessage());
+            super.annotate(annotation);
         }
     }
 
@@ -81,14 +84,6 @@ public class DwCProcessingExceptionProcessListener extends
         default:
         	return null;
         }
-    }
-
-    public final void beforeStep(final StepExecution newStepExecution) {
-        this.stepExecution = newStepExecution;
-    }
-
-    public final ExitStatus afterStep(final StepExecution newStepExecution) {
-        return null;
     }
 
     public void afterRead(final Base base) {

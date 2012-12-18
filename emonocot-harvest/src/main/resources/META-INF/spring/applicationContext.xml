@@ -35,7 +35,12 @@
 		<property name="converters">
 			<list>
 			    <bean class="org.emonocot.model.convert.RankConverter" />
+			    <bean class="org.emonocot.model.convert.EstablishmentMeansConverter" />
+			    <bean class="org.emonocot.model.convert.OccurrenceStatusConverter" />
+			    <bean class="org.emonocot.model.convert.NomenclaturalCodeConverter" />
 			    <bean class="org.emonocot.model.convert.NomenclaturalStatusConverter" />
+			    <bean class="org.emonocot.model.convert.ReferenceTypeConverter" />
+			    <bean class="org.emonocot.model.convert.TaxonomicStatusConverter" />
 				<bean class="org.emonocot.model.convert.StringToLocationConverter" />
 				<bean class="org.emonocot.model.convert.LocationToStringConverter" />
 				<bean class="org.emonocot.model.convert.StringToLocationConverter" />

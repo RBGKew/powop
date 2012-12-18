@@ -71,16 +71,7 @@ public class Processor extends NonOwnedProcessor<Image, ImageService> implements
                     image.setTaxon(sorted.get(0));
                 }
             }
-        }
-        for (Image image : images) {
-            if (!image.getTaxa().isEmpty()) {
-                for (Taxon t : image.getTaxa()) {
-                    if (t.getImage() == null) {
-                        t.setImage(t.getImages().get(0));
-                    }
-                }
-            }
-        }
+        }        
     }
 
     /**

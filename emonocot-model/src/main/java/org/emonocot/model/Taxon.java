@@ -108,8 +108,6 @@ public class Taxon extends SearchableObject {
 
 	private Reference nameAccordingTo;
 
-	private Image image;
-
 	private List<Taxon> higherClassification = new ArrayList<Taxon>();
 
 	private Taxon parentNameUsage;
@@ -169,22 +167,6 @@ public class Taxon extends SearchableObject {
 	@JsonIgnore
 	public List<Image> getImages() {
 		return images;
-	}
-
-	/**
-	 * @return the image
-	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	public Image getImage() {
-		return image;
-	}
-
-	/**
-	 * @param image
-	 *            the image to set
-	 */
-	public void setImage(Image image) {
-		this.image = image;
 	}
 
 	/**
@@ -736,8 +718,8 @@ public class Taxon extends SearchableObject {
 	/**
 	 * @return the keys
 	 */
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon")
-	@JsonSerialize(contentUsing = ReferenceSerializer.class)
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "taxa")
+	@JsonIgnore
 	public Set<IdentificationKey> getKeys() {
 		return keys;
 	}
@@ -1070,4 +1052,14 @@ public class Taxon extends SearchableObject {
 			indexLocality(g.getParent(), sid);
 		}
 	}
+	
+	@Override
+	public String toString() {
+		StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer.append(scientificName);
+		if(scientificNameAuthorship != null) {
+			stringBuffer.append(" " + scientificNameAuthorship);
+		}
+		return stringBuffer.toString();
+	} 
 }

@@ -49,6 +49,8 @@ public class MeasurementOrFact extends OwnedEntity {
 	
 	private String measurementRemarks;
 	
+	private String bibliographicCitation;
+	
 	private Taxon taxon;
 	
 	private Set<Annotation> annotations = new HashSet<Annotation>();
@@ -159,4 +161,29 @@ public class MeasurementOrFact extends OwnedEntity {
         this.annotations = annotations;
     }
 
+	/**
+	 * @return the bibliographicCitation
+	 */
+	public String getBibliographicCitation() {
+		return bibliographicCitation;
+	}
+
+	/**
+	 * @param bibliographicCitation the bibliographicCitation to set
+	 */
+	public void setBibliographicCitation(String bibliographicCitation) {
+		this.bibliographicCitation = bibliographicCitation;
+	}
+	
+	@Override
+    public String toString() {
+    	StringBuffer stringBuffer = new StringBuffer();
+    	if(measurementType != null) {
+    	    stringBuffer.append(measurementType.toString());
+    	}
+    	if(measurementValue != null) {
+    		stringBuffer.append(": \"" + measurementValue + "\"");
+    	}
+    	return stringBuffer.toString();
+    }
 }

@@ -60,12 +60,7 @@ public class IdentificationKeyController extends
     public final String getPage(@PathVariable final Long id,
             final Model model) {
         IdentificationKey key = getService().load(id, "object-page");
-        model.addAttribute(key); 
-     // TODO add opensession in view filter and remove this code
-        if (key.getTaxon() != null) {
-            model.addAttribute(taxonService.load(
-                    key.getTaxon().getIdentifier(), null));
-        }
+        model.addAttribute(key);     
         return "key/show";
     }
 

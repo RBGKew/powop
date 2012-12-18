@@ -29,6 +29,10 @@ public enum JobType {
     /**
      *
      */
-    IDENTIFICATION_KEY;
+    IDENTIFICATION_KEY,
+    /**
+     *
+     */
+    IUCN;
 
 }
