@@ -56,7 +56,7 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
     public final List<Match<Taxon>> match(final ParsedName<String> parsed) {
         StringBuilder stringBuilder = new StringBuilder();
         if (parsed.getSpecificEpithet() == null) {
-            stringBuilder.append("taxon.genus_s:" + parsed.getGenusOrAbove());
+            stringBuilder.append("taxon.scientific_name_t:" + parsed.getGenusOrAbove());
             if(parsed.getAuthorship() != null) {
                 stringBuilder.append(" AND taxon.scientific_name_authorship_s:"
                         + parsed.getAuthorship());
@@ -74,6 +74,8 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
             if (parsed.getInfraSpecificEpithet() != null) {
                 stringBuilder.append(" AND taxon.infraspecific_epithet_s:"
                         + parsed.getInfraSpecificEpithet());
+            } else {
+            	stringBuilder.append(" AND -taxon.infraspecific_epithet_s:[* TO *]");
             }
             if (parsed.getRank() != null) {
                 if (parsed.getRank().equals(Rank.SPECIES)) {

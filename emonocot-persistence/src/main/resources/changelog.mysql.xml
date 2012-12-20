@@ -3277,4 +3277,34 @@
         <column name="bibliographicCitation" type="varchar(255)"/>
       </addColumn>
     </changeSet>
+    <changeSet author="ben" id="2012-12-20_01">
+        <comment>Would be helpful if we indexed columns we join on, wouldn't it. . . </comment>
+        <createIndex indexName="Annotation_annotatedObjId_IDX" tableName="Annotation" unique="false">
+            <column name="annotatedObjId"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2012-12-20_02">
+        <comment>Would be helpful if we indexed columns we join on, wouldn't it. . . </comment>
+        <createIndex indexName="Annotation_annotatedObjType_IDX" tableName="Annotation" unique="false">
+            <column name="annotatedObjType"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2012-12-20_03">
+        <comment>Would be helpful if we indexed columns we use as surrogate keys, wouldn't it . . . </comment>
+        <createIndex indexName="Description_identifier_IDX" tableName="Description" unique="true">
+            <column name="identifier"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2012-12-20_04">
+        <comment>Would be helpful if we indexed columns we use as surrogate keys, wouldn't it . . . </comment>
+        <createIndex indexName="Distribution_identifier_IDX" tableName="Distribution" unique="true">
+            <column name="identifier"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2012-12-20_05">
+        <comment>Would be helpful if we indexed columns we use as surrogate keys, wouldn't it . . . </comment>
+        <createIndex indexName="Reference_identifier_IDX" tableName="Reference" unique="true">
+            <column name="identifier"/>
+        </createIndex>
+    </changeSet>
 </databaseChangeLog>

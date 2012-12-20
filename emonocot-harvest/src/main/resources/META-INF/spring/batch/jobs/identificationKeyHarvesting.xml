@@ -260,7 +260,7 @@
 
 	<bean id="datasetProcessor" class="org.emonocot.job.key.DatasetProcessor"
 		scope="step">
-		<property name="rootTaxonIdentifier" value="#{jobExecutionContext['root.taxon.identifier']}" />
+		<property name="rootTaxonIdentifier" value="#{jobParameters['root.taxon.identifier']}" />
 		<property name="taxonService" ref="taxonServiceImpl" />
 		<property name="authorityUri" value="#{jobParameters['authority.uri']}" />
 		<property name="sourceName" value="#{jobParameters['authority.name']}" />

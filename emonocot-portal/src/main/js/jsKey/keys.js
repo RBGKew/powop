@@ -2,7 +2,7 @@ function Key(data) {
   //console.log("Initializing key");
   this.data = data;
   this.selectedCharacters = [];
-  this.allowUnscored = true;
+  this.allowUnscored = false;
   this.unmatchedTaxa = [];
   this.matchedTaxa = this.data.taxa;
   this.characterTree = this.data.characterTree;
@@ -18,6 +18,7 @@ Key.prototype.reset = function() {
     this.selectedCharacters = [];
     this.matchedTaxa = this.data.taxa;
     this.unmatchedTaxa = [];
+
     for(var i = 0; i < this.data.characters.length; i++) {
     	var character = this.data.characters[i];
     	delete character.selectedValues;
@@ -53,6 +54,10 @@ Key.prototype.getTaxonPath = function() {
     return this.taxonPath;
 };
 
+Key.prototype.getAllowUnscored = function() {
+    return this.allowUnscored;
+};
+
 Key.prototype.setAllowUnscored = function(allow) {
     this.allowUnscored = allow;
 };
@@ -79,7 +84,11 @@ Key.prototype.calculate = function() {
     //console.log("Key.calculate");
     this.matchedTaxa = [];
     this.unmatchedTaxa = [];
+    this.resetScores();
+    this.calculateDependencies();
+    
     if ( this.selectedCharacters && this.selectedCharacters.length > 0 ) {
+		
         this.calculateList();
         if(this.autoPrune) {
           this.calculateRedundant();
@@ -97,6 +106,10 @@ Key.prototype.pruneRedundants = function() {
     //console.log("Key.pruneRedundants");
     this.matchedTaxa = [];
     this.unmatchedTaxa = [];
+    this.resetScores();
+    this.calculateDependencies();
+    
+
     if ( this.selectedCharacters && this.selectedCharacters.length > 0 ) {
         this.calculateList();
         this.calculateRedundant();
@@ -141,8 +154,8 @@ Key.prototype.calculateRedundant = function() {
 Key.prototype.getUnselectedCharacters = function() {
     var selectedCharacterHash = [];
     for (var i=0; i<this.selectedCharacters.length; i++) {
-	var character = this.selectedCharacters[i];
-	selectedCharacterHash[character.id] = character;
+	    var character = this.selectedCharacters[i];
+	    selectedCharacterHash[character.id] = character;
     }
 
     var unselectedCharacters = [];
@@ -215,15 +228,83 @@ Key.prototype.unselectCharacter = function(characterId) {
     for(var i = 0; i < this.selectedCharacters.length; i++) {
       var character = this.selectedCharacters[i];
       if(character.id != characterId) {
-        newSelectedCharacters.push(character);
+         newSelectedCharacters.push(character);
       } else {
-    	  delete character.selectedValues;
-      	  delete character.isRedundant;
+  	     character.selectedValues = null;
       }
     }
     this.selectedCharacters = newSelectedCharacters;
 };
 
+Key.prototype.isSelected = function(characterId, state) {
+	for(var i = 0; i < this.selectedCharacters.length; i++) {
+		var character = this.selectedCharacters[i];
+		if(character.id == characterId) {
+		  switch (character.type) {
+          case Key.Categorical:
+	        for (var i=0; i<character.selectedValues.length; i++) {
+		      var selectedValue = character.selectedValues[i];
+		      if ( selectedValue == state) {
+			       return true;
+              }
+	        }
+	        return false;
+            // Quantitative
+          default:
+            return true;
+          }
+    
+		}
+	}
+	return false;
+};
+
+Key.prototype.calculateDependency = function(charNodeId) {
+	var charNode = this.characterTree[charNodeId];
+	
+	if(!Key.isUndefined(charNode.onlyApplicableIf)) {
+	  var applicable = false;
+	  for(var i = 0; i < charNode.onlyApplicableIf.length; i++) {
+		var charState = charNode.onlyApplicableIf[i];
+		
+		if(this.isSelected(charState.character, charState.state)) {
+			applicable = true;
+		}
+	  }
+      if(!applicable) {
+		return true;
+	  }
+    }
+    if(!Key.isUndefined(charNode.inapplicableIf)) {
+	  for(var i = 0; i < charNode.inapplicableIf.length; i++) {
+		var charState = charNode.inapplicableIf[i];
+		
+		if(this.isSelected(charState.character, charState.state)) {
+			return true;
+		}
+	  }
+    }
+	return false;
+};
+
+Key.prototype.resetScores = function() {
+	var numberOfCharacters = this.data.characters.length;
+	for(var i = 0; i < numberOfCharacters; i++) {
+		delete this.data.characters[i].isRedundant;
+	}
+	var numberOfCharacterNodes = this.characterTree.length;
+	for(var i = 0; i < numberOfCharacterNodes; i++) {
+		delete this.characterTree[i].isExcluded;
+	}
+	
+};
+
+Key.prototype.calculateDependencies = function() {
+	var numberOfCharacterNodes = this.characterTree.length;
+	for(var i = 0; i < numberOfCharacterNodes; i++) {
+		this.characterTree[i].isExcluded = this.calculateDependency(i);
+	}
+};
 
 Key.prototype.calculateList = function() {
     //console.log("Key.calculateList");

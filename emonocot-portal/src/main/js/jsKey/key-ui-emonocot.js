@@ -13,7 +13,19 @@ Key.prototype.setView = function(view) {
 
 function writeNode(key, node) {
    var html = "";
+
+   if(!Key.isUndefined(node.isExcluded) && node.isExcluded) {
+	     return html;
+   }
    if(!Key.isUndefined(node.concept)) {
+	  var children = "";
+      for(var i = 0; i < node.children.length; i++) {
+	     var child = node.children[i];
+	     children += writeNode(key, child); 
+	  }
+	  if(children.length == 0) {
+		 return "";
+      }
       html += "<li class='descriptiveConcept'><div data-toggle='collapse' data-target='#node" + node.id +"'>";
       if(!Key.isUndefined(node.images) && node.images.length > 0) {
          var image = node.images[0];
@@ -25,10 +37,7 @@ function writeNode(key, node) {
      html += "</div>";
      html += "<div id='node" + node.id + "' class='collapse'><ul class='unstyled'>";
      
-     for(var i = 0; i < node.children.length; i++) {
-         var child = node.children[i];
-         html += writeNode(key, child); 
-     }
+     html += children;
      html += "</ul></div></li>";
    } else {
      var character = key.getCharacter(node.character);
@@ -168,7 +177,6 @@ function updateUI(key) {
               
               modal.on('hidden', function() {
             	  $('#characterModal').modal('show');
-              	 /*   modal.remove();*/
               });
 
               modal.modal(options);
@@ -200,25 +208,25 @@ function updateUI(key) {
           if(event.target.id.indexOf("character") == 0){
             var title = event.target.title;
             var character = key.getCharacter(event.target.id.substring(9));
-            //var body = "<img src='" + key.getImagePath() +  character.images[0].href + "'/>";
+           
             var body = "";
             for(var i=0; i< character.images.length; i++){
               body += "<a href='" + key.getFullsizeImagePath() +  character.images[i].href + "' rel='gallery' title='" + title +"'>" + title +"</a>";
             }
             
             $('#gallery').html(body);
-           //$('#modal-gallery .modal-body .carousel-caption .modal-title').html(title);
+          
           } else {
             var title = event.target.title;
            
             var descriptiveConcept = key.getDescriptiveConcept(event.target.id.substring(18));
-            //var body = "<img src='" + key.getImagePath() +  descriptiveConcept.images[0].href + "'/>";
+
             var body = "";
             for(var i=0; i< descriptiveConcept.images.length; i++){
               body += "<a href='" + key.getFullsizeImagePath() +  descriptiveConcept.images[i].href + "' rel='gallery' title='" + title + "'>" + title +"</a>";
             }
             $('#gallery').html(body);
-            //$('#modal-gallery .modal-body .carousel-caption .modal-title').html(title);
+            
           }
           $('#modal-gallery').unbind('hidden');
          

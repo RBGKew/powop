@@ -105,6 +105,8 @@
 
   <xsl:variable name="state-indexes">
     <xsl:for-each select="/sdd:Datasets/sdd:Dataset/sdd:Characters/sdd:CategoricalCharacter">
+      <xsl:variable name="char" select="@id"/>
+	  <xsl:variable name="character" select="exsl:node-set($character-indexes)/sdd:Character[@id = $char]"/>
       <xsl:for-each select="sdd:States/sdd:StateDefinition">
       <sdd:State>
         <xsl:attribute name="id">
@@ -115,6 +117,9 @@
         </xsl:attribute>
         <xsl:attribute name="position">
           <xsl:value-of select="position()"/>
+        </xsl:attribute>
+        <xsl:attribute name="character">
+		  <xsl:value-of select="$character/@position"/>
         </xsl:attribute>
       </sdd:State>
       </xsl:for-each>
@@ -235,7 +240,32 @@
           <xsl:variable name="char" select="sdd:Character/@ref"/>
           <xsl:variable name="character" select="exsl:node-set($character-indexes)/sdd:Character[@id = $char]"/>
           <xsl:value-of select="$character/@position"/>
-          <xsl:text>","type":"Character"</xsl:text>
+          <xsl:text>"</xsl:text>
+          <xsl:if test="sdd:DependencyRules/sdd:OnlyApplicableIf">
+            <xsl:text>,"onlyApplicableIf":[</xsl:text>
+              <xsl:for-each select="sdd:DependencyRules/sdd:OnlyApplicableIf/sdd:State">
+			    <xsl:call-template name="applicableState">
+                  <xsl:with-param name="state" select="."/>
+                </xsl:call-template>
+                <xsl:if test="position() != last()">
+		          <xsl:text>,</xsl:text>
+		        </xsl:if>
+              </xsl:for-each>
+            <xsl:text>]</xsl:text>
+          </xsl:if>
+          <xsl:if test="sdd:DependencyRules/sdd:InapplicableIf">
+            <xsl:text>,"inapplicableIf":[</xsl:text>
+              <xsl:for-each select="sdd:DependencyRules/sdd:InapplicableIf/sdd:State">
+			    <xsl:call-template name="applicableState">
+                  <xsl:with-param name="state" select="."/>
+                </xsl:call-template>
+                <xsl:if test="position() != last()">
+		          <xsl:text>,</xsl:text>
+		        </xsl:if>
+              </xsl:for-each>
+            <xsl:text>]</xsl:text>
+          </xsl:if>
+          <xsl:text>,"type":"Character"</xsl:text>
         </xsl:when>
         <xsl:when test="name()='Node'">
           <xsl:variable name="dc" select="sdd:DescriptiveConcept/@ref"/>
@@ -269,6 +299,17 @@
       <xsl:text>}</xsl:text>
       <xsl:if test="position() != last()"><xsl:text>,</xsl:text></xsl:if>
     </xsl:for-each>
+  </xsl:template>
+  
+  <xsl:template name="applicableState">
+	<xsl:param name="state"/>
+	<xsl:variable name="stateId" select="@ref"/>
+	<xsl:variable name="stateLookup" select="exsl:node-set($state-indexes)/sdd:State[@id = $stateId]"/>
+	<xsl:text>{"character":"</xsl:text>
+	  <xsl:value-of select="$stateLookup/@character"/>
+	<xsl:text>","state":"</xsl:text>
+	  <xsl:value-of select="$stateLookup/@position"/>
+	<xsl:text>"}</xsl:text>
   </xsl:template>
 
  <xsl:template match="sdd:DescriptiveConcepts">
@@ -554,10 +595,6 @@
           <xsl:if test="exsl:node-set($image-map)/sdd:MediaObjects/sdd:MediaObject[@id = $id]">      
             <xsl:value-of select="exsl:node-set($image-map)/sdd:MediaObjects/sdd:MediaObject[@id = $id]/@debuglabel"/>
           </xsl:if>
-           <!-- <xsl:variable name="separator" select="'/'"/>
-           <xsl:for-each select="str:tokenize(sdd:Source/@href,$separator)">
-             <xsl:if test="position() = last()"><xsl:value-of select="."/></xsl:if>
-           </xsl:for-each>-->
            <xsl:text>","caption":"</xsl:text>
            <xsl:value-of select="sdd:Representation/sdd:Label"/>
            <xsl:if test="sdd:Representation/sdd:Detail">
