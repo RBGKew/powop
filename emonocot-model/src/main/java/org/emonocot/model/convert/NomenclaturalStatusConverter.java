@@ -10,7 +10,7 @@ public class NomenclaturalStatusConverter implements Converter<String, Nomenclat
 		if(source == null || source.trim().isEmpty()) {
 			return null;
 		} else {
-			switch(source) {
+			switch(source.toLowerCase()) {
 			case "abortivum":
 				return NomenclaturalStatus.Nomen_Abortivum;
 			case "alternativum":
