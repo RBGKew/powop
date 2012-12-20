@@ -97,18 +97,19 @@ Scenario: Search for a taxon by its infraspecific epithet
 
 Scenario: Search for multiple taxa within the same genus
   Searching using the generic epithet on its own should return all
-  that have that generic epithet
+  that have that generic epithet, with the exact match (the genus) at
+  the top of the list
   When I search for "Rhipogonum"
   Then the following results should be displayed:
   | page                         | text                        |
+  | urn:kew.org:wcs:taxon:286768 | Rhipogonum                  |
   | 999                          | Key to the genus Rhipogonum |
   | urn:kew.org:wcs:taxon:286806 | Rhipogonum fawcettianum     |
   | urn:kew.org:wcs:taxon:286937 | Rhipogonum brevifolium      |
   | urn:kew.org:wcs:taxon:286793 | Rhipogonum elseyanum        |
   | urn:kew.org:wcs:taxon:286791 | Rhipogonum discolor         |
   | urn:kew.org:wcs:taxon:286796 | Rhipogonum scandens         |
-  | urn:kew.org:wcs:taxon:286789 | Rhipogonum album            |
-  | urn:kew.org:wcs:taxon:286768 | Rhipogonum                  |
+  | urn:kew.org:wcs:taxon:286789 | Rhipogonum album            |  
 
 Scenario: Negative search
   Searching using a term which is not in the database should not

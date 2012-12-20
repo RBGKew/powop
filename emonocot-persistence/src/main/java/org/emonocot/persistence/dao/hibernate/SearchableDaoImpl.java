@@ -92,8 +92,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
             	// replace spaces with '+' so that we search on terms
                 searchString = query.trim().replace(" ", "+");
                 solrQuery.set("defType","edismax");
-                solrQuery.set("qf", "searchable.solrsummary_t");
-                solrQuery.set("pf", "searchable.label_sort^100");
+                solrQuery.set("qf", "searchable.label_sort searchable.solrsummary_t");
             }
             solrQuery.setQuery(searchString);
 
