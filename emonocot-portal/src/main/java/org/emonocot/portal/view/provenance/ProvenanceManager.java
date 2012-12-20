@@ -1,11 +1,10 @@
 package org.emonocot.portal.view.provenance;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.SortedSet;
 
-import org.emonocot.model.Taxon;
 import org.emonocot.model.BaseData;
+import org.emonocot.model.Taxon;
 import org.emonocot.model.registry.Organisation;
 
 
@@ -29,7 +28,7 @@ public interface ProvenanceManager {
 	 * @param data
 	 * @return
 	 */
-	/*public SortedSet<String> getKeys(Collection<BaseData> data);*/
+	public SortedSet<String> getKeys(Collection<BaseData> data);
 	
 	
 	/**

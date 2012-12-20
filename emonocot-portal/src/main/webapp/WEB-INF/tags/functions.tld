@@ -129,6 +129,16 @@
         <function-signature>java.lang.String citekey(org.emonocot.portal.view.bibliography.Bibliography, org.emonocot.model.Reference)</function-signature>
     </function>
     <function>
+        <name>citekeys</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.util.SortedSet citekeys(org.emonocot.portal.view.bibliography.Bibliography, java.util.Collection)</function-signature>
+    </function>
+    <function>
+        <name>getref</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>org.emonocot.model.Reference getref(org.emonocot.portal.view.bibliography.Bibliography, java.lang.String)</function-signature>
+    </function>
+    <function>
         <name>provenance</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>org.emonocot.portal.view.provenance.ProvenanceManager provenance(org.emonocot.model.Taxon)</function-signature>
@@ -137,6 +147,11 @@
         <name>provenancekey</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>java.lang.String provenancekey(org.emonocot.portal.view.provenance.ProvenanceManager, org.emonocot.model.BaseData)</function-signature>
+    </function>
+    <function>
+        <name>provenancekeys</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.util.SortedSet provenancekeys(org.emonocot.portal.view.provenance.ProvenanceManager, java.util.Collection)</function-signature>
     </function>
     <function>
         <name>provenancesources</name>

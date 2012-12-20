@@ -1,13 +1,5 @@
 package org.emonocot.portal.view.provenance;
 
-import org.emonocot.model.Taxon;
-import org.emonocot.model.Description;
-import org.emonocot.model.Distribution;
-import org.emonocot.model.Image;
-import org.emonocot.model.BaseData;
-import org.emonocot.model.registry.Organisation;
-
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -15,6 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
+import org.emonocot.model.BaseData;
+import org.emonocot.model.Description;
+import org.emonocot.model.Distribution;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.registry.Organisation;
 
 public class ProvenanceManagerImpl implements ProvenanceManager {
 	
@@ -55,14 +53,14 @@ public class ProvenanceManagerImpl implements ProvenanceManager {
 	}
 	
 	
-	/*@Override
+	@Override
 	public SortedSet<String> getKeys(Collection<BaseData> data){
 		SortedSet<String> keys = new TreeSet<String>();
 		for(BaseData baseData : data) {
 			keys.add(getKey(baseData));
 		}
 		return keys;
-	}*/
+	}
 	
 	
 	@Override

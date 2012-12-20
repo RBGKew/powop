@@ -15,13 +15,13 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.el.ELException;
 
 import org.emonocot.model.BaseData;
+import org.emonocot.model.Description;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.Identifier;
 import org.emonocot.model.Image;
 import org.emonocot.model.MeasurementOrFact;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
-import org.emonocot.model.Description;
 import org.emonocot.model.TypeAndSpecimen;
 import org.emonocot.model.VernacularName;
 import org.emonocot.model.constants.DescriptionType;
@@ -35,10 +35,10 @@ import org.emonocot.model.geography.LocationComparator;
 import org.emonocot.model.geography.Region;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.model.util.AlphabeticalTaxonComparator;
-import org.emonocot.pager.FacetName;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.view.bibliography.Bibliography;
 import org.emonocot.portal.view.bibliography.SimpleBibliographyImpl;
+import org.emonocot.portal.view.provenance.ProvenanceHolder;
 import org.emonocot.portal.view.provenance.ProvenanceManager;
 import org.emonocot.portal.view.provenance.ProvenanceManagerImpl;
 import org.gbif.ecat.voc.Rank;
@@ -527,6 +527,15 @@ public final class Functions {
        return bibliography.getKey(reference);
    }
     
+   public static SortedSet<String> citekeys(final Bibliography bibliography,
+            final Collection<Distribution> distributions) {
+       return bibliography.getKeys(distributions);
+   }
+   
+   public static Reference getref(final Bibliography bibliography, final String key) {
+      return bibliography.getReference(key);
+  }
+    
     /**
     *
     * @param taxon Set the taxon
@@ -549,11 +558,16 @@ public final class Functions {
        return provenance.getKey(data);
    }
     
-    public static SortedSet provenancesources(final ProvenanceManager provenance) {
+    public static SortedSet<String> provenancekeys(final ProvenanceManager provenance,
+            final Collection<BaseData> data) {
+       return provenance.getKeys(data);
+   }
+    
+    public static SortedSet<Organisation> provenancesources(final ProvenanceManager provenance) {
        return provenance.getSources();
    }
   
-    public static SortedSet provenancedata(final ProvenanceManager provenance, final Organisation organisation) {
+    public static SortedSet<ProvenanceHolder> provenancedata(final ProvenanceManager provenance, final Organisation organisation) {
         return provenance.getProvenanceData(organisation);
     }
 

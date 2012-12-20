@@ -1,12 +1,14 @@
 package org.emonocot.portal.view.bibliography;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.apache.commons.collections.comparators.NullComparator;
+import org.emonocot.model.Distribution;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.Description;
@@ -103,4 +105,21 @@ public class SimpleBibliographyImpl implements Bibliography {
         	}
         }
     }
+
+	@Override
+	public SortedSet<String> getKeys(Collection<Distribution> distributions) {
+		SortedSet<String> keys = new TreeSet<String>();
+		for(Distribution d: distributions) {
+			for(Reference r : d.getReferences()) {
+				keys.add(getKey(r));
+			}
+		}
+		return keys;
+	}
+
+	@Override
+	public Reference getReference(String key) {
+		Integer i = Integer.parseInt(key) - 1;
+		return references.get(i);
+	}
 }
