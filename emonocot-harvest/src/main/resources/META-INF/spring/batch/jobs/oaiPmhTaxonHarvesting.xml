@@ -156,17 +156,6 @@
 		<property name="encoding" value="UTF-8"/>
 	</bean>
 
-	<bean id="customerCreditMarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller">
-		<property name="aliases">
-			<util:map id="aliases">
-				<entry key="customer"
-					value="org.springframework.batch.sample.domain.trade.CustomerCredit" />
-				<entry key="price" value="java.math.BigDecimal" />
-				<entry key="name" value="java.lang.String" />
-			</util:map>
-		</property>
-	</bean>
-
 	<bean id="reflectionProvider" class="org.openarchives.pmh.marshall.xml.ReflectionProviderFactory" />
 
 	<bean id="oaiPmhResponseStreamDriver" class="org.emonocot.model.marshall.xml.StaxDriver">
