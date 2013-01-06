@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd
+	                    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	                    
+    <context:property-placeholder ignore-unresolvable="true" location="classpath*:META-INF/spring/*.properties"/>
+	<context:annotation-config />
+
+	<batch:job id="GBIFImport">
+	    <batch:description>Imports the GBIF Darwin Core file</batch:description>
+	    <batch:step id="setTemporaryFilenames">
+			<batch:description>Set the temporary file names</batch:description>
+			<batch:tasklet ref="setTemporaryFilenamesTasklet" />
+			<batch:next on="COMPLETED" to="markTypeAndSpecimenRecords" />
+		</batch:step>	
+		<batch:step id="markTypeAndSpecimenRecords">
+			<batch:description>Mark the type and specimen records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
+			<batch:tasklet ref="markTypeAndSpecimenRecordsTasklet" />
+			<batch:next on="COMPLETED" to="getGBIFData" />
+			<batch:listeners>
+				<batch:listener ref="recordAnnotator" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="getGBIFData">
+			<batch:description>Get the GBIF darwin core file</batch:description>
+			<batch:tasklet ref="getGBIFDataTasklet" />			
+			<batch:next on="COMPLETED" to="processFile" />
+		</batch:step>
+	    <batch:step id="processFile">
+	      <batch:description>Process the specified file and check for matches</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="itemReader" writer="itemWriter" commit-interval="100"/>
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="resumeHarvesting"/>
+			<batch:listeners>
+			  <batch:listener ref="typeAndSpecimenProcessor"/>
+			</batch:listeners>
+	    </batch:step>
+	    <batch:step id="resumeHarvesting">
+		    <batch:description>Are there more records or should we finish harvesting?</batch:description>
+			<batch:tasklet ref="gbifMoreRecordsTasklet" />
+			<batch:next on="NO_MORE_RECORDS" to="deleteAbsentTypesAndSpecimens" />
+			<batch:next on="HAS_MORE_RECORDS" to="getGBIFData" />
+			<batch:listeners>
+				<batch:listener ref="gbifMoreRecords"/>
+			</batch:listeners>
+		</batch:step>
+	    <batch:step id="deleteAbsentTypesAndSpecimens">
+			<batch:description>Delete the types and specimens which we expected to be present in the xml files but which were absent</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="deleteTypeAndSpecimenReader" writer="deletingWriter"	commit-interval="100" />
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="indexAnnotations" />
+		</batch:step>
+		<batch:step id="indexAnnotations">
+		  <batch:description>Index the annotations associated with this job</batch:description>
+		  <batch:tasklet>
+				<batch:chunk reader="indexAnnotationsReader" writer="indexAnnotationsWriter" commit-interval="10" />
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="cleanupResources" />			
+		</batch:step>
+	    <batch:step id="cleanupResources">
+			<batch:description>Cleanup the resources</batch:description>
+			<batch:tasklet ref="gbifResourceDeletingTasklet" />
+		</batch:step>
+	</batch:job>
+	
+	<bean id="setTemporaryFilenamesTasklet" class="org.emonocot.job.gbif.SetTemporaryFilenamesTasklet">
+		<property name="harvesterSpoolDirectory" value="${harvester.spool.directory}"/>
+	</bean>
+	
+	<bean id="markTypeAndSpecimenRecordsTasklet"
+		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+		scope="step">
+		<property name="targetObject" ref="recordAnnotator" />
+		<property name="targetMethod" value="annotateRecords" />
+		<property name="arguments">
+			<list>
+				<value>#{jobParameters['authority.name']}</value>
+				<value>TypeAndSpecimen</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="recordAnnotator" class="org.emonocot.job.dwc.read.NonOwnedRecordAnnotator">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="getGBIFDataTasklet"
+		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+		scope="step">
+		<property name="targetObject" ref="getResourceClient" />
+		<property name="targetMethod" value="getBinaryResource" />
+		<property name="arguments">
+			<list>
+				<value>#{jobParameters['authority.name']}</value>
+				<value>#{jobParameters['authority.uri']}#{jobExecutionContext['startindex']}</value>
+				<value>#{jobParameters['authority.last.harvested']}</value>
+				<value>#{jobExecutionContext['temporary.file.name']}</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="itemReader" class="org.springframework.batch.item.xml.StaxEventItemReader">
+		<property name="fragmentRootElementName" value="{http://portal.gbif.org/ws/response/gbif}dataResource" />
+		<property name="resource">
+			<bean class="org.springframework.core.io.FileSystemResource"
+				scope="step">
+				<constructor-arg value="#{jobExecutionContext['temporary.file.name']}" />
+			</bean>
+		</property>
+		<property name="unmarshaller" ref="gbifUnmarshaller" />
+	</bean>
+
+    <bean id="gbifUnmarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller">
+		<property name="aliases">
+			<util:map id="aliases">
+				<entry key="dataResource" value="org.emonocot.job.gbif.DataResource" />
+				<entry key="TaxonOccurrence" value="org.emonocot.job.gbif.TaxonOccurrence" />
+				<entry key="Identification" value="org.emonocot.job.gbif.Identification" />
+				<entry key="TaxonConcept" value="org.emonocot.job.gbif.TaxonConcept" />
+				<entry key="TaxonName" value="org.emonocot.job.gbif.TaxonName" />
+				<entry key="header" value="org.emonocot.job.gbif.Header"/>
+				<entry key="parameter" value="org.emonocot.job.gbif.Parameter"/>
+				<entry key="summary" value="org.emonocot.job.gbif.Summary"/>
+			</util:map>
+		</property>
+		<property name="implicitCollections">
+			<util:map id="implcitCollections">
+				<entry key="org.emonocot.job.gbif.Header" value="parameters" />				
+			</util:map>
+		</property>
+		<property name="useAttributeFor">
+			<map key-type="java.lang.Class">
+				<entry>
+					<key><value>org.emonocot.job.gbif.Parameter</value></key>
+					<list>
+				      <value>name</value>
+					  <value>value</value>
+					</list>
+				</entry>
+				<entry>
+					<key><value>org.emonocot.job.gbif.Summary</value></key>
+					<list>
+					  <value>start</value>
+					  <value>totalMatched</value>
+					  <value>totalReturned</value>
+					</list>
+				</entry>					
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="taxonOccurrenceToTypeAndSpecienProcessor" class="org.emonocot.job.gbif.Processor" scope="step">
+	  <property name="taxonService" ref="taxonServiceImpl" />
+	  <property name="sessionFactory" ref="sessionFactory"/>
+	  <property name="transactionManager" ref="transactionManager"/>	  
+	</bean>
+	
+	<bean id="typeAndSpecimenProcessor" class="org.emonocot.job.dwc.typeandspecimen.Processor"
+		scope="step">
+		<property name="typeAndSpecimenService" ref="typeAndSpecimenServiceImpl" />
+		<property name="sourceName" value="#{jobParameters['authority.name']}" />
+		<property name="family" value="#{jobParameters['family']}" />
+		<property name="subfamily" value="#{jobParameters['subfamily']}" />
+		<property name="tribe" value="#{jobParameters['tribe']}" />
+		<property name="subtribe" value="#{jobParameters['subtribe']}" />
+	</bean>
+	
+	<bean id="itemWriter" class="org.emonocot.job.gbif.Writer">
+	  <property name="taxonOccurrenceProcessor" ref="taxonOccurrenceToTypeAndSpecienProcessor"/>
+	  <property name="typeAndSpecimenProcessor" ref="typeAndSpecimenProcessor"/>
+	  <property name="itemWriter" ref="hibernateItemWriter"/>
+	</bean>
+
+	<bean id="hibernateItemWriter" class="org.springframework.batch.item.database.HibernateItemWriter">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="gbifMoreRecordsTasklet"
+		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+		scope="step">
+		<property name="targetObject" ref="gbifMoreRecords" />
+		<property name="targetMethod" value="execute" />
+		<property name="arguments">
+			<list>
+				<value>#{jobExecutionContext['temporary.file.name']}</value>
+				<value>#{jobParameters['page.size']}</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="gbifMoreRecords" class="org.emonocot.job.gbif.HasMoreRecords">
+		<property name="unmarshaller" ref="gbifUnmarshaller"/>
+	</bean>
+
+	
+	<bean id="deleteTypeAndSpecimenReader"
+		class="org.springframework.batch.item.database.HibernateCursorItemReader"
+		scope="step">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="queryString"
+			value="select m from MeasurementOrFact m join m.annotations a where a.jobId = :jobId and a.code = :code" />
+		<property name="parameterValues">
+			<map>
+				<entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
+				<entry key="code"
+					value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="deletingWriter" class="org.emonocot.harvest.common.HibernateDeletingWriter">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="indexAnnotationsReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
+		scope="step">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="queryString" value="select a.id from Annotation a where a.jobId = :jobId" />
+		<property name="parameterValues">
+			<map>
+				<entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
+			</map>
+		</property>
+	</bean>
+    
+    <bean id="indexAnnotationsWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter">
+      <property name="type" value="org.emonocot.model.Annotation" />
+      <property name="sessionFactory" ref="sessionFactory" />
+      <property name="solrIndexingListener" ref="solrIndexingListener" />
+    </bean>
+
+    <bean id="gbifResourceDeletingTasklet"
+		class="org.emonocot.harvest.common.MultiResourceDeletingTasklet"
+		scope="step">
+		<property name="resources">
+			<list>
+				<bean class="org.springframework.core.io.FileSystemResource"
+					scope="step">
+					<constructor-arg value="#{jobExecutionContext['temporary.file.name']}" />
+				</bean>				
+			</list>
+		</property>
+	</bean>
+	
+</beans>
