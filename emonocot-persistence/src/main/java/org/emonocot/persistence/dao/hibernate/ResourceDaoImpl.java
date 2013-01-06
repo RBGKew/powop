@@ -69,11 +69,9 @@ public class ResourceDaoImpl extends DaoImpl<Resource> implements ResourceDao {
      * @param size Set the page size
      * @return A list of jobs
      */
-    public final List<Resource> list(final String sourceId, final Integer page,
-            final Integer size) {
+    public final List<Resource> list(final String sourceId, final Integer page, final Integer size) {
         Criteria criteria = getSession().createCriteria(type);
-        criteria.createAlias("organisation", "org").add(
-                Restrictions.eq("org.identifier", sourceId));
+        criteria.createAlias("organisation", "org").add(Restrictions.eq("org.identifier", sourceId));
 
         if (size != null) {
             criteria.setMaxResults(size);

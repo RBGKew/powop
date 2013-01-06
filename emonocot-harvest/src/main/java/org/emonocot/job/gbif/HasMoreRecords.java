@@ -23,9 +23,7 @@ public class HasMoreRecords implements StepExecutionListener {
         this.unmarshaller = unmarshaller;
     }
 	
-	public ExitStatus execute(String temporaryFileName, String pSize) throws Exception {
-		Integer pageSize = new Integer(pSize);
-		
+	public ExitStatus execute(String temporaryFileName) throws Exception {
         try {
             StaxEventItemReader<Header> staxEventItemReader = new StaxEventItemReader<Header>();
             staxEventItemReader.setFragmentRootElementName(
@@ -43,11 +41,9 @@ public class HasMoreRecords implements StepExecutionListener {
                 logger.info("Header Not Found");                
                 return new ExitStatus("NO_MORE_RECORDS");
             } else {
-                Integer startIndex = (Integer)stepExecution.getJobExecution().getExecutionContext()
-                        .get("startindex");
-                if(startIndex < header.getSummary().getTotalMatched()){
+                if(header.getSummary().getNext() != null){
 					stepExecution.getJobExecution().getExecutionContext().remove("startindex");
-					stepExecution.getJobExecution().getExecutionContext().put("startindex", startIndex + pageSize);
+					stepExecution.getJobExecution().getExecutionContext().put("startindex", header.getSummary().getNext());
                     return new ExitStatus("HAS_MORE_RECORDS");
 				} else {
 					return new ExitStatus("NO_MORE_RECORDS");

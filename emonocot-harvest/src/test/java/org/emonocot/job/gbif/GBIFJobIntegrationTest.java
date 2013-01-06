@@ -106,9 +106,10 @@ public class GBIFJobIntegrationTest {
         Map<String, JobParameter> parameters =
             new HashMap<String, JobParameter>();
         parameters.put("authority.name", new JobParameter("test"));
-        parameters.put("page.size", new JobParameter("100"));
         parameters.put("authority.uri", new JobParameter(
         "http://build.e-monocot.org/test/list.xml?startindex="));
+        
+        //parameters.put("authority.uri", new JobParameter("http://data.gbif.org/ws/rest/occurrence/list?taxonconceptkey=6979&maxresults=1000&format=darwin&mode=raw&startindex="));
         parameters.put("authority.last.harvested",
         new JobParameter(Long.toString((GBIFJobIntegrationTest.PAST_DATETIME.getMillis()))));
 

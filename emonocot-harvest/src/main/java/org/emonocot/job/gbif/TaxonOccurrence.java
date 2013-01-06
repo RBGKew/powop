@@ -5,6 +5,10 @@ import java.util.ArrayList;
 
 public class TaxonOccurrence {
 	
+	private String gbifKey;
+	
+	private String about;
+	
 	private String basisOfRecordString;
     
     private String catalogNumber;
@@ -27,11 +31,37 @@ public class TaxonOccurrence {
     
     private String locality;
     
+    private String county;
+    
     private String gbifNotes;
     
     private String minimumElevationInMeters;
     
     private String maximumElevationInMeters;
+    
+    private String rights;
+    
+    private String rightsHolder;
+    
+    private String accessRights;
+    
+    private String license;
+    
+    private String bibliographicCitation;
+    
+    private String coordinateUncertaintyInMeters;
+    
+    private Double decimalLatitude;
+    
+    private Double decimalLongitude;
+    
+    private String maximumDepthInMeters;
+    
+    private String minimumDepthInMeters;
+    
+    private String identifier;
+    
+    private String source;
     
     List<Identification> identifiedTo = new ArrayList<Identification>();
     
@@ -147,4 +177,134 @@ public class TaxonOccurrence {
 	public String getMaximumElevationInMeters() {
 		return maximumElevationInMeters;
 	}
+
+	public String getRights() {
+		return rights;
+	}
+	
+	public String getGbifKey() {
+		return gbifKey;
+	}
+
+	public void setGbifKey(String gbifKey) {
+		this.gbifKey = gbifKey;
+	}
+
+	public String getAbout() {
+		return about;
+	}
+
+	public void setAbout(String about) {
+		this.about = about;
+	}
+
+	public String getGbifNotes() {
+		return gbifNotes;
+	}
+
+	public void setGbifNotes(String gbifNotes) {
+		this.gbifNotes = gbifNotes;
+	}
+
+	public String getRightsHolder() {
+		return rightsHolder;
+	}
+
+	public void setRightsHolder(String rightsHolder) {
+		this.rightsHolder = rightsHolder;
+	}
+
+	public String getAccessRights() {
+		return accessRights;
+	}
+
+	public void setAccessRights(String accessRights) {
+		this.accessRights = accessRights;
+	}
+
+	public String getBibliographicCitation() {
+		return bibliographicCitation;
+	}
+
+	public void setBibliographicCitation(String bibliographicCitation) {
+		this.bibliographicCitation = bibliographicCitation;
+	}
+
+	public String getIdentifier() {
+		return identifier;
+	}
+
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+
+	public void setRights(String rights) {
+		this.rights = rights;
+	}
+
+	public String getLicense() {
+		return license;
+	}
+
+	public void setLicense(String license) {
+		this.license = license;
+	}
+
+	public String getCounty() {
+		return county;
+	}
+
+	public void setCounty(String county) {
+		this.county = county;
+	}
+
+	public String getCoordinateUncertaintyInMeters() {
+		return coordinateUncertaintyInMeters;
+	}
+
+	public void setCoordinateUncertaintyInMeters(
+			String coordinateUncertaintyInMeters) {
+		this.coordinateUncertaintyInMeters = coordinateUncertaintyInMeters;
+	}
+
+	public Double getDecimalLatitude() {
+		return decimalLatitude;
+	}
+
+	public void setDecimalLatitude(Double decimalLatitude) {
+		this.decimalLatitude = decimalLatitude;
+	}
+
+	public Double getDecimalLongitude() {
+		return decimalLongitude;
+	}
+
+	public void setDecimalLongitude(Double decimalLongitude) {
+		this.decimalLongitude = decimalLongitude;
+	}
+
+	public String getMaximumDepthInMeters() {
+		return maximumDepthInMeters;
+	}
+
+	public void setMaximumDepthInMeters(String maximumDepthInMeters) {
+		this.maximumDepthInMeters = maximumDepthInMeters;
+	}
+
+	public String getMinimumDepthInMeters() {
+		return minimumDepthInMeters;
+	}
+
+	public void setMinimumDepthInMeters(String minimumDepthInMeters) {
+		this.minimumDepthInMeters = minimumDepthInMeters;
+	}
+	
 }

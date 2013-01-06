@@ -13,6 +13,8 @@ public class Header {
 	
 	private String stylesheet;
 	
+	private String nextRequestUrl;
+	
 	private List<Parameter> parameters = new ArrayList<Parameter>();
 	
 	private Summary summary;
@@ -63,5 +65,13 @@ public class Header {
 	
 	public Summary getSummary() {
 		return summary;
+	}
+
+	public String getNextRequestUrl() {
+		return nextRequestUrl;
+	}
+
+	public void setNextRequestUrl(String nextRequestUrl) {
+		this.nextRequestUrl = nextRequestUrl;
 	}
 }

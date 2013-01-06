@@ -4,6 +4,8 @@ public class Summary {
 	
 	private Integer start;
 	
+	private Integer next;
+	
 	private Integer totalMatched;
 	
 	private Integer totalReturned;
@@ -30,5 +32,13 @@ public class Summary {
 	
 	public Integer getTotalReturned() {
 		return totalReturned;
+	}
+
+	public Integer getNext() {
+		return next;
+	}
+
+	public void setNext(Integer next) {
+		this.next = next;
 	}
 }

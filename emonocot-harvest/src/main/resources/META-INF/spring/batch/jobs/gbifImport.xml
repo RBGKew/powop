@@ -35,11 +35,16 @@
 	    <batch:step id="processFile">
 	      <batch:description>Process the specified file and check for matches</batch:description>
 			<batch:tasklet>
-				<batch:chunk reader="itemReader" writer="itemWriter" commit-interval="100"/>
+				<batch:chunk reader="itemReader" writer="itemWriter" commit-interval="100" skip-limit="1000">
+				  <batch:skippable-exception-classes>
+					<batch:include class="org.gbif.ecat.parser.UnparsableException" />
+				  </batch:skippable-exception-classes>
+				</batch:chunk>
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="resumeHarvesting"/>
 			<batch:listeners>
 			  <batch:listener ref="typeAndSpecimenProcessor"/>
+			  <batch:listener ref="taxonOccurrenceToTypeAndSpecienProcessor"/>
 			</batch:listeners>
 	    </batch:step>
 	    <batch:step id="resumeHarvesting">
@@ -136,6 +141,11 @@
 				<entry key="org.emonocot.job.gbif.Header" value="parameters" />				
 			</util:map>
 		</property>
+		<property name="converters">
+		  <list>
+		    <bean class="org.emonocot.job.gbif.DoubleConverter"/>
+		  </list>
+		</property>
 		<property name="useAttributeFor">
 			<map key-type="java.lang.Class">
 				<entry>
@@ -149,6 +159,7 @@
 					<key><value>org.emonocot.job.gbif.Summary</value></key>
 					<list>
 					  <value>start</value>
+					  <value>next</value>
 					  <value>totalMatched</value>
 					  <value>totalReturned</value>
 					</list>
@@ -158,7 +169,8 @@
 	</bean>
 	
 	<bean id="taxonOccurrenceToTypeAndSpecienProcessor" class="org.emonocot.job.gbif.Processor" scope="step">
-	  <property name="taxonService" ref="taxonServiceImpl" />
+	  <property name="taxonMatcher" ref="taxonMatcher" />
+	  <property name="nameParser" ref="nameParser"/>
 	  <property name="sessionFactory" ref="sessionFactory"/>
 	  <property name="transactionManager" ref="transactionManager"/>	  
 	</bean>
@@ -191,7 +203,6 @@
 		<property name="arguments">
 			<list>
 				<value>#{jobExecutionContext['temporary.file.name']}</value>
-				<value>#{jobParameters['page.size']}</value>
 			</list>
 		</property>
 	</bean>
