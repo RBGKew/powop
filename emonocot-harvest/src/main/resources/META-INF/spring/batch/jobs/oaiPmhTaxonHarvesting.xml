@@ -152,9 +152,22 @@
 				<constructor-arg value="#{jobExecutionContext['temporary.file.name']}" />
 			</bean>
 		</property>
-		<property name="unmarshaller" ref="gbifUnmarshaller" />
+		<property name="unmarshaller" ref="oaiPmhResponseUnmarshaller" />
 		<property name="encoding" value="UTF-8"/>
 	</bean>
+	
+	<bean id="oaiPmhResponseUnmarshaller" class="org.emonocot.model.marshall.xml.XStreamMarshaller">
+      <property name="autodetectAnnotations" value="true" />
+      <property name="qNameMap" ref="oaiPmhQNameMap" />
+      <property name="reflectionProvider" ref="reflectionProvider" />
+      <property name="streamDriver" ref="oaiPmhResponseStreamDriver" />
+      <property name="converters">
+        <list>
+          <bean class="org.openarchives.pmh.marshall.xml.ResumptionTokenConverter" />
+          <bean class="org.emonocot.model.marshall.xml.UriConverter" />
+        </list>
+      </property>
+   </bean>
 
 	<bean id="reflectionProvider" class="org.openarchives.pmh.marshall.xml.ReflectionProviderFactory" />
 
