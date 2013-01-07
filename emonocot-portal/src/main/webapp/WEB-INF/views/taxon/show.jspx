@@ -291,18 +291,21 @@
 								<c:forEach var="organisation" items="${em:provenancesources(provenance)}">
 									<dt>
 									    <c:url value="/organisation/${organisation.identifier}" var="organisationUrl"/>
-										<a href="${organisationUrl}">${organisation.title}</a>											
+										<a href="${organisationUrl}">${organisation.title}</a>
 									</dt>
 									<dd>
-										<a href="${organisation.uri}">${organisation.uri}</a>											
+										<a href="${organisation.uri}">${organisation.uri}</a>
 									</dd>
-									<!-- <dd>
+									<dd>
+										${organisation.bibliographicCitation}
+									</dd>
+									<dd>
 										<ul class="unstyled">
 											<c:forEach var="data" items="${em:provenancedata(provenance,organisation)}">
-												<li><a id="${data.key}">${data.key}</a> ${data.rights} | ${data.license}</li>
+												<li><a id="${data.key}">${data.key}</a> ${data.rights} ${data.license}</li>
 											</c:forEach>
 										</ul>
-									</dd>-->
+									</dd>
 								</c:forEach>
 							</dl>
 						</div>

@@ -85,7 +85,7 @@ public class ProvenanceHolderImpl implements ProvenanceHolder, Comparable<Proven
 
 	@Override
 	public int compareTo(ProvenanceHolderImpl o) {
-		int i = this.organisation.compareTo(o.getOrganisation());
+		int i = this.organisation.getIdentifier().compareTo(o.getOrganisation().getIdentifier());
 		
 		if(i == 0) {
 			int j = nullSafeStringComparator(this.license, o.getLicense());

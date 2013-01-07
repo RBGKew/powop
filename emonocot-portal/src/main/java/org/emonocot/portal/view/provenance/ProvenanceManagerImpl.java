@@ -3,8 +3,10 @@ package org.emonocot.portal.view.provenance;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -15,8 +17,9 @@ import org.emonocot.model.Taxon;
 import org.emonocot.model.registry.Organisation;
 
 public class ProvenanceManagerImpl implements ProvenanceManager {
+	SortedSet<Organisation> organisations = new TreeSet<Organisation>();
 	
-	Map<Organisation, SortedSet<ProvenanceHolderImpl>> provenance = new HashMap<Organisation,SortedSet<ProvenanceHolderImpl>>();
+	Map<String, SortedSet<ProvenanceHolderImpl>> provenance = new HashMap<String,SortedSet<ProvenanceHolderImpl>>();
 	List<ProvenanceHolderImpl> sortedProvenance = new ArrayList<ProvenanceHolderImpl>();
 	
 	
@@ -29,8 +32,8 @@ public class ProvenanceManagerImpl implements ProvenanceManager {
 		for(Distribution distribution : taxon.getDistribution()) {
 			addProvenance(distribution);
 		}
-		for(Organisation organisation : provenance.keySet()) {
-			sortedProvenance.addAll(provenance.get(organisation));
+		for(Organisation organisation : organisations) {
+			sortedProvenance.addAll(provenance.get(organisation.getIdentifier()));
 		}
 		
 		for(ProvenanceHolderImpl provenanceHolder : sortedProvenance) {
@@ -39,10 +42,12 @@ public class ProvenanceManagerImpl implements ProvenanceManager {
 	}
 	
 	private void addProvenance(BaseData data) {
-		if(!provenance.containsKey(data.getAuthority())) {
-			provenance.put(data.getAuthority(), new TreeSet<ProvenanceHolderImpl>());
+		if(!provenance.keySet().contains(data.getAuthority().getIdentifier())) {
+			organisations.add(data.getAuthority());
+			provenance.put(data.getAuthority().getIdentifier(), new TreeSet<ProvenanceHolderImpl>());
 		}
-		provenance.get(data.getAuthority()).add(new ProvenanceHolderImpl(data));
+		
+		provenance.get(data.getAuthority().getIdentifier()).add(new ProvenanceHolderImpl(data));
 	}
 	
 	
@@ -65,15 +70,13 @@ public class ProvenanceManagerImpl implements ProvenanceManager {
 	
 	@Override
 	public SortedSet<Organisation> getSources() {
-		SortedSet<Organisation> provenancesources = new TreeSet<Organisation>();
-		provenancesources.addAll(provenance.keySet());
-		return provenancesources;
+		return organisations;
 	}
 	
 	
 	@Override
 	public SortedSet<ProvenanceHolder> getProvenanceData(Organisation organization) {
-		return (SortedSet)provenance.get(organization);
+		return (SortedSet)provenance.get(organization.getIdentifier());
 	}
 
 }
