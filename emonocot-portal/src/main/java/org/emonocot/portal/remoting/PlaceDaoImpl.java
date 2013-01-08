@@ -3,7 +3,7 @@
  */
 package org.emonocot.portal.remoting;
 
-import org.emonocot.model.geography.Place;
+import org.emonocot.model.Place;
 import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.PlaceDao;
 import org.springframework.stereotype.Repository;

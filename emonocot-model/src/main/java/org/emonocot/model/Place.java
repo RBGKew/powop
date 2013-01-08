@@ -1,4 +1,4 @@
-package org.emonocot.model.geography;
+package org.emonocot.model;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,8 +15,6 @@ import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.emonocot.model.Annotation;
-import org.emonocot.model.SearchableObject;
 import org.emonocot.model.marshall.json.ShapeDeserializer;
 import org.emonocot.model.marshall.json.ShapeSerializer;
 import org.hibernate.annotations.Cascade;

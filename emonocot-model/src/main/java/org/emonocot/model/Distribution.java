@@ -20,7 +20,7 @@ import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.emonocot.model.geography.Location;
+import org.emonocot.model.constants.Location;
 import org.emonocot.model.marshall.json.GeographicalRegionDeserializer;
 import org.emonocot.model.marshall.json.ReferenceDeserializer;
 import org.emonocot.model.marshall.json.ReferenceSerializer;

@@ -154,7 +154,7 @@ public class SearchController {
                 result = keyService.search(query, spatial, limit, start,
                         responseFacets,
                         selectedFacets, sort, "front-cover");
-            } else if (selectedFacets.get("base.class_s").equals("org.emonocot.model.geography.Place")) {
+            } else if (selectedFacets.get("base.class_s").equals("org.emonocot.model.Place")) {
         		result = placeService.search(
                             query, spatial, limit, start, responseFacets,
                             selectedFacets, sort, "taxon-with-image");

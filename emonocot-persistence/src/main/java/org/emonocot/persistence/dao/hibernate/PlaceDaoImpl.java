@@ -3,7 +3,7 @@ package org.emonocot.persistence.dao.hibernate;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.emonocot.model.geography.Place;
+import org.emonocot.model.Place;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.persistence.dao.PlaceDao;
 import org.springframework.stereotype.Repository;

@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.emonocot.model.Distribution;
 import org.emonocot.model.Taxon;
-import org.emonocot.model.geography.Location;
+import org.emonocot.model.constants.Location;
 import org.junit.Test;
 
 /**

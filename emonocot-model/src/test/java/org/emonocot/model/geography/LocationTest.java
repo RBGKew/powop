@@ -3,6 +3,7 @@ package org.emonocot.model.geography;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.emonocot.model.constants.Location;
 import org.junit.Test;
 
 import com.vividsolutions.jts.geom.Coordinate;

@@ -6,7 +6,7 @@ import org.codehaus.jackson.map.module.SimpleDeserializers;
 import org.codehaus.jackson.map.module.SimpleKeyDeserializers;
 import org.codehaus.jackson.map.module.SimpleSerializers;
 import org.emonocot.api.JobInstanceService;
-import org.emonocot.model.geography.Location;
+import org.emonocot.model.constants.Location;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionException;
 import org.springframework.batch.core.JobInstance;

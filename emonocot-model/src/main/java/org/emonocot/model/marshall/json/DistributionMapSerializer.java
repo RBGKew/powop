@@ -7,7 +7,7 @@ import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.SerializerProvider;
 import org.emonocot.model.Distribution;
-import org.emonocot.model.geography.Location;
+import org.emonocot.model.constants.Location;
 
 /**
  *

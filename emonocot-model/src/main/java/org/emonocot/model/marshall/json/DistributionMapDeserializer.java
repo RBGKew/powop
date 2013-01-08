@@ -9,7 +9,7 @@ import org.codehaus.jackson.JsonToken;
 import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
 import org.emonocot.model.Distribution;
-import org.emonocot.model.geography.Location;
+import org.emonocot.model.constants.Location;
 
 /**
  *

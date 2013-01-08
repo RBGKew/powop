@@ -1,6 +1,6 @@
 package org.emonocot.model.convert;
 
-import org.emonocot.model.geography.Location;
+import org.emonocot.model.constants.Location;
 import org.springframework.core.convert.converter.Converter;
 
 /**

@@ -4,7 +4,7 @@
 package org.emonocot.service.impl;
 
 import org.emonocot.api.PlaceService;
-import org.emonocot.model.geography.Place;
+import org.emonocot.model.Place;
 import org.emonocot.persistence.dao.PlaceDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -3,7 +3,7 @@
  */
 package org.emonocot.persistence.dao;
 
-import org.emonocot.model.geography.Place;
+import org.emonocot.model.Place;
 
 /**
  * @author jk00kg

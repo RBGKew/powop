@@ -3,7 +3,7 @@ package org.emonocot.job.dwc.distribution;
 import org.emonocot.job.dwc.read.OwnedEntityFieldSetMapper;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.Reference;
-import org.emonocot.model.geography.Location;
+import org.emonocot.model.constants.Location;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;

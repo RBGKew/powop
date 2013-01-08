@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.emonocot.model.constants.Location;
+import org.emonocot.model.util.LocationComparator;
 import org.junit.Test;
 
 /**
@@ -38,7 +40,7 @@ public class LocationComparatorTest {
         list.add(Location.ALG);
 
         Collections.sort(list, comparator);
-        assertEquals("[AFRICA, MACARONESIA, ALG, CHINA, EUROPE, GRB, IRE, FRA, EASTERN_CANADA, ABT]",
+        assertEquals("[AFRICA, AFRICA_MACARONESIA, AFRICA_NORTHERN_AFRICA_ALG, ASIA_TEMPERATE_CHINA, EUROPE, EUROPE_NORTHERN_EUROPE_GRB, EUROPE_NORTHERN_EUROPE_IRE, EUROPE_SOUTHWESTERN_EUROPE_FRA, NORTHERN_AMERICA_EASTERN_CANADA, NORTHERN_AMERICA_WESTERN_CANADA_ABT]",
                 list.toString());
     }
 

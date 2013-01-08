@@ -1,6 +1,8 @@
-package org.emonocot.model.geography;
+package org.emonocot.model.util;
 
 import java.util.Comparator;
+
+import org.emonocot.model.constants.Location;
 
 /**
  *

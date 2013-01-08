@@ -8,7 +8,7 @@ import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.Description;
 import org.emonocot.model.constants.DescriptionType;
-import org.emonocot.model.geography.Location;
+import org.emonocot.model.constants.Location;
 import org.hibernate.Hibernate;
 import org.junit.After;
 import org.junit.Before;

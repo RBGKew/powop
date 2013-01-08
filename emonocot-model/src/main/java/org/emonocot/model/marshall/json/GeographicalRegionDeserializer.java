@@ -5,8 +5,8 @@ import java.io.IOException;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.deser.StdDeserializer;
+import org.emonocot.model.constants.Location;
 import org.emonocot.model.convert.StringToLocationConverter;
-import org.emonocot.model.geography.Location;
 
 /**
  *

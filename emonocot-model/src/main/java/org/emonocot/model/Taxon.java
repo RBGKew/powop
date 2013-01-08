@@ -24,7 +24,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.emonocot.model.geography.Location;
+import org.emonocot.model.constants.Location;
 import org.emonocot.model.marshall.json.ReferenceDeserializer;
 import org.emonocot.model.marshall.json.ReferenceSerializer;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
@@ -1064,15 +1064,11 @@ public class Taxon extends SearchableObject {
 		return sid;
 	}
 	
-	private String indexLocality(Location g, SolrInputDocument sid) {
-		String facet = null;		
+	private void indexLocality(Location g, SolrInputDocument sid) {	
 		if(g.getParent() != null) {
-			facet = indexLocality(g.getParent(), sid) + "_" + g.name();
-		} else {
-			facet = g.name();
+			indexLocality(g.getParent(), sid);
 		}
-		sid.addField("taxon.distribution_" + g.getPrefix() + "_" + g.getLevel() + "_ss", facet);
-		return facet;
+		sid.addField("taxon.distribution_" + g.getPrefix() + "_" + g.getLevel() + "_ss", g.toString());
 	}
 	
 	@Override

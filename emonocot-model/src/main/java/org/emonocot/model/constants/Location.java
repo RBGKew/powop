@@ -1,4 +1,4 @@
-package org.emonocot.model.geography;
+package org.emonocot.model.constants;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -503,6 +503,15 @@ public enum Location {
      */
     public String getCode() {
     	return code;
+    }
+    
+    @Override
+    public String toString() {
+    	if(parent != null) {
+    		return parent.toString() + "_" + name();
+    	} else {
+    		return name();
+    	}
     }
 
     /**

@@ -19,10 +19,10 @@ import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Image;
+import org.emonocot.model.Place;
 import org.emonocot.model.SearchableObject;
 import org.emonocot.model.Taxon;
-import org.emonocot.model.geography.Location;
-import org.emonocot.model.geography.Place;
+import org.emonocot.model.constants.Location;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.pager.Page;
 import org.emonocot.test.DataManagementSupport;
@@ -358,7 +358,7 @@ public class FacetingTest extends DataManagementSupport {
     @Test
     public final void testFacetOnPlace() {
     	Map<String, String> selectedFacets = new HashMap<String, String>();
-    	selectedFacets.put("base.class_s", "org.emonocot.model.geography.Place");
+    	selectedFacets.put("base.class_s", "org.emonocot.model.Place");
     	Page<Place> places = placeService.search(null, null, 10, 0, new String[] {}, selectedFacets, null, null);
     	assertEquals("There should be one place in the result list",(Integer)places.getSize(),(Integer)1);
     }

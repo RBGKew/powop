@@ -13,7 +13,7 @@ import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.SearchableObject;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.DescriptionType;
-import org.emonocot.model.geography.Location;
+import org.emonocot.model.constants.Location;
 import org.emonocot.pager.Page;
 import org.junit.After;
 import org.junit.Before;
