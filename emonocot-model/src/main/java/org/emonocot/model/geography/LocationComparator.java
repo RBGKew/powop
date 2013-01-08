@@ -18,67 +18,63 @@ public class LocationComparator implements
      */
     public final int compare(final Location o1,
             final Location o2) {
-        if (o1.getClass().equals(Continent.class)) {
-            Continent c1 = (Continent) o1;
-            if (o2.getClass().equals(Continent.class)) {
-                Continent c2 = (Continent) o2;
-                return c1.compareNames(c2);
-            } else if (o2.getClass().equals(Region.class)) {
-                Region r2 = (Region) o2;
-                return c1.compareNames(r2.getContinent());
-            } else {
-                Country c2 = (Country) o2;
-                return c1.compareNames(c2.getRegion().getContinent());
-            }
-        } else if (o1.getClass().equals(Region.class)) {
-            Region r1 = (Region) o1;
-            if (o2.getClass().equals(Continent.class)) {
-                Continent c2 = (Continent) o2;
-                return r1.getContinent().compareNames(c2);
-            } else if (o2.getClass().equals(Region.class)) {
-                Region r2 = (Region) o2;
-                if (r1.getContinent().compareNames(r2.getContinent()) == 0) {
-                    return r1.compareNames(r2);
+    	switch(o1.getLevel()) {
+    	case 0:
+    		switch(o2.getLevel()) {
+        	case 0:
+        		return o1.compareNames(o2);
+        	case 1:
+        		return o1.compareNames(o2.getParent());
+        	case 2:
+        		o1.compareNames(o2.getParent().getParent());
+        	default:
+        		return 0;    	
+        	}
+    	case 1:
+    		switch(o2.getLevel()) {
+        	case 0:
+        		return o1.getParent().compareNames(o2);
+        	case 1:
+        		if (o1.getParent().compareNames(o2.getParent()) == 0) {
+                    return o1.compareNames(o2);
                 } else {
-                    return r1.getContinent().compareNames(r2.getContinent());
+                    return o1.getParent().compareNames(o2.getParent());
                 }
-            } else {
-                Country c2 = (Country) o2;
-                if (r1.getContinent().compareNames(c2.getRegion().getContinent()) == 0) {
-                    return r1.compareNames(c2.getRegion());
+        	case 2:
+                if (o1.getParent().compareNames(o2.getParent().getParent()) == 0) {
+                    return o1.compareNames(o2.getParent());
                 } else {
-                    return r1.getContinent().compareNames(
-                            c2.getRegion().getContinent());
+                    return o1.getParent().compareNames(o2.getParent().getParent());
                 }
-            }
-        } else {
-            Country c1 = (Country) o1;
-            if (o2.getClass().equals(Continent.class)) {
-                Continent c2 = (Continent) o2;
-                return c1.getRegion().getContinent().compareNames(c2);
-            } else if (o2.getClass().equals(Region.class)) {
-                Region r2 = (Region) o2;
-                if (c1.getRegion().getContinent().compareNames(r2.getContinent()) == 0) {
-                    return c1.getRegion().compareNames(r2);
+        	default:
+        		return 0;    	
+        	}
+    	case 2:
+    		switch(o2.getLevel()) {
+        	case 0:
+        		return o1.getParent().getParent().compareNames(o2);
+        	case 1:
+        		if (o1.getParent().getParent().compareNames(o2.getParent()) == 0) {
+                    return o1.getParent().compareNames(o2);
                 } else {
-                    return c1.getRegion().getContinent()
-                            .compareNames(r2.getContinent());
+                    return o1.getParent().getParent().compareNames(o2.getParent());
                 }
-            } else {
-                Country c2 = (Country) o2;
-                if (c1.getRegion().getContinent()
-                        .compareNames(c2.getRegion().getContinent()) == 0) {
-                    if (c1.getRegion().compareNames(c2.getRegion()) == 0) {
-                        return c1.compareNames(c2);
+        	case 2:
+        		if (o1.getParent().getParent().compareNames(o2.getParent().getParent()) == 0) {
+                    if (o1.getParent().compareNames(o2.getParent()) == 0) {
+                        return o1.compareNames(o2);
                     } else {
-                        return c1.getRegion().compareNames(c2.getRegion());
+                        return o1.getParent().compareNames(o2.getParent());
                     }
                 } else {
-                    return c1.getRegion().getContinent()
-                            .compareNames(c2.getRegion().getContinent());
+                    return o1.getParent().getParent().compareNames(o2.getParent().getParent());
                 }
-            }
-        }
+        	default:
+        		return 0;    	
+        	}
+    	default:
+    		return 0;    	
+    	}
     }
 
 }

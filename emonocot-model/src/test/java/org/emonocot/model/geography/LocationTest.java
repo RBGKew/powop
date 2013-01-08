@@ -15,7 +15,7 @@ import com.vividsolutions.jts.geom.GeometryFactory;
  * @author ben
  *
  */
-public class GeographicalRegionTest {
+public class LocationTest {
 
 
     /**
@@ -24,16 +24,16 @@ public class GeographicalRegionTest {
     @Test
     public final void testCompareGeography() throws Exception {
         List<Geometry> list = new ArrayList<Geometry>();
-        list.add(Continent.EUROPE.getEnvelope());
-        list.add(Continent.AFRICA.getEnvelope());
-        list.add(Region.CHINA.getEnvelope());
-        list.add(Region.MACARONESIA.getEnvelope());
-        list.add(Region.EASTERN_CANADA.getEnvelope());
-        list.add(Country.FRA.getEnvelope());
-        list.add(Country.ABT.getEnvelope());
-        list.add(Country.GRB.getEnvelope());
-        list.add(Country.IRE.getEnvelope());
-        list.add(Country.ALG.getEnvelope());
+        list.add(Location.EUROPE.getEnvelope());
+        list.add(Location.AFRICA.getEnvelope());
+        list.add(Location.CHINA.getEnvelope());
+        list.add(Location.MACARONESIA.getEnvelope());
+        list.add(Location.EASTERN_CANADA.getEnvelope());
+        list.add(Location.FRA.getEnvelope());
+        list.add(Location.ABT.getEnvelope());
+        list.add(Location.GRB.getEnvelope());
+        list.add(Location.IRE.getEnvelope());
+        list.add(Location.ALG.getEnvelope());
 
         GeometryCollection geometryCollection = new GeometryCollection(
                 list.toArray(new Geometry[list.size()]), new GeometryFactory());

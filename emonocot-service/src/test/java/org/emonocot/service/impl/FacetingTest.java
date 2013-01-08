@@ -21,10 +21,8 @@ import org.emonocot.model.Annotation;
 import org.emonocot.model.Image;
 import org.emonocot.model.SearchableObject;
 import org.emonocot.model.Taxon;
-import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.Location;
 import org.emonocot.model.geography.Place;
-import org.emonocot.model.geography.Region;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.pager.Page;
 import org.emonocot.test.DataManagementSupport;
@@ -139,11 +137,11 @@ public class FacetingTest extends DataManagementSupport {
                 source1, new Location[] {}, new Organisation[] {source1});
         Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null, "Ausaceae",
                 null, null, "(1775)", Rank.SPECIES, TaxonomicStatus.Accepted,
-                source1, new Location[] {Continent.AUSTRALASIA,
-                        Region.BRAZIL, Region.CARIBBEAN }, new Organisation[] {source1,source2});
+                source1, new Location[] {Location.AUSTRALASIA,
+                        Location.BRAZIL, Location.CARIBBEAN }, new Organisation[] {source1,source2});
         Taxon taxon3 = createTaxon("Aus ceus", "3", taxon1, null, "Ausaceae",
                 null, null, "(1805)", Rank.SPECIES, TaxonomicStatus.Accepted,
-                source1, new Location[] {Region.NEW_ZEALAND }, new Organisation[] {source1,source2});
+                source1, new Location[] {Location.NEW_ZEALAND }, new Organisation[] {source1,source2});
         Taxon taxon4 = createTaxon("Aus deus", "4", null, taxon2, "Ausaceae",
                 null, null, "(1895)", Rank.SPECIES, TaxonomicStatus.Synonym,
                 source1, new Location[] {}, new Organisation[] {source1});
@@ -191,7 +189,7 @@ public class FacetingTest extends DataManagementSupport {
             Strings[i] = classFacet.getValues().get(i).getName();
         }
 
-        assertThat("org.emonocot.model.taxon.Taxon should be a facet in CLASS",
+        assertThat("org.emonocot.model.Taxon should be a facet in CLASS",
                 Strings, hasItemInArray("org.emonocot.model.Taxon"));
         assertEquals("There should be one value for the FAMILY facet", 1, pager
                 .getFacetField("taxon.family_s").getValues().size());
@@ -204,7 +202,7 @@ public class FacetingTest extends DataManagementSupport {
     public final void testSearchWithRegion() {
         Map<String, String> selectedFacets = new HashMap<String, String>();
         selectedFacets.put("base.class_s", "org.emonocot.model.Taxon");
-        selectedFacets.put("taxon.distribution_TDWG_1_ss", "NEW_ZEALAND");
+        selectedFacets.put("taxon.distribution_TDWG_1_ss", "AUSTRALASIA_NEW_ZEALAND");
         Page<SearchableObject> pager = searchableObjectService.search("Aus",
                 null, null, null, new String[] {"base.class_s",
                         "taxon.family_s", "taxon.distribution_TDWG_0_ss",
@@ -221,7 +219,7 @@ public class FacetingTest extends DataManagementSupport {
             Strings[i] = classFacet.getValues().get(i).getName();
         }
 
-        assertThat("org.emonocot.model.taxon.Taxon should be a facet in CLASS",
+        assertThat("org.emonocot.model.Taxon should be a facet in CLASS",
                 Strings, hasItemInArray("org.emonocot.model.Taxon"));
         assertEquals("There should be one value for the FAMILY facet", 1, pager
                 .getFacetField("taxon.family_s").getValueCount());

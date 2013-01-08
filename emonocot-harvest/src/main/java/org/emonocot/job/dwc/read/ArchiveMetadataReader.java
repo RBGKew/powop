@@ -399,7 +399,7 @@ public class ArchiveMetadataReader implements StepExecutionListener {
     private Map<String, String> getDefaultValues(final List<ArchiveField> fields) {
         Map<String, String> defaultValues = new HashMap<String, String>();
         for (ArchiveField field : fields) {
-            if (field.getIndex() == null) {
+            if (field.getDefaultValue() != null && field.getIndex() == null) {
                 defaultValues.put(field.getTerm().qualifiedName(),
                         field.getDefaultValue());
             }
@@ -426,7 +426,11 @@ public class ArchiveMetadataReader implements StepExecutionListener {
         for (ArchiveField field : fields) {
         	logger.info("Archive contains field " + field.getTerm().qualifiedName());    
         	if(field.getIndex() != null) {
-                names.set(field.getIndex(), field.getTerm().qualifiedName());
+        		if(field.getDefaultValue() != null) {
+        			names.set(field.getIndex(), field.getTerm().qualifiedName() + " " + field.getDefaultValue());
+        		} else {
+                    names.set(field.getIndex(), field.getTerm().qualifiedName());
+        		}
         	}
         }
         logger.info("Archive contains field names " + names);

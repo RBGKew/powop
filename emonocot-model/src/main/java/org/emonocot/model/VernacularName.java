@@ -22,7 +22,6 @@ import org.gbif.ecat.voc.LifeStage;
 import org.gbif.ecat.voc.Sex;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
 
 @Entity
@@ -157,7 +156,7 @@ public class VernacularName extends OwnedEntity {
 		this.language = language;
 	}
 
-	@Type(type = "tdwgRegionUserType")
+	@Enumerated(value = EnumType.STRING)
 	public Location getLocation() {
 		return location;
 	}

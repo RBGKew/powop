@@ -28,7 +28,7 @@ import org.emonocot.model.auth.User;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.RecordType;
-import org.emonocot.model.geography.Country;
+import org.emonocot.model.geography.Location;
 import org.emonocot.model.geography.Place;
 import org.emonocot.portal.model.AceDto;
 import org.joda.time.DateTime;
@@ -158,7 +158,7 @@ public class JsonConversionTest {
                 .getDistribution().isEmpty());
         Distribution reunion = null;
         for(Distribution d : taxon.getDistribution()) {
-        	if(d.getLocation().equals(Country.REU)) {
+        	if(d.getLocation().equals(Location.REU)) {
         		reunion = d;
         		break;
         	}
@@ -189,7 +189,7 @@ public class JsonConversionTest {
         taxon.getDescriptions().add(description);
         Distribution distribution = new Distribution();
         distribution.setTaxon(taxon);
-        distribution.setLocation(Country.REU);
+        distribution.setLocation(Location.REU);
         taxon.getDistribution().add(distribution);
         taxon.getReferences().add(reference);
         taxon.setNamePublishedIn(reference);

@@ -8,9 +8,7 @@ import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.Description;
 import org.emonocot.model.constants.DescriptionType;
-import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.Location;
-import org.emonocot.model.geography.Region;
 import org.hibernate.Hibernate;
 import org.junit.After;
 import org.junit.Before;
@@ -55,11 +53,11 @@ public class FetchProfileTest extends AbstractPersistenceTest {
                 reference);
         Taxon taxon2 = createTaxon("Aus bus", "urn:lsid:example.com:taxon:2",
                 taxon1, null, null, null, null, null, null, null,
-                null, new Location[] {Continent.AUSTRALASIA,
-                        Region.BRAZIL, Region.CARIBBEAN }, null);
+                null, new Location[] {Location.AUSTRALASIA,
+                        Location.BRAZIL, Location.CARIBBEAN }, null);
         Taxon taxon3 = createTaxon("Aus ceus", "urn:lsid:example.com:taxon:3",
                 taxon1, null, null, null, null, null, null, null,
-                null, new Location[] {Region.NEW_ZEALAND }, null);
+                null, new Location[] {Location.NEW_ZEALAND }, null);
         Taxon taxon4 = createTaxon("Aus deus", "urn:lsid:example.com:taxon:4",
                 null, taxon2, null, null, null, null, null, null,
                 null, new Location[] {}, null);

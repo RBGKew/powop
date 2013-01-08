@@ -310,11 +310,13 @@ public class Image extends SearchableObject implements NonOwned {
     	    .append(" ").append(getTaxon().getTribe());
     	}
     	sid.addField("searchable.solrsummary_t", summary);
-    	try {
-    		WKTWriter wktWriter = new WKTWriter();
-    		sid.addField("geo",wktWriter.write(getLocation()));
-		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage());
+		if (getLocation() != null) {
+			try {
+				WKTWriter wktWriter = new WKTWriter();
+				sid.addField("geo", wktWriter.write(getLocation()));
+			} catch (Exception e) {
+				logger.error(e.getLocalizedMessage());
+			}
 		}
     	return sid;
     }

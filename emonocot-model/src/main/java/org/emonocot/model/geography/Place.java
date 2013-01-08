@@ -216,11 +216,15 @@ public class Place extends SearchableObject {
     	addField(sid,"place.fips_code_t", getFipsCode());
     	StringBuilder summary = new StringBuilder().append(getTitle()).append(" ").append(getFipsCode());
     	sid.addField("searchable.solrsummary_t", summary);
-    	try {
-    		WKTWriter wktWriter = new WKTWriter();
-    		sid.addField("geo", wktWriter.write(TopologyPreservingSimplifier.simplify(getShape(),0.01)));
-		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage());
+		if (getShape() != null) {
+			try {
+				WKTWriter wktWriter = new WKTWriter();
+				sid.addField("geo", wktWriter
+						.write(TopologyPreservingSimplifier.simplify(
+								getShape(), 0.01)));
+			} catch (Exception e) {
+				logger.error(e.getLocalizedMessage());
+			}
 		}
     	return sid;
     }

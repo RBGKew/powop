@@ -1,9 +1,6 @@
 package org.emonocot.model.convert;
 
-import org.emonocot.model.geography.Continent;
-import org.emonocot.model.geography.Country;
 import org.emonocot.model.geography.Location;
-import org.emonocot.model.geography.Region;
 import org.springframework.core.convert.converter.Converter;
 
 /**
@@ -33,31 +30,13 @@ public class StringToLocationConverter implements
         }
         if (identifier.startsWith(StringToLocationConverter.TDWG_VOCABULARY_PREFIX)) {
             String code = identifier.substring(StringToLocationConverter.TDWG_VOCABULARY_PREFIX.length());
-            if (code.length() == 1) {
-                return Continent.fromString(code);
-            } else if (code.length() == 2) {
-                return Region.fromString(code);
-            } else if (code.length() == 3) {
-                return Country.fromString(code);
-            }
+            return Location.fromString(code);
         } else if(identifier.startsWith(StringToLocationConverter.DWC_VOCABULARY_PREFIX)) {
         	String code = identifier.substring(StringToLocationConverter.DWC_VOCABULARY_PREFIX.length());
-            if (code.length() == 1) {
-                return Continent.fromString(code);
-            } else if (code.length() == 2) {
-                return Region.fromString(code);
-            } else if (code.length() == 3) {
-                return Country.fromString(code);
-            }
-        } else if (identifier.length() == 1) {
-            return Continent.fromString(identifier);
-        } else if (identifier.length() == 2) {
-            return Region.fromString(identifier);
-        } else if (identifier.length() == 3) {
-            return Country.fromString(identifier);
-        }
-        throw new IllegalArgumentException(identifier
-                + " is not a valid TDWG region");
+        	return Location.fromString(code);
+        } else {
+        	return Location.fromString(identifier);
+        }        
     }
 
     /**

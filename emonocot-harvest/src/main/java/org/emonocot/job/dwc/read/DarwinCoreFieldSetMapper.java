@@ -101,12 +101,28 @@ public abstract class DarwinCoreFieldSetMapper<T extends Base> extends Authority
         }
         logger.debug("Mapping object " + t + " with fieldNames " + Arrays.toString(fieldNames) + " and fieldSet " + fieldSet);
         try {
-          for (int i = 0; i < fieldNames.length; i++) {
-              mapField(t, fieldNames[i], fieldSet.readString(i));
-          }
-          for (String defaultTerm : defaultValues.keySet()) {
-            mapField(t, defaultTerm, defaultValues.get(defaultTerm));
-          }
+        	// Default values go first, specific values override
+        	logger.info("Mapping default values");
+        	for (String defaultTerm : defaultValues.keySet()) {
+                mapField(t, defaultTerm, defaultValues.get(defaultTerm));
+            }
+        	
+        	logger.info("Mapping fields");
+            for (int i = 0; i < fieldNames.length; i++) {
+            	if(fieldNames[i].indexOf(" ") != -1) {
+            		String fieldName = fieldNames[i].substring(0, fieldNames[i].indexOf(" "));
+            		String defaultValue = fieldNames[i].substring(fieldNames[i].indexOf(" ") + 1);
+            		String value = fieldSet.readString(i);
+            		if(value.isEmpty()) {
+            			mapField(t, fieldName, defaultValue);
+            		} else {
+            			mapField(t, fieldName, value);
+            		}
+            	} else {
+                    mapField(t, fieldNames[i], fieldSet.readString(i));
+            	}
+            }
+          
         } catch (BindException e) {
             logger.error(e.getMessage());
             throw e;

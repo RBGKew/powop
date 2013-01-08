@@ -14,9 +14,7 @@ import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.RecordType;
-import org.emonocot.model.geography.Continent;
 import org.emonocot.model.geography.Location;
-import org.emonocot.model.geography.Region;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.AnnotationDao;
@@ -69,11 +67,11 @@ public class AnnotationDaoTest extends AbstractPersistenceTest {
         createDescription(taxon1, DescriptionType.habitat, "Lorem ipsum", null);
         Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null, null, null,
                 null, null, null, null, wcs,
-                new Location[] {Continent.AUSTRALASIA,
-                        Region.BRAZIL, Region.CARIBBEAN }, null);
+                new Location[] {Location.AUSTRALASIA,
+                        Location.BRAZIL, Location.CARIBBEAN }, null);
         Taxon taxon3 = createTaxon("Aus ceus", "3", taxon1, null, null, null,
                 null, null, null, null, wcs,
-                new Location[] {Region.NEW_ZEALAND }, null);
+                new Location[] {Location.NEW_ZEALAND }, null);
         Taxon taxon4 = createTaxon("Aus deus", "4", null, taxon2, null, null,
                 null, null, null, null, wcs, new Location[] {}, null);
 

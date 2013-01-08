@@ -28,7 +28,6 @@ import org.gbif.ecat.voc.EstablishmentMeans;
 import org.gbif.ecat.voc.OccurrenceStatus;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
 
 /**
@@ -124,7 +123,7 @@ public class Distribution extends OwnedEntity {
      *
      * @return the lowest level geo region this distribution is concerned with
      */
-    @Type(type = "tdwgRegionUserType")
+    @Enumerated(value = EnumType.STRING)
     public Location getLocation() {
         return location;
     }

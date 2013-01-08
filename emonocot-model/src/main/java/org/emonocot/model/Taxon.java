@@ -413,8 +413,7 @@ public class Taxon extends SearchableObject {
 	 * @return the rank
 	 */
 	@Enumerated(value = EnumType.STRING)
-	public Rank getTaxonRank() {
-		
+	public Rank getTaxonRank() {		
 		return taxonRank;
 	}
 
@@ -967,7 +966,26 @@ public class Taxon extends SearchableObject {
 		}
 		for(Distribution d : getDistribution()) {
 			sid.addField("taxon.distribution_ss", d.getLocation().getCode());
-			indexLocality(d.getLocation(),sid);
+			switch(d.getLocation().getLevel()) {
+			case 0:
+				for(Location r : (Set<Location>)d.getLocation().getChildren()) {
+					for(Location c : (Set<Location>)r.getChildren()) {
+						indexLocality(c,sid);
+					}
+				}
+				break;
+			case 1:
+				for(Location c : (Set<Location>)d.getLocation().getChildren()) {
+					indexLocality(c,sid);
+				}
+				break;
+			case 2:
+				indexLocality(d.getLocation(),sid);
+				break;
+			default:
+				break;
+			}
+			
 			if(d.getAuthority() != null) {
 				sid.addField("searchable.sources_ss", d.getAuthority().getIdentifier());
 			}
@@ -1046,11 +1064,15 @@ public class Taxon extends SearchableObject {
 		return sid;
 	}
 	
-	private void indexLocality(Location g, SolrInputDocument sid) {
-		sid.addField("taxon.distribution_" + g.getPrefix() + "_" + g.getLevel() + "_ss", g.name());
+	private String indexLocality(Location g, SolrInputDocument sid) {
+		String facet = null;		
 		if(g.getParent() != null) {
-			indexLocality(g.getParent(), sid);
+			facet = indexLocality(g.getParent(), sid) + "_" + g.name();
+		} else {
+			facet = g.name();
 		}
+		sid.addField("taxon.distribution_" + g.getPrefix() + "_" + g.getLevel() + "_ss", facet);
+		return facet;
 	}
 	
 	@Override

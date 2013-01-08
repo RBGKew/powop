@@ -78,8 +78,8 @@ Scenario: Facet on Family
   Then there should be 9 results
   And the following results should be displayed:
   | page                         | text              |
-  | urn:kew.org:wcs:taxon:16052  | Arum besserianum  |
   | urn:kew.org:wcs:taxon:16060  | Arum byzantinum   |
+  | urn:kew.org:wcs:taxon:16052  | Arum besserianum  |  
   | urn:kew.org:wcs:taxon:16050  | Arum balansanum   |
   | urn:kew.org:wcs:taxon:456456 | Arum alpinariae   |  
   | urn:kew.org:wcs:taxon:16041  | Arum apulum       |

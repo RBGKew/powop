@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.emonocot.model.Distribution;
 import org.emonocot.model.Taxon;
-import org.emonocot.model.geography.Country;
 import org.emonocot.model.geography.Location;
 import org.junit.Test;
 
@@ -21,7 +20,7 @@ public class DistributionMapTest {
     @Test
     public final void testMapUrlConstruction() {
         Taxon taxon = new Taxon();
-        createDistribution(taxon, Country.REU);
+        createDistribution(taxon, Location.REU);
 
         assertEquals("The map service url fragment should be correct",
                 "tdwg3:present:REU",

@@ -22,7 +22,7 @@ import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.RecordType;
-import org.emonocot.model.geography.Country;
+import org.emonocot.model.geography.Location;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.persistence.dao.AnnotationDao;
 import org.emonocot.persistence.dao.GroupDao;
@@ -217,7 +217,7 @@ public class RestApiFunctionalTest {
         Distribution distribution = new Distribution();
         distribution.setIdentifier(UUID.randomUUID().toString());
         distribution.setTaxon(taxon);
-        distribution.setLocation(Country.REU);
+        distribution.setLocation(Location.REU);
         taxon.getDistribution().add(distribution);
         taxon.getImages().add(image);
         taxonDao.save(taxon);
