@@ -121,7 +121,7 @@ public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityA
     	boolean annotationPresent = false;
 
     	for(Annotation a : annotated.getAnnotations()) {
-    		if(a.getJobId().equals(getStepExecution().getJobExecutionId())) {
+    		if(getStepExecution().getJobExecutionId().equals(a.getJobId())) {
     			a.setType(type);
     			a.setCode(code);
     			annotationPresent = true;
