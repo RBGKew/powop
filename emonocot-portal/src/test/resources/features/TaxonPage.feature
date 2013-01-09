@@ -10,7 +10,8 @@ Feature: Taxon Page
   information about the taxon.
 
 Background:
-  Given there are source systems with the following properties:
+  Given that the indexes are clean
+  Given there are organisations with the following properties:
   | identifier | uri                 |
   | test       | http://example.com  |
   And there are references with the following properties:

@@ -12,10 +12,10 @@ import org.emonocot.portal.driver.*;
 import org.emonocot.portal.driver.organisation.ResourceOutput;
 import org.emonocot.portal.rows.AccessControlRow;
 import org.emonocot.portal.rows.GroupRow;
-import org.emonocot.portal.rows.JobRow;
+import org.emonocot.portal.rows.ResourceRow;
 import org.emonocot.portal.rows.LoginRow;
 import org.emonocot.portal.rows.RegistrationRow;
-import org.emonocot.portal.rows.SourceRow;
+import org.emonocot.portal.rows.OrganisationRow;
 import org.emonocot.portal.rows.SummaryRow;
 import org.emonocot.portal.rows.UserRow;
 import org.slf4j.Logger;
@@ -139,7 +139,7 @@ public class StepDefinitions {
     @When("^I select \"(Create a new resource)\"$")
     public final void iSelectCreateANewJob(final String text) {
         currentPage = currentPage.selectLink(text,
-                org.emonocot.portal.driver.organisation.resource.Create.class);
+                org.emonocot.portal.driver.resource.Create.class);
     }
 
     /**
@@ -169,7 +169,7 @@ public class StepDefinitions {
      */
     @When("^I enter the following data into the create source form:$")
     public final void iEnterTheFollowingDataIntoTheCreateSourceForm(
-            final List<SourceRow> sourceRows) {
+            final List<OrganisationRow> sourceRows) {
 
         ((org.emonocot.portal.driver.organisation.Create) currentPage)
                 .setObjectIdentifier(sourceRows.get(0).identifier, "identifier");
@@ -187,7 +187,7 @@ public class StepDefinitions {
      */
     @When("^I enter the following data into the update source form:$")
     public final void iEnterTheFollowingDataIntoTheUpdateSourceForm(
-            final List<SourceRow> sourceRows) {
+            final List<OrganisationRow> sourceRows) {
         ((org.emonocot.portal.driver.organisation.Update) currentPage).setFormField(
                 "uri", sourceRows.get(0).uri);
         ((org.emonocot.portal.driver.organisation.Update) currentPage).setFormField(
@@ -813,19 +813,6 @@ public class StepDefinitions {
             currentPage = rle.getLoginPage();
         }
     }
-    
-    /**
-     * @param source
-     *            Set the source identifier
-     */
-    @When("^I navigate to the job list page for source \"([^\"]*)\"$")
-    public final void navigateToSourceJobListPage(final String source) {
-        try {
-            currentPage = portal.getSourceJobsPage(source);
-        } catch (RequiresLoginException rle) {
-            currentPage = rle.getLoginPage();
-        }
-    }
 
     /**
      * @param job
@@ -833,11 +820,10 @@ public class StepDefinitions {
      * @param source
      *            Set the source identifier
      */
-    @When("^I navigate to the job page \"([^\"]*)\" for source \"([^\"]*)\"$")
-    public final void navigateToSourceJobPage(final String job,
-            final String source) {
+    @When("^I navigate to the update page for source \"([^\"]*)\"$")
+    public final void navigateToSourceUpdatePage(final String source) {
         try {
-            currentPage = portal.getSourceJobPage(source, job);
+            currentPage = portal.getUpdateSourcePage(source);
         } catch (RequiresLoginException rle) {
             currentPage = rle.getLoginPage();
         }
@@ -1034,18 +1020,19 @@ public class StepDefinitions {
     }
 
     @When("^I enter the following data in the job form:$")
-    public void iEnterTheFollowingDataInTheJobForm(final List<JobRow> rows) {
-        ((org.emonocot.portal.driver.organisation.resource.Create) currentPage)
-                .setObjectIdentifier(rows.get(0).identifier, "identifier");
-        ((org.emonocot.portal.driver.organisation.resource.Create) currentPage)
+    public void iEnterTheFollowingDataInTheJobForm(final List<ResourceRow> rows) {
+        ((org.emonocot.portal.driver.resource.Create) currentPage)
+                .setFormField("title",rows.get(0).title);
+        ((org.emonocot.portal.driver.resource.Create) currentPage)
                 .setFormField("uri", rows.get(0).uri);
-        ((org.emonocot.portal.driver.organisation.resource.Create) currentPage)
-                .setFormSelection("jobType", rows.get(0).jobType);
+        ((org.emonocot.portal.driver.resource.Create) currentPage)
+                .setFormSelection("resourceType", rows.get(0).jobType);
     }
 
     @When("^I submit the create job form$")
     public void iSubmitTheCreateJobForm() {
-        currentPage = ((org.emonocot.portal.driver.organisation.resource.Create) currentPage)
+    	((org.emonocot.portal.driver.resource.Create) currentPage).setObjectIdentifier();
+        currentPage = ((org.emonocot.portal.driver.resource.Create) currentPage)
                 .submit();
     }
 

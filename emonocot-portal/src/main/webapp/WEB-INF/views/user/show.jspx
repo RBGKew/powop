@@ -12,15 +12,7 @@
 			<div class="span12">
 				<div class="inner">
 					<div class="box">
-						<ul class="nav nav-pills nav-stacked">
-							<li class="span3">
-								<jsp:element  name="a">
-									<jsp:attribute name="href">
-										<c:url value="/organisation/e-monocot.org"/>
-									</jsp:attribute>
-									<spring:message code="admin.title"/>
-								</jsp:element>
-							</li>
+						<ul class="nav nav-pills nav-stacked">							
 							<li class="span3">
 								<jsp:element  name="a">
 									<jsp:attribute name="href">

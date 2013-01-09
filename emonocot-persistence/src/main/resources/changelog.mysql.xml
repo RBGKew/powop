@@ -3307,4 +3307,262 @@
             <column name="identifier"/>
         </createIndex>
     </changeSet>
+    <changeSet author="ben" id="2013-01-08_01">
+      <comment>Refactoring resource</comment>
+      <renameColumn tableName="Resource" oldColumnName="jobType" newColumnName="resourceType" columnDataType="varchar(255)"/>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-08_02">
+      <comment>Refactoring resource</comment>
+      <renameColumn tableName="Resource" oldColumnName="identifier" newColumnName="title" columnDataType="varchar(255)"/>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-08_03">
+      <comment>Refactoring resource</comment>
+      <addColumn tableName="Resource">
+        <column name="identifier" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-08_04">
+      <comment>Refactoring resource</comment>
+      <sql>update Resource set identifier = UUID() where identifier is null</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_01">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'EUROPE' where location = '1'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_02">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'AFRICA' where location = '2'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_03">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'ASIA_TEMPERATE' where location = '3'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_04">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'ASIA_TROPICAL' where location = '4'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_05">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'AUSTRALASIA' where location = '5'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_06">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'PACIFIC' where location = '6'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_07">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'NORTHERN_AMERICA' where location = '7'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_08">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'SOUTHERN_AMERICA' where location = '8'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_09">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'NORTHERN_EUROPE' where location = '10'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_10">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'MIDDLE_EUROPE' where location = '11'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_11">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'SOUTHWESTERN_EUROPE' where location = '12'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_12">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'SOUTHEASTERN_EUROPE' where location = '13'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_13">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'EASTERN_EUROPE' where location = '14'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_14">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'NORTHERN_AFRICA' where location = '20'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_15">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'MACARONESIA' where location = '21'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_16">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'WEST_TROPICAL_AFRICA' where location = '22'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_17">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'WEST_CENTRAL_TROPICAL_AFRICA' where location = '23'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_18">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'NORTHEAST_TROPICAL_AFRICA' where location = '24'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_19">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'EAST_TROPICAL_AFRICA' where location = '25'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_20">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'SOUTH_TROPICAL_AFRICA' where location = '26'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_21">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'SOUTHERN_AFRICA' where location = '27'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_22">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'MIDDLE_ATLANTIC_OCEAN' where location = '28'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_23">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'WESTERN_INDIAN_OCEAN' where location = '29'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_24">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'SIBERIA' where location = '30'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_25">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'RUSSIAN_FAR_EAST' where location = '31'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_26">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'MIDDLE_ASIA' where location = '32'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_27">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'CAUCASUS' where location = '33'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_28">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'WESTERN_ASIA' where location = '34'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_29">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'ARABIAN_PENINSULA' where location = '35'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_30">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'CHINA' where location = '36'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_31">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'MONGOLIA' where location = '37'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_32">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'EASTERN_ASIA' where location = '38'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_33">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'INDIAN_SUBCONTINENT' where location = '40'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_34">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'INDO_CHINA' where location = '41'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_35">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'MALESIA' where location = '42'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_36">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'PAPUASIA' where location = '43'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_37">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'AUSTRALIA' where location = '50'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_38">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'NEW_ZEALAND' where location = '51'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_39">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'SOUTHWESTERN_PACIFIC' where location = '60'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_40">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'SOUTH_CENTRAL_PACIFIC' where location = '61'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_41">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'NORTHWESTERN_PACIFIC' where location = '62'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_42">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'NORTH_CENTRAL_PACIFIC' where location = '63'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_43">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'SUBARCTIC_AMERICA' where location = '70'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_44">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'WESTERN_CANADA' where location = '71'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_45">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'EASTERN_CANADA' where location = '72'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_46">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'NORTHWESTERN_USA' where location = '73'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_47">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'NORTH_CENTRAL_USA' where location = '74'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_48">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'NORTHEASTERN_USA' where location = '75'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_49">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'SOUTHWESTERN_USA' where location = '76'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_50">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'SOUTH_CENTRAL_USA' where location = '77'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_51">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'SOUTHEASTERN_USA' where location = '78'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_52">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'MEXICO' where location = '79'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_53">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'CENTRAL_AMERICA' where location = '80'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_54">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'CARIBBEAN' where location = '81'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_55">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'NORTHERN_SOUTH_AMERICA' where location = '82'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_56">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'WESTERN_SOUTH_AMERICA' where location = '83'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_57">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'BRAZIL' where location = '84'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_58">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'SOUTHERN_SOUTH_AMERICA' where location = '85'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_59">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'SUBANTARCTIC_ISLANDS' where location = '90'</sql>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-09_60">
+      <comment>Renaming distribution constants</comment>
+      <sql>update Distribution set location = 'ANTARCTIC_CONTINENT' where location = '91'</sql>
+    </changeSet>
 </databaseChangeLog>

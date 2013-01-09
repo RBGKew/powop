@@ -58,15 +58,15 @@ public class DataSetup {
         }
     }
     
-    @Given("^there are jobs with the following properties:$")
-    public final void thereAreJobsWithTheFollowingProperties(
-            final List<JobRow> jobRows) {
+    @Given("^there are resources with the following properties:$")
+    public final void thereAreResourcesWithTheFollowingProperties(
+            final List<ResourceRow> jobRows) {
     	
-    	for(JobRow jobRow : jobRows) {
-			testDataManager.createJob(jobRow.identifier, jobRow.family,
-					jobRow.jobType, jobRow.source, jobRow.recordsRead,
-					jobRow.readSkip, jobRow.processSkip, jobRow.writeSkip,
-					jobRow.written, jobRow.jobId);
+    	for(ResourceRow jobRow : jobRows) {
+			testDataManager.createResource(jobRow.identifier, jobRow.title,
+					jobRow.family, jobRow.jobType, jobRow.source,
+					jobRow.recordsRead, jobRow.readSkip, jobRow.processSkip,
+					jobRow.writeSkip, jobRow.written, jobRow.jobId);
     	}
     }
 
@@ -151,11 +151,11 @@ public class DataSetup {
      * @param rows
      *            Set the rows
      */
-    @Given("^there are source systems with the following properties:$")
+    @Given("^there are organisations with the following properties:$")
     public final void thereAreSourceSystemsWithTheFollowingProperties(
-            final List<SourceRow> rows) {
-        for (SourceRow row : rows) {
-            testDataManager.createSourceSystem(row.identifier, row.uri, row.title);
+            final List<OrganisationRow> rows) {
+        for (OrganisationRow row : rows) {
+            testDataManager.createOrganisation(row.identifier, row.uri, row.title);
         }
     }
 

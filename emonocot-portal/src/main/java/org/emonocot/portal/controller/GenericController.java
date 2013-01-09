@@ -22,23 +22,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 public abstract class GenericController<T extends Base,
                                         SERVICE extends Service<T>> {
 
-    /**
-    *
-    */
     private static Logger logger = LoggerFactory.getLogger(GenericController.class);
-   /**
-    *
-    */
+
     private SERVICE service;
 
-    /**
-     *
-     */
     private String directory;
 
-    /**
-     * @param newDirectory Set the directory
-     */
     public GenericController(final String newDirectory) {
         this.directory = newDirectory;
     }

@@ -2,6 +2,7 @@ package org.emonocot.model.registry;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -16,7 +17,7 @@ import javax.persistence.ManyToOne;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.Base;
-import org.emonocot.model.constants.JobType;
+import org.emonocot.model.constants.ResourceType;
 import org.emonocot.model.marshall.json.OrganisationDeserialiser;
 import org.emonocot.model.marshall.json.OrganisationSerializer;
 import org.hibernate.annotations.NaturalId;
@@ -35,104 +36,66 @@ import org.springframework.batch.core.BatchStatus;
 @Entity
 public class Resource extends Base {
 	
-   /**
-    *
-    */
 	private static long serialVersionUID = 5676965857186600965L;
 
-	/**
-     *
-     */
 	private Long id;
 
-	/**
-     *
-     */
-	private JobType jobType;
+	private ResourceType resourceType;
 
-	/**
-     *
-     */
 	private String uri;
 
-	/**
-     *
-     */
 	private DateTime lastHarvested;
 
-	/**
-    *
-    */
 	private String resource;
 
-	/**
-    *
-    */
 	private Long jobId;
-	/**
-    *
-    */
+
 	private BatchStatus status;
 
-	/**
-    *
-    */
 	private DateTime startTime;
 
-   /**
-    *
-    */
 	private String exitCode;
 
-	/**
-    *
-    */
 	private DateTime duration;
 
-	/**
-    *
-    */
 	private String exitDescription;
 
-	/**
-    *
-    */
 	private String jobInstance;
 
-	/**
-     *
-     */
 	private Organisation organisation;
+	
+	private String title;
 
 	/**
-    *
-    */
+	 * @return the title
+	 */
+	@NotEmpty
+	public String getTitle() {
+		return title;
+	}
+
+	/**
+	 * @param title the title to set
+	 */
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	private Integer recordsRead = 0;
 
-	/**
-    *
-    */
 	private Integer readSkip = 0;
 
-	/**
-    *
-    */
 	private Integer processSkip = 0;
 
-	/**
-    *
-    */
 	private Integer writeSkip = 0;
 
-   /**
-    *
-    */
 	private Integer written = 0;
 	
-	/**
-	 *
-	 */
 	private Map<String,String> parameters = new HashMap<String,String>();
+	
+	public Resource() {
+		this.identifier = UUID.randomUUID().toString();
+	}
 	
 	/**
 	 * @return the readSkip
@@ -196,8 +159,8 @@ public class Resource extends Base {
 	 * @return the jobType
 	 */
 	@Enumerated(value = EnumType.STRING)
-	public JobType getJobType() {
-		return jobType;
+	public ResourceType getResourceType() {
+		return resourceType;
 	}
 
 	/**
@@ -205,8 +168,8 @@ public class Resource extends Base {
 	 *            Set the job type
 	 */
 	@Enumerated(value = EnumType.STRING)
-	public void setJobType(JobType newJobType) {
-		this.jobType = newJobType;
+	public void setResourceType(ResourceType newJobType) {
+		this.resourceType = newJobType;
 	}
 
 	/**

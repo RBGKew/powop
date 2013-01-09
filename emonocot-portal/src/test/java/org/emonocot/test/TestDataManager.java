@@ -38,7 +38,7 @@ import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.ImageFormat;
-import org.emonocot.model.constants.JobType;
+import org.emonocot.model.constants.ResourceType;
 import org.emonocot.model.constants.Location;
 import org.emonocot.model.constants.RecordType;
 import org.emonocot.model.convert.StringToLocationConverter;
@@ -279,7 +279,7 @@ public class TestDataManager {
      * @param title
      *            Set the title
      */
-    public final void createSourceSystem(final String identifier,
+    public final void createOrganisation(final String identifier,
             final String uri, String title) {
         enableAuthentication();
         Organisation source = new Organisation();
@@ -771,6 +771,7 @@ public class TestDataManager {
     /**
      * @param identifier
      *            Set the name of the group
+     * @param title TODO
      * @param family
      *            Set the family
      * @param type
@@ -784,19 +785,20 @@ public class TestDataManager {
      * @param written Set the records written
      * @param jobId Set the jobId
      */
-	public final void createJob(final String identifier, final String family,
-			final String type, final String source, final String read,
-			final String readSkips, final String processSkips,
-			final String writeSkips, final String written, String jobId) {
+	public final void createResource(final String identifier, String title,
+			final String family, final String type, final String source,
+			final String read, final String readSkips,
+			final String processSkips, final String writeSkips, final String written, String jobId) {
         enableAuthentication();
         Resource job = new Resource();
         data.push(job);
+        job.setTitle(title);
         job.setIdentifier(identifier);
         if(family != null) {
             job.getParameters().put("family", family);
         }
         if (type != null && type.trim().length() > 0) {
-            job.setJobType(JobType.valueOf(type));
+            job.setResourceType(ResourceType.valueOf(type));
         }
         if (source != null && source.trim().length() > 0) {
             Organisation s = new Organisation();

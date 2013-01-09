@@ -67,8 +67,9 @@
 							<h2><spring:message code="resources.title"/></h2>
 							<div class="row">
 								<security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">
-									<c:url var="createUrl" value="/organisation/${organisation.identifier}/resource">
+									<c:url var="createUrl" value="/resource">
 										<c:param name="form" value="true"/>
+										<c:param name="organisation" value="${organisation.identifier}"/>
 									</c:url>
 									<p><a href="${createUrl}" class="btn pull-right"><spring:message code="create.resource"/></a></p>
 								</security:authorize>
@@ -76,8 +77,8 @@
 							<table class="table">
 								<thead>
 									<tr>
-										<th><spring:message code="resource.identifier"/></th>
-										<th><spring:message code="resource.jobType"/></th>
+										<th><spring:message code="resource.title"/></th>
+										<th><spring:message code="resource.resourceType"/></th>
 										<th><spring:message code="resource.status"/></th>
 										<th><spring:message code="resource.startTime"/></th>
 										<th><spring:message code="resource.exitCode"/></th>
@@ -92,34 +93,21 @@
 									<c:forEach var="resource" items="${resources}">
 										<tr>
 											<td>
-												<spring:url var="resourceUrl" value="/organisation/${organisation.identifier}/resource/${resource.identifier}"/>
-												<a href="${resourceUrl}">${resource.identifier}</a>
+												<spring:url var="resourceUrl" value="/resource/${resource.id}"/>
+												<a href="${resourceUrl}">${resource.title}</a>
 											</td>
-											<td>${resource.jobType}</td>
+											<td>${resource.resourceType}</td>
 											<td>${resource.status}</td>
 											<td><joda:format value="${resource.startTime}" style="MM" /></td>
 											<td>${resource.exitCode}</td>
-											<c:choose>
-												<c:when test="${resource.jobId ne null}">
-													<td>${resource.recordsRead + resource.readSkip}</td>
-													<td>${resource.recordsRead}</td>
-													<td>${resource.recordsRead - resource.processSkip}</td>
-													<td>${resource.written}</td>
-													<td>
-														<c:if test="${resource.written gt 0}">
-															<spring:url var="resourceUrl" value="/organisation/${organisation.identifier}/resource/${resource.jobId}/output"/>
-															<a href="${resourceUrl}"><spring:message code="see.report"/></a>
-														</c:if>
-													</td>
-												</c:when>
-												<c:otherwise>
-													<td></td>
-													<td></td>
-													<td></td>
-													<td></td>
-													<td></td>
-												</c:otherwise>
-											</c:choose>
+											<td>${resource.recordsRead + resource.readSkip}</td>
+											<td>${resource.recordsRead}</td>
+											<td>${resource.recordsRead - resource.processSkip}</td>
+											<td>${resource.written}</td>
+											<td>
+												<spring:url var="resourceUrl" value="/resource/${resource.id}/output"/>
+												<a href="${resourceUrl}"><spring:message code="see.report"/></a>
+											</td>
 										</tr>
 									</c:forEach>
 								</tbody>

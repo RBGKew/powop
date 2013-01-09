@@ -9,7 +9,7 @@ Feature: Source Page
 
 Background:
   Given that the indexes are clean
-  And there are source systems with the following properties:
+  And there are organisations with the following properties:
   | identifier | title | uri                 |
   |    test    | test  | http://example.com  |
 

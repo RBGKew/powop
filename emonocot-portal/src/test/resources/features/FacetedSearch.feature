@@ -8,7 +8,7 @@ Feature: Faceted Search
 
 Background:
   Given that the indexes are clean
-  And there are source systems with the following properties:
+  And there are organisations with the following properties:
   | identifier | uri                 |
   | test       | http://example.com  |
   And there are taxa with the following properties:

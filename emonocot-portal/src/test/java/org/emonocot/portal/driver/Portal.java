@@ -3,8 +3,6 @@ package org.emonocot.portal.driver;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.emonocot.portal.driver.organisation.ResourceList;
-import org.emonocot.portal.driver.organisation.ResourceOutput;
 import org.emonocot.portal.remoting.IdentificationKeyDaoImpl;
 import org.emonocot.portal.remoting.ImageDaoImpl;
 import org.emonocot.test.TestDataManager;
@@ -197,28 +195,6 @@ public class Portal extends PageObject {
     public final PageObject getGroupPage(final String groupName) {
         return openAs(getBaseUri() + "group/" + groupName, org.emonocot.portal.driver.group.Show.class);
     }
-    
-    /**
-    *
-    * @param source Set the source
-    * @param job Set the job
-    * @return a source job page
-    */
-   public final ResourceList getSourceJobsPage(final String source) {
-       return openAs(getBaseUri() + "organisation/" + source + "/resource", ResourceList.class);
-   }
-
-    /**
-     *
-     * @param source Set the source
-     * @param job Set the job
-     * @return a source job page
-     */
-    public final ResourceOutput getSourceJobPage(final String source,
-            final String job) {
-        return openAs(getBaseUri() + "organisation/" + source + "/resource/" + job,
-                ResourceOutput.class);
-    }
 
     /**
      *
@@ -235,4 +211,8 @@ public class Portal extends PageObject {
     public PageObject getClassifyPage() {
         return openAs(getBaseUri() + "classify", Classify.class);
     }
+
+	public PageObject getUpdateSourcePage(String source) {
+		return openAs(getBaseUri() + "organisation/" + source + "?form=true", org.emonocot.portal.driver.organisation.Update.class);
+	}
 }

@@ -30,17 +30,13 @@
 								<ul class="dropdown-menu">
 									<li>
 									    <c:url value="/logout" var="logoutUrl"/> 
-										<a href="${logoutUrl}"><spring:message code="logout"/></a>
+										<a href="${logoutUrl}"><i class="icon-off"><!--  --></i> <spring:message code="logout"/></a>
 									</li>
 									<li>
 									    <c:url value="/home" var="homeUrl"/>
-									    <a href="${homeUrl}"><spring:message code="user.title"/></a>										
+									    <a href="${homeUrl}"><i class="icon-user"><!--  --></i> <spring:message code="user.title"/></a>										
 									</li>
-									<security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">
-										<li>
-										    <c:url value="/organisation/e-monocot.org" var="adminUrl"/>
-										    <a href="${adminUrl}"><spring:message code="admin.title"/></a>											
-										</li>
+									<security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">										
 										<li>
 										    <c:url value="/organisation" var="organisationsUrl"/> 
 										    <a href="${organisationsUrl}"><spring:message code="organisations.title"/></a>											
@@ -92,8 +88,7 @@
 							<c:url value="/search?query=" var="searchUrl"/>
 							<li><a href="${searchUrl}"><i class="icon-search"><!--  --></i> <spring:message code="search"/></a></li>
 							<c:url value="/spatial?query=" var="mapSearchUrl"/>
-							<c:url value="/css/images/glyphicons/halfsize/glyphicons_340_globe.png" var="mapSearchIcon"/>
-							<li><a href="${mapSearchUrl}"><img src="${mapSearchIcon}" style="height: 14px; width: 14px"/> <spring:message code="map.search"/></a></li>
+							<li><a href="${mapSearchUrl}"><i class="icon-globe"><!--  --></i> <spring:message code="map.search"/></a></li>
 						</ul>
 					</li>
 				</ul>

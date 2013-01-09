@@ -41,5 +41,9 @@ public abstract class AbstractCreateForm extends
 	    objectIdentifier = fieldValue;
 	    super.setFormField(fieldName, fieldValue);
 	}
+	
+	public final void setObjectIdentifier(final String fieldValue) {
+	    objectIdentifier = fieldValue;
+	}
 
 }

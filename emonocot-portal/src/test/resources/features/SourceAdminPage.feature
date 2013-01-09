@@ -8,7 +8,7 @@ Feature: Source Admin Page
 
 Background:
   Given that the indexes are clean
-  And there are source systems with the following properties:
+  And there are organisations with the following properties:
   | identifier | uri                 | title        |
   | test       | http://example.com  | test title   |
   And there are groups with the following properties:
@@ -21,9 +21,9 @@ Background:
   | identifier          | password       | group1         |
   | test@example.com    | Poa annua      | test           |
   | admin@e-monocot.org | Nardus stricta | administrators |
-  And there are jobs with the following properties:
-  | identifier | family    | jobType | source | recordsRead | readSkip | processSkip | writeSkip | written | jobId |
-  | Test Job   | Testaceae | OAI_PMH | test   | 4           | 2        | 0           | 0         | 2       | 1     |
+  And there are resources with the following properties:
+  | identifier | title    | family    | jobType     | source | recordsRead | readSkip | processSkip | writeSkip | written | jobId |
+  | Test Job   | Test Job | Testaceae | DwC_Archive | test   | 4           | 2        | 0           | 0         | 2       | 1     |
   And there are job instances with the following properties:
   | jobId | jobName | authorityName | version |
   | 1     | testJob | test          | 1       |
@@ -51,9 +51,9 @@ Background:
   | 3          | Create    | Info  | Taxon      | 1     | test   |                                                                                  | urn:kew.org:wcs:taxon:2304 |
   | 4          | BadRecord | Error | Taxon      | 1     | test   |                                                                                  | urn:kew.org:wcs:taxon:2306 |
 
-Scenario: Check SourcePage
-  The source page should contain a list of jobs run on that source.
-  Selecting a job should show the numbers of records harvested by that job broken down by data type
+Scenario: Check Organisation Page
+  The organisation page should contain a list of resources owned by that organisation.
+  Selecting a resource should show the numbers of records harvested from that resource broken down by type
   of data. Selecting a type of data should show the number of records broken down by category of message. 
   Selecting a category of message should display the list of messages.
   Given I am logged in as "test@example.com" with the password "Poa annua"
@@ -71,9 +71,9 @@ Scenario: Check SourcePage
   | category | subcategory | details | record                         |
   | Error    | BadRecord   |         | Acorus calamus var. angustatus |
 
-Scenario: Create Source
+Scenario: Create Organisation
   As an administrator, in order to improve eMonocot, I want to be able
-  to register new source systems so that they can be harvested and their
+  to register new organisations so that they can be harvested and their
   content made available in the emonocot portal
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=44
   Given I am logged in as "admin@e-monocot.org" with the password "Nardus stricta"
@@ -88,9 +88,9 @@ Scenario: Create Source
   Then the source uri should be "http://example.com"
   # And the source logo should be "http://example.com/logo.png"
 
-Scenario: Edit Source
-  As a privileged source system owner, I want to be able to edit a source page
-  So that the eMonocot portal displays information about my system correctly
+Scenario: Edit Organisation
+  As a privileged organisation owner, I want to be able to edit an organisation page
+  So that the eMonocot portal displays information about my organisation correctly
   Given I am logged in as "test@example.com" with the password "Poa annua"
   When I navigate to source page "test" 
   And I select "Edit this organisation"
@@ -104,20 +104,17 @@ Scenario: Edit Source
   # And the source logo should be "http://example.com/logo.png"
 
  
-Scenario: Create Job
-  As an eMonocot Portal administrator, I would like to list and create harvesting
-  jobs for a given source, so that data from that source can be harvested.
+Scenario: Create Resource
+  As an eMonocot Portal administrator, I would like to list and create resources
+  belonging to a given organisation, so that data from that organisation can be harvested.
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=240
   Given I am logged in as "admin@e-monocot.org" with the password "Nardus stricta"
   And I navigate to source page "test"
   And I select "Create a new resource"
   And I enter the following data in the job form:
-  | identifier | uri                                  | jobType     |
-  | New Job    | http://www.testaceae.org/archive.zip | DwC_Archive |
+  | title   | uri                                  | jobType     |
+  | New Job | http://www.testaceae.org/archive.zip | DwC_Archive |
   And I submit the create job form
   Then an info message should say "New Job was created"
   When I navigate to source page "test"
   Then there should be 2 jobs listed
-  
-
-

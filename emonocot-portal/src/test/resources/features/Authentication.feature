@@ -11,7 +11,7 @@ Background:
   Given that the indexes are clean
   And there are groups with the following properties:
   | identifier       | permission1            |
-  | palmweb.org          | PERMISSION_VIEW_SOURCE |
+  | palmweb.org      | PERMISSION_VIEW_SOURCE |
   And there are users with the following properties:
   | identifier        | password  | group1         |
   | test@example.com  | Poa annua | palmweb.org    |
@@ -41,7 +41,7 @@ Scenario: Deny access to unauthenticated user
   check that they cannot access a restricted page - when accessing
   a restricted page they should be redirected to the login page
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=36
-  And I navigate to the job list page for source "palmweb.org"
+  When I navigate to the update page for source "palmweb.org"
   Then the login page should be displayed
   
 Scenario: Add privileges to a group
