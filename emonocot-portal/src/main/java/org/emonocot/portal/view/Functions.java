@@ -45,6 +45,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 import org.springframework.batch.core.BatchStatus;
@@ -60,7 +61,9 @@ import com.vividsolutions.jts.geom.GeometryFactory;
  * @author ben
  *
  */
-public final class Functions {
+public class Functions {
+	
+	private static DateTimeFormatter timeOnlyFormatter = DateTimeFormat.forPattern("HH:mm:ss");
     /**
      *
      */
@@ -87,15 +90,23 @@ public final class Functions {
     * @param string Set the string to strip xml from
     * @return an stripped string
     */
-   public static String stripXml(final String string) {
+   public static String stripXml(String string) {
        return string.replaceAll("\\<.*?>","");
+   }
+   
+   public static String printTimeOnly(DateTime dateTime) {
+	    if(dateTime == null) {
+	    	return null;
+	    } else {
+	        return timeOnlyFormatter.print(dateTime);
+	    }
    }
 
     /**
      * @param status Set the status
      * @return true if the job is startable
      */
-    public static Boolean isStartable(final BatchStatus status) {
+    public static Boolean isStartable(BatchStatus status) {
         if (status == null) {
             return Boolean.TRUE;
         } else {
@@ -123,7 +134,7 @@ public final class Functions {
      * @param rank Set the rank
      * @return the abbreviated rank
      */
-    public static String abbreviateRank(final Rank rank) {
+    public static String abbreviateRank(Rank rank) {
     	if(rank == null) {
     		return null;
     	} else {
@@ -158,7 +169,7 @@ public final class Functions {
     * @param rank Set the rank
     * @return the formatted rank
     */
-   public static String formatRank(final Rank rank) {
+   public static String formatRank(Rank rank) {
    	if(rank == null) {
    		return null;
    	} else {
@@ -171,7 +182,7 @@ public final class Functions {
      * @param rank Set the rank
      * @return true if the rank is infraspecific
      */
-    public static Boolean isInfraspecific(final Rank rank) {
+    public static Boolean isInfraspecific(Rank rank) {
         if (rank == null) {
             return Boolean.FALSE;
         } else {
@@ -187,7 +198,7 @@ public final class Functions {
      * @param taxon Set the taxon
      * @return the protolog link of the taxon if it exists
      */
-    public static Identifier getProtologLink(final Taxon taxon) {
+    public static Identifier getProtologLink(Taxon taxon) {
         for (Identifier identifier : taxon.getIdentifiers()) {
             if (identifier.getSubject() != null && identifier.getSubject().equals("Protolog")) {
                 return identifier;
@@ -200,7 +211,7 @@ public final class Functions {
      * @param taxon Set the taxon
      * @return true if the taxon is a synonym
      */
-    public static Boolean isSynonym(final Taxon taxon) {
+    public static Boolean isSynonym(Taxon taxon) {
         if (taxon.getTaxonomicStatus() == null) {
             return false;
         } else  {
@@ -224,7 +235,7 @@ public final class Functions {
      * @param taxon Set the taxon
      * @return true if the taxon is accepted
      */
-    public static Boolean isAccepted(final Taxon taxon) {
+    public static Boolean isAccepted(Taxon taxon) {
         if (taxon.getTaxonomicStatus() == null) {
             return false;
         } else  {
@@ -246,7 +257,7 @@ public final class Functions {
      * @return the country code or null if the distribution is at regional level
      *         or above
      */
-    public static String country(final Location region) {
+    public static String country(Location region) {
         if (region == null || region.getLevel().equals(2)
                 || region.getLevel().equals(0)) {
             return null;
@@ -259,7 +270,7 @@ public final class Functions {
      * @param region Set the region
      * @return the region code or null if the distribution is at continent level
      */
-    public static String region(final Location region) {
+    public static String region(Location region) {
         if (region == null || region.getLevel().equals(0)) {
             return null;
         } else if (region.getLevel().equals(1)) {
@@ -278,7 +289,7 @@ public final class Functions {
      * @return a Content object, or null
      */
     public static Description content(
-            final Taxon taxon, final DescriptionType feature) {
+            Taxon taxon, DescriptionType feature) {
     	Description description = null;
     	for(Description d : taxon.getDescriptions()) {
     		if(d.getType().equals(feature)) {
@@ -295,7 +306,7 @@ public final class Functions {
      *            Set the taxon
      * @return the list of regions we have distribution records for
      */
-    public static List<Location> regions(final Taxon taxon) {
+    public static List<Location> regions(Taxon taxon) {
         List<Location> regions = new ArrayList<Location>();
         for(Distribution d : taxon.getDistribution()) {
         	regions.add(d.getLocation());
@@ -310,7 +321,7 @@ public final class Functions {
     * @param taxa Set the taxa to sort
     * @return the list of taxa sorted alphabetically
     */
-   public static List<Taxon> sort(final Collection<Taxon> taxa) {
+   public static List<Taxon> sort(Collection<Taxon> taxa) {
        Comparator<Taxon> comparator = new AlphabeticalTaxonComparator();
        List<Taxon> list = new ArrayList<Taxon>(taxa);
        Collections.sort(list, comparator);
@@ -329,7 +340,7 @@ public final class Functions {
      * @param taxon Set the taxon
      * @return a string which can be passed to the map rest service
      */
-    public static String map(final Taxon taxon) {
+    public static String map(Taxon taxon) {
         StringBuffer stringBuffer = new StringBuffer();
 
         List<Location> continents = new ArrayList<Location>();
@@ -379,9 +390,9 @@ public final class Functions {
      * @param status the status of the taxon in the following regions
      * @param areas a list of regions
      */
-    private static void appendAreas(final StringBuffer stringBuffer,
-            final Status status,
-            final List<? extends Location> areas) {
+    private static void appendAreas(StringBuffer stringBuffer,
+            Status status,
+            List<? extends Location> areas) {
         stringBuffer.append(status.name() + ":");
         stringBuffer.append(areas.get(0).getCode());
 
@@ -421,7 +432,7 @@ public final class Functions {
      * @param object the object, which may be a proxy or may not
      * @return the object
      */
-    public static Object deproxy(final Object object) {
+    public static Object deproxy(Object object) {
         if (object instanceof HibernateProxy) {
             return ((HibernateProxy) object).getHibernateLazyInitializer()
                     .getImplementation();
@@ -436,7 +447,7 @@ public final class Functions {
      * @param end Set the end date
      * @return a formatted period
      */
-    public static String formatPeriod(final Date start, final Date end) {
+    public static String formatPeriod(Date start, Date end) {
         DateTime startDate = new DateTime(start);
         DateTime endDate = new DateTime(end);
 
@@ -453,7 +464,7 @@ public final class Functions {
     * @param date Set the date
     * @return a formatted date
     */
-   public static String formatDate(final Date date) {
+   public static String formatDate(Date date) {
        DateTime dateTime = new DateTime(date);
        return DateTimeFormat.forStyle("SS").print(dateTime);
    }
@@ -466,8 +477,8 @@ public final class Functions {
      *            Set the index
      * @return a sublist starting at index
      */
-    public static List<Taxon> sublist(final List<Taxon> list,
-            final Integer index) {
+    public static List<Taxon> sublist(List<Taxon> list,
+            Integer index) {
         return list.subList(index, list.size());
     }
 
@@ -477,7 +488,7 @@ public final class Functions {
      * @param pattern The pattern to split upon
      * @return an array of substrings
      */
-    public static List<String> split(final String string, final String pattern) {
+    public static List<String> split(String string, String pattern) {
         return Arrays.asList(string.split(pattern));
     }
 
@@ -486,7 +497,7 @@ public final class Functions {
      * @param object the object to convert
      * @return a string
      */
-    public static String convert(final Object object) {
+    public static String convert(Object object) {
         return conversionService.convert(object, String.class);
     }
 
@@ -497,7 +508,7 @@ public final class Functions {
     * @param object the object to convert
     * @return the fully qualified class name
     */
-   public static String convertClazz(final Object object) {
+   public static String convertClazz(Object object) {
        return conversionService.convert(object.getClass(), String.class);
    }
 
@@ -506,7 +517,7 @@ public final class Functions {
      * @param taxon Set the taxon
      * @return the bibliography
      */
-    public static Bibliography bibliography(final Taxon taxon) {
+    public static Bibliography bibliography(Taxon taxon) {
         Bibliography bibliography = new SimpleBibliographyImpl();
         bibliography.setReferences(taxon);
         return bibliography;
@@ -518,17 +529,17 @@ public final class Functions {
     * @param reference Set the reference
     * @return the citation key
     */
-    public static String citekey(final Bibliography bibliography,
-            final Reference reference) {
+    public static String citekey(Bibliography bibliography,
+            Reference reference) {
        return bibliography.getKey(reference);
    }
     
-   public static SortedSet<String> citekeys(final Bibliography bibliography,
-            final Collection<Distribution> distributions) {
+   public static SortedSet<String> citekeys(Bibliography bibliography,
+            Collection<Distribution> distributions) {
        return bibliography.getKeys(distributions);
    }
    
-   public static Reference getref(final Bibliography bibliography, final String key) {
+   public static Reference getref(Bibliography bibliography, String key) {
       return bibliography.getReference(key);
   }
     
@@ -537,7 +548,7 @@ public final class Functions {
     * @param taxon Set the taxon
     * @return the provenance
     */
-    public static ProvenanceManager provenance(final Taxon taxon) {
+    public static ProvenanceManager provenance(Taxon taxon) {
     	ProvenanceManager provenance = new ProvenanceManagerImpl();
         provenance.setProvenance(taxon);
         return provenance;
@@ -549,21 +560,21 @@ public final class Functions {
     * @param data Set the data
     * @return the provenance key
     */
-    public static String provenancekey(final ProvenanceManager provenance,
-            final BaseData data) {
+    public static String provenancekey(ProvenanceManager provenance,
+            BaseData data) {
        return provenance.getKey(data);
    }
     
-    public static SortedSet<String> provenancekeys(final ProvenanceManager provenance,
-            final Collection<BaseData> data) {
+    public static SortedSet<String> provenancekeys(ProvenanceManager provenance,
+            Collection<BaseData> data) {
        return provenance.getKeys(data);
    }
     
-    public static SortedSet<Organisation> provenancesources(final ProvenanceManager provenance) {
+    public static SortedSet<Organisation> provenancesources(ProvenanceManager provenance) {
        return provenance.getSources();
    }
   
-    public static SortedSet<ProvenanceHolder> provenancedata(final ProvenanceManager provenance, final Organisation organisation) {
+    public static SortedSet<ProvenanceHolder> provenancedata(ProvenanceManager provenance, Organisation organisation) {
         return provenance.getProvenanceData(organisation);
     }
 
@@ -573,8 +584,8 @@ public final class Functions {
     * @param facet Set the facet name
     * @return true, if the facet is selected
     */
-    public static Boolean isFacetSelected(final Page pager,
-            final String facet) {
+    public static Boolean isFacetSelected(Page pager,
+            String facet) {
        return pager.isFacetSelected(facet);
    }
     
@@ -625,7 +636,7 @@ public final class Functions {
      * @param taxon Set the taxon
      * @return the bounding box
      */
-   public static String boundingBox(final Taxon taxon) {
+   public static String boundingBox(Taxon taxon) {
         List<Geometry> list = new ArrayList<Geometry>();
         for (Distribution d : taxon.getDistribution()) {
             list.add(d.getLocation().getEnvelope());
@@ -651,7 +662,7 @@ public final class Functions {
     * @param taxon Set the taxon
     * @return true if the taxon has level 1 features, false otherwise
     */
-    public static Boolean hasLevel1Features(final Taxon taxon) {
+    public static Boolean hasLevel1Features(Taxon taxon) {
         for (Distribution d : taxon.getDistribution()) {
             if (d.getLocation().getLevel().equals(0)) {
                 return Boolean.TRUE;
@@ -665,7 +676,7 @@ public final class Functions {
     * @param taxon Set the taxon
     * @return the level 1 feature identifiers (FIDs)
     */
-    public static String getLevel1Features(final Taxon taxon) {
+    public static String getLevel1Features(Taxon taxon) {
         boolean first = true;
         StringBuffer features = new StringBuffer();
         for (Distribution d : taxon.getDistribution()) {
@@ -685,7 +696,7 @@ public final class Functions {
     * @param taxon Set the taxon
     * @return true if the taxon has level 2 features, false otherwise
     */
-    public static Boolean hasLevel2Features(final Taxon taxon) {
+    public static Boolean hasLevel2Features(Taxon taxon) {
         for (Distribution d : taxon.getDistribution()) {
             if (d.getLocation().getLevel().equals(1)) {
                 return Boolean.TRUE;
@@ -699,7 +710,7 @@ public final class Functions {
     * @param taxon Set the taxon
     * @return the level 2 feature identifiers (FIDs)
     */
-    public static String getLevel2Features(final Taxon taxon) {
+    public static String getLevel2Features(Taxon taxon) {
         boolean first = true;
         StringBuffer features = new StringBuffer();
         for (Distribution d : taxon.getDistribution()) {
@@ -719,7 +730,7 @@ public final class Functions {
     * @param taxon Set the taxon
     * @return true if the taxon has level 3 features, false otherwise
     */
-    public static Boolean hasLevel3Features(final Taxon taxon) {
+    public static Boolean hasLevel3Features(Taxon taxon) {
         for (Distribution d : taxon.getDistribution()) {
             if (d.getLocation().getLevel().equals(2)) {
                 return Boolean.TRUE;
@@ -733,7 +744,7 @@ public final class Functions {
     * @param taxon Set the taxon
     * @return the level 3 feature identifiers (FIDs)
     */
-    public static String getLevel3Features(final Taxon taxon) {
+    public static String getLevel3Features(Taxon taxon) {
         boolean first = true;
         StringBuffer features = new StringBuffer();
         for (Distribution d : taxon.getDistribution()) {

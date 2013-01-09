@@ -7,7 +7,7 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:security="http://www.springframework.org/security/tags"
 	xmlns:joda="http://www.joda.org/joda/time/tags">
-	
+
 	<tags:pageheader>
 		<h2 id="page-title">
 			<spring:message code="resources.title" />
@@ -23,49 +23,63 @@
 			<div class="span12">
 				<div class="inner">
 					<div class="box">
-						<table class="table">
-							<thead>
-								<tr>
-									<th><spring:message code="resource.title" /></th>
-									<th><spring:message code="resource.organisation" /></th>
-									<th><spring:message code="resource.jobType" /></th>
-									<th><spring:message code="resource.status" /></th>
-									<th><spring:message code="resource.startTime" /></th>
-									<th><spring:message code="resource.exitCode" /></th>
-									<th><spring:message code="resource.totalRecords" /></th>
-									<th><spring:message code="resource.recordsRead" /></th>
-									<th><spring:message code="resource.processed" /></th>
-									<th><spring:message code="resource.written" /></th>
-									<th><spring:message code="resource.output" /></th>
-								</tr>
-							</thead>
-							<tbody id="resources">
-								<c:forEach var="resource" items="${resources.records}">
-									<tr>
-										<td>
-											<spring:url var="resourceUrl" value="/resource/${resource.id}" />
-											<a href="${resourceUrl}">${resource.title}</a>
-										</td>
-										<td>
-									      <c:url value="/organisation/${resource.organisation.identifier}" var="organisationUrl"/>
-									      <a href="${organisationUrl}">${resource.organisation.title}</a>
-									    </td>
-										<td>${resource.resourceType}</td>
-										<td>${resource.status}</td>
-										<td><joda:format value="${resource.startTime}" style="MM" /></td>
-										<td>${resource.exitCode}</td>
-										<td>${resource.recordsRead + resource.readSkip}</td>
-										<td>${resource.recordsRead}</td>
-										<td>${resource.recordsRead - resource.processSkip}</td>
-										<td>${resource.written}</td>
-										<td>
-											<spring:url var="resourceUrl" value="/resource/${resource.id}/output"/>															
-										    <a href="${resourceUrl}"><spring:message code="see.report" /></a>
-										</td>
-									</tr>
-								</c:forEach>
-							</tbody>
-						</table>
+						<div class="row">
+							<div class="span12">
+								<table class="table">
+									<thead>
+										<tr>
+											<th><spring:message code="resource.title" />
+											</th>
+											<th><spring:message code="resource.organisation" />
+											</th>
+											<th><spring:message code="resource.resourceType" />
+											</th>
+											<th><spring:message code="resource.status" />
+											</th>
+											<th><spring:message code="resource.startTime" /></th>
+											<th><spring:message code="resource.duration" /></th>
+											<th><spring:message code="resource.exitCode" />
+											</th>
+											<th><spring:message code="resource.totalRecords" />
+											</th>											
+											<th><spring:message code="resource.written" />
+											</th>
+											<th><spring:message code="resource.output" />
+											</th>
+										</tr>
+									</thead>
+									<tbody id="resources">
+										<c:forEach var="resource" items="${resources.records}">
+											<tr>
+												<td><spring:url var="resourceUrl"
+														value="/resource/${resource.id}" /> <a
+													href="${resourceUrl}">${resource.title}</a></td>
+												<td><c:url
+														value="/organisation/${resource.organisation.identifier}"
+														var="organisationUrl" /> <a href="${organisationUrl}">${resource.organisation.title}</a>
+												</td>
+												<td><spring:message code="${resource.resourceType}" text="${resource.resourceType}"/></td>
+												<td><tags:jobstatus status="${resource.status}" /></td>
+												<td><joda:format value="${resource.startTime}" style="MM" /></td>
+												<td>${em:printTimeOnly(resource.duration)}</td>
+												<td><tags:jobstatus status="${resource.exitCode}"/></td>
+												<td>${resource.recordsRead + resource.readSkip}</td>												
+												<td>${resource.written}</td>
+												<td><spring:url var="resourceUrl"
+														value="/resource/${resource.id}/output" /> <a
+													href="${resourceUrl}"><spring:message code="see.report" />
+												</a></td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="row">
+							<div class="pagination pull-right">
+								<tags:pagination pager="${resources}" url="/resource" />
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

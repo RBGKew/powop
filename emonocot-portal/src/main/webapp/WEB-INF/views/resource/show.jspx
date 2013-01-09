@@ -16,13 +16,12 @@
 		</h2>
 	</tags:pageheader>
 	<div class="container">
-		<security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">
-			<div class="row">
-			  <div class="span12">
+	    <div class="row">
+			<div class="span12">
 				<tags:info />
-				<tags:error />
-			  </div>
 			</div>
+		</div>
+		<security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">			
 			<div class="row">
 				<div class="span12">
 					<div class="row">
@@ -62,7 +61,7 @@
 							<tbody>
 								<tr>
 									<th><spring:message code="resource.resourceType" /></th>
-									<td>${resource.resourceType}</td>
+									<td><spring:message code="${resource.resourceType}" text="${resource.resourceType}"/></td>
 								</tr>
 								<tr>
 									<th><spring:message code="resource.organisation" /></th>
@@ -97,7 +96,7 @@
 								</tr>
 								<tr>
 									<th><spring:message code="resource.status" /></th>
-									<td>${resource.status}</td>
+									<td><tags:jobstatus status="${resource.status}"/></td>
 								</tr>
 								<tr>
 									<th><spring:message code="resource.startTime" /></th>
@@ -105,11 +104,11 @@
 								</tr>
 								<tr>
 									<th><spring:message code="resource.duration" /></th>
-									<td><joda:format value="${resource.duration}" style="MM" /></td>
+									<td>${em:printTimeOnly(resource.duration)}</td>
 								</tr>
 								<tr>
 									<th><spring:message code="resource.exitCode" /></th>
-									<td>${resource.exitCode}</td>
+									<td><tags:jobstatus status="${resource.exitCode}"/></td>
 								</tr>
 								<tr>
 									<th><spring:message code="resource.exitDescription" /></th>

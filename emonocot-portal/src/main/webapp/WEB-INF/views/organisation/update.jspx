@@ -11,15 +11,10 @@
 		<h2 id="page-title">${organisation.title}</h2>
 	</tags:pageheader>
 	<div class="container">
-		<div class="row">
+	    <div class="row">
 			<div class="span12">
 				<tags:info/>
-			</div>
-		</div>
-		<div class="row">
-			<div class="span12">
-				<spring:url var="organisationUrl" value="/organisation/${organisation.identifier}"/>
-				<a href="${organisationUrl}" class="pull-right"><spring:message code="goToAdminPage"/></a>
+				<tags:error/>
 			</div>
 		</div>
 		<div class="row">

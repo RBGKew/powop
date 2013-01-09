@@ -316,7 +316,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
         DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
                 codes, args);
         session.setAttribute("info", message);
-        return "redirect:/resource/" + resourceId + "?form";
+        return "redirect:/resource/" + resourceId;
     }
 
     /**
@@ -339,7 +339,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
         DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
                 codes, args);
         session.setAttribute("info", message);
-        return "redirect:/resource/" + resourceId + "?form";
+        return "redirect:/resource/" + resourceId;
     }
 
 	/**

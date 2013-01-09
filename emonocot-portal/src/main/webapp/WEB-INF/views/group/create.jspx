@@ -11,15 +11,24 @@
 		</h2>
 	</tags:pageheader>
 	<div class="container">
-	<div class="row">
-		<div class="span12">
-		  <div class="inner"><div class="box">
-			<c:url value="" var="actionUrl" />
-			<form:create path="/group" modelAttribute="group">
-				<field:input field="name" label="group.identifier" fieldClass="span6" />
-			</form:create>
-			</div></div>
+		<div class="row">
+			<div class="span12">
+				<tags:info />
+				<tags:error />
+			</div>
 		</div>
-	</div>
+		<div class="row">
+			<div class="span12">
+				<div class="inner">
+					<div class="box">
+						<c:url value="" var="actionUrl" />
+						<form:create path="/group" modelAttribute="group">
+							<field:input field="name" label="group.identifier"
+								fieldClass="span6" />
+						</form:create>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

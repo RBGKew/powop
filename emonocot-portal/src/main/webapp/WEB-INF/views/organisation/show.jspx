@@ -13,6 +13,11 @@
 	</tags:pageheader>
 
 	<div class="container">
+	    <div class="row">
+			<div class="span12">
+				<tags:info />
+			</div>
+		</div>
 		<div class="row">
 			<div class="span12">
 				<div class="inner">
@@ -81,10 +86,9 @@
 										<th><spring:message code="resource.resourceType"/></th>
 										<th><spring:message code="resource.status"/></th>
 										<th><spring:message code="resource.startTime"/></th>
+										<th><spring:message code="resource.duration"/></th>
 										<th><spring:message code="resource.exitCode"/></th>
 										<th><spring:message code="resource.totalRecords"/></th>
-										<th><spring:message code="resource.recordsRead"/></th>
-										<th><spring:message code="resource.processed"/></th>
 										<th><spring:message code="resource.written"/></th>
 										<th><spring:message code="resource.output"/></th>
 									</tr>
@@ -96,13 +100,12 @@
 												<spring:url var="resourceUrl" value="/resource/${resource.id}"/>
 												<a href="${resourceUrl}">${resource.title}</a>
 											</td>
-											<td>${resource.resourceType}</td>
-											<td>${resource.status}</td>
+											<td><spring:message code="${resource.resourceType}" text="${resource.resourceType}"/></td>
+											<td><tags:jobstatus status="${resource.status}"/></td>
 											<td><joda:format value="${resource.startTime}" style="MM" /></td>
-											<td>${resource.exitCode}</td>
-											<td>${resource.recordsRead + resource.readSkip}</td>
-											<td>${resource.recordsRead}</td>
-											<td>${resource.recordsRead - resource.processSkip}</td>
+											<td>${em:printTimeOnly(resource.duration)}</td>
+											<td><tags:jobstatus status="${resource.exitCode}"/></td>
+											<td>${resource.recordsRead + resource.readSkip}</td>											
 											<td>${resource.written}</td>
 											<td>
 												<spring:url var="resourceUrl" value="/resource/${resource.id}/output"/>

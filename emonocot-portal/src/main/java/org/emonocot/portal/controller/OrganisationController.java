@@ -115,7 +115,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
 				codes, args);
 		session.setAttribute("info", message);
-		return "redirect:/organisation/" + organisation.getIdentifier() + "?form=true";
+		return "redirect:/organisation";
 	}
 
 	/**
@@ -189,6 +189,6 @@ public class OrganisationController extends GenericController<Organisation, Orga
 		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
 				codes, args);
 		session.setAttribute("info", message);
-		return "redirect:/organisation/" + organisationId + "?form=true";
+		return "redirect:/organisation/" + organisationId;
 	}
 }

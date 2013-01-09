@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
+	<jsp:directive.attribute name="status" type="java.lang.String" required="true" />
+	<c:choose>
+	  <c:when test="${status eq 'STARTED' }">
+	    <c:set var="labelClass" value="label-warning"/>
+	  </c:when>
+	  <c:when test="${status eq 'STARTING' }">
+	    <c:set var="labelClass" value="label-warning"/>
+	  </c:when>
+	  <c:when test="${status eq 'STOPPING' }">
+	    <c:set var="labelClass" value="label-warning"/>
+	  </c:when>
+	  <c:when test="${status eq 'STOPPED' }">
+	    <c:set var="labelClass" value="label-warning"/>
+	  </c:when>
+	  <c:when test="${status eq 'UNKNOWN' }">
+	    <c:set var="labelClass" value="label-warning"/>
+	  </c:when>
+	  <c:when test="${status eq 'COMPLETED' }">
+	    <c:set var="labelClass" value="label-success"/>
+	  </c:when>
+	  <c:when test="${status eq 'FAILED' }">
+	    <c:set var="labelClass" value="label-important"/>
+	  </c:when>	  
+	</c:choose>
+	<c:if test="${not empty status}">
+	    <span class="label ${labelClass}">${status}</span>
+	</c:if>
+</jsp:root>

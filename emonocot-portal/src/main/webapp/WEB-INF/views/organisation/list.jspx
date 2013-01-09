@@ -13,6 +13,11 @@
 	</tags:pageheader>	
 	
 	<div class="container">
+	    <div class="row">
+			<div class="span12">
+				<tags:info/>
+			</div>
+		</div>
 		<div class="row">
 			<div class="span12">
 				<div class="inner">
@@ -30,7 +35,7 @@
 						</div>
 						<br/>
 						<div class="row">
-							<div class="span11">
+							<div class="span12">
 								<table class="table">
 									<tbody>
 										<c:forEach var="organisation" items="${result.records}">
@@ -45,7 +50,7 @@
 						</div>
 						<div class="row">
 							<div class="pagination pull-right">
-								<tags:pagination pager="${result}" url="organisation" />
+								<tags:pagination pager="${result}" url="/organisation" />
 							</div>
 						</div>
 					</div>

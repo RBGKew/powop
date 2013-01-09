@@ -11,6 +11,11 @@
 	</tags:pageheader>
 	
 	<div class="container">
+	    <div class="row">
+			<div class="span12">
+				<tags:info />
+			</div>
+		</div>
 		<security:authorize url="hasRole('PERMISSION_WRITE_GROUP')">
 			<div class="row">
 				<c:url var="editGroupUrl" value="/group/${group.identifier}">
