@@ -247,6 +247,19 @@ public class Show extends PageObject implements IllustratedPage {
                 .xpath("div/div/ul/li[a = '" + citeKey + "']"));
         return element.getText();
     }
+    
+    /**
+    *
+    * @param provenanceKey The key of the provenance entry of interest
+    * @return the provenance entry
+    */
+   public final String getProvenanceEntry(final String provenanceKey) {
+       WebElement provenance = webDriver.findElement(By.id("sources"));
+       WebElement provenanceElement = provenance.findElement(By
+               .xpath("div/div/dl/dd/ul/li[a/@id = '" + provenanceKey + "']"));
+       return provenanceElement.getText();
+   }
+    
 
     /**
      *

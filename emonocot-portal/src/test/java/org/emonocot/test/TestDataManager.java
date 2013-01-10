@@ -280,7 +280,7 @@ public class TestDataManager {
      *            Set the title
      */
     public final void createOrganisation(final String identifier,
-            final String uri, String title) {
+            final String uri, String title, String bibliographicCitation) {
         enableAuthentication();
         Organisation source = new Organisation();
         source.setIdentifier(identifier);
@@ -389,7 +389,10 @@ public class TestDataManager {
             final String microReference, final String protologLink,
             final String distribution1, final String distribution2,
             final String distribution3, final String source,
-            final String created, final String parent, final String accepted) {
+            final String created, final String parent, final String accepted,
+            final String distributionSource, final String distributionRights, final String distributionLicense,
+            final String diagnosticSource, final String diagnosticRights, final String diagnosticLicense,
+            final String habitatSource, final String habitatRights, final String habitatLicense) {
         enableAuthentication();
         Taxon taxon = new Taxon();
         data.push(taxon);
@@ -411,25 +414,25 @@ public class TestDataManager {
         }
         if (diagnostic != null && diagnostic.length() > 0) {
             createDescription(taxon, diagnostic, DescriptionType.diagnostic,
-                    diagnosticReference1,s);
+                    diagnosticReference1,s, diagnosticSource, diagnosticLicense, diagnosticRights);
         }
         if (habitat != null && habitat.length() > 0) {
-            createDescription(taxon, habitat, DescriptionType.habitat, null,s);
+            createDescription(taxon, habitat, DescriptionType.habitat, null,s, habitatSource, habitatLicense, habitatRights);
         }
         if (general != null && general.length() > 0) {
-            createDescription(taxon, general, DescriptionType.general, null,s);
+            createDescription(taxon, general, DescriptionType.general, null,s, null , null, null);
         }        
         if (protologLink != null && protologLink.length() > 0) {
             createIdentifier(taxon, protologLink, "Protolog",s);
         }
         if (distribution1 != null && distribution1.length() > 0) {
-        	createDistribution(taxon, distribution1,s);
+        	createDistribution(taxon, distribution1,s, distributionSource, distributionLicense, distributionRights);
         }
         if (distribution2 != null && distribution2.length() > 0) {
-        	createDistribution(taxon, distribution2,s);
+        	createDistribution(taxon, distribution2,s, distributionSource, distributionLicense, distributionRights);
         }
         if (distribution3 != null && distribution3.length() > 0) {
-        	createDistribution(taxon, distribution3,s);
+        	createDistribution(taxon, distribution3,s, distributionSource, distributionLicense, distributionRights);
         }
         if (created != null && created.length() > 0) {
             DateTime dateTime = dateTimeFormatter.parseDateTime(created);
@@ -450,12 +453,20 @@ public class TestDataManager {
         disableAuthentication();
     }
     
-    private void createDistribution(Taxon taxon, String region, Organisation source) {
+    private void createDistribution(Taxon taxon, String region, Organisation source, String authority, String license, String rights) {
     	Distribution distribution = new Distribution();
         distribution.setIdentifier(UUID.randomUUID().toString());
         Location geographicalRegion = geographyConverter.convert(region);
         distribution.setLocation(geographicalRegion);
-        distribution.setAuthority(source);
+        distribution.setLicense(license);
+        distribution.setRights(rights);
+        if(authority == null){
+        	distribution.setAuthority(source);
+        } else{
+        	Organisation organisation = new Organisation();
+            organisation.setIdentifier(authority);
+            distribution.setAuthority(organisation);
+        }
         distribution.setTaxon(taxon);
         taxon.getDistribution().add(distribution);
     }
@@ -708,12 +719,20 @@ public class TestDataManager {
      *            Set the reference
      */
     private void createDescription(final Taxon taxon, final String text,
-            final DescriptionType feature, final String reference, Organisation source) {
+            final DescriptionType feature, final String reference, Organisation source, String authority, String license, String rights) {
         Description description = new Description();
         description.setIdentifier(UUID.randomUUID().toString());
         description.setDescription(text);
         description.setType(feature);
-        description.setAuthority(source);
+        description.setLicense(license);
+        description.setRights(rights);
+        if(authority == null){
+        	description.setAuthority(source);
+        } else{
+        	Organisation organisation = new Organisation();
+            organisation.setIdentifier(authority);
+            description.setAuthority(organisation);
+        }
         description.setTaxon(taxon);
         taxon.getDescriptions().add(description);
         if (reference != null && reference.length() > 0) {

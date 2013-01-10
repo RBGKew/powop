@@ -26,4 +26,9 @@ public class OrganisationRow {
      *
      */
     public String logoUrl;
+    
+    /**
+    *
+    */
+    public String bibliographicCitation;
 }

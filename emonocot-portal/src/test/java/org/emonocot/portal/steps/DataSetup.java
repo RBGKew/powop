@@ -155,7 +155,7 @@ public class DataSetup {
     public final void thereAreSourceSystemsWithTheFollowingProperties(
             final List<OrganisationRow> rows) {
         for (OrganisationRow row : rows) {
-            testDataManager.createOrganisation(row.identifier, row.uri, row.title);
+            testDataManager.createOrganisation(row.identifier, row.uri, row.title, row.bibliographicCitation);
         }
     }
 
@@ -184,8 +184,10 @@ public class DataSetup {
                     row.habitat, row.general, row.protologue,
                     row.protologueMicroReference, row.protologLink,
                     row.distribution1, row.distribution2,
-                    row.distribution3, row.source, row.created, row.parent,
-                    row.accepted);
+                    row.distribution3, row.source, row.created, row.parent, row.accepted, 
+                    row.distributionSource, row.distributionRights, row.distributionLicense,
+                    row.diagnosticSource, row.diagnosticRights, row.diagnosticLicense,
+                    row.habitatSource, row.habitatRights, row.habitatLicense);
         }
 
     }
