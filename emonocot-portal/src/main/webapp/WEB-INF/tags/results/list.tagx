@@ -11,14 +11,14 @@
 		<c:forEach var="item" items="${result.records}">
 			<c:choose>
 				<c:when test="${item.className == 'Taxon'}">
-				<results:listEntry 
-				  itemName="${item.scientificName}" 
-				  icon="/css/images/glyphicons/halfsize/glyphicons_001_leaf.png"
-				  iconAlt="Taxon"
-				  url="/taxon/${item.identifier}"
-				  image="${item.images[0]}">
-				    <spring:url var="itemUrl" value="/taxon/${item.identifier}"/>
-				    <a class="result" href="${itemUrl}" title="${em:stripXml(item.scientificName)}">
+					<results:listEntry 
+					  itemName="${item.scientificName}" 
+					  icon="/css/images/glyphicons/halfsize/glyphicons_001_leaf.png"
+					  iconAlt="Taxon"
+					  url="/taxon/${item.identifier}"
+					  image="${item.images[0]}">
+						<spring:url var="itemUrl" value="/taxon/${item.identifier}"/>
+						<a class="result" href="${itemUrl}" title="${em:stripXml(item.scientificName)}">
 							<c:choose>
 								<c:when test="${em:isAccepted(item)}">
 									<h4 class="h4Results title-bold"><em>${item.scientificName}</em> ${item.scientificNameAuthorship}</h4>
@@ -28,36 +28,45 @@
 								</c:otherwise>
 							</c:choose>
 						</a>
+						${item.namePublishedInString}
 						<br/>
-						<div><em><spring:message code="resultStatus" /></em> <spring:message code="${item.taxonomicStatus}" /></div>
+						<div>
+							<em><spring:message code="resultStatus" /></em> <spring:message code="${item.taxonomicStatus}" />
+							<c:if test="${em:isSynonym(item)}">
+								<c:url var="acceptedUrl" value="/taxon/${item.acceptedNameUsage.identifier}" />
+								<a href="${acceptedUrl}"> ${item.acceptedNameUsage.scientificName} ${item.acceptedNameUsage.scientificNameAuthorship}</a>
+							</c:if>
+						</div>
 						<div><em><spring:message code="resultRank" /></em> <spring:message code="${item.taxonRank}" /></div>
 						<c:if test="${item.family != null}">
-						    <div><em><spring:message code="resultFamily" /></em> ${item.family}</div>
+							<div><em><spring:message code="resultFamily" /></em> ${item.family}</div>
 						</c:if>
 						<c:if test="${item.order != null}">
-						    <div><em><spring:message code="resultOrder" /></em> ${item.order}</div>
+							<div><em><spring:message code="resultOrder" /></em> ${item.order}</div>
 						</c:if>
-				  </results:listEntry>
+					</results:listEntry>
 				</c:when>
 				<c:when test="${item.className == 'Image'}">
-				  <results:listEntry 
-				  itemName="${item.title}" 
-				  icon="/css/images/glyphicons/halfsize/glyphicons_159_picture.png"
-				  iconAlt="Image"
-				  url="/image/${item.id}"
-				  image="${item}">
-					<spring:url var="itemUrl" value="/image/${item.id}"/>
-					<a class="result" href="${itemUrl}" title="${em:stripXml(item.title)}"><h4 class="h4Results">${item.title}</h4></a>
-					<br/>
-					<div><spring:url var="taxonUrl" value="/taxon/${item.taxon.identifier}"/></div>
-					<c:if test="${not empty item.taxon.scientificName}"><div><em><spring:message code="imageOf"/></em>: <a href="${taxonUrl}">${item.taxon.scientificName}</a></div></c:if>
-					<c:if test="${item.creator != null}">
-						<div><em><spring:message code="image.creator"/></em>: ${item.creator}</div>
-					</c:if>
-					<c:if test="${item.spatial != null}">
-						<div><em><spring:message code="image.locality"/></em>: ${item.spatial}</div>
-					</c:if>
-				  </results:listEntry>					
+					<results:listEntry 
+					  itemName="${item.title}" 
+					  icon="/css/images/glyphicons/halfsize/glyphicons_159_picture.png"
+					  iconAlt="Image"
+					  url="/image/${item.id}"
+					  image="${item}">
+						<spring:url var="itemUrl" value="/image/${item.id}"/>
+						<a class="result" href="${itemUrl}" title="${em:stripXml(item.title)}"><h4 class="h4Results">${item.title}</h4></a>
+						<br/>
+						<div><spring:url var="taxonUrl" value="/taxon/${item.taxon.identifier}"/></div>
+						<c:if test="${not empty item.taxon.scientificName}">
+							<div><em><spring:message code="imageOf"/></em>: <a href="${taxonUrl}">${item.taxon.scientificName}</a></div>
+						</c:if>
+						<c:if test="${item.creator != null}">
+							<div><em><spring:message code="image.creator"/></em>: ${item.creator}</div>
+						</c:if>
+						<c:if test="${item.spatial != null}">
+							<div><em><spring:message code="image.locality"/></em>: ${item.spatial}</div>
+						</c:if>
+					</results:listEntry>
 				</c:when>
 				<c:when test="${item.className == 'IdentificationKey'}">
 				  <results:listEntry 

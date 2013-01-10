@@ -91,24 +91,75 @@ public class TaxonRow {
    *
    */
   public String created;
+  
+  /**
+  *
+  */
+ public String parent;
+
+ /**
+  *
+  */
+ public String accepted;
+
+ /**
+  *
+  */
+ public String specificEpithet;
+
+ /**
+  *
+  */
+ public String genus;
+
+ /**
+ *
+ */
+ public  String distributionSource;
+ 
+ /**
+ *
+ */
+ public String distributionLicense;
+
+ /**
+  *
+  */
+  public String distributionRights;
 
   /**
-   *
-   */
-  public String parent;
+  *
+  */
+  public  String diagnosticSource;
+  
+  /**
+  *
+  */
+  public String diagnosticLicense;
 
   /**
-   *
-   */
-  public String accepted;
+  *
+  */
+  public String diagnosticRights;
+  
+  /**
+  *
+  */
+  public  String habitatReference1;
+  
+  /**
+  *
+  */
+  public  String habitatSource;
+  
+  /**
+  *
+  */
+  public String habitatLicense;
 
   /**
-   *
-   */
-  public String specificEpithet;
-
-  /**
-   *
-   */
-  public String genus;
-}
+  *
+  */
+  public String habitatRights;
+	
+}  

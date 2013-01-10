@@ -290,7 +290,7 @@
 							<dl style="margin-left:25px">
 								<c:forEach var="organisation" items="${em:provenancesources(provenance)}">
 									<dt>
-									    <c:url value="/organisation/${organisation.identifier}" var="organisationUrl"/>
+										<c:url value="/organisation/${organisation.identifier}" var="organisationUrl"/>
 										<a href="${organisationUrl}">${organisation.title}</a>
 									</dt>
 									<dd>
@@ -302,7 +302,46 @@
 									<dd>
 										<ul class="unstyled">
 											<c:forEach var="data" items="${em:provenancedata(provenance,organisation)}">
-												<li><a id="${data.key}">${data.key}</a> ${data.rights} ${data.license}</li>
+												<li>
+													<a id="${data.key}">${data.key}</a>
+													${data.rights} 
+													<c:choose>
+														<c:when test="${data.license eq 'http://creativecommons.org/licenses/by/3.0'}">
+															<c:url value="/css/images/creativeCommonsLogos/by.png" var="byImg"/>
+															<a href="${data.license}"><img class="cclogos" src="${byImg}" alt="by"/></a>
+														</c:when>
+														<c:when test="${data.license eq 'http://creativecommons.org/licenses/by-sa/3.0'}">
+															<c:url value="/css/images/creativeCommonsLogos/by-sa.png" var="bysaImg"/>
+															<a href="${data.license}"><img class="cclogos" src="${bysaImg}" alt="by-sa"/></a>
+														</c:when>
+														<c:when test="${data.license eq 'http://creativecommons.org/licenses/by-nd/3.0'}">
+															<c:url value="/css/images/creativeCommonsLogos/by-nd.png" var="byndImg"/>
+															<a href="${data.license}"><img class="cclogos" src="${byndImg}" alt="by-nd"/></a>
+														</c:when>
+														<c:when test="${data.license eq 'http://creativecommons.org/licenses/by-nc/3.0'}">
+															<c:url value="/css/images/creativeCommonsLogos/by-nc.png" var="byncImg"/>
+															<a href="${data.license}"><img class="cclogos" src="${byncImg}" alt="by-nc"/></a>
+														</c:when>
+														<c:when test="${data.license eq 'http://creativecommons.org/licenses/by-nc-sa/3.0'}">
+															<c:url value="/css/images/creativeCommonsLogos/by-nc-sa.png" var="byncsaImg"/>
+															<a href="${data.license}"><img class="cclogos" src="${byncsaImg}" alt="by-nc-sa"/></a>
+														</c:when>
+														<c:when test="${data.license eq 'http://creativecommons.org/licenses/by-nc-nd/3.0'}">
+															<c:url value="/css/images/creativeCommonsLogos/by-nc-nd.png" var="byncndImg"/>
+															<a href="${data.license}"><img class="cclogos" src="${byncndImg}" alt="by-nc-nd"/></a>
+														</c:when>
+														<c:when test="${data.license eq 'http://creativecommons.org/publicdomain/zero/1.0/'}">
+															<c:url value="/css/images/creativeCommonsLogos/publicdomain.png" var="publicImg"/>
+															<a href="${data.license}"><img class="cclogos" src="${publicImg}" alt="public"/></a>
+														</c:when>
+														<c:when test="${empty data.license}">
+															<spring:message code="allRightsReserved" />
+														</c:when>
+														<c:otherwise>
+															${data.license}
+														</c:otherwise>
+													</c:choose>
+												</li>
 											</c:forEach>
 										</ul>
 									</dd>

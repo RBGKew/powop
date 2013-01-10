@@ -934,6 +934,19 @@ public class StepDefinitions {
                         .getProtologueLink(),
                 protologLink);
     }
+    
+    /**
+     * @param provenance
+     *            Set the provenance
+     */
+    @And("^the provenance entry \"([^\"]*)\" should be \"([^\"]*)\"$")
+    public void theProvenanceEntryShouldBe(String provenanceKey, String provenanceEntry) {
+    	assertEquals(
+                ((org.emonocot.portal.driver.taxon.Show) currentPage)
+                        .getProvenanceEntry(provenanceKey),
+                provenanceEntry);
+    }
+
 
     /**
      * @param property
