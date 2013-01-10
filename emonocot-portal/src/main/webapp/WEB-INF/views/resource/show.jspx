@@ -24,31 +24,47 @@
 		<security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">			
 			<div class="row">
 				<div class="span12">
-					<div class="row">
+				  <div class="btn-group pull-right">
 						<c:url var="updateUrl" value="/resource/${resource.id}">
 							<c:param name="form" value="true" />
 						</c:url>
-						<a href="${updateUrl}" class="btn pull-right"><spring:message
-								code="update.resource" />
+						<a href="${updateUrl}" class="btn">
+						  <spring:message code="update.resource" />
 						</a>
-						<c:url var="runUrl" value="/resource/${resource.id}">
+						<c:url var="runUnmodifiedUrl" value="/resource/${resource.id}">
 							<c:param name="run" value="true" />
+							<c:param name="ifModified" value="false" />
 						</c:url>
-						<form action="${runUrl}" method="POST">
-							<c:choose>
-								<c:when test="${em:isStartable(resource.status)}">
-									<button class="btn btn-primary pull-right" type="submit">
-										<spring:message code="start.job" />
-									</button>
-								</c:when>
-								<c:otherwise>
-									<button class="btn btn-primary pull-right" type="submit" disabled="true">
-										<spring:message code="start.job" />
-									</button>
-								</c:otherwise>
-							</c:choose>
-						</form>
-					</div>
+		                <c:choose>
+						    <c:when test="${em:isStartable(resource.status)}">
+							    <a href="${runUnmodifiedUrl}" class="btn btn-primary">
+								  <spring:message code="harvest" />
+								</a>
+							</c:when>
+							<c:otherwise>
+							   <a class="btn btn-primary disabled">
+								 <spring:message code="harvest" />
+							   </a>
+							</c:otherwise>
+						</c:choose>						
+						<c:if test="${not empty resource.lastHarvested}">
+						  <c:url var="runUrl" value="/resource/${resource.id}">
+							<c:param name="run" value="true" />
+						  </c:url>
+						  <c:choose>
+							<c:when test="${em:isStartable(resource.status)}">
+								<a href="${runUrl}" class="btn">
+										<spring:message code="harvest.changes" />
+								</a>
+							</c:when>
+							<c:otherwise>
+							    <a class="btn disabled">
+								  <spring:message code="harvest.changes" />
+								</a>
+							</c:otherwise>
+						  </c:choose>						
+						</c:if>
+				    </div>
 				</div>
 			</div>
 		</security:authorize>

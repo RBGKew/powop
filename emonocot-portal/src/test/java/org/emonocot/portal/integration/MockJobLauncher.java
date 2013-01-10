@@ -51,11 +51,10 @@ public class MockJobLauncher implements JobLauncher {
 	}
 
 	@Override
-	public JobLaunchRequest launch(JobLaunchRequest request)
+	public void launch(JobLaunchRequest request)
 			throws JobExecutionException {
 		System.out.println("RECIEVED: " + request);
 		request.setException(exception);
 		request.setExecution(execution);
-		return request;
 	}
 }

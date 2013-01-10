@@ -55,15 +55,7 @@
                 </batch:chunk>
             </batch:tasklet>
         </batch:step>
-        <batch:listeners>
-		  <batch:listener ref="jobStatusListener"/>
-		</batch:listeners>
     </batch:job>
-
-    <bean id="jobStatusListener" class="org.emonocot.harvest.common.JobStatusListener">
-	  <property name="jobStatusNotifier" ref="jobStatusNotifier"/>
-	  <property name="baseUrl" value="${harvester.baseUrl}"/>
-	</bean>
 
     <bean id="sitemapFilesListener" class="org.emonocot.job.sitemap.SitemapFilesListener">
         <property name="portalBaseUrl" value="${portal.baseUrl}" />

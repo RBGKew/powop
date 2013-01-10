@@ -8,24 +8,13 @@
 		                http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd">
 
 
-	<integration:gateway id="jobLauncher"
-		service-interface="org.emonocot.api.job.JobLauncher"
-		default-request-channel="jobLaunchRequests" 
-		default-reply-channel="jobLaunchResponses">
+	<integration:gateway id="jobLauncher" service-interface="org.emonocot.api.job.JobLauncher" default-request-channel="jobLaunchRequests">
 		<integration:method name="launch" />
 	</integration:gateway>
 
 	<integration:channel id="jobLaunchRequests" />
-	
-	<integration:channel id="jobLaunchResponses" />
 
-	<jms:outbound-gateway id="jobLaunchGateway"
-		request-channel="jobLaunchRequests"
-		request-destination="jobLaunchRequestsQueue"
-		reply-channel="jobLaunchResponses"
-		reply-destination="jobLaunchResponsesQueue"
-		connection-factory="connectionFactory" 
-		message-converter="mappingMessageConverter"/>
+	<jms:outbound-channel-adapter id="jobLaunchGateway" channel="jobLaunchRequests"	destination="jobLaunchRequestsQueue" connection-factory="connectionFactory" message-converter="mappingMessageConverter"/>
 		
     <bean id="mappingMessageConverter"
 		class="org.springframework.jms.support.converter.MappingJacksonMessageConverter">
@@ -52,24 +41,5 @@
 	<bean id="jobLaunchRequestsQueue" class="org.apache.activemq.command.ActiveMQQueue">
 		<constructor-arg value="job.launch.requests" />
 	</bean>
-
-	<bean id="jobLaunchResponsesQueue" class="org.apache.activemq.command.ActiveMQQueue">
-		<constructor-arg value="job.launch.responses" />
-	</bean>
-
-   <jms:inbound-channel-adapter id="jobStatusNotificationAdapter"
-    connection-factory="connectionFactory"
-    destination="jobStatusQueue"
-    message-converter="mappingMessageConverter"
-    channel="jobStatusNotifications">
-     <integration:poller fixed-rate="30000"/>
-   </jms:inbound-channel-adapter>
    
-   <bean id="jobStatusQueue" class="org.apache.activemq.command.ActiveMQQueue">
-		<constructor-arg value="job.status.notifications" />
-	</bean>
-
-    <integration:channel id="jobStatusNotifications" />
-	
-	<integration:service-activator input-channel="jobStatusNotifications" ref="jobStatusNotifierImpl" method="notify" />
 </beans>

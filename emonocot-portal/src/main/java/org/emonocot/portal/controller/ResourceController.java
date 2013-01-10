@@ -12,7 +12,6 @@ import org.emonocot.api.AnnotationService;
 import org.emonocot.api.OrganisationService;
 import org.emonocot.api.ResourceService;
 import org.emonocot.api.job.JobExecutionException;
-import org.emonocot.api.job.JobExecutionInfo;
 import org.emonocot.api.job.JobLaunchRequest;
 import org.emonocot.api.job.JobLauncher;
 import org.emonocot.model.Annotation;
@@ -24,6 +23,7 @@ import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.core.BatchStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
@@ -46,7 +46,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ResourceController extends GenericController<Resource, ResourceService> {
 	private static Logger logger = LoggerFactory.getLogger(ResourceController.class);
 	
-	private static final BaseDateTime PAST_DATETIME = new DateTime(2010, 11, 1,	9, 0, 0, 0);
+	private static BaseDateTime PAST_DATETIME = new DateTime(2010, 11, 1,	9, 0, 0, 0);
 	
 	private AnnotationService annotationService;
 	
@@ -55,12 +55,12 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	private JobLauncher jobLauncher;
 
 	@Autowired
-	public final void setResourceService(final ResourceService resourceService) {
+	public void setResourceService(ResourceService resourceService) {
 		super.setService(resourceService);
 	}
 	
 	@Autowired
-	public final void setJobLauncher(final JobLauncher newJobLauncher) {
+	public void setJobLauncher(JobLauncher newJobLauncher) {
 	   this.jobLauncher = newJobLauncher;
 	}
 	
@@ -81,7 +81,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
         super("resource");
     }
     
-    private void populateForm(final Model model, final Resource resource, final ResourceParameterDto parameter) {
+    private void populateForm(Model model, Resource resource, ResourceParameterDto parameter) {
 		model.addAttribute("resource", resource);
 		model.addAttribute("parameter", parameter);
 		model.addAttribute("resourceTypes", Arrays.asList(ResourceType.values()));
@@ -105,15 +105,15 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	 * @return A model and view containing a source
 	 */
 	@RequestMapping(value = "/{resourceId}/output", method = RequestMethod.GET)
-	public final String search(
-			@PathVariable final Long resourceId,
-			@RequestParam(value = "query", required = false) final String query,
+	public String search(
+			@PathVariable Long resourceId,
+			@RequestParam(value = "query", required = false) String query,
 		    @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
-		    @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
-		    @RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
+		    @RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
+		    @RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 		    @RequestParam(value = "sort", required = false) String sort,
 		    @RequestParam(value = "view", required = false) String view,
-		    final Model model) {
+		    Model model) {
 		Resource resource = getService().load(resourceId);
 		organisationService.load(resource.getOrganisation().getIdentifier());
 		model.addAttribute("resource", resource);
@@ -152,11 +152,11 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	 *            Set the binding results
 	 * @return the view name
 	 */
-	@RequestMapping(value = "/{resourceId}", method = RequestMethod.POST, produces = "text/html", params = {"!run","!parameters"})
-	public final String post(
-			@PathVariable final Long resourceId, final Model model,
-			@Valid final Resource resource, final BindingResult result,
-			final HttpSession session) {
+	@RequestMapping(value = "/{resourceId}", method = RequestMethod.POST, produces = "text/html", params = {"!parameters"})
+	public String update(
+			@PathVariable Long resourceId, Model model,
+			@Valid Resource resource, BindingResult result,
+			HttpSession session) {
 		Resource persistedJob = getService().load(resourceId);
 
 		if (result.hasErrors()) {
@@ -205,9 +205,9 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	 * @return the name of the view
 	 */
 	@RequestMapping(method = RequestMethod.GET, params = "!form")
-	public final String list(final Model model,
-			@RequestParam(value = "limit", required = false, defaultValue = "10") final Integer limit,
-			@RequestParam(value = "start", required = false, defaultValue = "0") final Integer start) {
+	public String list(Model model,
+			@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+			@RequestParam(value = "start", required = false, defaultValue = "0") Integer start) {
 		model.addAttribute("resources", getService().list(start, limit, null));
 		return "resource/list";
 	}
@@ -220,9 +220,9 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	 * @return the name of the view
 	 */
 	@RequestMapping(method = RequestMethod.GET, params = "form")
-	public final String create(
+	public String create(
 			@RequestParam(required = true) String organisation,
-			final Model model) {
+			Model model) {
 		Resource resource = new Resource();
 		resource.setOrganisation(organisationService.load(organisation));
 		populateForm(model, resource, new ResourceParameterDto());
@@ -244,9 +244,9 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	 * @return a model and view
 	 */
 	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
-	public final String post(			
-			final Model model, @Valid final Resource resource,
-			final BindingResult result, final HttpSession session) {		
+	public String create(			
+			Model model, @Valid Resource resource,
+			BindingResult result, HttpSession session) {		
 		if (result.hasErrors()) {
 			populateForm(model, resource, new ResourceParameterDto());
 			return "resource/create";
@@ -269,10 +269,8 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	 *            Set the model
 	 * @return the view name
 	 */
-	@RequestMapping(value = "/{resourceId}", method = RequestMethod.GET, 
-			produces = "text/html",
-			params = {"!output", "!details", "!form", "!parameters"})
-	public final String show(@PathVariable final Long resourceId, final Model uiModel) {
+	@RequestMapping(value = "/{resourceId}", method = RequestMethod.GET, produces = "text/html", params = {"!run", "!form", "!parameters"})
+	public String show(@PathVariable Long resourceId, Model uiModel) {
 		Resource resource = getService().load(resourceId);
 		uiModel.addAttribute("resource", resource);
 		return "resource/show";
@@ -288,9 +286,9 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	 * @return the name of the view
 	 */
 	@RequestMapping(value = "/{resourceId}", method = RequestMethod.GET, params = "form")
-	public final String update(
-			@PathVariable final Long resourceId,
-			final Model model) {
+	public String update(
+			@PathVariable Long resourceId,
+			Model model) {
 		Resource resource = getService().load(resourceId);
 		populateForm(model, resource, new ResourceParameterDto());
 		return "resource/update";
@@ -305,9 +303,9 @@ public class ResourceController extends GenericController<Resource, ResourceServ
      * @return the view name
      */
     @RequestMapping(value = "/{resourceId}", params = { "parameters", "!delete" }, method = RequestMethod.POST)
-    public final String addParameter(@PathVariable final Long resourceId,
-    		@ModelAttribute("parameter") final ResourceParameterDto parameter,
-            final HttpSession session) {
+    public String addParameter(@PathVariable Long resourceId,
+    		@ModelAttribute("parameter") ResourceParameterDto parameter,
+            HttpSession session) {
         Resource resource = getService().load(resourceId);
         resource.getParameters().put(parameter.getName(), "");
         getService().saveOrUpdate(resource);
@@ -316,7 +314,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
         DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
                 codes, args);
         session.setAttribute("info", message);
-        return "redirect:/resource/" + resourceId;
+        return "redirect:/resource/" + resourceId + "?form=true";
     }
 
     /**
@@ -327,10 +325,9 @@ public class ResourceController extends GenericController<Resource, ResourceServ
      * @param session Set the session
      * @return the view name
      */
-    @RequestMapping(value = "/{resourceId}", params = { "parameters",
-            "delete" }, method = RequestMethod.GET)
-    public final String removeMember(@PathVariable final Long resourceId,
-    		@RequestParam("name") final String name, final HttpSession session) {
+    @RequestMapping(value = "/{resourceId}", params = { "parameters", "delete" }, method = RequestMethod.GET)
+    public String removeParameter(@PathVariable Long resourceId,
+    		@RequestParam("name") String name, HttpSession session) {
         Resource resource = getService().load(resourceId);
         resource.getParameters().remove(name);
         getService().saveOrUpdate(resource);
@@ -339,7 +336,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
         DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
                 codes, args);
         session.setAttribute("info", message);
-        return "redirect:/resource/" + resourceId;
+        return "redirect:/resource/" + resourceId + "?form=true";
     }
 
 	/**
@@ -354,10 +351,12 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	 * 
 	 * @return the view name
 	 */
-	@RequestMapping(value = "/{resourceId}", method = RequestMethod.POST, produces = "text/html", params = "run")
-	public final String run(
-			@PathVariable final Long resourceId, final Model model,
-			final HttpSession session) {
+	@RequestMapping(value = "/{resourceId}", method = RequestMethod.GET, produces = "text/html", params = "run")
+	public String run(
+			@PathVariable Long resourceId,
+			@RequestParam(required = false, defaultValue = "true") Boolean ifModified,
+			Model model,
+			HttpSession session) {
 
 		Resource resource = getService().load(resourceId);
 		if (resource.getStatus() != null) {
@@ -382,8 +381,10 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		Map<String, String> jobParametersMap = new HashMap<String, String>();
 		jobParametersMap.put("authority.name", resource.getOrganisation().getIdentifier());
 		jobParametersMap.put("authority.uri", resource.getUri());
+		jobParametersMap.put("resource.identifier", resource.getIdentifier());
 
-		if (resource.getStatus() == null) {
+		if (resource.getStatus() == null || !ifModified) {
+			jobParametersMap.put("timestamp", Long.toString(System.currentTimeMillis()));
 			jobParametersMap.put("authority.last.harvested",
 					Long.toString((PAST_DATETIME.getMillis())));
 		} else {
@@ -398,23 +399,13 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		jobLaunchRequest.setParameters(jobParametersMap);
 
 		try {
-			jobLaunchRequest = jobLauncher.launch(jobLaunchRequest);
-			JobExecutionInfo jobExecutionInfo = jobLaunchRequest.getExecution();
-			if (jobExecutionInfo == null) {
-				throw jobLaunchRequest.getException();
-			}
-			resource.setStartTime(jobExecutionInfo.getStartTime());
-			resource.setDuration(jobExecutionInfo.getDuration());
-			resource.setExitCode(jobExecutionInfo.getExitCode());
-			resource.setExitDescription(jobExecutionInfo.getExitDescription());
-			resource.setJobId(jobExecutionInfo.getId());
-			if (jobExecutionInfo.getJobInstance() != null) {
-				resource.setJobInstance(jobExecutionInfo.getJobInstance()
-						.getResource());
-			}
-			resource.setLastHarvested(new DateTime());
-			resource.setResource(jobExecutionInfo.getResource());
-			resource.setStatus(jobExecutionInfo.getStatus());
+			jobLauncher.launch(jobLaunchRequest);
+			resource.setStartTime(null);
+			resource.setDuration(null);
+			resource.setExitCode(null);
+			resource.setExitDescription(null);
+			resource.setJobId(null);
+			resource.setStatus(BatchStatus.UNKNOWN);
 			resource.setRecordsRead(0);
 			resource.setReadSkip(0);
 			resource.setProcessSkip(0);

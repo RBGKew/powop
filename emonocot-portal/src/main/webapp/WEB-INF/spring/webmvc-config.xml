@@ -45,7 +45,7 @@
     <mvc:view-controller path="/methodNotAllowed" view-name="methodNotAllowed"/>
     <mvc:view-controller path="/contact" view-name="contact"/>
 
-	<bean id="conversionService" class="org.emonocot.portal.format.PortalFormatterFactory">
+	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
 		<property name="converters">
 			<set>
 				<ref bean="aceDtoConverter" />
@@ -55,8 +55,14 @@
 				<bean class="org.emonocot.model.convert.ClassToStringConverter" />
 				<bean class="org.emonocot.model.convert.OrganisationToStringConverter" />
 				<bean class="org.emonocot.model.convert.StringToOrganisationConverter">
-				  <property name="organisationService" ref="organisationServiceImpl"/>
+					<property name="organisationService" ref="organisationServiceImpl" />
 				</bean>
+			</set>
+		</property>
+		<property name="formatterRegistrars">
+			<set>
+				<bean class="org.emonocot.portal.format.FacetRequestFormatterRegistrar" />
+				<bean class="org.emonocot.portal.format.PermissionFormatterRegistrar" />
 			</set>
 		</property>
 	</bean>

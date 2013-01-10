@@ -9,7 +9,7 @@
 
 	<tags:pageheader>
 	  <div class="row">
-		<h2 id="page-title">${resource.title}  <spring:message code="issues" /></h2>
+		<h2 id="page-title">${resource.title}  <spring:message code="output" /></h2>
 		<c:url var="searchUrl" value="/resource/${resource.id}/output" />
 		<form id="search.form" class="pull-right form-search" accept-charset="UTF-8" method="GET" action="${searchUrl}">
 			<input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="query" />

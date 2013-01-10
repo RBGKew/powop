@@ -34,9 +34,6 @@
         <batch:step id="cleanUp">
             <batch:tasklet ref="dwcArchiveResourceDeletingTasklet" />
         </batch:step>
-        <batch:listeners>
-            <batch:listener ref="jobStatusListener" />
-        </batch:listeners>
     </batch:job>
     
     <bean id="taxonReader" class="org.emonocot.harvest.common.SolrItemReader" scope="step">
@@ -65,12 +62,7 @@
     <bean id="setTemporaryFilenamesTasklet" class="org.emonocot.job.dwc.SetTemporaryFilenamesTasklet">
         <property name="harvesterSpoolDirectory" value="${harvester.spool.directory}"/>
     </bean>
-
-    <bean id="jobStatusListener" class="org.emonocot.harvest.common.JobStatusListener">
-      <property name="jobStatusNotifier" ref="jobStatusNotifier"/>
-      <property name="baseUrl" value="${harvester.baseUrl}"/>
-    </bean>
-
+    
     <bean id="dwcArchiveResourceDeletingTasklet"
         class="org.emonocot.harvest.common.MultiResourceDeletingTasklet"
         scope="step">

@@ -73,11 +73,6 @@
 		</batch:listeners>	
 	</batch:job>
 	
-	<bean id="jobStatusListener" class="org.emonocot.harvest.common.JobStatusListener">
-	  <property name="jobStatusNotifier" ref="jobStatusNotifier"/>
-	  <property name="baseUrl" value="${harvester.baseUrl}"/>
-	</bean>
-	
 	<bean id="setTemporaryFilenameTasklet" class="org.emonocot.harvest.common.SetTemporaryFilenameTasklet">
 		<property name="harvesterSpoolDirectory" value="${harvester.spool.directory}"/>
 	</bean>

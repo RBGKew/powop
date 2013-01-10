@@ -13,4 +13,6 @@ public interface JobStatusNotifier {
      */
     void notify(JobExecutionInfo jobExecutionInfo);
 
+	void notify(JobExecutionException jobExecutionException, String resourceIdentifier);
+
 }
