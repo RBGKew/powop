@@ -3,6 +3,7 @@ package org.emonocot.portal.steps;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.Serializable;
@@ -1180,6 +1181,17 @@ public class StepDefinitions {
     @Then("^the distribution should list \"([^\"]*)\"$")
     public final void theDistributionShouldList(final String distribution) {
     	assertEquals(((org.emonocot.portal.driver.taxon.Show)currentPage).getTextualDistribution(), distribution);
+    }
+
+    /**
+     * @param paragraphNameOrId The name or id attribute of the single paragraph we are looking for 
+     * @param expectedPartialText The text that the paragraph should contain
+     */
+    @Then("^the paragraph named \"([^\"]*)\" should contain the text \"([^\"]*)\"$")
+    public final void theParagraphContains(String paragraphNameOrId, String expectedPartialText) {
+        String actualText = currentPage.paragraphText(paragraphNameOrId);
+        assertNotNull("There should be a paragraph with an id or name " + paragraphNameOrId, actualText);
+        assertTrue(actualText + " does not contain " + expectedPartialText,actualText.indexOf(expectedPartialText)>=0);
     }
     
 

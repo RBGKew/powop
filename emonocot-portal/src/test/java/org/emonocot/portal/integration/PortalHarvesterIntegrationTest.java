@@ -33,12 +33,6 @@ public class PortalHarvesterIntegrationTest {
     private JobLauncher jobLauncher;
 
     /**
-     *
-     */
-    @Autowired
-    private MockJobLauncher mockJobLauncher;
-
-    /**
      * @throws JobExecutionException
      *             if there is a problem launching the job
      *
@@ -54,33 +48,10 @@ public class PortalHarvesterIntegrationTest {
         jobLaunchRequest.setParameters(jobParameterMap);
 
         try {
-            Object jobExecutionInfo = jobLauncher
-                    .launch(jobLaunchRequest);
-            assertNotNull("jobExecutionInfo should not be null",
-                    jobExecutionInfo);
+            jobLauncher.launch(jobLaunchRequest);            
         } catch (JobExecutionException jobExecutionException) {
             System.out.println(jobExecutionException.getMessage());
             fail("No exception expected here");
         }
-    }
-
-    /**
-     * @throws JobExecutionException
-     *             if there is a problem launching the job
-     *
-     */
-    @Test
-    public final void testLaunchJobUnsuccessfully()
-            throws JobExecutionException {
-        assertNotNull("jobLaunchRequestHandler should not be null", jobLauncher);
-        JobLaunchRequest jobLaunchRequest = new JobLaunchRequest();
-        jobLaunchRequest.setJob("UnsuccessfulJob");
-        mockJobLauncher.setException(new JobExecutionException("Exception"));
-        mockJobLauncher.setExecution(null);
-
-        jobLaunchRequest = jobLauncher.launch(jobLaunchRequest);
-            
-        assertNull("There should be no job execution", jobLaunchRequest.getExecution());
-        assertNotNull("Expected an exception to be thrown", jobLaunchRequest.getException());
     }
 }

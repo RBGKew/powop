@@ -8,6 +8,7 @@ import org.emonocot.api.job.JobExecutionInfo;
 import org.emonocot.api.job.JobInstanceInfo;
 import org.emonocot.api.job.JobLaunchRequest;
 import org.emonocot.api.job.JobLauncher;
+import org.emonocot.api.job.JobStatusNotifier;
 import org.joda.time.DateTime;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
@@ -29,24 +30,22 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class JobLauncherImpl implements JobLauncher {
 	
-	/**
-	 *
-	 */
 	private org.springframework.batch.core.launch.JobLauncher jobLauncher;
 	
-	/**
-	 *
-	 */
 	private JobLocator jobLocator;
+	
+	private JobStatusNotifier jobStatusNotifier;
 
-	/**
-	 *
-	 */
 	private String baseUrl;
 	
 	@Autowired
-	public void setJobLauncher(org.springframework.batch.core.launch.JobLauncher newJobLauncher) {
-		this.jobLauncher = newJobLauncher;
+	public void setJobLauncher(org.springframework.batch.core.launch.JobLauncher jobLauncher) {
+		this.jobLauncher = jobLauncher;
+	}
+	
+	@Autowired
+	public void setJobStatusNotifier(JobStatusNotifier jobStatusNotifier) {
+		this.jobStatusNotifier = jobStatusNotifier;
 	}
 
 	/**
@@ -66,7 +65,7 @@ public class JobLauncherImpl implements JobLauncher {
 	}
 
 	@Override
-	public JobLaunchRequest launch(JobLaunchRequest request) {
+	public void launch(JobLaunchRequest request) {
 		Job job;
 		try {
 			job = jobLocator.getJob(request.getJob());
@@ -76,39 +75,19 @@ public class JobLauncherImpl implements JobLauncher {
 			}
 			JobParameters jobParameters = new JobParameters(jobParameterMap);
 			try {				
-				JobExecution jobExecution = jobLauncher.run(job, jobParameters);
-				JobExecutionInfo jobExecutionInfo = new JobExecutionInfo();
-				DateTime startTime = new DateTime(jobExecution.getStartTime());
-				DateTime endTime = new DateTime(jobExecution.getEndTime());
-				jobExecutionInfo.setDuration(endTime.minus(startTime.getMillis()));
-				jobExecutionInfo.setStartTime(startTime);
-				jobExecutionInfo.setExitDescription(jobExecution.getExitStatus()
-				         .getExitDescription());
-				jobExecutionInfo.setExitCode(jobExecution.getExitStatus().getExitCode());
-				jobExecutionInfo.setId(jobExecution.getId());
-				JobInstanceInfo jobInstanceInfo = new JobInstanceInfo();
-				jobInstanceInfo.setResource(baseUrl + "/jobs/"
-				+ jobExecution.getJobInstance().getJobName() + "/"
-				  + jobExecution.getJobId() + ".json");
-				jobExecutionInfo.setJobInstance(jobInstanceInfo);
-				jobExecutionInfo.setResource(baseUrl + "/jobs/executions/"
-				 + jobExecution.getId() + ".json");
-				jobExecutionInfo.setStatus(jobExecution.getStatus());
-				request.setExecution(jobExecutionInfo);
+				jobLauncher.run(job, jobParameters);				
 			} catch (JobExecutionAlreadyRunningException jeare) {
-				request.setException(new JobExecutionException(jeare.getLocalizedMessage()));
+				jobStatusNotifier.notify(new JobExecutionException(jeare.getLocalizedMessage()), request.getParameters().get("resource.identifier"));
 			} catch (JobRestartException jre) {
-				request.setException(new JobExecutionException(jre.getLocalizedMessage()));
+				jobStatusNotifier.notify(new JobExecutionException(jre.getLocalizedMessage()), request.getParameters().get("resource.identifier"));
 			} catch (JobInstanceAlreadyCompleteException jiace) {
-				request.setException(new JobExecutionException(jiace.getLocalizedMessage()));
+				jobStatusNotifier.notify(new JobExecutionException(jiace.getLocalizedMessage()), request.getParameters().get("resource.identifier"));
 			} catch (JobParametersInvalidException jpie) {
-				request.setException(new JobExecutionException(jpie.getLocalizedMessage()));
+				jobStatusNotifier.notify(new JobExecutionException(jpie.getLocalizedMessage()), request.getParameters().get("resource.identifier"));
 			}
 		} catch (NoSuchJobException nsje) {
-			request.setException(new JobExecutionException(nsje.getLocalizedMessage()));			
+			jobStatusNotifier.notify(new JobExecutionException(nsje.getLocalizedMessage()), request.getParameters().get("resource.identifier"));			
 		}
-		
-		return request;
 	}
 
 }

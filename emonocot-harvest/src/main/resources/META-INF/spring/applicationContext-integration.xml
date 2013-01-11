@@ -18,9 +18,11 @@
 		<constructor-arg value="job.launch.requests" />
 	</bean>
 	
-	<jms:inbound-gateway id="jobLaunchGateway"
-		request-channel="jobLaunchRequests" request-destination="jobLaunchRequestsQueue"
-		message-converter="mappingMessageConverter" connection-factory="connectionFactory" />
+	<jms:inbound-channel-adapter id="jobLaunchGateway"
+		channel="jobLaunchRequests" destination="jobLaunchRequestsQueue"
+		message-converter="mappingMessageConverter" connection-factory="connectionFactory" >
+		<integration:poller fixed-rate="30000"/>
+    </jms:inbound-channel-adapter>
 	
 	<integration:channel id="jobLaunchRequests" />
 
@@ -30,6 +32,7 @@
 	<bean id="jobLauncherImpl" class="org.emonocot.harvest.integration.JobLauncherImpl">
 		<property name="jobLauncher" ref="jobLauncher" />
 		<property name="jobLocator" ref="jobRegistry" />
+		<property name="jobStatusNotifier" ref="jobStatusNotifier"/>
 		<property name="baseUrl" value="${harvester.baseUrl}" />
 	</bean>	
 
@@ -53,25 +56,6 @@
 				</entry>
 			</map>
 		</property>
-	</bean>
-
-	<integration:gateway id="jobStatusNotifier"
-		service-interface="org.emonocot.api.job.JobStatusNotifier"
-		default-request-channel="jobStatusNotificationChannel">
-		<integration:method name="notify" />
-	</integration:gateway>
-
-	<integration:channel id="jobStatusNotificationChannel"	datatype="org.emonocot.api.job.JobExecutionInfo" />
-
-
-	<jms:outbound-channel-adapter id="jobStatusNotificationAdapter"
-		channel="jobStatusNotificationChannel"
-		message-converter="mappingMessageConverter"
-		connection-factory="connectionFactory"
-		destination="jobStatusQueue" />
-
-	<bean id="jobStatusQueue" class="org.apache.activemq.command.ActiveMQQueue">
-		<constructor-arg value="job.status.notifications" />
 	</bean>
 
 </beans>

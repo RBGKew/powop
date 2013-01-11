@@ -73,6 +73,12 @@ public class JobExecutionInfo implements Serializable {
      *
      */
     private Integer written = 0;
+    
+	private String resourceIdentifier;
+	
+	public void setResourceIdentifier(String resourceIdentifier) {
+		this.resourceIdentifier = resourceIdentifier;
+	}
 
     /**
      *
@@ -266,5 +272,9 @@ public class JobExecutionInfo implements Serializable {
 	 */
 	public void setWriteSkip(Integer writeSkip) {
 		this.writeSkip = writeSkip;
+	}
+
+	public String getResourceIdentifier() {
+		return resourceIdentifier;
 	}
 }

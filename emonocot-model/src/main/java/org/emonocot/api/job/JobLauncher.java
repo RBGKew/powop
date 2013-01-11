@@ -15,6 +15,6 @@ public interface JobLauncher {
      * @throws JobExecutionException
      *             if there is a problem
      */
-	JobLaunchRequest launch(JobLaunchRequest request) throws JobExecutionException;
+	void launch(JobLaunchRequest request) throws JobExecutionException;
 
 }

@@ -67,4 +67,14 @@
 		<property name="jobLocator" ref="jobRegistry" />
 		<property name="dataSource" ref="dataSource" />
 	</bean>
+	
+	<bean id="jobStatusListener" class="org.emonocot.harvest.common.JobStatusListener">
+      <property name="jobStatusNotifier" ref="jobStatusNotifier"/>
+      <property name="baseUrl" value="${harvester.baseUrl}"/>
+    </bean>
+    
+    <bean id="jobStatusNotifier" class="org.emonocot.harvest.common.JobStatusNotifierImpl">
+	  <property name="resourceService" ref="resourceServiceImpl"/>
+	</bean>
 </beans>
+

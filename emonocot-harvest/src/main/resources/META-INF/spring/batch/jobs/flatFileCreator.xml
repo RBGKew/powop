@@ -18,9 +18,6 @@
             </batch:tasklet>
             <batch:end on="COMPLETED"/>
         </batch:step>
-        <batch:listeners>
-            <batch:listener ref="jobStatusListener" />
-        </batch:listeners>
     </batch:job>
     
     <bean id="taxonReader" class="org.emonocot.harvest.common.SolrItemReader" scope="step">
@@ -30,11 +27,6 @@
         <property name="service">
             <bean class="org.emonocot.service.impl.TaxonServiceImpl" />
         </property>
-    </bean>
-
-    <bean id="jobStatusListener" class="org.emonocot.harvest.common.JobStatusListener">
-      <property name="jobStatusNotifier" ref="jobStatusNotifier"/>
-      <property name="baseUrl" value="${harvester.baseUrl}"/>
     </bean>
 
     <bean id="dwcFlatFileWriter" class="org.emonocot.job.dwc.write.DwcFlatFileWriter" scope="step">

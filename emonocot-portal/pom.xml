@@ -219,6 +219,10 @@
 			<groupId>org.springframework.batch</groupId>
 			<artifactId>spring-batch-admin-manager</artifactId>
 		</dependency>
+		<dependency>
+           <groupId>org.ocpsoft.prettytime</groupId>
+           <artifactId>prettytime</artifactId>
+        </dependency>
 	</dependencies>
 	<build>
 		<finalName>emonocot-portal</finalName>

@@ -14,14 +14,16 @@
 
 	<context:property-placeholder
 		location="classpath*:META-INF/spring/application.properties" />
-
-	<bean name="jobStatusNotifierImpl" class="org.emonocot.portal.integration.JobStatusNotifierImpl" />
 	
-	<jms:inbound-gateway id="mockJobLaunchGateway"
-		request-channel="mockJobLaunchRequests"
-		request-destination="jobLaunchRequestsQueue"
+	
+
+	<jms:inbound-channel-adapter id="mockJobLaunchGateway"
+		channel="mockJobLaunchRequests"
+		destination="jobLaunchRequestsQueue"
 		message-converter="mappingMessageConverter"
-		connection-factory="connectionFactory" />
+		connection-factory="connectionFactory">
+		<integration:poller fixed-rate="500"/>
+	</jms:inbound-channel-adapter>
 
 	
 	<integration:channel id="mockJobLaunchRequests"/>

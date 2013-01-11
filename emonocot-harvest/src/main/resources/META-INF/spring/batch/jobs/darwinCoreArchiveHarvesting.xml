@@ -26,7 +26,7 @@
 		<batch:step id="cleanupResourcesNotModified">
 			<batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="dwcArchiveResourceDeletingTasklet" />
-			<batch:end on="COMPLETE" exit-code="NOT MODIFIED" />
+			<batch:end on="COMPLETED" exit-code="NOT MODIFIED" />
 		</batch:step>
 		<batch:step id="unpackDWCArchive">
 			<batch:description>Unzip the archive to a temporary directory</batch:description>
@@ -551,11 +551,6 @@
 			<batch:listener ref="jobStatusListener" />
 		</batch:listeners>
 	</batch:job>
-
-	<bean id="jobStatusListener" class="org.emonocot.harvest.common.JobStatusListener">
-		<property name="jobStatusNotifier" ref="jobStatusNotifier" />
-		<property name="baseUrl" value="${harvester.baseUrl}" />
-	</bean>
 
 	<bean id="setTemporaryFilenamesTasklet" class="org.emonocot.job.dwc.SetTemporaryFilenamesTasklet">
 		<property name="harvesterSpoolDirectory" value="${harvester.spool.directory}" />

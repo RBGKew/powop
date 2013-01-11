@@ -74,6 +74,9 @@
 			<batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="gbifResourceDeletingTasklet" />
 		</batch:step>
+		<batch:listeners>
+            <batch:listener ref="jobStatusListener" />
+        </batch:listeners>		
 	</batch:job>
 	
 	<bean id="setTemporaryFilenamesTasklet" class="org.emonocot.job.gbif.SetTemporaryFilenamesTasklet">
