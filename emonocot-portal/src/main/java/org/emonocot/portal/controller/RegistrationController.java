@@ -1,6 +1,5 @@
 package org.emonocot.portal.controller;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.emonocot.api.UserService;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -32,7 +32,7 @@ public class RegistrationController {
      * @param userService set the user service
      */
     @Autowired
-    public final void setUserService(final UserService userService) {
+    public void setUserService(UserService userService) {
         service = userService;
     }
 
@@ -41,7 +41,7 @@ public class RegistrationController {
      * @return a model and view containing a registration form object
      */
     @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public final ModelAndView setupForm() {
+    public ModelAndView setupForm() {
         ModelAndView modelAndView = new ModelAndView("register");
         modelAndView.addObject(new RegistrationForm());
         return modelAndView;
@@ -60,10 +60,10 @@ public class RegistrationController {
      * @return the view name
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public final String post(
-            @Valid @ModelAttribute("registrationForm") final RegistrationForm form,
-            final BindingResult result, final HttpSession session,
-            final Model model) {
+    public String post(
+            @Valid @ModelAttribute("registrationForm") RegistrationForm form,
+            BindingResult result, RedirectAttributes redirectAttributes,
+            Model model) {
         if (result.hasErrors()) {
             return "register";
         }
@@ -81,7 +81,7 @@ public class RegistrationController {
         Object[] args = new Object[] {};
         DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
                 codes, args);
-        session.setAttribute("info", message);
+        redirectAttributes.addFlashAttribute("info", message);
         return "redirect:/home";
     }
 }

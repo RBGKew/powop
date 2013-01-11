@@ -8,6 +8,8 @@ import org.emonocot.model.marshall.json.DateTimeDeserializer;
 import org.emonocot.model.marshall.json.DateTimeSerializer;
 import org.joda.time.DateTime;
 import org.springframework.batch.core.BatchStatus;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.StepExecution;
 
 /**
  *
@@ -75,6 +77,34 @@ public class JobExecutionInfo implements Serializable {
     private Integer written = 0;
     
 	private String resourceIdentifier;
+	
+	public JobExecutionInfo(JobExecution jobExecution, String baseUrl) {
+		resourceIdentifier = jobExecution.getJobInstance().getJobParameters().getString("resource.identifier");
+		DateTime sTime = new DateTime(jobExecution.getStartTime());
+		DateTime eTime = new DateTime(jobExecution.getEndTime());
+		duration = eTime.minus(sTime.getMillis());
+		startTime = sTime;
+		exitDescription = jobExecution.getExitStatus().getExitDescription();
+		exitCode = jobExecution.getExitStatus().getExitCode();
+		id = jobExecution.getId();
+		jobInstance = new JobInstanceInfo();
+		jobInstance.setResource(baseUrl + "/jobs/"	+ jobExecution.getJobInstance().getJobName() + "/"	+ jobExecution.getJobInstance().getId() + ".json");
+		
+		resource = baseUrl + "/jobs/executions/"	+ jobExecution.getId() + ".json";
+		status = jobExecution.getStatus();
+
+		
+		
+		
+		Integer writeSkip = 0;
+		for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
+			recordsRead += stepExecution.getReadCount();
+			readSkip += stepExecution.getReadSkipCount();
+			processSkip += stepExecution.getProcessSkipCount();
+			written += stepExecution.getWriteCount();
+			writeSkip += stepExecution.getWriteSkipCount();
+		}
+	}
 	
 	public void setResourceIdentifier(String resourceIdentifier) {
 		this.resourceIdentifier = resourceIdentifier;

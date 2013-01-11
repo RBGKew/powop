@@ -49,7 +49,7 @@
 	<bean id="jobRegistry"
 		class="org.springframework.batch.core.configuration.support.MapJobRegistry" />
 
-	<bean id="jobLauncher"
+	<bean id="readWriteJobLauncher"
 		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
 		<property name="jobRepository" ref="jobRepository" />
 	</bean>
@@ -103,7 +103,7 @@
 	
 	<bean id="bufferedReaderFactory" class="org.emonocot.harvest.common.BOMIgnoringBufferedReaderFactory"/>
 
-    <bean id="getResourceClient" class="org.emonocot.ws.GetResourceClient">
+    <bean id="getResourceClient" class="org.emonocot.harvest.common.GetResourceClient">
         <property name="proxyHost" value="${http.proxyHost}" />
         <property name="proxyPort" value="${http.proxyPort}"/>
     </bean>

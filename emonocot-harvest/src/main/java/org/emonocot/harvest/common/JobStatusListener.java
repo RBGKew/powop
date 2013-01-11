@@ -40,38 +40,7 @@ public class JobStatusListener extends JobExecutionListenerSupport {
     
     private void notify(JobExecution jobExecution) {
     	if (jobExecution.getJobInstance().getJobParameters().getString("resource.identifier") != null) {
-			JobExecutionInfo jobExecutionInfo = new JobExecutionInfo();
-			
-			jobExecutionInfo.setResourceIdentifier(jobExecution.getJobInstance().getJobParameters().getString("resource.identifier"));
-			DateTime startTime = new DateTime(jobExecution.getStartTime());
-			DateTime endTime = new DateTime(jobExecution.getEndTime());
-			jobExecutionInfo.setDuration(endTime.minus(startTime.getMillis()));
-			jobExecutionInfo.setStartTime(startTime);
-			jobExecutionInfo.setExitDescription(jobExecution.getExitStatus().getExitDescription());
-			jobExecutionInfo.setExitCode(jobExecution.getExitStatus().getExitCode());
-			jobExecutionInfo.setId(jobExecution.getId());
-			JobInstanceInfo jobInstanceInfo = new JobInstanceInfo();
-			jobInstanceInfo.setResource(baseUrl + "/jobs/"	+ jobExecution.getJobInstance().getJobName() + "/"	+ jobExecution.getJobInstance().getId() + ".json");
-			jobExecutionInfo.setJobInstance(jobInstanceInfo);
-			jobExecutionInfo.setResource(baseUrl + "/jobs/executions/"	+ jobExecution.getId() + ".json");
-			jobExecutionInfo.setStatus(jobExecution.getStatus());
-			Integer read = 0;
-			Integer readSkip = 0;
-			Integer processSkip = 0;
-			Integer write = 0;
-			Integer writeSkip = 0;
-			for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
-				read += stepExecution.getReadCount();
-				readSkip += stepExecution.getReadSkipCount();
-				processSkip += stepExecution.getProcessSkipCount();
-				write += stepExecution.getWriteCount();
-				writeSkip += stepExecution.getWriteSkipCount();
-			}
-			jobExecutionInfo.setRecordsRead(read);
-			jobExecutionInfo.setReadSkip(readSkip);
-			jobExecutionInfo.setProcessSkip(processSkip);
-			jobExecutionInfo.setWriteSkip(writeSkip);
-			jobExecutionInfo.setWritten(write);
+			JobExecutionInfo jobExecutionInfo = new JobExecutionInfo(jobExecution, baseUrl);
 			jobStatusNotifier.notify(jobExecutionInfo);
 		}
     }
