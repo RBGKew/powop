@@ -114,8 +114,7 @@ public class GroupController extends GenericController<Group, GroupService> {
      * @return A response entity containing the status
      */
     @RequestMapping(value = "/{identifier}/permission", params = "delete", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-    public ResponseEntity<AceDto> deletePermission(
-            @PathVariable String identifier, @RequestBody AceDto ace) {
+    public ResponseEntity<AceDto> deletePermission(@PathVariable String identifier, @RequestBody AceDto ace) {
         SecuredObject object = conversionService.convert(ace,
                 SecuredObject.class);
         userService.deletePermission(object, identifier, ace.getPermission(),
