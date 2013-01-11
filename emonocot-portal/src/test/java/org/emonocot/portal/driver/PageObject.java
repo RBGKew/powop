@@ -364,4 +364,35 @@ public class PageObject {
 			return false;
 		}
 	}
+
+    /**
+     * @param paragraphNameOrId
+     * @return
+     */
+    public String paragraphText(String paragraphNameOrId) {
+        WebElement element = null;
+        try{
+            element = webDriver.findElement(By.id(paragraphNameOrId));
+        } catch (NoSuchElementException e0) {
+            try {
+                element = webDriver.findElement(By.name(paragraphNameOrId));
+            } catch (NoSuchElementException e1) {
+                element = null;
+            }
+        }
+        if(element == null) {
+            return null;
+        } else {
+            return element.getText();
+        }
+    }
+
+    /**
+     * @return The source of the page.  Dependant on the implementing class, this
+     * can be the source when the page was retrieved, the page as modified by script
+     * or some other representation of the DOM 
+     */
+    public String getText() {
+        return webDriver.getPageSource();
+    }
 }

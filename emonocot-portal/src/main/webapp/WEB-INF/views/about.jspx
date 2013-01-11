@@ -75,9 +75,9 @@
 							provides the taxonomic and geographic information for ca. 90,000
 							accepted taxa (ca. 70,000 species).
 						</p>
-						<p class="justified">
+						<p class="justified" name="sourcesParagraph">
 							In addition to the World Checklist, we are aggregating content
-							from ${fn:length(sources)} systems, which cover particular
+							from ${fn:length(organisations)} systems, which cover particular
 							taxonomic groups in greater depth or which provide additional
 							types of data. This includes content from:<br />
 						</p>
