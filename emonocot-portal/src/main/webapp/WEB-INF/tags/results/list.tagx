@@ -31,13 +31,13 @@
 						${item.namePublishedInString}
 						<br/>
 						<div>
-							<em><spring:message code="resultStatus" /></em> <spring:message code="${item.taxonomicStatus}" />
+							<em><spring:message code="resultStatus" /></em> <span id="entryStatus"><spring:message code="${item.taxonomicStatus}" /></span>
 							<c:if test="${em:isSynonym(item)}">
 								<c:url var="acceptedUrl" value="/taxon/${item.acceptedNameUsage.identifier}" />
 								<a href="${acceptedUrl}"> ${item.acceptedNameUsage.scientificName} ${item.acceptedNameUsage.scientificNameAuthorship}</a>
 							</c:if>
 						</div>
-						<div><em><spring:message code="resultRank" /></em> <spring:message code="${item.taxonRank}" /></div>
+						<div><em><spring:message code="resultRank" /></em> <span id="entryRank"><spring:message code="${item.taxonRank}" /></span></div>
 						<c:if test="${item.family != null}">
 							<div><em><spring:message code="resultFamily" /></em> ${item.family}</div>
 						</c:if>
