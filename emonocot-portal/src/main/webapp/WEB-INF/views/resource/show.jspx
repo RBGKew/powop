@@ -53,12 +53,12 @@
 						  </c:url>
 						  <c:choose>
 							<c:when test="${em:isStartable(resource.status)}">
-								<a href="${runUrl}" class="btn">
-										<spring:message code="harvest.changes" />
+								<a href="${runUrl}" class="btn btn-primary">
+									<spring:message code="harvest.changes" />
 								</a>
 							</c:when>
 							<c:otherwise>
-							    <a class="btn disabled">
+							    <a class="btn btn-primary disabled">
 								  <spring:message code="harvest.changes" />
 								</a>
 							</c:otherwise>

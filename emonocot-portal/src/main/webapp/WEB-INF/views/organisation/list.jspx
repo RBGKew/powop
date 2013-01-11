@@ -28,26 +28,21 @@
 							</c:url>
 							<p><a href="${createUrl}" class="btn pull-right"><spring:message code="create.organisation"/></a></p>
 						</security:authorize>
-						<div class="row">
-							<div id="pages" class="span12">
+						<p id="pages">
 								<tags:results pager="${result}" />
-							</div>
-						</div>
-						<br/>
-						<div class="row">
-							<div class="span12">
-								<table class="table">
-									<tbody>
-										<c:forEach var="organisation" items="${result.records}">
-											<tr> <td>
-												<spring:url var="organisationUrl" value="/organisation/${organisation.identifier}"/>
-												<a href="${organisationUrl}">${organisation.title}</a>
-											</td></tr>
-										</c:forEach>
-									</tbody>
-								</table>
-							</div>
-						</div>
+						</p>
+						<table class="table">
+							<tbody>
+								<c:forEach var="organisation" items="${result.records}">
+									<tr>
+										<td>
+											<spring:url var="organisationUrl" value="/organisation/${organisation.identifier}"/>
+											<a href="${organisationUrl}">${organisation.title}</a>
+										</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
 						<div class="row">
 							<div class="pagination pull-right">
 								<tags:pagination pager="${result}" url="/organisation" />
