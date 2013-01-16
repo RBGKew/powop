@@ -79,9 +79,8 @@ public class RegistrationController {
         service.createUser(user);
         String[] codes = new String[] {"registration.successful" };
         Object[] args = new Object[] {};
-        DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
-                codes, args);
+        DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
         redirectAttributes.addFlashAttribute("info", message);
-        return "redirect:/home";
+        return "redirect:/login";
     }
 }

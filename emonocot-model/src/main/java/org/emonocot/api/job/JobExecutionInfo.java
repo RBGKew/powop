@@ -78,6 +78,10 @@ public class JobExecutionInfo implements Serializable {
     
 	private String resourceIdentifier;
 	
+	public JobExecutionInfo() {
+		
+	}
+	
 	public JobExecutionInfo(JobExecution jobExecution, String baseUrl) {
 		resourceIdentifier = jobExecution.getJobInstance().getJobParameters().getString("resource.identifier");
 		DateTime sTime = new DateTime(jobExecution.getStartTime());
