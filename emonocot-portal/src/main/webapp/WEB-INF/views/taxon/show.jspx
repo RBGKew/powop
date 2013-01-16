@@ -375,7 +375,7 @@
 				<c:if test="${taxon.acceptedNameUsage == null}">
 					<div class="inner">
 						<div id="classificationBox" class="box">
-							<section id="taxonomicTree">
+							<section class="sidebarBox" id="taxonomicTree">
 								<h2>
 									<spring:message code="taxonomicTree" />
 								</h2>
@@ -391,7 +391,7 @@
 				<c:if test="${not empty taxon.identifiers}">
 					<div class="inner">
 						<div class="box">
-							<section id="identifiers">
+							<section class="sidebarBox" id="identifiers">
 								<h2><spring:message code="identifiers" /></h2>
 								<c:forEach var="identifier" items="${taxon.identifiers}">
 									<a href="${identifier.identifier}" title="${fn:escapeXml(identifier.title)}">${identifier.title}</a>
@@ -400,6 +400,14 @@
 						</div>
 					</div>
 				</c:if>
+				<div class="inner">
+					<div class="box">
+						<section class="sidebarBox" id="taxonData">
+							<h2><spring:message code="taxonData" /></h2>
+							
+						</section>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

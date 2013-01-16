@@ -23,7 +23,19 @@ public class Search extends PageObject {
      */
     @FindBy(how = How.ID, using = "results")
     private WebElement results;
-
+    
+    /**
+    *
+    */
+    @FindBy(how = How.ID, using = "entryRank")
+    private WebElement rank;
+    
+    /**
+    *
+    */
+    @FindBy(how = How.ID, using = "entryStatus")
+    private WebElement resultStatus;
+    
     /**
      *
      */
@@ -71,6 +83,23 @@ public class Search extends PageObject {
     public final Integer getResultNumber() {
         return results.findElements(By.className("result")).size();
     }
+    
+    /**
+    *
+    * @return the rank of results
+    */
+    public final String getResultEntryRank() {
+        return rank.getText();
+    }
+    
+
+    /**
+    *
+    * @return the status of results
+    */
+	public final String getResultEntryStatus() {
+		return resultStatus.getText();
+	}
 
     /**
      * @param facetName
@@ -236,5 +265,6 @@ public class Search extends PageObject {
 		WebElement nextLink = pagination.findElement(By.xpath("ul/li[@class='next']/a"));
 		return openAs(nextLink.getAttribute("href"), Search.class);
 	}
+
 
 }

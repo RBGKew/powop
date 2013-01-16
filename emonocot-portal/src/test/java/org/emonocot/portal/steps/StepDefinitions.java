@@ -513,6 +513,27 @@ public class StepDefinitions {
         assertEquals(results, ((Search) currentPage).getResultNumber());
     }
     
+    
+    /**
+     * @param entryRank
+     *            Set the entryRank of the result
+     */
+    @And("^the result rank for Acorus calamus should be \"([^\"]*)\"$")
+    public void theResultRankForAcorusCalamusShouldBe(String entryRank) {
+    	assertEquals(entryRank, ((Search) currentPage).getResultEntryRank());
+    }
+    
+    
+    /**
+     * @param entryRank
+     *            Set the entryStatus of the result
+     */
+    @And("^the result status for Acorus calamus should be \"([^\"]*)\"$")
+    public void theResultStatusForAcorusCalamusShouldBe(String entryStatus) {
+    	assertEquals(entryStatus, ((Search) currentPage).getResultEntryStatus());
+    }
+    
+    
     @Then("^the pagination should show that results (\\d+) - (\\d+) are displayed$")
     public void thePaginationShouldShowThatResultsAreDisplayed(Integer from, Integer to) {
     	String label = from + " - " + to;
