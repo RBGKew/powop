@@ -161,5 +161,15 @@ public class TaxonRow {
   *
   */
   public String habitatRights;
+  
+  /**
+  *
+  */
+  public String lifeForm;
+  
+  /**
+  *
+  */
+  public String iucnConservationStatus;
 	
 }  

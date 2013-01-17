@@ -14,6 +14,16 @@
         <function-signature>org.emonocot.model.constants.DescriptionType[] features()</function-signature>
     </function>
     <function>
+        <name>measurements</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>org.emonocot.model.constants.MeasurementsType[] measurements()</function-signature>
+    </function>
+    <function>
+        <name>fact</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>org.emonocot.model.MeasurementOrFact fact(org.emonocot.model.Taxon,org.emonocot.model.constants.MeasurementType)</function-signature>
+    </function>
+    <function>
         <name>printTimeOnly</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>java.lang.String printTimeOnly(org.joda.time.DateTime)</function-signature>
