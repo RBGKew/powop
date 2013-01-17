@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.emonocot.api.AnnotationService;
@@ -35,6 +34,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -156,7 +156,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	public String update(
 			@PathVariable Long resourceId, Model model,
 			@Valid Resource resource, BindingResult result,
-			HttpSession session) {
+			RedirectAttributes redirectAttributes) {
 		Resource persistedJob = getService().load(resourceId);
 
 		if (result.hasErrors()) {
@@ -189,7 +189,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		Object[] args = new Object[] { resource.getTitle() };
 		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
 				codes, args);
-		session.setAttribute("info", message);
+		redirectAttributes.addFlashAttribute("info", message);
 		return "redirect:/resource/" + resourceId;
 	}
 	/**
@@ -246,7 +246,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
 	public String create(			
 			Model model, @Valid Resource resource,
-			BindingResult result, HttpSession session) {		
+			BindingResult result, RedirectAttributes redirectAttributes) {		
 		if (result.hasErrors()) {
 			populateForm(model, resource, new ResourceParameterDto());
 			return "resource/create";
@@ -256,7 +256,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		Object[] args = new Object[] { resource.getTitle() };
 		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
 				codes, args);
-		session.setAttribute("info", message);
+		redirectAttributes.addFlashAttribute("info", message);
 		return "redirect:/resource";
 	}
 
@@ -305,7 +305,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
     @RequestMapping(value = "/{resourceId}", params = { "parameters", "!delete" }, method = RequestMethod.POST)
     public String addParameter(@PathVariable Long resourceId,
     		@ModelAttribute("parameter") ResourceParameterDto parameter,
-            HttpSession session) {
+            RedirectAttributes redirectAttributes) {
         Resource resource = getService().load(resourceId);
         resource.getParameters().put(parameter.getName(), "");
         getService().saveOrUpdate(resource);
@@ -313,7 +313,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
         Object[] args = new Object[] { parameter.getName() };
         DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
                 codes, args);
-        session.setAttribute("info", message);
+        redirectAttributes.addFlashAttribute("info", message);
         return "redirect:/resource/" + resourceId + "?form=true";
     }
 
@@ -327,7 +327,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
      */
     @RequestMapping(value = "/{resourceId}", params = { "parameters", "delete" }, method = RequestMethod.GET)
     public String removeParameter(@PathVariable Long resourceId,
-    		@RequestParam("name") String name, HttpSession session) {
+    		@RequestParam("name") String name, RedirectAttributes redirectAttributes) {
         Resource resource = getService().load(resourceId);
         resource.getParameters().remove(name);
         getService().saveOrUpdate(resource);
@@ -335,7 +335,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
         Object[] args = new Object[] { name };
         DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
                 codes, args);
-        session.setAttribute("info", message);
+        redirectAttributes.addFlashAttribute("info", message);
         return "redirect:/resource/" + resourceId + "?form=true";
     }
 
@@ -356,7 +356,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 			@PathVariable Long resourceId,
 			@RequestParam(required = false, defaultValue = "true") Boolean ifModified,
 			Model model,
-			HttpSession session) {
+			RedirectAttributes redirectAttributes) {
 
 		Resource resource = getService().load(resourceId);
 		if (resource.getStatus() != null) {
@@ -369,7 +369,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 				Object[] args = new Object[] {};
 				DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
 						codes, args);
-				session.setAttribute("error", message);
+				redirectAttributes.addFlashAttribute("error", message);
 				return "redirect:/resource/" + resourceId;
 			case COMPLETED:
 			case FAILED:
@@ -416,13 +416,13 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 			Object[] args = new Object[] {};
 			DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
 					codes, args);
-			session.setAttribute("info", message);
+			redirectAttributes.addFlashAttribute("info", message);
 		} catch (JobExecutionException e) {
 			String[] codes = new String[] { "job.failed" };
 			Object[] args = new Object[] { e.getMessage() };
 			DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
 					codes, args);
-			session.setAttribute("error", message);
+			redirectAttributes.addFlashAttribute("error", message);
 		}
 		return "redirect:/resource/" + resourceId;
 	}

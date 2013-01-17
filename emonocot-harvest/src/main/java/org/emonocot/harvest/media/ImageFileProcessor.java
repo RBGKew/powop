@@ -4,8 +4,8 @@ import java.io.File;
 
 import org.apache.sanselan.ImageInfo;
 import org.apache.sanselan.Sanselan;
+import org.emonocot.harvest.common.GetResourceClient;
 import org.emonocot.model.Image;
-import org.emonocot.ws.GetResourceClient;
 import org.im4java.core.ConvertCmd;
 import org.im4java.core.IMOperation;
 import org.im4java.core.MogrifyCmd;

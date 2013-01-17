@@ -20,13 +20,17 @@
 	
 	<bean id="bufferedReaderFactory" class="org.emonocot.harvest.common.BOMIgnoringBufferedReaderFactory"/>
 
-	<bean id="jobLauncher"
-		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
-		<property name="jobRepository" ref="jobRepository" />
-		<property name="taskExecutor" ref="jobLauncherTaskExecutor" />
-	</bean>
+	<!-- Read write job launcher which runs the job in the current thread meaning 
+		: that the jms poller will block until the job completes -->
 	
-	<task:executor id="jobLauncherTaskExecutor" pool-size="6" rejection-policy="ABORT"/>
+	<bean id="readWriteJobLauncher"	class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+	</bean>
+
+	<bean id="jobLauncher"	class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+		<property name="taskExecutor" ref="throttledTaskExecutor" />
+	</bean>
 	
 	<task:executor id="poolTaskExecutor" pool-size="600" rejection-policy="CALLER_RUNS"/>
 	
@@ -67,6 +71,11 @@
 		<property name="jobLocator" ref="jobRegistry" />
 		<property name="dataSource" ref="dataSource" />
 	</bean>
+	
+	<bean id="stepStatusListener" class="org.emonocot.harvest.common.StepStatusListener">
+      <property name="jobStatusNotifier" ref="jobStatusNotifier"/>
+      <property name="baseUrl" value="${harvester.baseUrl}"/>
+    </bean>
 	
 	<bean id="jobStatusListener" class="org.emonocot.harvest.common.JobStatusListener">
       <property name="jobStatusNotifier" ref="jobStatusNotifier"/>

@@ -15,12 +15,18 @@
 			<batch:description>Set the temporary file name</batch:description>
 			<batch:tasklet ref="setTemporaryFilenameTasklet" />
 			<batch:next on="COMPLETED" to="getIdentificationKey" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
 		</batch:step>
 		<batch:step id="getIdentificationKey">
 			<batch:description>Get the sdd file</batch:description>
 			<batch:tasklet ref="getIdentificationKeyTasklet" />
 			<batch:next on="NOT MODIFIED" to="cleanupResourcesNotModified" />
 			<batch:next on="COMPLETED" to="processTaxonNames" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
 		</batch:step>
 		<batch:step id="processTaxonNames">
 			<batch:description>Process the records</batch:description>
@@ -32,6 +38,7 @@
 			<batch:next on="COMPLETED" to="processImages" />
 			<batch:listeners>
 			    <batch:listener ref="taxonNameProcessor"/>
+			    <batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="processImages">
@@ -42,11 +49,17 @@
 				</batch:chunk>
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="transformFileToJson" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
 		</batch:step>
 		<batch:step id="transformFileToJson">
 		    <batch:description>Transform the SDD file to json</batch:description>
 		    <batch:tasklet ref="xmlTransformingTasklet" />
 		    <batch:next on="COMPLETED" to="processDataset"/>
+		    <batch:listeners>
+		        <batch:listener ref="stepStatusListener" />
+		    </batch:listeners>
 		</batch:step>
 		<batch:step id="processDataset">
 			<batch:description>Process the Dataset</batch:description>
@@ -56,23 +69,35 @@
 				</batch:chunk>
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="indexAnnotations" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
 		</batch:step>
 		<batch:step id="cleanupResourcesNotModified">
 			<batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="resourceDeletingTasklet" />
 			<batch:end on="COMPLETE" exit-code="NOT MODIFIED" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
 		</batch:step>
 		<batch:step id="indexAnnotations">
 		  <batch:description>Index the annotations associated with this job</batch:description>
 		  <batch:tasklet>
 				<batch:chunk reader="indexAnnotationsReader" writer="indexAnnotationsWriter" commit-interval="10" />
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="cleanupResources" />			
+			<batch:next on="COMPLETED" to="cleanupResources" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>			
 		</batch:step>
 		<batch:step id="cleanupResources">
 			<batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="resourceDeletingTasklet" />
 			<batch:end on="COMPLETED" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
 		</batch:step>
 		<batch:listeners>
 		  <batch:listener ref="jobStatusListener"/>
