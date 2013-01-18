@@ -788,5 +788,33 @@ public class Functions {
   	}
       return fact;
   }
+   
+   /**
+   *
+   * @return the list of measurements or facts
+   */
+  public static MeasurementType[] measurements() {
+	   return MeasurementType.values();
+  }
+  
+  /**
+  *
+  * @param taxon
+  *            Set the taxon
+  * @param measurement
+  *            Set the measurement
+  * @return a Content object, or null
+  */
+  public static MeasurementOrFact fact(
+         Taxon taxon, MeasurementType measurements) {
+	   MeasurementOrFact fact = null;
+ 	for(MeasurementOrFact m : taxon.getMeasurementsOrFacts()) {
+ 		if(m.getMeasurementType().equals(measurements)) {
+ 			fact = m;
+ 			break;
+ 		}
+ 	}
+     return fact;
+ }
 
 }
