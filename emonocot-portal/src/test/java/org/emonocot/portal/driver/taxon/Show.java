@@ -42,6 +42,13 @@ public class Show extends PageObject implements IllustratedPage {
      */
     @FindBy(how = How.ID, using = "taxonomicStatus")
     private WebElement taxonomicStatus;
+    
+    /**
+    *
+    */
+    @FindBy(how = How.ID, using = "sectionHeader")
+    private WebElement sectionHeader;
+    
 
     /**
      *
@@ -112,6 +119,8 @@ public class Show extends PageObject implements IllustratedPage {
                 .xpath("div/div[div/h2 = '" + heading + "']/p"));
         return element.getText();
     }
+    
+
 
     /**
      *
@@ -288,4 +297,6 @@ public class Show extends PageObject implements IllustratedPage {
 	public String getTaxonomicStatus() {
 		return taxonomicStatus.getText();
 	}
+
+	
 }

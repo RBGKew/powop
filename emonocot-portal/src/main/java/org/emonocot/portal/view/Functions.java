@@ -26,6 +26,7 @@ import org.emonocot.model.TypeAndSpecimen;
 import org.emonocot.model.VernacularName;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.Location;
+import org.emonocot.model.constants.MeasurementType;
 import org.emonocot.model.constants.Status;
 import org.emonocot.model.convert.ClassToStringConverter;
 import org.emonocot.model.convert.PermissionToStringConverter;
@@ -758,4 +759,34 @@ public class Functions {
         }
         return features.toString();
     }
+    
+    
+    /**
+    *
+    * @return the list of measurements or facts
+    */
+   public static MeasurementType[] measurements() {
+	   return MeasurementType.values();
+   }
+   
+   /**
+   *
+   * @param taxon
+   *            Set the taxon
+   * @param measurement
+   *            Set the measurement
+   * @return a Content object, or null
+   */
+   public static MeasurementOrFact fact(
+          Taxon taxon, MeasurementType measurements) {
+	   MeasurementOrFact fact = null;
+  	for(MeasurementOrFact m : taxon.getMeasurementsOrFacts()) {
+  		if(m.getMeasurementType().equals(measurements)) {
+  			fact = m;
+  			break;
+  		}
+  	}
+      return fact;
+  }
+
 }

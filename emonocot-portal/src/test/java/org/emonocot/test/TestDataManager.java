@@ -31,12 +31,14 @@ import org.emonocot.model.Reference;
 import org.emonocot.model.SecuredObject;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.Description;
+import org.emonocot.model.MeasurementOrFact;
 import org.emonocot.model.auth.Group;
 import org.emonocot.model.auth.Permission;
 import org.emonocot.model.auth.User;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.DescriptionType;
+import org.emonocot.model.constants.MeasurementType;
 import org.emonocot.model.constants.ImageFormat;
 import org.emonocot.model.constants.ResourceType;
 import org.emonocot.model.constants.Location;
@@ -392,7 +394,7 @@ public class TestDataManager {
             final String created, final String parent, final String accepted,
             final String distributionSource, final String distributionRights, final String distributionLicense,
             final String diagnosticSource, final String diagnosticRights, final String diagnosticLicense,
-            final String habitatSource, final String habitatRights, final String habitatLicense) {
+            final String habitatSource, final String habitatRights, final String habitatLicense, final String lifeForm, final String iucnConservationStatus) {
         enableAuthentication();
         Taxon taxon = new Taxon();
         data.push(taxon);
@@ -419,9 +421,15 @@ public class TestDataManager {
         if (habitat != null && habitat.length() > 0) {
             createDescription(taxon, habitat, DescriptionType.habitat, null,s, habitatSource, habitatLicense, habitatRights);
         }
-        if (general != null && general.length() > 0) {
+       if (general != null && general.length() > 0) {
             createDescription(taxon, general, DescriptionType.general, null,s, null , null, null);
-        }        
+        }
+        if (lifeForm != null && lifeForm.length() > 0) {
+            createMeasurement(taxon, lifeForm, MeasurementType.Lifeform);
+        }
+        if (iucnConservationStatus != null && iucnConservationStatus.length() > 0) {
+        	createMeasurement(taxon, iucnConservationStatus, MeasurementType.IUCNConservationStatus);
+        }
         if (protologLink != null && protologLink.length() > 0) {
             createIdentifier(taxon, protologLink, "Protolog",s);
         }
@@ -741,6 +749,26 @@ public class TestDataManager {
             description.getReferences().add(ref);
         }
     }
+    
+    /**
+     * @param taxon
+     *            Set the taxon
+     * @param text
+     *            Set the text
+     * @param feature
+     *            Set the fact
+     * @param reference
+     *            Set the reference
+     */
+     private void createMeasurement(final Taxon taxon, final String text, final MeasurementType measurement){
+    	MeasurementOrFact fact = new MeasurementOrFact();
+    	fact.setMeasurementValue(text);
+    	fact.setTaxon(taxon);
+    	taxon.getMeasurementsOrFacts();
+    	/*taxon.getMeasurementsOrFacts().add(fact);*/
+    	
+
+     }
 
     /**
      *

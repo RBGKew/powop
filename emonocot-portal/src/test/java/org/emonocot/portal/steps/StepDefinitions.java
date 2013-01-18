@@ -932,6 +932,17 @@ public class StepDefinitions {
     	assertFalse((currentPage)
                 .isElementVisible(elementId));
     }
+    
+    /**
+     * 
+     * 
+     * @param elementId The element of the id you are checking for
+     */
+    @Then("^there should be a \"([^\"]*)\" visible$")
+    public void thereShouldBeASectionWithTheHeading(String elementId) {
+    	assertTrue((currentPage)
+                .isElementVisible(elementId));
+    }
 
     /**
      * @param protologue
@@ -1193,6 +1204,9 @@ public class StepDefinitions {
         assertNotNull("There should be a paragraph with an id or name " + paragraphNameOrId, actualText);
         assertTrue(actualText + " does not contain " + expectedPartialText,actualText.indexOf(expectedPartialText)>=0);
     }
+    
+    
+
     
 
     /**

@@ -95,8 +95,8 @@
 								</c:forEach>
 							</div>
 							<c:if test="${fn:length(taxon.images) > 6 }">
-								<a data-slide="prev" href="#carousel" class="left carousel-control">‹</a>
-								<a data-slide="next" href="#carousel" class="right carousel-control">›</a>
+								<a data-slide="prev" href="#carousel" class="left carousel-control">â¹</a>
+								<a data-slide="next" href="#carousel" class="right carousel-control">âº</a>
 							</c:if>
 						</div>
 					</div>
@@ -376,7 +376,7 @@
 					<div class="inner">
 						<div id="classificationBox" class="box">
 							<section class="sidebarBox" id="taxonomicTree">
-								<h2>
+								<h2 id="sectionHeader">
 									<spring:message code="taxonomicTree" />
 								</h2>
 								<ul id="taxonHierarchy">
@@ -401,10 +401,65 @@
 					</div>
 				</c:if>
 				<div class="inner">
-					<div class="box">
+					<div class="box dataBox">
 						<section class="sidebarBox" id="taxonData">
-							<h2><spring:message code="taxonData" /></h2>
-							
+							<BR />
+							<div>
+								<img class="noPrint dataImage" alt="Data" src="/css/images/glyphicons/fullsize/glyphicons_119_table.png"/>&#160;
+								<h2 style="display:inline"><spring:message code="taxonData" /></h2>
+							</div>
+							<BR />
+							<c:set var="fact" value="${em:fact(taxon, measurement)}" />
+							<table class="table" id="data">
+								<tbody>
+									<c:forEach var="measurement" items="${em:measurements()}">
+										<tr>
+											<th class="span1"><spring:message code="${measurement}" /></th>
+											<td>
+												<span id="iucnStatus">${fact.measurementValue}</span>
+											</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+							<c:choose>
+								<c:when test="${fact.measurementValue eq 'CR'}">
+									<c:url value="/css/images/redList/redListThreatCategories_SHORT_CR.png" var="CRImg"/>
+									<a href="http://www.iucnredlist.org/"><img src="${CRImg}" alt="cr"/></a>
+								</c:when>
+								<c:when test="${fact.measurementValue eq 'DD'}">
+									<c:url value="/css/images/redList/redListThreatCategories_SHORT_DD.png" var="DDImg"/>
+									<a href="http://www.iucnredlist.org/"><img src="${DDImg}" alt="dd"/></a>
+								</c:when>
+								<c:when test="${fact.measurementValue eq 'EN'}">
+									<c:url value="/css/images/redList/redListThreatCategories_SHORT_EN.png" var="ENImg"/>
+									<a href="http://www.iucnredlist.org/"><img src="${ENImg}" alt="en"/></a>
+								</c:when>
+								<c:when test="${fact.measurementValue eq 'EW'}">
+									<c:url value="/css/images/redList/redListThreatCategories_SHORT_EW.png" var="EWImg"/>
+									<a href="http://www.iucnredlist.org/"><img src="${EWImg}" alt="ew"/></a>
+								</c:when>
+								<c:when test="${fact.measurementValue eq 'EX'}">
+									<c:url value="/css/images/redList/redListThreatCategories_SHORT_EX.png" var="EXImg"/>
+									<a href="http://www.iucnredlist.org/"><img src="${EXImg}" alt="ex"/></a>
+								</c:when>
+								<c:when test="${fact.measurementValue eq 'LC'}">
+									<c:url value="/css/images/redList/redListThreatCategories_SHORT_LC.png" var="LCImg"/>
+									<a href="http://www.iucnredlist.org/"><img src="${LCImg}" alt="lc"/></a>
+								</c:when>
+								<c:when test="${fact.measurementValue eq 'NE'}">
+									<c:url value="/css/images/redList/redListThreatCategories_SHORT_CR.png" var="CRImg"/>
+									<a href="http://www.iucnredlist.org/"><img src="${CRImg}" alt="cr"/></a>
+								</c:when>
+								<c:when test="${fact.measurementValue eq 'NT'}">
+									<c:url value="/css/images/redList/redListThreatCategories_SHORT_NT.png" var="NTImg"/>
+									<a href="http://www.iucnredlist.org/"><img src="${NTImg}" alt="nt"/></a>
+								</c:when>
+								<c:when test="${fact.measurementValue eq 'VU'}">
+									<c:url value="/css/images/redList/redListThreatCategories_SHORT_VU.png" var="VUImg"/>
+									<a href="http://www.iucnredlist.org/"><img src="${VUImg}" alt="vu"/></a>
+								</c:when>
+							</c:choose>
 						</section>
 					</div>
 				</div>
