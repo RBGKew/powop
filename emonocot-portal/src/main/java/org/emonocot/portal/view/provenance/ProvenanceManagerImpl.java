@@ -13,6 +13,7 @@ import java.util.TreeSet;
 import org.emonocot.model.BaseData;
 import org.emonocot.model.Description;
 import org.emonocot.model.Distribution;
+import org.emonocot.model.MeasurementOrFact;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.registry.Organisation;
 
@@ -31,6 +32,9 @@ public class ProvenanceManagerImpl implements ProvenanceManager {
 		}
 		for(Distribution distribution : taxon.getDistribution()) {
 			addProvenance(distribution);
+		}
+		for(MeasurementOrFact measurementOrFact : taxon.getMeasurementsOrFacts()) {
+			addProvenance(measurementOrFact);
 		}
 		for(Organisation organisation : organisations) {
 			sortedProvenance.addAll(provenance.get(organisation.getIdentifier()));

@@ -405,18 +405,19 @@
 						<section class="sidebarBox" id="taxonData">
 							<BR />
 							<div>
-								<img class="noPrint dataImage" alt="Data" src="/css/images/glyphicons/fullsize/glyphicons_119_table.png"/>&#160;
+							    <c:url var="dataUrl" value="/css/images/glyphicons/fullsize/glyphicons_119_table.png"/>
+								<img class="noPrint dataImage" alt="Data" src="${dataUrl}"/>&#160;
 								<h2 style="display:inline"><spring:message code="taxonData" /></h2>
 							</div>
-							<BR />
-							<c:set var="fact" value="${em:fact(taxon, measurement)}" />
+							<BR />							
 							<table class="table" id="data">
 								<tbody>
 									<c:forEach var="measurement" items="${em:measurements()}">
+									    <c:set var="fact" value="${em:fact(taxon, measurement)}" />
 										<tr>
 											<th class="span1"><spring:message code="${measurement}" /></th>
 											<td>
-												<span id="iucnStatus">${fact.measurementValue}</span>
+												<span id="${measurement}">${fact.measurementValue}</span>
 											</td>
 										</tr>
 									</c:forEach>
