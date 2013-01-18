@@ -78,6 +78,8 @@ public class JobExecutionInfo implements Serializable {
     
 	private String resourceIdentifier;
 	
+	private Integer progress;
+	
 	public JobExecutionInfo() {
 		
 	}
@@ -310,5 +312,13 @@ public class JobExecutionInfo implements Serializable {
 
 	public String getResourceIdentifier() {
 		return resourceIdentifier;
+	}
+
+	public void setProgress(Integer progress) {
+		this.progress = progress;
+	}
+	
+	public Integer getProgress() {
+		return progress;
 	}
 }

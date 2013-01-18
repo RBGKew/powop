@@ -60,7 +60,7 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<Description> imple
                 object.setIdentifier(value);
                 break;
             case language:
-                object.setLanguage(new Locale(value));
+                object.setLanguage(conversionService.convert(value, Locale.class));
                 break;
             case source:
             	if (value.indexOf(",") != -1) {
@@ -76,7 +76,7 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<Description> imple
                 object.setSource(value);
                 break;
             case type:
-                object.setType(DescriptionType.fromString(value));
+                object.setType(conversionService.convert(value, DescriptionType.class));
                 break;            
             default:
                 break;

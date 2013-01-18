@@ -2,6 +2,7 @@ package org.emonocot.job.dwc.image;
 
 import org.emonocot.job.dwc.read.NonOwnedFieldSetMapper;
 import org.emonocot.model.Image;
+import org.emonocot.model.constants.ImageFormat;
 import org.emonocot.model.convert.ImageFormatConverter;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
@@ -28,15 +29,7 @@ public class FieldSetMapper extends
     /**
     *
     */
-    private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);
-
-   
-   /**
-    *
-    */
-   private ImageFormatConverter imageFormatConverter = new ImageFormatConverter();
-
-   
+    private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);   
 
    @Override
    public void mapField(final Image object, final String fieldName,
@@ -59,13 +52,7 @@ public class FieldSetMapper extends
             	object.setDescription(value);
             	break;
             case format:
-            	try {
-                    object.setFormat(imageFormatConverter.convert(value));
-                } catch (IllegalArgumentException iae) {
-                    BindException be = new BindException(object, "target");
-                    be.rejectValue("modified", "not.valid", iae.getMessage());
-                    throw be;
-                }
+                object.setFormat(conversionService.convert(value, ImageFormat.class));
                 break;
             case identifier:
                 object.setIdentifier(value);                

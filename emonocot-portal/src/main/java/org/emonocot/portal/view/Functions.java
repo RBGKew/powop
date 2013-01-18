@@ -98,7 +98,7 @@ public class Functions {
 	    if(dateTime == null) {
 	    	return null;
 	    } else {
-	        return timeOnlyFormatter.print(dateTime);
+	        return timeOnlyFormatter.print(dateTime.minusHours(1));
 	    }
    }
 

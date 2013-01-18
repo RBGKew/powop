@@ -67,8 +67,15 @@
 				    </div>
 				</div>
 			</div>
+			<div class="row">
+			  <div class="span12">
+			    <c:if test="${!em:isStartable(resource.status)}">
+			      <c:url var="progressUrl" value="/resource/${resource.id}/progress"/>
+			      <tags:progress progressUrl="${progressUrl}"/>
+			    </c:if>
+			  </div>
+			</div>
 		</security:authorize>
-		<br/>
 		<div class="row">
 			<div class="span12">
 				<div class="inner">
@@ -77,20 +84,20 @@
 							<tbody>
 								<tr>
 									<th><spring:message code="resource.resourceType" /></th>
-									<td><spring:message code="${resource.resourceType}" text="${resource.resourceType}"/></td>
+									<td id="resourceType"><spring:message code="${resource.resourceType}" text="${resource.resourceType}"/></td>
 								</tr>
 								<tr>
 									<th><spring:message code="resource.organisation" /></th>
 									<c:url value="/organisation/${resource.organisation.identifier}" var="organisationUrl"/>
-									<td><a href="${organisationUrl}">${resource.organisation.title}</a></td>
+									<td id="organisationUrl"><a href="${organisationUrl}">${resource.organisation.title}</a></td>
 								</tr>
 								<tr>
 									<th><spring:message code="resource.uri" /></th>
-									<td>${resource.uri}</td>
+									<td id="uri">${resource.uri}</td>
 								</tr>
 								<tr>
 									<th><spring:message code="resource.parameters" /></th>
-									<td>
+									<td id="parameters">
 										<ul class="unstyled">
 											<c:forEach var="parameter" items="${resource.parameters}">
 												<li>${parameter.key}=${parameter.value}</li>
@@ -100,11 +107,11 @@
 								</tr>
 								<tr>
 									<th><spring:message code="resource.lastHarvested" /></th>
-									<td><joda:format value="${resource.lastHarvested}" style="MM" /></td>
+									<td id="lastHarvested"><joda:format value="${resource.lastHarvested}" style="MM" /></td>
 								</tr>
 								<tr>
 									<th><spring:message code="resource.resource" /></th>
-									<td>
+									<td id="resource">
 										<c:if test="${resource.resource ne null}">
 											<a href="${resource.resource}">${resource.resource}</a>
 										</c:if>
@@ -112,39 +119,39 @@
 								</tr>
 								<tr>
 									<th><spring:message code="resource.status" /></th>
-									<td><tags:jobstatus status="${resource.status}"/></td>
+									<td><tags:jobstatus status="${resource.status}" id="status"/></td>
 								</tr>
 								<tr>
 									<th><spring:message code="resource.startTime" /></th>
-									<td><joda:format value="${resource.startTime}" style="MM" /></td>
+									<td id="startTime"><joda:format value="${resource.startTime}" style="MM" /></td>
 								</tr>
 								<tr>
 									<th><spring:message code="resource.duration" /></th>
-									<td>${em:printTimeOnly(resource.duration)}</td>
+									<td id="duration">${em:printTimeOnly(resource.duration)}</td>
 								</tr>
 								<tr>
 									<th><spring:message code="resource.exitCode" /></th>
-									<td><tags:jobstatus status="${resource.exitCode}"/></td>
+									<td><tags:jobstatus status="${resource.exitCode}" id="exitCode"/></td>
 								</tr>
 								<tr>
 									<th><spring:message code="resource.exitDescription" /></th>
-									<td>${resource.exitDescription}</td>
+									<td id="exitDescription" >${resource.exitDescription}</td>
 								</tr>
 								<tr>
 									<th><spring:message code="resource.totalRecords" /></th>
-									<td>${resource.recordsRead + resource.readSkip}</td>
+									<td id="totalRecords">${resource.recordsRead + resource.readSkip}</td>
 								</tr>
 								<tr>
 									<th><spring:message code="resource.recordsRead" /></th>
-									<td>${resource.recordsRead}</td>
+									<td id="recordsRead">${resource.recordsRead}</td>
 								</tr>
 								<tr>
 									<th><spring:message code="resource.processed" /></th>
-									<td>${resource.recordsRead - resource.processSkip}</td>
+									<td id="processed">${resource.recordsRead - resource.processSkip}</td>
 								</tr>
 								<tr>
 									<th><spring:message code="resource.written" /></th>
-									<td>${resource.written}</td>
+									<td id="written">${resource.written}</td>
 								</tr>
 								<tr>
 									<th><spring:message code="resource.output" /></th>

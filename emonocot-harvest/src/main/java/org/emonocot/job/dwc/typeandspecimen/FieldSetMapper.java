@@ -67,10 +67,10 @@ public class FieldSetMapper extends  NonOwnedFieldSetMapper<TypeAndSpecimen> {
             	object.setCollectionCode(value);
             	break;
             case decimalLatitude:
-            	object.setDecimalLatitude(Double.valueOf(value));
+            	object.setDecimalLatitude(conversionService.convert(value, Double.class));
             	break;
             case decimalLongitude:
-            	object.setDecimalLongitude(Double.valueOf(value));
+            	object.setDecimalLongitude(conversionService.convert(value, Double.class));
             	break;
             case institutionCode:
             	object.setInstitutionCode(value);
@@ -88,13 +88,13 @@ public class FieldSetMapper extends  NonOwnedFieldSetMapper<TypeAndSpecimen> {
             	object.setScientificName(value);
             	break;
             case sex:
-            	object.setSex(Sex.valueOf(value));
+            	object.setSex(conversionService.convert(value,Sex.class));
             	break;
             case taxonRank:
-            	object.setTaxonRank(Rank.valueOf(value));
+            	object.setTaxonRank(conversionService.convert(value, Rank.class));
             	break;
             case typeStatus:
-            	object.setTypeStatus(TypeStatus.valueOf(value));
+            	object.setTypeStatus(conversionService.convert(value, TypeStatus.class));
             	break;
             case verbatimEventDate:
             	object.setVerbatimEventDate(value);
@@ -118,7 +118,7 @@ public class FieldSetMapper extends  NonOwnedFieldSetMapper<TypeAndSpecimen> {
                 object.setTypeDesignatedBy(value);
             } else if (unknownTerm.qualifiedName().equals(
                     "http://rs.gbif.org/terms/1.0/typeDesignationType")) {
-                object.setTypeDesignationType(TypeDesignationType.valueOf(value));
+                object.setTypeDesignationType(conversionService.convert(value, TypeDesignationType.class));
             } else if (unknownTerm.qualifiedName().equals(
                     "http://rs.gbif.org/terms/1.0/verbatimLabel")) {
                 object.setVerbatimLabel(value);

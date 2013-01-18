@@ -8,7 +8,7 @@
 		doctype-system="about:legacy-compat" />
   <tiles:insertAttribute name="head" />
   <body>
-    <div id="status">&#160;</div>
+    <div id="status-ribbon">&#160;</div>
 	<tiles:insertAttribute name="header" />
 	<tiles:insertAttribute name="hero" />
     <tiles:insertAttribute name="body" />

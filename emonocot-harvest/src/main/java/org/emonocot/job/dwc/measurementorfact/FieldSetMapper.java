@@ -81,10 +81,10 @@ public class FieldSetMapper extends
             	object.setMeasurementRemarks(value);
             	break;
             case measurementType:
-            	object.setMeasurementType(MeasurementType.valueOf(value));
+            	object.setMeasurementType(conversionService.convert(value, MeasurementType.class));
             	break;
             case measurementUnit:
-            	object.setMeasurementUnit(MeasurementUnit.valueOf(value));
+            	object.setMeasurementUnit(conversionService.convert(value,MeasurementUnit.class));
             	break;
             case measurementValue:
             	object.setMeasurementValue(value);

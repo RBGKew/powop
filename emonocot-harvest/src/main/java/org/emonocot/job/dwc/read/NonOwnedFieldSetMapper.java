@@ -41,7 +41,7 @@ public class NonOwnedFieldSetMapper<T extends BaseData> extends BaseDataFieldSet
             case taxonID:
             	Taxon taxon = taxonService.find(value);
                 if (taxon == null) {
-                    throw new CannotFindRecordException(value);
+                    // Non-owned objects can exist without a taxon explicitly set
                 } else {
                     ((NonOwned)object).getTaxa().add(taxon);
                 }

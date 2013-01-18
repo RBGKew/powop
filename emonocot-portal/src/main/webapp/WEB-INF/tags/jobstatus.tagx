@@ -3,6 +3,7 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
 	<jsp:directive.attribute name="status" type="java.lang.String" required="true" />
+	<jsp:directive.attribute name="id" type="java.lang.String" required="false" />
 	<c:choose>
 	  <c:when test="${status eq 'STARTED' }">
 	    <c:set var="labelClass" value="label-warning"/>
@@ -26,7 +27,12 @@
 	    <c:set var="labelClass" value="label-important"/>
 	  </c:when>	  
 	</c:choose>
-	<c:if test="${not empty status}">
-	    <span class="label ${labelClass}">${status}</span>
-	</c:if>
+	<c:choose>
+	  <c:when test="${not empty status}">
+	    <span id="${id}" class="label ${labelClass}">${status}</span>
+	  </c:when>
+	  <c:otherwise>
+	    <span id="${id}"></span>
+	  </c:otherwise>
+	</c:choose>
 </jsp:root>
