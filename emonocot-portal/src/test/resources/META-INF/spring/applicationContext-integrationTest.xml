@@ -19,7 +19,7 @@
 
 	<jms:inbound-channel-adapter id="mockJobLaunchGateway"
 		channel="mockJobLaunchRequests"
-		destination="jobLaunchRequestsQueue"
+		destination="readWriteJobLaunchRequestsQueue"
 		message-converter="mappingMessageConverter"
 		connection-factory="connectionFactory">
 		<integration:poller fixed-rate="500"/>
