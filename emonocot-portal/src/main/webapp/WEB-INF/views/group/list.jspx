@@ -5,7 +5,7 @@
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:security="http://www.springframework.org/security/tags"
-	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	xmlns:spring="http://www.springframework.org/tags">
 	<tags:pageheader>
 		<h2 id="page-title">
 			<spring:message code="groups" />

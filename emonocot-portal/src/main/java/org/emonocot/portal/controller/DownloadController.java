@@ -4,19 +4,36 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import org.emonocot.api.ResourceService;
 import org.emonocot.api.SearchableObjectService;
+import org.emonocot.api.job.DarwinCorePropertyMap;
+import org.emonocot.api.job.JobExecutionException;
+import org.emonocot.api.job.JobExecutionInfo;
+import org.emonocot.api.job.JobLaunchRequest;
+import org.emonocot.api.job.JobLauncher;
 import org.emonocot.model.SearchableObject;
+import org.emonocot.model.registry.Resource;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.core.BatchStatus;
+import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -24,33 +41,41 @@ import org.springframework.web.bind.annotation.RequestParam;
  *
  */
 @Controller
-public class DownloadController {
-	public static String TAXON_FIELDS = "taxonId,scientificName,scientificNameAuthorship,scientificNameID,namePublishedInYear,higherClassification,kingdom,phylum,clazz,ordr,family,genus,subgenus,specificEpithet,infraspecificEpithet,taxonRank,verbatimTaxonRank,nomenclaturalCode,taxonomicStatus,taxonRemarks,acceptedNameUsage.taxonId,parentNameUsage.taxonId,namePublishedIn.identifier";
-	public static String DESCRIPTION_FIELDS = "taxon.taxonId,identifier,dscription,type,source,creator,contributor,audience,license,rightsHolder";
-	public static String DISTRIBUTION_FIELDS = "taxon.taxonId,identifier,loclity,countryCode,lifeStage,occurrenceStatus";
-	public static String MEASUREMENT_OR_FACT_FIELDS = "taxon.taxonId,identifier,charactr,valu,accuracy,unit,determinedBy,determinedDate,mthod,remarks";
-	public static String VERNACULAR_NAME_FIELDS = "taxon.taxonId,identifier,vrnacularName,source,lang,temporal,location,locality,countryCode,sex,plural,preferredName,organismPart,taxonRemarks,lifeStage";
-	public static String IDENTIFIER_FIELDS = "taxon.taxonId,identifier";
-	public static String IMAGE_FIELDS = "taxa[0].taxonId,identifier,refrences,description,locality,lattitude,longitude,format,created,contributor,publisher,audience,license,rightsHolder";
-	public static String REFERENCE_FIELDS = "taxa[0].taxonId,identifier,bibliographicCitation,datePublished,source,description,subject,publicationLanguage,rights,taxonRemarks,type";
-	public static String TYPE_AND_SPECIMEN_FIELDS = "taxa[0].taxonId,occurrenceId,typeStatus,typeDesignationType,typeDesignatedBy,scientificName,taxonRank,bibliographicCitation,institutionCode,collectionCode,catalogNumber,locality,sex,recordedBy,source,verbatimEventDate,verbatimLongitude,verbatimLatitude,verbatimLabel";
+@RequestMapping(value = "/download")
+public class DownloadController {	
 
     private static Logger queryLog = LoggerFactory.getLogger("query");
 
     private static Logger logger = LoggerFactory.getLogger(DownloadController.class);
 
     private SearchableObjectService searchableObjectService;
+    
+    private ResourceService resourceService;
+    
+    private JobLauncher jobLauncher;
+	
+	private JobExplorer jobExplorer;
 
-    /**
-     *
-     * @param newSearchableObjectService
-     *            set the service to search across all 'searchable' objects
-     */
     @Autowired
-    public final void setSearchableObjectService(
-            final SearchableObjectService newSearchableObjectService) {
-        this.searchableObjectService = newSearchableObjectService;
-    }   
+    public void setSearchableObjectService(SearchableObjectService searchableObjectService) {
+        this.searchableObjectService = searchableObjectService;
+    }
+    
+    @Autowired
+    public void setResourceService(ResourceService resourceService) {
+    	this.resourceService = resourceService;
+    }
+    
+    @Autowired
+	@Qualifier("readOnlyJobLauncher")
+	public void setJobLauncher(JobLauncher jobLauncher) {
+	   this.jobLauncher = jobLauncher;
+	}
+    
+    @Autowired
+    public void setJobExplorer(JobExplorer jobExplorer) {
+    	this.jobExplorer = jobExplorer;
+    }
     						
     /**
     *
@@ -67,12 +92,12 @@ public class DownloadController {
     *
     * @return a model and view
     */
-   @RequestMapping(value = "/download", method = RequestMethod.GET)
-   public final String search(
-       @RequestParam(value = "query", required = false) final String query,       
-       @RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
+   @RequestMapping(method = RequestMethod.GET)
+   public String search(
+       @RequestParam(value = "query", required = false) String query,       
+       @RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
        @RequestParam(value = "sort", required = false) String sort,
-       final Model model) {
+       Model model) {
 
        Map<String, String> selectedFacets = null;
        if (facets != null && !facets.isEmpty()) {
@@ -81,49 +106,174 @@ public class DownloadController {
                selectedFacets.put(facetRequest.getFacet(),
                        facetRequest.getSelected());
            }
-           logger.debug(selectedFacets.size()
-                   + " facets have been selected from " + facets.size()
-                   + " available");
-       } else {
-           logger.debug("There were no facets available to select from");
        }
-
-       //Decide which facets to return
-       List<String> responseFacetList = new ArrayList<String>();
-       responseFacetList.add("base.class_s");
-       responseFacetList.add("taxon.family_s");
-       responseFacetList.add("taxon.distribution_TDWG_0_ss");
-       responseFacetList.add("searchable.sources_ss");
-       String className = null;
-       if (selectedFacets == null) {
-           logger.debug("No selected facets, setting default response facets");
-       } else {
-           if (selectedFacets.containsKey("base.class_s")) {
-        	   className = selectedFacets.get("base.class_s");
-               if (className.equals("org.emonocot.model.Taxon")) {
-                   logger.debug("Adding taxon specific facets");
-                   responseFacetList.add("taxon.taxon_rank_s");
-                   responseFacetList.add("taxon.taxonomic_status_s");
-               }
-           }
-           if (selectedFacets.containsKey("taxon.distribution_TDWG_0_ss")) {
-               logger.debug("Adding region facet");
-               responseFacetList.add("taxon.distribution_TDWG_1_ss");
-           } else {
-               selectedFacets.remove("taxon.distribution_TDWG_1_ss");
-           }
-       }
-       String[] responseFacets = new String[]{};
-       responseFacets = responseFacetList.toArray(responseFacets);
        
 
        //Run the search
-       Page<? extends SearchableObject> result = searchableObjectService.search(query, null, 0, 10, responseFacets, selectedFacets, sort, null);
+       Page<? extends SearchableObject> result = searchableObjectService.search(query, null, 10, 0, null, selectedFacets, sort, null);
 
        result.setSort(sort);
+       model.addAttribute("taxonTerms", DarwinCorePropertyMap.taxonTerms);
        model.addAttribute("result", result);       
 
        return "download/download";
    }
+   
+   @RequestMapping(method = RequestMethod.POST, produces = "text/html", params = "download")
+   public String download(
+		   @RequestParam(value = "query", required = false) String query,       
+	       @RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
+	       @RequestParam(value = "sort", required = false) String sort,
+	       Model model,
+	       @RequestParam(value="downloadFormat", required = true) String downloadFormat,
+	       @RequestParam(value = "archiveOptions", required = false) List<String> archiveOptions,
+	       RedirectAttributes redirectAttributes) {
+
+	    Map<String, String> selectedFacets = null;
+        if (facets != null && !facets.isEmpty()) {
+           selectedFacets = new HashMap<String, String>();
+           for (FacetRequest facetRequest : facets) {
+               selectedFacets.put(facetRequest.getFacet(),
+                       facetRequest.getSelected());
+           }
+        }
+        
+        if(archiveOptions == null) {
+        	archiveOptions = new ArrayList<String>();
+        }
+	    Page<? extends SearchableObject> result = searchableObjectService.search(query, null, 10, 0, null, selectedFacets, sort, null);
+	    
+		Resource resource = new Resource();
+		resource.setTitle("download" + Long.toString(System.currentTimeMillis()));
+		
+		StringBuffer selectedFacetBuffer = new StringBuffer();
+        if (facets != null && !facets.isEmpty()) {           
+			boolean isFirst = true;
+            for (FacetRequest facetRequest : facets) {
+				if(!isFirst) {
+                    selectedFacetBuffer.append(",");
+				} else {
+					isFirst = false;
+				}
+				selectedFacetBuffer.append(facetRequest.getFacet() + "=" + facetRequest.getSelected());
+            }
+        }
+				
+		Map<String, String> jobParametersMap = new HashMap<String, String>();
+		jobParametersMap.put("resource.identifier", resource.getIdentifier());
+		jobParametersMap.put("timestamp", Long.toString(System.currentTimeMillis()));
+		// Download file - either the file or the directory
+        String downloadFileName = UUID.randomUUID().toString();
+        String downloadType = null;
+        if(downloadFormat.equals("taxon")) {
+			downloadFileName = downloadFileName + ".txt";
+			downloadType = "org.emonocot.model.Taxon";
+			jobParametersMap.put("download.taxon", "true");			
+            jobParametersMap.put("job.total.reads", Integer.toString(result.getSize()));
+		} else {
+			jobParametersMap.put("job.total.reads", Integer.toString(result.getSize() * (archiveOptions.size() + 1)));
+			jobParametersMap.put("download.taxon","true");
+			for(String archiveOption : archiveOptions) {
+				jobParametersMap.put("download." + archiveOption, "true");
+			}
+		}		
+        
+        
+        jobParametersMap.put("download.file", downloadFileName);
+        jobParametersMap.put("download.type", downloadType);
+        jobParametersMap.put("download.query", query);
+        jobParametersMap.put("download.sort", sort);
+        jobParametersMap.put("download.selectedFacets", selectedFacetBuffer.toString());
+        jobParametersMap.put("download.fieldsTerminatedBy", "\t");
+        jobParametersMap.put("download.fieldsEnclosedBy", "\"");
+        
+        JobLaunchRequest jobLaunchRequest = new JobLaunchRequest();
+        
+        if(downloadFormat.equals("taxon")) {
+        	jobLaunchRequest.setJob("FlatFileCreation"); 
+		} else {
+			jobLaunchRequest.setJob("DarwinCoreArchiveCreation");
+		}
+			
+		jobLaunchRequest.setParameters(jobParametersMap);
+
+		try {
+			resource.setStartTime(null);
+			resource.setDuration(null);
+			resource.setExitCode(null);
+			resource.setExitDescription(null);
+			resource.setJobId(null);
+			resource.setStatus(BatchStatus.UNKNOWN);
+			resource.setRecordsRead(0);
+			resource.setReadSkip(0);
+			resource.setProcessSkip(0);
+			resource.setWriteSkip(0);
+			resource.setWritten(0);
+			resourceService.save(resource);
+			jobLauncher.launch(jobLaunchRequest);
+			
+			
+			String[] codes = new String[] { "job.started" };
+			Object[] args = new Object[] {};
+			DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
+					codes, args);
+			redirectAttributes.addFlashAttribute("info", message);
+		} catch (JobExecutionException e) {
+			String[] codes = new String[] { "job.failed" };
+			Object[] args = new Object[] { e.getMessage() };
+			DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
+					codes, args);
+			redirectAttributes.addFlashAttribute("error", message);
+		}
+		return "redirect:/download/progress?downloadId=" + resource.getId();
+	}
+   
+    @RequestMapping(value = "/progress", method = RequestMethod.GET, produces = "text/html")
+    public String getProgress(@RequestParam("downloadId") Long downloadId, Model model) {
+    	Resource resource = resourceService.load(downloadId);
+    	model.addAttribute("resource", resource);
+    	return "download/progress";
+    }
+	
+	@RequestMapping(value = "/progress", method = RequestMethod.GET, produces="application/json")
+    @ResponseBody
+	public JobExecutionInfo getProgress(@RequestParam("downloadId") Long downloadId) throws Exception {
+		JobExecutionInfo jobExecutionInfo = new JobExecutionInfo();
+		Resource resource = resourceService.load(downloadId);
+		
+		JobExecution jobExecution = jobExplorer.getJobExecution(resource.getJobId());
+		if(jobExecution != null) {	
+			 Float recordsRead = 0f;
+			jobExecutionInfo.setStatus(jobExecution.getStatus());
+			if(jobExecution.getExitStatus() != null) {
+				ExitStatus exitStatus = jobExecution.getExitStatus();
+			    jobExecutionInfo.setExitCode(exitStatus.getExitCode());
+			    jobExecutionInfo.setExitDescription(exitStatus.getExitDescription());
+			    
+			   
+				Integer readSkip = 0;
+				Integer processSkip = 0;
+				Integer writeSkip = 0;
+				Integer written = 0;
+				for(StepExecution stepExecution : jobExecution.getStepExecutions()) {
+					recordsRead += stepExecution.getReadCount();
+					readSkip += stepExecution.getReadSkipCount();
+					processSkip += stepExecution.getProcessSkipCount();
+					writeSkip += stepExecution.getWriteSkipCount();
+					written += stepExecution.getWriteCount();
+				}
+				jobExecutionInfo.setRecordsRead(recordsRead.intValue());
+				jobExecutionInfo.setReadSkip(readSkip);
+				jobExecutionInfo.setProcessSkip(processSkip);
+				jobExecutionInfo.setWriteSkip(writeSkip);
+				jobExecutionInfo.setWritten(written);
+			}			
+			Float total = Float.parseFloat(jobExecution.getJobInstance().getJobParameters().getString("job.total.reads"));
+			
+			jobExecutionInfo.setProgress(Math.round((recordsRead/ total) * 100f));
+			
+		}
+		return jobExecutionInfo;
+	}  
 
 }

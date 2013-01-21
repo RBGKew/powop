@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-import org.emonocot.job.dwc.DarwinCorePropertyMap;
+import org.emonocot.api.job.DarwinCorePropertyMap;
 import org.emonocot.model.Description;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.Identifier;

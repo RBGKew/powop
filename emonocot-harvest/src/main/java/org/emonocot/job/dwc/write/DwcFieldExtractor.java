@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.emonocot.job.dwc.DarwinCorePropertyMap;
+import org.emonocot.api.job.DarwinCorePropertyMap;
 import org.emonocot.model.BaseData;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.TermFactory;
