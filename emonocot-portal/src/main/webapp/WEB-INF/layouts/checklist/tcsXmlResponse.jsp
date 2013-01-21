@@ -8,7 +8,7 @@
 		xsi:schemaLocation="http://www.tdwg.org/schemas/tcs/1.01 http://www.tdwg.org/standards/117/files/TCS101/v101.xsd">
     <c:set var="name">${result.genus}<c:if test="${not empty result.specificEpithet}"> ${result.specificEpithet}</c:if><c:if test="${em:isInfraspecific(result.taxonRank)}"> ${result.taxonRank}</c:if><c:if test="${not empty result.infraspecificEpithet}"> ${result.infraspecificEpithet}</c:if></c:set>
 	<TaxonNames>
-	  <TaxonName id="${result.identifier}" nomenclaturalCode="Botanical" itis_em_other_ref="${em:escape(result.namePublishedInString)}">
+	  <TaxonName id="${result.identifier}" nomenclaturalCode="Botanical" itis_em_other_ref="${em:escape(result.scientificNameAuthorship)}, ${em:escape(result.namePublishedInString)}">
 	    <Simple>${result.scientificName} ${em:escape(result.scientificNameAuthorship)}</Simple>
 	    <Rank code="${em:abbreviateRank(result.taxonRank)}">${em:formatRank(result.taxonRank)}</Rank>
 	    <CanonicalName>
