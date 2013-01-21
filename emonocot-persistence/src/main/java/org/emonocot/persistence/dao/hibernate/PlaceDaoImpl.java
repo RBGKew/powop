@@ -16,9 +16,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class PlaceDaoImpl extends SearchableDaoImpl<Place> implements PlaceDao {
 
-   /**
-    *
-    */
+    /**
+     *
+     */
     private static Map<String, Fetch[]> FETCH_PROFILES;
 
     static {
