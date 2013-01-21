@@ -6,15 +6,33 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		                http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
 		                http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd">
+<!-- Read write job launcher -->
 
-
-	<integration:gateway id="jobLauncher" service-interface="org.emonocot.api.job.JobLauncher" default-request-channel="jobLaunchRequests">
+	<integration:gateway id="readWriteJobLauncher" service-interface="org.emonocot.api.job.JobLauncher" default-request-channel="readWriteJobLaunchRequests">
 		<integration:method name="launch" />
 	</integration:gateway>
 
-	<integration:channel id="jobLaunchRequests" />
+	<integration:channel id="readWriteJobLaunchRequests" />
 
-	<jms:outbound-channel-adapter id="jobLaunchGateway" channel="jobLaunchRequests"	destination="jobLaunchRequestsQueue" connection-factory="connectionFactory" message-converter="mappingMessageConverter"/>
+	<jms:outbound-channel-adapter id="readWriteJobLaunchGateway" channel="readWriteJobLaunchRequests"	destination="readWriteJobLaunchRequestsQueue" connection-factory="connectionFactory" message-converter="mappingMessageConverter"/>
+	
+    <bean id="readWriteJobLaunchRequestsQueue" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg value="read.write.job.launch.requests" />
+	</bean>
+
+<!-- Read only job launcher -->
+	<integration:gateway id="readOnlyJobLauncher" service-interface="org.emonocot.api.job.JobLauncher" default-request-channel="readOnlyJobLaunchRequests">
+		<integration:method name="launch" />
+	</integration:gateway>
+
+	<integration:channel id="readOnlyJobLaunchRequests" />
+
+	<jms:outbound-channel-adapter id="readOnlyJobLaunchGateway" channel="readOnlyJobLaunchRequests"	destination="readOnlyJobLaunchRequestsQueue" connection-factory="connectionFactory" message-converter="mappingMessageConverter"/>
+	
+    <bean id="readOnlyJobLaunchRequestsQueue" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg value="read.only.job.launch.requests" />
+	</bean>
+<!-- Generic converter used by both queues -->
 		
     <bean id="mappingMessageConverter"
 		class="org.springframework.jms.support.converter.MappingJacksonMessageConverter">
@@ -36,10 +54,6 @@
 			</entry>
 		  </map>
 		</property>
-	</bean>
-
-	<bean id="jobLaunchRequestsQueue" class="org.apache.activemq.command.ActiveMQQueue">
-		<constructor-arg value="job.launch.requests" />
 	</bean>
    
 </beans>

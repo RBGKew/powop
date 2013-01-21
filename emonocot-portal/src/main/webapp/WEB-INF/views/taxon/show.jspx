@@ -95,8 +95,8 @@
 								</c:forEach>
 							</div>
 							<c:if test="${fn:length(taxon.images) > 6 }">
-								<a data-slide="prev" href="#carousel" class="left carousel-control">â¹</a>
-								<a data-slide="next" href="#carousel" class="right carousel-control">âº</a>
+								<a data-slide="prev" href="#carousel" class="left carousel-control">‹</a>
+								<a data-slide="next" href="#carousel" class="right carousel-control">›</a>
 							</c:if>
 						</div>
 					</div>
@@ -403,13 +403,7 @@
 				<div class="inner">
 					<div class="box dataBox">
 						<section class="sidebarBox" id="taxonData">
-							<BR />
-							<div>
-							    <c:url var="dataUrl" value="/css/images/glyphicons/fullsize/glyphicons_119_table.png"/>
-								<img class="noPrint dataImage" alt="Data" src="${dataUrl}"/>&#160;
-								<h2 style="display:inline"><spring:message code="taxonData" /></h2>
-							</div>
-							<BR />							
+							<h2><i class="glyphicons-icon table"><!-- --></i> <spring:message code="taxonData" /></h2>						
 							<table class="table" id="data">
 								<tbody>
 									<c:forEach var="measurement" items="${em:measurements()}">
@@ -417,10 +411,10 @@
 										<tr>
 											<th class="span1"><spring:message code="${measurement}" /></th>
 											<td>
-												<span id="${measurement}">${fact.measurementValue}</span>
+												<span id="${measurement}"><spring:message code="measurementorfact_${fact.measurementType}_${fact.measurementValue}" text="${fact.measurementValue}"/></span>
 											</td>
 										</tr>
-									</c:forEach>
+									</c:forEach >
 								</tbody>
 							</table>
 							<c:choose>

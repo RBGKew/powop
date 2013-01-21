@@ -113,6 +113,9 @@
                     <div id="pages" class="pull-left">
                         <tags:results pager="${result}"/>
                     </div>
+                    <div class="pull-right">
+						<tags:download url="/download" pager="${result}"/>
+					</div>
                   </div>
 
 				  <div id="results" class="row no-margin-left">

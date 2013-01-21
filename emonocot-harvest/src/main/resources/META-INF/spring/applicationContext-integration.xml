@@ -14,27 +14,50 @@
 
 	<context:property-placeholder location="classpath*:META-INF/spring/*.properties" />
 
-    <bean id="jobLaunchRequestsQueue" class="org.apache.activemq.command.ActiveMQQueue">
-		<constructor-arg value="job.launch.requests" />
+<!-- Integration setup for read write jobs -->
+    <bean id="readWriteJobLaunchRequestsQueue" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg value="read.write.job.launch.requests" />
 	</bean>
 	
-	<jms:inbound-channel-adapter id="jobLaunchGateway"
-		channel="jobLaunchRequests" destination="jobLaunchRequestsQueue"
+	<jms:inbound-channel-adapter id="readWriteJobLaunchGateway"
+		channel="readWriteJobLaunchRequests" destination="readWriteJobLaunchRequestsQueue"
 		message-converter="mappingMessageConverter" connection-factory="connectionFactory" >
 		<integration:poller fixed-rate="30000"/>
     </jms:inbound-channel-adapter>
 	
-	<integration:channel id="jobLaunchRequests" />
+	<integration:channel id="readWriteJobLaunchRequests" />
 
-	<integration:service-activator
-		input-channel="jobLaunchRequests" ref="jobLauncherImpl" method="launch" />
+	<integration:service-activator input-channel="readWriteJobLaunchRequests" ref="readWriteJobLauncherImpl" method="launch" />
 
-	<bean id="jobLauncherImpl" class="org.emonocot.harvest.integration.JobLauncherImpl">
+	<bean id="readWriteJobLauncherImpl" class="org.emonocot.harvest.integration.JobLauncherImpl">
 		<property name="jobLauncher" ref="readWriteJobLauncher" />
 		<property name="jobLocator" ref="jobRegistry" />
 		<property name="jobStatusNotifier" ref="jobStatusNotifier"/>
 		<property name="baseUrl" value="${harvester.baseUrl}" />
 	</bean>	
+
+<!-- Read only job queue -->
+    <bean id="readOnlyJobLaunchRequestsQueue" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg value="read.only.job.launch.requests" />
+	</bean>
+	
+	<jms:inbound-channel-adapter id="readOnlyJobLaunchGateway"
+		channel="readOnlyJobLaunchRequests" destination="readOnlyJobLaunchRequestsQueue"
+		message-converter="mappingMessageConverter" connection-factory="connectionFactory" >
+		<integration:poller fixed-rate="30000"/>
+    </jms:inbound-channel-adapter>
+	
+	<integration:channel id="readOnlyJobLaunchRequests" />
+
+	<integration:service-activator input-channel="readOnlyJobLaunchRequests" ref="readOnlyJobLauncherImpl" method="launch" />
+
+	<bean id="readOnlyJobLauncherImpl" class="org.emonocot.harvest.integration.JobLauncherImpl">
+		<property name="jobLauncher" ref="jobLauncher" />
+		<property name="jobLocator" ref="jobRegistry" />
+		<property name="jobStatusNotifier" ref="jobStatusNotifier"/>
+		<property name="baseUrl" value="${harvester.baseUrl}" />
+	</bean>	
+<!-- Generic message converter used by both queues -->
 
 	<bean id="mappingMessageConverter"
 		class="org.springframework.jms.support.converter.MappingJacksonMessageConverter">

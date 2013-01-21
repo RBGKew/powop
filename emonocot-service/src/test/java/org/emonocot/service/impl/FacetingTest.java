@@ -45,39 +45,21 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration({"classpath*:META-INF/spring/applicationContext*.xml" })
 public class FacetingTest extends DataManagementSupport {
 
-    /**
-     *
-     */
     @Autowired
     private TaxonService taxonService;
 
-    /**
-     *
-     */
     @Autowired
     private ImageService imageService;
 
-    /**
-     *
-     */
     @Autowired
     private AnnotationService annotationService;
 
-   /**
-    *
-    */
    @Autowired
    private OrganisationService sourceService;
    
-   /**
-    *
-    */
    @Autowired
    private PlaceService placeService;
 
-    /**
-     *
-     */
     @Autowired
     private SearchableObjectService searchableObjectService;
 
@@ -233,7 +215,7 @@ public class FacetingTest extends DataManagementSupport {
     public final void testSearchWithFacetsInTaxonDao() throws Exception {
         Map<String, String> selectedFacets = new HashMap<String, String>();
         selectedFacets.put("base.class_s", "org.emonocot.model.Taxon");
-        Page<Taxon> pager = taxonService.search("Aus", null, null, null,
+        Page<SearchableObject> pager = searchableObjectService.search("Aus", null, null, null,
                 new String[] { "base.class_s", "taxon.family_s",
                         "taxon.distribution_TDWG_0_ss", "searchable.sources_ss",
                         "taxon.taxon_rank_s", "taxon.taxonomic_status_s" },
@@ -257,7 +239,7 @@ public class FacetingTest extends DataManagementSupport {
                 .getFacetField("taxon.family_s").getValueCount());
 
         selectedFacets.put("taxon.taxon_rank_s", "SPECIES");
-        pager = taxonService.search("Aus", null, null, null,
+        pager = searchableObjectService.search("Aus", null, null, null,
                 new String[] {"base.class_s", "taxon.family_s",
                         "taxon.distribution_TDWG_0_ss", "searchable.sources_ss",
                         "taxon.taxon_rank_s", "taxon.taxonomic_status_s" },
@@ -359,7 +341,7 @@ public class FacetingTest extends DataManagementSupport {
     public final void testFacetOnPlace() {
     	Map<String, String> selectedFacets = new HashMap<String, String>();
     	selectedFacets.put("base.class_s", "org.emonocot.model.Place");
-    	Page<Place> places = placeService.search(null, null, 10, 0, new String[] {}, selectedFacets, null, null);
+    	Page<SearchableObject> places = searchableObjectService.search(null, null, 10, 0, new String[] {}, selectedFacets, null, null);
     	assertEquals("There should be one place in the result list",(Integer)places.getSize(),(Integer)1);
     }
 }

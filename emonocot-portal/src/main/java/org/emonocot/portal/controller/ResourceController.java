@@ -25,13 +25,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.ExitStatus;
-import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.core.configuration.JobLocator;
 import org.springframework.batch.core.explore.JobExplorer;
-import org.springframework.batch.core.job.AbstractJob;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -71,6 +69,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	}
 	
 	@Autowired
+	@Qualifier("readWriteJobLauncher")
 	public void setJobLauncher(JobLauncher newJobLauncher) {
 	   this.jobLauncher = newJobLauncher;
 	}

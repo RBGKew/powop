@@ -7,11 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.emonocot.api.IdentificationKeyService;
-import org.emonocot.api.ImageService;
-import org.emonocot.api.PlaceService;
 import org.emonocot.api.SearchableObjectService;
-import org.emonocot.api.TaxonService;
 import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.SearchableObject;
 import org.emonocot.pager.Page;
@@ -34,50 +30,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class SearchController {
 
-    /**
-    *
-    */
     private static Logger queryLog = LoggerFactory.getLogger("query");
 
-    /**
-     *
-     */
-    private static Logger logger = LoggerFactory
-            .getLogger(SearchController.class);
-    /**
-     *
-     */
-    private TaxonService taxonService;
+    private static Logger logger = LoggerFactory.getLogger(SearchController.class);
 
-    /**
-     *
-     */
     private SearchableObjectService searchableObjectService;
-
-    /**
-     *
-     */
-    private ImageService imageService;
-
-    /**
-     *
-     */
-    private IdentificationKeyService keyService;
-    
-    /**
-     * 
-     */
-    private PlaceService placeService;
-
-    /**
-     *
-     * @param newTaxonService
-     *            Set the taxon service
-     */
-    @Autowired
-    public final void setTaxonService(final TaxonService newTaxonService) {
-        this.taxonService = newTaxonService;
-    }
 
     /**
      *
@@ -90,33 +47,6 @@ public class SearchController {
         this.searchableObjectService = newSearchableObjectService;
     }
 
-    /**
-     *
-     * @param newImageService
-     *            set the image service
-     */
-    @Autowired
-    public final void setImageService(final ImageService newImageService) {
-        this.imageService = newImageService;
-    }
-
-    /**
-     * @param newKeyService the keyService to set
-     */
-    @Autowired
-    public final void setKeyService(
-            final IdentificationKeyService newKeyService) {
-        this.keyService = newKeyService;
-    }
-    
-    /**
-	 * @param placeService the placeService to set
-	 */
-    @Autowired
-	public final void setPlaceService(PlaceService placeService) {
-		this.placeService = placeService;
-	}
-
 	/**
      * @param query
      * @param start
@@ -128,41 +58,10 @@ public class SearchController {
      * @return
      */
     private Page<? extends SearchableObject> runQuery(String query, Integer start, Integer limit, String spatial, String[] responseFacets, String sort, Map<String, String> selectedFacets){
-    	Page<? extends SearchableObject> result = null;
-        if (selectedFacets == null
-                || !selectedFacets.containsKey("base.class_s")) {
-
-            result = searchableObjectService.search(
+    	Page<? extends SearchableObject> result = searchableObjectService.search(
                     query, spatial, limit, start, responseFacets,
-                    selectedFacets, sort, "taxon-with-image");
-        } else {
-            if (selectedFacets.get("base.class_s")
-                    .equals("org.emonocot.model.Image")) {
-                logger.debug("Using the image service for " + query);
-                result = imageService.search(query, spatial , limit, start,
-                        responseFacets,
-                        selectedFacets, sort, "image-taxon");
-            } else if (selectedFacets.get("base.class_s").equals(
-                    "org.emonocot.model.Taxon")) {
-                logger.debug("Using the taxon service for " + query);
-                result = taxonService.search(query, spatial, limit, start,
-                        responseFacets,
-                        selectedFacets, sort, "taxon-with-image");
-            } else if (selectedFacets.get("base.class_s").equals(
-                    "org.emonocot.model.IdentificationKey")) {
-                logger.debug("Using the IdentificationKey service for " + query);
-                result = keyService.search(query, spatial, limit, start,
-                        responseFacets,
-                        selectedFacets, sort, "front-cover");
-            } else if (selectedFacets.get("base.class_s").equals("org.emonocot.model.Place")) {
-        		result = placeService.search(
-                            query, spatial, limit, start, responseFacets,
-                            selectedFacets, sort, "taxon-with-image");
-        	} else {
-                logger.error("We can't search by an object of \"base.class_s\" idx="
-                        + selectedFacets.get("base.class_s"));
-            }
-        }
+                    selectedFacets, sort, null);
+
         queryLog.info("Query: \'{}\', start: {}, limit: {},"
                 + "facet: [{}], {} results", new Object[] {query,
                 start, limit, selectedFacets, result.getSize() });

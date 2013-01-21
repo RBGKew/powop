@@ -10,6 +10,7 @@ import org.emonocot.job.dwc.read.NonOwnedProcessor;
 import org.emonocot.model.Image;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.RecordType;
+import org.emonocot.model.util.RankBasedTaxonComparator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ItemWriteListener;
@@ -55,7 +56,7 @@ public class Processor extends NonOwnedProcessor<Image, ImageService> implements
     public final void beforeWrite(final List<? extends Image> images) {
         logger.info("Before Write");
         
-        Comparator<Taxon> comparator = new TaxonComparator();
+        Comparator<Taxon> comparator = new RankBasedTaxonComparator();
         for (Image image : images) {
             if (!image.getTaxa().isEmpty()) {
             	for(Taxon taxon : image.getTaxa()) {
@@ -80,38 +81,7 @@ public class Processor extends NonOwnedProcessor<Image, ImageService> implements
      */
     public final void onWriteError(final Exception exception, final List<? extends Image> images) {
 
-    }
-
-    /**
-     *
-     * @author ben
-     *
-     */
-    class TaxonComparator implements Comparator<Taxon> {
-
-        /**
-         * @param o1
-         *            Set the first taxon
-         * @param o2
-         *            Set the second taxon
-         * @return < 0 if the first should come before the second, > 0 if the
-         *         first should come after and 0 if they are equal
-         */
-        public int compare(final Taxon o1, final Taxon o2) {
-            if (o1 == o2) {
-                return 0;
-            }
-            if (o1.getTaxonRank() == null) {
-                if (o2.getTaxonRank() == null) {
-                    return 0;
-                }  else {
-                    return 1;
-                }
-            } else {
-              return o1.getTaxonRank().compareTo(o2.getTaxonRank());
-            }
-        }
-    }
+    }    
 
 	@Override
 	protected void doUpdate(Image persisted, Image t) {

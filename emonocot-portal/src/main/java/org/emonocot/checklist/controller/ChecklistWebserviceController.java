@@ -4,8 +4,10 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.checklist.logging.LoggingConstants;
+import org.emonocot.model.SearchableObject;
 import org.emonocot.model.Taxon;
 import org.emonocot.pager.Page;
 import org.slf4j.Logger;
@@ -30,10 +32,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/endpoint")
 public class ChecklistWebserviceController {
-	/**
-     *
-     */
-	private static final String CHECKLIST_WEBSERVICE_SEARCH_TYPE = "te";
+
+	private static String CHECKLIST_WEBSERVICE_SEARCH_TYPE = "te";
 
 	/**
 	 * Logger for debugging requests, errors etc.
@@ -46,19 +46,18 @@ public class ChecklistWebserviceController {
 	 */
 	private static Logger queryLog = LoggerFactory.getLogger("query");
 
-	/**
-     *
-     */
 	private TaxonService taxonService;
+	
+	private SearchableObjectService searchableObjectService;
 
-	/**
-	 * 
-	 * @param taxonService
-	 *            Set the taxon dao to use.
-	 */
 	@Autowired
-	public final void setTaxonDao(final TaxonService taxonService) {
+	public void setTaxonDao(TaxonService taxonService) {
 		this.taxonService = taxonService;
+	}
+	
+	@Autowired
+	public void setSearchableObjectService(SearchableObjectService searchableObjectService) {
+		this.searchableObjectService = searchableObjectService;
 	}
 
 	/**
@@ -68,7 +67,7 @@ public class ChecklistWebserviceController {
 	 * @return An empty ModelAndView with the view name "rdfResponse".
 	 */
 	@RequestMapping(method = RequestMethod.GET, params = { "!function" })
-	public final ModelAndView ping() {
+	public ModelAndView ping() {
 		logger.debug("ping");
 		return new ModelAndView("rdfResponse");
 	}
@@ -83,15 +82,15 @@ public class ChecklistWebserviceController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, params = { "function=search",
 			"search" })
-	public final ModelAndView search(
-			@RequestParam(value = "search", required = true) final String search) {
+	public ModelAndView search(
+			@RequestParam(value = "search", required = true) String search) {
 		logger.debug("search for " + search);
 		String query = new String("searchable.label_sort:" + search);
 		Map<String,String> selectedFacets = new HashMap<String,String>();
 		selectedFacets.put("base.class_s","org.emonocot.model.Taxon");
 		ModelAndView modelAndView = new ModelAndView("rdfResponse");
-		Page<Taxon> taxa = taxonService.search(query, null, null, null, null,
-				selectedFacets, null, "taxon-ws");
+		Page<SearchableObject> taxa = searchableObjectService.search(query, null, null, null, null,
+				selectedFacets, null, null);
 		modelAndView.addObject("result", taxa.getRecords());
 		try {
 			MDC.put(LoggingConstants.SEARCH_TYPE_KEY,
@@ -117,7 +116,7 @@ public class ChecklistWebserviceController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, params = {
 			"function=details_tcs", "id" })
-	public final ModelAndView get(@RequestParam(value = "id") final String id) {
+	public ModelAndView get(@RequestParam(value = "id") String id) {
 		logger.debug("get");
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("tcsXmlResponse");
@@ -151,8 +150,8 @@ public class ChecklistWebserviceController {
 	@ExceptionHandler({ DataRetrievalFailureException.class,
 			ParseException.class })
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public final ModelAndView handleInvalidTaxonIdentifier(
-			final DataRetrievalFailureException exception) {
+	public ModelAndView handleInvalidTaxonIdentifier(
+			DataRetrievalFailureException exception) {
 		logger.debug("exception");
 		ModelAndView modelAndView = new ModelAndView("exception");
 		modelAndView.addObject("exception", exception);

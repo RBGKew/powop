@@ -27,6 +27,7 @@ import org.springframework.batch.core.repository.JobExecutionAlreadyRunningExcep
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
@@ -45,29 +46,19 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class TaxonMatchIntegrationTest {
 
-    /**
-     *
-     */
-    private Logger logger = LoggerFactory.getLogger(
-            TaxonMatchIntegrationTest.class);
+    private Logger logger = LoggerFactory.getLogger(TaxonMatchIntegrationTest.class);
 
-    /**
-     *
-     */
     @Autowired
     private JobLocator jobLocator;
 
-    /**
-     *
-     */
     @Autowired
+	@Qualifier("jobLauncher")
     private JobLauncher jobLauncher;
 
     /**
      * 1288569600 in unix time.
      */
-    private static final BaseDateTime PAST_DATETIME
-    = new DateTime(2010, 11, 1, 9, 0, 0, 0);
+    private static final BaseDateTime PAST_DATETIME = new DateTime(2010, 11, 1, 9, 0, 0, 0);
 
     /**
      *

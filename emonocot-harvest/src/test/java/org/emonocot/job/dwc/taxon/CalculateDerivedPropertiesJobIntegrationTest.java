@@ -23,6 +23,8 @@ import org.springframework.batch.core.repository.JobExecutionAlreadyRunningExcep
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -35,6 +37,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration({
         "/META-INF/spring/batch/jobs/calculateDerived.xml",
         "/META-INF/spring/applicationContext-test.xml" })
+@DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class CalculateDerivedPropertiesJobIntegrationTest {
 
     /**

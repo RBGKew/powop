@@ -1,18 +1,16 @@
 package org.emonocot.portal.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.easymock.EasyMock;
-import org.emonocot.api.ImageService;
 import org.emonocot.api.SearchableObjectService;
-import org.emonocot.model.Image;
 import org.emonocot.model.SearchableObject;
 import org.emonocot.pager.DefaultPageImpl;
-import org.emonocot.pager.FacetName;
 import org.emonocot.pager.Page;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,13 +25,9 @@ public class SearchControllerTest {
 	
 	SearchableObjectService searchableObjectService;
 	
-	ImageService imageService;
-	
 	Model model;
 	
-	Page<Image> page;
-	
-	Page<SearchableObject> searchablePage;
+	Page<SearchableObject> page;
 	
 	String[] facetNames;
 	
@@ -43,11 +37,8 @@ public class SearchControllerTest {
 		facets = new ArrayList<FacetRequest>();
 		model = new BindingAwareModelMap();
 		searchableObjectService = EasyMock.createMock(SearchableObjectService.class);
-		imageService = EasyMock.createMock(ImageService.class);
 		searchController.setSearchableObjectService(searchableObjectService);
-		searchController.setImageService(imageService);
-		page = new DefaultPageImpl<Image>(0, 0, 20, new ArrayList<Image>(),null);
-		searchablePage = new DefaultPageImpl<SearchableObject>(0, 0, 10, new ArrayList<SearchableObject>(),null);
+		page = new DefaultPageImpl<SearchableObject>(0, 0, 20, new ArrayList<SearchableObject>(),null);
 		facetNames = new String[] {"base.class_s", "taxon.family_s", "taxon.distribution_TDWG_0_ss", "searchable.sources_ss"};
 	}
 
@@ -56,16 +47,16 @@ public class SearchControllerTest {
 	 */
 	@Test
 	public void testSearchForImages() {
-		EasyMock.expect(imageService.search(EasyMock.eq(""), (String)EasyMock.isNull(), EasyMock.eq(24), EasyMock.eq(0), EasyMock.aryEq(facetNames),  EasyMock.isA(Map.class), (String)EasyMock.isNull(), EasyMock.eq("image-taxon"))).andReturn(page);
+		EasyMock.expect(searchableObjectService.search(EasyMock.eq(""), (String)EasyMock.isNull(), EasyMock.eq(24), EasyMock.eq(0), EasyMock.aryEq(facetNames),  EasyMock.isA(Map.class), (String)EasyMock.isNull(), (String)EasyMock.isNull())).andReturn(page);
 		
-		EasyMock.replay(searchableObjectService,imageService);
+		EasyMock.replay(searchableObjectService);
 		FacetRequest classFacet = new FacetRequest();
 		classFacet.setFacet("base.class_s");
 		classFacet.setSelected("org.emonocot.model.Image");
 		facets.add(classFacet);
 		String view = searchController.search("", 10, 0, facets, null, null, model);
 		
-		EasyMock.verify(searchableObjectService,imageService);
+		EasyMock.verify(searchableObjectService);
 		assertEquals("View should equal 'search'","search",view);
 		assertNull("The view attribute should be 'null'", page.getParams().get("view"));
 	}
@@ -75,15 +66,14 @@ public class SearchControllerTest {
 	 */
 	@Test
 	public void testSearchForAll() {
-		EasyMock.expect(searchableObjectService.search(EasyMock.eq(""), (String)EasyMock.isNull(), EasyMock.eq(10), EasyMock.eq(0), EasyMock.aryEq(facetNames),  (Map)EasyMock.isNull(), (String)EasyMock.isNull(), EasyMock.eq("taxon-with-image"))).andReturn(searchablePage);
-		
-		EasyMock.replay(searchableObjectService,imageService);
+		EasyMock.expect(searchableObjectService.search(EasyMock.eq(""), (String)EasyMock.isNull(), EasyMock.eq(10), EasyMock.eq(0), EasyMock.aryEq(facetNames),  (Map)EasyMock.isNull(), (String)EasyMock.isNull(), (String)EasyMock.isNull())).andReturn(page);
+		EasyMock.replay(searchableObjectService);
 		
 		String view = searchController.search("", 10, 0, facets, null, null, model);
 		
-		EasyMock.verify(searchableObjectService,imageService);
+		EasyMock.verify(searchableObjectService);
 		assertEquals("View should equal 'search'","search",view);
-		assertNull("The view attribute should be 'null'", searchablePage.getParams().get("view"));
+		assertNull("The view attribute should be 'null'", page.getParams().get("view"));
 	}
 	
 	/**
@@ -91,15 +81,15 @@ public class SearchControllerTest {
 	 */
 	@Test
 	public void testSearchForAllListView() {
-		EasyMock.expect(searchableObjectService.search(EasyMock.eq(""), (String)EasyMock.isNull(), EasyMock.eq(10), EasyMock.eq(0), EasyMock.aryEq(facetNames),  (Map)EasyMock.isNull(), (String)EasyMock.isNull(), EasyMock.eq("taxon-with-image"))).andReturn(searchablePage);
+		EasyMock.expect(searchableObjectService.search(EasyMock.eq(""), (String)EasyMock.isNull(), EasyMock.eq(10), EasyMock.eq(0), EasyMock.aryEq(facetNames),  (Map)EasyMock.isNull(), (String)EasyMock.isNull(), (String)EasyMock.isNull())).andReturn(page);
 		
-		EasyMock.replay(searchableObjectService,imageService);
+		EasyMock.replay(searchableObjectService);
 		
 		String view = searchController.search("", 10, 0, facets, null, "list", model);
 		
-		EasyMock.verify(searchableObjectService,imageService);
+		EasyMock.verify(searchableObjectService);
 		assertEquals("View should equal 'search'","search",view);
-		assertEquals("The view attribute should be 'list'", searchablePage.getParams().get("view"),"list");
+		assertEquals("The view attribute should be 'list'", page.getParams().get("view"),"list");
 	}
 	
 	/**
@@ -107,15 +97,15 @@ public class SearchControllerTest {
 	 */
 	@Test
 	public void testSearchForAllGridView() {
-		EasyMock.expect(searchableObjectService.search(EasyMock.eq(""), (String)EasyMock.isNull(), EasyMock.eq(24), EasyMock.eq(0), EasyMock.aryEq(facetNames),  (Map)EasyMock.isNull(), (String)EasyMock.isNull(), EasyMock.eq("taxon-with-image"))).andReturn(searchablePage);
+		EasyMock.expect(searchableObjectService.search(EasyMock.eq(""), (String)EasyMock.isNull(), EasyMock.eq(24), EasyMock.eq(0), EasyMock.aryEq(facetNames),  (Map)EasyMock.isNull(), (String)EasyMock.isNull(), (String)EasyMock.isNull())).andReturn(page);
 		
-		EasyMock.replay(searchableObjectService,imageService);
+		EasyMock.replay(searchableObjectService);
 		
 		String view = searchController.search("", 10, 0, facets, null, "grid", model);
 		
-		EasyMock.verify(searchableObjectService,imageService);
+		EasyMock.verify(searchableObjectService);
 		assertEquals("View should equal 'search'","search",view);
-		assertEquals("The view attribute should be 'grid'", searchablePage.getParams().get("view"),"grid");
+		assertEquals("The view attribute should be 'grid'", page.getParams().get("view"),"grid");
 	}
 	
 	/**
@@ -123,15 +113,15 @@ public class SearchControllerTest {
 	 */
 	@Test
 	public void testPagination() {
-        EasyMock.expect(searchableObjectService.search(EasyMock.eq(""), (String)EasyMock.isNull(), EasyMock.eq(10), EasyMock.eq(1), EasyMock.aryEq(facetNames),  (Map)EasyMock.isNull(), (String)EasyMock.isNull(), EasyMock.eq("taxon-with-image"))).andReturn(searchablePage);
+        EasyMock.expect(searchableObjectService.search(EasyMock.eq(""), (String)EasyMock.isNull(), EasyMock.eq(10), EasyMock.eq(1), EasyMock.aryEq(facetNames),  (Map)EasyMock.isNull(), (String)EasyMock.isNull(), (String)EasyMock.isNull())).andReturn(page);
 		
-		EasyMock.replay(searchableObjectService,imageService);
+		EasyMock.replay(searchableObjectService);
 		
 		String view = searchController.search("", 10, 1, facets, null, "", model);
 		
-		EasyMock.verify(searchableObjectService,imageService);
+		EasyMock.verify(searchableObjectService);
 		assertEquals("View should equal 'search'","search",view);
-		assertEquals("The view attribute should be ''", searchablePage.getParams().get("view"),"");
+		assertEquals("The view attribute should be ''", page.getParams().get("view"),"");
 	}
 
 }

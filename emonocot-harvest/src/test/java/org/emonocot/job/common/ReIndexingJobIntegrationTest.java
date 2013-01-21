@@ -23,6 +23,7 @@ import org.springframework.batch.core.repository.JobExecutionAlreadyRunningExcep
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -38,22 +39,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
         "/META-INF/spring/applicationContext-test.xml" })
 public class ReIndexingJobIntegrationTest {
 
-    /**
-     *
-     */
-    private Logger logger = LoggerFactory.getLogger(
-            ReIndexingJobIntegrationTest.class);
+    private Logger logger = LoggerFactory.getLogger(ReIndexingJobIntegrationTest.class);
 
-    /**
-     *
-     */
     @Autowired
     private JobLocator jobLocator;
 
-    /**
-     *
-     */
     @Autowired
+	@Qualifier("readWriteJobLauncher")
     private JobLauncher jobLauncher;
 
     /**

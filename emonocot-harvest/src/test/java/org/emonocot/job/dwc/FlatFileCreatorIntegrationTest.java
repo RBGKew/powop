@@ -7,14 +7,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
+import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocumentList;
+import org.apache.solr.common.params.ModifiableSolrParams;
 import org.emonocot.model.Taxon;
 import org.emonocot.persistence.hibernate.SolrIndexingListener;
 import org.hibernate.Session;
@@ -32,6 +33,7 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.configuration.JobLocator;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
@@ -49,23 +51,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class FlatFileCreatorIntegrationTest {
 
-    /**
-     *
-     */
     @Autowired
     private JobLocator jobLocator;
 
-    /**
-     *
-     */
     @Autowired
+	@Qualifier("jobLauncher")
     private JobLauncher jobLauncher;
 
-    /**
-     * 
-     */
     @Autowired
     private SessionFactory sessionFactory;
+    
+    @Autowired SolrServer solrServer;
     
     @Autowired SolrIndexingListener solrIndexingListener;
 
@@ -74,6 +70,22 @@ public class FlatFileCreatorIntegrationTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
+		ModifiableSolrParams params = new ModifiableSolrParams();
+    	params.add("q","*:*");
+    	params.add("rows",new Integer(Integer.MAX_VALUE).toString());
+    	params.add("df","id");
+    	QueryResponse queryResponse = solrServer.query(params);
+    	SolrDocumentList solrDocumentList = queryResponse.getResults();
+    	List<String> documentsToDelete = new ArrayList<String>();
+    	for(int i = 0; i < solrDocumentList.size(); i++) {
+    		documentsToDelete.add(solrDocumentList.get(i).getFirstValue("id").toString());
+    	}
+    	if(!documentsToDelete.isEmpty()) {
+    	    solrServer.deleteById(documentsToDelete);
+    	    solrServer.commit();
+    	}
+
+		
         Session session = sessionFactory.openSession();
         
         Transaction tx = session.beginTransaction();
