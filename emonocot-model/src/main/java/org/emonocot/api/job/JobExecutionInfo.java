@@ -49,7 +49,7 @@ public class JobExecutionInfo implements Serializable {
     /**
      *
      */
-    private JobInstanceInfo jobInstance;
+    private String jobInstance;
 
     /**
      *
@@ -80,6 +80,8 @@ public class JobExecutionInfo implements Serializable {
 	
 	private Integer progress;
 	
+	private String baseUrl;
+	
 	public JobExecutionInfo() {
 		
 	}
@@ -93,14 +95,10 @@ public class JobExecutionInfo implements Serializable {
 		exitDescription = jobExecution.getExitStatus().getExitDescription();
 		exitCode = jobExecution.getExitStatus().getExitCode();
 		id = jobExecution.getId();
-		jobInstance = new JobInstanceInfo();
-		jobInstance.setResource(baseUrl + "/jobs/"	+ jobExecution.getJobInstance().getJobName() + "/"	+ jobExecution.getJobInstance().getId() + ".json");
-		
-		resource = baseUrl + "/jobs/executions/"	+ jobExecution.getId() + ".json";
+		jobInstance = baseUrl + "/jobs/"	+ jobExecution.getJobInstance().getJobName() + "/"	+ jobExecution.getJobInstance().getId();		
+		resource = baseUrl + "/jobs/executions/"	+ jobExecution.getId();
+		this.baseUrl = baseUrl;
 		status = jobExecution.getStatus();
-
-		
-		
 		
 		Integer writeSkip = 0;
 		for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
@@ -112,6 +110,14 @@ public class JobExecutionInfo implements Serializable {
 		}
 	}
 	
+	public void setBaseUrl(String baseUrl) {
+		this.baseUrl = baseUrl;
+	}
+	
+	public String getBaseUrl() {
+		return baseUrl;
+	}
+	
 	public void setResourceIdentifier(String resourceIdentifier) {
 		this.resourceIdentifier = resourceIdentifier;
 	}
@@ -120,7 +126,7 @@ public class JobExecutionInfo implements Serializable {
      *
      * @param newResource Set the resource
      */
-    public final void setResource(final String newResource) {
+    public void setResource(String newResource) {
         this.resource = newResource;
     }
 
@@ -128,7 +134,7 @@ public class JobExecutionInfo implements Serializable {
      *
      * @param newId Set the id;
      */
-    public final void setId(final Long newId) {
+    public void setId(Long newId) {
         this.id = newId;
     }
 
@@ -136,7 +142,7 @@ public class JobExecutionInfo implements Serializable {
      *
      * @param newStatus Set the status
      */
-    public final void setStatus(final BatchStatus newStatus) {
+    public void setStatus(BatchStatus newStatus) {
         this.status = newStatus;
     }
 
@@ -145,7 +151,7 @@ public class JobExecutionInfo implements Serializable {
      * @param newStartTime Set the start time
      */
     @JsonDeserialize(using = DateTimeDeserializer.class)
-    public final void setStartTime(final DateTime newStartTime) {
+    public void setStartTime(DateTime newStartTime) {
         this.startTime = newStartTime;
     }
 
@@ -153,7 +159,7 @@ public class JobExecutionInfo implements Serializable {
      *
      * @param newExitCode Set the exit code
      */
-    public final void setExitCode(final String newExitCode) {
+    public void setExitCode(String newExitCode) {
         this.exitCode = newExitCode;
     }
 
@@ -162,7 +168,7 @@ public class JobExecutionInfo implements Serializable {
      * @param newDuration Set the duration
      */
     @JsonDeserialize(using = DateTimeDeserializer.class)
-    public final void setDuration(final DateTime newDuration) {
+    public void setDuration(DateTime newDuration) {
         this.duration = newDuration;
     }
 
@@ -170,7 +176,7 @@ public class JobExecutionInfo implements Serializable {
      *
      * @param newExitDescription Set the exit description
      */
-    public final void setExitDescription(final String newExitDescription) {
+    public void setExitDescription(String newExitDescription) {
         this.exitDescription = newExitDescription;
     }
 
@@ -178,28 +184,28 @@ public class JobExecutionInfo implements Serializable {
      *
      * @param newJobInstance Set the job instance
      */
-    public final void setJobInstance(final JobInstanceInfo newJobInstance) {
+    public void setJobInstance(String newJobInstance) {
         this.jobInstance = newJobInstance;
     }
 
     /**
      * @return the resource
      */
-    public final String getResource() {
+    public String getResource() {
         return resource;
     }
 
     /**
      * @return the id
      */
-    public final Long getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * @return the status
      */
-    public final BatchStatus getStatus() {
+    public BatchStatus getStatus() {
         return status;
     }
 
@@ -207,14 +213,14 @@ public class JobExecutionInfo implements Serializable {
      * @return the startTime
      */
     @JsonSerialize(using = DateTimeSerializer.class)
-    public final DateTime getStartTime() {
+    public DateTime getStartTime() {
         return startTime;
     }
 
     /**
      * @return the exitCode
      */
-    public final String getExitCode() {
+    public String getExitCode() {
         return exitCode;
     }
 
@@ -222,21 +228,21 @@ public class JobExecutionInfo implements Serializable {
      * @return the duration
      */
     @JsonSerialize(using = DateTimeSerializer.class)
-    public final DateTime getDuration() {
+    public DateTime getDuration() {
         return duration;
     }
 
     /**
      * @return the exitDescription
      */
-    public final String getExitDescription() {
+    public String getExitDescription() {
         return exitDescription;
     }
 
     /**
      * @return the jobInstance
      */
-    public final JobInstanceInfo getJobInstance() {
+    public String getJobInstance() {
         return jobInstance;
     }
 

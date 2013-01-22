@@ -44,7 +44,7 @@
 	<jms:inbound-channel-adapter id="readOnlyJobLaunchGateway"
 		channel="readOnlyJobLaunchRequests" destination="readOnlyJobLaunchRequestsQueue"
 		message-converter="mappingMessageConverter" connection-factory="connectionFactory" >
-		<integration:poller fixed-rate="30000"/>
+		<integration:poller fixed-rate="5000"/>
     </jms:inbound-channel-adapter>
 	
 	<integration:channel id="readOnlyJobLaunchRequests" />

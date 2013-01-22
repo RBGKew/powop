@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -110,55 +111,12 @@ public class FlatFileCreatorIntegrationTest {
 		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
 		parameters.put("query", new JobParameter(""));
 		parameters.put("selected.facets", new JobParameter("taxon.family_s=Araceae"));
-		parameters.put("extension", new JobParameter("Taxon"));
-		parameters.put("columns", new JobParameter("taxonID,scientificName,scientificNameAuthorship,taxonRank"));
-		parameters.put("output.file", new JobParameter(File.createTempFile("output", ".txt").getAbsolutePath()));
-		System.out.println(parameters.get("output.file"));
+		parameters.put("download.taxon", new JobParameter("taxonID,scientificName,scientificNameAuthorship,taxonRank"));
+		parameters.put("download.file", new JobParameter(UUID.randomUUID().toString() + ".txt"));
+
 		JobParameters jobParameters = new JobParameters(parameters);
 		Job archiveCreatorJob = jobLocator.getJob("FlatFileCreation");
 		assertNotNull("flatFileCreatorJob must exist", archiveCreatorJob);
-		JobExecution jobExecution = jobLauncher.run(archiveCreatorJob,
-		        jobParameters);
-		
-		assertEquals("The Job should be sucessful", ExitStatus.COMPLETED, jobExecution.getExitStatus());        
-	}
-	
-	/**
-	 * @throws Exception
-	 */
-	@Test
-	public void testWriteDistributionFile() throws Exception {
-		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
-		parameters.put("output.file", new JobParameter(File.createTempFile("output", ".txt").getAbsolutePath()));
-		System.out.println(parameters.get("output.file"));
-		parameters.put("query", new JobParameter(""));
-		parameters.put("extension", new JobParameter("Distribution"));		
-		parameters.put("columns", new JobParameter("taxonID,locationID"));
-		
-		JobParameters jobParameters = new JobParameters(parameters);
-		Job archiveCreatorJob = jobLocator.getJob("FlatFileCreation");
-		assertNotNull("flatFileJob must exist", archiveCreatorJob);
-		JobExecution jobExecution = jobLauncher.run(archiveCreatorJob,
-		        jobParameters);
-		
-		assertEquals("The Job should be sucessful", ExitStatus.COMPLETED, jobExecution.getExitStatus());        
-	}
-
-	/**
-	 * @throws Exception
-	 */
-	@Test
-	public void testWriteImageFile() throws Exception {
-		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
-		parameters.put("output.file", new JobParameter(File.createTempFile("output", ".txt").getAbsolutePath()));
-		System.out.println(parameters.get("output.file"));
-		parameters.put("query", new JobParameter(""));
-		parameters.put("extension", new JobParameter("Image"));		
-		parameters.put("columns", new JobParameter("taxonID,identifier"));
-		
-		JobParameters jobParameters = new JobParameters(parameters);
-		Job archiveCreatorJob = jobLocator.getJob("FlatFileCreation");
-		assertNotNull("flatFileJob must exist", archiveCreatorJob);
 		JobExecution jobExecution = jobLauncher.run(archiveCreatorJob,
 		        jobParameters);
 		

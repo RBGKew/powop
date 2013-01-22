@@ -30,8 +30,7 @@
 	<bean id="validator"
 		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
-	<bean id="conversionService"
-		class="org.springframework.context.support.ConversionServiceFactoryBean">
+	<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
 		<property name="converters">
 			<list>
 			    <bean class="org.emonocot.model.convert.RankConverter" />

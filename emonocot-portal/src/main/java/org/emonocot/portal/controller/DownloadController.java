@@ -1,8 +1,10 @@
 package org.emonocot.portal.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -26,6 +28,7 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.MessageSource;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,6 +58,8 @@ public class DownloadController {
     private JobLauncher jobLauncher;
 	
 	private JobExplorer jobExplorer;
+	
+	private MessageSource messageSource;
 
     @Autowired
     public void setSearchableObjectService(SearchableObjectService searchableObjectService) {
@@ -75,6 +80,11 @@ public class DownloadController {
     @Autowired
     public void setJobExplorer(JobExplorer jobExplorer) {
     	this.jobExplorer = jobExplorer;
+    }
+    
+    @Autowired
+    public void setMessageSource(MessageSource messageSource) {
+    	this.messageSource = messageSource;
     }
     						
     /**
@@ -167,20 +177,46 @@ public class DownloadController {
         String downloadType = null;
         if(downloadFormat.equals("taxon")) {
 			downloadFileName = downloadFileName + ".txt";
-			downloadType = "org.emonocot.model.Taxon";
-			jobParametersMap.put("download.taxon", "true");			
+			jobParametersMap.put("download.taxon", toParameter(DarwinCorePropertyMap.taxonTerms.values()));			
             jobParametersMap.put("job.total.reads", Integer.toString(result.getSize()));
 		} else {
 			jobParametersMap.put("job.total.reads", Integer.toString(result.getSize() * (archiveOptions.size() + 1)));
-			jobParametersMap.put("download.taxon","true");
+			jobParametersMap.put("download.taxon",toParameter(DarwinCorePropertyMap.taxonTerms.values()));
 			for(String archiveOption : archiveOptions) {
-				jobParametersMap.put("download." + archiveOption, "true");
+				switch(archiveOption) {
+				case "description":
+					jobParametersMap.put("download.description", toParameter(DarwinCorePropertyMap.descriptionTerms.values()));
+					break;
+				case "distribution":
+					jobParametersMap.put("download.distribution", toParameter(DarwinCorePropertyMap.distributionTerms.values()));
+					break;
+				case "vernacularName":
+					jobParametersMap.put("download.vernacularName", toParameter(DarwinCorePropertyMap.vernacularNameTerms.values()));
+					break;
+				case "identifier":
+					jobParametersMap.put("download.identifier", toParameter(DarwinCorePropertyMap.identifierTerms.values()));
+					break;
+				case "measurementOrFact":
+					jobParametersMap.put("download.measurementOrFact", toParameter(DarwinCorePropertyMap.measurementOrFactTerms.values()));
+					break;
+				case "image":
+					jobParametersMap.put("download.image", toParameter(DarwinCorePropertyMap.imageTerms.values()));
+					break;
+				case "reference":
+					jobParametersMap.put("download.reference", toParameter(DarwinCorePropertyMap.referenceTerms.values()));
+					break;
+				case "typeAndSpecimen":
+					jobParametersMap.put("download.typeAndSpecimen", toParameter(DarwinCorePropertyMap.typeAndSpecimenTerms.values()));
+					break;
+				default:
+					break;
+				}
+				
 			}
 		}		
         
         
         jobParametersMap.put("download.file", downloadFileName);
-        jobParametersMap.put("download.type", downloadType);
         jobParametersMap.put("download.query", query);
         jobParametersMap.put("download.sort", sort);
         jobParametersMap.put("download.selectedFacets", selectedFacetBuffer.toString());
@@ -209,6 +245,11 @@ public class DownloadController {
 			resource.setProcessSkip(0);
 			resource.setWriteSkip(0);
 			resource.setWritten(0);
+			if(downloadFormat.equals("taxon")) {
+			    resource.getParameters().put("download.file",downloadFileName);
+			} else {
+				resource.getParameters().put("download.file",downloadFileName + ".zip");
+			}
 			resourceService.save(resource);
 			jobLauncher.launch(jobLaunchRequest);
 			
@@ -228,16 +269,40 @@ public class DownloadController {
 		return "redirect:/download/progress?downloadId=" + resource.getId();
 	}
    
+   private String toParameter(Collection<String> terms) {
+	   StringBuffer stringBuffer = new StringBuffer();
+       if (terms != null && !terms.isEmpty()) {           
+			boolean isFirst = true;
+           for (String term : terms) {
+				if(!isFirst) {
+                   stringBuffer.append(",");
+				} else {
+					isFirst = false;
+				}
+				stringBuffer.append(term);
+           }
+       }
+       return stringBuffer.toString();
+   }
+   
     @RequestMapping(value = "/progress", method = RequestMethod.GET, produces = "text/html")
-    public String getProgress(@RequestParam("downloadId") Long downloadId, Model model) {
+    public String getProgress(@RequestParam("downloadId") Long downloadId, Model model, Locale locale) {
     	Resource resource = resourceService.load(downloadId);
     	model.addAttribute("resource", resource);
+    	
+    	if(resource.getBaseUrl() == null) {
+    		resource.setExitDescription(messageSource.getMessage("download.being.prepared", new Object[] {}, locale));
+    	} else {
+    		String downloadFileName = resource.getParameters().get("download.file");
+    		resource.setExitDescription(messageSource.getMessage("download.will.be.available", new Object[] {resource.getBaseUrl(), downloadFileName}, locale));
+    	}
+    	
     	return "download/progress";
     }
 	
 	@RequestMapping(value = "/progress", method = RequestMethod.GET, produces="application/json")
     @ResponseBody
-	public JobExecutionInfo getProgress(@RequestParam("downloadId") Long downloadId) throws Exception {
+	public JobExecutionInfo getProgress(@RequestParam("downloadId") Long downloadId, Locale locale) throws Exception {
 		JobExecutionInfo jobExecutionInfo = new JobExecutionInfo();
 		Resource resource = resourceService.load(downloadId);
 		
@@ -271,6 +336,20 @@ public class DownloadController {
 			Float total = Float.parseFloat(jobExecution.getJobInstance().getJobParameters().getString("job.total.reads"));
 			
 			jobExecutionInfo.setProgress(Math.round((recordsRead/ total) * 100f));
+			if(resource.getBaseUrl() == null) {
+				jobExecutionInfo.setExitDescription(messageSource.getMessage("download.being.prepared", new Object[] {}, locale));
+	    	} else {
+	    		String downloadFileName = resource.getParameters().get("download.file");
+	    		if(jobExecutionInfo.getExitCode() == null) {	    		
+	    		    jobExecutionInfo.setExitDescription(messageSource.getMessage("download.will.be.available", new Object[] {resource.getBaseUrl(), downloadFileName}, locale));
+	    		} else {
+	    			if(jobExecutionInfo.getExitCode().equals("COMPLETED")) {
+	    				jobExecutionInfo.setExitDescription(messageSource.getMessage("download.is.available", new Object[] {resource.getBaseUrl(), downloadFileName}, locale));
+	    			} else {
+	    				jobExecutionInfo.setExitDescription(messageSource.getMessage("download.failed", new Object[] {}, locale));
+	    			}
+	    		}
+	    	}
 			
 		}
 		return jobExecutionInfo;

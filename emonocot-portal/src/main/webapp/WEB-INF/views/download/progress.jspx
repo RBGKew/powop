@@ -34,7 +34,7 @@
 			<div class="span12">
 				<div class="inner">
 					<div class="box">
-						
+						<p id="exitDescription">${resource.exitDescription}</p>
 					</div>
 				</div>
 			</div>

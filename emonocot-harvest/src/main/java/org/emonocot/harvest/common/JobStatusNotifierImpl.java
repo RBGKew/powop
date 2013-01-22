@@ -52,9 +52,9 @@ public class JobStatusNotifierImpl implements JobStatusNotifier {
 			resource.setExitCode(jobExecutionInfo.getExitCode());
 			resource.setExitDescription(jobExecutionInfo.getExitDescription());
 			if (jobExecutionInfo.getJobInstance() != null) {
-				resource.setJobInstance(jobExecutionInfo.getJobInstance()
-						.getResource());
+				resource.setJobInstance(jobExecutionInfo.getJobInstance());
 			}
+			resource.setBaseUrl(jobExecutionInfo.getBaseUrl());
 			resource.setResource(jobExecutionInfo.getResource());
 			resource.setStartTime(jobExecutionInfo.getStartTime());
 			resource.setStatus(jobExecutionInfo.getStatus());

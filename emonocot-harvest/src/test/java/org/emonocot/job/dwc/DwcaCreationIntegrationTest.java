@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -119,13 +120,11 @@ public class DwcaCreationIntegrationTest {
 		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
 		parameters.put("query", new JobParameter(""));
 		parameters.put("selected.facets", new JobParameter("taxon.family_s=Araceae,base.class_s=org.emonocot.model.Taxon"));
-		parameters.put("extensions", new JobParameter("Description,Distribution,Reference"));
-		parameters.put("taxon.columns", new JobParameter("scientificName,scientificNameAuthorship"));
-		parameters.put("description.columns", new JobParameter("taxonID,type,description"));
-		parameters.put("distribution.columns", new JobParameter("taxonID,locationID"));
-		parameters.put("reference.columns", new JobParameter("taxonID,bibliographicCitation"));
-		parameters.put("output.file",
-		        new JobParameter(File.createTempFile("output", ".zip").getAbsolutePath()));
+		parameters.put("download.taxon", new JobParameter("scientificName,scientificNameAuthorship"));
+		parameters.put("download.description", new JobParameter("taxonID,type,description"));
+		parameters.put("download.distribution", new JobParameter("taxonID,locationID"));
+		parameters.put("download.reference", new JobParameter("taxonID,bibliographicCitation"));
+		parameters.put("download.file",new JobParameter(UUID.randomUUID().toString()));
 		
 		JobParameters jobParameters = new JobParameters(parameters);
 		Job archiveCreatorJob = jobLocator.getJob("DarwinCoreArchiveCreation");
@@ -134,9 +133,9 @@ public class DwcaCreationIntegrationTest {
 		        jobParameters);
 		
 		assertEquals("The Job should be sucessful", ExitStatus.COMPLETED, jobExecution.getExitStatus());
-		
-		File outputFile = new File(jobParameters.getParameters()
-				.get("output.file").getValue().toString());
+		File workingDirectory = new File("target");
+		File outputFile = new File(workingDirectory,jobParameters.getParameters()
+				.get("download.file").getValue().toString() + ".zip");
         ZipInputStream zipStream = new ZipInputStream(new FileInputStream(outputFile));
         assertNotNull("There should be an output file", outputFile);
 		System.out.println("Zip file created at " + outputFile.getAbsolutePath());
@@ -146,7 +145,7 @@ public class DwcaCreationIntegrationTest {
         while((e = zipStream.getNextEntry()) != null){
             entries.add(e);
         }
-        assertEquals("There should be 5 files", 5, entries.size());
+        assertEquals("There should be 6 files", 6, entries.size());
 	}
 	
 	/**
@@ -155,16 +154,15 @@ public class DwcaCreationIntegrationTest {
 	@Test
 	public void testWriteAllArchive() throws Exception {
 		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
-		parameters.put("output.file",
-		        new JobParameter(File.createTempFile("output", ".zip").getAbsolutePath()));
+		
 		
 		parameters.put("query", new JobParameter(""));
 		parameters.put("selected.facets", new JobParameter("base.class_s=org.emonocot.model.Taxon"));
-		parameters.put("extensions", new JobParameter("Description,Distribution,Reference"));
-		parameters.put("taxon.columns", new JobParameter("scientificName,scientificNameAuthorship"));
-		parameters.put("description.columns", new JobParameter("taxonID,type,description"));
-		parameters.put("distribution.columns", new JobParameter("taxonID,locationID"));
-		parameters.put("reference.columns", new JobParameter("taxonID,bibliographicCitation"));
+		parameters.put("download.taxon", new JobParameter("scientificName,scientificNameAuthorship"));
+		parameters.put("download.description", new JobParameter("taxonID,type,description"));
+		parameters.put("download.distribution", new JobParameter("taxonID,locationID"));
+		parameters.put("download.reference", new JobParameter("taxonID,bibliographicCitation"));
+		parameters.put("download.file",new JobParameter(UUID.randomUUID().toString()));
 		
 		JobParameters jobParameters = new JobParameters(parameters);
 		Job archiveCreatorJob = jobLocator.getJob("DarwinCoreArchiveCreation");
@@ -174,8 +172,9 @@ public class DwcaCreationIntegrationTest {
 		
 		assertEquals("The Job should be sucessful", ExitStatus.COMPLETED, jobExecution.getExitStatus());
 
-        File outputFile = new File(jobParameters.getParameters()
-                .get("output.file").getValue().toString());
+		File workingDirectory = new File("target");
+		File outputFile = new File(workingDirectory,jobParameters.getParameters()
+				.get("download.file").getValue().toString() + ".zip");
         ZipInputStream zipStream = new ZipInputStream(new FileInputStream(outputFile));
         assertNotNull("There should be an output file", outputFile);
         System.out.println("Zip file created at " + outputFile.getAbsolutePath());

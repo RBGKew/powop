@@ -35,7 +35,7 @@ public class DoubleConverter implements SingleValueConverter {
 		} else {
 			NumberFormat format = NumberFormat.getInstance(Locale.US);
 			try {
-				return new Double(format.parse(str).doubleValue());
+				return new Double(format.parse(str.replace("+", "")).doubleValue());
 			} catch (ParseException pe) {
 				throw new RuntimeException(pe);
 			}

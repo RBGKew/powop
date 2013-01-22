@@ -21,9 +21,15 @@ public class DwcFieldExtractor implements FieldExtractor<BaseData> {
 	
 	private String extension;
 	
+	private Character quoteCharacter;
+	
 	private TermFactory termFactory = new TermFactory();
 	
     private ConversionService conversionService;
+    
+    public void setQuoteCharacter(Character quoteCharacter) {
+    	this.quoteCharacter = quoteCharacter;
+    }
     
     public void setConversionService(ConversionService conversionService) {
     	this.conversionService = conversionService;
@@ -43,14 +49,19 @@ public class DwcFieldExtractor implements FieldExtractor<BaseData> {
 	@Override
 	public Object[] extract(BaseData item) {
 		List<Object> values = new ArrayList<Object>();
-		ConceptTerm extensionTerm = termFactory.findTerm(extension);
-		Map<ConceptTerm,String> propertyMap = DarwinCorePropertyMap.getPropertyMap(extensionTerm);
+		ConceptTerm extensionTerm = termFactory.findTerm(extension);		
+		Map<ConceptTerm,String> propertyMap = DarwinCorePropertyMap.getPropertyMap(extensionTerm);		
 		BeanWrapper beanWrapper = new BeanWrapperImpl(item);
 		for(String property : names) {
-		     ConceptTerm propertyTerm = termFactory.findTerm(property);
-		     String propertyName = propertyMap.get(propertyTerm);
+			ConceptTerm propertyTerm = termFactory.findTerm(property);		    
+		    String propertyName = propertyMap.get(propertyTerm);
 		     try {
-		    	 values.add(conversionService.convert(beanWrapper.getPropertyValue(propertyName), String.class));
+		    	 String value = conversionService.convert(beanWrapper.getPropertyValue(propertyName), String.class);
+		    	 if(quoteCharacter == null) {
+		    	     values.add(value);
+		    	 } else {
+		    		 values.add(quoteCharacter + value + quoteCharacter);
+		    	 }
 		     } catch(PropertyAccessException pae) {
 		    	 
 		     }
