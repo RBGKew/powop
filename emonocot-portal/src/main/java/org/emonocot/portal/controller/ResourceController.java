@@ -143,8 +143,8 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		Page<Annotation> result = annotationService.search(query, null, limit,
 				start, new String[] { "annotation.code_s",
 				"annotation.type_s", "annotation.record_type_s",
-				"annotation.job_id_l" }, selectedFacets, null,
-				"annotated-obj");
+				"annotation.job_id_l" }, null, selectedFacets,
+				null, "annotated-obj");
 		result.putParam("query", query);
 		model.addAttribute("jobId",resource.getJobId());
 		model.addAttribute("result", result);

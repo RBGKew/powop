@@ -108,7 +108,7 @@ public class AnnotationDaoTest extends AbstractPersistenceTest {
        Map<String,String> selectedFacets = new HashMap<String, String>();
        selectedFacets.put("base.authority_s", "WCS");
        selectedFacets.put("annotation.job_id_l", "1");
-       Page<Annotation> results = annotationDao.search(null, null, null, null, facets, selectedFacets, null, null);
+       Page<Annotation> results = annotationDao.search(null, null, null, null, facets, null, selectedFacets, null, null);
        for(String facetName : results.getFacetNames()) {
     	   System.out.println(facetName);
     	   FacetField facet = results.getFacetField(facetName);
@@ -120,7 +120,7 @@ public class AnnotationDaoTest extends AbstractPersistenceTest {
        
        selectedFacets.clear();
        selectedFacets.put("annotation.job_id_l", "1");
-       results = annotationDao.search(null, null, null, null, facets, selectedFacets, null, null);
+       results = annotationDao.search(null, null, null, null, facets, null, selectedFacets, null, null);
        for(String facetName : results.getFacetNames()) {
     	   System.out.println(facetName);
     	   FacetField facet = results.getFacetField(facetName);
@@ -132,7 +132,7 @@ public class AnnotationDaoTest extends AbstractPersistenceTest {
        selectedFacets.put("annotation.job_id_l", "1");
        selectedFacets.put("annotation.record_type_s", "Taxon");
        selectedFacets.put("annotation.type_s", "Create");
-       results = annotationDao.search(null, null, null, null, facets, selectedFacets, null, null);
+       results = annotationDao.search(null, null, null, null, facets, null, selectedFacets, null, null);
        for(String facetName : results.getFacetNames()) {
     	   System.out.println(facetName);
     	   FacetField facet = results.getFacetField(facetName);

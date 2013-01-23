@@ -99,7 +99,7 @@ public class SpatialSearchTest extends AbstractPersistenceTest {
         //testSpatialSearch() should return Aus bus but not Aus ceus
         Page<SearchableObject> page = getSearchableObjectDao().search(
         null, "Intersects(150.00 -40.0 160.0 -20.0)", null, null, null,
-                null, null, null);
+                null, null, null, null);
         Set<String> names = new HashSet<String>();
         for (SearchableObject t : page.getRecords()) {
            names.add(((Taxon)t).getScientificName());

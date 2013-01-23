@@ -275,6 +275,7 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
      * @param pageSize set the page size
      * @param pageNumber set the page number
      * @param facets set the facets to be calculated
+     * @param facetPrefixes TODO
      * @param selectedFacets set the facets that are selected
      * @param fetch TODO
      * @return a page of objects
@@ -282,8 +283,8 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
     public final Page<T> search(final String query, final String spatialQuery,
             final Integer pageSize, final Integer pageNumber,
             final String[] facets,
-            final Map<String, String> selectedFacets,
-            final String sort, String fetch) {
+            Map<String, String> facetPrefixes,
+            final Map<String, String> selectedFacets, final String sort, String fetch) {
         // TODO Auto-generated method stub
         // TODO move persistence to persistence package?
         return null;

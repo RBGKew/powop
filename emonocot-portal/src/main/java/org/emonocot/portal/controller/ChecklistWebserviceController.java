@@ -90,7 +90,7 @@ public class ChecklistWebserviceController {
 		selectedFacets.put("base.class_s","org.emonocot.model.Taxon");
 		ModelAndView modelAndView = new ModelAndView("rdfResponse");
 		Page<SearchableObject> taxa = searchableObjectService.search(query, null, null, null, null,
-				selectedFacets, null, null);
+				null, selectedFacets, null, null);
 		modelAndView.addObject("result", taxa.getRecords());
 		try {
 			MDC.put(LoggingConstants.SEARCH_TYPE_KEY,

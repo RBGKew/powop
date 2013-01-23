@@ -129,7 +129,7 @@ public class DownloadController {
        
 
        //Run the search
-       Page<? extends SearchableObject> result = searchableObjectService.search(query, null, 10, 0, null, selectedFacets, sort, null);
+       Page<? extends SearchableObject> result = searchableObjectService.search(query, null, 10, 0, null, null, selectedFacets, sort, null);
 
        result.setSort(sort);
        model.addAttribute("taxonTerms", DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon));
@@ -168,7 +168,7 @@ public class DownloadController {
         if(archiveOptions == null) {
         	archiveOptions = new ArrayList<String>();
         }
-	    Page<? extends SearchableObject> result = searchableObjectService.search(query, null, 10, 0, null, selectedFacets, sort, null);
+	    Page<? extends SearchableObject> result = searchableObjectService.search(query, null, 10, 0, null, null, selectedFacets, sort, null);
 	    
 		Resource resource = new Resource();
 		resource.setTitle("download" + Long.toString(System.currentTimeMillis()));

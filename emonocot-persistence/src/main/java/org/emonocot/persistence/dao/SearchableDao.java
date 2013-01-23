@@ -25,6 +25,7 @@ public interface SearchableDao<T extends Base> extends Dao<T> {
      *            the recordset
      * @param facets
      *            The names of the facets you want to calculate
+     * @param facetPrefixes TODO
      * @param selectedFacets
      *            A map of facets which you would like to restrict the search by
      * @param sort
@@ -35,7 +36,7 @@ public interface SearchableDao<T extends Base> extends Dao<T> {
      */
     Page<T> search(String query, String spatialQuery, Integer pageSize,
             Integer pageNumber, String[] facets,
-            Map<String, String> selectedFacets, String sort, String fetch);
+            Map<String, String> facetPrefixes, Map<String, String> selectedFacets, String sort, String fetch);
     
     /**
      * 

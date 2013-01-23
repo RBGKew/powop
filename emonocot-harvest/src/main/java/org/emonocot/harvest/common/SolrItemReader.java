@@ -57,7 +57,7 @@ public class SolrItemReader<T extends SearchableObject> extends AbstractPagingIt
 	 */
 	@Override
 	protected void doReadPage() {
-	    results = service.search(queryString, null, getPageSize(), getPage(), null, selectedFacets, sort, "object-page").getRecords();
+	    results = service.search(queryString, null, getPageSize(), getPage(), null, null, selectedFacets, sort, "object-page").getRecords();
 		logger.debug("Search for " + queryString + " (page number " + getPage() + " got a page of " + results.size()
 					+ " (results");
 	}
