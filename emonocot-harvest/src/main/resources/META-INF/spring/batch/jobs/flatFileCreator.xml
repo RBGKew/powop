@@ -23,10 +23,6 @@
 	
 	<batch:job id="FlatFileCreation">
 		<batch:description>Create a flat file</batch:description>
-		<batch:decision decider="produceTaxonFileDecider" id="checkCoreFile">
-		  <batch:next on="true" to="createCoreFile"/>
-		  <batch:end on="false"/>
-		</batch:decision>
 		<batch:step id="createCoreFile" parent="produceCoreFile">
 			<batch:description>Create the Taxon (core) file</batch:description>
 			<batch:end on="COMPLETED"/>
@@ -35,11 +31,6 @@
             <batch:listener ref="jobStatusListener" />
         </batch:listeners>
 	</batch:job>
-	
-	<bean id="produceTaxonFileDecider" class="org.emonocot.job.dwc.write.ExposeParametersDecider">
-		<property name="jobParameterName" value="download.taxon"/>
-		<property name="outputDirectory" value="${harvester.output.directory}"/>
-	</bean>
 			
 	<bean id="downloadItemsReader" class="org.emonocot.harvest.common.SolrItemReader" scope="step">
 	  <property name="service" ref="searchableObjectServiceImpl" />	  
@@ -55,18 +46,30 @@
 	<bean id="downloadFileWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
 	  <property name="resource" ref="downloadFile"/>
 	  <property name="lineAggregator" ref="lineAggregator"/>
+	  <property name="headerCallback" ref="dwcHeaderWriter"/>
 	</bean>
 	
+	<bean id="dwcHeaderWriter" class="org.emonocot.job.dwc.write.DwcHeaderWriter" scope="step">
+	  <property name="header" value="#{jobParameters['download.taxon']}"/>
+	  <property name="delimiter" value="#{jobParameters['download.fieldsTerminatedBy']}"/>
+	</bean>
+
 	<bean id="downloadFile" class="org.springframework.core.io.FileSystemResource" scope="step">
-		<constructor-arg value="#{jobExecutionContext['download.file']}" />
+		<constructor-arg type="java.io.File">
+			<bean class="java.io.File" scope="step">
+				<constructor-arg type="java.io.File" value="${harvester.output.directory}"/>
+				<constructor-arg type="java.lang.String" value="#{jobParameters['download.file']}"/>
+			</bean>
+		</constructor-arg>
 	</bean>
 	
 	<bean name="lineAggregator" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator" scope="step">
 	 <property name="delimiter" value="#{jobParameters['download.fieldsTerminatedBy']}"/>
 	 <property name="fieldExtractor">
 	   <bean class="org.emonocot.job.dwc.write.DwcFieldExtractor" scope="step">
-	     <property name="names" value="#{jobExecutionContext['download.fields']}"/>
-	     <property name="extension" value="#{jobExecutionContext['download.extension']}"/>
+	     <property name="names" value="#{jobParameters['download.taxon']}"/>
+	     <property name="quoteCharacter" value="#{jobParameters['download.fieldsEnclosedBy']}"/>
+	     <property name="extension" value="Taxon"/>
 	     <property name="conversionService" ref="conversionService"/>
 	   </bean>
 	 </property>

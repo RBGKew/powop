@@ -1,7 +1,5 @@
 package org.emonocot.job.dwc.measurementorfact;
 
-import java.text.ParseException;
-
 import org.emonocot.job.dwc.read.OwnedEntityFieldSetMapper;
 import org.emonocot.model.MeasurementOrFact;
 import org.emonocot.model.constants.MeasurementType;
@@ -9,6 +7,7 @@ import org.emonocot.model.constants.MeasurementUnit;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.StepExecutionListener;
@@ -21,8 +20,6 @@ import org.springframework.validation.BindException;
  */
 public class FieldSetMapper extends
         OwnedEntityFieldSetMapper<MeasurementOrFact> implements StepExecutionListener {
-
-
 	
     /**
      *
@@ -66,13 +63,7 @@ public class FieldSetMapper extends
             	object.setMeasurementDeterminedBy(value);
             	break;
             case measurementDeterminedDate:            	
-            	try {
-                    object.setMeasurementDeterminedDate(dateTimeParser.parse(value, null));
-                } catch (ParseException pe) {
-                    BindException be = new BindException(object, "target");
-                    be.rejectValue("measurementDeterminedDate", "not.valid", pe.getMessage());
-                    throw be;
-                }
+            	object.setMeasurementDeterminedDate(conversionService.convert(value, DateTime.class));
             	break;
             case measurementMethod:
             	object.setMeasurementMethod(value);

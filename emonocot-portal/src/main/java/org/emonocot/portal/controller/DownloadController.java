@@ -133,6 +133,7 @@ public class DownloadController {
 
        result.setSort(sort);
        model.addAttribute("taxonTerms", DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon));
+       model.addAttribute("taxonMap", DarwinCorePropertyMap.getPropertyMap(DwcTerm.Taxon));
        model.addAttribute("result", result);
        if(result.getSize() > downloadLimit) {
     	   String[] codes = new String[] { "download.truncated" };
@@ -194,7 +195,7 @@ public class DownloadController {
         String downloadType = null;
         if(downloadFormat.equals("taxon")) {
 			downloadFileName = downloadFileName + ".txt";
-			jobParametersMap.put("download.taxon", toParameter(DarwinCorePropertyMap.taxonTerms.keySet()));			
+			jobParametersMap.put("download.taxon", toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon)));			
             jobParametersMap.put("job.total.reads", Integer.toString(result.getSize()));
 		} else {
 			jobParametersMap.put("job.total.reads", Integer.toString(result.getSize() * (archiveOptions.size() + 1)));

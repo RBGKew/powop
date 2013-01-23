@@ -22,7 +22,6 @@ import org.emonocot.model.Taxon;
 import org.emonocot.persistence.hibernate.SolrIndexingListener;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DwcTerm;
-import org.gbif.dwc.terms.GbifTerm;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -118,6 +117,8 @@ public class FlatFileCreatorIntegrationTest {
 		parameters.put("download.taxon", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon))));
 		parameters.put("download.file", new JobParameter(UUID.randomUUID().toString() + ".txt"));
 		parameters.put("download.limit", new JobParameter(new Integer(Integer.MAX_VALUE).toString()));
+		parameters.put("download.fieldsTerminatedBy", new JobParameter("\t"));
+		parameters.put("download.fieldsEnclosedBy", new JobParameter("\""));
 
 		JobParameters jobParameters = new JobParameters(parameters);
 		Job archiveCreatorJob = jobLocator.getJob("FlatFileCreation");

@@ -198,7 +198,7 @@
 									<tr>
 										<th>${status.index}</th>
 										<c:forEach items="${taxonTerms}" var="field" begin="0" end="5">
-											<td><c:catch><spring:eval expression="taxon.${taxonTerms[field]}" htmlEscape="false" /></c:catch></td>
+											<td><c:catch><spring:eval expression="taxon.${taxonMap[field]}" htmlEscape="false" /></c:catch></td>
 										</c:forEach>
 									</tr>
 								</c:forEach>

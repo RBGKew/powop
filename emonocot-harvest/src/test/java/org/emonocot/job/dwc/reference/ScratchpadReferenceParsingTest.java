@@ -9,6 +9,7 @@ import org.emonocot.api.TaxonService;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.convert.ReferenceTypeConverter;
+import org.emonocot.model.convert.StringToIsoDateTimeConverter;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.item.ExecutionContext;
@@ -80,6 +81,7 @@ public class ScratchpadReferenceParsingTest {
 
         Set<Converter> converters = new HashSet<Converter>();
         converters.add(new ReferenceTypeConverter());
+        converters.add(new StringToIsoDateTimeConverter());
 
         ConversionServiceFactoryBean factoryBean = new ConversionServiceFactoryBean();
         factoryBean.setConverters(converters);
