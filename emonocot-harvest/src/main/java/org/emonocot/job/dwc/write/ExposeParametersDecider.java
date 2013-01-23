@@ -63,6 +63,7 @@ public class ExposeParametersDecider implements JobExecutionDecider {
 		File workDirectory = new File(outputDirectory.getFile(),jobParameters.getString("download.file"));
 		if(!workDirectory.exists()) {
 			workDirectory.mkdir();
+			executionContext.put("working.directory", workDirectory.getAbsolutePath());
 		}
         File downloadFile =  new File(workDirectory,fileName);
         executionContext.put("download.file", downloadFile.getAbsolutePath());

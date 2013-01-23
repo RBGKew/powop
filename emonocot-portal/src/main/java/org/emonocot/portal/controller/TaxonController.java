@@ -2,6 +2,8 @@ package org.emonocot.portal.controller;
 
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.Taxon;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("/taxon")
 public class TaxonController extends GenericController<Taxon, TaxonService> {
+	
+	private static Logger queryLog = LoggerFactory.getLogger("query");
 
     /**
      *
@@ -44,6 +48,7 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
     @RequestMapping(value = "/{identifier}", method = RequestMethod.GET, produces = {"text/html", "*/*"})
     public final String show(@PathVariable final String identifier, final Model model) {
         model.addAttribute(getService().load(identifier, "taxon-page"));
+        queryLog.info("Taxon: \'{}\'", new Object[] {identifier});
         return "taxon/show";
     }
 }

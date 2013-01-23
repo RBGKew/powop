@@ -8,7 +8,6 @@ import org.emonocot.model.Reference;
 import org.emonocot.model.constants.DescriptionType;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
-import org.gbif.dwc.terms.UnknownTerm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.StepExecutionListener;
@@ -81,12 +80,6 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<Description> imple
             default:
                 break;
             }
-        }        
-
-        // Unknown Terms
-        if (term instanceof UnknownTerm) {
-            UnknownTerm unknownTerm = (UnknownTerm) term;
-            
         }
     }
 

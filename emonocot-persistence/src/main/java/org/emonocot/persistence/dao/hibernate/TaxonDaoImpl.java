@@ -7,11 +7,14 @@ import java.util.Map;
 
 import org.emonocot.model.Taxon;
 import org.emonocot.model.hibernate.Fetch;
+import org.emonocot.pager.DefaultPageImpl;
+import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.TaxonDao;
 import org.gbif.ecat.voc.Rank;
 import org.gbif.ecat.voc.TaxonomicStatus;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
+import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -22,7 +25,7 @@ import com.rc.retroweaver.runtime.Arrays;
  * @author ben
  */
 @Repository
-public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
+public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
 
     /**
      *
@@ -197,4 +200,24 @@ public class TaxonDaoImpl extends SearchableDaoImpl<Taxon> implements TaxonDao {
         }
         return results;
     }
+    
+    /* (non-Javadoc)
+	 * @see org.emonocot.persistence.dao.SearchableDao#searchByExample(org.emonocot.model.Base, boolean, boolean)
+	 */
+	@Override
+	public Page<Taxon> searchByExample(Taxon example, boolean ignoreCase,
+			boolean useLike) {
+		Example criterion = Example.create(example);
+        if(ignoreCase) {
+            criterion.ignoreCase();
+        }
+        if(useLike) {
+            criterion.enableLike();
+        }
+        Criteria criteria = getSession().createCriteria(Taxon.class);
+        criteria.add(criterion);
+        List<Taxon> results = (List<Taxon>) criteria.list();
+        Page<Taxon> page = new DefaultPageImpl<Taxon>(results.size(), null, null, results, null);
+        return page;
+	}
 }

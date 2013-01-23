@@ -47,11 +47,6 @@ public abstract class SearchableServiceImpl<T extends Base, DAO extends Searchab
         return dao.search(query, spatialQuery, pageSize, pageNumber, facets,
                 selectedFacets, sort, fetch);
     }
-
-    @Transactional(readOnly = true)
-    public Page<T> searchByExample(T example, boolean ignoreCase, boolean useLike) {
-        return dao.searchByExample(example, ignoreCase, useLike);
-    }
     
     @Transactional(readOnly = true)
     public List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets) {

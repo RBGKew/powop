@@ -45,23 +45,4 @@ public interface SearchableDao<T extends Base> extends Dao<T> {
      * @return a list of match objects
      */
     List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets);
-
-    /**
-     * @param example
-     *            an object with fields set to the required values
-     * @return a page of all matching objects
-     */
-
-    /**
-     * @param example
-     *            an object with fields set to the required values
-     * @param ignoreCase
-     *            whether to treat Uppercase/Lowercase letters the same
-     * @param useLike
-     *            whether to enable <i>LIKE</i> in query
-     * @return a single page of objects that have the same properties as the
-     *         example
-     */
-    Page<T> searchByExample(T example, boolean ignoreCase, boolean useLike);
-
 }

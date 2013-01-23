@@ -123,8 +123,16 @@
 	    <batch:step id="packageArchive">
 			<batch:description>Package the archive up</batch:description>
 			<batch:tasklet ref="packageArchiveTasklet"/>
-			<batch:end on="COMPLETED"/>
+			<batch:next on="COMPLETED" to="cleanupResources"/>
 	    </batch:step>
+	    <batch:step id="cleanupResources">
+			<batch:description>Cleanup the resources</batch:description>
+			<batch:tasklet ref="workingDirectoryResourceDeletingTasklet" />
+			<batch:end on="COMPLETED"/>
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
 	    <batch:listeners>
             <batch:listener ref="jobStatusListener" />
         </batch:listeners>
@@ -231,6 +239,7 @@
 	<bean id="downloadItemsReader" class="org.emonocot.harvest.common.SolrItemReader" scope="step">
 	  <property name="service" ref="searchableObjectServiceImpl" />	  
 	  <property name="pageSize" value="10"/>
+	  <property name="maxItemCount" value="#{jobParameters['download.limit']}"/>
 	  <property name="queryString" value="#{jobParameters['download.query']}"/>
 	  <property name="sort" value="#{jobParameters['download.sort']}"/>	  
 	  <property name="selectedFacets" value="#{jobParameters['download.selectedFacets']}"/>	  
@@ -257,5 +266,17 @@
 	     <property name="quoteCharacter" value="#{jobParameters['download.fieldsEnclosedBy']}"/>
 	   </bean>
 	 </property>
+	</bean>
+	
+	<bean id="workingDirectoryResourceDeletingTasklet"
+		class="org.emonocot.harvest.common.MultiResourceDeletingTasklet"
+		scope="step">
+		<property name="resources">
+			<list>
+				<bean class="org.springframework.core.io.FileSystemResource" scope="step">
+					<constructor-arg value="#{jobExecutionContext['working.directory']}" />
+				</bean>				
+			</list>
+		</property>
 	</bean>
 </beans>

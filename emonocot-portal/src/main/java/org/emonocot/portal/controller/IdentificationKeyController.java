@@ -1,8 +1,9 @@
 package org.emonocot.portal.controller;
 
-import org.emonocot.api.TaxonService;
-import org.emonocot.model.IdentificationKey;
 import org.emonocot.api.IdentificationKeyService;
+import org.emonocot.model.IdentificationKey;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,38 +16,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 @RequestMapping("/key")
-public class IdentificationKeyController extends
-        GenericController<IdentificationKey, IdentificationKeyService> {
+public class IdentificationKeyController extends GenericController<IdentificationKey, IdentificationKeyService> {
 
-    /**
-     *
-     */
+    private static Logger queryLog = LoggerFactory.getLogger("query");
+
     public IdentificationKeyController() {
         super("key");
     }
-
-    /**
-     *
-     */
-    private TaxonService taxonService;
 
     /**
      * @param newIdentificationKeyService
      *            Set the identification key service
      */
     @Autowired
-    public final void setIdentificationKeyService(
-            final IdentificationKeyService newIdentificationKeyService) {
+    public void setIdentificationKeyService(IdentificationKeyService newIdentificationKeyService) {
         super.setService(newIdentificationKeyService);
-    }
-
-    /**
-     * @param newTaxonService
-     *            Set the taxon service
-     */
-    @Autowired
-    public final void setTaxonService(final TaxonService newTaxonService) {
-        this.taxonService = newTaxonService;
     }
 
     /**
@@ -57,10 +41,11 @@ public class IdentificationKeyController extends
      * @return The name of the view
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = {"text/html", "*/*"})
-    public final String getPage(@PathVariable final Long id,
-            final Model model) {
+    public String getPage(@PathVariable Long id,
+            Model model) {
         IdentificationKey key = getService().load(id, "object-page");
-        model.addAttribute(key);     
+        model.addAttribute(key); 
+        queryLog.info("IdentificationKey: \'{}\'", new Object[] {id});
         return "key/show";
     }
 

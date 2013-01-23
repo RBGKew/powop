@@ -74,7 +74,7 @@ public class SearchTest extends AbstractPersistenceTest {
      */
     @Test
     public final void testSearch() {
-        Page<Taxon> results = getTaxonDao().search("taxon.scientific_name_t:Aus", null, null, null,
+        Page<SearchableObject> results = getSearchableObjectDao().search("taxon.scientific_name_t:Aus", null, null, null,
                 new String[] {"taxon.distribution_TDWG_0_ss" }, null, null, null);
         assertEquals("There should be 5 taxa matching Aus", new Integer(5), (Integer)results.getSize());
         
@@ -89,7 +89,7 @@ public class SearchTest extends AbstractPersistenceTest {
 
         selectedFacets.put("taxon.distribution_TDWG_0_ss", "AUSTRALASIA");
 
-        Page<Taxon> results = getTaxonDao().search("taxon.scientific_name_t:Aus", null, null, null,
+        Page<SearchableObject> results = getSearchableObjectDao().search("taxon.scientific_name_t:Aus", null, null, null,
                 new String[] {"taxon.distribution_TDWG_0_ss" , "taxon.distribution_TDWG_1_ss"}, selectedFacets, null, null);
         assertEquals("There should be 2 taxa matching Aus found in AUSTRALASIA", new Integer(2), (Integer)results.getSize());
         for(String facetName : results.getFacetNames()) {
@@ -106,7 +106,7 @@ public class SearchTest extends AbstractPersistenceTest {
      */
     @Test
     public final void testSearchEmbeddedContent() {
-        Page<Taxon> page = getTaxonDao().search("Lorem", null, null, null,
+        Page<SearchableObject> page = getSearchableObjectDao().search("Lorem", null, null, null,
                 null, null, null, null);
 
         assertFalse(page.getSize() == 0);
@@ -159,7 +159,7 @@ public class SearchTest extends AbstractPersistenceTest {
     public final void testLeadingWhitespace() {
     	boolean exceptionThrown = false;
     	try {
-            Page<Taxon> results = getTaxonDao().search(" Aus bus", null, null, null, null, null, null, null);
+            Page<SearchableObject> results = getSearchableObjectDao().search(" Aus bus", null, null, null, null, null, null, null);
     	} catch(Exception e) {
     		exceptionThrown = true;
     	}
@@ -171,6 +171,6 @@ public class SearchTest extends AbstractPersistenceTest {
      */
     @Test
     public final void testAutocomplete() {
-    	List<Match> matched = getTaxonDao().autocomplete("Aus bu", 10, null);
+    	List<Match> matched = getSearchableObjectDao().autocomplete("Aus bu", 10, null);
     }
 }

@@ -19,6 +19,9 @@ import org.emonocot.model.SearchableObject;
 import org.emonocot.model.registry.Resource;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
+import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.DwcTerm;
+import org.gbif.dwc.terms.GbifTerm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.BatchStatus;
@@ -50,6 +53,8 @@ public class DownloadController {
     private static Logger queryLog = LoggerFactory.getLogger("query");
 
     private static Logger logger = LoggerFactory.getLogger(DownloadController.class);
+    
+    private Integer downloadLimit = 10000;
 
     private SearchableObjectService searchableObjectService;
     
@@ -60,6 +65,10 @@ public class DownloadController {
 	private JobExplorer jobExplorer;
 	
 	private MessageSource messageSource;
+	
+	public void setDownloadLimit(Integer downloadLimit) {
+		this.downloadLimit = downloadLimit;
+	}
 
     @Autowired
     public void setSearchableObjectService(SearchableObjectService searchableObjectService) {
@@ -123,8 +132,15 @@ public class DownloadController {
        Page<? extends SearchableObject> result = searchableObjectService.search(query, null, 10, 0, null, selectedFacets, sort, null);
 
        result.setSort(sort);
-       model.addAttribute("taxonTerms", DarwinCorePropertyMap.taxonTerms);
-       model.addAttribute("result", result);       
+       model.addAttribute("taxonTerms", DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon));
+       model.addAttribute("result", result);
+       if(result.getSize() > downloadLimit) {
+    	   String[] codes = new String[] { "download.truncated" };
+		   Object[] args = new Object[] { result.getSize(), downloadLimit };
+		   DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
+					codes, args);
+		   model.addAttribute("warn",message);
+       }
 
        return "download/download";
    }
@@ -134,6 +150,7 @@ public class DownloadController {
 		   @RequestParam(value = "query", required = false) String query,       
 	       @RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 	       @RequestParam(value = "sort", required = false) String sort,
+	       @RequestParam(value = "purpose", required = false) String purpose,
 	       Model model,
 	       @RequestParam(value="downloadFormat", required = true) String downloadFormat,
 	       @RequestParam(value = "archiveOptions", required = false) List<String> archiveOptions,
@@ -177,44 +194,42 @@ public class DownloadController {
         String downloadType = null;
         if(downloadFormat.equals("taxon")) {
 			downloadFileName = downloadFileName + ".txt";
-			jobParametersMap.put("download.taxon", toParameter(DarwinCorePropertyMap.taxonTerms.values()));			
+			jobParametersMap.put("download.taxon", toParameter(DarwinCorePropertyMap.taxonTerms.keySet()));			
             jobParametersMap.put("job.total.reads", Integer.toString(result.getSize()));
 		} else {
 			jobParametersMap.put("job.total.reads", Integer.toString(result.getSize() * (archiveOptions.size() + 1)));
-			jobParametersMap.put("download.taxon",toParameter(DarwinCorePropertyMap.taxonTerms.values()));
+			jobParametersMap.put("download.taxon",toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon)));
 			for(String archiveOption : archiveOptions) {
 				switch(archiveOption) {
 				case "description":
-					jobParametersMap.put("download.description", toParameter(DarwinCorePropertyMap.descriptionTerms.values()));
+					jobParametersMap.put("download.description", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Description)));
 					break;
 				case "distribution":
-					jobParametersMap.put("download.distribution", toParameter(DarwinCorePropertyMap.distributionTerms.values()));
+					jobParametersMap.put("download.distribution", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Distribution)));
 					break;
 				case "vernacularName":
-					jobParametersMap.put("download.vernacularName", toParameter(DarwinCorePropertyMap.vernacularNameTerms.values()));
+					jobParametersMap.put("download.vernacularName", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.VernacularName)));
 					break;
 				case "identifier":
-					jobParametersMap.put("download.identifier", toParameter(DarwinCorePropertyMap.identifierTerms.values()));
+					jobParametersMap.put("download.identifier", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Identifier)));
 					break;
 				case "measurementOrFact":
-					jobParametersMap.put("download.measurementOrFact", toParameter(DarwinCorePropertyMap.measurementOrFactTerms.values()));
+					jobParametersMap.put("download.measurementOrFact", toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.MeasurementOrFact)));
 					break;
 				case "image":
-					jobParametersMap.put("download.image", toParameter(DarwinCorePropertyMap.imageTerms.values()));
+					jobParametersMap.put("download.image", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Image)));
 					break;
 				case "reference":
-					jobParametersMap.put("download.reference", toParameter(DarwinCorePropertyMap.referenceTerms.values()));
+					jobParametersMap.put("download.reference", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Reference)));
 					break;
 				case "typeAndSpecimen":
-					jobParametersMap.put("download.typeAndSpecimen", toParameter(DarwinCorePropertyMap.typeAndSpecimenTerms.values()));
+					jobParametersMap.put("download.typeAndSpecimen", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.TypesAndSpecimen)));
 					break;
 				default:
 					break;
-				}
-				
+				}				
 			}
-		}		
-        
+		}
         
         jobParametersMap.put("download.file", downloadFileName);
         jobParametersMap.put("download.query", query);
@@ -222,6 +237,7 @@ public class DownloadController {
         jobParametersMap.put("download.selectedFacets", selectedFacetBuffer.toString());
         jobParametersMap.put("download.fieldsTerminatedBy", "\t");
         jobParametersMap.put("download.fieldsEnclosedBy", "\"");
+        jobParametersMap.put("download.limit", downloadLimit.toString());
         
         JobLaunchRequest jobLaunchRequest = new JobLaunchRequest();
         
@@ -259,6 +275,9 @@ public class DownloadController {
 			DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
 					codes, args);
 			redirectAttributes.addFlashAttribute("info", message);
+			queryLog.info("Download: \'{}\', format: {}, purpose: {},"
+	                + "facet: [{}], {} results", new Object[] {query,
+	                downloadFormat, purpose, selectedFacets, result.getSize() });
 		} catch (JobExecutionException e) {
 			String[] codes = new String[] { "job.failed" };
 			Object[] args = new Object[] { e.getMessage() };
@@ -269,17 +288,17 @@ public class DownloadController {
 		return "redirect:/download/progress?downloadId=" + resource.getId();
 	}
    
-   private String toParameter(Collection<String> terms) {
+   private String toParameter(Collection<ConceptTerm> terms) {
 	   StringBuffer stringBuffer = new StringBuffer();
        if (terms != null && !terms.isEmpty()) {           
 			boolean isFirst = true;
-           for (String term : terms) {
+           for (ConceptTerm term : terms) {
 				if(!isFirst) {
                    stringBuffer.append(",");
 				} else {
 					isFirst = false;
 				}
-				stringBuffer.append(term);
+				stringBuffer.append(term.simpleName());
            }
        }
        return stringBuffer.toString();
@@ -345,8 +364,10 @@ public class DownloadController {
 	    		} else {
 	    			if(jobExecutionInfo.getExitCode().equals("COMPLETED")) {
 	    				jobExecutionInfo.setExitDescription(messageSource.getMessage("download.is.available", new Object[] {resource.getBaseUrl(), downloadFileName}, locale));
-	    			} else {
+	    			} else if(jobExecutionInfo.getExitCode().equals("FAILED")) {
 	    				jobExecutionInfo.setExitDescription(messageSource.getMessage("download.failed", new Object[] {}, locale));
+	    			} else {
+	    				jobExecutionInfo.setExitDescription(messageSource.getMessage("download.will.be.available", new Object[] {resource.getBaseUrl(), downloadFileName}, locale));
 	    			}
 	    		}
 	    	}

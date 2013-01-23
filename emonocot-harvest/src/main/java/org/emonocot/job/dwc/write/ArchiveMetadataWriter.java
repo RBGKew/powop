@@ -4,10 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
+import org.emonocot.api.job.TermFactory;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
-import org.gbif.dwc.terms.TermFactory;
+
 import org.gbif.dwc.text.Archive;
 import org.gbif.dwc.text.ArchiveField;
 import org.gbif.dwc.text.ArchiveFile;

@@ -229,26 +229,4 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
 
         return results;
     }
-
-	/* (non-Javadoc)
-	 * @see org.emonocot.persistence.dao.SearchableDao#searchByExample(org.emonocot.model.Base, boolean, boolean)
-	 */
-	@Override
-	public Page<T> searchByExample(T example, boolean ignoreCase,
-			boolean useLike) {
-		Example criterion = Example.create(example);
-        if(ignoreCase) {
-            criterion.ignoreCase();
-        }
-        if(useLike) {
-            criterion.enableLike();
-        }
-        Criteria criteria = getSession().createCriteria(Taxon.class);
-        criteria.add(criterion);
-        List<T> results = (List<T>) criteria.list();
-        Page<T> page = new DefaultPageImpl<T>(results.size(), null, null, results, null);
-        return page;
-	}
-
-
 }

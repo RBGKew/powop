@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
  *
  */
 @Repository
-public class ImageDaoImpl extends SearchableDaoImpl<Image> implements ImageDao {
+public class ImageDaoImpl extends DaoImpl<Image> implements ImageDao {
 
    /**
     *

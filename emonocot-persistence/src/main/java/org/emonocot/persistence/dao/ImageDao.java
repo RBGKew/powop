@@ -7,6 +7,6 @@ import org.emonocot.model.Image;
  * @author ben
  *
  */
-public interface ImageDao extends SearchableDao<Image> {
+public interface ImageDao extends Dao<Image> {
 
 }

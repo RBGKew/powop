@@ -1,12 +1,11 @@
 package org.emonocot.job.dwc.image;
 
+import org.emonocot.api.job.Wgs84Term;
 import org.emonocot.job.dwc.read.NonOwnedFieldSetMapper;
 import org.emonocot.model.Image;
 import org.emonocot.model.constants.ImageFormat;
-import org.emonocot.model.convert.ImageFormatConverter;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
-import org.gbif.dwc.terms.UnknownTerm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;
@@ -77,16 +76,19 @@ public class FieldSetMapper extends
             }
         }    
     
-		// Unknown Terms
-		if (term instanceof UnknownTerm) {
-			UnknownTerm unknownTerm = (UnknownTerm) term;
-			if (unknownTerm.qualifiedName().equals(
-					"http://www.w3.org/2003/01/geo/wgs84_pos#latitude")) {
-				object.setLatitude(Double.valueOf(value));
-			} else if (unknownTerm.qualifiedName().equals(
-					"http://www.w3.org/2003/01/geo/wgs84_pos#longitude")) {
-				object.setLongitude(Double.valueOf(value));
-			}
-		}
+		// WGS84 Terms
+        if (term instanceof Wgs84Term) {
+        	Wgs84Term wgs84Term = (Wgs84Term)term;
+        	switch (wgs84Term) {
+            case latitude:
+            	object.setLatitude(conversionService.convert(value, Double.class));
+            	break;
+            case longitude:
+            	object.setLongitude(conversionService.convert(value, Double.class));
+            	break;                                   
+            default:
+                break;
+            }
+        }
     }
 }

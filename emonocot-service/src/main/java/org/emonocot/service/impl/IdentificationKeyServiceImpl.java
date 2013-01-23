@@ -13,9 +13,7 @@ import org.springframework.stereotype.Service;
  * @author jk00kg
  */
 @Service
-public class IdentificationKeyServiceImpl extends
-        SearchableServiceImpl<IdentificationKey, IdentificationKeyDao>
-        implements IdentificationKeyService {
+public class IdentificationKeyServiceImpl extends ServiceImpl<IdentificationKey, IdentificationKeyDao>  implements IdentificationKeyService {
 
     /**
      * @param newIdentificationKeyDao Set the identification key dao
