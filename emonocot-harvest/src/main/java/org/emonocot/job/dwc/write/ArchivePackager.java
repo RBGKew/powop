@@ -126,6 +126,7 @@ public class ArchivePackager implements Tasklet {
             zipOutputStream.write(buffer, 0, length);
 	    }
         zipOutputStream.closeEntry();
+        fileInputStream.close();
 	}
 	
 }

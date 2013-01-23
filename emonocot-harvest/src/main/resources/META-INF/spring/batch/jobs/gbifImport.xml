@@ -42,7 +42,7 @@
 	    <batch:step id="processFile">
 	      <batch:description>Process the specified file and check for matches</batch:description>
 			<batch:tasklet>
-				<batch:chunk reader="itemReader" writer="itemWriter" commit-interval="100" skip-limit="1000">
+				<batch:chunk reader="itemReader" writer="itemWriter" commit-interval="1" skip-limit="1000">
 				  <batch:skippable-exception-classes>
 					<batch:include class="org.gbif.ecat.parser.UnparsableException" />
 				  </batch:skippable-exception-classes>
@@ -136,8 +136,7 @@
 	<bean id="itemReader" class="org.springframework.batch.item.xml.StaxEventItemReader">
 		<property name="fragmentRootElementName" value="{http://portal.gbif.org/ws/response/gbif}dataResource" />
 		<property name="resource">
-			<bean class="org.springframework.core.io.FileSystemResource"
-				scope="step">
+			<bean class="org.springframework.core.io.FileSystemResource" scope="step">
 				<constructor-arg value="#{jobExecutionContext['temporary.file.name']}" />
 			</bean>
 		</property>

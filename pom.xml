@@ -1330,7 +1330,7 @@
 		<profile>
 			<id>functional</id>
 			<properties>
-				<skip.global.tests>true</skip.global.tests>
+				<skip.global.tests>true</skip.global.tests>				
 			</properties>
 			<build>
 				<plugins>
