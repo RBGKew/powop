@@ -47,7 +47,7 @@ public class SearchControllerTest {
 	 */
 	@Test
 	public void testSearchForImages() {
-		EasyMock.expect(searchableObjectService.search(EasyMock.eq(""), (String)EasyMock.isNull(), EasyMock.eq(24), EasyMock.eq(0), EasyMock.aryEq(facetNames),  EasyMock.isA(Map.class), (String)EasyMock.isNull(), (String)EasyMock.isNull())).andReturn(page);
+		EasyMock.expect(searchableObjectService.search(EasyMock.eq(""), (String)EasyMock.isNull(), EasyMock.eq(24), EasyMock.eq(0), EasyMock.aryEq(facetNames),  (Map)EasyMock.isA(Map.class), EasyMock.isA(Map.class), (String)EasyMock.isNull(), (String)EasyMock.isNull())).andReturn(page);
 		
 		EasyMock.replay(searchableObjectService);
 		FacetRequest classFacet = new FacetRequest();
@@ -66,7 +66,7 @@ public class SearchControllerTest {
 	 */
 	@Test
 	public void testSearchForAll() {
-		EasyMock.expect(searchableObjectService.search(EasyMock.eq(""), (String)EasyMock.isNull(), EasyMock.eq(10), EasyMock.eq(0), EasyMock.aryEq(facetNames),  (Map)EasyMock.isNull(), (String)EasyMock.isNull(), (String)EasyMock.isNull())).andReturn(page);
+		EasyMock.expect(searchableObjectService.search(EasyMock.eq(""), (String)EasyMock.isNull(), EasyMock.eq(10), EasyMock.eq(0), EasyMock.aryEq(facetNames),  (Map)EasyMock.isA(Map.class), (Map)EasyMock.isNull(), (String)EasyMock.isNull(), (String)EasyMock.isNull())).andReturn(page);
 		EasyMock.replay(searchableObjectService);
 		
 		String view = searchController.search("", 10, 0, facets, null, null, model);
@@ -81,7 +81,7 @@ public class SearchControllerTest {
 	 */
 	@Test
 	public void testSearchForAllListView() {
-		EasyMock.expect(searchableObjectService.search(EasyMock.eq(""), (String)EasyMock.isNull(), EasyMock.eq(10), EasyMock.eq(0), EasyMock.aryEq(facetNames),  (Map)EasyMock.isNull(), (String)EasyMock.isNull(), (String)EasyMock.isNull())).andReturn(page);
+		EasyMock.expect(searchableObjectService.search(EasyMock.eq(""), (String)EasyMock.isNull(), EasyMock.eq(10), EasyMock.eq(0), EasyMock.aryEq(facetNames),  (Map)EasyMock.isA(Map.class), (Map)EasyMock.isNull(), (String)EasyMock.isNull(), (String)EasyMock.isNull())).andReturn(page);
 		
 		EasyMock.replay(searchableObjectService);
 		
@@ -97,7 +97,7 @@ public class SearchControllerTest {
 	 */
 	@Test
 	public void testSearchForAllGridView() {
-		EasyMock.expect(searchableObjectService.search(EasyMock.eq(""), (String)EasyMock.isNull(), EasyMock.eq(24), EasyMock.eq(0), EasyMock.aryEq(facetNames),  (Map)EasyMock.isNull(), (String)EasyMock.isNull(), (String)EasyMock.isNull())).andReturn(page);
+		EasyMock.expect(searchableObjectService.search(EasyMock.eq(""), (String)EasyMock.isNull(), EasyMock.eq(24), EasyMock.eq(0), EasyMock.aryEq(facetNames),  (Map)EasyMock.isA(Map.class), (Map)EasyMock.isNull(), (String)EasyMock.isNull(), (String)EasyMock.isNull())).andReturn(page);
 		
 		EasyMock.replay(searchableObjectService);
 		
@@ -113,7 +113,7 @@ public class SearchControllerTest {
 	 */
 	@Test
 	public void testPagination() {
-        EasyMock.expect(searchableObjectService.search(EasyMock.eq(""), (String)EasyMock.isNull(), EasyMock.eq(10), EasyMock.eq(1), EasyMock.aryEq(facetNames),  (Map)EasyMock.isNull(), (String)EasyMock.isNull(), (String)EasyMock.isNull())).andReturn(page);
+        EasyMock.expect(searchableObjectService.search(EasyMock.eq(""), (String)EasyMock.isNull(), EasyMock.eq(10), EasyMock.eq(1), EasyMock.aryEq(facetNames),  (Map)EasyMock.isA(Map.class), (Map)EasyMock.isNull(), (String)EasyMock.isNull(), (String)EasyMock.isNull())).andReturn(page);
 		
 		EasyMock.replay(searchableObjectService);
 		

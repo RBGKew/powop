@@ -9,9 +9,11 @@ import static org.junit.Assert.assertNotNull;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -19,8 +21,12 @@ import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.params.ModifiableSolrParams;
+import org.emonocot.api.job.DarwinCorePropertyMap;
 import org.emonocot.model.Taxon;
 import org.emonocot.persistence.hibernate.SolrIndexingListener;
+import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.DwcTerm;
+import org.gbif.dwc.terms.GbifTerm;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -119,13 +125,12 @@ public class DwcaCreationIntegrationTest {
 		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
 		parameters.put("query", new JobParameter(""));
 		parameters.put("selected.facets", new JobParameter("taxon.family_s=Araceae,base.class_s=org.emonocot.model.Taxon"));
-		parameters.put("extensions", new JobParameter("Description,Distribution,Reference"));
-		parameters.put("taxon.columns", new JobParameter("scientificName,scientificNameAuthorship"));
-		parameters.put("description.columns", new JobParameter("taxonID,type,description"));
-		parameters.put("distribution.columns", new JobParameter("taxonID,locationID"));
-		parameters.put("reference.columns", new JobParameter("taxonID,bibliographicCitation"));
-		parameters.put("output.file",
-		        new JobParameter(File.createTempFile("output", ".zip").getAbsolutePath()));
+		parameters.put("download.taxon", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon))));
+		parameters.put("download.description", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Description))));
+		parameters.put("download.distribution", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Distribution))));
+		parameters.put("download.reference", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Reference))));
+		parameters.put("download.limit", new JobParameter(new Integer(Integer.MAX_VALUE).toString()));
+		parameters.put("download.file",new JobParameter(UUID.randomUUID().toString()));
 		
 		JobParameters jobParameters = new JobParameters(parameters);
 		Job archiveCreatorJob = jobLocator.getJob("DarwinCoreArchiveCreation");
@@ -134,9 +139,9 @@ public class DwcaCreationIntegrationTest {
 		        jobParameters);
 		
 		assertEquals("The Job should be sucessful", ExitStatus.COMPLETED, jobExecution.getExitStatus());
-		
-		File outputFile = new File(jobParameters.getParameters()
-				.get("output.file").getValue().toString());
+		File workingDirectory = new File("target");
+		File outputFile = new File(workingDirectory,jobParameters.getParameters()
+				.get("download.file").getValue().toString() + ".zip");
         ZipInputStream zipStream = new ZipInputStream(new FileInputStream(outputFile));
         assertNotNull("There should be an output file", outputFile);
 		System.out.println("Zip file created at " + outputFile.getAbsolutePath());
@@ -146,7 +151,7 @@ public class DwcaCreationIntegrationTest {
         while((e = zipStream.getNextEntry()) != null){
             entries.add(e);
         }
-        assertEquals("There should be 5 files", 5, entries.size());
+        assertEquals("There should be 6 files", 6, entries.size());
 	}
 	
 	/**
@@ -155,16 +160,16 @@ public class DwcaCreationIntegrationTest {
 	@Test
 	public void testWriteAllArchive() throws Exception {
 		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
-		parameters.put("output.file",
-		        new JobParameter(File.createTempFile("output", ".zip").getAbsolutePath()));
+		
 		
 		parameters.put("query", new JobParameter(""));
 		parameters.put("selected.facets", new JobParameter("base.class_s=org.emonocot.model.Taxon"));
-		parameters.put("extensions", new JobParameter("Description,Distribution,Reference"));
-		parameters.put("taxon.columns", new JobParameter("scientificName,scientificNameAuthorship"));
-		parameters.put("description.columns", new JobParameter("taxonID,type,description"));
-		parameters.put("distribution.columns", new JobParameter("taxonID,locationID"));
-		parameters.put("reference.columns", new JobParameter("taxonID,bibliographicCitation"));
+		parameters.put("download.taxon", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon))));
+		parameters.put("download.description", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Description))));
+		parameters.put("download.distribution", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Distribution))));
+		parameters.put("download.reference", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Reference))));
+		parameters.put("download.file",new JobParameter(UUID.randomUUID().toString()));
+		parameters.put("download.limit", new JobParameter(new Integer(Integer.MAX_VALUE).toString()));
 		
 		JobParameters jobParameters = new JobParameters(parameters);
 		Job archiveCreatorJob = jobLocator.getJob("DarwinCoreArchiveCreation");
@@ -174,8 +179,9 @@ public class DwcaCreationIntegrationTest {
 		
 		assertEquals("The Job should be sucessful", ExitStatus.COMPLETED, jobExecution.getExitStatus());
 
-        File outputFile = new File(jobParameters.getParameters()
-                .get("output.file").getValue().toString());
+		File workingDirectory = new File("target");
+		File outputFile = new File(workingDirectory,jobParameters.getParameters()
+				.get("download.file").getValue().toString() + ".zip");
         ZipInputStream zipStream = new ZipInputStream(new FileInputStream(outputFile));
         assertNotNull("There should be an output file", outputFile);
         System.out.println("Zip file created at " + outputFile.getAbsolutePath());
@@ -187,5 +193,22 @@ public class DwcaCreationIntegrationTest {
         }
         assertEquals("There should be 6 files", 6, entries.size());
 	}
+	
+	private String toParameter(Collection<ConceptTerm> terms) {
+		
+		   StringBuffer stringBuffer = new StringBuffer();
+	       if (terms != null && !terms.isEmpty()) {           
+				boolean isFirst = true;
+	           for (ConceptTerm term : terms) {
+					if(!isFirst) {
+	                   stringBuffer.append(",");
+					} else {
+						isFirst = false;
+					}
+					stringBuffer.append(term.simpleName());
+	           }
+	       }
+	       return stringBuffer.toString();
+	   }
 
 }

@@ -19,10 +19,11 @@
 
 	<context:annotation-config />
 
-	<bean id="conversionService"
-		class="org.springframework.context.support.ConversionServiceFactoryBean">
+	<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
 		<property name="converters">
 			<list>
+			    <bean class="org.emonocot.model.convert.StringToIsoDateTimeConverter" />
+			    <bean class="org.emonocot.model.convert.IsoDateTimeToStringConverter" />
 			    <bean class="org.emonocot.model.convert.RankConverter" />
 			    <bean class="org.emonocot.model.convert.EstablishmentMeansConverter" />
 			    <bean class="org.emonocot.model.convert.OccurrenceStatusConverter" />
