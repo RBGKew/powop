@@ -2,8 +2,9 @@ package org.emonocot.portal.controller;
 
 
 import org.emonocot.api.ImageService;
-import org.emonocot.api.TaxonService;
 import org.emonocot.model.Image;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,11 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("/image")
 public class ImageController extends GenericController<Image, ImageService> {
-
-    /**
-     *
-     */
-    private TaxonService taxonService;
+	
+	private static Logger queryLog = LoggerFactory.getLogger("query");
 
     /**
      *
@@ -33,16 +31,6 @@ public class ImageController extends GenericController<Image, ImageService> {
     @Autowired
     public final void setImageService(final ImageService imageService) {
         super.setService(imageService);
-    }
-
-    /**
-     *
-     * @param newTaxonService
-     *            Set the taxon service
-     */
-    @Autowired
-    public final void setTaxonService(final TaxonService newTaxonService) {
-        this.taxonService = newTaxonService;
     }
 
     /**
@@ -61,7 +49,8 @@ public class ImageController extends GenericController<Image, ImageService> {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = {"text/html", "*/*"})
     public final String show(@PathVariable final Long id, final Model model) {
         Image image = getService().load(id, "image-page");
-        model.addAttribute(image);        
+        model.addAttribute(image);
+        queryLog.info("Image: \'{}\'", new Object[] {id});
         return "image/show";
     }
 }

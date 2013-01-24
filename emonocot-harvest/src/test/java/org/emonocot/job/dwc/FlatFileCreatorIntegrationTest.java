@@ -6,18 +6,22 @@ package org.emonocot.job.dwc;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.params.ModifiableSolrParams;
+import org.emonocot.api.job.DarwinCorePropertyMap;
 import org.emonocot.model.Taxon;
 import org.emonocot.persistence.hibernate.SolrIndexingListener;
+import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.DwcTerm;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -110,10 +114,12 @@ public class FlatFileCreatorIntegrationTest {
 		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
 		parameters.put("query", new JobParameter(""));
 		parameters.put("selected.facets", new JobParameter("taxon.family_s=Araceae"));
-		parameters.put("extension", new JobParameter("Taxon"));
-		parameters.put("columns", new JobParameter("taxonID,scientificName,scientificNameAuthorship,taxonRank"));
-		parameters.put("output.file", new JobParameter(File.createTempFile("output", ".txt").getAbsolutePath()));
-		System.out.println(parameters.get("output.file"));
+		parameters.put("download.taxon", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon))));
+		parameters.put("download.file", new JobParameter(UUID.randomUUID().toString() + ".txt"));
+		parameters.put("download.limit", new JobParameter(new Integer(Integer.MAX_VALUE).toString()));
+		parameters.put("download.fieldsTerminatedBy", new JobParameter("\t"));
+		parameters.put("download.fieldsEnclosedBy", new JobParameter("\""));
+
 		JobParameters jobParameters = new JobParameters(parameters);
 		Job archiveCreatorJob = jobLocator.getJob("FlatFileCreation");
 		assertNotNull("flatFileCreatorJob must exist", archiveCreatorJob);
@@ -123,45 +129,20 @@ public class FlatFileCreatorIntegrationTest {
 		assertEquals("The Job should be sucessful", ExitStatus.COMPLETED, jobExecution.getExitStatus());        
 	}
 	
-	/**
-	 * @throws Exception
-	 */
-	@Test
-	public void testWriteDistributionFile() throws Exception {
-		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
-		parameters.put("output.file", new JobParameter(File.createTempFile("output", ".txt").getAbsolutePath()));
-		System.out.println(parameters.get("output.file"));
-		parameters.put("query", new JobParameter(""));
-		parameters.put("extension", new JobParameter("Distribution"));		
-		parameters.put("columns", new JobParameter("taxonID,locationID"));
+	private String toParameter(Collection<ConceptTerm> terms) {
 		
-		JobParameters jobParameters = new JobParameters(parameters);
-		Job archiveCreatorJob = jobLocator.getJob("FlatFileCreation");
-		assertNotNull("flatFileJob must exist", archiveCreatorJob);
-		JobExecution jobExecution = jobLauncher.run(archiveCreatorJob,
-		        jobParameters);
-		
-		assertEquals("The Job should be sucessful", ExitStatus.COMPLETED, jobExecution.getExitStatus());        
-	}
-
-	/**
-	 * @throws Exception
-	 */
-	@Test
-	public void testWriteImageFile() throws Exception {
-		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
-		parameters.put("output.file", new JobParameter(File.createTempFile("output", ".txt").getAbsolutePath()));
-		System.out.println(parameters.get("output.file"));
-		parameters.put("query", new JobParameter(""));
-		parameters.put("extension", new JobParameter("Image"));		
-		parameters.put("columns", new JobParameter("taxonID,identifier"));
-		
-		JobParameters jobParameters = new JobParameters(parameters);
-		Job archiveCreatorJob = jobLocator.getJob("FlatFileCreation");
-		assertNotNull("flatFileJob must exist", archiveCreatorJob);
-		JobExecution jobExecution = jobLauncher.run(archiveCreatorJob,
-		        jobParameters);
-		
-		assertEquals("The Job should be sucessful", ExitStatus.COMPLETED, jobExecution.getExitStatus());        
-	}
+		   StringBuffer stringBuffer = new StringBuffer();
+	       if (terms != null && !terms.isEmpty()) {           
+				boolean isFirst = true;
+	           for (ConceptTerm term : terms) {
+					if(!isFirst) {
+	                   stringBuffer.append(",");
+					} else {
+						isFirst = false;
+					}
+					stringBuffer.append(term.simpleName());
+	           }
+	       }
+	       return stringBuffer.toString();
+	   }
 }

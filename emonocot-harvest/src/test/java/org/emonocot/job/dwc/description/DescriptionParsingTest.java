@@ -7,6 +7,7 @@ import org.emonocot.api.TaxonService;
 import org.emonocot.model.Description;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.DescriptionType;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.item.ExecutionContext;
@@ -88,6 +89,7 @@ public class DescriptionParsingTest {
     @Test
     public final void testRead() throws Exception {
     	EasyMock.expect(conversionService.convert(EasyMock.isA(String.class), EasyMock.eq(DescriptionType.class))).andReturn(DescriptionType.general);
+    	EasyMock.expect(conversionService.convert(EasyMock.isA(String.class), EasyMock.eq(DateTime.class))).andReturn(new DateTime());
     	EasyMock.expect(taxonService.find(EasyMock.isA(String.class))).andReturn(new Taxon()).anyTimes();
         EasyMock.expect(taxonService.find(EasyMock.isA(String.class), EasyMock.eq("taxon-with-content"))).andReturn(new Taxon()).anyTimes();
         EasyMock.replay(taxonService,conversionService);

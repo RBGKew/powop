@@ -1,11 +1,8 @@
 package org.emonocot.harvest.common;
 
 import org.emonocot.api.job.JobExecutionInfo;
-import org.emonocot.api.job.JobInstanceInfo;
 import org.emonocot.api.job.JobStatusNotifier;
-import org.joda.time.DateTime;
 import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.listener.JobExecutionListenerSupport;
 
 /**

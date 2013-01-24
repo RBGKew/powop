@@ -15,6 +15,11 @@
 		</div>
 	</tags:pageheader>
 	<div class="container">
+	    <div class="row">
+			<div class="span12">
+				<tags:warn />
+			</div>
+		</div>
 		<div class="row">
 			<div class="span12">
 				<div class="inner">
@@ -61,12 +66,10 @@
 							<c:param name="download" value="true" />
 						</c:url>
 						<form class="form-horizontal" action="${downloadUrl}" method="POST">
-							<input type="hidden" name="sort" value="${result.sort}" /> <input
-								type="hidden" name="query" value="${result.params['query']}" />
-							<c:forEach var="selectedFacet"
-								items="${result.selectedFacetNames}">
-								<input type="hidden" name="facet"
-									value="${selectedFacet}:${result.selectedFacets[selectedFacet]}" />
+							<input type="hidden" name="sort" value="${result.sort}" />
+							<input type="hidden" name="query" value="${result.params['query']}" />
+							<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+								<input type="hidden" name="facet" value="${selectedFacet}:${result.selectedFacets[selectedFacet]}" />
 							</c:forEach>
 							<div class="control-group">
 								<label class="control-label"><spring:message
@@ -155,6 +158,13 @@
 									</p>
 								</div>
 							</div>
+							<div class="control-group">
+ 	                          <label for="_purpose_id" class="control-label"><spring:message code="download_purpose_label" /></label>
+ 	                          <div class="controls">
+ 	                            <textarea id="_purpose_id" name="purpose" rows="5"><!--  --></textarea>
+ 	                            <span class="help-block"><spring:message code="download_purpose_help" /></span>
+ 	                          </div>
+ 	                        </div>
 							<div class="form-actions">
 								<button class="btn btn-primary">
 									<i class="icon-download-alt icon-white"> <!--  -->
@@ -178,7 +188,7 @@
 							<thead>
 								<tr>
 									<th><spring:message code="download_index_label" /></th>
-									<c:forEach items="${taxonTerms.keySet()}" var="field" begin="0" end="5">
+									<c:forEach items="${taxonTerms}" var="field" begin="0" end="5">
 										<th>${field}</th>
 									</c:forEach>
 								</tr>
@@ -187,8 +197,8 @@
 								<c:forEach var="taxon" items="${result.records}" varStatus="status">
 									<tr>
 										<th>${status.index}</th>
-										<c:forEach items="${taxonTerms.keySet()}" var="field" begin="0" end="5">
-											<td><c:catch><spring:eval expression="taxon.${taxonTerms[field]}" htmlEscape="false" /></c:catch></td>
+										<c:forEach items="${taxonTerms}" var="field" begin="0" end="5">
+											<td><c:catch><spring:eval expression="taxon.${taxonMap[field]}" htmlEscape="false" /></c:catch></td>
 										</c:forEach>
 									</tr>
 								</c:forEach>

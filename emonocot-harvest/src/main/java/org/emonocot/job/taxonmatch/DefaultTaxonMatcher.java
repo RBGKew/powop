@@ -99,7 +99,7 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
         List<Match<Taxon>> matches = new ArrayList<Match<Taxon>>();
         Map<String,String> selectedFacets = new HashMap<String,String>();
         selectedFacets.put("base.class_s", "org.emonocot.model.Taxon");
-        Page<SearchableObject> page = searchableObjectService.search(searchTerm, null, null, null, null, selectedFacets, null, null);
+        Page<SearchableObject> page = searchableObjectService.search(searchTerm, null, null, null, null, null, selectedFacets, null, null);
 
         switch (page.getRecords().size()) {
         case 0:

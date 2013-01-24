@@ -143,7 +143,7 @@ public class FacetingTest extends DataManagementSupport {
     @Test
     public final void testSearch() {
         Page<SearchableObject> pager = searchableObjectService.search("Aus",
-                null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null, null);
         assertEquals("there should be seven objects saved", (Integer) 7,
                 pager.getSize());
     }
@@ -159,7 +159,7 @@ public class FacetingTest extends DataManagementSupport {
                 null, null, null, new String[] {"base.class_s",
                         "taxon.family_s", "taxon.distribution_TDWG_0_ss",
                         "searchable.sources_ss" },
-                selectedFacets, null, null);
+                null, selectedFacets, null, null);
         assertThat("There should be two facets returned",
                 pager.getFacetNames(), containsInAnyOrder("base.class_s",
                         "taxon.family_s", "taxon.distribution_TDWG_0_ss",
@@ -189,7 +189,7 @@ public class FacetingTest extends DataManagementSupport {
                 null, null, null, new String[] {"base.class_s",
                         "taxon.family_s", "taxon.distribution_TDWG_0_ss",
                         "taxon.distribution_TDWG_1_ss", "searchable.sources_ss" },
-                selectedFacets, null, null);
+                null, selectedFacets, null, null);
         assertThat("There should be two facets returned",
                 pager.getFacetNames(), containsInAnyOrder("base.class_s",
                         "taxon.family_s", "taxon.distribution_TDWG_0_ss",
@@ -219,7 +219,7 @@ public class FacetingTest extends DataManagementSupport {
                 new String[] { "base.class_s", "taxon.family_s",
                         "taxon.distribution_TDWG_0_ss", "searchable.sources_ss",
                         "taxon.taxon_rank_s", "taxon.taxonomic_status_s" },
-                selectedFacets, null, null);
+                null, selectedFacets, null, null);
         assertEquals("There should be five taxa returned", (Integer) 5,
                 pager.getSize());
         assertThat("There should be two facets returned",
@@ -243,7 +243,7 @@ public class FacetingTest extends DataManagementSupport {
                 new String[] {"base.class_s", "taxon.family_s",
                         "taxon.distribution_TDWG_0_ss", "searchable.sources_ss",
                         "taxon.taxon_rank_s", "taxon.taxonomic_status_s" },
-                selectedFacets, null, null);
+                null, selectedFacets, null, null);
 //        for (String String : pager.getStrings()) {
 //            System.out.println(String);
 //            for (Facet facet : pager.getFacets().get(String)) {
@@ -260,11 +260,11 @@ public class FacetingTest extends DataManagementSupport {
     @Test
     public final void testSearchWithSorting() {
         Page<SearchableObject> results = searchableObjectService.search("Au*",
-                null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null, null);
 
         String sort = "searchable.label_sort_asc";
         results = searchableObjectService.search("Au*", null, null, null, null,
-                null, sort, null);
+                null, null, sort, null);
         String[] actual = new String[results.getSize()];
         for (int i = 0; i < results.getSize(); i++) {
             if (results.getRecords().get(i).getClassName().equals("Taxon")) {
@@ -286,7 +286,7 @@ public class FacetingTest extends DataManagementSupport {
     	Page<?> results = searchableObjectService.search(null,
                 null, null, null, 
                 new String[] {"base.class_s", "taxon.family_s", "taxon.distribution_TDWG_0_ss","searchable.sources_ss" },
-                null, null, null);
+                null, null, null, null);
 //    	System.out.println("No Query");
 //		for (String String : results.getStrings()) {
 //			System.out.println(String);
@@ -299,7 +299,7 @@ public class FacetingTest extends DataManagementSupport {
     	 results = searchableObjectService.search(null,
                 null, null, null, 
                 new String[] {"base.class_s", "taxon.family_s", "taxon.distribution_TDWG_0_ss","searchable.sources_ss" },
-                selectedFacets, null, null);
+                null, selectedFacets, null, null);
 //    	System.out.println("Searchable {FAMILY:Ausaceae}");
 //		for (String String : results.getStrings()) {
 //			System.out.println(String);
@@ -316,7 +316,7 @@ public class FacetingTest extends DataManagementSupport {
     	 results = searchableObjectService.search(null,
                 null, null, null, 
                 new String[] {"base.class_s","taxon.family_s", "taxon.distribution_TDWG_0_ss","searchable.sources_ss"},
-                selectedFacets, null, null);
+                null, selectedFacets, null, null);
 //    	System.out.println("Searchable {FAMILY:Ausaceae,CLASS:org.emonocot.model.taxon.Taxon, AUTHORITY:source2}");
 //		for (String String : results.getStrings()) {
 //			System.out.println(String);
@@ -331,7 +331,7 @@ public class FacetingTest extends DataManagementSupport {
     	 results = searchableObjectService.search(null,
                 null, null, null, 
                 new String[] {"base.class_s","taxon.family_s", "taxon.distribution_TDWG_0_ss","searchable.sources_ss"},
-                selectedFacets, null, null);
+                null, selectedFacets, null, null);
     }
     
     /**
@@ -341,7 +341,7 @@ public class FacetingTest extends DataManagementSupport {
     public final void testFacetOnPlace() {
     	Map<String, String> selectedFacets = new HashMap<String, String>();
     	selectedFacets.put("base.class_s", "org.emonocot.model.Place");
-    	Page<SearchableObject> places = searchableObjectService.search(null, null, 10, 0, new String[] {}, selectedFacets, null, null);
+    	Page<SearchableObject> places = searchableObjectService.search(null, null, 10, 0, new String[] {}, null, selectedFacets, null, null);
     	assertEquals("There should be one place in the result list",(Integer)places.getSize(),(Integer)1);
     }
 }

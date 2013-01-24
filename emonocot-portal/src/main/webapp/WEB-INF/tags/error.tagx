@@ -6,7 +6,7 @@
 		<div class="alert alert-error error" data-dismiss="alert">
 			<a class="close" href="#">×</a>
 			<p>
-				<strong><spring:message code="${error.code}"	arguments="${error.arguments}" /></strong>
+				<strong><i class="glyphicons-icon circle_exclamation_mark"><!--  --></i> <spring:message code="${error.code}"	arguments="${error.arguments}" /></strong>
 			</p>    		
 		</div>
 	</c:if>

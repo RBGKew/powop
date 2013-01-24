@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class IdentificationKeyDaoImpl extends
-        SearchableDaoImpl<IdentificationKey> implements IdentificationKeyDao {
+        DaoImpl<IdentificationKey> implements IdentificationKeyDao {
 
     /**
      *

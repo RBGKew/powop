@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
+	<c:if test="${not empty warn}">
+		<div class="alert warn" data-dismiss="alert">
+			<a class="close" href="#">×</a>
+			<p>
+				<strong><i class="glyphicons-icon circle_exclamation_mark"><!--  --></i> <spring:message code="${warn.code}"	arguments="${warn.arguments}" /></strong>
+			</p>    		
+		</div>
+	</c:if>
+</jsp:root>

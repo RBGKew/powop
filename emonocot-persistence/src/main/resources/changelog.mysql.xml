@@ -3565,6 +3565,15 @@
       <comment>Renaming distribution constants</comment>
       <sql>update Distribution set location = 'ANTARCTIC_CONTINENT' where location = '91'</sql>
     </changeSet>
+    <changeSet author="ben" id="2013-01-22_1">
+      <comment>STRING_VAL in BATCH_JOB_PARAMS too short</comment>
+      <modifyDataType tableName="BATCH_JOB_PARAMS" columnName="STRING_VAL" newDataType="longtext"/>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-22_2">
+      <addColumn tableName="Resource">
+        <column name="baseUrl" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
     <changeSet id="2013-01-23" author="jk00kg">
         <createTable tableName="Comment">
             <column name="id" type="bigint">

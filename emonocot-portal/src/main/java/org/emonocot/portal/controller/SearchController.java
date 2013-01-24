@@ -57,11 +57,8 @@ public class SearchController {
      * @param selectedFacets
      * @return
      */
-    private Page<? extends SearchableObject> runQuery(String query, Integer start, Integer limit, String spatial, String[] responseFacets, String sort, Map<String, String> selectedFacets){
-    	Page<? extends SearchableObject> result = searchableObjectService.search(
-                    query, spatial, limit, start, responseFacets,
-                    selectedFacets, sort, null);
-
+    private Page<? extends SearchableObject> runQuery(String query, Integer start, Integer limit, String spatial, String[] responseFacets, Map<String,String> facetPrefixes, String sort, Map<String, String> selectedFacets){
+    	Page<? extends SearchableObject> result = searchableObjectService.search(query, spatial, limit, start, responseFacets,facetPrefixes, selectedFacets, sort, null);
         queryLog.info("Query: \'{}\', start: {}, limit: {},"
                 + "facet: [{}], {} results", new Object[] {query,
                 start, limit, selectedFacets, result.getSize() });
@@ -135,6 +132,7 @@ public class SearchController {
 
        //Decide which facets to return
        List<String> responseFacetList = new ArrayList<String>();
+       Map<String,String> facetPrefixes = new HashMap<String,String>();
        responseFacetList.add("base.class_s");
        responseFacetList.add("taxon.family_s");
        responseFacetList.add("taxon.distribution_TDWG_0_ss");
@@ -153,7 +151,8 @@ public class SearchController {
            }
            if (selectedFacets.containsKey("taxon.distribution_TDWG_0_ss")) {
                logger.debug("Adding region facet");
-               responseFacetList.add("taxon.distribution_TDWG_1_ss");
+               responseFacetList.add("taxon.distribution_TDWG_1_ss");               
+               facetPrefixes.put("taxon.distribution_TDWG_1_ss", selectedFacets.get("taxon.distribution_TDWG_0_ss") + "_");
            } else {
                selectedFacets.remove("taxon.distribution_TDWG_1_ss");
            }
@@ -163,7 +162,7 @@ public class SearchController {
        limit = setLimit(view, className);
 
        //Run the search
-       Page<? extends SearchableObject> result = runQuery(query, start, limit, null, responseFacets, sort, selectedFacets);
+       Page<? extends SearchableObject> result = runQuery(query, start, limit, null, responseFacets, facetPrefixes, sort, selectedFacets);
 
        result.putParam("view", view);
        result.setSort(sort);
@@ -252,7 +251,7 @@ public class SearchController {
       limit = setLimit(view, className);
 
       //Run the search
-      Page<? extends SearchableObject> result = runQuery(query, start, limit, spatial, responseFacets, sort, selectedFacets);
+      Page<? extends SearchableObject> result = runQuery(query, start, limit, spatial, responseFacets, null, sort, selectedFacets);
       
       if (spatial != null) {
         result.putParam("x1", x1);

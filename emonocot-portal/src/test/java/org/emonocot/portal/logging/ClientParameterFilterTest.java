@@ -1,4 +1,4 @@
-package org.emonocot.checklist.logging;
+package org.emonocot.portal.logging;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -12,6 +12,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+import org.emonocot.portal.logging.ClientParameterFilter;
+import org.emonocot.portal.logging.LoggingConstants;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.MDC;

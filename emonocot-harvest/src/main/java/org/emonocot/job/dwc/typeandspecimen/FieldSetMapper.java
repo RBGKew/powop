@@ -6,7 +6,7 @@ import org.emonocot.model.constants.TypeDesignationType;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
-import org.gbif.dwc.terms.UnknownTerm;
+import org.gbif.dwc.terms.GbifTerm;
 import org.gbif.ecat.voc.Rank;
 import org.gbif.ecat.voc.Sex;
 import org.gbif.ecat.voc.TypeStatus;
@@ -109,20 +109,23 @@ public class FieldSetMapper extends  NonOwnedFieldSetMapper<TypeAndSpecimen> {
             	break;
             }
         }
-        
-     // Unknown Terms
-        if (term instanceof UnknownTerm) {
-            UnknownTerm unknownTerm = (UnknownTerm) term;
-            if (unknownTerm.qualifiedName().equals(
-                    "http://rs.gbif.org/terms/1.0/typeDesignatedBy")) {
-                object.setTypeDesignatedBy(value);
-            } else if (unknownTerm.qualifiedName().equals(
-                    "http://rs.gbif.org/terms/1.0/typeDesignationType")) {
-                object.setTypeDesignationType(conversionService.convert(value, TypeDesignationType.class));
-            } else if (unknownTerm.qualifiedName().equals(
-                    "http://rs.gbif.org/terms/1.0/verbatimLabel")) {
-                object.setVerbatimLabel(value);
-            } 
+       
+        // Gbif Terms
+        if (term instanceof GbifTerm) {
+            GbifTerm gbifTerm = (GbifTerm) term;
+            switch(gbifTerm) {
+            case typeDesignatedBy:
+            	object.setTypeDesignatedBy(value);
+            	break;
+            case typeDesignationType:
+            	object.setTypeDesignationType(conversionService.convert(value, TypeDesignationType.class));
+            	break;
+            case verbatimLabel:
+            	object.setVerbatimLabel(value);
+            	break;
+            default:
+            	break;
+            }            
         }
     }
 }

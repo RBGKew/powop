@@ -1,7 +1,7 @@
 insert into Organisation (id, identifier, uri) values (10, 'test', 'http://example.com');
 insert into Reference (id, identifier,title) values (1, 'urn:kew.org:wcs:placeOfPublication:899','Bull. Pacific Orchid Soc. Hawaii');
 insert into Reference (id, identifier,title) values (2, 'urn:kew.org:wcs:placeOfPublication:234','Diagn. Pl. Orient. 13: 8 (1846)');
-insert into Taxon (id, identifier, scientificName, family, authority_id) values (1, 'urn:lsid:cate-araceae.org:taxon:5cd5a6aa-6bfb-1014-a918-dc439151c9e5', 'Acontias conspurcatus','Arecaceae',10);
+insert into Taxon (id, identifier, scientificName, family, authority_id, license) values (1, 'urn:lsid:cate-araceae.org:taxon:5cd5a6aa-6bfb-1014-a918-dc439151c9e5', 'Acontias conspurcatus','Arecaceae',10,'http://creativecommons.org/licenses/by-nc-sa/3.0/');
 insert into Taxon (id, identifier, scientificName, family, authority_id) values (2, 'urn:lsid:cate-araceae.org:taxon:5cd5c756-6bfb-1014-a918-dc439151c9e5', 'Acontias cubensis','Arecaceae',10);
 insert into Taxon (id, identifier, scientificName, family, authority_id) values (3, 'urn:lsid:cate-araceae.org:taxon:5cd5e85c-6bfb-1014-a918-dc439151c9e5', 'Acontias diversifolius','Arecaceae',10);
 insert into Taxon (id, identifier, scientificName, family, authority_id) values (4, 'urn:lsid:cate-araceae.org:taxon:5c7a00ea-6bfb-1014-a918-dc439151c9e5', 'Acontias hastifolius','Arecaceae',10);

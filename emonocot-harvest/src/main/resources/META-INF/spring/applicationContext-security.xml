@@ -16,6 +16,7 @@
 
 	<sec:http auto-config='true' use-expressions="true">
 		<sec:intercept-url pattern="/jobs" access="permitAll" />
+		<sec:intercept-url pattern="/output/**" access="permitAll" />
 		<sec:intercept-url pattern="/job-requests.json" access="hasRole('ROLE_LAUNCH_JOBS')" />
 		<sec:intercept-url pattern="/**" access="hasRole('ROLE_ADMIN')" />
 		<sec:http-basic />

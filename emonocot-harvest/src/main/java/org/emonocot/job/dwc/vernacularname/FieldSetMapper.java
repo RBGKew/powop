@@ -1,18 +1,14 @@
 package org.emonocot.job.dwc.vernacularname;
 
-import java.text.ParseException;
 import java.util.Locale;
 
 import org.emonocot.job.dwc.read.OwnedEntityFieldSetMapper;
-import org.emonocot.model.MeasurementOrFact;
 import org.emonocot.model.VernacularName;
 import org.emonocot.model.constants.Location;
-import org.emonocot.model.constants.MeasurementType;
-import org.emonocot.model.constants.MeasurementUnit;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
-import org.gbif.dwc.terms.UnknownTerm;
+import org.gbif.dwc.terms.GbifTerm;
 import org.gbif.ecat.voc.LifeStage;
 import org.gbif.ecat.voc.Sex;
 import org.slf4j.Logger;
@@ -100,19 +96,20 @@ public class FieldSetMapper extends
             }
         }
         
-        // Unknown Terms
-        if (term instanceof UnknownTerm) {
-            UnknownTerm unknownTerm = (UnknownTerm) term;
-            if (unknownTerm.qualifiedName().equals(
-                    "http://rs.gbif.org/terms/1.0/organismPart")) {
-                object.setOrganismPart(value);
-            } else if (unknownTerm.qualifiedName().equals(
-                    "http://rs.gbif.org/terms/1.0/isPlural")) {
-                object.setPlural(Boolean.valueOf(value));
-            } else if (unknownTerm.qualifiedName().equals(
-                    "http://rs.gbif.org/terms/1.0/isPreferredName")) {
-                object.setPreferredName(Boolean.valueOf(value));
-            }
+        // Gbif Terms
+        if (term instanceof GbifTerm) {
+            GbifTerm gbifTerm = (GbifTerm) term;
+            switch(gbifTerm) {
+            case organismPart:
+            	object.setOrganismPart(value);
+            	break;
+            case isPlural:
+            	object.setPlural(conversionService.convert(value, Boolean.class));
+            case isPreferredName:
+            	object.setPreferredName(conversionService.convert(value, Boolean.class));
+            default:
+            	break;
+            }            
         }
     }
 }

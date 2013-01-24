@@ -2,12 +2,14 @@ package org.emonocot.api.job;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
+import org.emonocot.model.util.ConceptTermComparator;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
-import org.gbif.dwc.terms.UnknownTerm;
 
 public class DarwinCorePropertyMap {
 	
@@ -64,13 +66,13 @@ public class DarwinCorePropertyMap {
    	taxonTerms.put(DwcTerm.scientificNameID,"scientificNameID");
    	taxonTerms.put(DcTerm.references,"source");
    	taxonTerms.put(DwcTerm.specificEpithet,"specificEpithet");
-   	taxonTerms.put(new UnknownTerm("http://emonocot.org/subfamily", "subfamily"),"subfamily");
+   	taxonTerms.put(EmonocotTerm.subfamily,"subfamily");
    	taxonTerms.put(DwcTerm.subgenus,"subgenus");
-   	taxonTerms.put(new UnknownTerm("http://emonocot.org/subtribe", "subtribe"),"subtribe");
+   	taxonTerms.put(EmonocotTerm.subtribe,"subtribe");
    	taxonTerms.put(DwcTerm.taxonomicStatus,"taxonomicStatus");
    	taxonTerms.put(DwcTerm.taxonRank,"taxonRank");
    	taxonTerms.put(DwcTerm.taxonRemarks,"taxonRemarks");
-   	taxonTerms.put(new UnknownTerm("http://emonocot.org/tribe", "tribe"),"tribe");
+   	taxonTerms.put(EmonocotTerm.tribe,"tribe");
    	taxonTerms.put(DwcTerm.verbatimTaxonRank,"verbatimTaxonRank");
    	
    	distributionTerms.put(DcTerm.accessRights,"accessRights");
@@ -143,8 +145,8 @@ public class DarwinCorePropertyMap {
    	imageTerms.put(DcTerm.creator, "creator");
    	imageTerms.put(DcTerm.description, "description");
    	imageTerms.put(DcTerm.format, "format");
-   	imageTerms.put(new UnknownTerm("http://www.w3.org/2003/01/geo/wgs84_pos#latitude","latitude"), "latitude");
-   	imageTerms.put(new UnknownTerm("http://www.w3.org/2003/01/geo/wgs84_pos#longitude","longitude"), "longitude");
+   	imageTerms.put(Wgs84Term.latitude, "latitude");
+   	imageTerms.put(Wgs84Term.longitude, "longitude");
    	imageTerms.put(DcTerm.spatial, "location");
    	imageTerms.put(DcTerm.publisher, "publisher");
    	imageTerms.put(DcTerm.references, "references");
@@ -264,6 +266,41 @@ public class DarwinCorePropertyMap {
 	    default:
 	    	return null;
 	    }
+    }
+    
+    public static SortedSet<ConceptTerm> getConceptTerms(ConceptTerm conceptTerm) {
+    	SortedSet<ConceptTerm> conceptTerms = new TreeSet<ConceptTerm>(new ConceptTermComparator());
+	    switch(conceptTerm.simpleName()) {
+	    case "Taxon":
+	    	conceptTerms.addAll(taxonTerms.keySet());
+	    	break;
+	    case "Description":
+	    	conceptTerms.addAll(descriptionTerms.keySet());
+	    	break;
+	    case "Distribution":
+	    	conceptTerms.addAll(distributionTerms.keySet());
+	    	break;
+	    case "Identifier":
+	    	conceptTerms.addAll(identifierTerms.keySet());
+	    	break;
+	    case "MeasurementOrFact":
+	    	conceptTerms.addAll(measurementOrFactTerms.keySet());
+	    	break;
+	    case "VernacularName":
+	    	conceptTerms.addAll(vernacularNameTerms.keySet());
+	    	break;
+	    case "Image":
+	    	conceptTerms.addAll(imageTerms.keySet());
+	    	break;
+	    case "TypeAndSpecimen":
+	    	conceptTerms.addAll(typeAndSpecimenTerms.keySet());
+	    	break;
+	    case "Reference":
+	    	conceptTerms.addAll(referenceTerms.keySet());
+	    	break;
+	    default:
+	    }
+	    return conceptTerms;
     }
 
 }

@@ -80,8 +80,8 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
     public final Page<T> search(final String query, final String spatialQuery,
             final Integer pageSize, final Integer pageNumber,
             final String[] facets,
-            final Map<String, String> selectedFacets, final String sort,
-            final String fetch) {
+            Map<String, String> facetPrefixes, final Map<String, String> selectedFacets,
+            final String sort, final String fetch) {
         SolrQuery solrQuery = new SolrQuery();        
 
         if (query != null && !query.trim().equals("")) {
@@ -120,6 +120,11 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
         	solrQuery.setFacetMinCount(1);
         	solrQuery.setFacetSort(FacetParams.FACET_SORT_INDEX);
             solrQuery.addFacetField(facets);
+            if(facetPrefixes != null) {
+            	for(String facet : facetPrefixes.keySet()) {
+            		solrQuery.add("f." + facet + ".facet.prefix",facetPrefixes.get(facet));
+            	}
+            }
         }
 
         if (sort != null && sort.length() != 0) {
@@ -229,26 +234,4 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
 
         return results;
     }
-
-	/* (non-Javadoc)
-	 * @see org.emonocot.persistence.dao.SearchableDao#searchByExample(org.emonocot.model.Base, boolean, boolean)
-	 */
-	@Override
-	public Page<T> searchByExample(T example, boolean ignoreCase,
-			boolean useLike) {
-		Example criterion = Example.create(example);
-        if(ignoreCase) {
-            criterion.ignoreCase();
-        }
-        if(useLike) {
-            criterion.enableLike();
-        }
-        Criteria criteria = getSession().createCriteria(Taxon.class);
-        criteria.add(criterion);
-        List<T> results = (List<T>) criteria.list();
-        Page<T> page = new DefaultPageImpl<T>(results.size(), null, null, results, null);
-        return page;
-	}
-
-
 }

@@ -1,4 +1,4 @@
-package org.emonocot.checklist.logging;
+package org.emonocot.portal.logging;
 
 /**
  *

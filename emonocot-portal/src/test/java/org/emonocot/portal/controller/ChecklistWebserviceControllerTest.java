@@ -1,4 +1,4 @@
-package org.emonocot.checklist.controller;
+package org.emonocot.portal.controller;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -8,6 +8,7 @@ import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.SearchableObject;
 import org.emonocot.pager.DefaultPageImpl;
+import org.emonocot.portal.controller.ChecklistWebserviceController;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.dao.DataRetrievalFailureException;
@@ -56,9 +57,9 @@ public class ChecklistWebserviceControllerTest {
                         (Integer) EasyMock.isNull(),
                         (Integer) EasyMock.isNull(),
                         (String[]) EasyMock.isNull(),
+                        (Map<String, String>) EasyMock.isNull(),
                         (Map<String, String>) EasyMock.isA(Map.class),
-                        (String) EasyMock.isNull(),
-                        (String) EasyMock.isNull())).andReturn(
+                        (String) EasyMock.isNull(), (String) EasyMock.isNull())).andReturn(
                 new DefaultPageImpl<SearchableObject>(0, 0, 1, new ArrayList<SearchableObject>(),null));
         EasyMock.replay(taxonService,searchableObjectService);
         ModelAndView modelAndView = checklistWebserviceController
@@ -76,9 +77,9 @@ public class ChecklistWebserviceControllerTest {
                (Integer) EasyMock.isNull(),
                (Integer) EasyMock.isNull(),
                (String[]) EasyMock.isNull(),
+               (Map<String, String>) EasyMock.isNull(),
                (Map<String, String>) EasyMock.isA(Map.class),
-               (String) EasyMock.isNull(),
-               (String) EasyMock.isNull())).andReturn(
+               (String) EasyMock.isNull(), (String) EasyMock.isNull())).andReturn(
        new DefaultPageImpl<SearchableObject>(0, 0, 1, new ArrayList<SearchableObject>(),null));
        EasyMock.replay(taxonService,searchableObjectService);
        ModelAndView modelAndView = checklistWebserviceController

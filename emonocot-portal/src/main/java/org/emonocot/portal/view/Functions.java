@@ -86,6 +86,10 @@ public class Functions {
     private Functions() {
     }
     
+    public static String escape(final String string) {
+        return string.replaceAll("&", "&amp;");
+    }
+    
     /**
     *
     * @param string Set the string to strip xml from

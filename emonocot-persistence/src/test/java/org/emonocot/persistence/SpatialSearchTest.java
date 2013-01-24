@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.solr.common.SolrInputDocument;
+import org.emonocot.model.SearchableObject;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.Location;
@@ -96,12 +97,12 @@ public class SpatialSearchTest extends AbstractPersistenceTest {
     @Test
     public final void testSpatialSearch() {
         //testSpatialSearch() should return Aus bus but not Aus ceus
-        Page<Taxon> page = getTaxonDao().search(
+        Page<SearchableObject> page = getSearchableObjectDao().search(
         null, "Intersects(150.00 -40.0 160.0 -20.0)", null, null, null,
-                null, null, null);
+                null, null, null, null);
         Set<String> names = new HashSet<String>();
-        for (Taxon t : page.getRecords()) {
-           names.add(t.getScientificName());
+        for (SearchableObject t : page.getRecords()) {
+           names.add(((Taxon)t).getScientificName());
         }
         
         assertThat(names, hasItems("Aus bus"));

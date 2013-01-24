@@ -6,11 +6,10 @@ import java.util.Set;
 
 import org.easymock.EasyMock;
 import org.emonocot.api.TaxonService;
-import org.emonocot.job.oaipmh.TaxonomicStatusConverter;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
-import org.emonocot.model.convert.RankConverter;
 import org.emonocot.model.convert.ReferenceTypeConverter;
+import org.emonocot.model.convert.StringToIsoDateTimeConverter;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.item.ExecutionContext;
@@ -73,6 +72,7 @@ public class ReferenceParsingTest {
        tokenizer.setNames(names);
        Set<Converter> converters = new HashSet<Converter>();
        converters.add(new ReferenceTypeConverter());
+       converters.add(new StringToIsoDateTimeConverter());
 
        ConversionServiceFactoryBean factoryBean = new ConversionServiceFactoryBean();
        factoryBean.setConverters(converters);
@@ -104,6 +104,7 @@ public class ReferenceParsingTest {
      */
     @Test
     public final void testRead() throws Exception {
+    	
         EasyMock.expect(taxonService.find(EasyMock.isA(String.class))).andReturn(new Taxon()).anyTimes();
         EasyMock.replay(taxonService);
         flatFileItemReader.open(new ExecutionContext());
