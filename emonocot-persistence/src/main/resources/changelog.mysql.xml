@@ -3565,4 +3565,28 @@
       <comment>Renaming distribution constants</comment>
       <sql>update Distribution set location = 'ANTARCTIC_CONTINENT' where location = '91'</sql>
     </changeSet>
+    <changeSet id="2013-01-23" author="jk00kg">
+        <createTable tableName="Comment">
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="identifier" type="varchar(255)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="aboutData_id" type="bigint" />
+            <column name="aboutData_type" type="varchar(255)" />
+            <column name="comment" type="longtext" />
+            <column name="created" type="datetime" />
+            <column name="status" type="varchar(15)" />
+            <column name="user_id" type="bigint" />
+        </createTable>
+        <addForeignKeyConstraint constraintName="Comment_User_FK"
+            referencedTableName="Principal" referencedColumnNames="id"
+            baseTableName="Comment" baseColumnNames="user_id" />
+        <comment>Give PERMISSION_DELETE_COMMENT to admin</comment>
+        <insert tableName="Group_permissions">
+            <column name="Group_id" valueNumeric="1"/>
+            <column name="permissions" valueNumeric="21"/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>

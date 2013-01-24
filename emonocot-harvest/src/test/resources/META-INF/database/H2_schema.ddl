@@ -47,6 +47,8 @@ create table User_Group (User_id bigint not null, groups_id bigint not null, pri
 drop table if exists User_permissions;
 create table User_permissions (User_id bigint not null, permissions integer);
 drop table if exists VernacularName;
+drop table if exists Comment;
+create table Comment (id bigint not null, identifier varchar(255), aboutData_id bigint, aboutData_type varchar(255), comment longtext, created datetime, status varchar(15), user_id bigint, primary key(id), unique(identifier));
 create table VernacularName (id bigint not null, identifier varchar(255), accessRights varchar(255), created timestamp, creator varchar(255), license varchar(255), modified timestamp, rights clob, rightsHolder varchar(255), countryCode varchar(255), language varchar(255), lifeStage varchar(255), locality varchar(255), location varchar(255), organismPart varchar(255), plural boolean, preferredName boolean, sex varchar(255), source varchar(255), taxonRemarks varchar(255), temporal varchar(255), vernacularName varchar(255), authority_id bigint, taxon_id bigint, primary key (id), unique (identifier));
 alter table Annotation add constraint FK1A21C74FCF3DA2C4 foreign key (authority_id) references Organisation;
 alter table Distribution add constraint FKAB93A2A41EDCD08D foreign key (taxon_id) references Taxon;
@@ -89,3 +91,4 @@ alter table User_Group add constraint FKE7B7ED0B9E0AAB54 foreign key (User_id) r
 alter table User_permissions add constraint FKB4582A309E0AAB54 foreign key (User_id) references Principal;
 alter table VernacularName add constraint FK524D5F2B6B53D29C foreign key (taxon_id) references Taxon;
 alter table VernacularName add constraint FK514D5F2B6B53D29C foreign key (authority_id) references Organisation;
+alter table Comment add constraint Comment_User_FK foreign key (user_id) references Principal;
