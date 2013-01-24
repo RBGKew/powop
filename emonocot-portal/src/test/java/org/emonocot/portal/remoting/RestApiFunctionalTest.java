@@ -9,8 +9,10 @@ import java.util.UUID;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
+import org.emonocot.api.CommentService;
 import org.emonocot.api.GroupService;
 import org.emonocot.model.Annotation;
+import org.emonocot.model.Comment;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.Image;
 import org.emonocot.model.Reference;
@@ -25,6 +27,7 @@ import org.emonocot.model.constants.Location;
 import org.emonocot.model.constants.RecordType;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.persistence.dao.AnnotationDao;
+import org.emonocot.persistence.dao.CommentDao;
 import org.emonocot.persistence.dao.GroupDao;
 import org.emonocot.persistence.dao.ImageDao;
 import org.emonocot.persistence.dao.JobExecutionDao;
@@ -114,6 +117,12 @@ public class RestApiFunctionalTest {
      */
     @Autowired
     private OrganisationDao sourceDao;
+    
+    /**
+     * 
+     */
+    @Autowired
+    private CommentDao commentDao;
 
     /**
      *
@@ -300,5 +309,24 @@ public class RestApiFunctionalTest {
         groupService.deletePermission(source, "PalmWeb", BasePermission.READ, Organisation.class);
         sourceDao.delete("testSource");
         groupDao.delete("PalmWeb");
+    }
+    
+    /**
+     * 
+     */
+    @Test
+    public final void testComment() {
+        Taxon taxon = new Taxon();
+        taxon.setScientificName("Acorus");
+        taxon.setIdentifier("urn:kew.org:wcs:taxon:2295");
+        taxonDao.save(taxon);
+        
+        Comment comment = new Comment();
+        comment.setIdentifier("urn:emonocot.org:test:comment:1");
+        comment.setComment("Lorem ipsum dolor");
+        comment.setAboutData(taxon);
+        commentDao.save(comment);
+        commentDao.delete(comment.getIdentifier());
+        taxonDao.delete(taxon.getIdentifier());
     }
 }

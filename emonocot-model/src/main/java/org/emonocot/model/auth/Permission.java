@@ -91,7 +91,11 @@ public enum Permission implements GrantedAuthority {
     /**
      *
      */
-    PERMISSION_WRITE_GROUP;
+    PERMISSION_WRITE_GROUP,
+    /**
+    *
+    */
+    PERMISSION_DELETE_COMMENT;
 
     /**
      * @return the authority
