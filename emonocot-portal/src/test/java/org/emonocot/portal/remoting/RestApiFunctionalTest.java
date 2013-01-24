@@ -327,5 +327,6 @@ public class RestApiFunctionalTest {
         comment.setAboutData(taxon);
         commentDao.save(comment);
         commentDao.delete(comment.getIdentifier());
+        taxonDao.delete(taxon.getIdentifier());
     }
 }
