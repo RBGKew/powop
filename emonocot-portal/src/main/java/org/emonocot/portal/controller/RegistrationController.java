@@ -77,6 +77,8 @@ public class RegistrationController {
         user.setEnabled(true);
 
         service.createUser(user);
+        
+        
         String[] codes = new String[] {"registration.successful" };
         Object[] args = new Object[] {};
         DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
