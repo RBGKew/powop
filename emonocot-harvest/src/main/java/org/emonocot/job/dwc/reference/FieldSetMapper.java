@@ -57,7 +57,7 @@ public class FieldSetMapper extends  NonOwnedFieldSetMapper<Reference> {
                 object.setIdentifier(value);
                 break;
             case language:
-            	object.setLanguage(new Locale(value));
+            	object.setLanguage(conversionService.convert(value, Locale.class));
             	break;
             case source:
                 object.setSource(value);

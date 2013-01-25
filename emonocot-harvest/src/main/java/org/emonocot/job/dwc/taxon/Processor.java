@@ -43,7 +43,6 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 	public final Taxon process(final Taxon t) throws Exception {
 		logger.info("Processing " + t.getIdentifier());
 		
-		
 		if (t.getIdentifier() == null) {
 			throw new NoIdentifierException(t);
 		}
@@ -51,9 +50,9 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 		Taxon persisted = getTaxonService().find(t.getIdentifier());
 		
 		if (persisted == null) {
+			// Taxon is new
 			bindRelationships(t,t);
-			Annotation annotation = createAnnotation(t, RecordType.Taxon,
-					AnnotationCode.Create, AnnotationType.Info);
+			Annotation annotation = createAnnotation(t, RecordType.Taxon, AnnotationCode.Create, AnnotationType.Info);
 			t.getAnnotations().add(annotation);
 			t.setAuthority(getSource());
 			logger.info("Adding taxon " + t);

@@ -478,16 +478,16 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 			
 			switch(jobExecution.getJobInstance().getJobName()) {
 			case "DarwinCoreArchiveHarvesting":
-				total = new Float(42);
+				total = new Float(43);
 				break;
 			case "IdentificationKeyHarvesting":
-				total = new Float(9);
+				total = new Float(10);
 				break;
 			case "IUCNImport":
-				total = new Float(9);
+				total = new Float(10);
 				break;
 			case "GBIFImport":
-				total = new Float(8);
+				total = new Float(10);
 				break;
 			default:
 				break;

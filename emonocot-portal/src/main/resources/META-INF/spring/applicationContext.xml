@@ -119,6 +119,21 @@
 		<property name="defaultTransactionIsolation" value="2" />
 	</bean>
 	
+	<bean id="emailService" class="org.emonocot.service.impl.EmailServiceImpl">
+	  <property name="mailSender" ref="mailSender"/>
+	  <property name="velocityEngine" ref="velocityEngine"/>
+	  <property name="fromAddress" value="${email.fromAddress}"/>
+	</bean>
+	
+	<bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+      <property name="velocityProperties">
+         <value>
+          resource.loader=class
+          class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+         </value>
+      </property>
+   </bean>
+	
 	<bean id="mailSender" class ="org.springframework.mail.javamail.JavaMailSenderImpl" >
         <property name="username" value="${email.username}" />
         <property name="password" value="${email.password}" />
