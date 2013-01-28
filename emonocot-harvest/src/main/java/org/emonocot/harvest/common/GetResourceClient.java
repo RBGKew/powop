@@ -1,4 +1,4 @@
-package org.emonocot.ws;
+package org.emonocot.harvest.common;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

@@ -1,11 +1,9 @@
 package org.emonocot.portal.controller;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.emonocot.api.OrganisationService;
 import org.emonocot.api.ResourceService;
-import org.emonocot.api.job.JobLauncher;
 import org.emonocot.model.registry.Organisation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * 
@@ -28,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/organisation")
 public class OrganisationController extends GenericController<Organisation, OrganisationService> {	
 	
-	private static final Logger logger = LoggerFactory.getLogger(OrganisationController.class);
+	private static Logger logger = LoggerFactory.getLogger(OrganisationController.class);
 
 	/**
      *
@@ -48,7 +47,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	 *            Set the source service
 	 */
 	@Autowired
-	public final void setResourceService(final ResourceService resourceService) {
+	public void setResourceService(ResourceService resourceService) {
 		this.resourceService = resourceService;
 	}
 
@@ -58,7 +57,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	 *            Set the source service
 	 */
 	@Autowired
-	public final void setOrganisationService(final OrganisationService organisationService) {
+	public void setOrganisationService(OrganisationService organisationService) {
 		super.setService(organisationService);
 	}
 
@@ -73,10 +72,10 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	 * @return the name of the view
 	 */
 	@RequestMapping(method = RequestMethod.GET, params = "!form", produces = "text/html")
-	public final String list(
-			final Model model,
-			@RequestParam(value = "start", defaultValue = "0", required = false) final Integer start,
-			@RequestParam(value = "size", defaultValue = "10", required = false) final Integer size) {
+	public String list(
+			Model model,
+			@RequestParam(value = "start", defaultValue = "0", required = false) Integer start,
+			@RequestParam(value = "size", defaultValue = "10", required = false) Integer size) {
 		model.addAttribute("result", getService().list(start, size, null));
 		return "organisation/list";
 	}
@@ -88,7 +87,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	 * @return the name of the view
 	 */
 	@RequestMapping(method = RequestMethod.GET, params = "form", produces = "text/html")
-	public final String create(final Model model) {
+	public String create(Model model) {
 		model.addAttribute(new Organisation());
 		return "organisation/create";
 	}
@@ -103,8 +102,8 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	 * @return a model and view
 	 */
 	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
-	public final String post(@Valid final Organisation organisation,
-			final BindingResult result, final HttpSession session) {
+	public String post(@Valid Organisation organisation,
+			BindingResult result, RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			return "organisation/create";
 		}
@@ -114,7 +113,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 		Object[] args = new Object[] { organisation.getTitle() };
 		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
 				codes, args);
-		session.setAttribute("info", message);
+		redirectAttributes.addFlashAttribute("info", message);
 		return "redirect:/organisation";
 	}
 
@@ -130,8 +129,8 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	 * @return the view name
 	 */
 	@RequestMapping(value = "/{organisationId}", produces = "text/html")
-	public final String show(@PathVariable final String organisationId,
-			final Model uiModel) {
+	public String show(@PathVariable String organisationId,
+			Model uiModel) {
 		uiModel.addAttribute(getService().find(organisationId));
 		uiModel.addAttribute("resources", resourceService.list(organisationId, 0, 10));
 		return "organisation/show";
@@ -146,8 +145,8 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	 * @return the name of the view
 	 */
 	@RequestMapping(value = "/{organisationId}", method = RequestMethod.GET, params = "form", produces = "text/html")
-	public final String update(@PathVariable final String organisationId,
-			final Model model) {
+	public String update(@PathVariable String organisationId,
+			Model model) {
 		model.addAttribute(getService().load(organisationId));
 		return "organisation/update";
 	}
@@ -164,10 +163,10 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	 * @return the model name
 	 */
 	@RequestMapping(value = "/{organisationId}", method = RequestMethod.POST, produces = "text/html")
-	public final String post(
-			@PathVariable final String organisationId,
-			@Valid final Organisation organisation, final BindingResult result,
-			final HttpSession session) {
+	public String post(
+			@PathVariable String organisationId,
+			@Valid Organisation organisation, BindingResult result,
+			RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			return "organisation/update";
 		}
@@ -188,7 +187,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 		Object[] args = new Object[] { organisation.getTitle() };
 		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
 				codes, args);
-		session.setAttribute("info", message);
+		redirectAttributes.addFlashAttribute("info", message);
 		return "redirect:/organisation/" + organisationId;
 	}
 }

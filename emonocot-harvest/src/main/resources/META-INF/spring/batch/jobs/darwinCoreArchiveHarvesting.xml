@@ -16,22 +16,34 @@
 			<batch:description>Set the temporary file names</batch:description>
 			<batch:tasklet ref="setTemporaryFilenamesTasklet" />
 			<batch:next on="COMPLETED" to="getDWCArchive" />
+			<batch:listeners>
+				<batch:listener ref="stepStatusListener" />
+			</batch:listeners>
 		</batch:step>
 		<batch:step id="getDWCArchive">
 			<batch:description>Get the darwin core archive</batch:description>
 			<batch:tasklet ref="getDWCArchiveTasklet" />
 			<batch:next on="NOT MODIFIED" to="cleanupResourcesNotModified" />
 			<batch:next on="COMPLETED" to="unpackDWCArchive" />
+			<batch:listeners>
+				<batch:listener ref="stepStatusListener" />
+			</batch:listeners>
 		</batch:step>
 		<batch:step id="cleanupResourcesNotModified">
 			<batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="dwcArchiveResourceDeletingTasklet" />
 			<batch:end on="COMPLETED" exit-code="NOT MODIFIED" />
+			<batch:listeners>
+				<batch:listener ref="stepStatusListener" />
+			</batch:listeners>
 		</batch:step>
 		<batch:step id="unpackDWCArchive">
 			<batch:description>Unzip the archive to a temporary directory</batch:description>
 			<batch:tasklet ref="unpackDWCArchiveTasklet" />
 			<batch:next on="COMPLETED" to="readArchiveMetadata" />
+			<batch:listeners>
+				<batch:listener ref="stepStatusListener" />
+			</batch:listeners>
 		</batch:step>
 		<batch:step id="readArchiveMetadata">
 			<batch:description>Read the metadata from the archive and figure out how to interpret the files</batch:description>
@@ -39,6 +51,7 @@
 			<batch:next on="COMPLETED" to="checkTaxonProcessingMode" />
 			<batch:listeners>
 				<batch:listener ref="dwcArchiveMetadataReader" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="taxonProcessingModeDecider"
@@ -53,6 +66,7 @@
 			<batch:next on="COMPLETED" to="checkCoreFile" />
 			<batch:listeners>
 				<batch:listener ref="taxonRecordAnnotator" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="checkCoreFile">
@@ -69,7 +83,8 @@
 			<batch:next on="COMPLETED" to="checkDescriptionProcessingMode" />
 			<batch:listeners>
 				<batch:listener ref="processingExceptionProcessListener" />
-				<batch:listener ref="taxonFieldSetMapper" />				
+				<batch:listener ref="taxonFieldSetMapper" />
+				<batch:listener ref="stepStatusListener" />				
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="markTaxonRecordsForImport">
@@ -78,6 +93,7 @@
 			<batch:next on="COMPLETED" to="importCoreFile" />
 			<batch:listeners>
 				<batch:listener ref="taxonRecordAnnotator" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="importCoreFile">
@@ -96,6 +112,7 @@
 				<batch:listener ref="processingExceptionProcessListener" />
 				<batch:listener ref="taxonFieldSetMapper" />
 				<batch:listener ref="taxonImportingProcessor" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="deleteAbsentTaxa">
@@ -105,6 +122,7 @@
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="checkDescriptionProcessingMode" />
 			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="descriptionProcessingModeDecider"	id="checkDescriptionProcessingMode">
@@ -117,6 +135,7 @@
 			<batch:next on="COMPLETED" to="processDescriptionDecision" />
 			<batch:listeners>
 				<batch:listener ref="ownedRecordAnnotator" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="processDescriptionDecider" id="processDescriptionDecision">
@@ -141,17 +160,18 @@
 				<batch:listener ref="descriptionFieldSetMapper" />
 				<batch:listener ref="descriptionProcessor" />
 				<batch:listener ref="processingExceptionProcessListener" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="deleteAbsentDescriptions">
 			<batch:description>Delete the descriptions which we expected to be present in the archive but which were absent</batch:description>
 			<batch:tasklet>
-				<batch:chunk reader="deleteDescriptionsReader" writer="deletingWriter"
-					commit-interval="100" />
+				<batch:chunk reader="deleteDescriptionsReader" writer="deletingWriter"	commit-interval="100" />
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="checkImageProcessingMode" />
 			<batch:listeners>
 				<batch:listener ref="processingExceptionProcessListener" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="imageProcessingModeDecider" id="checkImageProcessingMode">
@@ -165,6 +185,7 @@
 			<batch:next on="COMPLETED" to="processImagesDecision" />
 			<batch:listeners>
 				<batch:listener ref="nonOwnedRecordAnnotator" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="markRelatedImageRecords">
@@ -173,6 +194,7 @@
 			<batch:next on="COMPLETED" to="processImagesDecision" />
 			<batch:listeners>
 				<batch:listener ref="nonOwnedRecordAnnotator" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="processImageDecider" id="processImagesDecision">
@@ -197,6 +219,7 @@
 				<batch:listener ref="processingExceptionProcessListener" />
 				<batch:listener ref="imageFieldSetMapper" />
 				<batch:listener ref="imageProcessor" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="handleBinaryImages">
@@ -209,6 +232,9 @@
 				</batch:chunk>
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="deleteAbsentImages" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
 		</batch:step>
 		<batch:step id="deleteAbsentImages">
 			<batch:description>Delete the images which we expected to be present in the archive but which were absent</batch:description>
@@ -218,6 +244,7 @@
 			<batch:next on="COMPLETED" to="indexImages" />
 			<batch:listeners>
 				<batch:listener ref="processingExceptionProcessListener" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="indexImages">
@@ -225,7 +252,10 @@
 		  <batch:tasklet>
 				<batch:chunk reader="indexImagesReader" writer="indexImagesWriter" commit-interval="10" />
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="checkReferenceProcessingMode" />			
+			<batch:next on="COMPLETED" to="checkReferenceProcessingMode" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="referenceProcessingModeDecider" id="checkReferenceProcessingMode">
 			<batch:next on="IMPORT_REFERENCES" to="markReferenceRecords" />
@@ -238,6 +268,7 @@
 			<batch:next on="COMPLETED" to="processReferencesDecision" />
 			<batch:listeners>
 				<batch:listener ref="nonOwnedRecordAnnotator" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="markRelatedReferenceRecords">
@@ -246,6 +277,7 @@
 			<batch:next on="COMPLETED" to="processReferencesDecision" />
 			<batch:listeners>
 				<batch:listener ref="nonOwnedRecordAnnotator" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="processReferenceDecider" id="processReferencesDecision">
@@ -268,6 +300,7 @@
 				<batch:listener ref="referenceFieldSetMapper" />
 				<batch:listener ref="processingExceptionProcessListener" />
 				<batch:listener ref="referenceProcessor" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="deleteAbsentReferences">
@@ -279,6 +312,7 @@
 			<batch:next on="COMPLETED" to="checkIdentifierProcessingMode" />
 			<batch:listeners>
 				<batch:listener ref="processingExceptionProcessListener" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="identifierProcessingModeDecider"	id="checkIdentifierProcessingMode">
@@ -291,6 +325,7 @@
 			<batch:next on="COMPLETED" to="processIdentifiersDecision" />
 			<batch:listeners>
 				<batch:listener ref="ownedRecordAnnotator" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="processIdentifierDecider" id="processIdentifiersDecision">
@@ -315,6 +350,7 @@
 				<batch:listener ref="identifierFieldSetMapper" />
 				<batch:listener ref="processingExceptionProcessListener" />
 				<batch:listener ref="identifierProcessor" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="deleteAbsentIdentifiers">
@@ -326,6 +362,7 @@
 			<batch:next on="COMPLETED" to="checkDistributionProcessingMode" />
 			<batch:listeners>
 				<batch:listener ref="processingExceptionProcessListener" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="distributionProcessingModeDecider"	id="checkDistributionProcessingMode">
@@ -338,6 +375,7 @@
 			<batch:next on="COMPLETED" to="processDistributionDecision" />
 			<batch:listeners>
 				<batch:listener ref="ownedRecordAnnotator" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="processDistributionDecider" id="processDistributionDecision">
@@ -362,6 +400,7 @@
 				<batch:listener ref="distributionFieldSetMapper" />
 				<batch:listener ref="processingExceptionProcessListener" />
 				<batch:listener ref="distributionProcessor" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="deleteAbsentDistribution">
@@ -373,6 +412,7 @@
 			<batch:next on="COMPLETED" to="checkMeasurementOrFactProcessingMode" />
 			<batch:listeners>
 				<batch:listener ref="processingExceptionProcessListener" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="measurementOrFactProcessingModeDecider"	id="checkMeasurementOrFactProcessingMode">
@@ -385,6 +425,7 @@
 			<batch:next on="COMPLETED" to="processMeasurementOrFactDecision" />
 			<batch:listeners>
 				<batch:listener ref="ownedRecordAnnotator" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="processMeasurementOrFactDecider" id="processMeasurementOrFactDecision">
@@ -409,6 +450,7 @@
 				<batch:listener ref="measurementOrFactFieldSetMapper" />
 				<batch:listener ref="processingExceptionProcessListener" />
 				<batch:listener ref="measurementOrFactProcessor" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="deleteAbsentMeasurementOrFacts">
@@ -420,6 +462,7 @@
 			<batch:next on="COMPLETED" to="checkVernacularNameProcessingMode" />
 			<batch:listeners>
 				<batch:listener ref="processingExceptionProcessListener" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="vernacularNameProcessingModeDecider"	id="checkVernacularNameProcessingMode">
@@ -432,6 +475,7 @@
 			<batch:next on="COMPLETED" to="processVernacularNameDecision" />
 			<batch:listeners>
 				<batch:listener ref="ownedRecordAnnotator" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="processVernacularNameDecider" id="processVernacularNameDecision">
@@ -454,6 +498,7 @@
 				<batch:listener ref="vernacularNameFieldSetMapper" />
 				<batch:listener ref="processingExceptionProcessListener" />
 				<batch:listener ref="vernacularNameProcessor" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="deleteAbsentVernacularNames">
@@ -464,6 +509,7 @@
 			<batch:next on="COMPLETED" to="checkTypeAndSpecimenProcessingMode" />
 			<batch:listeners>
 				<batch:listener ref="processingExceptionProcessListener" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="typeAndSpecimenProcessingModeDecider"	id="checkTypeAndSpecimenProcessingMode">
@@ -477,6 +523,7 @@
 			<batch:next on="COMPLETED" to="processTypeAndSpecimenDecision" />
 			<batch:listeners>
 				<batch:listener ref="nonOwnedRecordAnnotator" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="markRelatedTypeAndSpecimenRecords">
@@ -485,6 +532,7 @@
 			<batch:next on="COMPLETED" to="processTypeAndSpecimenDecision" />
 			<batch:listeners>
 				<batch:listener ref="nonOwnedRecordAnnotator" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="processTypeAndSpecimenDecider" id="processTypeAndSpecimenDecision">
@@ -509,6 +557,7 @@
 				<batch:listener ref="typeAndSpecimenFieldSetMapper" />
 				<batch:listener ref="processingExceptionProcessListener" />
 				<batch:listener ref="typeAndSpecimenProcessor" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="deleteAbsentTypeAndSpecimens">
@@ -520,6 +569,7 @@
 			<batch:next on="COMPLETED" to="calculateDerivedProperties" />
 			<batch:listeners>
 				<batch:listener ref="processingExceptionProcessListener" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="calculateDerivedProperties">
@@ -528,24 +578,36 @@
 				<batch:chunk reader="indexTaxaReader" processor="calculateDerivedPropertiesProcessor" writer="itemWriter" commit-interval="10" />
 			</batch:tasklet>			
 			<batch:next on="COMPLETED" to="indexTaxa"/>
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
 		</batch:step>
 		<batch:step id="indexTaxa">
 		  <batch:description>Index the images associated with this job</batch:description>
 		  <batch:tasklet>
 				<batch:chunk reader="indexTaxaReader" writer="indexTaxaWriter" commit-interval="10" />
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="indexAnnotations" />			
+			<batch:next on="COMPLETED" to="indexAnnotations" />	
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>		
 		</batch:step>
 		<batch:step id="indexAnnotations">
 		  <batch:description>Index the annotations associated with this job</batch:description>
 		  <batch:tasklet>
 				<batch:chunk reader="indexAnnotationsReader" writer="indexAnnotationsWriter" commit-interval="10" />
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="cleanupResources" />			
+			<batch:next on="COMPLETED" to="cleanupResources" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>	
 		</batch:step>
 		<batch:step id="cleanupResources">
 			<batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="dwcArchiveResourceDeletingTasklet" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
 		</batch:step>
 		<batch:listeners>
 			<batch:listener ref="jobStatusListener" />

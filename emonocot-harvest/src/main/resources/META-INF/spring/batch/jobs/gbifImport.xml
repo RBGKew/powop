@@ -18,6 +18,9 @@
 			<batch:description>Set the temporary file names</batch:description>
 			<batch:tasklet ref="setTemporaryFilenamesTasklet" />
 			<batch:next on="COMPLETED" to="markTypeAndSpecimenRecords" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
 		</batch:step>	
 		<batch:step id="markTypeAndSpecimenRecords">
 			<batch:description>Mark the type and specimen records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
@@ -25,12 +28,16 @@
 			<batch:next on="COMPLETED" to="getGBIFData" />
 			<batch:listeners>
 				<batch:listener ref="recordAnnotator" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="getGBIFData">
 			<batch:description>Get the GBIF darwin core file</batch:description>
 			<batch:tasklet ref="getGBIFDataTasklet" />			
 			<batch:next on="COMPLETED" to="processFile" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
 		</batch:step>
 	    <batch:step id="processFile">
 	      <batch:description>Process the specified file and check for matches</batch:description>
@@ -44,7 +51,8 @@
 			<batch:next on="COMPLETED" to="resumeHarvesting"/>
 			<batch:listeners>
 			  <batch:listener ref="typeAndSpecimenProcessor"/>
-			  <batch:listener ref="taxonOccurrenceToTypeAndSpecienProcessor"/>
+			  <batch:listener ref="taxonOccurrenceToTypeAndSpecimenProcessor"/>
+			  <batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 	    </batch:step>
 	    <batch:step id="resumeHarvesting">
@@ -54,6 +62,7 @@
 			<batch:next on="HAS_MORE_RECORDS" to="getGBIFData" />
 			<batch:listeners>
 				<batch:listener ref="gbifMoreRecords"/>
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 	    <batch:step id="deleteAbsentTypesAndSpecimens">
@@ -62,17 +71,26 @@
 				<batch:chunk reader="deleteTypeAndSpecimenReader" writer="deletingWriter"	commit-interval="100" />
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="indexAnnotations" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
 		</batch:step>
 		<batch:step id="indexAnnotations">
 		  <batch:description>Index the annotations associated with this job</batch:description>
 		  <batch:tasklet>
 				<batch:chunk reader="indexAnnotationsReader" writer="indexAnnotationsWriter" commit-interval="10" />
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="cleanupResources" />			
+			<batch:next on="COMPLETED" to="cleanupResources" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>		
 		</batch:step>
 	    <batch:step id="cleanupResources">
 			<batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="gbifResourceDeletingTasklet" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
 		</batch:step>
 		<batch:listeners>
             <batch:listener ref="jobStatusListener" />
@@ -171,7 +189,7 @@
 		</property>
 	</bean>
 	
-	<bean id="taxonOccurrenceToTypeAndSpecienProcessor" class="org.emonocot.job.gbif.Processor" scope="step">
+	<bean id="taxonOccurrenceToTypeAndSpecimenProcessor" class="org.emonocot.job.gbif.Processor" scope="step">
 	  <property name="taxonMatcher" ref="taxonMatcher" />
 	  <property name="nameParser" ref="nameParser"/>
 	  <property name="sessionFactory" ref="sessionFactory"/>
@@ -189,7 +207,7 @@
 	</bean>
 	
 	<bean id="itemWriter" class="org.emonocot.job.gbif.Writer">
-	  <property name="taxonOccurrenceProcessor" ref="taxonOccurrenceToTypeAndSpecienProcessor"/>
+	  <property name="taxonOccurrenceProcessor" ref="taxonOccurrenceToTypeAndSpecimenProcessor"/>
 	  <property name="typeAndSpecimenProcessor" ref="typeAndSpecimenProcessor"/>
 	  <property name="itemWriter" ref="hibernateItemWriter"/>
 	</bean>

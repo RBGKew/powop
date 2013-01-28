@@ -131,17 +131,29 @@
 		{controls : [new OpenLayers.Control.Navigation({zoomWheelEnabled : false}),
 					 new OpenLayers.Control.PanZoomBar({zoomWorldIcon: true})],
 		 units: "m",
-		 numZoomLevels: 7,
+		 numZoomLevels: 5,
 		 projection : new OpenLayers.Projection("EPSG:3857"),
-		 maxResolution: 156543.0339,
+		 maxResolution: 39135.758475,
 		 maxExtent: new OpenLayers.Bounds(-20037500,
 										  -20037500,
 										   20037500,
 										   20037500)
 	  });
-	  var base_layer = new OpenLayers.Layer.TMS("MapBox Layer",
-		 [ "${baseUrl}/tiles/" ],
-		 { 'layername': 'eMonocot', 'type': 'png',isBaseLayer : true, wrapDateLine: true }
+	  var base_layer = new OpenLayers.Layer.TMS(
+			'MapBox Layer', [ "${baseUrl}/tiles/" ],
+		    { 'layername': 'eMonocot',
+		      'type': 'png',
+     	      'isBaseLayer' : true, 
+		      'wrapDateLine': true,
+		      'serverResolutions' : [
+                156543.0339,
+                78271.51695,
+                39135.758475,
+                19567.8792375,
+                9783.93961875,
+                4891.969809375,
+                2445.9849046875
+              ]}
 	  );
 
 	  map.addLayers([ base_layer ]);

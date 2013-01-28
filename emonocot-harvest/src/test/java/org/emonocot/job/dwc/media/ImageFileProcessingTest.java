@@ -5,12 +5,12 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.util.Properties;
 
+import org.emonocot.harvest.common.GetResourceClient;
 import org.emonocot.harvest.media.ImageFileProcessor;
 import org.emonocot.harvest.media.ImageMetadataExtractor;
 import org.emonocot.harvest.media.ImageThumbnailGenerator;
 import org.emonocot.model.Image;
 import org.emonocot.model.constants.ImageFormat;
-import org.emonocot.ws.GetResourceClient;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;

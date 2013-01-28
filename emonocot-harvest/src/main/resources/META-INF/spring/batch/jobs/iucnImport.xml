@@ -16,17 +16,26 @@
 			<batch:description>Set the temporary file name</batch:description>
 			<batch:tasklet ref="setTemporaryFilenamesTasklet" />
 			<batch:next on="COMPLETED" to="getIUCNData" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
 		</batch:step>
 		<batch:step id="getIUCNData">
 			<batch:description>Get the IUCN json file</batch:description>
 			<batch:tasklet ref="getIUCNDataTasklet" />
 			<batch:next on="NOT MODIFIED" to="cleanupResourcesNotModified" />
 			<batch:next on="COMPLETED" to="markMeasurementOrFactRecords" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
 		</batch:step>
 		<batch:step id="cleanupResourcesNotModified">
 			<batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="iucnResourceDeletingTasklet" />
 			<batch:end on="COMPLETE" exit-code="NOT MODIFIED" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
 		</batch:step>
 		<batch:step id="markMeasurementOrFactRecords">
 			<batch:description>Mark the measurement or fact records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
@@ -34,12 +43,16 @@
 			<batch:next on="COMPLETED" to="splitJsonFile" />
 			<batch:listeners>
 				<batch:listener ref="recordAnnotator" />
+				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="splitJsonFile">
 			<batch:description>The JSON file from the IUCN</batch:description>
 			<batch:tasklet ref="splitOneLineJsonTasklet" />
 			<batch:next on="COMPLETED" to="processFile" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
 		</batch:step>
 	    <batch:step id="processFile">
 	      <batch:description>Process the specified file and check for matches</batch:description>
@@ -51,6 +64,7 @@
 			<batch:listeners>
 			  <batch:listener ref="measurementOrFactProcessor"/>
 			  <batch:listener ref="iucnMapToMeasurementOrFactProcessor"/>
+			  <batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 	    </batch:step>
 	    <batch:step id="deleteAbsentMeasurementOrFacts">
@@ -59,17 +73,26 @@
 				<batch:chunk reader="deleteMeasurementOrFactReader" writer="deletingWriter"	commit-interval="100" />
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="indexAnnotations" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
 		</batch:step>
 		<batch:step id="indexAnnotations">
 		  <batch:description>Index the annotations associated with this job</batch:description>
 		  <batch:tasklet>
 				<batch:chunk reader="indexAnnotationsReader" writer="indexAnnotationsWriter" commit-interval="10" />
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="cleanupResources" />			
+			<batch:next on="COMPLETED" to="cleanupResources" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>		
 		</batch:step>
 	    <batch:step id="cleanupResources">
 			<batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="iucnResourceDeletingTasklet" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
 		</batch:step>
 		<batch:listeners>
             <batch:listener ref="jobStatusListener" />

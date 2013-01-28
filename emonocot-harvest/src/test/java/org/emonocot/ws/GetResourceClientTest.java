@@ -16,6 +16,7 @@ import org.apache.http.message.BasicHttpResponse;
 import org.apache.http.message.BasicStatusLine;
 import org.apache.http.params.BasicHttpParams;
 import org.easymock.EasyMock;
+import org.emonocot.harvest.common.GetResourceClient;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.core.ExitStatus;

@@ -30,7 +30,7 @@
 		input-channel="jobLaunchRequests" ref="jobLauncherImpl" method="launch" />
 
 	<bean id="jobLauncherImpl" class="org.emonocot.harvest.integration.JobLauncherImpl">
-		<property name="jobLauncher" ref="jobLauncher" />
+		<property name="jobLauncher" ref="readWriteJobLauncher" />
 		<property name="jobLocator" ref="jobRegistry" />
 		<property name="jobStatusNotifier" ref="jobStatusNotifier"/>
 		<property name="baseUrl" value="${harvester.baseUrl}" />
