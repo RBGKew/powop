@@ -30,10 +30,11 @@
 	<bean id="validator"
 		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
-	<bean id="conversionService"
-		class="org.springframework.context.support.ConversionServiceFactoryBean">
+	<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
 		<property name="converters">
 			<list>
+			    <bean class="org.emonocot.model.convert.StringToIsoDateTimeConverter" />
+			    <bean class="org.emonocot.model.convert.IsoDateTimeToStringConverter" />
 			    <bean class="org.emonocot.model.convert.RankConverter" />
 			    <bean class="org.emonocot.model.convert.EstablishmentMeansConverter" />
 			    <bean class="org.emonocot.model.convert.OccurrenceStatusConverter" />
@@ -44,6 +45,9 @@
 				<bean class="org.emonocot.model.convert.StringToLocationConverter" />
 				<bean class="org.emonocot.model.convert.LocationToStringConverter" />
 				<bean class="org.emonocot.model.convert.StringToLocationConverter" />
+				<bean class="org.emonocot.model.convert.DescriptionTypeConverter" />
+				<bean class="org.emonocot.model.convert.ImageFormatConverter" />
+				<bean class="org.emonocot.model.convert.TypeStatusConverter" />
 				<!-- Required due to SPR-6564 Spring ConversionService breaks String-to-Resource 
 					resolution -->
 				<bean class="org.emonocot.model.convert.FileConverter" />
@@ -84,6 +88,7 @@
 				<value>org.emonocot.model.auth.User</value>
 				<value>org.emonocot.model.auth.Group</value>
 				<value>org.emonocot.model.Place</value>
+                <value>org.emonocot.model.Comment</value>
 			</list>
 		</property>
 		<property name="eventListeners">

@@ -72,6 +72,7 @@
 				<value>org.emonocot.model.auth.User</value>
 				<value>org.emonocot.model.auth.Group</value>
 				<value>org.emonocot.model.Place</value>
+                <value>org.emonocot.model.Comment</value>
 			</list>
 		</property>
 		<property name="eventListeners">
@@ -117,6 +118,20 @@
 		<property name="testOnBorrow" value="true" />
 		<property name="defaultTransactionIsolation" value="2" />
 	</bean>
+	
+	<bean id="mailSender" class ="org.springframework.mail.javamail.JavaMailSenderImpl" >
+        <property name="username" value="${email.username}" />
+        <property name="password" value="${email.password}" />
+        <property name="javaMailProperties">
+          <props>
+            <prop key="mail.smtp.host">${email.host}</prop>
+            <prop key="mail.smtp.port">${email.port}</prop>
+            <prop key="mail.smtp.auth">${email.auth}</prop>
+            <prop key="mail.smtp.starttls.enable">${email.enable.starttls}</prop>
+          </props>
+    </property>
+    </bean>
+	
 	<beans profile="default">
 	    <context:property-placeholder location="classpath:META-INF/spring/application.properties" />
 	    <context:property-override location="classpath:META-INF/spring/application.properties" ignore-unresolvable="true"/>

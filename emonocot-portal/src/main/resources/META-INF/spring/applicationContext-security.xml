@@ -9,8 +9,7 @@
 		class="org.springframework.security.authentication.event.LoggerListener" />
 
 	<sec:authentication-manager alias="authenticationManager">
-		<sec:authentication-provider
-			user-service-ref='userServiceImpl'>
+		<sec:authentication-provider user-service-ref='userServiceImpl'>
 			<sec:password-encoder ref="passwordEncoder">
 				<sec:salt-source ref="saltSource" />
 			</sec:password-encoder>
@@ -22,8 +21,7 @@
 		<sec:expression-handler ref="expressionHandler" />
 	</sec:global-method-security>
 
-	<bean id="expressionHandler"
-		class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+	<bean id="expressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
 		<property name="permissionEvaluator" ref="permissionEvaluator" />
 	</bean>
 
@@ -105,8 +103,7 @@
 	<sec:http-firewall ref="httpFirewall" />
 	<!-- Due to SEC-1606 https://jira.springsource.org/browse/SEC-1606 should 
 		be fixed in 3.0.5.RELEASE -->
-	<bean name="httpFirewall"
-		class="org.emonocot.portal.auth.RequestDispatcherAwareHttpFirewall" />
+	<bean name="httpFirewall" class="org.emonocot.portal.auth.RequestDispatcherAwareHttpFirewall" />
 
 	<bean id="webSecurityExpressionHandler"
 		class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler">
@@ -162,10 +159,14 @@
 			access="hasRole('PERMISSION_CREATE_JOBINSTANCE')" />
 		<sec:intercept-url pattern="/jobInstance/*" method="DELETE"
 			access="hasRole('PERMISSION_DELETE_JOBINSTANCE')" />
-		<sec:intercept-url pattern="/annotation" method="POST"
-			access="hasRole('PERMISSION_CREATE_ANNOTATION')" />
-		<sec:intercept-url pattern="/annotation/*" method="DELETE"
-			access="hasRole('PERMISSION_DELETE_ANNOTATION')" />
+        <sec:intercept-url pattern="/annotation" method="POST"
+            access="hasRole('PERMISSION_CREATE_ANNOTATION')" />
+        <sec:intercept-url pattern="/annotation/*" method="DELETE"
+            access="hasRole('PERMISSION_DELETE_ANNOTATION')" />
+        <sec:intercept-url pattern="/comment" method="POST"
+            access="isAuthenticated()" />
+        <sec:intercept-url pattern="/comment/*" method="DELETE"
+            access="hasRole('PERMISSION_DELETE_COMMENT')" />
 		<sec:form-login login-page='/login'
 			login-processing-url="/process_login" authentication-failure-url="/login?error=true"
 			default-target-url="/home" />

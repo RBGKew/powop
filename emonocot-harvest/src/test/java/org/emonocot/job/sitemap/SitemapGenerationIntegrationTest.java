@@ -22,6 +22,7 @@ import org.springframework.batch.core.repository.JobExecutionAlreadyRunningExcep
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -37,22 +38,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
         "/META-INF/spring/applicationContext-test.xml" })
 public class SitemapGenerationIntegrationTest {
 
-    /**
-     *
-     */
-    private static final Logger logger = LoggerFactory
-            .getLogger(SitemapGenerationIntegrationTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(SitemapGenerationIntegrationTest.class);
 
-    /**
-     *
-     */
     @Autowired
     private JobLocator jobLocator;
 
-    /**
-     *
-     */
     @Autowired
+	@Qualifier("jobLauncher")
     private JobLauncher jobLauncher;
 
     /**

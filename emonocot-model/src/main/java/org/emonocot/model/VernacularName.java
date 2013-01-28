@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -82,12 +83,12 @@ public class VernacularName extends OwnedEntity {
 	/**
 	 *
 	 */
-	private Boolean preferredName;
+	private Boolean preferredName = Boolean.FALSE;
 	
 	/**
 	 *
 	 */
-	private Boolean plural;
+	private Boolean plural = Boolean.TRUE;
 	
 	/**
 	 *
@@ -199,6 +200,7 @@ public class VernacularName extends OwnedEntity {
 		this.lifeStage = lifeStage;
 	}
 
+	@NotNull
 	public Boolean getPreferredName() {
 		return preferredName;
 	}
@@ -207,6 +209,7 @@ public class VernacularName extends OwnedEntity {
 		this.preferredName = preferredName;
 	}
 
+	@NotNull
 	public Boolean getPlural() {
 		return plural;
 	}

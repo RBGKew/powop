@@ -15,10 +15,12 @@
 	  <div class="span12">
 	    <tags:info />
 	    <c:if test="${param.error}">
-				<div class="alert">
+				<div class="alert alert-error error" data-dismiss="alert">
 					<a class="close" href="#">×</a>
 					<p>
-						<strong>${SPRING_SECURITY_LAST_EXCEPTION.message}</strong>
+						<strong><i class="glyphicons-icon circle_exclamation_mark"><!--  --></i>
+						<spring:message code="${SPRING_SECURITY_LAST_EXCEPTION.getClass().getName()}" var="securityException"/>
+						<spring:message code="${login.unsuccessful}" arguments="${securityException}" /></strong>
 					</p>
 					<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.cause}">
 						<p>${SPRING_SECURITY_LAST_EXCEPTION.cause.message}</p>
@@ -31,11 +33,12 @@
 		<div class="span12">
 		  <div class="inner">
 		    <div class="box">			
-			<form:create modelAttribute="loginForm" path="/process_login">
+			  <form:create modelAttribute="loginForm" path="/process_login">
 				<field:input field="j_username" label="username" fieldClass="span4" />
 				<field:input field="j_password" label="password" fieldClass="span4"	type="password" />
 				<field:checkbox field="_spring_security_remember_me" label="remember.me" disableFormBinding="true" />
-			</form:create>
+			  </form:create>
+			  
 			</div>
 	      </div>
 		</div>

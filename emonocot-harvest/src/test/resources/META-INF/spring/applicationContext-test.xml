@@ -19,10 +19,11 @@
 
 	<context:annotation-config />
 
-	<bean id="conversionService"
-		class="org.springframework.context.support.ConversionServiceFactoryBean">
+	<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
 		<property name="converters">
 			<list>
+			    <bean class="org.emonocot.model.convert.StringToIsoDateTimeConverter" />
+			    <bean class="org.emonocot.model.convert.IsoDateTimeToStringConverter" />
 			    <bean class="org.emonocot.model.convert.RankConverter" />
 			    <bean class="org.emonocot.model.convert.EstablishmentMeansConverter" />
 			    <bean class="org.emonocot.model.convert.OccurrenceStatusConverter" />
@@ -48,6 +49,11 @@
 
 	<bean id="jobRegistry"
 		class="org.springframework.batch.core.configuration.support.MapJobRegistry" />
+
+   <bean id="jobLauncher"
+		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+	</bean>
 
 	<bean id="readWriteJobLauncher"
 		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
@@ -150,6 +156,7 @@
 				<value>org.emonocot.model.auth.User</value>
 				<value>org.emonocot.model.auth.Group</value>
 				<value>org.emonocot.model.Place</value>
+                <value>org.emonocot.model.Comment</value>
               </list>
             </property>
             <property name="eventListeners">

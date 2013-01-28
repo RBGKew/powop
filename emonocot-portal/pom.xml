@@ -222,7 +222,7 @@
 		<dependency>
            <groupId>org.ocpsoft.prettytime</groupId>
            <artifactId>prettytime</artifactId>
-        </dependency>
+        </dependency>        
 	</dependencies>
 	<build>
 		<finalName>emonocot-portal</finalName>

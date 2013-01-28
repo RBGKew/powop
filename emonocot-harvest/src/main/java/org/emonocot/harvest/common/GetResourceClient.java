@@ -69,11 +69,13 @@ public class GetResourceClient {
      * @param newProxyPort Set the proxy port
      */
     public final void setProxyPort(final String newProxyPort) {
-        try {
-            this.proxyPort = Integer.decode(newProxyPort);
-        } catch (NumberFormatException nfe) {
-            logger.warn(nfe.getMessage());
-        }
+		if (newProxyPort != null && !newProxyPort.isEmpty()) {
+			try {
+				this.proxyPort = Integer.decode(newProxyPort);
+			} catch (NumberFormatException nfe) {
+				logger.warn(nfe.getMessage());
+			}
+		}
     }
 
     /**

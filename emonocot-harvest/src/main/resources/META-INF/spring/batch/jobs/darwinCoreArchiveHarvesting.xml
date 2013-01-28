@@ -58,6 +58,7 @@
 			id="checkTaxonProcessingMode">
 			<batch:next on="CHECK_TAXA" to="markTaxonRecords" />
 			<batch:next on="IMPORT_TAXA" to="markTaxonRecordsForImport" />
+			<batch:next on="IMPORT_TAXA_BY_AUTHORITY" to="markTaxonRecordsByAuthorityForImport" />
 			<batch:next on="SKIP_TAXA" to="markDescriptionRecords" />
 		</batch:decision>
 		<batch:step id="markTaxonRecords">
@@ -90,6 +91,15 @@
 		<batch:step id="markTaxonRecordsForImport">
 			<batch:description>Mark the taxon records we expect to be present in this archive</batch:description>
 			<batch:tasklet ref="markTaxonRecordsTasklet" />
+			<batch:next on="COMPLETED" to="importCoreFile" />
+			<batch:listeners>
+				<batch:listener ref="taxonRecordAnnotator" />
+				<batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="markTaxonRecordsByAuthorityForImport">
+			<batch:description>Mark the taxon records we expect to be present in this archive</batch:description>
+			<batch:tasklet ref="markTaxonRecordsByAuthorityTasklet" />
 			<batch:next on="COMPLETED" to="importCoreFile" />
 			<batch:listeners>
 				<batch:listener ref="taxonRecordAnnotator" />
@@ -686,6 +696,18 @@
 	<bean id="taxonProcessingModeDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
 		<property name="processingModeKey" value="taxon.processing.mode" />
 		<property name="defaultProcessingMode" value="CHECK_TAXA" />
+	</bean>
+	
+	<bean id="markTaxonRecordsByAuthorityTasklet"
+		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+		scope="step">
+		<property name="targetObject" ref="taxonRecordAnnotator" />
+		<property name="targetMethod" value="annotateRecords" />
+		<property name="arguments">
+			<list>
+				<value>#{jobParameters['authority.name']}</value>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="markTaxonRecordsTasklet"

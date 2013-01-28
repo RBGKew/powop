@@ -86,6 +86,10 @@ public class Functions {
     private Functions() {
     }
     
+    public static String escape(final String string) {
+        return string.replaceAll("&", "&amp;");
+    }
+    
     /**
     *
     * @param string Set the string to strip xml from
@@ -99,7 +103,7 @@ public class Functions {
 	    if(dateTime == null) {
 	    	return null;
 	    } else {
-	        return timeOnlyFormatter.print(dateTime);
+	        return timeOnlyFormatter.print(dateTime.minusHours(1));
 	    }
    }
 
@@ -788,5 +792,4 @@ public class Functions {
   	}
       return fact;
   }
-
 }

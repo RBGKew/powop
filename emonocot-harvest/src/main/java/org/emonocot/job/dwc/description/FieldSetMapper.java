@@ -8,7 +8,6 @@ import org.emonocot.model.Reference;
 import org.emonocot.model.constants.DescriptionType;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
-import org.gbif.dwc.terms.UnknownTerm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.StepExecutionListener;
@@ -60,7 +59,7 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<Description> imple
                 object.setIdentifier(value);
                 break;
             case language:
-                object.setLanguage(new Locale(value));
+                object.setLanguage(conversionService.convert(value, Locale.class));
                 break;
             case source:
             	if (value.indexOf(",") != -1) {
@@ -76,17 +75,11 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<Description> imple
                 object.setSource(value);
                 break;
             case type:
-                object.setType(DescriptionType.fromString(value));
+                object.setType(conversionService.convert(value, DescriptionType.class));
                 break;            
             default:
                 break;
             }
-        }        
-
-        // Unknown Terms
-        if (term instanceof UnknownTerm) {
-            UnknownTerm unknownTerm = (UnknownTerm) term;
-            
         }
     }
 

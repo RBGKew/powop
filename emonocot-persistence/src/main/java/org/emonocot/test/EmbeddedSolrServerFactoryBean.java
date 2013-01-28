@@ -19,6 +19,7 @@ public class EmbeddedSolrServerFactoryBean implements FactoryBean<SolrServer> {
 	}
 	
 	public void shutdown() {
+		solrServer.shutdown();
 		coreContainer.shutdown();
 	}
 	

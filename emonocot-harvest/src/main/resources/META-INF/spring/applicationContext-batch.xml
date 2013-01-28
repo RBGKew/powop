@@ -27,17 +27,22 @@
 		<property name="jobRepository" ref="jobRepository" />
 	</bean>
 
+    <!-- Second job launcher: this one is throttled to restrict the number of running threads to poolSize + 1
+         due to the CALLER_RUNS rejection policy which will cause the calling thread (i.e. the one doing the polling
+         to block until the job completes)
+      -->
+
 	<bean id="jobLauncher"	class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
 		<property name="jobRepository" ref="jobRepository" />
 		<property name="taskExecutor" ref="throttledTaskExecutor" />
-	</bean>
-	
-	<task:executor id="poolTaskExecutor" pool-size="600" rejection-policy="CALLER_RUNS"/>
+	</bean>	
 	
 	<bean id="throttledTaskExecutor"
 		class="org.springframework.batch.admin.util.ThrottledTaskExecutor">
 		<property name="taskExecutor" ref="poolTaskExecutor"/>
 	</bean>
+	
+	<task:executor id="poolTaskExecutor" pool-size="600" rejection-policy="CALLER_RUNS"/>
 
 	<bean id="jobRepository" class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
@@ -62,8 +67,7 @@
 		</property>
 	</bean>
 
-	<bean id="jobRegistry"
-		class="org.springframework.batch.core.configuration.support.MapJobRegistry" />
+	<bean id="jobRegistry" class="org.springframework.batch.core.configuration.support.MapJobRegistry" />
 
 	<bean id="jobService" class="org.springframework.batch.admin.service.SimpleJobServiceFactoryBean">
 		<property name="jobRepository" ref="jobRepository" />

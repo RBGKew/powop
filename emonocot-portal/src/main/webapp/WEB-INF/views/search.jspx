@@ -5,7 +5,7 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:results="urn:jsptagdir:/WEB-INF/tags/results"
-	xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu"
+	xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu"	
 	xmlns:spring="http://www.springframework.org/tags">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
@@ -45,9 +45,7 @@
 			</form>
 		</div>
 		<div>
-			<c:url var="resetUrl" value="/search">
-				<c:param name="query" value="" />
-			</c:url>
+			<c:url var="resetUrl" value="/search"/>
 			<a id="reset" class="btn pull-right" href="${resetUrl}">
 				<i class="icon-refresh"><!--  --></i>
 				<spring:message code="reset" />
@@ -86,13 +84,17 @@
 							<div id="viewIcons" class="span3">
 								<tags:view url="/search" result="${result}" />
 							</div>
-							<tags:sort url="/search" result="${result}" spanClass="pull-right" />
+							<tags:sort url="/search" result="${result}" spanClass="span1 offset4" />
 						</div>
 						<br/>
 						<div class="row">
 							<div id="pages" class="pull-left">
 							    <tags:results pager="${result}" />
+							</div>							
+							<div class="pull-right">
+							  <tags:download url="/download" pager="${result}"/>
 							</div>
+							
 						</div>
 
 						<div id="results" class="row no-margin-left">

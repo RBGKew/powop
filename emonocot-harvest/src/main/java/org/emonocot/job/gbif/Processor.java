@@ -64,7 +64,7 @@ public class Processor extends AbstractRecordAnnotator implements ItemProcessor<
 			if(results.size() == 1) {
 				return results.get(0).getInternal();
 		    } else if(results.size() > 1) {
-				logger.error(o.getIdentifiedTo().get(0).getTaxonName()  + " multiple matches");
+				logger.info(o.getIdentifiedTo().get(0).getTaxonName()  + " multiple matches");
 				Annotation annotation = new Annotation();
 	            annotation.setJobId(stepExecution.getJobExecutionId());
 	            annotation.setAnnotatedObj(null);
@@ -76,7 +76,7 @@ public class Processor extends AbstractRecordAnnotator implements ItemProcessor<
 	            super.annotate(annotation);
 				return null;
 			} else {
-				logger.error(o.getIdentifiedTo().get(0).getTaxonName() + " no matches");
+				logger.info(o.getIdentifiedTo().get(0).getTaxonName() + " no matches");
 				Annotation annotation = new Annotation();
 	            annotation.setJobId(stepExecution.getJobExecutionId());
 	            annotation.setAnnotatedObj(null);

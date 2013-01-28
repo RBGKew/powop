@@ -42,15 +42,10 @@ public abstract class SearchableServiceImpl<T extends Base, DAO extends Searchab
     public final Page<T> search(final String query, final String spatialQuery,
             final Integer pageSize, final Integer pageNumber,
             final String[] facets,
-            final Map<String, String> selectedFacets, final String sort,
-            final String fetch) {
+            Map<String, String> facetPrefixes, final Map<String, String> selectedFacets,
+            final String sort, final String fetch) {
         return dao.search(query, spatialQuery, pageSize, pageNumber, facets,
-                selectedFacets, sort, fetch);
-    }
-
-    @Transactional(readOnly = true)
-    public Page<T> searchByExample(T example, boolean ignoreCase, boolean useLike) {
-        return dao.searchByExample(example, ignoreCase, useLike);
+                facetPrefixes, selectedFacets, sort, fetch);
     }
     
     @Transactional(readOnly = true)

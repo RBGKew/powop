@@ -11,6 +11,7 @@ import org.emonocot.api.AnnotationService;
 import org.emonocot.api.OrganisationService;
 import org.emonocot.api.ResourceService;
 import org.emonocot.api.job.JobExecutionException;
+import org.emonocot.api.job.JobExecutionInfo;
 import org.emonocot.api.job.JobLaunchRequest;
 import org.emonocot.api.job.JobLauncher;
 import org.emonocot.model.Annotation;
@@ -23,7 +24,12 @@ import org.joda.time.base.BaseDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.BatchStatus;
+import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +40,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -53,6 +60,8 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	private OrganisationService organisationService;
 	
 	private JobLauncher jobLauncher;
+	
+	private JobExplorer jobExplorer;
 
 	@Autowired
 	public void setResourceService(ResourceService resourceService) {
@@ -60,6 +69,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	}
 	
 	@Autowired
+	@Qualifier("readWriteJobLauncher")
 	public void setJobLauncher(JobLauncher newJobLauncher) {
 	   this.jobLauncher = newJobLauncher;
 	}
@@ -73,6 +83,11 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	public void setOrganisationService(OrganisationService organisationService) {
 		this.organisationService = organisationService;
 	}
+    
+    @Autowired
+    public void setJobExplorer(JobExplorer jobExplorer) {
+    	this.jobExplorer = jobExplorer;
+    }
 
 	/**
      *
@@ -128,8 +143,8 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		Page<Annotation> result = annotationService.search(query, null, limit,
 				start, new String[] { "annotation.code_s",
 				"annotation.type_s", "annotation.record_type_s",
-				"annotation.job_id_l" }, selectedFacets, null,
-				"annotated-obj");
+				"annotation.job_id_l" }, null, selectedFacets,
+				null, "annotated-obj");
 		result.putParam("query", query);
 		model.addAttribute("jobId",resource.getJobId());
 		model.addAttribute("result", result);
@@ -426,5 +441,64 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		}
 		return "redirect:/resource/" + resourceId;
 	}
+	
+	@RequestMapping(value = "/{resourceId}/progress", method = RequestMethod.GET, produces="application/json")
+    @ResponseBody
+	public JobExecutionInfo getProgress(@PathVariable("resourceId") Long resourceId) throws Exception {
+		JobExecutionInfo jobExecutionInfo = new JobExecutionInfo();
+		Resource resource = getService().load(resourceId);
+		
+		JobExecution jobExecution = jobExplorer.getJobExecution(resource.getJobId());
+		if(jobExecution != null) {			
+			jobExecutionInfo.setStatus(jobExecution.getStatus());
+			if(jobExecution.getExitStatus() != null) {
+				ExitStatus exitStatus = jobExecution.getExitStatus();
+			    jobExecutionInfo.setExitCode(exitStatus.getExitCode());
+			    jobExecutionInfo.setExitDescription(exitStatus.getExitDescription());
+			    
+			    Integer recordsRead = 0;
+				Integer readSkip = 0;
+				Integer processSkip = 0;
+				Integer writeSkip = 0;
+				Integer written = 0;
+				for(StepExecution stepExecution : jobExecution.getStepExecutions()) {
+					recordsRead += stepExecution.getReadCount();
+					readSkip += stepExecution.getReadSkipCount();
+					processSkip += stepExecution.getProcessSkipCount();
+					writeSkip += stepExecution.getWriteSkipCount();
+					written += stepExecution.getWriteCount();
+				}
+				jobExecutionInfo.setRecordsRead(recordsRead);
+				jobExecutionInfo.setReadSkip(readSkip);
+				jobExecutionInfo.setProcessSkip(processSkip);
+				jobExecutionInfo.setWriteSkip(writeSkip);
+				jobExecutionInfo.setWritten(written);
+			}			
+			Float total = new Float(0);
+			
+			switch(jobExecution.getJobInstance().getJobName()) {
+			case "DarwinCoreArchiveHarvesting":
+				total = new Float(42);
+				break;
+			case "IdentificationKeyHarvesting":
+				total = new Float(9);
+				break;
+			case "IUCNImport":
+				total = new Float(9);
+				break;
+			case "GBIFImport":
+				total = new Float(8);
+				break;
+			default:
+				break;
+			}
+			
+			Float steps = new Float(jobExecution.getStepExecutions().size());
+			jobExecutionInfo.setProgress(Math.round((steps/ total) * 100f));
+			
+		}
+		return jobExecutionInfo;
+	}  
+
 
 }

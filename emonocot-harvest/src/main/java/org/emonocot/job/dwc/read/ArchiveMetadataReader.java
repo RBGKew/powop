@@ -63,7 +63,7 @@ public class ArchiveMetadataReader implements StepExecutionListener {
     /**
      *
      */
-    private OrganisationService sourceService;
+    private OrganisationService organisationService;
 
     /**
      *
@@ -75,7 +75,7 @@ public class ArchiveMetadataReader implements StepExecutionListener {
      */
     @Autowired
     public final void setSourceService(final OrganisationService sourceService) {
-        this.sourceService = sourceService;
+        this.organisationService = sourceService;
     }
 
     /**
@@ -199,14 +199,13 @@ public class ArchiveMetadataReader implements StepExecutionListener {
      */
     private void updateSourceMetadata(final BasicMetadata basicMetadata) {
         boolean update = false;
-        Organisation source = sourceService.find(sourceName);
+        Organisation source = organisationService.find(sourceName);
         if (!nullSafeEquals(source.getBibliographicCitation(),
                 basicMetadata.getCitationString())) {
             source.setBibliographicCitation(basicMetadata.getCitationString());
             update = true;
         }
-        if (!nullSafeEquals(source.getCreatorEmail(),
-                basicMetadata.getCreatorEmail())) {
+        if (!nullSafeEquals(source.getCreatorEmail(), basicMetadata.getCreatorEmail())) {
             source.setCreatorEmail(basicMetadata.getCreatorEmail());
             update = true;
         }
@@ -270,7 +269,7 @@ public class ArchiveMetadataReader implements StepExecutionListener {
             Set<ConstraintViolation<Organisation>> violations = validator.validate(source);
             if (violations.isEmpty()) {
               logger.info("Updating metadata for source " + sourceName);
-              sourceService.saveOrUpdate(source);
+              organisationService.saveOrUpdate(source);
             } else {
                 for (ConstraintViolation<Organisation> violation : violations) {
                     logger.error(violation.getMessage());

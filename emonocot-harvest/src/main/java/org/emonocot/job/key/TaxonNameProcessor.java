@@ -1,8 +1,6 @@
 package org.emonocot.job.key;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.match.Match;

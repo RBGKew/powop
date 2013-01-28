@@ -92,6 +92,8 @@ public class Resource extends Base {
 	private Integer written = 0;
 	
 	private Map<String,String> parameters = new HashMap<String,String>();
+
+	private String baseUrl;
 	
 	public Resource() {
 		this.identifier = UUID.randomUUID().toString();
@@ -413,5 +415,13 @@ public class Resource extends Base {
 	 */
 	public void setParameters(Map<String, String> parameters) {
 		this.parameters = parameters;
+	}
+
+	public void setBaseUrl(String baseUrl) {
+		this.baseUrl = baseUrl;
+	}
+	
+	public String getBaseUrl() {
+		return baseUrl;
 	}
 }

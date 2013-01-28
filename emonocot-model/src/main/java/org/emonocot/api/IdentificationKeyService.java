@@ -6,7 +6,6 @@ import org.emonocot.model.IdentificationKey;
  * @author jk00kg
  *
  */
-public interface IdentificationKeyService extends
-        SearchableService<IdentificationKey> {
+public interface IdentificationKeyService extends Service<IdentificationKey> {
 
 }

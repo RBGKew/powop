@@ -7,6 +7,6 @@ import org.emonocot.model.IdentificationKey;
  * @author ben
  *
  */
-public interface IdentificationKeyDao extends SearchableDao<IdentificationKey> {
+public interface IdentificationKeyDao extends Dao<IdentificationKey> {
 
 }

@@ -403,23 +403,18 @@
 				<div class="inner">
 					<div class="box dataBox">
 						<section class="sidebarBox" id="taxonData">
-							<BR />
-							<div>
-								<img class="noPrint dataImage" alt="Data" src="/css/images/glyphicons/fullsize/glyphicons_119_table.png"/>&#160;
-								<h2 style="display:inline"><spring:message code="taxonData" /></h2>
-							</div>
-							<BR />
-							<c:set var="fact" value="${em:fact(taxon, measurement)}" />
+							<h2><i class="glyphicons-icon table"><!-- --></i> <spring:message code="taxonData" /></h2>						
 							<table class="table" id="data">
 								<tbody>
 									<c:forEach var="measurement" items="${em:measurements()}">
+									    <c:set var="fact" value="${em:fact(taxon, measurement)}" />
 										<tr>
 											<th class="span1"><spring:message code="${measurement}" /></th>
 											<td>
-												<span id="iucnStatus">${fact.measurementValue}</span>
+												<span id="${measurement}"><spring:message code="measurementorfact_${fact.measurementType}_${fact.measurementValue}" text="${fact.measurementValue}"/></span>
 											</td>
 										</tr>
-									</c:forEach>
+									</c:forEach >
 								</tbody>
 							</table>
 							<c:choose>

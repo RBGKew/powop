@@ -1,73 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!--
- Licensed to the Apache Software Foundation (ASF) under one or more
- contributor license agreements.  See the NOTICE file distributed with
- this work for additional information regarding copyright ownership.
- The ASF licenses this file to You under the Apache License, Version 2.0
- (the "License"); you may not use this file except in compliance with
- the License.  You may obtain a copy of the License at
-
-     http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-
-<!-- 
-     this file, see http://wiki.apache.org/solr/SolrConfigXml. 
--->
 <config>
-  <!-- In all configuration below, a prefix of "solr." for class names
-       is an alias that causes solr to search appropriate packages,
-       including org.apache.solr.(search|update|request|core|analysis)
-
-       You may also specify a fully qualified Java classname if you
-       have your own custom plugins.
-    -->
-
-  <!-- Controls what version of Lucene various components of Solr
-       adhere to.  Generally, you want to use the latest version to
-       get all bug fixes and improvements. It is highly recommended
-       that you fully re-index after changing this setting as it can
-       affect both how text is indexed and queried.
-  -->
   <luceneMatchVersion>LUCENE_40</luceneMatchVersion>
-
-  <!-- <lib/> directives can be used to instruct Solr to load an Jars
-       identified and use them to resolve any "plugins" specified in
-       your solrconfig.xml or schema.xml (ie: Analyzers, Request
-       Handlers, etc...).
-
-       All directories and paths are resolved relative to the
-       instanceDir.
-
-       Please note that <lib/> directives are processed in the order
-       that they appear in your solrconfig.xml file, and are "stacked" 
-       on top of each other when building a ClassLoader - so if you have 
-       plugin jars with dependencies on other jars, the "lower level" 
-       dependency jars should be loaded first.
-
-       If a "./lib" directory exists in your instanceDir, all files
-       found in it are included as if you had used the following
-       syntax...
-       
-              <lib dir="./lib" />
-    -->
-
-  <!-- A 'dir' option by itself adds any files found in the directory 
-       to the classpath, this is useful for including all jars in a
-       directory.
-
-       When a 'regex' is specified in addition to a 'dir', only the
-       files in that directory which completely match the regex
-       (anchored on both ends) will be included.
-
-       The examples below can be used to load some solr-contribs along 
-       with their external dependencies.
-    -->
   <lib dir="../../../contrib/extraction/lib" regex=".*\.jar" />
   <lib dir="../../../dist/" regex="apache-solr-cell-\d.*\.jar" />
 
@@ -79,61 +12,17 @@
 
   <lib dir="../../../contrib/velocity/lib" regex=".*\.jar" />
   <lib dir="../../../dist/" regex="apache-solr-velocity-\d.*\.jar" />
-
-  <!-- If a 'dir' option (with or without a regex) is used and nothing
-       is found that matches, it will be ignored
-    -->
   <lib dir="/total/crap/dir/ignored" /> 
-
-  <!-- an exact 'path' can be used instead of a 'dir' to specify a 
-       specific jar file.  This will cause a serious error to be logged 
-       if it can't be loaded.
-    -->
-  <!--
-     <lib path="../a-jar-that-does-not-exist.jar" /> 
-  -->
-  
-  <!-- Data Directory
-
-       Used to specify an alternate directory to hold all index data
-       other than the default ./data under the Solr home.  If
-       replication is in use, this should match the replication
-       configuration.
-    -->
   <dataDir>${solr.data.dir:}</dataDir>
-
-
-  <!-- The DirectoryFactory to use for indexes.
-       
-       solr.StandardDirectoryFactory is filesystem
-       based and tries to pick the best implementation for the current
-       JVM and platform.  solr.NRTCachingDirectoryFactory, the default,
-       wraps solr.StandardDirectoryFactory and caches small files in memory
-       for better NRT performance.
-
-       One can force a particular implementation via solr.MMapDirectoryFactory,
-       solr.NIOFSDirectoryFactory, or solr.SimpleFSDirectoryFactory.
-
-       solr.RAMDirectoryFactory is memory based, not
-       persistent, and doesn't work with replication.
-    -->
   <directoryFactory name="DirectoryFactory" 
                     class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}"/> 
-
-  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       Index Config - These settings control low-level behavior of indexing
-       Most example settings here show the default value, but are commented
-       out, to more easily see where customizations have been made.
-       
-       Note: This replaces <indexDefaults> and <mainIndex> from older versions
-       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
   <indexConfig>
     <!-- maxFieldLength was removed in 4.0. To get similar behavior, include a 
          LimitTokenCountFilterFactory in your fieldType definition. E.g. 
      <filter class="solr.LimitTokenCountFilterFactory" maxTokenCount="10000"/>
     -->
     <!-- Maximum time to wait for a write lock (ms) for an IndexWriter. Default: 1000 -->
-    <!-- <writeLockTimeout>1000</writeLockTimeout>  -->
+    <writeLockTimeout>30000</writeLockTimeout>
 
     <!-- Expert: Enabling compound file will use less files for the index, 
          using fewer file descriptors on the expense of performance decrease. 
@@ -204,7 +93,7 @@
          More details on the nuances of each LockFactory...
          http://wiki.apache.org/lucene-java/AvailableLockFactories
     -->
-    <!-- <lockType>native</lockType> -->
+    <lockType>single</lockType>
 
     <!-- Unlock On Startup
 

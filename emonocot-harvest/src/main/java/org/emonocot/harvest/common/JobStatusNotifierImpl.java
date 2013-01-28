@@ -45,29 +45,29 @@ public class JobStatusNotifierImpl implements JobStatusNotifier {
     public final void notify(final JobExecutionInfo jobExecutionInfo) {
         logger.debug("In notify " + jobExecutionInfo.getId());
 
-        Resource job = service.find(jobExecutionInfo.getResourceIdentifier());
-		if (job != null) {
-			job.setJobId(jobExecutionInfo.getId());
-			job.setDuration(jobExecutionInfo.getDuration());
-			job.setExitCode(jobExecutionInfo.getExitCode());
-			job.setExitDescription(jobExecutionInfo.getExitDescription());
+        Resource resource = service.find(jobExecutionInfo.getResourceIdentifier());
+		if (resource != null) {
+			resource.setJobId(jobExecutionInfo.getId());
+			resource.setDuration(jobExecutionInfo.getDuration());
+			resource.setExitCode(jobExecutionInfo.getExitCode());
+			resource.setExitDescription(jobExecutionInfo.getExitDescription());
 			if (jobExecutionInfo.getJobInstance() != null) {
-				job.setJobInstance(jobExecutionInfo.getJobInstance()
-						.getResource());
+				resource.setJobInstance(jobExecutionInfo.getJobInstance());
 			}
-			job.setResource(jobExecutionInfo.getResource());
-			job.setStartTime(jobExecutionInfo.getStartTime());
-			job.setStatus(jobExecutionInfo.getStatus());
-			job.setProcessSkip(jobExecutionInfo.getProcessSkip());
-			job.setRecordsRead(jobExecutionInfo.getRecordsRead());
-			job.setReadSkip(jobExecutionInfo.getReadSkip());
-			job.setWriteSkip(jobExecutionInfo.getWriteSkip());
-			job.setWritten(jobExecutionInfo.getWritten());
-			if(job.getStatus().equals(BatchStatus.COMPLETED)) {
-				job.setLastHarvested(jobExecutionInfo.getStartTime());
+			resource.setBaseUrl(jobExecutionInfo.getBaseUrl());
+			resource.setResource(jobExecutionInfo.getResource());
+			resource.setStartTime(jobExecutionInfo.getStartTime());
+			resource.setStatus(jobExecutionInfo.getStatus());
+			resource.setProcessSkip(jobExecutionInfo.getProcessSkip());
+			resource.setRecordsRead(jobExecutionInfo.getRecordsRead());
+			resource.setReadSkip(jobExecutionInfo.getReadSkip());
+			resource.setWriteSkip(jobExecutionInfo.getWriteSkip());
+			resource.setWritten(jobExecutionInfo.getWritten());
+			if(resource.getStatus().equals(BatchStatus.COMPLETED)) {
+				resource.setLastHarvested(jobExecutionInfo.getStartTime());
 			}
 
-			service.saveOrUpdate(job);
+			service.saveOrUpdate(resource);
 		}
     }
 

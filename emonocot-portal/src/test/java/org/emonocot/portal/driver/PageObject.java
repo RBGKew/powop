@@ -372,11 +372,14 @@ public class PageObject {
     public String paragraphText(String paragraphNameOrId) {
         WebElement element = null;
         try{
+            logger.info("Attempting to find element by id:" + paragraphNameOrId);
             element = webDriver.findElement(By.id(paragraphNameOrId));
         } catch (NoSuchElementException e0) {
+            logger.info("No element with id:" + paragraphNameOrId + ". Attempting to find element with this name");
             try {
                 element = webDriver.findElement(By.name(paragraphNameOrId));
             } catch (NoSuchElementException e1) {
+                logger.warn("Unable to find element with either id or name:" + paragraphNameOrId, e1);
                 element = null;
             }
         }

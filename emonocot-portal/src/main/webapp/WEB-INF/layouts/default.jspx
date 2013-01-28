@@ -7,7 +7,7 @@
   <jsp:output doctype-root-element="HTML" doctype-system="about:legacy-compat" />
   <tiles:insertAttribute name="head" />
   <body data-spy="scroll" data-target=".subnav" data-offset="500" data-twttr-rendered="true">
-    <div id="status">&#160;</div>
+    <div id="status-ribbon">&#160;</div>
 	<tiles:insertAttribute name="header" />
 	<tiles:insertAttribute name="body" />
 	<tiles:insertAttribute name="footer" />

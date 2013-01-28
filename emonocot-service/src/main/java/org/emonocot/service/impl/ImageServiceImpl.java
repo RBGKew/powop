@@ -5,7 +5,6 @@ import org.emonocot.model.Image;
 import org.emonocot.persistence.dao.ImageDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -13,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @Service
-public class ImageServiceImpl extends SearchableServiceImpl<Image, ImageDao>
+public class ImageServiceImpl extends ServiceImpl<Image, ImageDao>
         implements ImageService {
 
     /**

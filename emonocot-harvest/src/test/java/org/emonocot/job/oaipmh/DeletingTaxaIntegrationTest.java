@@ -54,29 +54,19 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
         "/META-INF/spring/applicationContext-test.xml" })
 public class DeletingTaxaIntegrationTest {
 
-    /**
-     *
-     */
     private Logger logger = LoggerFactory
             .getLogger(DeletingTaxaIntegrationTest.class);
 
-    /**
-     *
-     */
     @Qualifier("OaiPmhTaxonHarvesting")
     @Autowired
     private Job job;
     
-    /**
-     *
-     */
+
     @Autowired
     private JobRepository jobRepository;
 
-    /**
-     *
-     */
     @Autowired
+	@Qualifier("readWriteJobLauncher")
     private JobLauncher jobLauncher;
 
     /**

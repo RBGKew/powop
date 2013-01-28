@@ -10,10 +10,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.match.Match;
 import org.emonocot.api.match.MatchStatus;
 import org.emonocot.api.match.taxon.TaxonMatcher;
+import org.emonocot.model.SearchableObject;
 import org.emonocot.model.Taxon;
 import org.emonocot.pager.Page;
 import org.gbif.ecat.model.ParsedName;
@@ -37,14 +39,14 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
      *
      */
     @Autowired
-    private TaxonService taxonService;
+    private SearchableObjectService searchableObjectService;
 
     /**
-     * @param newTaxonService
+     * @param searchableObjectService
      *            the taxonService to set
      */
-    public final void setTaxonService(final TaxonService newTaxonService) {
-        this.taxonService = newTaxonService;
+    public final void setSearchableObjectService(final SearchableObjectService searchableObjectService) {
+        this.searchableObjectService = searchableObjectService;
     }
 
     /*
@@ -97,7 +99,7 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
         List<Match<Taxon>> matches = new ArrayList<Match<Taxon>>();
         Map<String,String> selectedFacets = new HashMap<String,String>();
         selectedFacets.put("base.class_s", "org.emonocot.model.Taxon");
-        Page<Taxon> page = taxonService.search(searchTerm, null, null, null, null, selectedFacets, null, null);
+        Page<SearchableObject> page = searchableObjectService.search(searchTerm, null, null, null, null, null, selectedFacets, null, null);
 
         switch (page.getRecords().size()) {
         case 0:
@@ -115,7 +117,7 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
             break;
         case 1:
             Match<Taxon> single = new Match<Taxon>();
-            single.setInternal(page.getRecords().get(0));
+            single.setInternal((Taxon)page.getRecords().get(0));
             String internalName = (new NameParser().parseToCanonical(single.getInternal().getScientificName()));
             if (searchTerm.equals(internalName)) {
                 single.setStatus(MatchStatus.EXACT);
@@ -126,12 +128,12 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
             break;
         default:
             Set<Match<Taxon>> exactMatches = new HashSet<Match<Taxon>>();
-            for (Taxon eTaxon : page.getRecords()) {
-                logger.debug(eTaxon.getScientificName() + " " + eTaxon.getIdentifier());
+            for (SearchableObject eTaxon : page.getRecords()) {
+                logger.debug(((Taxon)eTaxon).getScientificName() + " " + eTaxon.getIdentifier());
                 Match<Taxon> m = new Match<Taxon>();
-                m.setInternal(eTaxon);
+                m.setInternal((Taxon)eTaxon);
                 matches.add(m);
-                String name = (new NameParser().parseToCanonical(eTaxon.getScientificName()));
+                String name = (new NameParser().parseToCanonical(((Taxon)eTaxon).getScientificName()));
                 if (searchTerm.equals(name)) {
                     m.setStatus(MatchStatus.EXACT);
                     exactMatches.add(m);

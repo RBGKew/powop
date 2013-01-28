@@ -4,14 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.emonocot.api.job.JobExecutionException;
-import org.emonocot.api.job.JobExecutionInfo;
-import org.emonocot.api.job.JobInstanceInfo;
 import org.emonocot.api.job.JobLaunchRequest;
 import org.emonocot.api.job.JobLauncher;
 import org.emonocot.api.job.JobStatusNotifier;
-import org.joda.time.DateTime;
 import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersInvalidException;

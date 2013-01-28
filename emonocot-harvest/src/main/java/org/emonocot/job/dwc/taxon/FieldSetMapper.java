@@ -3,6 +3,7 @@ package org.emonocot.job.dwc.taxon;
 import java.util.HashMap;
 
 import org.emonocot.api.ReferenceService;
+import org.emonocot.api.job.EmonocotTerm;
 import org.emonocot.job.dwc.read.BaseDataFieldSetMapper;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Reference;
@@ -13,7 +14,6 @@ import org.emonocot.model.constants.RecordType;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
-import org.gbif.dwc.terms.UnknownTerm;
 import org.gbif.ecat.voc.NomenclaturalCode;
 import org.gbif.ecat.voc.NomenclaturalStatus;
 import org.gbif.ecat.voc.Rank;
@@ -197,19 +197,22 @@ public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> implements Chu
                 break;
             }
         }
-        // Unknown Terms
-        if (term instanceof UnknownTerm) {
-            UnknownTerm unknownTerm = (UnknownTerm) term;
-            if (unknownTerm.qualifiedName().equals(
-                    "http://emonocot.org/subfamily")) {
-                object.setSubfamily(value);
-            } else if (unknownTerm.qualifiedName().equals(
-                    "http://emonocot.org/subtribe")) {
-                object.setSubtribe(value);
-            } else if (unknownTerm.qualifiedName().equals(
-                    "http://emonocot.org/tribe")) {
-                object.setTribe(value);
-            }  
+        // eMonocot Terms
+        if (term instanceof EmonocotTerm) {
+            EmonocotTerm eMonocotTerm = (EmonocotTerm) term;
+            switch(eMonocotTerm) {
+            case subfamily:
+            	object.setSubfamily(value);
+            	break;
+            case subtribe:
+            	object.setSubtribe(value);
+            	break;
+            case tribe:
+            	object.setTribe(value);
+            	break;
+            default:
+            	break;
+            }            
         }
     }
 

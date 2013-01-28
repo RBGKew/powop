@@ -3,9 +3,9 @@ package org.emonocot.job.dwc.read;
 import java.util.Arrays;
 import java.util.Map;
 
+import org.emonocot.api.job.TermFactory;
 import org.emonocot.harvest.common.AuthorityAware;
 import org.emonocot.model.Base;
-import org.gbif.dwc.terms.TermFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.file.mapping.FieldSetMapper;
