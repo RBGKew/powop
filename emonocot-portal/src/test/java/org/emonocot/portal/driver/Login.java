@@ -17,6 +17,9 @@ public class Login extends PageObject {
     */
     @FindBy(how = How.ID, using = "loginForm")
     private WebElement loginForm;
+    
+    @FindBy(how = How.LINK_TEXT, using = "Create a new account")
+    private WebElement registerLink;
 
     /**
      *
@@ -43,5 +46,12 @@ public class Login extends PageObject {
     public final PageObject submit() {
         loginForm.submit();
         return openAs(getWebDriver().getCurrentUrl(), Profile.class);
+    }
+    
+    /**
+     * @return the registration page
+     */
+    public final Register selectRegistrationLink() {
+        return openAs(registerLink.getAttribute("href"), Register.class);
     }
 }

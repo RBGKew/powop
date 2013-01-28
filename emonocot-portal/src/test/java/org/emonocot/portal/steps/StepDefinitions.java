@@ -1027,9 +1027,9 @@ public class StepDefinitions {
     /**
      *
      */
-    @When("^I select the registration link$")
-    public final void selectTheRegistrationLink() {
-        currentPage = ((Index) currentPage).selectRegistrationLink();
+    @When("^I select \"Create a new account\"$")
+    public final void selectTheRegisterLink() {
+        currentPage = ((Login) currentPage).selectRegistrationLink();
     }
 
     /**
