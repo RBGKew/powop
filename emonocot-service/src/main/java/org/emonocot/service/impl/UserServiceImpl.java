@@ -224,7 +224,6 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
      * @param username Set the username
      * @param newPassword Set the new password
      */
-    @PreAuthorize("hasRole('PERMISSION_ADMINISTRATE')")
     @Transactional(readOnly = false)
     public final void changePasswordForUser(final String username,
             final String newPassword) {

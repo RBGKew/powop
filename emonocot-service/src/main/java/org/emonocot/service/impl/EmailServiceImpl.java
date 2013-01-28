@@ -35,12 +35,13 @@ public class EmailServiceImpl implements EmailService {
     }
 
 	@Override
-	public void sendEmail(final String templateName, final Map model, final String toAddress) {
+	public void sendEmail(final String templateName, final Map model, final String toAddress, final String subject) {
 		MimeMessagePreparator preparator = new MimeMessagePreparator() {
 	           public void prepare(MimeMessage mimeMessage) throws Exception {
 	              MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 	              message.setTo(toAddress);
-	              message.setFrom(fromAddress); 	              
+	              message.setFrom(fromAddress);
+	              message.setSubject(subject);
 	              String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, templateName, model);
 	              message.setText(text, true);
 	           }

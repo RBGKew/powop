@@ -1463,7 +1463,7 @@
 				<email.username>portal@localhost</email.username>
 				<email.password>portal@localhost</email.password>
 				<email.host>localhost</email.host>
-				<email.port>587</email.port>
+				<email.port>25</email.port>
 				<email.auth>false</email.auth>
 				<email.enable.starttls>false</email.enable.starttls>
 				<email.fromAddress>portal@localhost</email.fromAddress>
@@ -1513,7 +1513,7 @@
 				<email.username>portal@localhost</email.username>
 				<email.password>portal@localhost</email.password>
 				<email.host>localhost</email.host>
-				<email.port>587</email.port>
+				<email.port>25</email.port>
 				<email.auth>false</email.auth>
 				<email.enable.starttls>false</email.enable.starttls>
 				<email.fromAddress>portal@localhost</email.fromAddress>

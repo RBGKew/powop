@@ -18,6 +18,7 @@ import org.emonocot.model.Annotation;
 import org.emonocot.model.constants.ResourceType;
 import org.emonocot.model.registry.Resource;
 import org.emonocot.pager.Page;
+import org.emonocot.portal.controller.form.ResourceParameterDto;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;

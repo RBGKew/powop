@@ -1,12 +1,10 @@
 package org.emonocot.portal.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.validation.Valid;
 
 import org.emonocot.api.UserService;
-import org.emonocot.service.EmailService;
+import org.emonocot.model.auth.User;
+import org.emonocot.portal.controller.form.LoginForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
@@ -29,22 +27,9 @@ public class LoginController {
 	
 	private UserService userService;
 	
-	private EmailService emailService;
-	
-	private String baseUrl;
-	
-	@Autowired
-	public void setUserController(UserService userService) {
+    @Autowired
+	public void setUserService(UserService userService) {
 		this.userService = userService;
-	}
-	
-	@Autowired
-	public void setEmailService(EmailService emailService) {
-		this.emailService = emailService;
-	}
-	
-	public void setBaseUrl(String baseUrl) {
-		this.baseUrl = baseUrl;
 	}
 
    @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -53,48 +38,29 @@ public class LoginController {
        return "login";
    }
    
-   @RequestMapping(value = "/recovery", method = RequestMethod.GET)
-   public String show(Model model) {
-	   model.addAttribute(new RecoveryForm());
-	   return "recovery/show";
-   }
-   
-   @RequestMapping(value = "/recovery", method = RequestMethod.POST)
-   public String reset(@Valid @ModelAttribute RecoveryForm recoveryForm,
-		   BindingResult result, RedirectAttributes redirectAttributes) {
-	   if (result.hasErrors()) {
-           return "recovery/show";
-       }
-	   String nonce = userService.createNonce(recoveryForm.getUsername());
-	   
-	   Map<String,String> model = new HashMap<String,String>();
-	   model.put("nonce", nonce);
-	   model.put("baseUrl", baseUrl);
-	   emailService.sendEmail("org/emonocot/portal/controller/ResetPasswordRequest.vm", model, recoveryForm.getUsername());
-	   String[] codes = new String[] { "reset.email.sent" };
-	   Object[] args = new Object[] {  };
-	   DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
-	   redirectAttributes.addFlashAttribute("info", message);
-
-       return "redirect:/login";
-   }
-   
-   @RequestMapping(value = "/recovery/{nonce}", method = RequestMethod.GET) 
-   public String verifyPage(@PathVariable("nonce") String nonce, Model model) {
-	   ResetForm resetForm = new ResetForm();
-	   model.addAttribute(resetForm);
-	   return "recovery/verify";
-   }
-   
-   @RequestMapping(value = "/recovery/{nonce}", method = RequestMethod.POST) 
+   @RequestMapping(value = "/activate/{nonce}", method = RequestMethod.GET) 
    public String verify(@PathVariable("nonce") String nonce,
-		   @Valid @ModelAttribute ResetForm resetForm,
-		   BindingResult result, RedirectAttributes redirectAttributes) {
-	   if (result.hasErrors()) {
-           return "recovery/verify";
-       }
+		   @RequestParam String username,
+		   Model model,
+		   RedirectAttributes redirectAttributes) {
 	   
-	   return "redirect:/login";
+	   if(userService.verifyNonce(username, nonce)) {
+		   User user = userService.load(username);
+		   user.setEnabled(true);
+		   userService.update(user);
+		   String[] codes = new String[] { "account.activated.successfully" };
+		   Object[] args = new Object[] {  };
+		   DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
+		   redirectAttributes.addFlashAttribute("info",message);
+		   return "redirect:/login";
+	   } else {
+		   String[] codes = new String[] { "account.activation.failed" };
+		   Object[] args = new Object[] {  };
+		   DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
+		   redirectAttributes.addFlashAttribute("error",message);
+		   return "redirect:/login";
+	   }
+	   
+	   
    }
-
 }

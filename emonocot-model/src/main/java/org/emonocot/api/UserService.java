@@ -57,4 +57,11 @@ public interface UserService extends Service<User>, UserDetailsManager,
      * @return true if the nonce is valid, false otherwise
      */
     public boolean verifyNonce(String username, String nonce);
+    
+    /**
+     *
+     * @param username
+     * @param password
+     */
+	void changePasswordForUser(String username, String password);
 }

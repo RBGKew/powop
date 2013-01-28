@@ -1,10 +1,12 @@
-package org.emonocot.portal.controller;
+package org.emonocot.portal.controller.form;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class RecoveryForm {
 	
 	@NotEmpty
+	@Email
 	private String username;
 	
 	public void setUsername(String username) {

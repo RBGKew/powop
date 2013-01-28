@@ -15,11 +15,9 @@
                 <tiles:insertAttribute name="searchBox" ignore="true"/>
 				<div class="pull-right noPrint">
 					<ul class="nav">
-						<security:authorize access="!isAuthenticated()">
-							<c:url value="/register" var="registerUrl" />
-							<a href="${registerUrl}" class="btn btn-success btn-mini"><spring:message code="register"/></a>
+						<security:authorize access="!isAuthenticated()">							
 							<c:url value="/login" var="loginUrl" />
-						<a href="${loginUrl}" class="btn btn-primary btn-small"><spring:message code="login"/></a>
+						    <a href="${loginUrl}" class="btn btn-primary btn-small"><spring:message code="login"/></a>
 						</security:authorize>
 						<security:authorize access="isAuthenticated()">
 							<li class="dropdown" id="menuUser">

@@ -1,4 +1,4 @@
-package org.emonocot.portal.controller;
+package org.emonocot.portal.controller.form;
 
 public class ResourceParameterDto {
 	

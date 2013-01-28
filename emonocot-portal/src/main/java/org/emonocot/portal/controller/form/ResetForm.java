@@ -1,10 +1,12 @@
-package org.emonocot.portal.controller;
+package org.emonocot.portal.controller.form;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class ResetForm {
 	
 	@NotEmpty
+	@Email
 	private String username;
 	
 	@NotEmpty
