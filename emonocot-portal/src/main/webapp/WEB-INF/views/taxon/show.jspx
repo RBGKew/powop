@@ -403,58 +403,60 @@
 				<div class="inner">
 					<div class="box dataBox">
 						<section class="sidebarBox" id="taxonData">
-							<h2><i class="glyphicons-icon table"><!-- --></i> <spring:message code="taxonData" /></h2>						
+							<h2><i class="glyphicons-icon table"><!-- --></i> <spring:message code="taxonData" /></h2>
 							<table class="table" id="data">
 								<tbody>
 									<c:forEach var="measurement" items="${em:measurements()}">
-									    <c:set var="fact" value="${em:fact(taxon, measurement)}" />
+										<c:set var="fact" value="${em:fact(taxon, measurement)}" />
 										<tr>
 											<th class="span1"><spring:message code="${measurement}" /></th>
 											<td>
 												<span id="${measurement}"><spring:message code="measurementorfact_${fact.measurementType}_${fact.measurementValue}" text="${fact.measurementValue}"/></span>
+												<c:if test="${fact.measurementType eq 'IUCNConservationStatus'}">
+													<c:choose>
+														<c:when test="${fact.measurementValue eq 'CR'}">
+															<c:url value="/css/images/redList/redListThreatCategories_SHORT_CR.png" var="CRImg"/>
+															<a href="http://www.iucnredlist.org/"><img src="${CRImg}" alt="cr"/></a>
+														</c:when>
+														<c:when test="${fact.measurementValue eq 'DD'}">
+															<c:url value="/css/images/redList/redListThreatCategories_SHORT_DD.png" var="DDImg"/>
+															<a href="http://www.iucnredlist.org/"><img src="${DDImg}" alt="dd"/></a>
+														</c:when>
+														<c:when test="${fact.measurementValue eq 'EN'}">
+															<c:url value="/css/images/redList/redListThreatCategories_SHORT_EN.png" var="ENImg"/>
+															<a href="http://www.iucnredlist.org/"><img src="${ENImg}" alt="en"/></a>
+														</c:when>
+														<c:when test="${fact.measurementValue eq 'EW'}">
+															<c:url value="/css/images/redList/redListThreatCategories_SHORT_EW.png" var="EWImg"/>
+															<a href="http://www.iucnredlist.org/"><img src="${EWImg}" alt="ew"/></a>
+														</c:when>
+														<c:when test="${fact.measurementValue eq 'EX'}">
+															<c:url value="/css/images/redList/redListThreatCategories_SHORT_EX.png" var="EXImg"/>
+															<a href="http://www.iucnredlist.org/"><img src="${EXImg}" alt="ex"/></a>
+														</c:when>
+														<c:when test="${fact.measurementValue eq 'LC'}">
+															<c:url value="/css/images/redList/redListThreatCategories_SHORT_LC.png" var="LCImg"/>
+															<a href="http://www.iucnredlist.org/"><img src="${LCImg}" alt="lc"/></a>
+														</c:when>
+														<c:when test="${fact.measurementValue eq 'NE'}">
+															<c:url value="/css/images/redList/redListThreatCategories_SHORT_CR.png" var="CRImg"/>
+															<a href="http://www.iucnredlist.org/"><img src="${CRImg}" alt="cr"/></a>
+														</c:when>
+														<c:when test="${fact.measurementValue eq 'NT'}">
+															<c:url value="/css/images/redList/redListThreatCategories_SHORT_NT.png" var="NTImg"/>
+															<a href="http://www.iucnredlist.org/"><img src="${NTImg}" alt="nt"/></a>
+														</c:when>
+														<c:when test="${fact.measurementValue eq 'VU'}">
+															<c:url value="/css/images/redList/redListThreatCategories_SHORT_VU.png" var="VUImg"/>
+															<a href="http://www.iucnredlist.org/"><img src="${VUImg}" alt="vu"/></a>
+														</c:when>
+													</c:choose>
+												</c:if>
 											</td>
 										</tr>
 									</c:forEach >
 								</tbody>
 							</table>
-							<c:choose>
-								<c:when test="${fact.measurementValue eq 'CR'}">
-									<c:url value="/css/images/redList/redListThreatCategories_SHORT_CR.png" var="CRImg"/>
-									<a href="http://www.iucnredlist.org/"><img src="${CRImg}" alt="cr"/></a>
-								</c:when>
-								<c:when test="${fact.measurementValue eq 'DD'}">
-									<c:url value="/css/images/redList/redListThreatCategories_SHORT_DD.png" var="DDImg"/>
-									<a href="http://www.iucnredlist.org/"><img src="${DDImg}" alt="dd"/></a>
-								</c:when>
-								<c:when test="${fact.measurementValue eq 'EN'}">
-									<c:url value="/css/images/redList/redListThreatCategories_SHORT_EN.png" var="ENImg"/>
-									<a href="http://www.iucnredlist.org/"><img src="${ENImg}" alt="en"/></a>
-								</c:when>
-								<c:when test="${fact.measurementValue eq 'EW'}">
-									<c:url value="/css/images/redList/redListThreatCategories_SHORT_EW.png" var="EWImg"/>
-									<a href="http://www.iucnredlist.org/"><img src="${EWImg}" alt="ew"/></a>
-								</c:when>
-								<c:when test="${fact.measurementValue eq 'EX'}">
-									<c:url value="/css/images/redList/redListThreatCategories_SHORT_EX.png" var="EXImg"/>
-									<a href="http://www.iucnredlist.org/"><img src="${EXImg}" alt="ex"/></a>
-								</c:when>
-								<c:when test="${fact.measurementValue eq 'LC'}">
-									<c:url value="/css/images/redList/redListThreatCategories_SHORT_LC.png" var="LCImg"/>
-									<a href="http://www.iucnredlist.org/"><img src="${LCImg}" alt="lc"/></a>
-								</c:when>
-								<c:when test="${fact.measurementValue eq 'NE'}">
-									<c:url value="/css/images/redList/redListThreatCategories_SHORT_CR.png" var="CRImg"/>
-									<a href="http://www.iucnredlist.org/"><img src="${CRImg}" alt="cr"/></a>
-								</c:when>
-								<c:when test="${fact.measurementValue eq 'NT'}">
-									<c:url value="/css/images/redList/redListThreatCategories_SHORT_NT.png" var="NTImg"/>
-									<a href="http://www.iucnredlist.org/"><img src="${NTImg}" alt="nt"/></a>
-								</c:when>
-								<c:when test="${fact.measurementValue eq 'VU'}">
-									<c:url value="/css/images/redList/redListThreatCategories_SHORT_VU.png" var="VUImg"/>
-									<a href="http://www.iucnredlist.org/"><img src="${VUImg}" alt="vu"/></a>
-								</c:when>
-							</c:choose>
 						</section>
 					</div>
 				</div>
