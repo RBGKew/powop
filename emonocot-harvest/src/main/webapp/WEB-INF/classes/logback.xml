@@ -28,8 +28,8 @@
   <!-- uncomment to see activemq messages -->
    <!-- <logger name="org.emonocot.harvest.common.index.MessageDrivenSearchController" level="DEBUG" additivity="false">
     <appender-ref ref="stdout"/>
-  </logger>-->
+  </logger>
   <logger name="org.emonocot.job" level="DEBUG" additivity="false">
     <appender-ref ref="file"/>
-  </logger>
+  </logger>-->
 </configuration>

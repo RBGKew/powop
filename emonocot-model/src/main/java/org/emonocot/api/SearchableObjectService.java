@@ -6,7 +6,7 @@ import org.emonocot.model.SearchableObject;
  * @author jk00kg
  *
  */
-public interface SearchableObjectService extends
-        SearchableService<SearchableObject> {
+public interface SearchableObjectService extends SearchableService<SearchableObject> {
+	
 
 }

@@ -8,6 +8,7 @@
 	<jsp:directive.attribute name="path" type="java.lang.String" required="true" rtexprvalue="true" description="Specify the relative URL path (wit leading /)" />
 	<spring:url value="${path}" var="form_url" />
 	<form:form commandName="${modelAttribute}" action="${form_url}">
+	  <form:errors element="div" cssClass="alert alert-error"/>
 	  <jsp:doBody />
 	  <div class="form-actions">	    
 	        <spring:message var="submitMessage" code="submit"/>

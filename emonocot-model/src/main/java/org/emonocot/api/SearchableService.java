@@ -3,6 +3,7 @@ package org.emonocot.api;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.solr.common.SolrDocument;
 import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.Base;
 import org.emonocot.pager.Page;
@@ -45,4 +46,22 @@ public interface SearchableService<T extends Base> extends Service<T> {
      * @return a list of match objects
      */
     List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets);
+    
+    /**
+     *
+     * @param query
+     * @param pageSize
+     * @param pageNumber
+     * @param selectedFacets
+     * @param sort
+     * @return
+     */
+    Page<SolrDocument> searchForDocuments(String query, Integer pageSize, Integer pageNumber, Map<String, String> selectedFacets, String sort);
+    
+    /**
+     *
+     * @param solrDocument
+     * @return
+     */
+    T loadObjectForDocument(SolrDocument solrDocument);
 }

@@ -65,7 +65,7 @@
 			<batch:tasklet ref="markTaxonRecordsTasklet" />
 			<batch:next on="COMPLETED" to="checkCoreFile" />
 			<batch:listeners>
-				<batch:listener ref="taxonRecordAnnotator" />
+				<batch:listener ref="markTaxonRecordsTasklet" />
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
@@ -92,7 +92,7 @@
 			<batch:tasklet ref="markTaxonRecordsTasklet" />
 			<batch:next on="COMPLETED" to="importCoreFile" />
 			<batch:listeners>
-				<batch:listener ref="taxonRecordAnnotator" />
+				<batch:listener ref="markTaxonRecordsTasklet" />
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
@@ -101,7 +101,7 @@
 			<batch:tasklet ref="markTaxonRecordsByAuthorityTasklet" />
 			<batch:next on="COMPLETED" to="importCoreFile" />
 			<batch:listeners>
-				<batch:listener ref="taxonRecordAnnotator" />
+				<batch:listener ref="markTaxonRecordsByAuthorityTasklet" />
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
@@ -137,7 +137,7 @@
 			<batch:tasklet ref="markDescriptionRecordsTasklet" />
 			<batch:next on="COMPLETED" to="processDescriptionDecision" />
 			<batch:listeners>
-				<batch:listener ref="ownedRecordAnnotator" />
+				<batch:listener ref="markDescriptionRecordsTasklet" />
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
@@ -187,7 +187,7 @@
 			<batch:tasklet ref="markImageRecordsTasklet" />
 			<batch:next on="COMPLETED" to="processImagesDecision" />
 			<batch:listeners>
-				<batch:listener ref="nonOwnedRecordAnnotator" />
+				<batch:listener ref="markImageRecordsTasklet" />
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
@@ -196,7 +196,7 @@
 			<batch:tasklet ref="markRelatedImageRecordsTasklet" />
 			<batch:next on="COMPLETED" to="processImagesDecision" />
 			<batch:listeners>
-				<batch:listener ref="nonOwnedRecordAnnotator" />
+				<batch:listener ref="markRelatedImageRecordsTasklet" />
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
@@ -270,7 +270,7 @@
 			<batch:tasklet ref="markReferenceRecordsTasklet" />
 			<batch:next on="COMPLETED" to="processReferencesDecision" />
 			<batch:listeners>
-				<batch:listener ref="nonOwnedRecordAnnotator" />
+				<batch:listener ref="markReferenceRecordsTasklet" />
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
@@ -279,7 +279,7 @@
 			<batch:tasklet ref="markRelatedReferenceRecordsTasklet" />
 			<batch:next on="COMPLETED" to="processReferencesDecision" />
 			<batch:listeners>
-				<batch:listener ref="nonOwnedRecordAnnotator" />
+				<batch:listener ref="markRelatedReferenceRecordsTasklet" />
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
@@ -327,7 +327,7 @@
 			<batch:tasklet ref="markIdentifierRecordsTasklet" />
 			<batch:next on="COMPLETED" to="processIdentifiersDecision" />
 			<batch:listeners>
-				<batch:listener ref="ownedRecordAnnotator" />
+				<batch:listener ref="markIdentifierRecordsTasklet" />
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
@@ -377,7 +377,7 @@
 			<batch:tasklet ref="markDistributionRecordsTasklet" />
 			<batch:next on="COMPLETED" to="processDistributionDecision" />
 			<batch:listeners>
-				<batch:listener ref="ownedRecordAnnotator" />
+				<batch:listener ref="markDistributionRecordsTasklet" />
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
@@ -427,7 +427,7 @@
 			<batch:tasklet ref="markMeasurementOrFactRecordsTasklet" />
 			<batch:next on="COMPLETED" to="processMeasurementOrFactDecision" />
 			<batch:listeners>
-				<batch:listener ref="ownedRecordAnnotator" />
+				<batch:listener ref="markMeasurementOrFactRecordsTasklet" />
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
@@ -477,7 +477,7 @@
 			<batch:tasklet ref="markVernacularNameRecordsTasklet" />
 			<batch:next on="COMPLETED" to="processVernacularNameDecision" />
 			<batch:listeners>
-				<batch:listener ref="ownedRecordAnnotator" />
+				<batch:listener ref="markVernacularNameRecordsTasklet" />
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
@@ -525,7 +525,7 @@
 			<batch:tasklet ref="markTypeAndSpecimenRecordsTasklet" />
 			<batch:next on="COMPLETED" to="processTypeAndSpecimenDecision" />
 			<batch:listeners>
-				<batch:listener ref="nonOwnedRecordAnnotator" />
+				<batch:listener ref="markTypeAndSpecimenRecordsTasklet" />
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
@@ -534,7 +534,7 @@
 			<batch:tasklet ref="markRelatedTypeAndSpecimenRecordsTasklet" />
 			<batch:next on="COMPLETED" to="processTypeAndSpecimenDecision" />
 			<batch:listeners>
-				<batch:listener ref="nonOwnedRecordAnnotator" />
+				<batch:listener ref="markRelatedTypeAndSpecimenRecordsTasklet" />
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
@@ -701,36 +701,18 @@
 		<property name="defaultProcessingMode" value="CHECK_TAXA" />
 	</bean>
 	
-	<bean id="markTaxonRecordsByAuthorityTasklet"
-		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
-		scope="step">
-		<property name="targetObject" ref="taxonRecordAnnotator" />
-		<property name="targetMethod" value="annotateRecords" />
-		<property name="arguments">
-			<list>
-				<value>#{jobParameters['authority.name']}</value>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="markTaxonRecordsTasklet"
-		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
-		scope="step">
-		<property name="targetObject" ref="taxonRecordAnnotator" />
-		<property name="targetMethod" value="annotateRecords" />
-		<property name="arguments">
-			<list>
-				<value>#{jobParameters['authority.name']}</value>
-				<value>#{jobParameters['family']}</value>
-				<value>#{jobParameters['subfamily']}</value>
-				<value>#{jobParameters['tribe']}</value>
-				<value>#{jobParameters['subtribe']}</value>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="taxonRecordAnnotator" class="org.emonocot.job.dwc.taxon.RecordAnnotator">
+	<bean id="markTaxonRecordsByAuthorityTasklet" class="org.emonocot.job.dwc.taxon.RecordAnnotator" scope="step">
 		<property name="dataSource" ref="dataSource" />
+		<property name="authorityName" value="#{jobParameters['authority.name']}"/>	
+	</bean>
+
+	<bean id="markTaxonRecordsTasklet" class="org.emonocot.job.dwc.taxon.SubsetRecordAnnotator"	scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
+		<property name="family" value="#{jobParameters['family']}"/>
+		<property name="subfamily" value="#{jobParameters['subfamily']}"/>
+		<property name="tribe" value="#{jobParameters['tribe']}"/>
+		<property name="subtribe" value="#{jobParameters['subtribe']}"/>
 	</bean>
 
 	<bean id="taxonReader" class="org.springframework.batch.item.file.FlatFileItemReader"
@@ -860,21 +842,14 @@
 		<property name="processingModeKey" value="dwca.description.file" />
 	</bean>
 
-	<bean id="markDescriptionRecordsTasklet"
-		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
-		scope="step">
-		<property name="targetObject" ref="ownedRecordAnnotator" />
-		<property name="targetMethod" value="annotateRecords" />
-		<property name="arguments">
-			<list>
-				<value>#{jobParameters['authority.name']}</value>
-				<value>Description</value>
-				<value>#{jobParameters['family']}</value>
-				<value>#{jobParameters['subfamily']}</value>
-				<value>#{jobParameters['tribe']}</value>
-				<value>#{jobParameters['subtribe']}</value>
-			</list>
-		</property>
+	<bean id="markDescriptionRecordsTasklet" class="org.emonocot.job.dwc.read.OwnedRecordAnnotator" scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
+		<property name="family" value="#{jobParameters['family']}"/>
+		<property name="subfamily" value="#{jobParameters['subfamily']}"/>
+		<property name="tribe" value="#{jobParameters['tribe']}"/>
+		<property name="subtribe" value="#{jobParameters['subtribe']}"/>
+		<property name="annotatedObjType" value="Description" />	
 	</bean>
 
 	<bean id="descriptionReader" class="org.springframework.batch.item.file.FlatFileItemReader"
@@ -960,35 +935,17 @@
 		<property name="processingModeKey" value="dwca.image.file" />
 	</bean>
 
-	<bean id="markImageRecordsTasklet"
-		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
-		scope="step">
-		<property name="targetObject" ref="nonOwnedRecordAnnotator" />
-		<property name="targetMethod" value="annotateRecords" />
-		<property name="arguments">
-			<list>
-				<value>#{jobParameters['authority.name']}</value>
-				<value>Image</value>
-			</list>
-		</property>
+	<bean id="markImageRecordsTasklet" class="org.emonocot.job.dwc.read.NonOwnedRecordAnnotator" scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
+		<property name="annotatedObjType" value="Image"/>
 	</bean>
 	
-	<bean id="markRelatedImageRecordsTasklet"
-		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
-		scope="step">
-		<property name="targetObject" ref="nonOwnedRecordAnnotator" />
-		<property name="targetMethod" value="annotateRelatedRecords" />
-		<property name="arguments">
-			<list>
-				<value>#{jobParameters['authority.name']}</value>
-				<value>Image</value>
-				<value>insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select distinct o.id, ':annotatedObjType', ':jobId', :dateTime, :authorityId, 'Warn', 'Absent', ':annotatedObjType' from Image o join Taxon_Image o_t on (o.id = o_t.images_id) join Taxon t on (o_t.Taxon_id = t.id) left join Taxon a on (t.acceptedNameUsage_id = a.id) where o.authority_id = :authorityId and (t.:subsetRank = ':subsetValue' or a.:subsetRank = ':subsetValue')</value>
-		        <value>#{jobParameters['family']}</value>
-		        <value>#{jobParameters['subfamily']}</value>
-		        <value>#{jobParameters['tribe']}</value>
-		        <value>#{jobParameters['subtribe']}</value>		
-			</list>
-		</property>
+	<bean id="markRelatedImageRecordsTasklet" class="org.emonocot.job.dwc.read.NonOwnedSubsetRecordAnnotator" scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
+		<property name="annotatedObjType" value="Image"/>
+		<property name="queryString" value="insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select distinct o.id, ':annotatedObjType', ':jobId', :dateTime, :authorityId, 'Warn', 'Absent', ':annotatedObjType' from Image o join Taxon_Image o_t on (o.id = o_t.images_id) join Taxon t on (o_t.Taxon_id = t.id) left join Taxon a on (t.acceptedNameUsage_id = a.id) where o.authority_id = :authorityId and (t.:subsetRank = ':subsetValue' or a.:subsetRank = ':subsetValue')"/>
 	</bean>
 
 	<bean id="imageReader" class="org.springframework.batch.item.file.FlatFileItemReader"
@@ -1105,35 +1062,17 @@
 
 	<!-- References -->
 
-	<bean id="markReferenceRecordsTasklet"
-		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
-		scope="step">
-		<property name="targetObject" ref="nonOwnedRecordAnnotator" />
-		<property name="targetMethod" value="annotateRecords" />
-		<property name="arguments">
-			<list>
-				<value>#{jobParameters['authority.name']}</value>
-				<value>Reference</value>
-			</list>
-		</property>
+	<bean id="markReferenceRecordsTasklet" class="org.emonocot.job.dwc.read.NonOwnedRecordAnnotator" scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
+		<property name="annotatedObjType" value="Reference"/>
 	</bean>
 	
-	<bean id="markRelatedReferenceRecordsTasklet"
-		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
-		scope="step">		
-		<property name="targetObject" ref="nonOwnedRecordAnnotator" />
-		<property name="targetMethod" value="annotateRelatedRecords" />
-		<property name="arguments">
-			<list>
-				<value>#{jobParameters['authority.name']}</value>
-				<value>Reference</value>
-				<value>insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select distinct o.id, ':annotatedObjType', ':jobId', :dateTime, :authorityId, 'Warn', 'Absent', ':annotatedObjType' from Reference o join Taxon_Reference o_t on (o.id = o_t.references_id) join Taxon t on (o_t.Taxon_id = t.id) left join Taxon a on (t.acceptedNameUsage_id = a.id) where o.authority_id = :authorityId and (t.:subsetRank = ':subsetValue' or a.:subsetRank = ':subsetValue')</value>
-		        <value>#{jobParameters['family']}</value>
-		        <value>#{jobParameters['subfamily']}</value>
-		        <value>#{jobParameters['tribe']}</value>
-		        <value>#{jobParameters['subtribe']}</value>			
-			</list>
-		</property>
+	<bean id="markRelatedReferenceRecordsTasklet" class="org.emonocot.job.dwc.read.NonOwnedSubsetRecordAnnotator" scope="step">		
+		<property name="dataSource" ref="dataSource" />
+		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
+		<property name="annotatedObjType" value="Reference"/>
+		<property name="queryString" value="insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select distinct o.id, ':annotatedObjType', ':jobId', :dateTime, :authorityId, 'Warn', 'Absent', ':annotatedObjType' from Reference o join Taxon_Reference o_t on (o.id = o_t.references_id) join Taxon t on (o_t.Taxon_id = t.id) left join Taxon a on (t.acceptedNameUsage_id = a.id) where o.authority_id = :authorityId and (t.:subsetRank = ':subsetValue' or a.:subsetRank = ':subsetValue')"/>
 	</bean>
 	
 	<bean id="referenceProcessingModeDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
@@ -1217,21 +1156,14 @@
 
 	<!-- Identifiers -->
 
-	<bean id="markIdentifierRecordsTasklet"
-		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
-		scope="step">
-		<property name="targetObject" ref="ownedRecordAnnotator" />
-		<property name="targetMethod" value="annotateRecords" />
-		<property name="arguments">
-			<list>
-				<value>#{jobParameters['authority.name']}</value>
-				<value>Identifier</value>
-				<value>#{jobParameters['family']}</value>
-				<value>#{jobParameters['subfamily']}</value>
-				<value>#{jobParameters['tribe']}</value>
-				<value>#{jobParameters['subtribe']}</value>
-			</list>
-		</property>
+	<bean id="markIdentifierRecordsTasklet"	class="org.emonocot.job.dwc.read.OwnedRecordAnnotator" scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
+		<property name="family" value="#{jobParameters['family']}"/>
+		<property name="subfamily" value="#{jobParameters['subfamily']}"/>
+		<property name="tribe" value="#{jobParameters['tribe']}"/>
+		<property name="subtribe" value="#{jobParameters['subtribe']}"/>
+		<property name="annotatedObjType" value="Identifier" />	
 	</bean>
 	
 	<bean id="identifierProcessingModeDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
@@ -1315,21 +1247,14 @@
 	
 	<!-- Distribution -->
 
-	<bean id="markDistributionRecordsTasklet"
-		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
-		scope="step">
-		<property name="targetObject" ref="ownedRecordAnnotator" />
-		<property name="targetMethod" value="annotateRecords" />
-		<property name="arguments">
-			<list>
-				<value>#{jobParameters['authority.name']}</value>
-				<value>Distribution</value>
-				<value>#{jobParameters['family']}</value>
-				<value>#{jobParameters['subfamily']}</value>
-				<value>#{jobParameters['tribe']}</value>
-				<value>#{jobParameters['subtribe']}</value>
-			</list>
-		</property>
+	<bean id="markDistributionRecordsTasklet" class="org.emonocot.job.dwc.read.OwnedRecordAnnotator" scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
+		<property name="family" value="#{jobParameters['family']}"/>
+		<property name="subfamily" value="#{jobParameters['subfamily']}"/>
+		<property name="tribe" value="#{jobParameters['tribe']}"/>
+		<property name="subtribe" value="#{jobParameters['subtribe']}"/>
+		<property name="annotatedObjType" value="Distribution" />	
 	</bean>
 	
 	<bean id="distributionProcessingModeDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
@@ -1410,21 +1335,14 @@
 	
 	<!-- MeasurementOrFact -->
 
-	<bean id="markMeasurementOrFactRecordsTasklet"
-		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
-		scope="step">
-		<property name="targetObject" ref="ownedRecordAnnotator" />
-		<property name="targetMethod" value="annotateRecords" />
-		<property name="arguments">
-			<list>
-				<value>#{jobParameters['authority.name']}</value>
-				<value>MeasurementOrFact</value>
-				<value>#{jobParameters['family']}</value>
-				<value>#{jobParameters['subfamily']}</value>
-				<value>#{jobParameters['tribe']}</value>
-				<value>#{jobParameters['subtribe']}</value>
-			</list>
-		</property>
+	<bean id="markMeasurementOrFactRecordsTasklet" class="org.emonocot.job.dwc.read.OwnedRecordAnnotator" scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
+		<property name="family" value="#{jobParameters['family']}"/>
+		<property name="subfamily" value="#{jobParameters['subfamily']}"/>
+		<property name="tribe" value="#{jobParameters['tribe']}"/>
+		<property name="subtribe" value="#{jobParameters['subtribe']}"/>
+		<property name="annotatedObjType" value="MeasurementOrFact" />		
 	</bean>
 	
 	<bean id="measurementOrFactProcessingModeDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
@@ -1452,8 +1370,7 @@
 		<property name="lineMapper" ref="measurementOrFactLineMapper" />
 	</bean>
 
-	<bean id="measurementOrFactProcessor" class="org.emonocot.job.dwc.measurementorfact.Processor"
-		scope="step">
+	<bean id="measurementOrFactProcessor" class="org.emonocot.job.dwc.measurementorfact.Processor"	scope="step">
 		<property name="measurementOrFactService" ref="measurementOrFactServiceImpl" />
 		<property name="sourceName" value="#{jobParameters['authority.name']}" />
 		<property name="family" value="#{jobParameters['family']}" />
@@ -1509,21 +1426,14 @@
 	
 	<!-- VernacularName -->
 
-	<bean id="markVernacularNameRecordsTasklet"
-		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
-		scope="step">
-		<property name="targetObject" ref="ownedRecordAnnotator" />
-		<property name="targetMethod" value="annotateRecords" />
-		<property name="arguments">
-			<list>
-				<value>#{jobParameters['authority.name']}</value>
-				<value>VernacularName</value>
-				<value>#{jobParameters['family']}</value>
-				<value>#{jobParameters['subfamily']}</value>
-				<value>#{jobParameters['tribe']}</value>
-				<value>#{jobParameters['subtribe']}</value>
-			</list>
-		</property>
+	<bean id="markVernacularNameRecordsTasklet"	class="org.emonocot.job.dwc.read.OwnedRecordAnnotator" scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
+		<property name="family" value="#{jobParameters['family']}"/>
+		<property name="subfamily" value="#{jobParameters['subfamily']}"/>
+		<property name="tribe" value="#{jobParameters['tribe']}"/>
+		<property name="subtribe" value="#{jobParameters['subtribe']}"/>
+		<property name="annotatedObjType" value="VernacularName" />		
 	</bean>
 	
 	<bean id="vernacularNameProcessingModeDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
@@ -1608,35 +1518,17 @@
 	
 	<!-- TypeAndSpecimen -->
 
-	<bean id="markTypeAndSpecimenRecordsTasklet"
-		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
-		scope="step">
-		<property name="targetObject" ref="nonOwnedRecordAnnotator" />
-		<property name="targetMethod" value="annotateRecords" />
-		<property name="arguments">
-			<list>
-				<value>#{jobParameters['authority.name']}</value>
-				<value>TypeAndSpecimen</value>
-			</list>
-		</property>
+	<bean id="markTypeAndSpecimenRecordsTasklet" class="org.emonocot.job.dwc.read.NonOwnedRecordAnnotator" scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
+		<property name="annotatedObjType" value="TypeAndSpecimen"/>
 	</bean>
 	
-	<bean id="markRelatedTypeAndSpecimenRecordsTasklet"
-		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
-		scope="step">
-		<property name="targetObject" ref="nonOwnedRecordAnnotator" />
-		<property name="targetMethod" value="annotateRelatedRecords" />
-		<property name="arguments">
-			<list>
-				<value>#{jobParameters['authority.name']}</value>
-				<value>TypeAndSpecimen</value>
-				<value>insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select distinct o.id, ':annotatedObjType', ':jobId', :dateTime, :authorityId, 'Warn', 'Absent', ':annotatedObjType' from TypeAndSpecimen o join Taxon_TypeAndSpecimen o_t on (o.id = o_t.typesAndSpecimens_id) join Taxon t on (o_t.Taxon_id = t.id) left join Taxon a on (t.acceptedNameUsage_id = a.id) where o.authority_id = :authorityId and (t.:subsetRank = ':subsetValue' or a.:subsetRank = ':subsetValue')</value>
-				<value>#{jobParameters['family']}</value>
-		        <value>#{jobParameters['subfamily']}</value>
-		        <value>#{jobParameters['tribe']}</value>
-		        <value>#{jobParameters['subtribe']}</value>				
-			</list>
-		</property>
+	<bean id="markRelatedTypeAndSpecimenRecordsTasklet"	class="org.emonocot.job.dwc.read.NonOwnedSubsetRecordAnnotator"	scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
+		<property name="annotatedObjType" value="TypeAndSpecimen"/>
+		<property name="queryString" value="insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select distinct o.id, ':annotatedObjType', ':jobId', :dateTime, :authorityId, 'Warn', 'Absent', ':annotatedObjType' from TypeAndSpecimen o join Taxon_TypeAndSpecimen o_t on (o.id = o_t.typesAndSpecimens_id) join Taxon t on (o_t.Taxon_id = t.id) left join Taxon a on (t.acceptedNameUsage_id = a.id) where o.authority_id = :authorityId and (t.:subsetRank = ':subsetValue' or a.:subsetRank = ':subsetValue')"/>
 	</bean>
 	
 	<bean id="typeAndSpecimenProcessingModeDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
@@ -1719,15 +1611,6 @@
 	</bean>
 
 	<!-- Writing -->
-	
-	<bean id="nonOwnedRecordAnnotator" class="org.emonocot.job.dwc.read.NonOwnedRecordAnnotator">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-	
-	<bean id="ownedRecordAnnotator" class="org.emonocot.job.dwc.read.OwnedRecordAnnotator">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-
 	<bean id="processingExceptionProcessListener"
 		class="org.emonocot.job.dwc.DwCProcessingExceptionProcessListener"
 		scope="step">

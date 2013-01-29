@@ -9,6 +9,6 @@ import org.emonocot.model.Place;
  * @author jk00kg
  *
  */
-public interface PlaceDao extends SearchableDao<Place> {
+public interface PlaceDao extends Dao<Place> {
 
 }

@@ -1,5 +1,9 @@
 package org.emonocot.portal.controller.form;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.emonocot.portal.validation.FieldMatch;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -8,32 +12,38 @@ import org.hibernate.validator.constraints.NotEmpty;
  * @author ben
  *
  */
+@FieldMatch.List({
+    @FieldMatch(first = "username", second = "repeatUsername", message = "The email fields must match"),
+    @FieldMatch(first = "password", second = "repeatPassword", message = "The password fields must match")
+})
 public class RegistrationForm {
 
     /**
      *
      */
-    @NotEmpty
+	@NotEmpty
     @Email
     private String username;
 
     /**
      *
      */
-    @NotEmpty
+	@NotEmpty
     @Email
     private String repeatUsername;
 
     /**
      *
      */
-    @NotEmpty
+	@NotNull
+	@Size(min=8, max=25)
     private String repeatPassword;
 
     /**
      *
      */
-    @NotEmpty
+	@NotNull
+	@Size(min=8, max=25)
     private String password;
 
     /**

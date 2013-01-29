@@ -13,12 +13,12 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.params.FacetParams;
 import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.Base;
-import org.emonocot.model.Taxon;
+import org.emonocot.model.Identifiable;
+import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.pager.DefaultPageImpl;
 import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.SearchableDao;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Example;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -154,15 +154,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
         
         List<T> results = new ArrayList<T>();
         for(SolrDocument solrDocument : queryResponse.getResults()) {
-			try {
-				Class clazz = Class.forName((String)solrDocument.getFieldValue("base.class_s"));
-	        	Long id = (Long)solrDocument.getFieldValue("base.id_l");
-	        	T t = (T)getSession().load(clazz, id);
-	        	t.getIdentifier();
-	        	results.add(t);
-			} catch (ClassNotFoundException cnfe) {
-				throw new RuntimeException("Could not instantiate search result", cnfe);
-			}
+			results.add(loadObjectForDocument(solrDocument));
         }
         
         Long totalResults = new Long(queryResponse.getResults().getNumFound());
@@ -234,4 +226,83 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
 
         return results;
     }
+
+	@Override
+	public Page<SolrDocument> searchForDocuments(String query, Integer pageSize, Integer pageNumber, Map<String, String> selectedFacets, String sort) {
+        SolrQuery solrQuery = new SolrQuery();
+		
+		if (query != null && !query.trim().equals("")) {
+        	String searchString = null;
+            if (query.indexOf(":") != -1) {
+                searchString = query;
+            } else {
+            	// replace spaces with '+' so that we search on terms
+                searchString = query.trim().replace(" ", "+");
+                solrQuery.set("defType","edismax");
+                solrQuery.set("qf", "searchable.label_sort searchable.solrsummary_t");
+            }
+            solrQuery.setQuery(searchString);
+
+        } else {
+            solrQuery.setQuery("*:*");
+        }
+		
+		if (sort != null && sort.length() != 0) {
+            if(sort.equals("_asc")) {
+            	
+            } else if(sort.endsWith("_asc")) { 
+                String sortField = sort.substring(0,sort.length() - 4);
+                solrQuery.addSortField(sortField, SolrQuery.ORDER.asc);
+            } else if(sort.endsWith("_desc")) {
+            	String sortField = sort.substring(0,sort.length() - 5);
+                solrQuery.addSortField(sortField, SolrQuery.ORDER.desc);
+            }
+        }
+		
+		if (pageSize != null) {
+            solrQuery.setRows(pageSize);
+            if (pageNumber != null) {
+                solrQuery.setStart(pageSize * pageNumber);
+            }
+        }
+        
+        if(selectedFacets != null && !selectedFacets.isEmpty()) {
+        	for(String facetName : selectedFacets.keySet()) {
+        		solrQuery.addFilterQuery(facetName + ":" + selectedFacets.get(facetName));
+        	}
+        }
+        
+        QueryResponse queryResponse = null;
+		try {
+			queryResponse = solrServer.query(solrQuery);
+		} catch (SolrServerException sse) {
+			throw new RuntimeException("Exception querying solr server",sse);
+		}
+		
+		Long totalResults = new Long(queryResponse.getResults().getNumFound());
+        Page<SolrDocument> page = new DefaultPageImpl<SolrDocument>(totalResults.intValue(), pageNumber, pageSize, queryResponse.getResults(), queryResponse);
+        if(selectedFacets != null) {
+        	page.setSelectedFacets(selectedFacets);
+        }
+        page.setSort(sort);
+        
+        return page;
+	}
+
+
+	@Override
+	public T loadObjectForDocument(SolrDocument solrDocument) {
+		try {
+			Class clazz = Class.forName((String)solrDocument.getFieldValue("base.class_s"));
+        	Long id = (Long)solrDocument.getFieldValue("base.id_l");
+        	T t = (T)getSession().load(clazz, id);
+        	t.getIdentifier();
+        	return t;
+		} catch (ClassNotFoundException cnfe) {
+			throw new RuntimeException("Could not instantiate search result", cnfe);
+		} catch (ObjectNotFoundException onfe) {
+			return null;
+		}
+	}    
+    
 }

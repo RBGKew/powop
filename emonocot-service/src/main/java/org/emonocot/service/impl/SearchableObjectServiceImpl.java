@@ -20,5 +20,4 @@ public class SearchableObjectServiceImpl extends SearchableServiceImpl<Searchabl
     public void setSearchableObjectDao(SearchableObjectDao searchableObjectDao){
         super.dao = searchableObjectDao;
     }
-
 }

@@ -45,7 +45,7 @@ public class SpatialSearchTest extends AbstractPersistenceTest {
         geographicalRegions.add(addRegion(Location.NEW_ZEALAND));
         geographicalRegions.add(addRegion(Location.NSW));
         solrServer.add(geographicalRegions);
-        solrServer.commit();
+        solrServer.commit(true,true);
     }
     
     private SolrInputDocument addRegion(Location location) {

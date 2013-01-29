@@ -16,22 +16,41 @@
 			<batch:tasklet>
 				<batch:chunk reader="itemReader" writer="itemIndexer" commit-interval="10" />
 			</batch:tasklet>
-			<batch:end on="COMPLETED"/>			
-		</batch:step>		
+			<batch:next on="COMPLETED" to="removeMissingDocuments"/>		
+		</batch:step>
+		<batch:step id="removeMissingDocuments">
+			<batch:description>Remove missing solr documents</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="solrDocumentItemReader" processor="solrMissingObjectProcessor" writer="solrDeletingWriter" commit-interval="10" />
+			</batch:tasklet>
+			<batch:end on="COMPLETED"/>		
+		</batch:step>
 	</batch:job>
 		
-	<bean id="itemReader"
-		class="org.springframework.batch.item.database.HibernateCursorItemReader"
-		scope="step">
+	<bean id="itemReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"	scope="step">
 		<property name="sessionFactory" ref="sessionFactory" />
 		<property name="queryString" value="#{jobParameters['query.string']}" />		
 	</bean>
     
-    <bean id="itemIndexer"
-      class="org.emonocot.harvest.common.SolrIndexingWriter" scope="step">
+    <bean id="itemIndexer" class="org.emonocot.harvest.common.SolrIndexingWriter" scope="step">
       <property name="type" value="#{jobParameters['query.type']}" />
       <property name="sessionFactory" ref="sessionFactory" />
       <property name="solrIndexingListener" ref="solrIndexingListener" />
+    </bean>
+    
+    <bean id="solrDocumentItemReader" class="org.emonocot.harvest.common.SolrDocumentItemReader" scope="step">
+		<property name="searchableObjectService" ref="searchableObjectServiceImpl" />		
+		<property name="queryString" value="#{jobParameters['solr.query.string']}" />
+		<property name="sort" value="#{jobParameters['solr.sort']}" />	
+		<property name="selectedFacets" value="#{jobParameters['solr.selectedFacets']}" />
+	</bean>
+	
+	<bean id="solrMissingObjectProcessor" class="org.emonocot.harvest.common.SolrMissingObjectProcessor">
+		<property name="searchableObjectService" ref="searchableObjectServiceImpl" />
+	</bean>
+    
+    <bean id="solrDeletingWriter"  class="org.emonocot.harvest.common.SolrDeletingWriter">
+      <property name="solrServer" ref="solrServer" />
     </bean>
 	
 </beans>
