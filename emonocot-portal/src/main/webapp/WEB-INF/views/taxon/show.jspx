@@ -95,8 +95,8 @@
 								</c:forEach>
 							</div>
 							<c:if test="${fn:length(taxon.images) > 6 }">
-								<a data-slide="prev" href="#carousel" class="left carousel-control">â¹</a>
-								<a data-slide="next" href="#carousel" class="right carousel-control">âº</a>
+								<a data-slide="prev" href="#carousel" class="left carousel-control">&#8249;</a>
+								<a data-slide="next" href="#carousel" class="right carousel-control">&#8250;</a>
 							</c:if>
 						</div>
 					</div>
@@ -210,17 +210,17 @@
 									</c:forEach>
 								</ul>
 								<ul class="citations">
-							      <c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.distribution)}">
-									<li>
-									  <a href="#${provenanceHolder}">${provenanceHolder}</a>
-									</li>
-								  </c:forEach>
-								  <c:forEach var="key" items="${em:citekeys(bibliography,taxon.distribution)}">
-									  <c:set var="reference" value="${em:getref(bibliography,key)}"/>
-									  <li>
-										  <a href="#${reference.identifier}">${key}</a>
-									  </li>
-								  </c:forEach>
+									<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.distribution)}">
+										<li>
+											<a href="#${provenanceHolder}">${provenanceHolder}</a>
+										</li>
+									</c:forEach>
+									<c:forEach var="key" items="${em:citekeys(bibliography,taxon.distribution)}">
+										<c:set var="reference" value="${em:getref(bibliography,key)}"/>
+										<li>
+											<a href="#${reference.identifier}">${key}</a>
+										</li>
+									</c:forEach>
 								</ul>
 							</div>
 						</div>
@@ -246,6 +246,13 @@
 										</li>
 									</c:forEach>
 								</ul>
+								<ul class="citations">
+									<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.childNameUsages)}">
+										<li>
+											<a href="#${provenanceHolder}">${provenanceHolder}</a>
+										</li>
+									</c:forEach>
+								</ul>
 							</div>
 						</div>
 					</section>
@@ -267,6 +274,13 @@
 												</jsp:attribute>
 												${synonym.scientificName} ${synonym.scientificNameAuthorship}
 											</jsp:element>
+										</li>
+									</c:forEach>
+								</ul>
+								<ul class="citations">
+									<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.synonymNameUsages)}">
+										<li>
+											<a href="#${provenanceHolder}">${provenanceHolder}</a>
 										</li>
 									</c:forEach>
 								</ul>
@@ -384,6 +398,13 @@
 										<tags:tree taxon="${taxon}" ancestors="${taxon.higherClassification}" />
 									</c:if>
 								</ul>
+								<ul class="citations">
+									<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.higherClassification)}">
+										<li>
+											<a href="#${provenanceHolder}">${provenanceHolder}</a>
+										</li>
+									</c:forEach>
+								</ul>
 							</section>
 						</div>
 					</div>
@@ -396,6 +417,13 @@
 								<c:forEach var="identifier" items="${taxon.identifiers}">
 									<a href="${identifier.identifier}" title="${fn:escapeXml(identifier.title)}">${identifier.title}</a>
 								</c:forEach>
+								<ul class="citations">
+									<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.identifiers)}">
+										<li>
+											<a href="#${provenanceHolder}">${provenanceHolder}</a>
+										</li>
+									</c:forEach>
+								</ul>
 							</section>
 						</div>
 					</div>
@@ -453,6 +481,16 @@
 													</c:choose>
 												</c:if>
 											</td>
+											<c:if test="${fact ne null}">
+												<td>
+													<ul class="citations">
+														<c:set var="provenanceHolder" value="${em:provenancekey(provenance,fact)}"/>
+														<li>
+															<a href="#${provenanceHolder}">${provenanceHolder}</a>
+														</li>
+													</ul>
+												</td>
+											</c:if>
 										</tr>
 									</c:forEach >
 								</tbody>

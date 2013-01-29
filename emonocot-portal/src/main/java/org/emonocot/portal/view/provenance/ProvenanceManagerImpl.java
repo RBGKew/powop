@@ -13,8 +13,11 @@ import java.util.TreeSet;
 import org.emonocot.model.BaseData;
 import org.emonocot.model.Description;
 import org.emonocot.model.Distribution;
+import org.emonocot.model.Image;
 import org.emonocot.model.MeasurementOrFact;
 import org.emonocot.model.Taxon;
+import org.emonocot.model.TypeAndSpecimen;
+import org.emonocot.model.VernacularName;
 import org.emonocot.model.registry.Organisation;
 
 public class ProvenanceManagerImpl implements ProvenanceManager {
@@ -27,15 +30,34 @@ public class ProvenanceManagerImpl implements ProvenanceManager {
 	@Override
 	public void setProvenance(Taxon taxon) {
 		addProvenance(taxon);
+		for(Image images : taxon.getImages()) {
+			addProvenance(images);
+		}
 		for(Description description : taxon.getDescriptions()) {
 			addProvenance(description);
 		}
 		for(Distribution distribution : taxon.getDistribution()) {
 			addProvenance(distribution);
 		}
+		for(Taxon childNameUsages : taxon.getChildNameUsages()) {
+			addProvenance(childNameUsages);
+		}
+		for(Taxon synonymNameUsages : taxon.getSynonymNameUsages()) {
+			addProvenance(synonymNameUsages);
+		}
+		for(TypeAndSpecimen typesAndSpecimens : taxon.getTypesAndSpecimens()) {
+			addProvenance(typesAndSpecimens);
+		}
+		for(VernacularName vernacularName : taxon.getVernacularNames()) {
+			addProvenance(vernacularName);
+		}
+		for(Taxon higherClassification : taxon.getHigherClassification()) {
+			addProvenance(higherClassification);
+		}
 		for(MeasurementOrFact measurementOrFact : taxon.getMeasurementsOrFacts()) {
 			addProvenance(measurementOrFact);
 		}
+		
 		for(Organisation organisation : organisations) {
 			sortedProvenance.addAll(provenance.get(organisation.getIdentifier()));
 		}
