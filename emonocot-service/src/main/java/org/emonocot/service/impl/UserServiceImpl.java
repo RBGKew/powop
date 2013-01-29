@@ -2,6 +2,7 @@ package org.emonocot.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.emonocot.api.UserService;
 import org.emonocot.model.SecuredObject;
@@ -223,7 +224,6 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
      * @param username Set the username
      * @param newPassword Set the new password
      */
-    @PreAuthorize("hasRole('PERMISSION_ADMINISTRATE')")
     @Transactional(readOnly = false)
     public final void changePasswordForUser(final String username,
             final String newPassword) {
@@ -264,6 +264,41 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
             ((User) user).setPassword(password);
         }
         dao.save((User) user);
+    }
+    
+    @Transactional(readOnly = false)
+    public String createNonce(String username) {
+    	User user = dao.find(username);
+        if (user == null) {
+            throw new UsernameNotFoundException(username);
+        }
+        
+        String nonce = UUID.randomUUID().toString();
+        Object salt = this.saltSource.getSalt(user);
+
+        String hash = passwordEncoder.encodePassword(nonce, salt);
+        user.setNonce(hash);
+        dao.update(user);
+        
+        return nonce;
+    }
+    
+    @Transactional(readOnly = false)
+    public boolean verifyNonce(String username, String nonce) {
+    	User user = dao.find(username);
+        if (user == null) {
+            throw new UsernameNotFoundException(username);
+        }
+        
+        Object salt = this.saltSource.getSalt(user);
+
+        String hash = passwordEncoder.encodePassword(nonce, salt);
+        boolean verified = user.getNonce() == null ? false : user.getNonce().equals(hash);
+        
+        user.setNonce(null);
+        dao.update(user);
+        
+        return verified;
     }
 
     /**

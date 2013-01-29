@@ -41,4 +41,27 @@ public interface UserService extends Service<User>, UserDetailsManager,
      * @return a list of Access Control Entries
      */
     List<Object[]> listAces(String recipient);
+    
+    /**
+     * Create a cryptographic nonce which is associated with a particular user account.
+     *
+     * @param username
+     * @return the nonce
+     */
+    public String createNonce(String username);
+    
+    /**
+     * Verify a nonce against a particular user account. This method cannot be called multiple times with the same nonce.
+     * @param username
+     * @param nonce
+     * @return true if the nonce is valid, false otherwise
+     */
+    public boolean verifyNonce(String username, String nonce);
+    
+    /**
+     *
+     * @param username
+     * @param password
+     */
+	void changePasswordForUser(String username, String password);
 }

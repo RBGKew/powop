@@ -492,9 +492,9 @@
 												</td>
 											</c:if>
 										</tr>
-									</c:forEach >
+									</c:forEach>
 								</tbody>
-							</table>
+							</table>							
 						</section>
 					</div>
 				</div>

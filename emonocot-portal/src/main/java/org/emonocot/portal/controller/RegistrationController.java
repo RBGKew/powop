@@ -1,13 +1,17 @@
 package org.emonocot.portal.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.validation.Valid;
 
 import org.emonocot.api.UserService;
 import org.emonocot.model.auth.User;
+import org.emonocot.portal.controller.form.RegistrationForm;
+import org.emonocot.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,17 +27,24 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class RegistrationController {
 
-    /**
-     *
-     */
     private UserService service;
+    
+	private EmailService emailService;
+	
+	private String baseUrl;
 
-    /**
-     * @param userService set the user service
-     */
     @Autowired
     public void setUserService(UserService userService) {
-        service = userService;
+        this.service = userService;
+    }
+    
+    @Autowired
+    public void setEmailService(EmailService emailService) {
+    	this.emailService = emailService;
+    }
+    
+    public void setBaseUrl(String baseUrl) {
+    	this.baseUrl = baseUrl;
     }
 
     /**
@@ -62,8 +73,7 @@ public class RegistrationController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String post(
             @Valid @ModelAttribute("registrationForm") RegistrationForm form,
-            BindingResult result, RedirectAttributes redirectAttributes,
-            Model model) {
+            BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             return "register";
         }
@@ -74,10 +84,16 @@ public class RegistrationController {
         user.setAccountNonLocked(true);
         user.setAccountNonExpired(true);
         user.setCredentialsNonExpired(true);
-        user.setEnabled(true);
+        user.setEnabled(false);
 
         service.createUser(user);
+        String nonce = service.createNonce(user.getUsername());
         
+        Map<String,Object> model = new HashMap<String,Object>();
+        model.put("user", user);
+        model.put("nonce", nonce);
+        model.put("baseUrl", baseUrl);
+        emailService.sendEmail("org/emonocot/portal/controller/ActivateAccountRequest.vm", model, user.getUsername(), "Welcome! Your account requires activation");
         
         String[] codes = new String[] {"registration.successful" };
         Object[] args = new Object[] {};

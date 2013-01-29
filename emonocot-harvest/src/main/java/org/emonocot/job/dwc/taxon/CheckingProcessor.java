@@ -23,11 +23,11 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author ben
  *
  */
-public class CheckingValidator extends AuthorityAware implements ItemProcessor<Taxon,Annotation> {
+public class CheckingProcessor extends AuthorityAware implements ItemProcessor<Taxon,Annotation> {
     /**
      *
      */
-    private Logger logger = LoggerFactory.getLogger(CheckingValidator.class);
+    private Logger logger = LoggerFactory.getLogger(CheckingProcessor.class);
     
     private TaxonService taxonService;
     

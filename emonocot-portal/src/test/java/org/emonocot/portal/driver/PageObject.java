@@ -60,15 +60,6 @@ public class PageObject {
     private static Logger logger = LoggerFactory.getLogger(PageObject.class);
 
     /**
-     * @return the registration page
-     */
-    public final Register selectRegistrationLink() {
-        return openAs(
-                nav.findElement(By.linkText("Register")).getAttribute("href"),
-                Register.class);
-    }
-
-    /**
      * @return the identify link
      */
     public final Identify selectIdentifyLink() {
@@ -258,7 +249,7 @@ public class PageObject {
      */
     public final Login selectLoginLink() {
         return this.openAs(
-                nav.findElement(By.linkText("Login")).getAttribute("href"),
+                nav.findElement(By.linkText("Sign in")).getAttribute("href"),
                 Login.class);
     }
 

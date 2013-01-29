@@ -33,45 +33,23 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class User extends Principal implements UserDetails {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 4983433618606145723L;
 
-    /**
-     *
-     */
     private String password;
 
-    /**
-     *
-     */
     private boolean accountNonExpired;
 
-    /**
-     *
-     */
     private boolean accountNonLocked;
 
-    /**
-     *
-     */
     private boolean credentialsNonExpired;
 
-    /**
-     *
-     */
     private boolean enabled;
 
-    /**
-     *
-     */
     private Set<Permission> permissions = new HashSet<Permission>();
 
-    /**
-     *
-     */
     private Set<Group> groups = new HashSet<Group>();
+    
+    private String nonce;
 
     /**
      * @return the users password (hash)
@@ -199,6 +177,20 @@ public class User extends Principal implements UserDetails {
     }
 
     /**
+	 * @return the nonce
+	 */
+	public String getNonce() {
+		return nonce;
+	}
+
+	/**
+	 * @param nonce the nonce to set
+	 */
+	public void setNonce(String nonce) {
+		this.nonce = nonce;
+	}
+
+	/**
      *
      * @param newEmailAddress Set the email address
      */

@@ -80,10 +80,20 @@
 		  <batch:tasklet>
 				<batch:chunk reader="indexAnnotationsReader" writer="indexAnnotationsWriter" commit-interval="10" />
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="cleanupResources" />
+			<batch:next on="COMPLETED" to="deleteOldAnnotations" />
 			<batch:listeners>
 			    <batch:listener ref="stepStatusListener" />
 			</batch:listeners>		
+		</batch:step>
+		<batch:step id="deleteOldAnnotations">
+		    <batch:description>Delete the annotations no longer associated with this job</batch:description>
+		    <batch:tasklet>
+				<batch:chunk reader="deleteAnnotationsReader" writer="deletingWriter" commit-interval="10" />
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="cleanupResources" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
 		</batch:step>
 	    <batch:step id="cleanupResources">
 			<batch:description>Cleanup the resources</batch:description>
@@ -267,6 +277,17 @@
       <property name="sessionFactory" ref="sessionFactory" />
       <property name="solrIndexingListener" ref="solrIndexingListener" />
     </bean>
+    
+    <bean id="deleteAnnotationsReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
+		scope="step">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="queryString" value="select a from Annotation a join a.authority auth where a.jobId not in (select r.jobId from Resource r join r.organisation org where org.identifier = :authorityIdentifier) and auth.identifier = :authorityIdentifier" />
+		<property name="parameterValues">
+			<map>
+			    <entry key="authorityIdentifier" value="#{jobParameters['authority.name']}"/>				
+			</map>
+		</property>
+	</bean>
 
     <bean id="gbifResourceDeletingTasklet"
 		class="org.emonocot.harvest.common.MultiResourceDeletingTasklet"

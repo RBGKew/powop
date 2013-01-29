@@ -22,19 +22,16 @@ Background:
 
 Scenario: Registration
   Users should be able to register an account in eMonocot.
-  When I select the registration link
+  When I select the login link in the header
+  And I select "Create a new account"
   And I enter the following data into the registration form:
   | username             | repeatUsername       | password        | repeatPassword  |
   | john.doe@example.com | john.doe@example.com | unsafe.password | unsafe.password |
   And I submit the registration form
   Then the login page should be displayed
-  And an info message should say "Registration successful, now log in"  
-  When I enter the following data into the login form:
-  | username             | password        |
-  | john.doe@example.com | unsafe.password |
-  And I submit the login form
-  Then I should be logged in to the portal
-  And my profile page should be displayed
+  And an info message should say "Registration successful. An email has been sent to the email address you supplied. Please follow the instructions in the email to activate your account"  
+  # User now recieves an email containing an activation link which they must select in order
+  # to activate their account
   
 Scenario: Deny access to unauthenticated user
   In order to ensure that Users cannot access restricted areas, 

@@ -54,8 +54,7 @@
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
-		<batch:decision decider="taxonProcessingModeDecider"
-			id="checkTaxonProcessingMode">
+		<batch:decision decider="taxonProcessingModeDecider" id="checkTaxonProcessingMode">
 			<batch:next on="CHECK_TAXA" to="markTaxonRecords" />
 			<batch:next on="IMPORT_TAXA" to="markTaxonRecordsForImport" />
 			<batch:next on="IMPORT_TAXA_BY_AUTHORITY" to="markTaxonRecordsByAuthorityForImport" />
@@ -109,13 +108,7 @@
 		<batch:step id="importCoreFile">
 			<batch:description>Process the core file containing the taxa, creating and modifying where neccessary</batch:description>
 			<batch:tasklet>
-				<batch:chunk reader="taxonReader" processor="taxonImportingProcessor"
-					writer="itemWriter" commit-interval="10" skip-limit="10000">
-					<batch:skippable-exception-classes>
-						<batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
-						<batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
-					</batch:skippable-exception-classes>
-				</batch:chunk>
+				<batch:chunk reader="taxonReader" processor="taxonImportingProcessor" writer="itemWriter" commit-interval="10"/>
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="deleteAbsentTaxa" />
 			<batch:listeners>
@@ -607,10 +600,20 @@
 		  <batch:tasklet>
 				<batch:chunk reader="indexAnnotationsReader" writer="indexAnnotationsWriter" commit-interval="10" />
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="cleanupResources" />
+			<batch:next on="COMPLETED" to="deleteOldAnnotations" />
 			<batch:listeners>
 			    <batch:listener ref="stepStatusListener" />
 			</batch:listeners>	
+		</batch:step>
+		<batch:step id="deleteOldAnnotations">
+		    <batch:description>Delete the annotations no longer associated with this job</batch:description>
+		    <batch:tasklet>
+				<batch:chunk reader="deleteAnnotationsReader" writer="deletingWriter" commit-interval="10" />
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="cleanupResources" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
 		</batch:step>
 		<batch:step id="cleanupResources">
 			<batch:description>Cleanup the resources</batch:description>
@@ -745,13 +748,11 @@
 		<property name="lineMapper" ref="taxonLineMapper" />
 	</bean>
 
-	<bean id="taxonImportingProcessor" class="org.emonocot.job.dwc.taxon.Processor"
-		scope="step">
+	<bean id="taxonImportingProcessor" class="org.emonocot.job.dwc.taxon.Processor"	scope="step">
 		<property name="sourceName" value="#{jobParameters['authority.name']}" />
 	</bean>
 
-	<bean id="taxonCheckingProcessor" class="org.emonocot.job.dwc.taxon.CheckingValidator"
-		scope="step">
+	<bean id="taxonCheckingProcessor" class="org.emonocot.job.dwc.taxon.CheckingProcessor" scope="step">
 		<property name="sourceName" value="#{jobParameters['authority.name']}" />
 	</bean>
 
@@ -793,8 +794,7 @@
 		<property name="parameterValues">
 			<map>
 				<entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-				<entry key="code"
-					value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
+				<entry key="code" value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
 			</map>
 		</property>
 	</bean>
@@ -837,6 +837,17 @@
       <property name="sessionFactory" ref="sessionFactory" />
       <property name="solrIndexingListener" ref="solrIndexingListener" />
     </bean>
+    
+    <bean id="deleteAnnotationsReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
+		scope="step">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="queryString" value="select a from Annotation a join a.authority auth where a.jobId not in (select r.jobId from Resource r join r.organisation org where org.identifier = :authorityIdentifier) and auth.identifier = :authorityIdentifier" />
+		<property name="parameterValues">
+			<map>
+			    <entry key="authorityIdentifier" value="#{jobParameters['authority.name']}"/>				
+			</map>
+		</property>
+	</bean>
 
 	<!-- Descriptions -->
 	

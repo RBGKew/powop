@@ -97,8 +97,7 @@ public class TaxonImportingIntegrationTest {
                 "test"));
         parameters.put("family", new JobParameter(
         "Araceae"));
-        parameters.put("taxon.processing.mode", new JobParameter(
-        "IMPORT_TAXA"));
+        parameters.put("taxon.processing.mode", new JobParameter("IMPORT_TAXA_BY_AUTHORITY"));
         parameters.put("authority.uri", new JobParameter(
                 "http://build.e-monocot.org/test/test.zip"));
         parameters.put(

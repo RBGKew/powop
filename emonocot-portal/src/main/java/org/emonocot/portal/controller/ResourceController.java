@@ -18,6 +18,7 @@ import org.emonocot.model.Annotation;
 import org.emonocot.model.constants.ResourceType;
 import org.emonocot.model.registry.Resource;
 import org.emonocot.pager.Page;
+import org.emonocot.portal.controller.form.ResourceParameterDto;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
@@ -478,16 +479,16 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 			
 			switch(jobExecution.getJobInstance().getJobName()) {
 			case "DarwinCoreArchiveHarvesting":
-				total = new Float(42);
+				total = new Float(43);
 				break;
 			case "IdentificationKeyHarvesting":
-				total = new Float(9);
+				total = new Float(10);
 				break;
 			case "IUCNImport":
-				total = new Float(9);
+				total = new Float(10);
 				break;
 			case "GBIFImport":
-				total = new Float(8);
+				total = new Float(10);
 				break;
 			default:
 				break;

@@ -3597,5 +3597,35 @@
             <column name="Group_id" valueNumeric="1"/>
             <column name="permissions" valueNumeric="21"/>
         </insert>
+    </changeSet>   
+    <changeSet author="ben" id="2013-01-25_01">
+        <comment>Adding index on foreign keys</comment>
+        <createIndex tableName="Taxon_TypeAndSpecimen" indexName="Taxon_TypeAndSpecimen_typesAndSpecimens_id_IDX">
+          <column name="typesAndSpecimens_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-25_02">
+        <comment>Adding index on foreign keys</comment>
+        <createIndex tableName="Taxon_TypeAndSpecimen" indexName="Taxon_TypeAndSpecimen_Taxon_id_IDX">
+          <column name="Taxon_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-25_03">
+        <comment>Adding index on foreign keys</comment>
+        <createIndex tableName="Resource" indexName="Resource_jobId_IDX">
+          <column name="jobId"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-25_04">
+        <comment>Adding index on foreign keys</comment>
+        <createIndex tableName="Annotation" indexName="Annotation_jobId_IDX">
+          <column name="jobId"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2013-01-25_05">
+        <comment>Add column for user account reset and verification</comment>
+        <addColumn tableName="Principal">
+          <column name="nonce" type="varchar(255)"/>
+        </addColumn>
     </changeSet>
 </databaseChangeLog>

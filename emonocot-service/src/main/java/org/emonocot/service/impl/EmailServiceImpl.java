@@ -1,12 +1,12 @@
 package org.emonocot.service.impl;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.mail.internet.MimeMessage;
 
 import org.apache.velocity.app.VelocityEngine;
 import org.emonocot.service.EmailService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -20,10 +20,12 @@ public class EmailServiceImpl implements EmailService {
     
     private String fromAddress;
     
-    public void setJavaMailSender(JavaMailSender mailSender) {
+    @Autowired
+    public void setMailSender(JavaMailSender mailSender) {
     	this.mailSender = mailSender;
     }
     
+    @Autowired
     public void setVelocityEngine(VelocityEngine velocityEngine) {
     	this.velocityEngine = velocityEngine;
     }
@@ -33,12 +35,13 @@ public class EmailServiceImpl implements EmailService {
     }
 
 	@Override
-	public void sendEmail(final String templateName, final Map model, final String toAddress) {
+	public void sendEmail(final String templateName, final Map model, final String toAddress, final String subject) {
 		MimeMessagePreparator preparator = new MimeMessagePreparator() {
 	           public void prepare(MimeMessage mimeMessage) throws Exception {
 	              MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 	              message.setTo(toAddress);
-	              message.setFrom(fromAddress); 	              
+	              message.setFrom(fromAddress);
+	              message.setSubject(subject);
 	              String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, templateName, model);
 	              message.setText(text, true);
 	           }
