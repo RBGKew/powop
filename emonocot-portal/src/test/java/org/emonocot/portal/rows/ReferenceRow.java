@@ -51,4 +51,6 @@ public class ReferenceRow {
      *
      */
     public String taxa1;
+
+	public String authority;
 }
