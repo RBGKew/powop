@@ -203,7 +203,7 @@ public class DataSetup {
         for (ReferenceRow row : rows) {
             testDataManager.createReference(row.identifier, row.title,
                     row.authors, row.datePublished, row.volume, row.page,
-                    row.citation, row.publisher, row.taxa1);
+                    row.citation, row.publisher, row.taxa1, row.authority);
         }
     }
 

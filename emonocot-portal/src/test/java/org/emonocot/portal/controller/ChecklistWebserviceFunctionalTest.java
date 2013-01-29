@@ -69,7 +69,7 @@ public class ChecklistWebserviceFunctionalTest {
                         "2",
                         "250pp",
                         "Pargetter & Archer, Integer elementum lorem ut nibh scelerisque at condimentum 2: 250pp 1784",
-                        null, null);
+                        null, null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:family:28", "Lowiaceae", "Archer",
                 null, null, null, "FAMILY", "Accepted", null, null,
                 null, null, null, null, null, null, null,

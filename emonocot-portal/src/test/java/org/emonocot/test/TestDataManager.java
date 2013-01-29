@@ -527,14 +527,17 @@ public class TestDataManager {
     public final void createReference(final String identifier,
             final String title, final String authors,
             final String datePublished, final String volume, final String page,
-            final String citation, final String publisher, String taxa1) {
+            final String citation, final String publisher, String taxa1, String authority) {
         enableAuthentication();
         Reference r = new Reference();
         data.push(r);
+        Organisation s = new Organisation();
+        s.setIdentifier(authority);
+        r.setAuthority(s);
         r.setIdentifier(identifier);
         r.setCreator(authors);
         r.setTitle(title);
-        r.setDate(datePublished);        
+        r.setDate(datePublished);
         r.setBibliographicCitation(citation);
         if(taxa1 != null && taxa1.trim().length() > 0) {
         	Taxon t = new Taxon();
@@ -764,6 +767,7 @@ public class TestDataManager {
     	MeasurementOrFact fact = new MeasurementOrFact();
     	fact.setMeasurementValue(text);
     	fact.setTaxon(taxon);
+    	fact.setAuthority(taxon.getAuthority());
     	taxon.getMeasurementsOrFacts();
     	/*taxon.getMeasurementsOrFacts().add(fact);*/
     	

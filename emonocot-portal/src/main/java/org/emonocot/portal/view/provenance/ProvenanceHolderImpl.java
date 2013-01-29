@@ -47,7 +47,7 @@ public class ProvenanceHolderImpl implements ProvenanceHolder, Comparable<Proven
 
 	@Override
 	public int hashCode() {
-		String string = this.organisation.getIdentifier() + "|" + this.license + "|" + this.rights;
+		String string = this.organisation.getIdentifier() + "|" + nullToEmpty(this.license) + "|" + nullToEmpty(this.rights);
 		return string.hashCode();
 	}
 
@@ -63,20 +63,30 @@ public class ProvenanceHolderImpl implements ProvenanceHolder, Comparable<Proven
 		
 		if(obj instanceof ProvenanceHolderImpl) {
 			ProvenanceHolderImpl prov = (ProvenanceHolderImpl)obj;
-			String o1 = this.organisation.getIdentifier() + "|" + this.license + "|" + this.rights;
-			String o2 = prov.organisation.getIdentifier() + "|" + prov.license + "|" + prov.rights;
+			String o1 = this.organisation.getIdentifier() + "|" + nullToEmpty(this.license) + "|" + nullToEmpty(this.rights);
+			String o2 = prov.organisation.getIdentifier() + "|" + nullToEmpty(prov.license) + "|" + nullToEmpty(prov.rights);
 			return o1.equals(o2);
 		} else {
 			return false;
 		}
 	}
 	
+	private String nullToEmpty(String string) {
+		if(string == null) {
+			return "";
+		} else if(string.isEmpty()) {
+			return "";
+		} else {
+			return string;
+		}
+	}
+	
 	public static int nullSafeStringComparator(final String one, final String two) {
-	    if (one == null ^ two == null) {
-	        return (one == null) ? -1 : 1;
+	    if ((one == null || one.isEmpty())  ^ (two == null || two.isEmpty())) {
+	        return (one == null || one.isEmpty()) ? -1 : 1;
 	    }
 
-	    if (one == null && two == null) {
+	    if ((one == null || one.isEmpty()) && (two == null || two.isEmpty())) {
 	        return 0;
 	    }
 

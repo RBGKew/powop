@@ -56,6 +56,8 @@ public class SourceTest {
 		createData(description5,"test2",null,null);
 		Description description6 = new Description();
 		createData(description6,"test2",null,null);
+		Description description7 = new Description();
+		createData(description7,"test2","",null);
 		
 		Taxon taxon = new Taxon();
 		createData(taxon,"test","this is my license","these are my rights");
@@ -71,6 +73,8 @@ public class SourceTest {
 		description5.setTaxon(taxon);
 		taxon.getDescriptions().add(description6);
 		description6.setTaxon(taxon);
+		taxon.getDescriptions().add(description7);
+		description7.setTaxon(taxon);
 		
 		ProvenanceManager provenanceManager = new ProvenanceManagerImpl();
 		
