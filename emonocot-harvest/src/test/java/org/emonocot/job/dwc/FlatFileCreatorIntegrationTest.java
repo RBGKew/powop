@@ -86,7 +86,7 @@ public class FlatFileCreatorIntegrationTest {
     	}
     	if(!documentsToDelete.isEmpty()) {
     	    solrServer.deleteById(documentsToDelete);
-    	    solrServer.commit();
+    	    solrServer.commit(true,true);
     	}
 
 		

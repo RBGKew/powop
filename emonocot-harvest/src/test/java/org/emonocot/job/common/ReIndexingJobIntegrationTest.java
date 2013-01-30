@@ -70,10 +70,9 @@ public class ReIndexingJobIntegrationTest {
             JobParametersInvalidException {
         Map<String, JobParameter> parameters =
             new HashMap<String, JobParameter>();
-        parameters.put("query.string", new JobParameter(
-                "select t.id from Taxon t"));
-        parameters.put("query.type", new JobParameter(
-        "org.emonocot.model.Taxon"));
+        parameters.put("query.string", new JobParameter("select t.id from Taxon t"));
+        parameters.put("query.type", new JobParameter("org.emonocot.model.Taxon"));
+        parameters.put("solr.selected.facets", new JobParameter("base.class_s=org.emonocot.model.Taxon"));
 
         JobParameters jobParameters = new JobParameters(parameters);
 

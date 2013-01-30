@@ -95,7 +95,7 @@ public class RecoveryController {
 		   String[] codes = new String[] { "password.recovery.successful" };
 		   Object[] args = new Object[] {  };
 		   DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
-		   model.addAttribute("info",message);
+		   redirectAttributes.addFlashAttribute("info",message);
 		   return "redirect:/login";
 	   } else {
 		   String[] codes = new String[] { "password.recovery.failed" };

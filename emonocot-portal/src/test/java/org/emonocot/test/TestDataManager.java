@@ -958,7 +958,7 @@ public class TestDataManager {
     	}
     	if(!documentsToDelete.isEmpty()) {
     	    solrServer.deleteById(documentsToDelete);
-    	    solrServer.commit();
+    	    solrServer.commit(true,true);
     	}
 	}
 }

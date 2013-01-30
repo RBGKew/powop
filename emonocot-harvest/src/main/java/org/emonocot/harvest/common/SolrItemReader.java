@@ -45,16 +45,12 @@ public class SolrItemReader<T extends SearchableObject> extends AbstractPagingIt
 		}
 	}
 
-	/**
-	 * @param queryString the queryString to set
-	 */
+
 	public void setQueryString(String queryString) {
 		this.queryString = queryString;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.springframework.batch.item.database.AbstractPagingItemReader#doReadPage()
-	 */
+
 	@Override
 	protected void doReadPage() {
 	    results = service.search(queryString, null, getPageSize(), getPage(), null, null, selectedFacets, sort, "object-page").getRecords();

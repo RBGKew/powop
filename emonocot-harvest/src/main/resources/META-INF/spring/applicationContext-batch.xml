@@ -17,7 +17,7 @@
 	<context:annotation-config />
 
 	<bean class="org.springframework.batch.core.scope.StepScope" />
-	
+		
 	<bean id="bufferedReaderFactory" class="org.emonocot.harvest.common.BOMIgnoringBufferedReaderFactory"/>
 
 	<!-- Read write job launcher which runs the job in the current thread meaning 

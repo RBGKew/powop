@@ -2,14 +2,9 @@
 <body>
 	<p>Welcome!</p>
 	<p>Thanks for registering with eMonocot.</p>
-	<p>To get started, please activate your profile by clicking on the
-		link below. If your email client does not allow you to click the link,
-		please copy and paste the link into your web browser address bar and
-		press enter. If you do not use the link to activate your profile you
-		will not be able to access your account information online.</p>
+	<p>To get started, please activate your profile by clicking on the link below. If your email client does not allow you to click the link, please copy and paste the link into your web browser address bar and press enter. If you do not use the link to activate your profile you	will not be able to access your account information online.</p>
 	<p>${baseUrl}/activate/${nonce}?username=${user.username}</p>
-	<p>If you did not register with eMonocot, please reply to this
-		email and let us know.</p>
+	<p>If you did not register with eMonocot, please reply to this email and let us know.</p>
 	<p>Regards,</p>
 	<p>The eMonocot Team</p>
 </body>

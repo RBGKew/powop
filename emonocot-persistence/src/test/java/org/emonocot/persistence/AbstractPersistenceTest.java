@@ -127,7 +127,7 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
             	}
             	if(!documentsToDelete.isEmpty()) {
             	    solrServer.deleteById(documentsToDelete);
-            	    solrServer.commit();
+            	    solrServer.commit(true,true);
             	}
                 setUpTestData();
                 for (Object obj : getSetUp()) {

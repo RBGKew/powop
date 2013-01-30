@@ -49,7 +49,7 @@ public class SolrIndexingListener implements PostInsertEventListener,
 		        logger.error("Exception adding solr documents " + updateResponse.toString());
 		        updateResponse = solrServer.rollback();
 		    } else {
-			    updateResponse = solrServer.commit();
+			    updateResponse = solrServer.commit(true,true);
 		    }			
 		} catch (SolrServerException sse) {
 			logger.error(sse.getLocalizedMessage());
@@ -73,9 +73,9 @@ public class SolrIndexingListener implements PostInsertEventListener,
 	public void deleteObject(Searchable searchableObject) {
         try {
             solrServer.deleteById(searchableObject.getDocumentId());
-            solrServer.commit();
+            solrServer.commit(true,true);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 

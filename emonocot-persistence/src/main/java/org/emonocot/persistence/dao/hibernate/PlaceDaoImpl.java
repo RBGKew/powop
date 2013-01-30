@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
  *
  */
 @Repository
-public class PlaceDaoImpl extends SearchableDaoImpl<Place> implements PlaceDao {
+public class PlaceDaoImpl extends DaoImpl<Place> implements PlaceDao {
 
     /**
      *

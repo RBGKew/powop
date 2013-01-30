@@ -68,7 +68,7 @@ public class DwcFieldExtractor implements FieldExtractor<BaseData> {
 		    	 } else if(value != null) {
 		    		 values.add(quoteCharacter + value + quoteCharacter);
 		    	 } else {
-		    		 values.add(value);
+		    		 values.add(quoteCharacter + quoteCharacter);
 		    	 }
 		     } catch(PropertyAccessException pae) {
 		    	 

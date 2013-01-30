@@ -1,18 +1,25 @@
 package org.emonocot.portal.controller.form;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.emonocot.portal.validation.FieldMatch;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
+@FieldMatch(first = "password", second = "repeatPassword", message = "The password fields must match")
 public class ResetForm {
 	
 	@NotEmpty
 	@Email
 	private String username;
 	
-	@NotEmpty
+	@NotNull
+	@Size(min=8, max=25)
 	private String password;
 	
-	@NotEmpty
+	@NotNull
+	@Size(min=8, max=25)
 	private String repeatPassword;
 	
 	public void setUsername(String username) {

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
-public class PlaceServiceImpl extends SearchableServiceImpl<Place, PlaceDao> implements
+public class PlaceServiceImpl extends ServiceImpl<Place, PlaceDao> implements
 		PlaceService {
 
     /**

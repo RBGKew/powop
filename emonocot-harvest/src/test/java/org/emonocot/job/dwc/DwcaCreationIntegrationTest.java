@@ -96,7 +96,7 @@ public class DwcaCreationIntegrationTest {
     	if(!documentsToDelete.isEmpty()) {
     		logger.info("Deleting " + documentsToDelete.size());
     	    solrServer.deleteById(documentsToDelete);
-    	    solrServer.commit();
+    	    solrServer.commit(true,true);
     	}
 		
 		
