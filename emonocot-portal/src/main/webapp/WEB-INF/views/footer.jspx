@@ -16,7 +16,10 @@
 				<li><a href="http://www.nerc.ac.uk/"><img src="${nercImageUrl}" width="160" height="60" alt="Natural Environment Research Council" target="_blank" /></a></li>
 			</ul>
 		</div>
-		<div id="footer-logo"><!-- --></div>
+		<c:url value="/" var="brandUrl"/>
+		<a href="${brandUrl}">
+		  <div id="footer-logo"><!-- --></div>
+		</a>
 		<ul class="foot unstyled noPrint">
 			<li>
 			  <c:url value="/about" var="aboutUrl" />
@@ -34,6 +37,9 @@
 		<ul class="foot unstyled noPrint">
 		  <li class="footer-version">
 			eMonocot <spring:message code="application.version" />
+		  </li>
+		  <li class="footer-version">
+			<spring:message code="design.by.designers" />
 		  </li>
 		</ul>
 	</div>

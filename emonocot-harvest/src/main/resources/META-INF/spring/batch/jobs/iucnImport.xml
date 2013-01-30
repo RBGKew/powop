@@ -42,7 +42,7 @@
 			<batch:tasklet ref="markMeasurementOrFactRecordsTasklet" />
 			<batch:next on="COMPLETED" to="splitJsonFile" />
 			<batch:listeners>
-				<batch:listener ref="recordAnnotator" />
+				<batch:listener ref="markMeasurementOrFactRecordsTasklet" />
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
@@ -113,25 +113,14 @@
 		<property name="harvesterSpoolDirectory" value="${harvester.spool.directory}"/>
 	</bean>
 	
-	<bean id="markMeasurementOrFactRecordsTasklet"
-		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
-		scope="step">
-		<property name="targetObject" ref="recordAnnotator" />
-		<property name="targetMethod" value="annotateRecords" />
-		<property name="arguments">
-			<list>
-				<value>#{jobParameters['authority.name']}</value>
-				<value>MeasurementOrFact</value>
-				<value>#{jobParameters['family']}</value>
-				<value>#{jobParameters['subfamily']}</value>
-				<value>#{jobParameters['tribe']}</value>
-				<value>#{jobParameters['subtribe']}</value>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="recordAnnotator" class="org.emonocot.job.dwc.read.OwnedRecordAnnotator">
-		<property name="dataSource" ref="dataSource" />
+	<bean id="markMeasurementOrFactRecordsTasklet"	class="org.emonocot.job.dwc.read.OwnedRecordAnnotator" scope="step">
+		<property name="dataSource" ref="dataSource" />		
+		<property name="authorityName" value="#{jobParameters['authority.name']}" />
+		<property name="annotatedObjType" value="MeasurementOrFact" />
+		<property name="family" value="#{jobParameters['family']}" />
+		<property name="subfamily" value="#{jobParameters['subfamily']}" />
+		<property name="tribe" value="#{jobParameters['tribe']}" />
+		<property name="subtribe" value="#{jobParameters['subtribe']}" />		
 	</bean>
 	
 	<bean id="splitOneLineJsonTasklet" class="org.emonocot.job.iucn.SplitOneLineJsonFileTasklet">
