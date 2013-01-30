@@ -3,11 +3,15 @@ package org.emonocot.job.dwc.taxon;
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.Taxon;
 import org.gbif.ecat.voc.Rank;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
 
 
 public class CalculateDerivedPropertiesProcessor implements
 		ItemProcessor<Long, Taxon> {
+	
+	private static Logger logger = LoggerFactory.getLogger(CalculateDerivedPropertiesProcessor.class);
 	
 	private TaxonService taxonService;
 	
@@ -18,7 +22,7 @@ public class CalculateDerivedPropertiesProcessor implements
 	@Override
 	public Taxon process(Long id) throws Exception {
 		Taxon taxon = taxonService.load(id, "taxon-page");
-		
+		logger.error("Processing " + taxon.getScientificName());
 		if(taxon.getTaxonRank() == null) {
 			return null;
 		}
