@@ -174,18 +174,10 @@ public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> implements Chu
                 object.setIdentifier(value);
                 break;
             case taxonomicStatus:
-                try {
-                    object.setTaxonomicStatus(conversionService.convert(value, TaxonomicStatus.class));
-                } catch (ConversionException ce) {
-                    logger.error(ce.getMessage());
-                }
+                object.setTaxonomicStatus(conversionService.convert(value, TaxonomicStatus.class));              
                 break;
-            case taxonRank:
-                try {                    
-                    object.setTaxonRank(conversionService.convert(value, Rank.class));
-                } catch (ConversionException ce) {
-                    logger.error(ce.getMessage());
-                }
+            case taxonRank:                  
+                object.setTaxonRank(conversionService.convert(value, Rank.class));
                 break;
             case taxonRemarks:
             	object.setTaxonRemarks(value);
@@ -216,6 +208,9 @@ public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> implements Chu
         }
     }
 
+    /**
+     * TODO move reference handling code into processor
+     */
     private Reference handleReference(String value) {
 		if (value != null && value.trim().length() > 0) {
 			Reference reference = null;

@@ -77,9 +77,9 @@ public class CheckingRecordAnnotator extends AbstractRecordAnnotator implements 
 	    queryString = queryString.replaceAll(":dateTime", OlapDateTimeUserType.convert(new DateTime()).toString());
 	    queryString = queryString.replaceAll(":subsetRank", subsetRank);
 	    queryString = queryString.replaceAll(":subsetValue", subsetValue);
-	    logger.error(queryString);
+	    logger.debug(queryString);
 	    int numberOfRecords = jdbcTemplate.update(queryString);
-	    logger.error(numberOfRecords + " records inserted");
+	    logger.debug(numberOfRecords + " records inserted");
 		return RepeatStatus.FINISHED;
 	}
 }

@@ -22,7 +22,7 @@ public class CalculateDerivedPropertiesProcessor implements
 	@Override
 	public Taxon process(Long id) throws Exception {
 		Taxon taxon = taxonService.load(id, "taxon-page");
-		logger.error("Processing " + taxon.getScientificName());
+		
 		if(taxon.getTaxonRank() == null) {
 			return null;
 		}
