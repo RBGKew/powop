@@ -73,7 +73,11 @@ public class DwcFieldExtractor implements FieldExtractor<BaseData> {
 		     } catch(PropertyAccessException pae) {
 		    	 
 		     } catch(NullValueInNestedPathException nvinpe) {
-		    	 
+		    	 if(quoteCharacter == null) {
+		    	     values.add(null);		    	
+		    	 } else {
+		    		 values.add(new StringBuilder().append(quoteCharacter).append(quoteCharacter).toString());
+		    	 }
 		     }
 		}
 		return values.toArray();
