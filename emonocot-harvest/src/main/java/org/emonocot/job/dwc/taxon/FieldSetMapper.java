@@ -174,10 +174,18 @@ public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> implements Chu
                 object.setIdentifier(value);
                 break;
             case taxonomicStatus:
-                object.setTaxonomicStatus(conversionService.convert(value, TaxonomicStatus.class));              
+                try {
+                    object.setTaxonomicStatus(conversionService.convert(value, TaxonomicStatus.class));
+                } catch (ConversionException ce) {
+                    logger.error(ce.getMessage());
+                }
                 break;
-            case taxonRank:                  
-                object.setTaxonRank(conversionService.convert(value, Rank.class));
+            case taxonRank:
+                try {                    
+                    object.setTaxonRank(conversionService.convert(value, Rank.class));
+                } catch (ConversionException ce) {
+                    logger.error(ce.getMessage());
+                }
                 break;
             case taxonRemarks:
             	object.setTaxonRemarks(value);
