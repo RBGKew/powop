@@ -440,7 +440,21 @@
 											<th class="span1"><spring:message code="${measurement}" /></th>
 											<td>
 												<span id="${measurement}"><spring:message code="measurementorfact_${fact.measurementType}_${fact.measurementValue}" text="${fact.measurementValue}"/></span>
-												<c:if test="${fact.measurementType eq 'IUCNConservationStatus'}">
+											</td>										
+											<c:if test="${fact ne null}">
+												<td>
+													<ul class="citations">
+														<c:set var="provenanceHolder" value="${em:provenancekey(provenance,fact)}"/>
+														<li>
+															<a href="#${provenanceHolder}">${provenanceHolder}</a>
+														</li>
+													</ul>
+												</td>
+											</c:if>
+										</tr>
+										<c:if test="${fact.measurementType eq 'IUCNConservationStatus'}">
+											<tr>
+												<td colspan="3">
 													<c:choose>
 														<c:when test="${fact.measurementValue eq 'CR'}">
 															<c:url value="/css/images/redList/redListThreatCategories_SHORT_CR.png" var="CRImg"/>
@@ -479,22 +493,12 @@
 															<a href="http://www.iucnredlist.org/"><img src="${VUImg}" alt="vu"/></a>
 														</c:when>
 													</c:choose>
-												</c:if>
-											</td>
-											<c:if test="${fact ne null}">
-												<td>
-													<ul class="citations">
-														<c:set var="provenanceHolder" value="${em:provenancekey(provenance,fact)}"/>
-														<li>
-															<a href="#${provenanceHolder}">${provenanceHolder}</a>
-														</li>
-													</ul>
 												</td>
-											</c:if>
-										</tr>
+											</tr>
+										</c:if>
 									</c:forEach>
 								</tbody>
-							</table>							
+							</table>
 						</section>
 					</div>
 				</div>
