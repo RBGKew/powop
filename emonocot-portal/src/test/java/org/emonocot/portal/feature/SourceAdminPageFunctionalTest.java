@@ -5,7 +5,7 @@ import org.emonocot.test.ListeningCucumber;
 import org.emonocot.test.TakeScreenshotListener;
 import org.junit.runner.RunWith;
 
-import cucumber.junit.Feature;
+import cucumber.api.junit.Cucumber;
 
 /**
  *
@@ -14,8 +14,7 @@ import cucumber.junit.Feature;
  */
 @RunWith(ListeningCucumber.class)
 @Listener(TakeScreenshotListener.class)
-@Feature(value = "features/SourceAdminPage.feature",
-        packages = "org.emonocot.portal.steps")
+@Cucumber.Options(features = "src/test/resources/features/SourceAdminPage.feature", glue = "org.emonocot.portal.steps")
 public class SourceAdminPageFunctionalTest {
 
 }

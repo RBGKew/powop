@@ -53,34 +53,34 @@ public class DwcFieldExtractor implements FieldExtractor<BaseData> {
 	
 	@Override
 	public Object[] extract(BaseData item) {
-		List<Object> values = new ArrayList<Object>();
+		Object[] values = new Object[names.length];
 		ConceptTerm extensionTerm = termFactory.findTerm(extension);		
 		Map<ConceptTerm,String> propertyMap = DarwinCorePropertyMap.getPropertyMap(extensionTerm);		
 		BeanWrapper beanWrapper = new BeanWrapperImpl(item);
-		for(String property : names) {
-			
+		for(int i = 0; i < names.length; i++) {
+			String property = names[i];
 			ConceptTerm propertyTerm = termFactory.findTerm(property);
 		    String propertyName = propertyMap.get(propertyTerm);
 		     try {
 		    	 String value = conversionService.convert(beanWrapper.getPropertyValue(propertyName), String.class);
 		    	 if(quoteCharacter == null) {
-		    	     values.add(value);
+		    	     values[i] = value;
 		    	 } else if(value != null) {
-		    		 values.add(new StringBuilder().append(quoteCharacter).append(value).append(quoteCharacter).toString());
+		    		 values[i] = new StringBuilder().append(quoteCharacter).append(value).append(quoteCharacter).toString();
 		    	 } else {
-		    		 values.add(new StringBuilder().append(quoteCharacter).append(quoteCharacter).toString());
+		    		 values[i] = new StringBuilder().append(quoteCharacter).append(quoteCharacter).toString();
 		    	 }
 		     } catch(PropertyAccessException pae) {
-		    	 
+		    	 if(quoteCharacter != null) {
+		    		 values[i] = new StringBuilder().append(quoteCharacter).append(quoteCharacter).toString();
+		    	 }
 		     } catch(NullValueInNestedPathException nvinpe) {
-		    	 if(quoteCharacter == null) {
-		    	     values.add(null);		    	
-		    	 } else {
-		    		 values.add(new StringBuilder().append(quoteCharacter).append(quoteCharacter).toString());
+		    	 if(quoteCharacter != null) {
+		    		 values[i] = new StringBuilder().append(quoteCharacter).append(quoteCharacter).toString();
 		    	 }
 		     }
 		}
-		return values.toArray();
+		return values;
 	}
 
 }

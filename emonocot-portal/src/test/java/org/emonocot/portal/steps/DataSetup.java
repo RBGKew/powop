@@ -6,8 +6,8 @@ import org.emonocot.portal.rows.*;
 import org.emonocot.test.TestDataManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import cucumber.annotation.After;
-import cucumber.annotation.en.Given;
+import cucumber.api.java.After;
+import cucumber.api.java.en.Given;
 
 /**
  *

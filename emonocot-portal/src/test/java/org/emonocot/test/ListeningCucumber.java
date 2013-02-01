@@ -6,7 +6,7 @@ import org.junit.runner.notification.RunListener;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.model.InitializationError;
 
-import cucumber.junit.Cucumber;
+import cucumber.api.junit.Cucumber;
 
 /**
  *

@@ -1,6 +1,7 @@
 package org.emonocot.persistence.dao.hibernate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +19,6 @@ import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
-
-import com.rc.retroweaver.runtime.Arrays;
 
 /**
  * @author ben
