@@ -29,7 +29,7 @@ public class CalculateDerivedPropertiesProcessor implements
 		
 		if(taxon.getTaxonRank().ordinal() <= Rank.ORDER.ordinal()) {
 			
-		} else if(taxon.getParentNameUsage() != null) {
+		} else if(taxon.getParentNameUsage() != null && taxon.getParentNameUsage().getTaxonRank() != null) {
 			if(taxon.getParentNameUsage().getTaxonRank().equals(Rank.ORDER)) {
 				taxon.setOrder(taxon.getParentNameUsage().getScientificName());
 			} else {
@@ -39,7 +39,7 @@ public class CalculateDerivedPropertiesProcessor implements
 		
         if(taxon.getTaxonRank().ordinal() <= Rank.FAMILY.ordinal()) {
 			
-		} else if(taxon.getParentNameUsage() != null) {
+		} else if(taxon.getParentNameUsage() != null && taxon.getParentNameUsage().getTaxonRank() != null) {
 			if(taxon.getParentNameUsage().getTaxonRank().equals(Rank.FAMILY)) {
 				taxon.setFamily(taxon.getParentNameUsage().getScientificName());
 			} else {
@@ -49,7 +49,7 @@ public class CalculateDerivedPropertiesProcessor implements
         
         if(taxon.getTaxonRank().ordinal() <= Rank.Subfamily.ordinal()) {
 			
-		} else if(taxon.getParentNameUsage() != null) {
+		} else if(taxon.getParentNameUsage() != null && taxon.getParentNameUsage().getTaxonRank() != null) {
 			if(taxon.getParentNameUsage().getTaxonRank().equals(Rank.Subfamily)) {
 				taxon.setSubfamily(taxon.getParentNameUsage().getScientificName());
 			} else {
@@ -59,7 +59,7 @@ public class CalculateDerivedPropertiesProcessor implements
         
         if(taxon.getTaxonRank().ordinal() <= Rank.Tribe.ordinal()) {
 			
-		} else if(taxon.getParentNameUsage() != null) {
+		} else if(taxon.getParentNameUsage() != null && taxon.getParentNameUsage().getTaxonRank() != null) {
 			if(taxon.getParentNameUsage().getTaxonRank().equals(Rank.Tribe)) {
 				taxon.setTribe(taxon.getParentNameUsage().getScientificName());
 			} else {
@@ -69,7 +69,7 @@ public class CalculateDerivedPropertiesProcessor implements
         
         if(taxon.getTaxonRank().ordinal() <= Rank.Subtribe.ordinal()) {
 			
-		} else if(taxon.getParentNameUsage() != null) {
+		} else if(taxon.getParentNameUsage() != null && taxon.getParentNameUsage().getTaxonRank() != null) {
 			if(taxon.getParentNameUsage().getTaxonRank().equals(Rank.Subtribe)) {
 				taxon.setSubtribe(taxon.getParentNameUsage().getScientificName());
 			} else {
