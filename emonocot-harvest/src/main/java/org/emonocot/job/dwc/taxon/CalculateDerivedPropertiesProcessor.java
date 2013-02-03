@@ -27,7 +27,7 @@ public class CalculateDerivedPropertiesProcessor implements
 			return null;
 		}
 		
-		if(taxon.getTaxonRank().ordinal() >= Rank.ORDER.ordinal()) {
+		if(taxon.getTaxonRank().ordinal() <= Rank.ORDER.ordinal()) {
 			
 		} else if(taxon.getParentNameUsage() != null) {
 			if(taxon.getParentNameUsage().getTaxonRank().equals(Rank.ORDER)) {
@@ -37,7 +37,7 @@ public class CalculateDerivedPropertiesProcessor implements
 			}	
 		}
 		
-        if(taxon.getTaxonRank().ordinal() >= Rank.FAMILY.ordinal()) {
+        if(taxon.getTaxonRank().ordinal() <= Rank.FAMILY.ordinal()) {
 			
 		} else if(taxon.getParentNameUsage() != null) {
 			if(taxon.getParentNameUsage().getTaxonRank().equals(Rank.FAMILY)) {
@@ -47,7 +47,7 @@ public class CalculateDerivedPropertiesProcessor implements
 			}	
 		}
         
-        if(taxon.getTaxonRank().ordinal() >= Rank.Subfamily.ordinal()) {
+        if(taxon.getTaxonRank().ordinal() <= Rank.Subfamily.ordinal()) {
 			
 		} else if(taxon.getParentNameUsage() != null) {
 			if(taxon.getParentNameUsage().getTaxonRank().equals(Rank.Subfamily)) {
@@ -57,7 +57,7 @@ public class CalculateDerivedPropertiesProcessor implements
 			}	
 		}
         
-        if(taxon.getTaxonRank().ordinal() >= Rank.Tribe.ordinal()) {
+        if(taxon.getTaxonRank().ordinal() <= Rank.Tribe.ordinal()) {
 			
 		} else if(taxon.getParentNameUsage() != null) {
 			if(taxon.getParentNameUsage().getTaxonRank().equals(Rank.Tribe)) {
@@ -67,7 +67,7 @@ public class CalculateDerivedPropertiesProcessor implements
 			}	
 		}
         
-        if(taxon.getTaxonRank().ordinal() >= Rank.Subtribe.ordinal()) {
+        if(taxon.getTaxonRank().ordinal() <= Rank.Subtribe.ordinal()) {
 			
 		} else if(taxon.getParentNameUsage() != null) {
 			if(taxon.getParentNameUsage().getTaxonRank().equals(Rank.Subtribe)) {
