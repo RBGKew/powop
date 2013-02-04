@@ -103,6 +103,7 @@
 				</div>
 			</div>
 		</c:if>
+
 		<div id="modal-gallery"
 			class="modal modal-gallery hide fade modal-fullscreen">
 			<div class="modal-header">
@@ -393,18 +394,18 @@
 								<h2 id="sectionHeader">
 									<spring:message code="taxonomicTree" />
 								</h2>
-								<ul id="taxonHierarchy">
-									<c:if test="${not empty taxon.higherClassification}">
+								<c:if test="${not empty taxon.higherClassification}">
+									<ul id="taxonHierarchy">
 										<tags:tree taxon="${taxon}" ancestors="${taxon.higherClassification}" />
-									</c:if>
-								</ul>
-								<ul class="citations">
-									<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.higherClassification)}">
-										<li>
-											<a href="#${provenanceHolder}">${provenanceHolder}</a>
-										</li>
-									</c:forEach>
-								</ul>
+									</ul>
+									<ul class="citations">
+										<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.higherClassification)}">
+											<li>
+												<a href="#${provenanceHolder}">${provenanceHolder}</a>
+											</li>
+										</c:forEach>
+									</ul>
+								</c:if>
 							</section>
 						</div>
 					</div>
