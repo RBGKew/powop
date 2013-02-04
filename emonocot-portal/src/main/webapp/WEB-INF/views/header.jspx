@@ -1,5 +1,5 @@
-<!--[if IE ]>
-   <div class="navbar navbar-inverse navbar-fixed-top" xmlns:jsp="http://java.sun.com/JSP/Page"
+<!--[if IE]>
+<div class="navbar navbar-inverse navbar-fixed-top" xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:form="http://www.springframework.org/tags/form"
@@ -15,19 +15,19 @@
 	xmlns:tiles="http://tiles.apache.org/tags-tiles">
 <!--<![endif]-->
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
-    <jsp:output omit-xml-declaration="yes" />
-    <div class="navbar-inner">
+	<jsp:output omit-xml-declaration="yes" />
+	<div class="navbar-inner">
 		<div class="container">
 			<c:url value="/" var="brandUrl"/>
 			<c:url value="/css/images/logo.png" var="brandImg"/>
 			<a href="${brandUrl}" class="brand"><img src="${brandImg}" height="48" width="172" alt="eMonocot"/></a>
 			<div class="noPrint">
-                <tiles:insertAttribute name="searchBox" ignore="true"/>
+				<tiles:insertAttribute name="searchBox" ignore="true"/>
 				<div class="pull-right noPrint">
 					<ul class="nav">
-						<security:authorize access="!isAuthenticated()">							
+						<security:authorize access="!isAuthenticated()">
 							<c:url value="/login" var="loginUrl" />
-						    <a href="${loginUrl}" class="btn btn-primary btn-small"><spring:message code="login"/></a>
+							<a href="${loginUrl}" class="btn btn-primary btn-small"><spring:message code="login"/></a>
 						</security:authorize>
 						<security:authorize access="isAuthenticated()">
 							<li class="dropdown" id="menuUser">
@@ -37,21 +37,21 @@
 								</a>
 								<ul class="dropdown-menu">
 									<li>
-									    <c:url value="/logout" var="logoutUrl"/> 
+										<c:url value="/logout" var="logoutUrl"/> 
 										<a href="${logoutUrl}"><i class="icon-off"><!--  --></i> <spring:message code="logout"/></a>
 									</li>
 									<li>
-									    <c:url value="/home" var="homeUrl"/>
-									    <a href="${homeUrl}"><i class="icon-user"><!--  --></i> <spring:message code="user.title"/></a>										
+										<c:url value="/home" var="homeUrl"/>
+										<a href="${homeUrl}"><i class="icon-user"><!--  --></i> <spring:message code="user.title"/></a>
 									</li>
-									<security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">										
+									<security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">
 										<li>
-										    <c:url value="/organisation" var="organisationsUrl"/> 
-										    <a href="${organisationsUrl}"><spring:message code="organisations.title"/></a>											
+											<c:url value="/organisation" var="organisationsUrl"/> 
+											<a href="${organisationsUrl}"><spring:message code="organisations.title"/></a>
 										</li>
 										<li>
-										    <c:url value="/group" var="groupsUrl"/>
-										    <a href="${groupsUrl}"><spring:message code="group.title"/></a>											
+											<c:url value="/group" var="groupsUrl"/>
+											<a href="${groupsUrl}"><spring:message code="group.title"/></a>
 										</li>
 									</security:authorize>
 								</ul>
