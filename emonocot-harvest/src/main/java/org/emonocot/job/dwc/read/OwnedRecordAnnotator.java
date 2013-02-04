@@ -92,9 +92,9 @@ public class OwnedRecordAnnotator extends AbstractRecordAnnotator implements Tas
 	      queryString = queryString.replaceAll(":jobId", stepExecution.getJobExecutionId().toString());
 	      queryString = queryString.replaceAll(":dateTime", OlapDateTimeUserType.convert(new DateTime()).toString());
 	      queryString = queryString.replaceAll(":annotatedObjType", annotatedObjType);
-	      logger.error(queryString);
+	      logger.debug(queryString);
 	      int numberUpdated = jdbcTemplate.update(queryString);
-	      logger.error(numberUpdated + " Annotation records inserted");
+	      logger.debug(numberUpdated + " Annotation records inserted");
 		return RepeatStatus.FINISHED;
 	}
 

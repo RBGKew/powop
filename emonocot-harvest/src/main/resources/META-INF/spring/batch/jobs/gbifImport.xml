@@ -27,7 +27,7 @@
 			<batch:tasklet ref="markTypeAndSpecimenRecordsTasklet" />
 			<batch:next on="COMPLETED" to="getGBIFData" />
 			<batch:listeners>
-				<batch:listener ref="recordAnnotator" />
+				<batch:listener ref="markTypeAndSpecimenRecordsTasklet" />
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
@@ -111,21 +111,10 @@
 		<property name="harvesterSpoolDirectory" value="${harvester.spool.directory}"/>
 	</bean>
 	
-	<bean id="markTypeAndSpecimenRecordsTasklet"
-		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
-		scope="step">
-		<property name="targetObject" ref="recordAnnotator" />
-		<property name="targetMethod" value="annotateRecords" />
-		<property name="arguments">
-			<list>
-				<value>#{jobParameters['authority.name']}</value>
-				<value>TypeAndSpecimen</value>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="recordAnnotator" class="org.emonocot.job.dwc.read.NonOwnedRecordAnnotator">
+	<bean id="markTypeAndSpecimenRecordsTasklet" class="org.emonocot.job.dwc.read.NonOwnedRecordAnnotator" scope="step">
 		<property name="dataSource" ref="dataSource" />
+		<property name="authorityName" value="#{jobParameters['authority.name']}" />
+		<property name="annotatedObjType" value="TypeAndSpecimen"/>			
 	</bean>
 	
 	<bean id="getGBIFDataTasklet"

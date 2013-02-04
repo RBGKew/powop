@@ -62,10 +62,10 @@
 		</batch:decision>
 		<batch:step id="markTaxonRecords">
 			<batch:description>Mark the taxon records we expect to be present in this archive</batch:description>
-			<batch:tasklet ref="markTaxonRecordsTasklet" />
+			<batch:tasklet ref="markTaxonRecordsForCheckingTasklet" />
 			<batch:next on="COMPLETED" to="checkCoreFile" />
 			<batch:listeners>
-				<batch:listener ref="markTaxonRecordsTasklet" />
+				<batch:listener ref="markTaxonRecordsForCheckingTasklet" />
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
@@ -89,10 +89,10 @@
 		</batch:step>
 		<batch:step id="markTaxonRecordsForImport">
 			<batch:description>Mark the taxon records we expect to be present in this archive</batch:description>
-			<batch:tasklet ref="markTaxonRecordsTasklet" />
+			<batch:tasklet ref="markTaxonRecordsForImportTasklet" />
 			<batch:next on="COMPLETED" to="importCoreFile" />
 			<batch:listeners>
-				<batch:listener ref="markTaxonRecordsTasklet" />
+				<batch:listener ref="markTaxonRecordsForImportTasklet" />
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
@@ -705,8 +705,17 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="authorityName" value="#{jobParameters['authority.name']}"/>	
 	</bean>
+	
+	<bean id="markTaxonRecordsForCheckingTasklet" class="org.emonocot.job.dwc.taxon.CheckingRecordAnnotator" scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
+		<property name="family" value="#{jobParameters['family']}"/>
+		<property name="subfamily" value="#{jobParameters['subfamily']}"/>
+		<property name="tribe" value="#{jobParameters['tribe']}"/>
+		<property name="subtribe" value="#{jobParameters['subtribe']}"/>
+	</bean>
 
-	<bean id="markTaxonRecordsTasklet" class="org.emonocot.job.dwc.taxon.SubsetRecordAnnotator"	scope="step">
+	<bean id="markTaxonRecordsForImportTasklet" class="org.emonocot.job.dwc.taxon.SubsetRecordAnnotator"	scope="step">
 		<property name="dataSource" ref="dataSource" />
 		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
 		<property name="family" value="#{jobParameters['family']}"/>
@@ -946,6 +955,10 @@
 		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
 		<property name="annotatedObjType" value="Image"/>
 		<property name="queryString" value="insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select distinct o.id, ':annotatedObjType', ':jobId', :dateTime, :authorityId, 'Warn', 'Absent', ':annotatedObjType' from Image o join Taxon_Image o_t on (o.id = o_t.images_id) join Taxon t on (o_t.Taxon_id = t.id) left join Taxon a on (t.acceptedNameUsage_id = a.id) where o.authority_id = :authorityId and (t.:subsetRank = ':subsetValue' or a.:subsetRank = ':subsetValue')"/>
+		<property name="family" value="#{jobParameters['family']}" />
+        <property name="subfamily" value="#{jobParameters['subfamily']}" />
+        <property name="tribe" value="#{jobParameters['tribe']}" />
+        <property name="subtribe" value="#{jobParameters['subtribe']}" />
 	</bean>
 
 	<bean id="imageReader" class="org.springframework.batch.item.file.FlatFileItemReader"
@@ -1073,6 +1086,10 @@
 		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
 		<property name="annotatedObjType" value="Reference"/>
 		<property name="queryString" value="insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select distinct o.id, ':annotatedObjType', ':jobId', :dateTime, :authorityId, 'Warn', 'Absent', ':annotatedObjType' from Reference o join Taxon_Reference o_t on (o.id = o_t.references_id) join Taxon t on (o_t.Taxon_id = t.id) left join Taxon a on (t.acceptedNameUsage_id = a.id) where o.authority_id = :authorityId and (t.:subsetRank = ':subsetValue' or a.:subsetRank = ':subsetValue')"/>
+		<property name="family" value="#{jobParameters['family']}" />
+        <property name="subfamily" value="#{jobParameters['subfamily']}" />
+        <property name="tribe" value="#{jobParameters['tribe']}" />
+        <property name="subtribe" value="#{jobParameters['subtribe']}" />
 	</bean>
 	
 	<bean id="referenceProcessingModeDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
@@ -1529,6 +1546,10 @@
 		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
 		<property name="annotatedObjType" value="TypeAndSpecimen"/>
 		<property name="queryString" value="insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select distinct o.id, ':annotatedObjType', ':jobId', :dateTime, :authorityId, 'Warn', 'Absent', ':annotatedObjType' from TypeAndSpecimen o join Taxon_TypeAndSpecimen o_t on (o.id = o_t.typesAndSpecimens_id) join Taxon t on (o_t.Taxon_id = t.id) left join Taxon a on (t.acceptedNameUsage_id = a.id) where o.authority_id = :authorityId and (t.:subsetRank = ':subsetValue' or a.:subsetRank = ':subsetValue')"/>
+		<property name="family" value="#{jobParameters['family']}" />
+        <property name="subfamily" value="#{jobParameters['subfamily']}" />
+        <property name="tribe" value="#{jobParameters['tribe']}" />
+        <property name="subtribe" value="#{jobParameters['subtribe']}" />
 	</bean>
 	
 	<bean id="typeAndSpecimenProcessingModeDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">

@@ -17,9 +17,9 @@ import org.springframework.batch.repeat.RepeatStatus;
  * @author ben
  *
  */
-public class SubsetRecordAnnotator extends AbstractRecordAnnotator implements Tasklet { 
+public class CheckingRecordAnnotator extends AbstractRecordAnnotator implements Tasklet { 
 	
-	Logger logger = LoggerFactory.getLogger(SubsetRecordAnnotator.class);
+	Logger logger = LoggerFactory.getLogger(CheckingRecordAnnotator.class);
 
 	private String authorityName;
 	
@@ -70,16 +70,16 @@ public class SubsetRecordAnnotator extends AbstractRecordAnnotator implements Ta
 	    	subsetRank = "family";
 	    	subsetValue = family;
 	    }
-	    String queryString = "insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select t.id, 'Taxon', ':jobId', :dateTime, :authorityId, 'Warn', 'Absent', 'Taxon' from Taxon t left join Taxon a on (t.acceptedNameUsage_id = a.id) where t.authority_id = :authorityId and (t.:subsetRank = ':subsetValue' or a.:subsetRank = ':subsetValue')";
+	    String queryString = "insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select t.id, 'Taxon', ':jobId', :dateTime, :authorityId, 'Warn', 'Absent', 'Taxon' from Taxon t left join Taxon a on (t.acceptedNameUsage_id = a.id) where (t.:subsetRank = ':subsetValue' or a.:subsetRank = ':subsetValue')";
 	    stepExecution.getJobExecution().getExecutionContext().putLong("job.execution.id", stepExecution.getJobExecutionId());
 	    queryString = queryString.replaceAll(":authorityId", authorityId.toString());
 	    queryString = queryString.replaceAll(":jobId", stepExecution.getJobExecutionId().toString());
 	    queryString = queryString.replaceAll(":dateTime", OlapDateTimeUserType.convert(new DateTime()).toString());
 	    queryString = queryString.replaceAll(":subsetRank", subsetRank);
 	    queryString = queryString.replaceAll(":subsetValue", subsetValue);
-	    logger.error(queryString);
+	    logger.debug(queryString);
 	    int numberOfRecords = jdbcTemplate.update(queryString);
-	    logger.error(numberOfRecords + " records inserted");
+	    logger.debug(numberOfRecords + " records inserted");
 		return RepeatStatus.FINISHED;
 	}
 }

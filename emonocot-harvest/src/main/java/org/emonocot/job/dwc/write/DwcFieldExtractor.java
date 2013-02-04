@@ -66,14 +66,18 @@ public class DwcFieldExtractor implements FieldExtractor<BaseData> {
 		    	 if(quoteCharacter == null) {
 		    	     values.add(value);
 		    	 } else if(value != null) {
-		    		 values.add(quoteCharacter + value + quoteCharacter);
+		    		 values.add(new StringBuilder().append(quoteCharacter).append(value).append(quoteCharacter).toString());
 		    	 } else {
-		    		 values.add(quoteCharacter + quoteCharacter);
+		    		 values.add(new StringBuilder().append(quoteCharacter).append(quoteCharacter).toString());
 		    	 }
 		     } catch(PropertyAccessException pae) {
 		    	 
 		     } catch(NullValueInNestedPathException nvinpe) {
-		    	 
+		    	 if(quoteCharacter == null) {
+		    	     values.add(null);		    	
+		    	 } else {
+		    		 values.add(new StringBuilder().append(quoteCharacter).append(quoteCharacter).toString());
+		    	 }
 		     }
 		}
 		return values.toArray();

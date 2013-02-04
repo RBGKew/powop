@@ -3,11 +3,15 @@ package org.emonocot.job.dwc.taxon;
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.Taxon;
 import org.gbif.ecat.voc.Rank;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
 
 
 public class CalculateDerivedPropertiesProcessor implements
 		ItemProcessor<Long, Taxon> {
+	
+	private static Logger logger = LoggerFactory.getLogger(CalculateDerivedPropertiesProcessor.class);
 	
 	private TaxonService taxonService;
 	
@@ -23,9 +27,9 @@ public class CalculateDerivedPropertiesProcessor implements
 			return null;
 		}
 		
-		if(taxon.getTaxonRank().ordinal() >= Rank.ORDER.ordinal()) {
+		if(taxon.getTaxonRank().ordinal() <= Rank.ORDER.ordinal()) {
 			
-		} else if(taxon.getParentNameUsage() != null) {
+		} else if(taxon.getParentNameUsage() != null && taxon.getParentNameUsage().getTaxonRank() != null) {
 			if(taxon.getParentNameUsage().getTaxonRank().equals(Rank.ORDER)) {
 				taxon.setOrder(taxon.getParentNameUsage().getScientificName());
 			} else {
@@ -33,9 +37,9 @@ public class CalculateDerivedPropertiesProcessor implements
 			}	
 		}
 		
-        if(taxon.getTaxonRank().ordinal() >= Rank.FAMILY.ordinal()) {
+        if(taxon.getTaxonRank().ordinal() <= Rank.FAMILY.ordinal()) {
 			
-		} else if(taxon.getParentNameUsage() != null) {
+		} else if(taxon.getParentNameUsage() != null && taxon.getParentNameUsage().getTaxonRank() != null) {
 			if(taxon.getParentNameUsage().getTaxonRank().equals(Rank.FAMILY)) {
 				taxon.setFamily(taxon.getParentNameUsage().getScientificName());
 			} else {
@@ -43,9 +47,9 @@ public class CalculateDerivedPropertiesProcessor implements
 			}	
 		}
         
-        if(taxon.getTaxonRank().ordinal() >= Rank.Subfamily.ordinal()) {
+        if(taxon.getTaxonRank().ordinal() <= Rank.Subfamily.ordinal()) {
 			
-		} else if(taxon.getParentNameUsage() != null) {
+		} else if(taxon.getParentNameUsage() != null && taxon.getParentNameUsage().getTaxonRank() != null) {
 			if(taxon.getParentNameUsage().getTaxonRank().equals(Rank.Subfamily)) {
 				taxon.setSubfamily(taxon.getParentNameUsage().getScientificName());
 			} else {
@@ -53,9 +57,9 @@ public class CalculateDerivedPropertiesProcessor implements
 			}	
 		}
         
-        if(taxon.getTaxonRank().ordinal() >= Rank.Tribe.ordinal()) {
+        if(taxon.getTaxonRank().ordinal() <= Rank.Tribe.ordinal()) {
 			
-		} else if(taxon.getParentNameUsage() != null) {
+		} else if(taxon.getParentNameUsage() != null && taxon.getParentNameUsage().getTaxonRank() != null) {
 			if(taxon.getParentNameUsage().getTaxonRank().equals(Rank.Tribe)) {
 				taxon.setTribe(taxon.getParentNameUsage().getScientificName());
 			} else {
@@ -63,9 +67,9 @@ public class CalculateDerivedPropertiesProcessor implements
 			}	
 		}
         
-        if(taxon.getTaxonRank().ordinal() >= Rank.Subtribe.ordinal()) {
+        if(taxon.getTaxonRank().ordinal() <= Rank.Subtribe.ordinal()) {
 			
-		} else if(taxon.getParentNameUsage() != null) {
+		} else if(taxon.getParentNameUsage() != null && taxon.getParentNameUsage().getTaxonRank() != null) {
 			if(taxon.getParentNameUsage().getTaxonRank().equals(Rank.Subtribe)) {
 				taxon.setSubtribe(taxon.getParentNameUsage().getScientificName());
 			} else {

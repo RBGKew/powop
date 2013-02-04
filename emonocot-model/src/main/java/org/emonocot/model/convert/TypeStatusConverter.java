@@ -10,7 +10,7 @@ public class TypeStatusConverter implements Converter<String, TypeStatus> {
 		if(source == null || source.trim().isEmpty()) {
 			return null;
 		} else {
-			return TypeStatus.valueOf(source);
+			return TypeStatus.valueOf(source.toLowerCase());
 		}
 	}
 

@@ -216,6 +216,9 @@ public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> implements Chu
         }
     }
 
+    /**
+     * TODO move reference handling code into processor
+     */
     private Reference handleReference(String value) {
 		if (value != null && value.trim().length() > 0) {
 			Reference reference = null;
