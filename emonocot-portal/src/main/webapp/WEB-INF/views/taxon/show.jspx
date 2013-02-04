@@ -14,7 +14,11 @@
 				alt="Taxon" /> <span class="taxonName">${taxon.scientificName}</span>
 			${taxon.scientificNameAuthorship}
 		</h2>
-		<small id="protologue">${taxon.namePublishedInString}</small>		
+		<small id="protologue">${taxon.namePublishedInString}
+            <a rel="tooltip" data-placement="right" title="Give us feedback." data-toggle="modal" href="#feedbackModal">
+	            <i class="halflings-icon comments"><!--  --></i>
+	        </a>
+		</small>
 	</tags:pageheader>
 
 	<div class="container">
@@ -157,6 +161,9 @@
 										<div>
 											<h2>
 												<spring:message code="${feature}" />
+												<a class="pull right" rel="tooltip" data-placement="right" title="Give us feedback." data-toggle="modal" href="#feedbackModal">
+	                                                <i class="halflings-icon comments"><!--  --></i>
+	                                            </a>
 											</h2>
 										</div>
 										<p class="justified">${content.description}</p>
@@ -186,6 +193,9 @@
 							<div class="box clearfix">
 								<h2>
 									<spring:message code="distribution.map" />
+	                                <a class="pull right" rel="tooltip" data-placement="right" title="Give us feedback." data-toggle="modal" href="#feedbackModal">
+	                                    <i class="halflings-icon comments"><!--  --></i>
+	                                </a>
 								</h2>
 								<geo:map bounds="${em:boundingBox(taxon)}"
 									mapClass="taxon-page-map">
@@ -234,6 +244,9 @@
 							<div class="box clearfix">
 								<h2>
 									<spring:message code="children" />
+	                                <a class="pull right" rel="tooltip" data-placement="right" title="Give us feedback." data-toggle="modal" href="#feedbackModal">
+	                                    <i class="halflings-icon comments"><!--  --></i>
+	                                </a>
 								</h2>
 								<ul class="unstyled">
 									<c:forEach var="child" items="${em:sort(taxon.childNameUsages)}">
@@ -265,6 +278,9 @@
 							<div class="box clearfix">
 								<h2>
 									<spring:message code="synonyms" />
+	                                <a class="pull right" rel="tooltip" data-placement="right" title="Give us feedback." data-toggle="modal" href="#feedbackModal">
+	                                    <i class="halflings-icon comments"><!--  --></i>
+	                                </a>
 								</h2>
 								<ul class="unstyled">
 									<c:forEach var="synonym" items="${em:sort(taxon.synonymNameUsages)}">
@@ -371,6 +387,9 @@
 							<div class="box clearfix">
 								<h2>
 									<spring:message code="bibliography" />
+	                                <a class="pull right" rel="tooltip" data-placement="right" title="Give us feedback." data-toggle="modal" href="#feedbackModal">
+	                                    <i class="halflings-icon comments"><!--  --></i>
+	                                </a>
 								</h2>
 								<ul>
 									<c:forEach var="reference" items="${bibliography.references}">
@@ -393,6 +412,9 @@
 							<section class="sidebarBox" id="taxonomicTree">
 								<h2 id="sectionHeader">
 									<spring:message code="taxonomicTree" />
+	                                <a class="pull right" rel="tooltip" data-placement="right" title="Give us feedback." data-toggle="modal" href="#feedbackModal">
+	                                    <i class="halflings-icon comments"><!--  --></i>
+	                                </a>
 								</h2>
 								<c:if test="${not empty taxon.higherClassification}">
 									<ul id="taxonHierarchy">
@@ -414,7 +436,11 @@
 					<div class="inner">
 						<div class="box">
 							<section class="sidebarBox" id="identifiers">
-								<h2><spring:message code="identifiers" /></h2>
+								<h2><spring:message code="identifiers" />
+	                                <a class="pull right" rel="tooltip" data-placement="right" title="Give us feedback." data-toggle="modal" href="#feedbackModal">
+	                                    <i class="halflings-icon comments"><!--  --></i>
+	                                </a>
+								</h2>
 								<c:forEach var="identifier" items="${taxon.identifiers}">
 									<a href="${identifier.identifier}" title="${fn:escapeXml(identifier.title)}">${identifier.title}</a>
 								</c:forEach>
@@ -432,7 +458,13 @@
 				<div class="inner">
 					<div class="box dataBox">
 						<section class="sidebarBox" id="taxonData">
-							<h2><i class="glyphicons-icon table"><!-- --></i> <spring:message code="taxonData" /></h2>
+							<h2>
+                                <i class="glyphicons-icon table"><!-- --></i> 
+                                <spring:message code="taxonData" />
+                                <a class="pull right" rel="tooltip" data-placement="right" title="Give us feedback." data-toggle="modal" href="#feedbackModal">
+                                    <i class="halflings-icon comments"><!--  --></i>
+                                </a>
+                            </h2>
 							<table class="table" id="data">
 								<tbody>
 									<c:forEach var="measurement" items="${em:measurements()}">
@@ -506,4 +538,49 @@
 			</div>
 		</div>
 	</div>
+    <div id="feedbackModal" class="modal hide fade">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+            <h3><spring:message code="feedbackTitle" /></h3>
+        </div>
+        <form class="modal-form" action="/comment" method="post">
+            <div class="modal-body">
+	            <div class="control-group">
+                    We're working on this at the moment.  We'd like to know what you want! Currently only commenting on Descriptions or the taxon are supported
+	                <label class="control-label" for="select01"><spring:message
+	                        code="feedback.topic.option" /></label>
+	                <div class="controls">
+	                    <select name="aboutDataIdentifier">
+		                    <!-- <option value="${option.identifier}"></option> -->
+		                    <spring:message code="description" var="messageDescription"/>
+		                    <option id="${taxon.identifier}" value="${taxon.identifier}">${taxon.scientificName} ${messageDescription}</option>
+		                    <c:forEach var="feature" items="${em:features()}">
+		                        <c:set var="content" value="${em:content(taxon,feature)}" />
+		                        <c:if test="${content != null}">
+		                            <option id="${content.identifier}" value="${content.identifier}"><spring:message code="${feature}" /></option>
+		                        </c:if>
+		                    </c:forEach>
+		                    <spring:message code="distribution.map" var="messageDistribution"/>
+		                    <option id="${taxon.identifier}" value="${taxon.identifier}">${messageDistribution}</option>
+		                    <option value="childX">Subordinate taxa</option><!-- This is defined by the child, different modal? Simple message? -->
+		                    <option value="synX">Synonyms</option><!-- This is defined by the synonym, different modal? Simple message? -->
+		                    <option value="${taxon.identifier}"><spring:message code="taxonomicTree" /></option>
+		                    <option value="datX">Data</option>
+		                    <option value="${taxon.identifier}"><spring:message code="feedback.option.other" /></option>
+	                    </select>
+	                </div>
+	            </div>
+	            <div class="control-group">
+	                <div class="controls">
+	                    <textarea class="input-xlarge" name="comment" rows="3"><!--  --></textarea>
+	                </div>
+	            </div>
+	        </div>
+	        <div class="modal-footer">
+	            <button class="btn" data-dismiss="modal"><spring:message code="button.close" /></button>
+                <a href="mailto:ict-team@about.e-monoocot.org?subject=Helping%20to%20develop%20the%20feedback%20feature" class="btn btn-primary"><spring:message code="button.submit" /> email</a>
+                <button type="submit" class="btn btn-primary"><spring:message code="button.submit" /></button>
+	        </div>
+       </form>
+    </div>
 </div>
