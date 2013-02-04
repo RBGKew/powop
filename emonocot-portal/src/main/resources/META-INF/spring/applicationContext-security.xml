@@ -91,7 +91,7 @@
 		<property name="shared" value="true" />
 	</bean>
 
-
+    <!-- MD5 values can be produced using 'echo -n your_desired_password{your_desired_username} | md5sum' (using normal *nix environments) -->
 	<bean id="passwordEncoder"
 		class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
 

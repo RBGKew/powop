@@ -1,4 +1,4 @@
-package org.emonocot.model.util;
+package org.emonocot.model.compare;
 
 import java.util.Comparator;
 

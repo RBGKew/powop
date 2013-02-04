@@ -23,11 +23,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import cucumber.api.java.After;
+import cucumber.api.java.en.And;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
-import cucumber.annotation.After;
-import cucumber.annotation.en.And;
-import cucumber.annotation.en.Then;
-import cucumber.annotation.en.When;
+
+
 
 /**
  * @author ben

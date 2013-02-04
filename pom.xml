@@ -606,11 +606,6 @@
 				<version>5.1.15</version>
 			</dependency>
 			<dependency>
-				<groupId>com.sybase</groupId>
-				<artifactId>jconnect</artifactId>
-				<version>6.0.5</version>
-			</dependency>
-			<dependency>
 				<groupId>xmlunit</groupId>
 				<artifactId>xmlunit</artifactId>
 				<version>1.3</version>
@@ -817,7 +812,7 @@
 			<dependency>
 				<groupId>info.cukes</groupId>
 				<artifactId>cucumber-spring</artifactId>
-				<version>1.0.1-emonocot</version>
+				<version>1.1.1</version>
 				<scope>test</scope>
 				<exclusions>
 					<exclusion>
@@ -829,7 +824,7 @@
 			<dependency>
 				<groupId>info.cukes</groupId>
 				<artifactId>cucumber-junit</artifactId>
-				<version>1.0.1-emonocot</version>
+				<version>1.1.1</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -873,12 +868,7 @@
 				      <artifactId>commons-logging</artifactId>
 				    </exclusion>
 				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.olap4j</groupId>
-				<artifactId>olap4j</artifactId>
-				<version>0.9.9.393</version>
-			</dependency>
+			</dependency>	
 			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>jsp-api</artifactId>
@@ -1450,8 +1440,7 @@
 				<liquibase.url>jdbc:mysql://localhost:3336/emonocot</liquibase.url>
 				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
 				<solr.url>http://localhost:8983/solr</solr.url>
-				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
-				<mondrian.catalog.location>jndi:/localhost/WEB-INF/classes/META-INF/olap/olap.xml</mondrian.catalog.location>
+				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>			
 				<spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
 				<spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
 				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
@@ -1495,8 +1484,7 @@
 				<liquibase.changelog>../emonocot-persistence/src/main/resources/changelog.mysql.xml</liquibase.changelog>
 				<liquibase.url>jdbc:mysql://localhost:3336/emonocot</liquibase.url>
 				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>				
-				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
-				<mondrian.catalog.location>jndi:/localhost/WEB-INF/classes/META-INF/olap/olap.xml</mondrian.catalog.location>
+				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>				
 				<spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
 				<spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
 				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>

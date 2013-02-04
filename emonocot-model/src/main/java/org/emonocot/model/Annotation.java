@@ -246,7 +246,7 @@ public class Annotation extends Base implements Searchable {
     /**
      * @return the dateTime
      */
-    @Type(type = "olapDateTime")
+    @Type(type="dateTimeUserType")
     public DateTime getDateTime() {
         return dateTime;
     }

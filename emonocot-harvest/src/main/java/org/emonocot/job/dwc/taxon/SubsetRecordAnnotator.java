@@ -1,9 +1,10 @@
 package org.emonocot.job.dwc.taxon;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.emonocot.job.dwc.read.AbstractRecordAnnotator;
-import org.emonocot.model.hibernate.OlapDateTimeUserType;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.StepContribution;
@@ -20,8 +21,6 @@ import org.springframework.batch.repeat.RepeatStatus;
 public class SubsetRecordAnnotator extends AbstractRecordAnnotator implements Tasklet { 
 	
 	Logger logger = LoggerFactory.getLogger(SubsetRecordAnnotator.class);
-
-	private String authorityName;
 	
 	private String subtribe;
 	
@@ -30,10 +29,6 @@ public class SubsetRecordAnnotator extends AbstractRecordAnnotator implements Ta
 	private String subfamily;
 	
 	private String family;
-
-	public void setAuthorityName(String authorityName) {
-		this.authorityName = authorityName;
-	}
 
 	public void setSubtribe(String subtribe) {
 		this.subtribe = subtribe;
@@ -53,7 +48,6 @@ public class SubsetRecordAnnotator extends AbstractRecordAnnotator implements Ta
 
 	@Override
 	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-		Integer authorityId = jdbcTemplate.queryForInt("Select id from Organisation where identifier = '" + authorityName + "'");
 	    String subsetRank = null;
 	    String subsetValue = null;
 	      
@@ -70,16 +64,13 @@ public class SubsetRecordAnnotator extends AbstractRecordAnnotator implements Ta
 	    	subsetRank = "family";
 	    	subsetValue = family;
 	    }
-	    String queryString = "insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select t.id, 'Taxon', ':jobId', :dateTime, :authorityId, 'Warn', 'Absent', 'Taxon' from Taxon t left join Taxon a on (t.acceptedNameUsage_id = a.id) where t.authority_id = :authorityId and (t.:subsetRank = ':subsetValue' or a.:subsetRank = ':subsetValue')";
-	    stepExecution.getJobExecution().getExecutionContext().putLong("job.execution.id", stepExecution.getJobExecutionId());
-	    queryString = queryString.replaceAll(":authorityId", authorityId.toString());
-	    queryString = queryString.replaceAll(":jobId", stepExecution.getJobExecutionId().toString());
-	    queryString = queryString.replaceAll(":dateTime", OlapDateTimeUserType.convert(new DateTime()).toString());
-	    queryString = queryString.replaceAll(":subsetRank", subsetRank);
-	    queryString = queryString.replaceAll(":subsetValue", subsetValue);
-	    logger.error(queryString);
-	    int numberOfRecords = jdbcTemplate.update(queryString);
-	    logger.error(numberOfRecords + " records inserted");
+	    String queryString = "insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select t.id, 'Taxon', :jobId, :dateTime, :authorityId, 'Warn', 'Absent', 'Taxon' from Taxon t left join Taxon a on (t.acceptedNameUsage_id = a.id) where t.authority_id = :authorityId and (t.#subsetRank = :subsetValue or a.#subsetRank = :subsetValue)";
+	    queryString = queryString.replaceAll("#subsetRank", subsetRank);
+	    Map<String, Object> queryParameters = new HashMap<String,Object>();
+	    queryParameters.put(":subsetValue", subsetValue);
+	    logger.debug(queryString);
+	    int numberOfRecords = annotate(queryString, queryParameters);
+	    logger.debug(numberOfRecords + " records inserted");
 		return RepeatStatus.FINISHED;
 	}
 }

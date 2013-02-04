@@ -33,7 +33,7 @@
 							<field:input field="jobId" label="resource.jobId" fieldClass="span6"/>
 							<field:input field="status" label="resource.status" fieldClass="span6"/>
 							<field:datetime field="startTime" label="resource.startTime" fieldClass="span6"/>
-							<field:datetime field="duration" label="resource.duration" fieldClass="span6"/>
+							<field:input field="duration" label="resource.duration" fieldClass="span6"/>
 							<field:input field="exitCode" label="resource.exitCode" fieldClass="span6"/>
 							<field:input field="exitDescription" label="resource.exitDescription" fieldClass="span6"/>
 							<field:input field="recordsRead" label="resource.recordsRead" fieldClass="span6"/>

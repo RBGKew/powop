@@ -26,6 +26,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
 import org.springframework.batch.core.BatchStatus;
 
 /**
@@ -56,7 +57,7 @@ public class Resource extends Base {
 
 	private String exitCode;
 
-	private DateTime duration;
+	private Duration duration;
 
 	private String exitDescription;
 
@@ -286,8 +287,8 @@ public class Resource extends Base {
 	/**
 	 * @return the duration
 	 */
-	@Type(type = "dateTimeUserType")
-	public DateTime getDuration() {
+	@Type(type = "durationUserType")
+	public Duration getDuration() {
 		return duration;
 	}
 
@@ -295,7 +296,7 @@ public class Resource extends Base {
 	 * @param newDuration
 	 *            Set the duration
 	 */
-	public void setDuration(DateTime newDuration) {
+	public void setDuration(Duration newDuration) {
 		this.duration = newDuration;
 	}
 

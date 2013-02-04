@@ -127,7 +127,7 @@
 								</tr>
 								<tr>
 									<th><spring:message code="resource.duration" /></th>
-									<td id="duration">${em:printTimeOnly(resource.duration)}</td>
+									<td id="duration">${em:duration(resource.duration)}</td>
 								</tr>
 								<tr>
 									<th><spring:message code="resource.exitCode" /></th>

@@ -28,19 +28,7 @@
 						    <field:hidden field="identifier"/>
 						    <field:hidden field="organisation"/>
 							<field:input field="title" label="resource.title" fieldClass="span6"/>
-							<field:input field="uri" label="resource.uri" fieldClass="span6"/>
-							<field:datetime field="lastHarvested" label="resource.lastHarvested" fieldClass="span6"/>
-							<field:input field="jobId" label="resource.jobId" fieldClass="span6"/>
-							<field:input field="status" label="resource.status" fieldClass="span6"/>
-							<field:datetime field="startTime" label="resource.startTime" fieldClass="span6"/>
-							<field:datetime field="duration" label="resource.duration" fieldClass="span6"/>	
-							<field:input field="exitCode" label="resource.exitCode" fieldClass="span6"/>	
-							<field:input field="exitDescription" label="resource.exitDescription" fieldClass="span6"/>
-							<field:input field="recordsRead" label="resource.recordsRead" fieldClass="span6"/>
-							<field:input field="readSkip" label="resource.readSkip" fieldClass="span6"/>
-							<field:input field="processSkip" label="resource.processSkip" fieldClass="span6"/>
-							<field:input field="writeSkip" label="resource.writeSkip" fieldClass="span6"/>
-							<field:input field="written" label="resource.written" fieldClass="span6"/>
+							<field:input field="uri" label="resource.uri" fieldClass="span6"/>							
 							<field:select field="resourceType" label="resource.resourceType" fieldClass="span6" items="${resourceTypes}"/>
 						</form:create>
 					</div>

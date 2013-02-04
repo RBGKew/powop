@@ -10,7 +10,7 @@ import org.emonocot.model.Image;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.TypeAndSpecimen;
-import org.emonocot.model.util.RankBasedTaxonComparator;
+import org.emonocot.model.compare.RankBasedTaxonComparator;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
