@@ -31,8 +31,8 @@ import org.emonocot.model.constants.Status;
 import org.emonocot.model.convert.ClassToStringConverter;
 import org.emonocot.model.convert.PermissionToStringConverter;
 import org.emonocot.model.registry.Organisation;
-import org.emonocot.model.util.AlphabeticalTaxonComparator;
-import org.emonocot.model.util.LocationComparator;
+import org.emonocot.model.compare.AlphabeticalTaxonComparator;
+import org.emonocot.model.compare.LocationComparator;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.view.bibliography.Bibliography;
 import org.emonocot.portal.view.bibliography.SimpleBibliographyImpl;
@@ -43,10 +43,12 @@ import org.gbif.ecat.voc.Rank;
 import org.gbif.ecat.voc.TaxonomicStatus;
 import org.hibernate.proxy.HibernateProxy;
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
 import org.joda.time.Interval;
 import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.PeriodFormat;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 import org.springframework.batch.core.BatchStatus;
@@ -331,6 +333,14 @@ public class Functions {
        List<Taxon> list = new ArrayList<Taxon>(taxa);
        Collections.sort(list, comparator);
        return list;
+   }
+   
+   public static String duration(Duration duration) {
+	   if(duration == null) {
+		   return null;
+	   } else {
+		   return PeriodFormat.getDefault().print(new Period(duration));
+	   }
    }
 
     /**

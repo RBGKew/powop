@@ -1,11 +1,7 @@
 package org.emonocot.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 

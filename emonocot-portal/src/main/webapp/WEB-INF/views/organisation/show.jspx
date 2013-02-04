@@ -103,7 +103,7 @@
 											<td><spring:message code="${resource.resourceType}" text="${resource.resourceType}"/></td>
 											<td><tags:jobstatus status="${resource.status}"/></td>
 											<td><joda:format value="${resource.startTime}" style="MM" /></td>
-											<td>${em:printTimeOnly(resource.duration)}</td>
+											<td>${em:duration(resource.duration)}</td>
 											<td><tags:jobstatus status="${resource.exitCode}"/></td>
 											<td>${resource.recordsRead + resource.readSkip}</td>											
 											<td>${resource.written}</td>

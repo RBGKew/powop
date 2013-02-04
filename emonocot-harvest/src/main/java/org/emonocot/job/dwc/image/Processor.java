@@ -10,7 +10,7 @@ import org.emonocot.job.dwc.read.NonOwnedProcessor;
 import org.emonocot.model.Image;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.RecordType;
-import org.emonocot.model.util.RankBasedTaxonComparator;
+import org.emonocot.model.compare.RankBasedTaxonComparator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ItemWriteListener;

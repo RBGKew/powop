@@ -1,7 +1,10 @@
 package org.emonocot.job.dwc.read;
 
-import org.emonocot.model.hibernate.OlapDateTimeUserType;
-import org.joda.time.DateTime;
+
+
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.StepContribution;
@@ -11,9 +14,8 @@ import org.springframework.batch.repeat.RepeatStatus;
 
 
 public class NonOwnedSubsetRecordAnnotator extends AbstractRecordAnnotator implements Tasklet {
-	private Logger logger = LoggerFactory.getLogger(NonOwnedSubsetRecordAnnotator.class);
 	
-    private String authorityName;
+	private Logger logger = LoggerFactory.getLogger(NonOwnedSubsetRecordAnnotator.class);
 	
 	private String subtribe;
 	
@@ -26,10 +28,6 @@ public class NonOwnedSubsetRecordAnnotator extends AbstractRecordAnnotator imple
 	private String queryString;
 
 	private String annotatedObjType;
-
-	public void setAuthorityName(String authorityName) {
-		this.authorityName = authorityName;
-	}
 
 	public void setSubtribe(String subtribe) {
 		this.subtribe = subtribe;
@@ -57,8 +55,6 @@ public class NonOwnedSubsetRecordAnnotator extends AbstractRecordAnnotator imple
 
 	@Override
 	public RepeatStatus execute(StepContribution contribution,	ChunkContext chunkContext) throws Exception {
-		Integer authorityId = jdbcTemplate.queryForInt("Select id from Organisation where identifier = '" + authorityName + "'");
-	    stepExecution.getJobExecution().getExecutionContext().putLong("job.execution.id", stepExecution.getJobExecutionId());
 	      
 	    String subsetRank = null;
 	    String subsetValue = null;
@@ -75,18 +71,13 @@ public class NonOwnedSubsetRecordAnnotator extends AbstractRecordAnnotator imple
 	    } else if(family != null) {
 	    	subsetRank = "family";
 	    	subsetValue = family;
-	    }
-	      
-	    queryString = queryString.replaceAll(":authorityId", authorityId.toString());
-	    if(subsetValue != null) {
-	      queryString = queryString.replaceAll(":subsetRank", subsetRank);
-          queryString = queryString.replaceAll(":subsetValue", subsetValue);
-	    }
-	    queryString = queryString.replaceAll(":jobId", stepExecution.getJobExecutionId().toString());
-	    queryString = queryString.replaceAll(":dateTime", OlapDateTimeUserType.convert(new DateTime()).toString());
-	    queryString = queryString.replaceAll(":annotatedObjType", annotatedObjType);
-	    logger.info(queryString);
-	    jdbcTemplate.update(queryString);
+	    }	      
+	   
+	    Map<String,Object> annotationParameters = new HashMap<String,Object>();
+	    queryString = queryString.replaceAll("#subsetRank", subsetRank);
+	    annotationParameters.put("subsetValue", subsetValue);
+	    annotationParameters.put("annotatedObjType", annotatedObjType);
+        super.annotate(queryString, annotationParameters);
 		return RepeatStatus.FINISHED;
 	}
 }
