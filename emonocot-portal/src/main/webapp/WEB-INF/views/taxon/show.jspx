@@ -6,6 +6,7 @@
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:geo="urn:jsptagdir:/WEB-INF/tags/geo"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <spring:message code="distribution.map" var="messageDistribution"/>
 	<tags:pageheader>
 		<c:url value="/css/images/glyphicons/fullsize/glyphicons_001_leaf.png"
 			var="taxonIconUrl" />
@@ -14,11 +15,8 @@
 				alt="Taxon" /> <span class="taxonName">${taxon.scientificName}</span>
 			${taxon.scientificNameAuthorship}
 		</h2>
-		<small id="protologue">${taxon.namePublishedInString}
-            <a rel="tooltip" data-placement="right" title="Give us feedback." data-toggle="modal" href="#feedbackModal">
-	            <i class="halflings-icon comments"><!--  --></i>
-	        </a>
-		</small>
+		<small id="protologue" class="span">${taxon.namePublishedInString}</small>
+		<span class="pull-left"><tags:feedbackLink selector="option:contains(${taxon.scientificName})" dataName="${taxon.scientificName}" /></span>
 	</tags:pageheader>
 
 	<div class="container">
@@ -161,9 +159,7 @@
 										<div>
 											<h2>
 												<spring:message code="${feature}" />
-												<a class="pull right" rel="tooltip" data-placement="right" title="Give us feedback." data-toggle="modal" href="#feedbackModal">
-	                                                <i class="halflings-icon comments"><!--  --></i>
-	                                            </a>
+												<tags:feedbackLink selector="option:contains(${feature})" dataName="${feature}" />
 											</h2>
 										</div>
 										<p class="justified">${content.description}</p>
@@ -193,9 +189,7 @@
 							<div class="box clearfix">
 								<h2>
 									<spring:message code="distribution.map" />
-	                                <a class="pull right" rel="tooltip" data-placement="right" title="Give us feedback." data-toggle="modal" href="#feedbackModal">
-	                                    <i class="halflings-icon comments"><!--  --></i>
-	                                </a>
+									<tags:feedbackLink selector="option:contains(${messageDistribution})" dataName="${messageDistribution}" />
 								</h2>
 								<geo:map bounds="${em:boundingBox(taxon)}"
 									mapClass="taxon-page-map">
@@ -244,9 +238,7 @@
 							<div class="box clearfix">
 								<h2>
 									<spring:message code="children" />
-	                                <a class="pull right" rel="tooltip" data-placement="right" title="Give us feedback." data-toggle="modal" href="#feedbackModal">
-	                                    <i class="halflings-icon comments"><!--  --></i>
-	                                </a>
+	                                <tags:feedbackLink selector="option#childX" dataName="a child taxon" />
 								</h2>
 								<ul class="unstyled">
 									<c:forEach var="child" items="${em:sort(taxon.childNameUsages)}">
@@ -278,9 +270,7 @@
 							<div class="box clearfix">
 								<h2>
 									<spring:message code="synonyms" />
-	                                <a class="pull right" rel="tooltip" data-placement="right" title="Give us feedback." data-toggle="modal" href="#feedbackModal">
-	                                    <i class="halflings-icon comments"><!--  --></i>
-	                                </a>
+	                                <tags:feedbackLink selector="option#synX" dataName="a synonym" />
 								</h2>
 								<ul class="unstyled">
 									<c:forEach var="synonym" items="${em:sort(taxon.synonymNameUsages)}">
@@ -411,10 +401,8 @@
 						<div id="classificationBox" class="box">
 							<section class="sidebarBox" id="taxonomicTree">
 								<h2 id="sectionHeader">
-									<spring:message code="taxonomicTree" />
-	                                <a class="pull right" rel="tooltip" data-placement="right" title="Give us feedback." data-toggle="modal" href="#feedbackModal">
-	                                    <i class="halflings-icon comments"><!--  --></i>
-	                                </a>
+									<spring:message code="taxonomicTree" var="treeHeader"/>${treeHeader}
+	                                <tags:feedbackLink selector="option:contains(${treeHeader})" dataName="${treeHeader}" />
 								</h2>
 								<c:if test="${not empty taxon.higherClassification}">
 									<ul id="taxonHierarchy">
@@ -436,10 +424,8 @@
 					<div class="inner">
 						<div class="box">
 							<section class="sidebarBox" id="identifiers">
-								<h2><spring:message code="identifiers" />
-	                                <a class="pull right" rel="tooltip" data-placement="right" title="Give us feedback." data-toggle="modal" href="#feedbackModal">
-	                                    <i class="halflings-icon comments"><!--  --></i>
-	                                </a>
+								<h2><spring:message code="identifiers" var="idHeader"/>${idHeader}
+	                                <tags:feedbackLink selector="option:contains(${idHeader})" dataName="${idHeader}" />
 								</h2>
 								<c:forEach var="identifier" items="${taxon.identifiers}">
 									<a href="${identifier.identifier}" title="${fn:escapeXml(identifier.title)}">${identifier.title}</a>
@@ -460,10 +446,8 @@
 						<section class="sidebarBox" id="taxonData">
 							<h2>
                                 <i class="glyphicons-icon table"><!-- --></i> 
-                                <spring:message code="taxonData" />
-                                <a class="pull right" rel="tooltip" data-placement="right" title="Give us feedback." data-toggle="modal" href="#feedbackModal">
-                                    <i class="halflings-icon comments"><!--  --></i>
-                                </a>
+                                <spring:message code="taxonData" var="dataHeader"/>${dataHeader}
+                                <tags:feedbackLink selector="option#datX" dataName="${dataHeader}" />
                             </h2>
 							<table class="table" id="data">
 								<tbody>
@@ -546,26 +530,35 @@
         <form class="modal-form" action="/comment" method="post">
             <div class="modal-body">
 	            <div class="control-group">
-                    We're working on this at the moment.  We'd like to know what you want! Currently only commenting on Descriptions or the taxon are supported
+                    We're working on this at the moment and would like to know what you want!<br/>
 	                <label class="control-label" for="select01"><spring:message
 	                        code="feedback.topic.option" /></label>
 	                <div class="controls">
 	                    <select name="aboutDataIdentifier">
 		                    <!-- <option value="${option.identifier}"></option> -->
-		                    <spring:message code="description" var="messageDescription"/>
-		                    <option id="${taxon.identifier}" value="${taxon.identifier}">${taxon.scientificName} ${messageDescription}</option>
+                            <option id="${taxon.identifier}" value="${taxon.identifier}">${taxon.scientificName}</option>
+                            <spring:message code="description" var="messageDescription"/>
+                            <c:if test="${not empty taxon.descriptions}">
+                                <option id="${taxon.identifier}" value="${taxon.identifier}">${messageDescription} (please select below)</option>
+                            </c:if>
 		                    <c:forEach var="feature" items="${em:features()}">
 		                        <c:set var="content" value="${em:content(taxon,feature)}" />
 		                        <c:if test="${content != null}">
 		                            <option id="${content.identifier}" value="${content.identifier}"><spring:message code="${feature}" /></option>
 		                        </c:if>
 		                    </c:forEach>
-		                    <spring:message code="distribution.map" var="messageDistribution"/>
-		                    <option id="${taxon.identifier}" value="${taxon.identifier}">${messageDistribution}</option>
-		                    <option value="childX">Subordinate taxa</option><!-- This is defined by the child, different modal? Simple message? -->
-		                    <option value="synX">Synonyms</option><!-- This is defined by the synonym, different modal? Simple message? -->
-		                    <option value="${taxon.identifier}"><spring:message code="taxonomicTree" /></option>
-		                    <option value="datX">Data</option>
+		                    <c:if test="${not empty taxon.distribution}">
+                                <option id="${taxon.identifier}" value="${taxon.identifier}">${messageDistribution} (please select below)</option>
+                            </c:if>
+							<c:forEach var="distribution" items="${taxon.distribution}">
+							    <option id="${distribution.identifier}" value="${distribution.identifier}">
+							        <spring:message code="${distribution.location.toString()}" />
+						        </option>                                    
+							</c:forEach>
+		                    <option id="childX" value="childX">Subordinate taxa</option><!-- This is defined by the child, different modal? Simple message? -->
+		                    <option id="synX" value="synX">Synonyms</option><!-- This is defined by the synonym, different modal? Simple message? -->
+		                    <option value="${taxon.identifier}">${treeHeader}</option>
+		                    <option id="datX" value="datX">Data</option>
 		                    <option value="${taxon.identifier}"><spring:message code="feedback.option.other" /></option>
 	                    </select>
 	                </div>

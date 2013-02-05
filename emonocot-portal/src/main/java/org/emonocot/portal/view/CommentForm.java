@@ -15,17 +15,18 @@ public class CommentForm {
     /**
      * 
      */
+    @Size(min = 5)
     private String comment;
     
     /**
      * 
      */
+    @NotNull
     private String aboutDataIdentifier;
 
     /**
      * @return the comment
      */
-    @Size(min = 5)
     public String getComment() {
         return comment;
     }
@@ -40,7 +41,6 @@ public class CommentForm {
     /**
      * @return the aboutDataIdentifier
      */
-    @NotNull
     public String getAboutDataIdentifier() {
         return aboutDataIdentifier;
     }
