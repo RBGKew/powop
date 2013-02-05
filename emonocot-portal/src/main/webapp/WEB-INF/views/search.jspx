@@ -5,7 +5,7 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:results="urn:jsptagdir:/WEB-INF/tags/results"
-	xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu"	
+	xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu"
 	xmlns:spring="http://www.springframework.org/tags">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />

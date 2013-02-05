@@ -31,13 +31,13 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="jsonConverter"
 		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
 		<property name="supportedMediaTypes" value="application/json" />
 		<property name="objectMapper" ref="customObjectMapper" />
 	</bean>
-	
+
 	<mvc:view-controller path="/" view-name="index"/>
 	<mvc:view-controller path="/tour" view-name="tour"/>
 	<mvc:view-controller path="/termsOfUse" view-name="termsOfUse"/>
@@ -45,6 +45,7 @@
     <mvc:view-controller path="/uncaughtException" view-name="uncaughtException"/>
     <mvc:view-controller path="/resourceNotFound" view-name="resourceNotFound"/>
     <mvc:view-controller path="/methodNotAllowed" view-name="methodNotAllowed"/>
+    <mvc:view-controller path="/badRequest" view-name="badRequest"/>
     <mvc:view-controller path="/contact" view-name="contact"/>
 
 	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
@@ -61,6 +62,12 @@
 				<bean class="org.emonocot.model.convert.StringToOrganisationConverter">
 					<property name="organisationService" ref="organisationServiceImpl" />
 				</bean>
+                <bean class="org.emonocot.model.convert.PrincipalToUserConverter">
+                    <property name="service" ref="userServiceImpl" />
+                </bean>
+                <bean class="org.emonocot.model.convert.SpringAuthToUserConverter">
+                    <property name="service" ref="userServiceImpl" />
+                </bean>
 			</set>
 		</property>
 		<property name="formatterRegistrars">
