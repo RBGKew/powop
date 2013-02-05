@@ -1,4 +1,4 @@
-package org.emonocot.model.geography;
+package org.emonocot.model.compare;
 
 import static org.junit.Assert.assertEquals;
 
@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.emonocot.model.constants.Location;
-import org.emonocot.model.util.LocationComparator;
+import org.emonocot.model.compare.LocationComparator;
 import org.junit.Test;
 
 /**

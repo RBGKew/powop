@@ -1,6 +1,7 @@
 package org.emonocot.persistence.dao.hibernate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -21,8 +22,6 @@ import org.hibernate.proxy.LazyInitializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateObjectRetrievalFailureException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-
-import com.rc.retroweaver.runtime.Arrays;
 
 /**
  *

@@ -51,9 +51,11 @@
 	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
 		<property name="converters">
 			<set>
-				<ref bean="aceDtoConverter" />
+				<bean class="org.emonocot.portal.convert.AceDtoConverter" />
 				<bean class="org.emonocot.model.convert.StringToPermissionConverter" />
 				<bean class="org.emonocot.model.convert.PermissionToStringConverter" />
+				<bean class="org.emonocot.model.convert.StringToDurationConverter" />
+				<bean class="org.emonocot.model.convert.DurationToStringConverter" />
 				<bean class="org.emonocot.model.convert.StringToClassConverter" />
 				<bean class="org.emonocot.model.convert.ClassToStringConverter" />
 				<bean class="org.emonocot.model.convert.OrganisationToStringConverter" />
@@ -74,12 +76,9 @@
 				<bean class="org.emonocot.portal.format.PermissionFormatterRegistrar" />
 			</set>
 		</property>
-	</bean>
+	</bean>	
 
-	<bean name="aceDtoConverter" class="org.emonocot.portal.convert.AceDtoConverter" />	
-
-	<bean id="validator"
-		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />	
 
 	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver"
 		id="tilesViewResolver">

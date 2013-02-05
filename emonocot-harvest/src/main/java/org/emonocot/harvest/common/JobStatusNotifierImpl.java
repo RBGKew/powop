@@ -5,6 +5,8 @@ import org.emonocot.api.job.JobExecutionException;
 import org.emonocot.api.job.JobExecutionInfo;
 import org.emonocot.api.job.JobStatusNotifier;
 import org.emonocot.model.registry.Resource;
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.BatchStatus;
@@ -48,7 +50,7 @@ public class JobStatusNotifierImpl implements JobStatusNotifier {
         Resource resource = service.find(jobExecutionInfo.getResourceIdentifier());
 		if (resource != null) {
 			resource.setJobId(jobExecutionInfo.getId());
-			resource.setDuration(jobExecutionInfo.getDuration());
+			resource.setDuration(new Duration(new DateTime(0), jobExecutionInfo.getDuration()));
 			resource.setExitCode(jobExecutionInfo.getExitCode());
 			resource.setExitDescription(jobExecutionInfo.getExitDescription());
 			if (jobExecutionInfo.getJobInstance() != null) {

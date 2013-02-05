@@ -29,6 +29,11 @@
         <function-signature>java.lang.String printTimeOnly(org.joda.time.DateTime)</function-signature>
     </function>
     <function>
+        <name>duration</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.String duration(org.joda.time.Duration)</function-signature>
+    </function>
+    <function>
         <name>abbreviateRank</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>java.lang.String abbreviateRank(org.gbif.ecat.voc.Rank)</function-signature>

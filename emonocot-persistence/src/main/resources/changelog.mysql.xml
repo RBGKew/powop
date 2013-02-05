@@ -3628,4 +3628,49 @@
           <column name="nonce" type="varchar(255)"/>
         </addColumn>
     </changeSet>
+    <changeSet id="2013-02-04_01" author="ben">
+      <comment>Refactoring model - dateTime now conventional timestamp</comment>
+      <sql>update Annotation set dateTime = NULL</sql>
+    </changeSet>    
+    <changeSet id="2013-02-04_02" author="ben">
+      <comment>Refactoring model - dateTime now conventional timestamp</comment>
+      <modifyDataType tableName="Annotation" columnName="dateTime" newDataType="datetime"/>
+    </changeSet>
+    <changeSet id="2013-02-04_03" author="ben">
+      <comment>Refactoring model - dateTime now conventional timestamp</comment>
+      <dropTable tableName="Region"/>
+    </changeSet>
+    <changeSet id="2013-02-04_04" author="ben">
+      <sql>DROP PROCEDURE IF EXISTS populateDate;</sql>
+    </changeSet>
+    <changeSet id="2013-02-04_05" author="ben">
+      <comment>Refactoring model - dateTime now conventional timestamp</comment>
+      <dropTable tableName="Time"/>
+    </changeSet>
+    <changeSet id="2013-02-04_06" author="ben">
+      <comment>Refactoring model - duration now a PersistentDuration</comment>
+      <sql>update Resource set duration = NULL</sql>
+    </changeSet>
+    <changeSet id="2013-02-04_07" author="ben">
+      <comment>Refactoring model - duration now a PersistentDuration</comment>
+      <modifyDataType tableName="Resource" columnName="duration" newDataType="varchar(255)"/>
+    </changeSet>
+    <changeSet id="2013-02-05_01" author="ben">
+      <comment>Refactoring model - Scheduled harvesting, adding columns</comment>
+      <addColumn tableName="Resource">
+        <column name="scheduled" type="boolean"/>
+      </addColumn>      
+    </changeSet>
+    <changeSet id="2013-02-05_02" author="ben">
+      <comment>Refactoring model - Scheduled harvesting, adding columns</comment>
+      <addColumn tableName="Resource">
+        <column name="schedulingPeriod" type="varchar(255)"/>
+      </addColumn>      
+    </changeSet>
+    <changeSet id="2013-02-05_03" author="ben">
+      <comment>Refactoring model - Scheduled harvesting, adding columns</comment>
+      <addColumn tableName="Resource">
+        <column name="nextAvailableDate" type="datetime"/>
+      </addColumn>      
+    </changeSet>
 </databaseChangeLog>

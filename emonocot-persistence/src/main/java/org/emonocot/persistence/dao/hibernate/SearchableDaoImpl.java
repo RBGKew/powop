@@ -13,8 +13,6 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.params.FacetParams;
 import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.Base;
-import org.emonocot.model.Identifiable;
-import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.pager.DefaultPageImpl;
 import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.SearchableDao;
