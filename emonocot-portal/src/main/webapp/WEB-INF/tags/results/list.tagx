@@ -21,10 +21,10 @@
 						<a class="result" href="${itemUrl}" title="${em:stripXml(item.scientificName)}">
 							<c:choose>
 								<c:when test="${em:isAccepted(item)}">
-									<h4 class="h4Results title-bold"><em>${item.scientificName}</em> ${item.scientificNameAuthorship}</h4>
+									<h4 class="h4Results"><strong><em>${item.scientificName}</em> ${item.scientificNameAuthorship}</strong></h4>
 								</c:when>
 								<c:otherwise>
-									<h4 class="h4Results title-no-bold"><em>${item.scientificName}</em> ${item.scientificNameAuthorship}</h4>
+									<h4 class="h4Results"><em>${item.scientificName}</em> ${item.scientificNameAuthorship}</h4>
 								</c:otherwise>
 							</c:choose>
 						</a>

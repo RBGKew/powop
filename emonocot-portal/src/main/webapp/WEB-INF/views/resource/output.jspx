@@ -36,7 +36,7 @@
 	</tags:pageheader>
 	<div class="container">
 		<div class="row">
-		    <div id="facets" class="span3 noPrint">
+		    <div id="facets" class="span3 no-print>
 				<c:forEach var="facetName" items="${result.facetNames}">
   				  <c:choose>
 					<c:when test="${facetName eq 'annotation.job_id_l'}">
@@ -59,7 +59,7 @@
 			<div class="span9">
 				<div class="inner">
 					<div class="box">
-					    <div class="row noPrint">							
+					    <div class="rowno-printnt">							
 							<tags:sort url="/resource/${resource.id}/output" result="${result}" sortItems="${em:annotationSortItems()}" spanClass="pull-right" />
 						</div>
 						<br/>

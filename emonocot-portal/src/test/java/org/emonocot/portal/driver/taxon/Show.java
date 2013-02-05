@@ -1,7 +1,5 @@
 package org.emonocot.portal.driver.taxon;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 import org.emonocot.portal.driver.IllustratedPage;
@@ -97,7 +95,7 @@ public class Show extends PageObject implements IllustratedPage {
      * @return the page title
      */
     public final String getTaxonName() {
-        return title.findElement(By.xpath("span")).getText();
+        return title.findElement(By.xpath("em")).getText();
     }
 
     /**
@@ -106,7 +104,7 @@ public class Show extends PageObject implements IllustratedPage {
      * @return the class of the page title
      */
     public final String getTaxonNameStyle(final String attribute) {
-        return title.findElement(By.xpath("span")).getCssValue(attribute);
+        return title.findElement(By.xpath("em")).getCssValue(attribute);
     }
 
     /**

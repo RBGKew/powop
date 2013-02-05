@@ -18,7 +18,7 @@
 	  <c:set var="zoomBoxSearch" value="false"/>
 	</c:if>
 	
-	<div id="map" class="noPrint ${mapClass}">&#160;</div>
+	<div id="map" class="no-print${mapClass}">&#160;</div>
 	
 	<c:url var="openlayersImageLocation" value="/css/images/OpenLayers/" />
 	<spring:message code="web.map.server.url" var="wmsUrl"/>

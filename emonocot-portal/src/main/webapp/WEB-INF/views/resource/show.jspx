@@ -106,6 +106,18 @@
 									</td>
 								</tr>
 								<tr>
+									<th><spring:message code="resource.scheduled" /></th>
+									<td id="scheduled">${resource.scheduled}</td>
+								</tr>
+								<tr>
+									<th><spring:message code="resource.schedulingPeriod" /></th>
+									<td id="schedulingPeriod"><spring:message code="${resource.schedulingPeriod}" text="${resource.schedulingPeriod}"/></td>
+								</tr>
+								<tr>
+									<th><spring:message code="resource.nextAvailableDate" /></th>
+									<td id="nextAvailableDate"><joda:format value="${resource.nextAvailableDate}" style="MM" /></td>
+								</tr>
+								<tr>
 									<th><spring:message code="resource.lastHarvested" /></th>
 									<td id="lastHarvested"><joda:format value="${resource.lastHarvested}" style="MM" /></td>
 								</tr>

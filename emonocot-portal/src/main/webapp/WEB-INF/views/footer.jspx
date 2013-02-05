@@ -20,7 +20,7 @@
 		<a href="${brandUrl}">
 		  <div id="footer-logo"><!-- --></div>
 		</a>
-		<ul class="foot unstyled noPrint">
+		<ul class="foot unstyled no-print>
 			<li>
 			  <c:url value="/about" var="aboutUrl" />
 			  <a href="${aboutUrl}"><spring:message code="about.title" /></a>
@@ -34,7 +34,7 @@
 			  <a href="${termsOfUseUrl}"><spring:message code="termsOfUse.title" /></a>
 			</li>
 		</ul>
-		<ul class="foot unstyled noPrint">
+		<ul class="foot unstyledno-printnt">
 		  <li class="footer-version">
 			eMonocot <spring:message code="application.version" />
 		  </li>

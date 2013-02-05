@@ -8,7 +8,7 @@
 
 	<tags:pageheader>
 			<c:url value="/css/images/glyphicons/fullsize/glyphicons_159_picture.png" var="imageIconUrl"/>			
-			<h2 id="page-title"> <img src="${imageIconUrl}" class="pull-left noPrint header-icon" alt="Image"/> ${image.title}</h2>
+			<h2 id="page-title"> <img src="${imageIconUrl}" class="pull-left no-printheader-icon" alt="Image"/> ${image.title}</h2>
 			<br/>
 	</tags:pageheader>
 
@@ -17,13 +17,9 @@
 		<div class="span9">
 			<c:if test="${not empty image.taxon.scientificName}">
 				<h5>
+				    <c:url value="/taxon/${image.taxon.identifier}"  var="taxonUrl"/>
 					<spring:message code="imageOf" />:
-					<jsp:element name="a">
-						<jsp:attribute name="href">
-							<c:url value="/taxon/${image.taxon.identifier}" />
-						</jsp:attribute>
-						<span class="taxonName">${image.taxon.scientificName}</span> ${image.taxon.scientificNameAuthorship}
-					</jsp:element>
+					<a href="${taxonUrl}"><em>${image.taxon.scientificName}</em> ${image.taxon.scientificNameAuthorship}</a>					
 				</h5>
 			</c:if>
 			<br/>
@@ -89,7 +85,7 @@
 			</section>
 	<c:if test="${not empty image.taxon.images}">
 			<div class="container">
-			<h2 class="noPrint"><spring:message code="related.images"/></h2>
+			<h2 class=no-printnt"><spring:message code="related.images"/></h2>
 			<div id="images" data-toggle="modal-gallery" data-target="#modal-gallery">
 				<div class="row">
 					<div class="carousel slide span12" id="carousel">
