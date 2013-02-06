@@ -14,7 +14,7 @@
 			<img src="${taxonIconUrl}" class="pull-left no-print header-icon" alt="Taxon" /> <em>${taxon.scientificName}</em> ${taxon.scientificNameAuthorship}
 		</h2>
 		<small id="protologue" class="span">${taxon.namePublishedInString}</small>
-		<span class="pull-left"><tags:feedbackLink selector="option:contains(${taxon.scientificName})" dataName="${taxon.scientificName}" /></span>
+		<span class="pull-left"><tags:feedbackLink selector="option:contains(${taxon.scientificName} ${taxon.scientificNameAuthorship})" dataName="${taxon.scientificName}" /></span>
 	</tags:pageheader>
 
 	<div class="container">
@@ -156,8 +156,8 @@
 									<div id="${feature}" class="box clearfix">
 										<div>
 											<h2>
-												<spring:message code="${feature}" />
-												<tags:feedbackLink selector="option:contains(${feature})" dataName="${feature}" />
+												<spring:message code="${feature}" var="featureHeader"/>${featureHeader}
+												<tags:feedbackLink selector="option:contains(${featureHeader})" dataName="${featureHeader}" />
 											</h2>
 										</div>
 										<p class="justified">${content.description}</p>
@@ -235,8 +235,8 @@
 						<div class="inner">
 							<div class="box clearfix">
 								<h2>
-									<spring:message code="children" />
-	                                <tags:feedbackLink selector="option#childX" dataName="a child taxon" />
+									<spring:message code="children" var="childrenHeader"/>${childrenHeader}
+	                                <tags:feedbackLink selector="option:contains(${childrenHeader})" dataName="${childrenHeader}" />
 								</h2>
 								<ul class="unstyled">
 									<c:forEach var="child" items="${em:sort(taxon.childNameUsages)}">
@@ -267,8 +267,8 @@
 						<div class="inner">
 							<div class="box clearfix">
 								<h2>
-									<spring:message code="synonyms" />
-	                                <tags:feedbackLink selector="option#synX" dataName="a synonym" />
+									<spring:message code="synonyms" var="synonymsHeader"/>${synonymsHeader}
+	                                <tags:feedbackLink selector="option:contains(${synonymsHeader})" dataName="${synonymsHeader}" />
 								</h2>
 								<ul class="unstyled">
 									<c:forEach var="synonym" items="${em:sort(taxon.synonymNameUsages)}">
@@ -374,10 +374,8 @@
 						<div class="inner">
 							<div class="box clearfix">
 								<h2>
-									<spring:message code="bibliography" />
-	                                <a class="pull right" rel="tooltip" data-placement="right" title="Give us feedback." data-toggle="modal" href="#feedbackModal">
-	                                    <i class="halflings-icon comments"><!--  --></i>
-	                                </a>
+									<spring:message code="bibliography" var="bibliographyHeader"/>${bibliographyHeader}
+	                                <tags:feedbackLink selector="$(option:contains(${bibliographyHeader}))" dataName="${bibliographyHeader}" />
 								</h2>
 								<ul>
 									<c:forEach var="reference" items="${bibliography.references}">
@@ -534,7 +532,7 @@
 	                <div class="controls">
 	                    <select name="aboutDataIdentifier">
 		                    <!-- <option value="${option.identifier}"></option> -->
-                            <option id="${taxon.identifier}" value="${taxon.identifier}">${taxon.scientificName}</option>
+                            <option id="${taxon.identifier}" value="${taxon.identifier}">${taxon.scientificName} ${taxon.scientificNameAuthorship}</option>
                             <spring:message code="description" var="messageDescription"/>
                             <c:if test="${not empty taxon.descriptions}">
                                 <option id="${taxon.identifier}" value="${taxon.identifier}">${messageDescription} (please select below)</option>
@@ -553,8 +551,19 @@
 							        <spring:message code="${distribution.location.toString()}" />
 						        </option>                                    
 							</c:forEach>
-		                    <option id="childX" value="childX">Subordinate taxa</option><!-- This is defined by the child, different modal? Simple message? -->
-		                    <option id="synX" value="synX">Synonyms</option><!-- This is defined by the synonym, different modal? Simple message? -->
+                            <c:if test="${not empty taxon.childNameUsages}">
+                                <option id="childX" value="childX">${childrenHeader} (please select below)</option>
+                            </c:if>
+		                    <c:forEach var="child" items="${em:sort(taxon.childNameUsages)}">
+                            <!-- This is defined by the child, different modal? Simple message? -->
+                                <option id="${child.identifier}" value="${child.identifier}">${child.scientificName} ${child.scientificNameAuthorship}</option>
+		                    </c:forEach>
+		                    <c:if test="${not empty taxon.synonymNameUsages}">
+                                <option id="synX" value="synX">${synonymsHeader} (please select below)</option>
+                            </c:if>
+                            <c:forEach var="synonym" items="${em:sort(taxon.synonymNameUsages)}">
+                                <option id="${synonym.identifier}" value="${synonym.identifier}">${synonym.scientificName} ${synonym.scientificNameAuthorship}</option>
+                            </c:forEach><!-- This is defined by the synonym, different modal? Simple message? -->
 		                    <option value="${taxon.identifier}">${treeHeader}</option>
 		                    <option id="datX" value="datX">Data</option>
 		                    <option value="${taxon.identifier}"><spring:message code="feedback.option.other" /></option>
@@ -569,7 +578,7 @@
 	        </div>
 	        <div class="modal-footer">
 	            <button class="btn" data-dismiss="modal"><spring:message code="button.close" /></button>
-                <a href="mailto:ict-team@about.e-monoocot.org?subject=Helping%20to%20develop%20the%20feedback%20feature" class="btn btn-primary"><spring:message code="button.submit" /> email</a>
+                <!-- <a href="mailto:ict-team@about.e-monoocot.org?subject=Helping%20to%20develop%20the%20feedback%20feature" class="btn btn-primary"><spring:message code="button.submit" /> email</a> -->
                 <button type="submit" class="btn btn-primary"><spring:message code="button.submit" /></button>
 	        </div>
        </form>
