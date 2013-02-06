@@ -15,7 +15,7 @@
 	<tags:pageheader>
 			<div class="row">
 				<h2 id="page-title" class="span6">
-				  <img class="pull-left no-print alt="Search" src="${mapSearchImageBig}"/>
+				  <img class="pull-left no-print" alt="Search" src="${mapSearchImageBig}"/>
 				  ${mapSearchTitle}
 				</h2>
 				
@@ -74,7 +74,7 @@
     </geo:map>
     <div class="container">
 		<div class="row">
-			<div id="facets" class="span3no-printnt">
+			<div id="facets" class="span3 no-print">
 				<c:forEach var="facetName" items="${result.facetNames}">
 				  <div class="row">
 					<div class="span3">
@@ -99,7 +99,7 @@
 			  <div class="inner">
 			    <div class="box">
                   <br/>
-                  <div class="rono-printint">
+                  <div class="row no-print">
                     <div id="viewIcons" class="span3">
                       <tags:view url="/spatial" result="${result}"/>
                     </div>
@@ -158,7 +158,7 @@
 						});
 					</script>
 				  </div>
-				  <div class="rno-printrint">
+				  <div class="row no-print">
                     <div class="pagination pull-right">
                         <tags:pagination pager="${result}" url="/spatial"/>
                     </div>

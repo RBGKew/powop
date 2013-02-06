@@ -19,7 +19,7 @@
 							value="/css/images/glyphicons/halfsize/glyphicons_044_keys.png"
 							var="keyIconUrl" />
 						<div class="row pull-right">
-							<img src="${keyIconUrl}" class="no-print alt="KeyLegend" />
+							<img src="${keyIconUrl}" class="no-print" alt="KeyLegend" />
 							<div class="span4 pull-right">
 								<spring:message code="keyLegend" />
 							</div>

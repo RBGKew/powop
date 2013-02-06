@@ -11,9 +11,9 @@
 		<div class="container">
 			<c:url value="/" var="brandUrl"/>			
 			<a href="${brandUrl}" class="brand"><span>eMonocot</span></a>
-			<div class="no-print>
+			<div class="no-print">
 				<tiles:insertAttribute name="searchBox" ignore="true"/>
-				<div class="pull-rightno-printnt">					
+				<div class="pull-right no-print">					
 						<security:authorize access="!isAuthenticated()">
 							<c:url value="/login" var="loginUrl" />
 							<a href="${loginUrl}" class="btn btn-primary"><spring:message code="login"/></a>

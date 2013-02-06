@@ -94,7 +94,7 @@ public class Show extends PageObject implements IllustratedPage {
      *
      * @return the page title
      */
-    public final String getTaxonName() {
+    public String getTaxonName() {
         return title.findElement(By.xpath("em")).getText();
     }
 
@@ -103,7 +103,7 @@ public class Show extends PageObject implements IllustratedPage {
      * @param attribute Set the CSS attribute you're interested in
      * @return the class of the page title
      */
-    public final String getTaxonNameStyle(final String attribute) {
+    public String getTaxonNameStyle(String attribute) {
         return title.findElement(By.xpath("em")).getCssValue(attribute);
     }
 
@@ -112,9 +112,8 @@ public class Show extends PageObject implements IllustratedPage {
      * @param heading Set the heading
      * @return a paragraph with that title
      */
-    public final String getParagraph(final String heading) {
-        WebElement element = description.findElement(By
-                .xpath("div/div[div/h2 = '" + heading + "']/p"));
+    public String getParagraph(String heading) {    	
+        WebElement element = description.findElement(By.xpath("div/div[h2/span='" + heading + "']/p"));
         return element.getText();
     }
     
@@ -125,10 +124,10 @@ public class Show extends PageObject implements IllustratedPage {
      * @param heading Set the heading
      * @return true if paragraph exists, false otherwise
      */
-    public final boolean doesParagraphExist(final String heading) {
+    public boolean doesParagraphExist(String heading) {
         try {
             WebElement element = description.findElement(By
-                .xpath("div[div/h2 = '" + heading + "']/p"));
+                .xpath("div/div[h2/span='" + heading + "']/p"));
         } catch (NoSuchElementException e) {
             return false;
         }
@@ -139,7 +138,7 @@ public class Show extends PageObject implements IllustratedPage {
      *
      * @return the protologue
      */
-    public final String getProtologue() {
+    public String getProtologue() {
         return protologue.getText();
     }
 
@@ -147,7 +146,7 @@ public class Show extends PageObject implements IllustratedPage {
      * @param property Set the property to get
      * @return the caption of the main image
      */
-    public final String getMainImageProperty(final String property) {
+    public String getMainImageProperty(String property) {
         return mainImage.findElement(By.className("ad-image-description"))
                 .getText();
     }
@@ -156,7 +155,7 @@ public class Show extends PageObject implements IllustratedPage {
      *
      * @return the url of the main image
      */
-    public final String getMainImage() {
+    public String getMainImage() {
     	String src = mainImage.findElement(By.tagName("img")).getAttribute("src");
     	return src.substring(src.lastIndexOf("/") + 1); 
     }
@@ -165,7 +164,7 @@ public class Show extends PageObject implements IllustratedPage {
      *
      * @return the number of thumbnails
      */
-    public final int getThumbnails() {
+    public int getThumbnails() {
         return thumbnailContainer.findElements(By.tagName("li")).size();
     }
 
@@ -173,7 +172,7 @@ public class Show extends PageObject implements IllustratedPage {
      *
      * @return the url of the distribution map
      */
-    public final String getDistributionMap() {
+    public String getDistributionMap() {
         return map.getAttribute("src");
     }
 
@@ -181,7 +180,7 @@ public class Show extends PageObject implements IllustratedPage {
      *
      * @param thumbnail Set the thumbnail
      */
-    public final void selectThumbnail(final Integer thumbnail) {
+    public void selectThumbnail(Integer thumbnail) {
         List<WebElement> thumbnails = thumbnailContainer.findElements(By
                 .xpath("li/a"));
         thumbnails.get(thumbnail - 1).click();
@@ -191,7 +190,7 @@ public class Show extends PageObject implements IllustratedPage {
      *
      * @return the image page
      */
-    public final PageObject selectMainImage() {
+    public PageObject selectMainImage() {
         String link = mainImage.findElement(
                 By.xpath("div[@class='ad-image']/a")).getAttribute("href");
         return openAs(link, org.emonocot.portal.driver.image.Show.class);
@@ -202,7 +201,7 @@ public class Show extends PageObject implements IllustratedPage {
      * @param thumbnail Set the thumbnail number
      * @return the caption
      */
-    public final String getThumbnailCaption(final int thumbnail) {
+    public String getThumbnailCaption(int thumbnail) {
         List<WebElement> thumbnails = thumbnailContainer.findElements(By
                 .xpath("li/a/img"));
         return thumbnails.get(thumbnail - 1).getAttribute("title");
@@ -213,7 +212,7 @@ public class Show extends PageObject implements IllustratedPage {
     * @param thumbnail Set the thumbnail number
     * @return the image
     */
-    public final String getThumbnailImage(final int thumbnail) {
+    public String getThumbnailImage(int thumbnail) {
         List<WebElement> thumbnails = thumbnailContainer.findElements(By
                 .xpath("li/a"));
         return thumbnails.get(thumbnail - 1).getAttribute("href");
@@ -223,7 +222,7 @@ public class Show extends PageObject implements IllustratedPage {
      *
      * @return the number of ancestors
      */
-    public final Integer getAncestorsNumber() {
+    public Integer getAncestorsNumber() {
         return ancestors.size();
     }
 
@@ -231,7 +230,7 @@ public class Show extends PageObject implements IllustratedPage {
      *
      * @return the subordinate taxa
      */
-    public final String getSubordinateTaxa() {
+    public String getSubordinateTaxa() {
         return children.getText();
     }
 
@@ -239,7 +238,7 @@ public class Show extends PageObject implements IllustratedPage {
      *
      * @return the number of children
      */
-    public final Integer getChildrenNumber() {
+    public Integer getChildrenNumber() {
         return subordinateNumber.size();
     }
 
@@ -248,7 +247,7 @@ public class Show extends PageObject implements IllustratedPage {
      * @param citeKey The citation key of the bibliography entry of interest
      * @return the bibliography entry
      */
-    public final String getBibliographyEntry(final String citeKey) {
+    public String getBibliographyEntry(String citeKey) {
         WebElement bibliography = webDriver.findElement(By.id("bibliography"));
         WebElement element = bibliography.findElement(By
                 .xpath("div/div/ul/li[a = '" + citeKey + "']"));
@@ -260,7 +259,7 @@ public class Show extends PageObject implements IllustratedPage {
     * @param provenanceKey The key of the provenance entry of interest
     * @return the provenance entry
     */
-   public final String getProvenanceEntry(final String provenanceKey) {
+   public String getProvenanceEntry(String provenanceKey) {
        WebElement provenance = webDriver.findElement(By.id("sources"));
        WebElement provenanceElement = provenance.findElement(By
                .xpath("div/div/dl/dd/ul/li[a/@id = '" + provenanceKey + "']"));
@@ -273,9 +272,9 @@ public class Show extends PageObject implements IllustratedPage {
      * @param topic The text topic
      * @return the citations for that topic
      */
-    public final String getCitations(final String topic) {
+    public String getCitations(String topic) {
         WebElement element = description.findElement(By
-                .xpath("div/div[div/h2 = '" + topic + "']/ul[@class='citations']"));
+                .xpath("div/div[h2/span = '" + topic + "']/ul[@class='citations']"));
         return element.getText();
     }
 
@@ -283,12 +282,12 @@ public class Show extends PageObject implements IllustratedPage {
      *
      * @return the protolog link
      */
-    public final String getProtologueLink() {
+    public String getProtologueLink() {
         WebElement link = protologue.findElement(By.tagName("a"));
         return link.getAttribute("href");
     }
 
-	public final String getTextualDistribution() {
+	public String getTextualDistribution() {
 		return textualDistribution.getText();
 	}
 

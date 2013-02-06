@@ -16,5 +16,5 @@
 			<c:url var="thumbnail" value="/css/images/no_image.jpg"/>
 		</c:otherwise>
 	</c:choose>
-	<a class="result thumbnail" href="${itemUrl}" rel="tooltip" title="${fn:escapeXml(itemName)}"><img src="${thumbnail}" /></a><p class="hideemName}</p>
+	<a class="result thumbnail" href="${itemUrl}" rel="tooltip" title="${fn:escapeXml(itemName)}"><img src="${thumbnail}" /></a><p class="hide">${itemName}</p>
 </li>

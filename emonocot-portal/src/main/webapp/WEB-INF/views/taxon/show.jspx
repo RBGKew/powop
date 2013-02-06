@@ -5,11 +5,9 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:geo="urn:jsptagdir:/WEB-INF/tags/geo"
-	xmlns:spring="http://www.springframework.org/tags" version="2.0">
-    <spring:message code="distribution.map" var="messageDistribution"/>
+	xmlns:spring="http://www.springframework.org/tags">
 	<tags:pageheader>
-		<c:url value="/css/images/glyphicons/fullsize/glyphicons_001_leaf.png"
-			var="taxonIconUrl" />
+		<c:url value="/css/images/glyphicons/fullsize/glyphicons_001_leaf.png" var="taxonIconUrl" />
 		<h2 id="page-title">
 			<img src="${taxonIconUrl}" class="pull-left no-print header-icon" alt="Taxon" /> <em>${taxon.scientificName}</em> ${taxon.scientificNameAuthorship}
 		</h2>
@@ -153,15 +151,10 @@
 							<c:set var="content" value="${em:content(taxon,feature)}" />
 							<c:if test="${content != null}">
 								<div class="inner">
-									<div id="${feature}" class="box clearfix">
-										<div>
-											<h2>
-												<spring:message code="${feature}" var="featureHeader"/>${featureHeader}
-												<tags:feedbackLink selector="option:contains(${featureHeader})" dataName="${featureHeader}" />
-											</h2>
-										</div>
+									<div id="${feature}" class="box">
+								        <spring:message code="${feature}" var="featureHeader"/>
+									    <h2><span>${featureHeader}</span> <tags:feedbackLink selector="option:contains(${featureHeader})" dataName="${featureHeader}" /></h2>
 										<p class="justified">${content.description}</p>
-										
 										<ul class="citations">
 											<li>
 												<a href="#">${em:provenancekey(provenance, content)}</a>
@@ -182,29 +175,25 @@
 				</c:if>
 
 				<c:if test="${not empty em:regions(taxon)}">
+				    <spring:message code="distribution.map" var="messageDistribution"/>
 					<section id="distribution.map" class="section-box">
 						<div class="inner">
 							<div class="box clearfix">
 								<h2>
-									<spring:message code="distribution.map" />
+									${messageDistribution}
 									<tags:feedbackLink selector="option:contains(${messageDistribution})" dataName="${messageDistribution}" />
 								</h2>
-								<geo:map bounds="${em:boundingBox(taxon)}"
-									mapClass="taxon-page-map">
+								<geo:map bounds="${em:boundingBox(taxon)}"	mapClass="taxon-page-map">
 									<c:if test="${em:hasLevel1Features(taxon)}">
-										<geo:layer name="level1" layer="tdwg:level1" style="eMonocot"
-											featureId="${em:getLevel1Features(taxon)}" />
+										<geo:layer name="level1" layer="tdwg:level1" style="eMonocot" featureId="${em:getLevel1Features(taxon)}" />
 									</c:if>
 									<c:if test="${em:hasLevel2Features(taxon)}">
-										<geo:layer name="level2" layer="tdwg:level2" style="eMonocot"
-											featureId="${em:getLevel2Features(taxon)}" />
+										<geo:layer name="level2" layer="tdwg:level2" style="eMonocot" featureId="${em:getLevel2Features(taxon)}" />
 									</c:if>
 									<c:if test="${em:hasLevel3Features(taxon)}">
-										<geo:layer name="level3" layer="tdwg:level3" style="eMonocot"
-											featureId="${em:getLevel3Features(taxon)}" />
+										<geo:layer name="level3" layer="tdwg:level3" style="eMonocot" featureId="${em:getLevel3Features(taxon)}" />
 									</c:if>
 								</geo:map>
-
 								<ul id="distribution-textual" class="paddingTop20">
 									<c:forEach var="region" items="${em:regions(taxon)}">
 										<li id="distribution-list">
@@ -234,8 +223,9 @@
 					<section id="children" class="section-box">
 						<div class="inner">
 							<div class="box clearfix">
+							    <spring:message code="children" var="childrenHeader"/>
 								<h2>
-									<spring:message code="children" var="childrenHeader"/>${childrenHeader}
+									${childrenHeader}
 	                                <tags:feedbackLink selector="option:contains(${childrenHeader})" dataName="${childrenHeader}" />
 								</h2>
 								<ul class="unstyled">

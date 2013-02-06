@@ -11,7 +11,7 @@
 				<tr>
 					<td>
 						<c:url value="/css/images/glyphicons/fullsize/glyphicons_044_keys.png" var="keyImageUrl" />
-						<img src="${keyImageUrl}" class="pull-left no-printheader-icon" alt="Key" />
+						<img src="${keyImageUrl}" class="pull-left no-print header-icon" alt="Key" />
 					</td>
 					<td>
 						<h2 id="page-title">${identificationKey.title}</h2>
@@ -68,7 +68,7 @@
 					</div>
 				</div>
 			</div>
-			<div id="gallery" class="hide-toggle="modal-gallery" data-target="#modal-gallery"><!--  --></div>
+			<div id="gallery" class="hide" data-toggle="modal-gallery" data-target="#modal-gallery"><!--  --></div>
 			<div class="row">
 				<div class="span12">
 					<div class="inner">
