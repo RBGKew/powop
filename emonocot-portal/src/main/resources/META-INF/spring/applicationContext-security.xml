@@ -16,8 +16,7 @@
 		</sec:authentication-provider>
 	</sec:authentication-manager>
 
-	<sec:global-method-security
-		pre-post-annotations="enabled">
+	<sec:global-method-security	pre-post-annotations="enabled">
 		<sec:expression-handler ref="expressionHandler" />
 	</sec:global-method-security>
 
@@ -95,15 +94,14 @@
 	<bean id="passwordEncoder"
 		class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
 
-	<bean id="saltSource"
-		class="org.springframework.security.authentication.dao.ReflectionSaltSource">
+	<bean id="saltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource">
 		<property name="userPropertyToUse" value="getUsername" />
 	</bean>
 
-	<sec:http-firewall ref="httpFirewall" />
+	<!-- <sec:http-firewall ref="httpFirewall" />-->
 	<!-- Due to SEC-1606 https://jira.springsource.org/browse/SEC-1606 should 
 		be fixed in 3.0.5.RELEASE -->
-	<bean name="httpFirewall" class="org.emonocot.portal.auth.RequestDispatcherAwareHttpFirewall" />
+	<!-- <bean name="httpFirewall" class="org.emonocot.portal.auth.RequestDispatcherAwareHttpFirewall" />-->
 
 	<bean id="webSecurityExpressionHandler"
 		class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler">
