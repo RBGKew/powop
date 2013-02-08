@@ -12,11 +12,11 @@
 			<c:choose>
 				<c:when test="${item.className == 'Taxon'}">
 					<results:listEntry 
-					  itemName="${item.scientificName}" 
-					  icon="/css/images/glyphicons/halfsize/glyphicons_001_leaf.png"
-					  iconAlt="Taxon"
-					  url="/taxon/${item.identifier}"
-					  image="${item.images[0]}">
+						itemName="${item.scientificName}" 
+						icon="/css/images/glyphicons/halfsize/glyphicons_001_leaf.png"
+						iconAlt="Taxon"
+						url="/taxon/${item.identifier}"
+						image="${item.images[0]}">
 						<spring:url var="itemUrl" value="/taxon/${item.identifier}"/>
 						<a class="result" href="${itemUrl}" title="${em:stripXml(item.scientificName)}">
 							<c:choose>
@@ -31,11 +31,17 @@
 						${item.namePublishedInString}
 						<br/>
 						<div>
-							<em><spring:message code="resultStatus" /></em> <span id="entryStatus"><spring:message code="${item.taxonomicStatus}" /></span>
-							<c:if test="${em:isSynonym(item)}">
-								<c:url var="acceptedUrl" value="/taxon/${item.acceptedNameUsage.identifier}" />
-								<a href="${acceptedUrl}"> ${item.acceptedNameUsage.scientificName} ${item.acceptedNameUsage.scientificNameAuthorship}</a>
-							</c:if>
+							<em><spring:message code="resultStatus" /></em>
+							<c:choose>
+								<c:when test="${em:isSynonym(item)}">
+									<span id="entryStatus"><spring:message code="synonymOf" arguments="${item.taxonomicStatus}" /></span>
+									<c:url var="acceptedUrl" value="/taxon/${item.acceptedNameUsage.identifier}" />
+									<a href="${acceptedUrl}"> ${item.acceptedNameUsage.scientificName} ${item.acceptedNameUsage.scientificNameAuthorship}</a>
+								</c:when>
+								<c:otherwise> 
+								<span id="entryStatus"><spring:message code="${item.taxonomicStatus}" /></span>
+								</c:otherwise>
+							</c:choose>
 						</div>
 						<div><em><spring:message code="resultRank" /></em> <span id="entryRank"><spring:message code="${item.taxonRank}" /></span></div>
 						<c:if test="${item.family != null}">

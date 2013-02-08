@@ -197,9 +197,9 @@
 						.button()
 						.click(
 							function() {
-								var options = $(this)
-								.data(), modal = $(options.target), data = modal
-								.data('modal');
+								var options = $(this).data(), 
+								modal = $(options.target), 
+								data = modal.data('modal');
 								if (data) {
 									jQuery
 									.extend(
