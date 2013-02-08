@@ -3,25 +3,10 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
-	xmlns:spring="http://www.springframework.org/tags" version="2.0">
-
+	xmlns:spring="http://www.springframework.org/tags">
 	<tags:pageheader>
-		<table>
-			<tbody>
-				<tr>
-					<td>
-						<c:url value="/css/images/glyphicons/fullsize/glyphicons_044_keys.png" var="keyImageUrl" />
-						<img src="${keyImageUrl}" class="pull-left no-print header-icon" alt="Key" />
-					</td>
-					<td>
-						<h2 id="page-title">${identificationKey.title}</h2>
-						<c:if test="${not empty identificationKey.creator}">
-							<small><spring:message code="key.creator" /> ${identificationKey.creator}</small>
-						</c:if>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+        <h2 id="page-title"><i class="glyphicons-icon keys"><!--  --></i>${identificationKey.title}</h2>
+        <small><spring:message code="key.creator" /> ${identificationKey.creator}</small>						
 		<div class="row">
 			<button class="btn pull-right" id="reset"><i class="icon-refresh"><!--  --></i><spring:message code="reset.key"/></button>
 		</div>

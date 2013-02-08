@@ -6,10 +6,8 @@
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 
-	<tags:pageheader>
-			<c:url value="/css/images/glyphicons/fullsize/glyphicons_159_picture.png" var="imageIconUrl"/>			
-			<h2 id="page-title"> <img src="${imageIconUrl}" class="pull-left no-print header-icon" alt="Image"/> ${image.title}</h2>
-			<br/>
+	<tags:pageheader>					
+			<h2 id="page-title"><i class="glyphicons-icon picture"><!--  --></i> ${image.title}</h2>
 	</tags:pageheader>
 
 	<div class="container">

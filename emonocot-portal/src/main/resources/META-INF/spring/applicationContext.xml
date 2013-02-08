@@ -148,14 +148,17 @@
     
     <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="jobDetails" />
-        <property name="cronExpression" value="*/1 * * * * ?"/>
+        <property name="cronExpression" value="${quartz.cron.expression}"/>
     </bean>
     
     <bean id="jobDetails" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
         <property name="jobClass" value="org.emonocot.portal.scheduling.HarvestDataJob" />
         <property name="jobDataAsMap">
-            <map>
-                <!-- <entry key="batchProcessorName" value="SomeJobBean" />-->
+            <map><!-- * 0-9,17-23 * * 1-5 ? -->
+                <entry key="workingWeekCronExpression" value="* 0-23 * * 1-5 ?" />
+                <entry key="weekendCronExpression" value="* * * * 6-7 ?" />
+                <entry key="resourceServiceName" value="resourceServiceImpl" />
+                <entry key="jobLauncherName" value="readWriteJobLauncher" />
             </map>
         </property>
     </bean>

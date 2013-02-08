@@ -8,6 +8,6 @@ import org.emonocot.model.registry.Organisation;
  * @author annapaola
  *
  */
-public interface OrganisationService extends Service<Organisation> {
+public interface OrganisationService extends SearchableService<Organisation> {
 
 }

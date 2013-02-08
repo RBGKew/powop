@@ -8,7 +8,7 @@
 	xmlns:spring="http://www.springframework.org/tags">
 	<tags:pageheader>
 		<h2 id="page-title">
-			<spring:message code="create.organisation" />
+			<i class="glyphicons-icon group"><!--  --></i> <spring:message code="create.organisation" />
 		</h2>
 	</tags:pageheader>
 	<div class="container">

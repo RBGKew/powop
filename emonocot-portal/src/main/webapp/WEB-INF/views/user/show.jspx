@@ -5,7 +5,9 @@
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:security="http://www.springframework.org/security/tags"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
-	<tags:pageheader><h2 id="page-title">${user.username}</h2></tags:pageheader>
+	<tags:pageheader>
+	  <h2 id="page-title"><i class="glyphicons-icon home"><!--  --></i>${user.username}</h2>
+	</tags:pageheader>
 	<div class="container">
 	<security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">
 		<div class="row">

@@ -6,12 +6,11 @@
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:geo="urn:jsptagdir:/WEB-INF/tags/geo"
 	xmlns:spring="http://www.springframework.org/tags">
-	<tags:pageheader>
-		<c:url value="/css/images/glyphicons/fullsize/glyphicons_001_leaf.png" var="taxonIconUrl" />
+	<tags:pageheader>		
 		<h2 id="page-title">
-			<img src="${taxonIconUrl}" class="pull-left no-print header-icon" alt="Taxon" /> <em>${taxon.scientificName}</em> ${taxon.scientificNameAuthorship}
+			<i class="glyphicons-icon leaf"><!--  --></i> <em>${taxon.scientificName}</em> ${taxon.scientificNameAuthorship}
 		</h2>
-		<small id="protologue" class="span">${taxon.namePublishedInString}</small>
+		<small id="protologue">${taxon.namePublishedInString}</small>
 		<span class="pull-left"><tags:feedbackLink selector="option:contains(${taxon.scientificName} ${taxon.scientificNameAuthorship})" dataName="${taxon.scientificName}" /></span>
 	</tags:pageheader>
 
@@ -22,11 +21,9 @@
 			<c:if test="${not empty taxon.images or not empty taxon.descriptions or not empty em:regions(taxon) or not empty taxon.childNameUsages or not empty taxon.synonymNameUsages or not empty bibliography.references}">
 				<div class="subnav no-print">
 					<ul class="nav nav-pills">
-						<li>
-							<c:if test="${not empty taxon.images}">
-								<a href="#images"><spring:message code="images" /></a>
-							</c:if>
-						</li>
+					    <c:if test="${not empty taxon.images}">
+						  <li><a href="#images"><spring:message code="images" /></a></li>
+						</c:if>
 						<li>
 							<c:if test="${not empty taxon.descriptions}">
 								<a href="#description"><spring:message code="description" /></a>
@@ -63,8 +60,7 @@
 					<div class="row">
 						<div class="carousel slide span12" id="carousel">
 							<div class="carousel-inner">
-								<c:forEach var="i" items="${taxon.images}" step="6"
-									varStatus="status">
+								<c:forEach var="i" items="${taxon.images}" step="6"	varStatus="status">
 									<c:choose>
 										<c:when test="${status.index == 0}">
 											<c:set var="active" value="active" />
@@ -101,7 +97,6 @@
 				</div>
 			</div>
 		</c:if>
-
 		<div id="modal-gallery"
 			class="modal modal-gallery hide fade modal-fullscreen">
 			<div class="modal-header">
@@ -231,12 +226,8 @@
 								<ul class="unstyled">
 									<c:forEach var="child" items="${em:sort(taxon.childNameUsages)}">
 										<li>
-											<jsp:element name="a">
-												<jsp:attribute name="href">
-													<c:url value="/taxon/${child.identifier}" />
-												</jsp:attribute>
-												${child.scientificName} ${child.scientificNameAuthorship}
-											</jsp:element>
+										  <c:url value="/taxon/${child.identifier}" var="childUrl"/>
+										  <a href="${childUrl}"><em>${child.scientificName}</em> ${child.scientificNameAuthorship}</a>
 										</li>
 									</c:forEach>
 								</ul>
@@ -263,12 +254,8 @@
 								<ul class="unstyled">
 									<c:forEach var="synonym" items="${em:sort(taxon.synonymNameUsages)}">
 										<li>
-											<jsp:element name="a">
-												<jsp:attribute name="href">
-													<c:url value="/taxon/${synonym.identifier}" />
-												</jsp:attribute>
-												${synonym.scientificName} ${synonym.scientificNameAuthorship}
-											</jsp:element>
+										   <c:url value="/taxon/${synonym.identifier}" var="synonymUrl"/>
+											<a href="${synonymUrl}"><em>${synonym.scientificName}</em> ${synonym.scientificNameAuthorship}</a>
 										</li>
 									</c:forEach>
 								</ul>

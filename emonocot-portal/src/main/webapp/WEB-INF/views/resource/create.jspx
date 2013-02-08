@@ -9,9 +9,7 @@
 	xmlns:spring="http://www.springframework.org/tags">
 
 	<tags:pageheader>
-		<h2 id="page-title">${organisation.title}
-			<br/><spring:message code="create.resource"/>
-		</h2>
+		<h2 id="page-title"><i class="glyphicons-icon file"><!--  --></i> <spring:message code="create.resource"/></h2>
 	</tags:pageheader>
 	<div class="container">
 	    <div class="row">
@@ -26,7 +24,7 @@
 					<div class="box">
 						<form:create path="/resource" modelAttribute="resource">
 						    <field:hidden field="identifier"/>
-						    <field:hidden field="organisation"/>
+						    <field:input field="organisation" disabled="true" label="resource.organisation" fieldClass="span6"/>
 							<field:input field="title" label="resource.title" fieldClass="span6"/>
 							<field:input field="uri" label="resource.uri" fieldClass="span6"/>							
 							<field:select field="resourceType" label="resource.resourceType" fieldClass="span6" items="${resourceTypes}"/>

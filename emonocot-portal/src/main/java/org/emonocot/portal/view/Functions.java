@@ -31,6 +31,7 @@ import org.emonocot.model.constants.Status;
 import org.emonocot.model.convert.ClassToStringConverter;
 import org.emonocot.model.convert.PermissionToStringConverter;
 import org.emonocot.model.registry.Organisation;
+import org.emonocot.model.registry.Resource;
 import org.emonocot.model.compare.AlphabeticalTaxonComparator;
 import org.emonocot.model.compare.LocationComparator;
 import org.emonocot.pager.Page;

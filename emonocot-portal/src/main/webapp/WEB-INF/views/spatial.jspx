@@ -10,13 +10,11 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	version="2.0">
 	<jsp:useBean id="result" scope="request" type="org.emonocot.pager.Page" />
-	<c:url var="mapSearchImageBig" value="/css/images/glyphicons/fullsize/glyphicons_340_globe.png"/>
-	<spring:message code="map.search" var="mapSearchTitle"/>
 	<tags:pageheader>
 			<div class="row">
 				<h2 id="page-title" class="span6">
-				  <img class="pull-left no-print" alt="Search" src="${mapSearchImageBig}"/>
-				  ${mapSearchTitle}
+				  <i class="glyphicons-icon globe"><!--  --></i>
+				  <spring:message code="map.search" />
 				</h2>
 				
 				<script type="text/javascript">

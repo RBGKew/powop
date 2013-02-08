@@ -5,6 +5,7 @@ import java.util.List;
 import org.emonocot.api.ResourceService;
 import org.emonocot.model.registry.Resource;
 import org.emonocot.persistence.dao.ResourceDao;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @Service
-public class ResourceServiceImpl extends ServiceImpl<Resource, ResourceDao> implements
+public class ResourceServiceImpl extends SearchableServiceImpl<Resource, ResourceDao> implements
         ResourceService {
     /**
      *
@@ -65,4 +66,14 @@ public class ResourceServiceImpl extends ServiceImpl<Resource, ResourceDao> impl
     public final Resource findByJobId(final Long id) {
         return dao.findByJobId(id);
     }
+
+    @Transactional(readOnly = true)
+	public boolean isHarvesting() {
+		return dao.isHarvesting();
+	}
+
+    @Transactional(readOnly = true)
+	public List<Resource> listResourcesToHarvest(Integer limit, DateTime now) {
+    	return dao.listResourcesToHarvest(limit,now);
+	}
 }

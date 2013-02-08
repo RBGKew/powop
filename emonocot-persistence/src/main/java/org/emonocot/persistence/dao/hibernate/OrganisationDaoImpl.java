@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
  *
  */
 @Repository
-public class OrganisationDaoImpl extends DaoImpl<Organisation> implements
+public class OrganisationDaoImpl extends SearchableDaoImpl<Organisation> implements
         OrganisationDao {
     /**
     *
@@ -43,4 +43,9 @@ public class OrganisationDaoImpl extends DaoImpl<Organisation> implements
     protected final Fetch[] getProfile(final String profile) {
         return OrganisationDaoImpl.FETCH_PROFILES.get(profile);
     }
+    
+    @Override
+    protected boolean isSearchableObject() {
+		return false;
+	}
 }

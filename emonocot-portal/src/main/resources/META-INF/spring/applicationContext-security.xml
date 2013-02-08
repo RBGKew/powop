@@ -81,11 +81,9 @@
 		</constructor-arg>
 	</bean>
 
-	<bean id="auditLogger"
-		class="org.springframework.security.acls.domain.ConsoleAuditLogger" />
+	<bean id="auditLogger"	class="org.springframework.security.acls.domain.ConsoleAuditLogger" />
 
-	<bean id="cacheManager"
-		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
 		<property name="configLocation" value="classpath:/ehcache.xml" />
 		<property name="shared" value="true" />
 	</bean>
@@ -98,10 +96,10 @@
 		<property name="userPropertyToUse" value="getUsername" />
 	</bean>
 
-	<!-- <sec:http-firewall ref="httpFirewall" />-->
+	<sec:http-firewall ref="httpFirewall" />
 	<!-- Due to SEC-1606 https://jira.springsource.org/browse/SEC-1606 should 
 		be fixed in 3.0.5.RELEASE -->
-	<!-- <bean name="httpFirewall" class="org.emonocot.portal.auth.RequestDispatcherAwareHttpFirewall" />-->
+	 <bean name="httpFirewall" class="org.emonocot.portal.auth.RequestDispatcherAwareHttpFirewall" />
 
 	<bean id="webSecurityExpressionHandler"
 		class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler">

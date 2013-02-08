@@ -67,27 +67,8 @@ public class JobStatusNotifierImpl implements JobStatusNotifier {
 			resource.setWritten(jobExecutionInfo.getWritten());
 			if(resource.getStatus().equals(BatchStatus.COMPLETED)) {
 				resource.setLastHarvested(jobExecutionInfo.getStartTime());
-				if(resource.getScheduled()) {
-					DateTime nextAvailableDate = new DateTime();
-					switch (resource.getSchedulingPeriod()) {
-					case YEARLY:
-						nextAvailableDate = nextAvailableDate.plusYears(1);
-					    break;
-					case MONTHLY:
-						nextAvailableDate = nextAvailableDate.plusMonths(1);
-						break;
-					case WEEKLY:
-						nextAvailableDate = nextAvailableDate.plusWeeks(1);
-						break;
-					case DAILY:
-						nextAvailableDate = nextAvailableDate.plusDays(1);
-					    break;					
-				    default:
-				    	nextAvailableDate = null;							
-					}
-					
-					resource.setNextAvailableDate(nextAvailableDate);
-				}
+				resource.updateNextAvailableDate();
+				
 			} else if(resource.getStatus().equals(BatchStatus.FAILED)) {
 				resource.setNextAvailableDate(null);				
 			}

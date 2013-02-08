@@ -10,11 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 
+import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.BaseData;
+import org.emonocot.model.Searchable;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
@@ -29,123 +32,61 @@ import org.hibernate.validator.constraints.URL;
  *
  */
 @Entity
-public class Organisation extends BaseData implements Comparable<Organisation> {
+public class Organisation extends BaseData implements Comparable<Organisation>, Searchable {
 
-    /**
-     *
-     */
-    private static long serialVersionUID = -2463044801110563816L;
+    private static final long serialVersionUID = -2463044801110563816L;
 
-    /**
-    *
-    */
     private String uri;
 
-    /**
-    *
-    */
     private Long id;
 
-    /**
-    *
-    */
     private String creatorEmail;
 
-    /**
-    *
-    */
     private String description;
 
-    /**
-    *
-    */
     private String logoUrl;
 
-    /**
-    *
-    */
     private String publisherName;
 
-    /**
-    *
-    */
     private String publisherEmail;
 
-    /**
-    *
-    */
     private String subject;
 
-   /**
-    *
-    */
     private String title;
     
-    /**
-     *
-     */
     private String bibliographicCitation;
     
-    /**
-     *
-     */
     private String creator;
 
-    /**
-     *
-     */
     private Set<Resource> resources;
     
     private Set<Annotation> annotations = new HashSet<Annotation>();
 
-    /**
-     *
-     * @param newId
-     *            Set the identifier of this object.
-     */
     public void setId(Long newId) {
         this.id = newId;
     }
 
-    /**
-     *
-     * @return Get the identifier for this object.
-     */
     @Id
     @GeneratedValue(generator = "system-increment")
     public Long getId() {
         return id;
     }
 
-    /**
-     * @return the uri
-     */
     @URL
     public String getUri() {
         return uri;
     }
 
-    /**
-     * @param newUri
-     *            the uri to set
-     */
     public void setUri(String newUri) {
         this.uri = newUri;
     }
 
-    /**
-     *
-     * @return the class name
-     */
     @Transient
     @JsonIgnore
     public String getClassName() {
-        return "Source";
+        return "Organisation";
     }
 
-    /**
-     * @return the creatorEmail
-     */
     public String getCreatorEmail() {
         return creatorEmail;
     }
@@ -278,6 +219,7 @@ public class Organisation extends BaseData implements Comparable<Organisation> {
      */
 	@JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "organisation")
+    @OrderBy("lastHarvested DESC")
     public Set<Resource> getResources() {
         return resources;
     }
@@ -324,5 +266,36 @@ public class Organisation extends BaseData implements Comparable<Organisation> {
 	public int compareTo(Organisation o) {
 		
 		return nullSafeStringComparator(this.title, o.title);
+	}
+
+	@Override
+	@Transient
+    @JsonIgnore
+	public String getDocumentId() {
+		return getClassName() + "_" + getId();
+	}
+
+	@Override
+	public SolrInputDocument toSolrInputDocument() {
+		SolrInputDocument sid = new SolrInputDocument();
+		sid.addField("id", getClassName() + "_" + getId());
+    	sid.addField("base.id_l", getId());
+    	sid.addField("base.class_searchable_b", false);
+    	sid.addField("base.class_s", getClass().getName());
+    	if(getAuthority() != null) {
+			sid.addField("base.authority_s", getAuthority().getIdentifier());
+		}
+    	sid.addField("organisation.bibliographic_citation_s",getBibliographicCitation());
+    	sid.addField("organisation.creator_t",getCreator());
+    	sid.addField("organisation.description_t",getDescription());
+    	sid.addField("organisation.publisher_name_t",getPublisherName());
+    	sid.addField("organisation.subject_t",getSubject());
+    	sid.addField("organisation.title_t",getTitle());
+    	sid.addField("searchable.label_sort", getTitle());
+    	StringBuilder summary = new StringBuilder().append(getBibliographicCitation()).append(" ")
+    	.append(getCreator()).append(" ").append(getDescription()).append(" ")
+    	.append(getPublisherName()).append(" ").append(getSubject()).append(" ").append(getTitle());
+    	sid.addField("searchable.solrsummary_t", summary);
+		return sid;
 	}
 }

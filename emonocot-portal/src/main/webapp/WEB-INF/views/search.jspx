@@ -12,8 +12,8 @@
 
 	<tags:pageheader>
 		<div class="row">
-			<h2 id="page-title" class="span5">
-				<spring:message code="search.emonocot" />
+			<h2 id="page-title span5">
+				<i class="glyphicons-icon search"><!--  --></i> <spring:message code="search.emonocot" />
 			</h2>
 
 			<script type="text/javascript">

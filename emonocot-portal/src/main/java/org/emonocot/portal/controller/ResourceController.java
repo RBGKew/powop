@@ -22,6 +22,7 @@ import org.emonocot.pager.Page;
 import org.emonocot.portal.controller.form.ResourceParameterDto;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
 import org.joda.time.base.BaseDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -203,12 +204,12 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		persistedResource.setParameters(resource.getParameters());
 		persistedResource.setScheduled(resource.getScheduled());
 		persistedResource.setSchedulingPeriod(resource.getSchedulingPeriod());
+		persistedResource.updateNextAvailableDate();
 
 		getService().saveOrUpdate(persistedResource);
 		String[] codes = new String[] { "resource.was.updated" };
 		Object[] args = new Object[] { resource.getTitle() };
-		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
-				codes, args);
+		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
 		redirectAttributes.addFlashAttribute("info", message);
 		return "redirect:/resource/" + resourceId;
 	}
@@ -394,6 +395,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 			case COMPLETED:
 			case FAILED:
 			case STOPPED:
+			case ABANDONED:
 			default:
 				break;
 			}

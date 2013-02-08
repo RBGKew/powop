@@ -3,13 +3,14 @@ package org.emonocot.persistence.dao;
 import java.util.List;
 
 import org.emonocot.model.registry.Resource;
+import org.joda.time.DateTime;
 
 /**
  *
  * @author ben
  *
  */
-public interface ResourceDao extends Dao<Resource> {
+public interface ResourceDao extends SearchableDao<Resource> {
     /**
      * @param sourceId Set the source identifier
      * @return the total number of jobs for a given source
@@ -30,5 +31,9 @@ public interface ResourceDao extends Dao<Resource> {
      * @return the job
      */
     Resource findByJobId(Long id);
+
+	boolean isHarvesting();
+
+	List<Resource> listResourcesToHarvest(Integer limit, DateTime now);
 
 }

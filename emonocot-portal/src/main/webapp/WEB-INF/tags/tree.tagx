@@ -24,7 +24,7 @@
 					<jsp:attribute name="href">
 						<c:url value="/taxon/${ancestor.identifier}" />
 					</jsp:attribute>
-					${ancestor.scientificName} ${ancestor.scientificNameAuthorship}
+					<em>${ancestor.scientificName}</em> ${ancestor.scientificNameAuthorship}
 				</jsp:element>
 			</c:otherwise>
 		</c:choose>

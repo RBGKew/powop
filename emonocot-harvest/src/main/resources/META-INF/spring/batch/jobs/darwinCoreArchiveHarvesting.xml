@@ -231,7 +231,10 @@
 			</batch:description>
 			<batch:tasklet>
 				<batch:chunk reader="processImageFilesReader" processor="processImageFilesProcessor"
-					writer="itemWriter" commit-interval="10">
+					writer="itemWriter" commit-interval="10" skip-limit="100">
+					<batch:skippable-exception-classes>
+						<batch:include class="org.apache.sanselan.ImageReadException" />					
+					</batch:skippable-exception-classes>
 				</batch:chunk>
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="deleteAbsentImages" />
@@ -1035,6 +1038,7 @@
 			<list>
 				<ref bean="imageFileProcessor" />
 				<ref bean="imageThumbnailProcessor"/>
+				<ref bean="imageResizer"/>
 				<ref bean="imageMetadataProcessor" />
 			</list>
 		</property>
