@@ -62,7 +62,7 @@ public abstract class GenericController<T extends Base,
     @RequestMapping(method = RequestMethod.POST,
     		        produces = "application/json",
                     consumes = "application/json")
-    public final ResponseEntity<T> create(@RequestBody final T object, UriComponentsBuilder builder) throws Exception {      
+    public final ResponseEntity<T> create(@RequestBody final T object, UriComponentsBuilder builder) throws Exception {
         
         try {
             service.merge(object);

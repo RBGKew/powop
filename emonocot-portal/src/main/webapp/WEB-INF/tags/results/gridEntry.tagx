@@ -8,20 +8,13 @@
   <jsp:directive.attribute name="itemName" type="java.lang.String" required="true" />
   <jsp:directive.attribute name="image" type="org.emonocot.model.Image" required="false"/>
   <spring:url var="itemUrl" value="${url}"/>
-  <c:choose>
-	<c:when test="${not empty image}">
-				<a href="#" class="thumbnail" id="start-slideshow" rel="tooltip" data-slideshow="5000" data-target="#modal-gallery" data-selector="#gallery a[rel=gallery]">
-					<c:url var="thumbnail" value="/images/thumbnails/${image.id}.${image.format}"/>
-					<img src="${thumbnail}" title="${em:stripXml(image.title)}"/>
-				</a>
-			</c:when>
-			<c:otherwise>
-				<spring:message code="no.image.available" var="noImageAvailable"/>
-				<span class="thumbnail">
-					<c:url var="thumbnail" value="/css/images/no_image.jpg"/>
-					<img src="${thumbnail}" title="${em:stripXml(noImageAvailable)}"/>
-				</span>
-			</c:otherwise>
+	<c:choose>
+		<c:when test="${not empty image}">
+			<c:url var="thumbnail" value="/images/thumbnails/${image.id}.${image.format}"/>
+		</c:when>
+		<c:otherwise>
+			<c:url var="thumbnail" value="/css/images/no_image.jpg"/>
+		</c:otherwise>
 	</c:choose>
-	<p class="no-display">${itemName}</p>
+	<a class="result thumbnail" href="${itemUrl}" rel="tooltip" title="${fn:escapeXml(itemName)}"><img src="${thumbnail}" /></a><p class="hide">${itemName}</p>
 </li>

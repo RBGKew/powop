@@ -18,6 +18,7 @@ import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.Base;
 import org.emonocot.model.constants.ResourceType;
+import org.emonocot.model.constants.SchedulingPeriod;
 import org.emonocot.model.marshall.json.OrganisationDeserialiser;
 import org.emonocot.model.marshall.json.OrganisationSerializer;
 import org.hibernate.annotations.NaturalId;
@@ -66,6 +67,12 @@ public class Resource extends Base {
 	private Organisation organisation;
 	
 	private String title;
+	
+	private Boolean scheduled;
+	
+	private SchedulingPeriod schedulingPeriod;
+	
+	private DateTime nextAvailableDate;
 
 	/**
 	 * @return the title
@@ -418,6 +425,29 @@ public class Resource extends Base {
 		this.parameters = parameters;
 	}
 
+	/**
+	 * @return the scheduled
+	 */
+	public Boolean getScheduled() {
+		return scheduled;
+	}
+
+	/**
+	 * @param scheduled the scheduled to set
+	 */
+	public void setScheduled(Boolean scheduled) {
+		this.scheduled = scheduled;
+	}
+
+	@Type(type = "dateTimeUserType")
+	public DateTime getNextAvailableDate() {
+		return nextAvailableDate;
+	}
+
+	public void setNextAvailableDate(DateTime nextAvailableDate) {
+		this.nextAvailableDate = nextAvailableDate;
+	}
+
 	public void setBaseUrl(String baseUrl) {
 		this.baseUrl = baseUrl;
 	}
@@ -425,4 +455,14 @@ public class Resource extends Base {
 	public String getBaseUrl() {
 		return baseUrl;
 	}
+
+	@Enumerated(value = EnumType.STRING)
+	public SchedulingPeriod getSchedulingPeriod() {
+		return schedulingPeriod;
+	}
+
+	public void setSchedulingPeriod(SchedulingPeriod schedulingPeriod) {
+		this.schedulingPeriod = schedulingPeriod;
+	}
+	
 }

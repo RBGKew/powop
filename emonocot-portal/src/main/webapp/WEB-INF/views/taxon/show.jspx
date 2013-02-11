@@ -5,16 +5,16 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:geo="urn:jsptagdir:/WEB-INF/tags/geo"
-	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	xmlns:spring="http://www.springframework.org/tags"
+    xmlns:security="http://www.springframework.org/security/tags">
+    <spring:message code="distribution.map" var="messageDistribution"/>
 	<tags:pageheader>
-		<c:url value="/css/images/glyphicons/fullsize/glyphicons_001_leaf.png"
-			var="taxonIconUrl" />
+		<c:url value="/css/images/glyphicons/fullsize/glyphicons_001_leaf.png" var="taxonIconUrl" />
 		<h2 id="page-title">
-			<img src="${taxonIconUrl}" class="pull-left noPrint header-icon"
-				alt="Taxon" /> <span class="taxonName">${taxon.scientificName}</span>
-			${taxon.scientificNameAuthorship}
+			<img src="${taxonIconUrl}" class="pull-left no-print header-icon" alt="Taxon" /> <em>${taxon.scientificName}</em> ${taxon.scientificNameAuthorship}
 		</h2>
-		<small id="protologue">${taxon.namePublishedInString}</small>		
+		<small id="protologue" class="span">${taxon.namePublishedInString}</small>
+		<span class="pull-left span"><tags:feedbackLink selector="option:contains(${taxon.scientificName} ${taxon.scientificNameAuthorship})" dataName="${taxon.scientificName}" /></span>
 	</tags:pageheader>
 
 	<div class="container">
@@ -22,7 +22,7 @@
 		<c:set var="provenance" value="${em:provenance(taxon)}" />
 		<header class="subhead clearfix" id="overview">
 			<c:if test="${not empty taxon.images or not empty taxon.descriptions or not empty em:regions(taxon) or not empty taxon.childNameUsages or not empty taxon.synonymNameUsages or not empty bibliography.references}">
-				<div class="subnav noPrint">
+				<div class="subnav no-print">
 					<ul class="nav nav-pills">
 						<li>
 							<c:if test="${not empty taxon.images}">
@@ -160,14 +160,10 @@
 							<c:set var="content" value="${em:content(taxon,feature)}" />
 							<c:if test="${content != null}">
 								<div class="inner">
-									<div id="${feature}" class="box clearfix">
-										<div>
-											<h2>
-												<spring:message code="${feature}" />
-											</h2>
-										</div>
+									<div id="${feature}" class="box">
+								        <spring:message code="${feature}" var="featureHeader"/>
+									    <h2><span>${featureHeader}</span> <tags:feedbackLink selector="option:contains(${featureHeader})" dataName="${featureHeader}" /></h2>
 										<p class="justified">${content.description}</p>
-										
 										<ul class="citations">
 											<li>
 												<a href="#">${em:provenancekey(provenance, content)}</a>
@@ -188,28 +184,25 @@
 				</c:if>
 
 				<c:if test="${not empty em:regions(taxon)}">
+				    <spring:message code="distribution.map" var="messageDistribution"/>
 					<section id="distribution.map" class="section-box">
 						<div class="inner">
 							<div class="box clearfix">
 								<h2>
-									<spring:message code="distribution.map" />
+									${messageDistribution}
+									<tags:feedbackLink selector="option:contains(${messageDistribution})" dataName="${messageDistribution}" />
 								</h2>
-								<geo:map bounds="${em:boundingBox(taxon)}"
-									mapClass="taxon-page-map">
+								<geo:map bounds="${em:boundingBox(taxon)}"	mapClass="taxon-page-map">
 									<c:if test="${em:hasLevel1Features(taxon)}">
-										<geo:layer name="level1" layer="tdwg:level1" style="eMonocot"
-											featureId="${em:getLevel1Features(taxon)}" />
+										<geo:layer name="level1" layer="tdwg:level1" style="eMonocot" featureId="${em:getLevel1Features(taxon)}" />
 									</c:if>
 									<c:if test="${em:hasLevel2Features(taxon)}">
-										<geo:layer name="level2" layer="tdwg:level2" style="eMonocot"
-											featureId="${em:getLevel2Features(taxon)}" />
+										<geo:layer name="level2" layer="tdwg:level2" style="eMonocot" featureId="${em:getLevel2Features(taxon)}" />
 									</c:if>
 									<c:if test="${em:hasLevel3Features(taxon)}">
-										<geo:layer name="level3" layer="tdwg:level3" style="eMonocot"
-											featureId="${em:getLevel3Features(taxon)}" />
+										<geo:layer name="level3" layer="tdwg:level3" style="eMonocot" featureId="${em:getLevel3Features(taxon)}" />
 									</c:if>
 								</geo:map>
-
 								<ul id="distribution-textual" class="paddingTop20">
 									<c:forEach var="region" items="${em:regions(taxon)}">
 										<li id="distribution-list">
@@ -239,8 +232,10 @@
 					<section id="children" class="section-box">
 						<div class="inner">
 							<div class="box clearfix">
+							    <spring:message code="children" var="childrenHeader"/>
 								<h2>
-									<spring:message code="children" />
+									${childrenHeader}
+	                                <tags:feedbackLink selector="option:contains(${childrenHeader})" dataName="${childrenHeader}" />
 								</h2>
 								<ul class="unstyled">
 									<c:forEach var="child" items="${em:sort(taxon.childNameUsages)}">
@@ -271,7 +266,8 @@
 						<div class="inner">
 							<div class="box clearfix">
 								<h2>
-									<spring:message code="synonyms" />
+									<spring:message code="synonyms" var="synonymsHeader"/>${synonymsHeader}
+	                                <tags:feedbackLink selector="option:contains(${synonymsHeader})" dataName="${synonymsHeader}" />
 								</h2>
 								<ul class="unstyled">
 									<c:forEach var="synonym" items="${em:sort(taxon.synonymNameUsages)}">
@@ -377,7 +373,8 @@
 						<div class="inner">
 							<div class="box clearfix">
 								<h2>
-									<spring:message code="bibliography" />
+									<spring:message code="bibliography" var="bibliographyHeader"/>${bibliographyHeader}
+	                                <tags:feedbackLink selector="$(option:contains(${bibliographyHeader}))" dataName="${bibliographyHeader}" />
 								</h2>
 								<ul>
 									<c:forEach var="reference" items="${bibliography.references}">
@@ -399,7 +396,8 @@
 						<div id="classificationBox" class="box">
 							<section class="sidebarBox" id="taxonomicTree">
 								<h2 id="sectionHeader">
-									<spring:message code="taxonomicTree" />
+									<spring:message code="taxonomicTree" var="treeHeader"/>${treeHeader}
+	                                <tags:feedbackLink selector="option:contains(${treeHeader})" dataName="${treeHeader}" />
 								</h2>
 								<c:if test="${not empty taxon.higherClassification}">
 									<ul id="taxonHierarchy">
@@ -421,7 +419,9 @@
 					<div class="inner">
 						<div class="box">
 							<section class="sidebarBox" id="identifiers">
-								<h2><spring:message code="identifiers" /></h2>
+								<h2><spring:message code="identifiers" var="idHeader"/>${idHeader}
+	                                <tags:feedbackLink selector="option:contains(${idHeader})" dataName="${idHeader}" />
+								</h2>
 								<c:forEach var="identifier" items="${taxon.identifiers}">
 									<a href="${identifier.identifier}" title="${fn:escapeXml(identifier.title)}">${identifier.title}</a>
 								</c:forEach>
@@ -439,7 +439,11 @@
 				<div class="inner">
 					<div class="box dataBox">
 						<section class="sidebarBox" id="taxonData">
-							<h2><i class="glyphicons-icon table"><!-- --></i> <spring:message code="taxonData" /></h2>
+							<h2>
+                                <i class="glyphicons-icon table"><!-- --></i> 
+                                <spring:message code="taxonData" var="dataHeader"/>${dataHeader}
+                                <tags:feedbackLink selector="option#datX" dataName="${dataHeader}" />
+                            </h2>
 							<table class="table" id="data">
 								<tbody>
 									<c:forEach var="measurement" items="${em:measurements()}">
@@ -513,4 +517,77 @@
 			</div>
 		</div>
 	</div>
+    <div id="feedbackModal" class="modal hide fade">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+            <h3><spring:message code="feedbackTitle" /></h3>
+        </div>
+        <form class="modal-form" action="/comment" method="post">
+            <div class="modal-body">
+	            <div class="control-group">
+                    <security:authorize access="isAnonymous()">
+                        <span class="label label-important"><spring:message code="feedback.login.needed" /></span>
+                    </security:authorize>
+	                <label class="control-label" for="select01"><spring:message
+	                        code="feedback.topic.option" /></label>
+	                <div class="controls">
+	                    <select name="aboutDataIdentifier"> <!-- multiple="multiple" -->
+                            <option id="${taxon.identifier}" value="${taxon.identifier}">${taxon.scientificName} ${taxon.scientificNameAuthorship}</option>
+                            <spring:message code="description" var="messageDescription"/>
+                            <c:if test="${not empty taxon.descriptions}">
+                                <option id="${taxon.identifier}" value="${taxon.identifier}">${messageDescription}</option>
+                            </c:if>
+		                    <c:forEach var="feature" items="${em:features()}">
+		                        <c:set var="content" value="${em:content(taxon,feature)}" />
+		                        <c:if test="${content != null}">
+		                            <option id="${content.identifier}" value="${content.identifier}"><spring:message code="${feature}" /></option>
+		                        </c:if>
+		                    </c:forEach>
+		                    <c:if test="${not empty taxon.distribution}">
+                                <option id="${taxon.identifier}" value="${taxon.identifier}">${messageDistribution}</option>
+                            </c:if>
+							<c:forEach var="distribution" items="${taxon.distribution}">
+							    <option id="${distribution.identifier}" value="${distribution.identifier}">
+							        <spring:message code="${distribution.location.toString()}" />
+						        </option>                                    
+							</c:forEach>
+                            <c:if test="${not empty taxon.childNameUsages}">
+                                <option id="childX" value="childX">${childrenHeader}</option>
+                            </c:if>
+		                    <c:forEach var="child" items="${em:sort(taxon.childNameUsages)}">
+                                <option id="${child.identifier}" value="${child.identifier}">${child.scientificName} ${child.scientificNameAuthorship}</option>
+		                    </c:forEach>
+		                    <c:if test="${not empty taxon.synonymNameUsages}">
+                                <option id="synX" value="synX">${synonymsHeader}</option>
+                            </c:if>
+                            <c:forEach var="synonym" items="${em:sort(taxon.synonymNameUsages)}">
+                                <option id="${synonym.identifier}" value="${synonym.identifier}">${synonym.scientificName} ${synonym.scientificNameAuthorship}</option>
+                            </c:forEach>
+                            <c:if test="${taxon.acceptedNameUsage == null}">
+			                    <option value="${taxon.identifier}">${treeHeader}</option>
+		                    </c:if>
+		                    <option id="datX" value="datX">Data</option>
+		                    <option value="${taxon.identifier}"><spring:message code="feedback.option.other" /></option>
+	                    </select>
+	                </div>
+	            </div>
+	            <div class="control-group">
+	                <div class="controls">
+	                    <textarea class="input-xlarge" name="comment" rows="3"><!--  --></textarea>
+	                </div>
+	            </div>
+	        </div>
+	        <div class="modal-footer">
+	            <button class="btn" data-dismiss="modal"><spring:message code="button.close" /></button>
+                <button type="submit" class="btn btn-primary"><spring:message code="button.submit" /></button>
+	        </div>
+       </form>
+    </div>
+    <!-- <script type="text/javascript">
+        function renderOptions(options, selectElement) {
+        	for (var option in options) {
+				alert("" + option + " " + option.id + " " + option.value + " " + option.html);
+			}
+        }
+    </script> -->
 </div>

@@ -16,6 +16,7 @@ import org.emonocot.api.job.JobLaunchRequest;
 import org.emonocot.api.job.JobLauncher;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.constants.ResourceType;
+import org.emonocot.model.constants.SchedulingPeriod;
 import org.emonocot.model.registry.Resource;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.controller.form.ResourceParameterDto;
@@ -101,6 +102,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		model.addAttribute("resource", resource);
 		model.addAttribute("parameter", parameter);
 		model.addAttribute("resourceTypes", Arrays.asList(ResourceType.values()));
+		model.addAttribute("schedulingPeriods",Arrays.asList(SchedulingPeriod.values()));
 	}
     
     /**
@@ -173,7 +175,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 			@PathVariable Long resourceId, Model model,
 			@Valid Resource resource, BindingResult result,
 			RedirectAttributes redirectAttributes) {
-		Resource persistedJob = getService().load(resourceId);
+		Resource persistedResource = getService().load(resourceId);
 
 		if (result.hasErrors()) {
 			for(ObjectError objectError : result.getAllErrors()) {
@@ -183,24 +185,26 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 			return "resource/update";
 		}
 		
-		persistedJob.setUri(resource.getUri());
-		persistedJob.setTitle(resource.getTitle());
-		persistedJob.setResourceType(resource.getResourceType());
-		persistedJob.setLastHarvested(resource.getLastHarvested());
-		persistedJob.setJobId(resource.getJobId());
-		persistedJob.setStatus(resource.getStatus());
-		persistedJob.setStartTime(resource.getStartTime());
-		persistedJob.setDuration(resource.getDuration());
-		persistedJob.setExitCode(resource.getExitCode());
-		persistedJob.setExitDescription(resource.getExitDescription());
-		persistedJob.setRecordsRead(resource.getRecordsRead());
-		persistedJob.setReadSkip(resource.getReadSkip());
-		persistedJob.setProcessSkip(resource.getProcessSkip());
-		persistedJob.setWriteSkip(resource.getWriteSkip());
-		persistedJob.setWritten(resource.getWritten());
-		persistedJob.setParameters(resource.getParameters());
+		persistedResource.setUri(resource.getUri());
+		persistedResource.setTitle(resource.getTitle());
+		persistedResource.setResourceType(resource.getResourceType());
+		persistedResource.setLastHarvested(resource.getLastHarvested());
+		persistedResource.setJobId(resource.getJobId());
+		persistedResource.setStatus(resource.getStatus());
+		persistedResource.setStartTime(resource.getStartTime());
+		persistedResource.setDuration(resource.getDuration());
+		persistedResource.setExitCode(resource.getExitCode());
+		persistedResource.setExitDescription(resource.getExitDescription());
+		persistedResource.setRecordsRead(resource.getRecordsRead());
+		persistedResource.setReadSkip(resource.getReadSkip());
+		persistedResource.setProcessSkip(resource.getProcessSkip());
+		persistedResource.setWriteSkip(resource.getWriteSkip());
+		persistedResource.setWritten(resource.getWritten());
+		persistedResource.setParameters(resource.getParameters());
+		persistedResource.setScheduled(resource.getScheduled());
+		persistedResource.setSchedulingPeriod(resource.getSchedulingPeriod());
 
-		getService().saveOrUpdate(persistedJob);
+		getService().saveOrUpdate(persistedResource);
 		String[] codes = new String[] { "resource.was.updated" };
 		Object[] args = new Object[] { resource.getTitle() };
 		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
@@ -428,7 +432,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 			resource.setWriteSkip(0);
 			resource.setWritten(0);
 			getService().saveOrUpdate(resource);
-			String[] codes = new String[] { "job.started" };
+			String[] codes = new String[] { "job.scheduled" };
 			Object[] args = new Object[] {};
 			DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
 					codes, args);

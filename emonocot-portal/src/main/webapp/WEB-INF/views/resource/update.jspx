@@ -30,6 +30,8 @@
 							<field:input field="title" label="resource.title" fieldClass="span6"/>
 							<field:input field="uri" label="resource.uri" fieldClass="span6"/>
 							<field:datetime field="lastHarvested" label="resource.lastHarvested" fieldClass="span6"/>
+							<field:checkbox field="scheduled" label="resource.scheduled" fieldClass="span6" />
+							<field:select field="schedulingPeriod" label="resource.schedulingPeriod" fieldClass="span6" items="${schedulingPeriods}"/>
 							<field:input field="jobId" label="resource.jobId" fieldClass="span6"/>
 							<field:input field="status" label="resource.status" fieldClass="span6"/>
 							<field:datetime field="startTime" label="resource.startTime" fieldClass="span6"/>
