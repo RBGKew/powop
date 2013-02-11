@@ -1,41 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <tr xmlns:jsp="http://java.sun.com/JSP/Page"
-	xmlns:spring="http://www.springframework.org/tags"
-	xmlns:em="http://e-monocot.org/portal/functions"
-	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-	xmlns:c="http://java.sun.com/jsp/jstl/core">
-	<jsp:directive.attribute name="icon" type="java.lang.String" required="true" />
-	<jsp:directive.attribute name="iconAlt" type="java.lang.String" required="true" />
-	<jsp:directive.attribute name="url" type="java.lang.String" required="true" />
-	<jsp:directive.attribute name="itemName" type="java.lang.String" required="true" />
-	<jsp:directive.attribute name="image" type="org.emonocot.model.Image" required="false"/>
-	<spring:url var="itemUrl" value="${url}"/>
-	<spring:url var="iconUrl" value="${icon}"/>
-	
-	<td>
-		<img src="${iconUrl}" class="pull-left resultTypeIcon" alt="${iconAlt}"/>
-	</td>
-	<td>
-		<jsp:doBody/>
-	</td>
-	<td>
-		<span class="pull-right">
+  xmlns:spring="http://www.springframework.org/tags"
+  xmlns:em="http://e-monocot.org/portal/functions"
+  xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+  xmlns:c="http://java.sun.com/jsp/jstl/core">
+  <jsp:directive.attribute name="icon" type="java.lang.String" required="true" />
+  <jsp:directive.attribute name="iconAlt" type="java.lang.String" required="true" />
+  <jsp:directive.attribute name="url" type="java.lang.String" required="true" />
+  <jsp:directive.attribute name="itemName" type="java.lang.String" required="true" />
+  <jsp:directive.attribute name="image" type="org.emonocot.model.Image" required="false"/>
+<spring:url var="itemUrl" value="${url}"/>
+<spring:url var="iconUrl" value="${icon}"/>
+  <td>
+	<img src="${iconUrl}" class="pull-left resultTypeIcon" alt="${iconAlt}"/>
+  </td>
+  <td>
+	<jsp:doBody/>
+  </td>
+  <td>
+	<a href="${itemUrl}" class="thumbnail pull-right">
 		<c:choose>
 			<c:when test="${not empty image}">
-				
-				<a href="${slideshowUrl}" class="thumbnail" id="start-slideshow" data-slideshow="5000" data-target="#modal-gallery" data-selector="#gallery a[rel=gallery]">
-					<c:url var="thumbnail" value="/images/thumbnails/${image.id}.${image.format}"/>
-					<img rel="tooltip" src="${thumbnail}" title="${em:stripXml(image.title)}"/>
-				</a>
-			</c:when>
-			<c:otherwise>
-				<spring:message code="no.image.available" var="noImageAvailable"/>
-				<span class="thumbnail">
+				<c:url var="thumbnail" value="/images/thumbnails/${image.id}.${image.format}"/>
+					<img src="${thumbnail}" title="${em:stripXml(image.title)}"/>
+				</c:when>
+				<c:otherwise>
+					<spring:message code="no.image.available" var="noImageAvailable"/>
 					<c:url var="thumbnail" value="/css/images/no_image.jpg"/>
 					<img src="${thumbnail}" title="${em:stripXml(noImageAvailable)}"/>
-				</span>
-			</c:otherwise>
+				</c:otherwise>
 		</c:choose>
-		</span>
+	</a>
 	</td>
 </tr>

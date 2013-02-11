@@ -83,7 +83,7 @@
 													<c:url var="fullsize" value="/images/fullsize/${image.id}.${image.format}" />
 													<c:url var="url" value="/image/${image.id}" /> 
 													<a class="thumbnail" href="${image.identifier}" rel="gallery"
-														title="${em:stripXml(image.title)} ${em:stripXml(image.creator)} ${image.license}" data-link="${url}">
+														title="${em:stripXml(image.title)}" data-link="${url}">
 														<c:url var="thumbnail" value="/images/thumbnails/${image.id}.${image.format}" />
 														<c:url var="url" value="/image/${image.id}" /> 
 														<img src="${thumbnail}" title="${em:stripXml(image.title)}" />
@@ -112,18 +112,11 @@
 			<div class="modal-body">
 				<div class="modal-image">
 					<!--  -->
-					
 				</div>
 				<div class="carousel-caption">
-					<i class="icon-picture icon-white">&#160;</i>
-					<a class="modal-title modal-download"> <!--  --></a>
-					<div class="pull-right">
-						<!-- <a class="btn btn-small btn-info modal-prev">Previous</a>&#160;
-						<a class="btn btn-small btn-primary modal-next">Next</a>&#160; -->
-						<a class="btn btn-small btn-success modal-play modal-slideshow" data-slideshow="3000"><i class="icon-play icon-white"><!--  --></i> Slideshow</a>
-					</div>
+					<a class="modal-title modal-download"> <!--  -->
+					</a>
 				</div>
-		
 			</div>
 		</div>
 		<br />

@@ -73,7 +73,7 @@
 					<c:param name="${p}" value="${result.params[p]}"/>
 				</c:if>
 			</c:forEach>
-			<c:param name="limit" value="${result.pageSize}"/>
+			<c:param name="limit" value="${result.pageSize}" />
 			<c:param name="start" value="0" />
 			<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
 				<c:param name="facet" value="${selectedFacet}:${result.selectedFacets[selectedFacet]}"/>
