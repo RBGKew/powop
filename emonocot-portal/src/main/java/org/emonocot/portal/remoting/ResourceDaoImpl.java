@@ -62,7 +62,7 @@ public class ResourceDaoImpl extends DaoImpl<Resource> implements ResourceDao {
 	}
 
 	@Override
-	public List<Resource> listResourcesToHarvest(Integer limit, DateTime now) {
+	public List<Resource> listResourcesToHarvest(Integer limit, DateTime now, String fetch) {
 		// TODO Auto-generated method stub
 		return null;
 	}

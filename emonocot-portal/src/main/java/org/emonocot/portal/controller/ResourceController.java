@@ -139,16 +139,17 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		Map<String, String> selectedFacets = new HashMap<String, String>();
 		if (facets != null && !facets.isEmpty()) {
 			for (FacetRequest facetRequest : facets) {
-				selectedFacets.put(facetRequest.getFacet(),
-						facetRequest.getSelected());
+				selectedFacets.put(facetRequest.getFacet(),	facetRequest.getSelected());
 			}
 		}
-		selectedFacets.put("annotation.job_id_l", resource.getJobId().toString());
+		
+		selectedFacets.put("base.class_s", "org.emonocot.model.Annotation");
+		selectedFacets.put("annotation.job_id_l", new Long(resource.getJobId()).toString());
 		Page<Annotation> result = annotationService.search(query, null, limit,
 				start, new String[] { "annotation.code_s",
 				"annotation.type_s", "annotation.record_type_s",
 				"annotation.job_id_l" }, null, selectedFacets,
-				null, "annotated-obj");
+				null, "annotated-obj");		
 		result.putParam("query", query);
 		model.addAttribute("jobId",resource.getJobId());
 		model.addAttribute("result", result);
@@ -227,9 +228,31 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	 */
 	@RequestMapping(method = RequestMethod.GET, params = "!form")
 	public String list(Model model,
-			@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
-			@RequestParam(value = "start", required = false, defaultValue = "0") Integer start) {
-		model.addAttribute("resources", getService().list(start, limit, null));
+			@RequestParam(value = "query", required = false) String query,
+		    @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+		    @RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
+		    @RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
+		    @RequestParam(value = "sort", required = false) String sort,
+		    @RequestParam(value = "view", required = false) String view) {
+		Map<String, String> selectedFacets = new HashMap<String, String>();
+		if (facets != null && !facets.isEmpty()) {
+			for (FacetRequest facetRequest : facets) {
+				selectedFacets.put(facetRequest.getFacet(),
+						facetRequest.getSelected());
+			}
+		}
+		selectedFacets.put("base.class_s", "org.emonocot.model.registry.Resource");
+		Page<Resource> result = getService().search(query, null, limit, start, 
+				new String[] { "resource.exit_code_s",
+	               "resource.resource_type_s",
+	               "resource.scheduled_b",
+	               "resource.scheduling_period_s",
+	               "resource.status_s",
+	               "resource.last_harvested_dt",
+	               "resource.organisation_t"
+	               }, null, selectedFacets, sort, null);
+		result.putParam("query", query);
+		model.addAttribute("result", result);
 		return "resource/list";
 	}
 

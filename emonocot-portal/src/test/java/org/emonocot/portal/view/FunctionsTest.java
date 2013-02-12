@@ -25,4 +25,9 @@ public class FunctionsTest {
 	public void testEscapeHtmlIdentifier() {
 		assertEquals("'base.class_s' should be escaped as 'baseclasss'",Functions.escapeHtmlIdentifier("base.class_s"),"baseclasss");
 	}
+	
+	@Test
+	public void testFormatDateRange() {
+		assertEquals("Date range should be formatted as expected",Functions.formatDateRange("[2012-09-12T00:00:00Z TO 2012-09-12T00:00:00Z+1MONTH]"),"2012/09 - 2012/10");
+	}
 }

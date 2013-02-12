@@ -34,7 +34,6 @@ import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
 import org.springframework.batch.core.BatchStatus;
 
 /**
@@ -75,7 +74,7 @@ public class Resource extends Base implements Searchable {
 	
 	private String title;
 	
-	private Boolean scheduled;
+	private Boolean scheduled = Boolean.FALSE;
 	
 	private SchedulingPeriod schedulingPeriod;
 	
@@ -497,6 +496,9 @@ public class Resource extends Base implements Searchable {
 		return getClassName() + "_" + getId();
 	}
 
+
+	@Transient
+    @JsonIgnore
 	private String getClassName() {
 		return "Resource";
 	}
@@ -526,6 +528,9 @@ public class Resource extends Base implements Searchable {
     	sid.addField("resource.resource_type_s", getResourceType());
     	sid.addField("resource.scheduled_b", getScheduled());
     	sid.addField("resource.scheduling_period_s", getSchedulingPeriod());
+    	if(getOrganisation() != null) {
+    		sid.addField("resource.organisation_t",getOrganisation().getIdentifier());
+    	}
     	if(getStartTime() != null) {
     	    sid.addField("resource.start_time_dt",solrDateTimeFormat.print(getStartTime()));
     	}

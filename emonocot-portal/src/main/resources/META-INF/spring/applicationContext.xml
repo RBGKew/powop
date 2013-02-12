@@ -140,7 +140,7 @@
                 <prop key="org.quartz.jobStore.tablePrefix">qrtz_</prop>
                 <prop key="org.quartz.jobStore.isClustered">true</prop>
                 <prop key="org.quartz.threadPool.class">org.quartz.simpl.SimpleThreadPool</prop>
-                <prop key="org.quartz.threadPool.threadCount">25</prop>
+                <prop key="org.quartz.threadPool.threadCount">1</prop>
                 <prop key="org.quartz.threadPool.threadPriority">5</prop>
             </props>
       </property>
@@ -154,8 +154,8 @@
     <bean id="jobDetails" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
         <property name="jobClass" value="org.emonocot.portal.scheduling.HarvestDataJob" />
         <property name="jobDataAsMap">
-            <map><!-- * 0-9,17-23 * * 1-5 ? -->
-                <entry key="workingWeekCronExpression" value="* 0-23 * * 1-5 ?" />
+            <map>
+                <entry key="workingWeekCronExpression" value="* 0-9,17-23 * * 1-5 ?" />
                 <entry key="weekendCronExpression" value="* * * * 6-7 ?" />
                 <entry key="resourceServiceName" value="resourceServiceImpl" />
                 <entry key="jobLauncherName" value="readWriteJobLauncher" />

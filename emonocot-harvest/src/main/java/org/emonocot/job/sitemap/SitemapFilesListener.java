@@ -3,35 +3,25 @@
  */
 package org.emonocot.job.sitemap;
 
-import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.emonocot.model.marshall.xml.StaxEventItemWriter;
 import org.emonocot.portal.model.Url;
 import org.joda.time.ReadableInstant;
-import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.ExitStatus;
-import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-import org.springframework.oxm.XmlMappingException;
-import org.springframework.oxm.xstream.XStreamMarshaller;
 
 /**
  * @author jk00kg

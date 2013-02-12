@@ -3,6 +3,7 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:security="http://www.springframework.org/security/tags"
@@ -11,6 +12,19 @@
 	<tags:pageheader>
 		<h2 id="page-title">
 			<i class="glyphicons-icon file"><!--  --></i> <spring:message code="resources.title" />
+			<c:url var="searchUrl" value="/resource" />
+			<form id="search.form" class="pull-right form-search" accept-charset="UTF-8" method="GET" action="${searchUrl}">
+				<input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="query" />
+				<input type="hidden" name="limit" value="${result.pageSize}" />
+				<input type="hidden" name="start" value="0" />
+				<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+					<input type="hidden" name="facet" value="${selectedFacet}:${result.selectedFacets[selectedFacet]}" />
+				</c:forEach>
+				<input type="hidden" name="sort" value="${result.sort}" />
+				<button class="btn btn-primary">
+					<span class="icon-search icon-white">&#160;</span>
+				</button>
+			</form>
 		</h2>
 	</tags:pageheader>
 	<div class="container">
@@ -20,20 +34,35 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="span12">
+		    <div id="facets" class="span3 no-print">
+				<c:forEach var="facetName" items="${result.facetNames}">
+					<div class="row">
+						<div class="span3">
+							<div class="inner">
+								<ul class="box nav nav-list">
+									<menu:facet url="/resource" facetName="${facetName}" pager="${result}" showIcons="true"/>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</c:forEach>
+			</div>
+			<div class="span9">
 				<div class="inner">
 					<div class="box">
+						<div class="row">
+                          <div id="pages" class="span4">
+                            <tags:results pager="${result}" />
+                          </div>
+                          <tags:sort url="/resource" result="${result}" spanClass="span1 offset3" sortItems="${em:resourceSortItems()}" />
+                        </div>
 						<table class="table">
 							<thead>
 								<tr>
 									<th><spring:message code="resource.title" /></th>
-									<th><spring:message code="resource.organisation" /></th>
 									<th><spring:message code="resource.resourceType" /></th>
-									<th><spring:message code="resource.status" /></th>
-									<th><spring:message code="resource.startTime" />
-									</th>
-									<th><spring:message code="resource.duration" />
-									</th>
+									<th><spring:message code="resource.lastHarvested" /></th>
+									<th><spring:message code="resource.duration" /></th>
 									<th><spring:message code="resource.exitCode" /></th>
 									<th><spring:message code="resource.totalRecords" /></th>
 									<th><spring:message code="resource.written" /></th>
@@ -41,19 +70,14 @@
 								</tr>
 							</thead>
 							<tbody id="resources">
-								<c:forEach var="resource" items="${resources.records}">
+								<c:forEach var="resource" items="${result.records}">
 									<tr>
 										<td>
 										  <spring:url var="resourceUrl" value="/resource/${resource.id}" /> 
 										  <a href="${resourceUrl}">${resource.title}</a>
-										</td>
-										<td>
-										  <c:url value="/organisation/${resource.organisation.identifier}" var="organisationUrl" />
-										  <a href="${organisationUrl}">${resource.organisation.title}</a>
-										</td>
-										<td><spring:message code="${resource.resourceType}" text="${resource.resourceType}" /></td>
-										<td><tags:jobstatus status="${resource.status}" /></td>
-										<td><joda:format value="${resource.startTime}" style="MM" /></td>
+										</td>										
+										<td><spring:message code="${resource.resourceType}" text="${resource.resourceType}" /></td>										
+										<td><joda:format value="${resource.lastHarvested}" style="MM" /></td>
 										<td>${em:duration(resource.duration)}</td>
 										<td><tags:jobstatus status="${resource.exitCode}" /></td>
 										<td>${resource.recordsRead + resource.readSkip}</td>
@@ -68,7 +92,7 @@
 						</table>
 						<div class="row">
 							<div class="pagination pull-right">
-								<tags:pagination pager="${resources}" url="/resource" />
+								<tags:pagination pager="${result}" url="/resource" />
 							</div>
 						</div>
 					</div>

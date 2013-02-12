@@ -73,7 +73,7 @@ public class ResourceServiceImpl extends SearchableServiceImpl<Resource, Resourc
 	}
 
     @Transactional(readOnly = true)
-	public List<Resource> listResourcesToHarvest(Integer limit, DateTime now) {
-    	return dao.listResourcesToHarvest(limit,now);
+	public List<Resource> listResourcesToHarvest(Integer limit, DateTime now, String fetch) {
+    	return dao.listResourcesToHarvest(limit,now,fetch);
 	}
 }

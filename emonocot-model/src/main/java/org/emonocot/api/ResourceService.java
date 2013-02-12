@@ -34,5 +34,5 @@ public interface ResourceService extends SearchableService<Resource> {
 
 	boolean isHarvesting();
 
-	List<Resource> listResourcesToHarvest(Integer limit, DateTime now);
+	List<Resource> listResourcesToHarvest(Integer limit, DateTime now, String fetch);
 }

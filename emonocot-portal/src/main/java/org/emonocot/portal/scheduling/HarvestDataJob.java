@@ -57,14 +57,15 @@ public class HarvestDataJob extends QuartzJobBean {
 			ApplicationContext applicationContext = (ApplicationContext) schedulerContext.get("applicationContext");
 			ResourceService resourceService = (ResourceService) applicationContext.getBean(resourceServiceName);
 			JobLauncher jobLauncher = (JobLauncher) applicationContext.getBean(jobLauncherName);
+			logger.info("HarvestDataJob");
 			for (String cronExpression : cronExpressions) {
 				CronExpression expression = new CronExpression(cronExpression);
 				DateTime now = new DateTime();
-
+				
 				if (expression.isSatisfiedBy(now.toDate())	&& !resourceService.isHarvesting()) {
 					DateTime nextInvalidDate = new DateTime(expression.getNextInvalidTimeAfter(now.toDate()));
-					logger.error("Kicking off Job!");
-					List<Resource> resourcesToHarvest = resourceService.listResourcesToHarvest(10, now);
+					logger.info(cronExpression + " is satified and resourceService is not harvesting, looking for jobs to harvest . . .");
+					List<Resource> resourcesToHarvest = resourceService.listResourcesToHarvest(10, now,"job-with-source");
 					Resource resource = null;
 					for (Resource r : resourcesToHarvest) {
 						DateTime probableFinishingTime = now.plus(r.getDuration());
@@ -106,11 +107,11 @@ public class HarvestDataJob extends QuartzJobBean {
 						}
 
 					} else {
-						logger.error("Could not find a resource we can safely harvest in the time available");
+						logger.info("Could not find a resource we can safely harvest in the time available");
 					}
 
 				} else {
-					logger.error(now + " is not within " + cronExpression + ", skipping!");
+					logger.info(now + " is not within " + cronExpression + "or resourceService is harvesting, skipping!");
 				}
 			}
 		} catch (ParseException pe) {

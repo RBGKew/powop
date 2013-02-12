@@ -9,6 +9,19 @@
 	xmlns:joda="http://www.joda.org/joda/time/tags">	
 	<tags:pageheader>
 		<h2 id="page-title"><i class="glyphicons-icon group"><!--  --></i> <spring:message code="organisations.title"/></h2>
+		<c:url var="searchUrl" value="/organisation" />
+			<form id="search.form" class="pull-right form-search" accept-charset="UTF-8" method="GET" action="${searchUrl}">
+				<input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="query" />
+				<input type="hidden" name="limit" value="${result.pageSize}" />
+				<input type="hidden" name="start" value="0" />
+				<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+					<input type="hidden" name="facet" value="${selectedFacet}:${result.selectedFacets[selectedFacet]}" />
+				</c:forEach>
+				<input type="hidden" name="sort" value="${result.sort}" />
+				<button class="btn btn-primary">
+					<span class="icon-search icon-white">&#160;</span>
+				</button>
+			</form>
 	</tags:pageheader>	
 	<div class="container">
 	    <div class="row">
@@ -21,21 +34,26 @@
 				<div class="inner">
 					<div class="box">
 						<security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">
+						  <div class="row">
 							<c:url var="createUrl" value="/organisation">
 								<c:param name="form" value="true"/>
 							</c:url>
-							<p><a href="${createUrl}" class="btn pull-right"><spring:message code="create.organisation"/></a></p>
+							<a href="${createUrl}" class="btn pull-right"><spring:message code="create.organisation"/></a>
+					      </div>
 						</security:authorize>
-						<p id="pages">
-								<tags:results pager="${result}" />
-						</p>
+						<div class="row">
+                          <div id="pages" class="span4">
+                            <tags:results pager="${result}" />
+                          </div>
+                          <tags:sort url="/organisation" result="${result}" spanClass="span1 offset3" sortItems="${em:organisationSortItems()}" />
+                        </div>
 						<table class="table">
 							<tbody>
 							    <thead>
 								    <tr>
 									    <th><spring:message code="organisation.title" /></th>
 									    <th><spring:message code="organisation.description" /></th>
-									    <th><spring:message code="organisation.creatorName" /></th>
+									    <th><spring:message code="organisation.creator" /></th>
 									    <th><spring:message code="organisation.resources.length" /></th>
 									    <th><spring:message code="resource.lastHarvested" /></th>
 									    <th><spring:message code="resource.exitCode" /></th>

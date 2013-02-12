@@ -106,7 +106,7 @@ public class ResourceDaoImpl extends SearchableDaoImpl<Resource> implements Reso
 	}
 
 	@Override
-	public List<Resource> listResourcesToHarvest(Integer limit, DateTime now) {
+	public List<Resource> listResourcesToHarvest(Integer limit, DateTime now, String fetch) {
 		Criteria criteria = getSession().createCriteria(type);
 		criteria.add(Restrictions.isNotNull("resourceType"));
 		criteria.add(Restrictions.in("status", Arrays.asList(new BatchStatus[] {BatchStatus.COMPLETED, BatchStatus.FAILED,BatchStatus.ABANDONED, BatchStatus.STOPPED})));
@@ -115,8 +115,13 @@ public class ResourceDaoImpl extends SearchableDaoImpl<Resource> implements Reso
         if (limit != null) {
             criteria.setMaxResults(limit);
         }
+        enableProfilePreQuery(criteria, fetch);
         criteria.addOrder( Property.forName("nextAvailableDate").asc() );
-        return (List<Resource>) criteria.list();
+        List<Resource> result = (List<Resource>) criteria.list();
+        for(Resource t : result) {
+        	 enableProfilePostQuery(t, fetch);
+        }
+        return result;
 	}
 	
     @Override

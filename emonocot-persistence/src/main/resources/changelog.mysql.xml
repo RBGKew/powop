@@ -3958,4 +3958,8 @@
         <append value="charset=ascii"/>
       </modifySql>  
     </changeSet>
+    <changeSet id="2013-02-12_01" author="ben">
+      <comment>Set scheduled to false by default</comment>
+      <sql>update Resource set scheduled = 0 where scheduled is NULL</sql>
+    </changeSet>
 </databaseChangeLog>

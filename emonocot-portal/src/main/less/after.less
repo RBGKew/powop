@@ -6,36 +6,6 @@ body{
     padding-top: @navbarHeight;
 }
 
-#page-title {line-height: 65px}
-
-#distribution-textual {
-    list-style:none;
-    margin:0px; padding-left:0; 
-    text-indent:0; 
-    clear: both;
-    li {
-      float:left; 
-      padding-left:0.5em;
-      &:first-child {
-          &:before {
-              padding-left: 0em;
-          }
-      }
-      &:after {
-          content: ",";
-      }
-      &:last-child {
-        &:after {
-          content: "";
-        }
-      }
-    }
-}
-
-section {width: 100%; clear: both; padding-top: 60px}
-.section-header {margin: 18px 0}
-#textContent {padding-top: 78px}
-
 /**
  * BUG # 301: As a user of eMonocot I do not expect there to be gaps where it looks like there are missing images when looking at the images in a grid
  * Explicitly set the width and height of thumbnails to avoid the odd 
@@ -53,65 +23,6 @@ section {width: 100%; clear: both; padding-top: 60px}
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
-}
-
-
-.carousel.jcarousel .item {
-    width: 20000em;
-}
-
-ul.citations {
-    list-style: none;
-    margin: 0px;
-    float: right;
-    &:before {
-        content: "[";
-    }
-    &:after {
-        content: "]";
-    }
-    li {
-      display: inline;
-      &:last-child {
-          &:after {
-              content: "";
-          }
-      }
-      &:after {
-          content: ",";
-      }
-      &:before {
-          content: "";
-      }
-    }
-}
-
-section#bibliography ul {
-    list-style: none;
-    li a {
-        &:before {
-            content: "[";
-        }
-        &:after {
-            content: "]";
-        }
-    }
-}
-
-section#sources dl dd ul {
-    list-style: none;
-    li a {
-      &:before {
-          content: "[";
-      }
-      &:after {
-          content: "]";
-      }
-    }
-}
-
-.content-wrapper{
-	padding-left: 20px;
 }
 
 .centeredImage{
@@ -135,14 +46,7 @@ section#sources dl dd ul {
 	text-align:justify;
 }
 
-.taxon-page-map{
-	height: 470px;
-	width: 580px
-}
 
-#gallery{
-	padding: 10px;
-}
 
 .header-icon { padding-left: 0.5em; padding-right: 0.5em; }
 
@@ -166,12 +70,6 @@ border-radius: 4px;
 	padding-left:20px;
 }
 
-footer {
-	background-color:#252525;
-	margin-top:20px;
-	padding :10px;
-	}
-
 .index-message {
   text-align:center;
 }
@@ -183,10 +81,6 @@ footer {
 
 .paddingTop20{
 	padding-top:20px;
-}
-
-.footer-version{
-	color: @grayLight;
 }
 
 .key {
@@ -378,6 +272,21 @@ h1, h2, h3, h4, h5, h6 {
 
 /* footer */
 
+.container > footer p{
+	text-align:center;
+}
+
+footer {
+	background-color:#252525;
+	margin-top:20px;
+	padding :10px;
+	}
+
+
+.footer-version{
+	color: @grayLight;
+}
+
 footer {
     background: @navbarInverseBackground; 
     padding: 30px 0; 
@@ -399,9 +308,10 @@ footer {
 /**
  *
  */
+ 
+ #page-title {line-height: 65px}
 
 .page-banner {
-    //padding: 20px 20px 0px !important; 
     position: relative; 
     overflow: hidden;
     margin-bottom: 20px;
@@ -440,6 +350,98 @@ footer {
 
 /* taxon */
 
+.carousel.jcarousel .item {
+    width: 20000em;
+}
+
+section {width: 100%; clear: both; padding-top: 60px}
+.section-header {margin: 18px 0}
+
+#distribution-textual {
+    list-style:none;
+    margin:0px; padding-left:0; 
+    text-indent:0; 
+    clear: both;
+    li {
+      float:left; 
+      padding-left:0.5em;
+      &:first-child {
+          &:before {
+              padding-left: 0em;
+          }
+      }
+      &:after {
+          content: ",";
+      }
+      &:last-child {
+        &:after {
+          content: "";
+        }
+      }
+    }
+}
+
+#textContent {padding-top: 78px}
+
+ul.citations {
+    list-style: none;
+    margin: 0px;
+    float: right;
+    &:before {
+        content: "[";
+    }
+    &:after {
+        content: "]";
+    }
+    li {
+      display: inline;
+      &:last-child {
+          &:after {
+              content: "";
+          }
+      }
+      &:after {
+          content: ",";
+      }
+      &:before {
+          content: "";
+      }
+    }
+}
+
+section#bibliography ul {
+    list-style: none;
+    li a {
+        &:before {
+            content: "[";
+        }
+        &:after {
+            content: "]";
+        }
+    }
+}
+
+section#sources dl dd ul {
+    list-style: none;
+    li a {
+      &:before {
+          content: "[";
+      }
+      &:after {
+          content: "]";
+      }
+    }
+}
+
+.taxon-page-map{
+	height: 470px;
+	width: 580px
+}
+
+#gallery{
+	padding: 10px;
+}
+
 #overview { margin-bottom: 20px; }
 #overview h2 { display: inline; color: #5b5b5b; }
 #overview small a { color: #5b5b5b; font-family: 'ms500', Helvetica, Arial, sans-serif; font-size: 16px; }
@@ -469,4 +471,28 @@ ul#taxonHierarchy, ul#taxonHierarchy ul {
 
 .cclogos{
 	height: @baseLineHeight;
+}
+
+#status-ribbon {
+    width: 200px;
+    height: 30px;
+    text-align: center;
+    background-color: #D50C54;
+    position:absolute; 
+    left: -75px; 
+    top: 25px; 
+    color: white;  
+    -moz-transform:rotate(-45deg); 
+    -webkit-transform: rotate(-45deg); 
+    -ms-transform: rotate(-45deg); 
+    padding-top: 10px; 
+    border-style: solid; 
+    border-color: #FE3A7F; 
+    border-width: 2px; 
+    font-family: Helvetica,Arial,sans-serif; 
+    font-weight: bold; 
+    z-index: 1050;
+    &:after {
+        content: "BETA"
+    }
 }

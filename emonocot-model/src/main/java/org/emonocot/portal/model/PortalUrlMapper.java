@@ -57,9 +57,9 @@ public class PortalUrlMapper implements ItemProcessor<SearchableObject, Url>, Co
 		if ("Taxon".equals(item.getClassName())) {
 			url.setLoc(new URL(portalBaseUrl + "/taxon/" + item.getIdentifier()));
 		} else if ("Image".equals(item.getClassName())) {
-			url.setLoc(new URL(portalBaseUrl + "/image/" + item.getIdentifier()));
+			url.setLoc(new URL(portalBaseUrl + "/image/" + item.getId()));
 		} else if ("IdentificationKey".equals(item.getClassName())) {
-			url.setLoc(new URL(portalBaseUrl + "/key/" + item.getIdentifier()));
+			url.setLoc(new URL(portalBaseUrl + "/key/" + item.getId()));
 		} else {
 			logger.warn("Not writing url for object", new IllegalArgumentException("Unable to process object of type " + item.getClassName() + " and identifier:" + item.getIdentifier()));
 			url = null;

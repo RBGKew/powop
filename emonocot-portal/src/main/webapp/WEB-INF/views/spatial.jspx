@@ -105,7 +105,7 @@
                   </div>
 				  <br/>
                   <div class="row">
-                    <div id="pages" class="pull-left">
+                    <div id="pages" class="span4 pull-left">
                         <tags:results pager="${result}"/>
                     </div>
                     <div class="pull-right">

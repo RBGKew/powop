@@ -34,6 +34,6 @@ public interface ResourceDao extends SearchableDao<Resource> {
 
 	boolean isHarvesting();
 
-	List<Resource> listResourcesToHarvest(Integer limit, DateTime now);
+	List<Resource> listResourcesToHarvest(Integer limit, DateTime now, String fetch);
 
 }

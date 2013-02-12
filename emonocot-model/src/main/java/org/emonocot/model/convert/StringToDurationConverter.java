@@ -11,10 +11,11 @@ public class StringToDurationConverter implements Converter<String, Duration> {
 	
 	@Override
 	public Duration convert(String source) {
-		if(source == null || source.isEmpty()) {
+		if (source == null || source.isEmpty()) {
 			return null;
 		} else {
-		    return new Duration(formatter.parsePeriod(source));
+			return Duration.standardSeconds(formatter.parsePeriod(source)
+					.toStandardSeconds().getSeconds());
 		}
 	}
 

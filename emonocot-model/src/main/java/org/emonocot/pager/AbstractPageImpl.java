@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.client.solrj.response.RangeFacet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,17 +25,17 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
     /**
      *
      */
-    private static final long serialVersionUID = 3235700796905201107L;
+    private static long serialVersionUID = 3235700796905201107L;
 
     /**
      *
      */
-    protected static final Integer MAX_PAGE_LABELS = 3;
+    protected static Integer MAX_PAGE_LABELS = 3;
 
     /**
      *
      */
-    protected static final String LABEL_DIVIDER = " - ";
+    protected static String LABEL_DIVIDER = " - ";
 
     /**
      *
@@ -132,8 +133,8 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      *            A list of objects in this page (can be empty if there were no
      *            results)
      */
-    public AbstractPageImpl(final Integer count, final Integer newCurrentIndex,
-            final Integer newPageSize, final List<T> newRecords, QueryResponse queryResponse) {
+    public AbstractPageImpl(Integer count, Integer newCurrentIndex,
+            Integer newPageSize, List<T> newRecords, QueryResponse queryResponse) {
         if (newCurrentIndex != null) {
             this.currentIndex = newCurrentIndex;
         } else {
@@ -244,7 +245,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      *
      * @return the number of pages available
      */
-    public final Integer getPagesAvailable() {
+    public Integer getPagesAvailable() {
         return pagesAvailable;
     }
 
@@ -252,7 +253,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      *
      * @return the index of the next page
      */
-    public final Integer getNextIndex() {
+    public Integer getNextIndex() {
         return nextIndex;
     }
 
@@ -260,7 +261,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      *
      * @return the index of the previous page
      */
-    public final Integer getPrevIndex() {
+    public Integer getPrevIndex() {
         return prevIndex;
     }
 
@@ -268,11 +269,11 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      *
      * @return the index of this page
      */
-    public final Integer getCurrentIndex() {
+    public Integer getCurrentIndex() {
         return currentIndex;
     }
     
-    public final String getCurrentPageNumber() {
+    public String getCurrentPageNumber() {
     	return this.pageNumbers.get(currentIndex);
     }
 
@@ -280,7 +281,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      *
      * @return the total number of objects available.
      */
-    public final Integer getSize() {
+    public Integer getSize() {
         return size;
     }
 
@@ -288,7 +289,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      *
      * @return the index of the first record in this result set
      */
-    public final Integer getFirstRecord() {
+    public Integer getFirstRecord() {
         return firstRecord;
     }
 
@@ -296,7 +297,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      *
      * @return the index of the last record in this result set
      */
-    public final Integer getLastRecord() {
+    public Integer getLastRecord() {
         return lastRecord;
     }
 
@@ -304,7 +305,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      *
      * @return the records in this page
      */
-    public final List<T> getRecords() {
+    public List<T> getRecords() {
         return records;
     }
 
@@ -312,24 +313,36 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      *
      * @return the page size
      */
-    public final Integer getPageSize() {
+    public Integer getPageSize() {
         return pageSize;
     }
 
     /**
      * @return a map of the calculated facets
      */
-    public final FacetField getFacetField(String facetName) {
+    public FacetField getFacetField(String facetName) {
         return queryResponse.getFacetField(facetName);
+    }
+    
+    public RangeFacet getRangeFacet(String facetName) {
+    	for(RangeFacet rangeFacet : queryResponse.getFacetRanges()) {
+    		if(rangeFacet.getName().equals(facetName)) {
+    			return rangeFacet;
+    		}
+    	}
+        return null;
     }
 
     /**
      * @return a list of the calculated facet names
      */
-    public final List<String> getFacetNames() {
+    public List<String> getFacetNames() {
         List<String> facetNames = new ArrayList<String>();
         for(FacetField facetField : queryResponse.getFacetFields()) {
         	facetNames.add(facetField.getName());
+        }
+        for(RangeFacet facetRange : queryResponse.getFacetRanges()) {
+        	facetNames.add(facetRange.getName());
         }
         Collections.sort(facetNames, new FacetNameComparator());
         return facetNames;
@@ -339,21 +352,21 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      * @param name Set the parameter name
      * @param value Set the parameter value
      */
-    public final void putParam(final String name, final Object value) {
+    public void putParam(String name, Object value) {
         this.parameters.put(name, value);
     }
 
     /**
      * @return a map of the parameters
      */
-    public final Map<String, Object> getParams() {
+    public Map<String, Object> getParams() {
         return parameters;
     }
 
     /**
      * @return the parameter names
      */
-    public final Set<String> getParamNames() {
+    public Set<String> getParamNames() {
         return parameters.keySet();
     }
 
@@ -361,7 +374,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      * @param index set the page number
      * @return the label for a given page
      */
-    public final String getPageNumber(final int index) {
+    public String getPageNumber(int index) {
         return pageNumbers.get(index);
     }
 
@@ -370,7 +383,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      * @param i set the index
      * @return the label
      */
-    protected final String getLabel(final Integer i) {
+    protected String getLabel(Integer i) {
         Integer label = new Integer(i + 1);
         return label.toString();
     }
@@ -387,7 +400,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      *
      * @return the list of indices for which we have a page label
      */
-    public final List<Integer> getIndices() {
+    public List<Integer> getIndices() {
         return indices;
     }
 
@@ -395,7 +408,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      *
      * @return a list of the names of selected facets
      */
-    public final Set<String> getSelectedFacetNames() {
+    public Set<String> getSelectedFacetNames() {
         return selectedFacets.keySet();
     }
 
@@ -404,7 +417,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      * @return The index of the selected facet, or null if the facet is not
      *         selected
      */
-    public final Map<String, String> getSelectedFacets() {
+    public Map<String, String> getSelectedFacets() {
         return selectedFacets;
     }
 
@@ -414,7 +427,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      *            Set the facet name
      * @return true if the facet is selected, false otherwise
      */
-    public final boolean isFacetSelected(final String facetName) {
+    public boolean isFacetSelected(String facetName) {
         return selectedFacets.containsKey(facetName);
     }
 
@@ -424,21 +437,21 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      * @param selected
      *            Set the index of the selected facet
      */
-    public final void setSelectedFacets(Map<String,String> selectedFacets) {
+    public void setSelectedFacets(Map<String,String> selectedFacets) {
         this.selectedFacets = selectedFacets;
     }
 
     /**
      * @return the sort
      */
-    public final String getSort() {
+    public String getSort() {
         return sort;
     }
 
     /**
      * @param newSort set the sorting
      */
-    public final void setSort(final String newSort) {
+    public void setSort(String newSort) {
         this.sort = newSort;
     }
 }
