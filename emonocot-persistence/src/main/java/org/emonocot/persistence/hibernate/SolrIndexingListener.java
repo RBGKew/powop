@@ -36,8 +36,6 @@ public class SolrIndexingListener implements PostInsertEventListener,
 		this.solrServer = solrServer;
 	}
 
-
-
 	public void indexObjects(Collection<? extends Searchable> searchableObjects) {
 		List<SolrInputDocument> documents = new ArrayList<SolrInputDocument>();
 		for (Searchable searchable : searchableObjects) {

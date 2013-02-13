@@ -96,7 +96,7 @@
 						</div>
 
 						<div id="results" class="row no-margin-left">
-						<c:set var="classFacet" value="result.selectedFacets['base.class_s']"/>
+						<c:set var="classFacet" value="${result.selectedFacets['base.class_s']}"/>
 						<c:choose>
 						  <c:when test="${classFacet eq 'org.emonocot.model.Image'}">
 						    <c:set var="imageClass" value="${true}"/>

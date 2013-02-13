@@ -24,7 +24,7 @@
 					<div class="box">
 						<form:create path="/resource" modelAttribute="resource">
 						    <field:hidden field="identifier"/>
-						    <field:input field="organisation" disabled="true" label="resource.organisation" fieldClass="span6"/>
+						    <field:hidden field="organisation"/>
 							<field:input field="title" label="resource.title" fieldClass="span6"/>
 							<field:input field="uri" label="resource.uri" fieldClass="span6"/>							
 							<field:select field="resourceType" label="resource.resourceType" fieldClass="span6" items="${resourceTypes}"/>

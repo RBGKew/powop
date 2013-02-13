@@ -295,6 +295,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 			populateForm(model, resource, new ResourceParameterDto());
 			return "resource/create";
 		}
+		logger.error("Creating Resource " + resource + " with organisation " + resource.getOrganisation());
 		getService().saveOrUpdate(resource);
 		String[] codes = new String[] { "resource.was.created" };
 		Object[] args = new Object[] { resource.getTitle() };
