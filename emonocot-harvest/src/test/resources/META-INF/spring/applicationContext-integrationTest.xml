@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:int="http://www.springframework.org/schema/integration"
+    xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+    xmlns:int-mail="http://www.springframework.org/schema/integration/mail"
+	xmlns:jms="http://www.springframework.org/schema/integration/jms"
+    xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+        http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd
+        http://www.springframework.org/schema/integration/mail http://www.springframework.org/schema/integration/mail/spring-integration-mail.xsd">
+
+	<context:property-placeholder location="classpath*:META-INF/spring/*.properties" />
+    
+    <int-jdbc:inbound-channel-adapter channel="commentSendingChannel" data-source="dataSource"
+            query="SELECT c.id commentId, o.id OrgId, o.creatorEmail, o.publisherEmail
+                    FROM (Comment c LEFT JOIN Taxon d ON c.aboutData_id = d.id) LEFT JOIN Organisation o ON d.authority_id = o.id
+                    WHERE c.status = 'PENDING'"
+            update="UPDATE Comment c SET status = 'SENT' WHERE c.id IN (:commentId)">
+        <int:poller fixed-rate="1000" />
+    </int-jdbc:inbound-channel-adapter>
+    
+    <!-- Orginisation/Destination Enriching Transformer -->
+    <!--  -->
+
+    <int:publish-subscribe-channel id="commentSendingChannel" >
+    </int:publish-subscribe-channel>
+    
+    <int:outbound-channel-adapter channel="commentSendingChannel" ref="testChannelListener" method="handle" />
+    <bean id="testChannelListener" class="org.emonocot.harvest.integration.test.MessageHandler" />
+    
+    <int:service-activator input-channel="commentSendingChannel" ref="mailSender" />
+</beans>

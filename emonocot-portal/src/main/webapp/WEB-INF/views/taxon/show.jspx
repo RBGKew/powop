@@ -55,6 +55,8 @@
 				</div>
 			</c:if>
 		</header>
+        <tags:info />
+        <tags:error />
 		<c:if test="${not empty taxon.images}">
 			<div class="container">
 				<div id="images" data-toggle="modal-gallery" data-target="#modal-gallery">
@@ -501,7 +503,8 @@
             <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
             <h3><spring:message code="feedbackTitle" /></h3>
         </div>
-        <form class="modal-form" action="/comment" method="post">
+        <c:url value="/comment" var="commentUrl" />
+        <form class="modal-form" action="${commentUrl}" method="post">
             <div class="modal-body">
 	            <div class="control-group">
                     <security:authorize access="isAnonymous()">

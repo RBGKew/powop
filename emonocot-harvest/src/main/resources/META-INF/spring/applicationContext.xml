@@ -162,7 +162,7 @@
 	
 	<bean id="imageMetadataProcessor" class="org.emonocot.harvest.media.ImageMetadataExtractor">
 	  <property name="imageDirectory" value="${harvester.image.directory}"/>
-	</bean>	
+	</bean>
 	
 	<bean id="nameParser" class="org.gbif.ecat.parser.NameParser" />
     <bean id="taxonMatcher" class="org.emonocot.job.taxonmatch.CompositeTaxonMatcher">
@@ -175,11 +175,40 @@
     </bean>
 		
 	<bean name="objectMapper" class="org.emonocot.model.marshall.json.CustomObjectMapperFactory"/>
-	
+
+    <bean id="emailService" class="org.emonocot.service.impl.EmailServiceImpl">
+        <property name="mailSender" ref="mailSender"/>
+        <property name="velocityEngine" ref="velocityEngine"/>
+        <property name="fromAddress" value="${email.fromAddress}"/>
+    </bean>
+    
+    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+        <property name="velocityProperties">
+        <value>
+            resource.loader=class
+            class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+        </value>
+        </property>
+    </bean>
+    
+    <bean id="mailSender" class ="org.springframework.mail.javamail.JavaMailSenderImpl" >
+        <property name="username" value="${email.username}" />
+        <property name="password" value="${email.password}" />
+        <property name="javaMailProperties">
+          <props>
+            <prop key="mail.smtp.host">${email.host}</prop>
+            <prop key="mail.smtp.port">${email.port}</prop>
+            <prop key="mail.smtp.auth">${email.auth}</prop>
+            <prop key="mail.smtp.starttls.enable">${email.enable.starttls}</prop>
+          </props>
+        </property>
+    </bean>
+
 	<beans profile="default">
 	  <bean id="getResourceClient" class="org.emonocot.harvest.common.GetResourceClient"/>
 	  <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory"/>
-	</beans>	
+	</beans>
+
 	<beans profile="proxy">
 	  <bean id="getResourceClient" class="org.emonocot.harvest.common.GetResourceClient">
 	    <property name="proxyHost" value="${http.proxyHost}" />
