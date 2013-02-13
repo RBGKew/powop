@@ -14,15 +14,17 @@ import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.UserService;
 import org.emonocot.model.BaseData;
 import org.emonocot.model.Comment;
+import org.emonocot.model.IdentificationKey;
+import org.emonocot.model.Image;
 import org.emonocot.model.OwnedEntity;
 import org.emonocot.model.Taxon;
-import org.emonocot.portal.view.CommentForm;
+import org.emonocot.portal.controller.form.CommentForm;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -101,7 +103,7 @@ public class CommentController extends GenericController<Comment, CommentService
      * @param result
      */
     @RequestMapping(method = RequestMethod.POST, produces = "text/html")
-    public String postComment(Model model, String aboutDataIdentifier, Principal principal, @Valid CommentForm form, BindingResult formResult, RedirectAttributes attributes) {
+    public String postComment(String aboutDataIdentifier, Principal principal, @Valid CommentForm form, BindingResult formResult, RedirectAttributes attributes) {
         logger.debug("Got the comment \"" + form.getComment() + "\" about " + form.getAboutDataIdentifier() + " from " + principal.getName());
         
         //Create comment
@@ -118,10 +120,11 @@ public class CommentController extends GenericController<Comment, CommentService
         
         if(about == null) {
             logger.warn("Unable to find an object with the identifier" + aboutDataIdentifier);
-            attributes.addFlashAttribute("error", "objectNotFound");
+            attributes.addFlashAttribute("error", new DefaultMessageSourceResolvable("feedback.error.about"));
         } else {
             comment.setAboutData(about);
             super.getService().save(comment);
+            attributes.addFlashAttribute("info",  new DefaultMessageSourceResolvable("feedback.saved"));
         }
         
         //Set object and redirect
@@ -130,8 +133,11 @@ public class CommentController extends GenericController<Comment, CommentService
             return "redirect:taxon/" + about.getIdentifier();
         } else if (about instanceof OwnedEntity) {
             return "redirect:taxon/" + ((OwnedEntity) about).getTaxon().getIdentifier();
+        } else if (about instanceof Image) {
+            return "redirect:image/" + about.getIdentifier();
+        } else if (about instanceof IdentificationKey) {
+            return "redirect:key/" + about.getIdentifier();
         } else {
-            model.addAttribute(comment.getUser());
             return "home";
         }
     }

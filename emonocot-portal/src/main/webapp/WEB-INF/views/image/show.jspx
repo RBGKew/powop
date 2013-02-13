@@ -15,6 +15,8 @@
 	<div class="container">
 	<div class="row">
 		<div class="span9">
+	        <tags:info />
+	        <tags:error />
 			<c:if test="${not empty image.taxon.scientificName}">
 				<h5>
 				    <c:url value="/taxon/${image.taxon.identifier}"  var="taxonUrl"/>

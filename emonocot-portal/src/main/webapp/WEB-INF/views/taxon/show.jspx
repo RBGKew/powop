@@ -10,9 +10,7 @@
     <spring:message code="distribution.map" var="messageDistribution"/>
 	<tags:pageheader>
 		<c:url value="/css/images/glyphicons/fullsize/glyphicons_001_leaf.png" var="taxonIconUrl" />
-		<h2 id="page-title">
-			<img src="${taxonIconUrl}" class="pull-left no-print header-icon" alt="Taxon" /> <em>${taxon.scientificName}</em> ${taxon.scientificNameAuthorship}
-		</h2>
+		<h2 id="page-title"><img src="${taxonIconUrl}" class="pull-left no-print header-icon" alt="Taxon" /> <em>${taxon.scientificName}</em> ${taxon.scientificNameAuthorship}</h2>
 		<small id="protologue" class="span">${taxon.namePublishedInString}</small>
 		<span class="pull-left span"><tags:feedbackLink selector="option:contains(${taxon.scientificName} ${taxon.scientificNameAuthorship})" dataName="${taxon.scientificName}" /></span>
 	</tags:pageheader>
@@ -59,6 +57,8 @@
 				</div>
 			</c:if>
 		</header>
+        <tags:info />
+        <tags:error />
 		<c:if test="${not empty taxon.images}">
 			<div class="container">
 				<div id="images" data-toggle="modal-gallery" data-target="#modal-gallery">
@@ -515,7 +515,8 @@
             <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
             <h3><spring:message code="feedbackTitle" /></h3>
         </div>
-        <form class="modal-form" action="/comment" method="post">
+        <c:url value="/comment" var="commentUrl" />
+        <form class="modal-form" action="${commentUrl}" method="post">
             <div class="modal-body">
 	            <div class="control-group">
                     <security:authorize access="isAnonymous()">
