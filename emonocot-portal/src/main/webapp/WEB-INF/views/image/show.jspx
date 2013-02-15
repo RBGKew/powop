@@ -30,6 +30,7 @@
 						<img id="main-img" class="imageSize" src="${imageUrl}" title="${fn:escapeXml(image.title)}" alt="${status.index}" />
 				</div>
 				</div>
+				</div>
 				<br/>
 				<section class="section-box">
 					<div class="inner">
