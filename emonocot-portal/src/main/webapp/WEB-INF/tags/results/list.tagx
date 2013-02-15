@@ -38,14 +38,19 @@
 							<br />
 							<div>
 								<em><spring:message code="resultStatus" /></em>
-								<span id="entryStatus"><spring:message code="${item.taxonomicStatus}" /></span>
-								<c:if test="${em:isSynonym(item)}">
-									<c:url var="acceptedUrl" value="/taxon/${item.acceptedNameUsage.identifier}" />
-									<a href="${acceptedUrl}">
-										${item.acceptedNameUsage.scientificName}
-										${item.acceptedNameUsage.scientificNameAuthorship}
-									</a>
-								</c:if>
+								<c:choose>
+									<c:when test="${em:isSynonym(item)}">
+										<span id="entryStatus"><spring:message code="${synonymStatus}" arguments="${item.taxonomicStatus}"/></span>
+										<c:url var="acceptedUrl" value="/taxon/${item.acceptedNameUsage.identifier}" />
+										<a href="${acceptedUrl}">
+											${item.acceptedNameUsage.scientificName}
+											${item.acceptedNameUsage.scientificNameAuthorship}
+										</a>
+									</c:when>
+									<c:otherwise>
+										<span id="entryStatus"><spring:message code="${item.taxonomicStatus}" /></span>
+									</c:otherwise>
+								</c:choose>
 							</div>
 							<div>
 								<em><spring:message code="resultRank" /></em>

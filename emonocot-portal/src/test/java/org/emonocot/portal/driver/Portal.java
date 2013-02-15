@@ -72,13 +72,16 @@ public class Portal extends PageObject {
                 "META-INF/spring/application.properties");
         Properties properties = new Properties();
         properties.load(propertiesFile.getInputStream());
-        String baseUri = properties.getProperty("functional.test.baseUri",
+        String host = properties.getProperty("functional.test.baseUri",
         "http://build.e-monocot.org");
         int port = Integer.valueOf(properties.getProperty(
                 "functional.test.port", "80"));
         String basePath = properties.getProperty("functional.test.basePath",
                 "/latest/portal");
-        setBaseUri(baseUri + ":" + port + basePath );
+        setHost(host);
+        setPort(port);
+        setBasePath(basePath);
+        setBaseUri(host + ":" + port + basePath );
     }
 
     /**

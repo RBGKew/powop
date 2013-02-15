@@ -198,9 +198,14 @@ public class Search extends PageObject {
             if(this.imageDao.containsPageLocation(href)) {
             	href = this.imageDao.getIdentifier(href);
             } else {
-            	String dataLink = this.getBaseUri() + webElement.getAttribute("data-link");
+            	String dataLink = webElement.getAttribute("data-link");
+            	if(getPort() == 80) {
+            		dataLink = getHost() + dataLink;
+            	} else {
+            		dataLink = getHost() + ":" + getPort() + dataLink;
+            	}
             	if(this.imageDao.containsPageLocation(dataLink)) {
-                	href = this.imageDao.getIdentifier(dataLink);
+            		href = this.imageDao.getIdentifier(dataLink);
                 }
             }
             if(this.keyDao.containsPageLocation(href)) {

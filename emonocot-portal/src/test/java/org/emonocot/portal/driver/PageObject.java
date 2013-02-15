@@ -102,6 +102,12 @@ public class PageObject {
     *
     */
     private String baseUri;
+    
+    private String host;
+    
+    private String basePath;
+    
+    private int port;
 
     /**
     *
@@ -159,6 +165,9 @@ public class PageObject {
     protected final <T extends PageObject> T getPage(final Class<T> pageClass) {
         T pageObject = pageObjectInstance(pageClass);
         pageObject.setBaseUri(baseUri);
+        pageObject.setHost(host);
+        pageObject.setPort(port);
+        pageObject.setBasePath(basePath);
         pageObject.testDataManager = this.testDataManager;
         pageObject.webDriver = this.webDriver;
         pageObject.imageDao = this.imageDao;
@@ -389,4 +398,29 @@ public class PageObject {
     public String getText() {
         return webDriver.getPageSource();
     }
+
+	public String getHost() {
+		return host;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
+	}
+
+	public String getBasePath() {
+		return basePath;
+	}
+
+	public void setBasePath(String basePath) {
+		this.basePath = basePath;
+	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+    
 }
