@@ -6,9 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.emonocot.api.ReferenceService;
 import org.emonocot.job.dwc.exception.NoIdentifierException;
 import org.emonocot.job.dwc.read.DarwinCoreProcessor;
 import org.emonocot.model.Annotation;
+import org.emonocot.model.Description;
+import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
@@ -17,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.ItemWriteListener;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 
@@ -27,11 +31,18 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 	
 	private Set<TaxonRelationship> taxonRelationships = new HashSet<TaxonRelationship>();
 	
+	private Map<String, Reference> boundReferences = new HashMap<String, Reference>();
+	
 	private Map<String, Taxon> boundTaxa = new HashMap<String,Taxon>();
-	/**
-     *
-     */
+
 	private Logger logger = LoggerFactory.getLogger(Processor.class);
+	
+	private ReferenceService referenceService;
+	
+	@Autowired
+	public void setReferenceService(ReferenceService referenceService) {
+	    this.referenceService = referenceService;
+	}
 
 	/**
 	 * @param t
@@ -40,12 +51,18 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 	 *             if something goes wrong
 	 * @return Taxon a taxon object
 	 */
-	public final Taxon process(final Taxon t) throws Exception {
+	public Taxon process(Taxon t) throws Exception {
 		logger.info("Processing " + t.getIdentifier());
 		
 		if (t.getIdentifier() == null) {
 			throw new NoIdentifierException(t);
 		}
+		
+		/**
+		 * replace references with persisted objects or new ones
+		 */
+		t.setNameAccordingTo(resolveReference(t.getNameAccordingTo()));
+		t.setNamePublishedIn(resolveReference(t.getNamePublishedIn()));
 		
 		Taxon persisted = getTaxonService().find(t.getIdentifier());
 		
@@ -137,7 +154,8 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 	@Override
 	public void beforeChunk() {
 		boundTaxa = new HashMap<String,Taxon>();
-		taxonRelationships = new HashSet<TaxonRelationship>();		
+		taxonRelationships = new HashSet<TaxonRelationship>();
+		boundReferences = new HashMap<String, Reference>();
 	}
 
 	@Override
@@ -168,6 +186,42 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
               return taxon;
         }
     }
+	
+    /**
+    *
+    * @param object
+    *            Set the text content object
+    * @param value
+    *            the source of the reference to resolve
+    */
+   private Reference resolveReference(Reference reference) {
+		if (reference == null) {
+			return null;
+		} else {
+			String identifier = reference.getIdentifier();
+			if (identifier == null || identifier.trim().length() == 0) {
+				// there is not citation identifier
+				return null;
+			} else {
+				if (boundReferences.containsKey(identifier)) {
+					return boundReferences.get(identifier);
+				} else {
+					Reference r = referenceService.find(identifier);
+					if (r == null) {
+						r = new Reference();
+						r.setIdentifier(identifier);
+						Annotation annotation = super.createAnnotation(r,
+								RecordType.Reference, AnnotationCode.Create,
+								AnnotationType.Info);
+						r.getAnnotations().add(annotation);
+						r.setAuthority(getSource());
+					}
+					boundReferences.put(identifier, r);
+					return r;
+				}
+			}
+		}
+   }
 
 	@Override
 	public void beforeWrite(List<? extends Taxon> items) {

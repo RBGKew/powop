@@ -249,9 +249,9 @@ public class ArchiveMetadataReader implements StepExecutionListener {
             source.setTitle(basicMetadata.getTitle());
             update = true;
         }
-        if (!nullSafeEquals(source.getLicense(),
+        if (!nullSafeEquals(source.getRights(),
                 basicMetadata.getRights())) {
-            source.setLicense(basicMetadata.getRights());
+            source.setRights(basicMetadata.getRights());
             update = true;
         }
         if (basicMetadata.getPublished() != null) {

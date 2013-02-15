@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.emonocot.api.match.Match;
 import org.emonocot.model.Taxon;
-import org.gbif.ecat.model.ParsedName;
+import org.gbif.ecat.parser.UnparsableException;
 
 /**
  * @author jk00kg
@@ -23,6 +23,6 @@ public interface TaxonMatcher {
      *         inclusive/exclusive of Authorship to be considered as well as
      *         partial matches to optionally be returned
      */
-    List<Match<Taxon>> match(ParsedName<String> parsed);
+    List<Match<Taxon>> match(String name) throws UnparsableException;
 
 }

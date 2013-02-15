@@ -1,7 +1,5 @@
 package org.emonocot.job.dwc.write;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.emonocot.api.job.DarwinCorePropertyMap;

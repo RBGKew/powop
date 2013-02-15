@@ -58,8 +58,7 @@ public class DarwinCoreJobIntegrationTest {
     /**
      * 1288569600 in unix time.
      */
-    private static final BaseDateTime PAST_DATETIME
-    = new DateTime(2010, 11, 1, 9, 0, 0, 0);
+    private static final BaseDateTime PAST_DATETIME = new DateTime(2010, 11, 1, 9, 0, 0, 0);
 
     /**
      *

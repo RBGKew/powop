@@ -189,7 +189,6 @@
 	
 	<bean id="taxonOccurrenceToTypeAndSpecimenProcessor" class="org.emonocot.job.gbif.Processor" scope="step">
 	  <property name="taxonMatcher" ref="taxonMatcher" />
-	  <property name="nameParser" ref="nameParser"/>
 	  <property name="sessionFactory" ref="sessionFactory"/>
 	  <property name="transactionManager" ref="transactionManager"/>	  
 	</bean>

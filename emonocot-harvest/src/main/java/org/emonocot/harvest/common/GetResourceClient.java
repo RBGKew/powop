@@ -169,7 +169,7 @@ public class GetResourceClient {
 
         } catch (ClientProtocolException cpe) {
             logger.error("Client Protocol Exception getting document "
-                    + authorityURI + " " + cpe.getLocalizedMessage());
+                    + authorityURI + " " + cpe.getMessage());
             return ExitStatus.FAILED;
         } catch (IOException ioe) {
             logger.error("Input Output Exception getting document "

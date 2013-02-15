@@ -3962,4 +3962,34 @@
       <comment>Set scheduled to false by default</comment>
       <sql>update Resource set scheduled = 0 where scheduled is NULL</sql>
     </changeSet>
+    <changeSet author="ben" id="2013-02-14_01">
+        <createIndex tableName="Description_Reference" indexName="Description_Reference_references_id_IDX">
+          <column name="references_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2013-02-14_02">
+        <addForeignKeyConstraint constraintName="Description_Reference_Description_id_FK" baseTableName="Description_Reference" baseColumnNames="Description_id"
+           referencedTableName="Description" referencedColumnNames="id"
+        />
+    </changeSet>
+    <changeSet author="ben" id="2013-02-14_03">
+        <createIndex tableName="Description_Reference" indexName="Description_Reference_Description_id_IDX">
+          <column name="Description_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2013-02-14_04">
+        <createIndex tableName="Distribution_Reference" indexName="Distribution_Reference_references_id_IDX">
+          <column name="references_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2013-02-14_05">
+        <addForeignKeyConstraint constraintName="Distribution_Reference_Taxon_id_FK" baseTableName="Distribution_Reference" baseColumnNames="Distribution_id"
+           referencedTableName="Distribution" referencedColumnNames="id"
+        />
+    </changeSet>
+    <changeSet author="ben" id="2013-02-14_06">
+        <createIndex tableName="Distribution_Reference" indexName="Distribution_Reference_Distribution_id_IDX">
+          <column name="Distribution_id"/>
+        </createIndex>
+    </changeSet>
 </databaseChangeLog>

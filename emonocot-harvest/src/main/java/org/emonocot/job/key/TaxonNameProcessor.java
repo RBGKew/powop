@@ -11,8 +11,6 @@ import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
-import org.gbif.ecat.model.ParsedName;
-import org.gbif.ecat.parser.NameParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
@@ -36,11 +34,6 @@ public class TaxonNameProcessor extends AbstractRecordAnnotator implements
     private TaxonMatcher taxonMatcher;
 
     /**
-    *
-    */
-    private NameParser nameParser;
-
-    /**
      *
      */
     private TaxonService taxonService;
@@ -51,14 +44,6 @@ public class TaxonNameProcessor extends AbstractRecordAnnotator implements
      */
     public final void setTaxonMatcher(final TaxonMatcher newTaxonMatcher) {
         this.taxonMatcher = newTaxonMatcher;
-    }
-
-    /**
-     * @param newNameParser
-     *            the nameParser to set
-     */
-    public final void setNameParser(final NameParser newNameParser) {
-        this.nameParser = newNameParser;
     }
 
     /**
@@ -86,9 +71,8 @@ public class TaxonNameProcessor extends AbstractRecordAnnotator implements
         if (item.getRepresentation() == null) {
             return null;
         } else {
-            String taxonName = item.getRepresentation().getLabel();
-            ParsedName parsedName = nameParser.parse(taxonName);
-            List<Match<Taxon>> matches = taxonMatcher.match(parsedName);
+            String taxonName = item.getRepresentation().getLabel();            
+            List<Match<Taxon>> matches = taxonMatcher.match(taxonName);
             if (matches.size() == 0) {
                 annotationType = AnnotationType.Error;
                 code = AnnotationCode.Absent;

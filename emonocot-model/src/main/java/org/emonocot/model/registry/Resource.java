@@ -529,7 +529,7 @@ public class Resource extends Base implements Searchable {
     	sid.addField("resource.scheduled_b", getScheduled());
     	sid.addField("resource.scheduling_period_s", getSchedulingPeriod());
     	if(getOrganisation() != null) {
-    		sid.addField("resource.organisation_t",getOrganisation().getIdentifier());
+    		sid.addField("resource.organisation_s",getOrganisation().getIdentifier());
     	}
     	if(getStartTime() != null) {
     	    sid.addField("resource.start_time_dt",solrDateTimeFormat.print(getStartTime()));

@@ -139,7 +139,7 @@
 	</batch:job>
 	
 	<bean id="writeMetadataTasklet" class="org.emonocot.job.dwc.write.ArchiveMetadataWriter" scope="step">
-		<property name="downloadFile" value="#{jobParameters['download.file']}"/>		
+		<property name="archiveFile" value="#{jobParameters['download.file']}"/>		
 		<property name="taxonFields" value="#{jobParameters['download.taxon']}"/>
 		<property name="descriptionFields" value="#{jobParameters['download.description']}"/>
 		<property name="distributionFields" value="#{jobParameters['download.distribution']}"/>
@@ -167,7 +167,7 @@
 	</bean>
 	
 	<bean id="packageArchiveTasklet" class="org.emonocot.job.dwc.write.ArchivePackager" scope="step">
-		<property name="downloadFile" value="#{jobParameters['download.file']}"/>
+		<property name="archiveFile" value="#{jobParameters['download.file']}"/>
 		<property name="outputDirectory" value="${harvester.output.directory}"/>
 		<property name="descriptionFields" value="#{jobParameters['download.description']}"/>
 		<property name="distributionFields" value="#{jobParameters['download.distribution']}"/>

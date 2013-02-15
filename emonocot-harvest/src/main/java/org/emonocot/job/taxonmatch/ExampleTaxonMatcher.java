@@ -16,6 +16,7 @@ import org.emonocot.model.Taxon;
 import org.emonocot.pager.Page;
 import org.gbif.ecat.model.ParsedName;
 import org.gbif.ecat.parser.NameParser;
+import org.gbif.ecat.parser.UnparsableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,23 +26,24 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class ExampleTaxonMatcher implements TaxonMatcher {
 
-    /**
-     *
-     */
     private Logger logger = LoggerFactory.getLogger(ExampleTaxonMatcher.class);
 
-    /**
-     *
-     */
     @Autowired
     private TaxonService taxonService;
+    
+    @Autowired
+    private NameParser nameParser;
 
     /**
-     * @param newTaxonService
+     * @param taxonService
      *            the taxonService to set
      */
-    public final void setTaxonService(final TaxonService newTaxonService) {
-        this.taxonService = newTaxonService;
+    public void setTaxonService(TaxonService taxonService) {
+        this.taxonService = taxonService;
+    }
+    
+    public void setNameParser(NameParser nameParser) {
+    	this.nameParser = nameParser;
     }
 
     /*
@@ -50,7 +52,8 @@ public class ExampleTaxonMatcher implements TaxonMatcher {
      * org.emonocot.api.match.TaxonMatcher#match(org.gbif.ecat.model.ParsedName
      * )
      */
-    public final List<Match<Taxon>> match(final ParsedName<String> parsed) {
+    public List<Match<Taxon>> match(ParsedName<String> parsed) {    	
+    	
         List<Match<Taxon>> matches = new ArrayList<Match<Taxon>>();
         Taxon emonocotTaxon = new Taxon();
         emonocotTaxon.setScientificName(parsed.buildName(true, true, false, false, false,
@@ -120,4 +123,10 @@ public class ExampleTaxonMatcher implements TaxonMatcher {
 
         return matches;
     }
+
+	@Override
+	public List<Match<Taxon>> match(String name) throws UnparsableException {
+		ParsedName<String> parsed = nameParser.parse(name);
+		return match(parsed);
+	}
 }

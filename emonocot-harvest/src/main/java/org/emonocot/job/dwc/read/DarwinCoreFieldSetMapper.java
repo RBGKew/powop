@@ -1,6 +1,7 @@
 package org.emonocot.job.dwc.read;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.emonocot.api.job.TermFactory;
@@ -19,19 +20,13 @@ import org.springframework.validation.BindException;
  */
 public abstract class DarwinCoreFieldSetMapper<T extends Base> extends AuthorityAware implements
         FieldSetMapper<T> {
-    /**
-     *
-     */
+	
     private Logger logger = LoggerFactory.getLogger(DarwinCoreFieldSetMapper.class);
 
-    /**
-     *
-     */
-    private String[] fieldNames;
+    private String[] fieldNames  = new String[0];
+    
+    private Map<String, String> defaultValues = new HashMap<String,String>();
 
-    /**
-     *
-     */
     private Class<T> type;
 
    /**
@@ -42,13 +37,8 @@ public abstract class DarwinCoreFieldSetMapper<T extends Base> extends Authority
     * @throws BindException if there is a problem mapping
     *         the value to the object
     */
-    public abstract void mapField(final T object, final String fieldName,
-            final String value) throws BindException;
-
-    /**
-     *
-     */
-    private Map<String, String> defaultValues;
+    public abstract void mapField(T object, String fieldName,
+            String value) throws BindException;
 
     /**
      *
@@ -59,7 +49,7 @@ public abstract class DarwinCoreFieldSetMapper<T extends Base> extends Authority
      *
      * @param newFieldNames Set the names of the fields
      */
-    public final void setFieldNames(final String[] newFieldNames) {
+    public void setFieldNames(String[] newFieldNames) {
         this.fieldNames = newFieldNames;
     }
 
@@ -67,8 +57,7 @@ public abstract class DarwinCoreFieldSetMapper<T extends Base> extends Authority
     *
     * @param newDefaultValues Set the defaultValues of the fields
     */
-    public final void setDefaultValues(
-            final Map<String, String> newDefaultValues) {
+    public void setDefaultValues(Map<String, String> newDefaultValues) {
         this.defaultValues = newDefaultValues;
     }
 
@@ -76,7 +65,7 @@ public abstract class DarwinCoreFieldSetMapper<T extends Base> extends Authority
      *
      * @param newType Set the type
      */
-    public DarwinCoreFieldSetMapper(final Class<T> newType) {
+    public DarwinCoreFieldSetMapper(Class<T> newType) {
         this.type = newType;
     }
 
@@ -86,7 +75,7 @@ public abstract class DarwinCoreFieldSetMapper<T extends Base> extends Authority
      * @throws BindException if there is a problem binding
      *         the values to the object
      */
-    public final T mapFieldSet(final FieldSet fieldSet) throws BindException {
+    public T mapFieldSet(FieldSet fieldSet) throws BindException {
         T t;
         try {
             t = type.newInstance();
@@ -135,7 +124,7 @@ public abstract class DarwinCoreFieldSetMapper<T extends Base> extends Authority
      *
      * @return a term factory instance
      */
-    public final TermFactory getTermFactory() {
+    public TermFactory getTermFactory() {
         return termFactory;
     }
 }

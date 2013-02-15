@@ -13,8 +13,7 @@
 		                http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
 		                http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
 
-	<context:property-placeholder
-		location="classpath*:META-INF/spring/*.properties" />
+	<context:property-placeholder location="classpath*:META-INF/spring/*.properties" />
 		
 	<context:annotation-config />
 	
@@ -165,11 +164,16 @@
 	</bean>
 	
 	<bean id="nameParser" class="org.gbif.ecat.parser.NameParser" />
+	
     <bean id="taxonMatcher" class="org.emonocot.job.taxonmatch.CompositeTaxonMatcher">
         <property name="matchers">
             <list>
-                <bean class="org.emonocot.job.taxonmatch.ExampleTaxonMatcher"/>
-                <bean class="org.emonocot.job.taxonmatch.DefaultTaxonMatcher"/>
+                <bean class="org.emonocot.job.taxonmatch.ExampleTaxonMatcher">
+                  <property name="nameParser" ref="nameParser"/>
+                </bean>
+                <bean class="org.emonocot.job.taxonmatch.DefaultTaxonMatcher">
+                  <property name="nameParser" ref="nameParser"/>
+                </bean>
             </list>
         </property>
     </bean>

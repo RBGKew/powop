@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.emonocot.api.SearchableObjectService;
-import org.emonocot.api.TaxonService;
 import org.emonocot.api.match.Match;
 import org.emonocot.api.match.MatchStatus;
 import org.emonocot.api.match.taxon.TaxonMatcher;
@@ -20,6 +19,7 @@ import org.emonocot.model.Taxon;
 import org.emonocot.pager.Page;
 import org.gbif.ecat.model.ParsedName;
 import org.gbif.ecat.parser.NameParser;
+import org.gbif.ecat.parser.UnparsableException;
 import org.gbif.ecat.voc.Rank;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,22 +30,23 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class DefaultTaxonMatcher implements TaxonMatcher {
 
-    /**
-     *
-     */
     private Logger logger = LoggerFactory.getLogger(DefaultTaxonMatcher.class);
 
-    /**
-     *
-     */
     @Autowired
     private SearchableObjectService searchableObjectService;
+    
+    @Autowired 
+    private NameParser nameParser;
+    
+    public void setNameParser(NameParser nameParser) {
+    	this.nameParser = nameParser;
+    }
 
     /**
      * @param searchableObjectService
      *            the taxonService to set
      */
-    public final void setSearchableObjectService(final SearchableObjectService searchableObjectService) {
+    public void setSearchableObjectService(SearchableObjectService searchableObjectService) {
         this.searchableObjectService = searchableObjectService;
     }
 
@@ -55,7 +56,7 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
      * org.emonocot.api.match.TaxonMatcher#match(org.gbif.ecat.model.ParsedName
      * )
      */
-    public final List<Match<Taxon>> match(final ParsedName<String> parsed) {
+    public List<Match<Taxon>> match(ParsedName<String> parsed) {
         StringBuilder stringBuilder = new StringBuilder();
         if (parsed.getSpecificEpithet() == null) {
             stringBuilder.append("taxon.scientific_name_t:" + parsed.getGenusOrAbove());
@@ -154,5 +155,11 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
         }
         return matches;
     }
+
+	@Override
+	public List<Match<Taxon>> match(String name) throws UnparsableException {
+		ParsedName<String> parsed = nameParser.parse(name);
+		return match(parsed);
+	}
 
 }

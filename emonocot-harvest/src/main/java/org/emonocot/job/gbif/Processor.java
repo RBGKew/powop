@@ -11,8 +11,6 @@ import org.emonocot.model.TypeAndSpecimen;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
-import org.gbif.ecat.model.ParsedName;
-import org.gbif.ecat.parser.NameParser;
 import org.gbif.ecat.parser.UnparsableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +21,6 @@ public class Processor extends AbstractRecordAnnotator implements ItemProcessor<
 	private Logger logger = LoggerFactory.getLogger(Processor.class);
 
     private TaxonMatcher taxonMatcher;
-    
-    private NameParser nameParser;
 
     public void setTaxonMatcher(TaxonMatcher taxonMatcher) {
         this.taxonMatcher = taxonMatcher;
@@ -58,8 +54,7 @@ public class Processor extends AbstractRecordAnnotator implements ItemProcessor<
 		if(o.getIdentifiedTo() == null || o.getIdentifiedTo().isEmpty() || o.getIdentifiedTo().get(0).getTaxonName() == null) {
 			return null;
 		} else {
-			ParsedName<String> parsedName = nameParser.parse(o.getIdentifiedTo().get(0).getTaxonName());
-			List<Match<Taxon>> results = taxonMatcher.match(parsedName);
+			List<Match<Taxon>> results = taxonMatcher.match(o.getIdentifiedTo().get(0).getTaxonName());
 			
 			if(results.size() == 1) {
 				return results.get(0).getInternal();
@@ -89,9 +84,5 @@ public class Processor extends AbstractRecordAnnotator implements ItemProcessor<
 				return null;
 			}
 		}
-	}
-
-	public void setNameParser(NameParser nameParser) {
-		this.nameParser = nameParser;
 	}
 }

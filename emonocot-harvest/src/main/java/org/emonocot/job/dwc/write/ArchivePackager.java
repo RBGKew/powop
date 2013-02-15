@@ -15,7 +15,7 @@ import org.springframework.core.io.FileSystemResource;
 
 public class ArchivePackager implements Tasklet {
 	
-	private String downloadFile;
+	private String archiveFile;
 	
 	private FileSystemResource outputDirectory;
 	
@@ -35,8 +35,8 @@ public class ArchivePackager implements Tasklet {
 	
 	private String[] typeAndSpecimenFields;
 	
-	public void setDownloadFile(String downloadFile) {
-		this.downloadFile = downloadFile;
+	public void setArchiveFile(String archiveFile) {
+		this.archiveFile = archiveFile;
 	}
 	
 	public void setOutputDirectory(FileSystemResource outputDirectory) {
@@ -76,9 +76,9 @@ public class ArchivePackager implements Tasklet {
 	}
 	
 	public RepeatStatus execute(StepContribution stepContribution, final ChunkContext chunkContext) throws Exception {
-		File archiveFile = new File(outputDirectory.getFile(),downloadFile  + ".zip");
-		ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(archiveFile));
-		File workDirectory = new File(outputDirectory.getFile(),downloadFile);
+		File archive = new File(outputDirectory.getFile(),archiveFile  + ".zip");
+		ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(archive));
+		File workDirectory = new File(outputDirectory.getFile(),archiveFile);
 		if(!workDirectory.exists()) {
 			workDirectory.mkdir();
 		}
