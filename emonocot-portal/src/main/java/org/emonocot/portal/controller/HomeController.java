@@ -36,10 +36,9 @@ public class HomeController {
      * @param model Set the model
      * @return A model and view containing a user
      */
-    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public final String show(final Model model) {
-        Authentication authentication = SecurityContextHolder.getContext()
-                .getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         model.addAttribute(userService.load(user.getUsername()));
         return "user/show";

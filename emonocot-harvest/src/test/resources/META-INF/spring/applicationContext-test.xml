@@ -103,6 +103,10 @@
 	  <property name="imageDirectory" value="${harvester.image.directory}"/>
 	</bean>
 	
+    <bean id="imageResizer" class="org.emonocot.harvest.media.ImageResizer">
+	  <property name="imageMagickSearchPath" value="${harvester.imagemagick.path}"/>
+	  <property name="imageDirectory" value="${harvester.image.directory}"/>
+	</bean>	
 	<bean id="imageMetadataProcessor" class="org.emonocot.harvest.media.ImageMetadataExtractor">
 	  <property name="imageDirectory" value="${harvester.image.directory}"/>
 	</bean>
@@ -189,6 +193,8 @@
     <bean id="jobStatusNotifier" class="org.emonocot.harvest.common.JobStatusNotifierImpl">
 	  <property name="resourceService" ref="resourceServiceImpl"/>
 	</bean>
+    
+    <bean id="mailSender" class ="org.emonocot.harvest.integration.test.MailSenderStubImpl" />
     
     <beans profile="proxy">
         <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory">

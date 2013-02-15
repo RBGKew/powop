@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.solr.client.solrj.response.FacetField;
+import org.apache.solr.client.solrj.response.RangeFacet;
 
 /**
  * Abstract class that represents a single page in a set of objects returned
@@ -91,6 +92,8 @@ public interface Page<T> {
      * @return a map of facet lists organised by the name of the facet
      */
     FacetField getFacetField(String facetName);
+    
+    RangeFacet getRangeFacet(String facetName);
 
    /**
     *

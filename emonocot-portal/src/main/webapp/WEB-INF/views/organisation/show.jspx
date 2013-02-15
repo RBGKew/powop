@@ -9,7 +9,7 @@
 	xmlns:joda="http://www.joda.org/joda/time/tags" version="2.0">
 
 	<tags:pageheader>
-		<h2 id="page-title">${organisation.title}</h2>
+		<h2 id="page-title"><i class="glyphicons-icon group"><!--  --></i> ${organisation.title}</h2>
 	</tags:pageheader>
 
 	<div class="container">

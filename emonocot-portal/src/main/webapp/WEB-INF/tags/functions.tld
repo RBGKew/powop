@@ -19,6 +19,11 @@
         <function-signature>org.emonocot.model.constants.MeasurementsType[] measurements()</function-signature>
     </function>
     <function>
+        <name>formatDateRange</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.String formatDateRange(java.lang.String)</function-signature>
+    </function>
+    <function>
         <name>fact</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>org.emonocot.model.MeasurementOrFact fact(org.emonocot.model.Taxon,org.emonocot.model.constants.MeasurementType)</function-signature>
@@ -107,6 +112,16 @@
         <name>annotationSortItems</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>java.util.List annotationSortItems()</function-signature>
+    </function>
+    <function>
+        <name>resourceSortItems</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.util.List resourceSortItems()</function-signature>
+    </function>
+    <function>
+        <name>organisationSortItems</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.util.List organisationItems()</function-signature>
     </function>
     <function>
         <name>sort</name>

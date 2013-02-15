@@ -1,9 +1,13 @@
 package org.emonocot.portal.remoting;
 
 import java.util.List;
+import java.util.Map;
 
+import org.apache.solr.common.SolrDocument;
 import org.emonocot.model.registry.Resource;
+import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.ResourceDao;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -50,5 +54,31 @@ public class ResourceDaoImpl extends DaoImpl<Resource> implements ResourceDao {
         // TODO Auto-generated method stub
         return null;
     }
+
+	@Override
+	public boolean isHarvesting() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<Resource> listResourcesToHarvest(Integer limit, DateTime now, String fetch) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Page<SolrDocument> searchForDocuments(String query,
+			Integer pageSize, Integer pageNumber,
+			Map<String, String> selectedFacets, String sort) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Resource loadObjectForDocument(SolrDocument solrDocument) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

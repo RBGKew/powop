@@ -3,13 +3,14 @@ package org.emonocot.api;
 import java.util.List;
 
 import org.emonocot.model.registry.Resource;
+import org.joda.time.DateTime;
 
 /**
  *
  * @author ben
  *
  */
-public interface ResourceService extends Service<Resource> {
+public interface ResourceService extends SearchableService<Resource> {
     /**
      * @param sourceId Set the source identifier
      * @return the total number of jobs for a given source
@@ -30,4 +31,8 @@ public interface ResourceService extends Service<Resource> {
      * @return a matching job
      */
     Resource findByJobId(Long id);
+
+	boolean isHarvesting();
+
+	List<Resource> listResourcesToHarvest(Integer limit, DateTime now, String fetch);
 }

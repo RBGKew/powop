@@ -1,4 +1,4 @@
-insert into Organisation (id, identifier, uri) values (10, 'test', 'http://example.com');
+insert into Organisation (id, identifier, uri, publisherEmail) values (10, 'test', 'http://example.com', 'test@example.com');
 insert into Reference (id, identifier,title) values (1, 'urn:kew.org:wcs:placeOfPublication:899','Bull. Pacific Orchid Soc. Hawaii');
 insert into Reference (id, identifier,title) values (2, 'urn:kew.org:wcs:placeOfPublication:234','Diagn. Pl. Orient. 13: 8 (1846)');
 insert into Taxon (id, identifier, scientificName, family, authority_id, license) values (1, 'urn:lsid:cate-araceae.org:taxon:5cd5a6aa-6bfb-1014-a918-dc439151c9e5', 'Acontias conspurcatus','Arecaceae',10,'http://creativecommons.org/licenses/by-nc-sa/3.0/');
@@ -105,3 +105,4 @@ insert into Annotation (id, annotatedObjId, annotatedObjType, code, type, jobId)
 insert into Annotation (id, annotatedObjId, annotatedObjType, code, type, jobId) values (2,1,'Taxon','Present','Info', 601);
 insert into Annotation (id, annotatedObjId, annotatedObjType, code, type, jobId) values (3,1,'Taxon','Absent','Warn', 602);
 insert into Annotation (id, annotatedObjId, annotatedObjType, code, type, jobId) values (4,1,'Taxon','Absent','Warn', 603);
+insert into Comment (id, identifier, aboutData_id, aboutData_type, comment, created, status, user_id) values  (1, 'testComment1', 1, 'Taxon', 'Test Comment', '2013-01-05', 'PENDING', 1);

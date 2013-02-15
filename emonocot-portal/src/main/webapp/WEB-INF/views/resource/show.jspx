@@ -12,7 +12,7 @@
 
 	<tags:pageheader>
 		<h2 id="page-title">
-			${resource.title}
+			<i class="glyphicons-icon file"><!--  --></i> ${resource.title}
 		</h2>
 	</tags:pageheader>
 	<div class="container">

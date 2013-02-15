@@ -7,29 +7,28 @@
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 
 	<tags:pageheader>
-		<c:url value="/css/images/glyphicons/fullsize/glyphicons_159_picture.png" var="imageIconUrl"/>
-		<h2 id="page-title"> <img src="${imageIconUrl}" class="pull-left no-print header-icon" alt="Image"/> ${image.title}</h2>
-		<br/>
+			<h2 id="page-title"><i class="glyphicons-icon picture"><!--  --></i> ${image.title}</h2>
 	</tags:pageheader>
 
 	<div class="container">
-		<div class="row">
-			<div class="span9">
-				<c:if test="${not empty image.taxon.scientificName}">
-					<h5>
-						<c:url value="/taxon/${image.taxon.identifier}"  var="taxonUrl"/>
-						<spring:message code="imageOf" />:
-						<a href="${taxonUrl}"><em>${image.taxon.scientificName}</em> ${image.taxon.scientificNameAuthorship}</a>
-					</h5>
-				</c:if>
-				<br/>
-				<div class="centeredImage section-box">
-					<div class="inner">
-						<div class="box clearfix">
-							<c:url value="/images/fullsize/${image.id}.${image.format}" var="imageUrl"/>
-							<img id="main-img" class=" imageSize" src="${imageUrl}" title="${fn:escapeXml(image.title)}" alt="${status.index}" />
-						</div>
-					</div>
+	<div class="row">
+		<div class="span9">
+	        <tags:info />
+	        <tags:error />
+			<c:if test="${not empty image.taxon.scientificName}">
+				<h5>
+				    <c:url value="/taxon/${image.taxon.identifier}"  var="taxonUrl"/>
+					<spring:message code="imageOf" />:
+					<a href="${taxonUrl}"><em>${image.taxon.scientificName}</em> ${image.taxon.scientificNameAuthorship}</a>					
+				</h5>
+			</c:if>
+			<br/>
+			<div class="centeredImage section-box">
+				<div class="inner">
+					<div class="box clearfix">
+						<c:url value="/images/fullsize/${image.id}.${image.format}" var="imageUrl"/>
+						<img id="main-img" class="imageSize" src="${imageUrl}" title="${fn:escapeXml(image.title)}" alt="${status.index}" />
+				</div>
 				</div>
 				<br/>
 				<section class="section-box">

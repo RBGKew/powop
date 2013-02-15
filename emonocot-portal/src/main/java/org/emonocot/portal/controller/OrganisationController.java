@@ -1,10 +1,16 @@
 package org.emonocot.portal.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.validation.Valid;
 
 import org.emonocot.api.OrganisationService;
 import org.emonocot.api.ResourceService;
 import org.emonocot.model.registry.Organisation;
+import org.emonocot.pager.Page;
+import org.emonocot.portal.format.annotation.FacetRequestFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,9 +80,25 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	@RequestMapping(method = RequestMethod.GET, params = "!form", produces = "text/html")
 	public String list(
 			Model model,
-			@RequestParam(value = "start", defaultValue = "0", required = false) Integer start,
-			@RequestParam(value = "size", defaultValue = "10", required = false) Integer size) {
-		model.addAttribute("result", getService().list(start, size, null));
+			@RequestParam(value = "query", required = false) String query,
+		    @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+		    @RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
+		    @RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
+		    @RequestParam(value = "sort", required = false) String sort,
+		    @RequestParam(value = "view", required = false) String view) {
+		
+		Map<String, String> selectedFacets = new HashMap<String, String>();
+		if (facets != null && !facets.isEmpty()) {
+			for (FacetRequest facetRequest : facets) {
+				selectedFacets.put(facetRequest.getFacet(),
+						facetRequest.getSelected());
+			}
+		}
+		selectedFacets.put("base.class_s", "org.emonocot.model.registry.Organisation");
+		Page<Organisation> result = getService().search(query, null, limit, start, 
+				new String[] { "organisation.subject_t" }, null, selectedFacets, sort, null);
+		model.addAttribute("result", result);
+		result.putParam("query", query);
 		return "organisation/list";
 	}
 

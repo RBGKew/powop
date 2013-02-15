@@ -117,7 +117,21 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
         	solrQuery.setFacet(true);
         	solrQuery.setFacetMinCount(1);
         	solrQuery.setFacetSort(FacetParams.FACET_SORT_INDEX);
-            solrQuery.addFacetField(facets);
+        	for(String facet : facets) {
+        		if(facet.endsWith("_dt")) {
+        			/**
+        			 * Is a date facet. Once Solr 4.2 is released, we can implement variable length buckets, but for now
+        			 * stick with fixed buckets https://issues.apache.org/jira/browse/SOLR-2366
+        			 */
+        			
+        			solrQuery.add("facet.range",facet);
+        			solrQuery.add("f." + facet + ".facet.range.start","NOW/DAY-1YEARS");
+        			solrQuery.add("f." + facet + ".facet.range.end","NOW/DAY");
+        			solrQuery.add("f." + facet + ".facet.range.gap","+1MONTH");        			
+        		} else {
+                    solrQuery.addFacetField(facet);
+        		}
+        	}
             if(facetPrefixes != null) {
             	for(String facet : facetPrefixes.keySet()) {
             		solrQuery.add("f." + facet + ".facet.prefix",facetPrefixes.get(facet));

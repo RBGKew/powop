@@ -4,7 +4,6 @@ import java.io.File;
 
 import org.apache.sanselan.ImageInfo;
 import org.apache.sanselan.Sanselan;
-import org.emonocot.harvest.common.GetResourceClient;
 import org.emonocot.model.Image;
 import org.im4java.core.ConvertCmd;
 import org.im4java.core.IMOperation;
@@ -49,8 +48,7 @@ public class ImageThumbnailGenerator implements ItemProcessor<Image, Image> {
      *
      * @param newThumbnailDirectory set the thumbnail directory
      */
-    public final void setThumbnailDirectory(
-            final String newThumbnailDirectory) {
+    public final void setThumbnailDirectory(final String newThumbnailDirectory) {
         this.thumbnailDirectory = newThumbnailDirectory;
     }
 
@@ -58,8 +56,7 @@ public class ImageThumbnailGenerator implements ItemProcessor<Image, Image> {
      *
      * @param imageMagickSearchPath set the image magick search path directory
      */
-   public final void setImageMagickSearchPath(
-           final String imageMagickSearchPath) {
+   public final void setImageMagickSearchPath(final String imageMagickSearchPath) {
        this.searchPath = imageMagickSearchPath;
    }
 

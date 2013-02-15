@@ -9,9 +9,7 @@
 	xmlns:spring="http://www.springframework.org/tags">
 
 	<tags:pageheader>
-		<h2 id="page-title">${organisation.title}
-			<br/><spring:message code="create.resource"/>
-		</h2>
+		<h2 id="page-title"><i class="glyphicons-icon file"><!--  --></i> <spring:message code="create.resource"/></h2>
 	</tags:pageheader>
 	<div class="container">
 	    <div class="row">

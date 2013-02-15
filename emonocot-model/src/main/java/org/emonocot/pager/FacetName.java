@@ -6,58 +6,27 @@ package org.emonocot.pager;
  *
  */
 public enum FacetName {
-    /**
-     * The type (class) of object.
-     */
+
     CLASS("base.class_s"),
-    /**
-     * Facet on the taxonomic family.
-     */
     FAMILY("taxon.family_s"),
-    /**
-     * Facet on the continent.
-     */
     CONTINENT("taxon.distribution_TDWG_0_ss"),
-    /**
-     * The region for a Taxon's distibution to include.
-     */
     REGION("taxon.distribution_TDWG_1_ss"),
-    /**
-     * Facet on the source system.
-     */
     SOURCE("searchable.sources_ss"),
-    /**
-     *
-     */
     AUTHORITY("base.authority_s"),
-    /**
-     * The rank of a plant name.
-     */
     RANK("taxon.taxon_rank_s"),
-    /**
-     * The taxonomic status of the taxon.
-     */
     TAXONOMIC_STATUS("taxon.taxonomic_status_s"),
-    /**
-     * The date the taxon was published.
-     */
     NAME_PUBLISHED_IN_YEAR("taxon.name_published_in_year_i"),
-    /**
-     * The type of object annotated.
-     */
     RECORD_TYPE("annotation.record_type_s"),
-    /**
-     * The type of issue.
-     */
     TYPE("annotation.type_s"),
-    /**
-     * The error code.
-     */
     CODE("annotation.code_s"),
-    /**
-     * The job id.
-     */
-    JOB_ID("annotation.job_id_l");
+    JOB_ID("annotation.job_id_l"),
+    EXIT_CODE("resource.exit_code_s"),
+    RESOURCE_TYPE("resource.resource_type_s"),
+    SCHEDULED("resource.scheduled_b"),
+    SCHEDULING_PERIOD("resource.scheduling_period_s"),
+    RESOURCE_STATUS("resource.status_s"),
+    RESOURCE_ORGANISATION("resource.organisation_t"),
+    LAST_HARVESTED("resource.last_harvested_dt");
 
     private FacetName(String solrField) {
         this.solrField = solrField;

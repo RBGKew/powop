@@ -25,7 +25,7 @@
 							</i> <spring:message
 									code="${SPRING_SECURITY_LAST_EXCEPTION.getClass().getName()}"
 									var="securityException" /> <spring:message
-									code="${login.unsuccessful}" arguments="${securityException}" />
+									code="login.unsuccessful" arguments="${securityException}" />
 							</strong>
 						</p>
 						<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.cause}">

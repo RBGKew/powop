@@ -32,12 +32,16 @@
 									</li>
 									<li>
 										<c:url value="/home" var="homeUrl"/>
-										<a href="${homeUrl}"><i class="icon-user"><!--  --></i> <spring:message code="user.title"/></a>
+										<a href="${homeUrl}"><i class="icon-home"><!--  --></i> <spring:message code="user.title"/></a>
 									</li>
 									<security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">
 										<li>
 											<c:url value="/organisation" var="organisationsUrl"/> 
-											<a href="${organisationsUrl}"><spring:message code="organisations.title"/></a>
+											<a href="${organisationsUrl}"><i class="icon-user"><!--  --></i><spring:message code="organisations.title"/></a>
+										</li>
+										<li>
+											<c:url value="/resource" var="resourcesUrl"/> 
+											<a href="${resourcesUrl}"><i class="icon-file"><!--  --></i><spring:message code="resources.title"/></a>
 										</li>
 										<li>
 											<c:url value="/group" var="groupsUrl"/>

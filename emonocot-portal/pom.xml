@@ -222,7 +222,11 @@
 		<dependency>
            <groupId>org.ocpsoft.prettytime</groupId>
            <artifactId>prettytime</artifactId>
-        </dependency>        
+        </dependency>
+        <dependency>
+          <groupId>org.quartz-scheduler</groupId>
+          <artifactId>quartz</artifactId>
+        </dependency>     
 	</dependencies>
 	<build>
 		<finalName>emonocot-portal</finalName>

@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @Service
-public class OrganisationServiceImpl extends ServiceImpl<Organisation, OrganisationDao> implements
+public class OrganisationServiceImpl extends SearchableServiceImpl<Organisation, OrganisationDao> implements
         OrganisationService {
 
     /**

@@ -10,6 +10,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.el.ELException;
@@ -24,6 +26,8 @@ import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.TypeAndSpecimen;
 import org.emonocot.model.VernacularName;
+import org.emonocot.model.compare.AlphabeticalTaxonComparator;
+import org.emonocot.model.compare.LocationComparator;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.Location;
 import org.emonocot.model.constants.MeasurementType;
@@ -31,8 +35,6 @@ import org.emonocot.model.constants.Status;
 import org.emonocot.model.convert.ClassToStringConverter;
 import org.emonocot.model.convert.PermissionToStringConverter;
 import org.emonocot.model.registry.Organisation;
-import org.emonocot.model.compare.AlphabeticalTaxonComparator;
-import org.emonocot.model.compare.LocationComparator;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.view.bibliography.Bibliography;
 import org.emonocot.portal.view.bibliography.SimpleBibliographyImpl;
@@ -48,6 +50,7 @@ import org.joda.time.Interval;
 import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 import org.joda.time.format.PeriodFormat;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
@@ -416,10 +419,6 @@ public class Functions {
         }
     }
 
-    /**
-     *
-     * @return a list of sorting items
-     */
     public static List<String> sortItems() {
         List<String> sortItems = new ArrayList<String>();
         sortItems.add("searchable.label_sort_asc");
@@ -427,11 +426,7 @@ public class Functions {
         sortItems.add("_asc");
         return sortItems;
     }
-    
-    /**
-    *
-    * @return a list of sorting items
-    */
+
    public static List<String> annotationSortItems() {
        List<String> sortItems = new ArrayList<String>();
        sortItems.add("annotation.type_s_asc");
@@ -440,6 +435,73 @@ public class Functions {
        sortItems.add("base.created_dt_desc");
        sortItems.add("_asc");
        return sortItems;
+   }
+   
+   public static List<String> organisationItems() {
+       List<String> sortItems = new ArrayList<String>();
+       sortItems.add("searchable.label_sort_asc");
+       sortItems.add("_asc");
+       return sortItems;
+   }
+   
+   public static List<String> resourceSortItems() {
+       List<String> sortItems = new ArrayList<String>();
+       sortItems.add("resource.last_harvested_dt_desc");
+       sortItems.add("resource.last_harvested_dt_asc");
+       sortItems.add("resource.duration_l_desc");
+       sortItems.add("resource.duration_l_asc");
+       sortItems.add("resource.records_read_l_asc");
+       sortItems.add("resource.records_read_l_desc");
+       sortItems.add("annotation.record_type_s_asc");
+       sortItems.add("base.created_dt_desc");
+       sortItems.add("_asc");
+       return sortItems;
+   }
+   
+   private static Pattern pattern = Pattern.compile("\\[(.*?) TO (.*?)\\+(\\d)(\\w+)\\]");
+   
+   private static DateTimeFormatter solrDateTimeFormatter = DateTimeFormat.forPattern("yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'");
+   
+   public static String formatDateRange(String dateRange) {
+	   
+	   Matcher matcher = pattern.matcher(dateRange);
+	   
+	   if(matcher.matches()) {		   
+		   String beginningString = matcher.group(1);
+		   String endString = matcher.group(2);		   
+		   
+		   DateTime beginning = solrDateTimeFormatter.parseDateTime(beginningString);
+		   DateTime end = solrDateTimeFormatter.parseDateTime(endString);
+		   Integer gap = Integer.parseInt(matcher.group(3));
+		   String increment = matcher.group(4);
+		   DateTimeFormatter dateTimeFormatter = null;
+		   switch(increment) {
+		   case "DAY":
+			   end = end.plusDays(gap);
+			   dateTimeFormatter = DateTimeFormat.shortDate();
+			   break;
+		   case "WEEK":
+			   end = end.plusWeeks(gap);
+			   dateTimeFormatter = DateTimeFormat.shortDate();
+			   break;
+		   case "MONTH":
+			   end = end.plusMonths(gap);
+			   dateTimeFormatter = DateTimeFormat.forPattern("yyyy/MM");
+			   break;
+		   case "YEAR":
+			   end = end.plusYears(gap);
+			   dateTimeFormatter = DateTimeFormat.forPattern("yyyy");
+			   break;
+		   }
+		   
+		   return dateTimeFormatter.print(beginning) + " - " + dateTimeFormatter.print(end);
+		   
+	   } else {
+		   return dateRange;
+	   }
+
+
+	    
    }
 
     /**

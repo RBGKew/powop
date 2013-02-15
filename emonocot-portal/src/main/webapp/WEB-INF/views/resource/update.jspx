@@ -8,10 +8,9 @@
 	xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields"
 	xmlns:fm="http://www.springframework.org/tags/form"
 	xmlns:spring="http://www.springframework.org/tags"
-	xmlns:joda="http://www.joda.org/joda/time/tags">
-	
+	xmlns:joda="http://www.joda.org/joda/time/tags">	
 	<tags:pageheader>
-		<h2 id="page-title">${resource.title}</h2>
+		<h2 id="page-title"><i class="glyphicons-icon file"><!--  --></i> ${resource.title}</h2>
 	</tags:pageheader>
 	<div class="container">
 	    <div class="row">

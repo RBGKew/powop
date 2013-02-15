@@ -5,6 +5,7 @@ import org.emonocot.api.job.JobExecutionException;
 import org.emonocot.api.job.JobExecutionInfo;
 import org.emonocot.api.job.JobStatusNotifier;
 import org.emonocot.model.registry.Resource;
+import org.emonocot.persistence.hibernate.SolrIndexingListener;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.slf4j.Logger;
@@ -20,34 +21,27 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class JobStatusNotifierImpl implements JobStatusNotifier {
-    /**
-    *
-    */
-    private static Logger logger = LoggerFactory
-            .getLogger(JobStatusNotifierImpl.class);
 
-    /**
-    *
-    */
+    private static Logger logger = LoggerFactory.getLogger(JobStatusNotifierImpl.class);
+
     private ResourceService service;
-
-    /**
-     * @param resourceService
-     *            the jobService to set
-     */
+    
+    private SolrIndexingListener solrIndexingListener;
+    
     @Autowired
     public final void setResourceService(final ResourceService resourceService) {
         this.service = resourceService;
     }
+    
+    @Autowired
+    public void setSolrIndexingListener(SolrIndexingListener solrIndexingListener) {
+    	this.solrIndexingListener = solrIndexingListener;
+    }
 
-    /**
-     * @param jobExecutionInfo
-     *            Set the job execution info
-     */
     public final void notify(final JobExecutionInfo jobExecutionInfo) {
         logger.debug("In notify " + jobExecutionInfo.getId());
 
-        Resource resource = service.find(jobExecutionInfo.getResourceIdentifier());
+        Resource resource = service.find(jobExecutionInfo.getResourceIdentifier(),"job-with-source");
 		if (resource != null) {
 			resource.setJobId(jobExecutionInfo.getId());
 			resource.setDuration(new Duration(new DateTime(0), jobExecutionInfo.getDuration()));
@@ -67,54 +61,37 @@ public class JobStatusNotifierImpl implements JobStatusNotifier {
 			resource.setWritten(jobExecutionInfo.getWritten());
 			if(resource.getStatus().equals(BatchStatus.COMPLETED)) {
 				resource.setLastHarvested(jobExecutionInfo.getStartTime());
-				if(resource.getScheduled()) {
-					DateTime nextAvailableDate = new DateTime();
-					switch (resource.getSchedulingPeriod()) {
-					case YEARLY:
-						nextAvailableDate = nextAvailableDate.plusYears(1);
-					    break;
-					case MONTHLY:
-						nextAvailableDate = nextAvailableDate.plusMonths(1);
-						break;
-					case WEEKLY:
-						nextAvailableDate = nextAvailableDate.plusWeeks(1);
-						break;
-					case DAILY:
-						nextAvailableDate = nextAvailableDate.plusDays(1);
-					    break;					
-				    default:
-				    	nextAvailableDate = null;							
-					}
-					
-					resource.setNextAvailableDate(nextAvailableDate);
-				}
+				resource.updateNextAvailableDate();
+				
 			} else if(resource.getStatus().equals(BatchStatus.FAILED)) {
 				resource.setNextAvailableDate(null);				
 			}
 
 			service.saveOrUpdate(resource);
+			solrIndexingListener.indexObject(resource);
 		}
     }
 
 	@Override
 	public void notify(JobExecutionException jobExecutionException, String resourceIdentifier) {
 		if(resourceIdentifier != null) {
-		    Resource job = service.find(resourceIdentifier);
-		    job.setJobId(null);
-			job.setDuration(null);
-			job.setExitCode("FAILED");
-			job.setExitDescription(jobExecutionException.getLocalizedMessage());
-			job.setJobInstance(null);
-			job.setResource(null);
-			job.setStartTime(null);
-			job.setStatus(BatchStatus.FAILED);
-			job.setProcessSkip(0);
-			job.setRecordsRead(0);
-			job.setReadSkip(0);
-			job.setWriteSkip(0);
-			job.setWritten(0);
+		    Resource resource = service.find(resourceIdentifier,"job-with-source");
+		    resource.setJobId(null);
+			resource.setDuration(null);
+			resource.setExitCode("FAILED");
+			resource.setExitDescription(jobExecutionException.getLocalizedMessage());
+			resource.setJobInstance(null);
+			resource.setResource(null);
+			resource.setStartTime(null);
+			resource.setStatus(BatchStatus.FAILED);
+			resource.setProcessSkip(0);
+			resource.setRecordsRead(0);
+			resource.setReadSkip(0);
+			resource.setWriteSkip(0);
+			resource.setWritten(0);
 
-			service.saveOrUpdate(job);
+			service.saveOrUpdate(resource);
+			solrIndexingListener.indexObject(resource);
 		}
 		
 	}
