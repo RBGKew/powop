@@ -12,18 +12,19 @@ body{
  * divide-by-zero error when a thumbnail has been resized to 101px or 99px
  */
  
-.thumbnail > img {    
+img.thumbnail {    
     height: 100px;
     width: 100px;
 }
 
 // Images and captions
-.thumbnail > a > img {
+img.thumbnail {
   display: block;
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
+
 
 .centeredImage{
     text-align:center;
@@ -337,7 +338,7 @@ footer {
 .h4Results { color: #5b5b5b; font-size: 16px; }
 .h4Results em { font-style: normal; }
 
-#results .thumbnail > img { height: 80px; width: 80px; }
+#results img.thumbnail { height: 80px; width: 80px; }
 #results .table tr:first-child td { border-top: none;}
 
 #results .table tr td div em { font-weight: bold; font-style: normal; }
@@ -349,6 +350,10 @@ footer {
 .sub-title { color: #5b5b5b; font-size: 24px; line-height: 30px; margin: 10px 0 20px; text-align: center; }
 
 /* taxon */
+
+.carousel-inner{
+	padding-left:80px;
+}
 
 .carousel.jcarousel .item {
     width: 20000em;

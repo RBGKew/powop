@@ -236,7 +236,7 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
         HttpEntity<T> requestEntity = new HttpEntity<T>(t, httpHeaders);
         HttpEntity<T> responseEntity = restTemplate.exchange(baseUri + "/"
                 + resourceDir, HttpMethod.POST,
-                requestEntity, type);        
+                requestEntity, type);       
         createdObjects.put(t.getIdentifier(), responseEntity.getHeaders().getLocation().toString());
         return responseEntity.getBody();
     }

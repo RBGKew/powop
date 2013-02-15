@@ -7,10 +7,9 @@
 	xmlns:results="urn:jsptagdir:/WEB-INF/tags/results"
 	xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu"
 	xmlns:geo="urn:jsptagdir:/WEB-INF/tags/geo"
-	xmlns:spring="http://www.springframework.org/tags"
-	version="2.0">
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 	<jsp:useBean id="result" scope="request" type="org.emonocot.pager.Page" />
-	<tags:pageheader>
+<tags:pageheader>
 			<div class="row">
 				<h2 id="page-title" class="span6">
 				  <i class="glyphicons-icon globe"><!--  --></i>
@@ -49,121 +48,192 @@
 					    <input type="text" id="x1" name="x1" class="span1" value="${result.params['x1']}"/><span class="help-inline">&#176; W</span>&#160;<input type="text" id="y1" name="y1" class="span1" value="${result.params['y1']}"/> <span class="help-inline">&#176; N</span>
 					  </div>
 					</div>
-					<div class="control-group">
-					  <label class="control-label"><spring:message code="to" />:</label>
-					  <div class="controls">
-					    <input type="text" id="x2" name="x2" class="span1" value="${result.params['x2']}"/><span class="help-inline">&#176; W</span>&#160; <input type="text" id="y2" name="y2" class="span1" value="${result.params['y2']}"/> <span class="help-inline">&#176; N</span>
-					  </div>
+				
+				<div class="control-group">
+					<label class="control-label"><spring:message code="to" />:</label>
+					<div class="controls">
+						<input type="text" id="x2" name="x2" class="span1"
+							value="${result.params['x2']}" /><span class="help-inline">&#176;
+							W</span>&#160; <input type="text" id="y2" name="y2" class="span1"
+							value="${result.params['y2']}" /> <span class="help-inline">&#176;
+							N</span>
 					</div>
-				</form>
-			</div>
-			<div class="row">
-			    <span class="pull-left"><spring:message code="map.instructions"/></span>
-			    <c:url var="resetUrl" value="/spatial">
-                    <c:param name="query" value=""/>
-                </c:url>
-                <a id="reset" class="btn pull-right" href="${resetUrl}" ><i class="icon-refresh"><!--  --></i><spring:message code="reset"/></a>
-			</div>
-    </tags:pageheader>
-    <geo:map x1="${result.params['x1']}" y1="${result.params['y1']}" x2="${result.params['x2']}" y2="${result.params['y2']}" mapClass="full-width-map" zoomBoxSearch="true">
-        <c:if test="${not empty result.params['featureId']}">
-            <geo:layer name="places" layer="emonocot:place" style="eMonocot" featureId="${result.params['featureId']}" />
-        </c:if>
-    </geo:map>
-    <div class="container">
+				</div>
+			</form>
+		</div>
+		<div class="row">
+			<span class="pull-left"><spring:message
+					code="map.instructions" /></span>
+			<c:url var="resetUrl" value="/spatial">
+				<c:param name="query" value="" />
+			</c:url>
+			<a id="reset" class="btn pull-right" href="${resetUrl}"><i
+				class="icon-refresh"> <!--  -->
+			</i> <spring:message code="reset" /></a>
+		</div>
+	</tags:pageheader>
+	<geo:map x1="${result.params['x1']}" y1="${result.params['y1']}"
+		x2="${result.params['x2']}" y2="${result.params['y2']}"
+		mapClass="full-width-map" zoomBoxSearch="true">
+		<c:if test="${not empty result.params['featureId']}">
+			<geo:layer name="places" layer="emonocot:place" style="eMonocot"
+				featureId="${result.params['featureId']}" />
+		</c:if>
+	</geo:map>
+	<div class="container">
 		<div class="row">
 			<div id="facets" class="span3 no-print">
 				<c:forEach var="facetName" items="${result.facetNames}">
-				  <div class="row">
-					<div class="span3">
-					  <div class="inner">
-						<ul class="box nav nav-list">	
-						  <c:choose>
-							<c:when test="${facetName eq 'base.class_s'}">
-								<menu:facet url="/spatial" facetName="${facetName}" pager="${result}" title="restrict.your.search" showIcons="true"/>
-							</c:when>
-							<c:otherwise>
-								<menu:facet url="/spatial" facetName="${facetName}" pager="${result}"/>
-							</c:otherwise>
-						  </c:choose>
-						</ul>
-				      </div>
+					<div class="row">
+						<div class="span3">
+							<div class="inner">
+								<ul class="box nav nav-list">
+									<c:choose>
+										<c:when test="${facetName eq 'base.class_s'}">
+											<menu:facet url="/spatial" facetName="${facetName}"
+												pager="${result}" title="restrict.your.search"
+												showIcons="true" />
+										</c:when>
+										<c:otherwise>
+											<menu:facet url="/spatial" facetName="${facetName}"
+												pager="${result}" />
+										</c:otherwise>
+									</c:choose>
+								</ul>
+							</div>
+						</div>
 					</div>
-				  </div>
-				  <br/>
+					<br />
 				</c:forEach>
 			</div>
 			<div class="span9">
-			  <div class="inner">
-			    <div class="box">
-                  <br/>
-                  <div class="row no-print">
-                    <div id="viewIcons" class="span3">
-                      <tags:view url="/spatial" result="${result}"/>
-                    </div>
-                    <tags:sort url="/spatial" result="${result}" spanClass="pull-right"/>
-                  </div>
-				  <br/>
-                  <div class="row">
-                    <div id="pages" class="span4 pull-left">
-                        <tags:results pager="${result}"/>
-                    </div>
-                    <div class="pull-right">
-						<tags:download url="/download" pager="${result}"/>
-					</div>
-                  </div>
-
-				  <div id="results" class="row no-margin-left">
-					<jsp:scriptlet>
-						String classFacet = (String)result.getSelectedFacets().get("base.class_s");
-						if(classFacet == null) {
-							pageContext.setAttribute("imageClass",Boolean.FALSE);
-						} else if (classFacet.equals("org.emonocot.model.Image")) {
-							pageContext.setAttribute("imageClass",Boolean.TRUE);
-						} else {
-							pageContext.setAttribute("imageClass",Boolean.FALSE);
-						}
-					</jsp:scriptlet>
-					<c:choose>
-						<c:when test="${empty result.params['view']}">
+				<div class="inner">
+					<div class="box">
+						<br />
+						<div class="row no-print">
+							<div id="viewIcons" class="span3">
+								<tags:view url="/spatial" result="${result}" />
+							</div>
+							<tags:sort url="/spatial" result="${result}" spanClass="pull-right" />
+						</div>
+						<br />
+						<div class="row">
+							<div id="pages" class="pull-left">
+								<tags:results pager="${result}" />
+							</div>
+							<div class="pull-right">
+								<tags:download url="/download" pager="${result}" />
+							</div>
+						</div>
+						<div id="results" class="row no-margin-left"
+							data-toggle="modal-gallery" data-target="#modal-gallery"
+							data-selector="a.slideshow">
+							<jsp:scriptlet>
+								String classFacet = (String) result.getSelectedFacets().get(
+									"base.class_s");
+								if (classFacet == null) {
+									pageContext.setAttribute("imageClass", Boolean.FALSE);
+								} else if (classFacet.equals("org.emonocot.model.Image")) {
+									pageContext.setAttribute("imageClass", Boolean.TRUE);
+								} else {
+									pageContext.setAttribute("imageClass", Boolean.FALSE);
+								}
+							</jsp:scriptlet>
 							<c:choose>
-								<c:when test="${imageClass}">
-									<results:grid pager="${result}"/>
+								<c:when test="${empty result.params['view']}">
+									<c:choose>
+										<c:when test="${imageClass}">
+											<results:grid pager="${result}" />
+										</c:when>
+										<c:otherwise>
+											<results:list pager="${result}" />
+										</c:otherwise>
+									</c:choose>
 								</c:when>
-								<c:otherwise>
-									<results:list pager="${result}"/>
-								</c:otherwise>
+								<c:when test="${result.params['view'] == 'grid'}">
+									<br />
+									<c:choose>
+										<c:when test="${imageClass}">
+											<results:grid pager="${result}" />
+										</c:when>
+										<c:otherwise>
+											<results:list pager="${result}" />
+										</c:otherwise>
+									</c:choose>
+								</c:when>
+								<c:when test="${result.params['view'] == 'simpleList'}">
+									<br />
+									<results:simpleList pager="${result}" />
+								</c:when>
+								<c:when test="${result.params['view'] == 'list'}">
+									<results:list pager="${result}" />
+								</c:when>
 							</c:choose>
-						</c:when>
-						<c:when test="${result.params['view'] == 'grid'}">
-							<br/>
-							<results:grid pager="${result}"/>
-						</c:when>
-						<c:when test="${result.params['view'] == 'simpleList'}">
-							<br/>
-							<results:simpleList pager="${result}"/>
-						</c:when>
-						<c:when test="${result.params['view'] == 'list'}">
-							<results:list pager="${result}"/>
-						</c:when>
-					</c:choose>
-					
-					<script>
-						$(function () {
-							$("a[rel=tooltip]").tooltip({
-								live: true
-							});
-						});
-					</script>
-				  </div>
-				  <div class="row no-print">
-                    <div class="pagination pull-right">
-                        <tags:pagination pager="${result}" url="/spatial"/>
-                    </div>
-                  </div>
+
+							<script>
+								$(function() {
+									$("a[rel=tooltip]").tooltip({
+										live : true
+									});
+								});
+							</script>
+						</div>
+						
+						<div class="row no-print">
+							<div class="pagination pull-right">
+								<tags:pagination pager="${result}" url="/spatial" />
+							</div>
+						</div>
+					</div>
 				</div>
-			  </div>
 			</div>
+
+			<div class="modal modal-gallery hide fade modal-fullscreen" id="modal-gallery">
+				<div class="modal-header">
+					<a data-dismiss="modal" class="close">×</a>
+					<h3 class="modal-title"></h3>
+				</div>
+				<div class="modal-body">
+					<div class="modal-image">
+						<!--  -->
+					</div>
+					<div class="carousel-caption modal-title">
+						<label id="clickMe" class="pull-right">Hide details</label>
+						<ul id="textBox" class="unstyled" style="text-align: left;">
+							<li>
+								<a class="modal-download">
+									<i class="modal-icon">&#160;</i>
+									<span class="modal-caption">&#160;</span>
+								</a>
+							</li>
+							<li>
+								<em><spring:message code="image.creator" /></em>&#160;
+								<span class="modal-creator">&#160;</span>
+							</li>
+							<li>
+								<em><spring:message code="image.license" /></em>&#160;
+								<span class="modal-license">&#160;</span>
+								<a class="btn btn-success modal-play modal-slideshow pull-right" data-slideshow="3000">
+									<i class="icon-white icon-play"> <!-- --></i>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<script type="text/javascript">
+				$(document).ready(function() {
+					$('#clickMe').toggle(function() {
+						$('#textBox').hide();
+						$('#clickMe').text('Show details');
+					}, function() {
+						$('#textBox').show();
+						$('#clickMe').text('Hide details');
+					});
+				});
+			</script>
+
 		</div>
 	</div>
 </jsp:root>

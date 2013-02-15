@@ -188,7 +188,7 @@ public class Search extends PageObject {
      *
      * @return an array of results
      */
-    public final List<String[]> getResults() {
+     public final List<String[]> getResults() {
     	
         List<WebElement> links = results.findElements(By.className("result"));
         List<String[]> linksList = new ArrayList<String[]>();
@@ -197,6 +197,16 @@ public class Search extends PageObject {
             String href = webElement.getAttribute("href");
             if(this.imageDao.containsPageLocation(href)) {
             	href = this.imageDao.getIdentifier(href);
+            } else {
+            	String dataLink = webElement.getAttribute("data-link");
+            	if(getPort() == 80) {
+            		dataLink = getHost() + dataLink;
+            	} else {
+            		dataLink = getHost() + ":" + getPort() + dataLink;
+            	}
+            	if(this.imageDao.containsPageLocation(dataLink)) {
+            		href = this.imageDao.getIdentifier(dataLink);
+                }
             }
             if(this.keyDao.containsPageLocation(href)) {
             	href = this.keyDao.getIdentifier(href);
@@ -211,6 +221,7 @@ public class Search extends PageObject {
         }
         return linksList;
     }
+    
 
     /**
      *
