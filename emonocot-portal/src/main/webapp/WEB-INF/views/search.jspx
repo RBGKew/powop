@@ -77,12 +77,25 @@
 					</div>
 				</c:forEach>
 			</div>
+			
 			<div class="span9">
+			<jsp:scriptlet>
+								String classFacet = (String)result.getSelectedFacets().get("base.class_s");
+								if(classFacet == null) {
+									pageContext.setAttribute("imageClass",Boolean.FALSE);
+								} else if (classFacet.equals("org.emonocot.model.Image")){
+									pageContext.setAttribute("imageClass",Boolean.TRUE);
+								} else {
+									pageContext.setAttribute("imageClass",Boolean.FALSE);
+								}
+							</jsp:scriptlet>
 				<div class="inner">
 					<div class="box">
 						<div class="row no-print">
 							<div id="viewIcons" class="span3">
-								<tags:view url="/search" result="${result}" />
+								
+									<tags:view url="/search" result="${result}" />
+								
 							</div>
 							<tags:sort url="/search" result="${result}" spanClass="span1 offset4" />
 						</div>
@@ -96,17 +109,8 @@
 							</div>
 						</div>
 
-						<div id="results" class="row no-margin-left">
-							<jsp:scriptlet>
-								String classFacet = (String)result.getSelectedFacets().get("base.class_s");
-								if(classFacet == null) {
-									pageContext.setAttribute("imageClass",Boolean.FALSE);
-								} else if (classFacet.equals("org.emonocot.model.Image")){
-									pageContext.setAttribute("imageClass",Boolean.TRUE);
-								} else {
-									pageContext.setAttribute("imageClass",Boolean.FALSE);
-								}
-							</jsp:scriptlet>
+						<div id="results" class="row no-margin-left" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a.slideshow">
+							
 							<c:choose>
 								<c:when test="${empty result.params['view']}">
 									<c:choose>
@@ -120,7 +124,14 @@
 								</c:when>
 								<c:when test="${result.params['view'] == 'grid'}">
 									<br />
-									<results:grid pager="${result}" />
+									<c:choose>
+										<c:when test="${imageClass}">
+											<results:grid pager="${result}" />
+										</c:when>
+										<c:otherwise>
+											<results:list pager="${result}" />
+										</c:otherwise>
+									</c:choose>
 								</c:when>
 								<c:when test="${result.params['view'] == 'simpleList'}">
 									<br />
@@ -140,52 +151,49 @@
 					</div>
 				</div>
 			</div>
-			<!-- modal-gallery is the modal dialog used for the image gallery -->
-			<div id="gallery" class="hide" data-toggle="modal-gallery" data-target="#modal-gallery">
-				<c:forEach var="item" items="${result.records}">
-					<c:choose>
-						<c:when test="${item.className == 'Taxon'}">
-							<c:if test="${not empty item.images}">
-								<c:url var="fullsize" value="/images/fullsize/${item.images[0].id}.${item.images[0].format}" />
-								<c:url var="url" value="/taxon/${item.identifier}" /> 
-								<a class="thumbnail" href="${fullsize}" rel="gallery"
-									title="${em:stripXml(item.scientificName)}" data-link="${identifier}">
-									<c:url var="thumbnail" value="/images/thumbnails/${item.images[0].id}.${item.images[0].format}" />
-									<c:url var="url" value="/taxon/${item.identifier}" /> 
-									<img src="${thumbnail}" title="${em:stripXml(item.scientificName)}" />
-								</a>
-							</c:if>
-						</c:when>
-						<c:when test="${item.className == 'Image'}">
-							<c:url var="fullsize" value="/images/fullsize/${item.id}.${item.format}" />
-							<c:url var="url" value="/image/${item.id}" /> 
-							<a class="thumbnail" href="${fullsize}" rel="gallery"
-								title="${em:stripXml(item.title)}" data-link="${url}">
-								<c:url var="thumbnail" value="/images/thumbnails/${item.id}.${item.format}" />
-								<c:url var="url" value="/image/${item.id}" /> 
-								<img src="${thumbnail}" title="${em:stripXml(item.title)}" />
-							</a>
-						</c:when>
-					</c:choose>
-				</c:forEach>
-			</div>
-
-			<div id="modal-gallery" class="modal modal-gallery hide fade modal-fullscreen">
+			
+			<div class="modal modal-gallery hide fade modal-fullscreen" id="modal-gallery">
 				<div class="modal-header">
-					<a class="close" data-dismiss="modal">&#215;</a>
+					<a data-dismiss="modal" class="close">×</a>
+					<h3 class="modal-title"></h3>
 				</div>
 				<div class="modal-body">
-					<div class="modal-image">
-						<!--  -->
-					</div>
-					<div class="carousel-caption">
-						<a class="modal-title modal-download">
-						<!--  -->
-						</a>
+					<div class="modal-image"><!--  --></div>
+					<div class="carousel-caption modal-title">
+						<label id="clickMe" class="pull-right">Hide details</label>
+						<ul id="textBox" class="unstyled" style="text-align:left;">
+							<li>
+								<a class="modal-download">
+									<i class="modal-icon">&#160;</i>
+									<span class="modal-caption">&#160;</span>
+								</a>
+							</li>
+							<li>
+								<em><spring:message code="image.creator"/></em>&#160;<span class="modal-creator">&#160;</span>
+							</li>
+							<li>
+								<em><spring:message code="image.license"/></em>&#160;<span class="modal-license">&#160;</span>
+								<a class="btn btn-success modal-play modal-slideshow pull-right" data-slideshow="3000"><i class="icon-white icon-play"><!-- --></i></a>
+							</li>
+						</ul>
 					</div>
 				</div>
 			</div>
 
+			<script type="text/javascript">
+				$(document).ready(function(){
+					$('#clickMe').toggle(
+							function(){
+								$('#textBox').hide();
+								$('#clickMe').text('Show details');
+							},
+							function(){
+								$('#textBox').show();
+								$('#clickMe').text('Hide details');
+							});
+					});
+			</script>
+			
 			<script>
 				/*jslint unparam: true */
 				/*global window, document, $ */
@@ -193,7 +201,7 @@
 					'use strict';
 
 					// Start slideshow button:
-					$('#start-slideshow')
+					$('.slideshow')
 						.button()
 						.click(
 							function() {

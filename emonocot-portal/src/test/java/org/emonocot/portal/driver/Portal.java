@@ -78,7 +78,7 @@ public class Portal extends PageObject {
                 "functional.test.port", "80"));
         String basePath = properties.getProperty("functional.test.basePath",
                 "/latest/portal");
-        setBaseUri(baseUri + ":" + port + basePath + "/");
+        setBaseUri(baseUri + ":" + port + basePath );
     }
 
     /**
@@ -94,7 +94,7 @@ public class Portal extends PageObject {
     * @return the feature page
     */
    public final Index getFeaturePage() {
-       return openAs(getBaseUri() + "tour", Index.class);
+       return openAs(getBaseUri() + "/tour", Index.class);
    }
 
     /**
@@ -103,7 +103,7 @@ public class Portal extends PageObject {
      * @return a taxon page
      */
 	public final PageObject getTaxonPage(final String identifier) {
-		return openAs(getBaseUri() + "taxon/" + identifier,
+		return openAs(getBaseUri() + "/taxon/" + identifier,
 				org.emonocot.portal.driver.taxon.Show.class);
 	}
 
@@ -113,7 +113,7 @@ public class Portal extends PageObject {
      * @return a search results page
      */
     public final Search search(final String query) {
-        return openAs(getBaseUri() + "search?query=" + query,
+        return openAs(getBaseUri() + "/search?query=" + query,
                 Search.class);
     }
     
@@ -127,10 +127,10 @@ public class Portal extends PageObject {
     */
    public final SpatialSearch spatialSearch(final Float x1, final Float y1, final Float x2, final Float y2) {
 	   if(x1 == null || y1 == null || x2 == null || y2 == null) {
-		   return openAs(getBaseUri() + "spatial",
+		   return openAs(getBaseUri() + "/spatial",
 	               SpatialSearch.class);
 	   } else {
-		   return openAs(getBaseUri() + "spatial?x1=" + x1 + "&y1=" + y1 + "&x2=" + x2 + "&y2=" + y2,
+		   return openAs(getBaseUri() + "/spatial?x1=" + x1 + "&y1=" + y1 + "&x2=" + x2 + "&y2=" + y2,
 	               SpatialSearch.class);
 	   }
        
@@ -152,7 +152,7 @@ public class Portal extends PageObject {
      * @return a source page
      */
     public final PageObject getSourcePage(final String identifier) {
-        return openAs(getBaseUri() + "organisation/" + identifier, org.emonocot.portal.driver.organisation.Show.class);
+        return openAs(getBaseUri() + "/organisation/" + identifier, org.emonocot.portal.driver.organisation.Show.class);
     }
 
     /**
@@ -160,7 +160,7 @@ public class Portal extends PageObject {
      * @return the login page
      */
     public final Login getLoginPage() {
-        return openAs(getBaseUri() + "login", Login.class);
+        return openAs(getBaseUri() + "/login", Login.class);
     }
     
     /**
@@ -168,7 +168,7 @@ public class Portal extends PageObject {
     * @return the about page
     */
    public final About getAboutPage() {
-       return openAs(getBaseUri() + "about", About.class);
+       return openAs(getBaseUri() + "/about", About.class);
    }
 
     /**
@@ -176,7 +176,7 @@ public class Portal extends PageObject {
      * @return the classification page
      */
     public final Classification getClassificationPage() {
-        return openAs(getBaseUri() + "classification", Classification.class);
+        return openAs(getBaseUri() + "/classification", Classification.class);
     }
 
     /**
@@ -184,7 +184,7 @@ public class Portal extends PageObject {
      * @return the group page
      */
     public final PageObject getListGroupsPage() {
-        return openAs(getBaseUri() + "group", org.emonocot.portal.driver.group.List.class);
+        return openAs(getBaseUri() + "/group", org.emonocot.portal.driver.group.List.class);
     }
 
     /**
@@ -193,7 +193,7 @@ public class Portal extends PageObject {
      * @return the current page
      */
     public final PageObject getGroupPage(final String groupName) {
-        return openAs(getBaseUri() + "group/" + groupName, org.emonocot.portal.driver.group.Show.class);
+        return openAs(getBaseUri() + "/group/" + groupName, org.emonocot.portal.driver.group.Show.class);
     }
 
     /**
@@ -201,7 +201,7 @@ public class Portal extends PageObject {
      * @return the source admin page
      */
     public final PageObject getSourceListPage() {
-        return openAs(getBaseUri() + "organisation",
+        return openAs(getBaseUri() + "/organisation",
                 org.emonocot.portal.driver.organisation.List.class);
     }
 
@@ -209,10 +209,10 @@ public class Portal extends PageObject {
      * @return the classify page
      */
     public PageObject getClassifyPage() {
-        return openAs(getBaseUri() + "classify", Classify.class);
+        return openAs(getBaseUri() + "/classify", Classify.class);
     }
 
 	public PageObject getUpdateSourcePage(String source) {
-		return openAs(getBaseUri() + "organisation/" + source + "?form=true", org.emonocot.portal.driver.organisation.Update.class);
+		return openAs(getBaseUri() + "/organisation/" + source + "?form=true", org.emonocot.portal.driver.organisation.Update.class);
 	}
 }

@@ -257,7 +257,7 @@ public class PageObject {
      * @return true, if the user is logged in
      */
     public final Boolean loggedIn() {
-    	WebElement userMenu = nav.findElement(By.cssSelector("#menuUser"));        
+    	WebElement userMenu = nav.findElement(By.cssSelector("#menuUser"));
         return (userMenu != null);
     }
 
@@ -266,7 +266,7 @@ public class PageObject {
      */
     public final void logOut() {
         try {
-            openAs(getBaseUri() + "logout", Index.class);
+            openAs(getBaseUri() + "/logout", Index.class);
         } catch (Exception e) {
            System.out.println(e.getMessage());
         }

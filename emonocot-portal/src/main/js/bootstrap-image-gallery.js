@@ -83,6 +83,15 @@
         getLink: function (element) {
             return $(element).data('link');
         },
+        getCreator: function (element) {
+            return $(element).data('creator');
+        },
+        getLicense: function (element) {
+            return $(element).data('license');
+        },
+        getIcon: function (element) {
+            return $(element).data('icon');
+        },
         startSlideShow: function () {
             var $this = this;
             if (this.options.slideshow) {
@@ -126,6 +135,9 @@
                 index = this.options.index,
                 url = this.getUrl(this.$links[index]),
                 link = this.getLink(this.$links[index]),
+                creator = this.getCreator(this.$links[index]),
+                license = this.getLicense(this.$links[index]),
+                icon = this.getIcon(this.$links[index]),
                 oldImg;
             this.abortLoad();
             this.stopSlideShow();
@@ -140,7 +152,10 @@
             window.setTimeout(function () {
                 oldImg.remove();
             }, 3000);
-            modal.find('.modal-title').text(this.$links[index].title);
+            modal.find('.modal-caption').text(this.$links[index].title);
+            modal.find('.modal-creator').text(creator);
+            modal.find('.modal-license').text(license);
+            modal.find('.modal-icon').addClass(icon + " glyphicons-icon");
             modal.find('.modal-download').prop('href',link);
             this._loadingImage = loadImage(
                 url,
@@ -167,7 +182,7 @@
                 width: img.width,
                 height: img.height
             });
-            modal.find('.modal-title').css({ width: Math.max(img.width, 380) });
+            /*modal.find('.modal-title').css({ width: Math.max(img.width, 380) });*/
             if ($(window).width() > 480) {
                 if (transition) {
                     clone = modal.clone().hide().appendTo(document.body);

@@ -6,8 +6,8 @@
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:geo="urn:jsptagdir:/WEB-INF/tags/geo"
 	xmlns:spring="http://www.springframework.org/tags"
-    xmlns:security="http://www.springframework.org/security/tags">
-    <spring:message code="distribution.map" var="messageDistribution"/>
+	xmlns:security="http://www.springframework.org/security/tags">
+	<spring:message code="distribution.map" var="messageDistribution"/>
 	<tags:pageheader>
 		<c:url value="/css/images/glyphicons/fullsize/glyphicons_001_leaf.png" var="taxonIconUrl" />
 		<h2 id="page-title">
@@ -61,12 +61,11 @@
 		</header>
 		<c:if test="${not empty taxon.images}">
 			<div class="container">
-				<div id="images" data-toggle="modal-gallery" data-target="#modal-gallery">
+				<div id="images"  data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a.slideshow">
 					<div class="row">
 						<div class="carousel slide span12" id="carousel">
 							<div class="carousel-inner">
-								<c:forEach var="i" items="${taxon.images}" step="6"
-									varStatus="status">
+								<c:forEach var="i" items="${taxon.images}" step="6" varStatus="status">
 									<c:choose>
 										<c:when test="${status.index == 0}">
 											<c:set var="active" value="active" />
@@ -77,16 +76,14 @@
 									</c:choose>
 									<div class="item ${active}">
 										<ul class="thumbnails">
-											<c:forEach var="image" items="${taxon.images}"
-												begin="${status.index}" end="${status.index + 5}">
+											<c:forEach var="image" items="${taxon.images}" begin="${status.index}" end="${status.index + 5}">
 												<li>
 													<c:url var="fullsize" value="/images/fullsize/${image.id}.${image.format}" />
-													<c:url var="url" value="/image/${image.id}" /> 
-													<a class="thumbnail" href="${image.identifier}" rel="gallery"
-														title="${em:stripXml(image.title)}" data-link="${url}">
+													<a class="slideshow" href="${fullsize}" 
+														data-link="/image/${image.id}" data-icon="icon-white icon-picture" 
+														data-creator="${image.creator}" data-license="${imageLicense}" title="${em:stripXml(image.title)}">
 														<c:url var="thumbnail" value="/images/thumbnails/${image.id}.${image.format}" />
-														<c:url var="url" value="/image/${image.id}" /> 
-														<img src="${thumbnail}" title="${em:stripXml(image.title)}" />
+														<img class="thumbnail" src="${thumbnail}" title="${em:stripXml(image.title)}" />
 													</a>
 												</li>
 											</c:forEach>
@@ -103,19 +100,44 @@
 				</div>
 			</div>
 		</c:if>
+		
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('#clickMe').toggle(
+					function(){
+						$('#textBox').hide();
+						$('#clickMe').text('Show details');
+					},
+					function(){
+						$('#textBox').show();
+						$('#clickMe').text('Hide details');
+					});
+			});
+		</script>
 
-		<div id="modal-gallery"
-			class="modal modal-gallery hide fade modal-fullscreen">
+		<div id="modal-gallery" class="modal modal-gallery hide fade modal-fullscreen">
 			<div class="modal-header">
 				<a class="close" data-dismiss="modal">&#215;</a>
 			</div>
 			<div class="modal-body">
-				<div class="modal-image">
-					<!--  -->
-				</div>
-				<div class="carousel-caption">
-					<a class="modal-title modal-download"> <!--  -->
-					</a>
+				<div class="modal-image"><!--  --></div>
+				<div class="carousel-caption modal-title">
+					<label id="clickMe" class="pull-right">Hide details</label>
+					<ul id="textBox" class="unstyled" style="text-align:left;">
+						<li>
+							<a class="modal-download">
+								<i class="modal-icon">&#160;</i>
+								<span class="modal-caption">&#160;</span>
+							</a>
+						</li>
+						<li>
+							<em><spring:message code="image.creator"/></em>&#160;<span class="modal-creator">&#160;</span>
+						</li>
+						<li>
+							<em><spring:message code="image.license"/></em>&#160;<span class="modal-license">&#160;</span>
+							<a class="btn btn-success modal-play modal-slideshow pull-right" data-slideshow="3000"><i class="icon-white icon-play"><!-- --></i></a>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>
@@ -154,8 +176,11 @@
 							<c:if test="${content != null}">
 								<div class="inner">
 									<div id="${feature}" class="box">
-								        <spring:message code="${feature}" var="featureHeader"/>
-									    <h2><span>${featureHeader}</span> <tags:feedbackLink selector="option:contains(${featureHeader})" dataName="${featureHeader}" /></h2>
+										<spring:message code="${feature}" var="featureHeader"/>
+										<h2>
+											<span>${featureHeader}</span>
+											<tags:feedbackLink selector="option:contains(${featureHeader})" dataName="${featureHeader}" />
+										</h2>
 										<p class="justified">${content.description}</p>
 										<ul class="citations">
 											<li>
@@ -177,7 +202,7 @@
 				</c:if>
 
 				<c:if test="${not empty em:regions(taxon)}">
-				    <spring:message code="distribution.map" var="messageDistribution"/>
+					<spring:message code="distribution.map" var="messageDistribution"/>
 					<section id="distribution.map" class="section-box">
 						<div class="inner">
 							<div class="box clearfix">
@@ -200,7 +225,7 @@
 									<c:forEach var="region" items="${em:regions(taxon)}">
 										<li id="distribution-list">
 											<spring:message code="${region.toString()}" />
-										</li>										
+										</li>
 									</c:forEach>
 								</ul>
 								<ul class="citations">
@@ -225,10 +250,10 @@
 					<section id="children" class="section-box">
 						<div class="inner">
 							<div class="box clearfix">
-							    <spring:message code="children" var="childrenHeader"/>
+								<spring:message code="children" var="childrenHeader"/>
 								<h2>
 									${childrenHeader}
-	                                <tags:feedbackLink selector="option:contains(${childrenHeader})" dataName="${childrenHeader}" />
+									<tags:feedbackLink selector="option:contains(${childrenHeader})" dataName="${childrenHeader}" />
 								</h2>
 								<ul class="unstyled">
 									<c:forEach var="child" items="${em:sort(taxon.childNameUsages)}">
@@ -260,7 +285,7 @@
 							<div class="box clearfix">
 								<h2>
 									<spring:message code="synonyms" var="synonymsHeader"/>${synonymsHeader}
-	                                <tags:feedbackLink selector="option:contains(${synonymsHeader})" dataName="${synonymsHeader}" />
+									<tags:feedbackLink selector="option:contains(${synonymsHeader})" dataName="${synonymsHeader}" />
 								</h2>
 								<ul class="unstyled">
 									<c:forEach var="synonym" items="${em:sort(taxon.synonymNameUsages)}">
@@ -367,7 +392,7 @@
 							<div class="box clearfix">
 								<h2>
 									<spring:message code="bibliography" var="bibliographyHeader"/>${bibliographyHeader}
-	                                <tags:feedbackLink selector="$(option:contains(${bibliographyHeader}))" dataName="${bibliographyHeader}" />
+									<tags:feedbackLink selector="$(option:contains(${bibliographyHeader}))" dataName="${bibliographyHeader}" />
 								</h2>
 								<ul>
 									<c:forEach var="reference" items="${bibliography.references}">
@@ -390,7 +415,7 @@
 							<section class="sidebarBox" id="taxonomicTree">
 								<h2 id="sectionHeader">
 									<spring:message code="taxonomicTree" var="treeHeader"/>${treeHeader}
-	                                <tags:feedbackLink selector="option:contains(${treeHeader})" dataName="${treeHeader}" />
+									<tags:feedbackLink selector="option:contains(${treeHeader})" dataName="${treeHeader}" />
 								</h2>
 								<c:if test="${not empty taxon.higherClassification}">
 									<ul id="taxonHierarchy">
@@ -412,8 +437,9 @@
 					<div class="inner">
 						<div class="box">
 							<section class="sidebarBox" id="identifiers">
-								<h2><spring:message code="identifiers" var="idHeader"/>${idHeader}
-	                                <tags:feedbackLink selector="option:contains(${idHeader})" dataName="${idHeader}" />
+								<h2>
+									<spring:message code="identifiers" var="idHeader"/>${idHeader}
+									<tags:feedbackLink selector="option:contains(${idHeader})" dataName="${idHeader}" />
 								</h2>
 								<c:forEach var="identifier" items="${taxon.identifiers}">
 									<a href="${identifier.identifier}" title="${fn:escapeXml(identifier.title)}">${identifier.title}</a>
@@ -433,10 +459,10 @@
 					<div class="box dataBox">
 						<section class="sidebarBox" id="taxonData">
 							<h2>
-                                <i class="glyphicons-icon table"><!-- --></i> 
-                                <spring:message code="taxonData" var="dataHeader"/>${dataHeader}
-                                <tags:feedbackLink selector="option#datX" dataName="${dataHeader}" />
-                            </h2>
+								<i class="glyphicons-icon table"><!-- --></i>
+								<spring:message code="taxonData" var="dataHeader"/>${dataHeader}
+								<tags:feedbackLink selector="option#datX" dataName="${dataHeader}" />
+							</h2>
 							<table class="table" id="data">
 								<tbody>
 									<c:forEach var="measurement" items="${em:measurements()}">
@@ -444,8 +470,10 @@
 										<tr>
 											<th class="span1"><spring:message code="${measurement}" /></th>
 											<td>
-												<span id="${measurement}"><spring:message code="measurementorfact_${fact.measurementType}_${fact.measurementValue}" text="${fact.measurementValue}"/></span>
-											</td>										
+												<span id="${measurement}">
+													<spring:message code="measurementorfact_${fact.measurementType}_${fact.measurementValue}" text="${fact.measurementValue}"/>
+												</span>
+											</td>
 											<c:if test="${fact ne null}">
 												<td>
 													<ul class="citations">
@@ -510,77 +538,80 @@
 			</div>
 		</div>
 	</div>
-    <div id="feedbackModal" class="modal hide fade">
-        <div class="modal-header">
-            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-            <h3><spring:message code="feedbackTitle" /></h3>
-        </div>
-        <form class="modal-form" action="/comment" method="post">
-            <div class="modal-body">
-	            <div class="control-group">
-                    <security:authorize access="isAnonymous()">
-                        <span class="label label-important"><spring:message code="feedback.login.needed" /></span>
-                    </security:authorize>
-	                <label class="control-label" for="select01"><spring:message
-	                        code="feedback.topic.option" /></label>
-	                <div class="controls">
-	                    <select name="aboutDataIdentifier"> <!-- multiple="multiple" -->
-                            <option id="${taxon.identifier}" value="${taxon.identifier}">${taxon.scientificName} ${taxon.scientificNameAuthorship}</option>
-                            <spring:message code="description" var="messageDescription"/>
-                            <c:if test="${not empty taxon.descriptions}">
-                                <option id="${taxon.identifier}" value="${taxon.identifier}">${messageDescription}</option>
-                            </c:if>
-		                    <c:forEach var="feature" items="${em:features()}">
-		                        <c:set var="content" value="${em:content(taxon,feature)}" />
-		                        <c:if test="${content != null}">
-		                            <option id="${content.identifier}" value="${content.identifier}"><spring:message code="${feature}" /></option>
-		                        </c:if>
-		                    </c:forEach>
-		                    <c:if test="${not empty taxon.distribution}">
-                                <option id="${taxon.identifier}" value="${taxon.identifier}">${messageDistribution}</option>
-                            </c:if>
-							<c:forEach var="distribution" items="${taxon.distribution}">
-							    <option id="${distribution.identifier}" value="${distribution.identifier}">
-							        <spring:message code="${distribution.location.toString()}" />
-						        </option>                                    
+	<div id="feedbackModal" class="modal hide fade">
+		<div class="modal-header">
+			<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+			<h3><spring:message code="feedbackTitle" /></h3>
+		</div>
+		<form class="modal-form" action="/comment" method="post">
+			<div class="modal-body">
+				<div class="control-group">
+					<security:authorize access="isAnonymous()">
+						<span class="label label-important"><spring:message code="feedback.login.needed" /></span>
+					</security:authorize>
+					<label class="control-label" for="select01">
+						<spring:message code="feedback.topic.option" />
+					</label>
+					<div class="controls">
+						<select name="aboutDataIdentifier"> <!-- multiple="multiple" -->
+							<option id="${taxon.identifier}" value="${taxon.identifier}">
+								${taxon.scientificName} ${taxon.scientificNameAuthorship}
+							</option>
+							<spring:message code="description" var="messageDescription"/>
+							<c:if test="${not empty taxon.descriptions}">
+								<option id="${taxon.identifier}" value="${taxon.identifier}">${messageDescription}</option>
+							</c:if>
+							<c:forEach var="feature" items="${em:features()}">
+								<c:set var="content" value="${em:content(taxon,feature)}" />
+								<c:if test="${content != null}">
+									<option id="${content.identifier}" value="${content.identifier}"><spring:message code="${feature}" /></option>
+								</c:if>
 							</c:forEach>
-                            <c:if test="${not empty taxon.childNameUsages}">
-                                <option id="childX" value="childX">${childrenHeader}</option>
-                            </c:if>
-		                    <c:forEach var="child" items="${em:sort(taxon.childNameUsages)}">
-                                <option id="${child.identifier}" value="${child.identifier}">${child.scientificName} ${child.scientificNameAuthorship}</option>
-		                    </c:forEach>
-		                    <c:if test="${not empty taxon.synonymNameUsages}">
-                                <option id="synX" value="synX">${synonymsHeader}</option>
-                            </c:if>
-                            <c:forEach var="synonym" items="${em:sort(taxon.synonymNameUsages)}">
-                                <option id="${synonym.identifier}" value="${synonym.identifier}">${synonym.scientificName} ${synonym.scientificNameAuthorship}</option>
-                            </c:forEach>
-                            <c:if test="${taxon.acceptedNameUsage == null}">
-			                    <option value="${taxon.identifier}">${treeHeader}</option>
-		                    </c:if>
-		                    <option id="datX" value="datX">Data</option>
-		                    <option value="${taxon.identifier}"><spring:message code="feedback.option.other" /></option>
-	                    </select>
-	                </div>
-	            </div>
-	            <div class="control-group">
-	                <div class="controls">
-	                    <textarea class="input-xlarge" name="comment" rows="3"><!--  --></textarea>
-	                </div>
-	            </div>
-	        </div>
-	        <div class="modal-footer">
-	            <button class="btn" data-dismiss="modal"><spring:message code="button.close" /></button>
-                <button type="submit" class="btn btn-primary"><spring:message code="button.submit" /></button>
-	        </div>
-       </form>
-    </div>
-    <!-- <script type="text/javascript">
-        function renderOptions(options, selectElement) {
-        	for (var option in options) {
+							<c:if test="${not empty taxon.distribution}">
+								<option id="${taxon.identifier}" value="${taxon.identifier}">${messageDistribution}</option>
+							</c:if>
+							<c:forEach var="distribution" items="${taxon.distribution}">
+								<option id="${distribution.identifier}" value="${distribution.identifier}">
+									<spring:message code="${distribution.location.toString()}" />
+								</option>
+							</c:forEach>
+							<c:if test="${not empty taxon.childNameUsages}">
+								<option id="childX" value="childX">${childrenHeader}</option>
+							</c:if>
+							<c:forEach var="child" items="${em:sort(taxon.childNameUsages)}">
+								<option id="${child.identifier}" value="${child.identifier}">${child.scientificName} ${child.scientificNameAuthorship}</option>
+							</c:forEach>
+							<c:if test="${not empty taxon.synonymNameUsages}">
+								<option id="synX" value="synX">${synonymsHeader}</option>
+							</c:if>
+							<c:forEach var="synonym" items="${em:sort(taxon.synonymNameUsages)}">
+								<option id="${synonym.identifier}" value="${synonym.identifier}">${synonym.scientificName} ${synonym.scientificNameAuthorship}</option>
+							</c:forEach>
+							<c:if test="${taxon.acceptedNameUsage == null}">
+								<option value="${taxon.identifier}">${treeHeader}</option>
+							</c:if>
+							<option id="datX" value="datX">Data</option>
+							<option value="${taxon.identifier}"><spring:message code="feedback.option.other" /></option>
+						</select>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<textarea class="input-xlarge" name="comment" rows="3"><!--  --></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal"><spring:message code="button.close" /></button>
+				<button type="submit" class="btn btn-primary"><spring:message code="button.submit" /></button>
+			</div>
+		</form>
+	</div>
+	<!-- <script type="text/javascript">
+		function renderOptions(options, selectElement) {
+			for (var option in options) {
 				alert("" + option + " " + option.id + " " + option.value + " " + option.html);
 			}
-        }
-    </script> -->
+		}
+	</script> -->
 </div>

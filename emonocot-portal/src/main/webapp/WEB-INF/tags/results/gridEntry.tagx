@@ -8,7 +8,34 @@
   <jsp:directive.attribute name="itemName" type="java.lang.String" required="true" />
   <jsp:directive.attribute name="image" type="org.emonocot.model.Image" required="false"/>
   <spring:url var="itemUrl" value="${url}"/>
+	
 	<c:choose>
+		<c:when test="${not empty image}">
+			<c:choose>
+					<c:when test="${not empty image.license}">
+						<c:set var="imageLicense" value="${image.license}" />
+					</c:when>
+					<c:otherwise>
+						<c:set var="imageLicense" value="All right reserved" />
+					</c:otherwise>
+				</c:choose>
+				<c:url var="fullsize" value="/images/fullsize/${image.id}.${image.format}" />
+				<c:url var="imageUrl" value="/image/${image.id}"/>
+				<a class="result slideshow" href="${fullsize}" 
+					data-link="${imageUrl}" data-icon="icon-white icon-picture" 
+					data-creator="${image.creator}" data-license="${imageLicense}" title="${em:stripXml(image.title)}">
+					<c:url var="thumbnail" value="/images/thumbnails/${image.id}.${image.format}"/>
+					<img class="thumbnail" src="${thumbnail}" title="${em:stripXml(image.title)}"/>
+				</a>
+		</c:when>
+		<c:otherwise>
+			<c:url var="thumbnail" value="/css/images/no_image.jpg"/>
+			<img class="result thumbnail" src="${thumbnail}"/>
+		</c:otherwise>
+	</c:choose>
+	
+	
+	<!-- <c:choose>
 		<c:when test="${not empty image}">
 			<c:url var="thumbnail" value="/images/thumbnails/${image.id}.${image.format}"/>
 		</c:when>
@@ -17,4 +44,5 @@
 		</c:otherwise>
 	</c:choose>
 	<a class="result thumbnail" href="${itemUrl}" rel="tooltip" title="${fn:escapeXml(itemName)}"><img src="${thumbnail}" /></a><p class="hide">${itemName}</p>
+	 -->
 </li>

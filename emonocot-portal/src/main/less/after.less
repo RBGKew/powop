@@ -42,19 +42,22 @@ section {width: 100%; clear: both; padding-top: 60px}
  * divide-by-zero error when a thumbnail has been resized to 101px or 99px
  */
  
-.thumbnail > img {    
+img.thumbnail {    
     height: 100px;
     width: 100px;
 }
 
 // Images and captions
-.thumbnail > a > img {
+img.thumbnail {
   display: block;
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
 
+.carousel-inner{
+	padding-left:80px;
+}
 
 .carousel.jcarousel .item {
     width: 20000em;
@@ -427,7 +430,7 @@ footer {
 .h4Results { color: #5b5b5b; font-size: 16px; }
 .h4Results em { font-style: normal; }
 
-#results .thumbnail > img { height: 80px; width: 80px; }
+#results img.thumbnail { height: 80px; width: 80px; }
 #results .table tr:first-child td { border-top: none;}
 
 #results .table tr td div em { font-weight: bold; font-style: normal; }
