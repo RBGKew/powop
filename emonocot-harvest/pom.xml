@@ -238,6 +238,50 @@
 	       <groupId>org.slf4j</groupId>
 	       <artifactId>jul-to-slf4j</artifactId>
 	    </dependency>
+	    <dependency>
+          <groupId>org.mapfish</groupId>
+          <artifactId>print-lib</artifactId>
+        </dependency>
+        <dependency>
+	      <groupId>org.jyaml</groupId>
+	      <artifactId>jyaml</artifactId>
+        </dependency>
+		<dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>slf4j-log4j12</artifactId>
+		</dependency>
+		<dependency>
+	      <groupId>com.lowagie</groupId>
+	      <artifactId>itext</artifactId>
+        </dependency>
+        <dependency>
+	      <groupId>org.json</groupId>
+	      <artifactId>json</artifactId>
+        </dependency>
+        <dependency>
+	      <groupId>commons-httpclient</groupId>
+	      <artifactId>commons-httpclient</artifactId>
+        </dependency>
+        <dependency>
+           <groupId>ch.thus</groupId>
+           <artifactId>pvalsecc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-transcoder</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.media</groupId>
+            <artifactId>jai_core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.media</groupId>
+            <artifactId>jai_imageio</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.media</groupId>
+            <artifactId>jai_codec</artifactId>
+        </dependency>
 	</dependencies>
 	<build>
 		<finalName>emonocot-harvest</finalName>

@@ -1,0 +1,39 @@
+{
+    "layout": "A4 portrait",
+    "title": "A simple example",
+    "srs": "EPSG:3857",
+    "dpi": 300,
+    "units": "m",
+    "outputFormat": "png",
+    "layers": [
+        {
+            "type": "TMS",
+            "layer": "eMonocot",
+            "baseURL": "http://e-monocot.org/tiles/",
+            "maxExtent": [-20037508.3392,-20037508.3392,20037508.3392,20037508.3392],
+            "tileSize": [256, 256],
+            "resolutions": [156543.0339,78271.51695,39135.758475,19567.8792375,9783.93961875,4891.969809375,2445.9849046875],
+            "format": "png"
+        },
+        {
+            "type": "WMS",
+            "layers": ["tdwg:level3"],
+            "baseURL": "http://e-monocot.org/geoserver/wms",
+            "maxExtent": [-20037508.3392,-20037508.3392,20037508.3392,20037508.3392],
+            "tileSize": [256, 256],
+            "resolutions": [156543.0339,78271.51695,39135.758475,19567.8792375,9783.93961875,4891.969809375,2445.9849046875],
+            "format": "image/png",
+            "styles": ["eMonocot"],
+            "customParams":{"featureid":"266,144,196,365,302"}
+        }	
+    ],
+    "pages": [
+        {
+            "center": [731000,5864000],
+            "scale": 8000000,
+            "mapTitle": "First map",
+            "comment": "This is the first page selected by the user.",
+            "rotation": 0
+        }
+    ]
+}
