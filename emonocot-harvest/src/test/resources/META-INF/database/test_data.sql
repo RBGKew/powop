@@ -1,4 +1,5 @@
-insert into Organisation (id, identifier, uri, publisherEmail) values (10, 'test', 'http://example.com', 'test@example.com');
+insert into Organisation (id, identifier, uri, publisherEmail, commentsEmailedTo) values (10, 'test', 'http://example.com', 'test@example.com', 'jk00kg@kew.org');
+insert into Organisation (id, identifier, uri, publisherEmail, commentsEmailedTo) values (15, 'test2', 'http://example.org', 'test@example.org', 'sarah.phillips@kew.org');
 insert into Reference (id, identifier,title) values (1, 'urn:kew.org:wcs:placeOfPublication:899','Bull. Pacific Orchid Soc. Hawaii');
 insert into Reference (id, identifier,title) values (2, 'urn:kew.org:wcs:placeOfPublication:234','Diagn. Pl. Orient. 13: 8 (1846)');
 insert into Taxon (id, identifier, scientificName, family, authority_id, license) values (1, 'urn:lsid:cate-araceae.org:taxon:5cd5a6aa-6bfb-1014-a918-dc439151c9e5', 'Acontias conspurcatus','Arecaceae',10,'http://creativecommons.org/licenses/by-nc-sa/3.0/');
@@ -93,7 +94,7 @@ insert into Distribution (id, location, taxon_id) values (1,'DOM',23);
 insert into Distribution (id, location, taxon_id) values (2,'NOR',23);
 insert into Distribution (id, location, taxon_id) values (3,'SVA',23);
 insert into Description (id, identifier, description, type, taxon_id, authority_id) values (1,'description1','lorem ipsum', 'general', 76,10);
-insert into Description (id, identifier, description, type, taxon_id, authority_id) values (2,'description2','lorem ipsum', 'diagnostic', 76,10);
+insert into Description (id, identifier, description, type, taxon_id, authority_id) values (2,'description2','lorem ipsum', 'diagnostic', 76,15);
 insert into Image (id, identifier, format, taxon_id, authority_id) values (1,'http://build.e-monocot.org/images/rss.png','png', 76,10);
 insert into Image (id, identifier, format, taxon_id, authority_id) values (2,'http://build.e-monocot.org/images/logos/maven-feather.png','png', 76,10);
 insert into Taxon_Image (Taxon_id, images_id) values (76,1);
@@ -105,4 +106,7 @@ insert into Annotation (id, annotatedObjId, annotatedObjType, code, type, jobId)
 insert into Annotation (id, annotatedObjId, annotatedObjType, code, type, jobId) values (2,1,'Taxon','Present','Info', 601);
 insert into Annotation (id, annotatedObjId, annotatedObjType, code, type, jobId) values (3,1,'Taxon','Absent','Warn', 602);
 insert into Annotation (id, annotatedObjId, annotatedObjType, code, type, jobId) values (4,1,'Taxon','Absent','Warn', 603);
+insert into Principal (id, DTYPE, identifier, accountNonExpired, accountNonLocked, credentialsNonExpired, enabled) values (1, 'User', 'test@example.com', 1, 1, 1, 1);
 insert into Comment (id, identifier, aboutData_id, aboutData_type, comment, created, status, user_id) values  (1, 'testComment1', 1, 'Taxon', 'Test Comment', '2013-01-05', 'PENDING', 1);
+insert into Comment (id, identifier, aboutData_id, aboutData_type, comment, created, status, user_id) values  (2, 'testComment2', 2, 'Description', 'Test Description Comment', '2011-01-05', 'PENDING', 1);
+insert into Comment (id, identifier, aboutData_id, aboutData_type, comment, created, status, user_id) values  (3, 'testComment3', 76, 'Taxon', 'Another Test Comment', '2013-02-05 13:45:53', 'PENDING', 1);

@@ -200,20 +200,12 @@ public class Comment extends Base {
 
     /**
      * @author jk00kg
-     * The sending status of this comment
+     * The sending status of a comment
      */
     public enum Status {
         PENDING,
         REFUSED,
         SENT;
-        
-        public boolean isDeletable(){
-            if(SENT.equals(this)) {
-                return true;
-            } else {
-                return false;
-            }
-        }
     }
 
 }

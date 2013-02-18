@@ -3992,4 +3992,9 @@
           <column name="Distribution_id"/>
         </createIndex>
     </changeSet>
+    <changeSet id="2013-02-18_01" author="jk00kg">
+        <addColumn tableName="Organisation">
+            <column name="commentsEmailedTo" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

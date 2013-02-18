@@ -62,6 +62,11 @@ public class Organisation extends BaseData implements Comparable<Organisation>, 
     
     private Set<Annotation> annotations = new HashSet<Annotation>();
 
+    /**
+     * 
+     */
+    private String commentsEmailedTo;
+
     public void setId(Long newId) {
         this.id = newId;
     }
@@ -249,6 +254,21 @@ public class Organisation extends BaseData implements Comparable<Organisation>, 
         this.annotations = annotations;
     }
     
+    /**
+     * @return the commentsEmailedTo
+     */
+    public String getCommentsEmailedTo() {
+        return commentsEmailedTo;
+    }
+
+    /**
+     * @param commentsEmailedTo the commentsEmailedTo to set
+     */
+    @Email
+    public void setCommentsEmailedTo(String commentsEmailedTo) {
+        this.commentsEmailedTo = commentsEmailedTo;
+    }
+
     public static int nullSafeStringComparator(final String one, final String two) {
         if (one == null ^ two == null) {
             return (one == null) ? -1 : 1;

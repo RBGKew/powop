@@ -138,7 +138,7 @@ public class CommentController extends GenericController<Comment, CommentService
         } else if (about instanceof IdentificationKey) {
             return "redirect:key/" + about.getIdentifier();
         } else {
-            return "home";
+            return "user/show";
         }
     }
 
