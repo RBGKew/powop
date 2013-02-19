@@ -12,7 +12,7 @@ import org.emonocot.api.CommentService;
 import org.emonocot.api.DescriptionService;
 import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.UserService;
-import org.emonocot.model.BaseData;
+import org.emonocot.model.Base;
 import org.emonocot.model.Comment;
 import org.emonocot.model.IdentificationKey;
 import org.emonocot.model.Image;
@@ -113,7 +113,7 @@ public class CommentController extends GenericController<Comment, CommentService
         comment.setCreated(new DateTime());
         comment.setStatus(Comment.Status.PENDING);
         comment.setUser(userService.find(principal.getName()));
-        BaseData about = searchableObjectService.find(aboutDataIdentifier);
+        Base about = searchableObjectService.find(aboutDataIdentifier);
         if(about == null) {
             about = descriptionService.find(aboutDataIdentifier);
         }

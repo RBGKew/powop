@@ -264,7 +264,6 @@ public class Organisation extends BaseData implements Comparable<Organisation>, 
     /**
      * @param commentsEmailedTo the commentsEmailedTo to set
      */
-    @Email
     public void setCommentsEmailedTo(String commentsEmailedTo) {
         this.commentsEmailedTo = commentsEmailedTo;
     }
