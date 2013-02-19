@@ -281,6 +281,9 @@
 	<bean id="speciesNaturalLanguageProcessor" class="org.emonocot.job.delta.DeltaNaturalLanguageProcessor" scope="step">
 	  <property name="deltaContextHolder" ref="speciesContextHolder"/>
 	  <property name="taxonMatcher" ref="mapBackedSpeciesMatcher"/>
+	  <property name="characterForLink" value="#{jobParameters['character.for.link']}"/>
+	  <property name="linkPrefix" value="#{jobParameters['link.prefix']}"/>
+	  <property name="linkSuffix" value="#{jobParameters['link.suffix']}"/>
 	</bean>
 	
 	<bean id="generaNaturalLanguageProcessor" class="org.emonocot.job.delta.DeltaNaturalLanguageProcessor" scope="step">

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -68,7 +69,9 @@ public class DeltaNaturalLanguageDwcIntegrationTest {
 	    parameters.put("taxon.file.field.names", new JobParameter("taxonID,subfamily,subtribe,tribe,accessRights,bibliographicCitation,created,license,modified,references,rights,rightsHolder,acceptedNameUsage,acceptedNameUsageID,class,datasetID,datasetName,family,genus,infraspecificEpithet,kingdom,nameAccordingTo,namePublishedIn,namePublishedInID,namePublishedInYear,nomenclaturalCode,nomenclaturalStatus,order,originalNameUsage,originalNameUsageID,parentNameUsage,parentNameUsageID,phylum,scientificName,scientificNameAuthorship,scientificNameID,specificEpithet,subgenus,taxonRank,taxonRemarks,taxonomicStatus,verbatimTaxonRank"));
 	    parameters.put("taxon.file.delimiter", new JobParameter("\t"));
 	    parameters.put("taxon.file.quote.character", new JobParameter("\""));
-	    parameters.put("description.default.values", new JobParameter("license=http://creativecommons.org/licenses/by-nc-sa/3.0,language=EN"));
+	    parameters.put("description.file.field.names", new JobParameter("taxonID,description,license,language,type,rights"));
+	    parameters.put("description.default.values", new JobParameter("license=http://creativecommons.org/licenses/by-nc-sa/3.0,language=EN,type=general,rights=© Copyright The Board of Trustees\\, Royal Botanic Gardens\\, Kew."));
+	    parameters.put("archive.file", new JobParameter(UUID.randomUUID().toString()));
 	    
 	    JobParameters jobParameters = new JobParameters(parameters);
 

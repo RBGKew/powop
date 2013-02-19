@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.emonocot.api.job.TermFactory;
 import org.gbif.dwc.terms.ConceptTerm;
@@ -30,6 +32,8 @@ import freemarker.template.TemplateException;
 public class ArchiveMetadataWriter implements Tasklet {
 	
 	private TermFactory termFactory = new TermFactory();
+	
+	private Pattern defaultValuesPattern = Pattern.compile("((?:[^\\\\,]|\\\\.)*)(?:,|$)");
 	
 	private String archiveFile;	
 
@@ -238,14 +242,18 @@ public class ArchiveMetadataWriter implements Tasklet {
 	Map<String,String> toDefaultValues(String defaultValueList) {
 		
 		Map<String,String> defaultValues = new HashMap<String,String>();
-		if (defaultValueList != null && !defaultValueList.isEmpty()) {
-			for (String defaultValue : defaultValueList.split(",")) {
-				int i = defaultValue.indexOf("=");
-				String key = defaultValue.substring(0, i);
-				String value = defaultValue.substring(i + 1,
-						defaultValue.length());
-				defaultValues.put(key, value);
-			}
+		if (defaultValueList != null && !defaultValueList.isEmpty()) { 
+			Matcher matcher = defaultValuesPattern.matcher(defaultValueList);
+			while (matcher.find()) { 
+				String defaultValue = matcher.group(1);
+				if (defaultValue.indexOf("=") != -1) {
+					int i = defaultValue.indexOf("=");
+					String key = defaultValue.substring(0, i);
+					String value = defaultValue.substring(i + 1, defaultValue.length());
+					value = value.replace("\\", "");
+					defaultValues.put(key, value);
+				}
+			}			
 		}
 		return defaultValues;
 	}
@@ -348,6 +356,7 @@ public class ArchiveMetadataWriter implements Tasklet {
 			ArchiveField archiveField = new ArchiveField();
 			archiveField.setTerm(term);
 			archiveField.setDefaultValue(defaultValues.get(fieldName));
+			archiveFile.addField(archiveField);
 		}
 		archiveFile.setRowType(rowType.qualifiedName());
 		archiveFile.setIgnoreHeaderLines(ignoreHeaderLines);

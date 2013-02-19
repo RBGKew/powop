@@ -17,6 +17,7 @@ import org.springframework.batch.item.ItemProcessor;
 import au.org.ala.delta.DeltaContext;
 import au.org.ala.delta.model.Attribute;
 import au.org.ala.delta.model.Item;
+import au.org.ala.delta.model.Character;
 import au.org.ala.delta.model.MutableDeltaDataSet;
 import au.org.ala.delta.model.format.AttributeFormatter;
 import au.org.ala.delta.model.format.CharacterFormatter;
@@ -38,7 +39,26 @@ public class DeltaNaturalLanguageProcessor implements ItemProcessor<Item,Descrip
 	
 	private TaxonMatcher taxonMatcher;	
 	
-	public void setDeltaContextHolder(DeltaContextHolder deltaContextHolder) {
+	private Integer characterForLink;
+	
+	private String linkPrefix;
+	
+	private String linkSuffix;
+	
+	public void setCharacterForLink(Integer characterForLink) {
+		this.characterForLink = characterForLink; 
+	}
+	
+	public void setLinkPrefix(String linkPrefix) {
+		this.linkPrefix = linkPrefix;
+	}
+	
+	public void setLinkSuffix(String linkSuffix) {
+		this.linkSuffix = linkSuffix;
+	}
+	
+	
+ 	public void setDeltaContextHolder(DeltaContextHolder deltaContextHolder) {
 		assert deltaContextHolder != null;
 		this.deltaContext = deltaContextHolder.getDeltaContext();
 	}
@@ -117,6 +137,18 @@ public class DeltaNaturalLanguageProcessor implements ItemProcessor<Item,Descrip
 		Description description = new Description();
 		description.setDescription(translate(item));
 		description.setTaxon(getTaxon(item.getDescription()));
+		
+		if(characterForLink != null) {
+			Character character = deltaContext.getCharacter(characterForLink);
+			Attribute attribute = item.getAttribute(character);
+			String value = attribute.getValueAsString();
+			if(value != null) {
+			    // Assumes value is enclosed in angle brackets i.e. is a comment
+			    value = value.substring(1, value.length() - 1);
+			    description.setSource(linkPrefix + value + linkSuffix); 
+			}
+			
+		}
 		
 		return description;
 	}

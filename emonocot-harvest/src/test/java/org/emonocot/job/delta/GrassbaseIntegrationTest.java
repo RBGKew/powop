@@ -40,7 +40,7 @@ public class GrassbaseIntegrationTest {
 	
 	private Logger logger = LoggerFactory.getLogger(GrassbaseIntegrationTest.class);
 	
-	private ClassPathResource generaSpecsFile = new ClassPathResource("org/kew/grassbase/TONAT");
+	private ClassPathResource generaSpecsFile = new ClassPathResource("org/kew/grassbase/GTONATH");
 	
 	private ClassPathResource generaItemsFile = new ClassPathResource("org/kew/grassbase/geitems");
 	
@@ -73,12 +73,14 @@ public class GrassbaseIntegrationTest {
 	    parameters.put("genera.taxon.file", new JobParameter(generaTaxonFile.getFile().getAbsolutePath()));
 	    parameters.put("fields.terminated.by", new JobParameter("\t"));
 	    parameters.put("fields.enclosed.by", new JobParameter("\""));
-	    parameters.put("output.fields",new JobParameter("taxonID,description,language,license"));
 	    parameters.put("taxon.file.skip.lines", new JobParameter("0"));
 	    parameters.put("taxon.file.field.names", new JobParameter("taxonID,scientificName,scientificNameAuthorship"));
-	    parameters.put("description.file.field.names", new JobParameter("taxonID,description,license,language"));
-	    parameters.put("description.default.values", new JobParameter("license=http://creativecommons.org/licenses/by-nc-sa/3.0,language=EN"));
+	    parameters.put("description.file.field.names", new JobParameter("taxonID,description,references"));
+	    parameters.put("description.default.values", new JobParameter("language=EN,type=general,rights=© Copyright The Board of Trustees\\, Royal Botanic Gardens\\, Kew."));
 	    parameters.put("archive.file", new JobParameter(UUID.randomUUID().toString()));
+	    parameters.put("character.for.link", new JobParameter("1090"));
+	    parameters.put("link.prefix", new JobParameter("http://www.kew.org/data/grasses-db/www/"));
+	    parameters.put("link.suffix", new JobParameter(".htm"));
 	    
 	    JobParameters jobParameters = new JobParameters(parameters);
 
