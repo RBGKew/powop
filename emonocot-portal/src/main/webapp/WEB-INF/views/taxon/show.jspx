@@ -596,11 +596,4 @@
 			</div>
 		</form>
 	</div>
-	<!-- <script type="text/javascript">
-		function renderOptions(options, selectElement) {
-			for (var option in options) {
-				alert("" + option + " " + option.id + " " + option.value + " " + option.html);
-			}
-		}
-	</script> -->
 </div>

@@ -110,3 +110,4 @@ insert into Principal (id, DTYPE, identifier, accountNonExpired, accountNonLocke
 insert into Comment (id, identifier, aboutData_id, aboutData_type, comment, created, status, user_id) values  (1, 'testComment1', 1, 'Taxon', 'Test Comment', '2013-01-05', 'PENDING', 1);
 insert into Comment (id, identifier, aboutData_id, aboutData_type, comment, created, status, user_id) values  (2, 'testComment2', 2, 'Description', 'Test Description Comment', '2011-01-05', 'PENDING', 1);
 insert into Comment (id, identifier, aboutData_id, aboutData_type, comment, created, status, user_id) values  (3, 'testComment3', 76, 'Taxon', 'Another Test Comment', '2013-02-05 13:45:53', 'PENDING', 1);
+insert into Comment (id, identifier, aboutData_id, aboutData_type, comment, created, status, user_id) values  (4, 'testComment4', 76, 'Taxon', 'An already-sent Test Comment', '2011-02-05 13:45:53', 'SENT', 1);

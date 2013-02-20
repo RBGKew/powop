@@ -3,11 +3,9 @@
  */
 package org.emonocot.integration;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.emonocot.model.Base;
 import org.emonocot.model.BaseData;
 import org.emonocot.model.Comment;
@@ -67,5 +65,5 @@ public class EmailServiceHelper {
         return new GenericMessage<Map>(model, headers);
         
     }
-    
+
 }
