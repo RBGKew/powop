@@ -10,9 +10,8 @@
 	<jsp:directive.attribute name="itemName" type="java.lang.String" required="true" />
 	<jsp:directive.attribute name="image" type="org.emonocot.model.Image" required="false"/>
 	<spring:url var="itemUrl" value="${url}"/>
-	<spring:url var="iconUrl" value="${icon}"/>
 	<td>
-		<img src="${iconUrl}" class="pull-left resultTypeIcon" alt="${iconAlt}"/>
+		<i class="glyphicons-icon ${icon}"><!--  --></i>
 	</td>
 	<td>
 		<jsp:doBody/>

@@ -12,11 +12,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.constants.MeasurementType;
 import org.emonocot.model.constants.MeasurementUnit;
+import org.emonocot.model.marshall.json.DateTimeDeserializer;
+import org.emonocot.model.marshall.json.DateTimeSerializer;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
@@ -57,10 +62,15 @@ public class MeasurementOrFact extends OwnedEntity {
 
 	@Id
     @GeneratedValue(generator = "system-increment")
-	@Override
 	public Long getId() {
 		return id;
 	}
+	
+	@Transient
+    @JsonIgnore
+    public final String getClassName() {
+        return "MeasurementOrFact";
+    }
 
 	@Enumerated(value = EnumType.STRING)
 	public MeasurementType getMeasurementType() {
@@ -97,10 +107,12 @@ public class MeasurementOrFact extends OwnedEntity {
 	}
 
 	@Type(type="dateTimeUserType")
+	@JsonSerialize(using = DateTimeSerializer.class)
 	public DateTime getMeasurementDeterminedDate() {
 		return measurementDeterminedDate;
 	}
 
+	@JsonDeserialize(using = DateTimeDeserializer.class)
 	public void setMeasurementDeterminedDate(DateTime measurementDeterminedDate) {
 		this.measurementDeterminedDate = measurementDeterminedDate;
 	}
@@ -157,6 +169,7 @@ public class MeasurementOrFact extends OwnedEntity {
      * @param annotations
      *            the annotations to set
      */
+	@JsonIgnore
     public void setAnnotations(Set<Annotation> annotations) {
         this.annotations = annotations;
     }

@@ -10,26 +10,26 @@
 	<jsp:directive.attribute name="selectedFacet" type="java.lang.String" required="false" rtexprvalue="true"/>
 	<jsp:directive.attribute name="facetField" type="org.apache.solr.client.solrj.response.FacetField.Count" required="false" rtexprvalue="true"/>
 	<jsp:directive.attribute name="rangeFacet" type="org.apache.solr.client.solrj.response.RangeFacet.Count" required="false" rtexprvalue="true"/>
-    <c:url value="${url}" var="facetUrl">
-      <c:forEach var="p" items="${pager.paramNames}">
-	    <c:param name="${p}" value="${pager.params[p]}" />
-	  </c:forEach>
-	  <c:param name="limit" value="${pager.pageSize}" />
-	  <c:param name="start" value="0" />
-	  <c:param name="sort">${pager.sort}</c:param>
-	  <c:if test="${facetField != null}">
-	    <c:param name="facet" value="${facetName}:${facetField.name}" />
-	  </c:if>
-	  <c:if test="${rangeFacet != null}">
-	    <c:param name="facet" value="${facetName}:[${rangeFacet.value} TO ${rangeFacet.value}${rangeFacet.rangeFacet.gap}]" />
-	  </c:if>
-	  <c:forEach var="selectedFacetName" items="${pager.selectedFacetNames}">
-	    <c:if test="${selectedFacetName ne facetName}">
-		   <c:param name="facet" value="${selectedFacetName}:${pager.selectedFacets[selectedFacetName]}" />
+	<c:url value="${url}" var="facetUrl">
+		<c:forEach var="p" items="${pager.paramNames}">
+			<c:param name="${p}" value="${pager.params[p]}" />
+		</c:forEach>
+		<c:param name="limit" value="${pager.pageSize}" />
+		<c:param name="start" value="0" />
+		<c:param name="sort">${pager.sort}</c:param>
+		<c:if test="${facetField != null}">
+			<c:param name="facet" value="${facetName}:${facetField.name}" />
 		</c:if>
-	  </c:forEach>
+		<c:if test="${rangeFacet != null}">
+			<c:param name="facet" value="${facetName}:[${rangeFacet.value} TO ${rangeFacet.value}${rangeFacet.rangeFacet.gap}]" />
+		</c:if>
+		<c:forEach var="selectedFacetName" items="${pager.selectedFacetNames}">
+			<c:if test="${selectedFacetName ne facetName}">
+				<c:param name="facet" value="${selectedFacetName}:${pager.selectedFacets[selectedFacetName]}" />
+			</c:if>
+		</c:forEach>
 	</c:url>
 	<a href="${facetUrl}">
-      <jsp:doBody/>
-	</a>  
+		<jsp:doBody/>
+	</a>
 </jsp:root>

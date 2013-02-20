@@ -13,7 +13,7 @@
 					<c:when test="${item.className == 'Taxon'}">
 						<results:simpleListEntry 
 						itemName="${item.scientificName}" 
-						icon="/css/images/glyphicons/halfsize/glyphicons_001_leaf.png"
+						icon="leaf"
 						iconAlt="Taxon"
 						url="/taxon/${item.identifier}">
 							<c:choose>
@@ -29,7 +29,7 @@
 					<c:when test="${item.className == 'Image'}">
 						<results:simpleListEntry 
 							itemName="${item.title}" 
-							icon="/css/images/glyphicons/halfsize/glyphicons_159_picture.png"
+							icon="picture"
 							iconAlt="Image"
 							url="/image/${item.identifier}">
 							<h4 class="h4Results">${item.title}</h4>
@@ -38,7 +38,7 @@
 					<c:when test="${item.className == 'IdentificationKey'}">
 						<results:simpleListEntry 
 							itemName="${item.title}" 
-							icon="/css/images/glyphicons/halfsize/glyphicons_044_keys.png"
+							icon="keys"
 							iconAlt="Identification Key"
 							url="/key/${item.identifier}">
 							<h4 class="h4Results">${item.title}</h4>
@@ -54,7 +54,7 @@
 							</c:otherwise>
 						</c:choose>
 						<results:simpleListEntry itemName="${item.title}" 
-							icon="/css/images/glyphicons/halfsize/glyphicons_242_google_maps.png"
+							icon="google_maps"
 							iconAlt="Place"
 							url="${url}">
 							<h4 class="h4Results">${item.title}</h4>

@@ -9,9 +9,8 @@
 	<jsp:directive.attribute name="url" type="java.lang.String" required="true" />
 	<jsp:directive.attribute name="itemName" type="java.lang.String" required="true" />
 	<spring:url var="itemUrl" value="${url}"/>
-	<spring:url var="iconUrl" value="${icon}"/>
 	<td>
-		<img src="${iconUrl}" class="pull-left resultTypeIcon" alt="${iconAlt}"/>
+		<i class="glyphicons-icon ${icon}"><!--  --></i>
 	</td>
 	<td>
 		<a class="result" href="${itemUrl}" title="${em:stripXml(itemName)}">
