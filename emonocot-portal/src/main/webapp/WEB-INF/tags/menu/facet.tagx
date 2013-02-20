@@ -29,129 +29,129 @@
 		<c:when test="${facetSelected}">		
 			<c:set var="facetValue" value="${pager.selectedFacets[facetName]}" />
 			<menu:facetValue
-			  facetName="${facetName}" 
-			  facetValue="${em:formatDateRange(facetValue)}"
-			  pager="${pager}"
-			  url="${url}"
-			  checked="${true}"
-			  showIcons="${showIcons}"/>
+				facetName="${facetName}" 
+				facetValue="${em:formatDateRange(facetValue)}"
+				pager="${pager}"
+				url="${url}"
+				checked="${true}"
+				showIcons="${showIcons}"/>
 		</c:when>
 		<c:otherwise>
 			<c:set var="facetField" value="${pager.getFacetField(facetName)}" />
 			<c:choose>
-			  <c:when test="${facetField == null}">
-			    <c:set var="rangeFacet" value="${pager.getRangeFacet(facetName)}" />
-			    <c:forEach var="facet" begin="0" end="4" step="1" items="${rangeFacet.counts}">
-			      <c:set var="facetValue" value="[${facet.value} TO ${facet.value}${rangeFacet.gap}]"/>
-			      <menu:facetValue  facetName="${facetName}" 
-			        facetValue="${em:formatDateRange(facetValue)}"
-			        facetCount="${facet.count}"
-			        pager="${pager}"
-			        url="${url}"
-			        checked="${false}"
-			        rangeFacet="${facet}"
-			        showIcons="${showIcons}"/>				
-			    </c:forEach>
-			    <c:if test="${fn:length(rangeFacet.counts) gt 5}">
-				  <div id="${em:escapeHtmlIdentifier(facetName)}-collapse" class="collapse">
-					<c:forEach var="facet" begin="5" items="${rangeFacet.counts}">
-					    <c:set var="facetValue" value="[${facet.value} TO ${facet.value}${rangeFacet.gap}]"/>
+				<c:when test="${facetField == null}">
+					<c:set var="rangeFacet" value="${pager.getRangeFacet(facetName)}" />
+					<c:forEach var="facet" begin="0" end="4" step="1" items="${rangeFacet.counts}">
+						<c:set var="facetValue" value="[${facet.value} TO ${facet.value}${rangeFacet.gap}]"/>
 						<menu:facetValue  facetName="${facetName}" 
-			              facetValue="${em:formatDateRange(facetValue)}"
-			              facetCount="${facet.count}"
-			              pager="${pager}"
-			              url="${url}"
-			              checked="${false}"
-			              rangeFacet="${facet}"
-			              showIcons="${showIcons}"/>
+							facetValue="${em:formatDateRange(facetValue)}"
+							facetCount="${facet.count}"
+							pager="${pager}"
+							url="${url}"
+							checked="${false}"
+							rangeFacet="${facet}"
+							showIcons="${showIcons}"/>
 					</c:forEach>
-				  </div>
-				  <a id="${em:escapeHtmlIdentifier(facetName)}-collapse-link"
-					data-toggle="collapse"
-					data-target="#${em:escapeHtmlIdentifier(facetName)}-collapse"
-					class="label" style="display: none">${fn:length(rangeFacet.counts)-5}
-					${more}</a>
-				  <script>
-					document.getElementById ( "${em:escapeHtmlIdentifier(facetName)}-collapse-link" ).style.display = "inline";
-					$("#${em:escapeHtmlIdentifier(facetName)}-collapse").on('hidden', function () {
-						$("#${em:escapeHtmlIdentifier(facetName)}-collapse-link").html("${fn:length(rangeFacet.counts)-5} ${more}");
-					}).on('shown', function () {
-						$("#${em:escapeHtmlIdentifier(facetName)}-collapse-link").html("${less}");
-					});
-				  </script>
-			    </c:if>
+					<c:if test="${fn:length(rangeFacet.counts) gt 5}">
+						<div id="${em:escapeHtmlIdentifier(facetName)}-collapse" class="collapse">
+							<c:forEach var="facet" begin="5" items="${rangeFacet.counts}">
+								<c:set var="facetValue" value="[${facet.value} TO ${facet.value}${rangeFacet.gap}]"/>
+								<menu:facetValue  facetName="${facetName}" 
+									facetValue="${em:formatDateRange(facetValue)}"
+									facetCount="${facet.count}"
+									pager="${pager}"
+									url="${url}"
+									checked="${false}"
+									rangeFacet="${facet}"
+									showIcons="${showIcons}"/>
+							</c:forEach>
+						</div>
+						<a id="${em:escapeHtmlIdentifier(facetName)}-collapse-link"
+							data-toggle="collapse"
+							data-target="#${em:escapeHtmlIdentifier(facetName)}-collapse"
+							class="label" style="display: none">${fn:length(rangeFacet.counts)-5}
+							${more}</a>
+						<script>
+							document.getElementById ( "${em:escapeHtmlIdentifier(facetName)}-collapse-link" ).style.display = "inline";
+							$("#${em:escapeHtmlIdentifier(facetName)}-collapse").on('hidden', function () {
+								$("#${em:escapeHtmlIdentifier(facetName)}-collapse-link").html("${fn:length(rangeFacet.counts)-5} ${more}");
+							}).on('shown', function () {
+								$("#${em:escapeHtmlIdentifier(facetName)}-collapse-link").html("${less}");
+							});
+						</script>
+					</c:if>
 
-			    <noscript>
-				  <c:if test="${fn:length(rangeFacet.counts) gt 5}">
-					<c:forEach var="facet" begin="5" items="${rangeFacet.counts}">
-					    <c:set var="facetValue" value="[${facet.value} TO ${facet.value}${rangeFacet.gap}]"/>
+					<noscript>
+						<c:if test="${fn:length(rangeFacet.counts) gt 5}">
+							<c:forEach var="facet" begin="5" items="${rangeFacet.counts}">
+								<c:set var="facetValue" value="[${facet.value} TO ${facet.value}${rangeFacet.gap}]"/>
+								<menu:facetValue  facetName="${facetName}" 
+									facetValue="${em:formatDateRange(facetValue)}"
+									facetCount="${facet.count}"
+									pager="${pager}"
+									url="${url}"
+									checked="${false}"
+									rangeFacet="${facet}"
+									showIcons="${showIcons}"/>
+							</c:forEach>
+						</c:if>
+					</noscript>
+				</c:when>
+				<c:otherwise>
+					<c:forEach var="facet" begin="0" end="4" step="1" items="${facetField.values}">
 						<menu:facetValue  facetName="${facetName}" 
-			              facetValue="${em:formatDateRange(facetValue)}"
-			              facetCount="${facet.count}"
-			              pager="${pager}"
-			              url="${url}"
-			              checked="${false}"
-			              rangeFacet="${facet}"
-			              showIcons="${showIcons}"/>
+							facetValue="${facet.name}"
+							facetCount="${facet.count}"
+							pager="${pager}"
+							url="${url}"
+							checked="${false}"
+							facetField="${facet}"
+							showIcons="${showIcons}"/>
 					</c:forEach>
-				  </c:if>
-			    </noscript>
-			  </c:when>
-			  <c:otherwise>
-			    <c:forEach var="facet" begin="0" end="4" step="1" items="${facetField.values}">
-			      <menu:facetValue  facetName="${facetName}" 
-			        facetValue="${facet.name}"
-			        facetCount="${facet.count}"
-			        pager="${pager}"
-			        url="${url}"
-			        checked="${false}"
-			        facetField="${facet}"
-			        showIcons="${showIcons}"/>				
-			    </c:forEach>
-			    <c:if test="${facetField.valueCount gt 5}">
-				  <div id="${em:escapeHtmlIdentifier(facetName)}-collapse" class="collapse">
-					<c:forEach var="facet" begin="5" items="${facetField.values}">
-						<menu:facetValue  facetName="${facetName}" 
-			              facetValue="${facet.name}"
-			              facetCount="${facet.count}"
-			              pager="${pager}"
-			              url="${url}"
-			              checked="${false}"
-			              facetField="${facet}"
-			              showIcons="${showIcons}"/>
-					</c:forEach>
-				  </div>
-				  <a id="${em:escapeHtmlIdentifier(facetName)}-collapse-link"
-					data-toggle="collapse"
-					data-target="#${em:escapeHtmlIdentifier(facetName)}-collapse"
-					class="label" style="display: none">${facetField.valueCount-5}
-					${more}</a>
-				  <script>
-					document.getElementById ( "${em:escapeHtmlIdentifier(facetName)}-collapse-link" ).style.display = "inline";
-					$("#${em:escapeHtmlIdentifier(facetName)}-collapse").on('hidden', function () {
-						$("#${em:escapeHtmlIdentifier(facetName)}-collapse-link").html("${facetField.valueCount-5} ${more}");
-					}).on('shown', function () {
-						$("#${em:escapeHtmlIdentifier(facetName)}-collapse-link").html("${less}");
-					});
-				  </script>
-			    </c:if>
+					<c:if test="${facetField.valueCount gt 5}">
+						<div id="${em:escapeHtmlIdentifier(facetName)}-collapse" class="collapse">
+							<c:forEach var="facet" begin="5" items="${facetField.values}">
+								<menu:facetValue  facetName="${facetName}" 
+									facetValue="${facet.name}"
+									facetCount="${facet.count}"
+									pager="${pager}"
+									url="${url}"
+									checked="${false}"
+									facetField="${facet}"
+									showIcons="${showIcons}"/>
+							</c:forEach>
+						</div>
+						<a id="${em:escapeHtmlIdentifier(facetName)}-collapse-link"
+							data-toggle="collapse"
+							data-target="#${em:escapeHtmlIdentifier(facetName)}-collapse"
+							class="label" style="display: none">${facetField.valueCount-5}
+							${more}</a>
+						<script>
+							document.getElementById ( "${em:escapeHtmlIdentifier(facetName)}-collapse-link" ).style.display = "inline";
+							$("#${em:escapeHtmlIdentifier(facetName)}-collapse").on('hidden', function () {
+								$("#${em:escapeHtmlIdentifier(facetName)}-collapse-link").html("${facetField.valueCount-5} ${more}");
+							}).on('shown', function () {
+								$("#${em:escapeHtmlIdentifier(facetName)}-collapse-link").html("${less}");
+							});
+						</script>
+					</c:if>
 
-			    <noscript>
-				  <c:if test="${facetField.valueCount gt 5}">
-					<c:forEach var="facet" begin="5" items="${facetField.values}">
-						<menu:facetValue  facetName="${facetName}" 
-			              facetValue="${facet.name}"
-			              facetCount="${facet.count}"
-			              pager="${pager}"
-			              url="${url}"
-			              checked="${false}"
-			              facetField="${facet}"
-			              showIcons="${showIcons}"/>
-					</c:forEach>
-				  </c:if>
-			    </noscript>
-			  </c:otherwise>
-            </c:choose>
+					<noscript>
+						<c:if test="${facetField.valueCount gt 5}">
+							<c:forEach var="facet" begin="5" items="${facetField.values}">
+								<menu:facetValue  facetName="${facetName}" 
+									facetValue="${facet.name}"
+									facetCount="${facet.count}"
+									pager="${pager}"
+									url="${url}"
+									checked="${false}"
+									facetField="${facet}"
+									showIcons="${showIcons}"/>
+							</c:forEach>
+						</c:if>
+					</noscript>
+				</c:otherwise>
+			</c:choose>
 		</c:otherwise>
 	</c:choose>
 </jsp:root>

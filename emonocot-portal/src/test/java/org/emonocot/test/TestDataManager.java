@@ -766,13 +766,13 @@ public class TestDataManager {
      private void createMeasurement(final Taxon taxon, final String text, final MeasurementType measurement){
     	MeasurementOrFact fact = new MeasurementOrFact();
     	fact.setMeasurementValue(text);
+    	fact.setIdentifier(UUID.randomUUID().toString());
     	fact.setTaxon(taxon);
+    	fact.setMeasurementType(measurement);
     	fact.setAuthority(taxon.getAuthority());
-    	taxon.getMeasurementsOrFacts();
-    	/*taxon.getMeasurementsOrFacts().add(fact);*/
-    	
+    	taxon.getMeasurementsOrFacts().add(fact);
 
-     }
+    }
 
     /**
      *

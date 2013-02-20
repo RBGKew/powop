@@ -20,15 +20,18 @@ import org.emonocot.api.job.JobExecutionInfo;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.Image;
+import org.emonocot.model.MeasurementOrFact;
 import org.emonocot.model.Place;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.Description;
+import org.emonocot.model.VernacularName;
 import org.emonocot.model.auth.Group;
 import org.emonocot.model.auth.User;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.Location;
+import org.emonocot.model.constants.MeasurementType;
 import org.emonocot.model.constants.RecordType;
 import org.emonocot.portal.model.AceDto;
 import org.joda.time.DateTime;
@@ -193,6 +196,11 @@ public class JsonConversionTest {
         taxon.getDistribution().add(distribution);
         taxon.getReferences().add(reference);
         taxon.setNamePublishedIn(reference);
+        MeasurementOrFact measurementOrFact = new MeasurementOrFact();
+        measurementOrFact.setMeasurementType(MeasurementType.IUCNConservationStatus);
+        measurementOrFact.setTaxon(taxon);
+        measurementOrFact.setMeasurementValue("Least Concern");
+        taxon.getMeasurementsOrFacts().add(measurementOrFact);
         for (int i = 0; i < 3; i++) {
             Image image = new Image();
             image.setIdentifier("urn:identifier:image:" + i);
@@ -200,7 +208,7 @@ public class JsonConversionTest {
             taxon.getImages().add(image);
         }
         try {
-            objectMapper.writeValueAsString(taxon);
+        	objectMapper.writeValueAsString(taxon);
         } catch (Exception e) {
             fail(e.getMessage());
         }

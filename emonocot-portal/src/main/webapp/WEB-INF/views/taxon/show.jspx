@@ -77,8 +77,9 @@
 											<c:forEach var="image" items="${taxon.images}" begin="${status.index}" end="${status.index + 5}">
 												<li>
 													<c:url var="fullsize" value="/images/fullsize/${image.id}.${image.format}" />
+													<c:url var="imageUrl" value="/image/${image.id}"/>
 													<a class="slideshow" href="${fullsize}" 
-														data-link="/image/${image.id}" data-icon="icon-white icon-picture" 
+														data-link="${imageUrl}" data-icon="icon-white icon-picture" 
 														data-creator="${image.creator}" data-license="${imageLicense}" title="${em:stripXml(image.title)}">
 														<c:url var="thumbnail" value="/images/thumbnails/${image.id}.${image.format}" />
 														<img class="thumbnail" src="${thumbnail}" title="${em:stripXml(image.title)}" />

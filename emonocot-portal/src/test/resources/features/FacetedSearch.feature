@@ -12,21 +12,21 @@ Background:
   | identifier | uri                 |
   | test       | http://example.com  |
   And there are taxa with the following properties:
-  | identifier                   | name                           | family    | rank    | status   | distribution1 | distribution2 | source |
-  | urn:kew.org:wcs:taxon:2295   | Acorus                         | Acoraceae | GENUS   | Accepted |               |               | test   |
-  | urn:kew.org:wcs:taxon:2304   | Acorus calamus                 | Acoraceae | SPECIES | Accepted |               |               | test   |
-  | urn:kew.org:wcs:taxon:2305   | Acorus calamus var. americanus | Acoraceae | VARIETY | Accepted |               |               | test   |
-  | urn:kew.org:wcs:taxon:2306   | Acorus calamus var. angustatus | Acoraceae | VARIETY | Accepted |               |               | test   |
-  | urn:kew.org:wcs:taxon:2296   | Acorus adulterinus             | Acoraceae | SPECIES | Synonym  |               |               | test   |
-  | urn:kew.org:wcs:taxon:456456 | Arum alpinariae                | Araceae   | SPECIES | Accepted | TUR           |               | test   |
-  | urn:kew.org:wcs:taxon:16041  | Arum apulum                    | Araceae   | SPECIES | Accepted | ITA           |               | test   |
-  | urn:kew.org:wcs:taxon:16050  | Arum balansanum                | Araceae   | SPECIES | Accepted | TUR           |               | test   |
-  | urn:kew.org:wcs:taxon:16052  | Arum besserianum               | Araceae   | SPECIES | Accepted | POL           | UKR           | test   |
-  | urn:kew.org:wcs:taxon:16060  | Arum byzantinum                | Araceae   | SPECIES | Accepted | TUE           | TUR           | test   |
-  | urn:kew.org:wcs:taxon:16074  | Arum concinnatum               | Araceae   | SPECIES | Accepted | GRC           | KRI           | test   |
-  | urn:kew.org:wcs:taxon:16088  | Arum creticum                  | Araceae   | SPECIES | Accepted | KRI           | EAI           | test   |
-  | urn:kew.org:wcs:taxon:16095  | Arum cylindraceum              | Araceae   | SPECIES | Accepted | DEN           | SWE           | test   |
-  | urn:kew.org:wcs:taxon:16240  | Arum maculatum                 | Araceae   | SPECIES | Accepted |               |               | test   |
+  | identifier                   | name                           | family    | rank    | status   | distribution1 | distribution2 | source | iucnConservationStatus    |
+  | urn:kew.org:wcs:taxon:2295   | Acorus                         | Acoraceae | GENUS   | Accepted |               |               | test   |                           |
+  | urn:kew.org:wcs:taxon:2304   | Acorus calamus                 | Acoraceae | SPECIES | Accepted |               |               | test   | lc                        |
+  | urn:kew.org:wcs:taxon:2305   | Acorus calamus var. americanus | Acoraceae | VARIETY | Accepted |               |               | test   | lc                        |
+  | urn:kew.org:wcs:taxon:2306   | Acorus calamus var. angustatus | Acoraceae | VARIETY | Accepted |               |               | test   | lc                        |
+  | urn:kew.org:wcs:taxon:2296   | Acorus adulterinus             | Acoraceae | SPECIES | Synonym  |               |               | test   |                           |
+  | urn:kew.org:wcs:taxon:456456 | Arum alpinariae                | Araceae   | SPECIES | Accepted | TUR           |               | test   |                           |
+  | urn:kew.org:wcs:taxon:16041  | Arum apulum                    | Araceae   | SPECIES | Accepted | ITA           |               | test   |                           |
+  | urn:kew.org:wcs:taxon:16050  | Arum balansanum                | Araceae   | SPECIES | Accepted | TUR           |               | test   |                           |
+  | urn:kew.org:wcs:taxon:16052  | Arum besserianum               | Araceae   | SPECIES | Accepted | POL           | UKR           | test   |                           |
+  | urn:kew.org:wcs:taxon:16060  | Arum byzantinum                | Araceae   | SPECIES | Accepted | TUE           | TUR           | test   |                           |
+  | urn:kew.org:wcs:taxon:16074  | Arum concinnatum               | Araceae   | SPECIES | Accepted | GRC           | KRI           | test   |                           |
+  | urn:kew.org:wcs:taxon:16088  | Arum creticum                  | Araceae   | SPECIES | Accepted | KRI           | EAI           | test   |                           |
+  | urn:kew.org:wcs:taxon:16095  | Arum cylindraceum              | Araceae   | SPECIES | Accepted | DEN           | SWE           | test   |                           |
+  | urn:kew.org:wcs:taxon:16240  | Arum maculatum                 | Araceae   | SPECIES | Accepted |               |               | test   |                           |
   And there are images with the following properties:
   | identifier                                                                            | caption | source |
   | urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg | Acorus  | test   |
@@ -56,6 +56,9 @@ Scenario: Search for Only Taxa
   And the Family facet should have the following options:
   | option    |
   | Acoraceae |
+  And the IUCN status facet should have the following options:
+  | option        |
+  | Least Concern |
   When I restrict the "taxon.taxon_rank_s" by selecting "Species"
   Then there should be 2 results
   When I restrict the "taxon.taxonomic_status_s" by selecting "Accepted Name"

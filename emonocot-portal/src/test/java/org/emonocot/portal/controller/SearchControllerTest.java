@@ -39,7 +39,7 @@ public class SearchControllerTest {
 		searchableObjectService = EasyMock.createMock(SearchableObjectService.class);
 		searchController.setSearchableObjectService(searchableObjectService);
 		page = new DefaultPageImpl<SearchableObject>(0, 0, 20, new ArrayList<SearchableObject>(),null);
-		facetNames = new String[] {"base.class_s", "taxon.family_s", "taxon.distribution_TDWG_0_ss", "searchable.sources_ss"};
+		facetNames = new String[] {"base.class_s", "taxon.family_s", "taxon.distribution_TDWG_0_ss", "searchable.sources_ss" };
 	}
 
 	/**

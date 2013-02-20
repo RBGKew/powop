@@ -145,6 +145,9 @@ public class SearchController {
         	   className = selectedFacets.get("base.class_s");
                if (className.equals("org.emonocot.model.Taxon")) {
                    logger.debug("Adding taxon specific facets");
+                   responseFacetList.add("taxon.measurement_or_fact_IUCNConservationStatus_txt");
+                   responseFacetList.add("taxon.measurement_or_fact_Lifeform_txt");
+                   responseFacetList.add("taxon.measurement_or_fact_Habitat_txt");
                    responseFacetList.add("taxon.taxon_rank_s");
                    responseFacetList.add("taxon.taxonomic_status_s");
                }
@@ -237,6 +240,9 @@ public class SearchController {
               if (selectedFacets.get("base.class_s").equals(
                       "org.emonocot.model.Taxon")) {
                   logger.debug("Adding taxon specific facets");
+                  responseFacetList.add("taxon.measurement_or_fact_IUCNConservationStatus_txt");
+                  responseFacetList.add("taxon.measurement_or_fact_Lifeform_txt");
+                  responseFacetList.add("taxon.measurement_or_fact_Habitat_txt");
                   responseFacetList.add("taxon.taxon_rank_s");
                   responseFacetList.add("taxon.taxonomic_status_s");
               }
