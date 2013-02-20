@@ -30,14 +30,16 @@
     </bean>
     
     <int:channel id="jdbcCommentChannel" />
-    
     <int:splitter input-channel="jdbcCommentChannel" output-channel="commentChannel" />
-    
     <int:channel id="commentChannel" />
     
     <int:chain id="enrichingChain" input-channel="commentChannel" output-channel="enrichedCommentChannel">
+        <int:enricher request-channel="loadCommentChannel" request-payload-expression="payload.identifier">
+            <int:property name="aboutData" expression="payload.aboutData" />
+            <int:property name="user" expression="payload.user"/>
+        </int:enricher>
         <int:header-enricher>
-            <int:header name="destinations" ref="commentService" method="getDestinationOrganisations" />
+            <int:header name="destinations" ref="commentServiceImpl" method="getDestinationOrganisations" />
         </int:header-enricher>
         <int:splitter>
             <bean class="org.emonocot.integration.HeaderCollectionSplitter">
@@ -46,16 +48,30 @@
             </bean>
         </int:splitter>
         <int:header-enricher>
-            <int:header name="templateName" value="${comment.email.template}" />
+            <int:header name="templateName" expression="headers.organisation.commentsEmailedTo == null ? null : '${comment.email.template}'" />
             <int:header name="toAddress" expression="headers.organisation.commentsEmailedTo" />
             <int:header name="subject" value="${comment.email.subject}" />
         </int:header-enricher>
     </int:chain>
-    <bean id="commentService" class="org.emonocot.service.impl.CommentServiceImpl" />
     
-    <int:channel id="enrichedCommentChannel" />
+    <int:publish-subscribe-channel id="enrichedCommentChannel" />
     
-    <int:outbound-channel-adapter channel="enrichedCommentChannel" ref="testTransformedMessageHandler" method="handle" />
-    <bean id="testTransformedMessageHandler" class="org.emonocot.integration.MessageHandler" />
+    <int:filter input-channel="enrichedCommentChannel" output-channel="toMapCommentChannel" expression="headers.organisation.commentsEmailedTo != null" />
     
+    <int:publish-subscribe-channel id="toMapCommentChannel" />
+    
+    <int:transformer input-channel="toMapCommentChannel" output-channel="emailCommentChannel" method="prepareMessage">
+        <bean class="org.emonocot.integration.EmailServiceHelper">
+            <property name="commentEmailTemplate" value="${comment.email.template}"/>
+            <property name="defaultTemplate" value="${comment.email.template}"/>
+        </bean>
+    </int:transformer>
+    
+    <int:channel id="emailCommentChannel" />
+    
+    <int:service-activator input-channel="emailCommentChannel" expression="@emailService.sendEmail(headers.templateName, payload, headers.toAddress, headers.subject)" />
+    
+    <!-- service calling channels -->
+    <int:channel id="loadCommentChannel" />
+    <int:service-activator ref="commentServiceImpl" method="load" input-channel="loadCommentChannel"/>
 </beans>

@@ -46,7 +46,7 @@ public class CommentServiceImpl extends ServiceImpl<Comment, CommentDao> impleme
         
         logger.debug("Attempting to get destination organisations for comment" + comment + ":" + comment.getIdentifier());
         
-        comment = find(comment.getIdentifier(), "about");
+        comment = find(comment.getIdentifier(), "aboutData");
         Base about = comment.getAboutData();
         Set<Organisation> orgs = new HashSet<Organisation>();
         if(about instanceof Organisation) {
