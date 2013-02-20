@@ -748,6 +748,15 @@ public class StepDefinitions {
     public final void thereShouldBeOptionsForFamilyFacet(final List<Row> options) {
         assertFacets("taxon.family_s", options);
     }
+    
+    /**
+     * @param options
+     *            Set the options
+     */
+    @Then("^the IUCN status facet should have the following options:$")
+    public final void thereShouldBeOptionsForIUCNFacet(final List<Row> options) {
+    	assertFacets("taxon.measurement_or_fact_IUCNConservationStatus_txt", options);
+    }
 
     /**
      * @param options

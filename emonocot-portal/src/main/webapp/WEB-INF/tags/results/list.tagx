@@ -12,7 +12,7 @@
 				<c:choose>
 					<c:when test="${item.className == 'Taxon'}">
 						<results:listEntry itemName="${item.scientificName}"
-							icon="/css/images/glyphicons/halfsize/glyphicons_001_leaf.png"
+							icon="leaf"
 							iconAlt="Taxon" url="/taxon/${item.identifier}"
 							image="${item.images[0]}">
 							<spring:url var="itemUrl" value="/taxon/${item.identifier}" />
@@ -69,9 +69,8 @@
 						</results:listEntry>
 					</c:when>
 					<c:when test="${item.className == 'Image'}">
-						<c:url var="imageIconUrl" value="/css/images/glyphicons/halfsize/glyphicons_159_picture.png" />
 						<results:listEntry itemName="${item.title}"
-							icon="${imageIconUrl}"
+							icon="picture"
 							iconAlt="Image" url="/image/${item.id}" image="${item}">
 							<spring:url var="itemUrl" value="/image/${item.id}" />
 							<a class="result" href="${itemUrl}" title="${em:stripXml(item.title)}">
@@ -103,7 +102,7 @@
 					</c:when>
 					<c:when test="${item.className == 'IdentificationKey'}">
 						<results:listEntry itemName="${item.title}"
-							icon="/css/images/glyphicons/halfsize/glyphicons_044_keys.png"
+							icon="keys"
 							iconAlt="Identification Key" url="/key/${item.id}">
 							<spring:url var="itemUrl" value="/key/${item.id}" />
 							<a class="result" href="${itemUrl}" title="${em:stripXml(item.title)}">
@@ -121,7 +120,7 @@
 							</c:otherwise>
 						</c:choose>
 						<results:listEntry itemName="${item.title}"
-							icon="/css/images/glyphicons/halfsize/glyphicons_242_google_maps.png"
+							icon="google_maps"
 							iconAlt="Place" url="${url}">
 							<spring:url var="itemUrl" value="${url}" />
 							<a class="result" href="${itemUrl}" title="${em:stripXml(item.title)}">

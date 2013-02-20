@@ -1040,7 +1040,8 @@ public class Taxon extends SearchableObject {
 		} else {
 			sid.addField("taxon.measurements_or_facts_empty_b", false);
 		}
-		for(MeasurementOrFact m : getMeasurementsOrFacts()) {			
+		for(MeasurementOrFact m : getMeasurementsOrFacts()) {
+			sid.addField("taxon.measurement_or_fact_" + m.getMeasurementType() + "_txt", m.getMeasurementValue());
 			if(m.getAuthority() != null) {
 				sid.addField("searchable.sources_ss", m.getAuthority().getIdentifier());
 			}
