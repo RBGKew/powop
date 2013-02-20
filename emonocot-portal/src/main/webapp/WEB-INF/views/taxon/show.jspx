@@ -14,6 +14,10 @@
 		</h2>
 		<small id="protologue" class="span">${taxon.namePublishedInString}</small>
 		<span class="pull-left span"><tags:feedbackLink selector="option:contains(${taxon.scientificName} ${taxon.scientificNameAuthorship})" dataName="${taxon.scientificName}" /></span>
+		<br/>
+		<c:if test="${not empty taxon.nomenclaturalStatus}">
+			<h4>${taxon.nomenclaturalStatus}</h4>
+		</c:if>
 	</tags:pageheader>
 	<div class="container">
 		<c:set var="bibliography" value="${em:bibliography(taxon)}" />
@@ -44,6 +48,11 @@
 						<li>
 							<c:if test="${not empty taxon.synonymNameUsages}">
 								<a href="#synonyms"><spring:message code="synonyms" /></a>
+							</c:if>
+						</li>
+						<li>
+							<c:if test="${not empty taxon.vernacularNames}">
+								<a href="#vernacularNames"><spring:message code="vernacularNames" /></a>
 							</c:if>
 						</li>
 						<li>
@@ -166,7 +175,11 @@
 				</c:when>
 			</c:choose>
 		</div>
-
+		<c:if test="${not empty taxon.taxonRemarks}">
+			<div id="taxonRemarks">
+				<spring:message code="notes" />${taxon.taxonRemarks}
+			</div>
+		</c:if>
 		<div class="row">
 			<div class="span8">
 				<c:if test="${not empty taxon.descriptions}">
@@ -298,6 +311,40 @@
 										</li>
 									</c:forEach>
 								</ul>
+							</div>
+						</div>
+					</section>
+				</c:if>
+				<c:if test="${not empty taxon.vernacularNames}">
+				<section class="section-box" id="vernacularNames">
+						<div class="inner">
+							<div class="box clearfix">
+								<h2><spring:message code="vernacularNames" /></h2>
+								<table class="table" id="vernacular">
+									<thead>
+										<tr>
+											<th>Name</th>
+											<th>Language</th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach var="vernacularName" items="${taxon.vernacularNames}">
+										<tr>
+											<td>${vernacularName}</td>
+											<td>${vernacularName.language}</td>
+											<td>
+												<ul class="citations">
+													<c:set var="provenanceHolder" value="${em:provenancekey(provenance,vernacularName)}"/>
+													<li>
+														<a href="#${provenanceHolder}">${provenanceHolder}</a>
+													</li>
+												</ul>
+											</td>
+										</tr>
+										</c:forEach>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</section>

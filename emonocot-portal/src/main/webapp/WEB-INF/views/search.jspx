@@ -164,11 +164,11 @@
 							<li>
 								<a class="modal-download">
 									<i class="modal-icon">&#160;</i>
-									<span class="modal-caption">&#160;</span>
+									<span class="modal-caption"><!--  --></span>
 								</a>
 							</li>
 							<li>
-								<em><spring:message code="image.creator"/></em>&#160;<span class="modal-creator">&#160;</span>
+								<em><spring:message code="image.creator"/></em>&#160;<span class="modal-creator"><!--  --></span>
 							</li>
 							<li>
 								<em><spring:message code="image.license"/></em>&#160;<span class="modal-license">&#160;</span>
