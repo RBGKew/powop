@@ -1,11 +1,12 @@
-<footer class="footer" xmlns:jsp="http://java.sun.com/JSP/Page"
+<footer class="navbar navbar-inverse" xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:spring="http://www.springframework.org/tags">
 	<jsp:directive.page contentType="text/html" pageEncoding="UTF-8" />
     <jsp:output omit-xml-declaration="true" />
-	<div class="container">
+    <div class="navbar-inner">
+	  <div class="container">
 		<div id="footer-icons" class="row">
-			<ul class="span12 offset2">
+			<ul class="nav">
 				<c:url var="kewImageUrl" value="/css/images/footer/kew.png"/>
 				<li><a href="http://www.kew.org/"><img src="${kewImageUrl}" width="100" height="60" alt="Kew" target="_blank" /></a></li>
 				<c:url var="oxfordImageUrl" value="/css/images/footer/uni-oxford.png"/>
@@ -16,11 +17,14 @@
 				<li><a href="http://www.nerc.ac.uk/"><img src="${nercImageUrl}" width="160" height="60" alt="Natural Environment Research Council" target="_blank" /></a></li>
 			</ul>
 		</div>
-		<c:url value="/" var="brandUrl"/>
-		<a href="${brandUrl}">
-		  <div id="footer-logo"><!-- --></div>
-		</a>
-		<ul class="foot unstyled no-print">
+		<div id="footer-brand" class="row">
+		  <c:url value="/" var="brandUrl"/>
+		  <a href="${brandUrl}">
+		    <div id="footer-logo"><!-- --></div>
+		  </a>
+		</div>
+		<div class="row">
+		  <ul class="nav no-print">
 			<li>
 			  <c:url value="/about" var="aboutUrl" />
 			  <a href="${aboutUrl}"><spring:message code="about.title" /></a>
@@ -33,14 +37,18 @@
 			  <c:url value="/termsOfUse" var="termsOfUseUrl" />
 			  <a href="${termsOfUseUrl}"><spring:message code="termsOfUse.title" /></a>
 			</li>
-		</ul>
-		<ul class="foot unstyled no-print">
-		  <li class="footer-version">
-			eMonocot <spring:message code="application.version" />
-		  </li>
-		  <li class="footer-version">
-			<spring:message code="design.by.designers" />
-		  </li>
-		</ul>
+		  </ul>
+		</div>
+		<div class="row">
+		  <ul class="nav no-print">
+  		    <li>
+			  <a>eMonocot <spring:message code="application.version" /></a>
+		    </li>
+		    <li>
+			  <spring:message code="design.by.designers" />
+		    </li>
+		  </ul>
+		</div>
+	  </div>
 	</div>
 </footer>
