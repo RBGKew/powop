@@ -14,8 +14,6 @@
 
 	<context:property-placeholder
 		location="classpath*:META-INF/spring/application.properties" />
-	
-	
 
 	<jms:inbound-channel-adapter id="mockJobLaunchGateway"
 		channel="mockJobLaunchRequests"

@@ -4,21 +4,15 @@
 package org.emonocot.job.taxonmatch;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import org.emonocot.api.TaxonService;
 import org.emonocot.api.match.Match;
 import org.emonocot.api.match.MatchStatus;
 import org.emonocot.api.match.taxon.TaxonMatcher;
 import org.emonocot.model.Taxon;
-import org.emonocot.pager.Page;
-import org.gbif.ecat.model.ParsedName;
-import org.gbif.ecat.parser.NameParser;
+import org.gbif.ecat.parser.UnparsableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * A way of chaining a set of matchers, such that the first list of matches with an exact match will be returned.  If there are none, the first list of partial matches is returned
@@ -50,14 +44,14 @@ public class CompositeTaxonMatcher implements TaxonMatcher {
      * org.emonocot.api.match.TaxonMatcher#match(org.gbif.ecat.model.ParsedName
      * )
      */
-    public final List<Match<Taxon>> match(final ParsedName<String> parsed) {
+    public final List<Match<Taxon>> match(String name) throws UnparsableException {
 		List<Match<Taxon>> matches = new ArrayList<Match<Taxon>>();
 		List<Match<Taxon>> partialMatches = new ArrayList<Match<Taxon>>();
 		
     	int i = -1;
     	while(++i < matchers.length && matches.size() < 1){
     		TaxonMatcher matcher = matchers[i];
-    		List<Match<Taxon>> results = matcher.match(parsed);
+    		List<Match<Taxon>> results = matcher.match(name);
             for (Match<Taxon> m : results) {
                 if(MatchStatus.EXACT.equals(m.getStatus())){
                 	matches = results;

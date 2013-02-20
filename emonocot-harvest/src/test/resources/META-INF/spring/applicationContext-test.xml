@@ -194,7 +194,7 @@
 	  <property name="resourceService" ref="resourceServiceImpl"/>
 	</bean>
     
-    <bean id="mailSender" class ="org.emonocot.harvest.integration.test.MailSenderStubImpl" />
+    <bean id="emailService" class ="org.emonocot.integration.MailSenderStubImpl" />
     
     <beans profile="proxy">
         <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory">

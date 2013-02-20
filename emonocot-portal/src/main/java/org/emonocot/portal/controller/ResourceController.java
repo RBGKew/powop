@@ -249,7 +249,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	               "resource.scheduling_period_s",
 	               "resource.status_s",
 	               "resource.last_harvested_dt",
-	               "resource.organisation_t"
+	               "resource.organisation_s"
 	               }, null, selectedFacets, sort, null);
 		result.putParam("query", query);
 		model.addAttribute("result", result);

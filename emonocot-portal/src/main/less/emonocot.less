@@ -25,14 +25,9 @@ img.thumbnail {
   margin-right: auto;
 }
 
-
 .centeredImage{
     text-align:center;
     display:block;
-}
-
-.header-margin{
-	margin:-20px -20px 20px -20px;
 }
 
 .thumbnail-gallery-padding li{
@@ -271,43 +266,38 @@ h1, h2, h3, h4, h5, h6 {
 
 .box p { color: #888; }
 
-/* footer */
+/**
+ * footer 
+ */
 
 .container > footer p{
 	text-align:center;
 }
 
-footer {
-	background-color:#252525;
-	margin-top:20px;
-	padding :10px;
-	}
-
-
-.footer-version{
-	color: @grayLight;
-}
-
-footer {
-    background: @navbarInverseBackground; 
-    padding: 30px 0; 
-}
-
-#footer-icons ul { list-style: none; text-align: center; display: block}
-#footer-icons ul li { display: inline-block; padding: 0 20px 20px; float: left}
-#footer-icons ul li a { display: block; }
-
 #footer-logo { height: 50px; width: 50px; background: url('@{imagePath}/footer/logo.png') no-repeat; margin: 0 auto 20px; }
 
-.foot { list-style: none; margin: 0; text-align: center; }
-.foot li { display: inline-block; padding: 0 10px 5px; }
-.foot li a { color: #999; font-size: 14px;  }
+footer.navbar {
+  margin-bottom: 0; 
+  .navbar-inner {
+    border-radius: 0;
+    .container {
+      #grid > .core > .span(@gridColumns);
+      div.row {
+          margin: 0;
+      }
+      ul.nav {
+        margin: 0 auto;
+        float: none;
+        display:table;
+      }
+    }
+  }
+}
 
-.footer-version { font-size: 12px; }
-.footer-version a { font-size: 12px; }
+
 
 /**
- *
+ * page-banner
  */
  
  #page-title {line-height: 65px}
@@ -349,7 +339,9 @@ footer {
 
 .sub-title { color: #5b5b5b; font-size: 24px; line-height: 30px; margin: 10px 0 20px; text-align: center; }
 
-/* taxon */
+/**
+ * Taxon Page 
+ */
 
 .carousel-inner{
 	padding-left:80px;
@@ -386,7 +378,7 @@ section {width: 100%; clear: both; padding-top: 60px}
     }
 }
 
-#textContent {padding-top: 78px}
+
 
 ul.citations {
     list-style: none;
@@ -464,6 +456,7 @@ ul#taxonHierarchy, ul#taxonHierarchy ul {
 
 #sidebar { margin-top: 0;}
 
+#textContent {padding-top: 78px}
 #textContent  { padding-top: 0 !important;}
 
 /* tax image slider */

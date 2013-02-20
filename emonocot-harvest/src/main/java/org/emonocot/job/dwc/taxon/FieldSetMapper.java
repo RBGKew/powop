@@ -1,16 +1,9 @@
 package org.emonocot.job.dwc.taxon;
 
-import java.util.HashMap;
-
-import org.emonocot.api.ReferenceService;
 import org.emonocot.api.job.EmonocotTerm;
 import org.emonocot.job.dwc.read.BaseDataFieldSetMapper;
-import org.emonocot.model.Annotation;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
-import org.emonocot.model.constants.AnnotationCode;
-import org.emonocot.model.constants.AnnotationType;
-import org.emonocot.model.constants.RecordType;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
@@ -20,8 +13,6 @@ import org.gbif.ecat.voc.Rank;
 import org.gbif.ecat.voc.TaxonomicStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.ChunkListener;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionException;
 import org.springframework.validation.BindException;
 
@@ -30,37 +21,12 @@ import org.springframework.validation.BindException;
  * @author ben
  *
  */
-public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> implements ChunkListener {
+public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> {
 
-   /**
-    *
-    */
-    private Logger logger
-        = LoggerFactory.getLogger(FieldSetMapper.class);
+    private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);
 
-    /**
-     *
-     */
-    private HashMap<String, Reference> boundReferences;
-
-    /**
-     *
-     */
-    private ReferenceService referenceService;
-
-    /**
-     *
-     */
     public FieldSetMapper() {
         super(Taxon.class);
-    }
-
-    /**
-     * @param newReferenceService Set the reference service
-     */
-    @Autowired
-    public final void setReferenceService(final ReferenceService newReferenceService) {
-        this.referenceService = newReferenceService;
     }
 
     /**
@@ -215,46 +181,14 @@ public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> implements Chu
             }            
         }
     }
-
-    /**
-     * TODO move reference handling code into processor
-     */
-    private Reference handleReference(String value) {
+    
+	private Reference handleReference(String value) {
 		if (value != null && value.trim().length() > 0) {
-			Reference reference = null;
-			if (boundReferences.containsKey(value)) {
-				return boundReferences.get(value);
-			} else {
-				reference = referenceService.find(value);
-				if (reference == null) {
-					reference = new Reference();
-					reference.setIdentifier(value);
-					Annotation annotation = createAnnotation(reference,
-							RecordType.Reference, AnnotationCode.Create,
-							AnnotationType.Info);
-					reference.getAnnotations().add(annotation);
-				}
-				boundReferences.put(reference.getIdentifier(), reference);
-				return reference;
-			}
+		    Reference reference = new Reference();
+    	    reference.setIdentifier(value);
+            return reference;            
 		} else {
 			return null;
 		}
 	}
-
-	/**
-    *
-    */
-   public final void afterChunk() {
-       logger.info("After Chunk");
-   }
-
-   /**
-    *
-    */
-   public final void beforeChunk() {
-       logger.info("Before Chunk");       
-
-       boundReferences = new HashMap<String, Reference>();
-   }
 }

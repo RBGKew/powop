@@ -35,7 +35,7 @@ public class Processor extends OwnedEntityProcessor<Description, DescriptionServ
 
 
    @Autowired
-   public final void setReferenceService(ReferenceService referenceService) {
+   public void setReferenceService(ReferenceService referenceService) {
        this.referenceService = referenceService;
    }
    
@@ -87,10 +87,7 @@ public class Processor extends OwnedEntityProcessor<Description, DescriptionServ
 	    return RecordType.Description;
     }
     
-    /**
-    *
-    */
-    public final void afterChunk() {
+    public void afterChunk() {
         logger.info("After Chunk");
     }
     
@@ -101,7 +98,7 @@ public class Processor extends OwnedEntityProcessor<Description, DescriptionServ
     * @param value
     *            the source of the reference to resolve
     */
-   private void resolveReference(final Description object, final String value) {
+   private void resolveReference(Description object, String value) {
        if (value == null || value.trim().length() == 0) {
            // there is not citation identifier
            return;
@@ -125,10 +122,7 @@ public class Processor extends OwnedEntityProcessor<Description, DescriptionServ
        }
    }
 
-    /**
-    *
-    */
-    public final void beforeChunk() {
+    public void beforeChunk() {
         logger.info("Before Chunk");
         boundReferences = new HashMap<String, Reference>();
     }

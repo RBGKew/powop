@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+	                    
+    <context:property-placeholder ignore-unresolvable="true" location="classpath*:META-INF/spring/*.properties"/>
+	
+    <context:annotation-config />
+	
+	<batch:job id="Grassbase">
+		<batch:description>Create a darwin core archive from a delta TONAT file and associated resources</batch:description>
+		<batch:step id="readSpeciesFile">
+			<batch:tasklet>
+			    <batch:chunk reader="speciesReader" writer="mapBackedSpeciesMatcher" commit-interval="10"/>    
+		    </batch:tasklet>
+		    <batch:next on="COMPLETED" to="createSpeciesFile"/>
+		</batch:step>
+		<batch:step id="createSpeciesFile">
+			<batch:tasklet>
+			    <batch:chunk reader="speciesItemItemReader" processor="speciesNaturalLanguageProcessor" writer="speciesDescriptionFileWriter" commit-interval="10"/>    
+		    </batch:tasklet>
+		    <batch:next on="COMPLETED" to="readGeneraFile"/>
+		</batch:step>
+		<batch:step id="readGeneraFile">
+			<batch:tasklet>
+			    <batch:chunk reader="generaReader" writer="mapBackedGeneraMatcher" commit-interval="10"/>    
+		    </batch:tasklet>
+		    <batch:next on="COMPLETED" to="createGeneraFile"/>
+		</batch:step>
+		<batch:step id="createGeneraFile">
+			<batch:tasklet>
+			    <batch:chunk reader="generaItemItemReader" processor="generaNaturalLanguageProcessor" writer="generaDescriptionFileWriter" commit-interval="10"/>    
+		    </batch:tasklet>
+		    <batch:next on="COMPLETED" to="createMetadataFile"/>
+		</batch:step>
+		<batch:step id="createMetadataFile">
+			<batch:description>Create the Metadata file</batch:description>
+			<batch:tasklet ref="writeMetadataTasklet"/>
+			<batch:next on="COMPLETED" to="copySpeciesTaxonFile"/>
+	    </batch:step>
+	    <batch:step id="copySpeciesTaxonFile">
+	        <batch:description>Copy the species file to the working directory so that it can be packaged</batch:description>
+	        <batch:tasklet ref="copySpeciesTaxonFileTasklet"/>
+	        <batch:next on="COMPLETED" to="copyGeneraTaxonFile"/>
+	    </batch:step>
+	    <batch:step id="copyGeneraTaxonFile">
+	        <batch:description>Copy the genera file to the working directory so that it can be packaged</batch:description>
+	        <batch:tasklet ref="copyGeneraTaxonFileTasklet"/>
+	        <batch:next on="COMPLETED" to="copySpeciesDescriptionFile"/>
+	    </batch:step>
+	    <batch:step id="copySpeciesDescriptionFile">
+	        <batch:description>Copy the species description file to the working directory so that it can be packaged</batch:description>
+	        <batch:tasklet ref="copySpeciesDescriptionFileTasklet"/>
+	        <batch:next on="COMPLETED" to="copyGeneraDescriptionFile"/>
+	    </batch:step>
+	    <batch:step id="copyGeneraDescriptionFile">
+	        <batch:description>Copy the genera description file to the working directory so that it can be packaged</batch:description>
+	        <batch:tasklet ref="copyGeneraDescriptionFileTasklet"/>
+	        <batch:next on="COMPLETED" to="packageArchive"/>
+	    </batch:step>
+	    <batch:step id="packageArchive">
+			<batch:description>Package the archive up</batch:description>
+			<batch:tasklet ref="packageArchiveTasklet"/>
+			<batch:next on="COMPLETED" to="cleanupResources"/>
+	    </batch:step>
+	    <batch:step id="cleanupResources">
+			<batch:description>Cleanup the resources</batch:description>
+			<batch:tasklet ref="workingDirectoryResourceDeletingTasklet" />
+			<batch:end on="COMPLETED"/>
+		</batch:step>
+	</batch:job>
+
+	<bean id="copySpeciesTaxonFileTasklet" class="org.emonocot.harvest.common.CopyFileTasklet"
+		scope="step">
+		<property name="from">
+			<bean class="org.springframework.core.io.FileSystemResource"
+				scope="step">
+				<constructor-arg value="#{jobParameters['species.taxon.file']}" />
+			</bean>
+		</property>
+		<property name="to">
+			<bean class="org.springframework.core.io.FileSystemResource"
+				scope="step">
+				<constructor-arg type="java.io.File">
+					<bean class="java.io.File" scope="step">
+						<constructor-arg type="java.io.File"
+							value="${harvester.output.directory}/#{jobParameters['archive.file']}" />
+						<constructor-arg type="java.lang.String" value="taxon.txt" />
+					</bean>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="copyGeneraTaxonFileTasklet" class="org.emonocot.harvest.common.CopyFileTasklet" scope="step">
+		<property name="from">
+			<bean class="org.springframework.core.io.FileSystemResource" scope="step">
+				<constructor-arg value="#{jobParameters['genera.taxon.file']}" />
+			</bean>
+		</property>
+		<property name="to">
+			<bean class="org.springframework.core.io.FileSystemResource" scope="step">
+				<constructor-arg type="java.io.File">
+					<bean class="java.io.File" scope="step">
+						<constructor-arg type="java.io.File" value="${harvester.output.directory}/#{jobParameters['archive.file']}" />
+						<constructor-arg type="java.lang.String" value="taxon.txt" />
+					</bean>
+				</constructor-arg>
+			</bean>
+		</property>
+		<property name="append" value="true"/>
+	</bean>
+	
+    
+    <bean id="copySpeciesDescriptionFileTasklet" class="org.emonocot.harvest.common.CopyFileTasklet" scope="step">
+	<property name="from" ref="speciesDescriptionFile" />
+	<property name="to">
+		<bean class="org.springframework.core.io.FileSystemResource" scope="step">
+			<constructor-arg type="java.io.File">
+				<bean class="java.io.File" scope="step">
+					<constructor-arg type="java.io.File" value="${harvester.output.directory}/#{jobParameters['archive.file']}" />
+					<constructor-arg type="java.lang.String" value="description.txt" />
+				</bean>
+			</constructor-arg>
+		</bean>
+	</property>
+  </bean>
+  
+  <bean id="copyGeneraDescriptionFileTasklet" class="org.emonocot.harvest.common.CopyFileTasklet" scope="step">
+	<property name="from" ref="generaDescriptionFile" />
+	<property name="to">
+		<bean class="org.springframework.core.io.FileSystemResource" scope="step">
+			<constructor-arg type="java.io.File">
+				<bean class="java.io.File" scope="step">
+					<constructor-arg type="java.io.File" value="${harvester.output.directory}/#{jobParameters['archive.file']}" />
+					<constructor-arg type="java.lang.String" value="description.txt" />
+				</bean>
+			</constructor-arg>
+		</bean>
+	</property>
+	<property name="append" value="true"/>
+  </bean>
+    
+    <bean id="descriptionFile" class="org.springframework.core.io.FileSystemResource" scope="step">
+		<constructor-arg type="java.io.File">
+			<bean class="java.io.File" scope="step">
+				<constructor-arg type="java.io.File" value="${harvester.output.directory}/#{jobParameters['archive.file']}" />
+				<constructor-arg type="java.lang.String" value="description.txt" />
+			</bean>
+		</constructor-arg>
+    </bean>
+    
+    <bean id="speciesDescriptionFile" class="org.springframework.core.io.FileSystemResource" scope="step">
+		<constructor-arg type="java.io.File">
+			<bean class="java.io.File" scope="step">
+				<constructor-arg type="java.io.File" value="${harvester.output.directory}/#{jobParameters['archive.file']}"/>
+				<constructor-arg type="java.lang.String" value="species.txt"/>
+			</bean>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="generaDescriptionFile" class="org.springframework.core.io.FileSystemResource" scope="step">
+		<constructor-arg type="java.io.File">
+			<bean class="java.io.File" scope="step">
+				<constructor-arg type="java.io.File" value="${harvester.output.directory}/#{jobParameters['archive.file']}"/>
+				<constructor-arg type="java.lang.String" value="genera.txt"/>
+			</bean>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="packageArchiveTasklet" class="org.emonocot.job.dwc.write.ArchivePackager" scope="step">
+		<property name="archiveFile" value="#{jobParameters['archive.file']}"/>
+		<property name="outputDirectory" value="${harvester.output.directory}"/>
+		<property name="descriptionFields" value="#{jobParameters['description.file.field.names']}"/>
+	</bean>
+	
+	<bean id="writeMetadataTasklet" class="org.emonocot.job.dwc.write.ArchiveMetadataWriter" scope="step">
+		<property name="archiveFile" value="#{jobParameters['archive.file']}"/>		
+		<property name="taxonFields" value="#{jobParameters['taxon.file.field.names']}"/>
+		<property name="taxonDefaultValues" value="#{jobParameters['taxon.default.values']}"/>
+		<property name="descriptionFields" value="#{jobParameters['description.file.field.names']}"/>
+	    <property name="descriptionDefaultValues" value="#{jobParameters['description.default.values']}"/>		
+		<property name="delimiter" value="#{jobParameters['fields.terminated.by']}"/>
+		<property name="quoteCharacter" value="#{jobParameters['fields.enclosed.by']}"/>
+		<property name="outputDirectory" value="${harvester.output.directory}"/>
+		<property name="citationString" value="#{jobParameters['citation.string']}"/>
+		<property name="creatorEmail" value="#{jobParameters['creator.email']}"/>
+		<property name="creatorName" value="#{jobParameters['creator.name']}"/>
+		<property name="description" value="#{jobParameters['meta.description']}"/>
+		<property name="homepageUrl" value="#{jobParameters['homepage.url']}"/>
+		<property name="identifier" value="#{jobParameters['identifier']}"/>
+		<property name="logoUrl" value="#{jobParameters['logo.url']}"/>
+		<property name="publisherEmail" value="#{jobParameters['publisher.email']}"/>
+		<property name="publisherName" value="#{jobParameters['publisher.name']}"/>
+		<property name="rights" value="#{jobParameters['rights']}"/>
+		<property name="subject" value="#{jobParameters['subject']}"/>
+		<property name="title" value="#{jobParameters['title']}"/>
+	</bean>
+	
+	<bean id="speciesReader" class="org.springframework.batch.item.file.FlatFileItemReader"
+		scope="step">
+		<property name="encoding" value="UTF-8" />
+		<property name="linesToSkip" value="#{jobParameters['taxon.file.skip.lines']}" />
+		<property name="bufferedReaderFactory" ref="bufferedReaderFactory" />
+		<property name="resource">
+			<bean class="org.springframework.core.io.FileSystemResource" scope="step">
+				<constructor-arg value="#{jobParameters['species.taxon.file']}" />
+			</bean>
+		</property>
+		<property name="lineMapper" ref="taxonLineMapper" />
+	</bean>
+	
+	<bean id="generaReader" class="org.springframework.batch.item.file.FlatFileItemReader"
+		scope="step">
+		<property name="encoding" value="UTF-8" />
+		<property name="linesToSkip" value="#{jobParameters['taxon.file.skip.lines']}" />
+		<property name="bufferedReaderFactory" ref="bufferedReaderFactory" />
+		<property name="resource">
+			<bean class="org.springframework.core.io.FileSystemResource" scope="step">
+				<constructor-arg value="#{jobParameters['genera.taxon.file']}" />
+			</bean>
+		</property>
+		<property name="lineMapper" ref="taxonLineMapper" />
+	</bean>
+	
+    <bean id="taxonLineMapper" class="org.springframework.batch.item.file.mapping.DefaultLineMapper" scope="step">
+		<property name="lineTokenizer" ref="taxonLineTokenizer" />
+		<property name="fieldSetMapper" ref="taxonFieldSetMapper" />
+	</bean>
+
+	<bean id="taxonLineTokenizer" class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer" scope="step">
+		<property name="names" value="#{jobParameters['taxon.file.field.names']}" />
+		<property name="delimiter" value="#{jobParameters['fields.terminated.by']}" />
+		<property name="quoteCharacter"	value="#{jobParameters['fields.enclosed.by']}" />
+		<property name="strict" value="false" />
+	</bean>
+
+	<bean id="taxonFieldSetMapper" class="org.emonocot.job.dwc.taxon.FieldSetMapper" scope="step">
+		<property name="fieldNames"	value="#{jobParameters['taxon.file.field.names']}" />
+	</bean>
+	
+	
+	<bean id="speciesContextHolder" class="org.emonocot.job.delta.DeltaContextHolderImpl" scope="step" init-method="init">
+	  <property name="specsFile">
+	    <bean class="org.springframework.core.io.FileSystemResource" scope="step">
+		    <constructor-arg value="#{jobParameters['species.specs.file']}" />
+		</bean>
+	  </property>
+	</bean>
+	
+	<bean id="generaContextHolder" class="org.emonocot.job.delta.DeltaContextHolderImpl" scope="step" init-method="init">
+	  <property name="specsFile">
+	    <bean class="org.springframework.core.io.FileSystemResource" scope="step">
+		    <constructor-arg value="#{jobParameters['genera.specs.file']}" />
+		</bean>
+	  </property>
+	</bean>
+			
+	<bean id="speciesItemItemReader" class="org.emonocot.job.delta.DeltaItemItemReader" scope="step">
+	  <property name="itemsFile">
+	    <bean class="org.springframework.core.io.FileSystemResource" scope="step">
+		    <constructor-arg value="#{jobParameters['species.items.file']}" />
+		</bean>
+	  </property>	  
+	  <property name="deltaContextHolder" ref="speciesContextHolder"/>	  
+	</bean>
+	
+	<bean id="generaItemItemReader" class="org.emonocot.job.delta.DeltaItemItemReader" scope="step">
+	  <property name="itemsFile">
+	    <bean class="org.springframework.core.io.FileSystemResource" scope="step">
+		    <constructor-arg value="#{jobParameters['genera.items.file']}" />
+		</bean>
+	  </property>	  
+	  <property name="deltaContextHolder" ref="generaContextHolder"/>	  
+	</bean>
+	
+	<bean id="speciesNaturalLanguageProcessor" class="org.emonocot.job.delta.DeltaNaturalLanguageProcessor" scope="step">
+	  <property name="deltaContextHolder" ref="speciesContextHolder"/>
+	  <property name="taxonMatcher" ref="mapBackedSpeciesMatcher"/>
+	  <property name="characterForLink" value="#{jobParameters['character.for.link']}"/>
+	  <property name="linkPrefix" value="#{jobParameters['link.prefix']}"/>
+	  <property name="linkSuffix" value="#{jobParameters['link.suffix']}"/>
+	</bean>
+	
+	<bean id="generaNaturalLanguageProcessor" class="org.emonocot.job.delta.DeltaNaturalLanguageProcessor" scope="step">
+	  <property name="deltaContextHolder" ref="generaContextHolder"/>
+	  <property name="taxonMatcher" ref="mapBackedGeneraMatcher"/>
+	</bean>
+	
+	<bean id="mapBackedSpeciesMatcher" class="org.emonocot.job.delta.MapBackedTaxonMatcher"/>
+	
+	<bean id="mapBackedGeneraMatcher" class="org.emonocot.job.delta.MapBackedTaxonMatcher"/>
+	
+	<bean id="speciesDescriptionFileWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+	  <property name="resource" ref="speciesDescriptionFile"/>
+	  <property name="lineAggregator" ref="lineAggregator"/>
+	</bean>
+	
+	<bean id="generaDescriptionFileWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+	  <property name="resource" ref="generaDescriptionFile"/>
+	  <property name="lineAggregator" ref="lineAggregator"/>
+	</bean>
+	
+	<bean name="lineAggregator" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator" scope="step">
+	 <property name="delimiter" value="#{jobParameters['fields.terminated.by']}"/>
+	 <property name="fieldExtractor">
+	   <bean class="org.emonocot.job.dwc.write.DwcFieldExtractor" scope="step">
+	     <property name="names" value="#{jobParameters['description.file.field.names']}"/>
+	     <property name="quoteCharacter" value="#{jobParameters['fields.enclosed.by']}"/>
+	     <property name="extension" value="http://rs.gbif.org/terms/1.0/Description"/>
+	     <property name="conversionService" ref="conversionService"/>
+	   </bean>
+	 </property>
+	</bean>
+    
+    
+    <bean id="workingDirectoryResourceDeletingTasklet"
+		class="org.emonocot.harvest.common.MultiResourceDeletingTasklet"
+		scope="step">
+		<property name="resources">
+			<list>
+				<bean class="org.springframework.core.io.FileSystemResource" scope="step">
+				    <constructor-arg value="${harvester.output.directory}/#{jobParameters['archive.file']}" />
+				</bean>				
+			</list>
+		</property>
+	</bean>
+</beans>

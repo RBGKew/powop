@@ -38,12 +38,11 @@
 		<field index="1" term="http://purl.org/dc/elements/1.1/source" />
 		<field index="2" term="	http://purl.org/dc/terms/description" />
 		<field default="general" term="http://purl.org/dc/terms/type" />
-		<field
-			default="© Copyright The Board of Trustees, Royal Botanic Gardens, Kew."
+		<field	default="© Copyright The Board of Trustees, Royal Botanic Gardens, Kew."
 			term="http://purl.org/dc/terms/license" />
 		<field default="EN" term="http://purl.org/dc/terms/language" />
 		<field
-			default="Clayton, W.D., Vorontsova, M.S., Harman, K.T. and Williamson, H. (2006 onwards). GrassBase - The Online World Grass Flora. http://www.kew.org/data/grasses-db.html. [accessed 24 January 2012; 14:30 GMT]"
+			default="Clayton, W.D., Vorontsova, M.S., Harman, K.T. and Williamson, H. (2006 onwards). GrassBase - The Online World Grass Flora. http://www.kew.org/data/grasses-db.html. [accessed 19 February 2013; 14:30 GMT]"
 			term="http://purl.org/dc/terms/bibliographicCitation" />
 	</extension>
 </archive>

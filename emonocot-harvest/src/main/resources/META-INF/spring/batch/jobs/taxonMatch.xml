@@ -76,7 +76,6 @@
 
 	<bean id="taxonMatchingProcessor" class="org.emonocot.job.taxonmatch.Processor">
 	  <property name="taxonMatcher" ref="taxonMatcher" />
-	  <property name="nameParser" ref="nameParser" />
 	</bean>
 
 	<bean id="lineMapper"

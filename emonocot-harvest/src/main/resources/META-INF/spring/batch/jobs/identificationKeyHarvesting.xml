@@ -205,7 +205,6 @@
 	</bean>
 
 	<bean id="taxonNameProcessor" class="org.emonocot.job.key.TaxonNameProcessor" scope="step">
-		<property name="nameParser" ref="nameParser" />
 		<property name="taxonMatcher" ref="taxonMatcher" />
 		<property name="taxonService" ref="taxonServiceImpl" />
 		<property name="sessionFactory" ref="sessionFactory"/>

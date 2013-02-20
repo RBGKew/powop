@@ -24,6 +24,8 @@ import org.emonocot.model.marshall.json.DateTimeDeserializer;
 import org.emonocot.model.marshall.json.DateTimeSerializer;
 import org.emonocot.model.marshall.json.UserDeserializer;
 import org.emonocot.model.marshall.json.UserSerializer;
+import org.emonocot.model.registry.Organisation;
+import org.emonocot.model.registry.Resource;
 import org.hibernate.annotations.Any;
 import org.hibernate.annotations.AnyMetaDef;
 import org.hibernate.annotations.MetaValue;
@@ -50,7 +52,7 @@ public class Comment extends Base {
     /**
      * 
      */
-    private BaseData aboutData;
+    private Base aboutData;
 
     /**
      * 
@@ -122,18 +124,22 @@ public class Comment extends Base {
     @Any(metaColumn = @Column(name = "aboutData_type"),
         fetch = FetchType.LAZY)
     @AnyMetaDef(idType = "long", metaType = "string", metaValues = {
-        @MetaValue(targetEntity = Taxon.class, value = "Taxon"),
-        @MetaValue(targetEntity = Distribution.class, value = "Distribution"),
+            @MetaValue(targetEntity = Comment.class, value = "Comment"),
         @MetaValue(targetEntity = Description.class, value = "Description"),
+        @MetaValue(targetEntity = Distribution.class, value = "Distribution"),
         @MetaValue(targetEntity = Identifier.class, value = "Identifier"),
+        @MetaValue(targetEntity = IdentificationKey.class, value = "IdentificationKey"),
         @MetaValue(targetEntity = Image.class, value = "Image"),
         @MetaValue(targetEntity = MeasurementOrFact.class, value = "MeasurementOrFact"),
+        @MetaValue(targetEntity = Organisation.class, value = "Organisation"),
+        @MetaValue(targetEntity = Resource.class, value = "Resource"),
         @MetaValue(targetEntity = Reference.class, value = "Reference"),
+        @MetaValue(targetEntity = Taxon.class, value = "Taxon"),
         @MetaValue(targetEntity = TypeAndSpecimen.class, value = "TypeAndSpecimen"),
         @MetaValue(targetEntity = VernacularName.class, value = "VernacularName")
     })
     @JsonSerialize(using = AnnotatableObjectSerializer.class)
-    public BaseData getAboutData() {
+    public Base getAboutData() {
         return aboutData;
     }
 
@@ -141,7 +147,7 @@ public class Comment extends Base {
      * @param aboutData the aboutData to set
      */
     @JsonDeserialize(using = AnnotatableObjectDeserializer.class)
-    public void setAboutData(BaseData aboutData) {
+    public void setAboutData(Base aboutData) {
         this.aboutData = aboutData;
     }
 
@@ -200,20 +206,12 @@ public class Comment extends Base {
 
     /**
      * @author jk00kg
-     * The sending status of this comment
+     * The sending status of a comment
      */
     public enum Status {
         PENDING,
         REFUSED,
         SENT;
-        
-        public boolean isDeletable(){
-            if(SENT.equals(this)) {
-                return true;
-            } else {
-                return false;
-            }
-        }
     }
 
 }

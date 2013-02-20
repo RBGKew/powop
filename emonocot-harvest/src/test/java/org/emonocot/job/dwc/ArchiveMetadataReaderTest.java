@@ -232,7 +232,7 @@ public class ArchiveMetadataReaderTest {
         assertEquals(source.getCreator(), "Anna Haigh");
         assertEquals(source.getCreatorEmail(), "a.haigh@kew.org");
         assertEquals(source.getIdentifier(), "CATE-Araceae");
-        assertEquals(source.getLicense(), "The data in this site, unless otherwise specified (under 'rights'), is licensed using the Creative Commons Attribution Non-Commercial Share Alike License (cc by-nc-sa).");
+        assertEquals(source.getRights(), "The data in this site, unless otherwise specified (under 'rights'), is licensed using the Creative Commons Attribution Non-Commercial Share Alike License (cc by-nc-sa).");
         assertEquals(source.getLogoUrl(), "https://www.cate-araceae.org/css/images/cate-logo.png");
         assertEquals(source.getPublisherEmail(), "admin@cate-araceae.org");
         assertEquals(source.getPublisherName(), "Ben Clark");

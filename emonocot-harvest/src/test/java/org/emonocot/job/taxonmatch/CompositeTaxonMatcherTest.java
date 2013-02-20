@@ -57,8 +57,8 @@ public class CompositeTaxonMatcherTest {
 	 */
 	@Test
 	public void testPrimaryMatch() throws Exception {
-		ParsedName<String> input = new NameParser().parse(singleExact.get(0).getInternal().getScientificName());
-		expect(mock1.match(input)).andReturn(singleExact);
+		String input = "Test name Arch.";
+		expect(mock1.match(EasyMock.eq(input))).andReturn(singleExact);
 		
 		replay(mock1, mock2);
 		List<Match<Taxon>> actuals = underTest.match(input);
@@ -74,9 +74,9 @@ public class CompositeTaxonMatcherTest {
 	 */
 	@Test
 	public void testSecondaryMatch() throws Exception {
-		ParsedName<String> input = new NameParser().parse(singleExact.get(0).getInternal().getScientificName());
-		expect(mock1.match(input)).andReturn(partials);
-		expect(mock2.match(input)).andReturn(singleExact);
+		String input = "Test name Arch.";
+		expect(mock1.match(EasyMock.eq(input))).andReturn(partials);
+		expect(mock2.match(EasyMock.eq(input))).andReturn(singleExact);
 				
 		replay(mock1, mock2);
 		List<Match<Taxon>> actuals = underTest.match(input);

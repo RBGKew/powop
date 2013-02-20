@@ -29,7 +29,7 @@ public class PageObject {
     /**
     *
     */
-    @FindBy(how = How.CLASS_NAME, using = "footer")
+    @FindBy(how = How.TAG_NAME, using = "footer")
     private WebElement foot;
     
     /**

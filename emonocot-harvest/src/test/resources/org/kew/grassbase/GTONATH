@@ -1,0 +1,10 @@
+*SHOW Translate Geneic Descriptions into natural language - HTML Kew Version 1.1
+
+*INPUT FILE gspecs
+
+*TRANSLATE INTO NATURAL LANGUAGE
+
+*INPUT FILE glayout
+
+*INPUT FILE CHARS
+

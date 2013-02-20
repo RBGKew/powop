@@ -28,7 +28,7 @@ public enum FacetName {
     SCHEDULED("resource.scheduled_b"),
     SCHEDULING_PERIOD("resource.scheduling_period_s"),
     RESOURCE_STATUS("resource.status_s"),
-    RESOURCE_ORGANISATION("resource.organisation_t"),
+    RESOURCE_ORGANISATION("resource.organisation_s"),
     LAST_HARVESTED("resource.last_harvested_dt");
 
     private FacetName(String solrField) {
