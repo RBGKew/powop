@@ -12,7 +12,7 @@
 
     <batch:job id="PrintMaps">
 		<batch:description>Print several maps based on data from the database</batch:description>
-		<batch:step id="reIndex">
+		<batch:step id="printMaps">
 			<batch:description>Re-index some or all of the eMonocot database</batch:description>
 			<batch:tasklet>
 				<batch:chunk reader="itemReader" writer="printMapWriter" commit-interval="10" />
@@ -59,7 +59,7 @@
 	<bean id="outputFactory" class="org.mapfish.print.output.OutputFactory">
 		<property name="formatFactories">
 			<list>
-				<ref bean="imageMagickOutput" />
+				<!-- <ref bean="imageMagickOutput" />-->
 				<ref bean="fileCachingJaiMosaicOutputFactory" />
 				<ref bean="inMemoryJaiMosaicOutputFactory" />
 				<ref bean="pdfOutputFactory" />

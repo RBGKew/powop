@@ -8,11 +8,24 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.emonocot.model.BaseData;
 import org.emonocot.model.Place;
 import org.emonocot.model.Taxon;
+import org.geotools.geometry.jts.JTS;
+import org.geotools.geometry.jts.JTSFactoryFinder;
+import org.geotools.referencing.CRS;
 import org.mapfish.print.MapPrinter;
 import org.mapfish.print.utils.PJsonObject;
+import org.opengis.referencing.crs.CoordinateReferenceSystem;
+import org.opengis.referencing.operation.MathTransform;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.geom.Polygon;
+import com.vividsolutions.jts.io.WKTReader;
+import com.vividsolutions.jts.io.WKTWriter;
 
 public class PrintMapWriter implements ItemWriter<BaseData> {
 	
@@ -67,12 +80,24 @@ public class PrintMapWriter implements ItemWriter<BaseData> {
 				wmsLayer.getCustomParams().put("featureid",place.getMapFeatureId().toString());
 				mapSpec.getLayers().add(wmsLayer);
 				Page page = new Page();
-				page.setBbox(new double[] {place.getEnvelope().getMinX(),place.getEnvelope().getMinY(),place.getEnvelope().getMaxX(),place.getEnvelope().getMaxY()});
+
+				CoordinateReferenceSystem sourceCRS = CRS.decode("EPSG:4326");
+				CoordinateReferenceSystem targetCRS = CRS.decode("EPSG:3857");
+
+				MathTransform transform = CRS.findMathTransform(sourceCRS, targetCRS);
+				GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory(null);
+			    
+			    
+			    Point bottomLeft = (Point)JTS.transform( geometryFactory.createPoint(new Coordinate(place.getEnvelope().getMinY(),place.getEnvelope().getMinX())), transform);
+				Point topRight = (Point)JTS.transform( geometryFactory.createPoint(new Coordinate(place.getEnvelope().getMaxY(),place.getEnvelope().getMaxX())), transform);
+				
+				page.setBbox(new double[] {		bottomLeft.getCoordinate().x,bottomLeft.getCoordinate().y, topRight.getCoordinate().x,topRight.getCoordinate().y});
 				
 				mapSpec.getPages().add(page);
 				
 				String json = objectMapper.writeValueAsString(mapSpec);
 				mapPrinter.setYamlConfigFile(config.getFile());
+				System.out.println(json);
 				PJsonObject jsonSpec = MapPrinter.parseSpec(json);
 				File outputFile = new File(outputDirectory.getFile(),place.getId() + ".png");
 				mapPrinter.print(jsonSpec, new FileOutputStream(outputFile), referer);
