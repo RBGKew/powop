@@ -208,7 +208,7 @@ public class JsonConversionTest {
             taxon.getImages().add(image);
         }
         try {
-        	System.out.println(objectMapper.writeValueAsString(taxon));
+        	objectMapper.writeValueAsString(taxon);
         } catch (Exception e) {
             fail(e.getMessage());
         }
