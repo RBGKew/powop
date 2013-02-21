@@ -11,13 +11,12 @@
 	<tags:pageheader>
 		<h2 id="page-title">
 			<i class="glyphicons-icon leaf"><!--  --></i> <em>${taxon.scientificName}</em> ${taxon.scientificNameAuthorship}
+			<small>
+				<span id="protologue">${taxon.namePublishedInString}</span>
+				<c:if test="${not empty taxon.nomenclaturalStatus}"> , ${taxon.nomenclaturalStatus}</c:if>
+			</small>
+			<tags:feedbackLink selector="option:contains(${taxon.scientificName} ${taxon.scientificNameAuthorship})" dataName="${taxon.scientificName}" />
 		</h2>
-		<small id="protologue" class="span">${taxon.namePublishedInString}</small>
-		<span class="pull-left span"><tags:feedbackLink selector="option:contains(${taxon.scientificName} ${taxon.scientificNameAuthorship})" dataName="${taxon.scientificName}" /></span>
-		<br/>
-		<c:if test="${not empty taxon.nomenclaturalStatus}">
-			<h4>${taxon.nomenclaturalStatus}</h4>
-		</c:if>
 	</tags:pageheader>
 	<div class="container">
 		<c:set var="bibliography" value="${em:bibliography(taxon)}" />
@@ -316,15 +315,18 @@
 					</section>
 				</c:if>
 				<c:if test="${not empty taxon.vernacularNames}">
-				<section class="section-box" id="vernacularNames">
+				<section id="vernacularNames" class="section-box">
 						<div class="inner">
 							<div class="box clearfix">
-								<h2><spring:message code="vernacularNames" /></h2>
+								<h2>
+									<spring:message code="vernacularNames" var="vernacularHeader"/>${vernacularHeader}
+									<tags:feedbackLink selector="option:contains(${vernacularHeader})" dataName="${vernacularHeader}" />
+								</h2>
 								<table class="table" id="vernacular">
 									<thead>
 										<tr>
-											<th>Name</th>
-											<th>Language</th>
+											<th><spring:message code="name"/></th>
+											<th><spring:message code="language"/></th>
 											<th></th>
 										</tr>
 									</thead>
@@ -513,16 +515,16 @@
 													<spring:message code="measurementorfact_${fact.measurementType}_${fact.measurementValue}" text="${fact.measurementValue}"/>
 												</span>
 											</td>
-											<c:if test="${fact ne null}">
-												<td>
+											<td>
+												<c:if test="${fact ne null}">
 													<ul class="citations">
 														<c:set var="provenanceHolder" value="${em:provenancekey(provenance,fact)}"/>
 														<li>
 															<a href="#${provenanceHolder}">${provenanceHolder}</a>
 														</li>
 													</ul>
-												</td>
-											</c:if>
+												</c:if>
+											</td>
 										</tr>
 										<c:if test="${fact.measurementType eq 'IUCNConservationStatus'}">
 											<tr>
@@ -623,6 +625,12 @@
 							</c:if>
 							<c:forEach var="synonym" items="${em:sort(taxon.synonymNameUsages)}">
 								<option id="${synonym.identifier}" value="${synonym.identifier}">${synonym.scientificName} ${synonym.scientificNameAuthorship}</option>
+							</c:forEach>
+							<c:if test="${not empty taxon.vernacularNames}">
+								<option id="vernacX" value="vernacX">${vernacularHeader}</option>
+							</c:if>
+							<c:forEach var="vernacularName" items="${taxon.vernacularNames}">
+								<option id="${vernacularName.identifier}" value="${vernacularName.identifier}">${vernacularName}</option>
 							</c:forEach>
 							<c:if test="${taxon.acceptedNameUsage == null}">
 								<option value="${taxon.identifier}">${treeHeader}</option>
