@@ -72,10 +72,20 @@
 			<batch:tasklet>
 				<batch:chunk reader="deleteMeasurementOrFactReader" writer="deletingWriter"	commit-interval="100" />
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="indexAnnotations" />
+			<batch:next on="COMPLETED" to="indexTaxa" />
 			<batch:listeners>
 			    <batch:listener ref="stepStatusListener" />
 			</batch:listeners>
+		</batch:step>
+		<batch:step id="indexTaxa">
+		  <batch:description>Index the images associated with this job</batch:description>
+		  <batch:tasklet>
+				<batch:chunk reader="indexTaxaReader" writer="indexTaxaWriter" commit-interval="10" />
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="indexAnnotations" />	
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>		
 		</batch:step>
 		<batch:step id="indexAnnotations">
 		  <batch:description>Index the annotations associated with this job</batch:description>
@@ -173,7 +183,7 @@
 	</bean>
 	
 	<bean id="iucnMapToMeasurementOrFactProcessor" class="org.emonocot.job.iucn.Processor" scope="step">
-	  <property name="taxonService" ref="taxonServiceImpl" />
+	  <property name="taxonMatcher" ref="taxonMatcher" />
 	  <property name="sessionFactory" ref="sessionFactory"/>
 	  <property name="transactionManager" ref="transactionManager"/>
 	  <property name="sourceName" value="#{jobParameters['authority.name']}" />
@@ -221,6 +231,23 @@
 	<bean id="deletingWriter" class="org.emonocot.harvest.common.HibernateDeletingWriter">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	
+	<bean id="indexTaxaReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
+		scope="step">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="queryString" value="select t.id from MeasurementOrFact m join m.taxon t join m.annotations a where a.jobId = :jobId" />
+		<property name="parameterValues">
+			<map>
+				<entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="indexTaxaWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter">
+      <property name="type" value="org.emonocot.model.Taxon" />
+      <property name="sessionFactory" ref="sessionFactory" />
+      <property name="solrIndexingListener" ref="solrIndexingListener" />
+    </bean>
 	
 	<bean id="indexAnnotationsReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
 		scope="step">

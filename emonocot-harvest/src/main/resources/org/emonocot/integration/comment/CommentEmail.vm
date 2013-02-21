@@ -1,0 +1,8 @@
+Dear You,
+
+You received a comment about ${comment.aboutData} from ${comment.user.username}.
+It was:
+${comment.comment}
+
+Kind Regards,
+The eMonocot Portal

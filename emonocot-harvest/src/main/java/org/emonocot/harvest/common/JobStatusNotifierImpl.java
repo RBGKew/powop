@@ -43,13 +43,14 @@ public class JobStatusNotifierImpl implements JobStatusNotifier {
 
         Resource resource = service.find(jobExecutionInfo.getResourceIdentifier(),"job-with-source");
 		if (resource != null) {
-			resource.setJobId(jobExecutionInfo.getId());
+			
 			resource.setDuration(new Duration(new DateTime(0), jobExecutionInfo.getDuration()));
 			resource.setExitCode(jobExecutionInfo.getExitCode());
 			resource.setExitDescription(jobExecutionInfo.getExitDescription());
 			if (jobExecutionInfo.getJobInstance() != null) {
 				resource.setJobInstance(jobExecutionInfo.getJobInstance());
 			}
+			resource.setJobId(jobExecutionInfo.getId());
 			resource.setBaseUrl(jobExecutionInfo.getBaseUrl());
 			resource.setResource(jobExecutionInfo.getResource());
 			resource.setStartTime(jobExecutionInfo.getStartTime());
@@ -59,14 +60,34 @@ public class JobStatusNotifierImpl implements JobStatusNotifier {
 			resource.setReadSkip(jobExecutionInfo.getReadSkip());
 			resource.setWriteSkip(jobExecutionInfo.getWriteSkip());
 			resource.setWritten(jobExecutionInfo.getWritten());
-			if(resource.getStatus().equals(BatchStatus.COMPLETED)) {
-				resource.setLastHarvested(jobExecutionInfo.getStartTime());
-				resource.updateNextAvailableDate();
+			switch(resource.getStatus()) {
+			case COMPLETED:
+				if(resource.getExitCode().equals("COMPLETED")) {
+				    resource.setLastHarvestedJobId(jobExecutionInfo.getId());
+				    resource.setLastHarvested(jobExecutionInfo.getStartTime());
+					resource.updateNextAvailableDate();
+				} else if(resource.getExitCode().equals("NOT MODIFIED")) {
+					// it is NOT_MODIFIED, so leave the job id as it is, because
+					// we don't have any new annotations
+					resource.setLastHarvested(jobExecutionInfo.getStartTime());
+					resource.updateNextAvailableDate();
+				} else if(resource.getExitCode().equals("FAILED")) {
+					// The Job failed in a (slightly) controlled manner, but it still failed
+					resource.setNextAvailableDate(null);
+					resource.setLastHarvestedJobId(jobExecutionInfo.getId());
+				}
 				
-			} else if(resource.getStatus().equals(BatchStatus.FAILED)) {
-				resource.setNextAvailableDate(null);				
+				break;
+			case FAILED:
+				// It completed on its own, but some part failed
+			case ABANDONED:
+				// It has been stopped and abandoned manually, and will not be restarted		
+				resource.setNextAvailableDate(null);
+				resource.setJobId(jobExecutionInfo.getId());
+				break;
+			case STOPPED:
+			default:
 			}
-
 			service.saveOrUpdate(resource);
 			solrIndexingListener.indexObject(resource);
 		}

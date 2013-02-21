@@ -10,7 +10,6 @@ import org.emonocot.api.ReferenceService;
 import org.emonocot.job.dwc.exception.NoIdentifierException;
 import org.emonocot.job.dwc.read.DarwinCoreProcessor;
 import org.emonocot.model.Annotation;
-import org.emonocot.model.Description;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.AnnotationCode;
@@ -80,10 +79,7 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 				logger.info("Taxon " + persisted + " belongs to " + this.getSource().getIdentifier() +  ", skipping");
 				return null;
 			} else {				
-				if ((persisted.getModified() != null && t
-						.getModified() != null)
-						&& !persisted.getModified().isBefore(
-								t.getModified())) {
+				if (skipUnmodified && ((persisted.getModified() != null && t.getModified() != null) && !persisted.getModified().isBefore(t.getModified()))) {
 					bindTaxon(persisted);
 					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Skipped);
 				} else {

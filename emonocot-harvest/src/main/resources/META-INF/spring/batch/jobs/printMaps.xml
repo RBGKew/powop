@@ -12,7 +12,7 @@
 
     <batch:job id="PrintMaps">
 		<batch:description>Print several maps based on data from the database</batch:description>
-		<batch:step id="reIndex">
+		<batch:step id="printMaps">
 			<batch:description>Re-index some or all of the eMonocot database</batch:description>
 			<batch:tasklet>
 				<batch:chunk reader="itemReader" writer="printMapWriter" commit-interval="10" />
@@ -37,7 +37,7 @@
 	    <constructor-arg value="${harvester.output.directory}" />
 	</bean>
 
-	<bean id="mapPrinter" class="org.mapfish.print.MapPrinter" scope="prototype"></bean>
+	<bean id="mapPrinter" class="org.mapfish.print.MapPrinter"/>
 	<bean id="configFactory" class="org.mapfish.print.config.ConfigFactory"></bean>
 
 	<!-- Define MapReaderFactories -->

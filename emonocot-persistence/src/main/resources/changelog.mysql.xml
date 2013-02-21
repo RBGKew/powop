@@ -3997,4 +3997,18 @@
             <column name="commentsEmailedTo" type="varchar(255)"/>
         </addColumn>
     </changeSet>
+    <changeSet id="2013-02-21_01" author="ben">
+      <comment>Column no longer in data model</comment>
+      <dropColumn tableName="Taxon" columnName="protologueMicroReference"/>
+    </changeSet>
+    <changeSet id="2013-02-21_02" author="ben">
+        <comment>Required to hold the completed job id</comment>
+        <addColumn tableName="Resource">
+            <column name="lastHarvestedJobId" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2013-02-21_03" author="ben">
+        <comment>Required to hold the completed job id</comment>
+        <sql>update Resource set lastHarvestedJobId = jobId;</sql>
+    </changeSet>
 </databaseChangeLog>

@@ -874,6 +874,7 @@ public class TestDataManager {
         
         if(jobId != null && jobId.trim().length() > 0) {
             job.setJobId(Long.parseLong(jobId));
+            job.setLastHarvestedJobId(Long.parseLong(jobId));
         }
 
 

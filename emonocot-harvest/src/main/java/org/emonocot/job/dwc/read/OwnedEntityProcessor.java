@@ -38,7 +38,7 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
         }
         
         if(persisted != null) {
-            if ((persisted.getModified() != null && t.getModified() != null) && !persisted.getModified().isBefore(t.getModified())) {
+            if (skipUnmodified  && ((persisted.getModified() != null && t.getModified() != null) && !persisted.getModified().isBefore(t.getModified()))) {
                 // The content hasn't changed, skip it
                 logger.info("Skipping " + t);
                 replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Skipped);

@@ -121,7 +121,7 @@
 						</c:choose>
 						<results:listEntry itemName="${item.title}"
 							icon="google_maps"
-							iconAlt="Place" url="${url}">
+							iconAlt="Place" url="${url}" imageUrl="/css/images/countries/${item.id}.png">
 							<spring:url var="itemUrl" value="${url}" />
 							<a class="result" href="${itemUrl}" title="${em:stripXml(item.title)}">
 								<h4 class="h4Results">${item.title}</h4>

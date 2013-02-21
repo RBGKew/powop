@@ -1,8 +1,11 @@
 package org.emonocot.job.iucn;
 
+import java.util.List;
 import java.util.Map;
 
-import org.emonocot.api.TaxonService;
+import org.apache.commons.lang.StringEscapeUtils;
+import org.emonocot.api.match.Match;
+import org.emonocot.api.match.taxon.TaxonMatcher;
 import org.emonocot.harvest.common.AbstractRecordAnnotator;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.MeasurementOrFact;
@@ -11,8 +14,7 @@ import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.MeasurementType;
 import org.emonocot.model.constants.RecordType;
-import org.emonocot.pager.Page;
-import org.gbif.ecat.voc.Rank;
+import org.gbif.ecat.parser.UnparsableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
@@ -69,10 +71,10 @@ public class Processor extends AbstractRecordAnnotator implements ItemProcessor<
 
 	private Logger logger = LoggerFactory.getLogger(Processor.class);
 
-    private TaxonService taxonService;
+    private TaxonMatcher taxonMatcher;
 
-    public void setTaxonService(TaxonService taxonService) {
-        this.taxonService = taxonService;
+    public void setTaxonMatcher(TaxonMatcher taxonMatcher) {
+        this.taxonMatcher = taxonMatcher;
     }
 
     public final MeasurementOrFact process(final Map<String,Object> map) throws Exception {
@@ -101,59 +103,45 @@ public class Processor extends AbstractRecordAnnotator implements ItemProcessor<
     }
 
 	private Taxon doMatchTaxon(Map<String, Object> map) {
-		Taxon example = new Taxon();
-		example.setGenus((String)map.get("genus"));
-		example.setSpecificEpithet((String)map.get("species"));
-		String infraSpecificEpithet = (String)map.get("infra_name");
-		String authority = null;
-		if(infraSpecificEpithet != null) {
-			example.setInfraspecificEpithet(infraSpecificEpithet);
-			authority = (String)map.get("infra_authority");
-		} else {
-			authority = (String)map.get("authority");
-			example.setTaxonRank(Rank.SPECIES);
+		String name = (String)map.get("scientific_name");
+		if(map.containsKey("authority") && !(((String) map.get("authority")).isEmpty())) {
+			String authority = (String) map.get("authority");
+			authority = StringEscapeUtils.unescapeXml(authority);
+			name = name + " " + authority;
 		}
-		if(authority != null) {
-		    authority = authority.replaceAll("&amp;","&");
-		    if(authority.indexOf(" ") != -1) {
-		        StringBuffer stringBuffer = new StringBuffer();
-		        String[] subs = authority.split(" ");
-		        stringBuffer.append(subs[0]);
-		        for(int i = 1; i < subs.length; i++) {
-					String prev = subs[i -1];
-					String next = subs[i];
-					if(prev.length() > 1 && 
-					   prev.charAt(prev.length() - 1) == '.' 
-					   && next.charAt(0) >= 'A' 
-					   && next.charAt(0) <= 'Z') {
-						stringBuffer.append(next);
-					} else {
-						stringBuffer.append(' ');
-						stringBuffer.append(next);
-					} 
-				}
-				authority = stringBuffer.toString();
-		    }
-		    authority = authority.trim();
-	    }
-	    example.setScientificNameAuthorship(authority);
-		Page<Taxon> results = taxonService.searchByExample(example, true, true);
-		if(results.getSize() == 1) {
-			return results.getRecords().get(0);
-	    } else if(results.getSize() > 1) {
-			logger.info(map.get("scientific_name")  + " " + authority + " multiple matches");
-			Annotation annotation = new Annotation();
-            annotation.setJobId(stepExecution.getJobExecutionId());
-            annotation.setAnnotatedObj(null);
-            annotation.setRecordType(RecordType.MeasurementOrFact);
-            annotation.setCode(AnnotationCode.BadRecord);
-            annotation.setType(AnnotationType.Error);
-            annotation.setValue("Species Id: " + (Integer)map.get("species_id"));
-            annotation.setText(results.getSize() + " matches found for taxonomic name " + map.get("scientific_name")  + " " + authority);
-            super.annotate(annotation);
-			return null;
-		} else {
-			logger.info(map.get("scientific_name") + " " + authority + " no matches");
+		
+		List<Match<Taxon>> results;
+		try {
+			results = taxonMatcher.match(name);
+			if(results.size() == 1) {
+				return results.get(0).getInternal();
+		    } else if(results.size() > 1) {
+				logger.info(name + " multiple matches");
+				Annotation annotation = new Annotation();
+	            annotation.setJobId(stepExecution.getJobExecutionId());
+	            annotation.setAnnotatedObj(null);
+	            annotation.setRecordType(RecordType.MeasurementOrFact);
+	            annotation.setCode(AnnotationCode.BadRecord);
+	            annotation.setType(AnnotationType.Error);
+	            annotation.setValue("Species Id: " + (Integer)map.get("species_id"));
+	            annotation.setText(results.size() + " matches found for taxonomic name " + name);
+	            super.annotate(annotation);
+				return null;
+			} else {
+				logger.info(name + " no matches");
+				Annotation annotation = new Annotation();
+	            annotation.setJobId(stepExecution.getJobExecutionId());
+	            annotation.setAnnotatedObj(null);
+	            annotation.setRecordType(RecordType.MeasurementOrFact);
+	            annotation.setCode(AnnotationCode.Absent);
+	            annotation.setType(AnnotationType.Error);
+	            annotation.setValue("Species Id: " + (Integer)map.get("species_id"));
+	            annotation.setText("No matches found for taxonomic name " + name);
+	            super.annotate(annotation);
+				return null;
+			}
+		} catch (UnparsableException e) {
+			logger.info(name + " is unparseable");
 			Annotation annotation = new Annotation();
             annotation.setJobId(stepExecution.getJobExecutionId());
             annotation.setAnnotatedObj(null);
@@ -161,10 +149,10 @@ public class Processor extends AbstractRecordAnnotator implements ItemProcessor<
             annotation.setCode(AnnotationCode.Absent);
             annotation.setType(AnnotationType.Error);
             annotation.setValue("Species Id: " + (Integer)map.get("species_id"));
-            annotation.setText("No matches found for taxonomic name " + map.get("scientific_name")  + " " + authority);
-            super.annotate(annotation);
+            annotation.setText("Taxonomic name " + name + " cannot be parsed");
 			return null;
 		}
+		
 	}
 
 }
