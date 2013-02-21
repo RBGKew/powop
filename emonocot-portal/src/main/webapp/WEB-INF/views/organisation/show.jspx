@@ -69,7 +69,7 @@
 				<div class="span12">
 					<div class="inner">
 						<div class="box">
-							<h2><spring:message code="resources.title"/></h2>
+							<h2><i class="glyphicons-icon file"><!--  --></i> <spring:message code="resources.title"/></h2>
 							<div class="row">
 								<security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">
 									<c:url var="createUrl" value="/resource">

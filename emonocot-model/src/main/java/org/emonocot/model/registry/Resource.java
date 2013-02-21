@@ -80,15 +80,6 @@ public class Resource extends Base implements Searchable {
 	
 	private DateTime nextAvailableDate;
 
-	@NotEmpty
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
 	private Integer recordsRead = 0;
 
 	private Integer readSkip = 0;
@@ -102,9 +93,20 @@ public class Resource extends Base implements Searchable {
 	private Map<String,String> parameters = new HashMap<String,String>();
 
 	private String baseUrl;
+
+	private Long lastHarvestedJobId;
 	
 	public Resource() {
 		this.identifier = UUID.randomUUID().toString();
+	}
+	
+	@NotEmpty
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	
 	/**
@@ -542,5 +544,13 @@ public class Resource extends Base implements Searchable {
     	StringBuilder summary = new StringBuilder().append(getExitDescription()).append(" ").append(getTitle());
     	sid.addField("searchable.solrsummary_t", summary);
 		return sid;
+	}
+
+	public void setLastHarvestedJobId(Long lastHarvestedJobId) {
+		this.lastHarvestedJobId = lastHarvestedJobId;
+	}
+
+	public Long getLastHarvestedJobId() {
+		return lastHarvestedJobId;
 	}
 }

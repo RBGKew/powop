@@ -134,7 +134,6 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		    @RequestParam(value = "view", required = false) String view,
 		    Model model) {
 		Resource resource = getService().load(resourceId);
-		organisationService.load(resource.getOrganisation().getIdentifier());
 		model.addAttribute("resource", resource);
 		Map<String, String> selectedFacets = new HashMap<String, String>();
 		if (facets != null && !facets.isEmpty()) {
@@ -144,14 +143,13 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		}
 		
 		selectedFacets.put("base.class_s", "org.emonocot.model.Annotation");
-		selectedFacets.put("annotation.job_id_l", new Long(resource.getJobId()).toString());
+		selectedFacets.put("annotation.job_id_l", new Long(resource.getLastHarvestedJobId()).toString());
 		Page<Annotation> result = annotationService.search(query, null, limit,
 				start, new String[] { "annotation.code_s",
 				"annotation.type_s", "annotation.record_type_s",
 				"annotation.job_id_l" }, null, selectedFacets,
 				null, "annotated-obj");		
 		result.putParam("query", query);
-		model.addAttribute("jobId",resource.getJobId());
 		model.addAttribute("result", result);
 
 		return "resource/output";
@@ -192,6 +190,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		persistedResource.setResourceType(resource.getResourceType());
 		persistedResource.setLastHarvested(resource.getLastHarvested());
 		persistedResource.setJobId(resource.getJobId());
+		persistedResource.setLastHarvestedJobId(resource.getLastHarvestedJobId());
 		persistedResource.setStatus(resource.getStatus());
 		persistedResource.setStartTime(resource.getStartTime());
 		persistedResource.setDuration(resource.getDuration());
@@ -515,7 +514,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 				total = new Float(10);
 				break;
 			case "IUCNImport":
-				total = new Float(10);
+				total = new Float(11);
 				break;
 			case "GBIFImport":
 				total = new Float(10);

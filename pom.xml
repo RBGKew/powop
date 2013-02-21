@@ -1518,7 +1518,7 @@
 				<email.auth>false</email.auth>
 				<email.enable.starttls>false</email.enable.starttls>
 				<email.fromAddress>portal@localhost</email.fromAddress>
-				<quartz.cron.expression>*/1 * * * * ?</quartz.cron.expression>
+				<quartz.cron.expression>* 0/5 * * * ?</quartz.cron.expression>
 			</properties>
 		</profile>
 		<profile>
@@ -1568,7 +1568,7 @@
 				<email.auth>false</email.auth>
 				<email.enable.starttls>false</email.enable.starttls>
 				<email.fromAddress>portal@localhost</email.fromAddress>
-				<quartz.cron.expression>*/1 * * * * ?</quartz.cron.expression>
+				<quartz.cron.expression>* 0/1 * * * ?</quartz.cron.expression>
 			</properties>
 		</profile>		
 	</profiles>

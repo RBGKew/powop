@@ -74,8 +74,8 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
                 return t;
             } else {
                 // We've seen this object before, but not in this chunk            	
-                if ((persisted.getModified() != null && t.getModified() != null)
-                    && !persisted.getModified().isBefore(t.getModified())) {
+                if (skipUnmodified && ((persisted.getModified() != null && t.getModified() != null)
+                    && !persisted.getModified().isBefore(t.getModified()))) {
                     // Assume the object hasn't changed, but maybe this taxon
                     // should be associated with it
                 	replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Skipped);

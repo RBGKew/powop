@@ -26,14 +26,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityAware implements
         ItemProcessor<T, T> {
-    /**
-     *
-     */
+
     private Logger logger = LoggerFactory.getLogger(DarwinCoreProcessor.class);
 
-    /**
-     *
-     */
     private TaxonService taxonService;
     
     private String family;
@@ -44,11 +39,19 @@ public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityA
     
     private String subtribe;
     
+    protected Boolean skipUnmodified = Boolean.TRUE;
+    
+    public void setSkipUnmodified(Boolean skipUnmodified) {
+    	if(skipUnmodified != null) {
+    		this.skipUnmodified = skipUnmodified;
+    	}
+    }
+    
     /**
      *
      * @param family Set the family
      */
-    public final void setFamily(final String family) {
+    public void setFamily(String family) {
     	this.family = family;
     }
     
@@ -83,7 +86,7 @@ public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityA
      * @param taxon Set the 
      * @throws DarwinCoreProcessingException
      */
-    protected void checkTaxon(final RecordType recordType, final Base record, final Taxon taxon) throws DarwinCoreProcessingException {
+    protected void checkTaxon(RecordType recordType, Base record, Taxon taxon) throws DarwinCoreProcessingException {
     	if(taxon == null) {
     		throw new RequiredFieldException(record + " has no Taxon set", recordType, getStepExecution().getReadCount());
     	} else if(subtribe != null && (inSubtribe(taxon) && (taxon.getAcceptedNameUsage() != null && inSubtribe(taxon.getAcceptedNameUsage())))) {
@@ -135,7 +138,7 @@ public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityA
      * @param taxonService set the taxon service
      */
     @Autowired
-    public final void setTaxonService(TaxonService taxonService) {
+    public void setTaxonService(TaxonService taxonService) {
         this.taxonService = taxonService;
     }
 
@@ -143,7 +146,7 @@ public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityA
      *
      * @return the taxon service set
      */
-    public final TaxonService getTaxonService() {
+    public TaxonService getTaxonService() {
         return taxonService;
     }
 
@@ -152,5 +155,5 @@ public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityA
      * @throws Exception if something goes wrong
      * @return an object of class T
      */
-    public abstract T process(final T t) throws Exception;
+    public abstract T process(T t) throws Exception;
 }

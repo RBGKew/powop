@@ -207,7 +207,7 @@
 						<div class="inner">
 							<div class="box clearfix">
 								<h2>
-									${messageDistribution}
+									<i class="glyphicons-icon globe"><!--  --></i> ${messageDistribution}
 									<tags:feedbackLink selector="option:contains(${messageDistribution})" dataName="${messageDistribution}" />
 								</h2>
 								<geo:map bounds="${em:boundingBox(taxon)}"	mapClass="taxon-page-map">
@@ -305,17 +305,8 @@
 				<section id="sources" class="section-box">
 					<div class="inner">
 						<div class="box clearfix">
-							<div class="section-header">
-								<div class="media">
-									<a class="pull-left" href="#">
-										<i class="glyphicons-icon group">&#160;</i>
-									</a>
-									<div class="media-body">
-										<h2><spring:message code="sources" /></h2>
-									</div>
-								</div>
-							</div>
-							<dl style="margin-left:25px">
+							<h2><i class="glyphicons-icon group">&#160;</i> <spring:message code="sources" /></h2>
+							<dl>
 								<c:forEach var="organisation" items="${em:provenancesources(provenance)}">
 									<dt>
 										<c:url value="/organisation/${organisation.identifier}" var="organisationUrl"/>
@@ -382,8 +373,9 @@
 					<section id="bibliography" class="section-box">
 						<div class="inner">
 							<div class="box clearfix">
+							    <spring:message code="bibliography" var="bibliographyHeader"/>
 								<h2>
-									<spring:message code="bibliography" var="bibliographyHeader"/>${bibliographyHeader}
+									<i class="glyphicons-icon book">&#160;</i> ${bibliographyHeader}
 									<tags:feedbackLink selector="$(option:contains(${bibliographyHeader}))" dataName="${bibliographyHeader}" />
 								</h2>
 								<ul>

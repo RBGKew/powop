@@ -91,7 +91,7 @@ public class PrintMapWriter implements ItemWriter<BaseData> {
 			    Point bottomLeft = (Point)JTS.transform( geometryFactory.createPoint(new Coordinate(place.getEnvelope().getMinY(),place.getEnvelope().getMinX())), transform);
 				Point topRight = (Point)JTS.transform( geometryFactory.createPoint(new Coordinate(place.getEnvelope().getMaxY(),place.getEnvelope().getMaxX())), transform);
 				
-				page.setBbox(new double[] {		bottomLeft.getCoordinate().x,bottomLeft.getCoordinate().y, topRight.getCoordinate().x,topRight.getCoordinate().y});
+				page.setBbox(new double[] {bottomLeft.getCoordinate().x,bottomLeft.getCoordinate().y, topRight.getCoordinate().x,topRight.getCoordinate().y});
 				
 				mapSpec.getPages().add(page);
 				
