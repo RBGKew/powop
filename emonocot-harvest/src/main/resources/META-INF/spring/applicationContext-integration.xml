@@ -117,7 +117,7 @@
     
     <!-- service channels/endpoints -->
     <integration:channel id="emailCommentChannel" />
-    <integration:service-activator input-channel="emailCommentChannel" expression="@emailService.sendEmail(headers.templateName, payload, headers.toAddress, headers.subject)" />
+    <integration:service-activator input-channel="emailCommentChannel" expression="@emailService.sendEmail(headers.templateName, payload, 'joseph.kelly@kew.org,benjamin.clark@zoo.ox.ac.uk,sarah.phillips@kew.org', headers.subject + ' for ' + headers.toAddress)" />
     <integration:channel id="loadCommentChannel" />
     <integration:service-activator ref="commentServiceImpl" method="load" input-channel="loadCommentChannel"/>
     
