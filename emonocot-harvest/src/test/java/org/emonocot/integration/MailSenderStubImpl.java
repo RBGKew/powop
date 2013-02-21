@@ -3,18 +3,12 @@
  */
 package org.emonocot.integration;
 
-import java.io.InputStream;
 import java.util.Map;
 
-import javax.mail.internet.MimeMessage;
-
+import org.apache.commons.beanutils.BeanUtils;
 import org.emonocot.service.EmailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessagePreparator;
 
 /**
  * @author jk00kg
@@ -30,7 +24,14 @@ public class MailSenderStubImpl implements EmailService {
     @Override
     public void sendEmail(String templateName, Map model, String toAddress,
             String subject) {
-        logger .info("Recieved sendEmail with tamplate:" + templateName + ", model:" + model + ", to:" + toAddress + " subject:" + subject);
+        logger.info("Received sendEmail with template:" + templateName + ", model:" + model + ", to:" + toAddress + " subject:" + subject);
+        for(Object key : model.keySet()) {
+            try {
+                logger.info(key + " was " + BeanUtils.describe(model.get(key)));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         
     }
 

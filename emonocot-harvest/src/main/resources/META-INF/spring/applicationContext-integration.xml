@@ -2,6 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:integration="http://www.springframework.org/schema/integration"
+    xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:jms="http://www.springframework.org/schema/integration/jms"
 	xmlns:integration-http="http://www.springframework.org/schema/integration/http"
@@ -9,6 +10,7 @@
 		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd
+        http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-2.1.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
 	xmlns:util="http://www.springframework.org/schema/util">
 
@@ -56,7 +58,70 @@
 		<property name="jobLocator" ref="jobRegistry" />
 		<property name="jobStatusNotifier" ref="jobStatusNotifier"/>
 		<property name="baseUrl" value="${harvester.baseUrl}" />
-	</bean>	
+	</bean>
+    
+<!-- Comment sending -->
+    <int-jdbc:inbound-channel-adapter channel="jdbcCommentChannel" data-source="dataSource" row-mapper="commentRowMapper"
+            query="SELECT * FROM Comment c WHERE c.status = 'PENDING'"
+            update="UPDATE Comment c SET status = 'SENT' WHERE c.id IN (:id)">
+        <integration:poller fixed-rate="60000" />
+    </int-jdbc:inbound-channel-adapter>
+    <bean id="commentRowMapper" class="org.emonocot.persistence.dao.jdbc.ExtensibleBeanPropertyRowMapper">
+        <property name="mappedClass" value="org.emonocot.model.Comment" />
+        <property name="editors">
+            <map>
+                <entry key="org.joda.time.DateTime"><bean class="org.emonocot.persistence.dao.jdbc.DateTimePropertyEditor" /></entry>
+            </map>
+        </property>
+    </bean>
+    
+    <integration:channel id="jdbcCommentChannel" />
+    <integration:splitter input-channel="jdbcCommentChannel" output-channel="commentChannel" />
+    <integration:channel id="commentChannel" />
+    
+    <!-- Enriching that happens regardless of outbound endpoint -->
+    <integration:chain id="enrichingChain" input-channel="commentChannel" output-channel="enrichedCommentChannel">
+        <integration:enricher request-channel="loadCommentChannel" request-payload-expression="payload.identifier">
+            <integration:property name="aboutData" expression="payload.aboutData" />
+            <integration:property name="user" expression="payload.user"/>
+        </integration:enricher>
+        <integration:header-enricher>
+            <integration:header name="destinations" ref="commentServiceImpl" method="getDestinationOrganisations" />
+        </integration:header-enricher>
+        <integration:splitter>
+            <bean class="org.emonocot.integration.HeaderCollectionSplitter">
+                <property name="requestKey" value="destinations" />
+                <property name="responseKey" value="organisation" />
+            </bean>
+        </integration:splitter>
+        <integration:header-enricher>
+            <integration:header name="templateName" expression="headers.organisation.commentsEmailedTo == null ? null : '${comment.email.template}'" />
+            <integration:header name="toAddress" expression="headers.organisation.commentsEmailedTo" />
+            <integration:header name="subject" value="${comment.email.subject}" />
+        </integration:header-enricher>
+    </integration:chain>
+    
+    <integration:publish-subscribe-channel id="enrichedCommentChannel" />
+    
+    <!-- eMailing integration -->
+    <integration:filter input-channel="enrichedCommentChannel" output-channel="toMapCommentChannel" expression="headers.organisation.commentsEmailedTo != null" />
+    
+    <integration:channel id="toMapCommentChannel" />
+    
+    <integration:transformer input-channel="toMapCommentChannel" output-channel="emailCommentChannel" method="prepareMessage">
+        <bean class="org.emonocot.integration.EmailServiceHelper">
+            <property name="commentEmailTemplate" value="${comment.email.template}"/>
+            <property name="defaultTemplate" value="${comment.email.template}"/>
+        </bean>
+    </integration:transformer>
+    
+    <!-- service channels/endpoints -->
+    <integration:channel id="emailCommentChannel" />
+    <integration:service-activator input-channel="emailCommentChannel" expression="@emailService.sendEmail(headers.templateName, payload, 'joseph.kelly@kew.org,benjamin.clark@zoo.ox.ac.uk,sarah.phillips@kew.org', headers.subject + ' for ' + headers.toAddress)" />
+    <integration:channel id="loadCommentChannel" />
+    <integration:service-activator ref="commentServiceImpl" method="load" input-channel="loadCommentChannel"/>
+    
+    
 <!-- Generic message converter used by both queues -->
 
 	<bean id="mappingMessageConverter"

@@ -40,7 +40,12 @@ public class CommentDaoImpl extends DaoImpl<Comment> implements CommentDao {
      */
     @Override
     protected Fetch[] getProfile(String profile) {
-        return FETCH_PROFILES.get("aboutData");
+        Fetch[] fetch = FETCH_PROFILES.get(profile); 
+        if(fetch != null) {
+            return fetch; 
+        } else {
+            return FETCH_PROFILES.get("aboutData");
+        }
     }
 
 }

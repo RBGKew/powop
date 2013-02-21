@@ -38,7 +38,7 @@ public class CommentSendingIntegrationTest {
      * 
      */
     @Autowired
-    @Qualifier("testTransformedMessageHandler")
+    @Qualifier("testMessageHandler")
     private MessageHandler handler;
 
     /**
