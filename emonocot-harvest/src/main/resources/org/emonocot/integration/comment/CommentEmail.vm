@@ -1,8 +1,10 @@
-Dear You,
-
-You received a comment about ${comment.aboutData} from ${comment.user.username}.
-It was:
-${comment.comment}
-
-Kind Regards,
-The eMonocot Portal
+<html>
+    <body>
+        <p>Hi,</p>
+        <p>You received a comment about ${comment.aboutData} (${comment.aboutData.identifier}) from ${comment.user.username}.</p>
+        <p>It was:</p>
+        <p>${comment.comment}</p>
+        <p>Kind Regards,<br />
+            The eMonocot Portal</p>
+    </body>
+</html>

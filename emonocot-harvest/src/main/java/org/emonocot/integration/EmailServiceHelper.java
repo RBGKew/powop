@@ -26,25 +26,25 @@ public class EmailServiceHelper {
     /**
      * 
      */
-    private String commentEmailTemplate;
+    private String defaultTemplateName;
     
     /**
-     * 
+     * A mapping between logical template/view names used in this class and resolvable template locations 
      */
-    private String defaultTemplate;
+    private Map<String, String> templates;
 
     /**
-     * @param commentEmailTemplate the commentEmailTemplate to set
+     * @param defaultTemplateName the defaultTemplateName to set
      */
-    public void setCommentEmailTemplate(String commentEmailTemplate) {
-        this.commentEmailTemplate = commentEmailTemplate;
+    public void setDefaultTemplateName(String defaultTemplateName) {
+        this.defaultTemplateName = defaultTemplateName;
     }
 
     /**
-     * @param defaultTemplate the defaultTemplate to set
+     * @param templates the templates to set
      */
-    public void setDefaultTemplate(String defaultTemplate) {
-        this.defaultTemplate = defaultTemplate;
+    public void setTemplates(Map<String, String> templates) {
+        this.templates = templates;
     }
 
     public Message<Map> prepareMessage(Message<?> message) {
@@ -56,10 +56,14 @@ public class EmailServiceHelper {
             model.put("comment", payload);
             //Decide which template
             Base about = ((Comment) payload).getAboutData();
+            String templateName = null;
             if (about instanceof BaseData) {
-                headers.put(HEADER_TEMPLATE_NAME, commentEmailTemplate);
+                templateName = "comment";
+            }
+            if(templateName != null) {
+                headers.put(HEADER_TEMPLATE_NAME, templates.get(templateName));
             } else {
-                headers.put(HEADER_TEMPLATE_NAME, defaultTemplate);
+                headers.put(HEADER_TEMPLATE_NAME, templates.get(defaultTemplateName));
             }
         }
         return new GenericMessage<Map>(model, headers);

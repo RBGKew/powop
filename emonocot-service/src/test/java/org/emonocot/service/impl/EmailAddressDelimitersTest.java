@@ -5,9 +5,7 @@ package org.emonocot.service.impl;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.After;
@@ -34,6 +32,8 @@ public class EmailAddressDelimitersTest {
                 new String[] {"email1@example.com", "email2@example.com", "email3@example.com"});
         testData.put("email1@example.com email2@example.com; email3@example.com",
                 new String[] {"email1@example.com", "email2@example.com", "email3@example.com"});
+        testData.put("email1@example.com",
+                new String[] {"email1@example.com"});
     }
 
     /**
