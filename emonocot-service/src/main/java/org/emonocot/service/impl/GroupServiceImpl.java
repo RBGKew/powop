@@ -5,6 +5,7 @@ import java.util.List;
 import org.emonocot.api.GroupService;
 import org.emonocot.model.SecuredObject;
 import org.emonocot.model.auth.Group;
+import org.emonocot.model.auth.User;
 import org.emonocot.persistence.dao.AclService;
 import org.emonocot.persistence.dao.GroupDao;
 import org.slf4j.Logger;
@@ -59,6 +60,17 @@ public class GroupServiceImpl extends ServiceImpl<Group, GroupDao> implements
     @Autowired
     public final void setGroupDao(final GroupDao groupDao) {
         super.dao = groupDao;
+    }
+    
+    @Transactional(readOnly = false)
+    @Override
+    public void deleteById(final Long id) {
+    	Group group = dao.find(id);
+    	for(User user : group.getMembers()) {
+    		group.removeMember(user);
+    	}
+    	dao.saveOrUpdate(group);
+    	super.deleteById(id);
     }
 
     /**

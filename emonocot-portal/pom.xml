@@ -95,14 +95,26 @@
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 		<dependency>
 		    <groupId>org.hibernatespatial</groupId>
             <artifactId>hibernate-spatial-mysql</artifactId>
+	    </dependency>-->
+	    <dependency>
+	        <groupId>postgresql</groupId>
+	        <artifactId>postgresql</artifactId>
 	    </dependency>
+	    <dependency>
+			<groupId>org.hibernatespatial</groupId>
+			<artifactId>hibernate-spatial-postgis</artifactId>
+		</dependency>
+	    <dependency>
+			<groupId>org.postgis</groupId>
+			<artifactId>postgis-jdbc</artifactId>
+		</dependency>
 		<dependency>
               <groupId>ch.qos.logback</groupId>
               <artifactId>logback-classic</artifactId>
