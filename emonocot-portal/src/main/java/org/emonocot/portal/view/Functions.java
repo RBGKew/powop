@@ -217,6 +217,24 @@ public class Functions {
         return null;
     }
 
+    
+    /**
+     * @param preferred Set the preferred
+     * @return the preferred name of the vernacularNames
+     */
+    public static VernacularName getPreferred(Taxon taxon) {
+        for (VernacularName vernacular : taxon.getVernacularNames()) {
+            if (vernacular.getPreferredName() == true ) {
+                return vernacular;
+            }
+        }
+        for (VernacularName vernacular : taxon.getVernacularNames()) {
+        	return vernacular;
+        }
+        return null;
+    }
+    
+    
     /**
      * @param taxon Set the taxon
      * @return true if the taxon is a synonym

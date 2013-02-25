@@ -15,6 +15,12 @@
 				<span id="protologue">${taxon.namePublishedInString}</span>
 				<c:if test="${not empty taxon.nomenclaturalStatus}"> , ${taxon.nomenclaturalStatus}</c:if>
 			</small>
+			
+			<c:set var="preferred" value="${em:getPreferred(taxon)}" />
+			<c:if test="${not empty preferred}">
+					<small>${preferred.vernacularName}</small>
+			</c:if>
+			
 			<tags:feedbackLink selector="option:contains(${taxon.scientificName} ${taxon.scientificNameAuthorship})" dataName="${taxon.scientificName}" />
 		</h2>
 	</tags:pageheader>
@@ -332,18 +338,18 @@
 									</thead>
 									<tbody>
 										<c:forEach var="vernacularName" items="${taxon.vernacularNames}">
-										<tr>
-											<td>${vernacularName}</td>
-											<td>${vernacularName.language}</td>
-											<td>
-												<ul class="citations">
-													<c:set var="provenanceHolder" value="${em:provenancekey(provenance,vernacularName)}"/>
-													<li>
-														<a href="#${provenanceHolder}">${provenanceHolder}</a>
-													</li>
-												</ul>
-											</td>
-										</tr>
+											<tr>
+												<td>${vernacularName}</td>
+												<td>${vernacularName.language}</td>
+												<td>
+													<ul class="citations">
+														<c:set var="provenanceHolder" value="${em:provenancekey(provenance,vernacularName)}"/>
+														<li>
+															<a href="#${provenanceHolder}">${provenanceHolder}</a>
+														</li>
+													</ul>
+												</td>
+											</tr>
 										</c:forEach>
 									</tbody>
 								</table>
