@@ -1052,7 +1052,8 @@ public class Taxon extends SearchableObject {
 		} else {
 			sid.addField("taxon.vernacular_names_empty_b", false);
 		}
-		for(VernacularName v : getVernacularNames()) {			
+		for(VernacularName v : getVernacularNames()) {
+			summary.append(" ").append(v.getVernacularName());
 			if(v.getAuthority() != null) {
 				sid.addField("searchable.sources_ss", v.getAuthority().getIdentifier());
 			}
