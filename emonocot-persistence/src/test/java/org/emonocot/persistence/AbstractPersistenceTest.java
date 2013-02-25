@@ -9,11 +9,14 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.emonocot.model.Annotation;
+import org.emonocot.model.Comment;
 import org.emonocot.model.Image;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
+import org.emonocot.model.auth.User;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.persistence.dao.AnnotationDao;
+import org.emonocot.persistence.dao.CommentDao;
 import org.emonocot.persistence.dao.ImageDao;
 import org.emonocot.persistence.dao.JobExecutionDao;
 import org.emonocot.persistence.dao.JobInstanceDao;
@@ -21,6 +24,7 @@ import org.emonocot.persistence.dao.ReferenceDao;
 import org.emonocot.persistence.dao.SearchableObjectDao;
 import org.emonocot.persistence.dao.OrganisationDao;
 import org.emonocot.persistence.dao.TaxonDao;
+import org.emonocot.persistence.dao.UserDao;
 import org.emonocot.test.DataManagementSupport;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -71,6 +75,12 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
 
     @Autowired
     SearchableObjectDao searchableObjectDao;
+    
+    @Autowired
+    CommentDao commentDao;
+    
+    @Autowired
+    UserDao userDao;
     
     @Autowired
     SolrServer solrServer;
@@ -145,8 +155,13 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
                         jobExecutionDao.save((JobExecution) obj);
                     } else if (obj.getClass().equals(JobInstance.class)) {
                         jobInstanceDao.save(((JobInstance) obj));
+                    } else if (obj.getClass().equals(Comment.class)) {
+                        commentDao.save(((Comment) obj));
+                    } else if (obj.getClass().equals(User.class)) {
+                        userDao.save(((User) obj));
                     } else {
-                        System.out.println("WHAT the **** is a " + obj.toString());
+                        System.out.println("WHAT is a " + obj.toString());
+                        throw new IllegalArgumentException("Unknown class. Unable to save object:" + obj);
                     }
                 }
                 getSession().flush();
@@ -187,6 +202,13 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
                             jobExecutionDao.delete(jobExecution.getId());
                         }
                         jobInstanceDao.delete(((JobInstance) obj).getId());
+                    } else if (obj.getClass().equals(Comment.class)) {
+                        commentDao.delete(((Comment) obj).getIdentifier());
+                    } else if (obj.getClass().equals(User.class)) {
+                        userDao.delete(((User) obj).getIdentifier());
+                    } else {
+                        System.out.println("WHAT is a " + obj.toString());
+                        throw new IllegalArgumentException("Unknown class. Unable to delete object:" + obj);
                     }
                 }
                 getSession().flush();
