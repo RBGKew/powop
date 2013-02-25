@@ -8,12 +8,14 @@ import java.util.UUID;
 
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Base;
+import org.emonocot.model.Comment;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.Image;
 import org.emonocot.model.Place;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.Description;
+import org.emonocot.model.Comment.Status;
 import org.emonocot.model.auth.Group;
 import org.emonocot.model.auth.User;
 import org.emonocot.model.constants.AnnotationCode;
@@ -346,6 +348,25 @@ public abstract class DataManagementSupport {
         setUp.add(source);
         tearDown.push(source);
         return source;
+    }
+    
+
+    /**
+     * @param identifier
+     * @param commentText
+     * @param aboutData
+     * @param user
+     */
+    public Comment createComment(String identifier, String commentText, Base aboutData, User user) {
+        Comment comment = new Comment();
+        comment.setIdentifier(identifier);
+        comment.setAboutData(aboutData);
+        comment.setStatus(Status.PENDING);
+        comment.setUser(user);
+        setUp.add(comment);
+        tearDown.push(comment);
+        return comment;
+        
     }
 
 }

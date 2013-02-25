@@ -7,7 +7,7 @@
 	xmlns:jms="http://www.springframework.org/schema/integration/jms"
 	xmlns:integration-http="http://www.springframework.org/schema/integration/http"
 	xsi:schemaLocation="http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
-		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-2.1.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd
         http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-2.1.xsd
@@ -95,7 +95,6 @@
             </bean>
         </integration:splitter>
         <integration:header-enricher>
-            <integration:header name="templateName" expression="headers.organisation.commentsEmailedTo == null ? null : '${comment.email.template}'" />
             <integration:header name="toAddress" expression="headers.organisation.commentsEmailedTo" />
             <integration:header name="subject" value="${comment.email.subject}" />
         </integration:header-enricher>
@@ -110,8 +109,12 @@
     
     <integration:transformer input-channel="toMapCommentChannel" output-channel="emailCommentChannel" method="prepareMessage">
         <bean class="org.emonocot.integration.EmailServiceHelper">
-            <property name="commentEmailTemplate" value="${comment.email.template}"/>
-            <property name="defaultTemplate" value="${comment.email.template}"/>
+            <property name="templates">
+                <map>
+                    <entry key="comment" value="org/emonocot/integration/comment/CommentEmail.vm" />
+                </map>
+            </property>
+            <property name="defaultTemplateName" value="comment" />
         </bean>
     </integration:transformer>
     
@@ -119,7 +122,7 @@
     <integration:channel id="emailCommentChannel" />
     <integration:service-activator input-channel="emailCommentChannel" expression="@emailService.sendEmail(headers.templateName, payload, 'joseph.kelly@kew.org,benjamin.clark@zoo.ox.ac.uk,sarah.phillips@kew.org', headers.subject + ' for ' + headers.toAddress)" />
     <integration:channel id="loadCommentChannel" />
-    <integration:service-activator ref="commentServiceImpl" method="load" input-channel="loadCommentChannel"/>
+    <integration:service-activator input-channel="loadCommentChannel" expression="@commentServiceImpl.load(payload, 'aboutData')" />
     
     
 <!-- Generic message converter used by both queues -->

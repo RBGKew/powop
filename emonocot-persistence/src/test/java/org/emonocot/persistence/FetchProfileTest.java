@@ -3,12 +3,16 @@ package org.emonocot.persistence;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.emonocot.model.Comment;
 import org.emonocot.model.Image;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.Description;
+import org.emonocot.model.auth.User;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.Location;
+import org.emonocot.model.registry.Organisation;
 import org.hibernate.Hibernate;
 import org.junit.After;
 import org.junit.Before;
@@ -42,13 +46,14 @@ public class FetchProfileTest extends AbstractPersistenceTest {
      */
     @Override
     public final void setUpTestData() {
+        Organisation organisation = createSource("testOrg1", "http://example.org");
         Reference reference = createReference(
                 "urn:lsid:example.com:reference:1", "Test title",
                 "Test author");
 
         Taxon taxon1 = createTaxon("Aus", "urn:lsid:example.com:taxon:1", null,
                 null, null, null, null, null, null, null,
-                null, new Location[] {}, null);
+                organisation, new Location[] {}, null);
         createDescription(taxon1, DescriptionType.associations, "Lorem ipsum",
                 reference);
         Taxon taxon2 = createTaxon("Aus bus", "urn:lsid:example.com:taxon:2",
@@ -65,6 +70,8 @@ public class FetchProfileTest extends AbstractPersistenceTest {
                 null, taxon3, null, null, null, null, null, null,
                 null, new Location[] {}, null);
         Image image = createImage("Aus aus", "image1", null, taxon1, null);
+        User user = createUser("test@emonocot.org", "test");
+        createComment("testComment1", "This is a comment", taxon1, user);
     }
 
     /**
@@ -102,5 +109,19 @@ public class FetchProfileTest extends AbstractPersistenceTest {
                 Hibernate.isInitialized(image.getTaxon()));
         Taxon taxon = (Taxon) getSearchableObjectDao().load(
                 "urn:lsid:example.com:taxon:5", "taxon-with-image");
+    }
+    
+    @Test
+    public final void testNestedAssociation() {
+        Comment c = commentDao.load("testComment1", "aboutData");
+        assertTrue("The 'aboutData' hibernate proxy should have been initialized ", Hibernate.isInitialized(c.getAboutData()));
+        Object authority = null;
+        Object organisation = null;
+        try {
+            authority = BeanUtils.getProperty(c.getAboutData(), "authority");
+            organisation = BeanUtils.getProperty(c.getAboutData(), "organisation");
+        } catch (Exception e) {}
+        assertTrue("Their should be an Organisation that is initialized", (authority != null && Hibernate.isInitialized(authority))
+                                                                       || (organisation != null && Hibernate.isInitialized(organisation)));
     }
 }

@@ -95,15 +95,15 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
         List<String> assocs = new ArrayList<String>(associations);
         String association = assocs.remove(0);
         Object associatedObject = initializeProperty(o, association);
-        if (Collection.class.isAssignableFrom(associatedObject.getClass())) {
-            int i = 0;
+        if (associatedObject == null) {
+            return;
+        } else if (Collection.class.isAssignableFrom(associatedObject.getClass())) {
             for (Object obj : (Collection) associatedObject) {
                 if (!assocs.isEmpty()) {
                     initializeProperties(obj, assocs);
                 }
             }
         } else if (Map.class.isAssignableFrom(associatedObject.getClass())) {
-            int i = 0;
             for (Object obj : ((Map) associatedObject).values()) {
                 if (!assocs.isEmpty()) {
                     initializeProperties(obj, assocs);

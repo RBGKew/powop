@@ -27,7 +27,10 @@ public class CommentDaoImpl extends DaoImpl<Comment> implements CommentDao {
    static {
        FETCH_PROFILES = new HashMap<String, Fetch[]>();
        FETCH_PROFILES.put("aboutData", new Fetch[] {
-               new Fetch("aboutData", FetchMode.SELECT)
+               new Fetch("user", FetchMode.SELECT),
+               new Fetch("aboutData", FetchMode.SELECT),
+               new Fetch("aboutData.authority", FetchMode.SELECT),
+               new Fetch("aboutData.organisation", FetchMode.SELECT)
        });
    }
     
