@@ -95,6 +95,14 @@
 										<ul class="thumbnails">
 											<c:forEach var="image" items="${taxon.images}" begin="${status.index}" end="${status.index + 5}">
 												<li>
+													<c:choose>
+														<c:when test="${not empty image.license}">
+															<c:set var="imageLicense" value="${image.license}" />
+														</c:when>
+														<c:otherwise>
+															<c:set var="imageLicense" value="All right reserved" />
+														</c:otherwise>
+													</c:choose>
 													<c:url var="fullsize" value="/images/fullsize/${image.id}.${image.format}" />
 													<c:url var="imageUrl" value="/image/${image.id}"/>
 													<a class="slideshow" href="${fullsize}" 
