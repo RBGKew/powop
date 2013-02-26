@@ -127,14 +127,18 @@
     </integration:transformer>
     
     <!-- service channels/endpoints -->
-    <integration:channel id="emailCommentChannel" />
-    <integration:service-activator input-channel="emailCommentChannel" expression="@emailService.sendEmail(headers.templateName, payload, 'joseph.kelly@kew.org,benjamin.clark@zoo.ox.ac.uk,sarah.phillips@kew.org', headers.subject + ' for ' + headers.toAddress)" />
+    <integration:channel id="emailCommentChannel">
+        <integration:interceptors>
+            <integration:wire-tap channel="loggingChannel" />
+        </integration:interceptors>
+    </integration:channel>
+    <integration:service-activator input-channel="emailCommentChannel" expression="@emailService.sendEmail(headers.templateName, payload, 'joseph.kelly@kew.org', headers.subject + ' for ' + headers.toAddress)" />
     <integration:channel id="loadCommentChannel" />
     <integration:service-activator input-channel="loadCommentChannel" expression="@commentServiceImpl.load(payload, 'aboutData')" />
     
 <!-- Generic logging at INFO level for channels -->
     <integration:publish-subscribe-channel id="loggingChannel" />
-    <integration:logging-channel-adapter channel="loggingChannel" log-full-message="true" level="DEBUG"/>
+    <integration:logging-channel-adapter channel="loggingChannel" log-full-message="true" level="DEBUG" />
 <!-- Generic message converter used by both queues -->
 
 	<bean id="mappingMessageConverter"
