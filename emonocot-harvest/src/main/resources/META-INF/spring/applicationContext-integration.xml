@@ -6,13 +6,13 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:jms="http://www.springframework.org/schema/integration/jms"
 	xmlns:integration-http="http://www.springframework.org/schema/integration/http"
+    xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
 		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-2.1.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd
         http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-2.1.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
-	xmlns:util="http://www.springframework.org/schema/util">
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<context:property-placeholder location="classpath*:META-INF/spring/*.properties" />
 
@@ -77,7 +77,11 @@
     
     <integration:channel id="jdbcCommentChannel" />
     <integration:splitter input-channel="jdbcCommentChannel" output-channel="commentChannel" />
-    <integration:channel id="commentChannel" />
+    <integration:channel id="commentChannel">
+        <integration:interceptors>
+            <integration:wire-tap channel="loggingChannel"/>
+        </integration:interceptors>
+    </integration:channel>
     
     <!-- Enriching that happens regardless of outbound endpoint -->
     <integration:chain id="enrichingChain" input-channel="commentChannel" output-channel="enrichedCommentChannel">
@@ -100,7 +104,11 @@
         </integration:header-enricher>
     </integration:chain>
     
-    <integration:publish-subscribe-channel id="enrichedCommentChannel" />
+    <integration:publish-subscribe-channel id="enrichedCommentChannel">
+        <integration:interceptors>
+            <integration:wire-tap channel="loggingChannel" />
+        </integration:interceptors>
+    </integration:publish-subscribe-channel>
     
     <!-- eMailing integration -->
     <integration:filter input-channel="enrichedCommentChannel" output-channel="toMapCommentChannel" expression="headers.organisation.commentsEmailedTo != null" />
@@ -124,7 +132,8 @@
     <integration:channel id="loadCommentChannel" />
     <integration:service-activator input-channel="loadCommentChannel" expression="@commentServiceImpl.load(payload, 'aboutData')" />
     
-    
+<!-- Generic logging at INFO level for channels -->
+    <integration:logging-channel-adapter channel="loggingChannel" log-full-message="true" level="DEBUG"/>
 <!-- Generic message converter used by both queues -->
 
 	<bean id="mappingMessageConverter"
