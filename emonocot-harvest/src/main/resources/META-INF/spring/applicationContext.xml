@@ -204,6 +204,7 @@
             <prop key="mail.smtp.port">${email.port}</prop>
             <prop key="mail.smtp.auth">${email.auth}</prop>
             <prop key="mail.smtp.starttls.enable">${email.enable.starttls}</prop>
+            <prop key="mail.debug">true</prop>
           </props>
         </property>
     </bean>
