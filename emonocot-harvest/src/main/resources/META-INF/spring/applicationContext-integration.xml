@@ -133,6 +133,7 @@
     <integration:service-activator input-channel="loadCommentChannel" expression="@commentServiceImpl.load(payload, 'aboutData')" />
     
 <!-- Generic logging at INFO level for channels -->
+    <integration:publish-subscribe-channel id="loggingChannel" />
     <integration:logging-channel-adapter channel="loggingChannel" log-full-message="true" level="DEBUG"/>
 <!-- Generic message converter used by both queues -->
 
