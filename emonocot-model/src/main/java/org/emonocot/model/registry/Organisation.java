@@ -23,6 +23,7 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 
 /**
@@ -264,6 +265,7 @@ public class Organisation extends BaseData implements Comparable<Organisation>, 
     /**
      * @param commentsEmailedTo the commentsEmailedTo to set
      */
+    @NotBlank
     public void setCommentsEmailedTo(String commentsEmailedTo) {
         this.commentsEmailedTo = commentsEmailedTo;
     }

@@ -586,7 +586,7 @@
 	                <label class="control-label" for="select01"><spring:message
 	                        code="feedback.topic.option" /></label>
 	                <div class="controls">
-	                    <select name="aboutDataIdentifier"> <!-- multiple="multiple" -->
+	                    <select name="aboutDataIdentifier">
                             <option id="${taxon.identifier}" value="${taxon.identifier}">${taxon.scientificName} ${taxon.scientificNameAuthorship}</option>
                             <spring:message code="description" var="messageDescription"/>
                             <c:if test="${not empty taxon.descriptions}">
@@ -607,19 +607,19 @@
 								</option>
 							</c:forEach>
 							<c:if test="${not empty taxon.childNameUsages}">
-								<option id="childX" value="childX">${childrenHeader}</option>
+								<option id="${taxon.identifier}" value="${taxon.identifier}">${childrenHeader}</option>
 							</c:if>
 							<c:forEach var="child" items="${em:sort(taxon.childNameUsages)}">
 								<option id="${child.identifier}" value="${child.identifier}">${child.scientificName} ${child.scientificNameAuthorship}</option>
 							</c:forEach>
 							<c:if test="${not empty taxon.synonymNameUsages}">
-								<option id="synX" value="synX">${synonymsHeader}</option>
+								<option id="${taxon.identifier}" value="${taxon.identifier}">${synonymsHeader}</option>
 							</c:if>
 							<c:forEach var="synonym" items="${em:sort(taxon.synonymNameUsages)}">
 								<option id="${synonym.identifier}" value="${synonym.identifier}">${synonym.scientificName} ${synonym.scientificNameAuthorship}</option>
 							</c:forEach>
 							<c:if test="${not empty taxon.vernacularNames}">
-								<option id="vernacX" value="vernacX">${vernacularHeader}</option>
+								<option id="${taxon.identifier}" value="${taxon.identifier}">${vernacularHeader}</option>
 							</c:if>
 							<c:forEach var="vernacularName" items="${taxon.vernacularNames}">
 								<option id="${vernacularName.identifier}" value="${vernacularName.identifier}">${vernacularName}</option>
@@ -627,7 +627,7 @@
 							<c:if test="${taxon.acceptedNameUsage == null}">
 								<option value="${taxon.identifier}">${treeHeader}</option>
 							</c:if>
-							<option id="datX" value="datX">Data</option>
+							<option id="${taxon.identifier}" value="${taxon.identifier}">Data</option>
 							<option value="${taxon.identifier}"><spring:message code="feedback.option.other" /></option>
 						</select>
 					</div>

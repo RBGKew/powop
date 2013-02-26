@@ -3,15 +3,21 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
+    xmlns:security="http://www.springframework.org/security/tags"
 	xmlns:spring="http://www.springframework.org/tags">
 	<tags:pageheader>
         <h2 id="page-title"><i class="glyphicons-icon keys"><!--  --></i>${identificationKey.title}</h2>
         <small><spring:message code="key.creator" /> ${identificationKey.creator}</small>						
 		<div class="row">
 			<button class="btn pull-right" id="reset"><i class="icon-refresh"><!--  --></i><spring:message code="reset.key"/></button>
+            <div class="span1 offset9">
+                <tags:feedbackLink selector="${identificationKey.title}" dataName="${identificationKey.title}" />
+            </div>
 		</div>
 	</tags:pageheader>
 	<div class="container">
+        <tags:info />
+        <tags:error />
 		<div class="row">
 			<div class="span4">
 				<div id="plus">
@@ -137,5 +143,34 @@
 					<a href="#" class="btn" data-dismiss="modal" >Cancel</a>
 				</div>
 			</div>
+            <div id="feedbackModal" class="modal hide fade">
+		        <div class="modal-header">
+		            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+		            <h3><spring:message code="feedbackTitle" /></h3>
+		        </div>
+		        <c:url value="/comment" var="commentUrl" />
+		        <form class="modal-form" action="${commentUrl}" method="post">
+		            <div class="modal-body">
+		                <div class="control-group">
+		                    <security:authorize access="isAnonymous()">
+		                        <span class="label label-important"><spring:message code="feedback.login.needed" /></span>
+		                    </security:authorize>
+		                    <label class="control-label" for="select01"><spring:message code="feedback.topic.option" /> ${identificationKey.title}</label>
+		                    <div class="controls">
+                                <input type="hidden" name="aboutDataIdentifier" value="${identificationKey.identifier}" />
+		                    </div>
+		                </div>
+		                <div class="control-group">
+		                    <div class="controls">
+		                        <textarea class="input-xlarge" name="comment" rows="3"><!--  --></textarea>
+		                    </div>
+		                </div>
+		            </div>
+		            <div class="modal-footer">
+		                <button class="btn" data-dismiss="modal"><spring:message code="button.close" /></button>
+		                <button type="submit" class="btn btn-primary"><spring:message code="button.submit" /></button>
+		            </div>
+		        </form>
+            </div>
 		</div>
 	</div>

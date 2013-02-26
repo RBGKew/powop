@@ -32,6 +32,7 @@
 							<field:textarea field="description" label="organisation.description" fieldClass="span6"/>
 							<field:input field="publisherName" label="organisation.publisherName" fieldClass="span6"/>
 							<field:input field="publisherEmail" label="organisation.publisherEmail" fieldClass="span6"/>
+                            <field:input field="commentsEmailedTo" label="organisation.commentsEmailedTo" fieldClass="span6"/>
 							<field:input field="subject" label="organisation.subject" fieldClass="span6"/>
 							<field:input field="bibliographicCitation" label="organisation.source" fieldClass="span6"/>
 						</form:create>

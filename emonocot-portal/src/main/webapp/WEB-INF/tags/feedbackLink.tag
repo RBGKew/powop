@@ -7,7 +7,6 @@
 	<jsp:directive.attribute name="modalId" type="java.lang.String" required="false" />
 	<jsp:directive.attribute name="selector" type="java.lang.String" required="true" />
 	<jsp:directive.attribute name="dataName" type="java.lang.String" required="false" />
-	<jsp:directive.attribute name="modalAction" type="java.lang.String" required="false" />
     <c:if test="${empty modalId}" >
         <c:set var="modalId" value="feedbackModal"/>
     </c:if>
