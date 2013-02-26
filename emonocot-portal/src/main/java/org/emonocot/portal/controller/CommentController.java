@@ -113,18 +113,21 @@ public class CommentController extends GenericController<Comment, CommentService
         comment.setCreated(new DateTime());
         comment.setStatus(Comment.Status.PENDING);
         comment.setUser(userService.find(principal.getName()));
+        
         Base about = searchableObjectService.find(aboutDataIdentifier);
         if(about == null) {
             about = descriptionService.find(aboutDataIdentifier);
         }
-        
         if(about == null) {
             logger.warn("Unable to find an object with the identifier" + aboutDataIdentifier);
             attributes.addFlashAttribute("error", new DefaultMessageSourceResolvable("feedback.error.about"));
-        } else {
+        } else if(!formResult.hasErrors()) {
             comment.setAboutData(about);
             super.getService().save(comment);
             attributes.addFlashAttribute("info",  new DefaultMessageSourceResolvable("feedback.saved"));
+        } else {
+            attributes.addFlashAttribute("error",  new DefaultMessageSourceResolvable("feedback.error.input"));
+            
         }
         
         //Set object and redirect
@@ -134,9 +137,9 @@ public class CommentController extends GenericController<Comment, CommentService
         } else if (about instanceof OwnedEntity) {
             return "redirect:taxon/" + ((OwnedEntity) about).getTaxon().getIdentifier();
         } else if (about instanceof Image) {
-            return "redirect:image/" + about.getIdentifier();
+            return "redirect:image/" + about.getId();
         } else if (about instanceof IdentificationKey) {
-            return "redirect:key/" + about.getIdentifier();
+            return "redirect:key/" + about.getId();
         } else {
             return "user/show";
         }

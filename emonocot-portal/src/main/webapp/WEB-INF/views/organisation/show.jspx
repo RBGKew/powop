@@ -40,7 +40,8 @@
 								<tr><th><spring:message code="organisation.created" /></th><td><joda:format value="${organisation.created}" style="SS" /></td></tr>
 								<tr><th><spring:message code="organisation.description" /></th><td>${organisation.description}</td></tr>
 								<tr><th><spring:message code="organisation.publisherName" /></th><td>${organisation.publisherName}</td></tr>
-								<tr><th><spring:message code="organisation.publisherEmail" /></th><td><a href="mailto:${organisation.publisherEmail}">${organisation.publisherEmail}</a></td></tr>
+                                <tr><th><spring:message code="organisation.publisherEmail" /></th><td><a href="mailto:${organisation.publisherEmail}">${organisation.publisherEmail}</a></td></tr>
+<!-- Who should this be visible to? -->                                <!-- <tr><th><spring:message code="organisation.commentsEmailedTo" /></th><td><a href="mailto:${organisation.commentsEmailedTo}">${organisation.commentsEmailedTo}</a></td></tr> -->
 								<tr><th><spring:message code="organisation.subject" /></th>
 									<td>
 										<c:if test="${not empty organisation.subject}">
