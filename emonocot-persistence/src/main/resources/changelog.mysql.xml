@@ -4011,4 +4011,16 @@
         <comment>Required to hold the completed job id</comment>
         <sql>update Resource set lastHarvestedJobId = jobId;</sql>
     </changeSet>
+    <changeSet id="2013-02-22_01" author="jk00kg">
+        <comment>Required to send e-mails</comment>
+        <sql>update Organisation set commentsEmailedTo = publisherEmail where commentsEmailedTo IS NULL;</sql>
+    </changeSet>
+    <changeSet id="2013-02-26_01" author="jk00kg">
+        <comment>Required to send e-mails</comment>
+        <sql>update Organisation set commentsEmailedTo = creatorEmail where commentsEmailedTo IS NULL;</sql>
+    </changeSet>
+    <changeSet id="2013-02-26_02" author="jk00kg">
+        <comment>Required to send e-mails</comment>
+        <sql>update Organisation set commentsEmailedTo = 'enquires@about.e-monocot.org' where commentsEmailedTo IS NULL;</sql>
+    </changeSet>
 </databaseChangeLog>
