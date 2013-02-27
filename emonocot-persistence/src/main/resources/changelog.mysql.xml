@@ -4023,4 +4023,16 @@
         <comment>Required to send e-mails</comment>
         <sql>update Organisation set commentsEmailedTo = 'enquires@about.e-monocot.org' where commentsEmailedTo IS NULL;</sql>
     </changeSet>
+    <changeSet id="2013-02-27_01" author="jk00kg">
+        <comment>Required to send e-mails</comment>
+        <sql>update Organisation set commentsEmailedTo = publisherEmail where char_length(trim(commentsEmailedTo)) &lt; 1;</sql>
+    </changeSet>
+    <changeSet id="2013-02-27_02" author="jk00kg">
+        <comment>Required to send e-mails</comment>
+        <sql>update Organisation set commentsEmailedTo = creatorEmail where char_length(trim(commentsEmailedTo)) &lt; 1;</sql>
+    </changeSet>
+    <changeSet id="2013-02-27_03" author="jk00kg">
+        <comment>Required to send e-mails</comment>
+        <sql>update Organisation set commentsEmailedTo = 'enquires@about.e-monocot.org' where char_length(trim(commentsEmailedTo)) &lt; 1;</sql>
+    </changeSet>
 </databaseChangeLog>
