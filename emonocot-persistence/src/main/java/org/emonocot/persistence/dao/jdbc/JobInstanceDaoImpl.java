@@ -62,6 +62,18 @@ public class JobInstanceDaoImpl extends JdbcDaoSupport implements
                         rowMapper, identifier);
         return jobInstance;
     }
+    
+	@Override
+	public List<JobInstance> list(Integer page, Integer size) {
+		RowMapper<JobInstance> rowMapper = new JobInstanceRowMapper();
+		if (size == null && page == null) {
+            return getJdbcTemplate().query("SELECT JOB_INSTANCE_ID, JOB_NAME, VERSION from BATCH_JOB_INSTANCE", rowMapper);
+        } else if (page == null) {
+            return getJdbcTemplate().query("SELECT JOB_INSTANCE_ID, JOB_NAME, VERSION from BATCH_JOB_INSTANCE LIMIT ?", rowMapper,size);
+        } else {
+            return getJdbcTemplate().query("SELECT JOB_INSTANCE_ID, JOB_NAME, VERSION from BATCH_JOB_INSTANCE LIMIT ? OFFSET ?", rowMapper,size, page * size);
+        }
+	}
 
     /**
      *
@@ -180,6 +192,9 @@ public class JobInstanceDaoImpl extends JdbcDaoSupport implements
          */
         public JobInstanceRowMapper(final JobParameters newJobParameters) {
             this.jobParameters = newJobParameters;
+        }
+        
+        public JobInstanceRowMapper() {
         }
 
         /**

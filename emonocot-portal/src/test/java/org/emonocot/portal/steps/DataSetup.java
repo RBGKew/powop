@@ -7,6 +7,7 @@ import org.emonocot.test.TestDataManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import cucumber.api.java.After;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 
 /**
@@ -225,6 +226,11 @@ public class DataSetup {
     	for (PlaceRow row : rows) {
     		testDataManager.createPlace(row.identifier, row.name, row.shape);
     	}
+    }
+    
+    @Before
+    public void setUp() {
+    	testDataManager.cleanDatabase();
     }
 
     /**

@@ -64,10 +64,31 @@ public class GroupServiceImpl extends ServiceImpl<Group, GroupDao> implements
     
     @Transactional(readOnly = false)
     @Override
+    public void delete(final String identifier) {
+    	Group group = dao.find(identifier);
+    	for(User user : group.getMembers()) {
+    		group.removeMember(user);
+    	}
+    	List<Object[]> aces = listAces(identifier);
+    	for(Object[] ace :aces) {
+    		AccessControlEntry accessControlEntry = (AccessControlEntry)ace[1];
+    		aclService.deleteAcl(accessControlEntry.getAcl().getObjectIdentity(), false);
+    	}
+    	dao.saveOrUpdate(group);
+    	super.delete(identifier);
+    }
+    
+    @Transactional(readOnly = false)
+    @Override
     public void deleteById(final Long id) {
     	Group group = dao.find(id);
     	for(User user : group.getMembers()) {
     		group.removeMember(user);
+    	}
+    	List<Object[]> aces = listAces(group.getIdentifier());
+    	for(Object[] ace :aces) {
+    		AccessControlEntry accessControlEntry = (AccessControlEntry)ace[1];
+    		aclService.deleteAcl(accessControlEntry.getAcl().getObjectIdentity(), false);
     	}
     	dao.saveOrUpdate(group);
     	super.deleteById(id);

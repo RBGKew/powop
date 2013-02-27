@@ -40,10 +40,11 @@
 								<em><spring:message code="resultStatus" /></em>
 								<c:choose>
 									<c:when test="${em:isSynonym(item)}">
-										<span id="entryStatus"><spring:message code="${synonymStatus}" arguments="${item.taxonomicStatus}"/></span>
+									    <spring:message code="${item.taxonomicStatus}" var="taxonomicStatus"/>
+										<span id="entryStatus"><spring:message code="synonymStatus" arguments="${taxonomicStatus}"/></span>
 										<c:url var="acceptedUrl" value="/taxon/${item.acceptedNameUsage.identifier}" />
 										<a href="${acceptedUrl}">
-											${item.acceptedNameUsage.scientificName}
+											<em>${item.acceptedNameUsage.scientificName}</em>
 											${item.acceptedNameUsage.scientificNameAuthorship}
 										</a>
 									</c:when>
@@ -83,7 +84,7 @@
 							<c:if test="${not empty item.taxon.scientificName}">
 								<div>
 									<em><spring:message code="imageOf" /></em>: 
-									<a href="${taxonUrl}">${item.taxon.scientificName}</a>
+									<a href="${taxonUrl}"><em>${item.taxon.scientificName}</em> ${item.taxon.scientificNameAuthorship}</a>
 								</div>
 							</c:if>
 							<c:if test="${item.creator != null}">

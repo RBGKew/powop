@@ -23,7 +23,7 @@
 		<batch:step id="getIUCNData">
 			<batch:description>Get the IUCN json file</batch:description>
 			<batch:tasklet ref="getIUCNDataTasklet" />
-			<batch:next on="NOT MODIFIED" to="cleanupResourcesNotModified" />
+			<batch:next on="NOT_MODIFIED" to="cleanupResourcesNotModified" />
 			<batch:next on="COMPLETED" to="markMeasurementOrFactRecords" />
 			<batch:listeners>
 			    <batch:listener ref="stepStatusListener" />
@@ -32,7 +32,7 @@
 		<batch:step id="cleanupResourcesNotModified">
 			<batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="iucnResourceDeletingTasklet" />
-			<batch:end on="COMPLETE" exit-code="NOT MODIFIED" />
+			<batch:end on="COMPLETE" exit-code="NOT_MODIFIED" />
 			<batch:listeners>
 			    <batch:listener ref="stepStatusListener" />
 			</batch:listeners>

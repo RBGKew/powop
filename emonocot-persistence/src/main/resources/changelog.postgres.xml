@@ -1,5 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <!--
+    <changeSet author="emonocot" id="1361549992239-174">
+        <createView schemaName="public" viewName="geography_columns">SELECT current_database() AS f_table_catalog, n.nspname AS f_table_schema, c.relname AS f_table_name, a.attname AS f_geography_column, geography_typmod_dims(a.atttypmod) AS coord_dimension, geography_typmod_srid(a.atttypmod) AS srid, geography_typmod_type(a.atttypmod) AS type FROM pg_class c, pg_attribute a, pg_type t, pg_namespace n WHERE ((((((t.typname = 'geography'::name) AND (a.attisdropped = false)) AND (a.atttypid = t.oid)) AND (a.attrelid = c.oid)) AND (c.relnamespace = n.oid)) AND (NOT pg_is_other_temp_schema(c.relnamespace)));</createView>
+    </changeSet>
+    <changeSet author="emonocot" id="1361549992239-11">
+        <createTable tableName="geometry_columns">
+            <column name="f_table_catalog" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="f_table_schema" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="f_table_name" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="f_geometry_column" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="coord_dimension" type="int4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="srid" type="int4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="emonocot" id="1361549992239-37">
+        <createTable tableName="spatial_ref_sys">
+            <column name="srid" type="int4">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="spatial_ref_sys_pkey"/>
+            </column>
+            <column name="auth_name" type="VARCHAR(256)"/>
+            <column name="auth_srid" type="int4"/>
+            <column name="srtext" type="VARCHAR(2048)"/>
+            <column name="proj4text" type="VARCHAR(2048)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="emonocot" id="1361549992239-49">
+        <addPrimaryKey columnNames="f_table_catalog, f_table_schema, f_table_name, f_geometry_column" constraintName="geometry_columns_pk" tableName="geometry_columns"/>
+    </changeSet>
+     -->
     <changeSet author="emonocot" id="1361549992239-1">
         <createTable tableName="acl_class">
             <column autoIncrement="true" name="id" type="bigserial">
@@ -87,6 +131,111 @@
             <column name="authority_id" type="int8"/>
         </createTable>
     </changeSet>
+    <changeSet author="emonocot" id="1361870135086-6">
+        <createTable tableName="batch_job_execution">
+            <column name="job_execution_id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="batch_job_execution_pkey"/>
+            </column>
+            <column name="version" type="int8"/>
+            <column name="job_instance_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="create_time" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_time" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="end_time" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="status" type="VARCHAR(10)"/>
+            <column name="exit_code" type="VARCHAR(100)"/>
+            <column name="exit_message" type="VARCHAR(2500)"/>
+            <column name="last_updated" type="TIMESTAMP WITH TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="emonocot" id="1361870135086-7">
+        <createTable tableName="batch_job_execution_context">
+            <column name="job_execution_id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="batch_job_execution_context_pkey"/>
+            </column>
+            <column name="short_context" type="VARCHAR(2500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="serialized_context" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="emonocot" id="1361870135086-8">
+        <createTable tableName="batch_job_instance">
+            <column name="job_instance_id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="batch_job_instance_pkey"/>
+            </column>
+            <column name="version" type="int8"/>
+            <column name="job_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="job_key" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="emonocot" id="1361870135086-9">
+        <createTable tableName="batch_job_params">
+            <column name="job_instance_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type_cd" type="VARCHAR(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="key_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="string_val" type="TEXT"/>
+            <column name="date_val" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="long_val" type="int8"/>
+            <column name="double_val" type="FLOAT8(17)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="emonocot" id="1361870135086-10">
+        <createTable tableName="batch_step_execution">
+            <column name="step_execution_id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="batch_step_execution_pkey"/>
+            </column>
+            <column name="version" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="step_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="job_execution_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_time" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_time" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="status" type="VARCHAR(10)"/>
+            <column name="commit_count" type="int8"/>
+            <column name="read_count" type="int8"/>
+            <column name="filter_count" type="int8"/>
+            <column name="write_count" type="int8"/>
+            <column name="read_skip_count" type="int8"/>
+            <column name="write_skip_count" type="int8"/>
+            <column name="process_skip_count" type="int8"/>
+            <column name="rollback_count" type="int8"/>
+            <column name="exit_code" type="VARCHAR(100)"/>
+            <column name="exit_message" type="VARCHAR(2500)"/>
+            <column name="last_updated" type="TIMESTAMP WITH TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="emonocot" id="1361870135086-11">
+        <createTable tableName="batch_step_execution_context">
+            <column name="step_execution_id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="batch_step_execution_context_pkey"/>
+            </column>
+            <column name="short_context" type="VARCHAR(2500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="serialized_context" type="TEXT"/>
+        </createTable>
+    </changeSet>
     <changeSet author="emonocot" id="1361549992239-6">
         <createTable tableName="comment">
             <column name="id" type="int8">
@@ -169,31 +318,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="emonocot" id="1361549992239-11">
-        <createTable tableName="geometry_columns">
-            <column name="f_table_catalog" type="VARCHAR(256)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="f_table_schema" type="VARCHAR(256)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="f_table_name" type="VARCHAR(256)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="f_geometry_column" type="VARCHAR(256)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="coord_dimension" type="int4">
-                <constraints nullable="false"/>
-            </column>
-            <column name="srid" type="int4">
-                <constraints nullable="false"/>
-            </column>
-            <column name="type" type="VARCHAR(30)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
+    
     <changeSet author="emonocot" id="1361549992239-12">
         <createTable tableName="group_permissions">
             <column name="group_id" type="int8">
@@ -612,8 +737,8 @@
             <column name="int_prop_2" type="int4"/>
             <column name="long_prop_1" type="int8"/>
             <column name="long_prop_2" type="int8"/>
-            <column name="dec_prop_1" type="NUMERIC(13,4)"/>
-            <column name="dec_prop_2" type="NUMERIC(13,4)"/>
+            <column name="dec_prop_1" type="decimal"/>
+            <column name="dec_prop_2" type="decimal"/>
             <column name="bool_prop_1" type="bool"/>
             <column name="bool_prop_2" type="bool"/>
         </createTable>
@@ -725,17 +850,6 @@
             <column name="parameters_key" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="emonocot" id="1361549992239-37">
-        <createTable tableName="spatial_ref_sys">
-            <column name="srid" type="int4">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="spatial_ref_sys_pkey"/>
-            </column>
-            <column name="auth_name" type="VARCHAR(256)"/>
-            <column name="auth_srid" type="int4"/>
-            <column name="srtext" type="VARCHAR(2048)"/>
-            <column name="proj4text" type="VARCHAR(2048)"/>
         </createTable>
     </changeSet>
     <changeSet author="emonocot" id="1361549992239-38">
@@ -920,10 +1034,7 @@
     </changeSet>
     <changeSet author="emonocot" id="1361549992239-48">
         <addPrimaryKey columnNames="distribution_id, references_id" constraintName="distribution_reference_pkey" tableName="distribution_reference"/>
-    </changeSet>
-    <changeSet author="emonocot" id="1361549992239-49">
-        <addPrimaryKey columnNames="f_table_catalog, f_table_schema, f_table_name, f_geometry_column" constraintName="geometry_columns_pk" tableName="geometry_columns"/>
-    </changeSet>
+    </changeSet>    
     <changeSet author="emonocot" id="1361549992239-50">
         <addPrimaryKey columnNames="event_id, i" constraintName="logging_event_exception_pkey" tableName="logging_event_exception"/>
     </changeSet>
@@ -993,6 +1104,9 @@
     <changeSet author="emonocot" id="1361549992239-72">
         <addUniqueConstraint columnNames="sid, principal" constraintName="unique_uk_1" deferrable="false" disabled="false" initiallyDeferred="false" tableName="acl_sid"/>
     </changeSet>
+    <changeSet author="emonocot" id="1361870135086-79">
+        <addUniqueConstraint columnNames="job_name, job_key" constraintName="job_inst_un" deferrable="false" disabled="false" initiallyDeferred="false" tableName="batch_job_instance"/>
+    </changeSet>
     <changeSet author="emonocot" id="1361549992239-73">
         <addUniqueConstraint columnNames="identifier" constraintName="description_identifier_key" deferrable="false" disabled="false" initiallyDeferred="false" tableName="description"/>
     </changeSet>
@@ -1050,44 +1164,23 @@
     <changeSet author="emonocot" id="1361549992239-91">
         <addForeignKeyConstraint baseColumnNames="parent_object" baseTableName="acl_object_identity" baseTableSchemaName="public" constraintName="foreign_fk_1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="acl_object_identity" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
     </changeSet>
-    <changeSet author="emonocot" id="1361549992239-92">
-        <addForeignKeyConstraint baseColumnNames="annotatedobjid" baseTableName="annotation" baseTableSchemaName="public" constraintName="fk1a21c74f2081a7c" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="measurementorfact" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
-    </changeSet>
-    <changeSet author="emonocot" id="1361549992239-93">
-        <addForeignKeyConstraint baseColumnNames="annotatedobjid" baseTableName="annotation" baseTableSchemaName="public" constraintName="fk1a21c74f293205c2" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="identificationkey" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
-    </changeSet>
-    <changeSet author="emonocot" id="1361549992239-94">
-        <addForeignKeyConstraint baseColumnNames="annotatedobjid" baseTableName="annotation" baseTableSchemaName="public" constraintName="fk1a21c74f457786fc" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="reference" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
-    </changeSet>
-    <changeSet author="emonocot" id="1361549992239-95">
-        <addForeignKeyConstraint baseColumnNames="annotatedobjid" baseTableName="annotation" baseTableSchemaName="public" constraintName="fk1a21c74f4956f163" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="vernacularname" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
-    </changeSet>
-    <changeSet author="emonocot" id="1361549992239-96">
-        <addForeignKeyConstraint baseColumnNames="annotatedobjid" baseTableName="annotation" baseTableSchemaName="public" constraintName="fk1a21c74f50fccce7" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="distribution" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
-    </changeSet>
-    <changeSet author="emonocot" id="1361549992239-97">
-        <addForeignKeyConstraint baseColumnNames="annotatedobjid" baseTableName="annotation" baseTableSchemaName="public" constraintName="fk1a21c74f7f37bcd6" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="typeandspecimen" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
-    </changeSet>
-    <changeSet author="emonocot" id="1361549992239-98">
-        <addForeignKeyConstraint baseColumnNames="annotatedobjid" baseTableName="annotation" baseTableSchemaName="public" constraintName="fk1a21c74f820e985c" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="organisation" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
-    </changeSet>
-    <changeSet author="emonocot" id="1361549992239-99">
-        <addForeignKeyConstraint baseColumnNames="annotatedobjid" baseTableName="annotation" baseTableSchemaName="public" constraintName="fk1a21c74f9b4b014c" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="identifier" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
-    </changeSet>
-    <changeSet author="emonocot" id="1361549992239-100">
-        <addForeignKeyConstraint baseColumnNames="annotatedobjid" baseTableName="annotation" baseTableSchemaName="public" constraintName="fk1a21c74fc8b8048c" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="image" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
-    </changeSet>
-    <changeSet author="emonocot" id="1361549992239-101">
-        <addForeignKeyConstraint baseColumnNames="annotatedobjid" baseTableName="annotation" baseTableSchemaName="public" constraintName="fk1a21c74fc91a3438" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="place" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
-    </changeSet>
-    <changeSet author="emonocot" id="1361549992239-102">
-        <addForeignKeyConstraint baseColumnNames="annotatedobjid" baseTableName="annotation" baseTableSchemaName="public" constraintName="fk1a21c74fc94de9fb" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="taxon" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
-    </changeSet>
-    <changeSet author="emonocot" id="1361549992239-103">
-        <addForeignKeyConstraint baseColumnNames="annotatedobjid" baseTableName="annotation" baseTableSchemaName="public" constraintName="fk1a21c74ffa9369ed" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="description" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
-    </changeSet>
     <changeSet author="emonocot" id="1361549992239-104">
         <addForeignKeyConstraint baseColumnNames="authority_id" baseTableName="annotation" baseTableSchemaName="public" constraintName="fk1a21c74f49125939" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="organisation" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="emonocot" id="1361870135086-112">
+        <addForeignKeyConstraint baseColumnNames="job_instance_id" baseTableName="batch_job_execution" baseTableSchemaName="public" constraintName="job_inst_exec_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="job_instance_id" referencedTableName="batch_job_instance" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="emonocot" id="1361870135086-113">
+        <addForeignKeyConstraint baseColumnNames="job_execution_id" baseTableName="batch_job_execution_context" baseTableSchemaName="public" constraintName="job_exec_ctx_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="job_execution_id" referencedTableName="batch_job_execution" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="emonocot" id="1361870135086-114">
+        <addForeignKeyConstraint baseColumnNames="job_instance_id" baseTableName="batch_job_params" baseTableSchemaName="public" constraintName="job_inst_params_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="job_instance_id" referencedTableName="batch_job_instance" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="emonocot" id="1361870135086-115">
+        <addForeignKeyConstraint baseColumnNames="job_execution_id" baseTableName="batch_step_execution" baseTableSchemaName="public" constraintName="job_exec_step_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="job_execution_id" referencedTableName="batch_job_execution" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="emonocot" id="1361870135086-116">
+        <addForeignKeyConstraint baseColumnNames="step_execution_id" baseTableName="batch_step_execution_context" baseTableSchemaName="public" constraintName="step_exec_ctx_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="step_execution_id" referencedTableName="batch_step_execution" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
     </changeSet>
     <changeSet author="emonocot" id="1361549992239-105">
         <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="comment" baseTableSchemaName="public" constraintName="fk9bde863fe0e15b97" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="principal" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
@@ -1366,164 +1459,171 @@
     <changeSet author="emonocot" id="1361549992239-173">
         <createSequence schemaName="public" sequenceName="hibernate_sequence"/>
     </changeSet>
-    <changeSet author="emonocot" id="1361549992239-174">
-        <createView schemaName="public" viewName="geography_columns">SELECT current_database() AS f_table_catalog, n.nspname AS f_table_schema, c.relname AS f_table_name, a.attname AS f_geography_column, geography_typmod_dims(a.atttypmod) AS coord_dimension, geography_typmod_srid(a.atttypmod) AS srid, geography_typmod_type(a.atttypmod) AS type FROM pg_class c, pg_attribute a, pg_type t, pg_namespace n WHERE ((((((t.typname = 'geography'::name) AND (a.attisdropped = false)) AND (a.atttypid = t.oid)) AND (a.attrelid = c.oid)) AND (c.relnamespace = n.oid)) AND (NOT pg_is_other_temp_schema(c.relnamespace)));</createView>
+    <changeSet author="emonocot" id="1361870135086-185">
+        <createSequence schemaName="public" sequenceName="batch_job_execution_seq"/>
     </changeSet>
+    <changeSet author="emonocot" id="1361870135086-186">
+        <createSequence schemaName="public" sequenceName="batch_job_seq"/>
+    </changeSet>
+    <changeSet author="emonocot" id="1361870135086-187">
+        <createSequence schemaName="public" sequenceName="batch_step_execution_seq"/>
+    </changeSet>
+
     <!-- In the test schema we need these -->
     <changeSet id="2013-01-22_01" author="ben">
-      <insert tableName="Principal">
+      <insert tableName="principal">
         <column name="id" valueNumeric="1"/>
-        <column name="DTYPE" value="Group"/>
+        <column name="dtype" value="Group"/>
         <column name="identifier" value="administrators"/>
       </insert>
     </changeSet>    
     <changeSet id="2013-01-22_02" author="ben">
-      <insert tableName="Group_permissions">
-        <column name="Group_id" valueNumeric="1"/>
+      <insert tableName="group_permissions">
+        <column name="group_id" valueNumeric="1"/>
         <column name="permissions" valueNumeric="0"/>
       </insert>
     </changeSet>
     <changeSet id="2013-01-22_03" author="ben">
-      <insert tableName="Group_permissions">
-        <column name="Group_id" valueNumeric="1"/>
+      <insert tableName="group_permissions">
+        <column name="group_id" valueNumeric="1"/>
         <column name="permissions" valueNumeric="1"/>
       </insert>
     </changeSet>
     <changeSet id="2013-01-22_04" author="ben">
-      <insert tableName="Group_permissions">
-        <column name="Group_id" valueNumeric="1"/>
+      <insert tableName="group_permissions">
+        <column name="group_id" valueNumeric="1"/>
         <column name="permissions" valueNumeric="2"/>
       </insert>
     </changeSet>
     <changeSet id="2013-01-22_05" author="ben">
-      <insert tableName="Group_permissions">
-        <column name="Group_id" valueNumeric="1"/>
+      <insert tableName="group_permissions">
+        <column name="group_id" valueNumeric="1"/>
         <column name="permissions" valueNumeric="3"/>
       </insert>
     </changeSet>
     <changeSet id="2013-01-22_06" author="ben">
-      <insert tableName="Group_permissions">
-        <column name="Group_id" valueNumeric="1"/>
+      <insert tableName="group_permissions">
+        <column name="group_id" valueNumeric="1"/>
         <column name="permissions" valueNumeric="4"/>
       </insert>
     </changeSet>
     <changeSet id="2013-01-22_07" author="ben">
-      <insert tableName="Group_permissions">
-        <column name="Group_id" valueNumeric="1"/>
+      <insert tableName="group_permissions">
+        <column name="group_id" valueNumeric="1"/>
         <column name="permissions" valueNumeric="5"/>
       </insert>
     </changeSet>
     <changeSet id="2013-01-22_08" author="ben">
-      <insert tableName="Group_permissions">
-        <column name="Group_id" valueNumeric="1"/>
+      <insert tableName="group_permissions">
+        <column name="group_id" valueNumeric="1"/>
         <column name="permissions" valueNumeric="6"/>
       </insert>
     </changeSet>
     <changeSet id="2013-01-22_09" author="ben">
-      <insert tableName="Group_permissions">
-        <column name="Group_id" valueNumeric="1"/>
+      <insert tableName="group_permissions">
+        <column name="group_id" valueNumeric="1"/>
         <column name="permissions" valueNumeric="7"/>
       </insert>
     </changeSet>
     <changeSet id="2013-01-22_10" author="ben">
-      <insert tableName="Group_permissions">
-        <column name="Group_id" valueNumeric="1"/>
+      <insert tableName="group_permissions">
+        <column name="group_id" valueNumeric="1"/>
         <column name="permissions" valueNumeric="8"/>
       </insert>
     </changeSet>
     <changeSet id="2013-01-22_11" author="ben">
-      <insert tableName="Group_permissions">
-        <column name="Group_id" valueNumeric="1"/>
+      <insert tableName="group_permissions">
+        <column name="group_id" valueNumeric="1"/>
         <column name="permissions" valueNumeric="9"/>
       </insert>
     </changeSet>
     <changeSet id="2013-01-22_12" author="ben">
-      <insert tableName="Group_permissions">
-        <column name="Group_id" valueNumeric="1"/>
+      <insert tableName="group_permissions">
+        <column name="group_id" valueNumeric="1"/>
         <column name="permissions" valueNumeric="10"/>
       </insert>
     </changeSet>
     <changeSet id="2013-01-22_13" author="ben">
-      <insert tableName="Group_permissions">
-        <column name="Group_id" valueNumeric="1"/>
+      <insert tableName="group_permissions">
+        <column name="group_id" valueNumeric="1"/>
         <column name="permissions" valueNumeric="11"/>
       </insert>
     </changeSet>
     <changeSet id="2013-01-22_14" author="ben">
-      <insert tableName="Group_permissions">
-        <column name="Group_id" valueNumeric="1"/>
+      <insert tableName="group_permissions">
+        <column name="group_id" valueNumeric="1"/>
         <column name="permissions" valueNumeric="12"/>
       </insert>
     </changeSet>
     <changeSet id="2013-01-22_15" author="ben">
-      <insert tableName="Group_permissions">
-        <column name="Group_id" valueNumeric="1"/>
+      <insert tableName="group_permissions">
+        <column name="group_id" valueNumeric="1"/>
         <column name="permissions" valueNumeric="13"/>
       </insert>
     </changeSet>
     <changeSet id="2013-01-22_16" author="ben">
-      <insert tableName="Group_permissions">
-        <column name="Group_id" valueNumeric="1"/>
+      <insert tableName="group_permissions">
+        <column name="group_id" valueNumeric="1"/>
         <column name="permissions" valueNumeric="14"/>
       </insert>
     </changeSet>
     <changeSet id="2013-01-22_17" author="ben">
-      <insert tableName="Group_permissions">
-        <column name="Group_id" valueNumeric="1"/>
+      <insert tableName="group_permissions">
+        <column name="group_id" valueNumeric="1"/>
         <column name="permissions" valueNumeric="15"/>
       </insert>
     </changeSet>
     <changeSet id="2013-01-22_18" author="ben">
-      <insert tableName="Group_permissions">
-        <column name="Group_id" valueNumeric="1"/>
+      <insert tableName="group_permissions">
+        <column name="group_id" valueNumeric="1"/>
         <column name="permissions" valueNumeric="16"/>
       </insert>
     </changeSet>
     <changeSet id="2013-01-22_19" author="ben">
-      <insert tableName="Group_permissions">
-        <column name="Group_id" valueNumeric="1"/>
+      <insert tableName="group_permissions">
+        <column name="group_id" valueNumeric="1"/>
         <column name="permissions" valueNumeric="17"/>
       </insert>
     </changeSet>
     <changeSet id="2013-01-22_20" author="ben">
-      <insert tableName="Group_permissions">
-        <column name="Group_id" valueNumeric="1"/>
+      <insert tableName="group_permissions">
+        <column name="group_id" valueNumeric="1"/>
         <column name="permissions" valueNumeric="18"/>
       </insert>
     </changeSet>
     <changeSet id="2013-01-22_21" author="ben">
-      <insert tableName="Group_permissions">
-        <column name="Group_id" valueNumeric="1"/>
+      <insert tableName="group_permissions">
+        <column name="group_id" valueNumeric="1"/>
         <column name="permissions" valueNumeric="19"/>
       </insert>
     </changeSet>
     <changeSet id="2013-01-22_22" author="ben">
-      <insert tableName="Group_permissions">
-        <column name="Group_id" valueNumeric="1"/>
+      <insert tableName="group_permissions">
+        <column name="group_id" valueNumeric="1"/>
         <column name="permissions" valueNumeric="20"/>
       </insert>
     </changeSet>
     <changeSet id="2013-01-22_23" author="ben">
-      <insert tableName="Group_permissions">
-        <column name="Group_id" valueNumeric="1"/>
+      <insert tableName="group_permissions">
+        <column name="group_id" valueNumeric="1"/>
         <column name="permissions" valueNumeric="21"/>
       </insert>
     </changeSet>
     <changeSet id="2013-01-22_24" author="ben">
-      <insert tableName="Principal">
+      <insert tableName="principal">
         <column name="id" valueNumeric="2"/>
-        <column name="DTYPE" value="User"/>
+        <column name="dtype" value="User"/>
         <column name="identifier" value="test@e-monocot.org"/>
-        <column name="accountNonExpired" valueNumeric="1"/>
-        <column name="accountNonLocked" valueNumeric="1"/>
-        <column name="credentialsNonExpired" valueNumeric="1"/>
-        <column name="enabled" valueNumeric="1"/>
+        <column name="accountnonexpired" valueBoolean="true"/>
+        <column name="accountnonlocked" valueBoolean="true"/>
+        <column name="credentialsnonexpired" valueBoolean="true"/>
+        <column name="enabled" valueBoolean="true"/>
         <column name="password" value="ada198e0c75ddbc7522da986598e57de"/>
       </insert>
     </changeSet>
     <changeSet id="2013-01-22_25" author="ben">
-      <insert tableName="User_Group">
-        <column name="User_id" valueNumeric="2"/>
+      <insert tableName="user_group">
+        <column name="user_id" valueNumeric="2"/>
         <column name="groups_id" valueNumeric="1"/>
       </insert>
     </changeSet>

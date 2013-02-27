@@ -12,6 +12,7 @@ import org.emonocot.persistence.dao.Dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -70,7 +71,7 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
     /**
      *
      */
-    private static HttpHeaders httpHeaders = new HttpHeaders();
+    protected static HttpHeaders httpHeaders = new HttpHeaders();
 
     static {
         List<MediaType> acceptableMediaTypes = new ArrayList<MediaType>();
@@ -82,7 +83,7 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
    /**
     *
     */
-    private RestTemplate restTemplate;
+    protected RestTemplate restTemplate;
 
     /**
      *
@@ -92,12 +93,12 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
     /**
      *
      */
-    private String baseUri;
+    protected String baseUri;
 
     /**
      *
      */
-    private String resourceDir;
+    protected String resourceDir;
 
     /**
      * @param restTemplate Set the rest template
@@ -293,8 +294,12 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
     /**
      * @return the total number of objects
      */
-    public final Long count() {
-        return null;
+	public final Long count() {    	
+        return page(null, null).getSize().longValue();
+    }
+    
+    protected Page<T> page(Integer page, Integer size) {
+    	return null;
     }
 
     /**
@@ -303,8 +308,8 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
      * @param fetch The profile describing which objects to hydrate/retrieve
      * @return A list of results
      */
-    public final List<T> list(final Integer page, final Integer size, final String fetch) {
-        return null;
+    public List<T> list(final Integer page, final Integer size, final String fetch) {
+    	return null;
     }
     
     public List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets) {
