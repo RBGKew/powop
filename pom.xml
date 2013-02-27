@@ -1443,7 +1443,7 @@
 				<webAppRootKey>harvester</webAppRootKey>
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
-				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
+				<portal.baseUrl>http://a9482.ad.kew.org:8080</portal.baseUrl>
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
 				<harvester.baseUrl>http://localhost:8888/emonocot-harvester</harvester.baseUrl>
 				<harvester.services.client.identifier>zoo.ox.ac.uk</harvester.services.client.identifier>
@@ -1489,7 +1489,7 @@
 				<download.title>eMonocot Download</download.title>
 				<email.username>portal@localhost</email.username>
 				<email.password>portal@localhost</email.password>
-				<email.host>localhost</email.host>
+				<email.host>smtp.ad.kew.org</email.host>
 				<email.port>25</email.port>
 				<email.auth>false</email.auth>
 				<email.enable.starttls>false</email.enable.starttls>
@@ -1506,7 +1506,7 @@
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>				
-				<portal.baseUrl>http://localhost:8080</portal.baseUrl>				
+				<portal.baseUrl>http://a9482.ad.kew.org:8080</portal.baseUrl>				
 				<google.analytics.id />
 				<webAppRootKey>emonocot-portal</webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>
@@ -1604,7 +1604,7 @@
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>				
-				<portal.baseUrl>http://localhost:8080</portal.baseUrl>				
+				<portal.baseUrl>http://a9482.ad.kew.org:8080</portal.baseUrl>				
 				<google.analytics.id />
 				<webAppRootKey>emonocot-portal</webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>
@@ -1638,7 +1638,7 @@
 				<http.proxyPort />
 				<email.username>portal@localhost</email.username>
 				<email.password>portal@localhost</email.password>
-				<email.host>localhost</email.host>
+				<email.host>smtp.ad.kew.org</email.host>
 				<email.port>25</email.port>
 				<email.auth>false</email.auth>
 				<email.enable.starttls>false</email.enable.starttls>

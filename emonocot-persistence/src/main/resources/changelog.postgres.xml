@@ -1627,4 +1627,5 @@
         <column name="groups_id" valueNumeric="1"/>
       </insert>
     </changeSet>
+    <changeSet id="" author=""></changeSet>
 </databaseChangeLog>

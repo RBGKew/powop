@@ -99,7 +99,8 @@
             </bean>
         </integration:splitter>
         <integration:header-enricher>
-            <integration:header name="toAddress" expression="headers.organisation.commentsEmailedTo" />
+            <!-- The expression is temporarily set explicitly for beta-phase from "headers.organisation.commentsEmailedTo" -->
+            <integration:header name="toAddress" expression="'joseph.kelly@kew.org,sarah.phillips@kew.org,benjamin.clark@zoo.ox.ac.uk'" />
             <integration:header name="subject" value="${comment.email.subject}" />
         </integration:header-enricher>
     </integration:chain>
@@ -111,7 +112,7 @@
     </integration:publish-subscribe-channel>
     
     <!-- eMailing integration -->
-    <integration:filter input-channel="enrichedCommentChannel" output-channel="toMapCommentChannel" expression="headers.organisation.commentsEmailedTo != null" />
+    <integration:filter input-channel="enrichedCommentChannel" output-channel="toMapCommentChannel" expression="headers.toAddress != null" />
     
     <integration:channel id="toMapCommentChannel" />
     
@@ -132,7 +133,7 @@
             <integration:wire-tap channel="loggingChannel" />
         </integration:interceptors>
     </integration:channel>
-    <integration:service-activator input-channel="emailCommentChannel" expression="@emailService.sendEmail(headers.templateName, payload, 'joseph.kelly@kew.org', headers.subject + ' for ' + headers.toAddress)" />
+    <integration:service-activator input-channel="emailCommentChannel" expression="@emailService.sendEmail(headers.templateName, payload, headers.toAddress, headers.subject + ' for ' + headers.toAddress)" />
     <integration:channel id="loadCommentChannel" />
     <integration:service-activator input-channel="loadCommentChannel" expression="@commentServiceImpl.load(payload, 'aboutData')" />
     
