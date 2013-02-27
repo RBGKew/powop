@@ -59,6 +59,7 @@ public class CommentSendingIntegrationTest {
     public final void testPoller() {
         block(new Duration(5000));
         logger.info("There are " + handler.messages.size() + " messages");
+        assertEquals("We should be sending 4 messages", 4, handler.messages.size());
     }
     
     /**

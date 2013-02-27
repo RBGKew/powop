@@ -119,6 +119,12 @@ Scenario: Display Taxon Data
   When I navigate to taxon page "urn:kew.org:wcs:taxon:2304"
   Then there should not be a "dataBox" visible
   
+Scenario: Display Vernacular Names
+  Vernacular Names should be diplayed in a table.
+  http://build.e-monocot.org/bugzilla/show_bug.cgi?id=189
+  When I navigate to taxon page "urn:kew.org:wcs:taxon:2304"
+  Then there should not be a "vernacularNames" visible
+  
 Scenario: Accepted name show for synonyms
   Taxa should show their status at the top of the page
   Then the taxon status should be 'This taxon is accepted by '

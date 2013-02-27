@@ -73,12 +73,12 @@ public class MessageHandler<T> implements ChannelInterceptor {
         } else {
             logger.info("Got a null message.");
         }
-        if(channel != null) {
+        /*if(channel != null) {
             logger.info("With channel: " + channel);
             if(channel.equals(primaryChannel)) {
                 messages.add(message);
             }
-        }
+        }*/
     }
 
     /* (non-Javadoc)

@@ -10,10 +10,24 @@
 	<spring:message code="distribution.map" var="messageDistribution"/>
 	<tags:pageheader>
 		<h2 id="page-title">
+			<tags:feedbackLink selector="option:contains(${taxon.scientificName} ${taxon.scientificNameAuthorship})" dataName="${taxon.scientificName}" />
 			<i class="glyphicons-icon leaf"><!--  --></i> <em>${taxon.scientificName}</em> ${taxon.scientificNameAuthorship}
+			<ul class="unstyled">
+				<li>
+					<small>
+						<span id="protologue">${taxon.namePublishedInString}</span>
+						<c:if test="${not empty taxon.nomenclaturalStatus}">&#160;<spring:message code="nomenclatural_status_abbreviation_${taxon.nomenclaturalStatus}" text="${taxon.nomenclaturalStatus}"/></c:if>
+					</small>
+				</li>
+				<li>
+					<c:set var="preferred" value="${em:getPreferred(taxon)}" />
+					<c:if test="${not empty preferred}">
+							<small>${preferred.vernacularName}</small>
+					</c:if>
+				</li>
+			</ul>
+			
 		</h2>
-		<small id="protologue" class="span">${taxon.namePublishedInString}</small>
-		<span class="pull-left span"><tags:feedbackLink selector="option:contains(${taxon.scientificName} ${taxon.scientificNameAuthorship})" dataName="${taxon.scientificName}" /></span>
 	</tags:pageheader>
 	<div class="container">
 		<c:set var="bibliography" value="${em:bibliography(taxon)}" />
@@ -47,6 +61,11 @@
 							</c:if>
 						</li>
 						<li>
+							<c:if test="${not empty taxon.vernacularNames}">
+								<a href="#vernacularNames"><spring:message code="vernacularNames" /></a>
+							</c:if>
+						</li>
+						<li>
 							<c:if test="${not empty bibliography.references}">
 								<a href="#bibliography"><spring:message code="bibliography" /></a>
 							</c:if>
@@ -76,6 +95,14 @@
 										<ul class="thumbnails">
 											<c:forEach var="image" items="${taxon.images}" begin="${status.index}" end="${status.index + 5}">
 												<li>
+													<c:choose>
+														<c:when test="${not empty image.license}">
+															<c:set var="imageLicense" value="${image.license}" />
+														</c:when>
+														<c:otherwise>
+															<c:set var="imageLicense" value="All right reserved" />
+														</c:otherwise>
+													</c:choose>
 													<c:url var="fullsize" value="/images/fullsize/${image.id}.${image.format}" />
 													<c:url var="imageUrl" value="/image/${image.id}"/>
 													<a class="slideshow" href="${fullsize}" 
@@ -166,7 +193,11 @@
 				</c:when>
 			</c:choose>
 		</div>
-
+		<c:if test="${not empty taxon.taxonRemarks}">
+			<div id="taxonRemarks">
+				<spring:message code="notes" />${taxon.taxonRemarks}
+			</div>
+		</c:if>
 		<div class="row">
 			<div class="span8">
 				<c:if test="${not empty taxon.descriptions}">
@@ -298,6 +329,43 @@
 										</li>
 									</c:forEach>
 								</ul>
+							</div>
+						</div>
+					</section>
+				</c:if>
+				<c:if test="${not empty taxon.vernacularNames}">
+				<section id="vernacularNames" class="section-box">
+						<div class="inner">
+							<div class="box clearfix">
+								<h2>
+									<spring:message code="vernacularNames" var="vernacularHeader"/>${vernacularHeader}
+									<tags:feedbackLink selector="option:contains(${vernacularHeader})" dataName="${vernacularHeader}" />
+								</h2>
+								<table class="table" id="vernacular">
+									<thead>
+										<tr>
+											<th><spring:message code="name"/></th>
+											<th><spring:message code="language"/></th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach var="vernacularName" items="${taxon.vernacularNames}">
+											<tr>
+												<td>${vernacularName}</td>
+												<td>${vernacularName.language}</td>
+												<td>
+													<ul class="citations">
+														<c:set var="provenanceHolder" value="${em:provenancekey(provenance,vernacularName)}"/>
+														<li>
+															<a href="#${provenanceHolder}">${provenanceHolder}</a>
+														</li>
+													</ul>
+												</td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</section>
@@ -458,16 +526,16 @@
 													<spring:message code="measurementorfact_${fact.measurementType}_${fact.measurementValue}" text="${fact.measurementValue}"/>
 												</span>
 											</td>
-											<c:if test="${fact ne null}">
-												<td>
+											<td>
+												<c:if test="${fact ne null}">
 													<ul class="citations">
 														<c:set var="provenanceHolder" value="${em:provenancekey(provenance,fact)}"/>
 														<li>
 															<a href="#${provenanceHolder}">${provenanceHolder}</a>
 														</li>
 													</ul>
-												</td>
-											</c:if>
+												</c:if>
+											</td>
 										</tr>
 										<c:if test="${fact.measurementType eq 'IUCNConservationStatus'}">
 											<tr>
@@ -537,7 +605,7 @@
 	                <label class="control-label" for="select01"><spring:message
 	                        code="feedback.topic.option" /></label>
 	                <div class="controls">
-	                    <select name="aboutDataIdentifier"> <!-- multiple="multiple" -->
+	                    <select name="aboutDataIdentifier">
                             <option id="${taxon.identifier}" value="${taxon.identifier}">${taxon.scientificName} ${taxon.scientificNameAuthorship}</option>
                             <spring:message code="description" var="messageDescription"/>
                             <c:if test="${not empty taxon.descriptions}">
@@ -558,21 +626,27 @@
 								</option>
 							</c:forEach>
 							<c:if test="${not empty taxon.childNameUsages}">
-								<option id="childX" value="childX">${childrenHeader}</option>
+								<option id="${taxon.identifier}" value="${taxon.identifier}">${childrenHeader}</option>
 							</c:if>
 							<c:forEach var="child" items="${em:sort(taxon.childNameUsages)}">
 								<option id="${child.identifier}" value="${child.identifier}">${child.scientificName} ${child.scientificNameAuthorship}</option>
 							</c:forEach>
 							<c:if test="${not empty taxon.synonymNameUsages}">
-								<option id="synX" value="synX">${synonymsHeader}</option>
+								<option id="${taxon.identifier}" value="${taxon.identifier}">${synonymsHeader}</option>
 							</c:if>
 							<c:forEach var="synonym" items="${em:sort(taxon.synonymNameUsages)}">
 								<option id="${synonym.identifier}" value="${synonym.identifier}">${synonym.scientificName} ${synonym.scientificNameAuthorship}</option>
 							</c:forEach>
+							<c:if test="${not empty taxon.vernacularNames}">
+								<option id="${taxon.identifier}" value="${taxon.identifier}">${vernacularHeader}</option>
+							</c:if>
+							<c:forEach var="vernacularName" items="${taxon.vernacularNames}">
+								<option id="${vernacularName.identifier}" value="${vernacularName.identifier}">${vernacularName}</option>
+							</c:forEach>
 							<c:if test="${taxon.acceptedNameUsage == null}">
 								<option value="${taxon.identifier}">${treeHeader}</option>
 							</c:if>
-							<option id="datX" value="datX">Data</option>
+							<option id="${taxon.identifier}" value="${taxon.identifier}">Data</option>
 							<option value="${taxon.identifier}"><spring:message code="feedback.option.other" /></option>
 						</select>
 					</div>
