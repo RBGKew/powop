@@ -1,5 +1,7 @@
 package org.emonocot.job.dwc.taxon;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -8,8 +10,11 @@ import org.easymock.EasyMock;
 import org.emonocot.api.TaxonService;
 import org.emonocot.job.dwc.taxon.FieldSetMapper;
 import org.emonocot.model.Taxon;
+import org.emonocot.model.convert.NomenclaturalStatusConverter;
 import org.emonocot.model.convert.RankConverter;
+import org.emonocot.model.convert.StringToIsoDateTimeConverter;
 import org.emonocot.model.convert.TaxonomicStatusConverter;
+import org.gbif.ecat.voc.NomenclaturalStatus;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.item.ExecutionContext;
@@ -29,25 +34,12 @@ import org.springframework.core.io.Resource;
  */
 public class TaxonParsingTest {
 
-   /**
-    *
-    */
-   private Resource content = new ClassPathResource(
-           "/org/emonocot/job/dwc/test/taxa.txt");
+   private Resource content = new ClassPathResource("/org/emonocot/job/dwc/test/taxa.txt");
 
-   /**
-    *
-    */
    private TaxonService taxonService = null;
 
-   /**
-    *
-    */
-    private FlatFileItemReader<Taxon> flatFileItemReader = new FlatFileItemReader<Taxon>();
+   private FlatFileItemReader<Taxon> flatFileItemReader = new FlatFileItemReader<Taxon>();
 
-   /**
-    *
-    */
    @Before
    public final void setUp() throws Exception {
        String[] names = new String[] {
@@ -63,9 +55,9 @@ public class TaxonParsingTest {
                "http://rs.tdwg.org/dwc/terms/subgenus",
                "http://rs.tdwg.org/dwc/terms/specificEpithet",
                "http://rs.tdwg.org/dwc/terms/infraspecificEpithet",
-               "http://purl.org/dc/elements/1.1/identifier",
-               "http://purl.org/dc/elements/1.1/modified",
-               "http://purl.org/dc/elements/1.1/source"
+               "http://rs.tdwg.org/dwc/terms/nomenclaturalStatus",
+               "http://purl.org/dc/terms/modified",
+               "http://purl.org/dc/terms/source"
        };
        DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
        tokenizer.setDelimiter('\t');
@@ -73,8 +65,10 @@ public class TaxonParsingTest {
 
        taxonService = EasyMock.createMock(TaxonService.class);
        Set<Converter> converters = new HashSet<Converter>();
+       converters.add(new StringToIsoDateTimeConverter());
        converters.add(new TaxonomicStatusConverter());
        converters.add(new RankConverter());
+       converters.add(new NomenclaturalStatusConverter());
 
        ConversionServiceFactoryBean factoryBean = new ConversionServiceFactoryBean();
        factoryBean.setConverters(converters);
@@ -105,7 +99,11 @@ public class TaxonParsingTest {
         EasyMock.expect(taxonService.find(EasyMock.isA(String.class))).andReturn(new Taxon()).anyTimes();
         EasyMock.replay(taxonService);
         flatFileItemReader.open(new ExecutionContext());
-        flatFileItemReader.read();
+        Taxon taxon = flatFileItemReader.read();
+        assertEquals("Acontias conspurcatus",taxon.getScientificName());
+        assertEquals(NomenclaturalStatus.Available,taxon.getNomenclaturalStatus());
+        
+        
     }
 
 }
