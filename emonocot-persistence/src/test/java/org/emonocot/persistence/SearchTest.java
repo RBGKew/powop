@@ -79,6 +79,12 @@ public class SearchTest extends AbstractPersistenceTest {
         assertEquals("There should be 5 taxa matching Aus", new Integer(5), (Integer)results.getSize());
         
     }
+    
+    @Test
+    public final void testNomenclaturalStatus() {
+    	Taxon taxon = getTaxonDao().find("1");
+    	assertEquals("The nomenclaturalStatus must be null",null,taxon.getNomenclaturalStatus());
+    }
 
     /**
     *

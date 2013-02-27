@@ -603,7 +603,6 @@ public class Taxon extends SearchableObject {
 	 *            the subtribe to set
 	 */
 	public void setSubtribe(String subtribe) {
-		nomenclaturalStatus = NomenclaturalStatus.Illegitimate;
 		this.subtribe = subtribe;
 	}
 

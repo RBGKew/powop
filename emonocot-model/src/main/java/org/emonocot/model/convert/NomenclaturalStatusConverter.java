@@ -1,13 +1,19 @@
 package org.emonocot.model.convert;
 
 import org.gbif.ecat.voc.NomenclaturalStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
 
 public class NomenclaturalStatusConverter implements Converter<String, NomenclaturalStatus> {
 
+	Logger logger = LoggerFactory.getLogger(NomenclaturalStatusConverter.class);
+	
 	@Override
 	public NomenclaturalStatus convert(String source) {
+		logger.info("Converting " + source);
 		if(source == null || source.trim().isEmpty()) {
+			logger.info("Returning null");
 			return null;
 		} else {
 			switch(source.toLowerCase()) {
