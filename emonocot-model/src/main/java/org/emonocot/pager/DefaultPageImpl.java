@@ -1,5 +1,6 @@
 package org.emonocot.pager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -20,6 +21,10 @@ public class DefaultPageImpl<T> extends AbstractPageImpl<T> {
      *
      */
     public static final Integer MAX_PAGE_LABELS = null;
+    
+    public DefaultPageImpl() {
+    	super(0, 0, 0, new ArrayList<T>(), null);
+    }
 
     /**
      *
@@ -33,7 +38,7 @@ public class DefaultPageImpl<T> extends AbstractPageImpl<T> {
      * @param newRecords
      *            A list of objects in this page (can be empty if there were no
      *            results)
-     */
+     */    
     public DefaultPageImpl(final Integer count, final Integer newCurrentIndex,
             final Integer newPageSize, final List<T> newRecords, QueryResponse queryResponse) {
         super(count, newCurrentIndex, newPageSize, newRecords, queryResponse);

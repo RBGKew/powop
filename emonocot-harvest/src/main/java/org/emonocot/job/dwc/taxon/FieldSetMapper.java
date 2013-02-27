@@ -53,6 +53,7 @@ public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> {
             	break;
             case source:
                 object.setSource(value);
+                break;
             default:
                 break;
             }

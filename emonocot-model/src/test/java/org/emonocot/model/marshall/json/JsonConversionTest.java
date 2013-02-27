@@ -6,7 +6,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
@@ -33,6 +35,8 @@ import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.Location;
 import org.emonocot.model.constants.MeasurementType;
 import org.emonocot.model.constants.RecordType;
+import org.emonocot.pager.DefaultPageImpl;
+import org.emonocot.pager.Page;
 import org.emonocot.portal.model.AceDto;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -392,7 +396,27 @@ public class JsonConversionTest {
           } catch (Exception e) {
               fail();
           }
-
+    }
+    
+    @Test
+    public void testWritePage() throws Exception {
+    	List<Annotation> annotations = new ArrayList<Annotation>();
+    	Annotation annotation = new Annotation();
+        annotation.setCode(AnnotationCode.Absent);
+        annotation.setDateTime(new DateTime());
+        annotation.setIdentifier("1");
+        annotation.setRecordType(RecordType.Taxon);
+        annotation.setText("wibble");
+        annotation.setValue("wibble");
+    	Page<Annotation> page = new DefaultPageImpl<Annotation>(100, 0, 10, annotations, null);
+    	try{
+            System.out.println(objectMapper.writeValueAsString(page));
+          } catch (Exception e) {
+        	  System.out.println("ERROR" + e.getMessage());
+        	  
+              fail();
+          }
+    	
     }
 
    /**

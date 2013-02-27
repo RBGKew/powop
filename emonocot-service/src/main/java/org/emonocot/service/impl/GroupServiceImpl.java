@@ -5,6 +5,7 @@ import java.util.List;
 import org.emonocot.api.GroupService;
 import org.emonocot.model.SecuredObject;
 import org.emonocot.model.auth.Group;
+import org.emonocot.model.auth.User;
 import org.emonocot.persistence.dao.AclService;
 import org.emonocot.persistence.dao.GroupDao;
 import org.slf4j.Logger;
@@ -59,6 +60,38 @@ public class GroupServiceImpl extends ServiceImpl<Group, GroupDao> implements
     @Autowired
     public final void setGroupDao(final GroupDao groupDao) {
         super.dao = groupDao;
+    }
+    
+    @Transactional(readOnly = false)
+    @Override
+    public void delete(final String identifier) {
+    	Group group = dao.find(identifier);
+    	for(User user : group.getMembers()) {
+    		group.removeMember(user);
+    	}
+    	List<Object[]> aces = listAces(identifier);
+    	for(Object[] ace :aces) {
+    		AccessControlEntry accessControlEntry = (AccessControlEntry)ace[1];
+    		aclService.deleteAcl(accessControlEntry.getAcl().getObjectIdentity(), false);
+    	}
+    	dao.saveOrUpdate(group);
+    	super.delete(identifier);
+    }
+    
+    @Transactional(readOnly = false)
+    @Override
+    public void deleteById(final Long id) {
+    	Group group = dao.find(id);
+    	for(User user : group.getMembers()) {
+    		group.removeMember(user);
+    	}
+    	List<Object[]> aces = listAces(group.getIdentifier());
+    	for(Object[] ace :aces) {
+    		AccessControlEntry accessControlEntry = (AccessControlEntry)ace[1];
+    		aclService.deleteAcl(accessControlEntry.getAcl().getObjectIdentity(), false);
+    	}
+    	dao.saveOrUpdate(group);
+    	super.deleteById(id);
     }
 
     /**

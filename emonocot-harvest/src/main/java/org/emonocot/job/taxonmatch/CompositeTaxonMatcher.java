@@ -55,7 +55,7 @@ public class CompositeTaxonMatcher implements TaxonMatcher {
             for (Match<Taxon> m : results) {
                 if(MatchStatus.EXACT.equals(m.getStatus())){
                 	matches = results;
-                }else if (partialMatches.size() < 1) {
+                } else if (partialMatches.size() < 1) {
 					partialMatches = results;
 				}
             }

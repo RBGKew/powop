@@ -28,7 +28,7 @@ public class NomenclaturalStatusConverter implements Converter<String, Nomenclat
 			case "conservandumProp":
 				return NomenclaturalStatus.Conserved_Proposed;
 			case "correctum":
-				break;				
+				return null;				
 			case "dubimum":
 				return NomenclaturalStatus.Doubtful;
 			case "illegitimum":
@@ -44,7 +44,7 @@ public class NomenclaturalStatusConverter implements Converter<String, Nomenclat
 			case "nudum":
 				return NomenclaturalStatus.Nudum;
 			case "nullum":
-				break;
+				return null;
 			case "oblitum":
 				return NomenclaturalStatus.Forgotten;
 			case "oppressa":
@@ -73,7 +73,6 @@ public class NomenclaturalStatusConverter implements Converter<String, Nomenclat
 				return NomenclaturalStatus.valueOf(source);
 			}
 		}
-		return null;
 	}
 
 }

@@ -225,7 +225,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	 *            Set the offset
 	 * @return the name of the view
 	 */
-	@RequestMapping(method = RequestMethod.GET, params = "!form")
+	@RequestMapping(produces = "text/html", method = RequestMethod.GET, params = "!form")
 	public String list(Model model,
 			@RequestParam(value = "query", required = false) String query,
 		    @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,

@@ -11,6 +11,7 @@ import java.util.Set;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.RangeFacet;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -273,6 +274,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
         return currentIndex;
     }
     
+    @JsonIgnore
     public String getCurrentPageNumber() {
     	return this.pageNumbers.get(currentIndex);
     }
@@ -320,10 +322,12 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
     /**
      * @return a map of the calculated facets
      */
+    @JsonIgnore
     public FacetField getFacetField(String facetName) {
         return queryResponse.getFacetField(facetName);
     }
     
+    @JsonIgnore
     public RangeFacet getRangeFacet(String facetName) {
     	for(RangeFacet rangeFacet : queryResponse.getFacetRanges()) {
     		if(rangeFacet.getName().equals(facetName)) {
@@ -336,6 +340,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
     /**
      * @return a list of the calculated facet names
      */
+    @JsonIgnore
     public List<String> getFacetNames() {
         List<String> facetNames = new ArrayList<String>();
         for(FacetField facetField : queryResponse.getFacetFields()) {
@@ -352,6 +357,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      * @param name Set the parameter name
      * @param value Set the parameter value
      */
+    @JsonIgnore
     public void putParam(String name, Object value) {
         this.parameters.put(name, value);
     }
@@ -366,6 +372,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
     /**
      * @return the parameter names
      */
+    @JsonIgnore
     public Set<String> getParamNames() {
         return parameters.keySet();
     }
@@ -374,6 +381,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      * @param index set the page number
      * @return the label for a given page
      */
+    @JsonIgnore
     public String getPageNumber(int index) {
         return pageNumbers.get(index);
     }
@@ -383,6 +391,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      * @param i set the index
      * @return the label
      */
+    @JsonIgnore
     protected String getLabel(Integer i) {
         Integer label = new Integer(i + 1);
         return label.toString();
@@ -408,6 +417,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      *
      * @return a list of the names of selected facets
      */
+    @JsonIgnore
     public Set<String> getSelectedFacetNames() {
         return selectedFacets.keySet();
     }
@@ -427,6 +437,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
      *            Set the facet name
      * @return true if the facet is selected, false otherwise
      */
+    @JsonIgnore
     public boolean isFacetSelected(String facetName) {
         return selectedFacets.containsKey(facetName);
     }
@@ -454,4 +465,88 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
     public void setSort(String newSort) {
         this.sort = newSort;
     }
+
+	/**
+	 * @return the parameters
+	 */
+	public Map<String, Object> getParameters() {
+		return parameters;
+	}
+
+	/**
+	 * @param parameters the parameters to set
+	 */
+	public void setParameters(Map<String, Object> parameters) {
+		this.parameters = parameters;
+	}
+
+	/**
+	 * @param pagesAvailable the pagesAvailable to set
+	 */
+	public void setPagesAvailable(Integer pagesAvailable) {
+		this.pagesAvailable = pagesAvailable;
+	}
+
+	/**
+	 * @param prevIndex the prevIndex to set
+	 */
+	public void setPrevIndex(Integer prevIndex) {
+		this.prevIndex = prevIndex;
+	}
+
+	/**
+	 * @param nextIndex the nextIndex to set
+	 */
+	public void setNextIndex(Integer nextIndex) {
+		this.nextIndex = nextIndex;
+	}
+
+	/**
+	 * @param currentIndex the currentIndex to set
+	 */
+	public void setCurrentIndex(Integer currentIndex) {
+		this.currentIndex = currentIndex;
+	}
+
+	/**
+	 * @param firstRecord the firstRecord to set
+	 */
+	public void setFirstRecord(Integer firstRecord) {
+		this.firstRecord = firstRecord;
+	}
+
+	/**
+	 * @param lastRecord the lastRecord to set
+	 */
+	public void setLastRecord(Integer lastRecord) {
+		this.lastRecord = lastRecord;
+	}
+
+	/**
+	 * @param size the size to set
+	 */
+	public void setSize(Integer size) {
+		this.size = size;
+	}
+
+	/**
+	 * @param records the records to set
+	 */
+	public void setRecords(List<T> records) {
+		this.records = records;
+	}
+
+	/**
+	 * @param pageSize the pageSize to set
+	 */
+	public void setPageSize(Integer pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	/**
+	 * @param indices the indices to set
+	 */
+	public void setIndices(ArrayList<Integer> indices) {
+		this.indices = indices;
+	}
 }

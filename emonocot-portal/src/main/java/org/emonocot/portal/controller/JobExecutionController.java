@@ -2,6 +2,7 @@ package org.emonocot.portal.controller;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import org.emonocot.api.JobExecutionService;
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -57,6 +59,16 @@ public class JobExecutionController {
     @Autowired
     public final void setJobExecutionService(JobExecutionService service) {
         this.service = service;
+    }
+    
+    @RequestMapping(value = "/jobExecution",
+    		method = RequestMethod.GET,
+            consumes = "application/json",
+            produces = "application/json")
+    public final ResponseEntity<List<JobExecution>> list(@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+    		                                  @RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
+    		                                  @RequestParam(value = "authority", required = false) String authority) {
+        return new ResponseEntity<List<JobExecution>>(service.listJobExecutions(authority, limit, start), HttpStatus.OK);
     }
 
     /**

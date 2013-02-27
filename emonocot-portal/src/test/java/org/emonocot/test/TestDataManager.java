@@ -15,13 +15,13 @@ import org.gbif.ecat.voc.Rank;
 import org.gbif.ecat.voc.TaxonomicStatus;
 
 import org.apache.solr.client.solrj.SolrServer;
-import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.emonocot.api.*;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Base;
+import org.emonocot.model.Comment;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.IdentificationKey;
 import org.emonocot.model.Identifier;
@@ -47,6 +47,7 @@ import org.emonocot.model.convert.StringToLocationConverter;
 import org.emonocot.model.convert.StringToPermissionConverter;
 import org.emonocot.model.registry.Resource;
 import org.emonocot.model.registry.Organisation;
+import org.emonocot.pager.Page;
 import org.emonocot.portal.model.AceDto;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
@@ -112,7 +113,7 @@ public class TestDataManager {
     private ReferenceService referenceService;
 
     @Autowired
-    private OrganisationService sourceService;
+    private OrganisationService organisationService;
 
     @Autowired
     private UserService userService;
@@ -130,7 +131,7 @@ public class TestDataManager {
     private JobInstanceService jobInstanceService;
 
     @Autowired
-    private ResourceService jobService;
+    private ResourceService resourceService;
 
     private Authentication previousAuthentication = null;
 
@@ -142,6 +143,9 @@ public class TestDataManager {
     
     @Autowired
     private SolrServer solrServer;
+
+    @Autowired
+	private CommentService commentService;
 
     /**
      * @param identifier
@@ -288,7 +292,7 @@ public class TestDataManager {
         source.setIdentifier(identifier);
         source.setUri(uri);
         source.setTitle(title);
-        sourceService.save(source);
+        organisationService.save(source);
         data.push(source);
         disableAuthentication();
     }
@@ -792,7 +796,7 @@ public class TestDataManager {
             } else if (object instanceof Group) {
                 groupService.delete(((Group) object).getIdentifier());
             } else if (object instanceof Organisation) {
-                sourceService.delete(((Organisation) object).getIdentifier());
+                organisationService.delete(((Organisation) object).getIdentifier());
             } else if (object instanceof Annotation) {
                 annotationService.delete(((Annotation) object).getIdentifier());
             } else if (object instanceof JobInstance) {/* */
@@ -800,7 +804,7 @@ public class TestDataManager {
             } else if (object instanceof JobExecution) {/* */
                 jobExecutionService.delete(((JobExecution) object).getId());
             } else if (object instanceof Resource) {
-                jobService.delete(((Resource) object).getIdentifier());
+                resourceService.delete(((Resource) object).getIdentifier());
             } else if (object instanceof AceDto) {/* */
                 AceDto ace = (AceDto) object;
                 Taxon taxon = new Taxon();
@@ -878,7 +882,7 @@ public class TestDataManager {
         }
 
 
-        jobService.save(job);
+        resourceService.save(job);
         disableAuthentication();
     }
 
@@ -960,6 +964,68 @@ public class TestDataManager {
     	if(!documentsToDelete.isEmpty()) {
     	    solrServer.deleteById(documentsToDelete);
     	    solrServer.commit(true,true);
+    	}
+	}
+
+	public void cleanDatabase() {
+		Page<Image> images = imageService.list(null, null, null);
+    	for(Image image : images.getRecords()) {    		
+    		imageService.delete(image.getIdentifier());
+    	}
+    	
+    	Page<Taxon> taxa = taxonService.list(null, null, null);
+    	for(Taxon taxon : taxa.getRecords()) {    		
+    		taxonService.delete(taxon.getIdentifier());
+    	}
+    	
+    	Page<Group> groups = groupService.list(null, null, null);
+    	for(Group group : groups.getRecords()) {    		
+    		if(!group.getIdentifier().equals("administrators")) {
+    		    groupService.delete(group.getIdentifier());
+    		}
+    	}
+    	
+    	Page<Reference> references = referenceService.list(null, null, null);
+    	for(Reference reference : references.getRecords()) {    		
+    		referenceService.delete(reference.getIdentifier());
+    	}   
+    	
+    	Page<User> users = userService.list(null, null, null);
+    	for(User user : users.getRecords()) {
+    		if(!user.getIdentifier().equals("test@e-monocot.org")) {
+    		    userService.delete(user.getIdentifier());
+    		}
+    	}
+    	
+    	List<JobExecution> jobExecutions = jobExecutionService.listJobExecutions(null, null, null);
+    	for(JobExecution jobExecution : jobExecutions) {    		
+    		jobExecutionService.delete(jobExecution.getId());
+    	}
+    	
+    	List<JobInstance> jobInstances = jobInstanceService.list(null, null);
+    	for(JobInstance jobInstance : jobInstances) {
+    		jobInstanceService.delete(jobInstance.getId());
+    	}
+    	
+    	Page<org.emonocot.model.registry.Resource> resources = resourceService.list((Integer)null, null, null);
+    	for(org.emonocot.model.registry.Resource resource : resources.getRecords()) {
+    		resourceService.delete(resource.getIdentifier());
+    	}
+    	
+    	
+    	Page<Organisation> organisations = organisationService.list(null, null, null);
+    	for(Organisation organisation : organisations.getRecords()) {    		
+    		organisationService.delete(organisation.getIdentifier());
+    	}
+    	
+    	Page<Annotation> annotations = annotationService.list(null, null, null);
+    	for(Annotation annotation : annotations.getRecords()) {
+    		annotationService.delete(annotation.getIdentifier());
+    	}
+    	
+    	Page<Comment> comments = commentService.list(null, null, null);
+    	for(Comment comment: comments.getRecords()) {
+    		commentService.delete(comment.getIdentifier());
     	}
 	}
 }
