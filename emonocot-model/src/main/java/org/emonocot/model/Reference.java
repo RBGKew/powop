@@ -33,77 +33,51 @@ import org.hibernate.annotations.Where;
 @Entity
 public class Reference extends BaseData implements NonOwned {
 
-    /**
-     *
-     */
     private static long serialVersionUID = -5928234699377084008L;
 
-    /**
-     *
-     */
     private String title;
 
-    /**
-     *
-     */
     private String date;
 
-    /**
-     *
-     */
     private ReferenceType type;
 
-    /**
-     *
-     */
     private String creator;
 
-    /**
-     *
-     */
     private String source;
 
-    /**
-     *
-     */
     private String bibliographicCitation;
     
-    /**
-     *
-     */
     private Locale language;
 
-    /**
-     *
-     */
     private Set<Taxon> taxa = new HashSet<Taxon>();
 
-    /**
-    *
-    */
     private Set<Annotation> annotations = new HashSet<Annotation>();
 
-    /**
-     *
-     */
     private Long id;
 
-    /**
-     *
-     */
     private String description;
 
-    /**
-     *
-     */
     private String subject;
     
-    /**
-     *
-     */
     private String taxonRemarks;
+    
+    private String uri;
 
     /**
+	 * @return the uri
+	 */
+	public String getUri() {
+		return uri;
+	}
+
+	/**
+	 * @param uri the uri to set
+	 */
+	public void setUri(String uri) {
+		this.uri = uri;
+	}
+
+	/**
      *
      * @param newId
      *            Set the identifier of this object.

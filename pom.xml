@@ -1500,8 +1500,7 @@
 		</profile>
 		<profile>
 			<id>portal.uat.vagrant</id>
-			<properties>
-			    <tdwg.shapefiles.location>/var/lib/emonocot</tdwg.shapefiles.location>
+			<properties>			    
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
@@ -1543,6 +1542,9 @@
 				<email.fromAddress>portal@localhost</email.fromAddress>
 				<quartz.cron.expression>* 0/5 * * * ?</quartz.cron.expression>
 				<quartz.jobstore.delegate>org.quartz.impl.jdbcjobstore.StdJDBCDelegate</quartz.jobstore.delegate>
+				<portal.imagemagick.path>/usr/bin</portal.imagemagick.path>
+				<portal.image.temporary.directory>/var/spool/emonocot</portal.image.temporary.directory>
+				<portal.profile.image.directory>/var/lib/emonocot/images/profiles</portal.profile.image.directory>
 			</properties>
 		</profile>
 		<profile>
@@ -1594,6 +1596,9 @@
 				<email.fromAddress>portal@localhost</email.fromAddress>
 				<quartz.cron.expression>* 0/1 * * * ?</quartz.cron.expression>
 				<quartz.jobstore.delegate>org.quartz.impl.jdbcjobstore.StdJDBCDelegate</quartz.jobstore.delegate>
+				<portal.imagemagick.path>/usr/bin</portal.imagemagick.path>
+				<portal.image.temporary.directory>/var/spool/emonocot</portal.image.temporary.directory>
+				<portal.profile.image.directory>/var/lib/emonocot/images/profiles</portal.profile.image.directory>
 			</properties>
 		</profile>
 		<profile>
@@ -1645,6 +1650,9 @@
 				<email.fromAddress>portal@localhost</email.fromAddress>
 				<quartz.cron.expression>* 0/1 * * * ?</quartz.cron.expression>
 				<quartz.jobstore.delegate>org.quartz.impl.jdbcjobstore.PostgreSQLDelegate</quartz.jobstore.delegate>
+				<portal.imagemagick.path>/usr/bin</portal.imagemagick.path>
+				<portal.image.temporary.directory>file:/var/cache/tomcat7/temp/emonocot/</portal.image.temporary.directory>
+				<portal.profile.image.directory>file:/var/lib/emonocot/images/profiles</portal.profile.image.directory>
 			</properties>
 		</profile>		
 	</profiles>

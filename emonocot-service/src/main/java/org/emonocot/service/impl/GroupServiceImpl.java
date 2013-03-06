@@ -11,7 +11,6 @@ import org.emonocot.persistence.dao.GroupDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.domain.PrincipalSid;
@@ -30,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @Service
-public class GroupServiceImpl extends ServiceImpl<Group, GroupDao> implements
+public class GroupServiceImpl extends SearchableServiceImpl<Group, GroupDao> implements
         GroupService {
    /**
     *

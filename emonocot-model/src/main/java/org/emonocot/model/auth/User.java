@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
+import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -21,8 +22,11 @@ import org.emonocot.model.marshall.json.GroupDeserializer;
 import org.emonocot.model.marshall.json.GroupSerializer;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -50,8 +54,158 @@ public class User extends Principal implements UserDetails {
     private Set<Group> groups = new HashSet<Group>();
     
     private String nonce;
+    
+    private String name;
+    
+    private String firstName;
+    
+    private String familyName;
+    
+    private String organization;
+    
+    private String accountName;
+    
+    private String img;
+    
+    private MultipartFile imgFile;
+    
+    private String topicInterest;
+    
+    private String homepage;
+    
+    
 
     /**
+	 * @return the imgFile
+	 */
+    @Transient
+    @JsonIgnore
+	public MultipartFile getImgFile() {
+		return imgFile;
+	}
+
+	/**
+	 * @param imgFile the imgFile to set
+	 */
+	public void setImgFile(MultipartFile imgFile) {
+		this.imgFile = imgFile;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return the firstName
+	 */
+	public String getFirstName() {
+		return firstName;
+	}
+
+	/**
+	 * @param firstName the firstName to set
+	 */
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	/**
+	 * @return the familyName
+	 */
+	public String getFamilyName() {
+		return familyName;
+	}
+
+	/**
+	 * @param familyName the familyName to set
+	 */
+	public void setFamilyName(String familyName) {
+		this.familyName = familyName;
+	}
+
+	/**
+	 * @return the organization
+	 */
+	public String getOrganization() {
+		return organization;
+	}
+
+	/**
+	 * @param organization the organization to set
+	 */
+	public void setOrganization(String organization) {
+		this.organization = organization;
+	}
+
+	/**
+	 * @return the accountName
+	 */
+	@NotEmpty
+	public String getAccountName() {
+		return accountName;
+	}
+
+	/**
+	 * @param accountName the accountName to set
+	 */
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
+	}
+
+	/**
+	 * @return the img
+	 */
+	public String getImg() {
+		return img;
+	}
+
+	/**
+	 * @param img the img to set
+	 */
+	public void setImg(String img) {
+		this.img = img;
+	}
+
+	/**
+	 * @return the topicInterest
+	 */
+	public String getTopicInterest() {
+		return topicInterest;
+	}
+
+	/**
+	 * @param topicInterest the topicInterest to set
+	 */
+	public void setTopicInterest(String topicInterest) {
+		this.topicInterest = topicInterest;
+	}
+
+	/**
+	 * @return the homepage
+	 */
+	@URL
+	public String getHomepage() {
+		return homepage;
+	}
+
+	/**
+	 * @param homepage the homepage to set
+	 */
+	public void setHomepage(String homepage) {
+		this.homepage = homepage;
+	}
+
+	/**
      * @return the users password (hash)
      */
     public String getPassword() {
@@ -221,4 +375,39 @@ public class User extends Principal implements UserDetails {
     public Set<Group> getGroups() {
         return groups;
     }
+
+    @Transient
+    @JsonIgnore
+    public String getClassName() {
+        return getClass().getSimpleName();
+    }
+    
+    @Override
+    @Transient
+    @JsonIgnore
+    public String getDocumentId() {
+ 		return getClassName() + "_" + getId();
+    }
+
+	@Override
+	public SolrInputDocument toSolrInputDocument() {
+		SolrInputDocument sid = new SolrInputDocument();
+		sid.addField("id", getClassName() + "_" + getId());
+    	sid.addField("base.id_l", getId());
+    	sid.addField("base.class_searchable_b", false);
+    	sid.addField("base.class_s", getClass().getName());
+    	sid.addField("user.name_t", getName());
+    	sid.addField("user.first_name_t", getFirstName());
+    	sid.addField("user.family_name_t", getFamilyName());
+    	sid.addField("user.account_name_t", getAccountName());
+    	sid.addField("user.topic_interest_t", getTopicInterest());
+    	sid.addField("user.organization_t", getOrganization());
+    	sid.addField("searchable.label_sort", getAccountName());
+		StringBuilder summary = new StringBuilder().append(getAccountName())
+				.append(" ").append(getFirstName()).append(" ")
+				.append(getFamilyName()).append(" ").append(getName())
+				.append(" ").append(getTopicInterest()).append(" ").append(getOrganization());
+    	sid.addField("searchable.solrsummary_t", summary);
+	    return sid;
+	}
 }

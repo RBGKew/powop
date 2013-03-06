@@ -9,8 +9,13 @@
 	<jsp:directive.attribute name="disabled" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Specify if this field should be enabled" />
 	<jsp:directive.attribute name="fieldClass" type="java.lang.String" required="false" rtexprvalue="true" description="The class used to render the field" />
 	<jsp:directive.attribute name="type" type="java.lang.String" required="false" description="Set field type (default 'text', or 'password')" />
+	<jsp:directive.attribute name="required" type="java.lang.Boolean" required="false" description="Set this as a required field" />
 	<c:if test="${empty type}">
       <c:set value="text" var="type" />
+    </c:if>
+    
+    <c:if test="${empty required}">
+      <c:set value="false" var="required" />
     </c:if>
     
     <c:if test="${empty disabled}">
@@ -27,14 +32,14 @@
  	    </c:otherwise>
  	  </c:choose>
  	  <div class="${controlgroup}">
- 	    <label class="control-label" for="_${field}_id"><spring:message code="${label}" /></label>
+ 	    <label class="control-label" for="_${field}_id"><c:if test="${required}"><i class="halflings-icon asterisk"><!-- --></i></c:if><spring:message code="${label}" /></label>
  	    <div class="controls">
  	      <c:choose>
             <c:when test="${type eq 'password'}">
               <form:password id="_${field}_id" cssClass="${fieldClass}" path="${field}" disabled="${disabled}" />
             </c:when>
             <c:otherwise>
-              <form:input id="_${field}_id" cssClass="${fieldClass}" path="${field}" disabled="${disabled}"/>
+              <form:input id="_${field}_id" type="${type}" cssClass="${fieldClass}" path="${field}" disabled="${disabled}"/>
             </c:otherwise>
           </c:choose> 	      
  	      <span class="help-inline">

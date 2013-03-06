@@ -1627,5 +1627,64 @@
         <column name="groups_id" valueNumeric="1"/>
       </insert>
     </changeSet>
-    <changeSet id="" author=""></changeSet>
+    <changeSet id="2013-03-04_01" author="ben">
+        <comment>References from scratchpads have the uri for the protolog in the dc:related field</comment>
+        <addColumn tableName="reference">
+          <column name="uri" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+        <changeSet id="2013-03-04_02" author="ben">
+        <comment>BUG #119: As a user of eMonocot, I would like that when I fill the registration form my data will be saved in my profile page</comment>
+        <addColumn tableName="principal">
+          <column name="name" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2013-03-04_03" author="ben">
+        <comment>BUG #119: As a user of eMonocot, I would like that when I fill the registration form my data will be saved in my profile page</comment>
+        <addColumn tableName="principal">
+          <column name="firstname" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2013-03-04_04" author="ben">
+        <comment>BUG #119: As a user of eMonocot, I would like that when I fill the registration form my data will be saved in my profile page</comment>
+        <addColumn tableName="principal">
+          <column name="familyname" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2013-03-04_05" author="ben">
+        <comment>BUG #119: As a user of eMonocot, I would like that when I fill the registration form my data will be saved in my profile page</comment>
+        <addColumn tableName="principal">
+          <column name="organization" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2013-03-04_06" author="ben">
+        <comment>BUG #119: As a user of eMonocot, I would like that when I fill the registration form my data will be saved in my profile page</comment>
+        <addColumn tableName="principal">
+          <column name="accountname" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2013-03-04_07" author="ben">
+        <comment>BUG #119: As a user of eMonocot, I would like that when I fill the registration form my data will be saved in my profile page</comment>
+        <addColumn tableName="principal">
+          <column name="img" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2013-03-04_08" author="ben">
+        <comment>BUG #119: As a user of eMonocot, I would like that when I fill the registration form my data will be saved in my profile page</comment>
+        <addColumn tableName="principal">
+          <column name="topicinterest" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2013-03-04_09" author="ben">
+        <comment>BUG #119: As a user of eMonocot, I would like that when I fill the registration form my data will be saved in my profile page</comment>
+        <addColumn tableName="principal">
+          <column name="homepage" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2013-03-04_10">
+        <addUniqueConstraint columnNames="accountname" constraintName="principal_accountname_uk"  tableName="principal"/>
+    </changeSet>
+    <changeSet author="ben" id="2013-03-04_11">
+      <sql>update principal set accountname = 'user'||id where dtype = 'User';</sql>
+    </changeSet>
 </databaseChangeLog>

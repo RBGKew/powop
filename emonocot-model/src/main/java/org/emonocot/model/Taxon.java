@@ -139,11 +139,6 @@ public class Taxon extends SearchableObject {
 	private Set<MeasurementOrFact> measurementsOrFacts = new HashSet<MeasurementOrFact>();
 
 	/**
-	 * TODO Delete once we don't need it anymore
-	 */
-	private boolean deleted;
-
-	/**
 	 * @param newId
 	 *            Set the identifier of this object.
 	 */
@@ -881,25 +876,6 @@ public class Taxon extends SearchableObject {
 	public void setMeasurementsOrFacts(
 			Set<MeasurementOrFact> newMeasurementsOrFacts) {
 		this.measurementsOrFacts = newMeasurementsOrFacts;
-	}
-
-	/**
-	 * TODO REMOVE once refactoring complete
-	 * 
-	 * @param b
-	 */
-
-	public void setDeleted(boolean b) {
-		this.deleted = b;
-	}
-
-	/**
-	 * TODO REMOVE once refactoring complete
-	 */
-	@Transient
-	@JsonIgnore
-	public boolean isDeleted() {
-		return deleted;
 	}
 
 	@Override

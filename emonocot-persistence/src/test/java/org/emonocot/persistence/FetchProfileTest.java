@@ -70,7 +70,7 @@ public class FetchProfileTest extends AbstractPersistenceTest {
                 null, taxon3, null, null, null, null, null, null,
                 null, new Location[] {}, null);
         Image image = createImage("Aus aus", "image1", null, taxon1, null);
-        User user = createUser("test@emonocot.org", "test");
+        User user = createUser("test@emonocot.org", "test", "user");
         createComment("testComment1", "This is a comment", taxon1, user);
     }
 

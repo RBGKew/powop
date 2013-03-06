@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
+import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -125,4 +126,31 @@ public class Group extends Principal {
    public void setPermissions(Set<Permission> permissions) {
        this.permissions = permissions;
    }
+
+   @Transient
+   @JsonIgnore
+   public String getClassName() {
+       return getClass().getSimpleName();
+   }
+   
+   @Override
+   @Transient
+   @JsonIgnore
+   public String getDocumentId() {
+		return getClassName() + "_" + getId();
+   }
+
+    @Override
+    public SolrInputDocument toSolrInputDocument() {
+    	SolrInputDocument sid = new SolrInputDocument();
+		sid.addField("id", getClassName() + "_" + getId());
+    	sid.addField("base.id_l", getId());
+    	sid.addField("base.class_searchable_b", false);
+    	sid.addField("base.class_s", getClass().getName());
+    	sid.addField("group.name_t", getName());
+    	sid.addField("searchable.label_sort", getName());
+    	StringBuilder summary = new StringBuilder().append(getName());
+    	sid.addField("searchable.solrsummary_t", summary);
+	    return sid;
+    }
 }

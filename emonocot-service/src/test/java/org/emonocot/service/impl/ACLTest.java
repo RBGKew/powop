@@ -175,10 +175,10 @@ public class ACLTest extends DataManagementSupport {
     public final void setUpTestData() {
         source = createSource("test", "http://example.com");
         group = createGroup("test");
-        user = createUser("authorized.user@e-monocot.org", "good.password");
+        user = createUser("authorized.user@e-monocot.org", "good.password", "authorizedUser");
         user.getGroups().add(group);
         User unauthorizedUser = createUser("unauthorized.user@e-monocot.org",
-                "bad.password");
+                "bad.password", "unauthorizedUser");
     }
 
     /**

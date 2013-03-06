@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
  *
  */
 @Repository
-public class UserDaoImpl extends DaoImpl<User> implements UserDao {
+public class UserDaoImpl extends SearchableDaoImpl<User> implements UserDao {
 
     /**
      *
@@ -86,4 +86,9 @@ public class UserDaoImpl extends DaoImpl<User> implements UserDao {
         initializeUserPermissions(user);
         return user;
     }
+    
+    @Override
+    protected boolean isSearchableObject() {
+		return false;
+	}
 }

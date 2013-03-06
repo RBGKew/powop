@@ -12,11 +12,12 @@ import org.emonocot.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -47,15 +48,14 @@ public class RegistrationController {
     	this.baseUrl = baseUrl;
     }
 
-    /**
+	/**
      *
      * @return a model and view containing a registration form object
      */
     @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public ModelAndView setupForm() {
-        ModelAndView modelAndView = new ModelAndView("register");
-        modelAndView.addObject(new RegistrationForm());
-        return modelAndView;
+    public String setupForm(Model model) {
+    	model.addAttribute(new RegistrationForm());
+        return "register";
     }
 
     /**
@@ -73,7 +73,7 @@ public class RegistrationController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String post(
             @Valid @ModelAttribute("registrationForm") RegistrationForm form,
-            BindingResult result, RedirectAttributes redirectAttributes) {
+            BindingResult result, Model model, RedirectAttributes redirectAttributes) throws Exception {
         if (result.hasErrors()) {
             return "register";
         }
@@ -81,6 +81,22 @@ public class RegistrationController {
         User user = new User();
         user.setUsername(form.getUsername());
         user.setPassword(form.getPassword());
+        user.setAccountName(form.getAccountName());
+        user.setFamilyName(form.getFamilyName());
+        user.setFirstName(form.getFirstName());
+        user.setName(form.getName());
+        user.setHomepage(form.getHomepage());
+        user.setOrganization(form.getOrganization());
+        user.setTopicInterest(form.getTopicInterest());
+        try {
+            user.setImg(service.makeProfileThumbnail(form.getImg(), null));
+        } catch(UnsupportedOperationException uoe) {
+        	String[] codes = new String[] {"unsupported.image.mimetype" };
+            Object[] args = new Object[] {uoe.getMessage()};
+            DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
+            model.addAttribute("error", message);
+    		return "register";
+        }
         user.setAccountNonLocked(true);
         user.setAccountNonExpired(true);
         user.setCredentialsNonExpired(true);
@@ -89,11 +105,11 @@ public class RegistrationController {
         service.createUser(user);
         String nonce = service.createNonce(user.getUsername());
         
-        Map<String,Object> model = new HashMap<String,Object>();
-        model.put("user", user);
-        model.put("nonce", nonce);
-        model.put("baseUrl", baseUrl);
-        emailService.sendEmail("org/emonocot/portal/controller/ActivateAccountRequest.vm", model, user.getUsername(), "Welcome! Your account requires activation");
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("user", user);
+        map.put("nonce", nonce);
+        map.put("baseUrl", baseUrl);
+        emailService.sendEmail("org/emonocot/portal/controller/ActivateAccountRequest.vm", map, user.getUsername(), "Welcome! Your account requires activation");
         
         String[] codes = new String[] {"registration.successful" };
         Object[] args = new Object[] {};

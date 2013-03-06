@@ -9,7 +9,7 @@ import org.emonocot.model.auth.Group;
  * @author ben
  *
  */
-public interface GroupDao extends Dao<Group> {
+public interface GroupDao extends SearchableDao<Group> {
 
     /**
      *

@@ -108,11 +108,13 @@ public abstract class DataManagementSupport {
      *
      * @param username Set the username
      * @param password Set the password
+     * @param accountName TODO
      * @return a User
      */
-    public final User createUser(final String username, final String password) {
+    public final User createUser(final String username, final String password, String accountName) {
         User user = new User();
         user.setUsername(username);
+        user.setAccountName(accountName);
         user.setPassword(password);
         user.setAccountNonExpired(true);
         user.setAccountNonLocked(true);
