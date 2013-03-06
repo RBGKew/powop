@@ -10,15 +10,15 @@ Feature: Authentication
 Background:
   Given that the indexes are clean
   And there are organisations with the following properties:
-  | identifier       | title          |
-  | testOrganisation | A Test Source  |
+  | identifier       | title          | commentsEmailedTo |
+  | testOrganisation | A Test Source  | vagrant@localhost |
   And there are groups with the following properties:
   | identifier       | permission1             |
   | testOrganisation | PERMISSION_VIEW_SOURCE  |
   And there are users with the following properties:
-  | identifier        | password  | group1           |
-  | test@example.com  | Poa annua | testOrganisation |
-  | admin@example.com | Poa annua | administrators   |
+  | identifier        | accountName | password  | group1           |
+  | test@example.com  | Test User   | Poa annua | testOrganisation |
+  | admin@example.com | Admin       | Poa annua | administrators   |
   And I am not authenticated
   And I am on the portal home page
 

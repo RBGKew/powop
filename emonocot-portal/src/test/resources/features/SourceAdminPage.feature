@@ -18,9 +18,9 @@ Background:
   | principal | principalType | object | objectType | permission |
   | test      | group         | test   | Source     | READ       |
   And there are users with the following properties:
-  | identifier          | password       | group1         |
-  | test@example.com    | Poa annua      | test           |
-  | admin@e-monocot.org | Nardus stricta | administrators |
+  | identifier          | accountName | password       | group1         |
+  | test@example.com    | Test        | Poa annua      | test           |
+  | admin@e-monocot.org | Admin       | Nardus stricta | administrators |
   And there are resources with the following properties:
   | identifier | title    | family    | jobType     | source | recordsRead | readSkip | processSkip | writeSkip | written | jobId |
   | Test Job   | Test Job | Testaceae | DwC_Archive | test   | 4           | 2        | 0           | 0         | 2       | 1     |

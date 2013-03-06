@@ -12,7 +12,6 @@ import org.emonocot.persistence.dao.Dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -189,7 +188,7 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
                 HttpMethod.DELETE, requestEntity, type);
             createdObjects.remove(identifier);
         } else {
-        	T t = find(identifier);
+        	T t = find(identifier);	
         	restTemplate.exchange(baseUri + "/" + resourceDir + "/" + t.getId(),
                     HttpMethod.DELETE, requestEntity, type);
         }

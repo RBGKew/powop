@@ -211,6 +211,7 @@ public class RestApiFunctionalTest {
         groupDao.save(group);
 
         User user = new User();
+        user.setAccountName("Test");
         user.setIdentifier("test@example.com");
         user.setPassword("test1234");
         user.getGroups().add(group);
