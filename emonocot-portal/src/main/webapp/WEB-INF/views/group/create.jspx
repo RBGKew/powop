@@ -23,8 +23,7 @@
 					<div class="box">
 						<c:url value="" var="actionUrl" />
 						<form:create path="/group" modelAttribute="group">
-							<field:input field="name" label="group.identifier"
-								fieldClass="span6" />
+							<field:input field="name" label="group.identifier"	fieldClass="span6" required="true"/>
 						</form:create>
 					</div>
 				</div>

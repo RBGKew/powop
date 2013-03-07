@@ -448,9 +448,16 @@
 								</h2>
 								<ul>
 									<c:forEach var="reference" items="${bibliography.references}">
-										<li>
+										<li>										    
 											<a id="${reference.identifier}">${em:citekey(bibliography,reference)}</a>
-											${reference.bibliographicCitation}
+											<c:choose>
+											  <c:when test="${not empty reference.uri}">
+											    <a href="${reference.uri}">${reference.bibliographicCitation}</a>
+											  </c:when>
+											  <c:otherwise>
+											    ${reference.bibliographicCitation}
+											  </c:otherwise>
+											</c:choose>											
 										</li>
 									</c:forEach>
 								</ul>

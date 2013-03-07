@@ -25,9 +25,9 @@
 						<form:create path="/resource" modelAttribute="resource">
 						    <field:hidden field="identifier"/>
 						    <field:hidden field="organisation"/>
-							<field:input field="title" label="resource.title" fieldClass="span6"/>
-							<field:input field="uri" label="resource.uri" fieldClass="span6"/>							
-							<field:select field="resourceType" label="resource.resourceType" fieldClass="span6" items="${resourceTypes}"/>
+							<field:input field="title" label="resource.title" fieldClass="span6" required="true"/>
+							<field:input field="uri" label="resource.uri" fieldClass="span6" required="true"/>							
+							<field:select field="resourceType" label="resource.resourceType" fieldClass="span6" items="${resourceTypes}" required="true"/>
 						</form:create>
 					</div>
 				</div>

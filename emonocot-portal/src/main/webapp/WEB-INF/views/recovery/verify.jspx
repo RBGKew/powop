@@ -22,9 +22,9 @@
 		  <div class="inner">
 		    <div class="box">			
 			  <form:create modelAttribute="resetForm" path="/recovery/${nonce}">
-				<field:input field="username" label="username" fieldClass="span4" />
-				<field:input field="password" label="password" fieldClass="span4"	type="password" />
-				<field:input field="repeatPassword" label="repeatPassword" fieldClass="span4"	type="password" />
+				<field:input field="username" label="username" fieldClass="span4" required="true"/>
+				<field:input field="password" label="password" fieldClass="span4" type="password" required="true"/>
+				<field:input field="repeatPassword" label="repeatPassword" fieldClass="span4" type="password" required="true" />
 			  </form:create>
 			</div>
 	      </div>

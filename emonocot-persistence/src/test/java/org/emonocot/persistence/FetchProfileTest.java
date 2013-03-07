@@ -46,7 +46,7 @@ public class FetchProfileTest extends AbstractPersistenceTest {
      */
     @Override
     public final void setUpTestData() {
-        Organisation organisation = createSource("testOrg1", "http://example.org");
+        Organisation organisation = createSource("testOrg1", "http://example.org", "Test Organisation", "test@example.com");
         Reference reference = createReference(
                 "urn:lsid:example.com:reference:1", "Test title",
                 "Test author");

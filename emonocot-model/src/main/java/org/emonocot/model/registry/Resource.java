@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -170,6 +171,7 @@ public class Resource extends Base implements Searchable {
 	/**
 	 * @return the jobType
 	 */
+	@NotNull
 	@Enumerated(value = EnumType.STRING)
 	public ResourceType getResourceType() {
 		return resourceType;
@@ -219,6 +221,7 @@ public class Resource extends Base implements Searchable {
 	 * @return the resource
 	 */
 	@URL
+	@NotEmpty
 	public String getResource() {
 		return resource;
 	}

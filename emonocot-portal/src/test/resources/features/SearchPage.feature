@@ -9,8 +9,8 @@ Feature: Search Page
 Background:
   Given that the indexes are clean
   And there are organisations with the following properties:
-  | identifier | uri                 |
-  | test       | http://example.com  |
+  | identifier | uri                 | title | commentsEmailedTo |
+  | test       | http://example.com  | Test  | test@example.com  |
   And there are taxa with the following properties:
   | identifier                   | name                      | source | general          | created                  | family        |
   | urn:kew.org:wcs:taxon:286768 | Rhipogonum                | test   | acuminate leaves | 1980-10-01T12:00:01.000Z | Rhipogonaceae |

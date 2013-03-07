@@ -112,8 +112,8 @@ public class FacetingTest extends DataManagementSupport {
      */
     @Override
     public final void setUpTestData() {
-        Organisation source1 = createSource("test", "http://example.com");
-        Organisation source2 = createSource("source2", "http://source2.com");
+        Organisation source1 = createSource("test", "http://example.com", "Test Organisation", "test@example.com");
+        Organisation source2 = createSource("source2", "http://source2.com", "Test Organisation 2", "test@example2.com");
         Taxon taxon1 = createTaxon("Aus", "1", null, null, "Ausaceae", null,
                 null, "(1753)", Rank.GENUS, TaxonomicStatus.Accepted,
                 source1, new Location[] {}, new Organisation[] {source1});

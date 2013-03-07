@@ -10,8 +10,8 @@ Feature: Source Page
 Background:
   Given that the indexes are clean
   And there are organisations with the following properties:
-  | identifier | title | uri                 |
-  |    test    | test  | http://example.com  |
+  | identifier | title | uri                 | commentsEmailedTo |
+  |    test    | test  | http://example.com  | test@example.com  |
 
 Scenario: Check SourcePage
   The source page should contain the name of the source

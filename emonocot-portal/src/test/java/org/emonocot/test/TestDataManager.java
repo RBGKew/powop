@@ -287,8 +287,7 @@ public class TestDataManager {
      *            Set the title
      * @param commentsEmailedTo TODO
      */
-    public void createOrganisation(String identifier,
-            String uri, String title, String bibliographicCitation, String commentsEmailedTo) {
+    public void createOrganisation(String identifier, String uri, String title, String bibliographicCitation, String commentsEmailedTo) {
         enableAuthentication();
         Organisation organisation = new Organisation();
         organisation.setIdentifier(identifier);
@@ -842,15 +841,17 @@ public class TestDataManager {
      * @param writeSkips Set the write skips
      * @param written Set the records written
      * @param jobId Set the jobId
+     * @param resource TODO
      */
 	public void createResource(String identifier, String title,
 			String family, String type, String source,
 			String read, String readSkips,
-			String processSkips, String writeSkips, String written, String jobId) {
+			String processSkips, String writeSkips, String written, String jobId, String resource) {
         enableAuthentication();
         Resource job = new Resource();
         data.push(job);
         job.setTitle(title);
+        job.setResource(resource);
         job.setIdentifier(identifier);
         if(family != null) {
             job.getParameters().put("family", family);

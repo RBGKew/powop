@@ -156,21 +156,8 @@ public class Annotation extends Base implements Searchable {
     /**
      * @return the annotatedObj
      */
-    @Any(metaColumn = @Column(
-                name = "annotatedObjType"), optional = true,
-                fetch = FetchType.LAZY)
-    @AnyMetaDef(idType = "long", metaType = "string", metaValues = {
-            @MetaValue(targetEntity = Taxon.class, value = "Taxon"),
-            @MetaValue(targetEntity = Distribution.class, value = "Distribution"),
-            @MetaValue(targetEntity = VernacularName.class, value = "VernacularName"),
-            @MetaValue(targetEntity = MeasurementOrFact.class, value = "MeasurementOrFact"),
-            @MetaValue(targetEntity = Identifier.class, value = "Identifier"),
-            @MetaValue(targetEntity = TypeAndSpecimen.class, value = "TypeAndSpecimen"),
-            @MetaValue(targetEntity = Description.class, value = "Description"),
-            @MetaValue(targetEntity = Image.class, value = "Image"),
-            @MetaValue(targetEntity = Reference.class, value = "Reference"),
-            @MetaValue(targetEntity = Organisation.class, value = "Organisation")
-            })
+    @Any(metaColumn = @Column(name = "annotatedObjType"), optional = true,
+         fetch = FetchType.LAZY,metaDef = "AnnotationMetaDef")    
     @JoinColumn(name = "annotatedObjId", nullable = true)
     @JsonSerialize(using = AnnotatableObjectSerializer.class)
     public Base getAnnotatedObj() {

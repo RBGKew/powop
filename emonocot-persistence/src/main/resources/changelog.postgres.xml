@@ -1687,4 +1687,60 @@
     <changeSet author="ben" id="2013-03-04_11">
       <sql>update principal set accountname = 'user'||id where dtype = 'User';</sql>
     </changeSet>
+    <changeSet id="2013-03-07_01" author="ben">
+        <comment>BUG #461: As a user of eMonocot I would like to be able to search and filter comments</comment>
+        <addColumn tableName="comment">
+          <column name="commentpage_id" type="int8"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2013-03-07_02" author="ben">
+        <comment>BUG #461: As a user of eMonocot I would like to be able to search and filter comments</comment>
+        <addColumn tableName="comment">
+          <column name="commentpage_type" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2013-03-07_03" author="ben">
+        <comment>BUG #461: As a user of eMonocot I would like to be able to search and filter comments</comment>
+        <addColumn tableName="comment">
+          <column name="inresponseto_id" type="int8"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2013-03-07_04">
+        <comment>BUG #461: As a user of eMonocot I would like to be able to search and filter comments</comment>
+        <addForeignKeyConstraint constraintName="Comment_inResponseTo_id_FK" baseTableName="comment" baseColumnNames="inresponseto_id" referencedTableName="comment" referencedColumnNames="id" />
+    </changeSet>
+    <changeSet author="ben" id="2013-03-07_05">
+        <comment>BUG #461: As a user of eMonocot I would like to be able to search and filter comments</comment>
+        <createIndex tableName="comment" indexName="Comment_inResponseTo_id_IDX">
+          <column name="inresponseto_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2013-03-07_06">
+        <comment>BUG #461: As a user of eMonocot I would like to be able to search and filter comments</comment>
+        <createIndex tableName="comment" indexName="Comment_commentPage_id_IDX">
+          <column name="commentpage_id"/>
+        </createIndex>
+    </changeSet>
+     <changeSet author="ben" id="2013-03-07_07">
+        <comment>BUG #461: As a user of eMonocot I would like to be able to search and filter comments</comment>
+        <createIndex tableName="comment" indexName="Comment_commentPage_type_IDX">
+          <column name="commentpage_type"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2013-03-07_08">
+        <comment>BUG #461: As a user of eMonocot I would like to be able to search and filter comments</comment>
+        <createIndex tableName="comment" indexName="Comment_aboutData_id_IDX">
+          <column name="aboutdata_id"/>
+        </createIndex>
+    </changeSet>
+     <changeSet author="ben" id="2013-03-07_09">
+        <comment>BUG #461: As a user of eMonocot I would like to be able to search and filter comments</comment>
+        <createIndex tableName="comment" indexName="Comment_aboutData_type_IDX">
+          <column name="aboutdata_type"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2013-03-07_10">
+      <comment>Set the resourceType to be not null</comment>
+      <sql>update resource set resourcetype = "DOWNLOAD" where resourcetype is NULL;</sql>
+    </changeSet>
 </databaseChangeLog>

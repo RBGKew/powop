@@ -12,10 +12,10 @@ Feature: Taxon Page
 Background:
   Given that the indexes are clean
   Given there are organisations with the following properties:
-  | identifier  | uri                     | title                                      | bibliographicCitation                                                                                                                                                              |
-  | test        | http://example.com      |                                            |                                                                                                                                                                                    |
-  | test2       | http://www.palmweb.org  | Palmweb - Palms of the World Online        | Palmweb 2011. Palmweb: Palms of the World Online. Published on the internet http://www.palmweb.org. Acccessed on 27/04/2011                                                        |
-  | test3       | http://apps.kew.org/wcs | World Checklist of Selected Plant Families | WCSP 2012. 'World Checklist of Selected Plant Families. Facilitated by the Royal Botanic Gardens, Kew. Published on the Internet; http://apps.kew.org/wcsp/ Retrieved 2011 onwards |
+  | identifier  | uri                     | title                                      | bibliographicCitation                                                                                                                                                              | commentsEmailedTo |
+  | test        | http://example.com      | Test Organisation                          |                                                                                                                                                                                    | test@example.com  |
+  | test2       | http://www.palmweb.org  | Palmweb - Palms of the World Online        | Palmweb 2011. Palmweb: Palms of the World Online. Published on the internet http://www.palmweb.org. Acccessed on 27/04/2011                                                        | test@example.com  |
+  | test3       | http://apps.kew.org/wcs | World Checklist of Selected Plant Families | WCSP 2012. 'World Checklist of Selected Plant Families. Facilitated by the Royal Botanic Gardens, Kew. Published on the Internet; http://apps.kew.org/wcsp/ Retrieved 2011 onwards | test@example.com  |
   And there are references with the following properties:
   | identifier                    | authority | authors                      | title                                                        | datePublished | volume | page  | citation                | publisher                                               |
   | urn:kew.org:wcs:publication:1 |  test     |                              | Sp. Pl.                                                      | (1753)        | 1      | 304pp | Sp. Pl. (1753): 1 304pp |                                                         |
@@ -127,7 +127,7 @@ Scenario: Display Vernacular Names
   
 Scenario: Accepted name show for synonyms
   Taxa should show their status at the top of the page
-  Then the taxon status should be 'This taxon is accepted by '
+  Then the taxon status should be 'This taxon is accepted by Test Organisation'
   When I navigate to taxon page "urn:kew.org:wcs:taxon:29332"
   Then the taxon status should be 'This taxon is a synonym of Acorus'
   When I navigate to taxon page "urn:kew.org:wcs:taxon:65181"
@@ -139,16 +139,16 @@ Scenario: Textual Citations
   bibliography at the bottom of the page. At the bottom of the page, there should be the 
   bibliography with the references listed in full.
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=38
-  Then the citation for the "Diagnostic Description" topic should be "C1"
+  Then the citation for the "Diagnostic Description" topic should be "B1"
   And the bibliography entry "1" should be "1 Sp. Pl. (1753): 1 304pp"
-  And the provenance entry "C" should be "C Rights3 License3"
+  And the provenance entry "C" should be "C All Rights Reserved"
   
 Scenario: Information from
   Informations in the taxon pages can come from different source systems, and these should be displayed
   in the organisation section at the bottom of the page. There should be also license and rights statements.
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=197
   When I navigate to taxon page "urn:kew.org:wcs:taxon:2295"
-  Then the provenance entry "B" should be "B Rights2 License2"
+  Then the provenance entry "B" should be "B Rights3 License3"
 
 Scenario: Bibliography
   Taxa can have general references as well, and these should be displayed in the bibliography

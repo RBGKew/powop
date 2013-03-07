@@ -9,8 +9,8 @@ Feature: Faceted Search
 Background:
   Given that the indexes are clean
   And there are organisations with the following properties:
-  | identifier | uri                 |
-  | test       | http://example.com  |
+  | identifier | uri                 | title | commentsEmailedTo |
+  | test       | http://example.com  | Test  | test@example.com  |
   And there are taxa with the following properties:
   | identifier                   | name                           | family    | rank    | status   | distribution1 | distribution2 | source | iucnConservationStatus    |
   | urn:kew.org:wcs:taxon:2295   | Acorus                         | Acoraceae | GENUS   | Accepted |               |               | test   |                           |

@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
@@ -137,6 +138,8 @@ public class Taxon extends SearchableObject {
 	private Set<VernacularName> vernacularNames = new HashSet<VernacularName>();
 
 	private Set<MeasurementOrFact> measurementsOrFacts = new HashSet<MeasurementOrFact>();
+	
+	private List<Comment> comments = new ArrayList<Comment>();
 
 	/**
 	 * @param newId
@@ -876,6 +879,27 @@ public class Taxon extends SearchableObject {
 	public void setMeasurementsOrFacts(
 			Set<MeasurementOrFact> newMeasurementsOrFacts) {
 		this.measurementsOrFacts = newMeasurementsOrFacts;
+	}
+	
+	/**
+	 * @return the comments
+	 */
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "commentPage_id")
+    @OrderBy("created DESC")
+    @Where(clause = "commentPage_type = 'Taxon'")
+    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+    @JsonIgnore
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	/**
+	 * @param comments the comments to set
+	 */
+    @JsonIgnore
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 	}
 
 	@Override

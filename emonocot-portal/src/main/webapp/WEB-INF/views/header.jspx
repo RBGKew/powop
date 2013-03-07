@@ -22,7 +22,7 @@
 						  <ul class="nav">
 							<li class="dropdown" id="menuUser">
 								<a class="dropdown-toggle" data-toggle="dropdown" href="#menuUser">
-									<security:authentication property="principal.username" />
+									<security:authentication property="principal.accountName" />
 									<b class="caret"><!--  --></b>
 								</a>
 								<ul class="dropdown-menu">
