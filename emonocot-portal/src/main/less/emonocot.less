@@ -211,6 +211,16 @@ h1, h2, h3, h4, h5, h6 {
     .grass3 { height: @heroUnitHeight; width: 100%; position: absolute; bottom: 0; left: 0; background: url('@{imagePath}/banner/grass-3.png') repeat-x; z-index: 190; }
     .grass4 { height: @heroUnitHeight; width: 100%; position: absolute; bottom: 0; left: 0; background: url('@{imagePath}/banner/grass-4.png') repeat-x; z-index: 185; }
     .grass5 { height: @heroUnitHeight; width: 100%; position: absolute; bottom: 0; left: 0; background: url('@{imagePath}/banner/grass-5.png') repeat-x; z-index: 180; }
+    .trees-right { height: @heroUnitHeight; width: 279px; position: absolute; bottom: 0; right: 0; background: url('@{imagePath}/banner/trees-right.png') no-repeat; z-index: 187; }
+    .trees-left { height: @heroUnitHeight; width: 274px; position: absolute; bottom: 0; left: 0; background: url('@{imagePath}/banner/trees-left.png') no-repeat; z-index: 187; }
+    .bamboo-right { height: @heroUnitHeight; width: 170px; position: absolute; bottom: 0; right: 0; background: url('@{imagePath}/banner/bamboo-right.png') no-repeat; z-index: 205; }
+    .bamboo-left { height: @heroUnitHeight; width: 230px; position: absolute; bottom: 0; left: 0; background: url('@{imagePath}/banner/bamboo-left.png') no-repeat; z-index: 205; }
+    .plant-single { height: @heroUnitHeight; width: 100%; position: absolute; bottom: 0; left: 0; background: url('@{imagePath}/banner/plant-single.png') bottom center no-repeat; z-index: 189; }
+    .plant-decoration { height: @heroUnitHeight; width: 100%; position: absolute; bottom: 0; left: 0; background: url('@{imagePath}/banner/plant-decoration.png') bottom center no-repeat; z-index: 197; }
+    .pond { height: @heroUnitHeight; width: 100%; position: absolute; bottom: 0; background: url('@{imagePath}/banner/pond.png') bottom center no-repeat; z-index: 198; }
+    .bg-plants { height: @heroUnitHeight; width: 100%; position: absolute; bottom: 0; left: 0; background: url('@{imagePath}/banner/bg-plants.png') repeat-x; z-index: 181; }
+    .bg-banner { height: @heroUnitHeight; width: 100%; position: absolute; bottom: 0; left: 0; background: url('@{imagePath}/banner/bg-banner.png') repeat-x; z-index: 100; }
+    .overlay-banner { height: 100%; width: 100%; position: absolute; top: 0; left: 0; background: url('@{imagePath}/banner/overlay.png') repeat; z-index: 210;}
 }
 
 .hero-unit-inner {
@@ -219,30 +229,6 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: none;
     padding: 45px 0;
 }
-
-
-/* Top Banner Layers */
-
-
-
-.trees-right { height: 358px; width: 279px; position: absolute; bottom: 46px; right: 0px; background: url('@{imagePath}/banner/trees-right.png') no-repeat; z-index: 187; }
-.trees-left { height: 350px; width: 274px; position: absolute; bottom: 70px; left: 0; background: url('@{imagePath}/banner/trees-left.png') no-repeat; z-index: 187; }
-
-.bamboo-right { height: 470px; width: 170px; position: absolute; bottom: 0; right: 0; background: url('@{imagePath}/banner/bamboo-right.png') no-repeat; z-index: 205; }
-.bamboo-left { height: 470px; width: 230px; position: absolute; bottom: 0; left: 0; background: url('@{imagePath}/banner/bamboo-left.png') no-repeat; z-index: 205; }
-
-.plant-single { height: 170px; width: 42px; position: absolute; bottom: 90px; left: 50%; margin-left: -370px; background: url('@{imagePath}/banner/plant-single.png') no-repeat; z-index: 189; }
-
-.plant-decoration { height: 52px; width: 1080px; position: absolute; bottom: 40px; left: 50%; margin-left: -540px; background: url('@{imagePath}/banner/plant-decoration.png') no-repeat; z-index: 197; } 
-
-.pond { height: 126px; width: 425px; position: absolute; bottom: 30px; left: 50%; margin-left: -213px; background: url('@{imagePath}/banner/pond.png') no-repeat; z-index: 198; }
-
-.bg-plants { height: 84px; width: 100%; position: absolute; bottom: 96px; left: 0; background: url('@{imagePath}/banner/bg-plants.png') repeat-x; z-index: 181; }
-
-.bg-banner { height: 118px; width: 100%; position: absolute; bottom: 116px; left: 0; background: url('@{imagePath}/banner/bg-banner.png') repeat-x; z-index: 100; }
-
-.overlay-banner { height: 100%; width: 100%; position: absolute; top: 0; left: 0; background: url('@{imagePath}/banner/overlay.png') repeat; z-index: 210;}
-
 /* boxes */
 
 .box { background: #fff;
@@ -354,14 +340,8 @@ footer.navbar {
     overflow: hidden;
     margin-bottom: 20px;
     #gradient > .vertical(@heroBackground, @heroBackgroundHighlight);
-    .left-bamboo {
-        position: absolute;
-        top: 0; left: 0; 
-    }
-    .right-bamboo {
-        position: absolute; 
-        top: 0; right: 0; 
-    }
+    .bamboo-right { height: 100%; width: 170px; position: absolute; bottom: 0; right: 0; background: url('@{imagePath}/banner/bamboo-right.png') bottom right no-repeat; z-index: 205; }
+    .bamboo-left { height: 100%; width: 230px; position: absolute; bottom: 0; left: 0; background: url('@{imagePath}/banner/bamboo-left.png') bottom left no-repeat; z-index: 205; }
     .page-header {
         border-bottom: none
     }
