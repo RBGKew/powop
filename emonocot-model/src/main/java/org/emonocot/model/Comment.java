@@ -37,7 +37,12 @@ import org.joda.time.DateTime;
 @Entity
 public class Comment extends Base {
 
-    private Long id;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5773904824251895404L;
+
+	private Long id;
 
     private String comment;
     

@@ -671,7 +671,7 @@ public class UserServiceImpl extends SearchableServiceImpl<User, UserDao> implem
 
 	@Override
 	public String makeProfileThumbnail(MultipartFile file, String oldProfileImage) throws IOException, InterruptedException, IM4JavaException {
-		if(file != null) {
+		if(file != null && !file.isEmpty()) {
         	String tmpFileExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.'));
         	String tmpFileName = UUID.randomUUID().toString() + tmpFileExtension;
         	File tmpFile = new File(temporaryFolder.getFile(),tmpFileName);

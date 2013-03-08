@@ -67,7 +67,7 @@ public class DataSetup {
 			testDataManager.createResource(jobRow.identifier, jobRow.title,
 					jobRow.family, jobRow.jobType, jobRow.source,
 					jobRow.recordsRead, jobRow.readSkip, jobRow.processSkip,
-					jobRow.writeSkip, jobRow.written, jobRow.jobId, jobRow.resource);
+					jobRow.writeSkip, jobRow.written, jobRow.jobId, jobRow.uri, jobRow.resource);
     	}
     }
 

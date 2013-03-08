@@ -181,7 +181,6 @@ public class Resource extends Base implements Searchable {
 	 * @param newJobType
 	 *            Set the job type
 	 */
-	@Enumerated(value = EnumType.STRING)
 	public void setResourceType(ResourceType newJobType) {
 		this.resourceType = newJobType;
 	}
@@ -189,6 +188,8 @@ public class Resource extends Base implements Searchable {
 	/**
 	 * @return the uri
 	 */
+	@NotEmpty
+	@URL
 	public String getUri() {
 		return uri;
 	}
@@ -221,7 +222,6 @@ public class Resource extends Base implements Searchable {
 	 * @return the resource
 	 */
 	@URL
-	@NotEmpty
 	public String getResource() {
 		return resource;
 	}

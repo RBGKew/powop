@@ -22,7 +22,7 @@ Background:
   | test@example.com    | Test        | Poa annua      | test           |
   | admin@e-monocot.org | Admin       | Nardus stricta | administrators |
   And there are resources with the following properties:
-  | identifier | title    | family    | jobType     | source | recordsRead | readSkip | processSkip | writeSkip | written | jobId | resource           |
+  | identifier | title    | family    | jobType     | source | recordsRead | readSkip | processSkip | writeSkip | written | jobId | uri                |
   | Test Job   | Test Job | Testaceae | DwC_Archive | test   | 4           | 2        | 0           | 0         | 2       | 1     | http://example.com |
   And there are job instances with the following properties:
   | jobId | jobName | authorityName | version |

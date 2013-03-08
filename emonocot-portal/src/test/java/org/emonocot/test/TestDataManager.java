@@ -846,12 +846,13 @@ public class TestDataManager {
 	public void createResource(String identifier, String title,
 			String family, String type, String source,
 			String read, String readSkips,
-			String processSkips, String writeSkips, String written, String jobId, String resource) {
+			String processSkips, String writeSkips, String written, String jobId, String uri, String resource) {
         enableAuthentication();
         Resource job = new Resource();
         data.push(job);
         job.setTitle(title);
         job.setResource(resource);
+        job.setUri(uri);
         job.setIdentifier(identifier);
         if(family != null) {
             job.getParameters().put("family", family);

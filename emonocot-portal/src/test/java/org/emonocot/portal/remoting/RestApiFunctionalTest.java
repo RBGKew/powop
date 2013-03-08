@@ -267,6 +267,8 @@ public class RestApiFunctionalTest {
         group.setIdentifier("PalmWeb");
         Organisation source = new Organisation();
         source.setIdentifier("testSource");
+        source.setTitle("Palm Web");
+        source.setCommentsEmailedTo("admin@example.com");
 
         groupDao.save(group);
         organisationDao.save(source);
