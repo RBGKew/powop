@@ -15,6 +15,7 @@ import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.entity.BufferedHttpEntity;
@@ -90,8 +91,8 @@ public class GetResourceClient {
      * Executes a HTTP GET request with the If-Modified-Since header set to
      * dateLastHarvested. If the resource has not been modified then the
      * Source may respond with the HTTP status 304 NOT MODIFIED, in which
-     * case the method will return an ExitStatus with an exit code 'NOT
-     * MODIFIED' and the job will terminate.
+     * case the method will return an ExitStatus with an exit code 'NOT_MODIFIED'
+     * and the job will terminate.
      *
      * If the resource has been modified, the client will save the response in a
      * document specified in temporaryFileName and will an ExitStatus with an
@@ -133,7 +134,7 @@ public class GetResourceClient {
 
             switch(httpResponse.getStatusLine().getStatusCode()) {
               case HttpURLConnection.HTTP_NOT_MODIFIED:
-                  return new ExitStatus("NOT MODIFIED");
+                  return new ExitStatus("NOT_MODIFIED");
               case HttpURLConnection.HTTP_OK:
                   HttpEntity entity = httpResponse.getEntity();
                   if (entity != null) {
@@ -168,8 +169,15 @@ public class GetResourceClient {
             }
 
         } catch (ClientProtocolException cpe) {
-            logger.error("Client Protocol Exception getting document "
+        	if(cpe instanceof HttpResponseException) {
+        		HttpResponseException hre = (HttpResponseException) cpe;
+        		logger.error("HttpResponse Exception getting document "
+                        + authorityURI + " " + hre.getMessage()
+                        + " with status code " + hre.getStatusCode());
+        	} else {
+                logger.error("Client Protocol Exception getting document "
                     + authorityURI + " " + cpe.getMessage());
+        	}
             return ExitStatus.FAILED;
         } catch (IOException ioe) {
             logger.error("Input Output Exception getting document "
@@ -242,7 +250,7 @@ public class GetResourceClient {
 
             switch(httpResponse.getStatusLine().getStatusCode()) {
               case HttpURLConnection.HTTP_NOT_MODIFIED:
-                  return new ExitStatus("NOT MODIFIED");
+                  return new ExitStatus("NOT_MODIFIED");
               case HttpURLConnection.HTTP_OK:
                   HttpEntity entity = httpResponse.getEntity();
                   if (entity != null) {
@@ -288,8 +296,15 @@ public class GetResourceClient {
             }
 
         } catch (ClientProtocolException cpe) {
-            logger.error("Client Protocol Exception getting document "
-                    + authorityURI + " " + cpe.getLocalizedMessage());
+        	if(cpe instanceof HttpResponseException) {
+        		HttpResponseException hre = (HttpResponseException) cpe;
+        		logger.error("HttpResponse Exception getting document "
+                        + authorityURI + " " + hre.getMessage()
+                        + " with status code " + hre.getStatusCode());
+        	} else {
+                logger.error("Client Protocol Exception getting document "
+                    + authorityURI + " " + cpe.getMessage());
+        	}
             return ExitStatus.FAILED;
         } catch (IOException ioe) {
             logger.error("Input Output Exception getting document "

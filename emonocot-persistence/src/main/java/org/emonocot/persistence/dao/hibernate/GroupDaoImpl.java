@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
  *
  */
 @Repository
-public class GroupDaoImpl extends DaoImpl<Group> implements GroupDao {
+public class GroupDaoImpl extends SearchableDaoImpl<Group> implements GroupDao {
 
     /**
     *
@@ -78,4 +78,9 @@ public class GroupDaoImpl extends DaoImpl<Group> implements GroupDao {
     protected final Fetch[] getProfile(final String profile) {
         return GroupDaoImpl.FETCH_PROFILES.get(profile);
     }
+    
+    @Override
+    protected boolean isSearchableObject() {
+		return false;
+	}
 }

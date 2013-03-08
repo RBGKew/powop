@@ -7,8 +7,8 @@ Feature: Spatial Search
 Background:
   Given that the indexes are clean
   And there are organisations with the following properties:
-  | identifier | uri                 |
-  | test       | http://example.com  |
+  | identifier | uri                 | title | commentsEmailedTo |
+  | test       | http://example.com  | Test  | test@example.com  |
   And there are taxa with the following properties:
   | identifier                   | name                        | distribution1 |
   | urn:kew.org:wcs:family:3     | Araceae                     |               |

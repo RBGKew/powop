@@ -1,13 +1,18 @@
 package org.emonocot.portal.remoting;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.solr.common.SolrDocument;
 import org.emonocot.model.registry.Resource;
+import org.emonocot.pager.DefaultPageImpl;
 import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.ResourceDao;
 import org.joda.time.DateTime;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -33,17 +38,33 @@ public class ResourceDaoImpl extends DaoImpl<Resource> implements ResourceDao {
         // TODO Auto-generated method stub
         return null;
     }
+    
+    @Override
+    protected Page<Resource> page(Integer page, Integer size) {
+    	HttpEntity<Resource> requestEntity = new HttpEntity<Resource>(httpHeaders);
+    	Map<String,Object> uriVariables = new HashMap<String,Object>();
+    	uriVariables.put("resource", resourceDir);
+    	if(size == null) {
+    		uriVariables.put("limit", "");
+    	} else {
+    		uriVariables.put("limit", size);
+    	}
+    	
+    	if(page == null) {
+    		uriVariables.put("start", "");
+    	} else {
+    		uriVariables.put("start", page);
+    	}
+    	
+    	ParameterizedTypeReference<DefaultPageImpl<Resource>> typeRef = new ParameterizedTypeReference<DefaultPageImpl<Resource>>() {};
+        HttpEntity<DefaultPageImpl<Resource>> responseEntity = restTemplate.exchange(baseUri + "/{resource}?limit={limit}&start={start}", HttpMethod.GET,
+                requestEntity, typeRef,uriVariables);
+        return responseEntity.getBody();
+    }
 
-    /**
-     * @param sourceId Set the source identifier
-     * @param page Set the offset (in size chunks, 0-based), optional
-     * @param size Set the page size
-     * @return A list of jobs
-     */
-    public final List<Resource> list(final String sourceId, final Integer page,
-            final Integer size) {
-        // TODO Auto-generated method stub
-        return null;
+    @Override
+	public final List<Resource> list(final Integer page, final Integer size, final String fetch) {
+    	return this.page(page, size).getRecords();
     }
 
     /**
@@ -77,6 +98,12 @@ public class ResourceDaoImpl extends DaoImpl<Resource> implements ResourceDao {
 
 	@Override
 	public Resource loadObjectForDocument(SolrDocument solrDocument) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Resource> list(String sourceId, Integer page, Integer size) {
 		// TODO Auto-generated method stub
 		return null;
 	}

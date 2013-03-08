@@ -102,7 +102,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
     private void populateForm(Model model, Resource resource, ResourceParameterDto parameter) {
 		model.addAttribute("resource", resource);
 		model.addAttribute("parameter", parameter);
-		model.addAttribute("resourceTypes", Arrays.asList(ResourceType.values()));
+		model.addAttribute("resourceTypes", Arrays.asList(new ResourceType[] {ResourceType.DwC_Archive, ResourceType.IDENTIFICATION_KEY, ResourceType.GBIF, ResourceType.IUCN}));
 		model.addAttribute("schedulingPeriods",Arrays.asList(SchedulingPeriod.values()));
 	}
     
@@ -225,7 +225,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	 *            Set the offset
 	 * @return the name of the view
 	 */
-	@RequestMapping(method = RequestMethod.GET, params = "!form")
+	@RequestMapping(produces = "text/html", method = RequestMethod.GET, params = "!form")
 	public String list(Model model,
 			@RequestParam(value = "query", required = false) String query,
 		    @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,

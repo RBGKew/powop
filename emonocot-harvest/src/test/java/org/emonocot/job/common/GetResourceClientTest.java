@@ -1,4 +1,4 @@
-package org.emonocot.ws;
+package org.emonocot.job.common;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -122,8 +122,8 @@ public class GetResourceClientTest {
         EasyMock.verify(httpClient);
 
         assertNotNull("ExitStatus should not be null", exitStatus);
-        assertEquals("ExitStatus should be NOT MODIFIED",
-                exitStatus.getExitCode(), "NOT MODIFIED");
+        assertEquals("ExitStatus should be NOT_MODIFIED",
+                exitStatus.getExitCode(), "NOT_MODIFIED");
     }
 
     /**

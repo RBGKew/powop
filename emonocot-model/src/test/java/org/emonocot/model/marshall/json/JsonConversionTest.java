@@ -6,7 +6,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
@@ -33,6 +35,8 @@ import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.Location;
 import org.emonocot.model.constants.MeasurementType;
 import org.emonocot.model.constants.RecordType;
+import org.emonocot.pager.DefaultPageImpl;
+import org.emonocot.pager.Page;
 import org.emonocot.portal.model.AceDto;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -96,7 +100,7 @@ public class JsonConversionTest {
      *
      */
     @Before
-    public final void setUp() {
+    public void setUp() {
         referenceService = EasyMock.createMock(ReferenceService.class);
         taxonService = EasyMock.createMock(TaxonService.class);
         imageService = EasyMock.createMock(ImageService.class);
@@ -125,7 +129,7 @@ public class JsonConversionTest {
      *             if there is a problem serializing the object
      */
     @Test
-    public final void testReadTaxon() throws Exception {
+    public void testReadTaxon() throws Exception {
         Reference reference = new Reference();        
         EasyMock.expect(
                 referenceService.load(EasyMock
@@ -176,7 +180,7 @@ public class JsonConversionTest {
      *             if there is a problem serializing the object
      */
     @Test
-    public final void testWriteTaxon() throws Exception {
+    public void testWriteTaxon() throws Exception {
         String content = "{\"identifier\":\"urn:kew.org:wcs:taxon:2295\",\"name\":\"Acorus\",\"protologue\":\"urn:kew.org:wcs:publication:1\"}";
         Reference reference = new Reference();
         reference.setIdentifier("urn:kew.org:wcs:publication:1");
@@ -221,7 +225,7 @@ public class JsonConversionTest {
      *             if there is a problem serializing the object
      */
     @Test
-    public final void testWriteImage() throws Exception {
+    public void testWriteImage() throws Exception {
         Taxon taxon = new Taxon();
         taxon.setIdentifier("urn:kew.org:wcs:taxon:2295");
         String content = "{\"identifier\":\"urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg\",\"caption\":\"Acorus\",\"taxa\":[\"urn:kew.org:wcs:taxon:2295\"]}";
@@ -245,7 +249,7 @@ public class JsonConversionTest {
      *             if there is a problem serializing the object
      */
     @Test
-    public final void testReadImage() throws Exception {
+    public void testReadImage() throws Exception {
         Taxon taxon = new Taxon();
         EasyMock.expect(
                 taxonService.load(EasyMock.eq("urn:kew.org:wcs:taxon:2295"),
@@ -273,7 +277,7 @@ public class JsonConversionTest {
      *             if there is a problem serializing the object
      */
     @Test
-    public final void testReadReference() throws Exception {
+    public void testReadReference() throws Exception {
 
         EasyMock.replay(referenceService, imageService);
 
@@ -296,7 +300,7 @@ public class JsonConversionTest {
      *             if there is a problem serializing the object
      */
     @Test
-    public final void testWriteUser() throws Exception {
+    public void testWriteUser() throws Exception {
         User user = new User();
         user.setUsername("test@example.com");
         user.setPassword("123456");
@@ -316,7 +320,7 @@ public class JsonConversionTest {
      *             if there is a problem serializing the object
      */
     @Test
-    public final void testReadUser() throws Exception {
+    public void testReadUser() throws Exception {
         Group group = new Group();
         EasyMock.expect(groupService.load(EasyMock.eq("TestGroup"))).andReturn(
                 group);
@@ -339,7 +343,7 @@ public class JsonConversionTest {
     *             if there is a problem serializing the object
     */
     @Test
-    public final void testWriteJobInstance() throws Exception {
+    public void testWriteJobInstance() throws Exception {
         Map<String, JobParameter> jobParameterMap
             = new HashMap<String, JobParameter>();
         jobParameterMap.put("authority.name", new JobParameter("test"));
@@ -361,7 +365,7 @@ public class JsonConversionTest {
     *             if there is a problem serializing the object
     */
     @Test
-    public final void testReadJobInstance() throws Exception {
+    public void testReadJobInstance() throws Exception {
         JobInstance jobInstance = objectMapper.readValue("{\"id\":1,\"jobName\":\"testJob\", \"version\":\"1\",\"parameters\":[{\"name\":\"authority.name\",\"type\":\"STRING\",\"value\":\"test\"}]}", JobInstance.class);
         assertEquals(jobInstance.getId(), new Long(1L));
         assertEquals(jobInstance.getJobName(), "testJob");
@@ -376,7 +380,7 @@ public class JsonConversionTest {
     *             if there is a problem serializing the object
     */
     @Test
-    public final void testWriteAnnotation() throws Exception {
+    public void testWriteAnnotation() throws Exception {
         Annotation annotation = new Annotation();
         annotation.setCode(AnnotationCode.Absent);
         annotation.setDateTime(new DateTime());
@@ -392,7 +396,27 @@ public class JsonConversionTest {
           } catch (Exception e) {
               fail();
           }
-
+    }
+    
+    @Test
+    public void testWritePage() throws Exception {
+    	List<Annotation> annotations = new ArrayList<Annotation>();
+    	Annotation annotation = new Annotation();
+        annotation.setCode(AnnotationCode.Absent);
+        annotation.setDateTime(new DateTime());
+        annotation.setIdentifier("1");
+        annotation.setRecordType(RecordType.Taxon);
+        annotation.setText("wibble");
+        annotation.setValue("wibble");
+    	Page<Annotation> page = new DefaultPageImpl<Annotation>(100, 0, 10, annotations, null);
+    	try{
+            System.out.println(objectMapper.writeValueAsString(page));
+          } catch (Exception e) {
+        	  System.out.println("ERROR" + e.getMessage());
+        	  
+              fail();
+          }
+    	
     }
 
    /**
@@ -401,7 +425,7 @@ public class JsonConversionTest {
     *             if there is a problem serializing the object
     */
     @Test
-    public final void testAnnotation() throws Exception {
+    public void testAnnotation() throws Exception {
         Taxon taxon = new Taxon();
         EasyMock.expect(taxonService.find(EasyMock.eq("testIdentifier")))
                 .andReturn(taxon);
@@ -419,7 +443,7 @@ public class JsonConversionTest {
     *             if there is a problem serializing the object
     */
     @Test
-    public final void testWriteAce() throws Exception {
+    public void testWriteAce() throws Exception {
         AceDto ace = new AceDto();
         User user = new User();
         ace.setPermission(BasePermission.CREATE);
@@ -439,7 +463,7 @@ public class JsonConversionTest {
     *             if there is a problem serializing the object
     */
     @Test
-    public final void testAce() throws Exception {
+    public void testAce() throws Exception {
 
         AceDto aceDto = objectMapper.readValue("{\"principal\":\"userIdentifier\",\"object\":\"testIdentifier\",\"permission\":\"CREATE\"}", AceDto.class);
 
@@ -455,7 +479,7 @@ public class JsonConversionTest {
     */
     @Ignore
     @Test
-    public final void testWriteJobExecutionInfo() throws Exception {
+    public void testWriteJobExecutionInfo() throws Exception {
         JobExecutionInfo jobExecutionInfo = new JobExecutionInfo();
         jobExecutionInfo.setStartTime(new DateTime(2012,3,29,14,17,0,0));
         String actual = objectMapper.writeValueAsString(jobExecutionInfo);
@@ -468,12 +492,12 @@ public class JsonConversionTest {
     *             if there is a problem serializing the object
     */
     @Test
-    public final void testJobExecutionException() throws Exception {
+    public void testJobExecutionException() throws Exception {
         JobExecutionException jobExecutionException = objectMapper.readValue("{\"errors\" : { \"spring.integration.http.handler.error\" : \"A Spring Integration handler raised an exception while handling an HTTP request.  The exception is of type class org.springframework.integration.MessageHandlingException and it has a message: (org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException: A job instance already exists and is complete for parameters={query.string=from Source, attempt=9}.  If you want to run this job again, change the parameters.)\" } }", JobExecutionException.class);
     }
     
     @Test
-    public final void testWriteMultiPolygon() throws Exception {
+    public void testWriteMultiPolygon() throws Exception {
     	String serialized = objectMapper.writeValueAsString(place);
     	System.out.println(serialized);
     	assertTrue("Expected JSON to contain the identifier", serialized.contains("\"identifier\":\"test.jk.triangle\""));
@@ -482,12 +506,20 @@ public class JsonConversionTest {
     }
     
     @Test
-    public final void testReadMultiPolygon() throws Exception {
+    public void testReadMultiPolygon() throws Exception {
     	String placeJson = "{\"title\":\"testName\",\"id\":null,\"shape\":\"POLYGON ((57 26, 0 0, 25 25, 57 26))\",\"point\":null,\"fipsCode\":null,\"authority\":null,\"identifier\":\"test.jk.triangle\",\"license\":null,\"created\":null,\"modified\":null}";
     	Place desrialized = objectMapper.readValue(placeJson, Place.class);
     	
     	assertEquals("Expected identifier to be " + place.getIdentifier(), place.getIdentifier(), desrialized.getIdentifier());
     	assertEquals("Expected name to be " + place.getTitle(), place.getTitle(), desrialized.getTitle());
     	assertEquals("Expected shape to be " + place.getShape().toText(),place.getShape().toText(),desrialized.getShape().toText());
+    }
+    
+    @Test
+    public void testReadJobInstanceList() throws Exception {
+    	String jobInstanceListJson = "[{\"id\":1,\"jobName\":\"testJob\",\"version\":1,\"parameters\":[]}]";
+    	List<JobInstance> jobInstanceList = objectMapper.readValue(jobInstanceListJson, List.class);
+    	System.out.println("JOBINSTANCELIST " + jobInstanceList.size());
+    	
     }
 }

@@ -4,7 +4,11 @@
   <jsp:directive.attribute name="field" type="java.lang.String" required="true" rtexprvalue="true" description="The field exposed from the form backing object" />
   <jsp:directive.attribute name="items" type="java.util.Collection" required="true" rtexprvalue="true" description="The name of the collection displayed in the select box" />
   <jsp:directive.attribute name="label" type="java.lang.String" required="false" rtexprvalue="true" description="The label used for this field, will default to a message bundle if not supplied" />
+  <jsp:directive.attribute name="required" type="java.lang.Boolean" required="false" description="Set this as a required field" />
   <jsp:directive.attribute name="fieldClass" type="java.lang.String" required="false" rtexprvalue="true" description="The class used to render the field" />
+  <c:if test="${empty required}">
+      <c:set value="false" var="required" />
+    </c:if>
   <spring:bind path="${field}">
  	  <c:choose>
  	    <c:when test="${not empty status.errorMessage}">
@@ -15,7 +19,7 @@
  	    </c:otherwise>
  	  </c:choose>
  	  <div class="${controlgroup}">
- 	    <label class="control-label" for="_${field}_id"><spring:message code="${label}" /></label>
+ 	    <label class="control-label" for="_${field}_id"><c:if test="${required}"><i class="halflings-icon asterisk"><!-- --></i></c:if><spring:message code="${label}" /></label>
  	    <div class="controls">
  	      <form:select id="_${field}_id" cssClass="${fieldClass}" path="${field}" items="${items}"/>     
  	      <span class="help-inline"><form:errors path="${field}" /></span>

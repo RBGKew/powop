@@ -41,44 +41,49 @@ public class JobInstanceDeserializer extends JsonDeserializer<JobInstance> {
         assert jsonParser.getCurrentName() == "parameters";
         jsonToken = jsonParser.nextToken();
         assert jsonToken == JsonToken.START_ARRAY;
-        Map<String, JobParameter> jobParameterMap
-                = new HashMap<String, JobParameter>();
-        while (jsonToken != JsonToken.END_ARRAY) {
-            jsonToken = jsonParser.nextToken();
-            assert jsonToken == JsonToken.START_OBJECT;
-            jsonToken = jsonParser.nextToken();
-            assert jsonParser.getCurrentName() == "name";
-            jsonToken = jsonParser.nextToken();
-            String parameterName = jsonParser.getText();
-            jsonToken = jsonParser.nextToken();
-            assert jsonParser.getCurrentName() == "type";
-            jsonToken = jsonParser.nextToken();
-            ParameterType type = ParameterType.valueOf(jsonParser.getText());
-            jsonToken = jsonParser.nextToken();
-            assert jsonParser.getCurrentName() == "value";
-            jsonToken = jsonParser.nextToken();
-            JobParameter jobParameter = null;
+        Map<String, JobParameter> jobParameterMap = new HashMap<String, JobParameter>();
+		while (jsonToken != JsonToken.END_ARRAY) {
+			jsonToken = jsonParser.nextToken();
+			if (jsonToken == JsonToken.END_ARRAY) {
 
-            switch(type) {
-            case DATE:
-                jobParameter = new JobParameter(new Date(
-                        jsonParser.getLongValue()));
-                break;
-            case LONG:
-                jobParameter = new JobParameter(jsonParser.getLongValue());
-              break;
-            case DOUBLE:
-                jobParameter = new JobParameter(jsonParser.getDoubleValue());
-              break;
-            case STRING:
-            default:
-                jobParameter = new JobParameter(jsonParser.getText());
-            }
-            jobParameterMap.put(parameterName, jobParameter);
-            jsonToken = jsonParser.nextToken();
-            assert jsonToken == jsonToken.END_OBJECT;
-            jsonToken = jsonParser.nextToken();
-        }
+			} else {
+				assert jsonToken == JsonToken.START_OBJECT;
+				jsonToken = jsonParser.nextToken();
+				assert jsonParser.getCurrentName() == "name";
+				jsonToken = jsonParser.nextToken();
+				String parameterName = jsonParser.getText();
+				jsonToken = jsonParser.nextToken();
+				assert jsonParser.getCurrentName() == "type";
+				jsonToken = jsonParser.nextToken();
+				ParameterType type = ParameterType
+						.valueOf(jsonParser.getText());
+				jsonToken = jsonParser.nextToken();
+				assert jsonParser.getCurrentName() == "value";
+				jsonToken = jsonParser.nextToken();
+				JobParameter jobParameter = null;
+
+				switch (type) {
+				case DATE:
+					jobParameter = new JobParameter(new Date(
+							jsonParser.getLongValue()));
+					break;
+				case LONG:
+					jobParameter = new JobParameter(jsonParser.getLongValue());
+					break;
+				case DOUBLE:
+					jobParameter = new JobParameter(jsonParser.getDoubleValue());
+					break;
+				case STRING:
+				default:
+					jobParameter = new JobParameter(jsonParser.getText());
+				}
+				jobParameterMap.put(parameterName, jobParameter);
+				jsonToken = jsonParser.nextToken();
+				assert jsonToken == jsonToken.END_OBJECT;
+
+				jsonToken = jsonParser.nextToken();
+			}
+		}
 
         JobParameters jobParameters = new JobParameters(jobParameterMap);
         JobInstance jobInstance = new JobInstance(jobId, jobParameters, jobName);

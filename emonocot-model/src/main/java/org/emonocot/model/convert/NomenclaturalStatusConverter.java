@@ -1,13 +1,19 @@
 package org.emonocot.model.convert;
 
 import org.gbif.ecat.voc.NomenclaturalStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
 
 public class NomenclaturalStatusConverter implements Converter<String, NomenclaturalStatus> {
 
+	Logger logger = LoggerFactory.getLogger(NomenclaturalStatusConverter.class);
+	
 	@Override
 	public NomenclaturalStatus convert(String source) {
+		logger.info("Converting " + source);
 		if(source == null || source.trim().isEmpty()) {
+			logger.info("Returning null");
 			return null;
 		} else {
 			switch(source.toLowerCase()) {
@@ -28,7 +34,7 @@ public class NomenclaturalStatusConverter implements Converter<String, Nomenclat
 			case "conservandumProp":
 				return NomenclaturalStatus.Conserved_Proposed;
 			case "correctum":
-				break;				
+				return null;				
 			case "dubimum":
 				return NomenclaturalStatus.Doubtful;
 			case "illegitimum":
@@ -44,7 +50,7 @@ public class NomenclaturalStatusConverter implements Converter<String, Nomenclat
 			case "nudum":
 				return NomenclaturalStatus.Nudum;
 			case "nullum":
-				break;
+				return null;
 			case "oblitum":
 				return NomenclaturalStatus.Forgotten;
 			case "oppressa":
@@ -73,7 +79,6 @@ public class NomenclaturalStatusConverter implements Converter<String, Nomenclat
 				return NomenclaturalStatus.valueOf(source);
 			}
 		}
-		return null;
 	}
 
 }

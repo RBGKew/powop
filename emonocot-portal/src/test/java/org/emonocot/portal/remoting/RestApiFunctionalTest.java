@@ -3,21 +3,21 @@ package org.emonocot.portal.remoting;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
-import org.emonocot.api.CommentService;
 import org.emonocot.api.GroupService;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Comment;
+import org.emonocot.model.Description;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.Image;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
-import org.emonocot.model.Description;
 import org.emonocot.model.auth.Group;
 import org.emonocot.model.auth.User;
 import org.emonocot.model.constants.AnnotationCode;
@@ -32,8 +32,9 @@ import org.emonocot.persistence.dao.GroupDao;
 import org.emonocot.persistence.dao.ImageDao;
 import org.emonocot.persistence.dao.JobExecutionDao;
 import org.emonocot.persistence.dao.JobInstanceDao;
-import org.emonocot.persistence.dao.ReferenceDao;
 import org.emonocot.persistence.dao.OrganisationDao;
+import org.emonocot.persistence.dao.ReferenceDao;
+import org.emonocot.persistence.dao.ResourceDao;
 import org.emonocot.persistence.dao.TaxonDao;
 import org.emonocot.persistence.dao.UserDao;
 import org.emonocot.test.TestAuthentication;
@@ -64,80 +65,44 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration("classpath:META-INF/spring/applicationContext-functionalTest.xml")
 public class RestApiFunctionalTest {
 
-    /**
-     *
-     */
     @Autowired
     private TaxonDao taxonDao;
 
-    /**
-    *
-    */
     @Autowired
     private ImageDao imageDao;
 
-   /**
-    *
-    */
     @Autowired
     private GroupDao groupDao;
 
-   /**
-    *
-    */
     @Autowired
     private ReferenceDao referenceDao;
 
-    /**
-    *
-    */
     @Autowired
     private UserDao userDao;
 
-    /**
-    *
-    */
     @Autowired
     private JobExecutionDao jobExecutionDao;
 
-    /**
-    *
-    */
     @Autowired
     private JobInstanceDao jobInstanceDao;
-
-    /**
-    *
-    */
+    
     @Autowired
     private AnnotationDao annotationDao;
 
-    /**
-     *
-     */
     @Autowired
-    private OrganisationDao sourceDao;
+    private OrganisationDao organisationDao;
     
-    /**
-     * 
-     */
+    @Autowired
+    private ResourceDao resourceDao;
+    
     @Autowired
     private CommentDao commentDao;
 
-    /**
-     *
-     */
     @Autowired
     private GroupService groupService;
    
-    /**
-    *
-    */
     private String password;
 
-    /**
-    *
-    */
     private String username;
 
     /**
@@ -246,6 +211,7 @@ public class RestApiFunctionalTest {
         groupDao.save(group);
 
         User user = new User();
+        user.setAccountName("Test");
         user.setIdentifier("test@example.com");
         user.setPassword("test1234");
         user.getGroups().add(group);
@@ -301,13 +267,15 @@ public class RestApiFunctionalTest {
         group.setIdentifier("PalmWeb");
         Organisation source = new Organisation();
         source.setIdentifier("testSource");
+        source.setTitle("Palm Web");
+        source.setCommentsEmailedTo("admin@example.com");
 
         groupDao.save(group);
-        sourceDao.save(source);
+        organisationDao.save(source);
         groupService.addPermission(source, "PalmWeb", BasePermission.READ, Organisation.class);
 
         groupService.deletePermission(source, "PalmWeb", BasePermission.READ, Organisation.class);
-        sourceDao.delete("testSource");
+        organisationDao.delete("testSource");
         groupDao.delete("PalmWeb");
     }
     
@@ -328,5 +296,69 @@ public class RestApiFunctionalTest {
         commentDao.save(comment);
         commentDao.delete(comment.getIdentifier());
         taxonDao.delete(taxon.getIdentifier());
+    }
+    
+    @Test
+    public void testList() {
+    	
+    	List<Image> images = imageDao.list(null, null, null);
+    	for(Image image : images) {    		
+    		imageDao.delete(image.getIdentifier());
+    	}
+    	
+    	List<Taxon> taxa = taxonDao.list(null, null, null);
+    	for(Taxon taxon : taxa) {    		
+    		taxonDao.delete(taxon.getIdentifier());
+    	}
+    	
+    	List<Group> groups = groupDao.list(null, null, null);
+    	for(Group group : groups) {    		
+    		if(!group.getIdentifier().equals("administrators")) {
+    		    groupDao.delete(group.getIdentifier());
+    		}
+    	}
+    	
+    	List<Reference> references = referenceDao.list(null, null, null);
+    	for(Reference reference : references) {    		
+    		referenceDao.delete(reference.getIdentifier());
+    	}   
+    	
+    	List<User> users = userDao.list(null, null, null);
+    	for(User user : users) {
+    		if(!user.getIdentifier().equals("test@e-monocot.org")) {
+    		    userDao.delete(user.getIdentifier());
+    		}
+    	}
+    	
+    	List<JobExecution> jobExecutions = jobExecutionDao.getJobExecutions(null, null, null);
+    	for(JobExecution jobExecution : jobExecutions) {    		
+    		jobExecutionDao.delete(jobExecution.getId());
+    	}
+    	
+    	List<JobInstance> jobInstances = jobInstanceDao.list(null, null);
+    	for(JobInstance jobInstance : jobInstances) {
+    		jobInstanceDao.delete(jobInstance.getId());
+    	}
+    	
+    	List<org.emonocot.model.registry.Resource> resources = resourceDao.list((Integer)null, null, null);
+    	for(org.emonocot.model.registry.Resource resource : resources) {
+    		resourceDao.delete(resource.getIdentifier());
+    	}
+    	
+    	
+    	List<Organisation> organisations = organisationDao.list(null, null, null);
+    	for(Organisation organisation : organisations) {    		
+    		organisationDao.delete(organisation.getIdentifier());
+    	}
+    	
+    	List<Annotation> annotations = annotationDao.list(null, null, null);
+    	for(Annotation annotation : annotations) {
+    		annotationDao.delete(annotation.getIdentifier());
+    	}
+    	
+    	List<Comment> comments = commentDao.list(null, null, null);
+    	for(Comment comment: comments) {
+    		commentDao.delete(comment.getIdentifier());
+    	}
     }
 }

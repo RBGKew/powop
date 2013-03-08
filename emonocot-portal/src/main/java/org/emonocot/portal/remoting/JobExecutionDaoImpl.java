@@ -1,12 +1,21 @@
 package org.emonocot.portal.remoting;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 
 import org.emonocot.persistence.dao.JobExecutionDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 
@@ -23,6 +32,15 @@ public class JobExecutionDaoImpl implements JobExecutionDao {
      */
     private static Logger logger = LoggerFactory
             .getLogger(JobExecutionDaoImpl.class);
+    
+    protected static HttpHeaders httpHeaders = new HttpHeaders();
+
+    static {
+        List<MediaType> acceptableMediaTypes = new ArrayList<MediaType>();
+        acceptableMediaTypes.add(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(acceptableMediaTypes);
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+    }
 
     /**
     *
@@ -56,10 +74,32 @@ public class JobExecutionDaoImpl implements JobExecutionDao {
         this.baseUri = newBaseUri;
     }
 
-    public List<JobExecution> getJobExecutions(String authorityName,
-            Integer pageSize, Integer pageNumber) {
-        // TODO Auto-generated method stub
-        return null;
+    public List<JobExecution> getJobExecutions(String authority, Integer size, Integer page) {
+    	HttpEntity<JobExecution> requestEntity = new HttpEntity<JobExecution>(httpHeaders);
+    	Map<String,Object> uriVariables = new HashMap<String,Object>();
+    	uriVariables.put("resource", resourceDir);
+    	if(size == null) {
+    		uriVariables.put("limit", "");
+    	} else {
+    		uriVariables.put("limit", size);
+    	}
+    	
+    	if(page == null) {
+    		uriVariables.put("start", "");
+    	} else {
+    		uriVariables.put("start", page);
+    	}
+    	
+    	if(page == null) {
+    		uriVariables.put("authority", "");
+    	} else {
+    		uriVariables.put("authority", authority);
+    	}
+    	
+    	ParameterizedTypeReference<List<JobExecution>> typeRef = new ParameterizedTypeReference<List<JobExecution>>() {};
+        HttpEntity<List<JobExecution>> responseEntity = restTemplate.exchange(baseUri + "/{resource}?limit={limit}&start={start}&authority={authority}", HttpMethod.GET,
+                requestEntity, typeRef,uriVariables);
+        return responseEntity.getBody();
     }
 
 
@@ -87,5 +127,4 @@ public class JobExecutionDaoImpl implements JobExecutionDao {
         restTemplate.postForObject(baseUri+ "/" + resourceDir, jobExecution,
                 JobExecution.class);
     }
-
 }

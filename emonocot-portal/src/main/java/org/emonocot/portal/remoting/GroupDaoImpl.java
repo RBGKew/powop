@@ -1,9 +1,17 @@
 package org.emonocot.portal.remoting;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.solr.common.SolrDocument;
 import org.emonocot.model.auth.Group;
+import org.emonocot.pager.DefaultPageImpl;
+import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.GroupDao;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -31,5 +39,47 @@ public class GroupDaoImpl extends DaoImpl<Group> implements GroupDao {
         // TODO Auto-generated method stub
         return null;
     }
+    
+    @Override
+    protected Page<Group> page(Integer page, Integer size) {
+    	HttpEntity<Group> requestEntity = new HttpEntity<Group>(httpHeaders);
+    	Map<String,Object> uriVariables = new HashMap<String,Object>();
+    	uriVariables.put("resource", resourceDir);
+    	if(size == null) {
+    		uriVariables.put("limit", "");
+    	} else {
+    		uriVariables.put("limit", size);
+    	}
+    	
+    	if(page == null) {
+    		uriVariables.put("start", "");
+    	} else {
+    		uriVariables.put("start", page);
+    	}
+    	
+    	ParameterizedTypeReference<DefaultPageImpl<Group>> typeRef = new ParameterizedTypeReference<DefaultPageImpl<Group>>() {};
+        HttpEntity<DefaultPageImpl<Group>> responseEntity = restTemplate.exchange(baseUri + "/{resource}?limit={limit}&start={start}", HttpMethod.GET,
+                requestEntity, typeRef,uriVariables);
+        return responseEntity.getBody();
+    }
+    
+	@Override
+	public final List<Group> list(final Integer page, final Integer size, final String fetch) {
+		return this.page(page, size).getRecords();
+    }
+
+	@Override
+	public Page<SolrDocument> searchForDocuments(String query,
+			Integer pageSize, Integer pageNumber,
+			Map<String, String> selectedFacets, String sort) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Group loadObjectForDocument(SolrDocument solrDocument) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

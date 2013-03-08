@@ -48,8 +48,12 @@ public class JobExecutionDaoImpl extends JdbcDaoSupport implements
     */
     public final List<JobExecution> getJobExecutions(final String authorityName,
             final Integer pageSize, final Integer pageNumber) {
-        if (pageSize == null || pageNumber == null) {
-            return getJdbcTemplate().query("select bje.JOB_EXECUTION_ID as JOB_EXECUTION_ID, bje.START_TIME as START_TIME, bje.CREATE_TIME as CREATE_TIME, bje.END_TIME as END_TIME, bje.STATUS as STATUS, bje.EXIT_CODE as EXIT_CODE, bje.EXIT_MESSAGE as EXIT_MESSAGE, bji.JOB_INSTANCE_ID as JOB_INSTANCE_ID, bji.JOB_NAME as JOB_NAME from BATCH_JOB_EXECUTION as bje join BATCH_JOB_PARAMS as bjp on (bje.JOB_INSTANCE_ID = bjp.JOB_INSTANCE_ID) join BATCH_JOB_INSTANCE as bji on (bje.JOB_INSTANCE_ID = bji.JOB_INSTANCE_ID) where bjp.KEY_NAME = 'authority.name' and bjp.STRING_VAL = ? order by START_TIME desc", rowMapper, authorityName);
+        if (pageSize == null && pageNumber == null) {
+        	if(authorityName == null) {
+        		return getJdbcTemplate().query("select bje.JOB_EXECUTION_ID as JOB_EXECUTION_ID, bje.START_TIME as START_TIME, bje.CREATE_TIME as CREATE_TIME, bje.END_TIME as END_TIME, bje.STATUS as STATUS, bje.EXIT_CODE as EXIT_CODE, bje.EXIT_MESSAGE as EXIT_MESSAGE, bji.JOB_INSTANCE_ID as JOB_INSTANCE_ID, bji.JOB_NAME as JOB_NAME from BATCH_JOB_EXECUTION as bje join BATCH_JOB_PARAMS as bjp on (bje.JOB_INSTANCE_ID = bjp.JOB_INSTANCE_ID) join BATCH_JOB_INSTANCE as bji on (bje.JOB_INSTANCE_ID = bji.JOB_INSTANCE_ID) order by START_TIME desc", rowMapper);
+        	} else {       	
+                return getJdbcTemplate().query("select bje.JOB_EXECUTION_ID as JOB_EXECUTION_ID, bje.START_TIME as START_TIME, bje.CREATE_TIME as CREATE_TIME, bje.END_TIME as END_TIME, bje.STATUS as STATUS, bje.EXIT_CODE as EXIT_CODE, bje.EXIT_MESSAGE as EXIT_MESSAGE, bji.JOB_INSTANCE_ID as JOB_INSTANCE_ID, bji.JOB_NAME as JOB_NAME from BATCH_JOB_EXECUTION as bje join BATCH_JOB_PARAMS as bjp on (bje.JOB_INSTANCE_ID = bjp.JOB_INSTANCE_ID) join BATCH_JOB_INSTANCE as bji on (bje.JOB_INSTANCE_ID = bji.JOB_INSTANCE_ID) where bjp.KEY_NAME = 'authority.name' and bjp.STRING_VAL = ? order by START_TIME desc", rowMapper, authorityName);
+        	}
         } else if (pageNumber == null) {
             return getJdbcTemplate().query("select bje.JOB_EXECUTION_ID as JOB_EXECUTION_ID, bje.START_TIME as START_TIME, bje.CREATE_TIME as CREATE_TIME, bje.END_TIME as END_TIME, bje.STATUS as STATUS, bje.EXIT_CODE as EXIT_CODE, bje.EXIT_MESSAGE as EXIT_MESSAGE, bji.JOB_INSTANCE_ID as JOB_INSTANCE_ID, bji.JOB_NAME as JOB_NAME from BATCH_JOB_EXECUTION as bje join BATCH_JOB_PARAMS as bjp on (bje.JOB_INSTANCE_ID = bjp.JOB_INSTANCE_ID) join BATCH_JOB_INSTANCE as bji on (bje.JOB_INSTANCE_ID = bji.JOB_INSTANCE_ID) where bjp.KEY_NAME = 'authority.name' and bjp.STRING_VAL = ? order by START_TIME desc LIMIT ?", rowMapper, authorityName,pageSize);
         } else {

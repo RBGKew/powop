@@ -115,4 +115,9 @@ public class RemoteGroupServiceImpl extends GroupServiceImpl {
                 + "/permission?delete=true", HttpMethod.POST, requestEntity,
                 AceDto.class);
     }
+    
+    @Override
+    public void delete(final String identifier) {
+    	dao.delete(identifier);
+    }
 }

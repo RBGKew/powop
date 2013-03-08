@@ -24,7 +24,7 @@
   <!-- uncomment to see spring integration messages -->
   <!-- <logger name="org.springframework.integration.handler.LoggingHandler" level="DEBUG" additivity="false">
     <appender-ref ref="stdout"/>
-  </logger>-->
+  </logger> -->
   <!-- uncomment to see activemq messages -->
    <!-- <logger name="org.emonocot.harvest.common.index.MessageDrivenSearchController" level="DEBUG" additivity="false">
     <appender-ref ref="stdout"/>

@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import org.emonocot.model.Base;
+import org.emonocot.model.Searchable;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -16,26 +17,14 @@ import org.joda.time.DateTime;
  *
  */
 @Entity
-public abstract class Principal extends Base {
+public abstract class Principal extends Base implements Searchable {
 
-    /**
-    *
-    */
     private DateTime created;
 
-    /**
-    *
-    */
     private DateTime modified;
 
-    /**
-     *
-     */
     private Long id;
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -2461535344191283847L;
 
     /**

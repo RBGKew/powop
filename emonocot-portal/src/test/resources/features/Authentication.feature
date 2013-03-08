@@ -9,37 +9,19 @@ Feature: Authentication
 
 Background:
   Given that the indexes are clean
+  And there are organisations with the following properties:
+  | identifier       | title          | commentsEmailedTo |
+  | testOrganisation | A Test Source  | vagrant@localhost |
   And there are groups with the following properties:
-  | identifier       | permission1            |
-  | palmweb.org      | PERMISSION_VIEW_SOURCE |
+  | identifier       | permission1             |
+  | testOrganisation | PERMISSION_VIEW_SOURCE  |
   And there are users with the following properties:
-  | identifier        | password  | group1         |
-  | test@example.com  | Poa annua | palmweb.org    |
-  | admin@example.com | Poa annua | administrators |
+  | identifier        | accountName | password  | group1           |
+  | test@example.com  | Test User   | Poa annua | testOrganisation |
+  | admin@example.com | Admin       | Poa annua | administrators   |
   And I am not authenticated
   And I am on the portal home page
 
-
-Scenario: Registration
-  Users should be able to register an account in eMonocot.
-  When I select the login link in the header
-  And I select "Create a new account"
-  And I enter the following data into the registration form:
-  | username             | repeatUsername       | password        | repeatPassword  |
-  | john.doe@example.com | john.doe@example.com | unsafe.password | unsafe.password |
-  And I submit the registration form
-  Then the login page should be displayed
-  And an info message should say "Registration successful. An email has been sent to the email address you supplied. Please follow the instructions in the email to activate your account"  
-  # User now recieves an email containing an activation link which they must select in order
-  # to activate their account
-  
-Scenario: Deny access to unauthenticated user
-  In order to ensure that Users cannot access restricted areas, 
-  check that they cannot access a restricted page - when accessing
-  a restricted page they should be redirected to the login page
-  http://build.e-monocot.org/bugzilla/show_bug.cgi?id=36
-  When I navigate to the update page for source "palmweb.org"
-  Then the login page should be displayed
   
 Scenario: Add privileges to a group
   In order to allow privileged users access to restricted areas, as an
@@ -61,7 +43,7 @@ Scenario: Add privileges to a group
   And I submit the members form
   Then an info message should say "admin@example.com was added to the group"
   When I enter the following data into the access controls form:
-  | object      |
-  | palmweb.org |
+  | object           |
+  | testOrganisation |
   And I submit the access controls form
-  Then an info message should say "READ access to Organisation palmweb.org was added to the group"
+  Then an info message should say "READ access to Organisation testOrganisation was added to the group"

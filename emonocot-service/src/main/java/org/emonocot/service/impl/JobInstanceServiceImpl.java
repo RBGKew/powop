@@ -1,5 +1,7 @@
 package org.emonocot.service.impl;
 
+import java.util.List;
+
 import org.emonocot.api.JobInstanceService;
 import org.emonocot.persistence.dao.JobInstanceDao;
 import org.springframework.batch.core.JobInstance;
@@ -55,6 +57,14 @@ public class JobInstanceServiceImpl implements JobInstanceService {
     @Transactional
     public void save(JobInstance jobInstance) {
         jobInstanceDao.save(jobInstance);
+    }
+
+    /**
+     *
+     */
+    @Transactional
+    public List<JobInstance> list(Integer limit, Integer start) {
+	    return jobInstanceDao.list(start, limit);
     }
 
 }

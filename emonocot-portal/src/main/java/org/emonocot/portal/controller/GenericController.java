@@ -1,7 +1,10 @@
 package org.emonocot.portal.controller;
 
+import java.util.List;
+
 import org.emonocot.api.Service;
 import org.emonocot.model.Base;
+import org.emonocot.pager.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
@@ -51,6 +55,14 @@ public abstract class GenericController<T extends Base,
                     produces = "application/json")
     public final ResponseEntity<T> get(@PathVariable final String identifier) {
         return new ResponseEntity<T>(service.find(identifier), HttpStatus.OK);
+    }
+    
+    @RequestMapping(method = RequestMethod.GET,
+            consumes = "application/json",
+            produces = "application/json")
+    public final ResponseEntity<Page<T>> list(@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+    		                                  @RequestParam(value = "start", required = false, defaultValue = "0") Integer start) {
+        return new ResponseEntity<Page<T>>(service.list(start, limit, null), HttpStatus.OK);
     }
 
     /**

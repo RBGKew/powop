@@ -4,10 +4,10 @@
 	<parent>
 		<artifactId>emonocot</artifactId>
 		<groupId>org.emonocot</groupId>
-		<version>0.0.26-SNAPSHOT</version>
+		<version>0.0.27-SNAPSHOT</version>
 	</parent>
 	<artifactId>emonocot-portal</artifactId>
-	<version>0.0.26-SNAPSHOT</version>
+	<version>0.0.27-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>eMonocot Portal</name>
 	<dependencies>
@@ -103,6 +103,18 @@
 		    <groupId>org.hibernatespatial</groupId>
             <artifactId>hibernate-spatial-mysql</artifactId>
 	    </dependency>
+	    <dependency>
+	        <groupId>postgresql</groupId>
+	        <artifactId>postgresql</artifactId>
+	    </dependency>
+	    <dependency>
+			<groupId>org.hibernatespatial</groupId>
+			<artifactId>hibernate-spatial-postgis</artifactId>
+		</dependency>
+	    <dependency>
+			<groupId>org.postgis</groupId>
+			<artifactId>postgis-jdbc</artifactId>
+		</dependency>
 		<dependency>
               <groupId>ch.qos.logback</groupId>
               <artifactId>logback-classic</artifactId>
@@ -226,7 +238,7 @@
         <dependency>
           <groupId>org.quartz-scheduler</groupId>
           <artifactId>quartz</artifactId>
-        </dependency>     
+        </dependency>
 	</dependencies>
 	<build>
 		<finalName>emonocot-portal</finalName>
@@ -283,6 +295,11 @@
 						<artifactId>mysql-connector-java</artifactId>
 						<version>5.1.15</version>
 					</dependency>
+					<dependency>
+	                  <groupId>postgresql</groupId>
+	                  <artifactId>postgresql</artifactId>
+	                  <version>9.1-901.jdbc4</version>
+                    </dependency>
 				</dependencies>
 			</plugin>
 			<plugin>

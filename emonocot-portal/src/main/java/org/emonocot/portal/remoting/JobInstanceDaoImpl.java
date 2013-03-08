@@ -1,10 +1,20 @@
 package org.emonocot.portal.remoting;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.emonocot.persistence.dao.JobInstanceDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,8 +29,16 @@ public class JobInstanceDaoImpl implements JobInstanceDao {
     /**
      * Logger.
      */
-    private static Logger logger = LoggerFactory
-            .getLogger(JobInstanceDaoImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(JobInstanceDaoImpl.class);
+    
+    protected static HttpHeaders httpHeaders = new HttpHeaders();
+
+    static {
+        List<MediaType> acceptableMediaTypes = new ArrayList<MediaType>();
+        acceptableMediaTypes.add(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(acceptableMediaTypes);
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+    }
 
     /**
     *
@@ -78,5 +96,29 @@ public class JobInstanceDaoImpl implements JobInstanceDao {
         restTemplate.postForObject(baseUri+ "/" + resourceDir, jobInstance,
                 JobInstance.class);
     }
+
+	@Override
+	public List<JobInstance> list(Integer page, Integer size) {
+		HttpEntity<JobInstance> requestEntity = new HttpEntity<JobInstance>(httpHeaders);
+    	Map<String,Object> uriVariables = new HashMap<String,Object>();
+    	uriVariables.put("resource", resourceDir);
+    	if(size == null) {
+    		uriVariables.put("limit", "");
+    	} else {
+    		uriVariables.put("limit", size);
+    	}
+    	
+    	if(page == null) {
+    		uriVariables.put("start", "");
+    	} else {
+    		uriVariables.put("start", page);
+    	}    	
+    	
+    	
+    	ParameterizedTypeReference<List<JobInstance>> typeRef = new ParameterizedTypeReference<List<JobInstance>>() {};
+        HttpEntity<List<JobInstance>> responseEntity = restTemplate.exchange(baseUri + "/{resource}?limit={limit}&start={start}", HttpMethod.GET,
+                requestEntity, typeRef,uriVariables);
+        return responseEntity.getBody();
+	}
 
 }

@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>emonocot</artifactId>
 		<groupId>org.emonocot</groupId>
-		<version>0.0.26-SNAPSHOT</version>
+		<version>0.0.27-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>emonocot-model</artifactId>
@@ -192,7 +192,7 @@
 						<groupId>org.hibernate</groupId>
 						<artifactId>hibernate-core</artifactId>
 						<version>${hibernate.version}</version>
-					</dependency>
+					</dependency>					
 					<dependency>
 		             	<groupId>org.hibernate</groupId>
 			            <artifactId>hibernate-validator</artifactId>

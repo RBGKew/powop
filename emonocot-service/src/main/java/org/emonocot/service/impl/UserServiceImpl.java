@@ -1,9 +1,15 @@
 package org.emonocot.service.impl;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.tika.Tika;
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.parser.AutoDetectParser;
 import org.emonocot.api.UserService;
 import org.emonocot.model.SecuredObject;
 import org.emonocot.model.auth.Group;
@@ -12,9 +18,13 @@ import org.emonocot.persistence.dao.AclService;
 import org.emonocot.persistence.dao.GroupDao;
 import org.emonocot.persistence.dao.UserDao;
 import org.hibernate.NonUniqueResultException;
+import org.im4java.core.ConvertCmd;
+import org.im4java.core.IM4JavaException;
+import org.im4java.core.IMOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.orm.ObjectRetrievalFailureException;
 import org.springframework.security.access.AccessDeniedException;
@@ -43,6 +53,7 @@ import org.springframework.security.core.userdetails.cache.NullUserCache;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -50,48 +61,33 @@ import org.springframework.util.Assert;
  *
  */
 @Service
-public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
+public class UserServiceImpl extends SearchableServiceImpl<User, UserDao> implements
         UserService {
+	
+	private final Double THUMBNAIL_DIMENSION = 100D;
 
-    /**
-    *
-    */
-    private static Logger logger = LoggerFactory
-            .getLogger(UserServiceImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
-    /**
-     *
-     */
     private GroupDao groupDao;
 
-    /**
-     *
-     */
     private AclService aclService;
 
-    /**
-     *
-     */
     private SaltSource saltSource;
 
-    /**
-     *
-     */
     private PasswordEncoder passwordEncoder;
 
-    /**
-     *
-     */
     private AuthenticationManager authenticationManager;
 
-    /**
-     *
-     */
     private UserCache userCache;
+    
+	private String searchPath;
+	
+	private FileSystemResource temporaryFolder;
+	
+	private FileSystemResource userProfilesFolder;
+	
+	private Tika tika = new Tika();	
 
-    /**
-     *
-     */
     public UserServiceImpl() {
         saltSource = new ReflectionSaltSource();
         ((ReflectionSaltSource) saltSource).setUserPropertyToUse("getUsername");
@@ -99,73 +95,54 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
         userCache = new NullUserCache();
     }
 
-    /**
-     *
-     * @param aclService
-     *            Set the acl service
-     */
     @Autowired(required = false)
-    public final void setAclService(
-            final AclService aclService) {
+    public final void setAclService(final AclService aclService) {
         this.aclService = aclService;
     }
 
-    /**
-     *
-     * @param userCache
-     *            Set the user cache
-     */
     @Autowired(required = false)
     public final void setUserCache(final UserCache userCache) {
         Assert.notNull(userCache, "userCache cannot be null");
         this.userCache = userCache;
     }
 
-    /**
-     *
-     * @param passwordEncoder Set the password encoder
-     */
     @Autowired(required = false)
     public final void setPasswordEncoder(final PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 
-    /**
-     *
-     * @param saltSource Set the salt source
-     */
     @Autowired(required = false)
     public final void setSaltSource(final SaltSource saltSource) {
         this.saltSource = saltSource;
     }
 
-    /**
-     *
-     * @param authenticationManager Set the authentication manager
-     */
     @Autowired(required = false)
     public final void setAuthenticationManager(
             final AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
 
-    /**
-     *
-     * @param userDao Set the user dao
-     */
     @Autowired
     public final void setUserDao(final UserDao userDao) {
         this.dao = userDao;
     }
 
-    /**
-     *
-     * @param groupDao Set the group dao
-     */
     @Autowired
     public final void setGroupDao(final GroupDao groupDao) {
         this.groupDao = groupDao;
     }
+    
+    public void setSearchPath(String searchPath) {
+		this.searchPath = searchPath;
+	}
+
+	public void setTemporaryFolder(FileSystemResource temporaryFolder) {
+		this.temporaryFolder = temporaryFolder;
+	}
+
+	public void setUserProfilesFolder(FileSystemResource userProfilesFolder) {
+		this.userProfilesFolder = userProfilesFolder;
+	}
 
     /**
      *
@@ -691,4 +668,56 @@ public class UserServiceImpl extends ServiceImpl<User, UserDao> implements
     public final List<Object[]> listAces(final String recipient) {
         return aclService.listAces(new PrincipalSid(recipient));
     }
+
+	@Override
+	public String makeProfileThumbnail(MultipartFile file, String oldProfileImage) throws IOException, InterruptedException, IM4JavaException {
+		if(file != null && !file.isEmpty()) {
+        	String tmpFileExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.'));
+        	String tmpFileName = UUID.randomUUID().toString() + tmpFileExtension;
+        	File tmpFile = new File(temporaryFolder.getFile(),tmpFileName);
+        	file.transferTo(tmpFile);
+        	
+        	Metadata metadata = new Metadata();
+        	AutoDetectParser parser = new AutoDetectParser();
+        	FileInputStream fileInputStream = new FileInputStream(tmpFile);
+        	String mimeType = tika.detect(fileInputStream);
+        	
+        	String fileExtension = null;
+        	switch(mimeType) {
+        	case "image/jpeg":
+        		fileExtension = ".jpg";
+        		break;
+        	case "image/png":
+        		fileExtension = ".png";
+        		break;
+        	case "image/gif":
+        		fileExtension = ".gif";
+        		break;
+        	default:
+        		throw new UnsupportedOperationException(mimeType);
+        	}
+        	String imageFileName = UUID.randomUUID().toString() + fileExtension;
+        	File imageFile = new File(userProfilesFolder.getFile(), imageFileName);
+        	ConvertCmd convert = new ConvertCmd();
+            if (searchPath != null) {
+                convert.setSearchPath(searchPath);
+            }
+            IMOperation operation = new IMOperation();
+            operation.addImage(tmpFile.getAbsolutePath());
+            
+            operation.resize(THUMBNAIL_DIMENSION.intValue(), THUMBNAIL_DIMENSION.intValue(), "^");
+            operation.gravity("center");
+            operation.extent(THUMBNAIL_DIMENSION.intValue(), THUMBNAIL_DIMENSION.intValue());
+            operation.addImage(imageFile.getAbsolutePath());
+            convert.run(operation);
+            tmpFile.delete();
+            if(oldProfileImage != null) {
+                File oldFile = new File(userProfilesFolder.getFile(),oldProfileImage);
+                oldFile.delete();
+            }
+            return imageFileName;	
+        } else {
+		    return null;
+        }
+	}
 }

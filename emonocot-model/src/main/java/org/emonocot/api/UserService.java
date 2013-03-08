@@ -1,5 +1,6 @@
 package org.emonocot.api;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.emonocot.model.SecuredObject;
@@ -7,13 +8,14 @@ import org.emonocot.model.auth.User;
 import org.springframework.security.acls.model.Permission;
 import org.springframework.security.provisioning.GroupManager;
 import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
  * @author ben
  *
  */
-public interface UserService extends Service<User>, UserDetailsManager,
+public interface UserService extends SearchableService<User>, UserDetailsManager,
         GroupManager {
 
     /**
@@ -64,4 +66,6 @@ public interface UserService extends Service<User>, UserDetailsManager,
      * @param password
      */
 	void changePasswordForUser(String username, String password);
+	
+	String makeProfileThumbnail(MultipartFile file, String oldProfileImage) throws Exception;
 }

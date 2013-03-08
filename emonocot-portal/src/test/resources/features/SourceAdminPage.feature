@@ -9,8 +9,8 @@ Feature: Source Admin Page
 Background:
   Given that the indexes are clean
   And there are organisations with the following properties:
-  | identifier | uri                 | title        |
-  | test       | http://example.com  | test title   |
+  | identifier | uri                 | title        | commentsEmailedTo |
+  | test       | http://example.com  | test title   | test@example.com  |
   And there are groups with the following properties:
   | identifier    | permission1             |
   | test          | PERMISSION_VIEW_SOURCE  |
@@ -18,12 +18,12 @@ Background:
   | principal | principalType | object | objectType | permission |
   | test      | group         | test   | Source     | READ       |
   And there are users with the following properties:
-  | identifier          | password       | group1         |
-  | test@example.com    | Poa annua      | test           |
-  | admin@e-monocot.org | Nardus stricta | administrators |
+  | identifier          | accountName | password       | group1         |
+  | test@example.com    | Test        | Poa annua      | test           |
+  | admin@e-monocot.org | Admin       | Nardus stricta | administrators |
   And there are resources with the following properties:
-  | identifier | title    | family    | jobType     | source | recordsRead | readSkip | processSkip | writeSkip | written | jobId |
-  | Test Job   | Test Job | Testaceae | DwC_Archive | test   | 4           | 2        | 0           | 0         | 2       | 1     |
+  | identifier | title    | family    | jobType     | source | recordsRead | readSkip | processSkip | writeSkip | written | jobId | uri                |
+  | Test Job   | Test Job | Testaceae | DwC_Archive | test   | 4           | 2        | 0           | 0         | 2       | 1     | http://example.com |
   And there are job instances with the following properties:
   | jobId | jobName | authorityName | version |
   | 1     | testJob | test          | 1       |

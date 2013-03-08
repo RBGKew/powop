@@ -66,7 +66,7 @@ public class JobStatusNotifierImpl implements JobStatusNotifier {
 				    resource.setLastHarvestedJobId(jobExecutionInfo.getId());
 				    resource.setLastHarvested(jobExecutionInfo.getStartTime());
 					resource.updateNextAvailableDate();
-				} else if(resource.getExitCode().equals("NOT MODIFIED")) {
+				} else if(resource.getExitCode().equals("NOT_MODIFIED")) {
 					// it is NOT_MODIFIED, so leave the job id as it is, because
 					// we don't have any new annotations
 					resource.setLastHarvested(jobExecutionInfo.getStartTime());

@@ -10,14 +10,19 @@ import javax.validation.Valid;
 
 import org.emonocot.api.CommentService;
 import org.emonocot.api.DescriptionService;
+import org.emonocot.api.DistributionService;
+import org.emonocot.api.IdentifierService;
+import org.emonocot.api.MeasurementOrFactService;
+import org.emonocot.api.ReferenceService;
 import org.emonocot.api.SearchableObjectService;
-import org.emonocot.api.UserService;
+import org.emonocot.api.VernacularNameService;
 import org.emonocot.model.Base;
+import org.emonocot.model.BaseData;
 import org.emonocot.model.Comment;
 import org.emonocot.model.IdentificationKey;
 import org.emonocot.model.Image;
-import org.emonocot.model.OwnedEntity;
 import org.emonocot.model.Taxon;
+import org.emonocot.model.auth.User;
 import org.emonocot.portal.controller.form.CommentForm;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -38,29 +43,23 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/comment")
 public class CommentController extends GenericController<Comment, CommentService> {
     
-    /**
-     * 
-     */
     private Logger logger = LoggerFactory.getLogger(CommentController.class);
-    
-    /**
-     * 
-     */
+
     private SearchableObjectService searchableObjectService;
-    
-    /**
-     * 
-     */
+
     private DescriptionService descriptionService;
     
-    /**
-     * 
-     */
-    private UserService userService;
+    private DistributionService distributionService;
+    
+    private VernacularNameService vernacularNameService;
+    
+    private ReferenceService referenceService;
+    
+    private MeasurementOrFactService measurementOrFactService;
+    
+    private IdentifierService identifierService; 
+    
 
-    /**
-     * 
-     */
     public CommentController() {
         super("comment");
     }
@@ -91,19 +90,11 @@ public class CommentController extends GenericController<Comment, CommentService
     }
 
     /**
-     * @param userService the userService to set
-     */
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-
-    /**
      * @param comment
      * @param result
      */
     @RequestMapping(method = RequestMethod.POST, produces = "text/html")
-    public String postComment(String aboutDataIdentifier, Principal principal, @Valid CommentForm form, BindingResult formResult, RedirectAttributes attributes) {
+    public String postComment(Principal principal, @Valid CommentForm form, BindingResult formResult, RedirectAttributes attributes) {
         logger.debug("Got the comment \"" + form.getComment() + "\" about " + form.getAboutDataIdentifier() + " from " + principal.getName());
         
         //Create comment
@@ -112,14 +103,16 @@ public class CommentController extends GenericController<Comment, CommentService
         comment.setComment(form.getComment());
         comment.setCreated(new DateTime());
         comment.setStatus(Comment.Status.PENDING);
-        comment.setUser(userService.find(principal.getName()));
+        comment.setUser((User)principal);
         
-        Base about = searchableObjectService.find(aboutDataIdentifier);
+        BaseData commentPage = searchableObjectService.find(form.getCommentPageIdentifier());
+        
+        Base about = searchableObjectService.find(form.getAboutDataIdentifier());
         if(about == null) {
-            about = descriptionService.find(aboutDataIdentifier);
+            about = descriptionService.find(form.getAboutDataIdentifier());
         }
         if(about == null) {
-            logger.warn("Unable to find an object with the identifier" + aboutDataIdentifier);
+            logger.warn("Unable to find an object with the identifier" + form.getAboutDataIdentifier());
             attributes.addFlashAttribute("error", new DefaultMessageSourceResolvable("feedback.error.about"));
         } else if(!formResult.hasErrors()) {
             comment.setAboutData(about);
@@ -130,16 +123,13 @@ public class CommentController extends GenericController<Comment, CommentService
             
         }
         
-        //Set object and redirect
-        about = comment.getAboutData();
-        if(about instanceof Taxon) {
-            return "redirect:taxon/" + about.getIdentifier();
-        } else if (about instanceof OwnedEntity) {
-            return "redirect:taxon/" + ((OwnedEntity) about).getTaxon().getIdentifier();
-        } else if (about instanceof Image) {
-            return "redirect:image/" + about.getId();
-        } else if (about instanceof IdentificationKey) {
-            return "redirect:key/" + about.getId();
+        //Set object and redirect        
+        if(commentPage instanceof Taxon) {
+            return "redirect:taxon/" + commentPage.getIdentifier();
+        }  else if (commentPage instanceof Image) {
+            return "redirect:image/" + commentPage.getId();
+        } else if (commentPage instanceof IdentificationKey) {
+            return "redirect:key/" + commentPage.getId();
         } else {
             return "user/show";
         }

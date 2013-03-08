@@ -1,5 +1,7 @@
 package org.emonocot.persistence.dao;
 
+import java.util.List;
+
 import org.springframework.batch.core.JobInstance;
 
 /**
@@ -27,4 +29,6 @@ public interface JobInstanceDao {
     * @param jobInstance The jobInstance to save
     */
     void save(JobInstance jobInstance);
+    
+    List<JobInstance> list(Integer page, Integer size);
 }

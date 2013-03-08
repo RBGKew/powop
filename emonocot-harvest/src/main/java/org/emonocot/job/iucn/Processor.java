@@ -104,7 +104,7 @@ public class Processor extends AbstractRecordAnnotator implements ItemProcessor<
 
 	private Taxon doMatchTaxon(Map<String, Object> map) {
 		String name = (String)map.get("scientific_name");
-		if(map.containsKey("authority") && !(((String) map.get("authority")).isEmpty())) {
+		if(map.containsKey("authority") && map.get("authority") != null && !(((String) map.get("authority")).isEmpty())) {
 			String authority = (String) map.get("authority");
 			authority = StringEscapeUtils.unescapeXml(authority);
 			name = name + " " + authority;

@@ -13,8 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.auth.User;
@@ -24,11 +24,9 @@ import org.emonocot.model.marshall.json.DateTimeDeserializer;
 import org.emonocot.model.marshall.json.DateTimeSerializer;
 import org.emonocot.model.marshall.json.UserDeserializer;
 import org.emonocot.model.marshall.json.UserSerializer;
-import org.emonocot.model.registry.Organisation;
-import org.emonocot.model.registry.Resource;
 import org.hibernate.annotations.Any;
-import org.hibernate.annotations.AnyMetaDef;
-import org.hibernate.annotations.MetaValue;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
@@ -40,36 +38,74 @@ import org.joda.time.DateTime;
 public class Comment extends Base {
 
     /**
-     * 
-     */
-    private Long id;
-    
-    /**
-     * 
-     */
+	 * 
+	 */
+	private static final long serialVersionUID = -5773904824251895404L;
+
+	private Long id;
+
     private String comment;
     
     /**
-     * 
+     * The object which this comment is about
      */
     private Base aboutData;
 
-    /**
-     * 
-     */
     private DateTime created;
     
-    /**
-     * 
-     */
     private Status status;
     
-    /**
-     * 
-     */
     private User user;
+    
+    /**
+     * If this comment is a response to another comment, the immediate parent comment
+     */
+    private Comment inResponseTo;
+    
+    /**
+     * The object (page) on which this comment should appear
+     */
+    private BaseData commentPage;
+    
 
-    /* (non-Javadoc)
+    /**
+	 * @return the inResponseTo
+	 */
+    @ManyToOne(fetch = FetchType.LAZY)
+	@Cascade({ CascadeType.SAVE_UPDATE })
+	@JsonIgnore
+	public Comment getInResponseTo() {
+		return inResponseTo;
+	}
+
+	/**
+	 * @param inResponseTo the inResponseTo to set
+	 */
+    @JsonIgnore
+	public void setInResponseTo(Comment inResponseTo) {
+		this.inResponseTo = inResponseTo;
+	}
+
+	/**
+	 * @return the commentPage
+	 */
+    @Any(metaColumn = @Column(name = "commentPage_type"),
+            fetch = FetchType.LAZY, metaDef = "CommentMetaDef")
+    @JoinColumn(name = "commentPage_id")
+    @JsonSerialize(using = AnnotatableObjectSerializer.class)
+	public BaseData getCommentPage() {
+		return commentPage;
+	}
+
+	/**
+	 * @param commentPage the commentPage to set
+	 */
+    @JsonDeserialize(using = AnnotatableObjectDeserializer.class)
+	public void setCommentPage(BaseData commentPage) {
+		this.commentPage = commentPage;
+	}
+
+	/* (non-Javadoc)
      * @see org.emonocot.model.Identifiable#getIdentifier()
      */
     @Override
@@ -83,7 +119,6 @@ public class Comment extends Base {
     @Override
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
-
     }
 
     /**
@@ -120,24 +155,10 @@ public class Comment extends Base {
     /**
      * @return the aboutData
      */
-    @JoinColumn(name = "aboutData_id")
+    
     @Any(metaColumn = @Column(name = "aboutData_type"),
-        fetch = FetchType.LAZY)
-    @AnyMetaDef(idType = "long", metaType = "string", metaValues = {
-            @MetaValue(targetEntity = Comment.class, value = "Comment"),
-        @MetaValue(targetEntity = Description.class, value = "Description"),
-        @MetaValue(targetEntity = Distribution.class, value = "Distribution"),
-        @MetaValue(targetEntity = Identifier.class, value = "Identifier"),
-        @MetaValue(targetEntity = IdentificationKey.class, value = "IdentificationKey"),
-        @MetaValue(targetEntity = Image.class, value = "Image"),
-        @MetaValue(targetEntity = MeasurementOrFact.class, value = "MeasurementOrFact"),
-        @MetaValue(targetEntity = Organisation.class, value = "Organisation"),
-        @MetaValue(targetEntity = Resource.class, value = "Resource"),
-        @MetaValue(targetEntity = Reference.class, value = "Reference"),
-        @MetaValue(targetEntity = Taxon.class, value = "Taxon"),
-        @MetaValue(targetEntity = TypeAndSpecimen.class, value = "TypeAndSpecimen"),
-        @MetaValue(targetEntity = VernacularName.class, value = "VernacularName")
-    })
+        fetch = FetchType.LAZY, metaDef = "CommentMetaDef")
+    @JoinColumn(name = "aboutData_id")
     @JsonSerialize(using = AnnotatableObjectSerializer.class)
     public Base getAboutData() {
         return aboutData;

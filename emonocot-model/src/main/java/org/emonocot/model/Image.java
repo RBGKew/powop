@@ -1,6 +1,8 @@
 package org.emonocot.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -16,6 +18,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -82,6 +85,8 @@ public class Image extends SearchableObject implements NonOwned {
     private String publisher;
     
     private String audience;
+    
+    private List<Comment> comments = new ArrayList<Comment>();
 
 	public String getCreator() {
 		return creator;
@@ -265,6 +270,27 @@ public class Image extends SearchableObject implements NonOwned {
     public void setAnnotations(Set<Annotation> annotations) {
         this.annotations = annotations;
     }
+    
+    /**
+	 * @return the comments
+	 */
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "commentPage_id")
+    @OrderBy("created DESC")
+    @Where(clause = "commentPage_type = 'Image'")
+    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+    @JsonIgnore
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	/**
+	 * @param comments the comments to set
+	 */
+    @JsonIgnore
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
     
     @Override
     public SolrInputDocument toSolrInputDocument() {

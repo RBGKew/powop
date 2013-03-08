@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.emonocot.job.oaipmh.TaxonomicStatusConverter;
+import org.emonocot.model.convert.TaxonomicStatusConverter;
 import org.gbif.ecat.voc.TaxonomicStatus;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,9 +30,8 @@ public class ConversionServiceTest {
     @Before
     public final void setUp() {
         Set<Converter> converters = new HashSet<Converter>();
-        converters.add(new TaxonomicStatusConverter());
-
         ConversionServiceFactoryBean factoryBean = new ConversionServiceFactoryBean();
+        converters.add(new TaxonomicStatusConverter());
         factoryBean.setConverters(converters);
         factoryBean.afterPropertiesSet();
         conversionService = factoryBean.getObject();

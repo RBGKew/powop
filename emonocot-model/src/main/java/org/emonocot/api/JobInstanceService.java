@@ -1,5 +1,7 @@
 package org.emonocot.api;
 
+import java.util.List;
+
 import org.springframework.batch.core.JobInstance;
 
 /**
@@ -27,5 +29,13 @@ public interface JobInstanceService {
      * @param jobInstance The jobInstance to save
      */
     void save(JobInstance jobInstance);
+
+    /**
+     *
+     * @param limit
+     * @param start
+     * @return
+     */
+	List<JobInstance> list(Integer limit, Integer start);
 
 }
