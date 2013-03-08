@@ -118,8 +118,10 @@ public class CommentController extends GenericController<Comment, CommentService
         if(about == null) {
             about = descriptionService.find(aboutDataIdentifier);
         }
+        //Other services (distribution, etc.)
+        
         if(about == null) {
-            logger.warn("Unable to find an object with the identifier" + aboutDataIdentifier);
+            logger.error("Unable to find an object with the identifier" + aboutDataIdentifier);
             attributes.addFlashAttribute("error", new DefaultMessageSourceResolvable("feedback.error.about"));
         } else if(!formResult.hasErrors()) {
             comment.setAboutData(about);

@@ -9,6 +9,8 @@
 	  <h2 id="page-title"><i class="glyphicons-icon home"><!--  --></i>${user.username}</h2>
 	</tags:pageheader>
 	<div class="container">
+        <tags:info />
+        <tags:error />
 	<security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">
 		<div class="row">
 			<div class="span12">
