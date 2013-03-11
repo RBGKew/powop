@@ -39,27 +39,14 @@
 					</c:forEach>
 					<input type="hidden" name="sort" value="${result.sort}"/>
 					<div class="control-group">
-					  <input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="query"/>                 
-					  <button class="btn btn-primary"><span class="icon-search icon-white"><!--  --></span></button>
+						<input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="query"/>
+						<button class="btn btn-primary"><span class="icon-search icon-white"><!--  --></span></button>
 					</div>
-					<div class="control-group">
-					  <label class="control-label"><spring:message code="from" />:</label>
-					  <div class="controls">
-					    <input type="text" id="x1" name="x1" class="span1" value="${result.params['x1']}"/><span class="help-inline">&#176; W</span>&#160;<input type="text" id="y1" name="y1" class="span1" value="${result.params['y1']}"/> <span class="help-inline">&#176; N</span>
-					  </div>
-					</div>
-				
-				<div class="control-group">
-					<label class="control-label"><spring:message code="to" />:</label>
-					<div class="controls">
-						<input type="text" id="x2" name="x2" class="span1"
-							value="${result.params['x2']}" /><span class="help-inline">&#176;
-							W</span>&#160; <input type="text" id="y2" name="y2" class="span1"
-							value="${result.params['y2']}" /> <span class="help-inline">&#176;
-							N</span>
-					</div>
-				</div>
-			</form>
+					<input type="hidden" id="x1" name="x1" class="span1" value="${result.params['x1']}"/>
+					<input type="hidden" id="y1" name="y1" class="span1" value="${result.params['y1']}"/>
+					<input type="hidden" id="x2" name="x2" class="span1" value="${result.params['x2']}" />
+					<input type="hidden" id="y2" name="y2" class="span1" value="${result.params['y2']}" />
+				</form>
 		</div>
 		<div class="row">
 			<span class="pull-left"><spring:message
