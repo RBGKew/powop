@@ -42,8 +42,7 @@ public class SearchController {
      *            set the service to search across all 'searchable' objects
      */
     @Autowired
-    public final void setSearchableObjectService(
-            final SearchableObjectService newSearchableObjectService) {
+    public void setSearchableObjectService(SearchableObjectService newSearchableObjectService) {
         this.searchableObjectService = newSearchableObjectService;
     }
 
@@ -73,7 +72,7 @@ public class SearchController {
      * @param className Set the class name
      * @return the default limit
      */
-    private Integer setLimit(final String view, final String className) {
+    private Integer setLimit(String view, String className) {
         if (view == null || view == "") {
             if (className == null) {
                 return 10;
@@ -107,14 +106,14 @@ public class SearchController {
     * @return a model and view
     */
    @RequestMapping(value = "/search", method = RequestMethod.GET)
-   public final String search(
-       @RequestParam(value = "query", required = false) final String query,
+   public String search(
+       @RequestParam(value = "query", required = false) String query,
        @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
-       @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
-       @RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
+       @RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
+       @RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
        @RequestParam(value = "sort", required = false) String sort,
        @RequestParam(value = "view", required = false) String view,
-       final Model model) {
+       Model model) {
 
        Map<String, String> selectedFacets = null;
        if (facets != null && !facets.isEmpty()) {
@@ -193,19 +192,19 @@ public class SearchController {
    * @return a model and view
    */
   @RequestMapping(value = "/spatial", method = RequestMethod.GET)
-  public final String spatial(
-      @RequestParam(value = "query", required = false) final String query,
-      @RequestParam(value = "x1", required = false) final Double x1,
-      @RequestParam(value = "y1", required = false) final Double y1,
-      @RequestParam(value = "x2", required = false) final Double x2,
-      @RequestParam(value = "y2", required = false) final Double y2,
-      @RequestParam(value = "featureId", required = false) final String featureId,
+  public String spatial(
+      @RequestParam(value = "query", required = false) String query,
+      @RequestParam(value = "x1", required = false) Double x1,
+      @RequestParam(value = "y1", required = false) Double y1,
+      @RequestParam(value = "x2", required = false) Double x2,
+      @RequestParam(value = "y2", required = false) Double y2,
+      @RequestParam(value = "featureId", required = false) String featureId,
       @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
-      @RequestParam(value = "start", required = false, defaultValue = "0") final Integer start,
-      @RequestParam(value = "facet", required = false) @FacetRequestFormat final List<FacetRequest> facets,
-      @RequestParam(value = "sort", required = false) final String sort,
+      @RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
+      @RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
+      @RequestParam(value = "sort", required = false) String sort,
       @RequestParam(value = "view", required = false) String view,
-      final Model model) {
+      Model model) {
       String spatial = null;
       DecimalFormat decimalFormat = new DecimalFormat("###0.0");
       if (x1 != null && y1 != null && x2 != null && y2 != null && (x1 != 0.0 && y1 != 0.0 && x2 != 0.0 && x2 != 0.0 && y2 != 0.0)) {
@@ -280,7 +279,7 @@ public class SearchController {
      * @return A list of terms to serialize
      */
     @RequestMapping(value = "/autocomplete", method = RequestMethod.GET, produces = "application/json")
-    public final @ResponseBody List<Match> autocomplete(@RequestParam(required = true) final String term) {    	
+    public @ResponseBody List<Match> autocomplete(@RequestParam(required = true) String term) {    	
         return searchableObjectService.autocomplete(term, 10, null);
     }
 }

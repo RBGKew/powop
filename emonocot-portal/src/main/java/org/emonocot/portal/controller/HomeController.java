@@ -52,7 +52,7 @@ public class HomeController {
     }
     
     @RequestMapping(method = RequestMethod.POST, produces = "text/html")
-    public String create(@Valid User user,
+    public String update(@Valid User user,
             BindingResult result,
             Model model,
             RedirectAttributes redirectAttributes) throws Exception {
@@ -71,7 +71,10 @@ public class HomeController {
         authorizedUser.setOrganization(user.getOrganization());
         authorizedUser.setTopicInterest(user.getTopicInterest());
         try {
-            authorizedUser.setImg(userService.makeProfileThumbnail(user.getImgFile(),authorizedUser.getImg()));
+        	String img = userService.makeProfileThumbnail(user.getImgFile(),authorizedUser.getImg());
+        	if(img != null) {
+                authorizedUser.setImg(img);
+        	}
         } catch(UnsupportedOperationException uoe) {
         	String[] codes = new String[] {"unsupported.image.mimetype" };
             Object[] args = new Object[] {uoe.getMessage()};

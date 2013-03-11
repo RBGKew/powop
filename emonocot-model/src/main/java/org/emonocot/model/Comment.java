@@ -13,7 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
+import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -35,7 +37,7 @@ import org.joda.time.DateTime;
  * A comment provided by a portal {@link User} about some item of Data
  */
 @Entity
-public class Comment extends Base {
+public class Comment extends Base implements Searchable {
 
     /**
 	 * 
@@ -234,5 +236,46 @@ public class Comment extends Base {
         REFUSED,
         SENT;
     }
+
+    @Transient
+	@JsonIgnore
+	public String getClassName() {
+		return "Annotation";
+	}
+	
+	@Override
+	@Transient
+    @JsonIgnore
+	public String getDocumentId() {
+		return getClassName() + "_" + getId();
+	}
+
+	@Override
+	public SolrInputDocument toSolrInputDocument() {
+		SolrInputDocument sid = new SolrInputDocument();
+		sid.addField("id", getClassName() + "_" + getId());
+    	sid.addField("base.id_l", getId());
+    	sid.addField("base.class_searchable_b", false);
+    	sid.addField("base.class_s", getClass().getName());
+    	if(getAboutData() != null) {
+    		if(getAboutData() instanceof BaseData) {
+    			BaseData baseData = (BaseData)getAboutData();
+    			if(baseData.getAuthority() != null) {
+    				sid.addField("base.authority_s", baseData.getAuthority().getIdentifier());
+    			}
+    		}
+		}
+    	if(getCommentPage() != null) {
+    		if(getCommentPage() instanceof Taxon) {
+    			Taxon taxon = (Taxon)getCommentPage();
+    			sid.addField("taxon.family_s", taxon.getFamily());
+    		}
+		}
+    	sid.addField("comment.comment_t",getComment());
+    	sid.addField("comment.created_dt",getCreated());
+    	sid.addField("comment.status_t",getStatus());
+    	sid.addField("searchable.solrsummary_t", getComment());
+		return sid;
+	}
 
 }

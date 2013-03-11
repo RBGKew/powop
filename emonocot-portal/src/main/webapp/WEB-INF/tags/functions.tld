@@ -129,6 +129,11 @@
         <function-signature>java.util.List organisationItems()</function-signature>
     </function>
     <function>
+        <name>commentSortItems</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.util.List commentItems()</function-signature>
+    </function>
+    <function>
         <name>sort</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>java.util.List sort(java.util.Collection)</function-signature>

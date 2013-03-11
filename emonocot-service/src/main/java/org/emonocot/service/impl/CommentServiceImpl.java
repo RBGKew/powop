@@ -26,7 +26,7 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
-public class CommentServiceImpl extends ServiceImpl<Comment, CommentDao> implements CommentService {
+public class CommentServiceImpl extends SearchableServiceImpl<Comment, CommentDao> implements CommentService {
     
     private Logger logger = LoggerFactory.getLogger(CommentServiceImpl.class);
     

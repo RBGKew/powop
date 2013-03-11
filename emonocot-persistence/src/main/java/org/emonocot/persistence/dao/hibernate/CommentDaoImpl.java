@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
  *
  */
 @Repository
-public class CommentDaoImpl extends DaoImpl<Comment> implements CommentDao {
+public class CommentDaoImpl extends SearchableDaoImpl<Comment> implements CommentDao {
 
    /**
     *
@@ -51,4 +51,8 @@ public class CommentDaoImpl extends DaoImpl<Comment> implements CommentDao {
         }
     }
 
+    @Override
+    protected boolean isSearchableObject() {
+		return false;
+	}
 }

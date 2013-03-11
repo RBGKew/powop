@@ -27,8 +27,6 @@ import org.emonocot.model.marshall.json.OrganisationDeserialiser;
 import org.emonocot.model.marshall.json.OrganisationSerializer;
 import org.emonocot.model.registry.Organisation;
 import org.hibernate.annotations.Any;
-import org.hibernate.annotations.AnyMetaDef;
-import org.hibernate.annotations.MetaValue;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 

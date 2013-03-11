@@ -462,6 +462,13 @@ public class Functions {
        return sortItems;
    }
    
+   public static List<String> commentItems() {
+       List<String> sortItems = new ArrayList<String>();
+       sortItems.add("comment.created_dt_desc");
+       sortItems.add("_asc");
+       return sortItems;
+   }
+   
    public static List<String> resourceSortItems() {
        List<String> sortItems = new ArrayList<String>();
        sortItems.add("resource.last_harvested_dt_desc");
