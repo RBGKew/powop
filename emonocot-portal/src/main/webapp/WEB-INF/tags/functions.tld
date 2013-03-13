@@ -34,6 +34,11 @@
         <function-signature>java.lang.String printTimeOnly(org.joda.time.DateTime)</function-signature>
     </function>
     <function>
+        <name>prettyTime</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.String prettyTime(org.joda.time.DateTime)</function-signature>
+    </function>
+    <function>
         <name>duration</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>java.lang.String duration(org.joda.time.Duration)</function-signature>

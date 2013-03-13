@@ -27,8 +27,6 @@ import org.emonocot.model.marshall.json.DateTimeSerializer;
 import org.emonocot.model.marshall.json.UserDeserializer;
 import org.emonocot.model.marshall.json.UserSerializer;
 import org.hibernate.annotations.Any;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
@@ -48,7 +46,17 @@ public class Comment extends Base implements Searchable {
 
     private String comment;
     
-    /**
+    private String subject;
+    
+    public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+
+	/**
      * The object which this comment is about
      */
     private Base aboutData;
@@ -74,7 +82,6 @@ public class Comment extends Base implements Searchable {
 	 * @return the inResponseTo
 	 */
     @ManyToOne(fetch = FetchType.LAZY)
-	@Cascade({ CascadeType.SAVE_UPDATE })
 	@JsonIgnore
 	public Comment getInResponseTo() {
 		return inResponseTo;
@@ -93,7 +100,7 @@ public class Comment extends Base implements Searchable {
 	 */
     @Any(metaColumn = @Column(name = "commentPage_type"),
             fetch = FetchType.LAZY, metaDef = "CommentMetaDef")
-    @JoinColumn(name = "commentPage_id")
+    @JoinColumn(name = "commentPage_id", nullable = true)
     @JsonSerialize(using = AnnotatableObjectSerializer.class)
 	public BaseData getCommentPage() {
 		return commentPage;
@@ -160,7 +167,7 @@ public class Comment extends Base implements Searchable {
     
     @Any(metaColumn = @Column(name = "aboutData_type"),
         fetch = FetchType.LAZY, metaDef = "CommentMetaDef")
-    @JoinColumn(name = "aboutData_id")
+    @JoinColumn(name = "aboutData_id", nullable = true)
     @JsonSerialize(using = AnnotatableObjectSerializer.class)
     public Base getAboutData() {
         return aboutData;
@@ -240,7 +247,7 @@ public class Comment extends Base implements Searchable {
     @Transient
 	@JsonIgnore
 	public String getClassName() {
-		return "Annotation";
+		return "Comment";
 	}
 	
 	@Override
@@ -258,22 +265,23 @@ public class Comment extends Base implements Searchable {
     	sid.addField("base.class_searchable_b", false);
     	sid.addField("base.class_s", getClass().getName());
     	if(getAboutData() != null) {
-    		if(getAboutData() instanceof BaseData) {
-    			BaseData baseData = (BaseData)getAboutData();
-    			if(baseData.getAuthority() != null) {
-    				sid.addField("base.authority_s", baseData.getAuthority().getIdentifier());
-    			}
-    		}
+    		sid.addField("comment.about_class_s",getAboutData().getClass().getName());   
 		}
     	if(getCommentPage() != null) {
     		if(getCommentPage() instanceof Taxon) {
+    			sid.addField("comment.comment_page_class_s","org.emonocot.model.Taxon");
     			Taxon taxon = (Taxon)getCommentPage();
     			sid.addField("taxon.family_s", taxon.getFamily());
+    		} else if(getCommentPage() instanceof IdentificationKey) {
+    			sid.addField("comment.comment_page_class_s","org.emonocot.model.IdentificationKey");
+    		} else if(getCommentPage() instanceof Image) {
+    			sid.addField("comment.comment_page_class_s","org.emonocot.model.Image");
     		}
 		}
     	sid.addField("comment.comment_t",getComment());
     	sid.addField("comment.created_dt",getCreated());
     	sid.addField("comment.status_t",getStatus());
+    	sid.addField("comment.subject_s",getSubject());
     	sid.addField("searchable.solrsummary_t", getComment());
 		return sid;
 	}

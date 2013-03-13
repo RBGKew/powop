@@ -84,7 +84,7 @@
         <property name="rootTagName" value="urlset" />
         <property name="rootElementAttributes">
             <map>
-                <entry key="xmlns" value="http://www.sitemaps.org/schemas/sitemap"/>
+                <entry key="xmlns" value="http://www.sitemaps.org/schemas/sitemap/0.9"/>
             </map>
         </property>
         <property name="overwriteOutput" value="true" />

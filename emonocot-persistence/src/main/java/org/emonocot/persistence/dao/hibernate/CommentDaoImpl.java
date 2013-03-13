@@ -28,6 +28,7 @@ public class CommentDaoImpl extends SearchableDaoImpl<Comment> implements Commen
        FETCH_PROFILES = new HashMap<String, Fetch[]>();
        FETCH_PROFILES.put("aboutData", new Fetch[] {
                new Fetch("user", FetchMode.SELECT),
+               new Fetch("commentPage", FetchMode.SELECT),
                new Fetch("aboutData", FetchMode.SELECT),
                new Fetch("aboutData.authority", FetchMode.SELECT),
                new Fetch("aboutData.organisation", FetchMode.SELECT)

@@ -212,7 +212,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		Object[] args = new Object[] { resource.getTitle() };
 		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
 		redirectAttributes.addFlashAttribute("info", message);
-		return "redirect:/resource/" + resourceId;
+		return "redirect:/resource/{resourceId}";
 	}
 	/**
 	 * 
@@ -364,7 +364,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
         DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
                 codes, args);
         redirectAttributes.addFlashAttribute("info", message);
-        return "redirect:/resource/" + resourceId + "?form=true";
+        return "redirect:/resource/{resourceId}?form=true";
     }
 
     /**
@@ -386,7 +386,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
         DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
                 codes, args);
         redirectAttributes.addFlashAttribute("info", message);
-        return "redirect:/resource/" + resourceId + "?form=true";
+        return "redirect:/resource/{resourceId}?form=true";
     }
 
 	/**
@@ -475,7 +475,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 					codes, args);
 			redirectAttributes.addFlashAttribute("error", message);
 		}
-		return "redirect:/resource/" + resourceId;
+		return "redirect:/resource/{resourceId}";
 	}
 	
 	@RequestMapping(value = "/{resourceId}/progress", method = RequestMethod.GET, produces="application/json")

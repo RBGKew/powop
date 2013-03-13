@@ -11,12 +11,9 @@
     
 	<context:property-placeholder location="classpath*:META-INF/spring/*.properties" />
     
-    <!-- For test file -->
-    <!-- <int:channel-interceptor ref="channelListener" pattern="*Channel*" />
-    <bean id="channelListener" class="org.emonocot.integration.MessageHandler">
-        <property name="primaryChannel" ref="emailCommentChannel"/>
-    </bean> -->
+
     <int:outbound-channel-adapter channel="enrichedCommentChannel" ref="testMessageHandler" method="handle" />
+    <int:outbound-channel-adapter channel="indexingChannel" ref="testMessageHandler" method="ignore"/>
     <bean id="testMessageHandler" class="org.emonocot.integration.MessageHandler" />
-    <!--  -->
+
 </beans>

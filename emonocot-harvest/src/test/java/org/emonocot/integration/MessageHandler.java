@@ -54,6 +54,10 @@ public class MessageHandler<T> implements ChannelInterceptor {
         handle(message, null, null);
     }
     
+    public void ignore(Message<T> message) throws Exception {
+        logger.info("Ignoring message " + message.getPayload());
+    }
+    
     /**
      * @param message
      * @throws Exception 

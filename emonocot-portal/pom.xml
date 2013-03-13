@@ -239,6 +239,10 @@
           <groupId>org.quartz-scheduler</groupId>
           <artifactId>quartz</artifactId>
         </dependency>
+        <dependency>
+           <groupId>javax.inject</groupId>
+           <artifactId>javax.inject</artifactId>
+        </dependency>
 	</dependencies>
 	<build>
 		<finalName>emonocot-portal</finalName>

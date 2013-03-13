@@ -20,16 +20,23 @@ import org.emonocot.api.MeasurementOrFactService;
 import org.emonocot.api.ReferenceService;
 import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.Service;
+import org.emonocot.api.UserService;
 import org.emonocot.api.VernacularNameService;
 import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.Base;
 import org.emonocot.model.BaseData;
 import org.emonocot.model.Comment;
+import org.emonocot.model.Description;
+import org.emonocot.model.Distribution;
 import org.emonocot.model.IdentificationKey;
+import org.emonocot.model.Identifier;
 import org.emonocot.model.Image;
+import org.emonocot.model.MeasurementOrFact;
+import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
+import org.emonocot.model.TypeAndSpecimen;
+import org.emonocot.model.VernacularName;
 import org.emonocot.model.auth.User;
-import org.emonocot.model.registry.Organisation;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.controller.form.CommentForm;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
@@ -70,6 +77,8 @@ public class CommentController extends GenericController<Comment, CommentService
     private MeasurementOrFactService measurementOrFactService;
     
     private IdentifierService identifierService;
+    
+    private UserService userService;
         
     @Autowired
 	public void setDistributionService(DistributionService distributionService) {
@@ -96,6 +105,11 @@ public class CommentController extends GenericController<Comment, CommentService
 		this.identifierService = identifierService;
 	}
     
+    @Autowired
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+    
 	private List<Service<? extends BaseData>> getServices() {
 		return Arrays.asList(searchableObjectService, distributionService,
 				descriptionService, vernacularNameService,
@@ -118,8 +132,7 @@ public class CommentController extends GenericController<Comment, CommentService
      * @param searchableObjectService the searchableObjectService to set
      */
     @Autowired
-    public void setSearchableObjectService(
-            SearchableObjectService searchableObjectService) {
+    public void setSearchableObjectService(SearchableObjectService searchableObjectService) {
         this.searchableObjectService = searchableObjectService;
     }
 
@@ -137,31 +150,83 @@ public class CommentController extends GenericController<Comment, CommentService
      */
     @RequestMapping(method = RequestMethod.POST, produces = "text/html")
     public String postComment(Principal principal, @Valid CommentForm form, BindingResult formResult, RedirectAttributes attributes) {
-        logger.debug("Got the comment \"" + form.getComment() + "\" about " + form.getAboutDataIdentifier() + " from " + principal.getName());
-        
+        logger.debug("Got the comment \"" + form.getComment() + "\" about " + form.getAboutData() + " from " + principal.getName());
+        User user = userService.load(principal.getName());
         //Create comment
         Comment comment = new Comment();
         comment.setIdentifier(UUID.randomUUID().toString());
         comment.setComment(form.getComment());
         comment.setCreated(new DateTime());
         comment.setStatus(Comment.Status.PENDING);
-        comment.setUser((User)principal);
+        comment.setUser(user);
         
         BaseData commentPage = searchableObjectService.find(form.getCommentPageIdentifier());
         
         Base about = null;
-        for(Service<? extends BaseData> service : getServices()) {
-        	about = service.find(form.getAboutDataIdentifier());
-        	if(about != null) {
-        		break;
-        	}
+        switch(form.getAboutData()) {
+        case "descriptions":
+        case "distribution":
+        case "childNameUsages":
+        case "synonymNameUsages":
+        case "vernacularNames":
+        case "higherClassification":
+        case "measurementsOrFacts":
+        case "typesAndSpecimens":
+        case "references":
+        case "identifiers":
+        case "other":
+        	 comment.setSubject(form.getAboutData());
+        	 comment.setAboutData(commentPage);
+        	 break;
+       default:
+    	   for(Service<? extends BaseData> service : getServices()) {
+           	about = service.find(form.getAboutData());
+           	if(about != null) {
+           		break;
+           	}
+           }
+    	   if(about != null && commentPage instanceof Taxon) {
+    		   Taxon t = (Taxon)commentPage;
+    		   BaseData aboutData = (BaseData) about;    		   
+    		   if(aboutData instanceof Taxon) {
+    		     if(about.equals(t.getParentNameUsage())) {
+    			   comment.setSubject("parentNameUsage");
+    		     }
+    		     if(about.equals(t.getAcceptedNameUsage())) {
+    			   comment.setSubject("acceptedNameUsage");
+    		     }
+    		     if(t.getChildNameUsages().contains(about)) {
+    			   comment.setSubject("childNameUsages");
+    		     }
+    		     if(t.getSynonymNameUsages().contains(about)) {
+    			   comment.setSubject("synonymNameUsages");
+    		     }
+    		   } else if(aboutData instanceof Description) {
+    			   comment.setSubject("descriptions");
+    		   } else if(aboutData instanceof Distribution) {
+    			   comment.setSubject("distribution");
+    		   } else if(aboutData instanceof Identifier) {
+    			   comment.setSubject("identifiers");
+    		   } else if(aboutData instanceof MeasurementOrFact) {
+    			   comment.setSubject("measurementsOrFacts");
+    		   } else if(aboutData instanceof VernacularName) {
+    			   comment.setSubject("vernacularNames");
+    		   } else if(aboutData instanceof TypeAndSpecimen) {
+    			   comment.setSubject("typesAndSpecimens");
+    		   } else if(aboutData instanceof Reference) {
+    			   comment.setSubject("references");
+    		   }
+    	   }    	   
+    	   break;
         }
         
+        
         if(about == null) {
-            logger.warn("Unable to find an object with the identifier" + form.getAboutDataIdentifier());
+            logger.warn("Unable to find an object with the identifier" + form.getAboutData());
             attributes.addFlashAttribute("error", new DefaultMessageSourceResolvable("feedback.error.about"));
-        } else if(!formResult.hasErrors()) {
+        } else if(!formResult.hasErrors()) {        	
             comment.setAboutData(about);
+            comment.setCommentPage(commentPage);
             super.getService().save(comment);
             attributes.addFlashAttribute("info",  new DefaultMessageSourceResolvable("feedback.saved"));
         } else {
@@ -180,6 +245,7 @@ public class CommentController extends GenericController<Comment, CommentService
             return "user/show";
         }
     }
+
     @RequestMapping(method = RequestMethod.GET, params = {"!autocomplete"}, produces = "text/html")
 	public String list(
 			Model model,
@@ -200,7 +266,7 @@ public class CommentController extends GenericController<Comment, CommentService
 		selectedFacets.put("base.class_s", "org.emonocot.model.Comment");
 		selectedFacets.put("comment.status_t", "SENT");
 		Page<Comment> result = getService().search(query, null, limit, start, 
-				new String[] { "base.authority_s","taxon.family_s" }, null, selectedFacets, sort, null);
+				new String[] {"taxon.family_s", "comment.subject_s","comment.comment_page_class_s" }, null, selectedFacets, sort, null);
 		model.addAttribute("result", result);
 		result.putParam("query", query);
 		return "comment/list";

@@ -146,10 +146,11 @@
             <div id="feedbackModal" class="modal hide fade">
 		        <div class="modal-header">
 		            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-		            <h3><spring:message code="feedbackTitle" /></h3>
+		            <h3><i class="glyphicons-icon comments"><!--  --></i><spring:message code="feedbackTitle" /></h3>
 		        </div>
 		        <c:url value="/comment" var="commentUrl" />
 		        <form class="modal-form" action="${commentUrl}" method="post">
+		            <input type="hidden" name="commentPageIdentifier" value="${identificationKey.identifier}"/> 
 		            <div class="modal-body">
 		                <div class="control-group">
 		                    <security:authorize access="isAnonymous()">
@@ -157,7 +158,7 @@
 		                    </security:authorize>
 		                    <label class="control-label" for="select01"><spring:message code="feedback.topic.option" /> ${identificationKey.title}</label>
 		                    <div class="controls">
-                                <input type="hidden" name="aboutDataIdentifier" value="${identificationKey.identifier}" />
+                                <input type="hidden" name="aboutData" value="${identificationKey.identifier}" />
 		                    </div>
 		                </div>
 		                <div class="control-group">

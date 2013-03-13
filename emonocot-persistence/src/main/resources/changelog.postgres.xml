@@ -1743,4 +1743,10 @@
       <comment>Set the resourceType to be not null</comment>
       <sql>update resource set resourcetype = "DOWNLOAD" where resourcetype is NULL;</sql>
     </changeSet>
+    <changeSet id="2013-03-12_01" author="ben">
+        <comment>BUG #461: As a user of eMonocot I would like to be able to search and filter comments</comment>
+        <addColumn tableName="comment">
+          <column name="subject" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

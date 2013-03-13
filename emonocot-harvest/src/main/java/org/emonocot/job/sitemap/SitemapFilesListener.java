@@ -29,44 +29,26 @@ import org.springframework.core.io.Resource;
  */
 public class SitemapFilesListener implements StepExecutionListener, ChunkListener {
 	
-	/**
-	 * 
-	 */
-	private static final Logger logger = LoggerFactory.getLogger(SitemapFilesListener.class);
+	private static Logger logger = LoggerFactory.getLogger(SitemapFilesListener.class);
 
 	/**
 	 * The maximum size allowed by the sitemap protocol is 10MB
 	 */
-	private static final long MAX_SITEMAP_LENGTH = 9 * 1024 * 1024;
+	private static long MAX_SITEMAP_LENGTH = 9 * 1024 * 1024;
 
 	/**
 	 * The maximum number of url elements in a single sitemap file
 	 */
-	private static final int MAX_URL_COUNT = 9000;
-	
-	/**
-	 * 
-	 */
+	private static int MAX_URL_COUNT = 9000;
+
 	private StepExecution currentStep;
 	
-	/**
-	 * 
-	 */
 	private List<Url> sitemapNames = new ArrayList<Url>();
 	
-	/**
-	 * 
-	 */
 	private String portalBaseUrl;
 	
-	/**
-	 * 
-	 */
 	private String sitemapSpoolDir;
-	
-	/**
-	 * 
-	 */
+
 	private StaxEventItemWriter staxWriter;
 
 	/**
@@ -79,14 +61,8 @@ public class SitemapFilesListener implements StepExecutionListener, ChunkListene
 	 */
 	private FileSystemResource currentFile;
 
-	/**
-	 * 
-	 */
 	private int chunkOfFile = 0;
 
-	/**
-	 * 
-	 */
 	private int commitSize = 1000;
 
 	/**
@@ -94,31 +70,37 @@ public class SitemapFilesListener implements StepExecutionListener, ChunkListene
 	 */
 	private ExecutionContext jobExContext;
 
+	private String sitemapDir;
+
 	/**
 	 * @param portalBaseUrl the portalBaseUrl to set
 	 */
-	public final void setPortalBaseUrl(String portalBaseUrl) {
+	public void setPortalBaseUrl(String portalBaseUrl) {
 		this.portalBaseUrl = portalBaseUrl;
+	}
+	
+	public void setSitemapDir(String sitemapDir) {
+		this.sitemapDir = sitemapDir;
 	}
 
 	/**
 	 * @return the sitemapNames
 	 */
-	public final List<Url> getSitemapNames() {
+	public List<Url> getSitemapNames() {
 		return sitemapNames;
 	}
 
 	/**
 	 * @param sitemapSpoolDir the sitemapSpoolDir to set
 	 */
-	public final void setSitemapSpoolDir(String sitemapSpoolDir) {
+	public void setSitemapSpoolDir(String sitemapSpoolDir) {
 		this.sitemapSpoolDir = sitemapSpoolDir;
 	}
 
 	/**
 	 * @param staxWriter the staxWriter to set
 	 */
-	public final void setStaxWriter(StaxEventItemWriter staxWriter) {
+	public void setStaxWriter(StaxEventItemWriter staxWriter) {
 		this.staxWriter = staxWriter;
 	}
 
@@ -148,7 +130,7 @@ public class SitemapFilesListener implements StepExecutionListener, ChunkListene
 		try {
 			Url u = new Url();
 			u.setLastmod(ISODateTimeFormat.dateTime().print((ReadableInstant) null));
-			u.setLoc(new URL(portalBaseUrl + "/" + currentFile.getFilename()));
+			u.setLoc(new URL(portalBaseUrl +"/" + sitemapDir + "/" + currentFile.getFilename()));
 			sitemapNames.add(u);
 		} catch (MalformedURLException e) {
 			logger.error("Unable create Url for sitemap", e);

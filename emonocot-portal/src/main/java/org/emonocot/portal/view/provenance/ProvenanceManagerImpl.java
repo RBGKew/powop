@@ -3,16 +3,15 @@ package org.emonocot.portal.view.provenance;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.emonocot.model.BaseData;
 import org.emonocot.model.Description;
 import org.emonocot.model.Distribution;
+import org.emonocot.model.IdentificationKey;
 import org.emonocot.model.Image;
 import org.emonocot.model.MeasurementOrFact;
 import org.emonocot.model.Taxon;
@@ -56,6 +55,9 @@ public class ProvenanceManagerImpl implements ProvenanceManager {
 		}
 		for(MeasurementOrFact measurementOrFact : taxon.getMeasurementsOrFacts()) {
 			addProvenance(measurementOrFact);
+		}
+		for(IdentificationKey key : taxon.getKeys()) {
+			addProvenance(key);
 		}
 		
 		for(Organisation organisation : organisations) {

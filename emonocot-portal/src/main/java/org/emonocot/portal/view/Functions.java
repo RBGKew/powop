@@ -54,6 +54,7 @@ import org.joda.time.format.ISODateTimeFormat;
 import org.joda.time.format.PeriodFormat;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
+import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.core.convert.support.DefaultConversionService;
 
@@ -137,6 +138,16 @@ public class Functions {
     
     public static String evaluate(String expressionString, PageContext pageContext) throws ELException {
     	return (String)pageContext.getExpressionEvaluator().evaluate(expressionString, String.class, pageContext.getVariableResolver(), null);
+    }
+    
+    static PrettyTime prettyTime = new PrettyTime();
+    
+    public static String prettyTime(DateTime dateTime) {
+    	if(dateTime == null) {
+    		return null;
+    	} else {
+            return prettyTime.format(dateTime.toDate());
+    	}
     }
 
     /**

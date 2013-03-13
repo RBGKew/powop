@@ -78,8 +78,9 @@
     <integration:channel id="jdbcCommentChannel" />
     <integration:splitter input-channel="jdbcCommentChannel" output-channel="commentChannel" />
     <integration:channel id="commentChannel">
-        <integration:interceptors>
+        <integration:interceptors>            
             <integration:wire-tap channel="loggingChannel"/>
+            <integration:wire-tap channel="indexingChannel"/>
         </integration:interceptors>
     </integration:channel>
     
@@ -107,9 +108,11 @@
     
     <integration:publish-subscribe-channel id="enrichedCommentChannel">
         <integration:interceptors>
-            <integration:wire-tap channel="loggingChannel" />
+            <integration:wire-tap channel="loggingChannel" />            
         </integration:interceptors>
     </integration:publish-subscribe-channel>
+    
+    <integration:channel id="indexingChannel"/>
     
     <!-- eMailing integration -->
     <integration:filter input-channel="enrichedCommentChannel" output-channel="toMapCommentChannel" expression="headers.toAddress != null" />
@@ -130,7 +133,7 @@
     <!-- service channels/endpoints -->
     <integration:channel id="emailCommentChannel">
         <integration:interceptors>
-            <integration:wire-tap channel="loggingChannel" />
+            <integration:wire-tap channel="loggingChannel" />            
         </integration:interceptors>
     </integration:channel>
     <integration:service-activator input-channel="emailCommentChannel" expression="@emailService.sendEmail(headers.templateName, payload, headers.toAddress, headers.subject + ' for ' + headers.toAddress)" />
@@ -140,8 +143,8 @@
 <!-- Generic logging at INFO level for channels -->
     <integration:publish-subscribe-channel id="loggingChannel" />
     <integration:logging-channel-adapter channel="loggingChannel" log-full-message="true" level="DEBUG" />
+    
 <!-- Generic message converter used by both queues -->
-
 	<bean id="mappingMessageConverter"
 		class="org.springframework.jms.support.converter.MappingJacksonMessageConverter">
 		<property name="objectMapper" ref="objectMapper" />

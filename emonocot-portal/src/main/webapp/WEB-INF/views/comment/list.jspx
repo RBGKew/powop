@@ -4,6 +4,7 @@
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:security="http://www.springframework.org/security/tags"
 	xmlns:joda="http://www.joda.org/joda/time/tags">	
@@ -47,7 +48,20 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="span12">
+		    <div id="facets" class="span3 no-print">
+				<c:forEach var="facetName" items="${result.facetNames}">
+					<div class="row">
+						<div class="span3">
+							<div class="inner">
+								<ul class="box nav nav-list">
+									<menu:facet url="/comment" facetName="${facetName}" pager="${result}" showIcons="true"/>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</c:forEach>
+			</div>
+			<div class="span9">
 				<div class="inner">
 					<div class="box">						
 						<div class="row">
@@ -56,15 +70,11 @@
                           </div>
                           <tags:sort url="/comment" result="${result}" spanClass="span1 offset3" sortItems="${em:commentSortItems()}" />
                         </div>
-						<table class="table">
-							<tbody>							    
-								<c:forEach var="comment" items="${result.records}">
-									<tr>
-										<td>${comment.comment}</td>										
-									</tr>
-								</c:forEach>
-							</tbody>
-						</table>
+						<ul class="media-list">
+                          <c:forEach var="comment" items="${result.records}">
+                            <tags:comment comment="${comment}"/>
+                          </c:forEach>
+                        </ul>
 						<div class="row">
 							<div class="pagination pull-right">
 								<tags:pagination pager="${result}" url="/comment" />

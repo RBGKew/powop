@@ -22,7 +22,7 @@ public class CommentForm {
      * 
      */
     @NotNull
-    private String aboutDataIdentifier;
+    private String aboutData;
 
 	private String commentPageIdentifier;
 
@@ -43,15 +43,15 @@ public class CommentForm {
     /**
      * @return the aboutDataIdentifier
      */
-    public String getAboutDataIdentifier() {
-        return aboutDataIdentifier;
+    public String getAboutData() {
+        return aboutData;
     }
 
     /**
-     * @param aboutDataIdentifier the aboutDataIdentifier to set
+     * @param aboutData the aboutDataIdentifier to set
      */
-    public void setAboutDataIdentifier(String aboutDataIdentifier) {
-        this.aboutDataIdentifier = aboutDataIdentifier;
+    public void setAboutData(String aboutData) {
+        this.aboutData = aboutData;
     }
 
 	public String getCommentPageIdentifier() {
