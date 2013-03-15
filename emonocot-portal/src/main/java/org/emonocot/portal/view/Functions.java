@@ -661,9 +661,9 @@ public class Functions {
     * @param taxon Set the taxon
     * @return the provenance
     */
-    public static ProvenanceManager provenance(Taxon taxon) {
+    public static ProvenanceManager provenance(BaseData data) {
     	ProvenanceManager provenance = new ProvenanceManagerImpl();
-        provenance.setProvenance(taxon);
+        provenance.setProvenance(data);
         return provenance;
     }
     
@@ -889,15 +889,15 @@ public class Functions {
    *            Set the measurement
    * @return a Content object, or null
    */
-   public static MeasurementOrFact fact(
-          Taxon taxon, MeasurementType measurements) {
-	   MeasurementOrFact fact = null;
-  	for(MeasurementOrFact m : taxon.getMeasurementsOrFacts()) {
-  		if(m.getMeasurementType().equals(measurements)) {
-  			fact = m;
-  			break;
-  		}
-  	}
-      return fact;
+   public static Set<MeasurementOrFact> facts(Taxon taxon, MeasurementType measurements) {
+	   Set<MeasurementOrFact> facts = new HashSet<MeasurementOrFact>();
+	   
+  	   for(MeasurementOrFact m : taxon.getMeasurementsOrFacts()) {
+  		    if(m.getMeasurementType().equals(measurements)) {
+  			    facts.add(m);
+  		    }
+  	   }
+  	   
+       return facts;
   }
 }

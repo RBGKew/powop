@@ -5,56 +5,67 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
     xmlns:security="http://www.springframework.org/security/tags"
-	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	xmlns:spring="http://www.springframework.org/tags">
 
 	<tags:pageheader>
 			<h2 id="page-title"><i class="glyphicons-icon picture"><!--  --></i> ${image.title}</h2>
         <div class="span1">
             <tags:feedbackLink selector="${image.title}" dataName="${image.title}" />
         </div>
-	</tags:pageheader>
-
+	</tags:pageheader>    
 	<div class="container">
 	<div class="row">
 		<div class="span9">
 	        <tags:info />
 	        <tags:error />
-			<c:if test="${not empty image.taxon.scientificName}">
-				<h5>
-				    <c:url value="/taxon/${image.taxon.identifier}"  var="taxonUrl"/>
-					<spring:message code="imageOf" />:
-					<a href="${taxonUrl}"><em>${image.taxon.scientificName}</em> ${image.taxon.scientificNameAuthorship}</a>					
-				</h5>
-			</c:if>
-			<br/>
 			<div class="centeredImage section-box">
 				<div class="inner">
-					<div class="box clearfix">
+					<div class="box">
 						<c:url value="/images/fullsize/${image.id}.${image.format}" var="imageUrl"/>
 						<img id="main-img" class="imageSize" src="${imageUrl}" title="${fn:escapeXml(image.title)}" alt="${status.index}" />
+				  </div>
 				</div>
-				</div>
-				</div>
-				<br/>
-				<section class="section-box">
+		   </div>
+		   <section class="section-box">
 					<div class="inner">
-						<div class="box clearfix">
+						<div class="box">
 							<table class="table" id="image-properties">
 								<tbody>
-									<tr>
-										<td><spring:message code="image.creator"/></td>
-										<td>${image.creator}</td>
-									</tr>
-									<tr>
-										<td><spring:message code="image.caption"/></td>
+								    <tr>
+										<th><spring:message code="image.title"/></th>
 										<td>${image.title}</td>
 									</tr>
 									<tr>
-										<td><spring:message code="image.description"/></td>
+										<th><spring:message code="image.creator"/></th>
+										<td>${image.creator}</td>
+									</tr>
+									<tr>
+										<th><spring:message code="image.contributor"/></th>
+										<td>${image.contributor}</td>
+									</tr>
+									<tr>
+										<th><spring:message code="image.publisher"/></th>
+										<td>${image.publisher}</td>
+									</tr>
+									<tr>
+										<th><spring:message code="image.audience"/></th>
+										<td>${image.audience}</td>
+									</tr>
+									<tr>
+										<th><spring:message code="image.taxon"/></th>
+										<td>
+										  <c:if test="${not empty image.taxon.scientificName}">
+				                            <c:url value="/taxon/${image.taxon.identifier}"  var="taxonUrl"/>
+					                        <a href="${taxonUrl}"><em>${image.taxon.scientificName}</em> ${image.taxon.scientificNameAuthorship}</a>					
+			                              </c:if>
+			                            </td>
+									</tr>
+									<tr>
+										<th><spring:message code="image.description"/></th>
 										<td>${image.description}</td>
 									</tr>
 									<tr>
-										<td><spring:message code="image.license"/></td>
+										<th><spring:message code="image.license"/></th>
 										<td>
 											<c:choose>
 												<c:when test="${not empty image.license}">${image.license}</c:when>
@@ -63,11 +74,19 @@
 										</td>
 									</tr>
 									<tr>
-										<td><spring:message code="image.locality"/></td>
+										<th><spring:message code="image.spatial"/></th>
 										<td>${image.spatial}</td>
 									</tr>
 									<tr>
-										<td><spring:message code="image.keywords"/></td>
+										<th><spring:message code="image.location"/></th>
+										<td>
+										  <c:if test="${not empty image.latitude and not empty image.longitude}">
+										  ${image.latitude} &#176; W ${image.longitude} &#176; N
+										  </c:if>
+										</td>
+									</tr>
+									<tr>
+										<th><spring:message code="image.subject"/></th>
 										<td id="keywords">
 											<c:if test="${not empty image.subject}">
 												<c:forEach var="keyword" items="${em:split(image.subject,',')}" varStatus="status">
@@ -156,7 +175,19 @@
 								});
 						});
 				</script>
-
+				<c:set var="provenance" value="${em:provenance(image)}" />
+                <section id="sources" class="section-box">
+					<div class="inner">
+						<div class="box clearfix">
+							<h2><i class="glyphicons-icon group">&#160;</i> <spring:message code="sources" /></h2>
+							<dl>
+								<c:forEach var="organisation" items="${em:provenancesources(provenance)}">
+									<tags:provenance organisation="${organisation}" provenance="${provenance}"/>
+								</c:forEach>
+							</dl>
+						</div>
+					</div>
+				</section>
 				<div id="modal-gallery" class="modal modal-gallery hide fade modal-fullscreen">
 					<div class="modal-header">
 						<a class="close" data-dismiss="modal">&#215;</a>
@@ -216,17 +247,7 @@
 	            </div>
 			</div>
 			<div id="sidebar" class="span3 sidebar">
-				<div class="inner">
-					<div class="box">
-						<div><spring:message code="sources" /></div>
-						<ul>
-							<li>
-								<c:url value="/organisation/${image.authority.identifier}" var="authorityUrl"/>
-								<a href="${authorityUrl}">${image.authority.title}</a>
-							</li>
-						</ul>
-					</div>
-				</div>
+				<!--  -->
 			</div>
 		</div>
 	</div>

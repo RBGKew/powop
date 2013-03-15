@@ -30,7 +30,7 @@ import cucumber.api.junit.Cucumber;
 		"src/test/resources/features/TaxonPage.feature"
 		},
 		          glue = "org.emonocot.portal.steps",
-		          format = {"junit:target/surefire-reports/org.emonocot.portal.feature.FunctionalTest.xml", "json:target/cucumber.json"})
+		          format = {"junit:target/surefire-reports/org.emonocot.portal.feature.FunctionalTest.xml", "json:target/cucumber.json", "pretty", "html:target/cucumber"})
 public class FunctionalTest {
 
 }

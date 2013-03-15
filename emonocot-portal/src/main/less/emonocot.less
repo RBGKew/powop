@@ -15,6 +15,10 @@ body{
 img.thumbnail {    
     height: 100px;
     width: 100px;
+    display: block;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 img.media-object {
@@ -22,13 +26,7 @@ img.media-object {
     width: 48px;
 }
 
-// Images and captions
-img.thumbnail {
-  display: block;
-  max-width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-}
+
 
 .centeredImage{
     text-align:center;
@@ -55,7 +53,7 @@ img.thumbnail {
 	width:70px;
 	}
 	
-.keys{
+.halflings-icon.keys{
   background-image:url(./images/glyphicons/fullsize/glyphicons_044_keys.png);
   background-position: 0 0;
   background-size: 14px 14px;
@@ -187,8 +185,16 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0 0 20px;
     padding: 0;
     min-width: 940px;
-    #gradient > .vertical(@heroBackground, @heroBackgroundHighlight);
-    
+ /*   #gradient > .vertical(@heroBackground, @heroBackgroundHighlight);*/
+    background-color: @heroBackground;
+    background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), url('@{imagePath}/banner/grass-1.png'), url('@{imagePath}/banner/pond.png'), url('@{imagePath}/banner/plant-decoration.png'), url('@{imagePath}/banner/grass-2.png'), url('@{imagePath}/banner/grass-3.png'), url('@{imagePath}/banner/plant-single.png'), url('@{imagePath}/banner/trees-right.png'), url('@{imagePath}/banner/trees-left.png'), url('@{imagePath}/banner/grass-4.png'), url('@{imagePath}/banner/bg-plants.png'), url('@{imagePath}/banner/grass-5.png'), url('@{imagePath}/banner/bg-banner.png'), -moz-linear-gradient(top, @heroBackground, @heroBackgroundHighlight);
+    background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), url('@{imagePath}/banner/grass-1.png'), url('@{imagePath}/banner/pond.png'), url('@{imagePath}/banner/plant-decoration.png'), url('@{imagePath}/banner/grass-2.png'), url('@{imagePath}/banner/grass-3.png'), url('@{imagePath}/banner/plant-single.png'), url('@{imagePath}/banner/trees-right.png'), url('@{imagePath}/banner/trees-left.png'), url('@{imagePath}/banner/grass-4.png'), url('@{imagePath}/banner/bg-plants.png'), url('@{imagePath}/banner/grass-5.png'), url('@{imagePath}/banner/bg-banner.png'), -webkit-gradient(linear, 0 0, 0 100%, from(@heroBackground), to(@heroBackgroundHighlight));
+    background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), url('@{imagePath}/banner/grass-1.png'), url('@{imagePath}/banner/pond.png'), url('@{imagePath}/banner/plant-decoration.png'), url('@{imagePath}/banner/grass-2.png'), url('@{imagePath}/banner/grass-3.png'), url('@{imagePath}/banner/plant-single.png'), url('@{imagePath}/banner/trees-right.png'), url('@{imagePath}/banner/trees-left.png'), url('@{imagePath}/banner/grass-4.png'), url('@{imagePath}/banner/bg-plants.png'), url('@{imagePath}/banner/grass-5.png'), url('@{imagePath}/banner/bg-banner.png'), -webkit-linear-gradient(top,@heroBackground, @heroBackgroundHighlight);
+    background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), url('@{imagePath}/banner/grass-1.png'), url('@{imagePath}/banner/pond.png'), url('@{imagePath}/banner/plant-decoration.png'), url('@{imagePath}/banner/grass-2.png'), url('@{imagePath}/banner/grass-3.png'), url('@{imagePath}/banner/plant-single.png'), url('@{imagePath}/banner/trees-right.png'), url('@{imagePath}/banner/trees-left.png'), url('@{imagePath}/banner/grass-4.png'), url('@{imagePath}/banner/bg-plants.png'), url('@{imagePath}/banner/grass-5.png'), url('@{imagePath}/banner/bg-banner.png'), -o-linear-gradient(top, @heroBackground, @heroBackgroundHighlight);
+    background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), url('@{imagePath}/banner/grass-1.png'), url('@{imagePath}/banner/pond.png'), url('@{imagePath}/banner/plant-decoration.png'), url('@{imagePath}/banner/grass-2.png'), url('@{imagePath}/banner/grass-3.png'), url('@{imagePath}/banner/plant-single.png'), url('@{imagePath}/banner/trees-right.png'), url('@{imagePath}/banner/trees-left.png'), url('@{imagePath}/banner/grass-4.png'), url('@{imagePath}/banner/bg-plants.png'), url('@{imagePath}/banner/grass-5.png'), url('@{imagePath}/banner/bg-banner.png'), linear-gradient(to bottom, @heroBackground, @heroBackgroundHighlight);
+    background-repeat: repeat, no-repeat, no-repeat, repeat-x, no-repeat, no-repeat, repeat-x, repeat-x, no-repeat, no-repeat, no-repeat, repeat-x, repeat-x, repeat-x, repeat-x, repeat-x;
+    background-position: center center, bottom right, bottom left, bottom center, bottom center, bottom center, bottom center, bottom center, bottom center, bottom right, bottom left, bottom center, bottom center, bottom center, bottom center, center center;
+  
     h1 {
         color: #333;
         margin-bottom: 9px;
@@ -211,21 +217,6 @@ h1, h2, h3, h4, h5, h6 {
         padding: 9px;
         margin-right: 10px;
     }
-    .grass1 { height: @heroUnitHeight; width: 100%; position: absolute; bottom: 0; left: 0; background: url('@{imagePath}/banner/grass-1.png') repeat-x; z-index: 200; }
-    .grass2 { height: @heroUnitHeight; width: 100%; position: absolute; bottom: 0; left: 0; background: url('@{imagePath}/banner/grass-2.png') repeat-x; z-index: 195; }
-    .grass3 { height: @heroUnitHeight; width: 100%; position: absolute; bottom: 0; left: 0; background: url('@{imagePath}/banner/grass-3.png') repeat-x; z-index: 190; }
-    .grass4 { height: @heroUnitHeight; width: 100%; position: absolute; bottom: 0; left: 0; background: url('@{imagePath}/banner/grass-4.png') repeat-x; z-index: 185; }
-    .grass5 { height: @heroUnitHeight; width: 100%; position: absolute; bottom: 0; left: 0; background: url('@{imagePath}/banner/grass-5.png') repeat-x; z-index: 180; }
-    .trees-right { height: @heroUnitHeight; width: 279px; position: absolute; bottom: 0; right: 0; background: url('@{imagePath}/banner/trees-right.png') no-repeat; z-index: 187; }
-    .trees-left { height: @heroUnitHeight; width: 274px; position: absolute; bottom: 0; left: 0; background: url('@{imagePath}/banner/trees-left.png') no-repeat; z-index: 187; }
-    .bamboo-right { height: @heroUnitHeight; width: 170px; position: absolute; bottom: 0; right: 0; background: url('@{imagePath}/banner/bamboo-right.png') no-repeat; z-index: 205; }
-    .bamboo-left { height: @heroUnitHeight; width: 230px; position: absolute; bottom: 0; left: 0; background: url('@{imagePath}/banner/bamboo-left.png') no-repeat; z-index: 205; }
-    .plant-single { height: @heroUnitHeight; width: 100%; position: absolute; bottom: 0; left: 0; background: url('@{imagePath}/banner/plant-single.png') bottom center no-repeat; z-index: 189; }
-    .plant-decoration { height: @heroUnitHeight; width: 100%; position: absolute; bottom: 0; left: 0; background: url('@{imagePath}/banner/plant-decoration.png') bottom center no-repeat; z-index: 197; }
-    .pond { height: @heroUnitHeight; width: 100%; position: absolute; bottom: 0; background: url('@{imagePath}/banner/pond.png') bottom center no-repeat; z-index: 198; }
-    .bg-plants { height: @heroUnitHeight; width: 100%; position: absolute; bottom: 0; left: 0; background: url('@{imagePath}/banner/bg-plants.png') repeat-x; z-index: 181; }
-    .bg-banner { height: @heroUnitHeight; width: 100%; position: absolute; bottom: 0; left: 0; background: url('@{imagePath}/banner/bg-banner.png') repeat-x; z-index: 100; }
-    .overlay-banner { height: 100%; width: 100%; position: absolute; top: 0; left: 0; background: url('@{imagePath}/banner/overlay.png') repeat; z-index: 210;}
 }
 
 .hero-unit-inner {
@@ -344,9 +335,15 @@ footer.navbar {
     position: relative; 
     overflow: hidden;
     margin-bottom: 20px;
-    #gradient > .vertical(@heroBackground, @heroBackgroundHighlight);
-    .bamboo-right { height: 100%; width: 170px; position: absolute; bottom: 0; right: 0; background: url('@{imagePath}/banner/bamboo-right.png') bottom right no-repeat; z-index: 205; }
-    .bamboo-left { height: 100%; width: 230px; position: absolute; bottom: 0; left: 0; background: url('@{imagePath}/banner/bamboo-left.png') bottom left no-repeat; z-index: 205; }
+    /*   #gradient > .vertical(@heroBackground, @heroBackgroundHighlight);*/
+    background-color: @heroBackground;
+    background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), -moz-linear-gradient(top, @heroBackground, @heroBackgroundHighlight);
+    background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), -webkit-gradient(linear, 0 0, 0 100%, from(@heroBackground), to(@heroBackgroundHighlight));
+    background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), -webkit-linear-gradient(top,@heroBackground, @heroBackgroundHighlight);
+    background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), -o-linear-gradient(top, @heroBackground, @heroBackgroundHighlight);
+    background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), linear-gradient(to bottom, @heroBackground, @heroBackgroundHighlight);
+    background-repeat: repeat, no-repeat, no-repeat, repeat-x;
+    background-position: center center, bottom right, bottom left, center center;
     .page-header {
         border-bottom: none
     }

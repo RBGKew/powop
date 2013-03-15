@@ -27,36 +27,47 @@ public class ProvenanceManagerImpl implements ProvenanceManager {
 	
 	
 	@Override
-	public void setProvenance(Taxon taxon) {
-		addProvenance(taxon);
-		for(Image images : taxon.getImages()) {
-			addProvenance(images);
-		}
-		for(Description description : taxon.getDescriptions()) {
-			addProvenance(description);
-		}
-		for(Distribution distribution : taxon.getDistribution()) {
-			addProvenance(distribution);
-		}
-		for(Taxon childNameUsages : taxon.getChildNameUsages()) {
-			addProvenance(childNameUsages);
-		}
-		for(Taxon synonymNameUsages : taxon.getSynonymNameUsages()) {
-			addProvenance(synonymNameUsages);
-		}
-		for(TypeAndSpecimen typesAndSpecimens : taxon.getTypesAndSpecimens()) {
-			addProvenance(typesAndSpecimens);
-		}
-		for(VernacularName vernacularName : taxon.getVernacularNames()) {
-			addProvenance(vernacularName);
-		}
-		for(Taxon higherClassification : taxon.getHigherClassification()) {
-			addProvenance(higherClassification);
-		}
-		for(MeasurementOrFact measurementOrFact : taxon.getMeasurementsOrFacts()) {
-			addProvenance(measurementOrFact);
-		}
-		for(IdentificationKey key : taxon.getKeys()) {
+	public void setProvenance(BaseData baseData) {
+		if (baseData instanceof Taxon) {
+			Taxon taxon = (Taxon) baseData;
+			addProvenance(taxon);
+			for (Image images : taxon.getImages()) {
+				addProvenance(images);
+			}
+			for (Description description : taxon.getDescriptions()) {
+				addProvenance(description);
+			}
+			for (Distribution distribution : taxon.getDistribution()) {
+				addProvenance(distribution);
+			}
+			for (Taxon childNameUsages : taxon.getChildNameUsages()) {
+				addProvenance(childNameUsages);
+			}
+			for (Taxon synonymNameUsages : taxon.getSynonymNameUsages()) {
+				addProvenance(synonymNameUsages);
+			}
+			for (TypeAndSpecimen typesAndSpecimens : taxon
+					.getTypesAndSpecimens()) {
+				addProvenance(typesAndSpecimens);
+			}
+			for (VernacularName vernacularName : taxon.getVernacularNames()) {
+				addProvenance(vernacularName);
+			}
+			for (Taxon higherClassification : taxon.getHigherClassification()) {
+				addProvenance(higherClassification);
+			}
+			for (MeasurementOrFact measurementOrFact : taxon
+					.getMeasurementsOrFacts()) {
+				addProvenance(measurementOrFact);
+			}
+			for (IdentificationKey key : taxon.getKeys()) {
+				addProvenance(key);
+			}
+		} else if(baseData instanceof Image) {
+			Image image = (Image)baseData;
+			addProvenance(image);
+		} else if(baseData instanceof IdentificationKey) {
+			IdentificationKey key = (IdentificationKey)baseData;
 			addProvenance(key);
 		}
 		
@@ -95,7 +106,6 @@ public class ProvenanceManagerImpl implements ProvenanceManager {
 		return keys;
 	}
 	
-	
 	@Override
 	public SortedSet<Organisation> getSources() {
 		return organisations;
@@ -106,5 +116,4 @@ public class ProvenanceManagerImpl implements ProvenanceManager {
 	public SortedSet<ProvenanceHolder> getProvenanceData(Organisation organization) {
 		return (SortedSet)provenance.get(organization.getIdentifier());
 	}
-
 }

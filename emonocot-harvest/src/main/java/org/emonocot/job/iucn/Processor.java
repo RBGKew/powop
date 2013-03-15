@@ -23,6 +23,26 @@ import org.springframework.batch.item.ItemProcessor;
  * @author ben
  */
 public class Processor extends AbstractRecordAnnotator implements ItemProcessor<Map<String,Object>, MeasurementOrFact> {
+	
+	private static final Object MODIFIED_YEAR_FIELD = "modified_year";
+
+	private static final Object CATEGORY_FIELD = "category";
+
+	private static final Object SPECIES_ID_FIELD = "species_id";
+
+	public static String GENUS_FIELD = "genus";
+	
+	public static String SPECIFIC_EPITHET_FIELD = "species";
+	
+	public static String AUTHORITY_FIELD = "authority";
+	
+	public static String INFRASPECIFIC_EPITHET_FIELD = "infra_name";
+	
+	public static String INFRASPECIFIC_AUTHORITY_FIELD = "infra_authority";
+	
+	public static String INFRASPECIFIC_RANK_FIELD = "infra_rank";
+	
+	public static String CRITERIA_FIELD = "criteria";
 
 	private String accessRights;
 	
@@ -34,7 +54,15 @@ public class Processor extends AbstractRecordAnnotator implements ItemProcessor<
 	
 	private String bibliographicCitation;
 	
-    /**
+	private String iucnWebsiteUri = "http://www.iucnredlist.org/details/${identifier}/0";
+	
+    public void setIucnWebsiteUri(String iucnWebsiteUri) {
+    	if(iucnWebsiteUri != null) {
+		    this.iucnWebsiteUri = iucnWebsiteUri;
+    	}
+	}
+
+	/**
 	 * @param accessRights the accessRights to set
 	 */
 	public void setAccessRights(String accessRights) {
@@ -82,33 +110,70 @@ public class Processor extends AbstractRecordAnnotator implements ItemProcessor<
 		if(taxon != null) {
             MeasurementOrFact measurementOrFact = new MeasurementOrFact();
 			StringBuffer remarks = new StringBuffer();
-			if(map.get("criteria") != null) {
-				remarks.append("Criteria: " + map.get("criteria") + ". ");
+			if(map.get(Processor.CRITERIA_FIELD) != null) {
+				remarks.append("Criteria: " + map.get(Processor.CRITERIA_FIELD) + ". ");
 			}
-			if(map.get("modified_year") != null) {
-				remarks.append("Modified Year: " + map.get("modified_year") + ". ");
+			if(map.get(Processor.MODIFIED_YEAR_FIELD) != null) {
+				remarks.append("Modified Year: " + map.get(Processor.MODIFIED_YEAR_FIELD) + ". ");
 			}
 			measurementOrFact.setMeasurementRemarks(remarks.toString().trim());
-			measurementOrFact.setMeasurementValue((String)map.get("category"));
+			measurementOrFact.setMeasurementValue((String)map.get(Processor.CATEGORY_FIELD));
 			measurementOrFact.setMeasurementType(MeasurementType.valueOf("IUCNConservationStatus"));		
 			measurementOrFact.setAccessRights(accessRights);
 			measurementOrFact.setRights(rights);
 			measurementOrFact.setRightsHolder(rightsHolder);
 			measurementOrFact.setLicense(license);
 			measurementOrFact.setBibliographicCitation(bibliographicCitation);
+			if(map.get(Processor.SPECIES_ID_FIELD) != null) {
+				Integer speciesId = (Integer)map.get(Processor.SPECIES_ID_FIELD);
+			    measurementOrFact.setSource(iucnWebsiteUri.replace("${identifier}",speciesId.toString()));
+			}
 			measurementOrFact.setTaxon(taxon);		    
 			return measurementOrFact;
 		}
         return null;
     }
+    
+    private boolean nullSafeContains(Map<String,Object> map, String key) {
+    	return map.containsKey(key) && map.get(key) != null && !(((String) map.get(key)).isEmpty());
+    }
 
 	private Taxon doMatchTaxon(Map<String, Object> map) {
-		String name = (String)map.get("scientific_name");
-		if(map.containsKey("authority") && map.get("authority") != null && !(((String) map.get("authority")).isEmpty())) {
-			String authority = (String) map.get("authority");
-			authority = StringEscapeUtils.unescapeXml(authority);
-			name = name + " " + authority;
+		StringBuffer nameBuffer = new StringBuffer();
+		
+		if(nullSafeContains(map,Processor.GENUS_FIELD)) {
+			String genus = ((String)map.get(Processor.GENUS_FIELD)).trim();
+			nameBuffer.append(genus);
 		}
+		if(nullSafeContains(map,Processor.SPECIFIC_EPITHET_FIELD)) {
+			String species = ((String)map.get(Processor.GENUS_FIELD)).trim();
+			nameBuffer.append(" ").append(species);
+		}
+		if(!nullSafeContains(map,Processor.INFRASPECIFIC_EPITHET_FIELD)) {
+			// Assume species, and use the "authority" field
+			if(nullSafeContains(map,Processor.AUTHORITY_FIELD)) {
+				String authority = StringEscapeUtils.unescapeXml(((String)map.get("authority")).trim());
+				nameBuffer.append(" ").append(authority);
+			}
+		} else {
+			// Assume infraspecies, try to use the infra_rank, infra_name and  "infra_authority" fields
+			if(nullSafeContains(map,Processor.INFRASPECIFIC_RANK_FIELD)) {
+				String infraspecificRank = ((String)map.get(Processor.INFRASPECIFIC_RANK_FIELD)).trim();
+				nameBuffer.append(" ").append(infraspecificRank);
+			}
+			
+			if(nullSafeContains(map,Processor.INFRASPECIFIC_EPITHET_FIELD)) {
+				String infraspecificEpithet = ((String)map.get(Processor.INFRASPECIFIC_EPITHET_FIELD)).trim();
+				nameBuffer.append(" ").append(infraspecificEpithet);
+			}
+			
+			if(nullSafeContains(map,Processor.INFRASPECIFIC_AUTHORITY_FIELD)) {
+				String infraspecificAuthority = StringEscapeUtils.unescapeXml(((String)map.get(Processor.INFRASPECIFIC_AUTHORITY_FIELD)).trim());
+				nameBuffer.append(" ").append(infraspecificAuthority);
+			}			
+		}
+		
+		String name = nameBuffer.toString();
 		
 		List<Match<Taxon>> results;
 		try {

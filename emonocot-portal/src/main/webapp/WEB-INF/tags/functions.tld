@@ -24,9 +24,9 @@
         <function-signature>java.lang.String formatDateRange(java.lang.String)</function-signature>
     </function>
     <function>
-        <name>fact</name>
+        <name>facts</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>org.emonocot.model.MeasurementOrFact fact(org.emonocot.model.Taxon,org.emonocot.model.constants.MeasurementType)</function-signature>
+        <function-signature>java.util.Collection facts(org.emonocot.model.Taxon,org.emonocot.model.constants.MeasurementType)</function-signature>
     </function>
     <function>
         <name>printTimeOnly</name>
@@ -191,7 +191,7 @@
     <function>
         <name>provenance</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>org.emonocot.portal.view.provenance.ProvenanceManager provenance(org.emonocot.model.Taxon)</function-signature>
+        <function-signature>org.emonocot.portal.view.provenance.ProvenanceManager provenance(org.emonocot.model.BaseData)</function-signature>
     </function>
     <function>
         <name>provenancekey</name>

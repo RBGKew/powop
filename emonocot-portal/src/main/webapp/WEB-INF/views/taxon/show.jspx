@@ -377,62 +377,7 @@
 							<h2><i class="glyphicons-icon group">&#160;</i> <spring:message code="sources" /></h2>
 							<dl>
 								<c:forEach var="organisation" items="${em:provenancesources(provenance)}">
-									<dt>
-										<c:url value="/organisation/${organisation.identifier}" var="organisationUrl"/>
-										<a href="${organisationUrl}">${organisation.title}</a>
-									</dt>
-									<dd>
-										<a href="${organisation.uri}">${organisation.uri}</a>
-									</dd>
-									<dd>
-										${organisation.bibliographicCitation}
-									</dd>
-									<dd>
-										<ul class="unstyled">
-											<c:forEach var="data" items="${em:provenancedata(provenance,organisation)}">
-												<li>
-													<a id="${data.key}">${data.key}</a>
-													${data.rights} 
-													<c:choose>
-														<c:when test="${data.license eq 'http://creativecommons.org/licenses/by/3.0'}">
-															<c:url value="/css/images/creativeCommonsLogos/by.png" var="byImg"/>
-															<a href="${data.license}"><img class="cclogos" src="${byImg}" alt="by"/></a>
-														</c:when>
-														<c:when test="${data.license eq 'http://creativecommons.org/licenses/by-sa/3.0'}">
-															<c:url value="/css/images/creativeCommonsLogos/by-sa.png" var="bysaImg"/>
-															<a href="${data.license}"><img class="cclogos" src="${bysaImg}" alt="by-sa"/></a>
-														</c:when>
-														<c:when test="${data.license eq 'http://creativecommons.org/licenses/by-nd/3.0'}">
-															<c:url value="/css/images/creativeCommonsLogos/by-nd.png" var="byndImg"/>
-															<a href="${data.license}"><img class="cclogos" src="${byndImg}" alt="by-nd"/></a>
-														</c:when>
-														<c:when test="${data.license eq 'http://creativecommons.org/licenses/by-nc/3.0'}">
-															<c:url value="/css/images/creativeCommonsLogos/by-nc.png" var="byncImg"/>
-															<a href="${data.license}"><img class="cclogos" src="${byncImg}" alt="by-nc"/></a>
-														</c:when>
-														<c:when test="${data.license eq 'http://creativecommons.org/licenses/by-nc-sa/3.0'}">
-															<c:url value="/css/images/creativeCommonsLogos/by-nc-sa.png" var="byncsaImg"/>
-															<a href="${data.license}"><img class="cclogos" src="${byncsaImg}" alt="by-nc-sa"/></a>
-														</c:when>
-														<c:when test="${data.license eq 'http://creativecommons.org/licenses/by-nc-nd/3.0'}">
-															<c:url value="/css/images/creativeCommonsLogos/by-nc-nd.png" var="byncndImg"/>
-															<a href="${data.license}"><img class="cclogos" src="${byncndImg}" alt="by-nc-nd"/></a>
-														</c:when>
-														<c:when test="${data.license eq 'http://creativecommons.org/publicdomain/zero/1.0/'}">
-															<c:url value="/css/images/creativeCommonsLogos/publicdomain.png" var="publicImg"/>
-															<a href="${data.license}"><img class="cclogos" src="${publicImg}" alt="public"/></a>
-														</c:when>
-														<c:when test="${empty data.license}">
-															<spring:message code="allRightsReserved" />
-														</c:when>
-														<c:otherwise>
-															${data.license}
-														</c:otherwise>
-													</c:choose>
-												</li>
-											</c:forEach>
-										</ul>
-									</dd>
+									<tags:provenance organisation="${organisation}" provenance="${provenance}"/>
 								</c:forEach>
 							</dl>
 						</div>
@@ -515,6 +460,29 @@
 						</div>
 					</div>
 				</c:if>
+				<c:if test="${not empty taxon.comments}">
+					<div class="inner">
+						<div class="box">
+							<section class="sidebarBox" id="comments">
+								<h2>
+									<i class="glyphicons-icon comments"><!-- --></i>
+									<spring:message code="comments.title"/>
+								</h2>
+								<ul class="media-list">
+								  <c:forEach var="comment" items="${taxon.comments}" end="5">
+									<tags:comment comment="${comment}"/>
+								  </c:forEach>
+								</ul>
+								<div>
+									<c:url var="commentsUrl" value="/comment"/>
+							        <a href="${commentsUrl}">
+								      <spring:message code="more.comments"/>
+							        </a>
+								</div>
+							</section>
+						</div>
+					</div>
+				</c:if>
 				<c:if test="${not empty taxon.keys}">
 					<div class="inner">
 						<div class="box">
@@ -540,39 +508,50 @@
 						</div>
 					</div>
 				</c:if>
-					
-				
 				<div class="inner">
 					<div class="box dataBox">
 						<section class="sidebarBox" id="taxonData">
 							<h2>
 								<i class="glyphicons-icon table"><!-- --></i>
 								<spring:message code="taxonData" var="dataHeader"/>${dataHeader}
-								<tags:feedbackLink selector="option#datX" dataName="${dataHeader}" />
+								<tags:feedbackLink selector="option#data" dataName="${dataHeader}" />
 							</h2>
 							<table class="table" id="data">
 								<tbody>
 									<c:forEach var="measurement" items="${em:measurements()}">
-										<c:set var="fact" value="${em:fact(taxon, measurement)}" />
+										<c:set var="facts" value="${em:facts(taxon, measurement)}" />
 										<tr>
 											<th class="span1"><spring:message code="${measurement}" /></th>
 											<td>
-												<span id="${measurement}">
-													<spring:message code="measurementorfact_${fact.measurementType}_${fact.measurementValue}" text="${fact.measurementValue}"/>
-												</span>
+											  <ul id="${measurement}" class="unstyled">
+											    <c:forEach var="fact" items="${facts}">
+											      <li>
+											        <c:choose>
+											          <c:when test="${not empty fact.source}">
+											            <a href="${fact.source}"><spring:message code="measurementorfact_${fact.measurementType}_${fact.measurementValue}" text="${fact.measurementValue}"/></a>
+											          </c:when>
+											          <c:otherwise>
+											            <spring:message code="measurementorfact_${fact.measurementType}_${fact.measurementValue}" text="${fact.measurementValue}"/>
+											          </c:otherwise>
+											        </c:choose>
+											      </li>
+											    </c:forEach>
+											  </ul>
 											</td>
 											<td>
-												<c:if test="${fact ne null}">
-													<ul class="citations">
-														<c:set var="provenanceHolder" value="${em:provenancekey(provenance,fact)}"/>
-														<li>
-															<a href="#${provenanceHolder}">${provenanceHolder}</a>
-														</li>
-													</ul>
-												</c:if>
+											  <c:if test="${not empty facts}">
+											    <ul class="citations">
+									              <c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,facts)}">
+										            <li>
+											          <a href="#${provenanceHolder}">${provenanceHolder}</a>
+										            </li>
+									              </c:forEach>
+								                </ul>
+								              </c:if>
 											</td>
 										</tr>
-										<c:if test="${fact.measurementType eq 'IUCNConservationStatus'}">
+										<c:if test="${measurement eq 'IUCNConservationStatus'}">
+										  <c:forEach var="fact" items="${facts}">
 											<tr>
 												<td colspan="3">
 													<c:choose>
@@ -615,6 +594,7 @@
 													</c:choose>
 												</td>
 											</tr>
+										  </c:forEach>
 										</c:if>
 									</c:forEach>
 								</tbody>

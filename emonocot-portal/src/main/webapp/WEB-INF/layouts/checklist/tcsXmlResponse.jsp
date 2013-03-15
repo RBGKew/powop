@@ -6,24 +6,8 @@
   version="2.0">
   <DataSet xmlns='http://www.tdwg.org/schemas/tcs/1.01' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.tdwg.org/schemas/tcs/1.01 http://www.tdwg.org/standards/117/files/TCS101/v101.xsd">
-    <!-- Is this variable used -->
-    <!-- Is this variable used -->
-    <c:set var="name">${result.genus}<c:if test="${not empty result.specificEpithet}"> ${result.specificEpithet}</c:if><c:if test="${em:isInfraspecific(result.taxonRank)}"> ${result.taxonRank}</c:if><c:if test="${not empty result.infraspecificEpithet}"> ${result.infraspecificEpithet}</c:if></c:set>
-    <!-- Is this variable used -->
-    <!-- Is this variable used -->
 	<TaxonNames>
-	  <!-- <c:if test="${not empty em:escape(result.scientificNameAuthorship) && not empty em:escape(result.namePublishedInString)}"> -->
 	    <TaxonName id="${result.identifier}" nomenclaturalCode="Botanical" itis_em_other_ref="${em:escape(result.scientificNameAuthorship)}, ${em:escape(result.namePublishedInString)}">
-      <!--</c:if>
-      <c:if test="${empty em:escape(result.scientificNameAuthorship) && not empty em:escape(result.namePublishedInString)}">
-        <TaxonName id="${result.identifier}" nomenclaturalCode="Botanical" itis_em_other_ref="${em:escape(result.namePublishedInString)}">
-      </c:if>
-      <c:if test="${not empty em:escape(result.scientificNameAuthorship) && empty em:escape(result.namePublishedInString)}">
-        <TaxonName id="${result.identifier}" nomenclaturalCode="Botanical" itis_em_other_ref="${em:escape(result.scientificNameAuthorship)}">
-      </c:if>
-      <c:if test="${empty em:escape(result.scientificNameAuthorship) && empty em:escape(result.namePublishedInString)}">
-        <TaxonName id="${result.identifier}" nomenclaturalCode="Botanical">
-      </c:if>-->
 	    <Simple>${result.scientificName} ${em:escape(result.scientificNameAuthorship)}</Simple>
 	    <Rank code="${em:abbreviateRank(result.taxonRank)}">${em:formatRank(result.taxonRank)}</Rank>
 	    <CanonicalName>

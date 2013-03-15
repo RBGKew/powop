@@ -215,15 +215,18 @@ public class CommentController extends GenericController<Comment, CommentService
     			   comment.setSubject("typesAndSpecimens");
     		   } else if(aboutData instanceof Reference) {
     			   comment.setSubject("references");
+    		   } else {
+    			   logger.warn("Unable to find an object with the identifier" + form.getAboutData());
+    	            attributes.addFlashAttribute("error", new DefaultMessageSourceResolvable("feedback.error.about"));
     		   }
     	   }    	   
     	   break;
         }
         
         
-        if(about == null) {
-            logger.warn("Unable to find an object with the identifier" + form.getAboutData());
-            attributes.addFlashAttribute("error", new DefaultMessageSourceResolvable("feedback.error.about"));
+        if(commentPage == null) {
+            logger.warn("Unable to find an object with the identifier" + form.getCommentPageIdentifier());
+            attributes.addFlashAttribute("error", new DefaultMessageSourceResolvable("feedback.error.commentPage"));
         } else if(!formResult.hasErrors()) {        	
             comment.setAboutData(about);
             comment.setCommentPage(commentPage);

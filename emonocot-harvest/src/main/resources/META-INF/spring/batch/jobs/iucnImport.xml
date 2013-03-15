@@ -192,6 +192,7 @@
 	  <property name="rightsHolder" value="#{jobParameters['rightsHolder']}" />
 	  <property name="accessRights" value="#{jobParameters['accessRights']}" />
 	  <property name="bibliographicCitation" value="#{jobParameters['bibliographicCitation']}" />
+	  <property name="iucnWebsiteUri" value="#{jobParameters['iucnWebsiteUri']}" />
 	</bean>
 	
 	<bean id="measurementOrFactProcessor" class="org.emonocot.job.dwc.measurementorfact.Processor"
