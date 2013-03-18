@@ -6,29 +6,6 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
 
-	<div class="bamboo-left">&#160;</div>
-	<div class="bamboo-right">&#160;</div>
-
-	<div class="grass1">&#160;</div>
-	<div class="grass2">&#160;</div>
-	<div class="grass3">&#160;</div>
-	<div class="grass4">&#160;</div>
-	<div class="grass5">&#160;</div>
-
-	<div class="plant-single">&#160;</div>
-
-	<div class="bg-plants">&#160;</div>
-
-	<div class="trees-left">&#160;</div>
-	<div class="trees-right">&#160;</div>
-
-	<div class="plant-decoration">&#160;</div>
-	<div class="pond">&#160;</div>
-
-	<div class="bg-banner">&#160;</div>
-
-	<div class="overlay-banner">&#160;</div>
-
 	<div class="hero-unit-inner">
 		<div class="container">
 			<div class="row">

@@ -4035,4 +4035,132 @@
         <comment>Required to send e-mails</comment>
         <sql>update Organisation set commentsEmailedTo = 'enquires@about.e-monocot.org' where char_length(trim(commentsEmailedTo)) &lt; 1;</sql>
     </changeSet>
+    <changeSet id="2013-03-04_01" author="ben">
+        <comment>References from scratchpads have the uri for the protolog in the dc:related field</comment>
+        <addColumn tableName="Reference">
+          <column name="uri" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2013-03-04_02" author="ben">
+        <comment>BUG #119: As a user of eMonocot, I would like that when I fill the registration form my data will be saved in my profile page</comment>
+        <addColumn tableName="Principal">
+          <column name="name" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2013-03-04_03" author="ben">
+        <comment>BUG #119: As a user of eMonocot, I would like that when I fill the registration form my data will be saved in my profile page</comment>
+        <addColumn tableName="Principal">
+          <column name="firstName" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2013-03-04_04" author="ben">
+        <comment>BUG #119: As a user of eMonocot, I would like that when I fill the registration form my data will be saved in my profile page</comment>
+        <addColumn tableName="Principal">
+          <column name="familyName" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2013-03-04_05" author="ben">
+        <comment>BUG #119: As a user of eMonocot, I would like that when I fill the registration form my data will be saved in my profile page</comment>
+        <addColumn tableName="Principal">
+          <column name="organization" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2013-03-04_06" author="ben">
+        <comment>BUG #119: As a user of eMonocot, I would like that when I fill the registration form my data will be saved in my profile page</comment>
+        <addColumn tableName="Principal">
+          <column name="accountName" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2013-03-04_07" author="ben">
+        <comment>BUG #119: As a user of eMonocot, I would like that when I fill the registration form my data will be saved in my profile page</comment>
+        <addColumn tableName="Principal">
+          <column name="img" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2013-03-04_08" author="ben">
+        <comment>BUG #119: As a user of eMonocot, I would like that when I fill the registration form my data will be saved in my profile page</comment>
+        <addColumn tableName="Principal">
+          <column name="topicInterest" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2013-03-04_09" author="ben">
+        <comment>BUG #119: As a user of eMonocot, I would like that when I fill the registration form my data will be saved in my profile page</comment>
+        <addColumn tableName="Principal">
+          <column name="homepage" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2013-03-04_10">
+        <addUniqueConstraint columnNames="accountName" constraintName="principal_accountname_uk"  tableName="Principal"/>
+    </changeSet>
+    <changeSet author="ben" id="2013-03-04_11">
+      <sql>update Principal set accountName = concat('user',id) where DTYPE = 'User';</sql>
+    </changeSet>
+    <changeSet id="2013-03-07_01" author="ben">
+        <comment>BUG #461: As a user of eMonocot I would like to be able to search and filter comments</comment>
+        <addColumn tableName="Comment">
+          <column name="commentPage_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2013-03-07_02" author="ben">
+        <comment>BUG #461: As a user of eMonocot I would like to be able to search and filter comments</comment>
+        <addColumn tableName="Comment">
+          <column name="commentPage_type" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2013-03-07_03" author="ben">
+        <comment>BUG #461: As a user of eMonocot I would like to be able to search and filter comments</comment>
+        <addColumn tableName="Comment">
+          <column name="inResponseTo_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2013-03-07_04">
+        <comment>BUG #461: As a user of eMonocot I would like to be able to search and filter comments</comment>
+        <addForeignKeyConstraint constraintName="Comment_inResponseTo_id_FK" baseTableName="Comment" baseColumnNames="inResponseTo_id" referencedTableName="Comment" referencedColumnNames="id" />
+    </changeSet>
+    <changeSet author="ben" id="2013-03-07_05">
+        <comment>BUG #461: As a user of eMonocot I would like to be able to search and filter comments</comment>
+        <createIndex tableName="Comment" indexName="Comment_inResponseTo_id_IDX">
+          <column name="inResponseTo_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2013-03-07_06">
+        <comment>BUG #461: As a user of eMonocot I would like to be able to search and filter comments</comment>
+        <createIndex tableName="Comment" indexName="Comment_commentPage_id_IDX">
+          <column name="commentPage_id"/>
+        </createIndex>
+    </changeSet>
+     <changeSet author="ben" id="2013-03-07_07">
+        <comment>BUG #461: As a user of eMonocot I would like to be able to search and filter comments</comment>
+        <createIndex tableName="Comment" indexName="Comment_commentPage_type_IDX">
+          <column name="commentPage_type"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2013-03-07_08">
+        <comment>BUG #461: As a user of eMonocot I would like to be able to search and filter comments</comment>
+        <createIndex tableName="Comment" indexName="Comment_aboutData_id_IDX">
+          <column name="aboutData_id"/>
+        </createIndex>
+    </changeSet>
+     <changeSet author="ben" id="2013-03-07_09">
+        <comment>BUG #461: As a user of eMonocot I would like to be able to search and filter comments</comment>
+        <createIndex tableName="Comment" indexName="Comment_aboutData_type_IDX">
+          <column name="aboutData_type"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="ben" id="2013-03-07_10">
+      <comment>Set the resourceType to be not null</comment>
+      <sql>update Resource set resourceType = "DOWNLOAD" where resourceType is NULL;</sql>
+    </changeSet>
+    <changeSet id="2013-03-12_01" author="ben">
+        <comment>BUG #461: As a user of eMonocot I would like to be able to search and filter comments</comment>
+        <addColumn tableName="Comment">
+          <column name="subject" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2013-03-14_01" author="ben">
+        <comment>BUG #453: As a user of eMonocot I would like the IUCN link on the taxon page to direct me to the relevant IUCN species page </comment>
+        <addColumn tableName="MeasurementOrFact">
+          <column name="source" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

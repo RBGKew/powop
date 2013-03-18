@@ -238,7 +238,11 @@
         <dependency>
           <groupId>org.quartz-scheduler</groupId>
           <artifactId>quartz</artifactId>
-        </dependency>     
+        </dependency>
+        <dependency>
+           <groupId>javax.inject</groupId>
+           <artifactId>javax.inject</artifactId>
+        </dependency>
 	</dependencies>
 	<build>
 		<finalName>emonocot-portal</finalName>
@@ -362,6 +366,12 @@
                     <output>${project.build.directory}/static/css/print.css</output>
                     <includes>
                       <include>${basedir}/src/main/css/print.css</include>
+                    </includes>
+                  </aggregation>
+                  <aggregation>
+                    <output>${project.build.directory}/static/css/ie9.css</output>
+                    <includes>
+                      <include>${basedir}/src/main/css/ie9.css</include>
                     </includes>
                   </aggregation>
                   <aggregation>

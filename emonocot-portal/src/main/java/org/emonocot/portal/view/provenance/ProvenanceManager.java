@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.SortedSet;
 
 import org.emonocot.model.BaseData;
-import org.emonocot.model.Taxon;
 import org.emonocot.model.registry.Organisation;
 
 
@@ -14,7 +13,7 @@ public interface ProvenanceManager {
 	 * Initializes the provenance manager at the start of the page
 	 * @param taxon
 	 */
-	public void setProvenance(Taxon taxon);
+	public void setProvenance(BaseData data);
 	
 	/**
 	 * Get a label for the particular provenance of this object. Should be unique for each combination of source, rights and license

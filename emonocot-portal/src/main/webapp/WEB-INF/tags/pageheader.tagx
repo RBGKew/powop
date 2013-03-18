@@ -5,8 +5,6 @@
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
-	<div class="bamboo-left">&#160;</div>
-	<div class="bamboo-right">&#160;</div>
 	<div class="page-banner-inner">
 		<div class="container">
 			<div class="row">

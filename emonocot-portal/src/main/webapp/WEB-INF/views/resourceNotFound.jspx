@@ -3,40 +3,39 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
-	xmlns:spring="http://www.springframework.org/tags" version="2.0">
-
+	xmlns:spring="http://www.springframework.org/tags">
 	<tags:pageheader>
-		<h2>
-			<spring:message code="an.error.has.occurred" />
-		</h2>
+		<h2><i class="glyphicons-icon circle_exclamation_mark"><!--  --></i><spring:message code="an.error.has.occurred" /></h2>
 	</tags:pageheader>
 	<div class="container">
 		<div class="row">
+		  <div class="span12">
 			<div class="alert block-message warning">
-				<h3>
-					<spring:message code="404" />
-				</h3>
-				<p>
-					<spring:message code="404.message" />
-				</p>
+				<h3><i class="glyphicons-icon circle_exclamation_mark"><!--  --></i><spring:message code="404" /></h3>
+				<p><spring:message code="404.message" /></p>
 				<div class="alert-actions">
 					<c:url value="/search" var="searchUrl" />
-					<a class="btn small" href="${searchUrl}"><spring:message
-							code="search" /></a>
+					<a class="btn small" href="${searchUrl}"><spring:message code="search" /></a>
 					<c:url value="http://build.e-monocot.org/bugzilla/enter_bug.cgi"
 						var="submitIssueUrl" />
-					<a class="btn small" href="${submitIssueUrl}"><spring:message
-							code="submit.issue" /></a>
+					<a class="btn small" href="${submitIssueUrl}"><spring:message code="submit.issue" /></a>
 				</div>
 			</div>
+	      </div>
 		</div>
 		<div class="row">
-			<h3>${exception.message}</h3>
-			<pre>
-				<c:forEach var="stackTraceElement" items="${exception.stackTrace}">
-					${stackTraceElement}
-				</c:forEach>
-			</pre>
+		  <div class="span12">
+		    <div class="inner">
+			  <div class="box">
+			    <h3>${exception.message}</h3>
+			    <pre>
+				  <c:forEach var="stackTraceElement" items="${exception.stackTrace}">
+					  ${stackTraceElement}
+				  </c:forEach>
+			    </pre>
+			  </div>
+			</div>
+	       </div>
 		</div>
 	</div>
 </div>

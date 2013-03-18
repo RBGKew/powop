@@ -1,6 +1,5 @@
 package org.emonocot.persistence.dao.hibernate;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -37,9 +36,7 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
                 "childNameUsages", FetchMode.SELECT)});
         FETCH_PROFILES.put("classification-tree", new Fetch[] {
         		new Fetch("childNameUsages", FetchMode.SELECT),
-        		new Fetch("keys", FetchMode.SELECT)});
-        FETCH_PROFILES.put("taxon-with-ancestors", new Fetch[] { new Fetch(
-                "higherClassification", FetchMode.SELECT) });
+        		new Fetch("keys", FetchMode.SELECT)});        
         FETCH_PROFILES.put("taxon-with-annotations", new Fetch[] {new Fetch(
                 "annotations", FetchMode.SELECT)});
         FETCH_PROFILES.put("taxon-with-related", new Fetch[] {
@@ -60,7 +57,6 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
                 new Fetch("images", FetchMode.SELECT),
                 new Fetch("namePublishedIn", FetchMode.JOIN),
                 new Fetch("references", FetchMode.SELECT),
-                new Fetch("higherClassification", FetchMode.SELECT),
                 new Fetch("authority", FetchMode.JOIN),
                 new Fetch("sources", FetchMode.SELECT),
                 new Fetch("identifiers", FetchMode.SELECT),
@@ -122,11 +118,7 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
     public final void enableProfilePostQuery(final Taxon t, final String fetch) {
         if (fetch != null && t != null) {
             for (Fetch f : getProfile(fetch)) {
-                if (f.getAssociation().equals("higherClassification")) {
-                    List<Taxon> ancestors = new ArrayList<Taxon>();
-                    getAncestors(t, ancestors);
-                    t.setHigherClassification(ancestors);
-                } else if (f.getMode().equals(FetchMode.SELECT)) {
+                if (f.getMode().equals(FetchMode.SELECT)) {
                     String association = f.getAssociation();
                     if (association.indexOf(".") == -1) {
                         initializeProperty(t, f.getAssociation());
@@ -138,21 +130,7 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
                 }
             }
         }
-    }
-
-    /**
-     * @param t
-     *            Set the taxon
-     * @param ancestors
-     *            Set the ancestors
-     */
-    private void getAncestors(final Taxon t, final List<Taxon> ancestors) {
-        if (t.getParentNameUsage() != null) {
-            getAncestors(t.getParentNameUsage(), ancestors);
-        }
-        ancestors.add(t);
-
-    }
+    }    
 
     /**
      * Returns the child taxa of a given taxon.

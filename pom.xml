@@ -1002,6 +1002,11 @@
               <artifactId>jai_codec</artifactId>
               <version>1.1.3</version>
             </dependency>
+            <dependency>
+              <groupId>javax.inject</groupId>
+              <artifactId>javax.inject</artifactId>
+              <version>1</version>
+            </dependency>
 		</dependencies>
 	</dependencyManagement>
 	<build>
@@ -1489,7 +1494,7 @@
 				<download.title>eMonocot Download</download.title>
 				<email.username>portal@localhost</email.username>
 				<email.password>portal@localhost</email.password>
-				<email.host>smtp.ad.kew.org</email.host>
+				<email.host>localhost</email.host>
 				<email.port>25</email.port>
 				<email.auth>false</email.auth>
 				<email.enable.starttls>false</email.enable.starttls>
@@ -1638,7 +1643,7 @@
 				<http.proxyPort />
 				<email.username>portal@localhost</email.username>
 				<email.password>portal@localhost</email.password>
-				<email.host>smtp.ad.kew.org</email.host>
+				<email.host>localhost</email.host>
 				<email.port>25</email.port>
 				<email.auth>false</email.auth>
 				<email.enable.starttls>false</email.enable.starttls>

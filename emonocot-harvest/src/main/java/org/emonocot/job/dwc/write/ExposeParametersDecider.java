@@ -34,23 +34,23 @@ public class ExposeParametersDecider implements JobExecutionDecider {
 				ExecutionContext executionContext = jobExecution.getExecutionContext();
 				JobParameters jobParameters = jobExecution.getJobInstance().getJobParameters();
 				if(jobParameterName.equals("download.taxon")) {
-			        setExecutionContext(executionContext,jobParameters,"taxon.txt","org.emonocot.model.Taxon", "Taxon");
+			        setExecutionContext(executionContext,jobParameters,"taxon.txt","org.emonocot.model.Taxon", "http://rs.tdwg.org/dwc/terms/Taxon");
 		        } else if(jobParameterName.equals("download.description")) {
-		        	setExecutionContext(executionContext,jobParameters,"description.txt","org.emonocot.model.Description", "Description");
+		        	setExecutionContext(executionContext,jobParameters,"description.txt","org.emonocot.model.Description", "http://rs.gbif.org/terms/1.0/Description");
 		        } else if(jobParameterName.equals("download.distribution")) {
-		        	setExecutionContext(executionContext,jobParameters,"distribution.txt","org.emonocot.model.Distribution", "Distribution");
+		        	setExecutionContext(executionContext,jobParameters,"distribution.txt","org.emonocot.model.Distribution", "http://rs.gbif.org/terms/1.0/Distribution");
 		        } else if(jobParameterName.equals("download.image")) {
-		        	setExecutionContext(executionContext,jobParameters,"image.txt","org.emonocot.model.Image", "Image");
+		        	setExecutionContext(executionContext,jobParameters,"image.txt","org.emonocot.model.Image", "http://rs.gbif.org/terms/1.0/Image");
 		        } else if(jobParameterName.equals("download.reference")) {
-		        	setExecutionContext(executionContext,jobParameters,"reference.txt","org.emonocot.model.Reference", "Reference");
+		        	setExecutionContext(executionContext,jobParameters,"reference.txt","org.emonocot.model.Reference", "http://rs.gbif.org/terms/1.0/Reference");
 		        } else if(jobParameterName.equals("download.typeAndSpecimen")) {
-		        	setExecutionContext(executionContext,jobParameters,"typeAndSpecimen.txt","org.emonocot.model.TypeAndSpecimen", "TypeAndSpecimen");
+		        	setExecutionContext(executionContext,jobParameters,"typeAndSpecimen.txt","org.emonocot.model.TypeAndSpecimen", "http://rs.gbif.org/terms/1.0/TypesAndSpecimen");
 		        } else if(jobParameterName.equals("download.measurementOrFact")) {
-		        	setExecutionContext(executionContext,jobParameters,"measurementOrFact.txt","org.emonocot.model.MeasurementOrFact", "MeasurementOrFact");
+		        	setExecutionContext(executionContext,jobParameters,"measurementOrFact.txt","org.emonocot.model.MeasurementOrFact", "http://rs.tdwg.org/dwc/terms/MeasurementOrFact");
 		        } else if(jobParameterName.equals("download.vernacularName")) {
-		        	setExecutionContext(executionContext,jobParameters,"vernacularName.txt","org.emonocot.model.VernacularName","VernacularName");
+		        	setExecutionContext(executionContext,jobParameters,"vernacularName.txt","org.emonocot.model.VernacularName","http://rs.gbif.org/terms/1.0/VernacularName");
 		        } else if(jobParameterName.equals("download.identifier")) {
-		        	setExecutionContext(executionContext,jobParameters,"identifier.txt","org.emonocot.model.Identifier", "Identifier");
+		        	setExecutionContext(executionContext,jobParameters,"identifier.txt","org.emonocot.model.Identifier", "http://rs.gbif.org/terms/1.0/Identifier");
 		        }
             return new FlowExecutionStatus("true");
         } else {
@@ -59,6 +59,7 @@ public class ExposeParametersDecider implements JobExecutionDecider {
 	}
 
 	private void setExecutionContext(ExecutionContext executionContext, JobParameters jobParameters, String fileName,String downloadType, String extension) {
+		System.out.println(jobParameterName + " Setting download.fields to " + jobParameters.getString(jobParameterName));
 		executionContext.put("download.fields", jobParameters.getString(jobParameterName));
 		File workDirectory = new File(outputDirectory.getFile(),jobParameters.getString("download.file"));
 		if(!workDirectory.exists()) {

@@ -5,11 +5,16 @@ import org.emonocot.model.Taxon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.orm.hibernate3.HibernateObjectRetrievalFailureException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -35,7 +40,7 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
      *            Set the taxon service
      */
     @Autowired
-    public final void setTaxonService(final TaxonService taxonService) {
+    public void setTaxonService(TaxonService taxonService) {
         super.setService(taxonService);
     }
 
@@ -46,8 +51,8 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
      * @return A model and view containing a taxon
      */
     @RequestMapping(value = "/{identifier}", method = RequestMethod.GET, produces = {"text/html", "*/*"})
-    public final String show(@PathVariable final String identifier, final Model model) {
-        model.addAttribute(getService().load(identifier, "taxon-page"));
+    public String show(@PathVariable String identifier, Model model) {
+        model.addAttribute(getService().load(identifier));
         queryLog.info("Taxon: \'{}\'", new Object[] {identifier});
         return "taxon/show";
     }

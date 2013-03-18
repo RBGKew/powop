@@ -108,7 +108,7 @@ public class Taxon extends SearchableObject {
 
 	private Reference nameAccordingTo;
 
-	private List<Taxon> higherClassification = new ArrayList<Taxon>();
+	private List<Taxon> higherClassification = null;
 
 	private Taxon parentNameUsage;
 
@@ -666,8 +666,20 @@ public class Taxon extends SearchableObject {
 	@JsonIgnore
 	@Transient
 	public List<Taxon> getHigherClassification() {
+		if(higherClassification == null) {
+			List<Taxon> ancestors = new ArrayList<Taxon>();
+            getAncestors(this, ancestors);
+            this.setHigherClassification(ancestors);
+		}
 		return higherClassification;
 	}
+	
+	private void getAncestors(Taxon t, List<Taxon> ancestors) {
+        if (t.getParentNameUsage() != null) {
+            getAncestors(t.getParentNameUsage(), ancestors);
+        }
+        ancestors.add(t);
+    }
 
 	/**
 	 * @param ancestors

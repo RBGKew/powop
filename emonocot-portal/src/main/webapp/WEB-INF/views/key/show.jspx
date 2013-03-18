@@ -61,14 +61,18 @@
 			</div>
 			<div id="gallery" class="hide" data-toggle="modal-gallery" data-target="#modal-gallery"><!--  --></div>
 			<div class="row">
-				<div class="span12">
+			<section class="span12">
 					<div class="inner">
-						<div class="box">	
-							<table class="table table-bordered table-condensed" id="key-properties">
+						<div class="box">
+							<table class="table" id="key-properties">
 								<tbody>
 									<tr>
 										<th><spring:message code="key.title" /></th>
 										<td>${identificationKey.title}</td>
+									</tr>
+									<tr>
+										<th><spring:message code="key.description" /></th>
+										<td>${identificationKey.description}</td>
 									</tr>
 									<tr>
 									  <th><spring:message code="key.taxa" /></th>
@@ -82,24 +86,53 @@
 									      </c:forEach>
 									    </ul>
 									  </td>
-									</tr>
-									<tr>
-										<th><spring:message code="key.description" /></th>
-										<td>${identificationKey.description}</td>
-									</tr>
-									<tr>
-										<th><spring:message code="key.source" /></th>
-										<td>
-											<c:url value="/source/${identificationKey.authority.identifier}" var="keySourceUrl" />
-											<a href="${keySourceUrl}">${identificationKey.authority.identifier}</a>
-										</td>
-									</tr>
+									</tr>																		
 								</tbody>
 							</table>
 						</div>
 					</div>
-				</div>
+			</section>
 			</div>
+			<c:set var="provenance" value="${em:provenance(identificationKey)}" />
+			<div class="row">
+			    <section id="sources" class="span12">
+					<div class="inner">
+						<div class="box">
+							<h2><i class="glyphicons-icon group">&#160;</i> <spring:message code="sources" /></h2>
+							<dl>
+								<c:forEach var="organisation" items="${em:provenancesources(provenance)}">
+									<tags:provenance organisation="${organisation}" provenance="${provenance}"/>
+								</c:forEach>
+							</dl>
+						</div>
+					</div>
+			    </section>
+			</div>
+			<c:if test="${not empty identificationKey.comments}">
+			<div class="row">
+			    <section id="comments" class="span12">
+				    <div class="inner">
+     				    <div class="box">
+								<h2>
+									<i class="glyphicons-icon comments"><!-- --></i>
+									<spring:message code="comments.title"/>
+								</h2>
+								<ul class="media-list">
+								  <c:forEach var="comment" items="${identificationKey.comments}" end="5">
+									<tags:comment comment="${comment}"/>
+								  </c:forEach>
+								</ul>
+								<div>
+									<c:url var="commentsUrl" value="/comment"/>
+							        <a href="${commentsUrl}">
+								      <spring:message code="more.comments"/>
+							        </a>
+								</div>
+						</div>
+					</div>
+				</section>
+			</div>
+			</c:if>
 			<c:url value="/taxon/" var="taxonPath"/>
 			<c:url value="/images/thumbnails/" var="imagePath"/>
 			<spring:message code="portal.baseUrl" var="baseUrl"/>
@@ -146,10 +179,11 @@
             <div id="feedbackModal" class="modal hide fade">
 		        <div class="modal-header">
 		            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-		            <h3><spring:message code="feedbackTitle" /></h3>
+		            <h3><i class="glyphicons-icon comments"><!--  --></i><spring:message code="feedbackTitle" /></h3>
 		        </div>
 		        <c:url value="/comment" var="commentUrl" />
 		        <form class="modal-form" action="${commentUrl}" method="post">
+		            <input type="hidden" name="commentPageIdentifier" value="${identificationKey.identifier}"/> 
 		            <div class="modal-body">
 		                <div class="control-group">
 		                    <security:authorize access="isAnonymous()">
@@ -157,7 +191,7 @@
 		                    </security:authorize>
 		                    <label class="control-label" for="select01"><spring:message code="feedback.topic.option" /> ${identificationKey.title}</label>
 		                    <div class="controls">
-                                <input type="hidden" name="aboutDataIdentifier" value="${identificationKey.identifier}" />
+                                <input type="hidden" name="aboutData" value="${identificationKey.identifier}" />
 		                    </div>
 		                </div>
 		                <div class="control-group">

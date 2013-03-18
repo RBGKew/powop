@@ -12,7 +12,7 @@ import org.emonocot.model.registry.Organisation;
  * @author jk00kg
  *
  */
-public interface CommentService extends Service<Comment> {
+public interface CommentService extends SearchableService<Comment> {
     
     /**
      * Encapsulates logic for deciding which {@link Organisation}s are relevant for this comment

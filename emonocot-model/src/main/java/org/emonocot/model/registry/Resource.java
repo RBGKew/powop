@@ -187,6 +187,8 @@ public class Resource extends Base implements Searchable {
 	/**
 	 * @return the uri
 	 */
+	@NotEmpty(groups = ReadResource.class)
+	@URL
 	public String getUri() {
 		return uri;
 	}
@@ -552,5 +554,9 @@ public class Resource extends Base implements Searchable {
 
 	public Long getLastHarvestedJobId() {
 		return lastHarvestedJobId;
+	}
+	
+	public interface ReadResource {
+		
 	}
 }

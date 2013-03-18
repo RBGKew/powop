@@ -7,7 +7,7 @@ package org.emonocot.pager;
  */
 public enum FacetName {
 
-    CLASS("base.class_s"),
+    CLASS("base.class_s"),    
     FAMILY("taxon.family_s"),
     CONTINENT("taxon.distribution_TDWG_0_ss"),
     REGION("taxon.distribution_TDWG_1_ss"),
@@ -29,7 +29,9 @@ public enum FacetName {
     SCHEDULING_PERIOD("resource.scheduling_period_s"),
     RESOURCE_STATUS("resource.status_s"),
     RESOURCE_ORGANISATION("resource.organisation_s"),
-    LAST_HARVESTED("resource.last_harvested_dt");
+    LAST_HARVESTED("resource.last_harvested_dt"),
+    COMMENT_SUBJECT("comment.subject_s"),
+    COMMENT_PAGE_TYPE("comment.comment_page_class_s");
 
     private FacetName(String solrField) {
         this.solrField = solrField;

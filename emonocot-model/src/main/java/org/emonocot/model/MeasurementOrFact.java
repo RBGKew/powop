@@ -60,6 +60,8 @@ public class MeasurementOrFact extends OwnedEntity {
 	
 	private Set<Annotation> annotations = new HashSet<Annotation>();
 
+	private String source;
+
 	@Id
     @GeneratedValue(generator = "system-increment")
 	public Long getId() {
@@ -199,4 +201,12 @@ public class MeasurementOrFact extends OwnedEntity {
     	}
     	return stringBuffer.toString();
     }
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+	
+	public String getSource() {
+		return source;
+	}
 }

@@ -16,6 +16,7 @@ import org.emonocot.api.job.JobExecutionInfo;
 import org.emonocot.api.job.JobLaunchRequest;
 import org.emonocot.api.job.JobLauncher;
 import org.emonocot.model.SearchableObject;
+import org.emonocot.model.constants.ResourceType;
 import org.emonocot.model.registry.Resource;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
@@ -132,6 +133,7 @@ public class DownloadController {
        Page<? extends SearchableObject> result = searchableObjectService.search(query, null, 10, 0, null, null, selectedFacets, sort, null);
 
        result.setSort(sort);
+       result.putParam("query", query);
        model.addAttribute("taxonTerms", DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon));
        model.addAttribute("taxonMap", DarwinCorePropertyMap.getPropertyMap(DwcTerm.Taxon));
        model.addAttribute("result", result);
@@ -251,6 +253,7 @@ public class DownloadController {
 		jobLaunchRequest.setParameters(jobParametersMap);
 
 		try {
+			resource.setResourceType(ResourceType.DOWNLOAD);
 			resource.setStartTime(null);
 			resource.setDuration(null);
 			resource.setExitCode(null);
@@ -268,10 +271,9 @@ public class DownloadController {
 				resource.getParameters().put("download.file",downloadFileName + ".zip");
 			}
 			resourceService.save(resource);
-			jobLauncher.launch(jobLaunchRequest);
+			jobLauncher.launch(jobLaunchRequest);			
 			
-			
-			String[] codes = new String[] { "job.started" };
+			String[] codes = new String[] { "download.submitted" };
 			Object[] args = new Object[] {};
 			DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
 					codes, args);
@@ -280,7 +282,7 @@ public class DownloadController {
 	                + "facet: [{}], {} results", new Object[] {query,
 	                downloadFormat, purpose, selectedFacets, result.getSize() });
 		} catch (JobExecutionException e) {
-			String[] codes = new String[] { "job.failed" };
+			String[] codes = new String[] { "download.failed" };
 			Object[] args = new Object[] { e.getMessage() };
 			DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
 					codes, args);
@@ -299,7 +301,7 @@ public class DownloadController {
 				} else {
 					isFirst = false;
 				}
-				stringBuffer.append(term.simpleName());
+				stringBuffer.append(term.qualifiedName());
            }
        }
        return stringBuffer.toString();
