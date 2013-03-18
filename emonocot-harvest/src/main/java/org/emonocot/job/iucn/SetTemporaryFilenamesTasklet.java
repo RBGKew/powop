@@ -16,18 +16,35 @@ import org.springframework.batch.repeat.RepeatStatus;
  */
 public class SetTemporaryFilenamesTasklet implements Tasklet {
 
-    /**
-     *
-     */
     private String harvesterSpoolDirectory;
+    
+	private String subtribe;
+	
+	private String tribe;
+	
+	private String subfamily;
+	
+	private String family;
 
-    /**
-     * @param newHarvesterSpoolDirectory the harvesterSpoolDirectory to set
-     */
-    public final void setHarvesterSpoolDirectory(
-            final String newHarvesterSpoolDirectory) {
+    public void setHarvesterSpoolDirectory(String newHarvesterSpoolDirectory) {
         this.harvesterSpoolDirectory = newHarvesterSpoolDirectory;
     }
+    
+    public void setSubtribe(String subtribe) {
+		this.subtribe = subtribe;
+	}
+
+	public void setTribe(String tribe) {
+		this.tribe = tribe;
+	}
+
+	public void setSubfamily(String subfamily) {
+		this.subfamily = subfamily;
+	}
+
+	public void setFamily(String family) {
+		this.family = family;
+	}
 
     /**
      * @param contribution Set the step contribution
@@ -35,20 +52,44 @@ public class SetTemporaryFilenamesTasklet implements Tasklet {
      * @return the repeat status
      * @throws Exception if there is a problem deleting the resources
      */
-    public final RepeatStatus execute(final StepContribution contribution,
-            final ChunkContext chunkContext)
+    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext)
             throws Exception {
         UUID uuid1 = UUID.randomUUID();
-        String splitFileName = harvesterSpoolDirectory + File.separator
-                + uuid1.toString() + ".json";
+        String splitFileName = harvesterSpoolDirectory + File.separator + uuid1.toString() + ".json";
         UUID uuid2 = UUID.randomUUID();
-        String temporaryFileName = harvesterSpoolDirectory + File.separator
-                + uuid2.toString() + ".json";
+        String temporaryFileName = harvesterSpoolDirectory + File.separator + uuid2.toString() + ".json";
         
         File temporaryFile = new File(temporaryFileName);
         File splitFile = new File(splitFileName);
-        ExecutionContext executionContext = chunkContext.getStepContext()
-                .getStepExecution().getJobExecution().getExecutionContext();
+        ExecutionContext executionContext = chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext();
+        
+        String subsetRank = null;
+		String subsetValue = null;
+
+		if (subtribe != null) {
+			subsetRank = "subtribe";
+			subsetValue = subtribe;
+		} else if (tribe != null) {
+			subsetRank = "tribe";
+			subsetValue = tribe;
+		} else if (subfamily != null) {
+			subsetRank = "subfamily";
+			subsetValue = subfamily;
+		} else if (family != null) {
+			subsetRank = "family";
+			subsetValue = family;
+		}
+		
+		String queryString = null;
+		if (subsetValue != null) {
+			queryString = "select t.id from Taxon t where t.#subsetRank = :subsetValue or a.#subsetRank = :subsetValue";
+			queryString = queryString.replaceAll("#subsetRank", subsetRank);
+			executionContext.put("index.taxon.subset.value", subsetValue);
+		} else {
+			queryString = "select t.id from MeasurementOrFact m join m.taxon t join m.annotations a where a.jobId = :jobId";
+		}
+		
+		executionContext.put("index.taxon.query", queryString);
         executionContext.put("temporary.file.name", temporaryFile.getAbsolutePath());
         executionContext.put("split.file.name", splitFile.getAbsolutePath());
         executionContext.putLong("job.execution.id", chunkContext.getStepContext().getStepExecution().getJobExecutionId());

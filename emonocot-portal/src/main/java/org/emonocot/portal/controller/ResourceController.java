@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
+import javax.validation.groups.Default;
 
 import org.emonocot.api.AnnotationService;
 import org.emonocot.api.OrganisationService;
@@ -19,6 +20,7 @@ import org.emonocot.model.Annotation;
 import org.emonocot.model.constants.ResourceType;
 import org.emonocot.model.constants.SchedulingPeriod;
 import org.emonocot.model.registry.Resource;
+import org.emonocot.model.registry.Resource.ReadResource;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.controller.form.ResourceParameterDto;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
@@ -39,6 +41,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -174,7 +177,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	@RequestMapping(value = "/{resourceId}", method = RequestMethod.POST, produces = "text/html", params = {"!parameters"})
 	public String update(
 			@PathVariable Long resourceId, Model model,
-			@Valid Resource resource, BindingResult result,
+			@Validated({Default.class, ReadResource.class}) Resource resource, BindingResult result,
 			RedirectAttributes redirectAttributes) {
 		Resource persistedResource = getService().load(resourceId);
 
@@ -294,7 +297,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	 */
 	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
 	public String create(			
-			Model model, @Valid Resource resource,
+			Model model, @Validated({Default.class, ReadResource.class}) Resource resource,
 			BindingResult result, RedirectAttributes redirectAttributes) {		
 		if (result.hasErrors()) {
 			populateForm(model, resource, new ResourceParameterDto());

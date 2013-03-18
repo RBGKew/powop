@@ -93,8 +93,7 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
                         + parsed.getAuthorship());
             }
         }
-        // String searchTerm = parsed.canonicalName();// .buildName(true, true,
-        // false, false, false, false, true, false, false, false);
+
         String searchTerm = stringBuilder.toString();
         logger.debug("Attempting to match " + searchTerm);
         List<Match<Taxon>> matches = new ArrayList<Match<Taxon>>();

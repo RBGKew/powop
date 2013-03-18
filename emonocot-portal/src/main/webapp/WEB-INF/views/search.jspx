@@ -82,9 +82,7 @@
 					<div class="box">
 						<div class="row no-print">
 							<div id="viewIcons" class="span3">
-								
 									<tags:view url="/search" result="${result}" />
-								
 							</div>
 							<tags:sort url="/search" result="${result}" spanClass="span1 offset4" />
 						</div>

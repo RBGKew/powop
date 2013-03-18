@@ -35,7 +35,7 @@ public class DarwinCorePropertyMap {
 	   taxonTerms.put(DcTerm.accessRights,"accessRights");
    	   taxonTerms.put(DwcTerm.datasetID,"authority.identifier");
    	   taxonTerms.put(DwcTerm.datasetName,"authority.title");
-   	taxonTerms.put(DcTerm.created,"created");
+   	   taxonTerms.put(DcTerm.created,"created");
    	taxonTerms.put(DcTerm.license,"license");
    	taxonTerms.put(DcTerm.modified,"modified");
    	taxonTerms.put(DcTerm.rights,"rights");
@@ -244,61 +244,51 @@ public class DarwinCorePropertyMap {
    }
 
     public static Map<ConceptTerm, String> getPropertyMap(ConceptTerm conceptTerm) {
-	    switch(conceptTerm.simpleName()) {
-	    case "Taxon":
+	    if(conceptTerm.equals(DwcTerm.Taxon)) {
 	    	return taxonTerms;
-	    case "Description":
+	    } else if(conceptTerm.equals(GbifTerm.Description)) {
 	    	return descriptionTerms;
-	    case "Distribution":
+	    } else if(conceptTerm.equals(GbifTerm.Distribution)) {
 	    	return distributionTerms;
-	    case "Identifier":
+	    } else if(conceptTerm.equals(GbifTerm.Identifier)) {
 	    	return identifierTerms;
-	    case "MeasurementOrFact":
+	    } else if(conceptTerm.equals(DwcTerm.MeasurementOrFact)) {
 	    	return measurementOrFactTerms;
-	    case "VernacularName":
+	    } else if(conceptTerm.equals(GbifTerm.VernacularName)) {
 	    	return vernacularNameTerms;
-	    case "Image":
+	    } else if(conceptTerm.equals(GbifTerm.Image)) {
 	    	return imageTerms;
-	    case "TypeAndSpecimen":
+	    } else if(conceptTerm.equals(GbifTerm.TypesAndSpecimen)) {
 	    	return typeAndSpecimenTerms;
-	    case "Reference":
+	    } else if(conceptTerm.equals(GbifTerm.Reference)) {
 	    	return referenceTerms;
-	    default:
-	    	return null;
+	    } else {
+	    	throw new IllegalArgumentException(conceptTerm.qualifiedName() + " is not a supported term");
 	    }
     }
     
     public static SortedSet<ConceptTerm> getConceptTerms(ConceptTerm conceptTerm) {
     	SortedSet<ConceptTerm> conceptTerms = new TreeSet<ConceptTerm>(new ConceptTermComparator());
-	    switch(conceptTerm.simpleName()) {
-	    case "Taxon":
+	    if(conceptTerm.equals(DwcTerm.Taxon)) {
 	    	conceptTerms.addAll(taxonTerms.keySet());
-	    	break;
-	    case "Description":
+	    } else if(conceptTerm.equals(GbifTerm.Description)) {
 	    	conceptTerms.addAll(descriptionTerms.keySet());
-	    	break;
-	    case "Distribution":
+	    } else if(conceptTerm.equals(GbifTerm.Distribution)) {
 	    	conceptTerms.addAll(distributionTerms.keySet());
-	    	break;
-	    case "Identifier":
+	    } else if(conceptTerm.equals(GbifTerm.Identifier)) {
 	    	conceptTerms.addAll(identifierTerms.keySet());
-	    	break;
-	    case "MeasurementOrFact":
+	    } else if(conceptTerm.equals(DwcTerm.MeasurementOrFact)) {
 	    	conceptTerms.addAll(measurementOrFactTerms.keySet());
-	    	break;
-	    case "VernacularName":
+	    } else if(conceptTerm.equals(GbifTerm.VernacularName)) {
 	    	conceptTerms.addAll(vernacularNameTerms.keySet());
-	    	break;
-	    case "Image":
+	    } else if(conceptTerm.equals(GbifTerm.Image)) {
 	    	conceptTerms.addAll(imageTerms.keySet());
-	    	break;
-	    case "TypeAndSpecimen":
+	    } else if(conceptTerm.equals(GbifTerm.TypesAndSpecimen)) {
 	    	conceptTerms.addAll(typeAndSpecimenTerms.keySet());
-	    	break;
-	    case "Reference":
+	    } else if(conceptTerm.equals(GbifTerm.Reference)) {
 	    	conceptTerms.addAll(referenceTerms.keySet());
-	    	break;
-	    default:
+	    } else {
+	    	throw new IllegalArgumentException(conceptTerm.qualifiedName() + " is not a supported term");
 	    }
 	    return conceptTerms;
     }

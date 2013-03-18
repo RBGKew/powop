@@ -14,6 +14,8 @@ import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.MeasurementType;
 import org.emonocot.model.constants.RecordType;
+import org.gbif.ecat.model.ParsedName;
+import org.gbif.ecat.parser.NameParser;
 import org.gbif.ecat.parser.UnparsableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +25,8 @@ import org.springframework.batch.item.ItemProcessor;
  * @author ben
  */
 public class Processor extends AbstractRecordAnnotator implements ItemProcessor<Map<String,Object>, MeasurementOrFact> {
+	
+	private static final Object SCIENTIFIC_NAME_FIELD = "scientific_name";
 	
 	private static final Object MODIFIED_YEAR_FIELD = "modified_year";
 
@@ -55,6 +59,8 @@ public class Processor extends AbstractRecordAnnotator implements ItemProcessor<
 	private String bibliographicCitation;
 	
 	private String iucnWebsiteUri = "http://www.iucnredlist.org/details/${identifier}/0";
+	
+	private NameParser nameParser;
 	
     public void setIucnWebsiteUri(String iucnWebsiteUri) {
     	if(iucnWebsiteUri != null) {
@@ -104,6 +110,10 @@ public class Processor extends AbstractRecordAnnotator implements ItemProcessor<
     public void setTaxonMatcher(TaxonMatcher taxonMatcher) {
         this.taxonMatcher = taxonMatcher;
     }
+    
+    public void setNameParser(NameParser nameParser) {
+    	this.nameParser = nameParser;
+    }
 
     public final MeasurementOrFact process(final Map<String,Object> map) throws Exception {
 		Taxon taxon = doMatchTaxon(map);
@@ -139,6 +149,15 @@ public class Processor extends AbstractRecordAnnotator implements ItemProcessor<
     }
 
 	private Taxon doMatchTaxon(Map<String, Object> map) {
+		ParsedName<String> parsedName = null;
+		if(map.get(Processor.SCIENTIFIC_NAME_FIELD) != null) {
+		    try {
+		    	parsedName = nameParser.parse(StringEscapeUtils.unescapeXml((String)map.get(Processor.SCIENTIFIC_NAME_FIELD)));
+			} catch (UnparsableException e) {
+				logger.error("Unable to parse scientific_name");
+			}
+		}
+		
 		StringBuffer nameBuffer = new StringBuffer();
 		
 		if(nullSafeContains(map,Processor.GENUS_FIELD)) {
@@ -146,14 +165,32 @@ public class Processor extends AbstractRecordAnnotator implements ItemProcessor<
 			nameBuffer.append(genus);
 		}
 		if(nullSafeContains(map,Processor.SPECIFIC_EPITHET_FIELD)) {
-			String species = ((String)map.get(Processor.GENUS_FIELD)).trim();
+			String species = ((String)map.get(Processor.SPECIFIC_EPITHET_FIELD)).trim();
 			nameBuffer.append(" ").append(species);
 		}
 		if(!nullSafeContains(map,Processor.INFRASPECIFIC_EPITHET_FIELD)) {
-			// Assume species, and use the "authority" field
-			if(nullSafeContains(map,Processor.AUTHORITY_FIELD)) {
-				String authority = StringEscapeUtils.unescapeXml(((String)map.get("authority")).trim());
-				nameBuffer.append(" ").append(authority);
+			if(parsedName == null || parsedName.getInfraSpecificEpithet() == null) {
+			    // Assume species, and use the "authority" field
+			    if(nullSafeContains(map,Processor.AUTHORITY_FIELD)) {
+				    String authority = StringEscapeUtils.unescapeXml(((String)map.get("authority")).trim());
+				    nameBuffer.append(" ").append(authority);
+			    }
+			} else {
+				// The parsed json fields do not contain information about the
+				// infraspecies, but the scientific_name field does contain this
+				// information
+				if(parsedName.getRankMarker() != null) {
+					String infraspecificRank = parsedName.getRankMarker().trim();
+					nameBuffer.append(" ").append(infraspecificRank);
+				}
+				
+				String infraspecificEpithet = parsedName.getInfraSpecificEpithet().trim();
+				nameBuffer.append(" ").append(infraspecificEpithet);
+				
+				if(parsedName.getAuthorship() != null) {
+					String infraspecificAuthority = parsedName.getAuthorship().trim();
+					nameBuffer.append(" ").append(infraspecificAuthority);
+				}
 			}
 		} else {
 			// Assume infraspecies, try to use the infra_rank, infra_name and  "infra_authority" fields
