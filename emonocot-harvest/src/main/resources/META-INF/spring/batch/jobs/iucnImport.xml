@@ -121,6 +121,10 @@
 	
 	<bean id="setTemporaryFilenamesTasklet" class="org.emonocot.job.iucn.SetTemporaryFilenamesTasklet">
 		<property name="harvesterSpoolDirectory" value="${harvester.spool.directory}"/>
+		<property name="family" value="#{jobParameters['family']}"/>
+		<property name="subfamily" value="#{jobParameters['subfamily']}"/>
+		<property name="tribe" value="#{jobParameters['tribe']}"/>
+		<property name="subtribe" value="#{jobParameters['subtribe']}"/>
 	</bean>
 	
 	<bean id="markMeasurementOrFactRecordsTasklet"	class="org.emonocot.job.dwc.read.OwnedRecordAnnotator" scope="step">
