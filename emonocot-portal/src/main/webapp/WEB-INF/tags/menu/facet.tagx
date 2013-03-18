@@ -69,7 +69,7 @@
 						<a id="${em:escapeHtmlIdentifier(facetName)}-collapse-link"
 							data-toggle="collapse"
 							data-target="#${em:escapeHtmlIdentifier(facetName)}-collapse"
-							class="label" style="display: none">${fn:length(rangeFacet.counts)-5}
+							class="label hide">${fn:length(rangeFacet.counts)-5}
 							${more}</a>
 						<script>
 							document.getElementById ( "${em:escapeHtmlIdentifier(facetName)}-collapse-link" ).style.display = "inline";
@@ -124,7 +124,7 @@
 						<a id="${em:escapeHtmlIdentifier(facetName)}-collapse-link"
 							data-toggle="collapse"
 							data-target="#${em:escapeHtmlIdentifier(facetName)}-collapse"
-							class="label" style="display: none">${facetField.valueCount-5}
+							class="label hide">${facetField.valueCount-5}
 							${more}</a>
 						<script>
 							document.getElementById ( "${em:escapeHtmlIdentifier(facetName)}-collapse-link" ).style.display = "inline";

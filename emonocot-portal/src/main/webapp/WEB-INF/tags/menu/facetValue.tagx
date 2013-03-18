@@ -51,7 +51,7 @@
 								<c:set var="classIcon" value="picture"/>
 							</c:when>
 							<c:when test="${facetValue eq 'org.emonocot.model.IdentificationKey'}">
-								<c:set var="classIcon" value="icon-keys"/>
+								<c:set var="classIcon" value="keys"/>
 							</c:when>
 							<c:when test="${facetValue eq 'org.emonocot.model.Place'}">
 								<c:set var="classIcon" value="map-marker"/>

@@ -34,6 +34,8 @@
 		<property name="supportedMediaTypes" value="application/json" />
 		<property name="objectMapper" ref="customObjectMapper" />
 	</bean>
+	
+	<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver"/>
 
 	<mvc:view-controller path="/" view-name="index"/>
 	<mvc:view-controller path="/tour" view-name="tour"/>

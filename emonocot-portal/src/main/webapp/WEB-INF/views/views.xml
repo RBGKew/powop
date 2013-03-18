@@ -52,6 +52,10 @@
     <put-attribute name="pageTitle" value="methodNotAllowedTitle" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/methodNotAllowed.jspx" />
   </definition> 
+  <definition name="badRequest" extends="default">
+    <put-attribute name="pageTitle" value="methodNotAllowedTitle" cascade="true" />
+    <put-attribute name="body" value="/WEB-INF/views/badRequest.jspx" />
+  </definition>
   <definition name="about" extends="default">
     <put-attribute name="pageTitle" value="aboutTitle" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/about.jspx" />

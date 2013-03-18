@@ -4,40 +4,92 @@
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:security="http://www.springframework.org/security/tags"
-	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	xmlns:spring="http://www.springframework.org/tags">
 	<tags:pageheader>
-	  <h2 id="page-title"><i class="glyphicons-icon home"><!--  --></i>${user.username}</h2>
+		<h2 id="page-title">
+			<i class="glyphicons-icon home">
+				<!--  -->
+			</i>${user.accountName}
+		</h2>
 	</tags:pageheader>
 	<div class="container">
-        <tags:info />
-        <tags:error />
-	<security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">
+	    <div class="row">
+			<div class="span12">
+			    <tags:error />
+				<tags:info />
+			</div>
+		</div>
 		<div class="row">
 			<div class="span12">
 				<div class="inner">
 					<div class="box">
-						<ul class="nav nav-pills nav-stacked">							
-							<li class="span3">
-								<jsp:element  name="a">
-									<jsp:attribute name="href">
-										<c:url value="/organisation"/> 
-									</jsp:attribute>
-									<spring:message code="organisations.title"/>
-								</jsp:element>
-							</li>
-							<li class="span3">
-								<jsp:element  name="a">
-									<jsp:attribute name="href">
-										<c:url value="/group"/>
-									</jsp:attribute>
-									<spring:message code="group.title"/>
-								</jsp:element>
-							</li>
-						</ul>
+					  <div class="row">
+						<security:authorize access="!isAnonymous()">
+							<c:url value="/home" var="editUrl">
+								<c:param name="form">true</c:param>
+							</c:url>
+							<spring:message code="edit.profile" var="editMessage"/>
+							<p><a href="${editUrl}" class="btn pull-right">${editMessage}</a></p>
+						</security:authorize>
+					</div>
+					<br/>
+					  <table class="table">
+							<tbody>
+								<tr>
+									<th><spring:message code="username" /></th>
+									<td id="username">${user.username}</td>
+								</tr>
+								<tr>
+									<th><spring:message code="name" /></th>
+									<td id="name">${user.name}</td>
+								</tr>
+								<tr>
+									<th><spring:message code="firstName" /></th>
+									<td id="firstName">${user.firstName}</td>
+								</tr>
+								<tr>
+									<th><spring:message code="familyName" /></th>
+									<td id="familyName">${user.familyName}</td>
+								</tr>
+								<tr>
+									<th><spring:message code="homepage" /></th>
+									<td id="homepage"><a href="${user.homepage}">${user.homepage}</a></td>
+								</tr>
+								<tr>
+									<th><spring:message code="img" /></th>
+									<c:url var="profileImage" value="/images/profiles/${user.img}"/>
+									<td id="img"><img class="thumbnail" src="${profileImage}"/></td>
+								</tr>
+								<tr>
+									<th><spring:message code="organization" /></th>
+									<td id="organization">${user.organization}</td>
+								</tr>
+								<tr>
+									<th><spring:message code="topicInterest" /></th>
+									<td id="topicInterest">
+									  <c:if test="${not empty user.topicInterest}">
+										<c:forEach var="keyword" items="${em:split(user.topicInterest,',')}" varStatus="status">
+											<c:url var="keywordUrl" value="/search">
+												<c:param name="query" value="${keyword}"/>
+												<c:param name="facet" value="base.class_s:org.emonocot.model.Image"/>
+											</c:url>
+											<c:choose>
+												<c:when test="${status.last}">
+													<span class="label">${keyword}</span>
+												</c:when>
+												<c:otherwise>
+													<span class="label">${keyword}</span>,&#160;
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>
+									  </c:if>
+                                    </td>
+								</tr>
+						    </tbody>
+						</table>
 					</div>
 				</div>
 			</div>
 		</div>
-		</security:authorize>
 	</div>
 </div>
