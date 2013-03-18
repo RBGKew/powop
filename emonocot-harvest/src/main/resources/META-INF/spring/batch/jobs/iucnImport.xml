@@ -119,7 +119,7 @@
         </batch:listeners>		
 	</batch:job>
 	
-	<bean id="setTemporaryFilenamesTasklet" class="org.emonocot.job.iucn.SetTemporaryFilenamesTasklet">
+	<bean id="setTemporaryFilenamesTasklet" class="org.emonocot.job.iucn.SetTemporaryFilenamesTasklet" scope="step">
 		<property name="harvesterSpoolDirectory" value="${harvester.spool.directory}"/>
 		<property name="family" value="#{jobParameters['family']}"/>
 		<property name="subfamily" value="#{jobParameters['subfamily']}"/>
