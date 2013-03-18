@@ -51,28 +51,28 @@ public abstract class DataManagementSupport {
     /**
      * @return the setUp
      */
-    public final List<Object> getSetUp() {
+    public List<Object> getSetUp() {
         return setUp;
     }
 
     /**
      * @param setUp the setUp to set
      */
-    public final void setSetUp(List<Object> setUp) {
+    public void setSetUp(List<Object> setUp) {
         this.setUp = setUp;
     }
 
     /**
      * @return the tearDown
      */
-    public final Stack<Object> getTearDown() {
+    public Stack<Object> getTearDown() {
         return tearDown;
     }
 
     /**
      * @param tearDown the tearDown to set
      */
-    public final void setTearDown(Stack<Object> tearDown) {
+    public void setTearDown(Stack<Object> tearDown) {
         this.tearDown = tearDown;
     }
     
@@ -82,7 +82,7 @@ public abstract class DataManagementSupport {
      * @param name Set the name of the place
      * @return a new place
      */
-    public final Place createPlace(String identifier, String name) {
+    public Place createPlace(String identifier, String name) {
     	Place place = new Place();
     	place.setIdentifier(identifier);
     	place.setTitle(name);
@@ -96,7 +96,7 @@ public abstract class DataManagementSupport {
      * @param groupName Set the group name
      * @return a Group
      */
-    public final Group createGroup(String groupName) {
+    public Group createGroup(String groupName) {
         Group group = new Group();
         group.setIdentifier(groupName);
         setUp.add(group);
@@ -108,11 +108,13 @@ public abstract class DataManagementSupport {
      *
      * @param username Set the username
      * @param password Set the password
+     * @param accountName TODO
      * @return a User
      */
-    public final User createUser(final String username, final String password) {
+    public User createUser(String username, String password, String accountName) {
         User user = new User();
         user.setUsername(username);
+        user.setAccountName(accountName);
         user.setPassword(password);
         user.setAccountNonExpired(true);
         user.setAccountNonLocked(true);
@@ -133,9 +135,9 @@ public abstract class DataManagementSupport {
      * @param source TODO
      * @return an annotation
     */
-    public final Annotation createAnnotation(final Long jobId,
-            final Base object, final AnnotationType type,
-            final RecordType recordType, final AnnotationCode code, Organisation source) {
+    public Annotation createAnnotation(Long jobId,
+            Base object, AnnotationType type,
+            RecordType recordType, AnnotationCode code, Organisation source) {
        Annotation annotation = new Annotation();
        annotation.setAnnotatedObj(object);
        annotation.setJobId(jobId);
@@ -154,9 +156,9 @@ public abstract class DataManagementSupport {
  * @param reference Set the reference
     * @return a text content object
     */
-    public final Description createDescription(final Taxon taxon,
-            final DescriptionType feature, final String content,
-            final Reference reference) {
+    public Description createDescription(Taxon taxon,
+            DescriptionType feature, String content,
+            Reference reference) {
        Description description = new Description();
        description.setIdentifier(UUID.randomUUID().toString());
        description.setType(feature);
@@ -197,13 +199,13 @@ public abstract class DataManagementSupport {
      * @param sources TODO
      * @return a new taxon
      */
-    public final Taxon createTaxon(final String name,
-            final String identifier,
-            final Taxon parent, final Taxon accepted, final String family,
-            final String genus, final String specificEpithet,
-            final String datePublished, final Rank rank,
-            final org.gbif.ecat.voc.TaxonomicStatus status, final Organisation source,
-            final Location[] distributions, Organisation[] sources) {
+    public Taxon createTaxon(String name,
+            String identifier,
+            Taxon parent, Taxon accepted, String family,
+            String genus, String specificEpithet,
+            String datePublished, Rank rank,
+            org.gbif.ecat.voc.TaxonomicStatus status, Organisation source,
+            Location[] distributions, Organisation[] sources) {
         Taxon taxon = new Taxon();
         taxon.setScientificName(name);
         taxon.setFamily(family);
@@ -245,7 +247,7 @@ public abstract class DataManagementSupport {
      *            Set the annotated object
      * @return a new annotation
      */
-    public final Annotation createAnnotation(final Base base) {
+    public Annotation createAnnotation(Base base) {
         Annotation annotation = new Annotation();
         annotation.setAnnotatedObj(base);
         return annotation;
@@ -262,8 +264,8 @@ public abstract class DataManagementSupport {
      * @param sources TODO
      * @return an image
      */
-    public final Image createImage(final String caption,
-            final String identifier, final Organisation source, final Taxon taxon, Organisation[] sources) {
+    public Image createImage(String caption,
+            String identifier, Organisation source, Taxon taxon, Organisation[] sources) {
         Image image = new Image();
         image.setTitle(caption);
         image.setIdentifier(identifier);
@@ -281,8 +283,8 @@ public abstract class DataManagementSupport {
      * @param author Set the author
      * @return a reference
      */
-    public final Reference createReference(final String identifier,
-            final String title, final String author) {
+    public Reference createReference(String identifier,
+            String title, String author) {
         Reference reference = new Reference();
         reference.setIdentifier(identifier);
         reference.setTitle(title);
@@ -307,8 +309,8 @@ public abstract class DataManagementSupport {
      *            Set the job instance
      * @return a job execution
      */
-    public final JobExecution createJobExecution(
-            final JobInstance jobInstance) {
+    public JobExecution createJobExecution(
+            JobInstance jobInstance) {
         JobExecution jobExecution = new JobExecution(jobInstance);
         setUp.add(jobExecution);
         tearDown.push(jobExecution);
@@ -325,9 +327,9 @@ public abstract class DataManagementSupport {
      *            set the job name
      * @return a job instance
      */
-    public final JobInstance createJobInstance(final Long id,
-            final Map<String, JobParameter> jobParameters,
-            final String jobName) {
+    public JobInstance createJobInstance(Long id,
+            Map<String, JobParameter> jobParameters,
+            String jobName) {
         JobInstance jobInstance = new JobInstance(id, new JobParameters(
                 jobParameters), jobName);
         setUp.add(jobInstance);
@@ -341,9 +343,11 @@ public abstract class DataManagementSupport {
      * @param uri Set the uri
      * @return a source object
      */
-    public final Organisation createSource(final String identifier, final String uri) {
+    public Organisation createSource(String identifier, String uri, String title, String commentsEmailedTo) {
         Organisation source = new Organisation();
         source.setIdentifier(identifier);
+        source.setTitle(title);
+        source.setCommentsEmailedTo(commentsEmailedTo);
         source.setUri(uri);
         setUp.add(source);
         tearDown.push(source);

@@ -35,6 +35,7 @@ public class Processor extends NonOwnedProcessor<Reference, ReferenceService> {
         persisted.setTaxonRemarks(t.getTaxonRemarks());
         persisted.setTitle(t.getTitle());
         persisted.setType(t.getType());
+        persisted.setUri(t.getUri());
 	}
 
 	@Override

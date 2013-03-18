@@ -7,8 +7,8 @@ Feature: Classification Tree
 Background:
   Given that the indexes are clean
   And there are organisations with the following properties:
-  | identifier | uri                 |
-  | test       | http://example.com  |
+  | identifier | uri                 | title | commentsEmailedTo |
+  | test       | http://example.com  | test  | test@example.com  |
   And there are taxa with the following properties:
   | identifier                   | name                           | family    | rank    | status   | source | parent                     |
   | urn:kew.org:wcs:family:2     | Acorales                       |           | ORDER   | Accepted | test   |                            |

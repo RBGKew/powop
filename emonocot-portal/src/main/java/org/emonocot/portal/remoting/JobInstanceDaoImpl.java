@@ -29,8 +29,7 @@ public class JobInstanceDaoImpl implements JobInstanceDao {
     /**
      * Logger.
      */
-    private static Logger logger = LoggerFactory
-            .getLogger(JobInstanceDaoImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(JobInstanceDaoImpl.class);
     
     protected static HttpHeaders httpHeaders = new HttpHeaders();
 

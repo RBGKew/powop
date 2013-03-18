@@ -176,7 +176,7 @@ public class CommentController extends GenericController<Comment, CommentService
         case "identifiers":
         case "other":
         	 comment.setSubject(form.getAboutData());
-        	 comment.setAboutData(commentPage);//Not what was asked for in initial month, this affects routing to organisations
+        	 comment.setAboutData(commentPage);
         	 break;
        default:
     	   for(Service<? extends BaseData> service : getServices()) {
@@ -222,7 +222,6 @@ public class CommentController extends GenericController<Comment, CommentService
     	   }    	   
     	   break;
         }
-        //Other services (distribution, etc.)
         
         if(commentPage == null) {
             logger.warn("Unable to find an object with the identifier" + form.getCommentPageIdentifier());

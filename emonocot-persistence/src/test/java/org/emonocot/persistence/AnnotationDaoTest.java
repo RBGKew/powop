@@ -60,7 +60,7 @@ public class AnnotationDaoTest extends AbstractPersistenceTest {
     */
    @Override
     public final void setUpTestData() {
-        Organisation wcs = createSource("WCS", "http://apps.kew.org/wcsTaxonExtractor");
+        Organisation wcs = createSource("WCS", "http://apps.kew.org/wcsTaxonExtractor", "World Checklist", "test@example.com");
        
         Taxon taxon1 = createTaxon("Aus", "1", null, null, null, null, null,
                 null, null, null, wcs, new Location[] {}, null);

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.solr.common.SolrDocument;
 import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.Base;
 import org.emonocot.pager.Page;
@@ -12,7 +13,6 @@ import org.emonocot.persistence.dao.Dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -314,6 +314,16 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
     
     public List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets) {
     	return null;
+    }
+
+    public Page<SolrDocument> searchForDocuments(String query,
+            Integer pageSize, Integer pageNumber,
+            Map<String, String> selectedFacets, String sort) {
+        throw new UnsupportedOperationException("Method should be overridden if supported. Unable to search for documents with query" + query);
+    }
+
+    public T loadObjectForDocument(SolrDocument solrDocument) {
+        throw new UnsupportedOperationException("Method should be overridden if supported. Unable to load object for document " + solrDocument);
     }
 
 }

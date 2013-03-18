@@ -659,7 +659,7 @@
 			<dependency>
 				<groupId>org.seleniumhq.selenium</groupId>
 				<artifactId>selenium-java</artifactId>
-				<version>2.28.0</version>
+				<version>2.31.0</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -1006,6 +1006,31 @@
               <groupId>javax.inject</groupId>
               <artifactId>javax.inject</artifactId>
               <version>1</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.jasperreports</groupId>
+                <artifactId>jasperreports</artifactId>
+                <version>4.1.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.xmlgraphics</groupId>
+                <artifactId>fop</artifactId>
+                <version>1.0</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>xalan</groupId>
+                        <artifactId>xalan</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-collections</groupId>
+                        <artifactId>commons-collections</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>3.2.1</version>
             </dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -1448,7 +1473,7 @@
 				<webAppRootKey>harvester</webAppRootKey>
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
-				<portal.baseUrl>http://a9482.ad.kew.org:8080</portal.baseUrl>
+				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
 				<harvester.baseUrl>http://localhost:8888/emonocot-harvester</harvester.baseUrl>
 				<harvester.services.client.identifier>zoo.ox.ac.uk</harvester.services.client.identifier>
@@ -1510,8 +1535,8 @@
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
-				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>				
-				<portal.baseUrl>http://a9482.ad.kew.org:8080</portal.baseUrl>				
+				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
+				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
 				<google.analytics.id />
 				<webAppRootKey>emonocot-portal</webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>
@@ -1548,6 +1573,9 @@
 				<email.fromAddress>portal@localhost</email.fromAddress>
 				<quartz.cron.expression>* 0/5 * * * ?</quartz.cron.expression>
 				<quartz.jobstore.delegate>org.quartz.impl.jdbcjobstore.StdJDBCDelegate</quartz.jobstore.delegate>
+				<portal.imagemagick.path>/usr/bin</portal.imagemagick.path>
+				<portal.image.temporary.directory>/var/spool/emonocot</portal.image.temporary.directory>
+				<portal.profile.image.directory>/var/lib/emonocot/images/profiles</portal.profile.image.directory>
 			</properties>
 		</profile>
 		<profile>
@@ -1599,6 +1627,9 @@
 				<email.fromAddress>portal@localhost</email.fromAddress>
 				<quartz.cron.expression>* 0/1 * * * ?</quartz.cron.expression>
 				<quartz.jobstore.delegate>org.quartz.impl.jdbcjobstore.StdJDBCDelegate</quartz.jobstore.delegate>
+				<portal.imagemagick.path>/usr/bin</portal.imagemagick.path>
+				<portal.image.temporary.directory>/var/spool/emonocot</portal.image.temporary.directory>
+				<portal.profile.image.directory>/var/lib/emonocot/images/profiles</portal.profile.image.directory>
 			</properties>
 		</profile>
 		<profile>
@@ -1608,8 +1639,8 @@
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
-				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>				
-				<portal.baseUrl>http://a9482.ad.kew.org:8080</portal.baseUrl>				
+				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
+				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
 				<google.analytics.id />
 				<webAppRootKey>emonocot-portal</webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>
@@ -1650,6 +1681,9 @@
 				<email.fromAddress>portal@localhost</email.fromAddress>
 				<quartz.cron.expression>* 0/1 * * * ?</quartz.cron.expression>
 				<quartz.jobstore.delegate>org.quartz.impl.jdbcjobstore.PostgreSQLDelegate</quartz.jobstore.delegate>
+				<portal.imagemagick.path>/usr/bin</portal.imagemagick.path>
+				<portal.image.temporary.directory>file:/var/cache/tomcat7/temp/emonocot/</portal.image.temporary.directory>
+				<portal.profile.image.directory>file:/var/lib/emonocot/images/profiles</portal.profile.image.directory>
 			</properties>
 		</profile>		
 	</profiles>

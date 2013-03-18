@@ -11,7 +11,18 @@
 	<name>eMonocot Harvesting</name>
 	<description>Backend Harvesting Routines</description>
 	<dependencies>
-	    <dependency>
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>fop</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
 			<groupId>org.emonocot</groupId>
 			<artifactId>emonocot-model</artifactId>			
 		</dependency>

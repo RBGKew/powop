@@ -24,6 +24,7 @@ import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 
 /**
@@ -181,6 +182,7 @@ public class Organisation extends BaseData implements Comparable<Organisation>, 
     /**
      * @return the title
      */
+    @NotEmpty
     public String getTitle() {
         return title;
     }

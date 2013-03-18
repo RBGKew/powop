@@ -19,7 +19,7 @@ public class StringToOrganisationConverter implements Converter<String, Organisa
 
 	@Override
 	public Organisation convert(String source) {
-		logger.error("Convert " + source + " to organsation");
+		logger.debug("Convert " + source + " to organsation");
 		if(source == null) {
 			return null;
 		}

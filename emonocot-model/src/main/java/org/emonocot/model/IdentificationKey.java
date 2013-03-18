@@ -1,6 +1,8 @@
 package org.emonocot.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -12,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -36,8 +39,6 @@ public class IdentificationKey extends SearchableObject {
     private String title;
 
     private String description;
-
-    private Taxon taxon;
     
     private Set<Taxon> taxa = new HashSet<Taxon>();
     
@@ -46,6 +47,8 @@ public class IdentificationKey extends SearchableObject {
     private Set<Annotation> annotations = new HashSet<Annotation>();
     
     private String matrix;
+    
+    private List<Comment> comments = new ArrayList<Comment>();
 
 	public String getCreator() {
 		return creator;
@@ -132,7 +135,28 @@ public class IdentificationKey extends SearchableObject {
         this.annotations = annotations;
     }
     
-    @Override
+    /**
+	 * @return the comments
+	 */
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "commentPage_id")
+    @OrderBy("created DESC")
+    @Where(clause = "commentPage_type = 'IdentificationKey'")
+    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+    @JsonIgnore
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	/**
+	 * @param comments the comments to set
+	 */
+    @JsonIgnore
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+	@Override
     public SolrInputDocument toSolrInputDocument() {
     	SolrInputDocument sid = super.toSolrInputDocument();
     	sid.addField("searchable.label_sort", getTitle());

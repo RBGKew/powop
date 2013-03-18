@@ -2,7 +2,11 @@
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
 <tiles-definitions>  
   <definition name="user/show" extends="default">    
-    <put-attribute name="pageTitle" value="${user.username}" cascade="true"/>
+    <put-attribute name="pageTitle" value="${user.accountName}" cascade="true"/>
     <put-attribute name="body" value="/WEB-INF/views/user/show.jspx" />
+  </definition>
+  <definition name="user/update" extends="default">    
+    <put-attribute name="pageTitle" value="${user.accountName}" cascade="true"/>
+    <put-attribute name="body" value="/WEB-INF/views/user/update.jspx" />
   </definition>   
 </tiles-definitions>

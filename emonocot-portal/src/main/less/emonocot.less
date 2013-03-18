@@ -165,6 +165,7 @@ h1, h2, h3, h4, h5, h6 {
 /*header*/
 @heroBackground: #b9f0e5;
 @heroBackgroundHighlight: #cffff2;
+@heroUnitHeight: 470px;
 
 .navbar {
     .brand {
@@ -180,7 +181,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .hero-unit {
     position: relative;
-    height: 470px;  
+    height: @heroUnitHeight;  
     margin: 0 0 20px;
     padding: 0;
     min-width: 940px;
@@ -224,43 +225,50 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: none;
     padding: 45px 0;
 }
-
-
-/* Top Banner Layers */
-
-.grass1 { height: 73px; width: 100%; position: absolute; bottom: 0; left: 0; background: url('@{imagePath}/banner/grass-1.png') repeat-x; z-index: 200; }
-.grass2 { height: 86px; width: 100%; position: absolute; bottom: 10px; left: 0; background: url('@{imagePath}/banner/grass-2.png') repeat-x; z-index: 195; }
-.grass3 { height: 66px; width: 100%; position: absolute; bottom: 51px; left: 0; background: url('@{imagePath}/banner/grass-3.png') repeat-x; z-index: 190; }
-.grass4 { height: 47px; width: 100%; position: absolute; bottom: 74px; left: 0; background: url('@{imagePath}/banner/grass-4.png') repeat-x; z-index: 185; }
-.grass5 { height: 15px; width: 100%; position: absolute; bottom: 105px; left: 0; background: url('@{imagePath}/banner/grass-5.png') repeat-x; z-index: 180; }
-
-.trees-right { height: 358px; width: 279px; position: absolute; bottom: 46px; right: 0px; background: url('@{imagePath}/banner/trees-right.png') no-repeat; z-index: 187; }
-.trees-left { height: 350px; width: 274px; position: absolute; bottom: 70px; left: 0; background: url('@{imagePath}/banner/trees-left.png') no-repeat; z-index: 187; }
-
-.bamboo-right { height: 470px; width: 170px; position: absolute; bottom: 0; right: 0; background: url('@{imagePath}/banner/bamboo-right.png') no-repeat; z-index: 205; }
-.bamboo-left { height: 470px; width: 230px; position: absolute; bottom: 0; left: 0; background: url('@{imagePath}/banner/bamboo-left.png') no-repeat; z-index: 205; }
-
-.plant-single { height: 170px; width: 42px; position: absolute; bottom: 90px; left: 50%; margin-left: -370px; background: url('@{imagePath}/banner/plant-single.png') no-repeat; z-index: 189; }
-
-.plant-decoration { height: 52px; width: 1080px; position: absolute; bottom: 40px; left: 50%; margin-left: -540px; background: url('@{imagePath}/banner/plant-decoration.png') no-repeat; z-index: 197; } 
-
-.pond { height: 126px; width: 425px; position: absolute; bottom: 30px; left: 50%; margin-left: -213px; background: url('@{imagePath}/banner/pond.png') no-repeat; z-index: 198; }
-
-.bg-plants { height: 84px; width: 100%; position: absolute; bottom: 96px; left: 0; background: url('@{imagePath}/banner/bg-plants.png') repeat-x; z-index: 181; }
-
-.bg-banner { height: 118px; width: 100%; position: absolute; bottom: 116px; left: 0; background: url('@{imagePath}/banner/bg-banner.png') repeat-x; z-index: 100; }
-
-.overlay-banner { height: 100%; width: 100%; position: absolute; top: 0; left: 0; background: url('@{imagePath}/banner/overlay.png') repeat; z-index: 210;}
-
 /* boxes */
 
-.box { background: #fff; border: 1px solid #e8e8e8; min-height: 20px; padding: 19px; margin-bottom: 20px;  position: relative; -webkit-box-shadow: inset 1px 1px 30px 1px #f9f9f9; -moz-box-shadow: inset 1px 1px 30px 1px #f9f9f9; box-shadow: inset 1px 1px 30px 1px #f9f9f9; }
+.box { background: #fff;
+       border: 1px solid #e8e8e8;
+       min-height: 20px;
+       padding: 19px;
+       margin-bottom: 20px; 
+       position: relative;
+       -webkit-box-shadow: inset 1px 1px 30px 1px #f9f9f9;
+       -moz-box-shadow: inset 1px 1px 30px 1px #f9f9f9;
+       box-shadow: inset 1px 1px 30px 1px #f9f9f9;
+}
 
-.inner { position: relative; z-index: 1;}
+.inner { 
+    position: relative;
+    z-index: 1;
+}
 
-.inner:before, .inner:after { position: absolute; width: 50%; height: 4px; content: ' '; left: 12px;background: transparent; -webkit-transform: skew(-5deg) rotate(-3deg); -moz-transform: skew(-5deg) rotate(-3deg); -ms-transform: skew(-5deg) rotate(-3deg); -o-transform: skew(-5deg) rotate(-3deg); transform: skew(-5deg) rotate(-3deg); -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7); -moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7); box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7); z-index: -1; 
+.inner:before, .inner:after { 
+    position: absolute; 
+    width: 50%; 
+    height: 4px; 
+    content: ' '; 
+    left: 12px;
+    background: transparent; 
+    -webkit-transform: skew(-5deg) rotate(-3deg);
+    -moz-transform: skew(-5deg) rotate(-3deg);
+    -ms-transform: skew(-5deg) rotate(-3deg);
+    -o-transform: skew(-5deg) rotate(-3deg);
+    transform: skew(-5deg) rotate(-3deg); 
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
+    z-index: -1; 
 } 
-.inner:after  { left: auto; right: 12px; -webkit-transform: skew(5deg) rotate(3deg); -moz-transform: skew(5deg) rotate(3deg); -ms-transform: skew(5deg) rotate(3deg); -o-transform: skew(5deg) rotate(3deg); transform: skew(5deg) rotate(3deg); } 
+.inner:after  { 
+    left: auto; 
+    right: 12px;
+    -webkit-transform: skew(5deg) rotate(3deg); 
+    -moz-transform: skew(5deg) rotate(3deg); 
+    -ms-transform: skew(5deg) rotate(3deg); 
+    -o-transform: skew(5deg) rotate(3deg); 
+    transform: skew(5deg) rotate(3deg);
+} 
     
 .span12 .inner:before, .span12 .inner:after, .span11 .inner:before, .span11 .inner:after { bottom: 13px; }
 .span10 .inner:before, .span10 .inner:after, .span9 .inner:before, .span9 .inner:after { bottom: 12px; }
@@ -269,11 +277,21 @@ h1, h2, h3, h4, h5, h6 {
 .span4 .inner:before, .span4 .inner:after, .span3 .inner:before, .span3 .inner:after { bottom: 9px; }
 .span2 .inner:before, .span2 .inner:after, .span1 .inner:before, .span1 .inner:after { bottom: 8px; }
 
-.box h1, .box h2, .box h3, .box h4, .box h5, .box h6 { color: #5b5b5b; }
+.box h1, .box h2, .box h3, .box h4, .box h5, .box h6 {
+    color: #5b5b5b; 
+}
 
-.box h2 { font-size: 16px; line-height: 28px; }
-.box a h2 { color: #5b5b5b; text-decoration: none; }
-.box a:hover h2 { text-decoration: none !important  }
+.box h2 { 
+    font-size: 16px; 
+    line-height: 28px;
+ }
+.box a h2 { 
+  color: #5b5b5b; 
+  text-decoration: none;
+}
+.box a:hover h2 { 
+   text-decoration: none !important
+}
 
 .box p { color: #888; }
 

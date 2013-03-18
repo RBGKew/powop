@@ -169,11 +169,11 @@ public class TestDataManager {
      * @param format TODO
      * @param taxa1 TODO
      */
-	public final void createImage(final String identifier,
-			final String caption, final String url, final String source,
-			final String description, final String locality,
-			final String creator, final String license, final String keywords,
-			final String taxon, String format, final String taxa1) {
+	public void createImage(String identifier,
+			String caption, String url, String source,
+			String description, String locality,
+			String creator, String license, String keywords,
+			String taxon, String format, String taxa1) {
         enableAuthentication();
         Image image = new Image();
         image.setTitle(caption);
@@ -218,9 +218,9 @@ public class TestDataManager {
      * @param permission
      *            Set the permission
      */
-    public final void createAcl(final String principal,
-            final String principalType, final String object,
-            final String objectType, final String permission) {
+    public void createAcl(String principal,
+            String principalType, String object,
+            String objectType, String permission) {
         enableAuthentication();
         Taxon taxon = new Taxon();
         taxon.setIdentifier(object);
@@ -252,15 +252,16 @@ public class TestDataManager {
     /**
      * @param identifier
      *            Set the identifier
+     * @param accountName TODO
      * @param newPassword
      *            Set the password
      * @param group1
      *            Set the first group
      */
-    public final void createUser(final String identifier,
-            final String newPassword, final String group1) {
+    public void createUser(String identifier,  String accountName, String newPassword, String group1) {
         enableAuthentication();
         User user = new User();
+        user.setAccountName(accountName);
         user.setIdentifier(identifier);
         user.setPassword(newPassword);
         user.setAccountNonExpired(true);
@@ -284,16 +285,17 @@ public class TestDataManager {
      *            Set the uri
      * @param title
      *            Set the title
+     * @param commentsEmailedTo TODO
      */
-    public final void createOrganisation(final String identifier,
-            final String uri, String title, String bibliographicCitation) {
+    public void createOrganisation(String identifier, String uri, String title, String bibliographicCitation, String commentsEmailedTo) {
         enableAuthentication();
-        Organisation source = new Organisation();
-        source.setIdentifier(identifier);
-        source.setUri(uri);
-        source.setTitle(title);
-        organisationService.save(source);
-        data.push(source);
+        Organisation organisation = new Organisation();
+        organisation.setIdentifier(identifier);
+        organisation.setUri(uri);
+        organisation.setTitle(title);
+        organisation.setCommentsEmailedTo(commentsEmailedTo);
+        organisationService.save(organisation);
+        data.push(organisation);
         disableAuthentication();
     }
 
@@ -322,7 +324,7 @@ public class TestDataManager {
      * @param name
      *            Set the name
      */
-    public final void assertNoTaxaWithName(final String name) {
+    public void assertNoTaxaWithName(String name) {
         for (int i = 0; i < data.size(); i++) {
             Object o = data.get(i);
             if (o.getClass().equals(Taxon.class)) {
@@ -386,19 +388,19 @@ public class TestDataManager {
      * @param image3
      *            Set the image3
      */
-    public final void createTaxon(final String identifier, final String name,
-            final String authorship, final String family, final String genus,
-            final String specificEpithet, final String rank,
-            final String status, final String diagnostic,
-            final String diagnosticReference1, final String habitat,
-            final String general, final String protologue,
-            final String microReference, final String protologLink,
-            final String distribution1, final String distribution2,
-            final String distribution3, final String source,
-            final String created, final String parent, final String accepted,
-            final String distributionSource, final String distributionRights, final String distributionLicense,
-            final String diagnosticSource, final String diagnosticRights, final String diagnosticLicense,
-            final String habitatSource, final String habitatRights, final String habitatLicense, final String lifeForm, final String iucnConservationStatus) {
+    public void createTaxon(String identifier, String name,
+            String authorship, String family, String genus,
+            String specificEpithet, String rank,
+            String status, String diagnostic,
+            String diagnosticReference1, String habitat,
+            String general, String protologue,
+            String microReference, String protologLink,
+            String distribution1, String distribution2,
+            String distribution3, String source,
+            String created, String parent, String accepted,
+            String distributionSource, String distributionRights, String distributionLicense,
+            String diagnosticSource, String diagnosticRights, String diagnosticLicense,
+            String habitatSource, String habitatRights, String habitatLicense, String lifeForm, String iucnConservationStatus) {
         enableAuthentication();
         Taxon taxon = new Taxon();
         data.push(taxon);
@@ -491,8 +493,8 @@ public class TestDataManager {
      * @param subject
      *            Set the subject
      */
-    private void createIdentifier(final Taxon taxon, final String link,
-            final String subject, Organisation source) {
+    private void createIdentifier(Taxon taxon, String link,
+            String subject, Organisation source) {
         Identifier identifier = new Identifier();
         identifier.setIdentifier(link);
         identifier.setSubject(subject);
@@ -505,7 +507,7 @@ public class TestDataManager {
      * @param base
      *            the object to register for deletion
      */
-    public final void registerObject(final Base base) {
+    public void registerObject(Base base) {
         data.push(base);
     }
 
@@ -528,10 +530,10 @@ public class TestDataManager {
      *            Set the publisher
      * @param taxa1 TODO
      */
-    public final void createReference(final String identifier,
-            final String title, final String authors,
-            final String datePublished, final String volume, final String page,
-            final String citation, final String publisher, String taxa1, String authority) {
+    public void createReference(String identifier,
+            String title, String authors,
+            String datePublished, String volume, String page,
+            String citation, String publisher, String taxa1, String authority) {
         enableAuthentication();
         Reference r = new Reference();
         data.push(r);
@@ -561,9 +563,9 @@ public class TestDataManager {
      * @param version
      *            Set the version
      */
-    public final void createJobInstance(final String jobId,
-            final String jobName, final String authorityName,
-            final String version) {
+    public void createJobInstance(String jobId,
+            String jobName, String authorityName,
+            String version) {
         enableAuthentication();
         Long id = null;
         if (jobId != null && jobId.length() > 0) {
@@ -609,12 +611,12 @@ public class TestDataManager {
      * @param exitMessage
      *            Set the exit message
      */
-    public final void createJobExecution(final String jobId,
-            final String jobInstance, final String createTime,
-            final String endTime, final String startTime,
-            final String lastUpdated, final String status,
-            final String version, final String exitCode,
-            final String exitMessage) {
+    public void createJobExecution(String jobId,
+            String jobInstance, String createTime,
+            String endTime, String startTime,
+            String lastUpdated, String status,
+            String version, String exitCode,
+            String exitMessage) {
         enableAuthentication();
         Long id = null;
         if (jobId != null && jobId.length() > 0) {
@@ -684,10 +686,10 @@ public class TestDataManager {
      * @param object
      *            Set the object
      */
-    public final void createAnnotation(final String identifier,
-            final String code, final String type, final String recordType,
-            final String value, final String text, final String jobId,
-            final String dateTime, final String source, final String object) {
+    public void createAnnotation(String identifier,
+            String code, String type, String recordType,
+            String value, String text, String jobId,
+            String dateTime, String source, String object) {
         enableAuthentication();
         Annotation annotation = new Annotation();
         if (code != null && code.length() > 0) {
@@ -733,8 +735,8 @@ public class TestDataManager {
      * @param reference
      *            Set the reference
      */
-    private void createDescription(final Taxon taxon, final String text,
-            final DescriptionType feature, final String reference, Organisation source, String authority, String license, String rights) {
+    private void createDescription(Taxon taxon, String text,
+            DescriptionType feature, String reference, Organisation source, String authority, String license, String rights) {
         Description description = new Description();
         description.setIdentifier(UUID.randomUUID().toString());
         description.setDescription(text);
@@ -767,7 +769,7 @@ public class TestDataManager {
      * @param reference
      *            Set the reference
      */
-     private void createMeasurement(final Taxon taxon, final String text, final MeasurementType measurement){
+     private void createMeasurement(Taxon taxon, String text, MeasurementType measurement){
     	MeasurementOrFact fact = new MeasurementOrFact();
     	fact.setMeasurementValue(text);
     	fact.setIdentifier(UUID.randomUUID().toString());
@@ -781,7 +783,7 @@ public class TestDataManager {
     /**
      *
      */
-    public final void tearDown() {
+    public void tearDown() {
         enableAuthentication();
         while (!data.isEmpty()) {
             Object object = data.pop();
@@ -839,15 +841,18 @@ public class TestDataManager {
      * @param writeSkips Set the write skips
      * @param written Set the records written
      * @param jobId Set the jobId
+     * @param resource TODO
      */
-	public final void createResource(final String identifier, String title,
-			final String family, final String type, final String source,
-			final String read, final String readSkips,
-			final String processSkips, final String writeSkips, final String written, String jobId) {
+	public void createResource(String identifier, String title,
+			String family, String type, String source,
+			String read, String readSkips,
+			String processSkips, String writeSkips, String written, String jobId, String uri, String resource) {
         enableAuthentication();
         Resource job = new Resource();
         data.push(job);
         job.setTitle(title);
+        job.setResource(resource);
+        job.setUri(uri);
         job.setIdentifier(identifier);
         if(family != null) {
             job.getParameters().put("family", family);
@@ -892,7 +897,7 @@ public class TestDataManager {
      * @param permission1
      *            Set the first permission of the group
      */
-    public final void createGroup(final String name, final String permission1) {
+    public void createGroup(String name, String permission1) {
         enableAuthentication();
         Group group = new Group();
         data.push(group);
@@ -913,8 +918,7 @@ public class TestDataManager {
      *            The description of the key to create
      * @param taxon The identifier of the root taxon associated with this key
      */
-    public final void createIdentificationKey(final String identifier,
-            final String title, final String description, final String taxon) {
+    public void createIdentificationKey(String identifier, String title, String description, String taxon) {
         enableAuthentication();
         IdentificationKey key = new IdentificationKey();
         data.push(key);
@@ -968,6 +972,7 @@ public class TestDataManager {
 	}
 
 	public void cleanDatabase() {
+		enableAuthentication();
 		Page<Image> images = imageService.list(null, null, null);
     	for(Image image : images.getRecords()) {    		
     		imageService.delete(image.getIdentifier());
@@ -1014,7 +1019,7 @@ public class TestDataManager {
     	
     	
     	Page<Organisation> organisations = organisationService.list(null, null, null);
-    	for(Organisation organisation : organisations.getRecords()) {    		
+    	for(Organisation organisation : organisations.getRecords()) {   
     		organisationService.delete(organisation.getIdentifier());
     	}
     	
@@ -1027,5 +1032,6 @@ public class TestDataManager {
     	for(Comment comment: comments.getRecords()) {
     		commentService.delete(comment.getIdentifier());
     	}
+    	disableAuthentication();
 	}
 }

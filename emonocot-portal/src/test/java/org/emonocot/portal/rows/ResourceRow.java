@@ -25,4 +25,6 @@ public class ResourceRow {
 	public String jobId;
 
 	public String title;
+	
+	public String resource;
 }

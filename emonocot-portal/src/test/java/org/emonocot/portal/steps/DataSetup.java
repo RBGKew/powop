@@ -67,7 +67,7 @@ public class DataSetup {
 			testDataManager.createResource(jobRow.identifier, jobRow.title,
 					jobRow.family, jobRow.jobType, jobRow.source,
 					jobRow.recordsRead, jobRow.readSkip, jobRow.processSkip,
-					jobRow.writeSkip, jobRow.written, jobRow.jobId);
+					jobRow.writeSkip, jobRow.written, jobRow.jobId, jobRow.uri, jobRow.resource);
     	}
     }
 
@@ -143,7 +143,7 @@ public class DataSetup {
             final List<UserRow> rows) {
         for (UserRow row : rows) {
             testDataManager
-                    .createUser(row.identifier, row.password, row.group1);
+                    .createUser(row.identifier, row.accountName, row.password, row.group1);
         }
     }
 
@@ -153,10 +153,10 @@ public class DataSetup {
      *            Set the rows
      */
     @Given("^there are organisations with the following properties:$")
-    public final void thereAreSourceSystemsWithTheFollowingProperties(
+    public final void thereAreOrganisationsWithTheFollowingProperties(
             final List<OrganisationRow> rows) {
         for (OrganisationRow row : rows) {
-            testDataManager.createOrganisation(row.identifier, row.uri, row.title, row.bibliographicCitation);
+            testDataManager.createOrganisation(row.identifier, row.uri, row.title, row.bibliographicCitation, row.commentsEmailedTo);
         }
     }
 

@@ -11,7 +11,7 @@ import org.springframework.security.acls.model.Permission;
  * @author ben
  *
  */
-public interface GroupService extends Service<Group> {
+public interface GroupService extends SearchableService<Group> {
 
     /**
     *

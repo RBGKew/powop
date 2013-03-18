@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
@@ -137,11 +138,8 @@ public class Taxon extends SearchableObject {
 	private Set<VernacularName> vernacularNames = new HashSet<VernacularName>();
 
 	private Set<MeasurementOrFact> measurementsOrFacts = new HashSet<MeasurementOrFact>();
-
-	/**
-	 * TODO Delete once we don't need it anymore
-	 */
-	private boolean deleted;
+	
+	private List<Comment> comments = new ArrayList<Comment>();
 
 	/**
 	 * @param newId
@@ -894,24 +892,26 @@ public class Taxon extends SearchableObject {
 			Set<MeasurementOrFact> newMeasurementsOrFacts) {
 		this.measurementsOrFacts = newMeasurementsOrFacts;
 	}
-
+	
 	/**
-	 * TODO REMOVE once refactoring complete
-	 * 
-	 * @param b
+	 * @return the comments
 	 */
-
-	public void setDeleted(boolean b) {
-		this.deleted = b;
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "commentPage_id")
+    @OrderBy("created DESC")
+    @Where(clause = "commentPage_type = 'Taxon'")
+    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+    @JsonIgnore
+	public List<Comment> getComments() {
+		return comments;
 	}
 
 	/**
-	 * TODO REMOVE once refactoring complete
+	 * @param comments the comments to set
 	 */
-	@Transient
-	@JsonIgnore
-	public boolean isDeleted() {
-		return deleted;
+    @JsonIgnore
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 	}
 
 	@Override

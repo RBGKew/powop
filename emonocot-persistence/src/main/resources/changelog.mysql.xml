@@ -316,8 +316,7 @@
     </changeSet>
     <changeSet author="ben" id="2011-05-25_10">
         <addForeignKeyConstraint constraintName="FKAB93A2A41EDCD08D" baseTableName="Distribution" baseColumnNames="taxon_id"
-           referencedTableName="Taxon" referencedColumnNames="id"
-        />
+           referencedTableName="Taxon" referencedColumnNames="id" />
     </changeSet>
     <changeSet author="ben" id="2011-05-25_11">
         <createIndex tableName="Distribution" indexName="Distribution_taxon_id_IDX">

@@ -31,4 +31,9 @@ public class OrganisationRow {
     *
     */
     public String bibliographicCitation;
+    
+    /**
+     * 
+     */
+    public String commentsEmailedTo;
 }

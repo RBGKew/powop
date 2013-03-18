@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
 import javax.persistence.Transient;
 
 import org.apache.solr.common.SolrInputDocument;
@@ -27,11 +26,7 @@ import org.emonocot.model.marshall.json.DateTimeDeserializer;
 import org.emonocot.model.marshall.json.DateTimeSerializer;
 import org.emonocot.model.marshall.json.UserDeserializer;
 import org.emonocot.model.marshall.json.UserSerializer;
-import org.emonocot.model.registry.Organisation;
-import org.emonocot.model.registry.Resource;
 import org.hibernate.annotations.Any;
-import org.hibernate.annotations.AnyMetaDef;
-import org.hibernate.annotations.MetaValue;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
@@ -43,18 +38,14 @@ import org.joda.time.DateTime;
 public class Comment extends Base implements Searchable {
 
     /**
-     * 
-     */
-    private Long id;
-    
-    /**
-     * 
-     */
+	 * 
+	 */
+	private static final long serialVersionUID = -5773904824251895404L;
+
+	private Long id;
+
     private String comment;
     
-    /**
-     * 
-     */
     private String subject;
     
     public String getSubject() {
@@ -70,24 +61,22 @@ public class Comment extends Base implements Searchable {
      */
     private Base aboutData;
 
-    /**
-     * 
-     */
     private DateTime created;
     
-    /**
-     * 
-     */
     private Status status;
     
-    /**
-     * 
-     */
     private User user;
-
+    
+    /**
+     * If this comment is a response to another comment, the immediate parent comment
+     */
     private Comment inResponseTo;
-
+    
+    /**
+     * The object (page) on which this comment should appear
+     */
     private BaseData commentPage;
+    
 
     /**
 	 * @return the inResponseTo
@@ -125,8 +114,7 @@ public class Comment extends Base implements Searchable {
 		this.commentPage = commentPage;
 	}
 
-
-    /* (non-Javadoc)
+	/* (non-Javadoc)
      * @see org.emonocot.model.Identifiable#getIdentifier()
      */
     @Override
@@ -140,7 +128,6 @@ public class Comment extends Base implements Searchable {
     @Override
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
-
     }
 
     /**
@@ -177,23 +164,7 @@ public class Comment extends Base implements Searchable {
     /**
      * @return the aboutData
      */
-    /*@Any(metaColumn = @Column(name = "aboutData_type"),
-        fetch = FetchType.LAZY)
-    @AnyMetaDef(idType = "long", metaType = "string", metaValues = {
-            @MetaValue(targetEntity = Comment.class, value = "Comment"),
-        @MetaValue(targetEntity = Description.class, value = "Description"),
-        @MetaValue(targetEntity = Distribution.class, value = "Distribution"),
-        @MetaValue(targetEntity = Identifier.class, value = "Identifier"),
-        @MetaValue(targetEntity = IdentificationKey.class, value = "IdentificationKey"),
-        @MetaValue(targetEntity = Image.class, value = "Image"),
-        @MetaValue(targetEntity = MeasurementOrFact.class, value = "MeasurementOrFact"),
-        @MetaValue(targetEntity = Organisation.class, value = "Organisation"),
-        @MetaValue(targetEntity = Resource.class, value = "Resource"),
-        @MetaValue(targetEntity = Reference.class, value = "Reference"),
-        @MetaValue(targetEntity = Taxon.class, value = "Taxon"),
-        @MetaValue(targetEntity = TypeAndSpecimen.class, value = "TypeAndSpecimen"),
-        @MetaValue(targetEntity = VernacularName.class, value = "VernacularName")
-    })*/
+    
     @Any(metaColumn = @Column(name = "aboutData_type"),
         fetch = FetchType.LAZY, metaDef = "CommentMetaDef")
     @JoinColumn(name = "aboutData_id", nullable = true)

@@ -9,7 +9,8 @@ public enum ResourceType {
     DwC_Archive("DarwinCoreArchiveHarvesting"),   
     IDENTIFICATION_KEY("IdentificationKeyHarvesting"),
     IUCN("IUCNImport"),
-    GBIF("GBIFImport");
+    GBIF("GBIFImport"),
+    DOWNLOAD("Download");
     
     private String jobName;
     

@@ -24,6 +24,8 @@ public class CommentForm {
     @NotNull
     private String aboutData;
 
+	private String commentPageIdentifier;
+
     /**
      * @return the comment
      */
@@ -51,4 +53,12 @@ public class CommentForm {
     public void setAboutData(String aboutData) {
         this.aboutData = aboutData;
     }
+
+	public String getCommentPageIdentifier() {
+		return commentPageIdentifier;
+	}
+	
+	public void setCommentPageIdentifier(String commentPageIdentifier) {
+		this.commentPageIdentifier = commentPageIdentifier;
+	}
 }

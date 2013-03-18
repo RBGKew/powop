@@ -12,13 +12,18 @@ public class UserRow {
      */
     public String identifier;
 
-   /**
-    *
-    */
-   public String password;
+    /**
+     *
+     */
+    public String password;
 
-   /**
-    *
-    */
-   public String group1;
+    /**
+     *
+     */
+    public String group1;
+
+    /**
+     * 
+     */
+    public String accountName;
 }
