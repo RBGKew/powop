@@ -30,7 +30,7 @@
 		<spring.security.version>3.1.0.RELEASE</spring.security.version>
 		<spring.batch.version>2.1.8.RELEASE</spring.batch.version>
 		<spring.batch.admin.version>1.2.0.RELEASE</spring.batch.admin.version>
-		<spring.integration.version>2.1.0.RELEASE</spring.integration.version>
+		<spring.integration.version>2.2.1.RELEASE</spring.integration.version>
 		<lucene.version>4.0.0</lucene.version>
 		<geotools.version>2.7.0</geotools.version>
 		<aspectj.version>1.6.12</aspectj.version>
@@ -281,6 +281,11 @@
 			<dependency>
 				<groupId>org.springframework.integration</groupId>
 				<artifactId>spring-integration-jmx</artifactId>
+				<version>${spring.integration.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.integration</groupId>
+				<artifactId>spring-integration-mail</artifactId>
 				<version>${spring.integration.version}</version>
 			</dependency>
 			<dependency>
@@ -1492,15 +1497,23 @@
 				<download.rights>Rights Statement</download.rights>
 				<download.subject>Subject Keywords</download.subject>
 				<download.title>eMonocot Download</download.title>
-				<email.username>portal@localhost</email.username>
-				<email.password>portal@localhost</email.password>
-				<email.host>localhost</email.host>
-				<email.port>25</email.port>
-				<email.auth>false</email.auth>
-				<email.enable.starttls>false</email.enable.starttls>
+				<email.debug>true</email.debug>
+				<email.smtp.username>portal</email.smtp.username>
+				<email.smtp.password>portal</email.smtp.password>
+				<email.smtp.host>localhost</email.smtp.host>
+				<email.smtp.port>25</email.smtp.port>
+				<email.smtp.auth>false</email.smtp.auth>
+				<email.smtp.enable.starttls>false</email.smtp.enable.starttls>
+				<email.imap.username>portal</email.imap.username>
+				<email.imap.password>portal</email.imap.password>
+				<email.imap.port>143</email.imap.port>
+				<email.imap.server>localhost</email.imap.server>
+				<email.imap.socketfactory.class>javax.net.ssl.SSLSocketFactory</email.imap.socketfactory.class>
+				<email.imap.socketfactory.fallback>true</email.imap.socketfactory.fallback>				
 				<email.fromAddress>portal@localhost</email.fromAddress>
                 <comment.email.template>org/emonocot/integration/comment/CommentEmail.vm</comment.email.template>
                 <comment.email.subject>Comment submitted via. eMonocot</comment.email.subject>
+                <comment.emailedTo>vagrant@localhost</comment.emailedTo>
 			</properties>
 		</profile>
 		<profile>
@@ -1538,12 +1551,13 @@
 				<jdbc.driver.password>eM0n0c0t</jdbc.driver.password>
 				<http.proxyHost />
 				<http.proxyPort />
-				<email.username>portal@localhost</email.username>
-				<email.password>portal@localhost</email.password>
-				<email.host>localhost</email.host>
-				<email.port>25</email.port>
-				<email.auth>false</email.auth>
-				<email.enable.starttls>false</email.enable.starttls>
+				<email.debug>true</email.debug>
+				<email.smtp.username>portal</email.smtp.username>
+				<email.smtp.password>portal</email.smtp.password>
+				<email.smtp.host>localhost</email.smtp.host>
+				<email.smtp.port>25</email.smtp.port>
+				<email.smtp.auth>false</email.smtp.auth>				
+				<email.smtp.enable.starttls>false</email.smtp.enable.starttls>
 				<email.fromAddress>portal@localhost</email.fromAddress>
 				<quartz.cron.expression>* 0/5 * * * ?</quartz.cron.expression>
 				<quartz.jobstore.delegate>org.quartz.impl.jdbcjobstore.StdJDBCDelegate</quartz.jobstore.delegate>
@@ -1555,7 +1569,6 @@
 		<profile>
 			<id>portal.test.vagrant</id>
 			<properties>
-			    <tdwg.shapefiles.location>/var/lib/emonocot</tdwg.shapefiles.location>
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
@@ -1592,12 +1605,13 @@
 				<solr.url>http://localhost:8983/solr</solr.url>
 				<http.proxyHost />
 				<http.proxyPort />
-				<email.username>portal@localhost</email.username>
-				<email.password>portal@localhost</email.password>
-				<email.host>localhost</email.host>
-				<email.port>25</email.port>
-				<email.auth>false</email.auth>
-				<email.enable.starttls>false</email.enable.starttls>
+				<email.debug>true</email.debug>
+				<email.smtp.username>portal</email.smtp.username>
+				<email.smtp.password>portal</email.smtp.password>
+				<email.smtp.host>localhost</email.smtp.host>
+				<email.smtp.port>25</email.smtp.port>
+				<email.smtp.auth>false</email.smtp.auth>
+				<email.smtp.enable.starttls>false</email.smtp.enable.starttls>
 				<email.fromAddress>portal@localhost</email.fromAddress>
 				<quartz.cron.expression>* 0/1 * * * ?</quartz.cron.expression>
 				<quartz.jobstore.delegate>org.quartz.impl.jdbcjobstore.StdJDBCDelegate</quartz.jobstore.delegate>
@@ -1609,7 +1623,6 @@
 		<profile>
 			<id>portal.test.postgres.vagrant</id>
 			<properties>
-			    <tdwg.shapefiles.location>/var/lib/emonocot</tdwg.shapefiles.location>
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
@@ -1646,12 +1659,13 @@
 				<solr.url>http://localhost:8983/solr</solr.url>
 				<http.proxyHost />
 				<http.proxyPort />
-				<email.username>portal@localhost</email.username>
-				<email.password>portal@localhost</email.password>
-				<email.host>localhost</email.host>
-				<email.port>25</email.port>
-				<email.auth>false</email.auth>
-				<email.enable.starttls>false</email.enable.starttls>
+				<email.debug>true</email.debug>
+				<email.smtp.username>portal@localhost</email.smtp.username>
+				<email.smtp.password>portal</email.smtp.password>
+				<email.smtp.host>localhost</email.smtp.host>
+				<email.smtp.port>25</email.smtp.port>
+				<email.smtp.auth>false</email.smtp.auth>
+				<email.smtp.enable.starttls>false</email.smtp.enable.starttls>
 				<email.fromAddress>portal@localhost</email.fromAddress>
 				<quartz.cron.expression>* 0/1 * * * ?</quartz.cron.expression>
 				<quartz.jobstore.delegate>org.quartz.impl.jdbcjobstore.PostgreSQLDelegate</quartz.jobstore.delegate>

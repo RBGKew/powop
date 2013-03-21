@@ -46,7 +46,21 @@ public class EmailServiceHelper {
     public void setTemplates(Map<String, String> templates) {
         this.templates = templates;
     }
+    
+    /**
+     * Create a comment replying to an incoming email
+     * @param message
+     * @return
+     */
+    public Comment createReply(Message<?> message) {
+    	return null;
+    }
 
+    /**
+     * Prepare a message for outgoing email
+     * @param message
+     * @return
+     */
     public Message<Map> prepareMessage(Message<?> message) {
         Map<String, Object> model = new HashMap<String, Object>();
         Map<String, Object> headers = new HashMap<String, Object>();

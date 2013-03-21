@@ -3,7 +3,10 @@
  */
 package org.emonocot.service.impl;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.emonocot.api.CommentService;
@@ -37,67 +40,71 @@ public class CommentServiceImpl extends SearchableServiceImpl<Comment, CommentDa
     public void setCommentDao(CommentDao commentDao) {
         super.dao = commentDao;
     }
+    
+    private Collection<Organisation> getDestinationOrganisations(BaseData baseData) {
+    	 Set<Organisation> orgs = new HashSet<Organisation>();
+    	 orgs.add(baseData.getAuthority());
+         if (baseData instanceof Taxon) {
+             for(BaseData datum : ((Taxon) baseData).getChildNameUsages()) {
+                 orgs.add(datum.getAuthority());
+             }
+             for(BaseData datum : ((Taxon) baseData).getDescriptions()) {
+            	 orgs.add(datum.getAuthority());
+             }
+             for(BaseData datum : ((Taxon) baseData).getDistribution()) {
+            	 orgs.add(datum.getAuthority());
+             }
+             for(BaseData datum : ((Taxon) baseData).getHigherClassification()) {
+            	 orgs.add(datum.getAuthority());
+             }
+             for(BaseData datum : ((Taxon) baseData).getIdentifiers()) {
+            	 orgs.add(datum.getAuthority());
+             }
+             for(BaseData datum : ((Taxon) baseData).getMeasurementsOrFacts()) {
+            	 orgs.add(datum.getAuthority());
+             }
+             for(BaseData datum : ((Taxon) baseData).getReferences()) {
+            	 orgs.add(datum.getAuthority());
+             }
+             for(BaseData datum : ((Taxon) baseData).getSynonymNameUsages()) {
+            	 orgs.add(datum.getAuthority());
+             }
+             for(BaseData datum : ((Taxon) baseData).getTypesAndSpecimens()) {
+            	 orgs.add(datum.getAuthority());
+             }
+             for(BaseData datum : ((Taxon) baseData).getVernacularNames()) {
+            	 orgs.add(datum.getAuthority());
+             }
+         } else if (baseData instanceof NonOwned) {             
+             for(Taxon t : ((NonOwned) baseData).getTaxa()) {
+                 orgs.add(t.getAuthority());
+             }
+         }
+         
+         return orgs;
+    }
 
     /* (non-Javadoc)
      * @see org.emonocot.api.CommentService#getDestinationOrganisations(org.emonocot.model.Comment)
      */
     @Override
-    public Set<Organisation> getDestinationOrganisations(Comment comment) {
+    public Collection<Organisation> getDestinationOrganisations(Comment comment) {
         
         logger.debug("Attempting to get destination organisations for comment" + comment + ":" + comment.getIdentifier());
         
         comment = find(comment.getIdentifier(), "aboutData");
         Base about = comment.getAboutData();
-        Set<Organisation> orgs = new HashSet<Organisation>();
-        if(about instanceof Organisation) {
-            orgs.add((Organisation) about);
-        } else if (about instanceof Taxon) {
-            orgs.add(((Taxon) about).getAuthority());
-            for(BaseData datum : ((Taxon) about).getChildNameUsages()) {
-                orgs.add(datum.getAuthority());
-            }
-            for(BaseData datum : ((Taxon) about).getDescriptions()) {
-                orgs.add(datum.getAuthority());
-            }
-            for(BaseData datum : ((Taxon) about).getDistribution()) {
-                orgs.add(datum.getAuthority());
-            }
-            for(BaseData datum : ((Taxon) about).getHigherClassification()) {
-                orgs.add(datum.getAuthority());
-            }
-            for(BaseData datum : ((Taxon) about).getIdentifiers()) {
-                orgs.add(datum.getAuthority());
-            }
-            for(BaseData datum : ((Taxon) about).getMeasurementsOrFacts()) {
-                orgs.add(datum.getAuthority());
-            }
-            for(BaseData datum : ((Taxon) about).getReferences()) {
-                orgs.add(datum.getAuthority());
-            }
-            for(BaseData datum : ((Taxon) about).getSynonymNameUsages()) {
-                orgs.add(datum.getAuthority());
-            }
-            for(BaseData datum : ((Taxon) about).getTypesAndSpecimens()) {
-                orgs.add(datum.getAuthority());
-            }
-            for(BaseData datum : ((Taxon) about).getVernacularNames()) {
-                orgs.add(datum.getAuthority());
-            }
-        } else if (about instanceof NonOwned) {
-            if(about instanceof BaseData) {//This currently always has an Organisation itself
-                orgs.add(((BaseData) about).getAuthority());
-            }
-            for(Taxon t : ((NonOwned) about).getTaxa()) {
-                orgs.add(t.getAuthority());
-            }
-        } else if(about instanceof OwnedEntity || about instanceof SearchableObject) {//For any future searchable objects that are neither NonOwned nor OwnedEntity  
-            orgs.add(((BaseData) about).getAuthority());
-        } else if (about instanceof BaseData) {
-            //Last chance
-            orgs.add(((BaseData) about).getAuthority());
+        if(about != null) {
+        	if(about instanceof BaseData) {
+        		return this.getDestinationOrganisations((BaseData) about);
+        	} else {
+        		logger.error("about is not an instance of BaseData - we can't cope with it at the moment");
+        		throw new IllegalArgumentException("Cannot cope with instance of " + about.getClass());
+        	}
+        } else {
+        	return this.getDestinationOrganisations(comment.getCommentPage());
         }
-        
-        return orgs;
+       
     }
 
 }

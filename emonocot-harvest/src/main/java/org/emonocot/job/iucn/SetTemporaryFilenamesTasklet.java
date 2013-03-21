@@ -82,7 +82,7 @@ public class SetTemporaryFilenamesTasklet implements Tasklet {
 		
 		String queryString = null;
 		if (subsetValue != null) {
-			queryString = "select t.id from Taxon t where t.#subsetRank = :subsetValue or a.#subsetRank = :subsetValue";
+			queryString = "select t.id from Taxon t left join t.acceptedNameUsage a  where t.#subsetRank = :subsetValue or a.#subsetRank = :subsetValue";
 			queryString = queryString.replaceAll("#subsetRank", subsetRank);
 			executionContext.put("index.taxon.subset.value", subsetValue);
 		} else {

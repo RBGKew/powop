@@ -3,7 +3,7 @@
  */
 package org.emonocot.api;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.emonocot.model.Comment;
 import org.emonocot.model.registry.Organisation;
@@ -19,6 +19,6 @@ public interface CommentService extends SearchableService<Comment> {
      * @param comment The comment that was made
      * @return A set that this comment concerns
      */
-    Set<Organisation> getDestinationOrganisations(Comment comment);
+    Collection<Organisation> getDestinationOrganisations(Comment comment);
 
 }

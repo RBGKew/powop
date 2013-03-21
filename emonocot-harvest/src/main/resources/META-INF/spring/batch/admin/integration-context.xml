@@ -48,8 +48,9 @@
 		reply-key="jobs" reply-channel="job-registrations" request-payload-type="org.springframework.core.io.Resource"
 		view-name="jobs" supported-methods="POST" message-converters="resourceHttpMessageConverter" />
 
-	<http:inbound-gateway name="/file-upload.json" request-channel="file-uploads" reply-key="files"
-		request-payload-type="java.lang.String" view-name="files" supported-methods="POST" />
+	<http:inbound-gateway name="/file-upload.json" request-channel="file-uploads" reply-key="files" request-payload-type="java.lang.String" view-name="files" supported-methods="POST" />
+
+    <integration:channel id="file-uploads" />
 
 	<bean id="resourceHttpMessageConverter" class="org.springframework.http.converter.ResourceHttpMessageConverter" />
 

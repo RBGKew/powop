@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		                http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
 		                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
@@ -179,14 +180,14 @@
    </bean>
 	
 	<bean id="mailSender" class ="org.springframework.mail.javamail.JavaMailSenderImpl" >
-        <property name="username" value="${email.username}" />
-        <property name="password" value="${email.password}" />
+        <property name="username" value="${email.smtp.username}" />
+        <property name="password" value="${email.smtp.password}" />
         <property name="javaMailProperties">
           <props>
-            <prop key="mail.smtp.host">${email.host}</prop>
-            <prop key="mail.smtp.port">${email.port}</prop>
-            <prop key="mail.smtp.auth">${email.auth}</prop>
-            <prop key="mail.smtp.starttls.enable">${email.enable.starttls}</prop>
+            <prop key="mail.smtp.host">${email.smtp.host}</prop>
+            <prop key="mail.smtp.port">${email.smtp.port}</prop>
+            <prop key="mail.smtp.auth">${email.smtp.auth}</prop>
+            <prop key="mail.smtp.starttls.enable">${email.smtp.enable.starttls}</prop>
           </props>
     </property>
     </bean>
