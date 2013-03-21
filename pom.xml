@@ -1538,7 +1538,7 @@
 				<email.fromAddress>portal@localhost</email.fromAddress>
                 <comment.email.template>org/emonocot/integration/comment/CommentEmail.vm</comment.email.template>
                 <comment.email.subject>Comment submitted via. eMonocot</comment.email.subject>
-                <comment.emailedTo>vagrant@localhost</comment.emailedTo>
+                <comment.emailedTo>'vagrant@localhost'</comment.emailedTo>
 			</properties>
 		</profile>
 		<profile>

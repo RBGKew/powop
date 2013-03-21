@@ -8,13 +8,17 @@
 	xmlns:jee="http://www.springframework.org/schema/jee"
 	xmlns:amq="http://activemq.apache.org/schema/core"
 	xmlns:jms="http://www.springframework.org/schema/jms"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:int-mail="http://www.springframework.org/schema/integration/mail"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	                    http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
 		                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		                http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
 		                http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
 		                http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
-		                http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
+		                http://www.springframework.org/schema/integration/mail http://www.springframework.org/schema/integration/mail/spring-integration-mail.xsd
+		                http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd
+		                http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<context:property-placeholder location="classpath*:META-INF/spring/*.properties" />
 		
@@ -218,6 +222,23 @@
           </props>
         </property>
     </bean>
+    
+    <int-mail:inbound-channel-adapter id="imapAdapter" 
+    store-uri="${email.mailbox.uri}" 
+      java-mail-properties="javaMailProperties" 
+      channel="inboundEmailChannel"
+      should-delete-messages="true"
+      should-mark-messages-as-read="true"      
+      auto-startup="true">
+      <integration:poller max-messages-per-poll="1" fixed-rate="5000"/>
+    </int-mail:inbound-channel-adapter>
+    
+    <util:properties id="javaMailProperties">
+      <prop key="mail.imap.socketFactory.class">${email.imap.socketfactory.class}</prop>
+      <prop key="mail.imap.socketFactory.fallback">${email.imap.socketfactory.fallback}</prop>
+      <prop key="mail.store.protocol">imaps</prop>
+      <prop key="mail.debug">${email.debug}</prop>
+    </util:properties>
 
 	<beans profile="default">
 	  <bean id="getResourceClient" class="org.emonocot.harvest.common.GetResourceClient"/>

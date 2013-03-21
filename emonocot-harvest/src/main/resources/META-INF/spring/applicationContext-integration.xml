@@ -7,7 +7,6 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:jms="http://www.springframework.org/schema/integration/jms"
 	xmlns:integration-http="http://www.springframework.org/schema/integration/http"
-    xmlns:int-mail="http://www.springframework.org/schema/integration/mail"
 	xsi:schemaLocation="http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
 		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
@@ -107,7 +106,7 @@
         </integration:splitter>
         <integration:header-enricher>
             <!-- The expression is temporarily set explicitly for beta-phase from "headers.organisation.commentsEmailedTo" -->
-            <integration:header name="toAddress" expression="'${comment.emailedTo}'" />
+            <integration:header name="toAddress" expression="${comment.emailedTo}" />
             <integration:header name="subject" expression="'${comment.email.subject}' + ' - ' + payload.identifier" />
         </integration:header-enricher>
     </integration:chain>
@@ -126,23 +125,6 @@
     <integration:channel id="toMapCommentChannel" />
     
     <integration:transformer input-channel="toMapCommentChannel" output-channel="emailCommentChannel" method="prepareMessage" ref="emailServiceHelper"/>
-    
-    <int-mail:inbound-channel-adapter id="imapAdapter" 
-    store-uri="${email.mailbox.uri}" 
-      java-mail-properties="javaMailProperties" 
-      channel="inboundEmailChannel"
-      should-delete-messages="true"
-      should-mark-messages-as-read="true"      
-      auto-startup="true">
-      <integration:poller max-messages-per-poll="1" fixed-rate="5000"/>
-    </int-mail:inbound-channel-adapter>
-    
-    <util:properties id="javaMailProperties">
-      <prop key="mail.imap.socketFactory.class">${email.imap.socketfactory.class}</prop>
-      <prop key="mail.imap.socketFactory.fallback">${email.imap.socketfactory.fallback}</prop>
-      <prop key="mail.store.protocol">imaps</prop>
-      <prop key="mail.debug">${email.debug}</prop>
-    </util:properties>
     
     <integration:channel id="inboundEmailChannel">
         <integration:interceptors>
