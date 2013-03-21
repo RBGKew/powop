@@ -223,11 +223,10 @@ public class CommentController extends GenericController<Comment, CommentService
     	   break;
         }
         
-        
         if(commentPage == null) {
             logger.warn("Unable to find an object with the identifier" + form.getCommentPageIdentifier());
             attributes.addFlashAttribute("error", new DefaultMessageSourceResolvable("feedback.error.commentPage"));
-        } else if(!formResult.hasErrors()) {        	
+        } else if(!formResult.hasErrors()) {
             comment.setAboutData(about);
             comment.setCommentPage(commentPage);
             super.getService().save(comment);

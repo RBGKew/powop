@@ -1012,6 +1012,31 @@
               <artifactId>javax.inject</artifactId>
               <version>1</version>
             </dependency>
+            <dependency>
+                <groupId>net.sf.jasperreports</groupId>
+                <artifactId>jasperreports</artifactId>
+                <version>4.1.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.xmlgraphics</groupId>
+                <artifactId>fop</artifactId>
+                <version>1.0</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>xalan</groupId>
+                        <artifactId>xalan</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-collections</groupId>
+                        <artifactId>commons-collections</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>3.2.1</version>
+            </dependency>
 		</dependencies>
 	</dependencyManagement>
 	<build>
@@ -1518,12 +1543,13 @@
 		</profile>
 		<profile>
 			<id>portal.uat.vagrant</id>
-			<properties>			    
+			<properties>
+			    <tdwg.shapefiles.location>/var/lib/emonocot</tdwg.shapefiles.location>
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
-				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>				
-				<portal.baseUrl>http://localhost:8080</portal.baseUrl>				
+				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
+				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
 				<google.analytics.id />
 				<webAppRootKey>emonocot-portal</webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>
@@ -1626,8 +1652,8 @@
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
-				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>				
-				<portal.baseUrl>http://localhost:8080</portal.baseUrl>				
+				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
+				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
 				<google.analytics.id />
 				<webAppRootKey>emonocot-portal</webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>

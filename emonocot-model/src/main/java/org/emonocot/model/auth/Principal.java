@@ -19,12 +19,24 @@ import org.joda.time.DateTime;
 @Entity
 public abstract class Principal extends Base implements Searchable {
 
+    /**
+    *
+    */
     private DateTime created;
 
+    /**
+    *
+    */
     private DateTime modified;
 
+    /**
+     *
+     */
     private Long id;
 
+    /**
+     *
+     */
     private static final long serialVersionUID = -2461535344191283847L;
 
     /**
