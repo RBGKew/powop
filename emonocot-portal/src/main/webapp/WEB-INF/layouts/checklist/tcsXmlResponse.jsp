@@ -7,7 +7,21 @@
   <DataSet xmlns='http://www.tdwg.org/schemas/tcs/1.01' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.tdwg.org/schemas/tcs/1.01 http://www.tdwg.org/standards/117/files/TCS101/v101.xsd">
 	<TaxonNames>
-	    <TaxonName id="${result.identifier}" nomenclaturalCode="Botanical" itis_em_other_ref="${em:escape(result.scientificNameAuthorship)}, ${em:escape(result.namePublishedInString)}">
+	    <c:choose>
+          <c:when test="${empty result.scientificNameAuthorship and empty result.namePublishedInString}">
+            <c:set var="itisOtherRef" value=""/>
+          </c:when>
+          <c:when test="${empty result.scientificNameAuthorship and not empty result.namePublishedInString}">
+            <c:set var="itisOtherRef" value="${result.namePublishedInString}"/>
+          </c:when>
+          <c:when test="${result.scientificNameAuthorship eq 'ined.' and not empty result.namePublishedInString}">
+            <c:set var="itisOtherRef" value="${result.namePublishedInString}"/>
+          </c:when>
+          <c:otherwise>
+            <c:set var="itisOtherRef" value="${result.scientificNameAuthorship}, ${result.namePublishedInString}"/>
+          </c:otherwise>
+        </c:choose>
+	    <TaxonName id="${result.identifier}" nomenclaturalCode="Botanical" itis_em_other_ref="${em:escape(itisOtherRef)}">
 	    <Simple>${result.scientificName} ${em:escape(result.scientificNameAuthorship)}</Simple>
 	    <Rank code="${em:abbreviateRank(result.taxonRank)}">${em:formatRank(result.taxonRank)}</Rank>
 	    <CanonicalName>

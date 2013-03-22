@@ -27,6 +27,13 @@ public class FunctionsTest {
 	}
 	
 	@Test
+	public void testEscapeXml() {
+		assertEquals("'&' should be escaped as '&amp;'",Functions.escape("&"),"&amp;");
+		assertEquals("''' should be escaped as '&apos;'",Functions.escape("'"),"&apos;");
+		assertEquals("'\"' should be escaped as '&quot;'",Functions.escape("\""),"&quot;");
+	}
+	
+	@Test
 	public void testFormatDateRange() {
 		assertEquals("Date range should be formatted as expected",Functions.formatDateRange("[2012-09-12T00:00:00Z TO 2012-09-12T00:00:00Z+1MONTH]"),"2012/09 - 2012/10");
 	}

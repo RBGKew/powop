@@ -101,7 +101,7 @@ public class EmailServiceHelper {
     		if(inResponseTo != null) {
     			comment.setCommentPage(inResponseTo.getCommentPage());
     		}
-    		comment.setComment(getText((Part)email.getContent()));
+    		comment.setComment(getText(email));
     		for(Address address : email.getFrom()) {
     			User user = userService.find(address.toString());
     			if(user != null) {
@@ -120,7 +120,7 @@ public class EmailServiceHelper {
     		
     		return new GenericMessage<Comment>(comment, headers);
     	} else {
-    		String content = getText((Part)email.getContent());
+    		String content = getText(email);
     		if(content != null && content.length() > 256) {
     			content = content.substring(0,255);
     		}

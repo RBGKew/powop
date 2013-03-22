@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.el.ELException;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.emonocot.model.BaseData;
 import org.emonocot.model.Description;
 import org.emonocot.model.Distribution;
@@ -93,7 +94,7 @@ public class Functions {
     }
     
     public static String escape(final String string) {
-        return string.replaceAll("&", "&amp;");
+        return StringEscapeUtils.escapeXml(string);
     }
     
     /**
