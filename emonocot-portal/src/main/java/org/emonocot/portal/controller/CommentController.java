@@ -266,7 +266,7 @@ public class CommentController extends GenericController<Comment, CommentService
 			}
 		}
 		selectedFacets.put("base.class_s", "org.emonocot.model.Comment");
-		selectedFacets.put("comment.status_t", "SENT");
+		selectedFacets.put("comment.status_t", "(SENT OR RECIEVED)");
 		Page<Comment> result = getService().search(query, null, limit, start, 
 				new String[] {"taxon.family_s", "comment.subject_s","comment.comment_page_class_s" }, null, selectedFacets, sort, null);
 		model.addAttribute("result", result);

@@ -136,9 +136,10 @@
     
     <integration:channel id="commentReplyChannel">
         <integration:interceptors>
-            <integration:wire-tap channel="loggingChannel" />            
+            <integration:wire-tap channel="loggingChannel" /> 
+            <integration:wire-tap channel="indexingChannel"/>       
         </integration:interceptors>
-    </integration:channel>
+    </integration:channel>  
     
     <integration:service-activator input-channel="commentReplyChannel" expression="@commentServiceImpl.save(payload)" />
     

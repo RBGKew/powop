@@ -284,11 +284,185 @@
 	  <property name="characterForLink" value="#{jobParameters['character.for.link']}"/>
 	  <property name="linkPrefix" value="#{jobParameters['link.prefix']}"/>
 	  <property name="linkSuffix" value="#{jobParameters['link.suffix']}"/>
+	  <property name="filter" ref="speciesNaturalLanguageDatasetFilter"/>
+	</bean>
+	
+	<bean id="speciesNaturalLanguageDatasetFilter" class="au.org.ala.delta.translation.naturallanguage.NaturalLanguageDataSetFilter" scope="step">
+	  <constructor-arg value="#{speciesContextHolder.deltaContext}"/>
 	</bean>
 	
 	<bean id="generaNaturalLanguageProcessor" class="org.emonocot.job.delta.DeltaNaturalLanguageProcessor" scope="step">
 	  <property name="deltaContextHolder" ref="generaContextHolder"/>
 	  <property name="taxonMatcher" ref="mapBackedGeneraMatcher"/>
+	  <property name="filter" ref="generaNaturalLanguageDatasetFilter"/>
+	</bean>
+	
+	<bean id="generaNaturalLanguageDatasetFilter" class="org.emonocot.job.grassbase.StripImplictCharsDatasetFilter" scope="step">
+	  <constructor-arg value="#{generaContextHolder.deltaContext}"/>
+	  <property name="charStatesToStrip">
+	    <map>
+	      <entry key="9" value="1"/>
+	      <entry key="14" value="1"/>
+	      <entry key="35" value="1"/>
+	      <entry key="70" value="2"/>
+	      <entry key="112" value="1"/>
+	      <entry key="137" value="1"/>
+	      <entry key="154" value="1"/>
+	      <entry key="160" value="1"/>
+	      <entry key="161" value="3"/>
+	      <entry key="169" value="2"/>
+	      <entry key="170" value="2"/>
+	      <entry key="174" value="1"/>
+	      <entry key="175" value="1"/>
+	      <entry key="179" value="1"/>
+	      <entry key="189" value="1"/>
+	      <entry key="207" value="1"/>
+	      <entry key="211" value="1"/>
+	      <entry key="212" value="2"/>
+	      <entry key="213" value="1"/>
+	      <entry key="228" value="1"/>
+	      <entry key="231" value="1"/>
+	      <entry key="234" value="1"/>
+	      <entry key="236" value="1"/>
+	      <entry key="237" value="1"/>
+	      <entry key="242" value="1"/>
+	      <entry key="249" value="2"/>
+	      <entry key="257" value="1"/>
+	      <entry key="278" value="1"/>
+	      <entry key="287" value="1"/>
+	      <entry key="296" value="1"/>
+	      <entry key="317" value="1"/>
+	      <entry key="318" value="1"/>
+	      <entry key="319" value="4"/>
+	      <entry key="320" value="1"/>
+	      <entry key="326" value="1"/>
+	      <entry key="331" value="1"/>
+	      <entry key="332" value="1"/>
+	      <entry key="334" value="1"/>
+	      <entry key="335" value="1"/>
+	      <entry key="336" value="1"/>
+	      <entry key="337" value="1"/>
+	      <entry key="339" value="1"/>
+	      <entry key="340" value="2"/>
+	      <entry key="341" value="1"/>
+	      <entry key="350" value="1"/>
+	      <entry key="359" value="2"/>
+	      <entry key="365" value="1"/>
+	      <entry key="368" value="1"/>
+	      <entry key="369" value="1"/>
+	      <entry key="374" value="1"/>
+	      <entry key="381" value="1"/>
+	      <entry key="402" value="1"/>
+	      <entry key="411" value="1"/>
+	      <entry key="425" value="4"/>
+	      <entry key="427" value="1"/>
+	      <entry key="438" value="1"/>
+	      <entry key="447" value="1"/>
+	      <entry key="451" value="1"/>
+	      <entry key="454" value="1"/>
+	      <entry key="472" value="1"/>
+	      <entry key="481" value="1"/>
+	      <entry key="524" value="1"/>
+	      <entry key="529" value="1"/>
+	      <entry key="535" value="1"/>
+	      <entry key="538" value="1"/>
+	      <entry key="543" value="1"/>
+	      <entry key="545" value="1"/>
+	      <entry key="550" value="1"/>
+	      <entry key="556" value="1"/>
+	      <entry key="560" value="1"/>
+	      <entry key="567" value="1"/>
+	      <entry key="570" value="1"/>
+	      <entry key="573" value="1"/>
+	      <entry key="579" value="2"/>
+	      <entry key="584" value="5"/>
+	      <entry key="587" value="1"/>
+	      <entry key="588" value="1"/>
+	      <entry key="594" value="2"/>
+	      <entry key="596" value="2"/>
+	      <entry key="600" value="1"/>
+	      <entry key="616" value="1"/>
+	      <entry key="623" value="3"/>
+	      <entry key="624" value="1"/>
+	      <entry key="631" value="1"/>
+	      <entry key="633" value="1"/>
+	      <entry key="635" value="1"/>
+	      <entry key="637" value="1"/>
+	      <entry key="640" value="1"/>
+	      <entry key="646" value="1"/>
+	      <entry key="649" value="1"/>
+	      <entry key="657" value="1"/>
+	      <entry key="659" value="1"/>
+	      <entry key="666" value="1"/>
+	      <entry key="674" value="1"/>
+	      <entry key="680" value="1"/>
+	      <entry key="682" value="1"/>
+	      <entry key="686" value="1"/>
+	      <entry key="688" value="1"/>
+	      <entry key="690" value="1"/>
+	      <entry key="691" value="1"/>
+	      <entry key="697" value="1"/>
+	      <entry key="700" value="1"/>
+	      <entry key="702" value="1"/>
+	      <entry key="730" value="1"/>
+	      <entry key="735" value="1"/>
+	      <entry key="753" value="1"/>
+	      <entry key="758" value="1"/>
+	      <entry key="761" value="1"/>
+	      <entry key="786" value="1"/>
+	      <entry key="801" value="1"/>
+	      <entry key="804" value="1"/>
+	      <entry key="809" value="1"/>
+	      <entry key="810" value="1"/>
+	      <entry key="826" value="1"/>
+	      <entry key="827" value="1"/>
+	      <entry key="830" value="1"/>
+	      <entry key="838" value="1"/>
+	      <entry key="843" value="1"/>
+	      <entry key="845" value="1"/>
+	      <entry key="846" value="1"/>
+	      <entry key="847" value="1"/>
+	      <entry key="850" value="1"/>
+	      <entry key="852" value="1"/>
+	      <entry key="853" value="1"/>
+	      <entry key="855" value="1"/>
+	      <entry key="859" value="1"/>
+	      <entry key="866" value="1"/>
+	      <entry key="867" value="1"/>
+	      <entry key="870" value="1"/>
+	      <entry key="872" value="1"/>
+	      <entry key="873" value="1"/>
+	      <entry key="875" value="1"/>
+	      <entry key="880" value="1"/>
+	      <entry key="889" value="1"/>
+	      <entry key="897" value="1"/>
+	      <entry key="899" value="1"/>
+	      <entry key="911" value="1"/>
+	      <entry key="913" value="1"/>
+	      <entry key="917" value="1"/>
+	      <entry key="921" value="2"/>
+	      <entry key="924" value="4"/>
+	      <entry key="926" value="1"/>
+	      <entry key="928" value="1"/>
+	      <entry key="929" value="1"/>
+	      <entry key="931" value="1"/>
+	      <entry key="932" value="1"/>
+	      <entry key="933" value="1"/>
+	      <entry key="940" value="1"/>
+	      <entry key="948" value="1"/>
+	      <entry key="957" value="1"/>
+	      <entry key="967" value="1"/>
+	      <entry key="977" value="1"/>
+	      <entry key="980" value="1"/>
+	      <entry key="983" value="1"/>
+	      <entry key="986" value="1"/>
+	      <entry key="991" value="1"/>
+	      <entry key="1012" value="1"/>
+	      <entry key="1016" value="1"/>
+	      <entry key="1042" value="1"/>
+	      <entry key="1065" value="1"/>
+	    </map>
+	  </property>
 	</bean>
 	
 	<bean id="mapBackedSpeciesMatcher" class="org.emonocot.job.delta.MapBackedTaxonMatcher"/>
