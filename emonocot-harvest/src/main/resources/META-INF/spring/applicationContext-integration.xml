@@ -186,6 +186,8 @@
             </map>
        </property>
        <property name="defaultTemplateName" value="comment" />
+       <property name="userService" ref="userServiceImpl"/>
+       <property name="commentService" ref="commentServiceImpl"/>
     </bean>
 
 </beans>

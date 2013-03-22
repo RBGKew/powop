@@ -47,14 +47,6 @@ public class Comment extends Base implements Searchable {
     private String comment;
     
     private String subject;
-    
-    public String getSubject() {
-		return subject;
-	}
-
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
 
 	/**
      * The object which this comment is about
@@ -76,8 +68,15 @@ public class Comment extends Base implements Searchable {
      * The object (page) on which this comment should appear
      */
     private BaseData commentPage;
-    
 
+    public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+    
     /**
 	 * @return the inResponseTo
 	 */
@@ -241,7 +240,8 @@ public class Comment extends Base implements Searchable {
     public enum Status {
         PENDING,
         REFUSED,
-        SENT;
+        SENT,
+        RECIEVED;
     }
 
     @Transient
@@ -267,14 +267,26 @@ public class Comment extends Base implements Searchable {
     	if(getAboutData() != null) {
     		sid.addField("comment.about_class_s",getAboutData().getClass().getName());   
 		}
+    	StringBuilder summary = new StringBuilder().append(getComment());
     	if(getCommentPage() != null) {
     		if(getCommentPage() instanceof Taxon) {
     			sid.addField("comment.comment_page_class_s","org.emonocot.model.Taxon");
     			Taxon taxon = (Taxon)getCommentPage();
+    			summary.append(" ").append(" ").append(taxon.getClazz()).append(" ").append(taxon.getFamily()).append(" ")
+    			.append(taxon.getGenus()).append(" ").append(taxon.getKingdom()).append(" ").append(taxon.getOrder()).append(" ")
+    			.append(taxon.getPhylum()).append(" ").append(taxon.getScientificName()).append(" ")
+    			.append(taxon.getScientificNameAuthorship()).append(" ").append(taxon.getSpecificEpithet()).append(" ")
+    			.append(taxon.getSubfamily()).append(" ").append(taxon.getSubgenus()).append(" ")
+    			.append(taxon.getSubtribe()).append(" ").append(taxon.getTaxonomicStatus()).append(" ")
+    			.append(taxon.getTribe());
     			sid.addField("taxon.family_s", taxon.getFamily());
     		} else if(getCommentPage() instanceof IdentificationKey) {
     			sid.addField("comment.comment_page_class_s","org.emonocot.model.IdentificationKey");
+    			IdentificationKey identificationKey = (IdentificationKey)getCommentPage();
+    			summary.append(" ").append(identificationKey.getTitle());
     		} else if(getCommentPage() instanceof Image) {
+    			Image image = (Image)getCommentPage();
+    			summary.append(" ").append(image.getTitle());
     			sid.addField("comment.comment_page_class_s","org.emonocot.model.Image");
     		}
 		}
@@ -282,7 +294,7 @@ public class Comment extends Base implements Searchable {
     	sid.addField("comment.created_dt",getCreated());
     	sid.addField("comment.status_t",getStatus());
     	sid.addField("comment.subject_s",getSubject());
-    	sid.addField("searchable.solrsummary_t", getComment());
+    	sid.addField("searchable.solrsummary_t", summary.toString());
 		return sid;
 	}
 

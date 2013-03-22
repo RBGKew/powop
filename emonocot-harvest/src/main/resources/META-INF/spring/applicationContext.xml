@@ -236,6 +236,7 @@
     <util:properties id="javaMailProperties">
       <prop key="mail.imap.socketFactory.class">${email.imap.socketfactory.class}</prop>
       <prop key="mail.imap.socketFactory.fallback">${email.imap.socketfactory.fallback}</prop>
+      <prop key="mail.imap.starttls.enable">${email.imap.enable.starttls}</prop>
       <prop key="mail.store.protocol">imaps</prop>
       <prop key="mail.debug">${email.debug}</prop>
     </util:properties>

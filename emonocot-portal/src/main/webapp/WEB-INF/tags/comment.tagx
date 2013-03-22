@@ -4,23 +4,39 @@
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:c="http://java.sun.com/jsp/jstl/core" class="media">
 	<jsp:directive.attribute name="comment" type="org.emonocot.model.Comment" required="true" />
-	  <c:url var="userUrl" value="/user/${comment.user.id}" />
 	  <c:choose>
-		<c:when test="${not empty comment.user.img}">
-		  <c:url var="profileImageUrl" value="/images/profiles/${comment.user.img}" />
-		  <a class="pull-left thumbnail" href="${userUrl}">
-		    <img class="media-object" src="${profileImageUrl}" />
-		  </a>
-		</c:when>
-		<c:otherwise>
-		  <a class="pull-left thumbnail" href="${userUrl}">
-		    <i class="media-object glyphicons-icon user"> <!----></i>
-		  </a>
-		</c:otherwise>
+	    <c:when test="${empty comment.user}">
+	      <a class="pull-left thumbnail">
+		        <i class="media-object glyphicons-icon user"> <!----></i>
+		      </a>
+	    </c:when>
+	    <c:otherwise>
+	      <c:url var="userUrl" value="/user/${comment.user.id}" />
+	      <c:choose>
+		    <c:when test="${not empty comment.user.img}">
+		      <c:url var="profileImageUrl" value="/images/profiles/${comment.user.img}" />
+		      <a class="pull-left thumbnail" href="${userUrl}">
+		        <img class="media-object" src="${profileImageUrl}" />
+		      </a>
+		    </c:when>
+		    <c:otherwise>
+		      <a class="pull-left thumbnail" href="${userUrl}">
+		        <i class="media-object glyphicons-icon user"> <!----></i>
+		      </a>
+		    </c:otherwise>
+	      </c:choose>
+	    </c:otherwise>
 	  </c:choose>
 	  <div class="media-body">
 		<h4 class="media-heading">
-		  <a href="${userUrl}">${comment.user.accountName}</a>
+		 <c:choose>
+		   <c:when test="${not empty comment.user}">
+		     <a href="${userUrl}">${comment.user.accountName}</a>
+		   </c:when>
+		   <c:otherwise>
+		     <a><spring:message code="comment.anonymous.user"/></a>
+		   </c:otherwise>
+		 </c:choose>
 		</h4>
 	    <p>${comment.comment}</p>
 		<c:choose>
