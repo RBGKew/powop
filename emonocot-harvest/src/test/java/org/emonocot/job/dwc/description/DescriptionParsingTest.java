@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.easymock.EasyMock;
 import org.emonocot.api.TaxonService;
+import org.emonocot.harvest.common.HtmlSanitizer;
 import org.emonocot.model.Description;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.DescriptionType;
@@ -68,6 +69,9 @@ public class DescriptionParsingTest {
 
         FieldSetMapper fieldSetMapper = new FieldSetMapper();
         fieldSetMapper.setConversionService(conversionService);
+        HtmlSanitizer htmlSanitizer = new HtmlSanitizer();
+        htmlSanitizer.afterPropertiesSet();
+        fieldSetMapper.setHtmlSanitizer(htmlSanitizer);
         fieldSetMapper.setFieldNames(names);
         fieldSetMapper.setDefaultValues(new HashMap<String, String>());
         fieldSetMapper.setTaxonService(taxonService);

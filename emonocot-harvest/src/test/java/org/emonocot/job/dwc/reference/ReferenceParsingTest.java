@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.easymock.EasyMock;
 import org.emonocot.api.TaxonService;
+import org.emonocot.harvest.common.HtmlSanitizer;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.convert.ReferenceTypeConverter;
@@ -84,6 +85,9 @@ public class ReferenceParsingTest {
 
         FieldSetMapper fieldSetMapper = new FieldSetMapper();
         fieldSetMapper.setFieldNames(names);
+        HtmlSanitizer htmlSanitizer = new HtmlSanitizer();
+        htmlSanitizer.afterPropertiesSet();
+        fieldSetMapper.setHtmlSanitizer(htmlSanitizer);
         fieldSetMapper.setConversionService(conversionService);
         fieldSetMapper.setDefaultValues(new HashMap<String, String>());
         fieldSetMapper.setTaxonService(taxonService);

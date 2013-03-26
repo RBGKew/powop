@@ -27,7 +27,7 @@ public class HtmlSanitizer {
 
 	public String sanitize(String text) {
 		if(text == null || text.isEmpty()) {
-			return null;
+			return text;
 		} else {
 			String unescaped = StringEscapeUtils.unescapeHtml(text);
 			try {
