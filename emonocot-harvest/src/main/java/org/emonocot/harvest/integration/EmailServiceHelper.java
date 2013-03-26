@@ -17,6 +17,7 @@ import javax.mail.Part;
 
 import org.emonocot.api.CommentService;
 import org.emonocot.api.UserService;
+import org.emonocot.harvest.common.HtmlSanitizer;
 import org.emonocot.model.Base;
 import org.emonocot.model.BaseData;
 import org.emonocot.model.Comment;
@@ -54,6 +55,8 @@ public class EmailServiceHelper {
 	 */
 	private Map<String, String> templates;
 
+	private HtmlSanitizer htmlSanitizer;
+
 	/**
 	 * @param defaultTemplateName
 	 *            the defaultTemplateName to set
@@ -79,6 +82,11 @@ public class EmailServiceHelper {
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
+	
+	@Autowired
+	public void setHtmlSanitizer(HtmlSanitizer htmlSanitizer) {
+		this.htmlSanitizer = htmlSanitizer;
+	}
 
 	/**
 	 * Create a comment replying to an incoming email
@@ -101,7 +109,7 @@ public class EmailServiceHelper {
     		if(inResponseTo != null) {
     			comment.setCommentPage(inResponseTo.getCommentPage());
     		}
-    		comment.setComment(getText(email));
+    		comment.setComment(htmlSanitizer.sanitize(getText(email)));
     		for(Address address : email.getFrom()) {
     			User user = userService.find(address.toString());
     			if(user != null) {

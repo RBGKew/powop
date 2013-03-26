@@ -1037,6 +1037,16 @@
                 <artifactId>commons-collections</artifactId>
                 <version>3.2.1</version>
             </dependency>
+            <dependency>
+              <groupId>org.owasp.antisamy</groupId>
+              <artifactId>antisamy</artifactId>
+              <version>1.4.5</version>
+            </dependency>
+            <dependency>
+	          <groupId>net.sourceforge.nekohtml</groupId>
+	          <artifactId>nekohtml</artifactId>
+	          <version>1.9.18</version>
+           </dependency>
 		</dependencies>
 	</dependencyManagement>
 	<build>

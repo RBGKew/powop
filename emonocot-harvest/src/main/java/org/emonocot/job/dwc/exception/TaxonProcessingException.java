@@ -14,7 +14,7 @@ public abstract class TaxonProcessingException extends
    /**
     *
     */
-   private static final long serialVersionUID = 999609749452018246L;
+   private static long serialVersionUID = 999609749452018246L;
 
     /**
      *
@@ -22,8 +22,7 @@ public abstract class TaxonProcessingException extends
      * @param code the code
      * @param value the value
      */
-    public TaxonProcessingException(final String msg,
-            final AnnotationCode code, final String value) {
+    public TaxonProcessingException(String msg, AnnotationCode code, String value) {
         super(msg, code, RecordType.Taxon, value);
     }
 }

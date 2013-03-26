@@ -136,8 +136,7 @@
     
     <integration:channel id="commentReplyChannel">
         <integration:interceptors>
-            <integration:wire-tap channel="loggingChannel" /> 
-            <integration:wire-tap channel="indexingChannel"/>       
+            <integration:wire-tap channel="loggingChannel" />    
         </integration:interceptors>
     </integration:channel>  
     

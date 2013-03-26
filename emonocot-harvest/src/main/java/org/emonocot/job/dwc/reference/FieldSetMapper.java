@@ -42,7 +42,7 @@ public class FieldSetMapper extends  NonOwnedFieldSetMapper<Reference> {
             DcTerm dcTerm = (DcTerm) term;
             switch (dcTerm) {
             case bibliographicCitation:
-                object.setBibliographicCitation(value);
+                object.setBibliographicCitation(htmlSanitizer.sanitize(value));
                 break;
             case creator:
                 object.setCreator(value);
