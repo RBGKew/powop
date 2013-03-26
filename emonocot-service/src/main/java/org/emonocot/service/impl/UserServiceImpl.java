@@ -337,7 +337,7 @@ public class UserServiceImpl extends SearchableServiceImpl<User, UserDao> implem
     /**
      * @param username The username of the user to delete
      */
-    @PreAuthorize("hasRole('PERMISSION_ADMINISTRATE')")
+    @PreAuthorize("hasRole('PERMISSION_ADMINISTRATE') or hasRole('PERMISSION_DELETE_USER')")
     @Transactional(readOnly = false)
     public final void deleteUser(final String username) {
         Assert.hasLength(username);

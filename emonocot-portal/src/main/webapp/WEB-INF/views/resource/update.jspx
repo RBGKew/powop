@@ -54,7 +54,7 @@
 									</c:url>
 									<spring:message code="remove.parameter" var="removeParameter" />
 									<field:input field="parameters['${parameter.key}']" label="${parameter.key}" fieldClass="span6"/>
-									<a href="${removeParameterUrl}" class='btn btn-danger' title="${fn:escapeXml(removeParameter)}">×</a>
+									<a href="${removeParameterUrl}" class='btn btn-danger' title="${fn:escapeXml(removeParameter)}"><i class="halflings-icon white remove"><!--  --></i></a>
 								</c:forEach>
 							</fieldset>
 						</form:create>

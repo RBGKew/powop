@@ -1592,6 +1592,8 @@
 				<portal.imagemagick.path>/usr/bin</portal.imagemagick.path>
 				<portal.image.temporary.directory>/var/spool/emonocot</portal.image.temporary.directory>
 				<portal.profile.image.directory>/var/lib/emonocot/images/profiles</portal.profile.image.directory>
+				<support.email.address>ict-team@about.e-monocot.org</support.email.address>
+				<support.issuetracker>http://build.e-monocot.org/bugzilla/enter_bug.cgi</support.issuetracker>
 			</properties>
 		</profile>
 		<profile>
@@ -1646,6 +1648,8 @@
 				<portal.imagemagick.path>/usr/bin</portal.imagemagick.path>
 				<portal.image.temporary.directory>/var/spool/emonocot</portal.image.temporary.directory>
 				<portal.profile.image.directory>/var/lib/emonocot/images/profiles</portal.profile.image.directory>
+				<support.email.address>ict-team@about.e-monocot.org</support.email.address>
+				<support.issuetracker>http://build.e-monocot.org/bugzilla/enter_bug.cgi</support.issuetracker>
 			</properties>
 		</profile>
 		<profile>
@@ -1700,6 +1704,8 @@
 				<portal.imagemagick.path>/usr/bin</portal.imagemagick.path>
 				<portal.image.temporary.directory>file:/var/cache/tomcat7/temp/emonocot/</portal.image.temporary.directory>
 				<portal.profile.image.directory>file:/var/lib/emonocot/images/profiles</portal.profile.image.directory>
+				<support.email.address>ict-team@about.e-monocot.org</support.email.address>
+				<support.issuetracker>http://build.e-monocot.org/bugzilla/enter_bug.cgi</support.issuetracker>
 			</properties>
 		</profile>		
 	</profiles>

@@ -48,6 +48,7 @@ import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -143,13 +144,20 @@ public class CommentController extends GenericController<Comment, CommentService
     public void setDescriptionService(DescriptionService descriptionService) {
         this.descriptionService = descriptionService;
     }
+    
+    @RequestMapping(value = "/{identifier}", method = RequestMethod.GET, params="_method=DELETE", produces = "text/html") 
+    public String delete(@PathVariable String identifier, RedirectAttributes attributes) {
+    	getService().delete(identifier);
+    	attributes.addFlashAttribute("info", new DefaultMessageSourceResolvable("comment.deleted"));
+    	return "redirect:/comment";
+    }
 
     /**
      * @param comment
      * @param result
      */
     @RequestMapping(method = RequestMethod.POST, produces = "text/html")
-    public String postComment(Principal principal, @Valid CommentForm form, BindingResult formResult, RedirectAttributes attributes) {
+    public String create(Principal principal, @Valid CommentForm form, BindingResult formResult, RedirectAttributes attributes) {
         logger.debug("Got the comment \"" + form.getComment() + "\" about " + form.getAboutData() + " from " + principal.getName());
         User user = userService.load(principal.getName());
         //Create comment
@@ -232,8 +240,7 @@ public class CommentController extends GenericController<Comment, CommentService
             super.getService().save(comment);
             attributes.addFlashAttribute("info",  new DefaultMessageSourceResolvable("feedback.saved"));
         } else {
-            attributes.addFlashAttribute("error",  new DefaultMessageSourceResolvable("feedback.error.input"));
-            
+            attributes.addFlashAttribute("error",  new DefaultMessageSourceResolvable("feedback.error.input"));            
         }
         
         //Set object and redirect        
@@ -266,7 +273,7 @@ public class CommentController extends GenericController<Comment, CommentService
 			}
 		}
 		selectedFacets.put("base.class_s", "org.emonocot.model.Comment");
-		selectedFacets.put("comment.status_t", "(SENT OR RECIEVED)");
+		selectedFacets.put("comment.status_t", "SENT");
 		Page<Comment> result = getService().search(query, null, limit, start, 
 				new String[] {"taxon.family_s", "comment.subject_s","comment.comment_page_class_s" }, null, selectedFacets, sort, null);
 		model.addAttribute("result", result);

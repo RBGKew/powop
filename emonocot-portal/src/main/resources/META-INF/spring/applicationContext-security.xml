@@ -121,48 +121,26 @@
 	<sec:http use-expressions="true" access-decision-manager-ref="webAccessDecisionManager">
 		<sec:intercept-url pattern="/login*" access="isAnonymous()" />
 		<sec:intercept-url pattern="/home" access="!isAnonymous()" />
-		<sec:intercept-url pattern="/taxon" method="POST"
-			access="hasRole('PERMISSION_CREATE_TAXON')" />
-		<sec:intercept-url pattern="/taxon/*" method="DELETE"
-			access="hasRole('PERMISSION_DELETE_TAXON')" />
-		<sec:intercept-url pattern="/image" method="POST"
-			access="hasRole('PERMISSION_CREATE_IMAGE')" />
-		<sec:intercept-url pattern="/image/*" method="DELETE"
-			access="hasRole('PERMISSION_DELETE_IMAGE')" />
-		<sec:intercept-url pattern="/reference" method="POST"
-			access="hasRole('PERMISSION_CREATE_REFERENCE')" />
-		<sec:intercept-url pattern="/reference/*" method="DELETE"
-			access="hasRole('PERMISSION_DELETE_REFERENCE')" />
-		<sec:intercept-url pattern="/user" method="POST"
-			access="hasRole('PERMISSION_CREATE_USER')" />
-		<sec:intercept-url pattern="/user/*" method="DELETE"
-			access="hasRole('PERMISSION_DELETE_USER')" />
-		<sec:intercept-url pattern="/group" method="POST"
-			access="hasRole('PERMISSION_CREATE_GROUP')" />
-		<sec:intercept-url pattern="/group/*" method="DELETE"
-			access="hasRole('PERMISSION_DELETE_GROUP')" />
-		<sec:intercept-url pattern="/organisation" method="POST"
-			access="hasRole('PERMISSION_CREATE_SOURCE')" />
-		<sec:intercept-url pattern="/organisation/*" method="DELETE"
-			access="hasRole('PERMISSION_DELETE_SOURCE')" />
-		<sec:intercept-url pattern="/organisation/*/resources*"
-			access="hasRole('PERMISSION_VIEW_SOURCE')" />
-		<sec:intercept-url pattern="/jobExecution" method="POST"
-			access="hasRole('PERMISSION_CREATE_JOBEXECUTION')" />
-		<sec:intercept-url pattern="/jobExecution/*" method="DELETE"
-			access="hasRole('PERMISSION_DELETE_JOBEXECUTION')" />
-		<sec:intercept-url pattern="/jobInstance" method="POST"
-			access="hasRole('PERMISSION_CREATE_JOBINSTANCE')" />
-		<sec:intercept-url pattern="/jobInstance/*" method="DELETE"
-			access="hasRole('PERMISSION_DELETE_JOBINSTANCE')" />
-        <sec:intercept-url pattern="/annotation" method="POST"
-            access="hasRole('PERMISSION_CREATE_ANNOTATION')" />
-        <sec:intercept-url pattern="/annotation/*" method="DELETE"
-            access="hasRole('PERMISSION_DELETE_ANNOTATION')" />
-        <sec:intercept-url pattern="/comment" method="POST"
-            access="isAuthenticated()" />
-        <sec:intercept-url pattern="/comment/*" method="DELETE"
-            access="hasRole('PERMISSION_DELETE_COMMENT')" />
+		<sec:intercept-url pattern="/taxon" method="POST" access="hasRole('PERMISSION_CREATE_TAXON')" />
+		<sec:intercept-url pattern="/taxon/*" method="DELETE" access="hasRole('PERMISSION_DELETE_TAXON')" />
+		<sec:intercept-url pattern="/image" method="POST" access="hasRole('PERMISSION_CREATE_IMAGE')" />
+		<sec:intercept-url pattern="/image/*" method="DELETE" access="hasRole('PERMISSION_DELETE_IMAGE')" />
+		<sec:intercept-url pattern="/reference" method="POST" access="hasRole('PERMISSION_CREATE_REFERENCE')" />
+		<sec:intercept-url pattern="/reference/*" method="DELETE" access="hasRole('PERMISSION_DELETE_REFERENCE')" />
+		<sec:intercept-url pattern="/user" method="POST" access="hasRole('PERMISSION_CREATE_USER')" />
+		<sec:intercept-url pattern="/user/*" method="DELETE" access="hasRole('PERMISSION_DELETE_USER')" />
+		<sec:intercept-url pattern="/group" method="POST" access="hasRole('PERMISSION_CREATE_GROUP')" />
+		<sec:intercept-url pattern="/group/*" method="DELETE" access="hasRole('PERMISSION_DELETE_GROUP')" />
+		<sec:intercept-url pattern="/organisation" method="POST" access="hasRole('PERMISSION_CREATE_SOURCE')" />
+		<sec:intercept-url pattern="/organisation/*" method="DELETE" access="hasRole('PERMISSION_DELETE_SOURCE')" />		
+		<sec:intercept-url pattern="/jobExecution" method="POST" access="hasRole('PERMISSION_CREATE_JOBEXECUTION')" />
+		<sec:intercept-url pattern="/jobExecution/*" method="DELETE" access="hasRole('PERMISSION_DELETE_JOBEXECUTION')" />
+		<sec:intercept-url pattern="/jobInstance" method="POST" access="hasRole('PERMISSION_CREATE_JOBINSTANCE')" />
+		<sec:intercept-url pattern="/jobInstance/*" method="DELETE"	access="hasRole('PERMISSION_DELETE_JOBINSTANCE')" />
+        <sec:intercept-url pattern="/annotation" method="POST" access="hasRole('PERMISSION_CREATE_ANNOTATION')" />
+        <sec:intercept-url pattern="/annotation/*" method="DELETE" access="hasRole('PERMISSION_DELETE_ANNOTATION')" />
+        <sec:intercept-url pattern="/comment" method="POST" access="isAuthenticated()" />
+        <sec:intercept-url pattern="/comment/*" method="DELETE" access="hasRole('PERMISSION_DELETE_COMMENT')" />
 		<sec:form-login login-page='/login'
 			login-processing-url="/process_login" authentication-failure-url="/login?error=true"
 			default-target-url="/home" />

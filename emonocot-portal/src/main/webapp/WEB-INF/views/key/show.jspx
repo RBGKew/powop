@@ -178,7 +178,7 @@
 			</div>
             <div id="feedbackModal" class="modal hide fade">
 		        <div class="modal-header">
-		            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+		            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"><i class="halflings-icon remove"><!--  --></i></button>
 		            <h3><i class="glyphicons-icon comments"><!--  --></i><spring:message code="feedbackTitle" /></h3>
 		        </div>
 		        <c:url value="/comment" var="commentUrl" />

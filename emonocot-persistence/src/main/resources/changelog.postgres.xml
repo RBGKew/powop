@@ -1780,4 +1780,12 @@
           <column name="source" type="varchar(255)"/>
         </addColumn>
     </changeSet>
+    <changeSet id="2013-03-25_01" author="ben">
+        <comment>BUG #462: As a system owner recieving a comment via email, I would like to be able to reply to the comment</comment>
+        <addColumn tableName="Principal">
+          <column name="notifyByEmail" type="bool" defaultValueBoolean="false">
+            <constraints nullable="false"/>
+          </column>
+        </addColumn>
+    </changeSet>  
 </databaseChangeLog>

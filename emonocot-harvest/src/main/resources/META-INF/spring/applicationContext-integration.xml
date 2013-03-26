@@ -96,16 +96,16 @@
             <integration:property name="user" expression="payload.user"/>
         </integration:enricher>
         <integration:header-enricher>
-            <integration:header name="destinations" ref="commentServiceImpl" method="getDestinationOrganisations" />
+            <integration:header name="destinations" ref="commentServiceImpl" method="getDestinations" />
         </integration:header-enricher>
         <integration:splitter>
-            <bean class="org.emonocot.integration.HeaderCollectionSplitter">
+            <bean class="org.emonocot.harvest.integration.HeaderCollectionSplitter">
                 <property name="requestKey" value="destinations" />
-                <property name="responseKey" value="organisation" />
+                <property name="responseKey" value="destination" />
             </bean>
         </integration:splitter>
         <integration:header-enricher>
-            <!-- The expression is temporarily set explicitly for beta-phase from "headers.organisation.commentsEmailedTo" -->
+            <!-- The expression is temporarily set explicitly for beta-phase from "headers.destination" -->
             <integration:header name="toAddress" expression="${comment.emailedTo}" />
             <integration:header name="subject" expression="'${comment.email.subject}' + ' - ' + payload.identifier" />
         </integration:header-enricher>
@@ -180,10 +180,11 @@
 		</property>
 	</bean>
 	
-	<bean id="emailServiceHelper" class="org.emonocot.integration.EmailServiceHelper">
+	<bean id="emailServiceHelper" class="org.emonocot.harvest.integration.EmailServiceHelper">
        <property name="templates">
             <map>
                  <entry key="comment" value="org/emonocot/integration/comment/CommentEmail.vm" />
+                 <entry key="reply" value="org/emonocot/integration/comment/ReplyEmail.vm" />
             </map>
        </property>
        <property name="defaultTemplateName" value="comment" />

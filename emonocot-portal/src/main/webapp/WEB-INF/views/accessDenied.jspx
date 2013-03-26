@@ -12,7 +12,7 @@
 
 		<div class="row">
 			<div class="alert">
-				<a class="close" href="#">×</a>
+				<a class="close" href="#"><i class="halflings-icon remove"><!--  --></i></a>
 				<p>
 					<strong><spring:message
 							code="SPRING_SECURITY_403_EXCEPTION" text="SPRING_SECURITY_403_EXCEPTION"/>

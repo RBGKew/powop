@@ -16,9 +16,10 @@
 				<div class="alert-actions">
 					<c:url value="/search" var="searchUrl" />
 					<a class="btn small" href="${searchUrl}"><spring:message code="search" /></a>
-					<c:url value="http://build.e-monocot.org/bugzilla/enter_bug.cgi"
-						var="submitIssueUrl" />
-					<a class="btn small" href="${submitIssueUrl}"><spring:message code="submit.issue" /></a>
+					<spring:message code="support.issuetracker" var="supportIssueTracker"/>
+			        <a href="${supportIssueTracker}" class="btn small">
+			          <spring:message code="submit.issue" />
+			        </a>
 				</div>
 			</div>
 	      </div>

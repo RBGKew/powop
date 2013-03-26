@@ -240,8 +240,7 @@ public class Comment extends Base implements Searchable {
     public enum Status {
         PENDING,
         REFUSED,
-        SENT,
-        RECIEVED;
+        SENT;
     }
 
     @Transient

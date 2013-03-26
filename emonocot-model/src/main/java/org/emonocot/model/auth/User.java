@@ -72,6 +72,8 @@ public class User extends Principal implements UserDetails {
     private String topicInterest;
     
     private String homepage;
+
+	private boolean notifyByEmail;
     
     
 
@@ -375,6 +377,14 @@ public class User extends Principal implements UserDetails {
     public Set<Group> getGroups() {
         return groups;
     }
+    
+	public boolean isNotifyByEmail() {
+		return notifyByEmail;
+	}
+	
+	public void setNotifyByEmail(boolean notifyByEmail) {
+		this.notifyByEmail = notifyByEmail;
+	}
 
     @Transient
     @JsonIgnore
@@ -410,4 +420,6 @@ public class User extends Principal implements UserDetails {
     	sid.addField("searchable.solrsummary_t", summary);
 	    return sid;
 	}
+
+
 }
