@@ -9,59 +9,61 @@
 	xmlns:geo="urn:jsptagdir:/WEB-INF/tags/geo"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 	<jsp:useBean id="result" scope="request" type="org.emonocot.pager.Page" />
-<tags:pageheader>
-			<div class="row">
-				<h2 id="page-title" class="span6">
-				  <i class="glyphicons-icon globe"><!--  --></i>
-				  <spring:message code="map.search" />
-				</h2>
+
+	<tags:pageheader>
+		<div class="row">
+			<h2 id="page-title" class="span6">
+				<i class="glyphicons-icon globe"><!--  --></i>
+				<spring:message code="map.search" />
+			</h2>
 				
-				<script type="text/javascript">
-					$(document).ready(function() {
-						$("input#query").autocomplete({
-							source: "autocomplete",
-							minLength: 2
-						});
-						$["ui"]["autocomplete"].prototype["_renderItem"] = function( ul, item) {
-			                return $( "<li></li>" )
-			                .data( "item.autocomplete", item )
-			                .append( $( "<a></a>" ).html( item.label ) )
-			                .appendTo( ul );
-			            };
+			<script type="text/javascript">
+				$(document).ready(function() {
+					$("input#query").autocomplete({
+						source: "autocomplete",
+						minLength: 2
 					});
-				</script>
-				<c:url var="spatialSearchUrl" value="/spatial"/>
-				<form id="search-form" class="form-horizontal pull-right form-search" accept-charset="UTF-8" method="GET" action="${spatialSearchUrl}">
-					<input type="hidden" name="limit" value="${result.pageSize}" />
-					<input type="hidden" name="start" value="0" />
-					<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-						<input type="hidden" name="facet" value="${selectedFacet}:${result.selectedFacets[selectedFacet]}"/>
-					</c:forEach>
-					<input type="hidden" name="sort" value="${result.sort}"/>
-					<div class="control-group">
-						<input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="query"/>
-						<button class="btn btn-primary"><span class="icon-search icon-white"><!--  --></span></button>
-					</div>
-					<input type="hidden" id="x1" name="x1" class="span1" value="${result.params['x1']}"/>
-					<input type="hidden" id="y1" name="y1" class="span1" value="${result.params['y1']}"/>
-					<input type="hidden" id="x2" name="x2" class="span1" value="${result.params['x2']}" />
-					<input type="hidden" id="y2" name="y2" class="span1" value="${result.params['y2']}" />
-				</form>
+					$["ui"]["autocomplete"].prototype["_renderItem"] = function( ul, item) {
+						return $( "<li></li>" )
+						.data( "item.autocomplete", item )
+						.append( $( "<a></a>" ).html( item.label ) )
+						.appendTo( ul );
+					};
+				});
+			</script>
+		
+			<c:url var="spatialSearchUrl" value="/spatial"/>
+			<form id="search-form" class="form-horizontal pull-right form-search" accept-charset="UTF-8" method="GET" action="${spatialSearchUrl}">
+				<input type="hidden" name="limit" value="${result.pageSize}" />
+				<input type="hidden" name="start" value="0" />
+				<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+					<input type="hidden" name="facet" value="${selectedFacet}:${result.selectedFacets[selectedFacet]}"/>
+				</c:forEach>
+				<input type="hidden" name="sort" value="${result.sort}"/>
+				<div class="control-group">
+					<input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="query"/>
+					<button class="btn btn-primary"><span class="icon-search icon-white"><!--  --></span></button>
+				</div>
+				<input type="hidden" id="x1" name="x1" class="span1" value="${result.params['x1']}"/>
+				<input type="hidden" id="y1" name="y1" class="span1" value="${result.params['y1']}"/>
+				<input type="hidden" id="x2" name="x2" class="span1" value="${result.params['x2']}" />
+				<input type="hidden" id="y2" name="y2" class="span1" value="${result.params['y2']}" />
+			</form>
 		</div>
 		<div class="row">
-			<span class="pull-left"><spring:message
-					code="map.instructions" /></span>
+			<span class="pull-left"><spring:message code="map.instructions" /></span>
 			<c:url var="resetUrl" value="/spatial">
 				<c:param name="query" value="" />
 			</c:url>
-			<a id="reset" class="btn pull-right" href="${resetUrl}"><i
-				class="icon-refresh"> <!--  -->
-			</i> <spring:message code="reset" /></a>
+			<a id="reset" class="btn pull-right" href="${resetUrl}">
+				<i class="icon-refresh"> <!--  --></i>
+				<spring:message code="reset" />
+			</a>
 		</div>
 	</tags:pageheader>
 	<geo:map x1="${result.params['x1']}" y1="${result.params['y1']}"
-		x2="${result.params['x2']}" y2="${result.params['y2']}"
-		mapClass="full-width-map" zoomBoxSearch="true">
+			 x2="${result.params['x2']}" y2="${result.params['y2']}"
+			 mapClass="full-width-map" zoomBoxSearch="true">
 		<c:if test="${not empty result.params['featureId']}">
 			<geo:layer name="places" layer="emonocot:place" style="eMonocot"
 				featureId="${result.params['featureId']}" />

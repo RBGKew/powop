@@ -16,7 +16,9 @@
 				<li>
 					<small>
 						<span id="protologue">${taxon.namePublishedInString}</span>
-						<c:if test="${not empty taxon.nomenclaturalStatus}">&#160;<spring:message code="nomenclatural_status_abbreviation_${taxon.nomenclaturalStatus}" text="${taxon.nomenclaturalStatus}"/></c:if>
+						<c:if test="${not empty taxon.nomenclaturalStatus}">&#160;	
+							<spring:message code="nomenclatural_status_abbreviation_${taxon.nomenclaturalStatus}" text="${taxon.nomenclaturalStatus}"/>
+						</c:if>
 					</small>
 				</li>
 				<li>
@@ -36,8 +38,8 @@
 			<c:if test="${not empty taxon.images or not empty taxon.descriptions or not empty em:regions(taxon) or not empty taxon.childNameUsages or not empty taxon.synonymNameUsages or not empty bibliography.references}">
 				<div class="subnav no-print">
 					<ul class="nav nav-pills">
-					    <c:if test="${not empty taxon.images}">
-						  <li><a href="#images"><spring:message code="images" /></a></li>
+						<c:if test="${not empty taxon.images}">
+							<li><a href="#images"><spring:message code="images" /></a></li>
 						</c:if>
 						<li>
 							<c:if test="${not empty taxon.descriptions}">
@@ -74,8 +76,8 @@
 				</div>
 			</c:if>
 		</header>
-        <tags:info />
-        <tags:error />
+		<tags:info />
+		<tags:error />
 		<c:if test="${not empty taxon.images}">
 			<div class="container">
 				<div id="images"  data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a.slideshow">
@@ -451,13 +453,13 @@
 										<li>										    
 											<a id="${reference.identifier}">${em:citekey(bibliography,reference)}</a>
 											<c:choose>
-											  <c:when test="${not empty reference.uri}">
-											    <a href="${reference.uri}">${reference.bibliographicCitation}</a>
-											  </c:when>
-											  <c:otherwise>
-											    ${reference.bibliographicCitation}
-											  </c:otherwise>
-											</c:choose>											
+												<c:when test="${not empty reference.uri}">
+													<a href="${reference.uri}">${reference.bibliographicCitation}</a>
+												</c:when>
+												<c:otherwise>
+													${reference.bibliographicCitation}
+												</c:otherwise>
+											</c:choose>
 										</li>
 									</c:forEach>
 								</ul>
@@ -623,36 +625,37 @@
 		</div>
 	</div>
 	<div id="feedbackModal" class="modal hide fade">
-        <div class="modal-header">
-            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-            <h3><spring:message code="feedbackTitle" /></h3>
-        </div>
-        <c:url value="/comment" var="commentUrl" />
-        <form class="modal-form" action="${commentUrl}" method="post">
-            <div class="modal-body">
-	            <div class="control-group">
-                    <security:authorize access="isAnonymous()">
-                        <span class="label label-important"><spring:message code="feedback.login.needed" /></span>
-                    </security:authorize>
-	                <label class="control-label" for="select01"><spring:message
-	                        code="feedback.topic.option" /></label>
-	                <div class="controls">
-	                    <select name="aboutDataIdentifier">
-                            <option id="${taxon.identifier}" value="${taxon.identifier}">${taxon.scientificName} ${taxon.scientificNameAuthorship}</option>
-                            <spring:message code="description" var="messageDescription"/>
-                            <c:if test="${not empty taxon.descriptions}">
-                                <option id="${taxon.identifier}" value="${taxon.identifier}">${messageDescription}</option>
-                            </c:if>
-		                    <c:forEach var="feature" items="${em:features()}">
-		                        <c:set var="content" value="${em:content(taxon,feature)}" />
-		                        <c:if test="${content != null}">
-		                            <option id="${content.identifier}" value="${content.identifier}"><spring:message code="${feature}" /></option>
-		                        </c:if>
-		                    </c:forEach>
-		                    <c:if test="${not empty taxon.distribution}">
-                                <option id="${taxon.identifier}" value="${taxon.identifier}">${messageDistribution}</option>
-                            </c:if>
-                            <c:forEach var="distribution" items="${taxon.distribution}">
+		<div class="modal-header">
+			<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+			<h3><spring:message code="feedbackTitle" /></h3>
+		</div>
+		<c:url value="/comment" var="commentUrl" />
+		<form class="modal-form" action="${commentUrl}" method="post">
+			<div class="modal-body">
+				<div class="control-group">
+					<security:authorize access="isAnonymous()">
+						<span class="label label-important"><spring:message code="feedback.login.needed" /></span>
+					</security:authorize>
+					<label class="control-label" for="select01">
+						<spring:message code="feedback.topic.option" />
+					</label>
+					<div class="controls">
+						<select name="aboutDataIdentifier">
+							<option id="${taxon.identifier}" value="${taxon.identifier}">${taxon.scientificName} ${taxon.scientificNameAuthorship}</option>
+							<spring:message code="description" var="messageDescription"/>
+							<c:if test="${not empty taxon.descriptions}">
+								<option id="${taxon.identifier}" value="${taxon.identifier}">${messageDescription}</option>
+							</c:if>
+							<c:forEach var="feature" items="${em:features()}">
+								<c:set var="content" value="${em:content(taxon,feature)}" />
+								<c:if test="${content != null}">
+									<option id="${content.identifier}" value="${content.identifier}"><spring:message code="${feature}" /></option>
+								</c:if>
+							</c:forEach>
+							<c:if test="${not empty taxon.distribution}">
+								<option id="${taxon.identifier}" value="${taxon.identifier}">${messageDistribution}</option>
+							</c:if>
+							<c:forEach var="distribution" items="${taxon.distribution}">
 								<option id="${distribution.identifier}" value="${distribution.identifier}">
 									<spring:message code="${distribution.location.toString()}" />
 								</option>
