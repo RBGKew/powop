@@ -11,6 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.mail.Address;
+import javax.mail.internet.InternetAddress;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Part;
@@ -111,11 +112,14 @@ public class EmailServiceHelper {
     		}
     		comment.setComment(htmlSanitizer.sanitize(getText(email)));
     		for(Address address : email.getFrom()) {
-    			User user = userService.find(address.toString());
-    			if(user != null) {
-    				comment.setUser(user);
-    				break;
-    			}
+				if(address instanceof InternetAddress) {
+					InternetAddress internetAddress = (InternetAddress)address;
+    			    User user = userService.find(internetAddress.getAddress());
+    			    if(user != null) {
+    				    comment.setUser(user);
+    				    break;
+    			    }
+			    }
     		}
     		comment.setStatus(Comment.Status.PENDING);
     		String content = comment.getComment();
