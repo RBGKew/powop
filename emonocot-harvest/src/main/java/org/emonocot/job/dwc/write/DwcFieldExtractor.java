@@ -52,12 +52,12 @@ public class DwcFieldExtractor implements FieldExtractor<BaseData> {
 	@Override
 	public Object[] extract(BaseData item) {
 		Object[] values = new Object[names.length];
-		ConceptTerm extensionTerm = termFactory.findTerm(extension);		
+		ConceptTerm extensionTerm = termFactory.findTerm(extension);
 		Map<ConceptTerm,String> propertyMap = DarwinCorePropertyMap.getPropertyMap(extensionTerm);		
 		BeanWrapper beanWrapper = new BeanWrapperImpl(item);
 		for(int i = 0; i < names.length; i++) {
-			String property = names[i];
-			ConceptTerm propertyTerm = termFactory.findTerm(property);
+			String property = names[i];			
+			ConceptTerm propertyTerm = termFactory.findTerm(property);			
 		    String propertyName = propertyMap.get(propertyTerm);
 		     try {
 		    	 String value = conversionService.convert(beanWrapper.getPropertyValue(propertyName), String.class);
@@ -77,6 +77,7 @@ public class DwcFieldExtractor implements FieldExtractor<BaseData> {
 		    		 values[i] = new StringBuilder().append(quoteCharacter).append(quoteCharacter).toString();
 		    	 }
 		     }
+		     
 		}
 		return values;
 	}

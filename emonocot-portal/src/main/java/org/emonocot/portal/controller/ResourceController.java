@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
+import javax.validation.groups.Default;
 
 import org.emonocot.api.AnnotationService;
 import org.emonocot.api.OrganisationService;
 import org.emonocot.api.ResourceService;
+import org.emonocot.api.autocomplete.Match;
 import org.emonocot.api.job.JobExecutionException;
 import org.emonocot.api.job.JobExecutionInfo;
 import org.emonocot.api.job.JobLaunchRequest;
@@ -18,6 +20,7 @@ import org.emonocot.model.Annotation;
 import org.emonocot.model.constants.ResourceType;
 import org.emonocot.model.constants.SchedulingPeriod;
 import org.emonocot.model.registry.Resource;
+import org.emonocot.model.registry.Resource.ReadResource;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.controller.form.ResourceParameterDto;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
@@ -38,6 +41,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -173,7 +177,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	@RequestMapping(value = "/{resourceId}", method = RequestMethod.POST, produces = "text/html", params = {"!parameters"})
 	public String update(
 			@PathVariable Long resourceId, Model model,
-			@Valid Resource resource, BindingResult result,
+			@Validated({Default.class, ReadResource.class}) Resource resource, BindingResult result,
 			RedirectAttributes redirectAttributes) {
 		Resource persistedResource = getService().load(resourceId);
 
@@ -211,7 +215,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		Object[] args = new Object[] { resource.getTitle() };
 		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
 		redirectAttributes.addFlashAttribute("info", message);
-		return "redirect:/resource/" + resourceId;
+		return "redirect:/resource/{resourceId}";
 	}
 	/**
 	 * 
@@ -225,7 +229,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	 *            Set the offset
 	 * @return the name of the view
 	 */
-	@RequestMapping(produces = "text/html", method = RequestMethod.GET, params = "!form")
+	@RequestMapping(produces = "text/html", method = RequestMethod.GET, params = {"!form", "!autocomplete"})
 	public String list(Model model,
 			@RequestParam(value = "query", required = false) String query,
 		    @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
@@ -254,6 +258,11 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		model.addAttribute("result", result);
 		return "resource/list";
 	}
+	
+	@RequestMapping(params = "autocomplete", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody List<Match> autocomplete(@RequestParam(required = true) String term) {    	
+        return getService().autocomplete(term, 10, null);
+    }
 
 	/**
 	 * @param organisationId
@@ -288,7 +297,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	 */
 	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
 	public String create(			
-			Model model, @Valid Resource resource,
+			Model model, @Validated({Default.class, ReadResource.class}) Resource resource,
 			BindingResult result, RedirectAttributes redirectAttributes) {		
 		if (result.hasErrors()) {
 			populateForm(model, resource, new ResourceParameterDto());
@@ -358,7 +367,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
         DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
                 codes, args);
         redirectAttributes.addFlashAttribute("info", message);
-        return "redirect:/resource/" + resourceId + "?form=true";
+        return "redirect:/resource/{resourceId}?form=true";
     }
 
     /**
@@ -380,7 +389,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
         DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
                 codes, args);
         redirectAttributes.addFlashAttribute("info", message);
-        return "redirect:/resource/" + resourceId + "?form=true";
+        return "redirect:/resource/{resourceId}?form=true";
     }
 
 	/**
@@ -469,7 +478,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 					codes, args);
 			redirectAttributes.addFlashAttribute("error", message);
 		}
-		return "redirect:/resource/" + resourceId;
+		return "redirect:/resource/{resourceId}";
 	}
 	
 	@RequestMapping(value = "/{resourceId}/progress", method = RequestMethod.GET, produces="application/json")

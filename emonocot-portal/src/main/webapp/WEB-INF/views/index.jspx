@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <div class="container" xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	xmlns:spring="http://www.springframework.org/tags">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
 	<div class="row">
 	  <div class="span12">
 	    <h4 class="index-message"><spring:message code="index.message"/></h4>
@@ -41,5 +44,27 @@
 		    	</div>
         	</div>
         </div>
+      </div>
+      <div class="row">
+        <div class="span12">
+				<div class="inner">
+					<div class="box">
+					    <h2><i class="glyphicons-icon comments"><!--  --></i> <spring:message code="comments.title"/></h2>
+						<ul class="media-list">
+                          <c:forEach var="comment" items="${comments.records}">
+                            <tags:comment comment="${comment}"/>
+                          </c:forEach>
+                        </ul>
+						<div class="row">
+							<div class="span6">
+							  <c:url var="commentsUrl" value="/comment"/>
+							  <a href="${commentsUrl}">
+								<spring:message code="more.comments"/>
+							  </a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
       </div>
 </div>

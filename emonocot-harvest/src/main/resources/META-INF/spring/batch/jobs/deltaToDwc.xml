@@ -145,6 +145,11 @@
 	<bean id="deltaNaturalLanguageProcessor" class="org.emonocot.job.delta.DeltaNaturalLanguageProcessor" scope="step">
 	  <property name="deltaContextHolder" ref="deltaContextHolder"/>
 	  <property name="taxonMatcher" ref="mapBackedTaxonMatcher"/>
+	  <property name="filter" ref="naturalLanguageDatasetFilter"/>
+	</bean>
+	
+	<bean id="naturalLanguageDatasetFilter" class="au.org.ala.delta.translation.naturallanguage.NaturalLanguageDataSetFilter" scope="step">
+	  <constructor-arg value="#{deltaContextHolder.deltaContext}"/>
 	</bean>
 	
 	<bean id="mapBackedTaxonMatcher" class="org.emonocot.job.delta.MapBackedTaxonMatcher"/>

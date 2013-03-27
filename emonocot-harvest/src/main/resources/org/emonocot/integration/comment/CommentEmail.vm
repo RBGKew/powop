@@ -1,27 +1,42 @@
-#set($aboutClass = "$comment.aboutData.class.simpleName")
-#if($aboutClass == "Taxon" || $aboutClass == "Image")
-    #set($aboutString = "$comment.aboutData")
-#elseif(($aboutClass == "Description" || $aboutClass == "Distribution" || $aboutClass == "Identifier" ||
-        $aboutClass == "MeasurementOrFact" || $aboutClass == "VernacularName"))##Anything that doesn't have a page/appears on the taxon page
-    #set($aboutString = "the $aboutClass for comment.aboutData.taxon")
-#elseif($aboutClass == "IdentificationKey")
-    #set($aboutString = "$comment.aboutData.title ($aboutClass)")
-#elseif($aboutClass == "Reference")
-    #set($aboutString = "$comment.aboutData ($aboutClass)")
+#set($commentPage = "$comment.commentPage.className")
+#if($commentPage == "Taxon")
+    #set($pageTitle = "<em>${comment.commentPage.scientificName}</em> ${comment.commentPage.scientificNameAuthorship}")
+    #set($pageUrl = "/taxon/${comment.commentPage.identifier}")
+    #if(! $comment.aboutData)
+      #set($objectId = "${comment.commentPage.identifier}")
+      #set($contributingOrg = $comment.commentPage.authority)
+    #else
+       #set($objectId = "${comment.aboutData.identifier}")
+       #set($contributingOrg = $comment.aboutData.authority)
+       #set($about = "${comment.aboutData}")
+    #end
+#elseif($commentPage == "Image")##Anything that doesn't have a page/appears on the taxon page
+    #set($pageTitle = "${comment.commentPage.title}")
+    #set($pageUrl = "/image/${comment.id}")
+    #set($objectId = "${comment.commentPage.identifier}")
+    #set($contributingOrg = $comment.commentPage.authority)
+    #set($about = "${comment.aboutData}")
+#elseif($commentPage == "IdentificationKey")
+    #set($pageTitle = "${comment.commentPage.title}")
+    #set($pageUrl = "/key/${comment.commentPage.id}")
+    #set($objectId = "${comment.commentPage.identifier}")
+    #set($contributingOrg = $comment.commentPage.authority)
+    #set($about = "${comment.aboutData}")
+#end
+
+#if(! ${contributingOrg.publisherEmail})
+  #set($contributingEmail = $contributingOrg.creatorEmail)
 #else
-    #set($aboutString = "an $aboutClass with the identifier $comment.aboutData.identifier")
+  #set($contributingEmail = $contributingOrg.publisherEmail)
 #end
-#set($contributingOrg = $comment.aboutData.authority)
-#if(! $contributingOrg)##for comments on a 'Resource'
-    #set($contributingOrg = $comment.aboutData.organisation)
-#end
+
 <html>
     <body>
         <p>Hi,</p>
-        <p>You received a comment from $!comment.user.username about $aboutString ($!comment.aboutData.identifier contributed by
-            $!contributingOrg.identifier, $!contributingOrg.publisherEmail $!contributingOrg.creatorEmail).</p>
+        <p>You received a comment from $!{comment.user.username} about <a href="http://e-monocot.org${pageUrl}">${pageTitle}</a> $!{comment.subject} $!{about}($!{objectId} contributed by
+            <a href="mailto:$!{contributingEmail}">$!{contributingOrg.identifier}</a>).</p>
         <p>It was:</p>
-        <p>$comment.comment</p>
+        <p>${comment.comment}</p>
         <p>Kind Regards,<br />
             The eMonocot Portal</p>
     </body>

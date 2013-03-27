@@ -1,6 +1,5 @@
 package org.emonocot.api;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.emonocot.model.SecuredObject;

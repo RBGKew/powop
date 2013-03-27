@@ -69,7 +69,7 @@ public class FieldSetMapper extends
                 object.setSubject(value);                
                 break;
             case title:
-                object.setTitle(value);
+                object.setTitle(htmlSanitizer.sanitize(value));
                 break;                                    
             default:
                 break;

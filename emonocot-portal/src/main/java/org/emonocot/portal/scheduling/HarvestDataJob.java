@@ -76,7 +76,7 @@ public class HarvestDataJob extends QuartzJobBean {
 					}
 
 					if (resource != null) {
-						logger.error("Found that we can harvest " + resource.getTitle());
+						logger.info("Found that we can harvest " + resource.getTitle());
 						Map<String, String> jobParametersMap = new HashMap<String, String>();
 						jobParametersMap.put("authority.name", resource.getOrganisation().getIdentifier());
 						jobParametersMap.put("authority.uri", resource.getUri());

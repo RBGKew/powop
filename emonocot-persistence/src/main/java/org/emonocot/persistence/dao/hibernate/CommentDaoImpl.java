@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
  *
  */
 @Repository
-public class CommentDaoImpl extends DaoImpl<Comment> implements CommentDao {
+public class CommentDaoImpl extends SearchableDaoImpl<Comment> implements CommentDao {
 
    /**
     *
@@ -27,7 +27,11 @@ public class CommentDaoImpl extends DaoImpl<Comment> implements CommentDao {
    static {
        FETCH_PROFILES = new HashMap<String, Fetch[]>();
        FETCH_PROFILES.put("aboutData", new Fetch[] {
-               new Fetch("user", FetchMode.SELECT),
+               new Fetch("user", FetchMode.JOIN),
+               new Fetch("inResponseTo", FetchMode.JOIN),
+               new Fetch("inResponseTo.user", FetchMode.SELECT),
+               new Fetch("commentPage", FetchMode.SELECT),
+               new Fetch("commentPage.authority", FetchMode.SELECT),
                new Fetch("aboutData", FetchMode.SELECT),
                new Fetch("aboutData.authority", FetchMode.SELECT),
                new Fetch("aboutData.organisation", FetchMode.SELECT)
@@ -51,4 +55,8 @@ public class CommentDaoImpl extends DaoImpl<Comment> implements CommentDao {
         }
     }
 
+    @Override
+    protected boolean isSearchableObject() {
+		return false;
+	}
 }

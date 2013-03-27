@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.el.ELException;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.emonocot.model.BaseData;
 import org.emonocot.model.Description;
 import org.emonocot.model.Distribution;
@@ -54,6 +55,7 @@ import org.joda.time.format.ISODateTimeFormat;
 import org.joda.time.format.PeriodFormat;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
+import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.core.convert.support.DefaultConversionService;
 
@@ -92,7 +94,7 @@ public class Functions {
     }
     
     public static String escape(final String string) {
-        return string.replaceAll("&", "&amp;");
+        return StringEscapeUtils.escapeXml(string);
     }
     
     /**
@@ -137,6 +139,16 @@ public class Functions {
     
     public static String evaluate(String expressionString, PageContext pageContext) throws ELException {
     	return (String)pageContext.getExpressionEvaluator().evaluate(expressionString, String.class, pageContext.getVariableResolver(), null);
+    }
+    
+    static PrettyTime prettyTime = new PrettyTime();
+    
+    public static String prettyTime(DateTime dateTime) {
+    	if(dateTime == null) {
+    		return null;
+    	} else {
+            return prettyTime.format(dateTime.toDate());
+    	}
     }
 
     /**
@@ -216,7 +228,7 @@ public class Functions {
         }
         return null;
     }
-   
+
     
     /**
      * @param preferred Set the preferred
@@ -462,6 +474,13 @@ public class Functions {
        return sortItems;
    }
    
+   public static List<String> commentItems() {
+       List<String> sortItems = new ArrayList<String>();
+       sortItems.add("comment.created_dt_desc");
+       sortItems.add("_asc");
+       return sortItems;
+   }
+   
    public static List<String> resourceSortItems() {
        List<String> sortItems = new ArrayList<String>();
        sortItems.add("resource.last_harvested_dt_desc");
@@ -643,9 +662,9 @@ public class Functions {
     * @param taxon Set the taxon
     * @return the provenance
     */
-    public static ProvenanceManager provenance(Taxon taxon) {
+    public static ProvenanceManager provenance(BaseData data) {
     	ProvenanceManager provenance = new ProvenanceManagerImpl();
-        provenance.setProvenance(taxon);
+        provenance.setProvenance(data);
         return provenance;
     }
     
@@ -871,15 +890,15 @@ public class Functions {
    *            Set the measurement
    * @return a Content object, or null
    */
-   public static MeasurementOrFact fact(
-          Taxon taxon, MeasurementType measurements) {
-	   MeasurementOrFact fact = null;
-  	for(MeasurementOrFact m : taxon.getMeasurementsOrFacts()) {
-  		if(m.getMeasurementType().equals(measurements)) {
-  			fact = m;
-  			break;
-  		}
-  	}
-      return fact;
+   public static Set<MeasurementOrFact> facts(Taxon taxon, MeasurementType measurements) {
+	   Set<MeasurementOrFact> facts = new HashSet<MeasurementOrFact>();
+	   
+  	   for(MeasurementOrFact m : taxon.getMeasurementsOrFacts()) {
+  		    if(m.getMeasurementType().equals(measurements)) {
+  			    facts.add(m);
+  		    }
+  	   }
+  	   
+       return facts;
   }
 }

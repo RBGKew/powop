@@ -3,16 +3,18 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:integration="http://www.springframework.org/schema/integration"
     xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+    xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:jms="http://www.springframework.org/schema/integration/jms"
 	xmlns:integration-http="http://www.springframework.org/schema/integration/http"
-    xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
-		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-2.1.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd
-        http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-2.1.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+        http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/integration/mail http://www.springframework.org/schema/integration/mail/spring-integration-mail.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<context:property-placeholder location="classpath*:META-INF/spring/*.properties" />
 
@@ -76,10 +78,13 @@
     </bean>
     
     <integration:channel id="jdbcCommentChannel" />
+    
     <integration:splitter input-channel="jdbcCommentChannel" output-channel="commentChannel" />
+    
     <integration:channel id="commentChannel">
-        <integration:interceptors>
+        <integration:interceptors>            
             <integration:wire-tap channel="loggingChannel"/>
+            <integration:wire-tap channel="indexingChannel"/>
         </integration:interceptors>
     </integration:channel>
     
@@ -87,50 +92,61 @@
     <integration:chain id="enrichingChain" input-channel="commentChannel" output-channel="enrichedCommentChannel">
         <integration:enricher request-channel="loadCommentChannel" request-payload-expression="payload.identifier">
             <integration:property name="aboutData" expression="payload.aboutData" />
+            <integration:property name="inResponseTo" expression="payload.inResponseTo" />
+            <integration:property name="commentPage" expression="payload.commentPage" />
             <integration:property name="user" expression="payload.user"/>
         </integration:enricher>
         <integration:header-enricher>
-            <integration:header name="destinations" ref="commentServiceImpl" method="getDestinationOrganisations" />
+            <integration:header name="destinations" ref="commentServiceImpl" method="getDestinations" />
         </integration:header-enricher>
         <integration:splitter>
-            <bean class="org.emonocot.integration.HeaderCollectionSplitter">
+            <bean class="org.emonocot.harvest.integration.HeaderCollectionSplitter">
                 <property name="requestKey" value="destinations" />
-                <property name="responseKey" value="organisation" />
+                <property name="responseKey" value="destination" />
             </bean>
         </integration:splitter>
         <integration:header-enricher>
-            <!-- The expression is temporarily set explicitly for beta-phase from "headers.organisation.commentsEmailedTo" -->
-            <integration:header name="toAddress" expression="'joseph.kelly@kew.org,sarah.phillips@kew.org,benjamin.clark@zoo.ox.ac.uk'" />
-            <integration:header name="subject" value="${comment.email.subject}" />
+            <!-- The expression is temporarily set explicitly for beta-phase from "headers.destination" -->
+            <integration:header name="toAddress" expression="${comment.emailedTo}" />
+            <integration:header name="subject" expression="'${comment.email.subject}' + ' - ' + payload.identifier" />
         </integration:header-enricher>
     </integration:chain>
     
     <integration:publish-subscribe-channel id="enrichedCommentChannel">
         <integration:interceptors>
-            <integration:wire-tap channel="loggingChannel" />
+            <integration:wire-tap channel="loggingChannel" />            
         </integration:interceptors>
     </integration:publish-subscribe-channel>
+    
+    <integration:channel id="indexingChannel"/>
     
     <!-- eMailing integration -->
     <integration:filter input-channel="enrichedCommentChannel" output-channel="toMapCommentChannel" expression="headers.toAddress != null" />
     
     <integration:channel id="toMapCommentChannel" />
     
-    <integration:transformer input-channel="toMapCommentChannel" output-channel="emailCommentChannel" method="prepareMessage">
-        <bean class="org.emonocot.integration.EmailServiceHelper">
-            <property name="templates">
-                <map>
-                    <entry key="comment" value="org/emonocot/integration/comment/CommentEmail.vm" />
-                </map>
-            </property>
-            <property name="defaultTemplateName" value="comment" />
-        </bean>
-    </integration:transformer>
+    <integration:transformer input-channel="toMapCommentChannel" output-channel="emailCommentChannel" method="prepareMessage" ref="emailServiceHelper"/>
+    
+    <integration:channel id="inboundEmailChannel">
+        <integration:interceptors>
+            <integration:wire-tap channel="loggingChannel" />            
+        </integration:interceptors>
+    </integration:channel>
+    
+    <integration:transformer input-channel="inboundEmailChannel" output-channel="commentReplyChannel" ref="emailServiceHelper" method="createReply"/>
+    
+    <integration:channel id="commentReplyChannel">
+        <integration:interceptors>
+            <integration:wire-tap channel="loggingChannel" />    
+        </integration:interceptors>
+    </integration:channel>  
+    
+    <integration:service-activator input-channel="commentReplyChannel" expression="@commentServiceImpl.save(payload)" />
     
     <!-- service channels/endpoints -->
     <integration:channel id="emailCommentChannel">
         <integration:interceptors>
-            <integration:wire-tap channel="loggingChannel" />
+            <integration:wire-tap channel="loggingChannel" />            
         </integration:interceptors>
     </integration:channel>
     <integration:service-activator input-channel="emailCommentChannel" expression="@emailService.sendEmail(headers.templateName, payload, headers.toAddress, headers.subject + ' for ' + headers.toAddress)" />
@@ -140,8 +156,8 @@
 <!-- Generic logging at INFO level for channels -->
     <integration:publish-subscribe-channel id="loggingChannel" />
     <integration:logging-channel-adapter channel="loggingChannel" log-full-message="true" level="DEBUG" />
+    
 <!-- Generic message converter used by both queues -->
-
 	<bean id="mappingMessageConverter"
 		class="org.springframework.jms.support.converter.MappingJacksonMessageConverter">
 		<property name="objectMapper" ref="objectMapper" />
@@ -163,5 +179,17 @@
 			</map>
 		</property>
 	</bean>
+	
+	<bean id="emailServiceHelper" class="org.emonocot.harvest.integration.EmailServiceHelper">
+       <property name="templates">
+            <map>
+                 <entry key="comment" value="org/emonocot/integration/comment/CommentEmail.vm" />
+                 <entry key="reply" value="org/emonocot/integration/comment/ReplyEmail.vm" />
+            </map>
+       </property>
+       <property name="defaultTemplateName" value="comment" />
+       <property name="userService" ref="userServiceImpl"/>
+       <property name="commentService" ref="commentServiceImpl"/>
+    </bean>
 
 </beans>

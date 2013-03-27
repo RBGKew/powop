@@ -35,6 +35,7 @@
 				            <field:input field="imgFile" label="img" type="file" fieldClass="span6"/>
 				            <field:input field="organization" label="organization" fieldClass="span6"/>
 				            <field:input field="topicInterest" label="topicInterest" fieldClass="span6"/>
+				            <field:checkbox field="notifyByEmail" label="notifyByEmail" fieldClass="span6"/>
 					    </form:create>
 					</div>
 				</div>

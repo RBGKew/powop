@@ -5,13 +5,23 @@
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:security="http://www.springframework.org/security/tags"
 	xmlns:spring="http://www.springframework.org/tags">
+	<security:authentication property="principal" var="principal"/>
+	<c:choose>
+	  <c:when test="${principal eq user}">
+	    <c:set var="userIcon" value="home"/>
+	  </c:when>
+	  <c:otherwise>
+	    <c:set var="userIcon" value="user"/>
+	  </c:otherwise>
+	</c:choose>
 	<tags:pageheader>
 		<h2 id="page-title">
-			<i class="glyphicons-icon home">
+			<i class="glyphicons-icon ${userIcon}">
 				<!--  -->
 			</i>${user.accountName}
 		</h2>
 	</tags:pageheader>
+	
 	<div class="container">
 	    <div class="row">
 			<div class="span12">
@@ -24,21 +34,23 @@
 				<div class="inner">
 					<div class="box">
 					  <div class="row">
-						<security:authorize access="!isAnonymous()">
+					   <c:if test="${principal eq user}">
 							<c:url value="/home" var="editUrl">
 								<c:param name="form">true</c:param>
 							</c:url>
 							<spring:message code="edit.profile" var="editMessage"/>
 							<p><a href="${editUrl}" class="btn pull-right">${editMessage}</a></p>
-						</security:authorize>
+						</c:if>
 					</div>
 					<br/>
 					  <table class="table">
 							<tbody>
+							  <c:if test="${principal eq user}">
 								<tr>
 									<th><spring:message code="username" /></th>
 									<td id="username">${user.username}</td>
 								</tr>
+							  </c:if>
 								<tr>
 									<th><spring:message code="name" /></th>
 									<td id="name">${user.name}</td>

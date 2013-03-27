@@ -26,6 +26,8 @@
 	<bean id="readWriteJobLauncher"	class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
 		<property name="jobRepository" ref="jobRepository" />
 	</bean>
+	
+	<bean id="htmlSanitizer" class="org.emonocot.harvest.common.HtmlSanitizer" init-method="afterPropertiesSet"/>
 
     <!-- Second job launcher: this one is throttled to restrict the number of running threads to poolSize + 1
          due to the CALLER_RUNS rejection policy which will cause the calling thread (i.e. the one doing the polling

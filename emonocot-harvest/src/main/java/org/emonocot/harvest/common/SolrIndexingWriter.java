@@ -33,8 +33,13 @@ public class SolrIndexingWriter
 	public void setSolrIndexingListener(SolrIndexingListener solrIndexingListener) {
 		this.solrIndexingListener = solrIndexingListener;
 	}
+	
+	public void index(Long identifier, Class type) {
+		Searchable searchable = (Searchable)getSession().load(type, identifier);
+		solrIndexingListener.indexObject(searchable);
+	}
 
-	public final void write(final List<? extends Long> identifiers) throws Exception {
+	public void write(List<? extends Long> identifiers) throws Exception {
 		List<Searchable> searchables = new ArrayList<Searchable>();
         for (Long l : identifiers) {
         	searchables.add((Searchable)getSession().load(type, l));

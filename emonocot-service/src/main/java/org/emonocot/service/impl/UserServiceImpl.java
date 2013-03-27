@@ -61,33 +61,71 @@ import org.springframework.web.multipart.MultipartFile;
  *
  */
 @Service
-public class UserServiceImpl extends SearchableServiceImpl<User, UserDao> implements
-        UserService {
-	
-	private final Double THUMBNAIL_DIMENSION = 100D;
+public class UserServiceImpl extends SearchableServiceImpl<User, UserDao> implements UserService {
 
+    /**
+     * 
+     */
+    private final Double THUMBNAIL_DIMENSION = 100D;
+
+    /**
+     *
+     */
     private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
+    /**
+     *
+     */
     private GroupDao groupDao;
 
+    /**
+     *
+     */
     private AclService aclService;
 
+    /**
+     *
+     */
     private SaltSource saltSource;
 
+    /**
+     *
+     */
     private PasswordEncoder passwordEncoder;
 
+    /**
+     *
+     */
     private AuthenticationManager authenticationManager;
 
+    /**
+     *
+     */
     private UserCache userCache;
-    
-	private String searchPath;
-	
-	private FileSystemResource temporaryFolder;
-	
-	private FileSystemResource userProfilesFolder;
-	
-	private Tika tika = new Tika();	
 
+    /**
+     * 
+     */
+    private String searchPath;
+
+    /**
+     * 
+     */
+    private FileSystemResource temporaryFolder;
+
+    /**
+     * 
+     */
+    private FileSystemResource userProfilesFolder;
+
+    /**
+     * 
+     */
+    private Tika tika = new Tika(); 
+
+    /**
+     *
+     */
     public UserServiceImpl() {
         saltSource = new ReflectionSaltSource();
         ((ReflectionSaltSource) saltSource).setUserPropertyToUse("getUsername");
@@ -95,54 +133,72 @@ public class UserServiceImpl extends SearchableServiceImpl<User, UserDao> implem
         userCache = new NullUserCache();
     }
 
+    /**
+     *
+     * @param aclService
+     *            Set the acl service
+     */
     @Autowired(required = false)
     public final void setAclService(final AclService aclService) {
         this.aclService = aclService;
     }
 
+    /**
+     *
+     * @param userCache
+     *            Set the user cache
+     */
     @Autowired(required = false)
     public final void setUserCache(final UserCache userCache) {
         Assert.notNull(userCache, "userCache cannot be null");
         this.userCache = userCache;
     }
 
+    /**
+     *
+     * @param passwordEncoder Set the password encoder
+     */
     @Autowired(required = false)
     public final void setPasswordEncoder(final PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     *
+     * @param saltSource Set the salt source
+     */
     @Autowired(required = false)
     public final void setSaltSource(final SaltSource saltSource) {
         this.saltSource = saltSource;
     }
 
+    /**
+     *
+     * @param authenticationManager Set the authentication manager
+     */
     @Autowired(required = false)
     public final void setAuthenticationManager(
             final AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
 
+    /**
+     *
+     * @param userDao Set the user dao
+     */
     @Autowired
     public final void setUserDao(final UserDao userDao) {
         this.dao = userDao;
     }
 
+    /**
+     *
+     * @param groupDao Set the group dao
+     */
     @Autowired
     public final void setGroupDao(final GroupDao groupDao) {
         this.groupDao = groupDao;
     }
-    
-    public void setSearchPath(String searchPath) {
-		this.searchPath = searchPath;
-	}
-
-	public void setTemporaryFolder(FileSystemResource temporaryFolder) {
-		this.temporaryFolder = temporaryFolder;
-	}
-
-	public void setUserProfilesFolder(FileSystemResource userProfilesFolder) {
-		this.userProfilesFolder = userProfilesFolder;
-	}
 
     /**
      *
@@ -281,7 +337,7 @@ public class UserServiceImpl extends SearchableServiceImpl<User, UserDao> implem
     /**
      * @param username The username of the user to delete
      */
-    @PreAuthorize("hasRole('PERMISSION_ADMINISTRATE')")
+    @PreAuthorize("hasRole('PERMISSION_ADMINISTRATE') or hasRole('PERMISSION_DELETE_USER')")
     @Transactional(readOnly = false)
     public final void deleteUser(final String username) {
         Assert.hasLength(username);
@@ -669,36 +725,36 @@ public class UserServiceImpl extends SearchableServiceImpl<User, UserDao> implem
         return aclService.listAces(new PrincipalSid(recipient));
     }
 
-	@Override
-	public String makeProfileThumbnail(MultipartFile file, String oldProfileImage) throws IOException, InterruptedException, IM4JavaException {
-		if(file != null && !file.isEmpty()) {
-        	String tmpFileExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.'));
-        	String tmpFileName = UUID.randomUUID().toString() + tmpFileExtension;
-        	File tmpFile = new File(temporaryFolder.getFile(),tmpFileName);
-        	file.transferTo(tmpFile);
-        	
-        	Metadata metadata = new Metadata();
-        	AutoDetectParser parser = new AutoDetectParser();
-        	FileInputStream fileInputStream = new FileInputStream(tmpFile);
-        	String mimeType = tika.detect(fileInputStream);
-        	
-        	String fileExtension = null;
-        	switch(mimeType) {
-        	case "image/jpeg":
-        		fileExtension = ".jpg";
-        		break;
-        	case "image/png":
-        		fileExtension = ".png";
-        		break;
-        	case "image/gif":
-        		fileExtension = ".gif";
-        		break;
-        	default:
-        		throw new UnsupportedOperationException(mimeType);
-        	}
-        	String imageFileName = UUID.randomUUID().toString() + fileExtension;
-        	File imageFile = new File(userProfilesFolder.getFile(), imageFileName);
-        	ConvertCmd convert = new ConvertCmd();
+    @Override
+    public String makeProfileThumbnail(MultipartFile file, String oldProfileImage) throws IOException, InterruptedException, IM4JavaException {
+        if(file != null && !file.isEmpty()) {
+            String tmpFileExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.'));
+            String tmpFileName = UUID.randomUUID().toString() + tmpFileExtension;
+            File tmpFile = new File(temporaryFolder.getFile(),tmpFileName);
+            file.transferTo(tmpFile);
+            
+            Metadata metadata = new Metadata();
+            AutoDetectParser parser = new AutoDetectParser();
+            FileInputStream fileInputStream = new FileInputStream(tmpFile);
+            String mimeType = tika.detect(fileInputStream);
+            
+            String fileExtension = null;
+            switch(mimeType) {
+            case "image/jpeg":
+                fileExtension = ".jpg";
+                break;
+            case "image/png":
+                fileExtension = ".png";
+                break;
+            case "image/gif":
+                fileExtension = ".gif";
+                break;
+            default:
+                throw new UnsupportedOperationException(mimeType);
+            }
+            String imageFileName = UUID.randomUUID().toString() + fileExtension;
+            File imageFile = new File(userProfilesFolder.getFile(), imageFileName);
+            ConvertCmd convert = new ConvertCmd();
             if (searchPath != null) {
                 convert.setSearchPath(searchPath);
             }
@@ -715,9 +771,9 @@ public class UserServiceImpl extends SearchableServiceImpl<User, UserDao> implem
                 File oldFile = new File(userProfilesFolder.getFile(),oldProfileImage);
                 oldFile.delete();
             }
-            return imageFileName;	
+            return imageFileName;
         } else {
-		    return null;
+            return null;
         }
-	}
+    }
 }

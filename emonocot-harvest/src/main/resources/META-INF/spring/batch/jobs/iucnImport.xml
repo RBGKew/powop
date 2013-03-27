@@ -57,7 +57,7 @@
 	    <batch:step id="processFile">
 	      <batch:description>Process the specified file and check for matches</batch:description>
 			<batch:tasklet>
-				<batch:chunk reader="fileReader" processor="iucnProcessor"	writer="itemWriter" commit-interval="100">
+				<batch:chunk reader="fileReader" processor="iucnProcessor"	writer="itemWriter" commit-interval="10">
 				</batch:chunk>
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="deleteAbsentMeasurementOrFacts"/>
@@ -78,7 +78,7 @@
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="indexTaxa">
-		  <batch:description>Index the images associated with this job</batch:description>
+		  <batch:description>Index the taxa associated with this job</batch:description>
 		  <batch:tasklet>
 				<batch:chunk reader="indexTaxaReader" writer="indexTaxaWriter" commit-interval="10" />
 			</batch:tasklet>
@@ -119,8 +119,12 @@
         </batch:listeners>		
 	</batch:job>
 	
-	<bean id="setTemporaryFilenamesTasklet" class="org.emonocot.job.iucn.SetTemporaryFilenamesTasklet">
+	<bean id="setTemporaryFilenamesTasklet" class="org.emonocot.job.iucn.SetTemporaryFilenamesTasklet" scope="step">
 		<property name="harvesterSpoolDirectory" value="${harvester.spool.directory}"/>
+		<property name="family" value="#{jobParameters['family']}"/>
+		<property name="subfamily" value="#{jobParameters['subfamily']}"/>
+		<property name="tribe" value="#{jobParameters['tribe']}"/>
+		<property name="subtribe" value="#{jobParameters['subtribe']}"/>
 	</bean>
 	
 	<bean id="markMeasurementOrFactRecordsTasklet"	class="org.emonocot.job.dwc.read.OwnedRecordAnnotator" scope="step">
@@ -184,6 +188,7 @@
 	
 	<bean id="iucnMapToMeasurementOrFactProcessor" class="org.emonocot.job.iucn.Processor" scope="step">
 	  <property name="taxonMatcher" ref="taxonMatcher" />
+	  <property name="nameParser" ref="nameParser"/>
 	  <property name="sessionFactory" ref="sessionFactory"/>
 	  <property name="transactionManager" ref="transactionManager"/>
 	  <property name="sourceName" value="#{jobParameters['authority.name']}" />
@@ -192,6 +197,7 @@
 	  <property name="rightsHolder" value="#{jobParameters['rightsHolder']}" />
 	  <property name="accessRights" value="#{jobParameters['accessRights']}" />
 	  <property name="bibliographicCitation" value="#{jobParameters['bibliographicCitation']}" />
+	  <property name="iucnWebsiteUri" value="#{jobParameters['iucnWebsiteUri']}" />
 	</bean>
 	
 	<bean id="measurementOrFactProcessor" class="org.emonocot.job.dwc.measurementorfact.Processor"
@@ -235,10 +241,11 @@
 	<bean id="indexTaxaReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
 		scope="step">
 		<property name="sessionFactory" ref="sessionFactory" />
-		<property name="queryString" value="select t.id from MeasurementOrFact m join m.taxon t join m.annotations a where a.jobId = :jobId" />
+		<property name="queryString" value="#{jobExecutionContext['index.taxon.query']}" />
 		<property name="parameterValues">
 			<map>
 				<entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
+				<entry key="subsetValue" value="#{jobExecutionContext['index.taxon.subset.value']}" />
 			</map>
 		</property>
 	</bean>

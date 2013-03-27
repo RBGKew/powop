@@ -8,7 +8,7 @@
 	xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:security="http://www.springframework.org/security/tags"
-	xmlns:joda="http://www.joda.org/joda/time/tags" version="2.0">
+	xmlns:joda="http://www.joda.org/joda/time/tags">
 
 	<tags:pageheader>
 		<h2 id="page-title">

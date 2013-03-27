@@ -18,20 +18,14 @@
 				<spring:message code="405.message" />
 		    </p>
 		    <div class="alert-actions">
-		      <jsp:element name="a">
-		          <jsp:attribute name="class">btn small</jsp:attribute>
-			      <jsp:attribute name="href">
-			        <c:url value="mailto:ict-team@e-monocot.org"/>
-			      </jsp:attribute>
-				  <spring:message code="send.an.email" /> 			    
-			  </jsp:element>
-			  <jsp:element name="a">
-		          <jsp:attribute name="class">btn small</jsp:attribute>
-			      <jsp:attribute name="href">
-			        <c:url value="http://build.e-monocot.org/bugzilla/enter_bug.cgi"/>
-			      </jsp:attribute>
-				  <spring:message code="submit.issue" /> 			    
-			  </jsp:element>
+		      <spring:message code="support.email.address" var="supportEmailAddress"/>
+			  <a class="btn small" href="mailto:${supportEmailAddress}">
+				<spring:message code="send.an.email" /> 	
+			  </a>   
+			  <spring:message code="support.issuetracker" var="supportIssueTracker"/>
+			  <a href="${supportIssueTracker}" class="btn small">
+			     <spring:message code="submit.issue" />
+			  </a>	
             </div>
 		  </div>
 		</div>

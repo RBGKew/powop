@@ -1,16 +1,14 @@
 /**
  * 
  */
-package org.emonocot.integration;
+package org.emonocot.harvest.integration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.emonocot.model.Comment;
 import org.springframework.integration.Message;
-import org.springframework.integration.annotation.Splitter;
 import org.springframework.integration.message.GenericMessage;
 import org.springframework.integration.splitter.AbstractMessageSplitter;
 

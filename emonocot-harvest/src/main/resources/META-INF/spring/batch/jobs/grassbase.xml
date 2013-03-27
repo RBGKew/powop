@@ -284,11 +284,21 @@
 	  <property name="characterForLink" value="#{jobParameters['character.for.link']}"/>
 	  <property name="linkPrefix" value="#{jobParameters['link.prefix']}"/>
 	  <property name="linkSuffix" value="#{jobParameters['link.suffix']}"/>
+	  <property name="filter" ref="speciesNaturalLanguageDatasetFilter"/>
+	</bean>
+	
+	<bean id="speciesNaturalLanguageDatasetFilter" class="au.org.ala.delta.translation.naturallanguage.NaturalLanguageDataSetFilter" scope="step">
+	  <constructor-arg value="#{speciesContextHolder.deltaContext}"/>
 	</bean>
 	
 	<bean id="generaNaturalLanguageProcessor" class="org.emonocot.job.delta.DeltaNaturalLanguageProcessor" scope="step">
 	  <property name="deltaContextHolder" ref="generaContextHolder"/>
 	  <property name="taxonMatcher" ref="mapBackedGeneraMatcher"/>
+	  <property name="filter" ref="generaNaturalLanguageDatasetFilter"/>
+	</bean>
+	
+	<bean id="generaNaturalLanguageDatasetFilter" class="org.emonocot.job.grassbase.StripImplictCharsDatasetFilter" scope="step">
+	  <constructor-arg value="#{generaContextHolder.deltaContext}"/>
 	</bean>
 	
 	<bean id="mapBackedSpeciesMatcher" class="org.emonocot.job.delta.MapBackedTaxonMatcher"/>

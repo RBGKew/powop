@@ -1,7 +1,5 @@
 package org.emonocot.portal.controller;
 
-import java.util.List;
-
 import org.emonocot.api.Service;
 import org.emonocot.model.Base;
 import org.emonocot.pager.Page;
@@ -10,11 +8,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.hibernate3.HibernateObjectRetrievalFailureException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
@@ -32,7 +34,7 @@ public abstract class GenericController<T extends Base,
 
     private String directory;
 
-    public GenericController(final String newDirectory) {
+    public GenericController(String newDirectory) {
         this.directory = newDirectory;
     }
 
@@ -53,14 +55,14 @@ public abstract class GenericController<T extends Base,
                     method = RequestMethod.GET,
                     consumes = "application/json",
                     produces = "application/json")
-    public final ResponseEntity<T> get(@PathVariable final String identifier) {
-        return new ResponseEntity<T>(service.find(identifier), HttpStatus.OK);
+    public ResponseEntity<T> get(@PathVariable String identifier, @RequestParam(value = "fetch", required = false) String fetch) {
+        return new ResponseEntity<T>(service.find(identifier,fetch), HttpStatus.OK);
     }
     
     @RequestMapping(method = RequestMethod.GET,
             consumes = "application/json",
             produces = "application/json")
-    public final ResponseEntity<Page<T>> list(@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+    public ResponseEntity<Page<T>> list(@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
     		                                  @RequestParam(value = "start", required = false, defaultValue = "0") Integer start) {
         return new ResponseEntity<Page<T>>(service.list(start, limit, null), HttpStatus.OK);
     }
@@ -74,7 +76,7 @@ public abstract class GenericController<T extends Base,
     @RequestMapping(method = RequestMethod.POST,
     		        produces = "application/json",
                     consumes = "application/json")
-    public final ResponseEntity<T> create(@RequestBody final T object, UriComponentsBuilder builder) throws Exception {
+    public ResponseEntity<T> create(@RequestBody T object, UriComponentsBuilder builder) throws Exception {
         
         try {
             service.merge(object);
@@ -102,7 +104,7 @@ public abstract class GenericController<T extends Base,
                     method = RequestMethod.DELETE,
                     consumes = "application/json",
                     produces = "application/json")
-    public final ResponseEntity<T> delete(@PathVariable final Long id) {
+    public ResponseEntity<T> delete(@PathVariable Long id) {
         service.deleteById(id);
         return new ResponseEntity<T>(HttpStatus.OK);
     }
@@ -111,14 +113,22 @@ public abstract class GenericController<T extends Base,
      *
      * @param newService Set the service
      */
-    public final void setService(final SERVICE newService) {
+    public void setService(SERVICE newService) {
         this.service = newService;
     }
 
     /**
      * @return the service
      */
-    public final SERVICE getService() {
+    public SERVICE getService() {
         return service;
+    }
+    
+    @ExceptionHandler(HibernateObjectRetrievalFailureException.class)
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	public ModelAndView handleObjectNotFoundException(HibernateObjectRetrievalFailureException orfe) {
+    	ModelAndView modelAndView = new ModelAndView("resourceNotFound");
+    	modelAndView.addObject("exception", orfe);
+        return modelAndView;
     }
 }

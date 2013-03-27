@@ -17,7 +17,7 @@
 				<tags:error />
 				<c:if test="${param.error}">
 					<div class="alert alert-error error" data-dismiss="alert">
-						<a class="close" href="#">×</a>
+						<a class="close" href="#"><i class="halflings-icon remove"><!--  --></i></a>
 						<p>
 							<strong><i
 								class="glyphicons-icon circle_exclamation_mark">

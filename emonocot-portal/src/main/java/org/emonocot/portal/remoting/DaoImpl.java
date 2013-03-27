@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.solr.common.SolrDocument;
 import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.Base;
 import org.emonocot.pager.Page;
@@ -188,7 +189,7 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
                 HttpMethod.DELETE, requestEntity, type);
             createdObjects.remove(identifier);
         } else {
-        	T t = find(identifier);	
+        	T t = find(identifier);
         	restTemplate.exchange(baseUri + "/" + resourceDir + "/" + t.getId(),
                     HttpMethod.DELETE, requestEntity, type);
         }
@@ -313,6 +314,16 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
     
     public List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets) {
     	return null;
+    }
+
+    public Page<SolrDocument> searchForDocuments(String query,
+            Integer pageSize, Integer pageNumber,
+            Map<String, String> selectedFacets, String sort) {
+        throw new UnsupportedOperationException("Method should be overridden if supported. Unable to search for documents with query" + query);
+    }
+
+    public T loadObjectForDocument(SolrDocument solrDocument) {
+        throw new UnsupportedOperationException("Method should be overridden if supported. Unable to load object for document " + solrDocument);
     }
 
 }

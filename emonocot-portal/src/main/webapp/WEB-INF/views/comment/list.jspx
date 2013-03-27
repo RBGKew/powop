@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:em="http://e-monocot.org/portal/functions"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu"
+	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:security="http://www.springframework.org/security/tags"
+	xmlns:joda="http://www.joda.org/joda/time/tags">	
+	<tags:pageheader>
+		<h2 id="page-title"><i class="glyphicons-icon comments"><!--  --></i> <spring:message code="comments.title"/></h2>
+		<c:url var="searchUrl" value="/comment" />
+			<form id="search.form" class="pull-right form-search" accept-charset="UTF-8" method="GET" action="${searchUrl}">
+				<input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="mainQuery" />
+				<input type="hidden" name="limit" value="${result.pageSize}" />
+				<input type="hidden" name="start" value="0" />
+				<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+					<input type="hidden" name="facet" value="${selectedFacet}:${result.selectedFacets[selectedFacet]}" />
+				</c:forEach>
+				<input type="hidden" name="sort" value="${result.sort}" />
+				<button class="btn btn-primary">
+					<span class="icon-search icon-white">&#160;</span>
+				</button>
+			</form>
+			<c:url value="/comment" var="autocompleteUrl">
+			  <c:param name="autocomplete" value="true"/>
+			</c:url>
+			<script type="text/javascript">
+              $(document).ready(function() {
+                $("#mainQuery").autocomplete({
+                  source : "${autocompleteUrl}",
+                  minLength : 2
+                });
+                $["ui"]["autocomplete"].prototype["_renderItem"] = function( ul, item) {
+                  return $( "<li></li>" )
+                    .data( "item.autocomplete", item )
+                    .append( $( "<a></a>" ).html( item.label ) )
+                    .appendTo( ul );
+                };
+            });
+            </script>
+	</tags:pageheader>	
+	<div class="container">
+	    <div class="row">
+			<div class="span12">
+				<tags:info/>
+			</div>
+		</div>
+		<div class="row">
+		    <div id="facets" class="span3 no-print">
+				<c:forEach var="facetName" items="${result.facetNames}">
+					<div class="row">
+						<div class="span3">
+							<div class="inner">
+								<ul class="box nav nav-list">
+									<menu:facet url="/comment" facetName="${facetName}" pager="${result}" showIcons="true"/>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</c:forEach>
+			</div>
+			<div class="span9">
+				<div class="inner">
+					<div class="box">						
+						<div class="row">
+                          <div id="pages" class="span4">
+                            <tags:results pager="${result}" />
+                          </div>
+                          <tags:sort url="/comment" result="${result}" spanClass="span1 offset3" sortItems="${em:commentSortItems()}" />
+                        </div>
+						<ul class="media-list">
+                          <c:forEach var="comment" items="${result.records}">
+                            <tags:comment comment="${comment}"/>
+                          </c:forEach>
+                        </ul>
+						<div class="row">
+							<div class="pagination pull-right">
+								<tags:pagination pager="${result}" url="/comment" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

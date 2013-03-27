@@ -11,7 +11,18 @@
 	<name>eMonocot Harvesting</name>
 	<description>Backend Harvesting Routines</description>
 	<dependencies>
-	    <dependency>
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>fop</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
 			<groupId>org.emonocot</groupId>
 			<artifactId>emonocot-model</artifactId>			
 		</dependency>
@@ -89,6 +100,10 @@
 		<dependency>
 			<groupId>org.springframework.integration</groupId>
 			<artifactId>spring-integration-file</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.integration</groupId>
+			<artifactId>spring-integration-mail</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -281,6 +296,10 @@
         <dependency>
             <groupId>javax.media</groupId>
             <artifactId>jai_codec</artifactId>
+        </dependency>
+        <dependency>
+              <groupId>org.owasp.antisamy</groupId>
+              <artifactId>antisamy</artifactId>
         </dependency>
 	</dependencies>
 	<build>

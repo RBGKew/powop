@@ -6,11 +6,13 @@ import java.util.Map;
 
 import org.emonocot.api.job.TermFactory;
 import org.emonocot.harvest.common.AuthorityAware;
+import org.emonocot.harvest.common.HtmlSanitizer;
 import org.emonocot.model.Base;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.FieldSet;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindException;
 
 /**
@@ -28,6 +30,8 @@ public abstract class DarwinCoreFieldSetMapper<T extends Base> extends Authority
     private Map<String, String> defaultValues = new HashMap<String,String>();
 
     private Class<T> type;
+    
+    protected HtmlSanitizer htmlSanitizer;
 
    /**
     *
@@ -59,6 +63,11 @@ public abstract class DarwinCoreFieldSetMapper<T extends Base> extends Authority
     */
     public void setDefaultValues(Map<String, String> newDefaultValues) {
         this.defaultValues = newDefaultValues;
+    }
+    
+    @Autowired
+    public void setHtmlSanitizer(HtmlSanitizer htmlSanitizer) {
+    	this.htmlSanitizer = htmlSanitizer;
     }
 
     /**

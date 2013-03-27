@@ -9,6 +9,7 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -83,4 +84,10 @@ public class UserController extends GenericController<User, UserService> {
                 ace.getClazz());
         return new ResponseEntity<AceDto>(ace, HttpStatus.OK);
     }
+    
+	@RequestMapping(value = "/{id}", produces = "text/html")
+	public String show(@PathVariable Long id, Model uiModel) {
+		uiModel.addAttribute(getService().find(id));
+		return "user/show";
+	}
 }

@@ -53,7 +53,7 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<Description> imple
                 object.setContributor(value);
                 break;
             case description:
-                object.setDescription(value);
+                object.setDescription(htmlSanitizer.sanitize(value));
                 break;
             case identifier:
                 object.setIdentifier(value);

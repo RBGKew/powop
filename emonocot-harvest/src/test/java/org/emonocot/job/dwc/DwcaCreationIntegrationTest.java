@@ -123,14 +123,17 @@ public class DwcaCreationIntegrationTest {
 	@Test
 	public void testWriteSubsetArchive() throws Exception {
 		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
-		parameters.put("query", new JobParameter(""));
-		parameters.put("selected.facets", new JobParameter("taxon.family_s=Araceae,base.class_s=org.emonocot.model.Taxon"));
+		parameters.put("download.query", new JobParameter(""));
+		parameters.put("download.selectedFacets", new JobParameter("taxon.family_s=Araceae,base.class_s=org.emonocot.model.Taxon"));
 		parameters.put("download.taxon", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon))));
 		parameters.put("download.description", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Description))));
+		parameters.put("download.image", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Image))));
 		parameters.put("download.distribution", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Distribution))));
 		parameters.put("download.reference", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Reference))));
 		parameters.put("download.limit", new JobParameter(new Integer(Integer.MAX_VALUE).toString()));
 		parameters.put("download.file",new JobParameter(UUID.randomUUID().toString()));
+		parameters.put("download.fieldsEnclosedBy", new JobParameter("\""));
+		parameters.put("download.fieldsTerminatedBy", new JobParameter("\t"));
 		
 		JobParameters jobParameters = new JobParameters(parameters);
 		Job archiveCreatorJob = jobLocator.getJob("DarwinCoreArchiveCreation");
@@ -151,7 +154,7 @@ public class DwcaCreationIntegrationTest {
         while((e = zipStream.getNextEntry()) != null){
             entries.add(e);
         }
-        assertEquals("There should be 6 files", 6, entries.size());
+        assertEquals("There should be 7 files", 7, entries.size());
 	}
 	
 	/**
@@ -162,14 +165,17 @@ public class DwcaCreationIntegrationTest {
 		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
 		
 		
-		parameters.put("query", new JobParameter(""));
-		parameters.put("selected.facets", new JobParameter("base.class_s=org.emonocot.model.Taxon"));
+		parameters.put("download.query", new JobParameter(""));
+		parameters.put("download.selectedFacets", new JobParameter("base.class_s=org.emonocot.model.Taxon"));
 		parameters.put("download.taxon", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon))));
 		parameters.put("download.description", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Description))));
+		parameters.put("download.image", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Image))));
 		parameters.put("download.distribution", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Distribution))));
 		parameters.put("download.reference", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Reference))));
 		parameters.put("download.file",new JobParameter(UUID.randomUUID().toString()));
 		parameters.put("download.limit", new JobParameter(new Integer(Integer.MAX_VALUE).toString()));
+		parameters.put("download.fieldsEnclosedBy", new JobParameter("\""));
+		parameters.put("download.fieldsTerminatedBy", new JobParameter("\t"));
 		
 		JobParameters jobParameters = new JobParameters(parameters);
 		Job archiveCreatorJob = jobLocator.getJob("DarwinCoreArchiveCreation");
@@ -191,7 +197,7 @@ public class DwcaCreationIntegrationTest {
         while((e = zipStream.getNextEntry()) != null){
             entries.add(e);
         }
-        assertEquals("There should be 6 files", 6, entries.size());
+        assertEquals("There should be 7 files", 7, entries.size());
 	}
 	
 	private String toParameter(Collection<ConceptTerm> terms) {
@@ -205,7 +211,7 @@ public class DwcaCreationIntegrationTest {
 					} else {
 						isFirst = false;
 					}
-					stringBuffer.append(term.simpleName());
+					stringBuffer.append(term.qualifiedName());
 	           }
 	       }
 	       return stringBuffer.toString();

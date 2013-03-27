@@ -13,7 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
+import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -25,8 +27,6 @@ import org.emonocot.model.marshall.json.DateTimeSerializer;
 import org.emonocot.model.marshall.json.UserDeserializer;
 import org.emonocot.model.marshall.json.UserSerializer;
 import org.hibernate.annotations.Any;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
@@ -35,7 +35,7 @@ import org.joda.time.DateTime;
  * A comment provided by a portal {@link User} about some item of Data
  */
 @Entity
-public class Comment extends Base {
+public class Comment extends Base implements Searchable {
 
     /**
 	 * 
@@ -46,7 +46,9 @@ public class Comment extends Base {
 
     private String comment;
     
-    /**
+    private String subject;
+
+	/**
      * The object which this comment is about
      */
     private Base aboutData;
@@ -66,13 +68,19 @@ public class Comment extends Base {
      * The object (page) on which this comment should appear
      */
     private BaseData commentPage;
-    
 
+    public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+    
     /**
 	 * @return the inResponseTo
 	 */
     @ManyToOne(fetch = FetchType.LAZY)
-	@Cascade({ CascadeType.SAVE_UPDATE })
 	@JsonIgnore
 	public Comment getInResponseTo() {
 		return inResponseTo;
@@ -91,7 +99,7 @@ public class Comment extends Base {
 	 */
     @Any(metaColumn = @Column(name = "commentPage_type"),
             fetch = FetchType.LAZY, metaDef = "CommentMetaDef")
-    @JoinColumn(name = "commentPage_id")
+    @JoinColumn(name = "commentPage_id", nullable = true)
     @JsonSerialize(using = AnnotatableObjectSerializer.class)
 	public BaseData getCommentPage() {
 		return commentPage;
@@ -158,7 +166,7 @@ public class Comment extends Base {
     
     @Any(metaColumn = @Column(name = "aboutData_type"),
         fetch = FetchType.LAZY, metaDef = "CommentMetaDef")
-    @JoinColumn(name = "aboutData_id")
+    @JoinColumn(name = "aboutData_id", nullable = true)
     @JsonSerialize(using = AnnotatableObjectSerializer.class)
     public Base getAboutData() {
         return aboutData;
@@ -234,5 +242,59 @@ public class Comment extends Base {
         REFUSED,
         SENT;
     }
+
+    @Transient
+	@JsonIgnore
+	public String getClassName() {
+		return "Comment";
+	}
+	
+	@Override
+	@Transient
+    @JsonIgnore
+	public String getDocumentId() {
+		return getClassName() + "_" + getId();
+	}
+
+	@Override
+	public SolrInputDocument toSolrInputDocument() {
+		SolrInputDocument sid = new SolrInputDocument();
+		sid.addField("id", getClassName() + "_" + getId());
+    	sid.addField("base.id_l", getId());
+    	sid.addField("base.class_searchable_b", false);
+    	sid.addField("base.class_s", getClass().getName());
+    	if(getAboutData() != null) {
+    		sid.addField("comment.about_class_s",getAboutData().getClass().getName());   
+		}
+    	StringBuilder summary = new StringBuilder().append(getComment());
+    	if(getCommentPage() != null) {
+    		if(getCommentPage() instanceof Taxon) {
+    			sid.addField("comment.comment_page_class_s","org.emonocot.model.Taxon");
+    			Taxon taxon = (Taxon)getCommentPage();
+    			summary.append(" ").append(" ").append(taxon.getClazz()).append(" ").append(taxon.getFamily()).append(" ")
+    			.append(taxon.getGenus()).append(" ").append(taxon.getKingdom()).append(" ").append(taxon.getOrder()).append(" ")
+    			.append(taxon.getPhylum()).append(" ").append(taxon.getScientificName()).append(" ")
+    			.append(taxon.getScientificNameAuthorship()).append(" ").append(taxon.getSpecificEpithet()).append(" ")
+    			.append(taxon.getSubfamily()).append(" ").append(taxon.getSubgenus()).append(" ")
+    			.append(taxon.getSubtribe()).append(" ").append(taxon.getTaxonomicStatus()).append(" ")
+    			.append(taxon.getTribe());
+    			sid.addField("taxon.family_s", taxon.getFamily());
+    		} else if(getCommentPage() instanceof IdentificationKey) {
+    			sid.addField("comment.comment_page_class_s","org.emonocot.model.IdentificationKey");
+    			IdentificationKey identificationKey = (IdentificationKey)getCommentPage();
+    			summary.append(" ").append(identificationKey.getTitle());
+    		} else if(getCommentPage() instanceof Image) {
+    			Image image = (Image)getCommentPage();
+    			summary.append(" ").append(image.getTitle());
+    			sid.addField("comment.comment_page_class_s","org.emonocot.model.Image");
+    		}
+		}
+    	sid.addField("comment.comment_t",getComment());
+    	sid.addField("comment.created_dt",getCreated());
+    	sid.addField("comment.status_t",getStatus());
+    	sid.addField("comment.subject_s",getSubject());
+    	sid.addField("searchable.solrsummary_t", summary.toString());
+		return sid;
+	}
 
 }

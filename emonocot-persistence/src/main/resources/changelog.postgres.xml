@@ -1743,4 +1743,49 @@
       <comment>Set the resourceType to be not null</comment>
       <sql>update resource set resourcetype = "DOWNLOAD" where resourcetype is NULL;</sql>
     </changeSet>
+    <!-- Direct port from MySQL that probably needs to be lower case'd --> 
+    <changeSet id="2013-02-22_01" author="jk00kg">
+        <comment>Required to send e-mails</comment>
+        <sql>update Organisation set commentsEmailedTo = publisherEmail where commentsEmailedTo IS NULL;</sql>
+    </changeSet>
+    <changeSet id="2013-02-26_01" author="jk00kg">
+        <comment>Required to send e-mails</comment>
+        <sql>update Organisation set commentsEmailedTo = creatorEmail where commentsEmailedTo IS NULL;</sql>
+    </changeSet>
+    <changeSet id="2013-02-26_02" author="jk00kg">
+        <comment>Required to send e-mails</comment>
+        <sql>update Organisation set commentsEmailedTo = 'enquires@about.e-monocot.org' where commentsEmailedTo IS NULL;</sql>
+    </changeSet>
+    <changeSet id="2013-02-27_01" author="jk00kg">
+        <comment>Required to send e-mails</comment>
+        <sql>update Organisation set commentsEmailedTo = publisherEmail where char_length(trim(commentsEmailedTo)) &lt; 1;</sql>
+    </changeSet>
+    <changeSet id="2013-02-27_02" author="jk00kg">
+        <comment>Required to send e-mails</comment>
+        <sql>update Organisation set commentsEmailedTo = creatorEmail where char_length(trim(commentsEmailedTo)) &lt; 1;</sql>
+    </changeSet>
+    <changeSet id="2013-02-27_03" author="jk00kg">
+        <comment>Required to send e-mails</comment>
+        <sql>update Organisation set commentsEmailedTo = 'enquires@about.e-monocot.org' where char_length(trim(commentsEmailedTo)) &lt; 1;</sql>
+    </changeSet>
+    <changeSet id="2013-03-12_01" author="ben">
+        <comment>BUG #461: As a user of eMonocot I would like to be able to search and filter comments</comment>
+        <addColumn tableName="comment">
+          <column name="subject" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2013-03-14_01" author="ben">
+        <comment>BUG #453: As a user of eMonocot I would like the IUCN link on the taxon page to direct me to the relevant IUCN species page </comment>
+        <addColumn tableName="measurementorfact">
+          <column name="source" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2013-03-25_01" author="ben">
+        <comment>BUG #462: As a system owner recieving a comment via email, I would like to be able to reply to the comment</comment>
+        <addColumn tableName="Principal">
+          <column name="notifyByEmail" type="bool" defaultValueBoolean="false">
+            <constraints nullable="false"/>
+          </column>
+        </addColumn>
+    </changeSet>  
 </databaseChangeLog>

@@ -7,14 +7,16 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 		
 	<context:property-override ignore-unresolvable="true" location="classpath*:META-INF/spring/*.properties"/>
-
+	
 	<context:component-scan base-package="org.emonocot" use-default-filters="false">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
-
-	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
-		<property name="useSuffixPatternMatch" value="false" />
-	</bean>
+    
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+	    <property name="useSuffixPatternMatch" value="false" />
+    </bean>
+    
+    <bean id="handlerExceptionResolver" class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver"/>
 
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
 		<property name="webBindingInitializer">
@@ -37,7 +39,6 @@
 	
 	<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver"/>
 
-	<mvc:view-controller path="/" view-name="index"/>
 	<mvc:view-controller path="/tour" view-name="tour"/>
 	<mvc:view-controller path="/termsOfUse" view-name="termsOfUse"/>
 	<mvc:view-controller path="/accessDenied" view-name="accessDenied"/>
@@ -46,38 +47,38 @@
     <mvc:view-controller path="/methodNotAllowed" view-name="methodNotAllowed"/>
     <mvc:view-controller path="/badRequest" view-name="badRequest"/>
     <mvc:view-controller path="/contact" view-name="contact"/>
+    
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+	  <property name="converters">
+		<set>
+			<bean class="org.emonocot.portal.convert.AceDtoConverter" />
+			<bean class="org.emonocot.model.convert.StringToPermissionConverter" />
+			<bean class="org.emonocot.model.convert.PermissionToStringConverter" />
+			<bean class="org.emonocot.model.convert.StringToDurationConverter" />
+			<bean class="org.emonocot.model.convert.DurationToStringConverter" />
+			<bean class="org.emonocot.model.convert.StringToClassConverter" />
+			<bean class="org.emonocot.model.convert.ClassToStringConverter" />
+			<bean class="org.emonocot.model.convert.OrganisationToStringConverter" />
+			<bean class="org.emonocot.model.convert.StringToOrganisationConverter">
+				<property name="organisationService" ref="organisationServiceImpl" />
+			</bean>
+			<bean class="org.emonocot.model.convert.PrincipalToUserConverter">
+				<property name="service" ref="userServiceImpl" />
+			</bean>
+			<bean class="org.emonocot.model.convert.SpringAuthToUserConverter">
+				<property name="service" ref="userServiceImpl" />
+			</bean>
+		</set>
+	  </property>
+	  <property name="formatterRegistrars">
+		<set>
+			<bean class="org.emonocot.portal.format.FacetRequestFormatterRegistrar" />
+			<bean class="org.emonocot.portal.format.PermissionFormatterRegistrar" />
+		</set>
+	  </property>
+    </bean>
 
-	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
-		<property name="converters">
-			<set>
-				<bean class="org.emonocot.portal.convert.AceDtoConverter" />
-				<bean class="org.emonocot.model.convert.StringToPermissionConverter" />
-				<bean class="org.emonocot.model.convert.PermissionToStringConverter" />
-				<bean class="org.emonocot.model.convert.StringToDurationConverter" />
-				<bean class="org.emonocot.model.convert.DurationToStringConverter" />
-				<bean class="org.emonocot.model.convert.StringToClassConverter" />
-				<bean class="org.emonocot.model.convert.ClassToStringConverter" />
-				<bean class="org.emonocot.model.convert.OrganisationToStringConverter" />
-				<bean class="org.emonocot.model.convert.StringToOrganisationConverter">
-					<property name="organisationService" ref="organisationServiceImpl" />
-				</bean>
-                <bean class="org.emonocot.model.convert.PrincipalToUserConverter">
-                    <property name="service" ref="userServiceImpl" />
-                </bean>
-                <bean class="org.emonocot.model.convert.SpringAuthToUserConverter">
-                    <property name="service" ref="userServiceImpl" />
-                </bean>
-			</set>
-		</property>
-		<property name="formatterRegistrars">
-			<set>
-				<bean class="org.emonocot.portal.format.FacetRequestFormatterRegistrar" />
-				<bean class="org.emonocot.portal.format.PermissionFormatterRegistrar" />
-			</set>
-		</property>
-	</bean>	
-
-	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />	
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
 	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver"
 		id="tilesViewResolver">

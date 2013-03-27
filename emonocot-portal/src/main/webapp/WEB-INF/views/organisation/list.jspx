@@ -11,7 +11,7 @@
 		<h2 id="page-title"><i class="glyphicons-icon group"><!--  --></i> <spring:message code="organisations.title"/></h2>
 		<c:url var="searchUrl" value="/organisation" />
 			<form id="search.form" class="pull-right form-search" accept-charset="UTF-8" method="GET" action="${searchUrl}">
-				<input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="query" />
+				<input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="mainQuery" />
 				<input type="hidden" name="limit" value="${result.pageSize}" />
 				<input type="hidden" name="start" value="0" />
 				<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
@@ -22,6 +22,23 @@
 					<span class="icon-search icon-white">&#160;</span>
 				</button>
 			</form>
+			<c:url value="/organisation" var="autocompleteUrl">
+			  <c:param name="autocomplete" value="true"/>
+			</c:url>
+			<script type="text/javascript">
+              $(document).ready(function() {
+                $("#mainQuery").autocomplete({
+                  source : "${autocompleteUrl}",
+                  minLength : 2
+                });
+                $["ui"]["autocomplete"].prototype["_renderItem"] = function( ul, item) {
+                  return $( "<li></li>" )
+                    .data( "item.autocomplete", item )
+                    .append( $( "<a></a>" ).html( item.label ) )
+                    .appendTo( ul );
+                };
+            });
+            </script>
 	</tags:pageheader>	
 	<div class="container">
 	    <div class="row">

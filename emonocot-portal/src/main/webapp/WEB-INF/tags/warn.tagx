@@ -4,7 +4,7 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
 	<c:if test="${not empty warn}">
 		<div class="alert warn" data-dismiss="alert">
-			<a class="close" href="#">×</a>
+			<a class="close" href="#"><i class="halflings-icon remove"><!--  --></i></a>
 			<p>
 				<strong><i class="glyphicons-icon circle_exclamation_mark"><!--  --></i> <spring:message code="${warn.code}"	arguments="${warn.arguments}" /></strong>
 			</p>    		

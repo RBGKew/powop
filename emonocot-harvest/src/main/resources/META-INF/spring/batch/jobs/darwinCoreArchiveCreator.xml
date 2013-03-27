@@ -61,7 +61,7 @@
 		</batch:step>
 		<batch:decision decider="produceDistributionFileDecider" id="checkDistributionFile">
 		  <batch:next on="true" to="createDistributionFile"/>
-		  <batch:next on="false" to="checkImageFile"/>
+		  <batch:next on="false" to="checkVernacularNameFile"/>
 		</batch:decision>
 		<batch:step id="createDistributionFile" parent="produceOneToManyFile">
 			<batch:description>Create the Distribution (extension) file</batch:description>

@@ -59,6 +59,9 @@ public class ChecklistWebserviceFunctionalTest {
                 "functional.test.port", "80"));
         RestAssured.basePath = properties.getProperty(
                 "functional.test.basePath", "/latest/checklist");
+        
+        testDataManager.cleanDatabase();
+        testDataManager.cleanIndices();
 
         testDataManager
                 .createReference(
@@ -68,7 +71,7 @@ public class ChecklistWebserviceFunctionalTest {
                         "1784",
                         "2",
                         "250pp",
-                        "Pargetter & Archer, Integer elementum lorem ut nibh scelerisque at condimentum 2: 250pp 1784",
+                        "Pargetter & Archer, Integer elementum lorem & ut nibh scelerisque at condimentum 2: 250pp 1784",
                         null, null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:family:28", "Lowiaceae", "Archer",
                 null, null, null, "FAMILY", "Accepted", null, null,
@@ -77,12 +80,12 @@ public class ChecklistWebserviceFunctionalTest {
                 null, null, null, null, null, null, null, null, null, null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:3", "Lorem", null,
                 "Lowiaceae", "Lorem", null, "GENUS", "Accepted", null, null,
-                null, null, null, null, null, null, null,
+                null, null, "Aenean 'tortor' massa", null, null, null, null,
                 null, null, null, "urn:kew.org:wcs:family:28", null, 
                 null, null, null, null, null, null, null, null, null, null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:1", "Lorem ipsum",
                 "(Archer & Archer) Pargetter", "Lowiaceae", "Lorem", "ipsum",
-                "SPECIES", "Accepted", null, null, null, null, "Integer elementum lorem ut nibh scelerisque at condimentum 2: 34-56 1784", "2: 34-56",
+                "SPECIES", "Accepted", null, null, null, null, "Integer elementum lorem & ut nibh scelerisque at condimentum 2: 34-56 1784", "2: 34-56",
                 null, "DEN", "FIN", "FOR", null, null,
                 "urn:kew.org:wcs:taxon:3", null, 
                 null, null, null, null, null, null, null, null, null, null, null);
@@ -92,9 +95,9 @@ public class ChecklistWebserviceFunctionalTest {
                 null, null, null, null, null, "urn:kew.org:wcs:taxon:3", null, 
                 null, null, null, null, null, null, null, null, null, null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:4",
-                "Lorem consectetur", null, "Lowiaceae", "Lorem", "consectetur",
+                "Lorem consectetur", "ined.", "Lowiaceae", "Lorem", "consectetur",
                 "SPECIES", "Synonym", null, null, null, null,
-                null, null, null, null, null, null, null, null, null,
+                "Nam \"lectus diam\"", null, null, null, null, null, null, null, null,
                 "urn:kew.org:wcs:taxon:1", 
                 null, null, null, null, null, null, null, null, null, null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:5",
@@ -202,13 +205,30 @@ public class ChecklistWebserviceFunctionalTest {
                 ((String) with(xml)
                         .get("DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship[0].ToTaxonConcept.@ref"))
                         .startsWith("http://"));
+        /**
+         * ISSUE http://build.e-monocot.org/bugzilla/show_bug.cgi?id=479
+         * 
+         */
+        assertFalse(
+                "There should not be any double forward slashes in the uri, except in the protocol part",
+                ((String) with(xml)
+                        .get("DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship[0].ToTaxonConcept.@ref")).substring(7).contains("//"));
         assertTrue(
                 "The links to external data should include the client id parameter",
                 ((String) with(xml)
                         .get("DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship[0].ToTaxonConcept.@ref"))
                         .contains("&scratchpad=functional-test.e-monocot.org"));
-        assertEquals("TaxonName publication attribute should equal '(Archer & Archer) Pargetter, Integer elementum lorem ut nibh scelerisque at condimentum 2: 34-56 1784'",
-                "(Archer & Archer) Pargetter, Integer elementum lorem ut nibh scelerisque at condimentum 2: 34-56 1784",
+        /**
+         * ISSUE http://build.e-monocot.org/bugzilla/show_bug.cgi?id=435
+         * 
+         * CASE 4, neither namePublishedInString or scientificNameAuthorship are empty
+         * 
+         * ISSUE http://build.e-monocot.org/bugzilla/show_bug.cgi?id=477
+         * 
+         * CASE 1, ampersand characters
+         */
+        assertEquals("TaxonName publication attribute should equal '(Archer & Archer) Pargetter, Integer elementum lorem & ut nibh scelerisque at condimentum 2: 34-56 1784'",
+                "(Archer & Archer) Pargetter, Integer elementum lorem & ut nibh scelerisque at condimentum 2: 34-56 1784",
                 with(xml).get(
                         "DataSet.TaxonNames.TaxonName.@itis_em_other_ref"));
         /**
@@ -219,6 +239,68 @@ public class ChecklistWebserviceFunctionalTest {
                 3,
                 with(xml)
                         .get("DataSet.TaxonConcepts.TaxonConcept.ProviderSpecificData.Distribution.size()"));*/
+    }
+    
+    /**
+     * ISSUE http://build.e-monocot.org/bugzilla/show_bug.cgi?id=435
+     * 
+     * CASE 1, namePublishedInString or scientificNameAuthorship are both empty
+     */
+    @Test
+    public final void testEmptyProtologue() throws Exception {
+    	String xml = given()
+        .parameters("function", "details_tcs", "id",
+                "urn:kew.org:wcs:taxon:2", "scratchpad",
+                "functional-test.e-monocot.org").get("/endpoint")
+        .andReturn().body().asString();
+    	assertEquals("TaxonName publication attribute should equal ''",
+                "",
+                with(xml).get(
+                        "DataSet.TaxonNames.TaxonName.@itis_em_other_ref"));
+    }
+    
+    /**
+     * ISSUE http://build.e-monocot.org/bugzilla/show_bug.cgi?id=435
+     * 
+     * CASE 1, namePublishedInString or scientificNameAuthorship are both empty
+     * 
+     * ISSUE http://build.e-monocot.org/bugzilla/show_bug.cgi?id=477
+     * 
+     * CASE 2, single quote characters
+     */
+    @Test
+    public final void testEmptyScientificNameAuthorship() throws Exception {
+    	String xml = given()
+        .parameters("function", "details_tcs", "id",
+                "urn:kew.org:wcs:taxon:3", "scratchpad",
+                "functional-test.e-monocot.org").get("/endpoint")
+        .andReturn().body().asString();
+    	assertEquals("TaxonName publication attribute should equal 'Aenean 'tortor' massa'",
+                "Aenean 'tortor' massa",
+                with(xml).get(
+                        "DataSet.TaxonNames.TaxonName.@itis_em_other_ref"));
+    }
+    
+    /**
+     * ISSUE http://build.e-monocot.org/bugzilla/show_bug.cgi?id=435
+     * 
+     * CASE 1, namePublishedInString or scientificNameAuthorship are both empty
+     *
+     * ISSUE http://build.e-monocot.org/bugzilla/show_bug.cgi?id=477
+     * 
+     * CASE 3, double quote characters
+     */
+    @Test
+    public final void testInedScientificNameAuthorship() throws Exception {
+    	String xml = given()
+        .parameters("function", "details_tcs", "id",
+                "urn:kew.org:wcs:taxon:4", "scratchpad",
+                "functional-test.e-monocot.org").get("/endpoint")
+        .andReturn().body().asString();
+    	assertEquals("TaxonName publication attribute should equal 'Nam \"lectus diam\"'",
+                "Nam \"lectus diam\"",
+                with(xml).get(
+                        "DataSet.TaxonNames.TaxonName.@itis_em_other_ref"));
     }
 
     /**
@@ -400,12 +482,13 @@ public class ChecklistWebserviceFunctionalTest {
         assertNotNull("A results element was expected", with(xml)
                 .get("results"));
         assertFalse(xml.contains("<value"));
+        
 
         // get a record
         xml = given()
                 .parameters("function", "search", "search", searchName,
                         "scratchpad", "functional-test.e-monocot.org")
-                .get("/endpoint").asString();
+                .get("/endpoint").asString();        
         assertNotNull("A results element was expected", with(xml)
                 .get("results"));
         assertNotNull("<value> element was expected",

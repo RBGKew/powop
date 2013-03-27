@@ -36,7 +36,7 @@
 									</c:url>
 									&#160;
 									<spring:message code="remove.member" var="removeMember" /> 
-									<a href="${deleteMemberUrl}" class="btn btn-mini btn-danger" title="${fn:escapeXml(removeMember)}">×</a>
+									<a href="${deleteMemberUrl}" class="btn btn-mini btn-danger" title="${fn:escapeXml(removeMember)}"><i class="halflings-icon remove white"><!--  --></i></a>
 								</li>
 							</c:forEach>
 						</ul>
@@ -105,7 +105,7 @@
 									</c:url>
 									&#160; 
 									<spring:message code="remove.ace" var="removeAce" />
-									<a href="${removeAceUrl}" class='btn btn-mini btn-danger' title="${fn:escapeXml(removeAce)}">×</a>
+									<a href="${removeAceUrl}" class='btn btn-mini btn-danger' title="${fn:escapeXml(removeAce)}"><i class="halflings-icon remove white"><!--  --></i></a>
 								</li>
 							</c:forEach>
 						</ul>

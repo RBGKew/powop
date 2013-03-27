@@ -37,6 +37,8 @@ public class DeltaNaturalLanguageProcessor implements ItemProcessor<Item,Descrip
 	
 	private DeltaContext deltaContext;
 	
+	private DataSetFilter filter;
+	
 	private TaxonMatcher taxonMatcher;	
 	
 	private Integer characterForLink;
@@ -63,6 +65,10 @@ public class DeltaNaturalLanguageProcessor implements ItemProcessor<Item,Descrip
 		this.deltaContext = deltaContextHolder.getDeltaContext();
 	}
 	
+	public void setFilter(DataSetFilter filter) {
+		this.filter = filter;
+	}
+
 	public void setTaxonMatcher(TaxonMatcher taxonMatcher) {
 		this.taxonMatcher = taxonMatcher;
 	}
@@ -78,7 +84,6 @@ public class DeltaNaturalLanguageProcessor implements ItemProcessor<Item,Descrip
         ItemFormatter itemFormatter  = formatterFactory.createItemFormatter(typeSetter);
 		CharacterFormatter characterFormatter = formatterFactory.createCharacterFormatter();
 		AttributeFormatter attributeFormatter = formatterFactory.createAttributeFormatter();
-		DataSetFilter filter = new NaturalLanguageDataSetFilter(deltaContext);
        
         IterativeTranslator translator = new NaturalLanguageTranslator(deltaContext, typeSetter, printFile, itemFormatter, characterFormatter, attributeFormatter);
 	    

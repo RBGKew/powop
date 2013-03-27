@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.solr.common.SolrDocument;
 import org.emonocot.model.auth.User;
 import org.emonocot.pager.DefaultPageImpl;
 import org.emonocot.pager.Page;
@@ -56,18 +55,4 @@ public class UserDaoImpl extends DaoImpl<User> implements UserDao {
 	public final List<User> list(final Integer page, final Integer size, final String fetch) {
     	return this.page(page, size).getRecords();
     }
-
-	@Override
-	public Page<SolrDocument> searchForDocuments(String query,
-			Integer pageSize, Integer pageNumber,
-			Map<String, String> selectedFacets, String sort) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public User loadObjectForDocument(SolrDocument solrDocument) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

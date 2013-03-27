@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:batch="http://www.springframework.org/schema/batch" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:integration="http://www.springframework.org/schema/integration"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:amq="http://activemq.apache.org/schema/core"
-	xmlns:jms="http://www.springframework.org/schema/jms" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:amq="http://activemq.apache.org/schema/core"
+	xmlns:jms="http://www.springframework.org/schema/jms"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:int-mail="http://www.springframework.org/schema/integration/mail"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-	                    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		                http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	                    http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
 		                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		                http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		                http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
 		                http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
-		                http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
+		                http://www.springframework.org/schema/integration/mail http://www.springframework.org/schema/integration/mail/spring-integration-mail.xsd
+		                http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd
+		                http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<context:property-placeholder location="classpath*:META-INF/spring/*.properties" />
 		
@@ -97,6 +104,13 @@
     	</property>	
 		<property name="annotatedPackages" value="org.emonocot.model" />
 	</bean>
+	
+	<integration:service-activator input-channel="indexingChannel" expression="@solrIndexer.index(payload['id'],'org.emonocot.model.Comment')" />
+	
+	<bean id="solrIndexer" class="org.emonocot.harvest.common.SolrIndexingWriter">
+      <property name="sessionFactory" ref="sessionFactory" />
+      <property name="solrIndexingListener" ref="solrIndexingListener" />
+    </bean>
 	
 	<bean id="solrIndexingListener" class="org.emonocot.persistence.hibernate.SolrIndexingListener">
 	  <property name="solrServer" ref="solrServer"/>
@@ -196,18 +210,36 @@
     </bean>
     
     <bean id="mailSender" class ="org.springframework.mail.javamail.JavaMailSenderImpl" >
-        <property name="username" value="${email.username}" />
-        <property name="password" value="${email.password}" />
+        <property name="username" value="${email.smtp.username}" />
+        <property name="password" value="${email.smtp.password}" />
         <property name="javaMailProperties">
           <props>
-            <prop key="mail.smtp.host">${email.host}</prop>
-            <prop key="mail.smtp.port">${email.port}</prop>
-            <prop key="mail.smtp.auth">${email.auth}</prop>
-            <prop key="mail.smtp.starttls.enable">${email.enable.starttls}</prop>
+            <prop key="mail.smtp.host">${email.smtp.host}</prop>
+            <prop key="mail.smtp.port">${email.smtp.port}</prop>
+            <prop key="mail.smtp.auth">${email.smtp.auth}</prop>
+            <prop key="mail.smtp.starttls.enable">${email.smtp.enable.starttls}</prop>
             <prop key="mail.debug">true</prop>
           </props>
         </property>
     </bean>
+    
+    <int-mail:inbound-channel-adapter id="imapAdapter" 
+    store-uri="${email.mailbox.uri}" 
+      java-mail-properties="javaMailProperties" 
+      channel="inboundEmailChannel"
+      should-delete-messages="true"
+      should-mark-messages-as-read="true"      
+      auto-startup="true">
+      <integration:poller max-messages-per-poll="1" fixed-rate="5000"/>
+    </int-mail:inbound-channel-adapter>
+    
+    <util:properties id="javaMailProperties">
+      <prop key="mail.imap.socketFactory.class">${email.imap.socketfactory.class}</prop>
+      <prop key="mail.imap.socketFactory.fallback">${email.imap.socketfactory.fallback}</prop>
+      <prop key="mail.imap.starttls.enable">${email.imap.enable.starttls}</prop>
+      <prop key="mail.store.protocol">imaps</prop>
+      <prop key="mail.debug">${email.debug}</prop>
+    </util:properties>
 
 	<beans profile="default">
 	  <bean id="getResourceClient" class="org.emonocot.harvest.common.GetResourceClient"/>

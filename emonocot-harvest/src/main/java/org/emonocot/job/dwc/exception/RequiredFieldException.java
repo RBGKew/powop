@@ -22,8 +22,7 @@ public class RequiredFieldException extends DarwinCoreProcessingException {
      * @param recordType the type of object missing a taxon
      * @param lineNumber the record number with a missing taxon identifier
      */
-    public RequiredFieldException(final String msg, final RecordType recordType,
-            final Integer lineNumber) {
+    public RequiredFieldException(final String msg, final RecordType recordType, final Integer lineNumber) {
         super(msg, AnnotationCode.BadField, recordType, lineNumber.toString());
     }
 
