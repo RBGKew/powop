@@ -50,7 +50,7 @@
 									<th><spring:message code="download_spatial_label" /></th>
 									<td>
 									  <c:if test="${x1 ne null and y1 ne null and x2 ne null and y2 ne null and (x1 ne 0.0 and y1 ne 0.0 and x2 ne 0.0 and y2 ne 0.0)}">
-									    Intersects(<fmt:formatNumber type="number" pattern="###0.0" value="${x1}" />  <fmt:formatNumber type="number" pattern="###0.0" value="${y1}" /> <fmt:formatNumber type="number" pattern="###0.0" value="${x2}" /> <fmt:formatNumber type="number" pattern="###0.0" value="${y2}" />)
+									    Intersects(<fmt:formatNumber type="number" pattern="###0.0" value="${x1}" />&#160;<fmt:formatNumber type="number" pattern="###0.0" value="${y1}" />&#160;<fmt:formatNumber type="number" pattern="###0.0" value="${x2}" />&#160;<fmt:formatNumber type="number" pattern="###0.0" value="${y2}" />)
 									  </c:if>
                                     </td>
 								</tr>

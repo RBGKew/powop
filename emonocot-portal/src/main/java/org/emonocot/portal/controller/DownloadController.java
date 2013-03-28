@@ -9,6 +9,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.emonocot.api.ResourceService;
 import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.job.DarwinCorePropertyMap;
@@ -17,6 +19,7 @@ import org.emonocot.api.job.JobExecutionInfo;
 import org.emonocot.api.job.JobLaunchRequest;
 import org.emonocot.api.job.JobLauncher;
 import org.emonocot.model.SearchableObject;
+import org.emonocot.model.auth.Permission;
 import org.emonocot.model.constants.ResourceType;
 import org.emonocot.model.registry.Resource;
 import org.emonocot.pager.Page;
@@ -35,6 +38,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -122,6 +126,7 @@ public class DownloadController {
        @RequestParam(value = "y1", required = false) Double y1,
        @RequestParam(value = "x2", required = false) Double x2,
        @RequestParam(value = "y2", required = false) Double y2,
+       HttpServletRequest request,
        Model model) {
 
        Map<String, String> selectedFacets = null;
@@ -151,7 +156,7 @@ public class DownloadController {
        model.addAttribute("taxonTerms", DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon));
        model.addAttribute("taxonMap", DarwinCorePropertyMap.getPropertyMap(DwcTerm.Taxon));
        model.addAttribute("result", result);
-       if(result.getSize() > downloadLimit) {
+       if(result.getSize() > downloadLimit && !request.isUserInRole(Permission.PERMISSION_ADMINISTRATE.name())) {
     	   String[] codes = new String[] { "download.truncated" };
 		   Object[] args = new Object[] { result.getSize(), downloadLimit };
 		   DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
@@ -173,6 +178,7 @@ public class DownloadController {
 	       @RequestParam(value = "y2", required = false) Double y2,
 	       @RequestParam(value = "purpose", required = false) String purpose,
 	       Model model,
+	       HttpServletRequest request,
 	       @RequestParam(value="downloadFormat", required = true) String downloadFormat,
 	       @RequestParam(value = "archiveOptions", required = false) List<String> archiveOptions,
 	       RedirectAttributes redirectAttributes) {
@@ -267,7 +273,9 @@ public class DownloadController {
         jobParametersMap.put("download.selectedFacets", selectedFacetBuffer.toString());
         jobParametersMap.put("download.fieldsTerminatedBy", "\t");
         jobParametersMap.put("download.fieldsEnclosedBy", "\"");
-        jobParametersMap.put("download.limit", downloadLimit.toString());
+        if(!request.isUserInRole(Permission.PERMISSION_ADMINISTRATE.name())) {
+            jobParametersMap.put("download.limit", downloadLimit.toString());
+        }
         
         JobLaunchRequest jobLaunchRequest = new JobLaunchRequest();
         
