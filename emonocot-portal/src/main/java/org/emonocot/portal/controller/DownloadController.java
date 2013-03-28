@@ -273,8 +273,10 @@ public class DownloadController {
         jobParametersMap.put("download.selectedFacets", selectedFacetBuffer.toString());
         jobParametersMap.put("download.fieldsTerminatedBy", "\t");
         jobParametersMap.put("download.fieldsEnclosedBy", "\"");
-        if(!request.isUserInRole(Permission.PERMISSION_ADMINISTRATE.name())) {
-            jobParametersMap.put("download.limit", downloadLimit.toString());
+        if(request.isUserInRole(Permission.PERMISSION_ADMINISTRATE.name())) {
+        	jobParametersMap.put("download.limit", new Integer(Integer.MAX_VALUE).toString()); 
+        } else {
+        	jobParametersMap.put("download.limit", downloadLimit.toString());
         }
         
         JobLaunchRequest jobLaunchRequest = new JobLaunchRequest();
