@@ -87,10 +87,7 @@ public class ReferenceParsingTest {
         HtmlSanitizer htmlSanitizer = new HtmlSanitizer();
         htmlSanitizer.afterPropertiesSet();
         fieldSetMapper.setHtmlSanitizer(htmlSanitizer);
-        fieldSetMapper.setFieldNames(names);
-        HtmlSanitizer htmlSanitizer = new HtmlSanitizer();
-        htmlSanitizer.afterPropertiesSet();
-        fieldSetMapper.setHtmlSanitizer(htmlSanitizer);
+        fieldSetMapper.setFieldNames(names);        
         fieldSetMapper.setConversionService(conversionService);
         fieldSetMapper.setDefaultValues(new HashMap<String, String>());
         fieldSetMapper.setTaxonService(taxonService);

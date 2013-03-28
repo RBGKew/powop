@@ -240,6 +240,7 @@
 	  <property name="service" ref="searchableObjectServiceImpl" />	  
 	  <property name="pageSize" value="10"/>
 	  <property name="maxItemCount" value="#{jobParameters['download.limit']}"/>
+	  <property name="spatialString" value="#{jobParameters['download.spatial']}"/>
 	  <property name="queryString" value="#{jobParameters['download.query']}"/>
 	  <property name="sort" value="#{jobParameters['download.sort']}"/>	  
 	  <property name="selectedFacets" value="#{jobParameters['download.selectedFacets']}"/>	  

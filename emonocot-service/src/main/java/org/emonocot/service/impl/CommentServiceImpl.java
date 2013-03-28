@@ -104,7 +104,10 @@ public class CommentServiceImpl extends SearchableServiceImpl<Comment, CommentDa
         comment = find(comment.getIdentifier(), "aboutData");
         Base about = comment.getAboutData();
         if(comment.getInResponseTo() != null) {
-        	User user = comment.getInResponseTo().getUser();
+        	logger.debug("Comment " + comment.getIdentifier() + " in response to " + comment.getInResponseTo().getIdentifier());
+        	Comment inResponseTo = comment.getInResponseTo();
+        	User user = inResponseTo.getUser();
+        	logger.debug("Sending notification to " + user.getIdentifier() + " ? " + user.isNotifyByEmail());
         	Set<String> destinations = new HashSet<String>();
         	if(user.isNotifyByEmail()) {
         		destinations.add(user.getIdentifier());

@@ -39,8 +39,6 @@
 
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
-    <bean id="htmlSanitizer" class="org.emonocot.harvest.common.HtmlSanitizer" init-method="afterPropertiesSet"/>
-
 	<bean name="jobRepository"
 		class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean" />
 
