@@ -46,5 +46,6 @@
         <p>${comment.comment}</p>
         <p>Kind Regards,<br />
             The eMonocot Portal</p>
+        <p>You can reply to this comment by replying to this email. Please delete the content of the original email in the reply, as your entire email will be published as your response on the eMonocot Portal.</p>
     </body>
 </html>
