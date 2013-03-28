@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.easymock.EasyMock;
 import org.emonocot.api.TaxonService;
+import org.emonocot.harvest.common.HtmlSanitizer;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.convert.ReferenceTypeConverter;
@@ -88,6 +89,9 @@ public class ScratchpadReferenceParsingTest {
         factoryBean.afterPropertiesSet();
         ConversionService conversionService = factoryBean.getObject();
         FieldSetMapper fieldSetMapper = new FieldSetMapper();
+        HtmlSanitizer htmlSanitizer = new HtmlSanitizer();
+        htmlSanitizer.afterPropertiesSet();
+        fieldSetMapper.setHtmlSanitizer(htmlSanitizer);
         fieldSetMapper.setConversionService(conversionService);
         fieldSetMapper.setFieldNames(names);
         fieldSetMapper.setDefaultValues(new HashMap<String, String>());
