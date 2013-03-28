@@ -12,17 +12,16 @@ import org.springframework.core.io.Resource;
 public class HtmlSanitizer {
 	
 	private Resource policyFile = new ClassPathResource("/META-INF/antisamy-policy.xml");
-
-	Policy policy;
 	
-	private AntiSamy antiSamy;
+	private Policy policy = null;
 	
-	public void setPolicyFileLocation(Resource policyFile) {
+	private AntiSamy antiSamy = new AntiSamy();
+	
+	public void setPolicyFile(Resource policyFile) {
 		this.policyFile = policyFile;
 	}
 	
 	public void afterPropertiesSet() throws Exception {
-		antiSamy = new AntiSamy();
 		policy = Policy.getInstance(policyFile.getFile().getAbsolutePath());
 	}
 	
@@ -44,7 +43,7 @@ public class HtmlSanitizer {
 			} else {
 				throw new RuntimeException("Could not sanitize html " + unclean, se);
 			}
-		}		
+		}
 	}
 
 }

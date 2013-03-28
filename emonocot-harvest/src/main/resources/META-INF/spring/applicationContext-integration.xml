@@ -92,6 +92,7 @@
     <integration:chain id="enrichingChain" input-channel="commentChannel" output-channel="enrichedCommentChannel">
         <integration:enricher request-channel="loadCommentChannel" request-payload-expression="payload.identifier">
             <integration:property name="aboutData" expression="payload.aboutData" />
+            <integration:property name="inResponseTo" expression="payload.inResponseTo" />
             <integration:property name="commentPage" expression="payload.commentPage" />
             <integration:property name="user" expression="payload.user"/>
         </integration:enricher>

@@ -6,36 +6,35 @@ http://www.w3.org/TR/html401/struct/global.html
 -->
 	
 <!--
-Allowed tags taken from Niamh:
-><em></em>* 
-><strong></strong> 
-><i></i>*
-><u></u>
-><b></b>
-><sub></sub>
-><sup></sup>
-><ul><li></li></ul>
-><ol><li></li></ol>
-><blockquote></blockquote>
-><q></q>
-><hr />
+> Formatting allowed by scratchpad in editing overlay (RTF). I have marked ones 
+> which I imagine will be most commonly used with an asterisk (or at least ones 
+> used most by the content team).
+> <em></em>* 
+> <strong></strong> 
+> <i></i>*
+> <u></u>
+> <b></b>
+> <sub></sub>
+> <sup></sup>
+> <ul><li></li></ul>
+> <ol><li></li></ol>
+> <blockquote></blockquote>
+> <q></q>
+> <hr />
 >
 > Additional:
-><p></p>*
-><br>*
+> <p></p>*
+> <br>*
 -->
 
-<anti-samy-rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:noNamespaceSchemaLocation="antisamy.xsd">
-	
+<anti-samy-rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"	xsi:noNamespaceSchemaLocation="antisamy.xsd">	
 	<directives>
 		<directive name="omitXmlDeclaration" value="true"/>
 		<directive name="omitDoctypeDeclaration" value="true"/>
-        <directive name="useXHTML" value="true"/>
-		<directive name="formatOutput" value="false"/>
+		<directive name="useXHTML" value="true"/>
+		<directive name="formatOutput" value="false"/>		
 		<directive name="embedStyleSheets" value="false"/>
-	</directives>
-	
+	</directives>	
 	<common-regexps>		
 		<!-- 
 		From W3C:
@@ -47,7 +46,6 @@ Allowed tags taken from Niamh:
 		<regexp name="htmlTitle" value="[\p{L}\p{N}\s\-_',:\[\]!\./\\\(\)&amp;]*"/> <!-- force non-empty with a '+' at the end instead of '*' -->
 		<regexp name="onsiteURL" value="([\p{L}\p{N}\\/\.\?=\#&amp;;\-_~]+|\#(\w)+)"/>
 		<regexp name="offsiteURL" value="(\s)*((ht|f)tp(s?)://|mailto:)[\p{L}\p{N}]+[~\p{L}\p{N}\p{Zs}\-_\.@\#\$%&amp;;:,\?=/\+!\(\)]*(\s)*"/>
-	
 	</common-regexps>
 	<common-attributes>
 		<attribute name="lang" description="The 'lang' attribute tells the browser what language the element's attribute values and content are written in">
@@ -92,10 +90,11 @@ Allowed tags taken from Niamh:
 		<tag name="sub" action="validate"/>
 		<tag name="sup" action="validate"/>
 		<tag name="em" action="validate"/>
+		<tag name="strong" action="validate"/>
 		<tag name="blockquote" action="validate"/>
-		<tag name="q" action="validate"/>
-		<tag name="strong" action="validate"/>		
+		<tag name="q" action="validate"/>		
 		<tag name="br" action="truncate"/>
+		<tag name="hr" action="truncate"/>
 		<!-- Anchor and anchor related tags -->		
 		<tag name="a" action="validate">
 			<attribute name="href" onInvalid="filterTag"/>
@@ -115,8 +114,8 @@ Allowed tags taken from Niamh:
 		<tag name="ul" action="validate"/>
 		<tag name="ol" action="validate"/>
 		<tag name="li" action="validate"/>		
-	</tag-rules>	
-	<!--  No CSS on Slashdot posts -->
+	</tag-rules>
+	<!--  No CSS  -->
 	<css-rules>
 	</css-rules>
 </anti-samy-rules>

@@ -15,7 +15,7 @@
 	<spring:message code="portal.baseUrl" var="baseUrl"/>
 	
 	<c:if test="${empty zoomBoxSearch}">
-	  <c:set var="zoomBoxSearch" value="false"/>
+		<c:set var="zoomBoxSearch" value="false"/>
 	</c:if>
 	
 	<div id="map" class="no-print ${mapClass}">&#160;</div>
@@ -23,144 +23,162 @@
 	<c:url var="openlayersImageLocation" value="/css/images/OpenLayers/" />
 	<spring:message code="web.map.server.url" var="wmsUrl"/>
 	<script type="text/javascript">
-	var google = new OpenLayers.Projection("EPSG:3857");
-    var wgs84 = new OpenLayers.Projection("EPSG:4326");
-	
-    $(document).ready(function() {
-	  var map;
-	  <c:choose>
-	    <c:when test="${not empty bounds}">
-	      var originalExtent = new OpenLayers.Bounds(${bounds});
-	    </c:when>
-	    <c:when test="${x1 ne null and y1 ne null and x2 ne null and y2 ne null and (x1 ne 0.0 and y1 ne 0.0 and x2 ne 0.0 and y2 ne 0.0)}">
-	      var bottomLeft = new OpenLayers.LonLat(${x1},${y1}).transform(wgs84, google);
-	      var topRight = new OpenLayers.LonLat(${x2},${y2}).transform(wgs84, google);
-	      var originalExtent = new OpenLayers.Bounds(bottomLeft.lon, bottomLeft.lat, topRight.lon, topRight.lat );
-	    </c:when>
-	    <c:otherwise>
-	      var originalExtent = new OpenLayers.Bounds(-20037500, -20037500,  20037500,  20037500 );
-	    </c:otherwise>
-	  </c:choose>
-	  
-	  OpenLayers.Map.prototype.zoomToMaxExtent = function() {
-      	this.zoomToExtent(originalExtent);
-      };
-	  OpenLayers.ImgPath = "${openlayersImageLocation}";
-	  
-	  <c:if test="${zoomBoxSearch}">
-	    var updateMapBounds = function(event) {
-	      var currentExtent = map.getExtent();
-	      var coord1 = new OpenLayers.LonLat(currentExtent.left,currentExtent.bottom).transform(google, wgs84);
-	      var coord2 = new OpenLayers.LonLat(currentExtent.right,currentExtent.top).transform(google, wgs84);
-	      $('#x1').val(coord1.lon);
-	      $('#y1').val(coord1.lat);
-	      $('#x2').val(coord2.lon);
-	      $('#y2').val(coord2.lat);
-	      $('#search-form').submit();
-	    }
-	    
-	   
-	    OpenLayers.Control.ZoomBox = OpenLayers.Class(OpenLayers.Control, {
-
-	        type: OpenLayers.Control.TYPE_TOOL,
-
-	        out: false,
-
-	        keyMask: null,
-
-	        alwaysZoom: false,
-  
-	        draw: function() {
-	            this.handler = new OpenLayers.Handler.Box( this,
-	                                {done: this.zoomBox}, {keyMask: this.keyMask} );
-	        },
-
-	        zoomBox: function (position) {
-	            if (position instanceof OpenLayers.Bounds) {
-	                var bounds;
-	                if (!this.out) {
-	                    var minXY = this.map.getLonLatFromPixel({
-	                        x: position.left,
-	                        y: position.bottom
-	                    });
-	                    var maxXY = this.map.getLonLatFromPixel({
-	                        x: position.right,
-	                        y: position.top
-	                    });
-	                    bounds = new OpenLayers.Bounds(minXY.lon, minXY.lat,
-	                                                   maxXY.lon, maxXY.lat);
-	                } else {
-	                    var pixWidth = Math.abs(position.right-position.left);
-	                    var pixHeight = Math.abs(position.top-position.bottom);
-	                    var zoomFactor = Math.min((this.map.size.h / pixHeight),
-	                        (this.map.size.w / pixWidth));
-	                    var extent = this.map.getExtent();
-	                    var center = this.map.getLonLatFromPixel(
-	                        position.getCenterPixel());
-	                    var xmin = center.lon - (extent.getWidth()/2)*zoomFactor;
-	                    var xmax = center.lon + (extent.getWidth()/2)*zoomFactor;
-	                    var ymin = center.lat - (extent.getHeight()/2)*zoomFactor;
-	                    var ymax = center.lat + (extent.getHeight()/2)*zoomFactor;
-	                    bounds = new OpenLayers.Bounds(xmin, ymin, xmax, ymax);
-	                }
-	                // always zoom in/out 
-	                var lastZoom = this.map.getZoom(); 
-	                this.map.zoomToExtent(bounds);
-	                if (lastZoom == this.map.getZoom() &amp;&amp; this.alwaysZoom == true){ 
-	                    this.map.zoomTo(lastZoom + (this.out ? -1 : 1)); 
-	                }
-	            } else { // it's a pixel
-	                if (!this.out) {
-	                    this.map.setCenter(this.map.getLonLatFromPixel(position),
-	                                   this.map.getZoom() + 1);
-	                } else {
-	                    this.map.setCenter(this.map.getLonLatFromPixel(position),
-	                                   this.map.getZoom() - 1);
-	                }
-	            }
-	            updateMapBounds();
-	        },
-
-	        CLASS_NAME: "OpenLayers.Control.ZoomBox"
-	    });
-
-	  </c:if>
-						
-	  map = new OpenLayers.Map(
-	    'map',
-		{controls : [new OpenLayers.Control.Navigation({zoomWheelEnabled : false}),
-					 new OpenLayers.Control.PanZoomBar({zoomWorldIcon: true})],
-		 units: "m",
-		 numZoomLevels: 5,
-		 projection : new OpenLayers.Projection("EPSG:3857"),
-		 maxResolution: 39135.758475,
-		 maxExtent: new OpenLayers.Bounds(-20037500,
-										  -20037500,
-										   20037500,
-										   20037500)
-	  });
-	  var base_layer = new OpenLayers.Layer.TMS(
-			'MapBox Layer', [ "${baseUrl}/tiles/" ],
-		    { 'layername': 'eMonocot',
-		      'type': 'png',
-     	      'isBaseLayer' : true, 
-		      'wrapDateLine': true,
-		      'serverResolutions' : [
-                156543.0339,
-                78271.51695,
-                39135.758475,
-                19567.8792375,
-                9783.93961875,
-                4891.969809375,
-                2445.9849046875
-              ]}
-	  );
-
-	  map.addLayers([ base_layer ]);
-	  
-	  <jsp:doBody />										
-												
-	  map.zoomToExtent(originalExtent);	
+		var google = new OpenLayers.Projection("EPSG:3857");
+		var wgs84 = new OpenLayers.Projection("EPSG:4326");
+		
+		$(document).ready(function() {
+			var map;
+			<c:choose>
+				<c:when test="${not empty bounds}">
+					var originalExtent = new OpenLayers.Bounds(${bounds});
+				</c:when>
+				<c:when test="${x1 ne null and y1 ne null and x2 ne null and y2 ne null and (x1 ne 0.0 and y1 ne 0.0 and x2 ne 0.0 and y2 ne 0.0)}">
+					var bottomLeft = new OpenLayers.LonLat(${x1},${y1}).transform(wgs84, google);
+					var topRight = new OpenLayers.LonLat(${x2},${y2}).transform(wgs84, google);
+					var originalExtent = new OpenLayers.Bounds(bottomLeft.lon, bottomLeft.lat, topRight.lon, topRight.lat );
+				</c:when>
+				<c:otherwise>
+					var originalExtent = new OpenLayers.Bounds(-20037500, -20037500,  20037500,  20037500 );
+				</c:otherwise>
+			</c:choose>
+			
+			OpenLayers.Map.prototype.zoomToMaxExtent = function() {
+				this.zoomToExtent(originalExtent);
+			};
+			OpenLayers.ImgPath = "${openlayersImageLocation}";
+			
+			<c:if test="${zoomBoxSearch}">
+				var updateMapBounds = function(position) {
+					var coord1 = new OpenLayers.LonLat(position.left,position.bottom).transform(google, wgs84);
+					var coord2 = new OpenLayers.LonLat(position.right,position.top).transform(google, wgs84);
+					$('#x1').val(coord1.lon);
+					$('#y1').val(coord1.lat);
+					$('#x2').val(coord2.lon);
+					$('#y2').val(coord2.lat);
+					$('#search-form').submit();
+				}
+				
+				OpenLayers.Control.ZoomBox = OpenLayers.Class(OpenLayers.Control, {
+					type: OpenLayers.Control.TYPE_TOOL,
+					out: false,
+					keyMask: null,
+					alwaysZoom: false,
+					draw: function() {
+						this.handler = new OpenLayers.Handler.Box( this, {done: this.zoomBox}, {keyMask: this.keyMask} );
+					},
+					zoomBox: function (position) {
+						if (position instanceof OpenLayers.Bounds) {
+							var bounds;
+							if (!this.out) {
+								var minXY = this.map.getLonLatFromPixel({
+									x: position.left,
+									y: position.bottom
+								});
+								var maxXY = this.map.getLonLatFromPixel({
+									x: position.right,
+									y: position.top
+								});
+								bounds = new OpenLayers.Bounds(minXY.lon, minXY.lat, maxXY.lon, maxXY.lat);
+							} else {
+								var pixWidth = Math.abs(position.right-position.left);
+								var pixHeight = Math.abs(position.top-position.bottom);
+								var zoomFactor = Math.min((this.map.size.h / pixHeight),
+										(this.map.size.w / pixWidth));
+								var extent = this.map.getExtent();
+								var center = this.map.getLonLatFromPixel(position.getCenterPixel());
+								var xmin = center.lon - (extent.getWidth()/2)*zoomFactor;
+								var xmax = center.lon + (extent.getWidth()/2)*zoomFactor;
+								var ymin = center.lat - (extent.getHeight()/2)*zoomFactor;
+								var ymax = center.lat + (extent.getHeight()/2)*zoomFactor;
+								bounds = new OpenLayers.Bounds(xmin, ymin, xmax, ymax);
+							}
+							
+							// always zoom in/out
+							var lastZoom = this.map.getZoom();
+							this.map.zoomToExtent(bounds);
+							if (lastZoom == this.map.getZoom() &amp;&amp; this.alwaysZoom == true){
+								this.map.zoomTo(lastZoom + (this.out ? -1 : 1));
+							}
+							updateMapBounds(bounds);
+						} else { // it's a pixel
+							if (!this.out) {
+								this.map.setCenter(this.map.getLonLatFromPixel(position),
+										this.map.getZoom() + 1);
+							} else {
+								this.map.setCenter(this.map.getLonLatFromPixel(position),this.map.getZoom() - 1);
+							}
+						}
+					},
+					CLASS_NAME: "OpenLayers.Control.ZoomBox"
+				});
+			</c:if>
+			
+			var map = new OpenLayers.Map('map',
+					{
+						controls : [new OpenLayers.Control.Navigation({zoomWheelEnabled : false}),
+									new OpenLayers.Control.PanZoomBar({zoomWorldIcon: true})],
+						units: "m",
+						numZoomLevels: 5,
+						projection : new OpenLayers.Projection("EPSG:3857"),
+						maxResolution: 39135.758475,
+						maxExtent: new OpenLayers.Bounds(-20037500,
+								-20037500,
+								20037500,
+								20037500),
+					});
+			
+			var base_layer = new OpenLayers.Layer.TMS(
+					'MapBox Layer', [ "http://e-monocot.org/tiles/" ],
+					{ 'layername': 'eMonocot',
+						'type': 'png',
+						'isBaseLayer' : true,
+						'wrapDateLine': true,
+						'serverResolutions' : [
+									156543.0339,
+									78271.51695,
+									39135.758475,
+									19567.8792375,
+									9783.93961875,
+									4891.969809375,
+									2445.9849046875
+									]}
+					);
+			
+			var layer_style = OpenLayers.Util.extend({}, OpenLayers.Feature.Vector.style['default']);
+			layer_style.fillOpacity = 0;
+			layer_style.graphicOpacity = 1;
+			layer_style.strokeColor = "#FE3A7F";
+			layer_style.strokeDashstyle = "dotted";
+			//layer_style.fillColor = "blue";
+			var vector_layer = new OpenLayers.Layer.Vector("Vector Layer", {style: layer_style});
+			<c:if test="${x1 ne null and y1 ne null and x2 ne null and y2 ne null and (x1 ne 0.0 and y1 ne 0.0 and x2 ne 0.0 and y2 ne 0.0)}">
+				var pointList = [new OpenLayers.Geometry.Point(bottomLeft.lon,bottomLeft.lat),
+								new OpenLayers.Geometry.Point(topRight.lon,bottomLeft.lat),
+								new OpenLayers.Geometry.Point(topRight.lon,topRight.lat),
+								new OpenLayers.Geometry.Point(bottomLeft.lon,topRight.lat),
+								new OpenLayers.Geometry.Point(bottomLeft.lon,bottomLeft.lat)];
+				var linearRing = new OpenLayers.Geometry.LinearRing(pointList);
+				var polygonFeature = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Polygon([linearRing]));
+				vector_layer.addFeatures([polygonFeature]);
+			</c:if>
+			map.addLayers([base_layer,vector_layer]);
+			
+			//create an overview map control with the default options
+			var overview = new OpenLayers.Control.OverviewMap({
+				maximized: true,
+				maximizeTitle: 'Show the overview map',
+				minimizeTitle: 'Hide the overview map',
+				mapOptions: {
+					minRatio: 1.0,
+					projection : new OpenLayers.Projection("EPSG:3857"),
+					maxResolution: 156543.0339
+				}
+			});
+			
+			map.addControl(overview);
+			<jsp:doBody />
+			
+		map.zoomToExtent(originalExtent);
 	});
 		
 	</script>

@@ -37,8 +37,8 @@
 			<c:if test="${not empty taxon.images or not empty taxon.descriptions or not empty em:regions(taxon) or not empty taxon.childNameUsages or not empty taxon.synonymNameUsages or not empty bibliography.references}">
 				<div class="subnav no-print">
 					<ul class="nav nav-pills">
-					    <c:if test="${not empty taxon.images}">
-						  <li><a href="#images"><spring:message code="images" /></a></li>
+						<c:if test="${not empty taxon.images}">
+							<li><a href="#images"><spring:message code="images" /></a></li>
 						</c:if>
 						<li>
 							<c:if test="${not empty taxon.descriptions}">
@@ -75,8 +75,8 @@
 				</div>
 			</c:if>
 		</header>
-        <tags:info />
-        <tags:error />
+		<tags:info />
+		<tags:error />
 		<c:if test="${not empty taxon.images}">
 			<div class="container">
 				<div id="images"  data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a.slideshow">
@@ -397,13 +397,13 @@
 										<li>										    
 											<a id="${reference.identifier}">${em:citekey(bibliography,reference)}</a>
 											<c:choose>
-											  <c:when test="${not empty reference.uri}">
-											    <a href="${reference.uri}">${reference.bibliographicCitation}</a>
-											  </c:when>
-											  <c:otherwise>
-											    ${reference.bibliographicCitation}
-											  </c:otherwise>
-											</c:choose>											
+												<c:when test="${not empty reference.uri}">
+													<a href="${reference.uri}">${reference.bibliographicCitation}</a>
+												</c:when>
+												<c:otherwise>
+													${reference.bibliographicCitation}
+												</c:otherwise>
+											</c:choose>
 										</li>
 									</c:forEach>
 								</ul>
@@ -618,7 +618,7 @@
 		</div>
 	</div>
 	<div id="feedbackModal" class="modal hide fade">
-        <div class="modal-header">
+       <div class="modal-header">
             <button aria-hidden="true" data-dismiss="modal" class="close" type="button"><i class="halflings-icon remove"><!--  --></i></button>
             <h3><i class="glyphicons-icon comments"><!--  --></i><spring:message code="feedbackTitle" /></h3>
         </div>
