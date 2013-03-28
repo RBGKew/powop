@@ -136,6 +136,10 @@ public class DownloadController {
        String spatial = null;
        DecimalFormat decimalFormat = new DecimalFormat("###0.0");
        if (x1 != null && y1 != null && x2 != null && y2 != null && (x1 != 0.0 && y1 != 0.0 && x2 != 0.0 && x2 != 0.0 && y2 != 0.0)) {
+    	 model.addAttribute("x1",x1);
+    	 model.addAttribute("y1",y1);
+    	 model.addAttribute("x2",x2);
+    	 model.addAttribute("y2",y2);
          spatial = "Intersects(" + decimalFormat.format(x1) + " " + decimalFormat.format(y1) + " " + decimalFormat.format(x2) + " " + decimalFormat.format(y2) + ")";
        }
 
