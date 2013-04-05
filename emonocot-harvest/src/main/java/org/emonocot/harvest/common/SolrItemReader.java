@@ -20,6 +20,8 @@ public class SolrItemReader<T extends SearchableObject> extends AbstractPagingIt
 
 	private String queryString = null;
 	
+	private String spatialString = null;
+	
 	private Map<String,String> selectedFacets = new HashMap<String,String>();
 	
 	private String sort = null;
@@ -48,6 +50,10 @@ public class SolrItemReader<T extends SearchableObject> extends AbstractPagingIt
 
 	public void setQueryString(String queryString) {
 		this.queryString = queryString;
+	}
+	
+	public void setSpatialString(String spatialString) {
+		this.spatialString = spatialString;
 	}
 
 

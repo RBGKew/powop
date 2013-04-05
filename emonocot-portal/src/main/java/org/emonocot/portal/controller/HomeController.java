@@ -70,6 +70,7 @@ public class HomeController {
         authorizedUser.setName(user.getName());
         authorizedUser.setOrganization(user.getOrganization());
         authorizedUser.setTopicInterest(user.getTopicInterest());
+        authorizedUser.setNotifyByEmail(user.isNotifyByEmail());
         try {
         	String img = userService.makeProfileThumbnail(user.getImgFile(),authorizedUser.getImg());
         	if(img != null) {

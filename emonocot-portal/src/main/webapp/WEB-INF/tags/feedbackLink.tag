@@ -11,9 +11,7 @@
         <c:set var="modalId" value="feedbackModal"/>
     </c:if>
     <c:set var="clickScript" value="$('${selector}').attr('selected', true); return true;" />
-<security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">
     <a class="pull-right" rel="tooltip" data-placement="right" title="Comment on ${dataName}." onclick="${clickScript}"  data-toggle="modal" href="#${modalId}">
 		<i class="halflings-icon comments"><!--  --></i>
 	</a>
-</security:authorize>
 </jsp:root>

@@ -140,6 +140,7 @@
         <sec:intercept-url pattern="/annotation" method="POST" access="hasRole('PERMISSION_CREATE_ANNOTATION')" />
         <sec:intercept-url pattern="/annotation/*" method="DELETE" access="hasRole('PERMISSION_DELETE_ANNOTATION')" />
         <sec:intercept-url pattern="/comment" method="POST" access="isAuthenticated()" />
+        <sec:intercept-url pattern="/download" access="isAuthenticated()" />
         <sec:intercept-url pattern="/comment/*" method="DELETE" access="hasRole('PERMISSION_DELETE_COMMENT')" />
 		<sec:form-login login-page='/login'
 			login-processing-url="/process_login" authentication-failure-url="/login?error=true"
