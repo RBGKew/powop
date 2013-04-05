@@ -1,15 +1,11 @@
-// Variables.less
-// Variables to customize the look and feel of Bootstrap
-// -----------------------------------------------------
-
-
-
-// GLOBAL VALUES
+//
+// Variables
 // --------------------------------------------------
 
-// Links
-@linkColor:             #08c;
-@linkColorHover:        darken(@linkColor, 15%);
+
+// Global values
+// --------------------------------------------------
+
 
 // Grays
 // -------------------------
@@ -26,9 +22,9 @@
 // -------------------------
 @blue:                  #049cdb;
 @blueDark:              #0064cd;
-@green:                 #5e9e34;
+@green:                 #46a546;
 @red:                   #9d261d;
-@yellow:                #ffd236;
+@yellow:                #ffc40d;
 @orange:                #f89406;
 @pink:                  #c3325f;
 @purple:                #7a43b6;
@@ -36,7 +32,7 @@
 
 // Scaffolding
 // -------------------------
-@bodyBackground:        #eff2ea;  // emonocot was white
+@bodyBackground:        #eff2ea;  // emonocot - was white
 @textColor:             @grayDark;
 
 
@@ -50,11 +46,11 @@
 // -------------------------
 @sansFontFamily:        "Helvetica Neue", Helvetica, Arial, sans-serif;
 @serifFontFamily:       Georgia, "Times New Roman", Times, serif;
-@monoFontFamily:        Menlo, Monaco, Consolas, "Courier New", monospace;
+@monoFontFamily:        Monaco, Menlo, Consolas, "Courier New", monospace;
 
-@baseFontSize:          13px;
+@baseFontSize:          14px;
 @baseFontFamily:        @sansFontFamily;
-@baseLineHeight:        18px;
+@baseLineHeight:        20px;
 @altFontFamily:         @serifFontFamily;
 
 @headingsFontFamily:    inherit; // empty to use BS default, @baseFontFamily
@@ -72,11 +68,12 @@
 
 @paddingLarge:          11px 19px; // 44px
 @paddingSmall:          2px 10px;  // 26px
-@paddingMini:           1px 6px;   // 24px
+@paddingMini:           0 6px;   // 22px
 
 @baseBorderRadius:      4px;
 @borderRadiusLarge:     6px;
 @borderRadiusSmall:     3px;
+
 
 // Tables
 // -------------------------
@@ -85,7 +82,6 @@
 @tableBackgroundHover:              #f5f5f5; // for hover
 @tableBorder:                       #ddd; // table and cell border
 
-
 // Buttons
 // -------------------------
 @btnBackground:                     @white;
@@ -93,7 +89,7 @@
 @btnBorder:                         #ccc;
 
 @btnPrimaryBackground:              @linkColor;
-@btnPrimaryBackgroundHighlight:     spin(@btnPrimaryBackground, 15%);
+@btnPrimaryBackgroundHighlight:     spin(@btnPrimaryBackground, 20%);
 
 @btnInfoBackground:                 #5bc0de;
 @btnInfoBackgroundHighlight:        #2f96b4;
@@ -107,7 +103,7 @@
 @btnDangerBackground:               #ee5f5b;
 @btnDangerBackgroundHighlight:      #bd362f;
 
-@btnInverseBackground:              @gray;
+@btnInverseBackground:              #444;
 @btnInverseBackgroundHighlight:     @grayDarker;
 
 
@@ -120,6 +116,7 @@
 @formActionsBackground:         #f5f5f5;
 @inputHeight:                   @baseLineHeight + 10px; // base line-height + 8px vertical padding + 2px top/bottom border
 
+
 // Dropdowns
 // -------------------------
 @dropdownBackground:            @white;
@@ -129,7 +126,7 @@
 
 @dropdownLinkColor:             @grayDark;
 @dropdownLinkColorHover:        @white;
-@dropdownLinkColorActive:       @dropdownLinkColor;
+@dropdownLinkColorActive:       @white;
 
 @dropdownLinkBackgroundActive:  @linkColor;
 @dropdownLinkBackgroundHover:   @dropdownLinkBackgroundActive;
@@ -139,13 +136,14 @@
 // COMPONENT VARIABLES
 // --------------------------------------------------
 
+
 // Z-index master list
 // -------------------------
 // Used for a bird's eye view of components dependent on the z-axis
 // Try to avoid customizing these :)
 @zindexDropdown:          1000;
 @zindexPopover:           1010;
-@zindexTooltip:           1020;
+@zindexTooltip:           1030;
 @zindexFixedNavbar:       1030;
 @zindexModalBackdrop:     1040;
 @zindexModal:             1050;
@@ -161,7 +159,6 @@
 @imagePath:				  "./images";
 @fontPath:				  "./fonts";
 		
-
 
 // Input placeholder text color
 // -------------------------
@@ -188,7 +185,7 @@
 @navbarCollapseWidth:             979px;
 @navbarCollapseDesktopWidth:      @navbarCollapseWidth + 1;
 
-@navbarHeight:                    48px;
+@navbarHeight:                    48px; //e-monocot. Originally it was40px
 @navbarBackgroundHighlight:       #ffffff;
 @navbarBackground:                darken(@navbarBackgroundHighlight, 5%);
 @navbarBorder:                    darken(@navbarBackground, 12%);
@@ -214,7 +211,7 @@
 @navbarInverseLinkBackgroundHover:       transparent;
 @navbarInverseLinkBackgroundActive:      @navbarInverseBackground;
 
-@navbarInverseSearchBackground:          lighten(@navbarInverseBackground, 70%);
+@navbarInverseSearchBackground:          lighten(@navbarInverseBackground, 70%);  //eMonocot - Originally it was 25%
 @navbarInverseSearchBackgroundFocus:     @white;
 @navbarInverseSearchBorder:              @navbarInverseBackground;
 @navbarInverseSearchPlaceholderColor:    #ccc;
@@ -307,7 +304,6 @@
 // 768px-979px
 @fluidGridColumnWidth768:      percentage(@gridColumnWidth768/@gridRowWidth768);
 @fluidGridGutterWidth768:      percentage(@gridGutterWidth768/@gridRowWidth768);
-
 
 
 // eMonocot custom variables
