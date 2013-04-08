@@ -351,7 +351,7 @@ public class DownloadController {
     	
     	String downloadFileName = resource.getParameters().get("download.file");
     	if(resource.getBaseUrl() == null) {
-    		jobExecutionInfo.setExitDescription(messageSource.getMessage("download.being.prepared", new Object[] {}, locale));
+    		resource.setExitDescription(messageSource.getMessage("download.being.prepared", new Object[] {}, locale));
     	} else {
     	    resource.setExitDescription(messageSource.getMessage("download.will.be.available", new Object[] {messageSource.getMessage("portal.baseUrl", new Object[] {}, locale), downloadFileName}, locale));
     	}
