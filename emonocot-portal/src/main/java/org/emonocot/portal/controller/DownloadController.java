@@ -350,8 +350,7 @@ public class DownloadController {
     	model.addAttribute("resource", resource);
     	
     	String downloadFileName = resource.getParameters().get("download.file");
-    	messageSource.getMessage("portal.baseUrl", new Object[] {}, locale);
-    	resource.setExitDescription(messageSource.getMessage("download.will.be.available", new Object[] {resource.getBaseUrl(), downloadFileName}, locale));
+    	resource.setExitDescription(messageSource.getMessage("download.will.be.available", new Object[] {messageSource.getMessage("portal.baseUrl", new Object[] {}, locale), downloadFileName}, locale));
     	
     	return "download/progress";
     }
