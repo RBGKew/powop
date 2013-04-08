@@ -349,11 +349,11 @@ public class DownloadController {
     	Resource resource = resourceService.load(downloadId);
     	model.addAttribute("resource", resource);
     	
+    	String downloadFileName = resource.getParameters().get("download.file");
     	if(resource.getBaseUrl() == null) {
     		resource.setExitDescription(messageSource.getMessage("download.being.prepared", new Object[] {}, locale));
     	} else {
-    		String downloadFileName = resource.getParameters().get("download.file");
-    		resource.setExitDescription(messageSource.getMessage("download.will.be.available", new Object[] {resource.getBaseUrl(), downloadFileName}, locale));
+    	    resource.setExitDescription(messageSource.getMessage("download.will.be.available", new Object[] {messageSource.getMessage("portal.baseUrl", new Object[] {}, locale), downloadFileName}, locale));
     	}
     	
     	return "download/progress";
@@ -403,11 +403,11 @@ public class DownloadController {
 	    		    jobExecutionInfo.setExitDescription(messageSource.getMessage("download.will.be.available", new Object[] {resource.getBaseUrl(), downloadFileName}, locale));
 	    		} else {
 	    			if(jobExecutionInfo.getExitCode().equals("COMPLETED")) {
-	    				jobExecutionInfo.setExitDescription(messageSource.getMessage("download.is.available", new Object[] {resource.getBaseUrl(), downloadFileName}, locale));
+	    				jobExecutionInfo.setExitDescription(messageSource.getMessage("download.is.available", new Object[] {messageSource.getMessage("portal.baseUrl", new Object[] {}, locale), downloadFileName}, locale));
 	    			} else if(jobExecutionInfo.getExitCode().equals("FAILED")) {
 	    				jobExecutionInfo.setExitDescription(messageSource.getMessage("download.failed", new Object[] {}, locale));
 	    			} else {
-	    				jobExecutionInfo.setExitDescription(messageSource.getMessage("download.will.be.available", new Object[] {resource.getBaseUrl(), downloadFileName}, locale));
+	    				jobExecutionInfo.setExitDescription(messageSource.getMessage("download.will.be.available", new Object[] {messageSource.getMessage("portal.baseUrl", new Object[] {}, locale), downloadFileName}, locale));
 	    			}
 	    		}
 	    	}

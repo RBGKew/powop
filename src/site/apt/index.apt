@@ -11,7 +11,7 @@ About eMonocot
   
   * Documentation is {{{http://e-monocot.org/category/document-store/ict-team}here}}
 
-  * You can email the whole team using {{{mailto:ict-team@e-monocot.org}ict-team@e-monocot.org}} - emails are archived {{{http://e-monocot.org/node/1395/og/forum/1731}here}}
+  * You can email the whole team using {{{mailto:ict-team@about.e-monocot.org}ict-team@about.e-monocot.org}} - emails are archived {{{http://e-monocot.org/node/1395/og/forum/1731}here}}
  
   * Mock web pages are {{{http://build.e-monocot.org/mocks/}here}}
 
@@ -19,7 +19,7 @@ About eMonocot
 
   * The portal we're using for user acceptance testing is {{{http://build.e-monocot.org/uat/portal/}here}}
 
-  * The 'live' portal will be deployed {{{http://beta.e-monocot.org/}here}}
+  * The production portal is deployed {{{http://e-monocot.org/}here}}
 
   * Please file issues {{{http://build.e-monocot.org/bugzilla/}here}}
   

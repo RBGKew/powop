@@ -21,8 +21,6 @@
     <context:mbean-server id="mbeanServer" />
 
 	<context:mbean-export default-domain="${webAppRootKey}" server="mbeanServer" />
-	
-	<mvc:resources location="file:${harvester.output.directory}" mapping="/output/**"/>
 
 	<bean id="batchMBeanExporter" class="org.springframework.batch.admin.jmx.BatchMBeanExporter">
 		<property name="server" ref="mbeanServer" />
