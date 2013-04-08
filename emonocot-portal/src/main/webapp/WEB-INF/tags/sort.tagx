@@ -8,65 +8,65 @@
 	<jsp:directive.attribute name="result" type="org.emonocot.pager.Page" required="true" />
 	<jsp:directive.attribute name="spanClass" type="java.lang.String" required="false"/>
 	<c:if test="${sortItems == null}">
-	  <c:set var="sortItems" value="${em:sortItems()}"/>
+		<c:set var="sortItems" value="${em:sortItems()}"/>
 	</c:if>
-	  <div class="${spanClass} btn-group sortNoJS">
+	<div class="${spanClass} btn-group sortNoJS">
 		<a class="btn" href="#"><spring:message code="sortBy" /></a>
 		<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret">&#160;</span></a>
 		<ul id="sorting" class="dropdown-menu">
-		  <c:forEach var="sortItem" items="${sortItems}">
-			<li>
-			  <c:choose>
-				<c:when test="${sortItem eq result.sort}">
-				  <spring:message code="${sortItem}"/>
-				</c:when>
-				<c:otherwise>
-				  <c:url value="${url}" var="sortUrl">
-				    <c:forEach var="p" items="${result.paramNames}">
-					  <c:param name="${p}" value="${result.params[p]}"/>
-					</c:forEach>
-					<c:param name="limit" value="${result.pageSize}" />
-					<c:param name="start" value="0" />
-					<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-					  <c:param name="facet" value="${selectedFacet}:${result.selectedFacets[selectedFacet]}"/>
-					</c:forEach>
-					<c:param name="sort">${sortItem}</c:param>
-				  </c:url>
-				  <a href="${sortUrl}"><spring:message code="${sortItem}" /></a>
-		        </c:otherwise>
-		      </c:choose>
-			</li>
-	      </c:forEach>
-		</ul>
-	  </div><!-- /btn-group -->
-	  <noscript>
-		<div class="${spanClass}">
-		  <h4><spring:message code="sortBy" /></h4>
-		  <ul id="sorting" class="unstyled">
-		    <c:forEach var="sortItem" items="${em:sortItems()}">
-			  <li>
-				<c:choose>
-				  <c:when test="${sortItem eq result.sort}">
-					<spring:message code="${sortItem}"/>
-				  </c:when>
-				  <c:otherwise>
-				    <c:url value="${url}" var="sortUrl">
-					  <c:forEach var="p" items="${result.paramNames}">
-						<c:param name="${p}" value="${result.params[p]}"/>
-					  </c:forEach>
-					  <c:param name="limit" value="${result.pageSize}" />
-					  <c:param name="start" value="0" />
-					  <c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
-						<c:param name="facet" value="${selectedFacet}:${result.selectedFacets[selectedFacet]}"/>
-					  </c:forEach>
-					  <c:param name="sort">${sortItem}</c:param>
-					</c:url>
-					<a href="${sortUrl}"><spring:message code="${sortItem}" /></a>
-				  </c:otherwise>
-			    </c:choose>
-		      </li>
+			<c:forEach var="sortItem" items="${sortItems}">
+				<li>
+					<c:choose>
+						<c:when test="${sortItem eq result.sort}">
+							<spring:message code="${sortItem}"/>
+						</c:when>
+						<c:otherwise>
+							<c:url value="${url}" var="sortUrl">
+								<c:forEach var="p" items="${result.paramNames}">
+									<c:param name="${p}" value="${result.params[p]}"/>
+								</c:forEach>
+								<c:param name="limit" value="${result.pageSize}" />
+								<c:param name="start" value="0" />
+								<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+									<c:param name="facet" value="${selectedFacet}:${result.selectedFacets[selectedFacet]}"/>
+								</c:forEach>
+								<c:param name="sort">${sortItem}</c:param>
+							</c:url>
+							<a href="${sortUrl}"><spring:message code="${sortItem}" /></a>
+						</c:otherwise>
+					</c:choose>
+				</li>
 			</c:forEach>
-		  </ul>
+		</ul>
+	</div><!-- /btn-group -->
+	<noscript>
+		<div class="${spanClass}">
+			<h4><spring:message code="sortBy" /></h4>
+			<ul id="sorting" class="unstyled">
+				<c:forEach var="sortItem" items="${em:sortItems()}">
+					<li>
+						<c:choose>
+							<c:when test="${sortItem eq result.sort}">
+								<spring:message code="${sortItem}"/>
+							</c:when>
+							<c:otherwise>
+								<c:url value="${url}" var="sortUrl">
+									<c:forEach var="p" items="${result.paramNames}">
+										<c:param name="${p}" value="${result.params[p]}"/>
+									</c:forEach>
+									<c:param name="limit" value="${result.pageSize}" />
+									<c:param name="start" value="0" />
+									<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
+										<c:param name="facet" value="${selectedFacet}:${result.selectedFacets[selectedFacet]}"/>
+									</c:forEach>
+									<c:param name="sort">${sortItem}</c:param>
+								</c:url>
+								<a href="${sortUrl}"><spring:message code="${sortItem}" /></a>
+							</c:otherwise>
+						</c:choose>
+					</li>
+				</c:forEach>
+			</ul>
 		</div>
 	</noscript>
 </jsp:root>

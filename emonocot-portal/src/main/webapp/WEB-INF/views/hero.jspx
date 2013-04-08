@@ -26,23 +26,21 @@
 							minLength : 2
 						});
 						$["ui"]["autocomplete"].prototype["_renderItem"] = function( ul, item) {
-			                return $( "<li></li>" )
-			                .data( "item.autocomplete", item )
-			                .append( $( "<a></a>" ).html( item.label ) )
-			                .appendTo( ul );
-			            };
+							return $( "<li></li>" )
+							.data( "item.autocomplete", item )
+							.append( $( "<a></a>" ).html( item.label ) )
+							.appendTo( ul );
+						};
 					});
 				</script>
 				<form class="form-search" action="search" method="GET">
-					<div class="offset3">
-						<div class="input form-inline">
-							<spring:message code="search.for" var="placeholderText" />
-							<input id="query" name="query" class="span6 search-query"
-								type="text" value="" placeholder="${placeholderText}" />
-							<button type="submit" class="btn btn-primary  btn-large">
-								<span class="icon-search icon-white">&#160;</span> Search
-							</button>
-						</div>
+					<div class="input form-inline">
+						<spring:message code="search.for" var="placeholderText" />
+						<input id="query" name="query" class="span6 search-query"
+							type="text" value="" placeholder="${placeholderText}" />
+						<button type="submit" class="btn btn-primary  btn-large">
+							<span class="icon-search icon-white">&#160;</span> Search
+						</button>
 					</div>
 				</form>
 			</div>
