@@ -349,12 +349,9 @@ public class DownloadController {
     	Resource resource = resourceService.load(downloadId);
     	model.addAttribute("resource", resource);
     	
-    	if(resource.getBaseUrl() == null) {
-    		resource.setExitDescription(messageSource.getMessage("download.being.prepared", new Object[] {}, locale));
-    	} else {
-    		String downloadFileName = resource.getParameters().get("download.file");
-    		resource.setExitDescription(messageSource.getMessage("download.will.be.available", new Object[] {resource.getBaseUrl(), downloadFileName}, locale));
-    	}
+    	String downloadFileName = resource.getParameters().get("download.file");
+    	messageSource.getMessage("portal.baseUrl", new Object[] {}, locale);
+    	resource.setExitDescription(messageSource.getMessage("download.will.be.available", new Object[] {resource.getBaseUrl(), downloadFileName}, locale));
     	
     	return "download/progress";
     }
