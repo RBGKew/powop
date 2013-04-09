@@ -411,7 +411,7 @@ public class Taxon extends SearchableObject {
 	 * @return the rank
 	 */
 	@Enumerated(value = EnumType.STRING)
-	public Rank getTaxonRank() {		
+	public Rank getTaxonRank() {
 		return taxonRank;
 	}
 

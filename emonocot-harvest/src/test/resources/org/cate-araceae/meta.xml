@@ -1,5 +1,4 @@
 <?xml version='1.0' encoding='utf-8'?>
-
 <archive xmlns="http://rs.tdwg.org/dwc/text/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 xsi:schemaLocation="http://rs.tdwg.org/dwc/text/   http://rs.tdwg.org/dwc/text/tdwg_dwc_text.xsd" metadata="eml.xml">
   <core
@@ -52,15 +51,74 @@ xsi:schemaLocation="http://rs.tdwg.org/dwc/text/   http://rs.tdwg.org/dwc/text/t
     <coreId index="0" />
     <field index="1" term="http://purl.org/dc/terms/identifier"/>
     <field index="2" term="http://purl.org/dc/terms/type"/>
-    <field index="3" term="	http://purl.org/dc/terms/references"/>
+    <field index="3" term="http://purl.org/dc/terms/references"/>
     <field index="4" term="http://purl.org/dc/terms/modified"/>
     <field index="5" term="http://purl.org/dc/terms/created"/>
     <field index="6" term="http://purl.org/dc/terms/creator"/>
-    <field index="7" term="	http://purl.org/dc/terms/description"/>
+    <field index="7" term="http://purl.org/dc/terms/description"/>
     <field index="8" term="http://purl.org/dc/terms/source"/>
     <field default="Content licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License" term="http://purl.org/dc/terms/rights"/>
     <field default="http://creativecommons.org/licenses/by-nc-sa/3.0/" term="http://purl.org/dc/terms/license"/>
     <field default="EN" term="http://purl.org/dc/terms/language"/>
+    <field default="CATE Araceae. (2011, 23 December). Retrieved 12:26, Friday, 27 January, 2012, from http://www.cate-araceae.org" term="http://purl.org/dc/terms/bibliographicCitation"/>
+  </extension>
+  <extension
+    encoding="UTF-8"
+    fieldsTerminatedBy="\t"
+    linesTerminatedBy="\n"
+    ignoreHeaderLines="0"
+    rowType="http://rs.gbif.org/terms/1.0/Distribution">
+    <files>
+      <location>distribution.txt</location>
+    </files>
+    <coreId index="0" />
+    <field index="1" term="http://purl.org/dc/terms/identifier"/>
+    <field index="2" term="http://purl.org/dc/terms/type"/>
+    <field index="3" term="http://purl.org/dc/terms/references"/>
+    <field index="4" term="http://purl.org/dc/terms/modified"/>
+    <field index="5" term="http://purl.org/dc/terms/created"/>
+    <field index="6" term="http://purl.org/dc/terms/creator"/>
+    <field index="7" term="http://rs.tdwg.org/dwc/terms/locationID"/>
+    <field index="8" term="http://rs.tdwg.org/dwc/terms/occurrenceStatus"/>
+    <field index="9" term="http://rs.tdwg.org/dwc/terms/establishmentMeans"/>
+    <field index="10" term="http://purl.org/dc/terms/source"/>
+    <field default="Content licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License" term="http://purl.org/dc/terms/rights"/>
+    <field default="http://creativecommons.org/licenses/by-nc-sa/3.0/" term="http://purl.org/dc/terms/license"/>
+    <field default="CATE Araceae. (2011, 23 December). Retrieved 12:26, Friday, 27 January, 2012, from http://www.cate-araceae.org" term="http://purl.org/dc/terms/bibliographicCitation"/>
+  </extension>
+    <extension
+    encoding="UTF-8"
+    fieldsTerminatedBy="\t"
+    linesTerminatedBy="\n"
+    ignoreHeaderLines="0"
+    rowType="http://rs.gbif.org/terms/1.0/TypesAndSpecimen">
+    <files>
+      <location>typesAndSpecimen.txt</location>
+    </files>
+    <coreId index="0" />
+    <field index="1" term="http://purl.org/dc/terms/identifier"/>
+    <field index="2" term="http://rs.tdwg.org/dwc/terms/typeStatus"/>
+    <field index="3" term="http://purl.org/dc/terms/references"/>
+    <field index="4" term="http://purl.org/dc/terms/modified"/>
+    <field index="5" term="http://purl.org/dc/terms/created"/>
+    <field index="6" term="http://purl.org/dc/terms/creator"/>
+    <field index="7" term="http://rs.gbif.org/terms/1.0/typeDesignationType"/>
+    <field index="8" term="	http://rs.gbif.org/terms/1.0/typeDesignatedBy"/>
+    <field index="9" term="	http://rs.tdwg.org/dwc/terms/scientificName"/>
+    <field index="10" term="http://purl.org/dc/terms/source"/>
+    <field index="11" term="http://rs.tdwg.org/dwc/terms/occurrenceID"/>
+    <field index="12" term="http://rs.tdwg.org/dwc/terms/institutionCode"/>
+    <field index="13" term="http://rs.tdwg.org/dwc/terms/collectionCode"/>
+    <field index="14" term="http://rs.tdwg.org/dwc/terms/catalogNumber"/>
+    <field index="15" term="http://rs.tdwg.org/dwc/terms/locality"/>
+    <field index="16" term="http://rs.tdwg.org/dwc/terms/sex"/>
+    <field index="17" term="http://rs.tdwg.org/dwc/terms/recordedBy"/>
+    <field index="18" term="http://rs.tdwg.org/dwc/terms/verbatimEventDate"/>
+    <field index="19" term="http://rs.tdwg.org/dwc/terms/verbatimLatitude"/>
+    <field index="20" term="http://rs.tdwg.org/dwc/terms/verbatimLongitude"/>
+    <field index="21" term="http://rs.gbif.org/terms/1.0/verbatimLabel"/>
+    <field default="Content licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License" term="http://purl.org/dc/terms/rights"/>
+    <field default="http://creativecommons.org/licenses/by-nc-sa/3.0/" term="http://purl.org/dc/terms/license"/>
     <field default="CATE Araceae. (2011, 23 December). Retrieved 12:26, Friday, 27 January, 2012, from http://www.cate-araceae.org" term="http://purl.org/dc/terms/bibliographicCitation"/>
   </extension>
   <extension

@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.apache.solr.common.SolrDocument;
 import org.emonocot.model.registry.Resource;
+import org.emonocot.pager.CellSet;
+import org.emonocot.pager.Cube;
 import org.emonocot.pager.DefaultPageImpl;
 import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.ResourceDao;
@@ -104,6 +106,14 @@ public class ResourceDaoImpl extends DaoImpl<Resource> implements ResourceDao {
 
 	@Override
 	public List<Resource> list(String sourceId, Integer page, Integer size) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CellSet analyse(String rows, String cols, Integer firstCol,
+			Integer maxCols, Integer firstRow, Integer maxRows,
+			Map<String, String> selectedFacets, String[] array, Cube cube) {
 		// TODO Auto-generated method stub
 		return null;
 	}

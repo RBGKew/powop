@@ -7,8 +7,14 @@ package org.emonocot.pager;
  */
 public enum FacetName {
 
-    CLASS("base.class_s"),    
+    CLASS("base.class_s"),
+    ORDER("taxon.order_s"),
     FAMILY("taxon.family_s"),
+    SUBFAMILY("taxon.subfamily_s"),
+    TRIBE("taxon.tribe_s"),
+    SUBTRIBE("taxon.subtribe_s"),
+    GENUS("taxon.genus_s"),
+    SPECIES("taxon.specific_epithet_s"),
     CONTINENT("taxon.distribution_TDWG_0_ss"),
     REGION("taxon.distribution_TDWG_1_ss"),
     SOURCE("searchable.sources_ss"),

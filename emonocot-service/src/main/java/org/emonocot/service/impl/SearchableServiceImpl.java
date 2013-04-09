@@ -7,6 +7,8 @@ import org.apache.solr.common.SolrDocument;
 import org.emonocot.api.SearchableService;
 import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.Base;
+import org.emonocot.pager.CellSet;
+import org.emonocot.pager.Cube;
 import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.SearchableDao;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,5 +67,8 @@ public abstract class SearchableServiceImpl<T extends Base, DAO extends Searchab
 		return dao.loadObjectForDocument(solrDocument);
 	}
 	
-	
+	@Transactional(readOnly = true)
+	public CellSet analyse(String rows, String cols, Integer firstCol, Integer maxCols, Integer firstRow, Integer maxRows,	Map<String, String> selectedFacets, String[] array, Cube cube) {
+		return dao.analyse(rows, cols, firstCol, maxCols, firstRow, maxRows,selectedFacets, array, cube);
+	}
 }
