@@ -47,6 +47,7 @@ import org.emonocot.model.Taxon;
 import org.gbif.ecat.voc.TaxonomicStatus;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
@@ -183,6 +184,7 @@ public class PdfWritingTest {
     }
     
     @Test
+    @Ignore
     public final void testFOP() throws Exception {
 
 /*        File outFile = null;
