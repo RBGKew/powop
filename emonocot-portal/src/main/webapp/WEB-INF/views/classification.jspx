@@ -15,7 +15,7 @@
 			<div class="span12">
 				<div class="inner">
 					<div class="box clearfix">
-						<c:url
+						<c:url 
 							value="/css/images/glyphicons/halfsize/glyphicons_044_keys.png"
 							var="keyIconUrl" />
 						<div class="row pull-right">
@@ -24,7 +24,7 @@
 								<spring:message code="keyLegend" />
 							</div>
 						</div>
-
+						
 						<div id="classification" class="jstree-default">&#160;</div>
 						<c:url var="identificationKeyLink" value="/key/" />
 						<c:url var="webserviceUrl" value="/taxonTree" />

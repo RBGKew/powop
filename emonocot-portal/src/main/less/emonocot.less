@@ -3,7 +3,7 @@
  */
  
 body{
-    padding-top: @navbarHeight;
+	padding-top: @navbarHeight;
 }
 
 /**
@@ -12,25 +12,23 @@ body{
  * divide-by-zero error when a thumbnail has been resized to 101px or 99px
  */
  
-img.thumbnail {    
-    height: 100px;
-    width: 100px;
-    display: block;
-    max-width: 100%;
-    margin-left: auto;
-    margin-right: auto;
+img.thumbnail {
+	height: 100px;
+	width: 100px;
+	display: block;
+	max-width: 100%;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 img.media-object {
-    height: 48px;
-    width: 48px;
+	height: 48px;
+	width: 48px;
 }
 
-
-
 .centeredImage{
-    text-align:center;
-    display:block;
+	text-align:center;
+	display:block;
 }
 
 .thumbnail-gallery-padding li{
@@ -45,24 +43,25 @@ img.media-object {
 	text-align:justify;
 }
 
-
-
-.header-icon { padding-left: 0.5em; padding-right: 0.5em; }
+.header-icon { 
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+}
 
 .icon-column{
 	width:70px;
-	}
-	
+}
+
 .halflings-icon.keys{
-  background-image:url(./images/glyphicons/fullsize/glyphicons_044_keys.png);
-  background-position: 0 0;
-  background-size: 14px 14px;
-  }
+	background-image:url(./images/glyphicons/fullsize/glyphicons_044_keys.png);
+	background-position: 0 0;
+	background-size: 14px 14px;
+}
 	
 .tabbable-bordered {
--webkit-border-radius: 4px;
--moz-border-radius: 4px;
-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
 }
 
 .no-small-icon{
@@ -70,7 +69,7 @@ border-radius: 4px;
 }
 
 .index-message {
-  text-align:center;
+	text-align:center;
 }
 
 .imageSize{
@@ -86,9 +85,11 @@ border-radius: 4px;
 	font-weight: bold;
 	background: url(./images/glyphicons/halfsize/glyphicons_044_keys.png) no-repeat;
 	background-size: 14px 14px;
-	
-	}
-.jstree .key {padding-left: 18px;}
+}
+
+.jstree .key {
+	padding-left: 18px;
+}
 
 
 /**
@@ -96,11 +97,11 @@ border-radius: 4px;
  */
  
 #unselectedCharacters ul.unstyled {
-  padding-left: 25px;
+	padding-left: 25px;
 }
 
 #selectedCharacters ul.unstyled {
-  padding-left: 25px;
+	padding-left: 25px;
 }
 
 #characterModal .modal-body li {
@@ -114,15 +115,15 @@ border-radius: 4px;
 }
 
 li.descriptiveConcept div {
-  clear:both;
+	clear:both;
 }
 
 li.descriptiveConcept h4.pull-left {
-  width: 50%
+	width: 50%
 }
 
 li.character h4.pull-left {
-  width: 50%
+	width: 50%
 }
 
 .resultTypeIcon {
@@ -143,25 +144,26 @@ label.checkbox input[type="checkbox"]{
 	cursor:pointer;
 }
 
-
 /**
  * Map Search
  */
+ 
 .full-width-map { 
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top:-35px;
-    height: 470px;
-    width:100%}
-    
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top:-35px;
+	height: 470px;
+	width:100%
+}
+
 .olControlOverviewMapElement {
 	background-color: #616668 !important;
-	}
-    
+}
+
 .olControlOverviewMapExtentRectangle {
 	border: 2px dotted #FE3A7F !important;
-	}
+}
 
 /*********** CLASS CSS ***********/ 
 
@@ -171,117 +173,125 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /*header*/
+
 @heroBackground: #b9f0e5;
 @heroBackgroundHighlight: #cffff2;
 @heroUnitHeight: 470px;
+@heroUnitHeightMobile: 370px;
 
 .navbar {
-    .brand {
-        height: @navbarHeight; 
-        width: 172px;
-        padding: 0 20px 0;
-        background: url('@{imagePath}/logo.png') no-repeat center;
-        span {
-            display: none;
-        }
-    }
+	.brand {
+		height: @navbarHeight; 
+		width: 172px;
+		padding: 0 20px 0;
+		background: url('@{imagePath}/logo.png') no-repeat center;
+
+		span {
+			display: none;
+		}
+	}
 }
 
 .hero-unit {
-    position: relative;
-    height: @heroUnitHeight;  
-    margin: 0 0 20px;
-    padding: 0;
- /*   #gradient > .vertical(@heroBackground, @heroBackgroundHighlight);*/
-    background-color: @heroBackground;
-    background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), url('@{imagePath}/banner/grass-1.png'), url('@{imagePath}/banner/pond.png'), url('@{imagePath}/banner/plant-decoration.png'), url('@{imagePath}/banner/grass-2.png'), url('@{imagePath}/banner/grass-3.png'), url('@{imagePath}/banner/plant-single.png'), url('@{imagePath}/banner/trees-right.png'), url('@{imagePath}/banner/trees-left.png'), url('@{imagePath}/banner/grass-4.png'), url('@{imagePath}/banner/bg-plants.png'), url('@{imagePath}/banner/grass-5.png'), url('@{imagePath}/banner/bg-banner.png'), -moz-linear-gradient(top, @heroBackground, @heroBackgroundHighlight);
-    background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), url('@{imagePath}/banner/grass-1.png'), url('@{imagePath}/banner/pond.png'), url('@{imagePath}/banner/plant-decoration.png'), url('@{imagePath}/banner/grass-2.png'), url('@{imagePath}/banner/grass-3.png'), url('@{imagePath}/banner/plant-single.png'), url('@{imagePath}/banner/trees-right.png'), url('@{imagePath}/banner/trees-left.png'), url('@{imagePath}/banner/grass-4.png'), url('@{imagePath}/banner/bg-plants.png'), url('@{imagePath}/banner/grass-5.png'), url('@{imagePath}/banner/bg-banner.png'), -webkit-gradient(linear, 0 0, 0 100%, from(@heroBackground), to(@heroBackgroundHighlight));
-    background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), url('@{imagePath}/banner/grass-1.png'), url('@{imagePath}/banner/pond.png'), url('@{imagePath}/banner/plant-decoration.png'), url('@{imagePath}/banner/grass-2.png'), url('@{imagePath}/banner/grass-3.png'), url('@{imagePath}/banner/plant-single.png'), url('@{imagePath}/banner/trees-right.png'), url('@{imagePath}/banner/trees-left.png'), url('@{imagePath}/banner/grass-4.png'), url('@{imagePath}/banner/bg-plants.png'), url('@{imagePath}/banner/grass-5.png'), url('@{imagePath}/banner/bg-banner.png'), -webkit-linear-gradient(top,@heroBackground, @heroBackgroundHighlight);
-    background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), url('@{imagePath}/banner/grass-1.png'), url('@{imagePath}/banner/pond.png'), url('@{imagePath}/banner/plant-decoration.png'), url('@{imagePath}/banner/grass-2.png'), url('@{imagePath}/banner/grass-3.png'), url('@{imagePath}/banner/plant-single.png'), url('@{imagePath}/banner/trees-right.png'), url('@{imagePath}/banner/trees-left.png'), url('@{imagePath}/banner/grass-4.png'), url('@{imagePath}/banner/bg-plants.png'), url('@{imagePath}/banner/grass-5.png'), url('@{imagePath}/banner/bg-banner.png'), -o-linear-gradient(top, @heroBackground, @heroBackgroundHighlight);
-    background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), url('@{imagePath}/banner/grass-1.png'), url('@{imagePath}/banner/pond.png'), url('@{imagePath}/banner/plant-decoration.png'), url('@{imagePath}/banner/grass-2.png'), url('@{imagePath}/banner/grass-3.png'), url('@{imagePath}/banner/plant-single.png'), url('@{imagePath}/banner/trees-right.png'), url('@{imagePath}/banner/trees-left.png'), url('@{imagePath}/banner/grass-4.png'), url('@{imagePath}/banner/bg-plants.png'), url('@{imagePath}/banner/grass-5.png'), url('@{imagePath}/banner/bg-banner.png'), linear-gradient(to bottom, @heroBackground, @heroBackgroundHighlight);
-    background-repeat: repeat, no-repeat, no-repeat, repeat-x, no-repeat, no-repeat, repeat-x, repeat-x, no-repeat, no-repeat, no-repeat, repeat-x, repeat-x, repeat-x, repeat-x, repeat-x;
-    background-position: center center, bottom right, bottom left, bottom center, bottom center, bottom center, bottom center, bottom center, bottom center, bottom right, bottom left, bottom center, bottom center, bottom center, bottom center, center center;
-  
-    h1 {
-        color: #333;
-        margin-bottom: 9px;
-        text-align: center;
-        font-size: 36px;
-        line-height: 42px;
-        text-shadow: 0 1px 0 #fff;
-        margin: 0 0 10px;
-    }
-    p {
-        margin-bottom: 9px;
-        text-align: center;
-        color: #333; 
-        text-shadow: 0 1px 0 #fff; 
-        font-family: 'ms500', Helvetica, Arial, sans-serif; 
-        font-size: 24px; 
-        line-height: 30px;
-    }
-    input[type='text'] { 
-        padding: 11px;
-        margin-right: 10px;
-    }
-    
+	position: relative;
+	height: @heroUnitHeight;  
+	margin: 0 0 20px;
+	padding: 0;
+	/* #gradient > .vertical(@heroBackground, @heroBackgroundHighlight);*/
+	background-color: @heroBackground;
+	background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), url('@{imagePath}/banner/grass-1.png'), url('@{imagePath}/banner/pond.png'), url('@{imagePath}/banner/plant-decoration.png'), url('@{imagePath}/banner/grass-2.png'), url('@{imagePath}/banner/grass-3.png'), url('@{imagePath}/banner/plant-single.png'), url('@{imagePath}/banner/trees-right.png'), url('@{imagePath}/banner/trees-left.png'), url('@{imagePath}/banner/grass-4.png'), url('@{imagePath}/banner/bg-plants.png'), url('@{imagePath}/banner/grass-5.png'), url('@{imagePath}/banner/bg-banner.png'), -moz-linear-gradient(top, @heroBackground, @heroBackgroundHighlight);
+	background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), url('@{imagePath}/banner/grass-1.png'), url('@{imagePath}/banner/pond.png'), url('@{imagePath}/banner/plant-decoration.png'), url('@{imagePath}/banner/grass-2.png'), url('@{imagePath}/banner/grass-3.png'), url('@{imagePath}/banner/plant-single.png'), url('@{imagePath}/banner/trees-right.png'), url('@{imagePath}/banner/trees-left.png'), url('@{imagePath}/banner/grass-4.png'), url('@{imagePath}/banner/bg-plants.png'), url('@{imagePath}/banner/grass-5.png'), url('@{imagePath}/banner/bg-banner.png'), -webkit-gradient(linear, 0 0, 0 100%, from(@heroBackground), to(@heroBackgroundHighlight));
+	background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), url('@{imagePath}/banner/grass-1.png'), url('@{imagePath}/banner/pond.png'), url('@{imagePath}/banner/plant-decoration.png'), url('@{imagePath}/banner/grass-2.png'), url('@{imagePath}/banner/grass-3.png'), url('@{imagePath}/banner/plant-single.png'), url('@{imagePath}/banner/trees-right.png'), url('@{imagePath}/banner/trees-left.png'), url('@{imagePath}/banner/grass-4.png'), url('@{imagePath}/banner/bg-plants.png'), url('@{imagePath}/banner/grass-5.png'), url('@{imagePath}/banner/bg-banner.png'), -webkit-linear-gradient(top,@heroBackground, @heroBackgroundHighlight);
+	background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), url('@{imagePath}/banner/grass-1.png'), url('@{imagePath}/banner/pond.png'), url('@{imagePath}/banner/plant-decoration.png'), url('@{imagePath}/banner/grass-2.png'), url('@{imagePath}/banner/grass-3.png'), url('@{imagePath}/banner/plant-single.png'), url('@{imagePath}/banner/trees-right.png'), url('@{imagePath}/banner/trees-left.png'), url('@{imagePath}/banner/grass-4.png'), url('@{imagePath}/banner/bg-plants.png'), url('@{imagePath}/banner/grass-5.png'), url('@{imagePath}/banner/bg-banner.png'), -o-linear-gradient(top, @heroBackground, @heroBackgroundHighlight);
+	background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), url('@{imagePath}/banner/grass-1.png'), url('@{imagePath}/banner/pond.png'), url('@{imagePath}/banner/plant-decoration.png'), url('@{imagePath}/banner/grass-2.png'), url('@{imagePath}/banner/grass-3.png'), url('@{imagePath}/banner/plant-single.png'), url('@{imagePath}/banner/trees-right.png'), url('@{imagePath}/banner/trees-left.png'), url('@{imagePath}/banner/grass-4.png'), url('@{imagePath}/banner/bg-plants.png'), url('@{imagePath}/banner/grass-5.png'), url('@{imagePath}/banner/bg-banner.png'), linear-gradient(to bottom, @heroBackground, @heroBackgroundHighlight);
+	background-repeat: repeat, no-repeat, no-repeat, repeat-x, no-repeat, no-repeat, repeat-x, repeat-x, no-repeat, no-repeat, no-repeat, repeat-x, repeat-x, repeat-x, repeat-x, repeat-x;
+	background-position: center center, bottom right, bottom left, bottom center, bottom center, bottom center, bottom center, bottom center, bottom center, bottom right, bottom left, bottom center, bottom center, bottom center, bottom center, center center;
+
+	h1 {
+		color: #333;
+		margin-bottom: 9px;
+		text-align: center;
+		font-size: 36px;
+		line-height: 42px;
+		text-shadow: 0 1px 0 #fff;
+		margin: 0 0 10px;
+	}
+
+	p {
+		margin-bottom: 9px;
+		text-align: center;
+		color: #333; 
+		text-shadow: 0 1px 0 #fff; 
+		font-family: 'ms500', Helvetica, Arial, sans-serif; 
+		font-size: 24px; 
+		line-height: 30px;
+	}
+
+	input[type='text'] { 
+		padding: 11px;
+		margin-right: 10px;
+	}
 }
 
 .form-inline {
-        text-align: center;
-        display:block;
-    }
-.hero-unit-inner {
-    position: relative;
-    z-index: 300;
-    box-shadow: none;
-    padding: 45px 0;
+	text-align: center;
+	display:block;
 }
+
+.hero-unit-inner {
+	position: relative;
+	z-index: 300;
+	box-shadow: none;
+	padding: 45px 0;
+}
+
 /* boxes */
 
-.box { background: #fff;
-       border: 1px solid #e8e8e8;
-       min-height: 20px;
-       padding: 19px;
-       margin-bottom: 20px; 
-       position: relative;
-       -webkit-box-shadow: inset 1px 1px 30px 1px #f9f9f9;
-       -moz-box-shadow: inset 1px 1px 30px 1px #f9f9f9;
-       box-shadow: inset 1px 1px 30px 1px #f9f9f9;
+.box { 
+	background: #fff;
+	border: 1px solid #e8e8e8;
+	min-height: 20px;
+	padding: 19px;
+	margin-bottom: 20px; 
+	position: relative;
+	-webkit-box-shadow: inset 1px 1px 30px 1px #f9f9f9;
+	-moz-box-shadow: inset 1px 1px 30px 1px #f9f9f9;
+	box-shadow: inset 1px 1px 30px 1px #f9f9f9;
 }
 
 .inner { 
-    position: relative;
-    z-index: 1;
+	position: relative;
+	z-index: 1;
 }
 
 .inner:before, .inner:after { 
-    position: absolute; 
-    width: 50%; 
-    height: 4px; 
-    content: ' '; 
-    left: 12px;
-    background: transparent; 
-    -webkit-transform: skew(-5deg) rotate(-3deg);
-    -moz-transform: skew(-5deg) rotate(-3deg);
-    -ms-transform: skew(-5deg) rotate(-3deg);
-    -o-transform: skew(-5deg) rotate(-3deg);
-    transform: skew(-5deg) rotate(-3deg); 
-    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
-    -moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
-    z-index: -1; 
-} 
+	position: absolute; 
+	width: 50%; 
+	height: 4px; 
+	content: ' '; 
+	left: 12px;
+	background: transparent; 
+	-webkit-transform: skew(-5deg) rotate(-3deg);
+	-moz-transform: skew(-5deg) rotate(-3deg);
+	-ms-transform: skew(-5deg) rotate(-3deg);
+	-o-transform: skew(-5deg) rotate(-3deg);
+	transform: skew(-5deg) rotate(-3deg); 
+	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
+	-moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
+	z-index: -1; 
+}
+
 .inner:after  { 
-    left: auto; 
-    right: 12px;
-    -webkit-transform: skew(5deg) rotate(3deg); 
-    -moz-transform: skew(5deg) rotate(3deg); 
-    -ms-transform: skew(5deg) rotate(3deg); 
-    -o-transform: skew(5deg) rotate(3deg); 
-    transform: skew(5deg) rotate(3deg);
+	left: auto; 
+	right: 12px;
+	-webkit-transform: skew(5deg) rotate(3deg); 
+	-moz-transform: skew(5deg) rotate(3deg); 
+	-ms-transform: skew(5deg) rotate(3deg); 
+	-o-transform: skew(5deg) rotate(3deg); 
+	transform: skew(5deg) rotate(3deg);
 } 
-    
+
 .span12 .inner:before, .span12 .inner:after, .span11 .inner:before, .span11 .inner:after { bottom: 13px; }
 .span10 .inner:before, .span10 .inner:after, .span9 .inner:before, .span9 .inner:after { bottom: 12px; }
 .span8 .inner:before, .span8 .inner:after, .span7 .inner:before, .span7 .inner:after { bottom: 11px; }
@@ -290,22 +300,26 @@ h1, h2, h3, h4, h5, h6 {
 .span2 .inner:before, .span2 .inner:after, .span1 .inner:before, .span1 .inner:after { bottom: 8px; }
 
 .box h1, .box h2, .box h3, .box h4, .box h5, .box h6 {
-    color: #5b5b5b; 
+	color: #5b5b5b; 
 }
 
 .box h2 { 
-    font-size: 16px; 
-    line-height: 28px;
+	font-size: 16px; 
+	line-height: 28px;
  }
+ 
 .box a h2 { 
-  color: #5b5b5b; 
-  text-decoration: none;
-}
-.box a:hover h2 { 
-   text-decoration: none !important
+	color: #5b5b5b; 
+	text-decoration: none;
 }
 
-.box p { color: #888; }
+.box a:hover h2 { 
+	text-decoration: none !important
+}
+
+.box p {
+	color: #888;
+}
 
 /**
  * footer 
@@ -315,55 +329,65 @@ h1, h2, h3, h4, h5, h6 {
 	text-align:center;
 }
 
-#footer-logo { height: 50px; width: 50px; background: url('@{imagePath}/footer/logo.png') no-repeat; margin: 0 auto 20px; }
-
-footer.navbar {
-  margin-bottom: 0; 
-  .navbar-inner {
-    border-radius: 0;
-    .container {
-      #grid > .core > .span(@gridColumns);
-      div.row {
-          margin: 0;
-      }
-      ul.nav {
-        margin: 0 auto;
-        float: none;
-        display:table;
-      }
-    }
-  }
+#footer-logo {
+	height: 50px;
+	width: 50px;
+	background: url('@{imagePath}/footer/logo.png') no-repeat;
+	margin: 0 auto 20px;
 }
 
+footer.navbar {
+	margin-bottom: 0; 
 
+	.navbar-inner {
+		border-radius: 0;
+		
+		.container {
+			#grid > .core > .span(@gridColumns);
+			
+			div.row {
+				margin: 0;
+			}
+			
+			ul.nav {
+				margin: 0 auto;
+				float: none;
+				display:table;
+			}
+		}
+	}
+}
 
 /**
  * page-banner
  */
  
- #page-title {line-height: 65px}
+ #page-title {
+ 	line-height: 65px
+ }
 
 .page-banner {
-    position: relative; 
-    overflow: hidden;
-    margin-bottom: 20px;
-    /*   #gradient > .vertical(@heroBackground, @heroBackgroundHighlight);*/
-    background-color: @heroBackground;
-    background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), -moz-linear-gradient(top, @heroBackground, @heroBackgroundHighlight);
-    background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), -webkit-gradient(linear, 0 0, 0 100%, from(@heroBackground), to(@heroBackgroundHighlight));
-    background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), -webkit-linear-gradient(top,@heroBackground, @heroBackgroundHighlight);
-    background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), -o-linear-gradient(top, @heroBackground, @heroBackgroundHighlight);
-    background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), linear-gradient(to bottom, @heroBackground, @heroBackgroundHighlight);
-    background-repeat: repeat, no-repeat, no-repeat, repeat-x;
-    background-position: center center, bottom right, bottom left, center center;
-    .page-header {
-        border-bottom: none
-    }
+	position: relative; 
+	overflow: hidden;
+	margin-bottom: 20px;
+	/* #gradient > .vertical(@heroBackground, @heroBackgroundHighlight);*/
+	background-color: @heroBackground;
+	background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), -moz-linear-gradient(top, @heroBackground, @heroBackgroundHighlight);
+	background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), -webkit-gradient(linear, 0 0, 0 100%, from(@heroBackground), to(@heroBackgroundHighlight));
+	background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), -webkit-linear-gradient(top,@heroBackground, @heroBackgroundHighlight);
+	background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), -o-linear-gradient(top, @heroBackground, @heroBackgroundHighlight);
+	background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), linear-gradient(to bottom, @heroBackground, @heroBackgroundHighlight);
+	background-repeat: repeat, no-repeat, no-repeat, repeat-x;
+	background-position: center center, bottom right, bottom left, center center;
+
+	.page-header {
+		border-bottom: none
+	}
 }
 
 .page-banner-inner {
-    position: relative;
-    z-index: 300;
+	position: relative;
+	z-index: 300;
 }
 
 .h4Results { color: #5b5b5b; font-size: 16px; }
@@ -378,7 +402,13 @@ footer.navbar {
 
 /* sub heading */
 
-.sub-title { color: #5b5b5b; font-size: 24px; line-height: 30px; margin: 10px 0 20px; text-align: center; }
+.sub-title { 
+	color: #5b5b5b; 
+	font-size: 24px; 
+	line-height: 30px; 
+	margin: 10px 0 20px; 
+	text-align: center; 
+}
 
 /**
  * Taxon Page 
@@ -392,83 +422,97 @@ footer.navbar {
     width: 20000em;
 }
 
-section {width: 100%; clear: both}
-.section-header {margin: 18px 0}
-
-#distribution-textual {
-    list-style:none;
-    margin:0px; padding-left:0; 
-    text-indent:0; 
-    clear: both;
-    li {
-      float:left; 
-      padding-left:0.5em;
-      &:first-child {
-          &:before {
-              padding-left: 0em;
-          }
-      }
-      &:after {
-          content: ",";
-      }
-      &:last-child {
-        &:after {
-          content: "";
-        }
-      }
-    }
+section {
+	width: 100%;
+	clear: both
 }
 
+.section-header {
+	margin: 18px 0;
+}
 
+#distribution-textual {
+	list-style:none;
+	margin:0px; padding-left:0; 
+	text-indent:0; 
+	clear: both;
+
+	li {
+		float:left; 
+		padding-left:0.5em;
+		&:first-child {
+			&:before {
+				padding-left: 0em;
+			}
+		}
+		&:after {
+			content: ",";
+		}
+		&:last-child {
+			&:after {
+				content: "";
+			}
+		}
+	}
+}
 
 ul.citations {
-    list-style: none;
-    margin: 0px;
-    float: right;
-    &:before {
-        content: "[";
-    }
-    &:after {
-        content: "]";
-    }
-    li {
-      display: inline;
-      &:last-child {
-          &:after {
-              content: "";
-          }
-      }
-      &:after {
-          content: ",";
-      }
-      &:before {
-          content: "";
-      }
-    }
+	list-style: none;
+	margin: 0px;
+	float: right;
+	
+	&:before {
+		content: "[";
+	}
+	
+	&:after {
+		content: "]";
+	}
+	
+	li {
+		display: inline;
+		
+		&:last-child {
+			&:after {
+				content: "";
+			}
+		}
+
+		&:after {
+			content: ",";
+		}
+
+		&:before {
+			content: "";
+		}
+	}
 }
 
 section#bibliography ul {
-    list-style: none;
-    li a {
-        &:before {
-            content: "[";
-        }
-        &:after {
-            content: "]";
-        }
-    }
+	list-style: none;
+
+	li a {
+		&:before {
+			content: "[";
+		}
+		&:after {
+			content: "]";
+		}
+	}
 }
 
 section#sources dl dd ul {
-    list-style: none;
-    li a {
-      &:before {
-          content: "[";
-      }
-      &:after {
-          content: "]";
-      }
-    }
+	list-style: none;
+
+	li a {
+		&:before {
+			content: "[";
+		}
+
+		&:after {
+			content: "]";
+		}
+	}
 }
 
 .taxon-page-map{
@@ -488,12 +532,18 @@ section#sources dl dd ul {
 .sidebarBox h5 { display: inline; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: bold; color: #616668; }
 
 ul#taxonHierarchy, ul#taxonHierarchy ul {
-     list-style-type: none;
+	list-style-type: none;
 }
 
-.section-box { padding-bottom: 19px !important; width: auto;}
+.section-box { 
+	padding-bottom: 19px !important;
+	width: auto;
+}
 
-.nav-pills > li > a { color: #616668; font-weight: bold; }
+.nav-pills > li > a {
+	color: #616668;
+	font-weight: bold;
+}
 
 #sidebar { margin-top: 0;}
 
@@ -513,31 +563,63 @@ ul#taxonHierarchy, ul#taxonHierarchy ul {
 }
 
 #status-ribbon {
-    width: 200px;
-    height: 30px;
-    text-align: center;
-    background-color: #D50C54;
-    position:absolute; 
-    left: -75px; 
-    top: 25px; 
-    color: white;  
-    -moz-transform:rotate(-45deg); 
-    -webkit-transform: rotate(-45deg); 
-    -ms-transform: rotate(-45deg); 
-    padding-top: 10px; 
-    border-style: solid; 
-    border-color: #FE3A7F; 
-    border-width: 2px; 
-    font-family: Helvetica,Arial,sans-serif; 
-    font-weight: bold; 
-    z-index: 1050;
-    &:after {
-        content: "BETA"
-    }
+	width: 200px;
+	height: 30px;
+	text-align: center;
+	background-color: #D50C54;
+	position:absolute; 
+	left: -75px; 
+	top: 25px; 
+	color: white;  
+	-moz-transform:rotate(-45deg); 
+	-webkit-transform: rotate(-45deg); 
+	-ms-transform: rotate(-45deg); 
+	padding-top: 10px; 
+	border-style: solid; 
+	border-color: #FE3A7F; 
+	border-width: 2px; 
+	font-family: Helvetica,Arial,sans-serif; 
+	font-weight: bold; 
+	z-index: 1050;
+
+	&:after {
+		content: "BETA"
+	}
 }
+
+/* Responsive - @media */
+
 @media (max-width: @navbarCollapseWidth) {
- 
-  body{
-    padding-top: 0;
+	body{
+		padding-top: 0;
+	}
+	.taxon-page-map{
+		width: auto;
+	}
 }
- }
+
+@media (max-width: 767px) {
+	.hero-unit {
+		position: relative;
+		height: @heroUnitHeightMobile;  
+		margin: 0 0 20px;
+		padding: 0;
+		/* #gradient > .vertical(@heroBackground, @heroBackgroundHighlight);*/
+		background-color: @heroBackground;
+		background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-left-small-2.png'), url('@{imagePath}/banner/bamboo-right-small-2.png'), url('@{imagePath}/banner/grass-1.png'), url('@{imagePath}/banner/plant-decoration.png'), url('@{imagePath}/banner/grass-2.png'), url('@{imagePath}/banner/grass-3.png'), url('@{imagePath}/banner/plant-single.png'), url('@{imagePath}/banner/grass-4.png'), url('@{imagePath}/banner/bg-plants.png'), url('@{imagePath}/banner/grass-5.png'), url('@{imagePath}/banner/bg-banner.png'), -moz-linear-gradient(top, @heroBackground, @heroBackgroundHighlight);
+		background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-left-small-2.png'), url('@{imagePath}/banner/bamboo-right-small-2.png'), url('@{imagePath}/banner/grass-1.png'), url('@{imagePath}/banner/plant-decoration.png'), url('@{imagePath}/banner/grass-2.png'), url('@{imagePath}/banner/grass-3.png'), url('@{imagePath}/banner/plant-single.png'), url('@{imagePath}/banner/grass-4.png'), url('@{imagePath}/banner/bg-plants.png'), url('@{imagePath}/banner/grass-5.png'), url('@{imagePath}/banner/bg-banner.png'), -webkit-gradient(linear, 0 0, 0 100%, from(@heroBackground), to(@heroBackgroundHighlight));
+		background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-left-small-2.png'), url('@{imagePath}/banner/bamboo-right-small-2.png'), url('@{imagePath}/banner/grass-1.png'), url('@{imagePath}/banner/plant-decoration.png'), url('@{imagePath}/banner/grass-2.png'), url('@{imagePath}/banner/grass-3.png'), url('@{imagePath}/banner/plant-single.png'), url('@{imagePath}/banner/grass-4.png'), url('@{imagePath}/banner/bg-plants.png'), url('@{imagePath}/banner/grass-5.png'), url('@{imagePath}/banner/bg-banner.png'), -webkit-linear-gradient(top,@heroBackground, @heroBackgroundHighlight);
+		background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-left-small-2.png'), url('@{imagePath}/banner/bamboo-right-small-2.png'), url('@{imagePath}/banner/grass-1.png'), url('@{imagePath}/banner/plant-decoration.png'), url('@{imagePath}/banner/grass-2.png'), url('@{imagePath}/banner/grass-3.png'), url('@{imagePath}/banner/plant-single.png'), url('@{imagePath}/banner/grass-4.png'), url('@{imagePath}/banner/bg-plants.png'), url('@{imagePath}/banner/grass-5.png'), url('@{imagePath}/banner/bg-banner.png'), -o-linear-gradient(top, @heroBackground, @heroBackgroundHighlight);
+		background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-left-small-2.png'), url('@{imagePath}/banner/bamboo-right-small-2.png'), url('@{imagePath}/banner/grass-1.png'), url('@{imagePath}/banner/plant-decoration.png'), url('@{imagePath}/banner/grass-2.png'), url('@{imagePath}/banner/grass-3.png'), url('@{imagePath}/banner/plant-single.png'), url('@{imagePath}/banner/grass-4.png'), url('@{imagePath}/banner/bg-plants.png'), url('@{imagePath}/banner/grass-5.png'), url('@{imagePath}/banner/bg-banner.png'), linear-gradient(to bottom, @heroBackground, @heroBackgroundHighlight);
+		background-repeat: repeat, no-repeat, no-repeat, repeat-x,  no-repeat, repeat-x, repeat-x, no-repeat, repeat-x, repeat-x, repeat-x, repeat-x, repeat-x;
+		background-position: center center, bottom left, bottom right, bottom center,  bottom center, bottom center, bottom center, bottom center, bottom center, bottom center, bottom center, bottom center, center center;
+
+		h1 {
+			font-size: 26px;
+		}
+
+		h4 {
+			font-size: 16px;
+		}
+	}
+}

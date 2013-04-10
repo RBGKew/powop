@@ -57,6 +57,15 @@
 	<div class="container">
 		<div class="row">
 			<div id="facets" class="span3 no-print">
+				<div class="row">
+					<div class="span3">
+						<div class="inner">
+							<ul class="box nav nav-list">
+								<li class="nav-header"><i class="glyphicons-icon filter">&#160;</i><spring:message code="filter.emonocot" /></li>
+							</ul>
+						</div>
+					</div>
+				</div>
 				<c:forEach var="facetName" items="${result.facetNames}">
 					<div class="row">
 						<div class="span3">
