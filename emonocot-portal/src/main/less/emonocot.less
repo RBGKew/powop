@@ -164,7 +164,7 @@ label.checkbox input[type="checkbox"]{
     margin-top:-35px;
     height: 470px;
     width:100%}
- 
+    
 .olControlOverviewMapElement {
 	background-color: #616668 !important;
 	}
@@ -202,7 +202,6 @@ h1, h2, h3, h4, h5, h6 {
     height: @heroUnitHeight;  
     margin: 0 0 20px;
     padding: 0;
-    min-width: 940px;
  /*   #gradient > .vertical(@heroBackground, @heroBackgroundHighlight);*/
     background-color: @heroBackground;
     background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right.png'), url('@{imagePath}/banner/bamboo-left.png'), url('@{imagePath}/banner/grass-1.png'), url('@{imagePath}/banner/pond.png'), url('@{imagePath}/banner/plant-decoration.png'), url('@{imagePath}/banner/grass-2.png'), url('@{imagePath}/banner/grass-3.png'), url('@{imagePath}/banner/plant-single.png'), url('@{imagePath}/banner/trees-right.png'), url('@{imagePath}/banner/trees-left.png'), url('@{imagePath}/banner/grass-4.png'), url('@{imagePath}/banner/bg-plants.png'), url('@{imagePath}/banner/grass-5.png'), url('@{imagePath}/banner/bg-banner.png'), -moz-linear-gradient(top, @heroBackground, @heroBackgroundHighlight);
@@ -232,11 +231,16 @@ h1, h2, h3, h4, h5, h6 {
         line-height: 30px;
     }
     input[type='text'] { 
-        padding: 9px;
+        padding: 11px;
         margin-right: 10px;
     }
+    
 }
 
+.form-inline {
+        text-align: center;
+        display:block;
+    }
 .hero-unit-inner {
     position: relative;
     z-index: 300;
@@ -541,3 +545,9 @@ ul#taxonHierarchy, ul#taxonHierarchy ul {
         content: "BETA"
     }
 }
+@media (max-width: @navbarCollapseWidth) {
+ 
+  body{
+    padding-top: 0;
+}
+ }
