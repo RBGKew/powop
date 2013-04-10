@@ -177,8 +177,7 @@ public class UserServiceImpl extends SearchableServiceImpl<User, UserDao> implem
      * @param authenticationManager Set the authentication manager
      */
     @Autowired(required = false)
-    public final void setAuthenticationManager(
-            final AuthenticationManager authenticationManager) {
+    public final void setAuthenticationManager(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
 
@@ -776,4 +775,12 @@ public class UserServiceImpl extends SearchableServiceImpl<User, UserDao> implem
             return null;
         }
     }
+
+	public void setTemporaryFolder(FileSystemResource temporaryFolder) {
+		this.temporaryFolder = temporaryFolder;
+	}
+
+	public void setUserProfilesFolder(FileSystemResource userProfilesFolder) {
+		this.userProfilesFolder = userProfilesFolder;
+	}
 }

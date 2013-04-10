@@ -76,9 +76,9 @@ public class CellSet {
 			}
 	        cells = new Number[nRows][nCols];
 	        for(PivotField rField : response.getFacetPivot().get(rows + "," + columns)) {
-			    int i = this.rows.getMember((String)rField.getValue()).getOrdinal();
+			    int i = this.rows.getMember(rField.getValue().toString()).getOrdinal();
 				for(PivotField cField : rField.getPivot()) {
-					Member cMember = this.columns.getMember((String)cField.getValue());
+					Member cMember = this.columns.getMember(cField.getValue().toString());
 					if(cMember != null) {
 					    int j = cMember.getOrdinal();
 					    cells[i][j] = cField.getCount();
@@ -133,6 +133,16 @@ public class CellSet {
     public Number getCellValue(int row, int col) {
 		return cells[row][col];
 	}
+    
+    public Number getRowTotal(int row) {
+    	Integer total = 0;
+    	for(Number i : cells[row]) {
+    		if(i  != null) {
+    		    total += i.intValue();
+    		}
+    	}
+    	return total;    	
+    }
 	
     /**
      * The list of ${member.facet}:${member.value} filters to apply to the data - slices

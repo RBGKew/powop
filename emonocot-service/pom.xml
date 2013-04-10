@@ -91,6 +91,10 @@
         <artifactId>im4java</artifactId>
     </dependency>
     <dependency>
+	    <groupId>org.apache.sanselan</groupId>
+		<artifactId>sanselan</artifactId>
+	</dependency>
+    <dependency>
 	  <groupId>org.apache.tika</groupId>
 	  <artifactId>tika-parsers</artifactId>
 	</dependency> 

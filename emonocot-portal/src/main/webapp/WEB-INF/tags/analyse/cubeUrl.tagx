@@ -17,6 +17,10 @@
   <jsp:directive.attribute name="cellSet" type="org.emonocot.pager.CellSet" required="true" />
   <jsp:directive.attribute name="url" type="java.lang.String" required="true" />
   <jsp:directive.attribute name="cssClass" type="java.lang.String" required="false" />
+  <jsp:directive.attribute name="view" type="java.lang.String" required="false" />
+  <c:if test="${empty view}">
+    <c:set var="view" value="bar"/>
+  </c:if>
   <c:if test="${empty rows}">
     <c:set var="rows" value="${cellSet.rows}"/>
   </c:if>
@@ -27,6 +31,7 @@
     <c:set var="columns" value="${cellSet.columns}"/>
   </c:if>
   <c:url value="${url}" var="cubeUrl">
+     <c:param name="view" value="${view}"/>
      <c:forEach var="filter" items="${filters}">
        <c:choose>
          <c:when test="${fn:startsWith(filter,rows.facet)}">

@@ -318,7 +318,9 @@ public class SearchController {
 			@RequestParam(value = "cols", required = false) String cols,
 			@RequestParam(value = "firstCol", required = false, defaultValue = "0") Integer firstCol,
 			@RequestParam(value = "maxCols", required = false, defaultValue = "10") Integer maxCols,
-			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets)
+			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
+			@RequestParam(value = "view", required = false, defaultValue = "bar") String view
+			)
 			throws Exception {
 
 		List<String> facetList = new ArrayList<String>();
@@ -326,6 +328,10 @@ public class SearchController {
 		facetList.add("taxon.distribution_TDWG_0_ss");
 		facetList.add("taxon.taxon_rank_s");
 		facetList.add("taxon.taxonomic_status_s");
+		facetList.add("searchable.sources_ss");
+		facetList.add("taxon.measurement_or_fact_IUCNConservationStatus_txt");
+        facetList.add("taxon.measurement_or_fact_Lifeform_txt");
+        facetList.add("taxon.measurement_or_fact_Habitat_txt");
 
 		Map<String, String> selectedFacets = null;
 		if (facets != null && !facets.isEmpty()) {
@@ -342,12 +348,8 @@ public class SearchController {
 		cube.addDimension(taxonomy);
 
 		taxonomy.addLevel("taxon.order_s", false);
-		taxonomy.addLevel("taxon.family_s", false);
-		taxonomy.addLevel("taxon.subfamily_s", false);
-		taxonomy.addLevel("taxon.tribe_s", false);
-		taxonomy.addLevel("taxon.subtribe_s", false);
+		taxonomy.addLevel("taxon.family_s", false);		
 		taxonomy.addLevel("taxon.genus_s", false);
-		taxonomy.addLevel("taxon.specific_epithet_s", false);
 
 		Dimension distribution = new Dimension("distribution");
 		cube.addDimension(distribution);
@@ -358,16 +360,36 @@ public class SearchController {
 
 		Dimension taxonRank = new Dimension("taxonRank");
 		cube.addDimension(taxonRank);
-
 		taxonRank.addLevel("taxon.taxon_rank_s", false);
 
 		Dimension taxonomicStatus = new Dimension("taxonomicStatus");
 		cube.addDimension(taxonomicStatus);
 		taxonomicStatus.addLevel("taxon.taxonomic_status_s", false);
+		
+		Dimension lifeForm = new Dimension("lifeForm");
+		cube.addDimension(lifeForm);
+		lifeForm.addLevel("taxon.measurement_or_fact_Lifeform_txt", false);
+		
+		Dimension habitat = new Dimension("habitat");
+		cube.addDimension(habitat);
+		habitat.addLevel("taxon.measurement_or_fact_Lifeform_txt", false);
+		
+		Dimension conservationStatus = new Dimension("conservationStatus");
+		cube.addDimension(conservationStatus);
+		conservationStatus.addLevel("taxon.measurement_or_fact_IUCNConservationStatus_txt", false);
+		
+		Dimension withDescriptions = new Dimension("withDescriptions");
+		cube.addDimension(withDescriptions);
+		withDescriptions.addLevel("taxon.descriptions_empty_b", false);
+		
+		Dimension withImages = new Dimension("withImages");
+		cube.addDimension(withImages);
+		withImages.addLevel("taxon.images_empty_b", false);
 
 		CellSet cellSet = searchableObjectService.analyse(rows, cols, firstCol, maxCols,firstRow, maxRows, selectedFacets,	facetList.toArray(new String[facetList.size()]), cube);
 
 		uiModel.addAttribute("cellSet", cellSet);
+		uiModel.addAttribute("view", view);
 		return "analyse";
 	}
 

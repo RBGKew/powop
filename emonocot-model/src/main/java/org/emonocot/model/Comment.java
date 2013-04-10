@@ -29,10 +29,8 @@ import org.emonocot.model.marshall.json.UserSerializer;
 import org.hibernate.annotations.Any;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
 
 /**
  * @author jk00kg
@@ -40,6 +38,8 @@ import org.joda.time.format.ISODateTimeFormat;
  */
 @Entity
 public class Comment extends Base implements Searchable {
+	
+    private static DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     /**
 	 * 
@@ -294,8 +294,7 @@ public class Comment extends Base implements Searchable {
     		}
 		}
     	sid.addField("comment.comment_t",getComment());
-    	DateTimeFormatter solrDateTimeFormat = DateTimeFormat.forPattern("yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'");
-    	sid.addField("comment.created_dt",solrDateTimeFormat.print(getCreated()));
+    	sid.addField("comment.created_dt",dateTimeFormatter.print(getCreated()));
     	sid.addField("comment.status_t",getStatus());
     	sid.addField("comment.subject_s",getSubject());
     	sid.addField("searchable.solrsummary_t", summary.toString());
