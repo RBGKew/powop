@@ -360,6 +360,7 @@
                       <include>${basedir}/src/main/css/jqueryui/jqueryui.css</include>
                       <include>${basedir}/src/main/css/jsTree/jsTree.css</include>
                       <include>${basedir}/src/main/css/OpenLayers/style.css</include>
+                      <include>${basedir}/src/main/css/jquery-visualize/jquery-visualize.css</include>
                     </includes>
                   </aggregation>
                   <aggregation>
@@ -379,6 +380,7 @@
                     <includes>
                       <include>${basedir}/src/main/js/jquery.min.js</include>
                       <include>${basedir}/src/main/js/jquery-ui.min.js</include>
+                      <include>${basedir}/src/main/js/jquery-visualize/jquery-visualize.js</include>
                       <include>${basedir}/src/main/js/OpenLayers/OpenLayers.js</include>
                       <include>${basedir}/src/main/js/jsTree/jquery.jstree.js</include>
                       <include>${basedir}/src/main/js/bootstrap-transition.js</include>
@@ -398,7 +400,7 @@
                       <include>${basedir}/src/main/js/load-image.js</include>
                       <include>${basedir}/src/main/js/bootstrap-image-gallery.js</include>
                       <include>${basedir}/src/main/js/application.js</include>
-                      <include>${basedir}/src/main/js/html5shiv.js</include>
+                      <include>${basedir}/src/main/js/html5shiv.js</include>                      
                       <include>${basedir}/src/main/js/jsKey/keys.js</include>
                       <include>${basedir}/src/main/js/jsKey/key-ui-emonocot.js</include>
                     </includes>

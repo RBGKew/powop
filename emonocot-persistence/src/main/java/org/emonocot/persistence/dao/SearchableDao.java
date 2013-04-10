@@ -6,6 +6,8 @@ import java.util.Map;
 import org.apache.solr.common.SolrDocument;
 import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.Base;
+import org.emonocot.pager.CellSet;
+import org.emonocot.pager.Cube;
 import org.emonocot.pager.Page;
 
 /**
@@ -65,4 +67,23 @@ public interface SearchableDao<T extends Base> extends Dao<T> {
      * @return
      */
     T loadObjectForDocument(SolrDocument solrDocument);
+    
+    /**
+     * Produce a 1 or 2 dimensional table of count data based on the solr
+     * pivot query
+     * 
+     * @param rows the level for the rows of the results (if null, the default level is used)
+     * @param cols the level for the cols of the results (if null the table is 1-dimensional)
+     * @param firstCol the offset for the columns
+     * @param maxCols the maximum number of columns returned
+     * @param firstRow the offset for the rows
+     * @param maxRows the maximum number of rows returned
+     * @param selectedFacets the restrictions on the data
+     * @param facets the factes which you want to calculate
+     * @param cube the Cube object which contains the dimensions, levels and members
+     * @return a cell set
+     */
+	CellSet analyse(String rows, String cols, Integer firstCol,
+			Integer maxCols, Integer firstRow, Integer maxRows,
+			Map<String, String> selectedFacets, String[] array, Cube cube);
 }

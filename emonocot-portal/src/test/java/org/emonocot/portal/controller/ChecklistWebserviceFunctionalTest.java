@@ -95,9 +95,9 @@ public class ChecklistWebserviceFunctionalTest {
                 null, null, null, null, null, "urn:kew.org:wcs:taxon:3", null, 
                 null, null, null, null, null, null, null, null, null, null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:4",
-                "Lorem consectetur", "ined.", "Lowiaceae", "Lorem", "consectetur",
+                "Lorem consectetur", "(Pargetter) ined.", "Lowiaceae", "Lorem", "consectetur",
                 "SPECIES", "Synonym", null, null, null, null,
-                "Nam \"lectus diam\"", null, null, null, null, null, null, null, null,
+                "", null, null, null, null, null, null, null, null,
                 "urn:kew.org:wcs:taxon:1", 
                 null, null, null, null, null, null, null, null, null, null, null);
         testDataManager.createTaxon("urn:kew.org:wcs:taxon:5",
@@ -297,8 +297,8 @@ public class ChecklistWebserviceFunctionalTest {
                 "urn:kew.org:wcs:taxon:4", "scratchpad",
                 "functional-test.e-monocot.org").get("/endpoint")
         .andReturn().body().asString();
-    	assertEquals("TaxonName publication attribute should equal 'Nam \"lectus diam\"'",
-                "Nam \"lectus diam\"",
+    	assertEquals("TaxonName publication attribute should equal '(Pargetter) ined.'",
+                "(Pargetter) ined.",
                 with(xml).get(
                         "DataSet.TaxonNames.TaxonName.@itis_em_other_ref"));
     }

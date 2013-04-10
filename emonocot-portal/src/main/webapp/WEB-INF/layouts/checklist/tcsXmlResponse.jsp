@@ -14,8 +14,8 @@
           <c:when test="${empty result.scientificNameAuthorship and not empty result.namePublishedInString}">
             <c:set var="itisOtherRef" value="${result.namePublishedInString}"/>
           </c:when>
-          <c:when test="${result.scientificNameAuthorship eq 'ined.' and not empty result.namePublishedInString}">
-            <c:set var="itisOtherRef" value="${result.namePublishedInString}"/>
+          <c:when test="${not empty result.scientificNameAuthorship and empty result.namePublishedInString}">
+            <c:set var="itisOtherRef" value="${result.scientificNameAuthorship}"/>
           </c:when>
           <c:otherwise>
             <c:set var="itisOtherRef" value="${result.scientificNameAuthorship}, ${result.namePublishedInString}"/>

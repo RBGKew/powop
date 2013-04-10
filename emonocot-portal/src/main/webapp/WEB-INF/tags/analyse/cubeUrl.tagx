@@ -1,0 +1,71 @@
+<jsp:root 
+  xmlns:c="http://java.sun.com/jsp/jstl/core"
+  xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+  xmlns:jsp="http://java.sun.com/JSP/Page" 
+  xmlns:spring="http://www.springframework.org/tags"
+  version="2.0">
+  <jsp:output omit-xml-declaration="yes" />
+  <jsp:directive.attribute name="columns"	type="org.emonocot.pager.Level" required="false" />
+  <jsp:directive.attribute name="rows"	type="org.emonocot.pager.Level" required="false" />
+  <jsp:directive.attribute name="firstRow"	type="java.lang.Integer" required="false" />
+  <jsp:directive.attribute name="maxRows"	type="java.lang.Integer" required="false" />
+  <jsp:directive.attribute name="firstCol"	type="java.lang.Integer" required="false" />
+  <jsp:directive.attribute name="maxCols"	type="java.lang.Integer" required="false" />
+  <jsp:directive.attribute name="facet"  	type="java.lang.String" required="false" />
+  <jsp:directive.attribute name="filters"  	type="java.util.List" required="false" />
+  <jsp:directive.attribute name="clearFacet" type="java.lang.String" required="false" />
+  <jsp:directive.attribute name="cellSet" type="org.emonocot.pager.CellSet" required="true" />
+  <jsp:directive.attribute name="url" type="java.lang.String" required="true" />
+  <jsp:directive.attribute name="cssClass" type="java.lang.String" required="false" />
+  <jsp:directive.attribute name="view" type="java.lang.String" required="false" />
+  <c:if test="${empty view}">
+    <c:set var="view" value="bar"/>
+  </c:if>
+  <c:if test="${empty rows}">
+    <c:set var="rows" value="${cellSet.rows}"/>
+  </c:if>
+  <c:if test="${filters ==  null}">
+    <c:set var="filters" value="${cellSet.filters}"/>
+  </c:if>
+  <c:if test="${empty columns}">
+    <c:set var="columns" value="${cellSet.columns}"/>
+  </c:if>
+  <c:url value="${url}" var="cubeUrl">
+     <c:param name="view" value="${view}"/>
+     <c:forEach var="filter" items="${filters}">
+       <c:choose>
+         <c:when test="${fn:startsWith(filter,rows.facet)}">
+         </c:when>
+         <c:when test="${fn:startsWith(filter,columns.facet)}">
+         </c:when>
+         <c:when test="${not empty clearFacet and fn:startsWith(filter,clearFacet)}">
+         </c:when>
+         <c:otherwise>
+           <c:param name="facet" value="${filter}"/>
+         </c:otherwise>
+       </c:choose>
+     </c:forEach>
+    <c:if test="${not empty facet}">
+      <c:param name="facet" value="${facet}"/>
+    </c:if>
+	<c:param name="rows" value="${rows.facet}"/>
+	<c:if test="${columns.facet ne 'count'}">
+	  <c:param name="cols" value="${columns.facet}"/>
+	</c:if>
+	<c:if test="${not empty firstRow}">
+	  <c:param name="firstRow" value="${firstRow}"/>
+	</c:if>
+	<c:if test="${not empty maxRows}">
+	  <c:param name="maxRows" value="${maxRows}"/>
+	</c:if>
+	<c:if test="${not empty firstCol}">
+	  <c:param name="firstCol" value="${firstCol}"/>
+	</c:if>
+	<c:if test="${not empty maxCols}">
+	  <c:param name="maxCols" value="${maxCols}"/>
+	</c:if>
+  </c:url>
+  <a href="${cubeUrl}" class="${cssClass}">
+    <jsp:doBody />
+  </a>
+</jsp:root>

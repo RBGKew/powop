@@ -9,6 +9,8 @@ import org.emonocot.api.UserService;
 import org.emonocot.portal.controller.form.RecoveryForm;
 import org.emonocot.portal.controller.form.ResetForm;
 import org.emonocot.service.EmailService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
@@ -28,6 +30,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping(value = "/recovery")
 public class RecoveryController {
+	
+	private static Logger logger = LoggerFactory.getLogger(RecoveryController.class);
 	
 	private UserService userService;
 	
@@ -51,6 +55,7 @@ public class RecoveryController {
    
    @RequestMapping(method = RequestMethod.GET)
    public String show(Model model) {
+	   logger.error("Hitting get");
 	   model.addAttribute(new RecoveryForm());
 	   return "recovery/show";
    }
@@ -61,6 +66,14 @@ public class RecoveryController {
 	   if (result.hasErrors()) {
            return "recovery/show";
        }
+	   if(null == userService.find(recoveryForm.getUsername())) {
+		   String[] codes = new String[] { "problem.resetting.password" };
+		   Object[] args = new Object[] {  };
+		   DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
+		   redirectAttributes.addFlashAttribute("error", message);
+		   return "redirect:/recovery";
+	   }
+	   
 	   String nonce = userService.createNonce(recoveryForm.getUsername());
 	   
 	   Map<String,String> model = new HashMap<String,String>();
@@ -72,7 +85,7 @@ public class RecoveryController {
 	   DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
 	   redirectAttributes.addFlashAttribute("info", message);
 
-       return "redirect:/login";
+       return "redirect:/recovery";
    }
    
    @RequestMapping(value = "/{nonce}", method = RequestMethod.GET) 

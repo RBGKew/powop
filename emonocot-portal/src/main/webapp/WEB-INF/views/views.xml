@@ -23,6 +23,11 @@
     <put-attribute name="searchBox" value="null" type="object" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/search.jspx" />
   </definition>
+  <definition name="analyse" extends="default">
+  	<put-attribute name="pageTitle" value="analyseTitle" cascade="true" />
+    <put-attribute name="searchBox" value="null" type="object" cascade="true" />
+    <put-attribute name="body" value="/WEB-INF/views/analyse.jspx" />
+  </definition>
   <definition name="spatial" extends="default">
   	<put-attribute name="pageTitle" value="spatialTitle" cascade="true" />
     <put-attribute name="searchBox" value="null" type="object" cascade="true" />

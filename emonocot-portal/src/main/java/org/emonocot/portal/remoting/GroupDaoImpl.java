@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.emonocot.model.auth.Group;
+import org.emonocot.pager.CellSet;
+import org.emonocot.pager.Cube;
 import org.emonocot.pager.DefaultPageImpl;
 import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.GroupDao;
@@ -66,5 +68,13 @@ public class GroupDaoImpl extends DaoImpl<Group> implements GroupDao {
 	public final List<Group> list(final Integer page, final Integer size, final String fetch) {
 		return this.page(page, size).getRecords();
     }
+
+	@Override
+	public CellSet analyse(String rows, String cols, Integer firstCol,
+			Integer maxCols, Integer firstRow, Integer maxRows,
+			Map<String, String> selectedFacets, String[] array, Cube cube) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

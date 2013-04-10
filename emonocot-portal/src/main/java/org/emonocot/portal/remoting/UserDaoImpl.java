@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.emonocot.model.auth.User;
+import org.emonocot.pager.CellSet;
+import org.emonocot.pager.Cube;
 import org.emonocot.pager.DefaultPageImpl;
 import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.UserDao;
@@ -55,4 +57,12 @@ public class UserDaoImpl extends DaoImpl<User> implements UserDao {
 	public final List<User> list(final Integer page, final Integer size, final String fetch) {
     	return this.page(page, size).getRecords();
     }
+
+	@Override
+	public CellSet analyse(String rows, String cols, Integer firstCol,
+			Integer maxCols, Integer firstRow, Integer maxRows,
+			Map<String, String> selectedFacets, String[] array, Cube cube) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

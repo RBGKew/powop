@@ -13,7 +13,10 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.params.FacetParams;
 import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.Base;
+import org.emonocot.pager.CellSet;
+import org.emonocot.pager.Cube;
 import org.emonocot.pager.DefaultPageImpl;
+import org.emonocot.pager.Level;
 import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.SearchableDao;
 import org.hibernate.ObjectNotFoundException;
@@ -315,6 +318,139 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
 		} catch (ObjectNotFoundException onfe) {
 			return null;
 		}
-	}    
+	}
+	
+	public CellSet analyse(String rows, String cols, Integer firstCol, Integer maxCols, Integer firstRow, Integer maxRows,	Map<String, String> selectedFacets, String[] facets, Cube cube) {
+		SolrQuery query = new SolrQuery();
+	    query.setQuery("*:*");
+	    SolrQuery totalQuery = new SolrQuery();
+	    totalQuery.setQuery("*:*");	    
+	    
+	    // We're not interested in the results themselves
+	    query.setRows(1);
+		query.setStart(0);
+		totalQuery.setRows(1);
+	    totalQuery.setStart(0);
+		
+		if(rows == null) {
+		    query.setFacet(true);
+            query.setFacetMinCount(1);
+            query.setFacetSort(FacetParams.FACET_SORT_INDEX);
+            query.addFacetField(cube.getDefaultLevel());
+            if (maxRows != null) {
+            	totalQuery.setFacet(true);
+            	totalQuery.setFacetMinCount(1);
+            	totalQuery.addFacetField("{!key=totalRows}" + cube.getDefaultLevel());
+    			query.add("f." + cube.getDefaultLevel() + ".facet.limit", maxRows.toString()); 
+    			query.add("f." + cube.getDefaultLevel() + ".facet.mincount", "1");
+    			if (firstRow != null) {
+    				query.add("f." + cube.getDefaultLevel() + ".facet.offset", firstRow.toString());
+    			}
+    		}
+		} else if(cols == null) {
+		    query.setFacet(true);
+            query.setFacetMinCount(1);
+            query.setFacetSort(FacetParams.FACET_SORT_INDEX);
+            query.addFacetField(rows);
+            if (maxRows != null) {
+            	totalQuery.setFacet(true);
+            	totalQuery.setFacetMinCount(1);
+            	totalQuery.addFacetField("{!key=totalRows}"+rows);
+    			query.add("f." + rows + ".facet.limit", maxRows.toString());
+    			query.add("f." + rows + ".facet.mincount", "1");
+    			if (firstRow != null) {
+    				query.add("f." + rows + ".facet.offset", firstRow.toString());
+    			}
+    		}
+            if(cube.getLevel(rows).isMultiValued() && cube.getLevel(rows).getHigher() != null) {
+            	Level higher = cube.getLevel(rows).getHigher();
+            	totalQuery.add("f." + rows + ".facet.prefix",selectedFacets.get(higher.getFacet()) + "_");
+            	query.add("f." + rows + ".facet.prefix",selectedFacets.get(higher.getFacet()) + "_");
+            }
+		} else {
+		    query.setFacet(true);
+            query.setFacetMinCount(1);
+            query.setFacetSort(FacetParams.FACET_SORT_INDEX);
+            query.addFacetField(rows);
+            if (maxRows != null) {
+            	totalQuery.setFacet(true);
+            	totalQuery.setFacetMinCount(1);
+            	totalQuery.addFacetField("{!key=totalRows}"+rows);
+    			query.add("f." + rows + ".facet.limit", maxRows.toString());
+    			query.add("f." + rows + ".facet.mincount", "1");
+    			if (firstRow != null) {
+    				query.add("f." + rows + ".facet.offset", firstRow.toString());
+    			}
+    		}
+            if(cube.getLevel(rows).isMultiValued() && cube.getLevel(rows).getHigher() != null) {
+            	Level higher = cube.getLevel(rows).getHigher();
+            	totalQuery.add("f." + rows + ".facet.prefix",selectedFacets.get(higher.getFacet()) + "_");
+            	query.add("f." + rows + ".facet.prefix",selectedFacets.get(higher.getFacet()) + "_");
+            }
+            query.addFacetField(cols);
+            if (maxCols != null) {
+            	totalQuery.setFacet(true);
+            	totalQuery.setFacetMinCount(1);
+            	totalQuery.addFacetField("{!key=totalCols}"+cols);
+    			query.add("f." + cols + ".facet.limit", maxCols.toString());
+    			query.add("f." + cols + ".facet.mincount", "1");
+    			if (firstCol != null) {
+    				query.add("f." + cols + ".facet.offset", firstCol.toString());
+    			}
+    		}
+            if(cube.getLevel(cols).isMultiValued() && cube.getLevel(cols).getHigher() != null) {
+            	Level higher = cube.getLevel(cols).getHigher();
+            	totalQuery.add("f." + cols + ".facet.prefix",selectedFacets.get(higher.getFacet()) + "_");
+            	query.add("f." + cols + ".facet.prefix",selectedFacets.get(higher.getFacet()) + "_");
+            }
+		    query.addFacetPivotField(rows + "," + cols);
+		}
+	    
+	    if (selectedFacets != null && !selectedFacets.isEmpty()) {
+            for (String facetName : selectedFacets.keySet()) {
+            	totalQuery.addFilterQuery(facetName + ":" + selectedFacets.get(facetName));
+                query.addFilterQuery(facetName + ":" + selectedFacets.get(facetName));  
+            }
+        }
+        
+        if (facets != null && facets.length != 0) {
+            query.setFacet(true);
+            query.setFacetMinCount(1);
+            query.setFacetSort(FacetParams.FACET_SORT_INDEX);
+            
+            for (String facetName : facets) {
+                if(rows != null && rows.equals(facetName)) {
+                } else if(cols != null && cols.equals(facetName)) {
+                } else if(rows == null && facetName.equals(cube.getDefaultLevel())) {
+                } else {
+            	  query.addFacetField(facetName);
+            	}
+            }
+        }
+	    
+		try {
+			QueryResponse response = solrServer.query(query);
+			QueryResponse totalResponse = solrServer.query(totalQuery);
+			Integer totalRows = 1;
+			Integer totalCols = 1;
+			if (totalResponse.getFacetField("totalRows") != null) {
+				totalRows = totalResponse.getFacetField("totalRows")
+						.getValueCount();
+			}
+
+			if (totalResponse.getFacetField("totalCols") != null) {
+				totalCols = totalResponse.getFacetField("totalCols")
+						.getValueCount();
+			}
+
+			CellSet cellSet = new CellSet(response, selectedFacets, query,
+					rows, cols, firstRow, maxRows, firstCol, maxCols,
+					totalRows, totalCols, cube);
+
+			return cellSet;
+		} catch (SolrServerException sse) {
+			throw new RuntimeException("Exception querying solr server", sse);
+		}
+	}
     
 }

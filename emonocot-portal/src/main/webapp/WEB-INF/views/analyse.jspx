@@ -1,0 +1,359 @@
+<div
+  xmlns:spring="http://www.springframework.org/tags"
+  xmlns:c="http://java.sun.com/jsp/jstl/core"
+  xmlns:em="http://e-monocot.org/portal/functions"
+  xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+  xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
+  xmlns:analyse="urn:jsptagdir:/WEB-INF/tags/analyse"
+  xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu"
+  xmlns:jsp="http://java.sun.com/JSP/Page">
+  <jsp:directive.page contentType="text/html;charset=UTF-8" />
+  <jsp:output omit-xml-declaration="yes" />
+  <tags:pageheader>
+    <div class="row">
+      <h2 id="page-title" class="span6">
+        <i class="glyphicons-icon charts"><!--  --></i> <spring:message code="analyse.data"/>
+      </h2>
+	</div>
+	<div class="row">
+        <div class="span9">
+          <c:url var="resetUrl" value="/analyse"/>
+			 <a id="reset" class="btn pull-right" href="${resetUrl}">
+				<i class="icon-refresh"><!--  --></i>
+				<spring:message code="reset.analysis" />
+			 </a>
+         </div>
+    </div>
+  </tags:pageheader>
+  <div class="container">
+  <div class="row">
+    <div class="span3">
+      <div class="inner"> 
+      <ul id="dimensions" class="box nav nav-list">
+        <li class="nav-header">
+          <spring:message code="dimensions.label" />
+        </li>
+        <c:forEach var="dimension" items="${cellSet.cube.dimensions}">
+          <li>
+          <c:choose>
+            <c:when test="${cellSet.rows.dimension ne dimension}">
+              <analyse:cubeUrl url="/analyse" cellSet="${cellSet}" rows="${dimension.levels[0]}" columns="${cellSet.count}" filters="${cellSet.emptyFilters}">
+                <i class="halflings-icon unchecked">&#160;</i> <spring:message code="dimension_${dimension.name}_title" text="${dimension.name}" />
+              </analyse:cubeUrl>
+            </c:when>
+            <c:otherwise>
+              <a href="#"><i class="halflings-icon  check">&#160;</i><spring:message code="dimension_${dimension.name}_title" text="${dimension.name}" /></a>
+            </c:otherwise>
+          </c:choose>
+          </li>
+        </c:forEach>
+      </ul>
+      </div>
+      <div id="facets">
+        <c:forEach var="facetName" items="${cellSet.facetNames}">
+          <div class="inner">
+            <ul class="box nav nav-list">
+          <li id="${facetName}" class="nav-header"> 
+		    <spring:message code="${facetName}" />	  
+          </li>
+          <c:choose>
+            <c:when test="${cellSet.isFacetSelected(facetName)}">
+              <li class="${facetName}">
+		        <analyse:cubeUrl cellSet="${cellSet}" url="/analyse" clearFacet="${facetName}">
+			      <c:set var="selectedFacetName" value="${cellSet.selectedFacets[facetName]}"/>
+			      <i class="halflings-icon check">&#160;</i>
+                  <span class="facetValue">
+                    <spring:message code="${selectedFacetName}" text="${selectedFacetName}"/>
+                  </span>
+		        </analyse:cubeUrl>
+	          </li>
+            </c:when>
+            <c:otherwise>
+		      <c:set var="values" value="${cellSet.getFacetField(facetName).getValues()}"/>
+		      <c:forEach var="facet" begin="0" end="9" step="1" items="${values}">
+		      <li class="${facetName}">
+			  <c:choose>
+				<c:when test="${facet.count == 0}">
+					<a href="#"><i class="halflings-icon unchecked">&#160;</i><spring:message code="${facet.name}" text="${facet.name}"/></a>
+				</c:when>
+				<c:otherwise>
+				  <analyse:cubeUrl cellSet="${cellSet}" url="/analyse" facet="${facetName}:${facet.name}">
+				    <i class="halflings-icon unchecked">&#160;</i>
+				    <span><spring:message code="${facet.name}" text="${facet.name}"/></span>
+					<span class="facetCount"> [${facet.count}]</span>
+				  </analyse:cubeUrl>
+                </c:otherwise>
+			</c:choose>		
+		  </li>
+		</c:forEach>		
+		<c:if test="${fn:length(values) gt 10}">		  
+	      <c:set var="escapedFacetName" value="${em:escapeHtmlIdentifier(facetName)}"/>
+	      <div id="${escapedFacetName}-collapse" class="collapse">
+		  <c:forEach var="facet" begin="10" items="${values}">
+			<li class="${facetName}"> 
+				<c:choose>
+				  <c:when test="${facet.count == 0}">
+					<a href="#"><i class="halflings-icon unchecked">&#160;</i><span class="facetValue"><spring:message code="${facet.name}" text="${facet.name}"/></span></a>
+				  </c:when>
+				  <c:otherwise>
+					<analyse:cubeUrl cellSet="${cellSet}" url="/analyse" facet="${facetName}:${facet.name}">
+					  <i class="halflings-icon unchecked">&#160;</i>
+				      <span><spring:message code="${facet.name}" text="${facet.name}"/></span>
+					  <span class="facetCount"> [${facet.count}]</span>
+				    </analyse:cubeUrl>
+				  </c:otherwise>
+				</c:choose>	
+			</li>
+		  </c:forEach>
+		  </div>
+		  <spring:message var="more" code="mode" text="more"/>
+	      <spring:message var="less" code="less" text="less"/>
+		  <a id="${escapedFacetName}-collapse-link" 
+		     data-toggle="collapse" 
+		     data-target="&#35;${escapedFacetName}-collapse" 
+		     class="label" style="display: none">${fn:length(values)-10} ${more}</a>
+		  <script>
+			document.getElementById("${escapedFacetName}-collapse-link" ).style.display = "inline";
+			$("&#35;${escapedFacetName}-collapse").on('hidden', function () {
+				$("&#35;${escapedFacetName}-collapse-link").html("${fn:length(values)-10} ${more}");
+			}).on('shown', function () {
+				$("&#35;${escapedFacetName}-collapse-link").html("${less}");
+			});
+		  </script>
+		</c:if>
+	        </c:otherwise>
+          </c:choose>
+          </ul>
+          </div>
+        </c:forEach>
+      </div>
+    </div>
+    <div class="span9">
+      <div class="inner">
+        <div class="box">
+         <div class="row">
+           <div class="span9">
+             <div class="btn-group">
+               <c:choose>
+                 <c:when test="${view eq 'pie' }">
+                   <analyse:cubeUrl cssClass="btn" cellSet="${cellSet}" url="/analyse" view="bar">
+                      <i class="halflings-icon charts"><!--  --></i>
+                   </analyse:cubeUrl>
+                   <a class="btn disabled">
+                      <i class="halflings-icon pie_chart"><!--  --></i>
+                   </a>
+                 </c:when>
+                 <c:otherwise>
+                   <a class="btn disabled">
+                      <i class="halflings-icon charts"><!--  --></i>
+                   </a>
+                   <analyse:cubeUrl cssClass="btn" cellSet="${cellSet}" url="/analyse" view="pie">
+                      <i class="halflings-icon pie_chart"><!--  --></i>
+                   </analyse:cubeUrl>
+                 </c:otherwise>
+               </c:choose>
+             </div>
+           </div>
+         </div>
+         <div class="row">
+        <div class="span9">
+          <c:if test="${empty view}">
+            <c:set var="view" value="bar"/>
+          </c:if>
+          <script type="text/javascript">
+            $(document).ready(function() {
+
+              $('#data').visualize({type: '${view}', width: 500, height: 250, colors: ['#FFD236','#D50C54','#6F9449','#0074cc','#616668',
+                                                                      '#FDFF9E','#FE3A7F','#356635','#0088cc', '#666666']}).appendTo('#chart').trigger('visualizeRefresh');
+            });
+          </script>
+          <div class="span9" id="chart">&#160;</div>
+          <table id="data" class="hide">
+            <caption><spring:message code="${cellSet.rows.facet}" text="${cellSet.rows.facet}"/></caption>
+		    <thead>
+		      <tr>              
+		        <td>&#160;</td>
+		        <th><spring:message code="count" text="count"/></th>            
+              </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="row" items="${cellSet.rows.members}" varStatus="status">
+            <tr>              
+              <th scope="row">
+                <spring:message code="${row.value}" text="${row.value}"/>
+              </th>
+              <td>${cellSet.getRowTotal(row.ordinal)}</td>
+            </tr>
+          </c:forEach>
+		</tbody>		
+	  </table>
+        </div>
+      </div>
+        </div>
+      </div>
+      <div class="inner">
+        <div class="box">
+      <div class="row">
+        <div class="span9">
+          <div class="btn-group">
+            <a class="btn" href="#">Choose 2nd dimension</a>
+	        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret">&#160;</span></a>
+	        <ul class="dropdown-menu">
+	          <c:forEach var="dimension" items="${cellSet.cube.dimensions}">
+		        <li>
+		          <c:choose>
+			        <c:when test="${cellSet.columns.dimension eq dimension}">
+			          <a class=""><strong><spring:message code="dimension_${dimension.name}_title" text="${dimension.name}" /></strong></a>
+			        </c:when>
+			        <c:when test="${cellSet.rows.dimension ne dimension}">
+			          <analyse:cubeUrl url="/analyse" cellSet="${cellSet}" columns="${dimension.levels[0]}">
+				        <spring:message code="dimension_${dimension.name}_title" text="${dimension.name}" />
+		              </analyse:cubeUrl>
+	                </c:when>
+	              </c:choose>
+		        </li>
+              </c:forEach>
+              <li>
+                <analyse:cubeUrl url="/analyse" cellSet="${cellSet}" columns="${cellSet.count}">
+				    <spring:message code="dimension_count_title" text="count" />
+		        </analyse:cubeUrl>
+              </li>
+	        </ul>
+          </div>
+        </div></div>
+        <table class="table">
+            <caption>
+            <spring:message code="${cellSet.rows.facet}" text="${cellSet.rows.facet}"/> - <spring:message code="${cellSet.columns.facet}" text="${cellSet.columns.facet}"/></caption>
+		    <thead>
+		      <tr>
+              <c:choose>
+                <c:when test="${not empty cellSet.rows.higher and not empty cellSet.columns.higher}">
+		          <td>
+		            <c:set var="rowLabel" value="${cellSet.getValue(cellSet.rows.higher)}"/>
+                    <analyse:cubeUrl cellSet="${cellSet}" url="/analyse" rows="${cellSet.rows.higher}" firstCol="${cellSet.firstCol}" maxCols="${cellSet.maxCols}" view="${view}">
+                      <spring:message code="${cellSet.rows.higher.facet}" text="${cellSet.rows.higher.facet}"/>
+                    </analyse:cubeUrl> : <spring:message code="${rowLabel}" text="${rowLabel}"/>
+                    / 
+                    <c:set var="colLabel" value="${cellSet.getValue(cellSet.columns.higher)}"/>                   
+                    <analyse:cubeUrl cellSet="${cellSet}" url="/analyse" columns="${cellSet.columns.higher}" firstRow="${cellSet.firstRow}" maxRows="${cellSet.maxRows}"  view="${view}">
+                      <spring:message code="${cellSet.columns.higher.facet}" text="${cellSet.columns.higher.facet}"/>
+                    </analyse:cubeUrl>  : <spring:message code="${colLabel}" text="${colLabel}"/>   
+		          </td>
+		        </c:when>
+		        <c:when test="${not empty cellSet.rows.higher}">
+		          <td>
+		            <c:set var="rowLabel" value="${cellSet.getValue(cellSet.rows.higher)}"/>      
+                    <analyse:cubeUrl cellSet="${cellSet}" url="/analyse" rows="${cellSet.rows.higher}" firstCol="${cellSet.firstCol}" maxCols="${cellSet.maxCols}"  view="${view}">
+                      <spring:message code="${cellSet.rows.higher.facet}" text="${cellSet.rows.higher.facet}"/>
+                    </analyse:cubeUrl> : <spring:message code="${rowLabel}" text="${rowLabel}"/>                        
+		          </td>
+		        </c:when>
+		        <c:when test="${not empty cellSet.columns.higher}">
+		          <td>
+		            <c:set var="colLabel" value="${cellSet.getValue(cellSet.columns.higher)}"/>
+                    <analyse:cubeUrl cellSet="${cellSet}" url="/analyse" columns="${cellSet.columns.higher}" firstRow="${cellSet.firstRow}" maxRows="${cellSet.maxRows}"  view="${view}">
+                      <spring:message code="${cellSet.columns.higher.facet}" text="${cellSet.columns.higher.facet}"/>
+                    </analyse:cubeUrl> : <spring:message code="${colLabel}" text="${colLabel}"/>
+	              </td>
+		        </c:when>
+		        <c:otherwise>
+		          <td>&#160;</td>
+		        </c:otherwise>
+		    </c:choose>            
+            <c:forEach var="col" items="${cellSet.columns.members}">
+              <th scope="col">
+                <c:choose>
+                  <c:when test="${not empty cellSet.columns.lower}">                    
+                    <analyse:cubeUrl cellSet="${cellSet}" url="/analyse" columns="${cellSet.columns.lower}" facet="${cellSet.columns.facet}:${col.value}"  view="${view}">
+                      <spring:message code="${col.value}" text="${col.value}"/>
+                    </analyse:cubeUrl>                    
+                  </c:when>
+                  <c:otherwise><spring:message code="${col.value}" text="${col.value}"/></c:otherwise>
+                </c:choose>
+              </th>
+            </c:forEach>
+            <c:if test="${fn:length(cellSet.columns.members) gt 1}">
+                <th><spring:message code="total" text="Total"/></th>
+              </c:if>
+          </tr>
+        </thead>
+        <tbody>
+          <c:forEach var="row" items="${cellSet.rows.members}" varStatus="status">
+            <tr>              
+              <th scope="row">
+                <c:choose>
+                  <c:when test="${not empty cellSet.rows.lower}">                    
+                    <analyse:cubeUrl cellSet="${cellSet}" url="/analyse" rows="${cellSet.rows.lower}" facet="${cellSet.rows.facet}:${row.value}" view="${view}">
+                      <spring:message code="${row.value}" text="${row.value}"/>
+                    </analyse:cubeUrl>                    
+                  </c:when>
+                  <c:otherwise><spring:message code="${row.value}" text="${row.value}"/></c:otherwise>
+                </c:choose>
+              </th>
+              <c:forEach var="col" items="${cellSet.columns.members}">
+                <td>
+                  <c:url var="cellUrl" value="/search">
+                    <c:forEach var="filter" items="${cellSet.filters}">
+                      <c:param name="facet" value="${filter}"/>
+                    </c:forEach>
+                    <c:param name="facet" value="${cellSet.rows.facet}:${row.value}"/>
+                    <c:if test="${cellSet.columns.facet ne 'count'}">
+                      <c:param name="facet" value="${cellSet.columns.facet}:${col.value}"/>
+                    </c:if>
+                  </c:url>
+                  <a href="${cellUrl}">${cellSet.getCellValue(row.ordinal, col.ordinal)}</a>
+                </td>
+              </c:forEach>
+              <c:if test="${fn:length(cellSet.columns.members) gt 1}">
+                <td><em>${cellSet.getRowTotal(row.ordinal)}</em></td>
+              </c:if>
+            </tr>
+          </c:forEach>
+		</tbody>		
+	  </table>
+	  <div class="row">
+	  <div class="span9">
+	  <div class="pagination">
+	    <ul>
+	      <c:choose>
+			<c:when test="${cellSet.firstRow != null and cellSet.firstRow != 0}">
+				<li class="prev">
+				  <analyse:cubeUrl url="/analyse" cellSet="${cellSet}" 
+				    firstRow="${cellSet.firstRow - cellSet.maxRows}" 
+				    maxRows="${cellSet.maxRows}" 
+				    firstCol="${cellSet.firstCol}"
+				    maxCols="${cellSet.maxCols}" view="${view}">
+				    <spring:message code="previous" />
+				  </analyse:cubeUrl>
+				</li>
+			</c:when>
+			<c:otherwise>
+				<li class="prev disabled">
+				  <a href="#"><spring:message code="previous" /> </a>
+				</li>
+			</c:otherwise>
+		  </c:choose>
+		  <li class="active"><a href="#">${cellSet.firstRow + 1} - ${cellSet.firstRow + fn:length(cellSet.rows.members)}</a></li>
+		  <c:choose>
+			<c:when test="${cellSet.firstRow + 10 lt cellSet.totalRows}">
+				<li class="next">
+					<analyse:cubeUrl url="/analyse" cellSet="${cellSet}" 
+					firstRow="${cellSet.firstRow + cellSet.maxRows}" 
+					maxRows="${cellSet.maxRows}"
+					firstCol="${cellSet.firstCol}"
+					maxCols="${cellSet.maxCols}" view="${view}">
+				    <spring:message code="next" />
+				  </analyse:cubeUrl>
+				</li>
+			</c:when>
+			<c:otherwise>
+				<li class="next disabled">
+					<a href="#"><spring:message code="next" /></a>
+				</li>
+			</c:otherwise>
+		</c:choose>
+	    </ul>
+	  </div>
+	  </div>
+  </div></div></div></div></div></div>
+</div>

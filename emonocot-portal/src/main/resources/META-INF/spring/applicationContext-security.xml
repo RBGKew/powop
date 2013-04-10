@@ -119,7 +119,8 @@
 	</bean>
 
 	<sec:http use-expressions="true" access-decision-manager-ref="webAccessDecisionManager">
-		<sec:intercept-url pattern="/login*" access="isAnonymous()" />
+		<sec:intercept-url pattern="/login*" access="permitAll" />
+		<sec:intercept-url pattern="/recovery" access="permitAll" />
 		<sec:intercept-url pattern="/home" access="!isAnonymous()" />
 		<sec:intercept-url pattern="/taxon" method="POST" access="hasRole('PERMISSION_CREATE_TAXON')" />
 		<sec:intercept-url pattern="/taxon/*" method="DELETE" access="hasRole('PERMISSION_DELETE_TAXON')" />
@@ -142,13 +143,12 @@
         <sec:intercept-url pattern="/comment" method="POST" access="isAuthenticated()" />
         <sec:intercept-url pattern="/download" access="isAuthenticated()" />
         <sec:intercept-url pattern="/comment/*" method="DELETE" access="hasRole('PERMISSION_DELETE_COMMENT')" />
-		<sec:form-login login-page='/login'
-			login-processing-url="/process_login" authentication-failure-url="/login?error=true"
-			default-target-url="/home" />
+		<sec:form-login login-page='/login'	login-processing-url="/process_login" authentication-failure-url="/login?error=true" default-target-url="/home" />
 		<sec:remember-me />
 		<sec:access-denied-handler error-page="/accessDenied" />
 		<sec:logout logout-url="/logout" />
 		<sec:http-basic />
+		<sec:anonymous/>
 	</sec:http>
 	<beans profile="default">
 		<context:property-placeholder
