@@ -19,7 +19,6 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -31,8 +30,6 @@ import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.LinkedMap;
 import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
@@ -114,7 +111,8 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
             if (hadData) {
                 fillReportEnd();
             } else {
-                //TODO Add from 'else' block.  We don't expect to hit this code
+                //TODO Add from 'else' block.  We don't expect to hit this code; possibly if attempting to download data
+                // that doesn't contain a license
             }
             //Then export and return appropriate execution status
             JasperExportManager.exportReportToPdfFile(jasperPrint, "target/jrNameChunks.pdf");
