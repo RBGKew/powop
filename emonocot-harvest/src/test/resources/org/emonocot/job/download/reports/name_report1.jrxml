@@ -3,12 +3,12 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
-	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
-	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
-    <style name="Detail" fontName="Arial" fontSize="12"/>
-    <style name="AcceptedName" fontName="Arial" fontSize="12" isBold="true"/>
-	<style name="SubDetail" fontName="Arial" fontSize="8"/>
+	<style name="Title" fontSize="26" isBold="true"/>
+	<style name="SubTitle" forecolor="#666666" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontSize="12" isBold="true"/>
+    <style name="Detail" fontSize="12"/>
+    <style name="AcceptedName" fontSize="12" isBold="true"/>
+	<style name="SubDetail" fontSize="8"/>
 	<parameter name="name" class="java.lang.String" isForPrompting="false"/>
     <field name="scientificName" class="java.lang.String"/>
     <field name="taxonomicStatus" class="org.gbif.ecat.voc.TaxonomicStatus"/>
