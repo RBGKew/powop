@@ -603,10 +603,33 @@ ul#taxonHierarchy, ul#taxonHierarchy ul {
 @media (max-width: @navbarCollapseWidth) {
 	body{
 		padding-top: 0;
+		padding-left:0;
+		padding-right:0;
 	}
 	.taxon-page-map{
 		width: auto;
 	}
+	
+	.page-banner {
+		position: relative; 
+		overflow: hidden;
+		margin-bottom: 20px;
+		/* #gradient > .vertical(@heroBackground, @heroBackgroundHighlight);*/
+		background-color: @heroBackground;
+		background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right-small-2.png'), url('@{imagePath}/banner/bamboo-left-small-2.png'), -moz-linear-gradient(top, @heroBackground, @heroBackgroundHighlight);
+		background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right-small-2.png'), url('@{imagePath}/banner/bamboo-left-small-2.png'), -webkit-gradient(linear, 0 0, 0 100%, from(@heroBackground), to(@heroBackgroundHighlight));
+		background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right-small-2.png'), url('@{imagePath}/banner/bamboo-left-small-2.png'), -webkit-linear-gradient(top,@heroBackground, @heroBackgroundHighlight);
+		background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right-small-2.png'), url('@{imagePath}/banner/bamboo-left-small-2.png'), -o-linear-gradient(top, @heroBackground, @heroBackgroundHighlight);
+		background-image: url('@{imagePath}/banner/overlay.png'), url('@{imagePath}/banner/bamboo-right-small-2.png'), url('@{imagePath}/banner/bamboo-left-small-2.png'), linear-gradient(to bottom, @heroBackground, @heroBackgroundHighlight);
+		background-repeat: repeat, no-repeat, no-repeat, repeat-x;
+		background-position: center center, bottom right, bottom left, center center;
+
+		.page-header {
+			border-bottom: none
+		}
+	}
+	
+	
 }
 
 @media (max-width: 767px) {
@@ -631,6 +654,13 @@ ul#taxonHierarchy, ul#taxonHierarchy ul {
 
 		h4 {
 			font-size: 16px;
+		}
+	}
+	footer.navbar{
+	.navbar-inner {
+	.container{
+		width:auto;
+		}
 		}
 	}
 }
