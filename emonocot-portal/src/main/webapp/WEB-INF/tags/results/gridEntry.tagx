@@ -33,16 +33,4 @@
 			<img class="result thumbnail" src="${thumbnail}"/>
 		</c:otherwise>
 	</c:choose>
-	
-	
-	<!-- <c:choose>
-		<c:when test="${not empty image}">
-			<c:url var="thumbnail" value="/images/thumbnails/${image.id}.${image.format}"/>
-		</c:when>
-		<c:otherwise>
-			<c:url var="thumbnail" value="/css/images/no_image.jpg"/>
-		</c:otherwise>
-	</c:choose>
-	<a class="result thumbnail" href="${itemUrl}" rel="tooltip" title="${fn:escapeXml(itemName)}"><img src="${thumbnail}" /></a><p class="hide">${itemName}</p>
-	 -->
 </li>

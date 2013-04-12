@@ -53,6 +53,9 @@
 							<c:when test="${facetValue eq 'org.emonocot.model.IdentificationKey'}">
 								<c:set var="classIcon" value="keys"/>
 							</c:when>
+							<c:when test="${facetValue eq 'org.emonocot.model.PhylogeneticTree'}">
+								<c:set var="classIcon" value="phylogeny"/>
+							</c:when>
 							<c:when test="${facetValue eq 'org.emonocot.model.Place'}">
 								<c:set var="classIcon" value="map-marker"/>
 							</c:when>
