@@ -35,7 +35,7 @@ import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
 import org.apache.velocity.app.VelocityEngine;
-import org.emonocot.job.jasperreports.JRTaxonBeanCollectionFactory;
+/*import org.emonocot.job.jasperreports.JRTaxonBeanCollectionFactory;*/
 import org.emonocot.model.Taxon;
 import org.gbif.ecat.voc.TaxonomicStatus;
 import org.junit.After;
@@ -72,7 +72,7 @@ public class PdfWritingTest {
         velocityFactory.setConfigLocation(new ClassPathResource("org/emonocot/job/download/fop/velocity.properties"));
         velocityFactory.afterPropertiesSet();
         velocity = velocityFactory.getObject();
-        itemsToWrite = /*new ArrayList<Taxon>();
+        itemsToWrite = new ArrayList<Taxon>();
         for (int i = 0; i < 5; i++) {
             Taxon t = new Taxon();
             t.setTaxonomicStatus(TaxonomicStatus.Accepted);
@@ -88,7 +88,7 @@ public class PdfWritingTest {
             t.setScientificName(t.getTaxonomicStatus().toString() + i);
             t.setIdentifier(t.getScientificName());
             itemsToWrite.add(t);
-        }*/ JRTaxonBeanCollectionFactory.create();
+        } /*JRTaxonBeanCollectionFactory.create();*/
     }
 
     /**
