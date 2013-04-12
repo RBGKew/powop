@@ -46,7 +46,7 @@ import com.vividsolutions.jts.io.WKTWriter;
  *
  */
 @Entity
-public class Image extends SearchableObject implements NonOwned {
+public class Image extends SearchableObject implements NonOwned, Media {
 	
 	private static Logger logger = LoggerFactory.getLogger(Image.class);
 	

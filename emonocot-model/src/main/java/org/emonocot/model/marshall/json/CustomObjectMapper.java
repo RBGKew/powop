@@ -5,6 +5,7 @@ import org.emonocot.api.GroupService;
 import org.emonocot.api.IdentificationKeyService;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.JobInstanceService;
+import org.emonocot.api.PhylogeneticTreeService;
 import org.emonocot.api.ReferenceService;
 import org.emonocot.api.OrganisationService;
 import org.emonocot.api.TaxonService;
@@ -20,51 +21,30 @@ import com.fasterxml.jackson.module.hibernate.HibernateModule;
 public class CustomObjectMapper extends ObjectMapper {
 	
 	Logger logger = LoggerFactory.getLogger(CustomObjectMapper.class);
-    /**
-    *
-    */
+
     private ReferenceService referenceService;
 
-    /**
-     *
-     */
     private TaxonService taxonService;
 
-    /**
-     *
-     */
     private ImageService imageService;
 
-    /**
-    *
-    */
     private UserService userService;
 
-    /**
-    *
-    */
     private GroupService groupService;
 
-    /**
-    *
-    */
     private OrganisationService organisationService;
 
-    /**
-    *
-    */
     private JobInstanceService jobInstanceService;
 
-    /**
-     *
-     */
     private IdentificationKeyService identificationKeyService;
+    
+    private PhylogeneticTreeService phylogeneticTreeService;
 
     /**
      * @param userService
      *            the userService to set
      */
-    public final void setUserService(final UserService userService) {
+    public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
@@ -72,14 +52,14 @@ public class CustomObjectMapper extends ObjectMapper {
      * @param groupService
      *            the groupService to set
      */
-    public final void setGroupService(final GroupService groupService) {
+    public void setGroupService(GroupService groupService) {
         this.groupService = groupService;
     }
 
     /**
      * @param newIdentificationKeyService the identification key service to set
      */
-    public final void setIdentificationKeyService(final IdentificationKeyService newIdentificationKeyService) {
+    public void setIdentificationKeyService(IdentificationKeyService newIdentificationKeyService) {
         this.identificationKeyService = newIdentificationKeyService;
     }
 
@@ -88,8 +68,8 @@ public class CustomObjectMapper extends ObjectMapper {
      * @param newReferenceService
      *            Set the reference service
      */
-    public final void setReferenceService(
-            final ReferenceService newReferenceService) {
+    public void setReferenceService(
+            ReferenceService newReferenceService) {
         this.referenceService = newReferenceService;
     }
 
@@ -98,7 +78,7 @@ public class CustomObjectMapper extends ObjectMapper {
      * @param newTaxonService
      *            Set the taxon service
      */
-    public final void setTaxonService(final TaxonService newTaxonService) {
+    public void setTaxonService(TaxonService newTaxonService) {
         this.taxonService = newTaxonService;
     }
 
@@ -106,7 +86,7 @@ public class CustomObjectMapper extends ObjectMapper {
      * @param newImageService
      *            the imageService to set
      */
-    public final void setImageService(final ImageService newImageService) {
+    public void setImageService(ImageService newImageService) {
         this.imageService = newImageService;
     }
 
@@ -114,8 +94,8 @@ public class CustomObjectMapper extends ObjectMapper {
      * @param newJobInstanceService
      *            the jobInstanceService to set
      */
-    public final void setJobInstanceService(
-            final JobInstanceService newJobInstanceService) {
+    public void setJobInstanceService(
+            JobInstanceService newJobInstanceService) {
         this.jobInstanceService = newJobInstanceService;
     }
 
@@ -123,11 +103,16 @@ public class CustomObjectMapper extends ObjectMapper {
      * @param newOrganisationService
      *            the sourceService to set
      */
-    public final void setOrganisationService(final OrganisationService newOrganisationService) {
+    public void setOrganisationService(OrganisationService newOrganisationService) {
         this.organisationService = newOrganisationService;
     }
 
-    /**
+    public void setPhylogeneticTreeService(
+			PhylogeneticTreeService phylogeneticTreeService) {
+		this.phylogeneticTreeService = phylogeneticTreeService;
+	}
+
+	/**
     *
     */
     protected CustomObjectMapper() {
@@ -136,7 +121,7 @@ public class CustomObjectMapper extends ObjectMapper {
     /**
     *
     */
-    protected final void init() {
+    protected void init() {
     	logger.debug("init() called"); 
         CustomHandlerInstantiator handlerInstantiator = new CustomHandlerInstantiator();
         handlerInstantiator.setReferenceService(referenceService);
@@ -146,6 +131,7 @@ public class CustomObjectMapper extends ObjectMapper {
         handlerInstantiator.setUserService(userService);
         handlerInstantiator.setOrganisationService(organisationService);
         handlerInstantiator.setIdentificationKeyService(identificationKeyService);
+        handlerInstantiator.setPhylogeneticTreeService(phylogeneticTreeService);
         setHandlerInstantiator(handlerInstantiator);
         CustomModule module = new CustomModule(jobInstanceService);
         registerModule(module);

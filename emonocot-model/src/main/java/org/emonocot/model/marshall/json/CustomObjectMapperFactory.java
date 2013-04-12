@@ -5,6 +5,7 @@ import org.emonocot.api.GroupService;
 import org.emonocot.api.IdentificationKeyService;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.JobInstanceService;
+import org.emonocot.api.PhylogeneticTreeService;
 import org.emonocot.api.ReferenceService;
 import org.emonocot.api.OrganisationService;
 import org.emonocot.api.TaxonService;
@@ -21,56 +22,31 @@ import org.springframework.beans.factory.FactoryBean;
 public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
 	Logger logger = LoggerFactory.getLogger(CustomObjectMapperFactory.class);
 
-    /**
-     *
-     */
     private ReferenceService referenceService;
 
-    /**
-     *
-     */
     private TaxonService taxonService;
 
-    /**
-     *
-     */
     private ImageService imageService;
 
-    /**
-    *
-    */
     private UserService userService;
 
-   /**
-    *
-    */
     private GroupService groupService;
 
-    /**
-    *
-    */
     private OrganisationService organisationService;
 
-    /**
-    *
-    */
     private CustomObjectMapper objectMapper;
 
-    /**
-     *
-     */
     private JobInstanceService jobInstanceService;
 
-    /**
-     *
-     */
      private IdentificationKeyService identificationKeyService;
+     
+     private PhylogeneticTreeService phylogeneticTreeService;
 
     /**
      * @param userService
      *            the userService to set
      */
-    public final void setUserService(final UserService userService) {
+    public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
@@ -78,7 +54,7 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
      * @param groupService
      *            the groupService to set
      */
-    public final void setGroupService(final GroupService groupService) {
+    public void setGroupService(GroupService groupService) {
         this.groupService = groupService;
     }
 
@@ -87,8 +63,8 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
      * @param newReferenceService
      *            Set the reference service
      */
-    public final void setReferenceService(
-            final ReferenceService newReferenceService) {
+    public void setReferenceService(
+            ReferenceService newReferenceService) {
         this.referenceService = newReferenceService;
     }
 
@@ -96,7 +72,7 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
      * @param newTaxonService
      *            the taxonService to set
      */
-    public final void setTaxonService(final TaxonService newTaxonService) {
+    public void setTaxonService(TaxonService newTaxonService) {
         this.taxonService = newTaxonService;
     }
 
@@ -104,7 +80,7 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
      * @param newImageService
      *            the imageService to set
      */
-    public final void setImageService(final ImageService newImageService) {
+    public void setImageService(ImageService newImageService) {
         this.imageService = newImageService;
     }
 
@@ -112,29 +88,34 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
      * @param organisationService
      *            the sourceService to set
      */
-    public final void setOrganisationService(final OrganisationService organisationService) {
+    public void setOrganisationService(OrganisationService organisationService) {
         this.organisationService = organisationService;
     }
 
     /**
      * @param jobInstanceService the jobInstanceService to set
      */
-    public final void setJobInstanceService(
-            final JobInstanceService jobInstanceService) {
+    public void setJobInstanceService(
+            JobInstanceService jobInstanceService) {
         this.jobInstanceService = jobInstanceService;
     }
 
     /**
      * @param newIdentificationKeyService the identification key service to set
      */
-    public final void setIdentificationKeyService(final IdentificationKeyService newIdentificationKeyService) {
+    public void setIdentificationKeyService(IdentificationKeyService newIdentificationKeyService) {
         this.identificationKeyService = newIdentificationKeyService;
     }
     
-    /**
+    public void setPhylogeneticTreeService(
+			PhylogeneticTreeService phylogeneticTreeService) {
+		this.phylogeneticTreeService = phylogeneticTreeService;
+	}
+
+	/**
      * @return the object created by this factory
      */
-    public final ObjectMapper getObject() {
+    public ObjectMapper getObject() {
     	logger.debug("getObject called");
         if (objectMapper == null) {
         	logger.debug("creating new CustomObjectMapper");
@@ -147,6 +128,7 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
             objectMapper.setOrganisationService(organisationService);
             objectMapper.setJobInstanceService(jobInstanceService);
             objectMapper.setIdentificationKeyService(identificationKeyService);
+            objectMapper.setPhylogeneticTreeService(phylogeneticTreeService);
             objectMapper.init();
         }
         logger.debug("Returning objectMapper " + objectMapper);
@@ -156,14 +138,14 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
     /**
      * @return the type of object created by this factory
      */
-    public final Class<?> getObjectType() {
+    public Class<?> getObjectType() {
         return ObjectMapper.class;
     }
 
     /**
      * @return true, if this object is a singleton, false otherwise
      */
-    public final boolean isSingleton() {
+    public boolean isSingleton() {
         return true;
     }
 }

@@ -295,5 +295,27 @@ public class Show extends PageObject implements IllustratedPage {
 		return taxonomicStatus.getText();
 	}
 
+	public Integer getPhylogenyNumber() {
+		WebElement trees = getWebDriver().findElement(By.id("trees"));
+		if(trees == null) {
+		    return 0;
+		} else {
+			List<WebElement> links = trees.findElements(By.xpath("ul[@class='unstyled']/li/a"));
+			return links.size();
+		}
+	}
+
+	public PageObject selectPhylogeny(int number) {
+		WebElement trees = getWebDriver().findElement(By.id("trees"));
+		if(trees == null) {
+		    return null;
+		} else {
+			List<WebElement> links = trees.findElements(By.xpath("ul[@class='unstyled']/li/a"));
+			WebElement link = links.get(number - 1);
+			return openAs(link.getAttribute("href"), org.emonocot.portal.driver.phylo.Show.class);
+		}
+        
+	}
+
 	
 }

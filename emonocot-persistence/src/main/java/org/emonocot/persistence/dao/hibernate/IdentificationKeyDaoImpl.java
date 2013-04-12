@@ -40,7 +40,7 @@ public class IdentificationKeyDaoImpl extends
 
     @Override
     public final Fetch[] getProfile(final String profile) {
-        return FETCH_PROFILES.get("object-page");
+        return FETCH_PROFILES.get(profile);
     }
 
 }

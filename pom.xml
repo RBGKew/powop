@@ -1047,6 +1047,11 @@
 	          <artifactId>nekohtml</artifactId>
 	          <version>1.9.18</version>
            </dependency>
+           <dependency>
+             <groupId>org.forester</groupId>
+             <artifactId>forester</artifactId>
+             <version>1028</version>
+           </dependency>
 		</dependencies>
 	</dependencyManagement>
 	<build>

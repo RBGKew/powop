@@ -216,8 +216,19 @@ public class DataSetup {
     public final void thereAreIdentificationKeysWithTheFollowingProperties(
             final List<IdentificationKeyRow> rows) {
         for (IdentificationKeyRow row : rows) {
-            testDataManager.createIdentificationKey(row.identifier, row.title,
-                    row.description, row.taxon);
+            testDataManager.createIdentificationKey(row.identifier, row.title, row.description, row.taxon, row.source);
+        }
+    }
+    
+    /**
+     * @param rows
+     *            ID Key rows to set
+     */
+    @Given("^there are phylogenetic trees with the following properties:$")
+    public final void thereArePhylogeneticTreesWithTheFollowingProperties(
+            final List<PhylogeneticTreeRow> rows) {
+        for (PhylogeneticTreeRow row : rows) {
+            testDataManager.createPhylogeneticTree(row.identifier, row.title, row.description, row.taxon, row.source);
         }
     }
     
