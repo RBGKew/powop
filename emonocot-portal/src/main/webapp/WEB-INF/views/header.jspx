@@ -68,25 +68,36 @@
 						<ul class="dropdown-menu">
 							<li>
 								<c:url value="/key/2" var="familyKeyUrl"/>
-								<a href="${familyKeyUrl}"><spring:message code="family.key.title"/></a>
+								<a href="${familyKeyUrl}"><i class="halflings-icon keys"><!--  --></i><spring:message code="family.key.title"/></a>
 							</li>
 							<li>
 								<c:url value="/search" var="keySearchUrl">
 									<c:param name="facet" value="base.class_s:org.emonocot.model.IdentificationKey"/>
 								</c:url>
-								<a href="${keySearchUrl}"><spring:message code="search.for.keys"/></a>
+								<c:url var="searchKeys" value="/css/images/glyphicons_halflings-search_keys.png" />
+								<a href="${keySearchUrl}"><img src="${searchKeys}"/><spring:message code="search.for.keys"/></a>
 							</li>
 							<li>
 								<c:url value="/search" var="imageSearchUrl">
 									<c:param name="facet" value="base.class_s:org.emonocot.model.Image"/>
 								</c:url>
-								<a href="${imageSearchUrl}"><spring:message code="browse.images"/></a>
+								<c:url var="browseImages" value="/css/images/glyphicons_halflings-browse_images.png" />
+								<a href="${imageSearchUrl}"><img src="${browseImages}"/><spring:message code="browse.images"/></a>
 							</li>
 						</ul>
 					</li>
-					<li>
-						<c:url value="/classification" var="classifyUrl"/>
-						<a href="${classifyUrl}"><spring:message code="classify.title"/></a>
+					<li class="dropdown" id="menuClassify">
+						<a href="#menuClassify" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="classify.title"/>
+							<b class="caret"><!--  --></b>
+						</a>
+						<ul class="dropdown-menu">
+							<c:url value="/classification" var="classifyUrl"/>
+							<c:url var="classifyIcon" value="/css/images/glyphicons_halflings-classify.png" />
+							<li><a href="${classifyUrl}"><img src="${classifyIcon}"/>&#160;<spring:message code="classify.title"/></a></li>
+							<c:url value="" var="phylogenyUrl"/>
+							<c:url var="phylogenyIcon" value="/css/images/glyphicons_halflings-phylogeny.png" />
+							<li><a href="${phylogenyUrl}"><img src="${phylogenyIcon}"/>&#160;<spring:message code="phylogeny.title"/></a></li>
+						</ul>
 					</li>
 					<li class="dropdown" id="menuExplore">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#menuExplore">
