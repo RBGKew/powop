@@ -22,11 +22,20 @@
 	</batch:step>
 	
 	<batch:job id="FlatFileCreation">
-		<batch:description>Create a flat file</batch:description>
+		<batch:description>Create a flat file. Either a DwC/A core 'Taxon' file or a PDF checklist</batch:description>
+        <batch:decision id="isChecklistPdf" decider="downloadFormatDecider">
+            <batch:next on="true*" to="createPdf" />
+            <batch:next on="false" to="createCoreFile" />
+        </batch:decision>
 		<batch:step id="createCoreFile" parent="produceCoreFile">
 			<batch:description>Create the Taxon (core) file</batch:description>
 			<batch:end on="COMPLETED"/>
 		</batch:step>
+        <batch:step id="createPdf" parent="produceCoreFile">
+            <batch:tasklet>
+                <batch:chunk writer="pdfWriter" />
+            </batch:tasklet>
+        </batch:step>
 	    <batch:listeners>
             <batch:listener ref="jobStatusListener" />
         </batch:listeners>
@@ -54,6 +63,11 @@
 	  <property name="header" value="#{jobParameters['download.taxon']}"/>
 	  <property name="delimiter" value="#{jobParameters['download.fieldsTerminatedBy']}"/>
 	</bean>
+    
+    <bean id="pdfWriter" class="net.sf.jasperreports.engine.fill.JRVerticalReportWriter" scope="step">
+        <constructor-arg value="#T(net.sf.jasperreports.engine.JasperCompileManager).compileReport('org/emonocot/job/download/reports/name_report1.jrxml')" />
+        <property name="defaultOutputDir" value="${harvester.output.directory}" />
+    </bean>
 
 	<bean id="downloadFile" class="org.springframework.core.io.FileSystemResource" scope="step">
 		<constructor-arg type="java.io.File">
@@ -75,5 +89,9 @@
 	   </bean>
 	 </property>
 	</bean>
+    
+    <bean id="downloadFormatDecider" class="org.emonocot.harvest.common.ParameterPresenceDecider">
+        <property name="parameter" value="download.checklist.pdf" />
+    </bean>
     
 </beans>

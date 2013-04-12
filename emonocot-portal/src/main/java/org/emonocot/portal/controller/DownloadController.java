@@ -302,10 +302,16 @@ public class DownloadController {
 			resource.setProcessSkip(0);
 			resource.setWriteSkip(0);
 			resource.setWritten(0);
-			if(downloadFormat.equals("taxon")) {
-			    resource.getParameters().put("download.file",downloadFileName);
-			} else {
-				resource.getParameters().put("download.file",downloadFileName + ".zip");
+			switch (downloadFormat) {
+            case "taxon":
+                resource.getParameters().put("download.file",downloadFileName);
+                break;
+            case "checklistAlphabetical":
+                resource.getParameters().put("download.file",downloadFileName + ".pdf");
+                break;
+		        default:
+	                resource.getParameters().put("download.file",downloadFileName + ".zip");
+		            break;
 			}
 			resourceService.save(resource);
 			jobLauncher.launch(jobLaunchRequest);			
