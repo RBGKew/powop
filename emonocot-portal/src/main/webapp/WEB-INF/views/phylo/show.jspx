@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:em="http://e-monocot.org/portal/functions"
+	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
+    xmlns:security="http://www.springframework.org/security/tags"
+	xmlns:spring="http://www.springframework.org/tags">
+	<tags:pageheader>
+        <h2 id="page-title"><i class="glyphicons-icon keys"><!--  --></i>${phylogeneticTree.title}</h2>
+        <small><spring:message code="phylo.creator" /> ${phylogeneticTree.creator}</small>						
+		<div class="row">			
+            <div class="span1 offset9">
+                <tags:feedbackLink selector="${phylogeneticTree.title}" dataName="${phylogeneticTree.title}" />
+            </div>
+		</div>
+	</tags:pageheader>
+	<div class="container">
+        <tags:info />
+        <tags:error />
+		<div class="row">
+			<section class="span12">
+					<div class="inner">
+						<div class="box">
+						<!--  -->
+						</div>
+					</div>
+			</section>
+		</div>
+		<div class="row">
+			<section class="span12">
+					<div class="inner">
+						<div class="box">
+							<table class="table" id="tree-properties">
+								<tbody>
+									<tr>
+										<th><spring:message code="phylo.title" /></th>
+										<td>${phylogeneticTree.title}</td>
+									</tr>
+									<tr>
+										<th><spring:message code="phylo.description" /></th>
+										<td>${phylogeneticTree.description}</td>
+									</tr>
+									<tr>
+									  <th><spring:message code="phylo.taxa" /></th>
+									  <td>
+									    <ul class="unstyled">
+									      <c:forEach var="taxon" items="${phylogeneticTree.taxa}">
+									        <li>
+									          <c:url var="taxonUrl" value="/taxon/${taxon.identifier}"/>
+									          <a href="${taxonUrl}"><em>${taxon.scientificName}</em> ${taxon.scientificNameAuthorship}</a>
+									        </li>
+									      </c:forEach>
+									    </ul>
+									  </td>
+									</tr>																		
+								</tbody>
+							</table>
+						</div>
+					</div>
+			</section>
+		</div>
+		<c:set var="provenance" value="${em:provenance(phylogeneticTree)}" />
+		<div class="row">
+			    <section id="sources" class="span12">
+					<div class="inner">
+						<div class="box">
+							<h2><i class="glyphicons-icon group">&#160;</i> <spring:message code="sources" /></h2>
+							<dl>
+								<c:forEach var="organisation" items="${em:provenancesources(provenance)}">
+									<tags:provenance organisation="${organisation}" provenance="${provenance}"/>
+								</c:forEach>
+							</dl>
+						</div>
+					</div>
+			    </section>
+		</div>
+		<c:if test="${not empty phylogeneticTree.comments}">
+			<div class="row">
+			    <section id="comments" class="span12">
+				    <div class="inner">
+     				    <div class="box">
+								<h2>
+									<i class="glyphicons-icon comments"><!-- --></i>
+									<spring:message code="comments.title"/>
+								</h2>
+								<ul class="media-list">
+								  <c:forEach var="comment" items="${phylogeneticTree.comments}" end="5">
+									<tags:comment comment="${comment}"/>
+								  </c:forEach>
+								</ul>
+								<div>
+									<c:url var="commentsUrl" value="/comment"/>
+							        <a href="${commentsUrl}">
+								      <spring:message code="more.comments"/>
+							        </a>
+								</div>
+						</div>
+					</div>
+				</section>
+			</div>
+		</c:if>
+		<script language="javascript">
+				<!---->
+		</script>
+           <div id="feedbackModal" class="modal hide fade">
+		        <div class="modal-header">
+		            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"><i class="halflings-icon remove"><!--  --></i></button>
+		            <h3><i class="glyphicons-icon comments"><!--  --></i><spring:message code="feedbackTitle" /></h3>
+		        </div>
+		        <c:url value="/comment" var="commentUrl" />
+		        <form class="modal-form" action="${commentUrl}" method="post">
+		            <input type="hidden" name="commentPageIdentifier" value="${phylogeneticTree.identifier}"/> 
+		            <div class="modal-body">
+		                <div class="control-group">
+		                    <security:authorize access="isAnonymous()">
+		                        <span class="label label-important"><spring:message code="feedback.login.needed" /></span>
+		                    </security:authorize>
+		                    <label class="control-label" for="select01"><spring:message code="feedback.topic.option" /> ${phylogeneticTree.title}</label>
+		                    <div class="controls">
+                                <input type="hidden" name="aboutData" value="${phylogeneticTree.identifier}" />
+		                    </div>
+		                </div>
+		                <div class="control-group">
+		                    <div class="controls">
+		                        <textarea class="input-xlarge" name="comment" rows="3"><!--  --></textarea>
+		                    </div>
+		                </div>
+		            </div>
+		            <div class="modal-footer">
+		                <button class="btn" data-dismiss="modal"><spring:message code="button.close" /></button>
+		                <button type="submit" class="btn btn-primary"><spring:message code="button.submit" /></button>
+		            </div>
+		        </form>
+            </div>
+		</div>
+	</div>
