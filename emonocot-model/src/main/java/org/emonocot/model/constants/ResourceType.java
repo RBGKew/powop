@@ -10,7 +10,8 @@ public enum ResourceType {
     IDENTIFICATION_KEY("IdentificationKeyHarvesting"),
     IUCN("IUCNImport"),
     GBIF("GBIFImport"),
-    DOWNLOAD("Download");
+    DOWNLOAD("Download"),
+    PHYLOGENETIC_TREE("PhylogeneticTreeHarvesting");
     
     private String jobName;
     

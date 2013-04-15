@@ -6,7 +6,7 @@
     xmlns:security="http://www.springframework.org/security/tags"
 	xmlns:spring="http://www.springframework.org/tags">
 	<tags:pageheader>
-        <h2 id="page-title"><i class="glyphicons-icon keys"><!--  --></i>${phylogeneticTree.title}</h2>
+        <h2 id="page-title"><i class="glyphicons-icon phylogeny"><!--  --></i>${phylogeneticTree.title}</h2>
         <small><spring:message code="phylo.creator" /> ${phylogeneticTree.creator}</small>						
 		<div class="row">			
             <div class="span1 offset9">
@@ -21,7 +21,18 @@
 			<section class="span12">
 					<div class="inner">
 						<div class="box">
-						<!--  -->
+						  <div id="phylogeny"><!--  --></div>
+						  <script type="text/javascript">
+                            $(document).ready(function() {
+                                var dataObject = { phyloxml: '${phylogeneticTree.phylogeny}' };
+                                phylocanvas = new Smits.PhyloCanvas(
+                                    dataObject,
+                                    'phylogeny',
+                                    580, 470
+                                );
+                            });
+                          </script>
+						
 						</div>
 					</div>
 			</section>

@@ -372,17 +372,17 @@ public class SearchController {
 		
 		Dimension habitat = new Dimension("habitat");
 		cube.addDimension(habitat);
-		habitat.addLevel("taxon.measurement_or_fact_Lifeform_txt", false);
+		habitat.addLevel("taxon.measurement_or_fact_Habitat_txt", false);
 		
 		Dimension conservationStatus = new Dimension("conservationStatus");
 		cube.addDimension(conservationStatus);
 		conservationStatus.addLevel("taxon.measurement_or_fact_IUCNConservationStatus_txt", false);
 		
-		Dimension withDescriptions = new Dimension("withDescriptions");
+		Dimension withDescriptions = new Dimension("withoutDescriptions");
 		cube.addDimension(withDescriptions);
 		withDescriptions.addLevel("taxon.descriptions_empty_b", false);
 		
-		Dimension withImages = new Dimension("withImages");
+		Dimension withImages = new Dimension("withoutImages");
 		cube.addDimension(withImages);
 		withImages.addLevel("taxon.images_empty_b", false);
 

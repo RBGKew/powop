@@ -49,7 +49,7 @@ public abstract class AbstractRecordAnnotator extends HibernateDaoSupport implem
      *
      * @return the source
      */
-    private Organisation getSource() {
+    protected Organisation getSource() {
         if (source == null) {
             Criteria criteria = getSession().createCriteria(Organisation.class).add(
                     Restrictions.eq("identifier", sourceName));

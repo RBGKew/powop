@@ -26,8 +26,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath:META-INF/spring/applicationContext-integrationTest.xml",
-                       "classpath:META-INF/spring/applicationContext-integration.xml",
+@ContextConfiguration({"classpath:META-INF/spring/applicationContext-integration.xml",
                        "classpath:META-INF/spring/applicationContext-test.xml"})
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class CommentSendingIntegrationTest {

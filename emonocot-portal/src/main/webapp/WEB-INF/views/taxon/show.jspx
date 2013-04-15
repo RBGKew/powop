@@ -419,7 +419,7 @@
 						<div id="classificationBox" class="box">
 							<section class="sidebarBox" id="taxonomicTree">
 								<h2 id="sectionHeader">
-									<spring:message code="taxonomicTree" var="treeHeader"/>${treeHeader}
+									<spring:message code="taxonomicTree" var="treeHeader"/><i class="glyphicons-icon classify"><!-- --></i>${treeHeader}
 									<tags:feedbackLink selector="option:contains(${treeHeader})" dataName="${treeHeader}" />
 								</h2>
 								<c:if test="${not empty taxon.higherClassification}">
@@ -513,7 +513,7 @@
 						<div class="box">
 							<section class="sidebarBox" id="trees">
 								<h2>
-									<i class="glyphicons-icon trees"><!-- --></i>
+									<i class="glyphicons-icon phylogeny"><!-- --></i>
 									<spring:message code="phylogenetic.trees"/>
 								</h2>
 								<ul class="unstyled">

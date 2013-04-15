@@ -28,14 +28,8 @@ public class TaxonNameProcessor extends AbstractRecordAnnotator implements
      */
     private Logger logger = LoggerFactory.getLogger(TaxonNameProcessor.class);
 
-    /**
-    *
-    */
     private TaxonMatcher taxonMatcher;
 
-    /**
-     *
-     */
     private TaxonService taxonService;
 
     /**

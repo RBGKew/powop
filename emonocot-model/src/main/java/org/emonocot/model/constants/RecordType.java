@@ -41,5 +41,9 @@ public enum RecordType {
     /**
      * a type and specimen
      */
-    TypeAndSpecimen;
+    TypeAndSpecimen,
+    /**
+     * 
+     */
+    PhylogeneticTree;
 }

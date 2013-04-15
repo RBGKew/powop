@@ -42,6 +42,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
     "/META-INF/spring/batch/jobs/taxonMatch.xml",
+    "/META-INF/spring/applicationContext-integration.xml",
     "/META-INF/spring/applicationContext-test.xml" })
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class TaxonMatchIntegrationTest {
@@ -83,10 +84,8 @@ public class TaxonMatchIntegrationTest {
         ClassPathResource input = new ClassPathResource(
                 "/org/emonocot/job/taxonmatch/input.csv");
         Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
-        parameters.put("input.file", new JobParameter(input.getFile()
-                .getAbsolutePath()));
-        parameters.put("output.file",
-                new JobParameter(File.createTempFile("output", "csv").getAbsolutePath()));
+        parameters.put("input.file", new JobParameter(input.getFile().getAbsolutePath()));
+        parameters.put("output.file", new JobParameter(File.createTempFile("output", "csv").getAbsolutePath()));
 
         JobParameters jobParameters = new JobParameters(parameters);
 

@@ -1050,7 +1050,7 @@
            <dependency>
              <groupId>org.forester</groupId>
              <artifactId>forester</artifactId>
-             <version>1028</version>
+             <version>1029</version>
            </dependency>
 		</dependencies>
 	</dependencyManagement>

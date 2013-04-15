@@ -40,6 +40,7 @@ import com.vividsolutions.jts.geom.Polygon;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
     "/META-INF/spring/batch/jobs/printMap.xml",
+    "/META-INF/spring/applicationContext-integration.xml",
     "/META-INF/spring/applicationContext-test.xml" })
 public class PrintMapIntegrationTest {
 

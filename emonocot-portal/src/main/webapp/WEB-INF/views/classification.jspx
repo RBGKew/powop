@@ -7,7 +7,7 @@
 
 	<tags:pageheader>
 		<h2>
-			<spring:message code="classification" />
+			<i class="glyphicons-icon classify"><!--  --></i><spring:message code="classification" />
 		</h2>
 	</tags:pageheader>
 	<div class="container">
