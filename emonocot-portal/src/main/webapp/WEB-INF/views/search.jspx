@@ -105,18 +105,16 @@
 							</div>
 						</div>
 
-
 						<div id="results" class="row no-margin-left" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a.slideshow">
-
-						<c:set var="classFacet" value="${result.selectedFacets['base.class_s']}"/>
-						<c:choose>
-						  <c:when test="${classFacet eq 'org.emonocot.model.Image'}">
-						    <c:set var="imageClass" value="${true}"/>
-						  </c:when>
-						  <c:otherwise>
-						    <c:set var="imageClass" value="${false}"/>
-						  </c:otherwise>
-						</c:choose>
+							<c:set var="classFacet" value="${result.selectedFacets['base.class_s']}"/>
+							<c:choose>
+								<c:when test="${classFacet eq 'org.emonocot.model.Image'}">
+									<c:set var="imageClass" value="${true}"/>
+								</c:when>
+								<c:otherwise>
+									<c:set var="imageClass" value="${false}"/>
+								</c:otherwise>
+							</c:choose>
 							<c:choose>
 								<c:when test="${empty result.params['view']}">
 									<c:choose>
@@ -189,14 +187,14 @@
 			<script type="text/javascript">
 				$(document).ready(function(){
 					$('#clickMe').toggle(
-							function(){
-								$('#textBox').hide();
-								$('#clickMe').text('Show details');
-							},
-							function(){
-								$('#textBox').show();
-								$('#clickMe').text('Hide details');
-							});
+						function(){
+							$('#textBox').hide();
+							$('#clickMe').text('Show details');
+						},
+						function(){
+							$('#textBox').show();
+							$('#clickMe').text('Hide details');
+						});
 					});
 			</script>
 			

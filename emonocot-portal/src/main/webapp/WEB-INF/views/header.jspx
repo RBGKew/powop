@@ -92,11 +92,11 @@
 						</a>
 						<ul class="dropdown-menu">
 							<c:url value="/classification" var="classifyUrl"/>
-							<c:url var="classifyIcon" value="/css/images/glyphicons_halflings-classify.png" />
-							<li><a href="${classifyUrl}"><img src="${classifyIcon}"/>&#160;<spring:message code="classify.title"/></a></li>
+							<c:url var="classifySmallIcon" value="/css/images/glyphicons_halflings-small_classify.png" />
+							<li><a href="${classifyUrl}"><img src="${classifySmallIcon}"/>&#160;<spring:message code="classify.title"/></a></li>
 							<c:url value="" var="phylogenyUrl"/>
-							<c:url var="phylogenyIcon" value="/css/images/glyphicons_halflings-phylogeny.png" />
-							<li><a href="${phylogenyUrl}"><img src="${phylogenyIcon}"/>&#160;<spring:message code="phylogeny.title"/></a></li>
+							<c:url var="phylogenySmallIcon" value="/css/images/glyphicons_halflings-small_phylogeny.png" />
+							<li><a href="${phylogenyUrl}"><img src="${phylogenySmallIcon}"/>&#160;<spring:message code="phylogeny.title"/></a></li>
 						</ul>
 					</li>
 					<li class="dropdown" id="menuExplore">
