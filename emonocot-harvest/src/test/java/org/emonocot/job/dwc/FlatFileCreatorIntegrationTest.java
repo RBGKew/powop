@@ -129,6 +129,28 @@ public class FlatFileCreatorIntegrationTest {
 		assertEquals("The Job should be sucessful", ExitStatus.COMPLETED, jobExecution.getExitStatus());        
 	}
 	
+    @Test
+    public void testWriteChecklistPdf() throws Exception {
+        Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
+        parameters.put("query", new JobParameter(""));
+        parameters.put("selected.facets", new JobParameter("taxon.family_s=Araceae"));
+        parameters.put("download.taxon", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon))));
+        parameters.put("download.file", new JobParameter(UUID.randomUUID().toString() + ".txt"));
+        parameters.put("download.limit", new JobParameter(new Integer(Integer.MAX_VALUE).toString()));
+        parameters.put("download.fieldsTerminatedBy", new JobParameter("\t"));
+        parameters.put("download.fieldsEnclosedBy", new JobParameter("\""));
+        parameters.put("download.checklist.pdf", new JobParameter("true"));
+        parameters.put("download.template.filepath", new JobParameter("org/emonocot/job/download/reports/name_report1.jrxml"));
+
+        JobParameters jobParameters = new JobParameters(parameters);
+        Job archiveCreatorJob = jobLocator.getJob("FlatFileCreation");
+        assertNotNull("flatFileCreatorJob must exist", archiveCreatorJob);
+        JobExecution jobExecution = jobLauncher.run(archiveCreatorJob,
+                jobParameters);
+        
+        assertEquals("The Job should be sucessful", ExitStatus.COMPLETED, jobExecution.getExitStatus());        
+    }
+	
 	private String toParameter(Collection<ConceptTerm> terms) {
 		
 		   StringBuffer stringBuffer = new StringBuffer();

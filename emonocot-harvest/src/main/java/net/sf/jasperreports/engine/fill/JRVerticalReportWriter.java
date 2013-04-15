@@ -3,6 +3,7 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -37,6 +38,7 @@ import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.core.io.Resource;
 
 /**
  * @author jk00kg
@@ -69,6 +71,11 @@ public class JRVerticalReportWriter<T> extends JRBaseFiller implements ItemWrite
      * Records whether there is data to avoid a larger alternative to using the next() method  
      */
     private boolean hadData = false;
+    
+    /**
+     * 
+     */
+    private Resource outputResouce;
 
     /**
      * By default an empty map of parameters used by JasperReports
@@ -94,6 +101,20 @@ public class JRVerticalReportWriter<T> extends JRBaseFiller implements ItemWrite
         this.defaultOutputDir = defaultOutputDir;
     }
 
+    /**
+     * @return the outputResouce
+     */
+    public Resource getOutputResouce() {
+        return outputResouce;
+    }
+
+    /**
+     * @param outputResouce the outputResouce to set
+     */
+    public void setOutputResouce(Resource outputResouce) {
+        this.outputResouce = outputResouce;
+    }
+
     /* (non-Javadoc)
      * @see org.springframework.batch.core.StepExecutionListener#beforeStep(org.springframework.batch.core.StepExecution)
      */
@@ -115,6 +136,7 @@ public class JRVerticalReportWriter<T> extends JRBaseFiller implements ItemWrite
     @Override
     public ExitStatus afterStep(StepExecution stepExecution) {
         // fill/write footers
+        String fileName = null;
         try {
             if (hadData) {
                 fillReportEnd();
@@ -123,15 +145,17 @@ public class JRVerticalReportWriter<T> extends JRBaseFiller implements ItemWrite
                 // that doesn't contain a license
             }
             //Then export and return appropriate execution status
-            String fileName = (String) stepExecution.getExecutionContext().get("jasperreports.report.output.filename");
-            if(fileName == null) {
+            if(outputResouce != null) {
+                fileName = outputResouce.getFile().getCanonicalPath();
+            } else {
                 fileName = defaultOutputDir + "/checklist" + Math.abs((new Random()).nextLong()) + ".pdf";
-                stepExecution.getExecutionContext().put("jasperreports.report.output.filename", fileName);
             }
             JasperExportManager.exportReportToPdfFile(jasperPrint, fileName);
         } catch (JRException e) {
-            logger.error("Unable to export report to " + "target/jrNameChunks.pdf", e);
+            logger.error("Unable to export report to " + fileName, e);
             return ExitStatus.FAILED;
+        } catch (IOException e) {
+            logger.error("Unable to write to file" + fileName + ". There was probably a problem trying to use the file " + outputResouce, e);
         }
         baseClose();
         return ExitStatus.COMPLETED;

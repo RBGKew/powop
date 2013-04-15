@@ -17,7 +17,7 @@
 			<batch:chunk reader="downloadItemsReader" processor="nullLicenseTaxonFilter" writer="downloadFileWriter" commit-interval="10"/>
 			<batch:listeners>
 				<batch:listener ref="stepStatusListener" />
-			</batch:listeners>	    
+			</batch:listeners>
 		</batch:tasklet>
 	</batch:step>
 	
@@ -65,8 +65,13 @@
 	</bean>
     
     <bean id="pdfWriter" class="net.sf.jasperreports.engine.fill.JRVerticalReportWriter" scope="step">
-        <constructor-arg value="#T(net.sf.jasperreports.engine.JasperCompileManager).compileReport('org/emonocot/job/download/reports/name_report1.jrxml')" />
+        <constructor-arg value="#{T(net.sf.jasperreports.engine.JasperCompileManager).compileReport(@parameterisedReportTemplate.getInputStream())}" />
         <property name="defaultOutputDir" value="${harvester.output.directory}" />
+        <property name="outputResouce" ref="downloadFile" />
+    </bean>
+    
+    <bean id="parameterisedReportTemplate" class="org.springframework.core.io.ClassPathResource" scope="step">
+        <constructor-arg value="#{jobParameters['download.template.filepath']}" />
     </bean>
 
 	<bean id="downloadFile" class="org.springframework.core.io.FileSystemResource" scope="step">
