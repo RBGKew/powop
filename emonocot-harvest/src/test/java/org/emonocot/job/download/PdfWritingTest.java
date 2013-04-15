@@ -169,7 +169,7 @@ public class PdfWritingTest {
             writer.write(itemList);
             
         }
-        writer.afterStep(se);//Add jasperreports.output.file=? to ExecutionContext
+        writer.afterStep(se);
         
     }
     

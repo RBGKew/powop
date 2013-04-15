@@ -89,7 +89,7 @@
 							<b class="caret"><!--  --></b>
 						</a>
 						<ul class="dropdown-menu">
-							<c:url value="/classification" var="classifyUrl"/>							
+							<c:url value="/classification" var="classifyUrl"/>
 							<li><a href="${classifyUrl}"><i class="halflings-icon classify"><!--  --></i>&#160;<spring:message code="classification"/></a></li>
 							<c:url value="" var="phylogenyUrl"/>							
 							<li><a href="${phylogenyUrl}"><i class="halflings-icon phylogeny"><!--  --></i><spring:message code="phylogeny.title"/></a></li>

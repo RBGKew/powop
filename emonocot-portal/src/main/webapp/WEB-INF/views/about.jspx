@@ -5,7 +5,7 @@
 	xmlns:form="http://www.springframework.org/tags/form"
 	xmlns:spring="http://www.springframework.org/tags">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
-    <jsp:output omit-xml-declaration="yes" />
+	<jsp:output omit-xml-declaration="yes" />
 	<tags:pageheader>
 		<h2 id="page-title">
 			<spring:message code="about.emonocot" />
@@ -49,9 +49,9 @@
 							providing support and tools to enable communities to manage their
 							taxonomic data online and in doing so contribute to eMonocot.
 						</p>
-                        <p class="justified">You can find out how the eMonocot portal can help you explore this data on the
-                            <c:url var="tourUrl" value="/tour" /><a href="${tourUrl}" title="eMonocot portal features">tour page</a>.
-                        </p>
+						<p class="justified">You can find out how the eMonocot portal can help you explore this data on the
+							<c:url var="tourUrl" value="/tour" /><a href="${tourUrl}" title="eMonocot portal features">tour page</a>.
+						</p>
 						<p class="justified">All of the information is brought
 							together in this site, the eMonocot portal. The information
 							presented here will be especially useful for anyone studying the
@@ -87,21 +87,21 @@
 								<a href="${organisationPageUrl}">${organisation.title}</a>
 								<br />
 							</c:forEach>
-                        </p>
-                        <p class="justified">
+						</p>
+						<p class="justified">
 							Content is being gathered using eMonocot <a href="http://scratchpads.eu" title="Scratchpads project">Scratchpads</a>
 							– websites that enable communities of researchers to manage,
 							share and publish taxonomic data online. The eMonocot Scratchpad
 							sites are available to groups interested in contributing to
 							eMonocot, and are being supported by dedicated eMonocot project
 							staff. You can see a list of current eMonocot scratchpads
-                                <a href="http://about.e-monocot.org/list-emonocot-scratchpads" title="eMonocot scratchpads">here</a>.
+							<a href="http://about.e-monocot.org/list-emonocot-scratchpads" title="eMonocot scratchpads">here</a>.
 						</p>
 						<p class="justified">
 							If you would like to get involved with the eMonocot Project either by providing feedback on the site or perhaps
 							contributing content by joining or forming a scratchpad community, then please
 							<a href="mailto:enquiries@e-monocot.org?subject=eMonocot Portal enquiry" title="contact e-mail">contact us</a>.
-                            You can also find out more information about the project, including the latest events and news at the
+							You can also find out more information about the project, including the latest events and news at the
 							<a href="http://about.e-monocot.org" title="Project Scratchpad">eMonocot project scratchpad</a>.
 						</p>
 					</div>
