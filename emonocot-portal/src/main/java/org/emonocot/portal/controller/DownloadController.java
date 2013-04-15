@@ -218,51 +218,65 @@ public class DownloadController {
 				selectedFacetBuffer.append(facetRequest.getFacet() + "=" + facetRequest.getSelected());
             }
         }
-				
+
+        //Launch the job
+        JobLaunchRequest jobLaunchRequest = new JobLaunchRequest();
 		Map<String, String> jobParametersMap = new HashMap<String, String>();
 		jobParametersMap.put("resource.identifier", resource.getIdentifier());
 		jobParametersMap.put("timestamp", Long.toString(System.currentTimeMillis()));
-		// Download file - either the file or the directory
-        String downloadFileName = UUID.randomUUID().toString();
-        String downloadType = null;
-        if(downloadFormat.equals("taxon")) {
-			downloadFileName = downloadFileName + ".txt";
-			jobParametersMap.put("download.taxon", toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon)));			
+		String downloadFileName = UUID.randomUUID().toString(); // Download file - either the file or the directory
+		//TODO change to if(!"archive".equals(downloadFormat)){} else{}//use archive case block
+        switch (downloadFormat) {
+        case "checklistAlphabetical":
+            downloadFileName = downloadFileName + ".pdf";
+            jobParametersMap.put("download.checklist.pdf", "true");
+            jobParametersMap.put("download.template.filepath", "org/emonocot/job/download/reports/name_report1.jrxml");
             jobParametersMap.put("job.total.reads", Integer.toString(result.getSize()));
-		} else {
-			jobParametersMap.put("job.total.reads", Integer.toString(result.getSize() * (archiveOptions.size() + 1)));
-			jobParametersMap.put("download.taxon",toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon)));
-			for(String archiveOption : archiveOptions) {
-				switch(archiveOption) {
-				case "description":
-					jobParametersMap.put("download.description", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Description)));
-					break;
-				case "distribution":
-					jobParametersMap.put("download.distribution", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Distribution)));
-					break;
-				case "vernacularName":
-					jobParametersMap.put("download.vernacularName", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.VernacularName)));
-					break;
-				case "identifier":
-					jobParametersMap.put("download.identifier", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Identifier)));
-					break;
-				case "measurementOrFact":
-					jobParametersMap.put("download.measurementOrFact", toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.MeasurementOrFact)));
-					break;
-				case "image":
-					jobParametersMap.put("download.image", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Image)));
-					break;
-				case "reference":
-					jobParametersMap.put("download.reference", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Reference)));
-					break;
-				case "typeAndSpecimen":
-					jobParametersMap.put("download.typeAndSpecimen", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.TypesAndSpecimen)));
-					break;
-				default:
-					break;
-				}				
-			}
-		}
+            jobLaunchRequest.setJob("FlatFileCreation");
+            sort = "searchable.label_sort_asc";
+            break;
+        case "taxon":
+            downloadFileName = downloadFileName + ".txt";
+            jobParametersMap.put("download.taxon", toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon)));
+            jobParametersMap.put("job.total.reads", Integer.toString(result.getSize()));
+            jobLaunchRequest.setJob("FlatFileCreation");
+            break;
+        default:
+            jobParametersMap.put("job.total.reads", Integer.toString(result.getSize() * (archiveOptions.size() + 1)));
+            jobParametersMap.put("download.taxon",toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon)));
+            for(String archiveOption : archiveOptions) {
+                switch(archiveOption) {
+                case "description":
+                    jobParametersMap.put("download.description", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Description)));
+                    break;
+                case "distribution":
+                    jobParametersMap.put("download.distribution", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Distribution)));
+                    break;
+                case "vernacularName":
+                    jobParametersMap.put("download.vernacularName", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.VernacularName)));
+                    break;
+                case "identifier":
+                    jobParametersMap.put("download.identifier", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Identifier)));
+                    break;
+                case "measurementOrFact":
+                    jobParametersMap.put("download.measurementOrFact", toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.MeasurementOrFact)));
+                    break;
+                case "image":
+                    jobParametersMap.put("download.image", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Image)));
+                    break;
+                case "reference":
+                    jobParametersMap.put("download.reference", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Reference)));
+                    break;
+                case "typeAndSpecimen":
+                    jobParametersMap.put("download.typeAndSpecimen", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.TypesAndSpecimen)));
+                    break;
+                default:
+                    break;
+                }
+            }
+            jobLaunchRequest.setJob("DarwinCoreArchiveCreation");
+            break;
+        }
         
         jobParametersMap.put("download.file", downloadFileName);
         jobParametersMap.put("download.query", query);
@@ -277,18 +291,10 @@ public class DownloadController {
         	jobParametersMap.put("download.limit", new Integer(Integer.MAX_VALUE).toString()); 
         } else {
         	jobParametersMap.put("download.limit", downloadLimit.toString());
-        }
-        
-        JobLaunchRequest jobLaunchRequest = new JobLaunchRequest();
-        
-        if(downloadFormat.equals("taxon")) {
-        	jobLaunchRequest.setJob("FlatFileCreation"); 
-		} else {
-			jobLaunchRequest.setJob("DarwinCoreArchiveCreation");
-		}
-			
+        }	
 		jobLaunchRequest.setParameters(jobParametersMap);
 
+		//Save the 'resource'
 		try {
 			resource.setResourceType(ResourceType.DOWNLOAD);
 			resource.setStartTime(null);
@@ -302,10 +308,14 @@ public class DownloadController {
 			resource.setProcessSkip(0);
 			resource.setWriteSkip(0);
 			resource.setWritten(0);
-			if(downloadFormat.equals("taxon")) {
-			    resource.getParameters().put("download.file",downloadFileName);
-			} else {
-				resource.getParameters().put("download.file",downloadFileName + ".zip");
+			switch (downloadFormat) {
+            case "taxon":
+            case "checklistAlphabetical":
+                resource.getParameters().put("download.file", downloadFileName);
+                break;
+	        default:
+                resource.getParameters().put("download.file", downloadFileName + ".zip");
+	            break;
 			}
 			resourceService.save(resource);
 			jobLauncher.launch(jobLaunchRequest);			

@@ -300,6 +300,10 @@
               <groupId>org.owasp.antisamy</groupId>
               <artifactId>antisamy</artifactId>
         </dependency>
+        <dependency>
+             <groupId>org.forester</groupId>
+             <artifactId>forester</artifactId>
+        </dependency>
 	</dependencies>
 	<build>
 		<finalName>emonocot-harvest</finalName>

@@ -19,7 +19,9 @@ import javax.persistence.OrderBy;
 import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
+import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
@@ -30,7 +32,7 @@ import org.hibernate.annotations.Where;
  *
  */
 @Entity
-public class IdentificationKey extends SearchableObject {
+public class IdentificationKey extends SearchableObject implements NonOwned, Media {
 
     private static final long serialVersionUID = 7893868318442314512L;
 
@@ -89,6 +91,7 @@ public class IdentificationKey extends SearchableObject {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "Taxon_IdentificationKey", joinColumns = {@JoinColumn(name = "keys_id")}, inverseJoinColumns = {@JoinColumn(name = "Taxon_id")})
     @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE })
+    @JsonSerialize(contentUsing = TaxonSerializer.class)
     public Set<Taxon> getTaxa() {
         return taxa;
     }

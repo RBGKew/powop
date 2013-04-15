@@ -31,7 +31,7 @@
 							itemName="${item.title}" 
 							icon="picture"
 							iconAlt="Image"
-							url="/image/${item.identifier}">
+							url="/image/${item.id}">
 							<h4 class="h4Results">${item.title}</h4>
 						</results:simpleListEntry>
 					</c:when>
@@ -40,7 +40,16 @@
 							itemName="${item.title}" 
 							icon="keys"
 							iconAlt="Identification Key"
-							url="/key/${item.identifier}">
+							url="/key/${item.id}">
+							<h4 class="h4Results">${item.title}</h4>
+						</results:simpleListEntry>
+					</c:when>
+					<c:when test="${item.className == 'PhylogeneticTree'}">
+						<results:simpleListEntry 
+							itemName="phylogeny"
+							icon="phylogeny"
+							iconAlt="Phylogenetic Tree"
+							url="/phylo/${item.id}">
 							<h4 class="h4Results">${item.title}</h4>
 						</results:simpleListEntry>
 					</c:when>

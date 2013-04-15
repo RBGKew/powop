@@ -10,9 +10,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.io.FilterOutputStream;
 import java.io.OutputStream;
-import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,12 +19,6 @@ import java.util.Map;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.sax.SAXResult;
-import javax.xml.transform.stream.StreamSource;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JREmptyDataSource;
@@ -36,13 +28,14 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.fill.VerticalJRReportWriter;
+import net.sf.jasperreports.engine.fill.JRVerticalReportWriter;
 
 import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
 import org.apache.velocity.app.VelocityEngine;
+/*import org.emonocot.job.jasperreports.JRTaxonBeanCollectionFactory;*/
 import org.emonocot.model.Taxon;
 import org.gbif.ecat.voc.TaxonomicStatus;
 import org.junit.After;
@@ -52,7 +45,6 @@ import org.junit.Test;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.ui.velocity.VelocityEngineFactory;
 import org.springframework.ui.velocity.VelocityEngineFactoryBean;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 import org.xml.sax.helpers.DefaultHandler;
@@ -96,7 +88,7 @@ public class PdfWritingTest {
             t.setScientificName(t.getTaxonomicStatus().toString() + i);
             t.setIdentifier(t.getScientificName());
             itemsToWrite.add(t);
-        }
+        } /*JRTaxonBeanCollectionFactory.create();*/
     }
 
     /**
@@ -160,11 +152,11 @@ public class PdfWritingTest {
 
         JasperReport jasperReport = JasperCompileManager.compileReport(
                 new ClassPathResource("org/emonocot/job/download/reports/name_report1.jrxml").getInputStream());
-        VerticalJRReportWriter writer = new VerticalJRReportWriter(jasperReport);
+        JRVerticalReportWriter writer = new JRVerticalReportWriter(jasperReport);
+        writer.setDefaultOutputDir("target");
         StepExecution se = new StepExecution("testStep", new JobExecution(1L));
         writer.beforeStep(se);
         int chunkSize = 10;
-        JasperPrint jasperPrint = null;
         for (int i = 0; i <= (itemsToWrite.size()/chunkSize); i++) {
             List<Taxon> itemList = new ArrayList<Taxon>();
             for (int j = 0; j < chunkSize; j++) {
@@ -174,12 +166,10 @@ public class PdfWritingTest {
                     break;
                 }
             }
-            JRDataSource chunk = new JRBeanCollectionDataSource(itemList);
-            jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap<String, Object>(), chunk);
             writer.write(itemList);
             
         }
-        writer.afterStep(null);//Add jasperreports.output.file=? to ExecutionContext
+        writer.afterStep(se);
         
     }
     

@@ -18,9 +18,6 @@ Background:
   | 456        | http://upload.wikimedia.org/wikipedia/commons/4/4f/Poa.annua.jpg   | Poa annua | Panicle         | James K. Lindsey | Commanster, Belgian High Ardennes | Poaceae, Panicle, Commanster |                                                                                                | urn:kew.org:wcs:taxon:1234 | jpg    | test   |
   | 789        | http://upload.wikimedia.org/wikipedia/commons/7/78/Poa.annua.2.jpg | Poa annua | Panicle         | James K. Lindsey | Commanster, Belgian High Ardennes | Commanster                   |                                                                                                | urn:kew.org:wcs:taxon:1234 | jpg    | test   |
 
-
-
-
 Scenario: Click on Image Keywords
   Users should be able to click on the keywords displayed below the image and search for 
   images that match the keyword

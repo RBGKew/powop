@@ -3,11 +3,13 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRBand;
@@ -36,6 +38,7 @@ import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.core.io.Resource;
 
 /**
  * @author jk00kg
@@ -49,32 +52,68 @@ import org.springframework.batch.item.ItemWriter;
  * @version $Id: JRVerticalFiller.java 5687 2012-10-01 14:18:01Z lucianc $
  *
  */
-public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWriter<T>, StepExecutionListener {
+public class JRVerticalReportWriter<T> extends JRBaseFiller implements ItemWriter<T>, StepExecutionListener {
     
     /**
      * @throws Exception 
      * 
      */
-    public VerticalJRReportWriter(JasperReport jasperReport) throws Exception {
+    public JRVerticalReportWriter(JasperReport jasperReport) throws Exception {
         this(DefaultJasperReportsContext.getInstance(), jasperReport);
     }
     
     /**
      * 
      */
-    private Logger logger = LoggerFactory.getLogger(VerticalJRReportWriter.class);
+    private Logger logger = LoggerFactory.getLogger(JRVerticalReportWriter.class);
     
     /**
      * Records whether there is data to avoid a larger alternative to using the next() method  
      */
     private boolean hadData = false;
+    
+    /**
+     * 
+     */
+    private Resource outputResouce;
 
     /**
      * By default an empty map of parameters used by JasperReports
      */
     private Map<String, Object> parameterValues = new HashMap<String, Object>();
 
-    private DefaultJasperReportsContext jrContext;
+    /**
+     * 
+     */
+    private String defaultOutputDir;
+
+    /**
+     * @return the defaultOutputDir
+     */
+    public String getDefaultOutputDir() {
+        return defaultOutputDir;
+    }
+
+    /**
+     * @param defaultOutputDir the defaultOutputDir to set
+     */
+    public void setDefaultOutputDir(String defaultOutputDir) {
+        this.defaultOutputDir = defaultOutputDir;
+    }
+
+    /**
+     * @return the outputResouce
+     */
+    public Resource getOutputResouce() {
+        return outputResouce;
+    }
+
+    /**
+     * @param outputResouce the outputResouce to set
+     */
+    public void setOutputResouce(Resource outputResouce) {
+        this.outputResouce = outputResouce;
+    }
 
     /* (non-Javadoc)
      * @see org.springframework.batch.core.StepExecutionListener#beforeStep(org.springframework.batch.core.StepExecution)
@@ -84,21 +123,11 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
         Map<String, Object> paramsFromExecution =  (Map<String, Object>) stepExecution
                 .getExecutionContext().get("jasperreports.report.parameters");
         if(paramsFromExecution != null) {
-            parameterValues = paramsFromExecution;
+            parameterValues.putAll(paramsFromExecution);
         }
-        jrContext = DefaultJasperReportsContext.getInstance();
-        
-        //////////////////////////////////////
-        ///Not sure whether above is needed///
-        //////////////////////////////////////
-        
         hadData = false;
         //Functionality from JRBaseFiller
         baseInit();
-        // fill/write headers
-        setLastPageFooter(false);
-
-
     }
 
     /* (non-Javadoc)
@@ -107,6 +136,7 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
     @Override
     public ExitStatus afterStep(StepExecution stepExecution) {
         // fill/write footers
+        String fileName = null;
         try {
             if (hadData) {
                 fillReportEnd();
@@ -115,10 +145,17 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
                 // that doesn't contain a license
             }
             //Then export and return appropriate execution status
-            JasperExportManager.exportReportToPdfFile(jasperPrint, "target/jrNameChunks.pdf");
+            if(outputResouce != null) {
+                fileName = outputResouce.getFile().getCanonicalPath();
+            } else {
+                fileName = defaultOutputDir + "/checklist" + Math.abs((new Random()).nextLong()) + ".pdf";
+            }
+            JasperExportManager.exportReportToPdfFile(jasperPrint, fileName);
         } catch (JRException e) {
-            logger.error("Unable to export report to " + "target/jrNameChunks.pdf", e);
+            logger.error("Unable to export report to " + fileName, e);
             return ExitStatus.FAILED;
+        } catch (IOException e) {
+            logger.error("Unable to write to file" + fileName + ". There was probably a problem trying to use the file " + outputResouce, e);
         }
         baseClose();
         return ExitStatus.COMPLETED;
@@ -129,56 +166,41 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
      */
     @Override
     public void write(List<? extends T> items) throws Exception {
+        //To make Filler compatible with chunk-oriented processing:
         //Update the dataset now instead of beginning writing as we don't operate on whole datasets.
         JRDataSource ds = new JRBeanCollectionDataSource(items);
         getMainDataset().getParametersMap().get(JRParameter.REPORT_DATA_SOURCE).setValue(ds);
         getMainDataset().initDatasource();
         
-        //Unable to do this until we have first set of data
-        if(!hadData) {
+        //Then use tweeked JasperReports code 
+        if(!hadData) {//On the first chunk
             try {
                 if(next()) {
-                    hadData = true;
+                    hadData = true; //Alternative to calling next() which isn't idempotent.
                     fillReportStart();
                 }
             } catch (JRException e) {
                 logger.error("Unable to fill headers of file");
             }
         }
-        //Methods in JasperFillManager.fillReport();
-        //super.mainDataset.next(); fillReport();
-
-///////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////
         setLastPageFooter(false);
 
+        //Fill it in
         if (hadData) {
-            //fillReportStart(); Moved to beforeStep()
             while (next()) {
                 fillReportContent();
             }
-            //fillReportEnd(); Moved to afterStep()
         }
         else
         {
-            if (logger.isDebugEnabled())
-            {
-                logger.debug("Fill " + fillerId + ": no data");
-            }
+            logger.debug("Fill " + fillerId + ": no data");
 
             switch (whenNoDataType)
             {
                 case ALL_SECTIONS_NO_DETAIL :
                 {
-                    if (logger.isDebugEnabled())
-                    {
-                        logger.debug("Fill " + fillerId + ": all sections");
-                    }
-
+                    logger.debug("Fill " + fillerId + ": all sections");
+                    
                     scriptlet.callBeforeReportInit();
                     calculator.initializeVariables(ResetTypeEnum.REPORT, IncrementTypeEnum.REPORT);
                     scriptlet.callAfterReportInit();
@@ -206,10 +228,7 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
                 }
                 case BLANK_PAGE :
                 {
-                    if (logger.isDebugEnabled())
-                    {
-                        logger.debug("Fill " + fillerId + ": blank page");
-                    }
+                    logger.debug("Fill " + fillerId + ": blank page");
 
                     printPage = newPage();
                     addPage(printPage);
@@ -217,10 +236,7 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
                 }
                 case NO_DATA_SECTION:
                 {
-                    if (logger.isDebugEnabled())
-                    {
-                        logger.debug("Fill " + fillerId + ": all sections");
-                    }
+                    logger.debug("Fill " + fillerId + ": all sections");
 
                     scriptlet.callBeforeReportInit();
                     calculator.initializeVariables(ResetTypeEnum.REPORT, IncrementTypeEnum.REPORT);
@@ -241,10 +257,7 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
                 case NO_PAGES :
                 default :
                 {
-                    if (logger.isDebugEnabled())
-                    {
-                        logger.debug("Fill " + fillerId + ": no pages");
-                    }
+                    logger.debug("Fill " + fillerId + ": no pages");
                 }
             }
         }
@@ -264,20 +277,13 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
         {
             jasperPrint.setPageHeight(offsetY + bottomMargin);
         }
-
-///////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////
     }
 
-//Code from jasperreports 5.0.0 JRVerticalFiller with
+//Unmodified methods from jasperreports 5.0.0 JRVerticalFiller
    /**
     *
     */
-   protected VerticalJRReportWriter(
+   protected JRVerticalReportWriter(
        JasperReportsContext jasperReportsContext, 
        JasperReport jasperReport
        ) throws JRException
@@ -288,7 +294,7 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
    /**
     *
     */
-   protected VerticalJRReportWriter(
+   protected JRVerticalReportWriter(
        JasperReportsContext jasperReportsContext, 
        JasperReport jasperReport, 
        JRFillSubreport parentElement
@@ -302,7 +308,7 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
    /**
     *
     */
-   protected VerticalJRReportWriter(
+   protected JRVerticalReportWriter(
        JasperReportsContext jasperReportsContext,
        JasperReport jasperReport, 
        DatasetExpressionEvaluator evaluator, 
@@ -317,7 +323,7 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
    /**
     *
     */
-   protected VerticalJRReportWriter(
+   protected JRVerticalReportWriter(
        JasperReportsContext jasperReportsContext, 
        JasperReport jasperReport, 
        JREvaluator evaluator, 
@@ -354,12 +360,10 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
            lastPageColumnFooterOffsetY -= columnFooter.getHeight();
        }
        
-       if (logger.isDebugEnabled())
-       {
-           logger.debug("Filler " + fillerId + " - pageHeight: " + pageHeight
-                   + ", columnFooterOffsetY: " + columnFooterOffsetY
-                   + ", lastPageColumnFooterOffsetY: " + lastPageColumnFooterOffsetY);
-       }
+       logger.debug("Filler " + fillerId + " - pageHeight: " + pageHeight
+               + ", columnFooterOffsetY: " + columnFooterOffsetY
+               + ", lastPageColumnFooterOffsetY: " + lastPageColumnFooterOffsetY);
+       
    }
 
 
@@ -383,19 +387,13 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
        }
        else
        {
-           if (logger.isDebugEnabled())
-           {
-               logger.debug("Fill " + fillerId + ": no data");
-           }
+           logger.debug("Fill " + fillerId + ": no data");
 
            switch (whenNoDataType)
            {
                case ALL_SECTIONS_NO_DETAIL :
                {
-                   if (logger.isDebugEnabled())
-                   {
-                       logger.debug("Fill " + fillerId + ": all sections");
-                   }
+                   logger.debug("Fill " + fillerId + ": all sections");
 
                    scriptlet.callBeforeReportInit();
                    calculator.initializeVariables(ResetTypeEnum.REPORT, IncrementTypeEnum.REPORT);
@@ -424,10 +422,7 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
                }
                case BLANK_PAGE :
                {
-                   if (logger.isDebugEnabled())
-                   {
-                       logger.debug("Fill " + fillerId + ": blank page");
-                   }
+                   logger.debug("Fill " + fillerId + ": blank page");
 
                    printPage = newPage();
                    addPage(printPage);
@@ -435,10 +430,7 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
                }
                case NO_DATA_SECTION:
                {
-                   if (logger.isDebugEnabled())
-                   {
-                       logger.debug("Fill " + fillerId + ": all sections");
-                   }
+                   logger.debug("Fill " + fillerId + ": all sections");
 
                    scriptlet.callBeforeReportInit();
                    calculator.initializeVariables(ResetTypeEnum.REPORT, IncrementTypeEnum.REPORT);
@@ -459,10 +451,7 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
                case NO_PAGES :
                default :
                {
-                   if (logger.isDebugEnabled())
-                   {
-                       logger.debug("Fill " + fillerId + ": no pages");
-                   }
+                   logger.debug("Fill " + fillerId + ": no pages");
                }
            }
        }
@@ -549,10 +538,7 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
     */
     private void fillTitle() throws JRException
     {
-       if (logger.isDebugEnabled() && !title.isEmpty())
-       {
-           logger.debug("Fill " + fillerId + ": title at " + offsetY);
-       }
+       logger.debug("Fill " + fillerId + ": title at " + offsetY);
 
        title.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
 
@@ -625,10 +611,7 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
     */
    private void fillPageHeader(byte evaluation) throws JRException
    {
-       if (logger.isDebugEnabled() && !pageHeader.isEmpty())
-       {
-           logger.debug("Fill " + fillerId + ": page header at " + offsetY);
-       }
+       logger.debug("Fill " + fillerId + ": page header at " + offsetY);
 
        setNewPageColumnInBands();
 
@@ -704,10 +687,7 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
     */
    private void fillColumnHeader(byte evaluation) throws JRException
    {
-       if (logger.isDebugEnabled() && !columnHeader.isEmpty())
-       {
-           logger.debug("Fill " + fillerId + ": column header at " + offsetY);
-       }
+       logger.debug("Fill " + fillerId + ": column header at " + offsetY);
 
        setNewPageColumnInBands();
 
@@ -806,10 +786,7 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
        
        JRFillSection groupHeaderSection = (JRFillSection)group.getGroupHeaderSection();
 
-       if (logger.isDebugEnabled() && !groupHeaderSection.isEmpty())
-       {
-           logger.debug("Fill " + fillerId + ": " + group.getName() + " header at " + offsetY);
-       }
+       logger.debug("Fill " + fillerId + ": " + group.getName() + " header at " + offsetY);
 
        byte evalPrevPage = (group.isTopLevelChange()?JRExpression.EVALUATION_OLD:JRExpression.EVALUATION_DEFAULT);
 
@@ -950,10 +927,7 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
     */
    private void fillDetail() throws JRException
    {
-       if (logger.isDebugEnabled() && !detailSection.isEmpty())
-       {
-           logger.debug("Fill " + fillerId + ": detail at " + offsetY);
-       }
+       logger.debug("Fill " + fillerId + ": detail at " + offsetY);
 
        if (!detailSection.areAllPrintWhenExpressionsNull())
        {
@@ -1143,10 +1117,7 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
        
        JRFillSection groupFooterSection = (JRFillSection)group.getGroupFooterSection();
 
-       if (logger.isDebugEnabled() && !groupFooterSection.isEmpty())
-       {
-           logger.debug("Fill " + fillerId + ": " + group.getName() + " footer at " + offsetY);
-       }
+       logger.debug("Fill " + fillerId + ": " + group.getName() + " footer at " + offsetY);
 
        JRFillBand[] groupFooterBands = groupFooterSection.getFillBands();
        for(int i = 0; i < groupFooterBands.length; i++)
@@ -1189,10 +1160,7 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
     */
     private void fillColumnFooter(byte evaluation) throws JRException
     {
-       if (logger.isDebugEnabled() && !columnFooter.isEmpty())
-       {
-           logger.debug("Fill " + fillerId + ": column footer at " + offsetY);
-       }
+       logger.debug("Fill " + fillerId + ": column footer at " + offsetY);
 
        setOffsetX();
        
@@ -1235,11 +1203,8 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
    {
        JRFillBand crtPageFooter = getCurrentPageFooter();
 
-       if (logger.isDebugEnabled() && !crtPageFooter.isEmpty())
-       {
-           logger.debug("Fill " + fillerId + ": " + (isLastPageFooter ? "last " : "") + "page footer at " + offsetY);
-       }
-
+       logger.debug("Fill " + fillerId + ": " + (isLastPageFooter ? "last " : "") + "page footer at " + offsetY);
+       
        offsetX = leftMargin;
 
        if ((!isSubreport() || isSubreportRunToBottom()) && !fillContext.isIgnorePagination())
@@ -1261,10 +1226,7 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
     */
    private void fillSummary() throws JRException
    {
-       if (logger.isDebugEnabled() && !summary.isEmpty())
-       {
-           logger.debug("Fill " + fillerId + ": summary at " + offsetY);
-       }
+       logger.debug("Fill " + fillerId + ": summary at " + offsetY);
 
        offsetX = leftMargin;
        
@@ -2028,10 +1990,7 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
     */
    private void fillBackground() throws JRException
    {
-       if (logger.isDebugEnabled() && !background.isEmpty())
-       {
-           logger.debug("Fill " + fillerId + ": background at " + offsetY);
-       }
+       logger.debug("Fill " + fillerId + ": background at " + offsetY);
 
        //offsetX = leftMargin;
 
@@ -2422,10 +2381,7 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
     */
    private void fillNoData() throws JRException
    {
-       if (logger.isDebugEnabled() && !noData.isEmpty())
-       {
-           logger.debug("Fill " + fillerId + ": noData at " + offsetY);
-       }
+       logger.debug("Fill " + fillerId + ": noData at " + offsetY);
 
        noData.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
 
@@ -2499,7 +2455,6 @@ public class VerticalJRReportWriter<T> extends JRBaseFiller implements ItemWrite
     * 
     */
    private void baseInit() {
-       //Done in write(List<T>) setDatasourceParameterValue(parameterValues, ds);
        JasperReportsContext localContext = LocalJasperReportsContext.getLocalContext(getJasperReportsContext(), parameterValues);
        if (localContext != getJasperReportsContext())
        {

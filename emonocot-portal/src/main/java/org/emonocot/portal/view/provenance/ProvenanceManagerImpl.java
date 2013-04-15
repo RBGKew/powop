@@ -14,6 +14,7 @@ import org.emonocot.model.Distribution;
 import org.emonocot.model.IdentificationKey;
 import org.emonocot.model.Image;
 import org.emonocot.model.MeasurementOrFact;
+import org.emonocot.model.PhylogeneticTree;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.TypeAndSpecimen;
 import org.emonocot.model.VernacularName;
@@ -62,6 +63,9 @@ public class ProvenanceManagerImpl implements ProvenanceManager {
 			}
 			for (IdentificationKey key : taxon.getKeys()) {
 				addProvenance(key);
+			}
+			for (PhylogeneticTree tree : taxon.getTrees()) {
+				addProvenance(tree);
 			}
 		} else if(baseData instanceof Image) {
 			Image image = (Image)baseData;

@@ -85,6 +85,7 @@
 				<value>org.emonocot.model.Description</value>
 				<value>org.emonocot.model.Image</value>
 				<value>org.emonocot.model.MeasurementOrFact</value>
+				<value>org.emonocot.model.PhylogeneticTree</value>
 				<value>org.emonocot.model.Reference</value>
 				<value>org.emonocot.model.Taxon</value>
 				<value>org.emonocot.model.TypeAndSpecimen</value>

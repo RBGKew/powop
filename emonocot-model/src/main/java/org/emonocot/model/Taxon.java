@@ -124,6 +124,8 @@ public class Taxon extends SearchableObject {
 	private List<Image> images = new ArrayList<Image>();
 
 	private Set<IdentificationKey> keys = new HashSet<IdentificationKey>();
+	
+	private Set<PhylogeneticTree> trees = new HashSet<PhylogeneticTree>();
 
 	private Set<Reference> references = new HashSet<Reference>();
 
@@ -912,6 +914,17 @@ public class Taxon extends SearchableObject {
     @JsonIgnore
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
+	}
+
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "taxa")
+	@JsonIgnore
+	public Set<PhylogeneticTree> getTrees() {
+		return trees;
+	}
+
+	@JsonIgnore
+	public void setTrees(Set<PhylogeneticTree> trees) {
+		this.trees = trees;
 	}
 
 	@Override

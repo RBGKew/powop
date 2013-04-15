@@ -383,6 +383,8 @@
                       <include>${basedir}/src/main/js/jquery-visualize/jquery-visualize.js</include>
                       <include>${basedir}/src/main/js/OpenLayers/OpenLayers.js</include>
                       <include>${basedir}/src/main/js/jsTree/jquery.jstree.js</include>
+                      <include>${basedir}/src/main/js/jsphylosvg/jsphylosvg-min.js</include>
+                      <include>${basedir}/src/main/js/jsphylosvg/raphael-min.js</include>
                       <include>${basedir}/src/main/js/bootstrap-transition.js</include>
                       <include>${basedir}/src/main/js/bootstrap-affix.js</include>
                       <include>${basedir}/src/main/js/bootstrap-alert.js</include>

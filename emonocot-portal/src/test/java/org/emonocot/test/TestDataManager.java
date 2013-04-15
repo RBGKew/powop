@@ -26,6 +26,7 @@ import org.emonocot.model.Distribution;
 import org.emonocot.model.IdentificationKey;
 import org.emonocot.model.Identifier;
 import org.emonocot.model.Image;
+import org.emonocot.model.PhylogeneticTree;
 import org.emonocot.model.Place;
 import org.emonocot.model.Reference;
 import org.emonocot.model.SecuredObject;
@@ -137,6 +138,9 @@ public class TestDataManager {
 
     @Autowired
     private IdentificationKeyService identificationKeyService;
+    
+    @Autowired
+    private PhylogeneticTreeService phylogeneticTreeService;
 
     @Autowired
     private PlaceService placeService;
@@ -816,6 +820,9 @@ public class TestDataManager {
             } else if (object instanceof IdentificationKey) {
                 identificationKeyService.delete(((IdentificationKey) object)
                         .getIdentifier());
+            } else if (object instanceof PhylogeneticTree) {
+                phylogeneticTreeService.delete(((PhylogeneticTree) object)
+                        .getIdentifier());
             } else if (object instanceof Place) {
             	placeService.delete(((Place) object).getIdentifier());
             } else {
@@ -918,10 +925,15 @@ public class TestDataManager {
      *            The description of the key to create
      * @param taxon The identifier of the root taxon associated with this key
      */
-    public void createIdentificationKey(String identifier, String title, String description, String taxon) {
+    public void createIdentificationKey(String identifier, String title, String description, String taxon, String source) {
         enableAuthentication();
         IdentificationKey key = new IdentificationKey();
         data.push(key);
+        if (source != null) {
+            Organisation s = new Organisation();
+            s.setIdentifier(source);
+            key.setAuthority(s);
+        }
         if (identifier != null && identifier.length() > 0) {
             key.setIdentifier(identifier);
         }
@@ -937,6 +949,7 @@ public class TestDataManager {
             key.getTaxa().add(t);
         }
         identificationKeyService.save(key);
+        disableAuthentication();
     }
 
 	public void createPlace(String identifier, String name, String shape) {
@@ -976,6 +989,16 @@ public class TestDataManager {
 		Page<Image> images = imageService.list(null, null, null);
     	for(Image image : images.getRecords()) {    		
     		imageService.delete(image.getIdentifier());
+    	}
+    	
+    	Page<IdentificationKey> identificationKeys = identificationKeyService.list(null, null, null);
+    	for(IdentificationKey identificationKey : identificationKeys.getRecords()) {    		
+    		identificationKeyService.delete(identificationKey.getIdentifier());
+    	}
+    	
+    	Page<PhylogeneticTree> phylogeneticTrees = phylogeneticTreeService.list(null, null, null);
+    	for(PhylogeneticTree phylogeneticTree : phylogeneticTrees.getRecords()) {    		
+    		phylogeneticTreeService.delete(phylogeneticTree.getIdentifier());
     	}
     	
     	Page<Taxon> taxa = taxonService.list(null, null, null);
@@ -1033,5 +1056,32 @@ public class TestDataManager {
     		commentService.delete(comment.getIdentifier());
     	}
     	disableAuthentication();
+	}
+
+	public void createPhylogeneticTree(String identifier, String title,	String description, String taxon, String source) {
+        enableAuthentication();
+        PhylogeneticTree tree = new PhylogeneticTree();
+        data.push(tree);
+        if (source != null) {
+            Organisation s = new Organisation();
+            s.setIdentifier(source);
+            tree.setAuthority(s);
+        }
+        if (identifier != null && identifier.length() > 0) {
+        	tree.setIdentifier(identifier);
+        }
+        if (title != null && title.length() > 0) {
+        	tree.setTitle(title);
+        }
+        if (description != null && description.length() > 0) {
+        	tree.setDescription(description);
+        }
+        if (taxon != null && taxon.length() > 0) {
+            Taxon t = new Taxon();
+            t.setIdentifier(taxon);
+            tree.getTaxa().add(t);
+        }
+        phylogeneticTreeService.save(tree);
+        disableAuthentication();
 	}
 }

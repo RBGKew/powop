@@ -43,114 +43,48 @@ import com.vividsolutions.jts.geom.Point;
 @Entity
 public class TypeAndSpecimen extends BaseData implements NonOwned {
 	
-   /**
-	 * 
-	 */
 	private static final long serialVersionUID = -843014945343629009L;
 
-/**
-    *
-    */
     private Long id;
-    
-    /**
-     *
-     */
+
     private TypeStatus typeStatus;
     
-    /**
-     *
-     */
     private TypeDesignationType typeDesignationType;
     
-    /**
-     *
-     */
     private String typeDesignatedBy;
-    
-    /**
-     *
-     */
+
     private String scientificName;
     
-    /**
-     *
-     */
     private Rank taxonRank;
     
-    /**
-     *
-     */
     private String bibliographicCitation;
-    
-    /**
-     *
-     */
+
     private String institutionCode;
-    
-    /**
-     *
-     */
+
     private String collectionCode;
     
-    /**
-     *
-     */
     private String catalogNumber;
     
-    /**
-     *
-     */
     private String locality;
-    
-    /**
-     *
-     */
+
     private Sex sex;
     
-    /**
-     *
-     */
     private String recordedBy;
     
-    /**
-     *
-     */
     private String source;
-   
-    /**
-     *
-     */
+  
     private String verbatimEventDate;
     
-    /**
-     *
-     */
     private String verbatimLabel;
     
-    /**
-     *
-     */
     private String verbatimLongitude;
     
-    /**
-     *
-     */
     private String verbatimLatitude;
     
-    /**
-     *
-     */
     private Double decimalLatitude;
    
-   /**
-    *
-    */
    private Double decimalLongitude;
    
-   /**
-    *
-    */
    private Point location;
     
     /**

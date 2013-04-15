@@ -4169,5 +4169,58 @@
             <constraints nullable="false"/>
           </column>
         </addColumn>
-    </changeSet>    
+    </changeSet>
+    <changeSet id="2013-04-11_01" author="ben">
+      <comment>Created new data type PhylogeneticTree #94: As a user of eMonocot, I would like to see and explore the phylogeny tree in a taxon page.</comment>
+      <createTable tableName="PhylogeneticTree">
+        <column name="id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>
+        <column name="created" type="datetime"/>
+        <column name="creator" type="varchar(255)"/>
+        <column name="identifier" type="varchar(255)">
+          <constraints nullable="false"  unique="true"/>
+        </column>
+        <column name="license" type="varchar(255)"/>        
+        <column name="modified" type="datetime"/>
+        <column name="source" type="varchar(255)"/>
+        <column name="description" type="longtext"/>
+        <column name="title" type="varchar(255)"/>
+        <column name="authority_id" type="bigint"/>
+        <column name="accessRights" type="varchar(255)"/>
+        <column name="rights" type="longtext"/>
+        <column name="phylogeny" type="longtext"/>
+        <column name="rightsHolder" type="varchar(255)"/>
+      </createTable>
+    </changeSet>
+    <changeSet id="2013-04-12_01" author="ben" >
+       <comment>BUG 94: As a user of eMonocot, I would like to see and explore the phylogeny tree in a taxon page.</comment>
+       <createTable tableName="Taxon_PhylogeneticTree">
+            <column name="Taxon_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="trees_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2013-04-12_02" author="ben" >
+        <comment>BUG 94: As a user of eMonocot, I would like to see and explore the phylogeny tree in a taxon page.</comment>
+        <addForeignKeyConstraint constraintName="Taxon_PhylogeneticTree_Taxon_FK" baseTableName="Taxon_PhylogeneticTree" baseColumnNames="taxon_id" referencedTableName="Taxon" referencedColumnNames="id"
+        />
+    </changeSet>
+    <changeSet id="2013-04-12_03" author="ben" >
+        <comment>BUG 94: As a user of eMonocot, I would like to see and explore the phylogeny tree in a taxon page.</comment>
+        <addForeignKeyConstraint constraintName="Taxon_PhylogeneticTree_trees_FK" baseTableName="Taxon_PhylogeneticTree" baseColumnNames="trees_id"
+           referencedTableName="PhylogeneticTree" referencedColumnNames="id"
+        />
+    </changeSet>
+    <changeSet id="2013-04-12_04" author="ben">
+      <comment>BUG 94: As a user of eMonocot, I would like to see and explore the phylogeny tree in a taxon page.</comment>
+      <addForeignKeyConstraint constraintName="PhylogeneticTree_authority_FK" 
+                               referencedTableName="Organisation"
+                               baseColumnNames="authority_id"
+                               baseTableName="PhylogeneticTree"
+                               referencedColumnNames="id"/>
+    </changeSet>
 </databaseChangeLog>

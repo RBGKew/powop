@@ -13,6 +13,7 @@ import org.codehaus.jackson.map.jsontype.TypeResolverBuilder;
 import org.emonocot.api.GroupService;
 import org.emonocot.api.IdentificationKeyService;
 import org.emonocot.api.ImageService;
+import org.emonocot.api.PhylogeneticTreeService;
 import org.emonocot.api.ReferenceService;
 import org.emonocot.api.OrganisationService;
 import org.emonocot.api.TaxonService;
@@ -30,100 +31,86 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
 	
 	Logger logger = LoggerFactory.getLogger(CustomHandlerInstantiator.class);
 
-    /**
-     *
-     */
     private ReferenceService referenceService;
 
-    /**
-     *
-     */
     private TaxonService taxonService;
 
-    /**
-     *
-     */
     private ImageService imageService;
-
-    /**
-     *
-     */
+    
     private UserService userService;
 
-    /**
-     *
-     */
     private GroupService groupService;
 
-    /**
-    *
-    */
-   private OrganisationService organisationService;
+    private OrganisationService organisationService;
    
-   /**
-    *
-    */
-   private IdentificationKeyService identificationKeyService;
+    private IdentificationKeyService identificationKeyService;
+    
+    private PhylogeneticTreeService phylogeneticTreeService;
 
     /**
      * @param userService the userService to set
      */
-    public final void setUserService(final UserService userService) {
+    public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
     /**
      * @param groupService the groupService to set
      */
-    public final void setGroupService(final GroupService groupService) {
+    public void setGroupService(GroupService groupService) {
         this.groupService = groupService;
     }
 
     /**
      * @param newReferenceService the referenceService to set
      */
-    public final void setReferenceService(
-            final ReferenceService newReferenceService) {
+    public void setReferenceService(
+            ReferenceService newReferenceService) {
         this.referenceService = newReferenceService;
     }
 
     /**
      * @param newTaxonService the taxonService to set
      */
-    public final void setTaxonService(final TaxonService newTaxonService) {
+    public void setTaxonService(TaxonService newTaxonService) {
         this.taxonService = newTaxonService;
     }
 
     /**
      * @param newImageService the imageService to set
      */
-    public final void setImageService(final ImageService newImageService) {
+    public void setImageService(ImageService newImageService) {
         this.imageService = newImageService;
     }
 
     /**
      * @param organisationService the sourceService to set
      */
-    public final void setOrganisationService(final OrganisationService organisationService) {
+    public void setOrganisationService(OrganisationService organisationService) {
         this.organisationService = organisationService;
     }
     
     /**
      * @param newIdentificationKeyService the identification key service to set
      */
-    public final void setIdentificationKeyService(final IdentificationKeyService newIdentificationKeyService) {
+    public void setIdentificationKeyService(IdentificationKeyService newIdentificationKeyService) {
         this.identificationKeyService = newIdentificationKeyService;
-    }
+    }       
     
-    public CustomHandlerInstantiator() {
+    public void setPhylogeneticTreeService(
+			PhylogeneticTreeService phylogeneticTreeService) {
+		this.phylogeneticTreeService = phylogeneticTreeService;
+	}
+
+	public CustomHandlerInstantiator() {
     	
     }
 
     @Override
-    public final JsonDeserializer<?> deserializerInstance(
-            final DeserializationConfig deserializerConfig,
-            final Annotated annotated,
-            final Class<? extends JsonDeserializer<?>> jsonDeserializerClass) {
+    public JsonDeserializer<?> deserializerInstance(
+            DeserializationConfig deserializerConfig,
+            Annotated annotated,
+            Class<? extends JsonDeserializer<?>> jsonDeserializerClass) {
     	logger.debug("deserializerInstance " +  deserializerConfig + " " + jsonDeserializerClass);
         try {
             if (jsonDeserializerClass.equals(TaxonDeserializer.class)) {
@@ -166,7 +153,13 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
                     IdentificationKeyDeserializer identificationKeyDeserializer
                         = IdentificationKeyDeserializer.class.newInstance();
                     identificationKeyDeserializer.setService(identificationKeyService);
-                    return identificationKeyDeserializer;
+                    return identificationKeyDeserializer; 
+            } else if (jsonDeserializerClass
+                    .equals(PhylogeneticTreeDeserializer.class)) {
+            	PhylogeneticTreeDeserializer phylogeneticTreeDeserializer
+                    = PhylogeneticTreeDeserializer.class.newInstance();
+                phylogeneticTreeDeserializer.setService(phylogeneticTreeService);
+                return phylogeneticTreeDeserializer; 
             } else if (jsonDeserializerClass
                         .equals(PrincipalDeserializer.class)) {
                     PrincipalDeserializer principalDeserializer
@@ -193,33 +186,33 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
     }
 
     @Override
-    public final KeyDeserializer keyDeserializerInstance(
-            final DeserializationConfig deserializationConfig,
-            final Annotated annotated,
-            final Class<? extends KeyDeserializer> keyDeserializerClass) {
+    public KeyDeserializer keyDeserializerInstance(
+            DeserializationConfig deserializationConfig,
+            Annotated annotated,
+            Class<? extends KeyDeserializer> keyDeserializerClass) {
         return null;
     }
 
     @Override
-    public final JsonSerializer<?> serializerInstance(
-            final SerializationConfig serializationConfig,
-            final Annotated annotated,
-            final Class<? extends JsonSerializer<?>> jsonSerializerClass) {
+    public JsonSerializer<?> serializerInstance(
+            SerializationConfig serializationConfig,
+            Annotated annotated,
+            Class<? extends JsonSerializer<?>> jsonSerializerClass) {
         logger.debug("serializerInstance " +  serializationConfig + " " + annotated + " " + jsonSerializerClass);
         return null;
     }
 
     @Override
-    public final TypeIdResolver typeIdResolverInstance(
-            final MapperConfig<?> mapperConfig, final Annotated annotated,
-            final Class<? extends TypeIdResolver> typeIdResolverClass) {
+    public TypeIdResolver typeIdResolverInstance(
+            MapperConfig<?> mapperConfig, Annotated annotated,
+            Class<? extends TypeIdResolver> typeIdResolverClass) {
         return null;
     }
 
     @Override
-    public final TypeResolverBuilder<?> typeResolverBuilderInstance(
-            final MapperConfig<?> mapperConfig, final Annotated annotated,
-            final Class<? extends TypeResolverBuilder<?>>
+    public TypeResolverBuilder<?> typeResolverBuilderInstance(
+            MapperConfig<?> mapperConfig, Annotated annotated,
+            Class<? extends TypeResolverBuilder<?>>
                 typeResolverBuilderClass) {
         return null;
     }
