@@ -1436,16 +1436,15 @@
 									<goal>test</goal>
 								</goals>
 								<configuration>
-									<argLine>-Xmx1024m</argLine>
+									<argLine>-Xmx1024m -XX:MaxPermSize=512m -Dhttp.proxyHost=${http.proxyHost}
+										-Dhttp.proxyPort=${http.proxyPort}</argLine>
 									<skip>false</skip>
 									<includes>
 										<include>**/*IntegrationTest.java</include>
 									</includes>
 									<excludes>
 										<exclude>**/*FunctionalTest.jav</exclude>
-									</excludes>
-									<argLine>-Dhttp.proxyHost=${http.proxyHost}
-										-Dhttp.proxyPort=${http.proxyPort}</argLine>
+									</excludes>									
 								</configuration>
 							</execution>
 						</executions>

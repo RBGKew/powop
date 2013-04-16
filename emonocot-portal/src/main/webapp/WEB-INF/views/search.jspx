@@ -71,14 +71,7 @@
 						<div class="span3">
 							<div class="inner">
 								<ul class="box nav nav-list">
-									<c:choose>
-										<c:when test="${facetName eq 'base.class_s'}">
-											<menu:facet url="/search" facetName="${facetName}" pager="${result}" title="restrict.your.search" showIcons="true" />
-										</c:when>
-										<c:otherwise>
-											<menu:facet url="/search" facetName="${facetName}" pager="${result}" showIcons="true"/>
-										</c:otherwise>
-									</c:choose>
+									<menu:facet url="/search" facetName="${facetName}" pager="${result}" showIcons="true"/>
 								</ul>
 							</div>
 						</div>

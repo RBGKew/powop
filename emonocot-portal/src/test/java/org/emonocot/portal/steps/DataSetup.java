@@ -228,7 +228,7 @@ public class DataSetup {
     public final void thereArePhylogeneticTreesWithTheFollowingProperties(
             final List<PhylogeneticTreeRow> rows) {
         for (PhylogeneticTreeRow row : rows) {
-            testDataManager.createPhylogeneticTree(row.identifier, row.title, row.description, row.taxon, row.source);
+            testDataManager.createPhylogeneticTree(row.identifier, row.title, row.description, row.taxon, row.source, row.phylogeny);
         }
     }
     

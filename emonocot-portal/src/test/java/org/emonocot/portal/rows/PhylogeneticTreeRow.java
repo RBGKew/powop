@@ -18,4 +18,6 @@ public class PhylogeneticTreeRow {
     public String taxon;
     
     public String source;
+    
+    public String phylogeny;
 }

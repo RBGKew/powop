@@ -1058,7 +1058,7 @@ public class TestDataManager {
     	disableAuthentication();
 	}
 
-	public void createPhylogeneticTree(String identifier, String title,	String description, String taxon, String source) {
+	public void createPhylogeneticTree(String identifier, String title,	String description, String taxon, String source, String phylogeny) {
         enableAuthentication();
         PhylogeneticTree tree = new PhylogeneticTree();
         data.push(tree);
@@ -1075,6 +1075,9 @@ public class TestDataManager {
         }
         if (description != null && description.length() > 0) {
         	tree.setDescription(description);
+        }
+        if (phylogeny != null && phylogeny.length() > 0) {
+        	tree.setPhylogeny(phylogeny);
         }
         if (taxon != null && taxon.length() > 0) {
             Taxon t = new Taxon();

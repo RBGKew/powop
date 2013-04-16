@@ -12,10 +12,13 @@
 	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
 
     <context:property-placeholder ignore-unresolvable="true" location="classpath*:META-INF/spring/*.properties" />
-        
-    <integration:outbound-channel-adapter channel="enrichedCommentChannel" ref="testMessageHandler" method="handle" />
-    <integration:outbound-channel-adapter channel="indexingChannel" ref="testMessageHandler" method="ignore"/>
-    <bean id="testMessageHandler" class="org.emonocot.integration.MessageHandler" />
+    
+    <context:property-placeholder location="classpath*:META-INF/spring/*.properties" />
+    
+	<integration:outbound-channel-adapter channel="enrichedCommentChannel" ref="testMessageHandler" method="handle" />
+	<integration:outbound-channel-adapter channel="indexingChannel" ref="testMessageHandler" method="ignore" />
+	
+	<bean id="testMessageHandler" class="org.emonocot.integration.MessageHandler" />
 
 	<context:component-scan base-package="org.emonocot">
 		<context:exclude-filter type="assignable" expression="org.emonocot.api.JobInstanceService" />
@@ -46,8 +49,7 @@
 
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
-	<bean name="jobRepository"
-		class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean" />
+	<bean name="jobRepository"	class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean" />
 
 	<bean
 		class="org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor">
