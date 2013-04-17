@@ -68,8 +68,14 @@
         <constructor-arg value="#{T(net.sf.jasperreports.engine.JasperCompileManager).compileReport(@parameterisedReportTemplate.getInputStream())}" />
         <property name="defaultOutputDir" value="${harvester.output.directory}" />
         <property name="outputResouce" ref="downloadFile" />
+        <property name="parameterValues">
+            <map>
+                <entry key="searchString" value="#{jobParameters['download.query']}" />
+                <entry key="username" value="#{jobParameters['download.user.displayName']}" />
+                <!-- <entry key="s" value="#{jobParameters['download.']}" /> -->
+            </map>
+        </property>
     </bean>
-    
     <bean id="parameterisedReportTemplate" class="org.springframework.core.io.ClassPathResource" scope="step">
         <constructor-arg value="#{jobParameters['download.template.filepath']}" />
     </bean>

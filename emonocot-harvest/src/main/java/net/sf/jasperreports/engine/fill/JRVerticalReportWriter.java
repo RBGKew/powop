@@ -115,18 +115,28 @@ public class JRVerticalReportWriter<T> extends JRBaseFiller implements ItemWrite
         this.outputResouce = outputResouce;
     }
 
+    /**
+     * @return the parameterValues
+     */
+    public Map<String, Object> getParameterValues() {
+        return parameterValues;
+    }
+
+    /**
+     * @param parameterValues the parameterValues to set
+     */
+    public void setParameterValues(Map<String, Object> parameterValues) {
+        this.parameterValues = parameterValues;
+    }
+
     /* (non-Javadoc)
      * @see org.springframework.batch.core.StepExecutionListener#beforeStep(org.springframework.batch.core.StepExecution)
      */
     @Override
     public void beforeStep(StepExecution stepExecution) {
-        Map<String, Object> paramsFromExecution =  (Map<String, Object>) stepExecution
-                .getExecutionContext().get("jasperreports.report.parameters");
-        if(paramsFromExecution != null) {
-            parameterValues.putAll(paramsFromExecution);
-        }
         hadData = false;
-        //Functionality from JRBaseFiller
+        // Functionality from JRBaseFiller, other 'pre-write/pre-fill functions can only happen once *some*
+        // data has been loaded and is therefore called in this.write()
         baseInit();
     }
 

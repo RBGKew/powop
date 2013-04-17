@@ -135,10 +135,11 @@ public class FlatFileCreatorIntegrationTest {
         parameters.put("query", new JobParameter(""));
         parameters.put("selected.facets", new JobParameter("taxon.family_s=Araceae"));
         parameters.put("download.taxon", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon))));
-        parameters.put("download.file", new JobParameter(UUID.randomUUID().toString() + ".txt"));
+        parameters.put("download.file", new JobParameter(UUID.randomUUID().toString() + ".pdf"));
         parameters.put("download.limit", new JobParameter(new Integer(Integer.MAX_VALUE).toString()));
         parameters.put("download.fieldsTerminatedBy", new JobParameter("\t"));
         parameters.put("download.fieldsEnclosedBy", new JobParameter("\""));
+        parameters.put("download.sort", new JobParameter("searchable.label_sort_asc"));
         parameters.put("download.checklist.pdf", new JobParameter("true"));
         parameters.put("download.template.filepath", new JobParameter("org/emonocot/job/download/reports/name_report1.jrxml"));
 

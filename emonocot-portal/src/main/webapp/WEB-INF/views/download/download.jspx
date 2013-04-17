@@ -91,7 +91,7 @@
 										code="download_format_label" />:</label>
 								<ul class="nav nav-tabs">
 								    <li class="active"><a href="#dataTab" data-toggle="tab"><spring:message code="download_data_tab_label" /></a></li>
-                                    <li><a href="#checklistTab" data-toggle="tab"><spring:message code="download_formatted_tab_label" /></a></li>
+                                    <li><a href="#formattedTab" data-toggle="tab"><spring:message code="download_formatted_tab_label" /></a></li>
 								</ul>
 								<div class="tab-content">
 								    <div class="controls tab-pane active" id="dataTab">
@@ -104,7 +104,7 @@
                                         <spring:message code="download_archive_format_label" />
                                     </label>
                                 </div>
-                                <div class="controls tab-pane" id="checklistTab">
+                                <div class="controls tab-pane" id="formattedTab">
                                     <label class="radio">
                                         <input id="downloadFormat_checklist_id" type="radio" value="checklistAlphabetical" name="downloadFormat" />
                                         <spring:message code="download_checklist_format_label" />
@@ -115,7 +115,7 @@
 							<script type="text/javascript">
 							    $(document).ready(function(){
 								   $("input[name='downloadFormat']").change(function() {
-								            if ($("input[name='downloadFormat']:checked").val() == 'taxon') {
+								            if ($("input[name='downloadFormat']:checked").val() != 'archive') {
 								                $("#archiveOptions_description").prop('disabled', true);
 								                $("#archiveOptions_distribution").prop('disabled', true);
 								                $("#archiveOptions_image").prop('disabled', true);
@@ -140,10 +140,10 @@
 
 								
 							</script>
-							<div class="control-group">
+							<div class="control-group tabbable">
 								<label class="control-label" for="archiveOptions"><spring:message
 										code="download_include_files_label" />:</label>
-								<div class="controls">
+								<div class="controls tab-pane active" name="dataTab">
 									<label class="checkbox"> 
 									    <input type="checkbox" value="taxon" checked="" disabled="" name="archiveOptions" />
 										<spring:message code="download_dwc_taxon_label" />
@@ -183,6 +183,9 @@
 									<p class="help-block">
 										<spring:message code="download_include_files_help_message" />
 									</p>
+								</div>
+								<div class="controls tab-pane" name="formattedTab">
+								    <!--  -->
 								</div>
 							</div>
 							<div class="control-group">

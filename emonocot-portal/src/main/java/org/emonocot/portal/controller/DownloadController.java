@@ -1,5 +1,6 @@
 package org.emonocot.portal.controller;
 
+import java.security.Principal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.emonocot.api.ResourceService;
 import org.emonocot.api.SearchableObjectService;
+import org.emonocot.api.UserService;
 import org.emonocot.api.job.DarwinCorePropertyMap;
 import org.emonocot.api.job.JobExecutionException;
 import org.emonocot.api.job.JobExecutionInfo;
@@ -20,6 +22,7 @@ import org.emonocot.api.job.JobLaunchRequest;
 import org.emonocot.api.job.JobLauncher;
 import org.emonocot.model.SearchableObject;
 import org.emonocot.model.auth.Permission;
+import org.emonocot.model.auth.User;
 import org.emonocot.model.constants.ResourceType;
 import org.emonocot.model.registry.Resource;
 import org.emonocot.pager.Page;
@@ -66,6 +69,8 @@ public class DownloadController {
     
     private ResourceService resourceService;
     
+    private UserService userService;
+    
     private JobLauncher jobLauncher;
 	
 	private JobExplorer jobExplorer;
@@ -86,6 +91,11 @@ public class DownloadController {
     	this.resourceService = resourceService;
     }
     
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
     @Autowired
 	@Qualifier("readOnlyJobLauncher")
 	public void setJobLauncher(JobLauncher jobLauncher) {
@@ -181,7 +191,11 @@ public class DownloadController {
 	       HttpServletRequest request,
 	       @RequestParam(value="downloadFormat", required = true) String downloadFormat,
 	       @RequestParam(value = "archiveOptions", required = false) List<String> archiveOptions,
-	       RedirectAttributes redirectAttributes) {
+	       RedirectAttributes redirectAttributes,
+	       Principal principal) {
+       
+
+        User user = userService.load(principal.getName());
 
 	    Map<String, String> selectedFacets = null;
         if (facets != null && !facets.isEmpty()) {
@@ -287,6 +301,7 @@ public class DownloadController {
         jobParametersMap.put("download.selectedFacets", selectedFacetBuffer.toString());
         jobParametersMap.put("download.fieldsTerminatedBy", "\t");
         jobParametersMap.put("download.fieldsEnclosedBy", "\"");
+        jobParametersMap.put("download.user.displayName", user.getAccountName());
         if(request.isUserInRole(Permission.PERMISSION_ADMINISTRATE.name())) {
         	jobParametersMap.put("download.limit", new Integer(Integer.MAX_VALUE).toString()); 
         } else {
