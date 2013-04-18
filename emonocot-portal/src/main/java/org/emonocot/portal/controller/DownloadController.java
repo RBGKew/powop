@@ -241,10 +241,10 @@ public class DownloadController {
 		String downloadFileName = UUID.randomUUID().toString(); // Download file - either the file or the directory
 		//TODO change to if(!"archive".equals(downloadFormat)){} else{}//use archive case block
         switch (downloadFormat) {
-        case "checklistAlphabetical":
+        case "alphabeticalChecklist":
             downloadFileName = downloadFileName + ".pdf";
             jobParametersMap.put("download.checklist.pdf", "true");
-            jobParametersMap.put("download.template.filepath", "org/emonocot/job/download/reports/name_report1.jrxml");
+            jobParametersMap.put("download.template.filepath", "org/emonocot/job/download/reports/alphabeticalChecklist.jrxml");
             jobParametersMap.put("job.total.reads", Integer.toString(result.getSize()));
             jobLaunchRequest.setJob("FlatFileCreation");
             sort = "searchable.label_sort_asc";
@@ -325,7 +325,7 @@ public class DownloadController {
 			resource.setWritten(0);
 			switch (downloadFormat) {
             case "taxon":
-            case "checklistAlphabetical":
+            case "alphabeticalChecklist":
                 resource.getParameters().put("download.file", downloadFileName);
                 break;
 	        default:
