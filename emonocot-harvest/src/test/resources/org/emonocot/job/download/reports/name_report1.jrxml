@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+    name="name_report1" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30"
+    whenResourceMissingType="Empty">
+    <property name="ireport.zoom" value="1.0"/>
+    <property name="ireport.x" value="0"/>
+    <property name="ireport.y" value="0"/>
+    <style name="Title" fontSize="26" isBold="true" hAlign="Center"/>
+    <style name="SubTitle" forecolor="#666666" fontSize="18" hAlign="Center"/>
+    <style name="Column header" forecolor="#666666" fontSize="12" isBold="true"/>
+    <style name="Detail" fontSize="12"/>
+    <style name="AcceptedName" fontSize="12" isBold="true"/>
+    <style name="SubDetail" fontSize="8"/>
+    <field name="scientificName" class="java.lang.String"/>
+    <field name="taxonomicStatus" class="org.gbif.ecat.voc.TaxonomicStatus"/>
+    <field name="acceptedNameUsage" class="org.emonocot.model.Taxon"/>
+    <detail>
+        <band height="30">
+            <textField isStretchWithOverflow="true"><!-- For accepted taxa, display the name with Authorship -->
+                <reportElement x="15" y="5" width="600" height="20" style="AcceptedName"/>
+                <textFieldExpression><![CDATA[org.gbif.ecat.voc.TaxonomicStatus.Accepted == $F{taxonomicStatus} ?
+                    $F{scientificName} : "";]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true"><!-- For synonyms, display the name with Authorship and the accepted name with authorship-->
+                <reportElement x="15" y="5" width="600" height="20"/>
+                <textFieldExpression><![CDATA[org.gbif.ecat.voc.TaxonomicStatus.Accepted == $F{taxonomicStatus} ? "" :
+                    $F{scientificName} + " " + ($F{acceptedNameUsage} != null ? " = " + ($F{acceptedNameUsage}).getScientificName() : "");]]>
+                </textFieldExpression>
+            </textField>
+            <!-- <textField>
+                <reportElement uuid="241d193c-c8ce-4a5f-a6a4-88825dc09b66" style="SubDetail" x="100" y="25" width="600" height="20"/>
+                <textElement/>
+                <textFieldExpression><![CDATA[$F{acceptedNameUsage} != null ? ($F{acceptedNameUsage}).getScientificName() : "";]]></textFieldExpression>
+            </textField> -->
+        </band>
+    </detail>
+</jasperReport>
