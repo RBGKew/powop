@@ -128,7 +128,7 @@ public class RestApiFunctionalTest {
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
-        securityContext.setAuthentication(new TestAuthentication(user));
+        securityContext.setAuthentication(new TestAuthentication(user));	
     }
 
     /**

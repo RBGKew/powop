@@ -136,7 +136,7 @@ public class JsonConversionTest {
                 reference).anyTimes();
         
         EasyMock.replay(referenceService, imageService);
-        String content = "{\"identifier\":\"urn:kew.org:wcs:taxon:2295\",\"scientificName\":\"Acorus\",\"namePublishedIn\":\"urn:kew.org:wcs:publication:1\", \"descriptions\": [{\"type\":\"habitat\",\"description\":\"Lorem ipsum\", \"references\":[\"urn:kew.org:wcs:publication:1\"]}], \"distribution\":[{\"location\":\"REU\"}]}";
+        String content = "{\"identifier\":\"urn:kew.org:wcs:taxon:2295\",\"scientificName\":\"Acorus\",\"images\":[1],\"namePublishedIn\":\"urn:kew.org:wcs:publication:1\", \"descriptions\": [{\"type\":\"habitat\",\"description\":\"Lorem ipsum\", \"references\":[\"urn:kew.org:wcs:publication:1\"]}], \"distribution\":[{\"location\":\"REU\"}]}";
         Taxon taxon = (Taxon) objectMapper.readValue(content, Taxon.class);
         EasyMock.verify(referenceService, imageService);
 

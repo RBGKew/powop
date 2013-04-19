@@ -27,6 +27,7 @@ import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.constants.Location;
 import org.emonocot.model.marshall.json.ImageSerializer;
+import org.emonocot.model.marshall.json.NullDeserializer;
 import org.emonocot.model.marshall.json.ReferenceDeserializer;
 import org.emonocot.model.marshall.json.ReferenceSerializer;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
@@ -202,7 +203,7 @@ public class Taxon extends SearchableObject {
 	 * @param newImages
 	 *            Set the images associated with this taxon
 	 */
-	@JsonIgnore
+	@JsonDeserialize(contentUsing = NullDeserializer.class)
 	public void setImages(List<Image> newImages) {
 		this.images = newImages;
 	}
@@ -211,7 +212,7 @@ public class Taxon extends SearchableObject {
 	 * @param newReferences
 	 *            Set the references associated with this taxon
 	 */
-	@JsonIgnore
+	@JsonDeserialize(contentUsing = NullDeserializer.class)
 	public void setReferences(Set<Reference> newReferences) {
 		this.references = newReferences;
 	}
@@ -1022,7 +1023,7 @@ public class Taxon extends SearchableObject {
 			sid.addField("taxon.images_empty_b", false);
 		}
 		for(Image i : getImages()) {			
-			if(i.getAuthority() != null) {
+			if(i != null && i.getAuthority() != null) {
 				sid.addField("searchable.sources_ss", i.getAuthority().getIdentifier());
 			}
 		}
@@ -1033,7 +1034,7 @@ public class Taxon extends SearchableObject {
 			sid.addField("taxon.references_empty_b", false);
 		}
 		for(Reference r : getReferences()) {			
-			if(r.getAuthority() != null) {
+			if(r != null && r.getAuthority() != null) {
 				sid.addField("searchable.sources_ss", r.getAuthority().getIdentifier());
 			}
 		}
@@ -1044,7 +1045,7 @@ public class Taxon extends SearchableObject {
 			sid.addField("taxon.types_and_specimens_empty_b", false);
 		}
 		for(TypeAndSpecimen t : getTypesAndSpecimens()) {			
-			if(t.getAuthority() != null) {
+			if(t != null && t.getAuthority() != null) {
 				sid.addField("searchable.sources_ss", t.getAuthority().getIdentifier());
 			}
 		}
