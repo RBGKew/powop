@@ -86,36 +86,87 @@
 							  <input type="hidden" name="x2" value="${x2}" />
 							  <input type="hidden" name="y2" value="${y2}" />
 							</c:if>
-							<div class="control-group tabbable">
-								<label class="control-label"><spring:message
-										code="download_format_label" />:</label>
+							<div class="tabbable">
 								<ul class="nav nav-tabs">
-								    <li class="active"><a href="#dataTab" data-toggle="tab"><spring:message code="download_data_tab_label" /></a></li>
-                                    <li><a href="#checklistTab" data-toggle="tab"><spring:message code="download_formatted_tab_label" /></a></li>
+								    <li class="active">
+								        <a href="#dataTab" data-toggle="tab" onclick="$('#sampleRow').show(); return true;">
+								            <spring:message code="download_data_tab_label" />
+							            </a>
+						            </li>
+                                    <li>
+                                        <a href="#formattedTab" data-toggle="tab" onclick="$('#sampleRow').hide(); return true;">
+                                            <spring:message code="download_formatted_tab_label" />
+                                        </a>
+                                    </li>
 								</ul>
 								<div class="tab-content">
-								    <div class="controls tab-pane active" id="dataTab">
-                                    <label class="radio">
-                                        <input id="downloadFormat_taxon_id" type="radio" value="taxon" name="downloadFormat" />
-                                        <spring:message code="download_taxon_format_label" />
-                                    </label>
-                                    <label class="radio"> 
-                                        <input id="downloadFormat_archive_id" checked="" type="radio" value="archive" name="downloadFormat" />
-                                        <spring:message code="download_archive_format_label" />
-                                    </label>
-                                </div>
-                                <div class="controls tab-pane" id="checklistTab">
-                                    <label class="radio">
-                                        <input id="downloadFormat_checklist_id" type="radio" value="checklistAlphabetical" name="downloadFormat" />
-                                        <spring:message code="download_checklist_format_label" />
-                                    </label>
-                                </div>
+								    <div class="control-group tab-pane active" id="dataTab">
+								        <label class="control-label"><spring:message code="download_format_label" />:</label>
+                                        <div class="controls">
+		                                    <label class="radio">
+		                                        <input id="downloadFormat_taxon_id" type="radio" value="taxon" name="downloadFormat" />
+		                                        <spring:message code="download_taxon_format_label" />
+		                                    </label>
+		                                    <label class="radio"> 
+		                                        <input id="downloadFormat_archive_id" checked="" type="radio" value="archive" name="downloadFormat" />
+		                                        <spring:message code="download_archive_format_label" />
+		                                    </label>
+	                                    </div>
+	                                    <label class="control-label" for="archiveOptions"><spring:message code="download_include_files_label" />:</label>
+                                        <div class="controls" name="dataTab">
+                                            <label class="checkbox"> 
+                                                <input type="checkbox" value="taxon" checked="" disabled="" name="archiveOptions" />
+                                                <spring:message code="download_dwc_taxon_label" />
+                                            </label>
+                                            <label class="checkbox"> 
+                                                 <input type="checkbox" id="archiveOptions_description" value="description" name="archiveOptions" />
+                                                 <spring:message    code="download_dwc_description_label" />
+                                            </label> 
+                                            <label class="checkbox">
+                                                 <input type="checkbox" id="archiveOptions_distribution" value="distribution" name="archiveOptions" />
+                                                 <spring:message code="download_dwc_distribution_label" />
+                                            </label>
+                                            <label class="checkbox">
+                                                <input type="checkbox" id="archiveOptions_image" value="image" name="archiveOptions" />
+                                                <spring:message code="download_dwc_image_label" />
+                                            </label>
+                                            <label class="checkbox">
+                                                <input type="checkbox" id="archiveOptions_reference" value="reference" name="archiveOptions" /> 
+                                                <spring:message code="download_dwc_reference_label" />
+                                            </label>
+                                            <label class="checkbox">
+                                                <input type="checkbox" id="archiveOptions_measurementOrFact" value="measurementOrFact" name="archiveOptions" />
+                                                <spring:message code="download_dwc_measurementOrFact_label" />
+                                            </label>
+                                            <label class="checkbox">
+                                                <input type="checkbox" id="archiveOptions_vernacularName" value="vernacularName" name="archiveOptions" />
+                                                <spring:message code="download_dwc_vernacularName_label" />
+                                            </label>
+                                            <label class="checkbox">
+                                                <input type="checkbox" id="archiveOptions_typeAndSpecimen" value="typeAndSpecimen" name="archiveOptions" />
+                                                <spring:message code="download_dwc_typeAndSpecimen_label" />
+                                            </label>
+                                            <label class="checkbox">
+                                                <input type="checkbox" id="archiveOptions_identifier" value="identifier" name="archiveOptions" />
+                                                <spring:message code="download_dwc_identifier_label" />
+                                            </label>
+                                            <p class="help-block">
+                                                <spring:message code="download_include_files_help_message" />
+                                            </p>
+                                        </div>
+	                                </div>
+	                                <div class="controls tab-pane" id="formattedTab">
+	                                    <label class="radio">
+	                                        <input id="downloadFormat_checklist_id" type="radio" value="alphabeticalChecklist" name="downloadFormat" />
+	                                        <spring:message code="download_alphabetical_checklist_format_label" />
+	                                    </label>
+	                                </div>
 								</div>
 							</div>
 							<script type="text/javascript">
 							    $(document).ready(function(){
 								   $("input[name='downloadFormat']").change(function() {
-								            if ($("input[name='downloadFormat']:checked").val() == 'taxon') {
+								            if ($("input[name='downloadFormat']:checked").val() != 'archive') {
 								                $("#archiveOptions_description").prop('disabled', true);
 								                $("#archiveOptions_distribution").prop('disabled', true);
 								                $("#archiveOptions_image").prop('disabled', true);
@@ -140,51 +191,13 @@
 
 								
 							</script>
-							<div class="control-group">
+							<!-- <div class="control-group tabbable">
 								<label class="control-label" for="archiveOptions"><spring:message
 										code="download_include_files_label" />:</label>
-								<div class="controls">
-									<label class="checkbox"> 
-									    <input type="checkbox" value="taxon" checked="" disabled="" name="archiveOptions" />
-										<spring:message code="download_dwc_taxon_label" />
-									</label>
-									<label class="checkbox"> 
-									     <input type="checkbox" id="archiveOptions_description" value="description" name="archiveOptions" />
-									     <spring:message	code="download_dwc_description_label" />
-									</label> 
-									<label class="checkbox">
-									     <input type="checkbox" id="archiveOptions_distribution" value="distribution" name="archiveOptions" />
-									     <spring:message code="download_dwc_distribution_label" />
-									</label>
-									<label class="checkbox">
-									    <input type="checkbox" id="archiveOptions_image" value="image" name="archiveOptions" />
-									    <spring:message	code="download_dwc_image_label" />
-									</label>
-									<label class="checkbox">
-									    <input type="checkbox" id="archiveOptions_reference" value="reference" name="archiveOptions" /> 
-									    <spring:message	code="download_dwc_reference_label" />
-									</label>
-									<label class="checkbox">
-									    <input type="checkbox" id="archiveOptions_measurementOrFact" value="measurementOrFact" name="archiveOptions" />
-									    <spring:message	code="download_dwc_measurementOrFact_label" />
-									</label>
-									<label class="checkbox">
-									    <input type="checkbox" id="archiveOptions_vernacularName" value="vernacularName" name="archiveOptions" />
-									    <spring:message	code="download_dwc_vernacularName_label" />
-									</label>
-									<label class="checkbox">
-									    <input type="checkbox" id="archiveOptions_typeAndSpecimen" value="typeAndSpecimen" name="archiveOptions" />
-									    <spring:message code="download_dwc_typeAndSpecimen_label" />
-									</label>
-									<label class="checkbox">
-									    <input type="checkbox" id="archiveOptions_identifier" value="identifier" name="archiveOptions" />
-									    <spring:message code="download_dwc_identifier_label" />
-									</label>
-									<p class="help-block">
-										<spring:message code="download_include_files_help_message" />
-									</p>
+								
+								<div class="controls tab-pane" name="formattedTab">
 								</div>
-							</div>
+							</div> -->
 							<div class="control-group">
  	                          <label for="_purpose_id" class="control-label"><spring:message code="download_purpose_label" /></label>
  	                          <div class="controls">
@@ -204,7 +217,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="row">
+		<div class="row" id="sampleRow">
 			<div class="span12">
 				<div class="inner">
 					<div class="box">

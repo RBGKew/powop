@@ -32,10 +32,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
         implements SearchableDao<T> {
     
-	private SolrServer solrServer = null;
+    private SolrServer solrServer = null;
 	
 	@Autowired	
-	public void setSolrServer(SolrServer solrServer) {
+    public void setSolrServer(SolrServer solrServer) {
 		this.solrServer = solrServer;
 	}
 	
@@ -43,7 +43,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
 	 * Does this DAO search for SearchableObjects?
 	 * @return
 	 */
-	protected boolean isSearchableObject() {
+    protected boolean isSearchableObject() {
 		return true;
 	}
 
@@ -83,23 +83,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
             final String[] facets,
             Map<String, String> facetPrefixes, final Map<String, String> selectedFacets,
             final String sort, final String fetch) {
-        SolrQuery solrQuery = new SolrQuery();        
-
-        if (query != null && !query.trim().equals("")) {
-        	String searchString = null;
-            if (query.indexOf(":") != -1) {
-                searchString = query;
-            } else {
-            	// replace spaces with '+' so that we search on terms
-                searchString = query.trim().replace(" ", "+");
-                solrQuery.set("defType","edismax");
-                solrQuery.set("qf", "searchable.label_sort searchable.solrsummary_t");
-            }
-            solrQuery.setQuery(searchString);
-
-        } else {
-            solrQuery.setQuery("*:*");
-        }
+        SolrQuery solrQuery = prepareQuery(query, sort, pageSize, pageNumber, selectedFacets);
         
         // Filter the searchable objects out
         solrQuery.addFilterQuery("base.class_searchable_b:" + isSearchableObject());
@@ -108,14 +92,6 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
                 solrQuery.addFilterQuery("{!join to=taxon.distribution_ss from=location.tdwg_code_s}geo:\"" + spatialQuery + "\"");
         }
 
-        // Set additional result parameters
-        if (pageSize != null) {
-            solrQuery.setRows(pageSize);
-            if (pageNumber != null) {
-                solrQuery.setStart(pageSize * pageNumber);
-            }
-        }
-        
         if (facets != null && facets.length != 0) {
         	solrQuery.setFacet(true);
         	solrQuery.setFacetMinCount(1);
@@ -140,24 +116,6 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
             		solrQuery.add("f." + facet + ".facet.prefix",facetPrefixes.get(facet));
             	}
             }
-        }
-
-        if (sort != null && sort.length() != 0) {
-            if(sort.equals("_asc")) {
-            	
-            } else if(sort.endsWith("_asc")) { 
-                String sortField = sort.substring(0,sort.length() - 4);
-                solrQuery.addSortField(sortField, SolrQuery.ORDER.asc);
-            } else if(sort.endsWith("_desc")) {
-            	String sortField = sort.substring(0,sort.length() - 5);
-                solrQuery.addSortField(sortField, SolrQuery.ORDER.desc);
-            }
-        }
-        
-        if(selectedFacets != null && !selectedFacets.isEmpty()) {
-        	for(String facetName : selectedFacets.keySet()) {
-        		solrQuery.addFilterQuery(facetName + ":" + selectedFacets.get(facetName));
-        	}
         }
         
         QueryResponse queryResponse = null;
@@ -243,49 +201,8 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
     }
 
 	@Override
-	public Page<SolrDocument> searchForDocuments(String query, Integer pageSize, Integer pageNumber, Map<String, String> selectedFacets, String sort) {
-        SolrQuery solrQuery = new SolrQuery();
-		
-		if (query != null && !query.trim().equals("")) {
-        	String searchString = null;
-            if (query.indexOf(":") != -1) {
-                searchString = query;
-            } else {
-            	// replace spaces with '+' so that we search on terms
-                searchString = query.trim().replace(" ", "+");
-                solrQuery.set("defType","edismax");
-                solrQuery.set("qf", "searchable.label_sort searchable.solrsummary_t");
-            }
-            solrQuery.setQuery(searchString);
-
-        } else {
-            solrQuery.setQuery("*:*");
-        }
-		
-		if (sort != null && sort.length() != 0) {
-            if(sort.equals("_asc")) {
-            	
-            } else if(sort.endsWith("_asc")) { 
-                String sortField = sort.substring(0,sort.length() - 4);
-                solrQuery.addSortField(sortField, SolrQuery.ORDER.asc);
-            } else if(sort.endsWith("_desc")) {
-            	String sortField = sort.substring(0,sort.length() - 5);
-                solrQuery.addSortField(sortField, SolrQuery.ORDER.desc);
-            }
-        }
-		
-		if (pageSize != null) {
-            solrQuery.setRows(pageSize);
-            if (pageNumber != null) {
-                solrQuery.setStart(pageSize * pageNumber);
-            }
-        }
-        
-        if(selectedFacets != null && !selectedFacets.isEmpty()) {
-        	for(String facetName : selectedFacets.keySet()) {
-        		solrQuery.addFilterQuery(facetName + ":" + selectedFacets.get(facetName));
-        	}
-        }
+    public Page<SolrDocument> searchForDocuments(String query, Integer pageSize, Integer pageNumber, Map<String, String> selectedFacets, String sort) {
+        SolrQuery solrQuery = prepareQuery(query, sort, pageSize, pageNumber, selectedFacets);
         
         QueryResponse queryResponse = null;
 		try {
@@ -306,11 +223,11 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
 
 
 	@Override
-	public T loadObjectForDocument(SolrDocument solrDocument) {
+    public T loadObjectForDocument(SolrDocument solrDocument) {
 		try {
 			Class clazz = Class.forName((String)solrDocument.getFieldValue("base.class_s"));
-        	Long id = (Long)solrDocument.getFieldValue("base.id_l");
-        	T t = (T)getSession().load(clazz, id);
+        	Long id = (Long) solrDocument.getFieldValue("base.id_l");
+        	T t = (T) getSession().load(clazz, id);
         	t.getIdentifier();
         	return t;
 		} catch (ClassNotFoundException cnfe) {
@@ -320,7 +237,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
 		}
 	}
 	
-	public CellSet analyse(String rows, String cols, Integer firstCol, Integer maxCols, Integer firstRow, Integer maxRows,	Map<String, String> selectedFacets, String[] facets, Cube cube) {
+    public CellSet analyse(String rows, String cols, Integer firstCol, Integer maxCols, Integer firstRow, Integer maxRows,	Map<String, String> selectedFacets, String[] facets, Cube cube) {
 		SolrQuery query = new SolrQuery();
 	    query.setQuery("*:*");
 	    SolrQuery totalQuery = new SolrQuery();
@@ -451,6 +368,63 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
 		} catch (SolrServerException sse) {
 			throw new RuntimeException("Exception querying solr server", sse);
 		}
+	}
+	
+	/**
+	 * Prepares a {@link SolrQuery} with the parameters passed in 
+	 * @param query
+	 * @param sort
+	 * @param pageSize
+	 * @param pageNumber
+	 * @param selectedFacets
+	 * @return A {@link SolrQuery} that can be customised before passing to a {@link SolrServer}  
+	 */
+    protected SolrQuery prepareQuery(String query, String sort, Integer pageSize, Integer pageNumber, Map<String,String> selectedFacets){ SolrQuery solrQuery = new SolrQuery();
+        
+        if (query != null && !query.trim().equals("")) {
+            String searchString = null;
+            if (query.indexOf(":") != -1) {
+                searchString = query;
+            } else {
+                // replace spaces with '+' so that we search on terms
+                searchString = query.trim().replace(" ", "+");
+                solrQuery.set("defType","edismax");
+                solrQuery.set("qf", "searchable.label_sort searchable.solrsummary_t");
+            }
+            solrQuery.setQuery(searchString);
+
+        } else {
+            solrQuery.setQuery("*:*");
+        }
+        
+        if (sort != null && sort.length() != 0) {
+            for(String singleSort : sort.split(",")) {
+                if(singleSort.equals("_asc")) {
+                    //Do nothing
+                } else if(singleSort.endsWith("_asc")) { 
+                    String sortField = singleSort.substring(0,singleSort.length() - 4);
+                    solrQuery.addSortField(sortField, SolrQuery.ORDER.asc);
+                } else if(singleSort.endsWith("_desc")) {
+                    String sortField = singleSort.substring(0,singleSort.length() - 5);
+                    solrQuery.addSortField(sortField, SolrQuery.ORDER.desc);
+                }
+            }
+        }
+        
+        if (pageSize != null) {
+            solrQuery.setRows(pageSize);
+            if (pageNumber != null) {
+                solrQuery.setStart(pageSize * pageNumber);
+            }
+        }
+        
+        if(selectedFacets != null && !selectedFacets.isEmpty()) {
+            for(String facetName : selectedFacets.keySet()) {
+                solrQuery.addFilterQuery(facetName + ":" + selectedFacets.get(facetName));
+            }
+        }
+        
+	    return solrQuery;
 	}
     
 }
