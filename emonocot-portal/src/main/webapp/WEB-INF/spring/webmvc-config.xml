@@ -33,7 +33,7 @@
 	</bean>
 
 	<bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
-		<property name="supportedMediaTypes" value="application/json" />
+		<property name="supportedMediaTypes" value="application/json,application/javascript" />
 		<property name="objectMapper" ref="customObjectMapper" />
 	</bean>
 	

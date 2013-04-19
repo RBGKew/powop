@@ -20,14 +20,13 @@ import org.emonocot.api.TaxonService;
 import org.emonocot.api.UserService;
 import org.emonocot.api.job.JobExecutionInfo;
 import org.emonocot.model.Annotation;
+import org.emonocot.model.Description;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.Image;
 import org.emonocot.model.MeasurementOrFact;
 import org.emonocot.model.Place;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
-import org.emonocot.model.Description;
-import org.emonocot.model.VernacularName;
 import org.emonocot.model.auth.Group;
 import org.emonocot.model.auth.User;
 import org.emonocot.model.constants.AnnotationCode;
@@ -181,7 +180,7 @@ public class JsonConversionTest {
      */
     @Test
     public void testWriteTaxon() throws Exception {
-        String content = "{\"identifier\":\"urn:kew.org:wcs:taxon:2295\",\"name\":\"Acorus\",\"protologue\":\"urn:kew.org:wcs:publication:1\"}";
+
         Reference reference = new Reference();
         reference.setIdentifier("urn:kew.org:wcs:publication:1");
         Taxon taxon = new Taxon();
@@ -209,10 +208,11 @@ public class JsonConversionTest {
             Image image = new Image();
             image.setIdentifier("urn:identifier:image:" + i);
             image.setTaxon(taxon);
+            image.getTaxa().add(taxon);
             taxon.getImages().add(image);
         }
         try {
-        	objectMapper.writeValueAsString(taxon);
+        	System.out.println(objectMapper.writeValueAsString(taxon));
         } catch (Exception e) {
             fail(e.getMessage());
         }

@@ -270,6 +270,7 @@ public abstract class DataManagementSupport {
         image.setTitle(caption);
         image.setIdentifier(identifier);
         image.setTaxon(taxon);
+        image.getTaxa().add(taxon);
         image.setAuthority(source);
         setUp.add(image);
         tearDown.push(image);

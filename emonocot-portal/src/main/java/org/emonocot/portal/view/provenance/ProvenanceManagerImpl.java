@@ -73,6 +73,9 @@ public class ProvenanceManagerImpl implements ProvenanceManager {
 		} else if(baseData instanceof IdentificationKey) {
 			IdentificationKey key = (IdentificationKey)baseData;
 			addProvenance(key);
+		} else if(baseData instanceof PhylogeneticTree) {
+			PhylogeneticTree tree = (PhylogeneticTree)baseData;
+			addProvenance(tree);
 		}
 		
 		for(Organisation organisation : organisations) {

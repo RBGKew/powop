@@ -106,7 +106,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
     private void populateForm(Model model, Resource resource, ResourceParameterDto parameter) {
 		model.addAttribute("resource", resource);
 		model.addAttribute("parameter", parameter);
-		model.addAttribute("resourceTypes", Arrays.asList(new ResourceType[] {ResourceType.DwC_Archive, ResourceType.IDENTIFICATION_KEY, ResourceType.GBIF, ResourceType.IUCN}));
+		model.addAttribute("resourceTypes", Arrays.asList(new ResourceType[] {ResourceType.DwC_Archive, ResourceType.IDENTIFICATION_KEY, ResourceType.PHYLOGENETIC_TREE, ResourceType.GBIF, ResourceType.IUCN}));
 		model.addAttribute("schedulingPeriods",Arrays.asList(SchedulingPeriod.values()));
 	}
     

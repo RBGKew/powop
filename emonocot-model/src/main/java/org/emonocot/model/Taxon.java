@@ -26,6 +26,7 @@ import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.constants.Location;
+import org.emonocot.model.marshall.json.ImageSerializer;
 import org.emonocot.model.marshall.json.ReferenceDeserializer;
 import org.emonocot.model.marshall.json.ReferenceSerializer;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
@@ -164,7 +165,7 @@ public class Taxon extends SearchableObject {
 	 * @return a list of images of the taxon
 	 */
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "taxa")
-	@JsonIgnore
+	@JsonSerialize(contentUsing = ImageSerializer.class)
 	public List<Image> getImages() {
 		return images;
 	}
@@ -173,7 +174,7 @@ public class Taxon extends SearchableObject {
 	 * @return a list of references about the taxon
 	 */
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "taxa")
-	@JsonIgnore
+	@JsonSerialize(contentUsing = ReferenceSerializer.class)
 	public Set<Reference> getReferences() {
 		return references;
 	}

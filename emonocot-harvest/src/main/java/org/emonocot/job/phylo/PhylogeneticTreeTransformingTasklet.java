@@ -162,6 +162,7 @@ public class PhylogeneticTreeTransformingTasklet extends AbstractRecordAnnotator
 			uris.add(new Uri(baseUri + "/taxon/" + taxon.getIdentifier(), null,	null));
 			annotation.setUris(uris);
 			node.getNodeData().addAnnotation(annotation);
+			
 		}
 		for(PhylogenyNode descendant : node.getDescendants()) {
 			addTaxonLinks(descendant);

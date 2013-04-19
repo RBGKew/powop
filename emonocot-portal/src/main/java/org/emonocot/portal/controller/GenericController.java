@@ -1,5 +1,6 @@
 package org.emonocot.portal.controller;
 
+import org.codehaus.jackson.map.util.JSONPObject;
 import org.emonocot.api.Service;
 import org.emonocot.model.Base;
 import org.emonocot.pager.Page;
@@ -57,6 +58,20 @@ public abstract class GenericController<T extends Base,
                     produces = "application/json")
     public ResponseEntity<T> get(@PathVariable String identifier, @RequestParam(value = "fetch", required = false) String fetch) {
         return new ResponseEntity<T>(service.find(identifier,fetch), HttpStatus.OK);
+    }
+    
+    /**
+     * @param identifier
+     *            Set the identifier of the image
+     * @return A model and view containing a image
+     */
+    @RequestMapping(value = "/{identifier}",
+    		        params = "callback",
+                    method = RequestMethod.GET,
+                    produces = "application/javascript")
+    public ResponseEntity<JSONPObject> getJsonP(@PathVariable String identifier, @RequestParam(value = "fetch", required = false) String fetch,
+    		                          @RequestParam(value = "callback", required = true) String callback) {
+        return new ResponseEntity<JSONPObject>(new JSONPObject(callback,service.find(identifier,fetch)), HttpStatus.OK);
     }
     
     @RequestMapping(method = RequestMethod.GET,
