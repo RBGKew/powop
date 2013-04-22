@@ -124,34 +124,41 @@ public final class LogbackWebConfigurer {
         }
 
         // Only perform custom Logback initialization in case of a config file.
-        String location = servletContext
-                .getInitParameter(CONFIG_LOCATION_PARAM);
-        if (location != null) {
-            // Perform actual Logback initialization; else rely on Logback's
-            // default initialization.
-            try {
-                // Return a URL (e.g. "classpath:" or "file:") as-is;
-                // consider a plain file path as relative to the web application
-                // root directory.
-                if (!ResourceUtils.isUrl(location)) {
-                    // Resolve system property placeholders before resolving
-                    // real path.
-                    location = SystemPropertyUtils
-                            .resolvePlaceholders(location);
-                    location = WebUtils.getRealPath(servletContext, location);
-                }
+        String locationParameter = servletContext.getInitParameter(CONFIG_LOCATION_PARAM);
+        String[] locations = null;
+        if(locationParameter.indexOf(",") != -1) {
+        	locations = locationParameter.split(",");
+        } else {
+        	locations = new String[] {locationParameter};
+        }
+        if (locations.length > 0) {
+			for (String location : locations) {
+				// Perform actual Logback initialization; else rely on Logback's
+				// default initialization.
+				try {
+					// Return a URL (e.g. "classpath:" or "file:") as-is;
+					// consider a plain file path as relative to the web
+					// application
+					// root directory.
+					if (!ResourceUtils.isUrl(location)) {
+						// Resolve system property placeholders before resolving
+						// real path.
+						location = SystemPropertyUtils.resolvePlaceholders(location);
+						location = WebUtils.getRealPath(servletContext,	location);
+					}
 
-                // Write log message to server log.
-                servletContext.log("Initializing Logback from [" + location
-                        + "]");
+					// Write log message to server log.
+					servletContext.log("Initializing Logback from [" + location	+ "]");
 
-                // Initialize
-                LogbackConfigurer.initLogging(location);
-            } catch (FileNotFoundException ex) {
-                throw new IllegalArgumentException(
-                        "Invalid 'logbackConfigLocation' parameter: "
-                                + ex.getMessage());
-            }
+					// Initialize
+					LogbackConfigurer.initLogging(location);
+					break;
+				} catch (FileNotFoundException ex) {
+					throw new IllegalArgumentException(
+							"Invalid 'logbackConfigLocation' parameter: "
+									+ ex.getMessage());
+				}
+			}
         }
     }
 

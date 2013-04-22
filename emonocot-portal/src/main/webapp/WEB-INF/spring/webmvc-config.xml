@@ -6,7 +6,17 @@
 	    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 		
-	<context:property-override ignore-unresolvable="true" location="classpath*:META-INF/spring/*.properties"/>
+	<context:property-override ignore-resource-not-found="true" ignore-unresolvable="true" location="classpath*:META-INF/spring/*.properties,file:/etc/emonocot/emonocot-portal.conf"/>
+	
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+	    <property name="basenames">
+		    <list>
+				<value>WEB-INF/i18n/messages</value>
+				<value>WEB-INF/i18n/application</value>
+			</list>
+		</property>
+		<property name="useCodeAsDefaultMessage" value="true" />
+	</bean>
 	
 	<context:component-scan base-package="org.emonocot" use-default-filters="false">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />

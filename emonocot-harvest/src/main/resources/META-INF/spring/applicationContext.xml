@@ -19,8 +19,8 @@
 		                http://www.springframework.org/schema/integration/mail http://www.springframework.org/schema/integration/mail/spring-integration-mail.xsd
 		                http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd
 		                http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
-
-	<context:property-placeholder location="classpath*:META-INF/spring/*.properties" />
+		                
+	<context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/*.properties,file:/etc/emonocot/emonocot-harvest.conf"/>
 		
 	<context:annotation-config />
 	

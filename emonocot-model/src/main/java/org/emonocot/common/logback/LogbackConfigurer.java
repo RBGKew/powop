@@ -56,11 +56,9 @@ public final class LogbackConfigurer {
      */
     public static void initLogging(final String location)
             throws FileNotFoundException {
-        String resolvedLocation = SystemPropertyUtils
-                .resolvePlaceholders(location);
+        String resolvedLocation = SystemPropertyUtils.resolvePlaceholders(location);
         URL url = ResourceUtils.getURL(resolvedLocation);
-        LoggerContext loggerContext = (LoggerContext) LoggerFactory
-                .getILoggerFactory();
+        LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
 
         try {
             JoranConfigurator configurator = new JoranConfigurator();

@@ -6,6 +6,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		                http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
 		                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+		                
+    <context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/*.properties,file:/etc/emonocot/emonocot-portal.conf"/>
+	<context:property-override location="classpath:META-INF/spring/application.properties,file:/etc/emonocot/emonocot-portal.conf" ignore-resource-not-found="true" ignore-unresolvable="true"/>		                
+
 	<context:annotation-config />
 	<context:component-scan base-package="org.emonocot">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
@@ -193,33 +197,4 @@
           </props>
     </property>
     </bean>
-	
-	<beans profile="default">
-	    <context:property-placeholder location="classpath:META-INF/spring/application.properties" />
-	    <context:property-override location="classpath:META-INF/spring/application.properties" ignore-unresolvable="true"/>
-	    <bean id="messageSource"
-			class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-			<property name="basenames">
-				<list>
-					<value>WEB-INF/i18n/messages</value>
-					<value>WEB-INF/i18n/application</value>
-				</list>
-			</property>
-			<property name="useCodeAsDefaultMessage" value="true" />
-		</bean>
-	</beans>
-	<beans profile="local">
-	    <context:property-placeholder location="classpath:META-INF/spring/local.properties" />
-	    <context:property-override location="classpath:META-INF/spring/local.properties" ignore-unresolvable="true"/>
-	    <bean id="messageSource"
-			class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-			<property name="basenames">
-				<list>
-					<value>WEB-INF/i18n/messages</value>
-					<value>WEB-INF/i18n/local</value>
-				</list>
-			</property>
-			<property name="useCodeAsDefaultMessage" value="true" />
-		</bean>
-	</beans>
 </beans>

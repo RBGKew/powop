@@ -5,8 +5,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		                http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
-	<bean id="loggerListener"
-		class="org.springframework.security.authentication.event.LoggerListener" />
+    <context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/*.properties,file:/etc/emonocot/emonocot-portal.conf"/>
+    
+	<bean id="loggerListener" class="org.springframework.security.authentication.event.LoggerListener" />
 
 	<sec:authentication-manager alias="authenticationManager">
 		<sec:authentication-provider user-service-ref='userServiceImpl'>
@@ -150,12 +151,4 @@
 		<sec:http-basic />
 		<sec:anonymous/>
 	</sec:http>
-	<beans profile="default">
-		<context:property-placeholder
-			location="classpath:META-INF/spring/application.properties" />
-	</beans>
-	<beans profile="local">
-		<context:property-placeholder
-			location="classpath:META-INF/spring/local.properties" />
-	</beans>
 </beans>
