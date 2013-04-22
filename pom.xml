@@ -21,6 +21,7 @@
 		<module>emonocot-service</module>
 		<module>emonocot-harvest</module>
 		<module>emonocot-portal</module>
+		<module>emonocot-static</module>
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -806,8 +807,7 @@
 			<dependency>
 				<groupId>org.liquibase</groupId>
 				<artifactId>liquibase-core</artifactId>
-				<version>2.0.1</version>
-				<scope>test</scope>
+				<version>2.0.5</version>
 			</dependency>
 			<dependency>
 				<groupId>com.yahoo.platform.yui</groupId>
@@ -1514,9 +1514,10 @@
 				<logging.level>WARN</logging.level>
 				<logging.method>file</logging.method>
 				<logging.location>/var/log/tomcat7/emonocot-harvester.log</logging.location>
-				<liquibase.changelog>../emonocot-persistence/src/main/resources/changelog.mysql.xml</liquibase.changelog>
-				<liquibase.url>jdbc:mysql://localhost:3336/emonocot</liquibase.url>
 				<liquibase.drop.database.first>false</liquibase.drop.database.first>
+				<liquibase.changelog>changelog.mysql.xml</liquibase.changelog>
+				<liquibase.username>liquibase</liquibase.username>
+				<liquibase.password>l1qu1ba53</liquibase.password>
 				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
 				<solr.url>http://localhost:8983/solr</solr.url>
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-harvester/cache</ehcache.diskstore.path>
@@ -1580,8 +1581,9 @@
 				<wagon.static.url>scp://localhost:2222/var/www/html/</wagon.static.url>
 				<wagon.server.id>vagrant</wagon.server.id>
 				<liquibase.drop.database.first>false</liquibase.drop.database.first>
-				<liquibase.changelog>../emonocot-persistence/src/main/resources/changelog.mysql.xml</liquibase.changelog>
-				<liquibase.url>jdbc:mysql://localhost:3336/emonocot</liquibase.url>
+				<liquibase.changelog>changelog.mysql.xml</liquibase.changelog>
+				<liquibase.username>liquibase</liquibase.username>
+				<liquibase.password>l1qu1ba53</liquibase.password>
 				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
 				<solr.url>http://localhost:8983/solr</solr.url>
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>			
@@ -1632,8 +1634,9 @@
 				<wagon.static.url>scp://localhost:2222/var/www/html/</wagon.static.url>
 				<wagon.server.id>vagrant</wagon.server.id>
 				<liquibase.drop.database.first>true</liquibase.drop.database.first>
-				<liquibase.changelog>../emonocot-persistence/src/main/resources/changelog.mysql.xml</liquibase.changelog>
-				<liquibase.url>jdbc:mysql://localhost:3336/emonocot</liquibase.url>
+				<liquibase.changelog>changelog.mysql.xml</liquibase.changelog>
+				<liquibase.username>liquibase</liquibase.username>
+				<liquibase.password>l1qu1ba53</liquibase.password>
 				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>				
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>				
 				<spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
@@ -1687,9 +1690,10 @@
 				<logging.location>/var/log/tomcat7/emonocot-portal.log</logging.location>
 				<wagon.static.url>scp://localhost:2222/var/www/html/</wagon.static.url>
 				<wagon.server.id>vagrant</wagon.server.id>
-				<liquibase.drop.database.first>false</liquibase.drop.database.first>
-				<liquibase.changelog>../emonocot-persistence/src/main/resources/changelog.postgres.xml</liquibase.changelog>
-				<liquibase.url>jdbc:postgresql://localhost:5442/emonocot</liquibase.url>
+				<liquibase.drop.database.first>true</liquibase.drop.database.first>
+				<liquibase.changelog>changelog.postgres.xml</liquibase.changelog>
+				<liquibase.username>liquibase</liquibase.username>
+				<liquibase.password>l1qu1ba53</liquibase.password>
 				<hibernate.dialect>org.hibernatespatial.postgis.PostgisDialect</hibernate.dialect>				
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>				
 				<spring.security.sid.identity.query>select currval(pg_get_serial_sequence('acl_sid', 'id'))</spring.security.sid.identity.query>

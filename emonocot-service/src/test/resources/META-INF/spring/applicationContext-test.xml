@@ -23,7 +23,9 @@
 			</list>
 		</property>
 		<property name="testDataLocation" value="classpath:/META-INF/database/test_data.sql"/>
-	</bean>	
+	</bean>
+	
+	<bean id="springLiquibase" class="org.emonocot.test.LiquibaseDummy"/>	
 
 	<bean name="jdbcTemplate"
 		class="org.springframework.jdbc.core.simple.SimpleJdbcTemplate">

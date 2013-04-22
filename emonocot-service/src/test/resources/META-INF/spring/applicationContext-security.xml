@@ -40,7 +40,7 @@
 	</bean>
 
 	<bean class="org.emonocot.persistence.dao.hibernate.AclServiceImpl"
-		id="aclService">
+		id="aclService" depends-on="springLiquibase">
 		<constructor-arg ref="dataSource" />
 		<constructor-arg ref="lookupStrategy" />
 		<constructor-arg ref="aclCache" />

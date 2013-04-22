@@ -853,14 +853,14 @@
           </column>
       </createTable>
     </changeSet>
-    <changeSet id="2011-09-01_3" author="ben">
+    <!-- <changeSet id="2011-09-01_3" author="ben">
         <loadData tableName="Region" file="../emonocot-persistence/src/main/resources/regions.csv">
             <column name="id" index="0" type="STRING"/>
             <column name="country" index="1" type="STRING"/>
             <column name="region" index="2" type="STRING"/>
             <column name="continent" index="3" type="STRING"/>
         </loadData>
-    </changeSet>
+    </changeSet>-->
     <changeSet id="2011-09-04_1" author="ben">
       <addColumn tableName="Reference">
         <column name="author" type="varchar(255)"/>

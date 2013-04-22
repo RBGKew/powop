@@ -245,14 +245,7 @@
         </dependency>
 	</dependencies>
 	<build>
-		<finalName>emonocot-portal</finalName>
-		<extensions>
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-ssh</artifactId>
-				<version>1.0-beta-7</version>
-			</extension>
-		</extensions>
+		<finalName>emonocot-portal</finalName>		
 		<testResources>
           <testResource>
             <directory>src/test/resources</directory>
@@ -279,137 +272,7 @@
 					</webResources>
 					<encoding />
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.liquibase</groupId>
-				<artifactId>liquibase-maven-plugin</artifactId>
-				<version>2.0.1</version>
-				<configuration>
-					<changeLogFile>${liquibase.changelog}</changeLogFile>
-					<driver>${jdbc.driver.classname}</driver>
-					<url>${liquibase.url}</url>
-					<username>${jdbc.driver.username}</username>
-					<password>${jdbc.driver.password}</password>
-					<dropFirst>${liquibase.drop.database.first}</dropFirst>
-					<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>mysql</groupId>
-						<artifactId>mysql-connector-java</artifactId>
-						<version>5.1.15</version>
-					</dependency>
-					<dependency>
-	                  <groupId>postgresql</groupId>
-	                  <artifactId>postgresql</artifactId>
-	                  <version>9.1-901.jdbc4</version>
-                    </dependency>
-				</dependencies>
-			</plugin>
-			<plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-antrun-plugin</artifactId>
-              <executions>
-                <execution>
-                    <id>static.output.dir</id>
-                    <phase>process-resources</phase>
-                    <configuration>
-                        <tasks>
-                            <delete dir="${project.build.directory}/static/js/" />
-                            <mkdir dir="${project.build.directory}/static/js/" />
-                            <delete dir="${project.build.directory}/static/css/" />
-                            <mkdir dir="${project.build.directory}/static/css/" />
-                            <copy todir="${project.build.directory}/static/css/images">
-                              <fileset dir="${basedir}/src/main/images" includes="**/*" />
-                            </copy>
-                            <copy todir="${project.build.directory}/static/css/fonts">
-                              <fileset dir="${basedir}/src/main/fonts" includes="**/*" />
-                            </copy>
-                        </tasks>
-                    </configuration>
-                    <goals>
-                        <goal>run</goal>
-                    </goals>
-                </execution>
-              </executions>
-            </plugin>
-            <plugin>
-              <groupId>org.lesscss</groupId>
-              <artifactId>lesscss-maven-plugin</artifactId>
-              <version>1.3.0</version>
-              <configuration>
-                <outputDirectory>${project.build.directory}/compiled-less/</outputDirectory>
-                <lessJS>${basedir}/src/main/js/less-1.3.0.min.js</lessJS>
-                <includes>
-                  <include>bootstrap.less</include>
-                </includes>
-              </configuration>
-            </plugin>
-			<plugin>
-              <groupId>net.alchim31.maven</groupId>
-              <artifactId>yuicompressor-maven-plugin</artifactId>
-              <version>1.1</version>
-              <configuration>
-                <nosuffix>true</nosuffix>
-                <aggregations>
-                   <aggregation>
-                    <output>${project.build.directory}/static/css/style.css</output>
-                    <includes>
-                      <include>${project.build.directory}/compiled-less/bootstrap.css</include>
-                      <include>${basedir}/src/main/css/bootstrap-image-gallery.css</include>
-                      <include>${basedir}/src/main/css/jqueryui/jqueryui.css</include>
-                      <include>${basedir}/src/main/css/jsTree/jsTree.css</include>
-                      <include>${basedir}/src/main/css/OpenLayers/style.css</include>
-                      <include>${basedir}/src/main/css/jquery-visualize/jquery-visualize.css</include>
-                    </includes>
-                  </aggregation>
-                  <aggregation>
-                    <output>${project.build.directory}/static/css/print.css</output>
-                    <includes>
-                      <include>${basedir}/src/main/css/print.css</include>
-                    </includes>
-                  </aggregation>
-                  <aggregation>
-                    <output>${project.build.directory}/static/css/ie9.css</output>
-                    <includes>
-                      <include>${basedir}/src/main/css/ie9.css</include>
-                    </includes>
-                  </aggregation>
-                  <aggregation>
-                    <output>${project.build.directory}/static/js/header.js</output>
-                    <includes>
-                      <include>${basedir}/src/main/js/jquery.min.js</include>
-                      <include>${basedir}/src/main/js/jquery-ui.min.js</include>
-                      <include>${basedir}/src/main/js/jquery-visualize/jquery-visualize.js</include>
-                      <include>${basedir}/src/main/js/OpenLayers/OpenLayers.js</include>
-                      <include>${basedir}/src/main/js/jsTree/jquery.jstree.js</include>
-                      <include>${basedir}/src/main/js/jsphylosvg/jsphylosvg-min.js</include>
-                      <include>${basedir}/src/main/js/jsphylosvg/raphael-min.js</include>
-                      <include>${basedir}/src/main/js/bootstrap-transition.js</include>
-                      <include>${basedir}/src/main/js/bootstrap-affix.js</include>
-                      <include>${basedir}/src/main/js/bootstrap-alert.js</include>
-                      <include>${basedir}/src/main/js/bootstrap-modal.js</include>
-                      <include>${basedir}/src/main/js/bootstrap-dropdown.js</include>
-                      <include>${basedir}/src/main/js/bootstrap-scrollspy.js</include>
-                      <include>${basedir}/src/main/js/bootstrap-tab.js</include>
-                      <include>${basedir}/src/main/js/bootstrap-tooltip.js</include>
-                      <include>${basedir}/src/main/js/bootstrap-popover.js</include>
-                      <include>${basedir}/src/main/js/bootstrap-button.js</include>
-                      <include>${basedir}/src/main/js/bootstrap-collapse.js</include>
-                      <include>${basedir}/src/main/js/bootstrap-carousel.js</include>
-                      <include>${basedir}/src/main/js/bootstrap-typeahead.js</include>
-                      <include>${basedir}/src/main/js/bootstrap-datetimepicker.js</include>
-                      <include>${basedir}/src/main/js/load-image.js</include>
-                      <include>${basedir}/src/main/js/bootstrap-image-gallery.js</include>
-                      <include>${basedir}/src/main/js/application.js</include>
-                      <include>${basedir}/src/main/js/html5shiv.js</include>                      
-                      <include>${basedir}/src/main/js/jsKey/keys.js</include>
-                      <include>${basedir}/src/main/js/jsKey/key-ui-emonocot.js</include>
-                    </includes>
-                  </aggregation>
-                  </aggregations>
-              </configuration>
-			</plugin>
+			</plugin>		
 			<plugin>
 				<groupId>org.codehaus.cargo</groupId>
 				<artifactId>cargo-maven2-plugin</artifactId>
@@ -444,19 +307,7 @@
 						</deployables>
 					</deployer>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>wagon-maven-plugin</artifactId>
-				<version>1.0-beta-3</version>
-				<configuration>
-					<fromDir>${project.build.directory}/static</fromDir>
-					<includes>**</includes>
-					<excludes>uncompressed/*.js</excludes>
-					<serverId>${wagon.server.id}</serverId>
-					<url>${wagon.static.url}</url>
-				</configuration>
-			</plugin>
+			</plugin>			
 			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>

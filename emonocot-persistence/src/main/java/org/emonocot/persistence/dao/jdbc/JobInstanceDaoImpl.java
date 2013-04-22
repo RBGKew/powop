@@ -23,6 +23,7 @@ import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameter.ParameterType;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
@@ -34,6 +35,7 @@ import org.springframework.stereotype.Repository;
  *
  */
 @Repository
+@DependsOn("springLiquibase")
 public class JobInstanceDaoImpl extends JdbcDaoSupport implements
         JobInstanceDao {
 

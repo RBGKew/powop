@@ -25,6 +25,8 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="springLiquibase" class="org.emonocot.test.LiquibaseDummy"/>
 
 	<bean name="jdbcTemplate"
 		class="org.springframework.jdbc.core.simple.SimpleJdbcTemplate">

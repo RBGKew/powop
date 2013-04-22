@@ -51,7 +51,7 @@
 	</bean>
 
 	<bean name="sessionFactory"
-		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean" depends-on="springLiquibase">
 		<property name="dataSource" ref="dataSource" />
 		<property name="hibernateProperties">
 			<value>
@@ -99,6 +99,38 @@
 	<bean id="solrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer"  destroy-method="shutdown">
 		<constructor-arg value="${solr.url}"/>
 	</bean>
+	
+	<bean id="springLiquibase" class="liquibase.integration.spring.SpringLiquibase">
+        <property name="dataSource" ref="liquibaseDataSource" />
+        <property name="changeLog" value="classpath:${liquibase.changelog}" />
+        <property name="dropFirst" value="${liquibase.drop.database.first}"/>
+    </bean>
+    
+    <bean id="liquibaseDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver.classname}" />
+		<property name="url" value="${jdbc.driver.url}" />
+		<property name="username" value="${liquibase.username}" />
+		<property name="password" value="${liquibase.password}" />
+		<property name="initialSize" value="8" />
+		<property name="maxActive" value="20" />
+		<property name="maxIdle" value="10" />
+		<property name="minIdle" value="0" />
+		<property name="maxWait" value="10000" />
+		<property name="removeAbandoned" value="true" />
+		<property name="removeAbandonedTimeout" value="300" />
+		<property name="logAbandoned" value="true" />
+		<property name="defaultAutoCommit" value="true" />
+		<property name="defaultReadOnly" value="false" />
+		<property name="validationQuery" value="SELECT 1" />
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<property name="minEvictableIdleTimeMillis" value="30000" />
+		<property name="numTestsPerEvictionRun" value="3" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnReturn" value="true" />
+		<property name="testOnBorrow" value="true" />
+		<property name="defaultTransactionIsolation" value="2" />
+	</bean>
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
@@ -126,7 +158,7 @@
 		<property name="defaultTransactionIsolation" value="2" />
 	</bean>
 	
-	<bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false">
+	<bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false" depends-on="springLiquibase">
      <property name="applicationContextSchedulerContextKey" value="applicationContext" />
         <property name="dataSource" ref="dataSource"/>
         <property name="transactionManager" ref="transactionManager"/>
