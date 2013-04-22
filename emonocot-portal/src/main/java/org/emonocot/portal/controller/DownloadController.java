@@ -249,13 +249,21 @@ public class DownloadController {
             jobLaunchRequest.setJob("FlatFileCreation");
             sort = "searchable.label_sort_asc";
             break;
+        case "hierarchicalChecklist":
+            downloadFileName = downloadFileName + ".pdf";
+            jobParametersMap.put("download.checklist.pdf", "true");
+            jobParametersMap.put("download.template.filepath", "org/emonocot/job/download/reports/hierarchicalChecklist.jrxml");
+            jobParametersMap.put("job.total.reads", Integer.toString(result.getSize()));
+            jobLaunchRequest.setJob("FlatFileCreation");
+            sort = "taxon.family_asc,taxon.genus_asc,taxon.specificEpithet_asc";
+            break;
         case "taxon":
             downloadFileName = downloadFileName + ".txt";
             jobParametersMap.put("download.taxon", toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon)));
             jobParametersMap.put("job.total.reads", Integer.toString(result.getSize()));
             jobLaunchRequest.setJob("FlatFileCreation");
             break;
-        default:
+        default://archive
             jobParametersMap.put("job.total.reads", Integer.toString(result.getSize() * (archiveOptions.size() + 1)));
             jobParametersMap.put("download.taxon",toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon)));
             for(String archiveOption : archiveOptions) {
@@ -326,9 +334,10 @@ public class DownloadController {
 			switch (downloadFormat) {
             case "taxon":
             case "alphabeticalChecklist":
+            case "hierarchicalChecklist":
                 resource.getParameters().put("download.file", downloadFileName);
                 break;
-	        default:
+	        default://archive
                 resource.getParameters().put("download.file", downloadFileName + ".zip");
 	            break;
 			}

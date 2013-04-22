@@ -13,6 +13,7 @@
 	<style name="SubDetail" fontSize="8"/>
     <parameter name="username" class="java.lang.String" isForPrompting="false"/>
     <parameter name="searchString" class="java.lang.String" isForPrompting="false"/>
+    <field name="family" class="java.lang.String"/>
     <field name="scientificName" class="java.lang.String"/>
     <field name="scientificNameAuthorship" class="java.lang.String"/>
     <field name="taxonomicStatus" class="org.gbif.ecat.voc.TaxonomicStatus"/>
@@ -35,21 +36,19 @@
             <textField isStretchWithOverflow="true"><!-- For accepted taxa, display the name with Authorship -->
                 <reportElement x="15" y="5" width="600" height="20" style="AcceptedName"/>
                 <textFieldExpression><![CDATA[org.gbif.ecat.voc.TaxonomicStatus.Accepted == $F{taxonomicStatus} ?
-                    $F{scientificName} + " " + ($F{scientificNameAuthorship} != null ? $F{scientificNameAuthorship} : "") : "";]]></textFieldExpression>
+                    $F{scientificName} + " " + ($F{scientificNameAuthorship} != null ? $F{scientificNameAuthorship} : "")
+                         + ($F{family} != null ? " (" + $F{family}.toUpperCase() + ") " : "")
+                    : "";]]></textFieldExpression>
             </textField>
-            <textField isStretchWithOverflow="true"><!-- For synonyms, display the name with Authorship and the accepted name with authorship-->
+            <textField isStretchWithOverflow="true">
                 <reportElement x="15" y="5" width="600" height="20"/>
-                <textFieldExpression><![CDATA[org.gbif.ecat.voc.TaxonomicStatus.Accepted == $F{taxonomicStatus} ?
-                    "" : $F{scientificName} + " " + ($F{scientificNameAuthorship} != null ? $F{scientificNameAuthorship} : "") + " " +
-                    ($F{acceptedNameUsage} != null ? " = " + ($F{acceptedNameUsage}).getScientificName() + 
-                    (($F{acceptedNameUsage}).getScientificNameAuthorship() != null ? ($F{acceptedNameUsage}).getScientificNameAuthorship() : "")
+                <textFieldExpression><![CDATA[org.gbif.ecat.voc.TaxonomicStatus.Accepted == $F{taxonomicStatus} ? "" :
+                    $F{scientificName} + " " + ($F{scientificNameAuthorship} != null ? $F{scientificNameAuthorship} : "") 
+                        + ($F{family} != null ? " (" + $F{family}.toUpperCase() + ") "
+                    + " " + ($F{acceptedNameUsage} != null ? " = " + ($F{acceptedNameUsage}).getScientificName() + 
+                        (($F{acceptedNameUsage}).getScientificNameAuthorship() != null ? ($F{acceptedNameUsage}).getScientificNameAuthorship() : "")
                     : "");]]></textFieldExpression>
             </textField>
-			<!-- <textField>
-				<reportElement uuid="241d193c-c8ce-4a5f-a6a4-88825dc09b66" style="SubDetail" x="100" y="25" width="600" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[$F{acceptedNameUsage} != null ? ($F{acceptedNameUsage}).getScientificName() : "";]]></textFieldExpression>
-			</textField> -->
 		</band>
 	</detail>
 </jasperReport>
