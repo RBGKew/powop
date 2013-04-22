@@ -1,6 +1,6 @@
 @charset 'UTF-8';
 /*
- * Bootstrap Image Gallery CSS 2.5
+ * Bootstrap Image Gallery CSS 2.5.3
  * https://github.com/blueimp/Bootstrap-Image-Gallery
  *
  * Copyright 2011, Sebastian Tschan
@@ -13,6 +13,10 @@
 .modal-gallery {
   width: auto;
   max-height: none;
+  outline: none;
+}
+.modal-gallery.fade.in {
+  top: 50%;
 }
 .modal-gallery .modal-body {
   max-height: none;
@@ -73,7 +77,6 @@
   transition: width 0.15s ease, height 0.15s ease;
 }
 .modal-gallery .modal-image * {
-  background:white;  /*eMonocot - Useful in case of transparent images.*/
   position: absolute;
   top: 0;
   opacity: 0;
@@ -135,8 +138,12 @@
   opacity: 1;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 767px) {
   .modal-gallery .btn span {
     display: none;
+  }
+  .modal-fullscreen {
+    right: 0;
+    left: 0;
   }
 }

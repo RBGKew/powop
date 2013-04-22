@@ -1,5 +1,5 @@
 /*
- * Bootstrap Image Gallery 2.8
+ * Bootstrap Image Gallery 2.10
  * https://github.com/blueimp/Bootstrap-Image-Gallery
  *
  * Copyright 2011, Sebastian Tschan
@@ -80,17 +80,8 @@
         getUrl: function (element) {
             return element.href || $(element).data('href');
         },
-        getLink: function (element) {
-            return $(element).data('link');
-        },
-        getCreator: function (element) {
-            return $(element).data('creator');
-        },
-        getLicense: function (element) {
-            return $(element).data('license');
-        },
-        getIcon: function (element) {
-            return $(element).data('icon');
+        getDownloadUrl: function (element) {
+            return $(element).data('download');
         },
         startSlideShow: function () {
             var $this = this;
@@ -134,10 +125,7 @@
                 modal = this.$element,
                 index = this.options.index,
                 url = this.getUrl(this.$links[index]),
-                link = this.getLink(this.$links[index]),
-                creator = this.getCreator(this.$links[index]),
-                license = this.getLicense(this.$links[index]),
-                icon = this.getIcon(this.$links[index]),
+                download = this.getDownloadUrl(this.$links[index]),
                 oldImg;
             this.abortLoad();
             this.stopSlideShow();
@@ -152,11 +140,11 @@
             window.setTimeout(function () {
                 oldImg.remove();
             }, 3000);
-            modal.find('.modal-caption').text(this.$links[index].title);
-            modal.find('.modal-creator').text(creator);
-            modal.find('.modal-license').text(license);
-            modal.find('.modal-icon').addClass(icon + " glyphicons-icon");
-            modal.find('.modal-download').prop('href',link);
+            modal.find('.modal-title').text(this.$links[index].title);
+            modal.find('.modal-download').prop(
+                'href',
+                download || url
+            );
             this._loadingImage = loadImage(
                 url,
                 function (img) {
@@ -182,18 +170,22 @@
                 width: img.width,
                 height: img.height
             });
-            /*modal.find('.modal-title').css({ width: Math.max(img.width, 380) });*/
-            if ($(window).width() > 480) {
-                if (transition) {
-                    clone = modal.clone().hide().appendTo(document.body);
-                }
+            modal.find('.modal-title').css({ width: Math.max(img.width, 380) });
+            if (transition) {
+                clone = modal.clone().hide().appendTo(document.body);
+            }
+            if ($(window).width() > 767) {
                 method.call(modal.stop(), {
                     'margin-top': -((clone || modal).outerHeight() / 2),
                     'margin-left': -((clone || modal).outerWidth() / 2)
                 });
-                if (clone) {
-                    clone.remove();
-                }
+            } else {
+                modal.css({
+                    top: ($(window).height() - (clone || modal).outerHeight()) / 2
+                });
+            }
+            if (clone) {
+                clone.remove();
             }
             modalImage.append(img);
             forceReflow = img.offsetWidth;
@@ -342,10 +334,14 @@
                         canvas: options.canvas
                     };
                 }
-                if (windowWidth > 480) {
+                if (windowWidth > 767) {
                     modal.css({
                         'margin-top': -(modal.outerHeight() / 2),
                         'margin-left': -(modal.outerWidth() / 2)
+                    });
+                } else {
+                    modal.css({
+                        top: ($(window).height() - modal.outerHeight()) / 2
                     });
                 }
                 this.initGalleryEvents();
@@ -385,7 +381,7 @@
                     options = $.extend(modal.data(), options);
                 }
                 if (!options.selector) {
-                    options.selector = 'a[rel=gallery]';
+                    options.selector = 'a[data-gallery=gallery]';
                 }
                 link = $(e.target).closest(options.selector);
                 if (link.length && modal.length) {
