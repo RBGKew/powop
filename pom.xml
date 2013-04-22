@@ -1488,7 +1488,6 @@
 		<profile>
 			<id>harvest.uat.vagrant</id>
 			<properties>
-			    <tdwg.shapefiles.location>/var/lib/emonocot</tdwg.shapefiles.location>
 				<webAppRootKey>harvester</webAppRootKey>
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
@@ -1561,7 +1560,6 @@
 		<profile>
 			<id>portal.uat.vagrant</id>
 			<properties>
-			    <tdwg.shapefiles.location>/var/lib/emonocot</tdwg.shapefiles.location>
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>

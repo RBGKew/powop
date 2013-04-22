@@ -37,7 +37,7 @@
                     <goal>install-file</goal>
                   </goals>
                   <configuration>
-                    <file>${project.build.directory}/${project.artifactId}-${project.version}-static.zip</file>
+                    <file>${project.build.directory}/${project.artifactId}-${project.version}-static.tar.gz</file>
                     <artifactId>${project.artifactId}</artifactId>
                     <groupId>${project.groupId}</groupId>
                     <version>${project.version}</version>
