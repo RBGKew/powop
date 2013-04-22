@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <if condition='property("spring.profiles.active").equals("local")'>
+    <then>
+      <property resource="META-INF/spring/local.properties" />
+    </then>
+    <else>
+      <property resource="META-INF/spring/application.properties" />
+    </else>
+  </if>
+  <appender name="database" class="ch.qos.logback.classic.db.DBAppender">
+    <connectionSource
+      class="ch.qos.logback.core.db.DataSourceConnectionSource">
+      <dataSource
+        class="org.apache.commons.dbcp.BasicDataSource">
+        <driverClassName>${jdbc.driver.classname}</driverClassName>
+        <url>${jdbc.driver.url}?useUnicode=true&amp;characterEncoding=utf-8&amp;useCursorFetch=true&amp;useServerPrepStmts=true</url>
+        <username>${jdbc.driver.username}</username>
+        <password>${jdbc.driver.password}</password>
+        <maxActive>15</maxActive>
+        <maxIdle>7</maxIdle>
+        <validationQuery>SELECT 1</validationQuery>
+      </dataSource>
+    </connectionSource>
+  </appender>
+  <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <File>${logging.location}</File>
+    <encoder>
+      <pattern>%d{ISO8601} | %X{req.remoteHost} | %X{req.requestURI} | %X{req.userAgent}  | %-5p | %t | %c | %m%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+      <maxIndex>5</maxIndex>
+      <FileNamePattern>${logging.location}.%i</FileNamePattern>
+    </rollingPolicy>
+    <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+      <MaxFileSize>500KB</MaxFileSize>
+    </triggeringPolicy>
+  </appender>
+  <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{ISO8601} | %X{req.remoteHost} | %X{req.requestURI} | %X{req.userAgent}  | %-5p | %t | %c | %m%n</pattern>
+    </encoder>
+  </appender>
+  <!-- <logger name="org.emonocot" level="DEBUG" additivity="false">
+    <appender-ref ref="stdout"/>
+  </logger>-->
+  <logger name="query" level="INFO" additivity="false">
+    <appender-ref ref="database"/>
+  </logger>  
+  <root level="${logging.level}">
+    <appender-ref ref="${logging.method}"/>
+  </root>
+</configuration>
