@@ -23,7 +23,7 @@
         <band height="80">
             <textField isStretchWithOverflow="true">
                 <reportElement width="500" y="0" x="0" height="40" style="Title"/>
-                <textFieldExpression>"An alphabetical taxon list for " + $P{username}</textFieldExpression>
+                <textFieldExpression>"A grouped taxon list for " + $P{username}</textFieldExpression>
             </textField>
             <textField isStretchWithOverflow="true">
                 <reportElement width="500" y="40" x="0" height="20" style="SubTitle"/>
@@ -42,12 +42,26 @@
             </textField>
             <textField isStretchWithOverflow="true">
                 <reportElement x="15" y="5" width="600" height="20"/>
-                <textFieldExpression><![CDATA[org.gbif.ecat.voc.TaxonomicStatus.Accepted == $F{taxonomicStatus} ? "" :
-                    $F{scientificName} + " " + ($F{scientificNameAuthorship} != null ? $F{scientificNameAuthorship} : "") 
-                        + ($F{family} != null ? " (" + $F{family}.toUpperCase() + ") "
-                    + " " + ($F{acceptedNameUsage} != null ? " = " + ($F{acceptedNameUsage}).getScientificName() + 
-                        (($F{acceptedNameUsage}).getScientificNameAuthorship() != null ? ($F{acceptedNameUsage}).getScientificNameAuthorship() : "")
-                    : "");]]></textFieldExpression>
+                <textFieldExpression><![CDATA[org.gbif.ecat.voc.TaxonomicStatus.Accepted == $F{taxonomicStatus} ?
+                    "" :
+                    $F{scientificName} + " " +
+                    ($F{scientificNameAuthorship} != null ?
+                        $F{scientificNameAuthorship} :
+                        ""
+                    ) +
+                    ($F{family} != null ?
+                        " (" + $F{family}.toUpperCase() + ") " :
+                        ""
+                    ) + 
+                    ($F{acceptedNameUsage} != null ?
+                        " = " + ($F{acceptedNameUsage}).getScientificName() +
+                        (($F{acceptedNameUsage}).getScientificNameAuthorship() != null ?
+                            ($F{acceptedNameUsage}).getScientificNameAuthorship() :
+                            ""
+                        ) :
+                        ""
+                    )
+                    ;]]></textFieldExpression>
             </textField>
 		</band>
 	</detail>

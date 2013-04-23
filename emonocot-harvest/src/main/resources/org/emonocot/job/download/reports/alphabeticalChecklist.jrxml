@@ -38,18 +38,13 @@
                     $F{scientificName} + " " + ($F{scientificNameAuthorship} != null ? $F{scientificNameAuthorship} : "") : "";]]></textFieldExpression>
             </textField>
             <textField isStretchWithOverflow="true"><!-- For synonyms, display the name with Authorship and the accepted name with authorship-->
-                <reportElement x="15" y="5" width="600" height="20"/>
+                <reportElement x="15" y="5" width="600" height="20" style="Detail"/>
                 <textFieldExpression><![CDATA[org.gbif.ecat.voc.TaxonomicStatus.Accepted == $F{taxonomicStatus} ?
                     "" : $F{scientificName} + " " + ($F{scientificNameAuthorship} != null ? $F{scientificNameAuthorship} : "") + " " +
                     ($F{acceptedNameUsage} != null ? " = " + ($F{acceptedNameUsage}).getScientificName() + 
-                    (($F{acceptedNameUsage}).getScientificNameAuthorship() != null ? ($F{acceptedNameUsage}).getScientificNameAuthorship() : "")
+                    (($F{acceptedNameUsage}).getScientificNameAuthorship() != null ? " " + ($F{acceptedNameUsage}).getScientificNameAuthorship() : "")
                     : "");]]></textFieldExpression>
             </textField>
-			<!-- <textField>
-				<reportElement uuid="241d193c-c8ce-4a5f-a6a4-88825dc09b66" style="SubDetail" x="100" y="25" width="600" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[$F{acceptedNameUsage} != null ? ($F{acceptedNameUsage}).getScientificName() : "";]]></textFieldExpression>
-			</textField> -->
 		</band>
 	</detail>
 </jasperReport>
