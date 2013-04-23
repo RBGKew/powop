@@ -255,7 +255,7 @@ public class DownloadController {
             jobParametersMap.put("download.template.filepath", "org/emonocot/job/download/reports/hierarchicalChecklist.jrxml");
             jobParametersMap.put("job.total.reads", Integer.toString(result.getSize()));
             jobLaunchRequest.setJob("FlatFileCreation");
-            sort = "taxon.family_s_asc,taxon.genus_s_asc,taxon.specificEpithet_s_asc";
+            sort = "taxon.family_s_asc,taxon.genus_s_asc,taxon.specificEpithet_s_asc,taxon.scientific_name_t_asc";
             break;
         case "taxon":
             downloadFileName = downloadFileName + ".txt";
