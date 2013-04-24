@@ -1,55 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
-    name="name_report1" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30"
-    whenResourceMissingType="Empty">
+    name="alphabeticalChecklist" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" whenResourceMissingType="Empty">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<style name="Title" fontSize="26" isBold="true" hAlign="Center"/>
-	<style name="SubTitle" forecolor="#666666" fontSize="18" hAlign="Center"/>
+	<style name="Title" hAlign="Center" fontSize="26" isBold="true"/>
+	<style name="SubTitle" forecolor="#666666" hAlign="Center" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontSize="12" isBold="true"/>
-    <style name="Detail" fontSize="12"/>
-    <style name="AcceptedName" fontSize="12" isBold="true"/>
+	<style name="Detail" fontSize="12"/>
+	<style name="AcceptedName" fontSize="12" isBold="true"/>
 	<style name="SubDetail" fontSize="8"/>
-    <parameter name="username" class="java.lang.String" isForPrompting="false"/>
-    <parameter name="searchString" class="java.lang.String" isForPrompting="false"/>
-    <field name="scientificName" class="java.lang.String"/>
-    <field name="scientificNameAuthorship" class="java.lang.String"/>
-    <field name="taxonomicStatus" class="org.gbif.ecat.voc.TaxonomicStatus"/>
+	<parameter name="username" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="searchString" class="java.lang.String" isForPrompting="false"/>
+	<field name="scientificName" class="java.lang.String"/>
+	<field name="scientificNameAuthorship" class="java.lang.String"/>
+	<field name="taxonomicStatus" class="org.gbif.ecat.voc.TaxonomicStatus"/>
 	<field name="acceptedNameUsage" class="org.emonocot.model.Taxon"/>
 	<field name="synonymNameUsages" class="java.util.List"/>
-    <title>
-        <band height="80">
-            <textField isStretchWithOverflow="true">
-                <reportElement width="500" y="0" x="0" height="40" style="Title"/>
-                <textFieldExpression>"An alphabetical taxon list for " + $P{username}</textFieldExpression>
-            </textField>
-            <textField isStretchWithOverflow="true">
-                <reportElement width="500" y="40" x="0" height="20" style="SubTitle"/>
-                <textFieldExpression>"It was based on a query of '" + $P{searchString} + "' and other restrictions."</textFieldExpression>
-            </textField>
-        </band>
-    </title>
+	<title>
+		<band height="80">
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Title" x="0" y="0" width="500" height="40"/>
+				<textElement/>
+				<textFieldExpression><![CDATA["An alphabetical taxon list for " + $P{username}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="SubTitle" x="0" y="40" width="500" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA["It was based on a query of '" + $P{searchString} + "'."]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
 	<detail>
 		<band height="30">
-            <textField isStretchWithOverflow="true"><!-- For accepted taxa, display the name with Authorship -->
-                <reportElement x="15" y="5" width="600" height="20" style="AcceptedName"/>
-                <textFieldExpression><![CDATA[org.gbif.ecat.voc.TaxonomicStatus.Accepted == $F{taxonomicStatus} ?
-                    $F{scientificName} + " " + ($F{scientificNameAuthorship} != null ? $F{scientificNameAuthorship} : "") : "";]]></textFieldExpression>
-            </textField>
-            <textField isStretchWithOverflow="true"><!-- For synonyms, display the name with Authorship and the accepted name with authorship-->
-                <reportElement x="15" y="5" width="600" height="20"/>
-                <textFieldExpression><![CDATA[org.gbif.ecat.voc.TaxonomicStatus.Accepted == $F{taxonomicStatus} ?
-                    "" : $F{scientificName} + " " + ($F{scientificNameAuthorship} != null ? $F{scientificNameAuthorship} : "") + " " +
-                    ($F{acceptedNameUsage} != null ? " = " + ($F{acceptedNameUsage}).getScientificName() + 
-                    (($F{acceptedNameUsage}).getScientificNameAuthorship() != null ? ($F{acceptedNameUsage}).getScientificNameAuthorship() : "")
-                    : "");]]></textFieldExpression>
-            </textField>
-			<!-- <textField>
-				<reportElement uuid="241d193c-c8ce-4a5f-a6a4-88825dc09b66" style="SubDetail" x="100" y="25" width="600" height="20"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="AcceptedName" x="15" y="5" width="500" height="20"/>
 				<textElement/>
-				<textFieldExpression><![CDATA[$F{acceptedNameUsage} != null ? ($F{acceptedNameUsage}).getScientificName() : "";]]></textFieldExpression>
-			</textField> -->
+				<textFieldExpression><![CDATA[org.gbif.ecat.voc.TaxonomicStatus.Accepted == $F{taxonomicStatus} ?
+                    $F{scientificName} + " " + ($F{scientificNameAuthorship} != null ? $F{scientificNameAuthorship} : "") : "";]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" x="15" y="5" width="500" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[org.gbif.ecat.voc.TaxonomicStatus.Accepted == $F{taxonomicStatus} ?
+                    "" : $F{scientificName} + " " + ($F{scientificNameAuthorship} != null ? $F{scientificNameAuthorship} : "") + " " +
+                    ($F{acceptedNameUsage} != null ? " = " + ($F{acceptedNameUsage}).getScientificName() +
+                    (($F{acceptedNameUsage}).getScientificNameAuthorship() != null ? " " + ($F{acceptedNameUsage}).getScientificNameAuthorship() : "")
+                    : "");]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 </jasperReport>

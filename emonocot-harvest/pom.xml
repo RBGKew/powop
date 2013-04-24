@@ -12,16 +12,6 @@
 	<description>Backend Harvesting Routines</description>
 	<dependencies>
         <dependency>
-            <groupId>net.sf.jasperreports</groupId>
-            <artifactId>jasperreports</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.xmlgraphics</groupId>
-            <artifactId>fop</artifactId>
-            <scope>test</scope>
-        </dependency>
-        
-        <dependency>
 			<groupId>org.emonocot</groupId>
 			<artifactId>emonocot-model</artifactId>			
 		</dependency>
@@ -308,6 +298,10 @@
     	    <groupId>org.liquibase</groupId>
 		    <artifactId>liquibase-core</artifactId>
     	</dependency>
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+        </dependency>
 	</dependencies>
 	<build>
 		<finalName>emonocot-harvest</finalName>
