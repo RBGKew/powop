@@ -216,7 +216,7 @@
 					  </analyse:cubeUrl>
 					</c:when>
 					<c:otherwise>
-					  <a href="#"><spring:message code="dimension_${dimension.name}_title" text="${dimension.name}" /></a>
+					  <a href="#"><strong><spring:message code="dimension_${dimension.name}_title" text="${dimension.name}" /></strong></a>
 					</c:otherwise>
 				  </c:choose>
 		        </li>
