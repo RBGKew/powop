@@ -17,6 +17,8 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.el.ELException;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.emonocot.api.job.EmonocotTerm;
+import org.emonocot.api.job.WCSPTerm;
 import org.emonocot.model.BaseData;
 import org.emonocot.model.Description;
 import org.emonocot.model.Distribution;
@@ -31,7 +33,6 @@ import org.emonocot.model.compare.AlphabeticalTaxonComparator;
 import org.emonocot.model.compare.LocationComparator;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.Location;
-import org.emonocot.model.constants.MeasurementType;
 import org.emonocot.model.constants.Status;
 import org.emonocot.model.convert.ClassToStringConverter;
 import org.emonocot.model.convert.PermissionToStringConverter;
@@ -42,6 +43,8 @@ import org.emonocot.portal.view.bibliography.SimpleBibliographyImpl;
 import org.emonocot.portal.view.provenance.ProvenanceHolder;
 import org.emonocot.portal.view.provenance.ProvenanceManager;
 import org.emonocot.portal.view.provenance.ProvenanceManagerImpl;
+import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.IucnTerm;
 import org.gbif.ecat.voc.Rank;
 import org.gbif.ecat.voc.TaxonomicStatus;
 import org.hibernate.proxy.HibernateProxy;
@@ -878,8 +881,8 @@ public class Functions {
     *
     * @return the list of measurements or facts
     */
-   public static MeasurementType[] measurements() {
-	   return MeasurementType.values();
+   public static ConceptTerm[] measurements() {	   
+	   return new ConceptTerm[] { WCSPTerm.Habitat, WCSPTerm.Lifeform, IucnTerm.threatStatus, EmonocotTerm.SRLI };
    }
    
    /**
@@ -890,7 +893,7 @@ public class Functions {
    *            Set the measurement
    * @return a Content object, or null
    */
-   public static Set<MeasurementOrFact> facts(Taxon taxon, MeasurementType measurements) {
+   public static Set<MeasurementOrFact> facts(Taxon taxon, ConceptTerm measurements) {
 	   Set<MeasurementOrFact> facts = new HashSet<MeasurementOrFact>();
 	   
   	   for(MeasurementOrFact m : taxon.getMeasurementsOrFacts()) {

@@ -21,7 +21,7 @@ public enum FacetName {
     AUTHORITY("base.authority_s"),
     RANK("taxon.taxon_rank_s"),
     TAXONOMIC_STATUS("taxon.taxonomic_status_s"),
-    CONSERVATION_STATUS("taxon.measurement_or_fact_IUCNConservationStatus_txt"),
+    CONSERVATION_STATUS("taxon.measurement_or_fact_threatStatus_txt"),
     LIFE_FORM("taxon.measurement_or_fact_Lifeform_txt"),
     HABITAT("taxon.measurement_or_fact_Habitat_txt"),
     NAME_PUBLISHED_IN_YEAR("taxon.name_published_in_year_i"),

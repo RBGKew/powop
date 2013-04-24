@@ -18,10 +18,12 @@ import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.emonocot.model.constants.MeasurementType;
 import org.emonocot.model.constants.MeasurementUnit;
+import org.emonocot.model.marshall.json.ConceptTermDeserializer;
+import org.emonocot.model.marshall.json.ConceptTermSerializer;
 import org.emonocot.model.marshall.json.DateTimeDeserializer;
 import org.emonocot.model.marshall.json.DateTimeSerializer;
+import org.gbif.dwc.terms.ConceptTerm;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
@@ -38,7 +40,7 @@ public class MeasurementOrFact extends OwnedEntity {
 	 */
 	private Long id;
 	
-	private MeasurementType measurementType;
+	private ConceptTerm measurementType;
 	
 	private String measurementValue;
 	
@@ -74,12 +76,14 @@ public class MeasurementOrFact extends OwnedEntity {
         return "MeasurementOrFact";
     }
 
-	@Enumerated(value = EnumType.STRING)
-	public MeasurementType getMeasurementType() {
+	@JsonSerialize(using = ConceptTermSerializer.class)
+	@Type(type="conceptTermUserType")
+	public ConceptTerm getMeasurementType() {
 		return measurementType;
 	}
 
-	public void setMeasurementType(MeasurementType measurementType) {
+	@JsonDeserialize(using = ConceptTermDeserializer.class)
+	public void setMeasurementType(ConceptTerm measurementType) {
 		this.measurementType = measurementType;
 	}
 

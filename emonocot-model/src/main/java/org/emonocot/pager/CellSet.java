@@ -40,9 +40,9 @@ public class CellSet {
 	
 	private Integer maxCols;
 	
-	private Integer totalRows;
+	private Integer totalRowsCount;
 	
-	private Integer totalCols;
+	private Integer totalColsCount;
 	
 	private Number[][] cells = new Number[0][0];
 	
@@ -50,7 +50,10 @@ public class CellSet {
 	
 	private QueryResponse queryResponse;
 	
-	public CellSet(QueryResponse response, Map<String,String> selectedFacets, SolrQuery query, String rows, String columns, Integer firstRow, Integer maxRows, Integer firstCol, Integer maxCols,Integer totalRows, Integer totalCols, Cube cube) {
+	private FacetField totalRows;
+	private FacetField totalCols;
+	
+	public CellSet(QueryResponse response, Map<String,String> selectedFacets, SolrQuery query, String rows, String columns, Integer firstRow, Integer maxRows, Integer firstCol, Integer maxCols,FacetField totalRows, FacetField totalCols, Cube cube) {
 		this.cube = cube;
 		this.totalRows = totalRows;
 		this.totalCols = totalCols;
@@ -70,9 +73,15 @@ public class CellSet {
 				this.rows.addMember(i, rows, rowField.getValues().get(i).getName());
 			}
 			FacetField colField = response.getFacetField(columns);
-			nCols = colField.getValues().size();
+			if(colField.getValueCount() < firstCol) {
+			    nCols = 0;	
+			} else if(colField.getValueCount() < firstCol + maxCols) {
+			    nCols = colField.getValueCount() - firstCol;
+			} else {
+				nCols = maxCols;
+			}
 			for(int i = 0; i < nCols; i++) {
-				this.columns.addMember(i, columns, colField.getValues().get(i).getName());
+				this.columns.addMember(i, columns, colField.getValues().get(firstCol + i).getName());
 			}
 	        cells = new Number[nRows][nCols];
 	        for(PivotField rField : response.getFacetPivot().get(rows + "," + columns)) {
@@ -87,7 +96,7 @@ public class CellSet {
 	        }
 		} else if(rows != null) {
 			this.columns = CellSet.count;
-			this.totalCols = 1;
+			this.totalColsCount = 1;
 			// no cols, rows calculated through standard facet
 			FacetField rowField = response.getFacetField(rows);
 			nRows = rowField.getValues().size();
@@ -99,7 +108,7 @@ public class CellSet {
 			}			
 		} else {
 			this.columns = CellSet.count;
-			this.totalCols = 1;			
+			this.totalColsCount = 1;			
 			this.rows = cube.getLevel(cube.getDefaultLevel());
 			// no cols or rows rows calculated through default facet
 			FacetField rowField = response.getFacetField(cube.getDefaultLevel());
@@ -133,16 +142,6 @@ public class CellSet {
     public Number getCellValue(int row, int col) {
 		return cells[row][col];
 	}
-    
-    public Number getRowTotal(int row) {
-    	Integer total = 0;
-    	for(Number i : cells[row]) {
-    		if(i  != null) {
-    		    total += i.intValue();
-    		}
-    	}
-    	return total;    	
-    }
 	
     /**
      * The list of ${member.facet}:${member.value} filters to apply to the data - slices
@@ -190,11 +189,11 @@ public class CellSet {
 		return maxCols;
 	}
 	
-	public Integer getTotalCols() {
+	public FacetField getTotalCols() {
 		return totalCols;
 	}
 	
-	public Integer getTotalRows() {
+	public FacetField getTotalRows() {
 		return totalRows;
 	}
 	
@@ -246,11 +245,57 @@ public class CellSet {
         selectedFacets.put(facetName, selected);
     }
     
-    public Long getColumnTotal(int col) {
-		Long total = 0l;
-		for(int i = 0; i < nRows; i++) {
-			total += cells[i][col].longValue();
-		}
-		return total;
+    public Long getRowTotal(Member row) {
+    	FacetField.Count count = null;
+    	for(FacetField.Count c : totalRows.getValues()) {
+    		if(c.getName().equals(row.getValue())) {
+    			count = c;
+    			break;
+    		}
+    	}
+    	if(count == null) {
+    		return null;
+    	} else {
+    		return count.getCount();
+    	}
+    }
+    
+    public Long getColumnTotal(Member col) {
+    	FacetField.Count count = null;
+    	for(FacetField.Count c : totalCols.getValues()) {
+    		if(c.getName().equals(col.getValue())) {
+    			count = c;
+    			break;
+    		}
+    	}
+    	if(count == null) {
+    		return null;
+    	} else {
+    		return count.getCount();
+    	}
 	}
+    
+    public Long getRemainingCols(int from) {
+    	if((totalCols.getValueCount() -1) < from) {
+    		return 0L;
+    	} else {
+    		long remainder = 0;
+    		for(int i = from; i < totalCols.getValueCount(); i++) {
+    			remainder += totalCols.getValues().get(i).getCount();
+    		}
+    		return remainder;
+    	}
+    }
+    
+    public Long getRemainingRows(int from) {
+    	if((totalRows.getValueCount() -1) < from) {
+    		return 0L;
+    	} else {
+    		long remainder = 0;
+    		for(int i = from; i < totalRows.getValueCount(); i++) {
+    			remainder += totalRows.getValues().get(i).getCount();
+    		}
+    		return remainder;
+    	}
+    }
 }

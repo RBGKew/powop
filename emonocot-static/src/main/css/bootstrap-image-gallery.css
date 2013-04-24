@@ -77,6 +77,7 @@
   transition: width 0.15s ease, height 0.15s ease;
 }
 .modal-gallery .modal-image * {
+  background:white;  /*eMonocot - Useful in case of transparent images.*/
   position: absolute;
   top: 0;
   opacity: 0;

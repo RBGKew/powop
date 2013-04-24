@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.params.FacetParams;
@@ -309,11 +310,14 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
             	totalQuery.setFacet(true);
             	totalQuery.setFacetMinCount(1);
             	totalQuery.addFacetField("{!key=totalCols}"+cols);
-    			query.add("f." + cols + ".facet.limit", maxCols.toString());
-    			query.add("f." + cols + ".facet.mincount", "1");
-    			if (firstCol != null) {
-    				query.add("f." + cols + ".facet.offset", firstCol.toString());
-    			}
+            	/**
+            	 * Facet pivot does not behave the same way on columns - the limit is 
+            	 */
+    			//query.add("f." + cols + ".facet.limit", maxCols.toString());
+    			//query.add("f." + cols + ".facet.mincount", "1");
+    			//if (firstCol != null) {
+    			//	query.add("f." + cols + ".facet.offset", firstCol.toString());
+    			//}
     		}
             if(cube.getLevel(cols).isMultiValued() && cube.getLevel(cols).getHigher() != null) {
             	Level higher = cube.getLevel(cols).getHigher();
@@ -347,17 +351,15 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
 	    
 		try {
 			QueryResponse response = solrServer.query(query);
-			QueryResponse totalResponse = solrServer.query(totalQuery);
-			Integer totalRows = 1;
-			Integer totalCols = 1;
+			QueryResponse totalResponse = solrServer.query(totalQuery);			
+			FacetField totalRows = null;
+			FacetField totalCols = null;
 			if (totalResponse.getFacetField("totalRows") != null) {
-				totalRows = totalResponse.getFacetField("totalRows")
-						.getValueCount();
+				totalRows = totalResponse.getFacetField("totalRows");
 			}
 
 			if (totalResponse.getFacetField("totalCols") != null) {
-				totalCols = totalResponse.getFacetField("totalCols")
-						.getValueCount();
+				totalCols = totalResponse.getFacetField("totalCols");
 			}
 
 			CellSet cellSet = new CellSet(response, selectedFacets, query,

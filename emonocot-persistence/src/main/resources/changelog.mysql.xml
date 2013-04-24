@@ -4223,4 +4223,20 @@
                                baseTableName="PhylogeneticTree"
                                referencedColumnNames="id"/>
     </changeSet>
+    <changeSet id="2013-04-23_01" author="ben">
+      <comment>BUG 447: As a biodiversity scientist, I would like to calculate statistics about taxa in eMonocot.</comment>
+      <sql>update measurementorfact set measurementType = "http://iucn.org/terms/threatstatus" where measurementType = "IUCNConservationStatus";</sql>
+    </changeSet>
+    <changeSet id="2013-04-23_02" author="ben">
+      <comment>BUG 447: As a biodiversity scientist, I would like to calculate statistics about taxa in eMonocot.</comment>
+      <sql>update measurementorfact set measurementType = "http://e-monocot.org/srli" where measurementType = "SRLI";</sql>
+    </changeSet>
+    <changeSet id="2013-04-23_03" author="ben">
+      <comment>BUG 447: As a biodiversity scientist, I would like to calculate statistics about taxa in eMonocot.</comment>
+      <sql>update measurementorfact set measurementType = " http://kew.org/wcs/terms/lifeform" where measurementType = "LifeForm";</sql>
+    </changeSet>
+    <changeSet id="2013-04-23_04" author="ben">
+      <comment>BUG 447: As a biodiversity scientist, I would like to calculate statistics about taxa in eMonocot.</comment>
+      <sql>update measurementorfact set measurementType = "http://kew.org/wcs/terms/habitat" where measurementType = "Habitat";</sql>
+    </changeSet>
 </databaseChangeLog>

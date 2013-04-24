@@ -60,6 +60,10 @@ public class TermFactory {
 					new String[] {EmonocotTerm.PREFIX, EmonocotTerm.NS});
 		}
 		if (term == null) {
+			term = findTermInEnum(normTermName, WCSPTerm.values(),
+					new String[] {WCSPTerm.PREFIX, WCSPTerm.NS});
+		}
+		if (term == null) {
 			term = findTermInEnum(normTermName, unkownTerms);
 		}
 		if (term == null) {

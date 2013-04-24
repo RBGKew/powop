@@ -12,8 +12,8 @@ import org.emonocot.model.MeasurementOrFact;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
-import org.emonocot.model.constants.MeasurementType;
 import org.emonocot.model.constants.RecordType;
+import org.gbif.dwc.terms.IucnTerm;
 import org.gbif.ecat.model.ParsedName;
 import org.gbif.ecat.parser.NameParser;
 import org.gbif.ecat.parser.UnparsableException;
@@ -128,7 +128,7 @@ public class Processor extends AbstractRecordAnnotator implements ItemProcessor<
 			}
 			measurementOrFact.setMeasurementRemarks(remarks.toString().trim());
 			measurementOrFact.setMeasurementValue((String)map.get(Processor.CATEGORY_FIELD));
-			measurementOrFact.setMeasurementType(MeasurementType.valueOf("IUCNConservationStatus"));		
+			measurementOrFact.setMeasurementType(IucnTerm.threatStatus);		
 			measurementOrFact.setAccessRights(accessRights);
 			measurementOrFact.setRights(rights);
 			measurementOrFact.setRightsHolder(rightsHolder);

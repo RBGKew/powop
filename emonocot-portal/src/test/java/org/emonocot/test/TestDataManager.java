@@ -11,6 +11,8 @@ import java.util.Properties;
 import java.util.Stack;
 import java.util.UUID;
 
+import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.IucnTerm;
 import org.gbif.ecat.voc.Rank;
 import org.gbif.ecat.voc.TaxonomicStatus;
 
@@ -19,6 +21,7 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.emonocot.api.*;
+import org.emonocot.api.job.WCSPTerm;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Base;
 import org.emonocot.model.Comment;
@@ -39,7 +42,6 @@ import org.emonocot.model.auth.User;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.DescriptionType;
-import org.emonocot.model.constants.MeasurementType;
 import org.emonocot.model.constants.ImageFormat;
 import org.emonocot.model.constants.ResourceType;
 import org.emonocot.model.constants.Location;
@@ -435,10 +437,10 @@ public class TestDataManager {
             createDescription(taxon, general, DescriptionType.general, null,s, null , null, null);
         }
         if (lifeForm != null && lifeForm.length() > 0) {
-            createMeasurement(taxon, lifeForm, MeasurementType.Lifeform);
+            createMeasurement(taxon, lifeForm, WCSPTerm.Lifeform);
         }
         if (iucnConservationStatus != null && iucnConservationStatus.length() > 0) {
-        	createMeasurement(taxon, iucnConservationStatus, MeasurementType.IUCNConservationStatus);
+        	createMeasurement(taxon, iucnConservationStatus, IucnTerm.threatStatus);
         }
         if (protologLink != null && protologLink.length() > 0) {
             createIdentifier(taxon, protologLink, "Protolog",s);
@@ -773,7 +775,7 @@ public class TestDataManager {
      * @param reference
      *            Set the reference
      */
-     private void createMeasurement(Taxon taxon, String text, MeasurementType measurement){
+     private void createMeasurement(Taxon taxon, String text, ConceptTerm measurement){
     	MeasurementOrFact fact = new MeasurementOrFact();
     	fact.setMeasurementValue(text);
     	fact.setIdentifier(UUID.randomUUID().toString());

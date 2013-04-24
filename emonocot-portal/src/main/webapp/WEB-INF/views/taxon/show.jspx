@@ -575,7 +575,7 @@
 								              </c:if>
 											</td>
 										</tr>
-										<c:if test="${measurement eq 'IUCNConservationStatus'}">
+										<c:if test="${measurement.toString() eq 'iucn:threatStatus'}">
 										  <c:forEach var="fact" items="${facts}">
 											<tr>
 												<td colspan="3">

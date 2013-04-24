@@ -8,33 +8,25 @@
 		<c:choose>
 			<c:when test="${pager.prevIndex != null}">
 				<li class="prev">
-					<jsp:element name="a">
-						<jsp:attribute name="href">
-							<c:url value="${url}">
-								<c:forEach var="p" items="${pager.paramNames}">
-									<c:param name="${p}" value="${pager.params[p]}"/>
-								</c:forEach>	
-								<c:param name="limit" value="${pager.pageSize}" />
-								<c:param name="start" value="${pager.prevIndex}" />
-								<c:param name="sort">${pager.sort}</c:param>
-								<c:forEach var="selectedFacet" items="${pager.selectedFacetNames}">
-									<c:param name="facet">
-										<jsp:scriptlet>
-											String selectedFacet = (String) jspContext.getAttribute("selectedFacet");
-											org.emonocot.pager.Page pager = (org.emonocot.pager.Page) jspContext.getAttribute("pager");
-											out.println(selectedFacet + ":" + pager.getSelectedFacets().get(selectedFacet));
-										</jsp:scriptlet>
-									</c:param>
-								</c:forEach>
-							</c:url>
-						</jsp:attribute>
-						<spring:message code="previous" />
-					</jsp:element>
+				    <c:url value="${url}" var="prevUrl">
+					  <c:forEach var="p" items="${pager.paramNames}">
+						<c:param name="${p}" value="${pager.params[p]}"/>
+					  </c:forEach>	
+					  <c:param name="limit" value="${pager.pageSize}" />
+					  <c:param name="start" value="${pager.prevIndex}" />
+					  <c:param name="sort">${pager.sort}</c:param>
+					  <c:forEach var="selectedFacetName" items="${pager.selectedFacetNames}">
+						<c:param name="facet" value="${selectedFacetName}:${pager.selectedFacets[selectedFacetName]}" />
+					  </c:forEach>
+					</c:url>
+					<a href="${prevUrl}"><spring:message code="previous" /></a>
 				</li>
 			</c:when>
 			<c:otherwise>
-				<li class="prev disabled"><a href="#">
-					<spring:message code="previous" /> </a>
+				<li class="prev disabled">
+				  <a href="#">
+					<spring:message code="previous" />
+				  </a>
 				</li>
 			</c:otherwise>
 		</c:choose>
@@ -44,28 +36,20 @@
 		<c:choose>
 			<c:when test="${pager.nextIndex != null}">
 				<li class="next">
-					<jsp:element name="a">
-						<jsp:attribute name="href">
-							<c:url value="${url}">
-								<c:forEach var="p" items="${pager.paramNames}">
-									<c:param name="${p}" value="${pager.params[p]}"/>
-								</c:forEach>
-								<c:param name="limit" value="${pager.pageSize}" />
-								<c:param name="start" value="${pager.nextIndex}" />
-								<c:param name="sort">${pager.sort}</c:param>
-								<c:forEach var="selectedFacet" items="${pager.selectedFacetNames}">
-									<c:param name="facet">
-										<jsp:scriptlet>
-											String selectedFacet = (String) jspContext.getAttribute("selectedFacet");
-											org.emonocot.pager.Page pager = (org.emonocot.pager.Page) jspContext.getAttribute("pager");
-											out.println(selectedFacet + ":" + pager.getSelectedFacets().get(selectedFacet));
-										</jsp:scriptlet>
-									</c:param>
-								</c:forEach>
-							</c:url>
-						</jsp:attribute>
+				    <c:url value="${url}" var="nextUrl">
+						<c:forEach var="p" items="${pager.paramNames}">
+							<c:param name="${p}" value="${pager.params[p]}"/>
+						</c:forEach>
+						<c:param name="limit" value="${pager.pageSize}" />
+						<c:param name="start" value="${pager.nextIndex}" />
+						<c:param name="sort">${pager.sort}</c:param>
+						<c:forEach var="selectedFacetName" items="${pager.selectedFacetNames}">
+							<c:param name="facet" value="${selectedFacetName}:${pager.selectedFacets[selectedFacetName]}" />
+						</c:forEach>
+					</c:url>
+					<a href="${nextUrl}">
 						<spring:message code="next" />
-					</jsp:element>
+					</a>
 				</li>
 			</c:when>
 			<c:otherwise>

@@ -2,7 +2,6 @@ package org.emonocot.job.dwc.measurementorfact;
 
 import org.emonocot.job.dwc.read.OwnedEntityFieldSetMapper;
 import org.emonocot.model.MeasurementOrFact;
-import org.emonocot.model.constants.MeasurementType;
 import org.emonocot.model.constants.MeasurementUnit;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
@@ -72,7 +71,7 @@ public class FieldSetMapper extends
             	object.setMeasurementRemarks(value);
             	break;
             case measurementType:
-            	object.setMeasurementType(conversionService.convert(value, MeasurementType.class));
+            	object.setMeasurementType(conversionService.convert(value, ConceptTerm.class));
             	break;
             case measurementUnit:
             	object.setMeasurementUnit(conversionService.convert(value,MeasurementUnit.class));

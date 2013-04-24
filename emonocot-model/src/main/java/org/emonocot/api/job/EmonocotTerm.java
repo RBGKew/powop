@@ -5,7 +5,8 @@ import org.gbif.dwc.terms.ConceptTerm;
 public enum EmonocotTerm implements ConceptTerm {
   subfamily,
   tribe,
-  subtribe;
+  subtribe,
+  SRLI;
 
   public static final String NS = "http://e-monocot.org/";
   public static final String PREFIX = "em";

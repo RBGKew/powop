@@ -25,6 +25,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.emonocot.api.job.WCSPTerm;
 import org.emonocot.model.constants.Location;
 import org.emonocot.model.marshall.json.ImageSerializer;
 import org.emonocot.model.marshall.json.NullDeserializer;
@@ -32,6 +33,7 @@ import org.emonocot.model.marshall.json.ReferenceDeserializer;
 import org.emonocot.model.marshall.json.ReferenceSerializer;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
+import org.gbif.dwc.terms.IucnTerm;
 import org.gbif.ecat.voc.NomenclaturalCode;
 import org.gbif.ecat.voc.NomenclaturalStatus;
 import org.gbif.ecat.voc.Rank;
@@ -973,9 +975,9 @@ public class Taxon extends SearchableObject {
 		.append(getTribe()).append(" ").append(getVerbatimTaxonRank());
 		
 		if(getDescriptions().isEmpty()) {
-			sid.addField("taxon.descriptions_empty_b", true);
+			sid.addField("taxon.descriptions_not_empty_b", false);
 		} else {
-			sid.addField("taxon.descriptions_empty_b", false);
+			sid.addField("taxon.descriptions_not_empty_b", true);
 		}
 
 		for(Description d : getDescriptions()) {
@@ -986,9 +988,9 @@ public class Taxon extends SearchableObject {
 		}
 		
 		if(getDistribution().isEmpty()) {
-			sid.addField("taxon.distribution_empty_b", true);
+			sid.addField("taxon.distribution_not_empty_b", false);
 		} else {
-			sid.addField("taxon.distribution_empty_b", false);
+			sid.addField("taxon.distribution_not_empty_b", true);
 		}
 		for(Distribution d : getDistribution()) {
 			sid.addField("taxon.distribution_ss", d.getLocation().getCode());
@@ -1018,9 +1020,9 @@ public class Taxon extends SearchableObject {
 		}
 		
 		if(getImages().isEmpty()) {
-			sid.addField("taxon.images_empty_b", true);
+			sid.addField("taxon.images_not_empty_b", false);
 		} else {
-			sid.addField("taxon.images_empty_b", false);
+			sid.addField("taxon.images_not_empty_b", true);
 		}
 		for(Image i : getImages()) {			
 			if(i != null && i.getAuthority() != null) {
@@ -1029,9 +1031,9 @@ public class Taxon extends SearchableObject {
 		}
 		
 		if(getReferences().isEmpty()) {
-			sid.addField("taxon.references_empty_b", true);
+			sid.addField("taxon.references_not_empty_b", false);
 		} else {
-			sid.addField("taxon.references_empty_b", false);
+			sid.addField("taxon.references_not_empty_b", true);
 		}
 		for(Reference r : getReferences()) {			
 			if(r != null && r.getAuthority() != null) {
@@ -1040,9 +1042,9 @@ public class Taxon extends SearchableObject {
 		}
 		
 		if(getTypesAndSpecimens().isEmpty()) {
-			sid.addField("taxon.types_and_specimens_empty_b", true);
+			sid.addField("taxon.types_and_specimens_not_empty_b", false);
 		} else {
-			sid.addField("taxon.types_and_specimens_empty_b", false);
+			sid.addField("taxon.types_and_specimens_not_empty_b", true);
 		}
 		for(TypeAndSpecimen t : getTypesAndSpecimens()) {			
 			if(t != null && t.getAuthority() != null) {
@@ -1051,9 +1053,9 @@ public class Taxon extends SearchableObject {
 		}
 		
 		if(getIdentifiers().isEmpty()) {
-			sid.addField("taxon.identifiers_empty_b", true);
+			sid.addField("taxon.identifiers_not_empty_b", false);
 		} else {
-			sid.addField("taxon.identifiers_empty_b", false);
+			sid.addField("taxon.identifiers_not_empty_b", true);
 		}
 		for(Identifier i : getIdentifiers()) {			
 			if(i.getAuthority() != null) {
@@ -1062,21 +1064,40 @@ public class Taxon extends SearchableObject {
 		}
 		
 		if(getMeasurementsOrFacts().isEmpty()) {
-			sid.addField("taxon.measurements_or_facts_empty_b", true);
+			sid.addField("taxon.measurements_or_facts_not_empty_b", false);
 		} else {
-			sid.addField("taxon.measurements_or_facts_empty_b", false);
+			sid.addField("taxon.measurements_or_facts_not_empty_b", true);
 		}
+		boolean hasLifeForm = false;
+		boolean hasHabitat = false;
+		boolean hasThreatStatus = false;
 		for(MeasurementOrFact m : getMeasurementsOrFacts()) {
-			sid.addField("taxon.measurement_or_fact_" + m.getMeasurementType() + "_txt", m.getMeasurementValue());
+			sid.addField("taxon.measurement_or_fact_" + m.getMeasurementType().simpleName() + "_txt", m.getMeasurementValue());
+			if(m.getMeasurementType().equals(WCSPTerm.Habitat)) {
+				hasHabitat = true;
+			} else if(m.getMeasurementType().equals(WCSPTerm.Lifeform)) {
+				hasLifeForm = true;
+			} else if(m.getMeasurementType().equals(IucnTerm.threatStatus)) {
+				hasThreatStatus = true;
+		    }
 			if(m.getAuthority() != null) {
 				sid.addField("searchable.sources_ss", m.getAuthority().getIdentifier());
 			}
 		}
+		if(!hasLifeForm) {
+			sid.addField("taxon.measurement_or_fact_" + WCSPTerm.Lifeform.simpleName() + "_txt", "NULL");
+		}
+		if(!hasHabitat) {
+			sid.addField("taxon.measurement_or_fact_" + WCSPTerm.Habitat.simpleName() + "_txt", "NULL");
+		}
+		if(!hasThreatStatus) {
+			sid.addField("taxon.measurement_or_fact_" + IucnTerm.threatStatus.simpleName() + "_txt", "NULL");
+		}
 		
 		if(getVernacularNames().isEmpty()) {
-			sid.addField("taxon.vernacular_names_empty_b", true);
+			sid.addField("taxon.vernacular_names_not_empty_b", false);
 		} else {
-			sid.addField("taxon.vernacular_names_empty_b", false);
+			sid.addField("taxon.vernacular_names_not_empty_b", true);
 		}
 		for(VernacularName v : getVernacularNames()) {
 			summary.append(" ").append(v.getVernacularName());

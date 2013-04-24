@@ -25,44 +25,20 @@ import org.joda.time.DateTime;
 @MappedSuperclass
 public abstract class BaseData extends Base implements Annotated {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
 
-    /**
-     *
-     */
     private String license;
 
-    /**
-     *
-     */
     private DateTime created;
 
-    /**
-     *
-     */
     private DateTime modified;  
     
-    /**
-     *
-     */
     private String rights;
     
-    /**
-     *
-     */
     private String rightsHolder;
     
-    /**
-     *
-     */
     private String accessRights;
 
-    /**
-     *
-     */
     private Organisation authority;
 
     /**

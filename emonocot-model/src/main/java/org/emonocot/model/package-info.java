@@ -7,7 +7,8 @@
 @org.hibernate.annotations.TypeDefs({
   @org.hibernate.annotations.TypeDef(name = "dateTimeUserType", typeClass = org.joda.time.contrib.hibernate.PersistentDateTime.class),
   @org.hibernate.annotations.TypeDef(name = "durationUserType", typeClass = org.joda.time.contrib.hibernate.PersistentDuration.class),
-  @org.hibernate.annotations.TypeDef(name = "spatialType", typeClass = org.hibernatespatial.GeometryUserType.class) })
+  @org.hibernate.annotations.TypeDef(name = "spatialType", typeClass = org.hibernatespatial.GeometryUserType.class),
+  @org.hibernate.annotations.TypeDef(name = "conceptTermUserType", typeClass = org.emonocot.model.hibernate.ConceptTermUserType.class) })
 @org.hibernate.annotations.AnyMetaDefs({
 	@org.hibernate.annotations.AnyMetaDef(name ="AnnotationMetaDef", idType = "long", metaType = "string", metaValues = {
             @org.hibernate.annotations.MetaValue(targetEntity = Taxon.class, value = "Taxon"),

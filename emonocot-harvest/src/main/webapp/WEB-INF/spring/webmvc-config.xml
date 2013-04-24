@@ -12,7 +12,7 @@
 		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
 		http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd">
 
-    <context:property-placeholder location="file:/etc/emonocot/emonocot-harvest.conf,classpath*:META-INF/spring/*.properties"/>
+    <context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/*.properties,file:/etc/emonocot/emonocot-harvest.conf"/>
     
     <!-- 
       Copied from spring-batch-admin-manager.jar/META-INF/spring/batch/bootstrap/manager/jmx-context.xml

@@ -16,7 +16,7 @@
     <function>
         <name>measurements</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>org.emonocot.model.constants.MeasurementsType[] measurements()</function-signature>
+        <function-signature>org.gbif.dwc.terms.ConceptTerm[] measurements()</function-signature>
     </function>
     <function>
         <name>formatDateRange</name>
@@ -26,7 +26,7 @@
     <function>
         <name>facts</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.util.Collection facts(org.emonocot.model.Taxon,org.emonocot.model.constants.MeasurementType)</function-signature>
+        <function-signature>java.util.Collection facts(org.emonocot.model.Taxon,org.gbif.dwc.terms.ConceptTerm)</function-signature>
     </function>
     <function>
         <name>printTimeOnly</name>
