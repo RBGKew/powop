@@ -138,7 +138,7 @@
 						<table class="table">
 							<tr>
 							    <td class="span6">
-                                    <c:url value="/search?query=" var="searchUrl" />
+                                    <c:url value="/search" var="searchUrl" />
 								    <a href="${searchUrl}">Powerful Search and Faceting</a>
                                 </td>
                                 <td class="span4">
@@ -149,7 +149,7 @@
 							</tr>
 							<tr>
                                 <td class="span6">
-    							    <c:url value="/spatial?query=" var="spatialUrl" />
+    							    <c:url value="/spatial" var="spatialUrl" />
                                     <a href="${spatialUrl}">Map-Based Searching</a>
                                 </td>
                                 <td class="span4">
@@ -160,11 +160,12 @@
 							</tr>
 							<tr>
 								<td class="span6">
-									<a href="http://build.e-monocot.org/mocks/explore.html">Ad-hoc analysis and visualization</a>
+								     <c:url value="/visualise" var="visualiseUrl" />
+									<a href="${visualiseUrl}">Ad-hoc analysis and visualization</a>
                                 </td>
                                 <td class="span4">
-                                    <span class="label label-warning">
-                                        <spring:message code="tool.mocked" />
+                                    <span class="label label-success">
+                                        <spring:message code="tool.implemented" />
                                     </span>
                                 </td>
 							</tr>

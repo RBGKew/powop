@@ -772,7 +772,7 @@ public class StepDefinitions {
      */
     @Then("^the IUCN status facet should have the following options:$")
     public void thereShouldBeOptionsForIUCNFacet(List<Row> options) {
-    	assertFacets("taxon.measurement_or_fact_IUCNConservationStatus_txt", options);
+    	assertFacets("taxon.measurement_or_fact_threatStatus_txt", options);
     }
 
     /**
