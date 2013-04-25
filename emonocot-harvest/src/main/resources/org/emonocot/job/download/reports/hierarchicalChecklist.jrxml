@@ -68,4 +68,13 @@
 			</textField>
 		</band>
 	</detail>
+	<summary>
+		<band height="30">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="50" y="5" width="400" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA["This report describes " + $V{REPORT_COUNT} + " taxa from your search results."]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
 </jasperReport>

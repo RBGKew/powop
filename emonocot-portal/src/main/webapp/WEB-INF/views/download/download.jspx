@@ -161,10 +161,10 @@
                                             <input id="downloadFormat_alphabetical_id" type="radio" value="alphabeticalChecklist" name="downloadFormat" />
                                             <spring:message code="download_alphabetical_checklist_format_label" />
                                         </label>
-                                            <label class="radio">
+                                            <!-- <label class="radio">
 	                                            <input id="downloadFormat_hierarchicalChecklist_id" type="radio" value="hierarchicalChecklist" name="downloadFormat" />
 	                                            <spring:message code="download_hierarchical_checklist_format_label" />
-	                                        </label>
+	                                        </label> -->
 	                                </div>
 								</div>
 							</div>
