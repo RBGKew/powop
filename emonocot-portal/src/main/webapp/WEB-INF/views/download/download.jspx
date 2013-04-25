@@ -161,10 +161,12 @@
                                             <input id="downloadFormat_alphabetical_id" type="radio" value="alphabeticalChecklist" name="downloadFormat" />
                                             <spring:message code="download_alphabetical_checklist_format_label" />
                                         </label>
-                                            <!-- <label class="radio">
+                                        <security:authorize access="hasRole('PERMISSION_ADMINISTRATE') or hasRole('PERMISSION_VIEW_BETA')">
+                                            <label class="radio">
 	                                            <input id="downloadFormat_hierarchicalChecklist_id" type="radio" value="hierarchicalChecklist" name="downloadFormat" />
 	                                            <spring:message code="download_hierarchical_checklist_format_label" />
-	                                        </label> -->
+                                            </label>
+                                        </security:authorize>
 	                                </div>
 								</div>
 							</div>
@@ -196,13 +198,6 @@
 
 								
 							</script>
-							<!-- <div class="control-group tabbable">
-								<label class="control-label" for="archiveOptions"><spring:message
-										code="download_include_files_label" />:</label>
-								
-								<div class="controls tab-pane" name="formattedTab">
-								</div>
-							</div> -->
 							<div class="control-group">
  	                          <label for="_purpose_id" class="control-label"><spring:message code="download_purpose_label" /></label>
  	                          <div class="controls">

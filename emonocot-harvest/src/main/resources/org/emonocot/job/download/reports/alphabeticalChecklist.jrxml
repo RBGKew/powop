@@ -5,10 +5,9 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Title" hAlign="Center" fontSize="26" isBold="true"/>
-	<style name="SubTitle" forecolor="#666666" hAlign="Center" fontSize="18"/>
-	<style name="Column header" forecolor="#666666" fontSize="12" isBold="true"/>
-	<style name="Detail" fontSize="12"/>
-	<style name="AcceptedName" fontSize="12" isBold="true"/>
+	<style name="SubTitle" forecolor="#666666" hAlign="Center" fontSize="10"/>
+    <style name="Detail" forecolor="#444444" fontSize="12"/>
+    <style name="AcceptedName" forecolor="#000000" fontSize="12" isBold="true"/>
 	<style name="SubDetail" fontSize="8"/>
 	<parameter name="username" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="searchString" class="java.lang.String" isForPrompting="false"/>
@@ -25,7 +24,7 @@
 				<textFieldExpression><![CDATA["An alphabetical taxon list for " + $P{username}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement style="SubTitle" x="0" y="40" width="500" height="20"/>
+				<reportElement style="SubTitle" x="0" y="40" width="500" height="10"/>
 				<textElement/>
 				<textFieldExpression><![CDATA["It was based on a query of '" + $P{searchString} + "'."]]></textFieldExpression>
 			</textField>
@@ -55,7 +54,7 @@
             <textField isStretchWithOverflow="true">
                 <reportElement x="50" y="5" width="400" height="20"/>
                 <textElement/>
-                <textFieldExpression><![CDATA["This report describes " + $V{REPORT_COUNT} + " taxa from your search results."]]></textFieldExpression>
+                <textFieldExpression><![CDATA["This report describes " + $V{REPORT_COUNT} + " of your search results."]]></textFieldExpression>
             </textField>
         </band>
     </summary>

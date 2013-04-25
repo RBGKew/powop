@@ -5,10 +5,9 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Title" hAlign="Center" fontSize="26" isBold="true"/>
-	<style name="SubTitle" forecolor="#666666" hAlign="Center" fontSize="18"/>
-	<style name="Column header" forecolor="#666666" fontSize="12" isBold="true"/>
-	<style name="Detail" fontSize="12"/>
-	<style name="AcceptedName" fontSize="12" isBold="true"/>
+	<style name="SubTitle" forecolor="#666666" hAlign="Center" fontSize="10"/>
+	<style name="Detail" forecolor="#444444" fontSize="12"/>
+	<style name="AcceptedName" forecolor="#000000" fontSize="12" isBold="true"/>
 	<style name="SubDetail" fontSize="8"/>
 	<parameter name="username" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="searchString" class="java.lang.String" isForPrompting="false"/>
@@ -26,14 +25,14 @@
 				<textFieldExpression><![CDATA["A grouped taxon list for " + $P{username}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement style="SubTitle" x="0" y="40" width="500" height="20"/>
+				<reportElement style="SubTitle" x="0" y="40" width="500" height="10"/>
 				<textElement/>
 				<textFieldExpression><![CDATA["It was based on a query of '" + $P{searchString} + "'."]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
 	<detail>
-		<band height="30">
+		<band height="60" splitType="Stretch">
 			<textField isStretchWithOverflow="true">
 				<reportElement style="AcceptedName" x="15" y="5" width="500" height="20"/>
 				<textElement/>
@@ -43,7 +42,7 @@
                     : "";]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="15" y="5" width="500" height="20"/>
+				<reportElement style="Detail" x="15" y="5" width="500" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[org.gbif.ecat.voc.TaxonomicStatus.Accepted == $F{taxonomicStatus} ?
                     "" :
@@ -66,6 +65,13 @@
                     )
                     ;]]></textFieldExpression>
 			</textField>
+			<subreport>
+				<reportElement stretchType="RelativeToTallestObject" isPrintRepeatedValues="false" x="83" y="35" width="432" height="25" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+				<subreportParameter name="username"/>
+				<subreportParameter name="searchString"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{acceptedNameUsage}.getSynonymNameUsages())]]></dataSourceExpression>
+				<!-- TODO write subreports for synonyms & distribution & possibly ask for others -->
+			</subreport>
 		</band>
 	</detail>
 	<summary>
@@ -73,7 +79,7 @@
 			<textField isStretchWithOverflow="true">
 				<reportElement x="50" y="5" width="400" height="20"/>
 				<textElement/>
-				<textFieldExpression><![CDATA["This report describes " + $V{REPORT_COUNT} + " taxa from your search results."]]></textFieldExpression>
+				<textFieldExpression><![CDATA["This report describes " + $V{REPORT_COUNT} + " of your search results."]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>
