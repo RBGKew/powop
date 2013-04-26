@@ -10,6 +10,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
@@ -163,7 +164,7 @@ public class Resource extends Base implements Searchable {
 	 * @return the Id
 	 */
 	@Id
-	@GeneratedValue(generator = "system-increment")
+	@GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
 	public Long getId() {
 		return id;
 	}

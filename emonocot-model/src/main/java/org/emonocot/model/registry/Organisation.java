@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -74,7 +75,7 @@ public class Organisation extends BaseData implements Comparable<Organisation>, 
     }
 
     @Id
-    @GeneratedValue(generator = "system-increment")
+    @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
     public Long getId() {
         return id;
     }

@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -106,7 +107,7 @@ public class Identifier extends OwnedEntity {
      * @return Get the identifier for this object.
      */
     @Id
-    @GeneratedValue(generator = "system-increment")
+    @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
     public Long getId() {
         return id;
     }

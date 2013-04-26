@@ -617,8 +617,7 @@
 															<a href="${fact.source}"><img src="${VUImg}" alt="vu" style="width: 100%"/></a>
 														</c:when>
 														<c:when test="${fact.measurementValue eq 'LR/cd'}">
-															<c:url value="/css/images/redList/redListThreatCategories_SHORT_NT.png" var="NTImg"/>
-															<a href="${fact.source}"><img src="${NTImg}" alt="cd" style="width: 100%"/></a>
+															<!--  -->
 														</c:when>
 														<c:when test="${fact.measurementValue eq 'LR/nt'}">
 															<c:url value="/css/images/redList/redListThreatCategories_SHORT_NT.png" var="NTImg"/>

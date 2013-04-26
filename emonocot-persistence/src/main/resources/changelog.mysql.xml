@@ -4239,4 +4239,71 @@
       <comment>BUG 447: As a biodiversity scientist, I would like to calculate statistics about taxa in eMonocot.</comment>
       <sql>update measurementorfact set measurementType = "http://kew.org/wcs/terms/habitat" where measurementType = "Habitat";</sql>
     </changeSet>
+    <changeSet id="2013-04-26_01" author="ben">
+      <comment>BUG 493: download function not workind.</comment>
+      <createTable tableName="hibernate_sequences">
+            <column name="sequence_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sequence_next_hi_value" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+      </createTable>
+    </changeSet>
+    <changeSet id="2013-04-26_02" author="ben">
+      <comment>BUG 493: download function not workind.</comment>
+      <sql>insert into hibernate_sequences (sequence_next_hi_value,sequence_name) values ((select IFNULL(((max(id) DIV (128 + 1)) + 1),1) from Comment), 'Comment');</sql>
+    </changeSet>
+    <changeSet id="2013-04-26_03" author="ben">
+      <comment>BUG 493: download function not workind.</comment>
+      <sql>insert into hibernate_sequences (sequence_next_hi_value,sequence_name) values ((select IFNULL(((max(id) DIV (128 + 1)) + 1),1) from Description), 'Description');</sql>
+    </changeSet>
+    <changeSet id="2013-04-26_04" author="ben">
+      <comment>BUG 493: download function not workind.</comment>
+      <sql>insert into hibernate_sequences (sequence_next_hi_value,sequence_name) values ((select IFNULL(((max(id) DIV (128 + 1)) + 1),1) from Distribution), 'Distribution');</sql>
+    </changeSet>
+    <changeSet id="2013-04-26_05" author="ben">
+      <comment>BUG 493: download function not workind.</comment>
+      <sql>insert into hibernate_sequences (sequence_next_hi_value,sequence_name) values ((select IFNULL(((max(id) DIV (128 + 1)) + 1),1) from IdentificationKey), 'IdentificationKey');</sql>
+    </changeSet>
+    <changeSet id="2013-04-26_06" author="ben">
+      <comment>BUG 493: download function not workind.</comment>
+      <sql>insert into hibernate_sequences (sequence_next_hi_value,sequence_name) values ((select IFNULL(((max(id) DIV (128 + 1)) + 1),1) from Image), 'Image');</sql>
+    </changeSet>
+    <changeSet id="2013-04-26_07" author="ben">
+      <comment>BUG 493: download function not workind.</comment>
+      <sql>insert into hibernate_sequences (sequence_next_hi_value,sequence_name) values ((select IFNULL(((max(id) DIV (128 + 1)) + 1),1) from Resource), 'Resource');</sql>
+    </changeSet>
+    <changeSet id="2013-04-26_08" author="ben">
+      <comment>BUG 493: download function not workind.</comment>
+      <sql>insert into hibernate_sequences (sequence_next_hi_value,sequence_name) values ((select IFNULL(((max(id) DIV (128 + 1)) + 1),1) from MeasurementOrFact), 'MeasurementOrFact');</sql>
+    </changeSet>
+    <changeSet id="2013-04-26_09" author="ben">
+      <comment>BUG 493: download function not workind.</comment>
+      <sql>insert into hibernate_sequences (sequence_next_hi_value,sequence_name) values ((select IFNULL(((max(id) DIV (128 + 1)) + 1),1) from Place), 'Place');</sql>
+    </changeSet>
+    <changeSet id="2013-04-26_10" author="ben">
+      <comment>BUG 493: download function not workind.</comment>
+      <sql>insert into hibernate_sequences (sequence_next_hi_value,sequence_name) values ((select IFNULL(((max(id) DIV (128 + 1)) + 1),1) from Principal), 'Principal');</sql>
+    </changeSet>
+    <changeSet id="2013-04-26_11" author="ben">
+      <comment>BUG 493: download function not workind.</comment>
+      <sql>insert into hibernate_sequences (sequence_next_hi_value,sequence_name) values ((select IFNULL(((max(id) DIV (128 + 1)) + 1),1) from Reference), 'Reference');</sql>
+    </changeSet>
+    <changeSet id="2013-04-26_12" author="ben">
+      <comment>BUG 493: download function not workind.</comment>
+      <sql>insert into hibernate_sequences (sequence_next_hi_value,sequence_name) values ((select IFNULL(((max(id) DIV (128 + 1)) + 1),1) from Organisation), 'Organisation');</sql>
+    </changeSet>
+    <changeSet id="2013-04-26_13" author="ben">
+      <comment>BUG 493: download function not workind.</comment>
+      <sql>insert into hibernate_sequences (sequence_next_hi_value,sequence_name) values ((select IFNULL(((max(id) DIV (128 + 1)) + 1),1) from Taxon), 'Taxon');</sql>
+    </changeSet>
+    <changeSet id="2013-04-26_14" author="ben">
+      <comment>BUG 493: download function not workind.</comment>
+      <sql>insert into hibernate_sequences (sequence_next_hi_value,sequence_name) values ((select IFNULL(((max(id) DIV (128 + 1)) + 1),1) from TypeAndSpecimen), 'TypeAndSpecimen');</sql>
+    </changeSet>
+    <changeSet id="2013-04-26_15" author="ben">
+      <comment>BUG 493: download function not workind.</comment>
+      <sql>insert into hibernate_sequences (sequence_next_hi_value,sequence_name) values ((select IFNULL(((max(id) DIV (128 + 1)) + 1),1) from VernacularName), 'VernacularName');</sql>
+    </changeSet>
 </databaseChangeLog>

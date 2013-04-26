@@ -8,9 +8,11 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
@@ -97,8 +99,8 @@ public class TypeAndSpecimen extends BaseData implements NonOwned {
 
 	@Override
 	@Id
-    @GeneratedValue(generator = "system-increment")
-	public Long getId() {
+    @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
+    public Long getId() {
 		return id;
 	}
 	
@@ -229,6 +231,7 @@ public class TypeAndSpecimen extends BaseData implements NonOwned {
 	public void setCatalogNumber(String catalogNumber) {
 		this.catalogNumber = catalogNumber;
 	}
+
 
 	public String getLocality() {
 		return locality;
