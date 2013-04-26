@@ -118,6 +118,8 @@
                           <include>${basedir}/src/main/css/jsTree/jsTree.css</include>
                           <include>${basedir}/src/main/css/OpenLayers/style.css</include>
                           <include>${basedir}/src/main/css/jquery-visualize/jquery-visualize.css</include>
+                          <include>${basedir}/src/main/css/bootstrap-tour.css</include>
+                          <include>${basedir}/src/main/js/jquery.cookie.js</include>
                         </includes>
                       </aggregation>
                       <aggregation>
@@ -158,8 +160,9 @@
                           <include>${basedir}/src/main/js/bootstrap-datetimepicker.js</include>
                           <include>${basedir}/src/main/js/load-image.js</include>
                           <include>${basedir}/src/main/js/bootstrap-image-gallery.js</include>
+                          <include>${basedir}/src/main/js/bootstrap-tour.js</include>
                           <include>${basedir}/src/main/js/application.js</include>
-                          <include>${basedir}/src/main/js/html5shiv.js</include>                      
+                          <include>${basedir}/src/main/js/html5shiv.js</include>
                           <include>${basedir}/src/main/js/jsKey/keys.js</include>
                           <include>${basedir}/src/main/js/jsKey/key-ui-emonocot.js</include>
                         </includes>
@@ -167,7 +170,7 @@
                     </aggregations>
                   </configuration>
                 </execution>
-              </executions>              
+              </executions>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
