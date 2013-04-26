@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -20,8 +19,6 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.fill.JRVerticalReportWriter;
 
-import org.apache.velocity.app.VelocityEngine;
-/*import org.emonocot.job.jasperreports.JRTaxonBeanCollectionFactory;*/
 import org.emonocot.model.Taxon;
 import org.gbif.ecat.voc.TaxonomicStatus;
 import org.junit.After;
@@ -30,15 +27,12 @@ import org.junit.Test;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.ui.velocity.VelocityEngineFactoryBean;
 
 /**
  * @author jk00kg
  * 
  */
 public class PdfWritingTest {
-    
-    VelocityEngine velocity;
 
     /**
      * 
@@ -50,11 +44,6 @@ public class PdfWritingTest {
      */
     @Before
     public void setUp() throws Exception {
-        
-        VelocityEngineFactoryBean velocityFactory = new VelocityEngineFactoryBean();
-        velocityFactory.setConfigLocation(new ClassPathResource("org/emonocot/job/download/fop/velocity.properties"));
-        velocityFactory.afterPropertiesSet();
-        velocity = velocityFactory.getObject();
         itemsToWrite = new ArrayList<Taxon>();
         for (int i = 0; i < 5; i++) {
             Taxon t = new Taxon();
@@ -67,11 +56,13 @@ public class PdfWritingTest {
             Taxon t = new Taxon();
             t.setTaxonomicStatus(TaxonomicStatus.Synonym);
             int mod = i%3;
-            t.setAcceptedNameUsage(itemsToWrite.get(mod));
+            Taxon a = itemsToWrite.get(mod);
+            a.getSynonymNameUsages().add(t);
+            t.setAcceptedNameUsage(a);
             t.setScientificName(t.getTaxonomicStatus().toString() + i);
             t.setIdentifier(t.getScientificName());
             itemsToWrite.add(t);
-        } /*JRTaxonBeanCollectionFactory.create();*/
+        }
     }
 
     /**
@@ -84,13 +75,8 @@ public class PdfWritingTest {
     @Test
     public final void testJasperReportsWriter() throws Exception {
 
-        JasperReport jasperReport = JasperCompileManager.compileReport(
-                new ClassPathResource("org/emonocot/job/download/reports/jasperreports_demo.jrxml").getInputStream());
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("name", "Joe");
-        JRDataSource jrDatasource = new JREmptyDataSource();
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, jrDatasource);
-        JasperExportManager.exportReportToPdfFile(jasperPrint, "target/jrHello.pdf");
         
         //With the data-source
         JRDataSource jrNameDatasource = new JRBeanCollectionDataSource(itemsToWrite);

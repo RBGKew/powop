@@ -27,9 +27,8 @@ import org.emonocot.model.constants.ResourceType;
 import org.emonocot.model.registry.Resource;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
-import org.gbif.dwc.terms.ConceptTerm;
+import org.emonocot.service.DownloadService;
 import org.gbif.dwc.terms.DwcTerm;
-import org.gbif.dwc.terms.GbifTerm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.BatchStatus;
@@ -38,10 +37,8 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
-import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -62,24 +59,18 @@ public class DownloadController {
     private static Logger queryLog = LoggerFactory.getLogger("query");
 
     private static Logger logger = LoggerFactory.getLogger(DownloadController.class);
-    
-    private Integer downloadLimit = 10000;
 
     private SearchableObjectService searchableObjectService;
     
     private ResourceService resourceService;
     
     private UserService userService;
-    
-    private JobLauncher jobLauncher;
 	
 	private JobExplorer jobExplorer;
 	
 	private MessageSource messageSource;
 	
-	public void setDownloadLimit(Integer downloadLimit) {
-		this.downloadLimit = downloadLimit;
-	}
+	private DownloadService downloadService;
 
     @Autowired
     public void setSearchableObjectService(SearchableObjectService searchableObjectService) {
@@ -95,12 +86,6 @@ public class DownloadController {
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
-
-    @Autowired
-	@Qualifier("readOnlyJobLauncher")
-	public void setJobLauncher(JobLauncher jobLauncher) {
-	   this.jobLauncher = jobLauncher;
-	}
     
     @Autowired
     public void setJobExplorer(JobExplorer jobExplorer) {
@@ -111,7 +96,11 @@ public class DownloadController {
     public void setMessageSource(MessageSource messageSource) {
     	this.messageSource = messageSource;
     }
-    						
+    
+    @Autowired
+    public void setDownloadService(DownloadService downloadService) {
+        this.downloadService = downloadService;
+    }
     /**
     *
     * @param query
@@ -166,9 +155,9 @@ public class DownloadController {
        model.addAttribute("taxonTerms", DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon));
        model.addAttribute("taxonMap", DarwinCorePropertyMap.getPropertyMap(DwcTerm.Taxon));
        model.addAttribute("result", result);
-       if(result.getSize() > downloadLimit && !request.isUserInRole(Permission.PERMISSION_ADMINISTRATE.name())) {
+       if(result.getSize() > downloadService.getDownloadLimit() && !request.isUserInRole(Permission.PERMISSION_ADMINISTRATE.name())) {
     	   String[] codes = new String[] { "download.truncated" };
-		   Object[] args = new Object[] { result.getSize(), downloadLimit };
+		   Object[] args = new Object[] { result.getSize(), downloadService.getDownloadLimit() };
 		   DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
 					codes, args);
 		   model.addAttribute("warn",message);
@@ -194,7 +183,6 @@ public class DownloadController {
 	       RedirectAttributes redirectAttributes,
 	       Principal principal) {
        
-
         User user = userService.load(principal.getName());
 
 	    Map<String, String> selectedFacets = null;
@@ -233,92 +221,9 @@ public class DownloadController {
             }
         }
 
-        //Launch the job
-        JobLaunchRequest jobLaunchRequest = new JobLaunchRequest();
-		Map<String, String> jobParametersMap = new HashMap<String, String>();
-		jobParametersMap.put("resource.identifier", resource.getIdentifier());
-		jobParametersMap.put("timestamp", Long.toString(System.currentTimeMillis()));
-		String downloadFileName = UUID.randomUUID().toString(); // Download file - either the file or the directory
-		//TODO change to if(!"archive".equals(downloadFormat)){} else{}//use archive case block
-        switch (downloadFormat) {
-        case "alphabeticalChecklist":
-            downloadFileName = downloadFileName + ".pdf";
-            jobParametersMap.put("download.checklist.pdf", "true");
-            jobParametersMap.put("download.template.filepath", "org/emonocot/job/download/reports/alphabeticalChecklist.jrxml");
-            jobParametersMap.put("job.total.reads", Integer.toString(result.getSize()));
-            jobLaunchRequest.setJob("FlatFileCreation");
-            sort = "searchable.label_sort_asc";
-            break;
-        case "hierarchicalChecklist":
-            downloadFileName = downloadFileName + ".pdf";
-            jobParametersMap.put("download.checklist.pdf", "true");
-            jobParametersMap.put("download.template.filepath", "org/emonocot/job/download/reports/hierarchicalChecklist.jrxml");
-            jobParametersMap.put("job.total.reads", Integer.toString(result.getSize()));
-            jobLaunchRequest.setJob("FlatFileCreation");
-            sort = "taxon.family_s_asc,taxon.genus_s_asc,taxon.specificEpithet_s_asc,taxon.scientific_name_t_asc";
-            break;
-        case "taxon":
-            downloadFileName = downloadFileName + ".txt";
-            jobParametersMap.put("download.taxon", toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon)));
-            jobParametersMap.put("job.total.reads", Integer.toString(result.getSize()));
-            jobLaunchRequest.setJob("FlatFileCreation");
-            break;
-        default://archive
-            jobParametersMap.put("job.total.reads", Integer.toString(result.getSize() * (archiveOptions.size() + 1)));
-            jobParametersMap.put("download.taxon",toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon)));
-            for(String archiveOption : archiveOptions) {
-                switch(archiveOption) {
-                case "description":
-                    jobParametersMap.put("download.description", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Description)));
-                    break;
-                case "distribution":
-                    jobParametersMap.put("download.distribution", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Distribution)));
-                    break;
-                case "vernacularName":
-                    jobParametersMap.put("download.vernacularName", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.VernacularName)));
-                    break;
-                case "identifier":
-                    jobParametersMap.put("download.identifier", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Identifier)));
-                    break;
-                case "measurementOrFact":
-                    jobParametersMap.put("download.measurementOrFact", toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.MeasurementOrFact)));
-                    break;
-                case "image":
-                    jobParametersMap.put("download.image", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Image)));
-                    break;
-                case "reference":
-                    jobParametersMap.put("download.reference", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Reference)));
-                    break;
-                case "typeAndSpecimen":
-                    jobParametersMap.put("download.typeAndSpecimen", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.TypesAndSpecimen)));
-                    break;
-                default:
-                    break;
-                }
-            }
-            jobLaunchRequest.setJob("DarwinCoreArchiveCreation");
-            break;
-        }
-        
-        jobParametersMap.put("download.file", downloadFileName);
-        jobParametersMap.put("download.query", query);
-        if(spatial != null) {
-            jobParametersMap.put("download.spatial", spatial);
-        }
-        jobParametersMap.put("download.sort", sort);
-        jobParametersMap.put("download.selectedFacets", selectedFacetBuffer.toString());
-        jobParametersMap.put("download.fieldsTerminatedBy", "\t");
-        jobParametersMap.put("download.fieldsEnclosedBy", "\"");
-        jobParametersMap.put("download.user.displayName", user.getAccountName());
-        if(request.isUserInRole(Permission.PERMISSION_ADMINISTRATE.name())) {
-        	jobParametersMap.put("download.limit", new Integer(Integer.MAX_VALUE).toString()); 
-        } else {
-        	jobParametersMap.put("download.limit", downloadLimit.toString());
-        }	
-		jobLaunchRequest.setParameters(jobParametersMap);
-
 		//Save the 'resource'
 		try {
+	        StringBuffer downloadFileName = new StringBuffer(UUID.randomUUID().toString()); // Download file - either the file or the directory
 			resource.setResourceType(ResourceType.DOWNLOAD);
 			resource.setStartTime(null);
 			resource.setDuration(null);
@@ -333,16 +238,22 @@ public class DownloadController {
 			resource.setWritten(0);
 			switch (downloadFormat) {
             case "taxon":
+                downloadFileName.append(".txt");
+                break;
             case "alphabeticalChecklist":
             case "hierarchicalChecklist":
-                resource.getParameters().put("download.file", downloadFileName);
+                downloadFileName.append(".pdf");
                 break;
 	        default://archive
-                resource.getParameters().put("download.file", downloadFileName + ".zip");
+                downloadFileName.append(".zip");
 	            break;
 			}
+			resource.getParameters().put("download.file", downloadFileName.toString());
 			resourceService.save(resource);
-			jobLauncher.launch(jobLaunchRequest);			
+
+	        //Launch the job
+	        downloadService.requestDownload(query, selectedFacetBuffer.toString(), sort, spatial, result.getSize(),
+	                purpose, downloadFormat, archiveOptions, resource, user);
 			
 			String[] codes = new String[] { "download.submitted" };
 			Object[] args = new Object[] {};
@@ -361,23 +272,7 @@ public class DownloadController {
 		}
 		return "redirect:/download/progress?downloadId=" + resource.getId();
 	}
-   
-   private String toParameter(Collection<ConceptTerm> terms) {
-	   StringBuffer stringBuffer = new StringBuffer();
-       if (terms != null && !terms.isEmpty()) {           
-			boolean isFirst = true;
-           for (ConceptTerm term : terms) {
-				if(!isFirst) {
-                   stringBuffer.append(",");
-				} else {
-					isFirst = false;
-				}
-				stringBuffer.append(term.qualifiedName());
-           }
-       }
-       return stringBuffer.toString();
-   }
-   
+    
     @RequestMapping(value = "/progress", method = RequestMethod.GET, produces = "text/html")
     public String getProgress(@RequestParam("downloadId") Long downloadId, Model model, Locale locale) {
     	Resource resource = resourceService.load(downloadId);
