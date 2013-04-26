@@ -8,6 +8,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -65,8 +66,8 @@ public class MeasurementOrFact extends OwnedEntity {
 	private String source;
 
 	@Id
-    @GeneratedValue(generator = "system-increment")
-	public Long getId() {
+    @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
+    public Long getId() {
 		return id;
 	}
 	

@@ -13,10 +13,10 @@
     <appender-ref ref="stdout"/>
   </logger>-->
   <!-- uncommment to see the sql statements-->
-  <!-- <logger name="org.hibernate.SQL" level="TRACE" additivity="false">
+   <!-- <logger name="org.hibernate.SQL" level="TRACE" additivity="false">
     <appender-ref ref="stdout"/>
-  </logger>
-  <logger name="org.springframework.jdbc.core.JdbcTemplate" level="TRACE" additivity="false">
+  </logger>-->
+  <!--<logger name="org.springframework.jdbc.core.JdbcTemplate" level="TRACE" additivity="false">
     <appender-ref ref="stdout"/>
   </logger>-->
 </configuration>

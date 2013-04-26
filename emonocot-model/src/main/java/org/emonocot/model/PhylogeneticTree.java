@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -53,8 +54,8 @@ public class PhylogeneticTree extends SearchableObject implements NonOwned,
 
 	@Override
 	@Id
-    @GeneratedValue(generator = "system-increment")
-	public Long getId() {
+    @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
+    public Long getId() {
 		return id;
 	}
 

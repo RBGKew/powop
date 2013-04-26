@@ -2,6 +2,7 @@ package org.emonocot.model.auth;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.emonocot.model.Base;
@@ -72,7 +73,7 @@ public abstract class Principal extends Base implements Searchable {
      * @return Get the identifier for this object.
      */
     @Id
-    @GeneratedValue(generator = "system-increment")
+    @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
     public Long getId() {
         return id;
     }

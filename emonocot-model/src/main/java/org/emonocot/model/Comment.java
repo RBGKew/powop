@@ -9,6 +9,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -137,7 +138,7 @@ public class Comment extends Base implements Searchable {
      * @return the id
      */
     @Id
-    @GeneratedValue(generator = "system-increment")
+    @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
     public Long getId() {
         return id;
     }
