@@ -30,7 +30,7 @@
 	  ref="mockJobLauncher" 
 	  method="launch"/>
 	
-	<bean id="mockJobLauncher" class="org.emonocot.portal.integration.MockJobLauncher"/>
+	<bean id="mockJobLauncher" name="readOnlyJobLauncher" class="org.emonocot.integration.MockJobLauncher"/>
 
 	<context:property-override
 		ignore-unresolvable="true"
@@ -45,6 +45,8 @@
 			expression="org.emonocot.service.impl.UserServiceImpl" />
 		<context:exclude-filter type="assignable"
 			expression="org.emonocot.service.impl.SearchableObjectServiceImpl" />
+        <context:exclude-filter type="assignable"
+            expression="org.emonocot.service.impl.DownloadServiceImpl"/>
 	</context:component-scan>
 
 	<bean name="restTemplate" class="org.springframework.web.client.RestTemplate">

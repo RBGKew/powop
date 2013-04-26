@@ -106,11 +106,18 @@
 				<artifactId>emonocot-persistence</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>org.emonocot</groupId>
-				<artifactId>emonocot-service</artifactId>
-				<version>${project.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.emonocot</groupId>
+                <artifactId>emonocot-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.emonocot</groupId>
+                <artifactId>emonocot-service</artifactId>
+                <version>${project.version}</version>
+                <classifier>tests</classifier>
+                <scope>test</scope>
+            </dependency>
 			<dependency>
 				<groupId>org.kew.checklist</groupId>
 				<artifactId>webservice-model</artifactId>
@@ -1549,7 +1556,7 @@
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
-				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
+                <portal.baseUrl>http://localhost:8080</portal.baseUrl>
 				<google.analytics.id />
 				<webAppRootKey>emonocot-portal</webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>

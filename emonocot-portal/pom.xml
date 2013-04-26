@@ -11,10 +11,16 @@
 	<packaging>war</packaging>
 	<name>eMonocot Portal</name>
 	<dependencies>
-		<dependency>
-			<groupId>org.emonocot</groupId>
-			<artifactId>emonocot-service</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.emonocot</groupId>
+            <artifactId>emonocot-service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.emonocot</groupId>
+            <artifactId>emonocot-service</artifactId>
+            <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
 		<dependency>
 			<groupId>org.emonocot</groupId>
 			<artifactId>emonocot-model</artifactId>
