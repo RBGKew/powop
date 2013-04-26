@@ -140,6 +140,10 @@
             window.setTimeout(function () {
                 oldImg.remove();
             }, 3000);
+            modal.find('.modal-caption').text(this.$links[index].title);        //eMonocot
+            modal.find('.modal-creator').text(creator);                         //eMonocot
+            modal.find('.modal-license').text(license);                         //eMonocot
+            modal.find('.modal-icon').addClass(icon + " glyphicons-icon");      //eMonocot
             modal.find('.modal-title').text(this.$links[index].title);
             modal.find('.modal-download').prop(
                 'href',
