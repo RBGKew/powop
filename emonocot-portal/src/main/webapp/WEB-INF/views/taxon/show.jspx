@@ -30,6 +30,9 @@
 			
 		</h2>
 	</tags:pageheader>
+	
+	<a href="#" id="startTour" class="start btn-success btn-large btn pull-right">&#9658; Start tour</a>
+	
 	<div class="container">
 		<c:set var="bibliography" value="${em:bibliography(taxon)}" />
 		<c:set var="provenance" value="${em:provenance(taxon)}" />
@@ -715,4 +718,40 @@
 			</div>
 		</form>
 	</div>
+	<script>
+$(function(){
+	var e,t;
+	e=$(".start");
+	
+	t=new Tour({
+		name: "tour",
+		onStart:function(){
+			return e.addClass("disabled",!0);
+		},
+		onEnd:function(){
+			return e.removeClass("disabled",!0);
+		}
+	});
+
+	t.addStep({
+		element: "#sidebar", // string (jQuery selector) - html element next to which the step popover should be shown
+		title: "Search within results", // string - title of the popover
+		content: "Refine the search searching for anything within your results", // string - content of the popover
+		placement: "bottom",
+		backdrop:!0
+	});
+	
+
+	t.start();
+	
+	return $(document).on("click",".start:not(.disabled)",
+		function(e){
+			e.preventDefault();
+			t.restart();
+			return $(".alert").alert("close")
+		});
+});
+
+</script>
+	
 </div>
