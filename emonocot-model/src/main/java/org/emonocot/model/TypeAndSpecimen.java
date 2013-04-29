@@ -232,7 +232,7 @@ public class TypeAndSpecimen extends BaseData implements NonOwned {
 		this.catalogNumber = catalogNumber;
 	}
 
-
+    @Lob
 	public String getLocality() {
 		return locality;
 	}
