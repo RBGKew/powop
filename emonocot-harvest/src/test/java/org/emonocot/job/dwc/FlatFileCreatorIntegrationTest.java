@@ -119,6 +119,7 @@ public class FlatFileCreatorIntegrationTest {
 		parameters.put("download.limit", new JobParameter(new Integer(Integer.MAX_VALUE).toString()));
 		parameters.put("download.fieldsTerminatedBy", new JobParameter("\t"));
 		parameters.put("download.fieldsEnclosedBy", new JobParameter("\""));
+        parameters.put("download.format", new JobParameter("taxon"));
 
 		JobParameters jobParameters = new JobParameters(parameters);
 		Job archiveCreatorJob = jobLocator.getJob("FlatFileCreation");
@@ -140,12 +141,12 @@ public class FlatFileCreatorIntegrationTest {
         parameters.put("download.fieldsTerminatedBy", new JobParameter("\t"));
         parameters.put("download.fieldsEnclosedBy", new JobParameter("\""));
         parameters.put("download.sort", new JobParameter("searchable.label_sort_asc"));
-        parameters.put("download.checklist.pdf", new JobParameter("true"));
+        parameters.put("download.format", new JobParameter("hierarchicalChecklist"));
         parameters.put("download.template.filepath", new JobParameter("org/emonocot/job/download/reports/name_report1.jrxml"));
 
         JobParameters jobParameters = new JobParameters(parameters);
         Job archiveCreatorJob = jobLocator.getJob("FlatFileCreation");
-        assertNotNull("flatFileCreatorJob must exist", archiveCreatorJob);
+        assertNotNull("flatFileCreator Job must exist", archiveCreatorJob);
         JobExecution jobExecution = jobLauncher.run(archiveCreatorJob,
                 jobParameters);
         

@@ -720,7 +720,7 @@
 
 	<!-- Taxa -->
 
-	<bean id="taxonProcessingModeDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
+	<bean id="taxonProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
 		<property name="processingModeKey" value="taxon.processing.mode" />
 		<property name="defaultProcessingMode" value="CHECK_TAXA" />
 	</bean>
@@ -867,7 +867,7 @@
 
 	<!-- Descriptions -->
 	
-	<bean id="descriptionProcessingModeDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
+	<bean id="descriptionProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
 		<property name="processingModeKey" value="description.processing.mode" />
 		<property name="defaultProcessingMode" value="IMPORT_DESCRIPTIONS" />
 	</bean>
@@ -959,7 +959,7 @@
 
 	<!-- Images -->
 	
-	<bean id="imageProcessingModeDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
+	<bean id="imageProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
 		<property name="processingModeKey" value="image.processing.mode" />
 		<property name="defaultProcessingMode" value="IMPORT_IMAGES" />
 	</bean>
@@ -1117,7 +1117,7 @@
         <property name="subtribe" value="#{jobParameters['subtribe']}" />
 	</bean>
 	
-	<bean id="referenceProcessingModeDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
+	<bean id="referenceProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
 		<property name="processingModeKey" value="reference.processing.mode" />
 		<property name="defaultProcessingMode" value="IMPORT_REFERENCES" />
 	</bean>
@@ -1209,7 +1209,7 @@
 		<property name="annotatedObjType" value="Identifier" />	
 	</bean>
 	
-	<bean id="identifierProcessingModeDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
+	<bean id="identifierProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
 		<property name="processingModeKey" value="identifier.processing.mode" />
 		<property name="defaultProcessingMode" value="IMPORT_IDENTIFIERS" />
 	</bean>
@@ -1301,7 +1301,7 @@
 		<property name="annotatedObjType" value="Distribution" />	
 	</bean>
 	
-	<bean id="distributionProcessingModeDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
+	<bean id="distributionProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
 		<property name="processingModeKey" value="distribution.processing.mode" />
 		<property name="defaultProcessingMode" value="IMPORT_DISTRIBUTION" />
 	</bean>
@@ -1390,7 +1390,7 @@
 		<property name="annotatedObjType" value="MeasurementOrFact" />		
 	</bean>
 	
-	<bean id="measurementOrFactProcessingModeDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
+	<bean id="measurementOrFactProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
 		<property name="processingModeKey" value="measurementOrFact.processing.mode" />
 		<property name="defaultProcessingMode" value="IMPORT_MEASUREMENT_OR_FACT" />
 	</bean>
@@ -1482,7 +1482,7 @@
 		<property name="annotatedObjType" value="VernacularName" />		
 	</bean>
 	
-	<bean id="vernacularNameProcessingModeDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
+	<bean id="vernacularNameProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
 		<property name="processingModeKey" value="vernacularName.processing.mode" />
 		<property name="defaultProcessingMode" value="IMPORT_VERNACULAR_NAME" />
 	</bean>
@@ -1581,7 +1581,7 @@
         <property name="subtribe" value="#{jobParameters['subtribe']}" />
 	</bean>
 	
-	<bean id="typeAndSpecimenProcessingModeDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
+	<bean id="typeAndSpecimenProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
 		<property name="processingModeKey" value="typeAndSpecimen.processing.mode" />
 		<property name="defaultProcessingMode" value="IMPORT_TYPE_AND_SPECIMEN" />
 	</bean>
