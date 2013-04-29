@@ -10,7 +10,7 @@
 	<c:if test="${sortItems == null}">
 		<c:set var="sortItems" value="${em:sortItems()}"/>
 	</c:if>
-	<div class="${spanClass} btn-group sortNoJS">
+	<div id="sortButtonTour" class="${spanClass} btn-group sortNoJS">
 		<a class="btn" href="#"><spring:message code="sortBy" /></a>
 		<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret">&#160;</span></a>
 		<ul id="sorting" class="dropdown-menu">
