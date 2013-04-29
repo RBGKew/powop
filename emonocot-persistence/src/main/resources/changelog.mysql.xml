@@ -4306,4 +4306,7 @@
       <comment>BUG 493: download function not workind.</comment>
       <sql>insert into hibernate_sequences (sequence_next_hi_value,sequence_name) values ((select IFNULL(((max(id) DIV (128 + 1)) + 1),1) from VernacularName), 'VernacularName');</sql>
     </changeSet>
+    <changeSet author="ben" id="2013-04-29_1">
+      <modifyDataType tableName="TypeAndSpecimen" columnName="locality" newDataType="longtext"/>
+    </changeSet>
 </databaseChangeLog>
