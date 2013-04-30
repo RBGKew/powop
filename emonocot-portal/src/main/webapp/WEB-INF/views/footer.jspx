@@ -49,6 +49,9 @@
 						<c:url value="/termsOfUse" var="termsOfUseUrl" />
 						<a href="${termsOfUseUrl}"><spring:message code="termsOfUse.title" /></a>
 					</li>
+					<li id="portalHelpTour">
+						<a href="http://families.e-monocot.org/emonocot-guide"><spring:message code="help.title" /></a>
+					</li>
 				</ul>
 			</div>
 			<div class="row">

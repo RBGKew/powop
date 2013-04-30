@@ -119,7 +119,6 @@
                           <include>${basedir}/src/main/css/OpenLayers/style.css</include>
                           <include>${basedir}/src/main/css/jquery-visualize/jquery-visualize.css</include>
                           <include>${basedir}/src/main/css/bootstrap-tour.css</include>
-                          <include>${basedir}/src/main/js/jquery.cookie.js</include>
                         </includes>
                       </aggregation>
                       <aggregation>
@@ -165,6 +164,7 @@
                           <include>${basedir}/src/main/js/html5shiv.js</include>
                           <include>${basedir}/src/main/js/jsKey/keys.js</include>
                           <include>${basedir}/src/main/js/jsKey/key-ui-emonocot.js</include>
+                          <include>${basedir}/src/main/js/jquery.cookie.js</include>
                         </includes>
                       </aggregation>
                     </aggregations>
