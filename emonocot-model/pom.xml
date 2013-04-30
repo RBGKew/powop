@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>emonocot</artifactId>
 		<groupId>org.emonocot</groupId>
-		<version>0.0.28</version>
+		<version>0.0.29-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>emonocot-model</artifactId>
