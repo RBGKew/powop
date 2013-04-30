@@ -31,7 +31,7 @@
 				});
 			</script>
 			<c:url var="searchUrl" value="/search" />
-			<form id="search.form" class="pull-right form-search" accept-charset="UTF-8" method="GET" action="${searchUrl}">
+			<form id="search.form" class="tourHelp pull-right form-search" accept-charset="UTF-8" method="GET" action="${searchUrl}"  data-tour-title="Search within results" data-tour-content="Refine the search searching for anything within your results." data-tour-placement="left" data-tour-next="1">
 				<input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="query" />
 				<input type="hidden" name="limit" value="${result.pageSize}" />
 				<input type="hidden" name="start" value="0" />
@@ -46,20 +46,39 @@
 		</div>
 		<div class="row">
 			<c:url var="resetUrl" value="/search"/>
-			<a id="reset" class="btn pull-right" href="${resetUrl}">
+			<a id="reset" class="btn pull-right tourHelp" href="${resetUrl}" data-tour-title="Reset your search" data-tour-content="It allows you to start a new search. All the filters will be deselected." data-tour-placement="left" data-tour-prev="0" data-tour-next="2">
 				<i class="icon-refresh"><!--  --></i>
 				<spring:message code="reset" />
 			</a>
 		</div>
 		<div class="row">
-			<tags:overlayHelp />
+			<tags:overlayHelp >
+				t.addStep({
+					element: ".searchOverlay", // string (jQuery selector) - html element next to which the step popover should be shown
+					title: "More Search Tools",
+					content: "Look at the other Search tools available in the portal",
+					placement: "bottom",
+					prev: 6,
+					next: 8,
+					backdrop: !0
+				});
+				t.addStep({
+					element: ".helpLinkOverlay", // string (jQuery selector) - html element next to which the step popover should be shown
+					title: "Visit our Help page",
+					content: "If you need you can vist our help page where you can find more informations on how to use the portal!",
+					placement: "top",
+					prev: 7,
+					next: -1,
+					backdrop: !0
+				});
+			</tags:overlayHelp>
 		</div>
 	</tags:pageheader>
 
 	
 	<div class="container">
 		<div class="row">
-			<div id="facets" class="tourHelp addStep span3 no-print"  data-tour-title="Filter your search" data-tour-content="You can filter your results selecting up to one option for each filter." data-tour-placement="top" data-tour-next="1" data-tour-backdrop="true">
+			<div id="facets" class="tourHelp span3 no-print"  data-tour-title="Filter your search" data-tour-content="You can filter your results selecting up to one option for each filter." data-tour-placement="top" data-tour-prev="1" data-tour-next="3">
 				<div class="row">
 					<div class="span3">
 						<div class="inner">
@@ -82,11 +101,11 @@
 				</c:forEach>
 			</div>
 			
-			<div class="span9 tourHelp" data-tour-title="Results" data-tour-content="Contains your result list. The icon close to each result entry specify the type. When click on the thumbnails for Images and Taxa, the related big image is shown in a slideshow view." data-tour-placement="top" data-tour-prev="0" data-tour-next="2" data-tour-backdrop="true">
+			<div class="span9 tourHelp" data-tour-title="Results" data-tour-content="Contains your result list. The icon close to each result entry specifies the type. When click on the thumbnails for Images and Taxa, the related big image is shown in a slideshow view." data-tour-placement="top" data-tour-prev="2" data-tour-next="4">
 				<div class="inner">
 					<div class="box">
 						<div class="row no-print">
-							<div id="viewIcons" class="tourHelp span3"  data-tour-title="Results view" data-tour-content="You can filter your results selecting up to one option for each filter." data-tour-placement="top" data-tour-prev="1"  data-tour-backdrop="true">
+							<div id="viewIcons" class="span3">
 									<tags:view url="/search" result="${result}" />
 							</div>
 							<tags:sort url="/search" result="${result}" spanClass="span1 offset4" />
@@ -96,7 +115,7 @@
 							<div id="pages" class="span4 pull-left">
 								<tags:results pager="${result}" />
 							</div>
-							<div class="pull-right">
+							<div class="pull-right tourHelp" data-tour-title="Download your results" data-tour-content="If you are a registered user you can download your results. Note that you need to restrict the results to only taxa in order to enable the download." data-tour-placement="top" data-tour-prev="5" data-tour-next="7">
 								<tags:download url="/download" pager="${result}"/>
 							</div>
 						</div>

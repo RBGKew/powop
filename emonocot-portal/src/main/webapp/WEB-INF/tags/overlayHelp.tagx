@@ -6,7 +6,7 @@
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
 	
-	<!--<a href="#" id="startTour" class="start btn-success btn pull-right">&#9658; Start tour</a>
+	<a href="#" id="startTour" class="start btn-success btn pull-right">&#9658; <spring:message code="start.tour" /></a>
 	<script type="text/javascript">
 		$(function(){
 			var e,t;
@@ -21,17 +21,29 @@
 			});
 		
 			$(".tourHelp").each(function(){
+			    var next, prev;
+			    if($(this).attr("data-tour-prev") !== "undefined") {
+			      prev = $(this).attr("data-tour-prev");
+			    } else {
+			      prev = -1;
+			    }
+			    if($(this).attr("data-tour-next") !== "undefined") {
+			      next = $(this).attr("data-tour-next");
+			    } else {
+			      next = -1;
+			    }
 				t.addStep({
 					element: $(this), // string (jQuery selector) - html element next to which the step popover should be shown
 					title: $(this).attr("data-tour-title"),
 					content: $(this).attr("data-tour-content"),
 					placement: $(this).attr("data-tour-placement"),
-					prev: $(this).attr("data-tour-prev"),
-					next: $(this).attr("data-tour-next"),
-					backdrop: !0
+					prev: prev,
+					next: next,
+					backdrop: true
 				});
+				
 			});
-			
+			<jsp:doBody />
 			
 			t.start();
 			
@@ -42,5 +54,6 @@
 					return $(".alert").alert("close");
 				});
 		});
-	</script>-->
+	</script> 
+	
 </jsp:root>
