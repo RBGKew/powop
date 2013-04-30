@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:em="http://e-monocot.org/portal/functions"
+	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+	
+	<!--<a href="#" id="startTour" class="start btn-success btn pull-right">&#9658; Start tour</a>
+	<script type="text/javascript">
+		$(function(){
+			var e,t;
+			e=$(".start");
+			
+			t=new Tour({
+				name: "tour",
+				
+				onEnd:function(){
+					return e.removeClass("disabled",!0);
+				}
+			});
+		
+			$(".tourHelp").each(function(){
+				t.addStep({
+					element: $(this), // string (jQuery selector) - html element next to which the step popover should be shown
+					title: $(this).attr("data-tour-title"),
+					content: $(this).attr("data-tour-content"),
+					placement: $(this).attr("data-tour-placement"),
+					prev: $(this).attr("data-tour-prev"),
+					next: $(this).attr("data-tour-next"),
+					backdrop: !0
+				});
+			});
+			
+			
+			t.start();
+			
+			return $(document).on("click",".start:not(.disabled)",
+				function(e){
+					e.preventDefault();
+					t.restart();
+					return $(".alert").alert("close");
+				});
+		});
+	</script>-->
+</jsp:root>
