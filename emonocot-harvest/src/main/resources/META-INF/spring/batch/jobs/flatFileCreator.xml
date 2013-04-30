@@ -30,20 +30,21 @@
 	<batch:job id="FlatFileCreation">
 		<batch:description>Create a flat file. Either a DwC/A core 'Taxon' file or a PDF checklist</batch:description>
         <batch:decision id="formatDecider" decider="downloadFormatDecider">
-            <batch:next on="alphabeticalChecklist" to="createPdf" />
-            <batch:next on="hierarchicalChecklist" to="sortIntoConcepts" />
             <batch:next on="taxon" to="createCoreFile" />
+            <batch:next on="alphabeticalChecklist" to="createPdf" />
+            <batch:next on="hierarchicalChecklist" to="createPdf" />
         </batch:decision>
 		<batch:step id="createCoreFile" parent="produceCoreFile">
 			<batch:description>Create the Taxon (core) file</batch:description>
 			<batch:end on="COMPLETED"/>
 		</batch:step>
-        <batch:step id="createPdf" parent="producePdf" />
-        <batch:step id="sortIntoConcepts">
+        <batch:step id="createPdf" parent="producePdf">
+            <batch:end on="COMPLETED"/>
+        </batch:step>
+        <!-- <batch:step id="sortSynonymy" next="createPdfFromList">
             <batch:tasklet>
-                <batch:chunk reader="downloadItemsReader" writer="taxonGroupingWriter" commit-interval="0"/>
+                <batch:chunk reader="downloadItemsReader" writer="taxonGroupingWriter" commit-interval="10"/>
             </batch:tasklet>
-            <batch:next on="COMPLETED" to="createPdfFromList"/>
             <batch:listeners>
                 <batch:listener ref="taxonGroupingWriter" />
             </batch:listeners>
@@ -52,7 +53,8 @@
             <batch:tasklet>
                 <batch:chunk reader="groupedTaxonListReader" />
             </batch:tasklet>
-        </batch:step>
+            <batch:end on="COMPLETED"/>
+        </batch:step> -->
 	    <batch:listeners>
             <batch:listener ref="jobStatusListener" />
         </batch:listeners>
@@ -95,7 +97,6 @@
             <map>
                 <entry key="searchDefinition" value="#{jobParameters['download.searchDefinition']}" />
                 <entry key="username" value="#{jobParameters['download.user.displayName']}" />
-                <!-- <entry key="s" value="#{jobParameters['download.']}" /> -->
             </map>
         </property>
     </bean>
