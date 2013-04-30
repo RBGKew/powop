@@ -95,7 +95,7 @@
 							<li><a href="${phylogenyUrl}"><i class="halflings-icon phylogeny">&#160;</i><spring:message code="phylogeny.title"/></a></li> -->
 						</ul>
 					</li>
-					<li class="dropdown" id="menuExplore">
+					<li class="dropdown searchOverlay" id="menuExplore">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#menuExplore">
 							<spring:message code="explore.title"/>
 							<b class="caret"><!--  --></b>

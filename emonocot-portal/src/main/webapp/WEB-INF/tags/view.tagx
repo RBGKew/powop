@@ -7,7 +7,7 @@
 	<jsp:directive.attribute name="url" type="java.lang.String" required="true" />
 	<jsp:directive.attribute name="result" type="org.emonocot.pager.Page" required="true" />
 	<jsp:directive.attribute name="spanClass" type="java.lang.String" required="false"/>
-	<div class="btn-group">
+	<div class="tourHelp btn-group" data-tour-title="Results view" data-tour-content="You can change the view of the result list. Note that the grid view is available only for Images." data-tour-placement="top" data-tour-prev="3" data-tour-next="5">
 		<spring:message code="list"  var="listTitle"/>
 		<c:url var="listUrl" value="${url}">
 			<c:forEach var="p" items="${result.paramNames}">

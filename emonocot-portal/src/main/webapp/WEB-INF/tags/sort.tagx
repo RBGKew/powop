@@ -10,7 +10,7 @@
 	<c:if test="${sortItems == null}">
 		<c:set var="sortItems" value="${em:sortItems()}"/>
 	</c:if>
-	<div id="sortButtonTour" class="${spanClass} btn-group sortNoJS">
+	<div id="sortButtonTour" class="${spanClass} tourHelp btn-group sortNoJS"  data-tour-title="Sort your results" data-tour-content="You can sort in alfabetical order, by relevance and by the order in which they were uploaded to the portal." data-tour-placement="top" data-tour-prev="4" data-tour-next="6">
 		<a class="btn" href="#"><spring:message code="sortBy" /></a>
 		<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret">&#160;</span></a>
 		<ul id="sorting" class="dropdown-menu">
