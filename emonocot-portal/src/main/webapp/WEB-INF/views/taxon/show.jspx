@@ -27,7 +27,7 @@
 					</c:if>
 				</li>
 			</ul>
-			
+			<tags:overlayHelp />
 		</h2>
 	</tags:pageheader>
 	

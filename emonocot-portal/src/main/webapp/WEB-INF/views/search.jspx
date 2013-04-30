@@ -52,9 +52,7 @@
 			</a>
 		</div>
 		<div class="row">
-			
-			<!-- <a href="#" id="startTour" class="start btn-success btn pull-right">&#9658; Start tour</a> -->	
-			
+			<tags:overlayHelp />
 		</div>
 	</tags:pageheader>
 
@@ -88,7 +86,7 @@
 				<div class="inner">
 					<div class="box">
 						<div class="row no-print">
-							<div id="viewIcons" class="tourHelp span3 addStep"  data-tour-title="Results view" data-tour-content="You can filter your results selecting up to one option for each filter." data-tour-placement="top" data-tour-prev="1"  data-tour-backdrop="true">
+							<div id="viewIcons" class="tourHelp span3"  data-tour-title="Results view" data-tour-content="You can filter your results selecting up to one option for each filter." data-tour-placement="top" data-tour-prev="1"  data-tour-backdrop="true">
 									<tags:view url="/search" result="${result}" />
 							</div>
 							<tags:sort url="/search" result="${result}" spanClass="span1 offset4" />
@@ -239,47 +237,7 @@
 					});
 				});
 			</script>
-		<!-- 
-			<script>
-		$(function(){
-			var e,t;
-			e=$(".start");
-			
-			t=new Tour({
-				name: "tour",
-				onStart:function(){
-					return e.addClass("disabled",!0);
-				},
-				onEnd:function(){
-					return e.removeClass("disabled",!0);
-				}
-			});
 		
-			$(".tourHelp").each(function(){
-				t.addStep({
-					element: $(this), // string (jQuery selector) - html element next to which the step popover should be shown
-					title: $(this).attr("data-tour-title"),
-					content: $(this).attr("data-tour-content"),
-					placement: $(this).attr("data-tour-placement"),
-					prev: $(this).attr("data-tour-prev"),
-					next: $(this).attr("data-tour-next"),
-					backdrop: !0
-				});
-			});
-			
-			
-			t.start();
-			
-			return $(document).on("click",".start:not(.disabled)",
-				function(e){
-					e.preventDefault();
-					t.restart();
-					return $(".alert").alert("close");
-				});
-		});
-	</script>
-		 -->		
-			
 		</div>
 	</div>
 </div>
