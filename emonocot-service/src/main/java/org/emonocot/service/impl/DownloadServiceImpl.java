@@ -66,14 +66,14 @@ public class DownloadServiceImpl implements DownloadService {
         }
         switch (downloadFormat) {
         case "alphabeticalChecklist":
-            jobParametersMap.put("download.checklist.pdf", "true");
+            jobParametersMap.put("download.searchDefinition", "query:" + query + " selectedFacets:" + selectedFacets + " spatial:" + spatial);
             jobParametersMap.put("download.template.filepath", "org/emonocot/job/download/reports/alphabeticalChecklist.jrxml");
             jobParametersMap.put("job.total.reads", Integer.toString(expectedCount));
             jobLaunchRequest.setJob("FlatFileCreation");
             sort = "searchable.label_sort_asc";
             break;
         case "hierarchicalChecklist":
-            jobParametersMap.put("download.checklist.pdf", "true");
+            jobParametersMap.put("download.searchDefinition", "query:" + query + " selectedFacets:" + selectedFacets + " spatial:" + spatial);
             jobParametersMap.put("download.template.filepath", "org/emonocot/job/download/reports/hierarchicalChecklist.jrxml");
             jobParametersMap.put("job.total.reads", Integer.toString(expectedCount));
             jobLaunchRequest.setJob("FlatFileCreation");
@@ -127,6 +127,7 @@ public class DownloadServiceImpl implements DownloadService {
             jobParametersMap.put("download.spatial", spatial);
         }
         jobParametersMap.put("download.sort", sort);
+        jobParametersMap.put("download.format", downloadFormat);
         jobParametersMap.put("download.selectedFacets", selectedFacets);
         jobParametersMap.put("download.fieldsTerminatedBy", "\t");
         jobParametersMap.put("download.fieldsEnclosedBy", "\"");

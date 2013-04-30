@@ -14,28 +14,47 @@
     <batch:step id="produceCoreFile">
 		<batch:description>Produce a download file</batch:description>
 		<batch:tasklet>
-			<batch:chunk reader="downloadItemsReader" processor="nullLicenseTaxonFilter" writer="downloadFileWriter" commit-interval="10"/>
+			<batch:chunk reader="downloadItemsReader" processor="nullLicenseTaxonFilter" writer="downloadTextFileWriter" commit-interval="10"/>
 			<batch:listeners>
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:tasklet>
 	</batch:step>
+    
+    <batch:step id="producePdf" parent="produceCoreFile">
+        <batch:tasklet>
+            <batch:chunk writer="pdfWriter" />
+        </batch:tasklet>
+    </batch:step>
 	
 	<batch:job id="FlatFileCreation">
 		<batch:description>Create a flat file. Either a DwC/A core 'Taxon' file or a PDF checklist</batch:description>
-        <batch:decision id="isChecklistPdf" decider="downloadFormatDecider">
-            <batch:next on="true*" to="createPdf" />
-            <batch:next on="false" to="createCoreFile" />
+        <batch:decision id="formatDecider" decider="downloadFormatDecider">
+            <batch:next on="taxon" to="createCoreFile" />
+            <batch:next on="alphabeticalChecklist" to="createPdf" />
+            <batch:next on="hierarchicalChecklist" to="createPdf" />
         </batch:decision>
 		<batch:step id="createCoreFile" parent="produceCoreFile">
 			<batch:description>Create the Taxon (core) file</batch:description>
 			<batch:end on="COMPLETED"/>
 		</batch:step>
-        <batch:step id="createPdf" parent="produceCoreFile">
-            <batch:tasklet>
-                <batch:chunk writer="pdfWriter" />
-            </batch:tasklet>
+        <batch:step id="createPdf" parent="producePdf">
+            <batch:end on="COMPLETED"/>
         </batch:step>
+        <!-- <batch:step id="sortSynonymy" next="createPdfFromList">
+            <batch:tasklet>
+                <batch:chunk reader="downloadItemsReader" writer="taxonGroupingWriter" commit-interval="10"/>
+            </batch:tasklet>
+            <batch:listeners>
+                <batch:listener ref="taxonGroupingWriter" />
+            </batch:listeners>
+        </batch:step>
+        <batch:step id="createPdfFromList" parent="producePdf">
+            <batch:tasklet>
+                <batch:chunk reader="groupedTaxonListReader" />
+            </batch:tasklet>
+            <batch:end on="COMPLETED"/>
+        </batch:step> -->
 	    <batch:listeners>
             <batch:listener ref="jobStatusListener" />
         </batch:listeners>
@@ -50,10 +69,16 @@
 	  <property name="sort" value="#{jobParameters['download.sort']}"/>	  
 	  <property name="selectedFacets" value="#{jobParameters['download.selectedFacets']}"/>	  
 	</bean>
+    
+    <bean id="groupedTaxonListReader" class="org.springframework.batch.item.support.ListItemReader" scope="step">
+        <constructor-arg value="#{(jobExecutionContext['synonymy.taxa.grouped'])}"/>
+    </bean>
+    
+    <bean id="taxonGroupingWriter" class="org.emonocot.job.download.SynonymyMappingWriter" />
 	
 	<bean id="nullLicenseTaxonFilter" class="org.emonocot.job.dwc.write.NullLicenseTaxonFilter"/>
 	
-	<bean id="downloadFileWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+	<bean id="downloadTextFileWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
 	  <property name="resource" ref="downloadFile"/>
 	  <property name="lineAggregator" ref="lineAggregator"/>
 	  <property name="headerCallback" ref="dwcHeaderWriter"/>
@@ -70,9 +95,8 @@
         <property name="outputResouce" ref="downloadFile" />
         <property name="parameterValues">
             <map>
-                <entry key="searchString" value="#{jobParameters['download.query']}" />
+                <entry key="searchDefinition" value="#{jobParameters['download.searchDefinition']}" />
                 <entry key="username" value="#{jobParameters['download.user.displayName']}" />
-                <!-- <entry key="s" value="#{jobParameters['download.']}" /> -->
             </map>
         </property>
     </bean>
@@ -101,8 +125,9 @@
 	 </property>
 	</bean>
     
-    <bean id="downloadFormatDecider" class="org.emonocot.harvest.common.ParameterPresenceDecider">
-        <property name="parameter" value="download.checklist.pdf" />
+    <bean id="downloadFormatDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
+        <property name="processingModeKey" value="download.format"/>
+        <!-- Fail on unknown download format-->
     </bean>
     
 </beans>

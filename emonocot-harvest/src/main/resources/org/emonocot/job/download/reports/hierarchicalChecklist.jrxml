@@ -5,12 +5,15 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Title" hAlign="Center" fontSize="26" isBold="true"/>
-	<style name="SubTitle" forecolor="#666666" hAlign="Center" fontSize="10"/>
+	<style name="Secondary" forecolor="#666666" hAlign="Center" fontSize="10"/>
 	<style name="Detail" forecolor="#444444" fontSize="12"/>
 	<style name="AcceptedName" forecolor="#000000" fontSize="12" isBold="true"/>
 	<style name="SubDetail" fontSize="8"/>
 	<parameter name="username" class="java.lang.String" isForPrompting="false"/>
-	<parameter name="searchString" class="java.lang.String" isForPrompting="false"/>
+    <parameter name="searchDefinition" class="java.lang.String" isForPrompting="false"/>
+    <parameter name="dateFormat" class="java.lang.String" isForPrompting="false">
+        <defaultValueExpression><![CDATA["yyyy-MM-dd"]]></defaultValueExpression>
+    </parameter>
 	<field name="family" class="java.lang.String"/>
 	<field name="scientificName" class="java.lang.String"/>
 	<field name="scientificNameAuthorship" class="java.lang.String"/>
@@ -22,12 +25,7 @@
 			<textField isStretchWithOverflow="true">
 				<reportElement style="Title" x="0" y="0" width="500" height="40"/>
 				<textElement/>
-				<textFieldExpression><![CDATA["A grouped taxon list for " + $P{username}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement style="SubTitle" x="0" y="40" width="500" height="10"/>
-				<textElement/>
-				<textFieldExpression><![CDATA["It was based on a query of '" + $P{searchString} + "'."]]></textFieldExpression>
+				<textFieldExpression><![CDATA["A detailed taxon list for " + $P{username}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -75,12 +73,18 @@
 		</band>
 	</detail>
 	<summary>
-		<band height="30">
-			<textField isStretchWithOverflow="true">
-				<reportElement x="50" y="5" width="400" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA["This report describes " + $V{REPORT_COUNT} + " of your search results."]]></textFieldExpression>
-			</textField>
-		</band>
+        <band height="50">
+            <textField isStretchWithOverflow="true">
+                <reportElement x="50" y="5" width="400" height="20"/>
+                <textElement/>
+                <textFieldExpression><![CDATA["This report describes " + $V{REPORT_COUNT} + " of your search results."]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true">
+                <reportElement style="Secondary" x="0" y="30" width="500" height="10"/>
+                <textElement/>
+                <textFieldExpression><![CDATA["The results were found using '" + $P{searchDefinition} +
+                    "' on " + (new java.text.SimpleDateFormat($P{dateFormat})).format(new java.util.Date())]]></textFieldExpression>
+            </textField>
+        </band>
 	</summary>
 </jasperReport>
