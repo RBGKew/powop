@@ -33,7 +33,7 @@
 			</script>
 		
 			<c:url var="spatialSearchUrl" value="/spatial"/>
-			<form id="search-form" class="form-horizontal pull-right form-search" accept-charset="UTF-8" method="GET" action="${spatialSearchUrl}">
+			<form id="search-form" class="tourHelp pull-right form-horizontal form-search" accept-charset="UTF-8" method="GET" action="${spatialSearchUrl}"  data-tour-title="Search within results" data-tour-content="Refine your search. Search for any term within the current results." data-tour-placement="bottom" data-tour-next="1">
 				<input type="hidden" name="limit" value="${result.pageSize}" />
 				<input type="hidden" name="start" value="0" />
 				<c:forEach var="selectedFacet" items="${result.selectedFacetNames}">
@@ -55,10 +55,60 @@
 			<c:url var="resetUrl" value="/spatial">
 				<c:param name="query" value="" />
 			</c:url>
-			<a id="reset" class="btn pull-right" href="${resetUrl}">
+			<a id="reset" class="btn pull-right tourHelp" href="${resetUrl}" data-tour-title="Reset your search" data-tour-content="Start a new search. All the filters will be deselected and any search terms deleted." data-tour-placement="bottom" data-tour-prev="0" data-tour-next="2">
 				<i class="icon-refresh"> <!--  --></i>
 				<spring:message code="reset" />
 			</a>
+		</div>
+		
+		<div class="row">
+			<tags:overlayHelp >
+				t.addStep({
+					element: ".viewOverlay", // string (jQuery selector) - html element next to which the step popover should be shown
+					title: "Results view",
+					content: "You can alter how the results are displayed. The grid view is available only for images.",
+					placement: "bottom",
+					prev: 5,
+					next: 7,
+					backdrop: !0
+				});
+				t.addStep({
+					element: ".sortOverlay", // string (jQuery selector) - html element next to which the step popover should be shown
+					title: "Sort your results",
+					content: "You can sort by alphabetical order, the order in which the content was uploaded to the site or by relevance.",
+					placement: "bottom",
+					prev: 6,
+					next: 8,
+					backdrop: !0
+				});
+				t.addStep({
+					element: ".searchOverlay", // string (jQuery selector) - html element next to which the step popover should be shown
+					title: "More Search Tools",
+					content: "Look at the other Search tools available in the portal",
+					placement: "bottom",
+					prev: 7,
+					next: 9,
+					backdrop: !0
+				});
+				t.addStep({
+					element: ".helpLinkOverlay", // string (jQuery selector) - html element next to which the step popover should be shown
+					title: "Visit our Help page",
+					content: "If you need more assistance you can visit our help page where you can find more information on how to use the portal.",
+					placement: "top",
+					prev: 8,
+					next: 10,
+					backdrop: !0
+				});
+				t.addStep({
+					element: ".contactLinkOverlay", // string (jQuery selector) - html element next to which the step popover should be shown
+					title: "Contact us",
+					content: "Here you can contact eMonocot with any specific questions",
+					placement: "top",
+					prev: 9,
+					next: -1,
+					backdrop: !0
+				});
+			</tags:overlayHelp>
 		</div>
 	</tags:pageheader>
 	<geo:map x1="${result.params['x1']}" y1="${result.params['y1']}"
@@ -69,9 +119,18 @@
 				featureId="${result.params['featureId']}" />
 		</c:if>
 	</geo:map>
-	<div class="container">
+	<div class="container spatial-container">
 		<div class="row">
-			<div id="facets" class="span3 no-print">
+			<div id="facets" class="tourHelp span3 no-print"  data-tour-title="Filter your search" data-tour-content="You can filter your results selecting up to one option for each filter." data-tour-placement="top" data-tour-prev="2" data-tour-next="4">
+				<div class="row">
+					<div class="span3">
+						<div class="inner">
+							<ul class="box nav nav-list">
+								<li class="nav-header"><i class="glyphicons-icon filter">&#160;</i><spring:message code="filter.emonocot" /></li>
+							</ul>
+						</div>
+					</div>
+				</div>
 				<c:forEach var="facetName" items="${result.facetNames}">
 					<div class="row">
 						<div class="span3">
@@ -85,7 +144,7 @@
 					<br />
 				</c:forEach>
 			</div>
-			<div class="span9">
+			<div class="span9 tourHelp" data-tour-title="Results" data-tour-content="Displays your search results. The type of result is indicated by the Icon next to each result entry. Clicking on the thumbnails for Images and taxa will open up the image in a slideshow view." data-tour-placement="top" data-tour-prev="3" data-tour-next="5">
 				<div class="inner">
 					<div class="box">
 						<br />
@@ -100,8 +159,8 @@
 							<div id="pages" class="pull-left">
 								<tags:results pager="${result}" />
 							</div>
-							<div class="pull-right">
-								<tags:download url="/download" pager="${result}" />
+							<div class="pull-right tourHelp" data-tour-title="Download your results" data-tour-content="If you are a registered user you can download your results. Note that you need to restrict the results to only taxa in order to enable the download." data-tour-placement="bottom" data-tour-prev="4" data-tour-next="6">
+								<tags:download url="/download" pager="${result}"/>
 							</div>
 						</div>
 						<div id="results" class="row no-margin-left"

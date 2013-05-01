@@ -41,7 +41,7 @@
 						<c:url value="/about" var="aboutUrl" />
 						<a href="${aboutUrl}"><spring:message code="about.title" /></a>
 					</li>
-					<li>
+					<li class="contactLinkOverlay">
 						<c:url value="/contact" var="contactUrl" />
 						<a href="${contactUrl}"><spring:message code="contact.title" /></a>
 					</li>
