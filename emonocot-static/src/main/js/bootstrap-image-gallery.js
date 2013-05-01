@@ -80,6 +80,20 @@
         getUrl: function (element) {
             return element.href || $(element).data('href');
         },
+        /* Begin eMonocot */
+        getLink: function (element) {
+              return $(element).data('link');
+        },
+        getCreator: function (element) {
+        	  return $(element).data('creator');
+        },
+        getLicense: function (element) {
+        	  return $(element).data('license');
+        },
+        getIcon: function (element) {
+        	  return $(element).data('icon');
+        },
+        /* eMonocot End*/
         getDownloadUrl: function (element) {
             return $(element).data('download');
         },
@@ -125,7 +139,10 @@
                 modal = this.$element,
                 index = this.options.index,
                 url = this.getUrl(this.$links[index]),
-                download = this.getDownloadUrl(this.$links[index]),
+                link = this.getLink(this.$links[index]), // eMonocot
+                creator = this.getCreator(this.$links[index]),  // eMonocot
+                license = this.getLicense(this.$links[index]),  // eMonocot
+                icon = this.getIcon(this.$links[index]),        // eMonocot
                 oldImg;
             this.abortLoad();
             this.stopSlideShow();
@@ -140,15 +157,11 @@
             window.setTimeout(function () {
                 oldImg.remove();
             }, 3000);
-            modal.find('.modal-caption').text(this.$links[index].title);        //eMonocot
-            modal.find('.modal-creator').text(creator);                         //eMonocot
-            modal.find('.modal-license').text(license);                         //eMonocot
-            modal.find('.modal-icon').addClass(icon + " glyphicons-icon");      //eMonocot
-            modal.find('.modal-title').text(this.$links[index].title);
-            modal.find('.modal-download').prop(
-                'href',
-                download || url
-            );
+            modal.find('.modal-caption').text(this.$links[index].title);        // eMonocot
+            modal.find('.modal-creator').text(creator);                         // eMonocot
+            modal.find('.modal-license').text(license);                         // eMonocot
+            modal.find('.modal-icon').addClass(icon + " glyphicons-icon");      // eMonocot
+            modal.find('.modal-download').prop('href',link);                    // eMonocot
             this._loadingImage = loadImage(
                 url,
                 function (img) {
@@ -174,7 +187,7 @@
                 width: img.width,
                 height: img.height
             });
-            modal.find('.modal-title').css({ width: Math.max(img.width, 380) });
+            // modal.find('.modal-title').css({ width: Math.max(img.width, 380) }); eMonocot
             if (transition) {
                 clone = modal.clone().hide().appendTo(document.body);
             }

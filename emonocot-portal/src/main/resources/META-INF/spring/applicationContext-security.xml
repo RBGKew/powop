@@ -84,7 +84,7 @@
 	<bean id="auditLogger"	class="org.springframework.security.acls.domain.ConsoleAuditLogger" />
 
 	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-		<property name="configLocation" value="classpath:/ehcache.xml" />
+		<property name="configLocation" value="${ehcache.config.location}" />
 		<property name="shared" value="true" />
 	</bean>
 
