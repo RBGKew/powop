@@ -161,7 +161,6 @@
             modal.find('.modal-creator').text(creator);                         // eMonocot
             modal.find('.modal-license').text(license);                         // eMonocot
             modal.find('.modal-icon').addClass(icon + " glyphicons-icon");      // eMonocot
-            modal.find('.modal-title').text(this.$links[index].title);
             modal.find('.modal-download').prop('href',link);                    // eMonocot
             this._loadingImage = loadImage(
                 url,
@@ -188,7 +187,7 @@
                 width: img.width,
                 height: img.height
             });
-            modal.find('.modal-title').css({ width: Math.max(img.width, 380) });
+            // modal.find('.modal-title').css({ width: Math.max(img.width, 380) }); eMonocot
             if (transition) {
                 clone = modal.clone().hide().appendTo(document.body);
             }
