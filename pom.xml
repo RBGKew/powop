@@ -24,6 +24,8 @@
 		<module>emonocot-static</module>
 	</modules>
 	<properties>
+	    <portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
+	    <harvester.webAppRootKey>emonocot-harvester</harvester.webAppRootKey>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.7</java.version>
 		<spring.version>3.2.1.RELEASE</spring.version>
@@ -1480,7 +1482,7 @@
 		<profile>
 			<id>harvest.uat.vagrant</id>
 			<properties>
-				<webAppRootKey>harvester</webAppRootKey>
+				<harvester.webAppRootKey>emonocot-harvester</harvester.webAppRootKey>
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
@@ -1558,7 +1560,7 @@
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
                 <portal.baseUrl>http://localhost:8080</portal.baseUrl>
 				<google.analytics.id />
-				<webAppRootKey>emonocot-portal</webAppRootKey>
+				<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>
 				<cargo.tomcat.url>http://localhost:8080</cargo.tomcat.url>
 				<cargo.tomcat.manager.url>http://localhost:8080/manager/text</cargo.tomcat.manager.url>
@@ -1577,7 +1579,7 @@
 				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
 				<solr.url>http://localhost:8983/solr</solr.url>
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
-				<ehcache.config.location>classpath:/ehcache.xml</ehcache.config.location>			
+				<ehcache.config.location>classpath:/META-INF/ehcache.xml</ehcache.config.location>			
 				<spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
 				<spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
 				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
@@ -1612,7 +1614,7 @@
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>				
 				<portal.baseUrl>http://localhost:8080</portal.baseUrl>				
 				<google.analytics.id />
-				<webAppRootKey>emonocot-portal</webAppRootKey>
+				<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>
 				<cargo.tomcat.url>http://localhost:8080</cargo.tomcat.url>
 				<cargo.tomcat.manager.url>http://localhost:8080/manager/text</cargo.tomcat.manager.url>
@@ -1630,7 +1632,7 @@
 				<liquibase.password>l1qu1ba53</liquibase.password>
 				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>				
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
-				<ehcache.config.location>classpath:/ehcache.xml</ehcache.config.location>				
+				<ehcache.config.location>classpath:/META-INF/ehcache.xml</ehcache.config.location>				
 				<spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
 				<spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
 				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
@@ -1670,7 +1672,7 @@
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
 				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
 				<google.analytics.id />
-				<webAppRootKey>emonocot-portal</webAppRootKey>
+				<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>
 				<cargo.tomcat.url>http://localhost:8080</cargo.tomcat.url>
 				<cargo.tomcat.manager.url>http://localhost:8080/manager/text</cargo.tomcat.manager.url>
