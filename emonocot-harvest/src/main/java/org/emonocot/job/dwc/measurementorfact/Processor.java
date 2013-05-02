@@ -46,6 +46,7 @@ public class Processor extends OwnedEntityProcessor<MeasurementOrFact, Measureme
     	persisted.setMeasurementUnit(t.getMeasurementUnit());
     	persisted.setMeasurementValue(t.getMeasurementValue());
     	persisted.setBibliographicCitation(t.getBibliographicCitation());
+    	persisted.setSource(t.getSource());
     }
 
     @Override

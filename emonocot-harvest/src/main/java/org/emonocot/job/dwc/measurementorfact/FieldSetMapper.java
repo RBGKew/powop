@@ -46,6 +46,9 @@ public class FieldSetMapper extends
             case bibliographicCitation:
                 object.setBibliographicCitation(value);
                 break;
+            case source:
+                object.setSource(value);
+                break;
             default:
                 break;
             }
