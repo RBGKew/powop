@@ -193,6 +193,9 @@ label.checkbox input[type="checkbox"]{
 /**
  * Map Search
  */
+.spatial-container{
+	margin-top:40px;
+}
  
 .full-width-map { 
 	display: block;
@@ -203,6 +206,9 @@ label.checkbox input[type="checkbox"]{
 	width:100%
 }
 
+div.olMap {
+    z-index: 1014 !important;
+}
 .olControlOverviewMapElement {
 	background-color: #616668 !important;
 }
@@ -308,7 +314,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .inner { 
 	position: relative;
-	z-index: 1;
+	/*z-index: 1;  Deleted due to problems with bootstrap tour */
 }
 
 .inner:before, .inner:after { 
@@ -434,7 +440,7 @@ footer.navbar {
 
 .page-banner-inner {
 	position: relative;
-	z-index: 300;
+	/*z-index: 300;    Deleted due to problems with bootstrap tour*/
 }
 
 .h4Results { color: #5b5b5b; font-size: 16px; }
@@ -700,3 +706,4 @@ ul#taxonHierarchy, ul#taxonHierarchy ul {
 	    }
 	}
 }
+

@@ -61,7 +61,7 @@
 			</div>
 			<div id="primary-nav" class="nav-collapse no-print">
 				<ul class="nav">
-					<li class="dropdown" id="menuIdentify">
+					<li class="dropdown identifyOverlay" id="menuIdentify">
 						<a href="#menuIdentifiy" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="identify.title"/>
 							<b class="caret"><!--  --></b>
 						</a>

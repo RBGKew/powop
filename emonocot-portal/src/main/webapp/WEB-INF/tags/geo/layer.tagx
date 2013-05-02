@@ -10,20 +10,20 @@
 	<jsp:directive.attribute name="style" type="java.lang.String" required="true" />
 	<jsp:directive.attribute name="featureId" type="java.lang.String" required="true" />
 	<spring:message code="web.map.server.url" var="wmsUrl"/>	
-    var ${name} = new OpenLayers.Layer.WMS("${name}","${wmsUrl}",
-	          {
-			     layers : "${layer}",
-			     transparent : "true",
-                 format : "image/png",
-			     tiled: 'true'
-		      },															
-		      {
-			     isBaseLayer : false,
-			     displayInLayerSwitcher : false,
-			     wrapDateLine: true
-		       }
-	         );
-																		
+	var ${name} = new OpenLayers.Layer.WMS("${name}","${wmsUrl}",
+		{
+			layers : "${layer}",
+			transparent : "true",
+			format : "image/png",
+			tiled: 'true'
+		},
+		{
+			isBaseLayer : false,
+			displayInLayerSwitcher : false,
+			wrapDateLine: true
+		}
+	);
+	
 	${name}.params.STYLES = "${style}";
 	${name}.params.FEATUREID = "${featureId}";
 	map.addLayers([ ${name} ]);

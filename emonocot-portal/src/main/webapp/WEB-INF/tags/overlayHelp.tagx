@@ -39,7 +39,7 @@
 					placement: $(this).attr("data-tour-placement"),
 					prev: prev,
 					next: next,
-					backdrop: true
+					backdrop: !0
 				});
 				
 			});

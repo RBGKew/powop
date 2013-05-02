@@ -12,7 +12,7 @@
 
 	<tags:pageheader>
 		<div class="row">
-			<h2 id="page-title span5">
+			<h2 id="page-title" class="span5">
 				<i class="glyphicons-icon search"><!--  --></i> <spring:message code="search.emonocot" />
 			</h2>
 
@@ -31,7 +31,7 @@
 				});
 			</script>
 			<c:url var="searchUrl" value="/search" />
-			<form id="search.form" class="tourHelp pull-right form-search" accept-charset="UTF-8" method="GET" action="${searchUrl}"  data-tour-title="Search within results" data-tour-content="Refine the search searching for anything within your results." data-tour-placement="left" data-tour-next="1">
+			<form id="search.form" class="tourHelp pull-right form-search" accept-charset="UTF-8" method="GET" action="${searchUrl}"  data-tour-title="Search within results" data-tour-content="Refine your search. Search for any term within the current results." data-tour-placement="bottom" data-tour-next="1">
 				<input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="query" />
 				<input type="hidden" name="limit" value="${result.pageSize}" />
 				<input type="hidden" name="start" value="0" />
@@ -46,13 +46,31 @@
 		</div>
 		<div class="row">
 			<c:url var="resetUrl" value="/search"/>
-			<a id="reset" class="btn pull-right tourHelp" href="${resetUrl}" data-tour-title="Reset your search" data-tour-content="It allows you to start a new search. All the filters will be deselected." data-tour-placement="left" data-tour-prev="0" data-tour-next="2">
+			<a id="reset" class="btn pull-right tourHelp" href="${resetUrl}" data-tour-title="Reset your search" data-tour-content="Start a new search. All the filters will be deselected and any search terms deleted." data-tour-placement="bottom" data-tour-prev="0" data-tour-next="2">
 				<i class="icon-refresh"><!--  --></i>
 				<spring:message code="reset" />
 			</a>
 		</div>
 		<div class="row">
 			<tags:overlayHelp >
+				t.addStep({
+					element: ".viewOverlay", // string (jQuery selector) - html element next to which the step popover should be shown
+					title: "Results view",
+					content: "You can alter how the results are displayed. The grid view is available only for images.",
+					placement: "bottom",
+					prev: 4,
+					next: 6,
+					backdrop: !0
+				});
+				t.addStep({
+					element: ".sortOverlay", // string (jQuery selector) - html element next to which the step popover should be shown
+					title: "Sort your results",
+					content: "You can sort by alphabetical order, the order in which the content was uploaded to the site or by relevance.",
+					placement: "bottom",
+					prev: 5,
+					next: 7,
+					backdrop: !0
+				});
 				t.addStep({
 					element: ".searchOverlay", // string (jQuery selector) - html element next to which the step popover should be shown
 					title: "More Search Tools",
@@ -65,9 +83,18 @@
 				t.addStep({
 					element: ".helpLinkOverlay", // string (jQuery selector) - html element next to which the step popover should be shown
 					title: "Visit our Help page",
-					content: "If you need you can vist our help page where you can find more informations on how to use the portal!",
+					content: "If you need more assistance you can visit our help page where you can find more information on how to use the portal.",
 					placement: "top",
 					prev: 7,
+					next: 9,
+					backdrop: !0
+				});
+				t.addStep({
+					element: ".contactLinkOverlay", // string (jQuery selector) - html element next to which the step popover should be shown
+					title: "Contact us",
+					content: "Here you can contact eMonocot with any specific questions",
+					placement: "top",
+					prev: 8,
 					next: -1,
 					backdrop: !0
 				});
@@ -101,7 +128,7 @@
 				</c:forEach>
 			</div>
 			
-			<div class="span9 tourHelp" data-tour-title="Results" data-tour-content="Contains your result list. The icon close to each result entry specifies the type. When click on the thumbnails for Images and Taxa, the related big image is shown in a slideshow view." data-tour-placement="top" data-tour-prev="2" data-tour-next="4">
+			<div class="span9 tourHelp" data-tour-title="Results" data-tour-content="Displays your search results. The type of result is indicated by the Icon next to each result entry. Clicking on the thumbnails for Images and taxa will open up the image in a slideshow view." data-tour-placement="top" data-tour-prev="2" data-tour-next="4">
 				<div class="inner">
 					<div class="box">
 						<div class="row no-print">
@@ -115,7 +142,7 @@
 							<div id="pages" class="span4 pull-left">
 								<tags:results pager="${result}" />
 							</div>
-							<div class="pull-right tourHelp" data-tour-title="Download your results" data-tour-content="If you are a registered user you can download your results. Note that you need to restrict the results to only taxa in order to enable the download." data-tour-placement="top" data-tour-prev="5" data-tour-next="7">
+							<div class="pull-right tourHelp" data-tour-title="Download your results" data-tour-content="If you are a registered user you can download your results. Note that you need to restrict the results to only taxa in order to enable the download." data-tour-placement="bottom" data-tour-prev="3" data-tour-next="5">
 								<tags:download url="/download" pager="${result}"/>
 							</div>
 						</div>
