@@ -15,7 +15,7 @@
 			</h2>
 			<div class="span9 pull-right">
 				<c:url var="resetUrl" value="/visualise"/>
-				<a id="reset" class="btn pull-right tourHelp" href="${resetUrl}" data-tour-title="Reset your search" data-tour-content="Start a new search. All the filters will be deselected and any search terms deleted." data-tour-placement="bottom" data-tour-next="1">
+				<a id="reset" class="btn pull-right tourHelp" href="${resetUrl}" data-tour-title="Reset your visualisation" data-tour-content="Start a new visualisation. All the filters will be deselected bringing you back to the initial visualisation." data-tour-placement="bottom" data-tour-next="1">
 					<i class="icon-refresh"><!--  --></i>
 					<spring:message code="reset.visualisation" />
 				</a>
@@ -44,7 +44,7 @@
 				t.addStep({
 					element: ".contactLinkOverlay", // string (jQuery selector) - html element next to which the step popover should be shown
 					title: "Contact us",
-					content: "Here you can contact eMonocot with any specific questions",
+					content: "Please contact us with any questions",
 					placement: "top",
 					prev: 9,
 					next: -1,
@@ -55,7 +55,7 @@
 	</tags:pageheader>
 	<div class="container">
 		<div class="row">
-			<div class="span3 tourHelp" data-tour-title="Filter your search" data-tour-content="You can filter the data selecting up to one option for each filter." data-tour-placement="top" data-tour-prev="0" data-tour-next="2">
+			<div class="span3 tourHelp" data-tour-title="Filter your visualisation" data-tour-content="You can filter the data selecting an option for each filter." data-tour-placement="top" data-tour-prev="0" data-tour-next="2">
 				<div class="row">
 					<div class="span3">
 						<div class="inner">
@@ -146,11 +146,11 @@
 				</div>
 			</div>
 			<div class="span9">
-				<div class="inner tourHelp" data-tour-title="Data visualisation" data-tour-content="Chart visualising the count of the categories indicated in the rows of the table below." data-tour-placement="top" data-tour-prev="1" data-tour-next="3">
+				<div class="inner tourHelp" data-tour-title="Data visualisation" data-tour-content="Chart visualising the counts of the categories indicated in the rows of the table below." data-tour-placement="top" data-tour-prev="1" data-tour-next="3">
 					<div class="box">
 						<div class="row">
 							<div class="span9">
-								<div class="btn-group tourHelp" data-tour-title="Chart type" data-tour-content="Select the chart type, choosing between bar chart and pie chart." data-tour-placement="bottom" data-tour-prev="2" data-tour-next="4">
+								<div class="btn-group tourHelp" data-tour-title="Chart type" data-tour-content="Select the chart type, choosing between bar graph and pie chart." data-tour-placement="bottom" data-tour-prev="2" data-tour-next="4">
 									<c:choose>
 										<c:when test="${view eq 'pie' }">
 											<analyse:cubeUrl cssClass="btn" cellSet="${cellSet}" url="/visualise" view="bar">
@@ -235,7 +235,7 @@
 				</div>
 				<div class="inner tourHelp" data-tour-title="Data table" data-tour-content="Table containing counts of the data in the portal." data-tour-placement="top" data-tour-prev="3" data-tour-next="5">
 					<div class="box">
-						<div class="tourHelp" data-tour-title="Table dimensions" data-tour-content="Choose the first dimention to define the rows of the table and the second one to define the columns." data-tour-placement="left" data-tour-prev="4" data-tour-next="6">
+						<div class="tourHelp" data-tour-title="Table dimensions" data-tour-content="Choose the first dimention to define the rows of the table and optionally the second one to define the columns." data-tour-placement="left" data-tour-prev="4" data-tour-next="6">
 						<div class="row">
 							<div class="span9">
 								<div class="btn-group">
@@ -290,7 +290,7 @@
 							</div>
 						</div>
 						</div>
-						<div class=" tourHelp" data-tour-title="Data" data-tour-content="Table visualising the count of the categories indicated in the rows according to the category in the columns. Some categories are multidimensional. You can drill in clicking on them directly in the table. Clicking on the count numbers will redirect you to the search page with the data related to that specific count as results.For more details visit our help page." data-tour-placement="top" data-tour-prev="5" data-tour-next="7">
+						<div class=" tourHelp" data-tour-title="Data" data-tour-content="Table visualising the counts broken down by the chosen chategories. Some categories are hierarchical. You can see data at the next level by clicking on the category. Clicking on the count numbers will take you to the search page with the results related to that specific count. For more details visit our help page." data-tour-placement="top" data-tour-prev="5" data-tour-next="7">
 						<table class="table">
 							<caption>
 								<spring:message code="${cellSet.rows.facet}" text="${cellSet.rows.facet}"/> - <spring:message code="${cellSet.columns.facet}" text="${cellSet.columns.facet}"/>
