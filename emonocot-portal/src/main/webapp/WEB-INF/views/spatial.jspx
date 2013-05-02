@@ -102,7 +102,7 @@
 				t.addStep({
 					element: ".contactLinkOverlay", // string (jQuery selector) - html element next to which the step popover should be shown
 					title: "Contact us",
-					content: "Here you can contact eMonocot with any specific questions",
+					content: "Please contact us with any specific questions",
 					placement: "top",
 					prev: 9,
 					next: -1,
@@ -121,7 +121,7 @@
 	</geo:map>
 	<div class="container spatial-container">
 		<div class="row">
-			<div id="facets" class="tourHelp span3 no-print"  data-tour-title="Filter your search" data-tour-content="You can filter your results selecting up to one option for each filter." data-tour-placement="top" data-tour-prev="2" data-tour-next="4">
+			<div id="facets" class="tourHelp span3 no-print"  data-tour-title="Filter your search" data-tour-content="You can filter your results selecting an option for each filter." data-tour-placement="top" data-tour-prev="2" data-tour-next="4">
 				<div class="row">
 					<div class="span3">
 						<div class="inner">

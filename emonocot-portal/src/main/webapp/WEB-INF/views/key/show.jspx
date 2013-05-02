@@ -10,7 +10,7 @@
 		<h2 id="page-title"><i class="glyphicons-icon keys"><!--  --></i>${identificationKey.title}</h2>
 		<small><spring:message code="key.creator" /> ${identificationKey.creator}</small>
 		<div class="row">
-			<button class="btn pull-right tourHelp" id="reset" data-tour-title="Reset the key" data-tour-content="Start a new identification. All the features and characters will be deselected." data-tour-placement="bottom" data-tour-next="1"><i class="icon-refresh"><!--  --></i><spring:message code="reset.key"/></button>
+			<button class="btn pull-right tourHelp" id="reset" data-tour-title="Reset the key" data-tour-content="Start a new identification. All the previously chosen features will be deselected." data-tour-placement="bottom" data-tour-next="1"><i class="icon-refresh"><!--  --></i><spring:message code="reset.key"/></button>
 			<div class="span1 offset9">
 				<tags:feedbackLink selector="${identificationKey.title}" dataName="${identificationKey.title}" />
 			</div>
@@ -38,7 +38,7 @@
 				t.addStep({
 					element: ".contactLinkOverlay", // string (jQuery selector) - html element next to which the step popover should be shown
 					title: "Contact us",
-					content: "Here you can contact eMonocot with any specific questions",
+					content: "Please contact us with any specific questions",
 					placement: "top",
 					prev: 8,
 					next: -1,
@@ -56,17 +56,17 @@
 				<div id="plus">
 					<div class="btn-group">
 						<c:url var="nextBestImage" value="/css/images/glyphicons/halfsize/glyphicons_009_magic.png"/>
-						<button class="btn disabled tourHelp" id="nextBest" title="Next best" data-tour-title="Next Best Character" data-tour-content="Suggests which is the character that will discriminate more the results." data-tour-placement="top" data-tour-prev="0" data-tour-next="2"><img class="small-icon" src="${nextBestImage}" /> <spring:message code="next.best"/></button>
+						<button class="btn disabled tourHelp" id="nextBest" title="Next best" data-tour-title="Next Best Character" data-tour-content="Suggests which is the feature that will discriminate more the results." data-tour-placement="top" data-tour-prev="0" data-tour-next="2"><img class="small-icon" src="${nextBestImage}" /> <spring:message code="next.best"/></button>
 						<c:url var="pruneRedundantImage" value="/css/images/glyphicons/halfsize/glyphicons_288_scissors.png"/>
 						<button class="btn tourHelp" id="prune" title="Prune" data-tour-title="Prune redundant characters" data-tour-content="Deletes from the remaining available features the ones that are not useful to discriminate the results." data-tour-placement="top" data-tour-prev="1" data-tour-next="3"><img class="small-icon" src="${pruneRedundantImage}" /> <spring:message code="prune.redundant"/></button>
 					</div>
 				</div>
 				<br/>
-				<div class="tourHelp inner"  data-tour-title="Deselect features" data-tour-content="You can deselect previously selected fetures and characters. The result list will be updated." data-tour-placement="right" data-tour-prev="2" data-tour-next="4">
+				<div class="tourHelp inner"  data-tour-title="Remove features" data-tour-content="You can remove previously selected features. Previously excluded taxa may be re-included in the result list." data-tour-placement="right" data-tour-prev="2" data-tour-next="4">
 					<ul id="selectedCharacters" class="box nav nav-list"><!--  --></ul>
 				</div>
 				<br/>
-				<div class="tourHelp inner"  data-tour-title="Select features" data-tour-content="You can select fetures and characters that describe the monocot you want to identify. The result list will be updated." data-tour-placement="right" data-tour-prev="3" data-tour-next="5">
+				<div class="tourHelp inner"  data-tour-title="Select features" data-tour-content="Select the features of the monocot you want to identify and choose one or more matching states. This will narrow down the list of remaining taxa." data-tour-placement="right" data-tour-prev="3" data-tour-next="5">
 					<ul id="unselectedCharacters" class="box nav nav-list"><!--  --></ul>
 				</div>
 				<br/>
@@ -82,7 +82,7 @@
 					</div>
 				</div>
 				<br/>
-				<div class="inner tourHelp" data-tour-title="Results" data-tour-content="List of taxa that match the selected featues. Each name is linked to the related taxon page in the portal." data-tour-placement="top" data-tour-prev="4" data-tour-next="6">
+				<div class="inner tourHelp" data-tour-title="Results" data-tour-content="List of taxa that match the selected features. Click on the taxon name to go to the related page in the portal." data-tour-placement="top" data-tour-prev="4" data-tour-next="6">
 					<div id="matchedTaxa" class="box">
 						<div id="pages" class="span4 pull-right"><!--  --></div>
 							<table class="table">
@@ -95,7 +95,7 @@
 			<div id="gallery" class="hide" data-toggle="modal-gallery" data-target="#modal-gallery"><!--  --></div>
 			<div class="row">
 			<section class="span12">
-					<div class="inner tourHelp" data-tour-title="Key' details" data-tour-content="Information on the Key, including a brief description." data-tour-placement="top" data-tour-prev="5" data-tour-next="7">
+					<div class="inner tourHelp" data-tour-title="Key details" data-tour-content="Information on the Key, including a brief description." data-tour-placement="top" data-tour-prev="5" data-tour-next="7">
 						<div class="box">
 							<table class="table" id="key-properties">
 								<tbody>

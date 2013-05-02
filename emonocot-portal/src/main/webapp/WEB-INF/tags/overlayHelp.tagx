@@ -5,7 +5,7 @@
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
-	<!-- 
+	
 	<a href="#" id="startTour" class="start btn-success btn pull-right">&#9658; <spring:message code="start.tour" /></a>
 	<script type="text/javascript">
 		$(function(){
@@ -55,5 +55,5 @@
 				});
 		});
 	</script> 
-	-->
+	
 </jsp:root>
