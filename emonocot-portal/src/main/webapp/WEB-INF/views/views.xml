@@ -49,13 +49,21 @@
     <put-attribute name="pageTitle" value="resourceNotFoundTitle" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/resourceNotFound.jspx" />
   </definition>
-  <definition name="uncaughtException" extends="default">
-    <put-attribute name="pageTitle" value="uncaughtExceptionTitle" cascade="true" />
-    <put-attribute name="body" value="/WEB-INF/views/uncaughtException.jspx" />
+  <definition name="internalServerError" extends="default">
+    <put-attribute name="pageTitle" value="internalServerErrorTitle" cascade="true" />
+    <put-attribute name="body" value="/WEB-INF/views/internalServerError.jspx" />
   </definition>
   <definition name="methodNotAllowed" extends="default">
     <put-attribute name="pageTitle" value="methodNotAllowedTitle" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/methodNotAllowed.jspx" />
+  </definition> 
+   <definition name="notAcceptable" extends="default">
+    <put-attribute name="pageTitle" value="notAcceptableTitle" cascade="true" />
+    <put-attribute name="body" value="/WEB-INF/views/notAcceptable.jspx" />
+  </definition> 
+   <definition name="unsupportedMediaType" extends="default">
+    <put-attribute name="pageTitle" value="unsupportedMediaTypeTitle" cascade="true" />
+    <put-attribute name="body" value="/WEB-INF/views/unsupportedMediaType.jspx" />
   </definition> 
   <definition name="badRequest" extends="default">
     <put-attribute name="pageTitle" value="methodNotAllowedTitle" cascade="true" />

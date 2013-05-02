@@ -133,22 +133,30 @@
 	<servlet-mapping>
 		<servlet-name>portal</servlet-name>
 		<url-pattern>/</url-pattern>
-	</servlet-mapping>
-	
-	<error-page>
-        <error-code>500</error-code>
-        <location>/uncaughtException</location>
-    </error-page>
+	</servlet-mapping>   
+    
     <error-page>
-        <error-code>405</error-code>
-        <location>/methodNotAllowed</location>
+        <error-code>400</error-code>
+        <location>/badRequest</location>
     </error-page>
     <error-page>
         <error-code>404</error-code>
         <location>/resourceNotFound</location>
     </error-page>
     <error-page>
-        <error-code>400</error-code>
-        <location>/badRequest</location>
+        <error-code>405</error-code>
+        <location>/methodNotAllowed</location>
+    </error-page>
+    <error-page>
+        <error-code>406</error-code>
+        <location>/notAcceptable</location>
+    </error-page>
+    <error-page>
+        <error-code>415</error-code>
+        <location>/unsupportedMediaType</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/internalServerError</location>
     </error-page>
 </web-app>

@@ -27,7 +27,15 @@
 	    <property name="useSuffixPatternMatch" value="false" />
     </bean>
     
-    <bean id="handlerExceptionResolver" class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver"/>
+    <!-- Applied first to cover controller specific exception handling with @ExceptionHandler -->    
+    <bean id="localHandlerExceptionResolver" class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">
+      <property name="order" value="0"/>
+    </bean>
+    
+    <!-- Applied second to handle exceptions not covered by the first -->    
+    <bean id="globalHandlerExceptionResolver" class="org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver">
+      <property name="order" value="1"/>
+    </bean>    
 
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
 		<property name="webBindingInitializer">
@@ -52,11 +60,16 @@
 
 	<mvc:view-controller path="/tour" view-name="tour"/>
 	<mvc:view-controller path="/termsOfUse" view-name="termsOfUse"/>
+	<mvc:view-controller path="/badRequest" view-name="badRequest"/>
+	<mvc:view-controller path="/resourceNotFound" view-name="resourceNotFound"/>
+	<mvc:view-controller path="/methodNotAllowed" view-name="methodNotAllowed"/>
+	<mvc:view-controller path="/notAcceptable" view-name="notAcceptable"/>
 	<mvc:view-controller path="/accessDenied" view-name="accessDenied"/>
-    <mvc:view-controller path="/uncaughtException" view-name="uncaughtException"/>
-    <mvc:view-controller path="/resourceNotFound" view-name="resourceNotFound"/>
-    <mvc:view-controller path="/methodNotAllowed" view-name="methodNotAllowed"/>
-    <mvc:view-controller path="/badRequest" view-name="badRequest"/>
+	<mvc:view-controller path="/unsupportedMediaType" view-name="unsupportedMediaType"/>
+    <mvc:view-controller path="/internalServerError" view-name="internalServerError"/>
+    
+    
+    
     <mvc:view-controller path="/contact" view-name="contact"/>
     
     <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
