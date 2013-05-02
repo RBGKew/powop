@@ -255,13 +255,13 @@
             <prop key="mail.smtp.port">${email.smtp.port}</prop>
             <prop key="mail.smtp.auth">${email.smtp.auth}</prop>
             <prop key="mail.smtp.starttls.enable">${email.smtp.enable.starttls}</prop>
-            <prop key="mail.debug">true</prop>
+            <prop key="mail.debug">${email.debug}</prop>
           </props>
         </property>
     </bean>
     
     <int-mail:inbound-channel-adapter id="imapAdapter" 
-    store-uri="${email.mailbox.uri}" 
+      store-uri="${email.mailbox.uri}" 
       java-mail-properties="javaMailProperties" 
       channel="inboundEmailChannel"
       should-delete-messages="true"
