@@ -22,7 +22,7 @@ public class NoIdentifierException extends TaxonProcessingException {
      *            the taxon
      */
     public NoIdentifierException(final Taxon t) {
-        super(t + " has no identifier", AnnotationCode.BadField, "identifier");
+        super(t.toString() + " has no identifier", AnnotationCode.BadField, "identifier");
     }
 
     @Override

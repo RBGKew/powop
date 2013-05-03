@@ -22,8 +22,7 @@ public class UnexpectedTaxonException extends TaxonProcessingException {
      */
     public UnexpectedTaxonException(final Taxon taxon) {
         super(
-                "Found unexpected taxon with identifier "
-                        + taxon.getIdentifier(), AnnotationCode.Unexpected,
+                taxon.toString() + " was not expected", AnnotationCode.Unexpected,
                 taxon.getIdentifier());
     }
 

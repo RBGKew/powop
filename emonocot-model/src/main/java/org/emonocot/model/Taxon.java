@@ -1128,6 +1128,9 @@ public class Taxon extends SearchableObject {
 		if(scientificNameAuthorship != null) {
 			stringBuffer.append(" " + scientificNameAuthorship);
 		}
+		if(identifier != null) {
+			stringBuffer.append(" <" + identifier + ">");
+		}
 		return stringBuffer.toString();
 	} 
 }
