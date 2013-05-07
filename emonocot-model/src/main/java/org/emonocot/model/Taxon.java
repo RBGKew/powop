@@ -938,7 +938,10 @@ public class Taxon extends SearchableObject {
 		sid.addField("searchable.label_sort", getScientificName());
 		addField(sid,"taxon.bibliographic_citation_t", getBibliographicCitation());
 		addField(sid,"taxon.clazz_s", getClazz());
-		addField(sid,"taxon.family_s", getFamily());
+		addField(sid,"taxon.family_ss", getFamily());
+		if(getAcceptedNameUsage() != null) {
+		    addField(sid, "taxon.family_ss", getAcceptedNameUsage().getFamily());
+		}
 		addField(sid,"taxon.genus_s", getGenus());
 		addField(sid,"taxon.infraspecific_epithet_s", getInfraspecificEpithet());
 		addField(sid,"taxon.kingdom_s", getKingdom());

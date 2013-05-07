@@ -90,7 +90,7 @@
 	</bean>
     
     <bean id="pdfWriter" class="net.sf.jasperreports.engine.fill.JRVerticalReportWriter" scope="step">
-        <constructor-arg value="#{T(net.sf.jasperreports.engine.JasperCompileManager).compileReport(@parameterisedReportTemplate.getInputStream())}" />
+        <constructor-arg ref="alphabeticalReport" />
         <property name="defaultOutputDir" value="${harvester.output.directory}" />
         <property name="outputResouce" ref="downloadFile" />
         <property name="parameterValues">
@@ -99,9 +99,6 @@
                 <entry key="username" value="#{jobParameters['download.user.displayName']}" />
             </map>
         </property>
-    </bean>
-    <bean id="parameterisedReportTemplate" class="org.springframework.core.io.ClassPathResource" scope="step">
-        <constructor-arg value="#{jobParameters['download.template.filepath']}" />
     </bean>
 
 	<bean id="downloadFile" class="org.springframework.core.io.FileSystemResource" scope="step">
@@ -130,4 +127,11 @@
         <!-- Fail on unknown download format-->
     </bean>
     
+    <!-- Jasper Reports classes -->
+    <bean id="alphabeticalReport" class="org.emonocot.job.reports.JasperReportsFactory" factory-method="compileReportFromFilePath">
+	   <constructor-arg value="org/emonocot/job/download/reports/alphabeticalChecklist.jrxml" />
+    </bean>
+    <bean id="nameList" class="org.emonocot.job.reports.JasperReportsFactory" factory-method="compileReportFromFilePath">
+	   <constructor-arg value="org/emonocot/job/download/reports/nameList.jrxml" />
+    </bean>
 </beans>

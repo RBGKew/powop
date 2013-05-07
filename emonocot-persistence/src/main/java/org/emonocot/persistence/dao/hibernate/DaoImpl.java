@@ -72,7 +72,11 @@ public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
      */
     protected void enableProfilePostQuery(final T t, final String fetch) {
         if (fetch != null && t != null) {
-            for (Fetch f : getProfile(fetch)) {
+            Fetch[] fetchDefs = getProfile(fetch);
+            if(fetchDefs == null || fetchDefs.length < 1) {
+                return;
+            }
+            for (Fetch f : fetchDefs) {
                 if (f.getMode().equals(FetchMode.SELECT)) {
                     String association = f.getAssociation();
                     if (association.indexOf(".") == -1) {
