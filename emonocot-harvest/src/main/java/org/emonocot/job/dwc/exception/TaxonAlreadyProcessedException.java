@@ -21,7 +21,7 @@ public class TaxonAlreadyProcessedException extends TaxonProcessingException {
      * @param taxon Set the taxon
      */
     public TaxonAlreadyProcessedException(final Taxon taxon) {
-        super("Taxon " + taxon.getIdentifier()
+        super("Taxon " + taxon.toString()
                 + " already found once in this archive",
                 AnnotationCode.AlreadyProcessed, taxon.getIdentifier());
     }

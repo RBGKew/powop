@@ -9,7 +9,7 @@ public enum FacetName {
 
     CLASS("base.class_s"),
     ORDER("taxon.order_s"),
-    FAMILY("taxon.family_s"),
+    FAMILY("taxon.family_ss"),
     SUBFAMILY("taxon.subfamily_s"),
     TRIBE("taxon.tribe_s"),
     SUBTRIBE("taxon.subtribe_s"),

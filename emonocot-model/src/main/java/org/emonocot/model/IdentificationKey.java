@@ -172,12 +172,12 @@ public class IdentificationKey extends SearchableObject implements NonOwned, Med
     	if(getTaxa() != null) {
     		for(Taxon t : getTaxa()) {
     		addField(sid,"taxon.class_s", t.getClazz());
-    	    addField(sid,"taxon.family_s", t.getFamily());
+    	    addField(sid,"taxon.family_ss", t.getFamily());
     	    addField(sid,"taxon.genus_s", t.getGenus());
     	    addField(sid,"taxon.kingdom_s", t.getKingdom());
     	    addField(sid,"taxon.order_s", t.getOrder());
     	    addField(sid,"taxon.phylum_s", t.getPhylum());
-    	    addField(sid,"taxon.subfamily_s", t.getSubfamily());
+    	    addField(sid,"taxon.subfamily_ss", t.getSubfamily());
     	    addField(sid,"taxon.subgenus_s", t.getSubgenus());
     	    addField(sid,"taxon.subtribe_s", t.getSubtribe());
     	    addField(sid,"taxon.tribe_s", t.getTribe());

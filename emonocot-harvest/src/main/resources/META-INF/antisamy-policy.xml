@@ -60,7 +60,6 @@ http://www.w3.org/TR/html401/struct/global.html
 		 </attribute>
 		<attribute name="href" onInvalid="filterTag">
 			<regexp-list>
-				<regexp name="onsiteURL"/>
 				<regexp name="offsiteURL"/>
 			</regexp-list>
 		</attribute>

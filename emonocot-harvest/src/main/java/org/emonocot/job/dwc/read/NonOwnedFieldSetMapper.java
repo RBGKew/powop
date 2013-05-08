@@ -39,12 +39,17 @@ public class NonOwnedFieldSetMapper<T extends BaseData> extends BaseDataFieldSet
             DwcTerm dwcTerm = (DwcTerm) term;
             switch (dwcTerm) {
             case taxonID:
-            	Taxon taxon = taxonService.find(value);
-                if (taxon == null) {
-                    // Non-owned objects can exist without a taxon explicitly set
-                } else {
-                    ((NonOwned)object).getTaxa().add(taxon);
-                }
+            	if (value != null && !value.isEmpty()) {
+					Taxon taxon = taxonService.find(value);
+					if (taxon == null) {
+						logger.error("Cannot find record " + value);
+						throw new CannotFindRecordException(value,value);
+					} else {
+						taxon = new Taxon();
+						taxon.setIdentifier(value);
+						((NonOwned)object).getTaxa().add(taxon);
+					}
+				}            	
                 break;
             default:
                 break;

@@ -124,7 +124,7 @@ public class DwcaCreationIntegrationTest {
 	public void testWriteSubsetArchive() throws Exception {
 		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
 		parameters.put("download.query", new JobParameter(""));
-		parameters.put("download.selectedFacets", new JobParameter("taxon.family_s=Araceae,base.class_s=org.emonocot.model.Taxon"));
+		parameters.put("download.selectedFacets", new JobParameter("taxon.family_ss=Araceae,base.class_s=org.emonocot.model.Taxon"));
 		parameters.put("download.taxon", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon))));
 		parameters.put("download.description", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Description))));
 		parameters.put("download.image", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Image))));

@@ -69,7 +69,7 @@ public class FieldSetMapper extends  NonOwnedFieldSetMapper<Reference> {
                 object.setSubject(value);
                 break;
             case title:
-                object.setTitle(value);
+                object.setTitle(htmlSanitizer.sanitize(value));
                 break;
             case type:
                 object.setType(conversionService.convert(value, ReferenceType.class));                

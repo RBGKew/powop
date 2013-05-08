@@ -147,7 +147,7 @@ public class SearchController {
 		List<String> responseFacetList = new ArrayList<String>();
 		Map<String, String> facetPrefixes = new HashMap<String, String>();
 		responseFacetList.add("base.class_s");
-		responseFacetList.add("taxon.family_s");
+		responseFacetList.add("taxon.family_ss");
 		responseFacetList.add("taxon.distribution_TDWG_0_ss");
 		responseFacetList.add("taxon.measurement_or_fact_threatStatus_txt");
 		responseFacetList.add("taxon.measurement_or_fact_Lifeform_txt");
@@ -254,7 +254,7 @@ public class SearchController {
 		// Decide which facets to return
 		List<String> responseFacetList = new ArrayList<String>();
 		responseFacetList.add("base.class_s");
-		responseFacetList.add("taxon.family_s");
+		responseFacetList.add("taxon.family_ss");
 		responseFacetList.add("taxon.measurement_or_fact_threatStatus_txt");
         responseFacetList.add("taxon.measurement_or_fact_Lifeform_txt");
         responseFacetList.add("taxon.measurement_or_fact_Habitat_txt");
@@ -311,7 +311,7 @@ public class SearchController {
 			throws Exception {
 
 		List<String> facetList = new ArrayList<String>();
-		facetList.add("taxon.family_s");
+		facetList.add("taxon.family_ss");
 		facetList.add("taxon.distribution_TDWG_0_ss");
 		facetList.add("taxon.taxon_rank_s");
 		facetList.add("taxon.taxonomic_status_s");
@@ -335,7 +335,7 @@ public class SearchController {
 		cube.addDimension(taxonomy);
 
 		taxonomy.addLevel("taxon.order_s", false);
-		taxonomy.addLevel("taxon.family_s", false);		
+		taxonomy.addLevel("taxon.family_ss", false);		
 		taxonomy.addLevel("taxon.genus_s", false);
 
 		Dimension distribution = new Dimension("distribution");

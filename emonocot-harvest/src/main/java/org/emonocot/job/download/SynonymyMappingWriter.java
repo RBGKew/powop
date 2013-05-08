@@ -4,12 +4,14 @@
 package org.emonocot.job.download;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.emonocot.model.Identifiable;
 import org.emonocot.model.Taxon;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
@@ -18,7 +20,8 @@ import org.springframework.batch.item.ItemWriter;
 
 /**
  * @author jk00kg
- * Writes all taxa to a reduced list of taxa without an accepted name (Accepted, Doubtful etc.) and thier synonyms.
+ * Writes all taxa to a reduced list of taxa without an accepted name (Accepted, Doubtful etc.) and their synonyms
+ *  that are found in the original list.
  * It uses a map of <Non-synonyms and Set<Synonyms>> and so should be configured with a suitable download limit
  */
 public class SynonymyMappingWriter implements ItemWriter<Taxon>, StepExecutionListener {
@@ -37,7 +40,7 @@ public class SynonymyMappingWriter implements ItemWriter<Taxon>, StepExecutionLi
             Taxon accepted = taxon.getAcceptedNameUsage();
             if(accepted == null) {
                 map.put(taxon, new HashSet<Taxon>());
-            } else if(map.containsKey(accepted)) {
+            } else if(contains(map.keySet(), accepted)) {
                 map.get(accepted).add(taxon);
             } else {
                  HashSet<Taxon> synonyms = new HashSet<Taxon>();
@@ -45,6 +48,22 @@ public class SynonymyMappingWriter implements ItemWriter<Taxon>, StepExecutionLi
                 map.put(accepted, synonyms);
             }
         }
+    }
+
+    /**
+     * @param set the set to search
+     * @param searchItem the item to look for in the set
+     * @return
+     */
+    private boolean contains(Collection<? extends Identifiable> set, Identifiable searchItem) {
+        for(Identifiable i : set) {
+            String mappedIdentifier = i.getIdentifier();
+            String searchIdentifier = searchItem.getIdentifier();
+            if(searchIdentifier.equals(mappedIdentifier)){
+                return true;
+            }
+        }
+        return false;
     }
 
     /* (non-Javadoc)
@@ -65,7 +84,8 @@ public class SynonymyMappingWriter implements ItemWriter<Taxon>, StepExecutionLi
             t.setSynonymNameUsages(map.get(t));
             items.add(t);
         }
-        stepExecution.getJobExecution().getExecutionContext().put("synonymy.taxa.grouped", items);
-        return ExitStatus.COMPLETED;
+        System.out.println("The list is size " + items.size());
+//        stepExecution.getJobExecution().getExecutionContext().put("synonymy.taxa.grouped", items);
+        return stepExecution.getExitStatus();
     }
 }

@@ -12,6 +12,7 @@ import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
+import org.emonocot.model.registry.Organisation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
@@ -22,11 +23,11 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author ben
  *
  */
-public class CheckingProcessor extends AuthorityAware implements ItemProcessor<Taxon,Annotation> {
+public class SkippingProcessor extends AuthorityAware implements ItemProcessor<Taxon,Annotation> {
     /**
      *
      */
-    private Logger logger = LoggerFactory.getLogger(CheckingProcessor.class);
+    private Logger logger = LoggerFactory.getLogger(SkippingProcessor.class);
     
     private TaxonService taxonService;
     
@@ -60,15 +61,14 @@ public class CheckingProcessor extends AuthorityAware implements ItemProcessor<T
         Annotation annotation = annotationService.findAnnotation(RecordType.Taxon,persistedTaxon.getId(), getStepExecution().getJobExecutionId());
 
         if (annotation == null) {
-        	logger.warn(taxon.getIdentifier() + " was not expected");
-            throw new UnexpectedTaxonException(taxon);
+        	annotation = this.createAnnotation(taxon, RecordType.Taxon, AnnotationCode.Skipped, AnnotationType.Info);
         } else {
-        	if (annotation.getCode().equals(AnnotationCode.Present)) {
+        	if (annotation.getCode().equals(AnnotationCode.Skipped)) {
                 throw new TaxonAlreadyProcessedException(taxon);
             }
             annotation.setType(AnnotationType.Info);
-            annotation.setCode(AnnotationCode.Present);
-        	logger.info(taxon.getIdentifier() + " was expected");
+            annotation.setCode(AnnotationCode.Skipped);
+        	logger.info(taxon.getIdentifier() + " was skipped");
         }
         return annotation;
     }

@@ -55,7 +55,6 @@ public class RecoveryController {
    
    @RequestMapping(method = RequestMethod.GET)
    public String show(Model model) {
-	   logger.error("Hitting get");
 	   model.addAttribute(new RecoveryForm());
 	   return "recovery/show";
    }
