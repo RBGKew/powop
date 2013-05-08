@@ -30,6 +30,7 @@
 					};
 				});
 			</script>
+			
 			<c:url var="searchUrl" value="/search" />
 			<form id="search.form" class="tourHelp pull-right form-search" accept-charset="UTF-8" method="GET" action="${searchUrl}"  data-tour-title="Search within results" data-tour-content="Refine your search. Search for any term within the current results." data-tour-placement="bottom" data-tour-next="1">
 				<input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="query" />
@@ -43,13 +44,13 @@
 					<span class="icon-search icon-white">&#160;</span>
 				</button>
 			</form>
-		</div>
-		<div class="row">
+		
 			<c:url var="resetUrl" value="/search"/>
 			<a id="reset" class="btn pull-right tourHelp" href="${resetUrl}" data-tour-title="Reset your search" data-tour-content="Start a new search. All the filters will be deselected and any search terms deleted." data-tour-placement="bottom" data-tour-prev="0" data-tour-next="2">
 				<i class="icon-refresh"><!--  --></i>
 				<spring:message code="reset" />
 			</a>
+			
 		</div>
 		<div class="row">
 			<tags:overlayHelp >
