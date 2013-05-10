@@ -158,7 +158,7 @@
 			    <batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
-		<batch:decision decider="descriptionProcessingModeDecider"	id="checkDescriptionProcessingMode">
+		<batch:decision decider="descriptionProcessingModeDecider" id="checkDescriptionProcessingMode">
 			<batch:next on="IMPORT_DESCRIPTIONS" to="markDescriptionRecords" />
 			<batch:next on="SKIP_DESCRIPTIONS" to="checkImageProcessingMode" />
 		</batch:decision>
@@ -348,7 +348,7 @@
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
-		<batch:decision decider="identifierProcessingModeDecider"	id="checkIdentifierProcessingMode">
+		<batch:decision decider="identifierProcessingModeDecider" id="checkIdentifierProcessingMode">
 			<batch:next on="IMPORT_IDENTIFIERS" to="markIdentifierRecords" />
 			<batch:next on="SKIP_IDENTIFIERS" to="checkDistributionProcessingMode" />
 		</batch:decision>
@@ -397,7 +397,7 @@
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
-		<batch:decision decider="distributionProcessingModeDecider"	id="checkDistributionProcessingMode">
+		<batch:decision decider="distributionProcessingModeDecider" id="checkDistributionProcessingMode">
 			<batch:next on="IMPORT_DISTRIBUTION" to="markDistributionRecords" />
 			<batch:next on="SKIP_DISTRIBUTION" to="checkMeasurementOrFactProcessingMode" />
 		</batch:decision>
@@ -447,7 +447,7 @@
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
-		<batch:decision decider="measurementOrFactProcessingModeDecider"	id="checkMeasurementOrFactProcessingMode">
+		<batch:decision decider="measurementOrFactProcessingModeDecider" id="checkMeasurementOrFactProcessingMode">
 			<batch:next on="IMPORT_MEASUREMENT_OR_FACT" to="markMeasurementOrFactRecords" />
 			<batch:next on="SKIP_MEASUREMENT_OR_FACT" to="checkVernacularNameProcessingMode" />
 		</batch:decision>
@@ -495,7 +495,7 @@
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
-		<batch:decision decider="vernacularNameProcessingModeDecider"	id="checkVernacularNameProcessingMode">
+		<batch:decision decider="vernacularNameProcessingModeDecider" id="checkVernacularNameProcessingMode">
 			<batch:next on="IMPORT_VERNACULAR_NAME" to="markVernacularNameRecords" />
 			<batch:next on="SKIP_VERNACULAR_NAME" to="checkTypeAndSpecimenProcessingMode" />
 		</batch:decision>
@@ -542,7 +542,7 @@
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
-		<batch:decision decider="typeAndSpecimenProcessingModeDecider"	id="checkTypeAndSpecimenProcessingMode">
+		<batch:decision decider="typeAndSpecimenProcessingModeDecider" id="checkTypeAndSpecimenProcessingMode">
 			<batch:next on="IMPORT_TYPE_AND_SPECIMEN" to="markTypeAndSpecimenRecords" />
 			<batch:next on="IMPORT_TYPE_AND_SPECIMEN_DONT_DELETE_GLOBAL" to="markRelatedTypeAndSpecimenRecords" />
 			<batch:next on="SKIP_TYPE_AND_SPECIMEN" to="calculateDerivedProperties" />
