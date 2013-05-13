@@ -68,7 +68,7 @@ public class JRVerticalReportWriter<T> extends JRBaseFiller implements ItemWrite
     private Logger logger = LoggerFactory.getLogger(JRVerticalReportWriter.class);
     
     /**
-     * Records whether there is data to avoid a larger alternative to using the next() method  
+     * Records whether there is data
      */
     private boolean hadData = false;
     

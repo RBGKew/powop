@@ -85,7 +85,7 @@ public class SynonymyMappingWriter implements ItemWriter<Taxon>, StepExecutionLi
             items.add(t);
         }
         System.out.println("The list is size " + items.size());
-//        stepExecution.getJobExecution().getExecutionContext().put("synonymy.taxa.grouped", items);
+        stepExecution.getJobExecution().getExecutionContext().put("taxa.hierarchy.ordered", items);
         return stepExecution.getExitStatus();
     }
 }
