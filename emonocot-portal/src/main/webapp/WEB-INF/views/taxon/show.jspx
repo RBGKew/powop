@@ -27,7 +27,6 @@
 					</c:if>
 				</li>
 			</ul>
-			<tags:overlayHelp />
 		</h2>
 	</tags:pageheader>
 	
@@ -650,7 +649,7 @@
 								<spring:message code="external.links"/>
 							</h2>
 							<ul class="unstyled">
-								<li><a id="genBankLink"><spring:message code="genBank"/></a></li>
+								<li><a id="NCBILink"><spring:message code="ncbi"/></a></li>
 								<li><a id="boldLink"><spring:message code="boldSystems"/></a></li>
 							</ul>
 						</section>
@@ -661,9 +660,9 @@
 					$(document).ready(function(){
 						var obj = $('.taxonName').text();
 						var boldUrl = 'http://www.boldsystems.org/index.php/Taxbrowser_Taxonpage?taxon=' + obj;
-						var genBankUrl = 'http://www.ncbi.nlm.nih.gov/gquery/gquery.fcgi?term=' + obj;
+						var ncbiUrl = 'http://www.ncbi.nlm.nih.gov/gquery/gquery.fcgi?term=' + obj;
 						$('#boldLink').attr("href", boldUrl);
-						$('#genBankLink').attr("href", genBankUrl);
+						$('#NCBILink').attr("href", ncbiUrl);
 					});
 				</script>
 				

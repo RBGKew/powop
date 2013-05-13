@@ -102,7 +102,7 @@
 				t.addStep({
 					element: ".contactLinkOverlay", // string (jQuery selector) - html element next to which the step popover should be shown
 					title: "Contact us",
-					content: "Please contact us with any specific questions",
+					content: "Please contact us with any questions",
 					placement: "top",
 					prev: 9,
 					next: -1,
