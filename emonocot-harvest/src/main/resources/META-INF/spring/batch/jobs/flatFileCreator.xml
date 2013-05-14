@@ -51,7 +51,7 @@
         </batch:step>
         <batch:step id="createPdfFromList" parent="producePdf">
             <batch:tasklet>
-                <batch:chunk reader="groupedTaxonListReader" />
+                <batch:chunk reader="groupedTaxonListReader" processor="taxonLoadAndFilteringProcessor" />
             </batch:tasklet>
             <batch:end on="COMPLETED"/>
         </batch:step> -->
@@ -71,12 +71,23 @@
 	</bean>
     
     <bean id="groupedTaxonListReader" class="org.springframework.batch.item.support.ListItemReader" scope="step">
-        <constructor-arg value="#{(jobExecutionContext['synonymy.taxa.grouped'])}"/>
+        <constructor-arg value="#{(jobExecutionContext['taxa.hierarchy.ordered'])}"/>
+    </bean>
+	
+	<bean id="nullLicenseTaxonFilter" class="org.emonocot.job.dwc.write.NullLicenseTaxonFilter"/>
+    
+    <bean id="taxonLoadAndFilteringProcessor" class="org.springframework.batch.item.support.CompositeItemProcessor" scope="step">
+        <property name="delegates">
+            <list>
+                <bean factory-bean="taxonServiceImpl" factory-method="load">
+                    <constructor-arg index="1" value="taxon-page" type="java.lang.String"/>
+                </bean>
+                <ref local="nullLicenseTaxonFilter" />
+            </list>
+        </property>
     </bean>
     
     <bean id="taxonGroupingWriter" class="org.emonocot.job.download.SynonymyMappingWriter" />
-	
-	<bean id="nullLicenseTaxonFilter" class="org.emonocot.job.dwc.write.NullLicenseTaxonFilter"/>
 	
 	<bean id="downloadTextFileWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
 	  <property name="resource" ref="downloadFile"/>
@@ -90,7 +101,7 @@
 	</bean>
     
     <bean id="pdfWriter" class="net.sf.jasperreports.engine.fill.JRVerticalReportWriter" scope="step">
-        <constructor-arg value="#{T(net.sf.jasperreports.engine.JasperCompileManager).compileReport(@parameterisedReportTemplate.getInputStream())}" />
+        <constructor-arg ref="jasperReport" />
         <property name="defaultOutputDir" value="${harvester.output.directory}" />
         <property name="outputResouce" ref="downloadFile" />
         <property name="parameterValues">
@@ -99,9 +110,6 @@
                 <entry key="username" value="#{jobParameters['download.user.displayName']}" />
             </map>
         </property>
-    </bean>
-    <bean id="parameterisedReportTemplate" class="org.springframework.core.io.ClassPathResource" scope="step">
-        <constructor-arg value="#{jobParameters['download.template.filepath']}" />
     </bean>
 
 	<bean id="downloadFile" class="org.springframework.core.io.FileSystemResource" scope="step">
@@ -130,4 +138,14 @@
         <!-- Fail on unknown download format-->
     </bean>
     
+    <!-- Jasper Reports classes -->
+    <bean id="jasperReport" class="org.emonocot.job.reports.JasperReportsFactory" factory-method="compileReportFromFilePath" scope="prototype">
+	   <constructor-arg ref="reportFilePath" />
+    </bean>
+    <bean id="reportFilePath" class="java.lang.String" scope="step">
+        <constructor-arg value="#{jobParameters['download.template.filepath']}" />
+    </bean>
+    <bean id="nameList" class="org.emonocot.job.reports.JasperReportsFactory" factory-method="compileReportFromFilePath" scope="step">
+	   <constructor-arg value="org/emonocot/job/download/reports/nameList.jrxml" />
+    </bean>
 </beans>

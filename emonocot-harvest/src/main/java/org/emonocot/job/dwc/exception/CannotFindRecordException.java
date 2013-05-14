@@ -18,9 +18,10 @@ public class CannotFindRecordException extends TaxonProcessingException {
     /**
      *
      * @param identifier the identifier of the object
+     * @param title 
      */
-    public CannotFindRecordException(final String identifier) {
-        super("Cannot find a taxon with identifier " + identifier, AnnotationCode.BadIdentifier, identifier);
+    public CannotFindRecordException(final String identifier, final String title) {
+        super("Cannot find a taxon " + title, AnnotationCode.BadIdentifier, identifier);
     }
 
     @Override

@@ -130,7 +130,7 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
                 }
             }
         }
-    }    
+    }
 
     /**
      * Returns the child taxa of a given taxon.

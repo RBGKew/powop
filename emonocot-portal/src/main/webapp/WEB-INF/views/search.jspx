@@ -30,6 +30,7 @@
 					};
 				});
 			</script>
+			
 			<c:url var="searchUrl" value="/search" />
 			<form id="search.form" class="tourHelp pull-right form-search" accept-charset="UTF-8" method="GET" action="${searchUrl}"  data-tour-title="Search within results" data-tour-content="Refine your search. Search for any term within the current results." data-tour-placement="bottom" data-tour-next="1">
 				<input class="search-query span4" placeholder="Search" value="${result.params['query']}" type="text" name="query" id="query" />
@@ -43,13 +44,13 @@
 					<span class="icon-search icon-white">&#160;</span>
 				</button>
 			</form>
-		</div>
-		<div class="row">
+		
 			<c:url var="resetUrl" value="/search"/>
 			<a id="reset" class="btn pull-right tourHelp" href="${resetUrl}" data-tour-title="Reset your search" data-tour-content="Start a new search. All the filters will be deselected and any search terms deleted." data-tour-placement="bottom" data-tour-prev="0" data-tour-next="2">
 				<i class="icon-refresh"><!--  --></i>
 				<spring:message code="reset" />
 			</a>
+			
 		</div>
 		<div class="row">
 			<tags:overlayHelp >
@@ -74,7 +75,7 @@
 				t.addStep({
 					element: ".searchOverlay", // string (jQuery selector) - html element next to which the step popover should be shown
 					title: "More Search Tools",
-					content: "Look at the other Search tools available in the portal",
+					content: "Look at the other search tools available in the portal. You can search using a map and visualise data in tables and charts.",
 					placement: "bottom",
 					prev: 6,
 					next: 8,
@@ -92,7 +93,7 @@
 				t.addStep({
 					element: ".contactLinkOverlay", // string (jQuery selector) - html element next to which the step popover should be shown
 					title: "Contact us",
-					content: "Please contact us with any specific questions",
+					content: "Please contact us if you have any questions.",
 					placement: "top",
 					prev: 8,
 					next: -1,
@@ -102,7 +103,6 @@
 		</div>
 	</tags:pageheader>
 
-	
 	<div class="container">
 		<div class="row">
 			<div id="facets" class="tourHelp span3 no-print"  data-tour-title="Filter your search" data-tour-content="You can filter your results selecting an option for each filter." data-tour-placement="top" data-tour-prev="1" data-tour-next="3">
@@ -127,13 +127,12 @@
 					</div>
 				</c:forEach>
 			</div>
-			
-			<div class="span9 tourHelp" data-tour-title="Results" data-tour-content="Displays your search results. The type of result is indicated by the Icon next to each result entry. Clicking on the thumbnails for Images and taxa will open up the image in a slideshow view." data-tour-placement="top" data-tour-prev="2" data-tour-next="4">
+			<div class="span9 tourHelp" data-tour-title="Results" data-tour-content="Displays your search results. The type of result is indicated by the icon next to each result entry. Clicking on the thumbnails for Images and Taxa will open up the image in a slideshow view." data-tour-placement="top" data-tour-prev="2" data-tour-next="4">
 				<div class="inner">
 					<div class="box">
 						<div class="row no-print">
 							<div id="viewIcons" class="span3">
-									<tags:view url="/search" result="${result}" />
+								<tags:view url="/search" result="${result}" />
 							</div>
 							<tags:sort url="/search" result="${result}" spanClass="span1 offset4" />
 						</div>

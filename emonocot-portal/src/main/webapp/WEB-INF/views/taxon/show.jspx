@@ -12,7 +12,7 @@
 	<tags:pageheader>
 		<h2 id="page-title">
 			<tags:feedbackLink selector="option:contains(${taxon.scientificName} ${taxon.scientificNameAuthorship})" dataName="${taxon.scientificName}" />
-			<i class="glyphicons-icon leaf"><!--  --></i> <em itemprop="scientificName">${taxon.scientificName}</em>&#160;<span itemprop="scientificNameAuthorship">${taxon.scientificNameAuthorship}</span>
+			<i class="glyphicons-icon leaf"><!--  --></i> <em class="taxonName" itemprop="scientificName">${taxon.scientificName}</em>&#160;<span itemprop="scientificNameAuthorship">${taxon.scientificNameAuthorship}</span>
 			<ul class="unstyled">
 				<li>
 					<small>
@@ -27,10 +27,8 @@
 					</c:if>
 				</li>
 			</ul>
-			<tags:overlayHelp />
 		</h2>
 	</tags:pageheader>
-	
 	
 	<div class="container">
 		<c:set var="bibliography" value="${em:bibliography(taxon)}" />
@@ -130,7 +128,6 @@
 			</div>
 		</c:if>
 
-		
 		<script type="text/javascript">
 			$(document).ready(function(){
 				$('#clickMe').toggle(
@@ -320,7 +317,7 @@
 								<ul class="unstyled">
 									<c:forEach var="synonym" items="${em:sort(taxon.synonymNameUsages)}">
 										<li>
-										   <c:url value="/taxon/${synonym.identifier}" var="synonymUrl"/>
+											<c:url value="/taxon/${synonym.identifier}" var="synonymUrl"/>
 											<a href="${synonymUrl}"><em>${synonym.scientificName}</em> ${synonym.scientificNameAuthorship}</a>
 										</li>
 									</c:forEach>
@@ -336,8 +333,9 @@
 						</div>
 					</section>
 				</c:if>
+
 				<c:if test="${not empty taxon.vernacularNames}">
-				<section id="vernacularNames" class="section-box">
+					<section id="vernacularNames" class="section-box">
 						<div class="inner">
 							<div class="box clearfix">
 								<h2>
@@ -373,6 +371,7 @@
 						</div>
 					</section>
 				</c:if>
+
 				<section id="sources" class="section-box">
 					<div class="inner">
 						<div class="box clearfix">
@@ -385,11 +384,12 @@
 						</div>
 					</div>
 				</section>
+
 				<c:if test="${not empty bibliography.references}">
 					<section id="bibliography" class="section-box">
 						<div class="inner">
 							<div class="box clearfix">
-							    <spring:message code="bibliography" var="bibliographyHeader"/>
+								<spring:message code="bibliography" var="bibliographyHeader"/>
 								<h2>
 									<i class="glyphicons-icon book">&#160;</i> ${bibliographyHeader}
 									<tags:feedbackLink selector="$(option:contains(${bibliographyHeader}))" dataName="${bibliographyHeader}" />
@@ -471,15 +471,15 @@
 									<spring:message code="comments.title"/>
 								</h2>
 								<ul class="media-list">
-								  <c:forEach var="comment" items="${taxon.comments}" end="5">
-									<tags:comment comment="${comment}"/>
-								  </c:forEach>
+									<c:forEach var="comment" items="${taxon.comments}" end="5">
+										<tags:comment comment="${comment}"/>
+									</c:forEach>
 								</ul>
 								<div>
 									<c:url var="commentsUrl" value="/comment"/>
-							        <a href="${commentsUrl}">
-								      <spring:message code="more.comments"/>
-							        </a>
+									<a href="${commentsUrl}">
+										<spring:message code="more.comments"/>
+									</a>
 								</div>
 							</section>
 						</div>
@@ -494,10 +494,10 @@
 									<spring:message code="keys"/>
 								</h2>
 								<ul class="unstyled">
-								  <c:forEach var="key" items="${taxon.keys}">
-									<spring:url var="keyUrl" value="/key/${key.id}" />
-									<li><a href="${keyUrl}" title="${key.title}">${key.title}</a></li>
-								  </c:forEach>
+									<c:forEach var="key" items="${taxon.keys}">
+										<spring:url var="keyUrl" value="/key/${key.id}" />
+										<li><a href="${keyUrl}" title="${key.title}">${key.title}</a></li>
+									</c:forEach>
 								</ul>
 								<ul class="citations">
 									<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.keys)}">
@@ -519,10 +519,10 @@
 									<spring:message code="phylogenetic.trees"/>
 								</h2>
 								<ul class="unstyled">
-								  <c:forEach var="tree" items="${taxon.trees}">
-									<spring:url var="treeUrl" value="/phylo/${tree.id}" />
-									<li><a href="${treeUrl}" title="${tree.title}">${tree.title}</a></li>
-								  </c:forEach>
+									<c:forEach var="tree" items="${taxon.trees}">
+										<spring:url var="treeUrl" value="/phylo/${tree.id}" />
+										<li><a href="${treeUrl}" title="${tree.title}">${tree.title}</a></li>
+									</c:forEach>
 								</ul>
 								<ul class="citations">
 									<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.trees)}">
@@ -550,89 +550,89 @@
 										<tr>
 											<th class="span1"><spring:message code="${measurement}" /></th>
 											<td>
-											  <ul id="${measurement}" class="unstyled">
-											    <c:forEach var="fact" items="${facts}">
-											      <li>
-											        <c:choose>
-											          <c:when test="${not empty fact.source}">
-											            <a href="${fact.source}"><spring:message code="measurementorfact_${fact.measurementType}_${fact.measurementValue}" text="${fact.measurementValue}"/></a>
-											          </c:when>
-											          <c:otherwise>
-											            <spring:message code="measurementorfact_${fact.measurementType}_${fact.measurementValue}" text="${fact.measurementValue}"/>
-											          </c:otherwise>
-											        </c:choose>
-											      </li>
-											    </c:forEach>
-											  </ul>
+												<ul id="${measurement}" class="unstyled">
+													<c:forEach var="fact" items="${facts}">
+														<li>
+															<c:choose>
+																<c:when test="${not empty fact.source}">
+																	<a href="${fact.source}"><spring:message code="measurementorfact_${fact.measurementType}_${fact.measurementValue}" text="${fact.measurementValue}"/></a>
+																</c:when>
+																<c:otherwise>
+																	<spring:message code="measurementorfact_${fact.measurementType}_${fact.measurementValue}" text="${fact.measurementValue}"/>
+																</c:otherwise>
+															</c:choose>
+														</li>
+													</c:forEach>
+												</ul>
 											</td>
 											<td>
-											  <c:if test="${not empty facts}">
-											    <ul class="citations">
-									              <c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,facts)}">
-										            <li>
-											          <a href="#${provenanceHolder}">${provenanceHolder}</a>
-										            </li>
-									              </c:forEach>
-								                </ul>
-								              </c:if>
+												<c:if test="${not empty facts}">
+													<ul class="citations">
+														<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,facts)}">
+															<li>
+																<a href="#${provenanceHolder}">${provenanceHolder}</a>
+															</li>
+														</c:forEach>
+													</ul>
+												</c:if>
 											</td>
 										</tr>
 										<c:if test="${measurement.toString() eq 'iucn:threatStatus'}">
-										  <c:forEach var="fact" items="${facts}">
-											<tr>
-												<td colspan="3">
-													<c:choose>
-														<c:when test="${fact.measurementValue eq 'CR'}">
-															<c:url value="/css/images/redList/redListThreatCategories_SHORT_CR.png" var="CRImg"/>
-															<a href="${fact.source}"><img src="${CRImg}" alt="cr" style="width: 100%"/></a>
-														</c:when>
-														<c:when test="${fact.measurementValue eq 'DD'}">
-															<c:url value="/css/images/redList/redListThreatCategories_SHORT_DD.png" var="DDImg"/>
-															<a href="${fact.source}"><img src="${DDImg}" alt="dd" style="width: 100%"/></a>
-														</c:when>
-														<c:when test="${fact.measurementValue eq 'EN'}">
-															<c:url value="/css/images/redList/redListThreatCategories_SHORT_EN.png" var="ENImg"/>
-															<a href="${fact.source}"><img src="${ENImg}" alt="en" style="width: 100%"/></a>
-														</c:when>
-														<c:when test="${fact.measurementValue eq 'EW'}">
-															<c:url value="/css/images/redList/redListThreatCategories_SHORT_EW.png" var="EWImg"/>
-															<a href="${fact.source}"><img src="${EWImg}" alt="ew" style="width: 100%"/></a>
-														</c:when>
-														<c:when test="${fact.measurementValue eq 'EX'}">
-															<c:url value="/css/images/redList/redListThreatCategories_SHORT_EX.png" var="EXImg"/>
-															<a href="${fact.source}"><img src="${EXImg}" alt="ex" style="width: 100%"/></a>
-														</c:when>
-														<c:when test="${fact.measurementValue eq 'LC'}">
-															<c:url value="/css/images/redList/redListThreatCategories_SHORT_LC.png" var="LCImg"/>
-															<a href="${fact.source}"><img src="${LCImg}" alt="lc" style="width: 100%"/></a>
-														</c:when>
-														<c:when test="${fact.measurementValue eq 'NE'}">
-															<c:url value="/css/images/redList/redListThreatCategories_SHORT_CR.png" var="CRImg"/>
-															<a href="${fact.source}"><img src="${CRImg}" alt="cr" style="width: 100%"/></a>
-														</c:when>
-														<c:when test="${fact.measurementValue eq 'NT'}">
-															<c:url value="/css/images/redList/redListThreatCategories_SHORT_NT.png" var="NTImg"/>
-															<a href="${fact.source}"><img src="${NTImg}" alt="nt" style="width: 100%"/></a>
-														</c:when>
-														<c:when test="${fact.measurementValue eq 'VU'}">
-															<c:url value="/css/images/redList/redListThreatCategories_SHORT_VU.png" var="VUImg"/>
-															<a href="${fact.source}"><img src="${VUImg}" alt="vu" style="width: 100%"/></a>
-														</c:when>
-														<c:when test="${fact.measurementValue eq 'LR/cd'}">
-															<!--  -->
-														</c:when>
-														<c:when test="${fact.measurementValue eq 'LR/nt'}">
-															<c:url value="/css/images/redList/redListThreatCategories_SHORT_NT.png" var="NTImg"/>
-															<a href="${fact.source}"><img src="${NTImg}" alt="nt" style="width: 100%"/></a>
-														</c:when>
-														<c:when test="${fact.measurementValue eq 'LR/lc'}">
-															<c:url value="/css/images/redList/redListThreatCategories_SHORT_LC.png" var="LCImg"/>
-															<a href="${fact.source}"><img src="${LCImg}" alt="lc" style="width: 100%"/></a>
-														</c:when>
-													</c:choose>
-												</td>
-											</tr>
-										  </c:forEach>
+											<c:forEach var="fact" items="${facts}">
+												<tr>
+													<td colspan="3">
+														<c:choose>
+															<c:when test="${fact.measurementValue eq 'CR'}">
+																<c:url value="/css/images/redList/redListThreatCategories_SHORT_CR.png" var="CRImg"/>
+																<a href="${fact.source}"><img src="${CRImg}" alt="cr" style="width: 100%"/></a>
+															</c:when>
+															<c:when test="${fact.measurementValue eq 'DD'}">
+																<c:url value="/css/images/redList/redListThreatCategories_SHORT_DD.png" var="DDImg"/>
+																<a href="${fact.source}"><img src="${DDImg}" alt="dd" style="width: 100%"/></a>
+															</c:when>
+															<c:when test="${fact.measurementValue eq 'EN'}">
+																<c:url value="/css/images/redList/redListThreatCategories_SHORT_EN.png" var="ENImg"/>
+																<a href="${fact.source}"><img src="${ENImg}" alt="en" style="width: 100%"/></a>
+															</c:when>
+															<c:when test="${fact.measurementValue eq 'EW'}">
+																<c:url value="/css/images/redList/redListThreatCategories_SHORT_EW.png" var="EWImg"/>
+																<a href="${fact.source}"><img src="${EWImg}" alt="ew" style="width: 100%"/></a>
+															</c:when>
+															<c:when test="${fact.measurementValue eq 'EX'}">
+																<c:url value="/css/images/redList/redListThreatCategories_SHORT_EX.png" var="EXImg"/>
+																<a href="${fact.source}"><img src="${EXImg}" alt="ex" style="width: 100%"/></a>
+															</c:when>
+															<c:when test="${fact.measurementValue eq 'LC'}">
+																<c:url value="/css/images/redList/redListThreatCategories_SHORT_LC.png" var="LCImg"/>
+																<a href="${fact.source}"><img src="${LCImg}" alt="lc" style="width: 100%"/></a>
+															</c:when>
+															<c:when test="${fact.measurementValue eq 'NE'}">
+																<c:url value="/css/images/redList/redListThreatCategories_SHORT_CR.png" var="CRImg"/>
+																<a href="${fact.source}"><img src="${CRImg}" alt="cr" style="width: 100%"/></a>
+															</c:when>
+															<c:when test="${fact.measurementValue eq 'NT'}">
+																<c:url value="/css/images/redList/redListThreatCategories_SHORT_NT.png" var="NTImg"/>
+																<a href="${fact.source}"><img src="${NTImg}" alt="nt" style="width: 100%"/></a>
+															</c:when>
+															<c:when test="${fact.measurementValue eq 'VU'}">
+																<c:url value="/css/images/redList/redListThreatCategories_SHORT_VU.png" var="VUImg"/>
+																<a href="${fact.source}"><img src="${VUImg}" alt="vu" style="width: 100%"/></a>
+															</c:when>
+															<c:when test="${fact.measurementValue eq 'LR/cd'}">
+																<!--  -->
+															</c:when>
+															<c:when test="${fact.measurementValue eq 'LR/nt'}">
+																<c:url value="/css/images/redList/redListThreatCategories_SHORT_NT.png" var="NTImg"/>
+																<a href="${fact.source}"><img src="${NTImg}" alt="nt" style="width: 100%"/></a>
+															</c:when>
+															<c:when test="${fact.measurementValue eq 'LR/lc'}">
+																<c:url value="/css/images/redList/redListThreatCategories_SHORT_LC.png" var="LCImg"/>
+																<a href="${fact.source}"><img src="${LCImg}" alt="lc" style="width: 100%"/></a>
+															</c:when>
+														</c:choose>
+													</td>
+												</tr>
+											</c:forEach>
 										</c:if>
 									</c:forEach>
 								</tbody>
@@ -640,81 +640,107 @@
 						</section>
 					</div>
 				</div>
+				
+				<div class="inner">
+					<div class="box linksBox">
+						<section class="sidebarBox" id="externalLinks">
+							<h2>
+								<i class="glyphicons-icon link"><!-- --></i>
+								<spring:message code="external.links"/>
+							</h2>
+							<ul class="unstyled">
+								<li><a id="NCBILink"><spring:message code="ncbi"/></a></li>
+								<li><a id="boldLink"><spring:message code="boldSystems"/></a></li>
+							</ul>
+						</section>
+					</div>
+				</div>
+				
+				<script type="text/javascript">
+					$(document).ready(function(){
+						var obj = $('.taxonName').text();
+						var boldUrl = 'http://www.boldsystems.org/index.php/Taxbrowser_Taxonpage?taxon=' + obj;
+						var ncbiUrl = 'http://www.ncbi.nlm.nih.gov/gquery/gquery.fcgi?term=' + obj;
+						$('#boldLink').attr("href", boldUrl);
+						$('#NCBILink').attr("href", ncbiUrl);
+					});
+				</script>
+				
 			</div>
 		</div>
 	</div>
+	
 	<div id="feedbackModal" class="modal hide fade">
-       <div class="modal-header">
-            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"><i class="halflings-icon remove"><!--  --></i></button>
-            <h3><i class="glyphicons-icon comments"><!--  --></i><spring:message code="feedbackTitle" /></h3>
-        </div>
-        <c:url value="/comment" var="commentUrl" />
-        <form class="modal-form" action="${commentUrl}" method="post">
-            <div class="modal-body">
-	            <div class="control-group">
-                    <security:authorize access="isAnonymous()">
-                        <span class="label label-important"><spring:message code="feedback.login.needed" /></span>
-                    </security:authorize>
-	                <label class="control-label" for="select01"><spring:message
-	                        code="feedback.topic.option" /></label>
-	                <div class="controls">
-	                    <input type="hidden" name="commentPageIdentifier" value="${taxon.identifier}"/> 
-	                    <select name="aboutData">
-                            <option id="aboutData_taxon" value="${taxon.identifier}">${taxon.scientificName} ${taxon.scientificNameAuthorship}</option>
-                            <spring:message code="description" var="messageDescription"/>
-                            <c:if test="${not empty taxon.descriptions}">
-                                <option id="aboutData_descriptions" value="descriptions">${messageDescription}</option>
-                            </c:if>
-		                    <c:forEach var="feature" items="${em:features()}">
-		                        <c:set var="content" value="${em:content(taxon,feature)}" />
-		                        <c:if test="${content != null}">
-		                            <option id="aboutData_${content.identifier}" value="${content.identifier}"><spring:message code="${feature}" /></option>
-		                        </c:if>
-		                    </c:forEach>
-		                    <c:if test="${not empty taxon.distribution}">
-                                <option id="aboutData_distribution" value="distribution">${messageDistribution}</option>
-                            </c:if>
-                            <c:forEach var="distribution" items="${taxon.distribution}">
-								<option id="aboutData_${distribution.identifier}" value="${distribution.identifier}">
-									<spring:message code="${distribution.location.toString()}" />
-								</option>
-							</c:forEach>
-							<c:if test="${not empty taxon.childNameUsages}">
-								<option id="aboutData_childNameUsages" value="childNameUsages">${childrenHeader}</option>
-							</c:if>
-							<c:forEach var="child" items="${em:sort(taxon.childNameUsages)}">
-								<option id="aboutData_${child.identifier}" value="${child.identifier}">${child.scientificName} ${child.scientificNameAuthorship}</option>
-							</c:forEach>
-							<c:if test="${not empty taxon.synonymNameUsages}">
-								<option id="aboutData_${taxon.identifier}" value="synonymNameUsages">${synonymsHeader}</option>
-							</c:if>
-							<c:forEach var="synonym" items="${em:sort(taxon.synonymNameUsages)}">
-								<option id="${synonym.identifier}" value="${synonym.identifier}">${synonym.scientificName} ${synonym.scientificNameAuthorship}</option>
-							</c:forEach>
-							<c:if test="${not empty taxon.vernacularNames}">
-								<option id="aboutData_vernacularNames" value="vernacularNames">${vernacularHeader}</option>
-							</c:if>
-							<c:forEach var="vernacularName" items="${taxon.vernacularNames}">
-								<option id="${vernacularName.identifier}" value="${vernacularName.identifier}">${vernacularName}</option>
-							</c:forEach>
-							<c:if test="${taxon.acceptedNameUsage == null}">
-								<option id="aboutData_higherClassification" value="higherClassification">${treeHeader}</option>
-							</c:if>
-							<option id="aboutData_measurementsOrFacts" value="measurementsOrFacts">${dataHeader}</option>
-							<option id="aboutData_other" value="other"><spring:message code="feedback.option.other" /></option>
-						</select>
-					</div>
-				</div>
+		<div class="modal-header">
+			<button aria-hidden="true" data-dismiss="modal" class="close" type="button"><i class="halflings-icon remove"><!--  --></i></button>
+			<h3><i class="glyphicons-icon comments"><!--  --></i><spring:message code="feedbackTitle" /></h3>
+		</div>
+		<c:url value="/comment" var="commentUrl" />
+		<form class="modal-form" action="${commentUrl}" method="post">
+			<div class="modal-body">
 				<div class="control-group">
+					<security:authorize access="isAnonymous()">
+						<span class="label label-important"><spring:message code="feedback.login.needed" /></span>
+					</security:authorize>
+					<label class="control-label" for="select01"><spring:message code="feedback.topic.option" /></label>
 					<div class="controls">
-						<textarea class="input-xlarge" name="comment" rows="3"><!--  --></textarea>
+						<input type="hidden" name="commentPageIdentifier" value="${taxon.identifier}"/>
+							<select name="aboutData">
+								<option id="aboutData_taxon" value="${taxon.identifier}">${taxon.scientificName} ${taxon.scientificNameAuthorship}</option>
+								<spring:message code="description" var="messageDescription"/>
+								<c:if test="${not empty taxon.descriptions}">
+									<option id="aboutData_descriptions" value="descriptions">${messageDescription}</option>
+								</c:if>
+								<c:forEach var="feature" items="${em:features()}">
+									<c:set var="content" value="${em:content(taxon,feature)}" />
+									<c:if test="${content != null}">
+										<option id="aboutData_${content.identifier}" value="${content.identifier}"><spring:message code="${feature}" /></option>
+									</c:if>
+								</c:forEach>
+								<c:if test="${not empty taxon.distribution}">
+									<option id="aboutData_distribution" value="distribution">${messageDistribution}</option>
+								</c:if>
+								<c:forEach var="distribution" items="${taxon.distribution}">
+									<option id="aboutData_${distribution.identifier}" value="${distribution.identifier}">
+										<spring:message code="${distribution.location.toString()}" />
+									</option>
+								</c:forEach>
+								<c:if test="${not empty taxon.childNameUsages}">
+									<option id="aboutData_childNameUsages" value="childNameUsages">${childrenHeader}</option>
+								</c:if>
+								<c:forEach var="child" items="${em:sort(taxon.childNameUsages)}">
+									<option id="aboutData_${child.identifier}" value="${child.identifier}">${child.scientificName} ${child.scientificNameAuthorship}</option>
+								</c:forEach>
+								<c:if test="${not empty taxon.synonymNameUsages}">
+									<option id="aboutData_${taxon.identifier}" value="synonymNameUsages">${synonymsHeader}</option>
+								</c:if>
+								<c:forEach var="synonym" items="${em:sort(taxon.synonymNameUsages)}">
+									<option id="${synonym.identifier}" value="${synonym.identifier}">${synonym.scientificName} ${synonym.scientificNameAuthorship}</option>
+								</c:forEach>
+								<c:if test="${not empty taxon.vernacularNames}">
+									<option id="aboutData_vernacularNames" value="vernacularNames">${vernacularHeader}</option>
+								</c:if>
+								<c:forEach var="vernacularName" items="${taxon.vernacularNames}">
+									<option id="${vernacularName.identifier}" value="${vernacularName.identifier}">${vernacularName}</option>
+								</c:forEach>
+								<c:if test="${taxon.acceptedNameUsage == null}">
+									<option id="aboutData_higherClassification" value="higherClassification">${treeHeader}</option>
+								</c:if>
+								<option id="aboutData_measurementsOrFacts" value="measurementsOrFacts">${dataHeader}</option>
+								<option id="aboutData_other" value="other"><spring:message code="feedback.option.other" /></option>
+							</select>
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="controls">
+							<textarea class="input-xlarge" name="comment" rows="3"><!--  --></textarea>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<button class="btn" data-dismiss="modal"><spring:message code="button.close" /></button>
-				<button type="submit" class="btn btn-primary"><spring:message code="button.submit" /></button>
-			</div>
-		</form>
+				<div class="modal-footer">
+					<button class="btn" data-dismiss="modal"><spring:message code="button.close" /></button>
+					<button type="submit" class="btn btn-primary"><spring:message code="button.submit" /></button>
+				</div>
+			</form>
+		</div>
 	</div>
-</div>

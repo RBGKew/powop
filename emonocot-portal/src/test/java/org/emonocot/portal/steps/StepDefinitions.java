@@ -763,7 +763,7 @@ public class StepDefinitions {
      */
     @Then("^the Family facet should have the following options:$")
     public void thereShouldBeOptionsForFamilyFacet(List<Row> options) {
-        assertFacets("taxon.family_s", options);
+        assertFacets("taxon.family_ss", options);
     }
     
     /**

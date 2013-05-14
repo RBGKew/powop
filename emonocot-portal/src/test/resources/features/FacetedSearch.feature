@@ -80,7 +80,7 @@ Scenario: Search for Only Images
 Scenario: Facet on Family
   As a taxonomist specializing in the Araceae
   I would like to be able to search within on family of plants
-  When I restrict the "taxon.family_s" by selecting "Araceae"
+  When I restrict the "taxon.family_ss" by selecting "Araceae"
   Then there should be 9 results
   And the following results should be displayed:
   | page                         | text              |

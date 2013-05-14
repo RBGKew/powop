@@ -113,7 +113,7 @@ public class FlatFileCreatorIntegrationTest {
 	public void testWriteTaxonFile() throws Exception {
 		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
 		parameters.put("query", new JobParameter(""));
-		parameters.put("selected.facets", new JobParameter("taxon.family_s=Araceae"));
+		parameters.put("selected.facets", new JobParameter("taxon.family_ss=Araceae"));
 		parameters.put("download.taxon", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon))));
 		parameters.put("download.file", new JobParameter(UUID.randomUUID().toString() + ".txt"));
 		parameters.put("download.limit", new JobParameter(new Integer(Integer.MAX_VALUE).toString()));
@@ -134,7 +134,7 @@ public class FlatFileCreatorIntegrationTest {
     public void testWriteChecklistPdf() throws Exception {
         Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
         parameters.put("query", new JobParameter(""));
-        parameters.put("selected.facets", new JobParameter("taxon.family_s=Araceae"));
+        parameters.put("selected.facets", new JobParameter("taxon.family_ss=Araceae"));
         parameters.put("download.taxon", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon))));
         parameters.put("download.file", new JobParameter(UUID.randomUUID().toString() + ".pdf"));
         parameters.put("download.limit", new JobParameter(new Integer(Integer.MAX_VALUE).toString()));

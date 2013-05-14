@@ -77,7 +77,7 @@ public class DownloadServiceImpl implements DownloadService {
             jobParametersMap.put("download.template.filepath", "org/emonocot/job/download/reports/hierarchicalChecklist.jrxml");
             jobParametersMap.put("job.total.reads", Integer.toString(expectedCount));
             jobLaunchRequest.setJob("FlatFileCreation");
-            sort = "taxon.family_s_asc,taxon.genus_s_asc,taxon.specificEpithet_s_asc,taxon.scientific_name_t_asc";
+            sort = "taxon.taxon_rank_s_asc,taxon.family_s_asc,taxon.genus_s_asc,taxon.specificEpithet_s_asc,taxon.scientific_name_t_asc";
             break;
         case "taxon":
             jobParametersMap.put("download.taxon", toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon)));

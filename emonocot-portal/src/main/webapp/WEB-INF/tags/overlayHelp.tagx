@@ -21,17 +21,17 @@
 			});
 		
 			$(".tourHelp").each(function(){
-			    var next, prev;
-			    if($(this).attr("data-tour-prev") !== "undefined") {
-			      prev = $(this).attr("data-tour-prev");
-			    } else {
-			      prev = -1;
-			    }
-			    if($(this).attr("data-tour-next") !== "undefined") {
-			      next = $(this).attr("data-tour-next");
-			    } else {
-			      next = -1;
-			    }
+				var next, prev;
+				if($(this).attr("data-tour-prev") !== "undefined") {
+					prev = $(this).attr("data-tour-prev");
+				} else {
+					prev = -1;
+				}
+				if($(this).attr("data-tour-next") !== "undefined") {
+					next = $(this).attr("data-tour-next");
+				} else {
+					next = -1;
+				}
 				t.addStep({
 					element: $(this), // string (jQuery selector) - html element next to which the step popover should be shown
 					title: $(this).attr("data-tour-title"),

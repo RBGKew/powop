@@ -38,11 +38,11 @@ public class OwnedEntityFieldSetMapper<T extends OwnedEntity> extends BaseDataFi
             DwcTerm dwcTerm = (DwcTerm) term;
             switch (dwcTerm) {
             case taxonID:
-				if (value != null || value.trim().length() > 0) {
+				if (value != null && !value.isEmpty()) {
 					Taxon taxon = taxonService.find(value);
 					if (taxon == null) {
 						logger.error("Cannot find record " + value);
-						throw new CannotFindRecordException(value);
+						throw new CannotFindRecordException(value,value);
 					} else {
 						taxon = new Taxon();
 						taxon.setIdentifier(value);

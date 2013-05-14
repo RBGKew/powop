@@ -128,7 +128,9 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
         
         List<T> results = new ArrayList<T>();
         for(SolrDocument solrDocument : queryResponse.getResults()) {
-			results.add(loadObjectForDocument(solrDocument));
+            T object = loadObjectForDocument(solrDocument);
+            enableProfilePostQuery(object, fetch);
+			results.add(object);
         }
         
         Long totalResults = new Long(queryResponse.getResults().getNumFound());

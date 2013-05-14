@@ -283,7 +283,7 @@ public class Comment extends Base implements Searchable {
     			.append(taxon.getSubfamily()).append(" ").append(taxon.getSubgenus()).append(" ")
     			.append(taxon.getSubtribe()).append(" ").append(taxon.getTaxonomicStatus()).append(" ")
     			.append(taxon.getTribe());
-    			sid.addField("taxon.family_s", taxon.getFamily());
+    			sid.addField("taxon.family_ss", taxon.getFamily());
     		} else if(getCommentPage() instanceof IdentificationKey) {
     			sid.addField("comment.comment_page_class_s","org.emonocot.model.IdentificationKey");
     			IdentificationKey identificationKey = (IdentificationKey)getCommentPage();

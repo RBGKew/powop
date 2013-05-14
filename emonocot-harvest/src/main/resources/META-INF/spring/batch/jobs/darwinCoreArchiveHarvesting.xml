@@ -58,8 +58,17 @@
 			<batch:next on="CHECK_TAXA" to="markTaxonRecords" />
 			<batch:next on="IMPORT_TAXA" to="markTaxonRecordsForImport" />
 			<batch:next on="IMPORT_TAXA_BY_AUTHORITY" to="markTaxonRecordsByAuthorityForImport" />
-			<batch:next on="SKIP_TAXA" to="markDescriptionRecords" />
+			<batch:next on="SKIP_TAXA" to="markTaxonRecordsForSkipping" />
 		</batch:decision>
+		<batch:step id="markTaxonRecordsForSkipping">
+			<batch:description>Mark the taxon records we expect to be present in this archive</batch:description>
+			<batch:tasklet ref="markTaxonRecordsForSkippingTasklet" />
+			<batch:next on="COMPLETED" to="skipCoreFile" />
+			<batch:listeners>
+				<batch:listener ref="markTaxonRecordsForSkippingTasklet" />
+				<batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
 		<batch:step id="markTaxonRecords">
 			<batch:description>Mark the taxon records we expect to be present in this archive</batch:description>
 			<batch:tasklet ref="markTaxonRecordsForCheckingTasklet" />
@@ -73,6 +82,25 @@
 			<batch:description>Process the core file containing the taxa but only check the taxa, don't modify or create taxa</batch:description>
 			<batch:tasklet>
 				<batch:chunk reader="taxonReader" processor="taxonCheckingProcessor"
+					writer="itemWriter" commit-interval="10" skip-limit="10000">
+					<batch:skippable-exception-classes>
+						<batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
+						<batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
+					</batch:skippable-exception-classes>
+				</batch:chunk>
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="checkDescriptionProcessingMode" />
+			<batch:next on="FAILED" to="indexAnnotationsFailed"/>
+			<batch:listeners>
+				<batch:listener ref="processingExceptionProcessListener" />
+				<batch:listener ref="taxonFieldSetMapper" />
+				<batch:listener ref="stepStatusListener" />				
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="skipCoreFile">
+			<batch:description>Process the core file containing the taxa but only check the taxa, don't modify or create taxa</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="taxonReader" processor="taxonSkippingProcessor"
 					writer="itemWriter" commit-interval="10" skip-limit="10000">
 					<batch:skippable-exception-classes>
 						<batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
@@ -130,7 +158,7 @@
 			    <batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
-		<batch:decision decider="descriptionProcessingModeDecider"	id="checkDescriptionProcessingMode">
+		<batch:decision decider="descriptionProcessingModeDecider" id="checkDescriptionProcessingMode">
 			<batch:next on="IMPORT_DESCRIPTIONS" to="markDescriptionRecords" />
 			<batch:next on="SKIP_DESCRIPTIONS" to="checkImageProcessingMode" />
 		</batch:decision>
@@ -320,7 +348,7 @@
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
-		<batch:decision decider="identifierProcessingModeDecider"	id="checkIdentifierProcessingMode">
+		<batch:decision decider="identifierProcessingModeDecider" id="checkIdentifierProcessingMode">
 			<batch:next on="IMPORT_IDENTIFIERS" to="markIdentifierRecords" />
 			<batch:next on="SKIP_IDENTIFIERS" to="checkDistributionProcessingMode" />
 		</batch:decision>
@@ -369,7 +397,7 @@
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
-		<batch:decision decider="distributionProcessingModeDecider"	id="checkDistributionProcessingMode">
+		<batch:decision decider="distributionProcessingModeDecider" id="checkDistributionProcessingMode">
 			<batch:next on="IMPORT_DISTRIBUTION" to="markDistributionRecords" />
 			<batch:next on="SKIP_DISTRIBUTION" to="checkMeasurementOrFactProcessingMode" />
 		</batch:decision>
@@ -419,7 +447,7 @@
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
-		<batch:decision decider="measurementOrFactProcessingModeDecider"	id="checkMeasurementOrFactProcessingMode">
+		<batch:decision decider="measurementOrFactProcessingModeDecider" id="checkMeasurementOrFactProcessingMode">
 			<batch:next on="IMPORT_MEASUREMENT_OR_FACT" to="markMeasurementOrFactRecords" />
 			<batch:next on="SKIP_MEASUREMENT_OR_FACT" to="checkVernacularNameProcessingMode" />
 		</batch:decision>
@@ -467,7 +495,7 @@
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
-		<batch:decision decider="vernacularNameProcessingModeDecider"	id="checkVernacularNameProcessingMode">
+		<batch:decision decider="vernacularNameProcessingModeDecider" id="checkVernacularNameProcessingMode">
 			<batch:next on="IMPORT_VERNACULAR_NAME" to="markVernacularNameRecords" />
 			<batch:next on="SKIP_VERNACULAR_NAME" to="checkTypeAndSpecimenProcessingMode" />
 		</batch:decision>
@@ -514,7 +542,7 @@
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
-		<batch:decision decider="typeAndSpecimenProcessingModeDecider"	id="checkTypeAndSpecimenProcessingMode">
+		<batch:decision decider="typeAndSpecimenProcessingModeDecider" id="checkTypeAndSpecimenProcessingMode">
 			<batch:next on="IMPORT_TYPE_AND_SPECIMEN" to="markTypeAndSpecimenRecords" />
 			<batch:next on="IMPORT_TYPE_AND_SPECIMEN_DONT_DELETE_GLOBAL" to="markRelatedTypeAndSpecimenRecords" />
 			<batch:next on="SKIP_TYPE_AND_SPECIMEN" to="calculateDerivedProperties" />
@@ -747,6 +775,11 @@
 		<property name="tribe" value="#{jobParameters['tribe']}"/>
 		<property name="subtribe" value="#{jobParameters['subtribe']}"/>
 	</bean>
+	
+	<bean id="markTaxonRecordsForSkippingTasklet" class="org.emonocot.job.dwc.taxon.SkippingRecordAnnotator" scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="authorityName" value="#{jobParameters['authority.name']}"/>	
+	</bean>
 
 	<bean id="taxonReader" class="org.springframework.batch.item.file.FlatFileItemReader"
 		scope="step">
@@ -766,6 +799,10 @@
 	<bean id="taxonImportingProcessor" class="org.emonocot.job.dwc.taxon.Processor"	scope="step">
 		<property name="sourceName" value="#{jobParameters['authority.name']}" />
 		<property name="skipUnmodified" value="#{jobParameters['skip.unmodified']}"/>
+	</bean>
+	
+	<bean id="taxonSkippingProcessor" class="org.emonocot.job.dwc.taxon.SkippingProcessor" scope="step">
+		<property name="sourceName" value="#{jobParameters['authority.name']}" />
 	</bean>
 
 	<bean id="taxonCheckingProcessor" class="org.emonocot.job.dwc.taxon.CheckingProcessor" scope="step">

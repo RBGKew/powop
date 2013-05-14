@@ -18,7 +18,7 @@
 		<c:set var="zoomBoxSearch" value="false"/>
 	</c:if>
 	
-	<div id="map" class="no-print ${mapClass} tourHelp" data-tour-title="Map" data-tour-content="Use the map to search for results that are present in the area you select." data-tour-placement="top" data-tour-prev="1" data-tour-next="3">&#160;</div>
+	<div id="map" class="no-print ${mapClass} tourHelp" data-tour-title="Map" data-tour-content="Use the map to search for results that are present in the area you select. Use SHIFT+drag to draw a box around the area you are interested in. You can pan and zoom in and out the map." data-tour-placement="top" data-tour-prev="1" data-tour-next="3">&#160;</div>
 	
 	<c:url var="openlayersImageLocation" value="/css/images/OpenLayers/" />
 	<spring:message code="web.map.server.url" var="wmsUrl"/>
