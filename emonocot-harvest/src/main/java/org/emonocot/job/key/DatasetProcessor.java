@@ -142,9 +142,9 @@ public class DatasetProcessor extends AuthorityAware implements
             }
 
             if (item.getRevisionData() != null) {
-                identificationKey.setCreated(item.getRevisionData()
-                        .getDateCreated());
+                identificationKey.setCreated(item.getRevisionData().getDateCreated());
                 identificationKey.setCreator(constructCreators(item));
+                identificationKey.setModified(item.getRevisionData().getDateModified());
             }
             identificationKey.setTitle(item.getRepresentation().getLabel());
             identificationKey.setDescription(item.getRepresentation().getDetail());
@@ -152,14 +152,8 @@ public class DatasetProcessor extends AuthorityAware implements
             return identificationKey;
         } else {
             if (item.getRevisionData() != null) {
-                if (persistedIdentificationKey.getCreated().isBefore(
-                        item.getRevisionData().getDateCreated())) {
-                    persistedIdentificationKey.setModified(item
-                            .getRevisionData().getDateCreated());
-                } else {
-                    persistedIdentificationKey.setCreated(item
-                            .getRevisionData().getDateCreated());
-                }
+                persistedIdentificationKey.setModified(item.getRevisionData().getDateModified());                
+                persistedIdentificationKey.setCreated(item.getRevisionData().getDateCreated());                
                 persistedIdentificationKey.setCreator(constructCreators(item));
             }
             if (rootTaxonIdentifier != null
