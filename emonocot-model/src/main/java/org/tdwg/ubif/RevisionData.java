@@ -16,18 +16,16 @@ import com.thoughtworks.xstream.annotations.XStreamConverter;
  */
 public class RevisionData {
 
-    /**
-     *
-     */
     @XStreamAlias("Creators")
     private List<Agent> creators = new ArrayList<Agent>();
 
-    /**
-     *
-     */
     @XStreamAlias("DateCreated")
     @XStreamConverter(DateTimeConverter.class)
     private DateTime dateCreated;
+    
+    @XStreamAlias("DateModified")
+    @XStreamConverter(DateTimeConverter.class)
+    private DateTime dateModified;
 
     /**
      * @return the creators
@@ -57,4 +55,11 @@ public class RevisionData {
         this.dateCreated = newDateCreated;
     }
 
+	public DateTime getDateModified() {
+		return dateModified;
+	}
+
+	public void setDateModified(DateTime dateModified) {
+		this.dateModified = dateModified;
+	}
 }
