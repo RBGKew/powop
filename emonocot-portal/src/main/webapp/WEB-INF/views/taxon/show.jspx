@@ -289,8 +289,8 @@
 								<ul class="unstyled">
 									<c:forEach var="child" items="${em:sort(taxon.childNameUsages)}">
 										<li>
-										  <c:url value="/taxon/${child.identifier}" var="childUrl"/>
-										  <a href="${childUrl}"><em>${child.scientificName}</em> ${child.scientificNameAuthorship}</a>
+											<c:url value="/taxon/${child.identifier}" var="childUrl"/>
+											<a href="${childUrl}"><em>${child.scientificName}</em> ${child.scientificNameAuthorship}</a>
 										</li>
 									</c:forEach>
 								</ul>
@@ -396,7 +396,7 @@
 								</h2>
 								<ul>
 									<c:forEach var="reference" items="${bibliography.references}">
-										<li>										    
+										<li>
 											<a id="${reference.identifier}">${em:citekey(bibliography,reference)}</a>
 											<c:choose>
 												<c:when test="${not empty reference.uri}">
@@ -426,7 +426,21 @@
 								</h2>
 								<c:if test="${not empty taxon.higherClassification}">
 									<ul id="taxonHierarchy">
-										<tags:tree taxon="${taxon}" ancestors="${taxon.higherClassification}" />
+										<c:choose>
+											<c:when test="${fn:length(taxon.higherClassification) gt 3}">
+												<c:set var="ancestors" value="${taxon.higherClassification.subList(fn:length(taxon.higherClassification) -4, fn:length(taxon.higherClassification))}"/>
+												<li>
+													<a class="ancestorsList" href="#">${fn:length(taxon.higherClassification)-4} MORE ANCESTORS</a>
+													<ul>
+														<tags:tree taxon="${taxon}" ancestors="${ancestors}" />
+													</ul>
+												</li>
+											</c:when>
+											<c:otherwise>
+												<tags:tree taxon="${taxon}" ancestors="${taxon.higherClassification}" />
+											</c:otherwise>
+										</c:choose>
+										
 									</ul>
 									<ul class="citations">
 										<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.higherClassification)}">

@@ -66,21 +66,22 @@
 							<b class="caret"><!--  --></b>
 						</a>
 						<ul class="dropdown-menu">
+							
 							<li>
 								<c:url value="/key/2" var="familyKeyUrl"/>
-								<a href="${familyKeyUrl}"><i class="halflings-icon keys"><!--  --></i><spring:message code="family.key.title"/></a>
+								<a href="${familyKeyUrl}"><i class="halflings-icon keys"><!--  --></i>&#160;<spring:message code="family.key.title"/></a>
 							</li>
 							<li>
 								<c:url value="/search" var="keySearchUrl">
 									<c:param name="facet" value="base.class_s:org.emonocot.model.IdentificationKey"/>
-								</c:url>								
-								<a href="${keySearchUrl}"><i class="halflings-icon search_keys"><!--  --></i><spring:message code="search.for.keys"/></a>
+								</c:url>
+								<a href="${keySearchUrl}"><i class="halflings-icon search_keys"><!--  --></i>&#160;<spring:message code="search.for.keys"/></a>
 							</li>
 							<li>
 								<c:url value="/search" var="imageSearchUrl">
 									<c:param name="facet" value="base.class_s:org.emonocot.model.Image"/>
-								</c:url>								
-								<a href="${imageSearchUrl}"><i class="halflings-icon browse_images"><!--  --></i><spring:message code="browse.images"/></a>
+								</c:url>
+								<a href="${imageSearchUrl}"><i class="halflings-icon browse_images"><!--  --></i>&#160;<spring:message code="browse.images"/></a>
 							</li>
 						</ul>
 					</li>
@@ -102,11 +103,11 @@
 						</a>
 						<ul class="dropdown-menu">
 							<c:url value="/search" var="searchUrl"/>
-							<li><a href="${searchUrl}"><i class="icon-search"><!--  --></i> <spring:message code="search"/></a></li>
+							<li><a href="${searchUrl}"><i class="icon-search"><!--  --></i>&#160;<spring:message code="search"/></a></li>
 							<c:url value="/spatial" var="mapSearchUrl"/>
-							<li><a href="${mapSearchUrl}"><i class="icon-globe"><!--  --></i> <spring:message code="map.search"/></a></li>
+							<li><a href="${mapSearchUrl}"><i class="icon-globe"><!--  --></i>&#160;<spring:message code="map.search"/></a></li>
 							<c:url value="/visualise" var="visualiseDataUrl"/>
-							<li><a href="${visualiseDataUrl}"><i class="icon-signal"><!--  --></i> <spring:message code="visualise.data"/></a></li>
+							<li><a href="${visualiseDataUrl}"><i class="icon-signal"><!--  --></i>&#160;<spring:message code="visualise.data"/></a></li>
 						</ul>
 					</li>
 				</ul>

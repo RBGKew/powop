@@ -16,10 +16,8 @@
 				<span class="currentTaxon"></span><em>${taxon.scientificName}</em> ${taxon.scientificNameAuthorship}
 			</c:when>
 			<c:otherwise>
-				<c:if test="${fn:length(ancestors) lt 4}">
-					<c:url value="/taxon/${ancestor.identifier}" var="ancestorUrl"/>
-					<a class="ancestorsList" href="${ancestorUrl}"><em>${ancestor.scientificName}</em> ${ancestor.scientificNameAuthorship}</a>
-				</c:if>
+				<c:url value="/taxon/${ancestor.identifier}" var="ancestorUrl"/>
+				<a class="ancestorsList" href="${ancestorUrl}"><em>${ancestor.scientificName}</em> ${ancestor.scientificNameAuthorship}</a>
 			</c:otherwise>
 		</c:choose>
 		<c:choose>
@@ -53,7 +51,5 @@
 				</c:if>
 			</c:otherwise>
 		</c:choose>
-		
 	</li>
-	
 </jsp:root>
