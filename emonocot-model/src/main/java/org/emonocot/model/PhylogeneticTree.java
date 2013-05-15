@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 
@@ -21,6 +22,8 @@ import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.emonocot.model.marshall.json.ReferenceDeserializer;
+import org.emonocot.model.marshall.json.ReferenceSerializer;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.hibernate.annotations.Cascade;
@@ -50,7 +53,31 @@ public class PhylogeneticTree extends SearchableObject implements NonOwned,
 	
 	private String phylogeny;
 	
-	private List<Comment> comments = new ArrayList<Comment>();
+	private List<Comment> comments = new ArrayList<Comment>();	
+	
+	private Long numberOfExternalNodes;
+	
+	private Reference source;
+
+	public Long getNumberOfExternalNodes() {
+		return numberOfExternalNodes;
+	}
+
+	public void setNumberOfExternalNodes(Long numberOfExternalNodes) {
+		this.numberOfExternalNodes = numberOfExternalNodes;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@Cascade({ CascadeType.SAVE_UPDATE })
+	@JsonSerialize(using = ReferenceSerializer.class)
+	public Reference getSource() {
+		return source;
+	}
+
+	@JsonDeserialize(using = ReferenceDeserializer.class)
+	public void setSource(Reference source) {
+		this.source = source;
+	}
 
 	@Override
 	@Id

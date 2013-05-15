@@ -4309,4 +4309,19 @@
     <changeSet author="ben" id="2013-04-29_1">
       <modifyDataType tableName="TypeAndSpecimen" columnName="locality" newDataType="longtext"/>
     </changeSet>
+    <changeSet author="ben" id="2013-05-15_1">
+      <comment>BUG 94: As a user of eMonocot, I would like to see and explore the phylogeny tree in a taxon page.</comment>
+      <addColumn tableName="PhylogeneticTree">
+        <column name="numberOfExternalNodes" type="bigint"/>
+      </addColumn>
+    </changeSet>
+    <changeSet author="ben" id="2013-05-15_2">
+      <comment>BUG 94: As a user of eMonocot, I would like to see and explore the phylogeny tree in a taxon page.</comment>
+      <addColumn tableName="PhylogeneticTree">
+        <column name="source_id" type="bigint"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2013-05-15_3" author="ben">
+      <addForeignKeyConstraint constraintName="FKC35AE4F16B53D39D" referencedTableName="Reference" baseColumnNames="source_id" baseTableName="PhylogeneticTree" referencedColumnNames="id"/>
+    </changeSet>
 </databaseChangeLog>

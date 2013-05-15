@@ -131,6 +131,8 @@ public class PhylogeneticTreeTransformingTasklet extends AbstractRecordAnnotator
 			annotation.setAuthority(getSource());
 			phylogeneticTree.getAnnotations().add(annotation);
 		}
+		phylogeneticTree.setNumberOfExternalNodes(new Long(phylogeny.getNumberOfExternalNodes()));
+		
 		if(phylogeneticTree.getTitle() == null || phylogeneticTree.getTitle().isEmpty()) {
 		    phylogeneticTree.setTitle(phylogeny.getName());
 		}

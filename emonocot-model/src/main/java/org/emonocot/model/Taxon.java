@@ -111,7 +111,6 @@ public class Taxon extends SearchableObject {
 
 	private Reference namePublishedIn;
 
-
 	private Reference nameAccordingTo;
 
 	private List<Taxon> higherClassification = null;

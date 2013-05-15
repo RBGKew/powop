@@ -52,7 +52,7 @@
                                 $("#zoomin").click(function() {
                                    	zpd = phylocanvas.getZpd();
                                    	if (zpd.opts.zoomThreshold) { 
-                                        if (zpd.opts.zoomThreshold[1] <= zpd.zoomCurrent) {
+                                        if (zpd.opts.zoomThreshold[1] &lt;= zpd.zoomCurrent) {
                                            	return;
                                         }
                                   	}
@@ -70,7 +70,7 @@
                                 $("#zoomout").click(function() {
                                     zpd = phylocanvas.getZpd();
                                     if (zpd.opts.zoomThreshold) { 
-                                        if (zpd.opts.zoomThreshold[0] >= zpd.zoomCurrent) {
+                                        if (zpd.opts.zoomThreshold[0] &gt;= zpd.zoomCurrent) {
                                             return;
                                         }
                                     }
@@ -124,6 +124,14 @@
 									<tr>
 										<th><spring:message code="phylo.description" /></th>
 										<td>${phylogeneticTree.description}</td>
+									</tr>
+									<tr>
+										<th><spring:message code="phylo.source" /></th>
+										<td>
+										  <c:if test="${not empty phylogeneticTree.source}">
+										    ${phylogeneticTree.source.bibliographicCitation}
+										  </c:if>
+										</td>
 									</tr>
 									<tr>
 									  <th><spring:message code="phylo.taxa" /></th>
