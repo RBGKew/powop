@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.SearchableObject;
@@ -18,12 +19,17 @@ import org.emonocot.portal.format.annotation.FacetRequestFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.orm.hibernate3.HibernateObjectRetrievalFailureException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 
@@ -390,4 +396,12 @@ public class SearchController {
 	List<Match> autocomplete(@RequestParam(required = true) String term) {
 		return searchableObjectService.autocomplete(term, 10, null);
 	}
+	
+	@ExceptionHandler(SolrServerException.class)
+	@ResponseStatus(value = HttpStatus.SERVICE_UNAVAILABLE)
+	public ModelAndView handleObjectNotFoundException(SolrServerException sse) {
+    	ModelAndView modelAndView = new ModelAndView("serviceUnavailable");
+    	modelAndView.addObject("exception", sse);
+        return modelAndView;
+    }
 }

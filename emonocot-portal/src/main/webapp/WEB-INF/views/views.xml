@@ -69,6 +69,10 @@
     <put-attribute name="pageTitle" value="methodNotAllowedTitle" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/badRequest.jspx" />
   </definition>
+  <definition name="serviceUnavailable" extends="default">
+    <put-attribute name="pageTitle" value="serviceUnavailableTitle" cascade="true" />
+    <put-attribute name="body" value="/WEB-INF/views/serviceUnavailable.jspx" />
+  </definition>
   <definition name="about" extends="default">
     <put-attribute name="pageTitle" value="aboutTitle" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/about.jspx" />
