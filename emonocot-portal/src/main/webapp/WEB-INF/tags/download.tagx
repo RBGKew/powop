@@ -21,7 +21,14 @@
 		    <a href="${downloadUrl}" class="btn"><i class="halflings-icon download-alt"><!--  --></i> <spring:message code="download"/></a>
 		  </c:when>
 		  <c:otherwise>
-		    <a class="btn disabled"><i class="halflings-icon download-alt"><!--  --></i> <spring:message code="download"/></a>
+		    <a class="btn disabled" rel="tooltip" title="Note: You need to restrict the cathegory to only Taxa in order to be able to download the results."><i class="halflings-icon download-alt"><!--  --></i> <spring:message code="download"/></a>
 		  </c:otherwise>
 		</c:choose>
+		<script>
+				$(function() {
+					$("a[rel=tooltip]").tooltip({
+						live : true
+					});
+				});
+			</script>
 </jsp:root>

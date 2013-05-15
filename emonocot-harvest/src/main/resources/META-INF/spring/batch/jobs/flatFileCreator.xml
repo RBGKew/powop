@@ -41,25 +41,11 @@
         <batch:step id="createPdf" parent="producePdf">
             <batch:end on="COMPLETED"/>
         </batch:step>
-        <!-- <batch:step id="sortSynonymy" next="createPdfFromList">
-            <batch:tasklet>
-                <batch:chunk reader="downloadItemsReader" writer="taxonGroupingWriter" commit-interval="10"/>
-            </batch:tasklet>
-            <batch:listeners>
-                <batch:listener ref="taxonGroupingWriter" />
-            </batch:listeners>
-        </batch:step>
-        <batch:step id="createPdfFromList" parent="producePdf">
-            <batch:tasklet>
-                <batch:chunk reader="groupedTaxonListReader" processor="taxonLoadAndFilteringProcessor" />
-            </batch:tasklet>
-            <batch:end on="COMPLETED"/>
-        </batch:step> -->
 	    <batch:listeners>
             <batch:listener ref="jobStatusListener" />
         </batch:listeners>
 	</batch:job>
-			
+    
 	<bean id="downloadItemsReader" class="org.emonocot.harvest.common.SolrItemReader" scope="step">
 	  <property name="service" ref="searchableObjectServiceImpl" />	  
 	  <property name="pageSize" value="10"/>
@@ -76,20 +62,7 @@
 	
 	<bean id="nullLicenseTaxonFilter" class="org.emonocot.job.dwc.write.NullLicenseTaxonFilter"/>
     
-    <bean id="taxonLoadAndFilteringProcessor" class="org.springframework.batch.item.support.CompositeItemProcessor" scope="step">
-        <property name="delegates">
-            <list>
-                <bean factory-bean="taxonServiceImpl" factory-method="load">
-                    <constructor-arg index="1" value="taxon-page" type="java.lang.String"/>
-                </bean>
-                <ref local="nullLicenseTaxonFilter" />
-            </list>
-        </property>
-    </bean>
-    
-    <bean id="taxonGroupingWriter" class="org.emonocot.job.download.SynonymyMappingWriter" />
-	
-	<bean id="downloadTextFileWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+    <bean id="downloadTextFileWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
 	  <property name="resource" ref="downloadFile"/>
 	  <property name="lineAggregator" ref="lineAggregator"/>
 	  <property name="headerCallback" ref="dwcHeaderWriter"/>
@@ -108,6 +81,7 @@
             <map>
                 <entry key="searchDefinition" value="#{jobParameters['download.searchDefinition']}" />
                 <entry key="username" value="#{jobParameters['download.user.displayName']}" />
+                <entry key="nameListReport" value-ref="nameList" />
             </map>
         </property>
     </bean>
@@ -145,7 +119,7 @@
     <bean id="reportFilePath" class="java.lang.String" scope="step">
         <constructor-arg value="#{jobParameters['download.template.filepath']}" />
     </bean>
-    <bean id="nameList" class="org.emonocot.job.reports.JasperReportsFactory" factory-method="compileReportFromFilePath" scope="step">
+    <bean id="nameList" class="org.emonocot.job.reports.JasperReportsFactory" factory-method="compileReportFromFilePath">
 	   <constructor-arg value="org/emonocot/job/download/reports/nameList.jrxml" />
     </bean>
 </beans>

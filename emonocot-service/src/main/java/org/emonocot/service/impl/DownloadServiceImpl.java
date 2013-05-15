@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.emonocot.api.job.DarwinCorePropertyMap;
 import org.emonocot.api.job.JobExecutionException;
@@ -49,9 +50,10 @@ public class DownloadServiceImpl implements DownloadService {
      * @see org.emonocot.service.DownloadService#requestDownload(org.emonocot.service.DownloadType, java.lang.String, java.util.List, java.lang.String, java.lang.String, java.lang.String, org.springframework.ui.Model, javax.servlet.http.HttpServletRequest, java.lang.String, java.util.List, org.emonocot.service.RedirectAttributes, org.emonocot.model.auth.User)
      */
     @Override
-    public void requestDownload(String query, String selectedFacets, String sort, String spatial,
+    public void requestDownload(String query, Map<String, String> selectedFacets, String sort, String spatial,
             Integer expectedCount, String purpose, String downloadFormat, List<String> archiveOptions,
             Resource resource, User requestingUser) throws JobExecutionException {
+        
       //Launch the job
         JobLaunchRequest jobLaunchRequest = new JobLaunchRequest();
         Map<String, String> jobParametersMap = new HashMap<String, String>();
@@ -77,7 +79,10 @@ public class DownloadServiceImpl implements DownloadService {
             jobParametersMap.put("download.template.filepath", "org/emonocot/job/download/reports/hierarchicalChecklist.jrxml");
             jobParametersMap.put("job.total.reads", Integer.toString(expectedCount));
             jobLaunchRequest.setJob("FlatFileCreation");
-            sort = "taxon.taxon_rank_s_asc,taxon.family_s_asc,taxon.genus_s_asc,taxon.specificEpithet_s_asc,taxon.scientific_name_t_asc";
+            sort = "taxon.family_s_asc,taxon.genus_s_asc,taxon.specificEpithet_s_asc,taxon.scientific_name_t_asc";
+            if(selectedFacets != null) {
+                selectedFacets.put("taxon.taxonomic_status_s", "Accepted");
+            }
             break;
         case "taxon":
             jobParametersMap.put("download.taxon", toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon)));
@@ -128,7 +133,20 @@ public class DownloadServiceImpl implements DownloadService {
         }
         jobParametersMap.put("download.sort", sort);
         jobParametersMap.put("download.format", downloadFormat);
-        jobParametersMap.put("download.selectedFacets", selectedFacets);
+
+        StringBuffer selectedFacetBuffer = new StringBuffer();
+        if (selectedFacets != null && !selectedFacets.isEmpty()) {           
+            boolean isFirst = true;
+            for (Entry<String, String> facet : selectedFacets.entrySet()) {
+                if(!isFirst) {
+                    selectedFacetBuffer.append(",");
+                } else {
+                    isFirst = false;
+                }
+                selectedFacetBuffer.append(facet.getKey() + "=" + facet.getValue());
+            }
+        }
+        jobParametersMap.put("download.selectedFacets", selectedFacetBuffer.toString());
         jobParametersMap.put("download.fieldsTerminatedBy", "\t");
         jobParametersMap.put("download.fieldsEnclosedBy", "\"");
         jobParametersMap.put("download.user.displayName", requestingUser.getAccountName());

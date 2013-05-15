@@ -208,19 +208,6 @@ public class DownloadController {
 		Resource resource = new Resource();
 		resource.setTitle("download" + Long.toString(System.currentTimeMillis()));
 		
-		StringBuffer selectedFacetBuffer = new StringBuffer();
-        if (facets != null && !facets.isEmpty()) {           
-			boolean isFirst = true;
-            for (FacetRequest facetRequest : facets) {
-				if(!isFirst) {
-                    selectedFacetBuffer.append(",");
-				} else {
-					isFirst = false;
-				}
-				selectedFacetBuffer.append(facetRequest.getFacet() + "=" + facetRequest.getSelected());
-            }
-        }
-
 		//Save the 'resource'
 		try {
 	        StringBuffer downloadFileName = new StringBuffer(UUID.randomUUID().toString()); // Download file - either the file or the directory
@@ -252,7 +239,7 @@ public class DownloadController {
 			resourceService.save(resource);
 
 	        //Launch the job
-	        downloadService.requestDownload(query, selectedFacetBuffer.toString(), sort, spatial, result.getSize(),
+	        downloadService.requestDownload(query, selectedFacets, sort, spatial, result.getSize(),
 	                purpose, downloadFormat, archiveOptions, resource, user);
 			
 			String[] codes = new String[] { "download.submitted" };
