@@ -46,6 +46,8 @@ public class ReadPhylogenyFileTest {
 
 		StringBuffer stringBuffer = phylogenyWriter.toPhyloXML(phylogeny, 1);
 		System.out.println(stringBuffer.toString());
+		
+		System.out.println(phylogeny.getNumberOfExternalNodes() + " " + phylogeny.getHeight());
 
 	}
 

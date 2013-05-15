@@ -21,18 +21,92 @@
 			<section class="span12">
 					<div class="inner">
 						<div class="box">
-						  <div id="phylogeny"><!--  --></div>
+						  <div id="phylogeny-container">
+	                        <div id="phylogeny"><!--  --></div>
+	                        <div id="panzoombar">
+			                  <div id="panup"><!--  --></div>
+			                  <div id="panleft"><!--  --></div>
+			                  <div id="reset"><!--  --></div>
+			                  <div id="panright"><!--  --></div>
+			                  <div id="pandown"><!--  --></div>
+			                  <div id="zoomin"><!--  --></div>			
+			                  <div id="zoomout"><!--  --></div>
+	                        </div>
+	                      </div>
 						  <script type="text/javascript">
                             $(document).ready(function() {
                                 var dataObject = { phyloxml: '${phylogeneticTree.phylogeny}' };
-                                phylocanvas = new Smits.PhyloCanvas(
+                                Smits.PhyloCanvas.Render.Style.highlightedEdgeCircle.fill = '#D50C54';
+                                var phylocanvas = new Smits.PhyloCanvas(
                                     dataObject,
                                     'phylogeny',
-                                    580, 470
+                                     580, 470
                                 );
+                                $("#reset").click(function() {
+                                    zpd = phylocanvas.getZpd();
+                                    zpd.zoomCurrent = 0;
+                                    var g = zpd.gelem;
+                                    var reset = zpd.root.createSVGMatrix().translate(0, 0).scale(1);        	
+                                    zpd.setCTM(g, g.getCTM().multiply(g.getCTM().inverse()));
+                                });
+                                $("#zoomin").click(function() {
+                                   	zpd = phylocanvas.getZpd();
+                                   	if (zpd.opts.zoomThreshold) { 
+                                        if (zpd.opts.zoomThreshold[1] <= zpd.zoomCurrent) {
+                                           	return;
+                                        }
+                                  	}
+                                    zpd.zoomCurrent++;
+                                    var z = 1.1;
+                                  	var g = zpd.gelem;
+                                    var k = zpd.root.createSVGMatrix().scale(z);
+                                    zpd.setCTM(g, g.getCTM().multiply(k));
+
+                                	if (!zpd.stateTf) {
+                                		zpd.stateTf = g.getCTM().inverse();
+                                	}
+                                	zpd.stateTf = zpd.stateTf.multiply(k.inverse());
+                                });
+                                $("#zoomout").click(function() {
+                                    zpd = phylocanvas.getZpd();
+                                    if (zpd.opts.zoomThreshold) { 
+                                        if (zpd.opts.zoomThreshold[0] >= zpd.zoomCurrent) {
+                                            return;
+                                        }
+                                    }
+                                    zpd.zoomCurrent--;
+                                    var z = 0.9;
+                                    var g = zpd.gelem;
+                                    var k = zpd.root.createSVGMatrix().scale(z);
+                                	zpd.setCTM(g, g.getCTM().multiply(k));
+
+                                	if (!zpd.stateTf) {
+                                		zpd.stateTf = g.getCTM().inverse();
+                                	}
+                                	zpd.stateTf = zpd.stateTf.multiply(k.inverse());
+                                });
+                                $("#panup").click(function() {
+                                    zpd = phylocanvas.getZpd();
+                                    var g = zpd.gelem;
+                                    zpd.setCTM(g, g.getCTM().translate(0, 30));
+                                });
+                                $("#pandown").click(function() {
+                                    zpd = phylocanvas.getZpd();        	
+                                    var g = zpd.gelem;        	
+                                    zpd.setCTM(g, g.getCTM().translate(0, -30));
+                                });
+                                $("#panleft").click(function() {
+                                    zpd = phylocanvas.getZpd();
+                                    var g = zpd.gelem;        	
+                                    zpd.setCTM(g, g.getCTM().translate(30, 0));
+                                });
+                                $("#panright").click(function() {
+                                    zpd = phylocanvas.getZpd();
+                                    var g = zpd.gelem;
+                                    zpd.setCTM(g, g.getCTM().translate(-30, 0));
+                                });                     
                             });
                           </script>
-						
 						</div>
 					</div>
 			</section>
