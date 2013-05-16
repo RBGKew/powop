@@ -84,7 +84,7 @@ public class ReferenceProcessingTest {
     public final void testProcessReference() throws Exception {
         EasyMock.expect(referenceService.find(EasyMock.isA(String.class)))
                 .andReturn(null).anyTimes();
-        EasyMock.expect(taxonService.find(EasyMock.eq(0L))).andReturn(taxon).anyTimes();
+        EasyMock.expect(taxonService.find(EasyMock.eq("identifier"))).andReturn(taxon).anyTimes();
         EasyMock.expect(sourceService.load(EasyMock.eq("test source")))
                 .andReturn(source);
         EasyMock.replay(referenceService, sourceService,taxonService);
