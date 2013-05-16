@@ -37,10 +37,12 @@
                             $(document).ready(function() {
                                 var dataObject = { phyloxml: '${phylogeneticTree.phylogeny}' };
                                 Smits.PhyloCanvas.Render.Style.highlightedEdgeCircle.fill = '#D50C54';
+                                var width = $("#phylogeny").width();
+                                var height = (${phylogeneticTree.numberOfExternalNodes} * 30);
                                 var phylocanvas = new Smits.PhyloCanvas(
                                     dataObject,
                                     'phylogeny',
-                                     580, 470
+                                     width, height
                                 );
                                 $("#phylogeny-reset").click(function() {
                                     zpd = phylocanvas.getZpd();
