@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.CommentService;
 import org.emonocot.api.DescriptionService;
 import org.emonocot.api.DistributionService;
@@ -263,7 +264,7 @@ public class CommentController extends GenericController<Comment, CommentService
 		    @RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
 		    @RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 		    @RequestParam(value = "sort", required = false, defaultValue = "comment.created_dt_desc") String sort,
-		    @RequestParam(value = "view", required = false) String view) {
+		    @RequestParam(value = "view", required = false) String view) throws SolrServerException {
 		
 		Map<String, String> selectedFacets = new HashMap<String, String>();
 		if (facets != null && !facets.isEmpty()) {
@@ -282,7 +283,7 @@ public class CommentController extends GenericController<Comment, CommentService
 	}
 	
 	@RequestMapping(params = "autocomplete", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody List<Match> autocomplete(@RequestParam(required = true) String term) {    	
+    public @ResponseBody List<Match> autocomplete(@RequestParam(required = true) String term) throws SolrServerException {    	
         return getService().autocomplete(term, 10, null);
     }
 

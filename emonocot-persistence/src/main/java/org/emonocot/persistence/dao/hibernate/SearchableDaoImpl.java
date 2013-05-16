@@ -78,12 +78,13 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
      * @param fetch
      *            Set the fetch profile
      * @return a Page from the resultset
+     * @throws SolrServerException 
      */
     public final Page<T> search(final String query, final String spatialQuery,
             final Integer pageSize, final Integer pageNumber,
             final String[] facets,
             Map<String, String> facetPrefixes, final Map<String, String> selectedFacets,
-            final String sort, final String fetch) {
+            final String sort, final String fetch) throws SolrServerException {
         SolrQuery solrQuery = prepareQuery(query, sort, pageSize, pageNumber, selectedFacets);
         
         // Filter the searchable objects out
@@ -119,12 +120,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
             }
         }
         
-        QueryResponse queryResponse = null;
-		try {
-			queryResponse = solrServer.query(solrQuery);
-		} catch (SolrServerException sse) {
-			throw new RuntimeException("Exception querying solr server",sse);
-		}
+        QueryResponse queryResponse = solrServer.query(solrQuery);		
         
         List<T> results = new ArrayList<T>();
         for(SolrDocument solrDocument : queryResponse.getResults()) {
@@ -143,7 +139,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
         return page;
     }
     
-    public List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets) {
+    public List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets) throws SolrServerException {
     	SolrQuery solrQuery = new SolrQuery();        
 
         if (query != null && !query.trim().equals("")) {
@@ -175,12 +171,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
         solrQuery.setHighlightSimplePre("<b>");
         solrQuery.setHighlightSimplePost("</b>");       
         
-        QueryResponse queryResponse = null;
-		try {
-			queryResponse = solrServer.query(solrQuery);
-		} catch (SolrServerException sse) {
-			throw new RuntimeException("Exception querying solr server",sse);
-		}
+        QueryResponse queryResponse = solrServer.query(solrQuery);		
         
         List<Match> results = new ArrayList<Match>();
         Map<String,Match> matchMap = new HashMap<String,Match>();
@@ -204,15 +195,10 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
     }
 
 	@Override
-    public Page<SolrDocument> searchForDocuments(String query, Integer pageSize, Integer pageNumber, Map<String, String> selectedFacets, String sort) {
+    public Page<SolrDocument> searchForDocuments(String query, Integer pageSize, Integer pageNumber, Map<String, String> selectedFacets, String sort) throws SolrServerException {
         SolrQuery solrQuery = prepareQuery(query, sort, pageSize, pageNumber, selectedFacets);
         
-        QueryResponse queryResponse = null;
-		try {
-			queryResponse = solrServer.query(solrQuery);
-		} catch (SolrServerException sse) {
-			throw new RuntimeException("Exception querying solr server",sse);
-		}
+        QueryResponse queryResponse = solrServer.query(solrQuery);		
 		
 		Long totalResults = new Long(queryResponse.getResults().getNumFound());
         Page<SolrDocument> page = new DefaultPageImpl<SolrDocument>(totalResults.intValue(), pageNumber, pageSize, queryResponse.getResults(), queryResponse);
@@ -240,7 +226,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
 		}
 	}
 	
-    public CellSet analyse(String rows, String cols, Integer firstCol, Integer maxCols, Integer firstRow, Integer maxRows,	Map<String, String> selectedFacets, String[] facets, Cube cube) {
+    public CellSet analyse(String rows, String cols, Integer firstCol, Integer maxCols, Integer firstRow, Integer maxRows,	Map<String, String> selectedFacets, String[] facets, Cube cube) throws SolrServerException {
 		SolrQuery query = new SolrQuery();
 	    query.setQuery("*:*");
 	    SolrQuery totalQuery = new SolrQuery();
@@ -351,27 +337,24 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
             }
         }
 	    
-		try {
-			QueryResponse response = solrServer.query(query);
-			QueryResponse totalResponse = solrServer.query(totalQuery);			
-			FacetField totalRows = null;
-			FacetField totalCols = null;
-			if (totalResponse.getFacetField("totalRows") != null) {
-				totalRows = totalResponse.getFacetField("totalRows");
-			}
 
-			if (totalResponse.getFacetField("totalCols") != null) {
-				totalCols = totalResponse.getFacetField("totalCols");
-			}
-
-			CellSet cellSet = new CellSet(response, selectedFacets, query,
-					rows, cols, firstRow, maxRows, firstCol, maxCols,
-					totalRows, totalCols, cube);
-
-			return cellSet;
-		} catch (SolrServerException sse) {
-			throw new RuntimeException("Exception querying solr server", sse);
+		QueryResponse response = solrServer.query(query);
+		QueryResponse totalResponse = solrServer.query(totalQuery);			
+		FacetField totalRows = null;
+		FacetField totalCols = null;
+		if (totalResponse.getFacetField("totalRows") != null) {
+			totalRows = totalResponse.getFacetField("totalRows");
 		}
+
+		if (totalResponse.getFacetField("totalCols") != null) {
+			totalCols = totalResponse.getFacetField("totalCols");
+		}
+
+		CellSet cellSet = new CellSet(response, selectedFacets, query,
+				rows, cols, firstRow, maxRows, firstCol, maxCols,
+				totalRows, totalCols, cube);
+
+		return cellSet;
 	}
 	
 	/**

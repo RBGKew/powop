@@ -23,14 +23,14 @@
 						<div class="box">
 						  <div id="phylogeny-container">
 	                        <div id="phylogeny"><!--  --></div>
-	                        <div id="panzoombar">
-			                  <div id="panup"><!--  --></div>
-			                  <div id="panleft"><!--  --></div>
-			                  <div id="reset"><!--  --></div>
-			                  <div id="panright"><!--  --></div>
-			                  <div id="pandown"><!--  --></div>
-			                  <div id="zoomin"><!--  --></div>			
-			                  <div id="zoomout"><!--  --></div>
+	                        <div id="phylogeny-panzoombar">
+			                  <div id="phylogeny-panup"><!--  --></div>
+			                  <div id="phylogeny-panleft"><!--  --></div>
+			                  <div id="phylogeny-reset"><!--  --></div>
+			                  <div id="phylogeny-panright"><!--  --></div>
+			                  <div id="phylogeny-pandown"><!--  --></div>
+			                  <div id="phylogeny-zoomin"><!--  --></div>			
+			                  <div id="phylogeny-zoomout"><!--  --></div>
 	                        </div>
 	                      </div>
 						  <script type="text/javascript">
@@ -42,14 +42,14 @@
                                     'phylogeny',
                                      580, 470
                                 );
-                                $("#reset").click(function() {
+                                $("#phylogeny-reset").click(function() {
                                     zpd = phylocanvas.getZpd();
                                     zpd.zoomCurrent = 0;
                                     var g = zpd.gelem;
                                     var reset = zpd.root.createSVGMatrix().translate(0, 0).scale(1);        	
                                     zpd.setCTM(g, g.getCTM().multiply(g.getCTM().inverse()));
                                 });
-                                $("#zoomin").click(function() {
+                                $("#phylogeny-zoomin").click(function() {
                                    	zpd = phylocanvas.getZpd();
                                    	if (zpd.opts.zoomThreshold) { 
                                         if (zpd.opts.zoomThreshold[1] &lt;= zpd.zoomCurrent) {
@@ -67,7 +67,7 @@
                                 	}
                                 	zpd.stateTf = zpd.stateTf.multiply(k.inverse());
                                 });
-                                $("#zoomout").click(function() {
+                                $("#phylogeny-zoomout").click(function() {
                                     zpd = phylocanvas.getZpd();
                                     if (zpd.opts.zoomThreshold) { 
                                         if (zpd.opts.zoomThreshold[0] &gt;= zpd.zoomCurrent) {
@@ -85,22 +85,22 @@
                                 	}
                                 	zpd.stateTf = zpd.stateTf.multiply(k.inverse());
                                 });
-                                $("#panup").click(function() {
+                                $("#phylogeny-panup").click(function() {
                                     zpd = phylocanvas.getZpd();
                                     var g = zpd.gelem;
                                     zpd.setCTM(g, g.getCTM().translate(0, 30));
                                 });
-                                $("#pandown").click(function() {
+                                $("#phylogeny-pandown").click(function() {
                                     zpd = phylocanvas.getZpd();        	
                                     var g = zpd.gelem;        	
                                     zpd.setCTM(g, g.getCTM().translate(0, -30));
                                 });
-                                $("#panleft").click(function() {
+                                $("#phylogeny-panleft").click(function() {
                                     zpd = phylocanvas.getZpd();
                                     var g = zpd.gelem;        	
                                     zpd.setCTM(g, g.getCTM().translate(30, 0));
                                 });
-                                $("#panright").click(function() {
+                                $("#phylogeny-panright").click(function() {
                                     zpd = phylocanvas.getZpd();
                                     var g = zpd.gelem;
                                     zpd.setCTM(g, g.getCTM().translate(-30, 0));

@@ -3,6 +3,7 @@ package org.emonocot.harvest.common;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrDocument;
 import org.emonocot.api.SearchableObjectService;
 import org.springframework.batch.item.database.AbstractPagingItemReader;
@@ -42,7 +43,11 @@ public class SolrDocumentItemReader extends AbstractPagingItemReader<SolrDocumen
 
 	@Override
 	protected void doReadPage() {
-		results = searchableObjectService.searchForDocuments(queryString, getPageSize(), getPage(), selectedFacets, sort).getRecords();
+		try {
+			results = searchableObjectService.searchForDocuments(queryString, getPageSize(), getPage(), selectedFacets, sort).getRecords();
+		} catch (SolrServerException sse) {
+			throw new RuntimeException("SolrServerException", sse);
+		}
  
 		logger.debug("Search for " + queryString + " (page number " + getPage() + " got a page of " + results.size()
 					+ " (results");

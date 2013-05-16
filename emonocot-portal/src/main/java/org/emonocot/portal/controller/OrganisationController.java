@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.OrganisationService;
 import org.emonocot.api.ResourceService;
 import org.emonocot.api.autocomplete.Match;
@@ -87,7 +88,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 		    @RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
 		    @RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 		    @RequestParam(value = "sort", required = false) String sort,
-		    @RequestParam(value = "view", required = false) String view) {
+		    @RequestParam(value = "view", required = false) String view) throws SolrServerException {
 		
 		Map<String, String> selectedFacets = new HashMap<String, String>();
 		if (facets != null && !facets.isEmpty()) {
@@ -105,7 +106,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	}
 	
 	@RequestMapping(params = "autocomplete", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody List<Match> autocomplete(@RequestParam(required = true) String term) {    	
+    public @ResponseBody List<Match> autocomplete(@RequestParam(required = true) String term) throws SolrServerException {    	
         return getService().autocomplete(term, 10, null);
     }
 

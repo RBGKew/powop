@@ -18,9 +18,7 @@ import org.emonocot.api.ImageService;
 import org.emonocot.api.ReferenceService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.UserService;
-import org.emonocot.api.job.EmonocotTerm;
 import org.emonocot.api.job.JobExecutionInfo;
-import org.emonocot.api.job.WCSPTerm;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Description;
 import org.emonocot.model.Distribution;
@@ -37,7 +35,6 @@ import org.emonocot.model.constants.Location;
 import org.emonocot.model.constants.RecordType;
 import org.emonocot.pager.DefaultPageImpl;
 import org.emonocot.pager.Page;
-import org.emonocot.portal.model.AceDto;
 import org.gbif.dwc.terms.IucnTerm;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -47,7 +44,6 @@ import org.springframework.batch.core.JobExecutionException;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
-import org.springframework.security.acls.domain.BasePermission;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.DefaultCoordinateSequenceFactory;
@@ -62,44 +58,20 @@ import com.vividsolutions.jts.geom.Polygon;
  */
 public class JsonConversionTest {
 
-    /**
-     *
-     */
     private ObjectMapper objectMapper;
 
-    /**
-     *
-     */
     private ReferenceService referenceService;
 
-    /**
-     *
-     */
     private TaxonService taxonService;
 
-    /**
-     *
-     */
     private ImageService imageService;
 
-    /**
-     *
-     */
     private UserService userService;
 
-    /**
-     *
-     */
     private GroupService groupService;
 
-	/**
-	 * 
-	 */
 	private Place place;
 
-    /**
-     *
-     */
     @Before
     public void setUp() {
         referenceService = EasyMock.createMock(ReferenceService.class);
@@ -439,40 +411,7 @@ public class JsonConversionTest {
         assertEquals(taxon, annotation.getAnnotatedObj());
     }
 
-    /**
-    *
-    * @throws Exception
-    *             if there is a problem serializing the object
-    */
-    @Test
-    public void testWriteAce() throws Exception {
-        AceDto ace = new AceDto();
-        User user = new User();
-        ace.setPermission(BasePermission.CREATE);
-
-        ace.setObject("testIdentifier");
-        ace.setPrincipal("userIdentifier");
-        try {
-            objectMapper.writeValueAsString(ace);
-         } catch (Exception e) {
-              fail("No exception expected here");
-         }
-    }
-
-    /**
-    *
-    * @throws Exception
-    *             if there is a problem serializing the object
-    */
-    @Test
-    public void testAce() throws Exception {
-
-        AceDto aceDto = objectMapper.readValue("{\"principal\":\"userIdentifier\",\"object\":\"testIdentifier\",\"permission\":\"CREATE\"}", AceDto.class);
-
-        assertEquals("testIdentifier", aceDto.getObject());
-        assertEquals("userIdentifier", aceDto.getPrincipal());
-        assertEquals(BasePermission.CREATE, aceDto.getPermission());
-    }
+   
 
    /**
     *

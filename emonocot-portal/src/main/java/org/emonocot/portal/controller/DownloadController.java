@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.ResourceService;
 import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.UserService;
@@ -126,7 +127,7 @@ public class DownloadController {
        @RequestParam(value = "x2", required = false) Double x2,
        @RequestParam(value = "y2", required = false) Double y2,
        HttpServletRequest request,
-       Model model) {
+       Model model) throws SolrServerException {
 
        Map<String, String> selectedFacets = null;
        if (facets != null && !facets.isEmpty()) {
@@ -181,7 +182,7 @@ public class DownloadController {
 	       @RequestParam(value="downloadFormat", required = true) String downloadFormat,
 	       @RequestParam(value = "archiveOptions", required = false) List<String> archiveOptions,
 	       RedirectAttributes redirectAttributes,
-	       Principal principal) {
+	       Principal principal) throws SolrServerException {
        
         User user = userService.load(principal.getName());
 

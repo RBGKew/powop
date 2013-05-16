@@ -73,7 +73,7 @@ public class SearchTest extends AbstractPersistenceTest {
      *
      */
     @Test
-    public final void testSearch() {
+    public final void testSearch() throws Exception {
         Page<SearchableObject> results = getSearchableObjectDao().search("taxon.scientific_name_t:Aus", null, null, null,
                 new String[] {"taxon.distribution_TDWG_0_ss" }, null, null, null, null);
         assertEquals("There should be 5 taxa matching Aus", new Integer(5), (Integer)results.getSize());
@@ -90,7 +90,7 @@ public class SearchTest extends AbstractPersistenceTest {
     *
     */
     @Test
-    public final void testRestrictedSearch() {
+    public final void testRestrictedSearch() throws Exception {
         Map<String, String> selectedFacets = new HashMap<String, String>();
 
         selectedFacets.put("taxon.distribution_TDWG_0_ss", "AUSTRALASIA");
@@ -111,7 +111,7 @@ public class SearchTest extends AbstractPersistenceTest {
      *
      */
     @Test
-    public final void testSearchEmbeddedContent() {
+    public final void testSearchEmbeddedContent() throws Exception {
         Page<SearchableObject> page = getSearchableObjectDao().search("Lorem", null, null, null,
                 null, null, null, null, null);
 
@@ -119,14 +119,14 @@ public class SearchTest extends AbstractPersistenceTest {
     }
     
     @Test
-    public final void testSearchByHigherName() {
+    public final void testSearchByHigherName() throws Exception {
         Page<SearchableObject> results = searchableObjectDao.search("Aaceae", null, null, null, null, null, null, null, null);
 
         assertEquals("There should be 3 results", 3, results.getSize().intValue());
     }
     
     @Test
-    public final void testSearchBySynonym() {
+    public final void testSearchBySynonym() throws Exception {
         Page<SearchableObject> results = searchableObjectDao.search("deus", null, null, null, null, null, null, null, null);
 
 
@@ -150,7 +150,7 @@ public class SearchTest extends AbstractPersistenceTest {
 	 * understand the order of the results page.
 	 */
     @Test
-    public final void testSearchWithNulls() {
+    public final void testSearchWithNulls() throws Exception {
         Page<SearchableObject> results = searchableObjectDao.search("", null, null, null, null, null, null, "searchable.label_sort_asc", null);
 
         assertEquals("There should be 7 results", 7, results.getSize().intValue());
@@ -176,7 +176,7 @@ public class SearchTest extends AbstractPersistenceTest {
      * Autocomplete
      */
     @Test
-    public final void testAutocomplete() {
+    public final void testAutocomplete() throws Exception {
     	List<Match> matched = getSearchableObjectDao().autocomplete("Aus bu", 10, null);
     }
 }

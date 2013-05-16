@@ -51,7 +51,7 @@ import org.emonocot.model.convert.StringToPermissionConverter;
 import org.emonocot.model.registry.Resource;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.pager.Page;
-import org.emonocot.portal.model.AceDto;
+import org.emonocot.portal.controller.form.AceDto;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;

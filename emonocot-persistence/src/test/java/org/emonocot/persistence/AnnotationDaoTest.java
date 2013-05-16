@@ -97,7 +97,7 @@ public class AnnotationDaoTest extends AbstractPersistenceTest {
     *
     */
    @Test
-   public final void testGetJobExecutions() {
+   public final void testGetJobExecutions() throws Exception {
        assertNotNull(annotationDao);
        String[] facets = new String[] {
     		   "base.authority_s",

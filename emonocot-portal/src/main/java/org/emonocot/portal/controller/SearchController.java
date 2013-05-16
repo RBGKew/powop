@@ -70,7 +70,7 @@ public class SearchController {
 	private Page<? extends SearchableObject> runQuery(String query,
 			Integer start, Integer limit, String spatial,
 			String[] responseFacets, Map<String, String> facetPrefixes,
-			String sort, Map<String, String> selectedFacets) {
+			String sort, Map<String, String> selectedFacets) throws SolrServerException {
 		Page<? extends SearchableObject> result = searchableObjectService
 				.search(query, spatial, limit, start, responseFacets,
 						facetPrefixes, selectedFacets, sort, null);
@@ -133,7 +133,7 @@ public class SearchController {
 			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 			@RequestParam(value = "sort", required = false) String sort,
 			@RequestParam(value = "view", required = false) String view,
-			Model model) {
+			Model model) throws SolrServerException {
 
 		Map<String, String> selectedFacets = null;
 		if (facets != null && !facets.isEmpty()) {
@@ -230,7 +230,7 @@ public class SearchController {
 			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 			@RequestParam(value = "sort", required = false) String sort,
 			@RequestParam(value = "view", required = false) String view,
-			Model model) {
+			Model model) throws SolrServerException {
 		String spatial = null;
 		DecimalFormat decimalFormat = new DecimalFormat("###0.0");
 		if (x1 != null
@@ -393,7 +393,7 @@ public class SearchController {
 	 */
 	@RequestMapping(value = "/autocomplete", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	List<Match> autocomplete(@RequestParam(required = true) String term) {
+	List<Match> autocomplete(@RequestParam(required = true) String term) throws SolrServerException {
 		return searchableObjectService.autocomplete(term, 10, null);
 	}
 	
