@@ -19,43 +19,24 @@ import org.springframework.batch.core.StepExecution;
  *
  */
 public class ReferenceProcessingTest {
-    /**
-     *
-     */
+
     private Reference reference;
 
-    /**
-     *
-     */
     private ReferenceService referenceService;
     
     private TaxonService taxonService;
 
-    /**
-     *
-     */
     private OrganisationService sourceService;
 
-    /**
-     *
-     */
     private Taxon taxon;
 
-    /**
-     *
-     */
     private Organisation source = new Organisation();
 
-    /**
-     *
-     */
     private Processor referenceValidator;
 
-    /**
-     *
-     */
+
     @Before
-    public final void setUp() {
+    public void setUp() {
         reference = new Reference();
         taxon = new Taxon();
         taxon.setId(0L);
@@ -81,14 +62,14 @@ public class ReferenceProcessingTest {
      * @throws Exception if there is a problem
      */
     @Test
-    public final void testProcessReference() throws Exception {
+    public void testProcessReference() throws Exception {
         EasyMock.expect(referenceService.find(EasyMock.isA(String.class)))
                 .andReturn(null).anyTimes();
-        EasyMock.expect(taxonService.find(EasyMock.eq(0L))).andReturn(taxon).anyTimes();
+        EasyMock.expect(taxonService.find(EasyMock.eq("identifier"))).andReturn(taxon).anyTimes();
         EasyMock.expect(sourceService.load(EasyMock.eq("test source")))
                 .andReturn(source);
         EasyMock.replay(referenceService, sourceService,taxonService);
-        Reference ref = referenceValidator.process(reference);
+        referenceValidator.process(reference);
         EasyMock.verify(referenceService, sourceService,taxonService);        
     }
 
