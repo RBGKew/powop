@@ -4,5 +4,9 @@
   <definition name="phylo/show" extends="default">
   <put-attribute name="pageTitle" value="${phylogeneticTree.title}" cascade="true"/>    
     <put-attribute name="body" value="/WEB-INF/views/phylo/show.jspx" />
-  </definition>   
+  </definition>
+  <definition name="phylo/download" extends="default">
+    <put-attribute name="pageTitle" value="Download ${phylogeneticTree.title}" cascade="true"/>    
+    <put-attribute name="body" value="/WEB-INF/views/phylo/download.jspx" />
+  </definition>  
 </tiles-definitions>

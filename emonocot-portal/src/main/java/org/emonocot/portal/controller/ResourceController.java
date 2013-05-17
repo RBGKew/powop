@@ -529,6 +529,9 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 			case "GBIFImport":
 				total = new Float(10);
 				break;
+			case "PhylogeneticTreeHarvesting":
+				total = new Float(6);
+				break;
 			default:
 				break;
 			}

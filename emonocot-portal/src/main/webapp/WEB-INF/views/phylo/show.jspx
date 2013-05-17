@@ -21,6 +21,39 @@
 			<section class="span12">
 					<div class="inner">
 						<div class="box">
+						  <div class="row no-print">
+							<div id="viewIcons" class="span3">
+								<div class="btn-group">
+								  <spring:message var="rectangularPhylogramTitle" code="rectangular.phylogram"/>
+								  <a id="rectangular-phylogram" title="${rectangularPhylogramTitle}" class="btn">
+			                        <i class="halflings-icon phylogeny">&amp;nbsp;</i>
+                                  </a>
+                                  <spring:message var="circularPhylogramTitle" code="circular.phylogram"/>
+								  <a id="circular-phylogram" title="${circularPhylogramTitle}" class="btn">
+			                        <i class="halflings-icon circular-phylogram">&amp;nbsp;</i>
+                                  </a>
+								</div>
+							</div>
+							<div class="pull-right">
+							    <c:choose>
+							      <c:when test="${not empty phylogeneticTree.license}">
+							        <c:url var="downloadUrl" value="/phylo/${phylogeneticTree.id}">
+							          <c:param name="download" value="true" />
+						            </c:url>
+							        <a href="${downloadUrl}" class="btn"><i class="halflings-icon download-alt"><!--  --></i> <spring:message code="download"/></a>
+							      </c:when>
+							      <c:otherwise>
+							        <spring:message code="download.phylogeny.disabled" var="downloadDisabledMessage"/>
+							        <a class="btn disabled" rel="tooltip" title="${downloadDisabledMessage}"><i class="halflings-icon download-alt"><!--  --></i> <spring:message code="download"/></a>
+							        <script>
+				                      $(function() {
+					                    $("a[rel=tooltip]").tooltip();
+				                     });
+			                        </script>
+							      </c:otherwise>
+							    </c:choose>
+							</div>
+						  </div>
 						  <div id="phylogeny-container">
 	                        <div id="phylogeny"><!--  --></div>
 	                        <div id="phylogeny-panzoombar">
@@ -106,7 +139,25 @@
                                     zpd = phylocanvas.getZpd();
                                     var g = zpd.gelem;
                                     zpd.setCTM(g, g.getCTM().translate(-30, 0));
-                                });                     
+                                });
+                                $("#rectangular-phylogram").click(function() {
+                                	console.log("rectangular-phylogram");
+                                	$("#phylogeny").empty();
+                                	phylocanvas = new Smits.PhyloCanvas(
+                                            dataObject,
+                                            'phylogeny',
+                                            width, height
+                                        );
+                                });
+                                $("#circular-phylogram").click(function() {
+                                	console.log("circular-phylogram");
+                                	$("#phylogeny").empty();
+                                	phylocanvas = new Smits.PhyloCanvas(
+                                            dataObject,
+                                            'phylogeny',
+                                            width, width, "circular"
+                                        );
+                                });
                             });
                           </script>
 						</div>

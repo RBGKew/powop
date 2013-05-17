@@ -22,6 +22,7 @@ import org.forester.phylogeny.Phylogeny;
 import org.forester.phylogeny.PhylogenyMethods;
 import org.forester.phylogeny.PhylogenyNode;
 import org.forester.phylogeny.data.Annotation;
+import org.forester.phylogeny.data.PhylogenyDataUtil;
 import org.forester.phylogeny.data.Uri;
 import org.gbif.ecat.parser.UnparsableException;
 import org.slf4j.Logger;
@@ -103,10 +104,12 @@ public class PhylogeneticTreeTransformingTasklet extends AbstractRecordAnnotator
 		Phylogeny phylogeny = phylogenies[0];
 		
 		PhylogenyWriter phylogenyWriter = PhylogenyWriter.createPhylogenyWriter();
-		phylogenyWriter.setIndentPhyloxml(false);		
+		phylogenyWriter.setIndentPhyloxml(false);
 		PhylogenyNode node = phylogeny.getRoot();
 		
 		addTaxonLinks(node);
+		boolean hasBranchLengths = addBranchLengths(node);
+		
 		StringBuffer stringBuffer = phylogenyWriter.toPhyloXML(phylogeny, 1);
 		PhylogeneticTree phylogeneticTree = phylogeneticTreeService.find(treeIdentifier);
 		if(phylogeneticTree == null) {
@@ -131,7 +134,9 @@ public class PhylogeneticTreeTransformingTasklet extends AbstractRecordAnnotator
 			annotation.setAuthority(getSource());
 			phylogeneticTree.getAnnotations().add(annotation);
 		}
+		
 		phylogeneticTree.setNumberOfExternalNodes(new Long(phylogeny.getNumberOfExternalNodes()));
+		phylogeneticTree.setHasBranchLengths(hasBranchLengths);
 		
 		if(phylogeneticTree.getTitle() == null || phylogeneticTree.getTitle().isEmpty()) {
 		    phylogeneticTree.setTitle(phylogeny.getName());
@@ -156,7 +161,24 @@ public class PhylogeneticTreeTransformingTasklet extends AbstractRecordAnnotator
 		return RepeatStatus.FINISHED;
 	}
 	
+	private boolean addBranchLengths(PhylogenyNode node) {
+		boolean hasBranchLengths = true;
+		if(node.isRoot() || node.getDistanceToParent() != PhylogenyDataUtil.BRANCH_LENGTH_DEFAULT) {
+			// do nothing
+		} else {
+			node.setDistanceToParent(1.0D);
+			hasBranchLengths = false;
+		}
+		for(PhylogenyNode descendant : node.getDescendants()) {
+			if(!addBranchLengths(descendant)) {
+				hasBranchLengths = false;
+			}
+		}
+		return hasBranchLengths;
+	}
+
 	private void addTaxonLinks(PhylogenyNode node) {
+		
 		Taxon taxon = matchTaxonName(node.getName());
 		if (taxon != null) {
 			Annotation annotation = new Annotation();

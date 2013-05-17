@@ -13,6 +13,7 @@ import org.forester.phylogeny.PhylogenyNode;
 import org.forester.phylogeny.data.Annotation;
 import org.forester.phylogeny.data.BranchData;
 import org.forester.phylogeny.data.NodeData;
+import org.forester.phylogeny.data.PhylogenyDataUtil;
 import org.forester.phylogeny.data.PropertiesMap;
 import org.forester.phylogeny.data.Property;
 import org.forester.phylogeny.data.Property.AppliesTo;
@@ -42,13 +43,23 @@ public class ReadPhylogenyFileTest {
 		uris.add(new Uri("http://en.wikipedia.org/wiki/Espresso",null,null));
 		annotation.setUris(uris);
 		node.getNodeData().addAnnotation(annotation);
-
-
+		addBranchLengths(phylogeny.getRoot());
 		StringBuffer stringBuffer = phylogenyWriter.toPhyloXML(phylogeny, 1);
-		System.out.println(stringBuffer.toString());
+		System.out.println(stringBuffer.toString().replaceAll("\r\n", ""));
 		
 		System.out.println(phylogeny.getNumberOfExternalNodes() + " " + phylogeny.getHeight());
 
+	}
+	
+	private void addBranchLengths(PhylogenyNode node) {
+		if(node.isRoot() || node.getDistanceToParent() != PhylogenyDataUtil.BRANCH_LENGTH_DEFAULT) {
+			// do nothing
+		} else {
+			node.setDistanceToParent(1.0D);
+		}
+		for(PhylogenyNode descendant : node.getDescendants()) {
+			addBranchLengths(descendant);
+		}
 	}
 
 }

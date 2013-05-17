@@ -59,6 +59,8 @@ public class PhylogeneticTree extends SearchableObject implements NonOwned,
 	
 	private Reference source;
 
+	private boolean hasBranchLengths;
+
 	public Long getNumberOfExternalNodes() {
 		return numberOfExternalNodes;
 	}
@@ -149,6 +151,14 @@ public class PhylogeneticTree extends SearchableObject implements NonOwned,
 	public void setPhylogeny(String phylogeny) {
 		this.phylogeny = phylogeny;
 	}
+	
+	public void setHasBranchLengths(boolean hasBranchLengths) {
+		this.hasBranchLengths = hasBranchLengths;
+	}
+	
+	public boolean getHasBranchLengths() {
+		return hasBranchLengths;
+	}
 
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "commentPage_id")
@@ -207,5 +217,4 @@ public class PhylogeneticTree extends SearchableObject implements NonOwned,
     	
     	return sid;
 	}
-
 }
