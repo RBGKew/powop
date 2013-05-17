@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.ResourceService;
 import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.UserService;
@@ -126,7 +127,7 @@ public class DownloadController {
        @RequestParam(value = "x2", required = false) Double x2,
        @RequestParam(value = "y2", required = false) Double y2,
        HttpServletRequest request,
-       Model model) {
+       Model model) throws SolrServerException {
 
        Map<String, String> selectedFacets = null;
        if (facets != null && !facets.isEmpty()) {
@@ -181,7 +182,7 @@ public class DownloadController {
 	       @RequestParam(value="downloadFormat", required = true) String downloadFormat,
 	       @RequestParam(value = "archiveOptions", required = false) List<String> archiveOptions,
 	       RedirectAttributes redirectAttributes,
-	       Principal principal) {
+	       Principal principal) throws SolrServerException {
        
         User user = userService.load(principal.getName());
 
@@ -208,19 +209,6 @@ public class DownloadController {
 		Resource resource = new Resource();
 		resource.setTitle("download" + Long.toString(System.currentTimeMillis()));
 		
-		StringBuffer selectedFacetBuffer = new StringBuffer();
-        if (facets != null && !facets.isEmpty()) {           
-			boolean isFirst = true;
-            for (FacetRequest facetRequest : facets) {
-				if(!isFirst) {
-                    selectedFacetBuffer.append(",");
-				} else {
-					isFirst = false;
-				}
-				selectedFacetBuffer.append(facetRequest.getFacet() + "=" + facetRequest.getSelected());
-            }
-        }
-
 		//Save the 'resource'
 		try {
 	        StringBuffer downloadFileName = new StringBuffer(UUID.randomUUID().toString()); // Download file - either the file or the directory
@@ -252,7 +240,7 @@ public class DownloadController {
 			resourceService.save(resource);
 
 	        //Launch the job
-	        downloadService.requestDownload(query, selectedFacetBuffer.toString(), sort, spatial, result.getSize(),
+	        downloadService.requestDownload(query, selectedFacets, sort, spatial, result.getSize(),
 	                purpose, downloadFormat, archiveOptions, resource, user);
 			
 			String[] codes = new String[] { "download.submitted" };

@@ -3,6 +3,7 @@ package org.emonocot.persistence.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrDocument;
 import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.Base;
@@ -39,7 +40,7 @@ public interface SearchableDao<T extends Base> extends Dao<T> {
      */
     Page<T> search(String query, String spatialQuery, Integer pageSize,
             Integer pageNumber, String[] facets,
-            Map<String, String> facetPrefixes, Map<String, String> selectedFacets, String sort, String fetch);
+            Map<String, String> facetPrefixes, Map<String, String> selectedFacets, String sort, String fetch) throws SolrServerException;
     
     /**
      * 
@@ -48,7 +49,7 @@ public interface SearchableDao<T extends Base> extends Dao<T> {
      * @param selectedFacets any restrictions on the search
      * @return a list of match objects
      */
-    List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets);
+    List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets) throws SolrServerException;
     
     /**
      *
@@ -59,7 +60,7 @@ public interface SearchableDao<T extends Base> extends Dao<T> {
      * @param sort
      * @return
      */
-    public Page<SolrDocument> searchForDocuments(String query, Integer pageSize, Integer pageNumber, Map<String, String> selectedFacets, String sort);
+    public Page<SolrDocument> searchForDocuments(String query, Integer pageSize, Integer pageNumber, Map<String, String> selectedFacets, String sort) throws SolrServerException;
     
     /**
      *
@@ -85,5 +86,5 @@ public interface SearchableDao<T extends Base> extends Dao<T> {
      */
 	CellSet analyse(String rows, String cols, Integer firstCol,
 			Integer maxCols, Integer firstRow, Integer maxRows,
-			Map<String, String> selectedFacets, String[] array, Cube cube);
+			Map<String, String> selectedFacets, String[] array, Cube cube) throws SolrServerException;
 }

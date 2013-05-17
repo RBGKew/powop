@@ -46,7 +46,7 @@ public class SearchControllerTest {
 	 * When the class is image and the view is null, then the limit should be 20 and the view should be null
 	 */
 	@Test
-	public void testSearchForImages() {
+	public void testSearchForImages() throws Exception {
 		EasyMock.expect(searchableObjectService.search(EasyMock.eq(""), (String)EasyMock.isNull(), EasyMock.eq(24), EasyMock.eq(0), EasyMock.aryEq(facetNames),  (Map)EasyMock.isA(Map.class), EasyMock.isA(Map.class), (String)EasyMock.isNull(), (String)EasyMock.isNull())).andReturn(page);
 		
 		EasyMock.replay(searchableObjectService);
@@ -65,7 +65,7 @@ public class SearchControllerTest {
 	 * When the class is all and the view is null, then the limit should be 10 and the view should be null
 	 */
 	@Test
-	public void testSearchForAll() {
+	public void testSearchForAll() throws Exception {
 		EasyMock.expect(searchableObjectService.search(EasyMock.eq(""), (String)EasyMock.isNull(), EasyMock.eq(10), EasyMock.eq(0), EasyMock.aryEq(facetNames),  (Map)EasyMock.isA(Map.class), (Map)EasyMock.isNull(), (String)EasyMock.isNull(), (String)EasyMock.isNull())).andReturn(page);
 		EasyMock.replay(searchableObjectService);
 		
@@ -80,7 +80,7 @@ public class SearchControllerTest {
 	 * When the class is all and the view is list, then the limit should be 10 and the view should be list
 	 */
 	@Test
-	public void testSearchForAllListView() {
+	public void testSearchForAllListView() throws Exception {
 		EasyMock.expect(searchableObjectService.search(EasyMock.eq(""), (String)EasyMock.isNull(), EasyMock.eq(10), EasyMock.eq(0), EasyMock.aryEq(facetNames),  (Map)EasyMock.isA(Map.class), (Map)EasyMock.isNull(), (String)EasyMock.isNull(), (String)EasyMock.isNull())).andReturn(page);
 		
 		EasyMock.replay(searchableObjectService);
@@ -96,7 +96,7 @@ public class SearchControllerTest {
 	 * When the class is all and the view is grid, then the limit should be 20 and the view should be grid
 	 */
 	@Test
-	public void testSearchForAllGridView() {
+	public void testSearchForAllGridView() throws Exception {
 		EasyMock.expect(searchableObjectService.search(EasyMock.eq(""), (String)EasyMock.isNull(), EasyMock.eq(24), EasyMock.eq(0), EasyMock.aryEq(facetNames),  (Map)EasyMock.isA(Map.class), (Map)EasyMock.isNull(), (String)EasyMock.isNull(), (String)EasyMock.isNull())).andReturn(page);
 		
 		EasyMock.replay(searchableObjectService);
@@ -112,7 +112,7 @@ public class SearchControllerTest {
 	 * BUG #333 eMonocot map search not displaying results 11-20
 	 */
 	@Test
-	public void testPagination() {
+	public void testPagination() throws Exception {
         EasyMock.expect(searchableObjectService.search(EasyMock.eq(""), (String)EasyMock.isNull(), EasyMock.eq(10), EasyMock.eq(1), EasyMock.aryEq(facetNames),  (Map)EasyMock.isA(Map.class), (Map)EasyMock.isNull(), (String)EasyMock.isNull(), (String)EasyMock.isNull())).andReturn(page);
 		
 		EasyMock.replay(searchableObjectService);

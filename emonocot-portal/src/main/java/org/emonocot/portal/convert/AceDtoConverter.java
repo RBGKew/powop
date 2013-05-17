@@ -3,7 +3,7 @@ package org.emonocot.portal.convert;
 import org.emonocot.api.OrganisationService;
 import org.emonocot.model.SecuredObject;
 import org.emonocot.model.registry.Organisation;
-import org.emonocot.portal.model.AceDto;
+import org.emonocot.portal.controller.form.AceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 

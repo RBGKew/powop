@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.emonocot.portal.model;
+package org.emonocot.job.sitemap;
 
 import java.net.URL;
 
@@ -17,27 +17,15 @@ import org.springframework.core.convert.converter.Converter;
  * @author jk00kg
  *
  */
-public class PortalUrlMapper implements ItemProcessor<SearchableObject, Url>, Converter<SearchableObject, Url> {
+public class SitemapProcessor implements ItemProcessor<SearchableObject, Url>, Converter<SearchableObject, Url> {
 	
-    /**
-     *
-     */
-    private static final Logger logger = LoggerFactory.getLogger(PortalUrlMapper.class);
+    private static final Logger logger = LoggerFactory.getLogger(SitemapProcessor.class);
 
-    /**
-	  * 
-	  */
 	String portalBaseUrl;
 
-    /**
-     *
-     */
     private DateTimeFormatter dateTimeFormatter = ISODateTimeFormat.dateTime();
 
-	/**
-	 * @param portalBaseUrl the portalBaseUrl to set
-	 */
-	public final void setPortalBaseUrl(String portalBaseUrl) {
+	public void setPortalBaseUrl(String portalBaseUrl) {
 		this.portalBaseUrl = portalBaseUrl;
 	}
 

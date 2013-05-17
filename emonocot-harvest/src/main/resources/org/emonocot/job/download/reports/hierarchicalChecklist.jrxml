@@ -1,48 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
     name="hierarchicalChecklist" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" whenResourceMissingType="Empty">
-	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
-	<style name="Title" hAlign="Center" fontSize="26" isBold="true"/>
-	<style name="Secondary" forecolor="#666666" hAlign="Center" fontSize="10"/>
-	<style name="Detail" forecolor="#444444" fontSize="12"/>
-	<style name="AcceptedName" forecolor="#000000" fontSize="12" isBold="true"/>
-	<style name="SubDetail" fontSize="8"/>
-	<parameter name="username" class="java.lang.String" isForPrompting="false"/>
+    <property name="ireport.zoom" value="1.0"/>
+    <property name="ireport.x" value="0"/>
+    <property name="ireport.y" value="0"/>
+    <style name="Title" hAlign="Center" fontSize="26" isBold="true"/>
+    <style name="Footer" hAlign="Center" fontSize="12"/>
+    <style name="Secondary" forecolor="#666666" hAlign="Center" fontSize="10"/>
+    <style name="Detail" forecolor="#444444" fontSize="12"/>
+    <style name="AcceptedName" forecolor="#000000" fontSize="12" isBold="true"/>
+    <style name="SubDetail" fontSize="8"/>
+    <parameter name="username" class="java.lang.String" isForPrompting="false"/>
     <parameter name="searchDefinition" class="java.lang.String" isForPrompting="false"/>
+    <parameter name="nameListReport" class="net.sf.jasperreports.engine.JasperReport" isForPrompting="false"/>
     <parameter name="dateFormat" class="java.lang.String" isForPrompting="false">
         <defaultValueExpression><![CDATA["yyyy-MM-dd"]]></defaultValueExpression>
     </parameter>
-	<field name="family" class="java.lang.String"/>
-	<field name="scientificName" class="java.lang.String"/>
-	<field name="scientificNameAuthorship" class="java.lang.String"/>
-	<field name="taxonomicStatus" class="org.gbif.ecat.voc.TaxonomicStatus"/>
-	<field name="acceptedNameUsage" class="org.emonocot.model.Taxon"/>
-	<field name="synonymNameUsages" class="java.util.List"/>
-	<title>
-		<band height="80">
-			<textField isStretchWithOverflow="true">
-				<reportElement style="Title" x="0" y="0" width="500" height="40"/>
-				<textElement/>
-				<textFieldExpression><![CDATA["A detailed taxon list for " + $P{username}]]></textFieldExpression>
-			</textField>
-		</band>
-	</title>
-	<detail>
-		<band height="60" splitType="Stretch">
-			<textField isStretchWithOverflow="true">
-				<reportElement style="AcceptedName" x="15" y="5" width="500" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[org.gbif.ecat.voc.TaxonomicStatus.Accepted == $F{taxonomicStatus} ?
-                    $F{scientificName} + ($F{scientificNameAuthorship} != null ? $F{scientificNameAuthorship} : "")
+    <field name="family" class="java.lang.String"/>
+    <field name="scientificName" class="java.lang.String"/>
+    <field name="scientificNameAuthorship" class="java.lang.String"/>
+    <field name="taxonomicStatus" class="org.gbif.ecat.voc.TaxonomicStatus"/>
+    <field name="acceptedNameUsage" class="org.emonocot.model.Taxon"/>
+    <field name="synonymNameUsages" class="java.util.Set"/>
+    <title>
+        <band height="80">
+            <textField isStretchWithOverflow="true">
+                <reportElement style="Title" x="0" y="0" width="500" height="40"/>
+                <textElement/>
+                <textFieldExpression><![CDATA["A detailed taxon list for " + $P{username}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+    <detail>
+        <band height="25">
+            <textField isStretchWithOverflow="true">
+                <reportElement style="AcceptedName" x="15" y="5" width="500" height="20"/>
+                <textElement/>
+                <textFieldExpression><![CDATA[org.gbif.ecat.voc.TaxonomicStatus.Accepted == $F{taxonomicStatus} ?
+                    $F{scientificName} + ($F{scientificNameAuthorship} != null ? " " + $F{scientificNameAuthorship} : "")
                          + ($F{family} != null ? " (" + $F{family}.toUpperCase() + ") " : "")
-                    : "";]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement style="Detail" x="15" y="5" width="500" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[org.gbif.ecat.voc.TaxonomicStatus.Accepted == $F{taxonomicStatus} ?
+                    : ""]]></textFieldExpression>
+            </textField>
+            <!-- This shouldn't be used, results should only be accepted names -->
+            <textField isStretchWithOverflow="true">
+                <reportElement style="Detail" x="15" y="5" width="500" height="20"/>
+                <textElement/>
+                <textFieldExpression><![CDATA[org.gbif.ecat.voc.TaxonomicStatus.Accepted == $F{taxonomicStatus} ?
                     "" :
                     $F{scientificName} +
                     ($F{scientificNameAuthorship} != null ?
@@ -61,21 +64,23 @@
                         ) :
                         ""
                     )
-                    ;]]></textFieldExpression>
-			</textField>
-			<subreport>
-				<reportElement stretchType="RelativeToTallestObject" isPrintRepeatedValues="false" x="83" y="35" width="432" height="25" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
-				<subreportParameter name="username"/>
-				<subreportParameter name="searchString"/>
-				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{acceptedNameUsage}.getSynonymNameUsages())]]></dataSourceExpression>
-				<!-- TODO write subreports for synonyms & distribution & possibly ask for others -->
-			</subreport>
-		</band>
-	</detail>
-	<summary>
+                ]]></textFieldExpression>
+            </textField>
+        </band>
+        <band height="25">
+            <subreport>
+                <reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="50" y="0" width="500" height="25"
+                    isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" />
+                <dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{synonymNameUsages})]]></dataSourceExpression>
+                <subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{nameListReport}]]></subreportExpression>
+            </subreport>
+            <!-- TODO write subreports for distribution & possibly ask for others -->
+        </band>
+    </detail>
+    <summary>
         <band height="50">
             <textField isStretchWithOverflow="true">
-                <reportElement x="50" y="5" width="400" height="20"/>
+                <reportElement style="Footer" x="50" y="5" width="400" height="20"/>
                 <textElement/>
                 <textFieldExpression><![CDATA["This report describes " + $V{REPORT_COUNT} + " of your search results."]]></textFieldExpression>
             </textField>
@@ -86,5 +91,5 @@
                     "' on " + (new java.text.SimpleDateFormat($P{dateFormat})).format(new java.util.Date())]]></textFieldExpression>
             </textField>
         </band>
-	</summary>
+    </summary>
 </jasperReport>

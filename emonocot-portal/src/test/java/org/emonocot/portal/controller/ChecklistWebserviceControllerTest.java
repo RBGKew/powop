@@ -50,7 +50,7 @@ public class ChecklistWebserviceControllerTest {
     }
 
     @Test
-    public final void testSearch() {
+    public final void testSearch() throws Exception {
         EasyMock.expect(
                 searchableObjectService.search(EasyMock.eq("searchable.label_sort:Poa annua"),
                         (String) EasyMock.isNull(),
@@ -71,7 +71,7 @@ public class ChecklistWebserviceControllerTest {
     }
 
    @Test
-   public final void testSearchForFamily() {
+   public final void testSearchForFamily() throws Exception {
        EasyMock.expect(searchableObjectService.search(EasyMock.eq("searchable.label_sort:Poaceae"),
                (String) EasyMock.isNull(),
                (Integer) EasyMock.isNull(),

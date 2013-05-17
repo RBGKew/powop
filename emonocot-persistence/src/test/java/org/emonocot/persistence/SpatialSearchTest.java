@@ -95,7 +95,7 @@ public class SpatialSearchTest extends AbstractPersistenceTest {
      *
      */
     @Test
-    public final void testSpatialSearch() {
+    public final void testSpatialSearch() throws Exception {
         //testSpatialSearch() should return Aus bus but not Aus ceus
         Page<SearchableObject> page = getSearchableObjectDao().search(
         null, "Intersects(150.00 -40.0 160.0 -20.0)", null, null, null,

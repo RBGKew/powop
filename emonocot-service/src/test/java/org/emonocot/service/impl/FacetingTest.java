@@ -141,7 +141,7 @@ public class FacetingTest extends DataManagementSupport {
      *
      */
     @Test
-    public final void testSearch() {
+    public final void testSearch() throws Exception {
         Page<SearchableObject> pager = searchableObjectService.search("Aus",
                 null, null, null, null, null, null, null, null);
         assertEquals("there should be seven objects saved", (Integer) 7,
@@ -152,7 +152,7 @@ public class FacetingTest extends DataManagementSupport {
     *
     */
     @Test
-    public final void testSearchWithFacets() {
+    public final void testSearchWithFacets() throws Exception {
         Map<String, String> selectedFacets = new HashMap<String, String>();
         selectedFacets.put("base.class_s", "org.emonocot.model.Taxon");
         Page<SearchableObject> pager = searchableObjectService.search("Aus",
@@ -181,7 +181,7 @@ public class FacetingTest extends DataManagementSupport {
      *
      */
     @Test
-    public final void testSearchWithRegion() {
+    public final void testSearchWithRegion() throws Exception {
         Map<String, String> selectedFacets = new HashMap<String, String>();
         selectedFacets.put("base.class_s", "org.emonocot.model.Taxon");
         selectedFacets.put("taxon.distribution_TDWG_1_ss", "AUSTRALASIA_NEW_ZEALAND");
@@ -258,7 +258,7 @@ public class FacetingTest extends DataManagementSupport {
      *
      */
     @Test
-    public final void testSearchWithSorting() {
+    public final void testSearchWithSorting() throws Exception {
         Page<SearchableObject> results = searchableObjectService.search("Au*",
                 null, null, null, null, null, null, null, null);
 
@@ -281,7 +281,7 @@ public class FacetingTest extends DataManagementSupport {
     }
     
     @Test
-    public final void testFacetOnSource() {
+    public final void testFacetOnSource() throws Exception {
     	Map<String, String> selectedFacets = new HashMap<String, String>();
     	Page<?> results = searchableObjectService.search(null,
                 null, null, null, 
@@ -338,7 +338,7 @@ public class FacetingTest extends DataManagementSupport {
      * BUG # 334  As a user of eMonocot I want to be able to perform a faceted search by place
      */
     @Test
-    public final void testFacetOnPlace() {
+    public final void testFacetOnPlace() throws Exception {
     	Map<String, String> selectedFacets = new HashMap<String, String>();
     	selectedFacets.put("base.class_s", "org.emonocot.model.Place");
     	Page<SearchableObject> places = searchableObjectService.search(null, null, 10, 0, new String[] {}, null, selectedFacets, null, null);

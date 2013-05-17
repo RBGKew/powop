@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.match.Match;
 import org.emonocot.api.match.MatchStatus;
@@ -99,7 +100,12 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
         List<Match<Taxon>> matches = new ArrayList<Match<Taxon>>();
         Map<String,String> selectedFacets = new HashMap<String,String>();
         selectedFacets.put("base.class_s", "org.emonocot.model.Taxon");
-        Page<SearchableObject> page = searchableObjectService.search(searchTerm, null, null, null, null, null, selectedFacets, null, null);
+        Page<SearchableObject> page;
+		try {
+			page = searchableObjectService.search(searchTerm, null, null, null, null, null, selectedFacets, null, null);
+		} catch (SolrServerException sse) {
+			throw new RuntimeException("SolrServerException", sse);
+		}
 
         switch (page.getRecords().size()) {
         case 0:

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.SearchableObject;
@@ -18,12 +19,17 @@ import org.emonocot.portal.format.annotation.FacetRequestFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.orm.hibernate3.HibernateObjectRetrievalFailureException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 
@@ -64,7 +70,7 @@ public class SearchController {
 	private Page<? extends SearchableObject> runQuery(String query,
 			Integer start, Integer limit, String spatial,
 			String[] responseFacets, Map<String, String> facetPrefixes,
-			String sort, Map<String, String> selectedFacets) {
+			String sort, Map<String, String> selectedFacets) throws SolrServerException {
 		Page<? extends SearchableObject> result = searchableObjectService
 				.search(query, spatial, limit, start, responseFacets,
 						facetPrefixes, selectedFacets, sort, null);
@@ -127,7 +133,7 @@ public class SearchController {
 			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 			@RequestParam(value = "sort", required = false) String sort,
 			@RequestParam(value = "view", required = false) String view,
-			Model model) {
+			Model model) throws SolrServerException {
 
 		Map<String, String> selectedFacets = null;
 		if (facets != null && !facets.isEmpty()) {
@@ -224,7 +230,7 @@ public class SearchController {
 			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 			@RequestParam(value = "sort", required = false) String sort,
 			@RequestParam(value = "view", required = false) String view,
-			Model model) {
+			Model model) throws SolrServerException {
 		String spatial = null;
 		DecimalFormat decimalFormat = new DecimalFormat("###0.0");
 		if (x1 != null
@@ -387,7 +393,15 @@ public class SearchController {
 	 */
 	@RequestMapping(value = "/autocomplete", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	List<Match> autocomplete(@RequestParam(required = true) String term) {
+	List<Match> autocomplete(@RequestParam(required = true) String term) throws SolrServerException {
 		return searchableObjectService.autocomplete(term, 10, null);
 	}
+	
+	@ExceptionHandler(SolrServerException.class)
+	@ResponseStatus(value = HttpStatus.SERVICE_UNAVAILABLE)
+	public ModelAndView handleObjectNotFoundException(SolrServerException sse) {
+    	ModelAndView modelAndView = new ModelAndView("serviceUnavailable");
+    	modelAndView.addObject("exception", sse);
+        return modelAndView;
+    }
 }

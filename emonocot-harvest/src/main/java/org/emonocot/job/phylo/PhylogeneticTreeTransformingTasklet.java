@@ -104,7 +104,8 @@ public class PhylogeneticTreeTransformingTasklet extends AbstractRecordAnnotator
 		
 		PhylogenyWriter phylogenyWriter = PhylogenyWriter.createPhylogenyWriter();
 		phylogenyWriter.setIndentPhyloxml(false);		
-		PhylogenyNode node = phylogeny.getRoot();		
+		PhylogenyNode node = phylogeny.getRoot();
+		
 		addTaxonLinks(node);
 		StringBuffer stringBuffer = phylogenyWriter.toPhyloXML(phylogeny, 1);
 		PhylogeneticTree phylogeneticTree = phylogeneticTreeService.find(treeIdentifier);
@@ -130,6 +131,8 @@ public class PhylogeneticTreeTransformingTasklet extends AbstractRecordAnnotator
 			annotation.setAuthority(getSource());
 			phylogeneticTree.getAnnotations().add(annotation);
 		}
+		phylogeneticTree.setNumberOfExternalNodes(new Long(phylogeny.getNumberOfExternalNodes()));
+		
 		if(phylogeneticTree.getTitle() == null || phylogeneticTree.getTitle().isEmpty()) {
 		    phylogeneticTree.setTitle(phylogeny.getName());
 		}

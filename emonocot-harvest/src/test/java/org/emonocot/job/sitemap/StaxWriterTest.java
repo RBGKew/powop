@@ -9,7 +9,6 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.emonocot.model.marshall.xml.StaxEventItemWriter;
-import org.emonocot.portal.model.Url;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.junit.Before;

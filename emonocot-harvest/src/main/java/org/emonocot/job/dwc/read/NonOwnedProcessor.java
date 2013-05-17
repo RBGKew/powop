@@ -48,7 +48,7 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
         logger.info("Validating " + t.getIdentifier());
         Taxon taxon = null;
         if(!((NonOwned)t).getTaxa().isEmpty()) {
-        	taxon = super.getTaxonService().find(((NonOwned)t).getTaxa().iterator().next().getId());
+        	taxon = super.getTaxonService().find(((NonOwned)t).getTaxa().iterator().next().getIdentifier());
         	
         	((NonOwned)t).getTaxa().clear();
         	((NonOwned)t).getTaxa().add(taxon);

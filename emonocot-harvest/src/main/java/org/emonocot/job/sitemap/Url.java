@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.emonocot.portal.model;
+package org.emonocot.job.sitemap;
 
 import java.io.Serializable;
 import java.net.URL;

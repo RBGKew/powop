@@ -67,7 +67,7 @@
 	<mvc:view-controller path="/accessDenied" view-name="accessDenied"/>
 	<mvc:view-controller path="/unsupportedMediaType" view-name="unsupportedMediaType"/>
     <mvc:view-controller path="/internalServerError" view-name="internalServerError"/>
-    
+    <mvc:view-controller path="/serviceUnavailable" view-name="serviceUnavailable"/>
     
     
     <mvc:view-controller path="/contact" view-name="contact"/>

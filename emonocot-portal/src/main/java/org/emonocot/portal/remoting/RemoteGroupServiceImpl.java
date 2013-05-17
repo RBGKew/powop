@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.emonocot.model.BaseData;
 import org.emonocot.model.SecuredObject;
-import org.emonocot.portal.model.AceDto;
+import org.emonocot.portal.controller.form.AceDto;
 import org.emonocot.service.impl.GroupServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;

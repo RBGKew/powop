@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.validation.Valid;
 import javax.validation.groups.Default;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.AnnotationService;
 import org.emonocot.api.OrganisationService;
 import org.emonocot.api.ResourceService;
@@ -136,7 +137,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		    @RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 		    @RequestParam(value = "sort", required = false) String sort,
 		    @RequestParam(value = "view", required = false) String view,
-		    Model model) {
+		    Model model) throws SolrServerException {
 		Resource resource = getService().load(resourceId);
 		model.addAttribute("resource", resource);
 		Map<String, String> selectedFacets = new HashMap<String, String>();
@@ -236,7 +237,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		    @RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
 		    @RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 		    @RequestParam(value = "sort", required = false) String sort,
-		    @RequestParam(value = "view", required = false) String view) {
+		    @RequestParam(value = "view", required = false) String view) throws SolrServerException {
 		Map<String, String> selectedFacets = new HashMap<String, String>();
 		if (facets != null && !facets.isEmpty()) {
 			for (FacetRequest facetRequest : facets) {
@@ -260,7 +261,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	}
 	
 	@RequestMapping(params = "autocomplete", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody List<Match> autocomplete(@RequestParam(required = true) String term) {    	
+    public @ResponseBody List<Match> autocomplete(@RequestParam(required = true) String term) throws SolrServerException {    	
         return getService().autocomplete(term, 10, null);
     }
 

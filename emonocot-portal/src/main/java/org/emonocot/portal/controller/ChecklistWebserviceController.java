@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.SearchableObject;
@@ -79,11 +80,12 @@ public class ChecklistWebserviceController {
 	 * @param search
 	 *            A taxon name to search the database for.
 	 * @return a list of taxon objects (stored under the key 'result')
+	 * @throws SolrServerException 
 	 */
 	@RequestMapping(method = RequestMethod.GET, params = { "function=search",
 			"search" })
 	public ModelAndView search(
-			@RequestParam(value = "search", required = true) String search) {
+			@RequestParam(value = "search", required = true) String search) throws SolrServerException {
 		logger.debug("search for " + search);
 		String query = new String("searchable.label_sort:" + search);
 		Map<String,String> selectedFacets = new HashMap<String,String>();

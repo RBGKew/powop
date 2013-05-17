@@ -3,6 +3,7 @@ package org.emonocot.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrDocument;
 import org.emonocot.api.SearchableService;
 import org.emonocot.api.autocomplete.Match;
@@ -46,18 +47,18 @@ public abstract class SearchableServiceImpl<T extends Base, DAO extends Searchab
             final Integer pageSize, final Integer pageNumber,
             final String[] facets,
             Map<String, String> facetPrefixes, final Map<String, String> selectedFacets,
-            final String sort, final String fetch) {
+            final String sort, final String fetch)  throws SolrServerException {
         return dao.search(query, spatialQuery, pageSize, pageNumber, facets,
                 facetPrefixes, selectedFacets, sort, fetch);
     }
     
     @Transactional(readOnly = true)
-    public List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets) {
+    public List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets)  throws SolrServerException {
     	return dao.autocomplete(query, pageSize, selectedFacets);
     }
     
     @Transactional(readOnly = true)
-	public Page<SolrDocument> searchForDocuments(String query, Integer pageSize, Integer pageNumber, Map<String, String> selectedFacets, String sort) {
+	public Page<SolrDocument> searchForDocuments(String query, Integer pageSize, Integer pageNumber, Map<String, String> selectedFacets, String sort)  throws SolrServerException {
 		return dao.searchForDocuments(query, pageSize, pageNumber, selectedFacets, sort);
 	}
 
@@ -68,7 +69,7 @@ public abstract class SearchableServiceImpl<T extends Base, DAO extends Searchab
 	}
 	
 	@Transactional(readOnly = true)
-	public CellSet analyse(String rows, String cols, Integer firstCol, Integer maxCols, Integer firstRow, Integer maxRows,	Map<String, String> selectedFacets, String[] array, Cube cube) {
+	public CellSet analyse(String rows, String cols, Integer firstCol, Integer maxCols, Integer firstRow, Integer maxRows,	Map<String, String> selectedFacets, String[] array, Cube cube)  throws SolrServerException{
 		return dao.analyse(rows, cols, firstCol, maxCols, firstRow, maxRows,selectedFacets, array, cube);
 	}
 }

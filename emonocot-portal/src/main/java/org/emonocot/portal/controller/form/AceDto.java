@@ -1,4 +1,4 @@
-package org.emonocot.portal.model;
+package org.emonocot.portal.controller.form;
 
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;

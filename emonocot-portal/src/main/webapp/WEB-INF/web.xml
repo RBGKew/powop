@@ -159,4 +159,8 @@
         <error-code>500</error-code>
         <location>/internalServerError</location>
     </error-page>
+    <error-page>
+        <error-code>503</error-code>
+        <location>/serviceUnavailable</location>
+    </error-page>
 </web-app>

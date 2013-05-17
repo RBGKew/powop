@@ -3,6 +3,7 @@ package org.emonocot.portal.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.CommentService;
 import org.emonocot.model.Comment;
 import org.emonocot.pager.Page;
@@ -24,7 +25,7 @@ public class IndexController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET,produces = "text/html")
-	public String index(Model uiModel) {
+	public String index(Model uiModel) throws SolrServerException {
 		Map<String, String> selectedFacets = new HashMap<String, String>();		
 		selectedFacets.put("base.class_s", "org.emonocot.model.Comment");
 		selectedFacets.put("comment.status_t", "SENT");

@@ -137,7 +137,88 @@ background-image:url(./images/glyphicons/fullsize/glyphicons_044_keys.png);
 	padding-left: 18px;
 }
 
-
+/**
+ * Phylogenetic Tree
+ */
+#phylogeny-container {
+     border: solid thin black;
+     padding: 10px;
+     overflow: auto;
+ }
+ #phylogeny {
+   max-width: 100%;
+   max-height: 600px;
+   overflow: hidden;
+ }
+ #phylogeny-panzoombar {
+     position: absolute;
+     left: 20px;
+     top: 20px;
+     z-index: 1002;
+ }
+ #phylogeny-panup {
+     position: absolute; 
+     left: 22px;
+     top: 4px; 
+     width: 18px; 
+     height: 18px; 
+     cursor: pointer;
+     background-image: url('./images/OpenLayers/north-mini.png');
+ }
+ #phylogeny-reset {
+     position: absolute;
+     left: 22px;
+     top: 22px; 
+     width: 18px;
+     height: 18px;
+     cursor: pointer;
+     background-image: url('./images/OpenLayers/zoom-world-mini.png');
+ }
+ #phylogeny-panright {
+     position: absolute;
+     left: 40px;
+     top: 22px;
+     width: 18px;
+     height: 18px;
+     cursor: pointer;
+     background-image: url('./images/OpenLayers/east-mini.png');
+ }
+ #phylogeny-panleft {
+   position: absolute;
+   left: 4px;
+   top: 22px;
+   width: 18px;
+   height: 18px;
+   cursor: pointer;
+   background-image: url('./images/OpenLayers/west-mini.png');
+ }
+ #phylogeny-pandown {
+     position: absolute;
+     left: 22px;
+     top: 40px;
+     width: 18px;
+     height: 18px;
+     cursor: pointer;
+     background-image: url('./images/OpenLayers/south-mini.png');
+ }
+ #phylogeny-zoomin {
+     position: absolute;
+     left: 22px;
+     top: 63px;
+     width: 18px;
+     height: 18px;
+     cursor: pointer;
+     background-image: url('./images/OpenLayers/zoom-plus-mini.png');
+ }
+ #phylogeny-zoomout {
+     position: absolute;
+     left: 22px;
+     top: 81px;
+     width: 18px;
+     height: 18px;
+     cursor: pointer;
+     background-image: url('./images/OpenLayers/zoom-minus-mini.png');
+ }
 /**
  * Identification Key
  */
@@ -345,7 +426,7 @@ h1, h2, h3, h4, h5, h6 {
 	transform: skew(5deg) rotate(3deg);
 } 
 
-.span12 .inner:before, .span12 .inner:after, .span11 .inner:before, .span11 .inner:after { bottom: 13px; }
+.span12 .inner:before, .span12 .inner:after, .span11 .inner:before, .span11 .inner:after { bottom: 16px; }
 .span10 .inner:before, .span10 .inner:after, .span9 .inner:before, .span9 .inner:after { bottom: 12px; }
 .span8 .inner:before, .span8 .inner:after, .span7 .inner:before, .span7 .inner:after { bottom: 11px; }
 .span6 .inner:before, .span6 .inner:after, .span5 .inner:before, .span5 .inner:after { bottom: 10px; }

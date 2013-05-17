@@ -21,18 +21,94 @@
 			<section class="span12">
 					<div class="inner">
 						<div class="box">
-						  <div id="phylogeny"><!--  --></div>
+						  <div id="phylogeny-container">
+	                        <div id="phylogeny"><!--  --></div>
+	                        <div id="phylogeny-panzoombar">
+			                  <div id="phylogeny-panup"><!--  --></div>
+			                  <div id="phylogeny-panleft"><!--  --></div>
+			                  <div id="phylogeny-reset"><!--  --></div>
+			                  <div id="phylogeny-panright"><!--  --></div>
+			                  <div id="phylogeny-pandown"><!--  --></div>
+			                  <div id="phylogeny-zoomin"><!--  --></div>			
+			                  <div id="phylogeny-zoomout"><!--  --></div>
+	                        </div>
+	                      </div>
 						  <script type="text/javascript">
                             $(document).ready(function() {
                                 var dataObject = { phyloxml: '${phylogeneticTree.phylogeny}' };
-                                phylocanvas = new Smits.PhyloCanvas(
+                                Smits.PhyloCanvas.Render.Style.highlightedEdgeCircle.fill = '#D50C54';
+                                var width = $("#phylogeny").width();
+                                var height = (${phylogeneticTree.numberOfExternalNodes} * 30);
+                                var phylocanvas = new Smits.PhyloCanvas(
                                     dataObject,
                                     'phylogeny',
-                                    580, 470
+                                     width, height
                                 );
+                                $("#phylogeny-reset").click(function() {
+                                    zpd = phylocanvas.getZpd();
+                                    zpd.zoomCurrent = 0;
+                                    var g = zpd.gelem;
+                                    var reset = zpd.root.createSVGMatrix().translate(0, 0).scale(1);        	
+                                    zpd.setCTM(g, g.getCTM().multiply(g.getCTM().inverse()));
+                                });
+                                $("#phylogeny-zoomin").click(function() {
+                                   	zpd = phylocanvas.getZpd();
+                                   	if (zpd.opts.zoomThreshold) { 
+                                        if (zpd.opts.zoomThreshold[1] &lt;= zpd.zoomCurrent) {
+                                           	return;
+                                        }
+                                  	}
+                                    zpd.zoomCurrent++;
+                                    var z = 1.1;
+                                  	var g = zpd.gelem;
+                                    var k = zpd.root.createSVGMatrix().scale(z);
+                                    zpd.setCTM(g, g.getCTM().multiply(k));
+
+                                	if (!zpd.stateTf) {
+                                		zpd.stateTf = g.getCTM().inverse();
+                                	}
+                                	zpd.stateTf = zpd.stateTf.multiply(k.inverse());
+                                });
+                                $("#phylogeny-zoomout").click(function() {
+                                    zpd = phylocanvas.getZpd();
+                                    if (zpd.opts.zoomThreshold) { 
+                                        if (zpd.opts.zoomThreshold[0] &gt;= zpd.zoomCurrent) {
+                                            return;
+                                        }
+                                    }
+                                    zpd.zoomCurrent--;
+                                    var z = 0.9;
+                                    var g = zpd.gelem;
+                                    var k = zpd.root.createSVGMatrix().scale(z);
+                                	zpd.setCTM(g, g.getCTM().multiply(k));
+
+                                	if (!zpd.stateTf) {
+                                		zpd.stateTf = g.getCTM().inverse();
+                                	}
+                                	zpd.stateTf = zpd.stateTf.multiply(k.inverse());
+                                });
+                                $("#phylogeny-panup").click(function() {
+                                    zpd = phylocanvas.getZpd();
+                                    var g = zpd.gelem;
+                                    zpd.setCTM(g, g.getCTM().translate(0, 30));
+                                });
+                                $("#phylogeny-pandown").click(function() {
+                                    zpd = phylocanvas.getZpd();        	
+                                    var g = zpd.gelem;        	
+                                    zpd.setCTM(g, g.getCTM().translate(0, -30));
+                                });
+                                $("#phylogeny-panleft").click(function() {
+                                    zpd = phylocanvas.getZpd();
+                                    var g = zpd.gelem;        	
+                                    zpd.setCTM(g, g.getCTM().translate(30, 0));
+                                });
+                                $("#phylogeny-panright").click(function() {
+                                    zpd = phylocanvas.getZpd();
+                                    var g = zpd.gelem;
+                                    zpd.setCTM(g, g.getCTM().translate(-30, 0));
+                                });                     
                             });
                           </script>
-						
 						</div>
 					</div>
 			</section>
@@ -50,6 +126,14 @@
 									<tr>
 										<th><spring:message code="phylo.description" /></th>
 										<td>${phylogeneticTree.description}</td>
+									</tr>
+									<tr>
+										<th><spring:message code="phylo.source" /></th>
+										<td>
+										  <c:if test="${not empty phylogeneticTree.source}">
+										    ${phylogeneticTree.source.bibliographicCitation}
+										  </c:if>
+										</td>
 									</tr>
 									<tr>
 									  <th><spring:message code="phylo.taxa" /></th>

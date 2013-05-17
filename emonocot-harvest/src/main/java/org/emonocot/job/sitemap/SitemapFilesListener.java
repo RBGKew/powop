@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.emonocot.model.marshall.xml.StaxEventItemWriter;
-import org.emonocot.portal.model.Url;
 import org.joda.time.ReadableInstant;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
