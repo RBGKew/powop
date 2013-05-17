@@ -427,14 +427,14 @@
 								<c:if test="${not empty taxon.higherClassification}">
 									<ul id="taxonHierarchy">
 										<c:choose>
-											<c:when test="${fn:length(taxon.higherClassification) gt 3}">
-												<c:set var="ancestors" value="${taxon.higherClassification.subList(fn:length(taxon.higherClassification) -4, fn:length(taxon.higherClassification))}"/>
-												<li>
-													<a class="ancestorsList" href="#">${fn:length(taxon.higherClassification)-4} MORE ANCESTORS</a>
-													<ul>
-														<tags:tree taxon="${taxon}" ancestors="${ancestors}" />
-													</ul>
-												</li>
+											<c:when test="${fn:length(taxon.higherClassification) gt 6}">
+												<c:set var="ancestors" value="${taxon.higherClassification.subList(fn:length(taxon.higherClassification) -7, fn:length(taxon.higherClassification))}"/>
+												<c:set var="minValue" value="${fn:length(taxon.higherClassification) -7 }"/>
+													<c:if test="${minValue gt 0}">
+														<c:url value="/taxon/${ancestors[0].identifier}" var="ancestorUrl"/>
+														<a class="ancestorsList" href="${ancestorUrl}">${minValue} <spring:message code="higherTaxa" /></a>
+													</c:if>
+													<tags:tree taxon="${taxon}" ancestors="${ancestors}" />
 											</c:when>
 											<c:otherwise>
 												<tags:tree taxon="${taxon}" ancestors="${taxon.higherClassification}" />
