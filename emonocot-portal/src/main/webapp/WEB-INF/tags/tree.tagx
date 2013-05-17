@@ -40,9 +40,9 @@
 						<c:otherwise>
 							<ul>
 								<c:forEach var="child" items="${em:sort(taxon.childNameUsages)}">
-									<li>
+									<li class="subordinateBoxList">
 										<c:url value="/taxon/${child.identifier}" var="childUrl"/>
-										<a class="childrenList" href="${childUrl}"><em>${child.scientificName}</em> ${child.scientificNameAuthorship}</a>
+										<a class="childrenList" href="${childUrl}"><em>${child.scientificName}</em></a>
 									</li>
 								</c:forEach>
 							</ul>
