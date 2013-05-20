@@ -202,7 +202,15 @@
  	                          <label for="_purpose_id" class="control-label"><spring:message code="download_purpose_label" /></label>
  	                          <div class="controls">
  	                            <textarea id="_purpose_id" name="purpose" rows="5"><!--  --></textarea>
- 	                            <span class="help-block"><spring:message code="download_purpose_help" /></span>
+ 	                            <span class="help-block">
+ 	                            <spring:message code="download_purpose_help" /><br />
+ 	                            <strong><spring:message code="download_notes_label"/></strong><br />
+ 	                            <ul class="span7">
+ 	                                <li><spring:message code="download_results_differ" /></li>
+ 	                                <c:url value="/termsOfUse" var="termsUrl"/>
+ 	                                <li><spring:message code="download_citation_reminder" arguments="${termsUrl}"/></li>
+ 	                            </ul>
+ 	                            </span>
  	                          </div>
  	                        </div>
 							<div class="form-actions">

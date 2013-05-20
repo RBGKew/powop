@@ -437,6 +437,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		jobParametersMap.put("authority.name", resource.getOrganisation().getIdentifier());
 		jobParametersMap.put("authority.uri", resource.getUri());
 		jobParametersMap.put("resource.identifier", resource.getIdentifier());
+        jobParametersMap.put("skip.unmodified", ifModified.toString());
 
 		if (resource.getStatus() == null || !ifModified) {
 			jobParametersMap.put("timestamp", Long.toString(System.currentTimeMillis()));

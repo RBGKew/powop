@@ -13,13 +13,16 @@
     <parameter name="username" class="java.lang.String" isForPrompting="false"/>
     <parameter name="searchDefinition" class="java.lang.String" isForPrompting="false"/>
     <parameter name="nameListReport" class="net.sf.jasperreports.engine.JasperReport" isForPrompting="false"/>
+    <parameter name="rankComparator" class="org.gbif.ecat.voc.RankComparator" isForPrompting="false">
+        <defaultValueExpression><![CDATA[new org.gbif.ecat.voc.RankComparator()]]></defaultValueExpression>
+    </parameter>
     <parameter name="dateFormat" class="java.lang.String" isForPrompting="false">
         <defaultValueExpression><![CDATA["yyyy-MM-dd"]]></defaultValueExpression>
     </parameter>
     <field name="family" class="java.lang.String"/>
     <field name="scientificName" class="java.lang.String"/>
     <field name="scientificNameAuthorship" class="java.lang.String"/>
-    <field name="taxonomicStatus" class="org.gbif.ecat.voc.TaxonomicStatus"/>
+    <field name="taxonRank" class="org.gbif.ecat.voc.Rank"/>
     <field name="acceptedNameUsage" class="org.emonocot.model.Taxon"/>
     <field name="synonymNameUsages" class="java.util.Set"/>
     <title>
@@ -33,38 +36,34 @@
     </title>
     <detail>
         <band height="25">
+            <!-- Family or higher -->
             <textField isStretchWithOverflow="true">
-                <reportElement style="AcceptedName" x="15" y="5" width="500" height="20"/>
+                <reportElement style="AcceptedName" x="0" y="5" width="500" height="20"/>
                 <textElement/>
-                <textFieldExpression><![CDATA[org.gbif.ecat.voc.TaxonomicStatus.Accepted == $F{taxonomicStatus} ?
+                <textFieldExpression><![CDATA[$P{rankComparator}.compare(org.gbif.ecat.voc.Rank.FAMILY, $F{taxonRank}) <= 0 ?
                     $F{scientificName} + ($F{scientificNameAuthorship} != null ? " " + $F{scientificNameAuthorship} : "")
                          + ($F{family} != null ? " (" + $F{family}.toUpperCase() + ") " : "")
                     : ""]]></textFieldExpression>
             </textField>
-            <!-- This shouldn't be used, results should only be accepted names -->
+            <!-- Below family to genus inclusive -->
             <textField isStretchWithOverflow="true">
-                <reportElement style="Detail" x="15" y="5" width="500" height="20"/>
+                <reportElement style="Generic" x="15" y="5" width="500" height="20"/>
                 <textElement/>
-                <textFieldExpression><![CDATA[org.gbif.ecat.voc.TaxonomicStatus.Accepted == $F{taxonomicStatus} ?
-                    "" :
-                    $F{scientificName} +
-                    ($F{scientificNameAuthorship} != null ?
-                        " " + $F{scientificNameAuthorship} :
-                        ""
-                    ) +
-                    ($F{family} != null ?
-                        " (" + $F{family}.toUpperCase() + ") " :
-                        ""
-                    ) +
-                    ($F{acceptedNameUsage} != null ?
-                        " = " + ($F{acceptedNameUsage}).getScientificName() +
-                        (($F{acceptedNameUsage}).getScientificNameAuthorship() != null ?
-                            " " + ($F{acceptedNameUsage}).getScientificNameAuthorship() :
-                            ""
-                        ) :
-                        ""
-                    )
-                ]]></textFieldExpression>
+                <textFieldExpression><![CDATA[($P{rankComparator}.compare(org.gbif.ecat.voc.Rank.GENUS, $F{taxonRank})
+                        && $P{rankComparator}.compare(org.gbif.ecat.voc.Rank.FAMILY, $F{taxonRank}) > 0)
+                    ?
+                    $F{scientificName} + ($F{scientificNameAuthorship} != null ? " " + $F{scientificNameAuthorship} : "")
+                         + ($F{family} != null ? " (" + $F{family}.toUpperCase() + ") " : "")
+                    : ""]]></textFieldExpression>
+            </textField>
+            <!-- Below genus -->
+            <textField isStretchWithOverflow="true">
+                <reportElement style="Specific" x="30" y="5" width="500" height="20"/>
+                <textElement/>
+                <textFieldExpression><![CDATA[$P{rankComparator}.compare(org.gbif.ecat.voc.Rank.GENUS, $F{taxonRank}) > 0 ?
+                    $F{scientificName} + ($F{scientificNameAuthorship} != null ? " " + $F{scientificNameAuthorship} : "")
+                         + ($F{family} != null ? " (" + $F{family}.toUpperCase() + ") " : "")
+                    : ""]]></textFieldExpression>
             </textField>
         </band>
         <band height="25">
