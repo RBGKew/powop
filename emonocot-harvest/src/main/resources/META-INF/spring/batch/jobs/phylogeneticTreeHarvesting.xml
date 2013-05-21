@@ -104,6 +104,7 @@
 		</property>	
 		<property name="rootTaxonIdentifier" value="#{jobParameters['root.taxon.identifier']}" />
 		<property name="phylogenyTitle" value="#{jobParameters['phylogeny.title']}" />
+		<property name="phylogenyCreator" value="#{jobParameters['phylogeny.creator']}" />
 		<property name="sourceName" value="#{jobParameters['authority.name']}" />
 		<property name="treeIdentifier" value="#{jobParameters['authority.uri']}"/>
 		<property name="baseUri" value="${portal.baseUrl}"/>

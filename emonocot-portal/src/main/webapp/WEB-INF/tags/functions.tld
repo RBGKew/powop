@@ -24,6 +24,11 @@
         <function-signature>java.lang.String formatDateRange(java.lang.String)</function-signature>
     </function>
     <function>
+        <name>phylocolors</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.util.Map phylocolors(java.util.Collection)</function-signature>
+    </function>
+    <function>
         <name>facts</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>java.util.Collection facts(org.emonocot.model.Taxon,org.gbif.dwc.terms.ConceptTerm)</function-signature>
