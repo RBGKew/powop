@@ -105,6 +105,10 @@
 		<property name="rootTaxonIdentifier" value="#{jobParameters['root.taxon.identifier']}" />
 		<property name="phylogenyTitle" value="#{jobParameters['phylogeny.title']}" />
 		<property name="phylogenyCreator" value="#{jobParameters['phylogeny.creator']}" />
+		<property name="phylogenyDescription" value="#{jobParameters['phylogeny.description']}" />
+		<property name="phylogenyRights" value="#{jobParameters['phylogeny.rights']}" />
+		<property name="phylogenyRightsHolder" value="#{jobParameters['phylogeny.rights.holder']}" />
+		<property name="phylogenyLicense" value="#{jobParameters['phylogeny.license']}" />
 		<property name="sourceName" value="#{jobParameters['authority.name']}" />
 		<property name="treeIdentifier" value="#{jobParameters['authority.uri']}"/>
 		<property name="baseUri" value="${portal.baseUrl}"/>
