@@ -223,7 +223,7 @@ public class PhylogeneticTreeTransformingTasklet extends AbstractRecordAnnotator
 	}
 
 	private void addTaxonLinks(PhylogenyNode node, PhylogeneticTree phylogeneticTree) {
-		
+
 		Taxon taxon = matchTaxonName(node.getName());
 		if (taxon != null) {
 			Annotation annotation = new Annotation();

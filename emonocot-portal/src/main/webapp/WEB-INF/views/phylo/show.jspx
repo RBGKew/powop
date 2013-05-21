@@ -168,6 +168,9 @@
                                                 dataObject,
                                                 'phylogeny',
                                                  width, width,type,callback);
+                                    	zpd = phylocanvas.getZpd();
+                                        var g = zpd.gelem;     	
+                                        zpd.setCTM(g, g.getCTM().multiply(g.getCTM().inverse()).scale(0.8));
                                     }
                                     $("#phylogeny-reset").unbind("click");
                                     $("#phylogeny-reset").click(function() {
@@ -177,7 +180,7 @@
                                         if(type == "rectangular") {
                                             zpd.setCTM(g, g.getCTM().multiply(g.getCTM().inverse()).translate(80, 0).scale(0.8));
                                         } else {
-                                        	zpd.setCTM(g, g.getCTM().multiply(g.getCTM().inverse()));
+                                        	zpd.setCTM(g, g.getCTM().multiply(g.getCTM().inverse()).scale(0.8));
                                         }
                                     });
                                     $("#phylogeny-zoomin").unbind("click");
