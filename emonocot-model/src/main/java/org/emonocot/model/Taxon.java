@@ -937,13 +937,23 @@ public class Taxon extends SearchableObject {
         sid.addField("searchable.label_sort", getScientificName());
         addField(sid,"taxon.bibliographic_citation_t", getBibliographicCitation());
         addField(sid,"taxon.clazz_s", getClazz());
-        addField(sid,"taxon.family_s", getFamily());
+        /*if(Rank.FAMILY == getTaxonRank() && getFamily() == null) {
+            addField(sid,"taxon.family_ns", getScientificName());
+        } else {*/
+            addField(sid,"taxon.family_ns", getFamily());
+        /*}*/
         addField(sid,"taxon.family_ss", getFamily());
         if(getAcceptedNameUsage() != null) {
-            addField(sid, "taxon.family_ss", getAcceptedNameUsage().getFamily());
+            addField(sid,"taxon.family_ss", getAcceptedNameUsage().getFamily());
         }
         addField(sid,"taxon.genus_s", getGenus());
+        /*if(Rank.GENUS == getTaxonRank() && getGenus() == null) {
+            addField(sid,"taxon.genus_ns", getScientificName());
+        } else {*/
+            addField(sid,"taxon.genus_ns", getGenus());
+        /*}*/
         addField(sid,"taxon.infraspecific_epithet_s", getInfraspecificEpithet());
+        addField(sid,"taxon.infraspecific_epithet_ns", getInfraspecificEpithet());
         addField(sid,"taxon.kingdom_s", getKingdom());
         addField(sid,"taxon.name_published_in_t", getNamePublishedInString());
         addField(sid,"taxon.name_published_in_year_i", getNamePublishedInYear());
@@ -955,6 +965,7 @@ public class Taxon extends SearchableObject {
         addField(sid,"taxon.scientific_name_authorship_t", getScientificNameAuthorship());
         addField(sid,"taxon.source_t", getSource());
         addField(sid,"taxon.specific_epithet_s", getSpecificEpithet());
+        addField(sid,"taxon.specific_epithet_ns", getSpecificEpithet());
         addField(sid,"taxon.subfamily_s", getSubfamily());
         addField(sid,"taxon.subgenus_s", getSubgenus());
         addField(sid,"taxon.subtribe_s", getSubtribe());
