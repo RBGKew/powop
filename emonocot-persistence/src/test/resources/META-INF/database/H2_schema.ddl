@@ -29,7 +29,9 @@ create table MeasurementOrFact (id bigint not null, identifier varchar(255), acc
 drop table if exists Place;
 create table Place (id bigint not null, identifier varchar(255), accessRights varchar(255), created timestamp, modified timestamp, title varchar(255), fipsCode varchar(5), shape blob, point blob, license varchar(255), rights clob, rightsHolder varchar(255), source varchar(255), creator varchar(255), authority_id bigint, mapFeatureId bigint, primary key (id), unique (identifier));
 drop table if exists PhylogeneticTree;
-create table PhylogeneticTree (id bigint not null, accessRights varchar(255), created timestamp, creator varchar(255), identifier varchar(255) not null, license varchar(255), phylogeny clob, numberOfExternalNodes bigint, modified timestamp, rights clob, rightsHolder varchar(255), description clob, title varchar(255), authority_id bigint, source_id bigint, primary key (id), unique (identifier));
+create table PhylogeneticTree (id bigint not null, accessRights varchar(255), created timestamp, creator varchar(255), identifier varchar(255) not null, license varchar(255), phylogeny clob, numberOfExternalNodes bigint, hasBranchLengths boolean, modified timestamp, rights clob, rightsHolder varchar(255), description clob, title varchar(255), authority_id bigint, source_id bigint, primary key (id), unique (identifier));
+drop table if exists PhylogeneticTree_Taxon;
+create table PhylogeneticTree_Taxon (PhylogeneticTree_id bigint not null, leaves_id bigint not null);
 drop table if exists Principal;
 create table Principal (DTYPE varchar(31) not null, id bigint not null, identifier varchar(255), created timestamp, modified timestamp, accountNonExpired boolean, accountNonLocked boolean, credentialsNonExpired boolean, enabled boolean, password varchar(255), nonce varchar(255), name varchar(255), firstName varchar(255), familyName varchar(255), organization varchar(255), accountName varchar(255), img varchar(255), topicInterest varchar(255), homepage varchar(255), notifyByEmail boolean default false, primary key (id), unique (identifier));
 drop table if exists Reference;
@@ -96,6 +98,8 @@ alter table Description add constraint FK6A10726C1EDCD08D foreign key (taxon_id)
 alter table Description add constraint FK6A10726C6B53D29C foreign key (authority_id) references Organisation;
 alter table Description_Reference add constraint FKF3F2F783968322D1 foreign key (references_id) references Reference;
 alter table Description_Reference add constraint FKF3F2F7832D1A3054 foreign key (Description_id) references Description;
+alter table PhylogeneticTree_Taxon add constraint FK164D2BD6968323D2 foreign key (PhylogeneticTree_id) references PhylogeneticTree;
+alter table PhylogeneticTree_Taxon add constraint FK164D2BD61EDCD17D foreign key (leaves_id) references Taxon;
 alter table User_Group add constraint FKE7B7ED0BDA0BABAB foreign key (groups_id) references Principal;
 alter table User_Group add constraint FKE7B7ED0B9E0AAB54 foreign key (User_id) references Principal;
 alter table User_permissions add constraint FKB4582A309E0AAB54 foreign key (User_id) references Principal;

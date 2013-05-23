@@ -1,13 +1,16 @@
 package org.emonocot.portal.view;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.regex.Matcher;
@@ -75,15 +78,18 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 public class Functions {
 	
 	private static DateTimeFormatter timeOnlyFormatter = DateTimeFormat.forPattern("HH:mm:ss");
-    /**
-     *
-     */
-    private static DefaultConversionService conversionService = new DefaultConversionService();
 
-    /**
-     *
-     */
+    private static DefaultConversionService conversionService = new DefaultConversionService();
+    
     private static double MAX_DEGREES_LATITUDE = 180.0;
+    
+    private static Color[] baseColors = {
+    	new Color(255,210,54),
+    	new Color(213,12,84),
+    	new Color(111,148,73),
+    	new Color(0,116,204),
+    	new Color(97,102,104)
+    };
 
     static {
         conversionService.addConverter(new PermissionToStringConverter());
@@ -138,6 +144,56 @@ public class Functions {
                 return Boolean.TRUE;
             }
         }
+    }
+    
+    public static Map<String,Map<String,String>> phylocolors(Collection<Taxon> taxa) {
+    	Map<String,Map<String,String>> phylocolors = new HashMap<String, Map<String,String>>();
+    	
+    	Set<String> orders = new HashSet<String>();
+    	Set<String> families = new HashSet<String>();
+    	Set<String> genera = new HashSet<String>();
+    	
+    	for(Taxon t : taxa) {
+    		if(t.getOrder() != null && !t.getOrder().isEmpty()) {
+    			orders.add(t.getOrder());
+    		}
+    		if(t.getFamily() != null && !t.getFamily().isEmpty()) {
+    			families.add(t.getFamily());
+    		}
+    		if(t.getGenus() != null && !t.getGenus().isEmpty()) {
+    			genera.add(t.getGenus());
+    		}
+    	}
+    	
+    	phylocolors.put("order", getColorMap(orders));
+    	phylocolors.put("family", getColorMap(families));
+    	phylocolors.put("genus", getColorMap(genera));
+    	
+    	return phylocolors;
+    }
+    
+    private static Map<String,String> getColorMap(Set<String> categories) {
+    	int numberOfCategories = categories.size();
+    	float increment = 0.5f / (numberOfCategories / 5);
+    	Map<String,String> colorMap = new HashMap<String,String>();
+    	
+    	int i = 0;
+    	for(String category : categories) {
+    		Color baseColor = baseColors[i % 5];
+    		int offset = i / 5;
+    		if(offset > 0) {
+    		    float hsbVals[] = Color.RGBtoHSB( baseColor.getRed(),
+    				  baseColor.getGreen(),
+    				  baseColor.getBlue(), null );
+                Color highlight = Color.getHSBColor( hsbVals[0], hsbVals[1], offset * increment * ( 1f + hsbVals[2] ));
+                colorMap.put(category, String.format("#%06X",(0xFFFFFF & highlight.getRGB())));
+    		} else {
+    			 colorMap.put(category, String.format("#%06X",(0xFFFFFF & baseColor.getRGB())));
+    		}
+    		i++;
+    	}
+    	
+    	return colorMap;
     }
     
     public static String evaluate(String expressionString, PageContext pageContext) throws ELException {

@@ -47,6 +47,7 @@
 		<property name="messageConverters">
 			<list>
 				<ref bean="jsonConverter" />
+				<ref bean="stringConverter" />
 			</list>
 		</property>
 	</bean>
@@ -55,6 +56,11 @@
 		<property name="supportedMediaTypes" value="application/json,application/javascript" />
 		<property name="objectMapper" ref="customObjectMapper" />
 	</bean>
+	
+	<bean id="stringConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
+      <property name="supportedMediaTypes" value="text/plain,application/xml" />
+      <property name="writeAcceptCharset" value="false"/>
+    </bean>
 	
 	<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver"/>
 

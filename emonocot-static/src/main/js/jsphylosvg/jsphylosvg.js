@@ -107,7 +107,7 @@ Smits = {};Smits.Common = {
 		zpd,
 		dataObject;
 
-	return function(inputFormat, sDivId, canvasWidth, canvasHeight, type){
+	return function(inputFormat, sDivId, canvasWidth, canvasHeight, type, callback){
 		/* Privileged Methods */
 		this.getNewickObject = function(){
 			return newickObject;
@@ -178,6 +178,9 @@ Smits = {};Smits.Common = {
 		}
 
 		divId = sDivId;
+		if(typeof callback === 'function') {
+			callback(dataObject);
+		}
 		svg = new Smits.PhyloCanvas.Render.SVG( divId, canvasWidth, canvasHeight );
 		zpd = new RaphaelZPD(svg.svg, { zoom: true, pan: true, drag: false });
 			/* FACTORY */
@@ -446,7 +449,9 @@ Smits.PhyloCanvas.NewickParse.prototype = {
 	mNewickLen = 0,
 	root,
 	validate,
-		
+	getRoot = function() {
+		return root;
+	},		
 	recursiveParse = function(clade, parentNode){
 		var node = new Smits.PhyloCanvas.Node();
 		if(parentNode){
@@ -1227,7 +1232,7 @@ Smits.PhyloCanvas.Render.SVG.prototype = {
 
 	render : function(){
 		var instructs = this.phylogramObject.getDrawInstructs();
-		console.log('render', this.phylogramObject.getDrawInstructs());
+		//console.log('render', this.phylogramObject.getDrawInstructs());
 		for (var i = 0; i < instructs.length; i++) {
 		   if(instructs[i].type == 'line'){
 				var line = this.svg.path(["M", instructs[i].x1, instructs[i].y1, "L", instructs[i].x2, instructs[i].y2]).attr(Smits.PhyloCanvas.Render.Style.line);
@@ -1554,7 +1559,7 @@ Smits.PhyloCanvas.Render.SVG.prototype = {
 		if(Smits.PhyloCanvas.Render.Parameters.binaryCharts.length || Smits.PhyloCanvas.Render.Parameters.barCharts.length){
 			sParams.alignRight = true;
 		}
-		
+		firstBranch = true;
 		recursiveCalculateNodePositions(node, paddingX);
 		
 		// Draw Scale Bar
@@ -2068,6 +2073,7 @@ Smits.PhyloCanvas.Render.Phylogram.prototype = {
 		scaleAngle 			= Smits.Common.roundFloat( (360 - bufferAngle) / node.getCountAllChildren(), 4 );		
 
 		// Draw Nodes and Labels
+		firstBranch = true;
 		recursiveCalculateNodePositions(node, innerCircleRadius);
 		outerRadius = maxBranch + maxLabelLength + sParams.bufferOuterLabels;
 

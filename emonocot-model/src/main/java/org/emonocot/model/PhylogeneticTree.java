@@ -47,6 +47,8 @@ public class PhylogeneticTree extends SearchableObject implements NonOwned,
 	
 	private Set<Taxon> taxa = new HashSet<Taxon>();
 	
+	private Set<Taxon> leaves = new HashSet<Taxon>();
+	
 	private String creator;
 	
 	private Set<Annotation> annotations = new HashSet<Annotation>();
@@ -58,6 +60,8 @@ public class PhylogeneticTree extends SearchableObject implements NonOwned,
 	private Long numberOfExternalNodes;
 	
 	private Reference source;
+
+	private boolean hasBranchLengths;
 
 	public Long getNumberOfExternalNodes() {
 		return numberOfExternalNodes;
@@ -115,6 +119,19 @@ public class PhylogeneticTree extends SearchableObject implements NonOwned,
 	public void setTaxa(Set<Taxon> taxa) {
 		this.taxa = taxa;
 	}
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "PhylogeneticTree_Taxon", joinColumns = {@JoinColumn(name = "PhylogeneticTree_id")}, inverseJoinColumns = {@JoinColumn(name = "leaves_id")})
+    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE })
+    @JsonSerialize(contentUsing = TaxonSerializer.class)
+	public Set<Taxon> getLeaves() {
+		return leaves;
+	}
+
+	@JsonDeserialize(contentUsing = TaxonDeserializer.class)
+	public void setLeaves(Set<Taxon> leaves) {
+		this.leaves = leaves;
+	}
 
 	public String getTitle() {
 		return title;
@@ -148,6 +165,14 @@ public class PhylogeneticTree extends SearchableObject implements NonOwned,
 
 	public void setPhylogeny(String phylogeny) {
 		this.phylogeny = phylogeny;
+	}
+	
+	public void setHasBranchLengths(boolean hasBranchLengths) {
+		this.hasBranchLengths = hasBranchLengths;
+	}
+	
+	public boolean getHasBranchLengths() {
+		return hasBranchLengths;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
@@ -207,5 +232,4 @@ public class PhylogeneticTree extends SearchableObject implements NonOwned,
     	
     	return sid;
 	}
-
 }

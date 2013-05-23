@@ -21,6 +21,51 @@
 			<section class="span12">
 					<div class="inner">
 						<div class="box">
+						  <div class="row no-print">
+							<div id="viewIcons" class="span3">
+								<div class="btn-group">
+								  <spring:message var="rectangularPhylogramTitle" code="rectangular.phylogram"/>
+								  <a id="rectangular-phylogram" title="${rectangularPhylogramTitle}" class="btn">
+			                        <i class="halflings-icon phylogeny">&amp;nbsp;</i>
+                                  </a>
+                                  <spring:message var="circularPhylogramTitle" code="circular.phylogram"/>
+								  <a id="circular-phylogram" title="${circularPhylogramTitle}" class="btn">
+			                        <i class="halflings-icon circular-phylogram">&amp;nbsp;</i>
+                                  </a>
+								</div>
+							</div>
+							<c:set var="phyloColors" value="${em:phylocolors(phylogeneticTree.leaves)}"/>
+							<div class="btn-group">
+                                  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <spring:message code="visualize.on.phylogeny"/>&#160;
+                                    <span class="caret"></span>
+                                  </a>
+                                  <ul class="dropdown-menu">
+                                    <c:forEach var="category" items="${phyloColors.keySet()}">
+                                      <li><a id="${category}"><spring:message code="${category}"/></a></li>
+                                    </c:forEach>
+                                  </ul>
+                            </div>
+							<div class="pull-right">
+							    <c:choose>
+							      <c:when test="${not empty phylogeneticTree.license}">
+							        <c:url var="downloadUrl" value="/phylo/${phylogeneticTree.id}">
+							          <c:param name="download" value="true" />
+						            </c:url>
+							        <a href="${downloadUrl}" class="btn"><i class="halflings-icon download-alt"><!--  --></i> <spring:message code="download"/></a>
+							      </c:when>
+							      <c:otherwise>
+							        <spring:message code="download.phylogeny.disabled" var="downloadDisabledMessage"/>
+							        <a class="btn disabled" rel="tooltip" title="${downloadDisabledMessage}"><i class="halflings-icon download-alt"><!--  --></i> <spring:message code="download"/></a>
+							        <script>
+				                      $(function() {
+					                    $("a[rel=tooltip]").tooltip();
+				                     });
+			                        </script>
+							      </c:otherwise>
+							    </c:choose>
+							</div>
+						  </div>						  
 						  <div id="phylogeny-container">
 	                        <div id="phylogeny"><!--  --></div>
 	                        <div id="phylogeny-panzoombar">
@@ -33,80 +78,200 @@
 			                  <div id="phylogeny-zoomout"><!--  --></div>
 	                        </div>
 	                      </div>
+	                      <div class="row">
+                              <div class="span12">
+                                 <ul  id="phylogeny-key"><!----></ul>
+                              </div>
+                          </div>
+	                      <spring:message var="baseUrl" code="portal.baseUrl"/>
 						  <script type="text/javascript">
                             $(document).ready(function() {
+                            	var data = {
+                            			<c:forEach var="leaf" items="${phylogeneticTree.leaves}" varStatus="status">
+                            			  "${baseUrl}/taxon/${leaf.identifier}" : {
+                            				  "order" : "${leaf.order}",
+                            				  "family" : "${leaf.family}",
+                            				  "genus" : "${leaf.genus}"
+                            			  }<c:if test="${not status.last}">,</c:if>
+                            			</c:forEach>
+                            			
+                            	};
                                 var dataObject = { phyloxml: '${phylogeneticTree.phylogeny}' };
+                                function recurseNode(node) {
+                                  	
+                                  	if(typeof node.uri === 'undefined') {
+                                  		
+                                  	} else {
+                                  		var nodeData = data[node.uri];
+                                  		if(typeof nodeData === 'undefined') {
+                                  			
+                                  		} else {
+                                  			for ( var i in nodeData) {                                  				
+                                  			    node.chart[i] = nodeData[i];
+                                  			}
+                                  		}
+                                  	}
+                                  	for(var i = 0; i &lt; node.children.length; i++) {
+                                  		recurseNode(node.children[i]);
+                                  	}
+                                }
+                                function callback(dataObject) {                             		  
+                          		  recurseNode(dataObject.getRoot());
+                          	    }
                                 Smits.PhyloCanvas.Render.Style.highlightedEdgeCircle.fill = '#D50C54';
+                                
+                                <c:forEach var="category" items="${phyloColors.keySet()}">
+                                  <c:forEach var="c" items="${phyloColors[category].keySet()}">
+                                    Smits.PhyloCanvas.Render.Style["${c}"] = {"fill":"${phyloColors[category].get(c)}","stroke":"#DDD"};
+                                  </c:forEach>
+                                </c:forEach>
+                                
+                      	        
                                 var width = $("#phylogeny").width();
                                 var height = (${phylogeneticTree.numberOfExternalNodes} * 30);
-                                var phylocanvas = new Smits.PhyloCanvas(
-                                    dataObject,
-                                    'phylogeny',
-                                     width, height
-                                );
-                                $("#phylogeny-reset").click(function() {
-                                    zpd = phylocanvas.getZpd();
-                                    zpd.zoomCurrent = 0;
-                                    var g = zpd.gelem;
-                                    var reset = zpd.root.createSVGMatrix().translate(0, 0).scale(1);        	
-                                    zpd.setCTM(g, g.getCTM().multiply(g.getCTM().inverse()));
-                                });
-                                $("#phylogeny-zoomin").click(function() {
-                                   	zpd = phylocanvas.getZpd();
-                                   	if (zpd.opts.zoomThreshold) { 
-                                        if (zpd.opts.zoomThreshold[1] &lt;= zpd.zoomCurrent) {
-                                           	return;
-                                        }
-                                  	}
-                                    zpd.zoomCurrent++;
-                                    var z = 1.1;
-                                  	var g = zpd.gelem;
-                                    var k = zpd.root.createSVGMatrix().scale(z);
-                                    zpd.setCTM(g, g.getCTM().multiply(k));
+                                var type = "rectangular";
+                                var chart;
+                                var colors = {
+                                        <c:forEach var="category" items="${phyloColors.keySet()}" varStatus="categoryStatus">
+                                        "${category}" : {
+                                          <c:forEach var="c" items="${phyloColors[category].keySet()}" varStatus="cStatus">
+                                            "${c}" : "${phyloColors[category].get(c)}"<c:if test="${not cStatus.last}">,</c:if>
+                                          </c:forEach>
+                                        } <c:if test="${not categoryStatus.last}">,</c:if>
+                                        </c:forEach>
+                                }
 
-                                	if (!zpd.stateTf) {
-                                		zpd.stateTf = g.getCTM().inverse();
-                                	}
-                                	zpd.stateTf = zpd.stateTf.multiply(k.inverse());
-                                });
-                                $("#phylogeny-zoomout").click(function() {
-                                    zpd = phylocanvas.getZpd();
-                                    if (zpd.opts.zoomThreshold) { 
-                                        if (zpd.opts.zoomThreshold[0] &gt;= zpd.zoomCurrent) {
-                                            return;
-                                        }
+                                function phylogeny(type, chart) {
+                                	Smits.PhyloCanvas.Render.Parameters.binaryCharts =  [];
+                                	 $("#phylogeny-key").empty();
+                          		    if(typeof chart === 'undefined') {
+                          			    
+                          		    } else {
+                          		      var pallet = colors[chart];         
+                                      for(var i in pallet) {
+                                          $("&lt;li&gt;").append($('&lt;div&gt;').attr("style","background-color: " + pallet[i]).addClass("phylogeny-key")).append(i).appendTo($("#phylogeny-key"));
+                                      }
+                          		      Smits.PhyloCanvas.Render.Parameters.binaryCharts.push({"chart":chart,"type":"binary","thickness":"10"});
+                          		    }
+                                    var phylocanvas;
+                                    if(type == "rectangular") {
+                                        phylocanvas = new Smits.PhyloCanvas(
+                                            dataObject,
+                                            'phylogeny',
+                                             width, height,type,callback
+                                        );
+                                        zpd = phylocanvas.getZpd();
+                                        var g = zpd.gelem;     	
+                                        zpd.setCTM(g, g.getCTM().multiply(g.getCTM().inverse()).translate(80, 0).scale(0.8));
+                                    } else {
+                                    	phylocanvas = new Smits.PhyloCanvas(
+                                                dataObject,
+                                                'phylogeny',
+                                                 width, width,type,callback);
+                                    	zpd = phylocanvas.getZpd();
+                                        var g = zpd.gelem;     	
+                                        zpd.setCTM(g, g.getCTM().multiply(g.getCTM().inverse()).scale(0.8));
                                     }
-                                    zpd.zoomCurrent--;
-                                    var z = 0.9;
-                                    var g = zpd.gelem;
-                                    var k = zpd.root.createSVGMatrix().scale(z);
-                                	zpd.setCTM(g, g.getCTM().multiply(k));
+                                    $("#phylogeny-reset").unbind("click");
+                                    $("#phylogeny-reset").click(function() {
+                                        zpd = phylocanvas.getZpd();
+                                        zpd.zoomCurrent = 0;
+                                        var g = zpd.gelem;
+                                        if(type == "rectangular") {
+                                            zpd.setCTM(g, g.getCTM().multiply(g.getCTM().inverse()).translate(80, 0).scale(0.8));
+                                        } else {
+                                        	zpd.setCTM(g, g.getCTM().multiply(g.getCTM().inverse()).scale(0.8));
+                                        }
+                                    });
+                                    $("#phylogeny-zoomin").unbind("click");
+                                    $("#phylogeny-zoomin").click(function() {
+                                   	    zpd = phylocanvas.getZpd();
+                                   	    if (zpd.opts.zoomThreshold) { 
+                                            if (zpd.opts.zoomThreshold[1] &lt;= zpd.zoomCurrent) {
+                                           	    return;
+                                            }
+                                  	    }
+                                        zpd.zoomCurrent++;
+                                        var z = 1.1;
+                                  	    var g = zpd.gelem;
+                                        var k = zpd.root.createSVGMatrix().scale(z);
+                                        zpd.setCTM(g, g.getCTM().multiply(k));
 
-                                	if (!zpd.stateTf) {
-                                		zpd.stateTf = g.getCTM().inverse();
-                                	}
-                                	zpd.stateTf = zpd.stateTf.multiply(k.inverse());
+                                	    if (!zpd.stateTf) {
+                                		    zpd.stateTf = g.getCTM().inverse();
+                                	    }
+                                	    zpd.stateTf = zpd.stateTf.multiply(k.inverse());
+                                    });
+                                    $("#phylogeny-zoomout").unbind("click");
+                                    $("#phylogeny-zoomout").click(function() {
+                                        zpd = phylocanvas.getZpd();
+                                        if (zpd.opts.zoomThreshold) { 
+                                            if (zpd.opts.zoomThreshold[0] &gt;= zpd.zoomCurrent) {
+                                                return;
+                                            }
+                                        }
+                                        zpd.zoomCurrent--;
+                                        var z = 0.9;
+                                        var g = zpd.gelem;
+                                        var k = zpd.root.createSVGMatrix().scale(z);
+                                	    zpd.setCTM(g, g.getCTM().multiply(k));
+
+                                	    if (!zpd.stateTf) {
+                                		    zpd.stateTf = g.getCTM().inverse();
+                                	    }
+                                	    zpd.stateTf = zpd.stateTf.multiply(k.inverse());
+                                    });
+                                    $("#phylogeny-panup").unbind("click");
+                                    $("#phylogeny-panup").click(function() {
+                                        zpd = phylocanvas.getZpd();
+                                        var g = zpd.gelem;
+                                        zpd.setCTM(g, g.getCTM().translate(0, 30));
+                                    });
+                                    $("#phylogeny-pandown").unbind("click");
+                                    $("#phylogeny-pandown").click(function() {
+                                        zpd = phylocanvas.getZpd();        	
+                                        var g = zpd.gelem;        	
+                                        zpd.setCTM(g, g.getCTM().translate(0, -30));
+                                    });
+                                    $("#phylogeny-panleft").unbind("click");
+                                    $("#phylogeny-panleft").click(function() {
+                                        zpd = phylocanvas.getZpd();
+                                        var g = zpd.gelem;        	
+                                        zpd.setCTM(g, g.getCTM().translate(30, 0));
+                                    });
+                                    $("#phylogeny-right").unbind("click");
+                                    $("#phylogeny-panright").click(function() {
+                                        zpd = phylocanvas.getZpd();
+                                        var g = zpd.gelem;
+                                        zpd.setCTM(g, g.getCTM().translate(-30, 0));
+                                    });
+                                }
+                                $("#rectangular-phylogram").click(function() {
+                                	$("#phylogeny").empty();
+                                	type = "rectangular";
+                                	phylogeny(type, chart);
                                 });
-                                $("#phylogeny-panup").click(function() {
-                                    zpd = phylocanvas.getZpd();
-                                    var g = zpd.gelem;
-                                    zpd.setCTM(g, g.getCTM().translate(0, 30));
+                                $("#circular-phylogram").click(function() {
+                                	$("#phylogeny").empty();
+                                	type = "circular";
+                                	phylogeny(type, chart);
                                 });
-                                $("#phylogeny-pandown").click(function() {
-                                    zpd = phylocanvas.getZpd();        	
-                                    var g = zpd.gelem;        	
-                                    zpd.setCTM(g, g.getCTM().translate(0, -30));
+                                $("#order").click(function() {
+                                	$("#phylogeny").empty();
+                                	chart = "order";
+                                	phylogeny(type, chart);
                                 });
-                                $("#phylogeny-panleft").click(function() {
-                                    zpd = phylocanvas.getZpd();
-                                    var g = zpd.gelem;        	
-                                    zpd.setCTM(g, g.getCTM().translate(30, 0));
+                                $("#family").click(function() {
+                                	$("#phylogeny").empty();
+                                	chart = "family";
+                                	phylogeny(type, chart);
                                 });
-                                $("#phylogeny-panright").click(function() {
-                                    zpd = phylocanvas.getZpd();
-                                    var g = zpd.gelem;
-                                    zpd.setCTM(g, g.getCTM().translate(-30, 0));
-                                });                     
+                                $("#genus").click(function() {
+                                	$("#phylogeny").empty();
+                                	chart = "genus";
+                                	phylogeny(type, chart);
+                                });
+                                phylogeny(type, chart);
                             });
                           </script>
 						</div>

@@ -22,6 +22,7 @@ import org.forester.phylogeny.Phylogeny;
 import org.forester.phylogeny.PhylogenyMethods;
 import org.forester.phylogeny.PhylogenyNode;
 import org.forester.phylogeny.data.Annotation;
+import org.forester.phylogeny.data.PhylogenyDataUtil;
 import org.forester.phylogeny.data.Uri;
 import org.gbif.ecat.parser.UnparsableException;
 import org.slf4j.Logger;
@@ -54,6 +55,16 @@ public class PhylogeneticTreeTransformingTasklet extends AbstractRecordAnnotator
 	
 	private String phylogenyTitle;
 	
+	private String phylogenyCreator;
+	
+	private String phylogenyDescription;
+	
+	private String phylogenyRights;
+	
+	private String phylogenyRightsHolder;
+	
+	private String phylogenyLicense;
+	
 	private PhylogeneticTreeService phylogeneticTreeService;
 	
 	private TaxonService taxonService;
@@ -64,6 +75,26 @@ public class PhylogeneticTreeTransformingTasklet extends AbstractRecordAnnotator
 	
 	public void setRootTaxonIdentifier(String rootTaxonIdentifier) {
 		this.rootTaxonIdentifier = rootTaxonIdentifier;
+	}
+	
+	public void setPhylogenyCreator(String phylogenyCreator) {
+		this.phylogenyCreator = phylogenyCreator;
+	}
+
+	public void setPhylogenyDescription(String phylogenyDescription) {
+		this.phylogenyDescription = phylogenyDescription;
+	}
+
+	public void setPhylogenyRights(String phylogenyRights) {
+		this.phylogenyRights = phylogenyRights;
+	}
+
+	public void setPhylogenyRightsHolder(String phylogenyRightsHolder) {
+		this.phylogenyRightsHolder = phylogenyRightsHolder;
+	}
+
+	public void setPhylogenyLicense(String phylogenyLicense) {
+		this.phylogenyLicense = phylogenyLicense;
 	}
 
 	public void setInputFile(Resource inputFile) {
@@ -103,11 +134,8 @@ public class PhylogeneticTreeTransformingTasklet extends AbstractRecordAnnotator
 		Phylogeny phylogeny = phylogenies[0];
 		
 		PhylogenyWriter phylogenyWriter = PhylogenyWriter.createPhylogenyWriter();
-		phylogenyWriter.setIndentPhyloxml(false);		
+		phylogenyWriter.setIndentPhyloxml(false);
 		PhylogenyNode node = phylogeny.getRoot();
-		
-		addTaxonLinks(node);
-		StringBuffer stringBuffer = phylogenyWriter.toPhyloXML(phylogeny, 1);
 		PhylogeneticTree phylogeneticTree = phylogeneticTreeService.find(treeIdentifier);
 		if(phylogeneticTree == null) {
 			phylogeneticTree = new PhylogeneticTree();
@@ -130,8 +158,16 @@ public class PhylogeneticTreeTransformingTasklet extends AbstractRecordAnnotator
 			annotation.setType(AnnotationType.Info);
 			annotation.setAuthority(getSource());
 			phylogeneticTree.getAnnotations().add(annotation);
+			phylogeneticTree.getLeaves().clear();
 		}
+		
+		addTaxonLinks(node,phylogeneticTree);
+		boolean hasBranchLengths = addBranchLengths(node);
+		
+		StringBuffer stringBuffer = phylogenyWriter.toPhyloXML(phylogeny, 1);
+		
 		phylogeneticTree.setNumberOfExternalNodes(new Long(phylogeny.getNumberOfExternalNodes()));
+		phylogeneticTree.setHasBranchLengths(hasBranchLengths);
 		
 		if(phylogeneticTree.getTitle() == null || phylogeneticTree.getTitle().isEmpty()) {
 		    phylogeneticTree.setTitle(phylogeny.getName());
@@ -142,7 +178,21 @@ public class PhylogeneticTreeTransformingTasklet extends AbstractRecordAnnotator
 		if(phylogenyTitle != null && !phylogenyTitle.isEmpty()) {
 			phylogeneticTree.setTitle(phylogenyTitle);
 		}
-		
+		if(phylogenyDescription != null && !phylogenyDescription.isEmpty()) {
+			phylogeneticTree.setDescription(phylogenyDescription);
+		}
+		if(phylogenyCreator != null && !phylogenyCreator.isEmpty()) {
+			phylogeneticTree.setCreator(phylogenyCreator);
+		}
+		if(phylogenyRights != null && !phylogenyRights.isEmpty()) {
+			phylogeneticTree.setRights(phylogenyRights);
+		}
+		if(phylogenyLicense != null && !phylogenyLicense.isEmpty()) {
+			phylogeneticTree.setLicense(phylogenyLicense);
+		}
+		if(phylogenyRightsHolder != null && !phylogenyRightsHolder.isEmpty()) {
+			phylogeneticTree.setRightsHolder(phylogenyRightsHolder);
+		}
 		if(rootTaxonIdentifier != null && !rootTaxonIdentifier.isEmpty()) {
 			Taxon rootTaxon = taxonService.find(rootTaxonIdentifier);
 			if(rootTaxon != null) {
@@ -156,7 +206,24 @@ public class PhylogeneticTreeTransformingTasklet extends AbstractRecordAnnotator
 		return RepeatStatus.FINISHED;
 	}
 	
-	private void addTaxonLinks(PhylogenyNode node) {
+	private boolean addBranchLengths(PhylogenyNode node) {
+		boolean hasBranchLengths = true;
+		if(node.isRoot() || node.getDistanceToParent() != PhylogenyDataUtil.BRANCH_LENGTH_DEFAULT) {
+			// do nothing
+		} else {
+			node.setDistanceToParent(1.0D);
+			hasBranchLengths = false;
+		}
+		for(PhylogenyNode descendant : node.getDescendants()) {
+			if(!addBranchLengths(descendant)) {
+				hasBranchLengths = false;
+			}
+		}
+		return hasBranchLengths;
+	}
+
+	private void addTaxonLinks(PhylogenyNode node, PhylogeneticTree phylogeneticTree) {
+
 		Taxon taxon = matchTaxonName(node.getName());
 		if (taxon != null) {
 			Annotation annotation = new Annotation();
@@ -165,10 +232,12 @@ public class PhylogeneticTreeTransformingTasklet extends AbstractRecordAnnotator
 			uris.add(new Uri(baseUri + "/taxon/" + taxon.getIdentifier(), null,	null));
 			annotation.setUris(uris);
 			node.getNodeData().addAnnotation(annotation);
-			
+			if(node.isExternal()) {
+				phylogeneticTree.getLeaves().add(taxon);
+			}
 		}
 		for(PhylogenyNode descendant : node.getDescendants()) {
-			addTaxonLinks(descendant);
+			addTaxonLinks(descendant,phylogeneticTree);
 		}
 	}
 
