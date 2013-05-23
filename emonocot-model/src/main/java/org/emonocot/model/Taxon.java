@@ -937,21 +937,23 @@ public class Taxon extends SearchableObject {
         sid.addField("searchable.label_sort", getScientificName());
         addField(sid,"taxon.bibliographic_citation_t", getBibliographicCitation());
         addField(sid,"taxon.clazz_s", getClazz());
-        /*if(Rank.FAMILY == getTaxonRank() && getFamily() == null) {
+        Rank rank = Rank.FAMILY; 
+        if(rank == getTaxonRank() && getFamily() == null) {
             addField(sid,"taxon.family_ns", getScientificName());
-        } else {*/
+        } else {
             addField(sid,"taxon.family_ns", getFamily());
-        /*}*/
+        }
         addField(sid,"taxon.family_ss", getFamily());
         if(getAcceptedNameUsage() != null) {
             addField(sid,"taxon.family_ss", getAcceptedNameUsage().getFamily());
         }
         addField(sid,"taxon.genus_s", getGenus());
-        /*if(Rank.GENUS == getTaxonRank() && getGenus() == null) {
+        rank = Rank.GENUS;
+        if(rank == getTaxonRank() && getGenus() == null) {
             addField(sid,"taxon.genus_ns", getScientificName());
-        } else {*/
+        } else {
             addField(sid,"taxon.genus_ns", getGenus());
-        /*}*/
+        }
         addField(sid,"taxon.infraspecific_epithet_s", getInfraspecificEpithet());
         addField(sid,"taxon.infraspecific_epithet_ns", getInfraspecificEpithet());
         addField(sid,"taxon.kingdom_s", getKingdom());
