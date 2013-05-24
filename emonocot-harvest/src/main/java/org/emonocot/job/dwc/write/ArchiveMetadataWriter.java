@@ -199,6 +199,10 @@ public class ArchiveMetadataWriter implements Tasklet {
 		this.identifierDefaultValues = toDefaultValues(identifierDefaultValues);
 	}
 	
+	public void setReferenceDefaultValues(String referenceDefaultValues) {
+		this.referenceDefaultValues = toDefaultValues(referenceDefaultValues);
+	}
+	
 	public void setTaxonFields(String[] taxonFields) {
 		this.taxonFields = taxonFields;
 	}
